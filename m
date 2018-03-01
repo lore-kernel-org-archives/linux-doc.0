@@ -1,147 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+X-Spam-Status: No, score=-5.0 required=5.0 tests=RCVD_IN_DNSWL_HI,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 64C8B7E22F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 21:24:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0CFF77E22F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 22:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1161923AbeCAVYM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Mar 2018 16:24:12 -0500
-Received: from mail-yb0-f172.google.com ([209.85.213.172]:34701 "EHLO
-        mail-yb0-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1161500AbeCAVYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Mar 2018 16:24:10 -0500
-Received: by mail-yb0-f172.google.com with SMTP id e3-v6so2702058ybk.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Mar 2018 13:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=6Feh5M0NXp0+mWVaYKxpjQSE+w8KrZs9lmeEI6DIBqE=;
-        b=QLccx/Tq9nnXknPUY3ONxaAUjwZ5bjLdOaCwCsqTWlcqQ0FKOt3rVIdUOpV+ROy+Pu
-         Y17jMbD5L0/vb9rgHCaiCBH4DMurUlEHO2KPBRe7Z++z6CF5WjU2le+gqo96VsNskzUU
-         LLa1OcKCFmPLVylT21Zkd23itz5uzehsmk8JbjhhV0ANvldr7y72AOfuOTSZhl2FZYnC
-         qg3pGxk0FuzSt1FEhfyz6whjHPpInyc5DmN3twAJ0nZamhCIpbBufa11TmolxhbR1pYl
-         fvXAzmZOSbx9l/ee/s3M1UDIGa2LXLjB/yiUMv4680Y1PsyauFfXupEUws91wHHauGRM
-         meOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=6Feh5M0NXp0+mWVaYKxpjQSE+w8KrZs9lmeEI6DIBqE=;
-        b=K2vkhuCH+SwX4lsdxlxrUb9W5RDOHQp4eZdUFezyFq+3GzNK8UtkrSTsj8tGoxsCwA
-         rGaEkoZ6QqYB4Sr6iNFl8wcrJkNkoDdEdGF9uYON0ke7YjB7dNZzZbuK33nmYyHlXtrR
-         El7OHyecQmvKpJi1PIcCQfns33pWdhwRtbkCE=
+        id S1162461AbeCAWIk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Mar 2018 17:08:40 -0500
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:42349 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1161969AbeCAWIj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Mar 2018 17:08:39 -0500
+Received: by mail-oi0-f67.google.com with SMTP id c18so5681896oiy.9;
+        Thu, 01 Mar 2018 14:08:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=6Feh5M0NXp0+mWVaYKxpjQSE+w8KrZs9lmeEI6DIBqE=;
-        b=qbXTM24XmhQ8WRY1uOapjEOLokrN8bL7Uj8QF6IsS2VG2SiVAF97d1DMnCeS1A9e1B
-         NOG0idoTYpyhIus0BQkfYxYbUEJMe/gOnSH9tGb3y1jWXpRUJEZmKhT/TKDt+a84mUKQ
-         Iku/N5cJgKlezp0m0ZNbrg/FX6qLYugIzBRMck45OHO2ai8P1wung1BqkEZNu4Pbz909
-         nw2kQHVTu0JTkN5ALlk0a/Sn99DD4NhYNXHSFKifSIXm3hvEzA2wG88EvBtDYgOF7QOA
-         3CWMaVoiO/ZbN7M6Rtb9oP/Yon5gjfuYTZ3V1COX6+Sbdzqf/7wikwxNYTYL0mYWphmB
-         JCxQ==
-X-Gm-Message-State: AElRT7E8BseGqHPwFJaz+uJWeTOYTRFU8lQlByHxZslp16vFj8IEj1Ed
-        p8ADkhk+qziMg2QBC/b1ag2wHdD4nbQYs3LoTV46DQ==
-X-Google-Smtp-Source: AG47ELvmdXU2V25Rvdoq+qxNQqZry/SxMTjpl/Y2g2baqNJ+2GrP15KGd2+sS1pG60FBWmqOARK1YAtMdfVv/WD1gzU=
-X-Received: by 2002:a25:bd42:: with SMTP id p2-v6mr2308923ybm.214.1519939449043;
- Thu, 01 Mar 2018 13:24:09 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rrE3V/1s6uhEJA+mAK0pTPRONQTA91dzkQfFPjvMj6c=;
+        b=sB41KvhEJhNgBIdJaUfQ5CJwSpHFqs72viQ559po8GAVlmwUQOdHo54ifGid//C7YS
+         dbilw4j95p0xTV+574p1yVsLVX234233/FOi+NSG7gBUP2vb6lV/teTLiPxC0kvgtLKN
+         ZhJb3rrmc/B/kAOuD/Z79THAsSVHx8iMUx8kIP2XXoh0eJvjcLUaRBTRXPdiTeB04uJr
+         YvVS59QjsxPjB/KCL3LNJ2J2G6nQW1UNcOJj25vEj4vizXz+Hwxk2TXQtBfKuIexZ2HV
+         U5Ufi8ORO4b4922kIvwUoFEnAHEIRKz+nG1dnmzosQ+38qbvevV9yrIpeJ9YkJLKa6oK
+         NrbA==
+X-Gm-Message-State: AElRT7GrvwIPjdzpyUCwBDSRtGK9Ed5oHU7P1H41LhZ63Y3c0sSjBYQg
+        qc1uo16EeS7P/jFZBrHQyg==
+X-Google-Smtp-Source: AG47ELsB4AzKRygEQ8hYsnqLs4aCfAYgJG7i9zeFS/kDtYvC7KSJiihmLo5PTNQnu7UbXQTvO/eZ+Q==
+X-Received: by 10.202.28.15 with SMTP id c15mr2139295oic.243.1519942118062;
+        Thu, 01 Mar 2018 14:08:38 -0800 (PST)
+Received: from localhost (216-188-254-6.dyn.grandenetworks.net. [216.188.254.6])
+        by smtp.gmail.com with ESMTPSA id y9sm2554035oia.54.2018.03.01.14.08.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 01 Mar 2018 14:08:37 -0800 (PST)
+Date:   Thu, 1 Mar 2018 16:08:36 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mikko Perttunen <cyndis@kapsi.fi>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Rajkumar Rampelli <rrajk@nvidia.com>, mark.rutland@arm.com,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, jdelvare@suse.com,
+        corbet@lwn.net, catalin.marinas@arm.com, will.deacon@arm.com,
+        kstewart@linuxfoundation.org, gregkh@linuxfoundation.org,
+        pombredanne@nexb.com, mmaddireddy@nvidia.com,
+        mperttunen@nvidia.com, arnd@arndb.de,
+        gregory.clement@free-electrons.com, timur@codeaurora.org,
+        andy.gross@linaro.org, xuwei5@hisilicon.com, elder@linaro.org,
+        heiko@sntech.de, krzk@kernel.org, ard.biesheuvel@linaro.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, ldewangan@nvidia.com
+Subject: Re: [PATCH 05/10] hwmon: generic-pwm-tachometer: Add generic PWM
+ based tachometer
+Message-ID: <20180301220836.a77o5i5g7g2k7lei@rob-hp-laptop>
+References: <1519196339-9377-1-git-send-email-rrajk@nvidia.com>
+ <1519196339-9377-6-git-send-email-rrajk@nvidia.com>
+ <ee03e1e5-bbeb-1238-04ed-b992fe3a3ce6@kapsi.fi>
+ <c1192f75-0e6e-c735-67e1-2901624831ae@roeck-us.net>
+ <a5db25f7-6999-ff3a-21c2-161cfcf4db35@kapsi.fi>
 MIME-Version: 1.0
-Received: by 2002:a25:f81e:0:0:0:0:0 with HTTP; Thu, 1 Mar 2018 13:24:08 -0800 (PST)
-In-Reply-To: <CAHp75VfL82ujwBa1h0B8nEgBtFcBJPmS9ir7H5YWByDgxFGskA@mail.gmail.com>
-References: <20180301184335.248378-1-djkurtz@chromium.org> <CAHp75VfHuNHnjMqsvLZPSNeP57YX1CDZgf=EH-JNSh5bAVdUBA@mail.gmail.com>
- <CAGS+omCfVUPb0yq3XOEqO_zQ0_uppkKaGhqtB0OqXmQDK9xH1Q@mail.gmail.com> <CAHp75VfL82ujwBa1h0B8nEgBtFcBJPmS9ir7H5YWByDgxFGskA@mail.gmail.com>
-From:   Aaron Durbin <adurbin@chromium.org>
-Date:   Thu, 1 Mar 2018 14:24:08 -0700
-X-Google-Sender-Auth: JN3mM_pz1HSb1QoFAIcxnScaKeM
-Message-ID: <CAE2855vbQyMwu8pmH-Sq1kA+=h5TJPWddTWPQoVdEqOn6sAyBw@mail.gmail.com>
-Subject: Re: [PATCH v2] earlycon: Allow specifying a uartclk in options
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Daniel Kurtz <djkurtz@chromium.org>,
-        Aaron Durbin <adurbin@chromium.org>,
-        Brian Norris <briannorris@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Christoffer Dall <cdall@linaro.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Tom Saeger <tom.saeger@oracle.com>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        "Levin, Alexander (Sasha Levin)" <alexander.levin@verizon.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a5db25f7-6999-ff3a-21c2-161cfcf4db35@kapsi.fi>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 1, 2018 at 1:02 PM, Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Thu, Mar 1, 2018 at 9:22 PM, Daniel Kurtz <djkurtz@chromium.org> wrote:
->> On Thu, Mar 1, 2018 at 11:47 AM Andy Shevchenko <andy.shevchenko@gmail.com>
->> wrote:
->
->> "earlycon simply does not utilize the information".
->>
->> earlycon parses iotype, mapbase and baud (from options).  However, it is
->> hard-coded to assume that the clock used to generate the UART bitclock is
->> always "BASE_BAUD * 16" (1843200).  While this may be true for many UARTs,
->> it isn't true for AMD's CZ/ST which has a 8250_dw and uses a fixed 48 MHz
->> clock.  The main 8250_dw driver uses devm_clk_get to get the "baudclk" and
->> uses its rate to initialize uartclk.  For AMD CZ/ST, this "baudclk" is
->> actually a set up in acpi_apd.c when there is an acpi match for "AMD0020",
->> with a rate read from the .fixed_clk_rate param of the corresponding
->> apd_device_desc.
->>
->> This patch attempts to add a way to inform earlycon about this clock.  As
->> noted above, the information is actually already in the kernel and used by
->> 8250_dw - I would happy be to hear recommendations for wiring this data
->> into earlycon that doesn't require adding another command line arg.
->
-> And it should not require that for sure!
+On Wed, Feb 21, 2018 at 05:20:29PM +0200, Mikko Perttunen wrote:
+> On 21.02.2018 16:46, Guenter Roeck wrote:
+> > On 02/20/2018 11:15 PM, Mikko Perttunen wrote:
+> > > AIUI, the PWM framework already exposes a sysfs node with period
+> > > information. We should just use that instead of adding a new driver
+> > > for this.
+> > > 
+> > 
+> > I am kind of lost. Please explain.
+> > 
+> > Are you saying that we should drop the pwm-fan driver as well (which goes
+> > the opposite way), as well as any other drivers doing anything with pwm
+> > signals,
+> > because after all those signals are already exposed to userspace a sysfs
+> > attributes,
+> > and a kernel driver to abstract those values is thus not needed ?
+> 
+> The only thing this driver does is do a constant division in kernelspace.
+> I'm not really seeing why that couldn't be done in userspace. But if you
+> think it's appropriate to do the RPM conversion in kernelspace then I'm not
+> greatly opposed to that.
+> 
+> > 
+> > > In any case, we cannot add something like this to device tree since
+> > > it's not a hardware device.
+> > > 
+> > 
+> > So you are saying there is no means to express in devicetree that
+> > a pwm input is connected to a fan ? How is that not hardware ?
+> > 
+> > If so, how do you express in devicetree that a pwm signal is connected
+> > to anything ?
+> 
+> If we want to describe that the tachometer is connected to a fan, then we
+> should have a fan node in the board's device tree. We don't have a chip that
+> has a thing called "generic-pwm-tachometer" attached to it. (We have chips
+> that have a "nvidia,tegra186-tachometer", so it's proper to have that.)
 
-But it does require that. There's an input clock to the uart ip block.
-That is a design constraint by the hardware and is required to make
-baud calculation work.
+We already have some fan control bindings in the tree. Follow those. 
+There's only so many ways to control fans, so lets have some alignment. 
+And yes, we should have a fan node. 
 
->
-> I would look to this later. It's late here. I need to do a bit of
-> research for the answer.
->
->> I see that support was also added recently to earlycon to let it use ACPI
->> SPCR to choose a console and configure its parameters... but AFAICT, this
->> path also doesn't allow specifying the uart clock.
->
-> Fix your firmware then. It should set console to 115200 like (almost)
-> everyone does.
-
-It's not a firmware problem. Its the driver's problem in that it
-assumes an input clock to the uart block that does not reflect
-reality.
-
-> Okay, configures a necessary IPs to feed UART with expected 1.8432M clock.
-
-That's only possible if there is a clock divider on the front end of
-the uart block. For this hardware that's not the case. I actually did
-this very thing on intel chromebook devices, but it was only possible
-because there was a hardware divider that could be tuned to reach the
-assumed clock that the code currently assumes.
-
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+Rob
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
