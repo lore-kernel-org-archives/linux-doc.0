@@ -1,152 +1,228 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C2BB7E244
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 23:38:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA57E7E244
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 23:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1163386AbeCAXhf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Mar 2018 18:37:35 -0500
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:50723 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1163356AbeCAXhc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Mar 2018 18:37:32 -0500
-Received: by mail-wm0-f68.google.com with SMTP id w128so15533wmw.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Mar 2018 15:37:31 -0800 (PST)
+        id S1163357AbeCAXoS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Mar 2018 18:44:18 -0500
+Received: from mail-pf0-f196.google.com ([209.85.192.196]:37870 "EHLO
+        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1163339AbeCAXoQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Mar 2018 18:44:16 -0500
+Received: by mail-pf0-f196.google.com with SMTP id h11so2778665pfn.4
+        for <linux-doc@vger.kernel.org>; Thu, 01 Mar 2018 15:44:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=llpgdfU+LhhfauyqD8+9fltyjWwGopc6752T8CVLepY=;
-        b=W9Zjo3R7ECCpiHL3xnDXhUbiMYIbKliTaA5PItgPHbjxZ3ldlmrCKw0Ux0WUR020eS
-         1DADmPb1m6L7jWsk32W8cTd4zFLhq4NgDx5a5jlMXa62Kj0Y7gwluL0pczvYZqL9k9Pu
-         YjbYBP6Fj75iyR4p5sAjGEuxKSHqHKJzC8ujA=
+        d=dilger-ca.20150623.gappssmtp.com; s=20150623;
+        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+         :references;
+        bh=hNB8sd31BqGBTI/fRIRSaXv2eMj7ueJnbyRkmp2RQl0=;
+        b=Ks6aCC9yn2PeC2rYj5nLXfw8h+aiSXEkf2MjMj0eXK2l0zzmQc3NgG7UjHei+uPPdB
+         rfuIyXK2dbaRIGEoe8q/WBWceuGxJlAWwQec9Mus+sdJQdNqDHm8HWvlgE1bPvZ+tf2p
+         agktzUsYMK7XgbjXgB32u4iOzNrBem8d8jRUiBEr8G9rcjkyLMKrgBjJcs5VI8ycS0FM
+         7WfMnqwLWWWusBBUZTB3zysb4HtNaL094Md7e3dBAY670T34vyuKvVZaSA3z/oayc04k
+         PjimLdOXW83iWZ4MBfQ2RiDz3izrN/fBgstW3DgYA9dOT0zQEmwGrPjolIl2oD8F/VoS
+         412g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=llpgdfU+LhhfauyqD8+9fltyjWwGopc6752T8CVLepY=;
-        b=B7Ju01iQxKOYa6tiF4Dtmi9yjXHyEY6+ZXYdNfvblW3PpfZtyDmXkYIhi7kJXVyXA9
-         RUI4kIfb1+GOFJEWmVI8L5/D7IeydtjgmNbLIbKMBWswZBfHAtfm+ZhVGRbFlrZJVuPV
-         zSn6TtEtypJjRltTVnJ6OOt6mfiJ0w5T6JbeuTs4FST9Wl2pH4JlkxZw4HAEoq9siXjI
-         ckOekKgoGzQviVdX9rLjsFWfaOMToBxh+qnbjdzh5yaMiN8ZmEX2noplSdpbSP30E1JR
-         J9W6vPiBdKaGTJlh2UQar7qd42nZV3ikPcJpS1N1OTFMAwijqhJ0v3/wPiw1BYK9XR8p
-         o4jg==
-X-Gm-Message-State: APf1xPA5Ezaae2e09YPuKZ+nFh5cf4VpnqkpbrpkArl41nVTdJ3fzdja
-        9EAfYrMLPj6Tiz7BcIZeGFrVuQ==
-X-Google-Smtp-Source: AG47ELuz3gZL5nwkbcdpGID1fl0qtKwVmhKCPYbjABNyljJgt7o6L+wdV/gQ31gbNvTB3LtaNVTauQ==
-X-Received: by 10.80.137.98 with SMTP id f31mr4886094edf.177.1519947450836;
-        Thu, 01 Mar 2018 15:37:30 -0800 (PST)
-Received: from prevas-ravi.waoo.dk (dhcp-5-186-126-104.cgn.ip.fibianet.dk. [5.186.126.104])
-        by smtp.gmail.com with ESMTPSA id e12sm4088274edi.29.2018.03.01.15.37.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 01 Mar 2018 15:37:30 -0800 (PST)
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        h=x-gm-message-state:from:message-id:mime-version:subject:date
+         :in-reply-to:cc:to:references;
+        bh=hNB8sd31BqGBTI/fRIRSaXv2eMj7ueJnbyRkmp2RQl0=;
+        b=BhriTzkH19BzxuA3ZpkG/zQ0TJwZXeAackRkF1VNT35w1csLKxkma5eoQAM5ml3jWI
+         lA90gcru3ycLzfemYRsB9vpMPvuK2fFLxMUCyCnewTHReveEL8q5PPv5wnESbFRtDjI6
+         KOrxk3iNwEHa09doj+KLZD6bDa6rNDEMHWlEHqBsJkLJNkMVo68NveazNOH0aObvwgaf
+         sQ8iqehF2uLy/qefwDCGb95pQD1nvYch/SqQerx530gt3ibZm0nNTYypQ4F5ksnsBPpo
+         psiUBnCQrVakg4d1V+9lfLJm9+jJ3Yw8+sKPAnlXO8aqA6JGCWFo87lz7J4uc9KscHVy
+         jr1Q==
+X-Gm-Message-State: APf1xPDXDB+JIDR7tPylB0s1T1Lt8TMdr+NMfrDZwP0woxBpZ2QgzlQc
+        UyiI9hwaFCcSeb5LWI28mvZyTTlBmoFE+Q==
+X-Google-Smtp-Source: AG47ELvMKfl/JHTR3lyRhfHmXM+hMtyNQrV3TZzqZpaf3I2kLug4KLHBJ5m7rayR4q0PavjlbXBk5w==
+X-Received: by 10.101.75.199 with SMTP id p7mr3059481pgr.0.1519947855873;
+        Thu, 01 Mar 2018 15:44:15 -0800 (PST)
+Received: from cabot-wlan.adilger.int (S0106a84e3fe4b223.cg.shawcable.net. [70.77.216.213])
+        by smtp.gmail.com with ESMTPSA id n67sm10425990pfh.150.2018.03.01.15.44.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 01 Mar 2018 15:44:14 -0800 (PST)
+From:   Andreas Dilger <adilger@dilger.ca>
+Message-Id: <FCCCD016-8402-42E5-B92F-79287D67B27C@dilger.ca>
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [RFC 1/5] seq_file: introduce seq_open_data helper
+Date:   Thu, 1 Mar 2018 16:44:10 -0700
+In-Reply-To: <20180301233724.20440-1-linux@rasmusvillemoes.dk>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Tony Luck <tony.luck@intel.com>, linux-ia64@vger.kernel.org,
         Michael Ellerman <mpe@ellerman.id.au>,
         linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [RFC 1/5] seq_file: introduce seq_open_data helper
-Date:   Fri,  2 Mar 2018 00:37:20 +0100
-Message-Id: <20180301233724.20440-1-linux@rasmusvillemoes.dk>
-X-Mailer: git-send-email 2.15.1
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+References: <20180301233724.20440-1-linux@rasmusvillemoes.dk>
+X-Mailer: Apple Mail (2.3273)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are quite a few callers of seq_open that could be simplified by
-setting the ->private member via the seq_open call instead of fetching
-file->private_data afterwards.
 
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
----
-I've just included a few examples of possible users of this helper,
-there are many more similar cases. As a bonus, the first two fix
-potential NULL derefs (if one believes that seq_open can actually
-fail).
+--Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-seq_open_private would have been a better name, but that one is
-already taken...
+On Mar 1, 2018, at 4:37 PM, Rasmus Villemoes <linux@rasmusvillemoes.dk> =
+wrote:
+>=20
+> There are quite a few callers of seq_open that could be simplified by
+> setting the ->private member via the seq_open call instead of fetching
+> file->private_data afterwards.
+>=20
+> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> ---
+> I've just included a few examples of possible users of this helper,
+> there are many more similar cases. As a bonus, the first two fix
+> potential NULL derefs (if one believes that seq_open can actually
+> fail).
+>=20
+> seq_open_private would have been a better name, but that one is
+> already taken...
+>=20
+> Documentation/filesystems/seq_file.txt | 9 +++++----
+> fs/seq_file.c                          | 9 ++++++++-
+> include/linux/seq_file.h               | 1 +
+> 3 files changed, 14 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/Documentation/filesystems/seq_file.txt =
+b/Documentation/filesystems/seq_file.txt
+> index 9de4303201e1..68571b8275d8 100644
+> --- a/Documentation/filesystems/seq_file.txt
+> +++ b/Documentation/filesystems/seq_file.txt
+> @@ -234,10 +234,11 @@ Here, the call to seq_open() takes the =
+seq_operations structure we created
+> before, and gets set up to iterate through the virtual file.
+>=20
+> On a successful open, seq_open() stores the struct seq_file pointer in
+> -file->private_data. If you have an application where the same =
+iterator can
+> -be used for more than one file, you can store an arbitrary pointer in =
+the
+> -private field of the seq_file structure; that value can then be =
+retrieved
+> -by the iterator functions.
+> +file->private_data. If you have an application where the same =
+iterator
+> +can be used for more than one file, you can store an arbitrary =
+pointer
+> +in the private field of the seq_file structure; that value can then =
+be
+> +retrieved by the iterator functions. Using the wrapper =
+seq_open_data()
+> +allows you to set the initial value for that field.
+>=20
+> There is also a wrapper function to seq_open() called =
+seq_open_private(). It
+> kmallocs a zero filled block of memory and stores a pointer to it in =
+the
+> diff --git a/fs/seq_file.c b/fs/seq_file.c
+> index eea09f6d8830..f2145cb6e23d 100644
+> --- a/fs/seq_file.c
+> +++ b/fs/seq_file.c
+> @@ -45,7 +45,7 @@ static void *seq_buf_alloc(unsigned long size)
+>  *	Note: seq_open() will allocate a struct seq_file and store its
+>  *	pointer in @file->private_data. This pointer should not be =
+modified.
+>  */
+> -int seq_open(struct file *file, const struct seq_operations *op)
+> +int seq_open_data(struct file *file, const struct seq_operations *op, =
+void *data)
+> {
+> 	struct seq_file *p;
+>=20
+> @@ -59,6 +59,7 @@ int seq_open(struct file *file, const struct =
+seq_operations *op)
+>=20
+> 	mutex_init(&p->lock);
+> 	p->op =3D op;
+> +	p->private =3D data;
+>=20
+> 	// No refcounting: the lifetime of 'p' is constrained
+> 	// to the lifetime of the file.
+> @@ -85,6 +86,12 @@ int seq_open(struct file *file, const struct =
+seq_operations *op)
+> }
+> EXPORT_SYMBOL(seq_open);
+>=20
+> +int seq_open(struct file *file, const struct seq_operations *op)
+> +{
+> +	return seq_open_data(file, op, NULL);
+> +}
+> +EXPORT_SYMBOL(seq_open_data);
 
-Documentation/filesystems/seq_file.txt | 9 +++++----
- fs/seq_file.c                          | 9 ++++++++-
- include/linux/seq_file.h               | 1 +
- 3 files changed, 14 insertions(+), 5 deletions(-)
+This is a bit confusing.  You export "seq_open" after seq_open_data(),
+and export "seq_open_data" here after seq_open().  Not strictly a bug,
+but could become one in the future.
 
-diff --git a/Documentation/filesystems/seq_file.txt b/Documentation/filesystems/seq_file.txt
-index 9de4303201e1..68571b8275d8 100644
---- a/Documentation/filesystems/seq_file.txt
-+++ b/Documentation/filesystems/seq_file.txt
-@@ -234,10 +234,11 @@ Here, the call to seq_open() takes the seq_operations structure we created
- before, and gets set up to iterate through the virtual file.
- 
- On a successful open, seq_open() stores the struct seq_file pointer in
--file->private_data. If you have an application where the same iterator can
--be used for more than one file, you can store an arbitrary pointer in the
--private field of the seq_file structure; that value can then be retrieved
--by the iterator functions.
-+file->private_data. If you have an application where the same iterator
-+can be used for more than one file, you can store an arbitrary pointer
-+in the private field of the seq_file structure; that value can then be
-+retrieved by the iterator functions. Using the wrapper seq_open_data()
-+allows you to set the initial value for that field.
- 
- There is also a wrapper function to seq_open() called seq_open_private(). It
- kmallocs a zero filled block of memory and stores a pointer to it in the
-diff --git a/fs/seq_file.c b/fs/seq_file.c
-index eea09f6d8830..f2145cb6e23d 100644
---- a/fs/seq_file.c
-+++ b/fs/seq_file.c
-@@ -45,7 +45,7 @@ static void *seq_buf_alloc(unsigned long size)
-  *	Note: seq_open() will allocate a struct seq_file and store its
-  *	pointer in @file->private_data. This pointer should not be modified.
-  */
--int seq_open(struct file *file, const struct seq_operations *op)
-+int seq_open_data(struct file *file, const struct seq_operations *op, void *data)
- {
- 	struct seq_file *p;
- 
-@@ -59,6 +59,7 @@ int seq_open(struct file *file, const struct seq_operations *op)
- 
- 	mutex_init(&p->lock);
- 	p->op = op;
-+	p->private = data;
- 
- 	// No refcounting: the lifetime of 'p' is constrained
- 	// to the lifetime of the file.
-@@ -85,6 +86,12 @@ int seq_open(struct file *file, const struct seq_operations *op)
- }
- EXPORT_SYMBOL(seq_open);
- 
-+int seq_open(struct file *file, const struct seq_operations *op)
-+{
-+	return seq_open_data(file, op, NULL);
-+}
-+EXPORT_SYMBOL(seq_open_data);
-+
- static int traverse(struct seq_file *m, loff_t offset)
- {
- 	loff_t pos = 0, index;
-diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
-index ab437dd2e3b9..f5ff376fa62b 100644
---- a/include/linux/seq_file.h
-+++ b/include/linux/seq_file.h
-@@ -107,6 +107,7 @@ void seq_pad(struct seq_file *m, char c);
- 
- char *mangle_path(char *s, const char *p, const char *esc);
- int seq_open(struct file *, const struct seq_operations *);
-+int seq_open_data(struct file *, const struct seq_operations *, void *);
- ssize_t seq_read(struct file *, char __user *, size_t, loff_t *);
- loff_t seq_lseek(struct file *, loff_t, int);
- int seq_release(struct inode *, struct file *);
--- 
-2.15.1
+Cheers, Andreas
 
+> +
+> static int traverse(struct seq_file *m, loff_t offset)
+> {
+> 	loff_t pos =3D 0, index;
+> diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
+> index ab437dd2e3b9..f5ff376fa62b 100644
+> --- a/include/linux/seq_file.h
+> +++ b/include/linux/seq_file.h
+> @@ -107,6 +107,7 @@ void seq_pad(struct seq_file *m, char c);
+>=20
+> char *mangle_path(char *s, const char *p, const char *esc);
+> int seq_open(struct file *, const struct seq_operations *);
+> +int seq_open_data(struct file *, const struct seq_operations *, void =
+*);
+> ssize_t seq_read(struct file *, char __user *, size_t, loff_t *);
+> loff_t seq_lseek(struct file *, loff_t, int);
+> int seq_release(struct inode *, struct file *);
+> --
+> 2.15.1
+>=20
+
+
+
+
+
+--Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAlqYkEsACgkQcqXauRfM
+H+AzdQ//S1/2JezuOJUxxbNc11QjDvMOoBPM7D11h6Ht5dT0+Tw0dFBFBcG+gqGl
+28MxwK+4sUU3A00/LgUxopfeoKw6+ve4NZFZYh0kwZoEXMoCxkB2tECNRYMrkiDR
+TDY70i4VZ5Bch1xd31FB3bZb+ukkls1R0Z/6WjfUhG8D/5yPBA9PQS0+jHo+tHHX
+y4aJS9eCwKPRHtP5LpCkuaEKZFxL48RWFghHcqhfd8fXRuFD9Q6/mPhLkH3/fX4y
+IsbUFW2ozrN94/3OWM+1+4r8eC1mpe+DqRkqg/4G0CX6agfpmpkUh++8QGP6fufV
+RG5pAaMwEpqXsFygvwvWFJEkeLp1BFybgmGKe3gN9A7arlyhxhW8J+8FbPBpduq4
+T/Okk/qcJhSMVV/at9sybRKMvZ40IX0E5jRwmPG/AQl1Bsj/yyOTmJCTHAowIydx
+VkYxTsmSPjnVm2LPELBCEPUqT5jDgpFDBzr148l6ks6Q1Vxiw0MJZL+zruRtOfcC
+wHa05O5AZjwRXpk8LBWE48x2qroLjM5Oruqkjg53DX7LgHUxRwhY4li7gGnfxmTf
+gZl526gU0fx6xPsiV6F6sLazf91BmmUi0x12n4nJMjESLMJP4OrRkhgNtiM1uK/m
+cp/UMSnVXC0ks7HiE8CP08WcFoho6LoazlgEXHawk4Y/+fRwWy8=
+=E59S
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
