@@ -1,352 +1,259 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFB217E214
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 00:09:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60C767E22F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 06:36:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965127AbeCAAJt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Feb 2018 19:09:49 -0500
-Received: from mga12.intel.com ([192.55.52.136]:20701 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965118AbeCAAJs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Feb 2018 19:09:48 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Feb 2018 16:09:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,406,1515484800"; 
-   d="gz'50?scan'50,208,50";a="21098964"
-Received: from bee.sh.intel.com (HELO bee) ([10.239.97.14])
-  by orsmga007.jf.intel.com with ESMTP; 28 Feb 2018 16:09:45 -0800
-Received: from kbuild by bee with local (Exim 4.84_2)
-        (envelope-from <fengguang.wu@intel.com>)
-        id 1erBnF-000J6n-06; Thu, 01 Mar 2018 08:09:53 +0800
-Date:   Thu, 1 Mar 2018 08:08:52 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     kbuild-all@01.org, gregkh@linuxfoundation.org, oneukum@suse.com,
-        willy@infradead.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [PATCH v4] usb: core: Add "quirks" parameter for usbcore
-Message-ID: <201803010741.U6z9DVBo%fengguang.wu@intel.com>
-References: <20180226150457.22299-1-kai.heng.feng@canonical.com>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="5mCyUwZo2JvN/JJP"
-Content-Disposition: inline
-In-Reply-To: <20180226150457.22299-1-kai.heng.feng@canonical.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: fengguang.wu@intel.com
-X-SA-Exim-Scanned: No (on bee); SAEximRunCond expanded to false
+        id S966397AbeCAGga (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Mar 2018 01:36:30 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:25807 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S966373AbeCAGg1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Mar 2018 01:36:27 -0500
+Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id w216YiUa022072;
+        Thu, 1 Mar 2018 15:34:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com w216YiUa022072
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1519886086;
+        bh=gcrKmeCJ8o+P5EBTGVDH17agmTL1DEnz+rziPTQdOSM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=lVGzGe6RTcJG08sg3fMm4HnqTGpBYkC+qHp9IjzKJ3u/QidetmpVMwjhRvtJoLR6N
+         H75YrR85wk94VbB0c01i3eOCDB4BbH88MnNDRP9soljHvoi7gTSagCAlH0LK2wzD1v
+         Wncv4Y7seKqo4MyO99G/YW111WDazBVZhw8mr1uVWIMVz8NtTNPNXwAi2urzer4QP0
+         VminqS+IAcy6wHOAvuAWSR0Z40yZYOqm7GFVvR4d+SbWa8Y0MVYaUcD6SXSfx6R43J
+         bsQZUejEacZDaoQSOclXgk6/XB9cwbcxDTTDE4U7h+yflhY4CrqXL5k9Btp4mQE2Me
+         TCqB59/jQtg9w==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Marc Herbert <marc.herbert@intel.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        intel-wired-lan@lists.osuosl.org
+Subject: [PATCH v3 2/2] kconfig: rename silentoldconfig to syncconfig
+Date:   Thu,  1 Mar 2018 15:34:37 +0900
+Message-Id: <1519886077-31914-2-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1519886077-31914-1-git-send-email-yamada.masahiro@socionext.com>
+References: <1519886077-31914-1-git-send-email-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+As commit cedd55d49dee ("kconfig: Remove silentoldconfig from help
+and docs; fix kconfig/conf's help") mentioned, 'silentoldconfig' is a
+historical misnomer.  That commit removed it from help and docs since
+it is an internal interface.  If so, it should be allowed to rename
+it to something more intuitive.  'syncconfig' is the one I came up
+with because it updates the .config if necessary, then synchronize
+include/generated/autoconf.h and include/config/* with it.
 
---5mCyUwZo2JvN/JJP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+You should not manually invoke 'silentoldcofig'.  Display warning if
+used in case existing scripts are doing wrong.
 
-Hi Kai-Heng,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on v4.16-rc3 next-20180228]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-
-url:    https://github.com/0day-ci/linux/commits/Kai-Heng-Feng/usb-core-Add-quirks-parameter-for-usbcore/20180227-211635
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-config: mips-sb1250_swarm_defconfig (attached as .config)
-compiler: mips64-linux-gnuabi64-gcc (Debian 7.2.0-11) 7.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=mips 
-
-All errors (new ones prefixed by >>):
-
-   drivers/usb/core/quirks.c:15:43: error: expected ')' before 'sizeof'
-    module_param_string(quirks, quirks_param, sizeof(quirks_param), 0644);
-                                              ^~~~~~
->> drivers/usb/core/quirks.c:16:26: error: expected ')' before string constant
-    MODULE_PARM_DESC(quirks, "Add/modify USB quirks by specifying quirks=vendorID:productID:quirks");
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-vim +16 drivers/usb/core/quirks.c
-
-    13	
-    14	static char quirks_param[128];
-  > 15	module_param_string(quirks, quirks_param, sizeof(quirks_param), 0644);
-  > 16	MODULE_PARM_DESC(quirks, "Add/modify USB quirks by specifying quirks=vendorID:productID:quirks");
-    17	
-
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---5mCyUwZo2JvN/JJP
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+Changes in v3:
+  - Fix Documentation/networking/i40e.txt
+  - Display warning if silentoldconfig is used
 
-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
-wuPnVCeTShjoZpttHC3P/wAPQ3MbANAAAA==
+Changes in v2:
+  - newly added
 
---5mCyUwZo2JvN/JJP--
+ Documentation/kbuild/kconfig.txt  |  2 +-
+ Documentation/networking/i40e.txt |  2 +-
+ Makefile                          |  2 +-
+ scripts/kconfig/Makefile          | 13 ++++++++++---
+ scripts/kconfig/conf.c            | 20 ++++++++++----------
+ 5 files changed, 23 insertions(+), 16 deletions(-)
+
+diff --git a/Documentation/kbuild/kconfig.txt b/Documentation/kbuild/kconfig.txt
+index bbc99c0..7233118 100644
+--- a/Documentation/kbuild/kconfig.txt
++++ b/Documentation/kbuild/kconfig.txt
+@@ -119,7 +119,7 @@ Examples:
+ 		15% of tristates will be set to 'y', 15% to 'm', 70% to 'n'
+ 
+ ______________________________________________________________________
+-Environment variables for 'silentoldconfig'
++Environment variables for 'syncconfig'
+ 
+ KCONFIG_NOSILENTUPDATE
+ --------------------------------------------------
+diff --git a/Documentation/networking/i40e.txt b/Documentation/networking/i40e.txt
+index 57e616e..c2d6e18 100644
+--- a/Documentation/networking/i40e.txt
++++ b/Documentation/networking/i40e.txt
+@@ -32,7 +32,7 @@ Enabling the driver
+ The driver is enabled via the standard kernel configuration system,
+ using the make command:
+ 
+-     Make oldconfig/silentoldconfig/menuconfig/etc.
++     make config/oldconfig/menuconfig/etc.
+ 
+ The driver is located in the menu structure at:
+ 
+diff --git a/Makefile b/Makefile
+index 7f0aba6..4fb97e9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -597,7 +597,7 @@ $(KCONFIG_CONFIG) include/config/auto.conf.cmd: ;
+ # include/generated/ and include/config/. Update them if .config is newer than
+ # include/config/auto.conf (which mirrors .config).
+ include/config/%.conf: $(KCONFIG_CONFIG) include/config/auto.conf.cmd
+-	$(Q)$(MAKE) -f $(srctree)/Makefile silentoldconfig
++	$(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
+ else
+ # external modules needs include/generated/autoconf.h and include/config/auto.conf
+ # but do not care if they are up-to-date. Use auto.conf to trigger the test
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index 41e2a9f..753a6de4 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -3,7 +3,7 @@
+ # Kernel configuration targets
+ # These targets are used from top-level makefile
+ 
+-PHONY += xconfig gconfig menuconfig config silentoldconfig update-po-config \
++PHONY += xconfig gconfig menuconfig config syncconfig update-po-config \
+ 	localmodconfig localyesconfig
+ 
+ ifdef KBUILD_KCONFIG
+@@ -36,7 +36,7 @@ nconfig: $(obj)/nconf
+ 
+ # This has become an internal implementation detail and is now deprecated
+ # for external use.
+-silentoldconfig: $(obj)/conf
++syncconfig: $(obj)/conf
+ 	$(Q)mkdir -p include/config include/generated
+ 	$(Q)test -e include/generated/autoksyms.h || \
+ 	    touch   include/generated/autoksyms.h
+@@ -88,7 +88,7 @@ PHONY += $(simple-targets)
+ $(simple-targets): $(obj)/conf
+ 	$< $(silent) --$@ $(Kconfig)
+ 
+-PHONY += oldnoconfig savedefconfig defconfig
++PHONY += oldnoconfig silentoldconfig savedefconfig defconfig
+ 
+ # oldnoconfig is an alias of olddefconfig, because people already are dependent
+ # on its behavior (sets new symbols to their default value but not 'n') with the
+@@ -97,6 +97,13 @@ oldnoconfig: olddefconfig
+ 	@echo "  WARNING: \"oldnoconfig\" target will be removed after Linux 4.19"
+ 	@echo "            Please use \"olddefconfig\" instead, which is an alias."
+ 
++# We do not expect manual invokcation of "silentoldcofig" (or "syncconfig").
++silentoldconfig: syncconfig
++	@echo "  WARNING: \"silentoldconfig\" has been renamed to \"syncconfig\""
++	@echo "            and is now an internal implementation detail."
++	@echo "            What you want is probably \"oldconfig\"."
++	@echo "            \"silentoldconfig\" will be removed after Linux 4.19"
++
+ savedefconfig: $(obj)/conf
+ 	$< $(silent) --$@=defconfig $(Kconfig)
+ 
+diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+index 11a4e45..4e08121 100644
+--- a/scripts/kconfig/conf.c
++++ b/scripts/kconfig/conf.c
+@@ -23,7 +23,7 @@ static void check_conf(struct menu *menu);
+ 
+ enum input_mode {
+ 	oldaskconfig,
+-	silentoldconfig,
++	syncconfig,
+ 	oldconfig,
+ 	allnoconfig,
+ 	allyesconfig,
+@@ -100,7 +100,7 @@ static int conf_askvalue(struct symbol *sym, const char *def)
+ 
+ 	switch (input_mode) {
+ 	case oldconfig:
+-	case silentoldconfig:
++	case syncconfig:
+ 		if (sym_has_value(sym)) {
+ 			printf("%s\n", def);
+ 			return 0;
+@@ -293,7 +293,7 @@ static int conf_choice(struct menu *menu)
+ 		printf("[1-%d?]: ", cnt);
+ 		switch (input_mode) {
+ 		case oldconfig:
+-		case silentoldconfig:
++		case syncconfig:
+ 			if (!is_new) {
+ 				cnt = def;
+ 				printf("%d\n", cnt);
+@@ -441,7 +441,7 @@ static void check_conf(struct menu *menu)
+ static struct option long_opts[] = {
+ 	{"oldaskconfig",    no_argument,       NULL, oldaskconfig},
+ 	{"oldconfig",       no_argument,       NULL, oldconfig},
+-	{"silentoldconfig", no_argument,       NULL, silentoldconfig},
++	{"syncconfig",      no_argument,       NULL, syncconfig},
+ 	{"defconfig",       optional_argument, NULL, defconfig},
+ 	{"savedefconfig",   required_argument, NULL, savedefconfig},
+ 	{"allnoconfig",     no_argument,       NULL, allnoconfig},
+@@ -468,8 +468,8 @@ static void conf_usage(const char *progname)
+ 	printf("  --listnewconfig         List new options\n");
+ 	printf("  --oldaskconfig          Start a new configuration using a line-oriented program\n");
+ 	printf("  --oldconfig             Update a configuration using a provided .config as base\n");
+-	printf("  --silentoldconfig       Similar to oldconfig but generates configuration in\n"
+-	       "                          include/{generated/,config/} (oldconfig used to be more verbose)\n");
++	printf("  --syncconfig            Similar to oldconfig but generates configuration in\n"
++	       "                          include/{generated/,config/}\n");
+ 	printf("  --olddefconfig          Same as oldconfig but sets new symbols to their default value\n");
+ 	printf("  --oldnoconfig           An alias of olddefconfig\n");
+ 	printf("  --defconfig <file>      New config with default defined in <file>\n");
+@@ -501,7 +501,7 @@ int main(int ac, char **av)
+ 		}
+ 		input_mode = (enum input_mode)opt;
+ 		switch (opt) {
+-		case silentoldconfig:
++		case syncconfig:
+ 			sync_kconfig = 1;
+ 			break;
+ 		case defconfig:
+@@ -583,7 +583,7 @@ int main(int ac, char **av)
+ 		}
+ 		break;
+ 	case savedefconfig:
+-	case silentoldconfig:
++	case syncconfig:
+ 	case oldaskconfig:
+ 	case oldconfig:
+ 	case listnewconfig:
+@@ -667,7 +667,7 @@ int main(int ac, char **av)
+ 		/* fall through */
+ 	case oldconfig:
+ 	case listnewconfig:
+-	case silentoldconfig:
++	case syncconfig:
+ 		/* Update until a loop caused no more changes */
+ 		do {
+ 			conf_cnt = 0;
+@@ -680,7 +680,7 @@ int main(int ac, char **av)
+ 	}
+ 
+ 	if (sync_kconfig) {
+-		/* silentoldconfig is used during the build so we shall update autoconf.
++		/* syncconfig is used during the build so we shall update autoconf.
+ 		 * All other commands are only used to generate a config.
+ 		 */
+ 		if (conf_get_changed() && conf_write(NULL)) {
+-- 
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
