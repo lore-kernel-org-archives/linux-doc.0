@@ -1,259 +1,52 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60C767E22F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 06:36:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 431F67E244
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 13:39:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966397AbeCAGga (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Mar 2018 01:36:30 -0500
-Received: from conuserg-12.nifty.com ([210.131.2.79]:25807 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S966373AbeCAGg1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Mar 2018 01:36:27 -0500
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id w216YiUa022072;
-        Thu, 1 Mar 2018 15:34:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com w216YiUa022072
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1519886086;
-        bh=gcrKmeCJ8o+P5EBTGVDH17agmTL1DEnz+rziPTQdOSM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lVGzGe6RTcJG08sg3fMm4HnqTGpBYkC+qHp9IjzKJ3u/QidetmpVMwjhRvtJoLR6N
-         H75YrR85wk94VbB0c01i3eOCDB4BbH88MnNDRP9soljHvoi7gTSagCAlH0LK2wzD1v
-         Wncv4Y7seKqo4MyO99G/YW111WDazBVZhw8mr1uVWIMVz8NtTNPNXwAi2urzer4QP0
-         VminqS+IAcy6wHOAvuAWSR0Z40yZYOqm7GFVvR4d+SbWa8Y0MVYaUcD6SXSfx6R43J
-         bsQZUejEacZDaoQSOclXgk6/XB9cwbcxDTTDE4U7h+yflhY4CrqXL5k9Btp4mQE2Me
-         TCqB59/jQtg9w==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Marc Herbert <marc.herbert@intel.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        intel-wired-lan@lists.osuosl.org
-Subject: [PATCH v3 2/2] kconfig: rename silentoldconfig to syncconfig
-Date:   Thu,  1 Mar 2018 15:34:37 +0900
-Message-Id: <1519886077-31914-2-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1519886077-31914-1-git-send-email-yamada.masahiro@socionext.com>
-References: <1519886077-31914-1-git-send-email-yamada.masahiro@socionext.com>
+        id S1030646AbeCANjk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Mar 2018 08:39:40 -0500
+Received: from gofer.mess.org ([88.97.38.141]:33599 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1030704AbeCANjg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Mar 2018 08:39:36 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 76AF86020C; Thu,  1 Mar 2018 13:39:34 +0000 (GMT)
+Date:   Thu, 1 Mar 2018 13:39:34 +0000
+From:   Sean Young <sean@mess.org>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        linux-doc ML <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Subject: lirc.4 man page
+Message-ID: <20180301133934.wr6sjfzykt6z2d7x@gofer.mess.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As commit cedd55d49dee ("kconfig: Remove silentoldconfig from help
-and docs; fix kconfig/conf's help") mentioned, 'silentoldconfig' is a
-historical misnomer.  That commit removed it from help and docs since
-it is an internal interface.  If so, it should be allowed to rename
-it to something more intuitive.  'syncconfig' is the one I came up
-with because it updates the .config if necessary, then synchronize
-include/generated/autoconf.h and include/config/* with it.
+Hi,
 
-You should not manually invoke 'silentoldcofig'.  Display warning if
-used in case existing scripts are doing wrong.
+The lirc man page:
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man4/lirc.4
 
-Changes in v3:
-  - Fix Documentation/networking/i40e.txt
-  - Display warning if silentoldconfig is used
+is very much out of date. Multiple ioctls were never implemented, so
+should be removed. No mainline driver uses LIRC_MODE_LIRCCODE any more
+and there is a new mode LIRC_MODE_SCANCODE.
 
-Changes in v2:
-  - newly added
+kernel-doc is much more up to date. Can it be generated from there?
 
- Documentation/kbuild/kconfig.txt  |  2 +-
- Documentation/networking/i40e.txt |  2 +-
- Makefile                          |  2 +-
- scripts/kconfig/Makefile          | 13 ++++++++++---
- scripts/kconfig/conf.c            | 20 ++++++++++----------
- 5 files changed, 23 insertions(+), 16 deletions(-)
+Thanks,
 
-diff --git a/Documentation/kbuild/kconfig.txt b/Documentation/kbuild/kconfig.txt
-index bbc99c0..7233118 100644
---- a/Documentation/kbuild/kconfig.txt
-+++ b/Documentation/kbuild/kconfig.txt
-@@ -119,7 +119,7 @@ Examples:
- 		15% of tristates will be set to 'y', 15% to 'm', 70% to 'n'
- 
- ______________________________________________________________________
--Environment variables for 'silentoldconfig'
-+Environment variables for 'syncconfig'
- 
- KCONFIG_NOSILENTUPDATE
- --------------------------------------------------
-diff --git a/Documentation/networking/i40e.txt b/Documentation/networking/i40e.txt
-index 57e616e..c2d6e18 100644
---- a/Documentation/networking/i40e.txt
-+++ b/Documentation/networking/i40e.txt
-@@ -32,7 +32,7 @@ Enabling the driver
- The driver is enabled via the standard kernel configuration system,
- using the make command:
- 
--     Make oldconfig/silentoldconfig/menuconfig/etc.
-+     make config/oldconfig/menuconfig/etc.
- 
- The driver is located in the menu structure at:
- 
-diff --git a/Makefile b/Makefile
-index 7f0aba6..4fb97e9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -597,7 +597,7 @@ $(KCONFIG_CONFIG) include/config/auto.conf.cmd: ;
- # include/generated/ and include/config/. Update them if .config is newer than
- # include/config/auto.conf (which mirrors .config).
- include/config/%.conf: $(KCONFIG_CONFIG) include/config/auto.conf.cmd
--	$(Q)$(MAKE) -f $(srctree)/Makefile silentoldconfig
-+	$(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
- else
- # external modules needs include/generated/autoconf.h and include/config/auto.conf
- # but do not care if they are up-to-date. Use auto.conf to trigger the test
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 41e2a9f..753a6de4 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -3,7 +3,7 @@
- # Kernel configuration targets
- # These targets are used from top-level makefile
- 
--PHONY += xconfig gconfig menuconfig config silentoldconfig update-po-config \
-+PHONY += xconfig gconfig menuconfig config syncconfig update-po-config \
- 	localmodconfig localyesconfig
- 
- ifdef KBUILD_KCONFIG
-@@ -36,7 +36,7 @@ nconfig: $(obj)/nconf
- 
- # This has become an internal implementation detail and is now deprecated
- # for external use.
--silentoldconfig: $(obj)/conf
-+syncconfig: $(obj)/conf
- 	$(Q)mkdir -p include/config include/generated
- 	$(Q)test -e include/generated/autoksyms.h || \
- 	    touch   include/generated/autoksyms.h
-@@ -88,7 +88,7 @@ PHONY += $(simple-targets)
- $(simple-targets): $(obj)/conf
- 	$< $(silent) --$@ $(Kconfig)
- 
--PHONY += oldnoconfig savedefconfig defconfig
-+PHONY += oldnoconfig silentoldconfig savedefconfig defconfig
- 
- # oldnoconfig is an alias of olddefconfig, because people already are dependent
- # on its behavior (sets new symbols to their default value but not 'n') with the
-@@ -97,6 +97,13 @@ oldnoconfig: olddefconfig
- 	@echo "  WARNING: \"oldnoconfig\" target will be removed after Linux 4.19"
- 	@echo "            Please use \"olddefconfig\" instead, which is an alias."
- 
-+# We do not expect manual invokcation of "silentoldcofig" (or "syncconfig").
-+silentoldconfig: syncconfig
-+	@echo "  WARNING: \"silentoldconfig\" has been renamed to \"syncconfig\""
-+	@echo "            and is now an internal implementation detail."
-+	@echo "            What you want is probably \"oldconfig\"."
-+	@echo "            \"silentoldconfig\" will be removed after Linux 4.19"
-+
- savedefconfig: $(obj)/conf
- 	$< $(silent) --$@=defconfig $(Kconfig)
- 
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 11a4e45..4e08121 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -23,7 +23,7 @@ static void check_conf(struct menu *menu);
- 
- enum input_mode {
- 	oldaskconfig,
--	silentoldconfig,
-+	syncconfig,
- 	oldconfig,
- 	allnoconfig,
- 	allyesconfig,
-@@ -100,7 +100,7 @@ static int conf_askvalue(struct symbol *sym, const char *def)
- 
- 	switch (input_mode) {
- 	case oldconfig:
--	case silentoldconfig:
-+	case syncconfig:
- 		if (sym_has_value(sym)) {
- 			printf("%s\n", def);
- 			return 0;
-@@ -293,7 +293,7 @@ static int conf_choice(struct menu *menu)
- 		printf("[1-%d?]: ", cnt);
- 		switch (input_mode) {
- 		case oldconfig:
--		case silentoldconfig:
-+		case syncconfig:
- 			if (!is_new) {
- 				cnt = def;
- 				printf("%d\n", cnt);
-@@ -441,7 +441,7 @@ static void check_conf(struct menu *menu)
- static struct option long_opts[] = {
- 	{"oldaskconfig",    no_argument,       NULL, oldaskconfig},
- 	{"oldconfig",       no_argument,       NULL, oldconfig},
--	{"silentoldconfig", no_argument,       NULL, silentoldconfig},
-+	{"syncconfig",      no_argument,       NULL, syncconfig},
- 	{"defconfig",       optional_argument, NULL, defconfig},
- 	{"savedefconfig",   required_argument, NULL, savedefconfig},
- 	{"allnoconfig",     no_argument,       NULL, allnoconfig},
-@@ -468,8 +468,8 @@ static void conf_usage(const char *progname)
- 	printf("  --listnewconfig         List new options\n");
- 	printf("  --oldaskconfig          Start a new configuration using a line-oriented program\n");
- 	printf("  --oldconfig             Update a configuration using a provided .config as base\n");
--	printf("  --silentoldconfig       Similar to oldconfig but generates configuration in\n"
--	       "                          include/{generated/,config/} (oldconfig used to be more verbose)\n");
-+	printf("  --syncconfig            Similar to oldconfig but generates configuration in\n"
-+	       "                          include/{generated/,config/}\n");
- 	printf("  --olddefconfig          Same as oldconfig but sets new symbols to their default value\n");
- 	printf("  --oldnoconfig           An alias of olddefconfig\n");
- 	printf("  --defconfig <file>      New config with default defined in <file>\n");
-@@ -501,7 +501,7 @@ int main(int ac, char **av)
- 		}
- 		input_mode = (enum input_mode)opt;
- 		switch (opt) {
--		case silentoldconfig:
-+		case syncconfig:
- 			sync_kconfig = 1;
- 			break;
- 		case defconfig:
-@@ -583,7 +583,7 @@ int main(int ac, char **av)
- 		}
- 		break;
- 	case savedefconfig:
--	case silentoldconfig:
-+	case syncconfig:
- 	case oldaskconfig:
- 	case oldconfig:
- 	case listnewconfig:
-@@ -667,7 +667,7 @@ int main(int ac, char **av)
- 		/* fall through */
- 	case oldconfig:
- 	case listnewconfig:
--	case silentoldconfig:
-+	case syncconfig:
- 		/* Update until a loop caused no more changes */
- 		do {
- 			conf_cnt = 0;
-@@ -680,7 +680,7 @@ int main(int ac, char **av)
- 	}
- 
- 	if (sync_kconfig) {
--		/* silentoldconfig is used during the build so we shall update autoconf.
-+		/* syncconfig is used during the build so we shall update autoconf.
- 		 * All other commands are only used to generate a config.
- 		 */
- 		if (conf_get_changed() && conf_write(NULL)) {
--- 
-2.7.4
-
+Sean
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
