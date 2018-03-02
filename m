@@ -4,104 +4,87 @@ X-Spam-Level:
 X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2E3F7E22F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Mar 2018 13:17:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CDA87E244
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Mar 2018 13:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1424439AbeCBNRE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Mar 2018 08:17:04 -0500
-Received: from mail-pl0-f66.google.com ([209.85.160.66]:38539 "EHLO
-        mail-pl0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1424506AbeCBNRA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 08:17:00 -0500
-Received: by mail-pl0-f66.google.com with SMTP id m22-v6so2172746pls.5;
-        Fri, 02 Mar 2018 05:17:00 -0800 (PST)
+        id S1946587AbeCBNaZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Mar 2018 08:30:25 -0500
+Received: from mail-pf0-f195.google.com ([209.85.192.195]:33491 "EHLO
+        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1946584AbeCBNaX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 08:30:23 -0500
+Received: by mail-pf0-f195.google.com with SMTP id q13so4014734pff.0;
+        Fri, 02 Mar 2018 05:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=/c/v8m0ONk5DalxCyAZvPiHHkI8OSDThXBbg8q/HPPg=;
-        b=rkDtTcEHSIKmXeueIRjnDe/07a0WsYsBMys+50Ir4aKcorY3UPQu2Ucj+Gy1cbWn4g
-         ERbUH41Of0RxiZoRn2rgVQyzeCSr0d9ea+hRr4vXqyVaesbSv/wMC1pUdxtyet49ZqD3
-         SW/2D+4zbV8WEL17oQP1+wLG4guGstIM7AhgdD53/sk9BXVp5ZJFNeQo22W96rsqaYNo
-         wnDSzOSFrf2Nhh8hlboH8naV4FchhFNlJVxr0yU4DSdIGzMpajICs+BhrbsXe/Ytc44W
-         3IFco0CbmtNFD6XTGBBUSSW0/yfSlIfND3IDd4byOIuMS6h8x0c60AZzGMvXLWoMOAsn
-         5zTA==
+        h=from:to:cc:subject:date:message-id;
+        bh=q6038ZUHfVNRA19tcHIlkMj8GO/ksxiwQr1vyOwVnBA=;
+        b=uZ5MAGcXbvm+vc1szsVyAQHI8oaabdlbJWCdwKzK0fEy8uS6bkqXy01ApvNSNWBC8c
+         hb897Fl/QtEC46XuOnn11kLPAByKhLTrdiQvXw/cYp+UnHwf+EAYbH+9aetvNcr8NPvb
+         kdovnr6y/KUwA5KYGb+G0ydw7rC+ja642PDUzz2zGdBlAa22/IxtQSEceEGqsuBeY21J
+         KY+ExRkVwRPTWx0nAaLnICRMcxOy0CNoFmUZfPr79xq/aOEbVEvKWcJG4MnIp0NQFd3C
+         BGmctgAQmsQlv0yox5nHz2Z7Z896qu6zg1WlznN+bcJQuaBL75KoR8f2vsqA4qpRnEbv
+         psaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=/c/v8m0ONk5DalxCyAZvPiHHkI8OSDThXBbg8q/HPPg=;
-        b=jI5Y4dhA2HVEEfUjKQQX8NVGpI/++C2xdej/F1K/KFnztr6QTf2/7sZJz3nQjbLT7s
-         lipdfzglX/6mYXG1IGqgOBLueH/EvcvpKIYfoTv2ALtqoYEOQGC1sFY13//0FLuDvkSm
-         m+Wz+WHfI3ZtEUS21NmnjQMyB1v5i/9L/4+kly6abR4Mzu4t/LwRT/rlvbJx1LF4B2fV
-         Cs+l5CqhOmI+j1dI2GLmhX25eVKKhkUHgF48FSmuddl7cAIeaDswQy4AM+Frk0LiDM4T
-         6lgxUs9l7kvTU+cdIDxqp/Us6Huhl5tKA4jmLR6sONMzQoyLsgw+Uvte+971Ilp3uKun
-         GSgg==
-X-Gm-Message-State: APf1xPBKzdDDPL+iF294N4gKBsX4Pnw41cMypsrrChhRLQkx+3Fcpkxr
-        u4Hn0ZYP9c5uBHB6AAndLdfQ5Q==
-X-Google-Smtp-Source: AG47ELvPffTjbzAMVu37MSafOjhLKZ+oRcUJQCdivuscfY9mwnF66nDp26nbeuVTXzPHNrP6/6Jqgg==
-X-Received: by 2002:a17:902:8214:: with SMTP id x20-v6mr5198339pln.182.1519996619444;
-        Fri, 02 Mar 2018 05:16:59 -0800 (PST)
-Received: from mordor.localdomain ([183.82.17.184])
-        by smtp.gmail.com with ESMTPSA id k66sm13089399pfb.123.2018.03.02.05.16.56
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 02 Mar 2018 05:16:58 -0800 (PST)
-Date:   Fri, 2 Mar 2018 18:46:53 +0530
-From:   Aishwarya Pant <aishpant@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     Julia Lawall <julia.lawall@lip6.fr>, linux-doc@vger.kernel.org
-Subject: [PATCH] HID: logitech-hidpp: document sysfs interface
-Message-ID: <20180302131653.GA24934@mordor.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.3 (2018-01-21)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=q6038ZUHfVNRA19tcHIlkMj8GO/ksxiwQr1vyOwVnBA=;
+        b=tOXP7Z9N8f8V7FPd4dlroPsUIMt7Wh/+4oXwGUMyzjSrDfi9lJ4s647pN8ln9T4mEg
+         C5kTgEBdRBibHWbl8PYbHtngunA9oUOo58hT4553hC/ftxKj2lhiRcC8uLnrmC4oa0aQ
+         TckI8azMCd01Gnq0XybjLsB3EQ7H2sPg8N/orvs46rpgdFheNHuNNcrxWQ21CjcmyemF
+         f+6Pa4QG9eONkSysxEPimsh74JFldgR0zXK0715KKhMk+IPZPc/0UPYya0JUCyRTvjeY
+         7huPrOV2F8NDKdHJEMm4PlIAlIWi52QCQpzs7+3UTOuF+1Zt8PkhSLW+ij3WcYKvZpek
+         LjWg==
+X-Gm-Message-State: APf1xPAVB+cesF6yDT+xiuXcmfFPf0iDyLd1hroeUoUxii7ABDVN7uCv
+        6vjtFziUMrFiBUjh/kc+/6c=
+X-Google-Smtp-Source: AG47ELsb7vfg1QfM3h7Q+C7FhWXEH+NN9mVkW5BSSb0kc78P5sCJQENOrdqrlliLBgt5ge7PnCrTOw==
+X-Received: by 10.101.96.212 with SMTP id r20mr4574261pgv.139.1519997422834;
+        Fri, 02 Mar 2018 05:30:22 -0800 (PST)
+Received: from masabert (i118-21-156-233.s30.a048.ap.plala.or.jp. [118.21.156.233])
+        by smtp.gmail.com with ESMTPSA id u9sm10122270pgb.11.2018.03.02.05.30.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 02 Mar 2018 05:30:22 -0800 (PST)
+Received: by masabert (Postfix, from userid 1000)
+        id B1744201094; Fri,  2 Mar 2018 22:30:18 +0900 (JST)
+From:   Masanari Iida <standby24x7@gmail.com>
+To:     darrick.wong@oracle.com, linux-xfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Cc:     Masanari Iida <standby24x7@gmail.com>
+Subject: [PATCH] xfs: Change URL for the project in xfs.txt
+Date:   Fri,  2 Mar 2018 22:30:13 +0900
+Message-Id: <20180302133013.9744-1-standby24x7@gmail.com>
+X-Mailer: git-send-email 2.16.2.345.g7e31236f652a
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Descriptions have been collected from git commit logs.
+The oss.sgi.com doesn't exist any more.
+Change it to current project URL, https://xfs.wiki.kernel.org/
 
-Signed-off-by: Aishwarya Pant <aishpant@gmail.com>
+Signed-off-by: Masanari Iida <standby24x7@gmail.com>
 ---
- .../ABI/testing/sysfs-driver-hid-logitech-hidpp       | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-logitech-hidpp
+ Documentation/filesystems/xfs.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-hid-logitech-hidpp b/Documentation/ABI/testing/sysfs-driver-hid-logitech-hidpp
-new file mode 100644
-index 000000000000..d8f831f2d6b5
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-hid-logitech-hidpp
-@@ -0,0 +1,19 @@
-+What:		/sys/bus/hid/drivers/logitech-hidpp-device/<dev>/range
-+Date:		Jan, 2016
-+KernelVersion:	4.6
-+Contact:	linux-input@vger.kernel.org
-+Description:
-+		(RW) This attribute controls the amount of 'turn' permitted in
-+		Logitech G920 wheel. Reading from the file shows the current
-+		range of the steering wheel. Writing a value within the min and
-+		max boundary sets the range of the wheel.
-+
-+What:		/sys/bus/hid/drivers/logitech-hidpp-device/<dev>/builtin_power_supply
-+Date:		Apr, 2017
-+KernelVersion:	4.12
-+Contact:	linux-input@vger.kernel.org
-+Description:
-+		Presence of this file indicates that HID++ driver is capable of
-+		handling battery properties in the kernel. This way, upower can
-+		add a udev rule to decide whether or not it should use the
-+		internal unifying support or the generic kernel one.
+diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.txt
+index 3b9b5c149f32..4d9ff0a7f8e1 100644
+--- a/Documentation/filesystems/xfs.txt
++++ b/Documentation/filesystems/xfs.txt
+@@ -9,7 +9,7 @@ variable block sizes, is extent based, and makes extensive use of
+ Btrees (directories, extents, free space) to aid both performance
+ and scalability.
+ 
+-Refer to the documentation at http://oss.sgi.com/projects/xfs/
++Refer to the documentation at https://xfs.wiki.kernel.org/
+ for further details.  This implementation is on-disk compatible
+ with the IRIX version of XFS.
+ 
 -- 
-2.16.2
+2.16.2.345.g7e31236f652a
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
