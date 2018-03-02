@@ -1,228 +1,160 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA57E7E244
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Mar 2018 23:44:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EDC8B7E22F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Mar 2018 05:30:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1163357AbeCAXoS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Mar 2018 18:44:18 -0500
-Received: from mail-pf0-f196.google.com ([209.85.192.196]:37870 "EHLO
-        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1163339AbeCAXoQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Mar 2018 18:44:16 -0500
-Received: by mail-pf0-f196.google.com with SMTP id h11so2778665pfn.4
-        for <linux-doc@vger.kernel.org>; Thu, 01 Mar 2018 15:44:16 -0800 (PST)
+        id S932890AbeCBFa0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Mar 2018 00:30:26 -0500
+Received: from mail-pl0-f65.google.com ([209.85.160.65]:46569 "EHLO
+        mail-pl0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932845AbeCBFaY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 00:30:24 -0500
+Received: by mail-pl0-f65.google.com with SMTP id y8-v6so5053860pll.13;
+        Thu, 01 Mar 2018 21:30:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20150623.gappssmtp.com; s=20150623;
-        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-         :references;
-        bh=hNB8sd31BqGBTI/fRIRSaXv2eMj7ueJnbyRkmp2RQl0=;
-        b=Ks6aCC9yn2PeC2rYj5nLXfw8h+aiSXEkf2MjMj0eXK2l0zzmQc3NgG7UjHei+uPPdB
-         rfuIyXK2dbaRIGEoe8q/WBWceuGxJlAWwQec9Mus+sdJQdNqDHm8HWvlgE1bPvZ+tf2p
-         agktzUsYMK7XgbjXgB32u4iOzNrBem8d8jRUiBEr8G9rcjkyLMKrgBjJcs5VI8ycS0FM
-         7WfMnqwLWWWusBBUZTB3zysb4HtNaL094Md7e3dBAY670T34vyuKvVZaSA3z/oayc04k
-         PjimLdOXW83iWZ4MBfQ2RiDz3izrN/fBgstW3DgYA9dOT0zQEmwGrPjolIl2oD8F/VoS
-         412g==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=EKWbNuOaB7J+Nkp4GsAVxPYK91Ek95LW31erYN7HkVE=;
+        b=Sgw5VvCcNApfPvul5v3huHki9GLQCPNnu5fSiIldAkCEY8hFF6oV9WBTbPzpDracIw
+         QVHgTFZJJ6zTpSMgr/gWdhDU/opZZDDajhyD1WGrej4SJr40lnlIyHubR0SeEIsbZO/h
+         QuQHySuOPDsesAtWkM5Rpax63tSJsIVJ46dbNYLt2IU8lGRoWqB7sGjgeMyZAevMPY71
+         PsNBawwpwXE6UysdmD7uBvH/XRkOkSX+s+xRAtwUXLqtu6ZFCkGEttpkyb0MVKLouG0T
+         UPTaJRf07CmcBKlAkj8y60qp2AL/VD0SMCqCN30eGPfYz1ox+My4cHKDN1sqFYnBr5rr
+         nhJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:message-id:mime-version:subject:date
-         :in-reply-to:cc:to:references;
-        bh=hNB8sd31BqGBTI/fRIRSaXv2eMj7ueJnbyRkmp2RQl0=;
-        b=BhriTzkH19BzxuA3ZpkG/zQ0TJwZXeAackRkF1VNT35w1csLKxkma5eoQAM5ml3jWI
-         lA90gcru3ycLzfemYRsB9vpMPvuK2fFLxMUCyCnewTHReveEL8q5PPv5wnESbFRtDjI6
-         KOrxk3iNwEHa09doj+KLZD6bDa6rNDEMHWlEHqBsJkLJNkMVo68NveazNOH0aObvwgaf
-         sQ8iqehF2uLy/qefwDCGb95pQD1nvYch/SqQerx530gt3ibZm0nNTYypQ4F5ksnsBPpo
-         psiUBnCQrVakg4d1V+9lfLJm9+jJ3Yw8+sKPAnlXO8aqA6JGCWFo87lz7J4uc9KscHVy
-         jr1Q==
-X-Gm-Message-State: APf1xPDXDB+JIDR7tPylB0s1T1Lt8TMdr+NMfrDZwP0woxBpZ2QgzlQc
-        UyiI9hwaFCcSeb5LWI28mvZyTTlBmoFE+Q==
-X-Google-Smtp-Source: AG47ELvMKfl/JHTR3lyRhfHmXM+hMtyNQrV3TZzqZpaf3I2kLug4KLHBJ5m7rayR4q0PavjlbXBk5w==
-X-Received: by 10.101.75.199 with SMTP id p7mr3059481pgr.0.1519947855873;
-        Thu, 01 Mar 2018 15:44:15 -0800 (PST)
-Received: from cabot-wlan.adilger.int (S0106a84e3fe4b223.cg.shawcable.net. [70.77.216.213])
-        by smtp.gmail.com with ESMTPSA id n67sm10425990pfh.150.2018.03.01.15.44.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Mar 2018 15:44:14 -0800 (PST)
-From:   Andreas Dilger <adilger@dilger.ca>
-Message-Id: <FCCCD016-8402-42E5-B92F-79287D67B27C@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [RFC 1/5] seq_file: introduce seq_open_data helper
-Date:   Thu, 1 Mar 2018 16:44:10 -0700
-In-Reply-To: <20180301233724.20440-1-linux@rasmusvillemoes.dk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Tony Luck <tony.luck@intel.com>, linux-ia64@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-References: <20180301233724.20440-1-linux@rasmusvillemoes.dk>
-X-Mailer: Apple Mail (2.3273)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=EKWbNuOaB7J+Nkp4GsAVxPYK91Ek95LW31erYN7HkVE=;
+        b=ik/od008QpdD++2LRtbesplThuPsqKGBT6iVSB3YStMjE59+YC60jf141NoYze1p7Z
+         Mw9vjNtk+Lf44GfOra6UfNbGziFT73fale6RlUjf5SQ49weYKg/gKd1pecYkEK9ul9Wa
+         /0VUyvMVHxf/5ZgVUUyQRlJfQrFEnHie/QSjzmI56tL8IQQLor/VeYCPK3IVqFQCNjV0
+         GYlgKOqyjmUyA285Wq/sLFsXn7AeqEv9zrCyLrYyzg/oAhODm+wgkj8WXZ986YZKmX1B
+         dzQ12/dJEHZVspg3Kr23smxRzMyAx8usrVUOWKKhpXyXaVwBMw7ShPUc0Q4sr2gKFJAK
+         YP+g==
+X-Gm-Message-State: APf1xPBDqMJIxJOEwZ7Ibbv93m/DNnYK+NLqsiqrIj04B6lGFsAeq+2+
+        xvFeLqn7OVx6fNx8jrFG6l0=
+X-Google-Smtp-Source: AG47ELsbq85IhgmMn9W7PEEwB9eO109LFup3U+V+2Zt5jXmegS7owg+qxwUlHb6ctQB+h6WocFgbfQ==
+X-Received: by 2002:a17:902:6a17:: with SMTP id m23-v6mr4238642plk.342.1519968624008;
+        Thu, 01 Mar 2018 21:30:24 -0800 (PST)
+Received: from mordor.localdomain ([183.82.18.45])
+        by smtp.gmail.com with ESMTPSA id h10sm3227242pgf.19.2018.03.01.21.30.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 01 Mar 2018 21:30:22 -0800 (PST)
+Date:   Fri, 2 Mar 2018 11:00:17 +0530
+From:   Aishwarya Pant <aishpant@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     Julia Lawall <julia.lawall@lip6.fr>, linux-doc@vger.kernel.org
+Subject: [PATCH] HID: ntrig: document sysfs interface
+Message-ID: <20180302053017.GA23123@mordor.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add sysfs documentation for N-Trig touchscreens under Documentation/ABI.
+Descriptions have been collected from code comments.
 
---Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Signed-off-by: Aishwarya Pant <aishpant@gmail.com>
+---
+ Documentation/ABI/testing/sysfs-driver-hid-ntrig | 70 ++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-ntrig
 
-On Mar 1, 2018, at 4:37 PM, Rasmus Villemoes <linux@rasmusvillemoes.dk> =
-wrote:
->=20
-> There are quite a few callers of seq_open that could be simplified by
-> setting the ->private member via the seq_open call instead of fetching
-> file->private_data afterwards.
->=20
-> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> ---
-> I've just included a few examples of possible users of this helper,
-> there are many more similar cases. As a bonus, the first two fix
-> potential NULL derefs (if one believes that seq_open can actually
-> fail).
->=20
-> seq_open_private would have been a better name, but that one is
-> already taken...
->=20
-> Documentation/filesystems/seq_file.txt | 9 +++++----
-> fs/seq_file.c                          | 9 ++++++++-
-> include/linux/seq_file.h               | 1 +
-> 3 files changed, 14 insertions(+), 5 deletions(-)
->=20
-> diff --git a/Documentation/filesystems/seq_file.txt =
-b/Documentation/filesystems/seq_file.txt
-> index 9de4303201e1..68571b8275d8 100644
-> --- a/Documentation/filesystems/seq_file.txt
-> +++ b/Documentation/filesystems/seq_file.txt
-> @@ -234,10 +234,11 @@ Here, the call to seq_open() takes the =
-seq_operations structure we created
-> before, and gets set up to iterate through the virtual file.
->=20
-> On a successful open, seq_open() stores the struct seq_file pointer in
-> -file->private_data. If you have an application where the same =
-iterator can
-> -be used for more than one file, you can store an arbitrary pointer in =
-the
-> -private field of the seq_file structure; that value can then be =
-retrieved
-> -by the iterator functions.
-> +file->private_data. If you have an application where the same =
-iterator
-> +can be used for more than one file, you can store an arbitrary =
-pointer
-> +in the private field of the seq_file structure; that value can then =
-be
-> +retrieved by the iterator functions. Using the wrapper =
-seq_open_data()
-> +allows you to set the initial value for that field.
->=20
-> There is also a wrapper function to seq_open() called =
-seq_open_private(). It
-> kmallocs a zero filled block of memory and stores a pointer to it in =
-the
-> diff --git a/fs/seq_file.c b/fs/seq_file.c
-> index eea09f6d8830..f2145cb6e23d 100644
-> --- a/fs/seq_file.c
-> +++ b/fs/seq_file.c
-> @@ -45,7 +45,7 @@ static void *seq_buf_alloc(unsigned long size)
->  *	Note: seq_open() will allocate a struct seq_file and store its
->  *	pointer in @file->private_data. This pointer should not be =
-modified.
->  */
-> -int seq_open(struct file *file, const struct seq_operations *op)
-> +int seq_open_data(struct file *file, const struct seq_operations *op, =
-void *data)
-> {
-> 	struct seq_file *p;
->=20
-> @@ -59,6 +59,7 @@ int seq_open(struct file *file, const struct =
-seq_operations *op)
->=20
-> 	mutex_init(&p->lock);
-> 	p->op =3D op;
-> +	p->private =3D data;
->=20
-> 	// No refcounting: the lifetime of 'p' is constrained
-> 	// to the lifetime of the file.
-> @@ -85,6 +86,12 @@ int seq_open(struct file *file, const struct =
-seq_operations *op)
-> }
-> EXPORT_SYMBOL(seq_open);
->=20
-> +int seq_open(struct file *file, const struct seq_operations *op)
-> +{
-> +	return seq_open_data(file, op, NULL);
-> +}
-> +EXPORT_SYMBOL(seq_open_data);
+diff --git a/Documentation/ABI/testing/sysfs-driver-hid-ntrig b/Documentation/ABI/testing/sysfs-driver-hid-ntrig
+new file mode 100644
+index 000000000000..e574a5625efe
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-driver-hid-ntrig
+@@ -0,0 +1,70 @@
++What:		/sys/bus/hid/drivers/ntrig/<dev>/activate_slack
++Date:		May, 2010
++KernelVersion:	2.6.35
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Number of contact frames ignored before acknowledging the
++		start of activity (activating touch).
++
++
++What:		/sys/bus/hid/drivers/ntrig/<dev>/decativate_slack
++Date:		May, 2010
++KernelVersion:	2.6.35
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Number of empty (no contact) frames ignored before
++		acknowledging the end of activity (deactivating touch).
++
++		When the last finger is removed from the device, it sends a
++		number of empty frames. By holding off on deactivation for a few
++		frames false erroneous disconnects can be tolerated, where the
++		sensor may mistakenly not detect a finger that is still present.
++
++
++What:		/sys/bus/hid/drivers/ntrig/<dev>/activation_width
++What:		/sys/bus/hid/drivers/ntrig/<dev>/activation_height
++Date:		May, 2010
++KernelVersion:	2.6.35
++Contact:	linux-input@vger.kernel.org
++Description:
++		Threholds to override activation slack.
++
++		activation_width:	(RW) Width threshold to immediately
++					start processing touch events.
++
++		activation_height:	(RW) Height threshold to immediately
++					start processing touch events.
++
++
++What:		/sys/bus/hid/drivers/ntrig/<dev>/min_width
++What:		/sys/bus/hid/drivers/ntrig/<dev>/min_height
++Date:		May, 2010
++KernelVersion:	2.6.35
++Contact:	linux-input@vger.kernel.org
++Description:
++		Minimum size contact accepted.
++
++		min_width:	(RW) Minimum touch contact width to decide
++				activation and activity.
++
++		min_height:	(RW) Minimum touch contact height to decide
++				activation and activity.
++
++
++What:		/sys/bus/hid/drivers/ntrig/<dev>/sensor_physical_width
++What:		/sys/bus/hid/drivers/ntrig/<dev>/sensor_physical_height
++Date:		May, 2010
++KernelVersion:	2.6.35
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RO) These are internal ranges not used for normal events but
++		useful for tuning.
++
++
++What:		/sys/bus/hid/drivers/ntrig/<dev>/sensor_logical_width
++What:		/sys/bus/hid/drivers/ntrig/<dev>/sensor_logical_height
++Date:		May, 2010
++KernelVersion:	2.6.35
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RO) The range for positions reported during activity.
+-- 
+2.16.2
 
-This is a bit confusing.  You export "seq_open" after seq_open_data(),
-and export "seq_open_data" here after seq_open().  Not strictly a bug,
-but could become one in the future.
-
-Cheers, Andreas
-
-> +
-> static int traverse(struct seq_file *m, loff_t offset)
-> {
-> 	loff_t pos =3D 0, index;
-> diff --git a/include/linux/seq_file.h b/include/linux/seq_file.h
-> index ab437dd2e3b9..f5ff376fa62b 100644
-> --- a/include/linux/seq_file.h
-> +++ b/include/linux/seq_file.h
-> @@ -107,6 +107,7 @@ void seq_pad(struct seq_file *m, char c);
->=20
-> char *mangle_path(char *s, const char *p, const char *esc);
-> int seq_open(struct file *, const struct seq_operations *);
-> +int seq_open_data(struct file *, const struct seq_operations *, void =
-*);
-> ssize_t seq_read(struct file *, char __user *, size_t, loff_t *);
-> loff_t seq_lseek(struct file *, loff_t, int);
-> int seq_release(struct inode *, struct file *);
-> --
-> 2.15.1
->=20
-
-
-
-
-
---Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAlqYkEsACgkQcqXauRfM
-H+AzdQ//S1/2JezuOJUxxbNc11QjDvMOoBPM7D11h6Ht5dT0+Tw0dFBFBcG+gqGl
-28MxwK+4sUU3A00/LgUxopfeoKw6+ve4NZFZYh0kwZoEXMoCxkB2tECNRYMrkiDR
-TDY70i4VZ5Bch1xd31FB3bZb+ukkls1R0Z/6WjfUhG8D/5yPBA9PQS0+jHo+tHHX
-y4aJS9eCwKPRHtP5LpCkuaEKZFxL48RWFghHcqhfd8fXRuFD9Q6/mPhLkH3/fX4y
-IsbUFW2ozrN94/3OWM+1+4r8eC1mpe+DqRkqg/4G0CX6agfpmpkUh++8QGP6fufV
-RG5pAaMwEpqXsFygvwvWFJEkeLp1BFybgmGKe3gN9A7arlyhxhW8J+8FbPBpduq4
-T/Okk/qcJhSMVV/at9sybRKMvZ40IX0E5jRwmPG/AQl1Bsj/yyOTmJCTHAowIydx
-VkYxTsmSPjnVm2LPELBCEPUqT5jDgpFDBzr148l6ks6Q1Vxiw0MJZL+zruRtOfcC
-wHa05O5AZjwRXpk8LBWE48x2qroLjM5Oruqkjg53DX7LgHUxRwhY4li7gGnfxmTf
-gZl526gU0fx6xPsiV6F6sLazf91BmmUi0x12n4nJMjESLMJP4OrRkhgNtiM1uK/m
-cp/UMSnVXC0ks7HiE8CP08WcFoho6LoazlgEXHawk4Y/+fRwWy8=
-=E59S
------END PGP SIGNATURE-----
-
---Apple-Mail=_9B87DCCE-81B6-4AB2-A810-550E560575CD--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
