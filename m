@@ -1,157 +1,415 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4748D7E244
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Mar 2018 09:29:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 11AB97E244
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Mar 2018 09:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1425700AbeCBJ2n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Mar 2018 04:28:43 -0500
-Received: from esa4.microchip.iphmx.com ([68.232.154.123]:59064 "EHLO
-        esa4.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1425206AbeCBJ2V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 04:28:21 -0500
-X-IronPort-AV: E=Sophos;i="5.47,411,1515481200"; 
-   d="scan'208";a="11692114"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 02 Mar 2018 02:28:19 -0700
-Received: from [10.145.6.76] (10.10.76.4) by chn-sv-exch06.mchp-main.com
- (10.10.76.107) with Microsoft SMTP Server id 14.3.352.0; Fri, 2 Mar 2018
- 02:28:19 -0700
-Subject: Re: [PATCH v3 05/10] pwm: add PWM mode to pwm_config()
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-CC:     <shc_work@mail.ru>, <kgene@kernel.org>, <krzk@kernel.org>,
-        <linux@armlinux.org.uk>, <mturquette@baylibre.com>,
-        <sboyd@codeaurora.org>, <joonas.lahtinen@linux.intel.com>,
-        <rodrigo.vivi@intel.com>, <airlied@linux.ie>, <kamil@wypas.org>,
-        <b.zolnierkie@samsung.com>, <jdelvare@suse.com>,
-        <linux@roeck-us.net>, <dmitry.torokhov@gmail.com>,
-        <rpurdie@rpsys.net>, <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>,
-        <mchehab@kernel.org>, <sean@mess.org>, <lee.jones@linaro.org>,
-        <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>,
-        <milo.kim@ti.com>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <corbet@lwn.net>, <nicolas.ferre@microchip.com>,
-        <alexandre.belloni@free-electrons.com>,
-        <linux-pwm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <intel-gfx@lists.freedesktop.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <1519300881-8136-1-git-send-email-claudiu.beznea@microchip.com>
- <1519300881-8136-6-git-send-email-claudiu.beznea@microchip.com>
- <20180228194429.GD22932@mithrandir> <87r2p4hod7.fsf@intel.com>
-From:   Claudiu Beznea <Claudiu.Beznea@microchip.com>
-Message-ID: <585cc4ae-3674-c119-295b-e59f4242e619@microchip.com>
-Date:   Fri, 2 Mar 2018 11:28:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1425049AbeCBJDt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Mar 2018 04:03:49 -0500
+Received: from mail-lf0-f68.google.com ([209.85.215.68]:44170 "EHLO
+        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1425027AbeCBJDi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 04:03:38 -0500
+Received: by mail-lf0-f68.google.com with SMTP id v9so12247401lfa.11;
+        Fri, 02 Mar 2018 01:03:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JVuD1SEH9j6xQZfwKcaG3XOgu0AppkKN1XsLVZ+4O4k=;
+        b=FF/LPPGuEXRD+/QDtdJS6D3p6Sb9rA7UUaKxy5EwHQAYVgHWsLyp6Ozox/EZNDFvK9
+         yQ3ibNwxb5LuYN/Ihru2Vu6JGVxTyw1pvGXAdZaYY5nybhyhZ22Rc33dqCCvNFqrFZIR
+         s7X91DKBSCHD3l4XFennz8XCN8yKGaDiOUpfnzjWk1MZXjeo1UkINbiFclI3lz66v/vy
+         B1HpeiN2D22wcRIvgFpV19usd5BhfKKbUcqge4pmi1Lj+Q4PKl9JuMZmv86DLftA1hfx
+         7DmkZPiF7Vr9c+gF9eqE6nYfcUXW2ZrUk0JKizJcptBTArYBhETl3uavlZ87KB2MH3+T
+         Vzhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JVuD1SEH9j6xQZfwKcaG3XOgu0AppkKN1XsLVZ+4O4k=;
+        b=Gp0VzmiOj59Q58tHEmh5Bfw+tmVl5N4zbqYI1qR/77EDmdX0JVfDYhgAc3htbbgVn1
+         B+fNTl8fqu7t0bYvHuJb1mLtxMT0slFIZGHRDigcl52zaAH/E23hqJ9U+qxGVOF8uq65
+         OhiA0jPZDbTEeWFBpQkx+qUIFzcfu1N6EGWq4Xu+Z/jgfBg7Cnmv5QBD82t6vnl226eD
+         EoynVADSElQzxYOaYA/e/PWbDIggixSa6n6YYV8w1NQdau1r1Q6VA9/Du2z4/AdGEHRR
+         TMYdj17L3uwBT4asZXQJ90wPiE0VF9atmplgeFDWMtOXwuoU3lEQt8DS2qacNSZTrXgQ
+         XW2g==
+X-Gm-Message-State: APf1xPDVk9Mu7MV0rufCqBW0GwsmQLuh/bpDqbrqp05SD5JjyUgm4NN3
+        bSdGl/X8nfO6MJbRz2xF4xA=
+X-Google-Smtp-Source: AG47ELsEOr67qGtUqlBYLGqPGeWBAqGfBU83OBNqE+wC2hM85szE1b39tBjr1vrSLUVYeFUVjVC5qQ==
+X-Received: by 10.46.71.12 with SMTP id u12mr3307359lja.79.1519981415620;
+        Fri, 02 Mar 2018 01:03:35 -0800 (PST)
+Received: from huvuddator (ua-213-113-106-221.cust.bredbandsbolaget.se. [213.113.106.221])
+        by smtp.gmail.com with ESMTPSA id n11sm1238548lje.15.2018.03.02.01.03.34
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 02 Mar 2018 01:03:35 -0800 (PST)
+Date:   Fri, 2 Mar 2018 10:03:26 +0100
+From:   Ulf Magnusson <ulfalizer@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Rich Felker <dalias@libc.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        X86 ML <x86@kernel.org>, Paul Mackerras <paulus@samba.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Weinberger <richard@nod.at>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Emese Revfy <re.emese@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        uml-devel <user-mode-linux-devel@lists.sourceforge.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Peter Oberparleiter <oberpar@linux.vnet.ibm.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        user-mode-linux-user@lists.sourceforge.net,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH 00/23] kconfig: move compiler capability tests to Kconfig
+Message-ID: <20180302090326.h55wontzv3traxnn@huvuddator>
+References: <1518806331-7101-1-git-send-email-yamada.masahiro@socionext.com>
+ <20180218221352.GA6651@ravnborg.org>
+ <CAFkk2KT1krKuDkWt0eHcasfC61fTVQNf-1kqw7icLP9OYGYkXQ@mail.gmail.com>
+ <CAK7LNAQH0WD3A3T97gce0xmZpMy0zWxTO2StfNWaDbiqjQg8gg@mail.gmail.com>
+ <CAK8P3a2BOQt5Y0B4271WqaJvvWqfxHxD3S6r1i1xONvb+CJ5Dg@mail.gmail.com>
+ <CAK7LNARtZcW1v53ridFJK1MULmj8tQT4s+DoRhKj9PrbMri5rQ@mail.gmail.com>
+ <CAK8P3a1DrhxWXaEs6E85W5HEhvFr23E-GDsu=0X-sG0pX+PLag@mail.gmail.com>
+ <CAK7LNAR3OMh9Q9ZfaBq=FpSJ-+DT5-RH_20ohV-iu34pX9hFKw@mail.gmail.com>
+ <20180221213946.w4v6ywy7fbiy6oyc@huvuddator>
+ <CAK7LNARd-9KNRTHT3jrNganqLisheAWbDQMGi_ujp+1GpYzSOg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87r2p4hod7.fsf@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAK7LNARd-9KNRTHT3jrNganqLisheAWbDQMGi_ujp+1GpYzSOg@mail.gmail.com>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 28.02.2018 22:04, Jani Nikula wrote:
-> On Wed, 28 Feb 2018, Thierry Reding <thierry.reding@gmail.com> wrote:
->> Anyone that needs something other than normal mode should use the new
->> atomic PWM API.
+On Fri, Mar 02, 2018 at 02:50:39PM +0900, Masahiro Yamada wrote:
+> 2018-02-22 6:39 GMT+09:00 Ulf Magnusson <ulfalizer@gmail.com>:
+> > On Wed, Feb 21, 2018 at 09:57:03PM +0900, Masahiro Yamada wrote:
+> >> 2018-02-21 19:52 GMT+09:00 Arnd Bergmann <arnd@arndb.de>:
+> >> > On Wed, Feb 21, 2018 at 11:20 AM, Masahiro Yamada
+> >> > <yamada.masahiro@socionext.com> wrote:
+> >> >> 2018-02-21 18:56 GMT+09:00 Arnd Bergmann <arnd@arndb.de>:
+> >> >>> On Wed, Feb 21, 2018 at 8:38 AM, Masahiro Yamada
+> >> >>> <yamada.masahiro@socionext.com> wrote:
+> >> >>>> 2018-02-20 0:18 GMT+09:00 Ulf Magnusson <ulfalizer@gmail.com>:
+> >> >>
+> >> >> Let me clarify my concern.
+> >> >>
+> >> >> When we test the compiler flag, is there a case
+> >> >> where a particular flag depends on -m{32,64} ?
+> >> >>
+> >> >> For example, is there a compiler that supports -fstack-protector
+> >> >> for 64bit mode, but unsupports it for 32bit mode?
+> >> >>
+> >> >>   $(cc-option -m32)                     ->  y
+> >> >>   $(cc-option -m64)                     ->  y
+> >> >>   $(cc-option -fstack-protector)        ->  y
+> >> >>   $(cc-option -m32 -fstack-protector)   ->  n
+> >> >>   $(cc-option -m64 -fstack-protector)   ->  y
+> >> >>
+> >> >> I guess this is unlikely to happen,
+> >> >> but I am not whether it is zero possibility.
+> >> >>
+> >> >> If this could happen,
+> >> >> $(cc-option ) must be evaluated together with
+> >> >> correct bi-arch option (either -m32 or -m64).
+> >> >>
+> >> >>
+> >> >> Currently, -m32/-m64 is specified in Makefile,
+> >> >> but we are moving compiler tests to Kconfig
+> >> >> and, CONFIG_64BIT can be dynamically toggled in Kconfig.
+> >> >
+> >> > I don't think it can happen for this particular combination (stack protector
+> >> > and word size), but I'm sure we'll eventually run into options that
+> >> > need to be tested in combination. For the current CFLAGS_KERNEL
+> >> > setting, we definitely have the case of needing the variables to be
+> >> > evaluated in a specific order.
+> >> >
+> >>
+> >>
+> >>
+> >>
+> >> I was thinking of how we can handle complex cases
+> >> in the current approach.
+> >>
+> >>
+> >>
+> >> (Case 1)
+> >>
+> >> Compiler flag -foo and -bar interacts, so
+> >> we also need to check the combination of the two.
+> >>
+> >>
+> >> config CC_HAS_FOO
+> >>         def_bool $(cc-option -foo)
+> >>
+> >> config CC_HAS_BAR
+> >>         def_bool $(cc-option -bar)
+> >>
+> >> config CC_HAS_FOO_WITH_BAR
+> >>         def_bool $(cc-option -foo -bar)
+> >>
+> >>
+> >>
+> >> (Case 2)
+> >> Compiler flag -foo is sensitive to word-size.
+> >> So, we need to test this option together with -m32/-m64.
+> >> User can toggle CONFIG_64BIT, like i386/x86_64.
+> >>
+> >>
+> >> config CC_NEEDS_M64
+> >>           def_bool $(cc-option -m64) && 64BIT
+> >>
+> >> config CC_NEEDS_M32
+> >>           def_bool $(cc-option -m32) && !64BIT
+> >>
+> >> config CC_HAS_FOO
+> >>          bool
+> >>          default $(cc-option -m64 -foo) if CC_NEEDS_M64
+> >>          default $(cc-option -m32 -foo) if CC_NEEDS_M32
+> >>          default $(cc-option -foo)
+> >>
+> >>
+> >>
+> >> (Case 3)
+> >> Compiler flag -foo is sensitive to endian-ness.
+> >>
+> >>
+> >> config CC_NEEDS_BIG_ENDIAN
+> >>           def_bool $(cc-option -mbig-endian) && CPU_BIG_ENDIAN
+> >>
+> >> config CC_NEEDS_LITTLE_ENDIAN
+> >>           def_bool $(cc-option -mlittle-endian) && CPU_LITTLE_ENDIAN
+> >>
+> >> config CC_HAS_FOO
+> >>          bool
+> >>          default $(cc-option -mbig-endian -foo) if CC_NEEDS_BIG_ENDIAN
+> >>          default $(cc-option -mlittle-endian -foo) if CC_NEEDS_LITTLE_ENDIAN
+> >>          default $(cc-option -foo)
+> >>
+> >>
+> >>
+> >>
+> >> Hmm, I think I can implement those somehow.
+> >> But, I hope we do not have many instances like this...
+> >>
+> >>
+> >> If you know more naive cases, please share your knowledge.
+> >>
+> >> Thanks!
+> >>
+> >>
+> >> --
+> >> Best Regards
+> >> Masahiro Yamada
+> >
+> > Would get pretty bad if a test needs to consider multiple symbols.
+> > Exponential explosion there...
+> >
+> >
+> > I thought some more about the implementation of dynamic (post-parsing)
+> > functions to see how bad it would get with the current implementation.
+> >
+> > Some background on how things work now:
+> >
+> >   1. All expression operands in Kconfig are symbols.
+> >
+> >   2. Returning '$ENV' or '$(fn foo)' as a T_WORD during parsing gets
+> >      you symbols with those strings as names and S_UNKNOWN type (because
+> >      they act like references to undefined symbols).
+> >
+> >   3. For "foo-$(fn foo)", you also get a symbol with that string as its
+> >      name and S_UNKNOWN type (stored among the SYMBOL_CONST symbols)
+> >
+> >   4. Symbols with S_UNKNOWN type get their name as their string value,
+> >      and the tristate value n.
+> >
+> > So, if you do string expansion on the names of symbols with S_UNKNOWN
+> > type in sym_calc_value(), you're almost there with the current
+> > implementation, except for the tristate case.
+> >
+> > Maybe you could set the tristate value of S_UNKNOWN symbols depending on
+> > the string value you end up with. Things are getting pretty confusing at
+> > that point.
+> >
+> > Could have something like S_DYNAMIC as well. More Kconfig complexity...
+> >
+> > Then there's other complications:
+> >
+> >   1. SYMBOL_CONST is no longer constant.
+> >
+> >   2. Dependency loop detection needs to consider symbol references
+> >      within strings.
+> >
+> >   3. Dependency loop detection relies on static knowledge of what
+> >      symbols a symbol depends on. That might get messy for certain
+> >      expansions, though it might be things you wouldn't do in practice.
+> >
+> >   4. Symbols still need to be properly invalidated. It looks like at
+> >      least menuconfig just does a dumb invalidate-everything whenever
+> >      the value of a symbol is changed though, so it might not require
+> >      extra work. (Bit messier in Kconfiglib, which does minimal
+> >      invalidation to keep scripts fast, but just need to extract a few
+> >      extra deps there.)
+> >
+> >
+> > It looks like dynamic functions could get quite messy, but might be
+> > doable if absolutely required. There's probably more devils in the
+> > details though.
+> >
+> > I don't think the static function model precludes switching models later
+> > btw, when people have more experience.
 > 
-> At the risk of revealing my true ignorance, what is the new atomic PWM
-> API? Where? Examples of how one would convert old code over to the new
-> API?
-As far as I know, the old PWM core code uses config(), set_polarity(),
-enable(), disable() methods of driver, registered as pwm_ops:
-struct pwm_ops {
+> 
+> 
+> I really want to start with the static function model
+> and see if we need the dynamic function implementation.
 
-        int (*request)(struct pwm_chip *chip, struct pwm_device *pwm);
+Yeah, let's start with static functions, IMO.
 
-        void (*free)(struct pwm_chip *chip, struct pwm_device *pwm);
+Either we'll learn that they're powerful enough in practice, and save
+ourselves some work, or we'll gain experience for later. Converting from
+static to dynamic functions should be painless, if needed.
 
-        int (*config)(struct pwm_chip *chip, struct pwm_device *pwm,
+My plan would be something like:
 
-                      int duty_ns, int period_ns);
+  1. Implement static functions
 
-        int (*set_polarity)(struct pwm_chip *chip, struct pwm_device *pwm,
+  2. Convert as many simple cases over to them as possible
 
-                            enum pwm_polarity polarity);
-
-        int (*capture)(struct pwm_chip *chip, struct pwm_device *pwm,
-
-                       struct pwm_capture *result, unsigned long timeout);
-
-        int (*enable)(struct pwm_chip *chip, struct pwm_device *pwm);
-
-        void (*disable)(struct pwm_chip *chip, struct pwm_device *pwm);
-
-        int (*apply)(struct pwm_chip *chip, struct pwm_device *pwm,
-
-                     struct pwm_state *state);
-
-        void (*get_state)(struct pwm_chip *chip, struct pwm_device *pwm,
-
-                          struct pwm_state *state);
-
-#ifdef CONFIG_DEBUG_FS
-
-        void (*dbg_show)(struct pwm_chip *chip, struct seq_file *s);
-
-#endif
-
-        struct module *owner;
-
-};
-
-
-to do settings on hardware. In order to so settings on a PWM the users
-should have been follow the below steps:
-->config()
-->set_polarity()
-->enable()
-Moreover, if the PWM was previously enabled it should have been first
-disable and then to follow the above steps in order to apply a new settings
-on hardware.
-The driver should have been provide, at probe, all the above function:
-->config(), ->set_polarity(), ->disable(), ->enable(), function that were
-used by PWM core.
-
-Now, having atomic PWM, the driver should provide one function to PWM core,
-which is ->apply() function. Every PWM has a state associated, which keeps
-the period, duty cycle, polarity and enable/disable status. The driver's
-->apply() function takes as argument the state that should be applied and
-it takes care of applying this new state directly without asking user to
-call ->disable(), then ->config()/->set_polarity(), then ->enable() to
-apply new hardware settings.
-
-The PWM consumer could set a new state for PWM it uses, using
-pwm_apply_state(pwm, new_state);
-
-Regarding the models to switch on atomic PWM, on the controller side you
-can check for drivers that registers apply function at probe time.
-Regarding the PWM users, you can look for pwm_apply_state()
-(drivers/hwmon/pwm-fan.c or drivers/input/misc/pwm-beeper.c are some examples).
-
-Thierry, please correct me if I'm wrong.
-
-Thank you,
-Claudiu Beznea
+  3. See how bad the bad cases get. If they get really bad, then decide
+     what to do next (extend Kconfig, handle them in the Makefiles,
+     etc.)
 
 > 
-> BR,
-> Jani.
+> Here is an idea for the migration path in case
+> we need to do that in the future.
 > 
+> 
+> 
+> Currently, every time user input is given,
+> sym_clear_all_valid() is called.
+> 
+> It is not efficient to blindly re-evaluate expensive $(shell ...)
+
+I think menuconfig only reevalutes the symbols in the menu that's
+currently shown in the interface (along with their dependencies).
+
+Maybe that'd be bad enough though.
+
+> 
+> 
+> So, have a list of symbols the function depends on
+> in its arguments.
+> 
+> For example,
+> 
+> config CC_HAS_SANE_STACKPROTECTOR
+>         def_bool $(shell $srctree/scripts/gcc-has-stack-protector.sh
+> $CC $(1), CFLAGS_BASE)
+> 
+> 
+> Here the first argument
+>   $srctree/scripts/gcc-x86-has-stack-protector.sh $CC $(1)
+> 
+> is the shell command.
+> $(1), $(2), ... will be replaced with the values of symbols (or expressions)
+> that follow when running the shell command.
+> 
+> 
+> The second argument
+> CFLAGS_BASE
+> is the dependency symbol (or expression).
+> 
+> 
+> CFLAGS_BASE can be dynamically changed like
+> 
+> config CFLAGS_BASE
+>         string
+>         default "-m64" if 64BIT
+>         default "-m32"
+> 
+> 
+> When and only when CFLAGS_BASE is updated, the function should be re-calculated.
+> (This will require efforts to minimize the amount of re-evaluation.)
+> 
+> 
+> 
+> 
+> cc-option will be implemented like follows:
+> 
+> macro cc-option $(shell $CC -Werror $$(1) $(1) -c -x c /dev/null -o
+> /dev/null, CFLAGS_BASE)
+> 
+> 
+> 
+> Please notice the difference between $$(1) and $(1).
+> 
+> $(1) is immediately expanded by cc-option macro.
+> 
+> $$(1) is escaped since we want to expand it by $(shell ...), not by
+> $(cc-option ...)
+> 
+> 
+> 
+> For example,
+> 
+>   $(cc-option -fstack-protector)
+> 
+> will be expanded to
+> 
+>   $(shell gcc -Werror $(1) -fstack-protector -c -x c /dev/null -o
+> /dev/null, CFLAGS_BASE)
+> 
+> Since macros are just textual shorthand, so this expansion happens
+> during the parse phase.
+> 
+> 
+> 
+> Then, the evaluation phase does the following every time CFLAGS_BASE is updated.
+> 
+> gcc -Werror [value of CFLAGS_BASE] -fstack-protector -c -x c /dev/null
+> -o /dev/null
+> 
+> 
+> This is a new form of expression, so it will be managed in AST tree
+> with a flag E_SHELL (or E_FUNC) etc.
+> 
+> 
+> Not implemented at all.  Just a rough sketch.
+
+A simpler syntax like
+
+	$(shell $CC -Werror {CFLAGS_BASE} -c -x c /dev/null -o /dev/null)
+
+might work as well. Then you wouldn't have to any double escaping, and
+having both $(1) and the value for it appear in the same place seems a
+bit redundant.
+
+I wonder if dependency management might get messy...
+
+Anyway, let's just go with static functions...
+
+Cheers,
+Ulf
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
