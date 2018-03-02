@@ -1,104 +1,205 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD,UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D53107E281
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Mar 2018 17:24:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5FA557E281
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Mar 2018 17:30:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1946099AbeCBRYH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Mar 2018 12:24:07 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:60614 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1945952AbeCBRYG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 12:24:06 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w22HMMAn096427;
-        Fri, 2 Mar 2018 17:24:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2017-10-26;
- bh=1tAGiDWGwsbe42HaB5t2qu7PvysKpn5Dahqk6trCC0Y=;
- b=beDS/UF4J0C3SXUl7gy4n/XUZW8DwBtfBdSnCE5uWyZgfejpi+xey/wZnrIXpHo85Qhn
- PKrN5Q7LnLfRqEWAk53w/SDgvi7NzygJQgRgx7eaZe6/weM+2qywOte0bvOZ+3iC9ptP
- VpMejBkcUU5tfguLvVi3olH86FzQyW5sIFfwOJRQ4c7pd68LU2aOb26fBjng5dgxPEVm
- VPa7ydG8uHVCFjeXBO7WANzSKi98Kro2BNQ47amr9vC6fAp9lBfjf9Q2HamkOwGX9lM9
- 2WYI8dIvOb/fdK8Djv+GuQs8uFzKqcvrJintXW5ZJILEU6Fu7WvrUFlNcqZLQS+bVaFY yA== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by userp2120.oracle.com with ESMTP id 2gf4mhstjh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 02 Mar 2018 17:24:03 +0000
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w22HO2Y3001440
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 2 Mar 2018 17:24:02 GMT
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w22HO2dg009147;
-        Fri, 2 Mar 2018 17:24:02 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 02 Mar 2018 09:24:02 -0800
-Date:   Fri, 2 Mar 2018 09:24:01 -0800
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     Masanari Iida <standby24x7@gmail.com>
-Cc:     linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] xfs: Change URL for the project in xfs.txt
-Message-ID: <20180302172401.GT19312@magnolia>
-References: <20180302133013.9744-1-standby24x7@gmail.com>
+        id S1424941AbeCBRa2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Mar 2018 12:30:28 -0500
+Received: from mail-pl0-f68.google.com ([209.85.160.68]:41130 "EHLO
+        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1424482AbeCBRa0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 12:30:26 -0500
+Received: by mail-pl0-f68.google.com with SMTP id k8-v6so6055011pli.8;
+        Fri, 02 Mar 2018 09:30:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding:user-agent;
+        bh=MlwqGeWm+30Gcz4ESfQ5RJ13l1zwKyXd8hmqynLVt7U=;
+        b=u/SaX+AOgAYVB4HVRE7BaQ+8bEpTDnuQ0g1lIf1zutpnoX2ZjwLHQjUxhsSLiafCeU
+         rm4GmukT7BBKLNVIny/mY+BO1M1wQHtK4YjsOZ/5VzsfdJgCJZBzryYyH6oDmD15/T67
+         8xTSWI0iL27rYak5J5XGACswXQVWI9t1zNloPWszg1dDNxNc5uwGCrYX94jBmUlhTbdA
+         f1ddBs1yCtf+qTEnBx2G43zfxrOud5IB4GwwCEsBcxcdsfIPsRYPkPdoylB604fFtcD0
+         jDvxBzsx3cOWC2cNdg1qFAeLlWmY8hE/XAQ9I3BQrbCsrehRcjOabCDXbpr6Zt2QWGOc
+         u9HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding:user-agent;
+        bh=MlwqGeWm+30Gcz4ESfQ5RJ13l1zwKyXd8hmqynLVt7U=;
+        b=SmuVvuf9Lp+JLcv+YcDN25P/z40LcxgWi9DEkJkP6Nxyr9iMYxmJeZJ0L+ONoojgds
+         vHOzpW+d/u6prqp+ZmuN54gVpEuw51/KXun9I3fGvkQ4m36InSUHg90A0C64PsnmORHC
+         +zNblzCwLG8PFfvbYm8NuSDqFGmF0frX2PXYwas2V5NkJVK7timoGAzMafSevpTHJyOp
+         TOa7yR53qyp4XiN9jQsvq/7OTR7hxV6pBBP0hqu6YEwEzcE3ylyW//KqO5tZDKglLs2C
+         rsKi/JBG4v2p/UzKT1re+lQCo4NI2O+oze3b+BqWGlN/NRUpZpiKiiZORWV7u0wZv2eq
+         mXSQ==
+X-Gm-Message-State: APf1xPB4KoXXUBEHUq/Kvgc2tXZiksUHqbjU2x3qJaMGC+AmWYl8AEDc
+        C5L5zu4QjAICKbTuoPpnzsY=
+X-Google-Smtp-Source: AG47ELvnKpOPD6lI3E9ZFOgw+vEw5Hs151/cvor9LGvYchCYCKA6JNvHmR5t4LN4LaNXs6E4WnGYlQ==
+X-Received: by 2002:a17:902:7045:: with SMTP id h5-v6mr5945160plt.217.1520011825937;
+        Fri, 02 Mar 2018 09:30:25 -0800 (PST)
+Received: from mordor.localdomain ([183.82.17.184])
+        by smtp.gmail.com with ESMTPSA id n14sm14480742pfj.154.2018.03.02.09.30.21
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 02 Mar 2018 09:30:24 -0800 (PST)
+Date:   Fri, 2 Mar 2018 23:00:19 +0530
+From:   Aishwarya Pant <aishpant@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     Julia Lawall <julia.lawall@lip6.fr>, linux-doc@vger.kernel.org
+Subject: [PATCH] Input: trackpoint: document sysfs interface
+Message-ID: <20180302173019.GA27660@mordor.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20180302133013.9744-1-standby24x7@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8820 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=8 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1711220000 definitions=main-1803020205
+Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 02, 2018 at 10:30:13PM +0900, Masanari Iida wrote:
-> The oss.sgi.com doesn't exist any more.
-> Change it to current project URL, https://xfs.wiki.kernel.org/
-> 
-> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
-> ---
->  Documentation/filesystems/xfs.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.txt
-> index 3b9b5c149f32..4d9ff0a7f8e1 100644
-> --- a/Documentation/filesystems/xfs.txt
-> +++ b/Documentation/filesystems/xfs.txt
-> @@ -9,7 +9,7 @@ variable block sizes, is extent based, and makes extensive use of
->  Btrees (directories, extents, free space) to aid both performance
->  and scalability.
->  
-> -Refer to the documentation at http://oss.sgi.com/projects/xfs/
-> +Refer to the documentation at https://xfs.wiki.kernel.org/
->  for further details.  This implementation is on-disk compatible
->  with the IRIX version of XFS.
+Descriptions have been collected from git commit logs, code commits and
+the TrackPoint System Version 4.0 Engineering Specification.
 
-Looks ok,
-Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
+Signed-off-by: Aishwarya Pant <aishpant@gmail.com>
+---
+ .../ABI/testing/sysfs-devices-platform-trackpoint  | 115 +++++++++++++++++++++
+ 1 file changed, 115 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-platform-trackpoint
 
---D
+diff --git a/Documentation/ABI/testing/sysfs-devices-platform-trackpoint b/Documentation/ABI/testing/sysfs-devices-platform-trackpoint
+new file mode 100644
+index 000000000000..df11901a6b3d
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-devices-platform-trackpoint
+@@ -0,0 +1,115 @@
++What:		/sys/devices/platform/i8042/.../sensitivity
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Trackpoint sensitivity.
++
++What:		/sys/devices/platform/i8042/.../intertia
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Negative inertia factor. High values cause the cursor to
++		snap backward when the trackpoint is released.
++
++What:		/sys/devices/platform/i8042/.../reach
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Backup range for z-axis press.
++
++What:		/sys/devices/platform/i8042/.../draghys
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) The drag hysteresis controls how hard it is to drag with
++		z-axis pressed.
++
++What:		/sys/devices/platform/i8042/.../mindrag
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Minimum amount of force needed to trigger dragging.
++
++What:		/sys/devices/platform/i8042/.../speed
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Speed of the trackpoint cursor.
++
++What:		/sys/devices/platform/i8042/.../thresh
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Minimum value for z-axis force required to trigger a press
++		or release, relative to the running average.
++
++What:		/sys/devices/platform/i8042/.../upthresh
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) The offset from the running average required to generate a
++		select (click) on z-axis on release.
++
++What:		/sys/devices/platform/i8042/.../ztime
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) This attribute determines how sharp a press has to be in
++		order to be recognized.
++
++What:		/sys/devices/platform/i8042/.../jenks
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Minimum curvature in degrees required to generate a double
++		click without a release.
++
++What:		/sys/devices/platform/i8042/.../skipback
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) When the skipback bit is set, backup cursor movement during
++		releases from drags will be suppressed. The default value for
++		this bit is 0.
++
++What:		/sys/devices/platform/i8042/.../ext_dev
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Disable (0) or enable (1) external pointing device.
++
++What:		/sys/devices/platform/i8042/.../press_to_select
++Date:		Aug, 2005
++KernelVersion:	2.6.14
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) Writing a value of 1 to this file will enable the Press to
++		Select functions like tapping the control stick to simulate a
++		left click, and writing 0 will disable it.
++
++What:		/sys/devices/platform/i8042/.../drift_time
++Date:		Dec, 2014
++KernelVersion:	3.19
++Contact:	linux-input@vger.kernel.org
++Description:
++		(RW) This parameter controls the period of time to test for a
++		‘hands off’ condition (i.e. when no force is applied) before a
++		drift (noise) calibration occurs.
++
++		IBM Trackpoints have a feature to compensate for drift by
++		recalibrating themselves periodically. By default, if for 0.5
++		seconds there is no change in position, it's used as the new
++		zero. This duration is too low. Often, the calibration happens
++		when the trackpoint is in fact being used.
+-- 
+2.16.2
 
->  
-> -- 
-> 2.16.2.345.g7e31236f652a
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-xfs" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
