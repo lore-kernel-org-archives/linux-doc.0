@@ -5,135 +5,401 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0ACF67E281
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Mar 2018 00:04:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A2E947E281
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Mar 2018 00:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935198AbeCCAEv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Mar 2018 19:04:51 -0500
-Received: from mail-ve1eur01on0125.outbound.protection.outlook.com ([104.47.1.125]:17882
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S933567AbeCCAEt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Mar 2018 19:04:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=WchCIPa3ItWTNxDptmOKX7aQfOxfFFREGe61yd73dWA=;
- b=IIsISkByCAHgPQfFtOfffROikjkLe00/YWNV2jcfqLOH4MskIhBlws+kVVQzLhequTT0c+W70pCqUqKtbKIxzyG53g/XmFkyhYVYFDJrkajj9KioqWod1Z9bLlWDn+VYVa+glz8E5Pdpk2pVMRX/TQ4sTEewP+wOpFnv12X1dog=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=peda@axentia.se; 
-Received: from [192.168.13.3] (85.226.244.23) by
- AM4PR0202MB2770.eurprd02.prod.outlook.com (2603:10a6:200:8c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.548.13; Sat, 3
- Mar 2018 00:04:46 +0000
-Subject: Re: [PATCH v2 0/2] mux: add overview and add to driver-api docs
-From:   Peter Rosin <peda@axentia.se>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20171212084633.532-1-peda@axentia.se>
- <20171221143519.29ca0b97@lwn.net>
- <4fc09b21-6226-5b82-a841-cb4bf1334a5c@axentia.se>
-Organization: Axentia Technologies AB
-Message-ID: <0dff116f-0710-824a-2033-516a22a4d08d@axentia.se>
-Date:   Sat, 3 Mar 2018 01:04:42 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S935329AbeCCASq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Mar 2018 19:18:46 -0500
+Received: from mail-oi0-f68.google.com ([209.85.218.68]:46577 "EHLO
+        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932890AbeCCASp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Mar 2018 19:18:45 -0500
+Received: by mail-oi0-f68.google.com with SMTP id x12so8288657oie.13
+        for <linux-doc@vger.kernel.org>; Fri, 02 Mar 2018 16:18:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=LTl2rpoXD3Vbjs6NXBe6BMvqJIxhQKYMegZLjDLlvGY=;
+        b=KDaWqk0VdkIMjOV4tuPaQJlaazLoTKpdV4+47A72B0+hPE/NsJasYgf+tFzqIU3luD
+         ipTUR9IVvxjEt1II6WOu5kP+psprJ99nwDplOBg2V3qetzDVgaJxsDYK6cUd4A5+ymTM
+         8cGme0oh67g+UDXLPd5YLBqdYLHQXdtchCck8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=LTl2rpoXD3Vbjs6NXBe6BMvqJIxhQKYMegZLjDLlvGY=;
+        b=N0moPOPA78nRkJIJZSr6lDeYPnvbDcEqVefdAXVOZ/pqIP2o5rW4PJHIv3X/r7yEcd
+         YnOcMhJ+OrT9Gbfdh71rIsWQDlTkse/Jq4XGrmbuvtLfVFDNxrv7PO/0NieOm7PwL2s/
+         WLW6CxRYKNbVDOAJhRDadN2pPET2sDGMljxZlhC1FxJ/TJC+srJ3JSzAR9Y1SzIlc3oh
+         uIhpJOfFKUFFVKzqpslaVpYWkyRduJUYNmcjcqmWwGHcrwPxn8aV3JmlNMp/C0TECqSJ
+         xnr+n+2C4qpZz7azKJf7WeVVVLosXsD0UyNLm+FP7nuDs2v0IsBwx4nqVItIYY3auxGK
+         5S2A==
+X-Gm-Message-State: APf1xPDAUdgR9y0NE2PiWfRGCc/TZStz1U0W+WCJFgYbdlR9Rn9X2nu9
+        6Wrt7pHPICwrfFii/PRC5k4oxnw/++w=
+X-Google-Smtp-Source: AG47ELt3bmopdNbHt22VZ+4c3esfE/XqbS19OzHHQ5CimPfGjMS9X/SFKfbgdoLrsKVdyIuuWnBQmQ==
+X-Received: by 10.202.83.73 with SMTP id h70mr4582833oib.154.1520036324054;
+        Fri, 02 Mar 2018 16:18:44 -0800 (PST)
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com. [209.85.218.44])
+        by smtp.gmail.com with ESMTPSA id i4sm3571159oib.36.2018.03.02.16.18.43
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 02 Mar 2018 16:18:43 -0800 (PST)
+Received: by mail-oi0-f44.google.com with SMTP id c18so8282783oiy.9
+        for <linux-doc@vger.kernel.org>; Fri, 02 Mar 2018 16:18:43 -0800 (PST)
+X-Received: by 10.202.17.6 with SMTP id 6mr4480172oir.266.1520035960558; Fri,
+ 02 Mar 2018 16:12:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4fc09b21-6226-5b82-a841-cb4bf1334a5c@axentia.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [85.226.244.23]
-X-ClientProxiedBy: HE1PR0902CA0032.eurprd09.prod.outlook.com
- (2603:10a6:7:15::21) To AM4PR0202MB2770.eurprd02.prod.outlook.com
- (2603:10a6:200:8c::20)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 37c29634-9dd6-4292-c84a-08d5809a5ff7
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(7021125)(5600026)(4604075)(4534165)(7022125)(4603075)(4627221)(201702281549075)(7048125)(7024125)(7027125)(7028125)(7023125)(2017052603307)(7153060)(7193020);SRVR:AM4PR0202MB2770;
-X-Microsoft-Exchange-Diagnostics: 1;AM4PR0202MB2770;3:3eOyoe9ipblHtpN0lScI9A1kjI2Dh7ylp1tEChdQs0UgrQwIg9A4MnrotOkOKJIzg0vKjzCWTpulGr9ytAbyUfwqj1OysYWET9/3LZyh6kqL6WZ8VGK3aSAvVXiL643X9GEN7aBJtWTOxPjcnOmKsOcH/q+Gw8kkefAmG9EJGXGeWAR8dhvMPtKTnD+uR5hX+WOKVYLvBlBs0XgAqKSzf+LLvjZcsuYYbwmMzL0xcwFzm0mVhUbFh3mzFGtg26MZ;25:GlK/46e02RbNXtWJFoDE3JYKzFxaA9tIpNyL/7C1g1bqlklu7y0HQcUnOXp0ECNzJ7vjTgV77I3hnZpV+9riplhLxxrN+DIcXOY+/P0vJfIQ4Iwo/j6G+qGcWonAzxbUQu2FzDM6MVpPqrmoNBA3hxHxMj3Lh+M09Kj06q8uQHnVg8ySZlbWEHDpIYxAzLUkLTzPx0G75p3+KR780DjmRWVzazvrBbCf3E06rQfVVwXzlxC5nxpYJBsa+A6zXcREUP0xlHwOhqAe0+4hD+pU4uSwDeksRZsNiu9E/A7dBHvIpj3c3pMpDVE4kkb334aLQNyZ0C/50Mcwlyc3fD9m0g==;31:WH87oJWM5fIhgswRnYlQNiAHztmEY7G75MqqTbgKw4hbJXMgwsb4fv34N6/W4bRE5FchAd8xQ55CoZyw+dXU0DJC0PUSmTU+vNOmRbGxR/xLCavLTLXGuf/FHtUBoAyEOjGr62Jw3pCNB6Gpe9h+3ltC/tWOOtDA0aAK0HVZm+p6V0hJU+IAu0bwPkuHSMdSg1JGLVRRigJ0L3C4cr/lzo1H1+icHXRsmjAes/oCvsg=
-X-MS-TrafficTypeDiagnostic: AM4PR0202MB2770:
-X-Microsoft-Exchange-Diagnostics: 1;AM4PR0202MB2770;20:xQgIiOWHyg07P226X2Nv2+NjnrALQVUqvhpPjAJnz25VsMs/UtjYI3K576HszNubjZzbYktD3TDwIH9r79p+1ijEE9pV4VCFENq5AEb+F6WWVthd5gACqJfNdRyRKQKPZHw4mPefh90e1jFNd3m4cvdFYvnMLtsWpLNS64R0ALM=;4:fbo44rYML1Zqsfug7VJy0Bo1W1zVqD6VbXaEoz/zH32VhO7V369wD0fe6WKRS4DYnF5NFqOQWB8bZHSS5vbK5GwM3SSOMc1yfOGJeurVBi8l+EgRBDISU7oNoCF1Nd1GAn9aa8eP74mudcPMiQugF5xcAzA/Ze1nmthmFYODg+SUxAexbOaSYpoFcu/9iq69swkiLGKWylFLYph8ogEGSdxhchimBmOqVl7vwTIz+5TWriqxGneLdcg08Q/lB39mdC+EHiX2TmSETXD0d03Xww==
-X-Microsoft-Antispam-PRVS: <AM4PR0202MB2770B94A1D08A4B099B1D371BCC40@AM4PR0202MB2770.eurprd02.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(6040501)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231220)(944501244)(52105095)(10201501046)(3002001)(6041288)(20161123560045)(2016111802025)(20161123564045)(20161123562045)(20161123558120)(6043046)(6072148)(201708071742011);SRVR:AM4PR0202MB2770;BCL:0;PCL:0;RULEID:;SRVR:AM4PR0202MB2770;
-X-Forefront-PRVS: 0600F93FE1
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(6049001)(346002)(39830400003)(376002)(366004)(396003)(39380400002)(377424004)(189003)(199004)(51444003)(65806001)(86362001)(65956001)(2486003)(81156014)(53936002)(52146003)(23676004)(66066001)(8676002)(52116002)(47776003)(25786009)(478600001)(3260700006)(36916002)(6486002)(81166006)(6246003)(8936002)(4326008)(68736007)(2906002)(106356001)(16526019)(97736004)(64126003)(31686004)(316002)(305945005)(4001150100001)(7736002)(6116002)(74482002)(229853002)(186003)(65826007)(5660300001)(77096007)(386003)(230700001)(53546011)(6666003)(3846002)(58126008)(50466002)(76176011)(6916009)(2950100002)(117156002)(36756003)(105586002)(26005)(31696002)(16576012)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:AM4PR0202MB2770;H:[192.168.13.3];FPR:;SPF:None;PTR:InfoNoRecords;MX:1;A:1;LANG:en;
-Received-SPF: None (protection.outlook.com: axentia.se does not designate
- permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtBTTRQUjAyMDJNQjI3NzA7MjM6QVZYS1J1MjNRWndRbnhtd3M2K3dFejdt?=
- =?utf-8?B?T0xteHZ3S05nWThzeUFLSWR0RXV3OTRPdm9hL29TVFh3bG01TmVaUnJvSHNR?=
- =?utf-8?B?TVNtRVpmaTlZWUhRd0E4ZGUzWUFKSDNjWEtHNGNaSjVwSGJKK0NZUURnMW4z?=
- =?utf-8?B?NGRBZjBkUDBhL3U5SldwcWh4RHQzc2lKN2JGSENJK0VNTEppR3o3VXFWbEdE?=
- =?utf-8?B?SGFYU3B1My9XLzNUYXdhQllIQWhCVXAwUWhXMGtuM1dJdXlVdlJ6YmFuK1BJ?=
- =?utf-8?B?N1RZcEdWcjBjMTZrdmhoaFlSTEl2VTBhN3lGM0NhSjBsRTNlS0JURkZrQXZB?=
- =?utf-8?B?MXQ4QjNqTDNVNnBTSmNvN0ZFNCtmbmFCNUREWXlNNkxpM1pEYkVKRmFNRjR4?=
- =?utf-8?B?ZVZsTjRsSmoxUHFDZ1ZNb3dGU2E4OHlHWjNQTEo1cHduNmFCZCtTbGcwWjBj?=
- =?utf-8?B?RHkvMEtxb2Qvd2NzeFVFaVVTMjlBRVdCVitRRm1JQy9VL2lRVXplVnZlNzZm?=
- =?utf-8?B?OGpRcVFCYnZVcVBlNTloQVJUYi9VR2dZUzdJVnR3Q0p1VzdLUUN2NkNPQjMv?=
- =?utf-8?B?RktqZ01aWk5hV1FXZnFlRTc5ZW9ZRU4rVm03NWFUNFB2OVVlcUs2NndHSHU4?=
- =?utf-8?B?SGlEUWdCZXEvSzd2bnV4R3ZqanVaNFZtQkVnRUNhZWRsVFZIcFhwc2VWaTE2?=
- =?utf-8?B?ZTIrcnRrd2hiOTZtVUZ1NHplRnhpNHdQWlY3MEl1VlhGMm84NGhFYkZiUjFr?=
- =?utf-8?B?eUcrVURBRnRqOENrbllhM3NxNzQzRFlvbUtsMEF2UTNnc3l1ZStkSnpJM2VZ?=
- =?utf-8?B?R0JtMm9PazRxODhnZW1CZHdoMFAvOXNoQUhBQWR6UVNhZXBLZnQrcGo3Tmg2?=
- =?utf-8?B?TFpkWlQ0d25KaGgra1dwS2IybDVZK2FJSFpTR0J4d3Z6c3lFN2lrTHRJMDE1?=
- =?utf-8?B?R2NJbzdpbk9GR1BLSHB6cDlJRk9vQk10aDBaR2ozZ3JzRXBVZ2hZcVMwY0Zq?=
- =?utf-8?B?UFRoOEM5aE0za3VlVTdMalZ4Y2N2a0pnTTB4T3V2RjVxc0tUT3czNWVWSXNn?=
- =?utf-8?B?T0I4bndsSjF6VUJ0aFBieDBDY29Fdkp3ZFNtTERUUmllbmw4S0hCSEpWMWtH?=
- =?utf-8?B?SmZFU3F2cE5HcHF2eGY4MEl4M09RME1LbUREQVpDc2R0QTFPYVFKNktrWlBF?=
- =?utf-8?B?ZVl3N3dYcHJwRmdWbzJpOHJNZTNFMzNDQldEcGJKdnUwb1oyR3hpNmNKd1p1?=
- =?utf-8?B?SGxSN01mOGhuTXRseW94SElnYXZtaGFBOTBkdEdxaUFFRWljZGJRL2EzTzlF?=
- =?utf-8?B?NlZCNHFvMnNiM3NsR0N3ZzFtY0dOckZvSldNU1Jldk45NTdzS09SQTk2b3pC?=
- =?utf-8?B?ZXp2YXpiUS9PQ2FpelhCRm1XVGRUdjNPVXFXYkNUd2R6YzArR0svTXFYSG8w?=
- =?utf-8?B?Z203OVZ5MFBteUZSRTczOEZjUGkremRsMzEvV250V0htaTJ1SzdRem1lNXI4?=
- =?utf-8?B?NUNSYkcvSWpWNmdGM2JKZitCSmxTc1hSdktCZlYvZWxxMDl4Z3VicmNkbUFh?=
- =?utf-8?B?TGl2ZjBIZXA5Wi9xTXRYVW16WWV6bEt2K3A0S0lnRTdTZS9adGdXUU55aHF1?=
- =?utf-8?B?MXRSSC9IK2JDWGUyWVp1V3FjSmg2S1Q0TUxoQUNnWHU5bXBkNVBoTlRnQ3A1?=
- =?utf-8?B?T0tsdkc3eElBekpKa0M5YjE1NW1xaXNLQ21JYU0vQmZXT29lWXdTejc1UFVI?=
- =?utf-8?B?OGVsZ0RIUWt3bzZtdnpncmRnamxjeHdDSWVzVFIxZkhQaHQ2U3crVitlVFZG?=
- =?utf-8?B?T1JWU0hqaStZU3VvYXhvSGNxZmZFaXN2dWlsN1pTUWtUREUvdks4bldkakJR?=
- =?utf-8?B?TGRsT0I4ajEreUZpbEd3blJjcncyNjB0eDZWWmJZZjgzR0RFVWcraHVYTHpG?=
- =?utf-8?B?YVAxeUFOakEwOURTSWZ2YUF2Q2dXS0FnQnR2L0ZJNXY2S0ZjSHdyWXNVQlI5?=
- =?utf-8?B?QVRxNW5NY2RKWS9SUEZuYzc1TVpUN3Y4aXRnTU94VHRpNmt6U2MwM0FYVmNF?=
- =?utf-8?Q?MtUz2ydHVmLOQqTxsd/+L3FwL0o?=
-X-Microsoft-Exchange-Diagnostics: 1;AM4PR0202MB2770;6:umrG7lFoy/TrklKr+Ax0sI/HQPbwFW/sC4cSxk9oZnUHOrdjrrNOHnDz5aebb9nzTStOp79ryEluTunktOyEL72ngK3+hr+qs4XK2RR2GxZjI0aVtqiGyBX8s3NX2jzQkQtkOg4oK+kDBZxr7WI70PrOrAEK3IXqCKLUEPUk0Ymi2Vdple9os33JtLnbPoTmd+ve7+SXkTWCDcILyO1LIH7rOQPR/ZoXIZ8EzySCvNe3t4dqXy0Yf406Rct0+6hxb0W37T2NNOTIzpPZ9klfGCz8Vz56E8vrSeHppVF4u/dOzgz8WI7q/jmRrnYMozmope3VC68mznZ8c1zRmR4VvHZ3xX47lZXNeQY4XVF7LO4=;5:xa/z6o5ghqnnm6hggkz3CqDoJ5if3Kp/+MH83oRjzywwBfQc7pQ3mVMFA+TyvTTSuK8oF4Rffxm1OWqvalznFHZZ4OzYqKuKiG+THqNgTzv/43dE7hwaHlZQcDh1hFRHanPNjWXxOCaEz3sS7sSpYPdDqeSIomIw2J0TyzTUaLk=;24:p+Tvu5kWKadIqaETQaMMloltDu17GHAYjeCT8agC21cpH+qXZ4fAxAUIhx3/d1Mg62UH0ybkVVwjyZZSj+dBODhhSB6/HdiK42+aBrm/IBE=;7:Cr/7jXAiN/8SsTGP8SNLUvboMH8ud3D+bp7zHWASWcDr8lCZRcidK7ZFkw4hiaElHKdC6bj7KhXDFJ/WvmpNjmbZL+eMm0rwUIW4l/sQx/aJuHxgMIvzRHe98P7pJtSnDv2twODip3iwl0+jmtyB4aHx5v0TxstwTdm3ygdnYtwtkd6TfLUJEYYqBH5Ye01JZlspWAWTbg+6oC+DNj3PW/Av9eeONkkJygp559r2JeDOuep5k8GpKG+0ngh4h5zk
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2018 00:04:46.3373 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37c29634-9dd6-4292-c84a-08d5809a5ff7
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0202MB2770
+Received: by 10.157.14.33 with HTTP; Fri, 2 Mar 2018 16:11:59 -0800 (PST)
+In-Reply-To: <1519781889-16117-5-git-send-email-kramasub@codeaurora.org>
+References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org> <1519781889-16117-5-git-send-email-kramasub@codeaurora.org>
+From:   Evan Green <evgreen@chromium.org>
+Date:   Fri, 2 Mar 2018 16:11:59 -0800
+X-Gmail-Original-Message-ID: <CAE=gft4Hwqq2gx+b9AmiX1ZZBrSt1Ca2E48JV77wpcQQT0060w@mail.gmail.com>
+Message-ID: <CAE=gft4Hwqq2gx+b9AmiX1ZZBrSt1Ca2E48JV77wpcQQT0060w@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: msm_geni_serial: Add serial driver
+ support for GENI based QUP
+To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>, robh+dt@kernel.org,
+        mark.rutland@arm.com, wsa@the-dreams.de,
+        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
+        jslaby@suse.com, acourbot@chromium.org,
+        Girish Mahadevan <girishm@codeaurora.org>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Doug Anderson <dianders@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2017-12-21 23:11, Peter Rosin wrote:
-> On 2017-12-21 22:35, Jonathan Corbet wrote:
->> On Tue, 12 Dec 2017 09:46:31 +0100
->> Peter Rosin <peda@axentia.se> wrote:
->>
->>> Changes since v1:
->>> - added a short introductory paragraph to mux.rst
->>> - added an entry in MAINTAINERS.
->>>
->>> I forgot to mention that this applies on top of linux-next, I suspect
->>> there will be a trivial conflict with an SPDX conversion in mux/core.c
->>> on Linus upstream.
->>
->> Sorry, I've had this just sitting here for a bit.  Did you want me to take
->> both patches through the docs tree?
-> 
-> I think that's going to be easiest, thanks! Let me know if you want me
-> to rebase them to something w/o the SPDX change.
+Hello Karthik,
 
-Hi,
+On Tue, Feb 27, 2018 at 5:38 PM, Karthikeyan Ramasubramanian
+<kramasub@codeaurora.org> wrote:
+> This driver supports GENI based UART Controller in the Qualcomm SOCs. The
+> Qualcomm Generic Interface (GENI) is a programmable module supporting a
+> wide range of serial interfaces including UART. This driver support console
+> operations using FIFO mode of transfer.
+>
+> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
+> Signed-off-by: Doug Anderson <dianders@google.com>
+> ---
+>  drivers/tty/serial/Kconfig            |   11 +
+>  drivers/tty/serial/Makefile           |    1 +
+>  drivers/tty/serial/qcom_geni_serial.c | 1181 +++++++++++++++++++++++++++++++++
+>  3 files changed, 1193 insertions(+)
+>  create mode 100644 drivers/tty/serial/qcom_geni_serial.c
+>
+> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+> index 3682fd3..c6b1500 100644
+> --- a/drivers/tty/serial/Kconfig
+> +++ b/drivers/tty/serial/Kconfig
+> @@ -1104,6 +1104,17 @@ config SERIAL_MSM_CONSOLE
+>         select SERIAL_CORE_CONSOLE
+>         select SERIAL_EARLYCON
+>
+> +config SERIAL_QCOM_GENI
+> +       bool "QCOM on-chip GENI based serial port support"
+> +       depends on ARCH_QCOM
+> +       depends on QCOM_GENI_SE
 
-Gentle ping...
+My understanding is that this has to be "bool" because there's a
+console in there, and consoles cannot be built as modules. Stephen is
+suggesting splitting this option up into two, so you could have serial
+with or without the console. That's fine, and probably the preferred
+way. However, you do want to make sure that if serial (or what's soon
+to be serial+console) is enabled, that QCOM_GENI_SE has to be built
+=y, and not =m. I'd suggest "select QCOM_GENI_SE" in the new
+SERIAL_QCOM_GENI_CONSOLE (or whatever it's called). As it is now, if
+SERIAL_QCOM_GENI=y and QCOM_GENI_SE=m, there's a build failure.
 
-Cheers,
-Peter
+GENI_SE is allowed to be built as a module if serial is not enabled
+and I2C is built as a module. In order to keep the dependency arrows
+going in the same direction, you might want the I2C driver to "select
+QCOM_GENI_SE" as well, in order to upgrade GENI_SE to y if I2C is y.
+
+> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/serial/qcom_geni_serial.c
+> new file mode 100644
+> index 0000000..8536b7d
+> --- /dev/null
+> +++ b/drivers/tty/serial/qcom_geni_serial.c
+> @@ -0,0 +1,1181 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (c) 2017-2018, The Linux foundation. All rights reserved.
+> +
+> +#include <linux/console.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/qcom-geni-se.h>
+> +#include <linux/serial.h>
+> +#include <linux/serial_core.h>
+> +#include <linux/slab.h>
+> +#include <linux/tty.h>
+> +#include <linux/tty_flip.h>
+> +
+> +/* UART specific GENI registers */
+> +#define SE_UART_TX_TRANS_CFG           0x25c
+> +#define SE_UART_TX_WORD_LEN            0x268
+> +#define SE_UART_TX_STOP_BIT_LEN                0x26c
+> +#define SE_UART_TX_TRANS_LEN           0x270
+> +#define SE_UART_RX_TRANS_CFG           0x280
+> +#define SE_UART_RX_WORD_LEN            0x28c
+> +#define SE_UART_RX_STALE_CNT           0x294
+> +#define SE_UART_TX_PARITY_CFG          0x2a4
+> +#define SE_UART_RX_PARITY_CFG          0x2a8
+> +
+> +/* SE_UART_TRANS_CFG */
+> +#define UART_TX_PAR_EN         BIT(0)
+> +#define UART_CTS_MASK          BIT(1)
+> +
+> +/* SE_UART_TX_WORD_LEN */
+> +#define TX_WORD_LEN_MSK                GENMASK(9, 0)
+> +
+> +/* SE_UART_TX_STOP_BIT_LEN */
+> +#define TX_STOP_BIT_LEN_MSK    GENMASK(23, 0)
+> +#define TX_STOP_BIT_LEN_1      0
+> +#define TX_STOP_BIT_LEN_1_5    1
+> +#define TX_STOP_BIT_LEN_2      2
+> +
+> +/* SE_UART_TX_TRANS_LEN */
+> +#define TX_TRANS_LEN_MSK       GENMASK(23, 0)
+> +
+> +/* SE_UART_RX_TRANS_CFG */
+> +#define UART_RX_INS_STATUS_BIT BIT(2)
+> +#define UART_RX_PAR_EN         BIT(3)
+> +
+> +/* SE_UART_RX_WORD_LEN */
+> +#define RX_WORD_LEN_MASK       GENMASK(9, 0)
+> +
+> +/* SE_UART_RX_STALE_CNT */
+> +#define RX_STALE_CNT           GENMASK(23, 0)
+> +
+> +/* SE_UART_TX_PARITY_CFG/RX_PARITY_CFG */
+> +#define PAR_CALC_EN            BIT(0)
+> +#define PAR_MODE_MSK           GENMASK(2, 1)
+> +#define PAR_MODE_SHFT          1
+> +#define PAR_EVEN               0x00
+> +#define PAR_ODD                        0x01
+> +#define PAR_SPACE              0x10
+> +#define PAR_MARK               0x11
+> +
+> +/* UART M_CMD OP codes */
+> +#define UART_START_TX          0x1
+> +#define UART_START_BREAK       0x4
+> +#define UART_STOP_BREAK                0x5
+> +/* UART S_CMD OP codes */
+> +#define UART_START_READ                0x1
+> +#define UART_PARAM             0x1
+> +
+> +#define UART_OVERSAMPLING      32
+> +#define STALE_TIMEOUT          16
+> +#define DEFAULT_BITS_PER_CHAR  10
+> +#define GENI_UART_CONS_PORTS   1
+> +#define DEF_FIFO_DEPTH_WORDS   16
+> +#define DEF_TX_WM              2
+> +#define DEF_FIFO_WIDTH_BITS    32
+> +#define UART_CONSOLE_RX_WM     2
+> +
+> +#ifdef CONFIG_CONSOLE_POLL
+> +#define RX_BYTES_PW 1
+> +#else
+> +#define RX_BYTES_PW 4
+> +#endif
+
+This seems fishy to me. Does either setting work? If so, why not just
+have one value?
+
+> +static bool qcom_geni_serial_poll_bit(struct uart_port *uport,
+> +                               int offset, int bit_field, bool set)
+> +{
+> +       u32 reg;
+> +       struct qcom_geni_serial_port *port;
+> +       unsigned int baud;
+> +       unsigned int fifo_bits;
+> +       unsigned long timeout_us = 20000;
+> +
+> +       /* Ensure polling is not re-ordered before the prior writes/reads */
+> +       mb();
+> +
+> +       if (uport->private_data) {
+> +               port = to_dev_port(uport, uport);
+> +               baud = port->cur_baud;
+> +               if (!baud)
+> +                       baud = 115200;
+> +               fifo_bits = port->tx_fifo_depth * port->tx_fifo_width;
+> +               /*
+> +                * Total polling iterations based on FIFO worth of bytes to be
+> +                * sent at current baud .Add a little fluff to the wait.
+> +                */
+> +               timeout_us = ((fifo_bits * USEC_PER_SEC) / baud) + 500;
+
+This fluff is a little mysterious, can it be explained at all? Do you
+think the fluff factor is in units of time (as you have it) or bits?
+Time makes sense I guess if we're worried about clock source
+differences.
+
+> +
+> +static void qcom_geni_serial_console_write(struct console *co, const char *s,
+> +                             unsigned int count)
+> +{
+> +       struct uart_port *uport;
+> +       struct qcom_geni_serial_port *port;
+> +       bool locked = true;
+> +       unsigned long flags;
+> +
+> +       WARN_ON(co->index < 0 || co->index >= GENI_UART_CONS_PORTS);
+> +
+> +       port = get_port_from_line(co->index);
+> +       if (IS_ERR(port))
+> +               return;
+> +
+> +       uport = &port->uport;
+> +       if (oops_in_progress)
+> +               locked = spin_trylock_irqsave(&uport->lock, flags);
+> +       else
+> +               spin_lock_irqsave(&uport->lock, flags);
+> +
+> +       if (locked) {
+> +               __qcom_geni_serial_console_write(uport, s, count);
+> +               spin_unlock_irqrestore(&uport->lock, flags);
+
+I too am a little lost on the locking here. What exactly is the lock
+protecting? Looks like for the most part it's trying to synchronize
+with the ISR? What specifically in the ISR? I just wanted to go
+through and check to make sure whatever the shared resource is is
+appropriately protected.
+
+> +       }
+> +}
+> +
+> +static int handle_rx_console(struct uart_port *uport, u32 rx_bytes, bool drop)
+> +{
+> +       u32 i = rx_bytes;
+> +       u32 rx_fifo;
+> +       unsigned char *buf;
+> +       struct tty_port *tport;
+> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
+> +
+> +       tport = &uport->state->port;
+> +       while (i > 0) {
+> +               int c;
+> +               int bytes = i > port->rx_bytes_pw ? port->rx_bytes_pw : i;
+
+Please replace this with a min macro.
+
+> +static int qcom_geni_serial_handle_tx(struct uart_port *uport)
+> +{
+> +       int ret = 0;
+> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
+> +       struct circ_buf *xmit = &uport->state->xmit;
+> +       size_t avail;
+> +       size_t remaining;
+> +       int i = 0;
+> +       u32 status;
+> +       unsigned int chunk;
+> +       int tail;
+> +
+> +       chunk = uart_circ_chars_pending(xmit);
+> +       status = readl_relaxed(uport->membase + SE_GENI_TX_FIFO_STATUS);
+> +       /* Both FIFO and framework buffer are drained */
+> +       if ((chunk == port->xmit_size) && !status) {
+> +               port->xmit_size = 0;
+> +               uart_circ_clear(xmit);
+> +               qcom_geni_serial_stop_tx(uport);
+> +               goto out_write_wakeup;
+> +       }
+> +       chunk -= port->xmit_size;
+> +
+> +       avail = (port->tx_fifo_depth - port->tx_wm) * port->tx_bytes_pw;
+> +       tail = (xmit->tail + port->xmit_size) & (UART_XMIT_SIZE - 1);
+> +       if (chunk > (UART_XMIT_SIZE - tail))
+> +               chunk = UART_XMIT_SIZE - tail;
+> +       if (chunk > avail)
+> +               chunk = avail;
+> +
+> +       if (!chunk)
+> +               goto out_write_wakeup;
+> +
+> +       qcom_geni_serial_setup_tx(uport, chunk);
+> +
+> +       remaining = chunk;
+> +       while (i < chunk) {
+> +               unsigned int tx_bytes;
+> +               unsigned int buf = 0;
+> +               int c;
+> +
+> +               tx_bytes = min_t(size_t, remaining, (size_t)port->tx_bytes_pw);
+> +               for (c = 0; c < tx_bytes ; c++)
+> +                       buf |= (xmit->buf[tail + c] << (c * BITS_PER_BYTE));
+> +
+> +               writel_relaxed(buf, uport->membase + SE_GENI_TX_FIFOn);
+> +
+> +               i += tx_bytes;
+> +               tail = (tail + tx_bytes) & (UART_XMIT_SIZE - 1);
+> +               uport->icount.tx += tx_bytes;
+> +               remaining -= tx_bytes;
+> +       }
+> +       qcom_geni_serial_poll_tx_done(uport);
+> +       port->xmit_size += chunk;
+> +out_write_wakeup:
+> +       uart_write_wakeup(uport);
+> +       return ret;
+> +}
+
+This function can't fail, please change the return type to void.
+
+> +
+> +static void qcom_geni_serial_shutdown(struct uart_port *uport)
+> +{
+> +       unsigned long flags;
+> +
+> +       /* Stop the console before stopping the current tx */
+> +       console_stop(uport->cons);
+> +
+> +       disable_irq(uport->irq);
+> +       free_irq(uport->irq, uport);
+> +       spin_lock_irqsave(&uport->lock, flags);
+> +       qcom_geni_serial_stop_tx(uport);
+> +       qcom_geni_serial_stop_rx(uport);
+> +       spin_unlock_irqrestore(&uport->lock, flags);
+
+This is one part of where I'm confused. What are we protecting here
+with the lock? disable_irq waits for any pending ISRs to finish
+according to its comment, so you know you're not racing with the ISR.
+
+> +static void geni_serial_write_term_regs(struct uart_port *uport,
+> +               u32 tx_trans_cfg, u32 tx_parity_cfg, u32 rx_trans_cfg,
+> +               u32 rx_parity_cfg, u32 bits_per_char, u32 stop_bit_len,
+> +               u32 s_clk_cfg)
+> +{
+> +       writel_relaxed(tx_trans_cfg, uport->membase + SE_UART_TX_TRANS_CFG);
+> +       writel_relaxed(tx_parity_cfg, uport->membase + SE_UART_TX_PARITY_CFG);
+> +       writel_relaxed(rx_trans_cfg, uport->membase + SE_UART_RX_TRANS_CFG);
+> +       writel_relaxed(rx_parity_cfg, uport->membase + SE_UART_RX_PARITY_CFG);
+> +       writel_relaxed(bits_per_char, uport->membase + SE_UART_TX_WORD_LEN);
+> +       writel_relaxed(bits_per_char, uport->membase + SE_UART_RX_WORD_LEN);
+> +       writel_relaxed(stop_bit_len, uport->membase + SE_UART_TX_STOP_BIT_LEN);
+> +       writel_relaxed(s_clk_cfg, uport->membase + GENI_SER_M_CLK_CFG);
+> +       writel_relaxed(s_clk_cfg, uport->membase + GENI_SER_S_CLK_CFG);
+> +}
+> +
+
+I agree with Stephen's comment, this should be inlined into the single
+place it's called from.
+
+Thanks Karthik!
+-Evan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
