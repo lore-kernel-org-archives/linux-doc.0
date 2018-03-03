@@ -1,188 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=DATE_IN_FUTURE_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 546897E281
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Mar 2018 08:05:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5B977E244
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Mar 2018 15:38:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751814AbeCCIDy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 3 Mar 2018 03:03:54 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:43897 "EHLO huawei.com"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751811AbeCCIDv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Mar 2018 03:03:51 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 4351D3FFEA109;
-        Sat,  3 Mar 2018 16:03:47 +0800 (CST)
-Received: from localhost.localdomain (10.143.28.90) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.361.1; Sat, 3 Mar 2018 16:03:39 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <rkrcmar@redhat.com>, <corbet@lwn.net>,
-        <christoffer.dall@linaro.org>, <marc.zyngier@arm.com>,
-        <james.morse@arm.com>, <linux@armlinux.org.uk>,
-        <catalin.marinas@arm.com>, <rjw@rjwysocki.net>, <bp@alien8.de>,
-        <lenb@kernel.org>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>, <linux-acpi@vger.kernel.org>,
-        <devel@acpica.org>
-CC:     <gengdongjiu@huawei.com>, <huangshaoyu@huawei.com>
-Subject: [PATCH v10 4/5] ACPI / APEI: Add SEI notification type support for ARMv8
-Date:   Sun, 4 Mar 2018 00:09:39 +0800
-Message-ID: <1520093380-42577-5-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1520093380-42577-1-git-send-email-gengdongjiu@huawei.com>
-References: <1520093380-42577-1-git-send-email-gengdongjiu@huawei.com>
+        id S1752127AbeCCPip (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 3 Mar 2018 10:38:45 -0500
+Received: from mail-qt0-f181.google.com ([209.85.216.181]:41383 "EHLO
+        mail-qt0-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751898AbeCCPio (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Mar 2018 10:38:44 -0500
+Received: by mail-qt0-f181.google.com with SMTP id j4so15513120qth.8;
+        Sat, 03 Mar 2018 07:38:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=OhqI+ncdWMh3XI5dM3E+YX02o36cRbHV5wuOA7QlTmc=;
+        b=GJy28f6Y/e0dYlEUpX75zEVZjXmwh4ROOTe+Q6E9BlUMVRWV6h1WIUihBz8an/cVA7
+         jCIZ8Esq+C6xecl05r7f5SAb6h1ZCpDLk6Cvy3xJsqMHTrAu82kz7v/En3nMHAzmMRVj
+         XqJEGqp53FXq7l4SAtsVQGpd6+W8on5+myVoRK6m1gol93EIWInJgP8o1XTNJNYq+fUO
+         IW4cAtj33zPVkzuWwepN8/xscag78I8fOcOn6gsF43ZqhgeLzTrOTnfElu8au7vL6JGV
+         hyROkJ4H8Y8un+eErph2ECBTjdsCLWtCNJMD84TNency+Cq9uQSL+pbGgqYBDhgGNOlL
+         UepA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=OhqI+ncdWMh3XI5dM3E+YX02o36cRbHV5wuOA7QlTmc=;
+        b=UwnSJ8mjsf/BdW4P4D/mvL5Zirvh8b+QdhLHrfxZ3I69dJkRtZDQz8PKR+CMC3u97S
+         quqIxBvE3lzHsdFzDVqdVNfjfTiob2dxRaknfWJ4W0Cy5M0F6fduI6q4rrDfUbIyHu7t
+         Ohf6Gk0gplGjt1kLioqu9YiXNSB8SjWmuIQdW2x3xfL2pahkUtBjiAjHPEq67ZcnwkxS
+         CTkVHYoQO0RR3JLOttMXqJXiV+bEFfR4CHAE+YxFSmFhCPpUXR7++6SAzidUD6yCo0Z2
+         ZgStrfvUfDKnab8Ejj6V4HVGwErbcQ112qGbZRMId4nQwDt+UNnGeeuJS6tBbfcpTlt6
+         AGqQ==
+X-Gm-Message-State: AElRT7GLYtGpDk17MBaJkDcqjF+UEowhAOt65Nn5AuiFjaV1EC/zc/Dk
+        gNr0gZgZcpx459QWf8KLcoSjLV7FQB2tDr2YkOk=
+X-Google-Smtp-Source: AG47ELtMfAb6Zj/H+nmVkqnMIo/jzB7hOQ09hwVF4N+RQVcva0CXx500K0BccUmkEwak+mzcVDtUq+NjVUDyNQyqohY=
+X-Received: by 10.200.39.217 with SMTP id x25mr13630380qtx.266.1520091523613;
+ Sat, 03 Mar 2018 07:38:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.90]
-X-CFilter-Loop: Reflected
+Received: by 10.12.195.80 with HTTP; Sat, 3 Mar 2018 07:38:43 -0800 (PST)
+In-Reply-To: <CAE2855vbQyMwu8pmH-Sq1kA+=h5TJPWddTWPQoVdEqOn6sAyBw@mail.gmail.com>
+References: <20180301184335.248378-1-djkurtz@chromium.org> <CAHp75VfHuNHnjMqsvLZPSNeP57YX1CDZgf=EH-JNSh5bAVdUBA@mail.gmail.com>
+ <CAGS+omCfVUPb0yq3XOEqO_zQ0_uppkKaGhqtB0OqXmQDK9xH1Q@mail.gmail.com>
+ <CAHp75VfL82ujwBa1h0B8nEgBtFcBJPmS9ir7H5YWByDgxFGskA@mail.gmail.com> <CAE2855vbQyMwu8pmH-Sq1kA+=h5TJPWddTWPQoVdEqOn6sAyBw@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 3 Mar 2018 17:38:43 +0200
+Message-ID: <CAHp75Vcnuc48xb167hu5nz3iv9uSp2jRw+M-w=yBihex6RTXYQ@mail.gmail.com>
+Subject: Re: [PATCH v2] earlycon: Allow specifying a uartclk in options
+To:     Aaron Durbin <adurbin@chromium.org>
+Cc:     Daniel Kurtz <djkurtz@chromium.org>,
+        Brian Norris <briannorris@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Christoffer Dall <cdall@linaro.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Tom Saeger <tom.saeger@oracle.com>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        "Levin, Alexander (Sasha Levin)" <alexander.levin@verizon.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ACPI 6.x adds support for NOTIFY_SEI as a GHES notification
-mechanism, so add new GHES notification handling functions.
-Expose API ghes_notify_sei() to arch code, arch code will call
-this API when it gets this NOTIFY_SEI.
+On Thu, Mar 1, 2018 at 11:24 PM, Aaron Durbin <adurbin@chromium.org> wrote:
+> On Thu, Mar 1, 2018 at 1:02 PM, Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+>> On Thu, Mar 1, 2018 at 9:22 PM, Daniel Kurtz <djkurtz@chromium.org> wrote:
+>>> On Thu, Mar 1, 2018 at 11:47 AM Andy Shevchenko <andy.shevchenko@gmail.com>
+>>> wrote:
+>>
+>>> "earlycon simply does not utilize the information".
+>>>
+>>> earlycon parses iotype, mapbase and baud (from options).  However, it is
+>>> hard-coded to assume that the clock used to generate the UART bitclock is
+>>> always "BASE_BAUD * 16" (1843200).  While this may be true for many UARTs,
+>>> it isn't true for AMD's CZ/ST which has a 8250_dw and uses a fixed 48 MHz
+>>> clock.  The main 8250_dw driver uses devm_clk_get to get the "baudclk" and
+>>> uses its rate to initialize uartclk.  For AMD CZ/ST, this "baudclk" is
+>>> actually a set up in acpi_apd.c when there is an acpi match for "AMD0020",
+>>> with a rate read from the .fixed_clk_rate param of the corresponding
+>>> apd_device_desc.
+>>>
+>>> This patch attempts to add a way to inform earlycon about this clock.  As
+>>> noted above, the information is actually already in the kernel and used by
+>>> 8250_dw - I would happy be to hear recommendations for wiring this data
+>>> into earlycon that doesn't require adding another command line arg.
+>>
+>> And it should not require that for sure!
+>
+> But it does require that. There's an input clock to the uart ip block.
+> That is a design constraint by the hardware and is required to make
+> baud calculation work.
 
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
----
- drivers/acpi/apei/Kconfig | 15 ++++++++++++++
- drivers/acpi/apei/ghes.c  | 53 +++++++++++++++++++++++++++++++++++++++++++++++
- include/acpi/ghes.h       |  1 +
- 3 files changed, 69 insertions(+)
+I mean it should not be user's headache to provide this information to
+the system.
 
-diff --git a/drivers/acpi/apei/Kconfig b/drivers/acpi/apei/Kconfig
-index 52ae543..ff4afc3 100644
---- a/drivers/acpi/apei/Kconfig
-+++ b/drivers/acpi/apei/Kconfig
-@@ -55,6 +55,21 @@ config ACPI_APEI_SEA
- 	  option allows the OS to look for such hardware error record, and
- 	  take appropriate action.
- 
-+config ACPI_APEI_SEI
-+	bool "APEI SError(System Error) Interrupt logging/recovering support"
-+	depends on ARM64 && ACPI_APEI_GHES
-+	default y
-+	help
-+	  This option should be enabled if the system supports
-+	  firmware first handling of SEI (SError interrupt).
-+
-+	  SEI happens with asynchronous external abort for errors on device
-+	  memory reads on ARMv8 systems. If a system supports firmware first
-+	  handling of SEI, the platform analyzes and handles hardware error
-+	  notifications from SEI, and it may then form a hardware error record for
-+	  the OS to parse and handle. This option allows the OS to look for
-+	  such hardware error record, and take appropriate action.
-+
- config ACPI_APEI_MEMORY_FAILURE
- 	bool "APEI memory error recovering support"
- 	depends on ACPI_APEI && MEMORY_FAILURE
-diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-index 1efefe9..33f77ae 100644
---- a/drivers/acpi/apei/ghes.c
-+++ b/drivers/acpi/apei/ghes.c
-@@ -827,6 +827,46 @@ static inline void ghes_sea_add(struct ghes *ghes) { }
- static inline void ghes_sea_remove(struct ghes *ghes) { }
- #endif /* CONFIG_ACPI_APEI_SEA */
- 
-+#ifdef CONFIG_ACPI_APEI_SEI
-+static LIST_HEAD(ghes_sei);
-+
-+/*
-+ * Return 0 only if one of the SEI error sources successfully reported an error
-+ * record sent from the firmware.
-+ */
-+int ghes_notify_sei(void)
-+{
-+	struct ghes *ghes;
-+	int ret = -ENOENT;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(ghes, &ghes_sei, list) {
-+		if (!ghes_proc(ghes))
-+			ret = 0;
-+	}
-+	rcu_read_unlock();
-+	return ret;
-+}
-+
-+static void ghes_sei_add(struct ghes *ghes)
-+{
-+	mutex_lock(&ghes_list_mutex);
-+	list_add_rcu(&ghes->list, &ghes_sei);
-+	mutex_unlock(&ghes_list_mutex);
-+}
-+
-+static void ghes_sei_remove(struct ghes *ghes)
-+{
-+	mutex_lock(&ghes_list_mutex);
-+	list_del_rcu(&ghes->list);
-+	mutex_unlock(&ghes_list_mutex);
-+	synchronize_rcu();
-+}
-+#else /* CONFIG_ACPI_APEI_SEI */
-+static inline void ghes_sei_add(struct ghes *ghes) { }
-+static inline void ghes_sei_remove(struct ghes *ghes) { }
-+#endif /* CONFIG_ACPI_APEI_SEI */
-+
- #ifdef CONFIG_HAVE_ACPI_APEI_NMI
- /*
-  * printk is not safe in NMI context.  So in NMI handler, we allocate
-@@ -1055,6 +1095,13 @@ static int ghes_probe(struct platform_device *ghes_dev)
- 			goto err;
- 		}
- 		break;
-+	case ACPI_HEST_NOTIFY_SEI:
-+		if (!IS_ENABLED(CONFIG_ACPI_APEI_SEI)) {
-+			pr_warn(GHES_PFX "Generic hardware error source: %d notified via SEI is not supported!\n",
-+				generic->header.source_id);
-+		goto err;
-+	}
-+	break;
- 	case ACPI_HEST_NOTIFY_NMI:
- 		if (!IS_ENABLED(CONFIG_HAVE_ACPI_APEI_NMI)) {
- 			pr_warn(GHES_PFX "Generic hardware error source: %d notified via NMI interrupt is not supported!\n",
-@@ -1126,6 +1173,9 @@ static int ghes_probe(struct platform_device *ghes_dev)
- 	case ACPI_HEST_NOTIFY_SEA:
- 		ghes_sea_add(ghes);
- 		break;
-+	case ACPI_HEST_NOTIFY_SEI:
-+		ghes_sei_add(ghes);
-+		break;
- 	case ACPI_HEST_NOTIFY_NMI:
- 		ghes_nmi_add(ghes);
- 		break;
-@@ -1179,6 +1229,9 @@ static int ghes_remove(struct platform_device *ghes_dev)
- 	case ACPI_HEST_NOTIFY_SEA:
- 		ghes_sea_remove(ghes);
- 		break;
-+	case ACPI_HEST_NOTIFY_SEI:
-+		ghes_sei_remove(ghes);
-+		break;
- 	case ACPI_HEST_NOTIFY_NMI:
- 		ghes_nmi_remove(ghes);
- 		break;
-diff --git a/include/acpi/ghes.h b/include/acpi/ghes.h
-index 8feb0c8..9ba59e2 100644
---- a/include/acpi/ghes.h
-+++ b/include/acpi/ghes.h
-@@ -120,5 +120,6 @@ static inline void *acpi_hest_get_next(struct acpi_hest_generic_data *gdata)
- 	     section = acpi_hest_get_next(section))
- 
- int ghes_notify_sea(void);
-+int ghes_notify_sei(void);
- 
- #endif /* GHES_H */
+> It's not a firmware problem.
+
+If it's ACPI, then it's definitely firmware issue, since SPCR provides
+a baudrate.
+
+> Its the driver's problem in that it
+> assumes an input clock to the uart block that does not reflect
+> reality.
+
+So, driver can't get this info from device tree or what?
+
+>> Okay, configures a necessary IPs to feed UART with expected 1.8432M clock.
+>
+> That's only possible if there is a clock divider on the front end of
+> the uart block. For this hardware that's not the case. I actually did
+> this very thing on intel chromebook devices, but it was only possible
+> because there was a hardware divider that could be tuned to reach the
+> assumed clock that the code currently assumes.
+
+OK.
+
 -- 
-1.9.1
-
+With Best Regards,
+Andy Shevchenko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
