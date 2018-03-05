@@ -1,37 +1,50 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A3AEB7E653
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Mar 2018 21:50:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B78077E653
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Mar 2018 22:57:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932069AbeCEVu3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Mar 2018 16:50:29 -0500
-Received: from mga01.intel.com ([192.55.52.88]:5741 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752162AbeCEVu2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Mar 2018 16:50:28 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2018 13:50:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,428,1515484800"; 
-   d="scan'208";a="180115895"
-Received: from ray.jf.intel.com (HELO [10.7.201.16]) ([10.7.201.16])
-  by orsmga004.jf.intel.com with ESMTP; 05 Mar 2018 13:50:27 -0800
+        id S932417AbeCEW5G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Mar 2018 17:57:06 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:42678 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932084AbeCEW5E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Mar 2018 17:57:04 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w25MpeVk129315;
+        Mon, 5 Mar 2018 22:55:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2017-10-26;
+ bh=Ln22tMs8xb8ENpuiVbMbmg77nceMSQboGN5t913OGPo=;
+ b=dLyOWoJKF85U5bnB1QEfa1PsVTx816GvOT6PoesVJYKab4y7ZyQU6D4ywzyyGBhNjJ13
+ HDDL8VGnZE4uEU4+PvF9MwU+9ZvyFjCzulKJpr7jVAWIHQHk0Ifxgocu3l6m0WMddxGn
+ nu4mDfBt2a90KYXWMEQpOMiwevvzq94fQp/1miVlExf0OC+0AMgKfQcq61TzxlUDAGfA
+ 5yQXfrNDQFJN9ZyhJBSh0PQRdSGJ0Q3NBkkJKzmXex/ovGibr5pEULjqHYVnmsOgH6N5
+ DaVUmP1iCnYWYCpb4pdDixW0yzf5CGGr+uaPBUf+wubeW6PL+dyqXnFwXdQd4he/p0R+ aw== 
+Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
+        by userp2130.oracle.com with ESMTP id 2ghdxf8ahs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 05 Mar 2018 22:55:31 +0000
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w25MtT5G007035
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 5 Mar 2018 22:55:29 GMT
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w25MtQLE023253;
+        Mon, 5 Mar 2018 22:55:26 GMT
+Received: from [192.168.1.16] (/24.9.64.241)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 05 Mar 2018 14:55:26 -0800
 Subject: Re: [PATCH v12 10/11] sparc64: Add support for ADI (Application Data
  Integrity)
-To:     Khalid Aziz <khalid.aziz@oracle.com>, davem@davemloft.net,
+To:     Dave Hansen <dave.hansen@linux.intel.com>, davem@davemloft.net,
         akpm@linux-foundation.org
-References: <cover.1519227112.git.khalid.aziz@oracle.com>
- <d8602e35e65c8bf6df1a85166bf181536a6f3664.1519227112.git.khalid.aziz@oracle.com>
- <08ef65c1-16b3-44e7-5cc3-7b6bde7bd5a4@linux.intel.com>
- <b241c894-7751-bd01-2658-4cb6b89f7454@oracle.com>
-Cc:     corbet@lwn.net, bob.picco@oracle.com, steven.sistare@oracle.com,
+Cc:     corbet@lwn.net, steven.sistare@oracle.com,
         pasha.tatashin@oracle.com, mike.kravetz@oracle.com,
         rob.gardner@oracle.com, mingo@kernel.org, nitin.m.gupta@oracle.com,
         anthony.yznaga@oracle.com, kirill.shutemov@linux.intel.com,
@@ -49,64 +62,62 @@ Cc:     corbet@lwn.net, bob.picco@oracle.com, steven.sistare@oracle.com,
         ktkhai@virtuozzo.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         sparclinux@vger.kernel.org, Khalid Aziz <khalid@gonehiking.org>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Message-ID: <6d57c534-5696-e7a2-4b97-5521afcd072a@linux.intel.com>
-Date:   Mon, 5 Mar 2018 13:50:26 -0800
+References: <cover.1519227112.git.khalid.aziz@oracle.com>
+ <d8602e35e65c8bf6df1a85166bf181536a6f3664.1519227112.git.khalid.aziz@oracle.com>
+ <a59ece97-ba1f-dfb1-bfc8-b44ffd8edbca@linux.intel.com>
+ <84931753-9a84-8624-adb8-95bd05d87d56@oracle.com>
+ <8b0edd2e-3e9b-1148-6309-38b61307a523@linux.intel.com>
+From:   Khalid Aziz <khalid.aziz@oracle.com>
+Organization: Oracle Corp
+Message-ID: <fabf221c-02e2-f968-d107-b028701dd837@oracle.com>
+Date:   Mon, 5 Mar 2018 15:55:23 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ Thunderbird/52.5.0
 MIME-Version: 1.0
-In-Reply-To: <b241c894-7751-bd01-2658-4cb6b89f7454@oracle.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <8b0edd2e-3e9b-1148-6309-38b61307a523@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8823 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1711220000 definitions=main-1803050260
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/05/2018 01:37 PM, Khalid Aziz wrote:
->> How big can this storage get, btw?  Superficially it seems like it might
->> be able to be gigantic for a large, sparse VMA.
->>
-> Tags are stored only for the pages being swapped out, not for the pages
-> in entire vma. Each tag storage page can hold tags for 128 pages (each
-> page has 128 4-bit tags, hence 64 bytes are needed to store tags for an
-> entire page allowing each page to store tags for 128 pages). Sparse VMA
-> does not cause any problems since holes do not have corresponding pages
-> that will be swapped out. Tag storage pages are freed once all the pages
-> they store tags for have been swapped back in, except for a small number
-> of pages (maximum of 8) marked for emergency tag storage.
+On 03/05/2018 02:31 PM, Dave Hansen wrote:
+> On 03/05/2018 01:14 PM, Khalid Aziz wrote:
+>> Are you suggesting that vma returned by find_vma() could be split or
+>> merged underneath me if I do not hold mmap_sem and thus make the flag
+>> check invalid? If so, that is a good point.
+> 
+> This part does make me think that this code hasn't been tested very
+> thoroughly.  Could you describe the testing that you have done?  For MPX
+> and protection keys, I added something to tools/testing/selftests/x86,
+> for instance.
 
-With a linear scan holding a process-wide spinlock?  If you have a fast
-swap device, does this become the bottleneck when swapping ADI-tagged
-memory?
+This code was tested by a QA team and I ran a number of tests myself. I 
+wrote tests to exercise all of the API, induce exceptions for 
+invalid/illegal accesses and swapping was tested by allocating memory 
+2-4 times of the system RAM available across 4-8 threads and 
+reading/writing to this memory with ADI enabled. QA team wrote unit 
+tests to test each API with valid and invalid combinations of arguments 
+to the API. Stress tests that allocate and free ADI tagged memory were 
+also run. A version of database server was created that uses ADI tagged 
+memory for in-memory copy of database to test database workload. 100's 
+of hours of tests were run across these tests over the last 1+ year 
+these patches have been under review for. Cover letter includes 
+description of most of these tests. This code has held up through all of 
+these tests. It is entirely feasible some race conditions have not been 
+uncovered yet, just like any other piece of software. Pulling this code 
+into mainline kernel and having lot more people exercise this code will 
+help shake out any remaining issues.
 
-FWIW, this tag storage is complex and subtle enough code that it
-deserves to be in its own well-documented patch, not buried in a
-thousand-line patch.
-
-> +tag_storage_desc_t *find_tag_store(struct mm_struct *mm,
-> +				   struct vm_area_struct *vma,
-> +				   unsigned long addr)
-> +{
-> +	tag_storage_desc_t *tag_desc = NULL;
-> +	unsigned long i, max_desc, flags;
-> +
-> +	/* Check if this vma already has tag storage descriptor
-> +	 * allocated for it.
-> +	 */
-> +	max_desc = PAGE_SIZE/sizeof(tag_storage_desc_t);
-> +	if (mm->context.tag_store) {
-> +		tag_desc = mm->context.tag_store;
-> +		spin_lock_irqsave(&mm->context.tag_lock, flags);
-> +		for (i = 0; i < max_desc; i++) {
-> +			if ((addr >= tag_desc->start) &&
-> +			    ((addr + PAGE_SIZE - 1) <= tag_desc->end))
-> +				break;
-> +			tag_desc++;
-> +		}
-> +		spin_unlock_irqrestore(&mm->context.tag_lock, flags);
-
+Thanks,
+Khalid
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
