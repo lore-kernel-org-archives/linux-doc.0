@@ -1,107 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 416DB7E244
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Mar 2018 15:02:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72F4D7E653
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Mar 2018 19:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752545AbeCEPCI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Mar 2018 10:02:08 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:23104 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752522AbeCEPCG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Mar 2018 10:02:06 -0500
-Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com [209.85.213.42]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id w25F22IO007238;
-        Tue, 6 Mar 2018 00:02:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com w25F22IO007238
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1520262123;
-        bh=4IM/mp2icbT3fqE3x0I+/xPrY4kmKsV+PbwQFWVmq4A=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=DuriFyFqs1Zaikc78xcYmrdMS1EjGX+nRJSzrKyhLj5DW6GKvc/KqPguhNATGDuHA
-         F2ecGtZrcLoMthThPuabkwguHiNMPw8P1s9xgbc5pKH0qqyFLsu14BMINYUVJo5Oqi
-         4L3UlBi1/uNhQQIWj3YKQ9st5i0lCs70b8S9K9lLgkeRY59ljxYDqKDqZ52EhyZZqI
-         6Lz2hYi7Myduag5XD8pTUt1tE0ZOgYrteXhhMn7PFyl6oc6lu6sHcifGBRJ6JGciTC
-         mWvwfQaWKay1uQK5fvb7jWpFZLaMnaWCqaccMeTBotVNmwNL1vzY9198t6RTztDoqk
-         fahHEjB+rD4TA==
-X-Nifty-SrcIP: [209.85.213.42]
-Received: by mail-vk0-f42.google.com with SMTP id z190so10019283vkg.1;
-        Mon, 05 Mar 2018 07:02:03 -0800 (PST)
-X-Gm-Message-State: APf1xPAdxIPtnnx1c8VS9RrbIsLa0PyUpDsCObjAZUUZt4rH96CC/V6z
-        Ca+dOpx0PepZKczaGsLEnvhdPNsK3AvfFsFphxs=
-X-Google-Smtp-Source: AG47ELtkrGGLIuIL6eRqj3Q2yXZCx7c+JkKkh1mwqq+xQM/kmi20119cqStGLTVjf/A9h6ofyOiJaRisIwq6KvRn5o8=
-X-Received: by 10.31.33.68 with SMTP id h65mr10110126vkh.65.1520262122286;
- Mon, 05 Mar 2018 07:02:02 -0800 (PST)
+        id S1751893AbeCETWK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Mar 2018 14:22:10 -0500
+Received: from mga05.intel.com ([192.55.52.43]:42507 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751311AbeCETWJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Mar 2018 14:22:09 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2018 11:22:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,428,1515484800"; 
+   d="scan'208";a="32578687"
+Received: from ray.jf.intel.com (HELO [10.7.201.16]) ([10.7.201.16])
+  by orsmga003.jf.intel.com with ESMTP; 05 Mar 2018 11:22:08 -0800
+Subject: Re: [PATCH v12 10/11] sparc64: Add support for ADI (Application Data
+ Integrity)
+To:     Khalid Aziz <khalid.aziz@oracle.com>, davem@davemloft.net,
+        akpm@linux-foundation.org
+References: <cover.1519227112.git.khalid.aziz@oracle.com>
+ <d8602e35e65c8bf6df1a85166bf181536a6f3664.1519227112.git.khalid.aziz@oracle.com>
+Cc:     corbet@lwn.net, bob.picco@oracle.com, steven.sistare@oracle.com,
+        pasha.tatashin@oracle.com, mike.kravetz@oracle.com,
+        rob.gardner@oracle.com, mingo@kernel.org, nitin.m.gupta@oracle.com,
+        anthony.yznaga@oracle.com, kirill.shutemov@linux.intel.com,
+        tom.hromatka@oracle.com, allen.pais@oracle.com,
+        tklauser@distanz.ch, shannon.nelson@oracle.com,
+        vijay.ac.kumar@oracle.com, mhocko@suse.com, jack@suse.cz,
+        punit.agrawal@arm.com, hughd@google.com, thomas.tai@oracle.com,
+        ross.zwisler@linux.intel.com, dave.jiang@intel.com,
+        willy@infradead.org, minchan@kernel.org,
+        imbrenda@linux.vnet.ibm.com, aarcange@redhat.com,
+        kstewart@linuxfoundation.org, pombredanne@nexb.com,
+        tglx@linutronix.de, gregkh@linuxfoundation.org,
+        nagarathnam.muthusamy@oracle.com, linux@roeck-us.net,
+        jane.chu@oracle.com, dan.j.williams@intel.com, jglisse@redhat.com,
+        ktkhai@virtuozzo.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        sparclinux@vger.kernel.org, Khalid Aziz <khalid@gonehiking.org>
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Message-ID: <a59ece97-ba1f-dfb1-bfc8-b44ffd8edbca@linux.intel.com>
+Date:   Mon, 5 Mar 2018 11:22:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.176.32.138 with HTTP; Mon, 5 Mar 2018 07:01:21 -0800 (PST)
-In-Reply-To: <1519812864-852-1-git-send-email-yamada.masahiro@socionext.com>
-References: <1519812864-852-1-git-send-email-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 6 Mar 2018 00:01:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASzxVy1D48-aOTfwNRdMd48CSoJfe0hpvH=XXZL5czwmQ@mail.gmail.com>
-Message-ID: <CAK7LNASzxVy1D48-aOTfwNRdMd48CSoJfe0hpvH=XXZL5czwmQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: remove command line interface LDFLAGS_MODULE
- from makefiles.txt
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Robin Jarry <robin.jarry@6wind.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <d8602e35e65c8bf6df1a85166bf181536a6f3664.1519227112.git.khalid.aziz@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-02-28 19:14 GMT+09:00 Masahiro Yamada <yamada.masahiro@socionext.com>:
-> Documentation/kbuild/makefiles.txt lists variables used in Makefile
-> whereas Documentation/kbuild/kbuild.txt describes user assignable
-> parameters given via environments or the command line.
->
-> LDFLAGS_MODULE is a command line interface, so it should be dropped
-> from makefiles.txt.
->
-> Some lines below in this file, it is clearly explained that
-> KBUILD_LDFLAGS_MODULE is the right one for the internal use:
->
->     KBUILD_LDFLAGS_MODULE   Options for $(LD) when linking modules
->
->         $(KBUILD_LDFLAGS_MODULE) is used to add arch-specific options
->         used when linking modules. This is often a linker script.
->         From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
->
-> Then, kbuild.txt explains LDFLAGS_MODULE, like follows:
->
->     LDFLAGS_MODULE
->     --------------------------------------------------
->     Additional options used for $(LD) when linking modules.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
->
->  Documentation/kbuild/makefiles.txt | 6 ------
->  1 file changed, 6 deletions(-)
+On 02/21/2018 09:15 AM, Khalid Aziz wrote:
+> +#define arch_validate_prot(prot, addr) sparc_validate_prot(prot, addr)
+> +static inline int sparc_validate_prot(unsigned long prot, unsigned long addr)
+> +{
+> +	if (prot & ~(PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM | PROT_ADI))
+> +		return 0;
+> +	if (prot & PROT_ADI) {
+> +		if (!adi_capable())
+> +			return 0;
+> +
+> +		if (addr) {
+> +			struct vm_area_struct *vma;
+> +
+> +			vma = find_vma(current->mm, addr);
+> +			if (vma) {
+> +				/* ADI can not be enabled on PFN
+> +				 * mapped pages
+> +				 */
+> +				if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
+> +					return 0;
 
-
-Both applied to linux-kbuild/kbuild.
-
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+You don't hold mmap_sem here.  How can this work?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
