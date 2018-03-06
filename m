@@ -1,97 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F110F7E653
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Mar 2018 09:40:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD5CF7E653
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Mar 2018 12:40:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750859AbeCFJkR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Mar 2018 04:40:17 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:64310 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750819AbeCFJkP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Mar 2018 04:40:15 -0500
-Received: from mail-vk0-f53.google.com (mail-vk0-f53.google.com [209.85.213.53]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id w269eBra017331;
-        Tue, 6 Mar 2018 18:40:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com w269eBra017331
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1520329212;
-        bh=jZBOyA94/3EvSsFcuz6FfNHePMYS3ELvf0jmbnBVCS8=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=yAlf6/SMj2JSZfTzpvNsoQgJJ3uxbPIoVEqRP53Edj6AGFnAEM7ceGTT/AvBxmnvE
-         cq6R9Cy6fSSb/dWcN7efmKjDhnVjmHUpc6jC78MqpQiWa23p/a66HCf8C1hqEjXZRX
-         tE6AlpQSoRa68QYuoknQRoosE+t5Ki6I4+LWyKC/6xE8zrcAIcS0FaGXVXTEEtEB9o
-         /C/A2nR1/R3poQsYtLDyb0phuinXFt63YdgIHJcqwLvDbdw0AyrLonyKODoU8dgBKe
-         wrOWql0llUOYIqGaWP1yZUFA11ozrwRedT9dW+8CD8KvYTvYr4SmyfNWzsbZ+v+k7f
-         vrGBV0rDY1UeQ==
-X-Nifty-SrcIP: [209.85.213.53]
-Received: by mail-vk0-f53.google.com with SMTP id z190so11877905vkg.1;
-        Tue, 06 Mar 2018 01:40:11 -0800 (PST)
-X-Gm-Message-State: APf1xPAxClWhV8NOyNNqCWIcfqzjFy/8ulxhq2AfDAlrNIhRMmBG81mG
-        U/eIrrhu1HcYGAYWoQyQlhfz6030IMH9m4q8RnI=
-X-Google-Smtp-Source: AG47ELvEOXNnqi7fUuzweqXhmAQvW6iKZ8ib8iz7c8h6OoqVBIkjl3yBaokKO1reKoKhvfcQWbvI/wT44X4q2gTplIQ=
-X-Received: by 10.31.237.68 with SMTP id l65mr12370106vkh.11.1520329210775;
- Tue, 06 Mar 2018 01:40:10 -0800 (PST)
+        id S1753582AbeCFMkF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Mar 2018 07:40:05 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:60780 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753577AbeCFMkE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Mar 2018 07:40:04 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id F3EC080258; Tue,  6 Mar 2018 13:40:01 +0100 (CET)
+Date:   Tue, 6 Mar 2018 13:40:02 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     joel@jms.id.au, andrew@aj.id.au, arnd@arndb.de,
+        gregkh@linuxfoundation.org, jdelvare@suse.com, linux@roeck-us.net,
+        benh@kernel.crashing.org, andrew@lunn.ch,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org
+Subject: Re: [PATCH v2 2/8] [PATCH 2/8] Documentations: dt-bindings: Add a
+ document of PECI adapter driver for Aspeed AST24xx/25xx SoCs
+Message-ID: <20180306124002.GA13950@amd>
+References: <20180221161606.32247-1-jae.hyun.yoo@linux.intel.com>
+ <20180221161606.32247-3-jae.hyun.yoo@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.176.32.138 with HTTP; Tue, 6 Mar 2018 01:39:30 -0800 (PST)
-In-Reply-To: <1519886077-31914-2-git-send-email-yamada.masahiro@socionext.com>
-References: <1519886077-31914-1-git-send-email-yamada.masahiro@socionext.com> <1519886077-31914-2-git-send-email-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 6 Mar 2018 18:39:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARM_1fXyh8hnnAw7DGC97LZ7-pcriqWC9gQ4uSnU==Vpg@mail.gmail.com>
-Message-ID: <CAK7LNARM_1fXyh8hnnAw7DGC97LZ7-pcriqWC9gQ4uSnU==Vpg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] kconfig: rename silentoldconfig to syncconfig
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Marc Herbert <marc.herbert@intel.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        intel-wired-lan@lists.osuosl.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
+Content-Disposition: inline
+In-Reply-To: <20180221161606.32247-3-jae.hyun.yoo@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-03-01 15:34 GMT+09:00 Masahiro Yamada <yamada.masahiro@socionext.com>:
-> As commit cedd55d49dee ("kconfig: Remove silentoldconfig from help
-> and docs; fix kconfig/conf's help") mentioned, 'silentoldconfig' is a
-> historical misnomer.  That commit removed it from help and docs since
-> it is an internal interface.  If so, it should be allowed to rename
-> it to something more intuitive.  'syncconfig' is the one I came up
-> with because it updates the .config if necessary, then synchronize
-> include/generated/autoconf.h and include/config/* with it.
->
-> You should not manually invoke 'silentoldcofig'.  Display warning if
-> used in case existing scripts are doing wrong.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
+--IS0zKkzwUGydFO0o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 > ---
->
-> Changes in v3:
->   - Fix Documentation/networking/i40e.txt
->   - Display warning if silentoldconfig is used
->
-> Changes in v2:
->   - newly added
->
+>  .../devicetree/bindings/peci/peci-aspeed.txt       | 73 ++++++++++++++++=
+++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.txt
+>=20
+> diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.txt b/Doc=
+umentation/devicetree/bindings/peci/peci-aspeed.txt
+> new file mode 100644
+> index 000000000000..8a86f346d550
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/peci/peci-aspeed.txt
+> @@ -0,0 +1,73 @@
+> +Device tree configuration for PECI buses on the AST24XX and AST25XX SoCs.
 
-Both applied to linux-kbuild/kconfig.
+Are these SoCs x86-based?
 
+> +Required properties:
+> +- compatible
+> +	"aspeed,ast2400-peci" or "aspeed,ast2500-peci"
+> +	- aspeed,ast2400-peci: Aspeed AST2400 family PECI controller
+> +	- aspeed,ast2500-peci: Aspeed AST2500 family PECI controller
+> +
+> +- reg
+> +	Should contain PECI registers location and length.
 
--- 
-Best Regards
-Masahiro Yamada
+Other dts documents put it on one line, reg: Should contain ...
+
+> +- clock_frequency
+> +	Should contain the operation frequency of PECI hardware module.
+> +	187500 ~ 24000000
+
+specify this is Hz?
+
+> +- rd-sampling-point
+> +	Read sampling point selection. The whole period of a bit time will be
+> +	divided into 16 time frames. This value will determine which time frame
+> +	this controller will sample PECI signal for data read back. Usually in
+> +	the middle of a bit time is the best.
+
+English? "This value will determine when this controller"?
+
+> +	0 ~ 15 (default: 8)
+> +
+> +- cmd_timeout_ms
+> +	Command timeout in units of ms.
+> +	1 ~ 60000 (default: 1000)
+> +
+> +Example:
+> +	peci: peci@1e78b000 {
+> +		compatible =3D "simple-bus";
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <1>;
+> +		ranges =3D <0x0 0x1e78b000 0x60>;
+> +
+> +		peci0: peci-bus@0 {
+> +			compatible =3D "aspeed,ast2500-peci";
+> +			reg =3D <0x0 0x60>;
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +			interrupts =3D <15>;
+> +			clocks =3D <&clk_clkin>;
+> +			clock-frequency =3D <24000000>;
+> +			msg-timing-nego =3D <1>;
+> +			addr-timing-nego =3D <1>;
+> +			rd-sampling-point =3D <8>;
+> +			cmd-timeout-ms =3D <1000>;
+> +		};
+> +	};
+> \ No newline at end of file
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--IS0zKkzwUGydFO0o
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlqejCIACgkQMOfwapXb+vLaLQCcDjI/E5KqNtK+MwWD+At6Hvze
+Wb8An3DjmGPHUBCIvAPa11iSMb/A6KuP
+=YJ4Q
+-----END PGP SIGNATURE-----
+
+--IS0zKkzwUGydFO0o--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
