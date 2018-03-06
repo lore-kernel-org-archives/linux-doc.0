@@ -5,196 +5,93 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E20837E653
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Mar 2018 00:56:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F110F7E653
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Mar 2018 09:40:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932575AbeCFA4F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Mar 2018 19:56:05 -0500
-Received: from smtp.codeaurora.org ([198.145.29.96]:51004 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932430AbeCFA4D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Mar 2018 19:56:03 -0500
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id CAA3760A50; Tue,  6 Mar 2018 00:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1520297762;
-        bh=53cnAG7j7vaF5rWQwVl14Piyfwa7FH7Ray82DGLb+uc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dw2+eUqpAk1HOr4VzEPtxMmSziKK8H53XJoM7KaqfTXoGBh3KrgXknAycIxZSbM4X
-         R5AipeGTKCkrjCdgIItYy7Ud76a4d6TeyM/44NA/k//Df2iJLwLQiw9so5O1SQo7Ju
-         a9crkyOQYTAlBltiS9GGEJbQ/m1T0jVic56od4/I=
-Received: from [10.226.60.63] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kramasub@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A458A60F8D;
-        Tue,  6 Mar 2018 00:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1520297759;
-        bh=53cnAG7j7vaF5rWQwVl14Piyfwa7FH7Ray82DGLb+uc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ID3lxkSxQzDRSUSsCNWWs51C0EPBpua5qfp+QXgb/hrMrPJJXBaystdGSMMzEk+/6
-         iT1uEySH3YeTOuq7EZhMxaFY8C5j53HWAkGUb8sPWdVkMdtEH0v1fAHCNIQ8seaYr6
-         VRI0v6uF/QZUD0qc/zuRtcEwZxVEPHeIyje0jszg=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A458A60F8D
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: soc: qcom: Add device tree binding
- for GENI SE
-To:     Rob Herring <robh@kernel.org>
-Cc:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
-        mark.rutland@arm.com, wsa@the-dreams.de,
-        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
-        jslaby@suse.com, evgreen@chromium.org, acourbot@chromium.org,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>
-References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
- <1519781889-16117-2-git-send-email-kramasub@codeaurora.org>
- <20180305235831.i7kxups7khus2g5c@rob-hp-laptop>
-From:   Karthik Ramasubramanian <kramasub@codeaurora.org>
-Message-ID: <af0d4155-c3bf-97cb-98b2-978093a30611@codeaurora.org>
-Date:   Mon, 5 Mar 2018 17:55:56 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1750859AbeCFJkR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Mar 2018 04:40:17 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:64310 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750819AbeCFJkP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Mar 2018 04:40:15 -0500
+Received: from mail-vk0-f53.google.com (mail-vk0-f53.google.com [209.85.213.53]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id w269eBra017331;
+        Tue, 6 Mar 2018 18:40:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com w269eBra017331
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1520329212;
+        bh=jZBOyA94/3EvSsFcuz6FfNHePMYS3ELvf0jmbnBVCS8=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=yAlf6/SMj2JSZfTzpvNsoQgJJ3uxbPIoVEqRP53Edj6AGFnAEM7ceGTT/AvBxmnvE
+         cq6R9Cy6fSSb/dWcN7efmKjDhnVjmHUpc6jC78MqpQiWa23p/a66HCf8C1hqEjXZRX
+         tE6AlpQSoRa68QYuoknQRoosE+t5Ki6I4+LWyKC/6xE8zrcAIcS0FaGXVXTEEtEB9o
+         /C/A2nR1/R3poQsYtLDyb0phuinXFt63YdgIHJcqwLvDbdw0AyrLonyKODoU8dgBKe
+         wrOWql0llUOYIqGaWP1yZUFA11ozrwRedT9dW+8CD8KvYTvYr4SmyfNWzsbZ+v+k7f
+         vrGBV0rDY1UeQ==
+X-Nifty-SrcIP: [209.85.213.53]
+Received: by mail-vk0-f53.google.com with SMTP id z190so11877905vkg.1;
+        Tue, 06 Mar 2018 01:40:11 -0800 (PST)
+X-Gm-Message-State: APf1xPAxClWhV8NOyNNqCWIcfqzjFy/8ulxhq2AfDAlrNIhRMmBG81mG
+        U/eIrrhu1HcYGAYWoQyQlhfz6030IMH9m4q8RnI=
+X-Google-Smtp-Source: AG47ELvEOXNnqi7fUuzweqXhmAQvW6iKZ8ib8iz7c8h6OoqVBIkjl3yBaokKO1reKoKhvfcQWbvI/wT44X4q2gTplIQ=
+X-Received: by 10.31.237.68 with SMTP id l65mr12370106vkh.11.1520329210775;
+ Tue, 06 Mar 2018 01:40:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20180305235831.i7kxups7khus2g5c@rob-hp-laptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 10.176.32.138 with HTTP; Tue, 6 Mar 2018 01:39:30 -0800 (PST)
+In-Reply-To: <1519886077-31914-2-git-send-email-yamada.masahiro@socionext.com>
+References: <1519886077-31914-1-git-send-email-yamada.masahiro@socionext.com> <1519886077-31914-2-git-send-email-yamada.masahiro@socionext.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 6 Mar 2018 18:39:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARM_1fXyh8hnnAw7DGC97LZ7-pcriqWC9gQ4uSnU==Vpg@mail.gmail.com>
+Message-ID: <CAK7LNARM_1fXyh8hnnAw7DGC97LZ7-pcriqWC9gQ4uSnU==Vpg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] kconfig: rename silentoldconfig to syncconfig
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Marc Herbert <marc.herbert@intel.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        intel-wired-lan@lists.osuosl.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+2018-03-01 15:34 GMT+09:00 Masahiro Yamada <yamada.masahiro@socionext.com>:
+> As commit cedd55d49dee ("kconfig: Remove silentoldconfig from help
+> and docs; fix kconfig/conf's help") mentioned, 'silentoldconfig' is a
+> historical misnomer.  That commit removed it from help and docs since
+> it is an internal interface.  If so, it should be allowed to rename
+> it to something more intuitive.  'syncconfig' is the one I came up
+> with because it updates the .config if necessary, then synchronize
+> include/generated/autoconf.h and include/config/* with it.
+>
+> You should not manually invoke 'silentoldcofig'.  Display warning if
+> used in case existing scripts are doing wrong.
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+>
+> Changes in v3:
+>   - Fix Documentation/networking/i40e.txt
+>   - Display warning if silentoldconfig is used
+>
+> Changes in v2:
+>   - newly added
+>
+
+Both applied to linux-kbuild/kconfig.
 
 
-On 3/5/2018 4:58 PM, Rob Herring wrote:
-> On Tue, Feb 27, 2018 at 06:38:06PM -0700, Karthikeyan Ramasubramanian wrote:
->> Add device tree binding support for the QCOM GENI SE driver.
->>
->> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
->> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
->> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
->> ---
->>   .../devicetree/bindings/soc/qcom/qcom,geni-se.txt  | 89 ++++++++++++++++++++++
->>   1 file changed, 89 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
->>
->> diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt b/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
->> new file mode 100644
->> index 0000000..fe6a0c0
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
->> @@ -0,0 +1,89 @@
->> +Qualcomm Technologies, Inc. GENI Serial Engine QUP Wrapper Controller
->> +
->> +Generic Interface (GENI) based Qualcomm Universal Peripheral (QUP) wrapper
->> +is a programmable module for supporting a wide range of serial interfaces
->> +like UART, SPI, I2C, I3C, etc. A single QUP module can provide upto 8 Serial
->> +Interfaces, using its internal Serial Engines. The GENI Serial Engine QUP
->> +Wrapper controller is modeled as a node with zero or more child nodes each
->> +representing a serial engine.
->> +
->> +Required properties:
->> +- compatible:		Must be "qcom,geni-se-qup".
->> +- reg:			Must contain QUP register address and length.
->> +- clock-names:		Must contain "m-ahb" and "s-ahb".
->> +- clocks:		AHB clocks needed by the device.
->> +
->> +Required properties if child node exists:
->> +- #address-cells: 	Must be <1> for Serial Engine Address
->> +- #size-cells: 		Must be <1> for Serial Engine Address Size
->> +- ranges: 		Must be present
->> +
->> +Properties for children:
->> +
->> +A GENI based QUP wrapper controller node can contain 0 or more child nodes
->> +representing serial devices.  These serial devices can be a QCOM UART, I2C
->> +controller, spi controller, or some combination of aforementioned devices.
-> 
-> s/spi/SPI/
-> 
-> Where's the SPI binding?
-Since the patch series introduces UART and I2C drivers, I added the 
-bindings only for them. I thought about adding the SPI binding when the 
-SPI controller driver is introduced. Please let me know if you want me 
-to add the bindings for SPI in this patch series itself.
-> 
->> +Please refer below the child node definitions for the supported serial
->> +interface protocols.
->> +
->> +Qualcomm Technologies Inc. GENI Serial Engine based I2C Controller
->> +
->> +Required properties:
->> +- compatible:		Must be "qcom,geni-i2c".
->> +- reg: 			Must contain QUP register address and length.
->> +- interrupts: 		Must contain I2C interrupt.
->> +- clock-names: 		Must contain "se".
->> +- clocks: 		Serial engine core clock needed by the device.
->> +- #address-cells:	Must be <1> for i2c device address.
->> +- #size-cells:		Must be <0> as i2c addresses have no size component.
->> +
->> +Optional property:
->> +- clock-frequency:	Desired I2C bus clock frequency in Hz.
->> +			When missing default to 400000Hz.
->> +
->> +Child nodes should conform to i2c bus binding as described in i2c.txt.
->> +
->> +Qualcomm Technologies Inc. GENI Serial Engine based UART Controller
->> +
->> +Required properties:
->> +- compatible:		Must be "qcom,geni-debug-uart".
->> +- reg: 			Must contain UART register location and length.
->> +- interrupts: 		Must contain UART core interrupts.
->> +- clock-names:		Must contain "se".
->> +- clocks:		Serial engine core clock needed by the device.
->> +
->> +Example:
->> +	geniqup@8c0000 {
->> +		compatible = "qcom,geni-se-qup";
->> +		reg = <0x8c0000 0x6000>;
->> +		clock-names = "m-ahb", "s-ahb";
->> +		clocks = <&clock_gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
->> +			<&clock_gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
->> +		#address-cells = <1>;
->> +		#size-cells = <1>;
->> +		ranges;
->> +
->> +		i2c0: i2c@a94000 {
->> +			compatible = "qcom,geni-i2c";
->> +			reg = <0xa94000 0x4000>;
->> +			interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>;
->> +			clock-names = "se";
->> +			clocks = <&clock_gcc GCC_QUPV3_WRAP0_S5_CLK>;
->> +			pinctrl-names = "default", "sleep";
->> +			pinctrl-0 = <&qup_1_i2c_5_active>;
->> +			pinctrl-1 = <&qup_1_i2c_5_sleep>;
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +		};
->> +
->> +		uart0: serial@a88000 {
->> +			compatible = "qcom,geni-debug-uart";
->> +			reg = <0xa88000 0x7000>;
->> +			interrupts = <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
->> +			clock-names = "se";
->> +			clocks = <&clock_gcc GCC_QUPV3_WRAP0_S0_CLK>;
->> +			pinctrl-names = "default", "sleep";
->> +			pinctrl-0 = <&qup_1_uart_3_active>;
->> +			pinctrl-1 = <&qup_1_uart_3_sleep>;
->> +		};
->> +	}
->> -- 
->> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->> a Linux Foundation Collaborative Project
->>
-Regards,
-Karthik.
 -- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Best Regards
+Masahiro Yamada
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
