@@ -1,414 +1,200 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3AC267E688
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Mar 2018 21:56:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 001C47E686
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Mar 2018 23:19:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754133AbeCFV4o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Mar 2018 16:56:44 -0500
-Received: from mail-pg0-f51.google.com ([74.125.83.51]:36566 "EHLO
-        mail-pg0-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754130AbeCFV4j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Mar 2018 16:56:39 -0500
-Received: by mail-pg0-f51.google.com with SMTP id i14so72869pgv.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Mar 2018 13:56:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:to:from:in-reply-to:cc
-         :references:message-id:user-agent:subject:date;
-        bh=s4jryF+/z4Eb5f1Zu9ydWYjhQv0aSM1WSgSCh5UOI2Q=;
-        b=MntdyLEv2HDmxyjwrsLo1hjMfPawNGDf30OUTX58EOk+6UsX1VhIbge4aU6CfecnzR
-         cHzKKBUYhn8xOCm5ZfpGutw7yHN2WGvtXsiKw29MSBrZJogLXsntZ+E4n4uQVzpXIftU
-         bZU2MUM/AdSAw2PtHdM8ts2T2v2/xwN6F5IpQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:to:from
-         :in-reply-to:cc:references:message-id:user-agent:subject:date;
-        bh=s4jryF+/z4Eb5f1Zu9ydWYjhQv0aSM1WSgSCh5UOI2Q=;
-        b=qlvGlGiSKG90+ittJjgKFiua856BkJQByrmH1EAoMnuTohZuEsnGH2zZi0K8n1ZM1j
-         OvV80nYM0xt4E9OGhiJ2GrAL3NMRmCckzlsmOndzwl4l0QWZ3f+RPXcplJ77lXeEebQ2
-         6P1MU/f5Juku4MZBiCiq3b1heRNQAwThbilaFLAjIGj8xD13T2kUJG9PJOTTEquqb24A
-         X1V5YJF+DfQyaHWkHKmLW9PAnyyRZ/saHIklrys9XrUyGsn81rSc8lk/6q5y+NseXcym
-         sQ19/rE8fdZxUUaRx/SEiUWCDWBClGpMUy3EF8kOxn0J/GX0+s/cw+kp+s+hhY8dVCev
-         rcTg==
-X-Gm-Message-State: APf1xPBQfHKewkIbA6fxb0PpCVa6B17Ai96h032cG9mrbwkrftMSdH+4
-        sO5axUwOfewH8eQa4RdZEpdc2g==
-X-Google-Smtp-Source: AG47ELsXzAPEBM4qH7TJUUczAYwEcEgn5F3uI/7OWcUMpf4/oKyGQtxS8jkMXZMJPfuk3ZolR3THRw==
-X-Received: by 10.99.167.66 with SMTP id w2mr16183650pgo.357.1520373398843;
-        Tue, 06 Mar 2018 13:56:38 -0800 (PST)
-Received: from localhost ([2620:0:1000:1501:422f:ca5c:71a2:c3b3])
-        by smtp.gmail.com with ESMTPSA id n67sm33252779pfh.150.2018.03.06.13.56.37
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 06 Mar 2018 13:56:38 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        id S1754289AbeCFXTJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Mar 2018 18:19:09 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:53670 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754283AbeCFXTH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Mar 2018 18:19:07 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 4116580266; Wed,  7 Mar 2018 00:19:06 +0100 (CET)
+Date:   Wed, 7 Mar 2018 00:19:06 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     edubezval@gmail.com, kevin.wangtao@linaro.org, leo.yan@linaro.org,
+        vincent.guittot@linaro.org, amit.kachhap@gmail.com,
+        linux-kernel@vger.kernel.org, javi.merino@kernel.org,
+        rui.zhang@intel.com, daniel.thompson@linaro.org,
+        linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH V2 5/7] thermal/drivers/cpu_cooling: Add idle cooling
+ device documentation
+Message-ID: <20180306231906.GB28911@amd>
+References: <1519226968-19821-1-git-send-email-daniel.lezcano@linaro.org>
+ <1519226968-19821-6-git-send-email-daniel.lezcano@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To:     Karthik Ramasubramanian <kramasub@codeaurora.org>,
-        Stephen Boyd <sboyd@chromium.org>, andy.gross@linaro.org,
-        corbet@lwn.net, david.brown@linaro.org, gregkh@linuxfoundation.org,
-        mark.rutland@arm.com, robh+dt@kernel.org, wsa@the-dreams.de
-From:   Stephen Boyd <swboyd@chromium.org>
-In-Reply-To: <4ac213a6-081f-72c1-c9c8-6994786285c9@codeaurora.org>
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, jslaby@suse.com,
-        evgreen@chromium.org, acourbot@chromium.org,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>
-References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
- <1519781889-16117-3-git-send-email-kramasub@codeaurora.org>
- <152002326567.108663.16836885081217739460@swboyd.mtv.corp.google.com>
- <4ac213a6-081f-72c1-c9c8-6994786285c9@codeaurora.org>
-Message-ID: <152037339742.218381.11498404122038956963@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v3 2/4] soc: qcom: Add GENI based QUP Wrapper driver
-Date:   Tue, 06 Mar 2018 13:56:37 -0800
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="SkvwRMAIpAhPCcCJ"
+Content-Disposition: inline
+In-Reply-To: <1519226968-19821-6-git-send-email-daniel.lezcano@linaro.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Karthik Ramasubramanian (2018-03-02 16:58:23)
-> =
 
-> =
+--SkvwRMAIpAhPCcCJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 3/2/2018 1:41 PM, Stephen Boyd wrote:
-> > Quoting Karthikeyan Ramasubramanian (2018-02-27 17:38:07)
-> >> +
-> >> +/**
-> >> + * geni_se_get_qup_hw_version() - Read the QUP wrapper Hardware versi=
-on
-> >> + * @se:                        Pointer to the corresponding Serial En=
-gine.
-> >> + * @major:             Buffer for Major Version field.
-> >> + * @minor:             Buffer for Minor Version field.
-> >> + * @step:              Buffer for Step Version field.
-> >> + */
-> >> +void geni_se_get_qup_hw_version(struct geni_se *se, unsigned int *maj=
-or,
-> >> +                               unsigned int *minor, unsigned int *ste=
-p)
-> >> +{
-> >> +       unsigned int version;
-> >> +       struct geni_wrapper *wrapper =3D se->wrapper;
-> >> +
-> >> +       version =3D readl_relaxed(wrapper->base + QUP_HW_VER_REG);
-> >> +       *major =3D (version & HW_VER_MAJOR_MASK) >> HW_VER_MAJOR_SHFT;
-> >> +       *minor =3D (version & HW_VER_MINOR_MASK) >> HW_VER_MINOR_SHFT;
-> >> +       *step =3D version & HW_VER_STEP_MASK;
-> >> +}
-> >> +EXPORT_SYMBOL(geni_se_get_qup_hw_version);
-> > =
+Hi!
 
-> > Is this used?
-> SPI controller driver uses this API and it will be uploaded sooner.
+> --- /dev/null
+> +++ b/Documentation/thermal/cpu-idle-cooling.txt
+> @@ -0,0 +1,165 @@
+> +
+> +Situation:
+> +----------
+> +
 
-Ok. Maybe it can also be a macro to get the u32 and then some more
-macros on top of that to pick out the major/minor/step out of the u32
-that you read.
+Can we have some real header here? Also if this is .rst, maybe it
+should be marked so?
 
-> > =
+> +Under certain circumstances, the SoC reaches a temperature exceeding
+> +the allocated power budget or the maximum temperature limit. The
 
-> >> +
-> >> +/**
-> >> + * geni_se_read_proto() - Read the protocol configured for a Serial E=
-ngine
-> >> + * @se:        Pointer to the concerned Serial Engine.
-> >> + *
-> >> + * Return: Protocol value as configured in the serial engine.
-> >> + */
-> >> +u32 geni_se_read_proto(struct geni_se *se)
-> >> +{
-> >> +       u32 val;
-> >> +
-> >> +       val =3D readl_relaxed(se->base + GENI_FW_REVISION_RO);
-> >> +
-> >> +       return (val & FW_REV_PROTOCOL_MSK) >> FW_REV_PROTOCOL_SHFT;
-> >> +}
-> >> +EXPORT_SYMBOL(geni_se_read_proto);
-> > =
+I don't understand. Power budget is in W, temperature is in
+kelvin. Temperature can't exceed power budget AFAICT.
 
-> > Is this API really needed outside of this file? It would seem like the
-> > drivers that implement the protocol, which are child devices, would only
-> > use this API to confirm that the protocol chosen is for their particular
-> > protocol.
-> No, this API is meant for the protocol drivers to confirm that the =
+> +former must be mitigated to stabilize the SoC temperature around the
+> +temperature control using the defined cooling devices, the latter
 
-> serial engine is programmed with the firmware for the concerned protocol =
+later?
 
-> before using the serial engine. If the check fails, the protocol drivers =
+> +catastrophic situation where a radical decision must be taken to
+> +reduce the temperature under the critical threshold, that can impact
+> +the performances.
 
-> stop using the serial engine.
+performance.
 
-Ok maybe we don't really need it then?
+> +Another situation is when the silicon reaches a certain temperature
+> +which continues to increase even if the dynamic leakage is reduced to
+> +its minimum by clock gating the component. The runaway phenomena will
+> +continue with the static leakage and only powering down the component,
+> +thus dropping the dynamic and static leakage will allow the component
+> +to cool down. This situation is critical.
 
-> >> + * RX fifo of the serial engine.
-> >> + *
-> >> + * Return: RX fifo depth in units of FIFO words
-> >> + */
-> >> +u32 geni_se_get_rx_fifo_depth(struct geni_se *se)
-> >> +{
-> >> +       u32 val;
-> >> +
-> >> +       val =3D readl_relaxed(se->base + SE_HW_PARAM_1);
-> >> +
-> >> +       return (val & RX_FIFO_DEPTH_MSK) >> RX_FIFO_DEPTH_SHFT;
-> >> +}
-> >> +EXPORT_SYMBOL(geni_se_get_rx_fifo_depth);
-> > =
+Critical here, critical there. I have trouble following
+it. Theoretically hardware should protect itself, because you don't
+want kernel bug to damage your CPU?
 
-> > These ones too, can probably just be static inline.
-> Ok. Just for my knowledge - is there any reference guideline regarding =
+> +Last but not least, the system can ask for a specific power budget but
+> +because of the OPP density, we can only choose an OPP with a power
+> +budget lower than the requested one and underuse the CPU, thus losing
+> +performances. In other words, one OPP under uses the CPU with a
 
-> when to use static inline myself and when to let the compiler do the =
+performance.
 
-> clever thing?
+> +lesser than the power budget and the next OPP exceed the power budget,
+> +an intermediate OPP could have been used if it were present.
 
-Not that I'm aware of. It's really up to you to decide.
+was.
 
-> > =
+> +Solutions:
+> +----------
+> +
+> +If we can remove the static and the dynamic leakage for a specific
+> +duration in a controlled period, the SoC temperature will
+> +decrease. Acting at the idle state duration or the idle cycle
 
-> >> +
-> >> +       ret =3D geni_se_clks_on(se);
-> >> +       if (ret)
-> >> +               return ret;
-> >> +
-> >> +       ret =3D pinctrl_pm_select_default_state(se->dev);
-> >> +       if (ret)
-> >> +               geni_se_clks_off(se);
-> >> +
-> >> +       return ret;
-> >> +}
-> >> +EXPORT_SYMBOL(geni_se_resources_on);
-> > =
+"should" decrease? If you are in bad environment..
 
-> > IS there a reason why we can't use runtime PM or normal linux PM
-> > infrastructure to power on the wrapper and keep it powered while the
-> > protocol driver is active?
-> Besides turning on the clocks & pinctrl settings, wrapper also has to do =
+> +The Operating Performance Point (OPP) density has a great influence on
+> +the control precision of cpufreq, however different vendors have a
+> +plethora of OPP density, and some have large power gap between OPPs,
+> +that will result in loss of performance during thermal control and
+> +loss of power in other scenes.
 
-> the bus scaling votes. The bus scaling votes depend on the individual =
+scene seems to be wrong word here.
 
-> serial interface bandwidth requirements. The bus scaling votes is not =
+> +At a specific OPP, we can assume injecting idle cycle on all CPUs,
 
-> present currently. But once the support comes in, this function enables =
+Extra comma?
 
-> adding it.
+> +Idle Injection:
+> +---------------
+> +
+> +The base concept of the idle injection is to force the CPU to go to an
+> +idle state for a specified time each control cycle, it provides
+> +another way to control CPU power and heat in addition to
+> +cpufreq. Ideally, if all CPUs of a cluster inject idle synchronously,
+> +this cluster can get into the deepest idle state and achieve minimum
+> +power consumption, but that will also increase system response latency
+> +if we inject less than cpuidle latency.
 
-Ok, but that would basically be some code consolidation around picking a
-bandwidth and enabling/disabling? It sounds like it could go into either
-the serial interface drivers or into the runtime PM path of the wrapper.
+I don't understand last sentence.
 
-> > =
+> +The mitigation begins with a maximum period value which decrease
 
-> >> +
-> >> +/**
-> >> + * geni_se_clk_tbl_get() - Get the clock table to program DFS
-> >> + * @se:                Pointer to the concerned Serial Engine.
-> >> + * @tbl:       Table in which the output is returned.
-> >> + *
-> >> + * This function is called by the protocol drivers to determine the d=
-ifferent
-> >> + * clock frequencies supported by Serial Engine Core Clock. The proto=
-col
-> >> + * drivers use the output to determine the clock frequency index to be
-> >> + * programmed into DFS.
-> >> + *
-> >> + * Return: number of valid performance levels in the table on success,
-> >> + *        standard Linux error codes on failure.
-> >> + */
-> >> +int geni_se_clk_tbl_get(struct geni_se *se, unsigned long **tbl)
-> >> +{
-> >> +       struct geni_wrapper *wrapper =3D se->wrapper;
-> >> +       unsigned long freq =3D 0;
-> >> +       int i;
-> >> +       int ret =3D 0;
-> >> +
-> >> +       mutex_lock(&wrapper->lock);
-> >> +       if (wrapper->clk_perf_tbl) {
-> >> +               *tbl =3D wrapper->clk_perf_tbl;
-> >> +               ret =3D wrapper->num_clk_levels;
-> >> +               goto out_unlock;
-> >> +       }
-> >> +
-> >> +       wrapper->clk_perf_tbl =3D kcalloc(MAX_CLK_PERF_LEVEL,
-> >> +                                       sizeof(*wrapper->clk_perf_tbl),
-> >> +                                       GFP_KERNEL);
-> >> +       if (!wrapper->clk_perf_tbl) {
-> >> +               ret =3D -ENOMEM;
-> >> +               goto out_unlock;
-> >> +       }
-> >> +
-> >> +       for (i =3D 0; i < MAX_CLK_PERF_LEVEL; i++) {
-> >> +               freq =3D clk_round_rate(se->clk, freq + 1);
-> >> +               if (!freq || freq =3D=3D wrapper->clk_perf_tbl[i - 1])
-> >> +                       break;
-> >> +               wrapper->clk_perf_tbl[i] =3D freq;
-> >> +       }
-> >> +       wrapper->num_clk_levels =3D i;
-> >> +       *tbl =3D wrapper->clk_perf_tbl;
-> >> +       ret =3D wrapper->num_clk_levels;
-> >> +out_unlock:
-> >> +       mutex_unlock(&wrapper->lock);
-> > =
+decreases?
+ =20
+> +more cooling effect is requested. When the period duration is equal
+> to
+> +the idle duration, then we are in a situation the platform can=E2=80=99t
+> +dissipate the heat enough and the mitigation fails. In this case
 
-> > Is this lock actually protecting anything? I mean to say, is any more
-> > than one geni protocol driver calling this function at a time? Or is
-> > the same geni protocol driver calling this from multiple threads at the
-> > same time? The lock looks almost useless.
-> Yes, there is a possibility of multiple I2C instances within the same =
+fast enough?
 
-> wrapper trying to get this table simultaneously.
-> =
+> +situation is considered critical and there is nothing to do. The idle
 
-> As Evan mentioned in the other thread, Bjorn had the comment to move it =
+Nothing to do? Maybe power the system down?
 
-> to the probe and remove the lock. I looked into the possibility of it. =
+> +The idle injection duration value must comply with the constraints:
+> +
+> +- It is lesser or equal to the latency we tolerate when the mitigation
 
->  From the hardware perspective, this table belongs to the wrapper and is =
+less ... than the latency
 
-> shared by all the serial engines within the wrapper. But due to software =
+> +Minimum period
+> +--------------
+> +
+> +The idle injection duration being fixed, it is obvious the minimum
+> +period can=E2=80=99t be lesser than that, otherwise we will be schedulin=
+g the
 
-> implementation reasons, clk_round_rate can be be performed only on the =
+less.
 
-> clocks that are tagged as DFS compatible and only the serial engine =
+> +Practically, if the running power is lesses than the targeted power,
 
-> clocks are tagged so. At least this was the understanding based on our =
+less.
 
-> earlier discussion with the concerned folks. We will revisit it and =
+> +However, in this demonstration we ignore three aspects:
+> +
+> + * The static leakage is not defined here, we can introduce it in the
+> +   equation but assuming it will be zero most of the time as it is
 
-> check if anything has changed recently.
+, but?
 
-Hmm sounds like the round rate should happen on the parent of the
-se_clk, and this wrapper DT binding should get the clk for the parent of
-the se->clk to run round_rate() on. Then it could all be done in probe,
-which sounds good.
+Best regards,
+								Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-> >> +       return iova;
-> >> +}
-> >> +EXPORT_SYMBOL(geni_se_tx_dma_prep);
-> >> +
-> >> +/**
-> >> + * geni_se_rx_dma_prep() - Prepare the Serial Engine for RX DMA trans=
-fer
-> >> + * @se:                        Pointer to the concerned Serial Engine.
-> >> + * @buf:               Pointer to the RX buffer.
-> >> + * @len:               Length of the RX buffer.
-> >> + *
-> >> + * This function is used to prepare the buffers for DMA RX.
-> >> + *
-> >> + * Return: Mapped DMA Address of the buffer on success, NULL on failu=
-re.
-> >> + */
-> >> +dma_addr_t geni_se_rx_dma_prep(struct geni_se *se, void *buf, size_t =
-len)
-> >> +{
-> >> +       dma_addr_t iova;
-> >> +       struct geni_wrapper *wrapper =3D se->wrapper;
-> >> +       u32 val;
-> >> +
-> >> +       iova =3D dma_map_single(wrapper->dev, buf, len, DMA_FROM_DEVIC=
-E);
-> >> +       if (dma_mapping_error(wrapper->dev, iova))
-> >> +               return (dma_addr_t)NULL;
-> > =
+--SkvwRMAIpAhPCcCJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-> > Can't return a dma_mapping_error address to the caller and have them
-> > figure it out?
-> Earlier we used to return the DMA_ERROR_CODE which has been removed =
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-> recently in arm64 architecture. If we return the dma_mapping_error, then =
+iEYEARECAAYFAlqfIeoACgkQMOfwapXb+vJgIQCeN1Vb7x/SNVcdNPnNBZxaKBBS
+cJkAnR3v6clzNbH+Nf4UGxn64j+Od/RJ
+=LSB1
+-----END PGP SIGNATURE-----
 
-> the caller also needs the device which encountered the mapping error. =
-
-> The serial interface drivers can use their parent currently to resolve =
-
-> the mapping error. Once the wrapper starts mapping using IOMMU context =
-
-> bank, then the serial interface drivers do not know which device to use =
-
-> to know if there is an error.
-> =
-
-> Having said that, the dma_ops suggestion might help with handling this =
-
-> situation. I will look into it further.
-
-Ok, thanks.
-
-> >> +{
-> >> +       struct geni_wrapper *wrapper =3D se->wrapper;
-> >> +
-> >> +       if (iova)
-> >> +               dma_unmap_single(wrapper->dev, iova, len, DMA_FROM_DEV=
-ICE);
-> >> +}
-> >> +EXPORT_SYMBOL(geni_se_rx_dma_unprep);
-> > =
-
-> > Instead of having the functions exported, could we set the dma_ops on
-> > all child devices of the wrapper that this driver populates and then
-> > implement the DMA ops for those devices here? I assume that there's
-> > never another DMA master between the wrapper and the serial engine, so I
-> > think it would work.
-> This suggestion looks like it will work.
-
-It would be a good idea to check with some other people on the dma_ops
-suggestion. Maybe add the DMA mapping subsystem folks to help out here
-
-DMA MAPPING HELPERS
-M:      Christoph Hellwig <hch@lst.de>
-M:      Marek Szyprowski <m.szyprowski@samsung.com>
-R:      Robin Murphy <robin.murphy@arm.com>
-L:      iommu@lists.linux-foundation.org
-
-> > =
-
-> >> +
-> >> +/* Transfer mode supported by GENI Serial Engines */
-> >> +enum geni_se_xfer_mode {
-> >> +       GENI_SE_INVALID,
-> >> +       GENI_SE_FIFO,
-> >> +       GENI_SE_DMA,
-> >> +};
-> >> +
-> >> +/* Protocols supported by GENI Serial Engines */
-> >> +enum geni_se_protocol_types {
-> >> +       GENI_SE_NONE,
-> >> +       GENI_SE_SPI,
-> >> +       GENI_SE_UART,
-> >> +       GENI_SE_I2C,
-> >> +       GENI_SE_I3C,
-> >> +};
-> >> +
-> >> +/**
-> >> + * struct geni_se - GENI Serial Engine
-> >> + * @base:              Base Address of the Serial Engine's register b=
-lock.
-> >> + * @dev:               Pointer to the Serial Engine device.
-> >> + * @wrapper:           Pointer to the parent QUP Wrapper core.
-> >> + * @clk:               Handle to the core serial engine clock.
-> >> + */
-> >> +struct geni_se {
-> >> +       void __iomem *base;
-> >> +       struct device *dev;
-> >> +       void *wrapper;
-> > =
-
-> > Can this get the geni_wrapper type? It could be opaque if you like.
-> I am not sure if it is ok to have the children know the details of the =
-
-> parent. That is why it is kept as opaque.
-
-That's fine, but I mean to have struct geni_wrapper *wrapper, and then
-struct geni_wrapper; in this file. Children won't know details and we
-get slightly more type safety.
-
+--SkvwRMAIpAhPCcCJ--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
