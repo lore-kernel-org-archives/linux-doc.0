@@ -1,178 +1,163 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A399A7E6AA
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 17:35:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D15D87E66E
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 17:46:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933688AbeCGRfj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Mar 2018 12:35:39 -0500
-Received: from alln-iport-3.cisco.com ([173.37.142.90]:28245 "EHLO
-        alln-iport-3.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933642AbeCGRfe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Mar 2018 12:35:34 -0500
-X-Greylist: delayed 572 seconds by postgrey-1.27 at vger.kernel.org; Wed, 07 Mar 2018 12:35:34 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=4890; q=dns/txt; s=iport;
-  t=1520444134; x=1521653734;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=1gA1q0bMaQG0531TrembWx2x3+ooj6uwmfN0gBtlXQc=;
-  b=hYQ2KQYCrjiD8cZihfqJdT1iJHUpkl8rxZs/2ldV9zRRi9eDZXbjkRO/
-   /rGbflHYTz6OAyCLp9tIv9dcRjR/hP3UvFdO21Kqj/ClJiP2e+88S9feC
-   gteTctbLaPNOIPlr17qK8HaF6aMaow8cY7HnZeLPQzRjv3Yx8oWDWRyVr
-   Y=;
-X-IronPort-AV: E=Sophos;i="5.47,436,1515456000"; 
-   d="scan'208";a="80800534"
-Received: from alln-core-12.cisco.com ([173.36.13.134])
-  by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Mar 2018 17:26:02 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-        by alln-core-12.cisco.com (8.14.5/8.14.5) with ESMTP id w27HQ10R022639
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Wed, 7 Mar 2018 17:26:01 GMT
-Date:   Wed, 7 Mar 2018 09:26:00 -0800 (PST)
-From:   Victor Kamensky <kamensky@cisco.com>
-To:     Rob Landley <rob@landley.net>
-cc:     Stephen Smalley <sds@tycho.nsa.gov>,
-        Taras Kondratiuk <takondra@cisco.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James McMechan <james.w.mcmechan@gmail.com>,
-        initramfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, xe-linux-external@cisco.com,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@parisplace.org>
-Subject: Re: [PATCH v3 15/15] selinux: delay sid population for rootfs till
- init is complete
-In-Reply-To: <d23913a5-2a18-4d2a-60ae-bfa1ba8aaa0c@landley.net>
-Message-ID: <alpine.LRH.2.00.1803070855550.64437@sjc-ads-6991.cisco.com>
-References: <1518813234-5874-1-git-send-email-takondra@cisco.com> <1518813234-5874-19-git-send-email-takondra@cisco.com> <1519152994.14218.15.camel@tycho.nsa.gov> <d23913a5-2a18-4d2a-60ae-bfa1ba8aaa0c@landley.net>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+        id S933418AbeCGRqw convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Mar 2018 12:46:52 -0500
+Received: from ms.lwn.net ([45.79.88.28]:58548 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751220AbeCGRqv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Mar 2018 12:46:51 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 99F392C7;
+        Wed,  7 Mar 2018 17:46:50 +0000 (UTC)
+Date:   Wed, 7 Mar 2018 10:46:49 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     "Du, Changbin" <changbin.du@intel.com>, mingo@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/17] Include linux trace docs to Sphinx TOC tree
+Message-ID: <20180307104649.4db521a5@lwn.net>
+In-Reply-To: <20180227174337.37ecb348@vmware.local.home>
+References: <1518845990-20733-1-git-send-email-changbin.du@intel.com>
+        <20180227093421.yd674oaklthaljgh@intel.com>
+        <20180227174337.37ecb348@vmware.local.home>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
-X-Auto-Response-Suppress: DR, OOF, AutoReply
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 27 Feb 2018 17:43:37 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-
-On Wed, 7 Mar 2018, Rob Landley wrote:
-
-> On 02/20/2018 12:56 PM, Stephen Smalley wrote:
->> On Fri, 2018-02-16 at 20:33 +0000, Taras Kondratiuk wrote:
->>> From: Victor Kamensky <kamensky@cisco.com>
->>>
->>> With initramfs cpio format that supports extended attributes
->>> we need to skip sid population on sys_lsetxattr call from
->>> initramfs for rootfs if security server is not initialized yet.
->>>
->>> Otherwise callback in selinux_inode_post_setxattr will try to
->>> translate give security.selinux label into sid context and since
->>> security server is not available yet inode will receive default
->>> sid (typically kernel_t). Note that in the same time proper
->>> label will be stored in inode xattrs. Later, since inode sid
->>> would be already populated system will never look back at
->>> actual xattrs. But if we skip sid population for rootfs and
->>> we have policy that direct use of xattrs for rootfs, proper
->>> sid will be filled in from extended attributes one node is
->>> accessed and server is initialized.
->>>
->>> Note new DELAYAFTERINIT_MNT super block flag is introduced
->>> to only mark rootfs for such behavior. For other types of
->>> tmpfs original logic is still used.
->>
->> (cc selinux maintainers)
->>
->> Wondering if we shouldn't just do this always, for all filesystem
->> types.  Also, I think this should likely also be done in
->> selinux_inode_setsecurity() for consistency.
-
-Sorry, I did not have time to try out Stephen's suggestion,
-especially given that core initramfs xattrs acceptance and dicussion
-looks a bit stalled, and for my use case it is dependency before
-SELinux changes.
-
-I will look for both suggestion this week. Hope to see initramfs
-xattrs patch series review going again.
-
-> I don't understand what selinux thinks it's doing here.
+> On Tue, 27 Feb 2018 17:34:22 +0800
+> "Du, Changbin" <changbin.du@intel.com> wrote:
 >
-> Initramfs is special because it's populated early, ideally early enough drivers
-> can load their firmware out of it. This is guaranteed to be before any processes
-> have launched, before any other filesystems have been mounted. I'm surprised
-> selinux is trying to do anything this early because A) what is there for it to
-> do, B) where did it get a ruleset?
->
-> This isn't really a mount flag, this is a "the selinux subsystem isn't
-> functionally initialized yet" flag. We haven't launched init. In a modular
-> system the module probably isn't loaded. There are no processes, and the only
-> files anywhere are the ones we're in the process of extracting. What's there
-> fore selinux to do?
->
-> When a filesystem is mounted, none of these cached selinux "we already looked at
-> the xattrs" inode fields are populated yet, correct? It can figure that out when
-> something accesses the file and do it then, so the point is _not_ doing this now
-> and thus not cacheing the wrong info. That's what the mount flag is doing,
-> telling selinux "not yet". So why does selinux not already _know_ "not yet"?
->
-> Why doesn't load_policy flush the cache of the old default contexts? What
-> happens if you mount an ext2 root and then init reads a dozen files before it
-> gets to the load_policy?
+> > Ten days past, will you accept this serias? Thank you!
+> 
+> Currently I'm very overloaded with other code that needs to get done
+> ASAP, and I need to balance what is critical and what is not. I don't
+> have time to review this, as this isn't critical, and can wait.
+> 
+> If Jon can review it to make sure that it doesn't change the
+> readability of the text, then I'll trust his judgment. 
 
-I need to check whether security context caching happens on all
-file operations, or when setxattr is executed. If latter, 
-setxattr operation before policy load may not be very common use case.
+So I've spent a while working through the patches.  I think it's a
+well-done RST conversion carried out with a light hand; I do not believe
+there are any readability issues with the resulting text files.
 
-Also note there is a second SELinux related patch and 
-corresponding Stephen's comment: if SELinux is enabled
-in kernel, but policy is not loaded yet, setxattr for security.selinux
-extended attribute will go for check to SELinux LSM callback, it will
-be denied. My other patch was relaxing above for "rootfs" only,
-i.e covering initramfs xattrs case. Stephen's point was that
-maybe it needs to be relaxed for
-all cases if policy not loaded yet. I need some time to look
-at the code and think about what can go wrong, if rule relaxed
-for all cases.
+I will note that the series adds some new build warnings:
 
-> Do those doesn't files have bad default contexts forever now?
->
-> Where does the selinux ruleset come from during the cpio extract?
+> Documentation/trace/events.rst:45: WARNING: Inline emphasis start-string without end-string.
+> Documentation/trace/events.rst:49: WARNING: Inline emphasis start-string without end-string.
+> Documentation/trace/events.rst:193: WARNING: Inline emphasis start-string without end-string.
+> Documentation/trace/events.rst:114: WARNING: Unknown target name: "common".
+> Documentation/trace/ftrace.rst:2620: WARNING: Inline emphasis start-string without end-string.
 
-Yes, in our use case SELinux policy file 
-(/etc/selinux/*/policy/policy.*) comes from cpio initramfs itself.
-So it is chicken and egg problem.
+These point to places where the resulting formatted docs are, in fact,
+incorrect.  I had to append the attached patch to the series to make those
+problems go away.  The warnings are there for a purpose!
 
-> Was it
-> hardwired into the driver? It certainly didn't come out of a file, and it wasn't
-> a process that loaded it. Why is selinux trying to evaluate and cache the
-> security context of files before it has any rules?
+Anyway, with that, the patch series is applied.  Thanks for helping to
+improve the docs, and my apologies for taking so long to get to this.
 
-Note for ext2 case there is no setxattr first as we have in initramfs
-xattrs case, so extended attributes values are read from backing
-persitent storage as they were put there before, and there would not
-be discrepency what is cached in security context inode data scructure
-and real "security.selinux" extended attribute value in file system.
+jon
 
-Thanks,
-Victor
+From 6234c7bd8c14508fb76c0a4d6f01eb81c8ce9cbf Mon Sep 17 00:00:00 2001
+From: Jonathan Corbet <corbet@lwn.net>
+Date: Wed, 7 Mar 2018 10:44:08 -0700
+Subject: [PATCH] docs: ftrace: fix a few formatting issues
 
-> (It has xattr annotations,
-> but they have no _meaning_ without rules...?
->
-> Confused,
->
-> Rob
->
+Make sure that literal * characters are not interpreted as emphasis
+markers.
+
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/trace/events.rst | 10 +++++-----
+ Documentation/trace/ftrace.rst |  8 ++++----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+index 27bfd06ae29d..bdf1963ba6ba 100644
+--- a/Documentation/trace/events.rst
++++ b/Documentation/trace/events.rst
+@@ -42,7 +42,7 @@ To disable all events, echo an empty line to the set_event file::
+ 
+ 	# echo > /sys/kernel/debug/tracing/set_event
+ 
+-To enable all events, echo '*:*' or '*:' to the set_event file::
++To enable all events, echo ``*:*`` or ``*:`` to the set_event file::
+ 
+ 	# echo *:* > /sys/kernel/debug/tracing/set_event
+ 
+@@ -50,7 +50,7 @@ The events are organized into subsystems, such as ext4, irq, sched,
+ etc., and a full event name looks like this: <subsystem>:<event>.  The
+ subsystem name is optional, but it is displayed in the available_events
+ file.  All of the events in a subsystem can be specified via the syntax
+-"<subsystem>:*"; for example, to enable all irq events, you can use the
++``<subsystem>:*``; for example, to enable all irq events, you can use the
+ command::
+ 
+ 	# echo 'irq:*' > /sys/kernel/debug/tracing/set_event
+@@ -111,8 +111,8 @@ It also displays the format string that will be used to print the
+ event in text mode, along with the event name and ID used for
+ profiling.
+ 
+-Every event has a set of 'common' fields associated with it; these are
+-the fields prefixed with 'common_'.  The other fields vary between
++Every event has a set of ``common`` fields associated with it; these are
++the fields prefixed with ``common_``.  The other fields vary between
+ events and correspond to the fields defined in the TRACE_EVENT
+ definition for that event.
+ 
+@@ -190,7 +190,7 @@ And for string fields they are:
+ 
+ ==, !=, ~
+ 
+-The glob (~) accepts a wild card character (*,?) and character classes
++The glob (~) accepts a wild card character (\*,?) and character classes
+ ([). For example::
+ 
+   prev_comm ~ "*sh"
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 636aa9bf5674..0bc33ad4a3f9 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -2615,13 +2615,13 @@ To see which functions are being traced, you can cat the file:
+ 
+ Perhaps this is not enough. The filters also allow glob(7) matching.
+ 
+-  <match>*
++  ``<match>*``
+ 	will match functions that begin with <match>
+-  *<match>
++  ``*<match>``
+ 	will match functions that end with <match>
+-  *<match>*
++  ``*<match>*``
+ 	will match functions that have <match> in it
+-  <match1>*<match2>
++  ``<match1>*<match2>``
+ 	will match functions that begin with <match1> and end with <match2>
+ 
+ .. note::
+-- 
+2.14.3
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
