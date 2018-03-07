@@ -1,128 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D27647E686
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 21:24:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 596B17E686
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 21:47:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754553AbeCGVY1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Mar 2018 16:24:27 -0500
-Received: from mail-qt0-f193.google.com ([209.85.216.193]:45723 "EHLO
-        mail-qt0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754389AbeCGVYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Mar 2018 16:24:24 -0500
-Received: by mail-qt0-f193.google.com with SMTP id v90so4378093qte.12;
-        Wed, 07 Mar 2018 13:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=18Fkw59ceXzKTxluf0ZdW+yT8LW3uL6DTXlXPys/7W4=;
-        b=U+kE/w/OrQVE9lBKxyFtjEjZ0oGtpchJy/Y0GsCGIqm0QEkDEKLy3T/PhM0/P/ooTk
-         Q1JZL5HABEvkLZbtrHW3jQcQXF+pBWqRAnax2Kryn2JHwyMETniQ/perdZfyZeJIIM3f
-         7vk8jZEtp4r3Kq8hNkzI7MULH/g/VcNTQvovYvK5ryBbkgV8b3LhuVPr21PdHP9PGH/3
-         PvSoaav0YySSqioqyKt6uC+vmJXTuh5GE1z+QieXQDZwuGXiQ4jDCuaak2pbYWov2bOh
-         bycSFLMrLGKyZf/yIBBLMVGXm5O8pJv5M37rkKuxtxcTiIJ0CTGNcTY1GWfojncw0JH9
-         8+xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=18Fkw59ceXzKTxluf0ZdW+yT8LW3uL6DTXlXPys/7W4=;
-        b=Ouw85w31jZRPmSk5ARaXQZ7+cDy0dcWejpVZddoJnBrs5hQvccoe+J/JnCFBlPaCMi
-         q57D3Vlbqt4TGOaIQKVgu5m8xh1uXi0bMM3CPMW5Fir4TQXP1dnQeXF2wPkGmuUFLQ7I
-         A2QJADd7KpxATVTRm4Ct2YG3r3H+e2QRUVJ7aJMQDT9RrSbENBXVDymfYhZWPdeoRRAN
-         5C3mRqY8G/ekc5IJJKBtdVH6gW2wclCdDlt5E/sKeOrf34veTm01XHoTDMY5FaKmWi4m
-         BWvuYqe+JcM+N6FQ8M9bWA3VuIoBzAbG9MyXPia/ae2GfpJYS8HoeCVTibqfD9q44hwZ
-         Jbhg==
-X-Gm-Message-State: AElRT7FhKFpRJV6gswPHhLduWnDR96QwAa3MCHgx1ID5xIOGjTvsjC63
-        /TQsZLtZ5Lu9R8DDYXA3TSxsXt2DOAy7svSI/kw=
-X-Google-Smtp-Source: AG47ELvm/Bvaz4B/3NRO5Hca+KBLuoVG7/o91XwX7OBhi0RPHamEQ222wpiKYuGEB/zMnLHxhw8mgAT1RcWSjsCNSKw=
-X-Received: by 10.200.47.53 with SMTP id j50mr1414196qta.185.1520457863592;
- Wed, 07 Mar 2018 13:24:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.12.185.46 with HTTP; Wed, 7 Mar 2018 13:24:23 -0800 (PST)
-In-Reply-To: <20180221233825.10024-1-jhogan@kernel.org>
-References: <20180221233825.10024-1-jhogan@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 7 Mar 2018 22:24:23 +0100
-X-Google-Sender-Auth: DDyO_JiM0Rwoz7PUh-PnsDrAyl4
-Message-ID: <CAK8P3a2qV5n57f7=FC0nYZWfeXCVaOaK4R_7Wr74p3ZMyuwJNQ@mail.gmail.com>
-Subject: Re: [PATCH 00/13] Remove metag architecture
-To:     James Hogan <jhogan@kernel.org>
-Cc:     "open list:METAG ARCHITECTURE" <linux-metag@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-gpio@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1754547AbeCGVrY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Mar 2018 16:47:24 -0500
+Received: from mga03.intel.com ([134.134.136.65]:37808 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1754458AbeCGVrX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Mar 2018 16:47:23 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Mar 2018 13:47:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,437,1515484800"; 
+   d="scan'208";a="22841928"
+Received: from viggo.jf.intel.com (HELO localhost.localdomain) ([10.54.39.119])
+  by orsmga007.jf.intel.com with ESMTP; 07 Mar 2018 13:47:23 -0800
+Subject: [PATCH] [v2] docs: clarify security-bugs disclosure policy
+To:     linux-kernel@vger.kernel.org
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        dan.j.williams@intel.com, tglx@linutronix.de,
+        gregkh@linuxfoundation.org, torvalds@linux-foundation.org,
+        gnomes@lxorguk.ukuu.org.uk, aarcange@redhat.com, luto@kernel.org,
+        keescook@google.com, tim.c.chen@linux.intel.com,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, mark.rutland@arm.com
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Date:   Wed, 07 Mar 2018 13:46:24 -0800
+Message-Id: <20180307214624.D4361772@viggo.jf.intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 22, 2018 at 12:38 AM, James Hogan <jhogan@kernel.org> wrote:
-> These patches remove the metag architecture and tightly dependent
-> drivers from the kernel. With the 4.16 kernel the ancient gcc 4.2.4
-> based metag toolchain we have been using is hitting compiler bugs, so
-> now seems a good time to drop it altogether.
->
-> Quoting from patch 1:
->
-> The earliest Meta architecture port of Linux I have a record of was an
-> import of a Meta port of Linux v2.4.1 in February 2004, which was worked
-> on significantly over the next few years by Graham Whaley, Will Newton,
-> Matt Fleming, myself and others.
->
-> Eventually the port was merged into mainline in v3.9 in March 2013, not
-> long after Imagination Technologies bought MIPS Technologies and shifted
-> its CPU focus over to the MIPS architecture.
->
-> As a result, though the port was maintained for a while, kept on life
-> support for a while longer, and useful for testing a few specific
-> drivers for which I don't have ready access to the equivalent MIPS
-> hardware, it is now essentially dead with no users.
->
-> It is also stuck using an out-of-tree toolchain based on GCC 4.2.4 which
-> is no longer maintained, now struggles to build modern kernels due to
-> toolchain bugs, and doesn't itself build with a modern GCC. The latest
-> buildroot port is still using an old uClibc snapshot which is no longer
-> served, and the latest uClibc doesn't build with GCC 4.2.4.
->
-> So lets call it a day and drop the Meta architecture port from the
-> kernel. RIP Meta.
 
-I've pulled it into my asm-generic tree now, which is also part of linux-next,
-and followed up with patches removing frv, m32r, score, unicore32
-and blackfin. I have not removed the device drivers yet, but I'm working
-on that.
+From: Dave Hansen <dave.hansen@linux.intel.com>
 
-       Arnd
+I think we need to soften the language a bit.  It might scare folks
+off, especially the:
+
+	 We prefer to fully disclose the bug as soon as possible.
+
+which is not really the case.  Linus says:
+
+	It's not full disclosure, it's not coordinated disclosure,
+	and it's not "no disclosure".  It's more like just "timely
+	open fixes".
+
+I changed a bit of the wording in here, but mostly to remove the word
+"disclosure" since it seems to mean very specific things to people
+that we do not mean here.
+
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
+Cc: Andrea Arcangeli <aarcange@redhat.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mark Rutland <mark.rutland@arm.com>
+---
+
+ b/Documentation/admin-guide/security-bugs.rst |   24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+diff -puN Documentation/admin-guide/security-bugs.rst~embargo2 Documentation/admin-guide/security-bugs.rst
+--- a/Documentation/admin-guide/security-bugs.rst~embargo2	2018-03-07 13:23:49.390228208 -0800
++++ b/Documentation/admin-guide/security-bugs.rst	2018-03-07 13:42:37.618225395 -0800
+@@ -29,18 +29,20 @@ made public.
+ Disclosure
+ ----------
+ 
+-The goal of the Linux kernel security team is to work with the
+-bug submitter to bug resolution as well as disclosure.  We prefer
+-to fully disclose the bug as soon as possible.  It is reasonable to
+-delay disclosure when the bug or the fix is not yet fully understood,
+-the solution is not well-tested or for vendor coordination.  However, we
+-expect these delays to be short, measurable in days, not weeks or months.
+-A disclosure date is negotiated by the security team working with the
+-bug submitter as well as vendors.  However, the kernel security team
+-holds the final say when setting a disclosure date.  The timeframe for
+-disclosure is from immediate (esp. if it's already publicly known)
++The goal of the Linux kernel security team is to work with the bug
++submitter to understand and fix the bug.  We prefer to publish the fix as
++soon as possible, but try to avoid public discussion of the bug itself
++and leave that to others.
++
++Publishing the fix may be delayed when the bug or the fix is not yet
++fully understood, the solution is not well-tested or for vendor
++coordination.  However, we expect these delays to be short, measurable in
++days, not weeks or months.  A release date is negotiated by the security
++team working with the bug submitter as well as vendors.  However, the
++kernel security team holds the final say when setting a timeframe.  The
++timeframe varies from immediate (esp. if it's already publicly known bug)
+ to a few weeks.  As a basic default policy, we expect report date to
+-disclosure date to be on the order of 7 days.
++release date to be on the order of 7 days.
+ 
+ Coordination
+ ------------
+_
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
