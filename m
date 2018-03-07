@@ -5,119 +5,124 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DDD47E686
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 21:21:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D27647E686
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 21:24:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754706AbeCGVVx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Mar 2018 16:21:53 -0500
-Received: from mail-io0-f180.google.com ([209.85.223.180]:39089 "EHLO
-        mail-io0-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754621AbeCGVVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Mar 2018 16:21:52 -0500
-Received: by mail-io0-f180.google.com with SMTP id b34so4658264ioj.6;
-        Wed, 07 Mar 2018 13:21:52 -0800 (PST)
+        id S1754553AbeCGVY1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Mar 2018 16:24:27 -0500
+Received: from mail-qt0-f193.google.com ([209.85.216.193]:45723 "EHLO
+        mail-qt0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754389AbeCGVYY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Mar 2018 16:24:24 -0500
+Received: by mail-qt0-f193.google.com with SMTP id v90so4378093qte.12;
+        Wed, 07 Mar 2018 13:24:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:sender:in-reply-to:references:from:date:message-id
          :subject:to:cc;
-        bh=utmY/k038HyPTCNrCTex6Od25OwxnXy4wd8Gc++7/+w=;
-        b=NFg+Zd2qVIWegzAkMoH0+sv8YqB5iv8u9UkkWOvWsp9pw0pzd1r6LZHO7dpCCzAk5v
-         HduCcdZ4cvO8rCZIpPVnsShZQK8kqiarVneC4fmA/egbAhmw5+Oyv/p1KqjpI4oB7ZFW
-         VZrjw5H/c6MEgAvZF13TGEbuCpyyDK1AfPRUhwuyhfJB+hoSomRrn79/26p0L/gRHp/y
-         RTyLneBkPOHUW7p6mCJ2rgeZjMlDT9oivNWcSU+xBZnDKw2lyxTZfbxuN7cwNDsjnHJT
-         QLLyO+8F5ZWJYWruxZiCwc7PlzcRdOwPw9v5ZvYPs9e1VN9Cu+G8hkuWXJ1oF38A0utK
-         f63A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=utmY/k038HyPTCNrCTex6Od25OwxnXy4wd8Gc++7/+w=;
-        b=AZyy2dkD0LZ061/jqJFyauJbpqfWh9dQrpiwNyf6hcjCLrhLOk9Gg8K6BIIHY8sfZB
-         hFqqAxGKGpVYoZcDS/E5Z6V6Mn3jLt3O9fj1G3rwW3TMJAjLfSufUKktCp6Jw8NsE8UI
-         ND0GEhNG44PrDSHMxe9JvBsNJ5y46aqSbAWX0=
+        bh=18Fkw59ceXzKTxluf0ZdW+yT8LW3uL6DTXlXPys/7W4=;
+        b=U+kE/w/OrQVE9lBKxyFtjEjZ0oGtpchJy/Y0GsCGIqm0QEkDEKLy3T/PhM0/P/ooTk
+         Q1JZL5HABEvkLZbtrHW3jQcQXF+pBWqRAnax2Kryn2JHwyMETniQ/perdZfyZeJIIM3f
+         7vk8jZEtp4r3Kq8hNkzI7MULH/g/VcNTQvovYvK5ryBbkgV8b3LhuVPr21PdHP9PGH/3
+         PvSoaav0YySSqioqyKt6uC+vmJXTuh5GE1z+QieXQDZwuGXiQ4jDCuaak2pbYWov2bOh
+         bycSFLMrLGKyZf/yIBBLMVGXm5O8pJv5M37rkKuxtxcTiIJ0CTGNcTY1GWfojncw0JH9
+         8+xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
          :date:message-id:subject:to:cc;
-        bh=utmY/k038HyPTCNrCTex6Od25OwxnXy4wd8Gc++7/+w=;
-        b=rN0I7jhQr9+e41COK4zkc69k31RFvxbtbmizGbBjB/25lziMjFfYXqiZiSJEpzIRNs
-         i5n6iWveD6Kix1lxyG4KlfdvQrGkUk8QMEGsAU49wgToKQRwsjl1EJuIlu53vUHrh52Q
-         e/Evzw/7aAk8dgUhB7eH4EcvE2iSGDZJiAwhGSUwOObmLdmBN9dDgx+RE1qIbv9kfJjE
-         znNYsCXzyKLgt5U2nrQc0kEtJ0BsOPAhWpluwy60J6yELWdY3Fi/mgHDBvG8lrRTOkb2
-         fEL3skb4QWcDWpB3QXng6Qp4IWr7Z1Q3wMO7sPONy47nnJYmYzYgzsN4pKRAQvNVTfRb
-         njqA==
-X-Gm-Message-State: APf1xPDWsylDe/5xD/xuCHCuWC5r+Sw80oy6l+ZLSYGq2AcocQYx+B8s
-        SW2hBOem1emlSU7OhtZyceTfTugSVhJkB3VLtAM=
-X-Google-Smtp-Source: AG47ELuYy+yx+pLr4bHPXxeSkLEY9dTEylRNfpNajEESbPicav53ZJtJKxy5rnvGOnxc83AqAdkvBmHhToJ0C0ROeOw=
-X-Received: by 10.107.12.213 with SMTP id 82mr27461924iom.48.1520457711313;
- Wed, 07 Mar 2018 13:21:51 -0800 (PST)
+        bh=18Fkw59ceXzKTxluf0ZdW+yT8LW3uL6DTXlXPys/7W4=;
+        b=Ouw85w31jZRPmSk5ARaXQZ7+cDy0dcWejpVZddoJnBrs5hQvccoe+J/JnCFBlPaCMi
+         q57D3Vlbqt4TGOaIQKVgu5m8xh1uXi0bMM3CPMW5Fir4TQXP1dnQeXF2wPkGmuUFLQ7I
+         A2QJADd7KpxATVTRm4Ct2YG3r3H+e2QRUVJ7aJMQDT9RrSbENBXVDymfYhZWPdeoRRAN
+         5C3mRqY8G/ekc5IJJKBtdVH6gW2wclCdDlt5E/sKeOrf34veTm01XHoTDMY5FaKmWi4m
+         BWvuYqe+JcM+N6FQ8M9bWA3VuIoBzAbG9MyXPia/ae2GfpJYS8HoeCVTibqfD9q44hwZ
+         Jbhg==
+X-Gm-Message-State: AElRT7FhKFpRJV6gswPHhLduWnDR96QwAa3MCHgx1ID5xIOGjTvsjC63
+        /TQsZLtZ5Lu9R8DDYXA3TSxsXt2DOAy7svSI/kw=
+X-Google-Smtp-Source: AG47ELvm/Bvaz4B/3NRO5Hca+KBLuoVG7/o91XwX7OBhi0RPHamEQ222wpiKYuGEB/zMnLHxhw8mgAT1RcWSjsCNSKw=
+X-Received: by 10.200.47.53 with SMTP id j50mr1414196qta.185.1520457863592;
+ Wed, 07 Mar 2018 13:24:23 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.135.221 with HTTP; Wed, 7 Mar 2018 13:21:50 -0800 (PST)
-In-Reply-To: <20180306233140.268BD8E1@viggo.jf.intel.com>
-References: <20180306233140.268BD8E1@viggo.jf.intel.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 7 Mar 2018 13:21:50 -0800
-X-Google-Sender-Auth: A5bZ84qW7lafWqAwLnUulmPvf6M
-Message-ID: <CA+55aFzGgtnkKpJEDCvzDmEn7JE6DnOKuHwtkTkeN3AeHjt6dw@mail.gmail.com>
-Subject: Re: [PATCH] docs: clarify security-bugs disclosure policy
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        One Thousand Gnomes <gnomes@lxorguk.ukuu.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@google.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+Received: by 10.12.185.46 with HTTP; Wed, 7 Mar 2018 13:24:23 -0800 (PST)
+In-Reply-To: <20180221233825.10024-1-jhogan@kernel.org>
+References: <20180221233825.10024-1-jhogan@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 7 Mar 2018 22:24:23 +0100
+X-Google-Sender-Auth: DDyO_JiM0Rwoz7PUh-PnsDrAyl4
+Message-ID: <CAK8P3a2qV5n57f7=FC0nYZWfeXCVaOaK4R_7Wr74p3ZMyuwJNQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] Remove metag architecture
+To:     James Hogan <jhogan@kernel.org>
+Cc:     "open list:METAG ARCHITECTURE" <linux-metag@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-gpio@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-i2c@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 6, 2018 at 3:31 PM, Dave Hansen <dave.hansen@linux.intel.com> wrote:
+On Thu, Feb 22, 2018 at 12:38 AM, James Hogan <jhogan@kernel.org> wrote:
+> These patches remove the metag architecture and tightly dependent
+> drivers from the kernel. With the 4.16 kernel the ancient gcc 4.2.4
+> based metag toolchain we have been using is hitting compiler bugs, so
+> now seems a good time to drop it altogether.
 >
-> I think we need to soften the language a bit.  It might scare folks
-> off, especially the:
+> Quoting from patch 1:
 >
->          We prefer to fully disclose the bug as soon as possible.
+> The earliest Meta architecture port of Linux I have a record of was an
+> import of a Meta port of Linux v2.4.1 in February 2004, which was worked
+> on significantly over the next few years by Graham Whaley, Will Newton,
+> Matt Fleming, myself and others.
 >
-> which is not really the case.
+> Eventually the port was merged into mainline in v3.9 in March 2013, not
+> long after Imagination Technologies bought MIPS Technologies and shifted
+> its CPU focus over to the MIPS architecture.
+>
+> As a result, though the port was maintained for a while, kept on life
+> support for a while longer, and useful for testing a few specific
+> drivers for which I don't have ready access to the equivalent MIPS
+> hardware, it is now essentially dead with no users.
+>
+> It is also stuck using an out-of-tree toolchain based on GCC 4.2.4 which
+> is no longer maintained, now struggles to build modern kernels due to
+> toolchain bugs, and doesn't itself build with a modern GCC. The latest
+> buildroot port is still using an old uClibc snapshot which is no longer
+> served, and the latest uClibc doesn't build with GCC 4.2.4.
+>
+> So lets call it a day and drop the Meta architecture port from the
+> kernel. RIP Meta.
 
-Ack. What we do is definitely not full disclosure. In fact, we often
-actively try to avoid disclosing details and leave that entirely to
-others.
+I've pulled it into my asm-generic tree now, which is also part of linux-next,
+and followed up with patches removing frv, m32r, score, unicore32
+and blackfin. I have not removed the device drivers yet, but I'm working
+on that.
 
-We disclose the *patches*, and the explanation of the patch, but not
-necessarily anything else (ie no exploit code or even any exploit
-discussion). We also don't explicitly disclose the discussion of the
-patches or the report, although part of it mayt obviously become more
-or less public for other reasons.
-
-So we should probably avoid using a term that means something else to
-a lot of people.
-
-And for similar reasons, I don't think the fixed verbiage should use
-"coordinated disclosure" either, like in your patch. That usually
-means the kind of embargoes that the security list does not honor.
-
-So I think it merits clarification, but maybe just specify the two
-things relevant to our disclosure: the fact that the patch and
-explanation for the patch gets made public (but not necessarily other
-effects), and that the timeframe is very limited.
-
-It's not full disclosure, it's not coordinated disclosure, and it's
-not "no disclosure".
-
-It's more like just "timely open fixes".
-
-                 Linus
+       Arnd
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
