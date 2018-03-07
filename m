@@ -1,331 +1,302 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=5.0 tests=DKIM_ADSP_ALL,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D0AE7E686
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 03:29:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 11BC27E667
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 09:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932830AbeCGD3Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Mar 2018 22:29:24 -0500
-Received: from eso.teric.us ([69.164.192.171]:41126 "EHLO eso.teric.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932078AbeCGD3X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Mar 2018 22:29:23 -0500
-X-Greylist: delayed 616 seconds by postgrey-1.27 at vger.kernel.org; Tue, 06 Mar 2018 22:29:23 EST
-Received: from neo.teric.us (neo.teric.us [198.58.100.135])
-        by eso.teric.us (Postfix) with ESMTPS id 7E47B1036E;
-        Tue,  6 Mar 2018 21:19:07 -0600 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eso.teric.us;
-        s=mail; t=1520392747;
-        bh=Z2iaNWMEV/QMHKOXx+FOlMxwzzW8YfyvqHBaPTTZ0kU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=e/AgaD+aP2hVuxLgp0bQiNT21SgEVoMOiQye26gJu/VSOBpRbeH1d27Dh3ETo6tsz
-         RxVHG2K43vQ9GU38GQG2KwSJb6qFjPtgjzJavM7dfUbAFH7XO8gEMstJK1varTpV7K
-         1GLr6KE12mzz4RbGgB86TIwcB9ZKGkVc0kh2/qF2J+xgj4jJwFk++HoRkAUZ0DV/rO
-         wmehGGM4/ij4mV32G4QxvXjpqFaC+uVSANRVSKbRAxqUPiCh5FKt+3lG2Md+unyPi3
-         /fp792Gm85dJTwt1h+3aySMhY19GSZivxi40CjuWCVWPuRMhh1U/FJ6iEKHZ4MA2VU
-         V94IvYvEflXWA==
-Received: by neo.teric.us (Postfix, from userid 1002)
-        id 72F37185FDB; Tue,  6 Mar 2018 21:19:07 -0600 (CST)
-Date:   Tue, 6 Mar 2018 21:19:07 -0600
-From:   Julia Cartwright <juliac@eso.teric.us>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     joel@jms.id.au, andrew@aj.id.au, arnd@arndb.de,
-        gregkh@linuxfoundation.org, jdelvare@suse.com, linux@roeck-us.net,
-        benh@kernel.crashing.org, andrew@lunn.ch,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org
-Subject: Re: [PATCH v2 1/8] [PATCH 1/8] drivers/peci: Add support for PECI
- bus driver core
-Message-ID: <20180307031907.GD1924@kryptos.localdomain>
-References: <20180221161606.32247-1-jae.hyun.yoo@linux.intel.com>
- <20180221161606.32247-2-jae.hyun.yoo@linux.intel.com>
+        id S1751257AbeCGJrw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Mar 2018 04:47:52 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:17374 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751100AbeCGJru (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Mar 2018 04:47:50 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com
+        id <B5a9fb5420000>; Wed, 07 Mar 2018 01:47:46 -0800
+Received: from HQMAIL107.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 07 Mar 2018 01:47:49 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 07 Mar 2018 01:47:49 -0800
+Received: from BGMAIL103.nvidia.com (10.25.59.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 7 Mar
+ 2018 09:47:48 +0000
+Received: from [10.19.65.123] (10.19.65.123) by bgmail103.nvidia.com
+ (10.25.59.12) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 7 Mar
+ 2018 09:47:44 +0000
+Subject: Re: [PATCH 05/10] hwmon: generic-pwm-tachometer: Add generic PWM
+ based tachometer
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Mikko Perttunen <cyndis@kapsi.fi>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <jdelvare@suse.com>, <corbet@lwn.net>,
+        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <kstewart@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
+        <pombredanne@nexb.com>, <mmaddireddy@nvidia.com>,
+        <mperttunen@nvidia.com>, <arnd@arndb.de>, <timur@codeaurora.org>,
+        <andy.gross@linaro.org>, <xuwei5@hisilicon.com>,
+        <elder@linaro.org>, <heiko@sntech.de>, <krzk@kernel.org>,
+        <ard.biesheuvel@linaro.org>
+References: <1519196339-9377-1-git-send-email-rrajk@nvidia.com>
+ <1519196339-9377-6-git-send-email-rrajk@nvidia.com>
+ <5172edff-fe29-7ed1-f0d2-b0359ea2c24d@roeck-us.net>
+ <2510b525-ec36-b49d-5a62-81f335c0d10d@nvidia.com>
+ <cfe0d0ce-3a89-bad0-85ba-6edf1135d2dc@roeck-us.net>
+ <2628eff2-dd33-34f4-a7e1-cfe46ef88a3f@nvidia.com>
+ <4556a8d2-947d-72c4-2962-3167afb53978@kapsi.fi>
+ <62ba7f67-5a99-51ab-1214-eb68ebb7e642@roeck-us.net>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <ldewangan@nvidia.com>
+From:   Rajkumar Rampelli <rrajk@nvidia.com>
+Message-ID: <952cb50e-d9a0-ae5e-d9f6-d1ce268f0384@nvidia.com>
+Date:   Wed, 7 Mar 2018 15:17:51 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180221161606.32247-2-jae.hyun.yoo@linux.intel.com>
-User-Agent: Mutt/1.8.3 (2017-05-23)
+In-Reply-To: <62ba7f67-5a99-51ab-1214-eb68ebb7e642@roeck-us.net>
+X-Originating-IP: [10.19.65.123]
+X-ClientProxiedBy: BGMAIL102.nvidia.com (10.25.59.11) To bgmail103.nvidia.com
+ (10.25.59.12)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 21, 2018 at 08:15:59AM -0800, Jae Hyun Yoo wrote:
-> This commit adds driver implementation for PECI bus into linux
-> driver framework.
-> 
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
-[..]
-> +static int peci_locked_xfer(struct peci_adapter *adapter,
-> +			    struct peci_xfer_msg *msg,
-> +			    bool do_retry,
-> +			    bool has_aw_fcs)
 
-_locked generally means that this function is invoked with some critical
-lock held, what lock does the caller need to acquire before invoking
-this function?
 
-> +{
-> +	ktime_t start, end;
-> +	s64 elapsed_ms;
-> +	int rc = 0;
-> +
-> +	if (!adapter->xfer) {
-
-Is this really an optional feature of an adapter?  If this is not
-optional, then this check should be in place when the adapter is
-registered, not here.  (And it should WARN_ON(), because it's a driver
-developer error).
-
-> +		dev_dbg(&adapter->dev, "PECI level transfers not supported\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (in_atomic() || irqs_disabled()) {
-
-As Andrew mentioned, this is broken.
-
-You don't even need a might_sleep().  The locking functions you use here
-will already include a might_sleep() w/ CONFIG_DEBUG_ATOMIC_SLEEP.
-
-> +		rt_mutex_trylock(&adapter->bus_lock);
-> +		if (!rc)
-> +			return -EAGAIN; /* PECI activity is ongoing */
-> +	} else {
-> +		rt_mutex_lock(&adapter->bus_lock);
-> +	}
-> +
-> +	if (do_retry)
-> +		start = ktime_get();
-> +
-> +	do {
-> +		rc = adapter->xfer(adapter, msg);
-> +
-> +		if (!do_retry)
-> +			break;
-> +
-> +		/* Per the PECI spec, need to retry commands that return 0x8x */
-> +		if (!(!rc && ((msg->rx_buf[0] & DEV_PECI_CC_RETRY_ERR_MASK) ==
-> +			      DEV_PECI_CC_TIMEOUT)))
-> +			break;
-
-This is pretty difficult to parse.  Can you split it into two different
-conditions?
-
-> +
-> +		/* Set the retry bit to indicate a retry attempt */
-> +		msg->tx_buf[1] |= DEV_PECI_RETRY_BIT;
-
-Are you sure this bit is to be set in the _second_ byte of tx_buf?
-
-> +
-> +		/* Recalculate the AW FCS if it has one */
-> +		if (has_aw_fcs)
-> +			msg->tx_buf[msg->tx_len - 1] = 0x80 ^
-> +						peci_aw_fcs((u8 *)msg,
-> +							    2 + msg->tx_len);
-> +
-> +		/* Retry for at least 250ms before returning an error */
-> +		end = ktime_get();
-> +		elapsed_ms = ktime_to_ms(ktime_sub(end, start));
-> +		if (elapsed_ms >= DEV_PECI_RETRY_TIME_MS) {
-> +			dev_dbg(&adapter->dev, "Timeout retrying xfer!\n");
-> +			break;
-> +		}
-> +	} while (true);
-> +
-> +	rt_mutex_unlock(&adapter->bus_lock);
-> +
-> +	return rc;
-> +}
-> +
-> +static int peci_xfer(struct peci_adapter *adapter, struct peci_xfer_msg *msg)
-> +{
-> +	return peci_locked_xfer(adapter, msg, false, false);
-> +}
-> +
-> +static int peci_xfer_with_retries(struct peci_adapter *adapter,
-> +				  struct peci_xfer_msg *msg,
-> +				  bool has_aw_fcs)
-> +{
-> +	return peci_locked_xfer(adapter, msg, true, has_aw_fcs);
-> +}
-> +
-> +static int peci_scan_cmd_mask(struct peci_adapter *adapter)
-> +{
-> +	struct peci_xfer_msg msg;
-> +	u32 dib;
-> +	int rc = 0;
-> +
-> +	/* Update command mask just once */
-> +	if (adapter->cmd_mask & BIT(PECI_CMD_PING))
-> +		return 0;
-> +
-> +	msg.addr      = PECI_BASE_ADDR;
-> +	msg.tx_len    = GET_DIB_WR_LEN;
-> +	msg.rx_len    = GET_DIB_RD_LEN;
-> +	msg.tx_buf[0] = GET_DIB_PECI_CMD;
-> +
-> +	rc = peci_xfer(adapter, &msg);
-> +	if (rc < 0) {
-> +		dev_dbg(&adapter->dev, "PECI xfer error, rc : %d\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	dib = msg.rx_buf[0] | (msg.rx_buf[1] << 8) |
-> +	      (msg.rx_buf[2] << 16) | (msg.rx_buf[3] << 24);
-> +
-> +	/* Check special case for Get DIB command */
-> +	if (dib == 0x00) {
-> +		dev_dbg(&adapter->dev, "DIB read as 0x00\n");
-> +		return -1;
-> +	}
-> +
-> +	if (!rc) {
-
-You should change this to:
-
-	if (rc) {
-		dev_dbg(&adapter->dev, "Error reading DIB, rc : %d\n", rc);
-		return rc;
-	}
-
-And then leave the happy path below unindented.
-
-> +		/**
-> +		 * setting up the supporting commands based on minor rev#
-> +		 * see PECI Spec Table 3-1
-> +		 */
-> +		dib = (dib >> 8) & 0xF;
-> +
-> +		if (dib >= 0x1) {
-> +			adapter->cmd_mask |= BIT(PECI_CMD_RD_PKG_CFG);
-> +			adapter->cmd_mask |= BIT(PECI_CMD_WR_PKG_CFG);
-> +		}
-> +
-> +		if (dib >= 0x2)
-> +			adapter->cmd_mask |= BIT(PECI_CMD_RD_IA_MSR);
-> +
-> +		if (dib >= 0x3) {
-> +			adapter->cmd_mask |= BIT(PECI_CMD_RD_PCI_CFG_LOCAL);
-> +			adapter->cmd_mask |= BIT(PECI_CMD_WR_PCI_CFG_LOCAL);
-> +		}
-> +
-> +		if (dib >= 0x4)
-> +			adapter->cmd_mask |= BIT(PECI_CMD_RD_PCI_CFG);
-> +
-> +		if (dib >= 0x5)
-> +			adapter->cmd_mask |= BIT(PECI_CMD_WR_PCI_CFG);
-> +
-> +		if (dib >= 0x6)
-> +			adapter->cmd_mask |= BIT(PECI_CMD_WR_IA_MSR);
-> +
-> +		adapter->cmd_mask |= BIT(PECI_CMD_GET_TEMP);
-> +		adapter->cmd_mask |= BIT(PECI_CMD_GET_DIB);
-> +		adapter->cmd_mask |= BIT(PECI_CMD_PING);
-
-These cmd_mask updates are not done with any locking in mind.  Is this
-intentional?  Or: is synchronization not necessary because this is
-always done during enumeration prior to exposing the adapter to users?
-
-> +	} else {
-> +		dev_dbg(&adapter->dev, "Error reading DIB, rc : %d\n", rc);
-> +	}
-> +
-> +	return rc;
-> +}
-> +
-> +static int peci_cmd_support(struct peci_adapter *adapter, enum peci_cmd cmd)
-> +{
-> +	if (!(adapter->cmd_mask & BIT(PECI_CMD_PING)) &&
-> +	    peci_scan_cmd_mask(adapter) < 0) {
-> +		dev_dbg(&adapter->dev, "Failed to scan command mask\n");
-> +		return -EIO;
-> +	}
-> +
-> +	if (!(adapter->cmd_mask & BIT(cmd))) {
-> +		dev_dbg(&adapter->dev, "Command %d is not supported\n", cmd);
-> +		return -EINVAL;
-> +	}
-
-It would be nicer if you did this check prior to dispatching to the
-various subfunctions (peci_ioctl_ping, peci_ioctl_get_dib, etc.).  In
-that way, these functions could just assume the adapter supports them.
-
-[..]
-> +static int peci_register_adapter(struct peci_adapter *adapter)
-> +{
-> +	int res = -EINVAL;
-> +
-> +	/* Can't register until after driver model init */
-> +	if (WARN_ON(!is_registered)) {
-
-Is this solving a problem you actually ran into?
-
-[.. skipped review due to fatigue ..]
-
-> +++ b/include/linux/peci.h
-> @@ -0,0 +1,97 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2018 Intel Corporation
-> +
-> +#ifndef __LINUX_PECI_H
-> +#define __LINUX_PECI_H
-> +
-> +#include <linux/cdev.h>
-> +#include <linux/device.h>
-> +#include <linux/peci-ioctl.h>
-> +#include <linux/rtmutex.h>
-> +
-> +#define PECI_BUFFER_SIZE  32
-> +#define PECI_NAME_SIZE    32
-> +
-> +struct peci_xfer_msg {
-> +	u8	addr;
-> +	u8	tx_len;
-> +	u8	rx_len;
-> +	u8	tx_buf[PECI_BUFFER_SIZE];
-> +	u8	rx_buf[PECI_BUFFER_SIZE];
-> +} __attribute__((__packed__));
-
-The packed attribute has historically caused gcc to emit atrocious code,
-as it seems to assume packed implies members might not be naturally
-aligned.  Seeing as you're only working with u8s in this case, though,
-this shouldn't be a problem.
-
-> +struct peci_board_info {
-> +	char			type[PECI_NAME_SIZE];
-> +	u8			addr;	/* CPU client address */
-> +	struct device_node	*of_node;
-> +};
-> +
-> +struct peci_adapter {
-> +	struct module	*owner;
-> +	struct rt_mutex	bus_lock;
-
-Why an rt_mutex, instead of a regular mutex.  Do you explicitly need PI
-in mainline?
-
-> +	struct device	dev;
-> +	struct cdev	cdev;
-> +	int		nr;
-> +	char		name[PECI_NAME_SIZE];
-> +	int		(*xfer)(struct peci_adapter *adapter,
-> +				struct peci_xfer_msg *msg);
-> +	uint		cmd_mask;
-> +};
-> +
-> +#define to_peci_adapter(d) container_of(d, struct peci_adapter, dev)
-
-You can also do this with a static inline, which provides a marginally
-better error when screwed up.
-
-   Julia
+On Wednesday 28 February 2018 07:59 PM, Guenter Roeck wrote:
+> On 02/27/2018 11:03 PM, Mikko Perttunen wrote:
+>> On 02/28/2018 08:12 AM, Rajkumar Rampelli wrote:
+>>>
+>>> On Wednesday 28 February 2018 11:28 AM, Guenter Roeck wrote:
+>>>> On 02/27/2018 09:38 PM, Rajkumar Rampelli wrote:
+>>>>>
+>>>>> On Wednesday 21 February 2018 08:20 PM, Guenter Roeck wrote:
+>>>>>> On 02/20/2018 10:58 PM, Rajkumar Rampelli wrote:
+>>>>>>> Add generic PWM based tachometer driver via HWMON interface
+>>>>>>> to report the RPM of motor. This drivers get the period/duty
+>>>>>>> cycle from PWM IP which captures the motor PWM output.
+>>>>>>>
+>>>>>>> This driver implements a simple interface for monitoring the 
+>>>>>>> speed of
+>>>>>>> a fan and exposes it in roatations per minute (RPM) to the user 
+>>>>>>> space
+>>>>>>> by using the hwmon's sysfs interface
+>>>>>>>
+>>>>>>> Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
+>>>>>>> ---
+>>>>>>>   Documentation/hwmon/generic-pwm-tachometer |  17 +++++
+>>>>>>>   drivers/hwmon/Kconfig                      |  10 +++
+>>>>>>>   drivers/hwmon/Makefile                     |   1 +
+>>>>>>>   drivers/hwmon/generic-pwm-tachometer.c     | 112 
+>>>>>>> +++++++++++++++++++++++++++++
+>>>>>>>   4 files changed, 140 insertions(+)
+>>>>>>>   create mode 100644 Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>   create mode 100644 drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>
+>>>>>>> diff --git a/Documentation/hwmon/generic-pwm-tachometer 
+>>>>>>> b/Documentation/hwmon/generic-pwm-tachometer
+>>>>>>> new file mode 100644
+>>>>>>> index 0000000..e0713ee
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/Documentation/hwmon/generic-pwm-tachometer
+>>>>>>> @@ -0,0 +1,17 @@
+>>>>>>> +Kernel driver generic-pwm-tachometer
+>>>>>>> +====================================
+>>>>>>> +
+>>>>>>> +This driver enables the use of a PWM module to monitor a fan. 
+>>>>>>> It uses the
+>>>>>>> +generic PWM interface and can be used on SoCs as along as the 
+>>>>>>> SoC supports
+>>>>>>> +Tachometer controller that moniors the Fan speed in periods.
+>>>>>>> +
+>>>>>>> +Author: Rajkumar Rampelli <rrajk@nvidia.com>
+>>>>>>> +
+>>>>>>> +Description
+>>>>>>> +-----------
+>>>>>>> +
+>>>>>>> +The driver implements a simple interface for monitoring the Fan 
+>>>>>>> speed using
+>>>>>>> +PWM module and Tachometer controller. It requests period value 
+>>>>>>> through PWM
+>>>>>>> +capture interface to Tachometer and measures the Rotations per 
+>>>>>>> minute using
+>>>>>>> +received period value. It exposes the Fan speed in RPM to the 
+>>>>>>> user space by
+>>>>>>> +using the hwmon's sysfs interface.
+>>>>>>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>>>>>>> index ef23553..8912dcb 100644
+>>>>>>> --- a/drivers/hwmon/Kconfig
+>>>>>>> +++ b/drivers/hwmon/Kconfig
+>>>>>>> @@ -1878,6 +1878,16 @@ config SENSORS_XGENE
+>>>>>>>         If you say yes here you get support for the temperature
+>>>>>>>         and power sensors for APM X-Gene SoC.
+>>>>>>>   +config GENERIC_PWM_TACHOMETER
+>>>>>>> +    tristate "Generic PWM based tachometer driver"
+>>>>>>> +    depends on PWM
+>>>>>>> +    help
+>>>>>>> +      Enables a driver to use PWM signal from motor to use
+>>>>>>> +      for measuring the motor speed. The RPM is captured by
+>>>>>>> +      PWM modules which has PWM capture capability and this
+>>>>>>> +      drivers reads the captured data from PWM IP to convert
+>>>>>>> +      it to speed in RPM.
+>>>>>>> +
+>>>>>>>   if ACPI
+>>>>>>>     comment "ACPI drivers"
+>>>>>>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>>>>>>> index f814b4a..9dcc374 100644
+>>>>>>> --- a/drivers/hwmon/Makefile
+>>>>>>> +++ b/drivers/hwmon/Makefile
+>>>>>>> @@ -175,6 +175,7 @@ obj-$(CONFIG_SENSORS_WM8350)    += 
+>>>>>>> wm8350-hwmon.o
+>>>>>>>   obj-$(CONFIG_SENSORS_XGENE)    += xgene-hwmon.o
+>>>>>>>     obj-$(CONFIG_PMBUS)        += pmbus/
+>>>>>>> +obj-$(CONFIG_GENERIC_PWM_TACHOMETER) += generic-pwm-tachometer.o
+>>>>>>>     ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
+>>>>>>>   diff --git a/drivers/hwmon/generic-pwm-tachometer.c 
+>>>>>>> b/drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>> new file mode 100644
+>>>>>>> index 0000000..9354d43
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>> @@ -0,0 +1,112 @@
+>>>>>>> +/*
+>>>>>>> + * Copyright (c) 2017-2018, NVIDIA CORPORATION.  All rights 
+>>>>>>> reserved.
+>>>>>>> + *
+>>>>>>> + * This program is free software; you can redistribute it 
+>>>>>>> and/or modify it
+>>>>>>> + * under the terms and conditions of the GNU General Public 
+>>>>>>> License,
+>>>>>>> + * version 2, as published by the Free Software Foundation.
+>>>>>>> + *
+>>>>>>> + * This program is distributed in the hope it will be useful, 
+>>>>>>> but WITHOUT
+>>>>>>> + * ANY WARRANTY; without even the implied warranty of 
+>>>>>>> MERCHANTABILITY or
+>>>>>>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General 
+>>>>>>> Public License for
+>>>>>>> + * more details.
+>>>>>>> + *
+>>>>>>> + */
+>>>>>>> +
+>>>>>>> +#include <linux/module.h>
+>>>>>>> +#include <linux/platform_device.h>
+>>>>>>> +#include <linux/err.h>
+>>>>>>> +#include <linux/pwm.h>
+>>>>>>> +#include <linux/hwmon.h>
+>>>>>>> +#include <linux/hwmon-sysfs.h>
+>>>>>>> +
+>>>>>>> +struct pwm_hwmon_tach {
+>>>>>>> +    struct device        *dev;
+>>>>>>> +    struct pwm_device    *pwm;
+>>>>>>> +    struct device        *hwmon;
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +static ssize_t show_rpm(struct device *dev, struct 
+>>>>>>> device_attribute *attr,
+>>>>>>> +            char *buf)
+>>>>>>> +{
+>>>>>>> +    struct pwm_hwmon_tach *ptt = dev_get_drvdata(dev);
+>>>>>>> +    struct pwm_device *pwm = ptt->pwm;
+>>>>>>> +    struct pwm_capture result;
+>>>>>>> +    int err;
+>>>>>>> +    unsigned int rpm = 0;
+>>>>>>> +
+>>>>>>> +    err = pwm_capture(pwm, &result, 0);
+>>>>>>> +    if (err < 0) {
+>>>>>>> +        dev_err(ptt->dev, "Failed to capture PWM: %d\n", err);
+>>>>>>> +        return err;
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    if (result.period)
+>>>>>>> +        rpm = DIV_ROUND_CLOSEST_ULL(60ULL * NSEC_PER_SEC,
+>>>>>>> +                        result.period);
+>>>>>>> +
+>>>>>>> +    return sprintf(buf, "%u\n", rpm);
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static SENSOR_DEVICE_ATTR(rpm, 0444, show_rpm, NULL, 0);
+>>>>>>> +
+>>>>>>> +static struct attribute *pwm_tach_attrs[] = {
+>>>>>>> +    &sensor_dev_attr_rpm.dev_attr.attr,
+>>>>>>> +    NULL,
+>>>>>>> +};
+>>>>>>
+>>>>>> "rpm" is not a standard hwmon sysfs attribute. If you don't provide
+>>>>>> a single standard hwmon sysfs attribute, having a hwmon driver is 
+>>>>>> pointless.
+>>>>> Guenter Roeck,
+>>>>> I will define a new hwmon sysfs attribute node called 
+>>>>> "hwmon_tachometer_attributes" in hwmon.h like below and update the 
+>>>>> same in tachometer hwmon driver. Is it fine ?
+>>>>> enum hwmon_tachometer_attributes {
+>>>>
+>>>> Are you kidding me ?
+>>>>
+>>>> Guenter
+>>> Sorry, I just wanted to confirm whether my understanding is correct 
+>>> or not before implementing it actually.
+>>> Or, shall I add this attribute as a part of fan attributes with 
+>>> "hwmon_fan_rpm" ? or any other way to do it ? I need your inputs in 
+>>> fixing this.
+>>
+>> I think he wants the attribute to be named according to the 
+>> properties in this document: 
+>> https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface. I 
+>> guess the attribute would then map to fan1_input, though I'm not sure 
+>> if that's 100% correct either since this could technically be 
+>> attached to something other than a fan. But I would think in practice 
+>> that's not a big concern.
+>>
+>> Guenter,
+>> Please correct me as well if I'm wrong.
+>>
+> You are absolutely correct.
+>
+> While I am not opposed to ABI changes, the merits of those would need 
+> to be
+> discussed on the mailing list. But replacing "fan1_input" with "rpm" is
+> not an acceptable ABI change, even if it may measure something that turns
+> but isn't a fan.
+>
+> If this _is_ in fact supposed to be used for something else but fans, we
+> would have to discuss what that might be, and if hwmon is the appropriate
+> subsystem to measure and report it. This does to some degree lead back to
+> my concern of having the "fan" part of this patch series in the pwm core.
+> I am still not sure if that makes sense.
+>
+> Thanks,
+> Guenter
+I am planning to add tachometer support in pwm-fan.c driver 
+(drivers/hwmon/) instead of adding new generic-pwm-tachometer.c driver. 
+Measuring RPM value will be done in pwm-fan driver itself using pwm 
+capture feature and will add new sysfs attributes under this driver to 
+report rpm value of fan.
+>
+>> Thank you,
+>> Mikko
+>>
+>>>
+>>> -- 
+>>> To unsubscribe from this list: send the line "unsubscribe 
+>>> linux-tegra" in
+>>> the body of a message to majordomo@vger.kernel.org
+>>> More majordomo info at http://vger.kernel.org/majordomo-info.html
+>> -- 
+>> To unsubscribe from this list: send the line "unsubscribe 
+>> linux-hwmon" in
+>> the body of a message to majordomo@vger.kernel.org
+>> More majordomo info at http://vger.kernel.org/majordomo-info.html
+>>
+>
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
