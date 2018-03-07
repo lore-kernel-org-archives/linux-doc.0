@@ -3,68 +3,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 497687E677
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 11:42:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C7167E66E
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Mar 2018 14:20:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754248AbeCGLmy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Mar 2018 06:42:54 -0500
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:36213 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754153AbeCGLmw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Mar 2018 06:42:52 -0500
-Received: by mail-wm0-f66.google.com with SMTP id 188so4115225wme.1
-        for <linux-doc@vger.kernel.org>; Wed, 07 Mar 2018 03:42:52 -0800 (PST)
+        id S1753901AbeCGOUd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Mar 2018 09:20:33 -0500
+Received: from mail-pg0-f65.google.com ([74.125.83.65]:38784 "EHLO
+        mail-pg0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751241AbeCGOUb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Mar 2018 09:20:31 -0500
+Received: by mail-pg0-f65.google.com with SMTP id l24so923272pgc.5;
+        Wed, 07 Mar 2018 06:20:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SGYEJ2GdA93cPIHnM4ofAPrDzbnSQgKIWDNz5mA2x1w=;
-        b=P5CG+p47vsQvgH/AGYN4NItmuOWbI6tPYcfG8q1dv0rYe9WXxt7wz+yLvLUc+hYeDr
-         bVFut03zIjIhQJ0x1CmJ3AnA8RAWIMNs6G6EiuxP7n2IgXm0UgJ1TxjCgd4w1KAhc358
-         Gh/yvPgFtTdUWfJz8/WeTrhoK3GOT6OB78SaQ=
+        bh=tODR7fHbn1+g7gWxoea1NNcNxr6JztsgTEkaBki5rIc=;
+        b=QhiKTJHsthu4YPPQTGEgQlRx2AutLMgfWDuGZNeqzf4EaNNDSizA7vFks1KRh7gCi4
+         eaGSEoHNTLoba2RpTXSwKmGkfP7ZKcc0tXd4Y8SoB4AiHbjV4UuHwpElAhLpPrOK6exm
+         GajCzoXkO+XS4AYcUelCuw/Jr39WsgN/1+YTPiwMuiLpSylXnwH9gaxHPHeEkrVxeKJs
+         Q75xZVMaaXIlnp61+rTyNYNMXGfLfaqdRHQei45LHNVVupbgQfXMjmynHePE5JzrmCfd
+         0fS0MqQIh2Al5GAtfpxmTgJlLTtK5mno04PXhf9Wnd6nWUsufGf9+VnAFlFhgDzM71Xd
+         nyOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=SGYEJ2GdA93cPIHnM4ofAPrDzbnSQgKIWDNz5mA2x1w=;
-        b=G1d5TocnMsqn52YGEXf5b+PrjLyFE41RoteOwiSdIStv0nmPE7pYjxvP1Mf1xEntjN
-         R2Q0rce41cZX2GQq5drbgfL5xKDeyGEvN57iqW/2KKtAmEglAECNbsd0PYYWhwiz0zYP
-         SAfqqnRu4mQnWN5kww6SLbAhBck5695DrSMpNs8RfEhKAcNDaMg8XtfHfgCesdUAaV6y
-         K85j7oL6J7DEnIJNDLZkPKWtwPFfWPPaLosxSZAiXrR3JQF+NAfwkc5bXpmRvVuGc3X5
-         wLwyoDga3s3IB/sGJfq3Bq58t5AVbRjz7Q45BfdVz7woOSBF9CB+/1zdoLmAhSX2ut3B
-         I/9w==
-X-Gm-Message-State: APf1xPB0Q52m3w2fxZMR8jThe4DAv8MLxi2OqR3OHxv2zUeO2pnD5li4
-        INqpv39I/PUhgRFUPqHJLED2sVlbA+w=
-X-Google-Smtp-Source: AG47ELtzXPyP/qsY7foVxThM3rOfGmVESNYgq5MVhHsFiwV2jZacsdvRWE/g+/OzA+U/h8UwiOrc/A==
-X-Received: by 10.80.153.221 with SMTP id n29mr28114128edb.303.1520422971117;
-        Wed, 07 Mar 2018 03:42:51 -0800 (PST)
-Received: from [192.168.1.75] (lft31-1-88-121-166-205.fbx.proxad.net. [88.121.166.205])
-        by smtp.googlemail.com with ESMTPSA id x44sm9914170ede.80.2018.03.07.03.42.49
+        bh=tODR7fHbn1+g7gWxoea1NNcNxr6JztsgTEkaBki5rIc=;
+        b=DdwYzD7ocJwAzETEYQ1+3avN9zuyWf/6M95+Mqxj6T/PRwod8Btt7pRS7MV4zssnQA
+         hraaCYzrIZGB4K1NKzoOTxXcyXMFpA/2pf8f2KXIHZhKEh3te2NvUaqh07UaR4e5F1SY
+         c9RSiHw85LlknRAKIUudHEETSppXKM/0G1nyuEAxT2wlkfYy314cvTkWfrLkcSXc0l7m
+         e/Bh4dyvBOr3i4Qi+pl/aoLcAmF0YF5Kf2C3i7iBqYjHCLByN1dUycvbHIMVHpstZ2Ou
+         G9r6zQvUcrySdx84f29+zJymqAxPYik12Gh15L3W1cqc/6x6bUWsGCelR1R+Dr6HT+al
+         wwHA==
+X-Gm-Message-State: APf1xPBUEG6Y3HFVbocWC4T+hTF97r3GD2xGd1ECI4HPInlhPyh4xT5Y
+        1C5C+z0F+hBgC77dsk3MEBhDjf1a
+X-Google-Smtp-Source: AG47ELvLzy7yMMINg/z4HfFujeMWuenvPsl8fwBhlWaLDHFZxZshXNeO1V/6g7e3pTJWWvwKlU3QxA==
+X-Received: by 10.98.13.211 with SMTP id 80mr22917899pfn.69.1520432430312;
+        Wed, 07 Mar 2018 06:20:30 -0800 (PST)
+Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
+        by smtp.gmail.com with ESMTPSA id a67sm29709363pgc.6.2018.03.07.06.20.27
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 07 Mar 2018 03:42:50 -0800 (PST)
-Subject: Re: [PATCH V2 5/7] thermal/drivers/cpu_cooling: Add idle cooling
- device documentation
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     edubezval@gmail.com, kevin.wangtao@linaro.org, leo.yan@linaro.org,
-        vincent.guittot@linaro.org, amit.kachhap@gmail.com,
-        linux-kernel@vger.kernel.org, javi.merino@kernel.org,
-        rui.zhang@intel.com, daniel.thompson@linaro.org,
-        linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <1519226968-19821-1-git-send-email-daniel.lezcano@linaro.org>
- <1519226968-19821-6-git-send-email-daniel.lezcano@linaro.org>
- <20180306231906.GB28911@amd>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <84fa8a3c-28bf-41ae-8ed7-9dd348b1cde9@linaro.org>
-Date:   Wed, 7 Mar 2018 12:42:48 +0100
+        Wed, 07 Mar 2018 06:20:29 -0800 (PST)
+Subject: Re: [PATCH 05/10] hwmon: generic-pwm-tachometer: Add generic PWM
+ based tachometer
+To:     Rajkumar Rampelli <rrajk@nvidia.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>, robh+dt@kernel.org,
+        mark.rutland@arm.com, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, jdelvare@suse.com, corbet@lwn.net,
+        catalin.marinas@arm.com, will.deacon@arm.com,
+        kstewart@linuxfoundation.org, gregkh@linuxfoundation.org,
+        pombredanne@nexb.com, mmaddireddy@nvidia.com,
+        mperttunen@nvidia.com, arnd@arndb.de, timur@codeaurora.org,
+        andy.gross@linaro.org, xuwei5@hisilicon.com, elder@linaro.org,
+        heiko@sntech.de, krzk@kernel.org, ard.biesheuvel@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, ldewangan@nvidia.com
+References: <1519196339-9377-1-git-send-email-rrajk@nvidia.com>
+ <1519196339-9377-6-git-send-email-rrajk@nvidia.com>
+ <5172edff-fe29-7ed1-f0d2-b0359ea2c24d@roeck-us.net>
+ <2510b525-ec36-b49d-5a62-81f335c0d10d@nvidia.com>
+ <cfe0d0ce-3a89-bad0-85ba-6edf1135d2dc@roeck-us.net>
+ <2628eff2-dd33-34f4-a7e1-cfe46ef88a3f@nvidia.com>
+ <4556a8d2-947d-72c4-2962-3167afb53978@kapsi.fi>
+ <62ba7f67-5a99-51ab-1214-eb68ebb7e642@roeck-us.net>
+ <952cb50e-d9a0-ae5e-d9f6-d1ce268f0384@nvidia.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <f7818e4c-17b6-c58b-3424-85749bb9c1cc@roeck-us.net>
+Date:   Wed, 7 Mar 2018 06:20:26 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <20180306231906.GB28911@amd>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <952cb50e-d9a0-ae5e-d9f6-d1ce268f0384@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -72,207 +88,208 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/03/2018 00:19, Pavel Machek wrote:
-> Hi!
-
-Hi Pavel,
-
-thanks for taking the time to review the documentation.
-
->> --- /dev/null
->> +++ b/Documentation/thermal/cpu-idle-cooling.txt
->> @@ -0,0 +1,165 @@
->> +
->> +Situation:
->> +----------
->> +
+On 03/07/2018 01:47 AM, Rajkumar Rampelli wrote:
 > 
-> Can we have some real header here? Also if this is .rst, maybe it
-> should be marked so?
-
-Ok, I will fix it.
-
->> +Under certain circumstances, the SoC reaches a temperature exceeding
->> +the allocated power budget or the maximum temperature limit. The
 > 
-> I don't understand. Power budget is in W, temperature is in
-> kelvin. Temperature can't exceed power budget AFAICT.
+> On Wednesday 28 February 2018 07:59 PM, Guenter Roeck wrote:
+>> On 02/27/2018 11:03 PM, Mikko Perttunen wrote:
+>>> On 02/28/2018 08:12 AM, Rajkumar Rampelli wrote:
+>>>>
+>>>> On Wednesday 28 February 2018 11:28 AM, Guenter Roeck wrote:
+>>>>> On 02/27/2018 09:38 PM, Rajkumar Rampelli wrote:
+>>>>>>
+>>>>>> On Wednesday 21 February 2018 08:20 PM, Guenter Roeck wrote:
+>>>>>>> On 02/20/2018 10:58 PM, Rajkumar Rampelli wrote:
+>>>>>>>> Add generic PWM based tachometer driver via HWMON interface
+>>>>>>>> to report the RPM of motor. This drivers get the period/duty
+>>>>>>>> cycle from PWM IP which captures the motor PWM output.
+>>>>>>>>
+>>>>>>>> This driver implements a simple interface for monitoring the speed of
+>>>>>>>> a fan and exposes it in roatations per minute (RPM) to the user space
+>>>>>>>> by using the hwmon's sysfs interface
+>>>>>>>>
+>>>>>>>> Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
+>>>>>>>> ---
+>>>>>>>>   Documentation/hwmon/generic-pwm-tachometer |  17 +++++
+>>>>>>>>   drivers/hwmon/Kconfig                      |  10 +++
+>>>>>>>>   drivers/hwmon/Makefile                     |   1 +
+>>>>>>>>   drivers/hwmon/generic-pwm-tachometer.c     | 112 +++++++++++++++++++++++++++++
+>>>>>>>>   4 files changed, 140 insertions(+)
+>>>>>>>>   create mode 100644 Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>>   create mode 100644 drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>>
+>>>>>>>> diff --git a/Documentation/hwmon/generic-pwm-tachometer b/Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>> new file mode 100644
+>>>>>>>> index 0000000..e0713ee
+>>>>>>>> --- /dev/null
+>>>>>>>> +++ b/Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>> @@ -0,0 +1,17 @@
+>>>>>>>> +Kernel driver generic-pwm-tachometer
+>>>>>>>> +====================================
+>>>>>>>> +
+>>>>>>>> +This driver enables the use of a PWM module to monitor a fan. It uses the
+>>>>>>>> +generic PWM interface and can be used on SoCs as along as the SoC supports
+>>>>>>>> +Tachometer controller that moniors the Fan speed in periods.
+>>>>>>>> +
+>>>>>>>> +Author: Rajkumar Rampelli <rrajk@nvidia.com>
+>>>>>>>> +
+>>>>>>>> +Description
+>>>>>>>> +-----------
+>>>>>>>> +
+>>>>>>>> +The driver implements a simple interface for monitoring the Fan speed using
+>>>>>>>> +PWM module and Tachometer controller. It requests period value through PWM
+>>>>>>>> +capture interface to Tachometer and measures the Rotations per minute using
+>>>>>>>> +received period value. It exposes the Fan speed in RPM to the user space by
+>>>>>>>> +using the hwmon's sysfs interface.
+>>>>>>>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>>>>>>>> index ef23553..8912dcb 100644
+>>>>>>>> --- a/drivers/hwmon/Kconfig
+>>>>>>>> +++ b/drivers/hwmon/Kconfig
+>>>>>>>> @@ -1878,6 +1878,16 @@ config SENSORS_XGENE
+>>>>>>>>         If you say yes here you get support for the temperature
+>>>>>>>>         and power sensors for APM X-Gene SoC.
+>>>>>>>>   +config GENERIC_PWM_TACHOMETER
+>>>>>>>> +    tristate "Generic PWM based tachometer driver"
+>>>>>>>> +    depends on PWM
+>>>>>>>> +    help
+>>>>>>>> +      Enables a driver to use PWM signal from motor to use
+>>>>>>>> +      for measuring the motor speed. The RPM is captured by
+>>>>>>>> +      PWM modules which has PWM capture capability and this
+>>>>>>>> +      drivers reads the captured data from PWM IP to convert
+>>>>>>>> +      it to speed in RPM.
+>>>>>>>> +
+>>>>>>>>   if ACPI
+>>>>>>>>     comment "ACPI drivers"
+>>>>>>>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>>>>>>>> index f814b4a..9dcc374 100644
+>>>>>>>> --- a/drivers/hwmon/Makefile
+>>>>>>>> +++ b/drivers/hwmon/Makefile
+>>>>>>>> @@ -175,6 +175,7 @@ obj-$(CONFIG_SENSORS_WM8350)    += wm8350-hwmon.o
+>>>>>>>>   obj-$(CONFIG_SENSORS_XGENE)    += xgene-hwmon.o
+>>>>>>>>     obj-$(CONFIG_PMBUS)        += pmbus/
+>>>>>>>> +obj-$(CONFIG_GENERIC_PWM_TACHOMETER) += generic-pwm-tachometer.o
+>>>>>>>>     ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
+>>>>>>>>   diff --git a/drivers/hwmon/generic-pwm-tachometer.c b/drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>> new file mode 100644
+>>>>>>>> index 0000000..9354d43
+>>>>>>>> --- /dev/null
+>>>>>>>> +++ b/drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>> @@ -0,0 +1,112 @@
+>>>>>>>> +/*
+>>>>>>>> + * Copyright (c) 2017-2018, NVIDIA CORPORATION.  All rights reserved.
+>>>>>>>> + *
+>>>>>>>> + * This program is free software; you can redistribute it and/or modify it
+>>>>>>>> + * under the terms and conditions of the GNU General Public License,
+>>>>>>>> + * version 2, as published by the Free Software Foundation.
+>>>>>>>> + *
+>>>>>>>> + * This program is distributed in the hope it will be useful, but WITHOUT
+>>>>>>>> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+>>>>>>>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+>>>>>>>> + * more details.
+>>>>>>>> + *
+>>>>>>>> + */
+>>>>>>>> +
+>>>>>>>> +#include <linux/module.h>
+>>>>>>>> +#include <linux/platform_device.h>
+>>>>>>>> +#include <linux/err.h>
+>>>>>>>> +#include <linux/pwm.h>
+>>>>>>>> +#include <linux/hwmon.h>
+>>>>>>>> +#include <linux/hwmon-sysfs.h>
+>>>>>>>> +
+>>>>>>>> +struct pwm_hwmon_tach {
+>>>>>>>> +    struct device        *dev;
+>>>>>>>> +    struct pwm_device    *pwm;
+>>>>>>>> +    struct device        *hwmon;
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +static ssize_t show_rpm(struct device *dev, struct device_attribute *attr,
+>>>>>>>> +            char *buf)
+>>>>>>>> +{
+>>>>>>>> +    struct pwm_hwmon_tach *ptt = dev_get_drvdata(dev);
+>>>>>>>> +    struct pwm_device *pwm = ptt->pwm;
+>>>>>>>> +    struct pwm_capture result;
+>>>>>>>> +    int err;
+>>>>>>>> +    unsigned int rpm = 0;
+>>>>>>>> +
+>>>>>>>> +    err = pwm_capture(pwm, &result, 0);
+>>>>>>>> +    if (err < 0) {
+>>>>>>>> +        dev_err(ptt->dev, "Failed to capture PWM: %d\n", err);
+>>>>>>>> +        return err;
+>>>>>>>> +    }
+>>>>>>>> +
+>>>>>>>> +    if (result.period)
+>>>>>>>> +        rpm = DIV_ROUND_CLOSEST_ULL(60ULL * NSEC_PER_SEC,
+>>>>>>>> +                        result.period);
+>>>>>>>> +
+>>>>>>>> +    return sprintf(buf, "%u\n", rpm);
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static SENSOR_DEVICE_ATTR(rpm, 0444, show_rpm, NULL, 0);
+>>>>>>>> +
+>>>>>>>> +static struct attribute *pwm_tach_attrs[] = {
+>>>>>>>> +    &sensor_dev_attr_rpm.dev_attr.attr,
+>>>>>>>> +    NULL,
+>>>>>>>> +};
+>>>>>>>
+>>>>>>> "rpm" is not a standard hwmon sysfs attribute. If you don't provide
+>>>>>>> a single standard hwmon sysfs attribute, having a hwmon driver is pointless.
+>>>>>> Guenter Roeck,
+>>>>>> I will define a new hwmon sysfs attribute node called "hwmon_tachometer_attributes" in hwmon.h like below and update the same in tachometer hwmon driver. Is it fine ?
+>>>>>> enum hwmon_tachometer_attributes {
+>>>>>
+>>>>> Are you kidding me ?
+>>>>>
+>>>>> Guenter
+>>>> Sorry, I just wanted to confirm whether my understanding is correct or not before implementing it actually.
+>>>> Or, shall I add this attribute as a part of fan attributes with "hwmon_fan_rpm" ? or any other way to do it ? I need your inputs in fixing this.
+>>>
+>>> I think he wants the attribute to be named according to the properties in this document: https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface. I guess the attribute would then map to fan1_input, though I'm not sure if that's 100% correct either since this could technically be attached to something other than a fan. But I would think in practice that's not a big concern.
+>>>
+>>> Guenter,
+>>> Please correct me as well if I'm wrong.
+>>>
+>> You are absolutely correct.
+>>
+>> While I am not opposed to ABI changes, the merits of those would need to be
+>> discussed on the mailing list. But replacing "fan1_input" with "rpm" is
+>> not an acceptable ABI change, even if it may measure something that turns
+>> but isn't a fan.
+>>
+>> If this _is_ in fact supposed to be used for something else but fans, we
+>> would have to discuss what that might be, and if hwmon is the appropriate
+>> subsystem to measure and report it. This does to some degree lead back to
+>> my concern of having the "fan" part of this patch series in the pwm core.
+>> I am still not sure if that makes sense.
+>>
+>> Thanks,
+>> Guenter
+> I am planning to add tachometer support in pwm-fan.c driver (drivers/hwmon/) instead of adding new generic-pwm-tachometer.c driver. Measuring RPM value will be done in pwm-fan driver itself using pwm capture feature and will add new sysfs attributes under this driver to report rpm value of fan.
 
-Yes, it is badly worded. Is the following better ?
+There is an existing attribute to report the RPM of fans. It is called fan[1..n]_input.
 
-"
-Under certain circumstances a SoC can reach the maximum temperature
-limit or is unable to stabilize the temperature around a temperature
-control.
+"replacing "fan1_input" with "rpm" is not an acceptable ABI change"
 
-When the SoC has to stabilize the temperature, the kernel can act on a
-cooling device to mitigate the dissipated power.
+Preemptive NACK.
 
-When the maximum temperature is reached and to prevent a catastrophic
-situation a radical decision must be taken to reduce the temperature
-under the critical threshold, that impacts the performance.
+Guenter
 
-"
-
->> +former must be mitigated to stabilize the SoC temperature around the
->> +temperature control using the defined cooling devices, the latter
+>>
+>>> Thank you,
+>>> Mikko
+>>>
+>>>>
+>>>> -- 
+>>>> To unsubscribe from this list: send the line "unsubscribe linux-tegra" in
+>>>> the body of a message to majordomo@vger.kernel.org
+>>>> More majordomo info at http://vger.kernel.org/majordomo-info.html
+>>> -- 
+>>> To unsubscribe from this list: send the line "unsubscribe linux-hwmon" in
+>>> the body of a message to majordomo@vger.kernel.org
+>>> More majordomo info at http://vger.kernel.org/majordomo-info.html
+>>>
+>>
 > 
-> later?
 > 
->> +catastrophic situation where a radical decision must be taken to
->> +reduce the temperature under the critical threshold, that can impact
->> +the performances.
-> 
-> performance.
-> 
->> +Another situation is when the silicon reaches a certain temperature
->> +which continues to increase even if the dynamic leakage is reduced to
->> +its minimum by clock gating the component. The runaway phenomena will
->> +continue with the static leakage and only powering down the component,
->> +thus dropping the dynamic and static leakage will allow the component
->> +to cool down. This situation is critical.
-> 
-> Critical here, critical there. I have trouble following
-> it. Theoretically hardware should protect itself, because you don't
-> want kernel bug to damage your CPU?
-
-There are several levels of protection. The first level is mitigating
-the temperature from the kernel, then in the temperature sensor a reset
-line will trigger the reboot of the CPUs. Usually it is a register where
-you write the maximum temperature, from the driver itself. I never tried
-to write 1000°C in this register and see if I can burn the board.
-
-I know some boards have another level of thermal protection in the
-hardware itself and some other don't.
-
-In any case, from a kernel point of view, it is a critical situation as
-we are about to hard reboot the system and in this case it is preferable
-to drop drastically the performance but give the opportunity to the
-system to run in a degraded mode.
-
->> +Last but not least, the system can ask for a specific power budget but
->> +because of the OPP density, we can only choose an OPP with a power
->> +budget lower than the requested one and underuse the CPU, thus losing
->> +performances. In other words, one OPP under uses the CPU with a
-> 
-> performance.
-> 
->> +lesser than the power budget and the next OPP exceed the power budget,
->> +an intermediate OPP could have been used if it were present.
-> 
-> was.
-> 
->> +Solutions:
->> +----------
->> +
->> +If we can remove the static and the dynamic leakage for a specific
->> +duration in a controlled period, the SoC temperature will
->> +decrease. Acting at the idle state duration or the idle cycle
-> 
-> "should" decrease? If you are in bad environment..
-
-No, it will decrease in any case because of the static leakage drop. The
-bad environment will impact the speed of this decrease.
-
->> +The Operating Performance Point (OPP) density has a great influence on
->> +the control precision of cpufreq, however different vendors have a
->> +plethora of OPP density, and some have large power gap between OPPs,
->> +that will result in loss of performance during thermal control and
->> +loss of power in other scenes.
-> 
-> scene seems to be wrong word here.
-
-yes, 'scenario' will be better :)
-
->> +At a specific OPP, we can assume injecting idle cycle on all CPUs,
-> 
-> Extra comma?
-> 
->> +Idle Injection:
->> +---------------
->> +
->> +The base concept of the idle injection is to force the CPU to go to an
->> +idle state for a specified time each control cycle, it provides
->> +another way to control CPU power and heat in addition to
->> +cpufreq. Ideally, if all CPUs of a cluster inject idle synchronously,
->> +this cluster can get into the deepest idle state and achieve minimum
->> +power consumption, but that will also increase system response latency
->> +if we inject less than cpuidle latency.
-> 
-> I don't understand last sentence.
-
-Is it better ?
-
-"Ideally, if all CPUs, belonging to the same cluster, inject their idle
-cycle synchronously, the cluster can reach its power down state with a
-minimum power consumption and static leakage drop. However, these idle
-cycles injection will add extra latencies as the CPUs will have to
-wakeup from a deep sleep state."
-
-
->> +The mitigation begins with a maximum period value which decrease
-> 
-> decreases?
->   
->> +more cooling effect is requested. When the period duration is equal
->> to
->> +the idle duration, then we are in a situation the platform can’t
->> +dissipate the heat enough and the mitigation fails. In this case
-> 
-> fast enough?
-> 
->> +situation is considered critical and there is nothing to do. The idle
-> 
-> Nothing to do? Maybe power the system down?
-
-Nothing to do == the mitigation can't handle the situation, it reached
-its limit. We can't do better.
-
-Solution: add an emergency thermal shutdown (which is an orthogonal
-feature to be added to the thermal framework).
-
-Sidenote: it is a very unlikely case, as we are idle most of the time
-when the heat is hard to dissipate. I tested this with a proto-SoC with
-an interesting thermal behavior (temperature jumps insanely high),
-running at full blast and bad heat dissipation, the mitigation never
-reached the limit.
-
->> +The idle injection duration value must comply with the constraints:
->> +
->> +- It is lesser or equal to the latency we tolerate when the mitigation
-> 
-> less ... than the latency
-> 
->> +Minimum period
->> +--------------
->> +
->> +The idle injection duration being fixed, it is obvious the minimum
->> +period can’t be lesser than that, otherwise we will be scheduling the
-> 
-> less.
-> 
->> +Practically, if the running power is lesses than the targeted power,
-> 
-> less.
-> 
->> +However, in this demonstration we ignore three aspects:
->> +
->> + * The static leakage is not defined here, we can introduce it in the
->> +   equation but assuming it will be zero most of the time as it is
-> 
-> , but?
-> 
-> Best regards,
-
-Thanks!
-
-
--- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
