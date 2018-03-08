@@ -1,71 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 19DED7E676
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 06:47:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 70C7B7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 07:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965035AbeCHGqo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 01:46:44 -0500
-Received: from smtp.codeaurora.org ([198.145.29.96]:57318 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935257AbeCHGqk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 01:46:40 -0500
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 49D8760807; Thu,  8 Mar 2018 06:46:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1520491600;
-        bh=FxgfiATLHNovwZPz7Acs5iEDxjxrHCrcfwlHQDt8FeA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Q99h0OWad9ai4bf441uYjz2R0DleHXhhP+jIBn4O8YErKmRUWie5Vqzj1ydvnBH7p
-         wpununJynSNEK9TXFxN4hIBzpK7DKvkVX3NLuD43oINtdYoxxOw9rRbeZCvd1tkwwb
-         MaQHvfk2SV8LmaKdbctTLXEvxRdD/U5M/B1pp6os=
-Received: from [192.168.0.108] (unknown [161.97.199.73])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kramasub@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3CCDD60390;
-        Thu,  8 Mar 2018 06:46:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1520491598;
-        bh=FxgfiATLHNovwZPz7Acs5iEDxjxrHCrcfwlHQDt8FeA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ft7XhDQJEnqX8BNxprYh6ewHTw5RB1O/zGdWLo5IL9NAtkewhYpoovbJO9UweRAYG
-         d+gzsI3ld7kYb9hnos9qG7fWFWGUqJGw9EhX/wMCDk02O1nnlQel53ooaa2w7TAYUs
-         d2sVjh9DMSGCh1+44bQr2uJUnWp2EGPp71Y6k5qk=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3CCDD60390
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
-Subject: Re: [PATCH v3 2/4] soc: qcom: Add GENI based QUP Wrapper driver
-To:     Stephen Boyd <swboyd@chromium.org>,
-        Stephen Boyd <sboyd@chromium.org>, andy.gross@linaro.org,
-        corbet@lwn.net, david.brown@linaro.org, gregkh@linuxfoundation.org,
-        mark.rutland@arm.com, robh+dt@kernel.org, wsa@the-dreams.de,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, jslaby@suse.com,
-        evgreen@chromium.org, acourbot@chromium.org,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>,
-        iommu@lists.linux-foundation.org
-References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
- <1519781889-16117-3-git-send-email-kramasub@codeaurora.org>
- <152002326567.108663.16836885081217739460@swboyd.mtv.corp.google.com>
- <4ac213a6-081f-72c1-c9c8-6994786285c9@codeaurora.org>
- <152037339742.218381.11498404122038956963@swboyd.mtv.corp.google.com>
-From:   Karthik Ramasubramanian <kramasub@codeaurora.org>
-Message-ID: <945b6c00-dde6-6ec7-4577-4cc0d034796b@codeaurora.org>
-Date:   Wed, 7 Mar 2018 23:46:36 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1755135AbeCHH5d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 02:57:33 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:11037 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751603AbeCHH5b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 02:57:31 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com
+        id <B5aa0ece90000>; Wed, 07 Mar 2018 23:57:29 -0800
+Received: from HQMAIL106.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 07 Mar 2018 23:57:30 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 07 Mar 2018 23:57:30 -0800
+Received: from UKMAIL101.nvidia.com (10.26.138.13) by HQMAIL106.nvidia.com
+ (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
+ 2018 07:57:29 +0000
+Received: from [10.21.26.144] (10.21.26.144) by UKMAIL101.nvidia.com
+ (10.26.138.13) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
+ 2018 07:57:23 +0000
+Subject: Re: [PATCH 05/10] hwmon: generic-pwm-tachometer: Add generic PWM
+ based tachometer
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Rajkumar Rampelli <rrajk@nvidia.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <jdelvare@suse.com>, <corbet@lwn.net>,
+        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <kstewart@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
+        <pombredanne@nexb.com>, <mmaddireddy@nvidia.com>, <arnd@arndb.de>,
+        <timur@codeaurora.org>, <andy.gross@linaro.org>,
+        <xuwei5@hisilicon.com>, <elder@linaro.org>, <heiko@sntech.de>,
+        <krzk@kernel.org>, <ard.biesheuvel@linaro.org>
+References: <1519196339-9377-1-git-send-email-rrajk@nvidia.com>
+ <1519196339-9377-6-git-send-email-rrajk@nvidia.com>
+ <5172edff-fe29-7ed1-f0d2-b0359ea2c24d@roeck-us.net>
+ <2510b525-ec36-b49d-5a62-81f335c0d10d@nvidia.com>
+ <cfe0d0ce-3a89-bad0-85ba-6edf1135d2dc@roeck-us.net>
+ <2628eff2-dd33-34f4-a7e1-cfe46ef88a3f@nvidia.com>
+ <4556a8d2-947d-72c4-2962-3167afb53978@kapsi.fi>
+ <62ba7f67-5a99-51ab-1214-eb68ebb7e642@roeck-us.net>
+ <952cb50e-d9a0-ae5e-d9f6-d1ce268f0384@nvidia.com>
+ <f7818e4c-17b6-c58b-3424-85749bb9c1cc@roeck-us.net>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <ldewangan@nvidia.com>
+From:   Mikko Perttunen <mperttunen@nvidia.com>
+Message-ID: <73ca5840-865b-b44e-45e6-703b7749fb6f@nvidia.com>
+Date:   Thu, 8 Mar 2018 09:57:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <152037339742.218381.11498404122038956963@swboyd.mtv.corp.google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <f7818e4c-17b6-c58b-3424-85749bb9c1cc@roeck-us.net>
+X-Originating-IP: [10.21.26.144]
+X-ClientProxiedBy: UKMAIL102.nvidia.com (10.26.138.15) To UKMAIL101.nvidia.com
+ (10.26.138.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -74,93 +73,260 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 3/6/2018 2:56 PM, Stephen Boyd wrote:
-> Quoting Karthik Ramasubramanian (2018-03-02 16:58:23)
-> 
->>>> +       return iova;
->>>> +}
->>>> +EXPORT_SYMBOL(geni_se_tx_dma_prep);
->>>> +
->>>> +/**
->>>> + * geni_se_rx_dma_prep() - Prepare the Serial Engine for RX DMA transfer
->>>> + * @se:                        Pointer to the concerned Serial Engine.
->>>> + * @buf:               Pointer to the RX buffer.
->>>> + * @len:               Length of the RX buffer.
->>>> + *
->>>> + * This function is used to prepare the buffers for DMA RX.
->>>> + *
->>>> + * Return: Mapped DMA Address of the buffer on success, NULL on failure.
->>>> + */
->>>> +dma_addr_t geni_se_rx_dma_prep(struct geni_se *se, void *buf, size_t len)
->>>> +{
->>>> +       dma_addr_t iova;
->>>> +       struct geni_wrapper *wrapper = se->wrapper;
->>>> +       u32 val;
->>>> +
->>>> +       iova = dma_map_single(wrapper->dev, buf, len, DMA_FROM_DEVICE);
->>>> +       if (dma_mapping_error(wrapper->dev, iova))
->>>> +               return (dma_addr_t)NULL;
->>>
->>> Can't return a dma_mapping_error address to the caller and have them
->>> figure it out?
->> Earlier we used to return the DMA_ERROR_CODE which has been removed
->> recently in arm64 architecture. If we return the dma_mapping_error, then
->> the caller also needs the device which encountered the mapping error.
->> The serial interface drivers can use their parent currently to resolve
->> the mapping error. Once the wrapper starts mapping using IOMMU context
->> bank, then the serial interface drivers do not know which device to use
->> to know if there is an error.
+On 07.03.2018 16:20, Guenter Roeck wrote:
+> On 03/07/2018 01:47 AM, Rajkumar Rampelli wrote:
 >>
->> Having said that, the dma_ops suggestion might help with handling this
->> situation. I will look into it further.
-> 
-> Ok, thanks.
-> 
->>>> +{
->>>> +       struct geni_wrapper *wrapper = se->wrapper;
->>>> +
->>>> +       if (iova)
->>>> +               dma_unmap_single(wrapper->dev, iova, len, DMA_FROM_DEVICE);
->>>> +}
->>>> +EXPORT_SYMBOL(geni_se_rx_dma_unprep);
+>>
+>> On Wednesday 28 February 2018 07:59 PM, Guenter Roeck wrote:
+>>> On 02/27/2018 11:03 PM, Mikko Perttunen wrote:
+>>>> On 02/28/2018 08:12 AM, Rajkumar Rampelli wrote:
+>>>>>
+>>>>> On Wednesday 28 February 2018 11:28 AM, Guenter Roeck wrote:
+>>>>>> On 02/27/2018 09:38 PM, Rajkumar Rampelli wrote:
+>>>>>>>
+>>>>>>> On Wednesday 21 February 2018 08:20 PM, Guenter Roeck wrote:
+>>>>>>>> On 02/20/2018 10:58 PM, Rajkumar Rampelli wrote:
+>>>>>>>>> Add generic PWM based tachometer driver via HWMON interface
+>>>>>>>>> to report the RPM of motor. This drivers get the period/duty
+>>>>>>>>> cycle from PWM IP which captures the motor PWM output.
+>>>>>>>>>
+>>>>>>>>> This driver implements a simple interface for monitoring the
+>>>>>>>>> speed of
+>>>>>>>>> a fan and exposes it in roatations per minute (RPM) to the user
+>>>>>>>>> space
+>>>>>>>>> by using the hwmon's sysfs interface
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
+>>>>>>>>> ---
+>>>>>>>>>   Documentation/hwmon/generic-pwm-tachometer |  17 +++++
+>>>>>>>>>   drivers/hwmon/Kconfig                      |  10 +++
+>>>>>>>>>   drivers/hwmon/Makefile                     |   1 +
+>>>>>>>>>   drivers/hwmon/generic-pwm-tachometer.c     | 112
+>>>>>>>>> +++++++++++++++++++++++++++++
+>>>>>>>>>   4 files changed, 140 insertions(+)
+>>>>>>>>>   create mode 100644 Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>>>   create mode 100644 drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>>>
+>>>>>>>>> diff --git a/Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>>> b/Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>>> new file mode 100644
+>>>>>>>>> index 0000000..e0713ee
+>>>>>>>>> --- /dev/null
+>>>>>>>>> +++ b/Documentation/hwmon/generic-pwm-tachometer
+>>>>>>>>> @@ -0,0 +1,17 @@
+>>>>>>>>> +Kernel driver generic-pwm-tachometer
+>>>>>>>>> +====================================
+>>>>>>>>> +
+>>>>>>>>> +This driver enables the use of a PWM module to monitor a fan.
+>>>>>>>>> It uses the
+>>>>>>>>> +generic PWM interface and can be used on SoCs as along as the
+>>>>>>>>> SoC supports
+>>>>>>>>> +Tachometer controller that moniors the Fan speed in periods.
+>>>>>>>>> +
+>>>>>>>>> +Author: Rajkumar Rampelli <rrajk@nvidia.com>
+>>>>>>>>> +
+>>>>>>>>> +Description
+>>>>>>>>> +-----------
+>>>>>>>>> +
+>>>>>>>>> +The driver implements a simple interface for monitoring the
+>>>>>>>>> Fan speed using
+>>>>>>>>> +PWM module and Tachometer controller. It requests period value
+>>>>>>>>> through PWM
+>>>>>>>>> +capture interface to Tachometer and measures the Rotations per
+>>>>>>>>> minute using
+>>>>>>>>> +received period value. It exposes the Fan speed in RPM to the
+>>>>>>>>> user space by
+>>>>>>>>> +using the hwmon's sysfs interface.
+>>>>>>>>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>>>>>>>>> index ef23553..8912dcb 100644
+>>>>>>>>> --- a/drivers/hwmon/Kconfig
+>>>>>>>>> +++ b/drivers/hwmon/Kconfig
+>>>>>>>>> @@ -1878,6 +1878,16 @@ config SENSORS_XGENE
+>>>>>>>>>         If you say yes here you get support for the temperature
+>>>>>>>>>         and power sensors for APM X-Gene SoC.
+>>>>>>>>>   +config GENERIC_PWM_TACHOMETER
+>>>>>>>>> +    tristate "Generic PWM based tachometer driver"
+>>>>>>>>> +    depends on PWM
+>>>>>>>>> +    help
+>>>>>>>>> +      Enables a driver to use PWM signal from motor to use
+>>>>>>>>> +      for measuring the motor speed. The RPM is captured by
+>>>>>>>>> +      PWM modules which has PWM capture capability and this
+>>>>>>>>> +      drivers reads the captured data from PWM IP to convert
+>>>>>>>>> +      it to speed in RPM.
+>>>>>>>>> +
+>>>>>>>>>   if ACPI
+>>>>>>>>>     comment "ACPI drivers"
+>>>>>>>>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>>>>>>>>> index f814b4a..9dcc374 100644
+>>>>>>>>> --- a/drivers/hwmon/Makefile
+>>>>>>>>> +++ b/drivers/hwmon/Makefile
+>>>>>>>>> @@ -175,6 +175,7 @@ obj-$(CONFIG_SENSORS_WM8350)    +=
+>>>>>>>>> wm8350-hwmon.o
+>>>>>>>>>   obj-$(CONFIG_SENSORS_XGENE)    += xgene-hwmon.o
+>>>>>>>>>     obj-$(CONFIG_PMBUS)        += pmbus/
+>>>>>>>>> +obj-$(CONFIG_GENERIC_PWM_TACHOMETER) += generic-pwm-tachometer.o
+>>>>>>>>>     ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
+>>>>>>>>>   diff --git a/drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>>> b/drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>>> new file mode 100644
+>>>>>>>>> index 0000000..9354d43
+>>>>>>>>> --- /dev/null
+>>>>>>>>> +++ b/drivers/hwmon/generic-pwm-tachometer.c
+>>>>>>>>> @@ -0,0 +1,112 @@
+>>>>>>>>> +/*
+>>>>>>>>> + * Copyright (c) 2017-2018, NVIDIA CORPORATION.  All rights
+>>>>>>>>> reserved.
+>>>>>>>>> + *
+>>>>>>>>> + * This program is free software; you can redistribute it
+>>>>>>>>> and/or modify it
+>>>>>>>>> + * under the terms and conditions of the GNU General Public
+>>>>>>>>> License,
+>>>>>>>>> + * version 2, as published by the Free Software Foundation.
+>>>>>>>>> + *
+>>>>>>>>> + * This program is distributed in the hope it will be useful,
+>>>>>>>>> but WITHOUT
+>>>>>>>>> + * ANY WARRANTY; without even the implied warranty of
+>>>>>>>>> MERCHANTABILITY or
+>>>>>>>>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+>>>>>>>>> Public License for
+>>>>>>>>> + * more details.
+>>>>>>>>> + *
+>>>>>>>>> + */
+>>>>>>>>> +
+>>>>>>>>> +#include <linux/module.h>
+>>>>>>>>> +#include <linux/platform_device.h>
+>>>>>>>>> +#include <linux/err.h>
+>>>>>>>>> +#include <linux/pwm.h>
+>>>>>>>>> +#include <linux/hwmon.h>
+>>>>>>>>> +#include <linux/hwmon-sysfs.h>
+>>>>>>>>> +
+>>>>>>>>> +struct pwm_hwmon_tach {
+>>>>>>>>> +    struct device        *dev;
+>>>>>>>>> +    struct pwm_device    *pwm;
+>>>>>>>>> +    struct device        *hwmon;
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +static ssize_t show_rpm(struct device *dev, struct
+>>>>>>>>> device_attribute *attr,
+>>>>>>>>> +            char *buf)
+>>>>>>>>> +{
+>>>>>>>>> +    struct pwm_hwmon_tach *ptt = dev_get_drvdata(dev);
+>>>>>>>>> +    struct pwm_device *pwm = ptt->pwm;
+>>>>>>>>> +    struct pwm_capture result;
+>>>>>>>>> +    int err;
+>>>>>>>>> +    unsigned int rpm = 0;
+>>>>>>>>> +
+>>>>>>>>> +    err = pwm_capture(pwm, &result, 0);
+>>>>>>>>> +    if (err < 0) {
+>>>>>>>>> +        dev_err(ptt->dev, "Failed to capture PWM: %d\n", err);
+>>>>>>>>> +        return err;
+>>>>>>>>> +    }
+>>>>>>>>> +
+>>>>>>>>> +    if (result.period)
+>>>>>>>>> +        rpm = DIV_ROUND_CLOSEST_ULL(60ULL * NSEC_PER_SEC,
+>>>>>>>>> +                        result.period);
+>>>>>>>>> +
+>>>>>>>>> +    return sprintf(buf, "%u\n", rpm);
+>>>>>>>>> +}
+>>>>>>>>> +
+>>>>>>>>> +static SENSOR_DEVICE_ATTR(rpm, 0444, show_rpm, NULL, 0);
+>>>>>>>>> +
+>>>>>>>>> +static struct attribute *pwm_tach_attrs[] = {
+>>>>>>>>> +    &sensor_dev_attr_rpm.dev_attr.attr,
+>>>>>>>>> +    NULL,
+>>>>>>>>> +};
+>>>>>>>>
+>>>>>>>> "rpm" is not a standard hwmon sysfs attribute. If you don't provide
+>>>>>>>> a single standard hwmon sysfs attribute, having a hwmon driver
+>>>>>>>> is pointless.
+>>>>>>> Guenter Roeck,
+>>>>>>> I will define a new hwmon sysfs attribute node called
+>>>>>>> "hwmon_tachometer_attributes" in hwmon.h like below and update
+>>>>>>> the same in tachometer hwmon driver. Is it fine ?
+>>>>>>> enum hwmon_tachometer_attributes {
+>>>>>>
+>>>>>> Are you kidding me ?
+>>>>>>
+>>>>>> Guenter
+>>>>> Sorry, I just wanted to confirm whether my understanding is correct
+>>>>> or not before implementing it actually.
+>>>>> Or, shall I add this attribute as a part of fan attributes with
+>>>>> "hwmon_fan_rpm" ? or any other way to do it ? I need your inputs in
+>>>>> fixing this.
+>>>>
+>>>> I think he wants the attribute to be named according to the
+>>>> properties in this document:
+>>>> https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface. I
+>>>> guess the attribute would then map to fan1_input, though I'm not
+>>>> sure if that's 100% correct either since this could technically be
+>>>> attached to something other than a fan. But I would think in
+>>>> practice that's not a big concern.
+>>>>
+>>>> Guenter,
+>>>> Please correct me as well if I'm wrong.
+>>>>
+>>> You are absolutely correct.
 >>>
->>> Instead of having the functions exported, could we set the dma_ops on
->>> all child devices of the wrapper that this driver populates and then
->>> implement the DMA ops for those devices here? I assume that there's
->>> never another DMA master between the wrapper and the serial engine, so I
->>> think it would work.
->> This suggestion looks like it will work.
-> 
-> It would be a good idea to check with some other people on the dma_ops
-> suggestion. Maybe add the DMA mapping subsystem folks to help out here
-I have added the DMA mapping subsystem folks to help out here.
+>>> While I am not opposed to ABI changes, the merits of those would need
+>>> to be
+>>> discussed on the mailing list. But replacing "fan1_input" with "rpm" is
+>>> not an acceptable ABI change, even if it may measure something that
+>>> turns
+>>> but isn't a fan.
+>>>
+>>> If this _is_ in fact supposed to be used for something else but fans, we
+>>> would have to discuss what that might be, and if hwmon is the
+>>> appropriate
+>>> subsystem to measure and report it. This does to some degree lead
+>>> back to
+>>> my concern of having the "fan" part of this patch series in the pwm
+>>> core.
+>>> I am still not sure if that makes sense.
+>>>
+>>> Thanks,
+>>> Guenter
+>> I am planning to add tachometer support in pwm-fan.c driver
+>> (drivers/hwmon/) instead of adding new generic-pwm-tachometer.c
+>> driver. Measuring RPM value will be done in pwm-fan driver itself
+>> using pwm capture feature and will add new sysfs attributes under this
+>> driver to report rpm value of fan.
+>
+> There is an existing attribute to report the RPM of fans. It is called
+> fan[1..n]_input.
+>
+> "replacing "fan1_input" with "rpm" is not an acceptable ABI change"
+>
+> Preemptive NACK.
+>
+> Guenter
+>
 
-To present an overview, we have a wrapper controller which is composed 
-of several serial engines. The serial engines are programmed with UART, 
-I2C or SPI protocol and support DMA transfer. When the serial engines 
-perform DMA transfer, the wrapper controller device is used to perform 
-the mapping. The reason wrapper device is used is because of IOMMU and 
-there is only one IOMMU context bank to perform the translation for the 
-entire wrapper controller. So the wrapper controller exports map and 
-unmap functions to the individual protocol drivers.
+I think the idea here (based on personal discussion with Rajkumar) was 
+to add a "new" sysfs attribute the driver exports, but that attribute 
+would be the existing fan[1..n]_input.
 
-There is a suggestion to make the parent wrapper controller implement 
-the dma_map_ops, instead of exported map/unmap functions and populate 
-those dma_map_ops on all the children serial engines. Can you please 
-provide your inputs regarding this suggestion?
-> 
-> DMA MAPPING HELPERS
-> M:      Christoph Hellwig <hch@lst.de>
-> M:      Marek Szyprowski <m.szyprowski@samsung.com>
-> R:      Robin Murphy <robin.murphy@arm.com>
-> L:      iommu@lists.linux-foundation.org
-> 
-> 
-Regards,
-Karthik.
--- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Mikko
+
+>>>
+>>>> Thank you,
+>>>> Mikko
+>>>>
+>>>>>
+>>>>> --
+>>>>> To unsubscribe from this list: send the line "unsubscribe
+>>>>> linux-tegra" in
+>>>>> the body of a message to majordomo@vger.kernel.org
+>>>>> More majordomo info at http://vger.kernel.org/majordomo-info.html
+>>>> --
+>>>> To unsubscribe from this list: send the line "unsubscribe
+>>>> linux-hwmon" in
+>>>> the body of a message to majordomo@vger.kernel.org
+>>>> More majordomo info at http://vger.kernel.org/majordomo-info.html
+>>>>
+>>>
+>>
+>>
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
