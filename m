@@ -5,78 +5,88 @@ X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A753F7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 23:41:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7CDA07E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 23:42:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751773AbeCHXln (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 18:41:43 -0500
-Received: from mout.gmx.net ([212.227.17.20]:54899 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751613AbeCHXlc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1751616AbeCHXlc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 8 Mar 2018 18:41:32 -0500
-Received: from latitude ([88.153.6.235]) by mail.gmx.com (mrgmx102
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0MC7em-1elJjN1KFs-008qtD; Fri, 09
- Mar 2018 00:41:05 +0100
+Received: from mout.gmx.net ([212.227.17.21]:53493 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751574AbeCHXla (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Mar 2018 18:41:30 -0500
+Received: from latitude ([88.153.6.235]) by mail.gmx.com (mrgmx103
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0Mh9cj-1fFku70I8P-00MNU6; Fri, 09
+ Mar 2018 00:41:10 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-gpio@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 1/8] MAINTAINERS: GPIO: Add Documentation/driver-api/gpio/
-Date:   Fri,  9 Mar 2018 00:40:17 +0100
-Message-Id: <20180308234024.24145-2-j.neuschaefer@gmx.net>
+        Vinod Koul <vinod.koul@intel.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Thierry Reding <treding@nvidia.com>
+Subject: [PATCH 2/8] Documentation: driver-api: Move gpio.rst to gpio/index.rst
+Date:   Fri,  9 Mar 2018 00:40:18 +0100
+Message-Id: <20180308234024.24145-3-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308234024.24145-1-j.neuschaefer@gmx.net>
 References: <20180308234024.24145-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K0:Ogh2i7vV+Zkm1enYb+V5gERBV10RaCyzAq29AKm20O+quXsBD/P
- 7wa8LVxhMzlL+tO9jkzGOeBF+vFJDCFywP+GOAtnJt2DCmINntuGenUFbr7dxF8guuNsE7B
- I5SRwB04ydOQxABqHk9nePd4dIUIpcylTkUg05otcm7cUor3WUZVc8zrg8FBNujm5lBB1kG
- xzoBvZGvFnPlfR09raHkA==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:2hSDu3wEgrY=:StJKNtAli/2KcQ5tIcHyYM
- MJ4cQsWt64aRlweYqOxa6YRtwM9BAdkMpvGu8gdowAGc79j1cWExxaOo5+hcEjP+mKZt8Aogk
- 4s3kjPCcirX4dsq/ewN8uzT+1g9nRgmlf08g0JeOcU5zC80t/Yu3htF/AibO20Rq0xuvJqbuQ
- mX3pIsSaMcZMWcMcf/h2842UCe1rc9GuvMp0x/X5pgo4xXJUh7HrhvER6tHKdF/6afcB/sukZ
- lBAZoy2yH2pYW8jZPMHSB91ujLeDBrBA3/ac0/nMgh5gRdhcaFPyhQaIfYPfcFnuofMU4pQa9
- zm9GUXAtoPZy/HbD9pn3nh5JWULOKa0iDjn+j+I2a1KmHKfcApKTp/byQXe3Ak3umKWf3lzT6
- HM/JKtoFmrd7h1QX4cMkQFM02Fgviy1BC9O2wtfu1YoYWrYIZ+VL9SnjEuFP5XI+pA169pcNf
- TfprYUtnMKrWiecnb52K1MdEBHj/CoWpUxiK6J635otAppPm7Nu7xMlpunByt9w3bZqbP6inY
- OsgeGCXcrKoFrLuI4PQAmjD8aKLRRTDTol1ZJx8Ht0uw6J9Xte4Dj1k5SPSXojJ0eQRgFq4mo
- XWxXmisUXlPK2z/YoKDonFpw6B/M5A4mDYGSe3QFk6mM2086J9+zzfTC3oiB1rzaxcf8/dh1A
- QHWYSxX+p5XiTl9YuibVEN3Z6QbSD5pr09TjBFnq/9wxBzRzNJbrKj0mxnkGPqU7RZNGaticT
- YWRG2VEBVPEH+gg4g4T7e2BE57tOV4SKwBgoZvU6j9gsmi14/NR4RCNc3BugC18JfJOL4mmYn
- /gbNoQtFmcc1RD+RyRgvXzh0G8mj/ABrJYkzULJEGahAvPUkVQ=
+X-Provags-ID: V03:K0:VDAzRHM8LKEcX/zaXEAkD04gHlvpcQUPyGpsUCn0SYmGuU26pg1
+ gw6jBekiTEZaFSp73vpH73HJafjVYGXz+IzwcPOrLi9hFYVbD77VuzGhuenZ5ZNoCBNWVl/
+ o5bRlyK175uKqS+OrmOf2Tgw5mUKgxXDSRFidbqTJKxyMEyiZy5sXeeWl6URxH1ekrgtB0u
+ WDIhJedODgwbgtQ8Zwgwg==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:yRef1sQjel0=:2CamwxpMHr8Uofyx3EiCiO
+ LiZtqKc34knkDqPEbgsdy9uUdbFR73dtl0OEuU4dwr+i/ZLZCA4W7xi/fLk6ToomadERvPqGa
+ ZYPRMLjpIkOuz+eY2IaxBNb+9hMMSd9//0A8KbtIidKXffSmpvfHP1616+Z4B6A9raF6gtko/
+ CFzoXl9M+vHL5143y8hAdPo7R2SYDGxFwHUTylkET5KWUpph9gmVgpcwr7PS9JVJaS+guinS1
+ BGE/pL3UEYJzdzp/50PX6jWVCLOjI5zDZi1GUame1kCEfRUgDhEwUk7+yM/9vRDvOf4Ouk+Fu
+ bq04+M8eWe2k4Nd4fJz9UxwweEZXOrGHLgzcLVyaiX/OBQUCS7ozXkkZcDbRbl/eWxKJUGuEn
+ Lsw6ja730fyFs9SGlm4eMF54AdmCh9KemOpTY539fcMMP9JN5ZqXYDWY2IiKBFa4CWN2bU9SC
+ k5P5i/rfLw2nQ1XSi5A3QbQPBVR+rXUE49N1u4rcU3vnhe5f9e6m6BHky1sK+2aRk1lyJg2hJ
+ 4uIAP56pv/6KPjfsD7YEyMSZEw5jxdlTWelNfpnxu9A2LinxPRADgTCT/GmwP16IMULw3+L1I
+ smo8+Emlr0MzvsKw9QDXVJJ7AqbosU4pKGI//JrK6bH2rYfQnn7pf07ZZ2whS3OLLKfGwOYUk
+ OU9V3ZSvXrVwWmixXuWHO5KSriK1X4u7Wzqvu3lco+uVSCyScUrRAJ65Z5mOoQWozxZ0hX2xE
+ UmJ6HFSTaL2rtnGPiVBJrWQ2+iDaZaMSYsNAUgP84AtMR3Ahpfh5YwyAx3XjiE0NTH8TvkYCf
+ t7X2D5Ru3hqTROLM83EAYcRBku/fP0SUGIbhPc7LTfhDv2hI9w=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Steer patches to Documentation/driver-api/gpio/ into the right
-direction.
+To make space for more files in the GPIO section, create a
+Documentation/driver-api/gpio/ directory.
 
 Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/driver-api/{gpio.rst => gpio/index.rst} | 0
+ Documentation/driver-api/index.rst                    | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/driver-api/{gpio.rst => gpio/index.rst} (100%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d6a89d31e4a4..313c0907020c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6029,6 +6029,7 @@ L:	linux-gpio@vger.kernel.org
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git
- S:	Maintained
- F:	Documentation/devicetree/bindings/gpio/
-+F:	Documentation/driver-api/gpio/
- F:	Documentation/gpio/
- F:	Documentation/ABI/testing/gpio-cdev
- F:	Documentation/ABI/obsolete/sysfs-gpio
+diff --git a/Documentation/driver-api/gpio.rst b/Documentation/driver-api/gpio/index.rst
+similarity index 100%
+rename from Documentation/driver-api/gpio.rst
+rename to Documentation/driver-api/gpio/index.rst
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 62d056471c0d..9b54fb99d9ca 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -45,7 +45,7 @@ available subsections can be seen below.
+    uio-howto
+    firmware/index
+    pinctl
+-   gpio
++   gpio/index
+    misc_devices
+    dmaengine/index
+    slimbus
 -- 
 2.16.1
 
