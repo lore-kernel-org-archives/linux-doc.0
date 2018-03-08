@@ -1,59 +1,353 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57C8D7E676
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 03:41:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 881777E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 05:19:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754066AbeCHDlO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Mar 2018 22:41:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39646 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753901AbeCHDlO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Mar 2018 22:41:14 -0500
-Received: from vmware.local.home (unknown [208.91.3.26])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EAE5A2172D;
-        Thu,  8 Mar 2018 03:41:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EAE5A2172D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=rostedt@goodmis.org
-Date:   Wed, 7 Mar 2018 22:41:11 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Du, Changbin" <changbin.du@intel.com>, mingo@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/17] Include linux trace docs to Sphinx TOC tree
-Message-ID: <20180307224111.0c961fbb@vmware.local.home>
-In-Reply-To: <20180307104649.4db521a5@lwn.net>
-References: <1518845990-20733-1-git-send-email-changbin.du@intel.com>
-        <20180227093421.yd674oaklthaljgh@intel.com>
-        <20180227174337.37ecb348@vmware.local.home>
-        <20180307104649.4db521a5@lwn.net>
-X-Mailer: Claws Mail 3.15.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S966766AbeCHFTj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 00:19:39 -0500
+Received: from mail-ua0-f178.google.com ([209.85.217.178]:40667 "EHLO
+        mail-ua0-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S966670AbeCHFTg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 00:19:36 -0500
+Received: by mail-ua0-f178.google.com with SMTP id c14so3116120uak.7
+        for <linux-doc@vger.kernel.org>; Wed, 07 Mar 2018 21:19:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=3mSvw+tf5N3oiY/xrYIhR4KUndBn1VPNIwXh75wQqoQ=;
+        b=EO79GpUMPOLZKDZy38RSx9b5ebUy7n05XnqcQYYKdz7w5fIIw7URz3HGYBBwVIo5An
+         HsF1zsh5KuRsEEkR7L2rqWEk/O2X5zYN1jqK+nXnZ3Hg8WvPnmtEgr602rONaMSxGhyl
+         TUet6+0Mf471hSyJeFzGGOapAdNgr51X9BDS5OAitivnZr09+CUeyUD+8JAoLG4hholj
+         VPWEMMKAcL52VyXuiAzXnfvIGba5Dje1kDTQAf1clJIeRGaAvmbVWDdAH+AxkcrBD/XB
+         L8s9+3ePBSle1xZCbk7u6yYdufrxrHvy3pxhWYp0D3aUg4hTclbmaFtkjIl5yrB+ocZv
+         1NOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=3mSvw+tf5N3oiY/xrYIhR4KUndBn1VPNIwXh75wQqoQ=;
+        b=nXKgmGXovwJZaqiYhPd+0ZAE6mO0jw9l/OHRp8BLT5o8B8hWszx5y5Uj6GqpP4IUcn
+         5pYMGfoTiNdiGkdvyezyfIiJGRIOReikdUg2bl1SW6qngmKhf8Ci3LD6AMbeRVB0bKfX
+         GV/2OnToMFCgUzevrM4negwy2Ixie2waBBytg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=3mSvw+tf5N3oiY/xrYIhR4KUndBn1VPNIwXh75wQqoQ=;
+        b=Id03Y79iDt4WLKrLU48MqGM0vMppOYvCeAkD+uH1aJsBdFoBLaAsYeN7U9oPsPooXX
+         x8fEW+eJxPmYQyVa+CgaQmqSvNFHXYO2xbpC4X6z9cVTOmCkjXLuuX4aSmHg/l+gw3Gv
+         eUpIyXNev0jsQ2jsHgBpJnMS9kPjsAQBwIZu+Zv5uUZVFHNt3bD7h2bEHPTsxC1OtIJR
+         uze+LyVfc57vD11ZAD6pEGq9NQVkrsS1IFZQ1pRRP67+Ic1jcAYng393Kw0t5NlzZsc8
+         NSG5oJszd49PoK8JynJkxh4GjAzXU4wb5cI3hziEKWzYAQk+KK9ekiMhCP8PIlrzg3zZ
+         XeMg==
+X-Gm-Message-State: APf1xPASqjiDJuC1ulDeSmBUgTTMcexINETPxm7o7Flil7HTWIwmJHIB
+        RXmi4vzQK3X8PXpr3gbuY5HYVjdAQD76J568GIfvgw==
+X-Google-Smtp-Source: AG47ELs8oqfaVqWR6zucahONfawOUfumc7wbGdSxbt/vQNIywcnBnBUNlXKqUAb/FT2nP2JWJayOfG7wWqdy40mC5rw=
+X-Received: by 10.176.22.201 with SMTP id g9mr18312210uaf.62.1520486374644;
+ Wed, 07 Mar 2018 21:19:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: by 10.31.254.65 with HTTP; Wed, 7 Mar 2018 21:19:33 -0800 (PST)
+In-Reply-To: <03c5ed5b-5160-bdd5-82f9-4a8beab33ca8@codeaurora.org>
+References: <1519781889-16117-4-git-send-email-kramasub@codeaurora.org>
+ <CAD=FV=WbeP8xpVi7cji9hsNyxEam2D5D+_21ur_MuUO8FK42OQ@mail.gmail.com> <03c5ed5b-5160-bdd5-82f9-4a8beab33ca8@codeaurora.org>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Wed, 7 Mar 2018 21:19:33 -0800
+X-Google-Sender-Auth: 6xbwdYHxuwONm_oxwdlvry0ignU
+Message-ID: <CAD=FV=UXK_wYky83nmQdk4dQtVSCV9=o3i2590ZyUMcq4rrdKQ@mail.gmail.com>
+Subject: Re: [v3, 3/4] i2c: i2c-qcom-geni: Add bus driver for the Qualcomm
+ GENI I2C controller
+To:     Sagar Dharia <sdharia@codeaurora.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
+        evgreen@chromium.org, acourbot@chromium.org,
+        Girish Mahadevan <girishm@codeaurora.org>, swboyd@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 7 Mar 2018 10:46:49 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
+Hi,
 
-> Anyway, with that, the patch series is applied.  Thanks for helping to
-> improve the docs, and my apologies for taking so long to get to this.
+On Wed, Mar 7, 2018 at 6:42 PM, Sagar Dharia <sdharia@codeaurora.org> wrote:
+> Hi Doug,
+> Thank you for reviewing the patch. I will take a stab at a few comments
+> below. We will address most of the other comments in next version of I2C
+> patch.
+>>
+>>
+>>
+>>> +
+>>> +#define I2C_AUTO_SUSPEND_DELAY 250
+>>
+>>
+>> Why 250 ms?  That seems like an eternity.  Is it really that expensive
+>> to turn resources off and on?  I would sorta just expect clocks and
+>> stuff to get turned off right after a transaction finished unless
+>> another one was pending right behind it...
+>>
+> The response from RPMh to turn on/off shared resources also take quite a few
+> msecs. The QUP serial bus block sits quite a few shared-NOCs away from the
+> memory and runtime-PM is used a bandwidth vote/NOC vote for these NOCs from
+> QUP to memory. Also the RPC between apps and RPMh can sometimes take longer
+> depending on other tasks running on apps. This 250 msec avoids thrashing of
+> these RPCs between apps and RPMh.
+> If you plan to keep these NOCs on forever, then your are right: runtime-PM
+> will be only used to turn on/off local clocks and we won't even need
+> autosuspend. that's not true on products where this driver is currently
+> deployed.
 
-Thanks for doing this Jon. I'm going to have to find some time to
-revisit all the documentation in the tracing directory, because I'm
-sure they have fallen out of date.
+OK, fair enough.  I don't know how RPMh works well enough to argue.
+It does seem odd that you'd want to design things such that it takes a
+few msecs to pull it out of runtime suspend, especially for touch.
 
--- Steve
+
+>>> +
+>>> +static const struct geni_i2c_clk_fld geni_i2c_clk_map[] = {
+>>> +       {KHz(100), 7, 10, 11, 26},
+>>> +       {KHz(400), 2,  5, 12, 24},
+>>> +       {KHz(1000), 1, 3,  9, 18},
+>>
+>>
+>> So I guess this is all relying on an input serial clock of 19.2MHz?
+>> Maybe document that?
+>>
+>> Assuming I'm understanding the math here, is it really OK for your
+>> 100kHz and 1MHz mode to be running slightly fast?
+>>
+>> 19200. / 2 / 24
+>>>>>
+>>>>> 400.0
+>>
+>>
+>> 19200. / 7 / 26
+>>>>>
+>>>>> 105.49450549450549
+>>
+>>
+>> 19200. / 1 / 18
+>>>>>
+>>>>> 1066.6666666666667
+>>
+>>
+>> It seems like you'd want the fastest clock that you can make that's
+>> _less than_ the spec.
+>>
+>>
+>> It would also be interesting to know if it's expected that boards
+>> might need to tweak the t_high / t_low depending on their electrical
+>> characteristics.  In the past I've had lots of requests from board
+>> makers to tweak things because they've got a long trace, or a stronger
+>> or weaker pull, or ...  If so we might later need to add some dts
+>> properties like "i2c-scl-rising-time-ns" and make the math more
+>> dynamic here, unless your hardware somehow automatically adjusts for
+>> this type of thing...
+>> These values are derived by our HW team to comply with the t-high and
+>
+> t-low specs of I2C. We have confirmed on scope that the frequency of SCL is
+> indeed less than/equal to the spec. We have not come across slaves who have
+> needed to tweak these things. We are open to adding these properties in dts
+> if you have any such slaves not conforming due to board-layout of other
+> reasons.
+
+OK, I'm fine with leaving something like this till later if/when it
+comes up.  Documenting a little bit more about how these timings work
+seems like it would be nice, though, at least mentioning what the
+source clock is...
+
+
+>>>
+>>> +       mode = msg->len > 32 ? GENI_SE_DMA : GENI_SE_FIFO;
+>>
+>>
+>> DMA is hard and i2c transfers > 32 bytes are rare.  Do we really gain
+>> a lot by transferring i2c commands over DMA compared to a FIFO?
+>> Enough to justify the code complexity and the set of bugs that will
+>> show up?  I'm sure it will be a controversial assertion given that the
+>> code's already written, but personally I'd be supportive of ripping
+>> DMA mode out to simplify the driver.  I'd be curious if anyone else
+>> agrees.  To me it seems like premature optimization.
+>
+>
+> Yes, we have multiple clients (e.g. touch, NFC) using I2C for data transfers
+> bigger than 32 bytes (some transfers are 100s of bytes). The fifo size is
+> 32, so we can definitely avoid at least 1 interrupt when DMA mode is used
+> with data size > 32.
+
+Does that 1-2 interrupts make any real difference, though?  In theory
+it really shouldn't affect the transfer rate.  We should be able to
+service the interrupt plenty fast and if we were concerned we would
+tweak the watermark code a little bit.  So I guess we're worried about
+the extra CPU cycles (and power cost) to service those extra couple
+interrupts?
+
+In theory when touch data is coming in or NFC data is coming in then
+we're probably not in a super low power state to begin with.  If it's
+touch data we likely want to have the CPU boosted a bunch to respond
+to the user quickly.  If we've got 8 cores available all of which can
+run at 1GHz or more a few interrupts won't kill us.  NFC data is
+probably not common enough that we need to optimize power/CPU
+utilizatoin for that.
+
+
+So while i can believe that you do save an interrupt or two, I still
+am not convinced that those interrupts are worth a bunch of complex
+code (and a whole second code path) to save.
+
+
+...also note that above you said that coming out of runtime suspend
+can take several msec.  That seems like it dwarfs any slight
+difference in timing between a FIFO-based operation and DMA.
+
+
+>>> +       geni_se_select_mode(&gi2c->se, mode);
+>>> +       writel_relaxed(msg->len, gi2c->se.base + SE_I2C_RX_TRANS_LEN);
+>>> +       geni_se_setup_m_cmd(&gi2c->se, I2C_READ, m_param);
+>>> +       if (mode == GENI_SE_DMA) {
+>>> +               rx_dma = geni_se_rx_dma_prep(&gi2c->se, msg->buf,
+>>> msg->len);
+>>
+>>
+>> Randomly I noticed a flag called "I2C_M_DMA_SAFE".  Do we need to
+>> check this flag before using msg->buf for DMA?  ...or use
+>> i2c_get_dma_safe_msg_buf()?
+>>
+>> ...btw: the relative lack of people doing this in the kernel is
+>> further evidence of DMA not really being worth it for i2c busses.
+>
+> I cannot comment about other drivers here using or not using DMA since they
+> may not be exercised with slaves like NFC?
+>>>
+>>> +       ret = pm_runtime_get_sync(gi2c->se.dev);
+>>> +       if (ret < 0) {
+>>> +               dev_err(gi2c->se.dev, "error turning SE resources:%d\n",
+>>> ret);
+>>> +               pm_runtime_put_noidle(gi2c->se.dev);
+>>> +               /* Set device in suspended since resume failed */
+>>> +               pm_runtime_set_suspended(gi2c->se.dev);
+>>> +               return ret;
+>>
+>>
+>> Wow, that's a cluster of arcane calls to handle a call that probably
+>> will never fail (it just enables clocks and sets pinctrl).  Sigh.
+>> ...but as far as I can tell the whole sequence is right.  You
+>> definitely need a "put" after a failed get and it looks like
+>> pm_runtime_set_suspended() has a special exception where it can be
+>> called if you got a runtime error...
+>
+> We didn't have this in before either. But this condition is somewhat
+> frequent if I2C transactions are called on cusp of exiting system suspend.
+> (e.g. PMIC slave getting a wakeup-IRQ and trying to read from PMIC through
+> I2C to read its status as to what caused that wake-up. At that time,
+> get_sync doesn't really enable resources (kernel 4.9) since the runtime-pm
+> ref-count isn't decremented. We run the risk of unclocked access if these
+> arcane calls aren't present. You can go through runtime-pm documentation
+> chapter 6 for more details.
+
+Yeah, I certainly agree that the calls are needed if
+pm_runtime_get_sync() and I'm not suggesting removing them.  Hence the
+"as far as I can tell the whole sequence is right".
+
+...but I'm actually kinda worried if you're saying that you actually
+ran into this case.  Hopefully that got fixed and code no longer tries
+to read from the PMIC at a bad time anymore?  That code should be
+fixed not to be running so late in suspend.
+
+
+>>> +       ret = devm_request_irq(&pdev->dev, gi2c->irq, geni_i2c_irq,
+>>> +                              IRQF_TRIGGER_HIGH, "i2c_geni", gi2c);
+>>> +       if (ret) {
+>>> +               dev_err(&pdev->dev, "Request_irq failed:%d: err:%d\n",
+>>> +                       gi2c->irq, ret);
+>>> +               return ret;
+>>> +       }
+>>> +       disable_irq(gi2c->irq);
+>>
+>>
+>> Can you explain the goal of the disable_irq() here.  Is it actually
+>> needed for something or does it somehow save power?  From drivers I've
+>> reviewed in the past this doesn't seem like a common thing to do, so
+>> I'm curious what it's supposed to gain for you.  I'd be inclined to
+>> just delete the whole disable/enable of the irq from this driver.
+>
+>
+> Qualcomm's power team suggests we enable/disable unused IRQs. Otherwise they
+> can block apps from entering some low-power mode (unless the interrupt is in
+> some list?) I will confirm again with them and let you know.
+
+Since this is weird (to me anyway), please document w/ a comment.
+
+
+>>>
+>>> +       /* Make sure no transactions are pending */
+>>> +       ret = i2c_trylock_bus(&gi2c->adap, I2C_LOCK_SEGMENT);
+>>> +       if (!ret) {
+>>> +               dev_err(gi2c->se.dev, "late I2C transaction request\n");
+>>> +               return -EBUSY;
+>>> +       }
+>>
+>>
+>> Does this happen?  How?
+>>
+>> Nothing about this code looks special for your hardware.  If this is
+>> really needed, why is it not part of the i2c core since there's
+>> nothing specific about your driver here?
+>>
+> There have been some clients that don't implement sys-suspend/resume
+> callbacks (so i2c adapter has no clue they are done with their transactions)
+> and this allows us to be flexible when they call I2C transactions extremely
+> late.
+
+Still feels like this belongs in the i2c core, not your driver.  Maybe
+you should send a patch for the core and remove it from here?
+
+...and also, it seems like any i2c clients that don't implement the
+suspend/resume callbacks and try to do i2c transactions late in the
+game need to be fixed.  It should be documented that this isn't a
+valid thing for a driver to do and if we end up in this error case
+then it's not an i2c issue but it's a bad driver somewhere.
+
+>
+>>
+>>> +       if (!pm_runtime_status_suspended(device)) {
+>>> +               geni_i2c_runtime_suspend(device);
+>>> +               pm_runtime_disable(device);
+>>> +               pm_runtime_set_suspended(device);
+>>> +               pm_runtime_enable(device);
+>>> +       }
+>>
+>>
+>> Similar question.  Why do you need this special case code?  Are there
+>> cases where we're all the way at suspend_noirq and yet we still
+>> haven't runtime suspended?  Can you please document how we get into
+>> this state?
+>> This is when transaction happens less-than 250 msec of the
+>
+> system-suspend. PM-runtime has not gotten a chance to auto-suspend us since
+> timer hasn't expired before system-suspend is attempted. These calls make
+> sure that we truly turn off driver resources and make runtime-PM state
+> consistent with the HW state. We can document this.
+
+OK.  PM Runtime always gets me mixed up.  Seems really strange that it
+wouldn't autosuspend all devices (regardless of timeout) at system
+suspend time.
+
+-Doug
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
