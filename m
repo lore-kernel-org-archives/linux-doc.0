@@ -5,93 +5,78 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD3077E677
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 15:21:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 972387E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 17:15:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756009AbeCHPVZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 10:21:25 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:13369 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755897AbeCHPVV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 10:21:21 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com
-        id <B5aa154f80000>; Thu, 08 Mar 2018 07:21:28 -0800
-Received: from HQMAIL107.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 08 Mar 2018 07:21:21 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 08 Mar 2018 07:21:21 -0800
-Received: from BGMAIL102.nvidia.com (10.25.59.11) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
- 2018 15:21:20 +0000
-Received: from [10.19.64.176] (10.19.64.176) by bgmail102.nvidia.com
- (10.25.59.11) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
- 2018 15:21:10 +0000
-Subject: Re: [PATCH 05/10] hwmon: generic-pwm-tachometer: Add generic PWM
- based tachometer
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Rajkumar Rampelli <rrajk@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <jdelvare@suse.com>, <corbet@lwn.net>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kstewart@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
-        <pombredanne@nexb.com>, <mmaddireddy@nvidia.com>,
-        <mperttunen@nvidia.com>, <arnd@arndb.de>, <timur@codeaurora.org>,
-        <andy.gross@linaro.org>, <xuwei5@hisilicon.com>,
-        <elder@linaro.org>, <heiko@sntech.de>, <krzk@kernel.org>,
-        <ard.biesheuvel@linaro.org>
-References: <1519196339-9377-1-git-send-email-rrajk@nvidia.com>
- <1519196339-9377-6-git-send-email-rrajk@nvidia.com>
- <5172edff-fe29-7ed1-f0d2-b0359ea2c24d@roeck-us.net>
- <2510b525-ec36-b49d-5a62-81f335c0d10d@nvidia.com>
- <cfe0d0ce-3a89-bad0-85ba-6edf1135d2dc@roeck-us.net>
- <2628eff2-dd33-34f4-a7e1-cfe46ef88a3f@nvidia.com>
- <4556a8d2-947d-72c4-2962-3167afb53978@kapsi.fi>
- <62ba7f67-5a99-51ab-1214-eb68ebb7e642@roeck-us.net>
- <952cb50e-d9a0-ae5e-d9f6-d1ce268f0384@nvidia.com>
- <f7818e4c-17b6-c58b-3424-85749bb9c1cc@roeck-us.net>
- <5bffef40-a4a7-5f7d-a448-b2a381c57822@nvidia.com>
- <d4e745a6-5534-662e-f6d5-a91bf580f550@roeck-us.net>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-From:   Laxman Dewangan <ldewangan@nvidia.com>
-Message-ID: <4d00a31b-44cc-d3dc-78a2-1b7f23d777e0@nvidia.com>
-Date:   Thu, 8 Mar 2018 20:51:07 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1752155AbeCHRP0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 12:15:26 -0500
+Received: from mail.linuxfoundation.org ([140.211.169.12]:35504 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752135AbeCHRPZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 12:15:25 -0500
+Received: from localhost (unknown [185.236.200.248])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id E26DEEC6;
+        Thu,  8 Mar 2018 17:15:24 +0000 (UTC)
+Date:   Thu, 8 Mar 2018 09:15:26 -0800
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
+        tglx@linutronix.de, torvalds@linux-foundation.org,
+        gnomes@lxorguk.ukuu.org.uk, aarcange@redhat.com, luto@kernel.org,
+        keescook@google.com, tim.c.chen@linux.intel.com,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, mark.rutland@arm.com
+Subject: Re: [PATCH] [v2] docs: clarify security-bugs disclosure policy
+Message-ID: <20180308171526.GA21827@kroah.com>
+References: <20180307214624.D4361772@viggo.jf.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <d4e745a6-5534-662e-f6d5-a91bf580f550@roeck-us.net>
-X-Originating-IP: [10.19.64.176]
-X-ClientProxiedBy: DRBGMAIL102.nvidia.com (10.18.16.21) To
- bgmail102.nvidia.com (10.25.59.11)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180307214624.D4361772@viggo.jf.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 07, 2018 at 01:46:24PM -0800, Dave Hansen wrote:
+> 
+> From: Dave Hansen <dave.hansen@linux.intel.com>
+> 
+> I think we need to soften the language a bit.  It might scare folks
+> off, especially the:
+> 
+> 	 We prefer to fully disclose the bug as soon as possible.
+> 
+> which is not really the case.  Linus says:
+> 
+> 	It's not full disclosure, it's not coordinated disclosure,
+> 	and it's not "no disclosure".  It's more like just "timely
+> 	open fixes".
+> 
+> I changed a bit of the wording in here, but mostly to remove the word
+> "disclosure" since it seems to mean very specific things to people
+> that we do not mean here.
+> 
+> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
+> Cc: Andrea Arcangeli <aarcange@redhat.com>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Kees Cook <keescook@google.com>
+> Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> ---
+> 
 
-
-On Thursday 08 March 2018 08:01 PM, Guenter Roeck wrote:
-> On 03/07/2018 10:06 PM, Laxman Dewangan wrote:
->>
->>
->> The RPM is measured speed via PWM signal capture  which is output 
->> from fan.
->> So should we have the fan[1..n]_output_rpm?
->>
->
-> No. I hear you clearly that you for some reason dislike fan[1..n]_input.
-> While ABIs are not always to our liking, that doesn't mean that we get
-> to change them at our whim. If that is not acceptable for you, I can't
-> help you. And you can't change inX_input to inX_voltage either, sorry.
-
-My opinion is only to not use "input" as this is not really the input to 
-fan.
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
