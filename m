@@ -5,78 +5,61 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 972387E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 17:15:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2DCF7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 17:28:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752155AbeCHRP0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 12:15:26 -0500
-Received: from mail.linuxfoundation.org ([140.211.169.12]:35504 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752135AbeCHRPZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 12:15:25 -0500
-Received: from localhost (unknown [185.236.200.248])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id E26DEEC6;
-        Thu,  8 Mar 2018 17:15:24 +0000 (UTC)
-Date:   Thu, 8 Mar 2018 09:15:26 -0800
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
-        tglx@linutronix.de, torvalds@linux-foundation.org,
-        gnomes@lxorguk.ukuu.org.uk, aarcange@redhat.com, luto@kernel.org,
-        keescook@google.com, tim.c.chen@linux.intel.com,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, mark.rutland@arm.com
+        id S933700AbeCHR2r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 12:28:47 -0500
+Received: from ms.lwn.net ([45.79.88.28]:44524 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932091AbeCHR2q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Mar 2018 12:28:46 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 537872C7;
+        Thu,  8 Mar 2018 17:28:45 +0000 (UTC)
+Date:   Thu, 8 Mar 2018 10:28:44 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        One Thousand Gnomes <gnomes@lxorguk.ukuu.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Lutomirski <luto@kernel.org>,
+        Kees Cook <keescook@google.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
 Subject: Re: [PATCH] [v2] docs: clarify security-bugs disclosure policy
-Message-ID: <20180308171526.GA21827@kroah.com>
+Message-ID: <20180308102844.6c7f7e06@lwn.net>
+In-Reply-To: <CA+55aFzii9Sd3MaLz=FPf1Z_aAsZU16_+q-pvkSGHhU4-7QS9Q@mail.gmail.com>
 References: <20180307214624.D4361772@viggo.jf.intel.com>
+        <CA+55aFzii9Sd3MaLz=FPf1Z_aAsZU16_+q-pvkSGHhU4-7QS9Q@mail.gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180307214624.D4361772@viggo.jf.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 07, 2018 at 01:46:24PM -0800, Dave Hansen wrote:
-> 
-> From: Dave Hansen <dave.hansen@linux.intel.com>
-> 
-> I think we need to soften the language a bit.  It might scare folks
-> off, especially the:
-> 
-> 	 We prefer to fully disclose the bug as soon as possible.
-> 
-> which is not really the case.  Linus says:
-> 
-> 	It's not full disclosure, it's not coordinated disclosure,
-> 	and it's not "no disclosure".  It's more like just "timely
-> 	open fixes".
-> 
-> I changed a bit of the wording in here, but mostly to remove the word
-> "disclosure" since it seems to mean very specific things to people
-> that we do not mean here.
-> 
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
-> Cc: Andrea Arcangeli <aarcange@redhat.com>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Kees Cook <keescook@google.com>
-> Cc: Tim Chen <tim.c.chen@linux.intel.com>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> ---
-> 
+On Wed, 7 Mar 2018 13:53:06 -0800
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> I'm guessing this will go through Jon?
+
+Sounds like a fine guess to me; will apply shortly.
+
+Thanks,
+
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
