@@ -5,123 +5,334 @@ X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
 	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B1F4B7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 23:42:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B00C77E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 23:42:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750953AbeCHXl2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 18:41:28 -0500
-Received: from mout.gmx.net ([212.227.17.20]:59807 "EHLO mout.gmx.net"
+        id S1750857AbeCHXmh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 18:42:37 -0500
+Received: from mout.gmx.net ([212.227.15.19]:42459 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751377AbeCHXlW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Mar 2018 18:41:22 -0500
-Received: from latitude ([88.153.6.235]) by mail.gmx.com (mrgmx102
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0LjLwB-1eOJhy3lWh-00dUZ0; Fri, 09
- Mar 2018 00:41:18 +0100
+        id S1751337AbeCHXlU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Mar 2018 18:41:20 -0500
+Received: from latitude ([88.153.6.235]) by mail.gmx.com (mrgmx001
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0LxPuE-1eafWz28j4-016vmk; Fri, 09
+ Mar 2018 00:41:15 +0100
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-gpio@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
         Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 8/8] Documentation: gpio: Move drivers-on-gpio.txt to driver-api
-Date:   Fri,  9 Mar 2018 00:40:24 +0100
-Message-Id: <20180308234024.24145-9-j.neuschaefer@gmx.net>
+Subject: [PATCH 6/8] Documentation: gpio: Move gpiod_* consumer documentation to driver-api
+Date:   Fri,  9 Mar 2018 00:40:22 +0100
+Message-Id: <20180308234024.24145-7-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180308234024.24145-1-j.neuschaefer@gmx.net>
 References: <20180308234024.24145-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K0:HjlXwKDUO2msKbcxssVu5DRynfVIMPY0D3hOxL40vQQNVGsdvPJ
- Dd8yCoT6e/cxTl9W9uV2q3tPDu5GStS4IK6cgnKYFaXEUq6xsBbsZlN8dJ7/sjsTmVYswuq
- A8X4V99LWXhr5WliC44p4GAJJpH68LSpU1dr6rHCA8aIznYtVQjARb/6rmRfUABknpUXCIb
- 3jJu5Kl2kw8U4Y/aD0EvQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:5Rzzt/zS8bw=:QQ1kfg2+X8EnvHRHZOGF3U
- eGxyHZmGZ7T8PscQcelPqFrji/v2XAjU/wujM4ST9z+MPfjMA4uvyLpvoc1jlJfAmyOa7JM4H
- 1TjzB71PQkGjqSSeW/gfqJD4Rl8qNNckZlCTjhQvSOMenzzYnp25PX8xqh4mPfD/sgNVjrCPL
- SiCVx58wZBwYgWMGjVHfLCU7Ol8SMtEouu0dsCwxXRnbWvHhi6IpZroiFE/bSP+3omRaveGM3
- p7qGKmvH5KtVAGYGZ5847woR8c2tYY5Bl2a5KTMPgLWDn9p+0+izwHEGJ+uCnh2QzLD4Hcn+M
- J097YqtZwYolIS9uYrGJjHP2NhM1ou4N0pvf5cvsRF2ZvD9HeIfj3V4OKmTmFoKFelEbRI1wM
- jWRFI7tXcV4QkyoEZd+mngdDR1rmECdTsgv+fSfAVYRoOJGzspQuV0UWNx+M6WtzS28yPTvl+
- hlMEe9gdPUFDlkfunxJNU92ZuW3i8TvPnXy/FsuWvjd67/Kc0ylQvXoVLPAtkNr1o5JwUmQpy
- YN1hLGqtEDptSzMwOzvgt+IqpEbvJuT/IiSPFMcNOBEwGxl1V79HOoeWMlq0Hw4a8iUb1x4O/
- FMI+4C0vxh4UbceXqoLO6xMGhEAuCvWjm8iUChLLvtk4/HybOTk5g5ujgyM6387mT8J5tBHBP
- Xph2u9sNfnk/cdhuzC+Z+ENBHG+9mXDGeashlAmPE8/0cQqp6DCdQfwrgAS4Lsht+iq1jE72J
- C8Z39aI80xMiQ8mM2eeLb1CsyinkgS1YSSCLNu3t7fssekXqqExBKAbnmm4ciHcNt1norD1C3
- TBN+9swXcMAoAR6WlfOoO5mz+KgCRIRnsJ1djHQs2VFdK3pLIA=
+X-Provags-ID: V03:K0:tXk7tqpVYGyJKpTRhKyucOvCagGbixppHtFmzQuCch0/GgiWPNO
+ 3361QGvbXVZMDMpkq9IYHrI38cisnP3zFSfNOx8tmvuIbMl02TQDkkPAwHfwYioR374xjim
+ sJnt/SOTR+NU/PtRSyh7wL4k+QFdK3Y3nWCyGlUo0Qh+2EohPjUZGqxkMLRL4szD21ThtBw
+ GoSzrKn7dIizFjMv/FAPA==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:wqwdiyxYFWs=:ronfFKlemQ5Qvx+EDycfPJ
+ ieYctQxBoqQ73jD6OzSSuxpWc5pBLD9U2MSSI3Z95k2fLJR/SeKM3mKZHiRejAKyQtHyk2uwb
+ hsl8AEtFDKS2AM8zncpo3VI3BqVB5iYuUoT0SqWe2jOWcj19rhAwPe8ZU1Isc3KcZ+5EHnsUh
+ rWM/XAbA3gMvj1/4pyRAx66oPTkLK7zhIyt5i4p8bmsCK34OqfIRq2a37b/tK6+o0EV+7wKl0
+ wXW8FsuNQrGN4JVVq0wfVfODQjIZjTT+cVWYWC5cowq9iT0m49NJwGMVEqeCDXkYFPo726tFQ
+ LbfJH6iqpIjPKchIaTfzYGV2hDIkpHYBNbdl0wtBsbo46Dq9Pk+3+5TUBAFXJnusL0dC3QesQ
+ U8KeKfgGFX3N9q2GOJmuojeOwG8nQC7H7ucTN/BDgu+481wtBxjcBwO1gw4xTWE+5s/XEkjAY
+ TwEKQLQZDSn7yUnMSfRx5/Q/YMvZ2rGK6bMWHgnoOUlfkZnn4GLTDrhbLknAtPTMDY5GldQfr
+ MY7LFnXWtpPmhAgjYqBqx/yLOKc4kJYBRR71Nic0SmUJaofZG/sMGN7ycr4MkGIW5fLjw6PG1
+ lMXDpuCEc02IvtjaCCoOoOtm/Rc6ggUlxIZtmHSfTHAPIWyG/56H3fSGrF7iTy1cLjmSzL1dV
+ 97o5K/HFw1AJOZsPBrnpsR/iNgG+GaxUUpwVk7OO/IOHqWfmb7Rjodpoy4OkFRXycypQBgrDD
+ Qlx0q1g+ZqJblgZTfpiQzja0SEJNxDfGEMuy7IyJ6CBndwrzAIXzBh+OVBoc3h6kmG+hwE7oV
+ kwYQRLVr4VaFGmvACSZd2uNOTARnYcJ8MtvDNoP28HaL86sBGA=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move gpio/drivers-on-gpio.txt to driver-api/gpio/drivers-on-gpio.rst and
-make sure it builds cleanly as ReST.
+Move gpio/consumer.txt to driver-api/gpio/consumer.rst and make sure it
+builds cleanly as ReST.
 
 Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 ---
+ .../consumer.txt => driver-api/gpio/consumer.rst}  | 85 +++++++++++-----------
+ Documentation/driver-api/gpio/index.rst            |  1 +
+ Documentation/gpio/00-INDEX                        |  2 -
+ 3 files changed, 44 insertions(+), 44 deletions(-)
+ rename Documentation/{gpio/consumer.txt => driver-api/gpio/consumer.rst} (89%)
 
-This patch applies cleanly on top of 93db446a424c ("mtd: nand: move raw
-NAND related code to the raw/ subdir")
----
- .../drivers-on-gpio.txt => driver-api/gpio/drivers-on-gpio.rst}      | 1 +
- Documentation/driver-api/gpio/index.rst                              | 1 +
- Documentation/gpio/00-INDEX                                          | 3 ---
- Documentation/gpio/sysfs.txt                                         | 5 ++---
- 4 files changed, 4 insertions(+), 6 deletions(-)
- rename Documentation/{gpio/drivers-on-gpio.txt => driver-api/gpio/drivers-on-gpio.rst} (99%)
-
-diff --git a/Documentation/gpio/drivers-on-gpio.txt b/Documentation/driver-api/gpio/drivers-on-gpio.rst
-similarity index 99%
-rename from Documentation/gpio/drivers-on-gpio.txt
-rename to Documentation/driver-api/gpio/drivers-on-gpio.rst
-index a3e612f55bc7..7da0c1dd1f7a 100644
---- a/Documentation/gpio/drivers-on-gpio.txt
-+++ b/Documentation/driver-api/gpio/drivers-on-gpio.rst
+diff --git a/Documentation/gpio/consumer.txt b/Documentation/driver-api/gpio/consumer.rst
+similarity index 89%
+rename from Documentation/gpio/consumer.txt
+rename to Documentation/driver-api/gpio/consumer.rst
+index d53e5b5cfc9c..c71a50d85b50 100644
+--- a/Documentation/gpio/consumer.txt
++++ b/Documentation/driver-api/gpio/consumer.rst
 @@ -1,3 +1,4 @@
-+============================
- Subsystem drivers using GPIO
- ============================
++==================================
+ GPIO Descriptor Consumer Interface
+ ==================================
  
+@@ -30,10 +31,10 @@ warnings. These stubs are used for two use cases:
+   be met with console warnings that may be perceived as intimidating.
+ 
+ All the functions that work with the descriptor-based GPIO interface are
+-prefixed with gpiod_. The gpio_ prefix is used for the legacy interface. No
+-other function in the kernel should use these prefixes. The use of the legacy
+-functions is strongly discouraged, new code should use <linux/gpio/consumer.h>
+-and descriptors exclusively.
++prefixed with ``gpiod_``. The ``gpio_`` prefix is used for the legacy
++interface. No other function in the kernel should use these prefixes. The use
++of the legacy functions is strongly discouraged, new code should use
++<linux/gpio/consumer.h> and descriptors exclusively.
+ 
+ 
+ Obtaining and Disposing GPIOs
+@@ -43,13 +44,13 @@ With the descriptor-based interface, GPIOs are identified with an opaque,
+ non-forgeable handler that must be obtained through a call to one of the
+ gpiod_get() functions. Like many other kernel subsystems, gpiod_get() takes the
+ device that will use the GPIO and the function the requested GPIO is supposed to
+-fulfill:
++fulfill::
+ 
+ 	struct gpio_desc *gpiod_get(struct device *dev, const char *con_id,
+ 				    enum gpiod_flags flags)
+ 
+ If a function is implemented by using several GPIOs together (e.g. a simple LED
+-device that displays digits), an additional index argument can be specified:
++device that displays digits), an additional index argument can be specified::
+ 
+ 	struct gpio_desc *gpiod_get_index(struct device *dev,
+ 					  const char *con_id, unsigned int idx,
+@@ -84,7 +85,7 @@ occurred while trying to acquire it. This is useful to discriminate between mere
+ errors and an absence of GPIO for optional GPIO parameters. For the common
+ pattern where a GPIO is optional, the gpiod_get_optional() and
+ gpiod_get_index_optional() functions can be used. These functions return NULL
+-instead of -ENOENT if no GPIO has been assigned to the requested function:
++instead of -ENOENT if no GPIO has been assigned to the requested function::
+ 
+ 	struct gpio_desc *gpiod_get_optional(struct device *dev,
+ 					     const char *con_id,
+@@ -101,14 +102,14 @@ This is helpful to driver authors, since they do not need to special case
+ -ENOSYS return codes.  System integrators should however be careful to enable
+ gpiolib on systems that need it.
+ 
+-For a function using multiple GPIOs all of those can be obtained with one call:
++For a function using multiple GPIOs all of those can be obtained with one call::
+ 
+ 	struct gpio_descs *gpiod_get_array(struct device *dev,
+ 					   const char *con_id,
+ 					   enum gpiod_flags flags)
+ 
+ This function returns a struct gpio_descs which contains an array of
+-descriptors:
++descriptors::
+ 
+ 	struct gpio_descs {
+ 		unsigned int ndescs;
+@@ -116,13 +117,13 @@ descriptors:
+ 	}
+ 
+ The following function returns NULL instead of -ENOENT if no GPIOs have been
+-assigned to the requested function:
++assigned to the requested function::
+ 
+ 	struct gpio_descs *gpiod_get_array_optional(struct device *dev,
+ 						    const char *con_id,
+ 						    enum gpiod_flags flags)
+ 
+-Device-managed variants of these functions are also defined:
++Device-managed variants of these functions are also defined::
+ 
+ 	struct gpio_desc *devm_gpiod_get(struct device *dev, const char *con_id,
+ 					 enum gpiod_flags flags)
+@@ -149,11 +150,11 @@ Device-managed variants of these functions are also defined:
+ 							 const char *con_id,
+ 							 enum gpiod_flags flags)
+ 
+-A GPIO descriptor can be disposed of using the gpiod_put() function:
++A GPIO descriptor can be disposed of using the gpiod_put() function::
+ 
+ 	void gpiod_put(struct gpio_desc *desc)
+ 
+-For an array of GPIOs this function can be used:
++For an array of GPIOs this function can be used::
+ 
+ 	void gpiod_put_array(struct gpio_descs *descs)
+ 
+@@ -161,7 +162,7 @@ It is strictly forbidden to use a descriptor after calling these functions.
+ It is also not allowed to individually release descriptors (using gpiod_put())
+ from an array acquired with gpiod_get_array().
+ 
+-The device-managed variants are, unsurprisingly:
++The device-managed variants are, unsurprisingly::
+ 
+ 	void devm_gpiod_put(struct device *dev, struct gpio_desc *desc)
+ 
+@@ -175,7 +176,7 @@ Setting Direction
+ -----------------
+ The first thing a driver must do with a GPIO is setting its direction. If no
+ direction-setting flags have been given to gpiod_get*(), this is done by
+-invoking one of the gpiod_direction_*() functions:
++invoking one of the gpiod_direction_*() functions::
+ 
+ 	int gpiod_direction_input(struct gpio_desc *desc)
+ 	int gpiod_direction_output(struct gpio_desc *desc, int value)
+@@ -189,7 +190,7 @@ of early board setup.
+ For output GPIOs, the value provided becomes the initial output value. This
+ helps avoid signal glitching during system startup.
+ 
+-A driver can also query the current direction of a GPIO:
++A driver can also query the current direction of a GPIO::
+ 
+ 	int gpiod_get_direction(const struct gpio_desc *desc)
+ 
+@@ -206,7 +207,7 @@ Most GPIO controllers can be accessed with memory read/write instructions. Those
+ don't need to sleep, and can safely be done from inside hard (non-threaded) IRQ
+ handlers and similar contexts.
+ 
+-Use the following calls to access GPIOs from an atomic context:
++Use the following calls to access GPIOs from an atomic context::
+ 
+ 	int gpiod_get_value(const struct gpio_desc *desc);
+ 	void gpiod_set_value(struct gpio_desc *desc, int value);
+@@ -231,11 +232,11 @@ head of a queue to transmit a command and get its response. This requires
+ sleeping, which can't be done from inside IRQ handlers.
+ 
+ Platforms that support this type of GPIO distinguish them from other GPIOs by
+-returning nonzero from this call:
++returning nonzero from this call::
+ 
+ 	int gpiod_cansleep(const struct gpio_desc *desc)
+ 
+-To access such GPIOs, a different set of accessors is defined:
++To access such GPIOs, a different set of accessors is defined::
+ 
+ 	int gpiod_get_value_cansleep(const struct gpio_desc *desc)
+ 	void gpiod_set_value_cansleep(struct gpio_desc *desc, int value)
+@@ -271,23 +272,23 @@ As an example, if the active low property for a dedicated GPIO is set, and the
+ gpiod_set_(array)_value_xxx() passes "asserted" ("1"), the physical line level
+ will be driven low.
+ 
+-To summarize:
+-
+-Function (example)                 line property          physical line
+-gpiod_set_raw_value(desc, 0);      don't care             low
+-gpiod_set_raw_value(desc, 1);      don't care             high
+-gpiod_set_value(desc, 0);          default (active high)  low
+-gpiod_set_value(desc, 1);          default (active high)  high
+-gpiod_set_value(desc, 0);          active low             high
+-gpiod_set_value(desc, 1);          active low             low
+-gpiod_set_value(desc, 0);          default (active high)  low
+-gpiod_set_value(desc, 1);          default (active high)  high
+-gpiod_set_value(desc, 0);          open drain             low
+-gpiod_set_value(desc, 1);          open drain             high impedance
+-gpiod_set_value(desc, 0);          open source            high impedance
+-gpiod_set_value(desc, 1);          open source            high
+-
+-It is possible to override these semantics using the *set_raw/'get_raw functions
++To summarize::
++
++  Function (example)                 line property          physical line
++  gpiod_set_raw_value(desc, 0);      don't care             low
++  gpiod_set_raw_value(desc, 1);      don't care             high
++  gpiod_set_value(desc, 0);          default (active high)  low
++  gpiod_set_value(desc, 1);          default (active high)  high
++  gpiod_set_value(desc, 0);          active low             high
++  gpiod_set_value(desc, 1);          active low             low
++  gpiod_set_value(desc, 0);          default (active high)  low
++  gpiod_set_value(desc, 1);          default (active high)  high
++  gpiod_set_value(desc, 0);          open drain             low
++  gpiod_set_value(desc, 1);          open drain             high impedance
++  gpiod_set_value(desc, 0);          open source            high impedance
++  gpiod_set_value(desc, 1);          open source            high
++
++It is possible to override these semantics using the set_raw/get_raw functions
+ but it should be avoided as much as possible, especially by system-agnostic drivers
+ which should not need to care about the actual physical line level and worry about
+ the logical value instead.
+@@ -300,7 +301,7 @@ their device will actually receive, no matter what lies between it and the GPIO
+ line.
+ 
+ The following set of calls ignore the active-low or open drain property of a GPIO and
+-work on the raw line value:
++work on the raw line value::
+ 
+ 	int gpiod_get_raw_value(const struct gpio_desc *desc)
+ 	void gpiod_set_raw_value(struct gpio_desc *desc, int value)
+@@ -308,7 +309,7 @@ work on the raw line value:
+ 	void gpiod_set_raw_value_cansleep(struct gpio_desc *desc, int value)
+ 	int gpiod_direction_output_raw(struct gpio_desc *desc, int value)
+ 
+-The active low state of a GPIO can also be queried using the following call:
++The active low state of a GPIO can also be queried using the following call::
+ 
+ 	int gpiod_is_active_low(const struct gpio_desc *desc)
+ 
+@@ -318,7 +319,7 @@ should not have to care about the physical line level or open drain semantics.
+ 
+ Access multiple GPIOs with a single function call
+ -------------------------------------------------
+-The following functions get or set the values of an array of GPIOs:
++The following functions get or set the values of an array of GPIOs::
+ 
+ 	int gpiod_get_array_value(unsigned int array_size,
+ 				  struct gpio_desc **desc_array,
+@@ -361,7 +362,7 @@ The functions take three arguments:
+ The descriptor array can be obtained using the gpiod_get_array() function
+ or one of its variants. If the group of descriptors returned by that function
+ matches the desired group of GPIOs, those GPIOs can be accessed by simply using
+-the struct gpio_descs returned by gpiod_get_array():
++the struct gpio_descs returned by gpiod_get_array()::
+ 
+ 	struct gpio_descs *my_gpio_descs = gpiod_get_array(...);
+ 	gpiod_set_array_value(my_gpio_descs->ndescs, my_gpio_descs->desc,
+@@ -384,7 +385,7 @@ values are stored in value_array rather than passed back as return value.
+ GPIOs mapped to IRQs
+ --------------------
+ GPIO lines can quite often be used as IRQs. You can get the IRQ number
+-corresponding to a given GPIO using the following call:
++corresponding to a given GPIO using the following call::
+ 
+ 	int gpiod_to_irq(const struct gpio_desc *desc)
+ 
+@@ -424,7 +425,7 @@ Interacting With the Legacy GPIO Subsystem
+ Many kernel subsystems still handle GPIOs using the legacy integer-based
+ interface. Although it is strongly encouraged to upgrade them to the safer
+ descriptor-based API, the following two functions allow you to convert a GPIO
+-descriptor into the GPIO integer namespace and vice-versa:
++descriptor into the GPIO integer namespace and vice-versa::
+ 
+ 	int desc_to_gpio(const struct gpio_desc *desc)
+ 	struct gpio_desc *gpio_to_desc(unsigned gpio)
 diff --git a/Documentation/driver-api/gpio/index.rst b/Documentation/driver-api/gpio/index.rst
-index 2b73ea5a1fbb..6a374ded1287 100644
+index fd22c0d1419e..6ba9e0043310 100644
 --- a/Documentation/driver-api/gpio/index.rst
 +++ b/Documentation/driver-api/gpio/index.rst
-@@ -11,6 +11,7 @@ Contents:
+@@ -9,6 +9,7 @@ Contents:
+ 
+    intro
     driver
-    consumer
-    board
-+   drivers-on-gpio
++   consumer
     legacy
  
  Core
 diff --git a/Documentation/gpio/00-INDEX b/Documentation/gpio/00-INDEX
-index 650cb0696211..17e19a68058f 100644
+index 64cf61245861..f960fc00a3ef 100644
 --- a/Documentation/gpio/00-INDEX
 +++ b/Documentation/gpio/00-INDEX
-@@ -1,7 +1,4 @@
+@@ -1,7 +1,5 @@
  00-INDEX
  	- This file
--drivers-on-gpio.txt:
--	- Drivers in other subsystems that can use GPIO to provide more
--	  complex functionality.
- sysfs.txt
- 	- Information about the GPIO sysfs interface
-diff --git a/Documentation/gpio/sysfs.txt b/Documentation/gpio/sysfs.txt
-index 6cdeab8650cd..58eeab81f349 100644
---- a/Documentation/gpio/sysfs.txt
-+++ b/Documentation/gpio/sysfs.txt
-@@ -32,9 +32,8 @@ standard kernels won't know about. And for some tasks, simple userspace
- GPIO drivers could be all that the system really needs.
- 
- DO NOT ABUSE SYSFS TO CONTROL HARDWARE THAT HAS PROPER KERNEL DRIVERS.
--PLEASE READ THE DOCUMENT NAMED "drivers-on-gpio.txt" IN THIS DOCUMENTATION
--DIRECTORY TO AVOID REINVENTING KERNEL WHEELS IN USERSPACE. I MEAN IT.
--REALLY.
-+PLEASE READ THE DOCUMENT AT Documentation/driver-api/gpio/drivers-on-gpio.rst
-+TO AVOID REINVENTING KERNEL WHEELS IN USERSPACE. I MEAN IT. REALLY.
- 
- Paths in Sysfs
- --------------
+-consumer.txt
+-	- How to obtain and use GPIOs in a driver
+ drivers-on-gpio.txt:
+ 	- Drivers in other subsystems that can use GPIO to provide more
+ 	  complex functionality.
 -- 
 2.16.1
 
