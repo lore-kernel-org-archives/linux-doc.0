@@ -1,190 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 994047E676
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 06:18:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 19DED7E676
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 06:47:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935225AbeCHGSH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 01:18:07 -0500
-Received: from mail-ua0-f194.google.com ([209.85.217.194]:42710 "EHLO
-        mail-ua0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935211AbeCHGSE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 01:18:04 -0500
-Received: by mail-ua0-f194.google.com with SMTP id b23so3178671uak.9;
-        Wed, 07 Mar 2018 22:18:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=zFhUIMQnQda98x1LG2YYdoKDEi2sCF/lhpUjyCwOxaM=;
-        b=pLMmadqKzkinzcc/UtWETOZENK9ZPnWU3D1gp8PdpVbrukSpGOVqa/D9Lsqo3l7Kx0
-         aZWCoMopJHUavfsYYbMtlpbcQ2Yd1kxnCe7C8Kj5/WuQYAJEUUfBTv1/YbKk94DhmJLg
-         22EOdN2bIrHy6inwwYhJ6xq55QxWrSQFQrQsCBJU/UvuXuJHx1vVKwwUl3l7eYn0CHFq
-         l526sjGZwJn9vF7vXYvUmmkGr0Q6h4N7Nb4jFXK+9jh7k1dnVsNW230cRWCRQBrMcuzK
-         3nonE2ofcsWRe9YWUaWpPersjtK7ixSQ+gJDa4WCzrZVWxrti2tf/G5EbaeglwzHQEwW
-         10GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=zFhUIMQnQda98x1LG2YYdoKDEi2sCF/lhpUjyCwOxaM=;
-        b=kAP+j/bSB3znRJ4PDZ91F8g/zONJiF4mP+5aD44HFz2lC+nN5nqCVZHj39z/4l2df3
-         PZalP/4BWso0K/a/Do1EXsVbG3Y11EU45BSAcafqd/59PXBQ5YkKk+m6LmeTcTwGwsJ8
-         5K9slqhFcDfjbpDB5icWdVmHJo+bIGJO8qAWRpNI1LoZ0dHUXP3hwRuQNHX73pJ0c5H5
-         yZ6dFcxSXxgWxpnpTMYTHpEjdtS3qLgkZJc7bKUf6+S3FxiLgAZ9LyVXFYfAGd/TUBWm
-         pOFDPIgNlz4+ZQKjn7NAq5OTI9oFKN8yeHacHavCNISO94564PQk2y/n3L9XUW4qh/vY
-         ABWQ==
-X-Gm-Message-State: APf1xPBuqlawpmhSsK0s2fvX/S6Y7SoFpSZKsY/Trt9jNim/LmLXg1k+
-        AeJBAVs/rJ0H5hsldzKiSRP4RBpdybSTUI53rFPiEQ==
-X-Google-Smtp-Source: AG47ELvSUt0R2h1kPKUB+Ch8SkOGFf1ll3j++M7BbTbB7QKzcdcY5LW3B9SCqaU2slnP4/G2cWKUNxFPhDuvqsIYCjc=
-X-Received: by 10.176.27.3 with SMTP id d3mr17077745uai.60.1520489883454; Wed,
- 07 Mar 2018 22:18:03 -0800 (PST)
+        id S965035AbeCHGqo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 01:46:44 -0500
+Received: from smtp.codeaurora.org ([198.145.29.96]:57318 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935257AbeCHGqk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 01:46:40 -0500
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 49D8760807; Thu,  8 Mar 2018 06:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1520491600;
+        bh=FxgfiATLHNovwZPz7Acs5iEDxjxrHCrcfwlHQDt8FeA=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=Q99h0OWad9ai4bf441uYjz2R0DleHXhhP+jIBn4O8YErKmRUWie5Vqzj1ydvnBH7p
+         wpununJynSNEK9TXFxN4hIBzpK7DKvkVX3NLuD43oINtdYoxxOw9rRbeZCvd1tkwwb
+         MaQHvfk2SV8LmaKdbctTLXEvxRdD/U5M/B1pp6os=
+Received: from [192.168.0.108] (unknown [161.97.199.73])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kramasub@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3CCDD60390;
+        Thu,  8 Mar 2018 06:46:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1520491598;
+        bh=FxgfiATLHNovwZPz7Acs5iEDxjxrHCrcfwlHQDt8FeA=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ft7XhDQJEnqX8BNxprYh6ewHTw5RB1O/zGdWLo5IL9NAtkewhYpoovbJO9UweRAYG
+         d+gzsI3ld7kYb9hnos9qG7fWFWGUqJGw9EhX/wMCDk02O1nnlQel53ooaa2w7TAYUs
+         d2sVjh9DMSGCh1+44bQr2uJUnWp2EGPp71Y6k5qk=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3CCDD60390
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
+Subject: Re: [PATCH v3 2/4] soc: qcom: Add GENI based QUP Wrapper driver
+To:     Stephen Boyd <swboyd@chromium.org>,
+        Stephen Boyd <sboyd@chromium.org>, andy.gross@linaro.org,
+        corbet@lwn.net, david.brown@linaro.org, gregkh@linuxfoundation.org,
+        mark.rutland@arm.com, robh+dt@kernel.org, wsa@the-dreams.de,
+        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com
+Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-serial@vger.kernel.org, jslaby@suse.com,
+        evgreen@chromium.org, acourbot@chromium.org,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Girish Mahadevan <girishm@codeaurora.org>,
+        iommu@lists.linux-foundation.org
+References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
+ <1519781889-16117-3-git-send-email-kramasub@codeaurora.org>
+ <152002326567.108663.16836885081217739460@swboyd.mtv.corp.google.com>
+ <4ac213a6-081f-72c1-c9c8-6994786285c9@codeaurora.org>
+ <152037339742.218381.11498404122038956963@swboyd.mtv.corp.google.com>
+From:   Karthik Ramasubramanian <kramasub@codeaurora.org>
+Message-ID: <945b6c00-dde6-6ec7-4577-4cc0d034796b@codeaurora.org>
+Date:   Wed, 7 Mar 2018 23:46:36 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.176.35.193 with HTTP; Wed, 7 Mar 2018 22:18:02 -0800 (PST)
-In-Reply-To: <5A85C974.70500@arm.com>
-References: <0184EA26B2509940AA629AE1405DD7F201A9E8EA@DGGEMA503-MBS.china.huawei.com>
- <5A70C5A0.1050600@arm.com> <d1b17dae-9d9c-970a-d164-a41c618d449b@huawei.com>
- <5A7DDDEE.9050306@arm.com> <93d07d3e-8388-7814-d674-538071d84e2a@huawei.com> <5A85C974.70500@arm.com>
-From:   gengdongjiu <gengdj.1984@gmail.com>
-Date:   Thu, 8 Mar 2018 14:18:02 +0800
-Message-ID: <CAMj-D2COh4xDKreZXPHeiJK34mrPqDbHszDWY-fz_SfxTRaHQA@mail.gmail.com>
-Subject: Re: [PATCH v9 5/7] arm64: kvm: Introduce KVM_ARM_SET_SERROR_ESR ioctl
-To:     James Morse <james.morse@arm.com>, drjones@redhat.com
-Cc:     gengdongjiu <gengdongjiu@huawei.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "marc.zyngier@arm.com" <marc.zyngier@arm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "will.deacon@arm.com" <will.deacon@arm.com>,
-        "robert.moore@intel.com" <robert.moore@intel.com>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "lv.zheng@intel.com" <lv.zheng@intel.com>,
-        Huangshaoyu <huangshaoyu@huawei.com>,
-        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
-        "devel@acpica.org" <devel@acpica.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <152037339742.218381.11498404122038956963@swboyd.mtv.corp.google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
-   sorry for my late response due to chines new year.
 
-2018-02-16 1:55 GMT+08:00 James Morse <james.morse@arm.com>:
-> Hi gengdongjiu,
->
-> On 12/02/18 10:19, gengdongjiu wrote:
->> On 2018/2/10 1:44, James Morse wrote:
->>> The point? We can't know what a CPU without the RAS extensions puts in there.
+
+On 3/6/2018 2:56 PM, Stephen Boyd wrote:
+> Quoting Karthik Ramasubramanian (2018-03-02 16:58:23)
+> 
+>>>> +       return iova;
+>>>> +}
+>>>> +EXPORT_SYMBOL(geni_se_tx_dma_prep);
+>>>> +
+>>>> +/**
+>>>> + * geni_se_rx_dma_prep() - Prepare the Serial Engine for RX DMA transfer
+>>>> + * @se:                        Pointer to the concerned Serial Engine.
+>>>> + * @buf:               Pointer to the RX buffer.
+>>>> + * @len:               Length of the RX buffer.
+>>>> + *
+>>>> + * This function is used to prepare the buffers for DMA RX.
+>>>> + *
+>>>> + * Return: Mapped DMA Address of the buffer on success, NULL on failure.
+>>>> + */
+>>>> +dma_addr_t geni_se_rx_dma_prep(struct geni_se *se, void *buf, size_t len)
+>>>> +{
+>>>> +       dma_addr_t iova;
+>>>> +       struct geni_wrapper *wrapper = se->wrapper;
+>>>> +       u32 val;
+>>>> +
+>>>> +       iova = dma_map_single(wrapper->dev, buf, len, DMA_FROM_DEVICE);
+>>>> +       if (dma_mapping_error(wrapper->dev, iova))
+>>>> +               return (dma_addr_t)NULL;
 >>>
->>> Why Does this matter? When migrating a pending SError we have to know the
->>> difference between 'use this 64bit value', and 'the CPU will generate it'.
->>> If I make an SError pending with ESR=0 on a CPU with VSESR, I can't migrated to
->>> a system that generates an impdef SError-ESR, because I can't know it will be 0.
->
->> For the target system, before taking the SError, no one can know whether its syndrome value
->> is IMPLEMENTATION DEFINED or architecturally defined.
->
-> For a virtual-SError, the hypervisor knows what it generated. (do I have
-> VSESR_EL2? What did I put in there?).
->
->
->> when the virtual SError is taken, the ESR_ELx.IDS will be updated, then we can know
->> whether the ESR value is impdef or architecturally defined.
->
-> True, the guest can't know anything about a pending virtual SError until it
-> takes it. Why is this a problem?
->
->
->> It seems migration is only allowed only when target system and source system all support
->> RAS extension, because we do not know whether its syndrome is IMPLEMENTATION DEFINED or
->> architecturally defined.
->
-> I don't think Qemu allows migration between hosts with differing guest-ID
-> registers. But we shouldn't depend on this, and we may want to hide the v8.2 RAS
-> features from the guest's ID register, but still use them from the host.
->
-> The way I imagined it working was we would pack the following information into
-> that events struct:
-> {
->         bool serror_pending;
->         bool serror_has_esr;
->         u64  serror_esr;
-> }
+>>> Can't return a dma_mapping_error address to the caller and have them
+>>> figure it out?
+>> Earlier we used to return the DMA_ERROR_CODE which has been removed
+>> recently in arm64 architecture. If we return the dma_mapping_error, then
+>> the caller also needs the device which encountered the mapping error.
+>> The serial interface drivers can use their parent currently to resolve
+>> the mapping error. Once the wrapper starts mapping using IOMMU context
+>> bank, then the serial interface drivers do not know which device to use
+>> to know if there is an error.
+>>
+>> Having said that, the dma_ops suggestion might help with handling this
+>> situation. I will look into it further.
+> 
+> Ok, thanks.
+> 
+>>>> +{
+>>>> +       struct geni_wrapper *wrapper = se->wrapper;
+>>>> +
+>>>> +       if (iova)
+>>>> +               dma_unmap_single(wrapper->dev, iova, len, DMA_FROM_DEVICE);
+>>>> +}
+>>>> +EXPORT_SYMBOL(geni_se_rx_dma_unprep);
+>>>
+>>> Instead of having the functions exported, could we set the dma_ops on
+>>> all child devices of the wrapper that this driver populates and then
+>>> implement the DMA ops for those devices here? I assume that there's
+>>> never another DMA master between the wrapper and the serial engine, so I
+>>> think it would work.
+>> This suggestion looks like it will work.
+> 
+> It would be a good idea to check with some other people on the dma_ops
+> suggestion. Maybe add the DMA mapping subsystem folks to help out here
+I have added the DMA mapping subsystem folks to help out here.
 
-I have used your suggestion struct
+To present an overview, we have a wrapper controller which is composed 
+of several serial engines. The serial engines are programmed with UART, 
+I2C or SPI protocol and support DMA transfer. When the serial engines 
+perform DMA transfer, the wrapper controller device is used to perform 
+the mapping. The reason wrapper device is used is because of IOMMU and 
+there is only one IOMMU context bank to perform the translation for the 
+entire wrapper controller. So the wrapper controller exports map and 
+unmap functions to the individual protocol drivers.
 
->
-> The problem I was trying to describe is because there is no value of serror_esr
-> we can use to mean 'Ignore this, I'm a v8.0 CPU'. VSESR_EL2 is a 64bit register,
-> any bits we abuse may get a meaning we want to use in the future.
->
-> When it comes to migration, v8.{0,1} systems can only GET/SET events where
-> serror_has_esr == false, they can't use the serror_esr. On v8.2 systems we
-> should require serror_has_esr to be true.
-yes, I agreed.
-
->
-> If we need to support migration from v8.{0,1} to v8.2, we can make up an impdef
-> serror_esr.
-
-For the Qemu migration, I need to check more the QEMU code.
-
-
-Hi Andrew,
-      I use KVM_GET/SET_VCPU_EVENTS IOCTL to migrate the Serror
-exception status of VM,
-The even struct is shown below:
-
-{
-      bool serror_pending;
-      bool serror_has_esr;
-     u64  serror_esr;
-}
-
-Only when the target machine is armv8.2, it needs to set the
-serror_esr(SError Exception Syndrome Register).
-for the armv8.0,  software can not set the serror_esr(SError Exception
-Syndrome Register).
-so when migration from v8.{0,1} to v8.2, QEMU should make up an impdef
-serror_esr for the v8.2 target.
-can you give me some suggestion how to set that register in the QEMU?
-I do not familar with the QEMU migration.
-Thanks very much.
-
->
-> We will need to decide what KVM does when SET is called but an SError was
-> already pending. 2.5.3 "Multiple SError interrupts" of [0] has something to say.
-
-how about KVM set again to the same VCPU?
-
->
->
-> Happy new year,
-thanks!
-
->
-> James
->
->
-> [0]
-> https://static.docs.arm.com/ddi0587/a/RAS%20Extension-release%20candidate_march_29.pdf
-> _______________________________________________
-> kvmarm mailing list
-> kvmarm@lists.cs.columbia.edu
-> https://lists.cs.columbia.edu/mailman/listinfo/kvmarm
+There is a suggestion to make the parent wrapper controller implement 
+the dma_map_ops, instead of exported map/unmap functions and populate 
+those dma_map_ops on all the children serial engines. Can you please 
+provide your inputs regarding this suggestion?
+> 
+> DMA MAPPING HELPERS
+> M:      Christoph Hellwig <hch@lst.de>
+> M:      Marek Szyprowski <m.szyprowski@samsung.com>
+> R:      Robin Murphy <robin.murphy@arm.com>
+> L:      iommu@lists.linux-foundation.org
+> 
+> 
+Regards,
+Karthik.
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
