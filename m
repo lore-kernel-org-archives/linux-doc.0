@@ -1,127 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA0B77E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 22:32:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAD9D7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 23:40:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750869AbeCHWch (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 17:32:37 -0500
-Received: from mail-pg0-f67.google.com ([74.125.83.67]:41712 "EHLO
-        mail-pg0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750787AbeCHWcf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 17:32:35 -0500
-Received: by mail-pg0-f67.google.com with SMTP id s15so166351pgv.8
-        for <linux-doc@vger.kernel.org>; Thu, 08 Mar 2018 14:32:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:to:from:in-reply-to:cc
-         :references:message-id:user-agent:subject:date;
-        bh=9tDgFtKFn0yZAeoviy+kUQsroU/qa/D/F6PHqd+hixs=;
-        b=PpFTjmK95GNMKFM2XjVFcFuconfP3IPZ8KBtjvDewBlpSQldYE17FRgKCpgrkrEC91
-         9nSvY+a5woa5+Cn/hXj78kzHf0e6pVb23M+naomca9IJYlAkIWy7BcibfsHLmGQyxsS9
-         6SIPvo6ixFaOIZrz10FzMj1zeWsgycQthBl5Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:to:from
-         :in-reply-to:cc:references:message-id:user-agent:subject:date;
-        bh=9tDgFtKFn0yZAeoviy+kUQsroU/qa/D/F6PHqd+hixs=;
-        b=bCT2609d+ZRFo1tuAt7P7tkkuWegwdSRbhO5NI7nJTx4zofmgAIg1g4EAz+wje0B/y
-         BkcCw2E8ht6nTA20sb4FUp0WstcpAfHrmLBeFByuJnAiNkY5yMPz2ESAO61Hj95HaE4u
-         nDC0VDWWEi55YOoRICkWC4VU7HI5YnzS/CQUqL8UvvoiP5P3pHhnZxMpNO/X69GsLU61
-         nkYyvrLXSM8zB+Ir2vSjctEKzoxh27L9UzMYTC35eM1EPE6n0jE2rX4xfgj8+5hWbprS
-         6OgMEy/lXhjUAFvlnFfwEVfYIaAR1Pr2cAvXfmxSL78EZlIEJFvY/4G3lyTiArKxtPk/
-         vygw==
-X-Gm-Message-State: APf1xPD9Ls3QA3vhQk9iHwtlHeNybEmvxsDpZt6kIRj7W1EzlbMNwZ8d
-        Tw0JZWBsWoAG0DdEmCTT+VJGXg==
-X-Google-Smtp-Source: AG47ELtVR0r1ElSmOOyxwAZjFmH/2C4BC49A0IpGHS1O7UA1OZAdXaGuy1DUEUeYeQckE7KYpFwJ6g==
-X-Received: by 10.101.102.21 with SMTP id w21mr23082579pgv.247.1520548354454;
-        Thu, 08 Mar 2018 14:32:34 -0800 (PST)
-Received: from localhost ([2620:0:1000:1501:422f:ca5c:71a2:c3b3])
-        by smtp.gmail.com with ESMTPSA id h15sm39048783pfi.56.2018.03.08.14.32.33
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 08 Mar 2018 14:32:33 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        id S1750836AbeCHXka (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 18:40:30 -0500
+Received: from mout.gmx.net ([212.227.17.21]:38633 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750800AbeCHXk3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Mar 2018 18:40:29 -0500
+Received: from latitude ([88.153.6.235]) by mail.gmx.com (mrgmx101
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0MXDo1-1f85ks1MXd-00WHUr; Fri, 09
+ Mar 2018 00:40:27 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-gpio@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Subject: [PATCH 0/8] Move most GPIO documentation to driver-api/gpio/ and ReST
+Date:   Fri,  9 Mar 2018 00:40:16 +0100
+Message-Id: <20180308234024.24145-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.16.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To:     Karthik Ramasubramanian <kramasub@codeaurora.org>,
-        andy.gross@linaro.org, corbet@lwn.net, david.brown@linaro.org,
-        gregkh@linuxfoundation.org, mark.rutland@arm.com,
-        robh+dt@kernel.org, wsa@the-dreams.de
-From:   Stephen Boyd <swboyd@chromium.org>
-In-Reply-To: <d8089e60-9344-8a7e-502d-3e04e357811b@codeaurora.org>
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, jslaby@suse.com,
-        evgreen@chromium.org, acourbot@chromium.org,
-        Girish Mahadevan <girishm@codeaurora.org>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Doug Anderson <dianders@google.com>
-References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
- <1519781889-16117-5-git-send-email-kramasub@codeaurora.org>
- <152002870571.108663.443363731684218377@swboyd.mtv.corp.google.com>
- <f900dc96-0150-079d-bcd6-9d2e05f8fde1@codeaurora.org>
- <152037270430.218381.11080419743809466427@swboyd.mtv.corp.google.com>
- <d8089e60-9344-8a7e-502d-3e04e357811b@codeaurora.org>
-Message-ID: <152054835314.219802.7795128053459733073@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v3 4/4] tty: serial: msm_geni_serial: Add serial driver support
- for GENI based QUP
-Date:   Thu, 08 Mar 2018 14:32:33 -0800
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K0:aqfnyGP5i1ZzFdE35Atp7nqm99LWtxLihv5rXb7yRd/5hnqJuOG
+ D1qIWIBQrpZr+FBKRmhGASRdxzcC1R6Vo2jsW/7nm7ZV6Hk3OlJ9VLUoUuCZZaRkvBXF8oR
+ nuuTy0+l6Ny6cz2h/jY+dKMWNGVmG/NfZJTGRbkwaEvRrUzoGlvfIOyhJ8DZxjBnffvbZcE
+ PV6ljuJZwG7r6BSOZXdFQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:dQo375sOpZQ=:19qpG/9QWOELrjuzqpJIR5
+ jVs40PAK8qiMVeWVF918XQTQYXhkrdF1dkG9xmCKMOUY7xIFg5luT2Yxx/zoDVOZxR3BCahH7
+ Cmnph7i9Djbr/oJ33IoG0yKfyLhbuyZI/0voEOu9EoIDGyseVAzX0Kj9Ws/bmHqHHvhHdK86D
+ fVkaVvy8mlQWmasqwE18mO0BIcQM1DK+R3xBhnQZKz9rOXOx18hzK/fjfn4gLe8eRnrXSinHu
+ a8nWJkqnJQgFpqI5Q94Toj6t5wGfl0tlwsDLqmDJXk+v9/eZymF4h8WTZM4abSZSs2p7PZmKA
+ 48nKg5GYuGswJJoDe5jyQChg40Q6Lwx9FUcZV5r0Yq3DTyjZeJufXqh/390SenbSysZY+nmAA
+ 8Ip+1w2oQWDPZWwMcUCPAg0rr34K7Y5krjL2wavS6e9GxefV4YmTXNRiMRvdLNEuavLXGcjd5
+ IvbajsRbjKA7wdkI17ZjLSogZslQqWbZGZF3ZVkC/qMOEX3MtWQcbKfVMpuhilXFCFvrOdrbR
+ pCvLqvmrRalT9NgKIt+gp1JBXAjraXeKMDbmeeda5ptSsq3T42bXvyxc45nEbg1qR1c0tnzKN
+ FPiAOZisnai/x2K4ZwsYAphEMLwUSQ7Cwh8FTDAAfBGvzVS9XzHJAaJoHHxQXsKLle1KOOyPS
+ S0sHIN/C6smfr9jcXnTwafOtwYvucECL08cMrqXBAAhD6wM1D/i6ChFud3l1LzHltZsX/SPOA
+ knGK81sqg8Aati0ijffNUKwjOrZaPONxyFrMk/lyyGGPs8ppPi3W14ibPm6SfY/d7voKgThbO
+ JBmMlm1aLaXieoOnhiA4wlVNz6IcV8zaN3Ye0aRta+QEfSCVZA=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Karthik Ramasubramanian (2018-03-07 22:06:29)
-> =
+The aim of this patchset is to move the GPIO subsystem's documentation
+under Documentation/driver-api/gpio/ such that it is picked up by Sphinx
+and compiled into HTML. I moved everything except for sysfs.txt, because
+this file describes the legacy sysfs ABI, and doesn't seem to serve much
+(non-historical) purpose anymore.
 
-> =
+There are still some rough edges:
 
-> On 3/6/2018 2:45 PM, Stephen Boyd wrote:
-> > Quoting Karthik Ramasubramanian (2018-03-05 16:51:23)
-> >> On 3/2/2018 3:11 PM, Stephen Boyd wrote:
-> > =
+* I think the API documentation (kernel-doc) should be moved out of
+  index.rst into more appropriate files.
+* The headings are arguably wrong, because driver.rst, consumer.rst,
+  etc. use the "document title" style, even though they are part of the
+  GPIO chapter. But the resulting TOC tree is consistent, and I did not
+  want to change almost all headings.
+* Some of the files could use more :c:func:`...` references and general
+  ReST polish.
 
-> > Ok. I've seen similar designs in some mmc drivers. For example, you can
-> > look at drivers/mmc/host/meson-gx-mmc.c and see that they register a
-> > clk_ops and then just start using that clk directly from the driver.
-> > There are also some helper functions for dividers that would hopefully
-> > make the job of calculating the best divider easier.
-> Thanks for the pointers. I will take a look at it. In the meanwhile I =
+But I don't want to make this patchset too large.
 
-> had discussions with our clock team. They pointed out that the register =
+Jonathan Neuschäfer (8):
+  MAINTAINERS: GPIO: Add Documentation/driver-api/gpio/
+  Documentation: driver-api: Move gpio.rst to gpio/index.rst
+  Documentation: gpio: Move introduction to driver-api
+  Documentation: gpio: Move driver documentation to driver-api
+  Documentation: gpio: Move legacy documentation to driver-api
+  Documentation: gpio: Move gpiod_* consumer documentation to driver-api
+  Documentation: gpio: Move GPIO mapping documentation to driver-api
+  Documentation: gpio: Move drivers-on-gpio.txt to driver-api
 
-> to write the divider value here is outside the scope of clock controller =
+ .../{gpio/board.txt => driver-api/gpio/board.rst}  | 39 +++++-----
+ .../consumer.txt => driver-api/gpio/consumer.rst}  | 85 +++++++++++-----------
+ .../driver.txt => driver-api/gpio/driver.rst}      | 80 ++++++++++----------
+ .../gpio/drivers-on-gpio.rst}                      |  1 +
+ .../driver-api/{gpio.rst => gpio/index.rst}        | 21 +++---
+ .../{gpio/gpio.txt => driver-api/gpio/intro.rst}   |  9 ++-
+ .../gpio-legacy.txt => driver-api/gpio/legacy.rst} | 68 ++++++++++-------
+ Documentation/driver-api/index.rst                 |  2 +-
+ Documentation/gpio/00-INDEX                        | 13 ----
+ Documentation/gpio/sysfs.txt                       |  5 +-
+ MAINTAINERS                                        |  1 +
+ 11 files changed, 169 insertions(+), 155 deletions(-)
+ rename Documentation/{gpio/board.txt => driver-api/gpio/board.rst} (88%)
+ rename Documentation/{gpio/consumer.txt => driver-api/gpio/consumer.rst} (89%)
+ rename Documentation/{gpio/driver.txt => driver-api/gpio/driver.rst} (93%)
+ rename Documentation/{gpio/drivers-on-gpio.txt => driver-api/gpio/drivers-on-gpio.rst} (99%)
+ rename Documentation/driver-api/{gpio.rst => gpio/index.rst} (74%)
+ rename Documentation/{gpio/gpio.txt => driver-api/gpio/intro.rst} (96%)
+ rename Documentation/{gpio/gpio-legacy.txt => driver-api/gpio/legacy.rst} (96%)
 
-> which makes it trickier to implement your suggestion. They are already =
+-- 
+2.16.1
 
-> in the mailing list and we will discuss further and get back to you in =
-
-> this regard.
-
-Ok. Let me know if I can help answer any questions.
-
-> >>>
-> >>> Why are these noirq variants? Please add a comment.
-> >> The intention is to enable the console UART port usage as late as
-> >> possible in the suspend cycle. Hence noirq variants. I will add this as
-> >> a comment. Please let me know if the usage does not match the intentio=
-n.
-> > =
-
-> > Hm.. Does no_console_suspend not work? Or not work well enough?
-> It works. When console suspend is disabled, the suspend operation does =
-
-> not get triggered and the resume operation checks if the console suspend =
-
-> is disabled and performs the needed thing.
-
-Ok so then do we need the noirq variants? Or console suspend is special
-enough for this to not matter?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
