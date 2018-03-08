@@ -5,52 +5,93 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B04C7E676
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 14:41:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD3077E677
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 15:21:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933762AbeCHOls (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 09:41:48 -0500
-Received: from verein.lst.de ([213.95.11.211]:35622 "EHLO newverein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933736AbeCHOlp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Mar 2018 09:41:45 -0500
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id C1EB69F161; Thu,  8 Mar 2018 15:41:43 +0100 (CET)
-Date:   Thu, 8 Mar 2018 15:41:43 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Karthik Ramasubramanian <kramasub@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Stephen Boyd <sboyd@chromium.org>, andy.gross@linaro.org,
-        corbet@lwn.net, david.brown@linaro.org, gregkh@linuxfoundation.org,
-        mark.rutland@arm.com, robh+dt@kernel.org, wsa@the-dreams.de,
-        hch@lst.de, m.szyprowski@samsung.com, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
-        jslaby@suse.com, evgreen@chromium.org, acourbot@chromium.org,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>,
-        iommu@lists.linux-foundation.org
-Subject: Re: [PATCH v3 2/4] soc: qcom: Add GENI based QUP Wrapper driver
-Message-ID: <20180308144143.GB23266@lst.de>
-References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org> <1519781889-16117-3-git-send-email-kramasub@codeaurora.org> <152002326567.108663.16836885081217739460@swboyd.mtv.corp.google.com> <4ac213a6-081f-72c1-c9c8-6994786285c9@codeaurora.org> <152037339742.218381.11498404122038956963@swboyd.mtv.corp.google.com> <945b6c00-dde6-6ec7-4577-4cc0d034796b@codeaurora.org> <8567be1b-1431-4f1d-cb41-6a7eaa434438@arm.com>
+        id S1756009AbeCHPVZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 10:21:25 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:13369 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755897AbeCHPVV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 10:21:21 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com
+        id <B5aa154f80000>; Thu, 08 Mar 2018 07:21:28 -0800
+Received: from HQMAIL107.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 08 Mar 2018 07:21:21 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 08 Mar 2018 07:21:21 -0800
+Received: from BGMAIL102.nvidia.com (10.25.59.11) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
+ 2018 15:21:20 +0000
+Received: from [10.19.64.176] (10.19.64.176) by bgmail102.nvidia.com
+ (10.25.59.11) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
+ 2018 15:21:10 +0000
+Subject: Re: [PATCH 05/10] hwmon: generic-pwm-tachometer: Add generic PWM
+ based tachometer
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Rajkumar Rampelli <rrajk@nvidia.com>,
+        Mikko Perttunen <cyndis@kapsi.fi>, <robh+dt@kernel.org>,
+        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <jdelvare@suse.com>, <corbet@lwn.net>,
+        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <kstewart@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
+        <pombredanne@nexb.com>, <mmaddireddy@nvidia.com>,
+        <mperttunen@nvidia.com>, <arnd@arndb.de>, <timur@codeaurora.org>,
+        <andy.gross@linaro.org>, <xuwei5@hisilicon.com>,
+        <elder@linaro.org>, <heiko@sntech.de>, <krzk@kernel.org>,
+        <ard.biesheuvel@linaro.org>
+References: <1519196339-9377-1-git-send-email-rrajk@nvidia.com>
+ <1519196339-9377-6-git-send-email-rrajk@nvidia.com>
+ <5172edff-fe29-7ed1-f0d2-b0359ea2c24d@roeck-us.net>
+ <2510b525-ec36-b49d-5a62-81f335c0d10d@nvidia.com>
+ <cfe0d0ce-3a89-bad0-85ba-6edf1135d2dc@roeck-us.net>
+ <2628eff2-dd33-34f4-a7e1-cfe46ef88a3f@nvidia.com>
+ <4556a8d2-947d-72c4-2962-3167afb53978@kapsi.fi>
+ <62ba7f67-5a99-51ab-1214-eb68ebb7e642@roeck-us.net>
+ <952cb50e-d9a0-ae5e-d9f6-d1ce268f0384@nvidia.com>
+ <f7818e4c-17b6-c58b-3424-85749bb9c1cc@roeck-us.net>
+ <5bffef40-a4a7-5f7d-a448-b2a381c57822@nvidia.com>
+ <d4e745a6-5534-662e-f6d5-a91bf580f550@roeck-us.net>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+From:   Laxman Dewangan <ldewangan@nvidia.com>
+Message-ID: <4d00a31b-44cc-d3dc-78a2-1b7f23d777e0@nvidia.com>
+Date:   Thu, 8 Mar 2018 20:51:07 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8567be1b-1431-4f1d-cb41-6a7eaa434438@arm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <d4e745a6-5534-662e-f6d5-a91bf580f550@roeck-us.net>
+X-Originating-IP: [10.19.64.176]
+X-ClientProxiedBy: DRBGMAIL102.nvidia.com (10.18.16.21) To
+ bgmail102.nvidia.com (10.25.59.11)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 08, 2018 at 01:24:45PM +0000, Robin Murphy wrote:
-> Implementing dma_map_ops inside a driver for real hardware is almost always 
-> the wrong thing to do.
 
-Agreed.  dma_map_ops should be a platform decision based on the bus.
 
-Even our dma_virt_ops basically just works around bad driver layering.
+On Thursday 08 March 2018 08:01 PM, Guenter Roeck wrote:
+> On 03/07/2018 10:06 PM, Laxman Dewangan wrote:
+>>
+>>
+>> The RPM is measured speed via PWM signal capture  which is output 
+>> from fan.
+>> So should we have the fan[1..n]_output_rpm?
+>>
+>
+> No. I hear you clearly that you for some reason dislike fan[1..n]_input.
+> While ABIs are not always to our liking, that doesn't mean that we get
+> to change them at our whim. If that is not acceptable for you, I can't
+> help you. And you can't change inX_input to inX_voltage either, sorry.
+
+My opinion is only to not use "input" as this is not really the input to 
+fan.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
