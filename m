@@ -1,71 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D1E2A7E676
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 06:06:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B1C297E676
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 06:06:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935556AbeCHGGg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 01:06:36 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10251 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934897AbeCHGGd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 01:06:33 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com
-        id <B5aa0d2f00002>; Wed, 07 Mar 2018 22:06:40 -0800
-Received: from HQMAIL105.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 07 Mar 2018 22:06:32 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 07 Mar 2018 22:06:32 -0800
-Received: from BGMAIL102.nvidia.com (10.25.59.11) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
- 2018 06:06:31 +0000
-Received: from [10.19.64.176] (10.19.64.176) by bgmail102.nvidia.com
- (10.25.59.11) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Mar
- 2018 06:06:26 +0000
-Subject: Re: [PATCH 05/10] hwmon: generic-pwm-tachometer: Add generic PWM
- based tachometer
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Rajkumar Rampelli <rrajk@nvidia.com>,
-        Mikko Perttunen <cyndis@kapsi.fi>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <jdelvare@suse.com>, <corbet@lwn.net>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kstewart@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
-        <pombredanne@nexb.com>, <mmaddireddy@nvidia.com>,
-        <mperttunen@nvidia.com>, <arnd@arndb.de>, <timur@codeaurora.org>,
-        <andy.gross@linaro.org>, <xuwei5@hisilicon.com>,
-        <elder@linaro.org>, <heiko@sntech.de>, <krzk@kernel.org>,
-        <ard.biesheuvel@linaro.org>
-References: <1519196339-9377-1-git-send-email-rrajk@nvidia.com>
- <1519196339-9377-6-git-send-email-rrajk@nvidia.com>
- <5172edff-fe29-7ed1-f0d2-b0359ea2c24d@roeck-us.net>
- <2510b525-ec36-b49d-5a62-81f335c0d10d@nvidia.com>
- <cfe0d0ce-3a89-bad0-85ba-6edf1135d2dc@roeck-us.net>
- <2628eff2-dd33-34f4-a7e1-cfe46ef88a3f@nvidia.com>
- <4556a8d2-947d-72c4-2962-3167afb53978@kapsi.fi>
- <62ba7f67-5a99-51ab-1214-eb68ebb7e642@roeck-us.net>
- <952cb50e-d9a0-ae5e-d9f6-d1ce268f0384@nvidia.com>
- <f7818e4c-17b6-c58b-3424-85749bb9c1cc@roeck-us.net>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-From:   Laxman Dewangan <ldewangan@nvidia.com>
-Message-ID: <5bffef40-a4a7-5f7d-a448-b2a381c57822@nvidia.com>
-Date:   Thu, 8 Mar 2018 11:36:24 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1755232AbeCHGGy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 01:06:54 -0500
+Received: from smtp.codeaurora.org ([198.145.29.96]:43480 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935445AbeCHGGe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 01:06:34 -0500
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 48EE5607E5; Thu,  8 Mar 2018 06:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1520489193;
+        bh=9gELTQTnTHNZuf478wxdsw6i6CixilXEHZ0nGSge9dY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=gwvf5F4F0OmD/joziy9rzUp+Y5mVRll8AddyaeL+6REpbXgw1ZIYopBtkdpkqH4FW
+         rUPfPwA7+WYMvCeU3dv5BKaEWZpbkkNcl52cST3dVMoN12OMkKno6yub5N3+vr7AfJ
+         e1JUh/6rPT12GV6sLTWIu1meQE5fb9GSvPBI0nak=
+Received: from [192.168.0.108] (unknown [161.97.199.73])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kramasub@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7EB65601D3;
+        Thu,  8 Mar 2018 06:06:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1520489191;
+        bh=9gELTQTnTHNZuf478wxdsw6i6CixilXEHZ0nGSge9dY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=JW44/UAYtsXdqjlI17rknDkj2oxs2xI1fnYpTiGeZpQrfIXB6f0/4eQH1r24KJtCb
+         +rUSnEgKJ1eFkcqdF608ar5Pq4U13i20Hb92W3J3nCQ/Aqz8DbOloCHdd1qgUHyMeq
+         SE7twDvC5GyJasgm3h3M8NoPm/zFx1DrXYaP+BE0=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7EB65601D3
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
+Subject: Re: [PATCH v3 4/4] tty: serial: msm_geni_serial: Add serial driver
+ support for GENI based QUP
+To:     Stephen Boyd <swboyd@chromium.org>, andy.gross@linaro.org,
+        corbet@lwn.net, david.brown@linaro.org, gregkh@linuxfoundation.org,
+        mark.rutland@arm.com, robh+dt@kernel.org, wsa@the-dreams.de
+Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-serial@vger.kernel.org, jslaby@suse.com,
+        evgreen@chromium.org, acourbot@chromium.org,
+        Girish Mahadevan <girishm@codeaurora.org>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Doug Anderson <dianders@google.com>
+References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
+ <1519781889-16117-5-git-send-email-kramasub@codeaurora.org>
+ <152002870571.108663.443363731684218377@swboyd.mtv.corp.google.com>
+ <f900dc96-0150-079d-bcd6-9d2e05f8fde1@codeaurora.org>
+ <152037270430.218381.11080419743809466427@swboyd.mtv.corp.google.com>
+From:   Karthik Ramasubramanian <kramasub@codeaurora.org>
+Message-ID: <d8089e60-9344-8a7e-502d-3e04e357811b@codeaurora.org>
+Date:   Wed, 7 Mar 2018 23:06:29 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <f7818e4c-17b6-c58b-3424-85749bb9c1cc@roeck-us.net>
-X-Originating-IP: [10.19.64.176]
-X-ClientProxiedBy: BGMAIL103.nvidia.com (10.25.59.12) To bgmail102.nvidia.com
- (10.25.59.11)
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <152037270430.218381.11080419743809466427@swboyd.mtv.corp.google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -74,46 +73,225 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On Wednesday 07 March 2018 07:50 PM, Guenter Roeck wrote:
-> On 03/07/2018 01:47 AM, Rajkumar Rampelli wrote:
->>
+On 3/6/2018 2:45 PM, Stephen Boyd wrote:
+> Quoting Karthik Ramasubramanian (2018-03-05 16:51:23)
+>> On 3/2/2018 3:11 PM, Stephen Boyd wrote:
+>>> Quoting Karthikeyan Ramasubramanian (2018-02-27 17:38:09)
 >>>
->>> While I am not opposed to ABI changes, the merits of those would 
->>> need to be
->>> discussed on the mailing list. But replacing "fan1_input" with "rpm" is
->>> not an acceptable ABI change, even if it may measure something that 
->>> turns
->>> but isn't a fan.
+>>>> +               size_t chars_to_write = 0;
+>>>> +               size_t avail = DEF_FIFO_DEPTH_WORDS - DEF_TX_WM;
+>>>> +
+>>>> +               /*
+>>>> +                * If the WM bit never set, then the Tx state machine is not
+>>>> +                * in a valid state, so break, cancel/abort any existing
+>>>> +                * command. Unfortunately the current data being written is
+>>>> +                * lost.
+>>>> +                */
+>>>> +               while (!qcom_geni_serial_poll_bit(uport, SE_GENI_M_IRQ_STATUS,
+>>>> +                                               M_TX_FIFO_WATERMARK_EN, true))
 >>>
->>> If this _is_ in fact supposed to be used for something else but 
->>> fans, we
->>> would have to discuss what that might be, and if hwmon is the 
->>> appropriate
->>> subsystem to measure and report it. This does to some degree lead 
->>> back to
->>> my concern of having the "fan" part of this patch series in the pwm 
->>> core.
->>> I am still not sure if that makes sense.
+>>> Does this ever timeout? So many nested while loops makes it hard to
+>>> follow.
+>> Yes. Based on the baud rate of 115200 and the FIFO Depth & Width of (16
+>> * 32), the poll should not take more than 5 ms under the timeout scenario.
+> 
+> Sure, but I'm asking if this has any sort of timeout associated with it.
+> It looks to be a while loop that could possibly go forever?
+I will change it from a while loop to if condition to make it clear.
+> 
+>>>> +static void qcom_geni_serial_console_write(struct console *co, const char *s,
+>>>> +                             unsigned int count)
+>>>> +{
+>>>> +       struct uart_port *uport;
+>>>> +       struct qcom_geni_serial_port *port;
+>>>> +       bool locked = true;
+>>>> +       unsigned long flags;
+>>>> +
+>>>> +       WARN_ON(co->index < 0 || co->index >= GENI_UART_CONS_PORTS);
+>>>> +
+>>>> +       port = get_port_from_line(co->index);
+>>>> +       if (IS_ERR(port))
+>>>> +               return;
+>>>> +
+>>>> +       uport = &port->uport;
+>>>> +       if (oops_in_progress)
+>>>> +               locked = spin_trylock_irqsave(&uport->lock, flags);
+>>>> +       else
+>>>> +               spin_lock_irqsave(&uport->lock, flags);
+>>>> +
+>>>> +       if (locked) {
+>>>> +               __qcom_geni_serial_console_write(uport, s, count);
 >>>
->>> Thanks,
->>> Guenter
->> I am planning to add tachometer support in pwm-fan.c driver 
->> (drivers/hwmon/) instead of adding new generic-pwm-tachometer.c 
->> driver. Measuring RPM value will be done in pwm-fan driver itself 
->> using pwm capture feature and will add new sysfs attributes under 
->> this driver to report rpm value of fan.
->
-> There is an existing attribute to report the RPM of fans. It is called 
-> fan[1..n]_input.
->
-> "replacing "fan1_input" with "rpm" is not an acceptable ABI change"
->
-> Preemptive NACK.
-
-The RPM is measured speed via PWM signal capture  which is output from fan.
-So should we have the fan[1..n]_output_rpm?
-
-
+>>> So if oops is in progress, and we didn't lock here, we don't output
+>>> data? I'd think we would always want to write to the fifo, just make the
+>>> lock grab/release conditional.
+>> If we fail to grab the lock, then there is another active writer. So
+>> trying to write to the fifo will put the hardware in bad state because
+>> writer has programmed the hardware to write 'x' number of words and this
+>> thread will over-write it with 'y' number of words. Also the data that
+>> you might see in the console might be garbled.
+> 
+> I suspect that because this is the serial console, and we want it to
+> always output stuff even when we're going down in flames, we may want to
+> ignore that case and just wait for the fifo to free up and then
+> overwrite the number of words that we want to output and push out more
+> characters.
+> 
+> I always get confused though because there seem to be lots of different
+> ways to do things in serial drivers and not too much clear documentation
+> that I've read describing what to do.
+Ok. If the active writer is interrupted due to OOPS handler, then the 
+interrupted write can be cancelled and the write from OOPS handler can 
+be performed.
+> 
+>>>
+>>>> +               spin_unlock_irqrestore(&uport->lock, flags);
+>>>> +       }
+>>>> +}
+> [...]
+>>>> +
+>>>> +       if (m_irq_status & (M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN) &&
+>>>> +           m_irq_en & (M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN))
+>>>> +               qcom_geni_serial_handle_tx(uport);
+>>>> +
+>>>> +       if (s_irq_status & S_GP_IRQ_0_EN || s_irq_status & S_GP_IRQ_1_EN) {
+>>>> +               if (s_irq_status & S_GP_IRQ_0_EN)
+>>>> +                       uport->icount.parity++;
+>>>> +               drop_rx = true;
+>>>> +       } else if (s_irq_status & S_GP_IRQ_2_EN ||
+>>>> +                                       s_irq_status & S_GP_IRQ_3_EN) {
+>>>> +               uport->icount.brk++;
+>>>
+>>> How does break character handling work? I see the accounting here, but
+>>> don't see any uart_handle_break() call anywhere.
+>> The reason it is not added is because the hardware does not indicate
+>> when the break character occured. It can be any one of the FIFO words.
+>> The statistics is updated to give an idea that the break happened. We
+>> can add uart_handle_break() but it may not be at an accurate position
+>> for the above mentioned reason.
+> 
+> Sounds like the previous uart design. We would want uart_handle_break()
+> support for kgdb to work over serial. Do we still get an interrupt
+> signal that a break character is somewhere in the fifo? If we get that,
+> then does it also put a NUL (0) character into the fifo that we can
+> find? I had to do something like that before, where we detect the irq
+> and then we go through the fifo a character at a time to find the break
+> character that looks like a NUL, and then let sysrq core handle the
+> characters after that break character comes in.
+I will use the same logic as in blsp2 serial to catch the break 
+character, same as NULL and push the break character to the framework.
+> 
+>>>
+>>>
+>>>> +}
+>>>> +
+>>>> +static unsigned long get_clk_div_rate(unsigned int baud, unsigned int *clk_div)
+>>>> +{
+>>>> +       unsigned long ser_clk;
+>>>> +       unsigned long desired_clk;
+>>>> +
+>>>> +       desired_clk = baud * UART_OVERSAMPLING;
+>>>> +       ser_clk = get_clk_cfg(desired_clk);
+>>>> +       if (!ser_clk) {
+>>>> +               pr_err("%s: Can't find matching DFS entry for baud %d\n",
+>>>> +                                                               __func__, baud);
+>>>> +               return ser_clk;
+>>>> +       }
+>>>> +
+>>>> +       *clk_div = ser_clk / desired_clk;
+>>>
+>>> How wide can clk_div be? It may be better to implement the ser_clk as an
+>>> actual clk in the common clk framework, and then have the serial driver
+>>> or the i2c driver call clk_set_rate() on that clk and have the CCF
+>>> implementation take care of determining the rate that the parent clk can
+>>> supply and how it can fit it into the frequency that the divider can
+>>> support.
+>> Based on my current expertise with the CCF, I will address this comment
+>> in a later patchset than the next one.
+> 
+> Ok. I've seen similar designs in some mmc drivers. For example, you can
+> look at drivers/mmc/host/meson-gx-mmc.c and see that they register a
+> clk_ops and then just start using that clk directly from the driver.
+> There are also some helper functions for dividers that would hopefully
+> make the job of calculating the best divider easier.
+Thanks for the pointers. I will take a look at it. In the meanwhile I 
+had discussions with our clock team. They pointed out that the register 
+to write the divider value here is outside the scope of clock controller 
+which makes it trickier to implement your suggestion. They are already 
+in the mailing list and we will discuss further and get back to you in 
+this regard.
+> 
+>>>> +
+>>>> +       uport->uartclk = clk_rate;
+>>>> +       clk_set_rate(port->se.clk, clk_rate);
+>>>> +       ser_clk_cfg = SER_CLK_EN;
+>>>> +       ser_clk_cfg |= (clk_div << CLK_DIV_SHFT);
+>>>
+>>> Drop useless cast.
+>> I think you mean parenthesis. I do not see casting here.
+> 
+> Yes! You got it.
+> 
+>>>> +#endif
+>>>> +       .pm = qcom_geni_serial_cons_pm,
+>>>> +};
+>>>> +
+>>>> +static int qcom_geni_serial_probe(struct platform_device *pdev)
+>>>> +{
+>>>> +       int ret = 0;
+>>>> +       int line = -1;
+>>>> +       struct qcom_geni_serial_port *port;
+>>>> +       struct uart_port *uport;
+>>>> +       struct resource *res;
+>>>> +       struct uart_driver *drv;
+>>>> +
+>>>> +       drv = (void *)of_device_get_match_data(&pdev->dev);
+>>>
+>>> Useless cast.
+>> There were compiler warnings assigning a const void * to a void *. That
+>> is why I have the cast in place.
+> 
+> Oh. Yes you shouldn't cast away the const. Please make the compiler
+> warning go away without casting it away.
+Ok. I will figure out an alternative to this one.
+> 
+>>>
+>>>
+>>> Also, I see some serial drivers do the mapping when the port is
+>>> requested. That can't be done here?
+>> By "when the port is requested" do you mean console's setup operation.
+>> It can be done, but given that it is a one-time operation I am not sure
+>> if it makes any difference between mapping here and there.
+> 
+> No. I meant the uart_ops::uart_request() function and also
+> uart_ops::config_port(). Take a look at msm_config_port() and
+> msm_request_port() for how it was done on pre-geni qcom uarts.
+> 
+I will take a look at it and update accordingly.
+> I suppose we should try to probe this as a module and run a getty on it
+> and then remove and probe the module a couple times after that.
+> That should shake out some bugs.
+> 
+>>>> +
+>>>> +static const struct dev_pm_ops qcom_geni_serial_pm_ops = {
+>>>> +       .suspend_noirq = qcom_geni_serial_sys_suspend_noirq,
+>>>> +       .resume_noirq = qcom_geni_serial_sys_resume_noirq,
+>>>
+>>> Why are these noirq variants? Please add a comment.
+>> The intention is to enable the console UART port usage as late as
+>> possible in the suspend cycle. Hence noirq variants. I will add this as
+>> a comment. Please let me know if the usage does not match the intention.
+> 
+> Hm.. Does no_console_suspend not work? Or not work well enough?
+It works. When console suspend is disabled, the suspend operation does 
+not get triggered and the resume operation checks if the console suspend 
+is disabled and performs the needed thing.
+> 
+Regards,
+Karthik.
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
