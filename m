@@ -5,139 +5,123 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3BE87E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 21:12:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA0B77E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Mar 2018 22:32:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751127AbeCHVMP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Mar 2018 16:12:15 -0500
-Received: from mail-ua0-f175.google.com ([209.85.217.175]:39521 "EHLO
-        mail-ua0-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750926AbeCHVMN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 16:12:13 -0500
-Received: by mail-ua0-f175.google.com with SMTP id e25so845866uam.6
-        for <linux-doc@vger.kernel.org>; Thu, 08 Mar 2018 13:12:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=TwbddthAtwdLCwRCzOlIz43jmOuwBdVnta4vT9aEg8k=;
-        b=QXKeA9Xdb6Sd9QCrJW4J280yiINAJ85HZSBr/DoMqVbpTHlulduCQGdlI7riDTe0+I
-         fNCne8SG2PfsEcqSonbOOXyejmxHM74pgzZ4caGfTqCodfr1soruqFWiDB5VjeQPehOs
-         d2idUVXYfkUrSpFfyXGAC9WKNNK/I80Nc7sVGbNEDBuGXzVKl5n7EbcGOwMx3SLtO9V4
-         MbWD7DVDrtBgyLowdHClbDNy2rNjWLUbOIy7J6FLHV6cEqD85jUl+UfGgKspJ2E3d1nE
-         xU8QXqrPgt8zvkRxNmXOB3ckcdmw070prC/jWPBYVma5DWFPj4BDFfbM0lQdlAG/3O9r
-         2nJg==
+        id S1750869AbeCHWch (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Mar 2018 17:32:37 -0500
+Received: from mail-pg0-f67.google.com ([74.125.83.67]:41712 "EHLO
+        mail-pg0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750787AbeCHWcf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Mar 2018 17:32:35 -0500
+Received: by mail-pg0-f67.google.com with SMTP id s15so166351pgv.8
+        for <linux-doc@vger.kernel.org>; Thu, 08 Mar 2018 14:32:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=TwbddthAtwdLCwRCzOlIz43jmOuwBdVnta4vT9aEg8k=;
-        b=O0O5NeumCVp48eQJpJC7ruB0nsnoL58khyTaXH7jbpVxUH64aCbn4bq94gelyc2lMe
-         5Xj9Mg76GpFhSm4+KCEAx/fFvgtAOwNb2+b8oVo8wQGUC+CRnfsLXwwFEqyBGfN0t2a9
-         Ne0xELL7/v0o2sM488BNL4QHQj3zFMtRza8C4=
+        h=mime-version:content-transfer-encoding:to:from:in-reply-to:cc
+         :references:message-id:user-agent:subject:date;
+        bh=9tDgFtKFn0yZAeoviy+kUQsroU/qa/D/F6PHqd+hixs=;
+        b=PpFTjmK95GNMKFM2XjVFcFuconfP3IPZ8KBtjvDewBlpSQldYE17FRgKCpgrkrEC91
+         9nSvY+a5woa5+Cn/hXj78kzHf0e6pVb23M+naomca9IJYlAkIWy7BcibfsHLmGQyxsS9
+         6SIPvo6ixFaOIZrz10FzMj1zeWsgycQthBl5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=TwbddthAtwdLCwRCzOlIz43jmOuwBdVnta4vT9aEg8k=;
-        b=Fx5ysQ5QnzH+/FYVxVlmHrdc3QEoNv19Jr+4AvpSRThZEF2NpVSuA8db+wcAXs+YJ0
-         wv56rAYxXyGbvDRAJFKOhr8rTZvfdJ0lTKQOMlV3Yh504krpnVPP+w224XyUyQg5vKWd
-         7GXnXPwV9Jo5HsXMUVMMVWwuIY7vhEMjePCwAqYRYIJfwhEvAHuoq9n/11DFISNmuGEO
-         9PNJ+KFiE6Q/DGh5wpLT+HnU8QQa+dMuZdOaXORvRAHC2hvEnT4jK/HD4ExpQfTBkBxu
-         p+tDMudXe5Jx1k1nRxm5bzyEvJQ68YdlhRP64NirWiE0NwH5ytxX9gVGqSKlwoCoU2O6
-         vqwg==
-X-Gm-Message-State: APf1xPBlDuxfvyBzfY38wrH4P+0ymASWpdmazjy+8kXfXUxTcM3/Wogz
-        2ZigW5TNNHcFaND4jEf7NI+2NQLpvpWw+lOIQUL3Wg==
-X-Google-Smtp-Source: AG47ELsNZ3FvCJnWfs/JQA7Vql0e4kDGgUfkf13ag31NIIViW5SyFrVR6hqFsFCbIusz7/jJrLPdElQ4grDNK0PmOjU=
-X-Received: by 10.159.49.27 with SMTP id m27mr21036616uab.169.1520543530894;
- Thu, 08 Mar 2018 13:12:10 -0800 (PST)
+        h=x-gm-message-state:mime-version:content-transfer-encoding:to:from
+         :in-reply-to:cc:references:message-id:user-agent:subject:date;
+        bh=9tDgFtKFn0yZAeoviy+kUQsroU/qa/D/F6PHqd+hixs=;
+        b=bCT2609d+ZRFo1tuAt7P7tkkuWegwdSRbhO5NI7nJTx4zofmgAIg1g4EAz+wje0B/y
+         BkcCw2E8ht6nTA20sb4FUp0WstcpAfHrmLBeFByuJnAiNkY5yMPz2ESAO61Hj95HaE4u
+         nDC0VDWWEi55YOoRICkWC4VU7HI5YnzS/CQUqL8UvvoiP5P3pHhnZxMpNO/X69GsLU61
+         nkYyvrLXSM8zB+Ir2vSjctEKzoxh27L9UzMYTC35eM1EPE6n0jE2rX4xfgj8+5hWbprS
+         6OgMEy/lXhjUAFvlnFfwEVfYIaAR1Pr2cAvXfmxSL78EZlIEJFvY/4G3lyTiArKxtPk/
+         vygw==
+X-Gm-Message-State: APf1xPD9Ls3QA3vhQk9iHwtlHeNybEmvxsDpZt6kIRj7W1EzlbMNwZ8d
+        Tw0JZWBsWoAG0DdEmCTT+VJGXg==
+X-Google-Smtp-Source: AG47ELtVR0r1ElSmOOyxwAZjFmH/2C4BC49A0IpGHS1O7UA1OZAdXaGuy1DUEUeYeQckE7KYpFwJ6g==
+X-Received: by 10.101.102.21 with SMTP id w21mr23082579pgv.247.1520548354454;
+        Thu, 08 Mar 2018 14:32:34 -0800 (PST)
+Received: from localhost ([2620:0:1000:1501:422f:ca5c:71a2:c3b3])
+        by smtp.gmail.com with ESMTPSA id h15sm39048783pfi.56.2018.03.08.14.32.33
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 08 Mar 2018 14:32:33 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Received: by 10.31.254.65 with HTTP; Thu, 8 Mar 2018 13:12:09 -0800 (PST)
-In-Reply-To: <CAD=FV=UXK_wYky83nmQdk4dQtVSCV9=o3i2590ZyUMcq4rrdKQ@mail.gmail.com>
-References: <1519781889-16117-4-git-send-email-kramasub@codeaurora.org>
- <CAD=FV=WbeP8xpVi7cji9hsNyxEam2D5D+_21ur_MuUO8FK42OQ@mail.gmail.com>
- <03c5ed5b-5160-bdd5-82f9-4a8beab33ca8@codeaurora.org> <CAD=FV=UXK_wYky83nmQdk4dQtVSCV9=o3i2590ZyUMcq4rrdKQ@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 8 Mar 2018 13:12:09 -0800
-X-Google-Sender-Auth: 1SqN5ksyZPUAM1vg7WTv6hed1AE
-Message-ID: <CAD=FV=ULH+9aW_3m=WB3Fa4mBg3sR-S3AFY7XOKdZCDqkJdq1Q@mail.gmail.com>
-Subject: Re: [v3, 3/4] i2c: i2c-qcom-geni: Add bus driver for the Qualcomm
- GENI I2C controller
-To:     Sagar Dharia <sdharia@codeaurora.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Content-Transfer-Encoding: quoted-printable
+To:     Karthik Ramasubramanian <kramasub@codeaurora.org>,
+        andy.gross@linaro.org, corbet@lwn.net, david.brown@linaro.org,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com,
+        robh+dt@kernel.org, wsa@the-dreams.de
+From:   Stephen Boyd <swboyd@chromium.org>
+In-Reply-To: <d8089e60-9344-8a7e-502d-3e04e357811b@codeaurora.org>
+Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
+        linux-serial@vger.kernel.org, jslaby@suse.com,
         evgreen@chromium.org, acourbot@chromium.org,
-        Girish Mahadevan <girishm@codeaurora.org>, swboyd@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+        Girish Mahadevan <girishm@codeaurora.org>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Doug Anderson <dianders@google.com>
+References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
+ <1519781889-16117-5-git-send-email-kramasub@codeaurora.org>
+ <152002870571.108663.443363731684218377@swboyd.mtv.corp.google.com>
+ <f900dc96-0150-079d-bcd6-9d2e05f8fde1@codeaurora.org>
+ <152037270430.218381.11080419743809466427@swboyd.mtv.corp.google.com>
+ <d8089e60-9344-8a7e-502d-3e04e357811b@codeaurora.org>
+Message-ID: <152054835314.219802.7795128053459733073@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.7
+Subject: Re: [PATCH v3 4/4] tty: serial: msm_geni_serial: Add serial driver support
+ for GENI based QUP
+Date:   Thu, 08 Mar 2018 14:32:33 -0800
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Quoting Karthik Ramasubramanian (2018-03-07 22:06:29)
+> =
 
-On Wed, Mar 7, 2018 at 9:19 PM, Doug Anderson <dianders@chromium.org> wrote:
->>> DMA is hard and i2c transfers > 32 bytes are rare.  Do we really gain
->>> a lot by transferring i2c commands over DMA compared to a FIFO?
->>> Enough to justify the code complexity and the set of bugs that will
->>> show up?  I'm sure it will be a controversial assertion given that the
->>> code's already written, but personally I'd be supportive of ripping
->>> DMA mode out to simplify the driver.  I'd be curious if anyone else
->>> agrees.  To me it seems like premature optimization.
->>
->>
->> Yes, we have multiple clients (e.g. touch, NFC) using I2C for data transfers
->> bigger than 32 bytes (some transfers are 100s of bytes). The fifo size is
->> 32, so we can definitely avoid at least 1 interrupt when DMA mode is used
->> with data size > 32.
->
-> Does that 1-2 interrupts make any real difference, though?  In theory
-> it really shouldn't affect the transfer rate.  We should be able to
-> service the interrupt plenty fast and if we were concerned we would
-> tweak the watermark code a little bit.  So I guess we're worried about
-> the extra CPU cycles (and power cost) to service those extra couple
-> interrupts?
->
-> In theory when touch data is coming in or NFC data is coming in then
-> we're probably not in a super low power state to begin with.  If it's
-> touch data we likely want to have the CPU boosted a bunch to respond
-> to the user quickly.  If we've got 8 cores available all of which can
-> run at 1GHz or more a few interrupts won't kill us.  NFC data is
-> probably not common enough that we need to optimize power/CPU
-> utilizatoin for that.
->
->
-> So while i can believe that you do save an interrupt or two, I still
-> am not convinced that those interrupts are worth a bunch of complex
-> code (and a whole second code path) to save.
->
->
-> ...also note that above you said that coming out of runtime suspend
-> can take several msec.  That seems like it dwarfs any slight
-> difference in timing between a FIFO-based operation and DMA.
+> =
 
-One last note here (sorry for not thinking of this last night) is that
-I would also be interested in considering _only_ supporting the DMA
-path.  Is it somehow intrinsically bad to use the DMA flow for a
-1-byte transfer?  Is there a bunch of extra overhead or power draw?
+> On 3/6/2018 2:45 PM, Stephen Boyd wrote:
+> > Quoting Karthik Ramasubramanian (2018-03-05 16:51:23)
+> >> On 3/2/2018 3:11 PM, Stephen Boyd wrote:
+> > =
 
-Specifically my main point is that maintaining two separate flows (the
-FIFO flow vs the DMA flow) adds complexity, code size, and bugs.  If
-there's a really good reason to maintain both flows then fine, but we
-should really consider if this is something that's really giving us
-value before we agree to it.
+> > Ok. I've seen similar designs in some mmc drivers. For example, you can
+> > look at drivers/mmc/host/meson-gx-mmc.c and see that they register a
+> > clk_ops and then just start using that clk directly from the driver.
+> > There are also some helper functions for dividers that would hopefully
+> > make the job of calculating the best divider easier.
+> Thanks for the pointers. I will take a look at it. In the meanwhile I =
 
+> had discussions with our clock team. They pointed out that the register =
 
--Doug
+> to write the divider value here is outside the scope of clock controller =
+
+> which makes it trickier to implement your suggestion. They are already =
+
+> in the mailing list and we will discuss further and get back to you in =
+
+> this regard.
+
+Ok. Let me know if I can help answer any questions.
+
+> >>>
+> >>> Why are these noirq variants? Please add a comment.
+> >> The intention is to enable the console UART port usage as late as
+> >> possible in the suspend cycle. Hence noirq variants. I will add this as
+> >> a comment. Please let me know if the usage does not match the intentio=
+n.
+> > =
+
+> > Hm.. Does no_console_suspend not work? Or not work well enough?
+> It works. When console suspend is disabled, the suspend operation does =
+
+> not get triggered and the resume operation checks if the console suspend =
+
+> is disabled and performs the needed thing.
+
+Ok so then do we need the noirq variants? Or console suspend is special
+enough for this to not matter?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
