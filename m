@@ -1,126 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 17C067E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 17:25:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A1737E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 17:41:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932335AbeCIRYc convert rfc822-to-8bit (ORCPT
+        id S932074AbeCIRlW convert rfc822-to-8bit (ORCPT
         <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Mar 2018 12:24:32 -0500
-Received: from mout.gmx.net ([212.227.15.18]:47969 "EHLO mout.gmx.net"
+        Fri, 9 Mar 2018 12:41:22 -0500
+Received: from ms.lwn.net ([45.79.88.28]:50118 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932124AbeCIRYW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Mar 2018 12:24:22 -0500
-Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx002
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0MePYV-1fJKcW3bn5-00Q9lS; Fri, 09
- Mar 2018 18:23:48 +0100
-Message-ID: <1520616226.12489.44.camel@gmx.de>
-Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-From:   Mike Galbraith <efault@gmx.de>
-To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>
-Date:   Fri, 09 Mar 2018 18:23:46 +0100
-In-Reply-To: <1520613285.12489.36.camel@gmx.de>
-References: <1520609707-16582-1-git-send-email-longman@redhat.com>
-         <1520613285.12489.36.camel@gmx.de>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.20.5 
-Mime-Version: 1.0
+        id S1751255AbeCIRlV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Mar 2018 12:41:21 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0E2021307;
+        Fri,  9 Mar 2018 17:41:21 +0000 (UTC)
+Date:   Fri, 9 Mar 2018 10:41:20 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 0/8] Move most GPIO documentation to driver-api/gpio/
+ and ReST
+Message-ID: <20180309104120.40244f8a@lwn.net>
+In-Reply-To: <20180308234024.24145-1-j.neuschaefer@gmx.net>
+References: <20180308234024.24145-1-j.neuschaefer@gmx.net>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K0:hdNzgs/u9uMtBXOsi2WUvF/hfSVDKB/Sbl8VfCTZIhhDaKwnFji
- wQbzOWl4SzC7neUBFLSQqJR86d/zW/88bBHeUkC9ee8eNm+dFZIfFafFas6Y0fwpiVEqWcd
- BRGBP+5Iqo90kEqcttzp50XRMAPFDQXcdTcsJVn3I7QADixpLwAq7J7xpcXu6Q+SPpGk2TA
- M3/pEKkATsRphzUg9yhzw==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:1OToDlp+9NE=:+C7SB3cU9hBeftRF3v2J0z
- jVputzmVVeKgK+Rqf+aexO4/gXVjWmKLUkUtzNKWHZQK3EhPw/RwGaRwJr2n34gS8bRi184zv
- 7+uoXpHvac2D1eHBm2OHuoCVf+pWYX8xehFVzmQx827IIrO9/lLEU+R3/SEoS7pSu8EoHZvhL
- 3JGco8hghlo1MovGVqtGPFyn9rE+0DPxS/wCX9ARIW5jj5QYRVluH5+4CyzA1M4kChvDw/ZBq
- faDWe2LGpjTMTef/pBGpyzCYEqvA7yATZNABCW39tXUaDmZsz1xlOuTjo/T6wQWpTmoHd0AFK
- dvUu1+p01896oldAMxgG/VbjMDsJkC+LLAxNUyhuiWZ8ugnKS76OD5IGypLoB0FbIZ3c17h4N
- dhbNAI5ZirIeojDRRgJCHgzbKP6NYMoGU1Az8pvpfFoyy/0S9NGZmNjjDAC+r7PmvaEk2TOFd
- ucp9qGOQnMdZI1iMMw0oMlyDYsZh1BNCmsx3k1ZAFrITRpUEULgvUQ8kGNAMlGXCArT+Q0OZj
- 7tBlw3yr5Rkpb0nL3hDkuq3bYohv0OpjJczV7dsR0S3y3tnWTiJfknCl9t7W7kMx1LptYtjrA
- N4BCVJnqOhT1xfMICwuKvx3tvlUgONfpGWHDSUhFKaOhgvkHiOJWMTsBXRsPUsfXim/XL9olY
- UqMsdO0s0SUPOK6d+R2039gwfVyWojQ01UL25KKMDdk6q2A1hixW8YEru/PWJmDxv4flJXCKL
- yjAJMy4ho/JyR8ZK/9pQWnts7+cLBhBwyvTKPYP4uWnwZEDv0Na+Mslzm7AxEjRLrWhKpV582
- op0J5imue9ClVs2AI/5ywGGsIZZ8S4PY+Xo5umj/wVl6lHelyI=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2018-03-09 at 17:34 +0100, Mike Galbraith wrote:
-> On Fri, 2018-03-09 at 10:35 -0500, Waiman Long wrote:
-> > Given the fact that thread mode had been merged into 4.14, it is now
-> > time to enable cpuset to be used in the default hierarchy (cgroup v2)
-> > as it is clearly threaded.
-> > 
-> > The cpuset controller had experienced feature creep since its
-> > introduction more than a decade ago. Besides the core cpus and mems
-> > control files to limit cpus and memory nodes, there are a bunch of
-> > additional features that can be controlled from the userspace. Some of
-> > the features are of doubtful usefulness and may not be actively used.
+On Fri,  9 Mar 2018 00:40:16 +0100
+Jonathan Neusch√§fer <j.neuschaefer@gmx.net> wrote:
+
+> The aim of this patchset is to move the GPIO subsystem's documentation
+> under Documentation/driver-api/gpio/ such that it is picked up by Sphinx
+> and compiled into HTML. I moved everything except for sysfs.txt, because
+> this file describes the legacy sysfs ABI, and doesn't seem to serve much
+> (non-historical) purpose anymore.
 > 
-> One rather important features is the ability to dynamically partition a
-> box and isolate critical loads. †How does one do that with v2?
+> There are still some rough edges:
+> 
+> * I think the API documentation (kernel-doc) should be moved out of
+>   index.rst into more appropriate files.
+> * The headings are arguably wrong, because driver.rst, consumer.rst,
+>   etc. use the "document title" style, even though they are part of the
+>   GPIO chapter. But the resulting TOC tree is consistent, and I did not
+>   want to change almost all headings.
+> * Some of the files could use more :c:func:`...` references and general
+>   ReST polish.
+> 
+> But I don't want to make this patchset too large.
 
-This still very much in use stuff that started below, not to mention
-the nohz_full stuff that†Frederic Weisbecker is working on integrating
-so it can blossom into a proper dynamic set property.
+[For future reference, if you're going to CC me on most of a patch series,
+I'd really rather get the whole thing so I don't have to go looking for
+it.]
 
-Author: Dinakar Guniguntala <dino@in.ibm.com>  2005-06-25 23:57:33
-Committer: Linus Torvalds <torvalds@ppc970.osdl.org>  2005-06-26 01:24:45
-Parent: 37e4ab3f0cba13adf3535d373fd98e5ee47b5410 ([PATCH] Changing RT priority without CAP_SYS_NICE)
-Child:  85d7b94981e2e919697bc235aad7367b33c3864b ([PATCH] Dynamic sched domains: cpuset changes)
-Branches: master, remotes/origin/master and many more (82)
-Follows: v2.6.12
-Precedes: v2.6.13-rc1
+From a quick look, it seems like a reasonable RST conversion to me.  I do
+wonder if sysfs.txt should just be removed, since it documents something
+we don't want people to use at this point?  Historical purposes are well
+served by the repository history.
 
-    [PATCH] Dynamic sched domains: sched changes
-    
-    The following patches add dynamic sched domains functionality that was
-    extensively discussed on lkml and lse-tech.  I would like to see this added to
-    -mm
-    
-    o The main advantage with this feature is that it ensures that the scheduler
-      load balacing code only balances against the cpus that are in the sched
-      domain as defined by an exclusive cpuset and not all of the cpus in the
-      system. This removes any overhead due to load balancing code trying to
-      pull tasks outside of the cpu exclusive cpuset only to be prevented by
-      the tasks' cpus_allowed mask.
-    o cpu exclusive cpusets are useful for servers running orthogonal
-      workloads such as RT applications requiring low latency and HPC
-      applications that are throughput sensitive
-    
-    o It provides a new API partition_sched_domains in sched.c
-      that makes dynamic sched domains possible.
-    o cpu_exclusive cpusets sets are now associated with a sched domain.
-      Which means that the users can dynamically modify the sched domains
-      through the cpuset file system interface
-    o ia64 sched domain code has been updated to support this feature as well
-    o Currently, this does not support hotplug. (However some of my tests
-      indicate hotplug+preempt is currently broken)
-    o I have tested it extensively on x86.
-    o This should have very minimal impact on performance as none of
-      the fast paths are affected
-    
-    Signed-off-by: Dinakar Guniguntala <dino@in.ibm.com>
-    Acked-by: Paul Jackson <pj@sgi.com>
-    Acked-by: Nick Piggin <nickpiggin@yahoo.com.au>
-    Acked-by: Matthew Dobson <colpatch@us.ibm.com>
-    Signed-off-by: Andrew Morton <akpm@osdl.org>
-    Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+I'd say changing the headings is worthwhile if it produces a better
+result.  OTOH I'd be wary of adding too much "polish"; we really want to
+retain the readability of the plain-text files.
+
+Anyway, I'm happy to take these through the docs tree or see them go via
+GPIO; Linus, what's your preference?
+
+Thanks,
+
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
