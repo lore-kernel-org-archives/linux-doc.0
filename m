@@ -5,84 +5,136 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A77E97E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 23:06:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC7757E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 23:41:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932732AbeCIXGd convert rfc822-to-8bit (ORCPT
+        id S1751347AbeCIXlO convert rfc822-to-8bit (ORCPT
         <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Mar 2018 18:06:33 -0500
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59458 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S932195AbeCIXGc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Mar 2018 18:06:32 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 986BEBD9E;
-        Fri,  9 Mar 2018 23:06:31 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0B5692166BAE;
-        Fri,  9 Mar 2018 23:06:29 +0000 (UTC)
-Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Mike Galbraith <efault@gmx.de>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
-References: <1520609707-16582-1-git-send-email-longman@redhat.com>
- <1520613285.12489.36.camel@gmx.de>
- <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
- <1520619426.27998.18.camel@gmx.de>
- <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
- <1520624424.27998.76.camel@gmx.de>
- <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
- <20180309221736.GB5926@hirez.programming.kicks-ass.net>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
-Date:   Fri, 9 Mar 2018 18:06:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        Fri, 9 Mar 2018 18:41:14 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38836 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1751225AbeCIXlN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Mar 2018 18:41:13 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w29NepvM028034
+        for <linux-doc@vger.kernel.org>; Fri, 9 Mar 2018 18:41:13 -0500
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [158.85.210.109])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2gky5x1x9u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 09 Mar 2018 18:41:12 -0500
+Received: from localhost
+        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+        for <linux-doc@vger.kernel.org> from <miltonm@us.ibm.com>;
+        Fri, 9 Mar 2018 23:41:12 -0000
+Received: from us1b3-smtp01.a3dr.sjc01.isc4sb.com (10.122.7.174)
+        by smtp.notes.na.collabserv.com (10.122.47.48) with smtp.notes.na.collabserv.com ESMTP;
+        Fri, 9 Mar 2018 23:41:00 -0000
+Received: from us1b3-mail79.a3dr.sjc01.isc4sb.com ([10.122.105.126])
+          by us1b3-smtp01.a3dr.sjc01.isc4sb.com
+          with ESMTP id 2018030923405969-917346 ;
+          Fri, 9 Mar 2018 23:40:59 +0000 
+In-Reply-To: <20180307221124.GD10438@amd>
+Subject: Re: [PATCH v2 2/8] [PATCH 2/8] Documentations: dt-bindings: Add a document
+ of PECI adapter driver for Aspeed AST24xx/25xx SoCs
+From:   "Milton Miller II" <miltonm@us.ibm.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        linux-hwmon@vger.kernel.org, andrew@lunn.ch, jdelvare@suse.com,
+        arnd@arndb.de, linux-doc@vger.kernel.org, andrew@aj.id.au,
+        gregkh@linuxfoundation.org, openbmc@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux@roeck-us.net, linux-arm-kernel@lists.infradead.org
+Date:   Fri, 9 Mar 2018 23:41:00 +0000
 MIME-Version: 1.0
-In-Reply-To: <20180309221736.GB5926@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
+Sensitivity: 
+Importance: Normal
+X-Priority: 3 (Normal)
+References: <20180307221124.GD10438@amd>,<20180221161606.32247-1-jae.hyun.yoo@linux.intel.com>
+ <20180221161606.32247-3-jae.hyun.yoo@linux.intel.com>
+ <20180306124002.GA13950@amd>
+ <33bf6563-b220-7ff9-8b04-84e9bd781b3f@linux.intel.com>
+X-Mailer: IBM iNotes ($HaikuForm 1010) | IBM Domino Build
+ SCN1805107_20180220T0755_FP2 March 05, 2018 at 08:20
+X-LLNOutbound: False
+X-Disclaimed: 47211
+X-TNEFEvaluated: 1
+X-LLNXfer: False
 Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 09 Mar 2018 23:06:31 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 09 Mar 2018 23:06:31 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=UTF-8
+x-cbid: 18030923-3721-0000-0000-000002A5D22F
+X-IBM-SpamModules-Scores: BY=0.037583; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.391525; ST=0; TS=0; UL=0; ISC=; MB=0.198820
+X-IBM-SpamModules-Versions: BY=3.00008643; HX=3.00000241; KW=3.00000007;
+ PH=3.00000004; SC=3.00000254; SDB=6.01000735; UDB=6.00509053; IPR=6.00780065;
+ BA=6.00005858; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
+ ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00019947; XFM=3.00000015;
+ UTC=2018-03-09 23:41:09
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2018-03-09 19:50:14 - 6.00008166
+x-cbparentid: 18030923-3722-0000-0000-0000B0C9D624
+Message-Id: <OF08D8261E.8F72E5DC-ON0025824B.008218BB-0025824B.008218C6@notes.na.collabserv.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-09_11:,,
+ signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/09/2018 05:17 PM, Peter Zijlstra wrote:
-> On Fri, Mar 09, 2018 at 03:43:34PM -0500, Waiman Long wrote:
->> The isolcpus= parameter just reduce the cpus available to the rests of
->> the system. The cpuset controller does look at that value and make
->> adjustment accordingly, but it has no dependence on exclusive cpu/mem
->> features of cpuset.
-> The isolcpus= boot param is donkey shit and needs to die. cpuset _used_
-> to be able to fully replace it, but with the advent of cgroup 'feature'
-> this got lost.
+About  03/07/2018 04:12PM in some time zone, Pavel Machek wrote:
+>Subject: Re: [PATCH v2 2/8] [PATCH 2/8] Documentations: dt-bindings:
+>Add a document of PECI adapter driver for Aspeed AST24xx/25xx SoCs
 >
-> And instead of fixing it, you're making it _far_ worse. You completely
-> removed all the bits that allow repartitioning the scheduler domains.
+>Hi!
 >
-> Mike is completely right, full NAK on any such approach.
+>> >Are these SoCs x86-based?
+>> 
+>> Yes, these are ARM SoCs. Please see Andrew's answer as well.
+>
+>Understood, thanks.
+>
+>> >>+	Read sampling point selection. The whole period of a bit time
+>will be
+>> >>+	divided into 16 time frames. This value will determine which
+>time frame
+>> >>+	this controller will sample PECI signal for data read back.
+>Usually in
+>> >>+	the middle of a bit time is the best.
+>> >
+>> >English? "This value will determine when this controller"?
+>> >
+>> 
+>> Could I change it like below?:
+>> 
+>> "This value will determine in which time frame this controller
+>samples PECI
+>> signal for data read back"
+>
+>I guess... I'm not native speaker, I guess this could be improved
+>some
+>more.
+>
 
-So you are talking about sched_relax_domain_level and
-sched_load_balance. I have not removed any bits. I just haven't exposed
-them yet. It does seem like these 2 control knobs are useful from the
-scheduling perspective. Do we also need cpu_exclusive or just the two
-sched control knobs are enough?
+I agree this wording is still confusing. 
 
-Cheers,
-Longman
+The problem is that the key subject, the time of the sampling, is in the descriptive clause "in which time frame".
 
+"This value will determine the time frame in which the controller will sample"
+
+or perhaps phrase it as saving a specific sample from the over-clock, or a phase of the clock.
+
+>Best regards,
+>									Pavel
+>
+>-- 
+>(english) http://www.livejournal.com/~pavelmachek
+>(cesky, pictures)
+>http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+>
+
+milton
+--
+Speaking for myself not IBM.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
