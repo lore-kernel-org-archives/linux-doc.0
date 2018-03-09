@@ -5,111 +5,75 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AA627E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 21:15:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D69667E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 22:18:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932451AbeCIVPd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Mar 2018 16:15:33 -0500
-Received: from mail-it0-f54.google.com ([209.85.214.54]:55708 "EHLO
-        mail-it0-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932157AbeCIVPc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Mar 2018 16:15:32 -0500
-Received: by mail-it0-f54.google.com with SMTP id n136so4303833itg.5;
-        Fri, 09 Mar 2018 13:15:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=4ZjmX0TK1ENqLidS6E/rBXdBjtyJFf2GLte8k5P5JJE=;
-        b=MF3hvXOUhddxnnY3lflPbfYrz9sY2lQ0LD+PYGoKdvW+M5KAwHAibKzt8iBWhkI3g/
-         CFAzF+uehTt0ZgbB3VydlE3paY52tsvxt+NNv7Tw29/CAZ/3FiLKsnV37IA94Lex2W/B
-         d2Awj28wLGrVjVYa3C6Ow+70ku0PZlU++kbvTJYQmIS7OBN2GvFNkETtKdUfxSO5GjnJ
-         FrYjaHL/PLtWExouPug8Zzj0BKCamyxfpPbC8X/IOna7bxgrXj/jyhmju0VMaImzoEYt
-         b9uQYVwFzc+fNbVJcxJGlBm9fYRofX0OudVi6vmn/9Y4RbITy6FaOLUBw0u7loh/rw7A
-         OHAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=4ZjmX0TK1ENqLidS6E/rBXdBjtyJFf2GLte8k5P5JJE=;
-        b=J069GZjPFFz8KkQP1e0Vp4g3y9VwnhvN0S54fBh3jhxkXx6pjFlfFIVcjlI6e7Dpmc
-         UpzXeivWJC6SjTqk8u387sR0MYSme1tVoUanRranPWCBt1Ny1FCDQOtH/PfOdf3z6mlT
-         NKQypkQ6HCPAphT0e/4HQZ3NYUmP0eg/+zwM0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=4ZjmX0TK1ENqLidS6E/rBXdBjtyJFf2GLte8k5P5JJE=;
-        b=Ceg6/BCf95tP+oCCjBqSx7kQYvXpY5Lv4tUH9oTBXsDSrdCqesWkfSgpuJVqwhHYBn
-         ltyJK6YIIYVPT6SdoFX5lWSQOIeK5ZOd/9CBHpJ4UB4fpAfJRaozc1Gpnot2RdlS1ylZ
-         YxcJkBNT4RkIpLun/6KGV0LhS9dBM8NNM7gGIVvmEEWCIyZc2iFIIuz7N+y2cTAU5AF+
-         D7RRFZoXoK3xwPkhe0LnpmsoiXfUVyV38TrVF7B+1Mn5/ODZftTcAxxzrSVvI6nAzNcJ
-         C+HtTgkgqcfqPhNiQcSMvXHkLo0SAzkmvMrIxIPZeK16x2dHcILENjXtS+dUSGqAx/GG
-         p1pg==
-X-Gm-Message-State: AElRT7EbraRdbryxSD6GydEW9BvcqzGxNmx0hvTwWB6cZE9J22Jb2CZ+
-        HrcezpYOn9hAAxjk2TLNA3/QHLvHTKA1tDvQJ64=
-X-Google-Smtp-Source: AG47ELuHJ2AclS7MZZj6lAYb4elzN+xd0R2OahsnPqJW/e/7xd0626suIh8EXtGtpf/oTosGAkxOSGp/MxSMdJseo8g=
-X-Received: by 2002:a24:87c3:: with SMTP id f186-v6mr401487ite.100.1520630131676;
- Fri, 09 Mar 2018 13:15:31 -0800 (PST)
+        id S932369AbeCIWRs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Mar 2018 17:17:48 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:59862 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932104AbeCIWRs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Mar 2018 17:17:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=RkBtt9tkDV2iE1mC4U9xJKGNKhy+fjgAoK0SGEwOeqY=; b=eBsc/FouOixWF0VWe2ql4g/6j
+        l/5HCk87r1LqJNNhZtVnYwgXlVdpHGrxi0Y9bjIMc86pXVDUEwrN1qTS4iCSdRFVnWcR1Ns2RVbZZ
+        AbcUlXfiTHNn/6cgpAUXi7exKOsCRCDrjagPnmsx9MHnvzT+tiCxSW8ja5RTMlKT/SR7BbRqVLd/I
+        rrMPIoyQJznr2zq9lZcbWuRcH6V3X4EjG4mxDwqLasHP0NcwUSIHHsLmhdk1BjRSBePaPrSN+guxU
+        Qf7obgKT5ZT7vFqIeTV9m2v6yDXBh1WYzWFqwci7zyY2gYBH4XtvsXprwtdh4r9vea6+RT+9Wm3L2
+        hBZCEwySA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.89 #1 (Red Hat Linux))
+        id 1euQKY-000228-ED; Fri, 09 Mar 2018 22:17:38 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 5FBCC2029FA14; Fri,  9 Mar 2018 23:17:36 +0100 (CET)
+Date:   Fri, 9 Mar 2018 23:17:36 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Mike Galbraith <efault@gmx.de>, Tejun Heo <tj@kernel.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
+Message-ID: <20180309221736.GB5926@hirez.programming.kicks-ass.net>
+References: <1520609707-16582-1-git-send-email-longman@redhat.com>
+ <1520613285.12489.36.camel@gmx.de>
+ <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
+ <1520619426.27998.18.camel@gmx.de>
+ <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
+ <1520624424.27998.76.camel@gmx.de>
+ <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
 MIME-Version: 1.0
-Received: by 10.107.135.221 with HTTP; Fri, 9 Mar 2018 13:15:31 -0800 (PST)
-In-Reply-To: <20180309204526.56301f43@alans-desktop>
-References: <20180307214624.D4361772@viggo.jf.intel.com> <20180309204526.56301f43@alans-desktop>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 9 Mar 2018 13:15:31 -0800
-X-Google-Sender-Auth: Nd8ovk0cP8IJpxiYL-sUbOo-_Gk
-Message-ID: <CA+55aFw5+KjVqKUpAMF+-BfE6NuXSNb8qdRtmAWDq6apK2v+sA@mail.gmail.com>
-Subject: Re: [PATCH] [v2] docs: clarify security-bugs disclosure policy
-To:     Alan Cox <gnomes@lxorguk.ukuu.org.uk>
-Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@google.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 9, 2018 at 12:45 PM, Alan Cox <gnomes@lxorguk.ukuu.org.uk> wrote:
->
-> If you want to be taken seriously then I think minimum you also need to
-> - Give a GPG key for messages to the list
+On Fri, Mar 09, 2018 at 03:43:34PM -0500, Waiman Long wrote:
+> The isolcpus= parameter just reduce the cpus available to the rests of
+> the system. The cpuset controller does look at that value and make
+> adjustment accordingly, but it has no dependence on exclusive cpu/mem
+> features of cpuset.
 
-Oh, I don't want to be taken seriously by people who use gpg encrypted email.
+The isolcpus= boot param is donkey shit and needs to die. cpuset _used_
+to be able to fully replace it, but with the advent of cgroup 'feature'
+this got lost.
 
-It's garbage and should be shunned as such.
+And instead of fixing it, you're making it _far_ worse. You completely
+removed all the bits that allow repartitioning the scheduler domains.
 
-I keep quoting this:
-
-   https://motherboard.vice.com/en_us/article/vvbw9a/even-the-inventor-of-pgp-doesnt-use-pgp
-
-and anybody who thinks pgp encrypted email is fine is a clown.
-
-> - State what security is in place (encryption etc) to protect the list
->   itself
-
-That could be stated, but it's worth noting the other rules.
-
-If you have some long corrupt vendor disclosure period and are worried
-about any good guys finding out (the bad guys probably already have
-it), we're not the list for you anyway.
-
-Keep your "we'll keep security problems under wraps so that they can
-be exploited for a long time" emails to yourself, or send them to
-/dev/null.
-
-                   Linus
+Mike is completely right, full NAK on any such approach.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
