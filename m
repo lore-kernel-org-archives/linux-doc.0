@@ -1,64 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7888B7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 17:53:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 560587E6B0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 18:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751337AbeCIRxn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Mar 2018 12:53:43 -0500
-Received: from ms.lwn.net ([45.79.88.28]:50158 "EHLO ms.lwn.net"
+        id S1751434AbeCISRq convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Mar 2018 13:17:46 -0500
+Received: from mout.gmx.net ([212.227.17.20]:45515 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751325AbeCIRxn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Mar 2018 12:53:43 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C79572CA;
-        Fri,  9 Mar 2018 17:53:42 +0000 (UTC)
-Date:   Fri, 9 Mar 2018 10:53:41 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [PULL] Documentation build fix
-Message-ID: <20180309105341.4700dc4a@lwn.net>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1751192AbeCISRp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Mar 2018 13:17:45 -0500
+Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx101
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0MGEv5-1eqpfP2ky7-00FAAU; Fri, 09
+ Mar 2018 19:17:08 +0100
+Message-ID: <1520619426.27998.18.camel@gmx.de>
+Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
+From:   Mike Galbraith <efault@gmx.de>
+To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
+        luto@amacapital.net, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>
+Date:   Fri, 09 Mar 2018 19:17:06 +0100
+In-Reply-To: <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
+References: <1520609707-16582-1-git-send-email-longman@redhat.com>
+         <1520613285.12489.36.camel@gmx.de>
+         <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.20.5 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K0:UQrhXYr85emSsiqZS8crq9stp0HyEWuzuB4aS/22oJ6rLCckLCS
+ UTRXcvIgpsQUSELuAFNbd4cddDjLtNAp5G8QsxnOddKL7a3vel1VxQeUjLcDBL3mo289fx5
+ v5t9nZAYzdYqVSr9cNhU2otYvI1tfuDIN/aXHCTZhIZyUEOYUqFuUfrstqHwmHJM9NXGtDF
+ Pamk9JXim175274ubAdEQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:rAdCwR9PiTE=:g7V4NUbYcQlSu+5hz3v8Xp
+ jTA7do81kojqMy9R11NCRMaz/L6XnEiHX5F6eOettoasu4Vz3dR6FWNqTCYvHL2v3DiSWsHcB
+ dT3+RRpPlNzYWgiC3RbX5JmA7XoUTCUIn9nVcz/ImBRDiJu0+5+WQVtgHJJeR2NdlPgj3BK7c
+ AkrHpK46nfvIB92Huxq9ifIscZZ0+3yDmHmCc+B2O1lCYjWxOCE0olY3fhheS5ZydY1oTkq7b
+ OlC6ebUemkbzeLavTTPjXwUUE75hY0KyBE9DfLhCK41GFAh6swQb5p5L9L4NTL8WQsci/Rs7y
+ TwdZ6KAaUnKb5ktyd53wnN31m/OYupvylBMx1P4iwDZzIfMpDE58jzF7XvyABD06rtuxwXx9N
+ qEpisVALASxy+1FbGVlTcJ8rfCQLfVhLCwCq6Q06mwJuqNH0ZnUexhgYwQi50UWZcBqyzM/FA
+ zdPheYaf8Wx5L+F75MGPkDlsdYKYw76RLuwCZtfHf28Y/MhcrHOgE0ft6GxNb/Pma2xCaGUEi
+ 0X6gL2EctCgbee9KKqVU5N/CZlWxs0ZH7qeQMP9gVSsCJI0ZJ5Ry1NK2+LIJFq+464BI3e250
+ AIcnErT/gLQS6QiebTM3nWcfzX4XSzzhJE4daaCJifOX4uhBTzAaBo1GFmDWjs8uiXVitOA5F
+ YM1eVPbjN8QpJEoTYHgz4RqRqyVzoFCR/NYSQva4gywmg1XYevBPOF5ijKIlwfWGvC2Pa9Hmx
+ qC1y/g/EI+De/UhFeLuB0tkDJAxRKUrXEzeawjyPqvdZAbTVYKUBkGR3oqb+63qgXTh7HbtxN
+ pmH1fjZMfeJq4SJ7Pe3ibzZbSWvWS4yglNX72d7eF+HlQiFaqM=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-e67548254b86a4a6e1b493f041bb7fe28ee74249:
+On Fri, 2018-03-09 at 12:45 -0500, Waiman Long wrote:
+> On 03/09/2018 11:34 AM, Mike Galbraith wrote:
+> > On Fri, 2018-03-09 at 10:35 -0500, Waiman Long wrote:
+> >> Given the fact that thread mode had been merged into 4.14, it is now
+> >> time to enable cpuset to be used in the default hierarchy (cgroup v2)
+> >> as it is clearly threaded.
+> >>
+> >> The cpuset controller had experienced feature creep since its
+> >> introduction more than a decade ago. Besides the core cpus and mems
+> >> control files to limit cpus and memory nodes, there are a bunch of
+> >> additional features that can be controlled from the userspace. Some of
+> >> the features are of doubtful usefulness and may not be actively used.
+> > One rather important features is the ability to dynamically partition a
+> > box and isolate critical loads.  How does one do that with v2?
+> >
+> > In v1, you create two or more exclusive sets, one for generic
+> > housekeeping, and one or more for critical load(s), RT in my case,
+> > turning off load balancing in the critical set(s) for obvious reasons.
+> 
+> This patch just serves as a foundation for cpuset support in v2. I am
+> not excluding the fact that more v1 features will be added in future
+> patches. We want to start with a clean slate and add on it after careful
+> consideration. There are some v1 cpuset features that are not used or
+> rarely used. We certainly want to get rid of them, if possible.
 
-  Merge tag 'mips_fixes_4.16_4' of git://git.kernel.org/pub/scm/linux/kernel/git/jhogan/mips (2018-03-08 10:03:12 -0800)
+If v2 is to ever supersede v1, as is the normal way of things, core
+functionality really should be on the v2 boat when it sails.  What you
+left standing on the dock is critical core cpuset functionality.
 
-are available in the Git repository at:
-
-  git://git.lwn.net/linux.git tags/docs-4.16-fix
-
-for you to fetch changes up to ff690eeed804f112242f9a0614eafdf559f9276a:
-
-  Documentation/sphinx: Fix Directive import error (2018-03-09 10:46:14 -0700)
-
-----------------------------------------------------------------
-The Sphinx 1.7 release broke the build process for reasons that are mostly
-our fault.  This is a single fix, cherry-picked from docs-next (where it
-has been for a few days now), that restores docs buildability for all
-supported Sphinx versions.
-
-----------------------------------------------------------------
-Matthew Wilcox (1):
-      Documentation/sphinx: Fix Directive import error
-
- Documentation/sphinx/kerneldoc.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
