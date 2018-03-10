@@ -3,98 +3,254 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 842707E66E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Mar 2018 03:48:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CABBF7E688
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Mar 2018 11:18:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932692AbeCJDsK convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Mar 2018 22:48:10 -0500
-Received: from mout.gmx.net ([212.227.17.22]:52905 "EHLO mout.gmx.net"
+        id S1752041AbeCJLSu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Mar 2018 06:18:50 -0500
+Received: from mout.gmx.net ([212.227.15.15]:38851 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751371AbeCJDsJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Mar 2018 22:48:09 -0500
-Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx101
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0MHbpA-1exoKt1Zpk-003Kal; Sat, 10
- Mar 2018 04:47:31 +0100
-Message-ID: <1520653648.12749.20.camel@gmx.de>
-Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-From:   Mike Galbraith <efault@gmx.de>
-To:     Waiman Long <longman@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
-Date:   Sat, 10 Mar 2018 04:47:28 +0100
-In-Reply-To: <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
-References: <1520609707-16582-1-git-send-email-longman@redhat.com>
-         <1520613285.12489.36.camel@gmx.de>
-         <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
-         <1520619426.27998.18.camel@gmx.de>
-         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
-         <1520624424.27998.76.camel@gmx.de>
-         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
-         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
-         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.20.5 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K0:GaPPl8AnbKDUGY3S2kJsNrzwCOQXsW81uOLavpYeJZKC+mcD7oy
- JH3qJken3VA7+OeSNhcYdxiifm94S6Ft9n0IYpUcORsMoZSGBW23gIydwZHzxdDUurabeOJ
- 61pOIG7Nut9J+TgXz+UHk0Yo09Mirg1w5JRSZ8/8NbhvjNLl/ISr72CQolxfpwEW6f+/jRP
- /kDkb+xy3gtdqf7rgtbsg==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:dvy4FYzrnRU=:pmfHFQhesZ0zZ4LYiVJOmk
- 9mUyReGYyd61CuPM7qiRA8uO7FqhgIujJ0vjWN++3+1LOCS71xpIdPr8OHi8US0g8btsQMw+i
- uiz3DKndVIvr8D3NE/SIe5CMRasqY8evGjQcm9XIzVqyjh9EAPGItBzQDJqVVTHFMossfBiLR
- w9J12k5xMMA9GIJh2ilManNAhaoC15oK3TRrF9sa8rlqoCpRP8buM7W+fyQC4gngm4/ayzHYt
- BUeudOyjnoMNkfDIVnUl1bFJPkLw/rK69ChLtxJGDuIlSEcb6kJ11ZsKhgHc9oDt3dcYJauVf
- GqwYknxfSfhe/szVOiK4siz7yu+ag5DJjHveB75P/P5SY1O1WUmEA/fozf/yjwd8KGRb+j3mi
- iS55Pz50KaDJ9j4ki68ERjx0uSsM5TuSnopaF9td2hd+dAZjK8QxvIzw6yhvH1L+sxJ+AT+eo
- sbvbK6Fyp+vPQev69PSQEovC2N021Oo6eIONi5Y90jViVYSaXr1Wre83h3Gp3fGHpf7I9LLSt
- JIJE2QBesmPCnaR++U6FvD3rSanaguuqaozdkBdH9KZBH61j9RJvrOzylqL9xhLY/mvc03Mlg
- VosB83mPXCJkA3ShP1swi5g8LvyXc+E8wcHqBFP2WWjpiRZPMXUKpgw060RQQzgjkdNXkF5EU
- 0uTIhyrxBHrx11sFCTmb5TmjBIkxmuq8IL778i2684FCTqPlhUX0t6FYR6g/CqbG3id+sz1lS
- kMPlL9amwvYF4+Xw7/m3GXQaHVIXwLUqbvbXJR2W20zgFi6P800nYJGNe33CcaCh4ksBEzf2X
- IpLvGSK6MBam//L9wdCL0k7Jxqwo/PTrmG5XXumN9ddJLbM/0g=
+        id S1751964AbeCJLSs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 10 Mar 2018 06:18:48 -0500
+Received: from latitude ([88.153.6.235]) by mail.gmx.com (mrgmx003
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0MJSQ7-1evz2H2fIR-0035OQ; Sat, 10
+ Mar 2018 12:18:42 +0100
+Date:   Sat, 10 Mar 2018 12:18:41 +0100
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 0/8] Move most GPIO documentation to driver-api/gpio/ and
+ ReST
+Message-ID: <20180310111841.qarvsrm5pm43njx5@latitude>
+References: <20180308234024.24145-1-j.neuschaefer@gmx.net>
+ <20180309104120.40244f8a@lwn.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="v6yukiwpponl6mak"
+Content-Disposition: inline
+In-Reply-To: <20180309104120.40244f8a@lwn.net>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Provags-ID: V03:K0:RUhNWru/EYGwBc/9mjHJDhc/y2eeh6RriOrGVRvUF4zlsy/EzPd
+ wLwQs21OFROdLkWcKuLNNNvO2x2m+UGoOj/wmROX4BrAQD/lyZv1bQRHbQ9oiDiaNWU4j9l
+ 63dh/QjmHYaZRtf1NYDSbS9DaDWgyUgns2dKi3A9TuF8IF2sTvAuI+1G5tm9VUzBUeEObrD
+ iXxubnF6PlZ7IHTXlJpKw==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:JatByllpJBM=:dDbVeAwwE7d5txpi+0M9mi
+ ZwPYLy5VzJmdGIOlWiT3GN56xt+q2myvGZ4HcfBRnDgg7iI8uGVUugpCwq1zJGNYsgs97rRQl
+ Y1KdmYfNyMGSoIlEdBSQkaVmEeWz+MzdRZ41e7qQYXTpjWbInKT4zhm5jUL1ebXlXkG56H+iB
+ s2cRG2SPEgGMA6FslLvhB4IQG/UiIwqq1pFF46xBzKYnkrXOYWm+SKneyaKk6ZXDmmJVkJS7U
+ Az/8cjMi8rl+AawzJHUQbh2OYmKvWLbkSEr9aPSRquo0ohDxvNQcBYZRnGkJXrfWA7vpFrIwX
+ GimVOJ9HGrBHXr1ki5lU77LBKDQ6Munla3UGhLBZSRLBOBYbfZ9Wfo6SbXREJJF51ouO4Htob
+ rGOjD0pjhoYBHlb+vQZpLJkExgHkpk9FpJvX3xBkxarKvwxxklOb5uE9i8SXgqJp3J0H2jcxm
+ 8F9RsIeAQZYyhqHU/c0dwf0f4hr3EpgeclT/+CiSluJmxlp5Z6lXYcNqusrOZZuuyee0voqsv
+ 12TqEUTaQtWzsBbfREIyRn1e71L6RrQ1ihpfloxM3lQFuK0yd7LfTdKB+Ed97Gm9lSudHm5+r
+ aBV0wD6M1YBxz7ZbE3jp8b2lMDU7TV2hYefczXiAOT8G4k/Xi52wKWfdp9icWJqhNzRhoj5DP
+ qyTXHsDUiKV6PF9HwGiD376CQRNj5cFQfuXvq7QMxS5M1h7YsJ4S/1vEQv8h819dJj6AFwtjn
+ NW0oS4I/Facwr+Qk/RYfAkPRyYJtamFiALeD+ddT0Qb3l0IpaKSpMD99Z8XEAu8yEB7O3TLWE
+ mjLauII8IxrEnjARh3f7mm2IYaXMA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2018-03-09 at 18:06 -0500, Waiman Long wrote:
-> On 03/09/2018 05:17 PM, Peter Zijlstra wrote:
-> > On Fri, Mar 09, 2018 at 03:43:34PM -0500, Waiman Long wrote:
-> >> The isolcpus= parameter just reduce the cpus available to the rests of
-> >> the system. The cpuset controller does look at that value and make
-> >> adjustment accordingly, but it has no dependence on exclusive cpu/mem
-> >> features of cpuset.
-> > The isolcpus= boot param is donkey shit and needs to die. cpuset _used_
-> > to be able to fully replace it, but with the advent of cgroup 'feature'
-> > this got lost.
-> >
-> > And instead of fixing it, you're making it _far_ worse. You completely
-> > removed all the bits that allow repartitioning the scheduler domains.
-> >
-> > Mike is completely right, full NAK on any such approach.
-> 
-> So you are talking about sched_relax_domain_level and
-> sched_load_balance. I have not removed any bits. I just haven't exposed
-> them yet. It does seem like these 2 control knobs are useful from the
-> scheduling perspective. Do we also need cpu_exclusive or just the two
-> sched control knobs are enough?
 
-Some form of cpu_exclusive (preferably exactly that, but something else
-could replace it) is needed to define sets that must not overlap any
-other set at creation time or any time thereafter.  A set with property
-'exclusive' is the enabler for fundamentally exclusive (but dynamic!)
-set properties such as 'isolated' (etc etc).
+--v6yukiwpponl6mak
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	-Mike
+On Fri, Mar 09, 2018 at 10:41:20AM -0700, Jonathan Corbet wrote:
+> On Fri,  9 Mar 2018 00:40:16 +0100
+> Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> wrote:
+>=20
+> > The aim of this patchset is to move the GPIO subsystem's documentation
+> > under Documentation/driver-api/gpio/ such that it is picked up by Sphinx
+> > and compiled into HTML. I moved everything except for sysfs.txt, because
+> > this file describes the legacy sysfs ABI, and doesn't seem to serve much
+> > (non-historical) purpose anymore.
+> >=20
+> > There are still some rough edges:
+> >=20
+> > * I think the API documentation (kernel-doc) should be moved out of
+> >   index.rst into more appropriate files.
+> > * The headings are arguably wrong, because driver.rst, consumer.rst,
+> >   etc. use the "document title" style, even though they are part of the
+> >   GPIO chapter. But the resulting TOC tree is consistent, and I did not
+> >   want to change almost all headings.
+> > * Some of the files could use more :c:func:`...` references and general
+> >   ReST polish.
+> >=20
+> > But I don't want to make this patchset too large.
+>=20
+> [For future reference, if you're going to CC me on most of a patch series,
+> I'd really rather get the whole thing so I don't have to go looking for
+> it.]
+
+Noted.
+
+> From a quick look, it seems like a reasonable RST conversion to me.  I do
+> wonder if sysfs.txt should just be removed, since it documents something
+> we don't want people to use at this point?  Historical purposes are well
+> served by the repository history.
+>=20
+> I'd say changing the headings is worthwhile if it produces a better
+> result.
+
+I just tried this on one file (driver.rst) and it made no difference in
+the output (neither in the TOC in index.html nor in driver.html).
+
+Thanks,
+Jonathan Neusch=C3=A4fer
+
+
+> OTOH I'd be wary of adding too much "polish"; we really want to
+> retain the readability of the plain-text files.
+>=20
+> Anyway, I'm happy to take these through the docs tree or see them go via
+> GPIO; Linus, what's your preference?
+>=20
+> Thanks,
+>=20
+> jon
+
+
+----
+
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/drive=
+r-api/gpio/driver.rst
+index 505ee906d7d9..8eb08005be55 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -1,4 +1,3 @@
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+ GPIO Descriptor Driver Interface
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+@@ -13,7 +12,7 @@ the structures used to define a GPIO driver:
+=20
+=20
+ Internal Representation of GPIOs
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
++--------------------------------
+=20
+ Inside a GPIO driver, individual GPIOs are identified by their hardware nu=
+mber,
+ which is a unique number between 0 and n, n being the number of GPIOs mana=
+ged by
+@@ -36,7 +35,7 @@ identify GPIOs in a bank of I2C GPIO expanders.
+=20
+=20
+ Controller Drivers: gpio_chip
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++-----------------------------
+=20
+ In the gpiolib framework each GPIO controller is packaged as a "struct
+ gpio_chip" (see linux/gpio/driver.h for its complete definition) with memb=
+ers
+@@ -74,7 +73,7 @@ not be required.
+=20
+=20
+ GPIO electrical configuration
+------------------------------
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ GPIOs can be configured for several electrical modes of operation by using=
+ the
+ .set_config() callback. Currently this API supports setting debouncing and
+@@ -95,7 +94,7 @@ numbers on the pin controller so they can properly cross-=
+reference each other.
+=20
+=20
+ GPIOs with debounce support
+----------------------------
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ Debouncing is a configuration set to a pin indicating that it is connected=
+ to
+ a mechanical switch or button, or similar that may bounce. Bouncing means =
+the
+@@ -112,7 +111,7 @@ is not configurable.
+=20
+=20
+ GPIOs with open drain/source support
+-------------------------------------
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ Open drain (CMOS) or open collector (TTL) means the line is not actively d=
+riven
+ high: instead you provide the drain/collector as output, so when the trans=
+istor
+@@ -209,7 +208,7 @@ of actively driving the line low, it is set to input.
+=20
+=20
+ GPIO drivers providing IRQs
+----------------------------
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ It is custom that GPIO drivers (GPIO chips) are also providing interrupts,
+ most often cascaded off a parent interrupt controller, and in some special
+ cases the GPIO logic is melded with a SoC's primary interrupt controller.
+@@ -359,7 +358,7 @@ below exists.
+=20
+=20
+ Locking IRQ usage
+------------------
++~~~~~~~~~~~~~~~~~
+ Input GPIOs can be used as IRQ signals. When this happens, a driver is req=
+uested
+ to mark the GPIO as being used as an IRQ::
+=20
+@@ -378,7 +377,7 @@ When using the gpiolib irqchip helpers, these callback =
+are automatically
+ assigned.
+=20
+ Real-Time compliance for GPIO IRQ chips
+----------------------------------------
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ Any provider of irqchips needs to be carefully tailored to support Real Ti=
+me
+ preemption. It is desirable that all irqchips in the GPIO subsystem keep t=
+his
+@@ -404,7 +403,7 @@ time-compliance:
+=20
+=20
+ Requesting self-owned GPIO pins
+--------------------------------
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ Sometimes it is useful to allow a GPIO chip driver to request its own GPIO
+ descriptors through the gpiolib API. Using gpio_request() for this purpose
+
+--v6yukiwpponl6mak
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAABAgAGBQJao78JAAoJEAgwRJqO81/bMusQAIMcFRDepmgvu1iErTnLtRWa
+q5dZfN1ufQoKPMySi9Qn81c/4b3tPuDUnkElzz5HvpqZjzlv8BhzVXWjC8HkYPO7
+GIadeqXA7MpZyWG4QhL4fJCVJILqnNm3LMzXBeOBeJ9nJP2c6IOzn0P2m0jXR5Fw
+D4nJEy/IlUnRlKe/90t40eTKNUmREIZ8cZC009om+PfN1IBmVNMu5JS6aIeve1Fo
+yrDRhjKtyq20i8bSFCGuQ/11m6D+/gUVo6cQjmAsNAlS85JELEvRkvTTBGhV1RoJ
+ingOOTdPSr4aLP+OpmpJZp1cVpOtD+FOZVmUeOEh3y5AYJQh2JrHws5FwRQAaFH7
+DWgG3/wLjjePbshCdUrYjlVjt9UikoCPbEmB849gpah2Z2nga5wREY2mVMwNtqyb
+bNRL77jveJgEFDBQS7Qf23wERsirZOK5wVbpveec1FZK1KfnLz0q0bERRtYmTTDC
+0ZnM6rWkLgQoFxFcF9Enz3Ng9VByJHgyAcsRW2jsP5shrgWJubMfVRt4kim+zIIe
+3eyrqRxW+JAhaCl9zfa1l9WJhTkyjgv9ify7uU/Ah41q/lC5zz7AIDKX+5gSIMbd
+p3gbEJ8y1jcNNFcb+/9rcn88hN3ed4FNxnJxp6mXs63oUWVyOVwfGr2WyxgCE73m
+aEO5kOkKMs7LApAA7icp
+=XKA6
+-----END PGP SIGNATURE-----
+
+--v6yukiwpponl6mak--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
