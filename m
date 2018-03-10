@@ -1,126 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 907B37E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Mar 2018 23:47:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 842707E66E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Mar 2018 03:48:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751849AbeCIXrD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Mar 2018 18:47:03 -0500
-Received: from mga11.intel.com ([192.55.52.93]:40911 "EHLO mga11.intel.com"
+        id S932692AbeCJDsK convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Mar 2018 22:48:10 -0500
+Received: from mout.gmx.net ([212.227.17.22]:52905 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751495AbeCIXrC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Mar 2018 18:47:02 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2018 15:47:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,448,1515484800"; 
-   d="scan'208";a="32702695"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Mar 2018 15:47:01 -0800
-Subject: Re: [PATCH v2 2/8] [PATCH 2/8] Documentations: dt-bindings: Add a
- document of PECI adapter driver for Aspeed AST24xx/25xx SoCs
-To:     Milton Miller II <miltonm@us.ibm.com>, Pavel Machek <pavel@ucw.cz>
-Cc:     linux-hwmon@vger.kernel.org, andrew@lunn.ch, jdelvare@suse.com,
-        arnd@arndb.de, linux-doc@vger.kernel.org, andrew@aj.id.au,
-        gregkh@linuxfoundation.org, openbmc@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux@roeck-us.net, linux-arm-kernel@lists.infradead.org
-References: <20180307221124.GD10438@amd>
- <20180221161606.32247-1-jae.hyun.yoo@linux.intel.com>
- <20180221161606.32247-3-jae.hyun.yoo@linux.intel.com>
- <20180306124002.GA13950@amd>
- <33bf6563-b220-7ff9-8b04-84e9bd781b3f@linux.intel.com>
- <OF08D8261E.8F72E5DC-ON0025824B.008218BB-0025824B.008218C6@notes.na.collabserv.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <ed44999b-c877-463e-3a20-415faaab31b2@linux.intel.com>
-Date:   Fri, 9 Mar 2018 15:47:01 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <OF08D8261E.8F72E5DC-ON0025824B.008218BB-0025824B.008218C6@notes.na.collabserv.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1751371AbeCJDsJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Mar 2018 22:48:09 -0500
+Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx101
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0MHbpA-1exoKt1Zpk-003Kal; Sat, 10
+ Mar 2018 04:47:31 +0100
+Message-ID: <1520653648.12749.20.camel@gmx.de>
+Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
+From:   Mike Galbraith <efault@gmx.de>
+To:     Waiman Long <longman@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
+Date:   Sat, 10 Mar 2018 04:47:28 +0100
+In-Reply-To: <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
+References: <1520609707-16582-1-git-send-email-longman@redhat.com>
+         <1520613285.12489.36.camel@gmx.de>
+         <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
+         <1520619426.27998.18.camel@gmx.de>
+         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
+         <1520624424.27998.76.camel@gmx.de>
+         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
+         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
+         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.20.5 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K0:GaPPl8AnbKDUGY3S2kJsNrzwCOQXsW81uOLavpYeJZKC+mcD7oy
+ JH3qJken3VA7+OeSNhcYdxiifm94S6Ft9n0IYpUcORsMoZSGBW23gIydwZHzxdDUurabeOJ
+ 61pOIG7Nut9J+TgXz+UHk0Yo09Mirg1w5JRSZ8/8NbhvjNLl/ISr72CQolxfpwEW6f+/jRP
+ /kDkb+xy3gtdqf7rgtbsg==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:dvy4FYzrnRU=:pmfHFQhesZ0zZ4LYiVJOmk
+ 9mUyReGYyd61CuPM7qiRA8uO7FqhgIujJ0vjWN++3+1LOCS71xpIdPr8OHi8US0g8btsQMw+i
+ uiz3DKndVIvr8D3NE/SIe5CMRasqY8evGjQcm9XIzVqyjh9EAPGItBzQDJqVVTHFMossfBiLR
+ w9J12k5xMMA9GIJh2ilManNAhaoC15oK3TRrF9sa8rlqoCpRP8buM7W+fyQC4gngm4/ayzHYt
+ BUeudOyjnoMNkfDIVnUl1bFJPkLw/rK69ChLtxJGDuIlSEcb6kJ11ZsKhgHc9oDt3dcYJauVf
+ GqwYknxfSfhe/szVOiK4siz7yu+ag5DJjHveB75P/P5SY1O1WUmEA/fozf/yjwd8KGRb+j3mi
+ iS55Pz50KaDJ9j4ki68ERjx0uSsM5TuSnopaF9td2hd+dAZjK8QxvIzw6yhvH1L+sxJ+AT+eo
+ sbvbK6Fyp+vPQev69PSQEovC2N021Oo6eIONi5Y90jViVYSaXr1Wre83h3Gp3fGHpf7I9LLSt
+ JIJE2QBesmPCnaR++U6FvD3rSanaguuqaozdkBdH9KZBH61j9RJvrOzylqL9xhLY/mvc03Mlg
+ VosB83mPXCJkA3ShP1swi5g8LvyXc+E8wcHqBFP2WWjpiRZPMXUKpgw060RQQzgjkdNXkF5EU
+ 0uTIhyrxBHrx11sFCTmb5TmjBIkxmuq8IL778i2684FCTqPlhUX0t6FYR6g/CqbG3id+sz1lS
+ kMPlL9amwvYF4+Xw7/m3GXQaHVIXwLUqbvbXJR2W20zgFi6P800nYJGNe33CcaCh4ksBEzf2X
+ IpLvGSK6MBam//L9wdCL0k7Jxqwo/PTrmG5XXumN9ddJLbM/0g=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Milton,
+On Fri, 2018-03-09 at 18:06 -0500, Waiman Long wrote:
+> On 03/09/2018 05:17 PM, Peter Zijlstra wrote:
+> > On Fri, Mar 09, 2018 at 03:43:34PM -0500, Waiman Long wrote:
+> >> The isolcpus= parameter just reduce the cpus available to the rests of
+> >> the system. The cpuset controller does look at that value and make
+> >> adjustment accordingly, but it has no dependence on exclusive cpu/mem
+> >> features of cpuset.
+> > The isolcpus= boot param is donkey shit and needs to die. cpuset _used_
+> > to be able to fully replace it, but with the advent of cgroup 'feature'
+> > this got lost.
+> >
+> > And instead of fixing it, you're making it _far_ worse. You completely
+> > removed all the bits that allow repartitioning the scheduler domains.
+> >
+> > Mike is completely right, full NAK on any such approach.
+> 
+> So you are talking about sched_relax_domain_level and
+> sched_load_balance. I have not removed any bits. I just haven't exposed
+> them yet. It does seem like these 2 control knobs are useful from the
+> scheduling perspective. Do we also need cpu_exclusive or just the two
+> sched control knobs are enough?
 
-Thanks for sharing your time to review this patch. Please see my answer 
-inline.
+Some form of cpu_exclusive (preferably exactly that, but something else
+could replace it) is needed to define sets that must not overlap any
+other set at creation time or any time thereafter.  A set with property
+'exclusive' is the enabler for fundamentally exclusive (but dynamic!)
+set properties such as 'isolated' (etc etc).
 
-Jae
-
-On 3/9/2018 3:41 PM, Milton Miller II wrote:
-> About  03/07/2018 04:12PM in some time zone, Pavel Machek wrote:
->> Subject: Re: [PATCH v2 2/8] [PATCH 2/8] Documentations: dt-bindings:
->> Add a document of PECI adapter driver for Aspeed AST24xx/25xx SoCs
->>
->> Hi!
->>
->>>> Are these SoCs x86-based?
->>>
->>> Yes, these are ARM SoCs. Please see Andrew's answer as well.
->>
->> Understood, thanks.
->>
->>>>> +	Read sampling point selection. The whole period of a bit time
->> will be
->>>>> +	divided into 16 time frames. This value will determine which
->> time frame
->>>>> +	this controller will sample PECI signal for data read back.
->> Usually in
->>>>> +	the middle of a bit time is the best.
->>>>
->>>> English? "This value will determine when this controller"?
->>>>
->>>
->>> Could I change it like below?:
->>>
->>> "This value will determine in which time frame this controller
->> samples PECI
->>> signal for data read back"
->>
->> I guess... I'm not native speaker, I guess this could be improved
->> some
->> more.
->>
-> 
-> I agree this wording is still confusing.
-> 
-> The problem is that the key subject, the time of the sampling, is in the descriptive clause "in which time frame".
-> 
-> "This value will determine the time frame in which the controller will sample"
-> 
-> or perhaps phrase it as saving a specific sample from the over-clock, or a phase of the clock.
-> 
-
-Yes, that looks more better. I'll change the wording as you suggested. 
-Thanks a lot!
-
-Jae
-
->> Best regards,
->> 									Pavel
->>
->> -- 
->> (english) http://www.livejournal.com/~pavelmachek
->> (cesky, pictures)
->> http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
->>
-> 
-> milton
-> --
-> Speaking for myself not IBM.
-> 
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
