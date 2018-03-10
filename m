@@ -1,105 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6B157E6B5
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Mar 2018 13:20:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAFE67E676
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Mar 2018 13:29:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932858AbeCJNRA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Mar 2018 08:17:00 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:39844 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932130AbeCJNQ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Mar 2018 08:16:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=yD3G8mTXjU0b7ycsLVYnXALPUmH4/XVvwugFZ6Ka4CA=; b=Xm5mbCmhuJ0JZmJYyE3TGxHGN
-        ZuOnRbgemhy6gMshHekJ1zEKA5wYOh2UmaY/ZQKcTUjM3nsAeE0mT03cWAnQ8SduEUnsk2KqaZaYK
-        bx0vXlz8FO85h0fvfZ9/s+cl7BQH58Bv0tFvD93Qk/eHBp4mknpiunIrTFu9gUr2bSZ6ts9JjSzSC
-        R/d7yIzsW0ajdQ60faBXRtc/rrNXIAByxtQXDM2QpmgF0dc6jIpVXkieor5ccdufhVNLi7wgq03xK
-        7oIfvthSXfp0++3F/INfOL08uBF45tFOW0PgeKSR+yCB1+bzh/sPP0l+6LlbP/wvTyk66D14gzK1U
-        TfaBdUG6A==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.89 #1 (Red Hat Linux))
-        id 1eueMk-0001h7-7y; Sat, 10 Mar 2018 13:16:50 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 3A2A42029FA14; Sat, 10 Mar 2018 14:16:47 +0100 (CET)
-Date:   Sat, 10 Mar 2018 14:16:47 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Mike Galbraith <efault@gmx.de>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
-Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-Message-ID: <20180310131647.GB4043@hirez.programming.kicks-ass.net>
-References: <1520609707-16582-1-git-send-email-longman@redhat.com>
- <1520613285.12489.36.camel@gmx.de>
- <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
- <1520619426.27998.18.camel@gmx.de>
- <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
- <1520624424.27998.76.camel@gmx.de>
- <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
- <20180309221736.GB5926@hirez.programming.kicks-ass.net>
- <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
+        id S932917AbeCJN34 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Mar 2018 08:29:56 -0500
+Received: from mout.gmx.net ([212.227.17.21]:38473 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932759AbeCJN3z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 10 Mar 2018 08:29:55 -0500
+Received: from latitude ([88.153.6.235]) by mail.gmx.com (mrgmx101
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0M3NEK-1ecqbQ3G6a-00r1Cx; Sat, 10
+ Mar 2018 14:29:52 +0100
+Date:   Sat, 10 Mar 2018 14:29:52 +0100
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/8] Move most GPIO documentation to driver-api/gpio/ and
+ ReST
+Message-ID: <20180310132952.7rm3wmcr3ynrrxvf@latitude>
+References: <20180308234024.24145-1-j.neuschaefer@gmx.net>
+ <CACRpkda=5i-j=W8+yosF9WiZRKFF=iRC-djja7MJE+k6b1xtaQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="vi4r2vd4bf5bnzeo"
 Content-Disposition: inline
-In-Reply-To: <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
-User-Agent: Mutt/1.9.3 (2018-01-21)
+In-Reply-To: <CACRpkda=5i-j=W8+yosF9WiZRKFF=iRC-djja7MJE+k6b1xtaQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Provags-ID: V03:K0:FxCL/Xgq1Hap8EjKNeKQVEdkaVQmtGsrxNm2liW3r4BJav+1Aes
+ b8IFZnEFwBjt5H2pcRGDJnY3/yJUsv636eIZkxaC1MzT/7xWJ8AwZOAKgh+sSPQnWh8s5Ov
+ 4DlpHhtmIxEmsY5RQd0/jF6vtrWAPW1VgEo11mIJ3vFvO0A0Ez9KJ8FPE0pjjxQSjdnlV5x
+ vytbpwjt4MDZVzSum0+7Q==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:EnG0r8cEic4=:mcxMRCVtLzXovoj2WvSfPk
+ 98Rgk9mDBU7EqG45yjCTWYygPq00orrNDd6Z7xfT8LaZacIVVXNjM7N29ypbC3c0Hm4L+fUTL
+ uNPWRRPFSoOodOS026Xjb9DkrpmFGyUrrlfbvVymlvR/jGuijwdOFaKSe9Ah/tUVD/utN9l+Z
+ h2GTQuuh2kOUivYOSP940CRGTqokMdv8ecdYtz4qZ5i8Fqw1GvnEv8XASvQhsvsUdu8L15XGX
+ vzKE78rXPYtpWob+oXOGcl8AvHpqXtqy7MBELVcbSmWuOs2Lp64XmUxaKg/q0DvZbjXUGv9h9
+ O+9IlSk9fyjIQuoSc+F3EnCShI5/QyTruq9mX8/guKWEawn1gWdzJeaJZWyfRngU5WpuTs6Hg
+ z0fZyOgpjIBx9xXl2xYyTDdCkBnLSSO1URyKN1QplFmB+qxELEjj66zmfcGwjLBYrY5NyPHCl
+ MRAsU+/yEqTwauxSljBl0heRM76xB1VOdsq11eKpmClXSPK54itCQuMexA5CZGgbfsO+5Uq5H
+ ITt4dnGoD+V5WbaKKDXSHECrJclbfkFSUyZ3RQJCbckCfPZMMGxbeJQk6PWRr/flR/i0csyup
+ yOKBZCvLatUtKyKpF2rJUM2wm0XCshs++OOmaCfbMcnE+TcU3MFjLl67q7MM2shuQ8AeTEO99
+ 0FNFX1YFWBQkFJ8LCoLCqRS9X2rnXEVSs6zYm/5Bdzrfvo87023pev141M5uuTzyCuic737GT
+ lbwesVQRtRy1bv+9Z6hIKBcS7Fg+g7IaFfDD+VkMk1wCGyDc5d9+A4be3umZqT44xtXApC+IN
+ 0NA3fwK149dpxMGLvZpueT+a6QwHA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 09, 2018 at 06:06:29PM -0500, Waiman Long wrote:
-> So you are talking about sched_relax_domain_level and
 
-That one I wouldn't be sad to see the back of.
+--vi4r2vd4bf5bnzeo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> sched_load_balance.
+On Sat, Mar 10, 2018 at 12:50:46PM +0100, Linus Walleij wrote:
+> On Fri, Mar 9, 2018 at 12:40 AM, Jonathan Neusch=C3=A4fer
+> <j.neuschaefer@gmx.net> wrote:
+>=20
+> > The aim of this patchset is to move the GPIO subsystem's documentation
+> > under Documentation/driver-api/gpio/ such that it is picked up by Sphinx
+> > and compiled into HTML.
+>=20
+> Awesome!
+>=20
+> > I moved everything except for sysfs.txt, because
+> > this file describes the legacy sysfs ABI, and doesn't seem to serve much
+> > (non-historical) purpose anymore.
+> >
+> > There are still some rough edges:
+> >
+> > * I think the API documentation (kernel-doc) should be moved out of
+> >   index.rst into more appropriate files.
+> > * The headings are arguably wrong, because driver.rst, consumer.rst,
+> >   etc. use the "document title" style, even though they are part of the
+> >   GPIO chapter. But the resulting TOC tree is consistent, and I did not
+> >   want to change almost all headings.
+> > * Some of the files could use more :c:func:`...` references and general
+> >   ReST polish.
+> >
+> > But I don't want to make this patchset too large.
+>=20
+> It's fine, we take it one step at a time.
+>=20
+> On Fri, Mar 09, 2018 at 10:41:20AM -0700, Jonathan Corbet wrote:
+>=20
+> > Anyway, I'm happy to take these through the docs tree or see them go via
+> > GPIO; Linus, what's your preference?
+>=20
+> I might have some doc patches that could collide so I can take them.
+>=20
+> I take it there will be a v2?
 
-This one, that's critical. And this is the perfect time to try and fix
-the whole isolcpus issue.
+Not necessarily, but if I need to rebase on a different branch, or on
+future linux-next, I'll do that. (Or if some other issue is found.)
 
-The primary issue is that to make equivalent functionality available
-through cpuset, we need to basically start all tasks outside the root
-group.
+I thought that patch 8/8 currently requires commit 93db446a424c ("mtd:
+nand: move raw NAND related code to the raw/ subdir"), which is in next
+through Boris Brezillon's nand tree, but this isn't true. The patchset
+(currently) applies to both v4.16-rc4 and next, AFAICS.
 
-The equivalent of isolcpus=xxx is a cgroup setup like:
 
-        root
-	/  \
-  system    other
+Thanks,
+Jonathan Neusch=C3=A4fer
 
-Where other has the @xxx cpus and system the remainder and
-root.sched_load_balance = 0.
+--vi4r2vd4bf5bnzeo
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Back before cgroups (and the new workqueue stuff), we could've started
-everything in the !root group, no worry. But now that doesn't work,
-because a bunch of controllers can't deal with that and everything
-cgroup expects the cgroupfs to be empty on boot.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-It's one of my biggest regrets that I didn't 'fix' this before cgroups
-came along.
+iQIcBAABAgAGBQJao93DAAoJEAgwRJqO81/bvT4P/2aQLu+d/XOm0MX2UtM4bjvF
+AhpJ23O/U9XGRVaQOBByV4LZXmNd10I71KTJujpXMI8D+NrlWgC9RyTObEJhC706
+l2ULk8b54Zq+yNVimLGaG/k4UE/w/rCI4VE8gBb2yGy9AUsu1RrF+1Yebiyz4GYg
+SA7z7tUsZVgIvCtO66DliRYf2HrbIsJZfpq59uXvZu5QIgxARJ8JTUE8eIWJH3n9
+gg5X5fd5URNZx0moDN86RWGrRY7kFNhrda8D5TCbrFT+MAP7mhNKq0PQLdKqYeod
+jhDosUyaO7ja3ONIUP3P/Wj+Be76+ytnbhhhrVoFh+n1i4iARE+5B5sV+PWohbE/
+9bkE3Jl+df4RWxe3Hq3qmhJkN7bibCWo4IVAIGdWXX3e1m76DUqqwo5ka2sU6SQD
+xc9dBUDfCIitmr9qRd47OEml1ttiseupH1iqbctHFgQn18Wrx/48TaxUp154BKUb
+T03rOYo+V8pyp3pjopvxhz9w84cAGLD+ozWhqH/MOXOs6vuCkfNNoTLiO/Y1F+VQ
+wHSuGDIR2KM+/6QUdEViEL+kJ8dGAJcWONCKUwaVnzMBnjLdv3ceb4Yq9IqOgtYV
+mv6yvHGcaf1SOKJzl/yKvath/cgjMa4aPzIvFhENjFrEIa1Y22ojeqKiYC+rC1/K
+Rna/d5nDHrYKgp+3+NT+
+=of2O
+-----END PGP SIGNATURE-----
 
-> I have not removed any bits. I just haven't exposed
-> them yet. It does seem like these 2 control knobs are useful from the
-> scheduling perspective. Do we also need cpu_exclusive or just the two
-> sched control knobs are enough?
-
-I always forget if we need exclusive for load_balance to work; I'll
-peruse the document/code.
+--vi4r2vd4bf5bnzeo--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
