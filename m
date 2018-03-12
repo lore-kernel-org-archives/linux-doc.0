@@ -1,140 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E45F7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Mar 2018 14:20:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BF06D7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Mar 2018 15:22:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751293AbeCLOUf convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Mar 2018 10:20:35 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:37536 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751248AbeCLOUe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Mar 2018 10:20:34 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B15F88182D01;
-        Mon, 12 Mar 2018 14:20:33 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CD9022026E03;
-        Mon, 12 Mar 2018 14:20:32 +0000 (UTC)
+        id S1751248AbeCLPWS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Mar 2018 11:22:18 -0400
+Received: from mout.gmx.net ([212.227.17.21]:41111 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751247AbeCLPWQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Mar 2018 11:22:16 -0400
+Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx103
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0M6ioC-1eh1bW343Y-00wXiB; Mon, 12
+ Mar 2018 16:21:26 +0100
+Message-ID: <1520868085.9178.1.camel@gmx.de>
 Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Mike Galbraith <efault@gmx.de>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
+From:   Mike Galbraith <efault@gmx.de>
+To:     Waiman Long <longman@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
         torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
+Date:   Mon, 12 Mar 2018 16:21:25 +0100
+In-Reply-To: <12ef7f60-5b14-8e09-2478-1453a3071f21@redhat.com>
 References: <1520609707-16582-1-git-send-email-longman@redhat.com>
- <1520613285.12489.36.camel@gmx.de>
- <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
- <1520619426.27998.18.camel@gmx.de>
- <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
- <1520624424.27998.76.camel@gmx.de>
- <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
- <20180309221736.GB5926@hirez.programming.kicks-ass.net>
- <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
- <20180310131647.GB4043@hirez.programming.kicks-ass.net>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <12ef7f60-5b14-8e09-2478-1453a3071f21@redhat.com>
-Date:   Mon, 12 Mar 2018 10:20:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180310131647.GB4043@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Mon, 12 Mar 2018 14:20:33 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Mon, 12 Mar 2018 14:20:33 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+         <1520613285.12489.36.camel@gmx.de>
+         <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
+         <1520619426.27998.18.camel@gmx.de>
+         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
+         <1520624424.27998.76.camel@gmx.de>
+         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
+         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
+         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
+         <20180310131647.GB4043@hirez.programming.kicks-ass.net>
+         <12ef7f60-5b14-8e09-2478-1453a3071f21@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K0:2/HXjyC/mjfDYZ9X/UtoBk3EBgO94APmv9w1nSE8x74G2+iyxD+
+ 6EuFtneYaaoS5tAWwN9hfVlM+tUFAFMsIH9nXAtu72M6onLr86adPQiUMHJnZt5xPcOshaK
+ HplXL9gQWGoA2+SOGfcPlb8m/TfhnIAgnMZ+IniVcdYGf8xYd0li0jVyNfJN1OiaEQ6KwUR
+ EGsbtXJC4TYRNMY7b3FGQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:n1xfcJ1/S9c=:mRL0J1PBiI0p5p1mhA0Np3
+ hgAVEg9SeEKk60Gkii6s64Wyr06cX52LP8F3/AB7EfjuHrKKsuCYABYIa1YsehnW5le+BOh9u
+ FVuO0qcEIlNKg6ebX0YQ9W7isHX4zpmsQcBzZszlF8VTZU5uLXPuvciGvvygjmEclZJE9SY9e
+ PUt08YaCnxCYlAQh3T43dpXpuKc8mVTnifr4nqxLy53HoXqFdb/S+wICoiTf/VenZabrGRFHO
+ BN6YgaBQ6PZY9KoAj2EdxS6YYjflefXxGutq7SkW4X0/e8vKlP8qDefc74OoCNtTbAST/1+EW
+ yzW7xV/CjdhA6EQiOL3c/4pYvpYr1GtziSKJ7zpymldfCuI+WMNNLp5r9wLaZ5xRd2/WYmIpY
+ Gj+kQd4zuGgad08cxC7nOyfwPXp1tcUQPAkojO+bQ2riQP1macaq3+hN7z1LZN0Lnvsfj6g3x
+ VdO5/wxKTuCOMonRTzHwYxQJ9/xVvplhRD4HwPKLq76KB3F1wxOHSTn6b4PwMHgWIz89Q8oj+
+ OYN6apTNwiqftmUuXWS9gfAg0bu49jPQbAmZQVoe9Sn+gervwtFP84dRkUot2BzMztY+IoEBw
+ koaatImN4EQn4DAzW/HsBIOqn3CM9H30Z1oo2x9RV790nNMkr/T6I2Uzl5hhnt+kSYh73PYbu
+ an20yBxA37Q7cDhB6dQC7DSv6eiMo6vdGVF+P6N6tuHU5zp7H6VlILXbei+Chh+IqMETR9PEB
+ Qgf6bDIQDKbyjy5o/zbKPVoAfiXOQ5PrlmnNrU1+6eOkJKa6/pAH5p0dEI8NIdqahcpFm8Bn0
+ /xX+Ju7aWl9GFmpF2sT+CdobBm8wL/pB6kSImT/33JokJhsuWM=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/10/2018 08:16 AM, Peter Zijlstra wrote:
-> On Fri, Mar 09, 2018 at 06:06:29PM -0500, Waiman Long wrote:
->> So you are talking about sched_relax_domain_level and
-> That one I wouldn't be sad to see the back of.
->
->> sched_load_balance.
-> This one, that's critical. And this is the perfect time to try and fix
-> the whole isolcpus issue.
->
-> The primary issue is that to make equivalent functionality available
-> through cpuset, we need to basically start all tasks outside the root
-> group.
->
-> The equivalent of isolcpus=xxx is a cgroup setup like:
->
->         root
-> 	/  \
->   system    other
->
-> Where other has the @xxx cpus and system the remainder and
-> root.sched_load_balance = 0.
+On Mon, 2018-03-12 at 10:20 -0400, Waiman Long wrote:
+> On 03/10/2018 08:16 AM, Peter Zijlstra wrote:
+> 
+> > The equivalent of isolcpus=xxx is a cgroup setup like:
+> >
+> >         root
+> > 	/  \
+> >   system    other
+> >
+> > Where other has the @xxx cpus and system the remainder and
+> > root.sched_load_balance = 0.
+> 
+> I saw in the kernel-parameters.txt file that the isolcpus option was
+> deprecated - use cpusets instead. However, there doesn't seem to have
+> document on the right way to do it.
 
-I saw in the kernel-parameters.txt file that the isolcpus option was
-deprecated - use cpusets instead. However, there doesn't seem to have
-document on the right way to do it. Of course, we can achieve similar
-results with what you have outlined above, but the process is more
-complex than just adding another boot command line argument with
-isolcpus. So I doubt isolcpus will die anytime soon unless we can make
-the alternative as easy to use.
+I use cset shield (cpuset package) in a script to create a set and
+migrate everything that's permitted into the system set.
 
-> Back before cgroups (and the new workqueue stuff), we could've started
-> everything in the !root group, no worry. But now that doesn't work,
-> because a bunch of controllers can't deal with that and everything
-> cgroup expects the cgroupfs to be empty on boot.
+setup:
+cset shield --userset=rtcpus --cpu=4-63 --kthread=on
+<poke this/that>
 
-AFAIK, all the processes belong to the root cgroup on boot. And the root
-cgroup is usually special that the controller may not exert any control
-for processes in the root cgroup. Many controllers become active for
-processes in the child cgroups only. Would you mind elaborating what
-doesn't quite work currently?
+teardown:
+cset shield --userset=rtcpus --reset
+<un-poke this/that>
 
- 
-> It's one of my biggest regrets that I didn't 'fix' this before cgroups
-> came along.
->
->> I have not removed any bits. I just haven't exposed
->> them yet. It does seem like these 2 control knobs are useful from the
->> scheduling perspective. Do we also need cpu_exclusive or just the two
->> sched control knobs are enough?
-> I always forget if we need exclusive for load_balance to work; I'll
-> peruse the document/code.
+Non-sexy, but works for simple stuff.
 
-I think the cpu_exclusive feature can be useful to enforce that CPUs
-allocated to the "other" isolated cgroup cannot be used by the processes
-under the "system" parent.
-
-I know that there are special code to handle the isolcpus option. How
-about changing it to create a exclusive cpuset automatically instead.
-Applications that need to run in those isolated CPUs can then use the
-standard cgroup process to be moved into the isolated cgroup. For example,
-
-isolcpus=<cpuset-name>,<cpu-id-list>
-
-or
-
-isolcpuset=<cpuset-name>[,cpu:<cpu-id-list>][,mem:<memory-node-list>]
-
-We can then retire the old usage and encourage users to use the cgroup
-API to manage it.
-
-Cheers,
-Longman
-
-
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
