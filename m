@@ -1,87 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9299E7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Mar 2018 00:07:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA07F7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Mar 2018 07:02:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751415AbeCMAH4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Mar 2018 20:07:56 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:46628 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751359AbeCMAH4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Mar 2018 20:07:56 -0400
-Received: by mail-wr0-f193.google.com with SMTP id m12so17642973wrm.13;
-        Mon, 12 Mar 2018 17:07:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=Su2tUA7jUAhqQOaUKRkxfBcqoNkPeRH8HSK9dLHkrFI=;
-        b=LCFTFGb5aEJt1CetmEHGVevBh8hSAi5FQo5maHbaNXbp/VaxV2tcy1Giasmz0mxFp6
-         UjeljGFBaUjQ26y3wvojqxogW7sWVX+dQUt9UFf2hD39A71QPzm4F9nY+UcwVX6UEJrH
-         ZZByAAas8fZKbnHAx/W/Rft8dP9Z47KZEnbJ4RdgHqpEh/vkBWaDyOF1Wp8Lgo5qvK2q
-         GBH0qiP+asj0UUzL6dvtgFo1/xsn8GRjZkg3tnfQVb/gP3EsBElfEMxisQSxvROSvYDX
-         tRIellSHgkVd5U/4eVtCFvcmcZLOfduaeKx8xQN7d/nZKFJ3TYEjJeDMJe/DJjKck5BY
-         m56g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=Su2tUA7jUAhqQOaUKRkxfBcqoNkPeRH8HSK9dLHkrFI=;
-        b=RJ0Y+RinLGxxnSYa/Yxib8qwD7YZTjQV07OoImn/q1t11upw/rCVFhMwUSawBX9q6M
-         /l0YCc7d+vb0Ff0jY05EGXeIZVgKMxnz0gyD1dvupzA9ztkiVkQF8IeWXdKN58Pr7wSQ
-         T6WNrEfm2hf2tX0gxzIoxHOWypCTVXaP2bO+V+gXfGVvrgJhODyHvlab3DpoEOfVBPkE
-         lo7SmuBp6fH09EdzJOWnrls6vlAjLKMiFGzjNdYCL6Z6dJaEBCIVkDpyMYIhBy2DcNiM
-         jKx4t8+daBB6yegjroUhKUHwyT7aPXdAcoaV9VFSdK2vPlmiUmQ95fyrOj9mI3O624zP
-         ddPg==
-X-Gm-Message-State: AElRT7EWFyYKk16xbDanFNPDVHds7HlwisUUk7UNbe+YuDT51PU+irVI
-        yq2b7VW3IvvdQYQ6/NxRxE3XYO1MGKA=
-X-Google-Smtp-Source: AG47ELsvVNOiy2IC8LbfY56Cz2OaAvgXYWiA4EU/QZHVA7bl4soiEnHcjmaRuG++4IxYiu45RbG0Iw==
-X-Received: by 10.28.51.67 with SMTP id z64mr3824627wmz.59.1520899674778;
-        Mon, 12 Mar 2018 17:07:54 -0700 (PDT)
-Received: from gmail.com ([193.125.157.122])
-        by smtp.gmail.com with ESMTPSA id 33sm2559107wrs.74.2018.03.12.17.07.53
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 12 Mar 2018 17:07:54 -0700 (PDT)
-Date:   Tue, 13 Mar 2018 01:07:37 +0100
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-To:     w@1wt.eu, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Doc: misc-devices: move lcd-panel-cgram.txt to auxdisplay/
-Message-ID: <20180313000737.aybluy746piwyzll@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: elm/2
+        id S1751495AbeCMHC6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Mar 2018 03:02:58 -0400
+Received: from mga04.intel.com ([192.55.52.120]:54531 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751462AbeCMHC5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Mar 2018 03:02:57 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Mar 2018 00:02:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,464,1515484800"; 
+   d="scan'208";a="37690889"
+Received: from rzhang-dell-9360.sh.intel.com ([10.239.197.97])
+  by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2018 00:02:55 -0700
+Message-ID: <1520924571.3766.8.camel@intel.com>
+Subject: Re: [PATCH V4] thermal: Add cooling device's statistics in sysfs
+From:   Zhang Rui <rui.zhang@intel.com>
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Eduardo Valentin <edubezval@gmail.com>
+Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Date:   Tue, 13 Mar 2018 15:02:51 +0800
+In-Reply-To: <6e557b90950723065d49c9a545146ce31d7dc6e1.1516096153.git.viresh.kumar@linaro.org>
+References: <6e557b90950723065d49c9a545146ce31d7dc6e1.1516096153.git.viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 7005b58458e4beecaf5efacb872c456bc7d3541a ("Staging: add lcd-panel
-driver") introduced the panel driver, which is now in
-drivers/auxdisplay.
+Hi, Viresh,
 
-Cc: Willy Tarreau <w@1wt.eu>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
----
- Documentation/{misc-devices => auxdisplay}/lcd-panel-cgram.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename Documentation/{misc-devices => auxdisplay}/lcd-panel-cgram.txt (100%)
+I will queue it for 4.17, with just one minor fix below.
 
-diff --git a/Documentation/misc-devices/lcd-panel-cgram.txt b/Documentation/auxdisplay/lcd-panel-cgram.txt
-similarity index 100%
-rename from Documentation/misc-devices/lcd-panel-cgram.txt
-rename to Documentation/auxdisplay/lcd-panel-cgram.txt
--- 
-2.14.1
+On 二, 2018-01-16 at 15:22 +0530, Viresh Kumar wrote:
+> This extends the sysfs interface for thermal cooling devices and
+> exposes
+> some pretty useful statistics. These statistics have proven to be
+> quite
+> useful specially while doing benchmarks related to the task
+> scheduler,
+> where we want to make sure that nothing has disrupted the test,
+> specially the cooling device which may have put constraints on the
+> CPUs.
+> The information exposed here tells us to what extent the CPUs were
+> constrained by the thermal framework.
+> 
+> The write-only "reset" file is used to reset the statistics.
+> 
+> The read-only "time_in_state" file shows the clock_t time spent by
+> the
+> device in the respective cooling states, and it prints one line per
+> cooling state.
+> 
+> The read-only "total_trans" file shows single positive integer value
+> showing the total number of cooling state transitions the device has
+> gone through since the time the cooling device is registered or the
+> time
+> when statistics were reset last.
+> 
+> The read-only "trans_table" file shows a two dimensional matrix,
+> where
+> an entry <i,j> (row i, column j) represents the number of transitions
+> from State_i to State_j.
+> 
+> This is how the directory structure looks like for a single cooling
+> device:
+> 
+> $ ls -R /sys/class/thermal/cooling_device0/
+> /sys/class/thermal/cooling_device0/:
+> cur_state  max_state  power  stats  subsystem  type  uevent
+> 
+> /sys/class/thermal/cooling_device0/power:
+> autosuspend_delay_ms  runtime_active_time  runtime_suspended_time
+> control               runtime_status
+> 
+> /sys/class/thermal/cooling_device0/stats:
+> reset  time_in_state  total_trans  trans_table
+> 
+> This is tested on ARM 64-bit Hisilicon hikey620 board running Ubuntu
+> and
+> ARM 64-bit Hisilicon hikey960 board running Android.
+> 
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
+[snip]
+
+> +static void cooling_device_stats_setup(struct thermal_cooling_device
+> *cdev)
+> +{
+> +	struct cooling_dev_stats *stats;
+> +	unsigned long states;
+> +	int var;
+> +
+> +	if (cdev->ops->get_max_state(cdev, &states))
+> +		return;
+> +
+> +	states++; /* Total number of states is highest state + 1 */
+> +
+> +	var = sizeof(*stats);
+> +	var += sizeof(*stats->time_in_state) * states;
+> +	var += sizeof(*stats->trans_table) * states * states;
+> +
+> +	stats = kzalloc(var, GFP_KERNEL);
+> +	if (!stats)
+> +		return;
+> +
+> +	stats->time_in_state = (ktime_t *)(stats + 1);
+> +	stats->trans_table = (unsigned int *)(stats->time_in_state +
+> states);
+> +	cdev->stats = stats;
+> +	stats->last_time = ktime_get();
+> +	stats->max_states = states;
+> +	cdev->stats = stats;
+> +
+
+cdev->stats is set twice here, I will remove the first one.
+
+thanks,
+rui
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
