@@ -1,102 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF06D7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Mar 2018 15:22:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9299E7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Mar 2018 00:07:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751248AbeCLPWS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Mar 2018 11:22:18 -0400
-Received: from mout.gmx.net ([212.227.17.21]:41111 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751247AbeCLPWQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Mar 2018 11:22:16 -0400
-Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx103
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0M6ioC-1eh1bW343Y-00wXiB; Mon, 12
- Mar 2018 16:21:26 +0100
-Message-ID: <1520868085.9178.1.camel@gmx.de>
-Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-From:   Mike Galbraith <efault@gmx.de>
-To:     Waiman Long <longman@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
-Date:   Mon, 12 Mar 2018 16:21:25 +0100
-In-Reply-To: <12ef7f60-5b14-8e09-2478-1453a3071f21@redhat.com>
-References: <1520609707-16582-1-git-send-email-longman@redhat.com>
-         <1520613285.12489.36.camel@gmx.de>
-         <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
-         <1520619426.27998.18.camel@gmx.de>
-         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
-         <1520624424.27998.76.camel@gmx.de>
-         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
-         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
-         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
-         <20180310131647.GB4043@hirez.programming.kicks-ass.net>
-         <12ef7f60-5b14-8e09-2478-1453a3071f21@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.22.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K0:2/HXjyC/mjfDYZ9X/UtoBk3EBgO94APmv9w1nSE8x74G2+iyxD+
- 6EuFtneYaaoS5tAWwN9hfVlM+tUFAFMsIH9nXAtu72M6onLr86adPQiUMHJnZt5xPcOshaK
- HplXL9gQWGoA2+SOGfcPlb8m/TfhnIAgnMZ+IniVcdYGf8xYd0li0jVyNfJN1OiaEQ6KwUR
- EGsbtXJC4TYRNMY7b3FGQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:n1xfcJ1/S9c=:mRL0J1PBiI0p5p1mhA0Np3
- hgAVEg9SeEKk60Gkii6s64Wyr06cX52LP8F3/AB7EfjuHrKKsuCYABYIa1YsehnW5le+BOh9u
- FVuO0qcEIlNKg6ebX0YQ9W7isHX4zpmsQcBzZszlF8VTZU5uLXPuvciGvvygjmEclZJE9SY9e
- PUt08YaCnxCYlAQh3T43dpXpuKc8mVTnifr4nqxLy53HoXqFdb/S+wICoiTf/VenZabrGRFHO
- BN6YgaBQ6PZY9KoAj2EdxS6YYjflefXxGutq7SkW4X0/e8vKlP8qDefc74OoCNtTbAST/1+EW
- yzW7xV/CjdhA6EQiOL3c/4pYvpYr1GtziSKJ7zpymldfCuI+WMNNLp5r9wLaZ5xRd2/WYmIpY
- Gj+kQd4zuGgad08cxC7nOyfwPXp1tcUQPAkojO+bQ2riQP1macaq3+hN7z1LZN0Lnvsfj6g3x
- VdO5/wxKTuCOMonRTzHwYxQJ9/xVvplhRD4HwPKLq76KB3F1wxOHSTn6b4PwMHgWIz89Q8oj+
- OYN6apTNwiqftmUuXWS9gfAg0bu49jPQbAmZQVoe9Sn+gervwtFP84dRkUot2BzMztY+IoEBw
- koaatImN4EQn4DAzW/HsBIOqn3CM9H30Z1oo2x9RV790nNMkr/T6I2Uzl5hhnt+kSYh73PYbu
- an20yBxA37Q7cDhB6dQC7DSv6eiMo6vdGVF+P6N6tuHU5zp7H6VlILXbei+Chh+IqMETR9PEB
- Qgf6bDIQDKbyjy5o/zbKPVoAfiXOQ5PrlmnNrU1+6eOkJKa6/pAH5p0dEI8NIdqahcpFm8Bn0
- /xX+Ju7aWl9GFmpF2sT+CdobBm8wL/pB6kSImT/33JokJhsuWM=
+        id S1751415AbeCMAH4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Mar 2018 20:07:56 -0400
+Received: from mail-wr0-f193.google.com ([209.85.128.193]:46628 "EHLO
+        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751359AbeCMAH4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Mar 2018 20:07:56 -0400
+Received: by mail-wr0-f193.google.com with SMTP id m12so17642973wrm.13;
+        Mon, 12 Mar 2018 17:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=Su2tUA7jUAhqQOaUKRkxfBcqoNkPeRH8HSK9dLHkrFI=;
+        b=LCFTFGb5aEJt1CetmEHGVevBh8hSAi5FQo5maHbaNXbp/VaxV2tcy1Giasmz0mxFp6
+         UjeljGFBaUjQ26y3wvojqxogW7sWVX+dQUt9UFf2hD39A71QPzm4F9nY+UcwVX6UEJrH
+         ZZByAAas8fZKbnHAx/W/Rft8dP9Z47KZEnbJ4RdgHqpEh/vkBWaDyOF1Wp8Lgo5qvK2q
+         GBH0qiP+asj0UUzL6dvtgFo1/xsn8GRjZkg3tnfQVb/gP3EsBElfEMxisQSxvROSvYDX
+         tRIellSHgkVd5U/4eVtCFvcmcZLOfduaeKx8xQN7d/nZKFJ3TYEjJeDMJe/DJjKck5BY
+         m56g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=Su2tUA7jUAhqQOaUKRkxfBcqoNkPeRH8HSK9dLHkrFI=;
+        b=RJ0Y+RinLGxxnSYa/Yxib8qwD7YZTjQV07OoImn/q1t11upw/rCVFhMwUSawBX9q6M
+         /l0YCc7d+vb0Ff0jY05EGXeIZVgKMxnz0gyD1dvupzA9ztkiVkQF8IeWXdKN58Pr7wSQ
+         T6WNrEfm2hf2tX0gxzIoxHOWypCTVXaP2bO+V+gXfGVvrgJhODyHvlab3DpoEOfVBPkE
+         lo7SmuBp6fH09EdzJOWnrls6vlAjLKMiFGzjNdYCL6Z6dJaEBCIVkDpyMYIhBy2DcNiM
+         jKx4t8+daBB6yegjroUhKUHwyT7aPXdAcoaV9VFSdK2vPlmiUmQ95fyrOj9mI3O624zP
+         ddPg==
+X-Gm-Message-State: AElRT7EWFyYKk16xbDanFNPDVHds7HlwisUUk7UNbe+YuDT51PU+irVI
+        yq2b7VW3IvvdQYQ6/NxRxE3XYO1MGKA=
+X-Google-Smtp-Source: AG47ELsvVNOiy2IC8LbfY56Cz2OaAvgXYWiA4EU/QZHVA7bl4soiEnHcjmaRuG++4IxYiu45RbG0Iw==
+X-Received: by 10.28.51.67 with SMTP id z64mr3824627wmz.59.1520899674778;
+        Mon, 12 Mar 2018 17:07:54 -0700 (PDT)
+Received: from gmail.com ([193.125.157.122])
+        by smtp.gmail.com with ESMTPSA id 33sm2559107wrs.74.2018.03.12.17.07.53
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 12 Mar 2018 17:07:54 -0700 (PDT)
+Date:   Tue, 13 Mar 2018 01:07:37 +0100
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+To:     w@1wt.eu, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Doc: misc-devices: move lcd-panel-cgram.txt to auxdisplay/
+Message-ID: <20180313000737.aybluy746piwyzll@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: elm/2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-03-12 at 10:20 -0400, Waiman Long wrote:
-> On 03/10/2018 08:16 AM, Peter Zijlstra wrote:
-> 
-> > The equivalent of isolcpus=xxx is a cgroup setup like:
-> >
-> >         root
-> > 	/  \
-> >   system    other
-> >
-> > Where other has the @xxx cpus and system the remainder and
-> > root.sched_load_balance = 0.
-> 
-> I saw in the kernel-parameters.txt file that the isolcpus option was
-> deprecated - use cpusets instead. However, there doesn't seem to have
-> document on the right way to do it.
+Commit 7005b58458e4beecaf5efacb872c456bc7d3541a ("Staging: add lcd-panel
+driver") introduced the panel driver, which is now in
+drivers/auxdisplay.
 
-I use cset shield (cpuset package) in a script to create a set and
-migrate everything that's permitted into the system set.
+Cc: Willy Tarreau <w@1wt.eu>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+---
+ Documentation/{misc-devices => auxdisplay}/lcd-panel-cgram.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/{misc-devices => auxdisplay}/lcd-panel-cgram.txt (100%)
 
-setup:
-cset shield --userset=rtcpus --cpu=4-63 --kthread=on
-<poke this/that>
+diff --git a/Documentation/misc-devices/lcd-panel-cgram.txt b/Documentation/auxdisplay/lcd-panel-cgram.txt
+similarity index 100%
+rename from Documentation/misc-devices/lcd-panel-cgram.txt
+rename to Documentation/auxdisplay/lcd-panel-cgram.txt
+-- 
+2.14.1
 
-teardown:
-cset shield --userset=rtcpus --reset
-<un-poke this/that>
-
-Non-sexy, but works for simple stuff.
-
-	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
