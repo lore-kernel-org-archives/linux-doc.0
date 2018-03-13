@@ -1,1099 +1,296 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BD367E677
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Mar 2018 18:56:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D1697E6A4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Mar 2018 20:16:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752523AbeCMS4F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Mar 2018 14:56:05 -0400
-Received: from mga06.intel.com ([134.134.136.31]:21208 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752189AbeCMS4D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Mar 2018 14:56:03 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Mar 2018 11:56:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.47,466,1515484800"; 
-   d="scan'208";a="37037022"
-Received: from odsawant-mobl.amr.corp.intel.com (HELO [10.254.68.8]) ([10.254.68.8])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2018 11:56:01 -0700
-Subject: Re: [PATCH v2 7/8] [PATCH 7/8] drivers/hwmon: Add a generic PECI
- hwmon client driver
-To:     Stef van Os <stef.van.os@prodrive-technologies.com>,
-        joel@jms.id.au, andrew@aj.id.au, arnd@arndb.de,
-        gregkh@linuxfoundation.org, jdelvare@suse.com, linux@roeck-us.net,
-        benh@kernel.crashing.org, andrew@lunn.ch
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20180221161606.32247-1-jae.hyun.yoo@linux.intel.com>
- <20180221161606.32247-8-jae.hyun.yoo@linux.intel.com>
- <d9c3e768-ed57-a233-04fd-a05a64803da3@prodrive-technologies.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <567f85a6-3259-e011-2e76-62fbbf1fa23e@linux.intel.com>
-Date:   Tue, 13 Mar 2018 11:56:00 -0700
+        id S1752479AbeCMUQq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Mar 2018 16:16:46 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:33844 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752397AbeCMUQo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Mar 2018 16:16:44 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 0EE3860851; Tue, 13 Mar 2018 20:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1520972204;
+        bh=D0aVLq50LSyRPyl8jtbkXSzOPset691QDKNr/ONsmTU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=LtaF/8DcpTTdRFCwRpe47Sye9H4MgAhK/3D1Mx1GyI+M346anehZaAvyxwOdKyGap
+         /7rABvVSGcB/vKgQ3CK+4LC1zaPI1WY98XXYVSxtQhq6/MUec4WM6DwKgV6In8fGG5
+         Rm1OdcK5s7UN8ZPX2qhh7QrxTUofCmvT2s+NoQh0=
+Received: from [10.226.60.63] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kramasub@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 207B5605FB;
+        Tue, 13 Mar 2018 20:16:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1520972202;
+        bh=D0aVLq50LSyRPyl8jtbkXSzOPset691QDKNr/ONsmTU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=T1/zkbMxHtMMj0Pwki0tRA2Feh2WyjYzfytApR1nBa0JbghBBc3C3MgtwCsHVQVhB
+         HdzqHdaKVYfLUt/mV5jfIY7mlSh9sZw/6l8KNpRyqilq08MdouWbM6RRKnnngAaHhq
+         PGVPA2Oc3O2WdPcKpSD33mhLYpvpm5+TwCk9T7u4=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 207B5605FB
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
+Subject: Re: [PATCH v3 4/4] tty: serial: msm_geni_serial: Add serial driver
+ support for GENI based QUP
+To:     Evan Green <evgreen@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>, robh+dt@kernel.org,
+        mark.rutland@arm.com, wsa@the-dreams.de,
+        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
+        jslaby@suse.com, acourbot@chromium.org,
+        Girish Mahadevan <girishm@codeaurora.org>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Doug Anderson <dianders@google.com>
+References: <1519781889-16117-1-git-send-email-kramasub@codeaurora.org>
+ <1519781889-16117-5-git-send-email-kramasub@codeaurora.org>
+ <CAE=gft4Hwqq2gx+b9AmiX1ZZBrSt1Ca2E48JV77wpcQQT0060w@mail.gmail.com>
+From:   Karthik Ramasubramanian <kramasub@codeaurora.org>
+Message-ID: <9a12ffe5-5168-8d73-82c9-93914c50de51@codeaurora.org>
+Date:   Tue, 13 Mar 2018 14:16:40 -0600
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <d9c3e768-ed57-a233-04fd-a05a64803da3@prodrive-technologies.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAE=gft4Hwqq2gx+b9AmiX1ZZBrSt1Ca2E48JV77wpcQQT0060w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Stef,
 
-Thanks for sharing your time to test it.
 
-That is expected result in v2. Previously in v1, it used delayed 
-creation on core temperature group so it was okay if hwmon driver is 
-registered when client CPU is powered down, but in v2, the driver should 
-check resolved cores at probing time to prevent the delayed creation on 
-core temperature group and indexing gap which breaks hwmon subsystem's 
-common rule, so I added peci_detect() into peci_new_device() in PECI 
-core driver to check online status of the client CPU when registering a 
-new device.
+On 3/2/2018 5:11 PM, Evan Green wrote:
+>> +
+>> +#ifdef CONFIG_CONSOLE_POLL
+>> +#define RX_BYTES_PW 1
+>> +#else
+>> +#define RX_BYTES_PW 4
+>> +#endif
+> 
+> This seems fishy to me. Does either setting work? If so, why not just
+> have one value?
+Yes, either one works. In the interrupt driven mode, sometimes due to
+increased interrupt latency the RX FIFO may overflow if we use only 1
+byte per FIFO word - given there are no flow control lines in the debug
+uart. Hence using 4 bytes in the FIFO word will help to prevent the FIFO
+overflow - especially in the case where commands are executed through
+scripts.
 
-You may need to use dynamic dtoverlay for loading/unloading a PECI hwmon 
-driver according to the current client CPU power state. It means a PECI 
-hwmon driver can be registered only when the client CPU is powered on. 
-This design will be kept in v3 as well.
-
-Thanks,
-Jae
-
-On 3/13/2018 2:32 AM, Stef van Os wrote:
-> Hi Jae,
+In polling mode, using 1 byte per word helps to use the hardware to
+buffer the data instead of software buffering especially when the
+framework keeps reading one byte at a time.
 > 
-> I tried version 1 and 2 of your PECI patch on our (AST2500 / Xeon E5 v4) 
-> system. The V1 patchset works as expected (reading back temperature 0 
-> until PECI is up), but the hwmon driver probe fails with version 2. It 
-> communicates with the Xeon and assumes during kernel boot of the Aspeed 
-> that PECI to the Xeon's is already up and running, but our system 
-> enables the main Xeon supplies from AST2500 userspace.
+>> +static bool qcom_geni_serial_poll_bit(struct uart_port *uport,
+>> +                               int offset, int bit_field, bool set)
+>> +{
+>> +       u32 reg;
+>> +       struct qcom_geni_serial_port *port;
+>> +       unsigned int baud;
+>> +       unsigned int fifo_bits;
+>> +       unsigned long timeout_us = 20000;
+>> +
+>> +       /* Ensure polling is not re-ordered before the prior writes/reads */
+>> +       mb();
+>> +
+>> +       if (uport->private_data) {
+>> +               port = to_dev_port(uport, uport);
+>> +               baud = port->cur_baud;
+>> +               if (!baud)
+>> +                       baud = 115200;
+>> +               fifo_bits = port->tx_fifo_depth * port->tx_fifo_width;
+>> +               /*
+>> +                * Total polling iterations based on FIFO worth of bytes to be
+>> +                * sent at current baud .Add a little fluff to the wait.
+>> +                */
+>> +               timeout_us = ((fifo_bits * USEC_PER_SEC) / baud) + 500;
 > 
-> If I load the hwmon driver as a module to load later on, the driver does 
-> not call probe like e.g. a I2C driver on the I2C bus does. Am I using V2 
-> wrongly?
+> This fluff is a little mysterious, can it be explained at all? Do you
+> think the fluff factor is in units of time (as you have it) or bits?
+> Time makes sense I guess if we're worried about clock source
+> differences.
+The fluff is in micro-seconds and can help with unforeseen delays in
+emulation platforms.
 > 
-> BR,
-> Stef
+>> +
+>> +static void qcom_geni_serial_console_write(struct console *co, const char *s,
+>> +                             unsigned int count)
+>> +{
+>> +       struct uart_port *uport;
+>> +       struct qcom_geni_serial_port *port;
+>> +       bool locked = true;
+>> +       unsigned long flags;
+>> +
+>> +       WARN_ON(co->index < 0 || co->index >= GENI_UART_CONS_PORTS);
+>> +
+>> +       port = get_port_from_line(co->index);
+>> +       if (IS_ERR(port))
+>> +               return;
+>> +
+>> +       uport = &port->uport;
+>> +       if (oops_in_progress)
+>> +               locked = spin_trylock_irqsave(&uport->lock, flags);
+>> +       else
+>> +               spin_lock_irqsave(&uport->lock, flags);
+>> +
+>> +       if (locked) {
+>> +               __qcom_geni_serial_console_write(uport, s, count);
+>> +               spin_unlock_irqrestore(&uport->lock, flags);
 > 
-> On 02/21/2018 05:16 PM, Jae Hyun Yoo wrote:
->> This commit adds a generic PECI hwmon client driver implementation.
->>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> ---
->>   drivers/hwmon/Kconfig      |  10 +
->>   drivers/hwmon/Makefile     |   1 +
->>   drivers/hwmon/peci-hwmon.c | 928 
->> +++++++++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 939 insertions(+)
->>   create mode 100644 drivers/hwmon/peci-hwmon.c
->>
->> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
->> index ef23553ff5cb..f22e0c31f597 100644
->> --- a/drivers/hwmon/Kconfig
->> +++ b/drivers/hwmon/Kconfig
->> @@ -1246,6 +1246,16 @@ config SENSORS_NCT7904
->>         This driver can also be built as a module.  If so, the module
->>         will be called nct7904.
->> +config SENSORS_PECI_HWMON
->> +    tristate "PECI hwmon support"
->> +    depends on PECI
->> +    help
->> +      If you say yes here you get support for the generic PECI hwmon
->> +      driver.
->> +
->> +      This driver can also be built as a module.  If so, the module
->> +      will be called peci-hwmon.
->> +
->>   config SENSORS_NSA320
->>       tristate "ZyXEL NSA320 and compatible fan speed and temperature 
->> sensors"
->>       depends on GPIOLIB && OF
->> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
->> index f814b4ace138..946f54b168e5 100644
->> --- a/drivers/hwmon/Makefile
->> +++ b/drivers/hwmon/Makefile
->> @@ -135,6 +135,7 @@ obj-$(CONFIG_SENSORS_NCT7802)    += nct7802.o
->>   obj-$(CONFIG_SENSORS_NCT7904)    += nct7904.o
->>   obj-$(CONFIG_SENSORS_NSA320)    += nsa320-hwmon.o
->>   obj-$(CONFIG_SENSORS_NTC_THERMISTOR)    += ntc_thermistor.o
->> +obj-$(CONFIG_SENSORS_PECI_HWMON)    += peci-hwmon.o
->>   obj-$(CONFIG_SENSORS_PC87360)    += pc87360.o
->>   obj-$(CONFIG_SENSORS_PC87427)    += pc87427.o
->>   obj-$(CONFIG_SENSORS_PCF8591)    += pcf8591.o
->> diff --git a/drivers/hwmon/peci-hwmon.c b/drivers/hwmon/peci-hwmon.c
->> new file mode 100644
->> index 000000000000..edd27744adcb
->> --- /dev/null
->> +++ b/drivers/hwmon/peci-hwmon.c
->> @@ -0,0 +1,928 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +// Copyright (c) 2018 Intel Corporation
->> +
->> +#include <linux/delay.h>
->> +#include <linux/hwmon.h>
->> +#include <linux/hwmon-sysfs.h>
->> +#include <linux/jiffies.h>
->> +#include <linux/module.h>
->> +#include <linux/of_device.h>
->> +#include <linux/peci.h>
->> +#include <linux/workqueue.h>
->> +
->> +#define DIMM_SLOT_NUMS_MAX    12  /* Max DIMM numbers (channel ranks 
->> x 2) */
->> +#define CORE_NUMS_MAX         28  /* Max core numbers (max on SKX 
->> Platinum) */
->> +#define TEMP_TYPE_PECI        6   /* Sensor type 6: Intel PECI */
->> +
->> +#define CORE_TEMP_ATTRS       5
->> +#define DIMM_TEMP_ATTRS       2
->> +#define ATTR_NAME_LEN         24
->> +
->> +#define DEFAULT_ATTR_GRP_NUMS 5
->> +
->> +#define UPDATE_INTERVAL_MIN   HZ
->> +#define DIMM_MASK_CHECK_DELAY msecs_to_jiffies(5000)
->> +
->> +enum sign {
->> +    POS,
->> +    NEG
->> +};
->> +
->> +struct temp_data {
->> +    bool valid;
->> +    s32  value;
->> +    unsigned long last_updated;
->> +};
->> +
->> +struct temp_group {
->> +    struct temp_data tjmax;
->> +    struct temp_data tcontrol;
->> +    struct temp_data tthrottle;
->> +    struct temp_data dts_margin;
->> +    struct temp_data die;
->> +    struct temp_data core[CORE_NUMS_MAX];
->> +    struct temp_data dimm[DIMM_SLOT_NUMS_MAX];
->> +};
->> +
->> +struct core_temp_group {
->> +    struct sensor_device_attribute sd_attrs[CORE_TEMP_ATTRS];
->> +    char attr_name[CORE_TEMP_ATTRS][ATTR_NAME_LEN];
->> +    struct attribute *attrs[CORE_TEMP_ATTRS + 1];
->> +    struct attribute_group attr_group;
->> +};
->> +
->> +struct dimm_temp_group {
->> +    struct sensor_device_attribute sd_attrs[DIMM_TEMP_ATTRS];
->> +    char attr_name[DIMM_TEMP_ATTRS][ATTR_NAME_LEN];
->> +    struct attribute *attrs[DIMM_TEMP_ATTRS + 1];
->> +    struct attribute_group attr_group;
->> +};
->> +
->> +struct peci_hwmon {
->> +    struct peci_client *client;
->> +    struct device *dev;
->> +    struct device *hwmon_dev;
->> +    struct workqueue_struct *work_queue;
->> +    struct delayed_work work_handler;
->> +    char name[PECI_NAME_SIZE];
->> +    struct temp_group temp;
->> +    u8 addr;
->> +    uint cpu_no;
->> +    u32 core_mask;
->> +    u32 dimm_mask;
->> +    const struct attribute_group *core_attr_groups[CORE_NUMS_MAX + 1];
->> +    const struct attribute_group *dimm_attr_groups[DIMM_SLOT_NUMS_MAX 
->> + 1];
->> +    uint global_idx;
->> +    uint core_idx;
->> +    uint dimm_idx;
->> +};
->> +
->> +enum label {
->> +    L_DIE,
->> +    L_DTS,
->> +    L_TCONTROL,
->> +    L_TTHROTTLE,
->> +    L_TJMAX,
->> +    L_MAX
->> +};
->> +
->> +static const char *peci_label[L_MAX] = {
->> +    "Die\n",
->> +    "DTS margin to Tcontrol\n",
->> +    "Tcontrol\n",
->> +    "Tthrottle\n",
->> +    "Tjmax\n",
->> +};
->> +
->> +static int send_peci_cmd(struct peci_hwmon *priv, enum peci_cmd cmd, 
->> void *msg)
->> +{
->> +    return peci_command(priv->client->adapter, cmd, msg);
->> +}
->> +
->> +static int need_update(struct temp_data *temp)
->> +{
->> +    if (temp->valid &&
->> +        time_before(jiffies, temp->last_updated + UPDATE_INTERVAL_MIN))
->> +        return 0;
->> +
->> +    return 1;
->> +}
->> +
->> +static s32 ten_dot_six_to_millidegree(s32 x)
->> +{
->> +    return ((((x) ^ 0x8000) - 0x8000) * 1000 / 64);
->> +}
->> +
->> +static int get_tjmax(struct peci_hwmon *priv)
->> +{
->> +    struct peci_rd_pkg_cfg_msg msg;
->> +    int rc;
->> +
->> +    if (!priv->temp.tjmax.valid) {
->> +        msg.addr = priv->addr;
->> +        msg.index = MBX_INDEX_TEMP_TARGET;
->> +        msg.param = 0;
->> +        msg.rx_len = 4;
->> +
->> +        rc = send_peci_cmd(priv, PECI_CMD_RD_PKG_CFG, (void *)&msg);
->> +        if (rc < 0)
->> +            return rc;
->> +
->> +        priv->temp.tjmax.value = (s32)msg.pkg_config[2] * 1000;
->> +        priv->temp.tjmax.valid = true;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int get_tcontrol(struct peci_hwmon *priv)
->> +{
->> +    struct peci_rd_pkg_cfg_msg msg;
->> +    s32 tcontrol_margin;
->> +    int rc;
->> +
->> +    if (!need_update(&priv->temp.tcontrol))
->> +        return 0;
->> +
->> +    rc = get_tjmax(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    msg.addr = priv->addr;
->> +    msg.index = MBX_INDEX_TEMP_TARGET;
->> +    msg.param = 0;
->> +    msg.rx_len = 4;
->> +
->> +    rc = send_peci_cmd(priv, PECI_CMD_RD_PKG_CFG, (void *)&msg);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    tcontrol_margin = msg.pkg_config[1];
->> +    tcontrol_margin = ((tcontrol_margin ^ 0x80) - 0x80) * 1000;
->> +
->> +    priv->temp.tcontrol.value = priv->temp.tjmax.value - 
->> tcontrol_margin;
->> +
->> +    if (!priv->temp.tcontrol.valid) {
->> +        priv->temp.tcontrol.last_updated = INITIAL_JIFFIES;
->> +        priv->temp.tcontrol.valid = true;
->> +    } else {
->> +        priv->temp.tcontrol.last_updated = jiffies;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int get_tthrottle(struct peci_hwmon *priv)
->> +{
->> +    struct peci_rd_pkg_cfg_msg msg;
->> +    s32 tthrottle_offset;
->> +    int rc;
->> +
->> +    if (!need_update(&priv->temp.tthrottle))
->> +        return 0;
->> +
->> +    rc = get_tjmax(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    msg.addr = priv->addr;
->> +    msg.index = MBX_INDEX_TEMP_TARGET;
->> +    msg.param = 0;
->> +    msg.rx_len = 4;
->> +
->> +    rc = send_peci_cmd(priv, PECI_CMD_RD_PKG_CFG, (void *)&msg);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    tthrottle_offset = (msg.pkg_config[3] & 0x2f) * 1000;
->> +    priv->temp.tthrottle.value = priv->temp.tjmax.value - 
->> tthrottle_offset;
->> +
->> +    if (!priv->temp.tthrottle.valid) {
->> +        priv->temp.tthrottle.last_updated = INITIAL_JIFFIES;
->> +        priv->temp.tthrottle.valid = true;
->> +    } else {
->> +        priv->temp.tthrottle.last_updated = jiffies;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int get_die_temp(struct peci_hwmon *priv)
->> +{
->> +    struct peci_get_temp_msg msg;
->> +    int rc;
->> +
->> +    if (!need_update(&priv->temp.die))
->> +        return 0;
->> +
->> +    rc = get_tjmax(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    msg.addr = priv->addr;
->> +
->> +    rc = send_peci_cmd(priv, PECI_CMD_GET_TEMP, (void *)&msg);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    priv->temp.die.value = priv->temp.tjmax.value +
->> +                   ((s32)msg.temp_raw * 1000 / 64);
->> +
->> +    if (!priv->temp.die.valid) {
->> +        priv->temp.die.last_updated = INITIAL_JIFFIES;
->> +        priv->temp.die.valid = true;
->> +    } else {
->> +        priv->temp.die.last_updated = jiffies;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int get_dts_margin(struct peci_hwmon *priv)
->> +{
->> +    struct peci_rd_pkg_cfg_msg msg;
->> +    s32 dts_margin;
->> +    int rc;
->> +
->> +    if (!need_update(&priv->temp.dts_margin))
->> +        return 0;
->> +
->> +    msg.addr = priv->addr;
->> +    msg.index = MBX_INDEX_DTS_MARGIN;
->> +    msg.param = 0;
->> +    msg.rx_len = 4;
->> +
->> +    rc = send_peci_cmd(priv, PECI_CMD_RD_PKG_CFG, (void *)&msg);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    dts_margin = (msg.pkg_config[1] << 8) | msg.pkg_config[0];
->> +
->> +    /**
->> +     * Processors return a value of DTS reading in 10.6 format
->> +     * (10 bits signed decimal, 6 bits fractional).
->> +     * Error codes:
->> +     *   0x8000: General sensor error
->> +     *   0x8001: Reserved
->> +     *   0x8002: Underflow on reading value
->> +     *   0x8003-0x81ff: Reserved
->> +     */
->> +    if (dts_margin >= 0x8000 && dts_margin <= 0x81ff)
->> +        return -1;
->> +
->> +    dts_margin = ten_dot_six_to_millidegree(dts_margin);
->> +
->> +    priv->temp.dts_margin.value = dts_margin;
->> +
->> +    if (!priv->temp.dts_margin.valid) {
->> +        priv->temp.dts_margin.last_updated = INITIAL_JIFFIES;
->> +        priv->temp.dts_margin.valid = true;
->> +    } else {
->> +        priv->temp.dts_margin.last_updated = jiffies;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int get_core_temp(struct peci_hwmon *priv, int core_index)
->> +{
->> +    struct peci_rd_pkg_cfg_msg msg;
->> +    s32 core_dts_margin;
->> +    int rc;
->> +
->> +    if (!need_update(&priv->temp.core[core_index]))
->> +        return 0;
->> +
->> +    rc = get_tjmax(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    msg.addr = priv->addr;
->> +    msg.index = MBX_INDEX_PER_CORE_DTS_TEMP;
->> +    msg.param = core_index;
->> +    msg.rx_len = 4;
->> +
->> +    rc = send_peci_cmd(priv, PECI_CMD_RD_PKG_CFG, (void *)&msg);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    core_dts_margin = (msg.pkg_config[1] << 8) | msg.pkg_config[0];
->> +
->> +    /**
->> +     * Processors return a value of the core DTS reading in 10.6 format
->> +     * (10 bits signed decimal, 6 bits fractional).
->> +     * Error codes:
->> +     *   0x8000: General sensor error
->> +     *   0x8001: Reserved
->> +     *   0x8002: Underflow on reading value
->> +     *   0x8003-0x81ff: Reserved
->> +     */
->> +    if (core_dts_margin >= 0x8000 && core_dts_margin <= 0x81ff)
->> +        return -1;
->> +
->> +    core_dts_margin = ten_dot_six_to_millidegree(core_dts_margin);
->> +
->> +    priv->temp.core[core_index].value = priv->temp.tjmax.value +
->> +                        core_dts_margin;
->> +
->> +    if (!priv->temp.core[core_index].valid) {
->> +        priv->temp.core[core_index].last_updated = INITIAL_JIFFIES;
->> +        priv->temp.core[core_index].valid = true;
->> +    } else {
->> +        priv->temp.core[core_index].last_updated = jiffies;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int get_dimm_temp(struct peci_hwmon *priv, int dimm_index)
->> +{
->> +    struct peci_rd_pkg_cfg_msg msg;
->> +    int channel = dimm_index / 2;
->> +    int dimm_order = dimm_index % 2;
->> +    int rc;
->> +
->> +    if (!need_update(&priv->temp.dimm[dimm_index]))
->> +        return 0;
->> +
->> +    msg.addr = priv->addr;
->> +    msg.index = MBX_INDEX_DDR_DIMM_TEMP;
->> +    msg.param = channel;
->> +    msg.rx_len = 4;
->> +
->> +    rc = send_peci_cmd(priv, PECI_CMD_RD_PKG_CFG, (void *)&msg);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    priv->temp.dimm[dimm_index].value = msg.pkg_config[dimm_order] * 
->> 1000;
->> +
->> +    if (!priv->temp.dimm[dimm_index].valid) {
->> +        priv->temp.dimm[dimm_index].last_updated = INITIAL_JIFFIES;
->> +        priv->temp.dimm[dimm_index].valid = true;
->> +    } else {
->> +        priv->temp.dimm[dimm_index].last_updated = jiffies;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static ssize_t show_tcontrol(struct device *dev,
->> +                 struct device_attribute *attr,
->> +                 char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    int rc;
->> +
->> +    rc = get_tcontrol(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", priv->temp.tcontrol.value);
->> +}
->> +
->> +static ssize_t show_tcontrol_margin(struct device *dev,
->> +                    struct device_attribute *attr,
->> +                    char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    struct sensor_device_attribute *sensor_attr = 
->> to_sensor_dev_attr(attr);
->> +    int rc;
->> +
->> +    rc = get_tcontrol(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", sensor_attr->index == POS ?
->> +                    priv->temp.tjmax.value -
->> +                    priv->temp.tcontrol.value :
->> +                    priv->temp.tcontrol.value -
->> +                    priv->temp.tjmax.value);
->> +}
->> +
->> +static ssize_t show_tthrottle(struct device *dev,
->> +                  struct device_attribute *attr,
->> +                  char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    int rc;
->> +
->> +    rc = get_tthrottle(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", priv->temp.tthrottle.value);
->> +}
->> +
->> +static ssize_t show_tjmax(struct device *dev,
->> +              struct device_attribute *attr,
->> +              char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    int rc;
->> +
->> +    rc = get_tjmax(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", priv->temp.tjmax.value);
->> +}
->> +
->> +static ssize_t show_die_temp(struct device *dev,
->> +                 struct device_attribute *attr,
->> +                 char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    int rc;
->> +
->> +    rc = get_die_temp(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", priv->temp.die.value);
->> +}
->> +
->> +static ssize_t show_dts_margin(struct device *dev,
->> +                   struct device_attribute *attr,
->> +                   char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    int rc;
->> +
->> +    rc = get_dts_margin(priv);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", priv->temp.dts_margin.value);
->> +}
->> +
->> +static ssize_t show_core_temp(struct device *dev,
->> +                  struct device_attribute *attr,
->> +                  char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    struct sensor_device_attribute *sensor_attr = 
->> to_sensor_dev_attr(attr);
->> +    int core_index = sensor_attr->index;
->> +    int rc;
->> +
->> +    rc = get_core_temp(priv, core_index);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", priv->temp.core[core_index].value);
->> +}
->> +
->> +static ssize_t show_dimm_temp(struct device *dev,
->> +                  struct device_attribute *attr,
->> +                  char *buf)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(dev);
->> +    struct sensor_device_attribute *sensor_attr = 
->> to_sensor_dev_attr(attr);
->> +    int dimm_index = sensor_attr->index;
->> +    int rc;
->> +
->> +    rc = get_dimm_temp(priv, dimm_index);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    return sprintf(buf, "%d\n", priv->temp.dimm[dimm_index].value);
->> +}
->> +
->> +static ssize_t show_value(struct device *dev,
->> +              struct device_attribute *attr,
->> +              char *buf)
->> +{
->> +    struct sensor_device_attribute *sensor_attr = 
->> to_sensor_dev_attr(attr);
->> +
->> +    return sprintf(buf, "%d\n", sensor_attr->index);
->> +}
->> +
->> +static ssize_t show_label(struct device *dev,
->> +              struct device_attribute *attr,
->> +              char *buf)
->> +{
->> +    struct sensor_device_attribute *sensor_attr = 
->> to_sensor_dev_attr(attr);
->> +
->> +    return sprintf(buf, peci_label[sensor_attr->index]);
->> +}
->> +
->> +static ssize_t show_core_label(struct device *dev,
->> +                   struct device_attribute *attr,
->> +                   char *buf)
->> +{
->> +    struct sensor_device_attribute *sensor_attr = 
->> to_sensor_dev_attr(attr);
->> +
->> +    return sprintf(buf, "Core %d\n", sensor_attr->index);
->> +}
->> +
->> +static ssize_t show_dimm_label(struct device *dev,
->> +                   struct device_attribute *attr,
->> +                   char *buf)
->> +{
->> +    struct sensor_device_attribute *sensor_attr = 
->> to_sensor_dev_attr(attr);
->> +
->> +    char channel = 'A' + (sensor_attr->index / 2);
->> +    int index = sensor_attr->index % 2;
->> +
->> +    return sprintf(buf, "DIMM %d (%c%d)\n",
->> +               sensor_attr->index, channel, index);
->> +}
->> +
->> +/* Die temperature */
->> +static SENSOR_DEVICE_ATTR(temp1_label, 0444, show_label, NULL, L_DIE);
->> +static SENSOR_DEVICE_ATTR(temp1_input, 0444, show_die_temp, NULL, 0);
->> +static SENSOR_DEVICE_ATTR(temp1_max, 0444, show_tcontrol, NULL, 0);
->> +static SENSOR_DEVICE_ATTR(temp1_crit, 0444, show_tjmax, NULL, 0);
->> +static SENSOR_DEVICE_ATTR(temp1_crit_hyst, 0444, 
->> show_tcontrol_margin, NULL,
->> +              POS);
->> +
->> +static struct attribute *die_temp_attrs[] = {
->> +    &sensor_dev_attr_temp1_label.dev_attr.attr,
->> +    &sensor_dev_attr_temp1_input.dev_attr.attr,
->> +    &sensor_dev_attr_temp1_max.dev_attr.attr,
->> +    &sensor_dev_attr_temp1_crit.dev_attr.attr,
->> +    &sensor_dev_attr_temp1_crit_hyst.dev_attr.attr,
->> +    NULL
->> +};
->> +
->> +static struct attribute_group die_temp_attr_group = {
->> +    .attrs = die_temp_attrs,
->> +};
->> +
->> +/* DTS margin temperature */
->> +static SENSOR_DEVICE_ATTR(temp2_label, 0444, show_label, NULL, L_DTS);
->> +static SENSOR_DEVICE_ATTR(temp2_input, 0444, show_dts_margin, NULL, 0);
->> +static SENSOR_DEVICE_ATTR(temp2_min, 0444, show_value, NULL, 0);
->> +static SENSOR_DEVICE_ATTR(temp2_lcrit, 0444, show_tcontrol_margin, 
->> NULL, NEG);
->> +
->> +static struct attribute *dts_margin_temp_attrs[] = {
->> +    &sensor_dev_attr_temp2_label.dev_attr.attr,
->> +    &sensor_dev_attr_temp2_input.dev_attr.attr,
->> +    &sensor_dev_attr_temp2_min.dev_attr.attr,
->> +    &sensor_dev_attr_temp2_lcrit.dev_attr.attr,
->> +    NULL
->> +};
->> +
->> +static struct attribute_group dts_margin_temp_attr_group = {
->> +    .attrs = dts_margin_temp_attrs,
->> +};
->> +
->> +/* Tcontrol temperature */
->> +static SENSOR_DEVICE_ATTR(temp3_label, 0444, show_label, NULL, 
->> L_TCONTROL);
->> +static SENSOR_DEVICE_ATTR(temp3_input, 0444, show_tcontrol, NULL, 0);
->> +static SENSOR_DEVICE_ATTR(temp3_crit, 0444, show_tjmax, NULL, 0);
->> +
->> +static struct attribute *tcontrol_temp_attrs[] = {
->> +    &sensor_dev_attr_temp3_label.dev_attr.attr,
->> +    &sensor_dev_attr_temp3_input.dev_attr.attr,
->> +    &sensor_dev_attr_temp3_crit.dev_attr.attr,
->> +    NULL
->> +};
->> +
->> +static struct attribute_group tcontrol_temp_attr_group = {
->> +    .attrs = tcontrol_temp_attrs,
->> +};
->> +
->> +/* Tthrottle temperature */
->> +static SENSOR_DEVICE_ATTR(temp4_label, 0444, show_label, NULL, 
->> L_TTHROTTLE);
->> +static SENSOR_DEVICE_ATTR(temp4_input, 0444, show_tthrottle, NULL, 0);
->> +
->> +static struct attribute *tthrottle_temp_attrs[] = {
->> +    &sensor_dev_attr_temp4_label.dev_attr.attr,
->> +    &sensor_dev_attr_temp4_input.dev_attr.attr,
->> +    NULL
->> +};
->> +
->> +static struct attribute_group tthrottle_temp_attr_group = {
->> +    .attrs = tthrottle_temp_attrs,
->> +};
->> +
->> +/* Tjmax temperature */
->> +static SENSOR_DEVICE_ATTR(temp5_label, 0444, show_label, NULL, L_TJMAX);
->> +static SENSOR_DEVICE_ATTR(temp5_input, 0444, show_tjmax, NULL, 0);
->> +
->> +static struct attribute *tjmax_temp_attrs[] = {
->> +    &sensor_dev_attr_temp5_label.dev_attr.attr,
->> +    &sensor_dev_attr_temp5_input.dev_attr.attr,
->> +    NULL
->> +};
->> +
->> +static struct attribute_group tjmax_temp_attr_group = {
->> +    .attrs = tjmax_temp_attrs,
->> +};
->> +
->> +static const struct attribute_group *
->> +default_attr_groups[DEFAULT_ATTR_GRP_NUMS + 1] = {
->> +    &die_temp_attr_group,
->> +    &dts_margin_temp_attr_group,
->> +    &tcontrol_temp_attr_group,
->> +    &tthrottle_temp_attr_group,
->> +    &tjmax_temp_attr_group,
->> +    NULL
->> +};
->> +
->> +/* Core temperature */
->> +static ssize_t (*const core_show_fn[CORE_TEMP_ATTRS]) (struct device 
->> *dev,
->> +        struct device_attribute *devattr, char *buf) = {
->> +    show_core_label,
->> +    show_core_temp,
->> +    show_tcontrol,
->> +    show_tjmax,
->> +    show_tcontrol_margin,
->> +};
->> +
->> +static const char *const core_suffix[CORE_TEMP_ATTRS] = {
->> +    "label",
->> +    "input",
->> +    "max",
->> +    "crit",
->> +    "crit_hyst",
->> +};
->> +
->> +static int check_resolved_cores(struct peci_hwmon *priv)
->> +{
->> +    struct peci_rd_pci_cfg_local_msg msg;
->> +    int rc;
->> +
->> +    if (!(priv->client->adapter->cmd_mask & 
->> BIT(PECI_CMD_RD_PCI_CFG_LOCAL)))
->> +        return -EINVAL;
->> +
->> +    /* Get the RESOLVED_CORES register value */
->> +    msg.addr = priv->addr;
->> +    msg.bus = 1;
->> +    msg.device = 30;
->> +    msg.function = 3;
->> +    msg.reg = 0xB4;
->> +    msg.rx_len = 4;
->> +
->> +    rc = send_peci_cmd(priv, PECI_CMD_RD_PCI_CFG_LOCAL, (void *)&msg);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    priv->core_mask = msg.pci_config[3] << 24 |
->> +              msg.pci_config[2] << 16 |
->> +              msg.pci_config[1] << 8 |
->> +              msg.pci_config[0];
->> +
->> +    if (!priv->core_mask)
->> +        return -EAGAIN;
->> +
->> +    dev_dbg(priv->dev, "Scanned resolved cores: 0x%x\n", 
->> priv->core_mask);
->> +    return 0;
->> +}
->> +
->> +static int create_core_temp_group(struct peci_hwmon *priv, int core_no)
->> +{
->> +    struct core_temp_group *data;
->> +    int i;
->> +
->> +    data = devm_kzalloc(priv->dev, sizeof(struct core_temp_group),
->> +                GFP_KERNEL);
->> +    if (!data)
->> +        return -ENOMEM;
->> +
->> +    for (i = 0; i < CORE_TEMP_ATTRS; i++) {
->> +        snprintf(data->attr_name[i], ATTR_NAME_LEN,
->> +             "temp%d_%s", priv->global_idx, core_suffix[i]);
->> +        sysfs_attr_init(&data->sd_attrs[i].dev_attr.attr);
->> +        data->sd_attrs[i].dev_attr.attr.name = data->attr_name[i];
->> +        data->sd_attrs[i].dev_attr.attr.mode = 0444;
->> +        data->sd_attrs[i].dev_attr.show = core_show_fn[i];
->> +        if (i == 0 || i == 1) /* label or temp */
->> +            data->sd_attrs[i].index = core_no;
->> +        data->attrs[i] = &data->sd_attrs[i].dev_attr.attr;
->> +    }
->> +
->> +    data->attr_group.attrs = data->attrs;
->> +    priv->core_attr_groups[priv->core_idx++] = &data->attr_group;
->> +    priv->global_idx++;
->> +
->> +    return 0;
->> +}
->> +
->> +static int create_core_temp_groups(struct peci_hwmon *priv)
->> +{
->> +    int rc, i;
->> +
->> +    rc = check_resolved_cores(priv);
->> +    if (!rc) {
->> +        for (i = 0; i < CORE_NUMS_MAX; i++) {
->> +            if (priv->core_mask & BIT(i)) {
->> +                rc = create_core_temp_group(priv, i);
->> +                if (rc)
->> +                    return rc;
->> +            }
->> +        }
->> +
->> +        rc = sysfs_create_groups(&priv->hwmon_dev->kobj,
->> +                     priv->core_attr_groups);
->> +    }
->> +
->> +    return rc;
->> +}
->> +
->> +/* DIMM temperature */
->> +static ssize_t (*const dimm_show_fn[DIMM_TEMP_ATTRS]) (struct device 
->> *dev,
->> +        struct device_attribute *devattr, char *buf) = {
->> +    show_dimm_label,
->> +    show_dimm_temp,
->> +};
->> +
->> +static const char *const dimm_suffix[DIMM_TEMP_ATTRS] = {
->> +    "label",
->> +    "input",
->> +};
->> +
->> +static int check_populated_dimms(struct peci_hwmon *priv)
->> +{
->> +    struct peci_rd_pkg_cfg_msg msg;
->> +    int i, rc, pass = 0;
->> +
->> +do_scan:
->> +    for (i = 0; i < (DIMM_SLOT_NUMS_MAX / 2); i++) {
->> +        msg.addr = priv->addr;
->> +        msg.index = MBX_INDEX_DDR_DIMM_TEMP;
->> +        msg.param = i; /* channel */
->> +        msg.rx_len = 4;
->> +
->> +        rc = send_peci_cmd(priv, PECI_CMD_RD_PKG_CFG, (void *)&msg);
->> +        if (rc < 0)
->> +            return rc;
->> +
->> +        if (msg.pkg_config[0]) /* DIMM #0 on the channel */
->> +            priv->dimm_mask |= BIT(i);
->> +
->> +        if (msg.pkg_config[1]) /* DIMM #1 on the channel */
->> +            priv->dimm_mask |= BIT(i + 1);
->> +    }
->> +
->> +    /* Do 2-pass scanning */
->> +    if (priv->dimm_mask && pass == 0) {
->> +        pass++;
->> +        goto do_scan;
->> +    }
->> +
->> +    if (!priv->dimm_mask)
->> +        return -EAGAIN;
->> +
->> +    dev_dbg(priv->dev, "Scanned populated DIMMs: 0x%x\n", 
->> priv->dimm_mask);
->> +    return 0;
->> +}
->> +
->> +static int create_dimm_temp_group(struct peci_hwmon *priv, int dimm_no)
->> +{
->> +    struct dimm_temp_group *data;
->> +    int i;
->> +
->> +    data = devm_kzalloc(priv->dev, sizeof(struct dimm_temp_group),
->> +                GFP_KERNEL);
->> +    if (!data)
->> +        return -ENOMEM;
->> +
->> +    for (i = 0; i < DIMM_TEMP_ATTRS; i++) {
->> +        snprintf(data->attr_name[i], ATTR_NAME_LEN,
->> +             "temp%d_%s", priv->global_idx, dimm_suffix[i]);
->> +        sysfs_attr_init(&data->sd_attrs[i].dev_attr.attr);
->> +        data->sd_attrs[i].dev_attr.attr.name = data->attr_name[i];
->> +        data->sd_attrs[i].dev_attr.attr.mode = 0444;
->> +        data->sd_attrs[i].dev_attr.show = dimm_show_fn[i];
->> +        data->sd_attrs[i].index = dimm_no;
->> +        data->attrs[i] = &data->sd_attrs[i].dev_attr.attr;
->> +    }
->> +
->> +    data->attr_group.attrs = data->attrs;
->> +    priv->dimm_attr_groups[priv->dimm_idx++] = &data->attr_group;
->> +    priv->global_idx++;
->> +
->> +    return 0;
->> +}
->> +
->> +static int create_dimm_temp_groups(struct peci_hwmon *priv)
->> +{
->> +    int rc, i;
->> +
->> +    rc = check_populated_dimms(priv);
->> +    if (!rc) {
->> +        for (i = 0; i < DIMM_SLOT_NUMS_MAX; i++) {
->> +            if (priv->dimm_mask & BIT(i)) {
->> +                rc = create_dimm_temp_group(priv, i);
->> +                if (rc)
->> +                    return rc;
->> +            }
->> +        }
->> +
->> +        rc = sysfs_create_groups(&priv->hwmon_dev->kobj,
->> +                     priv->dimm_attr_groups);
->> +        if (!rc)
->> +            dev_dbg(priv->dev, "Done DIMM temp group creation\n");
->> +    } else if (rc == -EAGAIN) {
->> +        queue_delayed_work(priv->work_queue, &priv->work_handler,
->> +                   DIMM_MASK_CHECK_DELAY);
->> +        dev_dbg(priv->dev, "Diferred DIMM temp group creation\n");
->> +    }
->> +
->> +    return rc;
->> +}
->> +
->> +static void create_dimm_temp_groups_delayed(struct work_struct *work)
->> +{
->> +    struct delayed_work *dwork = to_delayed_work(work);
->> +    struct peci_hwmon *priv = container_of(dwork, struct peci_hwmon,
->> +                           work_handler);
->> +    int rc;
->> +
->> +    rc = create_dimm_temp_groups(priv);
->> +    if (rc && rc != -EAGAIN)
->> +        dev_dbg(priv->dev, "Skipped to creat DIMM temp groups\n");
->> +}
->> +
->> +static int peci_hwmon_probe(struct peci_client *client)
->> +{
->> +    struct device *dev = &client->dev;
->> +    struct peci_hwmon *priv;
->> +    int rc;
->> +
->> +    if ((client->adapter->cmd_mask &
->> +        (BIT(PECI_CMD_GET_TEMP) | BIT(PECI_CMD_RD_PKG_CFG))) !=
->> +        (BIT(PECI_CMD_GET_TEMP) | BIT(PECI_CMD_RD_PKG_CFG))) {
->> +        dev_err(dev, "Client doesn't support temperature monitoring\n");
->> +        return -EINVAL;
->> +    }
->> +
->> +    priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->> +    if (!priv)
->> +        return -ENOMEM;
->> +
->> +    dev_set_drvdata(dev, priv);
->> +    priv->client = client;
->> +    priv->dev = dev;
->> +    priv->addr = client->addr;
->> +    priv->cpu_no = priv->addr - PECI_BASE_ADDR;
->> +
->> +    snprintf(priv->name, PECI_NAME_SIZE, "peci_hwmon.cpu%d", 
->> priv->cpu_no);
->> +
->> +    priv->work_queue = create_singlethread_workqueue(priv->name);
->> +    if (!priv->work_queue)
->> +        return -ENOMEM;
->> +
->> +    priv->hwmon_dev = hwmon_device_register_with_groups(priv->dev,
->> +                                priv->name,
->> +                                priv,
->> +                               default_attr_groups);
->> +
->> +    rc = PTR_ERR_OR_ZERO(priv->hwmon_dev);
->> +    if (rc) {
->> +        dev_err(dev, "Failed to register peci hwmon\n");
->> +        return rc;
->> +    }
->> +
->> +    priv->global_idx = DEFAULT_ATTR_GRP_NUMS + 1;
->> +
->> +    rc = create_core_temp_groups(priv);
->> +    if (rc) {
->> +        dev_err(dev, "Failed to create core groups\n");
->> +        return rc;
->> +    }
->> +
->> +    INIT_DELAYED_WORK(&priv->work_handler, 
->> create_dimm_temp_groups_delayed);
->> +
->> +    rc = create_dimm_temp_groups(priv);
->> +    if (rc && rc != -EAGAIN)
->> +        dev_dbg(dev, "Skipped to creat DIMM temp groups\n");
->> +
->> +    dev_dbg(dev, "peci hwmon for CPU at 0x%x registered\n", priv->addr);
->> +
->> +    return 0;
->> +}
->> +
->> +static int peci_hwmon_remove(struct peci_client *client)
->> +{
->> +    struct peci_hwmon *priv = dev_get_drvdata(&client->dev);
->> +
->> +    cancel_delayed_work(&priv->work_handler);
->> +    destroy_workqueue(priv->work_queue);
->> +    sysfs_remove_groups(&priv->hwmon_dev->kobj, priv->core_attr_groups);
->> +    sysfs_remove_groups(&priv->hwmon_dev->kobj, priv->dimm_attr_groups);
->> +    hwmon_device_unregister(priv->hwmon_dev);
->> +
->> +    return 0;
->> +}
->> +
->> +static const struct of_device_id peci_of_table[] = {
->> +    { .compatible = "intel,peci-hwmon", },
->> +    { }
->> +};
->> +MODULE_DEVICE_TABLE(of, peci_of_table);
->> +
->> +static struct peci_driver peci_hwmon_driver = {
->> +    .probe  = peci_hwmon_probe,
->> +    .remove = peci_hwmon_remove,
->> +    .driver = {
->> +        .name           = "peci-hwmon",
->> +        .of_match_table = of_match_ptr(peci_of_table),
->> +    },
->> +};
->> +module_peci_driver(peci_hwmon_driver);
->> +
->> +MODULE_AUTHOR("Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>");
->> +MODULE_DESCRIPTION("PECI hwmon driver");
->> +MODULE_LICENSE("GPL v2");
->>
+> I too am a little lost on the locking here. What exactly is the lock
+> protecting? Looks like for the most part it's trying to synchronize
+> with the ISR? What specifically in the ISR? I just wanted to go
+> through and check to make sure whatever the shared resource is is
+> appropriately protected.
+The lock protects 2 simultaneous writers from putting the hardware in
+the bad state. The output of the command entered in a shell can trigger
+a write in the interrupt context while logging activity can trigger a
+simultaneous write.
 > 
+>> +       }
+>> +}
+>> +
+>> +static int handle_rx_console(struct uart_port *uport, u32 rx_bytes, bool drop)
+>> +{
+>> +       u32 i = rx_bytes;
+>> +       u32 rx_fifo;
+>> +       unsigned char *buf;
+>> +       struct tty_port *tport;
+>> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
+>> +
+>> +       tport = &uport->state->port;
+>> +       while (i > 0) {
+>> +               int c;
+>> +               int bytes = i > port->rx_bytes_pw ? port->rx_bytes_pw : i;
+> 
+> Please replace this with a min macro.
+Ok.
+> 
+>> +static int qcom_geni_serial_handle_tx(struct uart_port *uport)
+>> +{
+>> +       int ret = 0;
+>> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
+>> +       struct circ_buf *xmit = &uport->state->xmit;
+>> +       size_t avail;
+>> +       size_t remaining;
+>> +       int i = 0;
+>> +       u32 status;
+>> +       unsigned int chunk;
+>> +       int tail;
+>> +
+>> +       chunk = uart_circ_chars_pending(xmit);
+>> +       status = readl_relaxed(uport->membase + SE_GENI_TX_FIFO_STATUS);
+>> +       /* Both FIFO and framework buffer are drained */
+>> +       if ((chunk == port->xmit_size) && !status) {
+>> +               port->xmit_size = 0;
+>> +               uart_circ_clear(xmit);
+>> +               qcom_geni_serial_stop_tx(uport);
+>> +               goto out_write_wakeup;
+>> +       }
+>> +       chunk -= port->xmit_size;
+>> +
+>> +       avail = (port->tx_fifo_depth - port->tx_wm) * port->tx_bytes_pw;
+>> +       tail = (xmit->tail + port->xmit_size) & (UART_XMIT_SIZE - 1);
+>> +       if (chunk > (UART_XMIT_SIZE - tail))
+>> +               chunk = UART_XMIT_SIZE - tail;
+>> +       if (chunk > avail)
+>> +               chunk = avail;
+>> +
+>> +       if (!chunk)
+>> +               goto out_write_wakeup;
+>> +
+>> +       qcom_geni_serial_setup_tx(uport, chunk);
+>> +
+>> +       remaining = chunk;
+>> +       while (i < chunk) {
+>> +               unsigned int tx_bytes;
+>> +               unsigned int buf = 0;
+>> +               int c;
+>> +
+>> +               tx_bytes = min_t(size_t, remaining, (size_t)port->tx_bytes_pw);
+>> +               for (c = 0; c < tx_bytes ; c++)
+>> +                       buf |= (xmit->buf[tail + c] << (c * BITS_PER_BYTE));
+>> +
+>> +               writel_relaxed(buf, uport->membase + SE_GENI_TX_FIFOn);
+>> +
+>> +               i += tx_bytes;
+>> +               tail = (tail + tx_bytes) & (UART_XMIT_SIZE - 1);
+>> +               uport->icount.tx += tx_bytes;
+>> +               remaining -= tx_bytes;
+>> +       }
+>> +       qcom_geni_serial_poll_tx_done(uport);
+>> +       port->xmit_size += chunk;
+>> +out_write_wakeup:
+>> +       uart_write_wakeup(uport);
+>> +       return ret;
+>> +}
+> 
+> This function can't fail, please change the return type to void.
+Ok.
+> 
+>> +
+>> +static void qcom_geni_serial_shutdown(struct uart_port *uport)
+>> +{
+>> +       unsigned long flags;
+>> +
+>> +       /* Stop the console before stopping the current tx */
+>> +       console_stop(uport->cons);
+>> +
+>> +       disable_irq(uport->irq);
+>> +       free_irq(uport->irq, uport);
+>> +       spin_lock_irqsave(&uport->lock, flags);
+>> +       qcom_geni_serial_stop_tx(uport);
+>> +       qcom_geni_serial_stop_rx(uport);
+>> +       spin_unlock_irqrestore(&uport->lock, flags);
+> 
+> This is one part of where I'm confused. What are we protecting here
+> with the lock? disable_irq waits for any pending ISRs to finish
+> according to its comment, so you know you're not racing with the ISR.
+In android, console shutdown can be invoked while console write happens.
+This lock prevents shutdown from not interfering with the write and
+vice-versa.
+> 
+>> +static void geni_serial_write_term_regs(struct uart_port *uport,
+>> +               u32 tx_trans_cfg, u32 tx_parity_cfg, u32 rx_trans_cfg,
+>> +               u32 rx_parity_cfg, u32 bits_per_char, u32 stop_bit_len,
+>> +               u32 s_clk_cfg)
+>> +{
+>> +       writel_relaxed(tx_trans_cfg, uport->membase + SE_UART_TX_TRANS_CFG);
+>> +       writel_relaxed(tx_parity_cfg, uport->membase + SE_UART_TX_PARITY_CFG);
+>> +       writel_relaxed(rx_trans_cfg, uport->membase + SE_UART_RX_TRANS_CFG);
+>> +       writel_relaxed(rx_parity_cfg, uport->membase + SE_UART_RX_PARITY_CFG);
+>> +       writel_relaxed(bits_per_char, uport->membase + SE_UART_TX_WORD_LEN);
+>> +       writel_relaxed(bits_per_char, uport->membase + SE_UART_RX_WORD_LEN);
+>> +       writel_relaxed(stop_bit_len, uport->membase + SE_UART_TX_STOP_BIT_LEN);
+>> +       writel_relaxed(s_clk_cfg, uport->membase + GENI_SER_M_CLK_CFG);
+>> +       writel_relaxed(s_clk_cfg, uport->membase + GENI_SER_S_CLK_CFG);
+>> +}
+>> +
+> 
+> I agree with Stephen's comment, this should be inlined into the single
+> place it's called from.
+> 
+> Thanks Karthik!
+> -Evan
+> 
+Regards,
+Karthik.
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
