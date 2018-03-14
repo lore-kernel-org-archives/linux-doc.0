@@ -1,298 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-2.3 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,SUSPICIOUS_RECIPS,T_RP_MATCHES_RCVD autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3C0627E66E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 14:15:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 873807E66E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 14:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751532AbeCNOPs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Mar 2018 10:15:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53860 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751523AbeCNOPr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Mar 2018 10:15:47 -0400
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CAD0E214D7;
-        Wed, 14 Mar 2018 14:15:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CAD0E214D7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mhiramat@kernel.org
-Date:   Wed, 14 Mar 2018 23:15:40 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
-        acme@kernel.org, ananth@linux.vnet.ibm.com,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        alexis.berlemont@gmail.com, corbet@lwn.net,
-        dan.j.williams@intel.com, gregkh@linuxfoundation.org,
-        huawei.libin@huawei.com, hughd@google.com, jack@suse.cz,
-        jglisse@redhat.com, jolsa@redhat.com, kan.liang@intel.com,
-        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
-        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
-        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
-        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
-        tmricht@linux.vnet.ibm.com, willy@infradead.org,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com
-Subject: Re: [PATCH 6/8] trace_uprobe/sdt: Fix multiple update of same
- reference counter
-Message-Id: <20180314231540.b98c74a153255f59f54ebc46@kernel.org>
-In-Reply-To: <20180313125603.19819-7-ravi.bangoria@linux.vnet.ibm.com>
-References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
-        <20180313125603.19819-7-ravi.bangoria@linux.vnet.ibm.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1751289AbeCNOfr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Mar 2018 10:35:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:44881 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750779AbeCNOfo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Mar 2018 10:35:44 -0400
+Received: from wuerfel.lan ([95.208.111.237]) by mrelayeu.kundenserver.de
+ (mreue005 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 0MLkAx-1ewOLr1lDf-000q3R; Wed, 14 Mar 2018 15:35:36 +0100
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     linux-arch@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: [PATCH 00/16] remove eight obsolete architectures
+Date:   Wed, 14 Mar 2018 15:34:59 +0100
+Message-Id: <20180314143529.1456168-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.9.0
+X-Provags-ID: V03:K0:WInKuzsl5E+V3c9AlxLSSxc+4ZGknT/OL6sbFGTOOKUoIWUHPce
+ sOunIkU3WA3yS4K2U7KLuM21G9io/7RdSDfXqf1g08L51uCkoCyAjOMiXI4kUVcEF0/FqP/
+ umDnF0uQsHtMOXgS1AiyzYPQ6W0JczwHRAY9QiiD/KUW+z5A+Vgixyn6TUIYx2uOcgiAjdC
+ CrnI3DG9ch7X4/hA6MvHw==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:wVHTYZy5nis=:leV/QOsRy+klt9pr0rr1GX
+ 0OpznBJ2TCgyn2XksizOCFLzDVV4U/maXG7iVijGIl/x2acLsLVbak981yRF0crwRhWM8VL0Y
+ FmfTMV6G+Q+G/zGSZrMnuuRRmANd7hhyBBHjGVRlAJGdhrtgYXkTckB1A6KhY4dNJAX3agErt
+ bULJRS0bBJY6VJFQz8aMgywVmctdOqlczTe3BJXyqcwCgssCKlZOlO6T2cbiBqJ1DTSVHQ7/Q
+ yTH6O1t8GG6up8dacDsBihCPydN60UQIFzzNLQbEiH7hu83SIoXLGOXz6giGihUAh57L+1N3e
+ KTeNMmlP8bvAwDBeOFoklj7K4SfHURuw6oGI059MQdksufa6i+Bh7VIhnHzLGoRcxJWNdkIAq
+ 6VBsOvp6WejaRqyrLdJ7Nm3CtReHmVyYYAtLB67+qQDv4CabeDWc6+TUpXMRNpb/CxSUhxPV8
+ 8EKWLg6tj+KuPiN7CO1Bknjxd3ALym6/8jHpNldZfOGVtMNYVsaFXeliEcOkRgQ0lte/F3w9L
+ ryEcNNLHfTxbOGwpVp5pxgdmsL+N6nLM0yk9lfSmv3SbFD2zWtctbMSmpDHmr5Oi0Gw52NV/Z
+ 6Ai4bhFh5RCMdMqrp2bBL/DZMELXajKyorZcSTKuU+m3voOi/7c8boZFypspk6JnsARVMsojS
+ QyAKMdF6waH9y8HWB45OYKbFtvNeo09G5Yx8t7ZRhnzsQFuHYP9fK6ZEcxxqPDh8AZEgz/PtD
+ z7VWzn0Q/J5LOdpyygQ1C15sKWOO8zIdqI277Q==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 13 Mar 2018 18:26:01 +0530
-Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+Here is the collection of patches I have applied to my 'asm-generic' tree
+on top of the 'metag' removal. This does not include any of the device
+drivers, I'll send those separately to a someone different list of people.
 
-> For tiny binaries/libraries, different mmap regions points to the
-> same file portion. In such cases, we may increment reference counter
-> multiple times. But while de-registration, reference counter will get
-> decremented only by once leaving reference counter > 0 even if no one
-> is tracing on that marker.
-> 
-> Ensure increment and decrement happens in sync by keeping list of
-> mms in trace_uprobe. Increment reference counter only if mm is not
-> present in the list and decrement only if mm is present in the list.
-> 
-> Example
-> 
->   # echo "p:sdt_tick/loop2 /tmp/tick:0x6e4(0x10036)" > uprobe_events
-> 
-> Before patch:
-> 
->   # perf stat -a -e sdt_tick:loop2
->   # /tmp/tick
->   # dd if=/proc/`pgrep tick`/mem bs=1 count=1 skip=$(( 0x10020036 )) 2>/dev/null | xxd
->    0000000: 02                                       .
-> 
->   # pkill perf
->   # dd if=/proc/`pgrep tick`/mem bs=1 count=1 skip=$(( 0x10020036 )) 2>/dev/null | xxd
->   0000000: 01                                       .
-> 
-> After patch:
-> 
->   # perf stat -a -e sdt_tick:loop2
->   # /tmp/tick
->   # dd if=/proc/`pgrep tick`/mem bs=1 count=1 skip=$(( 0x10020036 )) 2>/dev/null | xxd
->   0000000: 01                                       .
-> 
->   # pkill perf
->   # dd if=/proc/`pgrep tick`/mem bs=1 count=1 skip=$(( 0x10020036 )) 2>/dev/null | xxd
->   0000000: 00                                       .
-> 
-> Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-> ---
->  kernel/trace/trace_uprobe.c | 105 +++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 103 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/trace/trace_uprobe.c b/kernel/trace/trace_uprobe.c
-> index b6c9b48..9bf3f7a 100644
-> --- a/kernel/trace/trace_uprobe.c
-> +++ b/kernel/trace/trace_uprobe.c
-> @@ -50,6 +50,11 @@ struct trace_uprobe_filter {
->  	struct list_head	perf_events;
->  };
->  
-> +struct sdt_mm_list {
-> +	struct mm_struct *mm;
-> +	struct sdt_mm_list *next;
-> +};
+The removal came out of a discussion that is now documented at
+https://lwn.net/Articles/748074/
 
-Oh, please use struct list_head instead of defining your own pointer-chain :(
+Following up from the state described there, I ended up removing the
+mn10300, tile, blackfin and cris architectures directly, rather than
+waiting, after consulting with the respective maintainers.
 
-> +
->  /*
->   * uprobe event core functions
->   */
-> @@ -61,6 +66,8 @@ struct trace_uprobe {
->  	char				*filename;
->  	unsigned long			offset;
->  	unsigned long			ref_ctr_offset;
-> +	struct sdt_mm_list		*sml;
-> +	struct rw_semaphore		sml_rw_sem;
+However, the unicore32 architecture is no longer part of the removal,
+after its maintainer Xuetao Guan said that the port is still actively
+being used and that he intends to keep working on it, and that he will
+try to provide updated toolchain sources.
 
-BTW, is there any reason to use rw_semaphore? (mutex doesn't fit?)
+In the end, it seems that while the eight architectures are extremely
+different, they all suffered the same fate: There was one company in
+charge of an SoC line, a CPU microarchitecture and a software ecosystem,
+which was more costly than licensing newer off-the-shelf CPU cores from
+a third party (typically ARM, MIPS, or RISC-V). It seems that all the
+SoC product lines are still around, but have not used the custom CPU
+architectures for several years at this point.
 
-Thank you,
+      Arnd
 
->  	unsigned long			nhit;
->  	struct trace_probe		tp;
->  };
-> @@ -274,6 +281,7 @@ static inline bool is_ret_probe(struct trace_uprobe *tu)
->  	if (is_ret)
->  		tu->consumer.ret_handler = uretprobe_dispatcher;
->  	init_trace_uprobe_filter(&tu->filter);
-> +	init_rwsem(&tu->sml_rw_sem);
->  	return tu;
->  
->  error:
-> @@ -921,6 +929,74 @@ static void uretprobe_trace_func(struct trace_uprobe *tu, unsigned long func,
->  	return trace_handle_return(s);
->  }
->  
-> +static bool sdt_check_mm_list(struct trace_uprobe *tu, struct mm_struct *mm)
-> +{
-> +	struct sdt_mm_list *tmp = tu->sml;
-> +
-> +	if (!tu->sml || !mm)
-> +		return false;
-> +
-> +	while (tmp) {
-> +		if (tmp->mm == mm)
-> +			return true;
-> +		tmp = tmp->next;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static void sdt_add_mm_list(struct trace_uprobe *tu, struct mm_struct *mm)
-> +{
-> +	struct sdt_mm_list *tmp;
-> +
-> +	tmp = kzalloc(sizeof(*tmp), GFP_KERNEL);
-> +	if (!tmp)
-> +		return;
-> +
-> +	tmp->mm = mm;
-> +	tmp->next = tu->sml;
-> +	tu->sml = tmp;
-> +}
-> +
-> +static void sdt_del_mm_list(struct trace_uprobe *tu, struct mm_struct *mm)
-> +{
-> +	struct sdt_mm_list *prev, *curr;
-> +
-> +	if (!tu->sml)
-> +		return;
-> +
-> +	if (tu->sml->mm == mm) {
-> +		curr = tu->sml;
-> +		tu->sml = tu->sml->next;
-> +		kfree(curr);
-> +		return;
-> +	}
-> +
-> +	prev = tu->sml;
-> +	curr = tu->sml->next;
-> +	while (curr) {
-> +		if (curr->mm == mm) {
-> +			prev->next = curr->next;
-> +			kfree(curr);
-> +			return;
-> +		}
-> +		prev = curr;
-> +		curr = curr->next;
-> +	}
-> +}
-> +
-> +static void sdt_flush_mm_list(struct trace_uprobe *tu)
-> +{
-> +	struct sdt_mm_list *next, *curr = tu->sml;
-> +
-> +	while (curr) {
-> +		next = curr->next;
-> +		kfree(curr);
-> +		curr = next;
-> +	}
-> +	tu->sml = NULL;
-> +}
-> +
->  static bool sdt_valid_vma(struct trace_uprobe *tu, struct vm_area_struct *vma)
->  {
->  	unsigned long vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
-> @@ -989,17 +1065,25 @@ static void sdt_increment_ref_ctr(struct trace_uprobe *tu)
->  	if (IS_ERR(info))
->  		goto out;
->  
-> +	down_write(&tu->sml_rw_sem);
->  	while (info) {
-> +		if (sdt_check_mm_list(tu, info->mm))
-> +			goto cont;
-> +
->  		down_write(&info->mm->mmap_sem);
->  
->  		vma = sdt_find_vma(info->mm, tu);
->  		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
-> -		sdt_update_ref_ctr(info->mm, vaddr, 1);
-> +		if (!sdt_update_ref_ctr(info->mm, vaddr, 1))
-> +			sdt_add_mm_list(tu, info->mm);
->  
->  		up_write(&info->mm->mmap_sem);
-> +
-> +cont:
->  		mmput(info->mm);
->  		info = uprobe_free_map_info(info);
->  	}
-> +	up_write(&tu->sml_rw_sem);
->  
->  out:
->  	uprobe_end_dup_mmap();
-> @@ -1020,8 +1104,16 @@ void trace_uprobe_mmap_callback(struct vm_area_struct *vma)
->  		    !trace_probe_is_enabled(&tu->tp))
->  			continue;
->  
-> +		down_write(&tu->sml_rw_sem);
-> +		if (sdt_check_mm_list(tu, vma->vm_mm))
-> +			goto cont;
-> +
->  		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
-> -		sdt_update_ref_ctr(vma->vm_mm, vaddr, 1);
-> +		if (!sdt_update_ref_ctr(vma->vm_mm, vaddr, 1))
-> +			sdt_add_mm_list(tu, vma->vm_mm);
-> +
-> +cont:
-> +		up_write(&tu->sml_rw_sem);
->  	}
->  	mutex_unlock(&uprobe_lock);
->  }
-> @@ -1038,7 +1130,11 @@ static void sdt_decrement_ref_ctr(struct trace_uprobe *tu)
->  	if (IS_ERR(info))
->  		goto out;
->  
-> +	down_write(&tu->sml_rw_sem);
->  	while (info) {
-> +		if (!sdt_check_mm_list(tu, info->mm))
-> +			goto cont;
-> +
->  		down_write(&info->mm->mmap_sem);
->  
->  		vma = sdt_find_vma(info->mm, tu);
-> @@ -1046,9 +1142,14 @@ static void sdt_decrement_ref_ctr(struct trace_uprobe *tu)
->  		sdt_update_ref_ctr(info->mm, vaddr, -1);
->  
->  		up_write(&info->mm->mmap_sem);
-> +		sdt_del_mm_list(tu, info->mm);
-> +
-> +cont:
->  		mmput(info->mm);
->  		info = uprobe_free_map_info(info);
->  	}
-> +	sdt_flush_mm_list(tu);
-> +	up_write(&tu->sml_rw_sem);
->  
->  out:
->  	uprobe_end_dup_mmap();
-> -- 
-> 1.8.3.1
-> 
+Arnd Bergmann (14):
+  arch: remove frv port
+  arch: remove m32r port
+  arch: remove score port
+  arch: remove blackfin port
+  arch: remove tile port
+  procfs: remove CONFIG_HARDWALL dependency
+  mm: remove blackfin MPU support
+  mm: remove obsolete alloc_remap()
+  treewide: simplify Kconfig dependencies for removed archs
+  asm-generic: siginfo: remove obsolete #ifdefs
+  Documentation: arch-support: remove obsolete architectures
+  asm-generic: clean up asm/unistd.h
+  recordmcount.pl: drop blackin and tile support
+  ktest: remove obsolete architectures
 
+David Howells (1):
+  mn10300: Remove the architecture
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Jesper Nilsson (1):
+  CRIS: Drop support for the CRIS port
+
+Dirstat only (full diffstat is over 100KB):
+
+   6.3% arch/blackfin/mach-bf548/include/mach/
+   4.5% arch/blackfin/mach-bf609/include/mach/
+  26.3% arch/blackfin/
+   4.1% arch/cris/arch-v32/
+   5.6% arch/cris/include/arch-v32/arch/hwregs/iop/
+   4.1% arch/cris/include/arch-v32/mach-a3/mach/hwregs/
+   4.7% arch/cris/include/arch-v32/
+   7.8% arch/cris/
+   5.6% arch/frv/
+   5.5% arch/m32r/
+   7.0% arch/mn10300/
+   7.6% arch/tile/include/
+   6.4% arch/tile/kernel/
+   0.0% Documentation/admin-guide/
+   0.0% Documentation/blackfin/
+   0.0% Documentation/cris/
+   0.0% Documentation/devicetree/bindings/cris/
+   0.0% Documentation/devicetree/bindings/interrupt-controller/
+   2.8% Documentation/features/
+   0.5% Documentation/frv/
+   0.0% Documentation/ioctl/
+   0.0% Documentation/mn10300/
+   0.0% Documentation/
+   0.0% block/
+   0.0% crypto/
+   0.0% drivers/ide/
+   0.0% drivers/input/joystick/
+   0.0% drivers/isdn/hisax/
+   0.0% drivers/net/ethernet/davicom/
+   0.0% drivers/net/ethernet/smsc/
+   0.0% drivers/net/wireless/cisco/
+   0.0% drivers/pci/
+   0.0% drivers/pwm/
+   0.0% drivers/rtc/
+   0.0% drivers/spi/
+   0.0% drivers/staging/speakup/
+   0.0% drivers/usb/musb/
+   0.0% drivers/video/console/
+   0.0% drivers/watchdog/
+   0.0% fs/minix/
+   0.0% fs/proc/
+   0.0% fs/
+   0.0% include/asm-generic/
+   0.0% include/linux/
+   0.0% include/uapi/asm-generic/
+   0.0% init/
+   0.0% kernel/
+   0.0% lib/
+   0.0% mm/
+   0.0% samples/blackfin/
+   0.0% samples/kprobes/
+   0.0% samples/
+   0.0% scripts/mod/
+   0.0% scripts/
+   0.0% tools/arch/frv/include/uapi/asm/
+   0.0% tools/arch/m32r/include/uapi/asm/
+   0.0% tools/arch/mn10300/include/uapi/asm/
+   0.0% tools/arch/score/include/uapi/asm/
+   0.0% tools/arch/tile/include/asm/
+   0.0% tools/arch/tile/include/uapi/asm/
+   0.0% tools/include/asm-generic/
+   0.0% tools/scripts/
+   0.0% tools/testing/ktest/examples/
+   0.0% tools/testing/ktest/
+
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-block@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: linux-pwm@vger.kernel.org
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-spi@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-watchdog@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-mm@kvack.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
