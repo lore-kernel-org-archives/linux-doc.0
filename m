@@ -1,136 +1,335 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.0 required=5.0 tests=RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 13D167E69D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 08:18:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 969497E66E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 13:48:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932372AbeCNIOr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Mar 2018 04:14:47 -0400
-Received: from mail-pg0-f67.google.com ([74.125.83.67]:35655 "EHLO
-        mail-pg0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752688AbeCNIO3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Mar 2018 04:14:29 -0400
-Received: by mail-pg0-f67.google.com with SMTP id d1so1063416pgv.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Mar 2018 01:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fRV1FSPVOXogvb6qc6Yhp62KXcgrpdN/Qy4awJGTkbE=;
-        b=AugeaC0gv/ksmhFPuRi161BAjp3JC8qMGTo+KXIbAdr1vjc3OfrizivsJB4phbfOAm
-         tFrsnO0YeRJR6OdW21LDWtIuRThDdQvoi0BACwPPZuTFJyADJIXW1MvNV4jcM+dqng/5
-         xoxDi61hOcmB0WTgmW6ZZCWIIHRsfiVhCMcN0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fRV1FSPVOXogvb6qc6Yhp62KXcgrpdN/Qy4awJGTkbE=;
-        b=eYk+p9dt3vYkwa7GdXvvv/HMhJWc87xvRr7yxNLeyLpABrpv9CORh/0OYZNCtc36cN
-         4m6VDUDVw7h+Jd2p3/b6XVSrvqUThyzP5CMQ6XYlZL1dVN6J77PHU6bO3A1/6JMXZBC8
-         +e233odr6kvUP7wj4mmkpic+0BGRPhVuvOZwUSrrH43UH5MNW9JfwzZYGdsqYJ5Z6vrB
-         5erxO2+rJg0uIWcCinGNPvopYmY/TVcjxmUH3PzbD8SeLuw9aBmt/VQmiYGsE8lUtpRb
-         9SYCxbWEX2/9fWalQ5xXs4EzyMs+dECbPRX8SmYUu5CFLAg5Mo6KN2XnD8DFmel1qsDq
-         J3fQ==
-X-Gm-Message-State: AElRT7HlBHdKcvU+5muLm3OjjpoHPYHOkb9OicgR7b3Do8KVkrvJiKf/
-        Y/uCbTN8JeghWbiHt5YsjadQCQ==
-X-Google-Smtp-Source: AG47ELsbqPVnE6kob4hHqeU7qRHnIqyqzo8q5hT3oUfH5s4y4Z4Yf7jFJgEecn088sxo+8h1eDFkKA==
-X-Received: by 10.167.128.143 with SMTP id v15mr3491224pff.36.1521015269277;
-        Wed, 14 Mar 2018 01:14:29 -0700 (PDT)
-Received: from localhost ([223.226.75.205])
-        by smtp.gmail.com with ESMTPSA id l190sm4151905pfc.41.2018.03.14.01.14.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Mar 2018 01:14:28 -0700 (PDT)
-Date:   Wed, 14 Mar 2018 13:44:26 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Zhang Rui <rui.zhang@intel.com>
-Cc:     Eduardo Valentin <edubezval@gmail.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH V4] thermal: Add cooling device's statistics in sysfs
-Message-ID: <20180314081426.GG15832@vireshk-i7>
-References: <6e557b90950723065d49c9a545146ce31d7dc6e1.1516096153.git.viresh.kumar@linaro.org>
- <1520924571.3766.8.camel@intel.com>
- <1521014472.2087.32.camel@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1521014472.2087.32.camel@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        id S1751449AbeCNNsS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Mar 2018 09:48:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51304 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750910AbeCNNsR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Mar 2018 09:48:17 -0400
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B9FDD208FE;
+        Wed, 14 Mar 2018 13:48:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9FDD208FE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mhiramat@kernel.org
+Date:   Wed, 14 Mar 2018 22:48:09 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
+        acme@kernel.org, ananth@linux.vnet.ibm.com,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        alexis.berlemont@gmail.com, corbet@lwn.net,
+        dan.j.williams@intel.com, gregkh@linuxfoundation.org,
+        huawei.libin@huawei.com, hughd@google.com, jack@suse.cz,
+        jglisse@redhat.com, jolsa@redhat.com, kan.liang@intel.com,
+        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
+        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
+        tmricht@linux.vnet.ibm.com, willy@infradead.org,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com
+Subject: Re: [PATCH 5/8] trace_uprobe: Support SDT markers having reference
+ count (semaphore)
+Message-Id: <20180314224809.5ee4c8834bb366faa398e342@kernel.org>
+In-Reply-To: <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
+References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
+        <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14-03-18, 16:01, Zhang Rui wrote:
-> WARNING: please write a paragraph that describes the config symbol
-> fully
-> #147: FILE: drivers/thermal/Kconfig:18:
-> +config THERMAL_STATISTICS
+Hi Ravi,
+
+On Tue, 13 Mar 2018 18:26:00 +0530
+Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+
+> Userspace Statically Defined Tracepoints[1] are dtrace style markers
+> inside userspace applications. These markers are added by developer at
+> important places in the code. Each marker source expands to a single
+> nop instruction in the compiled code but there may be additional
+> overhead for computing the marker arguments which expands to couple of
+> instructions. In case the overhead is more, execution of it can be
+> ommited by runtime if() condition when no one is tracing on the marker:
 > 
-> WARNING: Consider renaming function(s)
-> 'thermal_cooling_device_total_trans_show' to 'total_trans_show'
-> #391: FILE: drivers/thermal/thermal_sysfs.c:901:
+>     if (reference_counter > 0) {
+>         Execute marker instructions;
+>     }
+> 
+> Default value of reference counter is 0. Tracer has to increment the
+> reference counter before tracing on a marker and decrement it when
+> done with the tracing.
+> 
+> Implement the reference counter logic in trace_uprobe, leaving core
+> uprobe infrastructure as is, except one new callback from uprobe_mmap()
+> to trace_uprobe.
+> 
+> trace_uprobe definition with reference counter will now be:
+> 
+>   <path>:<offset>[(ref_ctr_offset)]
+
+Would you mean 
+<path>:<offset>(<ref_ctr_offset>)
+?
+
+or use "[]" for delimiter?
+
+Since,
+
+> @@ -454,6 +458,26 @@ static int create_trace_uprobe(int argc, char **argv)
+>  		goto fail_address_parse;
+>  	}
+>  
+> +	/* Parse reference counter offset if specified. */
+> +	rctr = strchr(arg, '(');
+
+This seems you choose "()" for delimiter.
+
+> +	if (rctr) {
+> +		rctr_end = strchr(arg, ')');
+
+		rctr_end = strchr(rctr, ')');
+
+? since we are sure rctr != NULL.
+
+> +		if (rctr > rctr_end || *(rctr_end + 1) != 0) {
+> +			ret = -EINVAL;
+> +			pr_info("Invalid reference counter offset.\n");
+> +			goto fail_address_parse;
+> +		}
+
+
+Also
+
+> +
+> +		*rctr++ = 0;
+> +		*rctr_end = 0;
+
+Please consider to use '\0' for nul;
+
+Thanks,
+
+
+
+> +		ret = kstrtoul(rctr, 0, &ref_ctr_offset);
+> +		if (ret) {
+> +			pr_info("Invalid reference counter offset.\n");
+> +			goto fail_address_parse;
+> +		}
+> +	}
+> +
+> +	/* Parse uprobe offset. */
+>  	ret = kstrtoul(arg, 0, &offset);
+>  	if (ret)
+>  		goto fail_address_parse;
+> @@ -488,6 +512,7 @@ static int create_trace_uprobe(int argc, char **argv)
+>  		goto fail_address_parse;
+>  	}
+>  	tu->offset = offset;
+> +	tu->ref_ctr_offset = ref_ctr_offset;
+>  	tu->inode = inode;
+>  	tu->filename = kstrdup(filename, GFP_KERNEL);
+>  
+> @@ -620,6 +645,8 @@ static int probes_seq_show(struct seq_file *m, void *v)
+>  			break;
+>  		}
+>  	}
+> +	if (tu->ref_ctr_offset)
+> +		seq_printf(m, "(0x%lx)", tu->ref_ctr_offset);
+>  
+>  	for (i = 0; i < tu->tp.nr_args; i++)
+>  		seq_printf(m, " %s=%s", tu->tp.args[i].name, tu->tp.args[i].comm);
+> @@ -894,6 +921,139 @@ static void uretprobe_trace_func(struct trace_uprobe *tu, unsigned long func,
+>  	return trace_handle_return(s);
+>  }
+>  
+> +static bool sdt_valid_vma(struct trace_uprobe *tu, struct vm_area_struct *vma)
+> +{
+> +	unsigned long vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
+> +
+> +	return tu->ref_ctr_offset &&
+> +		vma->vm_file &&
+> +		file_inode(vma->vm_file) == tu->inode &&
+> +		vma->vm_flags & VM_WRITE &&
+> +		vma->vm_start <= vaddr &&
+> +		vma->vm_end > vaddr;
 > +}
+> +
+> +static struct vm_area_struct *
+> +sdt_find_vma(struct mm_struct *mm, struct trace_uprobe *tu)
+> +{
+> +	struct vm_area_struct *tmp;
+> +
+> +	for (tmp = mm->mmap; tmp != NULL; tmp = tmp->vm_next)
+> +		if (sdt_valid_vma(tu, tmp))
+> +			return tmp;
+> +
+> +	return NULL;
+> +}
+> +
+> +/*
+> + * Reference count gate the invocation of probe. If present,
+> + * by default reference count is 0. One needs to increment
+> + * it before tracing the probe and decrement it when done.
+> + */
+> +static int
+> +sdt_update_ref_ctr(struct mm_struct *mm, unsigned long vaddr, short d)
+> +{
+> +	void *kaddr;
+> +	struct page *page;
+> +	struct vm_area_struct *vma;
+> +	int ret = 0;
+> +	unsigned short orig = 0;
+> +
+> +	if (vaddr == 0)
+> +		return -EINVAL;
+> +
+> +	ret = get_user_pages_remote(NULL, mm, vaddr, 1,
+> +		FOLL_FORCE | FOLL_WRITE, &page, &vma, NULL);
+> +	if (ret <= 0)
+> +		return ret;
+> +
+> +	kaddr = kmap_atomic(page);
+> +	memcpy(&orig, kaddr + (vaddr & ~PAGE_MASK), sizeof(orig));
+> +	orig += d;
+> +	memcpy(kaddr + (vaddr & ~PAGE_MASK), &orig, sizeof(orig));
+> +	kunmap_atomic(kaddr);
+> +
+> +	put_page(page);
+> +	return 0;
+> +}
+> +
+> +static void sdt_increment_ref_ctr(struct trace_uprobe *tu)
+> +{
+> +	struct uprobe_map_info *info;
+> +	struct vm_area_struct *vma;
+> +	unsigned long vaddr;
+> +
+> +	uprobe_start_dup_mmap();
+> +	info = uprobe_build_map_info(tu->inode->i_mapping,
+> +				tu->ref_ctr_offset, false);
+> +	if (IS_ERR(info))
+> +		goto out;
+> +
+> +	while (info) {
+> +		down_write(&info->mm->mmap_sem);
+> +
+> +		vma = sdt_find_vma(info->mm, tu);
+> +		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
+> +		sdt_update_ref_ctr(info->mm, vaddr, 1);
+> +
+> +		up_write(&info->mm->mmap_sem);
+> +		mmput(info->mm);
+> +		info = uprobe_free_map_info(info);
+> +	}
+> +
+> +out:
+> +	uprobe_end_dup_mmap();
+> +}
+> +
+> +/* Called with down_write(&vma->vm_mm->mmap_sem) */
+> +void trace_uprobe_mmap_callback(struct vm_area_struct *vma)
+> +{
+> +	struct trace_uprobe *tu;
+> +	unsigned long vaddr;
+> +
+> +	if (!(vma->vm_flags & VM_WRITE))
+> +		return;
+> +
+> +	mutex_lock(&uprobe_lock);
+> +	list_for_each_entry(tu, &uprobe_list, list) {
+> +		if (!sdt_valid_vma(tu, vma) ||
+> +		    !trace_probe_is_enabled(&tu->tp))
+> +			continue;
+> +
+> +		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
+> +		sdt_update_ref_ctr(vma->vm_mm, vaddr, 1);
+> +	}
+> +	mutex_unlock(&uprobe_lock);
+> +}
+> +
+> +static void sdt_decrement_ref_ctr(struct trace_uprobe *tu)
+> +{
+> +	struct vm_area_struct *vma;
+> +	unsigned long vaddr;
+> +	struct uprobe_map_info *info;
+> +
+> +	uprobe_start_dup_mmap();
+> +	info = uprobe_build_map_info(tu->inode->i_mapping,
+> +				tu->ref_ctr_offset, false);
+> +	if (IS_ERR(info))
+> +		goto out;
+> +
+> +	while (info) {
+> +		down_write(&info->mm->mmap_sem);
+> +
+> +		vma = sdt_find_vma(info->mm, tu);
+> +		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
+> +		sdt_update_ref_ctr(info->mm, vaddr, -1);
+> +
+> +		up_write(&info->mm->mmap_sem);
+> +		mmput(info->mm);
+> +		info = uprobe_free_map_info(info);
+> +	}
+> +
+> +out:
+> +	uprobe_end_dup_mmap();
+> +}
+> +
+>  typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+>  				enum uprobe_filter_ctx ctx,
+>  				struct mm_struct *mm);
+> @@ -939,6 +1099,9 @@ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+>  	if (ret)
+>  		goto err_buffer;
+>  
+> +	if (tu->ref_ctr_offset)
+> +		sdt_increment_ref_ctr(tu);
+> +
+>  	return 0;
+>  
+>   err_buffer:
+> @@ -979,6 +1142,9 @@ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+>  
+>  	WARN_ON(!uprobe_filter_is_empty(&tu->filter));
+>  
+> +	if (tu->ref_ctr_offset)
+> +		sdt_decrement_ref_ctr(tu);
+> +
+>  	uprobe_unregister(tu->inode, tu->offset, &tu->consumer);
+>  	tu->tp.flags &= file ? ~TP_FLAG_TRACE : ~TP_FLAG_PROFILE;
+>  
+> @@ -1423,6 +1589,8 @@ static __init int init_uprobe_trace(void)
+>  	/* Profile interface */
+>  	trace_create_file("uprobe_profile", 0444, d_tracer,
+>  				    NULL, &uprobe_profile_ops);
+> +
+> +	uprobe_mmap_callback = trace_uprobe_mmap_callback;
+>  	return 0;
+>  }
+>  
+> -- 
+> 1.8.3.1
 > 
-> WARNING: Consider renaming function(s)
-> 'thermal_cooling_device_time_in_state_show' to 'time_in_state_show'
-> #395: FILE: drivers/thermal/thermal_sysfs.c:905:
-> +static DEVICE_ATTR(time_in_state, 0444,
-> 
-> WARNING: Consider renaming function(s)
-> 'thermal_cooling_device_reset_store' to 'reset_store'
-> #397: FILE: drivers/thermal/thermal_sysfs.c:907:
-> +static DEVICE_ATTR(reset, 0200, NULL,
-> thermal_cooling_device_reset_store);
-> 
-> WARNING: Consider renaming function(s)
-> 'thermal_cooling_device_trans_table_show' to 'trans_table_show'
-> #398: FILE: drivers/thermal/thermal_sysfs.c:908:
-> +static DEVICE_ATTR(trans_table, 0444,
-> 
-> total: 0 errors, 5 warnings, 366 lines checked
-> 
-> 
-> I'm okay with the first one because the description does not have to be
-> larger than 3 lines.
 
-Right.
-
-> the last 4 warnings makes sense to me. I think we should rename the
-> function and use DEVICE_ATTR_RO() and DEVICE_ATTR_WO() instead.
-> 
-> what do you think?
-
-I got those warnings as well, and I quietly ignored them :)
-
-I ignored the renaming part for the sake of consistency. The other existing
-routines for similar purpose are named as:
-
-thermal_cooling_device_type_show
-thermal_cooling_device_max_state_show
-thermal_cooling_device_cur_state_show
-thermal_cooling_device_cur_state_store
-
-for me it made more sense to follow that naming convention. And I didn't use the
-_RO and _WO variants for the same reason.
-
-Now here is what I propose now:
-
-- You apply this patch as-is and ignore the warning.
-
-- I will send few patches on top of that to do:
-  - renaming of all such routines to shorter versions.
-  - Use the _RO or _WO variants of the macro everywhere.
-
-What do you say ?
 
 -- 
-viresh
+Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
