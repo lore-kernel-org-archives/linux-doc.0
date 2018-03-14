@@ -1,190 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,SUSPICIOUS_RECIPS,T_RP_MATCHES_RCVD autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 873807E66E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 14:35:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5EBE77E6BC
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 15:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751289AbeCNOfr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Mar 2018 10:35:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:44881 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750779AbeCNOfo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Mar 2018 10:35:44 -0400
-Received: from wuerfel.lan ([95.208.111.237]) by mrelayeu.kundenserver.de
- (mreue005 [212.227.15.129]) with ESMTPA (Nemesis) id
- 0MLkAx-1ewOLr1lDf-000q3R; Wed, 14 Mar 2018 15:35:36 +0100
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     linux-arch@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: [PATCH 00/16] remove eight obsolete architectures
-Date:   Wed, 14 Mar 2018 15:34:59 +0100
-Message-Id: <20180314143529.1456168-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.9.0
-X-Provags-ID: V03:K0:WInKuzsl5E+V3c9AlxLSSxc+4ZGknT/OL6sbFGTOOKUoIWUHPce
- sOunIkU3WA3yS4K2U7KLuM21G9io/7RdSDfXqf1g08L51uCkoCyAjOMiXI4kUVcEF0/FqP/
- umDnF0uQsHtMOXgS1AiyzYPQ6W0JczwHRAY9QiiD/KUW+z5A+Vgixyn6TUIYx2uOcgiAjdC
- CrnI3DG9ch7X4/hA6MvHw==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:wVHTYZy5nis=:leV/QOsRy+klt9pr0rr1GX
- 0OpznBJ2TCgyn2XksizOCFLzDVV4U/maXG7iVijGIl/x2acLsLVbak981yRF0crwRhWM8VL0Y
- FmfTMV6G+Q+G/zGSZrMnuuRRmANd7hhyBBHjGVRlAJGdhrtgYXkTckB1A6KhY4dNJAX3agErt
- bULJRS0bBJY6VJFQz8aMgywVmctdOqlczTe3BJXyqcwCgssCKlZOlO6T2cbiBqJ1DTSVHQ7/Q
- yTH6O1t8GG6up8dacDsBihCPydN60UQIFzzNLQbEiH7hu83SIoXLGOXz6giGihUAh57L+1N3e
- KTeNMmlP8bvAwDBeOFoklj7K4SfHURuw6oGI059MQdksufa6i+Bh7VIhnHzLGoRcxJWNdkIAq
- 6VBsOvp6WejaRqyrLdJ7Nm3CtReHmVyYYAtLB67+qQDv4CabeDWc6+TUpXMRNpb/CxSUhxPV8
- 8EKWLg6tj+KuPiN7CO1Bknjxd3ALym6/8jHpNldZfOGVtMNYVsaFXeliEcOkRgQ0lte/F3w9L
- ryEcNNLHfTxbOGwpVp5pxgdmsL+N6nLM0yk9lfSmv3SbFD2zWtctbMSmpDHmr5Oi0Gw52NV/Z
- 6Ai4bhFh5RCMdMqrp2bBL/DZMELXajKyorZcSTKuU+m3voOi/7c8boZFypspk6JnsARVMsojS
- QyAKMdF6waH9y8HWB45OYKbFtvNeo09G5Yx8t7ZRhnzsQFuHYP9fK6ZEcxxqPDh8AZEgz/PtD
- z7VWzn0Q/J5LOdpyygQ1C15sKWOO8zIdqI277Q==
+        id S1751348AbeCNPKl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Mar 2018 11:10:41 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59856 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1751649AbeCNPK0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Mar 2018 11:10:26 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2EF9Sq1070813
+        for <linux-doc@vger.kernel.org>; Wed, 14 Mar 2018 11:10:26 -0400
+Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2gq5b82kf2-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 14 Mar 2018 11:10:24 -0400
+Received: from localhost
+        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
+        Wed, 14 Mar 2018 15:10:21 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 14 Mar 2018 15:10:12 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2EFAC0954395102;
+        Wed, 14 Mar 2018 15:10:12 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B11725204B;
+        Wed, 14 Mar 2018 14:01:42 +0000 (GMT)
+Received: from [9.77.194.179] (unknown [9.77.194.179])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 78B055203F;
+        Wed, 14 Mar 2018 14:01:30 +0000 (GMT)
+Subject: Re: [PATCH 5/8] trace_uprobe: Support SDT markers having reference
+ count (semaphore)
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
+        acme@kernel.org, ananth@linux.vnet.ibm.com,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        alexis.berlemont@gmail.com, corbet@lwn.net,
+        dan.j.williams@intel.com, gregkh@linuxfoundation.org,
+        huawei.libin@huawei.com, hughd@google.com, jack@suse.cz,
+        jglisse@redhat.com, jolsa@redhat.com, kan.liang@intel.com,
+        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
+        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
+        tmricht@linux.vnet.ibm.com, willy@infradead.org,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com,
+        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
+ <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
+ <20180314224809.5ee4c8834bb366faa398e342@kernel.org>
+From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Date:   Wed, 14 Mar 2018 20:42:24 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <20180314224809.5ee4c8834bb366faa398e342@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 18031415-0008-0000-0000-000004DD6B61
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18031415-0009-0000-0000-00001E70707E
+Message-Id: <fabfad9d-a75e-0b18-1558-ce738b46e538@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-14_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1803140171
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Here is the collection of patches I have applied to my 'asm-generic' tree
-on top of the 'metag' removal. This does not include any of the device
-drivers, I'll send those separately to a someone different list of people.
+Hi Masami,
 
-The removal came out of a discussion that is now documented at
-https://lwn.net/Articles/748074/
+On 03/14/2018 07:18 PM, Masami Hiramatsu wrote:
+> Hi Ravi,
+>
+> On Tue, 13 Mar 2018 18:26:00 +0530
+> Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+>
+>> Userspace Statically Defined Tracepoints[1] are dtrace style markers
+>> inside userspace applications. These markers are added by developer at
+>> important places in the code. Each marker source expands to a single
+>> nop instruction in the compiled code but there may be additional
+>> overhead for computing the marker arguments which expands to couple of
+>> instructions. In case the overhead is more, execution of it can be
+>> ommited by runtime if() condition when no one is tracing on the marker:
+>>
+>>     if (reference_counter > 0) {
+>>         Execute marker instructions;
+>>     }
+>>
+>> Default value of reference counter is 0. Tracer has to increment the
+>> reference counter before tracing on a marker and decrement it when
+>> done with the tracing.
+>>
+>> Implement the reference counter logic in trace_uprobe, leaving core
+>> uprobe infrastructure as is, except one new callback from uprobe_mmap()
+>> to trace_uprobe.
+>>
+>> trace_uprobe definition with reference counter will now be:
+>>
+>>   <path>:<offset>[(ref_ctr_offset)]
+> Would you mean 
+> <path>:<offset>(<ref_ctr_offset>)
+> ?
+>
+> or use "[]" for delimiter?
 
-Following up from the state described there, I ended up removing the
-mn10300, tile, blackfin and cris architectures directly, rather than
-waiting, after consulting with the respective maintainers.
+[] indicates optional field.
 
-However, the unicore32 architecture is no longer part of the removal,
-after its maintainer Xuetao Guan said that the port is still actively
-being used and that he intends to keep working on it, and that he will
-try to provide updated toolchain sources.
+> Since,
+>
+>> @@ -454,6 +458,26 @@ static int create_trace_uprobe(int argc, char **argv)
+>>  		goto fail_address_parse;
+>>  	}
+>>  
+>> +	/* Parse reference counter offset if specified. */
+>> +	rctr = strchr(arg, '(');
+> This seems you choose "()" for delimiter.
 
-In the end, it seems that while the eight architectures are extremely
-different, they all suffered the same fate: There was one company in
-charge of an SoC line, a CPU microarchitecture and a software ecosystem,
-which was more costly than licensing newer off-the-shelf CPU cores from
-a third party (typically ARM, MIPS, or RISC-V). It seems that all the
-SoC product lines are still around, but have not used the custom CPU
-architectures for several years at this point.
+Correct.
 
-      Arnd
+>> +	if (rctr) {
+>> +		rctr_end = strchr(arg, ')');
+> 		rctr_end = strchr(rctr, ')');
+>
+> ? since we are sure rctr != NULL.
 
-Arnd Bergmann (14):
-  arch: remove frv port
-  arch: remove m32r port
-  arch: remove score port
-  arch: remove blackfin port
-  arch: remove tile port
-  procfs: remove CONFIG_HARDWALL dependency
-  mm: remove blackfin MPU support
-  mm: remove obsolete alloc_remap()
-  treewide: simplify Kconfig dependencies for removed archs
-  asm-generic: siginfo: remove obsolete #ifdefs
-  Documentation: arch-support: remove obsolete architectures
-  asm-generic: clean up asm/unistd.h
-  recordmcount.pl: drop blackin and tile support
-  ktest: remove obsolete architectures
+Yes. we can use rctr instead of arg.
 
-David Howells (1):
-  mn10300: Remove the architecture
+>> +		if (rctr > rctr_end || *(rctr_end + 1) != 0) {
+>> +			ret = -EINVAL;
+>> +			pr_info("Invalid reference counter offset.\n");
+>> +			goto fail_address_parse;
+>> +		}
+>
+> Also
+>
+>> +
+>> +		*rctr++ = 0;
+>> +		*rctr_end = 0;
+> Please consider to use '\0' for nul;
 
-Jesper Nilsson (1):
-  CRIS: Drop support for the CRIS port
+Sure. Will change it.
 
-Dirstat only (full diffstat is over 100KB):
+Thanks for the review :)
+Ravi
 
-   6.3% arch/blackfin/mach-bf548/include/mach/
-   4.5% arch/blackfin/mach-bf609/include/mach/
-  26.3% arch/blackfin/
-   4.1% arch/cris/arch-v32/
-   5.6% arch/cris/include/arch-v32/arch/hwregs/iop/
-   4.1% arch/cris/include/arch-v32/mach-a3/mach/hwregs/
-   4.7% arch/cris/include/arch-v32/
-   7.8% arch/cris/
-   5.6% arch/frv/
-   5.5% arch/m32r/
-   7.0% arch/mn10300/
-   7.6% arch/tile/include/
-   6.4% arch/tile/kernel/
-   0.0% Documentation/admin-guide/
-   0.0% Documentation/blackfin/
-   0.0% Documentation/cris/
-   0.0% Documentation/devicetree/bindings/cris/
-   0.0% Documentation/devicetree/bindings/interrupt-controller/
-   2.8% Documentation/features/
-   0.5% Documentation/frv/
-   0.0% Documentation/ioctl/
-   0.0% Documentation/mn10300/
-   0.0% Documentation/
-   0.0% block/
-   0.0% crypto/
-   0.0% drivers/ide/
-   0.0% drivers/input/joystick/
-   0.0% drivers/isdn/hisax/
-   0.0% drivers/net/ethernet/davicom/
-   0.0% drivers/net/ethernet/smsc/
-   0.0% drivers/net/wireless/cisco/
-   0.0% drivers/pci/
-   0.0% drivers/pwm/
-   0.0% drivers/rtc/
-   0.0% drivers/spi/
-   0.0% drivers/staging/speakup/
-   0.0% drivers/usb/musb/
-   0.0% drivers/video/console/
-   0.0% drivers/watchdog/
-   0.0% fs/minix/
-   0.0% fs/proc/
-   0.0% fs/
-   0.0% include/asm-generic/
-   0.0% include/linux/
-   0.0% include/uapi/asm-generic/
-   0.0% init/
-   0.0% kernel/
-   0.0% lib/
-   0.0% mm/
-   0.0% samples/blackfin/
-   0.0% samples/kprobes/
-   0.0% samples/
-   0.0% scripts/mod/
-   0.0% scripts/
-   0.0% tools/arch/frv/include/uapi/asm/
-   0.0% tools/arch/m32r/include/uapi/asm/
-   0.0% tools/arch/mn10300/include/uapi/asm/
-   0.0% tools/arch/score/include/uapi/asm/
-   0.0% tools/arch/tile/include/asm/
-   0.0% tools/arch/tile/include/uapi/asm/
-   0.0% tools/include/asm-generic/
-   0.0% tools/scripts/
-   0.0% tools/testing/ktest/examples/
-   0.0% tools/testing/ktest/
-
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-block@vger.kernel.org
-Cc: linux-ide@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: linux-wireless@vger.kernel.org
-Cc: linux-pwm@vger.kernel.org
-Cc: linux-rtc@vger.kernel.org
-Cc: linux-spi@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: linux-watchdog@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-arch@vger.kernel.org
-Cc: linux-mm@kvack.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
