@@ -2,81 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D4967E686
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Mar 2018 22:47:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91D167E6BC
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 08:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752598AbeCMWre (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Mar 2018 18:47:34 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:52720 "EHLO aibo.runbox.com"
+        id S1753129AbeCNIBS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Mar 2018 04:01:18 -0400
+Received: from mga02.intel.com ([134.134.136.20]:28548 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752054AbeCMWrd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Mar 2018 18:47:33 -0400
-Received: from [10.9.9.210] (helo=mailfront10.runbox.com)
-        by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-        (envelope-from <kballou@devnulllabs.io>)
-        id 1evryh-0007KU-PD; Tue, 13 Mar 2018 23:01:03 +0100
-Received: from [63.148.111.126] (helo=localhost)
-        by mailfront10.runbox.com with esmtpsa  (uid:818882 )  (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.82)
-        id 1evryQ-0001xW-SE; Tue, 13 Mar 2018 23:00:47 +0100
-From:   Kenny Ballou <kballou@devnulllabs.io>
-To:     linux-doc@vger.kernel.org
-Cc:     bhelgaas@google.com, corbet@lwn.net, googlegot@yahoo.com,
-        Kenny Ballou <kballou@devnulllabs.io>
-Subject: [PATCH] doc: sysfs-pci: update enable 'rom' file instructions
-Date:   Tue, 13 Mar 2018 15:58:52 -0600
-Message-Id: <20180313215852.14338-1-kballou@devnulllabs.io>
-X-Mailer: git-send-email 2.16.1
+        id S1753110AbeCNIBR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Mar 2018 04:01:17 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Mar 2018 01:01:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.47,469,1515484800"; 
+   d="scan'208";a="211400579"
+Received: from rzhang-dell-9360.sh.intel.com ([10.239.197.97])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Mar 2018 01:01:13 -0700
+Message-ID: <1521014472.2087.32.camel@intel.com>
+Subject: Re: [PATCH V4] thermal: Add cooling device's statistics in sysfs
+From:   Zhang Rui <rui.zhang@intel.com>
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Eduardo Valentin <edubezval@gmail.com>
+Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Date:   Wed, 14 Mar 2018 16:01:12 +0800
+In-Reply-To: <1520924571.3766.8.camel@intel.com>
+References: <6e557b90950723065d49c9a545146ce31d7dc6e1.1516096153.git.viresh.kumar@linaro.org>
+         <1520924571.3766.8.camel@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the instructions for enabling and disabling read access to the
-special sysfs 'rom' file for PCI devices.  The function that interprets
-user data for enabling and disabling the device actually expects _at
-least_ 2 bytes, more than what is expressly implied by "1" or "0".
+On 二, 2018-03-13 at 15:02 +0800, Zhang Rui wrote:
+> Hi, Viresh,
+> 
+> I will queue it for 4.17, with just one minor fix below.
+> 
+I got the following warning from checkpatch.pl
+---------------
 
-It should also be noted, that the code path for enabling read access to
-the special file can receive any length of input as long as it doesn't
-start with "0".  However, this is not added to the documentation as this
-is, perhaps, not a "feature" of the file system we want to encourage.
+WARNING: please write a paragraph that describes the config symbol
+fully
+#147: FILE: drivers/thermal/Kconfig:18:
++config THERMAL_STATISTICS
 
-This patch is submitted in place of accepting [pci: use kstrtobool over
-ad hoc string parsing][0] as to not break existing functionality.
-Similarly, this patch is in reference to a bugzilla report: [Sysfs PCI
-rom file functionality does not match documentation][1].
+WARNING: Consider renaming function(s)
+'thermal_cooling_device_total_trans_show' to 'total_trans_show'
+#391: FILE: drivers/thermal/thermal_sysfs.c:901:
++}
 
-[0]: https://www.spinics.net/lists/linux-pci/msg69073.html
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=111301
+WARNING: Consider renaming function(s)
+'thermal_cooling_device_time_in_state_show' to 'time_in_state_show'
+#395: FILE: drivers/thermal/thermal_sysfs.c:905:
++static DEVICE_ATTR(time_in_state, 0444,
 
-Reported-by: googlegot@yahoo.com
-Signed-off-by: Kenny Ballou <kballou@devnulllabs.io>
----
- Documentation/filesystems/sysfs-pci.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+WARNING: Consider renaming function(s)
+'thermal_cooling_device_reset_store' to 'reset_store'
+#397: FILE: drivers/thermal/thermal_sysfs.c:907:
++static DEVICE_ATTR(reset, 0200, NULL,
+thermal_cooling_device_reset_store);
 
-diff --git a/Documentation/filesystems/sysfs-pci.txt b/Documentation/filesystems/sysfs-pci.txt
-index 06f1d64c6f70..0cc9a32ebab0 100644
---- a/Documentation/filesystems/sysfs-pci.txt
-+++ b/Documentation/filesystems/sysfs-pci.txt
-@@ -75,8 +75,8 @@ may not be reversed.
- 
- The 'rom' file is special in that it provides read-only access to the device's
- ROM file, if available.  It's disabled by default, however, so applications
--should write the string "1" to the file to enable it before attempting a read
--call, and disable it following the access by writing "0" to the file.  Note
-+should write the string "1\n" to the file to enable it before attempting a read
-+call, and disable it following the access by writing "0\n" to the file.  Note
- that the device must be enabled for a rom read to return data successfully.
- In the event a driver is not bound to the device, it can be enabled using the
- 'enable' file, documented above.
--- 
-2.16.1
+WARNING: Consider renaming function(s)
+'thermal_cooling_device_trans_table_show' to 'trans_table_show'
+#398: FILE: drivers/thermal/thermal_sysfs.c:908:
++static DEVICE_ATTR(trans_table, 0444,
 
+total: 0 errors, 5 warnings, 366 lines checked
+
+
+I'm okay with the first one because the description does not have to be
+larger than 3 lines.
+the last 4 warnings makes sense to me. I think we should rename the
+function and use DEVICE_ATTR_RO() and DEVICE_ATTR_WO() instead.
+
+what do you think?
+
+thanks,
+rui
+
+> On 二, 2018-01-16 at 15:22 +0530, Viresh Kumar wrote:
+> > 
+> > This extends the sysfs interface for thermal cooling devices and
+> > exposes
+> > some pretty useful statistics. These statistics have proven to be
+> > quite
+> > useful specially while doing benchmarks related to the task
+> > scheduler,
+> > where we want to make sure that nothing has disrupted the test,
+> > specially the cooling device which may have put constraints on the
+> > CPUs.
+> > The information exposed here tells us to what extent the CPUs were
+> > constrained by the thermal framework.
+> > 
+> > The write-only "reset" file is used to reset the statistics.
+> > 
+> > The read-only "time_in_state" file shows the clock_t time spent by
+> > the
+> > device in the respective cooling states, and it prints one line per
+> > cooling state.
+> > 
+> > The read-only "total_trans" file shows single positive integer
+> > value
+> > showing the total number of cooling state transitions the device
+> > has
+> > gone through since the time the cooling device is registered or the
+> > time
+> > when statistics were reset last.
+> > 
+> > The read-only "trans_table" file shows a two dimensional matrix,
+> > where
+> > an entry <i,j> (row i, column j) represents the number of
+> > transitions
+> > from State_i to State_j.
+> > 
+> > This is how the directory structure looks like for a single cooling
+> > device:
+> > 
+> > $ ls -R /sys/class/thermal/cooling_device0/
+> > /sys/class/thermal/cooling_device0/:
+> > cur_state  max_state  power  stats  subsystem  type  uevent
+> > 
+> > /sys/class/thermal/cooling_device0/power:
+> > autosuspend_delay_ms  runtime_active_time  runtime_suspended_time
+> > control               runtime_status
+> > 
+> > /sys/class/thermal/cooling_device0/stats:
+> > reset  time_in_state  total_trans  trans_table
+> > 
+> > This is tested on ARM 64-bit Hisilicon hikey620 board running
+> > Ubuntu
+> > and
+> > ARM 64-bit Hisilicon hikey960 board running Android.
+> > 
+> > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> [snip]
+> 
+> > 
+> > +static void cooling_device_stats_setup(struct
+> > thermal_cooling_device
+> > *cdev)
+> > +{
+> > +	struct cooling_dev_stats *stats;
+> > +	unsigned long states;
+> > +	int var;
+> > +
+> > +	if (cdev->ops->get_max_state(cdev, &states))
+> > +		return;
+> > +
+> > +	states++; /* Total number of states is highest state + 1
+> > */
+> > +
+> > +	var = sizeof(*stats);
+> > +	var += sizeof(*stats->time_in_state) * states;
+> > +	var += sizeof(*stats->trans_table) * states * states;
+> > +
+> > +	stats = kzalloc(var, GFP_KERNEL);
+> > +	if (!stats)
+> > +		return;
+> > +
+> > +	stats->time_in_state = (ktime_t *)(stats + 1);
+> > +	stats->trans_table = (unsigned int *)(stats->time_in_state 
+> > +
+> > states);
+> > +	cdev->stats = stats;
+> > +	stats->last_time = ktime_get();
+> > +	stats->max_states = states;
+> > +	cdev->stats = stats;
+> > +
+> cdev->stats is set twice here, I will remove the first one.
+> 
+> thanks,
+> rui
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
