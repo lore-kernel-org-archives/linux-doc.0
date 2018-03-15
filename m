@@ -2,117 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 240C27E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 20:43:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 871587E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 20:49:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932493AbeCOUmi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 16:42:38 -0400
-Received: from foss.arm.com ([217.140.101.70]:47728 "EHLO foss.arm.com"
+        id S1752283AbeCOUtJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 16:49:09 -0400
+Received: from foss.arm.com ([217.140.101.70]:47822 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752847AbeCOUmh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Mar 2018 16:42:37 -0400
+        id S1752011AbeCOUtI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Mar 2018 16:49:08 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6AE6A1529;
-        Thu, 15 Mar 2018 13:42:37 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5EE691529;
+        Thu, 15 Mar 2018 13:49:08 -0700 (PDT)
 Received: from [10.1.207.55] (melchizedek.cambridge.arm.com [10.1.207.55])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 062ED3F25D;
-        Thu, 15 Mar 2018 13:42:33 -0700 (PDT)
-Message-ID: <5AAADA1B.2030601@arm.com>
-Date:   Thu, 15 Mar 2018 20:39:55 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 434E13F25D;
+        Thu, 15 Mar 2018 13:49:04 -0700 (PDT)
+Message-ID: <5AAADBA1.1000804@arm.com>
+Date:   Thu, 15 Mar 2018 20:46:25 +0000
 From:   James Morse <james.morse@arm.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Icedove/31.6.0
 MIME-Version: 1.0
-To:     Dongjiu Geng <gengdongjiu@huawei.com>
-CC:     rkrcmar@redhat.com, corbet@lwn.net, christoffer.dall@linaro.org,
-        marc.zyngier@arm.com, linux@armlinux.org.uk,
-        catalin.marinas@arm.com, rjw@rjwysocki.net, bp@alien8.de,
-        lenb@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, linux-acpi@vger.kernel.org,
-        devel@acpica.org, huangshaoyu@huawei.com
-Subject: Re: [PATCH v10 2/5] arm64: KVM: export the capability to set guest
- SError syndrome
-References: <1520093380-42577-1-git-send-email-gengdongjiu@huawei.com> <1520093380-42577-3-git-send-email-gengdongjiu@huawei.com>
-In-Reply-To: <1520093380-42577-3-git-send-email-gengdongjiu@huawei.com>
-Content-Type: text/plain; charset=windows-1252
+To:     gengdongjiu <gengdj.1984@gmail.com>, drjones@redhat.com
+CC:     gengdongjiu <gengdongjiu@huawei.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "marc.zyngier@arm.com" <marc.zyngier@arm.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "will.deacon@arm.com" <will.deacon@arm.com>,
+        "robert.moore@intel.com" <robert.moore@intel.com>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "lv.zheng@intel.com" <lv.zheng@intel.com>,
+        Huangshaoyu <huangshaoyu@huawei.com>,
+        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
+        "devel@acpica.org" <devel@acpica.org>
+Subject: Re: [PATCH v9 5/7] arm64: kvm: Introduce KVM_ARM_SET_SERROR_ESR ioctl
+References: <0184EA26B2509940AA629AE1405DD7F201A9E8EA@DGGEMA503-MBS.china.huawei.com> <5A70C5A0.1050600@arm.com> <d1b17dae-9d9c-970a-d164-a41c618d449b@huawei.com> <5A7DDDEE.9050306@arm.com> <93d07d3e-8388-7814-d674-538071d84e2a@huawei.com> <5A85C974.70500@arm.com> <CAMj-D2COh4xDKreZXPHeiJK34mrPqDbHszDWY-fz_SfxTRaHQA@mail.gmail.com>
+In-Reply-To: <CAMj-D2COh4xDKreZXPHeiJK34mrPqDbHszDWY-fz_SfxTRaHQA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dongjiu Geng,
+Hi gengdongjiu,
 
-On 03/03/18 16:09, Dongjiu Geng wrote:
-> Before user space injects a SError, it needs to know whether it can
-> specify the guest Exception Syndrome, so KVM should tell user space
-> whether it has such capability.
+On 08/03/18 06:18, gengdongjiu wrote:
+> Hi James,
+>    sorry for my late response due to chines new year.
 
-> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-> index fc3ae95..8a3d708 100644
-> --- a/Documentation/virtual/kvm/api.txt
-> +++ b/Documentation/virtual/kvm/api.txt
-> @@ -4415,3 +4415,14 @@ Parameters: none
->  This capability indicates if the flic device will be able to get/set the
->  AIS states for migration via the KVM_DEV_FLIC_AISM_ALL attribute and allows
->  to discover this without having to create a flic device.
-> +
-> +8.14 KVM_CAP_ARM_SET_SERROR_ESR
-> +
-> +Architectures: arm, arm64
-> +
-> +This capability indicates that userspace can specify syndrome value reported to
-> +guest OS when guest takes a virtual SError interrupt exception.
-
-"when userspace triggers a virtual SError"... how?
+Happy new year,
 
 
-> +If KVM has this capability, userspace can only specify the ISS field for the ESR
-> +syndrome, can not specify the EC field which is not under control by KVM.
+> 2018-02-16 1:55 GMT+08:00 James Morse <james.morse@arm.com>:
+>> On 12/02/18 10:19, gengdongjiu wrote:
+>>> On 2018/2/10 1:44, James Morse wrote:
+>>>> The point? We can't know what a CPU without the RAS extensions puts in there.
+>>>>
+>>>> Why Does this matter? When migrating a pending SError we have to know the
+>>>> difference between 'use this 64bit value', and 'the CPU will generate it'.
+>>>> If I make an SError pending with ESR=0 on a CPU with VSESR, I can't migrated to
+>>>> a system that generates an impdef SError-ESR, because I can't know it will be 0.
+>>
+>>> For the target system, before taking the SError, no one can know whether its syndrome value
+>>> is IMPLEMENTATION DEFINED or architecturally defined.
+>>
+>> For a virtual-SError, the hypervisor knows what it generated. (do I have
+>> VSESR_EL2? What did I put in there?).
+>>
+>>
+>>> when the virtual SError is taken, the ESR_ELx.IDS will be updated, then we can know
+>>> whether the ESR value is impdef or architecturally defined.
+>>
+>> True, the guest can't know anything about a pending virtual SError until it
+>> takes it. Why is this a problem?
+>>
+>>
+>>> It seems migration is only allowed only when target system and source system all support
+>>> RAS extension, because we do not know whether its syndrome is IMPLEMENTATION DEFINED or
+>>> architecturally defined.
+>>
+>> I don't think Qemu allows migration between hosts with differing guest-ID
+>> registers. But we shouldn't depend on this, and we may want to hide the v8.2 RAS
+>> features from the guest's ID register, but still use them from the host.
+>>
+>> The way I imagined it working was we would pack the following information into
+>> that events struct:
+>> {
+>>         bool serror_pending;
+>>         bool serror_has_esr;
+>>         u64  serror_esr;
+>> }
+> 
+> I have used your suggestion struct
 
-Where do I put the ESR?
-If you re-order this after the patch that adds the API, you can describe how
-this can be used.
+Ah! This is where it came from. Sorry, this was just to illustrate the
+information/sizes we wanted to transfer.... I didn't mean it literally.
+
+I should have said "64 bits of ESR, so that we can transfer anything that is
+added to VSESR_EL2 in the future, a flag somewhere to indicate an serror is
+pending, and another flag to indicate the ESR has a value we should use".
 
 
-Thanks,
+Thanks/Sorry!
 
 James
 
 
-
-> +If this virtual SError is taken to EL1 using AArch64, this value will be reported
-> +into ISS filed of ESR_EL1.
-> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-> index 3256b92..38c8a64 100644
-> --- a/arch/arm64/kvm/reset.c
-> +++ b/arch/arm64/kvm/reset.c
-> @@ -77,6 +77,9 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
->  	case KVM_CAP_ARM_PMU_V3:
->  		r = kvm_arm_support_pmu_v3();
->  		break;
-> +	case KVM_CAP_ARM_INJECT_SERROR_ESR:
-> +		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
-> +		break;
->  	case KVM_CAP_SET_GUEST_DEBUG:
->  	case KVM_CAP_VCPU_ATTRIBUTES:
->  		r = 1;
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 8fb90a0..3587b33 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -934,6 +934,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_S390_AIS_MIGRATION 150
->  #define KVM_CAP_PPC_GET_CPU_CHAR 151
->  #define KVM_CAP_S390_BPB 152
-> +#define KVM_CAP_ARM_INJECT_SERROR_ESR 153
->  
->  #ifdef KVM_CAP_IRQ_ROUTING
->  
+>> The problem I was trying to describe is because there is no value of serror_esr
+>> we can use to mean 'Ignore this, I'm a v8.0 CPU'. VSESR_EL2 is a 64bit register,
+>> any bits we abuse may get a meaning we want to use in the future.
+>>
+>> When it comes to migration, v8.{0,1} systems can only GET/SET events where
+>> serror_has_esr == false, they can't use the serror_esr. On v8.2 systems we
+>> should require serror_has_esr to be true.
+> yes, I agreed.
 > 
+>>
+>> If we need to support migration from v8.{0,1} to v8.2, we can make up an impdef
+>> serror_esr.
+> 
+> For the Qemu migration, I need to check more the QEMU code.
+
+
+> Hi Andrew,
+>       I use KVM_GET/SET_VCPU_EVENTS IOCTL to migrate the Serror
+> exception status of VM,
+> The even struct is shown below:
+> 
+> {
+>       bool serror_pending;
+>       bool serror_has_esr;
+>      u64  serror_esr;
+> }
+> 
+> Only when the target machine is armv8.2, it needs to set the
+> serror_esr(SError Exception Syndrome Register).
+> for the armv8.0,  software can not set the serror_esr(SError Exception
+> Syndrome Register).
+> so when migration from v8.{0,1} to v8.2, QEMU should make up an impdef
+> serror_esr for the v8.2 target.
+> can you give me some suggestion how to set that register in the QEMU?
+> I do not familar with the QEMU migration.
+> Thanks very much.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
