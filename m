@@ -1,109 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F344E7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 02:49:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 504357E6B0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 05:33:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751731AbeCOCtp convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Mar 2018 22:49:45 -0400
-Received: from mout.gmx.net ([212.227.17.20]:53899 "EHLO mout.gmx.net"
+        id S1751488AbeCOFc7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 01:32:59 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:44166 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751626AbeCOCto (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Mar 2018 22:49:44 -0400
-Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx102
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0MSY2q-1f6AKx0C4y-00Rc2X; Thu, 15
- Mar 2018 03:49:03 +0100
-Message-ID: <1521082141.7100.1.camel@gmx.de>
-Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-From:   Mike Galbraith <efault@gmx.de>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Waiman Long <longman@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
-Date:   Thu, 15 Mar 2018 03:49:01 +0100
-In-Reply-To: <20180314195711.GD2943022@devbig577.frc2.facebook.com>
-References: <1520609707-16582-1-git-send-email-longman@redhat.com>
-         <1520613285.12489.36.camel@gmx.de>
-         <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
-         <1520619426.27998.18.camel@gmx.de>
-         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
-         <1520624424.27998.76.camel@gmx.de>
-         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
-         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
-         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
-         <1520653648.12749.20.camel@gmx.de>
-         <20180314195711.GD2943022@devbig577.frc2.facebook.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.22.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K0:bu1bdtZjul1T9Z4MDP2qxpGK4DuNLi2fYd62YXG0NdoLzQhA2En
- 0gKNPokIrCS4n7StIphsU5x1yyrWso78xvkuadaUiuO14gDWm+rQBKdGAPjYZmbfTTCcKPs
- WcRx1hfJlnPF4z0e2oau3tWRuB29XiCISPtOw100OzC2dsOdbjWjGFP4NKtzBm/JHtsUQvs
- Td0/sS9r74aIJV/fHC5+g==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:pzUq069DAk4=:hk34WS06i8XgUwgnZXo4UC
- 1CmzzynJcqtFLSPnmA/nczbbi4HS1vUNqSrXgM1FlrL2fFgMXW24Xgz4RcQkLRxrs5G4NWI9F
- PVVicxrCi5e9xbcfyl63n6hPTzuf0JjD0H0co4b6fe4Ew4+6z6Ss4u/bsonrksVfLaNwa8CMw
- X6EtxVffiPuZDlKEW8h8ofCIvGtDJ3tbPeZUtYq2Gu79n/nP/vep0Xm+hX9cmEz8XxdpAbhyT
- liRR24ct/+ONPxbgWc7TlTmXBoNOJW8WIfIttUZ4Kw2GX980RuIaEVopd0me7AZdKnHMtJjCl
- ulvv1of9viyhP1cSAlRiRXdjRJXQ7r5zgAnEpj6LtvHDqkHkH8V8Q61EzJuOFzo2ZACPNYujr
- NlBNskKfrC/0slJrE3wiEsvuTSBkGp7nzkxooLj0daegVXD7OWXrcwrvooCNowtZY3imX+WOH
- TqVnDycRvWfQ3+KkJkqGC2zD982k7znJtDoANJg3N4WuII3iHBPdM/PqEOf1Ldspj/HfMrg0+
- NsYcCBqZfxMW7mAggjnBZRl0JiDo1usMIeXy9SS4/L68+VqbYyJYN/3cNJyHHB+ivoTMBKy2p
- joxOPNYhBuXt8HdVvm7xctW8mz5IUCvO03OHoZ1tVx5QJB3nF0jS8sIL2piFxCr6Ij36XCkco
- UbbZ2VnZCAGZ51Xlg2LLL/+BIwgxIdAc2eebrGiC7TCtZ2MntCKqg7yKayTZUJCgS1py9jY9U
- a427gcXMnE1/hm0r85PatGF2Bup1OC0Tbnb3KDX9fjM4GupTMuHYmXIlb3GBCMp/khc1DRrNx
- sDqlr5mpOc1jDwER9jtWokXISLGICZhyf7mvmDeX2HUHE1UNvY=
+        id S1750731AbeCOFc5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Mar 2018 01:32:57 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 08801207A4; Thu, 15 Mar 2018 06:32:52 +0100 (CET)
+Received: from bbrezillon (96-65-213-252-static.hfc.comcastbusiness.net [96.65.213.252])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 092F42036E;
+        Thu, 15 Mar 2018 06:32:41 +0100 (CET)
+Date:   Thu, 15 Mar 2018 06:32:38 +0100
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     linux-kernel@vger.kernel.org, linux@roeck-us.net, corbet@lwn.net,
+        tj@kernel.org, gregkh@linuxfoundation.org, rjw@rjwysocki.net,
+        viresh.kumar@linaro.org, herbert@gondor.apana.org.au,
+        davem@davemloft.net, bp@alien8.de, mchehab@kernel.org,
+        linus.walleij@linaro.org, wsa@the-dreams.de,
+        dmitry.torokhov@gmail.com, ulf.hansson@linaro.org,
+        cyrille.pitchen@wedev4u.fr, wg@grandegger.com, mkl@pengutronix.de,
+        alexandre.belloni@bootlin.com, broonie@kernel.org,
+        jic23@kernel.org, lars@metafoo.de, jslaby@suse.com,
+        stern@rowland.harvard.edu, b.zolnierkie@samsung.com,
+        shli@kernel.org, linux-watchdog@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-raid@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/47] arch-removal: device drivers
+Message-ID: <20180315063238.3303b8d1@bbrezillon>
+In-Reply-To: <20180314153603.3127932-1-arnd@arndb.de>
+References: <20180314153603.3127932-1-arnd@arndb.de>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-03-14 at 12:57 -0700, Tejun Heo wrote:
-> Hello,
-> 
-> On Sat, Mar 10, 2018 at 04:47:28AM +0100, Mike Galbraith wrote:
-> > Some form of cpu_exclusive (preferably exactly that, but something else
-> > could replace it) is needed to define sets that must not overlap any
-> > other set at creation time or any time thereafter.  A set with property
-> > 'exclusive' is the enabler for fundamentally exclusive (but dynamic!)
-> > set properties such as 'isolated' (etc etc).
-> 
-> I'm not sure cpu_exclusive makes sense.  A controller knob can either
-> belong to the parent or the cgroup itself and cpu_exclusive doesn't
-> make sense in either case.
-> 
-> 1. cpu_exclusive is owned by the parent as other usual resource
->    control knobs.  IOW, it's not delegatable.
-> 
->    This is weird because it's asking the kernel to protect against its
->    own misconfiguration and there's nothing preventing cpu_exclusive
->    itself being cleared by the same entitya.
-> 
-> 2. cpu_exclusive is owned by the cgroup itself like memory.oom_group.
->    IOW, it's delegatable.
-> 
->    This allows a cgroup to affect what its siblings can or cannot do,
->    which is broken.  Semantically, it doesn't make much sense either.
-> 
-> I don't think it's a good idea to add a kernel mechanism to prevent
-> misconfiguration from a single entity.
+Hi Arnd,
 
-Under the hood v2 details are entirely up to you.  My input ends at
-please don't leave dynamic partitioning standing at the dock when v2
-sails.
+On Wed, 14 Mar 2018 16:35:13 +0100
+Arnd Bergmann <arnd@arndb.de> wrote:
 
-	-Mike
+> Hi driver maintainers,
+> 
+> I just posted one series with the removal of eight architectures,
+> see https://lkml.org/lkml/2018/3/14/505 for details, or
+> https://lwn.net/Articles/748074/ for more background.
+> 
+> These are the device drivers that go along with them. I have already
+> picked up the drivers for arch/metag/ into my tree, they were reviewed
+> earlier.
+> 
+> Please let me know if you have any concerns with the patch, or if you
+> prefer to pick up the patches in your respective trees.  I created
+> the patches with 'git format-patch -D', so they will not apply without
+> manually removing those files.
+> 
+> For anything else, I'd keep the removal patches in my asm-generic tree
+> and will send a pull request for 4.17 along with the actual arch removal.
+> 
+>        Arnd
+> 
+> Arnd Bergmann
+>   edac: remove tile driver
+>   net: tile: remove ethernet drivers
+>   net: adi: remove blackfin ethernet drivers
+>   net: 8390: remove m32r specific bits
+>   net: remove cris etrax ethernet driver
+>   net: smsc: remove m32r specific smc91x configuration
+>   raid: remove tile specific raid6 implementation
+>   rtc: remove tile driver
+>   rtc: remove bfin driver
+>   char: remove obsolete ds1302 rtc driver
+>   char: remove tile-srom.c
+>   char: remove blackfin OTP driver
+>   pcmcia: remove m32r drivers
+>   pcmcia: remove blackfin driver
+>   ASoC: remove blackfin drivers
+>   video/logo: remove obsolete logo files
+>   fbdev: remove blackfin drivers
+>   fbdev: s1d13xxxfb: remove m32r specific hacks
+>   crypto: remove blackfin CRC driver
+>   media: platform: remove blackfin capture driver
+>   media: platform: remove m32r specific arv driver
+>   cpufreq: remove blackfin driver
+>   cpufreq: remove cris specific drivers
+>   gpio: remove etraxfs driver
+>   pinctrl: remove adi2/blackfin drivers
+>   ata: remove bf54x driver
+>   input: keyboard: remove bf54x driver
+>   input: misc: remove blackfin rotary driver
+>   mmc: remove bfin_sdh driver
+>   can: remove bfin_can driver
+>   watchdog: remove bfin_wdt driver
+>   mtd: maps: remove bfin-async-flash driver
+>   mtd: nand: remove bf5xx_nand driver
+
+If you don't mind, I'd like to take the mtd patches through the MTD
+tree. As you've probably noticed, nand code has been moved around and
+it's easier for me to carry those 2 simple changes in my tree than
+creating an immutable branch.
+
+Let me know if this is a problem.
+
+Regards,
+
+Boris
+
+-- 
+Boris Brezillon, Bootlin (formerly Free Electrons)
+Embedded Linux and Kernel engineering
+https://bootlin.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
