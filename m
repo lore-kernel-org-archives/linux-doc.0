@@ -5,128 +5,63 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B2547E686
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 11:58:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8069F7E69D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 12:06:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750987AbeCOL6R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 07:58:17 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49534 "EHLO
+        id S1751475AbeCOMGY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 08:06:24 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59144 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750751AbeCOL6Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Mar 2018 07:58:16 -0400
+        with ESMTP id S1751372AbeCOMGX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Mar 2018 08:06:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=AbckgTn8PJ6ApMj4wFMzMfK1rq/ZNUD/BNiVSvYUfDw=; b=tlBMQHy/eyJeI3TYf+2W1+Cd7
-        HFPkIGwYST1+7OfT3SWjjC8x/VzbgTRY4fVjxXeTKdNPy+WOCveiqZlKQxw6TWKmFHgLJVL/D1Kt7
-        Gx6iv8sPx3VEno+yrbH7nI8OhXetLYwXH0LPR9ljNwvCuWJdTyGwWZbLQ/7iQpI8e2eGVIo9n6h07
-        NVntBp/K7LCbk4Xhk6AoJ7akjUcYsH4oCfjt5anMvqtMPo3d6i50sXO9+2vLlHLBCJHKUlqnFmh//
-        eb2nYruRrsNve5t0wHmdycTuxfObxyBF09PN8kkJ1Hg4tHf+sp7u7l7ERtw57e5qw9ehH1SCldFhE
-        H3g/4lkEw==;
+        d=infradead.org; s=bombadil.20170209; h=Content-Type:MIME-Version:Message-ID:
+        Subject:To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=GEswkaFpgx1Wvb11I76ALzNuhAqjGQ+t6+FiJUyNniU=; b=GqmKOBjbUkHe3UmbZ0K2aI/nE5
+        B2qjpmbPShI8g/A8pd848YevEJefmNZtIbThrHMmXAaYVwIe1MLKhomgRnmy0pKRP9F31kjUDp1nP
+        8058z9iYY5MTSopN5+l9xPYVkwn7wcoeP+nBu+ZM4oJ87FOVFlyvGs8OSZ22MKnyRJ4i4BGDgRY84
+        L163l4mZFp5FOjZM6NNnbzdaHGY3Pducm/LCROR2h//kXeMFn/6I2UYuj8eEcy4iBHNTCWriI5dbZ
+        v97ERB41G5a82XEG04lgT2+M9DqMWyeVEDDSss7iV4F0/Ws79f0gPn/bIKErHQhARaD3xABdXaUmQ
+        h8od0NgQ==;
 Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ewRWO-0004eU-H5; Thu, 15 Mar 2018 11:58:12 +0000
-Date:   Thu, 15 Mar 2018 04:58:12 -0700
+        id 1ewReJ-000121-Aw; Thu, 15 Mar 2018 12:06:23 +0000
+Date:   Thu, 15 Mar 2018 05:06:23 -0700
 From:   Matthew Wilcox <willy@infradead.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Kirill Tkhai <ktkhai@virtuozzo.com>, tj@kernel.org, cl@linux.com,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: [PATCH] Improve mutex documentation
-Message-ID: <20180315115812.GA9949@bombadil.infradead.org>
-References: <152102825828.13166.9574628787314078889.stgit@localhost.localdomain>
- <20180314135631.3e21b31b154e9f3036fa6c52@linux-foundation.org>
+To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] kernel-doc: Remove __sched markings
+Message-ID: <20180315120623.GB9949@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180314135631.3e21b31b154e9f3036fa6c52@linux-foundation.org>
 User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 14, 2018 at 01:56:31PM -0700, Andrew Morton wrote:
-> My memory is weak and our documentation is awful.  What does
-> mutex_lock_killable() actually do and how does it differ from
-> mutex_lock_interruptible()?
-
 From: Matthew Wilcox <mawilcox@microsoft.com>
 
-Add kernel-doc for mutex_lock_killable() and mutex_lock_io().  Reword the
-kernel-doc for mutex_lock_interruptible().
+I find the __sched annotations unaesthetic in the kernel-doc.  Remove
+them like we remove __inline, __weak, __init and so on.
 
 Signed-off-by: Matthew Wilcox <mawilcox@microsoft.com>
 
-diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
-index 858a07590e39..2048359f33d2 100644
---- a/kernel/locking/mutex.c
-+++ b/kernel/locking/mutex.c
-@@ -1082,15 +1082,16 @@ static noinline int __sched
- __mutex_lock_interruptible_slowpath(struct mutex *lock);
- 
- /**
-- * mutex_lock_interruptible - acquire the mutex, interruptible
-- * @lock: the mutex to be acquired
-+ * mutex_lock_interruptible() - Acquire the mutex, interruptible by signals.
-+ * @lock: The mutex to be acquired.
-  *
-- * Lock the mutex like mutex_lock(), and return 0 if the mutex has
-- * been acquired or sleep until the mutex becomes available. If a
-- * signal arrives while waiting for the lock then this function
-- * returns -EINTR.
-+ * Lock the mutex like mutex_lock().  If a signal is delivered while the
-+ * process is sleeping, this function will return without acquiring the
-+ * mutex.
-  *
-- * This function is similar to (but not equivalent to) down_interruptible().
-+ * Context: Process context.
-+ * Return: 0 if the lock was successfully acquired or %-EINTR if a
-+ * signal arrived.
-  */
- int __sched mutex_lock_interruptible(struct mutex *lock)
- {
-@@ -1104,6 +1105,18 @@ int __sched mutex_lock_interruptible(struct mutex *lock)
- 
- EXPORT_SYMBOL(mutex_lock_interruptible);
- 
-+/**
-+ * mutex_lock_killable() - Acquire the mutex, interruptible by fatal signals.
-+ * @lock: The mutex to be acquired.
-+ *
-+ * Lock the mutex like mutex_lock().  If a signal which will be fatal to
-+ * the current process is delivered while the process is sleeping, this
-+ * function will return without acquiring the mutex.
-+ *
-+ * Context: Process context.
-+ * Return: 0 if the lock was successfully acquired or %-EINTR if a
-+ * fatal signal arrived.
-+ */
- int __sched mutex_lock_killable(struct mutex *lock)
- {
- 	might_sleep();
-@@ -1115,6 +1128,16 @@ int __sched mutex_lock_killable(struct mutex *lock)
- }
- EXPORT_SYMBOL(mutex_lock_killable);
- 
-+/**
-+ * mutex_lock_io() - Acquire the mutex and mark the process as waiting for I/O
-+ * @lock: The mutex to be acquired.
-+ *
-+ * Lock the mutex like mutex_lock().  While the task is waiting for this
-+ * mutex, it will be accounted as being in the IO wait state by the
-+ * scheduler.
-+ *
-+ * Context: Process context.
-+ */
- void __sched mutex_lock_io(struct mutex *lock)
- {
- 	int token;
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index ae3cac118a11..eb986a7809d3 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1578,6 +1578,7 @@ sub dump_function($$) {
+     $prototype =~ s/__meminit +//;
+     $prototype =~ s/__must_check +//;
+     $prototype =~ s/__weak +//;
++    $prototype =~ s/__sched +//;
+     my $define = $prototype =~ s/^#\s*define\s+//; #ak added
+     $prototype =~ s/__attribute__\s*\(\(
+             (?:
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
