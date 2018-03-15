@@ -1,776 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 62A0D7E6A4
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Mar 2018 23:59:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F344E7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 02:49:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751982AbeCNX7d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Mar 2018 19:59:33 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:55626 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751969AbeCNX7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Mar 2018 19:59:30 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 188AE60F5C; Wed, 14 Mar 2018 23:59:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521071970;
-        bh=w3g/sH95wnHf8WyRSasB14406hWJRpfVStmlIPcz8xM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CJOajdkwd+XGGciGgPlKpNSe8jYpIGSa7T6R6/y81kPVdUdnQhlseD/LskByvpddY
-         DuXRBMJOuC0n5wIZm0OJ6Tj9asyKzgYEZjg4/tWEfquWEbY6Z8ayuInmhiGdZ0e/3r
-         OLwkXBZfXMoV0h8dfyDmw4hhv24yZmKjgF38MJtI=
-Received: from codeaurora.org (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kramasub@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1541F60F61;
-        Wed, 14 Mar 2018 23:59:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521071953;
-        bh=w3g/sH95wnHf8WyRSasB14406hWJRpfVStmlIPcz8xM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QWyTCAwVji6hDn8U6eXjgaBTBjzCODyejtqFGO3TQSr1edCrJ1+6+J5pMUpiOkedx
-         P3k8KLJH01d+DSgwcf9D0d9jZecfEs5bB4tyGFLEefNQtDaBb1cjkqHtUM6X8XRNsW
-         PAU3h/anXGl1qzXsOcCXlUJncytjdFXWSzyUmobQ=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1541F60F61
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
-From:   Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-To:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, wsa@the-dreams.de,
-        gregkh@linuxfoundation.org
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, jslaby@suse.com,
-        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>
-Subject: [PATCH v4 3/6] i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller
-Date:   Wed, 14 Mar 2018 17:58:48 -0600
-Message-Id: <1521071931-9294-4-git-send-email-kramasub@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
-References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
+        id S1751731AbeCOCtp convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Mar 2018 22:49:45 -0400
+Received: from mout.gmx.net ([212.227.17.20]:53899 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751626AbeCOCto (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Mar 2018 22:49:44 -0400
+Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx102
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0MSY2q-1f6AKx0C4y-00Rc2X; Thu, 15
+ Mar 2018 03:49:03 +0100
+Message-ID: <1521082141.7100.1.camel@gmx.de>
+Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
+From:   Mike Galbraith <efault@gmx.de>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Waiman Long <longman@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
+Date:   Thu, 15 Mar 2018 03:49:01 +0100
+In-Reply-To: <20180314195711.GD2943022@devbig577.frc2.facebook.com>
+References: <1520609707-16582-1-git-send-email-longman@redhat.com>
+         <1520613285.12489.36.camel@gmx.de>
+         <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
+         <1520619426.27998.18.camel@gmx.de>
+         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
+         <1520624424.27998.76.camel@gmx.de>
+         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
+         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
+         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
+         <1520653648.12749.20.camel@gmx.de>
+         <20180314195711.GD2943022@devbig577.frc2.facebook.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K0:bu1bdtZjul1T9Z4MDP2qxpGK4DuNLi2fYd62YXG0NdoLzQhA2En
+ 0gKNPokIrCS4n7StIphsU5x1yyrWso78xvkuadaUiuO14gDWm+rQBKdGAPjYZmbfTTCcKPs
+ WcRx1hfJlnPF4z0e2oau3tWRuB29XiCISPtOw100OzC2dsOdbjWjGFP4NKtzBm/JHtsUQvs
+ Td0/sS9r74aIJV/fHC5+g==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:pzUq069DAk4=:hk34WS06i8XgUwgnZXo4UC
+ 1CmzzynJcqtFLSPnmA/nczbbi4HS1vUNqSrXgM1FlrL2fFgMXW24Xgz4RcQkLRxrs5G4NWI9F
+ PVVicxrCi5e9xbcfyl63n6hPTzuf0JjD0H0co4b6fe4Ew4+6z6Ss4u/bsonrksVfLaNwa8CMw
+ X6EtxVffiPuZDlKEW8h8ofCIvGtDJ3tbPeZUtYq2Gu79n/nP/vep0Xm+hX9cmEz8XxdpAbhyT
+ liRR24ct/+ONPxbgWc7TlTmXBoNOJW8WIfIttUZ4Kw2GX980RuIaEVopd0me7AZdKnHMtJjCl
+ ulvv1of9viyhP1cSAlRiRXdjRJXQ7r5zgAnEpj6LtvHDqkHkH8V8Q61EzJuOFzo2ZACPNYujr
+ NlBNskKfrC/0slJrE3wiEsvuTSBkGp7nzkxooLj0daegVXD7OWXrcwrvooCNowtZY3imX+WOH
+ TqVnDycRvWfQ3+KkJkqGC2zD982k7znJtDoANJg3N4WuII3iHBPdM/PqEOf1Ldspj/HfMrg0+
+ NsYcCBqZfxMW7mAggjnBZRl0JiDo1usMIeXy9SS4/L68+VqbYyJYN/3cNJyHHB+ivoTMBKy2p
+ joxOPNYhBuXt8HdVvm7xctW8mz5IUCvO03OHoZ1tVx5QJB3nF0jS8sIL2piFxCr6Ij36XCkco
+ UbbZ2VnZCAGZ51Xlg2LLL/+BIwgxIdAc2eebrGiC7TCtZ2MntCKqg7yKayTZUJCgS1py9jY9U
+ a427gcXMnE1/hm0r85PatGF2Bup1OC0Tbnb3KDX9fjM4GupTMuHYmXIlb3GBCMp/khc1DRrNx
+ sDqlr5mpOc1jDwER9jtWokXISLGICZhyf7mvmDeX2HUHE1UNvY=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This bus driver supports the GENI based i2c hardware controller in the
-Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
-module supporting a wide range of serial interfaces including I2C. The
-driver supports FIFO mode and DMA mode of transfer and switches modes
-dynamically depending on the size of the transfer.
+On Wed, 2018-03-14 at 12:57 -0700, Tejun Heo wrote:
+> Hello,
+> 
+> On Sat, Mar 10, 2018 at 04:47:28AM +0100, Mike Galbraith wrote:
+> > Some form of cpu_exclusive (preferably exactly that, but something else
+> > could replace it) is needed to define sets that must not overlap any
+> > other set at creation time or any time thereafter.  A set with property
+> > 'exclusive' is the enabler for fundamentally exclusive (but dynamic!)
+> > set properties such as 'isolated' (etc etc).
+> 
+> I'm not sure cpu_exclusive makes sense.  A controller knob can either
+> belong to the parent or the cgroup itself and cpu_exclusive doesn't
+> make sense in either case.
+> 
+> 1. cpu_exclusive is owned by the parent as other usual resource
+>    control knobs.  IOW, it's not delegatable.
+> 
+>    This is weird because it's asking the kernel to protect against its
+>    own misconfiguration and there's nothing preventing cpu_exclusive
+>    itself being cleared by the same entitya.
+> 
+> 2. cpu_exclusive is owned by the cgroup itself like memory.oom_group.
+>    IOW, it's delegatable.
+> 
+>    This allows a cgroup to affect what its siblings can or cannot do,
+>    which is broken.  Semantically, it doesn't make much sense either.
+> 
+> I don't think it's a good idea to add a kernel mechanism to prevent
+> misconfiguration from a single entity.
 
-Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
-Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
----
- drivers/i2c/busses/Kconfig         |  13 +
- drivers/i2c/busses/Makefile        |   1 +
- drivers/i2c/busses/i2c-qcom-geni.c | 648 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 662 insertions(+)
- create mode 100644 drivers/i2c/busses/i2c-qcom-geni.c
+Under the hood v2 details are entirely up to you.  My input ends at
+please don't leave dynamic partitioning standing at the dock when v2
+sails.
 
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index e2954fb..89e642a 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -848,6 +848,19 @@ config I2C_PXA_SLAVE
- 	  is necessary for systems where the PXA may be a target on the
- 	  I2C bus.
- 
-+config I2C_QCOM_GENI
-+	tristate "Qualcomm Technologies Inc.'s GENI based I2C controller"
-+	depends on ARCH_QCOM || COMPILE_TEST
-+	depends on QCOM_GENI_SE
-+	help
-+	  This driver supports GENI serial engine based I2C controller in
-+	  master mode on the Qualcomm Technologies Inc.'s SoCs. If you say
-+	  yes to this option, support will be included for the built-in I2C
-+	  interface on the Qualcomm Technologies Inc.'s SoCs.
-+
-+	  This driver can also be built as a module.  If so, the module
-+	  will be called i2c-qcom-geni.
-+
- config I2C_QUP
- 	tristate "Qualcomm QUP based I2C controller"
- 	depends on ARCH_QCOM
-diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
-index 2ce8576..201fce1 100644
---- a/drivers/i2c/busses/Makefile
-+++ b/drivers/i2c/busses/Makefile
-@@ -84,6 +84,7 @@ obj-$(CONFIG_I2C_PNX)		+= i2c-pnx.o
- obj-$(CONFIG_I2C_PUV3)		+= i2c-puv3.o
- obj-$(CONFIG_I2C_PXA)		+= i2c-pxa.o
- obj-$(CONFIG_I2C_PXA_PCI)	+= i2c-pxa-pci.o
-+obj-$(CONFIG_I2C_QCOM_GENI)	+= i2c-qcom-geni.o
- obj-$(CONFIG_I2C_QUP)		+= i2c-qup.o
- obj-$(CONFIG_I2C_RIIC)		+= i2c-riic.o
- obj-$(CONFIG_I2C_RK3X)		+= i2c-rk3x.o
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-new file mode 100644
-index 0000000..4926efb
---- /dev/null
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -0,0 +1,648 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-+
-+#include <linux/clk.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/qcom-geni-se.h>
-+#include <linux/spinlock.h>
-+
-+#define SE_I2C_TX_TRANS_LEN		0x26c
-+#define SE_I2C_RX_TRANS_LEN		0x270
-+#define SE_I2C_SCL_COUNTERS		0x278
-+
-+#define SE_I2C_ERR  (M_CMD_OVERRUN_EN | M_ILLEGAL_CMD_EN | M_CMD_FAILURE_EN |\
-+			M_GP_IRQ_1_EN | M_GP_IRQ_3_EN | M_GP_IRQ_4_EN)
-+#define SE_I2C_ABORT		BIT(1)
-+
-+/* M_CMD OP codes for I2C */
-+#define I2C_WRITE		0x1
-+#define I2C_READ		0x2
-+#define I2C_WRITE_READ		0x3
-+#define I2C_ADDR_ONLY		0x4
-+#define I2C_BUS_CLEAR		0x6
-+#define I2C_STOP_ON_BUS		0x7
-+/* M_CMD params for I2C */
-+#define PRE_CMD_DELAY		BIT(0)
-+#define TIMESTAMP_BEFORE	BIT(1)
-+#define STOP_STRETCH		BIT(2)
-+#define TIMESTAMP_AFTER		BIT(3)
-+#define POST_COMMAND_DELAY	BIT(4)
-+#define IGNORE_ADD_NACK		BIT(6)
-+#define READ_FINISHED_WITH_ACK	BIT(7)
-+#define BYPASS_ADDR_PHASE	BIT(8)
-+#define SLV_ADDR_MSK		GENMASK(15, 9)
-+#define SLV_ADDR_SHFT		9
-+/* I2C SCL COUNTER fields */
-+#define HIGH_COUNTER_MSK	GENMASK(29, 20)
-+#define HIGH_COUNTER_SHFT	20
-+#define LOW_COUNTER_MSK		GENMASK(19, 10)
-+#define LOW_COUNTER_SHFT	10
-+#define CYCLE_COUNTER_MSK	GENMASK(9, 0)
-+
-+enum geni_i2c_err_code {
-+	GP_IRQ0,
-+	NACK,
-+	GP_IRQ2,
-+	BUS_PROTO,
-+	ARB_LOST,
-+	GP_IRQ5,
-+	GENI_OVERRUN,
-+	GENI_ILLEGAL_CMD,
-+	GENI_ABORT_DONE,
-+	GENI_TIMEOUT,
-+};
-+
-+#define DM_I2C_CB_ERR		((BIT(NACK) | BIT(BUS_PROTO) | BIT(ARB_LOST)) \
-+									<< 5)
-+
-+#define I2C_AUTO_SUSPEND_DELAY	250
-+#define KHZ(freq)		(1000 * freq)
-+#define PACKING_BYTES_PW	4
-+
-+#define ABORT_TIMEOUT		HZ
-+#define XFER_TIMEOUT		HZ
-+#define RST_TIMEOUT		HZ
-+
-+struct geni_i2c_dev {
-+	struct geni_se se;
-+	u32 tx_wm;
-+	int irq;
-+	int err;
-+	struct i2c_adapter adap;
-+	struct completion done;
-+	struct i2c_msg *cur;
-+	int cur_wr;
-+	int cur_rd;
-+	spinlock_t lock;
-+	u32 clk_freq_out;
-+	const struct geni_i2c_clk_fld *clk_fld;
-+};
-+
-+struct geni_i2c_err_log {
-+	int err;
-+	const char *msg;
-+};
-+
-+static const struct geni_i2c_err_log gi2c_log[] = {
-+	[GP_IRQ0] = {-EINVAL, "Unknown I2C err GP_IRQ0"},
-+	[NACK] = {-ENOTCONN, "NACK: slv unresponsive, check its power/reset-ln"},
-+	[GP_IRQ2] = {-EINVAL, "Unknown I2C err GP IRQ2"},
-+	[BUS_PROTO] = {-EPROTO, "Bus proto err, noisy/unepxected start/stop"},
-+	[ARB_LOST] = {-EBUSY, "Bus arbitration lost, clock line undriveable"},
-+	[GP_IRQ5] = {-EINVAL, "Unknown I2C err GP IRQ5"},
-+	[GENI_OVERRUN] = {-EIO, "Cmd overrun, check GENI cmd-state machine"},
-+	[GENI_ILLEGAL_CMD] = {-EILSEQ, "Illegal cmd, check GENI cmd-state machine"},
-+	[GENI_ABORT_DONE] = {-ETIMEDOUT, "Abort after timeout successful"},
-+	[GENI_TIMEOUT] = {-ETIMEDOUT, "I2C TXN timed out"},
-+};
-+
-+struct geni_i2c_clk_fld {
-+	u32	clk_freq_out;
-+	u8	clk_div;
-+	u8	t_high_cnt;
-+	u8	t_low_cnt;
-+	u8	t_cycle_cnt;
-+};
-+
-+/*
-+ * Hardware uses the underlying formula to calculate time periods of
-+ * SCL clock cycle.
-+ *
-+ * time of high period of SCL: t_high = (t_high_cnt * clk_div) / source_clock
-+ * time of low period of SCL: t_low = (t_low_cnt * clk_div) / source_clock
-+ * time of full period of SCL: t_cycle = (t_cycle_cnt * clk_div) / source_clock
-+ * clk_freq_out = t / t_cycle
-+ * source_clock = 19.2 MHz
-+ */
-+static const struct geni_i2c_clk_fld geni_i2c_clk_map[] = {
-+	{KHZ(100), 7, 10, 11, 26},
-+	{KHZ(400), 2,  5, 12, 24},
-+	{KHZ(1000), 1, 3,  9, 18},
-+};
-+
-+static int geni_i2c_clk_map_idx(struct geni_i2c_dev *gi2c)
-+{
-+	int i;
-+	const struct geni_i2c_clk_fld *itr = geni_i2c_clk_map;
-+
-+	for (i = 0; i < ARRAY_SIZE(geni_i2c_clk_map); i++, itr++) {
-+		if (itr->clk_freq_out == gi2c->clk_freq_out) {
-+			gi2c->clk_fld = itr;
-+			return 0;
-+		}
-+	}
-+	return -EINVAL;
-+}
-+
-+static void qcom_geni_i2c_conf(struct geni_i2c_dev *gi2c)
-+{
-+	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
-+	u32 val;
-+
-+	writel_relaxed(0, gi2c->se.base + SE_GENI_CLK_SEL);
-+
-+	val = (itr->clk_div << CLK_DIV_SHFT) | SER_CLK_EN;
-+	writel_relaxed(val, gi2c->se.base + GENI_SER_M_CLK_CFG);
-+
-+	val = itr->t_high_cnt << HIGH_COUNTER_SHFT;
-+	val |= itr->t_low_cnt << LOW_COUNTER_SHFT;
-+	val |= itr->t_cycle_cnt;
-+	writel_relaxed(val, gi2c->se.base + SE_I2C_SCL_COUNTERS);
-+}
-+
-+static void geni_i2c_err_misc(struct geni_i2c_dev *gi2c)
-+{
-+	u32 m_cmd = readl_relaxed(gi2c->se.base + SE_GENI_M_CMD0);
-+	u32 m_stat = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
-+	u32 geni_s = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
-+	u32 geni_ios = readl_relaxed(gi2c->se.base + SE_GENI_IOS);
-+	u32 dma = readl_relaxed(gi2c->se.base + SE_GENI_DMA_MODE_EN);
-+	u32 rx_st, tx_st;
-+
-+	if (dma) {
-+		rx_st = readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_STAT);
-+		tx_st = readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_STAT);
-+	} else {
-+		rx_st = readl_relaxed(gi2c->se.base + SE_GENI_RX_FIFO_STATUS);
-+		tx_st = readl_relaxed(gi2c->se.base + SE_GENI_TX_FIFO_STATUS);
-+	}
-+	dev_dbg(gi2c->se.dev, "DMA:%d tx_stat:0x%x, rx_stat:0x%x, irq-stat:0x%x\n",
-+		dma, tx_st, rx_st, m_stat);
-+	dev_dbg(gi2c->se.dev, "m_cmd:0x%x, geni_status:0x%x, geni_ios:0x%x\n",
-+		m_cmd, geni_s, geni_ios);
-+}
-+
-+static void geni_i2c_err(struct geni_i2c_dev *gi2c, int err)
-+{
-+	if (!gi2c->err)
-+		gi2c->err = gi2c_log[err].err;
-+	if (gi2c->cur)
-+		dev_dbg(gi2c->se.dev, "len:%d, slv-addr:0x%x, RD/WR:%d\n",
-+			gi2c->cur->len, gi2c->cur->addr, gi2c->cur->flags);
-+
-+	if (err != NACK && err != GENI_ABORT_DONE) {
-+		dev_err(gi2c->se.dev, "%s\n", gi2c_log[err].msg);
-+		geni_i2c_err_misc(gi2c);
-+	}
-+}
-+
-+static irqreturn_t geni_i2c_irq(int irq, void *dev)
-+{
-+	struct geni_i2c_dev *gi2c = dev;
-+	int j;
-+	u32 m_stat;
-+	u32 rx_st;
-+	u32 dm_tx_st;
-+	u32 dm_rx_st;
-+	u32 dma;
-+	struct i2c_msg *cur;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&gi2c->lock, flags);
-+	m_stat = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
-+	rx_st = readl_relaxed(gi2c->se.base + SE_GENI_RX_FIFO_STATUS);
-+	dm_tx_st = readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_STAT);
-+	dm_rx_st = readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_STAT);
-+	dma = readl_relaxed(gi2c->se.base + SE_GENI_DMA_MODE_EN);
-+	cur = gi2c->cur;
-+
-+	if (!cur ||
-+	    m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
-+	    dm_rx_st & (DM_I2C_CB_ERR)) {
-+		if (m_stat & M_GP_IRQ_1_EN)
-+			geni_i2c_err(gi2c, NACK);
-+		if (m_stat & M_GP_IRQ_3_EN)
-+			geni_i2c_err(gi2c, BUS_PROTO);
-+		if (m_stat & M_GP_IRQ_4_EN)
-+			geni_i2c_err(gi2c, ARB_LOST);
-+		if (m_stat & M_CMD_OVERRUN_EN)
-+			geni_i2c_err(gi2c, GENI_OVERRUN);
-+		if (m_stat & M_ILLEGAL_CMD_EN)
-+			geni_i2c_err(gi2c, GENI_ILLEGAL_CMD);
-+		if (m_stat & M_CMD_ABORT_EN)
-+			geni_i2c_err(gi2c, GENI_ABORT_DONE);
-+		if (m_stat & M_GP_IRQ_0_EN)
-+			geni_i2c_err(gi2c, GP_IRQ0);
-+
-+		/* Disable the TX Watermark interrupt to stop TX */
-+		if (!dma)
-+			writel_relaxed(0, gi2c->se.base +
-+					   SE_GENI_TX_WATERMARK_REG);
-+		goto irqret;
-+	}
-+
-+	if (dma) {
-+		dev_dbg(gi2c->se.dev, "i2c dma tx:0x%x, dma rx:0x%x\n",
-+			dm_tx_st, dm_rx_st);
-+		goto irqret;
-+	}
-+
-+	if (cur->flags & I2C_M_RD &&
-+	    m_stat & (M_RX_FIFO_WATERMARK_EN | M_RX_FIFO_LAST_EN)) {
-+		u32 rxcnt = rx_st & RX_FIFO_WC_MSK;
-+
-+		for (j = 0; j < rxcnt; j++) {
-+			u32 val;
-+			int p = 0;
-+
-+			val = readl_relaxed(gi2c->se.base + SE_GENI_RX_FIFOn);
-+			while (gi2c->cur_rd < cur->len && p < sizeof(val)) {
-+				cur->buf[gi2c->cur_rd++] = val & 0xff;
-+				val >>= 8;
-+				p++;
-+			}
-+			if (gi2c->cur_rd == cur->len)
-+				break;
-+		}
-+	} else if (!(cur->flags & I2C_M_RD) &&
-+		   m_stat & M_TX_FIFO_WATERMARK_EN) {
-+		for (j = 0; j < gi2c->tx_wm; j++) {
-+			u32 temp;
-+			u32 val = 0;
-+			int p = 0;
-+
-+			while (gi2c->cur_wr < cur->len && p < sizeof(val)) {
-+				temp = cur->buf[gi2c->cur_wr++];
-+				val |= temp << (p * 8);
-+				p++;
-+			}
-+			writel_relaxed(val, gi2c->se.base + SE_GENI_TX_FIFOn);
-+			/* TX Complete, Disable the TX Watermark interrupt */
-+			if (gi2c->cur_wr == cur->len) {
-+				writel_relaxed(0, gi2c->se.base +
-+						SE_GENI_TX_WATERMARK_REG);
-+				break;
-+			}
-+		}
-+	}
-+irqret:
-+	if (m_stat)
-+		writel_relaxed(m_stat, gi2c->se.base + SE_GENI_M_IRQ_CLEAR);
-+
-+	if (dma) {
-+		if (dm_tx_st)
-+			writel_relaxed(dm_tx_st, gi2c->se.base +
-+						SE_DMA_TX_IRQ_CLR);
-+		if (dm_rx_st)
-+			writel_relaxed(dm_rx_st, gi2c->se.base +
-+						SE_DMA_RX_IRQ_CLR);
-+	}
-+	/* if this is err with done-bit not set, handle that through timeout. */
-+	if (m_stat & M_CMD_DONE_EN || m_stat & M_CMD_ABORT_EN)
-+		complete(&gi2c->done);
-+	else if (dm_tx_st & TX_DMA_DONE || dm_tx_st & TX_RESET_DONE)
-+		complete(&gi2c->done);
-+	else if (dm_rx_st & RX_DMA_DONE || dm_rx_st & RX_RESET_DONE)
-+		complete(&gi2c->done);
-+
-+	spin_unlock_irqrestore(&gi2c->lock, flags);
-+	return IRQ_HANDLED;
-+}
-+
-+static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c)
-+{
-+	u32 val;
-+	unsigned long time_left = ABORT_TIMEOUT;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&gi2c->lock, flags);
-+	geni_i2c_err(gi2c, GENI_TIMEOUT);
-+	gi2c->cur = NULL;
-+	geni_se_abort_m_cmd(&gi2c->se);
-+	spin_unlock_irqrestore(&gi2c->lock, flags);
-+	do {
-+		time_left = wait_for_completion_timeout(&gi2c->done, time_left);
-+		val = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
-+	} while (!(val & M_CMD_ABORT_EN) && time_left);
-+
-+	if (!(val & M_CMD_ABORT_EN) && !time_left)
-+		dev_err(gi2c->se.dev, "Timeout abort_m_cmd\n");
-+}
-+
-+static void geni_i2c_rx_fsm_rst(struct geni_i2c_dev *gi2c)
-+{
-+	u32 val;
-+	unsigned long time_left = RST_TIMEOUT;
-+
-+	writel_relaxed(1, gi2c->se.base + SE_DMA_RX_FSM_RST);
-+	do {
-+		time_left = wait_for_completion_timeout(&gi2c->done, time_left);
-+		val = readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_STAT);
-+	} while (!(val & RX_RESET_DONE) && time_left);
-+
-+	if (!(val & RX_RESET_DONE) && !time_left)
-+		dev_err(gi2c->se.dev, "Timeout resetting RX_FSM\n");
-+}
-+
-+static void geni_i2c_tx_fsm_rst(struct geni_i2c_dev *gi2c)
-+{
-+	u32 val;
-+	unsigned long time_left = RST_TIMEOUT;
-+
-+	writel_relaxed(1, gi2c->se.base + SE_DMA_TX_FSM_RST);
-+	do {
-+		time_left = wait_for_completion_timeout(&gi2c->done, time_left);
-+		val = readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_STAT);
-+	} while (!(val & TX_RESET_DONE) && time_left);
-+
-+	if (!(val & TX_RESET_DONE) && !time_left)
-+		dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
-+}
-+
-+static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-+				u32 m_param)
-+{
-+	dma_addr_t rx_dma;
-+	enum geni_se_xfer_mode mode;
-+	unsigned long time_left = XFER_TIMEOUT;
-+
-+	gi2c->cur = msg;
-+	mode = msg->len > 32 ? GENI_SE_DMA : GENI_SE_FIFO;
-+	geni_se_select_mode(&gi2c->se, mode);
-+	writel_relaxed(msg->len, gi2c->se.base + SE_I2C_RX_TRANS_LEN);
-+	geni_se_setup_m_cmd(&gi2c->se, I2C_READ, m_param);
-+	if (mode == GENI_SE_DMA) {
-+		int ret;
-+
-+		ret = geni_se_rx_dma_prep(&gi2c->se, msg->buf, msg->len,
-+								&rx_dma);
-+		if (!ret) {
-+			mode = GENI_SE_FIFO;
-+			geni_se_select_mode(&gi2c->se, mode);
-+		}
-+	}
-+
-+	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-+	if (!time_left)
-+		geni_i2c_abort_xfer(gi2c);
-+
-+	gi2c->cur_rd = 0;
-+	if (mode == GENI_SE_DMA) {
-+		if (gi2c->err)
-+			geni_i2c_rx_fsm_rst(gi2c);
-+		geni_se_rx_dma_unprep(&gi2c->se, rx_dma, msg->len);
-+	}
-+	return gi2c->err;
-+}
-+
-+static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-+				u32 m_param)
-+{
-+	dma_addr_t tx_dma;
-+	enum geni_se_xfer_mode mode;
-+	unsigned long time_left;
-+
-+	gi2c->cur = msg;
-+	mode = msg->len > 32 ? GENI_SE_DMA : GENI_SE_FIFO;
-+	geni_se_select_mode(&gi2c->se, mode);
-+	writel_relaxed(msg->len, gi2c->se.base + SE_I2C_TX_TRANS_LEN);
-+	geni_se_setup_m_cmd(&gi2c->se, I2C_WRITE, m_param);
-+	if (mode == GENI_SE_DMA) {
-+		int ret;
-+
-+		ret = geni_se_tx_dma_prep(&gi2c->se, msg->buf, msg->len,
-+								&tx_dma);
-+		if (!ret) {
-+			mode = GENI_SE_FIFO;
-+			geni_se_select_mode(&gi2c->se, mode);
-+		}
-+	}
-+
-+	if (mode == GENI_SE_FIFO) /* Get FIFO IRQ */
-+		writel_relaxed(1, gi2c->se.base + SE_GENI_TX_WATERMARK_REG);
-+
-+	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-+	if (!time_left)
-+		geni_i2c_abort_xfer(gi2c);
-+
-+	gi2c->cur_wr = 0;
-+	if (mode == GENI_SE_DMA) {
-+		if (gi2c->err)
-+			geni_i2c_tx_fsm_rst(gi2c);
-+		geni_se_tx_dma_unprep(&gi2c->se, tx_dma, msg->len);
-+	}
-+	return gi2c->err;
-+}
-+
-+static int geni_i2c_xfer(struct i2c_adapter *adap,
-+			 struct i2c_msg msgs[],
-+			 int num)
-+{
-+	struct geni_i2c_dev *gi2c = i2c_get_adapdata(adap);
-+	int i, ret;
-+
-+	gi2c->err = 0;
-+	reinit_completion(&gi2c->done);
-+	ret = pm_runtime_get_sync(gi2c->se.dev);
-+	if (ret < 0) {
-+		dev_err(gi2c->se.dev, "error turning SE resources:%d\n", ret);
-+		pm_runtime_put_noidle(gi2c->se.dev);
-+		/* Set device in suspended since resume failed */
-+		pm_runtime_set_suspended(gi2c->se.dev);
-+		return ret;
-+	}
-+
-+	qcom_geni_i2c_conf(gi2c);
-+	for (i = 0; i < num; i++) {
-+		u32 m_param = i < (num - 1) ? STOP_STRETCH : 0;
-+
-+		m_param |= ((msgs[i].addr << SLV_ADDR_SHFT) & SLV_ADDR_MSK);
-+
-+		if (msgs[i].flags & I2C_M_RD)
-+			ret = geni_i2c_rx_one_msg(gi2c, &msgs[i], m_param);
-+		else
-+			ret = geni_i2c_tx_one_msg(gi2c, &msgs[i], m_param);
-+
-+		if (ret)
-+			break;
-+	}
-+	if (ret == 0)
-+		ret = num;
-+
-+	pm_runtime_mark_last_busy(gi2c->se.dev);
-+	pm_runtime_put_autosuspend(gi2c->se.dev);
-+	gi2c->cur = NULL;
-+	gi2c->err = 0;
-+	return ret;
-+}
-+
-+static u32 geni_i2c_func(struct i2c_adapter *adap)
-+{
-+	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
-+}
-+
-+static const struct i2c_algorithm geni_i2c_algo = {
-+	.master_xfer	= geni_i2c_xfer,
-+	.functionality	= geni_i2c_func,
-+};
-+
-+static int geni_i2c_probe(struct platform_device *pdev)
-+{
-+	struct geni_i2c_dev *gi2c;
-+	struct resource *res;
-+	u32 proto, tx_depth;
-+	int ret;
-+
-+	gi2c = devm_kzalloc(&pdev->dev, sizeof(*gi2c), GFP_KERNEL);
-+	if (!gi2c)
-+		return -ENOMEM;
-+
-+	gi2c->se.dev = &pdev->dev;
-+	gi2c->se.wrapper = dev_get_drvdata(pdev->dev.parent);
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	gi2c->se.base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(gi2c->se.base))
-+		return PTR_ERR(gi2c->se.base);
-+
-+	gi2c->se.clk = devm_clk_get(&pdev->dev, "se");
-+	if (IS_ERR(gi2c->se.clk)) {
-+		ret = PTR_ERR(gi2c->se.clk);
-+		dev_err(&pdev->dev, "Err getting SE Core clk %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = device_property_read_u32(&pdev->dev, "clock-frequency",
-+							&gi2c->clk_freq_out);
-+	if (ret) {
-+		/* All GENI I2C slaves support 400kHz. So default to 400kHz. */
-+		dev_info(&pdev->dev,
-+			"Bus frequency not specified, default to 400KHz.\n");
-+		gi2c->clk_freq_out = KHZ(400);
-+	}
-+
-+	gi2c->irq = platform_get_irq(pdev, 0);
-+	if (gi2c->irq < 0) {
-+		dev_err(&pdev->dev, "IRQ error for i2c-geni\n");
-+		return gi2c->irq;
-+	}
-+
-+	ret = geni_i2c_clk_map_idx(gi2c);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Invalid clk frequency %d Hz: %d\n",
-+			gi2c->clk_freq_out, ret);
-+		return ret;
-+	}
-+
-+	gi2c->adap.algo = &geni_i2c_algo;
-+	init_completion(&gi2c->done);
-+	spin_lock_init(&gi2c->lock);
-+	platform_set_drvdata(pdev, gi2c);
-+	ret = devm_request_irq(&pdev->dev, gi2c->irq, geni_i2c_irq,
-+			       IRQF_TRIGGER_HIGH, "i2c_geni", gi2c);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Request_irq failed:%d: err:%d\n",
-+			gi2c->irq, ret);
-+		return ret;
-+	}
-+	/* Disable the interrupt so that the system can enter low-power mode */
-+	disable_irq(gi2c->irq);
-+	i2c_set_adapdata(&gi2c->adap, gi2c);
-+	gi2c->adap.dev.parent = &pdev->dev;
-+	gi2c->adap.dev.of_node = pdev->dev.of_node;
-+	strlcpy(gi2c->adap.name, "Geni-I2C", sizeof(gi2c->adap.name));
-+
-+	ret = geni_se_resources_on(&gi2c->se);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Error turning on resources %d\n", ret);
-+		return ret;
-+	}
-+	proto = geni_se_read_proto(&gi2c->se);
-+	tx_depth = geni_se_get_tx_fifo_depth(&gi2c->se);
-+	if (proto != GENI_SE_I2C) {
-+		dev_err(&pdev->dev, "Invalid proto %d\n", proto);
-+		geni_se_resources_off(&gi2c->se);
-+		return -ENXIO;
-+	}
-+	gi2c->tx_wm = tx_depth - 1;
-+	geni_se_init(&gi2c->se, gi2c->tx_wm, tx_depth);
-+	geni_se_config_packing(&gi2c->se, BITS_PER_BYTE, PACKING_BYTES_PW,
-+							true, true, true);
-+	geni_se_resources_off(&gi2c->se);
-+	dev_dbg(&pdev->dev, "i2c fifo/se-dma mode. fifo depth:%d\n", tx_depth);
-+
-+	pm_runtime_set_suspended(gi2c->se.dev);
-+	pm_runtime_set_autosuspend_delay(gi2c->se.dev, I2C_AUTO_SUSPEND_DELAY);
-+	pm_runtime_use_autosuspend(gi2c->se.dev);
-+	pm_runtime_enable(gi2c->se.dev);
-+	i2c_add_adapter(&gi2c->adap);
-+
-+	return 0;
-+}
-+
-+static int geni_i2c_remove(struct platform_device *pdev)
-+{
-+	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-+
-+	pm_runtime_disable(gi2c->se.dev);
-+	i2c_del_adapter(&gi2c->adap);
-+	return 0;
-+}
-+
-+static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
-+{
-+	struct geni_i2c_dev *gi2c = dev_get_drvdata(dev);
-+
-+	disable_irq(gi2c->irq);
-+	geni_se_resources_off(&gi2c->se);
-+	return 0;
-+}
-+
-+static int __maybe_unused geni_i2c_runtime_resume(struct device *dev)
-+{
-+	int ret;
-+	struct geni_i2c_dev *gi2c = dev_get_drvdata(dev);
-+
-+	ret = geni_se_resources_on(&gi2c->se);
-+	if (ret)
-+		return ret;
-+
-+	enable_irq(gi2c->irq);
-+	return 0;
-+}
-+
-+static int __maybe_unused geni_i2c_suspend_noirq(struct device *dev)
-+{
-+	if (!pm_runtime_suspended(dev)) {
-+		geni_i2c_runtime_suspend(dev);
-+		pm_runtime_disable(dev);
-+		pm_runtime_set_suspended(dev);
-+		pm_runtime_enable(dev);
-+	}
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops geni_i2c_pm_ops = {
-+	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(geni_i2c_suspend_noirq, NULL)
-+	SET_RUNTIME_PM_OPS(geni_i2c_runtime_suspend, geni_i2c_runtime_resume,
-+									NULL)
-+};
-+
-+static const struct of_device_id geni_i2c_dt_match[] = {
-+	{ .compatible = "qcom,geni-i2c" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
-+
-+static struct platform_driver geni_i2c_driver = {
-+	.probe  = geni_i2c_probe,
-+	.remove = geni_i2c_remove,
-+	.driver = {
-+		.name = "geni_i2c",
-+		.pm = &geni_i2c_pm_ops,
-+		.of_match_table = geni_i2c_dt_match,
-+	},
-+};
-+
-+module_platform_driver(geni_i2c_driver);
-+
-+MODULE_DESCRIPTION("I2C Controller Driver for GENI based QUP cores");
-+MODULE_LICENSE("GPL v2");
--- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
