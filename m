@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C74A57E6A4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 21:21:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DE58E7E6AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 21:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752763AbeCOVVL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 17:21:11 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34366 "EHLO mx1.redhat.com"
+        id S1752378AbeCOVVV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 17:21:21 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33208 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752619AbeCOVVL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Mar 2018 17:21:11 -0400
+        id S1752774AbeCOVVM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Mar 2018 17:21:12 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 71077406E8B9;
-        Thu, 15 Mar 2018 21:21:10 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 28411412934A;
+        Thu, 15 Mar 2018 21:21:12 +0000 (UTC)
 Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A735EC1FB3;
-        Thu, 15 Mar 2018 21:21:06 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5D13EDEECC;
+        Thu, 15 Mar 2018 21:21:11 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -31,50 +31,215 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
         luto@amacapital.net, efault@gmx.de, torvalds@linux-foundation.org,
         Roman Gushchin <guro@fb.com>, Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 0/2] cpuset: Enable cpuset controller in default hierarchy
-Date:   Thu, 15 Mar 2018 17:20:40 -0400
-Message-Id: <1521148842-15486-1-git-send-email-longman@redhat.com>
+Subject: [PATCH v5 2/2] cpuset: Add cpuset.flags control knob to v2
+Date:   Thu, 15 Mar 2018 17:20:42 -0400
+Message-Id: <1521148842-15486-3-git-send-email-longman@redhat.com>
+In-Reply-To: <1521148842-15486-1-git-send-email-longman@redhat.com>
+References: <1521148842-15486-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 15 Mar 2018 21:21:10 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 15 Mar 2018 21:21:10 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 15 Mar 2018 21:21:12 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 15 Mar 2018 21:21:12 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v5:
- - Add patch 2 to provide the cpuset.flags control knob for the
-   sched_load_balance flag which should be the only feature that is
-   essential as a replacement of the "isolcpus" kernel boot parameter.
+In cgroup v1, there are a bunch of cpuset control knobs that are just
+boolean flags. To reduce the proliteration of cpuset control knobs
+in v2 where multiple controllers will be active in a single cgroup,
+all the boolean flags are now consolidated into a single cpuset.flags
+control knob.
 
-v4:
- - Further minimize the feature set by removing the flags control knob.
+Currently, the cpuset.flags control knob just has one flag -
+sched_load_balance. This flag is needed to enable CPU isolation
+similar to what can be done with the "isolcpus" kernel boot parameter.
+More flags can be added in the future if desired.
 
-v3:
- - Further trim the additional features down to just memory_migrate.
- - Update Documentation/cgroup-v2.txt.
+When the "cpuset.flags" file is read, it shows what flags have been
+currently enabled. Turning on or off specific flags are done in a
+way similar to what controllers can be enabled or disabled in the
+cgroup.subtree_control control knob.
 
-The purpose of this patchset is to provide a minimal set of cpuset
-features for cgroup v2. That minimal set includes the cpus, mems and
-their effective_* counterparts as well as a new flags control knob
-that currently supports only the sched_load_balance flag.
+To enable the sched_load_balance flag, use
 
-This patchset does not exclude the possibility of adding more flags
-and features in the future after careful consideration.
+  # echo +sched_load_balance > cpuset.flags
 
-Patch 1 enables cpuset in cgroup v2 with cpus, mems and their
-effective_* counterparts.
+To disable it, use
 
-Patch 2 adds flags with support for the sched_load_balance only.
+  # echo -sched_load_balance > cpuset.flags
 
-Waiman Long (2):
-  cpuset: Enable cpuset controller in default hierarchy
-  cpuset: Add cpuset.flags control knob to v2
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/cgroup-v2.txt | 32 +++++++++++++++
+ kernel/cgroup/cpuset.c      | 98 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 130 insertions(+)
 
- Documentation/cgroup-v2.txt | 128 ++++++++++++++++++++++++++++++++++++----
- kernel/cgroup/cpuset.c      | 140 +++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 256 insertions(+), 12 deletions(-)
-
+diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
+index b91fd5d..362026a 100644
+--- a/Documentation/cgroup-v2.txt
++++ b/Documentation/cgroup-v2.txt
+@@ -1318,6 +1318,38 @@ Cpuset Interface Files
+ 	of "cpuset.mems".  Its value will be affected by memory nodes
+ 	hotplug events.
+ 
++  cpuset.flags
++	A read-write multiple values file which exists on non-root
++	cgroups.
++
++	On read, it lists the flags that are currently enabled.  On
++	write, the '+' or '-' prefix with the flag name is used to
++	enable and disable the flag respectively.
++
++	The currently supported flag is:
++
++	  sched_load_balance
++		When it is not set, there will be no load balancing
++		among CPUs on this cpuset.  Tasks will stay in the
++		CPUs they are running on and will not be moved to
++		other CPUs.
++
++		When it is set, tasks within this cpuset will be
++		load-balanced by the kernel scheduler.  Tasks will be
++		moved from CPUs with high load to other CPUs within
++		the same cpuset with less load periodically.
++
++		This flag is on by default and will have to be
++		explicitly turned off.
++
++	To set a flag, use the '+' prefix:
++
++	  # echo +sched_load_balance > cpuset.flags
++
++	To clear a flag, use the '-' prefix:
++
++	  # echo -sched_load_balance > cpuset.flags
++
+ 
+ IO
+ --
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 7837d1f..3145dc0 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -1601,6 +1601,7 @@ static void cpuset_attach(struct cgroup_taskset *tset)
+ 	FILE_MEMORY_PRESSURE,
+ 	FILE_SPREAD_PAGE,
+ 	FILE_SPREAD_SLAB,
++	FILE_FLAGS,
+ } cpuset_filetype_t;
+ 
+ static int cpuset_write_u64(struct cgroup_subsys_state *css, struct cftype *cft,
+@@ -1823,6 +1824,97 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 	return 0;
+ }
+ 
++static const struct {
++	char *name;
++	int  cs_bit;
++} cpuset_flags[] = {
++	{ "sched_load_balance", CS_SCHED_LOAD_BALANCE },
++};
++
++static int cpuset_read_flags(struct seq_file *sf, void *v)
++{
++	struct cpuset *cs = css_cs(seq_css(sf));
++	unsigned long enabled = READ_ONCE(cs->flags);
++	int i, cnt;
++
++	for (i = cnt = 0; i < ARRAY_SIZE(cpuset_flags); i++) {
++		if (!test_bit(cpuset_flags[i].cs_bit, &enabled))
++			continue;
++
++		if (cnt++)
++			seq_putc(sf, ' ');
++
++		seq_printf(sf, "%s", cpuset_flags[i].name);
++	}
++	seq_putc(sf, '\n');
++	return 0;
++}
++
++static ssize_t cpuset_write_flags(struct kernfs_open_file *of, char *buf,
++				  size_t nbytes, loff_t off)
++{
++	struct cpuset *cs = css_cs(of_css(of));
++	unsigned long enable = 0, disable = 0;
++	char *tok;
++	int i;
++
++	mutex_lock(&cpuset_mutex);
++	if (!is_cpuset_online(cs)) {
++		nbytes = -ENODEV;
++		goto out_unlock;
++	}
++
++	/*
++	 * Parse input - space seperated list of feature names prefixed
++	 * with either + or -.
++	 */
++	buf = strstrip(buf);
++	while ((tok = strsep(&buf, " "))) {
++		if (tok[0] == '\0')
++			continue;
++		for (i = 0; i < ARRAY_SIZE(cpuset_flags); i++)
++			if (!strcmp(tok + 1, cpuset_flags[i].name))
++				break;
++		if (i == ARRAY_SIZE(cpuset_flags)) {
++			nbytes = -EINVAL;
++			goto out_unlock;
++		}
++		if (*tok == '+') {
++			set_bit(cpuset_flags[i].cs_bit, &cs->flags);
++			enable  |= 1UL << cpuset_flags[i].cs_bit;
++			disable &= 1UL << cpuset_flags[i].cs_bit;
++		} else if (*tok == '-') {
++			disable |= 1UL << cpuset_flags[i].cs_bit;
++			enable  &= 1UL << cpuset_flags[i].cs_bit;
++		} else {
++			nbytes = -EINVAL;
++			goto out_unlock;
++		}
++	}
++
++	/*
++	 * Set/clear the flags individually. It is possible an error may
++	 * happen before all the flags are processed, but it should be rare.
++	 */
++	for  (i = 0; i < ARRAY_SIZE(cpuset_flags); i++) {
++		unsigned long flag = 1UL << cpuset_flags[i].cs_bit;
++		int retval;
++
++		if (flag & (enable|disable)) {
++			retval = update_flag(cpuset_flags[i].cs_bit, cs,
++					     enable & flag);
++			if (retval) {
++				nbytes = retval;
++				goto out_unlock;
++			}
++		}
++	}
++
++out_unlock:
++	mutex_unlock(&cpuset_mutex);
++	return nbytes;
++}
++
+ /*
+  * for the common functions, 'private' gives the type of file
+  */
+@@ -1962,6 +2054,12 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 		.private = FILE_EFFECTIVE_MEMLIST,
+ 	},
+ 
++	{
++		.name = "flags",
++		.seq_show = cpuset_read_flags,
++		.write = cpuset_write_flags,
++		.private = FILE_FLAGS,
++	},
+ 	{ }	/* terminate */
+ };
+ 
 -- 
 1.8.3.1
 
