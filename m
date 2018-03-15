@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35DFB7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 20:40:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 057C07E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 20:41:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752863AbeCOUkg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 16:40:36 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:47602 "EHLO
+        id S932508AbeCOUlh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 16:41:37 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:47662 "EHLO
         foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752792AbeCOUkf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Mar 2018 16:40:35 -0400
+        id S932345AbeCOUlg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Mar 2018 16:41:36 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C82621529;
-        Thu, 15 Mar 2018 13:40:34 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3CB51529;
+        Thu, 15 Mar 2018 13:41:35 -0700 (PDT)
 Received: from [10.1.207.55] (melchizedek.cambridge.arm.com [10.1.207.55])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80FFF3F25D;
-        Thu, 15 Mar 2018 13:40:31 -0700 (PDT)
-Message-ID: <5AAAD9A1.6090107@arm.com>
-Date:   Thu, 15 Mar 2018 20:37:53 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDE1A3F25D;
+        Thu, 15 Mar 2018 13:41:32 -0700 (PDT)
+Message-ID: <5AAAD9DE.9030001@arm.com>
+Date:   Thu, 15 Mar 2018 20:38:54 +0000
 From:   James Morse <james.morse@arm.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Icedove/31.6.0
 MIME-Version: 1.0
@@ -33,10 +33,10 @@ CC:     rkrcmar@redhat.com, corbet@lwn.net, christoffer.dall@linaro.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kvmarm@lists.cs.columbia.edu, linux-acpi@vger.kernel.org,
         devel@acpica.org, huangshaoyu@huawei.com
-Subject: Re: [PATCH v10 1/5] arm64: KVM: Prepare set virtual SEI syndrome
- value
-References: <1520093380-42577-1-git-send-email-gengdongjiu@huawei.com> <1520093380-42577-2-git-send-email-gengdongjiu@huawei.com>
-In-Reply-To: <1520093380-42577-2-git-send-email-gengdongjiu@huawei.com>
+Subject: Re: [PATCH v10 3/5] arm/arm64: KVM: Introduce set and get per-vcpu
+ event
+References: <1520093380-42577-1-git-send-email-gengdongjiu@huawei.com> <1520093380-42577-4-git-send-email-gengdongjiu@huawei.com>
+In-Reply-To: <1520093380-42577-4-git-send-email-gengdongjiu@huawei.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -47,67 +47,219 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Hi Dongjiu Geng,
 
 On 03/03/18 16:09, Dongjiu Geng wrote:
-> Export one API to specify virtual SEI syndrome value
-> for guest, and add a helper to get the VSESR_EL2 value.
+> RAS Extension provides VSESR_EL2 register to specify
+> virtual SError syndrome value, this patch adds a new
+> IOCTL to export user-invisible states related to
+> SError exceptions. User space can setup the
+> kvm_vcpu_events to inject specified SError, also it
+> can support live migration.
 
-This patch adds two helpers that nothing calls... its not big, please merge it
-with the patch that uses these.
+> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+> index 8a3d708..26ae151 100644
+> --- a/Documentation/virtual/kvm/api.txt
+> +++ b/Documentation/virtual/kvm/api.txt
+> @@ -819,11 +819,13 @@ struct kvm_clock_data {
+>  
+>  Capability: KVM_CAP_VCPU_EVENTS
+>  Extended by: KVM_CAP_INTR_SHADOW
+> -Architectures: x86
+> +Architectures: x86, arm, arm64
+>  Type: vm ioctl
+>  Parameters: struct kvm_vcpu_event (out)
+>  Returns: 0 on success, -1 on error
+>  
+> +X86:
+> +
+>  Gets currently pending exceptions, interrupts, and NMIs as well as related
+>  states of the vcpu.
+>  
+> @@ -865,15 +867,29 @@ Only two fields are defined in the flags field:
+>  - KVM_VCPUEVENT_VALID_SMM may be set in the flags field to signal that
+>    smi contains a valid state.
+>  
+> +ARM, ARM64:
+> +
+> +Gets currently pending SError exceptions as well as related states of the vcpu.
+> +
+> +struct kvm_vcpu_events {
+> +       struct {
+> +               bool serror_pending;
+> +               bool serror_has_esr;
+> +               u64 serror_esr;
+> +       } exception;
+> +};
+
+Don't put bool in an ABI struct. The encoding is up to the compiler.
+The compiler will insert padding in this struct to make serror_esr naturally
+aligned. Different compilers may do it differently. You'll see that the existing
+struct kvm_vcpu_events has 'pad' fields to ensure each element in the struct is
+naturally aligned.
+
+serror_pending and serror_has_esr need to be in a flags field.
+
+I thought the logic for re-using the CAP was so user-space could re-use
+save/restore code to transfer whatever we put in here during migration. If the
+struct is a different size the code has to be different anyway.
+My understanding of Drew and Christoffer's comments was that we should re-use
+the existing struct. (but now that I look at it, its not so clear).
+
+(If we reuse the struct, we can put the esr in exception.error_code, if we can
+get away with it: It would be good to union exception up with a u64, then use
+that. This would let us transfer anything we need in those RES0 bits of the
+64bit VSESR_EL2).
 
 
-> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
-> index 413dc82..3294885 100644
-> --- a/arch/arm64/include/asm/kvm_emulate.h
-> +++ b/arch/arm64/include/asm/kvm_emulate.h
-> @@ -71,6 +71,11 @@ static inline void vcpu_set_hcr(struct kvm_vcpu *vcpu, unsigned long hcr)
->  	vcpu->arch.hcr_el2 = hcr;
+>  4.32 KVM_SET_VCPU_EVENTS
+>  
+>  Capability: KVM_CAP_VCPU_EVENTS
+>  Extended by: KVM_CAP_INTR_SHADOW
+> -Architectures: x86
+> +Architectures: x86, arm, arm64
+>  Type: vm ioctl
+>  Parameters: struct kvm_vcpu_event (in)
+>  Returns: 0 on success, -1 on error
+>  
+> +X86:
+> +
+>  Set pending exceptions, interrupts, and NMIs as well as related states of the
+>  vcpu.
+>  
+> @@ -894,6 +910,12 @@ shall be written into the VCPU.
+>  
+>  KVM_VCPUEVENT_VALID_SMM can only be set if KVM_CAP_X86_SMM is available.
+>  
+> +ARM, ARM64:
+> +
+> +Set pending SError exceptions as well as related states of the vcpu.
+> +
+> +See KVM_GET_VCPU_EVENTS for the data structure.
+> +
+>  
+>  4.33 KVM_GET_DEBUGREGS
+>  
+
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 9abbf30..32c0eae 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -39,6 +39,7 @@
+>  #define __KVM_HAVE_GUEST_DEBUG
+>  #define __KVM_HAVE_IRQ_LINE
+>  #define __KVM_HAVE_READONLY_MEM
+> +#define __KVM_HAVE_VCPU_EVENTS
+>  
+>  #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
+>  
+> @@ -153,6 +154,15 @@ struct kvm_sync_regs {
+>  struct kvm_arch_memory_slot {
+>  };
+>  
+> +/* for KVM_GET/SET_VCPU_EVENTS */
+> +struct kvm_vcpu_events {
+> +	struct {
+> +		bool serror_pending;
+> +		bool serror_has_esr;
+> +		u64 serror_esr;
+> +	} exception;
+> +};
+> +
+
+>  /* If you need to interpret the index values, here is the key: */
+>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>  #define KVM_REG_ARM_COPROC_SHIFT	16
+> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+> index 5c7f657..62d49c2 100644
+> --- a/arch/arm64/kvm/guest.c
+> +++ b/arch/arm64/kvm/guest.c
+> @@ -277,6 +277,32 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
+>  	return -EINVAL;
 >  }
 >  
-> +static inline unsigned long vcpu_get_vsesr(struct kvm_vcpu *vcpu)
+> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events)
 > +{
-> +	return vcpu->arch.vsesr_el2;
+> +	events->exception.serror_pending = (vcpu_get_hcr(vcpu) & HCR_VSE);
+> +	events->exception.serror_has_esr =
+> +			cpus_have_const_cap(ARM64_HAS_RAS_EXTN) &&
+> +					(!!vcpu_get_vsesr(vcpu));
+> +	events->exception.serror_esr = vcpu_get_vsesr(vcpu);
+> +
+> +	return 0;
+
+Nothing checks the return value. Why is it here?
+
 > +}
 > +
->  static inline void vcpu_set_vsesr(struct kvm_vcpu *vcpu, u64 vsesr)
->  {
->  	vcpu->arch.vsesr_el2 = vsesr;
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index a73f63a..3dc49b7 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -354,6 +354,8 @@ void handle_exit_early(struct kvm_vcpu *vcpu, struct kvm_run *run,
->  int kvm_perf_init(void);
->  int kvm_perf_teardown(void);
->  
-> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
-> +
->  struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
->  
->  static inline void __cpu_init_hyp_mode(phys_addr_t pgd_ptr,
-> diff --git a/arch/arm64/kvm/inject_fault.c b/arch/arm64/kvm/inject_fault.c
-> index 60666a0..78ecb28 100644
-> --- a/arch/arm64/kvm/inject_fault.c
-> +++ b/arch/arm64/kvm/inject_fault.c
-> @@ -186,3 +186,8 @@ void kvm_inject_vabt(struct kvm_vcpu *vcpu)
->  {
->  	pend_guest_serror(vcpu, ESR_ELx_ISV);
->  }
-> +
-> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome)
+> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events)
 > +{
-> +	pend_guest_serror(vcpu, syndrome & ESR_ELx_ISS_MASK);
+> +	bool injected = events->exception.serror_pending;
+> +	bool has_esr = events->exception.serror_has_esr;
 
-If you move the ISS_MASK into pend_guest_serror(), you wouldn't need this at all.
+Could you validate 'events' describes something we support. What if
+cpus_have_const_cap(ARM64_HAS_RAS_EXTN) is false, we still call kvm_set_sei_esr().
 
-It would be better if any validation were in the user-space helpers so we can
-check user-space hasn't put something funny in the top bits.
+Please check any parts of the struct that should be zero, are zero. This lets us
+add new features, and reject attempts to migrate them (instead of silently
+ignoring them).
+
+
+> +	if (injected && has_esr)
+> +		kvm_set_sei_esr(vcpu, events->exception.serror_esr);
+> +	else if (injected)
+> +		kvm_inject_vabt(vcpu);
+> +
+> +	return 0;
+
+Nothing checks the return value. Why is it here?
+
 
 > +}
+> +
+>  int __attribute_const__ kvm_target_cpu(void)
+>  {
+>  	unsigned long implementor = read_cpuid_implementor();
+
+
+> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+> index 7e3941f..30c56e0 100644
+> --- a/virt/kvm/arm/arm.c
+> +++ b/virt/kvm/arm/arm.c
+> @@ -1051,6 +1051,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>  			return -EFAULT;
+>  		return kvm_arm_vcpu_has_attr(vcpu, &attr);
+>  	}
+> +	case KVM_GET_VCPU_EVENTS: {
+> +		struct kvm_vcpu_events events;
+
+Please initialise events to 0 so that padding transferred to user-space doesn't
+contain kernel stack.
+
+
+> +		kvm_arm_vcpu_get_events(vcpu, &events);
+> +
+> +		if (copy_to_user(argp, &events, sizeof(struct kvm_vcpu_events)))
+> +			return -EFAULT;
+> +
+> +		return 0;
+> +	}
+> +	case KVM_SET_VCPU_EVENTS: {
+> +		struct kvm_vcpu_events events;
+> +
+> +		if (copy_from_user(&events, argp, sizeof(struct kvm_vcpu_events)))
+> +			return -EFAULT;
+> +
+> +		return kvm_arm_vcpu_set_events(vcpu, &events);
+> +	}
+>  	default:
+>  		return -EINVAL;
+>  	}
 > 
-
 
 Thanks,
 
 James
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
