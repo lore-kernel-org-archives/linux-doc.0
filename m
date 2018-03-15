@@ -5,151 +5,130 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A52FE7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 19:54:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7D097E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 20:04:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751970AbeCOTyf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 15:54:35 -0400
-Received: from mail-dm3nam03on0054.outbound.protection.outlook.com ([104.47.41.54]:3112
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
+        id S1751857AbeCOUEM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 16:04:12 -0400
+Received: from mail-sn1nam01on0080.outbound.protection.outlook.com ([104.47.32.80]:37058
+        "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751729AbeCOTyd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Mar 2018 15:54:33 -0400
+        id S1751624AbeCOUEK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Mar 2018 16:04:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=qwkoXZq06rKy7fereU74JzcnPgcIRY3NseDoAZJA3Oc=;
- b=Y0pNzsALhR89YpHG2efQindrUFRj8s5Rqn511U557YN5gbfmOlDcm9O/yGW4cF0OHQgaBqX864lSjVHXFL/CxBERUmzXwm7G69cVh8WvEuZJRkF0IqGaBAHa1Mz3ic1/tDh/7TW8t9TEfykfStRhsHVf0Kgm/HX7y5zpqP81gN0=
+ bh=d7LJbk6gNL0os3HU9EGWGU9G+Fme3PQySyZheFVGuXY=;
+ b=nfRn80zuhtUqi9vOrbPYQvfQWYdSdI4VOQDhN9lySuK1isDG49Qbbh04BVrv1LjtcAbXk1GWWn6zRr+yPB9jloAEb2TphQ6wEKuJ/F+GxtNUhwXkx564PLTYFA3kbkmSSmQ/4cEI8j/JxsdbKKgVIg7v7vhwilX6xNcszbgXq/M=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Gary.Hook@amd.com; 
-Received: from [10.236.109.62] (165.204.78.1) by
- BLUPR12MB0690.namprd12.prod.outlook.com (2a01:111:e400:5951::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.567.14; Thu, 15
- Mar 2018 19:54:30 +0000
-Subject: Re: [PATCH] Documentation/CodingStyle: Add an example for braces
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net
-References: <152106609844.18780.6843553697430932588.stgit@taos>
- <87zi39ljni.fsf@intel.com>
+Received: from [127.0.1.1] (165.204.78.1) by
+ BY2PR12MB0695.namprd12.prod.outlook.com (10.163.113.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.588.14; Thu, 15 Mar 2018 20:04:06 +0000
+Subject: [PATCH v2] Documentation/CodingStyle: Add an example for braces
 From:   Gary R Hook <gary.hook@amd.com>
-Message-ID: <2c16cde9-6f20-e49e-f2ad-db2984fd910f@amd.com>
-Date:   Thu, 15 Mar 2018 14:54:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net
+Date:   Thu, 15 Mar 2018 15:04:02 -0500
+Message-ID: <152114372879.3142.8833111074324091904.stgit@taos>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <87zi39ljni.fsf@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [165.204.78.1]
-X-ClientProxiedBy: SN4PR0501CA0121.namprd05.prod.outlook.com
- (2603:10b6:803:42::38) To BLUPR12MB0690.namprd12.prod.outlook.com
- (2a01:111:e400:5951::12)
+X-ClientProxiedBy: CY4PR03CA0078.namprd03.prod.outlook.com (10.171.242.147) To
+ BY2PR12MB0695.namprd12.prod.outlook.com (10.163.113.17)
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 6d8cb934-2310-46f4-6bee-08d58aae9115
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BLUPR12MB0690;
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0690;3:mbRX4+vp2IA+DzZrJKdKLDFDv7xFnwbuZw4+SpKI1Gp26FmEl8+Mlf0iFtf8F7zb+sku6/xSRxu5ejPo2FMz1JnUzHRuelSUQWe4c55lEn8uRGpllMVJR96qJb/qYlOe77fzZARCdvQTaGunRtWBo77jirep8E+SUiQgpt8pAstWiWhiz0sMnF5aEzbwApzrU+AV5h9a5ZRwWahupX5OLjns8FBWUIgw+pCE5Z492fAFQo2t7E7Iz8JThsdJ6dcK;25:ouE8OeC5RWEZ6cVeoMQEglmLJB8lsLz8Nva5Sl+d5zuTQc0hkNJEg5lpKRwM0MobQmPagQnsFY02dw31xgA3O70XvJzh+Fb1uDfamW107Zo1XwhMBJto1uE9i6C0GRSB9RBqacBVDSEnjX45rwbTTVhzb0yKYqqduwm56RTbisLE5MGki+c5pSZzLEwlMAc+r6hrlVhXn+RT9R8dIVmvNYbGaw1uWECkXkTUsKkReg8QJuDACmh8XBDQHZ7CFFdcsAks+2kKg5huCHgTVpyp/1YeiSCOAm3H6KkQHD52d5kgJinb6kpyImY80kdfovOh1xlAqZpbHiu6G3jyftAr/A==;31:CerS4EldDolhaPUQLP7Dg5qH4r0XDFdzlbooAaOkCsda+SukLMZNkvB9S2K/azMx8Dmw5P4j7VK62Mp845bitG88yIVW8T1Mobe4oat8jEPcfkf5uBcL7Z5UFekkNgfsGG0LJcxAVZNbJ7meLo7N8AWvH1ky3JSfqynNGlhkbulXp077nPLCU7Prc8MfWg85tjJR+43sj6GRm/zuJ8EdhqP78e2ULYKMDNy8Ad0MriU=
-X-MS-TrafficTypeDiagnostic: BLUPR12MB0690:
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0690;20:0OfCdBnBeKmYcCelWnrLiMJKeEO1GAwMbawOh/5goTNhyJRo4R6vXdEVehP/hShNIJmBFq5t1MDSKn+bdsXK2pLZ7UQ7i0m3WLK3w1EKORRvVab+YMWe3DOgJ1/VZ8IeOEGi1F1OPaKS0T9EoEj1/KNq+ROvhuVKVg8kKMHT4yE+opQk6XLJe0w5SPxiXRuDbbSgTUHrI2Neshfwkj6CgCDmBaIwDAEJ0KsdW2vK6j7R7LpK6q7/NM8ifNMqropy8QxJxYQP3XL74iSCzw1jki8KIRm1QnvsJwgfLxNNM80Afh2TgYtqZubl0rrtcDAhEoSImBVvr0TieYOSDsNEoBZzZ9SVCfQvl8Lb45NHvk+0yMkN6P96Lt/EHt41QV/vBXs0vNYHtyqBvBOEEKlk85WFm5b10qoRwpoelp0QK7MLOxkqcMIjX3x8ZfLVJ9IUfhsw8AzxbJVhO79KbyYGVC9Gymvq1xoEnRje/mqsYyf95lHh3teHnmYB+4AZDoXI;4:n3NxkkMo8FJneBhMHB+UWjG06OF2mfryENkqJ9qoOLoWOKaa9aMj1sSkcxy5lgbPdTCJa3eeuO1lx1LvDpbo10QntxBv4vYwmqd4LfNr+18Z8bqd7v8Mze8DQ8gmv0QRHRl4IEbFeH5WhVSjeYE7BKiJE/KBYfWiAOYbBpVhp+lpW6N5/kiUZQPakfeekpzt6mJ0ycfGfunCDsZbQAEFHf3An9DW6zYTq7F8EiYmXX613UxDMh0AGwRAEzb+w1uQLqFIpGbwlRArgqUgee8EEtrVEtsgebxBf8HD25CARMbWFS3allxhJCWZBQLUfg7x
-X-Microsoft-Antispam-PRVS: <BLUPR12MB069075A289A5F32C7769F503FDD00@BLUPR12MB0690.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 6f3a8405-c1b7-4fc2-e43c-08d58aafe88b
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BY2PR12MB0695;
+X-Microsoft-Exchange-Diagnostics: 1;BY2PR12MB0695;3:/Q52Z11plRAfpVHcTc4haUG9xi1OOiQ3HR4Wo9vQxPHQ4e4ek0Tj4rtOxS9K4qVp5dEEIHsKCTXBK3RTN1OkHBcrm3ESpBv7sAvjwG+4EGk3MUFp3QugqBHD4pM1HSfQ2hrMiLefg+rHb0NVLVgpHArYkNRmJGS346vNWQ/u2TkY3Lmkgccy8AB+ehU8WXrqVSrurKChx9soB3si6HcOHVOaWp6twUhGPN4QVl6e/oKAeixsNz7EmdoPbHRqNBWM;25:lGpkm3pEzyBP6rIv5hJSOfs7H+gOhvPworDGDrHa1XJrU19vksHwLUOrOG/LwzbizPfHPDzY7/eJwXa6nJZZcY6EDRQk3w1SjMqt0c5xok8lukXjl8Y/KHhthMyfjjIWt7q3j4VIbosEkKOgIMkSnJ6lIw4gznmTRz6glGvSNcFYr3NSi1vzpfHIYXa03hQME+pqG7mIK8WdwJsDxrDfcptxAuNGUx9iQSyZ7Hx78V3ZG1/ZN4DRuAl6KohDwrLuFm+tRAjdESe45J/2Q4tmcOAKXyqOt7/VOH5b6Nk4PyfSrFODIXflTQdAdwFyxIzAGV6AyJbRD4OldUkEMfY5Pg==;31:TlIVlexyasD8++cvp01zJEubkfZKzEdvCewxKChbcQ3gpGOqjP9FpSIipR+tKR7Ld703xht5CsjuSL1hEzTKHNfCtAb49eMXWy2DYk+wZ0poRDMpZaKyBGt0QfecRxloG+dqoj+8Z98EavEbqNFY2lUwswQmzvOnTV1MZMkFcXxRiXqXfWmqAQOMfeefDBqzIhYtatVSzgRhN3DmI9ZhVNtT55FGPg1GqLoS/XGcLhI=
+X-MS-TrafficTypeDiagnostic: BY2PR12MB0695:
+X-Microsoft-Exchange-Diagnostics: 1;BY2PR12MB0695;20:TJ4O2k3m6gza2HhFgmvsCfc5IjCI3CRlD8ruFqiJN+V92YbRoBNWYiTNITNGpDgZ/tiiT/4QuNaj/12sYkg1fOpPjuceiotB3Obl1X/Wk9Y/w+b+0B7mSY/HVdsoQCd8f1Rp/1Yrc9N9GZQs/bTvIueUqhbFN4Mqz4ryumYVOCnA9mQyEXxvt12/BebyLG/xqXJqkBGrEctit2w5e/cAgQrM0Qi0CBdMLD95eJLYp0a5APkZv+GUQbGgstU6tX0/NsJFg5gdvwxTjVvOuWsVzP45Gt8su+qtQXI6g5jMRnvFm7Mw6x2TxSQrmSJo74UgTgqhzMEtZ9BBrbdwBQjwwq4O/CCyKPGWLH3Tt71VN0teV5ciB76Nj213TQdeyqXfVjE/3yLSyIkMHqMLqJAergX8BU6haeV9aqZB6dXn3mnXtwvSSdFmuvHtsTbggOuLhxXKtudmjkIcIS0x2KTjS0n+nbhaB/i0gw95mUCE2gioEEKqGCL4TeR2i4rp7LV1;4:8HsgCar+HUpr93nygauF46RoJGu8u3/BL7mAUprCpmfPDq/0UKsp+xCbKIQbs8SlECDZDhKUEcsUMy2Pd4E7DKfWxG/rCkRo+fmQHOySur+PAkKEL6ep+O83G3t8qAZoyktwsyozcRYzDl7JB6sKWuHyp8JGZbbFOj3U1WvTMzwmfSAJs8FaDIOmTEsLg49XaazWUUM1VzuaF/AvPdOYfsRJuABwaDXq9rbX3/XrpI/sEyw7Rgp4TRLkIDIuz0tScC3JllXx9hre9fQABKho7uka1LfKhdKeUiVQxmERZXA5mgVq1jDD9WTdRNBoJo3P
+X-Microsoft-Antispam-PRVS: <BY2PR12MB06952491C5B02E90F2D68DF8FDD00@BY2PR12MB0695.namprd12.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:(767451399110);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231221)(944501244)(52105095)(3002001)(93006095)(93001095)(10201501046)(6055026)(6041310)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123564045)(20161123560045)(6072148)(201708071742011);SRVR:BLUPR12MB0690;BCL:0;PCL:0;RULEID:;SRVR:BLUPR12MB0690;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(3231221)(944501244)(52105095)(93006095)(93001095)(6055026)(6041310)(20161123564045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(6072148)(201708071742011);SRVR:BY2PR12MB0695;BCL:0;PCL:0;RULEID:;SRVR:BY2PR12MB0695;
 X-Forefront-PRVS: 0612E553B4
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6049001)(346002)(39860400002)(366004)(39380400002)(396003)(376002)(51744003)(189003)(199004)(229853002)(6246003)(65806001)(6486002)(2486003)(6116002)(65956001)(66066001)(6666003)(2950100002)(5660300001)(53936002)(2906002)(36756003)(64126003)(77096007)(31696002)(53546011)(23676004)(50466002)(186003)(52116002)(25786009)(4326008)(65826007)(386003)(16526019)(67846002)(59450400001)(52146003)(26005)(316002)(8676002)(16576012)(106356001)(47776003)(97736004)(305945005)(68736007)(8936002)(86362001)(478600001)(105586002)(72206003)(7736002)(81156014)(230700001)(3846002)(345774005)(81166006)(76176011)(31686004)(58126008);DIR:OUT;SFP:1101;SCL:1;SRVR:BLUPR12MB0690;H:[10.236.109.62];FPR:;SPF:None;PTR:InfoNoRecords;MX:1;A:1;LANG:en;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6049001)(7916004)(366004)(346002)(376002)(396003)(39380400002)(39860400002)(189003)(199004)(81156014)(81166006)(86362001)(8936002)(50466002)(575784001)(90366009)(6486002)(8676002)(7736002)(5660300001)(4326008)(25786009)(53936002)(33716001)(9686003)(106356001)(230700001)(2361001)(52116002)(72206003)(2351001)(103116003)(2906002)(33896004)(58126008)(105586002)(97736004)(47776003)(23676004)(2486003)(478600001)(68736007)(66066001)(3846002)(305945005)(316002)(6116002)(186003)(16526019)(6916009)(26005)(6666003)(386003)(16576012)(77096007);DIR:OUT;SFP:1101;SCL:1;SRVR:BY2PR12MB0695;H:[127.0.1.1];FPR:;SPF:None;PTR:InfoNoRecords;MX:1;A:1;LANG:en;
 Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCTFVQUjEyTUIwNjkwOzIzOmQrM0VyMkl2TVNzWmtQYUl6TWRUNFhIYTdF?=
- =?utf-8?B?Ni9yc2lqV01yK05ZUlQ3STV5dlF1Z2RSRnkyS3NZaFlKMlZFbVBjSGxndGlJ?=
- =?utf-8?B?dkdLS04vZ3kxTmkxTitHOEpEUTdLQ3ZWWmV1YVhqbVRPd0d5OEx0MHc4a3BV?=
- =?utf-8?B?UWY2U2xJNmw1T0xJWG94TDF6WEFqaFVtUGhOUklySFBWaFNLOEdOUU1GYy94?=
- =?utf-8?B?WVNBTHkxK3BTVEVTc2VOWVZxZlVpaEdPck5LKzltSEF6NzN1MUtnNnIxR2M1?=
- =?utf-8?B?ZUdCNkY4MU1oSnd5MGNyaGRsY3J3WXpWMGNXVExRaUI4RUl6dS9ZcUJac1Jy?=
- =?utf-8?B?Y09YOEpEdGRNTjNqL3BwV3VjYnlESmM1RnlwNS84TVdWcHp5dnNXb0JFYSsx?=
- =?utf-8?B?elFvampnbTRweitRVmZLRWdmUEU3dEFzNWhlOUVtN0dEYXJ5SmRpUjAvTnVv?=
- =?utf-8?B?QVpuMm9GZm9wSHo5cldWWk9qTXVzOUVzWWM0U1pQdGhPUFd3U1pqZVZMTDZs?=
- =?utf-8?B?bHNxRFBwK1d1WU9zZXlHZWozUVlVOGZUTDVlRUphd0N5Y1FTSTVhTysxb3d1?=
- =?utf-8?B?YSsrbmMwU3lSQzkxLzU3ZEJJWXpQSHhJQmI2dkNQYnRKRDRqR3hNaDBiUTQ2?=
- =?utf-8?B?YzVqblp5Tkd5VGJPdzFvajNVOEpsdERNc3JuenhzbmtnRCsydFZYMllNVEdT?=
- =?utf-8?B?S3BsUHRDN2RVbGxFbjdDVmJpeTBPR293NVUwV1JjV1BqVFlXeW5LVElpMnVv?=
- =?utf-8?B?b243UzRnVlFnV0hMNXdxTzNuT09qSzB0YTlVVjZaTXRESmt3VUFESnhXbEY4?=
- =?utf-8?B?Q3ZrblYyeWVPK0dYcG9WNHhxWE5DTFdBcmIwc1BPSFpvWElvT2hxYy83ZTNt?=
- =?utf-8?B?ejZzb1dVSGJFUHNvNnlpcVQwdSt2Mm5YYUxXTmpNWloyVEllekpzSjQ5aGZr?=
- =?utf-8?B?SXhkZzhJcFUxa2ZBTWo0bUxMa0phdmtNelZxOW9PMS95N0xHTnhlUXdoYThD?=
- =?utf-8?B?dlFFZXFJbHgyRmlnN1krbzdRbUlvdldiQW5abGZ1b1cvNlRGeVgvR1dvRlBE?=
- =?utf-8?B?ZkJCZWpUdWFoN3JCNExlcGcxZTk4Y1IyOXB1UGJLT3g3bWtGV295Z0Q5N2p5?=
- =?utf-8?B?QWxPaVRmRDJTbGpJbHJJU1FpenRDWmkreCtySUFzTmlsejAyYzFkYkhoRHpJ?=
- =?utf-8?B?elcwVHJNV1NJdzJvUDJxUUEzdDBSamJyVGJtZVhhNGxJUXQvOWxJSlhkbnVI?=
- =?utf-8?B?VU5aWE1YR0dkWGtOb1B4bHlRL3h0akYrNERTOEdHRmwyOGtRL2VDMTFCNmpw?=
- =?utf-8?B?OHpEY1NaZ1pYelB1V3krcHBGNGxEWUdpUXVhdGpPV0NBZ2kvTTVmakdlVWk1?=
- =?utf-8?B?Y1NuenJ3NEpNT2NUU240R3BqWW9jM0gwVytrWWwzbUtLckR3RE5CRHZOeWdj?=
- =?utf-8?B?TCtMdWtISnFXUFVud2ZBU1ovamxqOWZUQU5TSmdjZUJtZzN5TlFPSjFwVWxt?=
- =?utf-8?B?K3d4Y29CdjhqczNPcjl2WlRjTXZrV1ZhU1lyV01WeTRFS051eVp6QlF4Znkz?=
- =?utf-8?B?UjZWaGdMd1Vkd1JnWlBSTzlOTkczUnlUU2JuZUh5dVg0dTY3T3lnN3N6cVJJ?=
- =?utf-8?B?d2N2Z0g5NlVFVGtJcndxTDduVmRZRlRvRUpSeGRzTEhVQzhXUCtMM29DSWEy?=
- =?utf-8?B?N0sxTklpWStzWXJGb285UVlPdVlxT3NURENsMjZYTG9ZRkRYbGFuenphYjJ0?=
- =?utf-8?B?ZXpLalgydEwrM0p4SGVManJWdkxqSUFZeGwrU3pGQnN5NnRyVGUxYVh5b0VF?=
- =?utf-8?B?UkUxMDZ6U3pLT0poQk5IUkRxN3lubVl1cjVxK0xrTHBTOVhCTWY1bHVTdDJM?=
- =?utf-8?B?ZEJyWWN2OUFQR083Y1ZlbStsM01xanpTYjhQWlUxbnl4dFM3cWN3NUw1ak9t?=
- =?utf-8?Q?euAluaeBzYhGA0qP4XKXu47y+w0hYs=3D?=
-X-Microsoft-Antispam-Message-Info: EPgUiPcUVVJCs+NkGDaXppKaW0s6COG6EA4119dF+IDWyd5t9Wx5+ATBJG9/ebq0Ue77Rv/nwbdmG5QeQKXHLrb/nYy+tCHZy8vvzTS5CZPqDk5eMx+SNPGoXygJtOiz/09XxYauYfMJ4BthCncGM+Y9e/ZbOOkCKqQhV1+ncKIXSVL6TnW2uOiQrpNhTJ+g
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0690;6:54ChLGZAECsbqelgK15SbQTMZsDYPsVgr6b7yf7UqqQ7thl7UPJziNXJg8bwknlUzs0THDRaMzLXyxh+uL6eqVETrXFR6p7RuCA2NWdagMLbMaXBtRsxi0l++s5L/SEn+DRpUQ3wncs9j7gESNYLuDbEUhohNQs8Alv2mf+y9Snvip4pfhJJgMav8Wm16yPjnrgbHanFKwG4665ITq1XVALp5ulUxQRGlld7RYB+FMFKTO5iC0PulfbLOzRkGb7ACkjq+l+OpHDZlRaZ6I7v4U0sH5lVkexoY6wZjUY1KUeAQoxx82A6OCaSCdb7GBLZCG5nCwdaZ4yuavWWL7CjjYSNvdXryYjsuwFndTPVL7A=;5:QfZB+qwT4m4XGMTXusIeMetjBlSCeulX7svulthBD5o17T+HzEtE9uBzTO88TbyLg0suxZeJw6+AoidcLV/XcGHxMO1O3pmpjW4A+iHB5UflyUG6BgMfeZNwKMv+O7E8jvGzGz+O7WlY4UHJNTPkq1wjn+mwbBdK5FgdO19a1bE=;24:TfWt4W+WluwTudzj1CO3fiLB7oEPcoo3XIM8uscseA8WJGSBy4Q1WaazgFEA3Wgoyjyd8pddY21JLWG8XZ3bsQLrdcBEHx6OshAKlbVU1Mk=;7:U/lKP0puEVFzpLaTyZnKC9Mni+2UmOC6GGs9iazG1ofgpH4CI1l4IurJP3gD2Z2JTJkemkfaZ6MrZUX10h4grX91AV9+qZnbXbcGgS5faLmZF0UR2yM51jFCpzJBEOcU1lcB4d3IV/74GmgJdb/aGGLChMvg2Vf/6jqfXE3n+2WjzJDSfpkJlmc+80sz+NTPr4TdWYYVmgelbo/st2u8DEHxs5nz79kaXoQxpiSwGU/7vnQOZN8Fh/ilXcOc+8gH
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCWTJQUjEyTUIwNjk1OzIzOjhESzN0MzZ5aDJPYlZsNS9VZW9mdW5nN2dj?=
+ =?utf-8?B?TkRFM2xtUHhvSmRkTk85eVlySGFST1A4Z1lFL2ZVbTlYSlhtRlE5bndhTjFT?=
+ =?utf-8?B?emxiS1RyOWVOOGlzRDhGeWw2ckQwTnpkMUduWnFNY0pZYmNNdDJzMEwySis4?=
+ =?utf-8?B?aHFQeTdab2txV3NBekdxZHJQcWxNYXZ5S0t4N2NJWDlzVVFkZVdVcTNJK0pl?=
+ =?utf-8?B?NHBEV0RpejU2TzZLdVNWb2Z5dUpJS2hoTVhINFR0alR2OGpzSkw1ZERKS1dt?=
+ =?utf-8?B?V3hIU0ZGT3VSZ2Eydi9MVXd4MkxMbi95aEYwVTNZdk1QaGllYm95K3cxcGtN?=
+ =?utf-8?B?TTZwVE9yWDdYUmc2UkZuWk14WFBjL09MVVdkSXo3aUl0WnZ1WDRQK2VRcjdt?=
+ =?utf-8?B?U1ZieFZoMWMvcE5aUTFwYndmZzRHUTEwcU5yd1JMSHRTOUxiMDZ2QUpXcFEy?=
+ =?utf-8?B?UUdkd2xMVGFFS3lTTUM5NktBTUY1Z2d6ZmlRSFo4K2phNHloamhrZ1l4K0hW?=
+ =?utf-8?B?VE8zdnk3b05rSXZvd3BMb3k3Wmt0emdvM0dsMndPalFUMUlJOUNoa2JaTE9L?=
+ =?utf-8?B?ODQyMzJ1SmxoaEtRZklpK1k3QVdFdi94czNPMS90NUxEWW9LODA5aXdHWlBh?=
+ =?utf-8?B?ZFdiUDF0cDlER1lCOGxuVXVKRTRjWEhsYjhpOHNrVG1VYVlyOEhhK2R2dEVt?=
+ =?utf-8?B?TnlZeEV2ZDVhRlpjOVVpcVErRFdkcnVuS3FaSGtvVGk5aXZDamtVbFRua21q?=
+ =?utf-8?B?bC9sQS9vQ3U5R0l6RlJXam0zVnMrUnhjdm4vT2RzVjlXS3kwNnVLdC9iWUh2?=
+ =?utf-8?B?ZGovR00ycUZMK1l5TzVOMXBreVR4NFA4Q2U2UUFreW01aEd2STdEUWlWdEhj?=
+ =?utf-8?B?SEtvTVBUalUrbWNTdGVIdDJTa29VK1JzbyttZ1ZiMDVqRE9JN2c2S25SZm5R?=
+ =?utf-8?B?UVliaDRMb1VHaThrUDZHckkyS1RIdnd4RmJmNE45S3hUd2NqZlJwMm5UanFp?=
+ =?utf-8?B?Ylp3WG8va3c0a1NIMGVuQ0RZNThjd1BOYlpPMjhzSUZDUTV1cmtrOG5HeC9x?=
+ =?utf-8?B?SEU3L0RRZ1ZYMUZVWFBaZlRpYW5UVE5sYkcvY2lXdnJhS3FFeEpPNXVteldU?=
+ =?utf-8?B?MXhFM0pmVVlrZEw4Y1lFUStIWVV5YmVQaG1lZ1VZRFZCelVmRWx6ajN4M0kw?=
+ =?utf-8?B?ZG5vR0pQeGg4QWRuTWJISzVlTUljTlZNSUFhaUZuL1k5N2NxaEVVeHF3WW1n?=
+ =?utf-8?B?bXFyLzhtcUlJZDRkeXB0MjRGVnVkdng0TkNtb0N5elBFNlgwTjQyV2I2c0w3?=
+ =?utf-8?B?Q2JoQ0RqaU0wQUJnL0FCR2RQQVg5Szdka0c5NmJ5TTBwY0x6S2pRKzFiY21F?=
+ =?utf-8?B?MElDM2FSUm5hR2hzaWpXMmNjR1lXdlhFbVdCSlFlY0NLV2czRHJQVWQyL2Fp?=
+ =?utf-8?B?cVdYbi84WmkxSFZ4K1AzWUwxdFUvNTN1OFhtbjNLSk9ueHlUb1NneXJkNEZS?=
+ =?utf-8?B?UGZEdWR1ZmNDaFlnZFpVTmcveVgxa0xOZ2w3RVh1RHdsOFV3SXJVUm1ta0pM?=
+ =?utf-8?B?TkVzTFowa1VjZEI1akZCdVhFUVJuWisvVHFzZTVLbkh6SDRmSFd2U1dndmIr?=
+ =?utf-8?B?QlV3N2FWK3U0Kyt1SGlrQVpqam9tSDNXTVJaU1lPRFR3dHJpVDBPWkhyZitN?=
+ =?utf-8?Q?4eEKJDdR6bCrsZEnWnmhPd3/scfpQzYGj0y3lVp?=
+X-Microsoft-Antispam-Message-Info: uI78oXyQC+KXk4IRdirtRWSw4Qg004fa409f56aVSkJRAp6mPwOeV1VL5JRtDk5H/1vZyWZhoeXZ/ukH0jxJGfZ2t/QOvk3huljx1GI83+5yOSmEV2T2v4sFzSGgvxeHQ07Wz+JnOEl9LOMWXLDbk2oeuFQS0WJr0btRPKMeVkElzzIBCWMA5r2jZGYl8a77
+X-Microsoft-Exchange-Diagnostics: 1;BY2PR12MB0695;6:W1Qf3ClDXt61gIDGt9VMVQw9nmNICtGn/CAlyBSQ5ot6qpaXab9L3gNpV3VW+Ok4AEcaL1BvCW5nutOr4XNq1LEF+dNoH0eOmBDF6/KVxLQbyMBKNw+D/FJsPa8xYopSRtPJQMm7w/Hgx8NgT6Rv99GlkIrZnI57Kis7NTMrYQ03STsqPwyxeXo+PpiBumSzMT4DUDfeTxvWTrQhZUU6prNI94pxgcKH6vDH6EPY1JSGBPJw3cLMKpMemqzwfPInKmm1n4mEhl4s3P+lJcj1VVCEgi6yFkpqYFEiJtkJFcI4FsxZBUJWNEq6+OnGpA6noDThd9/DCHG16rHcI5cZdb79OwKsFhenUAWZLtFTyZc=;5:OfKdLEpj86wIcThT6qEExMFklIOinHNBq3fMzRQv27+grrbtrd3tseTyAGvMSe1XQ25JJNRT+2w+k6YOCdZoUVCJbvjUWLPInn53rr3MClvCdhJC7zziSPp4OHP7T4zX8SgqiBM07SeGe0O/FgpkG0srCUH8cVneTEp/595dTD4=;24:6JX+pPAus9cnzUkqUyaiSl3aWr5XgtraHTr6Q/iC2DDGXjI34LqdYuC6Fk9iWmiL+AJPSiRWf0LMd7RUTiNCOgun6QTvZRhqFJh8VxEx4EQ=;7:Bq4I2U6lwFp0eJ9VpnPkaZTerwFBjJTUfHAb1/UxpQZctRcIGgaoI7ylmBdcYnPxNi5qHRcfMqaEZSktD2gXw5W/XuXDfqEvpQLBkFLDO/dUW694C1lwjL6QMrxAFkWVAizcvY9YB+33czI9pmcJ00VOoWQANOnsHuLCCQ258I/bdc/GUJPfLuo6qirFtoLj9bgKmyaFb1yIO8DjIUAHGyIFzlqgqx/C4EK83uqOCsNn3nrhPr3TRisQtX0jUAXb
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0690;20:6IlDfkgFdO33zxXswJdOYnvm4rzmnBc5K41zYtVnyDqJnDpc0AOubJWOujRTUGkrAUqiRk/JmcKXPBC1bH85OPiJtfT+e6I9Xs5perKUIqQOO6REmoEf0/bP5OGtajYTymGCcxq0V09pilkSbyslFS6idC2EeZFsfi3wP323wAZEbOV/RfkVN+5UM2iBA07cQr1zVYJ1HH4RrrHoWEpAYqEgUnoBHw5BKWI1i/7wnj9XQALvso2yfsHCBrCQyagm
+X-Microsoft-Exchange-Diagnostics: 1;BY2PR12MB0695;20:fhEIs17aW6ZxA/gbeON9XmGU1j9yZ+jXUmIozzzE23NOGW1p3P+gUWf4ObPB81dWXtnfuDCe1OOu1G6HUgeWOQtDWz3pxbgmB+AMrAoDLYTKflozjWBBsBlr/05Nr3s1o3fqnWKmVTGbn/Qf1kWajxXwnebkPujvHWV0YHRXkgW3m3g73sjIrT5nXnOHwiHRI9tmBt0P4dVzCxSHwy0VtI5a9P5AI83+9Lm2emC1wKPvyID2YrUoS7W+uz1Vq54S
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2018 19:54:30.2710 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d8cb934-2310-46f4-6bee-08d58aae9115
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2018 20:04:06.3496 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f3a8405-c1b7-4fc2-e43c-08d58aafe88b
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR12MB0690
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR12MB0695
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/15/2018 05:26 AM, Jani Nikula wrote:
-> On Wed, 14 Mar 2018, Gary R Hook <gary.hook@amd.com> wrote:
->> Add another example of required braces when using a compound statement in
->> a loop.
->>
->> Signed-off-by: Gary R Hook <gary.hook@amd.com>
->> ---
->>   Documentation/process/coding-style.rst |    9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
->> index a20b44a40ec4..d98deb62c400 100644
->> --- a/Documentation/process/coding-style.rst
->> +++ b/Documentation/process/coding-style.rst
->> @@ -200,6 +200,15 @@ statement; in the latter case use braces in both branches:
->>   		otherwise();
->>   	}
->>   
->> +Also, use braces when a loop contains more than a single simple statement:
-> 
-> Personally, I'd not limit this to loops.
-> 
-> 	if (condition) {
->          	if (another_condition)
->                  	action();
->          }
-> 
-> You could argue the existing rule already covers these cases by
-> excluding selection and iteration statements from the "single statement"
-> in "Do not unnecessarily use braces where a single statement will do."
+Add another example of required braces when using a compound statements.
 
-Define "statement"? There's a school of thought that uses semicolons to 
-indicate a statement. I'm trying to eliminate any ambiguity by calling 
-out compound statements as "more than one statement". Sure, semantics,
-but in the interest of clarity. An additional sentence and example 
-doesn't really cost much.
+Signed-off-by: Gary R Hook <gary.hook@amd.com>
+---
 
-Thank you for your time. I've made some changes, and a v2 to follow shortly.
+Changes since v1:
+- Move the new example up, and make it more generic
 
+ Documentation/process/coding-style.rst |    9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index a20b44a40ec4..fcef0b4b59d0 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -188,6 +188,15 @@ and
+ 	else
+ 		do_that();
+ 
++Do use braces when a body is more complex than a single simple statement:
++
++.. code-block:: c
++
++	if (condition) {
++		if (another_condition)
++			do_something();
++	}
++
+ This does not apply if only one branch of a conditional statement is a single
+ statement; in the latter case use braces in both branches:
+ 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
