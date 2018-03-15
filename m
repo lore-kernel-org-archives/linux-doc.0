@@ -5,155 +5,78 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 871587E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 20:49:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C74A57E6A4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 21:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752283AbeCOUtJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 16:49:09 -0400
-Received: from foss.arm.com ([217.140.101.70]:47822 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752011AbeCOUtI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Mar 2018 16:49:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5EE691529;
-        Thu, 15 Mar 2018 13:49:08 -0700 (PDT)
-Received: from [10.1.207.55] (melchizedek.cambridge.arm.com [10.1.207.55])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 434E13F25D;
-        Thu, 15 Mar 2018 13:49:04 -0700 (PDT)
-Message-ID: <5AAADBA1.1000804@arm.com>
-Date:   Thu, 15 Mar 2018 20:46:25 +0000
-From:   James Morse <james.morse@arm.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Icedove/31.6.0
-MIME-Version: 1.0
-To:     gengdongjiu <gengdj.1984@gmail.com>, drjones@redhat.com
-CC:     gengdongjiu <gengdongjiu@huawei.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "marc.zyngier@arm.com" <marc.zyngier@arm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "will.deacon@arm.com" <will.deacon@arm.com>,
-        "robert.moore@intel.com" <robert.moore@intel.com>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "lv.zheng@intel.com" <lv.zheng@intel.com>,
-        Huangshaoyu <huangshaoyu@huawei.com>,
-        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
-        "devel@acpica.org" <devel@acpica.org>
-Subject: Re: [PATCH v9 5/7] arm64: kvm: Introduce KVM_ARM_SET_SERROR_ESR ioctl
-References: <0184EA26B2509940AA629AE1405DD7F201A9E8EA@DGGEMA503-MBS.china.huawei.com> <5A70C5A0.1050600@arm.com> <d1b17dae-9d9c-970a-d164-a41c618d449b@huawei.com> <5A7DDDEE.9050306@arm.com> <93d07d3e-8388-7814-d674-538071d84e2a@huawei.com> <5A85C974.70500@arm.com> <CAMj-D2COh4xDKreZXPHeiJK34mrPqDbHszDWY-fz_SfxTRaHQA@mail.gmail.com>
-In-Reply-To: <CAMj-D2COh4xDKreZXPHeiJK34mrPqDbHszDWY-fz_SfxTRaHQA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+        id S1752763AbeCOVVL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 17:21:11 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34366 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1752619AbeCOVVL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Mar 2018 17:21:11 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 71077406E8B9;
+        Thu, 15 Mar 2018 21:21:10 +0000 (UTC)
+Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A735EC1FB3;
+        Thu, 15 Mar 2018 21:21:06 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
+        luto@amacapital.net, efault@gmx.de, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>, Waiman Long <longman@redhat.com>
+Subject: [PATCH v5 0/2] cpuset: Enable cpuset controller in default hierarchy
+Date:   Thu, 15 Mar 2018 17:20:40 -0400
+Message-Id: <1521148842-15486-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 15 Mar 2018 21:21:10 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 15 Mar 2018 21:21:10 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi gengdongjiu,
+v5:
+ - Add patch 2 to provide the cpuset.flags control knob for the
+   sched_load_balance flag which should be the only feature that is
+   essential as a replacement of the "isolcpus" kernel boot parameter.
 
-On 08/03/18 06:18, gengdongjiu wrote:
-> Hi James,
->    sorry for my late response due to chines new year.
+v4:
+ - Further minimize the feature set by removing the flags control knob.
 
-Happy new year,
+v3:
+ - Further trim the additional features down to just memory_migrate.
+ - Update Documentation/cgroup-v2.txt.
 
+The purpose of this patchset is to provide a minimal set of cpuset
+features for cgroup v2. That minimal set includes the cpus, mems and
+their effective_* counterparts as well as a new flags control knob
+that currently supports only the sched_load_balance flag.
 
-> 2018-02-16 1:55 GMT+08:00 James Morse <james.morse@arm.com>:
->> On 12/02/18 10:19, gengdongjiu wrote:
->>> On 2018/2/10 1:44, James Morse wrote:
->>>> The point? We can't know what a CPU without the RAS extensions puts in there.
->>>>
->>>> Why Does this matter? When migrating a pending SError we have to know the
->>>> difference between 'use this 64bit value', and 'the CPU will generate it'.
->>>> If I make an SError pending with ESR=0 on a CPU with VSESR, I can't migrated to
->>>> a system that generates an impdef SError-ESR, because I can't know it will be 0.
->>
->>> For the target system, before taking the SError, no one can know whether its syndrome value
->>> is IMPLEMENTATION DEFINED or architecturally defined.
->>
->> For a virtual-SError, the hypervisor knows what it generated. (do I have
->> VSESR_EL2? What did I put in there?).
->>
->>
->>> when the virtual SError is taken, the ESR_ELx.IDS will be updated, then we can know
->>> whether the ESR value is impdef or architecturally defined.
->>
->> True, the guest can't know anything about a pending virtual SError until it
->> takes it. Why is this a problem?
->>
->>
->>> It seems migration is only allowed only when target system and source system all support
->>> RAS extension, because we do not know whether its syndrome is IMPLEMENTATION DEFINED or
->>> architecturally defined.
->>
->> I don't think Qemu allows migration between hosts with differing guest-ID
->> registers. But we shouldn't depend on this, and we may want to hide the v8.2 RAS
->> features from the guest's ID register, but still use them from the host.
->>
->> The way I imagined it working was we would pack the following information into
->> that events struct:
->> {
->>         bool serror_pending;
->>         bool serror_has_esr;
->>         u64  serror_esr;
->> }
-> 
-> I have used your suggestion struct
+This patchset does not exclude the possibility of adding more flags
+and features in the future after careful consideration.
 
-Ah! This is where it came from. Sorry, this was just to illustrate the
-information/sizes we wanted to transfer.... I didn't mean it literally.
+Patch 1 enables cpuset in cgroup v2 with cpus, mems and their
+effective_* counterparts.
 
-I should have said "64 bits of ESR, so that we can transfer anything that is
-added to VSESR_EL2 in the future, a flag somewhere to indicate an serror is
-pending, and another flag to indicate the ESR has a value we should use".
+Patch 2 adds flags with support for the sched_load_balance only.
 
+Waiman Long (2):
+  cpuset: Enable cpuset controller in default hierarchy
+  cpuset: Add cpuset.flags control knob to v2
 
-Thanks/Sorry!
+ Documentation/cgroup-v2.txt | 128 ++++++++++++++++++++++++++++++++++++----
+ kernel/cgroup/cpuset.c      | 140 +++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 256 insertions(+), 12 deletions(-)
 
-James
-
-
->> The problem I was trying to describe is because there is no value of serror_esr
->> we can use to mean 'Ignore this, I'm a v8.0 CPU'. VSESR_EL2 is a 64bit register,
->> any bits we abuse may get a meaning we want to use in the future.
->>
->> When it comes to migration, v8.{0,1} systems can only GET/SET events where
->> serror_has_esr == false, they can't use the serror_esr. On v8.2 systems we
->> should require serror_has_esr to be true.
-> yes, I agreed.
-> 
->>
->> If we need to support migration from v8.{0,1} to v8.2, we can make up an impdef
->> serror_esr.
-> 
-> For the Qemu migration, I need to check more the QEMU code.
-
-
-> Hi Andrew,
->       I use KVM_GET/SET_VCPU_EVENTS IOCTL to migrate the Serror
-> exception status of VM,
-> The even struct is shown below:
-> 
-> {
->       bool serror_pending;
->       bool serror_has_esr;
->      u64  serror_esr;
-> }
-> 
-> Only when the target machine is armv8.2, it needs to set the
-> serror_esr(SError Exception Syndrome Register).
-> for the armv8.0,  software can not set the serror_esr(SError Exception
-> Syndrome Register).
-> so when migration from v8.{0,1} to v8.2, QEMU should make up an impdef
-> serror_esr for the v8.2 target.
-> can you give me some suggestion how to set that register in the QEMU?
-> I do not familar with the QEMU migration.
-> Thanks very much.
+-- 
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
