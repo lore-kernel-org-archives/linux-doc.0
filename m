@@ -1,76 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E160E7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 14:18:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7024A7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 14:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751887AbeCOORy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 10:17:54 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49832 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751551AbeCOORx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Mar 2018 10:17:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=877zoFDCjBQwx+KqfkcKMUpi1LQufgjEsBZNJ0oPjcA=; b=EXhRXPFP9V1Mco6Q4o3jqaRu0
-        oLzgvnyNTStu34PZkK3msqZ2y2l/deupxM5cHQLHCbeWt/ds/8+JdJjNCFVLW5LL8zzU0pkaIKv98
-        EM+ZVz+Uo5MEtNlYRa9AM76bw9D2LuzvHr/3XbjrRoFxUy03R4OFlz8etn8kufOexZ8/qlHEGNQO2
-        iB3dTgC4J63qEBMUr8xBYQT6vy9AOo0C0EONmeAadsHydlBcVZNyw5GJuhIHSKK07cNqhwpNPWLo4
-        q8zkNlmNNev4BnmMDowClm33G7RfhHl7QRcmT2JSpja3YUNQi7/uFbU67h5MMcZ8po3ooHmpBuTQZ
-        Kv7IEmpyQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ewThW-00034V-3B; Thu, 15 Mar 2018 14:17:50 +0000
-Date:   Thu, 15 Mar 2018 07:17:49 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Hannes Reinecke <hare@suse.de>,
-        David Howells <dhowells@redhat.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi <linux-spi@vger.kernel.org>, linux-usb@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
-Subject: Re: [PATCH 00/16] remove eight obsolete architectures
-Message-ID: <20180315141749.GA27100@infradead.org>
-References: <20180314143529.1456168-1-arnd@arndb.de>
- <2929.1521106970@warthog.procyon.org.uk>
- <6c9d075c-d7a8-72a5-9b2d-af1feaa06c6c@suse.de>
- <CAK8P3a01pfvsdM1mR8raU9dA7p4H-jRJz2Y8-+KEY76W_Mukpg@mail.gmail.com>
+        id S1752212AbeCOOVa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 10:21:30 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:42118 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751880AbeCOOV1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Mar 2018 10:21:27 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8FF8B20CC6;
+        Thu, 15 Mar 2018 14:21:26 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 4BFDC2026E04;
+        Thu, 15 Mar 2018 14:21:21 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Thu, 15 Mar 2018 15:21:26 +0100 (CET)
+Date:   Thu, 15 Mar 2018 15:21:20 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     mhiramat@kernel.org, peterz@infradead.org,
+        srikar@linux.vnet.ibm.com, acme@kernel.org,
+        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
+        corbet@lwn.net, dan.j.williams@intel.com,
+        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
+        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
+        jolsa@redhat.com, kan.liang@intel.com,
+        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
+        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
+        tmricht@linux.vnet.ibm.com, willy@infradead.org,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com
+Subject: Re: [PATCH 5/8] trace_uprobe: Support SDT markers having reference
+ count (semaphore)
+Message-ID: <20180315142120.GA19218@redhat.com>
+References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
+ <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a01pfvsdM1mR8raU9dA7p4H-jRJz2Y8-+KEY76W_Mukpg@mail.gmail.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 15 Mar 2018 14:21:26 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 15 Mar 2018 14:21:26 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 15, 2018 at 11:42:25AM +0100, Arnd Bergmann wrote:
-> Is anyone producing a chip that includes enough of the Privileged ISA spec
-> to have things like system calls, but not the MMU parts?
+On 03/13, Ravi Bangoria wrote:
+>
+> @@ -1053,6 +1056,9 @@ int uprobe_mmap(struct vm_area_struct *vma)
+>  	struct uprobe *uprobe, *u;
+>  	struct inode *inode;
+>
+> +	if (uprobe_mmap_callback)
+> +		uprobe_mmap_callback(vma);
+> +
+>  	if (no_uprobe_events() || !valid_vma(vma, true))
+>  		return 0;
 
-Various SiFive SOCs seem to support M and U mode, but no S mode or
-iommu.  That should be enough for nommu Linux running in M mode if
-someone cares enough to actually port it.
+probe_event_enable() does
+
+	uprobe_register();
+	/* WINDOW */
+	sdt_increment_ref_ctr();
+
+what if uprobe_mmap() is called in between? The counter(s) in this vma
+will be incremented twice, no?
+
+> +static struct vm_area_struct *
+> +sdt_find_vma(struct mm_struct *mm, struct trace_uprobe *tu)
+> +{
+> +	struct vm_area_struct *tmp;
+> +
+> +	for (tmp = mm->mmap; tmp != NULL; tmp = tmp->vm_next)
+> +		if (sdt_valid_vma(tu, tmp))
+> +			return tmp;
+> +
+> +	return NULL;
+
+I can't understand the logic... Lets ignore sdt_valid_vma() for now.
+The caller has uprobe_map_info, why it can't simply do
+vma = find_vma(uprobe_map_info->vaddr)? and then check sdt_valid_vma().
+
+Oleg.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
