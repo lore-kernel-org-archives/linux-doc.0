@@ -1,138 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B8DDE7E686
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 11:21:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B2547E686
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 11:58:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751727AbeCOLVf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 07:21:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57170 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751666AbeCOLVe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Mar 2018 07:21:34 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2FBKctt125826
-        for <linux-doc@vger.kernel.org>; Thu, 15 Mar 2018 07:21:33 -0400
-Received: from e06smtp11.uk.ibm.com (e06smtp11.uk.ibm.com [195.75.94.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2gqmj422ap-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 15 Mar 2018 07:21:32 -0400
-Received: from localhost
-        by e06smtp11.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Thu, 15 Mar 2018 11:21:29 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp11.uk.ibm.com (192.168.101.141) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Thu, 15 Mar 2018 11:21:21 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2FBLKGI32899232;
-        Thu, 15 Mar 2018 11:21:20 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8F0924C044;
-        Thu, 15 Mar 2018 11:14:34 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 832494C040;
-        Thu, 15 Mar 2018 11:14:28 +0000 (GMT)
-Received: from [9.124.31.132] (unknown [9.124.31.132])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu, 15 Mar 2018 11:14:28 +0000 (GMT)
-Subject: Re: [PATCH 5/8] trace_uprobe: Support SDT markers having reference
- count (semaphore)
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     mhiramat@kernel.org, peterz@infradead.org,
-        srikar@linux.vnet.ibm.com, acme@kernel.org,
-        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
-        corbet@lwn.net, dan.j.williams@intel.com,
-        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
-        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
-        jolsa@redhat.com, kan.liang@intel.com,
-        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
-        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
-        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
-        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
-        tmricht@linux.vnet.ibm.com, willy@infradead.org,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
- <20180314165943.GA5948@redhat.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Date:   Thu, 15 Mar 2018 16:53:40 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1750987AbeCOL6R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Mar 2018 07:58:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49534 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750751AbeCOL6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Mar 2018 07:58:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=AbckgTn8PJ6ApMj4wFMzMfK1rq/ZNUD/BNiVSvYUfDw=; b=tlBMQHy/eyJeI3TYf+2W1+Cd7
+        HFPkIGwYST1+7OfT3SWjjC8x/VzbgTRY4fVjxXeTKdNPy+WOCveiqZlKQxw6TWKmFHgLJVL/D1Kt7
+        Gx6iv8sPx3VEno+yrbH7nI8OhXetLYwXH0LPR9ljNwvCuWJdTyGwWZbLQ/7iQpI8e2eGVIo9n6h07
+        NVntBp/K7LCbk4Xhk6AoJ7akjUcYsH4oCfjt5anMvqtMPo3d6i50sXO9+2vLlHLBCJHKUlqnFmh//
+        eb2nYruRrsNve5t0wHmdycTuxfObxyBF09PN8kkJ1Hg4tHf+sp7u7l7ERtw57e5qw9ehH1SCldFhE
+        H3g/4lkEw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ewRWO-0004eU-H5; Thu, 15 Mar 2018 11:58:12 +0000
+Date:   Thu, 15 Mar 2018 04:58:12 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Kirill Tkhai <ktkhai@virtuozzo.com>, tj@kernel.org, cl@linux.com,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Subject: [PATCH] Improve mutex documentation
+Message-ID: <20180315115812.GA9949@bombadil.infradead.org>
+References: <152102825828.13166.9574628787314078889.stgit@localhost.localdomain>
+ <20180314135631.3e21b31b154e9f3036fa6c52@linux-foundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20180314165943.GA5948@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 18031511-0040-0000-0000-00000441150B
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18031511-0041-0000-0000-000020E41E7C
-Message-Id: <e802ce35-7134-ea12-774b-512546953c47@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-15_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1803150129
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180314135631.3e21b31b154e9f3036fa6c52@linux-foundation.org>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 14, 2018 at 01:56:31PM -0700, Andrew Morton wrote:
+> My memory is weak and our documentation is awful.  What does
+> mutex_lock_killable() actually do and how does it differ from
+> mutex_lock_interruptible()?
 
+From: Matthew Wilcox <mawilcox@microsoft.com>
 
-On 03/14/2018 10:29 PM, Oleg Nesterov wrote:
-> On 03/13, Ravi Bangoria wrote:
->> +static bool sdt_valid_vma(struct trace_uprobe *tu, struct vm_area_struct *vma)
->> +{
->> +	unsigned long vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
->> +
->> +	return tu->ref_ctr_offset &&
->> +		vma->vm_file &&
->> +		file_inode(vma->vm_file) == tu->inode &&
->> +		vma->vm_flags & VM_WRITE &&
->> +		vma->vm_start <= vaddr &&
->> +		vma->vm_end > vaddr;
->> +}
-> Perhaps in this case a simple
->
-> 		ref_ctr_offset < vma->vm_end - vma->vm_start
->
-> check without vma_offset_to_vaddr() makes more sense, but I won't insist.
->
+Add kernel-doc for mutex_lock_killable() and mutex_lock_io().  Reword the
+kernel-doc for mutex_lock_interruptible().
 
-Hmm... I'm not quite sure. Will rethink and get back to you.
+Signed-off-by: Matthew Wilcox <mawilcox@microsoft.com>
 
->
->> +static void sdt_increment_ref_ctr(struct trace_uprobe *tu)
->> +{
->> +	struct uprobe_map_info *info;
->> +	struct vm_area_struct *vma;
->> +	unsigned long vaddr;
->> +
->> +	uprobe_start_dup_mmap();
->> +	info = uprobe_build_map_info(tu->inode->i_mapping,
->> +				tu->ref_ctr_offset, false);
-> Hmm. This doesn't look right.
->
-> If you need to find all mappings (and avoid the races with fork/dup_mmap) you
-> need to take this semaphore for writing, uprobe_start_dup_mmap() can't help.
-
-Oops. Yes. Will change it.
-
-Thanks for the review :)
-Ravi
-
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index 858a07590e39..2048359f33d2 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -1082,15 +1082,16 @@ static noinline int __sched
+ __mutex_lock_interruptible_slowpath(struct mutex *lock);
+ 
+ /**
+- * mutex_lock_interruptible - acquire the mutex, interruptible
+- * @lock: the mutex to be acquired
++ * mutex_lock_interruptible() - Acquire the mutex, interruptible by signals.
++ * @lock: The mutex to be acquired.
+  *
+- * Lock the mutex like mutex_lock(), and return 0 if the mutex has
+- * been acquired or sleep until the mutex becomes available. If a
+- * signal arrives while waiting for the lock then this function
+- * returns -EINTR.
++ * Lock the mutex like mutex_lock().  If a signal is delivered while the
++ * process is sleeping, this function will return without acquiring the
++ * mutex.
+  *
+- * This function is similar to (but not equivalent to) down_interruptible().
++ * Context: Process context.
++ * Return: 0 if the lock was successfully acquired or %-EINTR if a
++ * signal arrived.
+  */
+ int __sched mutex_lock_interruptible(struct mutex *lock)
+ {
+@@ -1104,6 +1105,18 @@ int __sched mutex_lock_interruptible(struct mutex *lock)
+ 
+ EXPORT_SYMBOL(mutex_lock_interruptible);
+ 
++/**
++ * mutex_lock_killable() - Acquire the mutex, interruptible by fatal signals.
++ * @lock: The mutex to be acquired.
++ *
++ * Lock the mutex like mutex_lock().  If a signal which will be fatal to
++ * the current process is delivered while the process is sleeping, this
++ * function will return without acquiring the mutex.
++ *
++ * Context: Process context.
++ * Return: 0 if the lock was successfully acquired or %-EINTR if a
++ * fatal signal arrived.
++ */
+ int __sched mutex_lock_killable(struct mutex *lock)
+ {
+ 	might_sleep();
+@@ -1115,6 +1128,16 @@ int __sched mutex_lock_killable(struct mutex *lock)
+ }
+ EXPORT_SYMBOL(mutex_lock_killable);
+ 
++/**
++ * mutex_lock_io() - Acquire the mutex and mark the process as waiting for I/O
++ * @lock: The mutex to be acquired.
++ *
++ * Lock the mutex like mutex_lock().  While the task is waiting for this
++ * mutex, it will be accounted as being in the IO wait state by the
++ * scheduler.
++ *
++ * Context: Process context.
++ */
+ void __sched mutex_lock_io(struct mutex *lock)
+ {
+ 	int token;
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
