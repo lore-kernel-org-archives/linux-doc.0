@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F2737E6AD
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:17:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 31F2D7E677
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:18:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753270AbeCPSQl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 14:16:41 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33544 "EHLO mx1.redhat.com"
+        id S1752209AbeCPSRd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 14:17:33 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44542 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753008AbeCPSOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1752914AbeCPSOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 16 Mar 2018 14:14:35 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E989B80AD23B;
+        by mx1.redhat.com (Postfix) with ESMTPS id 4EAEED144C;
         Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
 Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A1D712026E04;
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 06A25202322B;
         Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -32,128 +32,118 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 7/9] test_sysctl: Add ctl_table registration failure test
-Date:   Fri, 16 Mar 2018 14:13:48 -0400
-Message-Id: <1521224030-2185-8-git-send-email-longman@redhat.com>
+Subject: [PATCH v5 5/9] ipc: Clamp semmni to the real IPCMNI limit
+Date:   Fri, 16 Mar 2018 14:13:46 -0400
+Message-Id: <1521224030-2185-6-git-send-email-longman@redhat.com>
 In-Reply-To: <1521224030-2185-1-git-send-email-longman@redhat.com>
 References: <1521224030-2185-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 16 Mar 2018 18:14:34 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Incorrect sysctl tables are constructed and fed to the
-register_sysctl_table() function in the test_sysctl kernel module.
-The function is supposed to fail the registration of those tables or
-an error will be printed if no failure is returned.
-
-The registration failures will cause other warning and error messages
-to be printed into the dmesg log, though.
-
-A new test is also added to the sysctl.sh to look for those failure
-messages in the dmesg log to see if anything unexpeced happens.
+For SysV semaphores, the semmni value is the last part of the 4-element
+sem number array. To make semmni behave in a similar way to msgmni
+and shmmni, we can't directly use the _minmax handler. Instead,
+a special sem specific handler is added to check the last argument
+to make sure that it is clamped to the [0, IPCMNI] range and prints
+a warning message once when an out-of-range value is being written.
+This does require duplicating some of the code in the _minmax handlers.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- lib/test_sysctl.c                        | 41 ++++++++++++++++++++++++++++++++
- tools/testing/selftests/sysctl/sysctl.sh | 15 ++++++++++++
- 2 files changed, 56 insertions(+)
+ ipc/ipc_sysctl.c | 12 +++++++++++-
+ ipc/sem.c        | 25 +++++++++++++++++++++++++
+ ipc/util.h       |  4 ++++
+ 3 files changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
-index 7bb4cf7..14853d5 100644
---- a/lib/test_sysctl.c
-+++ b/lib/test_sysctl.c
-@@ -154,13 +154,54 @@ struct test_sysctl_data {
- 	{ }
- };
- 
-+static struct ctl_table fail_sysctl_table0[] = {
-+	{
-+		.procname	= "failed_sysctl0",
-+		.data		= &test_data.range_0001,
-+		.maxlen		= sizeof(test_data.range_0001),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.flags		= CTL_FLAGS_CLAMP_RANGE_SIGNED,
-+		.extra1		= &signed_max,
-+		.extra2		= &signed_min,
-+	},
-+	{ }
-+};
-+
-+static struct ctl_table fail_sysctl_root_table[] = {
-+	{
-+		.procname	= "debug",
-+		.maxlen		= 0,
-+		.mode		= 0555,
-+	},
-+	{ }
-+};
-+
-+static struct ctl_table *fail_tables[] = {
-+	fail_sysctl_table0, NULL,
-+};
-+
- static struct ctl_table_header *test_sysctl_header;
- 
- static int __init test_sysctl_init(void)
- {
-+	struct ctl_table_header *fail_sysctl_header;
-+	int i;
-+
- 	test_sysctl_header = register_sysctl_table(test_sysctl_root_table);
- 	if (!test_sysctl_header)
- 		return -ENOMEM;
-+
-+	for (i = 0; fail_tables[i]; i++) {
-+		fail_sysctl_root_table[0].child = fail_tables[i];
-+		fail_sysctl_header = register_sysctl_table(fail_sysctl_root_table);
-+		if (fail_sysctl_header) {
-+			pr_err("fail_tables[%d] registration check failed!\n", i);
-+			unregister_sysctl_table(fail_sysctl_header);
-+			break;
-+		}
-+	}
-+
- 	return 0;
- }
- late_initcall(test_sysctl_init);
-diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
-index 1aa1bba..23acdee 100755
---- a/tools/testing/selftests/sysctl/sysctl.sh
-+++ b/tools/testing/selftests/sysctl/sysctl.sh
-@@ -35,6 +35,7 @@ ALL_TESTS="$ALL_TESTS 0003:1:1"
- ALL_TESTS="$ALL_TESTS 0004:1:1"
- ALL_TESTS="$ALL_TESTS 0005:3:1"
- ALL_TESTS="$ALL_TESTS 0006:1:1"
-+ALL_TESTS="$ALL_TESTS 0007:1:1"
- 
- test_modprobe()
- {
-@@ -652,6 +653,20 @@ sysctl_test_0006()
- 	set_orig
+diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
+index 088721e..0ad7088 100644
+--- a/ipc/ipc_sysctl.c
++++ b/ipc/ipc_sysctl.c
+@@ -88,12 +88,22 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+ 	return proc_dointvec_minmax(&ipc_table, write, buffer, lenp, ppos);
  }
  
-+sysctl_test_0007()
++static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
++	void __user *buffer, size_t *lenp, loff_t *ppos)
 +{
-+	echo "Checking test_sysctl module registration failure test ..."
-+	dmesg | grep "sysctl.*fail_tables.*failed"
-+	if [[ $? -eq 0 ]]; then
-+		echo "FAIL" >&2
-+		rc=1
-+	else
-+		echo "ok"
-+	fi
++	int ret = proc_ipc_dointvec(table, write, buffer, lenp, ppos);
 +
-+	test_rc
++	sem_check_semmni(table, current->nsproxy->ipc_ns);
++	return ret;
 +}
 +
- list_tests()
- {
- 	echo "Test ID list:"
+ #else
+ #define proc_ipc_doulongvec_minmax NULL
+ #define proc_ipc_dointvec	   NULL
+ #define proc_ipc_dointvec_minmax   NULL
+ #define proc_ipc_dointvec_minmax_orphans   NULL
+ #define proc_ipc_auto_msgmni	   NULL
++#define proc_ipc_sem_dointvec	   NULL
+ #endif
+ 
+ static int zero;
+@@ -177,7 +187,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+ 		.data		= &init_ipc_ns.sem_ctls,
+ 		.maxlen		= 4*sizeof(int),
+ 		.mode		= 0644,
+-		.proc_handler	= proc_ipc_dointvec,
++		.proc_handler	= proc_ipc_sem_dointvec,
+ 	},
+ #ifdef CONFIG_CHECKPOINT_RESTORE
+ 	{
+diff --git a/ipc/sem.c b/ipc/sem.c
+index a4af049..faf2caa 100644
+--- a/ipc/sem.c
++++ b/ipc/sem.c
+@@ -2337,3 +2337,28 @@ static int sysvipc_sem_proc_show(struct seq_file *s, void *it)
+ 	return 0;
+ }
+ #endif
++
++#ifdef CONFIG_PROC_SYSCTL
++/*
++ * Check to see if semmni is out of range and clamp it if necessary.
++ */
++void sem_check_semmni(struct ctl_table *table, struct ipc_namespace *ns)
++{
++	bool clamped = false;
++
++	/*
++	 * Clamp semmni to the range [0, IPCMNI].
++	 */
++	if (ns->sc_semmni < 0) {
++		ns->sc_semmni = 0;
++		clamped = true;
++	}
++	if (ns->sc_semmni > IPCMNI) {
++		ns->sc_semmni = IPCMNI;
++		clamped = true;
++	}
++	if (clamped)
++		pr_warn_ratelimited("sysctl: \"sem[3]\" was set out of range [%d, %d], clamped to %d.\n",
++				     0, IPCMNI, ns->sc_semmni);
++}
++#endif
+diff --git a/ipc/util.h b/ipc/util.h
+index 89b8ec1..af57394 100644
+--- a/ipc/util.h
++++ b/ipc/util.h
+@@ -206,6 +206,10 @@ int ipcget(struct ipc_namespace *ns, struct ipc_ids *ids,
+ void free_ipcs(struct ipc_namespace *ns, struct ipc_ids *ids,
+ 		void (*free)(struct ipc_namespace *, struct kern_ipc_perm *));
+ 
++#ifdef CONFIG_PROC_SYSCTL
++extern void sem_check_semmni(struct ctl_table *table, struct ipc_namespace *ns);
++#endif
++
+ #ifdef CONFIG_COMPAT
+ #include <linux/compat.h>
+ struct compat_ipc_perm {
 -- 
 1.8.3.1
 
