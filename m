@@ -1,267 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C81087E6A4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Mar 2018 21:21:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8771A7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 04:50:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752864AbeCOVVh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Mar 2018 17:21:37 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33188 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752623AbeCOVVM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Mar 2018 17:21:12 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4B31B4129344;
-        Thu, 15 Mar 2018 21:21:11 +0000 (UTC)
-Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 802C2DEEC8;
-        Thu, 15 Mar 2018 21:21:10 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, efault@gmx.de, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>, Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 1/2] cpuset: Enable cpuset controller in default hierarchy
-Date:   Thu, 15 Mar 2018 17:20:41 -0400
-Message-Id: <1521148842-15486-2-git-send-email-longman@redhat.com>
-In-Reply-To: <1521148842-15486-1-git-send-email-longman@redhat.com>
-References: <1521148842-15486-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 15 Mar 2018 21:21:11 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 15 Mar 2018 21:21:11 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        id S1750847AbeCPEub (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 00:50:31 -0400
+Received: from mail-pf0-f193.google.com ([209.85.192.193]:37477 "EHLO
+        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750748AbeCPEu3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Mar 2018 00:50:29 -0400
+Received: by mail-pf0-f193.google.com with SMTP id h11so3744758pfn.4;
+        Thu, 15 Mar 2018 21:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZXG8LVzkueKq1SonOB8yr+3uUuDvpTn4DAMWyUhXHBU=;
+        b=iuaRYmtA+z61K1rC32NNSz5v5YxY76I/jCU0cY/c2pp0+qurA0L3ZkKskFIrPaZuFI
+         FAoQJdfB2sQKkC/RRUpjSDb4SxAYx+ciAdllsargWNZE2XsRDWO+BLorugEz7o6oxhMZ
+         7jM7ILb74Poa9uP88CovtvRN2VedKL7XJydvhSAl754JZ9iTXnKZGTUBUvRkwOngXRwO
+         jVLj1BTYUK8HXK40Ycymu1DQ+92uYpcG8ajFeBODzgU2Zfs/9MOZCiKSS84Z6e3YEejJ
+         epkUryDu1r9jiUvIgCI0hvZJ2i3JVy9TuMJorfeit4CEUQD+Og2HAkXjhySkW2zhPmF2
+         FHqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZXG8LVzkueKq1SonOB8yr+3uUuDvpTn4DAMWyUhXHBU=;
+        b=WgYnPh/THZ+6dz2VGrHMGuzDgJ2RRTYcIEFlfwC7pcNQel8Mq4BdicCOUabWkHrDCB
+         4HfcRfx0NkRgqJmpx+x/dcLrKJcn4+vNZNv3LQ9DmQnBH9gOO3AA4IT4LXQ6jEa7A8kX
+         9ZNigmE0gis9w6yjrPQc8nOIHVphzYDvf3puAVCAP+CJ6Q4jwVC0JzlHKiZ6Sn0fjpy6
+         2u70UH4HYDguq0o3HYxEHlpqJ/V2bMGDHsFyTSOY0mhUfTruaD8/fWmiUX+uGfAxuD/l
+         FzR4WHYdXw/Tj07f0HZg3nprMfgDBqx7fwfuGdKSQ3wKjsxSfx8OUfbkxIBJYdo2KpnR
+         iQIw==
+X-Gm-Message-State: AElRT7G5uxZIATUOxNbZDJixubmDmvLCssxOX/MM16hQ0+gIAdROxmGl
+        sOvFFvdXOUgT4BPG1EI9bmI=
+X-Google-Smtp-Source: AG47ELszBUow7lgV6sAHIE9oAlYxOIDc0e6j/J7/lnECCjCcTf7gn494naIk/nRl9KUDIO06gq2Y3Q==
+X-Received: by 10.101.97.139 with SMTP id c11mr365964pgv.447.1521175828444;
+        Thu, 15 Mar 2018 21:50:28 -0700 (PDT)
+Received: from localhost ([223.186.166.178])
+        by smtp.gmail.com with ESMTPSA id f23sm12238195pfn.132.2018.03.15.21.50.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 Mar 2018 21:50:27 -0700 (PDT)
+Date:   Fri, 16 Mar 2018 10:20:16 +0530
+From:   afzal mohammed <afzal.mohd.ma@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     David Howells <dhowells@redhat.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        IDE-ML <linux-ide@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi <linux-spi@vger.kernel.org>, linux-usb@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
+Subject: Re: [PATCH 00/16] remove eight obsolete architectures
+Message-ID: <20180316045016.GA7697@afzalpc>
+References: <20180314143529.1456168-1-arnd@arndb.de>
+ <2929.1521106970@warthog.procyon.org.uk>
+ <CAK8P3a10hBz7QYk5v5MfhVMPOwFnWYTn95WZp1HtHrd7-GQpRg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a10hBz7QYk5v5MfhVMPOwFnWYTn95WZp1HtHrd7-GQpRg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Given the fact that thread mode had been merged into 4.14, it is now
-time to enable cpuset to be used in the default hierarchy (cgroup v2)
-as it is clearly threaded.
+Hi,
 
-The cpuset controller had experienced feature creep since its
-introduction more than a decade ago. Besides the core cpus and mems
-control files to limit cpus and memory nodes, there are a bunch of
-additional features that can be controlled from the userspace. Some of
-the features are of doubtful usefulness and may not be actively used.
+On Thu, Mar 15, 2018 at 10:56:48AM +0100, Arnd Bergmann wrote:
+> On Thu, Mar 15, 2018 at 10:42 AM, David Howells <dhowells@redhat.com> wrote:
 
-This patch enables cpuset controller in the default hierarchy with
-a minimal set of features, namely just the cpus and mems and their
-effective_* counterparts.  We can certainly add more features to the
-default hierarchy in the future if there is a real user need for them
-later on.
+> > Do we have anything left that still implements NOMMU?
 
-Alternatively, with the unified hiearachy, it may make more sense
-to move some of those additional cpuset features, if desired, to
-memory controller or may be to the cpu controller instead of staying
-with cpuset.
+Please don't kill !MMU.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/cgroup-v2.txt | 96 ++++++++++++++++++++++++++++++++++++++++-----
- kernel/cgroup/cpuset.c      | 44 +++++++++++++++++++--
- 2 files changed, 127 insertions(+), 13 deletions(-)
+> Yes, plenty.
 
-diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
-index 74cdeae..b91fd5d 100644
---- a/Documentation/cgroup-v2.txt
-+++ b/Documentation/cgroup-v2.txt
-@@ -48,16 +48,18 @@ v1 is available under Documentation/cgroup-v1/.
-        5-2-1. Memory Interface Files
-        5-2-2. Usage Guidelines
-        5-2-3. Memory Ownership
--     5-3. IO
--       5-3-1. IO Interface Files
--       5-3-2. Writeback
--     5-4. PID
--       5-4-1. PID Interface Files
--     5-5. Device
--     5-6. RDMA
--       5-6-1. RDMA Interface Files
--     5-7. Misc
--       5-7-1. perf_event
-+     5-3. Cpuset
-+       5.3-1. Cpuset Interface Files
-+     5-4. IO
-+       5-4-1. IO Interface Files
-+       5-4-2. Writeback
-+     5-5. PID
-+       5-5-1. PID Interface Files
-+     5-6. Device
-+     5-7. RDMA
-+       5-7-1. RDMA Interface Files
-+     5-8. Misc
-+       5-8-1. perf_event
-      5-N. Non-normative information
-        5-N-1. CPU controller root cgroup process behaviour
-        5-N-2. IO controller root cgroup process behaviour
-@@ -1243,6 +1245,80 @@ POSIX_FADV_DONTNEED to relinquish the ownership of memory areas
- belonging to the affected files to ensure correct memory ownership.
- 
- 
-+Cpuset
-+------
-+
-+The "cpuset" controller provides a mechanism for constraining
-+the CPU and memory node placement of tasks to only the resources
-+specified in the cpuset interface files in a task's current cgroup.
-+This is especially valuable on large NUMA systems where placing jobs
-+on properly sized subsets of the systems with careful processor and
-+memory placement to reduce cross-node memory access and contention
-+can improve overall system performance.
-+
-+The "cpuset" controller is hierarchical.  That means the controller
-+cannot use CPUs or memory nodes not allowed in its parent.
-+
-+
-+Cpuset Interface Files
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+  cpuset.cpus
-+	A read-write multiple values file which exists on non-root
-+	cgroups.
-+
-+	It lists the CPUs allowed to be used by tasks within this
-+	cgroup.  The CPU numbers are comma-separated numbers or
-+	ranges.  For example:
-+
-+	  # cat cpuset.cpus
-+	  0-4,6,8-10
-+
-+	An empty value indicates that the cgroup is using the same
-+	setting as the nearest cgroup ancestor with a non-empty
-+	"cpuset.cpus" or all the available CPUs if none is found.
-+
-+	The value of "cpuset.cpus" stays constant until the next update
-+	and won't be affected by any CPU hotplug events.
-+
-+  cpuset.effective_cpus
-+	A read-only multiple values file which exists on non-root
-+	cgroups.
-+
-+	It lists the onlined CPUs that are actually allowed to be
-+	used by tasks within the current cgroup. It is a subset of
-+	"cpuset.cpus".  Its value will be affected by CPU hotplug
-+	events.
-+
-+  cpuset.mems
-+	A read-write multiple values file which exists on non-root
-+	cgroups.
-+
-+	It lists the memory nodes allowed to be used by tasks within
-+	this cgroup.  The memory node numbers are comma-separated
-+	numbers or ranges.  For example:
-+
-+	  # cat cpuset.mems
-+	  0-1,3
-+
-+	An empty value indicates that the cgroup is using the same
-+	setting as the nearest cgroup ancestor with a non-empty
-+	"cpuset.mems" or all the available memory nodes if none
-+	is found.
-+
-+	The value of "cpuset.mems" stays constant until the next update
-+	and won't be affected by any memory nodes hotplug events.
-+
-+  cpuset.effective_mems
-+	A read-only multiple values file which exists on non-root
-+	cgroups.
-+
-+	It lists the onlined memory nodes that are actually allowed
-+	to be used by tasks within the current cgroup.  It is a subset
-+	of "cpuset.mems".  Its value will be affected by memory nodes
-+	hotplug events.
-+
-+
- IO
- --
- 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index b42037e..7837d1f 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1823,12 +1823,11 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 	return 0;
- }
- 
--
- /*
-  * for the common functions, 'private' gives the type of file
-  */
- 
--static struct cftype files[] = {
-+static struct cftype legacy_files[] = {
- 	{
- 		.name = "cpus",
- 		.seq_show = cpuset_common_seq_show,
-@@ -1931,6 +1930,43 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- };
- 
- /*
-+ * This is currently a minimal set for the default hierarchy. It can be
-+ * expanded later on by migrating more features and control files from v1.
-+ */
-+static struct cftype dfl_files[] = {
-+	{
-+		.name = "cpus",
-+		.seq_show = cpuset_common_seq_show,
-+		.write = cpuset_write_resmask,
-+		.max_write_len = (100U + 6 * NR_CPUS),
-+		.private = FILE_CPULIST,
-+	},
-+
-+	{
-+		.name = "mems",
-+		.seq_show = cpuset_common_seq_show,
-+		.write = cpuset_write_resmask,
-+		.max_write_len = (100U + 6 * MAX_NUMNODES),
-+		.private = FILE_MEMLIST,
-+	},
-+
-+	{
-+		.name = "effective_cpus",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_EFFECTIVE_CPULIST,
-+	},
-+
-+	{
-+		.name = "effective_mems",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_EFFECTIVE_MEMLIST,
-+	},
-+
-+	{ }	/* terminate */
-+};
-+
-+
-+/*
-  *	cpuset_css_alloc - allocate a cpuset css
-  *	cgrp:	control group that the new cpuset will be part of
-  */
-@@ -2104,8 +2140,10 @@ struct cgroup_subsys cpuset_cgrp_subsys = {
- 	.post_attach	= cpuset_post_attach,
- 	.bind		= cpuset_bind,
- 	.fork		= cpuset_fork,
--	.legacy_cftypes	= files,
-+	.legacy_cftypes	= legacy_files,
-+	.dfl_cftypes	= dfl_files,
- 	.early_init	= true,
-+	.threaded	= true,
- };
- 
- /**
--- 
-1.8.3.1
+> I've made an overview of the remaining architectures for my own reference[1].
+> The remaining NOMMU architectures are:
+> 
+> - arch/arm has ARMv7-M (Cortex-M microcontroller), which is actually
+> gaining traction
 
+ARMv7-R as well, also seems ARM is coming up with more !MMU's - v8-M,
+v8-R. In addition, though only of academic interest, ARM MMU capable
+platform's can run !MMU Linux.
+
+afzal
+
+> - arch/sh has an open-source J2 core that was added not that long ago,
+> it seems to
+>   be the only SH compatible core that anyone is working on.
+> - arch/microblaze supports both MMU/NOMMU modes (most use an MMU)
+> - arch/m68k supports several NOMMU targets, both the coldfire SoCs and the
+>   classic processors
+> - c6x has no MMU
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
