@@ -5,126 +5,104 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 933CA7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 07:58:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1CF737E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 08:52:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750847AbeCPH6h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 03:58:37 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:55627 "EHLO huawei.com"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1750814AbeCPH6g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Mar 2018 03:58:36 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 9882BC04E604C;
-        Fri, 16 Mar 2018 15:58:32 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.361.1; Fri, 16 Mar 2018
- 15:58:26 +0800
-Subject: Re: [PATCH v10 1/5] arm64: KVM: Prepare set virtual SEI syndrome
- value
-To:     James Morse <james.morse@arm.com>
-CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>,
-        <christoffer.dall@linaro.org>, <marc.zyngier@arm.com>,
-        <linux@armlinux.org.uk>, <catalin.marinas@arm.com>,
-        <rjw@rjwysocki.net>, <bp@alien8.de>, <lenb@kernel.org>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>, <linux-acpi@vger.kernel.org>,
-        <devel@acpica.org>, <huangshaoyu@huawei.com>
-References: <1520093380-42577-1-git-send-email-gengdongjiu@huawei.com>
- <1520093380-42577-2-git-send-email-gengdongjiu@huawei.com>
- <5AAAD9A1.6090107@arm.com>
-From:   gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <076069fe-0017-7cb4-8316-4d4d58f9f06b@huawei.com>
-Date:   Fri, 16 Mar 2018 15:58:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+        id S1753120AbeCPIw0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 04:52:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58122 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1753104AbeCPIwY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Mar 2018 04:52:24 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2G8o8cl013332
+        for <linux-doc@vger.kernel.org>; Fri, 16 Mar 2018 04:52:24 -0400
+Received: from e06smtp10.uk.ibm.com (e06smtp10.uk.ibm.com [195.75.94.106])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2gr7y4e495-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 16 Mar 2018 04:52:23 -0400
+Received: from localhost
+        by e06smtp10.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
+        Fri, 16 Mar 2018 08:52:20 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp10.uk.ibm.com (192.168.101.140) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Fri, 16 Mar 2018 08:52:11 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2G8qAsN63963280;
+        Fri, 16 Mar 2018 08:52:10 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5A70AA404D;
+        Fri, 16 Mar 2018 08:44:58 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7E86FA4040;
+        Fri, 16 Mar 2018 08:44:49 +0000 (GMT)
+Received: from [9.79.219.128] (unknown [9.79.219.128])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 16 Mar 2018 08:44:49 +0000 (GMT)
+Subject: Re: [PATCH 1/8] Uprobe: Export vaddr <-> offset conversion functions
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org,
+        srikar@linux.vnet.ibm.com, acme@kernel.org,
+        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
+        corbet@lwn.net, dan.j.williams@intel.com,
+        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
+        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
+        jolsa@redhat.com, kan.liang@intel.com,
+        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
+        pombredanne@nexb.com, tglx@linutronix.de,
+        tmricht@linux.vnet.ibm.com, willy@infradead.org,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com,
+        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
+ <20180313125603.19819-2-ravi.bangoria@linux.vnet.ibm.com>
+ <20180315122753.258c38df@vmware.local.home>
+From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Date:   Fri, 16 Mar 2018 14:24:28 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <5AAAD9A1.6090107@arm.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
+In-Reply-To: <20180315122753.258c38df@vmware.local.home>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 18031608-0040-0000-0000-00000421D544
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18031608-0041-0000-0000-00002624E14E
+Message-Id: <6719969e-fd4c-55eb-0052-04e62de1b02e@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-16_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1803160109
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
-   Thank you very much for this mail and your time to review this patch. Appreciate that.
-I will check it and reply.
 
 
-On 2018/3/16 4:37, James Morse wrote:
-> Hi Dongjiu Geng,
-> 
-> On 03/03/18 16:09, Dongjiu Geng wrote:
->> Export one API to specify virtual SEI syndrome value
->> for guest, and add a helper to get the VSESR_EL2 value.
-> 
-> This patch adds two helpers that nothing calls... its not big, please merge it
-> with the patch that uses these.
-> 
-> 
->> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
->> index 413dc82..3294885 100644
->> --- a/arch/arm64/include/asm/kvm_emulate.h
->> +++ b/arch/arm64/include/asm/kvm_emulate.h
->> @@ -71,6 +71,11 @@ static inline void vcpu_set_hcr(struct kvm_vcpu *vcpu, unsigned long hcr)
->>  	vcpu->arch.hcr_el2 = hcr;
->>  }
->>  
->> +static inline unsigned long vcpu_get_vsesr(struct kvm_vcpu *vcpu)
->> +{
->> +	return vcpu->arch.vsesr_el2;
->> +}
->> +
->>  static inline void vcpu_set_vsesr(struct kvm_vcpu *vcpu, u64 vsesr)
->>  {
->>  	vcpu->arch.vsesr_el2 = vsesr;
->> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
->> index a73f63a..3dc49b7 100644
->> --- a/arch/arm64/include/asm/kvm_host.h
->> +++ b/arch/arm64/include/asm/kvm_host.h
->> @@ -354,6 +354,8 @@ void handle_exit_early(struct kvm_vcpu *vcpu, struct kvm_run *run,
->>  int kvm_perf_init(void);
->>  int kvm_perf_teardown(void);
->>  
->> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
->> +
->>  struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
->>  
->>  static inline void __cpu_init_hyp_mode(phys_addr_t pgd_ptr,
->> diff --git a/arch/arm64/kvm/inject_fault.c b/arch/arm64/kvm/inject_fault.c
->> index 60666a0..78ecb28 100644
->> --- a/arch/arm64/kvm/inject_fault.c
->> +++ b/arch/arm64/kvm/inject_fault.c
->> @@ -186,3 +186,8 @@ void kvm_inject_vabt(struct kvm_vcpu *vcpu)
->>  {
->>  	pend_guest_serror(vcpu, ESR_ELx_ISV);
->>  }
->> +
->> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome)
->> +{
->> +	pend_guest_serror(vcpu, syndrome & ESR_ELx_ISS_MASK);
-> 
-> If you move the ISS_MASK into pend_guest_serror(), you wouldn't need this at all.
-> 
-> It would be better if any validation were in the user-space helpers so we can
-> check user-space hasn't put something funny in the top bits.
-> 
->> +}
->>
-> 
-> 
-> Thanks,
-> 
-> James
-> 
-> .
-> 
+On 03/15/2018 09:57 PM, Steven Rostedt wrote:
+> On Tue, 13 Mar 2018 18:25:56 +0530
+> Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+>
+>> No functionality changes.
+> Please add a detailed explanation why this patch is needed. All commits
+> should be self sufficient and stand on their own. If I were to come up
+> to this patch via a git blame, I would be clueless to why it was done.
+
+Sure Steve, Will add description it in next series.
+
+Thanks for the review,
+Ravi
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
