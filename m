@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF4287E6C5
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:16:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FDC47E6C6
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:16:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753246AbeCPSQk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 14:16:40 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40440 "EHLO mx1.redhat.com"
+        id S1752415AbeCPSQm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 14:16:42 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33024 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753020AbeCPSOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1752959AbeCPSOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 16 Mar 2018 14:14:35 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3F80EEBFE5;
-        Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 9C1244068042;
+        Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
 Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EF1692017E80;
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 546602017DF1;
         Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -32,204 +32,173 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 8/9] ipc: Allow boot time extension of IPCMNI from 32k to 2M
-Date:   Fri, 16 Mar 2018 14:13:49 -0400
-Message-Id: <1521224030-2185-9-git-send-email-longman@redhat.com>
+Subject: [PATCH v5 6/9] test_sysctl: Add range clamping test
+Date:   Fri, 16 Mar 2018 14:13:47 -0400
+Message-Id: <1521224030-2185-7-git-send-email-longman@redhat.com>
 In-Reply-To: <1521224030-2185-1-git-send-email-longman@redhat.com>
 References: <1521224030-2185-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 16 Mar 2018 18:14:34 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The maximum number of unique System V IPC identifiers was limited to
-32k.  That limit should be big enough for most use cases.
+Add a range clamping test to verify that the input value will be
+clamped if it exceeds the builtin maximum or minimum value.
 
-However, there are some users out there requesting for more. To satisfy
-the need of those users, a new boot time kernel option "ipcmni_extend"
-is added to extend the IPCMNI value to 2M. This is a 64X increase which
-hopefully is big enough for them.
+Below is the expected test run result:
 
-This new option does have the side effect of reducing the maximum
-number of unique sequence numbers from 64k down to 1k. So it is
-a trade-off.
+Running test: sysctl_test_0006 - run #0
+Checking range minimum clamping ... ok
+Checking range maximum clamping ... ok
+Checking range minimum clamping ... ok
+Checking range maximum clamping ... ok
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  3 +++
- include/linux/ipc.h                             | 11 ++++++++++-
- ipc/ipc_sysctl.c                                | 12 +++++++++++-
- ipc/util.c                                      | 12 ++++++------
- ipc/util.h                                      | 18 +++++++++++-------
- 5 files changed, 41 insertions(+), 15 deletions(-)
+ lib/test_sysctl.c                        | 29 ++++++++++++++++++
+ tools/testing/selftests/sysctl/sysctl.sh | 52 ++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1d1d53f..2be35a4 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1733,6 +1733,9 @@
- 	ip=		[IP_PNP]
- 			See Documentation/filesystems/nfs/nfsroot.txt.
+diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
+index 3dd801c..7bb4cf7 100644
+--- a/lib/test_sysctl.c
++++ b/lib/test_sysctl.c
+@@ -38,12 +38,18 @@
  
-+	ipcmni_extend	[KNL] Extend the maximum number of unique System V
-+			IPC identifiers from 32768 to 2097152.
+ static int i_zero;
+ static int i_one_hundred = 100;
++static int signed_min = -10;
++static int signed_max = 10;
++static unsigned int unsigned_min = 10;
++static unsigned int unsigned_max = 30;
+ 
+ struct test_sysctl_data {
+ 	int int_0001;
+ 	int int_0002;
+ 	int int_0003[4];
++	int range_0001;
+ 
++	unsigned int urange_0001;
+ 	unsigned int uint_0001;
+ 
+ 	char string_0001[65];
+@@ -58,6 +64,9 @@ struct test_sysctl_data {
+ 	.int_0003[2] = 2,
+ 	.int_0003[3] = 3,
+ 
++	.range_0001 = 0,
++	.urange_0001 = 20,
 +
- 	irqaffinity=	[SMP] Set the default irq affinity mask
- 			The argument is a cpu list, as described above.
+ 	.uint_0001 = 314,
  
-diff --git a/include/linux/ipc.h b/include/linux/ipc.h
-index 821b2f2..3ecd869 100644
---- a/include/linux/ipc.h
-+++ b/include/linux/ipc.h
-@@ -8,7 +8,16 @@
- #include <uapi/linux/ipc.h>
- #include <linux/refcount.h>
+ 	.string_0001 = "(none)",
+@@ -102,6 +111,26 @@ struct test_sysctl_data {
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dostring,
+ 	},
++	{
++		.procname	= "range_0001",
++		.data		= &test_data.range_0001,
++		.maxlen		= sizeof(test_data.range_0001),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.flags		= CTL_FLAGS_CLAMP_RANGE_SIGNED,
++		.extra1		= &signed_min,
++		.extra2		= &signed_max,
++	},
++	{
++		.procname	= "urange_0001",
++		.data		= &test_data.urange_0001,
++		.maxlen		= sizeof(test_data.urange_0001),
++		.mode		= 0644,
++		.proc_handler	= proc_douintvec_minmax,
++		.flags		= CTL_FLAGS_CLAMP_RANGE_UNSIGNED,
++		.extra1		= &unsigned_min,
++		.extra2		= &unsigned_max,
++	},
+ 	{ }
+ };
  
--#define IPCMNI 32768  /* <= MAX_INT limit for ipc arrays (including sysctl changes) */
-+/*
-+ * By default, the ipc arrays can have up to 32k (15 bits) entries.
-+ * When IPCMNI extension mode is turned on, the ipc arrays can have up
-+ * to 2M (21 bits) entries. However, the space for sequence number will
-+ * be shrunk from 16 bits to 10 bits.
-+ */
-+#define IPCMNI_SHIFT		15
-+#define IPCMNI_EXTEND_SHIFT	21
-+#define IPCMNI			(1 << IPCMNI_SHIFT)
-+#define IPCMNI_EXTEND		(1 << IPCMNI_EXTEND_SHIFT)
+diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
+index ec232c3..1aa1bba 100755
+--- a/tools/testing/selftests/sysctl/sysctl.sh
++++ b/tools/testing/selftests/sysctl/sysctl.sh
+@@ -34,6 +34,7 @@ ALL_TESTS="$ALL_TESTS 0002:1:1"
+ ALL_TESTS="$ALL_TESTS 0003:1:1"
+ ALL_TESTS="$ALL_TESTS 0004:1:1"
+ ALL_TESTS="$ALL_TESTS 0005:3:1"
++ALL_TESTS="$ALL_TESTS 0006:1:1"
  
- /* used by in-kernel data structures */
- struct kern_ipc_perm {
-diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-index 0ad7088..5f7cfae 100644
---- a/ipc/ipc_sysctl.c
-+++ b/ipc/ipc_sysctl.c
-@@ -109,7 +109,8 @@ static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
- static int zero;
- static int one = 1;
- static int int_max = INT_MAX;
--static int ipc_mni = IPCMNI;
-+int ipc_mni __read_mostly = IPCMNI;
-+int ipc_mni_shift __read_mostly = IPCMNI_SHIFT;
- 
- static struct ctl_table ipc_kern_table[] = {
- 	{
-@@ -237,3 +238,12 @@ static int __init ipc_sysctl_init(void)
+ test_modprobe()
+ {
+@@ -543,6 +544,38 @@ run_stringtests()
+ 	test_rc
  }
  
- device_initcall(ipc_sysctl_init);
-+
-+static int __init ipc_mni_extend(char *str)
++# TARGET, RANGE_MIN & RANGE_MAX need to be defined before running test.
++run_range_clamping_test()
 +{
-+	ipc_mni = IPCMNI_EXTEND;
-+	ipc_mni_shift = IPCMNI_EXTEND_SHIFT;
-+	pr_info("IPCMNI extended to %d.\n", ipc_mni);
-+	return 0;
-+}
-+early_param("ipcmni_extend", ipc_mni_extend);
-diff --git a/ipc/util.c b/ipc/util.c
-index 4ed5a17..daee305 100644
---- a/ipc/util.c
-+++ b/ipc/util.c
-@@ -112,7 +112,7 @@ static int __init ipc_init(void)
-  * @ids: ipc identifier set
-  *
-  * Set up the sequence range to use for the ipc identifier range (limited
-- * below IPCMNI) then initialise the keys hashtable and ids idr.
-+ * below ipc_mni) then initialise the keys hashtable and ids idr.
-  */
- int ipc_init_ids(struct ipc_ids *ids)
- {
-@@ -213,7 +213,7 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
- 		ids->next_id = -1;
- 	}
- 
--	return SEQ_MULTIPLIER * new->seq + id;
-+	return (new->seq << SEQ_SHIFT) + id;
- }
- 
- #else
-@@ -227,7 +227,7 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
- 	if (ids->seq > IPCID_SEQ_MAX)
- 		ids->seq = 0;
- 
--	return SEQ_MULTIPLIER * new->seq + id;
-+	return (new->seq << SEQ_SHIFT) + id;
- }
- 
- #endif /* CONFIG_CHECKPOINT_RESTORE */
-@@ -251,8 +251,8 @@ int ipc_addid(struct ipc_ids *ids, struct kern_ipc_perm *new, int limit)
- 	kgid_t egid;
- 	int id, err;
- 
--	if (limit > IPCMNI)
--		limit = IPCMNI;
-+	if (limit > ipc_mni)
-+		limit = ipc_mni;
- 
- 	if (!ids->tables_initialized || ids->in_use >= limit)
- 		return -ENOSPC;
-@@ -769,7 +769,7 @@ static struct kern_ipc_perm *sysvipc_find_ipc(struct ipc_ids *ids, loff_t pos,
- 	if (total >= ids->in_use)
- 		return NULL;
- 
--	for (; pos < IPCMNI; pos++) {
-+	for (; pos < ipc_mni; pos++) {
- 		ipc = idr_find(&ids->ipcs_idr, pos);
- 		if (ipc != NULL) {
- 			*new_pos = pos + 1;
-diff --git a/ipc/util.h b/ipc/util.h
-index af57394..6871ca9 100644
---- a/ipc/util.h
-+++ b/ipc/util.h
-@@ -15,7 +15,11 @@
- #include <linux/err.h>
- #include <linux/ipc_namespace.h>
- 
--#define SEQ_MULTIPLIER	(IPCMNI)
-+extern int ipc_mni;
-+extern int ipc_mni_shift;
++	rc=0
 +
-+#define SEQ_SHIFT	ipc_mni_shift
-+#define SEQ_MASK	((1 << ipc_mni_shift) - 1)
- 
- int sem_init(void);
- int msg_init(void);
-@@ -93,9 +97,9 @@ void __init ipc_init_proc_interface(const char *path, const char *header,
- #define IPC_MSG_IDS	1
- #define IPC_SHM_IDS	2
- 
--#define ipcid_to_idx(id) ((id) % SEQ_MULTIPLIER)
--#define ipcid_to_seqx(id) ((id) / SEQ_MULTIPLIER)
--#define IPCID_SEQ_MAX min_t(int, INT_MAX/SEQ_MULTIPLIER, USHRT_MAX)
-+#define ipcid_to_idx(id)  ((id) & SEQ_MASK)
-+#define ipcid_to_seqx(id) ((id) >> SEQ_SHIFT)
-+#define IPCID_SEQ_MAX	  (INT_MAX >> SEQ_SHIFT)
- 
- /* must be called with ids->rwsem acquired for writing */
- int ipc_addid(struct ipc_ids *, struct kern_ipc_perm *, int);
-@@ -120,8 +124,8 @@ static inline int ipc_get_maxid(struct ipc_ids *ids)
- 	if (ids->in_use == 0)
- 		return -1;
- 
--	if (ids->in_use == IPCMNI)
--		return IPCMNI - 1;
-+	if (ids->in_use == ipc_mni)
-+		return ipc_mni - 1;
- 
- 	return ids->max_id;
- }
-@@ -163,7 +167,7 @@ struct kern_ipc_perm *ipcctl_pre_down_nolock(struct ipc_namespace *ns,
- 
- static inline int ipc_checkid(struct kern_ipc_perm *ipcp, int uid)
++	echo -n "Checking range minimum clamping ... "
++	VAL=$((RANGE_MIN - 1))
++	echo -n $VAL > "${TARGET}" 2> /dev/null
++	EXITVAL=$?
++	NEWVAL=$(cat "${TARGET}")
++	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MIN ]]; then
++		echo "FAIL" >&2
++		rc=1
++	else
++		echo "ok"
++	fi
++
++	echo -n "Checking range maximum clamping ... "
++	VAL=$((RANGE_MAX + 1))
++	echo -n $VAL > "${TARGET}" 2> /dev/null
++	EXITVAL=$?
++	NEWVAL=$(cat "${TARGET}")
++	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MAX ]]; then
++		echo "FAIL" >&2
++		rc=1
++	else
++		echo "ok"
++	fi
++
++	test_rc
++}
++
+ sysctl_test_0001()
  {
--	return uid / SEQ_MULTIPLIER != ipcp->seq;
-+	return (uid >> SEQ_SHIFT) != ipcp->seq;
+ 	TARGET="${SYSCTL}/int_0001"
+@@ -600,6 +633,25 @@ sysctl_test_0005()
+ 	run_limit_digit_int_array
  }
  
- static inline void ipc_lock_object(struct kern_ipc_perm *perm)
++sysctl_test_0006()
++{
++	TARGET="${SYSCTL}/range_0001"
++	ORIG=$(cat "${TARGET}")
++	RANGE_MIN=-10
++	RANGE_MAX=10
++
++	run_range_clamping_test
++	set_orig
++
++	TARGET="${SYSCTL}/urange_0001"
++	ORIG=$(cat "${TARGET}")
++	RANGE_MIN=10
++	RANGE_MAX=30
++
++	run_range_clamping_test
++	set_orig
++}
++
+ list_tests()
+ {
+ 	echo "Test ID list:"
 -- 
 1.8.3.1
 
