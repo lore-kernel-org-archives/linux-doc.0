@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FDC47E6C6
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:16:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F2737E6AD
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:17:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752415AbeCPSQm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 14:16:42 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33024 "EHLO mx1.redhat.com"
+        id S1753270AbeCPSQl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 14:16:41 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33544 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752959AbeCPSOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1753008AbeCPSOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 16 Mar 2018 14:14:35 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9C1244068042;
+        by mx1.redhat.com (Postfix) with ESMTPS id E989B80AD23B;
         Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
 Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 546602017DF1;
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A1D712026E04;
         Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -32,135 +32,116 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 6/9] test_sysctl: Add range clamping test
-Date:   Fri, 16 Mar 2018 14:13:47 -0400
-Message-Id: <1521224030-2185-7-git-send-email-longman@redhat.com>
+Subject: [PATCH v5 7/9] test_sysctl: Add ctl_table registration failure test
+Date:   Fri, 16 Mar 2018 14:13:48 -0400
+Message-Id: <1521224030-2185-8-git-send-email-longman@redhat.com>
 In-Reply-To: <1521224030-2185-1-git-send-email-longman@redhat.com>
 References: <1521224030-2185-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 16 Mar 2018 18:14:34 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a range clamping test to verify that the input value will be
-clamped if it exceeds the builtin maximum or minimum value.
+Incorrect sysctl tables are constructed and fed to the
+register_sysctl_table() function in the test_sysctl kernel module.
+The function is supposed to fail the registration of those tables or
+an error will be printed if no failure is returned.
 
-Below is the expected test run result:
+The registration failures will cause other warning and error messages
+to be printed into the dmesg log, though.
 
-Running test: sysctl_test_0006 - run #0
-Checking range minimum clamping ... ok
-Checking range maximum clamping ... ok
-Checking range minimum clamping ... ok
-Checking range maximum clamping ... ok
+A new test is also added to the sysctl.sh to look for those failure
+messages in the dmesg log to see if anything unexpeced happens.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- lib/test_sysctl.c                        | 29 ++++++++++++++++++
- tools/testing/selftests/sysctl/sysctl.sh | 52 ++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
+ lib/test_sysctl.c                        | 41 ++++++++++++++++++++++++++++++++
+ tools/testing/selftests/sysctl/sysctl.sh | 15 ++++++++++++
+ 2 files changed, 56 insertions(+)
 
 diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
-index 3dd801c..7bb4cf7 100644
+index 7bb4cf7..14853d5 100644
 --- a/lib/test_sysctl.c
 +++ b/lib/test_sysctl.c
-@@ -38,12 +38,18 @@
+@@ -154,13 +154,54 @@ struct test_sysctl_data {
+ 	{ }
+ };
  
- static int i_zero;
- static int i_one_hundred = 100;
-+static int signed_min = -10;
-+static int signed_max = 10;
-+static unsigned int unsigned_min = 10;
-+static unsigned int unsigned_max = 30;
- 
- struct test_sysctl_data {
- 	int int_0001;
- 	int int_0002;
- 	int int_0003[4];
-+	int range_0001;
- 
-+	unsigned int urange_0001;
- 	unsigned int uint_0001;
- 
- 	char string_0001[65];
-@@ -58,6 +64,9 @@ struct test_sysctl_data {
- 	.int_0003[2] = 2,
- 	.int_0003[3] = 3,
- 
-+	.range_0001 = 0,
-+	.urange_0001 = 20,
-+
- 	.uint_0001 = 314,
- 
- 	.string_0001 = "(none)",
-@@ -102,6 +111,26 @@ struct test_sysctl_data {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dostring,
- 	},
++static struct ctl_table fail_sysctl_table0[] = {
 +	{
-+		.procname	= "range_0001",
++		.procname	= "failed_sysctl0",
 +		.data		= &test_data.range_0001,
 +		.maxlen		= sizeof(test_data.range_0001),
 +		.mode		= 0644,
 +		.proc_handler	= proc_dointvec_minmax,
 +		.flags		= CTL_FLAGS_CLAMP_RANGE_SIGNED,
-+		.extra1		= &signed_min,
-+		.extra2		= &signed_max,
++		.extra1		= &signed_max,
++		.extra2		= &signed_min,
 +	},
++	{ }
++};
++
++static struct ctl_table fail_sysctl_root_table[] = {
 +	{
-+		.procname	= "urange_0001",
-+		.data		= &test_data.urange_0001,
-+		.maxlen		= sizeof(test_data.urange_0001),
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec_minmax,
-+		.flags		= CTL_FLAGS_CLAMP_RANGE_UNSIGNED,
-+		.extra1		= &unsigned_min,
-+		.extra2		= &unsigned_max,
++		.procname	= "debug",
++		.maxlen		= 0,
++		.mode		= 0555,
 +	},
- 	{ }
- };
++	{ }
++};
++
++static struct ctl_table *fail_tables[] = {
++	fail_sysctl_table0, NULL,
++};
++
+ static struct ctl_table_header *test_sysctl_header;
  
+ static int __init test_sysctl_init(void)
+ {
++	struct ctl_table_header *fail_sysctl_header;
++	int i;
++
+ 	test_sysctl_header = register_sysctl_table(test_sysctl_root_table);
+ 	if (!test_sysctl_header)
+ 		return -ENOMEM;
++
++	for (i = 0; fail_tables[i]; i++) {
++		fail_sysctl_root_table[0].child = fail_tables[i];
++		fail_sysctl_header = register_sysctl_table(fail_sysctl_root_table);
++		if (fail_sysctl_header) {
++			pr_err("fail_tables[%d] registration check failed!\n", i);
++			unregister_sysctl_table(fail_sysctl_header);
++			break;
++		}
++	}
++
+ 	return 0;
+ }
+ late_initcall(test_sysctl_init);
 diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
-index ec232c3..1aa1bba 100755
+index 1aa1bba..23acdee 100755
 --- a/tools/testing/selftests/sysctl/sysctl.sh
 +++ b/tools/testing/selftests/sysctl/sysctl.sh
-@@ -34,6 +34,7 @@ ALL_TESTS="$ALL_TESTS 0002:1:1"
- ALL_TESTS="$ALL_TESTS 0003:1:1"
+@@ -35,6 +35,7 @@ ALL_TESTS="$ALL_TESTS 0003:1:1"
  ALL_TESTS="$ALL_TESTS 0004:1:1"
  ALL_TESTS="$ALL_TESTS 0005:3:1"
-+ALL_TESTS="$ALL_TESTS 0006:1:1"
+ ALL_TESTS="$ALL_TESTS 0006:1:1"
++ALL_TESTS="$ALL_TESTS 0007:1:1"
  
  test_modprobe()
  {
-@@ -543,6 +544,38 @@ run_stringtests()
- 	test_rc
+@@ -652,6 +653,20 @@ sysctl_test_0006()
+ 	set_orig
  }
  
-+# TARGET, RANGE_MIN & RANGE_MAX need to be defined before running test.
-+run_range_clamping_test()
++sysctl_test_0007()
 +{
-+	rc=0
-+
-+	echo -n "Checking range minimum clamping ... "
-+	VAL=$((RANGE_MIN - 1))
-+	echo -n $VAL > "${TARGET}" 2> /dev/null
-+	EXITVAL=$?
-+	NEWVAL=$(cat "${TARGET}")
-+	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MIN ]]; then
-+		echo "FAIL" >&2
-+		rc=1
-+	else
-+		echo "ok"
-+	fi
-+
-+	echo -n "Checking range maximum clamping ... "
-+	VAL=$((RANGE_MAX + 1))
-+	echo -n $VAL > "${TARGET}" 2> /dev/null
-+	EXITVAL=$?
-+	NEWVAL=$(cat "${TARGET}")
-+	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MAX ]]; then
++	echo "Checking test_sysctl module registration failure test ..."
++	dmesg | grep "sysctl.*fail_tables.*failed"
++	if [[ $? -eq 0 ]]; then
 +		echo "FAIL" >&2
 +		rc=1
 +	else
@@ -168,32 +149,6 @@ index ec232c3..1aa1bba 100755
 +	fi
 +
 +	test_rc
-+}
-+
- sysctl_test_0001()
- {
- 	TARGET="${SYSCTL}/int_0001"
-@@ -600,6 +633,25 @@ sysctl_test_0005()
- 	run_limit_digit_int_array
- }
- 
-+sysctl_test_0006()
-+{
-+	TARGET="${SYSCTL}/range_0001"
-+	ORIG=$(cat "${TARGET}")
-+	RANGE_MIN=-10
-+	RANGE_MAX=10
-+
-+	run_range_clamping_test
-+	set_orig
-+
-+	TARGET="${SYSCTL}/urange_0001"
-+	ORIG=$(cat "${TARGET}")
-+	RANGE_MIN=10
-+	RANGE_MAX=30
-+
-+	run_range_clamping_test
-+	set_orig
 +}
 +
  list_tests()
