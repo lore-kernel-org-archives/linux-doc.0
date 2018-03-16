@@ -5,50 +5,36 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 443B87E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 09:40:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 00BCF7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 11:39:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753449AbeCPJkf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 05:40:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32918 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751165AbeCPJkd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Mar 2018 05:40:33 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2G9b2d5003876
-        for <linux-doc@vger.kernel.org>; Fri, 16 Mar 2018 05:40:32 -0400
-Received: from e06smtp11.uk.ibm.com (e06smtp11.uk.ibm.com [195.75.94.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2gr924wtm7-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 16 Mar 2018 05:40:31 -0400
-Received: from localhost
-        by e06smtp11.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Fri, 16 Mar 2018 09:40:28 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp11.uk.ibm.com (192.168.101.141) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Fri, 16 Mar 2018 09:40:21 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2G9eKtt55902378;
-        Fri, 16 Mar 2018 09:40:20 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2AB89A4055;
-        Fri, 16 Mar 2018 09:33:08 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BC953A404D;
-        Fri, 16 Mar 2018 09:32:59 +0000 (GMT)
-Received: from [9.79.219.128] (unknown [9.79.219.128])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 16 Mar 2018 09:32:59 +0000 (GMT)
-Subject: Re: [PATCH 8/8] trace_uprobe/sdt: Document about reference counter
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
-        acme@kernel.org, ananth@linux.vnet.ibm.com,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        alexis.berlemont@gmail.com, corbet@lwn.net,
-        dan.j.williams@intel.com, gregkh@linuxfoundation.org,
-        huawei.libin@huawei.com, hughd@google.com, jack@suse.cz,
-        jglisse@redhat.com, jolsa@redhat.com, kan.liang@intel.com,
+        id S1752031AbeCPLj0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 07:39:26 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:54724 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751888AbeCPLjZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Mar 2018 07:39:25 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B8C16EB6F9;
+        Fri, 16 Mar 2018 11:39:24 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 06790C1FB3;
+        Fri, 16 Mar 2018 11:39:18 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Fri, 16 Mar 2018 12:39:24 +0100 (CET)
+Date:   Fri, 16 Mar 2018 12:39:18 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     mhiramat@kernel.org, peterz@infradead.org,
+        srikar@linux.vnet.ibm.com, acme@kernel.org,
+        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
+        corbet@lwn.net, dan.j.williams@intel.com,
+        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
+        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
+        jolsa@redhat.com, kan.liang@intel.com,
         kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
         kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
@@ -56,64 +42,46 @@ Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
         naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
         pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
         tmricht@linux.vnet.ibm.com, willy@infradead.org,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+        yao.jin@linux.intel.com, fengguang.wu@intel.com
+Subject: Re: [PATCH 5/8] trace_uprobe: Support SDT markers having reference
+ count (semaphore)
+Message-ID: <20180316113917.GA21303@redhat.com>
 References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180313125603.19819-9-ravi.bangoria@linux.vnet.ibm.com>
- <20180314225021.64109239de8b14b0aec1e1c5@kernel.org>
- <ec9c4ef7-0117-7c7c-64bc-f6bf4261721d@linux.vnet.ibm.com>
- <20180315214750.fc1d53d01045d8e6c1e8e491@kernel.org>
-From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Date:   Fri, 16 Mar 2018 15:12:38 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
+ <20180315142120.GA19218@redhat.com>
+ <20180315143044.GA19643@redhat.com>
+ <3b303a2d-35dd-9178-fc03-de9f2d588797@linux.vnet.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20180315214750.fc1d53d01045d8e6c1e8e491@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 18031609-0040-0000-0000-00000441DC30
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18031609-0041-0000-0000-000020E4E9EF
-Message-Id: <e991f9e2-6488-7739-548d-6ca28c57826d@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-16_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1803160116
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b303a2d-35dd-9178-fc03-de9f2d588797@linux.vnet.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 11:39:25 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 11:39:25 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 03/15/2018 06:17 PM, Masami Hiramatsu wrote:
-> Hi Ravi,
+On 03/16, Ravi Bangoria wrote:
 >
-> On Wed, 14 Mar 2018 20:52:59 +0530
-> Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+> On 03/15/2018 08:00 PM, Oleg Nesterov wrote:
+> > Note to mention that sdt_find_vma() can return NULL but the callers do
+> > vma_offset_to_vaddr(vma) without any check.
 >
->> On 03/14/2018 07:20 PM, Masami Hiramatsu wrote:
->>> On Tue, 13 Mar 2018 18:26:03 +0530
->>> Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
->>>
->>>> No functionality changes.
->>> Please consider to describe what is this change and why, here.
->> Will add in next version.
-> Thanks, and could you also move this before perf-probe patch?
-> Also Could you make perf-probe check the tracing/README whether
-> the kernel supports reference counter syntax or not?
->
-> perf-tool can be used on older (or stable) kernel.
+> If the "mm" we are passing to sdt_find_vma() is returned by
+> uprobe_build_map_info(ref_ctr_offset), sdt_find_vma() must
+> _not_ return NULL.
 
-Sure, Will do that.
+Not at all.
 
-Thanks,
-Ravi
+Once build_map_info() returns any mapping can go away. Otherwise, why do
+you think the caller has to take ->mmap_sem and use find_vma()? If you
+were right, build_map_info() could just return the list of vma's instead
+of list of mm's.
+
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
