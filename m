@@ -5,30 +5,30 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D7027E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 22:28:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35BEC7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 22:30:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751586AbeCPW22 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 18:28:28 -0400
-Received: from mga14.intel.com ([192.55.52.115]:51360 "EHLO mga14.intel.com"
+        id S1751567AbeCPWaW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 18:30:22 -0400
+Received: from mga11.intel.com ([192.55.52.93]:64206 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751372AbeCPW21 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Mar 2018 18:28:27 -0400
+        id S1751372AbeCPWaV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Mar 2018 18:30:21 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Mar 2018 15:28:27 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Mar 2018 15:30:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.48,317,1517904000"; 
-   d="scan'208";a="25372790"
+   d="scan'208";a="25373102"
 Received: from ray.jf.intel.com (HELO [10.7.201.16]) ([10.7.201.16])
-  by orsmga007.jf.intel.com with ESMTP; 16 Mar 2018 15:28:27 -0700
-Subject: Re: [PATCH v12 16/22] selftests/vm: fix an assertion in
- test_pkey_alloc_exhaust()
+  by orsmga007.jf.intel.com with ESMTP; 16 Mar 2018 15:30:18 -0700
+Subject: Re: [PATCH v12 17/22] selftests/vm: associate key on a mapped page
+ and detect access violation
 To:     Ram Pai <linuxram@us.ibm.com>, shuahkh@osg.samsung.com,
         linux-kselftest@vger.kernel.org
 References: <1519264541-7621-1-git-send-email-linuxram@us.ibm.com>
- <1519264541-7621-17-git-send-email-linuxram@us.ibm.com>
+ <1519264541-7621-18-git-send-email-linuxram@us.ibm.com>
 Cc:     mpe@ellerman.id.au, linuxppc-dev@lists.ozlabs.org,
         linux-mm@kvack.org, x86@kernel.org, linux-arch@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -38,12 +38,12 @@ Cc:     mpe@ellerman.id.au, linuxppc-dev@lists.ozlabs.org,
         bsingharora@gmail.com, hbabu@us.ibm.com, mhocko@kernel.org,
         bauerman@linux.vnet.ibm.com, ebiederm@xmission.com, arnd@arndb.de
 From:   Dave Hansen <dave.hansen@intel.com>
-Message-ID: <98204562-7c91-23f0-101b-508954020353@intel.com>
-Date:   Fri, 16 Mar 2018 15:28:19 -0700
+Message-ID: <bec09b77-ca65-5724-1191-a21f4cfa7cd3@intel.com>
+Date:   Fri, 16 Mar 2018 15:30:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <1519264541-7621-17-git-send-email-linuxram@us.ibm.com>
+In-Reply-To: <1519264541-7621-18-git-send-email-linuxram@us.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -53,47 +53,13 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 02/21/2018 05:55 PM, Ram Pai wrote:
-> +static inline int arch_reserved_keys(void)
-> +{
-> +#if defined(__i386__) || defined(__x86_64__) /* arch */
-> +	return NR_RESERVED_PKEYS;
-> +#elif __powerpc64__ /* arch */
-> +	if (sysconf(_SC_PAGESIZE) == 4096)
-> +		return NR_RESERVED_PKEYS_4K;
-> +	else
-> +		return NR_RESERVED_PKEYS_64K;
-> +#else /* arch */
-> +	NOT SUPPORTED
-> +#endif /* arch */
-> +}
+> detect access-violation on a page to which access-disabled
+> key is associated much after the page is mapped.
 
-Yeah, this is hideous.
+Looks fine to me.  Did this actually find a bug for you?
 
-Please either do it in one header:
+Acked-by: Dave Hansen <dave.hansen@intel.com>
 
-#ifdef x86..
-static inline int arch_reserved_keys(void)
-{
-}
-...
-#elif ppc
-static inline int arch_reserved_keys(void)
-{
-}
-...
-#else
-#error
-#endif
-
-Or in multiple:
-
-#ifdef x86..
-#include <pkey_x86.h>
-#elif ppc
-#include <pkey_ppc.h>
-#else
-#error
-#endif
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
