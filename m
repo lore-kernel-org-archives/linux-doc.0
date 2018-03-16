@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 26C9B7E677
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:14:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7AAA7E677
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:14:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752882AbeCPSOe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 14:14:34 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40416 "EHLO mx1.redhat.com"
+        id S1752997AbeCPSOf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 14:14:35 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33528 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752533AbeCPSOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1752640AbeCPSOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 16 Mar 2018 14:14:33 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B9E41EBFE3;
-        Fri, 16 Mar 2018 18:14:32 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 0EA028182D24;
+        Fri, 16 Mar 2018 18:14:33 +0000 (UTC)
 Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 315B92026E04;
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BF1242017E80;
         Fri, 16 Mar 2018 18:14:32 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -32,128 +32,213 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 0/9] ipc: Clamp *mni to the real IPCMNI limit & increase that limit
-Date:   Fri, 16 Mar 2018 14:13:41 -0400
-Message-Id: <1521224030-2185-1-git-send-email-longman@redhat.com>
+Subject: [PATCH v5 1/9] sysctl: Add flags to support min/max range clamping
+Date:   Fri, 16 Mar 2018 14:13:42 -0400
+Message-Id: <1521224030-2185-2-git-send-email-longman@redhat.com>
+In-Reply-To: <1521224030-2185-1-git-send-email-longman@redhat.com>
+References: <1521224030-2185-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 18:14:32 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 18:14:32 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 16 Mar 2018 18:14:33 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 16 Mar 2018 18:14:33 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v4->v5:
- - Revert the flags back to 16-bit so that there will be no change to
-   the size of ctl_table.
- - Enhance the sysctl_check_flags() as requested by Luis to perform more
-   checks to spot incorrect ctl_table entries.
- - Change the sysctl selftest to use dummy sysctls instead of production
-   ones & enhance it to do more checks.
- - Add one more sysctl selftest for registration failure.
- - Add 2 ipc patches to add an extended mode to increase IPCMNI from
-   32k to 2M.
- - Miscellaneous change to incorporate feedback comments from
-   reviewers.
+When minimum/maximum values are specified for a sysctl parameter in
+the ctl_table structure with proc_dointvec_minmax() handler, update
+to that parameter will fail with error if the given value is outside
+of the required range.
 
-v3->v4:
- - Remove v3 patches 1 & 2 as they have been merged into the mm tree.
- - Change flags from uint16_t to unsigned int.
- - Remove CTL_FLAGS_OOR_WARNED and use pr_warn_ratelimited() instead.
- - Simplify the warning message code.
- - Add a new patch to fail the ctl_table registration with invalid flag.
- - Add a test case for range clamping in sysctl selftest.
+There are use cases where it may be better to clamp the value of
+the sysctl parameter to the given range without failing the update,
+especially if the users are not aware of the actual range limits.
+Reading the value back after the update will now be a good practice
+to see if the provided value exceeds the range limits.
 
-v2->v3:
- - Fix kdoc comment errors.
- - Incorporate comments and suggestions from Luis R. Rodriguez.
- - Add a patch to fix a typo error in fs/proc/proc_sysctl.c.
+To provide this less restrictive form of range checking, a new flags
+field is added to the ctl_table structure. The new field is a 16-bit
+value that just fits into the hole left by the 16-bit umode_t field
+without increasing the size of the structure.
 
-v1->v2:
- - Add kdoc comments to the do_proc_do{u}intvec_minmax_conv_param
-   structures.
- - Add a new flags field to the ctl_table structure for specifying
-   whether range clamping should be activated instead of adding new
-   sysctl parameter handlers.
- - Clamp the semmni value embedded in the multi-values sem parameter.
+When the CTL_FLAGS_CLAMP_RANGE flag is set in the ctl_table
+entry, any update from the userspace will be clamped to the given
+range without error if either the proc_dointvec_minmax() or the
+proc_douintvec_minmax() handlers is used.
 
-v1 patch: https://lkml.org/lkml/2018/2/19/453
-v2 patch: https://lkml.org/lkml/2018/2/27/627
-v3 patch: https://lkml.org/lkml/2018/3/1/716 
-v4 patch: https://lkml.org/lkml/2018/3/12/867
+The clamped value is either the maximum or minimum value that is
+closest to the input value provided by the user.
 
-The sysctl parameters msgmni, shmmni and semmni have an inherent limit
-of IPC_MNI (32k). However, users may not be aware of that because they
-can write a value much higher than that without getting any error or
-notification. Reading the parameters back will show the newly written
-values which are not real.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ include/linux/sysctl.h | 20 ++++++++++++++++++++
+ kernel/sysctl.c        | 48 +++++++++++++++++++++++++++++++++++++++---------
+ 2 files changed, 59 insertions(+), 9 deletions(-)
 
-Enforcing the limit by failing sysctl parameter write, however, may
-cause regressions if existing user setup scripts set those parameters
-above 32k as those scripts will now fail in this case.
-
-To address this delemma, a new flags field is introduced into
-the ctl_table. The value CTL_FLAGS_CLAMP_RANGE can be added to any
-ctl_table entries to enable a looser range clamping without returning
-any error. For example,
-
-  .flags = CTL_FLAGS_CLAMP_RANGE,
-
-This flags value are now used for the range checking of shmmni,
-msgmni and semmni without breaking existing applications. If any out
-of range value is written to those sysctl parameters, the following
-warning will be printed instead.
-
-  sysctl: "shmmni" was set out of range [0, 32768], clamped to 32768.
-
-Reading the values back will show 32768 instead of some fake values.
-
-New sysctl selftests are added to exercise new code added by this
-patchset.
-
-There are users out there requesting increase in the IPCMNI value.
-The last 2 patches attempt to do that by using a boot kernel parameter
-"ipcmni_extend" to increase the IPCMNI limit from 32k to 2M.
-
-Eric Biederman had posted an RFC patch to just scrap the IPCMNI limit
-and open up the whole positive integer space for IPC IDs. A major
-issue that I have with this approach is that SysV IPC had been in use
-for over 20 years. We just don't know if there are user applications
-that have dependency on the way that the IDs are built. So drastic
-change like this may have the potential of breaking some applications.
-
-I prefer a more conservative approach where users will observe no
-change in behavior unless they explictly opt in to enable the extended
-mode. I could open up the whole positive integer space in this case
-like what Eric did, but that will make the code more complex.  So I
-just extend IPCMNI to 2M in this case and keep similar ID generation
-logic.
-
-Waiman Long (9):
-  sysctl: Add flags to support min/max range clamping
-  proc/sysctl: Provide additional ctl_table.flags checks
-  sysctl: Warn when a clamped sysctl parameter is set out of range
-  ipc: Clamp msgmni and shmmni to the real IPCMNI limit
-  ipc: Clamp semmni to the real IPCMNI limit
-  test_sysctl: Add range clamping test
-  test_sysctl: Add ctl_table registration failure test
-  ipc: Allow boot time extension of IPCMNI from 32k to 2M
-  ipc: Conserve sequence numbers in extended IPCMNI mode
-
- Documentation/admin-guide/kernel-parameters.txt |  3 +
- fs/proc/proc_sysctl.c                           | 62 ++++++++++++++++++++
- include/linux/ipc.h                             | 11 +++-
- include/linux/ipc_namespace.h                   |  1 +
- include/linux/sysctl.h                          | 32 +++++++++++
- ipc/ipc_sysctl.c                                | 33 ++++++++++-
- ipc/sem.c                                       | 25 ++++++++
- ipc/util.c                                      | 41 ++++++++-----
- ipc/util.h                                      | 23 +++++---
- kernel/sysctl.c                                 | 76 ++++++++++++++++++++++---
- lib/test_sysctl.c                               | 70 +++++++++++++++++++++++
- tools/testing/selftests/sysctl/sysctl.sh        | 67 ++++++++++++++++++++++
- 12 files changed, 411 insertions(+), 33 deletions(-)
-
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index b769ecf..e446e1f 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -116,6 +116,7 @@ struct ctl_table
+ 	void *data;
+ 	int maxlen;
+ 	umode_t mode;
++	uint16_t flags;
+ 	struct ctl_table *child;	/* Deprecated */
+ 	proc_handler *proc_handler;	/* Callback for text formatting */
+ 	struct ctl_table_poll *poll;
+@@ -123,6 +124,25 @@ struct ctl_table
+ 	void *extra2;
+ } __randomize_layout;
+ 
++/**
++ * enum ctl_table_flags - flags for the ctl table (struct ctl_table.flags)
++ *
++ * @CTL_FLAGS_CLAMP_RANGE: Set to indicate that the entry should be
++ *	flexibly clamped to the provided min/max value in case the user
++ *	provided a value outside of the given range. The clamped value is
++ *	either the provided minimum or maximum value that is closest to
++ *	the input value. No lower bound or upper bound checking will be
++ *	done if the corresponding minimum or maximum value isn't provided.
++ *
++ * At most 16 different flags are allowed.
++ */
++enum ctl_table_flags {
++	CTL_FLAGS_CLAMP_RANGE		= BIT(0),
++	__CTL_FLAGS_MAX			= BIT(1),
++};
++
++#define CTL_TABLE_FLAGS_ALL	(__CTL_FLAGS_MAX - 1)
++
+ struct ctl_node {
+ 	struct rb_node node;
+ 	struct ctl_table_header *header;
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index d2aa6b4..af351ed 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -2504,6 +2504,7 @@ static int proc_dointvec_minmax_sysadmin(struct ctl_table *table, int write,
+  * struct do_proc_dointvec_minmax_conv_param - proc_dointvec_minmax() range checking structure
+  * @min: pointer to minimum allowable value
+  * @max: pointer to maximum allowable value
++ * @flags: pointer to flags
+  *
+  * The do_proc_dointvec_minmax_conv_param structure provides the
+  * minimum and maximum values for doing range checking for those sysctl
+@@ -2512,6 +2513,7 @@ static int proc_dointvec_minmax_sysadmin(struct ctl_table *table, int write,
+ struct do_proc_dointvec_minmax_conv_param {
+ 	int *min;
+ 	int *max;
++	uint16_t *flags;
+ };
+ 
+ static int do_proc_dointvec_minmax_conv(bool *negp, unsigned long *lvalp,
+@@ -2521,9 +2523,21 @@ static int do_proc_dointvec_minmax_conv(bool *negp, unsigned long *lvalp,
+ 	struct do_proc_dointvec_minmax_conv_param *param = data;
+ 	if (write) {
+ 		int val = *negp ? -*lvalp : *lvalp;
+-		if ((param->min && *param->min > val) ||
+-		    (param->max && *param->max < val))
+-			return -EINVAL;
++		bool clamp = param->flags &&
++			   (*param->flags & CTL_FLAGS_CLAMP_RANGE);
++
++		if (param->min && *param->min > val) {
++			if (clamp)
++				val = *param->min;
++			else
++				return -EINVAL;
++		}
++		if (param->max && *param->max < val) {
++			if (clamp)
++				val = *param->max;
++			else
++				return -EINVAL;
++		}
+ 		*valp = val;
+ 	} else {
+ 		int val = *valp;
+@@ -2552,7 +2566,8 @@ static int do_proc_dointvec_minmax_conv(bool *negp, unsigned long *lvalp,
+  * This routine will ensure the values are within the range specified by
+  * table->extra1 (min) and table->extra2 (max).
+  *
+- * Returns 0 on success or -EINVAL on write when the range check fails.
++ * Returns 0 on success or -EINVAL on write when the range check fails
++ * without the CTL_FLAGS_CLAMP_RANGE flag.
+  */
+ int proc_dointvec_minmax(struct ctl_table *table, int write,
+ 		  void __user *buffer, size_t *lenp, loff_t *ppos)
+@@ -2560,6 +2575,7 @@ int proc_dointvec_minmax(struct ctl_table *table, int write,
+ 	struct do_proc_dointvec_minmax_conv_param param = {
+ 		.min = (int *) table->extra1,
+ 		.max = (int *) table->extra2,
++		.flags = &table->flags,
+ 	};
+ 	return do_proc_dointvec(table, write, buffer, lenp, ppos,
+ 				do_proc_dointvec_minmax_conv, &param);
+@@ -2569,6 +2585,7 @@ int proc_dointvec_minmax(struct ctl_table *table, int write,
+  * struct do_proc_douintvec_minmax_conv_param - proc_douintvec_minmax() range checking structure
+  * @min: pointer to minimum allowable value
+  * @max: pointer to maximum allowable value
++ * @flags: pointer to flags
+  *
+  * The do_proc_douintvec_minmax_conv_param structure provides the
+  * minimum and maximum values for doing range checking for those sysctl
+@@ -2577,6 +2594,7 @@ int proc_dointvec_minmax(struct ctl_table *table, int write,
+ struct do_proc_douintvec_minmax_conv_param {
+ 	unsigned int *min;
+ 	unsigned int *max;
++	uint16_t *flags;
+ };
+ 
+ static int do_proc_douintvec_minmax_conv(unsigned long *lvalp,
+@@ -2587,14 +2605,24 @@ static int do_proc_douintvec_minmax_conv(unsigned long *lvalp,
+ 
+ 	if (write) {
+ 		unsigned int val = *lvalp;
++		bool clamp = param->flags &&
++			   (*param->flags & CTL_FLAGS_CLAMP_RANGE);
+ 
+ 		if (*lvalp > UINT_MAX)
+ 			return -EINVAL;
+ 
+-		if ((param->min && *param->min > val) ||
+-		    (param->max && *param->max < val))
+-			return -ERANGE;
+-
++		if (param->min && *param->min > val) {
++			if (clamp)
++				val = *param->min;
++			else
++				return -ERANGE;
++		}
++		if (param->max && *param->max < val) {
++			if (clamp)
++				val = *param->max;
++			else
++				return -ERANGE;
++		}
+ 		*valp = val;
+ 	} else {
+ 		unsigned int val = *valp;
+@@ -2621,7 +2649,8 @@ static int do_proc_douintvec_minmax_conv(unsigned long *lvalp,
+  * check for UINT_MAX to avoid having to support wrap around uses from
+  * userspace.
+  *
+- * Returns 0 on success or -ERANGE on write when the range check fails.
++ * Returns 0 on success or -ERANGE on write when the range check fails
++ * without the CTL_FLAGS_CLAMP_RANGE flag.
+  */
+ int proc_douintvec_minmax(struct ctl_table *table, int write,
+ 			  void __user *buffer, size_t *lenp, loff_t *ppos)
+@@ -2629,6 +2658,7 @@ int proc_douintvec_minmax(struct ctl_table *table, int write,
+ 	struct do_proc_douintvec_minmax_conv_param param = {
+ 		.min = (unsigned int *) table->extra1,
+ 		.max = (unsigned int *) table->extra2,
++		.flags = &table->flags,
+ 	};
+ 	return do_proc_douintvec(table, write, buffer, lenp, ppos,
+ 				 do_proc_douintvec_minmax_conv, &param);
 -- 
 1.8.3.1
 
