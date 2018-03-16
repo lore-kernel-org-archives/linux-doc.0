@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BDC397E677
+	by archive.lwn.net (Postfix) with ESMTP id EF4287E6C5
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 18:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752700AbeCPSQY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 14:16:24 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:39096 "EHLO mx1.redhat.com"
+        id S1753246AbeCPSQk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 14:16:40 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40440 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753063AbeCPSOg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Mar 2018 14:14:36 -0400
+        id S1753020AbeCPSOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Mar 2018 14:14:35 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8BA4740201A5;
+        by mx1.redhat.com (Postfix) with ESMTPS id 3F80EEBFE5;
         Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
 Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 441ED202322B;
-        Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EF1692017E80;
+        Fri, 16 Mar 2018 18:14:34 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>
@@ -32,151 +32,204 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 9/9] ipc: Conserve sequence numbers in extended IPCMNI mode
-Date:   Fri, 16 Mar 2018 14:13:50 -0400
-Message-Id: <1521224030-2185-10-git-send-email-longman@redhat.com>
+Subject: [PATCH v5 8/9] ipc: Allow boot time extension of IPCMNI from 32k to 2M
+Date:   Fri, 16 Mar 2018 14:13:49 -0400
+Message-Id: <1521224030-2185-9-git-send-email-longman@redhat.com>
 In-Reply-To: <1521224030-2185-1-git-send-email-longman@redhat.com>
 References: <1521224030-2185-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 16 Mar 2018 18:14:35 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The mixing in of a sequence number into the IPC IDs is probably to
-avoid ID reuse in userspace as much as possible. With extended IPCMNI
-mode, the number of usable sequecne numbers is greatly reduced leading
-to higher chance of ID reuse.
+The maximum number of unique System V IPC identifiers was limited to
+32k.  That limit should be big enough for most use cases.
 
-To address this issue, we need to conserve the sequence number space
-as much as possible. Right now, the sequence number is incremented
-for every new ID created. In reality, we only need to increment the
-sequence number when one or more IDs have been removed previously to
-make sure that those IDs will not be reused when a new one is built.
-This is being done in the extended IPCMNI mode,
+However, there are some users out there requesting for more. To satisfy
+the need of those users, a new boot time kernel option "ipcmni_extend"
+is added to extend the IPCMNI value to 2M. This is a 64X increase which
+hopefully is big enough for them.
+
+This new option does have the side effect of reducing the maximum
+number of unique sequence numbers from 64k down to 1k. So it is
+a trade-off.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- include/linux/ipc_namespace.h |  1 +
- ipc/ipc_sysctl.c              |  2 ++
- ipc/util.c                    | 29 ++++++++++++++++++++++-------
- ipc/util.h                    |  1 +
- 4 files changed, 26 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  3 +++
+ include/linux/ipc.h                             | 11 ++++++++++-
+ ipc/ipc_sysctl.c                                | 12 +++++++++++-
+ ipc/util.c                                      | 12 ++++++------
+ ipc/util.h                                      | 18 +++++++++++-------
+ 5 files changed, 41 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/ipc_namespace.h b/include/linux/ipc_namespace.h
-index b5630c8..9c86fd9 100644
---- a/include/linux/ipc_namespace.h
-+++ b/include/linux/ipc_namespace.h
-@@ -16,6 +16,7 @@
- struct ipc_ids {
- 	int in_use;
- 	unsigned short seq;
-+	unsigned short deleted;
- 	bool tables_initialized;
- 	struct rw_semaphore rwsem;
- 	struct idr ipcs_idr;
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 1d1d53f..2be35a4 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1733,6 +1733,9 @@
+ 	ip=		[IP_PNP]
+ 			See Documentation/filesystems/nfs/nfsroot.txt.
+ 
++	ipcmni_extend	[KNL] Extend the maximum number of unique System V
++			IPC identifiers from 32768 to 2097152.
++
+ 	irqaffinity=	[SMP] Set the default irq affinity mask
+ 			The argument is a cpu list, as described above.
+ 
+diff --git a/include/linux/ipc.h b/include/linux/ipc.h
+index 821b2f2..3ecd869 100644
+--- a/include/linux/ipc.h
++++ b/include/linux/ipc.h
+@@ -8,7 +8,16 @@
+ #include <uapi/linux/ipc.h>
+ #include <linux/refcount.h>
+ 
+-#define IPCMNI 32768  /* <= MAX_INT limit for ipc arrays (including sysctl changes) */
++/*
++ * By default, the ipc arrays can have up to 32k (15 bits) entries.
++ * When IPCMNI extension mode is turned on, the ipc arrays can have up
++ * to 2M (21 bits) entries. However, the space for sequence number will
++ * be shrunk from 16 bits to 10 bits.
++ */
++#define IPCMNI_SHIFT		15
++#define IPCMNI_EXTEND_SHIFT	21
++#define IPCMNI			(1 << IPCMNI_SHIFT)
++#define IPCMNI_EXTEND		(1 << IPCMNI_EXTEND_SHIFT)
+ 
+ /* used by in-kernel data structures */
+ struct kern_ipc_perm {
 diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-index 5f7cfae..61a832d 100644
+index 0ad7088..5f7cfae 100644
 --- a/ipc/ipc_sysctl.c
 +++ b/ipc/ipc_sysctl.c
-@@ -111,6 +111,7 @@ static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
+@@ -109,7 +109,8 @@ static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
+ static int zero;
+ static int one = 1;
  static int int_max = INT_MAX;
- int ipc_mni __read_mostly = IPCMNI;
- int ipc_mni_shift __read_mostly = IPCMNI_SHIFT;
-+bool ipc_mni_extended __read_mostly;
+-static int ipc_mni = IPCMNI;
++int ipc_mni __read_mostly = IPCMNI;
++int ipc_mni_shift __read_mostly = IPCMNI_SHIFT;
  
  static struct ctl_table ipc_kern_table[] = {
  	{
-@@ -243,6 +244,7 @@ static int __init ipc_mni_extend(char *str)
- {
- 	ipc_mni = IPCMNI_EXTEND;
- 	ipc_mni_shift = IPCMNI_EXTEND_SHIFT;
-+	ipc_mni_extended = true;
- 	pr_info("IPCMNI extended to %d.\n", ipc_mni);
- 	return 0;
+@@ -237,3 +238,12 @@ static int __init ipc_sysctl_init(void)
  }
+ 
+ device_initcall(ipc_sysctl_init);
++
++static int __init ipc_mni_extend(char *str)
++{
++	ipc_mni = IPCMNI_EXTEND;
++	ipc_mni_shift = IPCMNI_EXTEND_SHIFT;
++	pr_info("IPCMNI extended to %d.\n", ipc_mni);
++	return 0;
++}
++early_param("ipcmni_extend", ipc_mni_extend);
 diff --git a/ipc/util.c b/ipc/util.c
-index daee305..8b38a6f 100644
+index 4ed5a17..daee305 100644
 --- a/ipc/util.c
 +++ b/ipc/util.c
-@@ -118,7 +118,8 @@ int ipc_init_ids(struct ipc_ids *ids)
+@@ -112,7 +112,7 @@ static int __init ipc_init(void)
+  * @ids: ipc identifier set
+  *
+  * Set up the sequence range to use for the ipc identifier range (limited
+- * below IPCMNI) then initialise the keys hashtable and ids idr.
++ * below ipc_mni) then initialise the keys hashtable and ids idr.
+  */
+ int ipc_init_ids(struct ipc_ids *ids)
  {
- 	int err;
- 	ids->in_use = 0;
--	ids->seq = 0;
-+	ids->deleted = false;
-+	ids->seq = ipc_mni_extended ? 0 : -1; /* seq # is pre-incremented */
- 	init_rwsem(&ids->rwsem);
- 	err = rhashtable_init(&ids->key_ht, &ipc_kht_params);
- 	if (err)
-@@ -192,6 +193,11 @@ static struct kern_ipc_perm *ipc_findkey(struct ipc_ids *ids, key_t key)
- 	return NULL;
- }
- 
-+/*
-+ * To conserve sequence number space with extended ipc_mni when new ID
-+ * is built, the sequence number is incremented only when one or more
-+ * IDs have been removed previously.
-+ */
- #ifdef CONFIG_CHECKPOINT_RESTORE
- /*
-  * Specify desired id for next allocated IPC object.
-@@ -205,9 +211,13 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
- 			      struct kern_ipc_perm *new)
- {
- 	if (ids->next_id < 0) { /* default, behave as !CHECKPOINT_RESTORE */
--		new->seq = ids->seq++;
--		if (ids->seq > IPCID_SEQ_MAX)
--			ids->seq = 0;
-+		if (!ipc_mni_extended || ids->deleted) {
-+			ids->seq++;
-+			if (ids->seq > IPCID_SEQ_MAX)
-+				ids->seq = 0;
-+			ids->deleted = false;
-+		}
-+		new->seq = ids->seq;
- 	} else {
- 		new->seq = ipcid_to_seqx(ids->next_id);
+@@ -213,7 +213,7 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
  		ids->next_id = -1;
-@@ -223,9 +233,13 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
- static inline int ipc_buildid(int id, struct ipc_ids *ids,
- 			      struct kern_ipc_perm *new)
- {
--	new->seq = ids->seq++;
--	if (ids->seq > IPCID_SEQ_MAX)
--		ids->seq = 0;
-+	if (!ipc_mni_extended || ids->deleted) {
-+		ids->seq++;
-+		if (ids->seq > IPCID_SEQ_MAX)
-+			ids->seq = 0;
-+		ids->deleted = false;
-+	}
-+	new->seq = ids->seq;
+ 	}
  
- 	return (new->seq << SEQ_SHIFT) + id;
+-	return SEQ_MULTIPLIER * new->seq + id;
++	return (new->seq << SEQ_SHIFT) + id;
  }
-@@ -435,6 +449,7 @@ void ipc_rmid(struct ipc_ids *ids, struct kern_ipc_perm *ipcp)
- 	idr_remove(&ids->ipcs_idr, lid);
- 	ipc_kht_remove(ids, ipcp);
- 	ids->in_use--;
-+	ids->deleted = true;
- 	ipcp->deleted = true;
  
- 	if (unlikely(lid == ids->max_id)) {
+ #else
+@@ -227,7 +227,7 @@ static inline int ipc_buildid(int id, struct ipc_ids *ids,
+ 	if (ids->seq > IPCID_SEQ_MAX)
+ 		ids->seq = 0;
+ 
+-	return SEQ_MULTIPLIER * new->seq + id;
++	return (new->seq << SEQ_SHIFT) + id;
+ }
+ 
+ #endif /* CONFIG_CHECKPOINT_RESTORE */
+@@ -251,8 +251,8 @@ int ipc_addid(struct ipc_ids *ids, struct kern_ipc_perm *new, int limit)
+ 	kgid_t egid;
+ 	int id, err;
+ 
+-	if (limit > IPCMNI)
+-		limit = IPCMNI;
++	if (limit > ipc_mni)
++		limit = ipc_mni;
+ 
+ 	if (!ids->tables_initialized || ids->in_use >= limit)
+ 		return -ENOSPC;
+@@ -769,7 +769,7 @@ static struct kern_ipc_perm *sysvipc_find_ipc(struct ipc_ids *ids, loff_t pos,
+ 	if (total >= ids->in_use)
+ 		return NULL;
+ 
+-	for (; pos < IPCMNI; pos++) {
++	for (; pos < ipc_mni; pos++) {
+ 		ipc = idr_find(&ids->ipcs_idr, pos);
+ 		if (ipc != NULL) {
+ 			*new_pos = pos + 1;
 diff --git a/ipc/util.h b/ipc/util.h
-index 6871ca9..e6c2055 100644
+index af57394..6871ca9 100644
 --- a/ipc/util.h
 +++ b/ipc/util.h
-@@ -17,6 +17,7 @@
+@@ -15,7 +15,11 @@
+ #include <linux/err.h>
+ #include <linux/ipc_namespace.h>
  
- extern int ipc_mni;
- extern int ipc_mni_shift;
-+extern bool ipc_mni_extended;
+-#define SEQ_MULTIPLIER	(IPCMNI)
++extern int ipc_mni;
++extern int ipc_mni_shift;
++
++#define SEQ_SHIFT	ipc_mni_shift
++#define SEQ_MASK	((1 << ipc_mni_shift) - 1)
  
- #define SEQ_SHIFT	ipc_mni_shift
- #define SEQ_MASK	((1 << ipc_mni_shift) - 1)
+ int sem_init(void);
+ int msg_init(void);
+@@ -93,9 +97,9 @@ void __init ipc_init_proc_interface(const char *path, const char *header,
+ #define IPC_MSG_IDS	1
+ #define IPC_SHM_IDS	2
+ 
+-#define ipcid_to_idx(id) ((id) % SEQ_MULTIPLIER)
+-#define ipcid_to_seqx(id) ((id) / SEQ_MULTIPLIER)
+-#define IPCID_SEQ_MAX min_t(int, INT_MAX/SEQ_MULTIPLIER, USHRT_MAX)
++#define ipcid_to_idx(id)  ((id) & SEQ_MASK)
++#define ipcid_to_seqx(id) ((id) >> SEQ_SHIFT)
++#define IPCID_SEQ_MAX	  (INT_MAX >> SEQ_SHIFT)
+ 
+ /* must be called with ids->rwsem acquired for writing */
+ int ipc_addid(struct ipc_ids *, struct kern_ipc_perm *, int);
+@@ -120,8 +124,8 @@ static inline int ipc_get_maxid(struct ipc_ids *ids)
+ 	if (ids->in_use == 0)
+ 		return -1;
+ 
+-	if (ids->in_use == IPCMNI)
+-		return IPCMNI - 1;
++	if (ids->in_use == ipc_mni)
++		return ipc_mni - 1;
+ 
+ 	return ids->max_id;
+ }
+@@ -163,7 +167,7 @@ struct kern_ipc_perm *ipcctl_pre_down_nolock(struct ipc_namespace *ns,
+ 
+ static inline int ipc_checkid(struct kern_ipc_perm *ipcp, int uid)
+ {
+-	return uid / SEQ_MULTIPLIER != ipcp->seq;
++	return (uid >> SEQ_SHIFT) != ipcp->seq;
+ }
+ 
+ static inline void ipc_lock_object(struct kern_ipc_perm *perm)
 -- 
 1.8.3.1
 
