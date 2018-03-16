@@ -1,64 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08B837E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 15:16:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6DEDB7E6B7
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 15:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751468AbeCPPQ4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 11:16:56 -0400
-Received: from orcrist.hmeau.com ([104.223.48.154]:59294 "EHLO
-        deadmen.hmeau.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751233AbeCPPQz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Mar 2018 11:16:55 -0400
-Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
-        by deadmen.hmeau.com with esmtp (Exim 4.84_2 #2 (Debian))
-        id 1ewr66-0001xa-C7; Fri, 16 Mar 2018 23:16:46 +0800
-Received: from herbert by gondobar with local (Exim 4.84_2)
-        (envelope-from <herbert@gondor.apana.org.au>)
-        id 1ewr62-0001j0-Rl; Fri, 16 Mar 2018 23:16:42 +0800
-Date:   Fri, 16 Mar 2018 23:16:42 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] crypto: doc - clarify hash callbacks state machine
-Message-ID: <20180316151642.GA6606@gondor.apana.org.au>
-References: <20180305103945.3517-1-horia.geanta@nxp.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180305103945.3517-1-horia.geanta@nxp.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        id S932823AbeCPP5g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 11:57:36 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:44670 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S934128AbeCPP5f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Mar 2018 11:57:35 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 4E00020E5E
+        for <linux-doc@vger.kernel.org>; Fri, 16 Mar 2018 16:57:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1521215853; bh=N5lXkWJ1OAYGP26OlMrQ+J/aqkI2Iu/Xxl+oveH7WuQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RXb9Z3Gv//UE3xPwk1gWni6/EXKL6oBJF00J2iNr133dyCknvaN09dEHArcs39OAO
+         1ZbipVzGqB+R7PP455jCSu/6jvVexx6UBo2/F1fpFa0zOBXsa1A5whY8v9EjRse1n8
+         SIdj3iZVWcvcfZ9k7KJATN6JKWY7GvjHx8bvk69h7Tiy2NEy6lPTP1BsINIME/CTcr
+         Epo4xXYeDATGuIYWkIWhvvsM02XNYykhAyS0LxJFEEj1Yk+y0A/cAGQvllJJFzqpm5
+         ZQJ3J7xvHFeZo6Ju9pQv3Pwowgcm2k689HepBxySh9GsdcYFsfgP4DPl6tdcVIYY23
+         SncyBw2x8jydA==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 402qq03xKbz9rxX;
+        Fri, 16 Mar 2018 16:57:32 +0100 (CET)
+From:   Martin Kepplinger <martink@posteo.de>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Martin Kepplinger <martink@posteo.de>
+Subject: [PATCH] README: Improve documentation descriptions
+Date:   Fri, 16 Mar 2018 16:57:07 +0100
+Message-Id: <20180316155707.28426-1-martink@posteo.de>
+X-Mailer: git-send-email 2.14.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 05, 2018 at 12:39:45PM +0200, Horia Geantă wrote:
-> Even though it doesn't make too much sense, it is perfectly legal to:
-> - call .init() and then (as many times) .update()
-> - subseqently _not_ call any of .final(), .finup() or .export()
+"This file" indeed was moved once, but at some point "this file", the
+top-level README, becomes a file in itself. Now that time has come :)
 
-Actually it makes perfect sense, because there can be an arbitrary
-number of requests for a given tfm.  There is no requirement that
-you must finalise the first request before submitting new ones.
+Let's describe how things are, and suggest reading "this file" first,
+"this file" simply being a the admin-guide README file, not a file that
+was once moved.
 
-IOW there can be an arbitrary number of outstanding requests even
-without the user intentionally abandoning any hash request.
+Signed-off-by: Martin Kepplinger <martink@posteo.de>
+---
 
-So please modify your commit description.
+That's at least my opinion :)
 
-Thanks,
+thanks
+                         martin
+
+
+ README | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/README b/README
+index b2ba4aaa3a71..12b4674a483c 100644
+--- a/README
++++ b/README
+@@ -1,10 +1,9 @@
+ Linux kernel
+ ============
+ 
+-This file was moved to Documentation/admin-guide/README.rst
+-
+-Please notice that there are several guides for kernel developers and users.
+-These guides can be rendered in a number of formats, like HTML and PDF.
++There are several guides for kernel developers and users. These guides can
++be rendered in a number of formats, like HTML and PDF. Please read
++Documentation/admin-guide/README.rst first.
+ 
+ In order to build the documentation, use ``make htmldocs`` or
+ ``make pdfdocs``.
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.14.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
