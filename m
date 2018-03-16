@@ -1,74 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+X-Spam-Status: No, score=-5.0 required=5.0 tests=RCVD_IN_DNSWL_HI,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 235177E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 13:57:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF1AE7E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 14:27:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750986AbeCPN52 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 09:57:28 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:41186 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750921AbeCPN51 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Mar 2018 09:57:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=M8Yi6mKWHHsorud3G96t1cN+S3J+2DhR9Ny7DjeYdks=; b=gjvSAUhsYe35UcewcHZpN3yHF
-        vlDi7rAfFPT4iMsjFa9ZbLk3BZ9xaJ4HHlFj4RSfhFiLLeaNB2oBr53aKObKH8uk2TPW5giGSYH8C
-        6TwonawYiJdWpji11UwbJxnWlkPrte/1HvP3I23n15+8CTIijuK1+OUJyGjzJjp4l52MkkGqN+mFG
-        xCLDiqKX5lHw6uLufovbJtF6aY/JAiOxiPQc5WC8wnNkzWEQEeAuASuGkSR8qTelCwBPStG0Z34QC
-        ddQJRGWeq4l5PWwwv3LcZMgIzhK21vPhi2+CEOAmhebnmkS3XnrgUG1o5TTY+EaaugPgQ8y36mRfk
-        O67CkyW1w==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ewprC-0002Gt-E9; Fri, 16 Mar 2018 13:57:18 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id F1DA62029F860; Fri, 16 Mar 2018 14:57:16 +0100 (CET)
-Date:   Fri, 16 Mar 2018 14:57:16 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>, tj@kernel.org,
-        cl@linux.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH] Improve mutex documentation
-Message-ID: <20180316135716.GG4064@hirez.programming.kicks-ass.net>
-References: <152102825828.13166.9574628787314078889.stgit@localhost.localdomain>
- <20180314135631.3e21b31b154e9f3036fa6c52@linux-foundation.org>
- <20180315115812.GA9949@bombadil.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180315115812.GA9949@bombadil.infradead.org>
-User-Agent: Mutt/1.9.3 (2018-01-21)
+        id S1750826AbeCPO1H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 10:27:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47042 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750766AbeCPO1H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Mar 2018 10:27:07 -0400
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 61153217D2;
+        Fri, 16 Mar 2018 14:27:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 61153217D2
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mhiramat@kernel.org
+Date:   Fri, 16 Mar 2018 23:26:59 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
+        acme@kernel.org, ananth@linux.vnet.ibm.com,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        alexis.berlemont@gmail.com, corbet@lwn.net,
+        dan.j.williams@intel.com, gregkh@linuxfoundation.org,
+        huawei.libin@huawei.com, hughd@google.com, jack@suse.cz,
+        jglisse@redhat.com, jolsa@redhat.com, kan.liang@intel.com,
+        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
+        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
+        tmricht@linux.vnet.ibm.com, willy@infradead.org,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com
+Subject: Re: [PATCH 8/8] trace_uprobe/sdt: Document about reference counter
+Message-Id: <20180316232659.4a9a31eac46c6b30105d2bce@kernel.org>
+In-Reply-To: <e991f9e2-6488-7739-548d-6ca28c57826d@linux.vnet.ibm.com>
+References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
+        <20180313125603.19819-9-ravi.bangoria@linux.vnet.ibm.com>
+        <20180314225021.64109239de8b14b0aec1e1c5@kernel.org>
+        <ec9c4ef7-0117-7c7c-64bc-f6bf4261721d@linux.vnet.ibm.com>
+        <20180315214750.fc1d53d01045d8e6c1e8e491@kernel.org>
+        <e991f9e2-6488-7739-548d-6ca28c57826d@linux.vnet.ibm.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 15, 2018 at 04:58:12AM -0700, Matthew Wilcox wrote:
-> On Wed, Mar 14, 2018 at 01:56:31PM -0700, Andrew Morton wrote:
-> > My memory is weak and our documentation is awful.  What does
-> > mutex_lock_killable() actually do and how does it differ from
-> > mutex_lock_interruptible()?
-> 
-> From: Matthew Wilcox <mawilcox@microsoft.com>
-> 
-> Add kernel-doc for mutex_lock_killable() and mutex_lock_io().  Reword the
-> kernel-doc for mutex_lock_interruptible().
-> 
-> Signed-off-by: Matthew Wilcox <mawilcox@microsoft.com>
+On Fri, 16 Mar 2018 15:12:38 +0530
+Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
 
-Thanks Matthew!
+> On 03/15/2018 06:17 PM, Masami Hiramatsu wrote:
+> > Hi Ravi,
+> >
+> > On Wed, 14 Mar 2018 20:52:59 +0530
+> > Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+> >
+> >> On 03/14/2018 07:20 PM, Masami Hiramatsu wrote:
+> >>> On Tue, 13 Mar 2018 18:26:03 +0530
+> >>> Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+> >>>
+> >>>> No functionality changes.
+> >>> Please consider to describe what is this change and why, here.
+> >> Will add in next version.
+> > Thanks, and could you also move this before perf-probe patch?
+> > Also Could you make perf-probe check the tracing/README whether
+> > the kernel supports reference counter syntax or not?
+> >
+> > perf-tool can be used on older (or stable) kernel.
+> 
+> Sure, Will do that.
+
+Please see scan_ftrace_readme@util/probe-file.c :)
+It is easy to expand the pattern table.
+
+Thank you,
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
