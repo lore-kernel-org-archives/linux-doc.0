@@ -1,268 +1,558 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C2EB7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 12:10:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B8F47E66E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Mar 2018 13:39:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751459AbeCPMKH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Mar 2018 08:10:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34244 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751236AbeCPMKH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Mar 2018 08:10:07 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2GC9Ows025714
-        for <linux-doc@vger.kernel.org>; Fri, 16 Mar 2018 08:10:06 -0400
-Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2gr92537u9-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 16 Mar 2018 08:10:06 -0400
-Received: from localhost
-        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Fri, 16 Mar 2018 12:10:03 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Fri, 16 Mar 2018 12:09:54 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2GC9srD52101240;
-        Fri, 16 Mar 2018 12:09:54 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E70AFA404D;
-        Fri, 16 Mar 2018 12:02:41 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E3E26A4057;
-        Fri, 16 Mar 2018 12:02:29 +0000 (GMT)
-Received: from [9.79.219.128] (unknown [9.79.219.128])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 16 Mar 2018 12:02:29 +0000 (GMT)
-Subject: Re: [PATCH 6/8] trace_uprobe/sdt: Fix multiple update of same
- reference counter
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     mhiramat@kernel.org, peterz@infradead.org,
-        srikar@linux.vnet.ibm.com, acme@kernel.org,
-        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
-        corbet@lwn.net, dan.j.williams@intel.com,
-        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
-        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
-        jolsa@redhat.com, kan.liang@intel.com,
-        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
-        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
-        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
-        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
-        tmricht@linux.vnet.ibm.com, willy@infradead.org,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180313125603.19819-7-ravi.bangoria@linux.vnet.ibm.com>
- <20180315144959.GB19643@redhat.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Date:   Fri, 16 Mar 2018 17:42:02 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1750982AbeCPNjr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Mar 2018 09:39:47 -0400
+Received: from mail-lf0-f66.google.com ([209.85.215.66]:34242 "EHLO
+        mail-lf0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750748AbeCPNjp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Mar 2018 09:39:45 -0400
+Received: by mail-lf0-f66.google.com with SMTP id l191-v6so15447408lfe.1;
+        Fri, 16 Mar 2018 06:39:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ofz/+L9Bh6pD/BMLXONex+j4RDhTK6ytztnL/Lf0eZk=;
+        b=VPztZJrce+9HMVXeGhLBlNVWJdwSXJLSryiQ5yasgyl4Z73xZxfQuYoHiouA+mglXE
+         C9F/NzTSp5+Dg21nX1mHywHNI1JUI7SqhZdDSpp76tj7h6vU9gxqbFkeyi9KpMCEpCsP
+         QReMJl5OASGofhLKETJlxXEsp7oij6GayyOUPwpLBDOvAd53wN4t5JXpijzTYl+xjBBE
+         /eqziM0yIx/epDL1dRr4D5uwT36gnrKZWCxfSi+w+FYT64vY0WgnC40KNJuAi7YhC9eU
+         aaeBFwXtim2WzM+2rLyCRhlCcjhweTYLkb/pIFB/XIjKGy/GXAvPFOESoJQCJrihlUwn
+         Mmrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ofz/+L9Bh6pD/BMLXONex+j4RDhTK6ytztnL/Lf0eZk=;
+        b=CHCLemsYIYeCgjfmnxM1DKDaSxkewTNcNKRZnCzwvpXX6x9NBE8PsPpbnmRoChf+Sn
+         WNGvjFSymI8On8JZS8n62uhXvC4nv8Id2X8Gt6R9ZbT384q03GmrUtHmhlIpC5Z7ceNJ
+         mh6lonZLQOCBopTHERvy+89IO6Y5UyNRYqy2ENK8DQ5ziARbI9d+aqr0zvQgkaOdTZuS
+         TMcYwJSRVmXJp0YWB4otUdI+GxTfng9i/mmhBXclO8L2K383ZBYCJkIujEjhxaQvlWFj
+         Fmbv3T23jvjfXRa9LZwj+MxQ9Mhq3TCFuffPOSZMf11ew0FkkB2fM0ev0H8QzlIK8EoL
+         z1Iw==
+X-Gm-Message-State: AElRT7FVnOj9HgbYlmpQk/x2yQDX9rc3Qp47Pn+1wys70labaTzwZVJQ
+        CFjD9m+f4IjILcXIpHjIgKwMCdFsB7Q=
+X-Google-Smtp-Source: AG47ELuuIhQCEbHbufDegRJLts9VrnMf0InVqQ2R6gzk136lavNcSqAUHTgMT+nW/c6lTUmHyTht9A==
+X-Received: by 10.46.128.20 with SMTP id j20mr1486835ljg.26.1521207583925;
+        Fri, 16 Mar 2018 06:39:43 -0700 (PDT)
+Received: from gmail.com (c-5eea36b6-74736162.cust.telenor.se. [94.234.54.182])
+        by smtp.gmail.com with ESMTPSA id q127sm988765ljq.17.2018.03.16.06.39.40
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 16 Mar 2018 06:39:42 -0700 (PDT)
+Date:   Fri, 16 Mar 2018 14:39:38 +0100
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH v5] input: pxrc: new driver for PhoenixRC Flight
+ Controller Adapter
+Message-ID: <20180316133938.GB31029@gmail.com>
+References: <20180218161747.21110-1-marcus.folkesson@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20180315144959.GB19643@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 18031612-0020-0000-0000-00000405EF65
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18031612-0021-0000-0000-00004299FBC7
-Message-Id: <c93216a4-a4e1-dd8f-00be-17254e308cd1@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-16_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1803160148
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="/WwmFnJnmDyWGHa4"
+Content-Disposition: inline
+In-Reply-To: <20180218161747.21110-1-marcus.folkesson@gmail.com>
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--/WwmFnJnmDyWGHa4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 03/15/2018 08:19 PM, Oleg Nesterov wrote:
-> On 03/13, Ravi Bangoria wrote:
->> For tiny binaries/libraries, different mmap regions points to the
->> same file portion. In such cases, we may increment reference counter
->> multiple times.
-> Yes,
->
->> But while de-registration, reference counter will get
->> decremented only by once
-> could you explain why this happens? sdt_increment_ref_ctr() and
-> sdt_decrement_ref_ctr() look symmetrical, _decrement_ should see
-> the same mappings?
+ping.
 
-Sorry, I thought this happens only for tiny binaries. But that is not the case.
-This happens for binary / library of any length.
+I do not want to nag, but would someone please have a look at this?
 
-Also, it's not a problem with sdt_increment_ref_ctr() / sdt_increment_ref_ctr().
-The problem happens with trace_uprobe_mmap_callback().
+Thanks,
+Marcus Folkesson
 
-To illustrate in detail, I'm adding a pr_info() in trace_uprobe_mmap_callback():
+On Sun, Feb 18, 2018 at 05:17:46PM +0100, Marcus Folkesson wrote:
+> This driver let you plug in your RC controller to the adapter and
+> use it as input device in various RC simulators.
+>=20
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+>=20
+> v5:
+> 	- Drop autosuspend support
+> 	- Use pm_mutex instead of input_dev->mutex
+> 	- Use pxrc->is_open instead of input_dev->users
+> v4:
+> 	- Add call to usb_mark_last_busy() in irq
+> 	- Move code from pxrc_resume() to pxrc_reset_resume()
+> v3:
+> 	- Use RUDDER and MISC instead of TILT_X and TILT_Y
+> 	- Drop kref and anchor
+> 	- Rework URB handling
+> 	- Add PM support
+> v2:
+> 	- Change module license to GPLv2 to match SPDX tag
+>=20
+>=20
+>  Documentation/input/devices/pxrc.rst |  57 +++++++
+>  drivers/input/joystick/Kconfig       |   9 ++
+>  drivers/input/joystick/Makefile      |   1 +
+>  drivers/input/joystick/pxrc.c        | 303 +++++++++++++++++++++++++++++=
+++++++
+>  4 files changed, 370 insertions(+)
+>  create mode 100644 Documentation/input/devices/pxrc.rst
+>  create mode 100644 drivers/input/joystick/pxrc.c
+>=20
+> diff --git a/Documentation/input/devices/pxrc.rst b/Documentation/input/d=
+evices/pxrc.rst
+> new file mode 100644
+> index 000000000000..ca11f646bae8
+> --- /dev/null
+> +++ b/Documentation/input/devices/pxrc.rst
+> @@ -0,0 +1,57 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +pxrc - PhoenixRC Flight Controller Adapter
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
+> +
+> +This driver let you use your own RC controller plugged into the
+> +adapter that comes with PhoenixRC [1]_ or other compatible adapters.
+> +
+> +The adapter supports 7 analog channels and 1 digital input switch.
+> +
+> +Notes
+> +=3D=3D=3D=3D=3D
+> +
+> +Many RC controllers is able to configure which stick goes to which chann=
+el.
+> +This is also configurable in most simulators, so a matching is not neces=
+sary.
+> +
+> +The driver is generating the following input event for analog channels:
+> +
+> ++---------+----------------+
+> +| Channel |      Event     |
+> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D+
+> +|     1   |  ABS_X         |
+> ++---------+----------------+
+> +|     2   |  ABS_Y         |
+> ++---------+----------------+
+> +|     3   |  ABS_RX        |
+> ++---------+----------------+
+> +|     4   |  ABS_RY        |
+> ++---------+----------------+
+> +|     5   |  ABS_RUDDER    |
+> ++---------+----------------+
+> +|     6   |  ABS_THROTTLE  |
+> ++---------+----------------+
+> +|     7   |  ABS_MISC      |
+> ++---------+----------------+
+> +
+> +The digital input switch is generated as an `BTN_A` event.
+> +
+> +Manual Testing
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +To test this driver's functionality you may use `input-event` which is p=
+art of
+> +the `input layer utilities` suite [2]_.
+> +
+> +For example::
+> +
+> +    > modprobe pxrc
+> +    > input-events <devnr>
+> +
+> +To print all input events from input `devnr`.
+> +
+> +References
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. [1] http://www.phoenix-sim.com/
+> +.. [2] https://www.kraxel.org/cgit/input/
+> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kcon=
+fig
+> index f3c2f6ea8b44..332c0cc1b2ab 100644
+> --- a/drivers/input/joystick/Kconfig
+> +++ b/drivers/input/joystick/Kconfig
+> @@ -351,4 +351,13 @@ config JOYSTICK_PSXPAD_SPI_FF
+> =20
+>  	  To drive rumble motor a dedicated power supply is required.
+> =20
+> +config JOYSTICK_PXRC
+> +	tristate "PhoenixRC Flight Controller Adapter"
+> +	depends on USB_ARCH_HAS_HCD
+> +	depends on USB
+> +	help
+> +	  Say Y here if you want to use the PhoenixRC Flight Controller Adapter.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called pxrc.
+>  endif
+> diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Mak=
+efile
+> index 67651efda2e1..dd0492ebbed7 100644
+> --- a/drivers/input/joystick/Makefile
+> +++ b/drivers/input/joystick/Makefile
+> @@ -23,6 +23,7 @@ obj-$(CONFIG_JOYSTICK_JOYDUMP)		+=3D joydump.o
+>  obj-$(CONFIG_JOYSTICK_MAGELLAN)		+=3D magellan.o
+>  obj-$(CONFIG_JOYSTICK_MAPLE)		+=3D maplecontrol.o
+>  obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+=3D psxpad-spi.o
+> +obj-$(CONFIG_JOYSTICK_PXRC)			+=3D pxrc.o
+>  obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+=3D sidewinder.o
+>  obj-$(CONFIG_JOYSTICK_SPACEBALL)	+=3D spaceball.o
+>  obj-$(CONFIG_JOYSTICK_SPACEORB)		+=3D spaceorb.o
+> diff --git a/drivers/input/joystick/pxrc.c b/drivers/input/joystick/pxrc.c
+> new file mode 100644
+> index 000000000000..07a0dbd3ced2
+> --- /dev/null
+> +++ b/drivers/input/joystick/pxrc.c
+> @@ -0,0 +1,303 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Driver for Phoenix RC Flight Controller Adapter
+> + *
+> + * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
+> + *
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/errno.h>
+> +#include <linux/slab.h>
+> +#include <linux/module.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/usb.h>
+> +#include <linux/usb/input.h>
+> +#include <linux/mutex.h>
+> +#include <linux/input.h>
+> +
+> +#define PXRC_VENDOR_ID	(0x1781)
+> +#define PXRC_PRODUCT_ID	(0x0898)
+> +
+> +static const struct usb_device_id pxrc_table[] =3D {
+> +	{ USB_DEVICE(PXRC_VENDOR_ID, PXRC_PRODUCT_ID) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(usb, pxrc_table);
+> +
+> +struct pxrc {
+> +	struct input_dev	*input;
+> +	struct usb_device	*udev;
+> +	struct usb_interface	*intf;
+> +	struct urb		*urb;
+> +	struct mutex		pm_mutex;
+> +	bool			is_open;
+> +	__u8			epaddr;
+> +	char			phys[64];
+> +	unsigned char           *data;
+> +	size_t			bsize;
+> +};
+> +
+> +static void pxrc_usb_irq(struct urb *urb)
+> +{
+> +	struct pxrc *pxrc =3D urb->context;
+> +	int error;
+> +
+> +	switch (urb->status) {
+> +	case 0:
+> +		/* success */
+> +		break;
+> +	case -ETIME:
+> +		/* this urb is timing out */
+> +		dev_dbg(&pxrc->intf->dev,
+> +			"%s - urb timed out - was the device unplugged?\n",
+> +			__func__);
+> +		return;
+> +	case -ECONNRESET:
+> +	case -ENOENT:
+> +	case -ESHUTDOWN:
+> +	case -EPIPE:
+> +		/* this urb is terminated, clean up */
+> +		dev_dbg(&pxrc->intf->dev, "%s - urb shutting down with status: %d\n",
+> +			__func__, urb->status);
+> +		return;
+> +	default:
+> +		dev_dbg(&pxrc->intf->dev, "%s - nonzero urb status received: %d\n",
+> +			__func__, urb->status);
+> +		goto exit;
+> +	}
+> +
+> +	if (urb->actual_length =3D=3D 8) {
+> +		input_report_abs(pxrc->input, ABS_X, pxrc->data[0]);
+> +		input_report_abs(pxrc->input, ABS_Y, pxrc->data[2]);
+> +		input_report_abs(pxrc->input, ABS_RX, pxrc->data[3]);
+> +		input_report_abs(pxrc->input, ABS_RY, pxrc->data[4]);
+> +		input_report_abs(pxrc->input, ABS_RUDDER, pxrc->data[5]);
+> +		input_report_abs(pxrc->input, ABS_THROTTLE, pxrc->data[6]);
+> +		input_report_abs(pxrc->input, ABS_MISC, pxrc->data[7]);
+> +
+> +		input_report_key(pxrc->input, BTN_A, pxrc->data[1]);
+> +	}
+> +
+> +exit:
+> +	/* Resubmit to fetch new fresh URBs */
+> +	error =3D usb_submit_urb(urb, GFP_ATOMIC);
+> +	if (error && error !=3D -EPERM)
+> +		dev_err(&pxrc->intf->dev,
+> +			"%s - usb_submit_urb failed with result: %d",
+> +			__func__, error);
+> +}
+> +
+> +static int pxrc_open(struct input_dev *input)
+> +{
+> +	struct pxrc *pxrc =3D input_get_drvdata(input);
+> +	int retval;
+> +
+> +	mutex_lock(&pxrc->pm_mutex);
+> +	retval =3D usb_submit_urb(pxrc->urb, GFP_KERNEL);
+> +	if (retval) {
+> +		dev_err(&pxrc->intf->dev,
+> +			"%s - usb_submit_urb failed, error: %d\n",
+> +			__func__, retval);
+> +		retval =3D -EIO;
+> +		goto out;
+> +	}
+> +
+> +	pxrc->is_open =3D true;
+> +
+> +out:
+> +	mutex_unlock(&pxrc->pm_mutex);
+> +	return retval;
+> +}
+> +
+> +static void pxrc_close(struct input_dev *input)
+> +{
+> +	struct pxrc *pxrc =3D input_get_drvdata(input);
+> +
+> +	mutex_lock(&pxrc->pm_mutex);
+> +	usb_kill_urb(pxrc->urb);
+> +	pxrc->is_open =3D false;
+> +	mutex_unlock(&pxrc->pm_mutex);
+> +}
+> +
+> +static int pxrc_usb_init(struct pxrc *pxrc)
+> +{
+> +	struct usb_endpoint_descriptor *epirq;
+> +	unsigned int pipe;
+> +	int retval;
+> +
+> +	/* Set up the endpoint information */
+> +	/* This device only has an interrupt endpoint */
+> +	retval =3D usb_find_common_endpoints(pxrc->intf->cur_altsetting,
+> +			NULL, NULL, &epirq, NULL);
+> +	if (retval) {
+> +		dev_err(&pxrc->intf->dev,
+> +			"Could not find endpoint\n");
+> +		goto error;
+> +	}
+> +
+> +	pxrc->bsize =3D usb_endpoint_maxp(epirq);
+> +	pxrc->epaddr =3D epirq->bEndpointAddress;
+> +	pxrc->data =3D devm_kmalloc(&pxrc->intf->dev, pxrc->bsize, GFP_KERNEL);
+> +	if (!pxrc->data) {
+> +		retval =3D -ENOMEM;
+> +		goto error;
+> +	}
+> +
+> +	usb_set_intfdata(pxrc->intf, pxrc);
+> +	usb_make_path(pxrc->udev, pxrc->phys, sizeof(pxrc->phys));
+> +	strlcat(pxrc->phys, "/input0", sizeof(pxrc->phys));
+> +
+> +	pxrc->urb =3D usb_alloc_urb(0, GFP_KERNEL);
+> +	if (!pxrc->urb) {
+> +		retval =3D -ENOMEM;
+> +		goto error;
+> +	}
+> +
+> +	pipe =3D usb_rcvintpipe(pxrc->udev, pxrc->epaddr),
+> +	usb_fill_int_urb(pxrc->urb, pxrc->udev, pipe, pxrc->data, pxrc->bsize,
+> +						pxrc_usb_irq, pxrc, 1);
+> +
+> +error:
+> +	return retval;
+> +
+> +
+> +}
+> +
+> +static int pxrc_input_init(struct pxrc *pxrc)
+> +{
+> +	pxrc->input =3D devm_input_allocate_device(&pxrc->intf->dev);
+> +	if (pxrc->input =3D=3D NULL) {
+> +		dev_err(&pxrc->intf->dev, "couldn't allocate input device\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	pxrc->input->name =3D "PXRC Flight Controller Adapter";
+> +	pxrc->input->phys =3D pxrc->phys;
+> +	usb_to_input_id(pxrc->udev, &pxrc->input->id);
+> +
+> +	pxrc->input->open =3D pxrc_open;
+> +	pxrc->input->close =3D pxrc_close;
+> +
+> +	input_set_capability(pxrc->input, EV_KEY, BTN_A);
+> +	input_set_abs_params(pxrc->input, ABS_X, 0, 255, 0, 0);
+> +	input_set_abs_params(pxrc->input, ABS_Y, 0, 255, 0, 0);
+> +	input_set_abs_params(pxrc->input, ABS_RX, 0, 255, 0, 0);
+> +	input_set_abs_params(pxrc->input, ABS_RY, 0, 255, 0, 0);
+> +	input_set_abs_params(pxrc->input, ABS_RUDDER, 0, 255, 0, 0);
+> +	input_set_abs_params(pxrc->input, ABS_THROTTLE, 0, 255, 0, 0);
+> +	input_set_abs_params(pxrc->input, ABS_MISC, 0, 255, 0, 0);
+> +
+> +	input_set_drvdata(pxrc->input, pxrc);
+> +
+> +	return input_register_device(pxrc->input);
+> +}
+> +
+> +static int pxrc_probe(struct usb_interface *intf,
+> +		      const struct usb_device_id *id)
+> +{
+> +	struct pxrc *pxrc;
+> +	int retval;
+> +
+> +	pxrc =3D devm_kzalloc(&intf->dev, sizeof(*pxrc), GFP_KERNEL);
+> +	if (!pxrc)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&pxrc->pm_mutex);
+> +	pxrc->udev =3D usb_get_dev(interface_to_usbdev(intf));
+> +	pxrc->intf =3D intf;
+> +
+> +	retval =3D pxrc_usb_init(pxrc);
+> +	if (retval)
+> +		goto error;
+> +
+> +	retval =3D pxrc_input_init(pxrc);
+> +	if (retval)
+> +		goto err_free_urb;
+> +
+> +	return 0;
+> +
+> +err_free_urb:
+> +	usb_free_urb(pxrc->urb);
+> +
+> +error:
+> +	return retval;
+> +}
+> +
+> +static void pxrc_disconnect(struct usb_interface *intf)
+> +{
+> +	struct pxrc *pxrc =3D usb_get_intfdata(intf);
+> +
+> +	usb_free_urb(pxrc->urb);
+> +	usb_set_intfdata(intf, NULL);
+> +}
+> +
+> +static int pxrc_suspend(struct usb_interface *intf, pm_message_t message)
+> +{
+> +	struct pxrc *pxrc =3D usb_get_intfdata(intf);
+> +
+> +	mutex_lock(&pxrc->pm_mutex);
+> +	if (pxrc->is_open)
+> +		usb_kill_urb(pxrc->urb);
+> +	mutex_unlock(&pxrc->pm_mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int pxrc_resume(struct usb_interface *intf)
+> +{
+> +	struct pxrc *pxrc =3D usb_get_intfdata(intf);
+> +	int retval =3D 0;
+> +
+> +	mutex_lock(&pxrc->pm_mutex);
+> +	if (pxrc->is_open && usb_submit_urb(pxrc->urb, GFP_KERNEL) < 0)
+> +		retval =3D -EIO;
+> +
+> +	mutex_unlock(&pxrc->pm_mutex);
+> +	return retval;
+> +}
+> +
+> +static int pxrc_pre_reset(struct usb_interface *intf)
+> +{
+> +	struct pxrc *pxrc =3D usb_get_intfdata(intf);
+> +
+> +	mutex_lock(&pxrc->pm_mutex);
+> +	usb_kill_urb(pxrc->urb);
+> +	return 0;
+> +}
+> +
+> +static int pxrc_post_reset(struct usb_interface *intf)
+> +{
+> +	struct pxrc *pxrc =3D usb_get_intfdata(intf);
+> +	int retval =3D 0;
+> +
+> +	if (pxrc->is_open && usb_submit_urb(pxrc->urb, GFP_KERNEL) < 0)
+> +		retval =3D -EIO;
+> +
+> +	mutex_unlock(&pxrc->pm_mutex);
+> +
+> +	return retval;
+> +}
+> +
+> +static int pxrc_reset_resume(struct usb_interface *intf)
+> +{
+> +	return pxrc_resume(intf);
+> +}
+> +
+> +static struct usb_driver pxrc_driver =3D {
+> +	.name =3D		"pxrc",
+> +	.probe =3D	pxrc_probe,
+> +	.disconnect =3D	pxrc_disconnect,
+> +	.id_table =3D	pxrc_table,
+> +	.suspend	=3D pxrc_suspend,
+> +	.resume		=3D pxrc_resume,
+> +	.pre_reset	=3D pxrc_pre_reset,
+> +	.post_reset	=3D pxrc_post_reset,
+> +	.reset_resume	=3D pxrc_reset_resume,
+> +};
+> +
+> +module_usb_driver(pxrc_driver);
+> +
+> +MODULE_AUTHOR("Marcus Folkesson <marcus.folkesson@gmail.com>");
+> +MODULE_DESCRIPTION("PhoenixRC Flight Controller Adapter");
+> +MODULE_LICENSE("GPL v2");
+> --=20
+> 2.15.1
+>=20
 
-                vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
-+             pr_info("0x%lx-0x%lx : 0x%lx\n", vma->vm_start, vma->vm_end, vaddr);
-                sdt_update_ref_ctr(vma->vm_mm, vaddr, 1);
+--/WwmFnJnmDyWGHa4
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-Ok now, libpython has SDT markers with reference counter:
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAlqryRQACgkQiIBOb1ld
+UjLtHxAArdzfUQFHR4ppo09ayayq7AwHuQSb+j2Jv7fJFInN3jHiRlFPgua+v03z
+IXKmArh8QhhJ38WXz+6zPhUBMGk5i9TiIe1pmMgpnxNwsRabKRMLz/7lR1mkANYW
+XISmXAZB4z0Sc2nA+JVkoiuvnoVwITAsM3bKFUoyTrnvlZ2mOPMPKOjoyG6Kf+m3
+hx7ZPA6KOnDlawchlDAb2t+3o9iIUck0TFxri4Li4QDnzieWlWIslOJeafPFYgOW
+sm1Y+vQog96CBtcWbJHxGqIR7YpUR0vUxVKrSI+tK9r8LU8DPgvCChGHDW0RW00E
+FZJ6f/JcntEGz+/scZBT+JKvMEoi5BmuhntxRXs6ko8uyOa2t7H39eZ4OCA30Wxa
+TOxdguRrZYbnp0+8z47MlKy7aJEVxuv7FKaFejNR1Uu9gD/l3d9gq0sKmeoISpwU
+rtuJALuJaAHjVpoo6A1kc1kgGG9FiWhRxXtpS5QCCFGa5vDqwi4Q6pmSQO8k+fOj
+cjU565vpm+dB6yQNIEuESxL7Gcz4VOoZ/hkfhyA0BzSmnB6u7pQLrl2issBFnlJJ
+E70Qgh7A+v0xEPCiVvh5yQeLH4P37groYBBygJHfWkiG6XXUPhPc8FxOH7TcVgCp
+0awvpNd5n64DpKWStCuBedt6mch0+4go6yF/lZHoVYjdx6B7cdA=
+=LSi/
+-----END PGP SIGNATURE-----
 
-    # readelf -n /usr/lib64/libpython2.7.so.1.0 | grep -A2 Provider
-        Provider: python
-        Name: function__entry
-        ... Semaphore: 0x00000000002899d8
-
-Probing on that marker:
-
-    # cd /sys/kernel/debug/tracing/
-    # echo "p:sdt_python/function__entry /usr/lib64/libpython2.7.so.1.0:0x16a4d4(0x2799d8)" > uprobe_events
-    # echo 1 > events/sdt_python/function__entry/enable
-
-When I run python:
-
-    # strace -o out python
-      mmap(NULL, 2738968, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fff92460000
-      mmap(0x7fff926a0000, 327680, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x230000) = 0x7fff926a0000
-      mprotect(0x7fff926a0000, 65536, PROT_READ) = 0
-
-The first mmap() maps the whole library into one region. Second mmap()
-and third mprotect() split out the whole region into smaller vmas and sets
-appropriate protection flags.
-
-Now, in this case, trace_uprobe_mmap_callback() updates reference counter
-twice -- by second mmap() call and by third mprotect() call -- because both
-regions contain reference counter offset. This I can verify in dmesg:
-
-    # dmesg | tail
-      trace_kprobe: 0x7fff926a0000-0x7fff926f0000 : 0x7fff926e99d8
-      trace_kprobe: 0x7fff926b0000-0x7fff926f0000 : 0x7fff926e99d8
-
-Final vmas of libpython:
-
-    # cat /proc/`pgrep python`/maps | grep libpython
-      7fff92460000-7fff926a0000 r-xp 00000000 08:05 403934  /usr/lib64/libpython2.7.so.1.0
-      7fff926a0000-7fff926b0000 r--p 00230000 08:05 403934  /usr/lib64/libpython2.7.so.1.0
-      7fff926b0000-7fff926f0000 rw-p 00240000 08:05 403934  /usr/lib64/libpython2.7.so.1.0
-
-
-I see similar problem with normal binary as well. I'm using Brendan Gregg's
-example[1]:
-
-    # readelf -n /tmp/tick | grep -A2 Provider
-        Provider: tick
-        Name: loop2
-        ... Semaphore: 0x000000001005003c
-
-Probing that marker:
-
-    # echo "p:sdt_tick/loop2 /tmp/tick:0x6e4(0x10036)" > uprobe_events
-    # echo 1 > events/sdt_tick/loop2/enable
-
-Now when I run the binary
-
-    # /tmp/tick
-
-load_elf_binary() internally calls mmap() and I see trace_uprobe_mmap_callback()
-updating reference counter twice:
-
-    # dmesg | tail
-      trace_kprobe: 0x10010000-0x10030000 : 0x10020036
-      trace_kprobe: 0x10020000-0x10030000 : 0x10020036
-
-proc/<pid>/maps of the tick:
-
-    # cat /proc/`pgrep tick`/maps
-      10000000-10010000 r-xp 00000000 08:05 1335712  /tmp/tick
-      10010000-10020000 r--p 00000000 08:05 1335712  /tmp/tick
-      10020000-10030000 rw-p 00010000 08:05 1335712  /tmp/tick
-
-[1] https://github.com/iovisor/bcc/issues/327#issuecomment-200576506
-
-
-> Ether way, this patch doesn't look right at first glance... Just
-> for example,
->
->> +static bool sdt_check_mm_list(struct trace_uprobe *tu, struct mm_struct *mm)
->> +{
->> +	struct sdt_mm_list *tmp = tu->sml;
->> +
->> +	if (!tu->sml || !mm)
->> +		return false;
->> +
->> +	while (tmp) {
->> +		if (tmp->mm == mm)
->> +			return true;
->> +		tmp = tmp->next;
->> +	}
->> +
->> +	return false;
-> ...
->
->> +}
->> +
->> +static void sdt_add_mm_list(struct trace_uprobe *tu, struct mm_struct *mm)
->> +{
->> +	struct sdt_mm_list *tmp;
->> +
->> +	tmp = kzalloc(sizeof(*tmp), GFP_KERNEL);
->> +	if (!tmp)
->> +		return;
->> +
->> +	tmp->mm = mm;
->> +	tmp->next = tu->sml;
->> +	tu->sml = tmp;
->> +}
->> +
-> ...
->
->> @@ -1020,8 +1104,16 @@ void trace_uprobe_mmap_callback(struct vm_area_struct *vma)
->>  		    !trace_probe_is_enabled(&tu->tp))
->>  			continue;
->>
->> +		down_write(&tu->sml_rw_sem);
->> +		if (sdt_check_mm_list(tu, vma->vm_mm))
->> +			goto cont;
->> +
->>  		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
->> -		sdt_update_ref_ctr(vma->vm_mm, vaddr, 1);
->> +		if (!sdt_update_ref_ctr(vma->vm_mm, vaddr, 1))
->> +			sdt_add_mm_list(tu, vma->vm_mm);
->> +
->> +cont:
->> +		up_write(&tu->sml_rw_sem);
-> To simplify, suppose that tu->sml is empty.
->
-> Some process calls this function, increments the counter and adds its ->mm into
-> the list.
->
-> Then it exits, ->mm is freed.
->
-> The next fork/exec allocates the same memory for the new ->mm, the new process
-> calls trace_uprobe_mmap_callback() and sdt_check_mm_list() returns T?
-
-Yes. This can happen. May be we can use mmu_notifier for this?
-
-We register a release() callback from trace_uprobe while adding mm
-in tu->sml. When mm gets freed, trace_uprobe will get notified.
-
-Though, I don't know much about mmu_notifier. I need to think on this.
-Let me know if you have better ideas.
-
-Thanks for the review :)
-Ravi
-
+--/WwmFnJnmDyWGHa4--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
