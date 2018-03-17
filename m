@@ -5,15 +5,15 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D0FB27E66E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 17 Mar 2018 23:30:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC0037E66E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 17 Mar 2018 23:31:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753757AbeCQX3w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 17 Mar 2018 19:29:52 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:36700 "EHLO
+        id S1753497AbeCQX3k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 17 Mar 2018 19:29:40 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:35792 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753714AbeCQX3r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Mar 2018 19:29:47 -0400
+        with ESMTP id S1751809AbeCQX3f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Mar 2018 19:29:35 -0400
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Jason Cooper <jason@lakedaemon.net>,
@@ -29,232 +29,97 @@ Cc:     James Hogan <jhogan@kernel.org>,
         linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
         linux-doc@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v4 5/8] irqchip: Add the ingenic-tcu-intc driver
-Date:   Sun, 18 Mar 2018 00:28:58 +0100
-Message-Id: <20180317232901.14129-6-paul@crapouillou.net>
+Subject: [PATCH v4 3/8] doc: Add doc for the Ingenic TCU hardware
+Date:   Sun, 18 Mar 2018 00:28:56 +0100
+Message-Id: <20180317232901.14129-4-paul@crapouillou.net>
 In-Reply-To: <20180317232901.14129-1-paul@crapouillou.net>
 References: <20180110224838.16711-2-paul@crapouillou.net>
  <20180317232901.14129-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1521329385; bh=qnTnfHNgToTlt6+LcTby6TelLhhjMIuyFEXaKTbMxAU=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Ehla+naZW0cSBB5ld2crkRBZd2WWHUWu2UzrJM86KO/fhL2cBr82zhG97eRRnescd6Ux+YQZ1tU9UDHWZg7l/e/Tkx4aWkW9Nhyc0VLvXUhruA5oLMzuvErDhUT2dCtwTXG2rXO0pR/EzEDesA915RlIk+YdRyI2Hr79/9/MU/8=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1521329373; bh=ebiLq9IfcmQzaeVqC3nVL2gCzsjLeEshuoZAsjMU2l8=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=eTchgi0Wh/gqZysiyykzRnO0jw/LVFh9R0nyLYzkwmPtvRzMWpCAeKGMsnU2fUYhQTjO73GIAjOaKoO7HyIb+YtU6h5FAyJ3SOmM9K94PeMf4qAlxT0lPRlwZHznAE4ll0FayBAx9yuWmILNNUoOSsJhSRW9ZeIb0kRR4Kw6gnI=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This simple driver handles the IRQ chip of the TCU
-(Timer Counter Unit) of the JZ47xx Ingenic SoCs.
+Add a documentation file about the Timer/Counter Unit (TCU)
+present in the Ingenic JZ47xx SoCs.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/irqchip/Kconfig           |   6 ++
- drivers/irqchip/Makefile          |   1 +
- drivers/irqchip/irq-ingenic-tcu.c | 161 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 168 insertions(+)
- create mode 100644 drivers/irqchip/irq-ingenic-tcu.c
+ Documentation/mips/00-INDEX        |  3 +++
+ Documentation/mips/ingenic-tcu.txt | 50 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+ create mode 100644 Documentation/mips/ingenic-tcu.txt
 
- v2: - Use SPDX identifier for the license
-     - Make KConfig option select CONFIG_IRQ_DOMAIN since we depend on it
- v3: - Move documentation to its own patch
-     - Add comment explaining why we only use IRQCHIP_DECLARE
- v4: - Rename variables to avoid splitting long lines
-     - Add comment about the multiple IRQ parents
+ v4: New patch in this series
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index d913aec85109..2b56587d04ed 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -267,6 +267,12 @@ config INGENIC_IRQ
- 	depends on MACH_INGENIC
- 	default y
- 
-+config INGENIC_TCU_IRQ
-+	bool
-+	depends on MACH_INGENIC || COMPILE_TEST
-+	select IRQ_DOMAIN
-+	default y
-+
- config RENESAS_H8300H_INTC
-         bool
- 	select IRQ_DOMAIN
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index d27e3e3619e0..48b0bdf2b1a2 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -70,6 +70,7 @@ obj-$(CONFIG_RENESAS_H8300H_INTC)	+= irq-renesas-h8300h.o
- obj-$(CONFIG_RENESAS_H8S_INTC)		+= irq-renesas-h8s.o
- obj-$(CONFIG_ARCH_SA1100)		+= irq-sa11x0.o
- obj-$(CONFIG_INGENIC_IRQ)		+= irq-ingenic.o
-+obj-$(CONFIG_INGENIC_TCU_IRQ)		+= irq-ingenic-tcu.o
- obj-$(CONFIG_IMX_GPCV2)			+= irq-imx-gpcv2.o
- obj-$(CONFIG_PIC32_EVIC)		+= irq-pic32-evic.o
- obj-$(CONFIG_MVEBU_GICP)		+= irq-mvebu-gicp.o
-diff --git a/drivers/irqchip/irq-ingenic-tcu.c b/drivers/irqchip/irq-ingenic-tcu.c
+diff --git a/Documentation/mips/00-INDEX b/Documentation/mips/00-INDEX
+index 8ae9cffc2262..8ab8c3f83771 100644
+--- a/Documentation/mips/00-INDEX
++++ b/Documentation/mips/00-INDEX
+@@ -2,3 +2,6 @@
+ 	- this file.
+ AU1xxx_IDE.README
+ 	- README for MIPS AU1XXX IDE driver.
++ingenic-tcu.txt
++	- Information file about the Timer/Counter Unit present
++	  in Ingenic JZ47xx SoCs.
+diff --git a/Documentation/mips/ingenic-tcu.txt b/Documentation/mips/ingenic-tcu.txt
 new file mode 100644
-index 000000000000..add3e9cc6f82
+index 000000000000..2508e5793da8
 --- /dev/null
-+++ b/drivers/irqchip/irq-ingenic-tcu.c
-@@ -0,0 +1,161 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * JZ47xx SoCs TCU IRQ driver
-+ * Copyright (C) 2018 Paul Cercueil <paul@crapouillou.net>
-+ */
++++ b/Documentation/mips/ingenic-tcu.txt
+@@ -0,0 +1,50 @@
++Ingenic JZ47xx SoCs Timer/Counter Unit hardware
++-----------------------------------------------
 +
-+#include <linux/bitops.h>
-+#include <linux/irqchip.h>
-+#include <linux/irqchip/chained_irq.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
-+#include <linux/regmap.h>
++The Timer/Counter Unit (TCU) in Ingenic JZ47xx SoCs is a multi-function
++hardware block. It features eight channels, that can be used as counters,
++timers, or PWM.
 +
-+#include <linux/mfd/syscon/ingenic-tcu.h>
++- JZ4770 introduced a separate channel, called Operating System Timer (OST).
++  It is a 64-bit programmable timer.
 +
-+static void ingenic_tcu_intc_cascade(struct irq_desc *desc)
-+{
-+	struct irq_chip *irq_chip = irq_data_get_irq_chip(&desc->irq_data);
-+	struct irq_domain *domain = irq_desc_get_handler_data(desc);
-+	struct irq_chip_generic *gc = irq_get_domain_generic_chip(domain, 0);
-+	struct regmap *map = gc->private;
-+	uint32_t irq_reg, irq_mask;
-+	unsigned int i;
++- Each one of the eight channels has its own clock, which can be reparented
++  to three different clocks (pclk, ext, rtc), gated, and reclocked, through
++  their TCSR register.
++  * The watchdog and OST hardware blocks also feature a TCSR register with
++	the same format in their register space.
++  * The TCU registers used to gate/ungate can also gate/ungate the watchdog
++	and OST clocks.
 +
-+	regmap_read(map, TCU_REG_TFR, &irq_reg);
-+	regmap_read(map, TCU_REG_TMR, &irq_mask);
++- On SoCs >= JZ4770, there are two different modes:
++  * Channels 0, 3-7 operate in TCU1 mode: they cannot work in sleep mode,
++	but are easier to operate.
++  * Channels 1-2 operate in TCU2 mode: they can work in sleep mode, but
++	the operation is a bit more complicated than with TCU1 channels.
 +
-+	chained_irq_enter(irq_chip, desc);
++- Each channel can generate an interrupt. Some channels share an interrupt
++  line, some don't, and this changes between SoC versions:
++  * on JZ4740, timer 0 and timer 1 have their own interrupt line; others share
++	one interrupt line.
++  * on JZ4770 and JZ4780, timer 5 has its own interrupt; timers 0-4 and 6-7 all
++	use one interrupt line; the OST uses the last interrupt.
 +
-+	irq_reg &= ~irq_mask;
++Implementation
++--------------
 +
-+	for (i = 0; i < 32; i++) {
-+		if (irq_reg & BIT(i))
-+			generic_handle_irq(irq_linear_revmap(domain, i));
-+	}
++The functionalities of the TCU hardware are spread across multiple drivers:
++- interrupts:   drivers/irqchip/irq-ingenic-tcu.c
++- clocks:       drivers/clk/ingenic/tcu.c
++- timer:        drivers/clocksource/timer-ingenic.c
++- PWM:          drivers/pwm/pwm-jz4740.c
++- watchdog:     drivers/watchdog/jz4740_wdt.c
++- OST:			(none yet)
 +
-+	chained_irq_exit(irq_chip, desc);
-+}
++Because various functionalities of the TCU that belong to different drivers
++and frameworks can be controlled from the same registers, all of these drivers
++access their registers through the same regmap.
 +
-+static void ingenic_tcu_gc_unmask_enable_reg(struct irq_data *d)
-+{
-+	struct irq_chip_generic *gc = irq_data_get_irq_chip_data(d);
-+	struct irq_chip_type *ct = irq_data_get_chip_type(d);
-+	struct regmap *map = gc->private;
-+	u32 mask = d->mask;
-+
-+	irq_gc_lock(gc);
-+	regmap_write(map, ct->regs.ack, mask);
-+	regmap_write(map, ct->regs.enable, mask);
-+	*ct->mask_cache |= mask;
-+	irq_gc_unlock(gc);
-+}
-+
-+static void ingenic_tcu_gc_mask_disable_reg(struct irq_data *d)
-+{
-+	struct irq_chip_generic *gc = irq_data_get_irq_chip_data(d);
-+	struct irq_chip_type *ct = irq_data_get_chip_type(d);
-+	struct regmap *map = gc->private;
-+	u32 mask = d->mask;
-+
-+	irq_gc_lock(gc);
-+	regmap_write(map, ct->regs.disable, mask);
-+	*ct->mask_cache &= ~mask;
-+	irq_gc_unlock(gc);
-+}
-+
-+static void ingenic_tcu_gc_mask_disable_reg_and_ack(struct irq_data *d)
-+{
-+	struct irq_chip_generic *gc = irq_data_get_irq_chip_data(d);
-+	struct irq_chip_type *ct = irq_data_get_chip_type(d);
-+	struct regmap *map = gc->private;
-+	u32 mask = d->mask;
-+
-+	irq_gc_lock(gc);
-+	regmap_write(map, ct->regs.ack, mask);
-+	regmap_write(map, ct->regs.disable, mask);
-+	irq_gc_unlock(gc);
-+}
-+
-+static int __init ingenic_tcu_intc_of_init(struct device_node *node,
-+	struct device_node *parent)
-+{
-+	struct irq_domain *domain;
-+	struct irq_chip_generic *gc;
-+	struct irq_chip_type *ct;
-+	int err, i, irqs;
-+	u32 parent_irqs[3];
-+	struct regmap *map;
-+
-+	irqs = of_property_count_elems_of_size(node, "interrupts", sizeof(u32));
-+	if (irqs < 0 || irqs > ARRAY_SIZE(parent_irqs))
-+		return -EINVAL;
-+
-+	map = syscon_node_to_regmap(node->parent);
-+	if (IS_ERR(map))
-+		return PTR_ERR(map);
-+
-+	domain = irq_domain_add_linear(node, 32, &irq_generic_chip_ops, NULL);
-+	if (!domain)
-+		return -ENOMEM;
-+
-+	err = irq_alloc_domain_generic_chips(domain, 32, 1, "TCU",
-+			handle_level_irq, 0, IRQ_NOPROBE | IRQ_LEVEL, 0);
-+	if (err)
-+		goto out_domain_remove;
-+
-+	gc = irq_get_domain_generic_chip(domain, 0);
-+	ct = gc->chip_types;
-+
-+	gc->wake_enabled = IRQ_MSK(32);
-+	gc->private = map;
-+
-+	ct->regs.disable = TCU_REG_TMSR;
-+	ct->regs.enable = TCU_REG_TMCR;
-+	ct->regs.ack = TCU_REG_TFCR;
-+	ct->chip.irq_unmask = ingenic_tcu_gc_unmask_enable_reg;
-+	ct->chip.irq_mask = ingenic_tcu_gc_mask_disable_reg;
-+	ct->chip.irq_mask_ack = ingenic_tcu_gc_mask_disable_reg_and_ack;
-+	ct->chip.flags = IRQCHIP_MASK_ON_SUSPEND | IRQCHIP_SKIP_SET_WAKE;
-+
-+	/* Mask all IRQs by default */
-+	regmap_write(map, TCU_REG_TMSR, IRQ_MSK(32));
-+
-+	/* On JZ4740, timer 0 and timer 1 have their own interrupt line;
-+	 * timers 2-7 share one interrupt.
-+	 * On SoCs >= JZ4770, timer 5 has its own interrupt line;
-+	 * timers 0-4 and 6-7 share one single interrupt.
-+	 *
-+	 * To keep things simple, we just register the same handler to
-+	 * all parent interrupts. The handler will properly detect which
-+	 * channel fired the interrupt.
-+	 */
-+	for (i = 0; i < irqs; i++) {
-+		parent_irqs[i] = irq_of_parse_and_map(node, i);
-+		if (!parent_irqs[i]) {
-+			err = -EINVAL;
-+			goto out_unmap_irqs;
-+		}
-+
-+		irq_set_chained_handler_and_data(parent_irqs[i],
-+				ingenic_tcu_intc_cascade, domain);
-+	}
-+
-+	return 0;
-+
-+out_unmap_irqs:
-+	for (; i > 0; i--)
-+		irq_dispose_mapping(parent_irqs[i - 1]);
-+out_domain_remove:
-+	irq_domain_remove(domain);
-+	return err;
-+}
-+
-+/* We only probe via devicetree, no need for a platform driver */
-+IRQCHIP_DECLARE(jz4740_tcu_intc, "ingenic,jz4740-tcu-intc",
-+		ingenic_tcu_intc_of_init);
-+IRQCHIP_DECLARE(jz4770_tcu_intc, "ingenic,jz4770-tcu-intc",
-+		ingenic_tcu_intc_of_init);
-+IRQCHIP_DECLARE(jz4780_tcu_intc, "ingenic,jz4780-tcu-intc",
-+		ingenic_tcu_intc_of_init);
++In practice, the devicetree nodes for all of these drivers must be children
++of a "syscon" node that defines the register area.
++For more information regarding the devicetree bindings of the TCU drivers,
++have a look at Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
 -- 
 2.11.0
 
