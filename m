@@ -1,134 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96D5D7E66E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 17 Mar 2018 23:52:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60D807E6AB
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 18 Mar 2018 05:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752564AbeCQXwp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 17 Mar 2018 19:52:45 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:37568 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751924AbeCQXwo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Mar 2018 19:52:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=3mLWtQcd5y/L2A2BbCpWy5Gi3V0YT31DAUQiAPHSdi8=; b=TbaNy1rBhelahb6uqB5G0MiPa5
-        5D0gJPiNJsTPvEwlOraIwKsY60u8MNVKRh3EtoVxNZNGnZrBgY0DPrJbOoGtnjNT+wGRdKqJCGJOu
-        v8xupFLsp2+38knm9rCwWxjtGfZ+Sla04U2PyzVSd2UUa1JXmvvfpZt80wxJLlsMBx9lE8HtzVklB
-        PU4dwKikVfUs8iJA2L3IbVA9+4kDq4HdiPsecCjSLXlBBw8+11G0wBY1ENLzXCBqIQ9M98lzq4yOx
-        x9eCls3yX44hYrn/3xHb/z3q7UYBNhiKeESv9mUHfdt05GRDKh+wpVys6xmcorWZE6/9O0vlbUHaJ
-        Pg4AWIKA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1exLcp-00058B-5k; Sat, 17 Mar 2018 23:52:35 +0000
-Subject: Re: [PATCH v4 3/8] doc: Add doc for the Ingenic TCU hardware
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     James Hogan <jhogan@kernel.org>,
-        Maarten ter Huurne <maarten@treewalker.org>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-doc@vger.kernel.org
-References: <20180110224838.16711-2-paul@crapouillou.net>
- <20180317232901.14129-1-paul@crapouillou.net>
- <20180317232901.14129-4-paul@crapouillou.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1e5b82ca-5ac3-6e98-d40b-67916008b485@infradead.org>
-Date:   Sat, 17 Mar 2018 16:52:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1750789AbeCRFRe convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 18 Mar 2018 01:17:34 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:5516 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1750756AbeCRFRd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Mar 2018 01:17:33 -0400
+Received: from DGGEMA406-HUB.china.huawei.com (unknown [172.30.72.54])
+        by Forcepoint Email with ESMTP id 70140EB3D1C90;
+        Sun, 18 Mar 2018 13:17:28 +0800 (CST)
+Received: from DGGEMA503-MBS.china.huawei.com ([169.254.2.193]) by
+ DGGEMA406-HUB.china.huawei.com ([10.3.20.47]) with mapi id 14.03.0361.001;
+ Sun, 18 Mar 2018 13:17:23 +0800
+From:   gengdongjiu <gengdongjiu@huawei.com>
+To:     James Morse <james.morse@arm.com>
+CC:     "rkrcmar@redhat.com" <rkrcmar@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "christoffer.dall@linaro.org" <christoffer.dall@linaro.org>,
+        "marc.zyngier@arm.com" <marc.zyngier@arm.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "bp@alien8.de" <bp@alien8.de>, "lenb@kernel.org" <lenb@kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "Huangshaoyu (Shawn)" <huangshaoyu@huawei.com>
+Subject: Re: [PATCH v10 1/5] arm64: KVM: Prepare set virtual SEI syndrome
+ value
+Thread-Topic: [PATCH v10 1/5] arm64: KVM: Prepare set virtual SEI syndrome
+ value
+Thread-Index: AdO+eCvKVEAI/Q5kTiOBw3krJZrcgw==
+Date:   Sun, 18 Mar 2018 05:17:22 +0000
+Message-ID: <0184EA26B2509940AA629AE1405DD7F201B6C1D7@DGGEMA503-MBS.china.huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.45.52.52]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-In-Reply-To: <20180317232901.14129-4-paul@crapouillou.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/17/2018 04:28 PM, Paul Cercueil wrote:
-> Add a documentation file about the Timer/Counter Unit (TCU)
-> present in the Ingenic JZ47xx SoCs.
+Hi James,
+
 > 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  Documentation/mips/00-INDEX        |  3 +++
->  Documentation/mips/ingenic-tcu.txt | 50 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 53 insertions(+)
->  create mode 100644 Documentation/mips/ingenic-tcu.txt
+> Hi Dongjiu Geng,
 > 
->  v4: New patch in this series
+> On 03/03/18 16:09, Dongjiu Geng wrote:
+> > Export one API to specify virtual SEI syndrome value for guest, and
+> > add a helper to get the VSESR_EL2 value.
+> 
+> This patch adds two helpers that nothing calls... its not big, please merge it with the patch that uses these.
 
-> diff --git a/Documentation/mips/ingenic-tcu.txt b/Documentation/mips/ingenic-tcu.txt
-> new file mode 100644
-> index 000000000000..2508e5793da8
-> --- /dev/null
-> +++ b/Documentation/mips/ingenic-tcu.txt
-> @@ -0,0 +1,50 @@
-> +Ingenic JZ47xx SoCs Timer/Counter Unit hardware
-> +-----------------------------------------------
-> +
-> +The Timer/Counter Unit (TCU) in Ingenic JZ47xx SoCs is a multi-function
-> +hardware block. It features eight channels, that can be used as counters,
+OK, thanks, I will merge them.
 
-                    drop comma ............. ^
+> 
+> 
+> > diff --git a/arch/arm64/include/asm/kvm_emulate.h
+> > b/arch/arm64/include/asm/kvm_emulate.h
+> > index 413dc82..3294885 100644
+> > --- a/arch/arm64/include/asm/kvm_emulate.h
+> > +++ b/arch/arm64/include/asm/kvm_emulate.h
+> > @@ -71,6 +71,11 @@ static inline void vcpu_set_hcr(struct kvm_vcpu *vcpu, unsigned long hcr)
+> >  	vcpu->arch.hcr_el2 = hcr;
+> >  }
+> >
+> > +static inline unsigned long vcpu_get_vsesr(struct kvm_vcpu *vcpu) {
+> > +	return vcpu->arch.vsesr_el2;
+> > +}
+> > +
+> >  static inline void vcpu_set_vsesr(struct kvm_vcpu *vcpu, u64 vsesr)
+> > {
+> >  	vcpu->arch.vsesr_el2 = vsesr;
+> > diff --git a/arch/arm64/include/asm/kvm_host.h
+> > b/arch/arm64/include/asm/kvm_host.h
+> > index a73f63a..3dc49b7 100644
+> > --- a/arch/arm64/include/asm/kvm_host.h
+> > +++ b/arch/arm64/include/asm/kvm_host.h
+> > @@ -354,6 +354,8 @@ void handle_exit_early(struct kvm_vcpu *vcpu,
+> > struct kvm_run *run,  int kvm_perf_init(void);  int
+> > kvm_perf_teardown(void);
+> >
+> > +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
+> > +
+> >  struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long
+> > mpidr);
+> >
+> >  static inline void __cpu_init_hyp_mode(phys_addr_t pgd_ptr, diff
+> > --git a/arch/arm64/kvm/inject_fault.c b/arch/arm64/kvm/inject_fault.c
+> > index 60666a0..78ecb28 100644
+> > --- a/arch/arm64/kvm/inject_fault.c
+> > +++ b/arch/arm64/kvm/inject_fault.c
+> > @@ -186,3 +186,8 @@ void kvm_inject_vabt(struct kvm_vcpu *vcpu)  {
+> >  	pend_guest_serror(vcpu, ESR_ELx_ISV);  }
+> > +
+> > +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome) {
+> > +	pend_guest_serror(vcpu, syndrome & ESR_ELx_ISS_MASK);
+> 
+> If you move the ISS_MASK into pend_guest_serror(), you wouldn't need this at all.
+> 
+> It would be better if any validation were in the user-space helpers so we can check user-space hasn't put something funny in the top bits.
 
-> +timers, or PWM.
-> +
-> +- JZ4770 introduced a separate channel, called Operating System Timer (OST).
-> +  It is a 64-bit programmable timer.
-> +
-> +- Each one of the eight channels has its own clock, which can be reparented
-> +  to three different clocks (pclk, ext, rtc), gated, and reclocked, through
-> +  their TCSR register.
-> +  * The watchdog and OST hardware blocks also feature a TCSR register with
-> +	the same format in their register space.
-> +  * The TCU registers used to gate/ungate can also gate/ungate the watchdog
-> +	and OST clocks.
-> +
-> +- On SoCs >= JZ4770, there are two different modes:
-> +  * Channels 0, 3-7 operate in TCU1 mode: they cannot work in sleep mode,
-> +	but are easier to operate.
-> +  * Channels 1-2 operate in TCU2 mode: they can work in sleep mode, but
-> +	the operation is a bit more complicated than with TCU1 channels.
-> +
-> +- Each channel can generate an interrupt. Some channels share an interrupt	
-> +  line, some don't, and this changes between SoC versions:
-> +  * on JZ4740, timer 0 and timer 1 have their own interrupt line; others share
-> +	one interrupt line.
-> +  * on JZ4770 and JZ4780, timer 5 has its own interrupt; timers 0-4 and 6-7 all
-> +	use one interrupt line; the OST uses the last interrupt.
+Yes, I agree your idea, thanks for the good suggestion.
 
-"The OST uses the last interrupt." is not clear to someone who doesn't know
-about this hardware. (I can read it several ways.)
-
-Does it mean that the 4770 and 4780 have 3 interrupt lines used like so?
-
-- timer 5 uses one interrupt line
-- timers 0-4 and 6-7 use a second interrupt line
-- the OST uses a third interrupt line
-
-
-thanks,
--- 
-~Randy
+> 
+> > +}
+> >
+> 
+> 
+> Thanks,
+> 
+> James
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
