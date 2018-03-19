@@ -1,99 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E24407D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Mar 2018 13:46:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5E477D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Mar 2018 15:21:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933487AbeCSNq3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Mar 2018 09:46:29 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:51474 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S932793AbeCSNqY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Mar 2018 09:46:24 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id DD6B9406E8BD;
-        Mon, 19 Mar 2018 13:46:23 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 359B01C703;
-        Mon, 19 Mar 2018 13:46:19 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon, 19 Mar 2018 14:46:23 +0100 (CET)
-Date:   Mon, 19 Mar 2018 14:46:18 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Cc:     mhiramat@kernel.org, peterz@infradead.org,
-        srikar@linux.vnet.ibm.com, acme@kernel.org,
-        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
-        corbet@lwn.net, dan.j.williams@intel.com,
-        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
-        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
-        jolsa@redhat.com, kan.liang@intel.com,
-        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
-        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
-        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
-        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
-        tmricht@linux.vnet.ibm.com, willy@infradead.org,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com
-Subject: Re: [PATCH 5/8] trace_uprobe: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180319134618.GB12554@redhat.com>
-References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
- <20180314165943.GA5948@redhat.com>
- <9cb068f7-0996-6e24-a95b-771006559318@linux.vnet.ibm.com>
+        id S933042AbeCSPVO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Mar 2018 11:21:14 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:60064 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933034AbeCSPVJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Mar 2018 11:21:09 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w2JFCxad059626;
+        Mon, 19 Mar 2018 15:19:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2017-10-26;
+ bh=49kIbFTiRo+yxw75mbqaRoFhkWLySa7MlihvqQtfG6E=;
+ b=tfUdP7NiYXhBzsvZQ/ls/FSYnh5NzmPTQUK1b4iczmwOdahJfV7weVcgMhkmtfNirLUN
+ irseFvqAUyyNtG6pL7ZFZ6zGxDASDHozE64D1fLYYLfOxLIp5jiM7WK9WXaN26VDsz1k
+ HnGHoyJ92DjfJJ3e4aZBWTnekujOKiklGlaSPNpLTntiNFt92WF6/C2FYWcq6wzDFr1g
+ ZgNicb7lYTtxpWqtQqHumN5/2mVbT6sNevp7hAZQrGwwGD/ee3xyDbsdYMmy2fDcJ8Kb
+ Dkwp2kNWAWygl6xd3aHbOIkbSXu7qMzylNeD2SizJ61E3mQ/csN2K1tFsGKMbCJZxbgv bQ== 
+Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
+        by aserp2120.oracle.com with ESMTP id 2gtfn6r15p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 19 Mar 2018 15:19:35 +0000
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w2JFJVhd010687
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 19 Mar 2018 15:19:32 GMT
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w2JFJQdk018833;
+        Mon, 19 Mar 2018 15:19:26 GMT
+Received: from [192.168.1.16] (/24.9.64.241)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 19 Mar 2018 08:19:25 -0700
+Subject: Re: [PATCH v12 00/11] Application Data Integrity feature introduced
+ by SPARC M7
+To:     David Miller <davem@davemloft.net>
+Cc:     dave.hansen@linux.intel.com, aarcange@redhat.com,
+        akpm@linux-foundation.org, allen.pais@oracle.com,
+        aneesh.kumar@linux.vnet.ibm.com, anthony.yznaga@oracle.com,
+        arnd@arndb.de, benh@kernel.crashing.org, bob.picco@oracle.com,
+        bsingharora@gmail.com, corbet@lwn.net, dan.j.williams@intel.com,
+        dave.jiang@intel.com, david.j.aldridge@oracle.com,
+        dwindsor@gmail.com, ebiederm@xmission.com,
+        elena.reshetova@intel.com, gregkh@linuxfoundation.org,
+        hannes@cmpxchg.org, henry.willard@oracle.com, hpa@zytor.com,
+        hughd@google.com, imbrenda@linux.vnet.ibm.com, jack@suse.cz,
+        jag.raman@oracle.com, jane.chu@oracle.com, jglisse@redhat.com,
+        jroedel@suse.de, khalid@gonehiking.org,
+        khandual@linux.vnet.ibm.com, kirill.shutemov@linux.intel.com,
+        kstewart@linuxfoundation.org, ktkhai@virtuozzo.com,
+        liam.merwick@oracle.com, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+        linuxram@us.ibm.com, linux@roeck-us.net, me@tobin.cc,
+        mgorman@suse.de, mgorman@techsingularity.net, mhocko@suse.com,
+        mike.kravetz@oracle.com, minchan@kernel.org, mingo@kernel.org
+References: <cover.1519227112.git.khalid.aziz@oracle.com>
+ <20180318.110857.1660518649370410007.davem@davemloft.net>
+From:   Khalid Aziz <khalid.aziz@oracle.com>
+Organization: Oracle Corp
+Message-ID: <b9507686-6c3f-7fb1-b305-c1817f86a884@oracle.com>
+Date:   Mon, 19 Mar 2018 09:19:21 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9cb068f7-0996-6e24-a95b-771006559318@linux.vnet.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 19 Mar 2018 13:46:24 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 19 Mar 2018 13:46:24 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+In-Reply-To: <20180318.110857.1660518649370410007.davem@davemloft.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8836 signatures=668693
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=832
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1711220000 definitions=main-1803190149
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/19, Ravi Bangoria wrote:
->
-> Hi Oleg,
+On 03/18/2018 09:08 AM, David Miller wrote:
+> In uapi/asm/auxvec.h you conditionalize the ADI aux vectors on
+> CONFIG_SPARC64.
 > 
-> On 03/14/2018 10:29 PM, Oleg Nesterov wrote:
-> > On 03/13, Ravi Bangoria wrote:
-> >> +static bool sdt_valid_vma(struct trace_uprobe *tu, struct vm_area_struct *vma)
-> >> +{
-> >> +	unsigned long vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
-> >> +
-> >> +	return tu->ref_ctr_offset &&
-> >> +		vma->vm_file &&
-> >> +		file_inode(vma->vm_file) == tu->inode &&
-> >> +		vma->vm_flags & VM_WRITE &&
-> >> +		vma->vm_start <= vaddr &&
-> >> +		vma->vm_end > vaddr;
-> >> +}
-> > Perhaps in this case a simple
-> >
-> > 		ref_ctr_offset < vma->vm_end - vma->vm_start
-> >
-> > check without vma_offset_to_vaddr() makes more sense, but I won't insist.
-> >
+> That's not correct, you should never control user facing definitions
+> based upon kernel configuration.
 > 
-> I still don't get this. This seems a comparison between file offset and size
-> of the vma. Shouldn't we need to consider pg_off here?
+> Also, both 32-bit and 64-bit applications running on ADI capable
+> machines want to compile against and use this informaiton.
+> 
+> So please remove these CPP checks.
+> 
 
-Indeed, I am stupid ;)
+Hi Dave,
 
-Oleg.
+That makes sense. I will send a patch to remove these.
 
+Thanks,
+Khalid
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
