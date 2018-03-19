@@ -1,119 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-3.2 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB,
+	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1ED587D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Mar 2018 04:26:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A6B337D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Mar 2018 06:40:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755239AbeCSE0V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Mar 2018 00:26:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46684 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1754923AbeCSE0Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Mar 2018 00:26:16 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2J4ORlX055234
-        for <linux-doc@vger.kernel.org>; Mon, 19 Mar 2018 00:26:16 -0400
-Received: from e06smtp13.uk.ibm.com (e06smtp13.uk.ibm.com [195.75.94.109])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2gsxgg3q5u-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 19 Mar 2018 00:26:15 -0400
-Received: from localhost
-        by e06smtp13.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Mon, 19 Mar 2018 04:26:13 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp13.uk.ibm.com (192.168.101.143) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Mon, 19 Mar 2018 04:26:05 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2J4Q4lr49676476;
-        Mon, 19 Mar 2018 04:26:04 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6C5365203F;
-        Mon, 19 Mar 2018 03:17:30 +0000 (GMT)
-Received: from [9.124.31.209] (unknown [9.124.31.209])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 6BC3152041;
-        Mon, 19 Mar 2018 03:17:24 +0000 (GMT)
-Subject: Re: [PATCH 5/8] trace_uprobe: Support SDT markers having reference
- count (semaphore)
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     mhiramat@kernel.org, peterz@infradead.org,
-        srikar@linux.vnet.ibm.com, acme@kernel.org,
-        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
-        corbet@lwn.net, dan.j.williams@intel.com,
-        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
-        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
-        jolsa@redhat.com, kan.liang@intel.com,
-        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
-        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
-        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
-        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
-        tmricht@linux.vnet.ibm.com, willy@infradead.org,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180313125603.19819-6-ravi.bangoria@linux.vnet.ibm.com>
- <20180314165943.GA5948@redhat.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Date:   Mon, 19 Mar 2018 09:58:28 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20180314165943.GA5948@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+        id S1755301AbeCSGjy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Mar 2018 02:39:54 -0400
+Received: from mail-db5eur01on0072.outbound.protection.outlook.com ([104.47.2.72]:54720
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1755169AbeCSGjw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Mar 2018 02:39:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=I43ayK+AyDqrC+eCkS9ZuC8sQ2y1b9Tn+2EEoosDWxU=;
+ b=d9bDcTsyhCr38tyrGpJ7v3z3Od1G+vyVp3JIePDfby4b1OpuwfrxgRk0uR9nTQiPGLdHRJQa1RQfki2iJjTQar9lf7N/6UW61qF6bYbeFQGCfNWv3reX5ScIBABWrX47ArThKKufnDxXoiSS3sf82P0yql+qwHwOGdK/3ajmcQ4=
+Received: from AM3PR04MB452.eurprd04.prod.outlook.com (10.242.110.155) by
+ AM3PR04MB1233.eurprd04.prod.outlook.com (10.163.6.154) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.588.14; Mon, 19 Mar 2018 06:39:49 +0000
+Received: from AM3PR04MB452.eurprd04.prod.outlook.com
+ ([fe80::5833:9128:f42a:7e20]) by AM3PR04MB452.eurprd04.prod.outlook.com
+ ([fe80::5833:9128:f42a:7e20%16]) with mapi id 15.20.0548.021; Mon, 19 Mar
+ 2018 06:39:50 +0000
+From:   =?iso-8859-2?Q?Horia_Geant=E3?= <horia.geanta@nxp.com>
+To:     Herbert Xu <herbert@gondor.apana.org.au>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] crypto: doc - clarify hash callbacks state machine
+Thread-Topic: [PATCH] crypto: doc - clarify hash callbacks state machine
+Thread-Index: AQHTvTnS8kcR1bt5RUucTQuU3LKxuQ==
+Date:   Mon, 19 Mar 2018 06:39:50 +0000
+Message-ID: <AM3PR04MB45284A83B66E00785872DE698D40@AM3PR04MB452.eurprd04.prod.outlook.com>
+References: <20180305103945.3517-1-horia.geanta@nxp.com>
+ <20180316151642.GA6606@gondor.apana.org.au>
+Accept-Language: en-US
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 18031904-0012-0000-0000-000005C0A229
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18031904-0013-0000-0000-0000193CB7BE
-Message-Id: <9cb068f7-0996-6e24-a95b-771006559318@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-19_01:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1803190055
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=horia.geanta@nxp.com; 
+x-originating-ip: [86.34.165.90]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;AM3PR04MB1233;7:Jz14F1wBmg5NmHW2V2AGfGy2RO0yNHPEgdULdCyH+uGxLmqSdcY98aqSI96zIcPBISloDg85w4i0XLUR6PDnCnxTtQ3kIDMaK4A9FnAqNcTLPSmDDq2O3aCYVuQCAYrgENtQcoZEaac7Wn6EAUYnl4z6T5lWXbKVATeu2jPURQ2PB+lI8l8bjgpX/CgBVl8ysN8A/lvkfqY0JNE5cL/hOU2UnO8U9CVgi1VRyd6uGq27CkPj2FVelzHDQxna89Su
+x-ms-exchange-antispam-srfa-diagnostics: SSOS;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: fb205a07-f7c5-435b-33a7-08d58d643715
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:AM3PR04MB1233;
+x-ms-traffictypediagnostic: AM3PR04MB1233:
+x-microsoft-antispam-prvs: <AM3PR04MB12331ED61DCD90B70296F1FA98D40@AM3PR04MB1233.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3231221)(944501300)(52105095)(3002001)(93006095)(93001095)(6055026)(6041310)(20161123558120)(20161123564045)(20161123560045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);SRVR:AM3PR04MB1233;BCL:0;PCL:0;RULEID:;SRVR:AM3PR04MB1233;
+x-forefront-prvs: 06167FAD59
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(39380400002)(376002)(366004)(346002)(199004)(189003)(76176011)(102836004)(53936002)(6116002)(316002)(2900100001)(81156014)(7696005)(4326008)(6506007)(54906003)(97736004)(81166006)(55016002)(6246003)(33656002)(3846002)(229853002)(8936002)(9686003)(7736002)(86362001)(53546011)(5250100002)(5660300001)(74316002)(478600001)(8676002)(106356001)(66066001)(14454004)(3660700001)(59450400001)(186003)(25786009)(26005)(6916009)(6436002)(99286004)(3280700002)(68736007)(105586002)(2906002)(305945005);DIR:OUT;SFP:1101;SCL:1;SRVR:AM3PR04MB1233;H:AM3PR04MB452.eurprd04.prod.outlook.com;FPR:;SPF:None;PTR:InfoNoRecords;A:1;MX:1;LANG:en;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: 29TpFIFqb2QKjWOvzN3xqZ4hliU5v/Wi03Thb6MG4xgrnUEk74XYEfspwlF8bfM4P9HSG/oK/sJkIUHgqQUs6wUnZp5xV4Oiktywc6UHAttzjNENhEE/ehkkAVh1RHFOBdZAJT8m0K/vb2LmiQCHd+gGc6A+RQ8FVvuW++LahNaFvZqQ6YyjzV6dt9KJaNQborNFNN5WyYC4tV2w3NpUcYhx3/6ZfLYI1TRjJtCNm5akLNNIF4qtz086xJ/pTG3ACDvATUWDRT7QO1T+wK8sm19VCyW0s3D02dA2TLVva3ZENo8cWh8YdY0ZETr2jqfDUxAvqQGsHDnjCsDGYYUU/w==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb205a07-f7c5-435b-33a7-08d58d643715
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2018 06:39:50.1769
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM3PR04MB1233
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Oleg,
-
-On 03/14/2018 10:29 PM, Oleg Nesterov wrote:
-> On 03/13, Ravi Bangoria wrote:
->> +static bool sdt_valid_vma(struct trace_uprobe *tu, struct vm_area_struct *vma)
->> +{
->> +	unsigned long vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
->> +
->> +	return tu->ref_ctr_offset &&
->> +		vma->vm_file &&
->> +		file_inode(vma->vm_file) == tu->inode &&
->> +		vma->vm_flags & VM_WRITE &&
->> +		vma->vm_start <= vaddr &&
->> +		vma->vm_end > vaddr;
->> +}
-> Perhaps in this case a simple
->
-> 		ref_ctr_offset < vma->vm_end - vma->vm_start
->
-> check without vma_offset_to_vaddr() makes more sense, but I won't insist.
->
-
-I still don't get this. This seems a comparison between file offset and size
-of the vma. Shouldn't we need to consider pg_off here?
-
-Thanks,
-Ravi
-
+On 3/16/2018 5:16 PM, Herbert Xu wrote:=0A=
+> On Mon, Mar 05, 2018 at 12:39:45PM +0200, Horia Geant=E3 wrote:=0A=
+>> Even though it doesn't make too much sense, it is perfectly legal to:=0A=
+>> - call .init() and then (as many times) .update()=0A=
+>> - subseqently _not_ call any of .final(), .finup() or .export()=0A=
+> =0A=
+> Actually it makes perfect sense, because there can be an arbitrary=0A=
+> number of requests for a given tfm.  There is no requirement that=0A=
+> you must finalise the first request before submitting new ones.=0A=
+> =0A=
+> IOW there can be an arbitrary number of outstanding requests even=0A=
+> without the user intentionally abandoning any hash request.=0A=
+> =0A=
+The fact that there can be multiple requests in parallel (for a given tfm) =
+is a=0A=
+different topic.=0A=
+Each request object has its state in its own state machine, independent fro=
+m the=0A=
+other request objects.=0A=
+I assume this is clear enough.=0A=
+=0A=
+Why I wanted to underline is that "abandoning" a hash request is allowed (e=
+ven=0A=
+though doing this is at least questionable), thus implementations must take=
+=0A=
+special care not to leak resources in this case.=0A=
+=0A=
+If you think the commit message should be updated, then probably so should =
+the=0A=
+documentation update.=0A=
+=0A=
+Thanks,=0A=
+Horia=0A=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
