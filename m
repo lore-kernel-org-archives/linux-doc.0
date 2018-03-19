@@ -1,119 +1,171 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.2 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB,
-	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6B337D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Mar 2018 06:40:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7E937D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Mar 2018 09:16:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755301AbeCSGjy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Mar 2018 02:39:54 -0400
-Received: from mail-db5eur01on0072.outbound.protection.outlook.com ([104.47.2.72]:54720
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1755169AbeCSGjw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Mar 2018 02:39:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=I43ayK+AyDqrC+eCkS9ZuC8sQ2y1b9Tn+2EEoosDWxU=;
- b=d9bDcTsyhCr38tyrGpJ7v3z3Od1G+vyVp3JIePDfby4b1OpuwfrxgRk0uR9nTQiPGLdHRJQa1RQfki2iJjTQar9lf7N/6UW61qF6bYbeFQGCfNWv3reX5ScIBABWrX47ArThKKufnDxXoiSS3sf82P0yql+qwHwOGdK/3ajmcQ4=
-Received: from AM3PR04MB452.eurprd04.prod.outlook.com (10.242.110.155) by
- AM3PR04MB1233.eurprd04.prod.outlook.com (10.163.6.154) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.588.14; Mon, 19 Mar 2018 06:39:49 +0000
-Received: from AM3PR04MB452.eurprd04.prod.outlook.com
- ([fe80::5833:9128:f42a:7e20]) by AM3PR04MB452.eurprd04.prod.outlook.com
- ([fe80::5833:9128:f42a:7e20%16]) with mapi id 15.20.0548.021; Mon, 19 Mar
- 2018 06:39:50 +0000
-From:   =?iso-8859-2?Q?Horia_Geant=E3?= <horia.geanta@nxp.com>
-To:     Herbert Xu <herbert@gondor.apana.org.au>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] crypto: doc - clarify hash callbacks state machine
-Thread-Topic: [PATCH] crypto: doc - clarify hash callbacks state machine
-Thread-Index: AQHTvTnS8kcR1bt5RUucTQuU3LKxuQ==
-Date:   Mon, 19 Mar 2018 06:39:50 +0000
-Message-ID: <AM3PR04MB45284A83B66E00785872DE698D40@AM3PR04MB452.eurprd04.prod.outlook.com>
-References: <20180305103945.3517-1-horia.geanta@nxp.com>
- <20180316151642.GA6606@gondor.apana.org.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=horia.geanta@nxp.com; 
-x-originating-ip: [86.34.165.90]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM3PR04MB1233;7:Jz14F1wBmg5NmHW2V2AGfGy2RO0yNHPEgdULdCyH+uGxLmqSdcY98aqSI96zIcPBISloDg85w4i0XLUR6PDnCnxTtQ3kIDMaK4A9FnAqNcTLPSmDDq2O3aCYVuQCAYrgENtQcoZEaac7Wn6EAUYnl4z6T5lWXbKVATeu2jPURQ2PB+lI8l8bjgpX/CgBVl8ysN8A/lvkfqY0JNE5cL/hOU2UnO8U9CVgi1VRyd6uGq27CkPj2FVelzHDQxna89Su
-x-ms-exchange-antispam-srfa-diagnostics: SSOS;
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: fb205a07-f7c5-435b-33a7-08d58d643715
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:AM3PR04MB1233;
-x-ms-traffictypediagnostic: AM3PR04MB1233:
-x-microsoft-antispam-prvs: <AM3PR04MB12331ED61DCD90B70296F1FA98D40@AM3PR04MB1233.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3231221)(944501300)(52105095)(3002001)(93006095)(93001095)(6055026)(6041310)(20161123558120)(20161123564045)(20161123560045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);SRVR:AM3PR04MB1233;BCL:0;PCL:0;RULEID:;SRVR:AM3PR04MB1233;
-x-forefront-prvs: 06167FAD59
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(39380400002)(376002)(366004)(346002)(199004)(189003)(76176011)(102836004)(53936002)(6116002)(316002)(2900100001)(81156014)(7696005)(4326008)(6506007)(54906003)(97736004)(81166006)(55016002)(6246003)(33656002)(3846002)(229853002)(8936002)(9686003)(7736002)(86362001)(53546011)(5250100002)(5660300001)(74316002)(478600001)(8676002)(106356001)(66066001)(14454004)(3660700001)(59450400001)(186003)(25786009)(26005)(6916009)(6436002)(99286004)(3280700002)(68736007)(105586002)(2906002)(305945005);DIR:OUT;SFP:1101;SCL:1;SRVR:AM3PR04MB1233;H:AM3PR04MB452.eurprd04.prod.outlook.com;FPR:;SPF:None;PTR:InfoNoRecords;A:1;MX:1;LANG:en;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: 29TpFIFqb2QKjWOvzN3xqZ4hliU5v/Wi03Thb6MG4xgrnUEk74XYEfspwlF8bfM4P9HSG/oK/sJkIUHgqQUs6wUnZp5xV4Oiktywc6UHAttzjNENhEE/ehkkAVh1RHFOBdZAJT8m0K/vb2LmiQCHd+gGc6A+RQ8FVvuW++LahNaFvZqQ6YyjzV6dt9KJaNQborNFNN5WyYC4tV2w3NpUcYhx3/6ZfLYI1TRjJtCNm5akLNNIF4qtz086xJ/pTG3ACDvATUWDRT7QO1T+wK8sm19VCyW0s3D02dA2TLVva3ZENo8cWh8YdY0ZETr2jqfDUxAvqQGsHDnjCsDGYYUU/w==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+        id S932894AbeCSJQ0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Mar 2018 05:16:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38108 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S932891AbeCSJQY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Mar 2018 05:16:24 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2J9EG33056070
+        for <linux-doc@vger.kernel.org>; Mon, 19 Mar 2018 05:16:23 -0400
+Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2gt905bj94-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 19 Mar 2018 05:16:23 -0400
+Received: from localhost
+        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
+        Mon, 19 Mar 2018 09:16:21 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Mon, 19 Mar 2018 09:16:12 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2J9GBN864291064;
+        Mon, 19 Mar 2018 09:16:11 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DC13CAE04D;
+        Mon, 19 Mar 2018 09:06:33 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 02A34AE051;
+        Mon, 19 Mar 2018 09:06:28 +0000 (GMT)
+Received: from [9.124.31.209] (unknown [9.124.31.209])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 19 Mar 2018 09:06:27 +0000 (GMT)
+Subject: Re: [PATCH 6/8] trace_uprobe/sdt: Fix multiple update of same
+ reference counter
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     mhiramat@kernel.org, peterz@infradead.org,
+        srikar@linux.vnet.ibm.com, acme@kernel.org,
+        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
+        corbet@lwn.net, dan.j.williams@intel.com,
+        gregkh@linuxfoundation.org, huawei.libin@huawei.com,
+        hughd@google.com, jack@suse.cz, jglisse@redhat.com,
+        jolsa@redhat.com, kan.liang@intel.com,
+        kirill.shutemov@linux.intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhocko@suse.com,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com,
+        pombredanne@nexb.com, rostedt@goodmis.org, tglx@linutronix.de,
+        tmricht@linux.vnet.ibm.com, willy@infradead.org,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com,
+        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+References: <20180313125603.19819-1-ravi.bangoria@linux.vnet.ibm.com>
+ <20180313125603.19819-7-ravi.bangoria@linux.vnet.ibm.com>
+ <20180315144959.GB19643@redhat.com>
+ <c93216a4-a4e1-dd8f-00be-17254e308cd1@linux.vnet.ibm.com>
+ <20180316175030.GA28770@redhat.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Date:   Mon, 19 Mar 2018 14:48:35 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb205a07-f7c5-435b-33a7-08d58d643715
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2018 06:39:50.1769
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM3PR04MB1233
+In-Reply-To: <20180316175030.GA28770@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 18031909-0008-0000-0000-000004DFBFEA
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18031909-0009-0000-0000-00001E72D62E
+Message-Id: <4b337afd-fc5e-6110-888b-d4fa36a797ee@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-19_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1803190113
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/16/2018 5:16 PM, Herbert Xu wrote:=0A=
-> On Mon, Mar 05, 2018 at 12:39:45PM +0200, Horia Geant=E3 wrote:=0A=
->> Even though it doesn't make too much sense, it is perfectly legal to:=0A=
->> - call .init() and then (as many times) .update()=0A=
->> - subseqently _not_ call any of .final(), .finup() or .export()=0A=
-> =0A=
-> Actually it makes perfect sense, because there can be an arbitrary=0A=
-> number of requests for a given tfm.  There is no requirement that=0A=
-> you must finalise the first request before submitting new ones.=0A=
-> =0A=
-> IOW there can be an arbitrary number of outstanding requests even=0A=
-> without the user intentionally abandoning any hash request.=0A=
-> =0A=
-The fact that there can be multiple requests in parallel (for a given tfm) =
-is a=0A=
-different topic.=0A=
-Each request object has its state in its own state machine, independent fro=
-m the=0A=
-other request objects.=0A=
-I assume this is clear enough.=0A=
-=0A=
-Why I wanted to underline is that "abandoning" a hash request is allowed (e=
-ven=0A=
-though doing this is at least questionable), thus implementations must take=
-=0A=
-special care not to leak resources in this case.=0A=
-=0A=
-If you think the commit message should be updated, then probably so should =
-the=0A=
-documentation update.=0A=
-=0A=
-Thanks,=0A=
-Horia=0A=
+Hi Oleg,
+
+On 03/16/2018 11:20 PM, Oleg Nesterov wrote:
+> On 03/16, Ravi Bangoria wrote:
+>> On 03/15/2018 08:19 PM, Oleg Nesterov wrote:
+>>> On 03/13, Ravi Bangoria wrote:
+>>>> For tiny binaries/libraries, different mmap regions points to the
+>>>> same file portion. In such cases, we may increment reference counter
+>>>> multiple times.
+>>> Yes,
+>>>
+>>>> But while de-registration, reference counter will get
+>>>> decremented only by once
+>>> could you explain why this happens? sdt_increment_ref_ctr() and
+>>> sdt_decrement_ref_ctr() look symmetrical, _decrement_ should see
+>>> the same mappings?
+> ...
+>
+>>     # strace -o out python
+>>       mmap(NULL, 2738968, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fff92460000
+>>       mmap(0x7fff926a0000, 327680, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x230000) = 0x7fff926a0000
+>>       mprotect(0x7fff926a0000, 65536, PROT_READ) = 0
+> Ah, in this case everything is clear, thanks.
+>
+> I was confused by the changelog, I misinterpreted it as if inc/dec are not
+> balanced in case of multiple mappings even if the application doesn't play
+> with mmap/mprotect/etc.
+>
+> And it seems that you are trying to confuse yourself, not only me ;) Just
+> suppose that an application does mmap+munmap in a loop and the mapped region
+> contains uprobe but not the counter.
+
+this is fine because ...
+
+>
+> And this all makes me think that we should do something else. Ideally,
+> install_breakpoint() and remove_breakpoint() should inc/dec the counter
+> if they do not fail...
+
+The whole point of adding this logic in trace_uprobe is we wanted to
+decouple the counter inc/dec logic from uprobe patching. If user is just
+doing mmap+munmap region in a loop which contains uprobe, the
+instruction will be patched by the core uprobe infrastructure. Whenever
+application mmap the region that holds to counter, it will be incremented.
+
+Our initial design was to increment counter in install_breakpoint() but
+uprobed instruction gets patched in a very early stage of binary loading
+and vma that holds the counter may not be mapped yet.
+
+>
+> Btw, why do we need a counter, not a boolean? Who else can modify it?
+> Or different uprobes can share the same counter?
+
+Yes, multiple SDT markers can share the counter. Ex, there can be multiple
+implementation of same function and thus each individual implementation
+may contain marker which share the same counter. From mysql,
+
+  # readelf -n /usr/lib64/mysql/libmysqlclient.so.18.0.0 | grep -A2 Provider
+    Provider: mysql
+    Name: net__write__start
+    Location: 0x000000000003caa0, ..., Semaphore: 0x0000000000333532
+  --
+    Provider: mysql
+    Name: net__write__start
+    Location: 0x000000000003cd5c, ..., Semaphore: 0x0000000000333532
+
+Here, both the markers has same name, but different location. Also they
+share the counter (semaphore).
+
+Apart from that, counter allows multiple tracers to trace on a single marker,
+which is difficult with boolean flag.
+
+Thanks,
+Ravi
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
