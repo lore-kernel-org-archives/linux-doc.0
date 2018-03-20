@@ -3,46 +3,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B57467E279
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 22:16:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DFA6A7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 22:23:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751480AbeCTWQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 18:16:52 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:41056 "EHLO
+        id S1751423AbeCTWXj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 18:23:39 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:45742 "EHLO
         smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751031AbeCTWQu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 18:16:50 -0400
+        with ESMTP id S1751334AbeCTWXh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 18:23:37 -0400
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 78B60603AF; Tue, 20 Mar 2018 22:16:49 +0000 (UTC)
+        id A291660C54; Tue, 20 Mar 2018 22:23:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521584209;
-        bh=2i8Ldi/w+TwTjp98+yxqa7dVNCVbagQtXiqpYafcwus=;
+        s=default; t=1521584616;
+        bh=ORBCtnsnCfdF7DVC0tl1Ilwt6jCRf2FJY8sZFZsQbuM=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=C24BOlplyV+rZqipwEko7f4txYoTfWwMx7CgnJFLEe46L8KpZEA2zerXGTgowTviE
-         4SUgXq6zYGXz/dmvSxJBDTcoAYhanWGKDsQ0n8l9GbAz0q9uQFpHrQwS9YapGYRBxx
-         wi1EBArt74fLcRQTrXK6wOtzxh+EpOm+CK0c5UHk=
+        b=JDf1Z311Q4JZJEhg3OTQNTbElAJA5SaqshnRzjziF8DORJyzwz3R+9I8Elw+LrRZ5
+         jXcFggzAQV9jyNtNTye+2qzAt49U3DVqCCIqTKzDaGco7fThBDGfiZ8CuPlT+HbgCT
+         GaYe7qAL0hiswVisj1UflBsV6fUf7dYb1ZHg3XP8=
 Received: from [10.226.58.86] (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: sdharia@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id BE885603AF;
-        Tue, 20 Mar 2018 22:16:46 +0000 (UTC)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id D3C116081C;
+        Tue, 20 Mar 2018 22:23:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521584208;
-        bh=2i8Ldi/w+TwTjp98+yxqa7dVNCVbagQtXiqpYafcwus=;
+        s=default; t=1521584605;
+        bh=ORBCtnsnCfdF7DVC0tl1Ilwt6jCRf2FJY8sZFZsQbuM=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=GSnMSN4NeBCQl4bOmI4MjwqJyPTHcI0suhoQTjZUMQ91kgkeRoYRxIdAMh956EiLB
-         udIhnigjMW5NcPDvBmi9+pyLFoMwVwkThemLcwbYyjuE4ZV/Y5LHSbKbAOD1NfvRjP
-         prgdSGlrNWpaQ/S8cAp3Oxr3xDAVRbTl7iAQJPJA=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BE885603AF
+        b=o42hPFbaYQ2BU1CQfXTm5ayuqstQOenFroo+raHVDtZoabxmb48rSP9rOQtiZnK/3
+         Qi9vEuAUYUDoC3NXBTucbbQP7hlmy9jXIh5D2/rvqPiEHWj9aoB8VKLexNOwXvzuHd
+         HHS5jyTHSF2GWUEOzf99DDeuszcy0xyOMquyf54w=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D3C116081C
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=sdharia@codeaurora.org
-Subject: Re: [PATCH v4 6/6] arm64: dts: sdm845: Add I2C controller support
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+Subject: Re: [PATCH v4 3/6] i2c: i2c-qcom-geni: Add bus driver for the
+ Qualcomm GENI I2C controller
+To:     Doug Anderson <dianders@chromium.org>,
+        Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Andy Gross <andy.gross@linaro.org>,
         David Brown <david.brown@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -53,19 +54,17 @@ Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
         devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
         linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
         evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
+        Girish Mahadevan <girishm@codeaurora.org>
 References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
- <1521071931-9294-7-git-send-email-kramasub@codeaurora.org>
- <CAD=FV=Wk5apkO9ro+PkLGDS7poJgvTkDA4uSKnMXmK=GMzuMcQ@mail.gmail.com>
- <65fa4ff5-7f37-b6fd-e493-bec18511d334@codeaurora.org>
- <CAD=FV=Vq4Q2LvY_O-YsdyUmQOUANa0ap+U9j7PXSD3_ao6sCdQ@mail.gmail.com>
+ <1521071931-9294-4-git-send-email-kramasub@codeaurora.org>
+ <CAD=FV=W+eiy80y2QKp_-jPEp4SG0WxmdKFTn-5de0A1F-XPrqA@mail.gmail.com>
 From:   Sagar Dharia <sdharia@codeaurora.org>
-Message-ID: <c9e6f964-4e84-a5ed-77c4-e0a6655ee146@codeaurora.org>
-Date:   Tue, 20 Mar 2018 16:16:45 -0600
+Message-ID: <b2857b9d-f63e-362a-cbbf-e320f53de89e@codeaurora.org>
+Date:   Tue, 20 Mar 2018 16:23:23 -0600
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=Vq4Q2LvY_O-YsdyUmQOUANa0ap+U9j7PXSD3_ao6sCdQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=W+eiy80y2QKp_-jPEp4SG0WxmdKFTn-5de0A1F-XPrqA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -74,126 +73,192 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Doug,
 
-On 3/19/2018 5:56 PM, Doug Anderson wrote:
+On 3/19/2018 3:08 PM, Doug Anderson wrote:
 > Hi,
 > 
-> On Mon, Mar 19, 2018 at 3:15 PM, Sagar Dharia <sdharia@codeaurora.org> wrote:
->>>> +                       pinconf {
->>>> +                               pins = "gpio55", "gpio56";
->>>> +                               drive-strength = <2>;
->>>> +                               bias-disable;
->>>> +                       };
->>>> +               };
->>>> +
->>>> +               qup-i2c10-sleep {
->>>> +                       pinconf {
->>>> +                               pins = "gpio55", "gpio56";
->>>> +                               bias-pull-up;
->>>
->>> Are you sure that you want pullups enabled for sleep here?  There are
->>> external pulls on this line (as there are on many i2c busses) so doing
->>> this will double-enable pulls.  It probably won't hurt, but I'm
->>> curious if there's some sort of reason here.
->>>
->> 1. We need the lines to remain high to avoid slaves sensing a false
->> start-condition (this can happen if the SDA goes down before SCL).
->> 2. Disclaimer: I'm not a HW expert, but we were told that
->> tri-state/bias-disabled lines can draw more current. I will find out
->> more about that.
-> 
-> Agreed that they need to remain high, but you've got very strong
-> pullups external to the SoC.  Those will keep it high.  You don't need
-> the internal ones too.
-> 
-> As extra evidence that the external pullups _must_ be present on your
-> board: you specify bias-disable in the active state.  That can only
-> work if there are external pullups (or if there were some special
-> extra secret internal pullups that were part of geni).  i2c is an
-> open-drain bus and thus there must be pullups on the bus in order to
-> communicate.
-> 
-
-You are right, I followed up about the pull-up recommendation and that
-was for a GPIO where there was no external pull-up (GPIO was not used
-for I2C). It's safe to assume I2C will always have external pullup. We
-will change sleep-config of I2C GPIOs to no-pull.
-> 
->>>> +                       };
->>>> +               };
->>>>         };
->>>>  };
->>>> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
->>>> index 59334d9..9ef056f 100644
->>>> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
->>>> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
->>>> @@ -209,6 +209,21 @@
->>>>                                         pins = "gpio4", "gpio5";
->>>>                                 };
->>>>                         };
->>>> +
->>>> +                       qup_i2c10_default: qup-i2c10-default {
->>>> +                               pinmux {
->>>> +                                       function = "qup10";
->>>> +                                       pins = "gpio55", "gpio56";
->>>> +                               };
->>>> +                       };
->>>> +
->>>> +                       qup_i2c10_sleep: qup-i2c10-sleep {
->>>> +                               pinmux {
->>>> +                                       function = "gpio";
->>>> +                                       pins = "gpio55", "gpio56";
->>>> +                               };
->>>> +                       };
->>>> +
->>>>                 };
->>>>
->>>>                 timer@17c90000 {
->>>> @@ -309,6 +324,20 @@
->>>>                                 interrupts = <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>;
->>>>                                 status = "disabled";
->>>>                         };
->>>> +
->>>> +                       i2c10: i2c@a88000 {
->>>
->>> Seems like it might be nice to add all the i2c busses into the main
->>> sdm845.dtsi file.  Sure, most won't be enabled, but it seems like it
->>> would avoid churn later.
->>>
->>> ...if you're sure you want to add only one i2c controller, subject of
->>> this patch should indicate that.
->>>
+> On Wed, Mar 14, 2018 at 4:58 PM, Karthikeyan Ramasubramanian
+> <kramasub@codeaurora.org> wrote:
+>> This bus driver supports the GENI based i2c hardware controller in the
+>> Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
+>> module supporting a wide range of serial interfaces including I2C. The
+>> driver supports FIFO mode and DMA mode of transfer and switches modes
+>> dynamically depending on the size of the transfer.
 >>
->> Yes, we typically have a "platform(sdm845 here)-qupv3.dtsi" defining
->> most of the serial-bus instances (i2c, spi, and uart with
->> status=disabled) that we include from the common header. The boards
->> enable instances they need.
->> Will that be okay?
+>> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+>> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
+>> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
 > 
-> Unless you really feel the need to put these in a separate file I'd
-> just put them straight in sdm845.dtsi.  Yeah, it'll get big, but
-> that's OK by me.  I _think_ this matches what Bjorn was suggesting on
-> previous device tree patches, but CCing him just in case.  I'm
-> personally OK with whatever Bjorn and other folks with more Qualcomm
-> history would like.
+>> +/*
+>> + * Hardware uses the underlying formula to calculate time periods of
+>> + * SCL clock cycle.
+>> + *
+>> + * time of high period of SCL: t_high = (t_high_cnt * clk_div) / source_clock
+>> + * time of low period of SCL: t_low = (t_low_cnt * clk_div) / source_clock
+>> + * time of full period of SCL: t_cycle = (t_cycle_cnt * clk_div) / source_clock
+>> + * clk_freq_out = t / t_cycle
+>> + * source_clock = 19.2 MHz
+>> + */
+>> +static const struct geni_i2c_clk_fld geni_i2c_clk_map[] = {
+>> +       {KHZ(100), 7, 10, 11, 26},
+>> +       {KHZ(400), 2,  5, 12, 24},
+>> +       {KHZ(1000), 1, 3,  9, 18},
+>> +};
 > 
-> ...but yeah, I'm asking for them all to be listed with status="disabled".
+> Thanks for the docs.  ...though if these docs are indeed correct and
+> there's no extra magic fudge factor I'm still a bit baffled why the
+> frequency isn't out of spec for 100 kHz and 1 MHz.  I know you said
+> hardware validated it, but are you really certain they validated 100
+> kHz and 1 MHz?
+> 
+>>>> 19200. / (1 * 18)
+> 1066.6666666666667
+> 
+>>>> 19200. / (2 * 24)
+> 400.0
+> 
+>>>> 19200. / (7 * 26)
+> 105.49450549450549
+> 
+> Specifically: either the docs you wrote above are wrong (and there's a
+> magic fudge factor that you didn't document) or your hardware guys are
+> wrong.  See the I2C spec at
+> <https://www.nxp.com/docs/en/user-guide/UM10204.pdf>.  Table 10.
+> ("Characteristics of the SDA and SCL bus lines for Standard, Fast, and
+> Fast-mode Plus I2C-bus devices") says fSCL Max is 100 kHz, 400 kHz, or
+> 1000 kHz.
+> 
+> 
+> I could believe that 99.9% of all devices that support 100 kHz also
+> support 105.5 kHz and that 99.9% of all devices that support 1000 kHz
+> also support 1066.7 kHz.  However, it's still not in spec.  If you
+> want to enable a turbo boost mode that runs 5% faster (really?) then I
+> suppose you could add that as an optional feature, but this shouldn't
+> be the default.
 > 
 
-Sure, we will change the subject of this patch to indicate that we are
-adding 1 controller as of now. Later we will add all I2C controllers to
-dtsi as another patch since that will need pinctrl settings for GPIOs
-used by those instances and the wrappers devices needed by them.
+Yes, we will document that there is a fudge-factor (cycles needed to run
+the firmware per inputs from HW team). The actual frequencies seen for
+100KHz and 1MHz configurations were close to 98KHz, and 960KHz
+respectively. t-high, and t-low were within specs for all frequencies.
 
 Thanks
 Sagar
+
+> 
+>> +static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c)
+>> +{
+>> +       u32 val;
+>> +       unsigned long time_left = ABORT_TIMEOUT;
+>> +       unsigned long flags;
+>> +
+>> +       spin_lock_irqsave(&gi2c->lock, flags);
+>> +       geni_i2c_err(gi2c, GENI_TIMEOUT);
+>> +       gi2c->cur = NULL;
+>> +       geni_se_abort_m_cmd(&gi2c->se);
+>> +       spin_unlock_irqrestore(&gi2c->lock, flags);
+>> +       do {
+>> +               time_left = wait_for_completion_timeout(&gi2c->done, time_left);
+>> +               val = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
+>> +       } while (!(val & M_CMD_ABORT_EN) && time_left);
+>> +
+>> +       if (!(val & M_CMD_ABORT_EN) && !time_left)
+> 
+> Why do you need to check !time_left?  Just "if (!(val & M_CMD_ABORT_EN))".
+> 
+> 
+>> +               dev_err(gi2c->se.dev, "Timeout abort_m_cmd\n");
+>> +}
+>> +
+>> +static void geni_i2c_rx_fsm_rst(struct geni_i2c_dev *gi2c)
+>> +{
+>> +       u32 val;
+>> +       unsigned long time_left = RST_TIMEOUT;
+>> +
+>> +       writel_relaxed(1, gi2c->se.base + SE_DMA_RX_FSM_RST);
+>> +       do {
+>> +               time_left = wait_for_completion_timeout(&gi2c->done, time_left);
+>> +               val = readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_STAT);
+>> +       } while (!(val & RX_RESET_DONE) && time_left);
+>> +
+>> +       if (!(val & RX_RESET_DONE) && !time_left)
+> 
+> Similar.  Don't need "&& !time_left"
+> 
+> 
+>> +               dev_err(gi2c->se.dev, "Timeout resetting RX_FSM\n");
+>> +}
+>> +
+>> +static void geni_i2c_tx_fsm_rst(struct geni_i2c_dev *gi2c)
+>> +{
+>> +       u32 val;
+>> +       unsigned long time_left = RST_TIMEOUT;
+>> +
+>> +       writel_relaxed(1, gi2c->se.base + SE_DMA_TX_FSM_RST);
+>> +       do {
+>> +               time_left = wait_for_completion_timeout(&gi2c->done, time_left);
+>> +               val = readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_STAT);
+>> +       } while (!(val & TX_RESET_DONE) && time_left);
+>> +
+>> +       if (!(val & TX_RESET_DONE) && !time_left)
+> 
+> Similar.  Don't need "&& !time_left"
+> 
+> 
+>> +static int geni_i2c_probe(struct platform_device *pdev)
+>> +{
+>> +       struct geni_i2c_dev *gi2c;
+>> +       struct resource *res;
+>> +       u32 proto, tx_depth;
+>> +       int ret;
+>> +
+>> +       gi2c = devm_kzalloc(&pdev->dev, sizeof(*gi2c), GFP_KERNEL);
+>> +       if (!gi2c)
+>> +               return -ENOMEM;
+>> +
+>> +       gi2c->se.dev = &pdev->dev;
+>> +       gi2c->se.wrapper = dev_get_drvdata(pdev->dev.parent);
+>> +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> +       gi2c->se.base = devm_ioremap_resource(&pdev->dev, res);
+>> +       if (IS_ERR(gi2c->se.base))
+>> +               return PTR_ERR(gi2c->se.base);
+>> +
+>> +       gi2c->se.clk = devm_clk_get(&pdev->dev, "se");
+>> +       if (IS_ERR(gi2c->se.clk)) {
+>> +               ret = PTR_ERR(gi2c->se.clk);
+>> +               dev_err(&pdev->dev, "Err getting SE Core clk %d\n", ret);
+>> +               return ret;
+>> +       }
+>> +
+>> +       ret = device_property_read_u32(&pdev->dev, "clock-frequency",
+>> +                                                       &gi2c->clk_freq_out);
+>> +       if (ret) {
+>> +               /* All GENI I2C slaves support 400kHz. So default to 400kHz. */
+> 
+> Can you explain this comment?  Are you saying that GENI only supports
+> talking to I2C devices (devices are also known as "slaves" and GENI
+> should be the I2C master) that talk 400 kHz I2C or better?  Why do you
+> even have 100 kHz in your table above then?  I don't think this is
+> what you meant...
+> 
+> Perhaps you meant to say "All GENI I2C masters support at least 400
+> kHz, so default ot 400 kHz"
+> 
+> ...however, even if you changed the comment as I suggested I'm still
+> not a fan.  As I said in my review of the prevous version:
+> 
+>> I feel like it should default to 100KHz.  i2c_parse_fw_timings()
+>> defaults to this and to me the wording "New drivers almost always
+>> should use the defaults" makes me feel this should be the defaults.
+> 
+> I would also say that even if all GENI I2C masters support at least
+> 400 kHz that doesn't mean that all I2C devices on the bus support 400
+> kHz.  You could certainly imagine someone sticking something on this
+> bus that was super low cost and supported only 100 kHz I2C.
+> 
 > 
 > -Doug
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-arm-msm" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 > 
 
 -- 
