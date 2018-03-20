@@ -1,111 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 978B67D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 04:26:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E68B07DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 05:45:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751261AbeCTE0V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 00:26:21 -0400
-Received: from mout.gmx.net ([212.227.15.18]:58959 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750991AbeCTE0U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Mar 2018 00:26:20 -0400
-Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx002
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0LrNIC-1eazpM387o-0137dZ; Tue, 20
- Mar 2018 05:25:45 +0100
-Message-ID: <1521519941.24215.2.camel@gmx.de>
-Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
-From:   Mike Galbraith <efault@gmx.de>
-To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
-Date:   Tue, 20 Mar 2018 05:25:41 +0100
-In-Reply-To: <a334a234-3e87-a9a7-9589-8476fecb4149@redhat.com>
-References: <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
-         <1520619426.27998.18.camel@gmx.de>
-         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
-         <1520624424.27998.76.camel@gmx.de>
-         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
-         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
-         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
-         <1520653648.12749.20.camel@gmx.de>
-         <20180314195711.GD2943022@devbig577.frc2.facebook.com>
-         <1521082141.7100.1.camel@gmx.de>
-         <20180319153413.GO2943022@devbig577.frc2.facebook.com>
-         <1521492550.16869.1.camel@gmx.de>
-         <a334a234-3e87-a9a7-9589-8476fecb4149@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.22.6 
+        id S1751069AbeCTFpn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 01:45:43 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:45332 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750888AbeCTFpl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 01:45:41 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w2K5b8MT174845;
+        Tue, 20 Mar 2018 05:44:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=corp-2017-10-26;
+ bh=DtT2n7zw9n5/X8bKFMFJOpFpVVn6DF1PclqC2hahDq0=;
+ b=bTIhbxs68BFxSqmT1scEJ58OWsLBDXseDbsYmqPyrk2CHbk/JW6A1LA6l3J9XrzHBXVU
+ MHju9qlOwmcwtQZw+NTzG2WE97lFFiVRkvwXW2iceomZv5DIkyWoUJ1zTyWsVAsX7tr8
+ 9f0XC7wv5iZRJhjaNMsZsA5L2BJhotrZha2SDVP8R0Evvb/kMKFHYVR/rSUHXeQbGEXG
+ Rnv2rff32QeuKLkLl4SljecaP6FI29KOM5lL2eBKlLdiSkbuwLNGCQHGzAyKnkOZLGuD
+ aUbfSJFQmznbZQ7FIocGzEZT4YWRijg3P5M+mgaK1v2OjZUEDl/KIOCfqdglxF322JLW qA== 
+Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
+        by userp2130.oracle.com with ESMTP id 2gtv9kr0hx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 20 Mar 2018 05:44:47 +0000
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w2K5ilcm017485
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 20 Mar 2018 05:44:47 GMT
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w2K5ig3H006064;
+        Tue, 20 Mar 2018 05:44:43 GMT
+Received: from asu.omang.mine.nu (/80.203.111.41)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 19 Mar 2018 22:44:41 -0700
+Message-ID: <1521524675.3354.302.camel@oracle.com>
+Subject: Re: [PATCH v4 1/1] runchecks: Generalize make C={1,2} to support
+ multiple checkers
+From:   Knut Omang <knut.omang@oracle.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        =?ISO-8859-1?Q?H=E5kon?= Bugge <haakon.bugge@oracle.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Tom Saeger <tom.saeger@oracle.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Julia Lawall <Julia.Lawall@lip6.fr>,
+        John Haxby <john.haxby@oracle.com>,
+        =?ISO-8859-1?Q?=C5smund_=D8stvold?= <asmund.ostvold@oracle.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Levin, Alexander (Sasha Levin)" <alexander.levin@verizon.com>,
+        cocci@systeme.lip6.fr, Andrew Morton <akpm@linux-foundation.org>
+Date:   Tue, 20 Mar 2018 06:44:35 +0100
+In-Reply-To: <1517815200.3118.383.camel@oracle.com>
+References: <cover.a7e2d48abd08947a9bb46ef5d18a8f33066cc40d.1516356501.git-series.knut.omang@oracle.com>
+         <c271ba8f99393585d69db71f40db3c01c44769e4.1516356501.git-series.knut.omang@oracle.com>
+         <1517812899.3118.372.camel@oracle.com>
+         <CAK7LNAS8QG947WpFn6bCnNVLj=x7jbAyLKVRS429wP+1jYbOUA@mail.gmail.com>
+         <1517815200.3118.383.camel@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K0:VM1t3E95PZHGr+bysSU2O2GLczFVYwZWolEXaV0BPzLIKtLyH6K
- EcuUHpGyDWkJ3+RmlQScq0YrRHvyJkC0uZetDcR+oO6B/GUckgXn8PmuzBuJnKT6Rwzc8Ez
- rPwSP59szbnM4GRQy/UnA6en5vOb+ze2OBQHbBx9fLgxAk/CZElwoak5apE9Vc3jk2Nthdb
- 36v+ULUJCSxv6ARg4maeQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:b2c1fpsRohQ=:lW50M50nFR6nJxupSmY2m4
- G6fE0Ndr4NVxMtk+NrhFQsIr3AbOWTH7JrIV+TxQpihlMRlMWdnJMA5h1/KtZlT6fcuGvy6oK
- BcI6V1gMsqxF+Fjiau828d3aDE4GSLGKMxQjAugBWirGsHFzYr7n0egHFQBCe0HMAuXkVottW
- wyY1/1OwQ9/I82OYJPA32YZx7s8T4aj+MM/BcI8eeEaIOd/z4hxZF3QLkIwtcEz9GmXLE9tUm
- 6r8ZiW+gYaY6mRzAq4orE9epPGzRAhk6XiJH2jUopDRkis9kIFU6Ml7r8BEYK2Sc5Lvb5olPV
- fCZqjfk0hfsUTFT55AJS+n0HqXI5S4MRTRonSOqecJ6cQOAMw9Hb29SBMEH5RrTUPAPMFy+G/
- S2XRONczGTRRaAPzDTqUNvT2zR4JsittJ4hb0c+o2J9DinzPhKpE0xEH0z7rb6KozKr7UY9rK
- W6SQGbB82nl4jscz1EijcyvPo1Ziktld1XJx9ZI65tjK/ewZ+DNFlkb8XS4aETnEZJzvMe7Pm
- mF/771ylaXYVMzuTl+cC3yaIZ+a6/M97OZzlSKPDXGrC5+TlyQnDCTBchtoEkEKH2jioGLlMy
- fj3OZbYSmZQ4ITYRryIJqZre/fumWm1BXjoqE4NYZG5tRFsSS2KoohQP9n677hQWWpDeJ3H/4
- KWIsBoDAu2q1JntxDzRrCDTFobozpFvc5yX6Lj3nOmKDXJ7wNau1xNjM4p5/NqyS0t2sbuoYL
- 8NG9nVMe3CIqUEFVQF+WhUOohB6hT5E3eEVrvlK2Rh0gMbtgEL3Sr631vNXG7d7krDOXEDo0i
- hNXgE674OJ6d/Lmx06x8pMKDkg0SB5bvSWbAwmtKRTZgJmSqI4=
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8837 signatures=668693
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1711220000 definitions=main-1803200006
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-03-19 at 17:41 -0400, Waiman Long wrote:
-> On 03/19/2018 04:49 PM, Mike Galbraith wrote:
-> > On Mon, 2018-03-19 at 08:34 -0700, Tejun Heo wrote:
-> >> Hello, Mike.
-> >>
-> >> On Thu, Mar 15, 2018 at 03:49:01AM +0100, Mike Galbraith wrote:
-> >>> Under the hood v2 details are entirely up to you.  My input ends at
-> >>> please don't leave dynamic partitioning standing at the dock when v2
-> >>> sails.
-> >> So, this isn't about implementation details but about what the
-> >> interface achieves - ie, what's the actual function?  The only thing I
-> >> can see is blocking the entity which is configuring the hierarchy from
-> >> making certain configs.  While that might be useful in some specific
-> >> use cases, it seems to miss the bar for becoming its own kernel
-> >> feature.  After all, nothing prevents the same entity from clearing
-> >> the exlusive bit and making the said changes.
-> > Yes, privileged contexts can maliciously or stupidly step all over one
-> > other no matter what you do (finite resource), but oxymoron creation
-> > (CPUs simultaneously balanced and isolated) should be handled.  If one
-> > context can allocate a set overlapping a set another context intends to
-> > or already has detached from scheduler domains, both are screwed.
-> >
-> > 	-Mike
-> 
-> The allocations of CPUs to child cgroups should be controlled by the
-> parent cgroup. It is the parent's fault if some CPUs are in both
-> balanced and isolated cgroups.
-> 
-> How about we don't allow turning off scheduling if the CPUs aren't
-> exclusive from the parent's perspective? So you can't create an isolated
-> cgroup if the CPUs aren't exclusive. Will this be a good enough compromise?
+On Mon, 2018-02-05 at 08:20 +0100, Knut Omang wrote:
+> On Mon, 2018-02-05 at 16:03 +0900, Masahiro Yamada wrote:
 
-Sure.  The kernel need only ensure its own sanity.  Userspace conflicts
-are more or less a non-issue.  In practice, all players but one will
-have been constrained or eliminated prior to any partitioning.
+Hi Masahiro,
 
-	-Mike
+I know these are busy times but any hope of getting forward on this?
+Anything more I can do to ease the process?
+
+Thanks for your time,
+Knut
+
+> > 2018-02-05 15:41 GMT+09:00 Knut Omang <knut.omang@oracle.com>:
+> > > On Fri, 2018-01-19 at 11:14 +0100, Knut Omang wrote:
+> > >> Add scripts/runchecks which has generic support for running
+> > >> checker tools in a convenient and user friendly way that
+> > >> the author hopes can contribute to rein in issues detected
+> > >> by these tools in a manageable and convenient way.
+> > >>
+> > >> scripts/runchecks provides the following basic functionality:
+> > >>
+> > >> * Makes it possible to selectively suppress output from individual
+> > >>   checks on a per file or per subsystem basis.
+> > >> * Unifies output and suppression input from different tools
+> > >>   by providing a single unified syntax and presentation for the
+> > >>   underlying tools in the style of "scripts/checkpatch.pl --show-types".
+> > >> * Allows selective run of one, or more (or all) configured tools
+> > >>   for each file.
+> > >>
+> > >> In the Makefile system, the sparse specific setup has been replaced
+> > >> by setup for runchecks.
+> > >
+> > > Hi all,
+> > >
+> > > - Anything more I can/need to do to bring this forward?
+> > > - Any quiet concerns?
+> > >
+> > > I realize it is a subsystem crossing change,
+> > 
+> > Is it?  Only Kbuild this is related to.
+> 
+> Ok, I see!
+> 
+> > > and a lot going on elsewhere,
+> > > nevertheless I believe this is a time saver in the slightly longer run,
+> > > as it allows automation of checking, even without a "perfect"
+> > > code base to begin with.
+> > >
+> > 
+> > Sorry for the delay.
+> 
+> I understand, no problem - just was afraid it was about to get lost 
+> in between subsystems,
+> 
+> > I have not been able to find time to dive into the detail yet.
+> > (Actually, I tried to do that for v2 or v3, where Python code was so dirty,
+> > then consumed my time to figure out what the code was trying to do)
+> 
+> Hopefully v4 is cleaner from a Python code style point of view at least,
+> but let me know if you have any particular part of the code in mind wrt 
+> readability. Also hopefully the docs should be of help.
+> 
+> > I find my concern here:
+> > https://lkml.org/lkml/2018/1/5/497
+> 
+> I believe I have addressed the issues there in v4.
+> 
+> > Anyway, I will take a look again when I find some time.
+> > You do not need to take care of the detail until I request to do so.
+> 
+> Ok, thanks a lot for your time and the quick response now!
+> 
+> Best regards,
+> Knut
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kbuild" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
