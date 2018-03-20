@@ -1,299 +1,168 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB,
+	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 144487D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 08:52:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E97BD7D6B1
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 10:29:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752365AbeCTIwO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 04:52:14 -0400
-Received: from foss.arm.com ([217.140.101.70]:37152 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752019AbeCTIwJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Mar 2018 04:52:09 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1F151596;
-        Tue, 20 Mar 2018 01:52:08 -0700 (PDT)
-Received: from [10.1.206.75] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27F753F487;
-        Tue, 20 Mar 2018 01:52:06 -0700 (PDT)
-Subject: Re: [PATCH v4 4/8] dt-bindings: Add doc for the Ingenic TCU drivers
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     James Hogan <jhogan@kernel.org>,
-        Maarten ter Huurne <maarten@treewalker.org>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-doc@vger.kernel.org
-References: <20180110224838.16711-2-paul@crapouillou.net>
- <20180317232901.14129-1-paul@crapouillou.net>
- <20180317232901.14129-5-paul@crapouillou.net>
-From:   Marc Zyngier <marc.zyngier@arm.com>
-Organization: ARM Ltd
-Message-ID: <b853fabf-4812-cefc-dd8b-f9ab596e1a36@arm.com>
-Date:   Tue, 20 Mar 2018 08:52:04 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1752376AbeCTK3u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 06:29:50 -0400
+Received: from mail-eopbgr00057.outbound.protection.outlook.com ([40.107.0.57]:55232
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1752244AbeCTK3t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Mar 2018 06:29:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=BN8M92tV7XsbK03nKT3EmF+8kZXB4BbKP8sA96dfbRE=;
+ b=ryC0DeXgC6F4oIBg7gu4TJpzi8pSWM/BHAfZZhNylzQTrPAc58bJWBMnDVhp3VeD1lWPqNfl+vuPMW/Aa/ViU5+51q7pZkf6Yx2BHlPHwgkTyQG6YnH1KegfUs0Ch5U/PW7GFup0yyJRt2oQnvv1rS8w24y7/MFeMBcAmYihNb8=
+Received: from DBXPR04MB463.eurprd04.prod.outlook.com (10.141.232.154) by
+ DBXPR04MB144.eurprd04.prod.outlook.com (10.242.140.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.588.14; Tue, 20 Mar 2018 10:29:45 +0000
+Received: from DBXPR04MB463.eurprd04.prod.outlook.com
+ ([fe80::bd4e:5832:a1a1:e2a]) by DBXPR04MB463.eurprd04.prod.outlook.com
+ ([fe80::bd4e:5832:a1a1:e2a%16]) with mapi id 15.20.0588.017; Tue, 20 Mar 2018
+ 10:29:45 +0000
+From:   =?iso-8859-2?Q?Horia_Geant=E3?= <horia.geanta@nxp.com>
+To:     Kamil Konieczny <k.konieczny@partner.samsung.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: Re: [PATCH v2] crypto: doc - clarify hash callbacks state machine
+Thread-Topic: [PATCH v2] crypto: doc - clarify hash callbacks state machine
+Thread-Index: AQHTwCh9gcjc1z/CcUO3XGrj5FBtzw==
+Date:   Tue, 20 Mar 2018 10:29:45 +0000
+Message-ID: <DBXPR04MB463D8753202F6587C526B1E98AB0@DBXPR04MB463.eurprd04.prod.outlook.com>
+References: <20180305103945.3517-1-horia.geanta@nxp.com>
+ <CGME20180320075741epcas5p3a7c026ba8644e54478955afcb6091023@epcas5p3.samsung.com>
+ <20180320075612.22719-1-horia.geanta@nxp.com>
+ <d036a7ef-d900-4858-b821-05c50b2b739e@partner.samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=horia.geanta@nxp.com; 
+x-originating-ip: [86.34.165.90]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DBXPR04MB144;7:d3vXZPyL+NiYhfBo4ysyNb7BGntV1qMF91E8d+iOQ0jWrkjTHNhDA+9fcdGfMzwxDubbq/cQcUfF8duTPwfq8WWyXaG+/gi/YvNNoCo/oaK0UG2XdOREiun4A0nkpKNjkHmIqCr6G0P4TbvkUlIo7T9UCiPXnQRD4PA7hLjEJjPE/aad+YileIUJLvGNLlXMD9zDITocgL7vKTmQ3RMP301Hwa1oJ2Won/yjwvXS5Ycg/PbB2JR7qGU4i1I/rwVb
+x-ms-exchange-antispam-srfa-diagnostics: SOS;
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9adcbf24-b583-44a3-1b59-08d58e4d802f
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(3008032)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:DBXPR04MB144;
+x-ms-traffictypediagnostic: DBXPR04MB144:
+x-microsoft-antispam-prvs: <DBXPR04MB1442E90D04E3791B8A5F52898AB0@DBXPR04MB144.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(185117386973197)(42068640409301);
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3231221)(944501309)(52105095)(10201501046)(93006095)(93001095)(3002001)(6055026)(6041310)(20161123558120)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123560045)(6072148)(201708071742011);SRVR:DBXPR04MB144;BCL:0;PCL:0;RULEID:;SRVR:DBXPR04MB144;
+x-forefront-prvs: 061725F016
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(376002)(346002)(396003)(39380400002)(366004)(199004)(189003)(25786009)(81166006)(81156014)(76176011)(53936002)(99286004)(316002)(2906002)(5250100002)(55016002)(561944003)(7696005)(33656002)(8676002)(6306002)(9686003)(3846002)(6116002)(66066001)(8936002)(6436002)(106356001)(2900100001)(93886005)(6246003)(59450400001)(3280700002)(305945005)(26005)(186003)(110136005)(3660700001)(102836004)(53546011)(229853002)(6506007)(478600001)(5660300001)(68736007)(7736002)(74316002)(966005)(14454004)(4326008)(97736004)(54906003)(105586002)(86362001);DIR:OUT;SFP:1101;SCL:1;SRVR:DBXPR04MB144;H:DBXPR04MB463.eurprd04.prod.outlook.com;FPR:;SPF:None;PTR:InfoNoRecords;A:1;MX:1;LANG:en;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: azIiUS25C6s+PdrO14cGGWZz+q31INEoGRiPveIvgbAvoi2Zs3VCuaezuglR2JAJ/tpWwhFZ/zSjto/3oeXpmp7ihtXPExd6bHOQYJdhe2DQzbXLf6feDR8vyiHbTqGOgfbTqaOrQHZLOBGrTHzbtgPO6onZL/+I9qZUbM7ChIjLVuZTrrXCut2Teqy+O1h1UPYeCCIs+y5j5qiLMA7ta4UN9GcRp4o0Eb4z6vQzpoFXGguWarKl/GwVMCXX7PG6QjtuESwNQIDX/UujNDjhLYXuR+7jFLm67ijDByWc+U+tAmlLleuJNsEvS5PY5Ol0XDum61JZqfctp1m88frtYw==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20180317232901.14129-5-paul@crapouillou.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9adcbf24-b583-44a3-1b59-08d58e4d802f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2018 10:29:45.6052
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBXPR04MB144
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17/03/18 23:28, Paul Cercueil wrote:
-> Add documentation about how to properly use the Ingenic TCU
-> (Timer/Counter Unit) drivers from devicetree.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  .../bindings/clock/ingenic,tcu-clocks.txt          | 42 ++++++++++++++++
->  .../bindings/interrupt-controller/ingenic,tcu.txt  | 39 +++++++++++++++
->  .../devicetree/bindings/mfd/ingenic,tcu.txt        | 56 ++++++++++++++++++++++
->  .../devicetree/bindings/timer/ingenic,tcu.txt      | 41 ++++++++++++++++
->  4 files changed, 178 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
->  create mode 100644 Documentation/devicetree/bindings/timer/ingenic,tcu.txt
-> 
->  v4: New patch in this series. Corresponds to V2 patches 3-4-5 with
->  added content.
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt b/Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
-> new file mode 100644
-> index 000000000000..471d27078599
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
-> @@ -0,0 +1,42 @@
-> +Ingenic SoC TCU binding
-> +
-> +The TCU is the Timer/Counter Unit present in all Ingenic SoCs. It features 8
-> +channels, each one having its own clock, that can be started and stopped,
-> +reparented, and reclocked.
-> +
-> +Required properties:
-> +- compatible : One of:
-> +  * ingenic,jz4740-tcu-clocks,
-> +  * ingenic,jz4770-tcu-clocks,
-> +  * ingenic,jz4780-tcu-clocks.
-> +- clocks : List of phandle & clock specifiers for clocks external to the TCU.
-> +  The "pclk", "rtc" and "ext" clocks should be provided.
-> +- clock-names : List of name strings for the external clocks.
-> +- #clock-cells: Should be 1.
-> +  Clock consumers specify this argument to identify a clock. The valid values
-> +  may be found in <dt-bindings/clock/ingenic,tcu.h>.
-> +
-> +Example:
-> +
-> +/ {
-> +	tcu: mfd@10002000 {
-> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
-> +		reg = <0x10002000 0x1000>;
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x0 0x10002000 0x1000>;
-> +
-> +		tcu_clk: clocks@10 {
-> +			compatible = "ingenic,jz4740-tcu-clocks";
-> +			reg = <0x10 0xff0>;
-> +
-> +			clocks = <&ext>, <&rtc>, <&pclk>;
-> +			clock-names = "ext", "rtc", "pclk";
-> +
-> +			#clock-cells = <1>;
-> +		};
-> +	};
-> +};
-> +
-> +For information about the top-level "ingenic,tcu" compatible node and other
-> +children nodes, see Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt b/Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
-> new file mode 100644
-> index 000000000000..7f3af2da77cd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
-> @@ -0,0 +1,39 @@
-> +Ingenic SoCs Timer/Counter Unit Interrupt Controller
-> +
-> +Required properties:
-> +
-> +- compatible : should be "ingenic,<socname>-tcu-intc". Valid strings are:
-> +  * ingenic,jz4740-tcu-intc
-> +  * ingenic,jz4770-tcu-intc
-> +  * ingenic,jz4780-tcu-intc
-> +- interrupt-controller : Identifies the node as an interrupt controller
-> +- #interrupt-cells : Specifies the number of cells needed to encode an
-> +  interrupt source. The value shall be 1.
-> +- interrupt-parent : phandle of the interrupt controller.
-> +- interrupts : Specifies the interrupt the controller is connected to.
-> +
-> +Example:
-> +
-> +/ {
-> +	tcu: mfd@10002000 {
-> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
-> +		reg = <0x10002000 0x1000>;
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x0 0x10002000 0x1000>;
-> +
-> +		tcu_irq: interrupt-controller@20 {
-> +			compatible = "ingenic,jz4740-tcu-intc";
-> +			reg = <0x20 0x20>;
-> +
-> +			interrupt-controller;
-> +			#interrupt-cells = <1>;
-> +
-> +			interrupt-parent = <&intc>;
-> +			interrupts = <15>;
-> +		};
-> +	};
-> +};
-> +
-> +For information about the top-level "ingenic,tcu" compatible node and other
-> +children nodes, see Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
-> diff --git a/Documentation/devicetree/bindings/mfd/ingenic,tcu.txt b/Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
-> new file mode 100644
-> index 000000000000..5742c3f21550
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
-> @@ -0,0 +1,56 @@
-> +Ingenic JZ47xx SoCs Timer/Counter Unit devicetree bindings
-> +----------------------------------------------------------
-> +
-> +For a description of the TCU hardware and drivers, have a look at
-> +Documentation/mips/ingenic-tcu.txt.
-> +
-> +The TCU is implemented as a parent node, whose role is to create the
-> +regmap, and child nodes for the various drivers listed in the aforementioned
-> +document.
-
-You're describing the Linux driver here. Please stick to a description
-of the HW.
-
-> +
-> +Required properties:
-> +
-> +- compatible: must be "ingenic,tcu", "simple-mfd", "syscon";
-
-Without any provision for an SoC version? Seems bold...
-
-> +- reg: Should be the offset/length value corresponding to the TCU registers
-> +- #address-cells: Should be <1>;
-> +- #size-cells: Should be <1>;
-> +- ranges: Should be one range for the full TCU registers area
-> +
-> +Accepted children nodes:
-> +- Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
-> +- Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
-> +- Documentation/devicetree/bindings/timer/ingenic,tcu.txt
-
-It is slightly confusing that you have 3 files named ingenic,tcu.txt.
-How about ingenic,tcu-intc.txt and ingenic,tcu-timer.txt (amending the
-binding for the timer)?
-
-> +
-> +
-> +Example:
-> +
-> +/ {
-> +	tcu: mfd@10002000 {
-> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
-> +		reg = <0x10002000 0x1000>;
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x0 0x10002000 0x1000>;
-> +
-> +		tcu_irq: interrupt-controller@20 {
-> +			compatible = "ingenic,jz4740-tcu-intc";
-> +			reg = <0x20 0x20>;
-> +			...
-> +		};
-> +
-> +		tcu_clk: clocks@10 {
-> +			compatible = "ingenic,jz4740-tcu-clocks";
-> +			reg = <0x10 0xff0>;
-> +			...
-> +		};
-> +
-> +		tcu_timer: timer@10 {
-> +			compatible = "ingenic,jz4740-tcu";
-> +			reg = <0x10 0xff0>;
-> +			...
-> +		};
-> +	};
-> +};
-> +
-> +For more information about the children node, refer to the documents listed
-> +above in the "Accepted children nodes" section.
-> diff --git a/Documentation/devicetree/bindings/timer/ingenic,tcu.txt b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
-> new file mode 100644
-> index 000000000000..f910b7e96783
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
-> @@ -0,0 +1,41 @@
-> +Ingenic JZ47xx SoCs Timer/Counter Unit driver
-> +---------------------------------------------
-> +
-> +Required properties:
-> +
-> +- compatible : should be "ingenic,<socname>-tcu". Valid strings are:
-> +  * ingenic,jz4740-tcu
-> +  * ingenic,jz4770-tcu
-> +  * ingenic,jz4780-tcu
-> +- interrupt-parent : phandle of the TCU interrupt controller.
-> +- interrupts : Specifies the interrupts the controller is connected to.
-> +- clocks : List of phandle & clock specifiers for the TCU clocks.
-> +- clock-names : List of name strings for the TCU clocks.
-> +
-> +Example:
-> +
-> +/ {
-> +	tcu: mfd@10002000 {
-> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
-> +		reg = <0x10002000 0x1000>;
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x0 0x10002000 0x1000>;
-> +
-> +		tcu_timer: timer@10 {
-> +			compatible = "ingenic,jz4740-tcu";
-> +			reg = <0x10 0xff0>;
-> +
-> +			clocks = <&tcu_clk 0>, <&tcu_clk 1>, <&tcu_clk 2>, <&tcu_clk 3>,
-> +					 <&tcu_clk 4>, <&tcu_clk 5>, <&tcu_clk 6>, <&tcu_clk 7>;
-> +			clock-names = "timer0", "timer1", "timer2", "timer3",
-> +						  "timer4", "timer5", "timer6", "timer7";
-> +
-> +			interrupt-parent = <&tcu_irq>;
-> +			interrupts = <0 1 2 3 4 5 6 7>;
-> +		};
-> +	};
-> +};
-> +
-> +For information about the top-level "ingenic,tcu" compatible node and other
-> +children nodes, see Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
-> 
-
-Thanks,
-
-	M.
--- 
-Jazz is not dead. It just smells funny...
+On 3/20/2018 10:50 AM, Kamil Konieczny wrote:=0A=
+> On 20.03.2018 08:56, Horia Geant=E3 wrote:=0A=
+>> Add a note that it is perfectly legal to "abandon" a request object:=0A=
+>> - call .init() and then (as many times) .update()=0A=
+>> - _not_ call any of .final(), .finup() or .export() at any point in=0A=
+>>   future=0A=
+>>=0A=
+>> Link: https://lkml.kernel.org/r/20180222114741.ga27...@gondor.apana.org.=
+au=0A=
+>> Signed-off-by: Horia Geant=E3 <horia.geanta@nxp.com>=0A=
+>> ---=0A=
+>>  Documentation/crypto/devel-algos.rst | 8 ++++++++=0A=
+>>  1 file changed, 8 insertions(+)=0A=
+>>=0A=
+>> diff --git a/Documentation/crypto/devel-algos.rst b/Documentation/crypto=
+/devel-algos.rst=0A=
+>> index 66f50d32dcec..c45c6f400dbd 100644=0A=
+>> --- a/Documentation/crypto/devel-algos.rst=0A=
+>> +++ b/Documentation/crypto/devel-algos.rst=0A=
+>> @@ -236,6 +236,14 @@ when used from another part of the kernel.=0A=
+>>                                 |=0A=
+>>                                 '---------------> HASH2=0A=
+>>  =0A=
+>> +Note that it is perfectly legal to "abandon" a request object:=0A=
+>> +- call .init() and then (as many times) .update()=0A=
+>> +- _not_ call any of .final(), .finup() or .export() at any point in fut=
+ure=0A=
+>> +=0A=
+>> +In other words implementations should mind the resource allocation and =
+clean-up.=0A=
+>> +No resources related to request objects should remain allocated after a=
+ call=0A=
+> -- ^^^^^^^^^^^^=0A=
+>> +to .init() or .update(), since there might be no chance to free them.=
+=0A=
+> =0A=
+> is it for crypto api  users or for drivers ?=0A=
+> =0A=
+For drivers / providers (below crypto API).=0A=
+=0A=
+> the creator of request context is responsible for alloc and destroy,=0A=
+> so why there are no chance of free ?=0A=
+> =0A=
+Hash request object (including request context) is allocated by the user /=
+=0A=
+client by means of ahash_request_alloc(), and later on freed using=0A=
+ahash_request_free().=0A=
+I don't see a problem with this.=0A=
+=0A=
+However, besides the memory allocated for the request context, other resour=
+ces=0A=
+(related to the request) might be needed by the driver.=0A=
+I provided an example of needing to DMA map a buffer (to load/store HW stat=
+e=0A=
+from/to crypto engine), and I am not happy with either solutions:=0A=
+-DMA map & unmap after each .update()=0A=
+-Herbert's proposal to use a convoluted DMA mapping scheme=0A=
+=0A=
+Another example: dynamic memory allocation might be needed beyond what's=0A=
+available in request context, i.e. driver might not have apriori all the=0A=
+information needed to inform the tfm about required memory using=0A=
+crypto_ahash_set_reqsize().=0A=
+=0A=
+This happens due to the semantics of the crypto API, which allows the user =
+to=0A=
+initialize a request object and drop it without getting a result (final or=
+=0A=
+partial hash).=0A=
+I don't see what below use case is good for, maybe just for benchmarking:=
+=0A=
+req =3D ahash_request_alloc();=0A=
+[...]=0A=
+crypto_ahash_init(req);=0A=
+crypto_ahash_update(req);=0A=
+ahash_request_free(req);=0A=
+=0A=
+Horia=0A=
+=0A=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
