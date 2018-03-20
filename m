@@ -6,89 +6,82 @@ X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 077E47D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 19:49:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 387657D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 19:57:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751320AbeCTTtI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 15:49:08 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:52422 "EHLO
-        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751269AbeCTTtH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 15:49:07 -0400
-Received: by mail-it0-f67.google.com with SMTP id k135-v6so3998387ite.2;
-        Tue, 20 Mar 2018 12:49:07 -0700 (PDT)
+        id S1751320AbeCTT5C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 15:57:02 -0400
+Received: from mail-it0-f65.google.com ([209.85.214.65]:38121 "EHLO
+        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751269AbeCTT5B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 15:57:01 -0400
+Received: by mail-it0-f65.google.com with SMTP id 19-v6so3938969itw.3;
+        Tue, 20 Mar 2018 12:57:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=6hLpDH5YiDvvFPRXNiuyyCbrnox+M/BIXV46qArqG5w=;
-        b=d7vSz8RdGrMyXybPWc+Ubv+vXvvo9FXIfsDA1aA6hT9M96GVG0Le8hRAmp5CPxTbA/
-         ZC8vD++qMAs7vpyuSU2nqJmukvOmoZIxmvS3/5XgeWMvPSumG4/tHlmHkXApub15zMDu
-         9XFdx7N4+zPr+9drl0sXZlHcPr5dKi4Bjwr0RsxtVmGdSIfQRO0GB14PBaD2TfrbZ3QJ
-         20gRQvXZemUpVxZ7uPZ6qz3Uu8x/T5IjwJuOGssZ4+oqZTemuSeX0/i7sats3yjbdr+L
-         z1WBGOALCZgAUfVI0jVbpMveaX9eqXYa/LhSRooRIQdG6nNash3I4+kiSp2O3PLMm796
-         jU2A==
+        h=from:to:cc:subject:date:message-id;
+        bh=MbvCS2K1U5hNLKeKPqa8/PY3MJAqo5oT8gosQ7oE24E=;
+        b=Sw9ms1a/4x935V+4C9xgbfwm7hgpLwcbOlxGBwFk8+uupTXhnXbljG19+XJ/RekQD9
+         rk0NPIdCzhypECupnSruHAQlAcbaFJNDRGAk/f5uZdPFRlArxncREJuCPNv2mHcdf0kR
+         VfVRNcAUkh79Z/xt4XMbkYHqlkfJc5fNQbvUp+rk4snHQ0r9CBUBXqEWj2fwZJb3Q2qb
+         28rvFsoG1DGbJyuWAupeWTXNJyqNGqTM4Wj2IaYIUwIH8oRyFRfYEABShbkoHakQwRdT
+         sbsjH9zwHyWBwgm48rcyOGKiKX6sw5ZDfad59gPS/PxN+ryOi7D1z07LqlMMyTJazcWR
+         Bz3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=6hLpDH5YiDvvFPRXNiuyyCbrnox+M/BIXV46qArqG5w=;
-        b=Tq4YR20uX5xd39KNfk8fuTpT4kjGqEsdKOKyZVJlZ8NKAS9K3LZjUcR5cPs/tiCw4c
-         juVyIaKk1O/4CWarOQsXY/SwLNZnv/EsZ3gWj6ec2soxih46j5yKuY4J6AjJGTJWsBNB
-         NqkLA3EP2Dzx8kbWN3I7uNHgibpb9N4jFgcXN9z/RDIHt+K2KSbDaRtDJQV+/Y/TOXN1
-         9XgKSzI22btlVap7Fx3iI2wz3F23ZlNXAXI0Hkh5Dz2UK7IQEHymigJj+l+SClJARml9
-         IVbU7hhieEj0aSmv5HluqgkGI6509vyhEsOUWp8nU9J/UupZuxvsEUQg5QtwGDE7/TjC
-         eBtA==
-X-Gm-Message-State: AElRT7E0z2InmjkF3PpAXIlY9WtEHAh+Vdpl1zzLmuwYkkN75hWceGzw
-        X6hacH31xpBhFOEHsocKWFbmIA3Aj88=
-X-Google-Smtp-Source: AG47ELtKoGMePrpr7vtmtVWJhfypa7/sEbVYDiltIj1kXzGNd0u0l/Uln2YdW4/5rj73yPKhHDFXBA==
-X-Received: by 2002:a24:dbd6:: with SMTP id c205-v6mr1099339itg.63.1521575346521;
-        Tue, 20 Mar 2018 12:49:06 -0700 (PDT)
-Received: from [104.39.53.110] ([104.39.53.110])
-        by smtp.gmail.com with ESMTPSA id y4sm1535784ioy.29.2018.03.20.12.49.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Mar 2018 12:49:06 -0700 (PDT)
-Subject: Re: [PATCH] modify one dead link
-To:     Sergei Trofimovich <slyfox@gentoo.org>
-Cc:     corbet@lwn.net, yamada.masahiro@socionext.com, tony.luck@intel.com,
-        bjorn.forsman@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20180320145422.24331-1-mudongliangabcd@gmail.com>
- <20180320194203.205c6c60@sf>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=MbvCS2K1U5hNLKeKPqa8/PY3MJAqo5oT8gosQ7oE24E=;
+        b=EEermaHH1FR2M8V4fdJ/euO6p4AEEmUJX2hLPYoY1XkBF5Ies64V0w0CKV2p5eQADq
+         KkI2IXYZDx2ZShlJD63cDGU3QsG4DEuFsM4Zso+U5Tbz7UVMdshDghXYJqpF489M/RX4
+         lmFqArxpqhy3kmMQ5qcfrmd493/CdFaFDQ58zP5VmuJfI0l+M9o4lHqTNCrspZM2FC0g
+         EvfHfBY/cA1K+xiWv+eWMi92cwrj0FFDKAutwDd+cyS139g0QNAhUa88xy5X9cAGRNik
+         DMSwirOXvAFBRYAw7hq+XZFmSUzWrJmjIgWw+sl1V/q3QysIpde+x7uwzrlBgUF15G8M
+         pSJg==
+X-Gm-Message-State: AElRT7FsCuxQ4SW6z1eZiMvgry6GW/sbbFYR5dHwMdDsk0GmI2RTM2TV
+        1yRt/4tCeqJpmxnPcZaAffk=
+X-Google-Smtp-Source: AG47ELuOHOsNntEYmGN1Yy2U6typzJzMcaJE+JbOd5PKpwlPXovdm8V5u0NU+1jqP7flD+qe11zLkw==
+X-Received: by 2002:a24:7bce:: with SMTP id q197-v6mr1073029itc.145.1521575820878;
+        Tue, 20 Mar 2018 12:57:00 -0700 (PDT)
+Received: from localhost ([104.39.53.110])
+        by smtp.gmail.com with ESMTPSA id n41sm1612949ioi.62.2018.03.20.12.57.00
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 20 Mar 2018 12:57:00 -0700 (PDT)
 From:   Dongliang Mu <mudongliangabcd@gmail.com>
-Message-ID: <285f442d-c4ad-93be-c3c0-ad04c37f21f8@gmail.com>
-Date:   Tue, 20 Mar 2018 15:49:05 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20180320194203.205c6c60@sf>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+To:     corbet@lwn.net, yamada.masahiro@socionext.com, slyfox@gentoo.org,
+        tony.luck@intel.com, bjorn.forsman@gmail.com,
+        mudongliangabcd@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] fix one dead link in ia64/xen.txt
+Date:   Tue, 20 Mar 2018 15:56:58 -0400
+Message-Id: <20180320195658.17498-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.16.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ Documentation/ia64/xen.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-On 03/20/2018 03:42 PM, Sergei Trofimovich wrote:
-> On Tue, 20 Mar 2018 10:54:22 -0400
-> Dongliang Mu <mudongliangabcd@gmail.com> wrote:
->
->> -    # hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable.hg
->> +    # hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable
->>       # cd xen-unstable.hg
->>       # hg clone http://xenbits.xensource.com/ext/ia64/linux-2.6.18-xen.hg
-> You will need to fix a 'cd' as well:
->      cd xen-unstable
-I will modify that problem. Then resubmit the patch.
-
-Thanks.
->   
-> Otherwise looks good.
->
+diff --git a/Documentation/ia64/xen.txt b/Documentation/ia64/xen.txt
+index a12c74ce2773..464d4c29b8b5 100644
+--- a/Documentation/ia64/xen.txt
++++ b/Documentation/ia64/xen.txt
+@@ -26,8 +26,8 @@ Getting and Building Xen and Dom0
+     DomainU OS  : RHEL5
+ 
+  1. Download source
+-    # hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable.hg
+-    # cd xen-unstable.hg
++    # hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable
++    # cd xen-unstable
+     # hg clone http://xenbits.xensource.com/ext/ia64/linux-2.6.18-xen.hg
+ 
+  2. # make world
+-- 
+2.16.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
