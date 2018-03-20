@@ -1,88 +1,168 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D82DE7D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 15:39:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 745C47D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 16:35:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751727AbeCTPj0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 11:39:26 -0400
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:42611 "EHLO
-        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751753AbeCTPjS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 11:39:18 -0400
-Received: by mail-pf0-f194.google.com with SMTP id a16so774558pfn.9
-        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 08:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:to:from:in-reply-to:cc
-         :references:message-id:user-agent:subject:date;
-        bh=Pt8HO4bkmSZYrVcQpQYv5vj4/77gUVAERpHzzhuJZ9U=;
-        b=OrVVyw3iuNThcSDPjZX9jOaGvwkk+3ljsUg09XRaklvSS6dd9v1HDOkIM0+eZkT7G8
-         fVAXYWejZodcSU2GKXmYQv3nW3CTYm3FdGtMI+BuHFcjNjcihyU95xoxSmJySNBbPREv
-         UqtF0SBPwOUwYoTBS6B7g9B2sjetMnQVxWBIg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:to:from
-         :in-reply-to:cc:references:message-id:user-agent:subject:date;
-        bh=Pt8HO4bkmSZYrVcQpQYv5vj4/77gUVAERpHzzhuJZ9U=;
-        b=UyveAGpMw50B61UaT7BWVgQIfPxY7qYlrpldB1u8rSqJsM0UKvmuCa3pjJgQI++0cG
-         8q0lAI7ZS/1erUL3jdeAREn8A9rZsY18Zt2+MqNpvUaWseEKRIRkwcjSBriukoOyeo8n
-         OFrSLw84ZMCzZ9b+h5rJPuW5cMkx+guPE06AWY4Q67NLSsVu/VG6ZNGrWFZfuCRzFs1B
-         jorzkCCoYI7b2EcLf3CweXOP9qLQ6eu7uMpEkstqPlVCorx6ttjtqq1VHwjQkuSZKrpu
-         oTpW0pL7+w+j+rKwVYlIyXvotooJVmzZudt+RXoeH+pSQ4xu/nKLdeIkA1nWJH0206Wi
-         rG4w==
-X-Gm-Message-State: AElRT7EzWt3eC86gYUw2bDrYADw3IjJsOdFHtW0BrfEbb/etHyxgKZwZ
-        D3DKBSt1vYxiOehIQkhz+Oovig==
-X-Google-Smtp-Source: AG47ELtRXrpJ14FmONvRtuop096hrXSyeM8jfA7+qtrpc4VIZr2JDTKDqFT1ifK54lTkZ7CDxkN6ZQ==
-X-Received: by 10.98.244.6 with SMTP id r6mr921976pff.242.1521560357816;
-        Tue, 20 Mar 2018 08:39:17 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1511:d30e:62c6:f82c:ff40])
-        by smtp.gmail.com with ESMTPSA id n8sm4053591pff.131.2018.03.20.08.39.17
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 20 Mar 2018 08:39:17 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        id S1751677AbeCTQfK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 12:35:10 -0400
+Received: from ucol19pa12.eemsg.mail.mil ([214.24.24.85]:42186 "EHLO
+        ucol19pa12.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751302AbeCTQfI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 12:35:08 -0400
+X-Greylist: delayed 328 seconds by postgrey-1.27 at vger.kernel.org; Tue, 20 Mar 2018 12:35:07 EDT
+X-IronPort-AV: E=Sophos;i="5.48,336,1517875200"; 
+   d="scan'208";a="520248672"
+Received: from emsm-gh1-uea10.ncsc.mil ([214.29.60.2])
+  by ucol19pa12.eemsg.mail.mil with ESMTP/TLS/AES256-SHA; 20 Mar 2018 16:31:54 +0000
+X-IronPort-AV: E=Sophos;i="5.48,336,1517875200"; 
+   d="scan'208";a="9923277"
+IronPort-PHdr: =?us-ascii?q?9a23=3AZsKiFxDFyY8ahTyKcYPoUyQJP3N1i/DPJgcQr6Af?=
+ =?us-ascii?q?oPdwSP39r8+wAkXT6L1XgUPTWs2DsrQY07GQ6/iocFdDyK7JiGoFfp1IWk1Nou?=
+ =?us-ascii?q?QttCtkPvS4D1bmJuXhdS0wEZcKflZk+3amLRodQ56mNBXdrXKo8DEdBAj0OxZr?=
+ =?us-ascii?q?KeTpAI7SiNm82/yv95HJbAhEmDSwbaluIBmqsA7cqtQYjYx+J6gr1xDHuGFIe+?=
+ =?us-ascii?q?NYxWNpIVKcgRPx7dqu8ZBg7ipdpesv+9ZPXqvmcas4S6dYDCk9PGAu+MLrrxjD?=
+ =?us-ascii?q?QhCR6XYaT24bjwBHAwnB7BH9Q5fxri73vfdz1SWGIcH7S60/VC+85Kl3VhDnlC?=
+ =?us-ascii?q?YHNyY48G7JjMxwkLlbqw+lqxBm3oLYfJ2ZOP94c6zTZ9MaQXdKUNhXWSJPH4iw?=
+ =?us-ascii?q?a5IDA/QdMepdqYT2ulkAogakBQS0Ge3h1DFIiH/106M03esuHgPJ0xAvEd8VrH?=
+ =?us-ascii?q?TZr8/4OLsOXe27zqTFyyjIYfNM2Tf67YjFag0voe2SUrJoccre108vHB7YgFWV?=
+ =?us-ascii?q?s4PlOzeV2foNsmOG6OdgTv+gi3U8pgFtojmg2scsio7TioIT0VDL7z91wIkyJd?=
+ =?us-ascii?q?2mUUN2Z8OvHphItyyCKod7TcwvT3totSon0LEKp5G2cDYQxJg6wRPUduaJfJKS?=
+ =?us-ascii?q?4h35UeacOTJ4hHV4d72hnxuy6k2gyvHkVsmzzVZKsjJJktnSuXAJ0Bze8tSHRe?=
+ =?us-ascii?q?Fn/kegxDaPzBrf6v1EIE8olarbLIQtwrgsmZoIrUvPBCr2mETyjKOOd0Uk/Pan?=
+ =?us-ascii?q?6/j/b7n7qZKROJV4hwHjPqg0hMCyDvo0PhITU2SD/OSzzrzj/Un3QLVQif02l7?=
+ =?us-ascii?q?HUsIvHKsQAvaO5Hw9U3Zoj6xa4FTum1s8YkmMdIFJKfxKHkZDlO0vSL/DgEfe/?=
+ =?us-ascii?q?n1OsnS9ox//cO73uHJPNLmPAkLbhZrty909cyBEvwtBY/Z5bFrYBIPfrUE/rqN?=
+ =?us-ascii?q?PYFgM5MxCzw+v/FNVyzIAeWWWJAqCEKqPdq0SF6f4uI+mXeIAVvyzxJOQi5/7r?=
+ =?us-ascii?q?lXU5g0MSfbG13ZsLb3C1BvRmI12Dbnf3g9YAEXsKvg0kTODwlFKCVjtTbW6oX6?=
+ =?us-ascii?q?0g/jE7FJ6mDYDbS4CzgbyBxiC7E4ZXZ29YDFCMEGnoe5+AW/cNbiKSP8BgniYD?=
+ =?us-ascii?q?Vbi7RI8tzwyutAziwbp9MuXU4jEYtY7k1NVt/eLTjxcy+iFvAsuHyWGNSXx7kX?=
+ =?us-ascii?q?gSSzArwq91uVZ9xUub0ahkn/xYEsRe5+lOUgghLpPcy/Z1C9bvVQLFYNiISEyq?=
+ =?us-ascii?q?QtO4DjEtVtgx2cMBY15hG9W+iRDOxyurA7gVl7ORHpw56abc33n3J8ZgxHfKzr?=
+ =?us-ascii?q?chj184TctTL2Gmh7Vw9w3JC4HVlEWZkr6gdb4A0y7V6GeD0W2OsVlEXw53S6XK?=
+ =?us-ascii?q?Rm4QZlfNoNT96ELCSaWiCbI5PQtd0cSCMLdFasX1jVVaQ/fuINbebHi0m2iuHh?=
+ =?us-ascii?q?aE3L2NYJDve2oB2SXSFlQLkwAJ8naALgU+CSKhrHjfDDxqD17gf0Ts8exmonOh?=
+ =?us-ascii?q?UkA01x2Kb1Fm17et+x4Vg/2cS+8J3r0evSchpS50EU2j39LZFdWAvRBtfKZCbt?=
+ =?us-ascii?q?Mn5ldIy2bZuxZ6Ppy6IKBonkQefBhvv0PyyxV3DZ1NkcwrrHMs0QpzJruU305G?=
+ =?us-ascii?q?dzyExp3wJLLXJXfo/By1aK7ZxEve0NCI9acL8vg4rE/jvA6xHEo473pny8VV02?=
+ =?us-ascii?q?eb5pjSCAoSUJTxUls49hRjpLHVfDM954XK2n1oKqS0rDDC1MwzBOc/yRavYc1f?=
+ =?us-ascii?q?MKWaGw/2CcEaANKuKOMykVizch0EJPxS9LIzP86+c/uG2airPPtvnT6/lmRI/p?=
+ =?us-ascii?q?xy0l+W9yp9Vu7J348Jw/Sf3gSaSjf8iEmuv9vpmYBLez4SBHCzySv6C45LYK19?=
+ =?us-ascii?q?Y4ILBX2pI82tydV0n4TtVGJA9F6/G1MG39ekeBWMYFDk2Q1Q1EIXoWGomCeh0T?=
+ =?us-ascii?q?N1nC0pobSF3CzI2evicAEKNXJKRGl5kVjsJpK4gMwdXEitdwIpjgeq5V7mx6hH?=
+ =?us-ascii?q?o6RyN3HTTl1VfyjyNGxiSrG/tqeGY8JW7ZMotiJXUP6iblyAVrH9pB4a2Tv5H2?=
+ =?us-ascii?q?RC3DA7ay2qupLhkhNkkGKSNmxzrHvCecxr3RfQ/sbcRf9K3joeQCl3kyXYCUam?=
+ =?us-ascii?q?M9mu59WUmMSLjufraWOqSppJOQriyI6GryiqrTlpCBiymeuwi/XsEBMx1mnw0N?=
+ =?us-ascii?q?w8BgvSqxOpWZXmz6S3N6pce0BsAFLto55hFppWjpo7hJZW32MTwJqS4yxUwi/I?=
+ =?us-ascii?q?LdxH1PemPzI2TjkRzouQuVK91Q=3D=3D?=
+X-IPAS-Result: =?us-ascii?q?A2DZAAD6NrFa/wHyM5BeGQEBAQEBAQEBAQEBAQcBAQEBAYM?=
+ =?us-ascii?q?jLYFYKINdihuNf0gGgQwpgRaUB4IShRwCg00hNBgBAgEBAQEBAQIBaiiCOCQBg?=
+ =?us-ascii?q?kgBAQEBAyMECwFGEAkCEQMBAgECAh8HAgJPCAYNBgIBAReCTYIlDY4gm0CBbDq?=
+ =?us-ascii?q?EboNtgg6BDIQrghWBDYJEDIJshE8hgx6CYQOMO4wCCY8zB402kWQeOIFSKwgCG?=
+ =?us-ascii?q?AghD4J9gmOOJCQ0jiKCSQEBAQ?=
+Received: from tarius.tycho.ncsc.mil ([144.51.242.1])
+  by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 20 Mar 2018 16:31:54 +0000
+Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
+        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id w2KGVrjX022254;
+        Tue, 20 Mar 2018 12:31:53 -0400
+Subject: Re: [Non-DoD Source] Re: [PATCH v3 14/15] selinux: allow setxattr on
+ rootfs so initramfs code can set them
+To:     Victor Kamensky <kamensky@cisco.com>
+Cc:     Taras Kondratiuk <takondra@cisco.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Landley <rob@landley.net>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James McMechan <james.w.mcmechan@gmail.com>,
+        initramfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, xe-linux-external@cisco.com,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@parisplace.org>
+References: <1518813234-5874-1-git-send-email-takondra@cisco.com>
+ <1518813234-5874-17-git-send-email-takondra@cisco.com>
+ <1519153284.14218.18.camel@tycho.nsa.gov>
+ <alpine.LRH.2.00.1803101848580.24419@sjc-ads-6991.cisco.com>
+From:   Stephen Smalley <sds@tycho.nsa.gov>
+Message-ID: <ab0b8e50-a92e-9f36-5493-ddbd295ed182@tycho.nsa.gov>
+Date:   Tue, 20 Mar 2018 12:33:12 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        andy.gross@linaro.org, corbet@lwn.net, david.brown@linaro.org,
-        gregkh@linuxfoundation.org, mark.rutland@arm.com,
-        robh+dt@kernel.org, wsa@the-dreams.de
-From:   Stephen Boyd <swboyd@chromium.org>
-In-Reply-To: <1521071931-9294-2-git-send-email-kramasub@codeaurora.org>
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, jslaby@suse.com,
-        evgreen@chromium.org, acourbot@chromium.org,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>
-References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
- <1521071931-9294-2-git-send-email-kramasub@codeaurora.org>
-Message-ID: <152156035664.254778.5247314455044000548@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v4 1/6] dt-bindings: soc: qcom: Add device tree binding for GENI
- SE
-Date:   Tue, 20 Mar 2018 08:39:16 -0700
+In-Reply-To: <alpine.LRH.2.00.1803101848580.24419@sjc-ads-6991.cisco.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Karthikeyan Ramasubramanian (2018-03-14 16:58:46)
-> Add device tree binding support for the QCOM GENI SE driver.
-> =
+On 03/10/2018 10:07 PM, Victor Kamensky wrote:
+> 
+> 
+> On Tue, 20 Feb 2018, Stephen Smalley wrote:
+> 
+>> On Fri, 2018-02-16 at 20:33 +0000, Taras Kondratiuk wrote:
+>>> From: Victor Kamensky <kamensky@cisco.com>
+>>>
+>>> initramfs code supporting extended cpio format have ability to
+>>> fill extended attributes from cpio archive, but if SELinux enabled
+>>> and security server is not initialized yet, selinux callback would
+>>> refuse setxattr made by initramfs code.
+>>>
+>>> Solution enable SBLABEL_MNT on rootfs even if secrurity server is
+>>> not initialized yet.
+>>
+>> What if we were to instead skip the SBLABEL_MNT check in
+>> selinux_inode_setxattr() if !ss_initialized?  Not dependent on
+>> filesystem type.
+> 
+> Stephen, thank you for looking into this. Sorry, for dealyed reponse -
+> I needed to find time to require context about these changes.
+> 
+> As you suggested I've tried this and it works:
+> 
+>> From 6bf35bd055fdb12e94f3d5188eccfdbaa30dbcf4 Mon Sep 17 00:00:00 2001
+> From: Victor Kamensky <kamensky@cisco.com>
+> Date: Fri, 9 Mar 2018 23:01:20 -0800
+> Subject: [PATCH 1/2] selinux: allow setxattr on file systems if policy is not
+>  loaded
+> 
+> initramfs code supporting extended cpio format have ability to
+> fill extended attributes from cpio archive, but if SELinux enabled
+> and security server is not initialized yet, selinux callback would
+> refuse setxattr made by initramfs code because file system is not
+> yet marked as one that support labeling (SBLABEL_MNT flag).
+> 
+> Solution do not refuse setxattr even if SBLABEL_MNT is not set
+> for file systems when policy is not loaded yet.
+> 
+> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+> ---
+>  security/selinux/hooks.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> index 819fd68..31303ed 100644
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
+> @@ -3120,7 +3120,7 @@ static int selinux_inode_setxattr(struct dentry *dentry, const char *name,
+>          return selinux_inode_setotherxattr(dentry, name);
+> 
+>      sbsec = inode->i_sb->s_security;
+> -    if (!(sbsec->flags & SBLABEL_MNT))
+> +    if (!(sbsec->flags & SBLABEL_MNT) && ss_initialized)
+>          return -EOPNOTSUPP;
+> 
+>      if (!inode_owner_or_capable(inode))
 
-> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
-> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
-
-Assuming Rob's comment is addressed:
-
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+I favor the first option.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
