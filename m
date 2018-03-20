@@ -1,107 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF9D07D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 11:08:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E4BF07D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 12:38:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753096AbeCTLHi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 07:07:38 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:7319 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1752832AbeCTLFP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 07:05:15 -0400
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
-   d="scan'208";a="38002750"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 20 Mar 2018 19:05:12 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-        by cn.fujitsu.com (Postfix) with ESMTP id A49F648AE76C;
-        Tue, 20 Mar 2018 19:05:11 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.106) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Tue, 20 Mar 2018 19:05:10 +0800
-From:   Dou Liyang <douly.fnst@cn.fujitsu.com>
-To:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
-        <linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <corbet@lwn.net>,
-        <rjw@rjwysocki.net>, <lenb@kernel.org>, <hpa@zytor.com>,
-        <peterz@infradead.org>, Dou Liyang <douly.fnst@cn.fujitsu.com>
-Subject: [PATCH 2/5] x86/cpu_hotplug: Update the link of cpu_hotplug.rst
-Date:   Tue, 20 Mar 2018 19:04:29 +0800
-Message-ID: <20180320110432.28127-3-douly.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180320110432.28127-1-douly.fnst@cn.fujitsu.com>
+        id S1753299AbeCTMhg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 08:37:36 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:35370 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753248AbeCTMha (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 08:37:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=1fHsE1nmcgWwly8CDahs/GNTh68IaNBKHRdRUm6rBaE=; b=vWgAAm3XJK28k0VUuqTFsldwe
+        BARezZg/CK148m23Z50hOJRZ3UoSdl3ALfA7c1RAtvziyTWFIuWYglzt8NAxLuuWoBwgxeZaUvPe2
+        j8M+t8h5Ed8i2+rfsnDIhft7G+A0B/zLgegoYXwcTJEZimwUP0JjHMEowedE96NfKuXDSSQpig1TN
+        4ET9TVMmXiT9jkVRSDk8HlpY/Fv8NWcXsW4t0myuoc4LE2trR29hszw2YijwKzBkqbHNDHHVvkfcw
+        K9e2CaMGEF0t8r+A/VZWY2fXmypRY808+YCpn77q22uFSwJyP2P9KJI8GRueXdruEnim//eMkIr5Q
+        R0NV0cB0A==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1eyGVv-0005zb-7N; Tue, 20 Mar 2018 12:37:15 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id C0D80202A2A01; Tue, 20 Mar 2018 13:37:12 +0100 (CET)
+Date:   Tue, 20 Mar 2018 13:37:12 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Dou Liyang <douly.fnst@cn.fujitsu.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, corbet@lwn.net,
+        rjw@rjwysocki.net, lenb@kernel.org, hpa@zytor.com
+Subject: Re: [PATCH 1/5] x86/smpboot: Add the missing description of
+ possible_cpus
+Message-ID: <20180320123712.GR4043@hirez.programming.kicks-ass.net>
 References: <20180320110432.28127-1-douly.fnst@cn.fujitsu.com>
+ <20180320110432.28127-2-douly.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.226.106]
-X-yoursite-MailScanner-ID: A49F648AE76C.A2096
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: douly.fnst@cn.fujitsu.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180320110432.28127-2-douly.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The original cpu_hotplug.txt documents describing CPU hotplug support in
-Linux kernel. it was moved in to core-api/ and renamed cpu_hotplug.rst.
+On Tue, Mar 20, 2018 at 07:04:28PM +0800, Dou Liyang wrote:
 
-Update it's link in other documents
+> +	possible_cpus=	[s390,x86_64] Use this to set hotpluggable cpus.
+> +			This option sets possible_cpus bits in cpu_possible_map.
+> +			Thus keeping the numbers of bits set constant even if
+> +			the machine gets rebooted.
 
-Fixes: ff58fa7f556c ("Documentation: Update CPU hotplug and move it to core-api")
-Signed-off-by: Dou Liyang <douly.fnst@cn.fujitsu.com>
----
- Documentation/00-INDEX        |  2 --
- Documentation/cputopology.txt | 10 +++++-----
- 2 files changed, 5 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/00-INDEX b/Documentation/00-INDEX
-index 7f3a0728ccf2..3773c67ea9e5 100644
---- a/Documentation/00-INDEX
-+++ b/Documentation/00-INDEX
-@@ -104,8 +104,6 @@ core-api/
- 	- documentation on kernel core components.
- cpu-freq/
- 	- info on CPU frequency and voltage scaling.
--cpu-hotplug.txt
--	- document describing CPU hotplug support in the Linux kernel.
- cpu-load.txt
- 	- document describing how CPU load statistics are collected.
- cpuidle/
-diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
-index c6e7e9196a8b..e05b0879fe91 100644
---- a/Documentation/cputopology.txt
-+++ b/Documentation/cputopology.txt
-@@ -117,9 +117,9 @@ source for the output is in brackets ("[]").
- 		[NR_CPUS-1]
- 
-     offline:	CPUs that are not online because they have been
--		HOTPLUGGED off (see cpu-hotplug.txt) or exceed the limit
--		of CPUs allowed by the kernel configuration (kernel_max
--		above). [~cpu_online_mask + cpus >= NR_CPUS]
-+		HOTPLUGGED off (see core-api/cpu_hotplug.rst) or exceed
-+		the limit of CPUs allowed by the kernel configuration
-+		(kernel_max above). [~cpu_online_mask + cpus >= NR_CPUS]
- 
-     online:	CPUs that are online and being scheduled [cpu_online_mask]
- 
-@@ -155,5 +155,5 @@ online.)::
-        possible: 0-127
-         present: 0-3
- 
--See cpu-hotplug.txt for the possible_cpus=NUM kernel start parameter
--as well as more information on the various cpumasks.
-+See core-api/cpu_hotplug.rst for the possible_cpus=NUM kernel start
-+parameter as well as more information on the various cpumasks.
--- 
-2.14.3
-
-
-
+That description, esp. the last sentence, doesn't make any kind of sense
+to me. What?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
