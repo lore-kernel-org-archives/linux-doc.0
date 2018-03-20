@@ -1,87 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE61A7DE76
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 03:19:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 978B67D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 04:26:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751548AbeCTDTY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Mar 2018 23:19:24 -0400
-Received: from mga05.intel.com ([192.55.52.43]:19276 "EHLO mga05.intel.com"
+        id S1751261AbeCTE0V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 00:26:21 -0400
+Received: from mout.gmx.net ([212.227.15.18]:58959 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751069AbeCTDTX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Mar 2018 23:19:23 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Mar 2018 20:19:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,333,1517904000"; 
-   d="scan'208";a="29471790"
-Received: from rzhang-dell-9360.sh.intel.com ([10.239.197.116])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Mar 2018 20:19:21 -0700
-Message-ID: <1521515960.2284.1.camel@intel.com>
-Subject: Re: [PATCH V4] thermal: Add cooling device's statistics in sysfs
-From:   Zhang Rui <rui.zhang@intel.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Eduardo Valentin <edubezval@gmail.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Date:   Tue, 20 Mar 2018 11:19:20 +0800
-In-Reply-To: <20180320013836.hiu6oy3smwmk35tp@vireshk-mac-ubuntu>
-References: <6e557b90950723065d49c9a545146ce31d7dc6e1.1516096153.git.viresh.kumar@linaro.org>
-         <1520924571.3766.8.camel@intel.com> <1521014472.2087.32.camel@intel.com>
-         <20180314081426.GG15832@vireshk-i7>
-         <20180320013836.hiu6oy3smwmk35tp@vireshk-mac-ubuntu>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+        id S1750991AbeCTE0U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Mar 2018 00:26:20 -0400
+Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx002
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0LrNIC-1eazpM387o-0137dZ; Tue, 20
+ Mar 2018 05:25:45 +0100
+Message-ID: <1521519941.24215.2.camel@gmx.de>
+Subject: Re: [PATCH v4] cpuset: Enable cpuset controller in default hierarchy
+From:   Mike Galbraith <efault@gmx.de>
+To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
+Date:   Tue, 20 Mar 2018 05:25:41 +0100
+In-Reply-To: <a334a234-3e87-a9a7-9589-8476fecb4149@redhat.com>
+References: <1c3fe7b0-2600-c46d-1527-d3aaf024bb91@redhat.com>
+         <1520619426.27998.18.camel@gmx.de>
+         <55809fe4-98ba-5566-86ed-457acfef0e1c@redhat.com>
+         <1520624424.27998.76.camel@gmx.de>
+         <53de9683-01b7-bac4-8b70-dc1f93ede600@redhat.com>
+         <20180309221736.GB5926@hirez.programming.kicks-ass.net>
+         <f0fca497-e4e7-3dbd-1e5c-a7f502c05dcb@redhat.com>
+         <1520653648.12749.20.camel@gmx.de>
+         <20180314195711.GD2943022@devbig577.frc2.facebook.com>
+         <1521082141.7100.1.camel@gmx.de>
+         <20180319153413.GO2943022@devbig577.frc2.facebook.com>
+         <1521492550.16869.1.camel@gmx.de>
+         <a334a234-3e87-a9a7-9589-8476fecb4149@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.22.6 
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K0:VM1t3E95PZHGr+bysSU2O2GLczFVYwZWolEXaV0BPzLIKtLyH6K
+ EcuUHpGyDWkJ3+RmlQScq0YrRHvyJkC0uZetDcR+oO6B/GUckgXn8PmuzBuJnKT6Rwzc8Ez
+ rPwSP59szbnM4GRQy/UnA6en5vOb+ze2OBQHbBx9fLgxAk/CZElwoak5apE9Vc3jk2Nthdb
+ 36v+ULUJCSxv6ARg4maeQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:b2c1fpsRohQ=:lW50M50nFR6nJxupSmY2m4
+ G6fE0Ndr4NVxMtk+NrhFQsIr3AbOWTH7JrIV+TxQpihlMRlMWdnJMA5h1/KtZlT6fcuGvy6oK
+ BcI6V1gMsqxF+Fjiau828d3aDE4GSLGKMxQjAugBWirGsHFzYr7n0egHFQBCe0HMAuXkVottW
+ wyY1/1OwQ9/I82OYJPA32YZx7s8T4aj+MM/BcI8eeEaIOd/z4hxZF3QLkIwtcEz9GmXLE9tUm
+ 6r8ZiW+gYaY6mRzAq4orE9epPGzRAhk6XiJH2jUopDRkis9kIFU6Ml7r8BEYK2Sc5Lvb5olPV
+ fCZqjfk0hfsUTFT55AJS+n0HqXI5S4MRTRonSOqecJ6cQOAMw9Hb29SBMEH5RrTUPAPMFy+G/
+ S2XRONczGTRRaAPzDTqUNvT2zR4JsittJ4hb0c+o2J9DinzPhKpE0xEH0z7rb6KozKr7UY9rK
+ W6SQGbB82nl4jscz1EijcyvPo1Ziktld1XJx9ZI65tjK/ewZ+DNFlkb8XS4aETnEZJzvMe7Pm
+ mF/771ylaXYVMzuTl+cC3yaIZ+a6/M97OZzlSKPDXGrC5+TlyQnDCTBchtoEkEKH2jioGLlMy
+ fj3OZbYSmZQ4ITYRryIJqZre/fumWm1BXjoqE4NYZG5tRFsSS2KoohQP9n677hQWWpDeJ3H/4
+ KWIsBoDAu2q1JntxDzRrCDTFobozpFvc5yX6Lj3nOmKDXJ7wNau1xNjM4p5/NqyS0t2sbuoYL
+ 8NG9nVMe3CIqUEFVQF+WhUOohB6hT5E3eEVrvlK2Rh0gMbtgEL3Sr631vNXG7d7krDOXEDo0i
+ hNXgE674OJ6d/Lmx06x8pMKDkg0SB5bvSWbAwmtKRTZgJmSqI4=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 二, 2018-03-20 at 09:38 +0800, Viresh Kumar wrote:
-> On 14-03-18, 13:44, Viresh Kumar wrote:
-> > 
-> > I got those warnings as well, and I quietly ignored them :)
-> > 
-> > I ignored the renaming part for the sake of consistency. The other
-> > existing
-> > routines for similar purpose are named as:
-> > 
-> > thermal_cooling_device_type_show
-> > thermal_cooling_device_max_state_show
-> > thermal_cooling_device_cur_state_show
-> > thermal_cooling_device_cur_state_store
-> > 
-> > for me it made more sense to follow that naming convention. And I
-> > didn't use the
-> > _RO and _WO variants for the same reason.
-> > 
-> > Now here is what I propose now:
-> > 
-> > - You apply this patch as-is and ignore the warning.
-> > 
-> > - I will send few patches on top of that to do:
-> >   - renaming of all such routines to shorter versions.
-> >   - Use the _RO or _WO variants of the macro everywhere.
-> > 
-> > What do you say ?
-> @Zhang: Can you please share the way you want this to get merged ?
-> And if the
-> above is fine with you ?
+On Mon, 2018-03-19 at 17:41 -0400, Waiman Long wrote:
+> On 03/19/2018 04:49 PM, Mike Galbraith wrote:
+> > On Mon, 2018-03-19 at 08:34 -0700, Tejun Heo wrote:
+> >> Hello, Mike.
+> >>
+> >> On Thu, Mar 15, 2018 at 03:49:01AM +0100, Mike Galbraith wrote:
+> >>> Under the hood v2 details are entirely up to you.  My input ends at
+> >>> please don't leave dynamic partitioning standing at the dock when v2
+> >>> sails.
+> >> So, this isn't about implementation details but about what the
+> >> interface achieves - ie, what's the actual function?  The only thing I
+> >> can see is blocking the entity which is configuring the hierarchy from
+> >> making certain configs.  While that might be useful in some specific
+> >> use cases, it seems to miss the bar for becoming its own kernel
+> >> feature.  After all, nothing prevents the same entity from clearing
+> >> the exlusive bit and making the said changes.
+> > Yes, privileged contexts can maliciously or stupidly step all over one
+> > other no matter what you do (finite resource), but oxymoron creation
+> > (CPUs simultaneously balanced and isolated) should be handled.  If one
+> > context can allocate a set overlapping a set another context intends to
+> > or already has detached from scheduler domains, both are screwed.
+> >
+> > 	-Mike
 > 
-yes, it works for me.
-I will apply the patch later today.
+> The allocations of CPUs to child cgroups should be controlled by the
+> parent cgroup. It is the parent's fault if some CPUs are in both
+> balanced and isolated cgroups.
+> 
+> How about we don't allow turning off scheduling if the CPUs aren't
+> exclusive from the parent's perspective? So you can't create an isolated
+> cgroup if the CPUs aren't exclusive. Will this be a good enough compromise?
 
-thanks,
-rui
+Sure.  The kernel need only ensure its own sanity.  Userspace conflicts
+are more or less a non-issue.  In practice, all players but one will
+have been constrained or eliminated prior to any partitioning.
+
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
