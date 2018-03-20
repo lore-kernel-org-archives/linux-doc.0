@@ -5,72 +5,71 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 745C47D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 16:35:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A29647D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 16:39:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751677AbeCTQfK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 12:35:10 -0400
-Received: from ucol19pa12.eemsg.mail.mil ([214.24.24.85]:42186 "EHLO
-        ucol19pa12.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751302AbeCTQfI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 12:35:08 -0400
-X-Greylist: delayed 328 seconds by postgrey-1.27 at vger.kernel.org; Tue, 20 Mar 2018 12:35:07 EDT
+        id S1751348AbeCTQjN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 12:39:13 -0400
+Received: from ucol19pa10.eemsg.mail.mil ([214.24.24.83]:54603 "EHLO
+        UCOL19PA10.eemsg.mail.mil" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751317AbeCTQjM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 12:39:12 -0400
 X-IronPort-AV: E=Sophos;i="5.48,336,1517875200"; 
-   d="scan'208";a="520248672"
+   d="scan'208";a="470323080"
 Received: from emsm-gh1-uea10.ncsc.mil ([214.29.60.2])
-  by ucol19pa12.eemsg.mail.mil with ESMTP/TLS/AES256-SHA; 20 Mar 2018 16:31:54 +0000
+  by UCOL19PA10.eemsg.mail.mil with ESMTP/TLS/AES256-SHA; 20 Mar 2018 16:29:38 +0000
 X-IronPort-AV: E=Sophos;i="5.48,336,1517875200"; 
-   d="scan'208";a="9923277"
-IronPort-PHdr: =?us-ascii?q?9a23=3AZsKiFxDFyY8ahTyKcYPoUyQJP3N1i/DPJgcQr6Af?=
- =?us-ascii?q?oPdwSP39r8+wAkXT6L1XgUPTWs2DsrQY07GQ6/iocFdDyK7JiGoFfp1IWk1Nou?=
- =?us-ascii?q?QttCtkPvS4D1bmJuXhdS0wEZcKflZk+3amLRodQ56mNBXdrXKo8DEdBAj0OxZr?=
- =?us-ascii?q?KeTpAI7SiNm82/yv95HJbAhEmDSwbaluIBmqsA7cqtQYjYx+J6gr1xDHuGFIe+?=
- =?us-ascii?q?NYxWNpIVKcgRPx7dqu8ZBg7ipdpesv+9ZPXqvmcas4S6dYDCk9PGAu+MLrrxjD?=
- =?us-ascii?q?QhCR6XYaT24bjwBHAwnB7BH9Q5fxri73vfdz1SWGIcH7S60/VC+85Kl3VhDnlC?=
- =?us-ascii?q?YHNyY48G7JjMxwkLlbqw+lqxBm3oLYfJ2ZOP94c6zTZ9MaQXdKUNhXWSJPH4iw?=
- =?us-ascii?q?a5IDA/QdMepdqYT2ulkAogakBQS0Ge3h1DFIiH/106M03esuHgPJ0xAvEd8VrH?=
- =?us-ascii?q?TZr8/4OLsOXe27zqTFyyjIYfNM2Tf67YjFag0voe2SUrJoccre108vHB7YgFWV?=
- =?us-ascii?q?s4PlOzeV2foNsmOG6OdgTv+gi3U8pgFtojmg2scsio7TioIT0VDL7z91wIkyJd?=
- =?us-ascii?q?2mUUN2Z8OvHphItyyCKod7TcwvT3totSon0LEKp5G2cDYQxJg6wRPUduaJfJKS?=
- =?us-ascii?q?4h35UeacOTJ4hHV4d72hnxuy6k2gyvHkVsmzzVZKsjJJktnSuXAJ0Bze8tSHRe?=
- =?us-ascii?q?Fn/kegxDaPzBrf6v1EIE8olarbLIQtwrgsmZoIrUvPBCr2mETyjKOOd0Uk/Pan?=
- =?us-ascii?q?6/j/b7n7qZKROJV4hwHjPqg0hMCyDvo0PhITU2SD/OSzzrzj/Un3QLVQif02l7?=
- =?us-ascii?q?HUsIvHKsQAvaO5Hw9U3Zoj6xa4FTum1s8YkmMdIFJKfxKHkZDlO0vSL/DgEfe/?=
- =?us-ascii?q?n1OsnS9ox//cO73uHJPNLmPAkLbhZrty909cyBEvwtBY/Z5bFrYBIPfrUE/rqN?=
- =?us-ascii?q?PYFgM5MxCzw+v/FNVyzIAeWWWJAqCEKqPdq0SF6f4uI+mXeIAVvyzxJOQi5/7r?=
- =?us-ascii?q?lXU5g0MSfbG13ZsLb3C1BvRmI12Dbnf3g9YAEXsKvg0kTODwlFKCVjtTbW6oX6?=
- =?us-ascii?q?0g/jE7FJ6mDYDbS4CzgbyBxiC7E4ZXZ29YDFCMEGnoe5+AW/cNbiKSP8BgniYD?=
- =?us-ascii?q?Vbi7RI8tzwyutAziwbp9MuXU4jEYtY7k1NVt/eLTjxcy+iFvAsuHyWGNSXx7kX?=
- =?us-ascii?q?gSSzArwq91uVZ9xUub0ahkn/xYEsRe5+lOUgghLpPcy/Z1C9bvVQLFYNiISEyq?=
- =?us-ascii?q?QtO4DjEtVtgx2cMBY15hG9W+iRDOxyurA7gVl7ORHpw56abc33n3J8ZgxHfKzr?=
- =?us-ascii?q?chj184TctTL2Gmh7Vw9w3JC4HVlEWZkr6gdb4A0y7V6GeD0W2OsVlEXw53S6XK?=
- =?us-ascii?q?Rm4QZlfNoNT96ELCSaWiCbI5PQtd0cSCMLdFasX1jVVaQ/fuINbebHi0m2iuHh?=
- =?us-ascii?q?aE3L2NYJDve2oB2SXSFlQLkwAJ8naALgU+CSKhrHjfDDxqD17gf0Ts8exmonOh?=
- =?us-ascii?q?UkA01x2Kb1Fm17et+x4Vg/2cS+8J3r0evSchpS50EU2j39LZFdWAvRBtfKZCbt?=
- =?us-ascii?q?Mn5ldIy2bZuxZ6Ppy6IKBonkQefBhvv0PyyxV3DZ1NkcwrrHMs0QpzJruU305G?=
- =?us-ascii?q?dzyExp3wJLLXJXfo/By1aK7ZxEve0NCI9acL8vg4rE/jvA6xHEo473pny8VV02?=
- =?us-ascii?q?eb5pjSCAoSUJTxUls49hRjpLHVfDM954XK2n1oKqS0rDDC1MwzBOc/yRavYc1f?=
- =?us-ascii?q?MKWaGw/2CcEaANKuKOMykVizch0EJPxS9LIzP86+c/uG2airPPtvnT6/lmRI/p?=
- =?us-ascii?q?xy0l+W9yp9Vu7J348Jw/Sf3gSaSjf8iEmuv9vpmYBLez4SBHCzySv6C45LYK19?=
- =?us-ascii?q?Y4ILBX2pI82tydV0n4TtVGJA9F6/G1MG39ekeBWMYFDk2Q1Q1EIXoWGomCeh0T?=
- =?us-ascii?q?N1nC0pobSF3CzI2evicAEKNXJKRGl5kVjsJpK4gMwdXEitdwIpjgeq5V7mx6hH?=
- =?us-ascii?q?o6RyN3HTTl1VfyjyNGxiSrG/tqeGY8JW7ZMotiJXUP6iblyAVrH9pB4a2Tv5H2?=
- =?us-ascii?q?RC3DA7ay2qupLhkhNkkGKSNmxzrHvCecxr3RfQ/sbcRf9K3joeQCl3kyXYCUam?=
- =?us-ascii?q?M9mu59WUmMSLjufraWOqSppJOQriyI6GryiqrTlpCBiymeuwi/XsEBMx1mnw0N?=
- =?us-ascii?q?w8BgvSqxOpWZXmz6S3N6pce0BsAFLto55hFppWjpo7hJZW32MTwJqS4yxUwi/I?=
- =?us-ascii?q?LdxH1PemPzI2TjkRzouQuVK91Q=3D=3D?=
-X-IPAS-Result: =?us-ascii?q?A2DZAAD6NrFa/wHyM5BeGQEBAQEBAQEBAQEBAQcBAQEBAYM?=
- =?us-ascii?q?jLYFYKINdihuNf0gGgQwpgRaUB4IShRwCg00hNBgBAgEBAQEBAQIBaiiCOCQBg?=
- =?us-ascii?q?kgBAQEBAyMECwFGEAkCEQMBAgECAh8HAgJPCAYNBgIBAReCTYIlDY4gm0CBbDq?=
- =?us-ascii?q?EboNtgg6BDIQrghWBDYJEDIJshE8hgx6CYQOMO4wCCY8zB402kWQeOIFSKwgCG?=
- =?us-ascii?q?AghD4J9gmOOJCQ0jiKCSQEBAQ?=
+   d="scan'208";a="9922901"
+IronPort-PHdr: =?us-ascii?q?9a23=3AjVEK1hOcbK0KiQg5BEMl6mtUPXoX/o7sNwtQ0KIM?=
+ =?us-ascii?q?zox0K/rzpMbcNUDSrc9gkEXOFd2Cra4c0KyO6+jJYi8p2d65qncMcZhBBVcuqP?=
+ =?us-ascii?q?49uEgeOvODElDxN/XwbiY3T4xoXV5h+GynYwAOQJ6tL1LdrWev4jEMBx7xKRR6?=
+ =?us-ascii?q?JvjvGo7Vks+7y/2+94fcbglUijexe69+IAmrpgjNq8cahpdvJLwswRXTuHtIfO?=
+ =?us-ascii?q?pWxWJsJV2Nmhv3+9m98p1+/SlOovwt78FPX7n0cKQ+VrxYES8pM3sp683xtBnM?=
+ =?us-ascii?q?VhWA630BWWgLiBVIAgzF7BbnXpfttybxq+Rw1DWGMcDwULs5Qiqp4bt1RxD0iS?=
+ =?us-ascii?q?cHLz85/3/Risxsl6JQvRatqwViz4LIfI2ZMfxzca3HfdMeWGFPQMBfWSJcCY+4?=
+ =?us-ascii?q?docDEfYNMeNeooLgpVUBsAG+CBGxCu3xxD9Ghnz406M03OsuEw7JwAMuEskSsH?=
+ =?us-ascii?q?nXttj5KLseXO63waTO0D7Nb+lW2TD46IXQbx4hve+DXapwccXPz0kkCh7LjlCK?=
+ =?us-ascii?q?pozhOzOayOQMuHWc4up7SO2vkHUqqx1xozezxscsjZPFhoQOyl/e7yl5z4E1Jc?=
+ =?us-ascii?q?OhRUN9fNWqE4NQujmHO4Z5Tc4uWWFltDsgxrEYtpO3YjIGxIkhyhXCcfKIaZKI?=
+ =?us-ascii?q?7QjmVOuJJDd4g29qd6ynihap9Eig1vX8Vs6p0FZWtiZFksfDtnQK1xHL9siIUO?=
+ =?us-ascii?q?F9/ka82TaUzQzT9uFFLlw0larcMZIhxKI/loEPvkjZGy/2mUH2gLeXdkUi5Oeo?=
+ =?us-ascii?q?9/zqbqjpq5KTLYN5ihzyPr4wlsGwH+g0KBUCU3Ce+eum1b3j+UP5QK9Njv0ziq?=
+ =?us-ascii?q?TZq43VJd8Aq66lAw5azoYj6xGlAzegy9QXh2MLLF1CeBKZl4TpIU3BIOjkDfej?=
+ =?us-ascii?q?hFShiDRryOrDPrL/BJXNNXvDkbf6cLlh6k5c0xY8zddF651IDbEBJer5WlXtu9?=
+ =?us-ascii?q?zAEh85Lwu0zv77CNpn1YMeXmSPDbKDMKzIqlKH+uMvI/KQa48SojryN/8l5/v2?=
+ =?us-ascii?q?h38jhVAdZbWp3YcQaH2gHvRmO1+WbGHtg9YBDWcKuRA+QPb2h12FVD5Zf2yyUL?=
+ =?us-ascii?q?4k5jEnFIKmCp/ORp6sgLyb2ye2BZxXaX5AClCND3fkbYGEW/YKaCKPLc5tiDsE?=
+ =?us-ascii?q?VaKuS4M7yBGutxfwy6B7IerM5i0YqZXj2cBv6O3JkxE96Cd5AN6H02GLUm57hX?=
+ =?us-ascii?q?kESCIo06pnu0xy1k+D0bRkg/xfDdFT/fRJXRwhOJ7Y1eN6Dc39WgbfcdaJUlqm?=
+ =?us-ascii?q?RMupAS0pRNIr39AOe1p9G8mljh3b3iuqBL8VmKaRBJEv9qLc3n7xJ9tyynrcyq?=
+ =?us-ascii?q?khiUcpQtdVOW2nnaF/8hLfCJLOk0Wcj6yqb7gT3DbR9GefymqDpF1XUAlqUare?=
+ =?us-ascii?q?Q38felDbrdD350PEVbOuD6ooMhdZw86YNqRKcsHpjUlBRPr7OtTReWexlHmrBR?=
+ =?us-ascii?q?qSyLKAdo/qdHkY3CrDFEcEkxoc/XCdOAgxAyeuuWPeDDh0GV3zZEPs9PF0qGmn?=
+ =?us-ascii?q?QU8s0wGKc0ph2qK0+h4ThPycV+kT0agBuCcvsDV5B0i9393IBNqavQZhf7tTYc?=
+ =?us-ascii?q?k74FhZ0WLVrQt9PoavL6p6nF4Rbxx3v1/y1xVwEohAlckqrHU3zAt9MK6XzVRB?=
+ =?us-ascii?q?eC+D0JDuNb3YNHPy8Aqsa6HIwFHe1siZ+qMV5PQ/sVXjsxmjFlA+/HV/z9lVz3?=
+ =?us-ascii?q?yc643ODAoTV5LxT0k2+wF5p77EeCk94Z3b1Xl3PKmqvT/NxcgpCPEmyhm+Zddf?=
+ =?us-ascii?q?Nr2LFAvoH80dHciuJ/Qgm0K1YRIcIOBS6Kk0Mtuid/uH3q6rIelhkCu9jWtZ/I?=
+ =?us-ascii?q?99z1iM9ytgSu/IxpoFxvaY0RaaVzf4klisqd73mY9aajEIBGa/yjbrBJRXZqJs?=
+ =?us-ascii?q?eYYHE2CuI9e4xt9mnZ7iR2ZY9EK/B1MBwMKodgSdY0X53Q1R00QXvHOmlTKmwD?=
+ =?us-ascii?q?17jzEmsLCf3CrUzOTmbxcIJm9LRHJ+glfrO4S7k9caXE2wZQgziBSl/Vr6x7Rc?=
+ =?us-ascii?q?pKlnN2ncW1pIfyztImF6SKSwq76Cb9dK6JMvtiVXSvqzbUqGRb76phsQyznjEH?=
+ =?us-ascii?q?dGxDAnazGqvY30kAJiiG2HNnZzrWHZdNpoxRjF/tzcROVR3iICRCZilTbYGEKw?=
+ =?us-ascii?q?P96z/dWbxN//tbWAVmm9UYcbUiDuwIWbtzrzsW5jBBC5hPOistbmCgM9lyT80o?=
+ =?us-ascii?q?85ez/PqUPHfoTz16m8edlid01sCU60v9F2Aalig4Awg9cWwnFciZKLqylU2Vzv?=
+ =?us-ascii?q?OMlWjPqtJEEGQiQGlpuMulDo?=
+X-IPAS-Result: =?us-ascii?q?A2DUAADPNbFa/wHyM5BeGQEBAQEBAQEBAQEBAQcBAQEBAYM?=
+ =?us-ascii?q?jLYFYKINdihuNf0gGgTWBFpQHghKFHAKDTSE0GAECAQEBAQEBAgFqKII4JAGCS?=
+ =?us-ascii?q?AEBAQECASMPAUYQCQIRAwECAQICHwcCAk8IBg0GAgEBgmSCJQUIjh+bQIImhG6?=
+ =?us-ascii?q?DbYIOgQyEK4IVgQ2CRIJFM4Rwgx6CYQOMO4wCCY8zB4FOi2iHQ4ohHjiBUisIA?=
+ =?us-ascii?q?hgIIQ+CfYIyGxaOJCQ0jiIFgkQBAQE?=
 Received: from tarius.tycho.ncsc.mil ([144.51.242.1])
-  by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 20 Mar 2018 16:31:54 +0000
+  by EMSM-GH1-UEA10.NCSC.MIL with ESMTP; 20 Mar 2018 16:29:38 +0000
 Received: from moss-pluto.infosec.tycho.ncsc.mil (moss-pluto [192.168.25.131])
-        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id w2KGVrjX022254;
-        Tue, 20 Mar 2018 12:31:53 -0400
-Subject: Re: [Non-DoD Source] Re: [PATCH v3 14/15] selinux: allow setxattr on
- rootfs so initramfs code can set them
+        by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id w2KGTa8T021104;
+        Tue, 20 Mar 2018 12:29:36 -0400
+Subject: Re: [Non-DoD Source] Re: [PATCH v3 15/15] selinux: delay sid
+ population for rootfs till init is complete
 To:     Victor Kamensky <kamensky@cisco.com>
 Cc:     Taras Kondratiuk <takondra@cisco.com>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -85,16 +84,16 @@ Cc:     Taras Kondratiuk <takondra@cisco.com>,
         Paul Moore <paul@paul-moore.com>,
         Eric Paris <eparis@parisplace.org>
 References: <1518813234-5874-1-git-send-email-takondra@cisco.com>
- <1518813234-5874-17-git-send-email-takondra@cisco.com>
- <1519153284.14218.18.camel@tycho.nsa.gov>
- <alpine.LRH.2.00.1803101848580.24419@sjc-ads-6991.cisco.com>
+ <1518813234-5874-19-git-send-email-takondra@cisco.com>
+ <1519152994.14218.15.camel@tycho.nsa.gov>
+ <alpine.LRH.2.00.1803101900250.24419@sjc-ads-6991.cisco.com>
 From:   Stephen Smalley <sds@tycho.nsa.gov>
-Message-ID: <ab0b8e50-a92e-9f36-5493-ddbd295ed182@tycho.nsa.gov>
-Date:   Tue, 20 Mar 2018 12:33:12 -0400
+Message-ID: <fe13077c-b528-b42d-6fde-8637043f37bb@tycho.nsa.gov>
+Date:   Tue, 20 Mar 2018 12:30:55 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.00.1803101848580.24419@sjc-ads-6991.cisco.com>
+In-Reply-To: <alpine.LRH.2.00.1803101900250.24419@sjc-ads-6991.cisco.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -103,7 +102,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/10/2018 10:07 PM, Victor Kamensky wrote:
+On 03/10/2018 10:08 PM, Victor Kamensky wrote:
 > 
 > 
 > On Tue, 20 Feb 2018, Stephen Smalley wrote:
@@ -111,58 +110,99 @@ On 03/10/2018 10:07 PM, Victor Kamensky wrote:
 >> On Fri, 2018-02-16 at 20:33 +0000, Taras Kondratiuk wrote:
 >>> From: Victor Kamensky <kamensky@cisco.com>
 >>>
->>> initramfs code supporting extended cpio format have ability to
->>> fill extended attributes from cpio archive, but if SELinux enabled
->>> and security server is not initialized yet, selinux callback would
->>> refuse setxattr made by initramfs code.
+>>> With initramfs cpio format that supports extended attributes
+>>> we need to skip sid population on sys_lsetxattr call from
+>>> initramfs for rootfs if security server is not initialized yet.
 >>>
->>> Solution enable SBLABEL_MNT on rootfs even if secrurity server is
->>> not initialized yet.
+>>> Otherwise callback in selinux_inode_post_setxattr will try to
+>>> translate give security.selinux label into sid context and since
+>>> security server is not available yet inode will receive default
+>>> sid (typically kernel_t). Note that in the same time proper
+>>> label will be stored in inode xattrs. Later, since inode sid
+>>> would be already populated system will never look back at
+>>> actual xattrs. But if we skip sid population for rootfs and
+>>> we have policy that direct use of xattrs for rootfs, proper
+>>> sid will be filled in from extended attributes one node is
+>>> accessed and server is initialized.
+>>>
+>>> Note new DELAYAFTERINIT_MNT super block flag is introduced
+>>> to only mark rootfs for such behavior. For other types of
+>>> tmpfs original logic is still used.
 >>
->> What if we were to instead skip the SBLABEL_MNT check in
->> selinux_inode_setxattr() if !ss_initialized?  Not dependent on
->> filesystem type.
+>> (cc selinux maintainers)
+>>
+>> Wondering if we shouldn't just do this always, for all filesystem
+>> types.
 > 
-> Stephen, thank you for looking into this. Sorry, for dealyed reponse -
-> I needed to find time to require context about these changes.
+> Ok, I think it makes sense. The one that do not support xattrs
+> will not reach selinux_inode_post_setxattr anyway. And try
+> to cache sid while !ss_initialized is not good idea for any
+> filesystem types.
 > 
-> As you suggested I've tried this and it works:
+>> Also, I think this should likely also be done in
+>> selinux_inode_setsecurity() for consistency.
 > 
->> From 6bf35bd055fdb12e94f3d5188eccfdbaa30dbcf4 Mon Sep 17 00:00:00 2001
+> I am not sure that I follow selinux_inode_setsecurity suggestion.
+> selinux_inode_setsecurity is about permission check. And
+> selinux_inode_post_setxattr deals with processing and setting
+> side effects if xattr was "security.selinux", it does not
+> matter what happens in selinux_inode_setsecurity if it
+> returns access_ok, LSM will still call selinux_inode_post_setxattr
+> and we would need to check and not produce any sid caching
+> side effects if !ss_initialized.
+
+selinux_inode_setsecurity is the vfs fallback for setting security
+attributes when the filesystem/inode does not support setxattr itself,
+and is also used by kernfs. 
+So you need to update both selinux_inode_post_setxattr and selinux_inode_setsecurity
+in the same way.
+
+> 
+> Sitll keeping logic in selinux_inode_post_setxattr, checked
+> that the following with much simple code works too:
+> 
+>> From bfc54e4805f3059671417ff2cda1266bc68e18f9 Mon Sep 17 00:00:00 2001
 > From: Victor Kamensky <kamensky@cisco.com>
-> Date: Fri, 9 Mar 2018 23:01:20 -0800
-> Subject: [PATCH 1/2] selinux: allow setxattr on file systems if policy is not
+> Date: Fri, 9 Mar 2018 23:06:08 -0800
+> Subject: [PATCH 2/2] selinux: delay sid population in setxattr till policy
 >  loaded
 > 
-> initramfs code supporting extended cpio format have ability to
-> fill extended attributes from cpio archive, but if SELinux enabled
-> and security server is not initialized yet, selinux callback would
-> refuse setxattr made by initramfs code because file system is not
-> yet marked as one that support labeling (SBLABEL_MNT flag).
+> With initramfs cpio format that supports extended attributes
+> we need to skip sid population on sys_lsetxattr call from
+> initramfs for rootfs if security server is not initialized yet.
 > 
-> Solution do not refuse setxattr even if SBLABEL_MNT is not set
-> for file systems when policy is not loaded yet.
+> Otherwise callback in selinux_inode_post_setxattr will try to
+> translate give security.selinux label into sid context and since
+> security server is not available yet inode will receive default
+> sid (typically kernel_t). Note that in the same time proper
+> label will be stored in inode xattrs. Later, since inode sid
+> would be already populated system will never look back at
+> actual xattrs. But if we skip sid population for rootfs and
+> we have policy that direct use of xattrs for rootfs, proper
+> sid will be filled in from extended attributes one node is
+> accessed and server is initialized.
 > 
 > Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 > ---
->  security/selinux/hooks.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  security/selinux/hooks.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 > diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 819fd68..31303ed 100644
+> index 31303ed..4c13759 100644
 > --- a/security/selinux/hooks.c
 > +++ b/security/selinux/hooks.c
-> @@ -3120,7 +3120,7 @@ static int selinux_inode_setxattr(struct dentry *dentry, const char *name,
->          return selinux_inode_setotherxattr(dentry, name);
+> @@ -3197,6 +3197,10 @@ static void selinux_inode_post_setxattr(struct dentry *dentry, const char *name,
+>          return;
+>      }
 > 
->      sbsec = inode->i_sb->s_security;
-> -    if (!(sbsec->flags & SBLABEL_MNT))
-> +    if (!(sbsec->flags & SBLABEL_MNT) && ss_initialized)
->          return -EOPNOTSUPP;
-> 
->      if (!inode_owner_or_capable(inode))
+> +        if (!ss_initialized) {
+> +                return;
+> +        }
+> +
+>      rc = security_context_to_sid_force(value, size, &newsid);
+>      if (rc) {
+>          printk(KERN_ERR "SELinux:  unable to map context to SID"
 
-I favor the first option.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
