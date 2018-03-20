@@ -3,283 +3,202 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 472C57D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 18:40:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B80F47D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 19:39:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751531AbeCTSj7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 14:39:59 -0400
-Received: from mail-oi0-f50.google.com ([209.85.218.50]:45493 "EHLO
-        mail-oi0-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751186AbeCTSj6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 14:39:58 -0400
-Received: by mail-oi0-f50.google.com with SMTP id 71-v6so2215904oie.12
-        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 11:39:57 -0700 (PDT)
+        id S1751396AbeCTTjJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 15:39:09 -0400
+Received: from mail-pf0-f194.google.com ([209.85.192.194]:35489 "EHLO
+        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751481AbeCTTjI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 15:39:08 -0400
+Received: by mail-pf0-f194.google.com with SMTP id y186so1060925pfb.2
+        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 12:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eKUSej+Midi7lbYvKopthhCcqFlsGQWwrJ+s0/fHNcc=;
-        b=Z80LJZMb0grKt2cCatlUfn+2TS/hWH6yah/e+q8SxZ6amVB5RV6f74qmu4DrSDeF/x
-         kgWKTcAQVnwC4/OcNDOTkQBKvLcSwzv4pPgSNuiWHW14FVock+A0SswU4hMZWu7k9iGu
-         Nh02b4gZLFq/651K8oF+wjwznbMHjwPFttD/k=
+        h=mime-version:content-transfer-encoding:to:from:in-reply-to:cc
+         :references:message-id:user-agent:subject:date;
+        bh=9hJCJUTr7iGOM4DYekqTBc8f0YwVNj4CgiQDljQzJio=;
+        b=iqCyCVKeZj6V1CGjljVEpcCjGVWnhV+G/1EGl96s2SpIpo5vcYW9pzx8XFK+6tv/ks
+         kM09EA/BZEultLwcqiy5jafHqrJSdUq26xIJYAFjRd1THyfYlFGO+SLfOknEwlTwI4za
+         c+lmbAPYtZa7Xj9mlcSkQCjI2g8ZFJ8tRdpu8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eKUSej+Midi7lbYvKopthhCcqFlsGQWwrJ+s0/fHNcc=;
-        b=Q6qfC+2C7FQlZMBuv4QevbK9wDdOoKmuYoW5HId4queKgHZ2m0bTL0tRRCd8RVW7M2
-         CjzeWJ6s2svFYRZUv/9RjXl0BuSOqBnJmn0Hvdmc1n+oNuDbLhfu0vxfylcC2TKtyKca
-         HWqqu7CF0AKi8E+C5E1wmEbmIH+USCuZLW2zIm1fkG28BLhvbA8NW7BGQnOeAxfRNQBX
-         Jh2PEdMbOh6o1IlQwCmLT6IM1xmnXk2UMS5j5f5mg655af0nYKJsz+33avjyZpT/Ph2v
-         Mw3W3nk2PE4Uo+DfHKa9qZhJDUxo8J52BLjVs1HwnEWOMvA78l9GmbxY2v/0fhTJZtQo
-         GqvQ==
-X-Gm-Message-State: AElRT7HqJKwgyJ1L/5pBpw7jYHttyIhq75sCiqljV1YF37S7a3lqCihd
-        QN8fkqJiKqe4Hohpp7yOYIEHJTgLhio=
-X-Google-Smtp-Source: AG47ELsUVX/L2L3wJyx2QkODT2R0ZtK8g37ozGStfHankEJ/Ysv35QkZazpfKYKwSNnMhob3vwHiGw==
-X-Received: by 10.202.19.5 with SMTP id e5mr3509965oii.179.1521571197014;
-        Tue, 20 Mar 2018 11:39:57 -0700 (PDT)
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id 62sm1212926oih.21.2018.03.20.11.39.54
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Mar 2018 11:39:55 -0700 (PDT)
-Received: by mail-oi0-f44.google.com with SMTP id g5-v6so2224615oiy.8
-        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 11:39:54 -0700 (PDT)
-X-Received: by 10.202.23.15 with SMTP id j15mr3083708oii.266.1521571194236;
- Tue, 20 Mar 2018 11:39:54 -0700 (PDT)
+        h=x-gm-message-state:mime-version:content-transfer-encoding:to:from
+         :in-reply-to:cc:references:message-id:user-agent:subject:date;
+        bh=9hJCJUTr7iGOM4DYekqTBc8f0YwVNj4CgiQDljQzJio=;
+        b=s4x5ejZqZiWhJhWFBjHcsFlYrlwPBLkiSITdwavBZ+4b0j/QPTMZWqm4+2zG6iay8t
+         aceOywJjW4C8AtBklT5/pQtp+qqVs2n1raYJH8Ff7Zerz3gmcmCX9ZgZQEKIB2BybDJH
+         roAfn9XSxS1IPlkmsMxlXMsA33tx9Bg23BsvTNR7CzxQ8LHyK0MuYN8U9ayI9HE6VcGZ
+         rKYXKvZDi/JKylgUKwwjOJFQWMhNIIRxmem48+H7YjiKABFFfk9+pcDBaGHkuhFHbJUg
+         tuItAwznmhOc8vJRl7xA5ZqLt7ik6tcZaWa3KgdGCbAu+Rz7YAbnMR5vNV+km1/Nrzv8
+         Duhw==
+X-Gm-Message-State: AElRT7ERX2+PJipXgdIcwOXcCiHk2Be9fb69P4AN3cyc7V2Qxk5WTY3U
+        BQolW/Hi5OO9WyLwvo5GBmdUhQ==
+X-Google-Smtp-Source: AG47ELu271eLO6AeCgkzCQoa6h0lUK/S+Bc4GG33ExtYxOoO5K0O4PhNNAfTosX2eMcNOg75CE1mrg==
+X-Received: by 10.98.234.22 with SMTP id t22mr14638688pfh.56.1521574747531;
+        Tue, 20 Mar 2018 12:39:07 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1511:d30e:62c6:f82c:ff40])
+        by smtp.gmail.com with ESMTPSA id 13sm5405568pfm.10.2018.03.20.12.39.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 20 Mar 2018 12:39:06 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org> <1521071931-9294-5-git-send-email-kramasub@codeaurora.org>
-In-Reply-To: <1521071931-9294-5-git-send-email-kramasub@codeaurora.org>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Tue, 20 Mar 2018 18:39:18 +0000
-X-Gmail-Original-Message-ID: <CAE=gft7QAE0+3YpLu9BL2uvN=A0YgF=Xp2ocmbX=pvwszWtZew@mail.gmail.com>
-Message-ID: <CAE=gft7QAE0+3YpLu9BL2uvN=A0YgF=Xp2ocmbX=pvwszWtZew@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] tty: serial: msm_geni_serial: Add serial driver
- support for GENI based QUP
-To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>, robh+dt@kernel.org,
-        mark.rutland@arm.com, wsa@the-dreams.de,
-        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+Content-Transfer-Encoding: quoted-printable
+To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
+        andy.gross@linaro.org, corbet@lwn.net, david.brown@linaro.org,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com,
+        robh+dt@kernel.org, wsa@the-dreams.de
+From:   Stephen Boyd <swboyd@chromium.org>
+In-Reply-To: <1521071931-9294-6-git-send-email-kramasub@codeaurora.org>
+Cc:     Rajendra Nayak <rnayak@codeaurora.org>, linux-doc@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
-        jslaby@suse.com, acourbot@chromium.org, swboyd@chromium.org,
-        Girish Mahadevan <girishm@codeaurora.org>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Doug Anderson <dianders@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        jslaby@suse.com, evgreen@chromium.org, acourbot@chromium.org
+References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
+ <1521071931-9294-6-git-send-email-kramasub@codeaurora.org>
+Message-ID: <152157474508.187949.10348604942277810227@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.7
+Subject: Re: [PATCH v4 5/6] arm64: dts: sdm845: Add serial console support
+Date:   Tue, 20 Mar 2018 12:39:05 -0700
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Karthik,
+Quoting Karthikeyan Ramasubramanian (2018-03-14 16:58:50)
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-mtp.dts b/arch/arm64/boot/dt=
+s/qcom/sdm845-mtp.dts
+> index 979ab49..ea3efc5 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-mtp.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-mtp.dts
+> @@ -12,4 +12,43 @@
+>  / {
+>         model =3D "Qualcomm Technologies, Inc. SDM845 MTP";
+>         compatible =3D "qcom,sdm845-mtp";
+> +
+> +       aliases {
+> +               serial0 =3D &uart2;
+> +       };
+> +
+> +       chosen {
+> +               stdout-path =3D "serial0";
 
-On Wed, Mar 14, 2018 at 4:59 PM Karthikeyan Ramasubramanian <
-kramasub@codeaurora.org> wrote:
+Also add :115200n8 ?
 
-> +
-> +static bool qcom_geni_serial_poll_bit(struct uart_port *uport,
-> +                               int offset, int field, bool set)
-> +{
-> +       u32 reg;
-> +       struct qcom_geni_serial_port *port;
-> +       unsigned int baud;
-> +       unsigned int fifo_bits;
-> +       unsigned long timeout_us = 20000;
-> +
-> +       /* Ensure polling is not re-ordered before the prior writes/reads
-*/
-> +       mb();
 
-These barriers sprinkled around everywhere are new. Did
-you find that you needed them for something? In this case, the
-readl_poll_timeout_atomic should already have a read barrier (nor do you
-probably care about read reordering, right?) Perhaps this should
-only be a mmiowb rather than a full barrier, because you really just want
-to say "make sure all my old writes got out to hardware before spinning"
+> +       };
+> +};
+> +
+> +&soc {
 
-> +
-> +       if (uport->private_data) {
-> +               port = to_dev_port(uport, uport);
-> +               baud = port->baud;
-> +               if (!baud)
-> +                       baud = 115200;
-> +               fifo_bits = port->tx_fifo_depth * port->tx_fifo_width;
-> +               /*
-> +                * Total polling iterations based on FIFO worth of bytes
-to be
-> +                * sent at current baud. Add a little fluff to the wait.
-> +                */
-> +               timeout_us = ((fifo_bits * USEC_PER_SEC) / baud) + 500;
-> +       }
-> +
-> +       return !readl_poll_timeout_atomic(uport->membase + offset, reg,
-> +                        (bool)(reg & field) == set, 10, timeout_us);
-> +}
-[...]
-> +
-> +static void qcom_geni_serial_start_tx(struct uart_port *uport)
-> +{
-> +       u32 irq_en;
-> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> +       u32 status;
-> +
-> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> +               status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> +               if (status & M_GENI_CMD_ACTIVE)
-> +                       return;
-> +
-> +               if (!qcom_geni_serial_tx_empty(uport))
-> +                       return;
-> +
-> +               /*
-> +                * Ensure writing to IRQ_EN & watermark registers are not
-> +                * re-ordered before checking the status of the Serial
-> +                * Engine and TX FIFO
-> +                */
-> +               mb();
+I think the method is to put these inside soc node without using the
+phandle reference. So indent everything once more.
 
-Here's another one. You should just be able to use a regular readl when
-reading SE_GENI_STATUS and remove this barrier, since readl has an rmb
-which orders your read of M_IRQ_EN below. I don't think you need to worry
-about the writes below going above the read above, since there's logic in
-between that needs the result of the read. Maybe that also saves you in the
-read case, too. Either way, this barrier seems heavy handed.
+> +       geniqup@ac0000 {
+> +               serial@a84000 {
+> +                       status =3D "okay";
+> +               };
+> +       };
+> +
+> +       pinctrl@3400000 {
+> +               qup-uart2-default {
+> +                       pinconf_tx {
+> +                               pins =3D "gpio4";
+> +                               drive-strength =3D <2>;
+> +                               bias-disable;
+> +                       };
+> +
+> +                       pinconf_rx {
+> +                               pins =3D "gpio5";
+> +                               drive-strength =3D <2>;
+> +                               bias-pull-up;
+> +                       };
+> +               };
+> +
+> +               qup-uart2-sleep {
+> +                       pinconf {
+> +                               pins =3D "gpio4", "gpio5";
+> +                               bias-pull-down;
+> +                       };
+> +               };
+> +       };
+>  };
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/q=
+com/sdm845.dtsi
+> index 32f8561..59334d9 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> @@ -6,6 +6,7 @@
+>   */
+>  =
 
-> +
-> +               irq_en = readl_relaxed(uport->membase + SE_GENI_M_IRQ_EN);
-> +               irq_en |= M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN;
-> +
-> +               writel_relaxed(port->tx_wm, uport->membase +
-> +                                               SE_GENI_TX_WATERMARK_REG);
-> +               writel_relaxed(irq_en, uport->membase + SE_GENI_M_IRQ_EN);
-> +       }
-> +}
-> +
-> +static void qcom_geni_serial_stop_tx(struct uart_port *uport)
-> +{
-> +       u32 irq_en;
-> +       u32 status;
-> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> +
-> +       irq_en = readl_relaxed(uport->membase + SE_GENI_M_IRQ_EN);
-> +       irq_en &= ~M_CMD_DONE_EN;
-> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> +               irq_en &= ~M_TX_FIFO_WATERMARK_EN;
-> +               writel_relaxed(0, uport->membase +
-> +                                    SE_GENI_TX_WATERMARK_REG);
-> +       }
-> +       port->xmit_size = 0;
-> +       writel_relaxed(irq_en, uport->membase + SE_GENI_M_IRQ_EN);
-> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> +       /* Possible stop tx is called multiple times. */
-> +       if (!(status & M_GENI_CMD_ACTIVE))
-> +               return;
-> +
-> +       /*
-> +        * Ensure cancel command write is not re-ordered before checking
-> +        * the status of the Primary Sequencer.
-> +        */
-> +       mb();
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/clock/qcom,gcc-sdm845.h>
+>  =
 
-I don't see how what's stated in your comment could happen, as that would
-be a logic error. This barrier seems unneeded to me.
+>  / {
+>         interrupt-parent =3D <&intc>;
+> @@ -194,6 +195,20 @@
+>                         #gpio-cells =3D <2>;
+>                         interrupt-controller;
+>                         #interrupt-cells =3D <2>;
+> +
+> +                       qup_uart2_default: qup-uart2-default {
+> +                               pinmux {
+> +                                       function =3D "qup9";
+> +                                       pins =3D "gpio4", "gpio5";
+> +                               };
+> +                       };
+> +
+> +                       qup_uart2_sleep: qup-uart2-sleep {
+> +                               pinmux {
+> +                                       function =3D "gpio";
+> +                                       pins =3D "gpio4", "gpio5";
+> +                               };
+> +                       };
 
-> +
-> +       geni_se_cancel_m_cmd(&port->se);
-> +       if (!qcom_geni_serial_poll_bit(uport, SE_GENI_M_IRQ_STATUS,
-> +                                               M_CMD_CANCEL_EN, true)) {
-> +               geni_se_abort_m_cmd(&port->se);
-> +               qcom_geni_serial_poll_bit(uport, SE_GENI_M_IRQ_STATUS,
-> +                                               M_CMD_ABORT_EN, true);
-> +               writel_relaxed(M_CMD_ABORT_EN, uport->membase +
-> +
-SE_GENI_M_IRQ_CLEAR);
-> +       }
-> +       writel_relaxed(M_CMD_CANCEL_EN, uport->membase +
-SE_GENI_M_IRQ_CLEAR);
-> +}
-> +
-> +static void qcom_geni_serial_start_rx(struct uart_port *uport)
-> +{
-> +       u32 irq_en;
-> +       u32 status;
-> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> +
-> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> +       if (status & S_GENI_CMD_ACTIVE)
-> +               qcom_geni_serial_stop_rx(uport);
-> +
-> +       /*
-> +        * Ensure setup command write is not re-ordered before checking
-> +        * the status of the Secondary Sequencer.
-> +        */
-> +       mb();
+Are these supposed to go to the board file?
 
-Also here, I think the reordering you're worried about would mean the CPU
-is executing incorrectly.
+>                 };
+>  =
+
+>                 timer@17c90000 {
+> @@ -272,5 +287,28 @@
+>                         #interrupt-cells =3D <4>;
+>                         cell-index =3D <0>;
+>                 };
+> +
+> +               geniqup@ac0000 {
+> +                       compatible =3D "qcom,geni-se-qup";
+> +                       reg =3D <0xac0000 0x6000>;
+> +                       clock-names =3D "m-ahb", "s-ahb";
+> +                       clocks =3D <&gcc GCC_QUPV3_WRAP_1_M_AHB_CLK>,
+> +                                <&gcc GCC_QUPV3_WRAP_1_S_AHB_CLK>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <1>;
+> +                       ranges;
+
+Add a status =3D "disabled" here too.
 
 > +
-> +       geni_se_setup_s_cmd(&port->se, UART_START_READ, 0);
-> +
-> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> +               irq_en = readl_relaxed(uport->membase + SE_GENI_S_IRQ_EN);
-> +               irq_en |= S_RX_FIFO_WATERMARK_EN | S_RX_FIFO_LAST_EN;
-> +               writel_relaxed(irq_en, uport->membase + SE_GENI_S_IRQ_EN);
-> +
-> +               irq_en = readl_relaxed(uport->membase + SE_GENI_M_IRQ_EN);
-> +               irq_en |= M_RX_FIFO_WATERMARK_EN | M_RX_FIFO_LAST_EN;
-> +               writel_relaxed(irq_en, uport->membase + SE_GENI_M_IRQ_EN);
-> +       }
-> +}
-> +
-> +static void qcom_geni_serial_stop_rx(struct uart_port *uport)
-> +{
-> +       u32 irq_en;
-> +       u32 status;
-> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> +       u32 irq_clear = S_CMD_DONE_EN;
-> +
-> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> +               irq_en = readl_relaxed(uport->membase + SE_GENI_S_IRQ_EN);
-> +               irq_en &= ~(S_RX_FIFO_WATERMARK_EN | S_RX_FIFO_LAST_EN);
-> +               writel_relaxed(irq_en, uport->membase + SE_GENI_S_IRQ_EN);
-> +
-> +               irq_en = readl_relaxed(uport->membase + SE_GENI_M_IRQ_EN);
-> +               irq_en &= ~(M_RX_FIFO_WATERMARK_EN | M_RX_FIFO_LAST_EN);
-> +               writel_relaxed(irq_en, uport->membase + SE_GENI_M_IRQ_EN);
-> +       }
-> +
-> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> +       /* Possible stop rx is called multiple times. */
-> +       if (!(status & S_GENI_CMD_ACTIVE))
-> +               return;
-> +
-> +       /*
-> +        * Ensure cancel command write is not re-ordered before checking
-> +        * the status of the Secondary Sequencer.
-> +        */
-> +       mb();
-
-Same deal here.
-
-> +
-> +       geni_se_cancel_s_cmd(&port->se);
-> +       qcom_geni_serial_poll_bit(uport, SE_GENI_S_CMD_CTRL_REG,
-> +                                       S_GENI_CMD_CANCEL, false);
-> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> +       writel_relaxed(irq_clear, uport->membase + SE_GENI_S_IRQ_CLEAR);
-> +       if (status & S_GENI_CMD_ACTIVE)
-> +               qcom_geni_serial_abort_rx(uport);
-> +}
-> +
-
-Sorry gmail decided to wrap some of the context lines.
--Evan
+> +                       uart2: serial@a84000 {
+> +                               compatible =3D "qcom,geni-debug-uart";
+> +                               reg =3D <0xa84000 0x4000>;
+> +                               clock-names =3D "se";
+> +                               clocks =3D <&gcc GCC_QUPV3_WRAP1_S1_CLK>;
+> +                               pinctrl-names =3D "default", "sleep";
+> +                               pinctrl-0 =3D <&qup_uart2_default>;
+> +                               pinctrl-1 =3D <&qup_uart2_sleep>;
+> +                               interrupts =3D <GIC_SPI 354 IRQ_TYPE_LEVE=
+L_HIGH>;
+> +                               status =3D "disabled";
+> +                       };
+> +               };
+>         };
+>  };
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
