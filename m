@@ -2,28 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F03FE7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 20:43:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0CF217DE75
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Mar 2018 20:53:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751424AbeCTUnr convert rfc822-to-8bit (ORCPT
+        id S1751320AbeCTUxj convert rfc822-to-8bit (ORCPT
         <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 16:43:47 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:49544 "EHLO mx1.redhat.com"
+        Tue, 20 Mar 2018 16:53:39 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48212 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751390AbeCTUnq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Mar 2018 16:43:46 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        id S1751186AbeCTUxi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Mar 2018 16:53:38 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 95025406EA5F;
-        Tue, 20 Mar 2018 20:43:45 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id D9BF6EB700;
+        Tue, 20 Mar 2018 20:53:37 +0000 (UTC)
 Received: from llong.remote.csb (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AD35911701C9;
-        Tue, 20 Mar 2018 20:43:44 +0000 (UTC)
-Subject: Re: [PATCH v5 2/2] cpuset: Add cpuset.flags control knob to v2
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2C978202322F;
+        Tue, 20 Mar 2018 20:53:37 +0000 (UTC)
+Subject: Re: [PATCH v5 1/2] cpuset: Enable cpuset controller in default
+ hierarchy
 To:     Tejun Heo <tj@kernel.org>
 Cc:     Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -34,66 +35,64 @@ Cc:     Li Zefan <lizefan@huawei.com>,
         efault@gmx.de, torvalds@linux-foundation.org,
         Roman Gushchin <guro@fb.com>
 References: <1521148842-15486-1-git-send-email-longman@redhat.com>
- <1521148842-15486-3-git-send-email-longman@redhat.com>
- <20180319162654.GR2943022@devbig577.frc2.facebook.com>
- <8e553b7e-cab6-1b5d-9110-cc5770ae16c4@redhat.com>
- <cbe9b852-80b6-8341-b51c-4d754d00ce53@redhat.com>
- <20180320202247.GQ519464@devbig577.frc2.facebook.com>
+ <1521148842-15486-2-git-send-email-longman@redhat.com>
+ <20180319155937.GQ2943022@devbig577.frc2.facebook.com>
+ <1881c1da-56ec-d76b-b736-fd0919737ec6@redhat.com>
+ <20180320201029.GO519464@devbig577.frc2.facebook.com>
 From:   Waiman Long <longman@redhat.com>
 Organization: Red Hat
-Message-ID: <066acb95-3140-904d-f599-84c1f94ad27c@redhat.com>
-Date:   Tue, 20 Mar 2018 16:43:44 -0400
+Message-ID: <2b9261b8-6a3a-81d1-9c9a-394524a0d413@redhat.com>
+Date:   Tue, 20 Mar 2018 16:53:37 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.0
 MIME-Version: 1.0
-In-Reply-To: <20180320202247.GQ519464@devbig577.frc2.facebook.com>
+In-Reply-To: <20180320201029.GO519464@devbig577.frc2.facebook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 20 Mar 2018 20:43:45 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 20 Mar 2018 20:43:45 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 20 Mar 2018 20:53:38 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 20 Mar 2018 20:53:38 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/20/2018 04:22 PM, Tejun Heo wrote:
+On 03/20/2018 04:10 PM, Tejun Heo wrote:
 > Hello, Waiman.
 >
-> On Tue, Mar 20, 2018 at 04:12:25PM -0400, Waiman Long wrote:
->> After some thought, I am planning to impose the following additional
->> constraints on how sched_load_balance works in v2.
->>
->> 1) sched_load_balance will be made hierarchical, the child will inherit
->> the flag from its parent.
->> 2) cpu_exclusive will be implicitly associated with sched_load_balance.
->> IOW, sched_load_balance => !cpu_exclusive, and !sched_load_balance =>
->> cpu_exclusive.
->> 3) sched_load_balance cannot be 1 on a child if it is 0 on the parent.
->>
->> With these changes, sched_load_balance will have to be set by the parent
->> and so will not be delegatable. Please let me know your thought on that.
-> So, for configurations, we usually don't let them interact across
-> hierarchy because that can lead to configurations surprise-changing
-> and delegated children locking the parent into the current config.
->
-> This case could be different and as long as we always guarantee that
-> an ancestor isn't limited by its descendants in what it can configure,
-> it should be okay (e.g. an ancestor should always be able to turn on
-> sched_load_balance regardless of how the descendants are configured).
+> On Tue, Mar 20, 2018 at 09:51:20AM -0400, Waiman Long wrote:
+>>>> +	It lists the onlined CPUs that are actually allowed to be
+>>>> +	used by tasks within the current cgroup. It is a subset of
+>>>> +	"cpuset.cpus".  Its value will be affected by CPU hotplug
+>>>> +	events.
+>>> Can we do cpuset.cpus.availble which lists the cpus available to the
+>>> cgroup instead of the eventual computed mask for the cgroup?  That'd
+>>> be more useful as it doesn't lose the information by and'ing what's
+>>> available with the cgroup's mask and it's trivial to determine the
+>>> effective from the two masks.
+>> I don't get what you want here. cpus is the cpuset's cpus_allowed mask.
+>> effective_cpus is the effective_cpus mask. When you say cpus available
+>> to the cgroup, do you mean the cpu_online_mask or the list of cpus from
+>> the parent? Or do you just want to change the name to cpus.available
+>> instead of effective_cpus?
+> The available cpus from the parent, where the effective is AND between
+> cpuset.available and cpuset.cpus of the cgroup, so that the user can
+> see what's available for the cgroup unfiltered by cpuset.cpus.
 
-Yes, I will do some testing to make sure that a descendant won't be able
-to affect how the ancestors can behave.
+ASAIK for v2, when cpuset.cpus is empty, cpuset.effective_cpus will show
+all the cpus available from the parent. It is a different behavior from
+v1. So do we still need a cpuset.cpus_available?
 
-> Hmmm... can you explain why sched_load_balance needs to behave this
-> way?
-
-It boils down to the fact that it doesn't make sense to have a CPU in an
-isolated cpuset to participate in load balancing in another cpuset as
-Mike has said before. It is especially true in a parent-child
-relationship where a delegatee can escape CPU isolation by re-enabling
-sched_load_balance in a child cpuset.
+>> Right, I will set CFTYPE_NOT_ON_ROOT to "cpus" and "mems" as we are not
+>> supposed to change them in the root. The effective_cpus and
+>> effective_mems will be there in the root to show what are available.
+> So, we can do that in the future but let's not do that for now.  It's
+> the same problem we have for basically everything else and we've
+> stayed away from replicating the information in the root cgroup.  This
+> might change in the future but if we do that let's do that
+> consistently.
+That is fine. I will make them all disappears in the root cgroup.
 
 Cheers,
 Longman
