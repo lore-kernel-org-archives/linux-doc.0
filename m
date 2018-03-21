@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8410A7D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:32:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 34DBA7D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:32:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753443AbeCUTcB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 15:32:01 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51150 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752740AbeCUTX7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:59 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJJVsf022577
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:59 -0400
-Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2gusvyafsj-1
+        id S1753198AbeCUTce (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:32:34 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45836 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1753238AbeCUTXq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:46 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJIqGP107841
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:46 -0400
+Received: from e06smtp14.uk.ibm.com (e06smtp14.uk.ibm.com [195.75.94.110])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2gut67sctb-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:58 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:45 -0400
 Received: from localhost
-        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp14.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 21 Mar 2018 19:23:56 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 21 Mar 2018 19:23:51 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJNprt54001890;
-        Wed, 21 Mar 2018 19:23:51 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 53FB542042;
-        Wed, 21 Mar 2018 19:15:58 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 947974203F;
-        Wed, 21 Mar 2018 19:15:54 +0000 (GMT)
+        Wed, 21 Mar 2018 19:23:43 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp14.uk.ibm.com (192.168.101.144) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 21 Mar 2018 19:23:37 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJNaJH56033476;
+        Wed, 21 Mar 2018 19:23:36 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 36FF511C050;
+        Wed, 21 Mar 2018 19:16:07 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 178BD11C04C;
+        Wed, 21 Mar 2018 19:16:04 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.206.27])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 21 Mar 2018 19:15:54 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:46 +0200
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 21 Mar 2018 19:16:03 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:32 +0200
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -58,16 +58,16 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
         linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 12/32] docs/vm: mmu_notifier.txt: convert to ReST format
-Date:   Wed, 21 Mar 2018 21:22:28 +0200
+Subject: [PATCH 09/32] docs/vm: hwpoison.txt: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:25 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18032119-0020-0000-0000-00000407E60B
+x-cbid: 18032119-0044-0000-0000-0000053E733C
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18032119-0021-0000-0000-0000429C06B8
-Message-Id: <1521660168-14372-13-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18032119-0045-0000-0000-0000287D78DF
+Message-Id: <1521660168-14372-10-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -82,144 +82,216 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/vm/mmu_notifier.txt | 108 ++++++++++++++++++++------------------
- 1 file changed, 57 insertions(+), 51 deletions(-)
+ Documentation/vm/hwpoison.txt | 141 +++++++++++++++++++++---------------------
+ 1 file changed, 70 insertions(+), 71 deletions(-)
 
-diff --git a/Documentation/vm/mmu_notifier.txt b/Documentation/vm/mmu_notifier.txt
-index 23b4625..47baa1c 100644
---- a/Documentation/vm/mmu_notifier.txt
-+++ b/Documentation/vm/mmu_notifier.txt
-@@ -1,7 +1,10 @@
-+.. _mmu_notifier:
+diff --git a/Documentation/vm/hwpoison.txt b/Documentation/vm/hwpoison.txt
+index e912d7e..b1a8c24 100644
+--- a/Documentation/vm/hwpoison.txt
++++ b/Documentation/vm/hwpoison.txt
+@@ -1,7 +1,14 @@
++.. hwpoison:
 +
- When do you need to notify inside page table lock ?
-+===================================================
- 
- When clearing a pte/pmd we are given a choice to notify the event through
--(notify version of *_clear_flush call mmu_notifier_invalidate_range) under
-+(notify version of \*_clear_flush call mmu_notifier_invalidate_range) under
- the page table lock. But that notification is not necessary in all cases.
- 
- For secondary TLB (non CPU TLB) like IOMMU TLB or device TLB (when device use
-@@ -18,6 +21,7 @@ a page that might now be used by some completely different task.
- 
- Case B is more subtle. For correctness it requires the following sequence to
- happen:
++========
++hwpoison
++========
 +
-   - take page table lock
-   - clear page table entry and notify ([pmd/pte]p_huge_clear_flush_notify())
-   - set page table entry to point to new page
-@@ -28,58 +32,60 @@ the device.
+ What is hwpoison?
++=================
  
- Consider the following scenario (device use a feature similar to ATS/PASID):
+ Upcoming Intel CPUs have support for recovering from some memory errors
+-(``MCA recovery''). This requires the OS to declare a page "poisoned",
++(``MCA recovery``). This requires the OS to declare a page "poisoned",
+ kill the processes associated with it and avoid using it in the future.
  
--Two address addrA and addrB such that |addrA - addrB| >= PAGE_SIZE we assume
-+Two address addrA and addrB such that \|addrA - addrB\| >= PAGE_SIZE we assume
- they are write protected for COW (other case of B apply too).
+ This patchkit implements the necessary infrastructure in the VM.
+@@ -46,9 +53,10 @@ address. This in theory allows other applications to handle
+ memory failures too. The expection is that near all applications
+ won't do that, but some very specialized ones might.
  
--[Time N] --------------------------------------------------------------------
--CPU-thread-0  {try to write to addrA}
--CPU-thread-1  {try to write to addrB}
--CPU-thread-2  {}
--CPU-thread-3  {}
--DEV-thread-0  {read addrA and populate device TLB}
--DEV-thread-2  {read addrB and populate device TLB}
--[Time N+1] ------------------------------------------------------------------
--CPU-thread-0  {COW_step0: {mmu_notifier_invalidate_range_start(addrA)}}
--CPU-thread-1  {COW_step0: {mmu_notifier_invalidate_range_start(addrB)}}
--CPU-thread-2  {}
--CPU-thread-3  {}
--DEV-thread-0  {}
--DEV-thread-2  {}
--[Time N+2] ------------------------------------------------------------------
--CPU-thread-0  {COW_step1: {update page table to point to new page for addrA}}
--CPU-thread-1  {COW_step1: {update page table to point to new page for addrB}}
--CPU-thread-2  {}
--CPU-thread-3  {}
--DEV-thread-0  {}
--DEV-thread-2  {}
--[Time N+3] ------------------------------------------------------------------
--CPU-thread-0  {preempted}
--CPU-thread-1  {preempted}
--CPU-thread-2  {write to addrA which is a write to new page}
--CPU-thread-3  {}
--DEV-thread-0  {}
--DEV-thread-2  {}
--[Time N+3] ------------------------------------------------------------------
--CPU-thread-0  {preempted}
--CPU-thread-1  {preempted}
--CPU-thread-2  {}
--CPU-thread-3  {write to addrB which is a write to new page}
--DEV-thread-0  {}
--DEV-thread-2  {}
--[Time N+4] ------------------------------------------------------------------
--CPU-thread-0  {preempted}
--CPU-thread-1  {COW_step3: {mmu_notifier_invalidate_range_end(addrB)}}
--CPU-thread-2  {}
--CPU-thread-3  {}
--DEV-thread-0  {}
--DEV-thread-2  {}
--[Time N+5] ------------------------------------------------------------------
--CPU-thread-0  {preempted}
--CPU-thread-1  {}
--CPU-thread-2  {}
--CPU-thread-3  {}
--DEV-thread-0  {read addrA from old page}
--DEV-thread-2  {read addrB from new page}
-+::
+----
++Failure recovery modes
++======================
+ 
+-There are two (actually three) modi memory failure recovery can be in:
++There are two (actually three) modes memory failure recovery can be in:
+ 
+ vm.memory_failure_recovery sysctl set to zero:
+ 	All memory failures cause a panic. Do not attempt recovery.
+@@ -67,9 +75,8 @@ late kill
+ 	This is best for memory error unaware applications and default
+ 	Note some pages are always handled as late kill.
+ 
+----
+-
+-User control:
++User control
++============
+ 
+ vm.memory_failure_recovery
+ 	See sysctl.txt
+@@ -79,11 +86,19 @@ vm.memory_failure_early_kill
+ 
+ PR_MCE_KILL
+ 	Set early/late kill mode/revert to system default
+-	arg1: PR_MCE_KILL_CLEAR: Revert to system default
+-	arg1: PR_MCE_KILL_SET: arg2 defines thread specific mode
+-		PR_MCE_KILL_EARLY: Early kill
+-		PR_MCE_KILL_LATE:  Late kill
+-		PR_MCE_KILL_DEFAULT: Use system global default
 +
-+ [Time N] --------------------------------------------------------------------
-+ CPU-thread-0  {try to write to addrA}
-+ CPU-thread-1  {try to write to addrB}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {read addrA and populate device TLB}
-+ DEV-thread-2  {read addrB and populate device TLB}
-+ [Time N+1] ------------------------------------------------------------------
-+ CPU-thread-0  {COW_step0: {mmu_notifier_invalidate_range_start(addrA)}}
-+ CPU-thread-1  {COW_step0: {mmu_notifier_invalidate_range_start(addrB)}}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+2] ------------------------------------------------------------------
-+ CPU-thread-0  {COW_step1: {update page table to point to new page for addrA}}
-+ CPU-thread-1  {COW_step1: {update page table to point to new page for addrB}}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+3] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {preempted}
-+ CPU-thread-2  {write to addrA which is a write to new page}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+3] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {preempted}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {write to addrB which is a write to new page}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+4] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {COW_step3: {mmu_notifier_invalidate_range_end(addrB)}}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {}
-+ DEV-thread-2  {}
-+ [Time N+5] ------------------------------------------------------------------
-+ CPU-thread-0  {preempted}
-+ CPU-thread-1  {}
-+ CPU-thread-2  {}
-+ CPU-thread-3  {}
-+ DEV-thread-0  {read addrA from old page}
-+ DEV-thread-2  {read addrB from new page}
++	arg1: PR_MCE_KILL_CLEAR:
++		Revert to system default
++	arg1: PR_MCE_KILL_SET:
++		arg2 defines thread specific mode
++
++		PR_MCE_KILL_EARLY:
++			Early kill
++		PR_MCE_KILL_LATE:
++			Late kill
++		PR_MCE_KILL_DEFAULT
++			Use system global default
++
+ 	Note that if you want to have a dedicated thread which handles
+ 	the SIGBUS(BUS_MCEERR_AO) on behalf of the process, you should
+ 	call prctl(PR_MCE_KILL_EARLY) on the designated thread. Otherwise,
+@@ -92,77 +107,64 @@ PR_MCE_KILL
+ PR_MCE_KILL_GET
+ 	return current mode
  
- So here because at time N+2 the clear page table entry was not pair with a
- notification to invalidate the secondary TLB, the device see the new value for
++Testing
++=======
+ 
+----
+-
+-Testing:
+-
+-madvise(MADV_HWPOISON, ....)
+-	(as root)
+-	Poison a page in the process for testing
+-
++* madvise(MADV_HWPOISON, ....) (as root) - Poison a page in the
++  process for testing
+ 
+-hwpoison-inject module through debugfs
++* hwpoison-inject module through debugfs ``/sys/kernel/debug/hwpoison/``
+ 
+-/sys/kernel/debug/hwpoison/
++  corrupt-pfn
++	Inject hwpoison fault at PFN echoed into this file. This does
++	some early filtering to avoid corrupted unintended pages in test suites.
+ 
+-corrupt-pfn
++  unpoison-pfn
++	Software-unpoison page at PFN echoed into this file. This way
++	a page can be reused again.  This only works for Linux
++	injected failures, not for real memory failures.
+ 
+-Inject hwpoison fault at PFN echoed into this file. This does
+-some early filtering to avoid corrupted unintended pages in test suites.
++  Note these injection interfaces are not stable and might change between
++  kernel versions
+ 
+-unpoison-pfn
++  corrupt-filter-dev-major, corrupt-filter-dev-minor
++	Only handle memory failures to pages associated with the file
++	system defined by block device major/minor.  -1U is the
++	wildcard value.  This should be only used for testing with
++	artificial injection.
+ 
+-Software-unpoison page at PFN echoed into this file. This
+-way a page can be reused again.
+-This only works for Linux injected failures, not for real
+-memory failures.
++  corrupt-filter-memcg
++	Limit injection to pages owned by memgroup. Specified by inode
++	number of the memcg.
+ 
+-Note these injection interfaces are not stable and might change between
+-kernel versions
++	Example::
+ 
+-corrupt-filter-dev-major
+-corrupt-filter-dev-minor
++		mkdir /sys/fs/cgroup/mem/hwpoison
+ 
+-Only handle memory failures to pages associated with the file system defined
+-by block device major/minor.  -1U is the wildcard value.
+-This should be only used for testing with artificial injection.
++	        usemem -m 100 -s 1000 &
++		echo `jobs -p` > /sys/fs/cgroup/mem/hwpoison/tasks
+ 
+-corrupt-filter-memcg
++		memcg_ino=$(ls -id /sys/fs/cgroup/mem/hwpoison | cut -f1 -d' ')
++		echo $memcg_ino > /debug/hwpoison/corrupt-filter-memcg
+ 
+-Limit injection to pages owned by memgroup. Specified by inode number
+-of the memcg.
++		page-types -p `pidof init`   --hwpoison  # shall do nothing
++		page-types -p `pidof usemem` --hwpoison  # poison its pages
+ 
+-Example:
+-        mkdir /sys/fs/cgroup/mem/hwpoison
++  corrupt-filter-flags-mask, corrupt-filter-flags-value
++	When specified, only poison pages if ((page_flags & mask) ==
++	value).  This allows stress testing of many kinds of
++	pages. The page_flags are the same as in /proc/kpageflags. The
++	flag bits are defined in include/linux/kernel-page-flags.h and
++	documented in Documentation/vm/pagemap.txt
+ 
+-        usemem -m 100 -s 1000 &
+-        echo `jobs -p` > /sys/fs/cgroup/mem/hwpoison/tasks
++* Architecture specific MCE injector
+ 
+-        memcg_ino=$(ls -id /sys/fs/cgroup/mem/hwpoison | cut -f1 -d' ')
+-        echo $memcg_ino > /debug/hwpoison/corrupt-filter-memcg
++  x86 has mce-inject, mce-test
+ 
+-        page-types -p `pidof init`   --hwpoison  # shall do nothing
+-        page-types -p `pidof usemem` --hwpoison  # poison its pages
++  Some portable hwpoison test programs in mce-test, see below.
+ 
+-corrupt-filter-flags-mask
+-corrupt-filter-flags-value
+-
+-When specified, only poison pages if ((page_flags & mask) == value).
+-This allows stress testing of many kinds of pages. The page_flags
+-are the same as in /proc/kpageflags. The flag bits are defined in
+-include/linux/kernel-page-flags.h and documented in
+-Documentation/vm/pagemap.txt
+-
+-Architecture specific MCE injector
+-
+-x86 has mce-inject, mce-test
+-
+-Some portable hwpoison test programs in mce-test, see blow.
+-
+----
+-
+-References:
++References
++==========
+ 
+ http://halobates.de/mce-lc09-2.pdf
+ 	Overview presentation from LinuxCon 09
+@@ -174,14 +176,11 @@ git://git.kernel.org/pub/scm/utils/cpu/mce/mce-inject.git
+ 	x86 specific injector
+ 
+ 
+----
+-
+-Limitations:
+-
++Limitations
++===========
+ - Not all page types are supported and never will. Most kernel internal
+-objects cannot be recovered, only LRU pages for now.
++  objects cannot be recovered, only LRU pages for now.
+ - Right now hugepage support is missing.
+ 
+ ---
+ Andi Kleen, Oct 2009
+-
 -- 
 2.7.4
 
