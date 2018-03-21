@@ -5,98 +5,55 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 702807D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 09:41:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D94017D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 15:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751827AbeCUJly (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 05:41:54 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:19123 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1751728AbeCUJlx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 05:41:53 -0400
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
-   d="scan'208";a="38036313"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 21 Mar 2018 17:41:52 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-        by cn.fujitsu.com (Postfix) with ESMTP id 5D67F4D0EFC9;
-        Wed, 21 Mar 2018 17:41:48 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.106) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 21 Mar 2018 17:41:47 +0800
-Subject: Re: [PATCH 1/5] x86/smpboot: Add the missing description of
- possible_cpus
-To:     Peter Zijlstra <peterz@infradead.org>
-CC:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
-        <linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <corbet@lwn.net>,
-        <rjw@rjwysocki.net>, <lenb@kernel.org>, <hpa@zytor.com>
-References: <20180320110432.28127-1-douly.fnst@cn.fujitsu.com>
- <20180320110432.28127-2-douly.fnst@cn.fujitsu.com>
- <20180320123712.GR4043@hirez.programming.kicks-ass.net>
- <f64cb207-3851-9a26-2001-653fc0068540@cn.fujitsu.com>
- <20180321090826.GW4043@hirez.programming.kicks-ass.net>
- <076196e1-c181-ba44-f912-61bd279b345b@cn.fujitsu.com>
-From:   Dou Liyang <douly.fnst@cn.fujitsu.com>
-Message-ID: <1dfcdb3d-6a92-8654-7cc4-ef262ddb0915@cn.fujitsu.com>
-Date:   Wed, 21 Mar 2018 17:41:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.5.2
+        id S1752382AbeCUPCL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 11:02:11 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49934 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752305AbeCUPCL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Mar 2018 11:02:11 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id BA24C536;
+        Wed, 21 Mar 2018 15:02:10 +0000 (UTC)
+Date:   Wed, 21 Mar 2018 09:02:09 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Martin Kepplinger <martink@posteo.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] README: Improve documentation descriptions
+Message-ID: <20180321090209.46b6e04f@lwn.net>
+In-Reply-To: <20180316155707.28426-1-martink@posteo.de>
+References: <20180316155707.28426-1-martink@posteo.de>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <076196e1-c181-ba44-f912-61bd279b345b@cn.fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.167.226.106]
-X-yoursite-MailScanner-ID: 5D67F4D0EFC9.AE15B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: douly.fnst@cn.fujitsu.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 16 Mar 2018 16:57:07 +0100
+Martin Kepplinger <martink@posteo.de> wrote:
 
+> "This file" indeed was moved once, but at some point "this file", the
+> top-level README, becomes a file in itself. Now that time has come :)
+> 
+> Let's describe how things are, and suggest reading "this file" first,
+> "this file" simply being a the admin-guide README file, not a file that
+> was once moved.
 
-At 03/21/2018 05:34 PM, Dou Liyang wrote:
-> Hi Peter,
-> 
-> At 03/21/2018 05:08 PM, Peter Zijlstra wrote:
->> On Wed, Mar 21, 2018 at 01:33:24PM +0800, Dou Liyang wrote:
->>> How about:
->>>
->>> possible_cpus=    [s390,x86_64] Set the number of possible CPUs which
->>>         are determined by the ACPI tables MADT or mptables by
->>>         default. possible_cpus=n : n >= 1 enforces the possible
->>>         number to be 'n'.
->>>         While nr_cpus is also be set: nr_cpus=m, choice the
->>>         minimum one for the number of possible CPUs.
->>
->> So what is the exact difference between possible_cpus and nr_cpus ? I
-> 
-> the possible_cpus= can reset the number of possible CPUs, even bigger
-> than 'num_processors + disabled_cpus', But nr_cpus= can't.
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-       the maximum number kernel gets from ACPI/mptables, no matter what
-number nr_cpus= is, the number of possible CPUs will not bigger than it.
+OK, sure, applied.
 
->
->> konw maxcpus= limits the number of CPUs we bring up, and possible_cpus
->> limits the possible_map, but I'm not entirely sure what nr_cpus does
->> here.
->>
-> 
-> nr_cpus can limited the maximum CPUs that the kernel could support.
-> 
-> Here is a double check in case of using them at the same time, even if I
-> think just using possible_cpus= is enough. :-)
-> 
-> Thanks,
->      dou.
->>
->>
+Maybe I'll tack on something pointing to
+https://www.kernel.org/doc/html/latest/ as well.
 
+Thanks,
 
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
