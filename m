@@ -2,45 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8169B7E688
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:26:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E22B57E677
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:26:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753624AbeCUTZ4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 15:25:56 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33146 "EHLO
+        id S1753545AbeCUTZW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:25:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46282 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1753570AbeCUTZa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:25:30 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJIbwL047331
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:25:29 -0400
-Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2guuubvf0d-1
+        by vger.kernel.org with ESMTP id S1753508AbeCUTZD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:25:03 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJMPt5078625
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:25:03 -0400
+Received: from e06smtp14.uk.ibm.com (e06smtp14.uk.ibm.com [195.75.94.110])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2guwg9g3pw-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:25:29 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:25:02 -0400
 Received: from localhost
-        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp14.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 21 Mar 2018 19:25:27 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 21 Mar 2018 19:25:20 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJPJi849086574;
-        Wed, 21 Mar 2018 19:25:19 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2188611C052;
-        Wed, 21 Mar 2018 19:17:50 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7F72011C04A;
-        Wed, 21 Mar 2018 19:17:46 +0000 (GMT)
+        Wed, 21 Mar 2018 19:25:00 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp14.uk.ibm.com (192.168.101.144) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 21 Mar 2018 19:24:53 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJOrZ051577022;
+        Wed, 21 Mar 2018 19:24:53 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 145CF52051;
+        Wed, 21 Mar 2018 18:16:16 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.206.27])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 21 Mar 2018 19:17:46 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:25:15 +0200
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 1A5475204B;
+        Wed, 21 Mar 2018 18:16:13 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:24:49 +0200
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -58,16 +55,16 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
         linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 32/32] docs/vm: add index.rst and link MM documentation to top level index
-Date:   Wed, 21 Mar 2018 21:22:48 +0200
+Subject: [PATCH 26/32] docs/vm: unevictable-lru.txt: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:42 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18032119-0008-0000-0000-000004E0DF88
+x-cbid: 18032119-0044-0000-0000-0000053E7353
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18032119-0009-0000-0000-00001E7403FC
-Message-Id: <1521660168-14372-33-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18032119-0045-0000-0000-0000287D78F5
+Message-Id: <1521660168-14372-27-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -82,112 +79,298 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/index.rst    |  3 ++-
- Documentation/vm/conf.py   | 10 +++++++++
- Documentation/vm/index.rst | 56 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 68 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/vm/conf.py
- create mode 100644 Documentation/vm/index.rst
+ Documentation/vm/unevictable-lru.txt | 117 +++++++++++++++--------------------
+ 1 file changed, 49 insertions(+), 68 deletions(-)
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index ef5080c..cc4a098 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -45,7 +45,7 @@ the kernel interface as seen by application developers.
- .. toctree::
-    :maxdepth: 2
+diff --git a/Documentation/vm/unevictable-lru.txt b/Documentation/vm/unevictable-lru.txt
+index e147185..fdd84cb 100644
+--- a/Documentation/vm/unevictable-lru.txt
++++ b/Documentation/vm/unevictable-lru.txt
+@@ -1,37 +1,13 @@
+-			==============================
+-			UNEVICTABLE LRU INFRASTRUCTURE
+-			==============================
+-
+-========
+-CONTENTS
+-========
+-
+- (*) The Unevictable LRU
+-
+-     - The unevictable page list.
+-     - Memory control group interaction.
+-     - Marking address spaces unevictable.
+-     - Detecting Unevictable Pages.
+-     - vmscan's handling of unevictable pages.
+-
+- (*) mlock()'d pages.
+-
+-     - History.
+-     - Basic management.
+-     - mlock()/mlockall() system call handling.
+-     - Filtering special vmas.
+-     - munlock()/munlockall() system call handling.
+-     - Migrating mlocked pages.
+-     - Compacting mlocked pages.
+-     - mmap(MAP_LOCKED) system call handling.
+-     - munmap()/exit()/exec() system call handling.
+-     - try_to_unmap().
+-     - try_to_munlock() reverse map scan.
+-     - Page reclaim in shrink_*_list().
++.. _unevictable_lru:
  
--   userspace-api/index	      
-+   userspace-api/index
++==============================
++Unevictable LRU Infrastructure
++==============================
+ 
+-============
+-INTRODUCTION
++.. contents:: :local:
++
++
++Introduction
+ ============
+ 
+ This document describes the Linux memory manager's "Unevictable LRU"
+@@ -46,8 +22,8 @@ details - the "what does it do?" - by reading the code.  One hopes that the
+ descriptions below add value by provide the answer to "why does it do that?".
  
  
- Introduction to kernel development
-@@ -88,6 +88,7 @@ needed).
-    sound/index
-    crypto/index
-    filesystems/index
-+   vm/index
+-===================
+-THE UNEVICTABLE LRU
++
++The Unevictable LRU
+ ===================
  
- Architecture-specific documentation
- -----------------------------------
-diff --git a/Documentation/vm/conf.py b/Documentation/vm/conf.py
-new file mode 100644
-index 0000000..3b0b601
---- /dev/null
-+++ b/Documentation/vm/conf.py
-@@ -0,0 +1,10 @@
-+# -*- coding: utf-8; mode: python -*-
+ The Unevictable LRU facility adds an additional LRU list to track unevictable
+@@ -66,17 +42,17 @@ completely unresponsive.
+ 
+ The unevictable list addresses the following classes of unevictable pages:
+ 
+- (*) Those owned by ramfs.
++ * Those owned by ramfs.
+ 
+- (*) Those mapped into SHM_LOCK'd shared memory regions.
++ * Those mapped into SHM_LOCK'd shared memory regions.
+ 
+- (*) Those mapped into VM_LOCKED [mlock()ed] VMAs.
++ * Those mapped into VM_LOCKED [mlock()ed] VMAs.
+ 
+ The infrastructure may also be able to handle other conditions that make pages
+ unevictable, either by definition or by circumstance, in the future.
+ 
+ 
+-THE UNEVICTABLE PAGE LIST
++The Unevictable Page List
+ -------------------------
+ 
+ The Unevictable LRU infrastructure consists of an additional, per-zone, LRU list
+@@ -118,7 +94,7 @@ the unevictable list when one task has the page isolated from the LRU and other
+ tasks are changing the "evictability" state of the page.
+ 
+ 
+-MEMORY CONTROL GROUP INTERACTION
++Memory Control Group Interaction
+ --------------------------------
+ 
+ The unevictable LRU facility interacts with the memory control group [aka
+@@ -144,7 +120,9 @@ effects:
+      the control group to thrash or to OOM-kill tasks.
+ 
+ 
+-MARKING ADDRESS SPACES UNEVICTABLE
++.. _mark_addr_space_unevict:
 +
-+project = "Linux Memory Management Documentation"
-+
-+tags.add("subproject")
-+
-+latex_documents = [
-+    ('index', 'memory-management.tex', project,
-+     'The kernel development community', 'manual'),
-+]
-diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-new file mode 100644
-index 0000000..6c45142
---- /dev/null
-+++ b/Documentation/vm/index.rst
-@@ -0,0 +1,56 @@
-+=====================================
-+Linux Memory Management Documentation
-+=====================================
-+
-+This is a collection of documents about Linux memory management (mm) subsystem.
-+
-+User guides for MM features
-+===========================
-+
-+The following documents provide guides for controlling and tuning
-+various features of the Linux memory management
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   hugetlbpage
-+   idle_page_tracking
-+   ksm
-+   numa_memory_policy
-+   pagemap
-+   transhuge
-+   soft-dirty
-+   swap_numa
-+   userfaultfd
-+   zswap
-+
-+Kernel developers MM documentation
-+==================================
-+
-+The below documents describe MM internals with different level of
-+details ranging from notes and mailing list responses to elaborate
-+descriptions of data structures and algorithms.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   active_mm
-+   balance
-+   cleancache
-+   frontswap
-+   highmem
-+   hmm
-+   hwpoison
-+   hugetlbfs_reserv
-+   mmu_notifier
-+   numa
-+   overcommit-accounting
-+   page_migration
-+   page_frags
-+   page_owner
-+   remap_file_pages
-+   slub
-+   split_page_table_lock
-+   unevictable-lru
-+   z3fold
-+   zsmalloc
++Marking Address Spaces Unevictable
+ ----------------------------------
+ 
+ For facilities such as ramfs none of the pages attached to the address space
+@@ -152,15 +130,15 @@ may be evicted.  To prevent eviction of any such pages, the AS_UNEVICTABLE
+ address space flag is provided, and this can be manipulated by a filesystem
+ using a number of wrapper functions:
+ 
+- (*) void mapping_set_unevictable(struct address_space *mapping);
++ * ``void mapping_set_unevictable(struct address_space *mapping);``
+ 
+ 	Mark the address space as being completely unevictable.
+ 
+- (*) void mapping_clear_unevictable(struct address_space *mapping);
++ * ``void mapping_clear_unevictable(struct address_space *mapping);``
+ 
+ 	Mark the address space as being evictable.
+ 
+- (*) int mapping_unevictable(struct address_space *mapping);
++ * ``int mapping_unevictable(struct address_space *mapping);``
+ 
+ 	Query the address space, and return true if it is completely
+ 	unevictable.
+@@ -177,12 +155,13 @@ These are currently used in two places in the kernel:
+      ensure they're in memory.
+ 
+ 
+-DETECTING UNEVICTABLE PAGES
++Detecting Unevictable Pages
+ ---------------------------
+ 
+ The function page_evictable() in vmscan.c determines whether a page is
+-evictable or not using the query function outlined above [see section "Marking
+-address spaces unevictable"] to check the AS_UNEVICTABLE flag.
++evictable or not using the query function outlined above [see section
++:ref:`Marking address spaces unevictable <mark_addr_space_unevict>`]
++to check the AS_UNEVICTABLE flag.
+ 
+ For address spaces that are so marked after being populated (as SHM regions
+ might be), the lock action (eg: SHM_LOCK) can be lazy, and need not populate
+@@ -202,7 +181,7 @@ flag, PG_mlocked (as wrapped by PageMlocked()), which is set when a page is
+ faulted into a VM_LOCKED vma, or found in a vma being VM_LOCKED.
+ 
+ 
+-VMSCAN'S HANDLING OF UNEVICTABLE PAGES
++Vmscan's Handling of Unevictable Pages
+ --------------------------------------
+ 
+ If unevictable pages are culled in the fault path, or moved to the unevictable
+@@ -233,8 +212,7 @@ extra evictabilty checks should not occur in the majority of calls to
+ putback_lru_page().
+ 
+ 
+-=============
+-MLOCKED PAGES
++MLOCKED Pages
+ =============
+ 
+ The unevictable page list is also useful for mlock(), in addition to ramfs and
+@@ -242,7 +220,7 @@ SYSV SHM.  Note that mlock() is only available in CONFIG_MMU=y situations; in
+ NOMMU situations, all mappings are effectively mlocked.
+ 
+ 
+-HISTORY
++History
+ -------
+ 
+ The "Unevictable mlocked Pages" infrastructure is based on work originally
+@@ -263,7 +241,7 @@ replaced by walking the reverse map to determine whether any VM_LOCKED VMAs
+ mapped the page.  More on this below.
+ 
+ 
+-BASIC MANAGEMENT
++Basic Management
+ ----------------
+ 
+ mlocked pages - pages mapped into a VM_LOCKED VMA - are a class of unevictable
+@@ -304,10 +282,10 @@ mlocked pages become unlocked and rescued from the unevictable list when:
+  (4) before a page is COW'd in a VM_LOCKED VMA.
+ 
+ 
+-mlock()/mlockall() SYSTEM CALL HANDLING
++mlock()/mlockall() System Call Handling
+ ---------------------------------------
+ 
+-Both [do_]mlock() and [do_]mlockall() system call handlers call mlock_fixup()
++Both [do\_]mlock() and [do\_]mlockall() system call handlers call mlock_fixup()
+ for each VMA in the range specified by the call.  In the case of mlockall(),
+ this is the entire active address space of the task.  Note that mlock_fixup()
+ is used for both mlocking and munlocking a range of memory.  A call to mlock()
+@@ -351,7 +329,7 @@ mlock_vma_page() is unable to isolate the page from the LRU, vmscan will handle
+ it later if and when it attempts to reclaim the page.
+ 
+ 
+-FILTERING SPECIAL VMAS
++Filtering Special VMAs
+ ----------------------
+ 
+ mlock_fixup() filters several classes of "special" VMAs:
+@@ -379,8 +357,9 @@ VM_LOCKED flag.  Therefore, we won't have to deal with them later during
+ munlock(), munmap() or task exit.  Neither does mlock_fixup() account these
+ VMAs against the task's "locked_vm".
+ 
++.. _munlock_munlockall_handling:
+ 
+-munlock()/munlockall() SYSTEM CALL HANDLING
++munlock()/munlockall() System Call Handling
+ -------------------------------------------
+ 
+ The munlock() and munlockall() system calls are handled by the same functions -
+@@ -426,7 +405,7 @@ This is fine, because we'll catch it later if and if vmscan tries to reclaim
+ the page.  This should be relatively rare.
+ 
+ 
+-MIGRATING MLOCKED PAGES
++Migrating MLOCKED Pages
+ -----------------------
+ 
+ A page that is being migrated has been isolated from the LRU lists and is held
+@@ -451,7 +430,7 @@ list because of a race between munlock and migration, page migration uses the
+ putback_lru_page() function to add migrated pages back to the LRU.
+ 
+ 
+-COMPACTING MLOCKED PAGES
++Compacting MLOCKED Pages
+ ------------------------
+ 
+ The unevictable LRU can be scanned for compactable regions and the default
+@@ -461,7 +440,7 @@ unevictable LRU is enabled, the work of compaction is mostly handled by
+ the page migration code and the same work flow as described in MIGRATING
+ MLOCKED PAGES will apply.
+ 
+-MLOCKING TRANSPARENT HUGE PAGES
++MLOCKING Transparent Huge Pages
+ -------------------------------
+ 
+ A transparent huge page is represented by a single entry on an LRU list.
+@@ -483,7 +462,7 @@ to unevictable LRU and the rest can be reclaimed.
+ 
+ See also comment in follow_trans_huge_pmd().
+ 
+-mmap(MAP_LOCKED) SYSTEM CALL HANDLING
++mmap(MAP_LOCKED) System Call Handling
+ -------------------------------------
+ 
+ In addition the mlock()/mlockall() system calls, an application can request
+@@ -514,7 +493,7 @@ memory range accounted as locked_vm, as the protections could be changed later
+ and pages allocated into that region.
+ 
+ 
+-munmap()/exit()/exec() SYSTEM CALL HANDLING
++munmap()/exit()/exec() System Call Handling
+ -------------------------------------------
+ 
+ When unmapping an mlocked region of memory, whether by an explicit call to
+@@ -568,16 +547,18 @@ munlock or munmap system calls, mm teardown (munlock_vma_pages_all), reclaim,
+ holepunching, and truncation of file pages and their anonymous COWed pages.
+ 
+ 
+-try_to_munlock() REVERSE MAP SCAN
++try_to_munlock() Reverse Map Scan
+ ---------------------------------
+ 
+- [!] TODO/FIXME: a better name might be page_mlocked() - analogous to the
+-     page_referenced() reverse map walker.
++.. warning::
++   [!] TODO/FIXME: a better name might be page_mlocked() - analogous to the
++   page_referenced() reverse map walker.
+ 
+-When munlock_vma_page() [see section "munlock()/munlockall() System Call
+-Handling" above] tries to munlock a page, it needs to determine whether or not
+-the page is mapped by any VM_LOCKED VMA without actually attempting to unmap
+-all PTEs from the page.  For this purpose, the unevictable/mlock infrastructure
++When munlock_vma_page() [see section :ref:`munlock()/munlockall() System Call
++Handling <munlock_munlockall_handling>` above] tries to munlock a
++page, it needs to determine whether or not the page is mapped by any
++VM_LOCKED VMA without actually attempting to unmap all PTEs from the
++page.  For this purpose, the unevictable/mlock infrastructure
+ introduced a variant of try_to_unmap() called try_to_munlock().
+ 
+ try_to_munlock() calls the same functions as try_to_unmap() for anonymous and
+@@ -595,7 +576,7 @@ large region or tearing down a large address space that has been mlocked via
+ mlockall(), overall this is a fairly rare event.
+ 
+ 
+-PAGE RECLAIM IN shrink_*_list()
++Page Reclaim in shrink_*_list()
+ -------------------------------
+ 
+ shrink_active_list() culls any obviously unevictable pages - i.e.
 -- 
 2.7.4
 
