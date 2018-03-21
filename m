@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C4F17E677
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:24:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 068267D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:26:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753431AbeCUTYj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 15:24:39 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60272 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1753414AbeCUTYb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:24:31 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJJWDB123791
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:31 -0400
-Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2guv1147hf-1
+        id S1753561AbeCUTZ0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:25:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47728 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1753172AbeCUTZP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:25:15 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJIYsB094251
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:25:14 -0400
+Received: from e06smtp14.uk.ibm.com (e06smtp14.uk.ibm.com [195.75.94.110])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2guvmsah8r-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:31 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:25:14 -0400
 Received: from localhost
-        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp14.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 21 Mar 2018 19:24:28 -0000
+        Wed, 21 Mar 2018 19:25:11 -0000
 Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 21 Mar 2018 19:24:22 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJOMaO48758888;
-        Wed, 21 Mar 2018 19:24:22 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 84708AE051;
-        Wed, 21 Mar 2018 19:14:41 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 994F7AE045;
-        Wed, 21 Mar 2018 19:14:38 +0000 (GMT)
+        by e06smtp14.uk.ibm.com (192.168.101.144) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 21 Mar 2018 19:25:07 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJP6s643909198;
+        Wed, 21 Mar 2018 19:25:06 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1331C11C04A;
+        Wed, 21 Mar 2018 19:17:37 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DA61A11C04C;
+        Wed, 21 Mar 2018 19:17:33 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.206.27])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 21 Mar 2018 19:14:38 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:24:18 +0200
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 21 Mar 2018 19:17:33 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:25:02 +0200
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -58,16 +58,16 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
         linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 19/32] docs/vm: page_owner: convert to ReST format
-Date:   Wed, 21 Mar 2018 21:22:35 +0200
+Subject: [PATCH 29/32] docs/vm: zsmalloc.txt: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:45 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18032119-0020-0000-0000-00000407E614
+x-cbid: 18032119-0044-0000-0000-0000053E7359
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18032119-0021-0000-0000-0000429C06C4
-Message-Id: <1521660168-14372-20-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18032119-0045-0000-0000-0000287D78FA
+Message-Id: <1521660168-14372-30-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -82,78 +82,96 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/vm/page_owner.txt | 34 +++++++++++++++++++++-------------
- 1 file changed, 21 insertions(+), 13 deletions(-)
+ Documentation/vm/zsmalloc.txt | 60 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 36 insertions(+), 24 deletions(-)
 
-diff --git a/Documentation/vm/page_owner.txt b/Documentation/vm/page_owner.txt
-index ffff143..0ed5ab8 100644
---- a/Documentation/vm/page_owner.txt
-+++ b/Documentation/vm/page_owner.txt
-@@ -1,7 +1,11 @@
-+.. _page_owner:
+diff --git a/Documentation/vm/zsmalloc.txt b/Documentation/vm/zsmalloc.txt
+index 64ed63c..6e79893 100644
+--- a/Documentation/vm/zsmalloc.txt
++++ b/Documentation/vm/zsmalloc.txt
+@@ -1,5 +1,8 @@
++.. _zsmalloc:
 +
-+==================================================
- page owner: Tracking about who allocated each page
-------------------------------------------------------------
-+==================================================
++========
+ zsmalloc
+---------
++========
  
--* Introduction
-+Introduction
-+============
+ This allocator is designed for use with zram. Thus, the allocator is
+ supposed to work well under low memory conditions. In particular, it
+@@ -31,40 +34,49 @@ be mapped using zs_map_object() to get a usable pointer and subsequently
+ unmapped using zs_unmap_object().
  
- page owner is for the tracking about who allocated each page.
- It can be used to debug memory leak or to find a memory hogger.
-@@ -34,13 +38,15 @@ not affect to allocation performance, especially if the static keys jump
- label patching functionality is available. Following is the kernel's code
- size change due to this facility.
+ stat
+-----
++====
  
--- Without page owner
-+- Without page owner::
+ With CONFIG_ZSMALLOC_STAT, we could see zsmalloc internal information via
+-/sys/kernel/debug/zsmalloc/<user name>. Here is a sample of stat output:
++``/sys/kernel/debug/zsmalloc/<user name>``. Here is a sample of stat output::
+ 
+-# cat /sys/kernel/debug/zsmalloc/zram0/classes
++ # cat /sys/kernel/debug/zsmalloc/zram0/classes
+ 
+  class  size almost_full almost_empty obj_allocated   obj_used pages_used pages_per_zspage
+-    ..
+-    ..
++    ...
++    ...
+      9   176           0            1           186        129          8                4
+     10   192           1            0          2880       2872        135                3
+     11   208           0            1           819        795         42                2
+     12   224           0            1           219        159         12                4
+-    ..
+-    ..
++    ...
++    ...
 +
-    text    data     bss     dec     hex filename
--  40662    1493     644   42799    a72f mm/page_alloc.o
-+   40662   1493     644   42799    a72f mm/page_alloc.o
+ 
++class
++	index
++size
++	object size zspage stores
++almost_empty
++	the number of ZS_ALMOST_EMPTY zspages(see below)
++almost_full
++	the number of ZS_ALMOST_FULL zspages(see below)
++obj_allocated
++	the number of objects allocated
++obj_used
++	the number of objects allocated to the user
++pages_used
++	the number of pages allocated for the class
++pages_per_zspage
++	the number of 0-order pages to make a zspage
+ 
+-class: index
+-size: object size zspage stores
+-almost_empty: the number of ZS_ALMOST_EMPTY zspages(see below)
+-almost_full: the number of ZS_ALMOST_FULL zspages(see below)
+-obj_allocated: the number of objects allocated
+-obj_used: the number of objects allocated to the user
+-pages_used: the number of pages allocated for the class
+-pages_per_zspage: the number of 0-order pages to make a zspage
++We assign a zspage to ZS_ALMOST_EMPTY fullness group when n <= N / f, where
+ 
+-We assign a zspage to ZS_ALMOST_EMPTY fullness group when:
+-      n <= N / f, where
+-n = number of allocated objects
+-N = total number of objects zspage can store
+-f = fullness_threshold_frac(ie, 4 at the moment)
++* n = number of allocated objects
++* N = total number of objects zspage can store
++* f = fullness_threshold_frac(ie, 4 at the moment)
+ 
+ Similarly, we assign zspage to:
+-      ZS_ALMOST_FULL  when n > N / f
+-      ZS_EMPTY        when n == 0
+-      ZS_FULL         when n == N
 +
-+- With page owner::
- 
--- With page owner
-    text    data     bss     dec     hex filename
--  40892    1493     644   43029    a815 mm/page_alloc.o
-+   40892   1493     644   43029    a815 mm/page_alloc.o
-    1427      24       8    1459     5b3 mm/page_ext.o
-    2722      50       0    2772     ad4 mm/page_owner.o
- 
-@@ -62,21 +68,23 @@ are catched and marked, although they are mostly allocated from struct
- page extension feature. Anyway, after that, no page is left in
- un-tracking state.
- 
--* Usage
-+Usage
-+=====
-+
-+1) Build user-space helper::
- 
--1) Build user-space helper
- 	cd tools/vm
- 	make page_owner_sort
- 
--2) Enable page owner
--	Add "page_owner=on" to boot cmdline.
-+2) Enable page owner: add "page_owner=on" to boot cmdline.
- 
- 3) Do the job what you want to debug
- 
--4) Analyze information from page owner
-+4) Analyze information from page owner::
-+
- 	cat /sys/kernel/debug/page_owner > page_owner_full.txt
- 	grep -v ^PFN page_owner_full.txt > page_owner.txt
- 	./page_owner_sort page_owner.txt sorted_page_owner.txt
- 
--	See the result about who allocated each page
--	in the sorted_page_owner.txt.
-+   See the result about who allocated each page
-+   in the ``sorted_page_owner.txt``.
++* ZS_ALMOST_FULL  when n > N / f
++* ZS_EMPTY        when n == 0
++* ZS_FULL         when n == N
 -- 
 2.7.4
 
