@@ -1,195 +1,265 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 626C07D6B1
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 16:07:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7DFEB7D6B1
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 16:22:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751714AbeCUQHj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 12:07:39 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:52974 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751644AbeCUQHe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 12:07:34 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 08D3060C64; Wed, 21 Mar 2018 16:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521648454;
-        bh=MgBKnmn8tw7lVTQaprQ5INje3wfbddo32wadzqAYzj8=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=J6HtGTjWm6MW22W+8RvavFVbna9ebvFSSoMGeBDZPd9yRSi3rg9J5AKZPu3iLTGSn
-         wrDBjnx+QC0mV4ewpRD8PUlTFkUgJd8u/oB5ZCc0Pic665hPo2+tk0ztGxo8wSEkUz
-         ogapaaHjMvKwr1WvmHEnu7ZIXxfGOxVd0BT/NF8s=
-Received: from [10.226.58.86] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1751755AbeCUQWd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 12:22:33 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:41416 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751319AbeCUQWb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Mar 2018 12:22:31 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sdharia@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6BF1660588;
-        Wed, 21 Mar 2018 16:07:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521648451;
-        bh=MgBKnmn8tw7lVTQaprQ5INje3wfbddo32wadzqAYzj8=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=UyQNaIwCfY1qfsic6tZenM//IcUIo2Q5myfjDv2QFB/1bhjG9rC3P3NRi7MYFiQTr
-         fDec+58PbIa8d/wamKuDpvE3e5bz04yS0Grb7hwri5aLRiwW3ERSVS5zCfRJNYrcUG
-         C/MXlWN3HvbPJVnvMOVM+kAXMu/ua5rH/VpNr+zQ=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6BF1660588
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=sdharia@codeaurora.org
-Subject: Re: [PATCH v4 6/6] arm64: dts: sdm845: Add I2C controller support
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
-        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
- <1521071931-9294-7-git-send-email-kramasub@codeaurora.org>
- <CAD=FV=Wk5apkO9ro+PkLGDS7poJgvTkDA4uSKnMXmK=GMzuMcQ@mail.gmail.com>
- <65fa4ff5-7f37-b6fd-e493-bec18511d334@codeaurora.org>
- <CAD=FV=Vq4Q2LvY_O-YsdyUmQOUANa0ap+U9j7PXSD3_ao6sCdQ@mail.gmail.com>
- <c9e6f964-4e84-a5ed-77c4-e0a6655ee146@codeaurora.org>
- <CAD=FV=WLiX8kiOxtAbnEfj9cLGtpbTad6AfWY=t0Ro843UFL9g@mail.gmail.com>
-From:   Sagar Dharia <sdharia@codeaurora.org>
-Message-ID: <3c7d380e-c30e-f82b-f1d0-d14f2b231bf4@codeaurora.org>
-Date:   Wed, 21 Mar 2018 10:07:29 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAD=FV=WLiX8kiOxtAbnEfj9cLGtpbTad6AfWY=t0Ro843UFL9g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        by mx1.redhat.com (Postfix) with ESMTPS id B2B9FA27E3;
+        Wed, 21 Mar 2018 16:22:30 +0000 (UTC)
+Received: from llong.com (dhcp-17-75.bos.redhat.com [10.18.17.75])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 555AEAB3E3;
+        Wed, 21 Mar 2018 16:22:30 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
+        luto@amacapital.net, efault@gmx.de, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>, Waiman Long <longman@redhat.com>
+Subject: [PATCH v6 1/2] cpuset: Enable cpuset controller in default hierarchy
+Date:   Wed, 21 Mar 2018 12:21:48 -0400
+Message-Id: <1521649309-26690-2-git-send-email-longman@redhat.com>
+In-Reply-To: <1521649309-26690-1-git-send-email-longman@redhat.com>
+References: <1521649309-26690-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Wed, 21 Mar 2018 16:22:30 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Wed, 21 Mar 2018 16:22:30 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Doug
+Given the fact that thread mode had been merged into 4.14, it is now
+time to enable cpuset to be used in the default hierarchy (cgroup v2)
+as it is clearly threaded.
 
-On 3/20/2018 9:47 PM, Doug Anderson wrote:
-> Hi,
-> 
-> On Tue, Mar 20, 2018 at 3:16 PM, Sagar Dharia <sdharia@codeaurora.org> wrote:
->>>>>> +                       pinconf {
->>>>>> +                               pins = "gpio55", "gpio56";
->>>>>> +                               drive-strength = <2>;
->>>>>> +                               bias-disable;
->>>>>> +                       };
->>>>>> +               };
->>>>>> +
->>>>>> +               qup-i2c10-sleep {
->>>>>> +                       pinconf {
->>>>>> +                               pins = "gpio55", "gpio56";
->>>>>> +                               bias-pull-up;
->>>>>
->>>>> Are you sure that you want pullups enabled for sleep here?  There are
->>>>> external pulls on this line (as there are on many i2c busses) so doing
->>>>> this will double-enable pulls.  It probably won't hurt, but I'm
->>>>> curious if there's some sort of reason here.
->>>>>
->>>> 1. We need the lines to remain high to avoid slaves sensing a false
->>>> start-condition (this can happen if the SDA goes down before SCL).
->>>> 2. Disclaimer: I'm not a HW expert, but we were told that
->>>> tri-state/bias-disabled lines can draw more current. I will find out
->>>> more about that.
->>>
->>> Agreed that they need to remain high, but you've got very strong
->>> pullups external to the SoC.  Those will keep it high.  You don't need
->>> the internal ones too.
->>>
->>> As extra evidence that the external pullups _must_ be present on your
->>> board: you specify bias-disable in the active state.  That can only
->>> work if there are external pullups (or if there were some special
->>> extra secret internal pullups that were part of geni).  i2c is an
->>> open-drain bus and thus there must be pullups on the bus in order to
->>> communicate.
->>>
->>
->> You are right, I followed up about the pull-up recommendation and that
->> was for a GPIO where there was no external pull-up (GPIO was not used
->> for I2C). It's safe to assume I2C will always have external pullup.
-> 
-> It is even more safe to say that I2C will always have an external
-> pullup on the SDM845-MTP.  Remember that the pullup config is in the
-> board device tree file, not the SoC one.  So even if someone out there
-> decides that the internal pull is somehow good enough for their own
-> board and they don't stuff external ones, then it will be up to them
-> to turn the pull up on in their own board file.
-> 
-> 
->> We
->> will change sleep-config of I2C GPIOs to no-pull.
-> 
-> Even better IMHO: don't specify the bias in the sleep config.  I don't
-> believe it's possible for the sleep config to take effect without the
-> default config since the default config applies at probe time.  ...so
-> you'll always get the default config applied at probe time and you
-> don't need to touch the bias at sleep time.
+The cpuset controller had experienced feature creep since its
+introduction more than a decade ago. Besides the core cpus and mems
+control files to limit cpus and memory nodes, there are a bunch of
+additional features that can be controlled from the userspace. Some of
+the features are of doubtful usefulness and may not be actively used.
 
-Good point, we will remove the bias from the sleep config for i2c GPIOs.
+This patch enables cpuset controller in the default hierarchy with
+a minimal set of features, namely just the cpus and mems and their
+effective_* counterparts.  We can certainly add more features to the
+default hierarchy in the future if there is a real user need for them
+later on.
 
-Thanks
-Sagar
-> 
-> 
->>>>>> +                       i2c10: i2c@a88000 {
->>>>>
->>>>> Seems like it might be nice to add all the i2c busses into the main
->>>>> sdm845.dtsi file.  Sure, most won't be enabled, but it seems like it
->>>>> would avoid churn later.
->>>>>
->>>>> ...if you're sure you want to add only one i2c controller, subject of
->>>>> this patch should indicate that.
->>>>>
->>>>
->>>> Yes, we typically have a "platform(sdm845 here)-qupv3.dtsi" defining
->>>> most of the serial-bus instances (i2c, spi, and uart with
->>>> status=disabled) that we include from the common header. The boards
->>>> enable instances they need.
->>>> Will that be okay?
->>>
->>> Unless you really feel the need to put these in a separate file I'd
->>> just put them straight in sdm845.dtsi.  Yeah, it'll get big, but
->>> that's OK by me.  I _think_ this matches what Bjorn was suggesting on
->>> previous device tree patches, but CCing him just in case.  I'm
->>> personally OK with whatever Bjorn and other folks with more Qualcomm
->>> history would like.
->>>
->>> ...but yeah, I'm asking for them all to be listed with status="disabled".
->>>
->>
->> Sure, we will change the subject of this patch to indicate that we are
->> adding 1 controller as of now. Later we will add all I2C controllers to
->> dtsi as another patch since that will need pinctrl settings for GPIOs
->> used by those instances and the wrappers devices needed by them.
-> 
-> Yeah, it's fine to just change the subject of this patch.  It would be
-> nice to add all the other controllers in sooner rather than later, but
-> it doesn't have to be today.
-> 
-> 
-> -Doug
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-arm-msm" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+Alternatively, with the unified hiearachy, it may make more sense
+to move some of those additional cpuset features, if desired, to
+memory controller or may be to the cpu controller instead of staying
+with cpuset.
 
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/cgroup-v2.txt | 90 ++++++++++++++++++++++++++++++++++++++++++---
+ kernel/cgroup/cpuset.c      | 48 ++++++++++++++++++++++--
+ 2 files changed, 130 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
+index 74cdeae..ed8ec66 100644
+--- a/Documentation/cgroup-v2.txt
++++ b/Documentation/cgroup-v2.txt
+@@ -53,11 +53,13 @@ v1 is available under Documentation/cgroup-v1/.
+        5-3-2. Writeback
+      5-4. PID
+        5-4-1. PID Interface Files
+-     5-5. Device
+-     5-6. RDMA
+-       5-6-1. RDMA Interface Files
+-     5-7. Misc
+-       5-7-1. perf_event
++     5-5. Cpuset
++       5.5-1. Cpuset Interface Files
++     5-6. Device
++     5-7. RDMA
++       5-7-1. RDMA Interface Files
++     5-8. Misc
++       5-8-1. perf_event
+      5-N. Non-normative information
+        5-N-1. CPU controller root cgroup process behaviour
+        5-N-2. IO controller root cgroup process behaviour
+@@ -1435,6 +1437,84 @@ through fork() or clone(). These will return -EAGAIN if the creation
+ of a new process would cause a cgroup policy to be violated.
+ 
+ 
++Cpuset
++------
++
++The "cpuset" controller provides a mechanism for constraining
++the CPU and memory node placement of tasks to only the resources
++specified in the cpuset interface files in a task's current cgroup.
++This is especially valuable on large NUMA systems where placing jobs
++on properly sized subsets of the systems with careful processor and
++memory placement to reduce cross-node memory access and contention
++can improve overall system performance.
++
++The "cpuset" controller is hierarchical.  That means the controller
++cannot use CPUs or memory nodes not allowed in its parent.
++
++
++Cpuset Interface Files
++~~~~~~~~~~~~~~~~~~~~~~
++
++  cpuset.cpus
++	A read-write multiple values file which exists on non-root
++	cgroups.
++
++	It lists the CPUs allowed to be used by tasks within this
++	cgroup.  The CPU numbers are comma-separated numbers or
++	ranges.  For example:
++
++	  # cat cpuset.cpus
++	  0-4,6,8-10
++
++	An empty value indicates that the cgroup is using the same
++	setting as the nearest cgroup ancestor with a non-empty
++	"cpuset.cpus" or all the available CPUs if none is found.
++
++	The value of "cpuset.cpus" stays constant until the next update
++	and won't be affected by any CPU hotplug events.
++
++  cpuset.cpus.effective
++	A read-only multiple values file which exists on non-root
++	cgroups.
++
++	It lists the onlined CPUs that are actually allowed to be
++	used by tasks within the current cgroup.  If "cpuset.cpus"
++	is empty, it shows all the CPUs from the parent cgroup that
++	will be available to be used by this cgroup.  Otherwise, it is
++	a subset of "cpuset.cpus".  Its value will be affected by CPU
++	hotplug events.
++
++  cpuset.mems
++	A read-write multiple values file which exists on non-root
++	cgroups.
++
++	It lists the memory nodes allowed to be used by tasks within
++	this cgroup.  The memory node numbers are comma-separated
++	numbers or ranges.  For example:
++
++	  # cat cpuset.mems
++	  0-1,3
++
++	An empty value indicates that the cgroup is using the same
++	setting as the nearest cgroup ancestor with a non-empty
++	"cpuset.mems" or all the available memory nodes if none
++	is found.
++
++	The value of "cpuset.mems" stays constant until the next update
++	and won't be affected by any memory nodes hotplug events.
++
++  cpuset.mems.effective
++	A read-only multiple values file which exists on non-root
++	cgroups.
++
++	It lists the onlined memory nodes that are actually allowed to
++	be used by tasks within the current cgroup.  If "cpuset.mems"
++	is empty, it shows all the memory nodes from the parent cgroup
++	that will be available to be used by this cgroup.  Otherwise,
++	it is a subset of "cpuset.mems".  Its value will be affected
++	by memory nodes hotplug events.
++
++
+ Device controller
+ -----------------
+ 
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index b42037e..419b758 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -1823,12 +1823,11 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 	return 0;
+ }
+ 
+-
+ /*
+  * for the common functions, 'private' gives the type of file
+  */
+ 
+-static struct cftype files[] = {
++static struct cftype legacy_files[] = {
+ 	{
+ 		.name = "cpus",
+ 		.seq_show = cpuset_common_seq_show,
+@@ -1931,6 +1930,47 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ };
+ 
+ /*
++ * This is currently a minimal set for the default hierarchy. It can be
++ * expanded later on by migrating more features and control files from v1.
++ */
++static struct cftype dfl_files[] = {
++	{
++		.name = "cpus",
++		.seq_show = cpuset_common_seq_show,
++		.write = cpuset_write_resmask,
++		.max_write_len = (100U + 6 * NR_CPUS),
++		.private = FILE_CPULIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++
++	{
++		.name = "mems",
++		.seq_show = cpuset_common_seq_show,
++		.write = cpuset_write_resmask,
++		.max_write_len = (100U + 6 * MAX_NUMNODES),
++		.private = FILE_MEMLIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++
++	{
++		.name = "cpus.effective",
++		.seq_show = cpuset_common_seq_show,
++		.private = FILE_EFFECTIVE_CPULIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++
++	{
++		.name = "mems.effective",
++		.seq_show = cpuset_common_seq_show,
++		.private = FILE_EFFECTIVE_MEMLIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++
++	{ }	/* terminate */
++};
++
++
++/*
+  *	cpuset_css_alloc - allocate a cpuset css
+  *	cgrp:	control group that the new cpuset will be part of
+  */
+@@ -2104,8 +2144,10 @@ struct cgroup_subsys cpuset_cgrp_subsys = {
+ 	.post_attach	= cpuset_post_attach,
+ 	.bind		= cpuset_bind,
+ 	.fork		= cpuset_fork,
+-	.legacy_cftypes	= files,
++	.legacy_cftypes	= legacy_files,
++	.dfl_cftypes	= dfl_files,
+ 	.early_init	= true,
++	.threaded	= true,
+ };
+ 
+ /**
 -- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
