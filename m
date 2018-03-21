@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 00EA77D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:34:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4A7BB7D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:34:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753198AbeCUTe3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 15:34:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50380 "EHLO
+        id S1753276AbeCUTer (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:34:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57192 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1753117AbeCUTXY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:24 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJIZIK008948
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:23 -0400
-Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2gut8117tp-1
+        by vger.kernel.org with ESMTP id S1753021AbeCUTXP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:15 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJMTpF078719
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:14 -0400
+Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2guwg9g16k-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:23 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:14 -0400
 Received: from localhost
-        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 21 Mar 2018 19:23:21 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 21 Mar 2018 19:23:15 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJNEcx61472864;
-        Wed, 21 Mar 2018 19:23:14 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 776C6AE055;
-        Wed, 21 Mar 2018 19:13:34 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3BA22AE045;
-        Wed, 21 Mar 2018 19:13:31 +0000 (GMT)
+        Wed, 21 Mar 2018 19:23:12 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 21 Mar 2018 19:23:05 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJN5lY64880750;
+        Wed, 21 Mar 2018 19:23:05 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8EF2311C04A;
+        Wed, 21 Mar 2018 19:15:35 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 98E4F11C050;
+        Wed, 21 Mar 2018 19:15:32 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.206.27])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 21 Mar 2018 19:13:31 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:10 +0200
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 21 Mar 2018 19:15:32 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:01 +0200
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -58,16 +58,16 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
         linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 04/32] docs/vm: frontswap.txt: convert to ReST format
-Date:   Wed, 21 Mar 2018 21:22:20 +0200
+Subject: [PATCH 02/32] docs/vm: balance: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:18 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18032119-0020-0000-0000-00000407E603
+x-cbid: 18032119-0008-0000-0000-000004E0DF6B
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18032119-0021-0000-0000-0000429C06B1
-Message-Id: <1521660168-14372-5-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18032119-0009-0000-0000-00001E7403DD
+Message-Id: <1521660168-14372-3-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -82,138 +82,48 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/vm/frontswap.txt | 59 ++++++++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 22 deletions(-)
+ Documentation/vm/balance | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/vm/frontswap.txt b/Documentation/vm/frontswap.txt
-index c71a019..1979f43 100644
---- a/Documentation/vm/frontswap.txt
-+++ b/Documentation/vm/frontswap.txt
-@@ -1,13 +1,20 @@
-+.. _frontswap:
+diff --git a/Documentation/vm/balance b/Documentation/vm/balance
+index 9645954..6a1fadf 100644
+--- a/Documentation/vm/balance
++++ b/Documentation/vm/balance
+@@ -1,3 +1,9 @@
++.. _balance:
 +
-+=========
-+Frontswap
-+=========
++================
++Memory Balancing
++================
 +
- Frontswap provides a "transcendent memory" interface for swap pages.
- In some environments, dramatic performance savings may be obtained because
- swapped pages are saved in RAM (or a RAM-like device) instead of a swap disk.
+ Started Jan 2000 by Kanoj Sarcar <kanoj@sgi.com>
  
--(Note, frontswap -- and cleancache (merged at 3.0) -- are the "frontends"
-+(Note, frontswap -- and :ref:`cleancache` (merged at 3.0) -- are the "frontends"
- and the only necessary changes to the core kernel for transcendent memory;
- all other supporting code -- the "backends" -- is implemented as drivers.
--See the LWN.net article "Transcendent memory in a nutshell" for a detailed
--overview of frontswap and related kernel parts:
--https://lwn.net/Articles/454795/ )
-+See the LWN.net article `Transcendent memory in a nutshell`_
-+for a detailed overview of frontswap and related kernel parts)
+ Memory balancing is needed for !__GFP_ATOMIC and !__GFP_KSWAPD_RECLAIM as
+@@ -62,11 +68,11 @@ for non-sleepable allocations. Second, the HIGHMEM zone is also balanced,
+ so as to give a fighting chance for replace_with_highmem() to get a
+ HIGHMEM page, as well as to ensure that HIGHMEM allocations do not
+ fall back into regular zone. This also makes sure that HIGHMEM pages
+-are not leaked (for example, in situations where a HIGHMEM page is in 
++are not leaked (for example, in situations where a HIGHMEM page is in
+ the swapcache but is not being used by anyone)
+ 
+ kswapd also needs to know about the zones it should balance. kswapd is
+-primarily needed in a situation where balancing can not be done, 
++primarily needed in a situation where balancing can not be done,
+ probably because all allocation requests are coming from intr context
+ and all process contexts are sleeping. For 2.3, kswapd does not really
+ need to balance the highmem zone, since intr context does not request
+@@ -89,7 +95,8 @@ pages is below watermark[WMARK_LOW]; in which case zone_wake_kswapd is also set.
+ 
+ 
+ (Good) Ideas that I have heard:
 +
-+.. _Transcendent memory in a nutshell: https://lwn.net/Articles/454795/
- 
- Frontswap is so named because it can be thought of as the opposite of
- a "backing" store for a swap device.  The storage is assumed to be
-@@ -50,19 +57,27 @@ or the store fails AND the page is invalidated.  This ensures stale data may
- never be obtained from frontswap.
- 
- If properly configured, monitoring of frontswap is done via debugfs in
--the /sys/kernel/debug/frontswap directory.  The effectiveness of
-+the `/sys/kernel/debug/frontswap` directory.  The effectiveness of
- frontswap can be measured (across all swap devices) with:
- 
--failed_stores	- how many store attempts have failed
--loads		- how many loads were attempted (all should succeed)
--succ_stores	- how many store attempts have succeeded
--invalidates	- how many invalidates were attempted
-+``failed_stores``
-+	how many store attempts have failed
-+
-+``loads``
-+	how many loads were attempted (all should succeed)
-+
-+``succ_stores``
-+	how many store attempts have succeeded
-+
-+``invalidates``
-+	how many invalidates were attempted
- 
- A backend implementation may provide additional metrics.
- 
- FAQ
-+===
- 
--1) Where's the value?
-+* Where's the value?
- 
- When a workload starts swapping, performance falls through the floor.
- Frontswap significantly increases performance in many such workloads by
-@@ -117,8 +132,8 @@ A KVM implementation is underway and has been RFC'ed to lkml.  And,
- using frontswap, investigation is also underway on the use of NVM as
- a memory extension technology.
- 
--2) Sure there may be performance advantages in some situations, but
--   what's the space/time overhead of frontswap?
-+* Sure there may be performance advantages in some situations, but
-+  what's the space/time overhead of frontswap?
- 
- If CONFIG_FRONTSWAP is disabled, every frontswap hook compiles into
- nothingness and the only overhead is a few extra bytes per swapon'ed
-@@ -148,8 +163,8 @@ pressure that can potentially outweigh the other advantages.  A
- backend, such as zcache, must implement policies to carefully (but
- dynamically) manage memory limits to ensure this doesn't happen.
- 
--3) OK, how about a quick overview of what this frontswap patch does
--   in terms that a kernel hacker can grok?
-+* OK, how about a quick overview of what this frontswap patch does
-+  in terms that a kernel hacker can grok?
- 
- Let's assume that a frontswap "backend" has registered during
- kernel initialization; this registration indicates that this
-@@ -188,9 +203,9 @@ and (potentially) a swap device write are replaced by a "frontswap backend
- store" and (possibly) a "frontswap backend loads", which are presumably much
- faster.
- 
--4) Can't frontswap be configured as a "special" swap device that is
--   just higher priority than any real swap device (e.g. like zswap,
--   or maybe swap-over-nbd/NFS)?
-+* Can't frontswap be configured as a "special" swap device that is
-+  just higher priority than any real swap device (e.g. like zswap,
-+  or maybe swap-over-nbd/NFS)?
- 
- No.  First, the existing swap subsystem doesn't allow for any kind of
- swap hierarchy.  Perhaps it could be rewritten to accommodate a hierarchy,
-@@ -240,9 +255,9 @@ installation, frontswap is useless.  Swapless portable devices
- can still use frontswap but a backend for such devices must configure
- some kind of "ghost" swap device and ensure that it is never used.
- 
--5) Why this weird definition about "duplicate stores"?  If a page
--   has been previously successfully stored, can't it always be
--   successfully overwritten?
-+* Why this weird definition about "duplicate stores"?  If a page
-+  has been previously successfully stored, can't it always be
-+  successfully overwritten?
- 
- Nearly always it can, but no, sometimes it cannot.  Consider an example
- where data is compressed and the original 4K page has been compressed
-@@ -254,7 +269,7 @@ the old data and ensure that it is no longer accessible.  Since the
- swap subsystem then writes the new data to the read swap device,
- this is the correct course of action to ensure coherency.
- 
--6) What is frontswap_shrink for?
-+* What is frontswap_shrink for?
- 
- When the (non-frontswap) swap subsystem swaps out a page to a real
- swap device, that page is only taking up low-value pre-allocated disk
-@@ -267,7 +282,7 @@ to "repatriate" pages sent to a remote machine back to the local machine;
- this is driven using the frontswap_shrink mechanism when memory pressure
- subsides.
- 
--7) Why does the frontswap patch create the new include file swapfile.h?
-+* Why does the frontswap patch create the new include file swapfile.h?
- 
- The frontswap code depends on some swap-subsystem-internal data
- structures that have, over the years, moved back and forth between
+ 1. Dynamic experience should influence balancing: number of failed requests
+-for a zone can be tracked and fed into the balancing scheme (jalvo@mbay.net)
++   for a zone can be tracked and fed into the balancing scheme (jalvo@mbay.net)
+ 2. Implement a replace_with_highmem()-like replace_with_regular() to preserve
+-dma pages. (lkd@tantalophile.demon.co.uk)
++   dma pages. (lkd@tantalophile.demon.co.uk)
 -- 
 2.7.4
 
