@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC9F87E677
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:24:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C4F17E677
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753316AbeCUTYR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 15:24:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52258 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1753338AbeCUTYJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:24:09 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJJX1k022677
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:09 -0400
+        id S1753431AbeCUTYj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:24:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60272 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1753414AbeCUTYb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:24:31 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJJWDB123791
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:31 -0400
 Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2gusvyafxu-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2guv1147hf-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:08 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:31 -0400
 Received: from localhost
         by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 21 Mar 2018 19:24:06 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        Wed, 21 Mar 2018 19:24:28 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
         by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 21 Mar 2018 19:24:01 -0000
+        Wed, 21 Mar 2018 19:24:22 -0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJO0Ci25493658;
-        Wed, 21 Mar 2018 19:24:00 GMT
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJOMaO48758888;
+        Wed, 21 Mar 2018 19:24:22 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 37199AE045;
-        Wed, 21 Mar 2018 19:14:20 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 84708AE051;
+        Wed, 21 Mar 2018 19:14:41 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7F79FAE04D;
-        Wed, 21 Mar 2018 19:14:16 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 994F7AE045;
+        Wed, 21 Mar 2018 19:14:38 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.206.27])
         by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 21 Mar 2018 19:14:16 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:55 +0200
+        Wed, 21 Mar 2018 19:14:38 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:24:18 +0200
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -58,16 +58,16 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
         linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 14/32] docs/vm: overcommit-accounting: convert to ReST format
-Date:   Wed, 21 Mar 2018 21:22:30 +0200
+Subject: [PATCH 19/32] docs/vm: page_owner: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:35 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18032119-0020-0000-0000-00000407E60F
+x-cbid: 18032119-0020-0000-0000-00000407E614
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18032119-0021-0000-0000-0000429C06BB
-Message-Id: <1521660168-14372-15-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18032119-0021-0000-0000-0000429C06C4
+Message-Id: <1521660168-14372-20-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -82,151 +82,78 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/vm/overcommit-accounting | 107 ++++++++++++++++++---------------
- 1 file changed, 57 insertions(+), 50 deletions(-)
+ Documentation/vm/page_owner.txt | 34 +++++++++++++++++++++-------------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/vm/overcommit-accounting b/Documentation/vm/overcommit-accounting
-index cbfaaa6..0dd54bb 100644
---- a/Documentation/vm/overcommit-accounting
-+++ b/Documentation/vm/overcommit-accounting
-@@ -1,80 +1,87 @@
-+.. _overcommit_accounting:
+diff --git a/Documentation/vm/page_owner.txt b/Documentation/vm/page_owner.txt
+index ffff143..0ed5ab8 100644
+--- a/Documentation/vm/page_owner.txt
++++ b/Documentation/vm/page_owner.txt
+@@ -1,7 +1,11 @@
++.. _page_owner:
 +
-+=====================
-+Overcommit Accounting
-+=====================
-+
- The Linux kernel supports the following overcommit handling modes
++==================================================
+ page owner: Tracking about who allocated each page
+------------------------------------------------------------
++==================================================
  
--0	-	Heuristic overcommit handling. Obvious overcommits of
--		address space are refused. Used for a typical system. It
--		ensures a seriously wild allocation fails while allowing
--		overcommit to reduce swap usage.  root is allowed to 
--		allocate slightly more memory in this mode. This is the 
--		default.
-+0
-+	Heuristic overcommit handling. Obvious overcommits of address
-+	space are refused. Used for a typical system. It ensures a
-+	seriously wild allocation fails while allowing overcommit to
-+	reduce swap usage.  root is allowed to allocate slightly more
-+	memory in this mode. This is the default.
- 
--1	-	Always overcommit. Appropriate for some scientific
--		applications. Classic example is code using sparse arrays
--		and just relying on the virtual memory consisting almost
--		entirely of zero pages.
-+1
-+	Always overcommit. Appropriate for some scientific
-+	applications. Classic example is code using sparse arrays and
-+	just relying on the virtual memory consisting almost entirely
-+	of zero pages.
- 
--2	-	Don't overcommit. The total address space commit
--		for the system is not permitted to exceed swap + a
--		configurable amount (default is 50%) of physical RAM.
--		Depending on the amount you use, in most situations
--		this means a process will not be killed while accessing
--		pages but will receive errors on memory allocation as
--		appropriate.
-+2
-+	Don't overcommit. The total address space commit for the
-+	system is not permitted to exceed swap + a configurable amount
-+	(default is 50%) of physical RAM.  Depending on the amount you
-+	use, in most situations this means a process will not be
-+	killed while accessing pages but will receive errors on memory
-+	allocation as appropriate.
- 
--		Useful for applications that want to guarantee their
--		memory allocations will be available in the future
--		without having to initialize every page.
-+	Useful for applications that want to guarantee their memory
-+	allocations will be available in the future without having to
-+	initialize every page.
- 
--The overcommit policy is set via the sysctl `vm.overcommit_memory'.
-+The overcommit policy is set via the sysctl ``vm.overcommit_memory``.
- 
--The overcommit amount can be set via `vm.overcommit_ratio' (percentage)
--or `vm.overcommit_kbytes' (absolute value).
-+The overcommit amount can be set via ``vm.overcommit_ratio`` (percentage)
-+or ``vm.overcommit_kbytes`` (absolute value).
- 
- The current overcommit limit and amount committed are viewable in
--/proc/meminfo as CommitLimit and Committed_AS respectively.
-+``/proc/meminfo`` as CommitLimit and Committed_AS respectively.
- 
- Gotchas
---------
-+=======
- 
- The C language stack growth does an implicit mremap. If you want absolute
--guarantees and run close to the edge you MUST mmap your stack for the 
-+guarantees and run close to the edge you MUST mmap your stack for the
- largest size you think you will need. For typical stack usage this does
- not matter much but it's a corner case if you really really care
- 
--In mode 2 the MAP_NORESERVE flag is ignored. 
-+In mode 2 the MAP_NORESERVE flag is ignored.
- 
- 
- How It Works
--------------
+-* Introduction
++Introduction
 +============
  
- The overcommit is based on the following rules
+ page owner is for the tracking about who allocated each page.
+ It can be used to debug memory leak or to find a memory hogger.
+@@ -34,13 +38,15 @@ not affect to allocation performance, especially if the static keys jump
+ label patching functionality is available. Following is the kernel's code
+ size change due to this facility.
  
- For a file backed map
--	SHARED or READ-only	-	0 cost (the file is the map not swap)
--	PRIVATE WRITABLE	-	size of mapping per instance
-+	| SHARED or READ-only	-	0 cost (the file is the map not swap)
-+	| PRIVATE WRITABLE	-	size of mapping per instance
- 
--For an anonymous or /dev/zero map
--	SHARED			-	size of mapping
--	PRIVATE READ-only	-	0 cost (but of little use)
--	PRIVATE WRITABLE	-	size of mapping per instance
-+For an anonymous or ``/dev/zero`` map
-+	| SHARED			-	size of mapping
-+	| PRIVATE READ-only	-	0 cost (but of little use)
-+	| PRIVATE WRITABLE	-	size of mapping per instance
- 
- Additional accounting
--	Pages made writable copies by mmap
--	shmfs memory drawn from the same pool
-+	| Pages made writable copies by mmap
-+	| shmfs memory drawn from the same pool
- 
- Status
--------
--
--o	We account mmap memory mappings
--o	We account mprotect changes in commit
--o	We account mremap changes in size
--o	We account brk
--o	We account munmap
--o	We report the commit status in /proc
--o	Account and check on fork
--o	Review stack handling/building on exec
--o	SHMfs accounting
--o	Implement actual limit enforcement
-+======
+-- Without page owner
++- Without page owner::
 +
-+*	We account mmap memory mappings
-+*	We account mprotect changes in commit
-+*	We account mremap changes in size
-+*	We account brk
-+*	We account munmap
-+*	We report the commit status in /proc
-+*	Account and check on fork
-+*	Review stack handling/building on exec
-+*	SHMfs accounting
-+*	Implement actual limit enforcement
+    text    data     bss     dec     hex filename
+-  40662    1493     644   42799    a72f mm/page_alloc.o
++   40662   1493     644   42799    a72f mm/page_alloc.o
++
++- With page owner::
  
- To Do
-------
--o	Account ptrace pages (this is hard)
+-- With page owner
+    text    data     bss     dec     hex filename
+-  40892    1493     644   43029    a815 mm/page_alloc.o
++   40892   1493     644   43029    a815 mm/page_alloc.o
+    1427      24       8    1459     5b3 mm/page_ext.o
+    2722      50       0    2772     ad4 mm/page_owner.o
+ 
+@@ -62,21 +68,23 @@ are catched and marked, although they are mostly allocated from struct
+ page extension feature. Anyway, after that, no page is left in
+ un-tracking state.
+ 
+-* Usage
++Usage
 +=====
-+*	Account ptrace pages (this is hard)
++
++1) Build user-space helper::
+ 
+-1) Build user-space helper
+ 	cd tools/vm
+ 	make page_owner_sort
+ 
+-2) Enable page owner
+-	Add "page_owner=on" to boot cmdline.
++2) Enable page owner: add "page_owner=on" to boot cmdline.
+ 
+ 3) Do the job what you want to debug
+ 
+-4) Analyze information from page owner
++4) Analyze information from page owner::
++
+ 	cat /sys/kernel/debug/page_owner > page_owner_full.txt
+ 	grep -v ^PFN page_owner_full.txt > page_owner.txt
+ 	./page_owner_sort page_owner.txt sorted_page_owner.txt
+ 
+-	See the result about who allocated each page
+-	in the sorted_page_owner.txt.
++   See the result about who allocated each page
++   in the ``sorted_page_owner.txt``.
 -- 
 2.7.4
 
