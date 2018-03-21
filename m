@@ -1,138 +1,230 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD,UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4BD87E69D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 16:43:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC7027D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 17:20:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752919AbeCUQnB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 12:43:01 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:37004 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752970AbeCUQmj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 12:42:39 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w2LGWPVh014676;
-        Wed, 21 Mar 2018 16:41:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2017-10-26;
- bh=dQCpA+PzQ12OjWDGH7LKG8hDluZPvTomXmNDi7Oj2R4=;
- b=XfTS9agGujQKT2u9Fj3a0oKNnWIsjm5zTwd0iW2KGLJ3SCERzgWClBphAcoZ/mYTskzM
- LQRf1A2eXzqL9+aIkyJTJYPsYJwJ+0tyP2n3c9TQbKkfoPIGedEPK45/CPxEziNp/IYr
- 0OwFd3HLuP3jGp6jP9RIMcjjpa4NBXtywKFtOnOdv9Fw1dyLRcIcGChkriIUjAKcq7Nq
- 9Rt9ShkWNJsG9Z6QPf+enxSAI8glrpcO3dnTj7ECMDsB/awukNRivZSetG5c88rRiFQ6
- Lv5nBZVuW5Y5lyRfLYV1ANE3XvWkd+4WNfENYAj5SWXvm+bfCp4zKIe17oeJcYw9NTeH sQ== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by aserp2120.oracle.com with ESMTP id 2guu0kr1gm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Mar 2018 16:41:33 +0000
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w2LGfV1W027886
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Mar 2018 16:41:32 GMT
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w2LGfUPU008351;
-        Wed, 21 Mar 2018 16:41:30 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 21 Mar 2018 09:41:30 -0700
-Date:   Wed, 21 Mar 2018 09:41:29 -0700
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Eric Sandeen <sandeen@sandeen.net>,
-        Masanari Iida <standby24x7@gmail.com>,
-        linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] xfs: Change URL for the project in xfs.txt
-Message-ID: <20180321164129.GA4818@magnolia>
-References: <20180302133013.9744-1-standby24x7@gmail.com>
- <20180302172401.GT19312@magnolia>
- <20180302215731.GT30854@dastard>
- <27d9f522-fa75-6766-3ca6-79f99522e861@sandeen.net>
- <20180302224310.GV30854@dastard>
+        id S1751550AbeCURUE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 13:20:04 -0400
+Received: from mail-pl0-f65.google.com ([209.85.160.65]:44944 "EHLO
+        mail-pl0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751604AbeCURUC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 13:20:02 -0400
+Received: by mail-pl0-f65.google.com with SMTP id 9-v6so3520522ple.11
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 10:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:to:from:in-reply-to:cc
+         :references:message-id:user-agent:subject:date;
+        bh=TXuvjaEd8eh2mE/1uMptFenDJ7vLMIxidZhYtij08Dw=;
+        b=AGbVY1JemzLZA/0PSE5OPNtRTEpnVP+1+h4+pHPVyi+Q3jEiCbFhWzMsNeBxAsnPFv
+         vHAIVuGCs+Y5li5kmL5Nk/7y9It340eV68xF7pS16dgQ6wqmLtx0uCpqFUYtTDfrWJMo
+         b213IvCop/9hb48MCC/1Xsxx1ezUNkp3ToIKk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding:to:from
+         :in-reply-to:cc:references:message-id:user-agent:subject:date;
+        bh=TXuvjaEd8eh2mE/1uMptFenDJ7vLMIxidZhYtij08Dw=;
+        b=N9x9Yhx+WJgySWK8vh50jFb0lmdwhfGGvVJwKUusaRBNFQ4SqIW5mDQ9o5czBqHsT7
+         Lgq5x4k/kUQQqM/arGudEHrNI9BOe1Jx0lFrcgm+5MjzDXvyxu2cJWwWfAKGl5jZJ4JP
+         aQuRuWkFLdaxbN+2Afd638XKfvauetSNRL97oexGO9d9C2z5tE5415AHaHZcxaFzZQiD
+         3v9Uj297pA2KjKzAK8hcSC5ZumcnxsTGutEPsWbGGacbPDA2kLhIrS2EdJVrL9RNC10D
+         j70B97Wfegz8nRiV90haq88/udXSSNGnVZ9gTAOJDA6K8PQohMnJM1KfyF5dwAk3jR61
+         tu7Q==
+X-Gm-Message-State: AElRT7G3GzRKfwWAt10EoroEBhfPkEJLsySMrQL4MT3PMmNzMAE5iZr4
+        VH2kO889JX9iu8Mt/mkavqDGwA==
+X-Google-Smtp-Source: AG47ELu/TYz+/sgOeiLGa612o9Y9tYg0lnYCok0jqqsoMLLEcqI6g6X+6mZzsYx98lJWicPKJi6yvw==
+X-Received: by 2002:a17:902:bc41:: with SMTP id t1-v6mr21285349plz.56.1521652801816;
+        Wed, 21 Mar 2018 10:20:01 -0700 (PDT)
+Received: from localhost ([2620:0:1000:1511:d30e:62c6:f82c:ff40])
+        by smtp.gmail.com with ESMTPSA id y18sm8881971pfe.67.2018.03.21.10.20.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 21 Mar 2018 10:20:01 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180302224310.GV30854@dastard>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8839 signatures=668695
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=8 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1711220000 definitions=main-1803200127
+Content-Transfer-Encoding: quoted-printable
+To:     Karthik Ramasubramanian <kramasub@codeaurora.org>,
+        andy.gross@linaro.org, corbet@lwn.net, david.brown@linaro.org,
+        gregkh@linuxfoundation.org, mark.rutland@arm.com,
+        robh+dt@kernel.org, wsa@the-dreams.de
+From:   Stephen Boyd <swboyd@chromium.org>
+In-Reply-To: <23359b7c-6760-9cca-4c99-b08b3e79fa7a@codeaurora.org>
+Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-serial@vger.kernel.org, jslaby@suse.com,
+        evgreen@chromium.org, acourbot@chromium.org,
+        Girish Mahadevan <girishm@codeaurora.org>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Doug Anderson <dianders@google.com>
+References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
+ <1521071931-9294-5-git-send-email-kramasub@codeaurora.org>
+ <152156025613.254778.431774948232120027@swboyd.mtv.corp.google.com>
+ <23359b7c-6760-9cca-4c99-b08b3e79fa7a@codeaurora.org>
+Message-ID: <152165280040.91116.1976061062009791598@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.7
+Subject: Re: [PATCH v4 4/6] tty: serial: msm_geni_serial: Add serial driver support
+ for GENI based QUP
+Date:   Wed, 21 Mar 2018 10:20:00 -0700
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 03, 2018 at 09:43:10AM +1100, Dave Chinner wrote:
-> On Fri, Mar 02, 2018 at 04:08:24PM -0600, Eric Sandeen wrote:
-> > 
-> > 
-> > On 3/2/18 3:57 PM, Dave Chinner wrote:
-> > > On Fri, Mar 02, 2018 at 09:24:01AM -0800, Darrick J. Wong wrote:
-> > >> On Fri, Mar 02, 2018 at 10:30:13PM +0900, Masanari Iida wrote:
-> > >>> The oss.sgi.com doesn't exist any more.
-> > >>> Change it to current project URL, https://xfs.wiki.kernel.org/
-> > >>>
-> > >>> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
-> > >>> ---
-> > >>>  Documentation/filesystems/xfs.txt | 2 +-
-> > >>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >>>
-> > >>> diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.txt
-> > >>> index 3b9b5c149f32..4d9ff0a7f8e1 100644
-> > >>> --- a/Documentation/filesystems/xfs.txt
-> > >>> +++ b/Documentation/filesystems/xfs.txt
-> > >>> @@ -9,7 +9,7 @@ variable block sizes, is extent based, and makes extensive use of
-> > >>>  Btrees (directories, extents, free space) to aid both performance
-> > >>>  and scalability.
-> > >>>  
-> > >>> -Refer to the documentation at http://oss.sgi.com/projects/xfs/
-> > >>> +Refer to the documentation at https://xfs.wiki.kernel.org/
-> > > 
-> > > Did I miss a memo?
-> > 
-> > About which part, the loss of oss.sgi or the addition of the kernel.org wiki?
-> > 
-> > The kernel.org wiki is pretty bare though.  OTOH xfs.org is a bit less
-> > official.  We really need to resolve this issue.
-> 
-> Moving everything to kernel.org wiki. As I mentioned on IRC, I'd
-> much prefer we move away from wiki's to something we can edit
-> locally, review via email, has proper revision control and a
-> "publish" mechanism that pushes built documentation out to the
-> public website.
+Quoting Karthik Ramasubramanian (2018-03-20 15:53:25)
+> =
 
-Makes sense, it's sort of annoying to have to build the pdfs from
-documentation repo and kup them to k.org manually.  In the meantime I'd
-rather have a scribble-me-elmo wiki over a dead url.
+> =
 
-Also afaik the only people who actually have write access to that wiki
-are Luis, Eric, and me, so hopefully we won't have to deal with
-vandalism in the interim.
+> On 3/20/2018 9:37 AM, Stephen Boyd wrote:
+> > Quoting Karthikeyan Ramasubramanian (2018-03-14 16:58:49)
+> >> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/seria=
+l/qcom_geni_serial.c
+> >> new file mode 100644
+> >> index 0000000..1442777
+> >> --- /dev/null
+> >> +++ b/drivers/tty/serial/qcom_geni_serial.c
+> >> @@ -0,0 +1,1158 @@
+> >> +
+> >> +#ifdef CONFIG_SERIAL_QCOM_GENI_CONSOLE
+> >> +static void qcom_geni_serial_wr_char(struct uart_port *uport, int ch)
+> >> +{
+> >> +       writel_relaxed(ch, uport->membase + SE_GENI_TX_FIFOn);
+> > =
 
-I wonder if we could just make the existing dokiwiki use
-xfs-documentation.git as its backend and control the publishing that
-way...?
+> > Does this expect the whole word to have data to write? Or does the FIFO
+> > output a character followed by three NUL bytes each time it gets
+> > written? The way that uart_console_write() works is to take each
+> > character a byte at a time, put it into an int (so extend that byte with
+> > zero) and then pass it to the putchar function. I would expect that at
+> > this point the hardware sees the single character and then 3 NULs enter
+> > the FIFO each time.
+> > =
 
---D
+> > For previous MSM uarts I had to handle this oddity by packing the words
+> > into the fifo four at a time. You may need to do the same here.
+> The packing configuration 1 * 8 (done using geni_se_config_packing)
+> ensures that only one byte per FIFO word needs to be transmitted. From
+> that perspective, we need not have such oddity.
 
-> Cheers,
-> 
-> Dave.
-> -- 
-> Dave Chinner
-> david@fromorbit.com
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-xfs" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Ok! That's good to hear.
+
+> > =
+
+> > Can you also support the OF_EARLYCON_DECLARE method of console writing
+> > so we can get an early printk style debug console?
+> Do you prefer that as part of this patch itself or is it ok if I upload
+> the earlycon support once this gets merged.
+
+I think this already got merged? So just split it out into another patch
+would be fine. I see the config is already selecting the earlycon
+support so it must be planned.
+
+> > =
+
+> > =
+
+> >> +
+> >> +       spin_lock_irqsave(&uport->lock, flags);
+> >> +       m_irq_status =3D readl_relaxed(uport->membase + SE_GENI_M_IRQ_=
+STATUS);
+> >> +       s_irq_status =3D readl_relaxed(uport->membase + SE_GENI_S_IRQ_=
+STATUS);
+> >> +       m_irq_en =3D readl_relaxed(uport->membase + SE_GENI_M_IRQ_EN);
+> >> +       writel_relaxed(m_irq_status, uport->membase + SE_GENI_M_IRQ_CL=
+EAR);
+> >> +       writel_relaxed(s_irq_status, uport->membase + SE_GENI_S_IRQ_CL=
+EAR);
+> >> +
+> >> +       if (WARN_ON(m_irq_status & M_ILLEGAL_CMD_EN))
+> >> +               goto out_unlock;
+> >> +
+> >> +       if (s_irq_status & S_RX_FIFO_WR_ERR_EN) {
+> >> +               uport->icount.overrun++;
+> >> +               tty_insert_flip_char(tport, 0, TTY_OVERRUN);
+> >> +       }
+> >> +
+> >> +       if (m_irq_status & (M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN) &&
+> >> +           m_irq_en & (M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN))
+> >> +               qcom_geni_serial_handle_tx(uport);
+> >> +
+> >> +       if (s_irq_status & S_GP_IRQ_0_EN || s_irq_status & S_GP_IRQ_1_=
+EN) {
+> >> +               if (s_irq_status & S_GP_IRQ_0_EN)
+> >> +                       uport->icount.parity++;
+> >> +               drop_rx =3D true;
+> >> +       } else if (s_irq_status & S_GP_IRQ_2_EN ||
+> >> +                                       s_irq_status & S_GP_IRQ_3_EN) {
+> >> +               uport->icount.brk++;
+> > =
+
+> > Maybe move this stat accounting to the place where brk is handled?
+> Since other error accounting like overrun, parity are happening here, it
+> feels logical to keep that accounting here.
+
+Alright.
+
+> >> +       return uart_add_one_port(&qcom_geni_console_driver, uport);
+> >> +}
+> >> +
+> >> +static int qcom_geni_serial_remove(struct platform_device *pdev)
+> >> +{
+> >> +       struct qcom_geni_serial_port *port =3D platform_get_drvdata(pd=
+ev);
+> >> +       struct uart_driver *drv =3D port->uport.private_data;
+> >> +
+> >> +       uart_remove_one_port(drv, &port->uport);
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static int __maybe_unused qcom_geni_serial_sys_suspend_noirq(struct d=
+evice *dev)
+> >> +{
+> >> +       struct platform_device *pdev =3D to_platform_device(dev);
+> >> +       struct qcom_geni_serial_port *port =3D platform_get_drvdata(pd=
+ev);
+> >> +       struct uart_port *uport =3D &port->uport;
+> >> +
+> >> +       uart_suspend_port(uport->private_data, uport);
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static int __maybe_unused qcom_geni_serial_sys_resume_noirq(struct de=
+vice *dev)
+> >> +{
+> >> +       struct platform_device *pdev =3D to_platform_device(dev);
+> >> +       struct qcom_geni_serial_port *port =3D platform_get_drvdata(pd=
+ev);
+> >> +       struct uart_port *uport =3D &port->uport;
+> >> +
+> >> +       if (console_suspend_enabled && uport->suspended) {
+> >> +               uart_resume_port(uport->private_data, uport);
+> >> +               disable_irq(uport->irq);
+> > =
+
+> > I missed the enable_irq() part. Is this still necessary?
+> Suspending the uart console port invokes the uart port shutdown
+> operation. The shutdown operation disables and frees the concerned IRQ.
+> Resuming the uart console port invokes the uart port startup operation
+> which requests for the IRQ. The request_irq operation auto-enables the
+> IRQ. In addition, resume_noirq implicitly enables the IRQ. This leads to
+> an unbalanced IRQ enable warning.
+> =
+
+> This disable_irq() helps with suppressing that warning.
+
+That's not obvious so we need a big comment here.
+
+I thought we would move this to the normal suspend/resume callbacks and
+skip the noirq variants. That would make this disable_irq() unnecessary
+then?
+
+BTW, free_irq() should disable the irq itself, so it looks odd to have a
+disable_irq() followed directly by a free_irq().
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
