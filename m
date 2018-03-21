@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF0177D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:24:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 766C07E688
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:24:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753195AbeCUTXh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 15:23:37 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36576 "EHLO
+        id S1753311AbeCUTYC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:24:02 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49908 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1753158AbeCUTXc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:32 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJIYE2003706
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:32 -0400
+        by vger.kernel.org with ESMTP id S1753286AbeCUTXy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:54 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJIZ97047101
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:54 -0400
 Received: from e06smtp11.uk.ibm.com (e06smtp11.uk.ibm.com [195.75.94.107])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2guw151dqp-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2guuubvdc4-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:31 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:53 -0400
 Received: from localhost
         by e06smtp11.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 21 Mar 2018 19:23:29 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        Wed, 21 Mar 2018 19:23:51 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
         by e06smtp11.uk.ibm.com (192.168.101.141) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 21 Mar 2018 19:23:24 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJNNCm58261676;
-        Wed, 21 Mar 2018 19:23:23 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9F4BD42045;
-        Wed, 21 Mar 2018 19:15:30 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A09C542041;
-        Wed, 21 Mar 2018 19:15:27 +0000 (GMT)
+        Wed, 21 Mar 2018 19:23:46 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJNkuq57475268;
+        Wed, 21 Mar 2018 19:23:46 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9FDFEA404D;
+        Wed, 21 Mar 2018 19:16:28 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 35FEFA4040;
+        Wed, 21 Mar 2018 19:16:25 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.206.27])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 21 Mar 2018 19:15:27 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:19 +0200
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 21 Mar 2018 19:16:25 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:41 +0200
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -58,16 +58,16 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
         linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 06/32] docs/vm: hmm.txt: convert to ReST format
-Date:   Wed, 21 Mar 2018 21:22:22 +0200
+Subject: [PATCH 11/32] docs/vm: ksm.txt: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:27 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18032119-0040-0000-0000-00000443E0A8
+x-cbid: 18032119-0040-0000-0000-00000443E0AC
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18032119-0041-0000-0000-000020E705C2
-Message-Id: <1521660168-14372-7-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18032119-0041-0000-0000-000020E705CB
+Message-Id: <1521660168-14372-12-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -82,182 +82,243 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/vm/hmm.txt | 66 ++++++++++++++++++++----------------------------
- 1 file changed, 28 insertions(+), 38 deletions(-)
+ Documentation/vm/ksm.txt | 215 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 110 insertions(+), 105 deletions(-)
 
-diff --git a/Documentation/vm/hmm.txt b/Documentation/vm/hmm.txt
-index 4d3aac9..3fafa33 100644
---- a/Documentation/vm/hmm.txt
-+++ b/Documentation/vm/hmm.txt
-@@ -1,4 +1,8 @@
-+.. hmm:
+diff --git a/Documentation/vm/ksm.txt b/Documentation/vm/ksm.txt
+index 6686bd2..87e7eef 100644
+--- a/Documentation/vm/ksm.txt
++++ b/Documentation/vm/ksm.txt
+@@ -1,8 +1,11 @@
+-How to use the Kernel Samepage Merging feature
+-----------------------------------------------
++.. _ksm:
 +
-+=====================================
- Heterogeneous Memory Management (HMM)
-+=====================================
++=======================
++Kernel Samepage Merging
++=======================
  
- Transparently allow any component of a program to use any memory region of said
- program with a device without using device specific memory allocator. This is
-@@ -14,19 +18,10 @@ deals with how device memory is represented inside the kernel. Finaly the last
- section present the new migration helper that allow to leverage the device DMA
- engine.
+ KSM is a memory-saving de-duplication feature, enabled by CONFIG_KSM=y,
+-added to the Linux kernel in 2.6.32.  See mm/ksm.c for its implementation,
++added to the Linux kernel in 2.6.32.  See ``mm/ksm.c`` for its implementation,
+ and http://lwn.net/Articles/306704/ and http://lwn.net/Articles/330589/
  
-+.. contents:: :local:
+ The KSM daemon ksmd periodically scans those areas of user memory which
+@@ -51,110 +54,112 @@ Applications should be considerate in their use of MADV_MERGEABLE,
+ restricting its use to areas likely to benefit.  KSM's scans may use a lot
+ of processing power: some installations will disable KSM for that reason.
  
--1) Problems of using device specific memory allocator:
--2) System bus, device memory characteristics
--3) Share address space and migration
--4) Address space mirroring implementation and API
--5) Represent and manage device memory from core kernel point of view
--6) Migrate to and from device memory
--7) Memory cgroup (memcg) and rss accounting
+-The KSM daemon is controlled by sysfs files in /sys/kernel/mm/ksm/,
++The KSM daemon is controlled by sysfs files in ``/sys/kernel/mm/ksm/``,
+ readable by all but writable only by root:
+ 
+-pages_to_scan    - how many present pages to scan before ksmd goes to sleep
+-                   e.g. "echo 100 > /sys/kernel/mm/ksm/pages_to_scan"
+-                   Default: 100 (chosen for demonstration purposes)
 -
+-sleep_millisecs  - how many milliseconds ksmd should sleep before next scan
+-                   e.g. "echo 20 > /sys/kernel/mm/ksm/sleep_millisecs"
+-                   Default: 20 (chosen for demonstration purposes)
 -
---------------------------------------------------------------------------------
+-merge_across_nodes - specifies if pages from different numa nodes can be merged.
+-                   When set to 0, ksm merges only pages which physically
+-                   reside in the memory area of same NUMA node. That brings
+-                   lower latency to access of shared pages. Systems with more
+-                   nodes, at significant NUMA distances, are likely to benefit
+-                   from the lower latency of setting 0. Smaller systems, which
+-                   need to minimize memory usage, are likely to benefit from
+-                   the greater sharing of setting 1 (default). You may wish to
+-                   compare how your system performs under each setting, before
+-                   deciding on which to use. merge_across_nodes setting can be
+-                   changed only when there are no ksm shared pages in system:
+-                   set run 2 to unmerge pages first, then to 1 after changing
+-                   merge_across_nodes, to remerge according to the new setting.
+-                   Default: 1 (merging across nodes as in earlier releases)
 -
--1) Problems of using device specific memory allocator:
-+Problems of using device specific memory allocator
-+==================================================
- 
- Device with large amount of on board memory (several giga bytes) like GPU have
- historically manage their memory through dedicated driver specific API. This
-@@ -68,9 +63,8 @@ only do-able with a share address. It is as well more reasonable to use a share
- address space for all the other patterns.
- 
- 
---------------------------------------------------------------------------------
+-run              - set 0 to stop ksmd from running but keep merged pages,
+-                   set 1 to run ksmd e.g. "echo 1 > /sys/kernel/mm/ksm/run",
+-                   set 2 to stop ksmd and unmerge all pages currently merged,
+-                         but leave mergeable areas registered for next run
+-                   Default: 0 (must be changed to 1 to activate KSM,
+-                               except if CONFIG_SYSFS is disabled)
 -
--2) System bus, device memory characteristics
-+System bus, device memory characteristics
-+=========================================
- 
- System bus cripple share address due to few limitations. Most system bus only
- allow basic memory access from device to main memory, even cache coherency is
-@@ -100,9 +94,8 @@ access any memory memory but we must also permit any memory to be migrated to
- device memory while device is using it (blocking CPU access while it happens).
- 
- 
---------------------------------------------------------------------------------
+-use_zero_pages   - specifies whether empty pages (i.e. allocated pages
+-                   that only contain zeroes) should be treated specially.
+-                   When set to 1, empty pages are merged with the kernel
+-                   zero page(s) instead of with each other as it would
+-                   happen normally. This can improve the performance on
+-                   architectures with coloured zero pages, depending on
+-                   the workload. Care should be taken when enabling this
+-                   setting, as it can potentially degrade the performance
+-                   of KSM for some workloads, for example if the checksums
+-                   of pages candidate for merging match the checksum of
+-                   an empty page. This setting can be changed at any time,
+-                   it is only effective for pages merged after the change.
+-                   Default: 0 (normal KSM behaviour as in earlier releases)
 -
--3) Share address space and migration
-+Share address space and migration
-+=================================
- 
- HMM intends to provide two main features. First one is to share the address
- space by duplication the CPU page table into the device page table so same
-@@ -140,14 +133,13 @@ leverage device memory by migrating part of data-set that is actively use by a
- device.
- 
- 
---------------------------------------------------------------------------------
+-max_page_sharing - Maximum sharing allowed for each KSM page. This
+-                   enforces a deduplication limit to avoid the virtual
+-                   memory rmap lists to grow too large. The minimum
+-                   value is 2 as a newly created KSM page will have at
+-                   least two sharers. The rmap walk has O(N)
+-                   complexity where N is the number of rmap_items
+-                   (i.e. virtual mappings) that are sharing the page,
+-                   which is in turn capped by max_page_sharing. So
+-                   this effectively spread the the linear O(N)
+-                   computational complexity from rmap walk context
+-                   over different KSM pages. The ksmd walk over the
+-                   stable_node "chains" is also O(N), but N is the
+-                   number of stable_node "dups", not the number of
+-                   rmap_items, so it has not a significant impact on
+-                   ksmd performance. In practice the best stable_node
+-                   "dup" candidate will be kept and found at the head
+-                   of the "dups" list. The higher this value the
+-                   faster KSM will merge the memory (because there
+-                   will be fewer stable_node dups queued into the
+-                   stable_node chain->hlist to check for pruning) and
+-                   the higher the deduplication factor will be, but
+-                   the slowest the worst case rmap walk could be for
+-                   any given KSM page. Slowing down the rmap_walk
+-                   means there will be higher latency for certain
+-                   virtual memory operations happening during
+-                   swapping, compaction, NUMA balancing and page
+-                   migration, in turn decreasing responsiveness for
+-                   the caller of those virtual memory operations. The
+-                   scheduler latency of other tasks not involved with
+-                   the VM operations doing the rmap walk is not
+-                   affected by this parameter as the rmap walks are
+-                   always schedule friendly themselves.
 -
--4) Address space mirroring implementation and API
-+Address space mirroring implementation and API
-+==============================================
- 
- Address space mirroring main objective is to allow to duplicate range of CPU
- page table into a device page table and HMM helps keeping both synchronize. A
- device driver that want to mirror a process address space must start with the
--registration of an hmm_mirror struct:
-+registration of an hmm_mirror struct::
- 
-  int hmm_mirror_register(struct hmm_mirror *mirror,
-                          struct mm_struct *mm);
-@@ -156,7 +148,7 @@ registration of an hmm_mirror struct:
- 
- The locked variant is to be use when the driver is already holding the mmap_sem
- of the mm in write mode. The mirror struct has a set of callback that are use
--to propagate CPU page table:
-+to propagate CPU page table::
- 
-  struct hmm_mirror_ops {
-      /* sync_cpu_device_pagetables() - synchronize page tables
-@@ -187,7 +179,8 @@ be done with the update.
- 
- 
- When device driver wants to populate a range of virtual address it can use
--either:
-+either::
+-stable_node_chains_prune_millisecs - How frequently to walk the whole
+-                   list of stable_node "dups" linked in the
+-                   stable_node "chains" in order to prune stale
+-                   stable_nodes. Smaller milllisecs values will free
+-                   up the KSM metadata with lower latency, but they
+-                   will make ksmd use more CPU during the scan. This
+-                   only applies to the stable_node chains so it's a
+-                   noop if not a single KSM page hit the
+-                   max_page_sharing yet (there would be no stable_node
+-                   chains in such case).
+-
+-The effectiveness of KSM and MADV_MERGEABLE is shown in /sys/kernel/mm/ksm/:
+-
+-pages_shared     - how many shared pages are being used
+-pages_sharing    - how many more sites are sharing them i.e. how much saved
+-pages_unshared   - how many pages unique but repeatedly checked for merging
+-pages_volatile   - how many pages changing too fast to be placed in a tree
+-full_scans       - how many times all mergeable areas have been scanned
+-
+-stable_node_chains - number of stable node chains allocated, this is
+-		     effectively the number of KSM pages that hit the
+-		     max_page_sharing limit
+-stable_node_dups   - number of stable node dups queued into the
+-		     stable_node chains
++pages_to_scan
++        how many present pages to scan before ksmd goes to sleep
++        e.g. ``echo 100 > /sys/kernel/mm/ksm/pages_to_scan`` Default: 100
++        (chosen for demonstration purposes)
 +
-  int hmm_vma_get_pfns(struct vm_area_struct *vma,
-                       struct hmm_range *range,
-                       unsigned long start,
-@@ -211,7 +204,7 @@ that array correspond to an address in the virtual range. HMM provide a set of
- flags to help driver identify special CPU page table entries.
++sleep_millisecs
++        how many milliseconds ksmd should sleep before next scan
++        e.g. ``echo 20 > /sys/kernel/mm/ksm/sleep_millisecs`` Default: 20
++        (chosen for demonstration purposes)
++
++merge_across_nodes
++        specifies if pages from different numa nodes can be merged.
++        When set to 0, ksm merges only pages which physically reside
++        in the memory area of same NUMA node. That brings lower
++        latency to access of shared pages. Systems with more nodes, at
++        significant NUMA distances, are likely to benefit from the
++        lower latency of setting 0. Smaller systems, which need to
++        minimize memory usage, are likely to benefit from the greater
++        sharing of setting 1 (default). You may wish to compare how
++        your system performs under each setting, before deciding on
++        which to use. merge_across_nodes setting can be changed only
++        when there are no ksm shared pages in system: set run 2 to
++        unmerge pages first, then to 1 after changing
++        merge_across_nodes, to remerge according to the new setting.
++        Default: 1 (merging across nodes as in earlier releases)
++
++run
++        set 0 to stop ksmd from running but keep merged pages,
++        set 1 to run ksmd e.g. ``echo 1 > /sys/kernel/mm/ksm/run``,
++        set 2 to stop ksmd and unmerge all pages currently merged, but
++        leave mergeable areas registered for next run Default: 0 (must
++        be changed to 1 to activate KSM, except if CONFIG_SYSFS is
++        disabled)
++
++use_zero_pages
++        specifies whether empty pages (i.e. allocated pages that only
++        contain zeroes) should be treated specially.  When set to 1,
++        empty pages are merged with the kernel zero page(s) instead of
++        with each other as it would happen normally. This can improve
++        the performance on architectures with coloured zero pages,
++        depending on the workload. Care should be taken when enabling
++        this setting, as it can potentially degrade the performance of
++        KSM for some workloads, for example if the checksums of pages
++        candidate for merging match the checksum of an empty
++        page. This setting can be changed at any time, it is only
++        effective for pages merged after the change.  Default: 0
++        (normal KSM behaviour as in earlier releases)
++
++max_page_sharing
++        Maximum sharing allowed for each KSM page. This enforces a
++        deduplication limit to avoid the virtual memory rmap lists to
++        grow too large. The minimum value is 2 as a newly created KSM
++        page will have at least two sharers. The rmap walk has O(N)
++        complexity where N is the number of rmap_items (i.e. virtual
++        mappings) that are sharing the page, which is in turn capped
++        by max_page_sharing. So this effectively spread the the linear
++        O(N) computational complexity from rmap walk context over
++        different KSM pages. The ksmd walk over the stable_node
++        "chains" is also O(N), but N is the number of stable_node
++        "dups", not the number of rmap_items, so it has not a
++        significant impact on ksmd performance. In practice the best
++        stable_node "dup" candidate will be kept and found at the head
++        of the "dups" list. The higher this value the faster KSM will
++        merge the memory (because there will be fewer stable_node dups
++        queued into the stable_node chain->hlist to check for pruning)
++        and the higher the deduplication factor will be, but the
++        slowest the worst case rmap walk could be for any given KSM
++        page. Slowing down the rmap_walk means there will be higher
++        latency for certain virtual memory operations happening during
++        swapping, compaction, NUMA balancing and page migration, in
++        turn decreasing responsiveness for the caller of those virtual
++        memory operations. The scheduler latency of other tasks not
++        involved with the VM operations doing the rmap walk is not
++        affected by this parameter as the rmap walks are always
++        schedule friendly themselves.
++
++stable_node_chains_prune_millisecs
++        How frequently to walk the whole list of stable_node "dups"
++        linked in the stable_node "chains" in order to prune stale
++        stable_nodes. Smaller milllisecs values will free up the KSM
++        metadata with lower latency, but they will make ksmd use more
++        CPU during the scan. This only applies to the stable_node
++        chains so it's a noop if not a single KSM page hit the
++        max_page_sharing yet (there would be no stable_node chains in
++        such case).
++
++The effectiveness of KSM and MADV_MERGEABLE is shown in ``/sys/kernel/mm/ksm/``:
++
++pages_shared
++        how many shared pages are being used
++pages_sharing
++        how many more sites are sharing them i.e. how much saved
++pages_unshared
++        how many pages unique but repeatedly checked for merging
++pages_volatile
++        how many pages changing too fast to be placed in a tree
++full_scans
++        how many times all mergeable areas have been scanned
++stable_node_chains
++        number of stable node chains allocated, this is effectively
++        the number of KSM pages that hit the max_page_sharing limit
++stable_node_dups
++        number of stable node dups queued into the stable_node chains
  
- Locking with the update() callback is the most important aspect the driver must
--respect in order to keep things properly synchronize. The usage pattern is :
-+respect in order to keep things properly synchronize. The usage pattern is::
- 
-  int driver_populate_range(...)
-  {
-@@ -251,9 +244,8 @@ concurrently for multiple devices. Waiting for each device to report commands
- as executed is serialize (there is no point in doing this concurrently).
- 
- 
---------------------------------------------------------------------------------
--
--5) Represent and manage device memory from core kernel point of view
-+Represent and manage device memory from core kernel point of view
-+=================================================================
- 
- Several differents design were try to support device memory. First one use
- device specific data structure to keep information about migrated memory and
-@@ -269,14 +261,14 @@ un-aware of the difference. We only need to make sure that no one ever try to
- map those page from the CPU side.
- 
- HMM provide a set of helpers to register and hotplug device memory as a new
--region needing struct page. This is offer through a very simple API:
-+region needing struct page. This is offer through a very simple API::
- 
-  struct hmm_devmem *hmm_devmem_add(const struct hmm_devmem_ops *ops,
-                                    struct device *device,
-                                    unsigned long size);
-  void hmm_devmem_remove(struct hmm_devmem *devmem);
- 
--The hmm_devmem_ops is where most of the important things are:
-+The hmm_devmem_ops is where most of the important things are::
- 
-  struct hmm_devmem_ops {
-      void (*free)(struct hmm_devmem *devmem, struct page *page);
-@@ -294,13 +286,12 @@ second callback happens whenever CPU try to access a device page which it can
- not do. This second callback must trigger a migration back to system memory.
- 
- 
---------------------------------------------------------------------------------
--
--6) Migrate to and from device memory
-+Migrate to and from device memory
-+=================================
- 
- Because CPU can not access device memory, migration must use device DMA engine
- to perform copy from and to device memory. For this we need a new migration
--helper:
-+helper::
- 
-  int migrate_vma(const struct migrate_vma_ops *ops,
-                  struct vm_area_struct *vma,
-@@ -319,7 +310,7 @@ such migration base on range of address the device is actively accessing.
- 
- The migrate_vma_ops struct define two callbacks. First one (alloc_and_copy())
- control destination memory allocation and copy operation. Second one is there
--to allow device driver to perform cleanup operation after migration.
-+to allow device driver to perform cleanup operation after migration::
- 
-  struct migrate_vma_ops {
-      void (*alloc_and_copy)(struct vm_area_struct *vma,
-@@ -353,9 +344,8 @@ bandwidth but this is considered as a rare event and a price that we are
- willing to pay to keep all the code simpler.
- 
- 
---------------------------------------------------------------------------------
--
--7) Memory cgroup (memcg) and rss accounting
-+Memory cgroup (memcg) and rss accounting
-+========================================
- 
- For now device memory is accounted as any regular page in rss counters (either
- anonymous if device page is use for anonymous, file if device page is use for
+ A high ratio of pages_sharing to pages_shared indicates good sharing, but
+ a high ratio of pages_unshared to pages_sharing indicates wasted effort.
 -- 
 2.7.4
 
