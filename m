@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 555C17D0DA
+	by archive.lwn.net (Postfix) with ESMTP id 6A4D37DE79
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 04:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751801AbeCUEkw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 00:40:52 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:12169 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751531AbeCUEkv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 00:40:51 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com
-        id <B5ab1e24d0000>; Tue, 20 Mar 2018 21:40:45 -0700
+        id S1751889AbeCUElF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 00:41:05 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:6944 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751727AbeCUElD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 00:41:03 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com
+        id <B5ab1e2670000>; Tue, 20 Mar 2018 21:41:11 -0700
 Received: from HQMAIL104.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 20 Mar 2018 21:40:46 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 20 Mar 2018 21:41:02 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 20 Mar 2018 21:40:46 -0700
-Received: from UKMAIL102.nvidia.com (10.26.138.15) by HQMAIL104.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 20 Mar 2018 21:41:02 -0700
+Received: from UKMAIL101.nvidia.com (10.26.138.13) by HQMAIL104.nvidia.com
  (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
- 2018 04:40:49 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by UKMAIL102.nvidia.com
- (10.26.138.15) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
- 2018 04:40:45 +0000
+ 2018 04:41:01 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by UKMAIL101.nvidia.com
+ (10.26.138.13) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
+ 2018 04:40:57 +0000
 Received: from rrajk-ubuntu.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1347.2 via Frontend
- Transport; Wed, 21 Mar 2018 04:40:36 +0000
+ Transport; Wed, 21 Mar 2018 04:40:48 +0000
 From:   Rajkumar Rampelli <rrajk@nvidia.com>
 To:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
@@ -46,9 +46,9 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, <ldewangan@nvidia.com>,
         <rrajk@nvidia.com>
-Subject: [PATCH V2 1/9] pwm: core: Add support for PWM HW driver with pwm capture only
-Date:   Wed, 21 Mar 2018 10:10:36 +0530
-Message-ID: <1521607244-29734-2-git-send-email-rrajk@nvidia.com>
+Subject: [PATCH V2 2/9] arm64: tegra: Add PWM controller on Tegra186 soc
+Date:   Wed, 21 Mar 2018 10:10:37 +0530
+Message-ID: <1521607244-29734-3-git-send-email-rrajk@nvidia.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
 References: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
@@ -59,82 +59,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for pwm HW driver which has only capture functionality.
-This helps to implement the PWM based Tachometer driver which reads
-the PWM output signals from electronic fans.
-
-PWM Tachometer captures the period and duty cycle of the PWM signal
-
-Add conditional checks for callabacks enable(), disable(), config()
-to check if they are supported by the client driver or not. Skip these
-callbacks if they are not supported.
+The NVIDIA Tegra186 SoC has a PWM controller which is
+used in FAN control use case.
 
 Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
 ---
 
-V2: Added if conditional checks for pwm callbacks since drivers may
-    implements only pwm capture functionality.
+V2: no changes in this patch
 
- drivers/pwm/core.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 1581f6a..f70fe68 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -246,6 +246,10 @@ static bool pwm_ops_check(const struct pwm_ops *ops)
- 	if (ops->apply)
- 		return true;
- 
-+	/* driver supports capture operation */
-+	if (ops->capture)
-+		return true;
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+index b762227..731cd01 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
+@@ -1031,4 +1031,15 @@
+ 				(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
+ 		interrupt-parent = <&gic>;
+ 	};
 +
- 	return false;
- }
- 
-@@ -495,7 +499,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_state *state)
- 			 * ->apply().
- 			 */
- 			if (pwm->state.enabled) {
--				pwm->chip->ops->disable(pwm->chip, pwm);
-+				if (pwm->chip->ops->disable)
-+					pwm->chip->ops->disable(pwm->chip, pwm);
- 				pwm->state.enabled = false;
- 			}
- 
-@@ -509,22 +514,26 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_state *state)
- 
- 		if (state->period != pwm->state.period ||
- 		    state->duty_cycle != pwm->state.duty_cycle) {
--			err = pwm->chip->ops->config(pwm->chip, pwm,
-+			if (pwm->chip->ops->config) {
-+				err = pwm->chip->ops->config(pwm->chip, pwm,
- 						     state->duty_cycle,
- 						     state->period);
--			if (err)
--				return err;
-+				if (err)
-+					return err;
-+			}
- 
- 			pwm->state.duty_cycle = state->duty_cycle;
- 			pwm->state.period = state->period;
- 		}
- 
- 		if (state->enabled != pwm->state.enabled) {
--			if (state->enabled) {
-+			if (state->enabled && pwm->chip->ops->enable) {
- 				err = pwm->chip->ops->enable(pwm->chip, pwm);
- 				if (err)
- 					return err;
--			} else {
-+			}
-+
-+			if (!state->enabled && pwm->chip->ops->disable) {
- 				pwm->chip->ops->disable(pwm->chip, pwm);
- 			}
- 
++	pwm@c340000 {
++		compatible = "nvidia,tegra186-pwm";
++		reg = <0x0 0xc340000 0x0 0x10000>;
++		clocks = <&bpmp TEGRA186_CLK_PWM4>;
++		clock-names = "pwm";
++		#pwm-cells = <2>;
++		resets = <&bpmp TEGRA186_RESET_PWM4>;
++		reset-names = "pwm";
++		status = "disabled";
++	};
+ };
 -- 
 2.1.4
 
