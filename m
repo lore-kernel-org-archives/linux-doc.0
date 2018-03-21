@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 766C07E688
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:24:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC9F87E677
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:24:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753311AbeCUTYC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 15:24:02 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49908 "EHLO
+        id S1753316AbeCUTYR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:24:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52258 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1753286AbeCUTXy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:54 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJIZ97047101
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:54 -0400
-Received: from e06smtp11.uk.ibm.com (e06smtp11.uk.ibm.com [195.75.94.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2guuubvdc4-1
+        by vger.kernel.org with ESMTP id S1753338AbeCUTYJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:24:09 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJJX1k022677
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:09 -0400
+Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2gusvyafxu-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:53 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:24:08 -0400
 Received: from localhost
-        by e06smtp11.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 21 Mar 2018 19:23:51 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp11.uk.ibm.com (192.168.101.141) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 21 Mar 2018 19:23:46 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJNkuq57475268;
-        Wed, 21 Mar 2018 19:23:46 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9FDFEA404D;
-        Wed, 21 Mar 2018 19:16:28 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 35FEFA4040;
-        Wed, 21 Mar 2018 19:16:25 +0000 (GMT)
+        Wed, 21 Mar 2018 19:24:06 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 21 Mar 2018 19:24:01 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJO0Ci25493658;
+        Wed, 21 Mar 2018 19:24:00 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 37199AE045;
+        Wed, 21 Mar 2018 19:14:20 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7F79FAE04D;
+        Wed, 21 Mar 2018 19:14:16 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.206.27])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 21 Mar 2018 19:16:25 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:41 +0200
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 21 Mar 2018 19:14:16 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:55 +0200
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -58,20 +58,20 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
         linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 11/32] docs/vm: ksm.txt: convert to ReST format
-Date:   Wed, 21 Mar 2018 21:22:27 +0200
+Subject: [PATCH 14/32] docs/vm: overcommit-accounting: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:30 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18032119-0040-0000-0000-00000443E0AC
+x-cbid: 18032119-0020-0000-0000-00000407E60F
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18032119-0041-0000-0000-000020E705CB
-Message-Id: <1521660168-14372-12-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18032119-0021-0000-0000-0000429C06BB
+Message-Id: <1521660168-14372-15-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
  definitions=main-1803210221
@@ -82,243 +82,151 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/vm/ksm.txt | 215 ++++++++++++++++++++++++-----------------------
- 1 file changed, 110 insertions(+), 105 deletions(-)
+ Documentation/vm/overcommit-accounting | 107 ++++++++++++++++++---------------
+ 1 file changed, 57 insertions(+), 50 deletions(-)
 
-diff --git a/Documentation/vm/ksm.txt b/Documentation/vm/ksm.txt
-index 6686bd2..87e7eef 100644
---- a/Documentation/vm/ksm.txt
-+++ b/Documentation/vm/ksm.txt
-@@ -1,8 +1,11 @@
--How to use the Kernel Samepage Merging feature
------------------------------------------------
-+.. _ksm:
+diff --git a/Documentation/vm/overcommit-accounting b/Documentation/vm/overcommit-accounting
+index cbfaaa6..0dd54bb 100644
+--- a/Documentation/vm/overcommit-accounting
++++ b/Documentation/vm/overcommit-accounting
+@@ -1,80 +1,87 @@
++.. _overcommit_accounting:
 +
-+=======================
-+Kernel Samepage Merging
-+=======================
++=====================
++Overcommit Accounting
++=====================
++
+ The Linux kernel supports the following overcommit handling modes
  
- KSM is a memory-saving de-duplication feature, enabled by CONFIG_KSM=y,
--added to the Linux kernel in 2.6.32.  See mm/ksm.c for its implementation,
-+added to the Linux kernel in 2.6.32.  See ``mm/ksm.c`` for its implementation,
- and http://lwn.net/Articles/306704/ and http://lwn.net/Articles/330589/
+-0	-	Heuristic overcommit handling. Obvious overcommits of
+-		address space are refused. Used for a typical system. It
+-		ensures a seriously wild allocation fails while allowing
+-		overcommit to reduce swap usage.  root is allowed to 
+-		allocate slightly more memory in this mode. This is the 
+-		default.
++0
++	Heuristic overcommit handling. Obvious overcommits of address
++	space are refused. Used for a typical system. It ensures a
++	seriously wild allocation fails while allowing overcommit to
++	reduce swap usage.  root is allowed to allocate slightly more
++	memory in this mode. This is the default.
  
- The KSM daemon ksmd periodically scans those areas of user memory which
-@@ -51,110 +54,112 @@ Applications should be considerate in their use of MADV_MERGEABLE,
- restricting its use to areas likely to benefit.  KSM's scans may use a lot
- of processing power: some installations will disable KSM for that reason.
+-1	-	Always overcommit. Appropriate for some scientific
+-		applications. Classic example is code using sparse arrays
+-		and just relying on the virtual memory consisting almost
+-		entirely of zero pages.
++1
++	Always overcommit. Appropriate for some scientific
++	applications. Classic example is code using sparse arrays and
++	just relying on the virtual memory consisting almost entirely
++	of zero pages.
  
--The KSM daemon is controlled by sysfs files in /sys/kernel/mm/ksm/,
-+The KSM daemon is controlled by sysfs files in ``/sys/kernel/mm/ksm/``,
- readable by all but writable only by root:
+-2	-	Don't overcommit. The total address space commit
+-		for the system is not permitted to exceed swap + a
+-		configurable amount (default is 50%) of physical RAM.
+-		Depending on the amount you use, in most situations
+-		this means a process will not be killed while accessing
+-		pages but will receive errors on memory allocation as
+-		appropriate.
++2
++	Don't overcommit. The total address space commit for the
++	system is not permitted to exceed swap + a configurable amount
++	(default is 50%) of physical RAM.  Depending on the amount you
++	use, in most situations this means a process will not be
++	killed while accessing pages but will receive errors on memory
++	allocation as appropriate.
  
--pages_to_scan    - how many present pages to scan before ksmd goes to sleep
--                   e.g. "echo 100 > /sys/kernel/mm/ksm/pages_to_scan"
--                   Default: 100 (chosen for demonstration purposes)
--
--sleep_millisecs  - how many milliseconds ksmd should sleep before next scan
--                   e.g. "echo 20 > /sys/kernel/mm/ksm/sleep_millisecs"
--                   Default: 20 (chosen for demonstration purposes)
--
--merge_across_nodes - specifies if pages from different numa nodes can be merged.
--                   When set to 0, ksm merges only pages which physically
--                   reside in the memory area of same NUMA node. That brings
--                   lower latency to access of shared pages. Systems with more
--                   nodes, at significant NUMA distances, are likely to benefit
--                   from the lower latency of setting 0. Smaller systems, which
--                   need to minimize memory usage, are likely to benefit from
--                   the greater sharing of setting 1 (default). You may wish to
--                   compare how your system performs under each setting, before
--                   deciding on which to use. merge_across_nodes setting can be
--                   changed only when there are no ksm shared pages in system:
--                   set run 2 to unmerge pages first, then to 1 after changing
--                   merge_across_nodes, to remerge according to the new setting.
--                   Default: 1 (merging across nodes as in earlier releases)
--
--run              - set 0 to stop ksmd from running but keep merged pages,
--                   set 1 to run ksmd e.g. "echo 1 > /sys/kernel/mm/ksm/run",
--                   set 2 to stop ksmd and unmerge all pages currently merged,
--                         but leave mergeable areas registered for next run
--                   Default: 0 (must be changed to 1 to activate KSM,
--                               except if CONFIG_SYSFS is disabled)
--
--use_zero_pages   - specifies whether empty pages (i.e. allocated pages
--                   that only contain zeroes) should be treated specially.
--                   When set to 1, empty pages are merged with the kernel
--                   zero page(s) instead of with each other as it would
--                   happen normally. This can improve the performance on
--                   architectures with coloured zero pages, depending on
--                   the workload. Care should be taken when enabling this
--                   setting, as it can potentially degrade the performance
--                   of KSM for some workloads, for example if the checksums
--                   of pages candidate for merging match the checksum of
--                   an empty page. This setting can be changed at any time,
--                   it is only effective for pages merged after the change.
--                   Default: 0 (normal KSM behaviour as in earlier releases)
--
--max_page_sharing - Maximum sharing allowed for each KSM page. This
--                   enforces a deduplication limit to avoid the virtual
--                   memory rmap lists to grow too large. The minimum
--                   value is 2 as a newly created KSM page will have at
--                   least two sharers. The rmap walk has O(N)
--                   complexity where N is the number of rmap_items
--                   (i.e. virtual mappings) that are sharing the page,
--                   which is in turn capped by max_page_sharing. So
--                   this effectively spread the the linear O(N)
--                   computational complexity from rmap walk context
--                   over different KSM pages. The ksmd walk over the
--                   stable_node "chains" is also O(N), but N is the
--                   number of stable_node "dups", not the number of
--                   rmap_items, so it has not a significant impact on
--                   ksmd performance. In practice the best stable_node
--                   "dup" candidate will be kept and found at the head
--                   of the "dups" list. The higher this value the
--                   faster KSM will merge the memory (because there
--                   will be fewer stable_node dups queued into the
--                   stable_node chain->hlist to check for pruning) and
--                   the higher the deduplication factor will be, but
--                   the slowest the worst case rmap walk could be for
--                   any given KSM page. Slowing down the rmap_walk
--                   means there will be higher latency for certain
--                   virtual memory operations happening during
--                   swapping, compaction, NUMA balancing and page
--                   migration, in turn decreasing responsiveness for
--                   the caller of those virtual memory operations. The
--                   scheduler latency of other tasks not involved with
--                   the VM operations doing the rmap walk is not
--                   affected by this parameter as the rmap walks are
--                   always schedule friendly themselves.
--
--stable_node_chains_prune_millisecs - How frequently to walk the whole
--                   list of stable_node "dups" linked in the
--                   stable_node "chains" in order to prune stale
--                   stable_nodes. Smaller milllisecs values will free
--                   up the KSM metadata with lower latency, but they
--                   will make ksmd use more CPU during the scan. This
--                   only applies to the stable_node chains so it's a
--                   noop if not a single KSM page hit the
--                   max_page_sharing yet (there would be no stable_node
--                   chains in such case).
--
--The effectiveness of KSM and MADV_MERGEABLE is shown in /sys/kernel/mm/ksm/:
--
--pages_shared     - how many shared pages are being used
--pages_sharing    - how many more sites are sharing them i.e. how much saved
--pages_unshared   - how many pages unique but repeatedly checked for merging
--pages_volatile   - how many pages changing too fast to be placed in a tree
--full_scans       - how many times all mergeable areas have been scanned
--
--stable_node_chains - number of stable node chains allocated, this is
--		     effectively the number of KSM pages that hit the
--		     max_page_sharing limit
--stable_node_dups   - number of stable node dups queued into the
--		     stable_node chains
-+pages_to_scan
-+        how many present pages to scan before ksmd goes to sleep
-+        e.g. ``echo 100 > /sys/kernel/mm/ksm/pages_to_scan`` Default: 100
-+        (chosen for demonstration purposes)
-+
-+sleep_millisecs
-+        how many milliseconds ksmd should sleep before next scan
-+        e.g. ``echo 20 > /sys/kernel/mm/ksm/sleep_millisecs`` Default: 20
-+        (chosen for demonstration purposes)
-+
-+merge_across_nodes
-+        specifies if pages from different numa nodes can be merged.
-+        When set to 0, ksm merges only pages which physically reside
-+        in the memory area of same NUMA node. That brings lower
-+        latency to access of shared pages. Systems with more nodes, at
-+        significant NUMA distances, are likely to benefit from the
-+        lower latency of setting 0. Smaller systems, which need to
-+        minimize memory usage, are likely to benefit from the greater
-+        sharing of setting 1 (default). You may wish to compare how
-+        your system performs under each setting, before deciding on
-+        which to use. merge_across_nodes setting can be changed only
-+        when there are no ksm shared pages in system: set run 2 to
-+        unmerge pages first, then to 1 after changing
-+        merge_across_nodes, to remerge according to the new setting.
-+        Default: 1 (merging across nodes as in earlier releases)
-+
-+run
-+        set 0 to stop ksmd from running but keep merged pages,
-+        set 1 to run ksmd e.g. ``echo 1 > /sys/kernel/mm/ksm/run``,
-+        set 2 to stop ksmd and unmerge all pages currently merged, but
-+        leave mergeable areas registered for next run Default: 0 (must
-+        be changed to 1 to activate KSM, except if CONFIG_SYSFS is
-+        disabled)
-+
-+use_zero_pages
-+        specifies whether empty pages (i.e. allocated pages that only
-+        contain zeroes) should be treated specially.  When set to 1,
-+        empty pages are merged with the kernel zero page(s) instead of
-+        with each other as it would happen normally. This can improve
-+        the performance on architectures with coloured zero pages,
-+        depending on the workload. Care should be taken when enabling
-+        this setting, as it can potentially degrade the performance of
-+        KSM for some workloads, for example if the checksums of pages
-+        candidate for merging match the checksum of an empty
-+        page. This setting can be changed at any time, it is only
-+        effective for pages merged after the change.  Default: 0
-+        (normal KSM behaviour as in earlier releases)
-+
-+max_page_sharing
-+        Maximum sharing allowed for each KSM page. This enforces a
-+        deduplication limit to avoid the virtual memory rmap lists to
-+        grow too large. The minimum value is 2 as a newly created KSM
-+        page will have at least two sharers. The rmap walk has O(N)
-+        complexity where N is the number of rmap_items (i.e. virtual
-+        mappings) that are sharing the page, which is in turn capped
-+        by max_page_sharing. So this effectively spread the the linear
-+        O(N) computational complexity from rmap walk context over
-+        different KSM pages. The ksmd walk over the stable_node
-+        "chains" is also O(N), but N is the number of stable_node
-+        "dups", not the number of rmap_items, so it has not a
-+        significant impact on ksmd performance. In practice the best
-+        stable_node "dup" candidate will be kept and found at the head
-+        of the "dups" list. The higher this value the faster KSM will
-+        merge the memory (because there will be fewer stable_node dups
-+        queued into the stable_node chain->hlist to check for pruning)
-+        and the higher the deduplication factor will be, but the
-+        slowest the worst case rmap walk could be for any given KSM
-+        page. Slowing down the rmap_walk means there will be higher
-+        latency for certain virtual memory operations happening during
-+        swapping, compaction, NUMA balancing and page migration, in
-+        turn decreasing responsiveness for the caller of those virtual
-+        memory operations. The scheduler latency of other tasks not
-+        involved with the VM operations doing the rmap walk is not
-+        affected by this parameter as the rmap walks are always
-+        schedule friendly themselves.
-+
-+stable_node_chains_prune_millisecs
-+        How frequently to walk the whole list of stable_node "dups"
-+        linked in the stable_node "chains" in order to prune stale
-+        stable_nodes. Smaller milllisecs values will free up the KSM
-+        metadata with lower latency, but they will make ksmd use more
-+        CPU during the scan. This only applies to the stable_node
-+        chains so it's a noop if not a single KSM page hit the
-+        max_page_sharing yet (there would be no stable_node chains in
-+        such case).
-+
-+The effectiveness of KSM and MADV_MERGEABLE is shown in ``/sys/kernel/mm/ksm/``:
-+
-+pages_shared
-+        how many shared pages are being used
-+pages_sharing
-+        how many more sites are sharing them i.e. how much saved
-+pages_unshared
-+        how many pages unique but repeatedly checked for merging
-+pages_volatile
-+        how many pages changing too fast to be placed in a tree
-+full_scans
-+        how many times all mergeable areas have been scanned
-+stable_node_chains
-+        number of stable node chains allocated, this is effectively
-+        the number of KSM pages that hit the max_page_sharing limit
-+stable_node_dups
-+        number of stable node dups queued into the stable_node chains
+-		Useful for applications that want to guarantee their
+-		memory allocations will be available in the future
+-		without having to initialize every page.
++	Useful for applications that want to guarantee their memory
++	allocations will be available in the future without having to
++	initialize every page.
  
- A high ratio of pages_sharing to pages_shared indicates good sharing, but
- a high ratio of pages_unshared to pages_sharing indicates wasted effort.
+-The overcommit policy is set via the sysctl `vm.overcommit_memory'.
++The overcommit policy is set via the sysctl ``vm.overcommit_memory``.
+ 
+-The overcommit amount can be set via `vm.overcommit_ratio' (percentage)
+-or `vm.overcommit_kbytes' (absolute value).
++The overcommit amount can be set via ``vm.overcommit_ratio`` (percentage)
++or ``vm.overcommit_kbytes`` (absolute value).
+ 
+ The current overcommit limit and amount committed are viewable in
+-/proc/meminfo as CommitLimit and Committed_AS respectively.
++``/proc/meminfo`` as CommitLimit and Committed_AS respectively.
+ 
+ Gotchas
+--------
++=======
+ 
+ The C language stack growth does an implicit mremap. If you want absolute
+-guarantees and run close to the edge you MUST mmap your stack for the 
++guarantees and run close to the edge you MUST mmap your stack for the
+ largest size you think you will need. For typical stack usage this does
+ not matter much but it's a corner case if you really really care
+ 
+-In mode 2 the MAP_NORESERVE flag is ignored. 
++In mode 2 the MAP_NORESERVE flag is ignored.
+ 
+ 
+ How It Works
+-------------
++============
+ 
+ The overcommit is based on the following rules
+ 
+ For a file backed map
+-	SHARED or READ-only	-	0 cost (the file is the map not swap)
+-	PRIVATE WRITABLE	-	size of mapping per instance
++	| SHARED or READ-only	-	0 cost (the file is the map not swap)
++	| PRIVATE WRITABLE	-	size of mapping per instance
+ 
+-For an anonymous or /dev/zero map
+-	SHARED			-	size of mapping
+-	PRIVATE READ-only	-	0 cost (but of little use)
+-	PRIVATE WRITABLE	-	size of mapping per instance
++For an anonymous or ``/dev/zero`` map
++	| SHARED			-	size of mapping
++	| PRIVATE READ-only	-	0 cost (but of little use)
++	| PRIVATE WRITABLE	-	size of mapping per instance
+ 
+ Additional accounting
+-	Pages made writable copies by mmap
+-	shmfs memory drawn from the same pool
++	| Pages made writable copies by mmap
++	| shmfs memory drawn from the same pool
+ 
+ Status
+-------
+-
+-o	We account mmap memory mappings
+-o	We account mprotect changes in commit
+-o	We account mremap changes in size
+-o	We account brk
+-o	We account munmap
+-o	We report the commit status in /proc
+-o	Account and check on fork
+-o	Review stack handling/building on exec
+-o	SHMfs accounting
+-o	Implement actual limit enforcement
++======
++
++*	We account mmap memory mappings
++*	We account mprotect changes in commit
++*	We account mremap changes in size
++*	We account brk
++*	We account munmap
++*	We report the commit status in /proc
++*	Account and check on fork
++*	Review stack handling/building on exec
++*	SHMfs accounting
++*	Implement actual limit enforcement
+ 
+ To Do
+------
+-o	Account ptrace pages (this is hard)
++=====
++*	Account ptrace pages (this is hard)
 -- 
 2.7.4
 
