@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F5D57E688
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 04:42:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 555C17D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 04:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752278AbeCUEme (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 00:42:34 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:7027 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752251AbeCUEm3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 00:42:29 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com
-        id <B5ab1e2ba0000>; Tue, 20 Mar 2018 21:42:37 -0700
-Received: from HQMAIL105.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 20 Mar 2018 21:42:28 -0700
+        id S1751801AbeCUEkw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 00:40:52 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:12169 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751531AbeCUEkv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 00:40:51 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com
+        id <B5ab1e24d0000>; Tue, 20 Mar 2018 21:40:45 -0700
+Received: from HQMAIL104.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 20 Mar 2018 21:40:46 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 20 Mar 2018 21:42:28 -0700
-Received: from DRUKMAIL101.nvidia.com (10.25.59.19) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
- 2018 04:42:24 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by drukmail101.nvidia.com
- (10.25.59.19) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
- 2018 04:42:20 +0000
+        by hqpgpgate102.nvidia.com on Tue, 20 Mar 2018 21:40:46 -0700
+Received: from UKMAIL102.nvidia.com (10.26.138.15) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
+ 2018 04:40:49 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by UKMAIL102.nvidia.com
+ (10.26.138.15) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
+ 2018 04:40:45 +0000
 Received: from rrajk-ubuntu.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1347.2 via Frontend
- Transport; Wed, 21 Mar 2018 04:42:10 +0000
+ Transport; Wed, 21 Mar 2018 04:40:36 +0000
 From:   Rajkumar Rampelli <rrajk@nvidia.com>
 To:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
@@ -46,9 +46,9 @@ CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, <ldewangan@nvidia.com>,
         <rrajk@nvidia.com>
-Subject: [PATCH V2 9/9] arm64: defconfig: enable pwm-fan as a loadable module
-Date:   Wed, 21 Mar 2018 10:10:44 +0530
-Message-ID: <1521607244-29734-10-git-send-email-rrajk@nvidia.com>
+Subject: [PATCH V2 1/9] pwm: core: Add support for PWM HW driver with pwm capture only
+Date:   Wed, 21 Mar 2018 10:10:36 +0530
+Message-ID: <1521607244-29734-2-git-send-email-rrajk@nvidia.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
 References: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
@@ -59,30 +59,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Enable pwm-fan driver to make use of a PWM interface to
-read speed of a fan in rotations per minute.
+Add support for pwm HW driver which has only capture functionality.
+This helps to implement the PWM based Tachometer driver which reads
+the PWM output signals from electronic fans.
+
+PWM Tachometer captures the period and duty cycle of the PWM signal
+
+Add conditional checks for callabacks enable(), disable(), config()
+to check if they are supported by the client driver or not. Skip these
+callbacks if they are not supported.
 
 Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
 ---
 
-V2: Added pwm-fan driver support as a loadable module.
-    Removed generic-pwm-tachometer driver support which was added as part of v1
+V2: Added if conditional checks for pwm callbacks since drivers may
+    implements only pwm capture functionality.
 
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/pwm/core.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 8b2bda7..50aa3bce 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -320,6 +320,7 @@ CONFIG_SYSCON_REBOOT_MODE=y
- CONFIG_BATTERY_BQ27XXX=y
- CONFIG_SENSORS_ARM_SCPI=y
- CONFIG_SENSORS_LM90=m
-+CONFIG_SENSORS_PWM_FAN=m
- CONFIG_SENSORS_INA2XX=m
- CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
- CONFIG_CPU_THERMAL=y
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index 1581f6a..f70fe68 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -246,6 +246,10 @@ static bool pwm_ops_check(const struct pwm_ops *ops)
+ 	if (ops->apply)
+ 		return true;
+ 
++	/* driver supports capture operation */
++	if (ops->capture)
++		return true;
++
+ 	return false;
+ }
+ 
+@@ -495,7 +499,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_state *state)
+ 			 * ->apply().
+ 			 */
+ 			if (pwm->state.enabled) {
+-				pwm->chip->ops->disable(pwm->chip, pwm);
++				if (pwm->chip->ops->disable)
++					pwm->chip->ops->disable(pwm->chip, pwm);
+ 				pwm->state.enabled = false;
+ 			}
+ 
+@@ -509,22 +514,26 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_state *state)
+ 
+ 		if (state->period != pwm->state.period ||
+ 		    state->duty_cycle != pwm->state.duty_cycle) {
+-			err = pwm->chip->ops->config(pwm->chip, pwm,
++			if (pwm->chip->ops->config) {
++				err = pwm->chip->ops->config(pwm->chip, pwm,
+ 						     state->duty_cycle,
+ 						     state->period);
+-			if (err)
+-				return err;
++				if (err)
++					return err;
++			}
+ 
+ 			pwm->state.duty_cycle = state->duty_cycle;
+ 			pwm->state.period = state->period;
+ 		}
+ 
+ 		if (state->enabled != pwm->state.enabled) {
+-			if (state->enabled) {
++			if (state->enabled && pwm->chip->ops->enable) {
+ 				err = pwm->chip->ops->enable(pwm->chip, pwm);
+ 				if (err)
+ 					return err;
+-			} else {
++			}
++
++			if (!state->enabled && pwm->chip->ops->disable) {
+ 				pwm->chip->ops->disable(pwm->chip, pwm);
+ 			}
+ 
 -- 
 2.1.4
 
