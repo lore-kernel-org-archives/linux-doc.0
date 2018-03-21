@@ -3,365 +3,184 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5EAFF7D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 00:19:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3C417DE79
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 03:47:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751633AbeCUATc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 20:19:32 -0400
-Received: from mail-ot0-f169.google.com ([74.125.82.169]:34088 "EHLO
-        mail-ot0-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751396AbeCUATb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 20:19:31 -0400
-Received: by mail-ot0-f169.google.com with SMTP id m7-v6so3830044otd.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 17:19:31 -0700 (PDT)
+        id S1751687AbeCUDrw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Mar 2018 23:47:52 -0400
+Received: from mail-ua0-f173.google.com ([209.85.217.173]:39851 "EHLO
+        mail-ua0-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751820AbeCUDru (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 23:47:50 -0400
+Received: by mail-ua0-f173.google.com with SMTP id m47so2489963uae.6
+        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 20:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=p9C1jcGInAaCeKl2up2jqHf5peEQ7QUHNvZa+hrQviQ=;
+        b=ZjN0WJRTo64J+l3WwSxj+7D1zF4DEt2PFEZx9eTkajESapwdUr7Nzl4rs+mFdFgJtq
+         djLV5pXHnSA4UY4FeFQ3oJoWYMt6jOR5YgAwfXsekscrvMVidQ5wb24zH0urcNIimG8H
+         /X5Q/GPxU52u9fED1WLrKk0e/AaTW6rSTAX9DV+nbMr1T4tnCnCV1IK253x9Rignxccy
+         L9zEVUO+JJTA4JL+jQFT8tqaKw0nfrUDiprZjHEQvdjF7QW5m66vyWzHcyg2mM8KHJk8
+         7g0febeRU8At9VP/GuzT/UDHewltP8ZYEqT4r908MzfWkhM+mDVeamyv5pbqeKxp6ATm
+         dqYw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Gpqwx584Yb2RxVBSYdD1Ix1/s2bNYoNaiVxgpFPQrfs=;
-        b=iBpKu2ts8um52jMkQakeJKBE2EKwfcf5S9UMnvj1b66eyWeJrI+I+9XswaHIioJJcX
-         JUu65VoobAvTUFyE/2dCwxJCPlD0h9tUk6OCNturMyuU4xc0wNv2WzvxBAgImA3M0sQs
-         +gE/S8mlL22dCLVhjocLrGuyTjLNEHWRXQEps=
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=p9C1jcGInAaCeKl2up2jqHf5peEQ7QUHNvZa+hrQviQ=;
+        b=jaHjXeiiFuNAqmGvY0NdBxl5ogMacftQyMvj6rLdDDcd2B2CO+wWx2YJ4RNeeVKv5Y
+         llc26aI1oxQ5yAgcYLDTeWqN8qbuX8L90QEBx0OxpKSvR0wocz/EBQaceYMjhHYb6TqX
+         acmv9lU6+aPpHPrtOh98e1EFr1URCMwkAEKcQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Gpqwx584Yb2RxVBSYdD1Ix1/s2bNYoNaiVxgpFPQrfs=;
-        b=PwBlKSCqCq3IHIBe0RaLrgyVURf9/MaSr1saeAGtjrNJyQVxiKs67wGW1VABfvEMIh
-         mjxSyUsYwYfBhIJ8fQORCixEhkK4Xs65lQ6XrPDZlKTS/rF+oUQ9W9NEpaBWbstfL3mf
-         AoDmuVvy+wxLxLWyFqMZvsDtdCHkagBO/EISWq5XtIrO5rP1Yr95j3RPB5TG1uA6/VJh
-         ta1MbqXSKommwUNKhPVvg1iSWkJWfCzeMAvcxGsjyhocF/yNhZ44hMQPg5lt6requVbS
-         IIXhNbZ72yvtwYlHp4syGfpG67eCJe3vBczYEN85LoKv1x31Yw+VC14alf4VA9QeV9s6
-         IgGg==
-X-Gm-Message-State: AElRT7F4FFIi3Y8TECZVG9Vi1FErHEMqbDTjtTx/D+yEFe0vpthG3yUP
-        Wr4121RAkJSLjNn3QSscfqY0Imp3N6M=
-X-Google-Smtp-Source: AG47ELtfQ7FJ1cXbovc42ZFnDEhtcKEiurhMLElFh2EmkBTyVY+4MBqzaaoqiLwFZMTPqJnRO/AxuA==
-X-Received: by 2002:a9d:4d11:: with SMTP id n17-v6mr995074otf.31.1521591570537;
-        Tue, 20 Mar 2018 17:19:30 -0700 (PDT)
-Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com. [74.125.82.174])
-        by smtp.gmail.com with ESMTPSA id i83sm1621717oih.53.2018.03.20.17.19.28
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Mar 2018 17:19:29 -0700 (PDT)
-Received: by mail-ot0-f174.google.com with SMTP id i28-v6so3816571otf.8
-        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 17:19:28 -0700 (PDT)
-X-Received: by 2002:a9d:2c23:: with SMTP id f32-v6mr11013021otb.273.1521591567899;
- Tue, 20 Mar 2018 17:19:27 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=p9C1jcGInAaCeKl2up2jqHf5peEQ7QUHNvZa+hrQviQ=;
+        b=cCPDkkLn/WBKFTVev3TIKZKfRmhLVHXu4JdN/PbQbtlGbZRgeDAiU50mC2VrxspW5X
+         oJ+/jWI/moOEw8Hp++6jNaCMedOCFvVblHlSniVAKUbjaYULm5mZkEKx8U4WPyIQnp9t
+         l/yc4deWEZ17BGnn3b7CT+GIOi86cMxWMzj2YLNBvdkDQxWe7bf4Mq4TYhciX8zn9iXc
+         8PwR8RWu7XBLgra2fXXDsThN8smurLmwFYGHC3kV1k3SWBarU9RnDFg7pcSInmVBs/fl
+         RyFSLBoeGo+NSRDmAGS5uBkN6xFhneKvb2+QJgaqECpCy/zTgWwytQwLd5ydaL4g9dGL
+         rFFA==
+X-Gm-Message-State: AElRT7GGZ3yb9xRNs5Gq55ko6NrWHVV7BUAF2gV9wsdJQmlukni4idLK
+        xXRkpGjQfALnVw1ViZqJhiMkj3jvPH2A28otpIuCyQ==
+X-Google-Smtp-Source: AG47ELtGxb0x0XkH8TMb9qRHDC8BhBMFvpJs689ZuTxB2RRRrT0xUenCjhf9prUDiEbRTZkk9hjq//3DAmMo9HdiKsc=
+X-Received: by 10.176.86.74 with SMTP id z10mr12767100uaa.154.1521604069141;
+ Tue, 20 Mar 2018 20:47:49 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.31.180.195 with HTTP; Tue, 20 Mar 2018 20:47:48 -0700 (PDT)
+In-Reply-To: <c9e6f964-4e84-a5ed-77c4-e0a6655ee146@codeaurora.org>
 References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
- <1521071931-9294-5-git-send-email-kramasub@codeaurora.org>
- <CAE=gft7QAE0+3YpLu9BL2uvN=A0YgF=Xp2ocmbX=pvwszWtZew@mail.gmail.com> <1fa9262a-28bf-8432-5672-4f8c09898493@codeaurora.org>
-In-Reply-To: <1fa9262a-28bf-8432-5672-4f8c09898493@codeaurora.org>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Wed, 21 Mar 2018 00:18:52 +0000
-X-Gmail-Original-Message-ID: <CAE=gft7x23Fc3OicbaaF6wGw-CjgnSDT53xnHmXEDoZmtW0_7Q@mail.gmail.com>
-Message-ID: <CAE=gft7x23Fc3OicbaaF6wGw-CjgnSDT53xnHmXEDoZmtW0_7Q@mail.gmail.com>
-Subject: Re: [PATCH v4 4/6] tty: serial: msm_geni_serial: Add serial driver
- support for GENI based QUP
-To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+ <1521071931-9294-7-git-send-email-kramasub@codeaurora.org>
+ <CAD=FV=Wk5apkO9ro+PkLGDS7poJgvTkDA4uSKnMXmK=GMzuMcQ@mail.gmail.com>
+ <65fa4ff5-7f37-b6fd-e493-bec18511d334@codeaurora.org> <CAD=FV=Vq4Q2LvY_O-YsdyUmQOUANa0ap+U9j7PXSD3_ao6sCdQ@mail.gmail.com>
+ <c9e6f964-4e84-a5ed-77c4-e0a6655ee146@codeaurora.org>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Tue, 20 Mar 2018 20:47:48 -0700
+X-Google-Sender-Auth: OhoOAuYLL6Lhbh_okSnNaUsbEEI
+Message-ID: <CAD=FV=WLiX8kiOxtAbnEfj9cLGtpbTad6AfWY=t0Ro843UFL9g@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] arm64: dts: sdm845: Add I2C controller support
+To:     Sagar Dharia <sdharia@codeaurora.org>
+Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>, robh+dt@kernel.org,
-        mark.rutland@arm.com, wsa@the-dreams.de,
-        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-serial@vger.kernel.org,
-        jslaby@suse.com, acourbot@chromium.org, swboyd@chromium.org,
-        Girish Mahadevan <girishm@codeaurora.org>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Doug Anderson <dianders@google.com>
+        David Brown <david.brown@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
+        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 20, 2018 at 4:44 PM Karthik Ramasubramanian <
-kramasub@codeaurora.org> wrote:
+Hi,
+
+On Tue, Mar 20, 2018 at 3:16 PM, Sagar Dharia <sdharia@codeaurora.org> wrote:
+>>>>> +                       pinconf {
+>>>>> +                               pins = "gpio55", "gpio56";
+>>>>> +                               drive-strength = <2>;
+>>>>> +                               bias-disable;
+>>>>> +                       };
+>>>>> +               };
+>>>>> +
+>>>>> +               qup-i2c10-sleep {
+>>>>> +                       pinconf {
+>>>>> +                               pins = "gpio55", "gpio56";
+>>>>> +                               bias-pull-up;
+>>>>
+>>>> Are you sure that you want pullups enabled for sleep here?  There are
+>>>> external pulls on this line (as there are on many i2c busses) so doing
+>>>> this will double-enable pulls.  It probably won't hurt, but I'm
+>>>> curious if there's some sort of reason here.
+>>>>
+>>> 1. We need the lines to remain high to avoid slaves sensing a false
+>>> start-condition (this can happen if the SDA goes down before SCL).
+>>> 2. Disclaimer: I'm not a HW expert, but we were told that
+>>> tri-state/bias-disabled lines can draw more current. I will find out
+>>> more about that.
+>>
+>> Agreed that they need to remain high, but you've got very strong
+>> pullups external to the SoC.  Those will keep it high.  You don't need
+>> the internal ones too.
+>>
+>> As extra evidence that the external pullups _must_ be present on your
+>> board: you specify bias-disable in the active state.  That can only
+>> work if there are external pullups (or if there were some special
+>> extra secret internal pullups that were part of geni).  i2c is an
+>> open-drain bus and thus there must be pullups on the bus in order to
+>> communicate.
+>>
+>
+> You are right, I followed up about the pull-up recommendation and that
+> was for a GPIO where there was no external pull-up (GPIO was not used
+> for I2C). It's safe to assume I2C will always have external pullup.
+
+It is even more safe to say that I2C will always have an external
+pullup on the SDM845-MTP.  Remember that the pullup config is in the
+board device tree file, not the SoC one.  So even if someone out there
+decides that the internal pull is somehow good enough for their own
+board and they don't stuff external ones, then it will be up to them
+to turn the pull up on in their own board file.
 
 
+> We
+> will change sleep-config of I2C GPIOs to no-pull.
 
-> On 3/20/2018 12:39 PM, Evan Green wrote:
-> > Hi Karthik,
-> >
-> > On Wed, Mar 14, 2018 at 4:59 PM Karthikeyan Ramasubramanian <
-> > kramasub@codeaurora.org> wrote:
-> >
-> >> +
-> >> +static bool qcom_geni_serial_poll_bit(struct uart_port *uport,
-> >> +                               int offset, int field, bool set)
-> >> +{
-> >> +       u32 reg;
-> >> +       struct qcom_geni_serial_port *port;
-> >> +       unsigned int baud;
-> >> +       unsigned int fifo_bits;
-> >> +       unsigned long timeout_us = 20000;
-> >> +
-> >> +       /* Ensure polling is not re-ordered before the prior
-writes/reads
-> > */
-> >> +       mb();
-> >
-> > These barriers sprinkled around everywhere are new. Did
-> > you find that you needed them for something? In this case, the
-> > readl_poll_timeout_atomic should already have a read barrier (nor do you
-> > probably care about read reordering, right?) Perhaps this should
-> > only be a mmiowb rather than a full barrier, because you really just
-want
-> > to say "make sure all my old writes got out to hardware before spinning"
-> These barriers have been there from v3. Regarding this barrier - since
-> readl_poll_timeout_atomic has a read barrier, this one can be converted
-> to just write barrier.
+Even better IMHO: don't specify the bias in the sleep config.  I don't
+believe it's possible for the sleep config to take effect without the
+default config since the default config applies at probe time.  ...so
+you'll always get the default config applied at probe time and you
+don't need to touch the bias at sleep time.
 
-Thanks. I must have missed them in v3. Is that mmiowb that would go there,
-or wmb? I'm unsure.
 
-> >
-> >> +
-> >> +       if (uport->private_data) {
-> >> +               port = to_dev_port(uport, uport);
-> >> +               baud = port->baud;
-> >> +               if (!baud)
-> >> +                       baud = 115200;
-> >> +               fifo_bits = port->tx_fifo_depth * port->tx_fifo_width;
-> >> +               /*
-> >> +                * Total polling iterations based on FIFO worth of
-bytes
-> > to be
-> >> +                * sent at current baud. Add a little fluff to the
-wait.
-> >> +                */
-> >> +               timeout_us = ((fifo_bits * USEC_PER_SEC) / baud) + 500;
-> >> +       }
-> >> +
-> >> +       return !readl_poll_timeout_atomic(uport->membase + offset, reg,
-> >> +                        (bool)(reg & field) == set, 10, timeout_us);
-> >> +}
-> > [...]
-> >> +
-> >> +static void qcom_geni_serial_start_tx(struct uart_port *uport)
-> >> +{
-> >> +       u32 irq_en;
-> >> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> >> +       u32 status;
-> >> +
-> >> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> >> +               status = readl_relaxed(uport->membase +
-SE_GENI_STATUS);
-> >> +               if (status & M_GENI_CMD_ACTIVE)
-> >> +                       return;
-> >> +
-> >> +               if (!qcom_geni_serial_tx_empty(uport))
-> >> +                       return;
-> >> +
-> >> +               /*
-> >> +                * Ensure writing to IRQ_EN & watermark registers are
-not
-> >> +                * re-ordered before checking the status of the Serial
-> >> +                * Engine and TX FIFO
-> >> +                */
-> >> +               mb();
-> >
-> > Here's another one. You should just be able to use a regular readl when
-> > reading SE_GENI_STATUS and remove this barrier, since readl has an rmb
-> > which orders your read of M_IRQ_EN below. I don't think you need to
-worry
-> > about the writes below going above the read above, since there's logic
-in
-> > between that needs the result of the read. Maybe that also saves you in
-the
-> > read case, too. Either way, this barrier seems heavy handed.
-> Write to the watermark register does not have any dependency on the
-> reads. Hence it can be re-ordered. But writing to that register alone
-> without enabling the watermark interrupt will not have any impact. From
-> that perspective, using readl while checking the GENI_STATUS is
-> sufficient to maintain the required order. I will put a comment
-> regarding the use of readl so that the reason is not lost.
+>>>>> +                       i2c10: i2c@a88000 {
+>>>>
+>>>> Seems like it might be nice to add all the i2c busses into the main
+>>>> sdm845.dtsi file.  Sure, most won't be enabled, but it seems like it
+>>>> would avoid churn later.
+>>>>
+>>>> ...if you're sure you want to add only one i2c controller, subject of
+>>>> this patch should indicate that.
+>>>>
+>>>
+>>> Yes, we typically have a "platform(sdm845 here)-qupv3.dtsi" defining
+>>> most of the serial-bus instances (i2c, spi, and uart with
+>>> status=disabled) that we include from the common header. The boards
+>>> enable instances they need.
+>>> Will that be okay?
+>>
+>> Unless you really feel the need to put these in a separate file I'd
+>> just put them straight in sdm845.dtsi.  Yeah, it'll get big, but
+>> that's OK by me.  I _think_ this matches what Bjorn was suggesting on
+>> previous device tree patches, but CCing him just in case.  I'm
+>> personally OK with whatever Bjorn and other folks with more Qualcomm
+>> history would like.
+>>
+>> ...but yeah, I'm asking for them all to be listed with status="disabled".
+>>
+>
+> Sure, we will change the subject of this patch to indicate that we are
+> adding 1 controller as of now. Later we will add all I2C controllers to
+> dtsi as another patch since that will need pinctrl settings for GPIOs
+> used by those instances and the wrappers devices needed by them.
 
-Yes, I see what you mean, and without the branch I'd agree. My thinking
-though was that you have a branch between the read and writes. So to
-determine whether or not to even execute the writes, you must have
-successfully evaluated the read, since program flow depends on it. I will
-admit this is where my barrier knowledge gets fuzzy. Can speculative
-execution perform register writes? (ie if that branch was guessed wrong
-before the read actually completes, and then the writes happen before the
-read? That seems like it couldn't possibly happen, as it would result in
-weird spurious speculative writes to registers. Perhaps the mapping bits
-prevent this sort of thing...)
+Yeah, it's fine to just change the subject of this patch.  It would be
+nice to add all the other controllers in sooner rather than later, but
+it doesn't have to be today.
 
-If what I've said makes any sort of sense, and you still want to keep the
-barriers here and below, then I'll let it go.
 
-> >
-> >> +
-> >> +               irq_en = readl_relaxed(uport->membase +
-SE_GENI_M_IRQ_EN);
-> >> +               irq_en |= M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN;
-> >> +
-> >> +               writel_relaxed(port->tx_wm, uport->membase +
-> >> +
-SE_GENI_TX_WATERMARK_REG);
-> >> +               writel_relaxed(irq_en, uport->membase +
-SE_GENI_M_IRQ_EN);
-> >> +       }
-> >> +}
-> >> +
-> >> +static void qcom_geni_serial_stop_tx(struct uart_port *uport)
-> >> +{
-> >> +       u32 irq_en;
-> >> +       u32 status;
-> >> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> >> +
-> >> +       irq_en = readl_relaxed(uport->membase + SE_GENI_M_IRQ_EN);
-> >> +       irq_en &= ~M_CMD_DONE_EN;
-> >> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> >> +               irq_en &= ~M_TX_FIFO_WATERMARK_EN;
-> >> +               writel_relaxed(0, uport->membase +
-> >> +                                    SE_GENI_TX_WATERMARK_REG);
-> >> +       }
-> >> +       port->xmit_size = 0;
-> >> +       writel_relaxed(irq_en, uport->membase + SE_GENI_M_IRQ_EN);
-> >> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> >> +       /* Possible stop tx is called multiple times. */
-> >> +       if (!(status & M_GENI_CMD_ACTIVE))
-> >> +               return;
-> >> +
-> >> +       /*
-> >> +        * Ensure cancel command write is not re-ordered before
-checking
-> >> +        * the status of the Primary Sequencer.
-> >> +        */
-> >> +       mb();
-> >
-> > I don't see how what's stated in your comment could happen, as that
-would
-> > be a logic error. This barrier seems unneeded to me.
-> Issuing a cancel command to the primary sequencer, makes the primary
-> sequencer to go to inactive state. Even though they are 2 different
-> registers, writing to one register impacts the other. From that
-> perspective, we want to ensure that the order is maintained. Else if the
-> cancel command goes through and then the GENI_STATUS is read, it might
-> say that the primary sequencer is not active and the function might
-> return prematurely. Same argument applies for the below mentioned cases.
-> >
-> >> +
-> >> +       geni_se_cancel_m_cmd(&port->se);
-> >> +       if (!qcom_geni_serial_poll_bit(uport, SE_GENI_M_IRQ_STATUS,
-> >> +                                               M_CMD_CANCEL_EN,
-true)) {
-> >> +               geni_se_abort_m_cmd(&port->se);
-> >> +               qcom_geni_serial_poll_bit(uport, SE_GENI_M_IRQ_STATUS,
-> >> +                                               M_CMD_ABORT_EN, true);
-> >> +               writel_relaxed(M_CMD_ABORT_EN, uport->membase +
-> >> +
-> > SE_GENI_M_IRQ_CLEAR);
-> >> +       }
-> >> +       writel_relaxed(M_CMD_CANCEL_EN, uport->membase +
-> > SE_GENI_M_IRQ_CLEAR);
-> >> +}
-> >> +
-> >> +static void qcom_geni_serial_start_rx(struct uart_port *uport)
-> >> +{
-> >> +       u32 irq_en;
-> >> +       u32 status;
-> >> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> >> +
-> >> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> >> +       if (status & S_GENI_CMD_ACTIVE)
-> >> +               qcom_geni_serial_stop_rx(uport);
-> >> +
-> >> +       /*
-> >> +        * Ensure setup command write is not re-ordered before checking
-> >> +        * the status of the Secondary Sequencer.
-> >> +        */
-> >> +       mb();
-> >
-> > Also here, I think the reordering you're worried about would mean the
-CPU
-> > is executing incorrectly.
-> >
-> >> +
-> >> +       geni_se_setup_s_cmd(&port->se, UART_START_READ, 0);
-> >> +
-> >> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> >> +               irq_en = readl_relaxed(uport->membase +
-SE_GENI_S_IRQ_EN);
-> >> +               irq_en |= S_RX_FIFO_WATERMARK_EN | S_RX_FIFO_LAST_EN;
-> >> +               writel_relaxed(irq_en, uport->membase +
-SE_GENI_S_IRQ_EN);
-> >> +
-> >> +               irq_en = readl_relaxed(uport->membase +
-SE_GENI_M_IRQ_EN);
-> >> +               irq_en |= M_RX_FIFO_WATERMARK_EN | M_RX_FIFO_LAST_EN;
-> >> +               writel_relaxed(irq_en, uport->membase +
-SE_GENI_M_IRQ_EN);
-> >> +       }
-> >> +}
-> >> +
-> >> +static void qcom_geni_serial_stop_rx(struct uart_port *uport)
-> >> +{
-> >> +       u32 irq_en;
-> >> +       u32 status;
-> >> +       struct qcom_geni_serial_port *port = to_dev_port(uport, uport);
-> >> +       u32 irq_clear = S_CMD_DONE_EN;
-> >> +
-> >> +       if (port->xfer_mode == GENI_SE_FIFO) {
-> >> +               irq_en = readl_relaxed(uport->membase +
-SE_GENI_S_IRQ_EN);
-> >> +               irq_en &= ~(S_RX_FIFO_WATERMARK_EN |
-S_RX_FIFO_LAST_EN);
-> >> +               writel_relaxed(irq_en, uport->membase +
-SE_GENI_S_IRQ_EN);
-> >> +
-> >> +               irq_en = readl_relaxed(uport->membase +
-SE_GENI_M_IRQ_EN);
-> >> +               irq_en &= ~(M_RX_FIFO_WATERMARK_EN |
-M_RX_FIFO_LAST_EN);
-> >> +               writel_relaxed(irq_en, uport->membase +
-SE_GENI_M_IRQ_EN);
-> >> +       }
-> >> +
-> >> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> >> +       /* Possible stop rx is called multiple times. */
-> >> +       if (!(status & S_GENI_CMD_ACTIVE))
-> >> +               return;
-> >> +
-> >> +       /*
-> >> +        * Ensure cancel command write is not re-ordered before
-checking
-> >> +        * the status of the Secondary Sequencer.
-> >> +        */
-> >> +       mb();
-> >
-> > Same deal here.
-> >
-> >> +
-> >> +       geni_se_cancel_s_cmd(&port->se);
-> >> +       qcom_geni_serial_poll_bit(uport, SE_GENI_S_CMD_CTRL_REG,
-> >> +                                       S_GENI_CMD_CANCEL, false);
-> >> +       status = readl_relaxed(uport->membase + SE_GENI_STATUS);
-> >> +       writel_relaxed(irq_clear, uport->membase +
-SE_GENI_S_IRQ_CLEAR);
-> >> +       if (status & S_GENI_CMD_ACTIVE)
-> >> +               qcom_geni_serial_abort_rx(uport);
-> >> +}
-> >> +
-> >
-> > Sorry gmail decided to wrap some of the context lines.
-> > -Evan
-> > --
-> > To unsubscribe from this list: send the line "unsubscribe
-linux-arm-msm" in
-> > the body of a message to majordomo@vger.kernel.org
-> > More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> >
-> Regards,
-> Karthik.
-> --
-> Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
+-Doug
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
