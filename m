@@ -1,229 +1,250 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC7027D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 17:20:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6409B7D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 19:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751550AbeCURUE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 13:20:04 -0400
-Received: from mail-pl0-f65.google.com ([209.85.160.65]:44944 "EHLO
-        mail-pl0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751604AbeCURUC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 13:20:02 -0400
-Received: by mail-pl0-f65.google.com with SMTP id 9-v6so3520522ple.11
-        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 10:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:to:from:in-reply-to:cc
-         :references:message-id:user-agent:subject:date;
-        bh=TXuvjaEd8eh2mE/1uMptFenDJ7vLMIxidZhYtij08Dw=;
-        b=AGbVY1JemzLZA/0PSE5OPNtRTEpnVP+1+h4+pHPVyi+Q3jEiCbFhWzMsNeBxAsnPFv
-         vHAIVuGCs+Y5li5kmL5Nk/7y9It340eV68xF7pS16dgQ6wqmLtx0uCpqFUYtTDfrWJMo
-         b213IvCop/9hb48MCC/1Xsxx1ezUNkp3ToIKk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:to:from
-         :in-reply-to:cc:references:message-id:user-agent:subject:date;
-        bh=TXuvjaEd8eh2mE/1uMptFenDJ7vLMIxidZhYtij08Dw=;
-        b=N9x9Yhx+WJgySWK8vh50jFb0lmdwhfGGvVJwKUusaRBNFQ4SqIW5mDQ9o5czBqHsT7
-         Lgq5x4k/kUQQqM/arGudEHrNI9BOe1Jx0lFrcgm+5MjzDXvyxu2cJWwWfAKGl5jZJ4JP
-         aQuRuWkFLdaxbN+2Afd638XKfvauetSNRL97oexGO9d9C2z5tE5415AHaHZcxaFzZQiD
-         3v9Uj297pA2KjKzAK8hcSC5ZumcnxsTGutEPsWbGGacbPDA2kLhIrS2EdJVrL9RNC10D
-         j70B97Wfegz8nRiV90haq88/udXSSNGnVZ9gTAOJDA6K8PQohMnJM1KfyF5dwAk3jR61
-         tu7Q==
-X-Gm-Message-State: AElRT7G3GzRKfwWAt10EoroEBhfPkEJLsySMrQL4MT3PMmNzMAE5iZr4
-        VH2kO889JX9iu8Mt/mkavqDGwA==
-X-Google-Smtp-Source: AG47ELu/TYz+/sgOeiLGa612o9Y9tYg0lnYCok0jqqsoMLLEcqI6g6X+6mZzsYx98lJWicPKJi6yvw==
-X-Received: by 2002:a17:902:bc41:: with SMTP id t1-v6mr21285349plz.56.1521652801816;
-        Wed, 21 Mar 2018 10:20:01 -0700 (PDT)
-Received: from localhost ([2620:0:1000:1511:d30e:62c6:f82c:ff40])
-        by smtp.gmail.com with ESMTPSA id y18sm8881971pfe.67.2018.03.21.10.20.01
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 21 Mar 2018 10:20:01 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To:     Karthik Ramasubramanian <kramasub@codeaurora.org>,
-        andy.gross@linaro.org, corbet@lwn.net, david.brown@linaro.org,
-        gregkh@linuxfoundation.org, mark.rutland@arm.com,
-        robh+dt@kernel.org, wsa@the-dreams.de
-From:   Stephen Boyd <swboyd@chromium.org>
-In-Reply-To: <23359b7c-6760-9cca-4c99-b08b3e79fa7a@codeaurora.org>
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, jslaby@suse.com,
-        evgreen@chromium.org, acourbot@chromium.org,
-        Girish Mahadevan <girishm@codeaurora.org>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Doug Anderson <dianders@google.com>
-References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
- <1521071931-9294-5-git-send-email-kramasub@codeaurora.org>
- <152156025613.254778.431774948232120027@swboyd.mtv.corp.google.com>
- <23359b7c-6760-9cca-4c99-b08b3e79fa7a@codeaurora.org>
-Message-ID: <152165280040.91116.1976061062009791598@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v4 4/6] tty: serial: msm_geni_serial: Add serial driver support
- for GENI based QUP
-Date:   Wed, 21 Mar 2018 10:20:00 -0700
+        id S1753169AbeCUTXe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 15:23:34 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60170 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1753148AbeCUTX3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 15:23:29 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w2LJMR3x078685
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:29 -0400
+Received: from e06smtp11.uk.ibm.com (e06smtp11.uk.ibm.com [195.75.94.107])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2guwg9g1k1-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 21 Mar 2018 15:23:28 -0400
+Received: from localhost
+        by e06smtp11.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Wed, 21 Mar 2018 19:23:26 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp11.uk.ibm.com (192.168.101.141) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 21 Mar 2018 19:23:20 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w2LJNJgl47579274;
+        Wed, 21 Mar 2018 19:23:19 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4A92AA4055;
+        Wed, 21 Mar 2018 19:16:02 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 534DFA4040;
+        Wed, 21 Mar 2018 19:15:58 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.206.27])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 21 Mar 2018 19:15:58 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 21 Mar 2018 21:23:14 +0200
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        James Hogan <jhogan@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
+        linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH 05/32] docs/vm: highmem.txt: convert to ReST format
+Date:   Wed, 21 Mar 2018 21:22:21 +0200
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 18032119-0040-0000-0000-00000443E0A4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18032119-0041-0000-0000-000020E705C1
+Message-Id: <1521660168-14372-6-git-send-email-rppt@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-03-21_09:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1803210221
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Karthik Ramasubramanian (2018-03-20 15:53:25)
-> =
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+---
+ Documentation/vm/highmem.txt | 87 ++++++++++++++++++--------------------------
+ 1 file changed, 36 insertions(+), 51 deletions(-)
 
-> =
-
-> On 3/20/2018 9:37 AM, Stephen Boyd wrote:
-> > Quoting Karthikeyan Ramasubramanian (2018-03-14 16:58:49)
-> >> diff --git a/drivers/tty/serial/qcom_geni_serial.c b/drivers/tty/seria=
-l/qcom_geni_serial.c
-> >> new file mode 100644
-> >> index 0000000..1442777
-> >> --- /dev/null
-> >> +++ b/drivers/tty/serial/qcom_geni_serial.c
-> >> @@ -0,0 +1,1158 @@
-> >> +
-> >> +#ifdef CONFIG_SERIAL_QCOM_GENI_CONSOLE
-> >> +static void qcom_geni_serial_wr_char(struct uart_port *uport, int ch)
-> >> +{
-> >> +       writel_relaxed(ch, uport->membase + SE_GENI_TX_FIFOn);
-> > =
-
-> > Does this expect the whole word to have data to write? Or does the FIFO
-> > output a character followed by three NUL bytes each time it gets
-> > written? The way that uart_console_write() works is to take each
-> > character a byte at a time, put it into an int (so extend that byte with
-> > zero) and then pass it to the putchar function. I would expect that at
-> > this point the hardware sees the single character and then 3 NULs enter
-> > the FIFO each time.
-> > =
-
-> > For previous MSM uarts I had to handle this oddity by packing the words
-> > into the fifo four at a time. You may need to do the same here.
-> The packing configuration 1 * 8 (done using geni_se_config_packing)
-> ensures that only one byte per FIFO word needs to be transmitted. From
-> that perspective, we need not have such oddity.
-
-Ok! That's good to hear.
-
-> > =
-
-> > Can you also support the OF_EARLYCON_DECLARE method of console writing
-> > so we can get an early printk style debug console?
-> Do you prefer that as part of this patch itself or is it ok if I upload
-> the earlycon support once this gets merged.
-
-I think this already got merged? So just split it out into another patch
-would be fine. I see the config is already selecting the earlycon
-support so it must be planned.
-
-> > =
-
-> > =
-
-> >> +
-> >> +       spin_lock_irqsave(&uport->lock, flags);
-> >> +       m_irq_status =3D readl_relaxed(uport->membase + SE_GENI_M_IRQ_=
-STATUS);
-> >> +       s_irq_status =3D readl_relaxed(uport->membase + SE_GENI_S_IRQ_=
-STATUS);
-> >> +       m_irq_en =3D readl_relaxed(uport->membase + SE_GENI_M_IRQ_EN);
-> >> +       writel_relaxed(m_irq_status, uport->membase + SE_GENI_M_IRQ_CL=
-EAR);
-> >> +       writel_relaxed(s_irq_status, uport->membase + SE_GENI_S_IRQ_CL=
-EAR);
-> >> +
-> >> +       if (WARN_ON(m_irq_status & M_ILLEGAL_CMD_EN))
-> >> +               goto out_unlock;
-> >> +
-> >> +       if (s_irq_status & S_RX_FIFO_WR_ERR_EN) {
-> >> +               uport->icount.overrun++;
-> >> +               tty_insert_flip_char(tport, 0, TTY_OVERRUN);
-> >> +       }
-> >> +
-> >> +       if (m_irq_status & (M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN) &&
-> >> +           m_irq_en & (M_TX_FIFO_WATERMARK_EN | M_CMD_DONE_EN))
-> >> +               qcom_geni_serial_handle_tx(uport);
-> >> +
-> >> +       if (s_irq_status & S_GP_IRQ_0_EN || s_irq_status & S_GP_IRQ_1_=
-EN) {
-> >> +               if (s_irq_status & S_GP_IRQ_0_EN)
-> >> +                       uport->icount.parity++;
-> >> +               drop_rx =3D true;
-> >> +       } else if (s_irq_status & S_GP_IRQ_2_EN ||
-> >> +                                       s_irq_status & S_GP_IRQ_3_EN) {
-> >> +               uport->icount.brk++;
-> > =
-
-> > Maybe move this stat accounting to the place where brk is handled?
-> Since other error accounting like overrun, parity are happening here, it
-> feels logical to keep that accounting here.
-
-Alright.
-
-> >> +       return uart_add_one_port(&qcom_geni_console_driver, uport);
-> >> +}
-> >> +
-> >> +static int qcom_geni_serial_remove(struct platform_device *pdev)
-> >> +{
-> >> +       struct qcom_geni_serial_port *port =3D platform_get_drvdata(pd=
-ev);
-> >> +       struct uart_driver *drv =3D port->uport.private_data;
-> >> +
-> >> +       uart_remove_one_port(drv, &port->uport);
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +static int __maybe_unused qcom_geni_serial_sys_suspend_noirq(struct d=
-evice *dev)
-> >> +{
-> >> +       struct platform_device *pdev =3D to_platform_device(dev);
-> >> +       struct qcom_geni_serial_port *port =3D platform_get_drvdata(pd=
-ev);
-> >> +       struct uart_port *uport =3D &port->uport;
-> >> +
-> >> +       uart_suspend_port(uport->private_data, uport);
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +static int __maybe_unused qcom_geni_serial_sys_resume_noirq(struct de=
-vice *dev)
-> >> +{
-> >> +       struct platform_device *pdev =3D to_platform_device(dev);
-> >> +       struct qcom_geni_serial_port *port =3D platform_get_drvdata(pd=
-ev);
-> >> +       struct uart_port *uport =3D &port->uport;
-> >> +
-> >> +       if (console_suspend_enabled && uport->suspended) {
-> >> +               uart_resume_port(uport->private_data, uport);
-> >> +               disable_irq(uport->irq);
-> > =
-
-> > I missed the enable_irq() part. Is this still necessary?
-> Suspending the uart console port invokes the uart port shutdown
-> operation. The shutdown operation disables and frees the concerned IRQ.
-> Resuming the uart console port invokes the uart port startup operation
-> which requests for the IRQ. The request_irq operation auto-enables the
-> IRQ. In addition, resume_noirq implicitly enables the IRQ. This leads to
-> an unbalanced IRQ enable warning.
-> =
-
-> This disable_irq() helps with suppressing that warning.
-
-That's not obvious so we need a big comment here.
-
-I thought we would move this to the normal suspend/resume callbacks and
-skip the noirq variants. That would make this disable_irq() unnecessary
-then?
-
-BTW, free_irq() should disable the irq itself, so it looks odd to have a
-disable_irq() followed directly by a free_irq().
+diff --git a/Documentation/vm/highmem.txt b/Documentation/vm/highmem.txt
+index 4324d24..0f69a9f 100644
+--- a/Documentation/vm/highmem.txt
++++ b/Documentation/vm/highmem.txt
+@@ -1,25 +1,14 @@
++.. _highmem:
+ 
+-			     ====================
+-			     HIGH MEMORY HANDLING
+-			     ====================
++====================
++High Memory Handling
++====================
+ 
+ By: Peter Zijlstra <a.p.zijlstra@chello.nl>
+ 
+-Contents:
+-
+- (*) What is high memory?
+-
+- (*) Temporary virtual mappings.
+-
+- (*) Using kmap_atomic.
+-
+- (*) Cost of temporary mappings.
+-
+- (*) i386 PAE.
++.. contents:: :local:
+ 
+-
+-====================
+-WHAT IS HIGH MEMORY?
++What Is High Memory?
+ ====================
+ 
+ High memory (highmem) is used when the size of physical memory approaches or
+@@ -38,7 +27,7 @@ kernel entry/exit.  This means the available virtual memory space (4GiB on
+ i386) has to be divided between user and kernel space.
+ 
+ The traditional split for architectures using this approach is 3:1, 3GiB for
+-userspace and the top 1GiB for kernel space:
++userspace and the top 1GiB for kernel space::
+ 
+ 		+--------+ 0xffffffff
+ 		| Kernel |
+@@ -58,40 +47,38 @@ and user maps.  Some hardware (like some ARMs), however, have limited virtual
+ space when they use mm context tags.
+ 
+ 
+-==========================
+-TEMPORARY VIRTUAL MAPPINGS
++Temporary Virtual Mappings
+ ==========================
+ 
+ The kernel contains several ways of creating temporary mappings:
+ 
+- (*) vmap().  This can be used to make a long duration mapping of multiple
+-     physical pages into a contiguous virtual space.  It needs global
+-     synchronization to unmap.
++* vmap().  This can be used to make a long duration mapping of multiple
++  physical pages into a contiguous virtual space.  It needs global
++  synchronization to unmap.
+ 
+- (*) kmap().  This permits a short duration mapping of a single page.  It needs
+-     global synchronization, but is amortized somewhat.  It is also prone to
+-     deadlocks when using in a nested fashion, and so it is not recommended for
+-     new code.
++* kmap().  This permits a short duration mapping of a single page.  It needs
++  global synchronization, but is amortized somewhat.  It is also prone to
++  deadlocks when using in a nested fashion, and so it is not recommended for
++  new code.
+ 
+- (*) kmap_atomic().  This permits a very short duration mapping of a single
+-     page.  Since the mapping is restricted to the CPU that issued it, it
+-     performs well, but the issuing task is therefore required to stay on that
+-     CPU until it has finished, lest some other task displace its mappings.
++* kmap_atomic().  This permits a very short duration mapping of a single
++  page.  Since the mapping is restricted to the CPU that issued it, it
++  performs well, but the issuing task is therefore required to stay on that
++  CPU until it has finished, lest some other task displace its mappings.
+ 
+-     kmap_atomic() may also be used by interrupt contexts, since it is does not
+-     sleep and the caller may not sleep until after kunmap_atomic() is called.
++  kmap_atomic() may also be used by interrupt contexts, since it is does not
++  sleep and the caller may not sleep until after kunmap_atomic() is called.
+ 
+-     It may be assumed that k[un]map_atomic() won't fail.
++  It may be assumed that k[un]map_atomic() won't fail.
+ 
+ 
+-=================
+-USING KMAP_ATOMIC
++Using kmap_atomic
+ =================
+ 
+ When and where to use kmap_atomic() is straightforward.  It is used when code
+ wants to access the contents of a page that might be allocated from high memory
+ (see __GFP_HIGHMEM), for example a page in the pagecache.  The API has two
+-functions, and they can be used in a manner similar to the following:
++functions, and they can be used in a manner similar to the following::
+ 
+ 	/* Find the page of interest. */
+ 	struct page *page = find_get_page(mapping, offset);
+@@ -109,7 +96,7 @@ Note that the kunmap_atomic() call takes the result of the kmap_atomic() call
+ not the argument.
+ 
+ If you need to map two pages because you want to copy from one page to
+-another you need to keep the kmap_atomic calls strictly nested, like:
++another you need to keep the kmap_atomic calls strictly nested, like::
+ 
+ 	vaddr1 = kmap_atomic(page1);
+ 	vaddr2 = kmap_atomic(page2);
+@@ -120,8 +107,7 @@ another you need to keep the kmap_atomic calls strictly nested, like:
+ 	kunmap_atomic(vaddr1);
+ 
+ 
+-==========================
+-COST OF TEMPORARY MAPPINGS
++Cost of Temporary Mappings
+ ==========================
+ 
+ The cost of creating temporary mappings can be quite high.  The arch has to
+@@ -136,25 +122,24 @@ If CONFIG_MMU is not set, then there can be no temporary mappings and no
+ highmem.  In such a case, the arithmetic approach will also be used.
+ 
+ 
+-========
+ i386 PAE
+ ========
+ 
+ The i386 arch, under some circumstances, will permit you to stick up to 64GiB
+ of RAM into your 32-bit machine.  This has a number of consequences:
+ 
+- (*) Linux needs a page-frame structure for each page in the system and the
+-     pageframes need to live in the permanent mapping, which means:
++* Linux needs a page-frame structure for each page in the system and the
++  pageframes need to live in the permanent mapping, which means:
+ 
+- (*) you can have 896M/sizeof(struct page) page-frames at most; with struct
+-     page being 32-bytes that would end up being something in the order of 112G
+-     worth of pages; the kernel, however, needs to store more than just
+-     page-frames in that memory...
++* you can have 896M/sizeof(struct page) page-frames at most; with struct
++  page being 32-bytes that would end up being something in the order of 112G
++  worth of pages; the kernel, however, needs to store more than just
++  page-frames in that memory...
+ 
+- (*) PAE makes your page tables larger - which slows the system down as more
+-     data has to be accessed to traverse in TLB fills and the like.  One
+-     advantage is that PAE has more PTE bits and can provide advanced features
+-     like NX and PAT.
++* PAE makes your page tables larger - which slows the system down as more
++  data has to be accessed to traverse in TLB fills and the like.  One
++  advantage is that PAE has more PTE bits and can provide advanced features
++  like NX and PAT.
+ 
+ The general recommendation is that you don't use more than 8GiB on a 32-bit
+ machine - although more might work for you and your workload, you're pretty
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
