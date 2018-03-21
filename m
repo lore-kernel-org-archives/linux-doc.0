@@ -1,186 +1,429 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C3C417DE79
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 03:47:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BEDF7E280
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 04:41:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751687AbeCUDrw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Mar 2018 23:47:52 -0400
-Received: from mail-ua0-f173.google.com ([209.85.217.173]:39851 "EHLO
-        mail-ua0-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751820AbeCUDru (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Mar 2018 23:47:50 -0400
-Received: by mail-ua0-f173.google.com with SMTP id m47so2489963uae.6
-        for <linux-doc@vger.kernel.org>; Tue, 20 Mar 2018 20:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=p9C1jcGInAaCeKl2up2jqHf5peEQ7QUHNvZa+hrQviQ=;
-        b=ZjN0WJRTo64J+l3WwSxj+7D1zF4DEt2PFEZx9eTkajESapwdUr7Nzl4rs+mFdFgJtq
-         djLV5pXHnSA4UY4FeFQ3oJoWYMt6jOR5YgAwfXsekscrvMVidQ5wb24zH0urcNIimG8H
-         /X5Q/GPxU52u9fED1WLrKk0e/AaTW6rSTAX9DV+nbMr1T4tnCnCV1IK253x9Rignxccy
-         L9zEVUO+JJTA4JL+jQFT8tqaKw0nfrUDiprZjHEQvdjF7QW5m66vyWzHcyg2mM8KHJk8
-         7g0febeRU8At9VP/GuzT/UDHewltP8ZYEqT4r908MzfWkhM+mDVeamyv5pbqeKxp6ATm
-         dqYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=p9C1jcGInAaCeKl2up2jqHf5peEQ7QUHNvZa+hrQviQ=;
-        b=jaHjXeiiFuNAqmGvY0NdBxl5ogMacftQyMvj6rLdDDcd2B2CO+wWx2YJ4RNeeVKv5Y
-         llc26aI1oxQ5yAgcYLDTeWqN8qbuX8L90QEBx0OxpKSvR0wocz/EBQaceYMjhHYb6TqX
-         acmv9lU6+aPpHPrtOh98e1EFr1URCMwkAEKcQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=p9C1jcGInAaCeKl2up2jqHf5peEQ7QUHNvZa+hrQviQ=;
-        b=cCPDkkLn/WBKFTVev3TIKZKfRmhLVHXu4JdN/PbQbtlGbZRgeDAiU50mC2VrxspW5X
-         oJ+/jWI/moOEw8Hp++6jNaCMedOCFvVblHlSniVAKUbjaYULm5mZkEKx8U4WPyIQnp9t
-         l/yc4deWEZ17BGnn3b7CT+GIOi86cMxWMzj2YLNBvdkDQxWe7bf4Mq4TYhciX8zn9iXc
-         8PwR8RWu7XBLgra2fXXDsThN8smurLmwFYGHC3kV1k3SWBarU9RnDFg7pcSInmVBs/fl
-         RyFSLBoeGo+NSRDmAGS5uBkN6xFhneKvb2+QJgaqECpCy/zTgWwytQwLd5ydaL4g9dGL
-         rFFA==
-X-Gm-Message-State: AElRT7GGZ3yb9xRNs5Gq55ko6NrWHVV7BUAF2gV9wsdJQmlukni4idLK
-        xXRkpGjQfALnVw1ViZqJhiMkj3jvPH2A28otpIuCyQ==
-X-Google-Smtp-Source: AG47ELtGxb0x0XkH8TMb9qRHDC8BhBMFvpJs689ZuTxB2RRRrT0xUenCjhf9prUDiEbRTZkk9hjq//3DAmMo9HdiKsc=
-X-Received: by 10.176.86.74 with SMTP id z10mr12767100uaa.154.1521604069141;
- Tue, 20 Mar 2018 20:47:49 -0700 (PDT)
+        id S1751811AbeCUElm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Mar 2018 00:41:42 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:6992 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751963AbeCUElj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 00:41:39 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com
+        id <B5ab1e28b0000>; Tue, 20 Mar 2018 21:41:48 -0700
+Received: from HQMAIL106.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 20 Mar 2018 21:41:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 20 Mar 2018 21:41:38 -0700
+Received: from BGMAIL104.nvidia.com (10.25.59.13) by HQMAIL106.nvidia.com
+ (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
+ 2018 04:41:37 +0000
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by bgmail104.nvidia.com
+ (10.25.59.13) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 21 Mar
+ 2018 04:41:33 +0000
+Received: from rrajk-ubuntu.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1347.2 via Frontend
+ Transport; Wed, 21 Mar 2018 04:41:23 +0000
+From:   Rajkumar Rampelli <rrajk@nvidia.com>
+To:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <jdelvare@suse.com>, <linux@roeck-us.net>, <corbet@lwn.net>,
+        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <kstewart@linuxfoundation.org>, <gregkh@linuxfoundation.org>,
+        <pombredanne@nexb.com>, <mmaddireddy@nvidia.com>,
+        <mperttunen@nvidia.com>, <arnd@arndb.de>, <timur@codeaurora.org>,
+        <andy.gross@linaro.org>, <xuwei5@hisilicon.com>,
+        <elder@linaro.org>, <heiko@sntech.de>, <krzk@kernel.org>,
+        <ard.biesheuvel@linaro.org>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <ldewangan@nvidia.com>,
+        <rrajk@nvidia.com>
+Subject: [PATCH V2 5/9] pwm: tegra: Add PWM based Tachometer driver
+Date:   Wed, 21 Mar 2018 10:10:40 +0530
+Message-ID: <1521607244-29734-6-git-send-email-rrajk@nvidia.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
+References: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
 MIME-Version: 1.0
-Received: by 10.31.180.195 with HTTP; Tue, 20 Mar 2018 20:47:48 -0700 (PDT)
-In-Reply-To: <c9e6f964-4e84-a5ed-77c4-e0a6655ee146@codeaurora.org>
-References: <1521071931-9294-1-git-send-email-kramasub@codeaurora.org>
- <1521071931-9294-7-git-send-email-kramasub@codeaurora.org>
- <CAD=FV=Wk5apkO9ro+PkLGDS7poJgvTkDA4uSKnMXmK=GMzuMcQ@mail.gmail.com>
- <65fa4ff5-7f37-b6fd-e493-bec18511d334@codeaurora.org> <CAD=FV=Vq4Q2LvY_O-YsdyUmQOUANa0ap+U9j7PXSD3_ao6sCdQ@mail.gmail.com>
- <c9e6f964-4e84-a5ed-77c4-e0a6655ee146@codeaurora.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 20 Mar 2018 20:47:48 -0700
-X-Google-Sender-Auth: OhoOAuYLL6Lhbh_okSnNaUsbEEI
-Message-ID: <CAD=FV=WLiX8kiOxtAbnEfj9cLGtpbTad6AfWY=t0Ro843UFL9g@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] arm64: dts: sdm845: Add I2C controller support
-To:     Sagar Dharia <sdharia@codeaurora.org>
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
-        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+PWM Tachometer driver capture the PWM signal which is output of FAN
+in general and provide the period of PWM signal which is converted to
+RPM by SW.
 
-On Tue, Mar 20, 2018 at 3:16 PM, Sagar Dharia <sdharia@codeaurora.org> wrote:
->>>>> +                       pinconf {
->>>>> +                               pins = "gpio55", "gpio56";
->>>>> +                               drive-strength = <2>;
->>>>> +                               bias-disable;
->>>>> +                       };
->>>>> +               };
->>>>> +
->>>>> +               qup-i2c10-sleep {
->>>>> +                       pinconf {
->>>>> +                               pins = "gpio55", "gpio56";
->>>>> +                               bias-pull-up;
->>>>
->>>> Are you sure that you want pullups enabled for sleep here?  There are
->>>> external pulls on this line (as there are on many i2c busses) so doing
->>>> this will double-enable pulls.  It probably won't hurt, but I'm
->>>> curious if there's some sort of reason here.
->>>>
->>> 1. We need the lines to remain high to avoid slaves sensing a false
->>> start-condition (this can happen if the SDA goes down before SCL).
->>> 2. Disclaimer: I'm not a HW expert, but we were told that
->>> tri-state/bias-disabled lines can draw more current. I will find out
->>> more about that.
->>
->> Agreed that they need to remain high, but you've got very strong
->> pullups external to the SoC.  Those will keep it high.  You don't need
->> the internal ones too.
->>
->> As extra evidence that the external pullups _must_ be present on your
->> board: you specify bias-disable in the active state.  That can only
->> work if there are external pullups (or if there were some special
->> extra secret internal pullups that were part of geni).  i2c is an
->> open-drain bus and thus there must be pullups on the bus in order to
->> communicate.
->>
->
-> You are right, I followed up about the pull-up recommendation and that
-> was for a GPIO where there was no external pull-up (GPIO was not used
-> for I2C). It's safe to assume I2C will always have external pullup.
+Add Tegra Tachometer driver which implements the pwm-capture to
+measure period.
 
-It is even more safe to say that I2C will always have an external
-pullup on the SDM845-MTP.  Remember that the pullup config is in the
-board device tree file, not the SoC one.  So even if someone out there
-decides that the internal pull is somehow good enough for their own
-board and they don't stuff external ones, then it will be up to them
-to turn the pull up on in their own board file.
+Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
+Signed-off-by: Laxman Dewangan <ldewangan@nvidia.com>
+---
 
+V2: Renamed compatible string to "nvidia-tegra186-pwm-tachometer"
+    Renamed arguments of reset and clk apis to "tachometer" from "tach"
+ 
+ drivers/pwm/Kconfig                |  10 ++
+ drivers/pwm/Makefile               |   1 +
+ drivers/pwm/pwm-tegra-tachometer.c | 303 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 314 insertions(+)
+ create mode 100644 drivers/pwm/pwm-tegra-tachometer.c
 
-> We
-> will change sleep-config of I2C GPIOs to no-pull.
+diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+index 763ee50..29aeeeb 100644
+--- a/drivers/pwm/Kconfig
++++ b/drivers/pwm/Kconfig
+@@ -454,6 +454,16 @@ config PWM_TEGRA
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called pwm-tegra.
+ 
++config PWM_TEGRA_TACHOMETER
++	tristate "NVIDIA Tegra Tachometer PWM driver"
++	depends on ARCH_TEGRA
++	help
++	  NVIDIA Tegra Tachometer reads the PWM signal and reports the PWM
++	  signal periods. This helps in measuring the fan speed where Fan
++	  output for speed is PWM signal.
++
++	  This driver support the Tachometer driver in PWM framework.
++
+ config  PWM_TIECAP
+ 	tristate "ECAP PWM support"
+ 	depends on ARCH_OMAP2PLUS || ARCH_DAVINCI_DA8XX || ARCH_KEYSTONE
+diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+index 0258a74..14c183e 100644
+--- a/drivers/pwm/Makefile
++++ b/drivers/pwm/Makefile
+@@ -45,6 +45,7 @@ obj-$(CONFIG_PWM_STM32_LP)	+= pwm-stm32-lp.o
+ obj-$(CONFIG_PWM_STMPE)		+= pwm-stmpe.o
+ obj-$(CONFIG_PWM_SUN4I)		+= pwm-sun4i.o
+ obj-$(CONFIG_PWM_TEGRA)		+= pwm-tegra.o
++obj-$(CONFIG_PWM_TEGRA_TACHOMETER)	+= pwm-tegra-tachometer.o
+ obj-$(CONFIG_PWM_TIECAP)	+= pwm-tiecap.o
+ obj-$(CONFIG_PWM_TIEHRPWM)	+= pwm-tiehrpwm.o
+ obj-$(CONFIG_PWM_TIPWMSS)	+= pwm-tipwmss.o
+diff --git a/drivers/pwm/pwm-tegra-tachometer.c b/drivers/pwm/pwm-tegra-tachometer.c
+new file mode 100644
+index 0000000..bcc44ce
+--- /dev/null
++++ b/drivers/pwm/pwm-tegra-tachometer.c
+@@ -0,0 +1,303 @@
++/*
++ * Tegra Tachometer Pulse-Width-Modulation driver
++ *
++ * Copyright (c) 2017-2018, NVIDIA CORPORATION.  All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ */
++
++#include <linux/clk.h>
++#include <linux/err.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/platform_device.h>
++#include <linux/pwm.h>
++#include <linux/reset.h>
++#include <linux/slab.h>
++
++/* Since oscillator clock (38.4MHz) serves as a clock source for
++ * the tach input controller, 1.0105263MHz (i.e. 38.4/38) has to be
++ * used as a clock value in the RPM calculations
++ */
++#define TACH_COUNTER_CLK			1010526
++
++#define TACH_FAN_TACH0				0x0
++#define TACH_FAN_TACH0_PERIOD_MASK		0x7FFFF
++#define TACH_FAN_TACH0_PERIOD_MAX		0x7FFFF
++#define TACH_FAN_TACH0_PERIOD_MIN		0x0
++#define TACH_FAN_TACH0_WIN_LENGTH_SHIFT		25
++#define TACH_FAN_TACH0_WIN_LENGTH_MASK		0x3
++#define TACH_FAN_TACH0_OVERFLOW_MASK		BIT(24)
++
++#define TACH_FAN_TACH1				0x4
++#define TACH_FAN_TACH1_HI_MASK			0x7FFFF
++/*
++ * struct pwm_tegra_tach - Tegra tachometer object
++ * @dev: device providing the Tachometer
++ * @pulse_per_rev: Pulses per revolution of a Fan
++ * @capture_window_len: Defines the window of the FAN TACH monitor
++ * @regs: physical base addresses of the controller
++ * @clk: phandle list of tachometer clocks
++ * @rst: phandle to reset the controller
++ * @chip: PWM chip providing this PWM device
++ */
++struct pwm_tegra_tach {
++	struct device		*dev;
++	void __iomem		*regs;
++	struct clk		*clk;
++	struct reset_control	*rst;
++	u32			pulse_per_rev;
++	u32			capture_window_len;
++	struct pwm_chip		chip;
++};
++
++static struct pwm_tegra_tach *to_tegra_pwm_chip(struct pwm_chip *chip)
++{
++	return container_of(chip, struct pwm_tegra_tach, chip);
++}
++
++static u32 tachometer_readl(struct pwm_tegra_tach *ptt, unsigned long reg)
++{
++	return readl(ptt->regs + reg);
++}
++
++static inline void tachometer_writel(struct pwm_tegra_tach *ptt, u32 val,
++				     unsigned long reg)
++{
++	writel(val, ptt->regs + reg);
++}
++
++static int pwm_tegra_tach_set_wlen(struct pwm_tegra_tach *ptt,
++				   u32 window_length)
++{
++	u32 tach0, wlen;
++
++	/*
++	 * As per FAN Spec, the window length value should be greater than or
++	 * equal to Pulses Per Revolution value to measure the time period
++	 * values accurately.
++	 */
++	if (ptt->pulse_per_rev > ptt->capture_window_len) {
++		dev_err(ptt->dev,
++			"Window length value < pulses per revolution value\n");
++		return -EINVAL;
++	}
++
++	if (hweight8(window_length) != 1) {
++		dev_err(ptt->dev,
++			"Valid value of window length is {1, 2, 4 or 8}\n");
++		return -EINVAL;
++	}
++
++	wlen = ffs(window_length) - 1;
++	tach0 = tachometer_readl(ptt, TACH_FAN_TACH0);
++	tach0 &= ~(TACH_FAN_TACH0_WIN_LENGTH_MASK <<
++			TACH_FAN_TACH0_WIN_LENGTH_SHIFT);
++	tach0 |= wlen << TACH_FAN_TACH0_WIN_LENGTH_SHIFT;
++	tachometer_writel(ptt, tach0, TACH_FAN_TACH0);
++
++	return 0;
++}
++
++static int pwm_tegra_tach_capture(struct pwm_chip *chip,
++				  struct pwm_device *pwm,
++				  struct pwm_capture *result,
++				  unsigned long timeout)
++{
++	struct pwm_tegra_tach *ptt = to_tegra_pwm_chip(chip);
++	unsigned long period;
++	u32 tach;
++
++	tach = tachometer_readl(ptt, TACH_FAN_TACH1);
++	result->duty_cycle = tach & TACH_FAN_TACH1_HI_MASK;
++
++	tach = tachometer_readl(ptt, TACH_FAN_TACH0);
++	if (tach & TACH_FAN_TACH0_OVERFLOW_MASK) {
++		/* Fan is stalled, clear overflow state by writing 1 */
++		dev_dbg(ptt->dev, "Tachometer Overflow is detected\n");
++		tachometer_writel(ptt, tach, TACH_FAN_TACH0);
++	}
++
++	period = tach & TACH_FAN_TACH0_PERIOD_MASK;
++	if ((period == TACH_FAN_TACH0_PERIOD_MIN) ||
++	    (period == TACH_FAN_TACH0_PERIOD_MAX)) {
++		dev_dbg(ptt->dev, "Period set to min/max 0x%lx, Invalid RPM\n",
++			period);
++		result->period = 0;
++		result->duty_cycle = 0;
++		return 0;
++	}
++
++	period = period + 1;
++
++	period = DIV_ROUND_CLOSEST_ULL(period * ptt->pulse_per_rev * 1000000ULL,
++				       ptt->capture_window_len *
++				       TACH_COUNTER_CLK);
++
++	/*
++	 * period & duty cycle values are in units of micro seconds.
++	 * Hence, convert them into nano seconds and store.
++	 */
++	result->period = period * 1000;
++	result->duty_cycle = result->duty_cycle * 1000;
++
++	return 0;
++}
++
++static const struct pwm_ops pwm_tegra_tach_ops = {
++	.capture = pwm_tegra_tach_capture,
++	.owner = THIS_MODULE,
++};
++
++static int pwm_tegra_tach_read_platform_data(struct pwm_tegra_tach *ptt)
++{
++	struct device_node *np = ptt->dev->of_node;
++	u32 pval;
++	int err = 0;
++
++	err = of_property_read_u32(np, "nvidia,pulse-per-rev", &pval);
++	if (err < 0) {
++		dev_err(ptt->dev,
++			"\"nvidia,pulse-per-rev\" property is missing\n");
++		return err;
++	}
++	ptt->pulse_per_rev = pval;
++
++	err = of_property_read_u32(np, "nvidia,capture-window-len", &pval);
++	if (err < 0) {
++		dev_err(ptt->dev,
++			"\"nvidia,capture-window-len\" property is missing\n");
++		return err;
++	}
++	ptt->capture_window_len = pval;
++
++	return err;
++}
++
++static int pwm_tegra_tach_probe(struct platform_device *pdev)
++{
++	struct pwm_tegra_tach *ptt;
++	struct resource *res;
++	int err = 0;
++
++	ptt = devm_kzalloc(&pdev->dev, sizeof(*ptt), GFP_KERNEL);
++	if (!ptt)
++		return -ENOMEM;
++
++	ptt->dev = &pdev->dev;
++
++	err = pwm_tegra_tach_read_platform_data(ptt);
++	if (err < 0)
++		return err;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	ptt->regs = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(ptt->regs)) {
++		dev_err(&pdev->dev, "Failed to remap I/O memory\n");
++		return PTR_ERR(ptt->regs);
++	}
++
++	platform_set_drvdata(pdev, ptt);
++
++	ptt->clk = devm_clk_get(&pdev->dev, "tachometer");
++	if (IS_ERR(ptt->clk)) {
++		err = PTR_ERR(ptt->clk);
++		dev_err(&pdev->dev, "Failed to get Tachometer clk: %d\n", err);
++		return err;
++	}
++
++	ptt->rst = devm_reset_control_get(&pdev->dev, "tachometer");
++	if (IS_ERR(ptt->rst)) {
++		err = PTR_ERR(ptt->rst);
++		dev_err(&pdev->dev, "Failed to get reset handle: %d\n", err);
++		return err;
++	}
++
++	err = clk_prepare_enable(ptt->clk);
++	if (err < 0) {
++		dev_err(&pdev->dev, "Failed to prepare clock: %d\n", err);
++		return err;
++	}
++
++	err = clk_set_rate(ptt->clk, TACH_COUNTER_CLK);
++	if (err < 0) {
++		dev_err(&pdev->dev, "Failed to set clock rate %d: %d\n",
++			TACH_COUNTER_CLK, err);
++		goto clk_unprep;
++	}
++
++	reset_control_reset(ptt->rst);
++
++	ptt->chip.dev = &pdev->dev;
++	ptt->chip.ops = &pwm_tegra_tach_ops;
++	ptt->chip.base = -1;
++	ptt->chip.npwm = 1;
++
++	err = pwmchip_add(&ptt->chip);
++	if (err < 0) {
++		dev_err(&pdev->dev, "Failed to add tachometer PWM: %d\n", err);
++		goto reset_assert;
++	}
++
++	err = pwm_tegra_tach_set_wlen(ptt, ptt->capture_window_len);
++	if (err < 0) {
++		dev_err(ptt->dev, "Failed to set window length: %d\n", err);
++		goto pwm_remove;
++	}
++
++	return 0;
++
++pwm_remove:
++	pwmchip_remove(&ptt->chip);
++
++reset_assert:
++	reset_control_assert(ptt->rst);
++
++clk_unprep:
++	clk_disable_unprepare(ptt->clk);
++
++	return err;
++}
++
++static int pwm_tegra_tach_remove(struct platform_device *pdev)
++{
++	struct pwm_tegra_tach *ptt = platform_get_drvdata(pdev);
++
++	reset_control_assert(ptt->rst);
++
++	clk_disable_unprepare(ptt->clk);
++
++	return pwmchip_remove(&ptt->chip);
++}
++
++static const struct of_device_id pwm_tegra_tach_of_match[] = {
++	{ .compatible = "nvidia,tegra186-pwm-tachometer" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, pwm_tegra_tach_of_match);
++
++static struct platform_driver tegra_tach_driver = {
++	.driver = {
++		.name = "pwm-tegra-tachometer",
++		.of_match_table = pwm_tegra_tach_of_match,
++	},
++	.probe = pwm_tegra_tach_probe,
++	.remove = pwm_tegra_tach_remove,
++};
++
++module_platform_driver(tegra_tach_driver);
++
++MODULE_DESCRIPTION("PWM based NVIDIA Tegra Tachometer driver");
++MODULE_AUTHOR("Rajkumar Rampelli <rrajk@nvidia.com>");
++MODULE_AUTHOR("Laxman Dewangan <ldewangan@nvidia.com>");
++MODULE_LICENSE("GPL v2");
+-- 
+2.1.4
 
-Even better IMHO: don't specify the bias in the sleep config.  I don't
-believe it's possible for the sleep config to take effect without the
-default config since the default config applies at probe time.  ...so
-you'll always get the default config applied at probe time and you
-don't need to touch the bias at sleep time.
-
-
->>>>> +                       i2c10: i2c@a88000 {
->>>>
->>>> Seems like it might be nice to add all the i2c busses into the main
->>>> sdm845.dtsi file.  Sure, most won't be enabled, but it seems like it
->>>> would avoid churn later.
->>>>
->>>> ...if you're sure you want to add only one i2c controller, subject of
->>>> this patch should indicate that.
->>>>
->>>
->>> Yes, we typically have a "platform(sdm845 here)-qupv3.dtsi" defining
->>> most of the serial-bus instances (i2c, spi, and uart with
->>> status=disabled) that we include from the common header. The boards
->>> enable instances they need.
->>> Will that be okay?
->>
->> Unless you really feel the need to put these in a separate file I'd
->> just put them straight in sdm845.dtsi.  Yeah, it'll get big, but
->> that's OK by me.  I _think_ this matches what Bjorn was suggesting on
->> previous device tree patches, but CCing him just in case.  I'm
->> personally OK with whatever Bjorn and other folks with more Qualcomm
->> history would like.
->>
->> ...but yeah, I'm asking for them all to be listed with status="disabled".
->>
->
-> Sure, we will change the subject of this patch to indicate that we are
-> adding 1 controller as of now. Later we will add all I2C controllers to
-> dtsi as another patch since that will need pinctrl settings for GPIOs
-> used by those instances and the wrappers devices needed by them.
-
-Yeah, it's fine to just change the subject of this patch.  It would be
-nice to add all the other controllers in sooner rather than later, but
-it doesn't have to be today.
-
-
--Doug
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
