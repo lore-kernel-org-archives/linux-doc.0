@@ -5,84 +5,73 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6BFF17E688
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Mar 2018 09:55:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4F23F7D6B1
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Mar 2018 10:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753386AbeCVJyi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Mar 2018 05:54:38 -0400
-Received: from osg.samsung.com ([64.30.133.232]:43350 "EHLO osg.samsung.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752145AbeCVJyZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Mar 2018 05:54:25 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id F054E256D0;
-        Thu, 22 Mar 2018 02:54:24 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
-Received: from osg.samsung.com ([127.0.0.1])
-        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id fxwLQNvlRoVK; Thu, 22 Mar 2018 02:54:22 -0700 (PDT)
-Received: from smtp.s-opensource.com (unknown [179.183.96.62])
-        by osg.samsung.com (Postfix) with ESMTPSA id 702E4256A0;
-        Thu, 22 Mar 2018 02:54:22 -0700 (PDT)
-Received: from mchehab by smtp.s-opensource.com with local (Exim 4.90_1)
-        (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1eywvL-0006GE-Jw; Thu, 22 Mar 2018 06:54:19 -0300
-From:   Mauro Carvalho Chehab <mchehab@s-opensource.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        id S1753758AbeCVKo4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Mar 2018 06:44:56 -0400
+Received: from mail.linuxfoundation.org ([140.211.169.12]:56664 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752874AbeCVKoz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Mar 2018 06:44:55 -0400
+Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id C238B11B4;
+        Thu, 22 Mar 2018 10:44:54 +0000 (UTC)
+Date:   Thu, 22 Mar 2018 11:44:52 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         LKML <linux-kernel@vger.kernel.org>,
         Linux-doc <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Jonas Oberg <jonas@fsfe.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Philippe Ombredanne <pombredanne@nexb.com>,
         Kate Stewart <kstewart@linuxfoundation.org>
-Subject: [PATCH 0/2] COPYING: create a new file with points to the Kernel license files
-Date:   Thu, 22 Mar 2018 06:54:12 -0300
-Message-Id: <20180322095414.24019-1-mchehab@s-opensource.com>
-X-Mailer: git-send-email 2.14.3
+Subject: Re: [PATCH 1/2] COPYING: create a new file with points to the Kernel
+ license files
+Message-ID: <20180322104452.GA4570@kroah.com>
+References: <20180322095414.24019-1-mchehab@s-opensource.com>
+ <20180322095414.24019-2-mchehab@s-opensource.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180322095414.24019-2-mchehab@s-opensource.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The contents of COPYING file is now duplicated at two other
-files under LICENSE:
-	LICENSES/preferred/GPL-2.0
-	LICENSES/exceptions/Linux-syscall-note
+On Thu, Mar 22, 2018 at 06:54:13AM -0300, Mauro Carvalho Chehab wrote:
+> With the addition of SPDX patchset, the contents of COPYING file
+> is now duplicated at two other files under LICENSE:
+> 	LICENSES/preferred/GPL-2.0
+> 	LICENSES/exceptions/Linux-syscall-note
+> 
+> It is easy to check that the contents of the licence written on
+> those files are identical with COPYING using:
+> 
+> 	$ diff -upr COPYING LICENSES/preferred/GPL-2.0
+> 	$ diff -upr COPYING LICENSES/exceptions/Linux-syscall-note|less
+> 
+> Also, a new file was added, with describes how SPDX should work at
+> the Kernel source files:
+> 	Documentation/process/license-rules.rst
+> 
+> Instead fo having it copying the contents of two files, and not
+> even mentioning the third one, replace it by a file whose content
+> points to the other tree files, preserving the Kernel's license.
+> 
+> Adjust license-rules.rst accordingly.
+> 
+> Please notice that this file preserves the Kernel license as
+> is, without any changes.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
-Also, a new file was added, with describes how SPDX should work at
-the Kernel source files:
-	Documentation/process/license-rules.rst
-
-Instead fo having it copying the contents of two files, and not
-even mentioning the third one, replace it by a file whose content
-points to the other tree files, preserving the Kernel's license.
-
-Adjust license-rules.rst accordingly.
-
-No license changes.
-
-NOTE
-====
-
-
-In order to make the diff easier to read, I broke it into two patches.
-Feel free to merge both when merging if you want.
-
-Mauro Carvalho Chehab (2):
-  COPYING: create a new file with points to the Kernel license files
-  COPYING: use the new text with points to the license files
-
- COPYING                                 | 358 +-------------------------------
- Documentation/process/license-rules.rst |  20 +-
- 2 files changed, 21 insertions(+), 357 deletions(-)
-
--- 
-2.14.3
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
