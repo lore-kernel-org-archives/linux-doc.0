@@ -1,103 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 917977DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Mar 2018 20:04:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30A0D7D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Mar 2018 05:23:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753397AbeCUUEN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Mar 2018 16:04:13 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:53346 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753165AbeCUUEK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Mar 2018 16:04:10 -0400
-Received: by mail-wm0-f66.google.com with SMTP id e194so11897429wmd.3;
-        Wed, 21 Mar 2018 13:04:09 -0700 (PDT)
+        id S1752242AbeCVFXs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Mar 2018 01:23:48 -0400
+Received: from mail-pl0-f66.google.com ([209.85.160.66]:34761 "EHLO
+        mail-pl0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752042AbeCVFXr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Mar 2018 01:23:47 -0400
+Received: by mail-pl0-f66.google.com with SMTP id u11-v6so4645665plq.1;
+        Wed, 21 Mar 2018 22:23:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=up1jiCv+3ui3VmW5fFsxBdSKAU3vhSTNaI4YzACUGY8=;
-        b=Q5JH/+7/zQkSCF+E9PEWHrBRV0s+wdOtiRWQrFJHnW4Cs7xhpRjxoW0lJLj7PFMcPL
-         hIh96097GvPCH597BYLuvqxJJjxWWUDBKxCsDCBZ4VHwOpCsBoF9jh66omFZAmd9xiR8
-         lpWGMHtHJpabtm6xsVsh6XuvkT/4yUhvg1WL+vSyk9aQfWEh/ZfcJV3AQvMvOweQHNNt
-         JYs9LhciDFDtKVKKULuDR9HpHIXe7QxYV2Hh0L9DqXAtSdCLnjwiXYBbiwQbr7/PVldq
-         vJQZ2v1Dc5/e8MIvcLNiwgj/zYKljiJgA/CxJd/67WW8kkf7gIQvlGU03s+5PHjetoPS
-         cJ/g==
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=slte1YSMmLpG3tDvoGF8P74n1GTvzOYOZyhLRd5vJYk=;
+        b=QpljvzuETu56yBlSG7MSwvsYwzTFa7SJfpw36sEfl1XbuCzI0TB0sRtNXzhIWXpyF+
+         YVpziyYunQAqR8i9o2obsVJdeeIqC7H3JT/QHww8gzX3ZPXnsSbTa05dNtt33+wQ4GJ+
+         eRek+IvlvXseqsysN8CPH88IbUzNBzbtl6Bt0kRu2TEvVeg4T3SASB8NivmGqZ29SwNd
+         JXJd7AC9C7v6ABB9rjw1OFtRHSV+dYhcrn2gp15rSIrGD1g//MEkbDB+aHsPJwLVgK2+
+         X2BAtst+7fjTtR4GZEN0WhPTM5NkZ1VJtCWIT35lnIYU+2uyiSWlt92Aks9/u+QvcC9C
+         1xrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=up1jiCv+3ui3VmW5fFsxBdSKAU3vhSTNaI4YzACUGY8=;
-        b=HhqIqUhUB7czyUsuVIpaX3sEc9iaCAAW+LVQpYIb8EIRGyxg+c284cdFhDAyijikxR
-         cJJ0FDXrx/w7MBSTHon1Wi7azl7fZ7m+sV5yDUW16MRffTIfs6LtH9qbqU2BuSG35gpC
-         RSJhvd1hmtHjgE2Ac5Y4Mful/65RxfXUBM6BRRveTWAsTwoxIKqIRLcHrT8gQcX/avUt
-         fM7Z7J9dzP1Cd8GeCbgC1/Zv7YSp/yibTGp0ZB4L9sF5QSp2ejkNjlfRxNWlEXKsv3GQ
-         EtUbM6EJctLgalabI6B8VkzQpHyw9/we3W/nchy0l//v16p0bDg0f6JcSHZjnN+/OzV1
-         fjuw==
-X-Gm-Message-State: AElRT7H1quBupWjyXAa3L9vqy82J0D9TMeDu1PvalE1AjaQ3zuGnn9qu
-        z5HEvcn3qlNar5sGf+Wg+Fh/Hg==
-X-Google-Smtp-Source: AG47ELuWLk9GVLsWMU9GNuZUtj81G8EkPy71rbIh9OOOg2tyk9RtdbDvTptuiS6IMDDtPcTdCZ4Frg==
-X-Received: by 10.28.48.70 with SMTP id w67mr3598472wmw.47.1521662648735;
-        Wed, 21 Mar 2018 13:04:08 -0700 (PDT)
-Received: from Pali-Latitude.lan (pali.kolej.mff.cuni.cz. [78.128.193.202])
-        by smtp.gmail.com with ESMTPSA id y42sm6228206wry.97.2018.03.21.13.04.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Mar 2018 13:04:08 -0700 (PDT)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masaki Ota <masaki.ota@jp.alps.com>
-Cc:     linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=slte1YSMmLpG3tDvoGF8P74n1GTvzOYOZyhLRd5vJYk=;
+        b=F1NP4x0ADGhHWzedklqac2cc4O5p5egVll+pLoLJQnodnXdRluIIVUthzsqyW9NTz+
+         LOnr4CkwARPsK2yXQU0v3iHDMoMPgvzZJ0oUZPM4KQ+XC/em8Xx3zElT9KXaL74PGlrT
+         a+jH7HMEQasrA7n4J3oK2D5d4fkrYgi51El0urAbg/3ffw7e8K3GrqCg9PBZsxa9HFS6
+         cTcY2NWw9BG5GYfUPTJ29N5Og1kXvnkxiSRkCojQX6kjyTuX5lTELcKsaUJJZViZWpID
+         51/63R4xrGJC6MG+arRoOxPQsdFTfb7jM5sS4BHLv/2x24ZO/o6R50/4T9MwSuofqCTg
+         KujA==
+X-Gm-Message-State: AElRT7H9xb8NhB3rXVOLRsRe7KC+jWlgpdLI/HNj4mLv09uU3z00Zcuz
+        xhDdJ5SORKCbBRBgmh8R7hZ7IScB
+X-Google-Smtp-Source: AG47ELsUgIPYt/PDcvTDx/od040rVUnL7QVmYEXSsBXdP8jylwjppZpkXfPhYrGedcXKxb9ak1gW1Q==
+X-Received: by 2002:a17:902:7081:: with SMTP id z1-v6mr18249336plk.333.1521696226822;
+        Wed, 21 Mar 2018 22:23:46 -0700 (PDT)
+Received: from aurora.jms.id.au ([203.0.153.9])
+        by smtp.gmail.com with ESMTPSA id q9sm926168pgs.89.2018.03.21.22.23.43
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 21 Mar 2018 22:23:46 -0700 (PDT)
+Received: by aurora.jms.id.au (sSMTP sendmail emulation); Thu, 22 Mar 2018 15:53:39 +1030
+From:   Joel Stanley <joel@jms.id.au>
+To:     Jonathan Corbet <corbet@lwn.net>, "Tobin C . Harding" <me@tobin.cc>
+Cc:     Michael Ellerman <mpe@ellerman.id.au>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: alps - Update documentation for trackstick v3 format
-Date:   Wed, 21 Mar 2018 21:03:36 +0100
-Message-Id: <20180321200336.32035-1-pali.rohar@gmail.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] Documentation: Mention why %p prints ptrval
+Date:   Thu, 22 Mar 2018 15:53:36 +1030
+Message-Id: <20180322052336.1001-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.15.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bits for M, R and L buttons are already processed in alps. Other newly
-documented bits not yet.
+When debugging recent kernels, people will see '(ptrval)' but there
+isn't much information as to what that means. Briefly describe why it's
+there.
 
-Signed-off-by: Pali Rohár <pali.rohar@gmail.com>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
-This is based on information which Masaki Ota provided to us.
----
- Documentation/input/devices/alps.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ Documentation/core-api/printk-formats.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/input/devices/alps.rst b/Documentation/input/devices/alps.rst
-index 6779148e428c..b556d6bde5e1 100644
---- a/Documentation/input/devices/alps.rst
-+++ b/Documentation/input/devices/alps.rst
-@@ -192,10 +192,13 @@ The final v3 packet type is the trackstick packet::
-  byte 0:    1    1   x7   y7    1    1    1    1
-  byte 1:    0   x6   x5   x4   x3   x2   x1   x0
-  byte 2:    0   y6   y5   y4   y3   y2   y1   y0
-- byte 3:    0    1    0    0    1    0    0    0
-- byte 4:    0   z4   z3   z2   z1   z0    ?    ?
-+ byte 3:    0    1   TP   SW    1    M    R    L
-+ byte 4:    0   z6   z5   z4   z3   z2   z1   z0
-  byte 5:    0    0    1    1    1    1    1    1
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 934559b3c130..eb30efdd2e78 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -60,8 +60,8 @@ Plain Pointers
+ Pointers printed without a specifier extension (i.e unadorned %p) are
+ hashed to prevent leaking information about the kernel memory layout. This
+ has the added benefit of providing a unique identifier. On 64-bit machines
+-the first 32 bits are zeroed. If you *really* want the address see %px
+-below.
++the first 32 bits are zeroed. The kernel will print ``(ptrval)`` until it
++gathers enough entropy. If you *really* want the address see %px below.
  
-+TP means Tap SW status when tap processing is enabled or Press status when press
-+processing is enabled. SW means scroll up when 4 buttons are available.
-+
- ALPS Absolute Mode - Protocol Version 4
- ---------------------------------------
- 
+ Symbols/Function Pointers
+ -------------------------
 -- 
-2.11.0
+2.15.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
