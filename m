@@ -1,95 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 25A997D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Mar 2018 20:12:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67A187D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Mar 2018 21:50:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751811AbeCVUMU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Mar 2018 16:12:20 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:43359 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751765AbeCVUMT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Mar 2018 16:12:19 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id C3B6221A96;
-        Thu, 22 Mar 2018 16:12:18 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-  by compute5.internal (MEProxy); Thu, 22 Mar 2018 16:12:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :content-type:date:from:in-reply-to:message-id:mime-version
-        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=ic0uRG2nFv/Csp5y/MUAi1/8BhIzLOFQiSvbjYseUps=; b=hAr/a9hu
-        Z139KznE0bqf5DR5bkrZbOBv3ZP7XUYDSMf5fB0ieOw3cuPfol1PfMQC50ZVobKl
-        k+nq63HxV1AoDCH6/e2EEFiNmSeWmw59rwJO5jogTiMuFMyqnk27h3qqi4wB7PHY
-        sswZanX71mckIp6Al90RmojHI2gRvxoipBB1iPOvGBO69DRHYC+BkEzFg4JxWFe8
-        VfLT9RU3Ha7pcnGrsGROaZ02dChtrSBjlIiBAr/y2zZChTIGSgtycFEYqhsuDimC
-        1zPf6YG31G2+IGh8lM7nTbNZTF7QNnWM1N4CcLE/P1/KGceVvPUOdnR5Re41jHRn
-        n/CDYE2U7F4IQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm2; bh=ic0uRG2nFv/Csp5y/MUAi1/8BhIzL
-        OFQiSvbjYseUps=; b=JnOvZ742FqSzO+mdW4o9bKkM0DSAyrkpkY+7/uVYvmK4Y
-        MqtM2+rRn39Iw1BSGAHzlYAF1UQKp6Xi3XKR4ROcx3pnosJG2YRqXDOrGnIzUzBH
-        5nE3cor7rRRyod70/uMXvxFrnV5ISVhJndJxTW9CWb0zRsakikeS1W7/RlPC0kuJ
-        GpfOu1FEzuxMcEomaLSQ9K/0GkX+DJehVFLNwn7Uq/wc+k/MFJyvFi/HXOqOXM0h
-        42ekVtv66ACaESZtUmeXxlYDpujweY9UjyL8PEwfmeRIKs2tAluwnGqqQW8waTiQ
-        49vzg0yJ2xisEC9ZK3DaFkwnywQRkmCCBNqlTHeaQ==
-X-ME-Sender: <xms:Ig60WvRKsGjuALTFAFrDLpOcUKu5315IrTOtogjOffDw1LFn32v53A>
-Received: from localhost (202-159-180-96.dyn.iinet.net.au [202.159.180.96])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 11D0D24108;
-        Thu, 22 Mar 2018 16:12:17 -0400 (EDT)
-Date:   Fri, 23 Mar 2018 07:12:14 +1100
-From:   "Tobin C . Harding" <me@tobin.cc>
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Mention why %p prints ptrval
-Message-ID: <20180322201214.GE3305@eros>
-References: <20180322052336.1001-1-joel@jms.id.au>
+        id S1751625AbeCVVuw convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Mar 2018 17:50:52 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44288 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751464AbeCVVuv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Mar 2018 17:50:51 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 27E794040073;
+        Thu, 22 Mar 2018 21:50:51 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-122-15.rdu2.redhat.com [10.10.122.15])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9AA32215CDAA;
+        Thu, 22 Mar 2018 21:50:49 +0000 (UTC)
+Subject: Re: [PATCH v6 2/2] cpuset: Add cpuset.sched_load_balance to v2
+To:     Juri Lelli <juri.lelli@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        efault@gmx.de, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>
+References: <1521649309-26690-1-git-send-email-longman@redhat.com>
+ <1521649309-26690-3-git-send-email-longman@redhat.com>
+ <20180322084120.GE7231@localhost.localdomain>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <e754e128-0a93-800e-e71b-2c8dc316ba8a@redhat.com>
+Date:   Thu, 22 Mar 2018 17:50:48 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180322052336.1001-1-joel@jms.id.au>
-X-Mailer: Mutt 1.5.24 (2015-08-30)
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20180322084120.GE7231@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 22 Mar 2018 21:50:51 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Thu, 22 Mar 2018 21:50:51 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 22, 2018 at 03:53:36PM +1030, Joel Stanley wrote:
-> When debugging recent kernels, people will see '(ptrval)' but there
-> isn't much information as to what that means. Briefly describe why it's
-> there.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->  Documentation/core-api/printk-formats.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 934559b3c130..eb30efdd2e78 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -60,8 +60,8 @@ Plain Pointers
->  Pointers printed without a specifier extension (i.e unadorned %p) are
->  hashed to prevent leaking information about the kernel memory layout. This
->  has the added benefit of providing a unique identifier. On 64-bit machines
-> -the first 32 bits are zeroed. If you *really* want the address see %px
-> -below.
-> +the first 32 bits are zeroed. The kernel will print ``(ptrval)`` until it
-> +gathers enough entropy. If you *really* want the address see %px below.
+On 03/22/2018 04:41 AM, Juri Lelli wrote:
+> Hi Waiman,
+>
+> On 21/03/18 12:21, Waiman Long wrote:
+>> The sched_load_balance flag is needed to enable CPU isolation similar
+>> to what can be done with the "isolcpus" kernel boot parameter.
+>>
+>> The sched_load_balance flag implies an implicit !cpu_exclusive as
+>> it doesn't make sense to have an isolated CPU being load-balanced in
+>> another cpuset.
+>>
+>> For v2, this flag is hierarchical and is inherited by child cpusets. It
+>> is not allowed to have this flag turn off in a parent cpuset, but on
+>> in a child cpuset.
+>>
+>> This flag is set by the parent and is not delegatable.
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>  Documentation/cgroup-v2.txt | 22 ++++++++++++++++++
+>>  kernel/cgroup/cpuset.c      | 56 +++++++++++++++++++++++++++++++++++++++------
+>>  2 files changed, 71 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
+>> index ed8ec66..c970bd7 100644
+>> --- a/Documentation/cgroup-v2.txt
+>> +++ b/Documentation/cgroup-v2.txt
+>> @@ -1514,6 +1514,28 @@ Cpuset Interface Files
+>>  	it is a subset of "cpuset.mems".  Its value will be affected
+>>  	by memory nodes hotplug events.
+>>  
+>> +  cpuset.sched_load_balance
+>> +	A read-write single value file which exists on non-root cgroups.
+>> +	The default is "1" (on), and the other possible value is "0"
+>> +	(off).
+>> +
+>> +	When it is on, tasks within this cpuset will be load-balanced
+>> +	by the kernel scheduler.  Tasks will be moved from CPUs with
+>> +	high load to other CPUs within the same cpuset with less load
+>> +	periodically.
+>> +
+>> +	When it is off, there will be no load balancing among CPUs on
+>> +	this cgroup.  Tasks will stay in the CPUs they are running on
+>> +	and will not be moved to other CPUs.
+>> +
+>> +	This flag is hierarchical and is inherited by child cpusets. It
+>> +	can be turned off only when the CPUs in this cpuset aren't
+>> +	listed in the cpuset.cpus of other sibling cgroups, and all
+>> +	the child cpusets, if present, have this flag turned off.
+>> +
+>> +	Once it is off, it cannot be turned back on as long as the
+>> +	parent cgroup still has this flag in the off state.
+>> +
+> I'm afraid that this will not work for SCHED_DEADLINE (at least for how
+> it is implemented today). As you can see in Documentation [1] the only
+> way a user has to perform partitioned/clustered scheduling is to create
+> subset of exclusive cpusets and then assign deadline tasks to them. The
+> other thing to take into account here is that a root_domain is created
+> for each exclusive set and we use such root_domain to keep information
+> about admitted bandwidth and speed up load balancing decisions (there is
+> a max heap tracking deadlines of active tasks on each root_domain).
+> Now, AFAIR distinct root_domain(s) are created when parent group has
+> sched_load_balance disabled and cpus_exclusive set (in cgroup v1 that
+> is). So, what we normally do is create, say, cpus_exclusive groups for
+> the different clusters and then disable sched_load_balance at root level
+> (so that each cluster gets its own root_domain). Also,
+> sched_load_balance is enabled in children groups (as load balancing
+> inside clusters is what we actually needed :).
 
-Acked-by: Tobin C. Harding <me@tobin.cc>
+That looks like an undocumented side effect to me. I would rather see an
+explicit control file that enable root_domain and break it free from
+cpu_exclusive && !sched_load_balance, e.g. sched_root_domain(?).
 
-thanks,
-Tobin.
+> IIUC your proposal this will not be permitted with cgroup v2 because
+> sched_load_balance won't be present at root level and children groups
+> won't be able to set sched_load_balance back to 1 if that was set to 0
+> in some parent. Is that true?
+
+Yes, that is the current plan.
+
+> Look, the way things work today is most probably not perfect (just to
+> say one thing, we need to disable load balancing for all classes at root
+> level just because DEADLINE wants to set restricted affinities to his
+> tasks :/) and we could probably think on how to change how this all
+> work. So, let's first see if IIUC what you are proposing (and its
+> implications). :)
+>
+Cgroup v2 is supposed to allow us to have a fresh start to rethink what
+is a more sane way of partitioning resources without worrying about
+backward compatibility. So I think it is time to design a new way for
+deadline tasks to work with cpuset v2.
+
+Cheers,
+Longman
+
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
