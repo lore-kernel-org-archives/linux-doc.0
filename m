@@ -5,95 +5,91 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D97F7DE76
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Mar 2018 12:15:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 25A997D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Mar 2018 20:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752199AbeCVMN6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Mar 2018 08:13:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33388 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751742AbeCVMN5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Mar 2018 08:13:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=lZIutr6gtbbFpuS0zZDPfguJNG8bxszrBBoTu2KiFTo=; b=bjD562Re1S/GijpasT+EFyUSM
-        +7TkLjeWdYKGrXgkErZ1s4hxlfuMuD2OAYDlFnxUl5PSJaQrDxrYVmEDPzUZkZ/KrBa+GvLDK1wT1
-        BiSywCzp+cFpJmGZ7MZPyoVo171Cu5nePZXbdGX1RDCbpQ5K2ZIB/R4fxfNtMLNqEpC8FKo9TtZOM
-        gUrxwEtBJR4yNW16FV+bWZvN4WWYQVI4t+IkYAGOuf5H8U2Pt0nVCN9Go8VRHpfwJRY130XYuaKku
-        /5FSGa6s+lT+lM6h+YQBrdoSb4XDXv9P+SGMpKYYdgnSfGTzhFGebt0bO0GOSVhyiUI+5QC/pill1
-        Xmrwo1MTQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1eyz6S-0002S8-6X; Thu, 22 Mar 2018 12:13:56 +0000
-Date:   Thu, 22 Mar 2018 05:13:55 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab@s-opensource.com>
+        id S1751811AbeCVUMU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Mar 2018 16:12:20 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:43359 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1751765AbeCVUMT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Mar 2018 16:12:19 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id C3B6221A96;
+        Thu, 22 Mar 2018 16:12:18 -0400 (EDT)
+Received: from frontend2 ([10.202.2.161])
+  by compute5.internal (MEProxy); Thu, 22 Mar 2018 16:12:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
+        :content-type:date:from:in-reply-to:message-id:mime-version
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; bh=ic0uRG2nFv/Csp5y/MUAi1/8BhIzLOFQiSvbjYseUps=; b=hAr/a9hu
+        Z139KznE0bqf5DR5bkrZbOBv3ZP7XUYDSMf5fB0ieOw3cuPfol1PfMQC50ZVobKl
+        k+nq63HxV1AoDCH6/e2EEFiNmSeWmw59rwJO5jogTiMuFMyqnk27h3qqi4wB7PHY
+        sswZanX71mckIp6Al90RmojHI2gRvxoipBB1iPOvGBO69DRHYC+BkEzFg4JxWFe8
+        VfLT9RU3Ha7pcnGrsGROaZ02dChtrSBjlIiBAr/y2zZChTIGSgtycFEYqhsuDimC
+        1zPf6YG31G2+IGh8lM7nTbNZTF7QNnWM1N4CcLE/P1/KGceVvPUOdnR5Re41jHRn
+        n/CDYE2U7F4IQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm2; bh=ic0uRG2nFv/Csp5y/MUAi1/8BhIzL
+        OFQiSvbjYseUps=; b=JnOvZ742FqSzO+mdW4o9bKkM0DSAyrkpkY+7/uVYvmK4Y
+        MqtM2+rRn39Iw1BSGAHzlYAF1UQKp6Xi3XKR4ROcx3pnosJG2YRqXDOrGnIzUzBH
+        5nE3cor7rRRyod70/uMXvxFrnV5ISVhJndJxTW9CWb0zRsakikeS1W7/RlPC0kuJ
+        GpfOu1FEzuxMcEomaLSQ9K/0GkX+DJehVFLNwn7Uq/wc+k/MFJyvFi/HXOqOXM0h
+        42ekVtv66ACaESZtUmeXxlYDpujweY9UjyL8PEwfmeRIKs2tAluwnGqqQW8waTiQ
+        49vzg0yJ2xisEC9ZK3DaFkwnywQRkmCCBNqlTHeaQ==
+X-ME-Sender: <xms:Ig60WvRKsGjuALTFAFrDLpOcUKu5315IrTOtogjOffDw1LFn32v53A>
+Received: from localhost (202-159-180-96.dyn.iinet.net.au [202.159.180.96])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 11D0D24108;
+        Thu, 22 Mar 2018 16:12:17 -0400 (EDT)
+Date:   Fri, 23 Mar 2018 07:12:14 +1100
+From:   "Tobin C . Harding" <me@tobin.cc>
+To:     Joel Stanley <joel@jms.id.au>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-doc <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonas Oberg <jonas@fsfe.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] COPYING: create a new file with points to the Kernel
- license files
-Message-ID: <20180322121355.GA16195@bombadil.infradead.org>
-References: <20180322095414.24019-1-mchehab@s-opensource.com>
- <20180322095414.24019-2-mchehab@s-opensource.com>
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Mention why %p prints ptrval
+Message-ID: <20180322201214.GE3305@eros>
+References: <20180322052336.1001-1-joel@jms.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180322095414.24019-2-mchehab@s-opensource.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20180322052336.1001-1-joel@jms.id.au>
+X-Mailer: Mutt 1.5.24 (2015-08-30)
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 22, 2018 at 06:54:13AM -0300, Mauro Carvalho Chehab wrote:
-> +++ b/Documentation/process/license-rules.rst
-> @@ -4,15 +4,17 @@ Linux kernel licensing rules
->  ============================
->  
->  The Linux Kernel is provided under the terms of the GNU General Public
-> -License version 2 only (GPL-2.0), as published by the Free Software
-> -Foundation, and provided in the COPYING file.  This documentation file is
-> -not meant to replace the COPYING file, but provides a description of how
-> -each source file should be annotated to make the licensing it is governed
-> -under clear and unambiguous.
-> -
-> -The license in the COPYING file applies to the kernel source as a whole,
-> -though individual source files can have a different license which is
-> -required to be compatible with the GPL-2.0::
-> +version 2 only (GPL-2.0), as written at LICENSES/preferred/GPL-2.0,
+On Thu, Mar 22, 2018 at 03:53:36PM +1030, Joel Stanley wrote:
+> When debugging recent kernels, people will see '(ptrval)' but there
+> isn't much information as to what that means. Briefly describe why it's
+> there.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  Documentation/core-api/printk-formats.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index 934559b3c130..eb30efdd2e78 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -60,8 +60,8 @@ Plain Pointers
+>  Pointers printed without a specifier extension (i.e unadorned %p) are
+>  hashed to prevent leaking information about the kernel memory layout. This
+>  has the added benefit of providing a unique identifier. On 64-bit machines
+> -the first 32 bits are zeroed. If you *really* want the address see %px
+> -below.
+> +the first 32 bits are zeroed. The kernel will print ``(ptrval)`` until it
+> +gathers enough entropy. If you *really* want the address see %px below.
 
-^^^ you dropped the word 'License' here
+Acked-by: Tobin C. Harding <me@tobin.cc>
 
-Also, I think this should read "as provided in", not "as written at".
-
-> +with an explicit syscall exception described at
-
-s/at/in/
-
-> +LICENSES/exceptions/Linux-syscall-note, as described in the COPYING file.
-
-This phrasing is awkward with "desribed" used twice in the same sentence ...
-
-> +This documentation file is not meant to replace the Kernel's license,
-> +but provides a description of how each source file should be annotated
-> +to make the licensing it is governed under clear and unambiguous.
-
-I'd rather this said:
-
-This documentation file provides a description of how each source file
-should be annotated to make its license clear and unambiguous.
-
+thanks,
+Tobin.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
