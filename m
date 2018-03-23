@@ -2,32 +2,34 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F6727D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 09:44:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0EAAA7D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 09:51:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752139AbeCWJoo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 05:44:44 -0400
-Received: from osg.samsung.com ([64.30.133.232]:39450 "EHLO osg.samsung.com"
+        id S1752087AbeCWJv3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 05:51:29 -0400
+Received: from osg.samsung.com ([64.30.133.232]:44363 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752009AbeCWJon (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Mar 2018 05:44:43 -0400
+        id S1751839AbeCWJv2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Mar 2018 05:51:28 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 3EC272A12B;
-        Fri, 23 Mar 2018 02:44:43 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 347DB2A16E;
+        Fri, 23 Mar 2018 02:51:28 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id M5RRxbRu5tJv; Fri, 23 Mar 2018 02:44:42 -0700 (PDT)
-Received: from vento.lan (unknown [179.183.96.62])
-        by osg.samsung.com (Postfix) with ESMTPSA id 4647A2A11D;
-        Fri, 23 Mar 2018 02:44:39 -0700 (PDT)
-Date:   Fri, 23 Mar 2018 06:44:35 -0300
+        with ESMTP id PiQe50aaa3sQ; Fri, 23 Mar 2018 02:51:27 -0700 (PDT)
+Received: from smtp.s-opensource.com (unknown [179.183.96.62])
+        by osg.samsung.com (Postfix) with ESMTPSA id 1F35B2A15E;
+        Fri, 23 Mar 2018 02:51:27 -0700 (PDT)
+Received: from mchehab by smtp.s-opensource.com with local (Exim 4.90_1)
+        (envelope-from <mchehab@smtp.s-opensource.com>)
+        id 1ezJM5-000639-3Y; Fri, 23 Mar 2018 06:51:25 -0300
 From:   Mauro Carvalho Chehab <mchehab@s-opensource.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         LKML <linux-kernel@vger.kernel.org>,
         Linux-doc <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
@@ -36,99 +38,52 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Jonas Oberg <jonas@fsfe.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] COPYING: create a new file with points to the
- Kernel license files
-Message-ID: <20180323064435.39df8bdc@vento.lan>
-In-Reply-To: <20180322121355.GA16195@bombadil.infradead.org>
-References: <20180322095414.24019-1-mchehab@s-opensource.com>
-        <20180322095414.24019-2-mchehab@s-opensource.com>
-        <20180322121355.GA16195@bombadil.infradead.org>
-Organization: Samsung
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH v2 0/2] COPYING: create a new file with points to the Kernel license files
+Date:   Fri, 23 Mar 2018 06:51:04 -0300
+Message-Id: <20180323095106.23108-1-mchehab@s-opensource.com>
+X-Mailer: git-send-email 2.14.3
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 22 Mar 2018 05:13:55 -0700
-Matthew Wilcox <willy@infradead.org> escreveu:
+The contents of COPYING file is now duplicated at two other
+files under LICENSE:
+	LICENSES/preferred/GPL-2.0
+	LICENSES/exceptions/Linux-syscall-note
 
-> On Thu, Mar 22, 2018 at 06:54:13AM -0300, Mauro Carvalho Chehab wrote:
-> > +++ b/Documentation/process/license-rules.rst
-> > @@ -4,15 +4,17 @@ Linux kernel licensing rules
-> >  ============================
-> >  
-> >  The Linux Kernel is provided under the terms of the GNU General Public
-> > -License version 2 only (GPL-2.0), as published by the Free Software
-> > -Foundation, and provided in the COPYING file.  This documentation file is
-> > -not meant to replace the COPYING file, but provides a description of how
-> > -each source file should be annotated to make the licensing it is governed
-> > -under clear and unambiguous.
-> > -
-> > -The license in the COPYING file applies to the kernel source as a whole,
-> > -though individual source files can have a different license which is
-> > -required to be compatible with the GPL-2.0::
-> > +version 2 only (GPL-2.0), as written at LICENSES/preferred/GPL-2.0,  
-> 
-> ^^^ you dropped the word 'License' here
-> 
-> Also, I think this should read "as provided in", not "as written at".
-> 
-> > +with an explicit syscall exception described at  
-> 
-> s/at/in/
-> 
-> > +LICENSES/exceptions/Linux-syscall-note, as described in the COPYING file.  
-> 
-> This phrasing is awkward with "desribed" used twice in the same sentence ...
-> 
-> > +This documentation file is not meant to replace the Kernel's license,
-> > +but provides a description of how each source file should be annotated
-> > +to make the licensing it is governed under clear and unambiguous.  
-> 
-> I'd rather this said:
-> 
-> This documentation file provides a description of how each source file
-> should be annotated to make its license clear and unambiguous.
+Also, a new file was added, with describes how SPDX should work at
+the Kernel source files:
+	Documentation/process/license-rules.rst
 
-Thanks for your review!
+Instead fo having it copying the contents of two files, and not
+even mentioning the third one, replace it by a file whose content
+points to the other tree files, preserving the Kernel's license.
 
-I'll be submitting it again as a v2, with the following text at the
-license-rules.rst preamble:
+Adjust license-rules.rst accordingly.
+
+No license changes.
+
+NOTE
+====
+
+In order to make the diff easier to read, I broke it into two patches.
+Feel free to merge both when merging if you want.
 
 
-Linux kernel licensing rules
-============================
+Mauro Carvalho Chehab (2):
+  COPYING: create a new file with points to the Kernel license files
+  COPYING: use the new text with points to the license files
 
-The Linux Kernel is provided under the terms of the GNU General Public
-License version 2 only (GPL-2.0), as provided in LICENSES/preferred/GPL-2.0,
-with an explicit syscall exception described in
-LICENSES/exceptions/Linux-syscall-note, as described in the COPYING file.
+ COPYING                                 | 358 +-------------------------------
+ Documentation/process/license-rules.rst |  20 +-
+ 2 files changed, 21 insertions(+), 357 deletions(-)
 
-This documentation file provides a description of how each source file
-should be annotated to make its license clear and unambiguous.
-It doesn't replace the Kernel's license.
+-- 
+2.14.3
 
-The license described in the COPYING file applies to the kernel source
-as a whole, though individual source files can have a different license
-which is required to be compatible with the GPL-2.0::
-
-
-
-Regards,
-Mauro
-
-
-> 
-
-
-
-Thanks,
-Mauro
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
