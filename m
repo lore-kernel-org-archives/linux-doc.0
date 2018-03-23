@@ -5,77 +5,66 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EC177D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 03:23:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE9F67D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 07:33:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751907AbeCWDXX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Mar 2018 23:23:23 -0400
-Received: from mail-it0-f68.google.com ([209.85.214.68]:52010 "EHLO
-        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751888AbeCWDXW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Mar 2018 23:23:22 -0400
-Received: by mail-it0-f68.google.com with SMTP id j137-v6so905214ita.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Mar 2018 20:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FeJmfdD/0RecqOwVOLsao61ZJInl07JtRh32f9b2foE=;
-        b=k3eqHJq7ACYqZiejtFL4ggcNJVOzHpPHaZSFCE+lD+/dk4iRPoRk4ng/vEzU5rtCu6
-         CTTps3j8/IacKUl58IHUG2l/Cw+A7IFk9afeurVKsWLdxhV6k6d7im1PhT6UTbL042hR
-         oBy8oxJyRnwPf8i+kZSY89CUqodO6YwCWMXPw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FeJmfdD/0RecqOwVOLsao61ZJInl07JtRh32f9b2foE=;
-        b=ZAbEcf1vjA6mRHGeW1jlF3H2vkAgXCXul5RfQyKPXGqzDqpoYDEPyLeg8glzMF1DIm
-         hDppmYpnWVHrUgsBthOHFaAzwWs94CPXprpvsAfi0cSImPMx2Rx71OJPa0nauyS+W8dU
-         HsKpX/sg6cFIeYtWBND3K6IwNzfFcv0HeWP19FsiYZQLkCcm/B5zDi6TZDePkr+QO5SK
-         VIaeX4jfn6+kYtwcbl3jLMZY/SWz79ysZqZE7MpdsHFrzYWlVjLCD/hpnUs+lqsr3/QR
-         iAn0IA4pQKiZGxb0c6ixC8XAu8BPrd2usp9ifST291b6L+5YNrweFTsCGbIEOaduYIIL
-         rLWw==
-X-Gm-Message-State: AElRT7GP0ogGmj7ZBsy5e9rB3BIr/RNtoUScWRHeiK5d0D+ELPwH7Ik6
-        ZTDeua630h1NKOuPN16J+u4+NxClowO105VKfHRUvA==
-X-Google-Smtp-Source: AG47ELtA7CdJ1x5rYULMujuOJLXrt/+nbXdwvIZ3c31qd2jc4xRtSZfBIE8iI0YjWATgXjrw7voW3eUZS2lWE5cafRA=
-X-Received: by 2002:a24:730e:: with SMTP id y14-v6mr11398381itb.70.1521775402057;
- Thu, 22 Mar 2018 20:23:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.79.207.141 with HTTP; Thu, 22 Mar 2018 20:23:21 -0700 (PDT)
-In-Reply-To: <20180308234024.24145-1-j.neuschaefer@gmx.net>
-References: <20180308234024.24145-1-j.neuschaefer@gmx.net>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 23 Mar 2018 04:23:21 +0100
-Message-ID: <CACRpkdaCn2OnOW7GsiqeUffw4ajBo+Tw31KUyRcuLWvxx271sA@mail.gmail.com>
-Subject: Re: [PATCH 0/8] Move most GPIO documentation to driver-api/gpio/ and ReST
-To:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1751388AbeCWHdA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 03:33:00 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:53992 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751294AbeCWHc7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Mar 2018 03:32:59 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id D7C9421138
+        for <linux-doc@vger.kernel.org>; Fri, 23 Mar 2018 08:32:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1521790377; bh=pq77RawC2ELg11FMgTTZJ7nU++VxGLEc/gsCcp73CfY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Yb18XmX7JbGEzX1LEqpsfAhKikTqQMsC6rzLNST7loSIMJaDY2W2zfVWe3q5ojosY
+         92ti6/8A4NbUALwoSnGnxSsK7jBrR6SnZzYyl4QE7kVr+3FVK0xdPKN5jjm/uYBFo1
+         v/aMG8GpGEKoFb3STGRzjsoHz2QUaEUZU38sWjZ8uxeh1cNms7KDFaOG96tem5S7jy
+         Kqxrs/aPtkwZyN5hJOhV9Cbfa5mAmGI3MpjI231S+/p+4uFsQiuLKi1jCwxKqJeVzn
+         xUPB6x3LlAQPyHBerhd2iVEq72cYejj/ZG0koW+lOFbeOkUuyDFV7iCmslv9GN0Rb2
+         1/dyeWHAM95vA==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 406wHY1dV2z9rxK;
+        Fri, 23 Mar 2018 08:32:56 +0100 (CET)
+From:   Martin Kepplinger <martink@posteo.de>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Martin Kepplinger <martink@posteo.de>
+Subject: [PATCH] Documentation: magic-numbers: Fix typo
+Date:   Fri, 23 Mar 2018 08:32:31 +0100
+Message-Id: <20180323073231.5826-1-martink@posteo.de>
+X-Mailer: git-send-email 2.14.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 9, 2018 at 12:40 AM, Jonathan Neusch=C3=A4fer
-<j.neuschaefer@gmx.net> wrote:
+This fixes a little then / them confusion.
 
-> Jonathan Neusch=C3=A4fer (8):
->   MAINTAINERS: GPIO: Add Documentation/driver-api/gpio/
->   Documentation: driver-api: Move gpio.rst to gpio/index.rst
->   Documentation: gpio: Move introduction to driver-api
->   Documentation: gpio: Move driver documentation to driver-api
->   Documentation: gpio: Move legacy documentation to driver-api
->   Documentation: gpio: Move gpiod_* consumer documentation to driver-api
->   Documentation: gpio: Move GPIO mapping documentation to driver-api
->   Documentation: gpio: Move drivers-on-gpio.txt to driver-api
+Signed-off-by: Martin Kepplinger <martink@posteo.de>
+---
+ Documentation/process/magic-number.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I applied all 8 patches to devel for v4.17.
+diff --git a/Documentation/process/magic-number.rst b/Documentation/process/magic-number.rst
+index c74199f60c6c..00cecf1fcba9 100644
+--- a/Documentation/process/magic-number.rst
++++ b/Documentation/process/magic-number.rst
+@@ -14,7 +14,7 @@ passing pointers to structures via a void * pointer.  The tty code,
+ for example, does this frequently to pass driver-specific and line
+ discipline-specific structures back and forth.
+ 
+-The way to use magic numbers is to declare then at the beginning of
++The way to use magic numbers is to declare them at the beginning of
+ the structure, like so::
+ 
+ 	struct tty_ldisc {
+-- 
+2.14.2
 
-Yours,
-Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
