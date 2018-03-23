@@ -2,23 +2,23 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 474FB7D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:02:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 371D97D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:02:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755417AbeCWLCL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 07:02:11 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:43933 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1755924AbeCWLAl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1755926AbeCWLAl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 23 Mar 2018 07:00:41 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:43818 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752477AbeCWLAg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Mar 2018 07:00:36 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id E704D20893; Fri, 23 Mar 2018 12:00:38 +0100 (CET)
+        id 0B11F208B1; Fri, 23 Mar 2018 12:00:33 +0100 (CET)
 Received: from localhost.localdomain (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 006B9208A6;
-        Fri, 23 Mar 2018 12:00:27 +0100 (CET)
+        by mail.bootlin.com (Postfix) with ESMTPSA id 157842064F;
+        Fri, 23 Mar 2018 12:00:22 +0100 (CET)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -45,79 +45,166 @@ Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         linux-gpio@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@free-electrons.com>
-Subject: [PATCH v3 09/11] dt-bindings: i3c: Document Cadence I3C master bindings
-Date:   Fri, 23 Mar 2018 12:00:18 +0100
-Message-Id: <20180323110020.19080-10-boris.brezillon@bootlin.com>
+        Boris Brezillon <boris.brezillon@bootlin.com>
+Subject: [PATCH v3 00/11] Add the I3C subsystem
+Date:   Fri, 23 Mar 2018 12:00:09 +0100
+Message-Id: <20180323110020.19080-1-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180323110020.19080-1-boris.brezillon@bootlin.com>
-References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Boris Brezillon <boris.brezillon@free-electrons.com>
+This patch series is a proposal for a new I3C [1] subsystem.
 
-Document Cadence I3C master DT bindings.
+This infrastructure is not complete yet and will be extended over
+time.
 
-Signed-off-by: Boris Brezillon <boris.brezillon@free-electrons.com>
----
- .../devicetree/bindings/i3c/cdns,i3c-master.txt    | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+There are a few design choices that are worth mentioning because they
+impact the way I3C device drivers can interact with their devices:
+
+- all functions used to send I3C/I2C frames must be called in
+  non-atomic context. Mainly done this way to ease implementation, but
+  this is still open to discussion. Please let me know if you think it's
+  worth considering an asynchronous model here
+- the bus element is a separate object and is not implicitly described
+  by the master (as done in I2C). The reason is that I want to be able
+  to handle multiple master connected to the same bus and visible to
+  Linux.
+  In this situation, we should only have one instance of the device and
+  not one per master, and sharing the bus object would be part of the
+  solution to gracefully handle this case.
+  I'm not sure if we will ever need to deal with multiple masters
+  controlling the same bus and exposed under Linux, but separating the
+  bus and master concept is pretty easy, hence the decision to do it
+  now, just in case we need it some day.
+  The other benefit of separating the bus and master concepts is that
+  master devices appear under the bus directory in sysfs.
+- I2C backward compatibility has been designed to be transparent to I2C
+  drivers and the I2C subsystem. The I3C master just registers an I2C
+  adapter which creates a new I2C bus. I'd say that, from a
+  representation PoV it's not ideal because what should appear as a
+  single I3C bus exposing I3C and I2C devices here appears as 2
+  different busses connected to each other through the parenting (the
+  I3C master is the parent of the I2C and I3C busses).
+  On the other hand, I don't see a better solution if we want something
+  that is not invasive.
+
+Missing features in this preliminary version:
+- support for HDR modes (has been removed because of lack of real users)
+- no support for multi-master and the associated concepts (mastership
+  handover, support for secondary masters, ...)
+- I2C devices can only be described using DT because this is the only
+  use case I have. However, the framework can easily be extended with
+  ACPI and board info support
+- I3C slave framework. This has been completely omitted, but shouldn't
+  have a huge impact on the I3C framework because I3C slaves don't see
+  the whole bus, it's only about handling master requests and generating
+  IBIs. Some of the struct, constant and enum definitions could be
+  shared, but most of the I3C slave framework logic will be different
+
+Main changes between v2 and v3 are:
+- Reworked the DT bindings as suggested by Rob
+- Reworked the bus initialization step as suggested by Vitor
+- Added a driver for an I3C GPIO expander
+
+Main changes between the initial RFC and this v2 are:
+- Add a generic infrastructure to support IBIs. It's worth mentioning
+  that I tried exposing IBIs as a regular IRQs, but after several
+  attempts and a discussion with Mark Zyngier, it appeared that it was
+  not really fitting in the Linux IRQ model (the fact that you have
+  payload attached to IBIs, the fact that most of the time an IBI will
+  generate a transfer on the bus which has to be done in an atomic
+  context, ...)
+  The counterpart of this decision is the latency induced by the
+  workqueue approach, but since I don't have real use cases, I don't
+  know if this can be a problem or not. 
+- Add helpers to support Hot Join
+- Add support for IBIs and Hot Join in Cadence I3C master driver
+- Address several issues in how I was using the device model
+
+I'll finish on a good news: this week the MIPI alliance opened the I3C
+spec. So everyone can now review the patches (no need to be member of
+the MIPI I3C group).
+I'll let you find the link in the doc, this way maybe I'll have reviews
+on the doc itself :-).
+
+Thanks,
+
+Boris
+
+Boris Brezillon (11):
+  i2c: Export of_i2c_get_board_info()
+  i3c: Add core I3C infrastructure
+  docs: driver-api: Add I3C documentation
+  i3c: Add sysfs ABI spec
+  dt-bindings: i3c: Document core bindings
+  dt-bindings: i3c: Add macros to help fill I3C/I2C device's reg
+    property
+  MAINTAINERS: Add myself as the I3C subsystem maintainer
+  i3c: master: Add driver for Cadence IP
+  dt-bindings: i3c: Document Cadence I3C master bindings
+  gpio: Add a driver for Cadence I3C GPIO expander
+  dt-bindings: gpio: Add bindings for Cadence I3C gpio expander
+
+ Documentation/ABI/testing/sysfs-bus-i3c            |   95 ++
+ .../devicetree/bindings/gpio/gpio-cdns-i3c.txt     |   38 +
+ .../devicetree/bindings/i3c/cdns,i3c-master.txt    |   45 +
+ Documentation/devicetree/bindings/i3c/i3c.txt      |  140 ++
+ Documentation/driver-api/i3c/conf.py               |   10 +
+ Documentation/driver-api/i3c/device-driver-api.rst |    7 +
+ Documentation/driver-api/i3c/index.rst             |    9 +
+ Documentation/driver-api/i3c/master-driver-api.rst |    8 +
+ Documentation/driver-api/i3c/protocol.rst          |  201 +++
+ Documentation/driver-api/index.rst                 |    1 +
+ MAINTAINERS                                        |    9 +
+ drivers/Kconfig                                    |    2 +
+ drivers/Makefile                                   |    2 +-
+ drivers/gpio/Kconfig                               |   11 +
+ drivers/gpio/Makefile                              |    1 +
+ drivers/gpio/gpio-cdns-i3c.c                       |  380 +++++
+ drivers/i2c/i2c-core-base.c                        |    2 +-
+ drivers/i2c/i2c-core-of.c                          |   66 +-
+ drivers/i3c/Kconfig                                |   24 +
+ drivers/i3c/Makefile                               |    4 +
+ drivers/i3c/core.c                                 |  620 +++++++
+ drivers/i3c/device.c                               |  294 ++++
+ drivers/i3c/internals.h                            |   28 +
+ drivers/i3c/master.c                               | 1723 ++++++++++++++++++++
+ drivers/i3c/master/Kconfig                         |    5 +
+ drivers/i3c/master/Makefile                        |    1 +
+ drivers/i3c/master/i3c-master-cdns.c               | 1648 +++++++++++++++++++
+ include/dt-bindings/i3c/i3c.h                      |   28 +
+ include/linux/i2c.h                                |   10 +
+ include/linux/i3c/ccc.h                            |  382 +++++
+ include/linux/i3c/device.h                         |  305 ++++
+ include/linux/i3c/master.h                         |  587 +++++++
+ include/linux/mod_devicetable.h                    |   17 +
+ 33 files changed, 6673 insertions(+), 30 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
  create mode 100644 Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+ create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
+ create mode 100644 Documentation/driver-api/i3c/conf.py
+ create mode 100644 Documentation/driver-api/i3c/device-driver-api.rst
+ create mode 100644 Documentation/driver-api/i3c/index.rst
+ create mode 100644 Documentation/driver-api/i3c/master-driver-api.rst
+ create mode 100644 Documentation/driver-api/i3c/protocol.rst
+ create mode 100644 drivers/gpio/gpio-cdns-i3c.c
+ create mode 100644 drivers/i3c/Kconfig
+ create mode 100644 drivers/i3c/Makefile
+ create mode 100644 drivers/i3c/core.c
+ create mode 100644 drivers/i3c/device.c
+ create mode 100644 drivers/i3c/internals.h
+ create mode 100644 drivers/i3c/master.c
+ create mode 100644 drivers/i3c/master/Kconfig
+ create mode 100644 drivers/i3c/master/Makefile
+ create mode 100644 drivers/i3c/master/i3c-master-cdns.c
+ create mode 100644 include/dt-bindings/i3c/i3c.h
+ create mode 100644 include/linux/i3c/ccc.h
+ create mode 100644 include/linux/i3c/device.h
+ create mode 100644 include/linux/i3c/master.h
 
-diff --git a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
-new file mode 100644
-index 000000000000..f9e4af4ff1c7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
-@@ -0,0 +1,45 @@
-+Bindings for cadence I3C master block
-+=====================================
-+
-+Required properties:
-+--------------------
-+- compatible: shall be "cdns,i3c-master"
-+- clocks: shall reference the pclk and sysclk
-+- clock-names: shall contain "pclk" and "sysclk"
-+- interrupts: the interrupt line connected to this I3C master
-+- reg: I3C master registers
-+
-+Mandatory properties defined by the generic binding (see
-+Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+
-+- #address-cells: shall be set to 1
-+- #size-cells: shall be set to 0
-+
-+Optional properties defined by the generic binding (see
-+Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+
-+- i2c-scl-frequency
-+- i3c-scl-frequency
-+
-+I3C device connected on the bus follow the generic description (see
-+Documentation/devicetree/bindings/i3c/i3c.txt for more details).
-+
-+Example:
-+
-+	i3c-master@0d040000 {
-+		compatible = "cdns,i3c-master";
-+		clocks = <&coreclock>, <&i3csysclock>;
-+		clock-names = "pclk", "sysclk";
-+		interrupts = <3 0>;
-+		reg = <0x0d040000 0x1000>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-scl-frequency = <100000>;
-+
-+		nunchuk: nunchuk@52 {
-+			compatible = "nintendo,nunchuk";
-+			reg = <0x52>;
-+			i3c-lvr = <0x10>;
-+		};
-+	};
-+
 -- 
 2.14.1
 
