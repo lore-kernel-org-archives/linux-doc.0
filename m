@@ -1,70 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE9F67D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 07:33:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 635387D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 08:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751388AbeCWHdA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 03:33:00 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:53992 "EHLO mout01.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751294AbeCWHc7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Mar 2018 03:32:59 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id D7C9421138
-        for <linux-doc@vger.kernel.org>; Fri, 23 Mar 2018 08:32:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1521790377; bh=pq77RawC2ELg11FMgTTZJ7nU++VxGLEc/gsCcp73CfY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Yb18XmX7JbGEzX1LEqpsfAhKikTqQMsC6rzLNST7loSIMJaDY2W2zfVWe3q5ojosY
-         92ti6/8A4NbUALwoSnGnxSsK7jBrR6SnZzYyl4QE7kVr+3FVK0xdPKN5jjm/uYBFo1
-         v/aMG8GpGEKoFb3STGRzjsoHz2QUaEUZU38sWjZ8uxeh1cNms7KDFaOG96tem5S7jy
-         Kqxrs/aPtkwZyN5hJOhV9Cbfa5mAmGI3MpjI231S+/p+4uFsQiuLKi1jCwxKqJeVzn
-         xUPB6x3LlAQPyHBerhd2iVEq72cYejj/ZG0koW+lOFbeOkUuyDFV7iCmslv9GN0Rb2
-         1/dyeWHAM95vA==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 406wHY1dV2z9rxK;
-        Fri, 23 Mar 2018 08:32:56 +0100 (CET)
-From:   Martin Kepplinger <martink@posteo.de>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH] Documentation: magic-numbers: Fix typo
-Date:   Fri, 23 Mar 2018 08:32:31 +0100
-Message-Id: <20180323073231.5826-1-martink@posteo.de>
-X-Mailer: git-send-email 2.14.2
+        id S1751551AbeCWH75 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 03:59:57 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:33449 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751479AbeCWH74 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Mar 2018 03:59:56 -0400
+Received: by mail-wm0-f65.google.com with SMTP id i189so5712539wmf.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Mar 2018 00:59:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=bGfL7EwK02WqdXgmAhwk3wlFS3jUXikDvChEg2+xPZo=;
+        b=dWyw/CmZPy1vMsTCHYrHfKlVfwt4TZ+zx4O5YWQhySxs8ScH92xAzWxCvkb0BxR1d7
+         t6YTk8vunCTcPJdquOMZuW9kd+oEifHmp03Nt8lfxh4jyMOY8mwTRah6gk/lduQtJjfb
+         Y0xHfPcnq7tMfjYbrej8eHDARZpwEc8//1pJ4Evj8VF0qVmS8iZD8YSamt3iUvlcjkmq
+         t25WOuPktzbeGjAaO55Ip7PCTNtUeOASCrMYkGPDaR2b0PzJNqG4FRJGesSQdU0nsq8N
+         +Cf/Q223Ol299fgTMRBnvaUDm4+/T3oHR+cpUV4TZHB757aY+H+rX6jgPUIHGKIP405h
+         RFlQ==
+X-Gm-Message-State: AElRT7EkfvFne9I/FvUeG/hSfKAbpMUje9LKlDSxSArl5+ugUXwNL0Ld
+        W3YPcnHmIjpldx/Qpxuac4YGxg==
+X-Google-Smtp-Source: AG47ELtfV1QRgiWdzJfoaELolBI0rfMIbq7eLYft0xy3rBmBAVT1NQzNJgKPmFj+n5FshGjlghfX2g==
+X-Received: by 10.28.170.205 with SMTP id t196mr8035765wme.42.1521791995213;
+        Fri, 23 Mar 2018 00:59:55 -0700 (PDT)
+Received: from localhost.localdomain ([151.15.243.46])
+        by smtp.gmail.com with ESMTPSA id a63sm10411199wrc.22.2018.03.23.00.59.53
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 23 Mar 2018 00:59:54 -0700 (PDT)
+Date:   Fri, 23 Mar 2018 08:59:52 +0100
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        efault@gmx.de, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH v6 2/2] cpuset: Add cpuset.sched_load_balance to v2
+Message-ID: <20180323075952.GA4763@localhost.localdomain>
+References: <1521649309-26690-1-git-send-email-longman@redhat.com>
+ <1521649309-26690-3-git-send-email-longman@redhat.com>
+ <20180322084120.GE7231@localhost.localdomain>
+ <e754e128-0a93-800e-e71b-2c8dc316ba8a@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e754e128-0a93-800e-e71b-2c8dc316ba8a@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This fixes a little then / them confusion.
+On 22/03/18 17:50, Waiman Long wrote:
+> On 03/22/2018 04:41 AM, Juri Lelli wrote:
+> > On 21/03/18 12:21, Waiman Long wrote:
 
-Signed-off-by: Martin Kepplinger <martink@posteo.de>
----
- Documentation/process/magic-number.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[...]
 
-diff --git a/Documentation/process/magic-number.rst b/Documentation/process/magic-number.rst
-index c74199f60c6c..00cecf1fcba9 100644
---- a/Documentation/process/magic-number.rst
-+++ b/Documentation/process/magic-number.rst
-@@ -14,7 +14,7 @@ passing pointers to structures via a void * pointer.  The tty code,
- for example, does this frequently to pass driver-specific and line
- discipline-specific structures back and forth.
- 
--The way to use magic numbers is to declare then at the beginning of
-+The way to use magic numbers is to declare them at the beginning of
- the structure, like so::
- 
- 	struct tty_ldisc {
--- 
-2.14.2
+> >> +  cpuset.sched_load_balance
+> >> +	A read-write single value file which exists on non-root cgroups.
+> >> +	The default is "1" (on), and the other possible value is "0"
+> >> +	(off).
+> >> +
+> >> +	When it is on, tasks within this cpuset will be load-balanced
+> >> +	by the kernel scheduler.  Tasks will be moved from CPUs with
+> >> +	high load to other CPUs within the same cpuset with less load
+> >> +	periodically.
+> >> +
+> >> +	When it is off, there will be no load balancing among CPUs on
+> >> +	this cgroup.  Tasks will stay in the CPUs they are running on
+> >> +	and will not be moved to other CPUs.
+> >> +
+> >> +	This flag is hierarchical and is inherited by child cpusets. It
+> >> +	can be turned off only when the CPUs in this cpuset aren't
+> >> +	listed in the cpuset.cpus of other sibling cgroups, and all
+> >> +	the child cpusets, if present, have this flag turned off.
+> >> +
+> >> +	Once it is off, it cannot be turned back on as long as the
+> >> +	parent cgroup still has this flag in the off state.
+> >> +
+> > I'm afraid that this will not work for SCHED_DEADLINE (at least for how
+> > it is implemented today). As you can see in Documentation [1] the only
+> > way a user has to perform partitioned/clustered scheduling is to create
+> > subset of exclusive cpusets and then assign deadline tasks to them. The
+> > other thing to take into account here is that a root_domain is created
+> > for each exclusive set and we use such root_domain to keep information
+> > about admitted bandwidth and speed up load balancing decisions (there is
+> > a max heap tracking deadlines of active tasks on each root_domain).
+> > Now, AFAIR distinct root_domain(s) are created when parent group has
+> > sched_load_balance disabled and cpus_exclusive set (in cgroup v1 that
+> > is). So, what we normally do is create, say, cpus_exclusive groups for
+> > the different clusters and then disable sched_load_balance at root level
+> > (so that each cluster gets its own root_domain). Also,
+> > sched_load_balance is enabled in children groups (as load balancing
+> > inside clusters is what we actually needed :).
+> 
+> That looks like an undocumented side effect to me. I would rather see an
+> explicit control file that enable root_domain and break it free from
+> cpu_exclusive && !sched_load_balance, e.g. sched_root_domain(?).
 
+Mmm, it actually makes some sort of sense to me that as long as parent
+groups can't load balance (because !sched_load_balance) and this group
+can't have CPUs overlapping with some other group (because
+cpu_exclusive) a data structure (root_domain) is created to handle load
+balancing for this isolated subsystem. I agree that it should be better
+documented, though.
+
+> > IIUC your proposal this will not be permitted with cgroup v2 because
+> > sched_load_balance won't be present at root level and children groups
+> > won't be able to set sched_load_balance back to 1 if that was set to 0
+> > in some parent. Is that true?
+> 
+> Yes, that is the current plan.
+
+OK, thanks for confirming. Can you tell again however why do you think
+we need to remove sched_load_balance from root level? Won't we end up
+having tasks put on isolated sets?
+
+Also, I guess children groups with more than one CPU will need to be
+able to load balance across their CPUs, no matter what their parent
+group does?
+
+Thanks,
+
+- Juri
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
