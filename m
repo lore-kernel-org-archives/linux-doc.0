@@ -5,21 +5,20 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E42857D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:04:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4C74B7D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:04:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755957AbeCWLEG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 07:04:06 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:44127 "EHLO mail.bootlin.com"
+        id S1755909AbeCWLDr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 07:03:47 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:43884 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752950AbeCWLED (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Mar 2018 07:04:03 -0400
+        id S1755878AbeCWLAi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Mar 2018 07:00:38 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id C04182064F; Fri, 23 Mar 2018 12:04:00 +0100 (CET)
-Received: from bbrezillon (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D1A0920884;
-        Fri, 23 Mar 2018 12:03:49 +0100 (CET)
-Date:   Fri, 23 Mar 2018 12:03:50 +0100
+        id A5D052082C; Fri, 23 Mar 2018 12:00:35 +0100 (CET)
+Received: from localhost.localdomain (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
+        by mail.bootlin.com (Postfix) with ESMTPSA id B9CB320858;
+        Fri, 23 Mar 2018 12:00:24 +0100 (CET)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -44,184 +43,137 @@ Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Vitor Soares <Vitor.Soares@synopsys.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 00/11] Add the I3C subsystem
-Message-ID: <20180323120350.4d823cbb@bbrezillon>
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@free-electrons.com>
+Subject: [PATCH v3 04/11] i3c: Add sysfs ABI spec
+Date:   Fri, 23 Mar 2018 12:00:13 +0100
+Message-Id: <20180323110020.19080-5-boris.brezillon@bootlin.com>
+X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180323110020.19080-1-boris.brezillon@bootlin.com>
 References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Mar 2018 12:00:09 +0100
-Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+From: Boris Brezillon <boris.brezillon@free-electrons.com>
 
-> This patch series is a proposal for a new I3C [1] subsystem.
-> 
-> This infrastructure is not complete yet and will be extended over
-> time.
-> 
-> There are a few design choices that are worth mentioning because they
-> impact the way I3C device drivers can interact with their devices:
-> 
-> - all functions used to send I3C/I2C frames must be called in
->   non-atomic context. Mainly done this way to ease implementation, but
->   this is still open to discussion. Please let me know if you think it's
->   worth considering an asynchronous model here
-> - the bus element is a separate object and is not implicitly described
->   by the master (as done in I2C). The reason is that I want to be able
->   to handle multiple master connected to the same bus and visible to
->   Linux.
->   In this situation, we should only have one instance of the device and
->   not one per master, and sharing the bus object would be part of the
->   solution to gracefully handle this case.
->   I'm not sure if we will ever need to deal with multiple masters
->   controlling the same bus and exposed under Linux, but separating the
->   bus and master concept is pretty easy, hence the decision to do it
->   now, just in case we need it some day.
->   The other benefit of separating the bus and master concepts is that
->   master devices appear under the bus directory in sysfs.
-> - I2C backward compatibility has been designed to be transparent to I2C
->   drivers and the I2C subsystem. The I3C master just registers an I2C
->   adapter which creates a new I2C bus. I'd say that, from a
->   representation PoV it's not ideal because what should appear as a
->   single I3C bus exposing I3C and I2C devices here appears as 2
->   different busses connected to each other through the parenting (the
->   I3C master is the parent of the I2C and I3C busses).
->   On the other hand, I don't see a better solution if we want something
->   that is not invasive.
-> 
-> Missing features in this preliminary version:
-> - support for HDR modes (has been removed because of lack of real users)
-> - no support for multi-master and the associated concepts (mastership
->   handover, support for secondary masters, ...)
-> - I2C devices can only be described using DT because this is the only
->   use case I have. However, the framework can easily be extended with
->   ACPI and board info support
-> - I3C slave framework. This has been completely omitted, but shouldn't
->   have a huge impact on the I3C framework because I3C slaves don't see
->   the whole bus, it's only about handling master requests and generating
->   IBIs. Some of the struct, constant and enum definitions could be
->   shared, but most of the I3C slave framework logic will be different
-> 
-> Main changes between v2 and v3 are:
-> - Reworked the DT bindings as suggested by Rob
-> - Reworked the bus initialization step as suggested by Vitor
-> - Added a driver for an I3C GPIO expander
-> 
-> Main changes between the initial RFC and this v2 are:
-> - Add a generic infrastructure to support IBIs. It's worth mentioning
->   that I tried exposing IBIs as a regular IRQs, but after several
->   attempts and a discussion with Mark Zyngier, it appeared that it was
->   not really fitting in the Linux IRQ model (the fact that you have
->   payload attached to IBIs, the fact that most of the time an IBI will
->   generate a transfer on the bus which has to be done in an atomic
->   context, ...)
->   The counterpart of this decision is the latency induced by the
->   workqueue approach, but since I don't have real use cases, I don't
->   know if this can be a problem or not. 
-> - Add helpers to support Hot Join
-> - Add support for IBIs and Hot Join in Cadence I3C master driver
-> - Address several issues in how I was using the device model
-> 
-> I'll finish on a good news: this week the MIPI alliance opened the I3C
-> spec. So everyone can now review the patches (no need to be member of
-> the MIPI I3C group).
+Document sysfs files/directories/symlinks exposed by the I3C subsystem.
 
-Okay, okay, the news is a bit out-dated, but this is still good
-news :-). I'll try to remove this part in the next iteration.
+Signed-off-by: Boris Brezillon <boris.brezillon@free-electrons.com>
+---
+Changes in v2:
+- new patch
+---
+ Documentation/ABI/testing/sysfs-bus-i3c | 95 +++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
 
-> I'll let you find the link in the doc, this way maybe I'll have reviews
-> on the doc itself :-).
-> 
-> Thanks,
-> 
-> Boris
-> 
-> Boris Brezillon (11):
->   i2c: Export of_i2c_get_board_info()
->   i3c: Add core I3C infrastructure
->   docs: driver-api: Add I3C documentation
->   i3c: Add sysfs ABI spec
->   dt-bindings: i3c: Document core bindings
->   dt-bindings: i3c: Add macros to help fill I3C/I2C device's reg
->     property
->   MAINTAINERS: Add myself as the I3C subsystem maintainer
->   i3c: master: Add driver for Cadence IP
->   dt-bindings: i3c: Document Cadence I3C master bindings
->   gpio: Add a driver for Cadence I3C GPIO expander
->   dt-bindings: gpio: Add bindings for Cadence I3C gpio expander
-> 
->  Documentation/ABI/testing/sysfs-bus-i3c            |   95 ++
->  .../devicetree/bindings/gpio/gpio-cdns-i3c.txt     |   38 +
->  .../devicetree/bindings/i3c/cdns,i3c-master.txt    |   45 +
->  Documentation/devicetree/bindings/i3c/i3c.txt      |  140 ++
->  Documentation/driver-api/i3c/conf.py               |   10 +
->  Documentation/driver-api/i3c/device-driver-api.rst |    7 +
->  Documentation/driver-api/i3c/index.rst             |    9 +
->  Documentation/driver-api/i3c/master-driver-api.rst |    8 +
->  Documentation/driver-api/i3c/protocol.rst          |  201 +++
->  Documentation/driver-api/index.rst                 |    1 +
->  MAINTAINERS                                        |    9 +
->  drivers/Kconfig                                    |    2 +
->  drivers/Makefile                                   |    2 +-
->  drivers/gpio/Kconfig                               |   11 +
->  drivers/gpio/Makefile                              |    1 +
->  drivers/gpio/gpio-cdns-i3c.c                       |  380 +++++
->  drivers/i2c/i2c-core-base.c                        |    2 +-
->  drivers/i2c/i2c-core-of.c                          |   66 +-
->  drivers/i3c/Kconfig                                |   24 +
->  drivers/i3c/Makefile                               |    4 +
->  drivers/i3c/core.c                                 |  620 +++++++
->  drivers/i3c/device.c                               |  294 ++++
->  drivers/i3c/internals.h                            |   28 +
->  drivers/i3c/master.c                               | 1723 ++++++++++++++++++++
->  drivers/i3c/master/Kconfig                         |    5 +
->  drivers/i3c/master/Makefile                        |    1 +
->  drivers/i3c/master/i3c-master-cdns.c               | 1648 +++++++++++++++++++
->  include/dt-bindings/i3c/i3c.h                      |   28 +
->  include/linux/i2c.h                                |   10 +
->  include/linux/i3c/ccc.h                            |  382 +++++
->  include/linux/i3c/device.h                         |  305 ++++
->  include/linux/i3c/master.h                         |  587 +++++++
->  include/linux/mod_devicetable.h                    |   17 +
->  33 files changed, 6673 insertions(+), 30 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
->  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
->  create mode 100644 Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
->  create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
->  create mode 100644 Documentation/driver-api/i3c/conf.py
->  create mode 100644 Documentation/driver-api/i3c/device-driver-api.rst
->  create mode 100644 Documentation/driver-api/i3c/index.rst
->  create mode 100644 Documentation/driver-api/i3c/master-driver-api.rst
->  create mode 100644 Documentation/driver-api/i3c/protocol.rst
->  create mode 100644 drivers/gpio/gpio-cdns-i3c.c
->  create mode 100644 drivers/i3c/Kconfig
->  create mode 100644 drivers/i3c/Makefile
->  create mode 100644 drivers/i3c/core.c
->  create mode 100644 drivers/i3c/device.c
->  create mode 100644 drivers/i3c/internals.h
->  create mode 100644 drivers/i3c/master.c
->  create mode 100644 drivers/i3c/master/Kconfig
->  create mode 100644 drivers/i3c/master/Makefile
->  create mode 100644 drivers/i3c/master/i3c-master-cdns.c
->  create mode 100644 include/dt-bindings/i3c/i3c.h
->  create mode 100644 include/linux/i3c/ccc.h
->  create mode 100644 include/linux/i3c/device.h
->  create mode 100644 include/linux/i3c/master.h
-> 
-
-
-
+diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
+new file mode 100644
+index 000000000000..5e88cc093e0e
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-i3c
+@@ -0,0 +1,95 @@
++What:		/sys/bus/i3c/devices/i3c-<bus-id>
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		An I3C bus. This directory will contain one sub-directory per
++		I3C device present on the bus.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/current_master
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		Expose the master that owns the bus (<bus-id>-<master-pid>) at
++		the time this file is read. Note that bus ownership can change
++		overtime, so there's no guarantee that when the read() call
++		returns, the value returned is still valid.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/mode
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		I3C bus mode. Can be "pure", "mixed-fast" or "mixed-slow". See
++		the I3C specification for a detailed description of what each
++		of these modes implies.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/i3c_scl_frequency
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		The frequency (expressed in Hz) of the SCL signal when
++		operating in I3C SDR mode.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/i2c_scl_frequency
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		The frequency (expressed in Hz) of the SCL signal when
++		operating in I2C mode.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		An I3C device present on I3C bus identified by <bus-id>. Note
++		that all devices are represented including the master driving
++		the bus.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/address
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		Dynamic address assigned to device <bus-id>-<device-pid>. This
++		address may change if the bus is re-initialized.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/bcr
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		BCR stands for Bus Characteristics Register and express the
++		device capabilities in term of speed, maximum read/write
++		length, etc. See the I3C specification for more details.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/dcr
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		DCR stands for Device Characteristics Register and express the
++		device capabilities in term of exposed features. See the I3C
++		specification for more details.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/pid
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		PID stands for Provisional ID and is used to uniquely identify
++		a device on a bus. This PID contains information about the
++		vendor, the part and an instance ID so that several devices of
++		the same type can be connected on the same bus.
++		See the I3C specification for more details.
++
++What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/hdrcap
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		Expose the HDR (High Data Rate) capabilities of a device.
++		Returns a list of supported HDR mode, each element is separated
++		by space. Modes can be "hdr-ddr", "hdr-tsp" and "hdr-tsl".
++		See the I3C specification for more details about these HDR
++		modes.
++
++What:		/sys/bus/i3c/devices/<bus-id>-<device-pid>
++KernelVersion:  4.16
++Contact:	linux-i3c@vger.kernel.org
++Description:
++		These directories are just symbolic links to
++		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>.
 -- 
-Boris Brezillon, Bootlin (formerly Free Electrons)
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.14.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
