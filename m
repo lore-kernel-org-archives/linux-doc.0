@@ -1,162 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 607747D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 18:44:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3DD27DE76
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 20:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751747AbeCWSoZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 14:44:25 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:60914 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751595AbeCWSoY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Mar 2018 14:44:24 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1751938AbeCWUVT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 16:21:19 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:44124 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751541AbeCWUVS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Mar 2018 16:21:18 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id AA5496085F; Fri, 23 Mar 2018 20:21:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1521836477;
+        bh=Wkgwh/WLIAkWl34B2P3N1vMFIn69X5GlV53CH/a3Z1E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oMN2mvzZODtlVgoipXvjb0UiJh3yzaHbS27D62Yg9lhND1QeIxdXB4R8pvAY9GWQu
+         1yZtcUNkZMm0ioKJbucoH5dOIiaVMlnc7G/5iFWqMlEHlcKnnN+FKeaWhims0jTY26
+         cWJuzILSjUN8qhKobpIk/jqywM4/3IuQ0qPXGmhc=
+Received: from codeaurora.org (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C316F8424D;
-        Fri, 23 Mar 2018 18:44:23 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7EB562023233;
-        Fri, 23 Mar 2018 18:44:22 +0000 (UTC)
-Subject: Re: [PATCH v6 2/2] cpuset: Add cpuset.sched_load_balance to v2
-To:     Juri Lelli <juri.lelli@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        efault@gmx.de, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>
-References: <1521649309-26690-1-git-send-email-longman@redhat.com>
- <1521649309-26690-3-git-send-email-longman@redhat.com>
- <20180322084120.GE7231@localhost.localdomain>
- <e754e128-0a93-800e-e71b-2c8dc316ba8a@redhat.com>
- <20180323075952.GA4763@localhost.localdomain>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <a8860a42-31b5-4620-7b23-b7515ee11d7d@redhat.com>
-Date:   Fri, 23 Mar 2018 14:44:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180323075952.GA4763@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 23 Mar 2018 18:44:23 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 23 Mar 2018 18:44:23 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        (Authenticated sender: kramasub@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5F18B60271;
+        Fri, 23 Mar 2018 20:21:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1521836476;
+        bh=Wkgwh/WLIAkWl34B2P3N1vMFIn69X5GlV53CH/a3Z1E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZRhUgf1TtNem+qcmZEdfuKp3B9ALS03bs8X/8akAGb4uS1wXqss8pwYcOtBifJXRc
+         GiUgT2dDpdUaKsWoTrO6rLtMTGqWCexJbOd7wA3f/VTepo58xtHjFlgS07j25eHdAl
+         f0my/SCv7JLCKKN+MtShrWkaHGqn1j4QiPp0y0No=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5F18B60271
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
+From:   Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+To:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, wsa@the-dreams.de
+Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
+        dianders@chromium.org
+Subject: [PATCH v5 0/5] Introduce GENI SE Controller Driver
+Date:   Fri, 23 Mar 2018 14:20:56 -0600
+Message-Id: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/23/2018 03:59 AM, Juri Lelli wrote:
-> On 22/03/18 17:50, Waiman Long wrote:
->> On 03/22/2018 04:41 AM, Juri Lelli wrote:
->>> On 21/03/18 12:21, Waiman Long wrote:
-> [...]
->
->>>> +  cpuset.sched_load_balance
->>>> +	A read-write single value file which exists on non-root cgroups.
->>>> +	The default is "1" (on), and the other possible value is "0"
->>>> +	(off).
->>>> +
->>>> +	When it is on, tasks within this cpuset will be load-balanced
->>>> +	by the kernel scheduler.  Tasks will be moved from CPUs with
->>>> +	high load to other CPUs within the same cpuset with less load
->>>> +	periodically.
->>>> +
->>>> +	When it is off, there will be no load balancing among CPUs on
->>>> +	this cgroup.  Tasks will stay in the CPUs they are running on
->>>> +	and will not be moved to other CPUs.
->>>> +
->>>> +	This flag is hierarchical and is inherited by child cpusets. It
->>>> +	can be turned off only when the CPUs in this cpuset aren't
->>>> +	listed in the cpuset.cpus of other sibling cgroups, and all
->>>> +	the child cpusets, if present, have this flag turned off.
->>>> +
->>>> +	Once it is off, it cannot be turned back on as long as the
->>>> +	parent cgroup still has this flag in the off state.
->>>> +
->>> I'm afraid that this will not work for SCHED_DEADLINE (at least for how
->>> it is implemented today). As you can see in Documentation [1] the only
->>> way a user has to perform partitioned/clustered scheduling is to create
->>> subset of exclusive cpusets and then assign deadline tasks to them. The
->>> other thing to take into account here is that a root_domain is created
->>> for each exclusive set and we use such root_domain to keep information
->>> about admitted bandwidth and speed up load balancing decisions (there is
->>> a max heap tracking deadlines of active tasks on each root_domain).
->>> Now, AFAIR distinct root_domain(s) are created when parent group has
->>> sched_load_balance disabled and cpus_exclusive set (in cgroup v1 that
->>> is). So, what we normally do is create, say, cpus_exclusive groups for
->>> the different clusters and then disable sched_load_balance at root level
->>> (so that each cluster gets its own root_domain). Also,
->>> sched_load_balance is enabled in children groups (as load balancing
->>> inside clusters is what we actually needed :).
->> That looks like an undocumented side effect to me. I would rather see an
->> explicit control file that enable root_domain and break it free from
->> cpu_exclusive && !sched_load_balance, e.g. sched_root_domain(?).
-> Mmm, it actually makes some sort of sense to me that as long as parent
-> groups can't load balance (because !sched_load_balance) and this group
-> can't have CPUs overlapping with some other group (because
-> cpu_exclusive) a data structure (root_domain) is created to handle load
-> balancing for this isolated subsystem. I agree that it should be better
-> documented, though.
+Generic Interface (GENI) firmware based Qualcomm Universal Peripheral (QUP)
+Wrapper is a next generation programmable module for supporting a wide
+range of serial interfaces like UART, SPI, I2C, I3C, etc. A single QUP
+module can provide upto 8 Serial Interfaces using its internal Serial
+Engines (SE). The protocol supported by each interface is determined by
+the firmware loaded to the Serial Engine.
 
-Yes, this need to be documented.
+This patch series introduces GENI SE Driver to manage the GENI based QUP
+Wrapper and the common aspects of all SEs inside the QUP Wrapper. This
+patch series also introduces the UART and I2C Controller drivers to
+drive the SEs that are programmed with the respective protocols.
 
->>> IIUC your proposal this will not be permitted with cgroup v2 because
->>> sched_load_balance won't be present at root level and children groups
->>> won't be able to set sched_load_balance back to 1 if that was set to 0
->>> in some parent. Is that true?
->> Yes, that is the current plan.
-> OK, thanks for confirming. Can you tell again however why do you think
-> we need to remove sched_load_balance from root level? Won't we end up
-> having tasks put on isolated sets?
+[v5]
+ * Remove Linux specific property from the device tree binding
+ * Clarify I2C SCL time period documentation
+ * Remove redundant checks in I2C controller driver during timeout
+ * Use 100kHz as the default clock frequency in the I2C controller driver
+ * Disable Wrapper controller by default in the SDM845 device tree and
+   enable it explicitly for SDM845 MTP
+ * Specify I2C clock frequency in the SDM845 device tree
+ * Remove bias configuration for I2C pins under sleep state in device tree
+ * Drop the serial driver from the patch series since it is merged
+ * Specify the UART port options in the SDM845 device tree
 
-The root cgroup is special that it owns all the resources in the system.
-We generally don't want restriction be put on the root cgroup. A child
-cgroup has to be created to have constraints put on it. In fact, most of
-the controller files don't show up in the v2 cgroup root at all.
+[v4]
+ * Add SPI controller information in device tree binding
+ * Add support for debug UART & I2C controllers in SDM845 device tree
+ * Remove any unnecessary parenthesis & casting
+ * Identify break character in UART line and pass it to the framework
+ * Transmit data from fault handler reliably in debug UART
+ * Map the register block when the UART port is requested
+ * Move concise exported functions as macros or inlines in public header
+ * Move the clock performance table from the wrapper to serial engines
+ * Add a lock to synchronize between IRQ & error handling in I2C controller
+ * Remove any compiler optimization hints like likely/unlikely
+ * Update documentation to clarify tables and hardware blocks
 
-An isolated cgroup has to be put under root, e.g.
+[v3]
+ * Update the driver dependencies
+ * Use the SPDX License Expression
+ * Squash all the controller device tree bindings together
+ * Use kernel doc format for documentation
+ * Add additional documentation for packing configuration
+ * Use clk_bulk_* API for related clocks
+ * Remove driver references to pinctrl and their states
+ * Replace magic numbers with appropriate macros
+ * Update memory barrier usage and associated comments
+ * Reduce interlacing of register reads/writes
+ * Fix poll_get_char() operation in console UART driver under polling mode
+ * Address other comments from Bjorn Andersson to improve code readability
 
-      Root
-     /    \
-isolated  balanced
+[v2]
+ * Updated device tree bindings to describe the hardware
+ * Updated SE DT node as child node of QUP Wrapper DT node
+ * Moved common AHB clocks to QUP Wrapper DT node
+ * Use the standard "clock-frequency" I2C property
+ * Update compatible field in UART Controller to reflect hardware manual
+ * Addressed other device tree binding specific comments from Rob Herring
 
->
-> Also, I guess children groups with more than one CPU will need to be
-> able to load balance across their CPUs, no matter what their parent
-> group does?
+Karthikeyan Ramasubramanian (4):
+  dt-bindings: soc: qcom: Add device tree binding for GENI SE
+  soc: qcom: Add GENI based QUP Wrapper driver
+  i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C
+    controller
+  arm64: dts: sdm845: Add support for an instance of I2C controller
 
-The purpose of an isolated cpuset is to have a dedicated set of CPUs to
-be used by a certain application that makes its own scheduling decision
-by placing tasks explicitly on specific CPUs. It just doesn't make sense
-to have a CPU in an isolated cpuset to participated in load balancing in
-another cpuset. If one want load balancing in a child cpuset, the parent
-cpuset should have load balancing turned on as well.
+Rajendra Nayak (1):
+  arm64: dts: sdm845: Add serial console support
 
-As I look into the code, it seems like root domain is probably somewhat
-associated with cpu_exclusive only. Whether sched_load_balance is set
-doesn't really matter.  I will need to look further on the conditions
-where a new root domain is created.
+ .../devicetree/bindings/soc/qcom/qcom,geni-se.txt  | 119 ++++
+ arch/arm64/boot/dts/qcom/sdm845-mtp.dts            |  59 ++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi               |  68 ++
+ drivers/i2c/busses/Kconfig                         |  13 +
+ drivers/i2c/busses/Makefile                        |   1 +
+ drivers/i2c/busses/i2c-qcom-geni.c                 | 650 ++++++++++++++++++
+ drivers/soc/qcom/Kconfig                           |   9 +
+ drivers/soc/qcom/Makefile                          |   1 +
+ drivers/soc/qcom/qcom-geni-se.c                    | 748 +++++++++++++++++++++
+ include/linux/qcom-geni-se.h                       | 425 ++++++++++++
+ 10 files changed, 2093 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
+ create mode 100644 drivers/i2c/busses/i2c-qcom-geni.c
+ create mode 100644 drivers/soc/qcom/qcom-geni-se.c
+ create mode 100644 include/linux/qcom-geni-se.h
 
-BTW, there is always a default root domain for the root. So you don't
-really need to do anything special for the root cpuset to make one.
-
-Cheers,
-Longman
-
-It just doesn't make sense to have a CPU in both an isolated CPU set
-
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
