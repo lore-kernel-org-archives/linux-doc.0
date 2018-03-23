@@ -5,38 +5,38 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 716897DE76
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 20:21:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F47F7DE76
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 20:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751901AbeCWUVk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 16:21:40 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:44820 "EHLO
+        id S1752109AbeCWUVf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 16:21:35 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:44654 "EHLO
         smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752146AbeCWUVh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Mar 2018 16:21:37 -0400
+        with ESMTP id S1752098AbeCWUVc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Mar 2018 16:21:32 -0400
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 4273960817; Fri, 23 Mar 2018 20:21:26 +0000 (UTC)
+        id 56589602FC; Fri, 23 Mar 2018 20:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521836496;
-        bh=KFqsN1ol4XK32gV9VhpmMOrBPTtdJA4uheerDvSE8WQ=;
+        s=default; t=1521836491;
+        bh=e9fKLDSjQ7l+Z55+eA4ZaBYob0eIJg9kVm10RWhaYv0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FZIr9tjayJ6SkX3a0bwmdJcIaOZPRYeZcO8X/VIVNb6O6lcDrTwvxYQluihqOh1S2
-         F9rx2GrYd9VgBbqq9Yy5lrCHR1yhYcZgEgi2IUX4Zu9OXS9xParo2Ran+Zi7jynXsQ
-         H8fTs3ksKBFP5Vf/aGH1iW1SVDQG+v9M9gYZeiy8=
+        b=HBl2v5k1czK7PHkbzIdNBTApugEOhwhy3RWo+8Ro4zWNg6QnOfIW+t2MkasIBEMM+
+         1SOxArwe4aB3UoD5Yriw73XzR+3y5EpS261dst1W5I4lt32+zj5WEvMUbCCu/XM6oG
+         h/e0uv/6iHiBl8t6/SVL6z6OV4w8TVfXYaiG3zHM=
 Received: from codeaurora.org (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: kramasub@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 62DE060271;
-        Fri, 23 Mar 2018 20:21:18 +0000 (UTC)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 05BA860F6C;
+        Fri, 23 Mar 2018 20:21:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521836479;
-        bh=KFqsN1ol4XK32gV9VhpmMOrBPTtdJA4uheerDvSE8WQ=;
+        s=default; t=1521836481;
+        bh=e9fKLDSjQ7l+Z55+eA4ZaBYob0eIJg9kVm10RWhaYv0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IbPUy56zL1jTH0v2d47ucm0nBeI2ovMo1Mqzp5OrQLuOKR7eLghFqxEtEfMoNzmFb
-         lVoEU6pkxmuRCPjAzfVcdtLCSNUaQQkUHkWiiyVuxvCNrA732oX80epRr6r/7X3SLe
-         keXtIVzSE1DLwyjnXB6QbKIp+QsK5CE3bxxN3rcs=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 62DE060271
+        b=Z7X/95o09U6d8BnR6Go1u7SgaHtAYkm12bvXseoPyQvXn6ei84qzyvoOly8BQjviP
+         v4NohLP4DxbPlFqPIRDkgNUksCCuu+GRRXRUXUgK4m12g6au7f2sqCKFQD7JgRJaks
+         v8dEZdV7bz3WzaJI5ku3sf8VFuk3Qs+ovVIsWeaI=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 05BA860F6C
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
 From:   Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
@@ -48,9 +48,9 @@ Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
         evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
         dianders@chromium.org, Sagar Dharia <sdharia@codeaurora.org>,
         Girish Mahadevan <girishm@codeaurora.org>
-Subject: [PATCH v5 2/5] soc: qcom: Add GENI based QUP Wrapper driver
-Date:   Fri, 23 Mar 2018 14:20:58 -0600
-Message-Id: <1521836461-6515-3-git-send-email-kramasub@codeaurora.org>
+Subject: [PATCH v5 3/5] i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller
+Date:   Fri, 23 Mar 2018 14:20:59 -0600
+Message-Id: <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
 References: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
@@ -59,1240 +59,714 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This driver manages the Generic Interface (GENI) firmware based Qualcomm
-Universal Peripheral (QUP) Wrapper. GENI based QUP is the next generation
-programmable module composed of multiple Serial Engines (SE) and supports
-a wide range of serial interfaces like UART, SPI, I2C, I3C, etc. This
-driver also enables managing the serial interface independent aspects of
-Serial Engines.
+This bus driver supports the GENI based i2c hardware controller in the
+Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
+module supporting a wide range of serial interfaces including I2C. The
+driver supports FIFO mode and DMA mode of transfer and switches modes
+dynamically depending on the size of the transfer.
 
 Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
 Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
 Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
 ---
- drivers/soc/qcom/Kconfig        |   9 +
- drivers/soc/qcom/Makefile       |   1 +
- drivers/soc/qcom/qcom-geni-se.c | 748 ++++++++++++++++++++++++++++++++++++++++
- include/linux/qcom-geni-se.h    | 425 +++++++++++++++++++++++
- 4 files changed, 1183 insertions(+)
- create mode 100644 drivers/soc/qcom/qcom-geni-se.c
- create mode 100644 include/linux/qcom-geni-se.h
+ drivers/i2c/busses/Kconfig         |  13 +
+ drivers/i2c/busses/Makefile        |   1 +
+ drivers/i2c/busses/i2c-qcom-geni.c | 650 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 664 insertions(+)
+ create mode 100644 drivers/i2c/busses/i2c-qcom-geni.c
 
-diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
-index e050eb8..98ca9f5 100644
---- a/drivers/soc/qcom/Kconfig
-+++ b/drivers/soc/qcom/Kconfig
-@@ -3,6 +3,15 @@
- #
- menu "Qualcomm SoC drivers"
+diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
+index e2954fb..89e642a 100644
+--- a/drivers/i2c/busses/Kconfig
++++ b/drivers/i2c/busses/Kconfig
+@@ -848,6 +848,19 @@ config I2C_PXA_SLAVE
+ 	  is necessary for systems where the PXA may be a target on the
+ 	  I2C bus.
  
-+config QCOM_GENI_SE
-+	tristate "QCOM GENI Serial Engine Driver"
++config I2C_QCOM_GENI
++	tristate "Qualcomm Technologies Inc.'s GENI based I2C controller"
 +	depends on ARCH_QCOM || COMPILE_TEST
++	depends on QCOM_GENI_SE
 +	help
-+	  This driver is used to manage Generic Interface (GENI) firmware based
-+	  Qualcomm Technologies, Inc. Universal Peripheral (QUP) Wrapper. This
-+	  driver is also used to manage the common aspects of multiple Serial
-+	  Engines present in the QUP.
++	  This driver supports GENI serial engine based I2C controller in
++	  master mode on the Qualcomm Technologies Inc.'s SoCs. If you say
++	  yes to this option, support will be included for the built-in I2C
++	  interface on the Qualcomm Technologies Inc.'s SoCs.
 +
- config QCOM_GLINK_SSR
- 	tristate "Qualcomm Glink SSR driver"
- 	depends on RPMSG
-diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
-index dcebf28..959aa74 100644
---- a/drivers/soc/qcom/Makefile
-+++ b/drivers/soc/qcom/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_QCOM_GENI_SE) +=	qcom-geni-se.o
- obj-$(CONFIG_QCOM_GLINK_SSR) +=	glink_ssr.o
- obj-$(CONFIG_QCOM_GSBI)	+=	qcom_gsbi.o
- obj-$(CONFIG_QCOM_MDT_LOADER)	+= mdt_loader.o
-diff --git a/drivers/soc/qcom/qcom-geni-se.c b/drivers/soc/qcom/qcom-geni-se.c
++	  This driver can also be built as a module.  If so, the module
++	  will be called i2c-qcom-geni.
++
+ config I2C_QUP
+ 	tristate "Qualcomm QUP based I2C controller"
+ 	depends on ARCH_QCOM
+diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
+index 2ce8576..201fce1 100644
+--- a/drivers/i2c/busses/Makefile
++++ b/drivers/i2c/busses/Makefile
+@@ -84,6 +84,7 @@ obj-$(CONFIG_I2C_PNX)		+= i2c-pnx.o
+ obj-$(CONFIG_I2C_PUV3)		+= i2c-puv3.o
+ obj-$(CONFIG_I2C_PXA)		+= i2c-pxa.o
+ obj-$(CONFIG_I2C_PXA_PCI)	+= i2c-pxa-pci.o
++obj-$(CONFIG_I2C_QCOM_GENI)	+= i2c-qcom-geni.o
+ obj-$(CONFIG_I2C_QUP)		+= i2c-qup.o
+ obj-$(CONFIG_I2C_RIIC)		+= i2c-riic.o
+ obj-$(CONFIG_I2C_RK3X)		+= i2c-rk3x.o
+diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
 new file mode 100644
-index 0000000..feed3db2
+index 0000000..24f859d
 --- /dev/null
-+++ b/drivers/soc/qcom/qcom-geni-se.c
-@@ -0,0 +1,748 @@
++++ b/drivers/i2c/busses/i2c-qcom-geni.c
+@@ -0,0 +1,650 @@
 +// SPDX-License-Identifier: GPL-2.0
 +// Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
 +
 +#include <linux/clk.h>
-+#include <linux/slab.h>
 +#include <linux/dma-mapping.h>
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/interrupt.h>
 +#include <linux/io.h>
 +#include <linux/module.h>
 +#include <linux/of.h>
 +#include <linux/of_platform.h>
-+#include <linux/pinctrl/consumer.h>
 +#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
 +#include <linux/qcom-geni-se.h>
++#include <linux/spinlock.h>
 +
-+/**
-+ * DOC: Overview
-+ *
-+ * Generic Interface (GENI) Serial Engine (SE) Wrapper driver is introduced
-+ * to manage GENI firmware based Qualcomm Universal Peripheral (QUP) Wrapper
-+ * controller. QUP Wrapper is designed to support various serial bus protocols
-+ * like UART, SPI, I2C, I3C, etc.
-+ */
++#define SE_I2C_TX_TRANS_LEN		0x26c
++#define SE_I2C_RX_TRANS_LEN		0x270
++#define SE_I2C_SCL_COUNTERS		0x278
 +
-+/**
-+ * DOC: Hardware description
-+ *
-+ * GENI based QUP is a highly-flexible and programmable module for supporting
-+ * a wide range of serial interfaces like UART, SPI, I2C, I3C, etc. A single
-+ * QUP module can provide upto 8 serial interfaces, using its internal
-+ * serial engines. The actual configuration is determined by the target
-+ * platform configuration. The protocol supported by each interface is
-+ * determined by the firmware loaded to the serial engine. Each SE consists
-+ * of a DMA Engine and GENI sub modules which enable serial engines to
-+ * support FIFO and DMA modes of operation.
-+ *
-+ *
-+ *                      +-----------------------------------------+
-+ *                      |QUP Wrapper                              |
-+ *                      |         +----------------------------+  |
-+ *   --QUP & SE Clocks-->         | Serial Engine N            |  +-IO------>
-+ *                      |         | ...                        |  | Interface
-+ *   <---Clock Perf.----+    +----+-----------------------+    |  |
-+ *     State Interface  |    | Serial Engine 1            |    |  |
-+ *                      |    |                            |    |  |
-+ *                      |    |                            |    |  |
-+ *   <--------AHB------->    |                            |    |  |
-+ *                      |    |                            +----+  |
-+ *                      |    |                            |       |
-+ *                      |    |                            |       |
-+ *   <------SE IRQ------+    +----------------------------+       |
-+ *                      |                                         |
-+ *                      +-----------------------------------------+
-+ *
-+ *                         Figure 1: GENI based QUP Wrapper
-+ *
-+ * The GENI submodules include primary and secondary sequencers which are
-+ * used to drive TX & RX operations. On serial interfaces that operate using
-+ * master-slave model, primary sequencer drives both TX & RX operations. On
-+ * serial interfaces that operate using peer-to-peer model, primary sequencer
-+ * drives TX operation and secondary sequencer drives RX operation.
-+ */
++#define SE_I2C_ERR  (M_CMD_OVERRUN_EN | M_ILLEGAL_CMD_EN | M_CMD_FAILURE_EN |\
++			M_GP_IRQ_1_EN | M_GP_IRQ_3_EN | M_GP_IRQ_4_EN)
++#define SE_I2C_ABORT		BIT(1)
 +
-+/**
-+ * DOC: Software description
-+ *
-+ * GENI SE Wrapper driver is structured into 2 parts:
-+ *
-+ * geni_wrapper represents QUP Wrapper controller. This part of the driver
-+ * manages QUP Wrapper information such as hardware version, clock
-+ * performance table that is common to all the internal serial engines.
-+ *
-+ * geni_se represents serial engine. This part of the driver manages serial
-+ * engine information such as clocks, containing QUP Wrapper, etc. This part
-+ * of driver also supports operations (eg. initialize the concerned serial
-+ * engine, select between FIFO and DMA mode of operation etc.) that are
-+ * common to all the serial engines and are independent of serial interfaces.
-+ */
++/* M_CMD OP codes for I2C */
++#define I2C_WRITE		0x1
++#define I2C_READ		0x2
++#define I2C_WRITE_READ		0x3
++#define I2C_ADDR_ONLY		0x4
++#define I2C_BUS_CLEAR		0x6
++#define I2C_STOP_ON_BUS		0x7
++/* M_CMD params for I2C */
++#define PRE_CMD_DELAY		BIT(0)
++#define TIMESTAMP_BEFORE	BIT(1)
++#define STOP_STRETCH		BIT(2)
++#define TIMESTAMP_AFTER		BIT(3)
++#define POST_COMMAND_DELAY	BIT(4)
++#define IGNORE_ADD_NACK		BIT(6)
++#define READ_FINISHED_WITH_ACK	BIT(7)
++#define BYPASS_ADDR_PHASE	BIT(8)
++#define SLV_ADDR_MSK		GENMASK(15, 9)
++#define SLV_ADDR_SHFT		9
++/* I2C SCL COUNTER fields */
++#define HIGH_COUNTER_MSK	GENMASK(29, 20)
++#define HIGH_COUNTER_SHFT	20
++#define LOW_COUNTER_MSK		GENMASK(19, 10)
++#define LOW_COUNTER_SHFT	10
++#define CYCLE_COUNTER_MSK	GENMASK(9, 0)
 +
-+#define MAX_CLK_PERF_LEVEL 32
-+#define NUM_AHB_CLKS 2
-+
-+/**
-+ * @struct geni_wrapper - Data structure to represent the QUP Wrapper Core
-+ * @dev:		Device pointer of the QUP wrapper core
-+ * @base:		Base address of this instance of QUP wrapper core
-+ * @ahb_clks:		Handle to the primary & secondary AHB clocks
-+ */
-+struct geni_wrapper {
-+	struct device *dev;
-+	void __iomem *base;
-+	struct clk_bulk_data ahb_clks[NUM_AHB_CLKS];
++enum geni_i2c_err_code {
++	GP_IRQ0,
++	NACK,
++	GP_IRQ2,
++	BUS_PROTO,
++	ARB_LOST,
++	GP_IRQ5,
++	GENI_OVERRUN,
++	GENI_ILLEGAL_CMD,
++	GENI_ABORT_DONE,
++	GENI_TIMEOUT,
 +};
 +
-+#define QUP_HW_VER_REG			0x4
++#define DM_I2C_CB_ERR		((BIT(NACK) | BIT(BUS_PROTO) | BIT(ARB_LOST)) \
++									<< 5)
 +
-+/* Common SE registers */
-+#define GENI_INIT_CFG_REVISION		0x0
-+#define GENI_S_INIT_CFG_REVISION	0x4
-+#define GENI_OUTPUT_CTRL		0x24
-+#define GENI_CGC_CTRL			0x28
-+#define GENI_CLK_CTRL_RO		0x60
-+#define GENI_IF_DISABLE_RO		0x64
-+#define GENI_FW_S_REVISION_RO		0x6c
-+#define SE_GENI_BYTE_GRAN		0x254
-+#define SE_GENI_TX_PACKING_CFG0		0x260
-+#define SE_GENI_TX_PACKING_CFG1		0x264
-+#define SE_GENI_RX_PACKING_CFG0		0x284
-+#define SE_GENI_RX_PACKING_CFG1		0x288
-+#define SE_GENI_M_GP_LENGTH		0x910
-+#define SE_GENI_S_GP_LENGTH		0x914
-+#define SE_DMA_TX_PTR_L			0xc30
-+#define SE_DMA_TX_PTR_H			0xc34
-+#define SE_DMA_TX_ATTR			0xc38
-+#define SE_DMA_TX_LEN			0xc3c
-+#define SE_DMA_TX_IRQ_EN		0xc48
-+#define SE_DMA_TX_IRQ_EN_SET		0xc4c
-+#define SE_DMA_TX_IRQ_EN_CLR		0xc50
-+#define SE_DMA_TX_LEN_IN		0xc54
-+#define SE_DMA_TX_MAX_BURST		0xc5c
-+#define SE_DMA_RX_PTR_L			0xd30
-+#define SE_DMA_RX_PTR_H			0xd34
-+#define SE_DMA_RX_ATTR			0xd38
-+#define SE_DMA_RX_LEN			0xd3c
-+#define SE_DMA_RX_IRQ_EN		0xd48
-+#define SE_DMA_RX_IRQ_EN_SET		0xd4c
-+#define SE_DMA_RX_IRQ_EN_CLR		0xd50
-+#define SE_DMA_RX_LEN_IN		0xd54
-+#define SE_DMA_RX_MAX_BURST		0xd5c
-+#define SE_DMA_RX_FLUSH			0xd60
-+#define SE_GSI_EVENT_EN			0xe18
-+#define SE_IRQ_EN			0xe1c
-+#define SE_DMA_GENERAL_CFG		0xe30
++#define I2C_AUTO_SUSPEND_DELAY	250
++#define KHZ(freq)		(1000 * freq)
++#define PACKING_BYTES_PW	4
 +
-+/* GENI_OUTPUT_CTRL fields */
-+#define DEFAULT_IO_OUTPUT_CTRL_MSK	GENMASK(6, 0)
++#define ABORT_TIMEOUT		HZ
++#define XFER_TIMEOUT		HZ
++#define RST_TIMEOUT		HZ
 +
-+/* GENI_CGC_CTRL fields */
-+#define CFG_AHB_CLK_CGC_ON		BIT(0)
-+#define CFG_AHB_WR_ACLK_CGC_ON		BIT(1)
-+#define DATA_AHB_CLK_CGC_ON		BIT(2)
-+#define SCLK_CGC_ON			BIT(3)
-+#define TX_CLK_CGC_ON			BIT(4)
-+#define RX_CLK_CGC_ON			BIT(5)
-+#define EXT_CLK_CGC_ON			BIT(6)
-+#define PROG_RAM_HCLK_OFF		BIT(8)
-+#define PROG_RAM_SCLK_OFF		BIT(9)
-+#define DEFAULT_CGC_EN			GENMASK(6, 0)
++struct geni_i2c_dev {
++	struct geni_se se;
++	u32 tx_wm;
++	int irq;
++	int err;
++	struct i2c_adapter adap;
++	struct completion done;
++	struct i2c_msg *cur;
++	int cur_wr;
++	int cur_rd;
++	spinlock_t lock;
++	u32 clk_freq_out;
++	const struct geni_i2c_clk_fld *clk_fld;
++};
 +
-+/* SE_GSI_EVENT_EN fields */
-+#define DMA_RX_EVENT_EN			BIT(0)
-+#define DMA_TX_EVENT_EN			BIT(1)
-+#define GENI_M_EVENT_EN			BIT(2)
-+#define GENI_S_EVENT_EN			BIT(3)
++struct geni_i2c_err_log {
++	int err;
++	const char *msg;
++};
 +
-+/* SE_IRQ_EN fields */
-+#define DMA_RX_IRQ_EN			BIT(0)
-+#define DMA_TX_IRQ_EN			BIT(1)
-+#define GENI_M_IRQ_EN			BIT(2)
-+#define GENI_S_IRQ_EN			BIT(3)
++static const struct geni_i2c_err_log gi2c_log[] = {
++	[GP_IRQ0] = {-EINVAL, "Unknown I2C err GP_IRQ0"},
++	[NACK] = {-ENOTCONN, "NACK: slv unresponsive, check its power/reset-ln"},
++	[GP_IRQ2] = {-EINVAL, "Unknown I2C err GP IRQ2"},
++	[BUS_PROTO] = {-EPROTO, "Bus proto err, noisy/unepxected start/stop"},
++	[ARB_LOST] = {-EBUSY, "Bus arbitration lost, clock line undriveable"},
++	[GP_IRQ5] = {-EINVAL, "Unknown I2C err GP IRQ5"},
++	[GENI_OVERRUN] = {-EIO, "Cmd overrun, check GENI cmd-state machine"},
++	[GENI_ILLEGAL_CMD] = {-EILSEQ, "Illegal cmd, check GENI cmd-state machine"},
++	[GENI_ABORT_DONE] = {-ETIMEDOUT, "Abort after timeout successful"},
++	[GENI_TIMEOUT] = {-ETIMEDOUT, "I2C TXN timed out"},
++};
 +
-+/* SE_DMA_GENERAL_CFG */
-+#define DMA_RX_CLK_CGC_ON		BIT(0)
-+#define DMA_TX_CLK_CGC_ON		BIT(1)
-+#define DMA_AHB_SLV_CFG_ON		BIT(2)
-+#define AHB_SEC_SLV_CLK_CGC_ON		BIT(3)
-+#define DUMMY_RX_NON_BUFFERABLE		BIT(4)
-+#define RX_DMA_ZERO_PADDING_EN		BIT(5)
-+#define RX_DMA_IRQ_DELAY_MSK		GENMASK(8, 6)
-+#define RX_DMA_IRQ_DELAY_SHFT		6
++struct geni_i2c_clk_fld {
++	u32	clk_freq_out;
++	u8	clk_div;
++	u8	t_high_cnt;
++	u8	t_low_cnt;
++	u8	t_cycle_cnt;
++};
 +
-+/**
-+ * geni_se_get_qup_hw_version() - Read the QUP wrapper Hardware version
-+ * @se:	Pointer to the corresponding serial engine.
++/*
++ * Hardware uses the underlying formula to calculate time periods of
++ * SCL clock cycle. Firmware uses some additional cycles excluded from the
++ * below formula and it is confirmed that the time periods are within
++ * specification limits.
 + *
-+ * Return: Hardware Version of the wrapper.
++ * time of high period of SCL: t_high = (t_high_cnt * clk_div) / source_clock
++ * time of low period of SCL: t_low = (t_low_cnt * clk_div) / source_clock
++ * time of full period of SCL: t_cycle = (t_cycle_cnt * clk_div) / source_clock
++ * clk_freq_out = t / t_cycle
++ * source_clock = 19.2 MHz
 + */
-+u32 geni_se_get_qup_hw_version(struct geni_se *se)
++static const struct geni_i2c_clk_fld geni_i2c_clk_map[] = {
++	{KHZ(100), 7, 10, 11, 26},
++	{KHZ(400), 2,  5, 12, 24},
++	{KHZ(1000), 1, 3,  9, 18},
++};
++
++static int geni_i2c_clk_map_idx(struct geni_i2c_dev *gi2c)
 +{
-+	struct geni_wrapper *wrapper = se->wrapper;
-+
-+	return readl_relaxed(wrapper->base + QUP_HW_VER_REG);
-+}
-+EXPORT_SYMBOL(geni_se_get_qup_hw_version);
-+
-+static void geni_se_io_set_mode(void __iomem *base)
-+{
-+	u32 val;
-+
-+	val = readl_relaxed(base + SE_IRQ_EN);
-+	val |= GENI_M_IRQ_EN | GENI_S_IRQ_EN;
-+	val |= DMA_TX_IRQ_EN | DMA_RX_IRQ_EN;
-+	writel_relaxed(val, base + SE_IRQ_EN);
-+
-+	val = readl_relaxed(base + SE_GENI_DMA_MODE_EN);
-+	val &= ~GENI_DMA_MODE_EN;
-+	writel_relaxed(val, base + SE_GENI_DMA_MODE_EN);
-+
-+	writel_relaxed(0, base + SE_GSI_EVENT_EN);
-+}
-+
-+static void geni_se_io_init(void __iomem *base)
-+{
-+	u32 val;
-+
-+	val = readl_relaxed(base + GENI_CGC_CTRL);
-+	val |= DEFAULT_CGC_EN;
-+	writel_relaxed(val, base + GENI_CGC_CTRL);
-+
-+	val = readl_relaxed(base + SE_DMA_GENERAL_CFG);
-+	val |= AHB_SEC_SLV_CLK_CGC_ON | DMA_AHB_SLV_CFG_ON;
-+	val |= DMA_TX_CLK_CGC_ON | DMA_RX_CLK_CGC_ON;
-+	writel_relaxed(val, base + SE_DMA_GENERAL_CFG);
-+
-+	writel_relaxed(DEFAULT_IO_OUTPUT_CTRL_MSK, base + GENI_OUTPUT_CTRL);
-+	writel_relaxed(FORCE_DEFAULT, base + GENI_FORCE_DEFAULT_REG);
-+}
-+
-+/**
-+ * geni_se_init() - Initialize the GENI serial engine
-+ * @se:		Pointer to the concerned serial engine.
-+ * @rx_wm:	Receive watermark, in units of FIFO words.
-+ * @rx_rfr_wm:	Ready-for-receive watermark, in units of FIFO words.
-+ *
-+ * This function is used to initialize the GENI serial engine, configure
-+ * receive watermark and ready-for-receive watermarks.
-+ */
-+void geni_se_init(struct geni_se *se, u32 rx_wm, u32 rx_rfr)
-+{
-+	u32 val;
-+
-+	geni_se_io_init(se->base);
-+	geni_se_io_set_mode(se->base);
-+
-+	writel_relaxed(rx_wm, se->base + SE_GENI_RX_WATERMARK_REG);
-+	writel_relaxed(rx_rfr, se->base + SE_GENI_RX_RFR_WATERMARK_REG);
-+
-+	val = readl_relaxed(se->base + SE_GENI_M_IRQ_EN);
-+	val |= M_COMMON_GENI_M_IRQ_EN;
-+	writel_relaxed(val, se->base + SE_GENI_M_IRQ_EN);
-+
-+	val = readl_relaxed(se->base + SE_GENI_S_IRQ_EN);
-+	val |= S_COMMON_GENI_S_IRQ_EN;
-+	writel_relaxed(val, se->base + SE_GENI_S_IRQ_EN);
-+}
-+EXPORT_SYMBOL(geni_se_init);
-+
-+static void geni_se_select_fifo_mode(struct geni_se *se)
-+{
-+	u32 proto = geni_se_read_proto(se);
-+	u32 val;
-+
-+	writel_relaxed(0, se->base + SE_GSI_EVENT_EN);
-+	writel_relaxed(0xffffffff, se->base + SE_GENI_M_IRQ_CLEAR);
-+	writel_relaxed(0xffffffff, se->base + SE_GENI_S_IRQ_CLEAR);
-+	writel_relaxed(0xffffffff, se->base + SE_DMA_TX_IRQ_CLR);
-+	writel_relaxed(0xffffffff, se->base + SE_DMA_RX_IRQ_CLR);
-+	writel_relaxed(0xffffffff, se->base + SE_IRQ_EN);
-+
-+	val = readl_relaxed(se->base + SE_GENI_M_IRQ_EN);
-+	if (proto != GENI_SE_UART) {
-+		val |= M_CMD_DONE_EN | M_TX_FIFO_WATERMARK_EN;
-+		val |= M_RX_FIFO_WATERMARK_EN | M_RX_FIFO_LAST_EN;
-+	}
-+	writel_relaxed(val, se->base + SE_GENI_M_IRQ_EN);
-+
-+	val = readl_relaxed(se->base + SE_GENI_S_IRQ_EN);
-+	if (proto != GENI_SE_UART)
-+		val |= S_CMD_DONE_EN;
-+	writel_relaxed(val, se->base + SE_GENI_S_IRQ_EN);
-+
-+	val = readl_relaxed(se->base + SE_GENI_DMA_MODE_EN);
-+	val &= ~GENI_DMA_MODE_EN;
-+	writel_relaxed(val, se->base + SE_GENI_DMA_MODE_EN);
-+}
-+
-+static void geni_se_select_dma_mode(struct geni_se *se)
-+{
-+	u32 val;
-+
-+	writel_relaxed(0, se->base + SE_GSI_EVENT_EN);
-+	writel_relaxed(0xffffffff, se->base + SE_GENI_M_IRQ_CLEAR);
-+	writel_relaxed(0xffffffff, se->base + SE_GENI_S_IRQ_CLEAR);
-+	writel_relaxed(0xffffffff, se->base + SE_DMA_TX_IRQ_CLR);
-+	writel_relaxed(0xffffffff, se->base + SE_DMA_RX_IRQ_CLR);
-+	writel_relaxed(0xffffffff, se->base + SE_IRQ_EN);
-+
-+	val = readl_relaxed(se->base + SE_GENI_DMA_MODE_EN);
-+	val |= GENI_DMA_MODE_EN;
-+	writel_relaxed(val, se->base + SE_GENI_DMA_MODE_EN);
-+}
-+
-+/**
-+ * geni_se_select_mode() - Select the serial engine transfer mode
-+ * @se:		Pointer to the concerned serial engine.
-+ * @mode:	Transfer mode to be selected.
-+ */
-+void geni_se_select_mode(struct geni_se *se, enum geni_se_xfer_mode mode)
-+{
-+	WARN_ON(mode != GENI_SE_FIFO && mode != GENI_SE_DMA);
-+
-+	switch (mode) {
-+	case GENI_SE_FIFO:
-+		geni_se_select_fifo_mode(se);
-+		break;
-+	case GENI_SE_DMA:
-+		geni_se_select_dma_mode(se);
-+		break;
-+	case GENI_SE_INVALID:
-+	default:
-+		break;
-+	}
-+}
-+EXPORT_SYMBOL(geni_se_select_mode);
-+
-+/**
-+ * DOC: Overview
-+ *
-+ * GENI FIFO packing is highly configurable. TX/RX packing/unpacking consist
-+ * of up to 4 operations, each operation represented by 4 configuration vectors
-+ * of 10 bits programmed in GENI_TX_PACKING_CFG0 and GENI_TX_PACKING_CFG1 for
-+ * TX FIFO and in GENI_RX_PACKING_CFG0 and GENI_RX_PACKING_CFG1 for RX FIFO.
-+ * Refer to below examples for detailed bit-field description.
-+ *
-+ * Example 1: word_size = 7, packing_mode = 4 x 8, msb_to_lsb = 1
-+ *
-+ *        +-----------+-------+-------+-------+-------+
-+ *        |           | vec_0 | vec_1 | vec_2 | vec_3 |
-+ *        +-----------+-------+-------+-------+-------+
-+ *        | start     | 0x6   | 0xe   | 0x16  | 0x1e  |
-+ *        | direction | 1     | 1     | 1     | 1     |
-+ *        | length    | 6     | 6     | 6     | 6     |
-+ *        | stop      | 0     | 0     | 0     | 1     |
-+ *        +-----------+-------+-------+-------+-------+
-+ *
-+ * Example 2: word_size = 15, packing_mode = 2 x 16, msb_to_lsb = 0
-+ *
-+ *        +-----------+-------+-------+-------+-------+
-+ *        |           | vec_0 | vec_1 | vec_2 | vec_3 |
-+ *        +-----------+-------+-------+-------+-------+
-+ *        | start     | 0x0   | 0x8   | 0x10  | 0x18  |
-+ *        | direction | 0     | 0     | 0     | 0     |
-+ *        | length    | 7     | 6     | 7     | 6     |
-+ *        | stop      | 0     | 0     | 0     | 1     |
-+ *        +-----------+-------+-------+-------+-------+
-+ *
-+ * Example 3: word_size = 23, packing_mode = 1 x 32, msb_to_lsb = 1
-+ *
-+ *        +-----------+-------+-------+-------+-------+
-+ *        |           | vec_0 | vec_1 | vec_2 | vec_3 |
-+ *        +-----------+-------+-------+-------+-------+
-+ *        | start     | 0x16  | 0xe   | 0x6   | 0x0   |
-+ *        | direction | 1     | 1     | 1     | 1     |
-+ *        | length    | 7     | 7     | 6     | 0     |
-+ *        | stop      | 0     | 0     | 1     | 0     |
-+ *        +-----------+-------+-------+-------+-------+
-+ *
-+ */
-+
-+#define NUM_PACKING_VECTORS 4
-+#define PACKING_START_SHIFT 5
-+#define PACKING_DIR_SHIFT 4
-+#define PACKING_LEN_SHIFT 1
-+#define PACKING_STOP_BIT BIT(0)
-+#define PACKING_VECTOR_SHIFT 10
-+/**
-+ * geni_se_config_packing() - Packing configuration of the serial engine
-+ * @se:		Pointer to the concerned serial engine
-+ * @bpw:	Bits of data per transfer word.
-+ * @pack_words:	Number of words per fifo element.
-+ * @msb_to_lsb:	Transfer from MSB to LSB or vice-versa.
-+ * @tx_cfg:	Flag to configure the TX Packing.
-+ * @rx_cfg:	Flag to configure the RX Packing.
-+ *
-+ * This function is used to configure the packing rules for the current
-+ * transfer.
-+ */
-+void geni_se_config_packing(struct geni_se *se, int bpw, int pack_words,
-+			    bool msb_to_lsb, bool tx_cfg, bool rx_cfg)
-+{
-+	u32 cfg0, cfg1, cfg[NUM_PACKING_VECTORS] = {0};
-+	int len;
-+	int temp_bpw = bpw;
-+	int idx_start = msb_to_lsb ? bpw - 1 : 0;
-+	int idx = idx_start;
-+	int idx_delta = msb_to_lsb ? -BITS_PER_BYTE : BITS_PER_BYTE;
-+	int ceil_bpw = ALIGN(bpw, BITS_PER_BYTE);
-+	int iter = (ceil_bpw * pack_words) / BITS_PER_BYTE;
 +	int i;
++	const struct geni_i2c_clk_fld *itr = geni_i2c_clk_map;
 +
-+	if (iter <= 0 || iter > NUM_PACKING_VECTORS)
-+		return;
-+
-+	for (i = 0; i < iter; i++) {
-+		len = min_t(int, temp_bpw, BITS_PER_BYTE) - 1;
-+		cfg[i] = idx << PACKING_START_SHIFT;
-+		cfg[i] |= msb_to_lsb << PACKING_DIR_SHIFT;
-+		cfg[i] |= len << PACKING_LEN_SHIFT;
-+
-+		if (temp_bpw <= BITS_PER_BYTE) {
-+			idx = ((i + 1) * BITS_PER_BYTE) + idx_start;
-+			temp_bpw = bpw;
-+		} else {
-+			idx = idx + idx_delta;
-+			temp_bpw = temp_bpw - BITS_PER_BYTE;
-+		}
-+	}
-+	cfg[iter - 1] |= PACKING_STOP_BIT;
-+	cfg0 = cfg[0] | (cfg[1] << PACKING_VECTOR_SHIFT);
-+	cfg1 = cfg[2] | (cfg[3] << PACKING_VECTOR_SHIFT);
-+
-+	if (tx_cfg) {
-+		writel_relaxed(cfg0, se->base + SE_GENI_TX_PACKING_CFG0);
-+		writel_relaxed(cfg1, se->base + SE_GENI_TX_PACKING_CFG1);
-+	}
-+	if (rx_cfg) {
-+		writel_relaxed(cfg0, se->base + SE_GENI_RX_PACKING_CFG0);
-+		writel_relaxed(cfg1, se->base + SE_GENI_RX_PACKING_CFG1);
-+	}
-+
-+	/*
-+	 * Number of protocol words in each FIFO entry
-+	 * 0 - 4x8, four words in each entry, max word size of 8 bits
-+	 * 1 - 2x16, two words in each entry, max word size of 16 bits
-+	 * 2 - 1x32, one word in each entry, max word size of 32 bits
-+	 * 3 - undefined
-+	 */
-+	if (pack_words || bpw == 32)
-+		writel_relaxed(bpw / 16, se->base + SE_GENI_BYTE_GRAN);
-+}
-+EXPORT_SYMBOL(geni_se_config_packing);
-+
-+static void geni_se_clks_off(struct geni_se *se)
-+{
-+	struct geni_wrapper *wrapper = se->wrapper;
-+
-+	clk_disable_unprepare(se->clk);
-+	clk_bulk_disable_unprepare(ARRAY_SIZE(wrapper->ahb_clks),
-+						wrapper->ahb_clks);
-+}
-+
-+/**
-+ * geni_se_resources_off() - Turn off resources associated with the serial
-+ *                           engine
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * Return: 0 on success, standard Linux error codes on failure/error.
-+ */
-+int geni_se_resources_off(struct geni_se *se)
-+{
-+	int ret;
-+
-+	ret = pinctrl_pm_select_sleep_state(se->dev);
-+	if (ret)
-+		return ret;
-+
-+	geni_se_clks_off(se);
-+	return 0;
-+}
-+EXPORT_SYMBOL(geni_se_resources_off);
-+
-+static int geni_se_clks_on(struct geni_se *se)
-+{
-+	int ret;
-+	struct geni_wrapper *wrapper = se->wrapper;
-+
-+	ret = clk_bulk_prepare_enable(ARRAY_SIZE(wrapper->ahb_clks),
-+						wrapper->ahb_clks);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(se->clk);
-+	if (ret)
-+		clk_bulk_disable_unprepare(ARRAY_SIZE(wrapper->ahb_clks),
-+							wrapper->ahb_clks);
-+	return ret;
-+}
-+
-+/**
-+ * geni_se_resources_on() - Turn on resources associated with the serial
-+ *                          engine
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * Return: 0 on success, standard Linux error codes on failure/error.
-+ */
-+int geni_se_resources_on(struct geni_se *se)
-+{
-+	int ret;
-+
-+	ret = geni_se_clks_on(se);
-+	if (ret)
-+		return ret;
-+
-+	ret = pinctrl_pm_select_default_state(se->dev);
-+	if (ret)
-+		geni_se_clks_off(se);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(geni_se_resources_on);
-+
-+/**
-+ * geni_se_clk_tbl_get() - Get the clock table to program DFS
-+ * @se:		Pointer to the concerned serial engine.
-+ * @tbl:	Table in which the output is returned.
-+ *
-+ * This function is called by the protocol drivers to determine the different
-+ * clock frequencies supported by serial engine core clock. The protocol
-+ * drivers use the output to determine the clock frequency index to be
-+ * programmed into DFS.
-+ *
-+ * Return: number of valid performance levels in the table on success,
-+ *	   standard Linux error codes on failure.
-+ */
-+int geni_se_clk_tbl_get(struct geni_se *se, unsigned long **tbl)
-+{
-+	unsigned long freq = 0;
-+	int i;
-+
-+	if (se->clk_perf_tbl) {
-+		*tbl = se->clk_perf_tbl;
-+		return se->num_clk_levels;
-+	}
-+
-+	se->clk_perf_tbl = devm_kcalloc(se->dev, MAX_CLK_PERF_LEVEL,
-+					sizeof(*se->clk_perf_tbl),
-+					GFP_KERNEL);
-+	if (!se->clk_perf_tbl)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < MAX_CLK_PERF_LEVEL; i++) {
-+		freq = clk_round_rate(se->clk, freq + 1);
-+		if (!freq || freq == se->clk_perf_tbl[i - 1])
-+			break;
-+		se->clk_perf_tbl[i] = freq;
-+	}
-+	se->num_clk_levels = i;
-+	*tbl = se->clk_perf_tbl;
-+	return se->num_clk_levels;
-+}
-+EXPORT_SYMBOL(geni_se_clk_tbl_get);
-+
-+/**
-+ * geni_se_clk_freq_match() - Get the matching or closest SE clock frequency
-+ * @se:		Pointer to the concerned serial engine.
-+ * @req_freq:	Requested clock frequency.
-+ * @index:	Index of the resultant frequency in the table.
-+ * @res_freq:	Resultant frequency which matches or is closer to the
-+ *		requested frequency.
-+ * @exact:	Flag to indicate exact multiple requirement of the requested
-+ *		frequency.
-+ *
-+ * This function is called by the protocol drivers to determine the matching
-+ * or exact multiple of the requested frequency, as provided by the serial
-+ * engine clock in order to meet the performance requirements. If there is
-+ * no matching or exact multiple of the requested frequency found, then it
-+ * selects the closest floor frequency, if exact flag is not set.
-+ *
-+ * Return: 0 on success, standard Linux error codes on failure.
-+ */
-+int geni_se_clk_freq_match(struct geni_se *se, unsigned long req_freq,
-+			   unsigned int *index, unsigned long *res_freq,
-+			   bool exact)
-+{
-+	unsigned long *tbl;
-+	int num_clk_levels;
-+	int i;
-+
-+	num_clk_levels = geni_se_clk_tbl_get(se, &tbl);
-+	if (num_clk_levels < 0)
-+		return num_clk_levels;
-+
-+	if (num_clk_levels == 0)
-+		return -EINVAL;
-+
-+	*res_freq = 0;
-+	for (i = 0; i < num_clk_levels; i++) {
-+		if (!(tbl[i] % req_freq)) {
-+			*index = i;
-+			*res_freq = tbl[i];
++	for (i = 0; i < ARRAY_SIZE(geni_i2c_clk_map); i++, itr++) {
++		if (itr->clk_freq_out == gi2c->clk_freq_out) {
++			gi2c->clk_fld = itr;
 +			return 0;
 +		}
++	}
++	return -EINVAL;
++}
 +
-+		if (!(*res_freq) || ((tbl[i] > *res_freq) &&
-+				     (tbl[i] < req_freq))) {
-+			*index = i;
-+			*res_freq = tbl[i];
++static void qcom_geni_i2c_conf(struct geni_i2c_dev *gi2c)
++{
++	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
++	u32 val;
++
++	writel_relaxed(0, gi2c->se.base + SE_GENI_CLK_SEL);
++
++	val = (itr->clk_div << CLK_DIV_SHFT) | SER_CLK_EN;
++	writel_relaxed(val, gi2c->se.base + GENI_SER_M_CLK_CFG);
++
++	val = itr->t_high_cnt << HIGH_COUNTER_SHFT;
++	val |= itr->t_low_cnt << LOW_COUNTER_SHFT;
++	val |= itr->t_cycle_cnt;
++	writel_relaxed(val, gi2c->se.base + SE_I2C_SCL_COUNTERS);
++}
++
++static void geni_i2c_err_misc(struct geni_i2c_dev *gi2c)
++{
++	u32 m_cmd = readl_relaxed(gi2c->se.base + SE_GENI_M_CMD0);
++	u32 m_stat = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
++	u32 geni_s = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
++	u32 geni_ios = readl_relaxed(gi2c->se.base + SE_GENI_IOS);
++	u32 dma = readl_relaxed(gi2c->se.base + SE_GENI_DMA_MODE_EN);
++	u32 rx_st, tx_st;
++
++	if (dma) {
++		rx_st = readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_STAT);
++		tx_st = readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_STAT);
++	} else {
++		rx_st = readl_relaxed(gi2c->se.base + SE_GENI_RX_FIFO_STATUS);
++		tx_st = readl_relaxed(gi2c->se.base + SE_GENI_TX_FIFO_STATUS);
++	}
++	dev_dbg(gi2c->se.dev, "DMA:%d tx_stat:0x%x, rx_stat:0x%x, irq-stat:0x%x\n",
++		dma, tx_st, rx_st, m_stat);
++	dev_dbg(gi2c->se.dev, "m_cmd:0x%x, geni_status:0x%x, geni_ios:0x%x\n",
++		m_cmd, geni_s, geni_ios);
++}
++
++static void geni_i2c_err(struct geni_i2c_dev *gi2c, int err)
++{
++	if (!gi2c->err)
++		gi2c->err = gi2c_log[err].err;
++	if (gi2c->cur)
++		dev_dbg(gi2c->se.dev, "len:%d, slv-addr:0x%x, RD/WR:%d\n",
++			gi2c->cur->len, gi2c->cur->addr, gi2c->cur->flags);
++
++	if (err != NACK && err != GENI_ABORT_DONE) {
++		dev_err(gi2c->se.dev, "%s\n", gi2c_log[err].msg);
++		geni_i2c_err_misc(gi2c);
++	}
++}
++
++static irqreturn_t geni_i2c_irq(int irq, void *dev)
++{
++	struct geni_i2c_dev *gi2c = dev;
++	int j;
++	u32 m_stat;
++	u32 rx_st;
++	u32 dm_tx_st;
++	u32 dm_rx_st;
++	u32 dma;
++	struct i2c_msg *cur;
++	unsigned long flags;
++
++	spin_lock_irqsave(&gi2c->lock, flags);
++	m_stat = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
++	rx_st = readl_relaxed(gi2c->se.base + SE_GENI_RX_FIFO_STATUS);
++	dm_tx_st = readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_STAT);
++	dm_rx_st = readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_STAT);
++	dma = readl_relaxed(gi2c->se.base + SE_GENI_DMA_MODE_EN);
++	cur = gi2c->cur;
++
++	if (!cur ||
++	    m_stat & (M_CMD_FAILURE_EN | M_CMD_ABORT_EN) ||
++	    dm_rx_st & (DM_I2C_CB_ERR)) {
++		if (m_stat & M_GP_IRQ_1_EN)
++			geni_i2c_err(gi2c, NACK);
++		if (m_stat & M_GP_IRQ_3_EN)
++			geni_i2c_err(gi2c, BUS_PROTO);
++		if (m_stat & M_GP_IRQ_4_EN)
++			geni_i2c_err(gi2c, ARB_LOST);
++		if (m_stat & M_CMD_OVERRUN_EN)
++			geni_i2c_err(gi2c, GENI_OVERRUN);
++		if (m_stat & M_ILLEGAL_CMD_EN)
++			geni_i2c_err(gi2c, GENI_ILLEGAL_CMD);
++		if (m_stat & M_CMD_ABORT_EN)
++			geni_i2c_err(gi2c, GENI_ABORT_DONE);
++		if (m_stat & M_GP_IRQ_0_EN)
++			geni_i2c_err(gi2c, GP_IRQ0);
++
++		/* Disable the TX Watermark interrupt to stop TX */
++		if (!dma)
++			writel_relaxed(0, gi2c->se.base +
++					   SE_GENI_TX_WATERMARK_REG);
++		goto irqret;
++	}
++
++	if (dma) {
++		dev_dbg(gi2c->se.dev, "i2c dma tx:0x%x, dma rx:0x%x\n",
++			dm_tx_st, dm_rx_st);
++		goto irqret;
++	}
++
++	if (cur->flags & I2C_M_RD &&
++	    m_stat & (M_RX_FIFO_WATERMARK_EN | M_RX_FIFO_LAST_EN)) {
++		u32 rxcnt = rx_st & RX_FIFO_WC_MSK;
++
++		for (j = 0; j < rxcnt; j++) {
++			u32 val;
++			int p = 0;
++
++			val = readl_relaxed(gi2c->se.base + SE_GENI_RX_FIFOn);
++			while (gi2c->cur_rd < cur->len && p < sizeof(val)) {
++				cur->buf[gi2c->cur_rd++] = val & 0xff;
++				val >>= 8;
++				p++;
++			}
++			if (gi2c->cur_rd == cur->len)
++				break;
++		}
++	} else if (!(cur->flags & I2C_M_RD) &&
++		   m_stat & M_TX_FIFO_WATERMARK_EN) {
++		for (j = 0; j < gi2c->tx_wm; j++) {
++			u32 temp;
++			u32 val = 0;
++			int p = 0;
++
++			while (gi2c->cur_wr < cur->len && p < sizeof(val)) {
++				temp = cur->buf[gi2c->cur_wr++];
++				val |= temp << (p * 8);
++				p++;
++			}
++			writel_relaxed(val, gi2c->se.base + SE_GENI_TX_FIFOn);
++			/* TX Complete, Disable the TX Watermark interrupt */
++			if (gi2c->cur_wr == cur->len) {
++				writel_relaxed(0, gi2c->se.base +
++						SE_GENI_TX_WATERMARK_REG);
++				break;
++			}
++		}
++	}
++irqret:
++	if (m_stat)
++		writel_relaxed(m_stat, gi2c->se.base + SE_GENI_M_IRQ_CLEAR);
++
++	if (dma) {
++		if (dm_tx_st)
++			writel_relaxed(dm_tx_st, gi2c->se.base +
++						SE_DMA_TX_IRQ_CLR);
++		if (dm_rx_st)
++			writel_relaxed(dm_rx_st, gi2c->se.base +
++						SE_DMA_RX_IRQ_CLR);
++	}
++	/* if this is err with done-bit not set, handle that through timeout. */
++	if (m_stat & M_CMD_DONE_EN || m_stat & M_CMD_ABORT_EN)
++		complete(&gi2c->done);
++	else if (dm_tx_st & TX_DMA_DONE || dm_tx_st & TX_RESET_DONE)
++		complete(&gi2c->done);
++	else if (dm_rx_st & RX_DMA_DONE || dm_rx_st & RX_RESET_DONE)
++		complete(&gi2c->done);
++
++	spin_unlock_irqrestore(&gi2c->lock, flags);
++	return IRQ_HANDLED;
++}
++
++static void geni_i2c_abort_xfer(struct geni_i2c_dev *gi2c)
++{
++	u32 val;
++	unsigned long time_left = ABORT_TIMEOUT;
++	unsigned long flags;
++
++	spin_lock_irqsave(&gi2c->lock, flags);
++	geni_i2c_err(gi2c, GENI_TIMEOUT);
++	gi2c->cur = NULL;
++	geni_se_abort_m_cmd(&gi2c->se);
++	spin_unlock_irqrestore(&gi2c->lock, flags);
++	do {
++		time_left = wait_for_completion_timeout(&gi2c->done, time_left);
++		val = readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATUS);
++	} while (!(val & M_CMD_ABORT_EN) && time_left);
++
++	if (!(val & M_CMD_ABORT_EN))
++		dev_err(gi2c->se.dev, "Timeout abort_m_cmd\n");
++}
++
++static void geni_i2c_rx_fsm_rst(struct geni_i2c_dev *gi2c)
++{
++	u32 val;
++	unsigned long time_left = RST_TIMEOUT;
++
++	writel_relaxed(1, gi2c->se.base + SE_DMA_RX_FSM_RST);
++	do {
++		time_left = wait_for_completion_timeout(&gi2c->done, time_left);
++		val = readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_STAT);
++	} while (!(val & RX_RESET_DONE) && time_left);
++
++	if (!(val & RX_RESET_DONE))
++		dev_err(gi2c->se.dev, "Timeout resetting RX_FSM\n");
++}
++
++static void geni_i2c_tx_fsm_rst(struct geni_i2c_dev *gi2c)
++{
++	u32 val;
++	unsigned long time_left = RST_TIMEOUT;
++
++	writel_relaxed(1, gi2c->se.base + SE_DMA_TX_FSM_RST);
++	do {
++		time_left = wait_for_completion_timeout(&gi2c->done, time_left);
++		val = readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_STAT);
++	} while (!(val & TX_RESET_DONE) && time_left);
++
++	if (!(val & TX_RESET_DONE))
++		dev_err(gi2c->se.dev, "Timeout resetting TX_FSM\n");
++}
++
++static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
++				u32 m_param)
++{
++	dma_addr_t rx_dma;
++	enum geni_se_xfer_mode mode;
++	unsigned long time_left = XFER_TIMEOUT;
++
++	gi2c->cur = msg;
++	mode = msg->len > 32 ? GENI_SE_DMA : GENI_SE_FIFO;
++	geni_se_select_mode(&gi2c->se, mode);
++	writel_relaxed(msg->len, gi2c->se.base + SE_I2C_RX_TRANS_LEN);
++	geni_se_setup_m_cmd(&gi2c->se, I2C_READ, m_param);
++	if (mode == GENI_SE_DMA) {
++		int ret;
++
++		ret = geni_se_rx_dma_prep(&gi2c->se, msg->buf, msg->len,
++								&rx_dma);
++		if (!ret) {
++			mode = GENI_SE_FIFO;
++			geni_se_select_mode(&gi2c->se, mode);
 +		}
 +	}
 +
-+	if (exact)
-+		return -EINVAL;
++	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
++	if (!time_left)
++		geni_i2c_abort_xfer(gi2c);
 +
-+	return 0;
++	gi2c->cur_rd = 0;
++	if (mode == GENI_SE_DMA) {
++		if (gi2c->err)
++			geni_i2c_rx_fsm_rst(gi2c);
++		geni_se_rx_dma_unprep(&gi2c->se, rx_dma, msg->len);
++	}
++	return gi2c->err;
 +}
-+EXPORT_SYMBOL(geni_se_clk_freq_match);
 +
-+#define GENI_SE_DMA_DONE_EN BIT(0)
-+#define GENI_SE_DMA_EOT_EN BIT(1)
-+#define GENI_SE_DMA_AHB_ERR_EN BIT(2)
-+#define GENI_SE_DMA_EOT_BUF BIT(0)
-+/**
-+ * geni_se_tx_dma_prep() - Prepare the serial engine for TX DMA transfer
-+ * @se:			Pointer to the concerned serial engine.
-+ * @buf:		Pointer to the TX buffer.
-+ * @len:		Length of the TX buffer.
-+ * @iova:		Pointer to store the mapped DMA address.
-+ *
-+ * This function is used to prepare the buffers for DMA TX.
-+ *
-+ * Return: 0 on success, standard Linux error codes on failure.
-+ */
-+int geni_se_tx_dma_prep(struct geni_se *se, void *buf, size_t len,
-+			dma_addr_t *iova)
++static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
++				u32 m_param)
 +{
-+	struct geni_wrapper *wrapper = se->wrapper;
-+	u32 val;
++	dma_addr_t tx_dma;
++	enum geni_se_xfer_mode mode;
++	unsigned long time_left;
 +
-+	*iova = dma_map_single(wrapper->dev, buf, len, DMA_TO_DEVICE);
-+	if (dma_mapping_error(wrapper->dev, *iova))
-+		return -EIO;
++	gi2c->cur = msg;
++	mode = msg->len > 32 ? GENI_SE_DMA : GENI_SE_FIFO;
++	geni_se_select_mode(&gi2c->se, mode);
++	writel_relaxed(msg->len, gi2c->se.base + SE_I2C_TX_TRANS_LEN);
++	geni_se_setup_m_cmd(&gi2c->se, I2C_WRITE, m_param);
++	if (mode == GENI_SE_DMA) {
++		int ret;
 +
-+	val = GENI_SE_DMA_DONE_EN;
-+	val |= GENI_SE_DMA_EOT_EN;
-+	val |= GENI_SE_DMA_AHB_ERR_EN;
-+	writel_relaxed(val, se->base + SE_DMA_TX_IRQ_EN_SET);
-+	writel_relaxed(lower_32_bits(*iova), se->base + SE_DMA_TX_PTR_L);
-+	writel_relaxed(upper_32_bits(*iova), se->base + SE_DMA_TX_PTR_H);
-+	writel_relaxed(GENI_SE_DMA_EOT_BUF, se->base + SE_DMA_TX_ATTR);
-+	writel_relaxed(len, se->base + SE_DMA_TX_LEN);
-+	return 0;
++		ret = geni_se_tx_dma_prep(&gi2c->se, msg->buf, msg->len,
++								&tx_dma);
++		if (!ret) {
++			mode = GENI_SE_FIFO;
++			geni_se_select_mode(&gi2c->se, mode);
++		}
++	}
++
++	if (mode == GENI_SE_FIFO) /* Get FIFO IRQ */
++		writel_relaxed(1, gi2c->se.base + SE_GENI_TX_WATERMARK_REG);
++
++	time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
++	if (!time_left)
++		geni_i2c_abort_xfer(gi2c);
++
++	gi2c->cur_wr = 0;
++	if (mode == GENI_SE_DMA) {
++		if (gi2c->err)
++			geni_i2c_tx_fsm_rst(gi2c);
++		geni_se_tx_dma_unprep(&gi2c->se, tx_dma, msg->len);
++	}
++	return gi2c->err;
 +}
-+EXPORT_SYMBOL(geni_se_tx_dma_prep);
 +
-+/**
-+ * geni_se_rx_dma_prep() - Prepare the serial engine for RX DMA transfer
-+ * @se:			Pointer to the concerned serial engine.
-+ * @buf:		Pointer to the RX buffer.
-+ * @len:		Length of the RX buffer.
-+ * @iova:		Pointer to store the mapped DMA address.
-+ *
-+ * This function is used to prepare the buffers for DMA RX.
-+ *
-+ * Return: 0 on success, standard Linux error codes on failure.
-+ */
-+int geni_se_rx_dma_prep(struct geni_se *se, void *buf, size_t len,
-+			dma_addr_t *iova)
++static int geni_i2c_xfer(struct i2c_adapter *adap,
++			 struct i2c_msg msgs[],
++			 int num)
 +{
-+	struct geni_wrapper *wrapper = se->wrapper;
-+	u32 val;
++	struct geni_i2c_dev *gi2c = i2c_get_adapdata(adap);
++	int i, ret;
 +
-+	*iova = dma_map_single(wrapper->dev, buf, len, DMA_FROM_DEVICE);
-+	if (dma_mapping_error(wrapper->dev, *iova))
-+		return -EIO;
-+
-+	val = GENI_SE_DMA_DONE_EN;
-+	val |= GENI_SE_DMA_EOT_EN;
-+	val |= GENI_SE_DMA_AHB_ERR_EN;
-+	writel_relaxed(val, se->base + SE_DMA_RX_IRQ_EN_SET);
-+	writel_relaxed(lower_32_bits(*iova), se->base + SE_DMA_RX_PTR_L);
-+	writel_relaxed(upper_32_bits(*iova), se->base + SE_DMA_RX_PTR_H);
-+	/* RX does not have EOT buffer type bit. So just reset RX_ATTR */
-+	writel_relaxed(0, se->base + SE_DMA_RX_ATTR);
-+	writel_relaxed(len, se->base + SE_DMA_RX_LEN);
-+	return 0;
-+}
-+EXPORT_SYMBOL(geni_se_rx_dma_prep);
-+
-+/**
-+ * geni_se_tx_dma_unprep() - Unprepare the serial engine after TX DMA transfer
-+ * @se:			Pointer to the concerned serial engine.
-+ * @iova:		DMA address of the TX buffer.
-+ * @len:		Length of the TX buffer.
-+ *
-+ * This function is used to unprepare the DMA buffers after DMA TX.
-+ */
-+void geni_se_tx_dma_unprep(struct geni_se *se, dma_addr_t iova, size_t len)
-+{
-+	struct geni_wrapper *wrapper = se->wrapper;
-+
-+	if (iova && !dma_mapping_error(wrapper->dev, iova))
-+		dma_unmap_single(wrapper->dev, iova, len, DMA_TO_DEVICE);
-+}
-+EXPORT_SYMBOL(geni_se_tx_dma_unprep);
-+
-+/**
-+ * geni_se_rx_dma_unprep() - Unprepare the serial engine after RX DMA transfer
-+ * @se:			Pointer to the concerned serial engine.
-+ * @iova:		DMA address of the RX buffer.
-+ * @len:		Length of the RX buffer.
-+ *
-+ * This function is used to unprepare the DMA buffers after DMA RX.
-+ */
-+void geni_se_rx_dma_unprep(struct geni_se *se, dma_addr_t iova, size_t len)
-+{
-+	struct geni_wrapper *wrapper = se->wrapper;
-+
-+	if (iova && !dma_mapping_error(wrapper->dev, iova))
-+		dma_unmap_single(wrapper->dev, iova, len, DMA_FROM_DEVICE);
-+}
-+EXPORT_SYMBOL(geni_se_rx_dma_unprep);
-+
-+static int geni_se_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct resource *res;
-+	struct geni_wrapper *wrapper;
-+	int ret;
-+
-+	wrapper = devm_kzalloc(dev, sizeof(*wrapper), GFP_KERNEL);
-+	if (!wrapper)
-+		return -ENOMEM;
-+
-+	wrapper->dev = dev;
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	wrapper->base = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(wrapper->base))
-+		return PTR_ERR(wrapper->base);
-+
-+	wrapper->ahb_clks[0].id = "m-ahb";
-+	wrapper->ahb_clks[1].id = "s-ahb";
-+	ret = devm_clk_bulk_get(dev, NUM_AHB_CLKS, wrapper->ahb_clks);
-+	if (ret) {
-+		dev_err(dev, "Err getting AHB clks %d\n", ret);
++	gi2c->err = 0;
++	reinit_completion(&gi2c->done);
++	ret = pm_runtime_get_sync(gi2c->se.dev);
++	if (ret < 0) {
++		dev_err(gi2c->se.dev, "error turning SE resources:%d\n", ret);
++		pm_runtime_put_noidle(gi2c->se.dev);
++		/* Set device in suspended since resume failed */
++		pm_runtime_set_suspended(gi2c->se.dev);
 +		return ret;
 +	}
 +
-+	dev_set_drvdata(dev, wrapper);
-+	dev_dbg(dev, "GENI SE Driver probed\n");
-+	return devm_of_platform_populate(dev);
++	qcom_geni_i2c_conf(gi2c);
++	for (i = 0; i < num; i++) {
++		u32 m_param = i < (num - 1) ? STOP_STRETCH : 0;
++
++		m_param |= ((msgs[i].addr << SLV_ADDR_SHFT) & SLV_ADDR_MSK);
++
++		if (msgs[i].flags & I2C_M_RD)
++			ret = geni_i2c_rx_one_msg(gi2c, &msgs[i], m_param);
++		else
++			ret = geni_i2c_tx_one_msg(gi2c, &msgs[i], m_param);
++
++		if (ret)
++			break;
++	}
++	if (ret == 0)
++		ret = num;
++
++	pm_runtime_mark_last_busy(gi2c->se.dev);
++	pm_runtime_put_autosuspend(gi2c->se.dev);
++	gi2c->cur = NULL;
++	gi2c->err = 0;
++	return ret;
 +}
 +
-+static const struct of_device_id geni_se_dt_match[] = {
-+	{ .compatible = "qcom,geni-se-qup", },
++static u32 geni_i2c_func(struct i2c_adapter *adap)
++{
++	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
++}
++
++static const struct i2c_algorithm geni_i2c_algo = {
++	.master_xfer	= geni_i2c_xfer,
++	.functionality	= geni_i2c_func,
++};
++
++static int geni_i2c_probe(struct platform_device *pdev)
++{
++	struct geni_i2c_dev *gi2c;
++	struct resource *res;
++	u32 proto, tx_depth;
++	int ret;
++
++	gi2c = devm_kzalloc(&pdev->dev, sizeof(*gi2c), GFP_KERNEL);
++	if (!gi2c)
++		return -ENOMEM;
++
++	gi2c->se.dev = &pdev->dev;
++	gi2c->se.wrapper = dev_get_drvdata(pdev->dev.parent);
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	gi2c->se.base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(gi2c->se.base))
++		return PTR_ERR(gi2c->se.base);
++
++	gi2c->se.clk = devm_clk_get(&pdev->dev, "se");
++	if (IS_ERR(gi2c->se.clk)) {
++		ret = PTR_ERR(gi2c->se.clk);
++		dev_err(&pdev->dev, "Err getting SE Core clk %d\n", ret);
++		return ret;
++	}
++
++	ret = device_property_read_u32(&pdev->dev, "clock-frequency",
++							&gi2c->clk_freq_out);
++	if (ret) {
++		/* Clock frequency not specified, so default to 100kHz. */
++		dev_info(&pdev->dev,
++			"Bus frequency not specified, default to 100kHz.\n");
++		gi2c->clk_freq_out = KHZ(100);
++	}
++
++	gi2c->irq = platform_get_irq(pdev, 0);
++	if (gi2c->irq < 0) {
++		dev_err(&pdev->dev, "IRQ error for i2c-geni\n");
++		return gi2c->irq;
++	}
++
++	ret = geni_i2c_clk_map_idx(gi2c);
++	if (ret) {
++		dev_err(&pdev->dev, "Invalid clk frequency %d Hz: %d\n",
++			gi2c->clk_freq_out, ret);
++		return ret;
++	}
++
++	gi2c->adap.algo = &geni_i2c_algo;
++	init_completion(&gi2c->done);
++	spin_lock_init(&gi2c->lock);
++	platform_set_drvdata(pdev, gi2c);
++	ret = devm_request_irq(&pdev->dev, gi2c->irq, geni_i2c_irq,
++			       IRQF_TRIGGER_HIGH, "i2c_geni", gi2c);
++	if (ret) {
++		dev_err(&pdev->dev, "Request_irq failed:%d: err:%d\n",
++			gi2c->irq, ret);
++		return ret;
++	}
++	/* Disable the interrupt so that the system can enter low-power mode */
++	disable_irq(gi2c->irq);
++	i2c_set_adapdata(&gi2c->adap, gi2c);
++	gi2c->adap.dev.parent = &pdev->dev;
++	gi2c->adap.dev.of_node = pdev->dev.of_node;
++	strlcpy(gi2c->adap.name, "Geni-I2C", sizeof(gi2c->adap.name));
++
++	ret = geni_se_resources_on(&gi2c->se);
++	if (ret) {
++		dev_err(&pdev->dev, "Error turning on resources %d\n", ret);
++		return ret;
++	}
++	proto = geni_se_read_proto(&gi2c->se);
++	tx_depth = geni_se_get_tx_fifo_depth(&gi2c->se);
++	if (proto != GENI_SE_I2C) {
++		dev_err(&pdev->dev, "Invalid proto %d\n", proto);
++		geni_se_resources_off(&gi2c->se);
++		return -ENXIO;
++	}
++	gi2c->tx_wm = tx_depth - 1;
++	geni_se_init(&gi2c->se, gi2c->tx_wm, tx_depth);
++	geni_se_config_packing(&gi2c->se, BITS_PER_BYTE, PACKING_BYTES_PW,
++							true, true, true);
++	geni_se_resources_off(&gi2c->se);
++	dev_dbg(&pdev->dev, "i2c fifo/se-dma mode. fifo depth:%d\n", tx_depth);
++
++	pm_runtime_set_suspended(gi2c->se.dev);
++	pm_runtime_set_autosuspend_delay(gi2c->se.dev, I2C_AUTO_SUSPEND_DELAY);
++	pm_runtime_use_autosuspend(gi2c->se.dev);
++	pm_runtime_enable(gi2c->se.dev);
++	i2c_add_adapter(&gi2c->adap);
++
++	return 0;
++}
++
++static int geni_i2c_remove(struct platform_device *pdev)
++{
++	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
++
++	pm_runtime_disable(gi2c->se.dev);
++	i2c_del_adapter(&gi2c->adap);
++	return 0;
++}
++
++static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
++{
++	struct geni_i2c_dev *gi2c = dev_get_drvdata(dev);
++
++	disable_irq(gi2c->irq);
++	geni_se_resources_off(&gi2c->se);
++	return 0;
++}
++
++static int __maybe_unused geni_i2c_runtime_resume(struct device *dev)
++{
++	int ret;
++	struct geni_i2c_dev *gi2c = dev_get_drvdata(dev);
++
++	ret = geni_se_resources_on(&gi2c->se);
++	if (ret)
++		return ret;
++
++	enable_irq(gi2c->irq);
++	return 0;
++}
++
++static int __maybe_unused geni_i2c_suspend_noirq(struct device *dev)
++{
++	if (!pm_runtime_suspended(dev)) {
++		geni_i2c_runtime_suspend(dev);
++		pm_runtime_disable(dev);
++		pm_runtime_set_suspended(dev);
++		pm_runtime_enable(dev);
++	}
++	return 0;
++}
++
++static const struct dev_pm_ops geni_i2c_pm_ops = {
++	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(geni_i2c_suspend_noirq, NULL)
++	SET_RUNTIME_PM_OPS(geni_i2c_runtime_suspend, geni_i2c_runtime_resume,
++									NULL)
++};
++
++static const struct of_device_id geni_i2c_dt_match[] = {
++	{ .compatible = "qcom,geni-i2c" },
 +	{}
 +};
-+MODULE_DEVICE_TABLE(of, geni_se_dt_match);
++MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
 +
-+static struct platform_driver geni_se_driver = {
++static struct platform_driver geni_i2c_driver = {
++	.probe  = geni_i2c_probe,
++	.remove = geni_i2c_remove,
 +	.driver = {
-+		.name = "geni_se_qup",
-+		.of_match_table = geni_se_dt_match,
++		.name = "geni_i2c",
++		.pm = &geni_i2c_pm_ops,
++		.of_match_table = geni_i2c_dt_match,
 +	},
-+	.probe = geni_se_probe,
 +};
-+module_platform_driver(geni_se_driver);
 +
-+MODULE_DESCRIPTION("GENI Serial Engine Driver");
++module_platform_driver(geni_i2c_driver);
++
++MODULE_DESCRIPTION("I2C Controller Driver for GENI based QUP cores");
 +MODULE_LICENSE("GPL v2");
-diff --git a/include/linux/qcom-geni-se.h b/include/linux/qcom-geni-se.h
-new file mode 100644
-index 0000000..5d61449
---- /dev/null
-+++ b/include/linux/qcom-geni-se.h
-@@ -0,0 +1,425 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-+ */
-+
-+#ifndef _LINUX_QCOM_GENI_SE
-+#define _LINUX_QCOM_GENI_SE
-+
-+/* Transfer mode supported by GENI Serial Engines */
-+enum geni_se_xfer_mode {
-+	GENI_SE_INVALID,
-+	GENI_SE_FIFO,
-+	GENI_SE_DMA,
-+};
-+
-+/* Protocols supported by GENI Serial Engines */
-+enum geni_se_protocol_type {
-+	GENI_SE_NONE,
-+	GENI_SE_SPI,
-+	GENI_SE_UART,
-+	GENI_SE_I2C,
-+	GENI_SE_I3C,
-+};
-+
-+struct geni_wrapper;
-+struct clk;
-+
-+/**
-+ * struct geni_se - GENI Serial Engine
-+ * @base:		Base Address of the Serial Engine's register block
-+ * @dev:		Pointer to the Serial Engine device
-+ * @wrapper:		Pointer to the parent QUP Wrapper core
-+ * @clk:		Handle to the core serial engine clock
-+ * @num_clk_levels:	Number of valid clock levels in clk_perf_tbl
-+ * @clk_perf_tbl:	Table of clock frequency input to serial engine clock
-+ */
-+struct geni_se {
-+	void __iomem *base;
-+	struct device *dev;
-+	struct geni_wrapper *wrapper;
-+	struct clk *clk;
-+	unsigned int num_clk_levels;
-+	unsigned long *clk_perf_tbl;
-+};
-+
-+/* Common SE registers */
-+#define GENI_FORCE_DEFAULT_REG		0x20
-+#define SE_GENI_STATUS			0x40
-+#define GENI_SER_M_CLK_CFG		0x48
-+#define GENI_SER_S_CLK_CFG		0x4c
-+#define GENI_FW_REVISION_RO		0x68
-+#define SE_GENI_CLK_SEL			0x7c
-+#define SE_GENI_DMA_MODE_EN		0x258
-+#define SE_GENI_M_CMD0			0x600
-+#define SE_GENI_M_CMD_CTRL_REG		0x604
-+#define SE_GENI_M_IRQ_STATUS		0x610
-+#define SE_GENI_M_IRQ_EN		0x614
-+#define SE_GENI_M_IRQ_CLEAR		0x618
-+#define SE_GENI_S_CMD0			0x630
-+#define SE_GENI_S_CMD_CTRL_REG		0x634
-+#define SE_GENI_S_IRQ_STATUS		0x640
-+#define SE_GENI_S_IRQ_EN		0x644
-+#define SE_GENI_S_IRQ_CLEAR		0x648
-+#define SE_GENI_TX_FIFOn		0x700
-+#define SE_GENI_RX_FIFOn		0x780
-+#define SE_GENI_TX_FIFO_STATUS		0x800
-+#define SE_GENI_RX_FIFO_STATUS		0x804
-+#define SE_GENI_TX_WATERMARK_REG	0x80c
-+#define SE_GENI_RX_WATERMARK_REG	0x810
-+#define SE_GENI_RX_RFR_WATERMARK_REG	0x814
-+#define SE_GENI_IOS			0x908
-+#define SE_DMA_TX_IRQ_STAT		0xc40
-+#define SE_DMA_TX_IRQ_CLR		0xc44
-+#define SE_DMA_TX_FSM_RST		0xc58
-+#define SE_DMA_RX_IRQ_STAT		0xd40
-+#define SE_DMA_RX_IRQ_CLR		0xd44
-+#define SE_DMA_RX_FSM_RST		0xd58
-+#define SE_HW_PARAM_0			0xe24
-+#define SE_HW_PARAM_1			0xe28
-+
-+/* GENI_FORCE_DEFAULT_REG fields */
-+#define FORCE_DEFAULT	BIT(0)
-+
-+/* GENI_STATUS fields */
-+#define M_GENI_CMD_ACTIVE		BIT(0)
-+#define S_GENI_CMD_ACTIVE		BIT(12)
-+
-+/* GENI_SER_M_CLK_CFG/GENI_SER_S_CLK_CFG */
-+#define SER_CLK_EN			BIT(0)
-+#define CLK_DIV_MSK			GENMASK(15, 4)
-+#define CLK_DIV_SHFT			4
-+
-+/* GENI_FW_REVISION_RO fields */
-+#define FW_REV_PROTOCOL_MSK		GENMASK(15, 8)
-+#define FW_REV_PROTOCOL_SHFT		8
-+
-+/* GENI_CLK_SEL fields */
-+#define CLK_SEL_MSK			GENMASK(2, 0)
-+
-+/* SE_GENI_DMA_MODE_EN */
-+#define GENI_DMA_MODE_EN		BIT(0)
-+
-+/* GENI_M_CMD0 fields */
-+#define M_OPCODE_MSK			GENMASK(31, 27)
-+#define M_OPCODE_SHFT			27
-+#define M_PARAMS_MSK			GENMASK(26, 0)
-+
-+/* GENI_M_CMD_CTRL_REG */
-+#define M_GENI_CMD_CANCEL		BIT(2)
-+#define M_GENI_CMD_ABORT		BIT(1)
-+#define M_GENI_DISABLE			BIT(0)
-+
-+/* GENI_S_CMD0 fields */
-+#define S_OPCODE_MSK			GENMASK(31, 27)
-+#define S_OPCODE_SHFT			27
-+#define S_PARAMS_MSK			GENMASK(26, 0)
-+
-+/* GENI_S_CMD_CTRL_REG */
-+#define S_GENI_CMD_CANCEL		BIT(2)
-+#define S_GENI_CMD_ABORT		BIT(1)
-+#define S_GENI_DISABLE			BIT(0)
-+
-+/* GENI_M_IRQ_EN fields */
-+#define M_CMD_DONE_EN			BIT(0)
-+#define M_CMD_OVERRUN_EN		BIT(1)
-+#define M_ILLEGAL_CMD_EN		BIT(2)
-+#define M_CMD_FAILURE_EN		BIT(3)
-+#define M_CMD_CANCEL_EN			BIT(4)
-+#define M_CMD_ABORT_EN			BIT(5)
-+#define M_TIMESTAMP_EN			BIT(6)
-+#define M_RX_IRQ_EN			BIT(7)
-+#define M_GP_SYNC_IRQ_0_EN		BIT(8)
-+#define M_GP_IRQ_0_EN			BIT(9)
-+#define M_GP_IRQ_1_EN			BIT(10)
-+#define M_GP_IRQ_2_EN			BIT(11)
-+#define M_GP_IRQ_3_EN			BIT(12)
-+#define M_GP_IRQ_4_EN			BIT(13)
-+#define M_GP_IRQ_5_EN			BIT(14)
-+#define M_IO_DATA_DEASSERT_EN		BIT(22)
-+#define M_IO_DATA_ASSERT_EN		BIT(23)
-+#define M_RX_FIFO_RD_ERR_EN		BIT(24)
-+#define M_RX_FIFO_WR_ERR_EN		BIT(25)
-+#define M_RX_FIFO_WATERMARK_EN		BIT(26)
-+#define M_RX_FIFO_LAST_EN		BIT(27)
-+#define M_TX_FIFO_RD_ERR_EN		BIT(28)
-+#define M_TX_FIFO_WR_ERR_EN		BIT(29)
-+#define M_TX_FIFO_WATERMARK_EN		BIT(30)
-+#define M_SEC_IRQ_EN			BIT(31)
-+#define M_COMMON_GENI_M_IRQ_EN	(GENMASK(6, 1) | \
-+				M_IO_DATA_DEASSERT_EN | \
-+				M_IO_DATA_ASSERT_EN | M_RX_FIFO_RD_ERR_EN | \
-+				M_RX_FIFO_WR_ERR_EN | M_TX_FIFO_RD_ERR_EN | \
-+				M_TX_FIFO_WR_ERR_EN)
-+
-+/* GENI_S_IRQ_EN fields */
-+#define S_CMD_DONE_EN			BIT(0)
-+#define S_CMD_OVERRUN_EN		BIT(1)
-+#define S_ILLEGAL_CMD_EN		BIT(2)
-+#define S_CMD_FAILURE_EN		BIT(3)
-+#define S_CMD_CANCEL_EN			BIT(4)
-+#define S_CMD_ABORT_EN			BIT(5)
-+#define S_GP_SYNC_IRQ_0_EN		BIT(8)
-+#define S_GP_IRQ_0_EN			BIT(9)
-+#define S_GP_IRQ_1_EN			BIT(10)
-+#define S_GP_IRQ_2_EN			BIT(11)
-+#define S_GP_IRQ_3_EN			BIT(12)
-+#define S_GP_IRQ_4_EN			BIT(13)
-+#define S_GP_IRQ_5_EN			BIT(14)
-+#define S_IO_DATA_DEASSERT_EN		BIT(22)
-+#define S_IO_DATA_ASSERT_EN		BIT(23)
-+#define S_RX_FIFO_RD_ERR_EN		BIT(24)
-+#define S_RX_FIFO_WR_ERR_EN		BIT(25)
-+#define S_RX_FIFO_WATERMARK_EN		BIT(26)
-+#define S_RX_FIFO_LAST_EN		BIT(27)
-+#define S_COMMON_GENI_S_IRQ_EN	(GENMASK(5, 1) | GENMASK(13, 9) | \
-+				 S_RX_FIFO_RD_ERR_EN | S_RX_FIFO_WR_ERR_EN)
-+
-+/*  GENI_/TX/RX/RX_RFR/_WATERMARK_REG fields */
-+#define WATERMARK_MSK			GENMASK(5, 0)
-+
-+/* GENI_TX_FIFO_STATUS fields */
-+#define TX_FIFO_WC			GENMASK(27, 0)
-+
-+/*  GENI_RX_FIFO_STATUS fields */
-+#define RX_LAST				BIT(31)
-+#define RX_LAST_BYTE_VALID_MSK		GENMASK(30, 28)
-+#define RX_LAST_BYTE_VALID_SHFT		28
-+#define RX_FIFO_WC_MSK			GENMASK(24, 0)
-+
-+/* SE_GENI_IOS fields */
-+#define IO2_DATA_IN			BIT(1)
-+#define RX_DATA_IN			BIT(0)
-+
-+/* SE_DMA_TX_IRQ_STAT Register fields */
-+#define TX_DMA_DONE			BIT(0)
-+#define TX_EOT				BIT(1)
-+#define TX_SBE				BIT(2)
-+#define TX_RESET_DONE			BIT(3)
-+
-+/* SE_DMA_RX_IRQ_STAT Register fields */
-+#define RX_DMA_DONE			BIT(0)
-+#define RX_EOT				BIT(1)
-+#define RX_SBE				BIT(2)
-+#define RX_RESET_DONE			BIT(3)
-+#define RX_FLUSH_DONE			BIT(4)
-+#define RX_GENI_GP_IRQ			GENMASK(10, 5)
-+#define RX_GENI_CANCEL_IRQ		BIT(11)
-+#define RX_GENI_GP_IRQ_EXT		GENMASK(13, 12)
-+
-+/* SE_HW_PARAM_0 fields */
-+#define TX_FIFO_WIDTH_MSK		GENMASK(29, 24)
-+#define TX_FIFO_WIDTH_SHFT		24
-+#define TX_FIFO_DEPTH_MSK		GENMASK(21, 16)
-+#define TX_FIFO_DEPTH_SHFT		16
-+
-+/* SE_HW_PARAM_1 fields */
-+#define RX_FIFO_WIDTH_MSK		GENMASK(29, 24)
-+#define RX_FIFO_WIDTH_SHFT		24
-+#define RX_FIFO_DEPTH_MSK		GENMASK(21, 16)
-+#define RX_FIFO_DEPTH_SHFT		16
-+
-+#define HW_VER_MAJOR_MASK		GENMASK(31, 28)
-+#define HW_VER_MAJOR_SHFT		28
-+#define HW_VER_MINOR_MASK		GENMASK(27, 16)
-+#define HW_VER_MINOR_SHFT		16
-+#define HW_VER_STEP_MASK		GENMASK(15, 0)
-+
-+#if IS_ENABLED(CONFIG_QCOM_GENI_SE)
-+
-+u32 geni_se_get_qup_hw_version(struct geni_se *se);
-+
-+#define geni_se_get_wrapper_version(se, major, minor, step) do { \
-+	u32 ver; \
-+\
-+	ver = geni_se_get_qup_hw_version(se); \
-+	major = (ver & HW_VER_MAJOR_MASK) >> HW_VER_MAJOR_SHFT; \
-+	minor = (ver & HW_VER_MINOR_MASK) >> HW_VER_MINOR_SHFT; \
-+	step = version & HW_VER_STEP_MASK; \
-+} while (0)
-+
-+/**
-+ * geni_se_read_proto() - Read the protocol configured for a serial engine
-+ * @se:		Pointer to the concerned serial engine.
-+ *
-+ * Return: Protocol value as configured in the serial engine.
-+ */
-+static inline u32 geni_se_read_proto(struct geni_se *se)
-+{
-+	u32 val;
-+
-+	val = readl_relaxed(se->base + GENI_FW_REVISION_RO);
-+
-+	return (val & FW_REV_PROTOCOL_MSK) >> FW_REV_PROTOCOL_SHFT;
-+}
-+
-+/**
-+ * geni_se_setup_m_cmd() - Setup the primary sequencer
-+ * @se:		Pointer to the concerned serial engine.
-+ * @cmd:	Command/Operation to setup in the primary sequencer.
-+ * @params:	Parameter for the sequencer command.
-+ *
-+ * This function is used to configure the primary sequencer with the
-+ * command and its associated parameters.
-+ */
-+static inline void geni_se_setup_m_cmd(struct geni_se *se, u32 cmd, u32 params)
-+{
-+	u32 m_cmd;
-+
-+	m_cmd = (cmd << M_OPCODE_SHFT) | (params & M_PARAMS_MSK);
-+	writel_relaxed(m_cmd, se->base + SE_GENI_M_CMD0);
-+}
-+
-+/**
-+ * geni_se_setup_s_cmd() - Setup the secondary sequencer
-+ * @se:		Pointer to the concerned serial engine.
-+ * @cmd:	Command/Operation to setup in the secondary sequencer.
-+ * @params:	Parameter for the sequencer command.
-+ *
-+ * This function is used to configure the secondary sequencer with the
-+ * command and its associated parameters.
-+ */
-+static inline void geni_se_setup_s_cmd(struct geni_se *se, u32 cmd, u32 params)
-+{
-+	u32 s_cmd;
-+
-+	s_cmd = readl_relaxed(se->base + SE_GENI_S_CMD0);
-+	s_cmd &= ~(S_OPCODE_MSK | S_PARAMS_MSK);
-+	s_cmd |= (cmd << S_OPCODE_SHFT);
-+	s_cmd |= (params & S_PARAMS_MSK);
-+	writel_relaxed(s_cmd, se->base + SE_GENI_S_CMD0);
-+}
-+
-+/**
-+ * geni_se_cancel_m_cmd() - Cancel the command configured in the primary
-+ *                          sequencer
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * This function is used to cancel the currently configured command in the
-+ * primary sequencer.
-+ */
-+static inline void geni_se_cancel_m_cmd(struct geni_se *se)
-+{
-+	writel_relaxed(M_GENI_CMD_CANCEL, se->base + SE_GENI_M_CMD_CTRL_REG);
-+}
-+
-+/**
-+ * geni_se_cancel_s_cmd() - Cancel the command configured in the secondary
-+ *                          sequencer
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * This function is used to cancel the currently configured command in the
-+ * secondary sequencer.
-+ */
-+static inline void geni_se_cancel_s_cmd(struct geni_se *se)
-+{
-+	writel_relaxed(S_GENI_CMD_CANCEL, se->base + SE_GENI_S_CMD_CTRL_REG);
-+}
-+
-+/**
-+ * geni_se_abort_m_cmd() - Abort the command configured in the primary sequencer
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * This function is used to force abort the currently configured command in the
-+ * primary sequencer.
-+ */
-+static inline void geni_se_abort_m_cmd(struct geni_se *se)
-+{
-+	writel_relaxed(M_GENI_CMD_ABORT, se->base + SE_GENI_M_CMD_CTRL_REG);
-+}
-+
-+/**
-+ * geni_se_abort_s_cmd() - Abort the command configured in the secondary
-+ *                         sequencer
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * This function is used to force abort the currently configured command in the
-+ * secondary sequencer.
-+ */
-+static inline void geni_se_abort_s_cmd(struct geni_se *se)
-+{
-+	writel_relaxed(S_GENI_CMD_ABORT, se->base + SE_GENI_S_CMD_CTRL_REG);
-+}
-+
-+/**
-+ * geni_se_get_tx_fifo_depth() - Get the TX fifo depth of the serial engine
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * This function is used to get the depth i.e. number of elements in the
-+ * TX fifo of the serial engine.
-+ *
-+ * Return: TX fifo depth in units of FIFO words.
-+ */
-+static inline u32 geni_se_get_tx_fifo_depth(struct geni_se *se)
-+{
-+	u32 val;
-+
-+	val = readl_relaxed(se->base + SE_HW_PARAM_0);
-+
-+	return (val & TX_FIFO_DEPTH_MSK) >> TX_FIFO_DEPTH_SHFT;
-+}
-+
-+/**
-+ * geni_se_get_tx_fifo_width() - Get the TX fifo width of the serial engine
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * This function is used to get the width i.e. word size per element in the
-+ * TX fifo of the serial engine.
-+ *
-+ * Return: TX fifo width in bits
-+ */
-+static inline u32 geni_se_get_tx_fifo_width(struct geni_se *se)
-+{
-+	u32 val;
-+
-+	val = readl_relaxed(se->base + SE_HW_PARAM_0);
-+
-+	return (val & TX_FIFO_WIDTH_MSK) >> TX_FIFO_WIDTH_SHFT;
-+}
-+
-+/**
-+ * geni_se_get_rx_fifo_depth() - Get the RX fifo depth of the serial engine
-+ * @se:	Pointer to the concerned serial engine.
-+ *
-+ * This function is used to get the depth i.e. number of elements in the
-+ * RX fifo of the serial engine.
-+ *
-+ * Return: RX fifo depth in units of FIFO words
-+ */
-+static inline u32 geni_se_get_rx_fifo_depth(struct geni_se *se)
-+{
-+	u32 val;
-+
-+	val = readl_relaxed(se->base + SE_HW_PARAM_1);
-+
-+	return (val & RX_FIFO_DEPTH_MSK) >> RX_FIFO_DEPTH_SHFT;
-+}
-+
-+void geni_se_init(struct geni_se *se, u32 rx_wm, u32 rx_rfr);
-+
-+void geni_se_select_mode(struct geni_se *se, enum geni_se_xfer_mode mode);
-+
-+void geni_se_config_packing(struct geni_se *se, int bpw, int pack_words,
-+			    bool msb_to_lsb, bool tx_cfg, bool rx_cfg);
-+
-+int geni_se_resources_off(struct geni_se *se);
-+
-+int geni_se_resources_on(struct geni_se *se);
-+
-+int geni_se_clk_tbl_get(struct geni_se *se, unsigned long **tbl);
-+
-+int geni_se_clk_freq_match(struct geni_se *se, unsigned long req_freq,
-+			   unsigned int *index, unsigned long *res_freq,
-+			   bool exact);
-+
-+int geni_se_tx_dma_prep(struct geni_se *se, void *buf, size_t len,
-+			dma_addr_t *iova);
-+
-+int geni_se_rx_dma_prep(struct geni_se *se, void *buf, size_t len,
-+			dma_addr_t *iova);
-+
-+void geni_se_tx_dma_unprep(struct geni_se *se, dma_addr_t iova, size_t len);
-+
-+void geni_se_rx_dma_unprep(struct geni_se *se, dma_addr_t iova, size_t len);
-+#endif
-+#endif
 -- 
 Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
