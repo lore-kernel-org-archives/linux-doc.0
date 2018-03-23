@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BDFC17DD32
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 13:59:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B87F7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 13:59:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752526AbeCWN64 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 09:58:56 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:51116 "EHLO mail.bootlin.com"
+        id S1752785AbeCWN7a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 09:59:30 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:51150 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752447AbeCWN6z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Mar 2018 09:58:55 -0400
+        id S1752447AbeCWN73 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Mar 2018 09:59:29 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 2E56B206FB; Fri, 23 Mar 2018 14:58:52 +0100 (CET)
+        id A0CD8206FB; Fri, 23 Mar 2018 14:59:26 +0100 (CET)
 Received: from bbrezillon (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 5A2E72046F;
-        Fri, 23 Mar 2018 14:58:51 +0100 (CET)
-Date:   Fri, 23 Mar 2018 14:58:51 +0100
+        by mail.bootlin.com (Postfix) with ESMTPSA id D52B32046F;
+        Fri, 23 Mar 2018 14:59:25 +0100 (CET)
+Date:   Fri, 23 Mar 2018 14:59:26 +0100
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Peter Rosin <peda@axentia.se>
+To:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,12 +48,13 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         linux-gpio@vger.kernel.org,
         Boris Brezillon <boris.brezillon@free-electrons.com>
-Subject: Re: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
-Message-ID: <20180323145851.64997945@bbrezillon>
-In-Reply-To: <beba0248-1a41-e39a-75fb-a1aa94337008@axentia.se>
+Subject: Re: [PATCH v3 09/11] dt-bindings: i3c: Document Cadence I3C master
+ bindings
+Message-ID: <20180323145926.29fa0ff8@bbrezillon>
+In-Reply-To: <20180323121035.7dc27356@windsurf>
 References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
-        <20180323110020.19080-6-boris.brezillon@bootlin.com>
-        <beba0248-1a41-e39a-75fb-a1aa94337008@axentia.se>
+        <20180323110020.19080-10-boris.brezillon@bootlin.com>
+        <20180323121035.7dc27356@windsurf>
 X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -63,28 +64,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Mar 2018 13:47:49 +0100
-Peter Rosin <peda@axentia.se> wrote:
+On Fri, 23 Mar 2018 12:10:35 +0100
+Thomas Petazzoni <thomas.petazzoni@bootlin.com> wrote:
 
+> Hello,
+> 
+> On Fri, 23 Mar 2018 12:00:18 +0100, Boris Brezillon wrote:
+> 
+> > +Optional properties defined by the generic binding (see
+> > +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+> > +
+> > +- i2c-scl-frequency
+> > +- i3c-scl-frequency  
+> 
+> These properties are now named *-scl-hz.
+> 
 > > +Example:
 > > +
-> > +	i3c-master@d040000 {
+> > +	i3c-master@0d040000 {
 > > +		compatible = "cdns,i3c-master";
 > > +		clocks = <&coreclock>, <&i3csysclock>;
 > > +		clock-names = "pclk", "sysclk";
 > > +		interrupts = <3 0>;
 > > +		reg = <0x0d040000 0x1000>;
-> > +		#address-cells = <3>;
+> > +		#address-cells = <1>;
 > > +		#size-cells = <0>;
-> > +
-> > +		status = "okay";
 > > +		i2c-scl-frequency = <100000>;  
 > 
-> Another s/frequency/hz/ instance, similar to those reported by Thomas.
+> Ditto.
 
-Will fix it in v4.
+I'll fix that in v4.
 
-Thanks,
+Thanks for the review.
 
 Boris
 
