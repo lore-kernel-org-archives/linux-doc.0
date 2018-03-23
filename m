@@ -2,29 +2,31 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4C74B7D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:04:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 06D4C7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:11:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755909AbeCWLDr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 07:03:47 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:43884 "EHLO mail.bootlin.com"
+        id S1755929AbeCWLKw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 07:10:52 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:44569 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1755878AbeCWLAi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Mar 2018 07:00:38 -0400
+        id S1751987AbeCWLKs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Mar 2018 07:10:48 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id A5D052082C; Fri, 23 Mar 2018 12:00:35 +0100 (CET)
-Received: from localhost.localdomain (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-        by mail.bootlin.com (Postfix) with ESMTPSA id B9CB320858;
-        Fri, 23 Mar 2018 12:00:24 +0100 (CET)
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        id D799820858; Fri, 23 Mar 2018 12:10:45 +0100 (CET)
+Received: from windsurf (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 1091E2082C;
+        Fri, 23 Mar 2018 12:10:35 +0100 (CET)
+Date:   Fri, 23 Mar 2018 12:10:35 +0100
+From:   Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Przemyslaw Sroka <psroka@cadence.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
         Arkadiusz Golec <agolec@cadence.com>,
         Alan Douglas <adouglas@cadence.com>,
         Bartosz Folta <bfolta@cadence.com>,
@@ -46,134 +48,53 @@ Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         linux-gpio@vger.kernel.org,
         Boris Brezillon <boris.brezillon@free-electrons.com>
-Subject: [PATCH v3 04/11] i3c: Add sysfs ABI spec
-Date:   Fri, 23 Mar 2018 12:00:13 +0100
-Message-Id: <20180323110020.19080-5-boris.brezillon@bootlin.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20180323110020.19080-1-boris.brezillon@bootlin.com>
+Subject: Re: [PATCH v3 09/11] dt-bindings: i3c: Document Cadence I3C master
+ bindings
+Message-ID: <20180323121035.7dc27356@windsurf>
+In-Reply-To: <20180323110020.19080-10-boris.brezillon@bootlin.com>
 References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
+        <20180323110020.19080-10-boris.brezillon@bootlin.com>
+Organization: Bootlin (formerly Free Electrons)
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Boris Brezillon <boris.brezillon@free-electrons.com>
+Hello,
 
-Document sysfs files/directories/symlinks exposed by the I3C subsystem.
+On Fri, 23 Mar 2018 12:00:18 +0100, Boris Brezillon wrote:
 
-Signed-off-by: Boris Brezillon <boris.brezillon@free-electrons.com>
----
-Changes in v2:
-- new patch
----
- Documentation/ABI/testing/sysfs-bus-i3c | 95 +++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
+> +Optional properties defined by the generic binding (see
+> +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+> +
+> +- i2c-scl-frequency
+> +- i3c-scl-frequency
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
-new file mode 100644
-index 000000000000..5e88cc093e0e
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-i3c
-@@ -0,0 +1,95 @@
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		An I3C bus. This directory will contain one sub-directory per
-+		I3C device present on the bus.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/current_master
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Expose the master that owns the bus (<bus-id>-<master-pid>) at
-+		the time this file is read. Note that bus ownership can change
-+		overtime, so there's no guarantee that when the read() call
-+		returns, the value returned is still valid.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/mode
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		I3C bus mode. Can be "pure", "mixed-fast" or "mixed-slow". See
-+		the I3C specification for a detailed description of what each
-+		of these modes implies.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/i3c_scl_frequency
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		The frequency (expressed in Hz) of the SCL signal when
-+		operating in I3C SDR mode.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/i2c_scl_frequency
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		The frequency (expressed in Hz) of the SCL signal when
-+		operating in I2C mode.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		An I3C device present on I3C bus identified by <bus-id>. Note
-+		that all devices are represented including the master driving
-+		the bus.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/address
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Dynamic address assigned to device <bus-id>-<device-pid>. This
-+		address may change if the bus is re-initialized.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/bcr
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		BCR stands for Bus Characteristics Register and express the
-+		device capabilities in term of speed, maximum read/write
-+		length, etc. See the I3C specification for more details.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/dcr
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		DCR stands for Device Characteristics Register and express the
-+		device capabilities in term of exposed features. See the I3C
-+		specification for more details.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/pid
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		PID stands for Provisional ID and is used to uniquely identify
-+		a device on a bus. This PID contains information about the
-+		vendor, the part and an instance ID so that several devices of
-+		the same type can be connected on the same bus.
-+		See the I3C specification for more details.
-+
-+What:		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>/hdrcap
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		Expose the HDR (High Data Rate) capabilities of a device.
-+		Returns a list of supported HDR mode, each element is separated
-+		by space. Modes can be "hdr-ddr", "hdr-tsp" and "hdr-tsl".
-+		See the I3C specification for more details about these HDR
-+		modes.
-+
-+What:		/sys/bus/i3c/devices/<bus-id>-<device-pid>
-+KernelVersion:  4.16
-+Contact:	linux-i3c@vger.kernel.org
-+Description:
-+		These directories are just symbolic links to
-+		/sys/bus/i3c/devices/i3c-<bus-id>/<bus-id>-<device-pid>.
+These properties are now named *-scl-hz.
+
+> +Example:
+> +
+> +	i3c-master@0d040000 {
+> +		compatible = "cdns,i3c-master";
+> +		clocks = <&coreclock>, <&i3csysclock>;
+> +		clock-names = "pclk", "sysclk";
+> +		interrupts = <3 0>;
+> +		reg = <0x0d040000 0x1000>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		i2c-scl-frequency = <100000>;
+
+Ditto.
+
+Thomas
 -- 
-2.14.1
-
+Thomas Petazzoni, CTO, Bootlin (formerly Free Electrons)
+Embedded Linux and Kernel engineering
+https://bootlin.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
