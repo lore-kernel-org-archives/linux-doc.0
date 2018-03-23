@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 803BB7D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:03:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC4FB7D0DA
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Mar 2018 11:03:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755899AbeCWLAj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Mar 2018 07:00:39 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:43837 "EHLO mail.bootlin.com"
+        id S1753331AbeCWLDa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Mar 2018 07:03:30 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:43886 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753331AbeCWLAg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Mar 2018 07:00:36 -0400
+        id S1755881AbeCWLAj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Mar 2018 07:00:39 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 9EDAF208B0; Fri, 23 Mar 2018 12:00:33 +0100 (CET)
+        id 60A6420858; Fri, 23 Mar 2018 12:00:36 +0100 (CET)
 Received: from localhost.localdomain (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-        by mail.bootlin.com (Postfix) with ESMTPSA id ADCB1206FB;
-        Fri, 23 Mar 2018 12:00:22 +0100 (CET)
+        by mail.bootlin.com (Postfix) with ESMTPSA id 63E2120877;
+        Fri, 23 Mar 2018 12:00:25 +0100 (CET)
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -46,9 +46,9 @@ Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         linux-gpio@vger.kernel.org,
         Boris Brezillon <boris.brezillon@free-electrons.com>
-Subject: [PATCH v3 01/11] i2c: Export of_i2c_get_board_info()
-Date:   Fri, 23 Mar 2018 12:00:10 +0100
-Message-Id: <20180323110020.19080-2-boris.brezillon@bootlin.com>
+Subject: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
+Date:   Fri, 23 Mar 2018 12:00:14 +0100
+Message-Id: <20180323110020.19080-6-boris.brezillon@bootlin.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180323110020.19080-1-boris.brezillon@bootlin.com>
 References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
@@ -59,170 +59,174 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Boris Brezillon <boris.brezillon@free-electrons.com>
 
-I3C busses have to know about all I2C devices connected on the I3C bus
-to properly initialize the I3C master, and I2C frames can't be sent on
-the bus until this initialization is done.
+A new I3C subsystem has been added and a generic description has been
+created to represent the I3C bus and the devices connected on it.
 
-We can't let the I2C core parse the DT and instantiate I2C devices as
-part of its i2c_add_adapter() procedure because, when done this way,
-I2C devices are directly registered to the device-model and might be
-attached to drivers which could in turn start sending frames on the bus,
-which won't work since, as said above, the bus is not yet initialized.
-
-Export of_i2c_register_device() in order to let the I3C core parse the
-I2C device nodes by itself and initialize the bus.
+Document this generic representation.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@free-electrons.com>
 ---
-Changes in v2:
-- fix memset() call
-- rebase on v4.15-rc1
----
- drivers/i2c/i2c-core-base.c |  2 +-
- drivers/i2c/i2c-core-of.c   | 66 ++++++++++++++++++++++++++-------------------
- include/linux/i2c.h         | 10 +++++++
- 3 files changed, 49 insertions(+), 29 deletions(-)
+Changes in v3:
+- Rename {i2c,i3c}-scl-frequency DT prop into {i2c,i3c}-scl-hz
+- Rework the way we expose the provisional ID and LVR information
+- Rename dynamic-address into assigned-address
+- Enforce the I3C master node name
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 5a00bf443d06..e57715f5064c 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -736,7 +736,7 @@ i2c_new_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
- 	client->dev.parent = &client->adapter->dev;
- 	client->dev.bus = &i2c_bus_type;
- 	client->dev.type = &i2c_client_type;
--	client->dev.of_node = info->of_node;
-+	client->dev.of_node = of_node_get(info->of_node);
- 	client->dev.fwnode = info->fwnode;
- 
- 	i2c_dev_set_name(adap, client, info);
-diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
-index 8d474bb1dc15..7470bc418a3b 100644
---- a/drivers/i2c/i2c-core-of.c
-+++ b/drivers/i2c/i2c-core-of.c
-@@ -22,56 +22,66 @@
- 
- #include "i2c-core.h"
- 
--static struct i2c_client *of_i2c_register_device(struct i2c_adapter *adap,
--						 struct device_node *node)
-+int of_i2c_get_board_info(struct device *dev, struct device_node *node,
-+			  struct i2c_board_info *info)
- {
--	struct i2c_client *result;
--	struct i2c_board_info info = {};
--	struct dev_archdata dev_ad = {};
--	const __be32 *addr_be;
- 	u32 addr;
--	int len;
-+	int ret;
- 
--	dev_dbg(&adap->dev, "of_i2c: register %pOF\n", node);
-+	memset(info, 0, sizeof(*info));
- 
--	if (of_modalias_node(node, info.type, sizeof(info.type)) < 0) {
--		dev_err(&adap->dev, "of_i2c: modalias failure on %pOF\n",
--			node);
--		return ERR_PTR(-EINVAL);
-+	if (of_modalias_node(node, info->type, sizeof(info->type)) < 0) {
-+		dev_err(dev, "of_i2c: modalias failure on %pOF\n", node);
-+		return -EINVAL;
- 	}
- 
--	addr_be = of_get_property(node, "reg", &len);
--	if (!addr_be || (len < sizeof(*addr_be))) {
--		dev_err(&adap->dev, "of_i2c: invalid reg on %pOF\n", node);
--		return ERR_PTR(-EINVAL);
-+	ret = of_property_read_u32(node, "reg", &addr);
-+	if (ret) {
-+		dev_err(dev, "of_i2c: invalid reg on %pOF\n", node);
-+		return ret;
- 	}
- 
--	addr = be32_to_cpup(addr_be);
- 	if (addr & I2C_TEN_BIT_ADDRESS) {
- 		addr &= ~I2C_TEN_BIT_ADDRESS;
--		info.flags |= I2C_CLIENT_TEN;
-+		info->flags |= I2C_CLIENT_TEN;
- 	}
- 
- 	if (addr & I2C_OWN_SLAVE_ADDRESS) {
- 		addr &= ~I2C_OWN_SLAVE_ADDRESS;
--		info.flags |= I2C_CLIENT_SLAVE;
-+		info->flags |= I2C_CLIENT_SLAVE;
- 	}
- 
--	if (i2c_check_addr_validity(addr, info.flags)) {
--		dev_err(&adap->dev, "of_i2c: invalid addr=%x on %pOF\n",
--			addr, node);
--		return ERR_PTR(-EINVAL);
-+	ret = i2c_check_addr_validity(addr, info->flags);
-+	if (ret) {
-+		dev_err(dev, "of_i2c: invalid addr=%x on %pOF\n", addr, node);
-+		return ret;
- 	}
- 
--	info.addr = addr;
--	info.of_node = of_node_get(node);
--	info.archdata = &dev_ad;
-+	info->addr = addr;
-+	info->of_node = node;
- 
- 	if (of_property_read_bool(node, "host-notify"))
--		info.flags |= I2C_CLIENT_HOST_NOTIFY;
-+		info->flags |= I2C_CLIENT_HOST_NOTIFY;
- 
- 	if (of_get_property(node, "wakeup-source", NULL))
--		info.flags |= I2C_CLIENT_WAKE;
-+		info->flags |= I2C_CLIENT_WAKE;
+Changes in v2:
+- Define how to describe I3C devices in the DT and when it should be
+  used. Note that the parsing of I3C devices is not yet implemented in
+  the framework. Will be added when someone really needs it.
+---
+ Documentation/devicetree/bindings/i3c/i3c.txt | 140 ++++++++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
+
+diff --git a/Documentation/devicetree/bindings/i3c/i3c.txt b/Documentation/devicetree/bindings/i3c/i3c.txt
+new file mode 100644
+index 000000000000..ed858228d26b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/i3c/i3c.txt
+@@ -0,0 +1,140 @@
++Generic device tree bindings for I3C busses
++===========================================
 +
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(of_i2c_get_board_info);
++This document describes generic bindings that should be used to describe I3C
++busses in a device tree.
 +
-+static struct i2c_client *of_i2c_register_device(struct i2c_adapter *adap,
-+						 struct device_node *node)
-+{
-+	struct i2c_client *result;
-+	struct i2c_board_info info;
-+	int ret;
++Required properties
++-------------------
 +
-+	dev_dbg(&adap->dev, "of_i2c: register %pOF\n", node);
++- #address-cells  - should be <3>. Read more about addresses below.
++- #size-cells     - should be <0>.
++- compatible      - name of the I3C master controller driving the I3C bus
 +
-+	ret = of_i2c_get_board_info(&adap->dev, node, &info);
-+	if (ret)
-+		return ERR_PTR(ret);
- 
- 	result = i2c_new_device(adap, &info);
- 	if (result == NULL) {
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 419a38e7c315..3e38c10748e3 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -873,6 +873,9 @@ extern const struct of_device_id
- *i2c_of_match_device(const struct of_device_id *matches,
- 		     struct i2c_client *client);
- 
-+int of_i2c_get_board_info(struct device *dev, struct device_node *node,
-+			  struct i2c_board_info *info);
++For other required properties e.g. to describe register sets,
++clocks, etc. check the binding documentation of the specific driver.
++The node describing an I3C bus should be named i3c-master.
 +
- #else
- 
- static inline struct i2c_client *of_find_i2c_device_by_node(struct device_node *node)
-@@ -897,6 +900,13 @@ static inline const struct of_device_id
- 	return NULL;
- }
- 
-+static inline int of_i2c_get_board_info(struct device *dev,
-+					struct device_node *node,
-+					struct i2c_board_info *info)
-+{
-+	return -ENOTSUPP;
-+}
++Optional properties
++-------------------
 +
- #endif /* CONFIG_OF */
- 
- #if IS_ENABLED(CONFIG_ACPI)
++These properties may not be supported by all I3C master drivers. Each I3C
++master bindings should specify which of them are supported.
++
++- i3c-scl-hz: frequency of the SCL signal used for I3C transfers.
++	      When undefined the core sets it to 12.5MHz.
++
++- i2c-scl-hz: frequency of the SCL signal used for I2C transfers.
++	      When undefined, the core looks at LVR (Legacy Virtual Register)
++	      values of I2C devices described in the device tree to determine
++	      the maximum I2C frequency.
++
++I2C devices
++===========
++
++Each I2C device connected to the bus should be described in a subnode. All
++properties described in Documentation/devicetree/bindings/i2c/i2c.txt are
++valid here, but several new properties have been added.
++
++New constraint on existing properties:
++--------------------------------------
++- reg: contains 3 cells
++  + first cell : still encoding the I2C address
++
++  + second cell: should have bit 31 set to 1 signify that this is an I2C
++		 device. Bits 0 to 7 encode the I3C LVR (Legacy Virtual
++		 Register):
++
++	bit[7:5]: I2C device index. Possible values
++	* 0: I2C device has a 50 ns spike filter
++	* 1: I2C device does not have a 50 ns spike filter but supports high
++	     frequency on SCL
++	* 2: I2C device does not have a 50 ns spike filter and is not tolerant
++	     to high frequencies
++	* 3-7: reserved
++
++	bit[4]: tell whether the device operates in FM (Fast Mode) or FM+ mode
++	* 0: FM+ mode
++	* 1: FM mode
++
++	bit[3:0]: device type
++	* 0-15: reserved
++
++  + third cell: should be 0
++
++I3C devices
++===========
++
++All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
++are thus discoverable. So, by default, I3C devices do not have to be described
++in the device tree.
++This being said, one might want to attach extra resources to these devices,
++and those resources may have to be described in the device tree, which in turn
++means we have to describe I3C devices.
++
++Another use case for describing an I3C device in the device tree is when this
++I3C device has a static address and we want to assign it a specific dynamic
++address before the DAA takes place (so that other devices on the bus can't
++take this dynamic address).
++
++The I3C device should be names <device-type>@<static-address>,<i3c-pid>,
++where device-type is describing the type of device connected on the bus
++(gpio-controller, sensor, ...).
++
++Required properties
++-------------------
++- reg: contains 3 cells
++  + first cell : encodes the I2C address. Should be 0 if the device does not
++		 have one (0 is not a valid I3C address).
++
++  + second and third cells: should encode the ProvisionalID. The second cell
++			    contains the manufacturer ID left-shifted by 1.
++			    The third cell contains ORing of the part ID
++			    left-shifted by 16, the instance ID left-shifted
++			    by 12 and the extra information. This encoding is
++			    following the PID definition provided by the I3C
++			    specification.
++
++Optional properties
++-------------------
++- assigned-address: dynamic address to be assigned to this device. This
++		    property is only valid if the I3C device has a static
++		    address (first cell of the reg property != 0).
++
++
++Example:
++
++	i3c-master@d040000 {
++		compatible = "cdns,i3c-master";
++		clocks = <&coreclock>, <&i3csysclock>;
++		clock-names = "pclk", "sysclk";
++		interrupts = <3 0>;
++		reg = <0x0d040000 0x1000>;
++		#address-cells = <3>;
++		#size-cells = <0>;
++
++		status = "okay";
++		i2c-scl-frequency = <100000>;
++
++		/* I2C device. */
++		nunchuk: nunchuk@52 {
++			compatible = "nintendo,nunchuk";
++			reg = <0x52 0x80000010 0x0>;
++		};
++
++		/* I3C device with a static address. */
++		thermal_sensor: sensor@68,39200144004 {
++			reg = <0x68 0x392 0x144004>;
++			assigned-address = <0xa>;
++		};
++
++		/*
++		 * I3C device without a static address but requiring resources
++		 * described in the DT.
++		 */
++		sensor@0,39200154004 {
++			reg = <0x0 0x392 0x154004>;
++			clocks = <&clock_provider 0>;
++		};
++	};
++
 -- 
 2.14.1
 
