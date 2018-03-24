@@ -1,171 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1928D7DE7A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Mar 2018 21:54:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 698B67D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Mar 2018 22:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752095AbeCXVyb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 24 Mar 2018 17:54:31 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:56594 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751972AbeCXVy3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Mar 2018 17:54:29 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 2898260271; Sat, 24 Mar 2018 21:54:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521928469;
-        bh=S08FGV/ggNvSM1eejziJOk9RdA0gquhWMTrDH3ALg3Q=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=G1togWemptocL1Cj8m3Q+hSoMSjcZyKwzfpOe9VaMRSbyP1qG2Hr7Eq75x5mOyOI+
-         I5MDUCeZqlzeQZ4xZveqy44BI8jDRQ4PCOnzttlrsw/LfMlZ/+RVb+weSEsUoFs4h2
-         JKKBCR1KVufsRf7yaBTPt1UFFLjqruleh+9EPfK8=
-Received: from [192.168.1.6] (c-67-166-9-45.hsd1.co.comcast.net [67.166.9.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: sdharia@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id C4F5E60271;
-        Sat, 24 Mar 2018 21:54:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1521928467;
-        bh=S08FGV/ggNvSM1eejziJOk9RdA0gquhWMTrDH3ALg3Q=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=GYPw4O/TMrsdrj9SWz2A4ygB2YrBwVvvXDDRfge4TlpuZvi8l2HTReeXGkn/Pkv5k
-         Y/WQKpkxbtLvZzHcr7YQoQ/NsdQkRYi8XV5SeuPAoC+/HKsDbQweRBa+uf9DCLSuoR
-         5AeEA3M8cpdc8uKK+/DsgIBRy9kOvVwj+DZv0BGs=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C4F5E60271
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=sdharia@codeaurora.org
-Subject: Re: [PATCH v5 3/5] i2c: i2c-qcom-geni: Add bus driver for the
- Qualcomm GENI I2C controller
-To:     Doug Anderson <dianders@chromium.org>,
-        Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S1752095AbeCXWfW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 24 Mar 2018 18:35:22 -0400
+Received: from sauhun.de ([88.99.104.3]:44444 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751894AbeCXWfV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 24 Mar 2018 18:35:21 -0400
+Received: from localhost (p54B33AE5.dip0.t-ipconnect.de [84.179.58.229])
+        by pokefinder.org (Postfix) with ESMTPSA id ECA9045CEDE;
+        Sat, 24 Mar 2018 23:35:18 +0100 (CET)
+Date:   Sat, 24 Mar 2018 23:35:18 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, evgreen@chromium.org,
-        acourbot@chromium.org, swboyd@chromium.org,
-        Girish Mahadevan <girishm@codeaurora.org>
-References: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
- <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
- <CAD=FV=VGcttQ6H1-Hnqj+Jrk+eaE52bOna6NojG5DoQ--A5aEg@mail.gmail.com>
-From:   Sagar Dharia <sdharia@codeaurora.org>
-Message-ID: <2feb9931-2aff-9562-b20a-0216d413ad0e@codeaurora.org>
-Date:   Sat, 24 Mar 2018 15:54:25 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@free-electrons.com>
+Subject: Re: [PATCH v3 01/11] i2c: Export of_i2c_get_board_info()
+Message-ID: <20180324223518.g5jsi5zvoxa75psy@ninjato>
+References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
+ <20180323110020.19080-2-boris.brezillon@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=VGcttQ6H1-Hnqj+Jrk+eaE52bOna6NojG5DoQ--A5aEg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="c5y2fzlvsrcqsj2d"
+Content-Disposition: inline
+In-Reply-To: <20180323110020.19080-2-boris.brezillon@bootlin.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Doug
 
-On 3/23/2018 5:34 PM, Doug Anderson wrote:
-> Hi,
-> 
-> On Fri, Mar 23, 2018 at 1:20 PM, Karthikeyan Ramasubramanian
-> <kramasub@codeaurora.org> wrote:
->> This bus driver supports the GENI based i2c hardware controller in the
->> Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
->> module supporting a wide range of serial interfaces including I2C. The
->> driver supports FIFO mode and DMA mode of transfer and switches modes
->> dynamically depending on the size of the transfer.
->>
->> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
->> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
->> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
->> ---
->>  drivers/i2c/busses/Kconfig         |  13 +
->>  drivers/i2c/busses/Makefile        |   1 +
->>  drivers/i2c/busses/i2c-qcom-geni.c | 650 +++++++++++++++++++++++++++++++++++++
->>  3 files changed, 664 insertions(+)
-> 
-> [...]
-> 
->> +/*
->> + * Hardware uses the underlying formula to calculate time periods of
->> + * SCL clock cycle. Firmware uses some additional cycles excluded from the
->> + * below formula and it is confirmed that the time periods are within
->> + * specification limits.
-> 
-> I was hoping for more than just "oh, and there's a fudge factor", but
-> I guess this is the best I'm going to get?
-> 
-According to our HW/FW team:
-"We use over sampling in our FW and we use 1-2 NOPE extra in some cases.
-this is why we can’t give a exact formula."
+--c5y2fzlvsrcqsj2d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
->> +static int geni_i2c_probe(struct platform_device *pdev)
->> +{
->> +       struct geni_i2c_dev *gi2c;
->> +       struct resource *res;
->> +       u32 proto, tx_depth;
->> +       int ret;
->> +
->> +       gi2c = devm_kzalloc(&pdev->dev, sizeof(*gi2c), GFP_KERNEL);
->> +       if (!gi2c)
->> +               return -ENOMEM;
->> +
->> +       gi2c->se.dev = &pdev->dev;
->> +       gi2c->se.wrapper = dev_get_drvdata(pdev->dev.parent);
->> +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->> +       gi2c->se.base = devm_ioremap_resource(&pdev->dev, res);
->> +       if (IS_ERR(gi2c->se.base))
->> +               return PTR_ERR(gi2c->se.base);
->> +
->> +       gi2c->se.clk = devm_clk_get(&pdev->dev, "se");
->> +       if (IS_ERR(gi2c->se.clk)) {
->> +               ret = PTR_ERR(gi2c->se.clk);
->> +               dev_err(&pdev->dev, "Err getting SE Core clk %d\n", ret);
->> +               return ret;
->> +       }
->> +
->> +       ret = device_property_read_u32(&pdev->dev, "clock-frequency",
->> +                                                       &gi2c->clk_freq_out);
->> +       if (ret) {
->> +               /* Clock frequency not specified, so default to 100kHz. */
->> +               dev_info(&pdev->dev,
->> +                       "Bus frequency not specified, default to 100kHz.\n");
-> 
-> If you happen to spin again, can you remove the comment since it's
-> obvious from the string in the print?  It looks a lot like this code:
-> 
-> /* Print hello, world */
-> printf("hello, world\n");
-> 
-> 
-> In any case, that's a pretty minor nit, so I'll add:
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> 
-> ...assuming that the bindings and "geni" code get Acked / landed
-> somewhere.  Ideally let's not land this before the geni code lands
-> since if the geni API changes for some reason it'll cause us grief.
-> 
+Hi Boris,
 
-Sure, thanks a lot for reviewing the patches!
--Sagar
-> 
-> -Doug
-> 
+> - rebase on v4.15-rc1
 
--- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+This code has changed a little meanwhile. Please check my for-next
+branch. Some changes are identical, some similar.
+
+> -	info.archdata = &dev_ad;
+
+Why did you drop this?
+
+Regards,
+
+   Wolfram
+
+
+--c5y2fzlvsrcqsj2d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlq20qIACgkQFA3kzBSg
+KbYuOQ//Q55O04/Ag8K+cDd7xM96TrhMguQI2QChKgKVFjYNQl9gjofsCr6+Z1NZ
+DTd8xi+J7vNUYQZyh5gJRzqQ31PaDH1CLKUKY1xvg5GEP80MyV3+cUYvz28mNgYS
+nfnbwUj2KFZcl/GdVLNg8zf3N2YOpJALkZeg/91IQQ1CPq1a4ZyO4Az2RLuJ5UMx
+gZGEPPacNHNV5VdBaOrUWYtP2TFHzaeiPrXLj1LwaHcOSrmDRoyBaXSnDTR305ow
+fB9P2lpxx/ETe3wHMk0h7UlC467qd4Im/6Rf0yM3IjOfxEXG5KZ8BsmEgLpzaa3Q
+hl/KivRMz63F+rtyniyTvFyySRplp4Yge5cX17RhnGIEGseW2MOgWCMzymm41apF
+01niaIDW4wQC4xqO9HunLEGCky9xZOxf8K3S3KiErX9XyRkphrG8DHXFkGhfg0Dk
+HNjVl9vONd/Y5pTf0gPBEkObcTUusvOGmm9HGhbbP3wHzyu2gHToCoQFV0f4yiwH
+VFKxE4WJkauSE/omX0xp6nNjdm0wA1oHUjvmwMj6pKS18Vni70yDRdWiWhh41T0f
+k4ldm6iupWPrjaFcVaJ+MgB5BE03ismMpGstvSV9+DDB7FTAQzXr4TECEpTgJlDC
+eS9G+JnJzaX1vBesKWIpvNFG1gEJKR6sEjVM0UXQVwbLH7W7Fbs=
+=A+ZD
+-----END PGP SIGNATURE-----
+
+--c5y2fzlvsrcqsj2d--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
