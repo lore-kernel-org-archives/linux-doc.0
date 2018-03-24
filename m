@@ -5,71 +5,64 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FD597D0DA
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Mar 2018 06:26:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1928D7DE7A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Mar 2018 21:54:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750837AbeCXG0c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 24 Mar 2018 02:26:32 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:34625 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750819AbeCXG0a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Mar 2018 02:26:30 -0400
-Received: by mail-wm0-f68.google.com with SMTP id a20so9576626wmd.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Mar 2018 23:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EHNZmwRGnRbgz7vB+GgMkna+qWDmDJBAggMpg6UKKCk=;
-        b=MDFcVk9vr5i5co1VefY45Rdzak0bjSyBztGEptI3LzBF55M5X13+kbgbJjwWL8Fg1o
-         5H9S5xIH+SJHuqQa0PIx6FhGDh2y7n/22Rc1j7vNWtllw6xfgGP1lB0II3V2wAU2DK3z
-         7B/YFlMfh3LjPM2PEYQ0VODPusU54yfVHG3VI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EHNZmwRGnRbgz7vB+GgMkna+qWDmDJBAggMpg6UKKCk=;
-        b=G4rpSAbuvz4GxofX7mvCpt+FV+YZtcvcruoSRXDP1zZbmTRLCSjYj3ETWfkaWMUnuJ
-         sGCQ0Zvvn8kuxG9+V2bph7mO39enUot8GMcnPv9ITpzLV/D2jPj31soYYBndLBUBddGL
-         qlTGAttzB49E47E338R+PhHE8B8UVY1qq5hW7Qaxn/G0cvtt6UE7B0Maskvy76sLHN7l
-         jgqyX/xGA/3uu7+hM3ZrHDGKAX9+JSUBV0M5UdjT1oVXfqjPUlBQd9NPJN1bwReSs4LM
-         2xoKzZmeDNAnfxw4sjbo/58Nu+BVCTYpJtoAS3B7hFQIQT6Pwlk0nHe0JxNZjIJvNR0Y
-         FUcA==
-X-Gm-Message-State: AElRT7FeoU7wqtUGwItRhrmFEN+WSGa1HDKwYTEnv5Zrk8n8XQiCEpqC
-        6PDu/Ls7lzFSemLq60MAeaaupLZXa6M=
-X-Google-Smtp-Source: AG47ELtQQJf3Fy9PfcvSkihOsLrkskzpjnYgwX1jGWOIA6jxIG0rYQjFsJWHVpyKR9rcNkE2DFmTqA==
-X-Received: by 10.80.191.4 with SMTP id f4mr32232185edk.224.1521872788319;
-        Fri, 23 Mar 2018 23:26:28 -0700 (PDT)
-Received: from [10.54.151.96] ([88.128.80.160])
-        by smtp.googlemail.com with ESMTPSA id y14sm7482635ede.18.2018.03.23.23.26.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 23 Mar 2018 23:26:27 -0700 (PDT)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Subject: Re: [PATCH v4 7/8] clocksource: Add a new timer-ingenic driver
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
+        id S1752095AbeCXVyb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 24 Mar 2018 17:54:31 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:56594 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751972AbeCXVy3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Mar 2018 17:54:29 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 2898260271; Sat, 24 Mar 2018 21:54:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1521928469;
+        bh=S08FGV/ggNvSM1eejziJOk9RdA0gquhWMTrDH3ALg3Q=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=G1togWemptocL1Cj8m3Q+hSoMSjcZyKwzfpOe9VaMRSbyP1qG2Hr7Eq75x5mOyOI+
+         I5MDUCeZqlzeQZ4xZveqy44BI8jDRQ4PCOnzttlrsw/LfMlZ/+RVb+weSEsUoFs4h2
+         JKKBCR1KVufsRf7yaBTPt1UFFLjqruleh+9EPfK8=
+Received: from [192.168.1.6] (c-67-166-9-45.hsd1.co.comcast.net [67.166.9.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sdharia@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id C4F5E60271;
+        Sat, 24 Mar 2018 21:54:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1521928467;
+        bh=S08FGV/ggNvSM1eejziJOk9RdA0gquhWMTrDH3ALg3Q=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=GYPw4O/TMrsdrj9SWz2A4ygB2YrBwVvvXDDRfge4TlpuZvi8l2HTReeXGkn/Pkv5k
+         Y/WQKpkxbtLvZzHcr7YQoQ/NsdQkRYi8XV5SeuPAoC+/HKsDbQweRBa+uf9DCLSuoR
+         5AeEA3M8cpdc8uKK+/DsgIBRy9kOvVwj+DZv0BGs=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C4F5E60271
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=sdharia@codeaurora.org
+Subject: Re: [PATCH v5 3/5] i2c: i2c-qcom-geni: Add bus driver for the
+ Qualcomm GENI I2C controller
+To:     Doug Anderson <dianders@chromium.org>,
+        Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     James Hogan <jhogan@kernel.org>,
-        Maarten ter Huurne <maarten@treewalker.org>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-doc@vger.kernel.org
-References: <20180110224838.16711-2-paul@crapouillou.net>
- <20180317232901.14129-1-paul@crapouillou.net>
- <20180317232901.14129-8-paul@crapouillou.net>
-Message-ID: <a8d28b2b-4e40-83b9-d65e-beecbd36ad33@linaro.org>
-Date:   Sat, 24 Mar 2018 07:26:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-i2c@vger.kernel.org, evgreen@chromium.org,
+        acourbot@chromium.org, swboyd@chromium.org,
+        Girish Mahadevan <girishm@codeaurora.org>
+References: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
+ <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
+ <CAD=FV=VGcttQ6H1-Hnqj+Jrk+eaE52bOna6NojG5DoQ--A5aEg@mail.gmail.com>
+From:   Sagar Dharia <sdharia@codeaurora.org>
+Message-ID: <2feb9931-2aff-9562-b20a-0216d413ad0e@codeaurora.org>
+Date:   Sat, 24 Mar 2018 15:54:25 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <20180317232901.14129-8-paul@crapouillou.net>
+In-Reply-To: <CAD=FV=VGcttQ6H1-Hnqj+Jrk+eaE52bOna6NojG5DoQ--A5aEg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -78,372 +71,101 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/03/2018 00:29, Paul Cercueil wrote:
-> This driver will use the TCU (Timer Counter Unit) present on the Ingenic
-> JZ47xx SoCs to provide the kernel with a clocksource and timers.
+Hi Doug
 
-Please provide a more detailed description about the timer.
-
-Where is the clocksource ?
-
-I don't see the point of using channel idx and pwm checking here.
-
-There is one clockevent, why create multiple channels ? Can't you stick
-to the usual init routine for a timer.
-
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/clocksource/Kconfig         |   8 ++
->  drivers/clocksource/Makefile        |   1 +
->  drivers/clocksource/timer-ingenic.c | 278 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 287 insertions(+)
->  create mode 100644 drivers/clocksource/timer-ingenic.c
+On 3/23/2018 5:34 PM, Doug Anderson wrote:
+> Hi,
 > 
->  v2: Use SPDX identifier for the license
->  v3: - Move documentation to its own patch
->      - Search the devicetree for PWM clients, and use all the TCU
-> 	   channels that won't be used for PWM
->  v4: - Add documentation about why we search for PWM clients
->      - Verify that the PWM clients are for the TCU PWM driver
+> On Fri, Mar 23, 2018 at 1:20 PM, Karthikeyan Ramasubramanian
+> <kramasub@codeaurora.org> wrote:
+>> This bus driver supports the GENI based i2c hardware controller in the
+>> Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
+>> module supporting a wide range of serial interfaces including I2C. The
+>> driver supports FIFO mode and DMA mode of transfer and switches modes
+>> dynamically depending on the size of the transfer.
+>>
+>> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+>> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
+>> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+>> ---
+>>  drivers/i2c/busses/Kconfig         |  13 +
+>>  drivers/i2c/busses/Makefile        |   1 +
+>>  drivers/i2c/busses/i2c-qcom-geni.c | 650 +++++++++++++++++++++++++++++++++++++
+>>  3 files changed, 664 insertions(+)
 > 
-> diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-> index d2e5382821a4..481422145fb4 100644
-> --- a/drivers/clocksource/Kconfig
-> +++ b/drivers/clocksource/Kconfig
-> @@ -592,4 +592,12 @@ config CLKSRC_ST_LPC
->  	  Enable this option to use the Low Power controller timer
->  	  as clocksource.
->  
-> +config INGENIC_TIMER
-> +	bool "Clocksource/timer using the TCU in Ingenic JZ SoCs"
-> +	depends on MACH_INGENIC || COMPILE_TEST
-
-bool "Clocksource/timer using the TCU in Ingenic JZ SoCs" if COMPILE_TEST
-
-Remove the depends MACH_INGENIC.
-
-> +	select CLKSRC_OF
-> +	default y
-
-No default, Kconfig platform selects the timer.
-
-> +	help
-> +	  Support for the timer/counter unit of the Ingenic JZ SoCs.
-> +
->  endmenu
-> diff --git a/drivers/clocksource/Makefile b/drivers/clocksource/Makefile
-> index d6dec4489d66..98691e8999fe 100644
-> --- a/drivers/clocksource/Makefile
-> +++ b/drivers/clocksource/Makefile
-> @@ -74,5 +74,6 @@ obj-$(CONFIG_ASM9260_TIMER)		+= asm9260_timer.o
->  obj-$(CONFIG_H8300_TMR8)		+= h8300_timer8.o
->  obj-$(CONFIG_H8300_TMR16)		+= h8300_timer16.o
->  obj-$(CONFIG_H8300_TPU)			+= h8300_tpu.o
-> +obj-$(CONFIG_INGENIC_TIMER)		+= timer-ingenic.o
->  obj-$(CONFIG_CLKSRC_ST_LPC)		+= clksrc_st_lpc.o
->  obj-$(CONFIG_X86_NUMACHIP)		+= numachip.o
-> diff --git a/drivers/clocksource/timer-ingenic.c b/drivers/clocksource/timer-ingenic.c
-> new file mode 100644
-> index 000000000000..8c777c0c0023
-> --- /dev/null
-> +++ b/drivers/clocksource/timer-ingenic.c
-> @@ -0,0 +1,278 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Ingenic JZ47xx SoC TCU clocksource driver
-> + * Copyright (C) 2018 Paul Cercueil <paul@crapouillou.net>
-> + */
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/clk.h>
-> +#include <linux/clockchips.h>
-> +#include <linux/err.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/mfd/syscon/ingenic-tcu.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/regmap.h>
-> +#include <linux/slab.h>
-> +
-> +#define NUM_CHANNELS	8
-> +
-> +struct ingenic_tcu;
-> +
-> +struct ingenic_tcu_channel {
-> +	unsigned int idx;
-> +	struct clk *clk;
-> +};
-> +
-> +struct ingenic_tcu {
-> +	struct ingenic_tcu_channel channels[NUM_CHANNELS];
-> +	unsigned long requested;
-> +	struct regmap *map;
-> +};
-> +
-> +struct ingenic_clock_event_device {
-> +	struct clock_event_device cevt;
-> +	struct ingenic_tcu_channel *channel;
-> +	char name[32];
-> +};
-> +
-> +#define ingenic_cevt(_evt) \
-> +	container_of(_evt, struct ingenic_clock_event_device, cevt)
-> +
-> +static inline struct ingenic_tcu *to_ingenic_tcu(struct ingenic_tcu_channel *ch)
-> +{
-> +	return container_of(ch, struct ingenic_tcu, channels[ch->idx]);
-> +}
-> +
-> +static int ingenic_tcu_cevt_set_state_shutdown(struct clock_event_device *evt)
-> +{
-> +	struct ingenic_clock_event_device *jzcevt = ingenic_cevt(evt);
-> +	struct ingenic_tcu_channel *channel = jzcevt->channel;
-> +	struct ingenic_tcu *tcu = to_ingenic_tcu(channel);
-> +	unsigned int idx = channel->idx;
-> +
-> +	regmap_write(tcu->map, TCU_REG_TECR, BIT(idx));
-> +	return 0;
-> +}
-> +
-> +static int ingenic_tcu_cevt_set_next(unsigned long next,
-> +		struct clock_event_device *evt)
-> +{
-> +	struct ingenic_clock_event_device *jzcevt = ingenic_cevt(evt);
-> +	struct ingenic_tcu_channel *channel = jzcevt->channel;
-> +	struct ingenic_tcu *tcu = to_ingenic_tcu(channel);
-> +	unsigned int idx = channel->idx;
-> +
-> +	if (next > 0xffff)
-> +		return -EINVAL;
-> +
-> +	regmap_write(tcu->map, TCU_REG_TDFRc(idx), (unsigned int) next);
-> +	regmap_write(tcu->map, TCU_REG_TCNTc(idx), 0);
-> +	regmap_write(tcu->map, TCU_REG_TESR, BIT(idx));
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t ingenic_tcu_cevt_cb(int irq, void *dev_id)
-> +{
-> +	struct clock_event_device *cevt = dev_id;
-> +	struct ingenic_clock_event_device *jzcevt = ingenic_cevt(cevt);
-> +	struct ingenic_tcu_channel *channel = jzcevt->channel;
-> +	struct ingenic_tcu *tcu = to_ingenic_tcu(channel);
-> +	unsigned int idx = channel->idx;
-> +
-> +	regmap_write(tcu->map, TCU_REG_TECR, BIT(idx));
-> +
-> +	if (cevt->event_handler)
-> +		cevt->event_handler(cevt);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int __init ingenic_tcu_req_channel(struct ingenic_tcu_channel *channel)
-> +{
-> +	struct ingenic_tcu *tcu = to_ingenic_tcu(channel);
-> +	char buf[16];
-> +	int err;
-> +
-> +	if (test_and_set_bit(channel->idx, &tcu->requested))
-> +		return -EBUSY;
-> +
-> +	snprintf(buf, sizeof(buf), "timer%u", channel->idx);
-> +	channel->clk = clk_get(NULL, buf);
-> +	if (IS_ERR(channel->clk)) {
-> +		err = PTR_ERR(channel->clk);
-> +		goto out_release;
-> +	}
-> +
-> +	err = clk_prepare_enable(channel->clk);
-> +	if (err)
-> +		goto out_clk_put;
-> +
-> +	return 0;
-> +
-> +out_clk_put:
-> +	clk_put(channel->clk);
-> +out_release:
-> +	clear_bit(channel->idx, &tcu->requested);
-> +	return err;
-> +}
-> +
-> +static int __init ingenic_tcu_reset_channel(struct device_node *np,
-> +		struct ingenic_tcu_channel *channel)
-> +{
-> +	struct ingenic_tcu *tcu = to_ingenic_tcu(channel);
-> +
-> +	return regmap_update_bits(tcu->map, TCU_REG_TCSRc(channel->idx),
-> +				0xffff & ~TCU_TCSR_RESERVED_BITS, 0);
-> +}
-> +
-> +static void __init ingenic_tcu_free_channel(struct ingenic_tcu_channel *channel)
-> +{
-> +	struct ingenic_tcu *tcu = to_ingenic_tcu(channel);
-> +
-> +	clk_disable_unprepare(channel->clk);
-> +	clk_put(channel->clk);
-> +	clear_bit(channel->idx, &tcu->requested);
-> +}
-> +
-> +static const char * const ingenic_tcu_timer_names[] = {
-> +	"TCU0", "TCU1", "TCU2", "TCU3", "TCU4", "TCU5", "TCU6", "TCU7",
-> +};
-> +
-> +static int __init ingenic_tcu_setup_cevt(struct device_node *np,
-> +		struct ingenic_tcu *tcu, unsigned int idx)
-> +{
-> +	struct ingenic_tcu_channel *channel = &tcu->channels[idx];
-> +	struct ingenic_clock_event_device *jzcevt;
-> +	unsigned long rate;
-> +	int err, virq;
-> +
-> +	err = ingenic_tcu_req_channel(channel);
-> +	if (err)
-> +		return err;
-> +
-> +	err = ingenic_tcu_reset_channel(np, channel);
-> +	if (err)
-> +		goto err_out_free_channel;
-> +
-> +	rate = clk_get_rate(channel->clk);
-> +	if (!rate) {
-> +		err = -EINVAL;
-> +		goto err_out_free_channel;
-> +	}
-> +
-> +	jzcevt = kzalloc(sizeof(*jzcevt), GFP_KERNEL);
-> +	if (!jzcevt) {
-> +		err = -ENOMEM;
-> +		goto err_out_free_channel;
-> +	}
-> +
-> +	virq = irq_of_parse_and_map(np, idx);
-> +	if (!virq) {
-> +		err = -EINVAL;
-> +		goto err_out_kfree_jzcevt;
-> +	}
-> +
-> +	err = request_irq(virq, ingenic_tcu_cevt_cb, IRQF_TIMER,
-> +			ingenic_tcu_timer_names[idx], &jzcevt->cevt);
-> +	if (err)
-> +		goto err_out_irq_dispose_mapping;
-> +
-> +	jzcevt->channel = channel;
-> +	snprintf(jzcevt->name, sizeof(jzcevt->name), "ingenic-tcu-chan%u",
-> +		 channel->idx);
-> +
-> +	jzcevt->cevt.cpumask = cpumask_of(smp_processor_id());
-> +	jzcevt->cevt.features = CLOCK_EVT_FEAT_ONESHOT;
-> +	jzcevt->cevt.name = jzcevt->name;
-> +	jzcevt->cevt.rating = 200;
-> +	jzcevt->cevt.set_state_shutdown = ingenic_tcu_cevt_set_state_shutdown;
-> +	jzcevt->cevt.set_next_event = ingenic_tcu_cevt_set_next;
-> +
-> +	clockevents_config_and_register(&jzcevt->cevt, rate, 10, (1 << 16) - 1);
-> +
-> +	return 0;
-> +
-> +err_out_irq_dispose_mapping:
-> +	irq_dispose_mapping(virq);
-> +err_out_kfree_jzcevt:
-> +	kfree(jzcevt);
-> +err_out_free_channel:
-> +	ingenic_tcu_free_channel(channel);
-> +	return err;
-> +}
-> +
-> +static int __init ingenic_tcu_init(struct device_node *np)
-> +{
-> +	unsigned long available_channels = GENMASK(NUM_CHANNELS - 1, 0);
-> +	struct device_node *node, *pwm_driver_node;
-> +	struct ingenic_tcu *tcu;
-> +	unsigned int i, channel;
-> +	int err;
-> +	u32 val;
-> +
-> +	/* Parse the devicetree for clients of the TCU PWM driver;
-> +	 * every TCU channel not requested for PWM will be used as
-> +	 * a timer.
-> +	 */
-
-
-
-> +	for_each_node_with_property(node, "pwms") {
-> +		/* Get the PWM channel ID (field 1 of the "pwms" node) */
-> +		err = of_property_read_u32_index(node, "pwms", 1, &val);
-> +		if (!err && val >= NUM_CHANNELS)
-> +			err = -EINVAL;
-> +		if (err) {
-> +			pr_err("timer-ingenic: Unable to parse PWM nodes!");
-> +			break;
-> +		}
-> +
-> +		/* Get the PWM driver node (field 0 of the "pwms" node) */
-> +		pwm_driver_node = of_parse_phandle(node, "pwms", 0);
-> +		if (!pwm_driver_node) {
-> +			pr_err("timer-ingenic: Unable to find PWM driver node");
-> +			break;
-> +		}
-> +
-> +		/* Verify that the node we found is for the TCU PWM driver,
-> +		 * by checking that this driver and the PWM driver passed
-> +		 * as phandle share the same parent (the "ingenic,tcu"
-> +		 * compatible MFD/syscon node).
-> +		 */
-> +		if (pwm_driver_node->parent != np->parent)
-> +			continue;
-> +
-> +		pr_info("timer-ingenic: Reserving channel %u for PWM", val);
-> +		available_channels &= ~BIT(val);
-> +	}
-> +
-> +	tcu = kzalloc(sizeof(*tcu), GFP_KERNEL);
-> +	if (!tcu)
-> +		return -ENOMEM;
-> +
-> +	tcu->map = syscon_node_to_regmap(np->parent);
-> +	if (IS_ERR(tcu->map)) {
-> +		err = PTR_ERR(tcu->map);
-> +		kfree(tcu);
-> +		return err;
-> +	}
-> +
-> +	for (i = 0; i < NUM_CHANNELS; i++)
-> +		tcu->channels[i].idx = i;
-
-I'm pretty sure you can do better thaningenic_tcu_setup that :)
-
-> +	for_each_set_bit(channel, &available_channels, NUM_CHANNELS) {
-> +		err = _cevt(np, tcu, channel);
-> +		if (err) {
-> +			pr_warn("timer-ingenic: Unable to init TCU channel %u: %i",
-> +					channel, err);
-> +			continue;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/* We only probe via devicetree, no need for a platform driver */
-> +CLOCKSOURCE_OF_DECLARE(jz4740_tcu, "ingenic,jz4740-tcu", ingenic_tcu_init);
-> +CLOCKSOURCE_OF_DECLARE(jz4770_tcu, "ingenic,jz4770-tcu", ingenic_tcu_init);
-> +CLOCKSOURCE_OF_DECLARE(jz4780_tcu, "ingenic,jz4780-tcu", ingenic_tcu_init);
-
-s/CLOCKSOURCE_OF_DECLARE/TIMER_OF_DECLARE/
+> [...]
+> 
+>> +/*
+>> + * Hardware uses the underlying formula to calculate time periods of
+>> + * SCL clock cycle. Firmware uses some additional cycles excluded from the
+>> + * below formula and it is confirmed that the time periods are within
+>> + * specification limits.
+> 
+> I was hoping for more than just "oh, and there's a fudge factor", but
+> I guess this is the best I'm going to get?
+> 
+According to our HW/FW team:
+"We use over sampling in our FW and we use 1-2 NOPE extra in some cases.
+this is why we can’t give a exact formula."
 
 > 
+>> +static int geni_i2c_probe(struct platform_device *pdev)
+>> +{
+>> +       struct geni_i2c_dev *gi2c;
+>> +       struct resource *res;
+>> +       u32 proto, tx_depth;
+>> +       int ret;
+>> +
+>> +       gi2c = devm_kzalloc(&pdev->dev, sizeof(*gi2c), GFP_KERNEL);
+>> +       if (!gi2c)
+>> +               return -ENOMEM;
+>> +
+>> +       gi2c->se.dev = &pdev->dev;
+>> +       gi2c->se.wrapper = dev_get_drvdata(pdev->dev.parent);
+>> +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> +       gi2c->se.base = devm_ioremap_resource(&pdev->dev, res);
+>> +       if (IS_ERR(gi2c->se.base))
+>> +               return PTR_ERR(gi2c->se.base);
+>> +
+>> +       gi2c->se.clk = devm_clk_get(&pdev->dev, "se");
+>> +       if (IS_ERR(gi2c->se.clk)) {
+>> +               ret = PTR_ERR(gi2c->se.clk);
+>> +               dev_err(&pdev->dev, "Err getting SE Core clk %d\n", ret);
+>> +               return ret;
+>> +       }
+>> +
+>> +       ret = device_property_read_u32(&pdev->dev, "clock-frequency",
+>> +                                                       &gi2c->clk_freq_out);
+>> +       if (ret) {
+>> +               /* Clock frequency not specified, so default to 100kHz. */
+>> +               dev_info(&pdev->dev,
+>> +                       "Bus frequency not specified, default to 100kHz.\n");
+> 
+> If you happen to spin again, can you remove the comment since it's
+> obvious from the string in the print?  It looks a lot like this code:
+> 
+> /* Print hello, world */
+> printf("hello, world\n");
+> 
+> 
+> In any case, that's a pretty minor nit, so I'll add:
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> ...assuming that the bindings and "geni" code get Acked / landed
+> somewhere.  Ideally let's not land this before the geni code lands
+> since if the geni API changes for some reason it'll cause us grief.
+> 
 
+Sure, thanks a lot for reviewing the patches!
+-Sagar
+> 
+> -Doug
+> 
 
 -- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
