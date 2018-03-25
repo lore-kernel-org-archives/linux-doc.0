@@ -5,83 +5,120 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44BC47DD31
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Mar 2018 10:21:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 634F67DD31
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Mar 2018 16:25:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752914AbeCYKVP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 25 Mar 2018 06:21:15 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:51346 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752825AbeCYKVO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 25 Mar 2018 06:21:14 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 508B720722; Sun, 25 Mar 2018 12:21:11 +0200 (CEST)
-Received: from bbrezillon (unknown [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 90BC9203B8;
-        Sun, 25 Mar 2018 12:21:10 +0200 (CEST)
-Date:   Sun, 25 Mar 2018 12:21:09 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@free-electrons.com>
-Subject: Re: [PATCH v3 01/11] i2c: Export of_i2c_get_board_info()
-Message-ID: <20180325122109.31c8e904@bbrezillon>
-In-Reply-To: <20180324223832.7wvhghw77ech4orn@ninjato>
-References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
-        <20180323110020.19080-2-boris.brezillon@bootlin.com>
-        <20180324223518.g5jsi5zvoxa75psy@ninjato>
-        <20180324223832.7wvhghw77ech4orn@ninjato>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1753433AbeCYQZk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 25 Mar 2018 12:25:40 -0400
+Received: from isilmar-4.linta.de ([136.243.71.142]:41662 "EHLO
+        isilmar-4.linta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753281AbeCYQZk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Mar 2018 12:25:40 -0400
+Received: from light.dominikbrodowski.net (isilmar.linta [10.0.0.1])
+        by isilmar-4.linta.de (Postfix) with ESMTPS id 9F5A32008B7;
+        Sun, 25 Mar 2018 16:25:38 +0000 (UTC)
+Received: by light.dominikbrodowski.net (Postfix, from userid 1000)
+        id 3CEEA204EE; Sun, 25 Mar 2018 18:25:27 +0200 (CEST)
+Date:   Sun, 25 Mar 2018 18:25:27 +0200
+From:   Dominik Brodowski <linux@dominikbrodowski.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        viro@zeniv.linux.org.uk, x86@kernel.org,
+        torvalds@linux-foundation.org, mingo@kernel.org,
+        tglx@linutronix.de, luto@amacapital.net
+Subject: [PATCH] syscalls: define and explain goal to not call syscalls in
+ the kernel
+Message-ID: <20180325162527.GA17492@light.dominikbrodowski.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 24 Mar 2018 23:38:32 +0100
-Wolfram Sang <wsa@the-dreams.de> wrote:
+The syscall entry points to the kernel defined by SYSCALL_DEFINEx()
+and COMPAT_SYSCALL_DEFINEx() should only be called from userspace
+through kernel entry points, but not from the kernel itself. This
+will allow cleanups and optimizations to the entry paths *and* to
+the parts of the kernel code which currently need to pretend to be
+userspace in order to make use of syscalls.
 
-> > > -	info.archdata = &dev_ad;  
-> > 
-> > Why did you drop this?  
-> 
-> If the removal is safe, it should be a seperate patch, I mean.
-> 
+Signed-off-by: Dominik Brodowski <linux@dominikbrodowski.net>
 
-Sure, I'll move that in a separate patch. Actually, I had a closer look
-and it seems the only user of info->archdata is i2c-core-of.c, so we
-can even remove the info->archdata field.
+---
 
--- 
-Boris Brezillon, Bootlin (formerly Free Electrons)
-Embedded Linux and Kernel engineering
-https://bootlin.com
+As there have been multiple inquiries on the rationale of my patchsets
+removing in-kernel calls to sys_xyzzy(), here is an updated patch 01/NN
+which I will push upstream for v4.17-rc1. I will also include a reference
+to this mail (and therefore to the explanation below) in all related
+patches of the series. Any improvements, hints, suggestions, spelling
+fixes, and/or objections?
+
+Thanks,
+	Dominik
+
+
+diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+index 8cc25a06f353..556613744556 100644
+--- a/Documentation/process/adding-syscalls.rst
++++ b/Documentation/process/adding-syscalls.rst
+@@ -487,6 +487,38 @@ patchset, for the convenience of reviewers.
+ The man page should be cc'ed to linux-man@vger.kernel.org
+ For more details, see https://www.kernel.org/doc/man-pages/patches.html
+ 
++
++Do not call System Calls in the Kernel
++--------------------------------------
++
++System calls are, as stated above, interaction points between userspace and
++the kernel.  Therefore, system call functions such as ``sys_xyzzy()`` or
++``compat_sys_xyzzy()`` should only be called from userspace via the syscall
++table, but not from elsewhere in the kernel.  If the syscall functionality is
++useful to be used within the kernel, needs to be shared between an old and a
++new syscall, or needs to be shared between a syscall and its compatibility
++variant, it should be implemented by means of a "helper" function (such as
++``kern_xyzzy()``).  This kernel function may then be called within the
++syscall stub (``sys_xyzzy()``), the compatibility syscall stub
++(``compat_sys_xyzzy()``), and/or other kernel code.
++
++At least on 64-bit x86, it will be a hard requirement from v4.17 onwards to not
++call system call functions in the kernel.  It uses a different calling
++convention for system calls where ``struct pt_regs`` is decoded on-the-fly in a
++syscall wrapper which then hands processing over to the actual syscall function.
++This means that only those parameters which are actually needed for a specific
++syscall are passed on during syscall entry, instead of filling in six CPU
++registers with random user space content all the time (which may cause serious
++trouble down the call chain).
++
++Moreover, rules on how data may be accessed may differ between kernel data and
++user data.  This is another reason why calling ``sys_xyzzy()`` is generally a
++bad idea.
++
++Exceptions to this rule are only allowed in architecture-specific overrides,
++architecture-specific compatibility wrappers, or other code in arch/.
++
++
+ References and Sources
+ ----------------------
+ 
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index a78186d826d7..0526286a0314 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -941,4 +941,11 @@ asmlinkage long sys_pkey_free(int pkey);
+ asmlinkage long sys_statx(int dfd, const char __user *path, unsigned flags,
+ 			  unsigned mask, struct statx __user *buffer);
+ 
++
++/*
++ * Kernel code should not call syscalls (i.e., sys_xyzyyz()) directly.
++ * Instead, use one of the functions which work equivalently, such as
++ * the ksys_xyzyyz() functions prototyped below.
++ */
++
+ #endif
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
