@@ -1,159 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.0 required=5.0 tests=RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E07E37D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 20:29:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D87787DE76
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 22:27:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752014AbeCZU25 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Mar 2018 16:28:57 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:45456 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751157AbeCZU2z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Mar 2018 16:28:55 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8D25A4079F33;
-        Mon, 26 Mar 2018 20:28:54 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-75.bos.redhat.com [10.18.17.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EAD5D215CDAE;
-        Mon, 26 Mar 2018 20:28:49 +0000 (UTC)
-Subject: Re: [PATCH v6 2/2] cpuset: Add cpuset.sched_load_balance to v2
-To:     Juri Lelli <juri.lelli@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        efault@gmx.de, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>
-References: <1521649309-26690-1-git-send-email-longman@redhat.com>
- <1521649309-26690-3-git-send-email-longman@redhat.com>
- <20180322084120.GE7231@localhost.localdomain>
- <e754e128-0a93-800e-e71b-2c8dc316ba8a@redhat.com>
- <20180323075952.GA4763@localhost.localdomain>
- <a8860a42-31b5-4620-7b23-b7515ee11d7d@redhat.com>
- <20180326124711.GE5942@localhost.localdomain>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <bf79b45e-7716-65af-03ca-7112dc367371@redhat.com>
-Date:   Mon, 26 Mar 2018 16:28:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S1751932AbeCZW1S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Mar 2018 18:27:18 -0400
+Received: from mail-ot0-f194.google.com ([74.125.82.194]:43236 "EHLO
+        mail-ot0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752776AbeCZWZD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Mar 2018 18:25:03 -0400
+Received: by mail-ot0-f194.google.com with SMTP id m22-v6so22408571otf.10;
+        Mon, 26 Mar 2018 15:25:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Xhb1X2YQBeXvwc0QSuxVH7Rv+N5LrS7mdjT64Fsksvs=;
+        b=SFwTwD2B+fjLm08wJ+YuttMuLetGm6wTd8t5VDifLAdZf5WtAICVHAfcnLqSnaFDHq
+         kjNOlwEPV92YP9EGnVTh50yNF9MdYxft/aWJQ4xCdzHhIlKUK6eiyOvZ3Q1pkfzHb96j
+         R+5ZIciMzym/tzDPVVV9EE1a/QZeod+o4edFKfCq18nXZbNpDWWk5Jy044CyOIWNsZH3
+         RplQgcr62O3TDlb9HE80j7aA1OhIrvnIh7Ad2zVcyNvShfUosHKSoGGnh1kJ7KrCBJ0G
+         Sp4ENeAznb2wjqbKUiRIcmIszChQfVjPnupvVXeeG4r9jxCVSwn58Btx269aC9UczgQx
+         ICXQ==
+X-Gm-Message-State: AElRT7G8rF4DU+O0TP6yypaISESPSUvW7DRnt6ft6Vz7qP3gRL9Oed6Q
+        JJTD1p+zLkjHCCnBUUqJHQ==
+X-Google-Smtp-Source: AIpwx4/JivyWN54jov0NU32Bmt7X2lfIs7AKfsS/C1iOK/MDlF3FxWJWswtx5M7xozBacVROEK3Lig==
+X-Received: by 2002:a9d:5a14:: with SMTP id v20-v6mr4321660oth.349.1522103102524;
+        Mon, 26 Mar 2018 15:25:02 -0700 (PDT)
+Received: from localhost (216-188-254-6.dyn.grandenetworks.net. [216.188.254.6])
+        by smtp.gmail.com with ESMTPSA id y8-v6sm10202246otd.67.2018.03.26.15.25.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 26 Mar 2018 15:25:01 -0700 (PDT)
+Date:   Mon, 26 Mar 2018 17:25:01 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Nishanth Menon <nm@ti.com>, Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 11/11] dt-bindings: gpio: Add bindings for Cadence I3C
+ gpio expander
+Message-ID: <20180326222501.exvvdjb6fbrtsvkv@rob-hp-laptop>
+References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
+ <20180323110020.19080-12-boris.brezillon@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <20180326124711.GE5942@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 26 Mar 2018 20:28:54 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 26 Mar 2018 20:28:54 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180323110020.19080-12-boris.brezillon@bootlin.com>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/26/2018 08:47 AM, Juri Lelli wrote:
-> On 23/03/18 14:44, Waiman Long wrote:
->> On 03/23/2018 03:59 AM, Juri Lelli wrote:
-> [...]
->
->>> OK, thanks for confirming. Can you tell again however why do you think
->>> we need to remove sched_load_balance from root level? Won't we end up
->>> having tasks put on isolated sets?
->> The root cgroup is special that it owns all the resources in the system.
->> We generally don't want restriction be put on the root cgroup. A child
->> cgroup has to be created to have constraints put on it. In fact, most of
->> the controller files don't show up in the v2 cgroup root at all.
->>
->> An isolated cgroup has to be put under root, e.g.
->>
->>       Root
->>      /    \
->> isolated  balanced
->>
->>> Also, I guess children groups with more than one CPU will need to be
->>> able to load balance across their CPUs, no matter what their parent
->>> group does?
->> The purpose of an isolated cpuset is to have a dedicated set of CPUs to
->> be used by a certain application that makes its own scheduling decision
->> by placing tasks explicitly on specific CPUs. It just doesn't make sense
->> to have a CPU in an isolated cpuset to participated in load balancing in
->> another cpuset. If one want load balancing in a child cpuset, the parent
->> cpuset should have load balancing turned on as well.
-> Isolated with CPUs overlapping some other cpuset makes little sense, I
-> agree. What I have in mind however is an isolated set of CPUs that don't
-> overlap with any other cpuset (as your balanced set above). In this case
-> I think it makes sense to let the sys admin decide if "automatic" load
-> balancing has to be performed (by the scheduler) or no load balacing at
-> all has to take place?
->
-> Further extending your example:
->
->              Root [0-3]
-> 	     /        \
->         group1 [0-1] group2[2-3]
->
-> Why should we prevent load balancing to be disabled at root level (so
-> that for example tasks still residing in root group are not freely
-> migrated around, potentially disturbing both sub-groups)?
->
-> Then one can decide that group1 is a "userspace managed" group (no load
-> balancing takes place) and group2 is balanced by the scheduler.
->
-> And this is not DEADLINE specific, IMHO.
->
->> As I look into the code, it seems like root domain is probably somewhat
->> associated with cpu_exclusive only. Whether sched_load_balance is set
->> doesn't really matter.  I will need to look further on the conditions
->> where a new root domain is created.
-> I checked again myself (sched domains code is always a maze :) and I
-> believe that sched_load_balance flag indeed controls domains (sched and
-> root) creation and configuration . Changing the flag triggers potential
-> rebuild and separed sched/root domains are generated if subgroups have
-> non overlapping cpumasks.  cpu_exclusive only enforces this latter
-> condition.
+On Fri, Mar 23, 2018 at 12:00:20PM +0100, Boris Brezillon wrote:
+> Document the Cadence I3C gpio expander bindings.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+> ---
+>  .../devicetree/bindings/gpio/gpio-cdns-i3c.txt     | 38 ++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
+> new file mode 100644
+> index 000000000000..634b1f268215
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
+> @@ -0,0 +1,38 @@
+> +* Cadence I3C GPIO expander
+> +
+> +The Cadence I3C GPIO expander provides 8 GPIOs controllable over I3C.
+> +This GPIOs can be configured in output or input mode and if they are in input
+> +mode they can generate IBIs (In Band Interrupts).
+> +
+> +Required properties for GPIO node:
+> +- reg : 3 cells encoding the I3C static address (none in our case) and the I3C
+> +	Provisional ID. See Documentation/devicetree/bindings/i3c/i3c.txt for
+> +	more details.
+> +	Should be <0x0 0x392 0x0>.
+> +- gpio-controller : Marks the device node as a gpio controller.
+> +- #gpio-cells : Should be two. The first cell is the pin number and
+> +  the second cell is used to specify the gpio polarity:
+> +      0 = active high
+> +      1 = active low
+> +- interrupt-controller: Marks the device node as an interrupt controller.
+> +- #interrupt-cells : Should be 2.  The first cell is the GPIO number.
+> +  The second cell bits[3:0] is used to specify trigger type and level flags:
+> +      1 = low-to-high edge triggered.
+> +      2 = high-to-low edge triggered.
+> +      3 = triggered on both edges.
+> +      4 = active high level-sensitive.
+> +      8 = active low level-sensitive.
+> +
+> +Example:
+> +
+> +	i3c-master@xxx {
+> +		...
+> +		i3c_gpio_expander: gpio@0,1c9,0 {
 
-Right, I ran some tests and figured out that to have root_domain in the
-child cgroup level, we do need to disable load balancing at the root
-cgroup level and enabling it in child cgroups that are mutually disjoint
-in their cpu lists. The cpu_exclusive flag isn't really needed.
+The unit address is wrong here.
 
-I am not against doing that at the root cgroup, but it is kind of weird
-in term of semantics. If we disable load balancing in the root cgroup,
-but enabling it at child cgroups, what does that mean to the processes
-that are still in the root cgroup?
-
-The sched_load_balance flag isn't something that is passed to the
-scheduler. It only only affects the CPU topology of the system. So I
-suspect that a process in the root cgroup will be load balanced among
-the CPUs in the one of the child cgroups. That doesn't look right unless
-we enforce that no process can be in the root cgroup in this case.
-
-Real cpu isolation will then require that we disable load balancing at
-root, and enable load balancing in child cgroups that only contain CPUs
-outside of the isolated CPU list. Again, it is still possible that some
-tasks in the root cgroup, if present, may be using some of the isolated
-CPUs.
-
-Maybe we can have a different root level flag, say,
-sched_partition_domain that is equivalent to !sched_load_balnace.
-However, I am still not sure if we should enforce that no task should be
-in the root cgroup when the flag is set.
-
-Tejun and Peter, what are your thoughts on this?
-
-Cheers,
-Longman
-
- 
-
+> +			reg = <0 0x392 0x0>;
+> +			gpio-controller;
+> +			#gpio-cells = <2>;
+> +			interrupt-controller;
+> +			#interrupt-cells = <2>;
+> +		};
+> +		...
+> +	};
+> -- 
+> 2.14.1
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
