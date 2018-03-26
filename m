@@ -2,123 +2,327 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 634F67DD31
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Mar 2018 16:25:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E2127D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 08:20:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753433AbeCYQZk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 25 Mar 2018 12:25:40 -0400
-Received: from isilmar-4.linta.de ([136.243.71.142]:41662 "EHLO
-        isilmar-4.linta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753281AbeCYQZk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Mar 2018 12:25:40 -0400
-Received: from light.dominikbrodowski.net (isilmar.linta [10.0.0.1])
-        by isilmar-4.linta.de (Postfix) with ESMTPS id 9F5A32008B7;
-        Sun, 25 Mar 2018 16:25:38 +0000 (UTC)
-Received: by light.dominikbrodowski.net (Postfix, from userid 1000)
-        id 3CEEA204EE; Sun, 25 Mar 2018 18:25:27 +0200 (CEST)
-Date:   Sun, 25 Mar 2018 18:25:27 +0200
-From:   Dominik Brodowski <linux@dominikbrodowski.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        viro@zeniv.linux.org.uk, x86@kernel.org,
-        torvalds@linux-foundation.org, mingo@kernel.org,
-        tglx@linutronix.de, luto@amacapital.net
-Subject: [PATCH] syscalls: define and explain goal to not call syscalls in
- the kernel
-Message-ID: <20180325162527.GA17492@light.dominikbrodowski.net>
+        id S1751994AbeCZIUB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Mar 2018 04:20:01 -0400
+Received: from exmail.andestech.com ([59.124.169.137]:23169 "EHLO
+        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750940AbeCZIUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Mar 2018 04:20:01 -0400
+X-Greylist: delayed 1247 seconds by postgrey-1.27 at vger.kernel.org; Mon, 26 Mar 2018 04:20:00 EDT
+Received: from ATCSQR.andestech.com (localhost [127.0.0.2] (may be forged))
+        by ATCSQR.andestech.com with ESMTP id w2Q7sgvJ049048
+        for <linux-doc@vger.kernel.org>; Mon, 26 Mar 2018 15:54:42 +0800 (GMT-8)
+        (envelope-from alankao@andestech.com)
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+        by ATCSQR.andestech.com with ESMTP id w2Q7s3qG048976;
+        Mon, 26 Mar 2018 15:54:03 +0800 (GMT-8)
+        (envelope-from alankao@andestech.com)
+Received: from atcsqa06.andestech.com (10.0.1.85) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Mon, 26 Mar 2018
+ 15:58:30 +0800
+From:   Alan Kao <alankao@andestech.com>
+To:     Palmer Dabbelt <palmer@sifive.com>, Albert Ou <albert@sifive.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        "Namhyung Kim" <namhyung@kernel.org>,
+        Alex Solomatnikov <sols@sifive.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-riscv@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Alan Kao <alankao@andestech.com>, Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <greentime@andestech.com>
+Subject: [PATCH 2/2] perf: riscv: Add Document for Future Porting Guide
+Date:   Mon, 26 Mar 2018 15:57:55 +0800
+Message-ID: <1522051075-6442-3-git-send-email-alankao@andestech.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1522051075-6442-1-git-send-email-alankao@andestech.com>
+References: <1522051075-6442-1-git-send-email-alankao@andestech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Originating-IP: [10.0.1.85]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com w2Q7s3qG048976
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The syscall entry points to the kernel defined by SYSCALL_DEFINEx()
-and COMPAT_SYSCALL_DEFINEx() should only be called from userspace
-through kernel entry points, but not from the kernel itself. This
-will allow cleanups and optimizations to the entry paths *and* to
-the parts of the kernel code which currently need to pretend to be
-userspace in order to make use of syscalls.
-
-Signed-off-by: Dominik Brodowski <linux@dominikbrodowski.net>
-
+Cc: Nick Hu <nickhu@andestech.com>
+Cc: Greentime Hu <greentime@andestech.com>
+Signed-off-by: Alan Kao <alankao@andestech.com>
 ---
+ Documentation/riscv/pmu.txt | 250 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 250 insertions(+)
+ create mode 100644 Documentation/riscv/pmu.txt
 
-As there have been multiple inquiries on the rationale of my patchsets
-removing in-kernel calls to sys_xyzzy(), here is an updated patch 01/NN
-which I will push upstream for v4.17-rc1. I will also include a reference
-to this mail (and therefore to the explanation below) in all related
-patches of the series. Any improvements, hints, suggestions, spelling
-fixes, and/or objections?
+diff --git a/Documentation/riscv/pmu.txt b/Documentation/riscv/pmu.txt
+new file mode 100644
+index 000000000000..496f00476560
+--- /dev/null
++++ b/Documentation/riscv/pmu.txt
+@@ -0,0 +1,250 @@
++Supporting PMUs on RISC-V platforms
++==========================================
++Alan Kao <alankao@andestech.com>, Mar 2018
++
++Introduction
++------------
++
++As of this writing, perf_event-related features mentioned in The RISC-V ISA
++Privileged Version 1.10 are as follows:
++(please check the manual for more details)
++
++* [m|s]counteren
++* mcycle[h], cycle[h]
++* minstret[h], instret[h]
++* mhpeventx, mhpcounterx[h]
++
++With such function set only, porting perf would require a lot of work, due to
++the lack of the following general architectural performance monitoring features:
++
++* Enabling/Disabling counters
++  Counters are just free-running all the time in our case.
++* Interrupt caused by counter overflow
++  No such design in the spec.
++* Interrupt indicator
++  It is not possible to have many interrupt ports for all counters, so an
++  interrupt indicator is required for software to tell which counter has
++  just overflowed.
++* Writing to counters
++  There will be an SBI to support this since the kernel cannot modify the
++  counters [1].  Alternatively, some vendor considers to implement
++  hardware-extension for M-S-U model machines to write counters directly.
++
++This document aims to provide developers a quick guide on supporting their
++PMUs in the kernel.  The following sections briefly explain perf' mechanism
++and todos.
++
++You may check previous discussions here [1][2].  Also, it might be helpful
++to check the appendix for related kernel structures.
++
++
++1. Initialization
++-----------------
++
++*riscv_pmu* is a global pointer of type *struct riscv_pmu*, which contains
++various methods according to perf's internal convention and PMU-specific
++parameters.  One should declare such instance to represent the PMU.  By default,
++*riscv_pmu* points to a constant structure *riscv_base_pmu*, which has very
++basic support to a baseline QEMU model.
++
++Then he/she can either assign the instance's pointer to *riscv_pmu* so that
++the minimal and already-implemented logic can be leveraged, or invent his/her
++own *riscv_init_platform_pmu* implementation.
++
++In other words, existing sources of *riscv_base_pmu* merely provide a
++reference implementation.  Developers can flexibly decide how many parts they
++can leverage, and in the most extreme case, they can customize every function
++according to their needs.
++
++
++2. Event Initialization
++-----------------------
++
++When a user launches a perf command to monitor some events, it is first
++interpreted by the userspace perf tool into multiple *perf_event_open*
++system calls, and then each of them calls to the body of *event_init*
++member function that was assigned in the previous step.  In *riscv_base_pmu*'s
++case, it is *riscv_event_init*.
++
++The main purpose of this function is to translate the event provided by user
++into bitmap, so that HW-related control registers or counters can directly be
++manipulated.  The translation is based on the mappings and methods provided in
++*riscv_pmu*.
++
++Note that some features can be done in this stage as well:
++
++(1) interrupt setting, which is stated in the next section;
++(2) privilege level setting (user space only, kernel space only, both);
++(3) destructor setting.  Normally it is sufficient to apply *riscv_destroy_event*;
++(4) tweaks for non-sampling events, which will be utilized by functions such as
++*perf_adjust_period*, usually something like the follows:
++
++if (!is_sampling_event(event)) {
++        hwc->sample_period = x86_pmu.max_period;
++        hwc->last_period = hwc->sample_period;
++        local64_set(&hwc->period_left, hwc->sample_period);
++}
++
++In the case of *riscv_base_pmu*, only (3) is provided for now.
++
++
++3. Interrupt
++------------
++
++3.1. Interrupt Initialization
++
++This often occurs at the beginning of the *event_init* method. In common
++practice, this should be a code segment like
++
++int x86_reserve_hardware(void)
++{
++        int err = 0;
++
++        if (!atomic_inc_not_zero(&pmc_refcount)) {
++                mutex_lock(&pmc_reserve_mutex);
++                if (atomic_read(&pmc_refcount) == 0) {
++                        if (!reserve_pmc_hardware())
++                                err = -EBUSY;
++                        else
++                                reserve_ds_buffers();
++                }
++                if (!err)
++                        atomic_inc(&pmc_refcount);
++                mutex_unlock(&pmc_reserve_mutex);
++        }
++
++        return err;
++}
++
++And the magic is in *reserve_pmc_hardware*, which usually does atomic
++operations to make implemented IRQ accessible from some global function pointer.
++*release_pmc_hardware* serves the opposite purpose, and it is used in event
++destructors mentioned in previous section.
++
++(Note: From the implementations in all the architectures, the *reserve/release*
++pair are always IRQ settings, so the *pmc_hardware* seems somehow misleading.
++It does NOT deal with the binding between an event and a physical counter,
++which will be introduced in the next section.)
++
++3.2. IRQ Structure
++
++Basically, a IRQ runs the following pseudo code:
++
++for each hardware counter that triggered this overflow
++
++    get the event of this counter
++
++    // following two steps are defined as *read()*,
++    // check the section Reading/Writing Counters for details.
++    count the delta value since previous interrupt
++    update the event->count (# event occurs) by adding delta, and
++               event->hw.period_left by subtracting delta
++
++    if the event overflows
++        sample data
++        set the counter appropriately for the next overflow
++
++        if the event overflows again
++            too frequently, throttle this event
++        fi
++    fi
++
++end for
++
++However as of this writing, none of the RISC-V implementations have designed an
++interrupt for perf, so the details are to be completed in the future.
++
++4. Reading/Writing Counters
++---------------------------
++
++They seem symmetric but perf treats them quite differently.  For reading, there
++is a *read* interface in *struct pmu*, but it serves more than just reading.
++According to the context, the *read* function not only read the content of the
++counter (event->count), but also update the left period to the next interrupt
++(event->hw.period_left).
++
++But the core of perf does not need direct write to counters.  Writing counters
++hides behind the abstraction of 1) *pmu->start*, literally start counting so one
++has to set the counter to a good value for the next interrupt; 2) inside the IRQ
++it should set the counter with the same reason.
++
++Reading is not a problem in RISC-V but writing would need some effort, since
++counters are not allowed to be written by S-mode.
++
++
++5. add()/del()/start()/stop()
++-----------------------------
++
++Basic idea: add()/del() adds/deletes events to/from a PMU, and start()/stop()
++starts/stop the counter of some event in the PMU.  All of them take the same
++arguments: *struct perf_event *event* and *int flag*.
++
++Consider perf as a state machine, then you will find that these functions serve
++as the state transition process between those states.
++Three states (event->hw.state) are defined:
++
++* PERF_HES_STOPPED:	the counter is stopped
++* PERF_HES_UPTODATE:	the event->count is up-to-date
++* PERF_HES_ARCH:	arch-dependent usage ... we don't need this for now
++
++A normal flow of these state transitions are as follows:
++
++* A user launches a perf event, resulting in calling to *event_init*.
++* When being context-switched in, *add* is called by the perf core, with flag
++  PERF_EF_START, which mean that the event should be started after it is added.
++  In this stage, an general event is binded to a physical counter, if any.
++  The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, because it is now
++  stopped, and the (software) event count does not need updating.
++** *start* is then called, and the counter is enabled.
++   With flag PERF_EF_RELOAD, it write the counter to an appropriate value (check
++   previous section for detail).
++   No writing is made if the flag does not contain PERF_EF_RELOAD.
++   The state now is reset to none, because it is neither stopped nor update
++   (the counting already starts)
++* When being context-switched out, *del* is called.  It then checkout all the
++  events in the PMU and call *stop* to update their counts.
++** *stop* is called by *del*
++   and the perf core with flag PERF_EF_UPDATE, and it often shares the same
++   subroutine as *read* with the same logic.
++   The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, again.
++
++** Life cycles of these two pairs: *add* and *del* are called repeatedly as
++  tasks switch in-and-out; *start* and *stop* is also called when the perf core
++  needs a quick stop-and-start, for instance, when the interrupt period is being
++  adjusted.
++
++Current implementation is sufficient for now and can be easily extend to
++features in the future.
++
++A. Related Structures
++---------------------
++
++* struct pmu: include/linux/perf_events.h
++* struct riscv_pmu: arch/riscv/include/asm/perf_events.h
++
++  Both structures are designed to be read-only.
++
++  *struct pmu* defines some function pointer interfaces, and most of them take
++*struct perf_event* as a main argument, dealing with perf events according to
++perf's internal state machine (check kernel/events/core.c for details).
++
++  *struct riscv_pmu* defines PMU-specific parameters.  The naming follows the
++convention of all other architectures.
++
++* struct perf_event: include/linux/perf_events.h
++* struct hw_perf_event
++
++  The generic structure that represents perf events, and the hardware-related
++details.
++
++* struct riscv_hw_events: arch/riscv/include/asm/perf_events.h
++
++  The structure that holds the status of events, has two fixed members:
++the number of events and the array of the events.
++
++References
++----------
++
++[1] https://github.com/riscv/riscv-linux/pull/124
++[2] https://groups.google.com/a/groups.riscv.org/forum/#!topic/sw-dev/f19TmCNP6yA
++
+-- 
+2.16.2
 
-Thanks,
-	Dominik
-
-
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 8cc25a06f353..556613744556 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -487,6 +487,38 @@ patchset, for the convenience of reviewers.
- The man page should be cc'ed to linux-man@vger.kernel.org
- For more details, see https://www.kernel.org/doc/man-pages/patches.html
- 
-+
-+Do not call System Calls in the Kernel
-+--------------------------------------
-+
-+System calls are, as stated above, interaction points between userspace and
-+the kernel.  Therefore, system call functions such as ``sys_xyzzy()`` or
-+``compat_sys_xyzzy()`` should only be called from userspace via the syscall
-+table, but not from elsewhere in the kernel.  If the syscall functionality is
-+useful to be used within the kernel, needs to be shared between an old and a
-+new syscall, or needs to be shared between a syscall and its compatibility
-+variant, it should be implemented by means of a "helper" function (such as
-+``kern_xyzzy()``).  This kernel function may then be called within the
-+syscall stub (``sys_xyzzy()``), the compatibility syscall stub
-+(``compat_sys_xyzzy()``), and/or other kernel code.
-+
-+At least on 64-bit x86, it will be a hard requirement from v4.17 onwards to not
-+call system call functions in the kernel.  It uses a different calling
-+convention for system calls where ``struct pt_regs`` is decoded on-the-fly in a
-+syscall wrapper which then hands processing over to the actual syscall function.
-+This means that only those parameters which are actually needed for a specific
-+syscall are passed on during syscall entry, instead of filling in six CPU
-+registers with random user space content all the time (which may cause serious
-+trouble down the call chain).
-+
-+Moreover, rules on how data may be accessed may differ between kernel data and
-+user data.  This is another reason why calling ``sys_xyzzy()`` is generally a
-+bad idea.
-+
-+Exceptions to this rule are only allowed in architecture-specific overrides,
-+architecture-specific compatibility wrappers, or other code in arch/.
-+
-+
- References and Sources
- ----------------------
- 
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index a78186d826d7..0526286a0314 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -941,4 +941,11 @@ asmlinkage long sys_pkey_free(int pkey);
- asmlinkage long sys_statx(int dfd, const char __user *path, unsigned flags,
- 			  unsigned mask, struct statx __user *buffer);
- 
-+
-+/*
-+ * Kernel code should not call syscalls (i.e., sys_xyzyyz()) directly.
-+ * Instead, use one of the functions which work equivalently, such as
-+ * the ksys_xyzyyz() functions prototyped below.
-+ */
-+
- #endif
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
