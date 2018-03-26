@@ -1,58 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BFD4B7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 10:22:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 108C07E868
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 11:20:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751090AbeCZKW2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Mar 2018 06:22:28 -0400
-Received: from mail-qk0-f196.google.com ([209.85.220.196]:35801 "EHLO
-        mail-qk0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750972AbeCZKW0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Mar 2018 06:22:26 -0400
-Received: by mail-qk0-f196.google.com with SMTP id s188so19467342qkb.2;
-        Mon, 26 Mar 2018 03:22:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=qLFfH7b/3FbE1+YzlreJpjA1VSKGglmNy7P6ehv26Po=;
-        b=f1TVkZxFNqgKWHOwOWZxC+z8hZuA6UPHf1v/N863HHhTU7XJ/Ba5fvRjvGRV10uszq
-         PXGSDgD/XNyqH05nAar2fpvEY6tV4KGB0Y7L6sARciY4Rg/Fcye2b98tS+BMxNcECpdP
-         FoUErpsIo1KFZPkjLjkHX/QbdXAicZtfvxoZS2ftyXuHEhpyGv7/d4mMajqSYYGcxBFI
-         eTVLPTMBX0GWktehSIOcKfUmJGVoDMO9xDiy/JQyz5j8ghZlgQix/xOlvMwLmTtNQOWh
-         6hZDcoGaQ7VsNd79pNyNN6iHre2rAQ28rmnyb492bE/Wjc7y8MOEuyw67lpVRtRbeO0Q
-         AJxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=qLFfH7b/3FbE1+YzlreJpjA1VSKGglmNy7P6ehv26Po=;
-        b=W8WOiVTeqkKybQeOQiq6ykRaUGy4PAifRqSkAWBchZnVc/ekihNiX5lM9aIpjQcKX2
-         U/FSk5NPjuEXSXCcXUmcRzcCxpunnlgX2iKvca4r5K7GMw/91mZiFPLO8s0rW8iPaDwd
-         Qik1b+wH8oAU5/2YqPsdUKbLScTymNLpm7+UtWVPpiIRvwrEqLEnmwS1JMedyNtDA6gG
-         AnpLGg0MJEfRTp854qj7ZV3EuylsR9t3+F+8cPgSd74LAKvH+14Rbq7XMLOeid9n/3Ks
-         HxTXGKwxx/IwtHLyfMQToFi2crTqvc1Aem0lEMr70nAsnusf1eZVyTZT6ulVE9yr1Dv1
-         znmQ==
-X-Gm-Message-State: AElRT7GDDNJs953cd/5T7M0khq65QqtHFzj4zerkX8CZk7bGOi1AzbYq
-        3/oAk9Fy+e8IHZDAwO5Lbg0V0Bi2pWCKV5gErsc=
-X-Google-Smtp-Source: AIpwx48CMfytEgXendCNkmxaRNlO2pnpmNBOAyOcmou4Nnurt6FDxzR+BsSuKoOcHeUFgwrYSiMITwVxCIwaGq5u4OI=
-X-Received: by 10.55.128.67 with SMTP id b64mr472316qkd.78.1522059745297; Mon,
- 26 Mar 2018 03:22:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.200.54.147 with HTTP; Mon, 26 Mar 2018 03:22:24 -0700 (PDT)
-In-Reply-To: <20180323110020.19080-6-boris.brezillon@bootlin.com>
-References: <20180323110020.19080-1-boris.brezillon@bootlin.com> <20180323110020.19080-6-boris.brezillon@bootlin.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Mar 2018 12:22:24 +0200
-X-Google-Sender-Auth: WvZ9vqglGvDVAt6lprKQlbbkeCU
-Message-ID: <CAMuHMdV9xW8o6zuOmOxB+=h1XTdi-VFq2mp897SUjZKtRMOWOw@mail.gmail.com>
-Subject: Re: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S1751099AbeCZLU1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Mar 2018 07:20:27 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:40702 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751010AbeCZLUZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Mar 2018 07:20:25 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id A79C7208B1; Mon, 26 Mar 2018 13:20:22 +0200 (CEST)
+Received: from bbrezillon (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 2333B20858;
+        Mon, 26 Mar 2018 13:19:46 +0200 (CEST)
+Date:   Mon, 26 Mar 2018 13:19:46 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Linux I2C <linux-i2c@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -81,111 +50,162 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Boris Brezillon <boris.brezillon@free-electrons.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
+Message-ID: <20180326131946.5513c6e2@bbrezillon>
+In-Reply-To: <CAMuHMdV9xW8o6zuOmOxB+=h1XTdi-VFq2mp897SUjZKtRMOWOw@mail.gmail.com>
+References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
+        <20180323110020.19080-6-boris.brezillon@bootlin.com>
+        <CAMuHMdV9xW8o6zuOmOxB+=h1XTdi-VFq2mp897SUjZKtRMOWOw@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
+Hi Geert,
 
-On Fri, Mar 23, 2018 at 12:00 PM, Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> From: Boris Brezillon <boris.brezillon@free-electrons.com>
->
-> A new I3C subsystem has been added and a generic description has been
-> created to represent the I3C bus and the devices connected on it.
->
-> Document this generic representation.
->
-> Signed-off-by: Boris Brezillon <boris.brezillon@free-electrons.com>
+On Mon, 26 Mar 2018 12:22:24 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Thanks for your patch!
+> Hi Boris,
+> 
+> On Fri, Mar 23, 2018 at 12:00 PM, Boris Brezillon
+> <boris.brezillon@bootlin.com> wrote:
+> > From: Boris Brezillon <boris.brezillon@free-electrons.com>
+> >
+> > A new I3C subsystem has been added and a generic description has been
+> > created to represent the I3C bus and the devices connected on it.
+> >
+> > Document this generic representation.
+> >
+> > Signed-off-by: Boris Brezillon <boris.brezillon@free-electrons.com>  
+> 
+> Thanks for your patch!
+> 
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/i3c/i3c.txt
+> > @@ -0,0 +1,140 @@  
+> 
+> > +I3C devices
+> > +===========
+> > +
+> > +All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
+> > +are thus discoverable. So, by default, I3C devices do not have to be described
+> > +in the device tree.  
+> 
+> But if they're described, they should have a compatible value, no?
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i3c/i3c.txt
-> @@ -0,0 +1,140 @@
+What's the point of having a compatible here? I mean, I3C devices are
+already attached to the relevant drivers using the Provisional ID, why
+would we need a compatible if we don't parse it?
 
-> +I3C devices
-> +===========
-> +
-> +All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
-> +are thus discoverable. So, by default, I3C devices do not have to be described
-> +in the device tree.
+> 
+> > +This being said, one might want to attach extra resources to these devices,
+> > +and those resources may have to be described in the device tree, which in turn
+> > +means we have to describe I3C devices.
+> > +
+> > +Another use case for describing an I3C device in the device tree is when this
+> > +I3C device has a static address and we want to assign it a specific dynamic
+> > +address before the DAA takes place (so that other devices on the bus can't
+> > +take this dynamic address).
+> > +
+> > +The I3C device should be names <device-type>@<static-address>,<i3c-pid>,  
+> 
+> named
 
-But if they're described, they should have a compatible value, no?
+Oops. Will fix the typo.
 
-> +This being said, one might want to attach extra resources to these devices,
-> +and those resources may have to be described in the device tree, which in turn
-> +means we have to describe I3C devices.
-> +
-> +Another use case for describing an I3C device in the device tree is when this
-> +I3C device has a static address and we want to assign it a specific dynamic
-> +address before the DAA takes place (so that other devices on the bus can't
-> +take this dynamic address).
-> +
-> +The I3C device should be names <device-type>@<static-address>,<i3c-pid>,
+> 
+> So the i3c-pid in the unit address is represented as a 64-bit number, not as two
+> comma-separated 32-bit numbers?
 
-named
+Right. I've changed my mind so many times that I ended up mixing the 2
+representations I have considered.
 
-So the i3c-pid in the unit address is represented as a 64-bit number, not as two
-comma-separated 32-bit numbers?
+Here are the choices we have:
 
-> +Example:
-> +
-> +       i3c-master@d040000 {
-> +               compatible = "cdns,i3c-master";
-> +               clocks = <&coreclock>, <&i3csysclock>;
-> +               clock-names = "pclk", "sysclk";
-> +               interrupts = <3 0>;
-> +               reg = <0x0d040000 0x1000>;
-> +               #address-cells = <3>;
-> +               #size-cells = <0>;
-> +
-> +               status = "okay";
-> +               i2c-scl-frequency = <100000>;
-> +
-> +               /* I2C device. */
-> +               nunchuk: nunchuk@52 {
+1/ expose the raw ProvisionalID which is a 48-bit integer formed by the
+   concatenation of the vendor ID, part ID and instance ID:
+   ProvisionalID = VendorID << 33 | PartID << 16 | InstanceID << 12 |
+		   ExtraInfo
+   The I3C dev node name should in this case be something like
+   <device-type>@<static-address>,<i3c-pid>
 
-@52,8000001000000000?
+2/ split the fields we are really interested in in different cells:
+   2nd cell: vendorID
+   3rd cell: partID
+   4th cell: instanceID
+   In this case, the node name should be
+   <device-type>@<static-address>,<i3c-vendor>,<i3c-partid>,<i3c-instanceid>
 
-> +                       compatible = "nintendo,nunchuk";
-> +                       reg = <0x52 0x80000010 0x0>;
-> +               };
-> +
-> +               /* I3C device with a static address. */
-> +               thermal_sensor: sensor@68,39200144004 {
+Note that we can still change for the second representation if Rob is
+okay.
 
-No compatible value?
+> 
+> > +Example:
+> > +
+> > +       i3c-master@d040000 {
+> > +               compatible = "cdns,i3c-master";
+> > +               clocks = <&coreclock>, <&i3csysclock>;
+> > +               clock-names = "pclk", "sysclk";
+> > +               interrupts = <3 0>;
+> > +               reg = <0x0d040000 0x1000>;
+> > +               #address-cells = <3>;
+> > +               #size-cells = <0>;
+> > +
+> > +               status = "okay";
+> > +               i2c-scl-frequency = <100000>;
+> > +
+> > +               /* I2C device. */
+> > +               nunchuk: nunchuk@52 {  
+> 
+> @52,8000001000000000?
 
-> +                       reg = <0x68 0x392 0x144004>;
-> +                       assigned-address = <0xa>;
-> +               };
-> +
-> +               /*
-> +                * I3C device without a static address but requiring resources
-> +                * described in the DT.
-> +                */
-> +               sensor@0,39200154004 {
+Well, I2C devs is a special case, and I'm not sure we want to add the
+extra LVR information + the IS_I2C_DEV bit in the node name.
 
-No compatible value?
+> 
+> > +                       compatible = "nintendo,nunchuk";
+> > +                       reg = <0x52 0x80000010 0x0>;
 
-> +                       reg = <0x0 0x392 0x154004>;
-> +                       clocks = <&clock_provider 0>;
-> +               };
-> +       };
+One more detail: people are unlikely to define reg using raw values: I
+provide macros to do that in patch 6.
 
-Gr{oetje,eeting}s,
+> > +               };
+> > +
+> > +               /* I3C device with a static address. */
+> > +               thermal_sensor: sensor@68,39200144004 {  
+> 
+> No compatible value?
 
-                        Geert
+No, as said above, it's not needed.
+
+> 
+> > +                       reg = <0x68 0x392 0x144004>;
+> > +                       assigned-address = <0xa>;
+> > +               };
+> > +
+> > +               /*
+> > +                * I3C device without a static address but requiring resources
+> > +                * described in the DT.
+> > +                */
+> > +               sensor@0,39200154004 {  
+> 
+> No compatible value?
+
+Ditto.
+
+Thanks for your review.
+
+Boris
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Boris Brezillon, Bootlin (formerly Free Electrons)
+Embedded Linux and Kernel engineering
+https://bootlin.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
