@@ -1,148 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-4.3 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FROM_EXCESS_BASE64,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AAFF87D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 16:49:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CAD87DD31
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 18:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752523AbeCZQt4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Mar 2018 12:49:56 -0400
-Received: from mail-sn1nam01on0064.outbound.protection.outlook.com ([104.47.32.64]:12779
-        "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752346AbeCZQty (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Mar 2018 12:49:54 -0400
+        id S1752147AbeCZSES (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Mar 2018 14:04:18 -0400
+Received: from mail-vk0-f65.google.com ([209.85.213.65]:34150 "EHLO
+        mail-vk0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751692AbeCZSER (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Mar 2018 14:04:17 -0400
+Received: by mail-vk0-f65.google.com with SMTP id z190so11729486vkg.1;
+        Mon, 26 Mar 2018 11:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=fzeWM5Jzwy+uU+QWiuTwZB+ozVz/k2q69VZWY1CKP8s=;
- b=LrcFhEYRBDfKvKwZjNO+7dJbdZyHryWNRy19NG1EB9jEJ14P0uRJUZDJCcct5AN8tXegb62HcbHnkqmHGMWZnHSG3yOk01Dfv+moPXOU60hr8Lsri+v6g+6ncKosV6kkHdVvBf7DfNg8ol5+wC6GZfCUoGG6KxOKPtvHb76C8kU=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Gary.Hook@amd.com; 
-Received: from [10.236.109.62] (165.204.78.1) by
- BLUPR12MB0692.namprd12.prod.outlook.com (2a01:111:e400:5951::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.609.10; Mon, 26 Mar
- 2018 16:49:52 +0000
-Subject: Re: [PATCH v2] Documentation/CodingStyle: Add an example for braces
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <152114372879.3142.8833111074324091904.stgit@taos>
- <20180321091701.7d56445d@lwn.net> <87woy4iide.fsf@intel.com>
- <724fc548-0e40-11a3-2a9b-3dd0db0de880@amd.com>
- <20180326103249.42789cdb@lwn.net>
-From:   Gary R Hook <gary.hook@amd.com>
-Message-ID: <6f5c2c61-7c58-ffa5-2063-1ead3f7f809c@amd.com>
-Date:   Mon, 26 Mar 2018 11:49:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=qV2n5rrFsJbzxXAkuGQZwBZy5hJT8yGOuGPmK2YZLTc=;
+        b=q6DvcWX6c9Aj9ZPvFhi4diTmpApemTbsFtr2gir7gYUazt5+YTmN3iCo6MZAuX/eqM
+         luwYb4F6VAbrrNgASivFyEfQbWitlGPG6p85jBYD+Rs+/BEGiZkCr0Dxo9VK/DXefS6b
+         JwsTw3g0dsgfPnBj1s6YxOBBXa2EosnzFO1heGj0SPqBj3xuxigDvfYLdiAm1V2hFupt
+         cRPEwrziBmiUjCQ5cVrTQaT4MxcIijIzmxejrDPmhaukYdTOHyiI6JTSxcpV0+6c9Vs/
+         CH57TqqB7B+5LeSoRxsUrki876QpIuduhzK3HiZEoa5g/GGdTnjVdDjzMl2UwrJVHtqV
+         eOIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=qV2n5rrFsJbzxXAkuGQZwBZy5hJT8yGOuGPmK2YZLTc=;
+        b=Gc9/CZpMDkKL0uIUcYU0+x008G560y8Gq8cs9EAbnGEmpeqptu7kVV7OrM5CrOp8hi
+         ZUARaXHb3UW8bAp6D4nT2EJ4tVDsy2aHvyisPiwyGjmrN8AYCYQJRoxwcXJQaBVZNFr7
+         WTCBGalqgjd8PUm9xeHpTVMdORO2Eom37e4dpFOxM5qtSL8IbSKLhDR1aXEoJi+p6n/t
+         GNOKCOnlGQVKEjCu0Wo7zjmcgUYUnWVKZoLLx5f1GZ8IGNWv7ovDwMJemqzT+YRScDTI
+         DZuGLqxGe/IV9zWoiqW2cGjYPA2rIacUyB31Je//gPZsTgMrOKgl/Vfni1uPYWioe0Tn
+         BRwA==
+X-Gm-Message-State: AElRT7H+k50K7A7iZh6EJ0v2wYzE3nichyNEhShYn+GYQlL+cVCBsazk
+        CidNZY3JvGRi2UYHhkoFqrHViHLfVj3RnZlhhlw=
+X-Google-Smtp-Source: AG47ELtd9AS9zKpfcYcPVE5uGZIZhCW1PN8mNI+u60GIjC5cnXtodJxES3nt5jEMVLYNEsTfYPsMr4IPdT+fqZCwVeA=
+X-Received: by 10.31.229.196 with SMTP id c187mr25239154vkh.1.1522087456122;
+ Mon, 26 Mar 2018 11:04:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180326103249.42789cdb@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [165.204.78.1]
-X-ClientProxiedBy: DM5PR07CA0046.namprd07.prod.outlook.com
- (2603:10b6:3:16::32) To BLUPR12MB0692.namprd12.prod.outlook.com
- (2a01:111:e400:5951::14)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f5c38b8e-021c-496f-8aa8-08d5933998e9
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(48565401081)(5600026)(4604075)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BLUPR12MB0692;
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0692;3:8zETcQQyT2/Iao2uWAt8c9ZTdXO0xSk53GTyJ1lBMvhgIWzCBZ46l8gqquiIby7+UqrNPxRcaQYqSJjyl20zk9VXAoUY0L4nvvO1RSpTekCumtdgk1vcX2eggVugURfNLeaCHfEgigOl/vNqnoGQiS51cbZb5mxvGw/WVlDew55LmNDV9/DuTbZ6fTTpnwWrLlFdxU9BdvoHDu4PR9oDmauTNXUjFnHYbZmICwBoUgQHEenx9DkYrBTgHxJ4FgTc;25:bGoTioSw8SPu1/9IMrFGrjBz7WSJ5pPxJISNpAbrP7e3reOceYx+WyaUeNREpD4J3/6nbiARExhUv5bZ6SqRdTzYp0O/FHYWrCFSrgZFygOgTRDpPeGJXbV3u0GWjuPXMFoSedSTBVViCeS68rAMFVpHoUuKDmHffIm8YAYt226f/IldfgNUoABkwwS2+magMcX1Lm3rdWlzCKSX7PP4jkNHGeSvmsVUjcv8/05in7zjYF3d4i/RWUjS3xbAmGWJ2hmPPO+9YjqltNjsKO7+jsfBpeyJd2H+qOJjrITj0aGv5vFEKqOq6LjOEjL7y9jctr3xWvvrSSLN6rRu2c0GVQ==;31:Yruw2DnICuwCOeJakESIAsQKQ7xIOC/dalKYZ4cRAWubAZh3iR7/CesysJRYGQbVoN6KT8968VkvuMDdVqZGWukyI2WRoG6zSiWGPSy9Dsn/qIdEwTJp9QOwKZ9F/VR3okXNpPir3ttqeSPk19LLYvLP1lYtKBfUQbEGhMl+jOiL6vtzLCCTLegsfGvu62CS2Ruco/90H91f3pu2XFoWAPRSPXHD32Wzqk+95asLZEM=
-X-MS-TrafficTypeDiagnostic: BLUPR12MB0692:
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0692;20:9KzGTTUkEs092Iar4KB/wzLJS+7YnnufulkWVghRUwtbBRG0luW8tsPZ5XOVxqpHoN1+0qp71XcE9V3XcfIR095RF+ra6Xyu7a2IR6JdsfRr0P3FlMnYEHteqkGscniPFNX2sKoY/6XT3oGOV3YTKn0q5A0SLoNI9dfHJXW1DV4aEKWb0CikeDaOasC3EU/1YQlP0u0w6vO+Ak04KCdZuhUigcKoCgC6e5DxDHtVSxj2HCdLVK9aRES1RMfBerXFqlhwlGhz55HgRurhR0PhC+QVx9DzRWgNwlPZGnFmYN1LbH+Es6p5M4z3TIjfcZDotYI6kPVWhi0vDsVgWIBHjivEPK2sSbSmFFBUcqlW2/9qHKFk1zegRbpzSD4DDGOJkk+Gqeq0PHi5L7sMeUnEh9ktV0zkJHjZ/pMwTocxKCnSClWgA3PUnnR6cSChqRh144ZbXQ0t5Crx8x7pm4fkcsvNaFZFjVnO+Kf9M+4dzPzla+xj3WDGKvRt272Vj6Ae;4:IHfp2Tm1GWqqC8OyzQnXz5zzM3n+dBQCOhVjv0vvX144ZeMeFeLF6AHKLer42Q3DyUIMHkBBNbEjkqYdJEjVignv0co8QnKQTT54w63dwXXsW0b90MfY9YlvP63yQftvzfXXjhlGB/bHGefEdZ2Oj/yEQBqEn7698DO+x5IS1Gwy12fNqitDeMRhXGuCW6im/P/N+T9ZkizpbZhbkX0jKnrdNFq9oW+y/5A/sElugMm4O+eaMbbzKgae0SvAFbObkX82BUFAophZ84+9/SZMEwhedaLSwERwmSDATpCAiD5V0recWngpouRsdL/qmfoshuJLHGnqJsXI8rB72ph/LQ==
-X-Microsoft-Antispam-PRVS: <BLUPR12MB06925764CD53EA3DFFC68267FDAD0@BLUPR12MB0692.namprd12.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(767451399110)(17755550239193);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231221)(944501327)(52105095)(93006095)(93001095)(6055026)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123564045)(20161123560045)(6072148)(201708071742011);SRVR:BLUPR12MB0692;BCL:0;PCL:0;RULEID:;SRVR:BLUPR12MB0692;
-X-Forefront-PRVS: 06237E4555
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6049001)(366004)(376002)(39380400002)(346002)(39860400002)(396003)(189003)(199004)(4326008)(65826007)(81166006)(81156014)(7736002)(305945005)(8676002)(316002)(16576012)(50466002)(3846002)(6116002)(2906002)(36756003)(230700001)(106356001)(66066001)(25786009)(476003)(65956001)(105586002)(65806001)(47776003)(31686004)(64126003)(5660300001)(93886005)(2486003)(52116002)(52146003)(23676004)(76176011)(186003)(26005)(77096007)(67846002)(86362001)(386003)(6486002)(8936002)(68736007)(16526019)(6246003)(478600001)(53546011)(53936002)(31696002)(6666003)(6916009)(229853002)(11346002)(446003)(2616005)(97736004)(58126008)(956004)(72206003)(486005)(486005);DIR:OUT;SFP:1101;SCL:1;SRVR:BLUPR12MB0692;H:[10.236.109.62];FPR:;SPF:None;PTR:InfoNoRecords;MX:1;A:1;LANG:en;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCTFVQUjEyTUIwNjkyOzIzOjhLWmVhdjBQRFlMUVZPcnJzcWxpWDVRdjhD?=
- =?utf-8?B?U1prbnhwK0J0SDI5YzNDLzMwd3FjeWhpM25NVS9keE1QMVozQW9CYzlVc2tj?=
- =?utf-8?B?K0ZFTWhRUU5pRUQ5SnJjNEFwenY1RStrckdudWNIVmxKdmgrU2ZSZTF1c0JF?=
- =?utf-8?B?YXNIN1ZVbGdFV2FvZCtmeFl1UEMxNlMrMmlmSXNXVWhBVFJoLzhHTzR6Vk5D?=
- =?utf-8?B?bkVUL01oQmVyaHp4Q2tFM1R1aFBuSXhnZ1ZLVXIza2xmVHVNUnY5WkhqeHBt?=
- =?utf-8?B?L3ZjN0R3eXp4Qm92dTg2dkJoeDNnU0ZBa2xldE9HbTdId2JvZ1lJVHRBRS84?=
- =?utf-8?B?NXBYUk5saGN6bER3dHFFOG5tbkdrbTdkZXZnZDUxckF2WU9vNFcwaUc5NjBs?=
- =?utf-8?B?Zk1xSlBnUXltbG5ac0ZJZlpxb3hxSStoTnl1eDV0Y0FCdExUNXE1Mk9ZVDVm?=
- =?utf-8?B?RFVCTG9vUk84aXpWa2F6QnNWbmUzczZnS2hqRXdWR2V4dHdQM29TRU5xZzFv?=
- =?utf-8?B?MHo0UlN3c1llUVdLRDBOWWEwTUsyR2ZnNUkzYzQ1N3loYnNFeTdsQ0ZhbGc3?=
- =?utf-8?B?enpKOXNlbkhrYnpqcGxrelZocTgyYkJwMFhTdmdkVUNCUjlFeVgzVllnTTdS?=
- =?utf-8?B?b2NtalJaKy8rblc4cjVqeXBYNWcyMjgvbVJOaDM4OVRSS0tuYmpldmVmOHg5?=
- =?utf-8?B?KzhzbzBqazIxWkdpQytBMHRicjFGQUpMRHV5M1BLOXRKNE9Qb1NyTlhmSmdN?=
- =?utf-8?B?OEhoSjBoQUxyUGgxRUhGSExtdlBmd1JsbTRHU3A0TDdHMmdDbEhCSmJUZUZw?=
- =?utf-8?B?anBUeEdxWkRyOW9Na2ptNm50d3NVdHk1Q1NyeG1ZNHNOSXYvbDQ5QjczeEIw?=
- =?utf-8?B?TUJKK3o1cU85M3JwMmdvam9kYVlSR25IdHRXNm83SndMZW1kNTY1NWY2MmRI?=
- =?utf-8?B?SmRGaytqWXU0Z1Mwa2o5SUhWSlhiWEVvWmJPakhnd3laTklpR2p1UXFrQlFR?=
- =?utf-8?B?NklSODAyOExsS29FWHp5UkJ4ckpwanRpTytRWDBhYWpEMm8xK3MzTmhaWUlG?=
- =?utf-8?B?TXNSaUR2WWRHNjJVUU85VGVtNVdqclN0OHl0dENRMkw4N0pQYkFLWmV2Umc3?=
- =?utf-8?B?QkNmRkowL01rYlZQUTlUaDJSeHpGU1pIeWJJNVdFb0tNMmRGTEIrY0pqQWJH?=
- =?utf-8?B?bkV6M3VRZWF2ZWVCKzdYNUNmSlhQdEZiZXNUUkZsdUdxd2hzY1JuQTZCUU8z?=
- =?utf-8?B?R0NUamN6RytnVTVkcWFsbHJMMlBWdzducjMvL0JYQy9VNFNtL0lTY1AzdXl4?=
- =?utf-8?B?alQ2TFVMYmhQRC9EM1h1VnNhSGJFdTNYY21vWTVCNEJLeFAxSHlseGhkMHJm?=
- =?utf-8?B?T3REMFA2YVYwRGdKczZLSDhnY2N6Tmpva3pXeFEwZWZuTVlQTTNpdUFValNa?=
- =?utf-8?B?bk81bjdCbEJ4L2pYQzM3V3hFNGxRRnFUQ25KR3JDNmczWENpdGNGSXVJekRP?=
- =?utf-8?B?MUU0Q3B3ak8zUFZ5SGxNZ0hWR1BWZ0FhNm9NT2lkNEtuWnJnektMTDlTWVhh?=
- =?utf-8?B?dGVaMzJQQWxkK3U2emdhTVFNRFRTU2NRUDA3TmQ5QW93dFBRdDA0Y09Dc1dD?=
- =?utf-8?B?MWs5VzhpR3oxMnB5TVBCV1lRRkgyTUJvZGJiZnBTMTBONU82MURhQWx3YWls?=
- =?utf-8?B?V3ZwYkI3NXJBTTJ1VlhoNys1eE0rUDRzcExlNkoxcFpTaUpOVTFyZysvR0U0?=
- =?utf-8?B?cUdoSmR6ckdXOG1uU2QyckNhajNSTWUvUGZ2cTJFbVoyMmZmTnliWjJOOFJ4?=
- =?utf-8?B?b3JmVERvN1BzNUEvK2JBRUZ3cG1IWVhPeVJuZDZVaVp0aW5KUTlCYmVKZUVO?=
- =?utf-8?B?cFJkdTJDenVUWG9EOUJ6UjBoenRLeDBxWUUwMFhEU2V2SzRFRlZuYkUrRzVN?=
- =?utf-8?B?aW1OSzlrVEZldmxhS1BZSmZIeHQ3R0hXTUtVMllkWWIzU2JxM2pjei9lT2dZ?=
- =?utf-8?B?QXNUOCt5bG1LUmNocjRXQnl6UDFkaWJyU2tyUT09?=
-X-Microsoft-Antispam-Message-Info: +2NvwnoUbuCyIg84eim4InO8MaVoSvTcrzep6EZjD+Yd1V0z5ln+5+K2vli0rx80R/MJD9WA4jKi+Z2ON9c4jFO2VjF4FMEjnzT6rr9iQZiaTSoOKbLWVubUdtcfPxwwrlkeSEHS/agA7tA4e4DbgG60NyR9c8OE3707TAGwGPeuoY54CqlZvp0mEzHVtKTs
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0692;6:gm6ZJSaBLTocM61r+TER2BizD1yAn/qW31U4v0gAyQxfdbFxsZNvPRpO3tLi1qqhOoF3+DvpXQP5etuqEwy2QKDITohq+kyDhoIh1Nv4UAlLgpt9rcVrIuDPaRQcOAxTI4Lc8OqUlLLk19ljZi59HbpYR8NaVHlrl5C1p/adhH8pZzFYGRAO7nQA1LF6QkFDAMIJr5320bxac7pvBOdIiOJ4+wUqCe9CyCCn3b2fJ9i66RJOm7KiHr0V3ExZ4oXa83KhMcevn8FoSlPCOHOmpzGAk7IC4AdREpjDZM7QNByWkmZlcPNEoJGuXz2fUbTo/LDReVE9EuG/lJbzY7Zhhga4PXGc7o9cCvvaM4FXWzMhd5Xq48ZT+p4Ky7meRKeYLsgOeTppOGmW9U40Phy9ZPZEsuGDXvZJJOtY55jSxsd2Aq9AtKsLDDumHEeM4JyxQSIDGuTKncvbu+3Kj72msA==;5:5lzmvyy5hnL66yLoBHE7hSAX9X9S0nMu5SKOvYnvzM9ogiIapFfDOksJ2jtLu+ZsM9ysALpxdTD3GDqaVrDp94I1nGUiISxvLpjVMDIRYJSX7Ij4T5rtfHAKsrClibd//81OzlENqaryRVowE2u0/LHYDRHNw/TvNBrL5mJ+tos=;24:uXlQ55CJkSVfNS+SjBMtJk6Klv9Jlcdi43X9uidbPyqt1Uw7PbbLoXsjJo6Byn2OwgT1GMzZ8bZdVphf+eiB6udEtOL58ai97RtJuYwOBUo=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;BLUPR12MB0692;7:qoqLCkp9KOsP93lTgyHRH+FKl5a7gNqoqG+BCgDkHilTvXf4FVNrVXyU6I4dM/QGNSmMRuUfMasoFbeOwrD59vKvD1nQvj4qzJdei9LZLACHvdhxLOUF55eOygeRArANtjxhSLQ9XHpqPga3Os4crdz8U6ykwGbvY0y8rsLtfRPwCedP15isUDwQjNX4quFMLjcz3S/oF5rLTCiIzUkorZW3HjSPQ95sIwqXGCmrftwjP5Vt/o6ZoMAMxWWib12c;20:k0T6zRofMu2zlmOT7qMLdIxR9hFTgEmjkzkBfJ2NRbdg5dq42/ZDtCKTZXw7XmsoyUlteDujnvIRj/hQkHJjgTJYF3wxxuWvX1QhlkAUYDocbBaa2+QJ8zoxB1tp3/igUGR8hFBkBqIvkyf/NaoVisPR53nucXBPd0xD0A/0w7IipR/MokVlNRFJBRT7kbvVewhcV1anbTfdbk6IeefA2PmJ47CsNgjwWiDCorH4SuuyMRd9c1FieQ2OajI35N0E
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2018 16:49:52.7241 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5c38b8e-021c-496f-8aa8-08d5933998e9
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR12MB0692
+Received: by 10.103.179.1 with HTTP; Mon, 26 Mar 2018 11:03:45 -0700 (PDT)
+In-Reply-To: <91363263-1ab8-5513-23a3-bbcea802d788@citrix.com>
+References: <20180320195658.17498-1-mudongliangabcd@gmail.com> <91363263-1ab8-5513-23a3-bbcea802d788@citrix.com>
+From:   =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
+Date:   Mon, 26 Mar 2018 14:03:45 -0400
+Message-ID: <CAD-N9QV0NCfcickCB-paV0Nvqzso4NRgxKDtWSWqEwZ8bMxytA@mail.gmail.com>
+Subject: Re: [PATCH] fix one dead link in ia64/xen.txt
+To:     Andrew Cooper <andrew.cooper3@citrix.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, yamada.masahiro@socionext.com,
+        Sergei Trofimovich <slyfox@gentoo.org>, tony.luck@intel.com,
+        =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/26/2018 11:32 AM, Jonathan Corbet wrote:
-> On Mon, 26 Mar 2018 11:28:03 -0500
-> Gary R Hook <gary.hook@amd.com> wrote:
-> 
->> Submitting a v3 because the example could better illuminate the options
->> by using loop construct inside of an if, addressing Jani's point but
->> without opening the door to later criticism.
+On Tue, Mar 20, 2018 at 4:17 PM, Andrew Cooper
+<andrew.cooper3@citrix.com> wrote:
+> On 20/03/18 19:56, Dongliang Mu wrote:
+>> Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+>> ---
+>>  Documentation/ia64/xen.txt | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
 >>
->> I also like the verbage in v2/3 better, but I'll let Jonathan make the call.
-> 
-> As I told you, I was applying the first version; I did that last week.
+>> diff --git a/Documentation/ia64/xen.txt b/Documentation/ia64/xen.txt
+>> index a12c74ce2773..464d4c29b8b5 100644
+>> --- a/Documentation/ia64/xen.txt
+>> +++ b/Documentation/ia64/xen.txt
+>> @@ -26,8 +26,8 @@ Getting and Building Xen and Dom0
+>>      DomainU OS  : RHEL5
+>>
+>>   1. Download source
+>> -    # hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable.hg
+>> -    # cd xen-unstable.hg
+>> +    # hg clone http://xenbits.xensource.com/ext/ia64/xen-unstable
+>> +    # cd xen-unstable
+>>      # hg clone http://xenbits.xensource.com/ext/ia64/linux-2.6.18-xen.hg
+>>
+>>   2. # make world
+>
+> The last commit in that repository is almost 9 years old, and IA64
+> support was dropped from Xen mainline6 years ago.
+>
+> http://xenbits.xen.org/gitweb/?p=xen.git;a=commitdiff;h=570c311ca2c7a1131570cdfc77e977bc7a9bf4c0
+>
+> There are a number of other dead links in this doc, and those which
+> aren't dead refer to Linux 2.6.x.  I'd just remove the entire file,
+> rather than pretend that any of this still might work.  (If by some
+> miracle it does still function, its 10 years behind on security fixes...)
+>
 
-Forgive me; was out of the office. I've seen maintainers comment but not 
-necessarily execute immediately, and therefore I try to learn how each 
-works, but here I made an assumption. No worries and sorry to bother.
+If the situation is like that, I agree to delete this file.
 
-> 
->> BTW which tree should these be developed against? I used torvalds, but
->> I'm not entirely sure that was the proper one?
-> 
-> The MAINTAINERS file will (almost) always answer that question for
-> you:	
-> 
-> 	T:	git git://git.lwn.net/linux.git docs-next
-
-Good point. I should know better by now.
-
-Again, thank you.
-
-Gary
+> ~Andrew
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
