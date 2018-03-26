@@ -2,24 +2,24 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 76BBC7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 11:22:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 919037D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Mar 2018 11:25:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751107AbeCZLWF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Mar 2018 07:22:05 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:40835 "EHLO mail.bootlin.com"
+        id S1751138AbeCZLZl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Mar 2018 07:25:41 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:40928 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750984AbeCZLWE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Mar 2018 07:22:04 -0400
+        id S1751042AbeCZLZj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Mar 2018 07:25:39 -0400
 Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 569C320728; Mon, 26 Mar 2018 13:22:01 +0200 (CEST)
+        id E17FC2072B; Mon, 26 Mar 2018 13:25:36 +0200 (CEST)
 Received: from bbrezillon (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 54CA2200FB;
-        Mon, 26 Mar 2018 13:21:50 +0200 (CEST)
-Date:   Mon, 26 Mar 2018 13:21:50 +0200
+        by mail.bootlin.com (Postfix) with ESMTPSA id 1960D200FB;
+        Mon, 26 Mar 2018 13:25:26 +0200 (CEST)
+Date:   Mon, 26 Mar 2018 13:25:26 +0200
 From:   Boris Brezillon <boris.brezillon@bootlin.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Wolfram Sang <wsa@the-dreams.de>,
@@ -51,11 +51,11 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
 Subject: Re: [PATCH v3 11/11] dt-bindings: gpio: Add bindings for Cadence
  I3C gpio expander
-Message-ID: <20180326132150.31dda65f@bbrezillon>
-In-Reply-To: <CAMuHMdUH3iB6ngF-0Zkij-oNN-Oms=EwXgoceLp06xbdcq1S=w@mail.gmail.com>
+Message-ID: <20180326132526.1634946e@bbrezillon>
+In-Reply-To: <CAMuHMdX3TLmaN14gM4fTgzXwy1dgsMxCFBs_3wCFWM8rX=+8vA@mail.gmail.com>
 References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
         <20180323110020.19080-12-boris.brezillon@bootlin.com>
-        <CAMuHMdUH3iB6ngF-0Zkij-oNN-Oms=EwXgoceLp06xbdcq1S=w@mail.gmail.com>
+        <CAMuHMdX3TLmaN14gM4fTgzXwy1dgsMxCFBs_3wCFWM8rX=+8vA@mail.gmail.com>
 X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -65,9 +65,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
-
-On Mon, 26 Mar 2018 12:17:26 +0200
+On Mon, 26 Mar 2018 12:12:54 +0200
 Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
 > Hi Boris,
@@ -81,52 +79,28 @@ Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 > Thanks for your patch!
 > 
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
-> > @@ -0,0 +1,38 @@
-> > +* Cadence I3C GPIO expander
-> > +
-> > +The Cadence I3C GPIO expander provides 8 GPIOs controllable over I3C.
-> > +This GPIOs can be configured in output or input mode and if they are in input
-> > +mode they can generate IBIs (In Band Interrupts).
-> > +
-> > +Required properties for GPIO node:
-> > +- reg : 3 cells encoding the I3C static address (none in our case) and the I3C
-> > +       Provisional ID. See Documentation/devicetree/bindings/i3c/i3c.txt for
-> > +       more details.
-> > +       Should be <0x0 0x392 0x0>.  
+> > +++ b/Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt  
 > 
-> No compatible value?
-
-See my other reply.
-
-> 
-> > +- gpio-controller : Marks the device node as a gpio controller.
-> > +- #gpio-cells : Should be two. The first cell is the pin number and
-> > +  the second cell is used to specify the gpio polarity:
-> > +      0 = active high
-> > +      1 = active low
-> > +- interrupt-controller: Marks the device node as an interrupt controller.
 > > +- #interrupt-cells : Should be 2.  The first cell is the GPIO number.
 > > +  The second cell bits[3:0] is used to specify trigger type and level flags:
 > > +      1 = low-to-high edge triggered.
 > > +      2 = high-to-low edge triggered.
 > > +      3 = triggered on both edges.
 > > +      4 = active high level-sensitive.
-> > +      8 = active low level-sensitive.
-> > +
-> > +Example:
-> > +
-> > +       i3c-master@xxx {
-> > +               ...
-> > +               i3c_gpio_expander: gpio@0,1c9,0 {  
+> > +      8 = active low level-sensitive.  
 > 
-> gpio@0,392,0?
+> These are identical to the values in <dt-bindings/interrupt-controller/irq.h>.
+> Perhaps you can refer to those definitions?
 
-Actually, if I follow the DT bindings, it should be gpio@0,39200000000
+Well, I'm not sure this is allowed since DT bindings docs are
+supposed to be OS-agnostic and macros defined in
+<dt-bindings/interrupt-controller/irq.h> are, AFAIK, only available to
+Linux.
 
-Thanks,
+Note that I copied these definitions from another binding ;-).
 
-Boris
+Rob, any opinion?
+
 
 -- 
 Boris Brezillon, Bootlin (formerly Free Electrons)
