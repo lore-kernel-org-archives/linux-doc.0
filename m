@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E2037E22E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Mar 2018 16:59:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 825A77DE76
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Mar 2018 17:01:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753370AbeC0Q7P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Mar 2018 12:59:15 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:36512 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753348AbeC0Q5t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Mar 2018 12:57:49 -0400
-Received: by mail-wr0-f193.google.com with SMTP id y55so2540110wry.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Mar 2018 09:57:49 -0700 (PDT)
+        id S1752446AbeC0RBP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Mar 2018 13:01:15 -0400
+Received: from mail-wr0-f194.google.com ([209.85.128.194]:44308 "EHLO
+        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751890AbeC0Q5s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Mar 2018 12:57:48 -0400
+Received: by mail-wr0-f194.google.com with SMTP id u46so23109396wrc.11
+        for <linux-doc@vger.kernel.org>; Tue, 27 Mar 2018 09:57:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references;
-        bh=16zO1fZlfRozQmZA0XwO/F+8TDPyjWmWtXbmZBvVg9M=;
-        b=TC0a80YrPD0yleRLOh0Gf36qFGESWeMXgW+LmnvssTpXCrf0jiBi4KHJQL8xZt6D7L
-         5cnvVMqn6SzNJrYOnnKnPg2hfZsLUnIT3MrIiFo2AO6vwiMMrS9O31Rfydf2E7xPxCO3
-         Pl3LnyybAEDCiPh5xuxZjc8V/uh6gUPauqcE93PfW5mETsTeDNcfvvlSNJZ7wOnbwX5c
-         TkRiWvea3qZyuu0gBAK87Mj6Gh+Kbdhnh1+bQtaDnvkoC/TYEitoIF5K42heztt/E5jx
-         FTbW4sLcF5GnHn6Hxaaf+8aDhnJ3IavbJLs+OgwDgQm6tilkq/s/P1xkRHZhrWb1xucB
-         8/Jw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2unNROHG+8feIGotHXszhTuGPmpRY6bXBkim4UFPTaQ=;
+        b=SXjhznolWo1hvxBRtHpKTOT8IY9XixA/kKc+IfwHbe8/lVgq1y2AV4kboGXl4kHBxk
+         nyoqKsfwJUXwGk7PAMzPpGAO6gXLGQaIui2hzXXzgRXwJ/2ve6BuovPgdsTP76XDK+B6
+         ROO512Wu1uPsfVIS5QzZzMKq+ZFMbEhFW2S4MkFpLDoPvWcsNnBau5SPXgRjV3RRLQc7
+         Z7zMEp0ijm3LVZcWKI3kn9YqJbPNmQaKv390RnL7+NgPIDNwvdDA7HVAXVV0l21PLoNP
+         05xXhc/k3Wu4XrlSPtaZ4mlXnQwjalDCe/8Y/drJ2a1rwdPdu5+SOCo27z9I4Tub3/5v
+         /feg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references;
-        bh=16zO1fZlfRozQmZA0XwO/F+8TDPyjWmWtXbmZBvVg9M=;
-        b=WqemYMK8i39rj9hGyd+VsZYtaeJQte5rHplIgB/q5RBwOW7hMaRjdP1u9wtR6j4DKa
-         d3aZVS9x2Izd2+hmSE2m7nlnPr7XYzBGPGw6ztRGk5ZoHe/k4OKP8zn44CWjpAuWoSKM
-         0djApua5/bXa2CZ1gaM8QsVf+z5AeXmYvxyO0TEiD/K90jiJ8MFy6+i6oZ7jNTY1H2w3
-         uDlKGM+yoe0iLtNSKfK5iXyg11O7SqRpem/0IHpoiIEl9ROJJY1FF4jqs0KpLIjDdabH
-         16nJ7TtV/te0zlReyyQ2MsnsO8Fkvb14vUzEty4ac7GYQ/WeNSU9wIEoAkddAtkjJGGu
-         ez/w==
-X-Gm-Message-State: AElRT7FrytapY+b+6Jg9Usn5rOJZ/+DSabdZ5pjZVj8eY3/h67A1J+dm
-        wUmB/KjqO047ImddYdnXbU/ThA==
-X-Google-Smtp-Source: AIpwx4/+PlMoTXyL3X99J/NO1BvfdIk8E5OZI/edo9QrrTbdJ9nLf1NSk4SSfQkVN/3eIvmvXQf2lg==
-X-Received: by 10.223.199.15 with SMTP id k15mr125735wrg.178.1522169868202;
-        Tue, 27 Mar 2018 09:57:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2unNROHG+8feIGotHXszhTuGPmpRY6bXBkim4UFPTaQ=;
+        b=T9/4f1xtcpJyYKHhoIEuMQ75+TSomwAdZiIcB19y9gTqnglJLUGzd/dhYqJlcxKD4j
+         cy9fDrxC+fMDiiYbyCJmhN7hrf9s1R0NG64mcRhU3DnsSg/kOEr704V02rP+Ifti0xhk
+         oRQO+iQfrnrsi8VNo47C93uvOFkIWDPlp5ZUeo5ZA3k53DbcCoKIlVuY7LlphRm0GIUd
+         BB6YrfgZZNY3OoYqPfkEMeVqoA/ipA4E42MU4/qsd8VdXY7MvNqg7WsZ7VWbbG13KXwx
+         Yse54Z5wSFyTzVPJi2mGA6JGm2Lt92RHbUQumJPLOQC4Mit1s7uAO5xQ0UbWI/0ezTyo
+         UXNg==
+X-Gm-Message-State: AElRT7FqhBntzwWxni9YvMH/HFeKd1qaf60tJaIo3QDl2sTx81hzxfl1
+        qv0VbgXg2cmGOnckRxw1HkrFsQ==
+X-Google-Smtp-Source: AIpwx4+SqilrH2teukLBq3OM04gQK/o6scnPl5VTqxM3lBxwZh4twkUP46cBr9jr5WdaxdB1/7zZTw==
+X-Received: by 10.223.183.75 with SMTP id n11mr135507wre.22.1522169866448;
+        Tue, 27 Mar 2018 09:57:46 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id 93sm1622992wrh.46.2018.03.27.09.57.46
+        by smtp.gmail.com with ESMTPSA id 93sm1622992wrh.46.2018.03.27.09.57.44
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Mar 2018 09:57:47 -0700 (PDT)
+        Tue, 27 Mar 2018 09:57:45 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -77,42 +77,59 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
-Subject: [RFC PATCH v2 1/6] arm64: add type casts to untagged_addr macro
-Date:   Tue, 27 Mar 2018 18:57:37 +0200
-Message-Id: <64234f64bde32a3f58466a74445848bb7f8cda83.1522169685.git.andreyknvl@google.com>
+Subject: [RFC PATCH v2 0/6] arm64: untag user pointers passed to the kernel
+Date:   Tue, 27 Mar 2018 18:57:36 +0200
+Message-Id: <cover.1522169685.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.17.0.rc0.231.g781580f067-goog
-In-Reply-To: <cover.1522169685.git.andreyknvl@google.com>
-References: <cover.1522169685.git.andreyknvl@google.com>
-In-Reply-To: <cover.1522169685.git.andreyknvl@google.com>
-References: <cover.1522169685.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch makes the untagged_addr macro accept all kinds of address types
-(void *, unsigned long, etc.) and allows not to specify type casts in each
-place where it is used. This is done by using __typeof__.
+Hi!
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- arch/arm64/include/asm/uaccess.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+tags into the top byte of each pointer. Userspace programs (such as
+HWASan, a memory debugging tool [1]) might use this feature and pass
+tagged user pointers to the kernel through syscalls or other interfaces.
 
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index e66b0fca99c2..2d6451cbaa86 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -102,7 +102,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
-  * up with a tagged userland pointer. Clear the tag to get a sane pointer to
-  * pass on to access_ok(), for instance.
-  */
--#define untagged_addr(addr)		sign_extend64(addr, 55)
-+#define untagged_addr(addr)		\
-+	((__typeof__(addr))sign_extend64((__u64)(addr), 55))
- 
- #define access_ok(type, addr, size)	__range_ok(addr, size)
- #define user_addr_max			get_fs
+This patch makes a few of the kernel interfaces accept tagged user
+pointers. The kernel is already able to handle user faults with tagged
+pointers and has the untagged_addr macro, which this patchset reuses.
+
+We're not trying to cover all possible ways the kernel accepts user
+pointers in one patchset, so this one should be considered as a start.
+
+Thanks!
+
+[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+
+Changes in RFC v2:
+- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
+  defining it for each arch individually.
+- Updated Documentation/arm64/tagged-pointers.txt.
+- Dropped “mm, arm64: untag user addresses in memory syscalls”.
+- Rebased onto 3eb2ce82 (4.16-rc7).
+
+Andrey Konovalov (6):
+  arm64: add type casts to untagged_addr macro
+  uaccess: add untagged_addr definition for other arches
+  arm64: untag user addresses in copy_from_user and others
+  mm, arm64: untag user addresses in mm/gup.c
+  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
+  arm64: update Documentation/arm64/tagged-pointers.txt
+
+ Documentation/arm64/tagged-pointers.txt |  5 +++--
+ arch/arm64/include/asm/uaccess.h        |  9 +++++++--
+ include/linux/uaccess.h                 |  4 ++++
+ lib/strncpy_from_user.c                 |  2 ++
+ lib/strnlen_user.c                      |  2 ++
+ mm/gup.c                                | 12 ++++++++++++
+ 6 files changed, 30 insertions(+), 4 deletions(-)
+
 -- 
 2.17.0.rc0.231.g781580f067-goog
 
