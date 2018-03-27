@@ -1,71 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 634207DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Mar 2018 13:00:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BB79E7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Mar 2018 13:11:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752096AbeC0NAY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Mar 2018 09:00:24 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:37652 "EHLO mout01.posteo.de"
+        id S1752230AbeC0NLU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Mar 2018 09:11:20 -0400
+Received: from foss.arm.com ([217.140.101.70]:54806 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752026AbeC0NAX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Mar 2018 09:00:23 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 3515521241
-        for <linux-doc@vger.kernel.org>; Tue, 27 Mar 2018 15:00:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1522155621; bh=gcPtQkK4IDZjeP4FOvS/HWxzrEfoU2Uo3IR4ShWu1NY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oWwEdiZoZGMa6e/sfstIZ3Xa94nbu2pC5tHkZ1IUS3s2Ed9yAwE+G7owDSvE3SbqA
-         h5B7TQbi+KC5kVFVJxPh70mSrVUURjCsvJtIiykHMaAs65scfdtpNRGR/QdvtCeevU
-         neX+NEwqXxTV38By5l+lXAmiCQErDDSgkJl9f2lKdyD4CtHL0I44nJk2D9isFkK6Fj
-         rxysWdfaKMBOcCyDEjkxjLUVPg6xAsiQZp8QXomeTMrBX8DIN4dDwBsVyI7FlsZcvF
-         IMUBjimmv9W+gv15r+5gPzHty2itbZUEviLG54Z8qnHeKaShGHyMNOZ5cuSYzW+DmT
-         vWkG0Zun3Z7Ig==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 409WMP6VD9z9rxj;
-        Tue, 27 Mar 2018 15:00:17 +0200 (CEST)
-From:   Martin Kepplinger <martink@posteo.de>
-To:     corbet@lwn.net
-Cc:     mchehab@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Martin Kepplinger <martink@posteo.de>
-Subject: [PATCH] Documentation/process: update FUSE project website
-Date:   Tue, 27 Mar 2018 14:59:50 +0200
-Message-Id: <20180327125950.717-1-martink@posteo.de>
-X-Mailer: git-send-email 2.14.2
+        id S1752060AbeC0NLS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Mar 2018 09:11:18 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 767921435;
+        Tue, 27 Mar 2018 06:11:18 -0700 (PDT)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 474E73F24A;
+        Tue, 27 Mar 2018 06:11:18 -0700 (PDT)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id 0F3571AE53E7; Tue, 27 Mar 2018 14:11:29 +0100 (BST)
+From:   Will Deacon <will.deacon@arm.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     okaya@codeaurora.org, Will Deacon <will.deacon@arm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] docs/memory-barriers.txt: Fix broken DMA vs MMIO ordering example
+Date:   Tue, 27 Mar 2018 14:11:27 +0100
+Message-Id: <1522156287-15169-1-git-send-email-will.deacon@arm.com>
+X-Mailer: git-send-email 2.1.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-According to the old project site, https://sourceforge.net/projects/fuse/
-the project has moved to https://github.com/libfuse/ so we update the
-link to point to the latest libfuse release.
+The section of memory-barriers.txt that describes the dma_Xmb() barriers
+has an incorrect example claiming that a wmb() is required after writing
+to coherent memory in order for those writes to be visible to a device
+before a subsequent MMIO access using writel() can reach the device.
 
-Signed-off-by: Martin Kepplinger <martink@posteo.de>
+In fact, this ordering guarantee is provided (at significant cost on some
+architectures such as arm and power) by writel, so the wmb() is not
+necessary. writel_relaxed exists for cases where this ordering is not
+required.
+
+Fix the example and update the text to make this clearer.
+
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Reported-by: Sinan Kaya <okaya@codeaurora.org>
+Signed-off-by: Will Deacon <will.deacon@arm.com>
 ---
- Documentation/process/changes.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/memory-barriers.txt | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 4f19a9725f76..ddc029734b25 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -430,7 +430,7 @@ udev
- FUSE
- ----
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index a863009849a3..3247547d1c36 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -1909,9 +1909,6 @@ There are some more advanced barrier functions:
+ 		/* assign ownership */
+ 		desc->status = DEVICE_OWN;
  
--- <http://sourceforge.net/projects/fuse>
-+- <https://github.com/libfuse/libfuse/releases>
+-		/* force memory to sync before notifying device via MMIO */
+-		wmb();
+-
+ 		/* notify device of new descriptors */
+ 		writel(DESC_NOTIFY, doorbell);
+ 	}
+@@ -1919,11 +1916,15 @@ There are some more advanced barrier functions:
+      The dma_rmb() allows us guarantee the device has released ownership
+      before we read the data from the descriptor, and the dma_wmb() allows
+      us to guarantee the data is written to the descriptor before the device
+-     can see it now has ownership.  The wmb() is needed to guarantee that the
+-     cache coherent memory writes have completed before attempting a write to
+-     the cache incoherent MMIO region.
+-
+-     See Documentation/DMA-API.txt for more information on consistent memory.
++     can see it now has ownership.  Note that, when using writel(), a prior
++     wmb() is not needed to guarantee that the cache coherent memory writes
++     have completed before writing to the MMIO region.  The cheaper
++     writel_relaxed() does not provide this guarantee and must not be used
++     here.
++
++     See the subsection "Kernel I/O barrier effects" for more information on
++     relaxed I/O accessors and the Documentation/DMA-API.txt file for more
++     information on consistent memory.
  
- mcelog
- ------
+ 
+ MMIO WRITE BARRIER
 -- 
-2.14.2
+2.1.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
