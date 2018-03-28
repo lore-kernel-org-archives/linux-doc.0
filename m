@@ -1,159 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D91517DD31
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 13:02:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EF62D7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 14:47:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752487AbeC1NCj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 09:02:39 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:43266 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752738AbeC1NCi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 09:02:38 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 68250607E4; Wed, 28 Mar 2018 13:02:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1522242157;
-        bh=3pzBRTZfPLYCT3AuXPlIdnxbU0y87ezZS5/lpVOBMg8=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=kP65tCC5/Ducf/Kp294LwwdAeEuHjVlqIawCqECqhfNAiQK0mdiFE3zU+TezHySVK
-         1lt/lP3+Du30SGEwAUxkxprprIeksHaCV641wCkwOife8lufOsZtTLafkILJUmJYhG
-         ZzXWzzPGsZ8eanwawpOPgptTbQG9zv7Tpyem3bt4=
-Received: from [192.168.0.105] (cpe-174-109-247-98.nc.res.rr.com [174.109.247.98])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: okaya@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A9E2F60F90;
-        Wed, 28 Mar 2018 13:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1522242156;
-        bh=3pzBRTZfPLYCT3AuXPlIdnxbU0y87ezZS5/lpVOBMg8=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=JejXgi78PJcjTkTK7qgQaIhwSmyTSzrlcAHKexdMcRfuzLTVEz8pAGIz/ut+Eq3ut
-         1V2vybiGLRlEng29x/z3dzkwKa6OxJq1sXT4GSj7AKui5k6XKgysr1UlLp/2UbK46I
-         rao17ZM3MyX/obzrujoZv4k1VqJ3xjpTIMEyZULQ=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A9E2F60F90
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
-Subject: Re: [PATCH] docs/memory-barriers.txt: Fix broken DMA vs MMIO ordering
- example
-To:     paulmck@linux.vnet.ibm.com, Will Deacon <will.deacon@arm.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-ia64@vger.kernel.org
-References: <1522156287-15169-1-git-send-email-will.deacon@arm.com>
- <20180327150252.GN3675@linux.vnet.ibm.com>
-From:   Sinan Kaya <okaya@codeaurora.org>
-Message-ID: <c93ed5db-8cfd-1258-3396-62ca2076c44d@codeaurora.org>
-Date:   Wed, 28 Mar 2018 09:02:33 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20180327150252.GN3675@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1752945AbeC1OrN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 10:47:13 -0400
+Received: from mail-pl0-f66.google.com ([209.85.160.66]:45794 "EHLO
+        mail-pl0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752237AbeC1OrM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 10:47:12 -0400
+Received: by mail-pl0-f66.google.com with SMTP id n15-v6so1697475plp.12
+        for <linux-doc@vger.kernel.org>; Wed, 28 Mar 2018 07:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=DUJ2iyNdNzH5R2CpWBW0zo3hk45GmGQZcRRm0OtPF9I=;
+        b=sjFQcDts10t/X8tTmzRKtjkjVZSvUvA6w+VP3C4F4s4jlcKTjBfOzg4EbDow2bCwQ1
+         psTKS9+HjRfRMdcfoAwDr0O7oYF6NohZuJpVZsmCz9QK6lyLuBRlBKWds+dUwVkB8Kg/
+         ErqmRzgwzmUkTXe77h3Xc0ZIEzm+lUu8/OoMmyaR/dOaxFzK6EAwhWWMttBsnxxTOV/q
+         k9u/WVHMXmRsaWP9B1ggxWCpcUDtq/mbj3zEsFPbbT6oH09mnJVUh7V4RRomrVvKkct7
+         WO/cx6jgSGUB19hyeIp6SPR8N7hindO4+OzadlaQIxNEkaDrR/v+A/4KZtezAES6fySX
+         jPVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=DUJ2iyNdNzH5R2CpWBW0zo3hk45GmGQZcRRm0OtPF9I=;
+        b=i4oh/c9tzMFa7Cug6mWgSnu+q/KTr41rpAtd2ZUdKWTGtetMDfFx2cHgiAWe6MlWR/
+         6JKGESmCJNMdDLvoah1KiQzX3eaITsVT3fEnvWy1f3lJ2OeXvb7eYew6zemUJiJq0Jvp
+         WloFynF49Z+8N8v4CV70oxdxyP1B095N9IoGv87PZmy/s41+BOijpojvtVh3NDJr6Bc/
+         J7/B6o6r+S4xkP5h5w/Z9T/h/qEXVy8cQDQbbvhnseXwVVSgwc20qdTBUVoWBtB4arTq
+         OVCZ/EzAKS0XK4lX/bF5qZ1xEwrDZ0zprCzguDBBGiI5UWKokFD5s8Yuv59mATh78G0f
+         NUaA==
+X-Gm-Message-State: AElRT7FOAvDRoI/v8SRVPUUt8KULE5RRky/Gsug1ykqq2/K4+YBcprvA
+        AMcuBiFYmjz6BfHEWlnMUZ4hQA==
+X-Google-Smtp-Source: AIpwx48q10BvFtEAZEeD0unsmRenzWDOY/odCO+V2azu9Z7uOwZT2vK9aOb+DwTTbqIT8caEC/NgmQ==
+X-Received: by 2002:a17:902:161:: with SMTP id 88-v6mr4091470plb.212.1522248432164;
+        Wed, 28 Mar 2018 07:47:12 -0700 (PDT)
+Received: from arty-430G2 ([2001:470:36:117e:a038:3853:c974:4e7])
+        by smtp.gmail.com with ESMTPSA id a82sm8725185pfj.153.2018.03.28.07.47.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 28 Mar 2018 07:47:11 -0700 (PDT)
+Received: by arty-430G2 (sSMTP sendmail emulation); Wed, 28 Mar 2018 22:47:07 +0800
+From:   Sanjeev Gupta <ghane0@gmail.com>
+To:     corbet@lwn.net, linux-wimax@intel.com
+Cc:     linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation/wimax: Point dead link to working copy
+Date:   Wed, 28 Mar 2018 22:47:07 +0800
+Message-Id: <20180328144707.13103-1-ghane0@gmail.com>
+X-Mailer: git-send-email 2.15.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+linux-ia64
+The linuxwimax.org domain, registered by the Linux Foundation,
+no longer has any DNS entries.  Locate a copy on archive.org and
+update the documentation.
 
-On 3/27/2018 11:02 AM, Paul E. McKenney wrote:
-> On Tue, Mar 27, 2018 at 02:11:27PM +0100, Will Deacon wrote:
->> The section of memory-barriers.txt that describes the dma_Xmb() barriers
->> has an incorrect example claiming that a wmb() is required after writing
->> to coherent memory in order for those writes to be visible to a device
->> before a subsequent MMIO access using writel() can reach the device.
->>
->> In fact, this ordering guarantee is provided (at significant cost on some
->> architectures such as arm and power) by writel, so the wmb() is not
->> necessary. writel_relaxed exists for cases where this ordering is not
->> required.
->>
->> Fix the example and update the text to make this clearer.
->>
->> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Cc: Jason Gunthorpe <jgg@ziepe.ca>
->> Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
->> Cc: Peter Zijlstra <peterz@infradead.org>
->> Cc: Ingo Molnar <mingo@redhat.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Reported-by: Sinan Kaya <okaya@codeaurora.org>
->> Signed-off-by: Will Deacon <will.deacon@arm.com>
-> 
-> Good catch, queued on my lkmm branch, thank you!
-> 
-> 							Thanx, Paul
-> 
+Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+---
+ Documentation/wimax/README.i2400m | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Does IA64 follow this requirement? If not, is implementation planned?
-
-"no wmb() before writel()"
-
-Linus asked us to get rid of wmb() in front of writel() for UC memory.
-Just checking that we are not breaking anything for IA64.
-
->> ---
->>  Documentation/memory-barriers.txt | 17 +++++++++--------
->>  1 file changed, 9 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
->> index a863009849a3..3247547d1c36 100644
->> --- a/Documentation/memory-barriers.txt
->> +++ b/Documentation/memory-barriers.txt
->> @@ -1909,9 +1909,6 @@ There are some more advanced barrier functions:
->>  		/* assign ownership */
->>  		desc->status = DEVICE_OWN;
->>
->> -		/* force memory to sync before notifying device via MMIO */
->> -		wmb();
->> -
->>  		/* notify device of new descriptors */
->>  		writel(DESC_NOTIFY, doorbell);
->>  	}
->> @@ -1919,11 +1916,15 @@ There are some more advanced barrier functions:
->>       The dma_rmb() allows us guarantee the device has released ownership
->>       before we read the data from the descriptor, and the dma_wmb() allows
->>       us to guarantee the data is written to the descriptor before the device
->> -     can see it now has ownership.  The wmb() is needed to guarantee that the
->> -     cache coherent memory writes have completed before attempting a write to
->> -     the cache incoherent MMIO region.
->> -
->> -     See Documentation/DMA-API.txt for more information on consistent memory.
->> +     can see it now has ownership.  Note that, when using writel(), a prior
->> +     wmb() is not needed to guarantee that the cache coherent memory writes
->> +     have completed before writing to the MMIO region.  The cheaper
->> +     writel_relaxed() does not provide this guarantee and must not be used
->> +     here.
->> +
->> +     See the subsection "Kernel I/O barrier effects" for more information on
->> +     relaxed I/O accessors and the Documentation/DMA-API.txt file for more
->> +     information on consistent memory.
->>
->>
->>  MMIO WRITE BARRIER
->> -- 
->> 2.1.4
->>
-> 
-> 
-
-
+diff --git a/Documentation/wimax/README.i2400m b/Documentation/wimax/README.i2400m
+index 7dffd8919cb0..d11502d17818 100644
+--- a/Documentation/wimax/README.i2400m
++++ b/Documentation/wimax/README.i2400m
+@@ -61,8 +61,9 @@ $ make KDIR=/path/to/kernel/dev/tree
+ 
+ 3. Installing the firmware
+ 
+-   The firmware can be obtained from http://linuxwimax.org or might have
+-   been supplied with your hardware.
++   The firmware can be obtained from
++   https://web.archive.org/web/20101224002849/http://linuxwimax.org/
++   or might have been supplied with your hardware.
+ 
+    It has to be installed in the target system:
+      *
 -- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+2.15.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
