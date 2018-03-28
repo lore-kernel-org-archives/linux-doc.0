@@ -1,45 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 241FF7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 16:42:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C0E337DE76
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 17:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753314AbeC1Qmb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 12:42:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56678 "EHLO mail.kernel.org"
+        id S1752634AbeC1R2O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 13:28:14 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:41265 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752836AbeC1Qm3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Mar 2018 12:42:29 -0400
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com [209.85.216.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0D3AB21839;
-        Wed, 28 Mar 2018 16:42:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D3AB21839
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=robh@kernel.org
-Received: by mail-qt0-f171.google.com with SMTP id f8so3198578qtg.12;
-        Wed, 28 Mar 2018 09:42:29 -0700 (PDT)
-X-Gm-Message-State: ALQs6tDGknfV+oj635OYdat+FQMVGOTv47aJl8obH007bu6B1Mbk/inR
-        bQThQuVw5UWboJCuC5TjUXFBKYDRx5KzoQij1g==
-X-Google-Smtp-Source: AIpwx49uw2V6lcjLgc9Z+fBi0diOr7NVxwENSzhHGQILexnCvGSzAT13is5mX/SLPZ88KyqfRs3f/F+SZcIFh8y4tAc=
-X-Received: by 10.237.38.135 with SMTP id q7mr6316136qtd.205.1522255348129;
- Wed, 28 Mar 2018 09:42:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.12.213.166 with HTTP; Wed, 28 Mar 2018 09:42:07 -0700 (PDT)
-In-Reply-To: <20180328101922.22a7039d@bbrezillon>
-References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
- <20180323110020.19080-6-boris.brezillon@bootlin.com> <20180326071946.dtrhhxx3iwwymk73@rob-hp-laptop>
- <20180328101922.22a7039d@bbrezillon>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 28 Mar 2018 11:42:07 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKKf_Ob6AUvO5xgEFzSWakYDuPPzVKe4taoN1kzw3b1fQ@mail.gmail.com>
-Message-ID: <CAL_JsqKKf_Ob6AUvO5xgEFzSWakYDuPPzVKe4taoN1kzw3b1fQ@mail.gmail.com>
-Subject: Re: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
+        id S1751166AbeC1R2L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Mar 2018 13:28:11 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id CCEE020720; Wed, 28 Mar 2018 19:28:07 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 1FAB920146;
+        Wed, 28 Mar 2018 19:28:07 +0200 (CEST)
+Date:   Wed, 28 Mar 2018 19:28:07 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
 Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Linux I2C <linux-i2c@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
@@ -66,86 +48,79 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         linux-gpio@vger.kernel.org,
         Boris Brezillon <boris.brezillon@free-electrons.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
+Message-ID: <20180328192807.174b794d@bbrezillon>
+In-Reply-To: <CAL_JsqKKf_Ob6AUvO5xgEFzSWakYDuPPzVKe4taoN1kzw3b1fQ@mail.gmail.com>
+References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
+        <20180323110020.19080-6-boris.brezillon@bootlin.com>
+        <20180326071946.dtrhhxx3iwwymk73@rob-hp-laptop>
+        <20180328101922.22a7039d@bbrezillon>
+        <CAL_JsqKKf_Ob6AUvO5xgEFzSWakYDuPPzVKe4taoN1kzw3b1fQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 28, 2018 at 3:19 AM, Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> Hi Rob,
->
-> On Mon, 26 Mar 2018 17:24:58 -0500
-> Rob Herring <robh@kernel.org> wrote:
->
->> > +
->> > +I3C devices
->> > +===========
->> > +
->> > +All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
->> > +are thus discoverable. So, by default, I3C devices do not have to be described
->> > +in the device tree.
->> > +This being said, one might want to attach extra resources to these devices,
->> > +and those resources may have to be described in the device tree, which in turn
->> > +means we have to describe I3C devices.
->> > +
->> > +Another use case for describing an I3C device in the device tree is when this
->> > +I3C device has a static address and we want to assign it a specific dynamic
->> > +address before the DAA takes place (so that other devices on the bus can't
->>
->> static is I2C address and dynamic is an I3C address. That could be
->> clearer throughout.
->
-> I'll clarify that.
->
->>
->> > +take this dynamic address).
->> > +
->> > +The I3C device should be names <device-type>@<static-address>,<i3c-pid>,
->>
->> s/static-address/static-i2c-address/
->
-> Okay.
->
->>
->> > +where device-type is describing the type of device connected on the bus
->> > +(gpio-controller, sensor, ...).
->> > +
->> > +Required properties
->> > +-------------------
->> > +- reg: contains 3 cells
->> > +  + first cell : encodes the I2C address. Should be 0 if the device does not
->> > +            have one (0 is not a valid I3C address).
->>
->> Change here to "encodes the static I2C address".
->>
->> 0 is not a valid I2C address?
->
-> According to [1] it is reserved, and it's reserved in the I3C spec
-> anyway (see "Table 9 I3C Slave Address Restrictions" in the I3C spec).
+On Wed, 28 Mar 2018 11:42:07 -0500
+Rob Herring <robh@kernel.org> wrote:
 
-Sorry, what I meant was s/I3C/I2C/. The first cell is I2C address and
-0 is not valid.
 
->> > +
->> > +  + second and third cells: should encode the ProvisionalID. The second cell
->> > +                       contains the manufacturer ID left-shifted by 1.
->> > +                       The third cell contains ORing of the part ID
->> > +                       left-shifted by 16, the instance ID left-shifted
->> > +                       by 12 and the extra information. This encoding is
->> > +                       following the PID definition provided by the I3C
->> > +                       specification.
->
-> One extra question for you: should I refer to the I3C_DEV(),
-> I3C_DEV_WITH_STATIC_ADDR() and I2C_DEV() macros in the bindings doc?
-> And if I do, should I use them my example?
+> >>  
+> >> > +where device-type is describing the type of device connected on the bus
+> >> > +(gpio-controller, sensor, ...).
+> >> > +
+> >> > +Required properties
+> >> > +-------------------
+> >> > +- reg: contains 3 cells
+> >> > +  + first cell : encodes the I2C address. Should be 0 if the device does not
+> >> > +            have one (0 is not a valid I3C address).  
+> >>
+> >> Change here to "encodes the static I2C address".
+> >>
+> >> 0 is not a valid I2C address?  
+> >
+> > According to [1] it is reserved, and it's reserved in the I3C spec
+> > anyway (see "Table 9 I3C Slave Address Restrictions" in the I3C spec).  
+> 
+> Sorry, what I meant was s/I3C/I2C/. The first cell is I2C address and
+> 0 is not valid.
 
-Well, I don't want to see "device@I3C_DEV(...)" for unit-addresses.
-You can use them for reg property, but it's somewhat pointless to use
-it in one place and not the other.
+Okay, got it now :-).
+> 
+> >> > +
+> >> > +  + second and third cells: should encode the ProvisionalID. The second cell
+> >> > +                       contains the manufacturer ID left-shifted by 1.
+> >> > +                       The third cell contains ORing of the part ID
+> >> > +                       left-shifted by 16, the instance ID left-shifted
+> >> > +                       by 12 and the extra information. This encoding is
+> >> > +                       following the PID definition provided by the I3C
+> >> > +                       specification.  
+> >
+> > One extra question for you: should I refer to the I3C_DEV(),
+> > I3C_DEV_WITH_STATIC_ADDR() and I2C_DEV() macros in the bindings doc?
+> > And if I do, should I use them my example?  
+> 
+> Well, I don't want to see "device@I3C_DEV(...)" for unit-addresses.
 
-Rob
+That wouldn't work anyway.
+
+> You can use them for reg property, but it's somewhat pointless to use
+> it in one place and not the other.
+
+Not sure I follow you. These macros have been added to ease definitions
+of reg, but you'll still have to manually define the unit-address
+manually. Are you saying I should not use them in dts files or just that
+I should not mention it in the doc. If this is the former, then patch 6
+should be dropped.
+
+-- 
+Boris Brezillon, Bootlin (formerly Free Electrons)
+Embedded Linux and Kernel engineering
+https://bootlin.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
