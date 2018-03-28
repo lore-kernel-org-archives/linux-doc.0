@@ -5,178 +5,155 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3897E7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 12:22:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D91517DD31
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 13:02:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752600AbeC1MWV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 08:22:21 -0400
-Received: from mail-wr0-f196.google.com ([209.85.128.196]:36361 "EHLO
-        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751072AbeC1MWT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 08:22:19 -0400
-Received: by mail-wr0-f196.google.com with SMTP id y55so2055555wry.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Mar 2018 05:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=hVydBFBoVQrqis3vc4aWtWKzAdQf6yAuU3lmq4cf89E=;
-        b=X9DYRPw28jIsDn6N2Z3mPJod/nVq08GmFCJ9pTSGP0koHUJ0JTa+RE97KLv7DL89oh
-         1sXQy2/d4bbwkFU3OBYbFyFDLJuhZIV/RiBiSQTi9M+99DQf3iuFPpdwR6AXV8s2QlHp
-         YVAOwfzupzU9vgty1lmE5qAtYJjKpqCfNPrxk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=hVydBFBoVQrqis3vc4aWtWKzAdQf6yAuU3lmq4cf89E=;
-        b=cElTwvMVyo5BSUR8c4+4/fCUP07dDPQFG6wCnuWG1SAtlEjnBwrzDl3YxaL4yP/0qd
-         bfNzXyqfbM0W1q0YA7toPzvEwycgE8LKL03aXcoZaBqBTh60vKkE4szEcAOT+JYwzxKL
-         /dKj5tZGrWH3YHTvcJBPWHhifyypTUHHivTR8/cs5Wc7UQHDbTTjggmsQEseZB1PrUKb
-         W5DJsaoY4J7TSj2KUAu5ltx4IZ+nrXB227vCTI1eg1wrRfhLdRV7bQx/K0mPlN6WzeRn
-         AHem6O0fVrhi9vWGKV/rUivswj+N0vDqF1RDQ1SEYGxCrVXR5q+cflbA0Uj7FZ7QrFSF
-         xgxQ==
-X-Gm-Message-State: AElRT7E9GHbunPkOzi2znk3gqdFVB4fLlg0m8pyMIBH3uuKPzVN6ocFV
-        TcZJ8tsiG6y+cdHcEfNB5aFEqw==
-X-Google-Smtp-Source: AIpwx48ld9Lqd6kz+oTAf3H6zi5IL19aAq/65W2MGb67QRIUTrr0uwZpBG3Qy/PD22xu9f5BAMZy3g==
-X-Received: by 10.223.131.229 with SMTP id 92mr2874658wre.249.1522239738412;
-        Wed, 28 Mar 2018 05:22:18 -0700 (PDT)
-Received: from andrea ([213.209.242.222])
-        by smtp.gmail.com with ESMTPSA id j4sm5227693wrd.53.2018.03.28.05.22.17
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 28 Mar 2018 05:22:17 -0700 (PDT)
-Date:   Wed, 28 Mar 2018 14:22:11 +0200
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Subject: [Question] Documentation/features: More automation/scripting help?
-Message-ID: <20180328122211.GA25420@andrea>
+        id S1752487AbeC1NCj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 09:02:39 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:43266 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752738AbeC1NCi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 09:02:38 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 68250607E4; Wed, 28 Mar 2018 13:02:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1522242157;
+        bh=3pzBRTZfPLYCT3AuXPlIdnxbU0y87ezZS5/lpVOBMg8=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=kP65tCC5/Ducf/Kp294LwwdAeEuHjVlqIawCqECqhfNAiQK0mdiFE3zU+TezHySVK
+         1lt/lP3+Du30SGEwAUxkxprprIeksHaCV641wCkwOife8lufOsZtTLafkILJUmJYhG
+         ZzXWzzPGsZ8eanwawpOPgptTbQG9zv7Tpyem3bt4=
+Received: from [192.168.0.105] (cpe-174-109-247-98.nc.res.rr.com [174.109.247.98])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: okaya@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id A9E2F60F90;
+        Wed, 28 Mar 2018 13:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1522242156;
+        bh=3pzBRTZfPLYCT3AuXPlIdnxbU0y87ezZS5/lpVOBMg8=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=JejXgi78PJcjTkTK7qgQaIhwSmyTSzrlcAHKexdMcRfuzLTVEz8pAGIz/ut+Eq3ut
+         1V2vybiGLRlEng29x/z3dzkwKa6OxJq1sXT4GSj7AKui5k6XKgysr1UlLp/2UbK46I
+         rao17ZM3MyX/obzrujoZv4k1VqJ3xjpTIMEyZULQ=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A9E2F60F90
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
+Subject: Re: [PATCH] docs/memory-barriers.txt: Fix broken DMA vs MMIO ordering
+ example
+To:     paulmck@linux.vnet.ibm.com, Will Deacon <will.deacon@arm.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-ia64@vger.kernel.org
+References: <1522156287-15169-1-git-send-email-will.deacon@arm.com>
+ <20180327150252.GN3675@linux.vnet.ibm.com>
+From:   Sinan Kaya <okaya@codeaurora.org>
+Message-ID: <c93ed5db-8cfd-1258-3396-62ca2076c44d@codeaurora.org>
+Date:   Wed, 28 Mar 2018 09:02:33 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20180327150252.GN3675@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
++linux-ia64
 
-The directory (not yet three years old although, I freely admit, I've
-only recently become aware of it) provides arch. support matrices for
-more than 40 generic kernel features that need per-arch. support:
+On 3/27/2018 11:02 AM, Paul E. McKenney wrote:
+> On Tue, Mar 27, 2018 at 02:11:27PM +0100, Will Deacon wrote:
+>> The section of memory-barriers.txt that describes the dma_Xmb() barriers
+>> has an incorrect example claiming that a wmb() is required after writing
+>> to coherent memory in order for those writes to be visible to a device
+>> before a subsequent MMIO access using writel() can reach the device.
+>>
+>> In fact, this ordering guarantee is provided (at significant cost on some
+>> architectures such as arm and power) by writel, so the wmb() is not
+>> necessary. writel_relaxed exists for cases where this ordering is not
+>> required.
+>>
+>> Fix the example and update the text to make this clearer.
+>>
+>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>> Cc: Arnd Bergmann <arnd@arndb.de>
+>> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+>> Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
+>> Cc: Ingo Molnar <mingo@redhat.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Reported-by: Sinan Kaya <okaya@codeaurora.org>
+>> Signed-off-by: Will Deacon <will.deacon@arm.com>
+> 
+> Good catch, queued on my lkmm branch, thank you!
+> 
+> 							Thanx, Paul
+> 
 
-This is a superb project! ;-)  and not a simple one given that, to be
-effective, this requires the prompt collaboration between (the intere-
-sted) features maintainers/developers, every architecture maintainers,
-and documentation maintainers.
+Does IA64 follow this requirement? If not, is implementation planned?
 
-There currently appear to be some mismatches between such doc and the
-the actual state of the code (e.g., missing architecture, feature not
-existing anymore, status flags out-of-date). Realized this, I started
-to patch the doc, but this process became soon tedious (consider also
-that I barely know what some of these features are about...).
+"no wmb() before writel()"
 
-Hence this post. I am wondering if it would make sense to script some
-of these matrices.  So, rather than (or together with) using the cur-
-rently hard-coded matrices, try to (automatically) generate them from
-the sources/configs. Consider the sketch below (sorry for the raw sh).
+Linus asked us to get rid of wmb() in front of writel() for UC memory.
+Just checking that we are not breaking anything for IA64.
 
-diff --git a/Documentation/features/list-arch.sh b/Documentation/features/list-arch.sh
-index c16b5b5956889..cdec0c1db9db2 100755
---- a/Documentation/features/list-arch.sh
-+++ b/Documentation/features/list-arch.sh
-@@ -18,7 +18,13 @@ for F in */*/arch-support.txt; do
-   C=$(grep -h "^#         Kconfig:"     $F | cut -c25-)
-   D=$(grep -h "^#         description:" $F | cut -c25-)
-   S=$(grep -hw $ARCH $F | cut -d\| -f3)
-+  myS=$(grep -h $C ../../arch/$ARCH/Kconfig)
-+  if [ -z "$myS" ]; then
-+	  myS=" -- "
-+  else
-+	  myS=" ok "
-+  fi
- 
--  printf "%10s/%-22s:%s| %35s # %s\n" "$SUBSYS" "$N" "$S" "$C" "$D"
-+  printf "%10s/%-22s:%s VS. %s| %35s # %s\n" "$SUBSYS" "$N" "$S" "$myS" "$C" "$D"
- done
- 
-
-With this diff.,
-
-andrea@andrea:~$ ./Documentation/features/list-arch.sh riscv > /tmp/riscv.txt
-grep: asm/rwsem.h: No such file or directory
-andrea@andrea:~$ cat /tmp/riscv.txt
-#
-# Kernel feature support matrix of the 'riscv' architecture:
-#
-      core/ BPF-JIT              : VS.  -- |                        HAVE_BPF_JIT #  arch supports BPF JIT optimizations
-      core/ generic-idle-thread  : VS.  ok |             GENERIC_SMP_IDLE_THREAD #  arch makes use of the generic SMP idle thread facility
-      core/ jump-labels          : VS.  -- |                HAVE_ARCH_JUMP_LABEL #  arch supports live patched, high efficiency branches
-      core/ tracehook            : VS.  ok |                 HAVE_ARCH_TRACEHOOK #  arch supports tracehook (ptrace) register handling APIs
-     debug/ gcov-profile-all     : VS.  -- |           ARCH_HAS_GCOV_PROFILE_ALL #  arch supports whole-kernel GCOV code coverage profiling
-     debug/ KASAN                : VS.  -- |                     HAVE_ARCH_KASAN #  arch supports the KASAN runtime memory checker
-     debug/ kgdb                 : VS.  -- |                      HAVE_ARCH_KGDB #  arch supports the kGDB kernel debugger
-     debug/ kprobes              : VS.  ok |                        HAVE_KPROBES #  arch supports live patched kernel probe
-     debug/ kprobes-on-ftrace    : VS.  -- |              HAVE_KPROBES_ON_FTRACE #  arch supports combined kprobes and ftrace live patching
-     debug/ kretprobes           : VS.  -- |                     HAVE_KRETPROBES #  arch supports kernel function-return probes
-     debug/ optprobes            : VS.  -- |                      HAVE_OPTPROBES #  arch supports live patched optprobes
-     debug/ stackprotector       : VS.  -- |              HAVE_CC_STACKPROTECTOR #  arch supports compiler driven stack overflow protection
-     debug/ uprobes              : VS.  -- |               ARCH_SUPPORTS_UPROBES #  arch supports live patched user probes
-     debug/ user-ret-profiler    : VS.  -- |           HAVE_USER_RETURN_NOTIFIER #  arch supports user-space return from system call profiler
-        io/ dma-api-debug        : VS.  ok |                  HAVE_DMA_API_DEBUG #  arch supports DMA debug facilities
-        io/ dma-contiguous       : VS.  ok |                 HAVE_DMA_CONTIGUOUS #  arch supports the DMA CMA (continuous memory allocator)
-        io/ sg-chain             : VS.  -- |                   ARCH_HAS_SG_CHAIN #  arch supports chained scatter-gather lists
-       lib/ strncasecmp          : VS.  -- |             __HAVE_ARCH_STRNCASECMP #  arch provides an optimized strncasecmp() function
-   locking/ cmpxchg-local        : VS.  -- |                  HAVE_CMPXCHG_LOCAL #  arch supports the this_cpu_cmpxchg() API
-   locking/ lockdep              : VS.  -- |                     LOCKDEP_SUPPORT #  arch supports the runtime locking correctness debug facility
-   locking/ queued-rwlocks       : VS.  -- |             ARCH_USE_QUEUED_RWLOCKS #  arch supports queued rwlocks
-   locking/ queued-spinlocks     : VS.  -- |           ARCH_USE_QUEUED_SPINLOCKS #  arch supports queued spinlocks
-   locking/ rwsem-optimized      : VS.  -- |               Optimized asm/rwsem.h #  arch provides optimized rwsem APIs
-      perf/ kprobes-event        : VS.  -- |      HAVE_REGS_AND_STACK_ACCESS_API #  arch supports kprobes with perf events
-      perf/ perf-regs            : VS.  -- |                      HAVE_PERF_REGS #  arch supports perf events register access
-      perf/ perf-stackdump       : VS.  -- |           HAVE_PERF_USER_STACK_DUMP #  arch supports perf events stack dumps
-     sched/ membarrier-sync-core : VS.  -- |       ARCH_HAS_MEMBARRIER_SYNC_CORE #  arch supports core serializing membarrier
-     sched/ numa-balancing       : VS.  -- |        ARCH_SUPPORTS_NUMA_BALANCING #  arch supports NUMA balancing
-   seccomp/ seccomp-filter       : VS.  -- |            HAVE_ARCH_SECCOMP_FILTER #  arch supports seccomp filters
-      time/ arch-tick-broadcast  : VS.  -- |             ARCH_HAS_TICK_BROADCAST #  arch provides tick_broadcast()
-      time/ clockevents          : VS.  ok |                 GENERIC_CLOCKEVENTS #  arch support generic clock events
-      time/ context-tracking     : VS.  -- |               HAVE_CONTEXT_TRACKING #  arch supports context tracking for NO_HZ_FULL
-      time/ irq-time-acct        : VS.  -- |            HAVE_IRQ_TIME_ACCOUNTING #  arch supports precise IRQ time accounting
-      time/ modern-timekeeping   : VS.  -- |            !ARCH_USES_GETTIMEOFFSET #  arch does not use arch_gettimeoffset() anymore
-      time/ virt-cpuacct         : VS.  -- |            HAVE_VIRT_CPU_ACCOUNTING #  arch supports precise virtual CPU time accounting
-        vm/ ELF-ASLR             : VS.  -- |              ARCH_HAS_ELF_RANDOMIZE #  arch randomizes the stack, heap and binary images of ELF binaries
-        vm/ huge-vmap            : VS.  -- |                 HAVE_ARCH_HUGE_VMAP #  arch supports the ioremap_pud_enabled() and ioremap_pmd_enabled() VM APIs
-        vm/ ioremap_prot         : VS.  -- |                   HAVE_IOREMAP_PROT #  arch has ioremap_prot()
-        vm/ numa-memblock        : VS.  ok |              HAVE_MEMBLOCK_NODE_MAP #  arch supports NUMA aware memblocks
-        vm/ PG_uncached          : VS.  -- |               ARCH_USES_PG_UNCACHED #  arch supports the PG_uncached page flag
-        vm/ pte_special          : VS.  -- |             __HAVE_ARCH_PTE_SPECIAL #  arch supports the pte_special()/pte_mkspecial() VM APIs
-        vm/ THP                  : VS.  -- |      HAVE_ARCH_TRANSPARENT_HUGEPAGE #  arch supports transparent hugepages
-        vm/ batch-unmap-tlb-flush: VS.  -- |   ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH #  arch supports deferral of TLB flush until multiple pages are unmapped
+>> ---
+>>  Documentation/memory-barriers.txt | 17 +++++++++--------
+>>  1 file changed, 9 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+>> index a863009849a3..3247547d1c36 100644
+>> --- a/Documentation/memory-barriers.txt
+>> +++ b/Documentation/memory-barriers.txt
+>> @@ -1909,9 +1909,6 @@ There are some more advanced barrier functions:
+>>  		/* assign ownership */
+>>  		desc->status = DEVICE_OWN;
+>>
+>> -		/* force memory to sync before notifying device via MMIO */
+>> -		wmb();
+>> -
+>>  		/* notify device of new descriptors */
+>>  		writel(DESC_NOTIFY, doorbell);
+>>  	}
+>> @@ -1919,11 +1916,15 @@ There are some more advanced barrier functions:
+>>       The dma_rmb() allows us guarantee the device has released ownership
+>>       before we read the data from the descriptor, and the dma_wmb() allows
+>>       us to guarantee the data is written to the descriptor before the device
+>> -     can see it now has ownership.  The wmb() is needed to guarantee that the
+>> -     cache coherent memory writes have completed before attempting a write to
+>> -     the cache incoherent MMIO region.
+>> -
+>> -     See Documentation/DMA-API.txt for more information on consistent memory.
+>> +     can see it now has ownership.  Note that, when using writel(), a prior
+>> +     wmb() is not needed to guarantee that the cache coherent memory writes
+>> +     have completed before writing to the MMIO region.  The cheaper
+>> +     writel_relaxed() does not provide this guarantee and must not be used
+>> +     here.
+>> +
+>> +     See the subsection "Kernel I/O barrier effects" for more information on
+>> +     relaxed I/O accessors and the Documentation/DMA-API.txt file for more
+>> +     information on consistent memory.
+>>
+>>
+>>  MMIO WRITE BARRIER
+>> -- 
+>> 2.1.4
+>>
+> 
+> 
 
 
-Suggesting that riscv is not included within the hard-coded matrices.
-This also shows a first limitation of the proposed approach, i.e., it
-doesn't parse "Optimized asm/rwsem.h" (wants "true" configs). It also
-won't find "__HAVE_ARCH_PTE_SPECIAL" (reads Kconfig files) but things
-like "!ARCH_USES_GETTIMEOFFSET" could still be handled...
-
-We could try switching to another architectures: none of these should
-result in "core/ BPF-JIT" set: the "HAVE_BPF_JIT" config was splitted
-into cBPF and eBPF variants more recently. The comparison of the hard
-coded status flags with the new/generated flags should also highlight
-out-of-date values.
-
-Alternative/Additional help could probably be provided by checkpatch,
-say, warn when a patch touches/adds to Kconfig without updating such
-documentation...
-
-Thoughts?
-
-  Andrea
+-- 
+Sinan Kaya
+Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
+Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
