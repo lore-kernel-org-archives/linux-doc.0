@@ -1,91 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF62D7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 14:47:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC4E17DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 14:59:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752945AbeC1OrN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 10:47:13 -0400
-Received: from mail-pl0-f66.google.com ([209.85.160.66]:45794 "EHLO
-        mail-pl0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752237AbeC1OrM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 10:47:12 -0400
-Received: by mail-pl0-f66.google.com with SMTP id n15-v6so1697475plp.12
-        for <linux-doc@vger.kernel.org>; Wed, 28 Mar 2018 07:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=DUJ2iyNdNzH5R2CpWBW0zo3hk45GmGQZcRRm0OtPF9I=;
-        b=sjFQcDts10t/X8tTmzRKtjkjVZSvUvA6w+VP3C4F4s4jlcKTjBfOzg4EbDow2bCwQ1
-         psTKS9+HjRfRMdcfoAwDr0O7oYF6NohZuJpVZsmCz9QK6lyLuBRlBKWds+dUwVkB8Kg/
-         ErqmRzgwzmUkTXe77h3Xc0ZIEzm+lUu8/OoMmyaR/dOaxFzK6EAwhWWMttBsnxxTOV/q
-         k9u/WVHMXmRsaWP9B1ggxWCpcUDtq/mbj3zEsFPbbT6oH09mnJVUh7V4RRomrVvKkct7
-         WO/cx6jgSGUB19hyeIp6SPR8N7hindO4+OzadlaQIxNEkaDrR/v+A/4KZtezAES6fySX
-         jPVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=DUJ2iyNdNzH5R2CpWBW0zo3hk45GmGQZcRRm0OtPF9I=;
-        b=i4oh/c9tzMFa7Cug6mWgSnu+q/KTr41rpAtd2ZUdKWTGtetMDfFx2cHgiAWe6MlWR/
-         6JKGESmCJNMdDLvoah1KiQzX3eaITsVT3fEnvWy1f3lJ2OeXvb7eYew6zemUJiJq0Jvp
-         WloFynF49Z+8N8v4CV70oxdxyP1B095N9IoGv87PZmy/s41+BOijpojvtVh3NDJr6Bc/
-         J7/B6o6r+S4xkP5h5w/Z9T/h/qEXVy8cQDQbbvhnseXwVVSgwc20qdTBUVoWBtB4arTq
-         OVCZ/EzAKS0XK4lX/bF5qZ1xEwrDZ0zprCzguDBBGiI5UWKokFD5s8Yuv59mATh78G0f
-         NUaA==
-X-Gm-Message-State: AElRT7FOAvDRoI/v8SRVPUUt8KULE5RRky/Gsug1ykqq2/K4+YBcprvA
-        AMcuBiFYmjz6BfHEWlnMUZ4hQA==
-X-Google-Smtp-Source: AIpwx48q10BvFtEAZEeD0unsmRenzWDOY/odCO+V2azu9Z7uOwZT2vK9aOb+DwTTbqIT8caEC/NgmQ==
-X-Received: by 2002:a17:902:161:: with SMTP id 88-v6mr4091470plb.212.1522248432164;
-        Wed, 28 Mar 2018 07:47:12 -0700 (PDT)
-Received: from arty-430G2 ([2001:470:36:117e:a038:3853:c974:4e7])
-        by smtp.gmail.com with ESMTPSA id a82sm8725185pfj.153.2018.03.28.07.47.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 28 Mar 2018 07:47:11 -0700 (PDT)
-Received: by arty-430G2 (sSMTP sendmail emulation); Wed, 28 Mar 2018 22:47:07 +0800
-From:   Sanjeev Gupta <ghane0@gmail.com>
-To:     corbet@lwn.net, linux-wimax@intel.com
-Cc:     linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation/wimax: Point dead link to working copy
-Date:   Wed, 28 Mar 2018 22:47:07 +0800
-Message-Id: <20180328144707.13103-1-ghane0@gmail.com>
-X-Mailer: git-send-email 2.15.1
+        id S1753714AbeC1O7c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 10:59:32 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:39692 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752876AbeC1O7Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 10:59:25 -0400
+To:     Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v4 3/8] doc: Add doc for the Ingenic TCU hardware
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Wed, 28 Mar 2018 16:59:22 +0200
+From:   Paul Cercueil <paul@crapouillou.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        James Hogan <jhogan@kernel.org>,
+        Maarten ter Huurne <maarten@treewalker.org>,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
+        linux-doc@vger.kernel.org
+Subject: 
+In-Reply-To: <1e5b82ca-5ac3-6e98-d40b-67916008b485@infradead.org>
+References: <20180110224838.16711-2-paul@crapouillou.net>
+ <20180317232901.14129-1-paul@crapouillou.net>
+ <20180317232901.14129-4-paul@crapouillou.net>
+ <1e5b82ca-5ac3-6e98-d40b-67916008b485@infradead.org>
+Message-ID: <d7afc23f2fa93abab49895b5cc4010fa@crapouillou.net>
+X-Sender: paul@crapouillou.net
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The linuxwimax.org domain, registered by the Linux Foundation,
-no longer has any DNS entries.  Locate a copy on archive.org and
-update the documentation.
+Le 2018-03-18 00:52, Randy Dunlap a écrit :
+> On 03/17/2018 04:28 PM, Paul Cercueil wrote:
+>> Add a documentation file about the Timer/Counter Unit (TCU)
+>> present in the Ingenic JZ47xx SoCs.
+>> 
+>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>> ---
+>>  Documentation/mips/00-INDEX        |  3 +++
+>>  Documentation/mips/ingenic-tcu.txt | 50 
+>> ++++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 53 insertions(+)
+>>  create mode 100644 Documentation/mips/ingenic-tcu.txt
+>> 
+>>  v4: New patch in this series
+> 
+>> diff --git a/Documentation/mips/ingenic-tcu.txt 
+>> b/Documentation/mips/ingenic-tcu.txt
+>> new file mode 100644
+>> index 000000000000..2508e5793da8
+>> --- /dev/null
+>> +++ b/Documentation/mips/ingenic-tcu.txt
+>> @@ -0,0 +1,50 @@
+>> +Ingenic JZ47xx SoCs Timer/Counter Unit hardware
+>> +-----------------------------------------------
+>> +
+>> +The Timer/Counter Unit (TCU) in Ingenic JZ47xx SoCs is a 
+>> multi-function
+>> +hardware block. It features eight channels, that can be used as 
+>> counters,
+> 
+>                     drop comma ............. ^
 
-Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
----
- Documentation/wimax/README.i2400m | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Ok.
 
-diff --git a/Documentation/wimax/README.i2400m b/Documentation/wimax/README.i2400m
-index 7dffd8919cb0..d11502d17818 100644
---- a/Documentation/wimax/README.i2400m
-+++ b/Documentation/wimax/README.i2400m
-@@ -61,8 +61,9 @@ $ make KDIR=/path/to/kernel/dev/tree
- 
- 3. Installing the firmware
- 
--   The firmware can be obtained from http://linuxwimax.org or might have
--   been supplied with your hardware.
-+   The firmware can be obtained from
-+   https://web.archive.org/web/20101224002849/http://linuxwimax.org/
-+   or might have been supplied with your hardware.
- 
-    It has to be installed in the target system:
-      *
--- 
-2.15.1
+>> +timers, or PWM.
+>> +
+>> +- JZ4770 introduced a separate channel, called Operating System Timer 
+>> (OST).
+>> +  It is a 64-bit programmable timer.
+>> +
+>> +- Each one of the eight channels has its own clock, which can be 
+>> reparented
+>> +  to three different clocks (pclk, ext, rtc), gated, and reclocked, 
+>> through
+>> +  their TCSR register.
+>> +  * The watchdog and OST hardware blocks also feature a TCSR register 
+>> with
+>> +	the same format in their register space.
+>> +  * The TCU registers used to gate/ungate can also gate/ungate the 
+>> watchdog
+>> +	and OST clocks.
+>> +
+>> +- On SoCs >= JZ4770, there are two different modes:
+>> +  * Channels 0, 3-7 operate in TCU1 mode: they cannot work in sleep 
+>> mode,
+>> +	but are easier to operate.
+>> +  * Channels 1-2 operate in TCU2 mode: they can work in sleep mode, 
+>> but
+>> +	the operation is a bit more complicated than with TCU1 channels.
+>> +
+>> +- Each channel can generate an interrupt. Some channels share an 
+>> interrupt
+>> +  line, some don't, and this changes between SoC versions:
+>> +  * on JZ4740, timer 0 and timer 1 have their own interrupt line; 
+>> others share
+>> +	one interrupt line.
+>> +  * on JZ4770 and JZ4780, timer 5 has its own interrupt; timers 0-4 
+>> and 6-7 all
+>> +	use one interrupt line; the OST uses the last interrupt.
+> 
+> "The OST uses the last interrupt." is not clear to someone who doesn't 
+> know
+> about this hardware. (I can read it several ways.)
+> 
+> Does it mean that the 4770 and 4780 have 3 interrupt lines used like 
+> so?
+> 
+> - timer 5 uses one interrupt line
+> - timers 0-4 and 6-7 use a second interrupt line
+> - the OST uses a third interrupt line
+
+Correct. I'll make it more obvious.
+
+Thanks,
+-Paul
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
