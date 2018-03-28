@@ -1,138 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 825A77DE76
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Mar 2018 17:01:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 13BDA7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 06:57:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752446AbeC0RBP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Mar 2018 13:01:15 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:44308 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751890AbeC0Q5s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Mar 2018 12:57:48 -0400
-Received: by mail-wr0-f194.google.com with SMTP id u46so23109396wrc.11
-        for <linux-doc@vger.kernel.org>; Tue, 27 Mar 2018 09:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2unNROHG+8feIGotHXszhTuGPmpRY6bXBkim4UFPTaQ=;
-        b=SXjhznolWo1hvxBRtHpKTOT8IY9XixA/kKc+IfwHbe8/lVgq1y2AV4kboGXl4kHBxk
-         nyoqKsfwJUXwGk7PAMzPpGAO6gXLGQaIui2hzXXzgRXwJ/2ve6BuovPgdsTP76XDK+B6
-         ROO512Wu1uPsfVIS5QzZzMKq+ZFMbEhFW2S4MkFpLDoPvWcsNnBau5SPXgRjV3RRLQc7
-         Z7zMEp0ijm3LVZcWKI3kn9YqJbPNmQaKv390RnL7+NgPIDNwvdDA7HVAXVV0l21PLoNP
-         05xXhc/k3Wu4XrlSPtaZ4mlXnQwjalDCe/8Y/drJ2a1rwdPdu5+SOCo27z9I4Tub3/5v
-         /feg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2unNROHG+8feIGotHXszhTuGPmpRY6bXBkim4UFPTaQ=;
-        b=T9/4f1xtcpJyYKHhoIEuMQ75+TSomwAdZiIcB19y9gTqnglJLUGzd/dhYqJlcxKD4j
-         cy9fDrxC+fMDiiYbyCJmhN7hrf9s1R0NG64mcRhU3DnsSg/kOEr704V02rP+Ifti0xhk
-         oRQO+iQfrnrsi8VNo47C93uvOFkIWDPlp5ZUeo5ZA3k53DbcCoKIlVuY7LlphRm0GIUd
-         BB6YrfgZZNY3OoYqPfkEMeVqoA/ipA4E42MU4/qsd8VdXY7MvNqg7WsZ7VWbbG13KXwx
-         Yse54Z5wSFyTzVPJi2mGA6JGm2Lt92RHbUQumJPLOQC4Mit1s7uAO5xQ0UbWI/0ezTyo
-         UXNg==
-X-Gm-Message-State: AElRT7FqhBntzwWxni9YvMH/HFeKd1qaf60tJaIo3QDl2sTx81hzxfl1
-        qv0VbgXg2cmGOnckRxw1HkrFsQ==
-X-Google-Smtp-Source: AIpwx4+SqilrH2teukLBq3OM04gQK/o6scnPl5VTqxM3lBxwZh4twkUP46cBr9jr5WdaxdB1/7zZTw==
-X-Received: by 10.223.183.75 with SMTP id n11mr135507wre.22.1522169866448;
-        Tue, 27 Mar 2018 09:57:46 -0700 (PDT)
-Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id 93sm1622992wrh.46.2018.03.27.09.57.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Mar 2018 09:57:45 -0700 (PDT)
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        James Morse <james.morse@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
-Subject: [RFC PATCH v2 0/6] arm64: untag user pointers passed to the kernel
-Date:   Tue, 27 Mar 2018 18:57:36 +0200
-Message-Id: <cover.1522169685.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.17.0.rc0.231.g781580f067-goog
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S1751166AbeC1G54 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 02:57:56 -0400
+Received: from mout.gmx.net ([212.227.15.19]:51617 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750735AbeC1G5z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Mar 2018 02:57:55 -0400
+Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx003
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0MU1MP-1f9dj23YGH-00Ql4e; Wed, 28
+ Mar 2018 08:57:18 +0200
+Message-ID: <1522220235.24311.1.camel@gmx.de>
+Subject: Re: [PATCH v6 2/2] cpuset: Add cpuset.sched_load_balance to v2
+From:   Mike Galbraith <efault@gmx.de>
+To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>
+Cc:     Juri Lelli <juri.lelli@redhat.com>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
+Date:   Wed, 28 Mar 2018 08:57:15 +0200
+In-Reply-To: <e20484c9-e901-9737-d856-783a6eba1604@redhat.com>
+References: <1521649309-26690-1-git-send-email-longman@redhat.com>
+         <1521649309-26690-3-git-send-email-longman@redhat.com>
+         <20180322084120.GE7231@localhost.localdomain>
+         <e754e128-0a93-800e-e71b-2c8dc316ba8a@redhat.com>
+         <20180323075952.GA4763@localhost.localdomain>
+         <a8860a42-31b5-4620-7b23-b7515ee11d7d@redhat.com>
+         <20180326124711.GE5942@localhost.localdomain>
+         <bf79b45e-7716-65af-03ca-7112dc367371@redhat.com>
+         <20180327140259.GN1840639@devbig577.frc2.facebook.com>
+         <e20484c9-e901-9737-d856-783a6eba1604@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K0:NXgdVDtOt+x1WrZji20Xh8UPBc9TjfjC2h+YWRv1FhTcCMDmSDl
+ 2AP1/83Vop9T65PumDT+dMwHSgbS8bl8bFhQHg37pOM3SXj5sHjnyfRj3og7dEP1pKhfrTQ
+ o57D1MhoJUS+M+xAa2R8lkMqhMH6FW1+tFSsGxgEzeIDvBi1LY6WHHovHAPVqaP0wcz0rHt
+ NNAV6XTj0moOFicbN35Ag==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:YCoy1Hwqpv8=:Q8mHzXLTphMuAnm3Stz/an
+ 1YxfCy2on/KaNs4kfvGZknROgu8K5lW22XrhhpsSxJZcR+Dj+Kqq/VzJqQLXN9/jz7yvsOtTK
+ jFnBBMFFdNb3gaLFNSHKeahOkISpCJOBKOOt/YybWXpElCaVoVpbuquDwQ34lyqDtLDN9l9av
+ e75iiTHDXEZLEj6bsrWTqc7l32RowsVMvH7mqKH9mFexjRZhpF73YCXjFtarK3YvegRH77/U+
+ 52UVh6+00LdaGGLEkvBSp3IypyTyLPHMpeSQ6zXr57IQp0BMXOoDb6d3TyMGoWgAKjtnkzO5C
+ WhRD5EhJTNeW4ZCeCCELhlaY9rms4UeOBo7rkqm8crTCQyr9KZ0mwYoXbVDgWGIRsFZ93LOVA
+ ZSNKIo2pVdrR4k8HIShWUFE8Lw4kMJXo7Tcjj5FWBE4GpBl87FEWsf32GypkxRciZNw2Afzkq
+ TaMm7np+FlGoEoY56YpB3PRBykTiIdfeDtSQt5TzBm2KrxhLn0Fyz6rLdmpvA/nYAL20lqvTg
+ RJly3+S1vfyjkoTHSHDc4WdGwkmXQuh5yJM7LjT377AQQI2OLlWosM6T+XXXwFQOEGFYBrj3v
+ FTDLMqHpMMQNR3rzaNScnE/hZ2RlhKF3WCs7L9SfQajQaoHjNjzobCbrzUryZy0WOaCzwVHA5
+ /7/qNQQSDpJuzyf4+xfh9o63eO9trgDGBmhFuI3aP7QbHpFJNfUGJWj7UzG7i6lLhF+Ki1QBl
+ amDOObVOpwGsgk4PXZpY/w+Dzs85Wav8q5m2pjxz6XM27mBnxcF8SKVz6jdK63ELqUY6NXCp3
+ +Ka039Y5RPTZAV9nRHUi52gTJP1QxFyhv28cpX9eLg5ZHtRg6U=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+On Tue, 2018-03-27 at 10:23 -0400, Waiman Long wrote:
+> On 03/27/2018 10:02 AM, Tejun Heo wrote:
+> > Hello,
+> >
+> > On Mon, Mar 26, 2018 at 04:28:49PM -0400, Waiman Long wrote:
+> >> Maybe we can have a different root level flag, say,
+> >> sched_partition_domain that is equivalent to !sched_load_balnace.
+> >> However, I am still not sure if we should enforce that no task should be
+> >> in the root cgroup when the flag is set.
+> >>
+> >> Tejun and Peter, what are your thoughts on this?
+> > I haven't looked into the other issues too much but we for sure cannot
+> > empty the root cgroup.
+> >
+> > Thanks.
+> >
+> Now, I have a different idea. How about we add a special root-only knob,
+> say, "cpuset.cpus.isolated" that contains the list of CPUs that are
+> still owned by root, but not participated in load balancing. All the
+> tasks in the root are load-balanced among the remaining CPUs.
+> 
+> A child can then be created that hold some or all the CPUs in the
+> isolated set. It will then have a separate root domain if load balancing
+> is on, or an isolated cpuset if load balancing is off.
+> 
+> Will that idea work?
 
-arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-tags into the top byte of each pointer. Userspace programs (such as
-HWASan, a memory debugging tool [1]) might use this feature and pass
-tagged user pointers to the kernel through syscalls or other interfaces.
+Hrm.  Sounds very much like the typical v1 setup today..
 
-This patch makes a few of the kernel interfaces accept tagged user
-pointers. The kernel is already able to handle user faults with tagged
-pointers and has the untagged_addr macro, which this patchset reuses.
+              root
+               /\
+          peons  vips
 
-We're not trying to cover all possible ways the kernel accepts user
-pointers in one patchset, so this one should be considered as a start.
+...with v2 root effectively shrinking to become the v1 "peons" set
+*rd/sd/sd_llc wise only* when you poke /cpuset.cpus.isolated, but still
+actually spanning all CPUs.  True?
 
-Thanks!
+If so, a user would also still have to create a real "peons" subset as
+in v1 and migrate everything not nailed to the floor into it for
+containment, else any task can be placed or place itself anywhere in
+the box, or merely wake to find itself sitting on it's previous, but
+now vip turf CPU.
 
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-Changes in RFC v2:
-- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
-  defining it for each arch individually.
-- Updated Documentation/arm64/tagged-pointers.txt.
-- Dropped “mm, arm64: untag user addresses in memory syscalls”.
-- Rebased onto 3eb2ce82 (4.16-rc7).
-
-Andrey Konovalov (6):
-  arm64: add type casts to untagged_addr macro
-  uaccess: add untagged_addr definition for other arches
-  arm64: untag user addresses in copy_from_user and others
-  mm, arm64: untag user addresses in mm/gup.c
-  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-  arm64: update Documentation/arm64/tagged-pointers.txt
-
- Documentation/arm64/tagged-pointers.txt |  5 +++--
- arch/arm64/include/asm/uaccess.h        |  9 +++++++--
- include/linux/uaccess.h                 |  4 ++++
- lib/strncpy_from_user.c                 |  2 ++
- lib/strnlen_user.c                      |  2 ++
- mm/gup.c                                | 12 ++++++++++++
- 6 files changed, 30 insertions(+), 4 deletions(-)
-
--- 
-2.17.0.rc0.231.g781580f067-goog
-
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
