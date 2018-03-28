@@ -1,361 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4DCB7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 15:33:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 001D47DD31
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 16:07:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753581AbeC1Pde (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 11:33:34 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:47446 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753529AbeC1Pdd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 11:33:33 -0400
-To:     Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 4/8] dt-bindings: Add doc for the Ingenic TCU drivers
+        id S1751434AbeC1QH7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 12:07:59 -0400
+Received: from mail-pf0-f196.google.com ([209.85.192.196]:43714 "EHLO
+        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751166AbeC1QH6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 12:07:58 -0400
+Received: by mail-pf0-f196.google.com with SMTP id j2so1144625pff.10;
+        Wed, 28 Mar 2018 09:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ItM+uD+gVrAW3cprfTfFIBVA9gSw5HM/18HzoFvXwjk=;
+        b=SKDPTclkMobUi6UINL4EzQWgdXB1aMqw26PRz/M8aZpK1BanN98mzLYHaKaR5E0gCX
+         0gSUM7gT897+yu4DKjmfVRkB0qOyBSk77aU2QAshhkdKFXH/JrCR5469Vik4bSQqZ6io
+         twrVG/6nuYxDQYg4q9bpZYn1px4eO/LwNDr+cc89ZRZHFRj4kQAlAbPomM5VTYDVZrIM
+         puoVbPrf9KoMQjs93BRYbUI3cVzNawbgOTNyhUnRGMw9Qh5kssVeCGXpe0a4QJecpCis
+         MssqoVwDTVTnCRBPPXx938xj7L1y+WAfO8sC/o7qPZtnwHO3q4gDFHlbKNQ9SYI7X/Jd
+         Qb3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ItM+uD+gVrAW3cprfTfFIBVA9gSw5HM/18HzoFvXwjk=;
+        b=RVL3oX8x2+CLz4RII0XTGDKgDEY5tzQ2D+Z6oI2STvp5i0bdyW/wOrXQi7gMZ3dO+D
+         h3abQo4Bk0I4tGQGr/PcH4WKNAzK4MhAIhaQYipIF0+b1m+hC4MU1VHdNCz7ZCPqSZO3
+         9sq7ic/eZ2cGMHmTjvA6aEeXoxitWFSfbfz8vuk5SD9uxk1/KnGYny0HEt02ZkQnttff
+         occySWeC6JniZw3UldGXPQRH0WCB8NZCbhIFJe3FGP5K570NcYJAAPusWfksLZNq9L0n
+         9r29+S7aEJtV/tdjcjmI5lgh93RWU5/h+0Ci8MbfDHi+gDY9rsvlEMZdoJRtbQ4kBUUx
+         L5VQ==
+X-Gm-Message-State: AElRT7EllKpA8h/mAb82qo991wVcB5+ljmm+X2bnyfpRTVUzI8lGBpX0
+        g2njdzHux1dYQDltgHUjONQ=
+X-Google-Smtp-Source: AIpwx49BZpSAYgy1OIhDYEZqISCgIjwziQXcOFr1q9S8sCdmUToSgn5+tCVvjeMdlduFLTLj7wQMew==
+X-Received: by 10.99.120.74 with SMTP id t71mr3037508pgc.310.1522253277266;
+        Wed, 28 Mar 2018 09:07:57 -0700 (PDT)
+Received: from arty-430G2 ([2001:470:36:117e:a038:3853:c974:4e7])
+        by smtp.gmail.com with ESMTPSA id 85sm8981558pfz.155.2018.03.28.09.07.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 28 Mar 2018 09:07:56 -0700 (PDT)
+Received: by arty-430G2 (sSMTP sendmail emulation); Thu, 29 Mar 2018 00:07:52 +0800
+From:   Sanjeev Gupta <ghane0@gmail.com>
+To:     corbet@lwn.net, gregkh@linuxfoundation.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/usb: Fix dead links and convert others to https
+Date:   Thu, 29 Mar 2018 00:07:52 +0800
+Message-Id: <20180328160752.17840-1-ghane0@gmail.com>
+X-Mailer: git-send-email 2.15.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Date:   Wed, 28 Mar 2018 17:33:30 +0200
-From:   Paul Cercueil <paul@crapouillou.net>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        James Hogan <jhogan@kernel.org>,
-        Maarten ter Huurne <maarten@treewalker.org>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-doc@vger.kernel.org
-Subject: 
-In-Reply-To: <20180327144631.j2bugsjxulkv57ws@rob-hp-laptop>
-References: <20180110224838.16711-2-paul@crapouillou.net>
- <20180317232901.14129-1-paul@crapouillou.net>
- <20180317232901.14129-5-paul@crapouillou.net>
- <20180327144631.j2bugsjxulkv57ws@rob-hp-laptop>
-Message-ID: <3765e5a86b80b2a1888cabee623e5d0c@crapouillou.net>
-X-Sender: paul@crapouillou.net
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 2018-03-27 16:46, Rob Herring a écrit :
-> On Sun, Mar 18, 2018 at 12:28:57AM +0100, Paul Cercueil wrote:
->> Add documentation about how to properly use the Ingenic TCU
->> (Timer/Counter Unit) drivers from devicetree.
->> 
->> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->> ---
->>  .../bindings/clock/ingenic,tcu-clocks.txt          | 42 
->> ++++++++++++++++
->>  .../bindings/interrupt-controller/ingenic,tcu.txt  | 39 
->> +++++++++++++++
->>  .../devicetree/bindings/mfd/ingenic,tcu.txt        | 56 
->> ++++++++++++++++++++++
->>  .../devicetree/bindings/timer/ingenic,tcu.txt      | 41 
->> ++++++++++++++++
->>  4 files changed, 178 insertions(+)
->>  create mode 100644 
->> Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
->>  create mode 100644 
->> Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
->>  create mode 100644 
->> Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
->>  create mode 100644 
->> Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->> 
->>  v4: New patch in this series. Corresponds to V2 patches 3-4-5 with
->>  added content.
->> 
->> diff --git 
->> a/Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt 
->> b/Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
->> new file mode 100644
->> index 000000000000..471d27078599
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
->> @@ -0,0 +1,42 @@
->> +Ingenic SoC TCU binding
->> +
->> +The TCU is the Timer/Counter Unit present in all Ingenic SoCs. It 
->> features 8
->> +channels, each one having its own clock, that can be started and 
->> stopped,
->> +reparented, and reclocked.
->> +
->> +Required properties:
->> +- compatible : One of:
->> +  * ingenic,jz4740-tcu-clocks,
->> +  * ingenic,jz4770-tcu-clocks,
->> +  * ingenic,jz4780-tcu-clocks.
->> +- clocks : List of phandle & clock specifiers for clocks external to 
->> the TCU.
->> +  The "pclk", "rtc" and "ext" clocks should be provided.
->> +- clock-names : List of name strings for the external clocks.
->> +- #clock-cells: Should be 1.
->> +  Clock consumers specify this argument to identify a clock. The 
->> valid values
->> +  may be found in <dt-bindings/clock/ingenic,tcu.h>.
->> +
->> +Example:
-> 
-> Let's just put one complete example in instead of all these duplicated
-> and incomplete examples.
+All links checked, for those dead, I have replaced with copies on
+archive.org.  For some, https is not supported, http has been
+kept.
 
-Alright.
+The git log says this was last done by Justin P. Mattock in 2010.
+Hi, Justin!
 
->> +
->> +/ {
->> +	tcu: mfd@10002000 {
->> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
->> +		reg = <0x10002000 0x1000>;
->> +		#address-cells = <1>;
->> +		#size-cells = <1>;
->> +		ranges = <0x0 0x10002000 0x1000>;
->> +
->> +		tcu_clk: clocks@10 {
->> +			compatible = "ingenic,jz4740-tcu-clocks";
->> +			reg = <0x10 0xff0>;
->> +
->> +			clocks = <&ext>, <&rtc>, <&pclk>;
->> +			clock-names = "ext", "rtc", "pclk";
->> +
->> +			#clock-cells = <1>;
->> +		};
->> +	};
->> +};
->> +
->> +For information about the top-level "ingenic,tcu" compatible node and 
->> other
->> +children nodes, see 
->> Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
->> diff --git 
->> a/Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt 
->> b/Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
->> new file mode 100644
->> index 000000000000..7f3af2da77cd
->> --- /dev/null
->> +++ 
->> b/Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
->> @@ -0,0 +1,39 @@
->> +Ingenic SoCs Timer/Counter Unit Interrupt Controller
->> +
->> +Required properties:
->> +
->> +- compatible : should be "ingenic,<socname>-tcu-intc". Valid strings 
->> are:
->> +  * ingenic,jz4740-tcu-intc
->> +  * ingenic,jz4770-tcu-intc
->> +  * ingenic,jz4780-tcu-intc
->> +- interrupt-controller : Identifies the node as an interrupt 
->> controller
->> +- #interrupt-cells : Specifies the number of cells needed to encode 
->> an
->> +  interrupt source. The value shall be 1.
->> +- interrupt-parent : phandle of the interrupt controller.
->> +- interrupts : Specifies the interrupt the controller is connected 
->> to.
->> +
->> +Example:
->> +
->> +/ {
->> +	tcu: mfd@10002000 {
->> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
->> +		reg = <0x10002000 0x1000>;
->> +		#address-cells = <1>;
->> +		#size-cells = <1>;
->> +		ranges = <0x0 0x10002000 0x1000>;
->> +
->> +		tcu_irq: interrupt-controller@20 {
->> +			compatible = "ingenic,jz4740-tcu-intc";
->> +			reg = <0x20 0x20>;
->> +
->> +			interrupt-controller;
->> +			#interrupt-cells = <1>;
->> +
->> +			interrupt-parent = <&intc>;
->> +			interrupts = <15>;
-> 
-> The interrupt controller doesn't require any clocks?
+Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+---
+ Documentation/usb/usb-serial.txt | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-It doesn't. The TCU registers not related to TCU channels are always 
-active.
-
->> +		};
->> +	};
->> +};
->> +
->> +For information about the top-level "ingenic,tcu" compatible node and 
->> other
->> +children nodes, see 
->> Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
->> diff --git a/Documentation/devicetree/bindings/mfd/ingenic,tcu.txt 
->> b/Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
->> new file mode 100644
->> index 000000000000..5742c3f21550
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
->> @@ -0,0 +1,56 @@
->> +Ingenic JZ47xx SoCs Timer/Counter Unit devicetree bindings
->> +----------------------------------------------------------
->> +
->> +For a description of the TCU hardware and drivers, have a look at
->> +Documentation/mips/ingenic-tcu.txt.
->> +
->> +The TCU is implemented as a parent node, whose role is to create the
->> +regmap, and child nodes for the various drivers listed in the 
->> aforementioned
->> +document.
->> +
->> +Required properties:
->> +
->> +- compatible: must be "ingenic,tcu", "simple-mfd", "syscon";
->> +- reg: Should be the offset/length value corresponding to the TCU 
->> registers
->> +- #address-cells: Should be <1>;
->> +- #size-cells: Should be <1>;
->> +- ranges: Should be one range for the full TCU registers area
->> +
->> +Accepted children nodes:
->> +- 
->> Documentation/devicetree/bindings/interrupt-controller/ingenic,tcu.txt
->> +- Documentation/devicetree/bindings/clock/ingenic,tcu-clocks.txt
->> +- Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->> +
->> +
->> +Example:
->> +
->> +/ {
->> +	tcu: mfd@10002000 {
->> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
->> +		reg = <0x10002000 0x1000>;
->> +		#address-cells = <1>;
->> +		#size-cells = <1>;
->> +		ranges = <0x0 0x10002000 0x1000>;
->> +
->> +		tcu_irq: interrupt-controller@20 {
->> +			compatible = "ingenic,jz4740-tcu-intc";
->> +			reg = <0x20 0x20>;
-> 
-> I think you should drop this node and make the parent node the 
-> interrupt
-> controller. That is the normal pattern where the parent node handles
-> all the common functions. Otherwise, there is no need to have the 
-> parent
-> node. You should then also drop simple-mfd as then you can control
-> initialization order by initializing interrupt controller before
-> its clients.
-
-Alright, good idea.
-
->> +			...
->> +		};
->> +
->> +		tcu_clk: clocks@10 {
->> +			compatible = "ingenic,jz4740-tcu-clocks";
->> +			reg = <0x10 0xff0>;
->> +			...
->> +		};
->> +
->> +		tcu_timer: timer@10 {
->> +			compatible = "ingenic,jz4740-tcu";
->> +			reg = <0x10 0xff0>;
-> 
-> Is this copy-n-paste or you really have 2 nodes at the same address? 
-> The
-> latter is not valid.
-
-I do have 2 nodes at the same address...
-
->> +			...
->> +		};
->> +	};
->> +};
->> +
->> +For more information about the children node, refer to the documents 
->> listed
->> +above in the "Accepted children nodes" section.
->> diff --git a/Documentation/devicetree/bindings/timer/ingenic,tcu.txt 
->> b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->> new file mode 100644
->> index 000000000000..f910b7e96783
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->> @@ -0,0 +1,41 @@
->> +Ingenic JZ47xx SoCs Timer/Counter Unit driver
->> +---------------------------------------------
->> +
->> +Required properties:
->> +
->> +- compatible : should be "ingenic,<socname>-tcu". Valid strings are:
->> +  * ingenic,jz4740-tcu
->> +  * ingenic,jz4770-tcu
->> +  * ingenic,jz4780-tcu
->> +- interrupt-parent : phandle of the TCU interrupt controller.
->> +- interrupts : Specifies the interrupts the controller is connected 
->> to.
->> +- clocks : List of phandle & clock specifiers for the TCU clocks.
->> +- clock-names : List of name strings for the TCU clocks.
->> +
->> +Example:
->> +
->> +/ {
->> +	tcu: mfd@10002000 {
->> +		compatible = "ingenic,tcu", "simple-mfd", "syscon";
->> +		reg = <0x10002000 0x1000>;
->> +		#address-cells = <1>;
->> +		#size-cells = <1>;
->> +		ranges = <0x0 0x10002000 0x1000>;
->> +
->> +		tcu_timer: timer@10 {
->> +			compatible = "ingenic,jz4740-tcu";
->> +			reg = <0x10 0xff0>;
->> +
->> +			clocks = <&tcu_clk 0>, <&tcu_clk 1>, <&tcu_clk 2>, <&tcu_clk 3>,
->> +					 <&tcu_clk 4>, <&tcu_clk 5>, <&tcu_clk 6>, <&tcu_clk 7>;
->> +			clock-names = "timer0", "timer1", "timer2", "timer3",
->> +						  "timer4", "timer5", "timer6", "timer7";
->> +
->> +			interrupt-parent = <&tcu_irq>;
->> +			interrupts = <0 1 2 3 4 5 6 7>;
-> 
-> Thinking about this some more... You simply have 8 timers (and no other
-> functions?) with some internal clock and irq controls for each timer. I
-> don't think it really makes sense to create separate clock and irq
-> drivers in that case. That would be like creating clock drivers for
-> every clock divider in timers, pwms, uarts, etc. Unless the clocks get
-> exposed to other parts of the system, then there is no point.
-
-I have 8 timers with some internal clock and IRQ controls, that can be 
-used
-as PWM. But the TCU also controls the IRQ of the OS Timer (which is 
-separate),
-as well as masking of the clocks for the OS timer and the watchdog.
-
-I thought having clean drivers for different frameworks working on the 
-same
-regmap was cleaner than having one big-ass driver handling everything.
-
->> +		};
->> +	};
->> +};
->> +
->> +For information about the top-level "ingenic,tcu" compatible node and 
->> other
->> +children nodes, see 
->> Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
->> --
->> 2.11.0
->> 
+diff --git a/Documentation/usb/usb-serial.txt b/Documentation/usb/usb-serial.txt
+index 349f3104fa4f..1c5c1da4f54e 100644
+--- a/Documentation/usb/usb-serial.txt
++++ b/Documentation/usb/usb-serial.txt
+@@ -83,7 +83,7 @@ HandSpring Visor, Palm USB, and Clié USB driver
+   parameters.  e.g. modprobe visor vendor=0x54c product=0x66
+   
+   There is a webpage and mailing lists for this portion of the driver at:
+-  http://sourceforge.net/projects/usbvisor/
++  https://sourceforge.net/projects/usbvisor/
+ 
+   For any questions or problems with this driver, please contact Greg
+   Kroah-Hartman at greg@kroah.com
+@@ -105,15 +105,16 @@ PocketPC PDA Driver
+   kbytes/sec for download/upload to my iPAQ.
+ 
+   This driver is only one of a set of components required to utilize
+-  the USB connection. Please visit http://synce.sourceforge.net which
++  the USB connection. Please visit https://synce.sourceforge.net which
+   contains the necessary packages and a simple step-by-step howto.
+ 
+   Once connected, you can use Win CE programs like ftpView, Pocket Outlook
+   from the PDA and xcerdisp, synce utilities from the Linux side.
+ 
+   To use Pocket IE, follow the instructions given at
+-  http://www.tekguru.co.uk/EM500/usbtonet.htm to achieve the same thing
+-  on Win98. Omit the proxy server part; Linux is quite capable of forwarding
++  https://web.archive.org/web/20030415065014/http://www.tekguru.co.uk:80/EM500/usbtonet.htm
++  to achieve the same thing on Win98.
++  Omit the proxy server part; Linux is quite capable of forwarding
+   packets unlike Win98. Another modification is required at least for the
+   iPAQ - disable autosync by going to the Start/Settings/Connections menu
+   and unchecking the "Automatically synchronize ..." box. Go to
+@@ -184,7 +185,7 @@ Keyspan USA-series Serial Adapters
+     functionality.
+   
+   More information is available at:
+-        http://www.carnationsoftware.com/carnation/Keyspan.html
++        https://www.carnationsoftware.com/carnation/Keyspan.html
+    
+   For any questions or problems with this driver, please contact Hugh
+   Blemings at hugh@misc.nu
+@@ -436,7 +437,8 @@ Winchiphead CH341 Driver
+   also implements an IEEE 1284 parallel port, I2C and SPI, but that is not
+   supported by the driver. The protocol was analyzed from the behaviour
+   of the Windows driver, no datasheet is available at present.
+-  The manufacturer's website: http://www.winchiphead.com/.
++  The manufacturer's website:
++  https://web.archive.org/web/20170911133726/http://winchiphead.com/ .
+   For any questions or problems with this driver, please contact
+   frank@kingswood-consulting.co.uk.
+ 
+-- 
+2.15.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
