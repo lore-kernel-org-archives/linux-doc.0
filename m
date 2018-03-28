@@ -1,190 +1,182 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61FCA7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 08:19:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3897E7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 12:22:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752587AbeC1ITn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 04:19:43 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:50186 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752144AbeC1ITh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Mar 2018 04:19:37 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 4EAAE2055E; Wed, 28 Mar 2018 10:19:33 +0200 (CEST)
-Received: from bbrezillon (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 5D4FE2055E;
-        Wed, 28 Mar 2018 10:19:22 +0200 (CEST)
-Date:   Wed, 28 Mar 2018 10:19:22 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        Nishanth Menon <nm@ti.com>, Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@free-electrons.com>
-Subject: Re: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
-Message-ID: <20180328101922.22a7039d@bbrezillon>
-In-Reply-To: <20180326071946.dtrhhxx3iwwymk73@rob-hp-laptop>
-References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
-        <20180323110020.19080-6-boris.brezillon@bootlin.com>
-        <20180326071946.dtrhhxx3iwwymk73@rob-hp-laptop>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1752600AbeC1MWV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 08:22:21 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:36361 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751072AbeC1MWT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 08:22:19 -0400
+Received: by mail-wr0-f196.google.com with SMTP id y55so2055555wry.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Mar 2018 05:22:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=hVydBFBoVQrqis3vc4aWtWKzAdQf6yAuU3lmq4cf89E=;
+        b=X9DYRPw28jIsDn6N2Z3mPJod/nVq08GmFCJ9pTSGP0koHUJ0JTa+RE97KLv7DL89oh
+         1sXQy2/d4bbwkFU3OBYbFyFDLJuhZIV/RiBiSQTi9M+99DQf3iuFPpdwR6AXV8s2QlHp
+         YVAOwfzupzU9vgty1lmE5qAtYJjKpqCfNPrxk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=hVydBFBoVQrqis3vc4aWtWKzAdQf6yAuU3lmq4cf89E=;
+        b=cElTwvMVyo5BSUR8c4+4/fCUP07dDPQFG6wCnuWG1SAtlEjnBwrzDl3YxaL4yP/0qd
+         bfNzXyqfbM0W1q0YA7toPzvEwycgE8LKL03aXcoZaBqBTh60vKkE4szEcAOT+JYwzxKL
+         /dKj5tZGrWH3YHTvcJBPWHhifyypTUHHivTR8/cs5Wc7UQHDbTTjggmsQEseZB1PrUKb
+         W5DJsaoY4J7TSj2KUAu5ltx4IZ+nrXB227vCTI1eg1wrRfhLdRV7bQx/K0mPlN6WzeRn
+         AHem6O0fVrhi9vWGKV/rUivswj+N0vDqF1RDQ1SEYGxCrVXR5q+cflbA0Uj7FZ7QrFSF
+         xgxQ==
+X-Gm-Message-State: AElRT7E9GHbunPkOzi2znk3gqdFVB4fLlg0m8pyMIBH3uuKPzVN6ocFV
+        TcZJ8tsiG6y+cdHcEfNB5aFEqw==
+X-Google-Smtp-Source: AIpwx48ld9Lqd6kz+oTAf3H6zi5IL19aAq/65W2MGb67QRIUTrr0uwZpBG3Qy/PD22xu9f5BAMZy3g==
+X-Received: by 10.223.131.229 with SMTP id 92mr2874658wre.249.1522239738412;
+        Wed, 28 Mar 2018 05:22:18 -0700 (PDT)
+Received: from andrea ([213.209.242.222])
+        by smtp.gmail.com with ESMTPSA id j4sm5227693wrd.53.2018.03.28.05.22.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 28 Mar 2018 05:22:17 -0700 (PDT)
+Date:   Wed, 28 Mar 2018 14:22:11 +0200
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@kernel.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Subject: [Question] Documentation/features: More automation/scripting help?
+Message-ID: <20180328122211.GA25420@andrea>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+Hi all,
 
-On Mon, 26 Mar 2018 17:24:58 -0500
-Rob Herring <robh@kernel.org> wrote:
+The directory (not yet three years old although, I freely admit, I've
+only recently become aware of it) provides arch. support matrices for
+more than 40 generic kernel features that need per-arch. support:
 
-> > +
-> > +I3C devices
-> > +===========
-> > +
-> > +All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
-> > +are thus discoverable. So, by default, I3C devices do not have to be described
-> > +in the device tree.
-> > +This being said, one might want to attach extra resources to these devices,
-> > +and those resources may have to be described in the device tree, which in turn
-> > +means we have to describe I3C devices.
-> > +
-> > +Another use case for describing an I3C device in the device tree is when this
-> > +I3C device has a static address and we want to assign it a specific dynamic
-> > +address before the DAA takes place (so that other devices on the bus can't  
-> 
-> static is I2C address and dynamic is an I3C address. That could be 
-> clearer throughout.
+This is a superb project! ;-)  and not a simple one given that, to be
+effective, this requires the prompt collaboration between (the intere-
+sted) features maintainers/developers, every architecture maintainers,
+and documentation maintainers.
 
-I'll clarify that.
+There currently appear to be some mismatches between such doc and the
+the actual state of the code (e.g., missing architecture, feature not
+existing anymore, status flags out-of-date). Realized this, I started
+to patch the doc, but this process became soon tedious (consider also
+that I barely know what some of these features are about...).
 
-> 
-> > +take this dynamic address).
-> > +
-> > +The I3C device should be names <device-type>@<static-address>,<i3c-pid>,  
-> 
-> s/static-address/static-i2c-address/
+Hence this post. I am wondering if it would make sense to script some
+of these matrices.  So, rather than (or together with) using the cur-
+rently hard-coded matrices, try to (automatically) generate them from
+the sources/configs. Consider the sketch below (sorry for the raw sh).
 
-Okay.
+diff --git a/Documentation/features/list-arch.sh b/Documentation/features/list-arch.sh
+index c16b5b5956889..cdec0c1db9db2 100755
+--- a/Documentation/features/list-arch.sh
++++ b/Documentation/features/list-arch.sh
+@@ -18,7 +18,13 @@ for F in */*/arch-support.txt; do
+   C=$(grep -h "^#         Kconfig:"     $F | cut -c25-)
+   D=$(grep -h "^#         description:" $F | cut -c25-)
+   S=$(grep -hw $ARCH $F | cut -d\| -f3)
++  myS=$(grep -h $C ../../arch/$ARCH/Kconfig)
++  if [ -z "$myS" ]; then
++	  myS=" -- "
++  else
++	  myS=" ok "
++  fi
+ 
+-  printf "%10s/%-22s:%s| %35s # %s\n" "$SUBSYS" "$N" "$S" "$C" "$D"
++  printf "%10s/%-22s:%s VS. %s| %35s # %s\n" "$SUBSYS" "$N" "$S" "$myS" "$C" "$D"
+ done
+ 
 
-> 
-> > +where device-type is describing the type of device connected on the bus
-> > +(gpio-controller, sensor, ...).
-> > +
-> > +Required properties
-> > +-------------------
-> > +- reg: contains 3 cells
-> > +  + first cell : encodes the I2C address. Should be 0 if the device does not
-> > +		 have one (0 is not a valid I3C address).  
-> 
-> Change here to "encodes the static I2C address". 
-> 
-> 0 is not a valid I2C address?
+With this diff.,
 
-According to [1] it is reserved, and it's reserved in the I3C spec
-anyway (see "Table 9 I3C Slave Address Restrictions" in the I3C spec).
+andrea@andrea:~$ ./Documentation/features/list-arch.sh riscv > /tmp/riscv.txt
+grep: asm/rwsem.h: No such file or directory
+andrea@andrea:~$ cat /tmp/riscv.txt
+#
+# Kernel feature support matrix of the 'riscv' architecture:
+#
+      core/ BPF-JIT              : VS.  -- |                        HAVE_BPF_JIT #  arch supports BPF JIT optimizations
+      core/ generic-idle-thread  : VS.  ok |             GENERIC_SMP_IDLE_THREAD #  arch makes use of the generic SMP idle thread facility
+      core/ jump-labels          : VS.  -- |                HAVE_ARCH_JUMP_LABEL #  arch supports live patched, high efficiency branches
+      core/ tracehook            : VS.  ok |                 HAVE_ARCH_TRACEHOOK #  arch supports tracehook (ptrace) register handling APIs
+     debug/ gcov-profile-all     : VS.  -- |           ARCH_HAS_GCOV_PROFILE_ALL #  arch supports whole-kernel GCOV code coverage profiling
+     debug/ KASAN                : VS.  -- |                     HAVE_ARCH_KASAN #  arch supports the KASAN runtime memory checker
+     debug/ kgdb                 : VS.  -- |                      HAVE_ARCH_KGDB #  arch supports the kGDB kernel debugger
+     debug/ kprobes              : VS.  ok |                        HAVE_KPROBES #  arch supports live patched kernel probe
+     debug/ kprobes-on-ftrace    : VS.  -- |              HAVE_KPROBES_ON_FTRACE #  arch supports combined kprobes and ftrace live patching
+     debug/ kretprobes           : VS.  -- |                     HAVE_KRETPROBES #  arch supports kernel function-return probes
+     debug/ optprobes            : VS.  -- |                      HAVE_OPTPROBES #  arch supports live patched optprobes
+     debug/ stackprotector       : VS.  -- |              HAVE_CC_STACKPROTECTOR #  arch supports compiler driven stack overflow protection
+     debug/ uprobes              : VS.  -- |               ARCH_SUPPORTS_UPROBES #  arch supports live patched user probes
+     debug/ user-ret-profiler    : VS.  -- |           HAVE_USER_RETURN_NOTIFIER #  arch supports user-space return from system call profiler
+        io/ dma-api-debug        : VS.  ok |                  HAVE_DMA_API_DEBUG #  arch supports DMA debug facilities
+        io/ dma-contiguous       : VS.  ok |                 HAVE_DMA_CONTIGUOUS #  arch supports the DMA CMA (continuous memory allocator)
+        io/ sg-chain             : VS.  -- |                   ARCH_HAS_SG_CHAIN #  arch supports chained scatter-gather lists
+       lib/ strncasecmp          : VS.  -- |             __HAVE_ARCH_STRNCASECMP #  arch provides an optimized strncasecmp() function
+   locking/ cmpxchg-local        : VS.  -- |                  HAVE_CMPXCHG_LOCAL #  arch supports the this_cpu_cmpxchg() API
+   locking/ lockdep              : VS.  -- |                     LOCKDEP_SUPPORT #  arch supports the runtime locking correctness debug facility
+   locking/ queued-rwlocks       : VS.  -- |             ARCH_USE_QUEUED_RWLOCKS #  arch supports queued rwlocks
+   locking/ queued-spinlocks     : VS.  -- |           ARCH_USE_QUEUED_SPINLOCKS #  arch supports queued spinlocks
+   locking/ rwsem-optimized      : VS.  -- |               Optimized asm/rwsem.h #  arch provides optimized rwsem APIs
+      perf/ kprobes-event        : VS.  -- |      HAVE_REGS_AND_STACK_ACCESS_API #  arch supports kprobes with perf events
+      perf/ perf-regs            : VS.  -- |                      HAVE_PERF_REGS #  arch supports perf events register access
+      perf/ perf-stackdump       : VS.  -- |           HAVE_PERF_USER_STACK_DUMP #  arch supports perf events stack dumps
+     sched/ membarrier-sync-core : VS.  -- |       ARCH_HAS_MEMBARRIER_SYNC_CORE #  arch supports core serializing membarrier
+     sched/ numa-balancing       : VS.  -- |        ARCH_SUPPORTS_NUMA_BALANCING #  arch supports NUMA balancing
+   seccomp/ seccomp-filter       : VS.  -- |            HAVE_ARCH_SECCOMP_FILTER #  arch supports seccomp filters
+      time/ arch-tick-broadcast  : VS.  -- |             ARCH_HAS_TICK_BROADCAST #  arch provides tick_broadcast()
+      time/ clockevents          : VS.  ok |                 GENERIC_CLOCKEVENTS #  arch support generic clock events
+      time/ context-tracking     : VS.  -- |               HAVE_CONTEXT_TRACKING #  arch supports context tracking for NO_HZ_FULL
+      time/ irq-time-acct        : VS.  -- |            HAVE_IRQ_TIME_ACCOUNTING #  arch supports precise IRQ time accounting
+      time/ modern-timekeeping   : VS.  -- |            !ARCH_USES_GETTIMEOFFSET #  arch does not use arch_gettimeoffset() anymore
+      time/ virt-cpuacct         : VS.  -- |            HAVE_VIRT_CPU_ACCOUNTING #  arch supports precise virtual CPU time accounting
+        vm/ ELF-ASLR             : VS.  -- |              ARCH_HAS_ELF_RANDOMIZE #  arch randomizes the stack, heap and binary images of ELF binaries
+        vm/ huge-vmap            : VS.  -- |                 HAVE_ARCH_HUGE_VMAP #  arch supports the ioremap_pud_enabled() and ioremap_pmd_enabled() VM APIs
+        vm/ ioremap_prot         : VS.  -- |                   HAVE_IOREMAP_PROT #  arch has ioremap_prot()
+        vm/ numa-memblock        : VS.  ok |              HAVE_MEMBLOCK_NODE_MAP #  arch supports NUMA aware memblocks
+        vm/ PG_uncached          : VS.  -- |               ARCH_USES_PG_UNCACHED #  arch supports the PG_uncached page flag
+        vm/ pte_special          : VS.  -- |             __HAVE_ARCH_PTE_SPECIAL #  arch supports the pte_special()/pte_mkspecial() VM APIs
+        vm/ THP                  : VS.  -- |      HAVE_ARCH_TRANSPARENT_HUGEPAGE #  arch supports transparent hugepages
+        vm/ batch-unmap-tlb-flush: VS.  -- |   ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH #  arch supports deferral of TLB flush until multiple pages are unmapped
 
-> 
-> > +
-> > +  + second and third cells: should encode the ProvisionalID. The second cell
-> > +			    contains the manufacturer ID left-shifted by 1.
-> > +			    The third cell contains ORing of the part ID
-> > +			    left-shifted by 16, the instance ID left-shifted
-> > +			    by 12 and the extra information. This encoding is
-> > +			    following the PID definition provided by the I3C
-> > +			    specification.
 
-One extra question for you: should I refer to the I3C_DEV(),
-I3C_DEV_WITH_STATIC_ADDR() and I2C_DEV() macros in the bindings doc?
-And if I do, should I use them my example?
+Suggesting that riscv is not included within the hard-coded matrices.
+This also shows a first limitation of the proposed approach, i.e., it
+doesn't parse "Optimized asm/rwsem.h" (wants "true" configs). It also
+won't find "__HAVE_ARCH_PTE_SPECIAL" (reads Kconfig files) but things
+like "!ARCH_USES_GETTIMEOFFSET" could still be handled...
 
-Thanks,
+We could try switching to another architectures: none of these should
+result in "core/ BPF-JIT" set: the "HAVE_BPF_JIT" config was splitted
+into cBPF and eBPF variants more recently. The comparison of the hard
+coded status flags with the new/generated flags should also highlight
+out-of-date values.
 
-Boris
+Alternative/Additional help could probably be provided by checkpatch,
+say, warn when a patch touches/adds to Kconfig without updating such
+documentation...
 
-> > +
-> > +Optional properties
-> > +-------------------
-> > +- assigned-address: dynamic address to be assigned to this device. This
-> > +		    property is only valid if the I3C device has a static
-> > +		    address (first cell of the reg property != 0).
-> > +
-> > +
-> > +Example:
-> > +
-> > +	i3c-master@d040000 {
-> > +		compatible = "cdns,i3c-master";
-> > +		clocks = <&coreclock>, <&i3csysclock>;
-> > +		clock-names = "pclk", "sysclk";
-> > +		interrupts = <3 0>;
-> > +		reg = <0x0d040000 0x1000>;
-> > +		#address-cells = <3>;
-> > +		#size-cells = <0>;
-> > +
-> > +		status = "okay";
-> > +		i2c-scl-frequency = <100000>;
-> > +
-> > +		/* I2C device. */
-> > +		nunchuk: nunchuk@52 {
-> > +			compatible = "nintendo,nunchuk";
-> > +			reg = <0x52 0x80000010 0x0>;
-> > +		};
-> > +
-> > +		/* I3C device with a static address. */
-> > +		thermal_sensor: sensor@68,39200144004 {
-> > +			reg = <0x68 0x392 0x144004>;
-> > +			assigned-address = <0xa>;
-> > +		};
-> > +
-> > +		/*
-> > +		 * I3C device without a static address but requiring resources
-> > +		 * described in the DT.
-> > +		 */
-> > +		sensor@0,39200154004 {
-> > +			reg = <0x0 0x392 0x154004>;
-> > +			clocks = <&clock_provider 0>;
-> > +		};
-> > +	};
-> > +
-> > -- 
-> > 2.14.1
-> >   
+Thoughts?
 
-[1]http://www.i2c-bus.org/addressing
-
--- 
-Boris Brezillon, Bootlin (formerly Free Electrons)
-Embedded Linux and Kernel engineering
-https://bootlin.com
+  Andrea
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
