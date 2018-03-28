@@ -5,83 +5,180 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D02E37DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 18:03:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3403F7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 18:36:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752899AbeC1SDk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 14:03:40 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:57458 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751166AbeC1SDh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 14:03:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=8ral5wkuQs6TLHgSTW0awnWovHTYbuoT/4Dku0SV9q8=; b=jVGc49FGiZ8m2C0CB0V4cPnKn
-        c6MHznqOhei83RGyHE097sCyo+dXjE/5TUa73hzPznNjRRVbl0+O/hnVjQSj2K++duCSCQLrYRWHA
-        Pf95h+Jaui/45k6dirD5f8u/HXRi7ttTvitZoRtdpyqEjpHM5XCnQqmFFPh79B98ORTADcAwXf8aC
-        SsSRvAHXkEc4qP8QhikoTgZhA+iwcC5Lfih1feN+xggA7dmPu9hB8p1mxyyq3tGlEgfNf9we3EXII
-        7ot1oACy8vaVA0eqbLoE2nVIVS0T9doy//xDF/il/h1AKNEoOvZjlqsvv5G9+dtMYg03CWx0MJgOm
-        SkvShWlRQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1f1FPq-0003kl-Mo; Wed, 28 Mar 2018 18:03:18 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7C7AD202A4A09; Wed, 28 Mar 2018 20:03:16 +0200 (CEST)
-Date:   Wed, 28 Mar 2018 20:03:16 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     Sinan Kaya <okaya@codeaurora.org>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>
-Subject: Re: [PATCH] docs/memory-barriers.txt: Fix broken DMA vs MMIO
- ordering example
-Message-ID: <20180328180316.GN4082@hirez.programming.kicks-ass.net>
-References: <1522156287-15169-1-git-send-email-will.deacon@arm.com>
- <20180327150252.GN3675@linux.vnet.ibm.com>
- <c93ed5db-8cfd-1258-3396-62ca2076c44d@codeaurora.org>
- <CA+8MBb+61AhMkbo8xtd3Y0fY8xRUPD+kUsEvWgOz94KGEuovOw@mail.gmail.com>
+        id S1752670AbeC1SgN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 14:36:13 -0400
+Received: from mail-ot0-f196.google.com ([74.125.82.196]:33233 "EHLO
+        mail-ot0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752606AbeC1SgL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Mar 2018 14:36:11 -0400
+Received: by mail-ot0-f196.google.com with SMTP id 23-v6so3755616otj.0;
+        Wed, 28 Mar 2018 11:36:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=UL3HEOyI5ntPgQ0j3yAMhhAsoCmImVZbsW5xHw8yVbY=;
+        b=R8x5B+8ou25iUP57C68HKAvruSftqRRGrBp0WOn9ukC/0KifKVtqaHFUClvjZeoRTl
+         NxYwyL/j+54HViJkfrQI2EC3yHEThfRBhit+5jLkbaDRT92G/dIMAWavlFyj+paPGHqE
+         2hC5StiOSH2j2OiBMfypwx8irIV79P+o2f9EjXWppJMEIbe45Da7pwKzT+zRZf5v9x2X
+         LPZjDGPS2LyV7Pydg7myS62UOg2mDedzrPdsMI3T4Hs84uiG1kqtaQPuis1eGsUQn4ZT
+         qF8erjvIDfrlEFv3RmaYSp4CgvzQ1qnUF53A9XRv7NlmkSS8crw6i5O51Rv89Pq0b+qj
+         YmGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=UL3HEOyI5ntPgQ0j3yAMhhAsoCmImVZbsW5xHw8yVbY=;
+        b=izLy2Y2pAj2Hzy/VJOuSOlKjA5Y/UESPT7FvJGPoU/vg8rbWI06OOH80PvmeSFvp6u
+         KBr9/BOxhy8IWmBfvskMliGDTQG7Ob0kD34w3GanswHaE3ezDWyZkDCKRltul/XXZAeb
+         qHFIXrhXSE4ioZjt884koITRDgljLyvKho0zQLcVUbdveUmaJ8uMuFmxZNi8Mp4IPZVq
+         Q3ZTgfI3H35ADCRaAJ4otNOcn0cIcw8qgDiGl6TuZ3Jq/J3f5WxWcBcrFeZjUJ8xeB8k
+         tt8tawV/z1QNDC2RO2PNm2PQGyYvwTzBFlnFyUt9xp58DKXbA/c8U1Pq+6igQSLp6JDM
+         VBNA==
+X-Gm-Message-State: ALQs6tCmOlm+U4MX4iFaCWr+hFHdO6Bd9JRGJfU/o6R/A/NDOmB/zeSZ
+        2G+KC6l7SgAKqlEdprMjfZCZwBF0H8faUUS/nbU=
+X-Google-Smtp-Source: AIpwx4/1QRmmoOAKxeGXs5kC762r+b6dzPlxYRDqkHiRMPq/eyXkDS1hCOh7GyLaJBOR+VNgjta56equTl3nCjNmuuU=
+X-Received: by 2002:a9d:29ea:: with SMTP id g39-v6mr3057850otd.241.1522262170771;
+ Wed, 28 Mar 2018 11:36:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+8MBb+61AhMkbo8xtd3Y0fY8xRUPD+kUsEvWgOz94KGEuovOw@mail.gmail.com>
-User-Agent: Mutt/1.9.3 (2018-01-21)
+Received: by 10.138.3.76 with HTTP; Wed, 28 Mar 2018 11:35:50 -0700 (PDT)
+In-Reply-To: <c02d2ae665890e7214bcfa6c42a49c69@crapouillou.net>
+References: <20180110224838.16711-2-paul@crapouillou.net> <20180317232901.14129-1-paul@crapouillou.net>
+ <20180317232901.14129-3-paul@crapouillou.net> <CA+7wUsyAkW+Bgmp6MuWTce1jMG-ug1b-UqFVen_vVeKFiW5Fww@mail.gmail.com>
+ <c02d2ae665890e7214bcfa6c42a49c69@crapouillou.net>
+From:   Mathieu Malaterre <malat@debian.org>
+Date:   Wed, 28 Mar 2018 20:35:50 +0200
+X-Google-Sender-Auth: poi3CHIuufSvBUbH1UVKJwpWaUk
+Message-ID: <CA+7wUswkTy=1BJwk0Ys=HFZ4Sk9pFr4jsE0LvDM1x41YRBCg4g@mail.gmail.com>
+Subject: Re: [PATCH v4 2/8] dt-bindings: ingenic: Add DT bindings for TCU clocks
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        James Hogan <jhogan@kernel.org>,
+        Maarten ter Huurne <maarten@treewalker.org>,
+        linux-clk@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-MIPS <linux-mips@linux-mips.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 28, 2018 at 10:57:11AM -0700, Tony Luck wrote:
-> On Wed, Mar 28, 2018 at 6:02 AM, Sinan Kaya <okaya@codeaurora.org> wrote:
-> > +linux-ia64
-> > Does IA64 follow this requirement? If not, is implementation planned?
-> >
-> > "no wmb() before writel()"
-> >
-> > Linus asked us to get rid of wmb() in front of writel() for UC memory.
-> > Just checking that we are not breaking anything for IA64.
-> 
-> We should be OK on ia64, writel() uses a cast to:
-> 
->  *(volatile unsigned int __force *)
-> 
-> which the compiler takes as a request to use a "st4.rel" instruction
-> (meaning "store with release semantics"). So the value stored will
-> be visible to anything that follows.
+On Wed, Mar 28, 2018 at 5:04 PM, Paul Cercueil <paul@crapouillou.net> wrote=
+:
+> Le 2018-03-20 08:15, Mathieu Malaterre a =C3=A9crit :
+>>
+>> Hi Paul,
+>>
+>> Two things:
+>>
+>> On Sun, Mar 18, 2018 at 12:28 AM, Paul Cercueil <paul@crapouillou.net>
+>> wrote:
+>>>
+>>> This header provides clock numbers for the ingenic,tcu
+>>> DT binding.
+>>
+>>
+>> I have tested the whole series on my Creator CI20 with success, using:
+>>
+>> + tcu@10002000 {
+>> + compatible =3D "ingenic,jz4780-tcu";
+>> + reg =3D <0x10002000 0x140>;
+>> +
+>> + interrupt-parent =3D <&intc>;
+>> + interrupts =3D <27 26 25>;
+>> + };
+>>
+>>
+>> So:
+>>
+>> Tested-by: Mathieu Malaterre <malat@debian.org>
+>
+>
+> Great! Is that for the whole patchset or just this one patch?
 
-Just to nitpick, regular release semantics don't guarantee anything like
-that, but ia64 never actually got around to implementing proper release
-and it's a full barrier and thus what you say is true.
+The sentence just above was "whole series"  :) so yes that was for the
+whole series. Technically I only tested it on JZ4780, I hope this is
+acceptable for the tag.
+
+
+
+>
+>>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>> ---
+>>>  include/dt-bindings/clock/ingenic,tcu.h | 23 +++++++++++++++++++++++
+>>>  1 file changed, 23 insertions(+)
+>>>  create mode 100644 include/dt-bindings/clock/ingenic,tcu.h
+>>>
+>>>  v2: Use SPDX identifier for the license
+>>>  v3: No change
+>>>  v4: No change
+>>>
+>>> diff --git a/include/dt-bindings/clock/ingenic,tcu.h
+>>> b/include/dt-bindings/clock/ingenic,tcu.h
+>>> new file mode 100644
+>>> index 000000000000..179815d7b3bb
+>>> --- /dev/null
+>>> +++ b/include/dt-bindings/clock/ingenic,tcu.h
+>>> @@ -0,0 +1,23 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0 */
+>>> +/*
+>>> + * This header provides clock numbers for the ingenic,tcu DT binding.
+>>> + */
+>>> +
+>>> +#ifndef __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
+>>> +#define __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
+>>> +
+>>> +#define JZ4740_CLK_TIMER0      0
+>>> +#define JZ4740_CLK_TIMER1      1
+>>> +#define JZ4740_CLK_TIMER2      2
+>>> +#define JZ4740_CLK_TIMER3      3
+>>> +#define JZ4740_CLK_TIMER4      4
+>>> +#define JZ4740_CLK_TIMER5      5
+>>> +#define JZ4740_CLK_TIMER6      6
+>>> +#define JZ4740_CLK_TIMER7      7
+>>> +#define JZ4740_CLK_WDT         8
+>>> +#define JZ4740_CLK_LAST                JZ4740_CLK_WDT
+>>> +
+>>> +#define JZ4770_CLK_OST         9
+>>> +#define JZ4770_CLK_LAST                JZ4770_CLK_OST
+>>> +
+>>
+>>
+>> When working on JZ4780 support, I always struggle to read those kind
+>> of #define. Since this is a new patch would you mind changing
+>> s/JZ4740/JZ47XX/ in your header ?
+>
+>
+> Well the idea was that these defines are for JZ4740 and newer.
+> But that means all Ingenic SoCs, so I guess I can change it.
+>
+>> Thanks for your work on JZ !
+>
+>
+> Sure, thank you for testing!
+>
+>
+>>> +#endif /* __DT_BINDINGS_CLOCK_INGENIC_TCU_H__ */
+>>> --
+>>> 2.11.0
+>>>
+>>>
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
