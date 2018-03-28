@@ -1,115 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 13BDA7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 06:57:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 61FCA7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Mar 2018 08:19:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751166AbeC1G54 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Mar 2018 02:57:56 -0400
-Received: from mout.gmx.net ([212.227.15.19]:51617 "EHLO mout.gmx.net"
+        id S1752587AbeC1ITn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Mar 2018 04:19:43 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:50186 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750735AbeC1G5z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Mar 2018 02:57:55 -0400
-Received: from homer.simpson.net ([185.221.149.147]) by mail.gmx.com (mrgmx003
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0MU1MP-1f9dj23YGH-00Ql4e; Wed, 28
- Mar 2018 08:57:18 +0200
-Message-ID: <1522220235.24311.1.camel@gmx.de>
-Subject: Re: [PATCH v6 2/2] cpuset: Add cpuset.sched_load_balance to v2
-From:   Mike Galbraith <efault@gmx.de>
-To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>
-Cc:     Juri Lelli <juri.lelli@redhat.com>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>
-Date:   Wed, 28 Mar 2018 08:57:15 +0200
-In-Reply-To: <e20484c9-e901-9737-d856-783a6eba1604@redhat.com>
-References: <1521649309-26690-1-git-send-email-longman@redhat.com>
-         <1521649309-26690-3-git-send-email-longman@redhat.com>
-         <20180322084120.GE7231@localhost.localdomain>
-         <e754e128-0a93-800e-e71b-2c8dc316ba8a@redhat.com>
-         <20180323075952.GA4763@localhost.localdomain>
-         <a8860a42-31b5-4620-7b23-b7515ee11d7d@redhat.com>
-         <20180326124711.GE5942@localhost.localdomain>
-         <bf79b45e-7716-65af-03ca-7112dc367371@redhat.com>
-         <20180327140259.GN1840639@devbig577.frc2.facebook.com>
-         <e20484c9-e901-9737-d856-783a6eba1604@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.22.6 
-Mime-Version: 1.0
+        id S1752144AbeC1ITh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Mar 2018 04:19:37 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 4EAAE2055E; Wed, 28 Mar 2018 10:19:33 +0200 (CEST)
+Received: from bbrezillon (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 5D4FE2055E;
+        Wed, 28 Mar 2018 10:19:22 +0200 (CEST)
+Date:   Wed, 28 Mar 2018 10:19:22 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Nishanth Menon <nm@ti.com>, Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@free-electrons.com>
+Subject: Re: [PATCH v3 05/11] dt-bindings: i3c: Document core bindings
+Message-ID: <20180328101922.22a7039d@bbrezillon>
+In-Reply-To: <20180326071946.dtrhhxx3iwwymk73@rob-hp-laptop>
+References: <20180323110020.19080-1-boris.brezillon@bootlin.com>
+        <20180323110020.19080-6-boris.brezillon@bootlin.com>
+        <20180326071946.dtrhhxx3iwwymk73@rob-hp-laptop>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K0:NXgdVDtOt+x1WrZji20Xh8UPBc9TjfjC2h+YWRv1FhTcCMDmSDl
- 2AP1/83Vop9T65PumDT+dMwHSgbS8bl8bFhQHg37pOM3SXj5sHjnyfRj3og7dEP1pKhfrTQ
- o57D1MhoJUS+M+xAa2R8lkMqhMH6FW1+tFSsGxgEzeIDvBi1LY6WHHovHAPVqaP0wcz0rHt
- NNAV6XTj0moOFicbN35Ag==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:YCoy1Hwqpv8=:Q8mHzXLTphMuAnm3Stz/an
- 1YxfCy2on/KaNs4kfvGZknROgu8K5lW22XrhhpsSxJZcR+Dj+Kqq/VzJqQLXN9/jz7yvsOtTK
- jFnBBMFFdNb3gaLFNSHKeahOkISpCJOBKOOt/YybWXpElCaVoVpbuquDwQ34lyqDtLDN9l9av
- e75iiTHDXEZLEj6bsrWTqc7l32RowsVMvH7mqKH9mFexjRZhpF73YCXjFtarK3YvegRH77/U+
- 52UVh6+00LdaGGLEkvBSp3IypyTyLPHMpeSQ6zXr57IQp0BMXOoDb6d3TyMGoWgAKjtnkzO5C
- WhRD5EhJTNeW4ZCeCCELhlaY9rms4UeOBo7rkqm8crTCQyr9KZ0mwYoXbVDgWGIRsFZ93LOVA
- ZSNKIo2pVdrR4k8HIShWUFE8Lw4kMJXo7Tcjj5FWBE4GpBl87FEWsf32GypkxRciZNw2Afzkq
- TaMm7np+FlGoEoY56YpB3PRBykTiIdfeDtSQt5TzBm2KrxhLn0Fyz6rLdmpvA/nYAL20lqvTg
- RJly3+S1vfyjkoTHSHDc4WdGwkmXQuh5yJM7LjT377AQQI2OLlWosM6T+XXXwFQOEGFYBrj3v
- FTDLMqHpMMQNR3rzaNScnE/hZ2RlhKF3WCs7L9SfQajQaoHjNjzobCbrzUryZy0WOaCzwVHA5
- /7/qNQQSDpJuzyf4+xfh9o63eO9trgDGBmhFuI3aP7QbHpFJNfUGJWj7UzG7i6lLhF+Ki1QBl
- amDOObVOpwGsgk4PXZpY/w+Dzs85Wav8q5m2pjxz6XM27mBnxcF8SKVz6jdK63ELqUY6NXCp3
- +Ka039Y5RPTZAV9nRHUi52gTJP1QxFyhv28cpX9eLg5ZHtRg6U=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2018-03-27 at 10:23 -0400, Waiman Long wrote:
-> On 03/27/2018 10:02 AM, Tejun Heo wrote:
-> > Hello,
-> >
-> > On Mon, Mar 26, 2018 at 04:28:49PM -0400, Waiman Long wrote:
-> >> Maybe we can have a different root level flag, say,
-> >> sched_partition_domain that is equivalent to !sched_load_balnace.
-> >> However, I am still not sure if we should enforce that no task should be
-> >> in the root cgroup when the flag is set.
-> >>
-> >> Tejun and Peter, what are your thoughts on this?
-> > I haven't looked into the other issues too much but we for sure cannot
-> > empty the root cgroup.
-> >
-> > Thanks.
-> >
-> Now, I have a different idea. How about we add a special root-only knob,
-> say, "cpuset.cpus.isolated" that contains the list of CPUs that are
-> still owned by root, but not participated in load balancing. All the
-> tasks in the root are load-balanced among the remaining CPUs.
+Hi Rob,
+
+On Mon, 26 Mar 2018 17:24:58 -0500
+Rob Herring <robh@kernel.org> wrote:
+
+> > +
+> > +I3C devices
+> > +===========
+> > +
+> > +All I3C devices are supposed to support DAA (Dynamic Address Assignment), and
+> > +are thus discoverable. So, by default, I3C devices do not have to be described
+> > +in the device tree.
+> > +This being said, one might want to attach extra resources to these devices,
+> > +and those resources may have to be described in the device tree, which in turn
+> > +means we have to describe I3C devices.
+> > +
+> > +Another use case for describing an I3C device in the device tree is when this
+> > +I3C device has a static address and we want to assign it a specific dynamic
+> > +address before the DAA takes place (so that other devices on the bus can't  
 > 
-> A child can then be created that hold some or all the CPUs in the
-> isolated set. It will then have a separate root domain if load balancing
-> is on, or an isolated cpuset if load balancing is off.
+> static is I2C address and dynamic is an I3C address. That could be 
+> clearer throughout.
+
+I'll clarify that.
+
 > 
-> Will that idea work?
+> > +take this dynamic address).
+> > +
+> > +The I3C device should be names <device-type>@<static-address>,<i3c-pid>,  
+> 
+> s/static-address/static-i2c-address/
 
-Hrm.  Sounds very much like the typical v1 setup today..
+Okay.
 
-              root
-               /\
-          peons  vips
+> 
+> > +where device-type is describing the type of device connected on the bus
+> > +(gpio-controller, sensor, ...).
+> > +
+> > +Required properties
+> > +-------------------
+> > +- reg: contains 3 cells
+> > +  + first cell : encodes the I2C address. Should be 0 if the device does not
+> > +		 have one (0 is not a valid I3C address).  
+> 
+> Change here to "encodes the static I2C address". 
+> 
+> 0 is not a valid I2C address?
 
-...with v2 root effectively shrinking to become the v1 "peons" set
-*rd/sd/sd_llc wise only* when you poke /cpuset.cpus.isolated, but still
-actually spanning all CPUs.  True?
+According to [1] it is reserved, and it's reserved in the I3C spec
+anyway (see "Table 9 I3C Slave Address Restrictions" in the I3C spec).
 
-If so, a user would also still have to create a real "peons" subset as
-in v1 and migrate everything not nailed to the floor into it for
-containment, else any task can be placed or place itself anywhere in
-the box, or merely wake to find itself sitting on it's previous, but
-now vip turf CPU.
+> 
+> > +
+> > +  + second and third cells: should encode the ProvisionalID. The second cell
+> > +			    contains the manufacturer ID left-shifted by 1.
+> > +			    The third cell contains ORing of the part ID
+> > +			    left-shifted by 16, the instance ID left-shifted
+> > +			    by 12 and the extra information. This encoding is
+> > +			    following the PID definition provided by the I3C
+> > +			    specification.
 
-	-Mike
+One extra question for you: should I refer to the I3C_DEV(),
+I3C_DEV_WITH_STATIC_ADDR() and I2C_DEV() macros in the bindings doc?
+And if I do, should I use them my example?
+
+Thanks,
+
+Boris
+
+> > +
+> > +Optional properties
+> > +-------------------
+> > +- assigned-address: dynamic address to be assigned to this device. This
+> > +		    property is only valid if the I3C device has a static
+> > +		    address (first cell of the reg property != 0).
+> > +
+> > +
+> > +Example:
+> > +
+> > +	i3c-master@d040000 {
+> > +		compatible = "cdns,i3c-master";
+> > +		clocks = <&coreclock>, <&i3csysclock>;
+> > +		clock-names = "pclk", "sysclk";
+> > +		interrupts = <3 0>;
+> > +		reg = <0x0d040000 0x1000>;
+> > +		#address-cells = <3>;
+> > +		#size-cells = <0>;
+> > +
+> > +		status = "okay";
+> > +		i2c-scl-frequency = <100000>;
+> > +
+> > +		/* I2C device. */
+> > +		nunchuk: nunchuk@52 {
+> > +			compatible = "nintendo,nunchuk";
+> > +			reg = <0x52 0x80000010 0x0>;
+> > +		};
+> > +
+> > +		/* I3C device with a static address. */
+> > +		thermal_sensor: sensor@68,39200144004 {
+> > +			reg = <0x68 0x392 0x144004>;
+> > +			assigned-address = <0xa>;
+> > +		};
+> > +
+> > +		/*
+> > +		 * I3C device without a static address but requiring resources
+> > +		 * described in the DT.
+> > +		 */
+> > +		sensor@0,39200154004 {
+> > +			reg = <0x0 0x392 0x154004>;
+> > +			clocks = <&clock_provider 0>;
+> > +		};
+> > +	};
+> > +
+> > -- 
+> > 2.14.1
+> >   
+
+[1]http://www.i2c-bus.org/addressing
+
+-- 
+Boris Brezillon, Bootlin (formerly Free Electrons)
+Embedded Linux and Kernel engineering
+https://bootlin.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
