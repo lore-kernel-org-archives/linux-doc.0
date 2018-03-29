@@ -5,29 +5,28 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 15D017DD31
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Mar 2018 21:49:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 791BB7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Mar 2018 21:56:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750979AbeC2Vtd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Mar 2018 17:49:33 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53758 "EHLO ms.lwn.net"
+        id S1752048AbeC2V4W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Mar 2018 17:56:22 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53782 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750735AbeC2Vtc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Mar 2018 17:49:32 -0400
+        id S1751172AbeC2V4V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Mar 2018 17:56:21 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4B5C3AAA;
-        Thu, 29 Mar 2018 21:49:32 +0000 (UTC)
-Date:   Thu, 29 Mar 2018 15:49:31 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id AB955AAB;
+        Thu, 29 Mar 2018 21:56:20 +0000 (UTC)
+Date:   Thu, 29 Mar 2018 15:56:19 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Martin Kepplinger <martink@posteo.de>
-Cc:     mchehab@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/process: update FUSE project website
-Message-ID: <20180329154931.0c8cfa88@lwn.net>
-In-Reply-To: <20180327125950.717-1-martink@posteo.de>
-References: <20180327125950.717-1-martink@posteo.de>
+To:     Sanjeev Gupta <ghane0@gmail.com>
+Cc:     linux-wimax@intel.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/wimax: Point dead link to working copy
+Message-ID: <20180329155619.1ab8c30f@lwn.net>
+In-Reply-To: <20180328144707.13103-1-ghane0@gmail.com>
+References: <20180328144707.13103-1-ghane0@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -37,14 +36,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 27 Mar 2018 14:59:50 +0200
-Martin Kepplinger <martink@posteo.de> wrote:
+On Wed, 28 Mar 2018 22:47:07 +0800
+Sanjeev Gupta <ghane0@gmail.com> wrote:
 
-> According to the old project site, https://sourceforge.net/projects/fuse/
-> the project has moved to https://github.com/libfuse/ so we update the
-> link to point to the latest libfuse release.
+> The linuxwimax.org domain, registered by the Linux Foundation,
+> no longer has any DNS entries.  Locate a copy on archive.org and
+> update the documentation.
 
-Applied, thanks.
+Hmm...I worry a bit about pointing into archive.org; it's not a sign that
+we're giving our readers current information.  Did anybody ask the LF what
+happened to that page?
+
+More to the point, though:
+
+> Signed-off-by: Sanjeev Gupta <ghane0@gmail.com>
+> ---
+>  Documentation/wimax/README.i2400m | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/wimax/README.i2400m b/Documentation/wimax/README.i2400m
+> index 7dffd8919cb0..d11502d17818 100644
+> --- a/Documentation/wimax/README.i2400m
+> +++ b/Documentation/wimax/README.i2400m
+> @@ -61,8 +61,9 @@ $ make KDIR=/path/to/kernel/dev/tree
+>  
+>  3. Installing the firmware
+>  
+> -   The firmware can be obtained from http://linuxwimax.org or might have
+> -   been supplied with your hardware.
+> +   The firmware can be obtained from
+> +   https://web.archive.org/web/20101224002849/http://linuxwimax.org/
+> +   or might have been supplied with your hardware.
+
+If you go into that page, you find that they don't appear to have archived
+any of the tarballs, so the promised firmware isn't actually there.  So
+we're not really helping people by pointing there.  It does appear that
+this firmware can be found in the linux-firmware repository, though.  So
+that seems like where we should be pointing people...?
+
+Thanks,
 
 jon
 --
