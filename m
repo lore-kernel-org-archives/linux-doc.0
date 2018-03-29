@@ -5,139 +5,74 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 229817DD31
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Mar 2018 14:22:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 85E5B7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Mar 2018 14:26:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751167AbeC2OWW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Mar 2018 10:22:22 -0400
-Received: from osg.samsung.com ([64.30.133.232]:56030 "EHLO osg.samsung.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751164AbeC2OWV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Mar 2018 10:22:21 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 5F8C43ED43;
-        Thu, 29 Mar 2018 07:22:21 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
-Received: from osg.samsung.com ([127.0.0.1])
-        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id x4T1jKjHZpIf; Thu, 29 Mar 2018 07:22:15 -0700 (PDT)
-Received: from vento.lan (177.205.88.90.dynamic.adsl.gvt.net.br [177.205.88.90])
-        by osg.samsung.com (Postfix) with ESMTPSA id 6FCE03ED3B;
-        Thu, 29 Mar 2018 07:22:13 -0700 (PDT)
-Date:   Thu, 29 Mar 2018 11:22:09 -0300
-From:   Mauro Carvalho Chehab <mchehab@s-opensource.com>
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org
+        id S1751218AbeC2O0g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Mar 2018 10:26:36 -0400
+Received: from s3.sipsolutions.net ([144.76.63.242]:39698 "EHLO
+        sipsolutions.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750946AbeC2O0g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Mar 2018 10:26:36 -0400
+Received: by sipsolutions.net with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1f1YVe-0000lS-RP; Thu, 29 Mar 2018 16:26:34 +0200
+Message-ID: <1522333593.24162.12.camel@sipsolutions.net>
 Subject: Re: nested structs parsing
-Message-ID: <20180329112209.5c0e0320@vento.lan>
-In-Reply-To: <1522316827.5932.11.camel@sipsolutions.net>
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Cc:     linux-doc@vger.kernel.org, linux-wireless@vger.kernel.org
+Date:   Thu, 29 Mar 2018 16:26:33 +0200
+In-Reply-To: <20180329112209.5c0e0320@vento.lan>
 References: <1522316775.5932.10.camel@sipsolutions.net>
-        <1522316827.5932.11.camel@sipsolutions.net>
-Organization: Samsung
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+         <1522316827.5932.11.camel@sipsolutions.net>
+         <20180329112209.5c0e0320@vento.lan>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 (3.26.6-1.fc27) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 29 Mar 2018 11:47:07 +0200
-Johannes Berg <johannes@sipsolutions.net> escreveu:
+Hi,
 
-> On Thu, 2018-03-29 at 11:46 +0200, Johannes Berg wrote:
-> > Hi,
-> > 
-> > For a while I haven't looked at my documentation for 802.11, and now I
-> > noticed I'm getting warnings due to the nested parsing.
-> > 
-> > However, something seems to be wrong? I have, for example, this (in
-> > net/mac80211/sta_info.h)
-> > 
-> > struct sta_info {
-> > 	...
-> >         struct {
-> >                 u64 packets[IEEE80211_NUM_ACS];
-> >                 u64 bytes[IEEE80211_NUM_ACS];
-> >                 struct ieee80211_tx_rate last_rate;
-> >                 u64 msdu[IEEE80211_NUM_TIDS + 1];
-> >         } tx_stats;
-> > };
-> > 
-> > but I'm getting the following warnings now, with only "@tx_stats" being
-> > described in the documentation:
-> > 
-> > net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.last_ack' not described in 'sta_info'
-> > net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.last_ack_signal' not described in 'sta_info'
-> > net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.ack_signal_filled' not described in 'sta_info'
-> > net/mac80211/sta_info.h:590: warning: Function parameter or member 'msdu' not described in 'sta_info'
-> > 
-> > I can understand the first three of those, but not the last one? Why is
-> > the last one not qualified?
-> > 
-> > If I change it to this:
-> > 
-> >         struct {
-> >                 u64 packets[IEEE80211_NUM_ACS];
-> >                 u64 bytes[IEEE80211_NUM_ACS];
-> >                 /**
-> >                  * @last_rate: last TX rate
-> >                  */
-> >                 struct ieee80211_tx_rate last_rate;
-> >                 /**
-> >                  * @msdu: # of MSDUs per TID
-> >                  */
-> >                 u64 msdu[IEEE80211_NUM_TIDS + 1];
-> >         } tx_stats;
-> > 
-> > I still get a warning on "tx_stats.last_rate", but not on "msdu", which
-> > is sort of obvious from the warning text, but also rather unexpected.
-> > 
-> > Normally I'd say that the "msdu" warning is originally wrong
-> > 
-> > However, I'd also argue that if I'm using inline declarations, I
-> > shouldn't have to write it like this:
-> > 
-> >         struct {
-> >                 u64 packets[IEEE80211_NUM_ACS];
-> >                 u64 bytes[IEEE80211_NUM_ACS];
-> >                 /**
-> >                  * @tx_stats.last_rate: last TX rate
-> >                  */
-> >                 struct ieee80211_tx_rate last_rate;
-> > 	...
-> > 	} tx_stats;  
+> The original patchset for nested structs was supporting it only 
+> when not inlined. This should be fixed on this patchset:
 > 
-> Whoops, sent a fraction of a second too early - this actually causes a
-> warning too (no idea why four times):
+> 	https://lkml.org/lkml/2018/2/19/387
 > 
-> net/mac80211/sta_info.h:560: warning: Incorrect use of kernel-doc format:                  * @tx_stats.last_rate: last TX rate
-> net/mac80211/sta_info.h:560: warning: Incorrect use of kernel-doc format:                  * @tx_stats.last_rate: last TX rate
-> net/mac80211/sta_info.h:560: warning: Incorrect use of kernel-doc format:                  * @tx_stats.last_rate: last TX rate
-> net/mac80211/sta_info.h:560: warning: Incorrect use of kernel-doc format:                  * @tx_stats.last_rate: last TX rate
+> Do you have those patches on your tree?
 
-The original patchset for nested structs was supporting it only 
-when not inlined. This should be fixed on this patchset:
+No, looks like I don't have those yet. I'll wait for those then.
 
-	https://lkml.org/lkml/2018/2/19/387
+> With regards to duplicated warnings, that use to happen if the same header
+> is included several times (with is a common pratice at the net subsystem).
 
-Do you have those patches on your tree?
+Yeah, doesn't really matter anyway. I think I have to, in a sense,
+because I'm getting lots of functions separately from the headers.
 
-With regards to duplicated warnings, that use to happen if the same header
-is included several times (with is a common pratice at the net subsystem).
+> Could you please merge from docs-next and see if those problems
+> get solved?
 
-I also submitted some patches to linux-next addressing it.
+No, that doesn't seem to address it fully:
 
-Could you please merge from docs-next and see if those problems
-get solved?
+net/mac80211/sta_info.h:586: warning: Function parameter or member 'tx_stats.packets' not described in 'sta_info'
+net/mac80211/sta_info.h:586: warning: Function parameter or member 'tx_stats.bytes' not described in 'sta_info'
+net/mac80211/sta_info.h:586: warning: Function parameter or member 'tx_stats.last_rate' not described in 'sta_info'
+net/mac80211/sta_info.h:586: warning: Function parameter or member 'msdu' not described in 'sta_info'
 
-It is located at:
+You can reproduce this in
 
-	git://git.lwn.net/linux.git docs-next
+  git://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211-next.git master
 
-Thanks,
-Mauro
+(merging with docs-next) and running
+
+  make SPHINXDIRS=driver-api/80211 htmldocs
+
+johannes
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
