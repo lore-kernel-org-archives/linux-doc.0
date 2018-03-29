@@ -1,79 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F05B47DD31
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Mar 2018 18:57:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8EC157DD31
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Mar 2018 21:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751932AbeC2S4s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Mar 2018 14:56:48 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33964 "EHLO mx2.suse.de"
+        id S1751938AbeC2VqK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Mar 2018 17:46:10 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53696 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751235AbeC2S4r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 29 Mar 2018 14:56:47 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (charybdis-ext.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 89783AD39;
-        Thu, 29 Mar 2018 18:56:45 +0000 (UTC)
-Date:   Thu, 29 Mar 2018 18:56:45 +0000
-From:   "Luis R. Rodriguez" <mcgrof@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-Subject: Re: [PATCH v5 1/9] sysctl: Add flags to support min/max range
- clamping
-Message-ID: <20180329185645.GQ30543@wotan.suse.de>
-References: <1521224030-2185-1-git-send-email-longman@redhat.com>
- <1521224030-2185-2-git-send-email-longman@redhat.com>
- <20180317011021.GB4449@wotan.suse.de>
- <35f54e8f-b80e-aa3b-b008-79ba7ca3bff2@redhat.com>
- <20180329181515.GL30543@wotan.suse.de>
- <3e2b8e6a-f6d1-f80a-ed43-e937d8ca8383@redhat.com>
+        id S1751172AbeC2VqJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Mar 2018 17:46:09 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 107BFAAB;
+        Thu, 29 Mar 2018 21:46:08 +0000 (UTC)
+Date:   Thu, 29 Mar 2018 15:46:07 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        James Hogan <jhogan@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
+        linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 00/32] docs/vm: convert to ReST format
+Message-ID: <20180329154607.3d8bda75@lwn.net>
+In-Reply-To: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3e2b8e6a-f6d1-f80a-ed43-e937d8ca8383@redhat.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 29, 2018 at 02:47:18PM -0400, Waiman Long wrote:
-> On 03/29/2018 02:15 PM, Luis R. Rodriguez wrote:
-> > On Mon, Mar 19, 2018 at 11:39:19AM -0400, Waiman Long wrote:
-> >> On 03/16/2018 09:10 PM, Luis R. Rodriguez wrote:
-> >>> On Fri, Mar 16, 2018 at 02:13:42PM -0400, Waiman Long wrote:
-> >>>> When the CTL_FLAGS_CLAMP_RANGE flag is set in the ctl_table
-> >>>> entry, any update from the userspace will be clamped to the given
-> >>>> range without error if either the proc_dointvec_minmax() or the
-> >>>> proc_douintvec_minmax() handlers is used.
-> >>> I don't get it.  Why define a generic range flag when we can be mores specific and
-> >>> you do that in your next patch. What's the point of this flag then?
-> >>>
-> >>>   Luis
-> >> I was thinking about using the signed/unsigned bits as just annotations
-> >> for ranges for future extension. For the purpose of this patchset alone,
-> >> I can merge the three bits into just two.
-> > Only introduce flags which you will actually use in the same patch series.
-> >
-> >   Luis
+On Wed, 21 Mar 2018 21:22:16 +0200
+Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+
+> These patches convert files in Documentation/vm to ReST format, add an
+> initial index and link it to the top level documentation.
 > 
-> Yes, will do. Since the merge window is coming, should I wait until it
-> is over to send out the new patch?
+> There are no contents changes in the documentation, except few spelling
+> fixes. The relatively large diffstat stems from the indentation and
+> paragraph wrapping changes.
+> 
+> I've tried to keep the formatting as consistent as possible, but I could
+> miss some places that needed markup and add some markup where it was not
+> necessary.
 
-Probably best. May be too tight for review now if Linus spins out a release
-this weekend.
+So I've been pondering on these for a bit.  It looks like a reasonable and
+straightforward RST conversion, no real complaints there.  But I do have a
+couple of concerns...
 
-  Luis
+One is that, as we move documentation into RST, I'm really trying to
+organize it a bit so that it is better tuned to the various audiences we
+have.  For example, ksm.txt is going to be of interest to sysadmin types,
+who might want to tune it.  mmu_notifier.txt is of interest to ...
+somebody, but probably nobody who is thinking in user space.  And so on.
+
+So I would really like to see this material split up and put into the
+appropriate places in the RST hierarchy - admin-guide for administrative
+stuff, core-api for kernel development topics, etc.  That, of course,
+could be done separately from the RST conversion, but I suspect I know
+what will (or will not) happen if we agree to defer that for now :)
+
+The other is the inevitable merge conflicts that changing that many doc
+files will create.  Sending the patches through Andrew could minimize
+that, I guess, or at least make it his problem.  Alternatively, we could
+try to do it as an end-of-merge-window sort of thing.  I can try to manage
+that, but an ack or two from the mm crowd would be nice to have.
+
+Thanks,
+
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
