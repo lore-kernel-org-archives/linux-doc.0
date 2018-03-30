@@ -1,240 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
-	RCVD_IN_DNSWL_HI,T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 795937DD31
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 11:31:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D9F97DD31
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 15:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750927AbeC3Lbh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Mar 2018 07:31:37 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:40946 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750790AbeC3Lbf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Mar 2018 07:31:35 -0400
-Received: by mail-wr0-f193.google.com with SMTP id n2so4490531wrj.7;
-        Fri, 30 Mar 2018 04:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3GuG2xCllyrmyd1TbSfh8Wi111jEdMwAn+GXX80oyJY=;
-        b=mqNrZ7MIARq+9BlDMYbgmAWYw9l/WS+6WPa1RmeaVQK7Ja6L9gRlYZ/3RuPa14qD4O
-         JcsrtvZSWHmylvdB3cbVl4ZQJ8m/g35OEYxAtQ2/c/0oek1ElEy1QXMeNSEsYp1+91ni
-         ++clB6nw13G5ayHe2ecogZobYv+JSIz4YvuJ8xsPozpCIrHge+pOjxp+1HYSgClBwKil
-         gv44/MNn0KhHM5EuS+ZpAurAd+Tym0yqcfEJGPqmqve6pSNY9b6uylco6F/Oq5NtwBXX
-         cWOUu43yj6nUBzxEnXNxWAa3jBvRlQeBBSjv4yPf1AS9651KmAHFG5MkN1v6YEktIWm3
-         7T3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3GuG2xCllyrmyd1TbSfh8Wi111jEdMwAn+GXX80oyJY=;
-        b=sEXgTAzatReoAe/5PwW8VFQRkTcmGl64nmUPxSTV6AexMvJOSnWXm+mX+Qt8embVQM
-         c7FnEjBTJY98kT4e6QedZgDG3JxfEh+ZX7NuT1pEtXsdU1ZDd+3+9UUxDqtxTZoOel37
-         BnBmnTq9oKCme7cVxnf7oqu03YNa61Y8+uYrAfkR6ZJKOx8z+E8/LiR0RKgpByv/iwlO
-         mKESIcbPlL6/mQ7BC2oPwNAv/dOKxnJFhdlxuYmGzrVl86W3ZOnEKOY/PodNCDxKvARP
-         gAeeiHcoIRX5vFHZQY9UE0ejAe1i9xEGMQY8WEiP2tDrPNiyvbEdTYkJmynxt7LzDUCt
-         iiSg==
-X-Gm-Message-State: AElRT7H89prjsx8ChYB4M+M5FHqnF9t+2CGYeUt4auGHsdk/mjQNdo3s
-        0xej/oiPBuY7A5/eyHubgJ8=
-X-Google-Smtp-Source: AIpwx48eo5CleOeW2xerOgKbUQnLxXGprx290HUM2rmEMnoDRSpLeVpBPcetXvSHB9Gjhm8j5pG83w==
-X-Received: by 10.223.227.73 with SMTP id n9mr9116081wrj.134.1522409494201;
-        Fri, 30 Mar 2018 04:31:34 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id 134sm6331445wmm.42.2018.03.30.04.31.32
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 30 Mar 2018 04:31:33 -0700 (PDT)
-Date:   Fri, 30 Mar 2018 13:31:31 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Subject: Re: [Question] Documentation/features: More automation/scripting
- help?
-Message-ID: <20180330113130.fmwnxgnlm2cpwmcc@gmail.com>
-References: <20180328122211.GA25420@andrea>
+        id S1753303AbeC3PfW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Mar 2018 11:35:22 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59900 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752502AbeC3PfU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Mar 2018 11:35:20 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2A750AAB;
+        Fri, 30 Mar 2018 15:35:19 +0000 (UTC)
+Date:   Fri, 30 Mar 2018 09:35:18 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Dominik Brodowski <linux@dominikbrodowski.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        viro@zeniv.linux.org.uk, x86@kernel.org,
+        torvalds@linux-foundation.org, mingo@kernel.org,
+        tglx@linutronix.de, luto@amacapital.net
+Subject: Re: [PATCH] syscalls: define and explain goal to not call syscalls
+ in the kernel
+Message-ID: <20180330093518.3d8a92f3@lwn.net>
+In-Reply-To: <20180325162527.GA17492@light.dominikbrodowski.net>
+References: <20180325162527.GA17492@light.dominikbrodowski.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180328122211.GA25420@andrea>
-User-Agent: NeoMutt/20170609 (1.8.3)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, 25 Mar 2018 18:25:27 +0200
+Dominik Brodowski <linux@dominikbrodowski.net> wrote:
 
-* Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
+> As there have been multiple inquiries on the rationale of my patchsets
+> removing in-kernel calls to sys_xyzzy(), here is an updated patch 01/NN
+> which I will push upstream for v4.17-rc1. I will also include a reference
+> to this mail (and therefore to the explanation below) in all related
+> patches of the series. Any improvements, hints, suggestions, spelling
+> fixes, and/or objections?
 
-> Hi all,
-> 
-> The directory (not yet three years old although, I freely admit, I've
-> only recently become aware of it) provides arch. support matrices for
-> more than 40 generic kernel features that need per-arch. support:
-> 
-> This is a superb project! ;-)  and not a simple one given that, to be
-> effective, this requires the prompt collaboration between (the intere-
-> sted) features maintainers/developers, every architecture maintainers,
-> and documentation maintainers.
-> 
-> There currently appear to be some mismatches between such doc and the
-> the actual state of the code (e.g., missing architecture, feature not
-> existing anymore, status flags out-of-date). Realized this, I started
-> to patch the doc, but this process became soon tedious (consider also
-> that I barely know what some of these features are about...).
-> 
-> Hence this post. I am wondering if it would make sense to script some
-> of these matrices.  So, rather than (or together with) using the cur-
-> rently hard-coded matrices, try to (automatically) generate them from
-> the sources/configs. Consider the sketch below (sorry for the raw sh).
-> 
-> diff --git a/Documentation/features/list-arch.sh b/Documentation/features/list-arch.sh
-> index c16b5b5956889..cdec0c1db9db2 100755
-> --- a/Documentation/features/list-arch.sh
-> +++ b/Documentation/features/list-arch.sh
-> @@ -18,7 +18,13 @@ for F in */*/arch-support.txt; do
->    C=$(grep -h "^#         Kconfig:"     $F | cut -c25-)
->    D=$(grep -h "^#         description:" $F | cut -c25-)
->    S=$(grep -hw $ARCH $F | cut -d\| -f3)
-> +  myS=$(grep -h $C ../../arch/$ARCH/Kconfig)
-> +  if [ -z "$myS" ]; then
-> +	  myS=" -- "
-> +  else
-> +	  myS=" ok "
-> +  fi
->  
-> -  printf "%10s/%-22s:%s| %35s # %s\n" "$SUBSYS" "$N" "$S" "$C" "$D"
-> +  printf "%10s/%-22s:%s VS. %s| %35s # %s\n" "$SUBSYS" "$N" "$S" "$myS" "$C" "$D"
->  done
->  
-> 
-> With this diff.,
-> 
-> andrea@andrea:~$ ./Documentation/features/list-arch.sh riscv > /tmp/riscv.txt
-> grep: asm/rwsem.h: No such file or directory
-> andrea@andrea:~$ cat /tmp/riscv.txt
-> #
-> # Kernel feature support matrix of the 'riscv' architecture:
-> #
->       core/ BPF-JIT              : VS.  -- |                        HAVE_BPF_JIT #  arch supports BPF JIT optimizations
->       core/ generic-idle-thread  : VS.  ok |             GENERIC_SMP_IDLE_THREAD #  arch makes use of the generic SMP idle thread facility
->       core/ jump-labels          : VS.  -- |                HAVE_ARCH_JUMP_LABEL #  arch supports live patched, high efficiency branches
->       core/ tracehook            : VS.  ok |                 HAVE_ARCH_TRACEHOOK #  arch supports tracehook (ptrace) register handling APIs
->      debug/ gcov-profile-all     : VS.  -- |           ARCH_HAS_GCOV_PROFILE_ALL #  arch supports whole-kernel GCOV code coverage profiling
->      debug/ KASAN                : VS.  -- |                     HAVE_ARCH_KASAN #  arch supports the KASAN runtime memory checker
->      debug/ kgdb                 : VS.  -- |                      HAVE_ARCH_KGDB #  arch supports the kGDB kernel debugger
->      debug/ kprobes              : VS.  ok |                        HAVE_KPROBES #  arch supports live patched kernel probe
->      debug/ kprobes-on-ftrace    : VS.  -- |              HAVE_KPROBES_ON_FTRACE #  arch supports combined kprobes and ftrace live patching
->      debug/ kretprobes           : VS.  -- |                     HAVE_KRETPROBES #  arch supports kernel function-return probes
->      debug/ optprobes            : VS.  -- |                      HAVE_OPTPROBES #  arch supports live patched optprobes
->      debug/ stackprotector       : VS.  -- |              HAVE_CC_STACKPROTECTOR #  arch supports compiler driven stack overflow protection
->      debug/ uprobes              : VS.  -- |               ARCH_SUPPORTS_UPROBES #  arch supports live patched user probes
->      debug/ user-ret-profiler    : VS.  -- |           HAVE_USER_RETURN_NOTIFIER #  arch supports user-space return from system call profiler
->         io/ dma-api-debug        : VS.  ok |                  HAVE_DMA_API_DEBUG #  arch supports DMA debug facilities
->         io/ dma-contiguous       : VS.  ok |                 HAVE_DMA_CONTIGUOUS #  arch supports the DMA CMA (continuous memory allocator)
->         io/ sg-chain             : VS.  -- |                   ARCH_HAS_SG_CHAIN #  arch supports chained scatter-gather lists
->        lib/ strncasecmp          : VS.  -- |             __HAVE_ARCH_STRNCASECMP #  arch provides an optimized strncasecmp() function
->    locking/ cmpxchg-local        : VS.  -- |                  HAVE_CMPXCHG_LOCAL #  arch supports the this_cpu_cmpxchg() API
->    locking/ lockdep              : VS.  -- |                     LOCKDEP_SUPPORT #  arch supports the runtime locking correctness debug facility
->    locking/ queued-rwlocks       : VS.  -- |             ARCH_USE_QUEUED_RWLOCKS #  arch supports queued rwlocks
->    locking/ queued-spinlocks     : VS.  -- |           ARCH_USE_QUEUED_SPINLOCKS #  arch supports queued spinlocks
->    locking/ rwsem-optimized      : VS.  -- |               Optimized asm/rwsem.h #  arch provides optimized rwsem APIs
->       perf/ kprobes-event        : VS.  -- |      HAVE_REGS_AND_STACK_ACCESS_API #  arch supports kprobes with perf events
->       perf/ perf-regs            : VS.  -- |                      HAVE_PERF_REGS #  arch supports perf events register access
->       perf/ perf-stackdump       : VS.  -- |           HAVE_PERF_USER_STACK_DUMP #  arch supports perf events stack dumps
->      sched/ membarrier-sync-core : VS.  -- |       ARCH_HAS_MEMBARRIER_SYNC_CORE #  arch supports core serializing membarrier
->      sched/ numa-balancing       : VS.  -- |        ARCH_SUPPORTS_NUMA_BALANCING #  arch supports NUMA balancing
->    seccomp/ seccomp-filter       : VS.  -- |            HAVE_ARCH_SECCOMP_FILTER #  arch supports seccomp filters
->       time/ arch-tick-broadcast  : VS.  -- |             ARCH_HAS_TICK_BROADCAST #  arch provides tick_broadcast()
->       time/ clockevents          : VS.  ok |                 GENERIC_CLOCKEVENTS #  arch support generic clock events
->       time/ context-tracking     : VS.  -- |               HAVE_CONTEXT_TRACKING #  arch supports context tracking for NO_HZ_FULL
->       time/ irq-time-acct        : VS.  -- |            HAVE_IRQ_TIME_ACCOUNTING #  arch supports precise IRQ time accounting
->       time/ modern-timekeeping   : VS.  -- |            !ARCH_USES_GETTIMEOFFSET #  arch does not use arch_gettimeoffset() anymore
->       time/ virt-cpuacct         : VS.  -- |            HAVE_VIRT_CPU_ACCOUNTING #  arch supports precise virtual CPU time accounting
->         vm/ ELF-ASLR             : VS.  -- |              ARCH_HAS_ELF_RANDOMIZE #  arch randomizes the stack, heap and binary images of ELF binaries
->         vm/ huge-vmap            : VS.  -- |                 HAVE_ARCH_HUGE_VMAP #  arch supports the ioremap_pud_enabled() and ioremap_pmd_enabled() VM APIs
->         vm/ ioremap_prot         : VS.  -- |                   HAVE_IOREMAP_PROT #  arch has ioremap_prot()
->         vm/ numa-memblock        : VS.  ok |              HAVE_MEMBLOCK_NODE_MAP #  arch supports NUMA aware memblocks
->         vm/ PG_uncached          : VS.  -- |               ARCH_USES_PG_UNCACHED #  arch supports the PG_uncached page flag
->         vm/ pte_special          : VS.  -- |             __HAVE_ARCH_PTE_SPECIAL #  arch supports the pte_special()/pte_mkspecial() VM APIs
->         vm/ THP                  : VS.  -- |      HAVE_ARCH_TRANSPARENT_HUGEPAGE #  arch supports transparent hugepages
->         vm/ batch-unmap-tlb-flush: VS.  -- |   ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH #  arch supports deferral of TLB flush until multiple pages are unmapped
-> 
-> 
-> Suggesting that riscv is not included within the hard-coded matrices.
-> This also shows a first limitation of the proposed approach, i.e., it
-> doesn't parse "Optimized asm/rwsem.h" (wants "true" configs). It also
-> won't find "__HAVE_ARCH_PTE_SPECIAL" (reads Kconfig files) but things
-> like "!ARCH_USES_GETTIMEOFFSET" could still be handled...
-> 
-> We could try switching to another architectures: none of these should
-> result in "core/ BPF-JIT" set: the "HAVE_BPF_JIT" config was splitted
-> into cBPF and eBPF variants more recently. The comparison of the hard
-> coded status flags with the new/generated flags should also highlight
-> out-of-date values.
-> 
-> Alternative/Additional help could probably be provided by checkpatch,
-> say, warn when a patch touches/adds to Kconfig without updating such
-> documentation...
-> 
-> Thoughts?
+I have no objections to the text, but I do wonder about the placement.
+The "adding syscalls" document isn't about *invoking* them; I suspect that
+few people will see it there.  The coding-style document isn't quite right
+either, but I wonder if it might not be a better place in the short term?
 
-Yeah, so I think what should be done instead is to write a script that refreshes 
-all the arch-support.txt files in-place.
-
-(And no, I'd not add checkpatch support.)
-
-It's OK for the script to have various quirks for weirdly implemented features and 
-exceptions: i.e. basically whenever it gets a feature wrong, we can just tweak the 
-script with quirks to make it all work out of box.
- 
-New features can then be added by basically just creating a header-only 
-arch-support.txt file, such as:
-
-  triton:~/tip/Documentation/features> cat foo/bar/arch-support.txt
-  #
-  # Feature name:          shiny new fubar kernel feature
-  #         Kconfig:       ARCH_USE_FUBAR
-  #         description:   arch supports the fubar feature
-  #
-
-And running Documentation/features/scripts/features-refresh.sh would auto-generate 
-the arch support matrix.
-
-Minimal changes to the existing arch-support.txt headers to make them more 
-script-friendly would be OK as well I suppose, for example 
-locking/rwsem-optimized/arch-support.txt right now has this:
-
-  #         Kconfig:       Optimized asm/rwsem.h
-
-A real Kconfig value could be used here - or even introduced, to make this all 
-easier to support. I.e. it's OK to harmonize feature support within the kernel to 
-make everything more clearly organized.
-
-But in the end there should only be a single new script:
-
-  Documentation/features/scripts/features-refresh.sh
-
-... which operates on the arch-support.txt files and refreshes them in place, and 
-which, after all the refreshes have been committed, should produce an empty
-'git diff' result.
-
-This way we soft- decouple the refreshing of the entries from the introduction of 
-the features, while still making it all easy to keep sync and to extend.
-
-I don't have the time to implement this feature myself, but if you'd like to try 
-such an approach yourself, I can help merge the result upstream via the -tip tree.
+What we may really need is an "assorted rules" document that sits near
+coding style; we can put stuff like this text, "volatile considered
+harmful", and so on there.
 
 Thanks,
 
-	Ingo
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
