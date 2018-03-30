@@ -1,241 +1,364 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C97007E8A1
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 03:17:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 949F57DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 07:48:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752946AbeC3DRL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Mar 2018 23:17:11 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:51752 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752731AbeC3DP5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Mar 2018 23:15:57 -0400
-Received: by mail-wm0-f66.google.com with SMTP id v21so13788432wmc.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Mar 2018 20:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MqNmyguGfYhu4/E+EGeRniZSAKHdV2m4kZR7MbrMg1Y=;
-        b=jBkzzMQBz6gwW/Wu4VOObgFowCII/WUztxZxrgbZMLTOxqJMN1U37UAVFjiy8fNJqX
-         yGKZSNgh2YWsjhHD1/52imESc5pY1P7ik5DSM2dEdQicVWx4HH/UQvtF3Hz3zPRSctZC
-         O8FHr1E4P0Z7jP1+ct6A7QxnrRK2waQVmdsNI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MqNmyguGfYhu4/E+EGeRniZSAKHdV2m4kZR7MbrMg1Y=;
-        b=CMq75dj6iXfVpSSwgfZxFvsNv/T2xfopp3tDMrvJLKhmEf0r/wLCwWTaPbs9ehDinv
-         AR/1IU7F+ezCgxvXhTeExRyapgPxzau99SsXn/nJX+gMoz5LNgOjNiBc0QR7RhJQadqd
-         bcwDrTUPhZbFoH1vLX6TjJIVGKSfZnhye3fl5gKdarKMhqwpImsFOBAiTPzxo4omoPY4
-         XcjuxSCLcPCVmFO4mI5ED4h3nJZ943DA98a2f1u+5iD/1cr1dlc08SgFKWcVQm6kbXW9
-         lnv3COdXnQyPmDW/ysc0pGwS1VCO1+7SYxkvMGdj5jQ5OoW/5/KFF9Vuwy6TzkfIdWsE
-         33Ow==
-X-Gm-Message-State: AElRT7HWq1ayuRS8PihXq7xxl6PAE/v69RtBgwCPKj8OP2ZqzFbnbuCT
-        Gzh4+LtLy4XXVT4H7hOIN7bk7g==
-X-Google-Smtp-Source: AIpwx4+RC2b78jDb5hc0N6RgrpOrIvU+X3ug1g3bbKSRcqdH0spgsJWspsCWlVCEXN8sdAmwsuJmlg==
-X-Received: by 10.28.202.25 with SMTP id a25mr939986wmg.45.1522379756161;
-        Thu, 29 Mar 2018 20:15:56 -0700 (PDT)
-Received: from localhost.localdomain (li622-172.members.linode.com. [212.71.249.172])
-        by smtp.gmail.com with ESMTPSA id z9sm12798903wrz.4.2018.03.29.20.15.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 29 Mar 2018 20:15:55 -0700 (PDT)
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        id S1751225AbeC3HsA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Mar 2018 03:48:00 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:59408 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750794AbeC3Hr6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Mar 2018 03:47:58 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 9F52920879; Fri, 30 Mar 2018 09:47:56 +0200 (CEST)
+Received: from localhost.localdomain (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
+        by mail.bootlin.com (Postfix) with ESMTPSA id EB7D22055C;
+        Fri, 30 Mar 2018 09:47:55 +0200 (CEST)
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        Kim Phillips <kim.phillips@arm.com>,
-        Mike Leach <mike.leach@linaro.org>
-Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [PATCH v4 2/6] doc: Add documentation for Coresight panic kdump
-Date:   Fri, 30 Mar 2018 11:15:20 +0800
-Message-Id: <1522379724-30648-3-git-send-email-leo.yan@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1522379724-30648-1-git-send-email-leo.yan@linaro.org>
-References: <1522379724-30648-1-git-send-email-leo.yan@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@bootlin.com>
+Subject: [PATCH v4 02/10] docs: driver-api: Add I3C documentation
+Date:   Fri, 30 Mar 2018 09:47:43 +0200
+Message-Id: <20180330074751.25987-3-boris.brezillon@bootlin.com>
+X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add detailed documentation for Coresight panic kdump, which contains
-the idea for why need Coresight panic kdump and introduce the
-implementation of Coresight panic kdump framework; the last section is
-to explain what's usage.
+Add the I3C documentation describing the protocol, the master driver API
+and the device driver API.
 
-Credits to Mathieu Poirier for many suggestions since the first version
-patch reviewing.  The suggestions include using an array to manage dump
-related info, this makes code scalable for more CPUs; the Coresight
-kdump driver and integration kdump flow with other Coresight devices
-also have many ideas from Mathieu.
-
-Suggested-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Signed-off-by: Leo Yan <leo.yan@linaro.org>
+Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
 ---
- .../trace/coresight/coresight-panic-kdump.txt      | 130 +++++++++++++++++++++
- MAINTAINERS                                        |   1 +
- 2 files changed, 131 insertions(+)
- create mode 100644 Documentation/trace/coresight/coresight-panic-kdump.txt
+Changes in v2:
+- Moved out of patch "i3c: Add core I3C infrastructure"
+- Add link to the I3C spec
+- Move rst files in Documentation/driver-api/i3c/
+---
+ Documentation/driver-api/i3c/conf.py               |  10 +
+ Documentation/driver-api/i3c/device-driver-api.rst |   7 +
+ Documentation/driver-api/i3c/index.rst             |   9 +
+ Documentation/driver-api/i3c/master-driver-api.rst |   8 +
+ Documentation/driver-api/i3c/protocol.rst          | 201 +++++++++++++++++++++
+ Documentation/driver-api/index.rst                 |   1 +
+ 6 files changed, 236 insertions(+)
+ create mode 100644 Documentation/driver-api/i3c/conf.py
+ create mode 100644 Documentation/driver-api/i3c/device-driver-api.rst
+ create mode 100644 Documentation/driver-api/i3c/index.rst
+ create mode 100644 Documentation/driver-api/i3c/master-driver-api.rst
+ create mode 100644 Documentation/driver-api/i3c/protocol.rst
 
-diff --git a/Documentation/trace/coresight/coresight-panic-kdump.txt b/Documentation/trace/coresight/coresight-panic-kdump.txt
+diff --git a/Documentation/driver-api/i3c/conf.py b/Documentation/driver-api/i3c/conf.py
 new file mode 100644
-index 0000000..c02e520
+index 000000000000..5a20832d59a7
 --- /dev/null
-+++ b/Documentation/trace/coresight/coresight-panic-kdump.txt
-@@ -0,0 +1,130 @@
-+		Coresight Panic Kdump
-+		=====================
++++ b/Documentation/driver-api/i3c/conf.py
+@@ -0,0 +1,10 @@
++# -*- coding: utf-8; mode: python -*-
 +
-+   Author:   Leo Yan <leo.yan@linaro.org>
-+   Date:     March 29th, 2018
++project = "Linux I3C Subsystem"
++
++tags.add("subproject")
++
++latex_documents = [
++    ('index', 'i3c.tex', project,
++     'The kernel development community', 'manual'),
++]
+diff --git a/Documentation/driver-api/i3c/device-driver-api.rst b/Documentation/driver-api/i3c/device-driver-api.rst
+new file mode 100644
+index 000000000000..63c843f148a6
+--- /dev/null
++++ b/Documentation/driver-api/i3c/device-driver-api.rst
+@@ -0,0 +1,7 @@
++=====================
++I3C device driver API
++=====================
++
++.. kernel-doc:: include/linux/i3c/device.h
++
++.. kernel-doc:: drivers/i3c/device.c
+diff --git a/Documentation/driver-api/i3c/index.rst b/Documentation/driver-api/i3c/index.rst
+new file mode 100644
+index 000000000000..9c439220439d
+--- /dev/null
++++ b/Documentation/driver-api/i3c/index.rst
+@@ -0,0 +1,9 @@
++=============
++I3C subsystem
++=============
++
++.. toctree::
++
++   protocol
++   device-driver-api
++   master-driver-api
+diff --git a/Documentation/driver-api/i3c/master-driver-api.rst b/Documentation/driver-api/i3c/master-driver-api.rst
+new file mode 100644
+index 000000000000..017e7711cdf7
+--- /dev/null
++++ b/Documentation/driver-api/i3c/master-driver-api.rst
+@@ -0,0 +1,8 @@
++================================
++I3C master controller driver API
++================================
++
++.. kernel-doc:: drivers/i3c/master.c
++
++.. kernel-doc:: include/linux/i3c/master.h
++
+diff --git a/Documentation/driver-api/i3c/protocol.rst b/Documentation/driver-api/i3c/protocol.rst
+new file mode 100644
+index 000000000000..9c704d596ae3
+--- /dev/null
++++ b/Documentation/driver-api/i3c/protocol.rst
+@@ -0,0 +1,201 @@
++============
++I3C protocol
++============
++
++Disclaimer
++==========
++
++This chapter will focus on aspects that matter to software developers. For
++everything hardware related (like how things are transmitted on the bus, how
++collisions are prevented, ...) please have a look at the I3C specification.
++
++This document is just a brief introduction to the I3C protocol and the concepts
++it brings on the table. If you need more information, please refer to the MIPI
++I3C specification (can be downloaded here
++http://resources.mipi.org/mipi-i3c-v1-download).
 +
 +Introduction
-+------------
++============
 +
-+Coresight has different sinks for trace data, the trace data is quite useful
-+for postmortem debugging.  Embedded Trace Buffer (ETB) is one type sink which
-+provides on-chip storage of trace data, usually uses SRAM as the buffer with
-+several KBs size; if the SoC designs to support 'Local ETF' (ARM DDI 0461B,
-+chapter 1.2.7), every CPU has one local ETB buffer so the per CPU trace data
-+can avoid being overwritten by each other.  Trace Memory Controller (TMC) is
-+another kind sink designed as a successor to the CoreSight ETB to capture trace
-+into DRAM.
++The I3C (pronounced 'eye-three-see') is a MIPI standardized protocol designed
++to overcome I2C limitations (limited speed, external signals needed for
++interrupts, no automatic detection of the devices connected to the bus, ...)
++while remaining power-efficient.
 +
-+After Linux kernel panic has occurred, the trace data keeps the last execution
-+flow before issues happen.  We could consider the trace data is quite useful for
-+postmortem debugging, especially when we can save trace data into DRAM and rely on
-+kdump to preserve them into vmcore file; at the end, we can retrieve trace data
-+from vmcore file and "offline" to analyze the execution flow.
++I3C Bus
++=======
 +
++An I3C bus is made of several I3C devices and possibly some I2C devices as
++well, but let's focus on I3C devices for now.
 +
-+Implementation
-+--------------
++An I3C device on the I3C bus can have one of the following roles:
 +
-+Coresight panic kdump is a simple framework to support Coresight dump
-+functionality when panic happens, it maintains an array for the dump, every array
-+item is dedicated to one specific CPU by using CPU number as an index.  For
-+'offline' recovery and analysis Coresight tracing data, except should to recovery
-+tracing data for sinks, we also need to know CPU tracer configurations; for this
-+purpose, the array item is a structure which combines source and sink device
-+handlers, the device handler points to Coresight device structure which contains
-+dump info: dump buffer base address and buffer size.  Below diagram is to
-+present data structures relationship:
++* Master: the device is driving the bus. It's the one in charge of initiating
++  transactions or deciding who is allowed to talk on the bus (slave generated
++  events are possible in I3C, see below).
++* Slave: the device acts as a slave, and is not able to send frames to another
++  slave on the bus. The device can still send events to the master on
++  its own initiative if the master allowed it.
 +
-+  array: coresight_kdump_nodes
-+  +------+------+----------------------+
-+  | CPU0 | CPU1 |   ...                |
-+  +------+------+----------------------+
-+     |
-+     V
-+  coresight_kdump_node              coresight_device
-+  +-------------------+             +-------------------+
-+  |    source_csdev   | ----------> |    kdump_buf      |
-+  +-------------------+      /      +-------------------+
-+  |    sink_csdev     | ----'       |    kdump_buf_sz   |
-+  +-------------------+             +-------------------+
++I3C is a multi-master protocol, so there might be several masters on a bus,
++though only one device can act as a master at a given time. In order to gain
++bus ownership, a master has to follow a specific procedure.
 +
-+Every CPU has its own tracer, we need save tracer registers for tracer ID and
-+configuration related information as metadata, the metadata is used by tracing
-+decoder.  But the tracer has the different configuration at the different phase,
-+below diagram explains tracer configurations for different time points: at the
-+system boot phase, the tracer is disabled so its registers have not been set;
-+after tracer has been enabled or when panic happens, tracer registers have been
-+configured, but we need to consider if there has CPU is locked up at panic phase
-+then this dead CPU has no chance to handle inter-processor interrupt for panic
-+dump; thus we choose tracer enabling phase to save tracer metadata.  Coresight
-+panic kdump provides API coresight_kdump_source() as helper function for
-+recording tracer metadata.
++Each device on the I3C bus has to be assigned a dynamic address to be able to
++communicate. Until this is done, the device should only respond to a limited
++set of commands. If it has a static address (also called legacy I2C address),
++the device can reply to I2C transfers.
 +
-+                     Boot         Enabling     Panic
++In addition to these per-device addresses, the protocol defines a broadcast
++address in order to address all devices on the bus.
 +
-+  Timeline:  ------->|----------->|----------->|----------->
++Once a dynamic address has been assigned to a device, this address will be used
++for any direct communication with the device. Note that even after being
++assigned a dynamic address, the device should still process broadcast messages.
 +
-+  Tracer:            Disabled     Configured   Configured
-+  Sink:              Disabled     Enabled      Enabled with tracing data
-+                                    |            |
-+                                    |            `--> Tracing data dump
-+                                    |
-+                                    `--> Tracer metadata dump
++I3C Device discovery
++====================
 +
-+After enabling Coresight sink device, function coresight_kdump_sink() is used to
-+set sink device handler for related CPU; sink device handler points to Coresight
-+device structure, furthermore we can retrieve its ops structure and panic
-+callback 'panic_cb' in the ops structure. Coresight panic notifier takes panic CPU
-+tracing data with high priority to firstly invoke panic CPU sink callback function,
-+then the notifier iterates dump array and invoke callback functions one by one
-+for other CPUs.  If one sink device is shared among CPUs, the sink panic
-+callback is invoked for the first traversed CPU node and other sequential CPUs
-+are skipped.
++The I3C protocol defines a mechanism to automatically discover devices present
++on the bus, their capabilities and the functionalities they provide. In this
++regard I3C is closer to a discoverable bus like USB than it is to I2C or SPI.
 +
++The discovery mechanism is called DAA (Dynamic Address Assignment), because it
++not only discovers devices but also assigns them a dynamic address.
 +
-+Usage
-+-----
++During DAA, each I3C device reports 3 important things:
 +
-+Build Linux kernel with enabling 'CONFIG_CORESIGHT_PANIC_KDUMP' configuration.
++* BCR: Bus Characteristic Register. This 8-bit register describes the device bus
++  related capabilities
++* DCR: Device Characteristic Register. This 8-bit register describes the
++  functionalities provided by the device
++* Provisional ID: A 48-bit unique identifier. On a given bus there should be no
++  Provisional ID collision, otherwise the discovery mechanism may fail.
 +
-+After system booting up, we need firstly prepare dump-capture kernel, this can
-+refer doc [1] chapter 'Load the Dump-capture Kernel' for detailed steps.  Then
-+we need enable the Coresight tracer, this can use either perf framework method
-+or sysFS interface, please refer doc [2] chapter 'How to use the tracer modules'
-+for detailed steps.
++I3C slave events
++================
 +
-+When kernel panic happens, the panic kdump records trace data and launches
-+dump-capture kernel, we can utilize the dump-capture kernel to save kernel dump
-+file, this can refer doc [1] chapter 'Write Out the Dump File'.
++The I3C protocol allows slaves to generate events on their own, and thus allows
++them to take temporary control of the bus.
 +
-+After get kernel dump file, we can use 'crash' tool + csdump.so extension to
-+extract trace data and generate 'perf.data' file:
++This mechanism is called IBI for In Band Interrupts, and as stated in the name,
++it allows devices to generate interrupts without requiring an external signal.
 +
-+  ./crash vmcore vmlinux
-+  crash> extend csdump.so
-+  crash> csdump output_dir
++During DAA, each device on the bus has been assigned an address, and this
++address will serve as a priority identifier to determine who wins if 2 different
++devices are generating an interrupt at the same moment on the bus (the lower the
++dynamic address the higher the priority).
 +
-+  We can see in the 'output_dir' there will generate out three files:
-+  output_dir/
-+  ├── cstrace.bin       -> trace raw data
-+  ├── metadata.bin      -> meta data
-+  └── perf.data         -> 'perf' format compatible file
++Masters are allowed to inhibit interrupts if they want to. This inhibition
++request can be broadcasted (applies to all devices) or sent to a specific
++device.
 +
-+Finally use 'perf' tool for offline analysis:
++I3C Hot-Join
++============
 +
-+  ./perf script -v -F cpu,event,ip,sym,symoff -i perf.data -k vmlinux --kallsyms /proc/kallsyms
-+  [001]         instructions:  ffff000008559ad0 pl011_console_write+0x90
-+  [001]         instructions:  ffff000008559230 pl011_read+0x0
-+  [001]         instructions:  ffff00000855924c pl011_read+0x1c
-+  [001]         instructions:  ffff000008559ae0 pl011_console_write+0xa0
-+  [001]         instructions:  ffff000008559ad0 pl011_console_write+0x90
-+  [001]         instructions:  ffff000008559230 pl011_read+0x0
-+  [001]         instructions:  ffff00000855924c pl011_read+0x1c
-+  [001]         instructions:  ffff000008559ae0 pl011_console_write+0xa0
-+  [001]         instructions:  ffff000008559ad0 pl011_console_write+0x90
-+  [001]         instructions:  ffff000008559230 pl011_read+0x0
-+  [001]         instructions:  ffff00000855924c pl011_read+0x1c
++The Hot-Join mechanism is similart to USB hotplug. This mechanism allows
++slaves to join the bus after it has been initialized by the master.
 +
-+[1] Documentation/kdump/kdump.txt
-+[2] Documentation/trace/coresight/coresight.txt
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7ee1fdc..cc1243b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1333,6 +1333,7 @@ S:	Maintained
- F:	drivers/hwtracing/coresight/*
- F:	Documentation/trace/coresight/coresight.txt
- F:	Documentation/trace/coresight/coresight-cpu-debug.txt
-+F:	Documentation/trace/coresight/coresight-panic-kdump.txt
- F:	Documentation/devicetree/bindings/arm/coresight.txt
- F:	Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt
- F:	Documentation/ABI/testing/sysfs-bus-coresight-devices-*
++This covers the following use cases:
++
++* the device is not powered when the bus is probed
++* the device is hotplugged on the bus through an extension board
++
++This mechanism is relying on slave events to inform the master that a new
++device joined the bus and is waiting for a dynamic address.
++
++The master is then free to address the request as it wishes: ignore it or
++assign a dynamic address to the slave.
++
++I3C transfer types
++==================
++
++If you omit SMBus (which is just a standardization on how to access registers
++exposed by I2C devices), I2C has only one transfer type.
++
++I3C defines 3 different classes of transfer in addition to I2C transfers which
++are here for backward compatibility with I2C devices.
++
++I3C CCC commands
++----------------
++
++CCC (Common Command Code) commands are meant to be used for anything that is
++related to bus management and all features that are common to a set of devices.
++
++CCC commands contain an 8-bit CCC id describing the command that is executed.
++The MSB of this id specifies whether this is a broadcast command (bit7 = 0) or a
++unicast one (bit7 = 1).
++
++The command ID can be followed by a payload. Depending on the command, this
++payload is either sent by the master sending the command (write CCC command),
++or sent by the slave receiving the command (read CCC command). Of course, read
++accesses only apply to unicast commands.
++Note that, when sending a CCC command to a specific device, the device address
++is passed in the first byte of the payload.
++
++The payload length is not explicitly passed on the bus, and should be extracted
++from the CCC id.
++
++Note that vendors can use a dedicated range of CCC ids for their own commands
++(0x61-0x7f and 0xe0-0xef).
++
++I3C Private SDR transfers
++-------------------------
++
++Private SDR (Single Data Rate) transfers should be used for anything that is
++device specific and does not require high transfer speed.
++
++It is the equivalent of I2C transfers but in the I3C world. Each transfer is
++passed the device address (dynamic address assigned during DAA), a payload
++and a direction.
++
++The only difference with I2C is that the transfer is much faster (typical SCL
++frequency is 12.5MHz).
++
++I3C HDR commands
++----------------
++
++HDR commands should be used for anything that is device specific and requires
++high transfer speed.
++
++The first thing attached to an HDR command is the HDR mode. There are currently
++3 different modes defined by the I3C specification (refer to the specification
++for more details):
++
++* HDR-DDR: Double Data Rate mode
++* HDR-TSP: Ternary Symbol Pure. Only usable on busses with no I2C devices
++* HDR-TSL: Ternary Symbol Legacy. Usable on busses with I2C devices
++
++When sending an HDR command, the whole bus has to enter HDR mode, which is done
++using a broadcast CCC command.
++Once the bus has entered a specific HDR mode, the master sends the HDR command.
++An HDR command is made of:
++
++* one 16-bits command word
++* N 16-bits data words
++
++Those words may be wrapped with specific preambles/post-ambles which depend on
++the chosen HDR mode and are detailed here (see the specification for more
++details).
++
++The 16-bits command word is made of:
++
++* bit[15]: direction bit, read is 1 write is 0
++* bit[14:8]: command code. Identifies the command being executed, the amount of
++  data words and their meaning
++* bit[7:1]: I3C address of the device this command is addressed to
++* bit[0]: reserved/parity-bit
++
++Backward compatibility with I2C devices
++=======================================
++
++The I3C protocol has been designed to be backward compatible with I2C devices.
++This backward compatibility allows one to connect a mix of I2C and I3C devices
++on the same bus, though, in order to be really efficient, I2C devices should
++be equipped with 50 ns spike filters.
++
++I2C devices can't be discovered like I3C ones and have to be statically
++declared. In order to let the master know what these devices are capable of
++(both in terms of bus related limitations and functionalities), the software
++has to provide some information, which is done through the LVR (Legacy I2C
++Virtual Register).
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index e9b41b1634f3..2563a4e19e08 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -30,6 +30,7 @@ available subsections can be seen below.
+    pci
+    spi
+    i2c
++   i3c/index
+    hsi
+    edac
+    scsi
 -- 
-2.7.4
+2.14.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
