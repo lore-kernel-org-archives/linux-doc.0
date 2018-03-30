@@ -5,56 +5,71 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C08557D0F4
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 17:41:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6A6F67DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 18:31:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751264AbeC3Rl3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Mar 2018 13:41:29 -0400
-Received: from orcrist.hmeau.com ([104.223.48.154]:51558 "EHLO
-        deadmen.hmeau.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751327AbeC3Rl2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Mar 2018 13:41:28 -0400
-Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
-        by deadmen.hmeau.com with esmtp (Exim 4.84_2 #2 (Debian))
-        id 1f1y1f-0001hX-1N; Sat, 31 Mar 2018 01:41:19 +0800
-Received: from herbert by gondobar with local (Exim 4.84_2)
-        (envelope-from <herbert@gondor.apana.org.au>)
-        id 1f1y1c-0007N3-Ri; Sat, 31 Mar 2018 01:41:16 +0800
-Date:   Sat, 31 Mar 2018 01:41:16 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] crypto: doc - clarify hash callbacks state machine
-Message-ID: <20180330174116.GF28120@gondor.apana.org.au>
-References: <20180305103945.3517-1-horia.geanta@nxp.com>
- <20180320075612.22719-1-horia.geanta@nxp.com>
+        id S1751938AbeC3Sbk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Mar 2018 14:31:40 -0400
+Received: from isilmar-4.linta.de ([136.243.71.142]:48970 "EHLO
+        isilmar-4.linta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751180AbeC3Sbk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Mar 2018 14:31:40 -0400
+Received: from light.dominikbrodowski.net (isilmar.linta [10.0.0.1])
+        by isilmar-4.linta.de (Postfix) with ESMTPS id A275F2008E3;
+        Fri, 30 Mar 2018 18:31:38 +0000 (UTC)
+Received: by light.dominikbrodowski.net (Postfix, from userid 1000)
+        id F15B920146; Fri, 30 Mar 2018 20:31:17 +0200 (CEST)
+Date:   Fri, 30 Mar 2018 20:31:17 +0200
+From:   Dominik Brodowski <linux@dominikbrodowski.net>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        viro@zeniv.linux.org.uk, x86@kernel.org,
+        torvalds@linux-foundation.org, mingo@kernel.org,
+        tglx@linutronix.de, luto@amacapital.net
+Subject: Re: [PATCH] syscalls: define and explain goal to not call syscalls
+ in the kernel
+Message-ID: <20180330183117.GA11444@light.dominikbrodowski.net>
+References: <20180325162527.GA17492@light.dominikbrodowski.net>
+ <20180330093518.3d8a92f3@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180320075612.22719-1-horia.geanta@nxp.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20180330093518.3d8a92f3@lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 20, 2018 at 09:56:12AM +0200, Horia Geantă wrote:
-> Add a note that it is perfectly legal to "abandon" a request object:
-> - call .init() and then (as many times) .update()
-> - _not_ call any of .final(), .finup() or .export() at any point in
->   future
-> 
-> Link: https://lkml.kernel.org/r/20180222114741.GA27631@gondor.apana.org.au
-> Signed-off-by: Horia Geantă <horia.geanta@nxp.com>
+Jon,
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+On Fri, Mar 30, 2018 at 09:35:18AM -0600, Jonathan Corbet wrote:
+> On Sun, 25 Mar 2018 18:25:27 +0200
+> Dominik Brodowski <linux@dominikbrodowski.net> wrote:
+> 
+> > As there have been multiple inquiries on the rationale of my patchsets
+> > removing in-kernel calls to sys_xyzzy(), here is an updated patch 01/NN
+> > which I will push upstream for v4.17-rc1. I will also include a reference
+> > to this mail (and therefore to the explanation below) in all related
+> > patches of the series. Any improvements, hints, suggestions, spelling
+> > fixes, and/or objections?
+> 
+> I have no objections to the text, but I do wonder about the placement.
+> The "adding syscalls" document isn't about *invoking* them; I suspect that
+> few people will see it there.  The coding-style document isn't quite right
+> either, but I wonder if it might not be a better place in the short term?
+
+Well, most of the existing instances where syscalls were called in the
+kernel were common codepaths for old and new syscalls or native and compat
+syscalls, and syscall multiplexers like sys_ipc() which got replaced or
+superseded by many new syscalls. That's what lead me to 
+Documentation/process/adding-syscalls.rst . I'm happy to move this text to
+Documentation/process/coding-style.rst (as new section 21?), or even to
+Documentation/process/do-not-call-syscalls.rst . Just let me know what you
+prefer me to push upstream.
+
+Thanks,
+	Dominik
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
