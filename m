@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E8BCB7E88F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 03:17:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1FD827E892
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 03:17:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752774AbeC3DQH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Mar 2018 23:16:07 -0400
-Received: from mail-wr0-f195.google.com ([209.85.128.195]:38930 "EHLO
-        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752769AbeC3DQC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Mar 2018 23:16:02 -0400
-Received: by mail-wr0-f195.google.com with SMTP id c24so6978646wrc.6
-        for <linux-doc@vger.kernel.org>; Thu, 29 Mar 2018 20:16:01 -0700 (PDT)
+        id S1752803AbeC3DQM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Mar 2018 23:16:12 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:44473 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752728AbeC3DQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Mar 2018 23:16:10 -0400
+Received: by mail-wr0-f196.google.com with SMTP id u46so6969892wrc.11
+        for <linux-doc@vger.kernel.org>; Thu, 29 Mar 2018 20:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=SC+Y9Dd4/hPslmxENYAISjheGeV9ItZkUbxFlXes27Q=;
-        b=Ez0z0TLimIW5/ySEPbsKJvIbpYuKaAjYJVSBS04vuM0HFFjc2OmbhT7YYE5XgSckXF
-         P7Soi5whNISe77b45I7HidulQ8eUSlC1TvBdrvpysVoIkqvuw+H9qnEQtsuEthImEMcd
-         NY7iFHyvNQgB1uLvYnCse0RDZbGNkUaRBAcWQ=
+        bh=Q2kDM5YY0TwXhvJ2W20sii7DcFnE2eb+0roImoIBLhE=;
+        b=GMNqn4QNPZXZgme8ePFR/DJMWeGcXC9pfBLGKxc8Mz3yfap/sCbEP1P+fm/TwPFf98
+         PSE/aUa17YScshfBnO9QWfqbmV1jsMnGuT62Tl7kKpNFrMfZgRiMAnudRwju5ZGj222D
+         1xpXEnyk2ICSOukguQsmIDSdGrzsQbIhGEZKo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=SC+Y9Dd4/hPslmxENYAISjheGeV9ItZkUbxFlXes27Q=;
-        b=DxYxbL+eH8DREfTQMXBq7dSa2SnAv8CJXTOtHn2NLFnl6UsN3KhBGQxps9D9LZQJge
-         3gGR1WYD4DOEYvtmVQ26neuQVYmqqqI/jAtjYegw0SrA/9DZaveyedeQVFVHzLATpL/u
-         vcE7W7N2o6+xsZKt3NRMLY63xmJ1ptZMUIzHaNzxOh6Iw8lVg2xADt0dELdchKlKPY6h
-         0ybVtTnw/vTKn5Q1eLkjcfEI7xOXvQmaNVe+jXtf05bGsojzoHzvltfftyKh9VogQYeb
-         leM892fxitlDiQxIpTyfv4E8qBeswiP1WQF4Tz2Oa2zkRcM3zXh5nSm+or/d3lMpJ+y4
-         AUGg==
-X-Gm-Message-State: AElRT7H+UZvm2YLwumf8wP+xvpp4iYvh/3mTJZMNBQqFWD1wyShxhGqp
-        MNCr0yFkBoGdOBUssdAX5Mr4lg==
-X-Google-Smtp-Source: AIpwx49EuRTRNjrhIqET/ZDRC554AasLY9Vi2sj8FqY047A6JgmBRx7fdZxqOe5/uI3OZzXqJ7iGiA==
-X-Received: by 10.223.154.47 with SMTP id z44mr8040993wrb.239.1522379760693;
-        Thu, 29 Mar 2018 20:16:00 -0700 (PDT)
+        bh=Q2kDM5YY0TwXhvJ2W20sii7DcFnE2eb+0roImoIBLhE=;
+        b=EzeE/ToaweWIHRNyrxYJhrOHdFtxsyIzVgcnuu+jsrWVHS808+c5znKYtuIDi6LmKD
+         ax9Zc87omD5zr12Ial9Slji0rFew0MqjOmLrzU79jExf0gfQ+nfUitizpZFqiCUHp4oZ
+         xKQsLYl4cnvHfJm0x4GOCWpTJdmOgrYAyhE8U4/Gw2jWu9NL8ARy3LGg5bKwedKwSZ9O
+         BwdwCcR4aeygMod3WHsBTWcBbI1ymGc6hOax25ESRqFMHAPDVqg8wXOOmLO1+c+0uiCV
+         1satjktd6BgxdqttwQs1wJex/vEZvPVfE/UZ1YPv3AFj+G8AkZ8AIeuXCPcplsHJGeln
+         tHng==
+X-Gm-Message-State: AElRT7FbkhUWptws86oiLUZHWpDkW0B9YP2kJGueX6d3sVKStzP8om+C
+        VOPCQNbNz2YTWbxTM7Rza5nTXw==
+X-Google-Smtp-Source: AIpwx4/Hx8k47AgYUFTHesg40c/ixXuEBaOkWFXadUEmF3FYWomfV2Ez+AlODfglrazTqGUzpTHqcA==
+X-Received: by 10.223.227.73 with SMTP id n9mr8011978wrj.134.1522379769345;
+        Thu, 29 Mar 2018 20:16:09 -0700 (PDT)
 Received: from localhost.localdomain (li622-172.members.linode.com. [212.71.249.172])
-        by smtp.gmail.com with ESMTPSA id z9sm12798903wrz.4.2018.03.29.20.15.56
+        by smtp.gmail.com with ESMTPSA id z9sm12798903wrz.4.2018.03.29.20.16.05
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 29 Mar 2018 20:15:59 -0700 (PDT)
+        Thu, 29 Mar 2018 20:16:08 -0700 (PDT)
 From:   Leo Yan <leo.yan@linaro.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
@@ -52,9 +52,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         Kim Phillips <kim.phillips@arm.com>,
         Mike Leach <mike.leach@linaro.org>
 Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [PATCH v4 3/6] coresight: Support panic kdump functionality
-Date:   Fri, 30 Mar 2018 11:15:21 +0800
-Message-Id: <1522379724-30648-4-git-send-email-leo.yan@linaro.org>
+Subject: [PATCH v4 5/6] coresight: Set and clear sink device handler for kdump node
+Date:   Fri, 30 Mar 2018 11:15:23 +0800
+Message-Id: <1522379724-30648-6-git-send-email-leo.yan@linaro.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1522379724-30648-1-git-send-email-leo.yan@linaro.org>
 References: <1522379724-30648-1-git-send-email-leo.yan@linaro.org>
@@ -63,315 +63,107 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After kernel panic happens, Coresight tracing data has much useful info
-which can be used for analysis.  For example, the trace info from ETB
-RAM can be used to check the CPU execution flows before the crash.  So
-we can save the tracing data from sink devices, and rely on kdump to
-save DDR content and uses "crash" tool to extract Coresight dumping
-from the vmcore file.
+If Coresight path is enabled for specific CPU, the sink device handler
+need to be set to kdump node; on the other hand we also need to clear
+sink device handler when path is disabled.
 
-This patch is to add a simple framework to support panic dump
-functionality; it registers panic notifier, and provide the helper
-functions coresight_kdump_source()/coresight_kdump_sink() so Coresight
-source and sink devices can be recorded into Coresight kdump node for
-kernel panic kdump.
-
-When kernel panic happens, the notifier iterates dump array and invoke
-callback function to dump tracing data.  Later the tracing data can be
-used to reverse execution flow before the kernel panic.
+This patch sets sink devices handler for kdump node for two separate
+Coresight enabling modes: CS_MODE_SYSFS and CS_MODE_PERF; and clear the
+handler when Coresight is disabled.
 
 Signed-off-by: Leo Yan <leo.yan@linaro.org>
 ---
- drivers/hwtracing/coresight/Kconfig                |   9 +
- drivers/hwtracing/coresight/Makefile               |   1 +
- .../hwtracing/coresight/coresight-panic-kdump.c    | 199 +++++++++++++++++++++
- drivers/hwtracing/coresight/coresight-priv.h       |  12 ++
- include/linux/coresight.h                          |   4 +
- 5 files changed, 225 insertions(+)
- create mode 100644 drivers/hwtracing/coresight/coresight-panic-kdump.c
+ drivers/hwtracing/coresight/coresight-etm-perf.c |  5 +++++
+ drivers/hwtracing/coresight/coresight.c          | 16 ++++++++++++++--
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
-index ef9cb3c..3089abf 100644
---- a/drivers/hwtracing/coresight/Kconfig
-+++ b/drivers/hwtracing/coresight/Kconfig
-@@ -103,4 +103,13 @@ config CORESIGHT_CPU_DEBUG
- 	  properly, please refer Documentation/trace/coresight-cpu-debug.txt
- 	  for detailed description and the example for usage.
+diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+index 8a0ad77..f8b159c 100644
+--- a/drivers/hwtracing/coresight/coresight-etm-perf.c
++++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+@@ -139,6 +139,8 @@ static void free_event_data(struct work_struct *work)
+ 	for_each_cpu(cpu, mask) {
+ 		if (!(IS_ERR_OR_NULL(event_data->path[cpu])))
+ 			coresight_release_path(event_data->path[cpu]);
++
++		coresight_kdump_sink(cpu, NULL);
+ 	}
  
-+config CORESIGHT_PANIC_KDUMP
-+	bool "CoreSight Panic Kdump driver"
-+	depends on ARM || ARM64
-+	help
-+	  This driver provides panic kdump functionality for CoreSight devices.
-+	  When kernel panic happen Coresight device supplied callback function
-+	  is to dump trace data to memory. From then on, kdump can be used to
-+	  extract the trace data from kernel dump file.
+ 	kfree(event_data->path);
+@@ -238,6 +240,9 @@ static void *etm_setup_aux(int event_cpu, void **pages,
+ 		event_data->path[cpu] = coresight_build_path(csdev, sink);
+ 		if (IS_ERR(event_data->path[cpu]))
+ 			goto err;
 +
- endif
-diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-index 61db9dd..946fe19 100644
---- a/drivers/hwtracing/coresight/Makefile
-+++ b/drivers/hwtracing/coresight/Makefile
-@@ -18,3 +18,4 @@ obj-$(CONFIG_CORESIGHT_SOURCE_ETM4X) += coresight-etm4x.o \
- obj-$(CONFIG_CORESIGHT_DYNAMIC_REPLICATOR) += coresight-dynamic-replicator.o
- obj-$(CONFIG_CORESIGHT_STM) += coresight-stm.o
- obj-$(CONFIG_CORESIGHT_CPU_DEBUG) += coresight-cpu-debug.o
-+obj-$(CONFIG_CORESIGHT_PANIC_KDUMP) += coresight-panic-kdump.o
-diff --git a/drivers/hwtracing/coresight/coresight-panic-kdump.c b/drivers/hwtracing/coresight/coresight-panic-kdump.c
-new file mode 100644
-index 0000000..f4589e9
---- /dev/null
-+++ b/drivers/hwtracing/coresight/coresight-panic-kdump.c
-@@ -0,0 +1,199 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2017~2018 Linaro Limited.
-+#include <linux/coresight.h>
-+#include <linux/coresight-pmu.h>
-+#include <linux/cpumask.h>
-+#include <linux/device.h>
-+#include <linux/init.h>
-+#include <linux/list.h>
-+#include <linux/mm.h>
-+#include <linux/perf_event.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+#include "coresight-priv.h"
-+
-+/**
-+ * struct coresight_kdump_node - Node information for dump
-+ * @source_csdev:	Handler for source coresight device
-+ * @sink_csdev:		Handler for sink coresight device
-+ */
-+struct coresight_kdump_node {
-+	struct coresight_device *source_csdev;
-+	struct coresight_device *sink_csdev;
-+};
-+
-+static DEFINE_SPINLOCK(coresight_kdump_lock);
-+static struct coresight_kdump_node *coresight_kdump_nodes;
-+static struct notifier_block coresight_kdump_nb;
-+
-+/**
-+ * coresight_kdump_source - Set source dump info for specific CPU
-+ * @cpu:	CPU ID
-+ * @csdev:	Source device structure handler
-+ * @data:	Pointer for source device metadata buffer
-+ * @data_sz:	Size of source device metadata buffer
-+ *
-+ * This function is a helper function which is used to set/clear source device
-+ * handler and metadata when the tracer is enabled; and it can be used to clear
-+ * source device related info when the tracer is disabled.
-+ *
-+ * Returns:	0 on success, negative errno otherwise.
-+ */
-+int coresight_kdump_source(int cpu, struct coresight_device *csdev,
-+			   char *data, unsigned int data_sz)
-+{
-+	struct coresight_kdump_node *node;
-+	unsigned long flags;
-+
-+	if (!coresight_kdump_nodes)
-+		return -EPROBE_DEFER;
-+
-+	spin_lock_irqsave(&coresight_kdump_lock, flags);
-+
-+	node = &coresight_kdump_nodes[cpu];
-+	node->source_csdev = csdev;
-+
-+	csdev->kdump_buf = data;
-+	csdev->kdump_buf_sz = data_sz;
-+
-+	spin_unlock_irqrestore(&coresight_kdump_lock, flags);
-+	return 0;
-+}
-+
-+/**
-+ * coresight_kdump_sink - Set sink device handler for specific CPU
-+ * @cpu:	CPU ID
-+ * @csdev:	Sink device structure handler
-+ *
-+ * This function is a helper function which is used to set sink device handler
-+ * when the Coresight path has been enabled for specific CPU; and it can be used
-+ * to clear sink device handler when the path is disabled.
-+ *
-+ * Returns:	0 on success, negative errno otherwise.
-+ */
-+int coresight_kdump_sink(int cpu, struct coresight_device *csdev)
-+{
-+	struct coresight_kdump_node *node;
-+	unsigned long flags;
-+
-+	if (!coresight_kdump_nodes)
-+		return -EPROBE_DEFER;
-+
-+	spin_lock_irqsave(&coresight_kdump_lock, flags);
-+
-+	node = &coresight_kdump_nodes[cpu];
-+	node->sink_csdev = csdev;
-+
-+	spin_unlock_irqrestore(&coresight_kdump_lock, flags);
-+	return 0;
-+}
-+
-+/**
-+ * coresight_kdump_sink_cb - Invoke sink callback for specific CPU
-+ * @cpu:	CPU ID
-+ *
-+ * This function is to invoke sink device corresponding callback.  It needs
-+ * to check two cases: one case is the CPU has not been enabled for Coresight
-+ * path so there totally has no trace data for the CPU, another case is the
-+ * CPU shares the same sink device with other CPUs but the tracing data has
-+ * been dumped by previous CPUs; it skips dump for these two cases.
-+ */
-+static void coresight_kdump_sink_cb(int cpu)
-+{
-+	struct coresight_kdump_node *node;
-+	struct coresight_device *csdev;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&coresight_kdump_lock, flags);
-+
-+	node = &coresight_kdump_nodes[cpu];
-+	csdev = node->sink_csdev;
-+
-+	/* Path has not been enabled */
-+	if (!csdev)
-+		goto skip_dump;
-+
-+	/* Have been dumped by previous CPU */
-+	if (csdev->kdump_buf)
-+		goto skip_dump;
-+
-+	/* Invoke panic callback */
-+	csdev = coresight_kdump_nodes[cpu].sink_csdev;
-+	if (csdev && sink_ops(csdev)->panic_cb)
-+		sink_ops(csdev)->panic_cb(csdev);
-+
-+skip_dump:
-+	spin_unlock_irqrestore(&coresight_kdump_lock, flags);
-+}
-+
-+/**
-+ * coresight_kdump_notify - Invoke panic dump callbacks
-+ * @nb:		Pointer to notifier block
-+ * @event:	Notification reason
-+ * @_unused:	Pointer to notification data object, unused
-+ *
-+ * This function is called when panic happens to invoke dump callbacks, it takes
-+ * panic CPU tracing data with high priority to firstly invoke panic CPU sink
-+ * callback function, then the notifier iterates callback functions one by one
-+ * for other CPUs.  If one sink device is shared among CPUs, the sink panic
-+ * callback is invoked for the first traversed CPU node and other sequential
-+ * CPUs are skipped.
-+ *
-+ * Returns:	0 on success.
-+ */
-+static int coresight_kdump_notify(struct notifier_block *nb,
-+				  unsigned long event, void *_unused)
-+{
-+	int cpu, first;
-+
-+	/* Give panic CPU trace data with high priority */
-+	first = atomic_read(&panic_cpu);
-+	coresight_kdump_sink_cb(first);
-+
-+	/* Dump rest CPUs trace data */
-+	for (cpu = 0; cpu < num_possible_cpus(); cpu++) {
-+		if (cpu == first)
-+			continue;
-+
-+		coresight_kdump_sink_cb(cpu);
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * coresight_kdump_init - Coresight kdump module initialization
-+ *
-+ * This function allcoates dump array and register panic norifier.
-+ *
-+ * Returns:	0 on success, negative errno otherwise.
-+ */
-+static int __init coresight_kdump_init(void)
-+{
-+	int ret;
-+
-+	coresight_kdump_nodes = kmalloc_array(num_possible_cpus(),
-+					      sizeof(*coresight_kdump_nodes),
-+					      GFP_KERNEL);
-+	if (!coresight_kdump_nodes) {
-+		pr_err("%s: kmalloc failed\n", __func__);
-+		return -ENOMEM;
-+	}
-+
-+	memset(coresight_kdump_nodes, 0,
-+	       num_possible_cpus() * sizeof(*coresight_kdump_nodes));
-+
-+	coresight_kdump_nb.notifier_call = coresight_kdump_notify;
-+	ret = atomic_notifier_chain_register(&panic_notifier_list,
-+					     &coresight_kdump_nb);
-+	if (ret) {
-+		pr_err("%s: unable to register notifier: %d\n",
-+		       __func__, ret);
-+		kfree(coresight_kdump_nodes);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+postcore_initcall(coresight_kdump_init);
-diff --git a/drivers/hwtracing/coresight/coresight-priv.h b/drivers/hwtracing/coresight/coresight-priv.h
-index f1d0e21d..76d27d6 100644
---- a/drivers/hwtracing/coresight/coresight-priv.h
-+++ b/drivers/hwtracing/coresight/coresight-priv.h
-@@ -151,4 +151,16 @@ static inline int etm_readl_cp14(u32 off, unsigned int *val) { return 0; }
- static inline int etm_writel_cp14(u32 off, u32 val) { return 0; }
- #endif
++		if (coresight_kdump_sink(cpu, sink))
++			goto err;
+ 	}
  
-+#ifdef CONFIG_CORESIGHT_PANIC_KDUMP
-+extern int coresight_kdump_source(int cpu, struct coresight_device *csdev,
-+				  char *data, unsigned int data_sz);
-+extern int coresight_kdump_sink(int cpu, struct coresight_device *csdev);
-+#else
-+static inline int coresight_kdump_source(int cpu,
-+		struct coresight_device *csdev,
-+		char *data, unsigned int data_sz) { return 0; }
-+static inline void coresight_kdump_sink(int cpu,
-+		struct coresight_device *csdev) { return 0; }
-+#endif
+ 	if (!sink_ops(sink)->alloc_buffer)
+diff --git a/drivers/hwtracing/coresight/coresight.c b/drivers/hwtracing/coresight/coresight.c
+index 389c4ba..483a1f7 100644
+--- a/drivers/hwtracing/coresight/coresight.c
++++ b/drivers/hwtracing/coresight/coresight.c
+@@ -272,6 +272,7 @@ static int coresight_enable_source(struct coresight_device *csdev, u32 mode)
+ static bool coresight_disable_source(struct coresight_device *csdev)
+ {
+ 	if (atomic_dec_return(csdev->refcnt) == 0) {
 +
- #endif
-diff --git a/include/linux/coresight.h b/include/linux/coresight.h
-index d950dad..89aad8d 100644
---- a/include/linux/coresight.h
-+++ b/include/linux/coresight.h
-@@ -171,6 +171,8 @@ struct coresight_device {
- 	bool orphan;
- 	bool enable;	/* true only if configured as part of a path */
- 	bool activated;	/* true only if a sink is part of a path */
-+	char *kdump_buf;
-+	unsigned int kdump_buf_sz;
- };
+ 		if (source_ops(csdev)->disable)
+ 			source_ops(csdev)->disable(csdev, NULL);
+ 		csdev->enable = false;
+@@ -612,6 +613,13 @@ int coresight_enable(struct coresight_device *csdev)
+ 	if (ret)
+ 		goto err_source;
  
- #define to_coresight_device(d) container_of(d, struct coresight_device, dev)
-@@ -189,6 +191,7 @@ struct coresight_device {
-  * @set_buffer:		initialises buffer mechanic before a trace session.
-  * @reset_buffer:	finalises buffer mechanic after a trace session.
-  * @update_buffer:	update buffer pointers after a trace session.
-+ * @panic_cb:		hook function for panic notifier.
-  */
- struct coresight_ops_sink {
- 	int (*enable)(struct coresight_device *csdev, u32 mode);
-@@ -205,6 +208,7 @@ struct coresight_ops_sink {
- 	void (*update_buffer)(struct coresight_device *csdev,
- 			      struct perf_output_handle *handle,
- 			      void *sink_config);
-+	void (*panic_cb)(void *data);
- };
++	cpu = source_ops(csdev)->cpu_id(csdev);
++
++	/* Set sink device handler into kdump node */
++	ret = coresight_kdump_sink(cpu, sink);
++	if (ret)
++		goto err_kdump;
++
+ 	switch (subtype) {
+ 	case CORESIGHT_DEV_SUBTYPE_SOURCE_PROC:
+ 		/*
+@@ -621,7 +629,6 @@ int coresight_enable(struct coresight_device *csdev)
+ 		 * be a single session per tracer (when working from sysFS)
+ 		 * a per-cpu variable will do just fine.
+ 		 */
+-		cpu = source_ops(csdev)->cpu_id(csdev);
+ 		per_cpu(tracer_path, cpu) = path;
+ 		break;
+ 	case CORESIGHT_DEV_SUBTYPE_SOURCE_SOFTWARE:
+@@ -636,6 +643,9 @@ int coresight_enable(struct coresight_device *csdev)
+ 	mutex_unlock(&coresight_mutex);
+ 	return ret;
  
- /**
++err_kdump:
++	coresight_disable_source(csdev);
++
+ err_source:
+ 	coresight_disable_path(path);
+ 
+@@ -659,9 +669,10 @@ void coresight_disable(struct coresight_device *csdev)
+ 	if (!csdev->enable || !coresight_disable_source(csdev))
+ 		goto out;
+ 
++	cpu = source_ops(csdev)->cpu_id(csdev);
++
+ 	switch (csdev->subtype.source_subtype) {
+ 	case CORESIGHT_DEV_SUBTYPE_SOURCE_PROC:
+-		cpu = source_ops(csdev)->cpu_id(csdev);
+ 		path = per_cpu(tracer_path, cpu);
+ 		per_cpu(tracer_path, cpu) = NULL;
+ 		break;
+@@ -674,6 +685,7 @@ void coresight_disable(struct coresight_device *csdev)
+ 		break;
+ 	}
+ 
++	coresight_kdump_sink(cpu, NULL);
+ 	coresight_disable_path(path);
+ 	coresight_release_path(path);
+ 
 -- 
 2.7.4
 
