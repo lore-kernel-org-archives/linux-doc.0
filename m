@@ -1,67 +1,206 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D9F97DD31
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 15:35:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7C3E7D0F4
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Mar 2018 17:08:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753303AbeC3PfW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Mar 2018 11:35:22 -0400
-Received: from ms.lwn.net ([45.79.88.28]:59900 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752502AbeC3PfU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Mar 2018 11:35:20 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1752166AbeC3RIi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Mar 2018 13:08:38 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:55912 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751373AbeC3RIg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Mar 2018 13:08:36 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id D360D60F6C; Fri, 30 Mar 2018 17:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1522429715;
+        bh=bUrerXI+KBkoJW1kTjjtGMiTr8ju4QZNYa1/4T4CQWw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bjLwfAIeMec/2gWkKdNeL36hSLZnJrwW9E6EWpQntbnivEFgSqjVOw2y1KjFQrITs
+         Cof6mytnPsc9mVG8cQsMwMj6WjwMbdGZ9vd6FF7pn57LEfudkaqQ1M9gEmiKMGa266
+         wb706bvLzb+K7FfGFKO61QNK+z3OQj2cmO4XuhvI=
+Received: from codeaurora.org (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2A750AAB;
-        Fri, 30 Mar 2018 15:35:19 +0000 (UTC)
-Date:   Fri, 30 Mar 2018 09:35:18 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dominik Brodowski <linux@dominikbrodowski.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        viro@zeniv.linux.org.uk, x86@kernel.org,
-        torvalds@linux-foundation.org, mingo@kernel.org,
-        tglx@linutronix.de, luto@amacapital.net
-Subject: Re: [PATCH] syscalls: define and explain goal to not call syscalls
- in the kernel
-Message-ID: <20180330093518.3d8a92f3@lwn.net>
-In-Reply-To: <20180325162527.GA17492@light.dominikbrodowski.net>
-References: <20180325162527.GA17492@light.dominikbrodowski.net>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        (Authenticated sender: kramasub@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0323B60ACA;
+        Fri, 30 Mar 2018 17:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1522429715;
+        bh=bUrerXI+KBkoJW1kTjjtGMiTr8ju4QZNYa1/4T4CQWw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bjLwfAIeMec/2gWkKdNeL36hSLZnJrwW9E6EWpQntbnivEFgSqjVOw2y1KjFQrITs
+         Cof6mytnPsc9mVG8cQsMwMj6WjwMbdGZ9vd6FF7pn57LEfudkaqQ1M9gEmiKMGa266
+         wb706bvLzb+K7FfGFKO61QNK+z3OQj2cmO4XuhvI=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0323B60ACA
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
+From:   Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+To:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, wsa@the-dreams.de
+Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
+        dianders@chromium.org, bjorn.andersson@linaro.org,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Girish Mahadevan <girishm@codeaurora.org>
+Subject: [PATCH v6 1/5] dt-bindings: soc: qcom: Add device tree binding for GENI SE
+Date:   Fri, 30 Mar 2018 11:08:16 -0600
+Message-Id: <1522429700-13083-2-git-send-email-kramasub@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org>
+References: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 25 Mar 2018 18:25:27 +0200
-Dominik Brodowski <linux@dominikbrodowski.net> wrote:
+Add device tree binding support for the QCOM GENI SE driver.
 
-> As there have been multiple inquiries on the rationale of my patchsets
-> removing in-kernel calls to sys_xyzzy(), here is an updated patch 01/NN
-> which I will push upstream for v4.17-rc1. I will also include a reference
-> to this mail (and therefore to the explanation below) in all related
-> patches of the series. Any improvements, hints, suggestions, spelling
-> fixes, and/or objections?
+Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
+Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+---
+ .../devicetree/bindings/soc/qcom/qcom,geni-se.txt  | 119 +++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
 
-I have no objections to the text, but I do wonder about the placement.
-The "adding syscalls" document isn't about *invoking* them; I suspect that
-few people will see it there.  The coding-style document isn't quite right
-either, but I wonder if it might not be a better place in the short term?
+diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt b/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
+new file mode 100644
+index 0000000..d330c73
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
+@@ -0,0 +1,119 @@
++Qualcomm Technologies, Inc. GENI Serial Engine QUP Wrapper Controller
++
++Generic Interface (GENI) based Qualcomm Universal Peripheral (QUP) wrapper
++is a programmable module for supporting a wide range of serial interfaces
++like UART, SPI, I2C, I3C, etc. A single QUP module can provide upto 8 Serial
++Interfaces, using its internal Serial Engines. The GENI Serial Engine QUP
++Wrapper controller is modeled as a node with zero or more child nodes each
++representing a serial engine.
++
++Required properties:
++- compatible:		Must be "qcom,geni-se-qup".
++- reg:			Must contain QUP register address and length.
++- clock-names:		Must contain "m-ahb" and "s-ahb".
++- clocks:		AHB clocks needed by the device.
++
++Required properties if child node exists:
++- #address-cells: 	Must be <1> for Serial Engine Address
++- #size-cells: 		Must be <1> for Serial Engine Address Size
++- ranges: 		Must be present
++
++Properties for children:
++
++A GENI based QUP wrapper controller node can contain 0 or more child nodes
++representing serial devices.  These serial devices can be a QCOM UART, I2C
++controller, SPI controller, or some combination of aforementioned devices.
++Please refer below the child node definitions for the supported serial
++interface protocols.
++
++Qualcomm Technologies Inc. GENI Serial Engine based I2C Controller
++
++Required properties:
++- compatible:		Must be "qcom,geni-i2c".
++- reg: 			Must contain QUP register address and length.
++- interrupts: 		Must contain I2C interrupt.
++- clock-names: 		Must contain "se".
++- clocks: 		Serial engine core clock needed by the device.
++- #address-cells:	Must be <1> for I2C device address.
++- #size-cells:		Must be <0> as I2C addresses have no size component.
++
++Optional property:
++- clock-frequency:	Desired I2C bus clock frequency in Hz.
++			When missing default to 400000Hz.
++
++Child nodes should conform to I2C bus binding as described in i2c.txt.
++
++Qualcomm Technologies Inc. GENI Serial Engine based UART Controller
++
++Required properties:
++- compatible:		Must be "qcom,geni-debug-uart".
++- reg: 			Must contain UART register location and length.
++- interrupts: 		Must contain UART core interrupts.
++- clock-names:		Must contain "se".
++- clocks:		Serial engine core clock needed by the device.
++
++Qualcomm Technologies Inc. GENI Serial Engine based SPI Controller
++
++Required properties:
++- compatible:		Must contain "qcom,geni-spi".
++- reg:			Must contain SPI register location and length.
++- interrupts:		Must contain SPI controller interrupts.
++- clock-names:		Must contain "se".
++- clocks:		Serial engine core clock needed by the device.
++- spi-max-frequency:	Specifies maximum SPI clock frequency, units - Hz.
++- #address-cells:	Must be <1> to define a chip select address on
++			the SPI bus.
++- #size-cells:		Must be <0>.
++
++SPI slave nodes must be children of the SPI master node and conform to SPI bus
++binding as described in Documentation/devicetree/bindings/spi/spi-bus.txt.
++
++Example:
++	geniqup@8c0000 {
++		compatible = "qcom,geni-se-qup";
++		reg = <0x8c0000 0x6000>;
++		clock-names = "m-ahb", "s-ahb";
++		clocks = <&clock_gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
++			<&clock_gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		i2c0: i2c@a94000 {
++			compatible = "qcom,geni-i2c";
++			reg = <0xa94000 0x4000>;
++			interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>;
++			clock-names = "se";
++			clocks = <&clock_gcc GCC_QUPV3_WRAP0_S5_CLK>;
++			pinctrl-names = "default", "sleep";
++			pinctrl-0 = <&qup_1_i2c_5_active>;
++			pinctrl-1 = <&qup_1_i2c_5_sleep>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		uart0: serial@a88000 {
++			compatible = "qcom,geni-debug-uart";
++			reg = <0xa88000 0x7000>;
++			interrupts = <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
++			clock-names = "se";
++			clocks = <&clock_gcc GCC_QUPV3_WRAP0_S0_CLK>;
++			pinctrl-names = "default", "sleep";
++			pinctrl-0 = <&qup_1_uart_3_active>;
++			pinctrl-1 = <&qup_1_uart_3_sleep>;
++		};
++
++		spi0: spi@a84000 {
++			compatible = "qcom,geni-spi";
++			reg = <0xa84000 0x4000>;
++			interrupts = <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>;
++			clock-names = "se";
++			clocks = <&clock_gcc GCC_QUPV3_WRAP0_S0_CLK>;
++			pinctrl-names = "default", "sleep";
++			pinctrl-0 = <&qup_1_spi_2_active>;
++			pinctrl-1 = <&qup_1_spi_2_sleep>;
++			spi-max-frequency = <19200000>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++	}
+-- 
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-What we may really need is an "assorted rules" document that sits near
-coding style; we can put stuff like this text, "volatile considered
-harmful", and so on there.
-
-Thanks,
-
-jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
