@@ -1,179 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B32C57DD32
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Apr 2018 06:39:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B99067E22E
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Apr 2018 21:59:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750998AbeDAGjO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 1 Apr 2018 02:39:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38792 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1750910AbeDAGjL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Apr 2018 02:39:11 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w316aV2j071192
-        for <linux-doc@vger.kernel.org>; Sun, 1 Apr 2018 02:39:11 -0400
-Received: from e06smtp10.uk.ibm.com (e06smtp10.uk.ibm.com [195.75.94.106])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2h2rdv3ams-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sun, 01 Apr 2018 02:39:11 -0400
-Received: from localhost
-        by e06smtp10.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Sun, 1 Apr 2018 07:39:08 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp10.uk.ibm.com (192.168.101.140) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Sun, 1 Apr 2018 07:39:01 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w316d17n11075948;
-        Sun, 1 Apr 2018 06:39:01 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 28AEA52041;
-        Sun,  1 Apr 2018 06:30:13 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.182])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id AB04E5203F;
-        Sun,  1 Apr 2018 06:30:11 +0100 (BST)
-Date:   Sun, 1 Apr 2018 09:38:58 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        James Hogan <jhogan@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
-        linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 00/32] docs/vm: convert to ReST format
-References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20180329154607.3d8bda75@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180329154607.3d8bda75@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18040106-0040-0000-0000-0000042914C9
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18040106-0041-0000-0000-0000262C3B5D
-Message-Id: <20180401063857.GA3357@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-04-01_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804010070
+        id S1753935AbeDAV73 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 1 Apr 2018 17:59:29 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:52454 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1753915AbeDAV73 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 1 Apr 2018 17:59:29 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 68F5420F91
+        for <linux-doc@vger.kernel.org>; Sun,  1 Apr 2018 23:59:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1522619967; bh=l1XTm1ve16uqlW8Rq/wtJU6pD3yhxDbx+rrU1DCe44E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RITBptKO3F4t0EzN6GxenILDpcPWpH7IBP3DCTtMPuekegQRsVHfvtsmx3Z96s4M5
+         HHEY/T6kk9j6SIpNI8olm6b1Cq/Gk//cLeHOnAhnqOZYMbekaWUDUT5t/jn8HEpv1P
+         2/6L1s53fR3FuasPCkxNXkpiQs6+DauoenOATHlcT1/8Gx23mbWMOYTVdbTqwpoIRt
+         NVKwotoAtbnV6g0kVG8D59dDk1PAwqvgmwbirZygez4+BmKXX+D4tufxS5NxjBhcUV
+         hAEp0LvI6oOIlwbnlkitMw/dgJ/uuE09LbaJYCgBFxm3x8He3OcUtaE76WbWAuezjm
+         6ndWbyCmGlVqQ==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 40Dq5B2bHBz9rxG;
+        Sun,  1 Apr 2018 23:59:26 +0200 (CEST)
+From:   Martin Kepplinger <martink@posteo.de>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Martin Kepplinger <martink@posteo.de>
+Subject: [PATCH] Documentation: devices.rst: minor plural grammar fix
+Date:   Sun,  1 Apr 2018 23:59:14 +0200
+Message-Id: <20180401215914.32101-1-martink@posteo.de>
+X-Mailer: git-send-email 2.16.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(added akpm)
+It's authors who request something here, no authors who requests. Let's
+fix this.
 
-On Thu, Mar 29, 2018 at 03:46:07PM -0600, Jonathan Corbet wrote:
-> On Wed, 21 Mar 2018 21:22:16 +0200
-> Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-> 
-> > These patches convert files in Documentation/vm to ReST format, add an
-> > initial index and link it to the top level documentation.
-> > 
-> > There are no contents changes in the documentation, except few spelling
-> > fixes. The relatively large diffstat stems from the indentation and
-> > paragraph wrapping changes.
-> > 
-> > I've tried to keep the formatting as consistent as possible, but I could
-> > miss some places that needed markup and add some markup where it was not
-> > necessary.
-> 
-> So I've been pondering on these for a bit.  It looks like a reasonable and
-> straightforward RST conversion, no real complaints there.  But I do have a
-> couple of concerns...
-> 
-> One is that, as we move documentation into RST, I'm really trying to
-> organize it a bit so that it is better tuned to the various audiences we
-> have.  For example, ksm.txt is going to be of interest to sysadmin types,
-> who might want to tune it.  mmu_notifier.txt is of interest to ...
-> somebody, but probably nobody who is thinking in user space.  And so on.
-> 
-> So I would really like to see this material split up and put into the
-> appropriate places in the RST hierarchy - admin-guide for administrative
-> stuff, core-api for kernel development topics, etc.  That, of course,
-> could be done separately from the RST conversion, but I suspect I know
-> what will (or will not) happen if we agree to defer that for now :)
+Signed-off-by: Martin Kepplinger <martink@posteo.de>
+---
+ Documentation/admin-guide/devices.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Well, I was actually planning on doing that ;-)
-
-My thinking was to start with mechanical RST conversion and then to start
-working on the contents and ordering of the documentation. Some of the
-existing files, e.g. ksm.txt, can be moved as is into the appropriate
-places, others, like transhuge.txt should be at least split into admin/user
-and developer guides.
-
-Another problem with many of the existing mm docs is that they are rather
-developer notes and it wouldn't be really straight forward to assign them
-to a particular topic.
-
-I believe that keeping the mm docs together will give better visibility of
-what (little) mm documentation we have and will make the updates easier.
-The documents that fit well into a certain topic could be linked there. For
-instance:
-
--------------------------
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 5bb9161..8f6c6e6 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -63,6 +63,7 @@ configure specific aspects of kernel behavior to your liking.
-    pm/index
-    thunderbolt
-    LSM/index
-+   vm/index
+diff --git a/Documentation/admin-guide/devices.rst b/Documentation/admin-guide/devices.rst
+index 7fadc05330dd..f781e80f342d 100644
+--- a/Documentation/admin-guide/devices.rst
++++ b/Documentation/admin-guide/devices.rst
+@@ -22,7 +22,7 @@ Allocations marked (68k/Amiga) apply to Linux/68k on the Amiga
+ platform only.	Allocations marked (68k/Atari) apply to Linux/68k on
+ the Atari platform only.
  
- .. only::  subproject and html
- 
-diff --git a/Documentation/admin-guide/vm/index.rst b/Documentation/admin-guide/vm/index.rst
-new file mode 100644
-index 0000000..d86f1c8
---- /dev/null
-+++ b/Documentation/admin-guide/vm/index.rst
-@@ -0,0 +1,5 @@
-+==============================================
-+Knobs and Buttons for Memory Management Tuning
-+==============================================
-+
-+* :ref:`ksm <ksm>`
--------------------------
-
-> The other is the inevitable merge conflicts that changing that many doc
-> files will create.  Sending the patches through Andrew could minimize
-> that, I guess, or at least make it his problem.  Alternatively, we could
-> try to do it as an end-of-merge-window sort of thing.  I can try to manage
-> that, but an ack or two from the mm crowd would be nice to have.
-
-I can rebase on top of Andrew's tree if that would help to minimize the
-merge conflicts.
- 
-> Thanks,
-> 
-> jon
-> 
-
+-This document is in the public domain.	The authors requests, however,
++This document is in the public domain.	The authors request, however,
+ that semantically altered versions are not distributed without
+ permission of the authors, assuming the authors can be contacted without
+ an unreasonable effort.
 -- 
-Sincerely yours,
-Mike.
+2.16.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
