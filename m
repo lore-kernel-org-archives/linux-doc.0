@@ -1,545 +1,223 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 238737DD32
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Apr 2018 10:56:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F18D87E22E
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Apr 2018 12:25:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754328AbeDBK4k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Apr 2018 06:56:40 -0400
-Received: from mail-pl0-f68.google.com ([209.85.160.68]:33974 "EHLO
-        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752420AbeDBK4i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Apr 2018 06:56:38 -0400
-Received: by mail-pl0-f68.google.com with SMTP id u11-v6so3889831plq.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Apr 2018 03:56:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=ReXDOWu1tgIg5s6/9ZM0KfEibPnbp5+0pJIFak947NA=;
-        b=ZE46dglPKu0vwZaLaGfeXkmG1B79Qxt7IUCIgNl4uQ4exW6KXs3L2i0IfAE8U8STtJ
-         2uqhG+0DSeKyJf/0Y0K1Is8QtdPadxdBY+HgWx9s1RhiJ8IST8FBgq12lK/fXgkiLu7K
-         5ifFjIK8J1KWjjrEnSI5jG2IDFdchxeYpYsiE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=ReXDOWu1tgIg5s6/9ZM0KfEibPnbp5+0pJIFak947NA=;
-        b=XbOa5rEIjQhZSctSIN0LXMSSVmGLk4cK56l9N4DQkQqdImxPw7M2C59mq1p17lDjkk
-         XZFB+WfSQLr22lbgrBJdcBp6/kFihW7sgiQQxKHV3SibqOK6kRmc9FcFV28q0k+ml98I
-         0FgeAb4SxJn/1jNtdNJUAk3ZMYt7a1Vq2C/coKI9nXEFBdl0RlIiNctWsMRHKvicpbcl
-         WLXKCRdziEcPLd3ZqLHI/4Clp/efSlTlmnQtFbZJPWOLcNC1PuFqU1EsbT0Xg+KtonUM
-         0L/xQyCMcZUP1z2lG4EwAhuT9cOq7trmzwtN9b3fogSavG2xSkSytfyHo4Na/BNJ45gy
-         0Rqw==
-X-Gm-Message-State: AElRT7HWeGk/ApkVDg0j88jyJ53nOpdcOBxqlQ3k1BbfW9ttAtUSApj2
-        nY2kIY+lI6Ix4r+c0flmCpYaew==
-X-Google-Smtp-Source: AIpwx48EIe76lrbOPHFt2cSQpPviESO1/z+/9fFWqocMqR0yvImzfy/qHZCSqlFerOLN9NxIuuHdJw==
-X-Received: by 2002:a17:902:bb81:: with SMTP id m1-v6mr9200622pls.71.1522666597282;
-        Mon, 02 Apr 2018 03:56:37 -0700 (PDT)
-Received: from localhost ([122.171.228.188])
-        by smtp.gmail.com with ESMTPSA id 73sm260943pgg.73.2018.04.02.03.56.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 02 Apr 2018 03:56:36 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: [PATCH V5] thermal: Add cooling device's statistics in sysfs
-Date:   Mon,  2 Apr 2018 16:26:25 +0530
-Message-Id: <bab196f91cbddca175c725ae6159c0af639bfe07.1522666398.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.15.0.194.g9af6a3dea062
+        id S1751281AbeDBMZE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Apr 2018 08:25:04 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:57173 "EHLO huawei.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751198AbeDBMZD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Apr 2018 08:25:03 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id EF1CAF33FC252;
+        Mon,  2 Apr 2018 20:24:58 +0800 (CST)
+Received: from linux.site (10.67.187.223) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.361.1; Mon, 2 Apr 2018
+ 20:24:51 +0800
+From:   Abbott Liu <liuwenliang@huawei.com>
+To:     <aryabinin@virtuozzo.com>, <dvyukov@google.com>, <corbet@lwn.net>,
+        <linux@armlinux.org.uk>, <christoffer.dall@linaro.org>,
+        <marc.zyngier@arm.com>, <kstewart@linuxfoundation.org>,
+        <gregkh@linuxfoundation.org>, <f.fainelli@gmail.com>,
+        <liuwenliang@huawei.com>, <akpm@linux-foundation.org>,
+        <linux@rasmusvillemoes.dk>, <mawilcox@microsoft.com>,
+        <pombredanne@nexb.com>, <ard.biesheuvel@linaro.org>,
+        <vladimir.murzin@arm.com>, <alexander.levin@verizon.com>,
+        <nicolas.pitre@linaro.org>, <tglx@linutronix.de>,
+        <thgarnie@google.com>, <dhowells@redhat.com>,
+        <keescook@chromium.org>, <arnd@arndb.de>, <geert@linux-m68k.org>,
+        <tixy@linaro.org>, <julien.thierry@arm.com>,
+        <mark.rutland@arm.com>, <james.morse@arm.com>,
+        <zhichao.huang@linaro.org>, <jinb.park7@gmail.com>,
+        <labbott@redhat.com>, <philip@cog.systems>,
+        <grygorii.strashko@linaro.org>, <catalin.marinas@arm.com>,
+        <opendmb@gmail.com>, <kirill.shutemov@linux.intel.com>,
+        <kasan-dev@googlegroups.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <kvmarm@lists.cs.columbia.edu>, <linux-mm@kvack.org>
+Subject: [PATCH v3 0/6] KASan for arm
+Date:   Mon, 2 Apr 2018 20:04:34 +0800
+Message-ID: <20180402120440.31900-1-liuwenliang@huawei.com>
+X-Mailer: git-send-email 2.9.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.67.187.223]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This extends the sysfs interface for thermal cooling devices and exposes
-some pretty useful statistics. These statistics have proven to be quite
-useful specially while doing benchmarks related to the task scheduler,
-where we want to make sure that nothing has disrupted the test,
-specially the cooling device which may have put constraints on the CPUs.
-The information exposed here tells us to what extent the CPUs were
-constrained by the thermal framework.
+From: Andrey Ryabinin <a.ryabinin@samsung.com>
 
-The write-only "reset" file is used to reset the statistics.
+Changelog:
+v3 - v2
+- Remove this patch: 2 1-byte checks more safer for memory_is_poisoned_16
+  because a unaligned load/store of 16 bytes is rare on arm, and this
+  patch is very likely to affect the performance of modern CPUs.
+  ---Acked by: Russell King - ARM Linux <linux@armlinux.org.uk>
+- Fixed some link error which kasan_pmd_populate,kasan_pte_populate and
+  kasan_pud_populate are in section .meminit.text but the function
+  kasan_alloc_block which is called by kasan_pmd_populate,
+  kasan_pte_populate and kasan_pud_populate is in section .init.text. So
+  we need change kasan_pmd_populate,kasan_pte_populate and
+  kasan_pud_populate into the section .init.text.
+  ---Reported by: Florian Fainelli <f.fainelli@gmail.com>
+- Fixed some compile error which caused by the wrong access instruction in
+  arch/arm/kernel/entry-common.S.
+  ---Reported by: kbuild test robot <lkp@intel.com>
+- Disable instrumentation for arch/arm/kvm/hyp/*.
+  ---Acked by: Marc Zyngier <marc.zyngier@arm.com>
+- Update the set of supported architectures in
+  Documentation/dev-tools/kasan.rst.
+  ---Acked by:Dmitry Vyukov <dvyukov@google.com>
+- The version 2 is tested by:
+  Florian Fainelli <f.fainelli@gmail.com> (compile test)
+  kbuild test robot <lkp@intel.com>       (compile test)
+  Joel Stanley <joel@jms.id.au>           (on ASPEED ast2500(ARMv5))
+  
+v2 - v1
+- Fixed some compiling error which happens on changing kernel compression
+  mode to lzma/xz/lzo/lz4.
+  ---Reported by: Florian Fainelli <f.fainelli@gmail.com>,
+             Russell King - ARM Linux <linux@armlinux.org.uk>
+- Fixed a compiling error cause by some older arm instruction set(armv4t)
+  don't suppory movw/movt which is reported by kbuild.
+- Changed the pte flag from _L_PTE_DEFAULT | L_PTE_DIRTY | L_PTE_XN to
+  pgprot_val(PAGE_KERNEL).
+  ---Reported by: Russell King - ARM Linux <linux@armlinux.org.uk>
+- Moved Enable KASan patch as the last one.
+  ---Reported by: Florian Fainelli <f.fainelli@gmail.com>,
+     Russell King - ARM Linux <linux@armlinux.org.uk>
+- Moved the definitions of cp15 registers from
+  arch/arm/include/asm/kvm_hyp.h to arch/arm/include/asm/cp15.h.
+  ---Asked by: Mark Rutland <mark.rutland@arm.com>
+- Merge the following commits into the commit
+  Define the virtual space of KASan's shadow region:
+  1) Define the virtual space of KASan's shadow region;
+  2) Avoid cleaning the KASan shadow area's mapping table;
+  3) Add KASan layout;
+- Merge the following commits into the commit
+  Initialize the mapping of KASan shadow memory:
+  1) Initialize the mapping of KASan shadow memory;
+  2) Add support arm LPAE;
+  3) Don't need to map the shadow of KASan's shadow memory;
+     ---Reported by: Russell King - ARM Linux <linux@armlinux.org.uk>
+  4) Change mapping of kasan_zero_page int readonly.
+- The version 1 is tested by Florian Fainelli <f.fainelli@gmail.com>
+  on a Cortex-A5 (no LPAE).
 
-The read-only "time_in_state_ms" file shows the time (in msec) spent by the
-device in the respective cooling states, and it prints one line per
-cooling state.
+Hi,all:
+   These patches add arch specific code for kernel address sanitizer
+(see Documentation/kasan.txt).
 
-The read-only "total_trans" file shows single positive integer value
-showing the total number of cooling state transitions the device has
-gone through since the time the cooling device is registered or the time
-when statistics were reset last.
+   1/8 of kernel addresses reserved for shadow memory. There was no
+big enough hole for this, so virtual addresses for shadow were
+stolen from user space.
 
-The read-only "trans_table" file shows a two dimensional matrix, where
-an entry <i,j> (row i, column j) represents the number of transitions
-from State_i to State_j.
+   At early boot stage the whole shadow region populated with just
+one physical page (kasan_zero_page). Later, this page reused
+as readonly zero shadow for some memory that KASan currently
+don't track (vmalloc).
 
-This is how the directory structure looks like for a single cooling
-device:
+  After mapping the physical memory, pages for shadow memory are
+allocated and mapped.
 
-$ ls -R /sys/class/thermal/cooling_device0/
-/sys/class/thermal/cooling_device0/:
-cur_state  max_state  power  stats  subsystem  type  uevent
+  KASan's stack instrumentation significantly increases stack's
+consumption, so CONFIG_KASAN doubles THREAD_SIZE.
 
-/sys/class/thermal/cooling_device0/power:
-autosuspend_delay_ms  runtime_active_time  runtime_suspended_time
-control               runtime_status
+  Functions like memset/memmove/memcpy do a lot of memory accesses.
+If bad pointer passed to one of these function it is important
+to catch this. Compiler's instrumentation cannot do this since
+these functions are written in assembly.
 
-/sys/class/thermal/cooling_device0/stats:
-reset  time_in_state_ms  total_trans  trans_table
+  KASan replaces memory functions with manually instrumented variants.
+Original functions declared as weak symbols so strong definitions
+in mm/kasan/kasan.c could replace them. Original functions have aliases
+with '__' prefix in name, so we could call non-instrumented variant
+if needed.
 
-This is tested on ARM 64-bit Hisilicon hikey620 board running Ubuntu and
-ARM 64-bit Hisilicon hikey960 board running Android.
+  Some files built without kasan instrumentation (e.g. mm/slub.c).
+Original mem* function replaced (via #define) with prefixed variants
+to disable memory access checks for such files.
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
-V4->V5:
-- time_in_state's unit is msec now instead of clock_t.
-- Remove double setting of ->stats pointer.
+  On arm LPAE architecture,  the mapping table of KASan shadow memory(if
+PAGE_OFFSET is 0xc0000000, the KASan shadow memory's virtual space is
+0xb6e000000~0xbf000000) can't be filled in do_translation_fault function,
+because kasan instrumentation maybe cause do_translation_fault function
+accessing KASan shadow memory. The accessing of KASan shadow memory in
+do_translation_fault function maybe cause dead circle. So the mapping table
+of KASan shadow memory need be copyed in pgd_alloc function.
 
-V3->V4:
-- Added CONFIG_THERMAL_STATISTICS
-- Added transition table file in sysfs
-- Updated documentation for new sysfs files
-- The unit of time in time_in_state is clock_t now
-- Separate routines for cooling device stat setup/destroy
 
-V2->V3:
-- Total number of states is max_level + 1. The earlier version didn't
-  take that into account and so the stats for the highest state were
-  missing.
+Most of the code comes from:
+https://github.com/aryabinin/linux/commit/0b54f17e70ff50a902c4af05bb92716eb95acefe
 
-V1->V2:
-- Move to sysfs from debugfs
+These patches are tested on vexpress-ca15, vexpress-ca9
 
- Documentation/thermal/sysfs-api.txt |  31 +++++
- drivers/thermal/Kconfig             |   7 ++
- drivers/thermal/thermal_core.c      |   3 +-
- drivers/thermal/thermal_core.h      |  10 ++
- drivers/thermal/thermal_helpers.c   |   5 +-
- drivers/thermal/thermal_sysfs.c     | 225 ++++++++++++++++++++++++++++++++++++
- include/linux/thermal.h             |   1 +
- 7 files changed, 280 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/thermal/sysfs-api.txt b/Documentation/thermal/sysfs-api.txt
-index bb9a0a53e76b..911399730c1c 100644
---- a/Documentation/thermal/sysfs-api.txt
-+++ b/Documentation/thermal/sysfs-api.txt
-@@ -255,6 +255,7 @@ temperature) and throttle appropriate devices.
- 2. sysfs attributes structure
- 
- RO	read only value
-+WO	write only value
- RW	read/write value
- 
- Thermal sysfs attributes will be represented under /sys/class/thermal.
-@@ -286,6 +287,11 @@ if hwmon is compiled in or built as a module.
-     |---type:			Type of the cooling device(processor/fan/...)
-     |---max_state:		Maximum cooling state of the cooling device
-     |---cur_state:		Current cooling state of the cooling device
-+    |---stats:			Directory containing cooling device's statistics
-+    |---stats/reset:		Writing any value resets the statistics
-+    |---stats/time_in_state_ms:	Time (msec) spent in various cooling states
-+    |---stats/total_trans:	Total number of times cooling state is changed
-+    |---stats/trans_table:	Cooing state transition table
- 
- 
- Then next two dynamic attributes are created/removed in pairs. They represent
-@@ -490,6 +496,31 @@ cur_state
- 	- cur_state == max_state means the maximum cooling.
- 	RW, Required
- 
-+stats/reset
-+	Writing any value resets the cooling device's statistics.
-+	WO, Required
-+
-+stats/time_in_state_ms:
-+	The amount of time spent by the cooling device in various cooling
-+	states. The output will have "<state> <time>" pair in each line, which
-+	will mean this cooling device spent <time> msec of time at <state>.
-+	Output will have one line for each of the supported states.  usertime
-+	units here is 10mS (similar to other time exported in /proc).
-+	RO, Required
-+
-+stats/total_trans:
-+	A single positive value showing the total number of times the state of a
-+	cooling device is changed.
-+	RO, Required
-+
-+stats/trans_table:
-+	This gives fine grained information about all the cooling state
-+	transitions. The cat output here is a two dimensional matrix, where an
-+	entry <i,j> (row i, column j) represents the number of transitions from
-+	State_i to State_j. If the transition table is bigger than PAGE_SIZE,
-+	reading this will return an -EFBIG error.
-+	RO, Required
-+
- 3. A simple implementation
- 
- ACPI thermal zone may support multiple trip points like critical, hot,
-diff --git a/drivers/thermal/Kconfig b/drivers/thermal/Kconfig
-index b6adc54b96f1..82979880f985 100644
---- a/drivers/thermal/Kconfig
-+++ b/drivers/thermal/Kconfig
-@@ -15,6 +15,13 @@ menuconfig THERMAL
- 
- if THERMAL
- 
-+config THERMAL_STATISTICS
-+	bool "Thermal state transition statistics"
-+	help
-+	  Export thermal state transition statistics information through sysfs.
-+
-+	  If in doubt, say N.
-+
- config THERMAL_EMERGENCY_POWEROFF_DELAY_MS
- 	int "Emergency poweroff delay in milli-seconds"
- 	depends on THERMAL
-diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-index 2b1b0ba393a4..d64325e078db 100644
---- a/drivers/thermal/thermal_core.c
-+++ b/drivers/thermal/thermal_core.c
-@@ -972,8 +972,8 @@ __thermal_cooling_device_register(struct device_node *np,
- 	cdev->ops = ops;
- 	cdev->updated = false;
- 	cdev->device.class = &thermal_class;
--	thermal_cooling_device_setup_sysfs(cdev);
- 	cdev->devdata = devdata;
-+	thermal_cooling_device_setup_sysfs(cdev);
- 	dev_set_name(&cdev->device, "cooling_device%d", cdev->id);
- 	result = device_register(&cdev->device);
- 	if (result) {
-@@ -1106,6 +1106,7 @@ void thermal_cooling_device_unregister(struct thermal_cooling_device *cdev)
- 
- 	ida_simple_remove(&thermal_cdev_ida, cdev->id);
- 	device_unregister(&cdev->device);
-+	thermal_cooling_device_destroy_sysfs(cdev);
- }
- EXPORT_SYMBOL_GPL(thermal_cooling_device_unregister);
- 
-diff --git a/drivers/thermal/thermal_core.h b/drivers/thermal/thermal_core.h
-index 27e3b1df7360..5e4150261500 100644
---- a/drivers/thermal/thermal_core.h
-+++ b/drivers/thermal/thermal_core.h
-@@ -73,6 +73,7 @@ int thermal_build_list_of_policies(char *buf);
- int thermal_zone_create_device_groups(struct thermal_zone_device *, int);
- void thermal_zone_destroy_device_groups(struct thermal_zone_device *);
- void thermal_cooling_device_setup_sysfs(struct thermal_cooling_device *);
-+void thermal_cooling_device_destroy_sysfs(struct thermal_cooling_device *cdev);
- /* used only at binding time */
- ssize_t
- thermal_cooling_device_trip_point_show(struct device *,
-@@ -84,6 +85,15 @@ ssize_t thermal_cooling_device_weight_store(struct device *,
- 					    struct device_attribute *,
- 					    const char *, size_t);
- 
-+#ifdef CONFIG_THERMAL_STATISTICS
-+void thermal_cooling_device_stats_update(struct thermal_cooling_device *cdev,
-+					 unsigned long new_state);
-+#else
-+static inline void
-+thermal_cooling_device_stats_update(struct thermal_cooling_device *cdev,
-+				    unsigned long new_state) {}
-+#endif /* CONFIG_THERMAL_STATISTICS */
-+
- #ifdef CONFIG_THERMAL_GOV_STEP_WISE
- int thermal_gov_step_wise_register(void);
- void thermal_gov_step_wise_unregister(void);
-diff --git a/drivers/thermal/thermal_helpers.c b/drivers/thermal/thermal_helpers.c
-index 8cdf75adcce1..eb03d7e099bb 100644
---- a/drivers/thermal/thermal_helpers.c
-+++ b/drivers/thermal/thermal_helpers.c
-@@ -187,7 +187,10 @@ void thermal_cdev_update(struct thermal_cooling_device *cdev)
- 		if (instance->target > target)
- 			target = instance->target;
- 	}
--	cdev->ops->set_cur_state(cdev, target);
-+
-+	if (!cdev->ops->set_cur_state(cdev, target))
-+		thermal_cooling_device_stats_update(cdev, target);
-+
- 	cdev->updated = true;
- 	mutex_unlock(&cdev->lock);
- 	trace_cdev_update(cdev, target);
-diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
-index ba81c9080f6e..23b5e0a709b0 100644
---- a/drivers/thermal/thermal_sysfs.c
-+++ b/drivers/thermal/thermal_sysfs.c
-@@ -20,6 +20,7 @@
- #include <linux/err.h>
- #include <linux/slab.h>
- #include <linux/string.h>
-+#include <linux/jiffies.h>
- 
- #include "thermal_core.h"
- 
-@@ -721,6 +722,7 @@ thermal_cooling_device_cur_state_store(struct device *dev,
- 	result = cdev->ops->set_cur_state(cdev, state);
- 	if (result)
- 		return result;
-+	thermal_cooling_device_stats_update(cdev, state);
- 	return count;
- }
- 
-@@ -745,14 +747,237 @@ static const struct attribute_group cooling_device_attr_group = {
- 
- static const struct attribute_group *cooling_device_attr_groups[] = {
- 	&cooling_device_attr_group,
-+	NULL, /* Space allocated for cooling_device_stats_attr_group */
- 	NULL,
- };
- 
-+#ifdef CONFIG_THERMAL_STATISTICS
-+struct cooling_dev_stats {
-+	spinlock_t lock;
-+	unsigned int total_trans;
-+	unsigned long state;
-+	unsigned long max_states;
-+	ktime_t last_time;
-+	ktime_t *time_in_state;
-+	unsigned int *trans_table;
-+};
-+
-+static void update_time_in_state(struct cooling_dev_stats *stats)
-+{
-+	ktime_t now = ktime_get(), delta;
-+
-+	delta = ktime_sub(now, stats->last_time);
-+	stats->time_in_state[stats->state] =
-+		ktime_add(stats->time_in_state[stats->state], delta);
-+	stats->last_time = now;
-+}
-+
-+void thermal_cooling_device_stats_update(struct thermal_cooling_device *cdev,
-+					 unsigned long new_state)
-+{
-+	struct cooling_dev_stats *stats = cdev->stats;
-+
-+	spin_lock(&stats->lock);
-+
-+	if (stats->state == new_state)
-+		goto unlock;
-+
-+	update_time_in_state(stats);
-+	stats->trans_table[stats->state * stats->max_states + new_state]++;
-+	stats->state = new_state;
-+	stats->total_trans++;
-+
-+unlock:
-+	spin_unlock(&stats->lock);
-+}
-+
-+static ssize_t
-+thermal_cooling_device_total_trans_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct thermal_cooling_device *cdev = to_cooling_device(dev);
-+	struct cooling_dev_stats *stats = cdev->stats;
-+	int ret;
-+
-+	spin_lock(&stats->lock);
-+	ret = sprintf(buf, "%u\n", stats->total_trans);
-+	spin_unlock(&stats->lock);
-+
-+	return ret;
-+}
-+
-+static ssize_t
-+thermal_cooling_device_time_in_state_show(struct device *dev,
-+					  struct device_attribute *attr,
-+					  char *buf)
-+{
-+	struct thermal_cooling_device *cdev = to_cooling_device(dev);
-+	struct cooling_dev_stats *stats = cdev->stats;
-+	ssize_t len = 0;
-+	int i;
-+
-+	spin_lock(&stats->lock);
-+	update_time_in_state(stats);
-+
-+	for (i = 0; i < stats->max_states; i++) {
-+		len += sprintf(buf + len, "state%u\t%llu\n", i,
-+			       ktime_to_ms(stats->time_in_state[i]));
-+	}
-+	spin_unlock(&stats->lock);
-+
-+	return len;
-+}
-+
-+static ssize_t
-+thermal_cooling_device_reset_store(struct device *dev,
-+				   struct device_attribute *attr,
-+				   const char *buf, size_t count)
-+{
-+	struct thermal_cooling_device *cdev = to_cooling_device(dev);
-+	struct cooling_dev_stats *stats = cdev->stats;
-+	int i, states = stats->max_states;
-+
-+	spin_lock(&stats->lock);
-+
-+	stats->total_trans = 0;
-+	stats->last_time = ktime_get();
-+	memset(stats->trans_table, 0,
-+	       states * states * sizeof(*stats->trans_table));
-+
-+	for (i = 0; i < stats->max_states; i++)
-+		stats->time_in_state[i] = ktime_set(0, 0);
-+
-+	spin_unlock(&stats->lock);
-+
-+	return count;
-+}
-+
-+static ssize_t
-+thermal_cooling_device_trans_table_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct thermal_cooling_device *cdev = to_cooling_device(dev);
-+	struct cooling_dev_stats *stats = cdev->stats;
-+	ssize_t len = 0;
-+	int i, j;
-+
-+	len += snprintf(buf + len, PAGE_SIZE - len, " From  :    To\n");
-+	len += snprintf(buf + len, PAGE_SIZE - len, "       : ");
-+	for (i = 0; i < stats->max_states; i++) {
-+		if (len >= PAGE_SIZE)
-+			break;
-+		len += snprintf(buf + len, PAGE_SIZE - len, "state%2u  ", i);
-+	}
-+	if (len >= PAGE_SIZE)
-+		return PAGE_SIZE;
-+
-+	len += snprintf(buf + len, PAGE_SIZE - len, "\n");
-+
-+	for (i = 0; i < stats->max_states; i++) {
-+		if (len >= PAGE_SIZE)
-+			break;
-+
-+		len += snprintf(buf + len, PAGE_SIZE - len, "state%2u:", i);
-+
-+		for (j = 0; j < stats->max_states; j++) {
-+			if (len >= PAGE_SIZE)
-+				break;
-+			len += snprintf(buf + len, PAGE_SIZE - len, "%8u ",
-+				stats->trans_table[i * stats->max_states + j]);
-+		}
-+		if (len >= PAGE_SIZE)
-+			break;
-+		len += snprintf(buf + len, PAGE_SIZE - len, "\n");
-+	}
-+
-+	if (len >= PAGE_SIZE) {
-+		pr_warn_once("Thermal transition table exceeds PAGE_SIZE. Disabling\n");
-+		return -EFBIG;
-+	}
-+	return len;
-+}
-+
-+static DEVICE_ATTR(total_trans, 0444, thermal_cooling_device_total_trans_show,
-+		   NULL);
-+static DEVICE_ATTR(time_in_state_ms, 0444,
-+		   thermal_cooling_device_time_in_state_show, NULL);
-+static DEVICE_ATTR(reset, 0200, NULL, thermal_cooling_device_reset_store);
-+static DEVICE_ATTR(trans_table, 0444,
-+		   thermal_cooling_device_trans_table_show, NULL);
-+
-+static struct attribute *cooling_device_stats_attrs[] = {
-+	&dev_attr_total_trans.attr,
-+	&dev_attr_time_in_state_ms.attr,
-+	&dev_attr_reset.attr,
-+	&dev_attr_trans_table.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group cooling_device_stats_attr_group = {
-+	.attrs = cooling_device_stats_attrs,
-+	.name = "stats"
-+};
-+
-+static void cooling_device_stats_setup(struct thermal_cooling_device *cdev)
-+{
-+	struct cooling_dev_stats *stats;
-+	unsigned long states;
-+	int var;
-+
-+	if (cdev->ops->get_max_state(cdev, &states))
-+		return;
-+
-+	states++; /* Total number of states is highest state + 1 */
-+
-+	var = sizeof(*stats);
-+	var += sizeof(*stats->time_in_state) * states;
-+	var += sizeof(*stats->trans_table) * states * states;
-+
-+	stats = kzalloc(var, GFP_KERNEL);
-+	if (!stats)
-+		return;
-+
-+	stats->time_in_state = (ktime_t *)(stats + 1);
-+	stats->trans_table = (unsigned int *)(stats->time_in_state + states);
-+	cdev->stats = stats;
-+	stats->last_time = ktime_get();
-+	stats->max_states = states;
-+
-+	spin_lock_init(&stats->lock);
-+
-+	/* Fill the empty slot left in cooling_device_attr_groups */
-+	var = ARRAY_SIZE(cooling_device_attr_groups) - 2;
-+	cooling_device_attr_groups[var] = &cooling_device_stats_attr_group;
-+}
-+
-+static void cooling_device_stats_destroy(struct thermal_cooling_device *cdev)
-+{
-+	kfree(cdev->stats);
-+	cdev->stats = NULL;
-+}
-+
-+#else
-+
-+static inline void
-+cooling_device_stats_setup(struct thermal_cooling_device *cdev) {}
-+static inline void
-+cooling_device_stats_destroy(struct thermal_cooling_device *cdev) {}
-+
-+#endif /* CONFIG_THERMAL_STATISTICS */
-+
- void thermal_cooling_device_setup_sysfs(struct thermal_cooling_device *cdev)
- {
-+	cooling_device_stats_setup(cdev);
- 	cdev->device.groups = cooling_device_attr_groups;
- }
- 
-+void thermal_cooling_device_destroy_sysfs(struct thermal_cooling_device *cdev)
-+{
-+	cooling_device_stats_destroy(cdev);
-+}
-+
- /* these helper will be used only at the time of bindig */
- ssize_t
- thermal_cooling_device_trip_point_show(struct device *dev,
-diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-index 8c5302374eaa..7834be668d80 100644
---- a/include/linux/thermal.h
-+++ b/include/linux/thermal.h
-@@ -148,6 +148,7 @@ struct thermal_cooling_device {
- 	struct device device;
- 	struct device_node *np;
- 	void *devdata;
-+	void *stats;
- 	const struct thermal_cooling_device_ops *ops;
- 	bool updated; /* true if the cooling device does not need update */
- 	struct mutex lock; /* protect thermal_instances list */
+
+Cc: Andrey Ryabinin <a.ryabinin@samsung.com>
+Tested-by: Florian Fainelli <f.fainelli@gmail.com>
+Tested-by: Joel Stanley <joel@jms.id.au>
+Tested-by: Abbott Liu <liuwenliang@huawei.com>
+Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
+
+Abbott Liu (2):
+  Add TTBR operator for kasan_init
+  Define the virtual space of KASan's shadow region
+
+Andrey Ryabinin (4):
+  Disable instrumentation for some code
+  Replace memory function for kasan
+  Initialize the mapping of KASan shadow memory
+  Enable KASan for arm
+
+ Documentation/dev-tools/kasan.rst     |   2 +-
+ arch/arm/Kconfig                      |   1 +
+ arch/arm/boot/compressed/Makefile     |   1 +
+ arch/arm/boot/compressed/decompress.c |   2 +
+ arch/arm/boot/compressed/libfdt_env.h |   2 +
+ arch/arm/include/asm/cp15.h           | 104 ++++++++++++
+ arch/arm/include/asm/kasan.h          |  35 ++++
+ arch/arm/include/asm/kasan_def.h      |  64 +++++++
+ arch/arm/include/asm/kvm_hyp.h        |  52 ------
+ arch/arm/include/asm/memory.h         |   5 +
+ arch/arm/include/asm/pgalloc.h        |   7 +-
+ arch/arm/include/asm/string.h         |  17 ++
+ arch/arm/include/asm/thread_info.h    |   4 +
+ arch/arm/kernel/entry-armv.S          |   5 +-
+ arch/arm/kernel/entry-common.S        |   9 +-
+ arch/arm/kernel/head-common.S         |   7 +-
+ arch/arm/kernel/setup.c               |   2 +
+ arch/arm/kernel/unwind.c              |   3 +-
+ arch/arm/kvm/hyp/Makefile             |   4 +
+ arch/arm/kvm/hyp/cp15-sr.c            |  12 +-
+ arch/arm/kvm/hyp/switch.c             |   6 +-
+ arch/arm/lib/memcpy.S                 |   3 +
+ arch/arm/lib/memmove.S                |   5 +-
+ arch/arm/lib/memset.S                 |   3 +
+ arch/arm/mm/Makefile                  |   3 +
+ arch/arm/mm/init.c                    |   6 +
+ arch/arm/mm/kasan_init.c              | 302 ++++++++++++++++++++++++++++++++++
+ arch/arm/mm/mmu.c                     |   7 +-
+ arch/arm/mm/pgd.c                     |  14 ++
+ arch/arm/vdso/Makefile                |   2 +
+ mm/kasan/kasan.c                      |   5 +-
+ 31 files changed, 618 insertions(+), 76 deletions(-)
+ create mode 100644 arch/arm/include/asm/kasan.h
+ create mode 100644 arch/arm/include/asm/kasan_def.h
+ create mode 100644 arch/arm/mm/kasan_init.c
+
 -- 
-2.15.0.194.g9af6a3dea062
+2.9.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
