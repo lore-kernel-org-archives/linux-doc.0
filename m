@@ -1,292 +1,189 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B52457E22E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Apr 2018 14:26:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 81F317DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Apr 2018 16:41:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751442AbeDBO0M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Apr 2018 10:26:12 -0400
-Received: from ms.lwn.net ([45.79.88.28]:47886 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751418AbeDBO0L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Apr 2018 10:26:11 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 934CC305;
-        Mon,  2 Apr 2018 14:26:10 +0000 (UTC)
-Date:   Mon, 2 Apr 2018 08:26:09 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [PULL] Documentation for 4.17
-Message-ID: <20180402082609.5dc13279@lwn.net>
-Organization: LWN.net
+        id S1752843AbeDBQlD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Apr 2018 12:41:03 -0400
+Received: from mail-pl0-f46.google.com ([209.85.160.46]:42922 "EHLO
+        mail-pl0-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752787AbeDBQlC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Apr 2018 12:41:02 -0400
+Received: by mail-pl0-f46.google.com with SMTP id g20-v6so4802832plo.9
+        for <linux-doc@vger.kernel.org>; Mon, 02 Apr 2018 09:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kNs6Bvt92WgZyYfS+meAWMLmujaXzWQkApzNqQaZmag=;
+        b=DO+MexaQyByQvqgzlvwfY+Y51E5Z+X23V+amRRbMFh6TOyMereTVudCNR6orwYT4Q6
+         nVEZ/4uAPfs9lMLLkDOvWGuCTWKWuUw3zfV72BDsINJ5COg2N5zW+U9hdwPiHhDUiQWI
+         IHJ/4M1QDYnGVwJ5OwOY8ccneCYs30sNoWKuY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kNs6Bvt92WgZyYfS+meAWMLmujaXzWQkApzNqQaZmag=;
+        b=DRmdx3UvDTRWO0IN/oTkAcYAMucwSmed0RrZA1M3hfGxp3wAZ40r1iCJ9XslYOMpBZ
+         CHVoq1bTcBeNg+mrCSWPbcTX7C2qOYJooHWoKyDo11A9yCMgniWFebpYEorBf7ocJHRW
+         olqn/+lsJx97jRx9SWVE3tM3XNkZy3V9SaGz3/K8UqHWyzrYZCmutlVD1AZu2fNeIBJS
+         FpPy9ArBCmBWXN2x0Toxlayb+B/9nho+NhZPoaFwUgCr5sd7mXw+rpSRDVImVG8t6Wx6
+         F+bY+rKA0KSOrQaevHwAYtaeedqzRBkXzHitqsVjihSvSeQiEEjaQVfV72l7YfNSPrJD
+         EpWw==
+X-Gm-Message-State: AElRT7GRSR1+D/3gOn5vbouHCJrJsHdHK8ThfA3M7ubF5Px4dxfLYy1B
+        596GfTZ7nID22+1VziCXJM0OyA==
+X-Google-Smtp-Source: AIpwx4/GXxh8FJdhD6Ax2nhkH3CKiCSOmBPjk+vlOqWiEoBOBwCEyiVargwEGVzemGHEoJf7bTreCg==
+X-Received: by 2002:a17:902:3e5:: with SMTP id d92-v6mr10815656pld.104.1522687261858;
+        Mon, 02 Apr 2018 09:41:01 -0700 (PDT)
+Received: from xps15 (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id 5sm1976189pfh.133.2018.04.02.09.41.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Apr 2018 09:41:00 -0700 (PDT)
+Date:   Mon, 2 Apr 2018 10:40:58 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        Kim Phillips <kim.phillips@arm.com>,
+        Mike Leach <mike.leach@linaro.org>
+Subject: Re: [PATCH v4 0/6] Coresight: Support panic kdump
+Message-ID: <20180402164058.GA15452@xps15>
+References: <1522379724-30648-1-git-send-email-leo.yan@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1522379724-30648-1-git-send-email-leo.yan@linaro.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-7928b2cbe55b2a410a0f5c1f154610059c57b1b2:
+Hi Leo,
 
-  Linux 4.16-rc1 (2018-02-11 15:04:29 -0800)
+Please see below (and in upcoming patches) my comments related to your latest
+work.
 
-are available in the Git repository at:
+Thanks,
+Mathieu
 
-  git://git.lwn.net/linux.git tags/docs-4.17
+On Fri, Mar 30, 2018 at 11:15:18AM +0800, Leo Yan wrote:
+> This patch set is to explore Coresight tracing data for postmortem
+> debugging.  When kernel panic happens, the Coresight panic kdump can
+> help to save on-chip tracing data and tracer metadata into DRAM, later
+> relies on kdump and crash/perf tools to recovery tracing data for
+> "offline" analysis.
+> 
+> The documentation is important to understand the purpose of Coresight
+> panic kdump, the implementation of framework and usage. Patches 0001
+> and patch 0002 are used for creating new sub directory for placing
+> Coresight docs and add a new doc for Coresight panic kdump.
+> 
+> Patch 0003 introduces the simple panic kdump framework which provides
+> helper functions can be used by Coresight devices, and it registers
+> panic notifier for dump tracing data.
+> 
+> Patches 0004/0005 support panic kdump for ETB; Patch 0006 supports the
+> kdump for ETMv4.
+> 
+> This patch set has been reworked by following suggestions at Linaro
+> HKG18 connect (mainly suggestions from Mathieu, thanks a lot!), and
+> it's rebased on acme git tree [1] with last commit 109d59b900e7 ('perf
+> vendor events s390: Add JSON files for IBM z14').
+> 
+> Due Coresight kdump data structure has been changed significantly, the
+> corresponding crash extension program also has been updated for this
+> reason [2]; furthermore the crash extension program is updated to
+> dynamically generate kernel buildid according to vmlinux elf info [3],
+> this is a fixing for the old code which uses hard-coded buildid value.
+> 
+> This patch set has been verified on 96boards Hikey620 with Coresight
+> enabling by the sysFS interface.  Also the updated crash extension
+> program has been verified to cowork with Coresight panic kdump and it
+> successfully extracts tracing data from the vmcore and finally can be
+> decoded by perf tool.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git
+> [2] https://git.linaro.org/people/leo.yan/crash.git/tree/extensions/csdump.c
+> [3] https://git.linaro.org/people/leo.yan/crash.git/tree/extensions/csdump_buildid.c
+> 
+> Changes from v3:
+> * Following Mathieu suggestion, reworked the panic kdump framework,
+>   used kdump array to maintain source and sink device handlers;
+> * According to Mathieu suggestion, optimized panic notifier to
+>   firstly dump panic CPU tracing data and then dump other CPUs tracing
+>   data;
+> * Refined doc to reflect these implementation changes;
+> * Changed ETMv4 driver to add source device handler at probe phase;
+> * Refactored crash extension program to reflect kernel changes.
+> 
+> Changes from v2:
+> * Add the two patches for documentation.
+> * Following Mathieu suggestion, reworked the panic kdump framework,
+>   removed the useless flag "PRE_PANIC".
+> * According to comment, changed to add and delete kdump node operations
+>   in sink enable/disable functions;
+> * According to Mathieu suggestion, handle kdump node
+>   addition/deletion/updating separately for sysFS interface and perf
+>   method.
+> 
+> Changes from v1:
+> * Add support to dump ETMv4 meta data.
+> * Wrote 'crash' extension csdump.so so rely on it to generate 'perf'
+>   format compatible file.
+> * Refactored panic dump driver to support pre & post panic dump.
+> 
+> Changes from RFC:
+> * Follow Mathieu's suggestion, use general framework to support dump
+>   functionality.
+> * Changed to use perf to analyse trace data.
+> 
+> Leo Yan (6):
+>   doc: Add Coresight documentation directory
+>   doc: Add documentation for Coresight panic kdump
+>   coresight: Support panic kdump functionality
+>   coresight: tmc: Hook callback for panic kdump
+>   coresight: Set and clear sink device handler for kdump node
+>   coresight: etm4x: Support panic kdump
+> 
+>  Documentation/trace/coresight-cpu-debug.txt        | 187 ----------
+>  Documentation/trace/coresight.txt                  | 383 ---------------------
+>  .../trace/coresight/coresight-cpu-debug.txt        | 187 ++++++++++
+>  .../trace/coresight/coresight-panic-kdump.txt      | 130 +++++++
+>  Documentation/trace/coresight/coresight.txt        | 383 +++++++++++++++++++++
 
-for you to fetch changes up to 86afad7d87f535ebb1a0e978bc32a8c58ac99268:
+Please use the -M option with git format-patch in order to prevent the metrics
+associated with the renaming of files to be tallied.
 
-  Documentation/process: update FUSE project website (2018-03-29 15:49:18 -0600)
-
-----------------------------------------------------------------
-There's been a fair amount of activity in Documentation/ this time around:
-
- - Lots of work aligning Documentation/ABI with reality, done by Aishwarya
-   Pant.
-
- - The trace documentation has been converted to RST by Changbin Du
-
- - I thrashed up kernel-doc to deal with a parsing issue and to try to make
-   the code more readable.  It's still a 20+-year-old Perl hack, though.
-
- - Lots of other updates, typo fixes, and more.
-
-Expect some annoying merge conflicts with ftrace - changes in
-Documentation/trace were made independently of the RST conversion.
-Probably the conversion should have gone through that tree as well, in
-retrospect.  The resolution in linux-next seems good.
-----------------------------------------------------------------
-Aaro Koskinen (1):
-      documentation: add my name to kernel driver statement
-
-Aishwarya Pant (13):
-      Documentation/ABI: clean up sysfs-class-pktcdvd
-      Documentation/ABI: add sysfs interface for s6e63m0 lcd driver
-      aoe: document sysfs interface
-      Documentation/ABI: update infiniband sysfs interfaces
-      block/loop: add documentation for sysfs interface
-      backlight: lm3639: document sysfs attributes
-      backlight: adp5520: document sysfs attributes
-      backlight: adp8860: document sysfs attributes
-      Documentation: rapidio: move sysfs interface to ABI
-      block: rbd: update sysfs interface
-      acpi: nfit: document sysfs interface
-      char/bsr: add sysfs interface documentation
-      Input: trackpoint: document sysfs interface
-
-Andy Shevchenko (3):
-      dmaengine: Add note to dmatest documentation about supported channels
-      dmaengine: Make dmatest.rst indeed reST compatible
-      dmaengine: Fix spelling for parenthesis in dmatest documentation
-
-Changbin Du (17):
-      Documentation: add Linux tracing to Sphinx TOC tree
-      trace doc: convert trace/ftrace-design.txt to rst format
-      trace doc: add ftrace-uses.rst to doc tree
-      trace doc: convert trace/tracepoint-analysis.txt to rst format
-      trace doc: convert trace/ftrace.txt to rst format
-      trace doc: convert trace/kprobetrace.txt to rst format
-      trace doc: convert trace/uprobetracer.txt to rst format
-      trace doc: convert trace/tracepoints.txt to rst format
-      trace doc: convert trace/events.txt to rst format
-      trace doc: convert trace/events-kmem.txt to rst format
-      trace doc: convert trace/events-power.txt to rst format
-      trace doc: convert trace/events-nmi.txt to rst format
-      trace doc: convert trace/events-msr.txt to rst format
-      trace doc: convert trace/mmiotrace.txt to rst format
-      trace doc: convert trace/hwlat_detector.txt to rst fromat
-      trace doc: convert trace/intel_th.txt to rst format
-      trace doc: convert trace/stm.txt to rst format
-
-Dave Hansen (1):
-      docs: clarify security-bugs disclosure policy
-
-Dominik Brodowski (1):
-      Documentation/process: Co-developed-by instead of Co-Developed-by
-
-Eric Engestrom (1):
-      Documentation/sparse: fix typo
-
-Gary R Hook (1):
-      Documentation/CodingStyle: Add an example for braces
-
-Joel Stanley (1):
-      Documentation: Mention why %p prints ptrval
-
-Jonathan Corbet (12):
-      docs: kernel-doc: Get rid of xml_escape() and friends
-      docs: kernel-doc: Rename and split STATE_FIELD
-      docs: kernel-doc: Move STATE_NORMAL processing into its own function
-      docs: kernel-doc: Move STATE_NAME processing into its own function
-      docs: kernel-doc: Move STATE_BODY processing to a separate function
-      docs: kernel-doc: Move STATE_PROTO processing into its own function
-      docs: kernel-doc: Finish moving STATE_* code out of process_file()
-      docs: kernel-doc: Don't mangle literal code blocks in comments
-      docs: Add an SPDX header to kernel-doc
-      Merge branch 'kerneldoc2' into docs-next
-      docs: ftrace: fix a few formatting issues
-      Docs: Added a pointer to the formatted docs to README
-
-Jonathan Neuschäfer (2):
-      Documentation/process/howto: Remove outdated info about bugzilla mailing lists
-      admin-guide: Fix list formatting in tained-kernels.html
-
-Martin Kepplinger (4):
-      README: Improve documentation descriptions
-      Documentation: admin-guide: add kvmconfig, xenconfig and tinyconfig commands
-      Documentation: magic-numbers: Fix typo
-      Documentation/process: update FUSE project website
-
-Masanari Iida (2):
-      linux-next: SLIMbus: doc: Fix a warning "Title underline too short"
-      xfs: Change URL for the project in xfs.txt
-
-Matthew Wilcox (7):
-      Add documentation for Context section
-      Minor fixes to kernel-doc.rst
-      Add scripts/split-man.pl
-      Fix whitespace in example
-      Restructure kernel-doc.rst
-      Documentation/sphinx: Fix Directive import error
-      kernel-doc: Remove __sched markings
-
-Mauro Carvalho Chehab (8):
-      doc-guide: kernel-doc: fix example for nested_foobar struct
-      doc-guide: kernel-doc: fix example for inlined comments
-      doc-guide: kernel-doc: move in-line section to be after nested struct
-      scripts: kernel-doc: support in-line comments on nested structs/unions
-      doc-guide: kernel-doc: add examples about nested union/structs
-      COPYING: create a new file with points to the Kernel license files
-      COPYING: use the new text with points to the license files
-      docs: kernel-doc: fix parsing of arrays
-
-Mike Rapoport (3):
-      scripts: kernel_doc: fixup reporting of function identifiers
-      doc-guide: kernel-doc: add comment about formatting verification
-      docs/vm: update 00-INDEX
-
-Minghui Liu (1):
-      Documentation: Delete reference to the kernel-mentors mailing list
-
-Pali Rohár (1):
-      Input: alps - Update documentation for trackstick v3 format
-
-Philipp Hahn (2):
-      doc: Rename .system_keyring to .builtin_trusted_keys
-      doc: module-signing.rst: Fix reST formatting
-
-Tobin C. Harding (1):
-      docs: add Co-Developed-by docs
-
-Xiongwei Song (1):
-      tracing: Fix incorrect file name
-
- COPYING                                            |  358 +--
- Documentation/ABI/stable/sysfs-class-infiniband    |  818 +++++
- Documentation/ABI/testing/sysfs-block-aoe          |   45 +
- Documentation/ABI/testing/sysfs-block-loop         |   50 +
- Documentation/ABI/testing/sysfs-bus-nfit           |  233 ++
- Documentation/ABI/testing/sysfs-bus-rapidio        |  198 ++
- Documentation/ABI/testing/sysfs-bus-rbd            |  203 +-
- .../ABI/testing/sysfs-class-backlight-adp5520      |   31 +
- .../ABI/testing/sysfs-class-backlight-adp8860      |   54 +
- .../ABI/testing/sysfs-class-backlight-lm3639       |   11 +
- Documentation/ABI/testing/sysfs-class-bsr          |   25 +
- Documentation/ABI/testing/sysfs-class-infiniband   |   16 -
- Documentation/ABI/testing/sysfs-class-lcd-s6e63m0  |   27 +
- Documentation/ABI/testing/sysfs-class-pktcdvd      |  129 +-
- Documentation/ABI/testing/sysfs-class-rapidio      |   55 +
- .../ABI/testing/sysfs-devices-platform-trackpoint  |  115 +
- Documentation/admin-guide/README.rst               |    7 +
- Documentation/admin-guide/module-signing.rst       |   10 +-
- Documentation/admin-guide/security-bugs.rst        |   24 +-
- Documentation/admin-guide/tainted-kernels.rst      |   18 +-
- Documentation/core-api/printk-formats.rst          |    4 +-
- Documentation/dev-tools/sparse.rst                 |    2 +-
- Documentation/doc-guide/kernel-doc.rst             |  555 ++--
- Documentation/driver-api/dmaengine/dmatest.rst     |   40 +-
- Documentation/driver-api/slimbus.rst               |    2 +-
- Documentation/filesystems/xfs.txt                  |    2 +-
- Documentation/index.rst                            |    1 +
- Documentation/infiniband/sysfs.txt                 |  129 +-
- Documentation/input/devices/alps.rst               |    7 +-
- Documentation/process/5.Posting.rst                |    2 +-
- Documentation/process/changes.rst                  |    2 +-
- Documentation/process/coding-style.rst             |    9 +
- Documentation/process/howto.rst                    |   15 -
- Documentation/process/kernel-driver-statement.rst  |    1 +
- Documentation/process/license-rules.rst            |   20 +-
- Documentation/process/magic-number.rst             |    2 +-
- Documentation/process/submitting-patches.rst       |    9 +-
- Documentation/rapidio/sysfs.txt                    |  161 +-
- Documentation/sphinx/kerneldoc.py                  |    3 +-
- .../trace/{events-kmem.txt => events-kmem.rst}     |   50 +-
- Documentation/trace/events-msr.rst                 |   40 +
- Documentation/trace/events-msr.txt                 |   37 -
- Documentation/trace/events-nmi.rst                 |   45 +
- Documentation/trace/events-nmi.txt                 |   43 -
- .../trace/{events-power.txt => events-power.rst}   |   52 +-
- Documentation/trace/{events.txt => events.rst}     |  677 ++--
- .../trace/{ftrace-design.txt => ftrace-design.rst} |  252 +-
- Documentation/trace/ftrace-uses.rst                |   23 +-
- Documentation/trace/ftrace.rst                     | 3332 ++++++++++++++++++++
- Documentation/trace/ftrace.txt                     | 3220 -------------------
- .../{hwlat_detector.txt => hwlat_detector.rst}     |   26 +-
- Documentation/trace/index.rst                      |   23 +
- Documentation/trace/{intel_th.txt => intel_th.rst} |   43 +-
- .../trace/{kprobetrace.txt => kprobetrace.rst}     |  100 +-
- .../trace/{mmiotrace.txt => mmiotrace.rst}         |   86 +-
- Documentation/trace/{stm.txt => stm.rst}           |   23 +-
- ...epoint-analysis.txt => tracepoint-analysis.rst} |   41 +-
- .../trace/{tracepoints.txt => tracepoints.rst}     |   77 +-
- .../trace/{uprobetracer.txt => uprobetracer.rst}   |   44 +-
- Documentation/vm/00-INDEX                          |   18 +
- README                                             |   11 +-
- scripts/kernel-doc                                 |  671 ++--
- scripts/split-man.pl                               |   28 +
- 63 files changed, 6901 insertions(+), 5454 deletions(-)
- create mode 100644 Documentation/ABI/stable/sysfs-class-infiniband
- create mode 100644 Documentation/ABI/testing/sysfs-block-aoe
- create mode 100644 Documentation/ABI/testing/sysfs-block-loop
- create mode 100644 Documentation/ABI/testing/sysfs-bus-nfit
- create mode 100644 Documentation/ABI/testing/sysfs-bus-rapidio
- create mode 100644 Documentation/ABI/testing/sysfs-class-backlight-adp5520
- create mode 100644 Documentation/ABI/testing/sysfs-class-backlight-adp8860
- create mode 100644 Documentation/ABI/testing/sysfs-class-backlight-lm3639
- create mode 100644 Documentation/ABI/testing/sysfs-class-bsr
- delete mode 100644 Documentation/ABI/testing/sysfs-class-infiniband
- create mode 100644 Documentation/ABI/testing/sysfs-class-lcd-s6e63m0
- create mode 100644 Documentation/ABI/testing/sysfs-class-rapidio
- create mode 100644 Documentation/ABI/testing/sysfs-devices-platform-trackpoint
- rename Documentation/trace/{events-kmem.txt => events-kmem.rst} (76%)
- create mode 100644 Documentation/trace/events-msr.rst
- delete mode 100644 Documentation/trace/events-msr.txt
- create mode 100644 Documentation/trace/events-nmi.rst
- delete mode 100644 Documentation/trace/events-nmi.txt
- rename Documentation/trace/{events-power.txt => events-power.rst} (65%)
- rename Documentation/trace/{events.txt => events.rst} (82%)
- rename Documentation/trace/{ftrace-design.txt => ftrace-design.rst} (74%)
- create mode 100644 Documentation/trace/ftrace.rst
- delete mode 100644 Documentation/trace/ftrace.txt
- rename Documentation/trace/{hwlat_detector.txt => hwlat_detector.rst} (83%)
- create mode 100644 Documentation/trace/index.rst
- rename Documentation/trace/{intel_th.txt => intel_th.rst} (82%)
- rename Documentation/trace/{kprobetrace.txt => kprobetrace.rst} (63%)
- rename Documentation/trace/{mmiotrace.txt => mmiotrace.rst} (78%)
- rename Documentation/trace/{stm.txt => stm.rst} (91%)
- rename Documentation/trace/{tracepoint-analysis.txt => tracepoint-analysis.rst} (93%)
- rename Documentation/trace/{tracepoints.txt => tracepoints.rst} (74%)
- rename Documentation/trace/{uprobetracer.txt => uprobetracer.rst} (86%)
- create mode 100755 scripts/split-man.pl
+>  MAINTAINERS                                        |   5 +-
+>  drivers/hwtracing/coresight/Kconfig                |   9 +
+>  drivers/hwtracing/coresight/Makefile               |   1 +
+>  drivers/hwtracing/coresight/coresight-etm-perf.c   |   5 +
+>  drivers/hwtracing/coresight/coresight-etm4x.c      |  27 ++
+>  drivers/hwtracing/coresight/coresight-etm4x.h      |  15 +
+>  .../hwtracing/coresight/coresight-panic-kdump.c    | 199 +++++++++++
+>  drivers/hwtracing/coresight/coresight-priv.h       |  12 +
+>  drivers/hwtracing/coresight/coresight-tmc-etf.c    |  30 ++
+>  drivers/hwtracing/coresight/coresight.c            |  16 +-
+>  include/linux/coresight.h                          |   4 +
+>  16 files changed, 1019 insertions(+), 574 deletions(-)
+>  delete mode 100644 Documentation/trace/coresight-cpu-debug.txt
+>  delete mode 100644 Documentation/trace/coresight.txt
+>  create mode 100644 Documentation/trace/coresight/coresight-cpu-debug.txt
+>  create mode 100644 Documentation/trace/coresight/coresight-panic-kdump.txt
+>  create mode 100644 Documentation/trace/coresight/coresight.txt
+>  create mode 100644 drivers/hwtracing/coresight/coresight-panic-kdump.c
+> 
+> -- 
+> 2.7.4
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
