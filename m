@@ -1,86 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 289657E22E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Apr 2018 12:34:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 379A77E22E
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Apr 2018 12:56:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751862AbeDBMej (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Apr 2018 08:34:39 -0400
-Received: from exmail.andestech.com ([59.124.169.137]:19065 "EHLO
-        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751324AbeDBMej (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Apr 2018 08:34:39 -0400
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
-        by ATCSQR.andestech.com with ESMTP id w32CT1cr097414;
-        Mon, 2 Apr 2018 20:29:01 +0800 (GMT-8)
-        (envelope-from alankao@andestech.com)
-Received: from andestech.com (10.0.1.85) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Mon, 2 Apr 2018
- 20:34:02 +0800
-Date:   Mon, 2 Apr 2018 20:34:03 +0800
-From:   Alan Kao <alankao@andestech.com>
-To:     Palmer Dabbelt <palmer@sifive.com>, Albert Ou <albert@sifive.com>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "Arnaldo Carvalho de Melo" <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        "Namhyung Kim" <namhyung@kernel.org>,
-        Alex Solomatnikov <sols@sifive.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-riscv@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] perf: riscv: Preliminary Perf Event Support on
- RISC-V
-Message-ID: <20180402123403.GA30097@andestech.com>
-References: <1522672284-29593-1-git-send-email-alankao@andestech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1522672284-29593-1-git-send-email-alankao@andestech.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.0.1.85]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com w32CT1cr097414
+        id S1750776AbeDBM4c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Apr 2018 08:56:32 -0400
+Received: from mout01.posteo.de ([185.67.36.65]:56872 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750798AbeDBM4a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Apr 2018 08:56:30 -0400
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id 1C3D6211A6
+        for <linux-doc@vger.kernel.org>; Mon,  2 Apr 2018 14:56:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1522673787; bh=3/8mz5kSn2pomTdRhyMuw0OE2swrnP4TjxaKhxTybDo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=h+BrfPCJK+T8DrRiOUDKWayyOF4wc6VViJwyP2Q+7P8P7g2Y8sis+olsg2szNaFr6
+         KczCjXoOVsfWUyf2yJHxe4j1dyqXVEo0DDgZt9xqtCFSQeaA5caWFAjaHdioVTJhH3
+         +s90Dd0X8oJ+E5dz4KdINbNritb3NKCoZ50QhLpbrqkTRedygLNf+H6WbCY+DJlkH4
+         H9sa5liva9D6NCbHSDoJgVVnFduQoJPEYn0WpJXagHRsYilNjBog20Ln4VTw1gjYPu
+         NWabCN+gwUCWrnvT8lgOw7Rq42CBhQ+uiuGqV5FWTLyDyKmcIQqzFM59dm74aOU7Kn
+         l6DfPupG3pJDA==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 40FC074SKQz9rxM;
+        Mon,  2 Apr 2018 14:56:23 +0200 (CEST)
+From:   Martin Kepplinger <martink@posteo.de>
+To:     corbet@lwn.net, dmitry.torokhov@gmail.com
+Cc:     gregkh@linuxfoundation.org, logang@deltatee.com,
+        stefanha@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Martin Kepplinger <martink@posteo.de>
+Subject: [PATCH 1/2] Input: mk712: update documentation web link
+Date:   Mon,  2 Apr 2018 14:55:50 +0200
+Message-Id: <20180402125551.13641-1-martink@posteo.de>
+X-Mailer: git-send-email 2.16.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry for the lack of version prefix in the title.  This patchset should be
-version 2.
+At the mentioned address there's nothing found. By searching information
+on the controller chip still can be found, so update the link to the
+resulting page.
 
-On Mon, Apr 02, 2018 at 08:31:22PM +0800, Alan Kao wrote:
-> This implements the baseline PMU for RISC-V platforms.
-> 
-> To ease future PMU portings, a guide is also written, containing
-> perf concepts, arch porting practices and some hints.
-> 
-> Changes in v2:
->  - Fix the bug reported by Alex, which was caused by not sufficient
->    initialization.  Check https://lkml.org/lkml/2018/3/31/251 for the
->    discussion.
-> 
-> Alan Kao (2):
->   perf: riscv: preliminary RISC-V support
->   perf: riscv: Add Document for Future Porting Guide
-> 
->  Documentation/riscv/pmu.txt         | 249 +++++++++++++++++++
->  arch/riscv/Kconfig                  |  12 +
->  arch/riscv/include/asm/perf_event.h |  76 +++++-
->  arch/riscv/kernel/Makefile          |   1 +
->  arch/riscv/kernel/perf_event.c      | 468 ++++++++++++++++++++++++++++++++++++
->  5 files changed, 802 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/riscv/pmu.txt
->  create mode 100644 arch/riscv/kernel/perf_event.c
-> 
-> -- 
-> 2.16.2
-> 
+Signed-off-by: Martin Kepplinger <martink@posteo.de>
+---
+ drivers/input/touchscreen/mk712.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/mk712.c b/drivers/input/touchscreen/mk712.c
+index bd5352824f77..c179060525ae 100644
+--- a/drivers/input/touchscreen/mk712.c
++++ b/drivers/input/touchscreen/mk712.c
+@@ -17,7 +17,7 @@
+  * found in Gateway AOL Connected Touchpad computers.
+  *
+  * Documentation for ICS MK712 can be found at:
+- *	http://www.idt.com/products/getDoc.cfm?docID=18713923
++ *	https://www.idt.com/general-parts/mk712-touch-screen-controller
+  */
+ 
+ /*
+-- 
+2.16.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
