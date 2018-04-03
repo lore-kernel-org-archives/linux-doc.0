@@ -3,177 +3,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA6CB7E897
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 16:58:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F3C287DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 18:48:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752230AbeDCQ4T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Apr 2018 12:56:19 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:36769 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751926AbeDCQ4R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 12:56:17 -0400
-Received: by mail-wm0-f66.google.com with SMTP id x82so36530082wmg.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 09:56:16 -0700 (PDT)
+        id S1751685AbeDCSsh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Apr 2018 14:48:37 -0400
+Received: from mail-oi0-f68.google.com ([209.85.218.68]:34775 "EHLO
+        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752881AbeDCSsW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 14:48:22 -0400
+Received: by mail-oi0-f68.google.com with SMTP id u141-v6so16949591oif.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 11:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=g+7qSjyLS4rRSRykTCuC50IZVz4bY06uNU0maO3ELJs=;
-        b=oVLmLub9wpWglbKsw0Mxg9/J330FRAeoHTp89NrjpwzUpZBfcmVJzpjn2suZs8o2LV
-         c1K/ytWaNR1W/BNAWTNuvgjkJypWTp8uCQ/ic4inv6XhFNVk5ejTjUuetyIF5Fhph5XJ
-         xO17igkmcaoNbbn9C6ZsdnS5B0FyGw9h3a3XM=
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nXDrQwF0q6LeQarRkeKP9D/ocOebnm0oJylWUsVyEu8=;
+        b=LSMlKOMkS23rnAtB9pR3bzy2IQqPlcZhIXwJHv+UGjWTNBOkZCxcOZj+MK97bAnJrL
+         IXJ4NkSj+vZgWABamK4IP4auCcAqCVdykU5rnkyTKt/AcZLuaD3U8cSOt7eWV2jGaVgh
+         K3CSwBUHjVXj+MM3dqLW0A04F67NBqXKf1+kE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=g+7qSjyLS4rRSRykTCuC50IZVz4bY06uNU0maO3ELJs=;
-        b=ZRxdkMDPb42CJzwEWvNFWeZ+EDW2i2maBn0QBg0okUj+vp+/SUPVPqxgLiqmhrusfJ
-         tmcFpPKqb3JT+arBS/dXCQe9ziD78GK2uRbPLWc0D2uMjub5+SXl/QWdD/Gr/ovUsW4V
-         IpWi89TjJJoJIBTIpdAW69fKLhUnIcVkLEH+yEEVC0QmR6pn4TGU7qUq+EmqQ8KOYJjA
-         LX37kzxImrS/+W4Kckad3ZU9RNT9dyEG+0z7O/M1KKR4SzCXDaoUl+wktUk3N1fIMDHo
-         P3teiLkPyzyGzdZwfJWrAl9dtJmBGWrZuEgtsAy/FAuakGK4XbA8BSNV76HIsvixJFTg
-         2CWA==
-X-Gm-Message-State: ALQs6tAKZEGoi3u5DaBa1qu5AAlRIjIpaVW5NAbUJF7I4bgCM4tK+Thf
-        4YQ60Pr8Oc9lVLUQAeJF+x3vlg==
-X-Google-Smtp-Source: AIpwx4+6l0ue6p1vgK2lTNB59MKE61Guw7jhu/e5jKpWqw8C+2pougTmQi0UKg9A93Yrn5D4txCACw==
-X-Received: by 10.28.124.13 with SMTP id x13mr4329309wmc.71.1522774575916;
-        Tue, 03 Apr 2018 09:56:15 -0700 (PDT)
-Received: from localhost.localdomain ([213.209.242.222])
-        by smtp.gmail.com with ESMTPSA id 135sm1653885wmv.12.2018.04.03.09.56.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 03 Apr 2018 09:56:15 -0700 (PDT)
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        Andrea Parri <andrea.parri@amarulasolutions.com>
-Subject: [RFC PATCH 0/3] Documentation/features: Provide and apply "features-refresh.sh"
-Date:   Tue,  3 Apr 2018 18:55:48 +0200
-Message-Id: <1522774551-9503-1-git-send-email-andrea.parri@amarulasolutions.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nXDrQwF0q6LeQarRkeKP9D/ocOebnm0oJylWUsVyEu8=;
+        b=KsEQJjNi00Zne0vetL+7X7A6jhijm5f1o643Ciyf8VE5MrRRPzV2nol+DOkVms8ptP
+         IyHAn05UtHt2VMuZMgMVmrPz6PgpU31YPCaLHio0cWN/DzzhoKTflxLg0bwAusWpNteT
+         IUwKvXc3UTSCtVtNyjsquT2O7/I1KDq8g+KhiNg8ssLH9fBsoVwmTQHCcitxPrMsAvqH
+         oUpkRefhOWWLKgThxHlrt9xdswHXNuIFJd3o1/EXqQaaQZuXQmSSgzHEP0CFKTOucc3e
+         P1JpDcB72KzEgjZIZ0PiIMp1xjiVo7wMgtKJx0gL+YB5MFPAEuhML95Vt30CWIKOKHLy
+         6Ffg==
+X-Gm-Message-State: ALQs6tAQ6M/uFCO0ks4CTYEKOpw+FNQOGbzYhD3pV2rZdip48B1NdFmk
+        J+t9NWc7stY+w/NbjNXhD8ZQi3n4qFw=
+X-Google-Smtp-Source: AIpwx4+dzBBThbXN2LZBk63/80oTCpBkWsl6A39RB4i64AbCqKVmMGD8riVPQ9O8xmsfEtfB7Jwu1A==
+X-Received: by 2002:aca:4e85:: with SMTP id c127-v6mr7519285oib.10.1522781301261;
+        Tue, 03 Apr 2018 11:48:21 -0700 (PDT)
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id y2-v6sm1046047otg.71.2018.04.03.11.48.19
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Apr 2018 11:48:19 -0700 (PDT)
+Received: by mail-oi0-f51.google.com with SMTP id q71-v6so16939068oic.6
+        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 11:48:19 -0700 (PDT)
+X-Received: by 2002:aca:b103:: with SMTP id a3-v6mr7649450oif.135.1522781298776;
+ Tue, 03 Apr 2018 11:48:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org> <1522429700-13083-3-git-send-email-kramasub@codeaurora.org>
+In-Reply-To: <1522429700-13083-3-git-send-email-kramasub@codeaurora.org>
+From:   Evan Green <evgreen@chromium.org>
+Date:   Tue, 03 Apr 2018 18:47:43 +0000
+X-Gmail-Original-Message-ID: <CAE=gft4SVRy8DMUYpjq3Pvv6r8wMzKr=MOqqPZJNnVONc6ruQA@mail.gmail.com>
+Message-ID: <CAE=gft4SVRy8DMUYpjq3Pvv6r8wMzKr=MOqqPZJNnVONc6ruQA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/5] soc: qcom: Add GENI based QUP Wrapper driver
+To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>, robh+dt@kernel.org,
+        mark.rutland@arm.com, wsa@the-dreams.de, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-i2c@vger.kernel.org, acourbot@chromium.org,
+        swboyd@chromium.org, Doug Anderson <dianders@chromium.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Girish Mahadevan <girishm@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In Ingo's words [1]:
+On Fri, Mar 30, 2018 at 10:08 AM Karthikeyan Ramasubramanian <
+kramasub@codeaurora.org> wrote:
 
-  "[...]  what should be done instead is to write a script that refreshes
-   all the arch-support.txt files in-place. [...]
+> This driver manages the Generic Interface (GENI) firmware based Qualcomm
+> Universal Peripheral (QUP) Wrapper. GENI based QUP is the next generation
+> programmable module composed of multiple Serial Engines (SE) and supports
+> a wide range of serial interfaces like UART, SPI, I2C, I3C, etc. This
+> driver also enables managing the serial interface independent aspects of
+> Serial Engines.
 
-   It's OK for the script to have various quirks for weirdly implemented
-   features and exceptions: i.e. basically whenever it gets a feature wrong,
-   we can just tweak the script with quirks to make it all work out of box.
+> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
+> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+> ---
+>   drivers/soc/qcom/Kconfig        |   9 +
+>   drivers/soc/qcom/Makefile       |   1 +
+>   drivers/soc/qcom/qcom-geni-se.c | 748
+++++++++++++++++++++++++++++++++++++++++
+>   include/linux/qcom-geni-se.h    | 425 +++++++++++++++++++++++
+>   4 files changed, 1183 insertions(+)
+>   create mode 100644 drivers/soc/qcom/qcom-geni-se.c
+>   create mode 100644 include/linux/qcom-geni-se.h
 
-   [...]  But in the end there should only be a single new script:
 
-     Documentation/features/scripts/features-refresh.sh
-
-   ... which operates on the arch-support.txt files and refreshes them in
-   place, and which, after all the refreshes have been committed, should
-   produce an empty 'git diff' result."
-
-  "[...]  New features can then be added by basically just creating a
-   header-only arch-support.txt file, such as:
-
-     triton:~/tip/Documentation/features> cat foo/bar/arch-support.txt
-     #
-     # Feature name:          shiny new fubar kernel feature
-     #         Kconfig:       ARCH_USE_FUBAR
-     #         description:   arch supports the fubar feature
-     #
-
-   And running Documentation/features/scripts/features-refresh.sh would
-   auto-generate the arch support matrix. [...]
- 
-   This way we soft- decouple the refreshing of the entries from the
-   introduction of the features, while still making it all easy to keep
-   sync and to extend."
-
-This RFC presents a first attempt to implement such a feature/script, and
-applies it script on top of Arnd's:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git arch-removal
-
-Patch 1/3 provides the "features-refresh.sh" script.  Patch 2/3 removes the
-"BPF-JIT" feature file and it creates header-only files for "cBPF-JIT" and
-"eBPF-JIT".  Patch 3/3 presents the results of running the script; this run
-also printed to standard output the following warnings:
-
-  WARNING: '__HAVE_ARCH_STRNCASECMP' is not a valid Kconfig
-  WARNING: 'Optimized asm/rwsem.h' is not a valid Kconfig
-  WARNING: '!ARCH_USES_GETTIMEOFFSET' is not a valid Kconfig
-  WARNING: '__HAVE_ARCH_PTE_SPECIAL' is not a valid Kconfig
-
-(I'm sending these patches with empty commit messagges, for early feedback:
- I'll fill in these messages in subsequent versions if this makes sense...)
-
-Cheers,
-  Andrea
-
-Andrea Parri (3):
-  Documentation/features: Add script that refreshes the arch support
-    status files in place
-  Documentation/features/core: Add arch support status files for
-    'cBPF-JIT' and 'eBPF-JIT'
-  Documentation/features: Refresh and auto-generate the arch support
-    status files in place
-
- .../features/core/BPF-JIT/arch-support.txt         | 31 ------------
- .../features/core/cBPF-JIT/arch-support.txt        | 32 +++++++++++++
- .../features/core/eBPF-JIT/arch-support.txt        | 32 +++++++++++++
- .../core/generic-idle-thread/arch-support.txt      |  3 +-
- .../features/core/jump-labels/arch-support.txt     |  1 +
- .../features/core/tracehook/arch-support.txt       |  1 +
- .../features/debug/KASAN/arch-support.txt          |  3 +-
- .../debug/gcov-profile-all/arch-support.txt        |  1 +
- Documentation/features/debug/kgdb/arch-support.txt |  3 +-
- .../debug/kprobes-on-ftrace/arch-support.txt       |  1 +
- .../features/debug/kprobes/arch-support.txt        |  3 +-
- .../features/debug/kretprobes/arch-support.txt     |  3 +-
- .../features/debug/optprobes/arch-support.txt      |  3 +-
- .../features/debug/stackprotector/arch-support.txt |  1 +
- .../features/debug/uprobes/arch-support.txt        |  5 +-
- .../debug/user-ret-profiler/arch-support.txt       |  1 +
- .../features/io/dma-api-debug/arch-support.txt     |  1 +
- .../features/io/dma-contiguous/arch-support.txt    |  3 +-
- .../features/io/sg-chain/arch-support.txt          |  1 +
- .../features/lib/strncasecmp/arch-support.txt      |  1 +
- .../locking/cmpxchg-local/arch-support.txt         |  3 +-
- .../features/locking/lockdep/arch-support.txt      |  3 +-
- .../locking/queued-rwlocks/arch-support.txt        |  9 ++--
- .../locking/queued-spinlocks/arch-support.txt      |  7 +--
- .../locking/rwsem-optimized/arch-support.txt       |  1 +
- .../features/perf/kprobes-event/arch-support.txt   |  5 +-
- .../features/perf/perf-regs/arch-support.txt       |  3 +-
- .../features/perf/perf-stackdump/arch-support.txt  |  3 +-
- .../sched/membarrier-sync-core/arch-support.txt    |  1 +
- .../features/sched/numa-balancing/arch-support.txt |  5 +-
- Documentation/features/scripts/features-refresh.sh | 55 ++++++++++++++++++++++
- .../seccomp/seccomp-filter/arch-support.txt        |  5 +-
- .../time/arch-tick-broadcast/arch-support.txt      |  3 +-
- .../features/time/clockevents/arch-support.txt     |  3 +-
- .../time/context-tracking/arch-support.txt         |  1 +
- .../features/time/irq-time-acct/arch-support.txt   |  3 +-
- .../time/modern-timekeeping/arch-support.txt       |  1 +
- .../features/time/virt-cpuacct/arch-support.txt    |  1 +
- .../features/vm/ELF-ASLR/arch-support.txt          |  3 +-
- .../features/vm/PG_uncached/arch-support.txt       |  1 +
- Documentation/features/vm/THP/arch-support.txt     |  1 +
- Documentation/features/vm/TLB/arch-support.txt     |  1 +
- .../features/vm/huge-vmap/arch-support.txt         |  1 +
- .../features/vm/ioremap_prot/arch-support.txt      |  1 +
- .../features/vm/numa-memblock/arch-support.txt     |  3 +-
- .../features/vm/pte_special/arch-support.txt       |  1 +
- 46 files changed, 192 insertions(+), 62 deletions(-)
- delete mode 100644 Documentation/features/core/BPF-JIT/arch-support.txt
- create mode 100644 Documentation/features/core/cBPF-JIT/arch-support.txt
- create mode 100644 Documentation/features/core/eBPF-JIT/arch-support.txt
- create mode 100755 Documentation/features/scripts/features-refresh.sh
-
--- 
-2.7.4
-
+Reviewed-by: Evan Green <evgreen@chromium.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
