@@ -5,131 +5,204 @@ X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
 	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07CEA7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 07:43:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F11A97DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 09:59:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754378AbeDCHnI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Apr 2018 03:43:08 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:35859 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751974AbeDCHnH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 03:43:07 -0400
-Received: by mail-wm0-f66.google.com with SMTP id x82so32742335wmg.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 00:43:06 -0700 (PDT)
+        id S1755064AbeDCJ7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Apr 2018 05:59:53 -0400
+Received: from mail-wm0-f52.google.com ([74.125.82.52]:37397 "EHLO
+        mail-wm0-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754835AbeDCJ7v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 05:59:51 -0400
+Received: by mail-wm0-f52.google.com with SMTP id r131so33812982wmb.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 02:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=evidence-eu-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=9IcEW2ux/sS8YMUDdQMh5ucLF9nFlRzegLn3ygo8sWQ=;
-        b=CUzPnTOck0huIp3Ii/KgMAQU0P/knR4VAd7A4pi99wxH3HkP4pJgtIGomQ31jE0H7L
-         osS+wHkv7R35g84JZGptnoBcne7hXoEGIgDWn0sxwdUkXg03NTlZLjtN2InxG5GDsa91
-         2vX5PDt4UXOKf+dXLxkjpBzXYifkPD1smVVsyx8+C1B/1j1xSpW+/2pjImNGYV68YfUx
-         Hs5evJQ99wNARNZ4PAirHCVBufG9Ezb/vmTfCSZNMk6Y3b8zIOUqAN+N2vcqRRge00nM
-         /t+2AESdmm1jHqHWlKtl+CfOLfSV1PFUj+YTDfwpccY96CYTS9zKVKfS1ZrUlaDZSzWL
-         QYsw==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BecnRLaCn0wbhGIQvQbp7BrO/Uis+jhcKzZJCifxjVE=;
+        b=VBhADR0XfKyJFZBYTObXlVO40b2YJ4PINA7c548MUXtDLA20m8bbk61Wp1Pd+idDyu
+         jXH+Gk4wEDaNDtQs4tcXhmgRZWjB5hCKX4eJJq/7GkXE1SdUJoUxfN9zlMGA6gZk1D2V
+         xgQwCAiDfDZXKYctHGZvvXSFpkGicwl1gxCMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=9IcEW2ux/sS8YMUDdQMh5ucLF9nFlRzegLn3ygo8sWQ=;
-        b=Rp3UBLjaPmdcsSdJRieQt5CDcjNX1sdG1VEAxaMwMOy3wNOuVdDijocjjbfXWVn3Vo
-         65L1ZBfztAAKjCr3TBZyiWD4x6iol2ZfGSFoqlxeMlmKxydRcqE25qvtWhZHbkeJtjM2
-         w9anl99Nca0Ggv2p4GV5RMYFVfm98VkZ6KQZ1m/4RrgoJ5Xids/EK9mWvyXxPmoLUo6K
-         9nZZQ1kKNJVsNoNBSoyX7EJIZBtCQSxnZ9S9kMvAnnUlLTobQOWQL1pMrVErRytcaSns
-         aq0kMJYB6T83QC8iVknyL/bIu72ttLeGrqMv7WBBxNN36iv+p3032tuA33li0bCZ2wDS
-         kcyw==
-X-Gm-Message-State: ALQs6tAKdaRHI/X9+bOA8+l20kbVqZ+EIkXmbCGmb9ZndcE+mx6F3y75
-        Uzlf3igsUSCRG6wLi7m6HdBmDQ==
-X-Google-Smtp-Source: AIpwx4+qY6UMorzBgs8fs6v6fCE2eq9hXEq3GhkQgFKM4h9AaHZeuY4A6fcbAcar8OXAVycznDK1KA==
-X-Received: by 10.28.40.4 with SMTP id o4mr3449888wmo.44.1522741386067;
-        Tue, 03 Apr 2018 00:43:06 -0700 (PDT)
-Received: from localhost.localdomain (host92-93-static.8-79-b.business.telecomitalia.it. [79.8.93.92])
-        by smtp.gmail.com with ESMTPSA id l34sm1602695wre.14.2018.04.03.00.43.03
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 03 Apr 2018 00:43:04 -0700 (PDT)
-From:   Claudio Scordino <claudio@evidence.eu.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Claudio Scordino <claudio@evidence.eu.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Luca Abeni <luca.abeni@santannapisa.it>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] sched/deadline: add overrun signal and GRUB-PA in the documentation
-Date:   Tue,  3 Apr 2018 09:42:42 +0200
-Message-Id: <1522741362-4542-1-git-send-email-claudio@evidence.eu.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BecnRLaCn0wbhGIQvQbp7BrO/Uis+jhcKzZJCifxjVE=;
+        b=H6b5VdlJrqxHW+DuFdGoqNp2zKA005/rIDXGe1RmbC4sJP7w7uP5Vw2mfty6k8IE4N
+         ZnB+JzKwJYKfydbrwR8rZR5GtyYYvglJ9HaQjiNk+ezirZCT29OPBaE2KtusqzYIVUc6
+         AZor7YkzUVLtkND3WFMNoxZD6orllI4Ufa4UzM34TXXIAAeLsYiQ30iQKtSkqpuz5wUy
+         xwlAuu7aZKLaH4KJbC1wuXsur0bPPAxbn3yAv66goJbJWeqQFMB0MSvK9HIk41P4kgpu
+         EHOwc/+/SgTAt76ZyV1hMO0/sVdCs8dbvNEWRchg7U8xydnSemKPeSMX55Xyjefs+efU
+         CmyQ==
+X-Gm-Message-State: AElRT7E4Fjlk1AuE5CgdqooR3Zddo7chqZbtJMkeEJAXvHDKbmDe19+i
+        NcyS8KJqygkQLXeKfz67iHS5tgqgrZo=
+X-Google-Smtp-Source: AIpwx48cPjCwtY0ySArm0KhhMU6I9kH6QfCi8tzJ2FA7ojLTjO3MqcAejlgTKDG34GK2OsDjc+3WYQ==
+X-Received: by 10.80.190.70 with SMTP id b6mr8087570edi.283.1522749589993;
+        Tue, 03 Apr 2018 02:59:49 -0700 (PDT)
+Received: from [192.168.1.75] (lft31-1-88-121-166-205.fbx.proxad.net. [88.121.166.205])
+        by smtp.googlemail.com with ESMTPSA id s10sm1573680edc.63.2018.04.03.02.59.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Apr 2018 02:59:49 -0700 (PDT)
+Subject: Re: [PATCH v4 7/8] clocksource: Add a new timer-ingenic driver
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        James Hogan <jhogan@kernel.org>,
+        Maarten ter Huurne <maarten@treewalker.org>,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
+        linux-doc@vger.kernel.org
+References: <20180110224838.16711-2-paul@crapouillou.net>
+ <20180317232901.14129-1-paul@crapouillou.net>
+ <20180317232901.14129-8-paul@crapouillou.net>
+ <a8d28b2b-4e40-83b9-d65e-beecbd36ad33@linaro.org>
+ <06976e4ae275c4cc0bddacc5e0c0c9a9@crapouillou.net>
+ <af33e522-7f87-d62a-0a35-d56a403387b7@linaro.org>
+ <1522335149.1792.0@smtp.crapouillou.net>
+ <2234006b-30ff-d5a8-b14a-d6e307c06145@linaro.org>
+ <4532f9e86184afab8c46e8debd8abe61@crapouillou.net>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <73091b00-205b-3133-6650-21b6e3fda70f@linaro.org>
+Date:   Tue, 3 Apr 2018 11:59:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <4532f9e86184afab8c46e8debd8abe61@crapouillou.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Claudio Scordino <claudio@evidence.eu.com>
-CC: Juri Lelli <juri.lelli@redhat.com>
-CC: Luca Abeni <luca.abeni@santannapisa.it>
-CC: linux-kernel@vger.kernel.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/scheduler/sched-deadline.txt | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+On 31/03/2018 19:46, Paul Cercueil wrote:
+> Le 2018-03-31 10:10, Daniel Lezcano a écrit :
+>> On 29/03/2018 16:52, Paul Cercueil wrote:
+>>>
+>>>
+>>> Le mer. 28 mars 2018 à 18:25, Daniel Lezcano <daniel.lezcano@linaro.org>
+>>> a écrit :
+>>>> On 28/03/2018 17:15, Paul Cercueil wrote:
+>>>>>  Le 2018-03-24 07:26, Daniel Lezcano a écrit :
+>>>>>>  On 18/03/2018 00:29, Paul Cercueil wrote:
+>>>>>>>  This driver will use the TCU (Timer Counter Unit) present on the
+>>>>>>> Ingenic
+>>>>>>>  JZ47xx SoCs to provide the kernel with a clocksource and timers.
+>>>>>>
+>>>>>>  Please provide a more detailed description about the timer.
+>>>>>
+>>>>>  There's a doc file for that :)
+>>>>
+>>>> Usually, when there is a new driver I ask for a description in the
+>>>> changelog for reference.
+>>>>
+>>>>>>  Where is the clocksource ?
+>>>>>
+>>>>>  Right, there is no clocksource, just timers.
+>>>>>
+>>>>>>  I don't see the point of using channel idx and pwm checking here.
+>>>>>>
+>>>>>>  There is one clockevent, why create multiple channels ? Can't you
+>>>>>> stick
+>>>>>>  to the usual init routine for a timer.
+>>>>>
+>>>>>  So the idea is that we use all the TCU channels that won't be used
+>>>>> for PWM
+>>>>>  as timers. Hence the PWM checking. Why is this bad?
+>>>>
+>>>> It is not bad but arguable. By checking the channels used by the pwm in
+>>>> the code, you introduce an adherence between two subsystems even if it
+>>>> is just related to the DT parsing part.
+>>>>
+>>>> As it is not needed to have more than one timer in the time framework
+>>>> (at least with the same characteristics), the pwm channels check is
+>>>> pointless. We can assume the author of the DT file is smart enough to
+>>>> prevent conflicts and define a pwm and a timer properly instead of
+>>>> adding more code complexity.
+>>>>
+>>>> In addition, simplifying the code will allow you to use the timer-of
+>>>> code and reduce very significantly the init function.
+>>>
+>>> That's what I had in my V1 and V2, my DT node for the timer-ingenic
+>>> driver
+>>> had a "timers" property (e.g. "timers = <4 5>;") to select the channels
+>>> that
+>>> should be used as timers. Then Rob told me I shouldn't do that, and
+>>> instead
+>>> detect the channels that will be used for PWM.
+>>>
+>>
+>> [ ... ]
+>>
+>> How do you specify the channels used for PWM ?
+> 
+> To detect the channels that will be used as PWM I parse the whole
+> devicetree
+> searching for "pwms" properties; check that the PWM handle is for our
+> TCU PWM
+> driver; then read the PWM number from there.
+> 
+> Of course it's hackish, and it only works for devicetree. I preferred the
+> method with the "timers" property.
 
-diff --git a/Documentation/scheduler/sched-deadline.txt b/Documentation/scheduler/sched-deadline.txt
-index 8ce78f8..b14e03f 100644
---- a/Documentation/scheduler/sched-deadline.txt
-+++ b/Documentation/scheduler/sched-deadline.txt
-@@ -49,7 +49,7 @@ CONTENTS
- 2.1 Main algorithm
- ------------------
- 
-- SCHED_DEADLINE uses three parameters, named "runtime", "period", and
-+ SCHED_DEADLINE [18] uses three parameters, named "runtime", "period", and
-  "deadline", to schedule tasks. A SCHED_DEADLINE task should receive
-  "runtime" microseconds of execution time every "period" microseconds, and
-  these "runtime" microseconds are available within "deadline" microseconds
-@@ -117,6 +117,10 @@ CONTENTS
-          scheduling deadline = scheduling deadline + period
-          remaining runtime = remaining runtime + runtime
- 
-+ The SCHED_FLAG_DL_OVERRUN flag in sched_attr's sched_flags field allows a task
-+ to get informed about runtime overruns through the delivery of SIGXCPU
-+ signals.
-+
- 
- 2.2 Bandwidth reclaiming
- ------------------------
-@@ -279,6 +283,19 @@ CONTENTS
-     running_bw is incremented.
- 
- 
-+2.3 Energy-aware scheduling
-+------------------------
-+
-+ When cpufreq's schedutil governor is selected, SCHED_DEADLINE implements the
-+ GRUB-PA [19] algorithm, reducing the CPU operating frequency to the minimum
-+ value that still allows to meet the deadlines. This behavior is currently
-+ implemented only for ARM architectures.
-+
-+ A particular care must be taken in case the time needed for changing frequency
-+ is of the same order of magnitude of the reservation period. In such cases,
-+ setting a fixed CPU frequency results in a lower amount of deadline misses.
-+
-+
- 3. Scheduling Real-Time Tasks
- =============================
- 
-@@ -505,6 +522,12 @@ CONTENTS
-   17 - L. Abeni, G. Lipari, A. Parri, Y. Sun, Multicore CPU reclaiming: parallel
-        or sequential?. In Proceedings of the 31st Annual ACM Symposium on Applied
-        Computing, 2016.
-+  18 - J. Lelli, C. Scordino, L. Abeni, D. Faggioli, Deadline scheduling in the
-+       Linux kernel, Software: Practice and Experience, 46(6): 821-839, June
-+       2016.
-+  19 - C. Scordino, L. Abeni, J. Lelli, Energy-Aware Real-Time Scheduling in
-+       the Linux Kernel, 33rd ACM/SIGAPP Symposium On Applied Computing (SAC
-+       2018), Pau, France, April 2018.
- 
- 
- 4. Bandwidth management
+Do you have a DT portion describing that? Eg somewhere in the kernel's
+git tree ?
+
+From what I understood, we can specify the channel for a pwm but not for
+a timer, there is certainly something I'm missing.
+
+>>>>>>>
+>>>>>>>  +config INGENIC_TIMER
+>>>>>>>  +    bool "Clocksource/timer using the TCU in Ingenic JZ SoCs"
+>>>>>>>  +    depends on MACH_INGENIC || COMPILE_TEST
+>>>>>>
+>>>>>>  bool "Clocksource/timer using the TCU in Ingenic JZ SoCs" if
+>>>>>> COMPILE_TEST
+>>>>>>
+>>>>>>  Remove the depends MACH_INGENIC.
+>>>>>
+>>>>>  This driver is not useful on anything else than Ingenic SoCs, why
+>>>>> should I
+>>>>>  remove MACH_INGENIC then?
+>>>>
+>>>> For COMPILE_TEST on x86.
+>>>
+>>> Well that's a logical OR right here, so it will work...
+>>
+>> Right, I missed the second part of the condition. For consistency
+>> reason, we don't add a dependency on the platform. The platform will
+>> select it. Look the other timer options and you will see there is no
+>> MACH deps. I'm trying consolidating all these options to have same
+>> format and hopefully factor them out.
+> 
+> I'm all for factorisation, but what I dislike with not depending on
+> MACH_INGENIC, is that the driver now appears in the menuconfig for
+> every arch, even if it only applies to one MIPS SoC.
+
+Can you do the following change?
+
+bool "Clocksource/timer using the TCU in Ingenic JZ SoCs" if COMPILE_TEST
+
+so it will appear only when the COMPILE_TEST option is set whatever the
+platform which is the purpose of this option to increase compile test
+coverage.
+
+
 -- 
-2.7.4
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
