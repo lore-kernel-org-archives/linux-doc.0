@@ -3,103 +3,836 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 310057E22E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 11:39:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1953C7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 16:57:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755324AbeDCLjX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Apr 2018 07:39:23 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:57724 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755231AbeDCLjW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 07:39:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2014; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=qLQhq3iY7hF49eIDuYbrjg5KLP1qzGt1xNWmRL0Ij5c=; b=ll8ZDaVLJk6Cm8JP3pVrG1PAT
-        mfwPwGq+PkspvGSKDh/DQPYDDau/3Q3KVYmh82/QEI3IPVfQ5SfB4qu4HuexOoYhUcQHGLdkoyWHq
-        2btw0SyI4ZV3VXMUh9Afrk156ADQ2AnN9MchZV40iKFKzvfsl7RyTRD3jRqM9sSi8AAdY=;
-Received: from n2100.armlinux.org.uk ([2002:4e20:1eda:1:214:fdff:fe10:4f86]:43345)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1f3KGx-0001UM-AY; Tue, 03 Apr 2018 12:38:43 +0100
-Received: from linux by n2100.armlinux.org.uk with local (Exim 4.90_1)
-        (envelope-from <linux@n2100.armlinux.org.uk>)
-        id 1f3KGt-0002wl-Mp; Tue, 03 Apr 2018 12:38:39 +0100
-Date:   Tue, 3 Apr 2018 12:38:37 +0100
-From:   Russell King - ARM Linux <linux@armlinux.org.uk>
-To:     Marc Zyngier <marc.zyngier@arm.com>
-Cc:     Abbott Liu <liuwenliang@huawei.com>, aryabinin@virtuozzo.com,
-        dvyukov@google.com, corbet@lwn.net, christoffer.dall@linaro.org,
-        kstewart@linuxfoundation.org, gregkh@linuxfoundation.org,
-        f.fainelli@gmail.com, akpm@linux-foundation.org,
-        linux@rasmusvillemoes.dk, mawilcox@microsoft.com,
-        pombredanne@nexb.com, ard.biesheuvel@linaro.org,
-        vladimir.murzin@arm.com, alexander.levin@verizon.com,
-        nicolas.pitre@linaro.org, tglx@linutronix.de, thgarnie@google.com,
-        dhowells@redhat.com, keescook@chromium.org, arnd@arndb.de,
-        geert@linux-m68k.org, tixy@linaro.org, julien.thierry@arm.com,
-        mark.rutland@arm.com, james.morse@arm.com,
-        zhichao.huang@linaro.org, jinb.park7@gmail.com, labbott@redhat.com,
-        philip@cog.systems, grygorii.strashko@linaro.org,
-        catalin.marinas@arm.com, opendmb@gmail.com,
-        kirill.shutemov@linux.intel.com, kasan-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3 2/6] Disable instrumentation for some code
-Message-ID: <20180403113837.GK16141@n2100.armlinux.org.uk>
-References: <20180402120440.31900-1-liuwenliang@huawei.com>
- <20180402120440.31900-3-liuwenliang@huawei.com>
- <7837103a-bcf0-6b00-14d6-bd6b80649886@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7837103a-bcf0-6b00-14d6-bd6b80649886@arm.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        id S1752501AbeDCQ5J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Apr 2018 12:57:09 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:54748 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751561AbeDCQ45 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 12:56:57 -0400
+Received: by mail-wm0-f65.google.com with SMTP id r191so4354498wmg.4
+        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 09:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=q6OSITzY8jEFgQr4UtUOt0fxtY/W928x6hlTKc+RXSE=;
+        b=lKfi2g9x9vr6MWfF4lXKnfNO6cb90c/Rt+PaU7yzq8LCUZL9mbccS+AWL7rg3Pi6p8
+         d62idX3WfISECsLrpho6tBs4ePLtfvvgbAVYeqfN39BA5WxohmkaaYm0khxycxk1ogbs
+         OmVT8+3kDTLfaTxZpFbfhfUIsJeaTA8+jj8Ck=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=q6OSITzY8jEFgQr4UtUOt0fxtY/W928x6hlTKc+RXSE=;
+        b=cK4er5OpZr8B9fOY1WjL8LwduyJa4qTBhXp3qiqlIUqObWvhZIrAoQ+HHSrWMaGBlP
+         oFYYTweFOESLiCoXA9yT+HEvoN4u6X43aH8INnmpnACAx+I0L5wXvemuR3qpFBmXEIBn
+         7AGY9swn+Ie8mYuKIDxuQ1wyo5uobW+wP4luR34ge9y5Vu8t99Z+X9HbX8v/41mfUwEO
+         TzQJiR8jVbyFKG8XdceIBGBBETTNQLQV+qeQcdqO+8kSIL+VRZa1eJJtcpgxnFvpCar7
+         LnABgxwsl68YXgawTYhTp94hD9P9mfIb6rXJfgGTn1JSw8QgGSdxGjUxfNTU4t3dpBxg
+         9gOg==
+X-Gm-Message-State: AElRT7FCY5algbVsMEK6vjwWC+nJxT4k9/nNM68gMoQL5TQ9VvgY5FBM
+        NE8mhJyITm/H/SMCENBaMToOXOic
+X-Google-Smtp-Source: AIpwx4/5MVcRcS5/G7lA1ceTyt3Axjjse60IpjuN1GuAWWoztvg0jIjnM90KjPGUXzz81sB3qfRIiA==
+X-Received: by 10.28.109.146 with SMTP id b18mr4645693wmi.95.1522774614653;
+        Tue, 03 Apr 2018 09:56:54 -0700 (PDT)
+Received: from localhost.localdomain ([213.209.242.222])
+        by smtp.gmail.com with ESMTPSA id 135sm1653885wmv.12.2018.04.03.09.56.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 03 Apr 2018 09:56:54 -0700 (PDT)
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        Andrea Parri <andrea.parri@amarulasolutions.com>
+Subject: [PATCH 3/3] Documentation/features: Refresh and auto-generate the arch support status files in place
+Date:   Tue,  3 Apr 2018 18:55:51 +0200
+Message-Id: <1522774551-9503-4-git-send-email-andrea.parri@amarulasolutions.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1522774551-9503-1-git-send-email-andrea.parri@amarulasolutions.com>
+References: <1522774551-9503-1-git-send-email-andrea.parri@amarulasolutions.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 03, 2018 at 12:30:42PM +0100, Marc Zyngier wrote:
-> On 02/04/18 13:04, Abbott Liu wrote:
-> > From: Andrey Ryabinin <a.ryabinin@samsung.com>
-> > 
-> > Disable instrumentation for arch/arm/boot/compressed/*
-> > ,arch/arm/kvm/hyp/* and arch/arm/vdso/* because those
-> > code won't linkd with kernel image.
-> > 
-> > Disable kasan check in the function unwind_pop_register
-> > because it doesn't matter that kasan checks failed when
-> > unwind_pop_register read stack memory of task.
-> > 
-> > Reviewed-by: Russell King - ARM Linux <linux@armlinux.org.uk>
-> > Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-> > Reviewed-by: Marc Zyngier <marc.zyngier@arm.com>
-> 
-> Just because I replied to this patch doesn't mean you can stick my
-> Reviewed-by tag on it. Please drop this tag until I explicitly say that
-> you can add it (see Documentation/process/submitting-patches.rst,
-> section 11).
-> 
-> Same goes for patch 1.
+Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
+---
+ .../features/core/cBPF-JIT/arch-support.txt        | 27 ++++++++++++++++++++++
+ .../features/core/eBPF-JIT/arch-support.txt        | 27 ++++++++++++++++++++++
+ .../core/generic-idle-thread/arch-support.txt      |  3 ++-
+ .../features/core/jump-labels/arch-support.txt     |  1 +
+ .../features/core/tracehook/arch-support.txt       |  1 +
+ .../features/debug/KASAN/arch-support.txt          |  3 ++-
+ .../debug/gcov-profile-all/arch-support.txt        |  1 +
+ Documentation/features/debug/kgdb/arch-support.txt |  3 ++-
+ .../debug/kprobes-on-ftrace/arch-support.txt       |  1 +
+ .../features/debug/kprobes/arch-support.txt        |  3 ++-
+ .../features/debug/kretprobes/arch-support.txt     |  3 ++-
+ .../features/debug/optprobes/arch-support.txt      |  3 ++-
+ .../features/debug/stackprotector/arch-support.txt |  1 +
+ .../features/debug/uprobes/arch-support.txt        |  5 ++--
+ .../debug/user-ret-profiler/arch-support.txt       |  1 +
+ .../features/io/dma-api-debug/arch-support.txt     |  1 +
+ .../features/io/dma-contiguous/arch-support.txt    |  3 ++-
+ .../features/io/sg-chain/arch-support.txt          |  1 +
+ .../features/lib/strncasecmp/arch-support.txt      |  1 +
+ .../locking/cmpxchg-local/arch-support.txt         |  3 ++-
+ .../features/locking/lockdep/arch-support.txt      |  3 ++-
+ .../locking/queued-rwlocks/arch-support.txt        |  9 ++++----
+ .../locking/queued-spinlocks/arch-support.txt      |  7 +++---
+ .../locking/rwsem-optimized/arch-support.txt       |  1 +
+ .../features/perf/kprobes-event/arch-support.txt   |  5 ++--
+ .../features/perf/perf-regs/arch-support.txt       |  3 ++-
+ .../features/perf/perf-stackdump/arch-support.txt  |  3 ++-
+ .../sched/membarrier-sync-core/arch-support.txt    |  1 +
+ .../features/sched/numa-balancing/arch-support.txt |  5 ++--
+ .../seccomp/seccomp-filter/arch-support.txt        |  5 ++--
+ .../time/arch-tick-broadcast/arch-support.txt      |  3 ++-
+ .../features/time/clockevents/arch-support.txt     |  3 ++-
+ .../time/context-tracking/arch-support.txt         |  1 +
+ .../features/time/irq-time-acct/arch-support.txt   |  3 ++-
+ .../time/modern-timekeeping/arch-support.txt       |  1 +
+ .../features/time/virt-cpuacct/arch-support.txt    |  1 +
+ .../features/vm/ELF-ASLR/arch-support.txt          |  3 ++-
+ .../features/vm/PG_uncached/arch-support.txt       |  1 +
+ Documentation/features/vm/THP/arch-support.txt     |  1 +
+ Documentation/features/vm/TLB/arch-support.txt     |  1 +
+ .../features/vm/huge-vmap/arch-support.txt         |  1 +
+ .../features/vm/ioremap_prot/arch-support.txt      |  1 +
+ .../features/vm/numa-memblock/arch-support.txt     |  3 ++-
+ .../features/vm/pte_special/arch-support.txt       |  1 +
+ 44 files changed, 127 insertions(+), 31 deletions(-)
 
-Same goes for that reviewed-by line for me.  From my records, I never
-even looked at patch 2 from the first posting, and I don't appear to
-have the second posting in my mailbox (it's probably been classed as
-spam by dspam.)  So these reviewed-by lines seem to be totally
-misleading.
-
+diff --git a/Documentation/features/core/cBPF-JIT/arch-support.txt b/Documentation/features/core/cBPF-JIT/arch-support.txt
+index 2ae2a7106e67d..6b829e27c268a 100644
+--- a/Documentation/features/core/cBPF-JIT/arch-support.txt
++++ b/Documentation/features/core/cBPF-JIT/arch-support.txt
+@@ -3,3 +3,30 @@
+ #         Kconfig:       HAVE_CBPF_JIT
+ #         description:   arch supports cBPF JIT optimizations
+ #
++    -----------------------
++    |         arch |status|
++    -----------------------
++    |       alpha: | TODO |
++    |         arc: | TODO |
++    |         arm: | TODO |
++    |       arm64: | TODO |
++    |         c6x: | TODO |
++    |       h8300: | TODO |
++    |     hexagon: | TODO |
++    |        ia64: | TODO |
++    |        m68k: | TODO |
++    |  microblaze: | TODO |
++    |        mips: |  ok  |
++    |       nios2: | TODO |
++    |    openrisc: | TODO |
++    |      parisc: | TODO |
++    |     powerpc: |  ok  |
++    |       riscv: | TODO |
++    |        s390: | TODO |
++    |          sh: | TODO |
++    |       sparc: |  ok  |
++    |          um: | TODO |
++    |   unicore32: | TODO |
++    |         x86: | TODO |
++    |      xtensa: | TODO |
++    -----------------------
+diff --git a/Documentation/features/core/eBPF-JIT/arch-support.txt b/Documentation/features/core/eBPF-JIT/arch-support.txt
+index c8b0b458b9cec..4a4ab34ee293a 100644
+--- a/Documentation/features/core/eBPF-JIT/arch-support.txt
++++ b/Documentation/features/core/eBPF-JIT/arch-support.txt
+@@ -3,3 +3,30 @@
+ #         Kconfig:       HAVE_EBPF_JIT
+ #         description:   arch supports eBPF JIT optimizations
+ #
++    -----------------------
++    |         arch |status|
++    -----------------------
++    |       alpha: | TODO |
++    |         arc: | TODO |
++    |         arm: |  ok  |
++    |       arm64: |  ok  |
++    |         c6x: | TODO |
++    |       h8300: | TODO |
++    |     hexagon: | TODO |
++    |        ia64: | TODO |
++    |        m68k: | TODO |
++    |  microblaze: | TODO |
++    |        mips: |  ok  |
++    |       nios2: | TODO |
++    |    openrisc: | TODO |
++    |      parisc: | TODO |
++    |     powerpc: |  ok  |
++    |       riscv: | TODO |
++    |        s390: |  ok  |
++    |          sh: | TODO |
++    |       sparc: |  ok  |
++    |          um: | TODO |
++    |   unicore32: | TODO |
++    |         x86: |  ok  |
++    |      xtensa: | TODO |
++    -----------------------
+diff --git a/Documentation/features/core/generic-idle-thread/arch-support.txt b/Documentation/features/core/generic-idle-thread/arch-support.txt
+index 372a2b18a6172..261073013df90 100644
+--- a/Documentation/features/core/generic-idle-thread/arch-support.txt
++++ b/Documentation/features/core/generic-idle-thread/arch-support.txt
+@@ -18,9 +18,10 @@
+     |  microblaze: | TODO |
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+-    |    openrisc: | TODO |
++    |    openrisc: |  ok  |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
+index ad97217b003ba..33c032ccccf5e 100644
+--- a/Documentation/features/core/jump-labels/arch-support.txt
++++ b/Documentation/features/core/jump-labels/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/core/tracehook/arch-support.txt b/Documentation/features/core/tracehook/arch-support.txt
+index 36ee7bef5d189..7e91aaec8025a 100644
+--- a/Documentation/features/core/tracehook/arch-support.txt
++++ b/Documentation/features/core/tracehook/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: |  ok  |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/debug/KASAN/arch-support.txt b/Documentation/features/debug/KASAN/arch-support.txt
+index f5c99fa576d33..f1192fc5c47eb 100644
+--- a/Documentation/features/debug/KASAN/arch-support.txt
++++ b/Documentation/features/debug/KASAN/arch-support.txt
+@@ -21,11 +21,12 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+     |          um: | TODO |
+     |   unicore32: | TODO |
+-    |         x86: |  ok  | 64-bit only
++    |         x86: |  ok  |
+     |      xtensa: |  ok  |
+     -----------------------
+diff --git a/Documentation/features/debug/gcov-profile-all/arch-support.txt b/Documentation/features/debug/gcov-profile-all/arch-support.txt
+index 5170a9934843e..40847b7b8b12a 100644
+--- a/Documentation/features/debug/gcov-profile-all/arch-support.txt
++++ b/Documentation/features/debug/gcov-profile-all/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/debug/kgdb/arch-support.txt b/Documentation/features/debug/kgdb/arch-support.txt
+index 13b6e994ae1fc..b99e64d513ec0 100644
+--- a/Documentation/features/debug/kgdb/arch-support.txt
++++ b/Documentation/features/debug/kgdb/arch-support.txt
+@@ -11,7 +11,7 @@
+     |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |         c6x: | TODO |
+-    |       h8300: | TODO |
++    |       h8300: |  ok  |
+     |     hexagon: |  ok  |
+     |        ia64: | TODO |
+     |        m68k: | TODO |
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+index 419bb38820e7c..266ea31c6fcdf 100644
+--- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
++++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/debug/kprobes/arch-support.txt b/Documentation/features/debug/kprobes/arch-support.txt
+index 52b3ace0a030a..e60b0d0d25cf6 100644
+--- a/Documentation/features/debug/kprobes/arch-support.txt
++++ b/Documentation/features/debug/kprobes/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: |  ok  |
+     |         arm: |  ok  |
+-    |       arm64: | TODO |
++    |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/debug/kretprobes/arch-support.txt b/Documentation/features/debug/kretprobes/arch-support.txt
+index 180d244195185..1f326a1769cb9 100644
+--- a/Documentation/features/debug/kretprobes/arch-support.txt
++++ b/Documentation/features/debug/kretprobes/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: |  ok  |
+     |         arm: |  ok  |
+-    |       arm64: | TODO |
++    |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/debug/optprobes/arch-support.txt b/Documentation/features/debug/optprobes/arch-support.txt
+index 0a1241f45e41d..a844637b957ce 100644
+--- a/Documentation/features/debug/optprobes/arch-support.txt
++++ b/Documentation/features/debug/optprobes/arch-support.txt
+@@ -20,7 +20,8 @@
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+-    |     powerpc: | TODO |
++    |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
+index 5700195723834..ca3bd7dd4e7f0 100644
+--- a/Documentation/features/debug/stackprotector/arch-support.txt
++++ b/Documentation/features/debug/stackprotector/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: |  ok  |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/debug/uprobes/arch-support.txt b/Documentation/features/debug/uprobes/arch-support.txt
+index 0b8d922eb799e..ac47048fcb95e 100644
+--- a/Documentation/features/debug/uprobes/arch-support.txt
++++ b/Documentation/features/debug/uprobes/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: | TODO |
+     |         arm: |  ok  |
+-    |       arm64: | TODO |
++    |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+@@ -21,9 +21,10 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+-    |       sparc: | TODO |
++    |       sparc: |  ok  |
+     |          um: | TODO |
+     |   unicore32: | TODO |
+     |         x86: |  ok  |
+diff --git a/Documentation/features/debug/user-ret-profiler/arch-support.txt b/Documentation/features/debug/user-ret-profiler/arch-support.txt
+index 13852ae62e9e1..6c0f85b2a8a6e 100644
+--- a/Documentation/features/debug/user-ret-profiler/arch-support.txt
++++ b/Documentation/features/debug/user-ret-profiler/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/io/dma-api-debug/arch-support.txt b/Documentation/features/io/dma-api-debug/arch-support.txt
+index e438ed675623b..7e4510d7d4893 100644
+--- a/Documentation/features/io/dma-api-debug/arch-support.txt
++++ b/Documentation/features/io/dma-api-debug/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/io/dma-contiguous/arch-support.txt b/Documentation/features/io/dma-contiguous/arch-support.txt
+index 47f64a433df00..f6bbced1c8f78 100644
+--- a/Documentation/features/io/dma-contiguous/arch-support.txt
++++ b/Documentation/features/io/dma-contiguous/arch-support.txt
+@@ -21,7 +21,8 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
+-    |        s390: | TODO |
++    |       riscv: |  ok  |
++    |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+     |          um: | TODO |
+diff --git a/Documentation/features/io/sg-chain/arch-support.txt b/Documentation/features/io/sg-chain/arch-support.txt
+index 07f357fadbff6..d2732887e0ad3 100644
+--- a/Documentation/features/io/sg-chain/arch-support.txt
++++ b/Documentation/features/io/sg-chain/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/lib/strncasecmp/arch-support.txt b/Documentation/features/lib/strncasecmp/arch-support.txt
+index 4f3a6a0e4e683..d7a1dd8072514 100644
+--- a/Documentation/features/lib/strncasecmp/arch-support.txt
++++ b/Documentation/features/lib/strncasecmp/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/locking/cmpxchg-local/arch-support.txt b/Documentation/features/locking/cmpxchg-local/arch-support.txt
+index 482a0b09d1f89..c2e9979292a80 100644
+--- a/Documentation/features/locking/cmpxchg-local/arch-support.txt
++++ b/Documentation/features/locking/cmpxchg-local/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: | TODO |
+     |         arm: | TODO |
+-    |       arm64: | TODO |
++    |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/locking/lockdep/arch-support.txt b/Documentation/features/locking/lockdep/arch-support.txt
+index bb35c5ba62866..23f772a875aa5 100644
+--- a/Documentation/features/locking/lockdep/arch-support.txt
++++ b/Documentation/features/locking/lockdep/arch-support.txt
+@@ -18,9 +18,10 @@
+     |  microblaze: |  ok  |
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+-    |    openrisc: | TODO |
++    |    openrisc: |  ok  |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/locking/queued-rwlocks/arch-support.txt b/Documentation/features/locking/queued-rwlocks/arch-support.txt
+index 627e9a6b2db98..2f0a42570f83f 100644
+--- a/Documentation/features/locking/queued-rwlocks/arch-support.txt
++++ b/Documentation/features/locking/queued-rwlocks/arch-support.txt
+@@ -9,21 +9,22 @@
+     |       alpha: | TODO |
+     |         arc: | TODO |
+     |         arm: | TODO |
+-    |       arm64: | TODO |
++    |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |       h8300: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+     |        m68k: | TODO |
+     |  microblaze: | TODO |
+-    |        mips: | TODO |
++    |        mips: |  ok  |
+     |       nios2: | TODO |
+-    |    openrisc: | TODO |
++    |    openrisc: |  ok  |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+-    |       sparc: | TODO |
++    |       sparc: |  ok  |
+     |          um: | TODO |
+     |   unicore32: | TODO |
+     |         x86: |  ok  |
+diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+index 9edda216cdfbf..10794bd0e331a 100644
+--- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
++++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+@@ -16,14 +16,15 @@
+     |        ia64: | TODO |
+     |        m68k: | TODO |
+     |  microblaze: | TODO |
+-    |        mips: | TODO |
++    |        mips: |  ok  |
+     |       nios2: | TODO |
+-    |    openrisc: | TODO |
++    |    openrisc: |  ok  |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+-    |       sparc: | TODO |
++    |       sparc: |  ok  |
+     |          um: | TODO |
+     |   unicore32: | TODO |
+     |         x86: |  ok  |
+diff --git a/Documentation/features/locking/rwsem-optimized/arch-support.txt b/Documentation/features/locking/rwsem-optimized/arch-support.txt
+index 8d9afb10b16e7..c1e98011a653f 100644
+--- a/Documentation/features/locking/rwsem-optimized/arch-support.txt
++++ b/Documentation/features/locking/rwsem-optimized/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/perf/kprobes-event/arch-support.txt b/Documentation/features/perf/kprobes-event/arch-support.txt
+index d01239ee34b34..c327af0f5c992 100644
+--- a/Documentation/features/perf/kprobes-event/arch-support.txt
++++ b/Documentation/features/perf/kprobes-event/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: | TODO |
+     |         arm: |  ok  |
+-    |       arm64: | TODO |
++    |       arm64: |  ok  |
+     |         c6x: | TODO |
+     |       h8300: | TODO |
+     |     hexagon: |  ok  |
+@@ -21,9 +21,10 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+-    |       sparc: | TODO |
++    |       sparc: |  ok  |
+     |          um: | TODO |
+     |   unicore32: | TODO |
+     |         x86: |  ok  |
+diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Documentation/features/perf/perf-regs/arch-support.txt
+index 458faba5311ab..122445ba72974 100644
+--- a/Documentation/features/perf/perf-regs/arch-support.txt
++++ b/Documentation/features/perf/perf-regs/arch-support.txt
+@@ -21,7 +21,8 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |        s390: | TODO |
++    |       riscv: | TODO |
++    |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+     |          um: | TODO |
+diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt b/Documentation/features/perf/perf-stackdump/arch-support.txt
+index 545d01c69c88f..4c16b01b13003 100644
+--- a/Documentation/features/perf/perf-stackdump/arch-support.txt
++++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
+@@ -21,7 +21,8 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |        s390: | TODO |
++    |       riscv: | TODO |
++    |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+     |          um: | TODO |
+diff --git a/Documentation/features/sched/membarrier-sync-core/arch-support.txt b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
+index 85a6c9d4571ce..4cf907ce2329b 100644
+--- a/Documentation/features/sched/membarrier-sync-core/arch-support.txt
++++ b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
+@@ -44,6 +44,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/sched/numa-balancing/arch-support.txt b/Documentation/features/sched/numa-balancing/arch-support.txt
+index 3475088638726..f5a2472bc577f 100644
+--- a/Documentation/features/sched/numa-balancing/arch-support.txt
++++ b/Documentation/features/sched/numa-balancing/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: |  ..  |
+     |         arm: |  ..  |
+-    |       arm64: |  ..  |
++    |       arm64: |  ok  |
+     |         c6x: |  ..  |
+     |       h8300: |  ..  |
+     |     hexagon: |  ..  |
+@@ -21,7 +21,8 @@
+     |    openrisc: |  ..  |
+     |      parisc: |  ..  |
+     |     powerpc: |  ok  |
+-    |        s390: |  ..  |
++    |       riscv: | TODO |
++    |        s390: |  ok  |
+     |          sh: |  ..  |
+     |       sparc: | TODO |
+     |          um: |  ..  |
+diff --git a/Documentation/features/seccomp/seccomp-filter/arch-support.txt b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
+index e4fad58a05e51..732d66f68c36a 100644
+--- a/Documentation/features/seccomp/seccomp-filter/arch-support.txt
++++ b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
+@@ -19,8 +19,9 @@
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+-    |      parisc: | TODO |
+-    |     powerpc: | TODO |
++    |      parisc: |  ok  |
++    |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/time/arch-tick-broadcast/arch-support.txt b/Documentation/features/time/arch-tick-broadcast/arch-support.txt
+index 8052904b25fc7..fd5deea32759b 100644
+--- a/Documentation/features/time/arch-tick-broadcast/arch-support.txt
++++ b/Documentation/features/time/arch-tick-broadcast/arch-support.txt
+@@ -21,8 +21,9 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+-    |          sh: | TODO |
++    |          sh: |  ok  |
+     |       sparc: | TODO |
+     |          um: | TODO |
+     |   unicore32: | TODO |
+diff --git a/Documentation/features/time/clockevents/arch-support.txt b/Documentation/features/time/clockevents/arch-support.txt
+index 7c76b946297e9..96d773c42077a 100644
+--- a/Documentation/features/time/clockevents/arch-support.txt
++++ b/Documentation/features/time/clockevents/arch-support.txt
+@@ -19,8 +19,9 @@
+     |        mips: |  ok  |
+     |       nios2: |  ok  |
+     |    openrisc: |  ok  |
+-    |      parisc: | TODO |
++    |      parisc: |  ok  |
+     |     powerpc: |  ok  |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/time/context-tracking/arch-support.txt b/Documentation/features/time/context-tracking/arch-support.txt
+index 9433b3e523b39..28aa805d61c19 100644
+--- a/Documentation/features/time/context-tracking/arch-support.txt
++++ b/Documentation/features/time/context-tracking/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/time/irq-time-acct/arch-support.txt b/Documentation/features/time/irq-time-acct/arch-support.txt
+index 212dde0b578c8..a12dc62a63ac4 100644
+--- a/Documentation/features/time/irq-time-acct/arch-support.txt
++++ b/Documentation/features/time/irq-time-acct/arch-support.txt
+@@ -20,7 +20,8 @@
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+     |      parisc: |  ..  |
+-    |     powerpc: |  ..  |
++    |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ..  |
+     |          sh: | TODO |
+     |       sparc: |  ..  |
+diff --git a/Documentation/features/time/modern-timekeeping/arch-support.txt b/Documentation/features/time/modern-timekeeping/arch-support.txt
+index 4074028f72f72..4e5e48cc6c1cd 100644
+--- a/Documentation/features/time/modern-timekeeping/arch-support.txt
++++ b/Documentation/features/time/modern-timekeeping/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: |  ok  |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/time/virt-cpuacct/arch-support.txt b/Documentation/features/time/virt-cpuacct/arch-support.txt
+index a394d8820517b..b82e517295d55 100644
+--- a/Documentation/features/time/virt-cpuacct/arch-support.txt
++++ b/Documentation/features/time/virt-cpuacct/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/vm/ELF-ASLR/arch-support.txt b/Documentation/features/vm/ELF-ASLR/arch-support.txt
+index 082f93d5b40ed..413229bedf398 100644
+--- a/Documentation/features/vm/ELF-ASLR/arch-support.txt
++++ b/Documentation/features/vm/ELF-ASLR/arch-support.txt
+@@ -19,8 +19,9 @@
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+-    |      parisc: | TODO |
++    |      parisc: |  ok  |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/vm/PG_uncached/arch-support.txt b/Documentation/features/vm/PG_uncached/arch-support.txt
+index 605e0abb756d8..137064e8815e6 100644
+--- a/Documentation/features/vm/PG_uncached/arch-support.txt
++++ b/Documentation/features/vm/PG_uncached/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/vm/THP/arch-support.txt b/Documentation/features/vm/THP/arch-support.txt
+index 7a8eb0bd5ca84..9f3d4ce8fe820 100644
+--- a/Documentation/features/vm/THP/arch-support.txt
++++ b/Documentation/features/vm/THP/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: |  ..  |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ..  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
+index 35fb99b2b3ea1..d5fd9c773e6c8 100644
+--- a/Documentation/features/vm/TLB/arch-support.txt
++++ b/Documentation/features/vm/TLB/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: |  ..  |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/vm/huge-vmap/arch-support.txt b/Documentation/features/vm/huge-vmap/arch-support.txt
+index ed8b943ad8fc8..bc7ff7b2169d4 100644
+--- a/Documentation/features/vm/huge-vmap/arch-support.txt
++++ b/Documentation/features/vm/huge-vmap/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/vm/ioremap_prot/arch-support.txt b/Documentation/features/vm/ioremap_prot/arch-support.txt
+index 589947bdf0a8a..7ceb532c7ae51 100644
+--- a/Documentation/features/vm/ioremap_prot/arch-support.txt
++++ b/Documentation/features/vm/ioremap_prot/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: | TODO |
+     |          sh: |  ok  |
+     |       sparc: | TODO |
+diff --git a/Documentation/features/vm/numa-memblock/arch-support.txt b/Documentation/features/vm/numa-memblock/arch-support.txt
+index 8b8bea0318a0d..c9f9ad44540a8 100644
+--- a/Documentation/features/vm/numa-memblock/arch-support.txt
++++ b/Documentation/features/vm/numa-memblock/arch-support.txt
+@@ -9,7 +9,7 @@
+     |       alpha: | TODO |
+     |         arc: |  ..  |
+     |         arm: |  ..  |
+-    |       arm64: |  ..  |
++    |       arm64: |  ok  |
+     |         c6x: |  ..  |
+     |       h8300: |  ..  |
+     |     hexagon: |  ..  |
+@@ -21,6 +21,7 @@
+     |    openrisc: |  ..  |
+     |      parisc: |  ..  |
+     |     powerpc: |  ok  |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
+diff --git a/Documentation/features/vm/pte_special/arch-support.txt b/Documentation/features/vm/pte_special/arch-support.txt
+index 055004f467d2c..6e7a00f5bc0ee 100644
+--- a/Documentation/features/vm/pte_special/arch-support.txt
++++ b/Documentation/features/vm/pte_special/arch-support.txt
+@@ -21,6 +21,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: |  ok  |
 -- 
-RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 8.8Mbps down 630kbps up
-According to speedtest.net: 8.21Mbps down 510kbps up
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
