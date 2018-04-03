@@ -1,104 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61D397DD32
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 03:15:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 653087DD32
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 03:36:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751868AbeDCDPq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Apr 2018 23:15:46 -0400
-Received: from mail-pl0-f68.google.com ([209.85.160.68]:37939 "EHLO
-        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751368AbeDCDPp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Apr 2018 23:15:45 -0400
-Received: by mail-pl0-f68.google.com with SMTP id k6-v6so1865146pls.5
-        for <linux-doc@vger.kernel.org>; Mon, 02 Apr 2018 20:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Wlsb9qewiA9+iPoqgXtBn+ROgoMH2qrDNpixsrEQvbU=;
-        b=NMkAv51NEAzCUAayTYegV/WXZaHhjV+2HSF/rOx0WqKBHGj0IEnF4W9dfsYLtKRwSN
-         2YtFpJEt+rAco8EzkEQmmbSrShsi9nrCUkP32tkiIROn2XMXZVaPUP9GxC8wV9nCejM9
-         MDVuSAA6lp7ZtAyWTBQStQRegCMnUB8mXoSGahpLsY10B3TOI/DeztO2mScH55tkl/dQ
-         CZwxNca7CXpy/lWyOn0BoDeZK9bAGjFojvkCNMBlePG4MOh3t4cZCdOt3SysqFhq317R
-         Lspmw+Eoo1fbKsbHUj53f1YNhy4lv2DRBw9NKTMcUhN+4aZfKDcm7Pa5EyV6S3UKl7bW
-         b/eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=Wlsb9qewiA9+iPoqgXtBn+ROgoMH2qrDNpixsrEQvbU=;
-        b=Wyfarf3EgO3RSwas8X1RqByXYwsepCZhqv7nYA1dsw82wPEh8BAWy+zhHnNDkx8rfI
-         47IWB2Q4mkW9q2RDTXjjGz59tigJxSjT1htGkGCiMHpARXtp+w4A86VfDl+iEsli7APf
-         cShaAzgSVbHhR4IsyxlQlEPqXBVoZmzcOskV0Kqxf40ttCuwyJCU17ftfLItWodCus4T
-         Y5X2ywSfzzw9Rbv7tr2xdPHE/19M4GfOfa8k8wvQ0MyXYF/FYnqL+9VWs1f0rB5IDR9b
-         SJhtXJu7WbdZGAYyeJvhMD82J+DWMqOorNRbNmgaAnGCB3K1sdo27n4w+9I/WtDhx3+A
-         iAvw==
-X-Gm-Message-State: AElRT7Ga/tz8d5pVlF5a239MYJBSLAoFH+fh68aGabEuTPFcI9RLK1FW
-        aYxUiWK9Oke9HuyTCA5wAZ5l0g==
-X-Google-Smtp-Source: AIpwx4/HMLH8hdweXBhe1sIWF6doxr0SFpCTrFMo1qxOKg8GlKXHlOYOdAmkQOiV408cND8h3Ob6iw==
-X-Received: by 2002:a17:902:604f:: with SMTP id a15-v6mr12531300plt.184.1522725344968;
-        Mon, 02 Apr 2018 20:15:44 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
-        by smtp.gmail.com with ESMTPSA id k70sm2548113pga.72.2018.04.02.20.15.43
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 02 Apr 2018 20:15:44 -0700 (PDT)
-Date:   Mon, 02 Apr 2018 20:15:44 -0700 (PDT)
-X-Google-Original-Date: Mon, 02 Apr 2018 20:09:20 PDT (-0700)
-Subject:     Re: [PATCH 0/2] perf: riscv: Preliminary Perf Event Support on RISC-V
-In-Reply-To: <1522672284-29593-1-git-send-email-alankao@andestech.com>
-CC:     albert@sifive.com, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org, sols@sifive.com,
-        corbet@lwn.net, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alankao@andestech.com
-From:   Palmer Dabbelt <palmer@sifive.com>
-To:     alankao@andestech.com
-Message-ID: <mhng-678de5a0-ca3d-48d1-848f-9a2431a874f2@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        id S1751868AbeDCDg0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Apr 2018 23:36:26 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:41936 "EHLO
+        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1751368AbeDCDgZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Apr 2018 23:36:25 -0400
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
+   d="scan'208";a="38478272"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 03 Apr 2018 11:36:21 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+        by cn.fujitsu.com (Postfix) with ESMTP id BE64348AE922;
+        Tue,  3 Apr 2018 11:36:20 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.106) by
+ G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Tue, 3 Apr 2018 11:36:19 +0800
+From:   Dou Liyang <douly.fnst@cn.fujitsu.com>
+To:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+        <linux-doc@vger.kernel.org>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <hpa@zytor.com>,
+        <keescook@chromium.org>, <bhe@redhat.com>,
+        <fanc.fnst@cn.fujitsu.com>, <indou.takao@jp.fujitsu.com>,
+        Dou Liyang <douly.fnst@cn.fujitsu.com>
+Subject: [RESEND PATCH] x86/boot/KASLR: Extend movable_node option for KASLR
+Date:   Tue, 3 Apr 2018 11:36:12 +0800
+Message-ID: <20180403033612.19925-1-douly.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.167.226.106]
+X-yoursite-MailScanner-ID: BE64348AE922.A277B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: douly.fnst@cn.fujitsu.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 02 Apr 2018 05:31:22 PDT (-0700), alankao@andestech.com wrote:
-> This implements the baseline PMU for RISC-V platforms.
->
-> To ease future PMU portings, a guide is also written, containing
-> perf concepts, arch porting practices and some hints.
->
-> Changes in v2:
->  - Fix the bug reported by Alex, which was caused by not sufficient
->    initialization.  Check https://lkml.org/lkml/2018/3/31/251 for the
->    discussion.
->
-> Alan Kao (2):
->   perf: riscv: preliminary RISC-V support
->   perf: riscv: Add Document for Future Porting Guide
->
->  Documentation/riscv/pmu.txt         | 249 +++++++++++++++++++
->  arch/riscv/Kconfig                  |  12 +
->  arch/riscv/include/asm/perf_event.h |  76 +++++-
->  arch/riscv/kernel/Makefile          |   1 +
->  arch/riscv/kernel/perf_event.c      | 468 ++++++++++++++++++++++++++++++++++++
->  5 files changed, 802 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/riscv/pmu.txt
->  create mode 100644 arch/riscv/kernel/perf_event.c
+The movable_node option is a boot-time switch to make sure the physical
+NUMA nodes can be hot-added/removed when ACPI table can't be parsed to
+provide the memory hotplug information.
 
-I'm having some trouble pulling this into my tree.  I think you might have 
-another patch floating around somewhere, as I don't have any 
-arch/riscv/include/asm/perf_event.h right now.
+As we all know, there is always one node, called "home node", which
+can't be movabled and the kernel image resides in it. With movable_node
+option, Linux allocates new early memorys near the kernel image to avoid
+using the other movable node.
 
-Do you mind rebasing this on top of linux-4.16 so I can look properly?
+But, due to KASLR also can't get the the memory hotplug information, it may
+randomize the kernel image into a movable node which breaks the rule of
+movable_node option and makes the physical hot-add/remove operation failed.
 
-Thanks!
+The perfect solution is providing the memory hotplug information to KASLR.
+But, it needs the efforts from hardware engineers and software engineers.
+
+Here is an alternative method. Extend movable_node option to restrict kernel
+to be randomized in the home node by adding a parameter. this parameter sets
+up the boundaries between the home nodes and other nodes.
+
+Reported-by: Chao Fan <fanc.fnst@cn.fujitsu.com>
+Signed-off-by: Dou Liyang <douly.fnst@cn.fujitsu.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+---
+Changelog:
+  -Rewrite the commit log and document.
+
+ Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++--
+ arch/x86/boot/compressed/kaslr.c                | 19 ++++++++++++++++---
+ 2 files changed, 26 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 1d1d53f85ddd..0cfc0b10a117 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2353,7 +2353,8 @@
+ 	mousedev.yres=	[MOUSE] Vertical screen resolution, used for devices
+ 			reporting absolute coordinates, such as tablets
+ 
+-	movablecore=nn[KMG]	[KNL,X86,IA-64,PPC] This parameter
++	movablecore=nn[KMG]
++			[KNL,X86,IA-64,PPC] This parameter
+ 			is similar to kernelcore except it specifies the
+ 			amount of memory used for migratable allocations.
+ 			If both kernelcore and movablecore is specified,
+@@ -2363,12 +2364,19 @@
+ 			that the amount of memory usable for all allocations
+ 			is not too small.
+ 
+-	movable_node	[KNL] Boot-time switch to make hotplugable memory
++	movable_node	[KNL] Boot-time switch to make hot-pluggable memory
+ 			NUMA nodes to be movable. This means that the memory
+ 			of such nodes will be usable only for movable
+ 			allocations which rules out almost all kernel
+ 			allocations. Use with caution!
+ 
++	movable_node=nn[KMG]
++			[KNL] Extend movable_node to make it work well with KASLR.
++			This parameter is the boundaries between the "home node" and
++			the other nodes. The "home node" is an immovable node and is
++			defined by BIOS. Set the 'nn' to the memory size of "home
++			node", the kernel image will be extracted in immovable nodes.
++
+ 	MTD_Partition=	[MTD]
+ 			Format: <name>,<region-number>,<size>,<offset>
+ 
+diff --git a/arch/x86/boot/compressed/kaslr.c b/arch/x86/boot/compressed/kaslr.c
+index 8199a6187251..f906d7890e69 100644
+--- a/arch/x86/boot/compressed/kaslr.c
++++ b/arch/x86/boot/compressed/kaslr.c
+@@ -92,7 +92,10 @@ struct mem_vector {
+ static bool memmap_too_large;
+ 
+ 
+-/* Store memory limit specified by "mem=nn[KMG]" or "memmap=nn[KMG]" */
++/*
++ * Store memory limit specified by the following situations:
++ * "mem=nn[KMG]" or "memmap=nn[KMG]" or "movable_node=nn[KMG]"
++ */
+ unsigned long long mem_limit = ULLONG_MAX;
+ 
+ 
+@@ -214,7 +217,8 @@ static int handle_mem_memmap(void)
+ 	char *param, *val;
+ 	u64 mem_size;
+ 
+-	if (!strstr(args, "memmap=") && !strstr(args, "mem="))
++	if (!strstr(args, "memmap=") && !strstr(args, "mem=") &&
++		!strstr(args, "movable_node="))
+ 		return 0;
+ 
+ 	tmp_cmdline = malloc(len + 1);
+@@ -249,7 +253,16 @@ static int handle_mem_memmap(void)
+ 				free(tmp_cmdline);
+ 				return -EINVAL;
+ 			}
+-			mem_limit = mem_size;
++			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
++		} else if (!strcmp(param, "movable_node")) {
++			char *p = val;
++
++			mem_size = memparse(p, &p);
++			if (mem_size == 0) {
++				free(tmp_cmdline);
++				return -EINVAL;
++			}
++			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
+ 		}
+ 	}
+ 
+-- 
+2.14.3
+
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
