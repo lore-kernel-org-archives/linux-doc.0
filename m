@@ -1,165 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 653087DD32
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 03:36:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 07CEA7E22E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 07:43:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751868AbeDCDg0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Apr 2018 23:36:26 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:41936 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1751368AbeDCDgZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Apr 2018 23:36:25 -0400
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
-   d="scan'208";a="38478272"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 03 Apr 2018 11:36:21 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-        by cn.fujitsu.com (Postfix) with ESMTP id BE64348AE922;
-        Tue,  3 Apr 2018 11:36:20 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.106) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Tue, 3 Apr 2018 11:36:19 +0800
-From:   Dou Liyang <douly.fnst@cn.fujitsu.com>
-To:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
-        <linux-doc@vger.kernel.org>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <hpa@zytor.com>,
-        <keescook@chromium.org>, <bhe@redhat.com>,
-        <fanc.fnst@cn.fujitsu.com>, <indou.takao@jp.fujitsu.com>,
-        Dou Liyang <douly.fnst@cn.fujitsu.com>
-Subject: [RESEND PATCH] x86/boot/KASLR: Extend movable_node option for KASLR
-Date:   Tue, 3 Apr 2018 11:36:12 +0800
-Message-ID: <20180403033612.19925-1-douly.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.14.3
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.226.106]
-X-yoursite-MailScanner-ID: BE64348AE922.A277B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: douly.fnst@cn.fujitsu.com
+        id S1754378AbeDCHnI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Apr 2018 03:43:08 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:35859 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751974AbeDCHnH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 03:43:07 -0400
+Received: by mail-wm0-f66.google.com with SMTP id x82so32742335wmg.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 00:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=evidence-eu-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=9IcEW2ux/sS8YMUDdQMh5ucLF9nFlRzegLn3ygo8sWQ=;
+        b=CUzPnTOck0huIp3Ii/KgMAQU0P/knR4VAd7A4pi99wxH3HkP4pJgtIGomQ31jE0H7L
+         osS+wHkv7R35g84JZGptnoBcne7hXoEGIgDWn0sxwdUkXg03NTlZLjtN2InxG5GDsa91
+         2vX5PDt4UXOKf+dXLxkjpBzXYifkPD1smVVsyx8+C1B/1j1xSpW+/2pjImNGYV68YfUx
+         Hs5evJQ99wNARNZ4PAirHCVBufG9Ezb/vmTfCSZNMk6Y3b8zIOUqAN+N2vcqRRge00nM
+         /t+2AESdmm1jHqHWlKtl+CfOLfSV1PFUj+YTDfwpccY96CYTS9zKVKfS1ZrUlaDZSzWL
+         QYsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=9IcEW2ux/sS8YMUDdQMh5ucLF9nFlRzegLn3ygo8sWQ=;
+        b=Rp3UBLjaPmdcsSdJRieQt5CDcjNX1sdG1VEAxaMwMOy3wNOuVdDijocjjbfXWVn3Vo
+         65L1ZBfztAAKjCr3TBZyiWD4x6iol2ZfGSFoqlxeMlmKxydRcqE25qvtWhZHbkeJtjM2
+         w9anl99Nca0Ggv2p4GV5RMYFVfm98VkZ6KQZ1m/4RrgoJ5Xids/EK9mWvyXxPmoLUo6K
+         9nZZQ1kKNJVsNoNBSoyX7EJIZBtCQSxnZ9S9kMvAnnUlLTobQOWQL1pMrVErRytcaSns
+         aq0kMJYB6T83QC8iVknyL/bIu72ttLeGrqMv7WBBxNN36iv+p3032tuA33li0bCZ2wDS
+         kcyw==
+X-Gm-Message-State: ALQs6tAKdaRHI/X9+bOA8+l20kbVqZ+EIkXmbCGmb9ZndcE+mx6F3y75
+        Uzlf3igsUSCRG6wLi7m6HdBmDQ==
+X-Google-Smtp-Source: AIpwx4+qY6UMorzBgs8fs6v6fCE2eq9hXEq3GhkQgFKM4h9AaHZeuY4A6fcbAcar8OXAVycznDK1KA==
+X-Received: by 10.28.40.4 with SMTP id o4mr3449888wmo.44.1522741386067;
+        Tue, 03 Apr 2018 00:43:06 -0700 (PDT)
+Received: from localhost.localdomain (host92-93-static.8-79-b.business.telecomitalia.it. [79.8.93.92])
+        by smtp.gmail.com with ESMTPSA id l34sm1602695wre.14.2018.04.03.00.43.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 03 Apr 2018 00:43:04 -0700 (PDT)
+From:   Claudio Scordino <claudio@evidence.eu.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Claudio Scordino <claudio@evidence.eu.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Luca Abeni <luca.abeni@santannapisa.it>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] sched/deadline: add overrun signal and GRUB-PA in the documentation
+Date:   Tue,  3 Apr 2018 09:42:42 +0200
+Message-Id: <1522741362-4542-1-git-send-email-claudio@evidence.eu.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The movable_node option is a boot-time switch to make sure the physical
-NUMA nodes can be hot-added/removed when ACPI table can't be parsed to
-provide the memory hotplug information.
-
-As we all know, there is always one node, called "home node", which
-can't be movabled and the kernel image resides in it. With movable_node
-option, Linux allocates new early memorys near the kernel image to avoid
-using the other movable node.
-
-But, due to KASLR also can't get the the memory hotplug information, it may
-randomize the kernel image into a movable node which breaks the rule of
-movable_node option and makes the physical hot-add/remove operation failed.
-
-The perfect solution is providing the memory hotplug information to KASLR.
-But, it needs the efforts from hardware engineers and software engineers.
-
-Here is an alternative method. Extend movable_node option to restrict kernel
-to be randomized in the home node by adding a parameter. this parameter sets
-up the boundaries between the home nodes and other nodes.
-
-Reported-by: Chao Fan <fanc.fnst@cn.fujitsu.com>
-Signed-off-by: Dou Liyang <douly.fnst@cn.fujitsu.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Claudio Scordino <claudio@evidence.eu.com>
+CC: Juri Lelli <juri.lelli@redhat.com>
+CC: Luca Abeni <luca.abeni@santannapisa.it>
+CC: linux-kernel@vger.kernel.org
+CC: linux-doc@vger.kernel.org
 ---
-Changelog:
-  -Rewrite the commit log and document.
+ Documentation/scheduler/sched-deadline.txt | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
- Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++--
- arch/x86/boot/compressed/kaslr.c                | 19 ++++++++++++++++---
- 2 files changed, 26 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1d1d53f85ddd..0cfc0b10a117 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2353,7 +2353,8 @@
- 	mousedev.yres=	[MOUSE] Vertical screen resolution, used for devices
- 			reporting absolute coordinates, such as tablets
+diff --git a/Documentation/scheduler/sched-deadline.txt b/Documentation/scheduler/sched-deadline.txt
+index 8ce78f8..b14e03f 100644
+--- a/Documentation/scheduler/sched-deadline.txt
++++ b/Documentation/scheduler/sched-deadline.txt
+@@ -49,7 +49,7 @@ CONTENTS
+ 2.1 Main algorithm
+ ------------------
  
--	movablecore=nn[KMG]	[KNL,X86,IA-64,PPC] This parameter
-+	movablecore=nn[KMG]
-+			[KNL,X86,IA-64,PPC] This parameter
- 			is similar to kernelcore except it specifies the
- 			amount of memory used for migratable allocations.
- 			If both kernelcore and movablecore is specified,
-@@ -2363,12 +2364,19 @@
- 			that the amount of memory usable for all allocations
- 			is not too small.
+- SCHED_DEADLINE uses three parameters, named "runtime", "period", and
++ SCHED_DEADLINE [18] uses three parameters, named "runtime", "period", and
+  "deadline", to schedule tasks. A SCHED_DEADLINE task should receive
+  "runtime" microseconds of execution time every "period" microseconds, and
+  these "runtime" microseconds are available within "deadline" microseconds
+@@ -117,6 +117,10 @@ CONTENTS
+          scheduling deadline = scheduling deadline + period
+          remaining runtime = remaining runtime + runtime
  
--	movable_node	[KNL] Boot-time switch to make hotplugable memory
-+	movable_node	[KNL] Boot-time switch to make hot-pluggable memory
- 			NUMA nodes to be movable. This means that the memory
- 			of such nodes will be usable only for movable
- 			allocations which rules out almost all kernel
- 			allocations. Use with caution!
- 
-+	movable_node=nn[KMG]
-+			[KNL] Extend movable_node to make it work well with KASLR.
-+			This parameter is the boundaries between the "home node" and
-+			the other nodes. The "home node" is an immovable node and is
-+			defined by BIOS. Set the 'nn' to the memory size of "home
-+			node", the kernel image will be extracted in immovable nodes.
++ The SCHED_FLAG_DL_OVERRUN flag in sched_attr's sched_flags field allows a task
++ to get informed about runtime overruns through the delivery of SIGXCPU
++ signals.
 +
- 	MTD_Partition=	[MTD]
- 			Format: <name>,<region-number>,<size>,<offset>
  
-diff --git a/arch/x86/boot/compressed/kaslr.c b/arch/x86/boot/compressed/kaslr.c
-index 8199a6187251..f906d7890e69 100644
---- a/arch/x86/boot/compressed/kaslr.c
-+++ b/arch/x86/boot/compressed/kaslr.c
-@@ -92,7 +92,10 @@ struct mem_vector {
- static bool memmap_too_large;
+ 2.2 Bandwidth reclaiming
+ ------------------------
+@@ -279,6 +283,19 @@ CONTENTS
+     running_bw is incremented.
  
  
--/* Store memory limit specified by "mem=nn[KMG]" or "memmap=nn[KMG]" */
-+/*
-+ * Store memory limit specified by the following situations:
-+ * "mem=nn[KMG]" or "memmap=nn[KMG]" or "movable_node=nn[KMG]"
-+ */
- unsigned long long mem_limit = ULLONG_MAX;
- 
- 
-@@ -214,7 +217,8 @@ static int handle_mem_memmap(void)
- 	char *param, *val;
- 	u64 mem_size;
- 
--	if (!strstr(args, "memmap=") && !strstr(args, "mem="))
-+	if (!strstr(args, "memmap=") && !strstr(args, "mem=") &&
-+		!strstr(args, "movable_node="))
- 		return 0;
- 
- 	tmp_cmdline = malloc(len + 1);
-@@ -249,7 +253,16 @@ static int handle_mem_memmap(void)
- 				free(tmp_cmdline);
- 				return -EINVAL;
- 			}
--			mem_limit = mem_size;
-+			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
-+		} else if (!strcmp(param, "movable_node")) {
-+			char *p = val;
++2.3 Energy-aware scheduling
++------------------------
 +
-+			mem_size = memparse(p, &p);
-+			if (mem_size == 0) {
-+				free(tmp_cmdline);
-+				return -EINVAL;
-+			}
-+			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
- 		}
- 	}
++ When cpufreq's schedutil governor is selected, SCHED_DEADLINE implements the
++ GRUB-PA [19] algorithm, reducing the CPU operating frequency to the minimum
++ value that still allows to meet the deadlines. This behavior is currently
++ implemented only for ARM architectures.
++
++ A particular care must be taken in case the time needed for changing frequency
++ is of the same order of magnitude of the reservation period. In such cases,
++ setting a fixed CPU frequency results in a lower amount of deadline misses.
++
++
+ 3. Scheduling Real-Time Tasks
+ =============================
  
+@@ -505,6 +522,12 @@ CONTENTS
+   17 - L. Abeni, G. Lipari, A. Parri, Y. Sun, Multicore CPU reclaiming: parallel
+        or sequential?. In Proceedings of the 31st Annual ACM Symposium on Applied
+        Computing, 2016.
++  18 - J. Lelli, C. Scordino, L. Abeni, D. Faggioli, Deadline scheduling in the
++       Linux kernel, Software: Practice and Experience, 46(6): 821-839, June
++       2016.
++  19 - C. Scordino, L. Abeni, J. Lelli, Energy-Aware Real-Time Scheduling in
++       the Linux Kernel, 33rd ACM/SIGAPP Symposium On Applied Computing (SAC
++       2018), Pau, France, April 2018.
+ 
+ 
+ 4. Bandwidth management
 -- 
-2.14.3
-
-
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
