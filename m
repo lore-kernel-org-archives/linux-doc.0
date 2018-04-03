@@ -1,209 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F11A97DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 09:59:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3BFD7E22E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 11:30:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755064AbeDCJ7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Apr 2018 05:59:53 -0400
-Received: from mail-wm0-f52.google.com ([74.125.82.52]:37397 "EHLO
-        mail-wm0-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754835AbeDCJ7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 05:59:51 -0400
-Received: by mail-wm0-f52.google.com with SMTP id r131so33812982wmb.2
-        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 02:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BecnRLaCn0wbhGIQvQbp7BrO/Uis+jhcKzZJCifxjVE=;
-        b=VBhADR0XfKyJFZBYTObXlVO40b2YJ4PINA7c548MUXtDLA20m8bbk61Wp1Pd+idDyu
-         jXH+Gk4wEDaNDtQs4tcXhmgRZWjB5hCKX4eJJq/7GkXE1SdUJoUxfN9zlMGA6gZk1D2V
-         xgQwCAiDfDZXKYctHGZvvXSFpkGicwl1gxCMw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BecnRLaCn0wbhGIQvQbp7BrO/Uis+jhcKzZJCifxjVE=;
-        b=H6b5VdlJrqxHW+DuFdGoqNp2zKA005/rIDXGe1RmbC4sJP7w7uP5Vw2mfty6k8IE4N
-         ZnB+JzKwJYKfydbrwR8rZR5GtyYYvglJ9HaQjiNk+ezirZCT29OPBaE2KtusqzYIVUc6
-         AZor7YkzUVLtkND3WFMNoxZD6orllI4Ufa4UzM34TXXIAAeLsYiQ30iQKtSkqpuz5wUy
-         xwlAuu7aZKLaH4KJbC1wuXsur0bPPAxbn3yAv66goJbJWeqQFMB0MSvK9HIk41P4kgpu
-         EHOwc/+/SgTAt76ZyV1hMO0/sVdCs8dbvNEWRchg7U8xydnSemKPeSMX55Xyjefs+efU
-         CmyQ==
-X-Gm-Message-State: AElRT7E4Fjlk1AuE5CgdqooR3Zddo7chqZbtJMkeEJAXvHDKbmDe19+i
-        NcyS8KJqygkQLXeKfz67iHS5tgqgrZo=
-X-Google-Smtp-Source: AIpwx48cPjCwtY0ySArm0KhhMU6I9kH6QfCi8tzJ2FA7ojLTjO3MqcAejlgTKDG34GK2OsDjc+3WYQ==
-X-Received: by 10.80.190.70 with SMTP id b6mr8087570edi.283.1522749589993;
-        Tue, 03 Apr 2018 02:59:49 -0700 (PDT)
-Received: from [192.168.1.75] (lft31-1-88-121-166-205.fbx.proxad.net. [88.121.166.205])
-        by smtp.googlemail.com with ESMTPSA id s10sm1573680edc.63.2018.04.03.02.59.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 Apr 2018 02:59:49 -0700 (PDT)
-Subject: Re: [PATCH v4 7/8] clocksource: Add a new timer-ingenic driver
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        James Hogan <jhogan@kernel.org>,
-        Maarten ter Huurne <maarten@treewalker.org>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-doc@vger.kernel.org
-References: <20180110224838.16711-2-paul@crapouillou.net>
- <20180317232901.14129-1-paul@crapouillou.net>
- <20180317232901.14129-8-paul@crapouillou.net>
- <a8d28b2b-4e40-83b9-d65e-beecbd36ad33@linaro.org>
- <06976e4ae275c4cc0bddacc5e0c0c9a9@crapouillou.net>
- <af33e522-7f87-d62a-0a35-d56a403387b7@linaro.org>
- <1522335149.1792.0@smtp.crapouillou.net>
- <2234006b-30ff-d5a8-b14a-d6e307c06145@linaro.org>
- <4532f9e86184afab8c46e8debd8abe61@crapouillou.net>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <73091b00-205b-3133-6650-21b6e3fda70f@linaro.org>
-Date:   Tue, 3 Apr 2018 11:59:47 +0200
+        id S932069AbeDCLa5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Apr 2018 07:30:57 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59690 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932066AbeDCLa4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Apr 2018 07:30:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DC3C1435;
+        Tue,  3 Apr 2018 04:30:56 -0700 (PDT)
+Received: from [10.1.206.75] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C59C63F587;
+        Tue,  3 Apr 2018 04:30:44 -0700 (PDT)
+Subject: Re: [PATCH v3 2/6] Disable instrumentation for some code
+To:     Abbott Liu <liuwenliang@huawei.com>, aryabinin@virtuozzo.com,
+        dvyukov@google.com, corbet@lwn.net, linux@armlinux.org.uk,
+        christoffer.dall@linaro.org, kstewart@linuxfoundation.org,
+        gregkh@linuxfoundation.org, f.fainelli@gmail.com,
+        akpm@linux-foundation.org, linux@rasmusvillemoes.dk,
+        mawilcox@microsoft.com, pombredanne@nexb.com,
+        ard.biesheuvel@linaro.org, vladimir.murzin@arm.com,
+        alexander.levin@verizon.com, nicolas.pitre@linaro.org,
+        tglx@linutronix.de, thgarnie@google.com, dhowells@redhat.com,
+        keescook@chromium.org, arnd@arndb.de, geert@linux-m68k.org,
+        tixy@linaro.org, julien.thierry@arm.com, mark.rutland@arm.com,
+        james.morse@arm.com, zhichao.huang@linaro.org,
+        jinb.park7@gmail.com, labbott@redhat.com, philip@cog.systems,
+        grygorii.strashko@linaro.org, catalin.marinas@arm.com,
+        opendmb@gmail.com, kirill.shutemov@linux.intel.com,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu, linux-mm@kvack.org
+References: <20180402120440.31900-1-liuwenliang@huawei.com>
+ <20180402120440.31900-3-liuwenliang@huawei.com>
+From:   Marc Zyngier <marc.zyngier@arm.com>
+Organization: ARM Ltd
+Message-ID: <7837103a-bcf0-6b00-14d6-bd6b80649886@arm.com>
+Date:   Tue, 3 Apr 2018 12:30:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <4532f9e86184afab8c46e8debd8abe61@crapouillou.net>
+In-Reply-To: <20180402120440.31900-3-liuwenliang@huawei.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31/03/2018 19:46, Paul Cercueil wrote:
-> Le 2018-03-31 10:10, Daniel Lezcano a écrit :
->> On 29/03/2018 16:52, Paul Cercueil wrote:
->>>
->>>
->>> Le mer. 28 mars 2018 à 18:25, Daniel Lezcano <daniel.lezcano@linaro.org>
->>> a écrit :
->>>> On 28/03/2018 17:15, Paul Cercueil wrote:
->>>>>  Le 2018-03-24 07:26, Daniel Lezcano a écrit :
->>>>>>  On 18/03/2018 00:29, Paul Cercueil wrote:
->>>>>>>  This driver will use the TCU (Timer Counter Unit) present on the
->>>>>>> Ingenic
->>>>>>>  JZ47xx SoCs to provide the kernel with a clocksource and timers.
->>>>>>
->>>>>>  Please provide a more detailed description about the timer.
->>>>>
->>>>>  There's a doc file for that :)
->>>>
->>>> Usually, when there is a new driver I ask for a description in the
->>>> changelog for reference.
->>>>
->>>>>>  Where is the clocksource ?
->>>>>
->>>>>  Right, there is no clocksource, just timers.
->>>>>
->>>>>>  I don't see the point of using channel idx and pwm checking here.
->>>>>>
->>>>>>  There is one clockevent, why create multiple channels ? Can't you
->>>>>> stick
->>>>>>  to the usual init routine for a timer.
->>>>>
->>>>>  So the idea is that we use all the TCU channels that won't be used
->>>>> for PWM
->>>>>  as timers. Hence the PWM checking. Why is this bad?
->>>>
->>>> It is not bad but arguable. By checking the channels used by the pwm in
->>>> the code, you introduce an adherence between two subsystems even if it
->>>> is just related to the DT parsing part.
->>>>
->>>> As it is not needed to have more than one timer in the time framework
->>>> (at least with the same characteristics), the pwm channels check is
->>>> pointless. We can assume the author of the DT file is smart enough to
->>>> prevent conflicts and define a pwm and a timer properly instead of
->>>> adding more code complexity.
->>>>
->>>> In addition, simplifying the code will allow you to use the timer-of
->>>> code and reduce very significantly the init function.
->>>
->>> That's what I had in my V1 and V2, my DT node for the timer-ingenic
->>> driver
->>> had a "timers" property (e.g. "timers = <4 5>;") to select the channels
->>> that
->>> should be used as timers. Then Rob told me I shouldn't do that, and
->>> instead
->>> detect the channels that will be used for PWM.
->>>
->>
->> [ ... ]
->>
->> How do you specify the channels used for PWM ?
+On 02/04/18 13:04, Abbott Liu wrote:
+> From: Andrey Ryabinin <a.ryabinin@samsung.com>
 > 
-> To detect the channels that will be used as PWM I parse the whole
-> devicetree
-> searching for "pwms" properties; check that the PWM handle is for our
-> TCU PWM
-> driver; then read the PWM number from there.
+> Disable instrumentation for arch/arm/boot/compressed/*
+> ,arch/arm/kvm/hyp/* and arch/arm/vdso/* because those
+> code won't linkd with kernel image.
 > 
-> Of course it's hackish, and it only works for devicetree. I preferred the
-> method with the "timers" property.
-
-Do you have a DT portion describing that? Eg somewhere in the kernel's
-git tree ?
-
-From what I understood, we can specify the channel for a pwm but not for
-a timer, there is certainly something I'm missing.
-
->>>>>>>
->>>>>>>  +config INGENIC_TIMER
->>>>>>>  +    bool "Clocksource/timer using the TCU in Ingenic JZ SoCs"
->>>>>>>  +    depends on MACH_INGENIC || COMPILE_TEST
->>>>>>
->>>>>>  bool "Clocksource/timer using the TCU in Ingenic JZ SoCs" if
->>>>>> COMPILE_TEST
->>>>>>
->>>>>>  Remove the depends MACH_INGENIC.
->>>>>
->>>>>  This driver is not useful on anything else than Ingenic SoCs, why
->>>>> should I
->>>>>  remove MACH_INGENIC then?
->>>>
->>>> For COMPILE_TEST on x86.
->>>
->>> Well that's a logical OR right here, so it will work...
->>
->> Right, I missed the second part of the condition. For consistency
->> reason, we don't add a dependency on the platform. The platform will
->> select it. Look the other timer options and you will see there is no
->> MACH deps. I'm trying consolidating all these options to have same
->> format and hopefully factor them out.
+> Disable kasan check in the function unwind_pop_register
+> because it doesn't matter that kasan checks failed when
+> unwind_pop_register read stack memory of task.
 > 
-> I'm all for factorisation, but what I dislike with not depending on
-> MACH_INGENIC, is that the driver now appears in the menuconfig for
-> every arch, even if it only applies to one MIPS SoC.
+> Reviewed-by: Russell King - ARM Linux <linux@armlinux.org.uk>
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> Reviewed-by: Marc Zyngier <marc.zyngier@arm.com>
 
-Can you do the following change?
+Just because I replied to this patch doesn't mean you can stick my
+Reviewed-by tag on it. Please drop this tag until I explicitly say that
+you can add it (see Documentation/process/submitting-patches.rst,
+section 11).
 
-bool "Clocksource/timer using the TCU in Ingenic JZ SoCs" if COMPILE_TEST
+Same goes for patch 1.
 
-so it will appear only when the COMPILE_TEST option is set whatever the
-platform which is the purpose of this option to increase compile test
-coverage.
+Thanks,
 
-
+	M.
 -- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+Jazz is not dead. It just smells funny...
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
