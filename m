@@ -3,102 +3,457 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3C287DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Apr 2018 18:48:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4B18D7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Apr 2018 02:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751685AbeDCSsh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Apr 2018 14:48:37 -0400
-Received: from mail-oi0-f68.google.com ([209.85.218.68]:34775 "EHLO
-        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752881AbeDCSsW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 14:48:22 -0400
-Received: by mail-oi0-f68.google.com with SMTP id u141-v6so16949591oif.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 11:48:22 -0700 (PDT)
+        id S1751567AbeDDCIr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Apr 2018 22:08:47 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:36871 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751332AbeDDCIq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Apr 2018 22:08:46 -0400
+Received: by mail-wm0-f68.google.com with SMTP id r131so38674959wmb.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 19:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=sifive.com; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=nXDrQwF0q6LeQarRkeKP9D/ocOebnm0oJylWUsVyEu8=;
-        b=LSMlKOMkS23rnAtB9pR3bzy2IQqPlcZhIXwJHv+UGjWTNBOkZCxcOZj+MK97bAnJrL
-         IXJ4NkSj+vZgWABamK4IP4auCcAqCVdykU5rnkyTKt/AcZLuaD3U8cSOt7eWV2jGaVgh
-         K3CSwBUHjVXj+MM3dqLW0A04F67NBqXKf1+kE=
+        bh=LNuNXr+yJhhVYt2O4zj55POvPgPTeijaj+ZZSKE1vHE=;
+        b=AaD5y3lBH1RgUXeGbHOqrb/zpbz2Cw9X5wJ0PrdJk0y+z2QKfiwlnKWCPMDBQ3o/mn
+         7df4T2AeqyyYvHBiZqvmBEHDIYJCeZ8Eye+mKbQML4cRG7r0LQCtPKTWPFb3oHBXc0Wg
+         rsi7Ir61VC5Q52+toHaX+FlqTElVc+YNUjsukPu70Z67LDYtYtrZZm7YhD21f9w/St2e
+         kzUWtzNFxpgY6sM5Ly7NhMEgH65fJMaoaPudzbL2Y+fGn9wtdAGpq9w1CqIXPgnMHSab
+         IxPu4+OCnxTVomDRL7yo6xyWxzylH5jhUsgWTeRu1f2IBbKSURo5M6IwoWQzMnhH3Sm4
+         xpHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=nXDrQwF0q6LeQarRkeKP9D/ocOebnm0oJylWUsVyEu8=;
-        b=KsEQJjNi00Zne0vetL+7X7A6jhijm5f1o643Ciyf8VE5MrRRPzV2nol+DOkVms8ptP
-         IyHAn05UtHt2VMuZMgMVmrPz6PgpU31YPCaLHio0cWN/DzzhoKTflxLg0bwAusWpNteT
-         IUwKvXc3UTSCtVtNyjsquT2O7/I1KDq8g+KhiNg8ssLH9fBsoVwmTQHCcitxPrMsAvqH
-         oUpkRefhOWWLKgThxHlrt9xdswHXNuIFJd3o1/EXqQaaQZuXQmSSgzHEP0CFKTOucc3e
-         P1JpDcB72KzEgjZIZ0PiIMp1xjiVo7wMgtKJx0gL+YB5MFPAEuhML95Vt30CWIKOKHLy
-         6Ffg==
-X-Gm-Message-State: ALQs6tAQ6M/uFCO0ks4CTYEKOpw+FNQOGbzYhD3pV2rZdip48B1NdFmk
-        J+t9NWc7stY+w/NbjNXhD8ZQi3n4qFw=
-X-Google-Smtp-Source: AIpwx4+dzBBThbXN2LZBk63/80oTCpBkWsl6A39RB4i64AbCqKVmMGD8riVPQ9O8xmsfEtfB7Jwu1A==
-X-Received: by 2002:aca:4e85:: with SMTP id c127-v6mr7519285oib.10.1522781301261;
-        Tue, 03 Apr 2018 11:48:21 -0700 (PDT)
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id y2-v6sm1046047otg.71.2018.04.03.11.48.19
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 Apr 2018 11:48:19 -0700 (PDT)
-Received: by mail-oi0-f51.google.com with SMTP id q71-v6so16939068oic.6
-        for <linux-doc@vger.kernel.org>; Tue, 03 Apr 2018 11:48:19 -0700 (PDT)
-X-Received: by 2002:aca:b103:: with SMTP id a3-v6mr7649450oif.135.1522781298776;
- Tue, 03 Apr 2018 11:48:18 -0700 (PDT)
+        bh=LNuNXr+yJhhVYt2O4zj55POvPgPTeijaj+ZZSKE1vHE=;
+        b=o4woOKhX/6T2DccU/Gk8ZB8i1rtWNJ8oK/z9EicEUqZfcZHpTgsdNqSQoRJHEfINg8
+         cSSXJ4dS9aMCAAmg1ZVGRl5+4xpmIK2gFq9KrSYCg01HeS3BNBIKRNUawcFcEDqyaw2q
+         VykG4R4eoUHARrd5pJbBtTDXm7lvQuMlLPY70IDlZDPD7DvVbDzuWuE2zPIn7GX5sDPv
+         OwpX2GIeFSWQHLYln1HO5v5Na6H64KDNou/ypzDcfmCrFS0rS+fGWKzbdNE3nbgQwGUA
+         gfnp+Z1LgdTuJmJDjkXe+EWUfi9C89h1tS2S2tQXUnlNgmaQD/UgYv7c1lPzKom1QKwU
+         YXQA==
+X-Gm-Message-State: ALQs6tCkylmQfqIxTaiwzPtP52QspV6pd63LoLPdW0Crs0KeU4idLSvN
+        cxQHxO+FDv0DYkF2DRMpACuf87uFSjyQh3FPTbkZpw==
+X-Google-Smtp-Source: AIpwx4/wyALuCu4mxJ8AAHxu2ag5fBtU6S4Ka681bCR19VRhDZEOXw9l3TjjLpvZv+Ft+6h4moS0Ah2QyquADMVe0Y0=
+X-Received: by 10.28.220.193 with SMTP id t184mr6081418wmg.138.1522807724302;
+ Tue, 03 Apr 2018 19:08:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org> <1522429700-13083-3-git-send-email-kramasub@codeaurora.org>
-In-Reply-To: <1522429700-13083-3-git-send-email-kramasub@codeaurora.org>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Tue, 03 Apr 2018 18:47:43 +0000
-X-Gmail-Original-Message-ID: <CAE=gft4SVRy8DMUYpjq3Pvv6r8wMzKr=MOqqPZJNnVONc6ruQA@mail.gmail.com>
-Message-ID: <CAE=gft4SVRy8DMUYpjq3Pvv6r8wMzKr=MOqqPZJNnVONc6ruQA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/5] soc: qcom: Add GENI based QUP Wrapper driver
-To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>, robh+dt@kernel.org,
-        mark.rutland@arm.com, wsa@the-dreams.de, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, acourbot@chromium.org,
-        swboyd@chromium.org, Doug Anderson <dianders@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>
+Received: by 10.28.15.140 with HTTP; Tue, 3 Apr 2018 19:08:43 -0700 (PDT)
+In-Reply-To: <1522672284-29593-3-git-send-email-alankao@andestech.com>
+References: <1522672284-29593-1-git-send-email-alankao@andestech.com> <1522672284-29593-3-git-send-email-alankao@andestech.com>
+From:   Alex Solomatnikov <sols@sifive.com>
+Date:   Tue, 3 Apr 2018 19:08:43 -0700
+Message-ID: <CAJ2AOiM34QyHPZkpz3DEpkyWB2TJ-gK9qPM3rKc2dNDQXCRXiw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] perf: riscv: Add Document for Future Porting Guide
+To:     Alan Kao <alankao@andestech.com>
+Cc:     Palmer Dabbelt <palmer@sifive.com>, Albert Ou <albert@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <greentime@andestech.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 30, 2018 at 10:08 AM Karthikeyan Ramasubramanian <
-kramasub@codeaurora.org> wrote:
+Doc fixes:
 
-> This driver manages the Generic Interface (GENI) firmware based Qualcomm
-> Universal Peripheral (QUP) Wrapper. GENI based QUP is the next generation
-> programmable module composed of multiple Serial Engines (SE) and supports
-> a wide range of serial interfaces like UART, SPI, I2C, I3C, etc. This
-> driver also enables managing the serial interface independent aspects of
-> Serial Engines.
 
-> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
-> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+diff --git a/Documentation/riscv/pmu.txt b/Documentation/riscv/pmu.txt
+index a3e930e..ae90a5e 100644
+--- a/Documentation/riscv/pmu.txt
++++ b/Documentation/riscv/pmu.txt
+@@ -20,7 +20,7 @@ the lack of the following general architectural
+performance monitoring features:
+ * Enabling/Disabling counters
+   Counters are just free-running all the time in our case.
+ * Interrupt caused by counter overflow
+-  No such design in the spec.
++  No such feature in the spec.
+ * Interrupt indicator
+   It is not possible to have many interrupt ports for all counters, so an
+   interrupt indicator is required for software to tell which counter has
+@@ -159,14 +159,14 @@ interrupt for perf, so the details are to be
+completed in the future.
+
+ They seem symmetric but perf treats them quite differently.  For reading, there
+ is a *read* interface in *struct pmu*, but it serves more than just reading.
+-According to the context, the *read* function not only read the content of the
+-counter (event->count), but also update the left period to the next interrupt
++According to the context, the *read* function not only reads the content of the
++counter (event->count), but also updates the left period for the next interrupt
+ (event->hw.period_left).
+
+ But the core of perf does not need direct write to counters.  Writing counters
+-hides behind the abstraction of 1) *pmu->start*, literally start
+counting so one
++is hidden behind the abstraction of 1) *pmu->start*, literally start
+counting so one
+ has to set the counter to a good value for the next interrupt; 2)
+inside the IRQ
+-it should set the counter with the same reason.
++it should set the counter to the same reasonable value.
+
+ Reading is not a problem in RISC-V but writing would need some effort, since
+ counters are not allowed to be written by S-mode.
+@@ -190,37 +190,37 @@ Three states (event->hw.state) are defined:
+ A normal flow of these state transitions are as follows:
+
+ * A user launches a perf event, resulting in calling to *event_init*.
+-* When being context-switched in, *add* is called by the perf core, with flag
+-  PERF_EF_START, which mean that the event should be started after it is added.
+-  In this stage, an general event is binded to a physical counter, if any.
++* When being context-switched in, *add* is called by the perf core, with a flag
++  PERF_EF_START, which means that the event should be started after
+it is added.
++  At this stage, a general event is bound to a physical counter, if any.
+   The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE,
+because it is now
+   stopped, and the (software) event count does not need updating.
+ ** *start* is then called, and the counter is enabled.
+-   With flag PERF_EF_RELOAD, it write the counter to an appropriate
+value (check
+-   previous section for detail).
+-   No writing is made if the flag does not contain PERF_EF_RELOAD.
+-   The state now is reset to none, because it is neither stopped nor update
+-   (the counting already starts)
+-* When being context-switched out, *del* is called.  It then checkout all the
+-  events in the PMU and call *stop* to update their counts.
++   With flag PERF_EF_RELOAD, it writes an appropriate value to the
+counter (check
++   the previous section for details).
++   Nothing is written if the flag does not contain PERF_EF_RELOAD.
++   The state now is reset to none, because it is neither stopped nor updated
++   (the counting already started)
++* When being context-switched out, *del* is called.  It then checks out all the
++  events in the PMU and calls *stop* to update their counts.
+ ** *stop* is called by *del*
+    and the perf core with flag PERF_EF_UPDATE, and it often shares the same
+    subroutine as *read* with the same logic.
+    The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, again.
+
+-** Life cycles of these two pairs: *add* and *del* are called repeatedly as
++** Life cycle of these two pairs: *add* and *del* are called repeatedly as
+   tasks switch in-and-out; *start* and *stop* is also called when the perf core
+   needs a quick stop-and-start, for instance, when the interrupt
+period is being
+   adjusted.
+
+-Current implementation is sufficient for now and can be easily extend to
++Current implementation is sufficient for now and can be easily
+extended with new
+ features in the future.
+
+ A. Related Structures
+ ---------------------
+
+-* struct pmu: include/linux/perf_events.h
+-* struct riscv_pmu: arch/riscv/include/asm/perf_events.h
++* struct pmu: include/linux/perf_event.h
++* struct riscv_pmu: arch/riscv/include/asm/perf_event.h
+
+   Both structures are designed to be read-only.
+
+@@ -231,13 +231,13 @@ perf's internal state machine (check
+kernel/events/core.c for details).
+   *struct riscv_pmu* defines PMU-specific parameters.  The naming follows the
+ convention of all other architectures.
+
+-* struct perf_event: include/linux/perf_events.h
++* struct perf_event: include/linux/perf_event.h
+ * struct hw_perf_event
+
+   The generic structure that represents perf events, and the hardware-related
+ details.
+
+-* struct riscv_hw_events: arch/riscv/include/asm/perf_events.h
++* struct riscv_hw_events: arch/riscv/include/asm/perf_event.h
+
+   The structure that holds the status of events, has two fixed members:
+ the number of events and the array of the events.
+
+
+
+On Mon, Apr 2, 2018 at 5:31 AM, Alan Kao <alankao@andestech.com> wrote:
+> Cc: Nick Hu <nickhu@andestech.com>
+> Cc: Greentime Hu <greentime@andestech.com>
+> Signed-off-by: Alan Kao <alankao@andestech.com>
 > ---
->   drivers/soc/qcom/Kconfig        |   9 +
->   drivers/soc/qcom/Makefile       |   1 +
->   drivers/soc/qcom/qcom-geni-se.c | 748
-++++++++++++++++++++++++++++++++++++++++
->   include/linux/qcom-geni-se.h    | 425 +++++++++++++++++++++++
->   4 files changed, 1183 insertions(+)
->   create mode 100644 drivers/soc/qcom/qcom-geni-se.c
->   create mode 100644 include/linux/qcom-geni-se.h
-
-
-Reviewed-by: Evan Green <evgreen@chromium.org>
+>  Documentation/riscv/pmu.txt | 249 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 249 insertions(+)
+>  create mode 100644 Documentation/riscv/pmu.txt
+>
+> diff --git a/Documentation/riscv/pmu.txt b/Documentation/riscv/pmu.txt
+> new file mode 100644
+> index 000000000000..a3e930ed5141
+> --- /dev/null
+> +++ b/Documentation/riscv/pmu.txt
+> @@ -0,0 +1,249 @@
+> +Supporting PMUs on RISC-V platforms
+> +==========================================
+> +Alan Kao <alankao@andestech.com>, Mar 2018
+> +
+> +Introduction
+> +------------
+> +
+> +As of this writing, perf_event-related features mentioned in The RISC-V ISA
+> +Privileged Version 1.10 are as follows:
+> +(please check the manual for more details)
+> +
+> +* [m|s]counteren
+> +* mcycle[h], cycle[h]
+> +* minstret[h], instret[h]
+> +* mhpeventx, mhpcounterx[h]
+> +
+> +With such function set only, porting perf would require a lot of work, due to
+> +the lack of the following general architectural performance monitoring features:
+> +
+> +* Enabling/Disabling counters
+> +  Counters are just free-running all the time in our case.
+> +* Interrupt caused by counter overflow
+> +  No such design in the spec.
+> +* Interrupt indicator
+> +  It is not possible to have many interrupt ports for all counters, so an
+> +  interrupt indicator is required for software to tell which counter has
+> +  just overflowed.
+> +* Writing to counters
+> +  There will be an SBI to support this since the kernel cannot modify the
+> +  counters [1].  Alternatively, some vendor considers to implement
+> +  hardware-extension for M-S-U model machines to write counters directly.
+> +
+> +This document aims to provide developers a quick guide on supporting their
+> +PMUs in the kernel.  The following sections briefly explain perf' mechanism
+> +and todos.
+> +
+> +You may check previous discussions here [1][2].  Also, it might be helpful
+> +to check the appendix for related kernel structures.
+> +
+> +
+> +1. Initialization
+> +-----------------
+> +
+> +*riscv_pmu* is a global pointer of type *struct riscv_pmu*, which contains
+> +various methods according to perf's internal convention and PMU-specific
+> +parameters.  One should declare such instance to represent the PMU.  By default,
+> +*riscv_pmu* points to a constant structure *riscv_base_pmu*, which has very
+> +basic support to a baseline QEMU model.
+> +
+> +Then he/she can either assign the instance's pointer to *riscv_pmu* so that
+> +the minimal and already-implemented logic can be leveraged, or invent his/her
+> +own *riscv_init_platform_pmu* implementation.
+> +
+> +In other words, existing sources of *riscv_base_pmu* merely provide a
+> +reference implementation.  Developers can flexibly decide how many parts they
+> +can leverage, and in the most extreme case, they can customize every function
+> +according to their needs.
+> +
+> +
+> +2. Event Initialization
+> +-----------------------
+> +
+> +When a user launches a perf command to monitor some events, it is first
+> +interpreted by the userspace perf tool into multiple *perf_event_open*
+> +system calls, and then each of them calls to the body of *event_init*
+> +member function that was assigned in the previous step.  In *riscv_base_pmu*'s
+> +case, it is *riscv_event_init*.
+> +
+> +The main purpose of this function is to translate the event provided by user
+> +into bitmap, so that HW-related control registers or counters can directly be
+> +manipulated.  The translation is based on the mappings and methods provided in
+> +*riscv_pmu*.
+> +
+> +Note that some features can be done in this stage as well:
+> +
+> +(1) interrupt setting, which is stated in the next section;
+> +(2) privilege level setting (user space only, kernel space only, both);
+> +(3) destructor setting.  Normally it is sufficient to apply *riscv_destroy_event*;
+> +(4) tweaks for non-sampling events, which will be utilized by functions such as
+> +*perf_adjust_period*, usually something like the follows:
+> +
+> +if (!is_sampling_event(event)) {
+> +        hwc->sample_period = x86_pmu.max_period;
+> +        hwc->last_period = hwc->sample_period;
+> +        local64_set(&hwc->period_left, hwc->sample_period);
+> +}
+> +
+> +In the case of *riscv_base_pmu*, only (3) is provided for now.
+> +
+> +
+> +3. Interrupt
+> +------------
+> +
+> +3.1. Interrupt Initialization
+> +
+> +This often occurs at the beginning of the *event_init* method. In common
+> +practice, this should be a code segment like
+> +
+> +int x86_reserve_hardware(void)
+> +{
+> +        int err = 0;
+> +
+> +        if (!atomic_inc_not_zero(&pmc_refcount)) {
+> +                mutex_lock(&pmc_reserve_mutex);
+> +                if (atomic_read(&pmc_refcount) == 0) {
+> +                        if (!reserve_pmc_hardware())
+> +                                err = -EBUSY;
+> +                        else
+> +                                reserve_ds_buffers();
+> +                }
+> +                if (!err)
+> +                        atomic_inc(&pmc_refcount);
+> +                mutex_unlock(&pmc_reserve_mutex);
+> +        }
+> +
+> +        return err;
+> +}
+> +
+> +And the magic is in *reserve_pmc_hardware*, which usually does atomic
+> +operations to make implemented IRQ accessible from some global function pointer.
+> +*release_pmc_hardware* serves the opposite purpose, and it is used in event
+> +destructors mentioned in previous section.
+> +
+> +(Note: From the implementations in all the architectures, the *reserve/release*
+> +pair are always IRQ settings, so the *pmc_hardware* seems somehow misleading.
+> +It does NOT deal with the binding between an event and a physical counter,
+> +which will be introduced in the next section.)
+> +
+> +3.2. IRQ Structure
+> +
+> +Basically, a IRQ runs the following pseudo code:
+> +
+> +for each hardware counter that triggered this overflow
+> +
+> +    get the event of this counter
+> +
+> +    // following two steps are defined as *read()*,
+> +    // check the section Reading/Writing Counters for details.
+> +    count the delta value since previous interrupt
+> +    update the event->count (# event occurs) by adding delta, and
+> +               event->hw.period_left by subtracting delta
+> +
+> +    if the event overflows
+> +        sample data
+> +        set the counter appropriately for the next overflow
+> +
+> +        if the event overflows again
+> +            too frequently, throttle this event
+> +        fi
+> +    fi
+> +
+> +end for
+> +
+> +However as of this writing, none of the RISC-V implementations have designed an
+> +interrupt for perf, so the details are to be completed in the future.
+> +
+> +4. Reading/Writing Counters
+> +---------------------------
+> +
+> +They seem symmetric but perf treats them quite differently.  For reading, there
+> +is a *read* interface in *struct pmu*, but it serves more than just reading.
+> +According to the context, the *read* function not only read the content of the
+> +counter (event->count), but also update the left period to the next interrupt
+> +(event->hw.period_left).
+> +
+> +But the core of perf does not need direct write to counters.  Writing counters
+> +hides behind the abstraction of 1) *pmu->start*, literally start counting so one
+> +has to set the counter to a good value for the next interrupt; 2) inside the IRQ
+> +it should set the counter with the same reason.
+> +
+> +Reading is not a problem in RISC-V but writing would need some effort, since
+> +counters are not allowed to be written by S-mode.
+> +
+> +
+> +5. add()/del()/start()/stop()
+> +-----------------------------
+> +
+> +Basic idea: add()/del() adds/deletes events to/from a PMU, and start()/stop()
+> +starts/stop the counter of some event in the PMU.  All of them take the same
+> +arguments: *struct perf_event *event* and *int flag*.
+> +
+> +Consider perf as a state machine, then you will find that these functions serve
+> +as the state transition process between those states.
+> +Three states (event->hw.state) are defined:
+> +
+> +* PERF_HES_STOPPED:    the counter is stopped
+> +* PERF_HES_UPTODATE:   the event->count is up-to-date
+> +* PERF_HES_ARCH:       arch-dependent usage ... we don't need this for now
+> +
+> +A normal flow of these state transitions are as follows:
+> +
+> +* A user launches a perf event, resulting in calling to *event_init*.
+> +* When being context-switched in, *add* is called by the perf core, with flag
+> +  PERF_EF_START, which mean that the event should be started after it is added.
+> +  In this stage, an general event is binded to a physical counter, if any.
+> +  The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, because it is now
+> +  stopped, and the (software) event count does not need updating.
+> +** *start* is then called, and the counter is enabled.
+> +   With flag PERF_EF_RELOAD, it write the counter to an appropriate value (check
+> +   previous section for detail).
+> +   No writing is made if the flag does not contain PERF_EF_RELOAD.
+> +   The state now is reset to none, because it is neither stopped nor update
+> +   (the counting already starts)
+> +* When being context-switched out, *del* is called.  It then checkout all the
+> +  events in the PMU and call *stop* to update their counts.
+> +** *stop* is called by *del*
+> +   and the perf core with flag PERF_EF_UPDATE, and it often shares the same
+> +   subroutine as *read* with the same logic.
+> +   The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, again.
+> +
+> +** Life cycles of these two pairs: *add* and *del* are called repeatedly as
+> +  tasks switch in-and-out; *start* and *stop* is also called when the perf core
+> +  needs a quick stop-and-start, for instance, when the interrupt period is being
+> +  adjusted.
+> +
+> +Current implementation is sufficient for now and can be easily extend to
+> +features in the future.
+> +
+> +A. Related Structures
+> +---------------------
+> +
+> +* struct pmu: include/linux/perf_events.h
+> +* struct riscv_pmu: arch/riscv/include/asm/perf_events.h
+> +
+> +  Both structures are designed to be read-only.
+> +
+> +  *struct pmu* defines some function pointer interfaces, and most of them take
+> +*struct perf_event* as a main argument, dealing with perf events according to
+> +perf's internal state machine (check kernel/events/core.c for details).
+> +
+> +  *struct riscv_pmu* defines PMU-specific parameters.  The naming follows the
+> +convention of all other architectures.
+> +
+> +* struct perf_event: include/linux/perf_events.h
+> +* struct hw_perf_event
+> +
+> +  The generic structure that represents perf events, and the hardware-related
+> +details.
+> +
+> +* struct riscv_hw_events: arch/riscv/include/asm/perf_events.h
+> +
+> +  The structure that holds the status of events, has two fixed members:
+> +the number of events and the array of the events.
+> +
+> +References
+> +----------
+> +
+> +[1] https://github.com/riscv/riscv-linux/pull/124
+> +[2] https://groups.google.com/a/groups.riscv.org/forum/#!topic/sw-dev/f19TmCNP6yA
+> --
+> 2.16.2
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
