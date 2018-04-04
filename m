@@ -5,41 +5,41 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E89F7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Apr 2018 08:29:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C73747DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Apr 2018 08:29:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751534AbeDDI3R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Apr 2018 04:29:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59628 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751525AbeDDI3P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Apr 2018 04:29:15 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w348TB5B013082
-        for <linux-doc@vger.kernel.org>; Wed, 4 Apr 2018 04:29:14 -0400
-Received: from e06smtp14.uk.ibm.com (e06smtp14.uk.ibm.com [195.75.94.110])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2h4pvk26ww-1
+        id S1751544AbeDDI3V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Apr 2018 04:29:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45654 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1751532AbeDDI3T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Apr 2018 04:29:19 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w348SwR4173682
+        for <linux-doc@vger.kernel.org>; Wed, 4 Apr 2018 04:29:18 -0400
+Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2h4tq71jkn-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 04 Apr 2018 04:29:13 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 04 Apr 2018 04:29:18 -0400
 Received: from localhost
-        by e06smtp14.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Wed, 4 Apr 2018 09:28:59 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp14.uk.ibm.com (192.168.101.144) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 4 Apr 2018 09:28:51 +0100
+        Wed, 4 Apr 2018 09:29:15 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 4 Apr 2018 09:29:08 +0100
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w348SoCD11993380;
-        Wed, 4 Apr 2018 08:28:50 GMT
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w348T8Su47906872;
+        Wed, 4 Apr 2018 08:29:08 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AEE7A11C052;
-        Wed,  4 Apr 2018 09:21:05 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 6123A11C05B;
+        Wed,  4 Apr 2018 09:21:23 +0100 (BST)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2267311C04A;
-        Wed,  4 Apr 2018 09:21:01 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id C2F7311C04A;
+        Wed,  4 Apr 2018 09:21:18 +0100 (BST)
 Received: from bangoria.in.ibm.com (unknown [9.124.31.24])
         by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  4 Apr 2018 09:21:00 +0100 (BST)
+        Wed,  4 Apr 2018 09:21:18 +0100 (BST)
 From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
 To:     mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org,
         srikar@linux.vnet.ibm.com, rostedt@goodmis.org
@@ -54,20 +54,20 @@ Cc:     acme@kernel.org, ananth@linux.vnet.ibm.com,
         pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
         fengguang.wu@intel.com, jglisse@redhat.com,
         Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Subject: [PATCH v2 3/9] Uprobe: Move mmput() into free_map_info()
-Date:   Wed,  4 Apr 2018 14:01:04 +0530
+Subject: [PATCH v2 6/9] trace_uprobe: Support SDT markers having reference count (semaphore)
+Date:   Wed,  4 Apr 2018 14:01:07 +0530
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
 References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18040408-0044-0000-0000-00000543446D
+x-cbid: 18040408-0020-0000-0000-0000040DDDD0
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18040408-0045-0000-0000-0000288359E4
-Message-Id: <20180404083110.18647-4-ravi.bangoria@linux.vnet.ibm.com>
+x-cbparentid: 18040408-0021-0000-0000-000042A1EBB0
+Message-Id: <20180404083110.18647-7-ravi.bangoria@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-04-04_02:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
  definitions=main-1804040090
@@ -76,52 +76,379 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Oleg Nesterov <oleg@redhat.com>
+Userspace Statically Defined Tracepoints[1] are dtrace style markers
+inside userspace applications. These markers are added by developer at
+important places in the code. Each marker source expands to a single
+nop instruction in the compiled code but there may be additional
+overhead for computing the marker arguments which expands to couple of
+instructions. In case the overhead is more, execution of it can be
+ommited by runtime if() condition when no one is tracing on the marker:
 
-build_map_info() has a side effect like one need to perform
-mmput() when done with the mm. Add mmput() in free_map_info()
-so that user does not have to call it explicitly.
+    if (reference_counter > 0) {
+        Execute marker instructions;
+    }
 
-Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+Default value of reference counter is 0. Tracer has to increment the
+reference counter before tracing on a marker and decrement it when
+done with the tracing.
+
+Implement the reference counter logic in trace_uprobe, leaving core
+uprobe infrastructure as is, except one new callback from uprobe_mmap()
+to trace_uprobe.
+
+trace_uprobe definition with reference counter will now be:
+
+  <path>:<offset>[(ref_ctr_offset)]
+
+There are two different cases while enabling the marker,
+ 1. Trace existing process. In this case, find all suitable processes
+    and increment the reference counter in them.
+ 2. Enable trace before running target binary. In this case, all mmaps
+    will get notified to trace_uprobe and trace_uprobe will increment
+    the reference counter if corresponding uprobe is enabled.
+
+At the time of disabling probes, decrement reference counter in all
+existing target processes.
+
+[1] https://sourceware.org/systemtap/wiki/UserSpaceProbeImplementation
+
+Note: 'reference counter' is called as 'semaphore' in original Dtrace
+(or Systemtap, bcc and even in ELF) documentation and code. But the
+term 'semaphore' is misleading in this context. This is just a counter
+used to hold number of tracers tracing on a marker. This is not really
+used for any synchronization. So we are referring it as 'reference
+counter' in kernel / perf code.
+
 Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Signed-off-by: Fengguang Wu <fengguang.wu@intel.com>
+[Fengguang reported/fixed build failure in RFC patch]
 ---
- kernel/events/uprobes.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ include/linux/uprobes.h     |  10 +++
+ kernel/events/uprobes.c     |  16 +++++
+ kernel/trace/trace_uprobe.c | 162 +++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 186 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/uprobes.h b/include/linux/uprobes.h
+index 7bd2760..2db3ed1 100644
+--- a/include/linux/uprobes.h
++++ b/include/linux/uprobes.h
+@@ -122,6 +122,8 @@ struct uprobe_map_info {
+ 	unsigned long vaddr;
+ };
+ 
++extern void (*uprobe_mmap_callback)(struct vm_area_struct *vma);
++
+ extern int set_swbp(struct arch_uprobe *aup, struct mm_struct *mm, unsigned long vaddr);
+ extern int set_orig_insn(struct arch_uprobe *aup, struct mm_struct *mm, unsigned long vaddr);
+ extern bool is_swbp_insn(uprobe_opcode_t *insn);
+@@ -136,6 +138,8 @@ struct uprobe_map_info {
+ extern void uprobe_munmap(struct vm_area_struct *vma, unsigned long start, unsigned long end);
+ extern void uprobe_start_dup_mmap(void);
+ extern void uprobe_end_dup_mmap(void);
++extern void uprobe_down_write_dup_mmap(void);
++extern void uprobe_up_write_dup_mmap(void);
+ extern void uprobe_dup_mmap(struct mm_struct *oldmm, struct mm_struct *newmm);
+ extern void uprobe_free_utask(struct task_struct *t);
+ extern void uprobe_copy_process(struct task_struct *t, unsigned long flags);
+@@ -192,6 +196,12 @@ static inline void uprobe_start_dup_mmap(void)
+ static inline void uprobe_end_dup_mmap(void)
+ {
+ }
++static inline void uprobe_down_write_dup_mmap(void)
++{
++}
++static inline void uprobe_up_write_dup_mmap(void)
++{
++}
+ static inline void
+ uprobe_dup_mmap(struct mm_struct *oldmm, struct mm_struct *newmm)
+ {
 diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-index 535fd39..1d439c7 100644
+index 096d1e6..c691334 100644
 --- a/kernel/events/uprobes.c
 +++ b/kernel/events/uprobes.c
-@@ -704,6 +704,7 @@ struct map_info {
- static inline struct map_info *free_map_info(struct map_info *info)
+@@ -1044,6 +1044,9 @@ static void build_probe_list(struct inode *inode,
+ 	spin_unlock(&uprobes_treelock);
+ }
+ 
++/* Rightnow the only user of this is trace_uprobe. */
++void (*uprobe_mmap_callback)(struct vm_area_struct *vma);
++
+ /*
+  * Called from mmap_region/vma_adjust with mm->mmap_sem acquired.
+  *
+@@ -1056,6 +1059,9 @@ int uprobe_mmap(struct vm_area_struct *vma)
+ 	struct uprobe *uprobe, *u;
+ 	struct inode *inode;
+ 
++	if (uprobe_mmap_callback)
++		uprobe_mmap_callback(vma);
++
+ 	if (no_uprobe_events() || !valid_vma(vma, true))
+ 		return 0;
+ 
+@@ -1247,6 +1253,16 @@ void uprobe_end_dup_mmap(void)
+ 	percpu_up_read(&dup_mmap_sem);
+ }
+ 
++void uprobe_down_write_dup_mmap(void)
++{
++	percpu_down_write(&dup_mmap_sem);
++}
++
++void uprobe_up_write_dup_mmap(void)
++{
++	percpu_up_write(&dup_mmap_sem);
++}
++
+ void uprobe_dup_mmap(struct mm_struct *oldmm, struct mm_struct *newmm)
  {
- 	struct map_info *next = info->next;
-+	mmput(info->mm);
- 	kfree(info);
- 	return next;
- }
-@@ -773,8 +774,11 @@ static inline struct map_info *free_map_info(struct map_info *info)
+ 	if (test_bit(MMF_HAS_UPROBES, &oldmm->flags)) {
+diff --git a/kernel/trace/trace_uprobe.c b/kernel/trace/trace_uprobe.c
+index 2014f43..5582c2d 100644
+--- a/kernel/trace/trace_uprobe.c
++++ b/kernel/trace/trace_uprobe.c
+@@ -25,6 +25,8 @@
+ #include <linux/namei.h>
+ #include <linux/string.h>
+ #include <linux/rculist.h>
++#include <linux/sched/mm.h>
++#include <linux/highmem.h>
  
- 	goto again;
-  out:
--	while (prev)
--		prev = free_map_info(prev);
-+	while (prev) {
-+		info = prev;
-+		prev = prev->next;
-+		kfree(info);
-+	}
- 	return curr;
- }
+ #include "trace_probe.h"
  
-@@ -824,7 +828,6 @@ static inline struct map_info *free_map_info(struct map_info *info)
-  unlock:
- 		up_write(&mm->mmap_sem);
-  free:
--		mmput(mm);
- 		info = free_map_info(info);
+@@ -58,6 +60,7 @@ struct trace_uprobe {
+ 	struct inode			*inode;
+ 	char				*filename;
+ 	unsigned long			offset;
++	unsigned long			ref_ctr_offset;
+ 	unsigned long			nhit;
+ 	struct trace_probe		tp;
+ };
+@@ -362,10 +365,10 @@ static int create_trace_uprobe(int argc, char **argv)
+ {
+ 	struct trace_uprobe *tu;
+ 	struct inode *inode;
+-	char *arg, *event, *group, *filename;
++	char *arg, *event, *group, *filename, *rctr, *rctr_end;
+ 	char buf[MAX_EVENT_NAME_LEN];
+ 	struct path path;
+-	unsigned long offset;
++	unsigned long offset, ref_ctr_offset;
+ 	bool is_delete, is_return;
+ 	int i, ret;
+ 
+@@ -375,6 +378,7 @@ static int create_trace_uprobe(int argc, char **argv)
+ 	is_return = false;
+ 	event = NULL;
+ 	group = NULL;
++	ref_ctr_offset = 0;
+ 
+ 	/* argc must be >= 1 */
+ 	if (argv[0][0] == '-')
+@@ -454,6 +458,26 @@ static int create_trace_uprobe(int argc, char **argv)
+ 		goto fail_address_parse;
  	}
-  out:
+ 
++	/* Parse reference counter offset if specified. */
++	rctr = strchr(arg, '(');
++	if (rctr) {
++		rctr_end = strchr(rctr, ')');
++		if (rctr > rctr_end || *(rctr_end + 1) != 0) {
++			ret = -EINVAL;
++			pr_info("Invalid reference counter offset.\n");
++			goto fail_address_parse;
++		}
++
++		*rctr++ = '\0';
++		*rctr_end = '\0';
++		ret = kstrtoul(rctr, 0, &ref_ctr_offset);
++		if (ret) {
++			pr_info("Invalid reference counter offset.\n");
++			goto fail_address_parse;
++		}
++	}
++
++	/* Parse uprobe offset. */
+ 	ret = kstrtoul(arg, 0, &offset);
+ 	if (ret)
+ 		goto fail_address_parse;
+@@ -488,6 +512,7 @@ static int create_trace_uprobe(int argc, char **argv)
+ 		goto fail_address_parse;
+ 	}
+ 	tu->offset = offset;
++	tu->ref_ctr_offset = ref_ctr_offset;
+ 	tu->inode = inode;
+ 	tu->filename = kstrdup(filename, GFP_KERNEL);
+ 
+@@ -620,6 +645,8 @@ static int probes_seq_show(struct seq_file *m, void *v)
+ 			break;
+ 		}
+ 	}
++	if (tu->ref_ctr_offset)
++		seq_printf(m, "(0x%lx)", tu->ref_ctr_offset);
+ 
+ 	for (i = 0; i < tu->tp.nr_args; i++)
+ 		seq_printf(m, " %s=%s", tu->tp.args[i].name, tu->tp.args[i].comm);
+@@ -894,6 +921,129 @@ static void uretprobe_trace_func(struct trace_uprobe *tu, unsigned long func,
+ 	return trace_handle_return(s);
+ }
+ 
++static bool sdt_valid_vma(struct trace_uprobe *tu,
++			  struct vm_area_struct *vma,
++			  unsigned long vaddr)
++{
++	return tu->ref_ctr_offset &&
++		vma->vm_file &&
++		file_inode(vma->vm_file) == tu->inode &&
++		vma->vm_flags & VM_WRITE &&
++		vma->vm_start <= vaddr &&
++		vma->vm_end > vaddr;
++}
++
++static struct vm_area_struct *sdt_find_vma(struct trace_uprobe *tu,
++					   struct mm_struct *mm,
++					   unsigned long vaddr)
++{
++	struct vm_area_struct *vma = find_vma(mm, vaddr);
++
++	return (vma && sdt_valid_vma(tu, vma, vaddr)) ? vma : NULL;
++}
++
++/*
++ * Reference counter gate the invocation of probe. If present,
++ * by default reference counter is 0. One needs to increment
++ * it before tracing the probe and decrement it when done.
++ */
++static int
++sdt_update_ref_ctr(struct mm_struct *mm, unsigned long vaddr, short d)
++{
++	void *kaddr;
++	struct page *page;
++	struct vm_area_struct *vma;
++	int ret = 0;
++	unsigned short *ptr;
++
++	if (vaddr == 0)
++		return -EINVAL;
++
++	ret = get_user_pages_remote(NULL, mm, vaddr, 1,
++		FOLL_FORCE | FOLL_WRITE, &page, &vma, NULL);
++	if (ret <= 0)
++		return ret;
++
++	kaddr = kmap_atomic(page);
++	ptr = kaddr + (vaddr & ~PAGE_MASK);
++	*ptr += d;
++	kunmap_atomic(kaddr);
++
++	put_page(page);
++	return 0;
++}
++
++static void sdt_increment_ref_ctr(struct trace_uprobe *tu)
++{
++	struct uprobe_map_info *info;
++
++	uprobe_down_write_dup_mmap();
++	info = uprobe_build_map_info(tu->inode->i_mapping,
++				tu->ref_ctr_offset, false);
++	if (IS_ERR(info))
++		goto out;
++
++	while (info) {
++		down_write(&info->mm->mmap_sem);
++
++		if (sdt_find_vma(tu, info->mm, info->vaddr))
++			sdt_update_ref_ctr(info->mm, info->vaddr, 1);
++
++		up_write(&info->mm->mmap_sem);
++		info = uprobe_free_map_info(info);
++	}
++
++out:
++	uprobe_up_write_dup_mmap();
++}
++
++/* Called with down_write(&vma->vm_mm->mmap_sem) */
++void trace_uprobe_mmap(struct vm_area_struct *vma)
++{
++	struct trace_uprobe *tu;
++	unsigned long vaddr;
++
++	if (!(vma->vm_flags & VM_WRITE))
++		return;
++
++	mutex_lock(&uprobe_lock);
++	list_for_each_entry(tu, &uprobe_list, list) {
++		if (!trace_probe_is_enabled(&tu->tp))
++			continue;
++
++		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
++		if (!sdt_valid_vma(tu, vma, vaddr))
++			continue;
++
++		sdt_update_ref_ctr(vma->vm_mm, vaddr, 1);
++	}
++	mutex_unlock(&uprobe_lock);
++}
++
++static void sdt_decrement_ref_ctr(struct trace_uprobe *tu)
++{
++	struct uprobe_map_info *info;
++
++	uprobe_down_write_dup_mmap();
++	info = uprobe_build_map_info(tu->inode->i_mapping,
++				tu->ref_ctr_offset, false);
++	if (IS_ERR(info))
++		goto out;
++
++	while (info) {
++		down_write(&info->mm->mmap_sem);
++
++		if (sdt_find_vma(tu, info->mm, info->vaddr))
++			sdt_update_ref_ctr(info->mm, info->vaddr, -1);
++
++		up_write(&info->mm->mmap_sem);
++		info = uprobe_free_map_info(info);
++	}
++
++out:
++	uprobe_up_write_dup_mmap();
++}
++
+ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+ 				enum uprobe_filter_ctx ctx,
+ 				struct mm_struct *mm);
+@@ -939,6 +1089,9 @@ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+ 	if (ret)
+ 		goto err_buffer;
+ 
++	if (tu->ref_ctr_offset)
++		sdt_increment_ref_ctr(tu);
++
+ 	return 0;
+ 
+  err_buffer:
+@@ -979,6 +1132,9 @@ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+ 
+ 	WARN_ON(!uprobe_filter_is_empty(&tu->filter));
+ 
++	if (tu->ref_ctr_offset)
++		sdt_decrement_ref_ctr(tu);
++
+ 	uprobe_unregister(tu->inode, tu->offset, &tu->consumer);
+ 	tu->tp.flags &= file ? ~TP_FLAG_TRACE : ~TP_FLAG_PROFILE;
+ 
+@@ -1423,6 +1579,8 @@ static __init int init_uprobe_trace(void)
+ 	/* Profile interface */
+ 	trace_create_file("uprobe_profile", 0444, d_tracer,
+ 				    NULL, &uprobe_profile_ops);
++
++	uprobe_mmap_callback = trace_uprobe_mmap;
+ 	return 0;
+ }
+ 
 -- 
 1.8.3.1
 
