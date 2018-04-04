@@ -1,144 +1,181 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA8C77DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Apr 2018 08:30:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F354E7E897
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Apr 2018 13:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751647AbeDDI3l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Apr 2018 04:29:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39162 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1751593AbeDDI33 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Apr 2018 04:29:29 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w348SvPa037823
-        for <linux-doc@vger.kernel.org>; Wed, 4 Apr 2018 04:29:29 -0400
-Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2h4s3fdwex-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 04 Apr 2018 04:29:29 -0400
-Received: from localhost
-        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Wed, 4 Apr 2018 09:29:26 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 4 Apr 2018 09:29:20 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w348TKFQ55312404;
-        Wed, 4 Apr 2018 08:29:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4148011C050;
-        Wed,  4 Apr 2018 09:21:35 +0100 (BST)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A683E11C04A;
-        Wed,  4 Apr 2018 09:21:30 +0100 (BST)
-Received: from bangoria.in.ibm.com (unknown [9.124.31.24])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  4 Apr 2018 09:21:30 +0100 (BST)
-From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-To:     mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org,
-        srikar@linux.vnet.ibm.com, rostedt@goodmis.org
-Cc:     acme@kernel.org, ananth@linux.vnet.ibm.com,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        alexis.berlemont@gmail.com, corbet@lwn.net,
-        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
-        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
-        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
-        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
-        fengguang.wu@intel.com, jglisse@redhat.com,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Subject: [PATCH v2 8/9] trace_uprobe/sdt: Document about reference counter
-Date:   Wed,  4 Apr 2018 14:01:09 +0530
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
-References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18040408-0008-0000-0000-000004E68862
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18040408-0009-0000-0000-00001E799643
-Message-Id: <20180404083110.18647-9-ravi.bangoria@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-04-04_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804040090
+        id S1751434AbeDDNEJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Apr 2018 09:04:09 -0400
+Received: from mail-wr0-f194.google.com ([209.85.128.194]:38232 "EHLO
+        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750853AbeDDNEG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Apr 2018 09:04:06 -0400
+Received: by mail-wr0-f194.google.com with SMTP id m13so22552643wrj.5
+        for <linux-doc@vger.kernel.org>; Wed, 04 Apr 2018 06:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=daCG/P8nKej1ZgtEXWfngcjvo3jOA4/Eh96ZTDhtA+4=;
+        b=ZhdfQsyVLHZDgvLpmFrgCjfiuNxGIz5N42ruXNYRVYcFStPsXeVyYDi6NJ33cHlYw7
+         wpvQh3xAVZUbFwBAYMh2aLUE0COZ9OLq/aELDqDCr7Vsxs1wo07Mc5uEwWNhaNKIya3k
+         ymcL/uZsXGjpGWNJIuEXgXqO4sIaSKG+Jrf0c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=daCG/P8nKej1ZgtEXWfngcjvo3jOA4/Eh96ZTDhtA+4=;
+        b=L1yJx84VSmdI3XD0rm/R/jNUrP7F+Oc1LtgQCDGeMNO1phSrAWnDS+TirSyNV6AL/h
+         hxB5i/NT4WMKX6IfAeCJsJbpBMcxHBL5WXBFUkv4CN29Mesbwcxgp9ItO2Xu0R9O9kUR
+         ViohNdeQhZ5CkCrBWy935Chbq9XAn8G0jJI8w7fXRz8wj0cUqmZfrEpYrSPoHLR7J9jQ
+         2JVv48NrsrjozFtnJ7Ey/qhwlaqV3FsaYBiqAW+UXQQ0lLnsL7uevEJe5Zo8GztwWaTm
+         aX/CeM5TByKudfuaKz4D+AZAGHKFgmb6ZWeUSIC766Z2SuLe1iDt/zKOwaeQER3TjApw
+         n8EA==
+X-Gm-Message-State: AElRT7EAzglBbbNzzQtNYDuB1eRcEh/dO/k5oLOo0poFEOlB96+z7e4I
+        66upn5dh95+HAHbdqXPE8zaS8w5+
+X-Google-Smtp-Source: AIpwx4/CCx2Ivq9QSpf7ODb5HW61fahwwB+gNnn2GQLEcE0gSz5SYh3fNVKiH22bHGlMgULD2aeWnQ==
+X-Received: by 10.223.176.237 with SMTP id j42mr13525031wra.25.1522847045246;
+        Wed, 04 Apr 2018 06:04:05 -0700 (PDT)
+Received: from andrea ([213.209.242.222])
+        by smtp.gmail.com with ESMTPSA id k14sm6092425wrc.62.2018.04.04.06.04.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 04 Apr 2018 06:04:04 -0700 (PDT)
+Date:   Wed, 4 Apr 2018 15:03:57 +0200
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [RFC PATCH 0/3] Documentation/features: Provide and apply
+ "features-refresh.sh"
+Message-ID: <20180404130357.GA9125@andrea>
+References: <1522774551-9503-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180404045632.uniwfrl32bjmsn5g@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180404045632.uniwfrl32bjmsn5g@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reference counter gate the invocation of probe. If present,
-by default reference count is 0. Kernel needs to increment
-it before tracing the probe and decrement it when done. This
-is identical to semaphore in Userspace Statically Defined
-Tracepoints (USDT).
+On Wed, Apr 04, 2018 at 06:56:32AM +0200, Ingo Molnar wrote:
+> 
+> * Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
+> 
+> > In Ingo's words [1]:
+> > 
+> >   "[...]  what should be done instead is to write a script that refreshes
+> >    all the arch-support.txt files in-place. [...]
+> > 
+> >    It's OK for the script to have various quirks for weirdly implemented
+> >    features and exceptions: i.e. basically whenever it gets a feature wrong,
+> >    we can just tweak the script with quirks to make it all work out of box.
+> > 
+> >    [...]  But in the end there should only be a single new script:
+> > 
+> >      Documentation/features/scripts/features-refresh.sh
+> > 
+> >    ... which operates on the arch-support.txt files and refreshes them in
+> >    place, and which, after all the refreshes have been committed, should
+> >    produce an empty 'git diff' result."
+> > 
+> >   "[...]  New features can then be added by basically just creating a
+> >    header-only arch-support.txt file, such as:
+> > 
+> >      triton:~/tip/Documentation/features> cat foo/bar/arch-support.txt
+> >      #
+> >      # Feature name:          shiny new fubar kernel feature
+> >      #         Kconfig:       ARCH_USE_FUBAR
+> >      #         description:   arch supports the fubar feature
+> >      #
+> > 
+> >    And running Documentation/features/scripts/features-refresh.sh would
+> >    auto-generate the arch support matrix. [...]
+> >  
+> >    This way we soft- decouple the refreshing of the entries from the
+> >    introduction of the features, while still making it all easy to keep
+> >    sync and to extend."
+> > 
+> > This RFC presents a first attempt to implement such a feature/script, and
+> > applies it script on top of Arnd's:
+> > 
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git arch-removal
+> > 
+> > Patch 1/3 provides the "features-refresh.sh" script.  Patch 2/3 removes the
+> > "BPF-JIT" feature file and it creates header-only files for "cBPF-JIT" and
+> > "eBPF-JIT".  Patch 3/3 presents the results of running the script; this run
+> > also printed to standard output the following warnings:
+> > 
+> >   WARNING: '__HAVE_ARCH_STRNCASECMP' is not a valid Kconfig
+> >   WARNING: 'Optimized asm/rwsem.h' is not a valid Kconfig
+> >   WARNING: '!ARCH_USES_GETTIMEOFFSET' is not a valid Kconfig
+> >   WARNING: '__HAVE_ARCH_PTE_SPECIAL' is not a valid Kconfig
+> > 
+> > (I'm sending these patches with empty commit messagges, for early feedback:
+> >  I'll fill in these messages in subsequent versions if this makes sense...)
+> > 
+> > Cheers,
+> >   Andrea
+> > 
+> > Andrea Parri (3):
+> >   Documentation/features: Add script that refreshes the arch support status files in place
+> >   Documentation/features/core: Add arch support status files for 'cBPF-JIT' and 'eBPF-JIT'
+> >   Documentation/features: Refresh and auto-generate the arch support status files in place
+> 
+> Ok, this series is really impressive at its RFC stage already!
+> 
+> Beyond fixing those warnings, I'd also suggest another change: please make the 
+> new BPF features patch the last one, so that the 'refresh' patch shows how much 
+> original bit-rot we gathered recently.
+> 
+> The 'new features' patch should then also include the result of also running the 
+> script, i.e. a single patch adding the base fields and the generated parts as 
+> well. That will be the usual development flow anyway - people won't do two-part 
+> patches just to show which bits are by hand and which are auto-generated.
 
-Document usage of reference counter.
+Yes, I'll do.
 
-Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
----
- Documentation/trace/uprobetracer.txt | 16 +++++++++++++---
- kernel/trace/trace.c                 |  2 +-
- 2 files changed, 14 insertions(+), 4 deletions(-)
+Let me ask some hints about the warnings, as I'm not sure how to 'fix' them;
+we have:
 
-diff --git a/Documentation/trace/uprobetracer.txt b/Documentation/trace/uprobetracer.txt
-index bf526a7c..cb6751d 100644
---- a/Documentation/trace/uprobetracer.txt
-+++ b/Documentation/trace/uprobetracer.txt
-@@ -19,15 +19,25 @@ user to calculate the offset of the probepoint in the object.
- 
- Synopsis of uprobe_tracer
- -------------------------
--  p[:[GRP/]EVENT] PATH:OFFSET [FETCHARGS] : Set a uprobe
--  r[:[GRP/]EVENT] PATH:OFFSET [FETCHARGS] : Set a return uprobe (uretprobe)
--  -:[GRP/]EVENT                           : Clear uprobe or uretprobe event
-+  p[:[GRP/]EVENT] PATH:OFFSET[(REF_CTR_OFFSET)] [FETCHARGS]
-+  r[:[GRP/]EVENT] PATH:OFFSET[(REF_CTR_OFFSET)] [FETCHARGS]
-+  -:[GRP/]EVENT
-+
-+  p : Set a uprobe
-+  r : Set a return uprobe (uretprobe)
-+  - : Clear uprobe or uretprobe event
- 
-   GRP           : Group name. If omitted, "uprobes" is the default value.
-   EVENT         : Event name. If omitted, the event name is generated based
-                   on PATH+OFFSET.
-   PATH          : Path to an executable or a library.
-   OFFSET        : Offset where the probe is inserted.
-+  REF_CTR_OFFSET: Reference counter offset. Optional field. Reference count
-+		  gate the invocation of probe. If present, by default
-+		  reference count is 0. Kernel needs to increment it before
-+		  tracing the probe and decrement it when done. This is
-+		  identical to semaphore in Userspace Statically Defined
-+		  Tracepoints (USDT).
- 
-   FETCHARGS     : Arguments. Each probe can have up to 128 args.
-    %REG         : Fetch register REG
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 300f4ea..d211937 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -4604,7 +4604,7 @@ static int tracing_trace_options_open(struct inode *inode, struct file *file)
-   "place (kretprobe): [<module>:]<symbol>[+<offset>]|<memaddr>\n"
- #endif
- #ifdef CONFIG_UPROBE_EVENTS
--	"\t    place: <path>:<offset>\n"
-+  "   place (uprobe): <path>:<offset>[(ref_ctr_offset)]\n"
- #endif
- 	"\t     args: <name>=fetcharg[:type]\n"
- 	"\t fetcharg: %<register>, @<address>, @<symbol>[+|-<offset>],\n"
--- 
-1.8.3.1
+  a) __HAVE_ARCH_STRNCASECMP
+     __HAVE_ARCH_PTE_SPECIAL
 
+  b) Optimized asm/rwsem.h
+
+  c) !ARCH_USES_GETTIMEOFFSET  
+
+For (c), I see two options:
+
+  1. replace that with 'ARCH_USES_GETTIMEOFFSET' (and update the status
+     matrix accordingly)
+
+  2. add logics/code to the script to handle simple boolean expressions
+     (mmh, this could get nasty really soon... let's say: limiting to a
+     leading '!', to start with ;)
+
+For (a), I realize that 'grep-ing' the macros in arch-specific _sources_
+does serve the purpose of producing the hard-coded status matrices; but
+is this a reasonable approach? (e.g., can produce 'false-positives'?)
+
+What could it be a suitable solution for (b)? are there Kconfig options
+which I could in place of that expression? some other suggestion?
+
+Thanks,
+  Andrea
+
+
+> 
+> Thanks,
+> 
+> 	Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
