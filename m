@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9E427DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Apr 2018 08:28:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C510E7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Apr 2018 08:29:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751413AbeDDI2s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Apr 2018 04:28:48 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56874 "EHLO
+        id S1751404AbeDDI3E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Apr 2018 04:29:04 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53192 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1751368AbeDDI2o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Apr 2018 04:28:44 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w348P4LQ024918
-        for <linux-doc@vger.kernel.org>; Wed, 4 Apr 2018 04:28:43 -0400
-Received: from e06smtp10.uk.ibm.com (e06smtp10.uk.ibm.com [195.75.94.106])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2h4stuby8d-1
+        by vger.kernel.org with ESMTP id S1751247AbeDDI3C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Apr 2018 04:29:02 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w348T19D003769
+        for <linux-doc@vger.kernel.org>; Wed, 4 Apr 2018 04:29:01 -0400
+Received: from e06smtp14.uk.ibm.com (e06smtp14.uk.ibm.com [195.75.94.110])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2h4swkbu35-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 04 Apr 2018 04:28:43 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 04 Apr 2018 04:29:00 -0400
 Received: from localhost
-        by e06smtp10.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp14.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Wed, 4 Apr 2018 09:28:40 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp10.uk.ibm.com (192.168.101.140) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 4 Apr 2018 09:28:33 +0100
+        Wed, 4 Apr 2018 09:28:46 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp14.uk.ibm.com (192.168.101.144) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 4 Apr 2018 09:28:39 +0100
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w348SWDN45351106;
-        Wed, 4 Apr 2018 08:28:33 GMT
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w348ScrX51642402;
+        Wed, 4 Apr 2018 08:28:38 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 10F3F11C05E;
-        Wed,  4 Apr 2018 09:20:48 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id DF6D111C058;
+        Wed,  4 Apr 2018 09:20:53 +0100 (BST)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 72BAA11C052;
-        Wed,  4 Apr 2018 09:20:43 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 5B19B11C04A;
+        Wed,  4 Apr 2018 09:20:49 +0100 (BST)
 Received: from bangoria.in.ibm.com (unknown [9.124.31.24])
         by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  4 Apr 2018 09:20:43 +0100 (BST)
+        Wed,  4 Apr 2018 09:20:49 +0100 (BST)
 From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
 To:     mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org,
         srikar@linux.vnet.ibm.com, rostedt@goodmis.org
@@ -54,174 +54,86 @@ Cc:     acme@kernel.org, ananth@linux.vnet.ibm.com,
         pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
         fengguang.wu@intel.com, jglisse@redhat.com,
         Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Subject: [PATCH v2 0/9] trace_uprobe: Support SDT markers having reference count (semaphore)
-Date:   Wed,  4 Apr 2018 14:01:01 +0530
+Subject: [PATCH v2 1/9] Uprobe: Export vaddr <-> offset conversion functions
+Date:   Wed,  4 Apr 2018 14:01:02 +0530
 X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
+References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 18040408-0040-0000-0000-0000042A3EC4
+x-cbid: 18040408-0044-0000-0000-000005434462
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18040408-0041-0000-0000-0000262D6F75
-Message-Id: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
+x-cbparentid: 18040408-0045-0000-0000-0000288359D9
+Message-Id: <20180404083110.18647-2-ravi.bangoria@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:,, definitions=2018-04-04_02:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804040089
+ definitions=main-1804040090
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Userspace Statically Defined Tracepoints[1] are dtrace style markers
-inside userspace applications. Applications like PostgreSQL, MySQL,
-Pthread, Perl, Python, Java, Ruby, Node.js, libvirt, QEMU, glib etc
-have these markers embedded in them. These markers are added by developer
-at important places in the code. Each marker source expands to a single
-nop instruction in the compiled code but there may be additional
-overhead for computing the marker arguments which expands to couple of
-instructions. In case the overhead is more, execution of it can be
-omitted by runtime if() condition when no one is tracing on the marker:
+These are generic functions which operates on file offset
+and virtual address. Make these functions available outside
+of uprobe code so that other can use it as well.
 
-    if (reference_counter > 0) {
-        Execute marker instructions;
-    }   
+Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Reviewed-by: Jérôme Glisse <jglisse@redhat.com>
+---
+ include/linux/mm.h      | 12 ++++++++++++
+ kernel/events/uprobes.c | 10 ----------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-Default value of reference counter is 0. Tracer has to increment the 
-reference counter before tracing on a marker and decrement it when
-done with the tracing.
-
-Currently, perf tool has limited supports for SDT markers. I.e. it
-can not trace markers surrounded by reference counter. Also, it's
-not easy to add reference counter logic in userspace tool like perf,
-so basic idea for this patchset is to add reference counter logic in
-the trace_uprobe infrastructure. Ex,[2]
-
-  # cat tick.c
-    ... 
-    for (i = 0; i < 100; i++) {
-	DTRACE_PROBE1(tick, loop1, i);
-        if (TICK_LOOP2_ENABLED()) {
-            DTRACE_PROBE1(tick, loop2, i); 
-        }
-        printf("hi: %d\n", i); 
-        sleep(1);
-    }   
-    ... 
-
-Here tick:loop1 is marker without reference counter where as tick:loop2
-is surrounded by reference counter condition.
-
-  # perf buildid-cache --add /tmp/tick
-  # perf probe sdt_tick:loop1
-  # perf probe sdt_tick:loop2
-
-  # perf stat -e sdt_tick:loop1,sdt_tick:loop2 -- /tmp/tick
-  hi: 0
-  hi: 1
-  hi: 2
-  ^C
-  Performance counter stats for '/tmp/tick':
-             3      sdt_tick:loop1
-             0      sdt_tick:loop2
-     2.747086086 seconds time elapsed
-
-Perf failed to record data for tick:loop2. Same experiment with this
-patch series:
-
-  # ./perf buildid-cache --add /tmp/tick
-  # ./perf probe sdt_tick:loop2
-  # ./perf stat -e sdt_tick:loop2 /tmp/tick
-    hi: 0
-    hi: 1
-    hi: 2
-    ^C  
-     Performance counter stats for '/tmp/tick':
-                 3      sdt_tick:loop2
-       2.561851452 seconds time elapsed
-
-
-Note:
- - 'reference counter' is called as 'semaphore' in original Dtrace
-   (or Systemtap, bcc and even in ELF) documentation and code. But the 
-   term 'semaphore' is misleading in this context. This is just a counter
-   used to hold number of tracers tracing on a marker. This is not really
-   used for any synchronization. So we are referring it as 'reference
-   counter' in kernel / perf code.
-
-
-v2 changes:
- - [PATCH v2 3/9] is new. build_map_info() has a side effect. One has
-   to perform mmput() when he is done with the mm. Let free_map_info()
-   take care of mmput() so that one does not need to worry about it.
- - [PATCH v2 6/9] sdt_update_ref_ctr(). No need to use memcpy().
-   Reference counter can be directly updated using normal assignment.
- - [PATCH v2 6/9] Check valid vma is returned by sdt_find_vma() before
-   incrementing / decrementing a reference counter.
- - [PATCH v2 6/9] Introduce utility functions for taking write lock on
-   dup_mmap_sem. Use these functions in trace_uprobe to avoide race with
-   fork / dup_mmap().
- - [PATCH v2 6/9] Don't check presence of mm in tu->sml at decrement
-   time. Purpose of maintaining the list is to ensure increment happen
-   only once for each {trace_uprobe,mm} tuple.
- - [PATCH v2 7/9] v1 was not removing mm from tu->sml when process
-   exits and tracing is still on. This leads to a problem if same
-   address gets used by new mm. Use mmu_notifier to remove such mm
-   from the list. This guarantees that all mm which has been added
-   to tu->sml will be removed from list either when tracing ends or
-   when process goes away.
- - [PATCH v2 7/9] Patch description was misleading. Change it. Add
-   more generic python example.
- - [PATCH v2 7/9] Convert sml_rw_sem into mutex sml_lock.
- - [PATCH v2 7/9] Use builtin linked list in sdt_mm_list instead of
-   defining it's own pointer chain.
- - Change the order of last two patches.
- - [PATCH v2 9/9] Check availability of ref_ctr_offset support by
-   trace_uprobe infrastructure before using it. This ensures newer
-   perf tool will still work on older kernels which does not support
-   trace_uprobe with reference counter.
- - Other changes as suggested by Masami, Oleg and Steve.
-
-v1 can be found at:
-  https://lkml.org/lkml/2018/3/13/432
-
-[1] https://sourceware.org/systemtap/wiki/UserSpaceProbeImplementation
-[2] https://github.com/iovisor/bcc/issues/327#issuecomment-200576506
-[3] https://lkml.org/lkml/2017/12/6/976
-
-
-Oleg Nesterov (1):
-  Uprobe: Move mmput() into free_map_info()
-
-Ravi Bangoria (8):
-  Uprobe: Export vaddr <-> offset conversion functions
-  mm: Prefix vma_ to vaddr_to_offset() and offset_to_vaddr()
-  Uprobe: Rename map_info to uprobe_map_info
-  Uprobe: Export uprobe_map_info along with
-    uprobe_{build/free}_map_info()
-  trace_uprobe: Support SDT markers having reference count (semaphore)
-  trace_uprobe/sdt: Fix multiple update of same reference counter
-  trace_uprobe/sdt: Document about reference counter
-  perf probe: Support SDT markers having reference counter (semaphore)
-
- Documentation/trace/uprobetracer.txt |  16 ++-
- include/linux/mm.h                   |  12 ++
- include/linux/uprobes.h              |  19 +++
- kernel/events/uprobes.c              |  79 ++++++-----
- kernel/trace/trace.c                 |   2 +-
- kernel/trace/trace_uprobe.c          | 261 ++++++++++++++++++++++++++++++++++-
- tools/perf/util/probe-event.c        |  18 ++-
- tools/perf/util/probe-event.h        |   1 +
- tools/perf/util/probe-file.c         |  34 ++++-
- tools/perf/util/probe-file.h         |   1 +
- tools/perf/util/symbol-elf.c         |  46 ++++--
- tools/perf/util/symbol.h             |   7 +
- 12 files changed, 431 insertions(+), 65 deletions(-)
-
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ad06d42..95909f2 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2274,6 +2274,18 @@ struct vm_unmapped_area_info {
+ 		return unmapped_area(info);
+ }
+ 
++static inline unsigned long
++offset_to_vaddr(struct vm_area_struct *vma, loff_t offset)
++{
++	return vma->vm_start + offset - ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
++}
++
++static inline loff_t
++vaddr_to_offset(struct vm_area_struct *vma, unsigned long vaddr)
++{
++	return ((loff_t)vma->vm_pgoff << PAGE_SHIFT) + (vaddr - vma->vm_start);
++}
++
+ /* truncate.c */
+ extern void truncate_inode_pages(struct address_space *, loff_t);
+ extern void truncate_inode_pages_range(struct address_space *,
+diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+index ce6848e..bd6f230 100644
+--- a/kernel/events/uprobes.c
++++ b/kernel/events/uprobes.c
+@@ -130,16 +130,6 @@ static bool valid_vma(struct vm_area_struct *vma, bool is_register)
+ 	return vma->vm_file && (vma->vm_flags & flags) == VM_MAYEXEC;
+ }
+ 
+-static unsigned long offset_to_vaddr(struct vm_area_struct *vma, loff_t offset)
+-{
+-	return vma->vm_start + offset - ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+-}
+-
+-static loff_t vaddr_to_offset(struct vm_area_struct *vma, unsigned long vaddr)
+-{
+-	return ((loff_t)vma->vm_pgoff << PAGE_SHIFT) + (vaddr - vma->vm_start);
+-}
+-
+ /**
+  * __replace_page - replace page in vma by new page.
+  * based on replace_page in mm/ksm.c
 -- 
 1.8.3.1
 
