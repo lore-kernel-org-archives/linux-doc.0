@@ -3,168 +3,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,T_DKIM_INVALID,
-	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D4987E897
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Apr 2018 19:05:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C8017DD32
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Apr 2018 20:27:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752331AbeDETFf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 5 Apr 2018 15:05:35 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:36286 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751655AbeDETFd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Apr 2018 15:05:33 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id CB51B6081A; Thu,  5 Apr 2018 19:05:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1522955132;
-        bh=3jgTY9n+MkVzvNz3g6VYrI2i8OIBTpdGunlpKqNlQBw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=QxqChH8dqtp8kGLnO8Ltx8mVovXZdAk2LtjuuiaANTaWGWOjPoXFAvu6BkPZDK+qc
-         q87O24v/iKX6j7Y2QcssnkvOdNltWtvBhSQ/LR5osV16m4TqtkYBTEU/pz5H26E9GM
-         2SOw4e+8fqxV4+H3iROKG3pyWDqmWYhduTTTA6h8=
-Received: from [10.226.60.68] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: kramasub@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id C7EBD6076C;
-        Thu,  5 Apr 2018 19:05:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1522955132;
-        bh=3jgTY9n+MkVzvNz3g6VYrI2i8OIBTpdGunlpKqNlQBw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=QxqChH8dqtp8kGLnO8Ltx8mVovXZdAk2LtjuuiaANTaWGWOjPoXFAvu6BkPZDK+qc
-         q87O24v/iKX6j7Y2QcssnkvOdNltWtvBhSQ/LR5osV16m4TqtkYBTEU/pz5H26E9GM
-         2SOw4e+8fqxV4+H3iROKG3pyWDqmWYhduTTTA6h8=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C7EBD6076C
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
-Subject: Re: [PATCH v6 0/5] Introduce GENI SE Controller Driver
-To:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, wsa@the-dreams.de
-Cc:     linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
-        dianders@chromium.org, bjorn.andersson@linaro.org
-References: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org>
-From:   Karthik Ramasubramanian <kramasub@codeaurora.org>
-Message-ID: <e5c1a833-4644-2667-f525-bffbbc534e82@codeaurora.org>
-Date:   Thu, 5 Apr 2018 13:05:30 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.3.0
+        id S1750736AbeDEU1b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 5 Apr 2018 16:27:31 -0400
+Received: from gum.cmpxchg.org ([85.214.110.215]:50244 "EHLO gum.cmpxchg.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750726AbeDEU1a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 5 Apr 2018 16:27:30 -0400
+X-Greylist: delayed 2469 seconds by postgrey-1.27 at vger.kernel.org; Thu, 05 Apr 2018 16:27:30 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cmpxchg.org
+        ; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=ZBVDmx24pWehOly/7pumcXjHi/MGPfvW6fhZhtriMhI=; b=ga91hfp9YLQs57VJa4ylVg28F+
+        7VcWJGDQKeD+3ovLFzgDDNnLKJGKB8DBlKvndwZP6EA516lpjxk6KWaxR0usW4xg3GuBO05MN/+Hx
+        +5k1Pf3U5vxwqly27tQAlrZm6laDvjnhwoN4h7sfHPO4EmLf0tE1cjA7xP031dhPhE5g=;
+Date:   Thu, 5 Apr 2018 15:46:15 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Roman Gushchin <guro@fb.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] mm/docs: describe memory.low refinements
+Message-ID: <20180405194615.GD27918@cmpxchg.org>
+References: <20180405185921.4942-1-guro@fb.com>
+ <20180405185921.4942-4-guro@fb.com>
 MIME-Version: 1.0
-In-Reply-To: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180405185921.4942-4-guro@fb.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Maintainers,
+On Thu, Apr 05, 2018 at 07:59:21PM +0100, Roman Gushchin wrote:
+> Refine cgroup v2 docs after latest memory.low changes.
+> 
+> Signed-off-by: Roman Gushchin <guro@fb.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Vladimir Davydov <vdavydov.dev@gmail.com>
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: kernel-team@fb.com
+> Cc: linux-mm@kvack.org
+> Cc: cgroups@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
 
-Sorry if I am stepping in too soon. Since all the patches in this series
-have been reviewed and remaining silent for some time, would you please
-mind pulling in these patches as part of your next pull request.
-
-Thanks and Regards,
-Karthik.
-
-On 3/30/2018 11:08 AM, Karthikeyan Ramasubramanian wrote:
-> Generic Interface (GENI) firmware based Qualcomm Universal Peripheral (QUP)
-> Wrapper is a next generation programmable module for supporting a wide
-> range of serial interfaces like UART, SPI, I2C, I3C, etc. A single QUP
-> module can provide upto 8 Serial Interfaces using its internal Serial
-> Engines (SE). The protocol supported by each interface is determined by
-> the firmware loaded to the Serial Engine.
-> 
-> This patch series introduces GENI SE Driver to manage the GENI based QUP
-> Wrapper and the common aspects of all SEs inside the QUP Wrapper. This
-> patch series also introduces the UART and I2C Controller drivers to
-> drive the SEs that are programmed with the respective protocols.
-> 
-> [v6]
->  * Move the I2C clock-frequency configuration to the SDM845 board file
->  * Remove a redundant comment in the I2C driver
-> 
-> [v5]
->  * Remove Linux specific property from the device tree binding
->  * Clarify I2C SCL time period documentation
->  * Remove redundant checks in I2C controller driver during timeout
->  * Use 100kHz as the default clock frequency in the I2C controller driver
->  * Disable Wrapper controller by default in the SDM845 device tree and
->    enable it explicitly for SDM845 MTP
->  * Specify I2C clock frequency in the SDM845 device tree
->  * Remove bias configuration for I2C pins under sleep state in device tree
->  * Drop the serial driver from the patch series since it is merged
->  * Specify the UART port options in the SDM845 device tree
-> 
-> [v4]
->  * Add SPI controller information in device tree binding
->  * Add support for debug UART & I2C controllers in SDM845 device tree
->  * Remove any unnecessary parenthesis & casting
->  * Identify break character in UART line and pass it to the framework
->  * Transmit data from fault handler reliably in debug UART
->  * Map the register block when the UART port is requested
->  * Move concise exported functions as macros or inlines in public header
->  * Move the clock performance table from the wrapper to serial engines
->  * Add a lock to synchronize between IRQ & error handling in I2C controller
->  * Remove any compiler optimization hints like likely/unlikely
->  * Update documentation to clarify tables and hardware blocks
-> 
-> [v3]
->  * Update the driver dependencies
->  * Use the SPDX License Expression
->  * Squash all the controller device tree bindings together
->  * Use kernel doc format for documentation
->  * Add additional documentation for packing configuration
->  * Use clk_bulk_* API for related clocks
->  * Remove driver references to pinctrl and their states
->  * Replace magic numbers with appropriate macros
->  * Update memory barrier usage and associated comments
->  * Reduce interlacing of register reads/writes
->  * Fix poll_get_char() operation in console UART driver under polling mode
->  * Address other comments from Bjorn Andersson to improve code readability
-> 
-> [v2]
->  * Updated device tree bindings to describe the hardware
->  * Updated SE DT node as child node of QUP Wrapper DT node
->  * Moved common AHB clocks to QUP Wrapper DT node
->  * Use the standard "clock-frequency" I2C property
->  * Update compatible field in UART Controller to reflect hardware manual
->  * Addressed other device tree binding specific comments from Rob Herring
-> 
-> Karthikeyan Ramasubramanian (4):
->   dt-bindings: soc: qcom: Add device tree binding for GENI SE
->   soc: qcom: Add GENI based QUP Wrapper driver
->   i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C
->     controller
->   arm64: dts: sdm845: Add support for an instance of I2C controller
-> 
-> Rajendra Nayak (1):
->   arm64: dts: sdm845: Add serial console support
-> 
->  .../devicetree/bindings/soc/qcom/qcom,geni-se.txt  | 119 ++++
->  arch/arm64/boot/dts/qcom/sdm845-mtp.dts            |  60 ++
->  arch/arm64/boot/dts/qcom/sdm845.dtsi               |  67 ++
->  drivers/i2c/busses/Kconfig                         |  13 +
->  drivers/i2c/busses/Makefile                        |   1 +
->  drivers/i2c/busses/i2c-qcom-geni.c                 | 649 ++++++++++++++++++
->  drivers/soc/qcom/Kconfig                           |   9 +
->  drivers/soc/qcom/Makefile                          |   1 +
->  drivers/soc/qcom/qcom-geni-se.c                    | 748 +++++++++++++++++++++
->  include/linux/qcom-geni-se.h                       | 425 ++++++++++++
->  10 files changed, 2092 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,geni-se.txt
->  create mode 100644 drivers/i2c/busses/i2c-qcom-geni.c
->  create mode 100644 drivers/soc/qcom/qcom-geni-se.c
->  create mode 100644 include/linux/qcom-geni-se.h
-> 
-
--- 
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
