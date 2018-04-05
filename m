@@ -1,187 +1,201 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
+	RCVD_IN_DNSWL_HI,T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E9D17DD32
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Apr 2018 05:10:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 295F57DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  5 Apr 2018 15:18:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751270AbeDEFKP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 5 Apr 2018 01:10:15 -0400
-Received: from exmail.andestech.com ([59.124.169.137]:22955 "EHLO
-        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751117AbeDEFKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Apr 2018 01:10:15 -0400
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
-        by ATCSQR.andestech.com with ESMTP id w3554N20028533;
-        Thu, 5 Apr 2018 13:04:23 +0800 (GMT-8)
-        (envelope-from alankao@andestech.com)
-Received: from andestech.com (10.0.1.85) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Thu, 5 Apr 2018
- 13:09:38 +0800
-Date:   Thu, 5 Apr 2018 13:09:39 +0800
-From:   Alan Kao <alankao@andestech.com>
-To:     Alex Solomatnikov <sols@sifive.com>
-CC:     Palmer Dabbelt <palmer@sifive.com>, Albert Ou <albert@sifive.com>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "Arnaldo Carvalho de Melo" <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        "Namhyung Kim" <namhyung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        <linux-riscv@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <greentime@andestech.com>
-Subject: Re: [PATCH v2 2/2] perf: riscv: Add Document for Future Porting Guide
-Message-ID: <20180405050938.GB24451@andestech.com>
-References: <1522672284-29593-1-git-send-email-alankao@andestech.com>
- <1522672284-29593-3-git-send-email-alankao@andestech.com>
- <CAJ2AOiM34QyHPZkpz3DEpkyWB2TJ-gK9qPM3rKc2dNDQXCRXiw@mail.gmail.com>
+        id S1752068AbeDEPSJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 5 Apr 2018 11:18:09 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:36937 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750835AbeDEPSG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 5 Apr 2018 11:18:06 -0400
+Received: by mail-wm0-f68.google.com with SMTP id r131so8184511wmb.2;
+        Thu, 05 Apr 2018 08:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=SvEHqPahVk8hiG8yd+DYmASqVFdnmuIuOO0oaUQ3+co=;
+        b=fzrB3OAzJ+brcajRioMzYUTMCREiaXPkZpKCVj2se761I5T7bciH4lZERY/2XySuWp
+         baA4FChwR2Fg/SKkxQ2pOkbOmCF4VLC9KhLqLlMFzstDbHBmSxAslJsuGTlA/IgE/GbD
+         6R6S2tta//i2a9gZ/PVVq4ALx69yllDBHL/xslrRSqGaOrZR4qvXyAfHCdaZOr8zdDyO
+         Oqk4jSC6+k3ragNF4uRS6sd3QqtuvdlbDTUb6xbuzq+TM2af+UanGqWF2XSjPiJvQJxA
+         uGKBEvUHU3fr0M63lIaHCJtqjBCqLUDUEH7r0xEQlGqI6FmHd0ayyDXc24hxD3cIj0oe
+         JgJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SvEHqPahVk8hiG8yd+DYmASqVFdnmuIuOO0oaUQ3+co=;
+        b=tH1u75D67be+ffKdqatbetPw7/taPv4Lp1ZkoyCtfhl+GSrJiRJttfMCkpRwGqKJqK
+         Grdco7Nza42qquqSER1GAGhfvq2NN3Hniy79tC/yrMSE8O9Yg2BBscBSlXsJIE2kowIr
+         hDowbjpqp/4gU01JPYZNLPeLqrWD+F/1AQQoPNIBJdRQ5FmVBZf9tKWTpc5bn5Lf73Q8
+         GjuS3bRY5dwecZdm8p3MNTHjzHdsd/Ah3fREEaIrYz03QsBAF/jj1529cFT1psbchM8X
+         qgbY5PACt07Iv6MW8biKNBf4GbchVj31Rae+DOPcPHGpGJUyoZ0lTkmQTqIJgP2CNnu3
+         nWCg==
+X-Gm-Message-State: ALQs6tBFQLAohjqZL3lyGN6QrH+zXHLQsadaeKtI5Misrg4jeTiS3Id5
+        zfPE9qBMXGdC/r2uQWFn1xTPlg==
+X-Google-Smtp-Source: AIpwx4/ib85py1rQ7AiYMt7OQWVT1ZSFs2knXtH1jscumu7FhhxIcBVcAL3lSaRvwaZYSTujAoAwnQ==
+X-Received: by 10.28.50.130 with SMTP id y124mr10015882wmy.22.1522941485103;
+        Thu, 05 Apr 2018 08:18:05 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id z16sm11635997wrc.70.2018.04.05.08.18.03
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 05 Apr 2018 08:18:04 -0700 (PDT)
+Date:   Thu, 5 Apr 2018 17:18:02 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [RFC PATCH 0/3] Documentation/features: Provide and apply
+ "features-refresh.sh"
+Message-ID: <20180405151802.uvceareck465inqs@gmail.com>
+References: <1522774551-9503-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180404045632.uniwfrl32bjmsn5g@gmail.com>
+ <20180404130357.GA9125@andrea>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJ2AOiM34QyHPZkpz3DEpkyWB2TJ-gK9qPM3rKc2dNDQXCRXiw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.0.1.85]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com w3554N20028533
+In-Reply-To: <20180404130357.GA9125@andrea>
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alex,
 
-On Tue, Apr 03, 2018 at 07:08:43PM -0700, Alex Solomatnikov wrote:
-> Doc fixes:
-> 
->
+* Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
 
-Thanks for these fixes.  I'll edit this patch and send a v3 once I am done
-with the PMU patch.
+> On Wed, Apr 04, 2018 at 06:56:32AM +0200, Ingo Molnar wrote:
+> > 
+> > * Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
+> > 
+> > > In Ingo's words [1]:
+> > > 
+> > >   "[...]  what should be done instead is to write a script that refreshes
+> > >    all the arch-support.txt files in-place. [...]
+> > > 
+> > >    It's OK for the script to have various quirks for weirdly implemented
+> > >    features and exceptions: i.e. basically whenever it gets a feature wrong,
+> > >    we can just tweak the script with quirks to make it all work out of box.
+> > > 
+> > >    [...]  But in the end there should only be a single new script:
+> > > 
+> > >      Documentation/features/scripts/features-refresh.sh
+> > > 
+> > >    ... which operates on the arch-support.txt files and refreshes them in
+> > >    place, and which, after all the refreshes have been committed, should
+> > >    produce an empty 'git diff' result."
+> > > 
+> > >   "[...]  New features can then be added by basically just creating a
+> > >    header-only arch-support.txt file, such as:
+> > > 
+> > >      triton:~/tip/Documentation/features> cat foo/bar/arch-support.txt
+> > >      #
+> > >      # Feature name:          shiny new fubar kernel feature
+> > >      #         Kconfig:       ARCH_USE_FUBAR
+> > >      #         description:   arch supports the fubar feature
+> > >      #
+> > > 
+> > >    And running Documentation/features/scripts/features-refresh.sh would
+> > >    auto-generate the arch support matrix. [...]
+> > >  
+> > >    This way we soft- decouple the refreshing of the entries from the
+> > >    introduction of the features, while still making it all easy to keep
+> > >    sync and to extend."
+> > > 
+> > > This RFC presents a first attempt to implement such a feature/script, and
+> > > applies it script on top of Arnd's:
+> > > 
+> > >   git://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git arch-removal
+> > > 
+> > > Patch 1/3 provides the "features-refresh.sh" script.  Patch 2/3 removes the
+> > > "BPF-JIT" feature file and it creates header-only files for "cBPF-JIT" and
+> > > "eBPF-JIT".  Patch 3/3 presents the results of running the script; this run
+> > > also printed to standard output the following warnings:
+> > > 
+> > >   WARNING: '__HAVE_ARCH_STRNCASECMP' is not a valid Kconfig
+> > >   WARNING: 'Optimized asm/rwsem.h' is not a valid Kconfig
+> > >   WARNING: '!ARCH_USES_GETTIMEOFFSET' is not a valid Kconfig
+> > >   WARNING: '__HAVE_ARCH_PTE_SPECIAL' is not a valid Kconfig
+> > > 
+> > > (I'm sending these patches with empty commit messagges, for early feedback:
+> > >  I'll fill in these messages in subsequent versions if this makes sense...)
+> > > 
+> > > Cheers,
+> > >   Andrea
+> > > 
+> > > Andrea Parri (3):
+> > >   Documentation/features: Add script that refreshes the arch support status files in place
+> > >   Documentation/features/core: Add arch support status files for 'cBPF-JIT' and 'eBPF-JIT'
+> > >   Documentation/features: Refresh and auto-generate the arch support status files in place
+> > 
+> > Ok, this series is really impressive at its RFC stage already!
+> > 
+> > Beyond fixing those warnings, I'd also suggest another change: please make the 
+> > new BPF features patch the last one, so that the 'refresh' patch shows how much 
+> > original bit-rot we gathered recently.
+> > 
+> > The 'new features' patch should then also include the result of also running the 
+> > script, i.e. a single patch adding the base fields and the generated parts as 
+> > well. That will be the usual development flow anyway - people won't do two-part 
+> > patches just to show which bits are by hand and which are auto-generated.
+> 
+> Yes, I'll do.
+> 
+> Let me ask some hints about the warnings, as I'm not sure how to 'fix' them;
+> we have:
+> 
+>   a) __HAVE_ARCH_STRNCASECMP
+>      __HAVE_ARCH_PTE_SPECIAL
+> 
+>   b) Optimized asm/rwsem.h
+> 
+>   c) !ARCH_USES_GETTIMEOFFSET  
+> 
+> For (c), I see two options:
+> 
+>   1. replace that with 'ARCH_USES_GETTIMEOFFSET' (and update the status
+>      matrix accordingly)
+> 
+>   2. add logics/code to the script to handle simple boolean expressions
+>      (mmh, this could get nasty really soon... let's say: limiting to a
+>      leading '!', to start with ;)
 
-I suppose a "Reviewed-by: Alex Solomatnikov" appending at the end of the
-commit will be great, right?
+Yeah, so the problem here is that the feature is the _lack_ of legacy 
+ARCH_USES_GETTIMEOFFSET, so we cannot just invert the check - the output would be 
+rather confusing ...
 
-Alan
+Negating the switch in the kernel would force us to add a "arch uses modern 
+timekeeping" flag to every other architecture - not a very good solution.
 
-> diff --git a/Documentation/riscv/pmu.txt b/Documentation/riscv/pmu.txt
-> index a3e930e..ae90a5e 100644
-> --- a/Documentation/riscv/pmu.txt
-> +++ b/Documentation/riscv/pmu.txt
-> @@ -20,7 +20,7 @@ the lack of the following general architectural
-> performance monitoring features:
->  * Enabling/Disabling counters
->    Counters are just free-running all the time in our case.
->  * Interrupt caused by counter overflow
-> -  No such design in the spec.
-> +  No such feature in the spec.
->  * Interrupt indicator
->    It is not possible to have many interrupt ports for all counters, so an
->    interrupt indicator is required for software to tell which counter has
-> @@ -159,14 +159,14 @@ interrupt for perf, so the details are to be
-> completed in the future.
-> 
->  They seem symmetric but perf treats them quite differently.  For reading, there
->  is a *read* interface in *struct pmu*, but it serves more than just reading.
-> -According to the context, the *read* function not only read the content of the
-> -counter (event->count), but also update the left period to the next interrupt
-> +According to the context, the *read* function not only reads the content of the
-> +counter (event->count), but also updates the left period for the next interrupt
->  (event->hw.period_left).
-> 
->  But the core of perf does not need direct write to counters.  Writing counters
-> -hides behind the abstraction of 1) *pmu->start*, literally start
-> counting so one
-> +is hidden behind the abstraction of 1) *pmu->start*, literally start
-> counting so one
->  has to set the counter to a good value for the next interrupt; 2)
-> inside the IRQ
-> -it should set the counter with the same reason.
-> +it should set the counter to the same reasonable value.
-> 
->  Reading is not a problem in RISC-V but writing would need some effort, since
->  counters are not allowed to be written by S-mode.
-> @@ -190,37 +190,37 @@ Three states (event->hw.state) are defined:
->  A normal flow of these state transitions are as follows:
-> 
->  * A user launches a perf event, resulting in calling to *event_init*.
-> -* When being context-switched in, *add* is called by the perf core, with flag
-> -  PERF_EF_START, which mean that the event should be started after it is added.
-> -  In this stage, an general event is binded to a physical counter, if any.
-> +* When being context-switched in, *add* is called by the perf core, with a flag
-> +  PERF_EF_START, which means that the event should be started after
-> it is added.
-> +  At this stage, a general event is bound to a physical counter, if any.
->    The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE,
-> because it is now
->    stopped, and the (software) event count does not need updating.
->  ** *start* is then called, and the counter is enabled.
-> -   With flag PERF_EF_RELOAD, it write the counter to an appropriate
-> value (check
-> -   previous section for detail).
-> -   No writing is made if the flag does not contain PERF_EF_RELOAD.
-> -   The state now is reset to none, because it is neither stopped nor update
-> -   (the counting already starts)
-> -* When being context-switched out, *del* is called.  It then checkout all the
-> -  events in the PMU and call *stop* to update their counts.
-> +   With flag PERF_EF_RELOAD, it writes an appropriate value to the
-> counter (check
-> +   the previous section for details).
-> +   Nothing is written if the flag does not contain PERF_EF_RELOAD.
-> +   The state now is reset to none, because it is neither stopped nor updated
-> +   (the counting already started)
-> +* When being context-switched out, *del* is called.  It then checks out all the
-> +  events in the PMU and calls *stop* to update their counts.
->  ** *stop* is called by *del*
->     and the perf core with flag PERF_EF_UPDATE, and it often shares the same
->     subroutine as *read* with the same logic.
->     The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, again.
-> 
-> -** Life cycles of these two pairs: *add* and *del* are called repeatedly as
-> +** Life cycle of these two pairs: *add* and *del* are called repeatedly as
->    tasks switch in-and-out; *start* and *stop* is also called when the perf core
->    needs a quick stop-and-start, for instance, when the interrupt
-> period is being
->    adjusted.
-> 
-> -Current implementation is sufficient for now and can be easily extend to
-> +Current implementation is sufficient for now and can be easily
-> extended with new
->  features in the future.
-> 
->  A. Related Structures
->  ---------------------
-> 
-> -* struct pmu: include/linux/perf_events.h
-> -* struct riscv_pmu: arch/riscv/include/asm/perf_events.h
-> +* struct pmu: include/linux/perf_event.h
-> +* struct riscv_pmu: arch/riscv/include/asm/perf_event.h
-> 
->    Both structures are designed to be read-only.
-> 
-> @@ -231,13 +231,13 @@ perf's internal state machine (check
-> kernel/events/core.c for details).
->    *struct riscv_pmu* defines PMU-specific parameters.  The naming follows the
->  convention of all other architectures.
-> 
-> -* struct perf_event: include/linux/perf_events.h
-> +* struct perf_event: include/linux/perf_event.h
->  * struct hw_perf_event
-> 
->    The generic structure that represents perf events, and the hardware-related
->  details.
-> 
-> -* struct riscv_hw_events: arch/riscv/include/asm/perf_events.h
-> +* struct riscv_hw_events: arch/riscv/include/asm/perf_event.h
-> 
->    The structure that holds the status of events, has two fixed members:
->  the number of events and the array of the events.
-> 
-> 
+I'd suggest adding support for a simple '!' operator with very strict syntax - 
+nothing more. (This would also be useful for (b), see below.)
+
+> For (a), I realize that 'grep-ing' the macros in arch-specific _sources_
+> does serve the purpose of producing the hard-coded status matrices; but
+> is this a reasonable approach? (e.g., can produce 'false-positives'?)
+
+I'd suggest removing both :-)
+
+- strncasecmp() is an insignificant API and no arch has optimized it so far.
+- __HAVE_ARCH_PTE_SPECIAL is really a hardware detail.
+
+> What could it be a suitable solution for (b)? are there Kconfig options
+> which I could in place of that expression? some other suggestion?
+
+Yes, !RWSEM_GENERIC_SPINLOCK expresses this equivalently. If you implement the NOT 
+operator for ARCH_USES_GETTIMEOFFSET then it would handle this one as well.
+
+Thanks,
+
+	Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
