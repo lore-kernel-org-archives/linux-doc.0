@@ -5,109 +5,82 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA01C7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Apr 2018 10:10:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D72F7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Apr 2018 10:51:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752102AbeDFKKU convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Apr 2018 06:10:20 -0400
-Received: from smtp3-1.goneo.de ([85.220.129.38]:59836 "EHLO smtp3-1.goneo.de"
+        id S1751570AbeDFKvo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Apr 2018 06:51:44 -0400
+Received: from mga04.intel.com ([192.55.52.120]:4927 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751802AbeDFKKS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Apr 2018 06:10:18 -0400
-X-Greylist: delayed 378 seconds by postgrey-1.27 at vger.kernel.org; Fri, 06 Apr 2018 06:10:17 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by smtp3.goneo.de (Postfix) with ESMTP id 1A36423FA10;
-        Fri,  6 Apr 2018 12:03:58 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp3.goneo.de ([127.0.0.1])
-        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 3IUgRl9lhhAW; Fri,  6 Apr 2018 12:03:56 +0200 (CEST)
-Received: from [192.168.1.112] (dyndsl-091-248-139-043.ewe-ip-backbone.de [91.248.139.43])
-        by smtp3.goneo.de (Postfix) with ESMTPSA id D419823FA6C;
-        Fri,  6 Apr 2018 12:03:55 +0200 (CEST)
-Content-Type: text/plain; charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: make xmldocs failed with error after 4.17 merge period
-From:   Markus Heiser <markus.heiser@darmarit.de>
-In-Reply-To: <20180406091126.GC21589@kuha.fi.intel.com>
-Date:   Fri, 6 Apr 2018 12:03:55 +0200
+        id S1751434AbeDFKvn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Apr 2018 06:51:43 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Apr 2018 03:51:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,415,1517904000"; 
+   d="scan'208";a="44609424"
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 06 Apr 2018 03:51:40 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 06 Apr 2018 13:51:39 +0300
+Date:   Fri, 6 Apr 2018 13:51:39 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Markus Heiser <markus.heiser@darmarit.de>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Masanari Iida <standby24x7@gmail.com>,
         linux-kernel@vger.kernel.org,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-usb@vger.kernel.org
-Content-Transfer-Encoding: 8BIT
-Message-Id: <2A917B38-AFF6-44DC-A4A9-796B2BE560E2@darmarit.de>
+Subject: Re: make xmldocs failed with error after 4.17 merge period
+Message-ID: <20180406105139.GA28862@kuha.fi.intel.com>
 References: <CALLJCT0MFg6b+dG50cqe_hv6hxmQDj-ZM066BOtQt_wOiC8ENA@mail.gmail.com>
- <20180406075109.GA21589@kuha.fi.intel.com> <20180406075734.GA16728@kroah.com>
- <20180406081555.GB21589@kuha.fi.intel.com> <20180406083010.GA20174@kroah.com>
+ <20180406075109.GA21589@kuha.fi.intel.com>
+ <20180406075734.GA16728@kroah.com>
+ <20180406081555.GB21589@kuha.fi.intel.com>
+ <20180406083010.GA20174@kroah.com>
  <20180406091126.GC21589@kuha.fi.intel.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-X-Mailer: Apple Mail (2.3273)
+ <2A917B38-AFF6-44DC-A4A9-796B2BE560E2@darmarit.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2A917B38-AFF6-44DC-A4A9-796B2BE560E2@darmarit.de>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Markus,
 
-> Am 06.04.2018 um 11:11 schrieb Heikki Krogerus <heikki.krogerus@linux.intel.com>:
-[...]
-
->>>>>> An ascii graphic in typec.rst cause the error.
->>>>> 
->>>>> Thanks for the report. I'm going to propose that we fix this by
->>>>> marking the ascii art as comment:
->>>>> 
->>>>> diff --git a/Documentation/driver-api/usb/typec.rst b/Documentation/driver-api/usb/typec.rst
->>>>> index feb31946490b..972c11bf4141 100644
->>>>> --- a/Documentation/driver-api/usb/typec.rst
->>>>> +++ b/Documentation/driver-api/usb/typec.rst
->>>>> @@ -212,7 +212,7 @@ port drivers can use USB Role Class API with those.
->>>>> 
->>>>> Illustration of the muxes behind a connector that supports an alternate mode:
->>>>> 
->>>>> -                     ------------------------
->>>>> +..                   ------------------------
->>>>>                     |       Connector      |
->>>>>                     ------------------------
->>>>>                            |         |
->>>>> 
->>>>> I hope that works.
->>>> 
->>>> Try it and see!  :)
->>> 
->>> It will fix this issue. I was just wondering if use of ascii art is
->>> acceptable in general with the .rst files? But then again, why
->>> wouldn't it be.
-
-[...]
-
-> I was propsed to use something called "Literal Block" with ascii art.
-> http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#literal-blocks
-
-about *ASCII-art*: see fix from Jani ...
-
- https://www.mail-archive.com/linux-doc@vger.kernel.org/msg19302.html
-
-where the '::' is a short-markup for a literal-block.
-
-
->> There are ways to do this, look at how the v4l2 and I think the drm
->> subsystems handle ascii art such that "real" drawings end up being
->> produced.
+On Fri, Apr 06, 2018 at 12:03:55PM +0200, Markus Heiser wrote:
+> >> There are ways to do this, look at how the v4l2 and I think the drm
+> >> subsystems handle ascii art such that "real" drawings end up being
+> >> produced.
+> > 
+> > Thanks. I did not actually find anything else except use of tables and
+> > code-blocks in v4l documentation. Is that what you were referring?
 > 
-> Thanks. I did not actually find anything else except use of tables and
-> code-blocks in v4l documentation. Is that what you were referring?
+> If it is about *figures*: we have a directive named 'kernel-figure',
+> which is a full replacement of the 'figure' directive from Sphinx-Doc.
+> In addition it supports *inline* SVG and DOT markups. Read:
+> 
+>  https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#figures-images
 
-If it is about *figures*: we have a directive named 'kernel-figure',
-which is a full replacement of the 'figure' directive from Sphinx-Doc.
-In addition it supports *inline* SVG and DOT markups. Read:
+Thanks for the info.
 
- https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#figures-images
+I don't want to use for example dot language in kernel documentation.
+I want to be able to clearly see the figure also from the plain text
+file. That's why I prefer ascii art.
 
--- Markus --
+Isn't there a way we could render ascii art as svg diagram?
 
+
+Br,
+
+-- 
+heikki
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
