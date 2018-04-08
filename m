@@ -3,203 +3,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
+	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C26F77E88F
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  8 Apr 2018 16:33:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 275537DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 00:03:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752947AbeDHQdC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 8 Apr 2018 12:33:02 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:38628 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752680AbeDHQbc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Apr 2018 12:31:32 -0400
-Received: by mail-wr0-f194.google.com with SMTP id m13so6157089wrj.5
-        for <linux-doc@vger.kernel.org>; Sun, 08 Apr 2018 09:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=vDXXDp5CguB+/rPY7XduTJBDoYQbhUEjq3vSKBJeaKI=;
-        b=IokSTXcG5V9F/hvmDOsN1tdaH4ncScNthogrX15nkOZ8/+h0rYDIqAUnaWnmwejZgG
-         x3hLPHKTjHgAvnJ9LIcaqZ6J6WhCY7T2LGaX/MDXAwcPyYpCY6FU9jsIZFrJI0vyDWDy
-         PqMD+Ax8aLCRKXRbhIoCJtO2a8JNlASqT6Bd4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=vDXXDp5CguB+/rPY7XduTJBDoYQbhUEjq3vSKBJeaKI=;
-        b=nx02rQ3EbCSs6cUs5oVLngd4PDzhxdfDKjKRoWiYjjLMgu7XRUaeRNMzkd1Z8g8m6H
-         CbTPPa1N1a3jUUe2W8ATK80WlvYQNOVrFd0vtr4OUmqGoBQlH2bNMFa/27/pT8veLZWd
-         7yNHvoNcOnVh1wypqbsRAWebNhy1KUzff38vBo/Q6+zrE92HdeIKLKod/6OBtQmivTUB
-         wUzjQA6ZODB/eNQ7PKseumfMfCVSvbkKB4py+HU8S+caI04dRXogDyRdy5gs84cOBJtC
-         poHCeqOQ9gynTksKbzJDCtVhejRyLNK/e9CeJJu4MxDP+p2u6Hhgy34F824TbABL6lUA
-         rENg==
-X-Gm-Message-State: AElRT7GQEHXVGCvBjnt1dB1RK/PnZXRpS95tkQM7K60HGp8Qzbub7B46
-        NSuXmY2mPoEPPsuyG4CJ6cchHA==
-X-Google-Smtp-Source: AIpwx48FjpeTEQKts7jH/iN3slaZgQgr4mSalXwnKeFWnXFkQxo5GjINqrVuUyMfcK3k9Jp4YbKDZA==
-X-Received: by 10.223.153.114 with SMTP id x105mr23348308wrb.108.1523205091468;
-        Sun, 08 Apr 2018 09:31:31 -0700 (PDT)
-Received: from localhost.localdomain ([95.235.67.87])
-        by smtp.gmail.com with ESMTPSA id 10sm5335894wrz.58.2018.04.08.09.31.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sun, 08 Apr 2018 09:31:30 -0700 (PDT)
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        paulmck@linux.vnet.ibm.com,
-        Andrea Parri <andrea.parri@amarulasolutions.com>
-Subject: [RFC PATCH v2 3/6] Documentation/features/core: Add arch support status files for 'cBPF-JIT' and 'eBPF-JIT'
-Date:   Sun,  8 Apr 2018 18:30:24 +0200
-Message-Id: <1523205027-31786-4-git-send-email-andrea.parri@amarulasolutions.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1523205027-31786-1-git-send-email-andrea.parri@amarulasolutions.com>
-References: <1523205027-31786-1-git-send-email-andrea.parri@amarulasolutions.com>
+        id S1751587AbeDIAD6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 8 Apr 2018 20:03:58 -0400
+Received: from forward104o.mail.yandex.net ([37.140.190.179]:53566 "EHLO
+        forward104o.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1751526AbeDIAD5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Apr 2018 20:03:57 -0400
+X-Greylist: delayed 424 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Apr 2018 20:03:57 EDT
+Received: from mxback7g.mail.yandex.net (mxback7g.mail.yandex.net [IPv6:2a02:6b8:0:1472:2741:0:8b7:168])
+        by forward104o.mail.yandex.net (Yandex) with ESMTP id 0548C703D63;
+        Mon,  9 Apr 2018 02:56:51 +0300 (MSK)
+Received: from localhost (localhost [::1])
+        by mxback7g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id m8wwZ8fgXH-unR0nYE4;
+        Mon, 09 Apr 2018 02:56:50 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1523231810;
+        bh=aqxevX7ZkKvkxWOGFyo9JwFSvf272H9BylIbNQCg/fM=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date;
+        b=l/V4LvtL6qvJ0HGs6OG82dPwkZIAqmnyQOpglBq6HrHblEuhciM5N7HfJYT39stT7
+         gSM6sG/Y019WAYuLSDPhmf2Yy09SuMGftH4dFPVDPS2Vp3rgBObg95wNt6Vjk39x9N
+         hncYPSGWtghS04pCoNRIgUfRK5uv7e+JwUArPDSg=
+Authentication-Results: mxback7g.mail.yandex.net; dkim=pass header.i=@yandex.ru
+Received: by web57o.yandex.ru with HTTP;
+        Mon, 09 Apr 2018 02:56:49 +0300
+From:   Evgeniy Polyakov <zbr@ioremap.net>
+Envelope-From: drustafa@yandex.ru
+To:     Gergo Huszty <huszty.gergo@digitaltrip.hu>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+In-Reply-To: <20171220190709.6584-1-huszty.gergo@digitaltrip.hu>
+References: <20171220190709.6584-1-huszty.gergo@digitaltrip.hu>
+Subject: Re: [PATCH] Fixed typo in onewire generic doc
+MIME-Version: 1.0
+Message-Id: <6472401523231809@web57o.yandex.ru>
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date:   Mon, 09 Apr 2018 02:56:49 +0300
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 6077776b5908e split 'HAVE_BPF_JIT' into cBPF and eBPF variant.
-Adds arch support status files for the new variants, and removes the
-status file corresponding to 'HAVE_BPT_JIT'. The new status matrices
-were auto-generated using the script 'features-refresh.sh'.
+Hi everyone
 
-Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
----
- .../features/core/BPF-JIT/arch-support.txt         | 33 ----------------------
- .../features/core/cBPF-JIT/arch-support.txt        | 33 ++++++++++++++++++++++
- .../features/core/eBPF-JIT/arch-support.txt        | 33 ++++++++++++++++++++++
- 3 files changed, 66 insertions(+), 33 deletions(-)
- delete mode 100644 Documentation/features/core/BPF-JIT/arch-support.txt
- create mode 100644 Documentation/features/core/cBPF-JIT/arch-support.txt
- create mode 100644 Documentation/features/core/eBPF-JIT/arch-support.txt
+I'm really sorry for that long delay.
 
-diff --git a/Documentation/features/core/BPF-JIT/arch-support.txt b/Documentation/features/core/BPF-JIT/arch-support.txt
-deleted file mode 100644
-index d277f971ccd6b..0000000000000
---- a/Documentation/features/core/BPF-JIT/arch-support.txt
-+++ /dev/null
-@@ -1,33 +0,0 @@
--#
--# Feature name:          BPF-JIT
--#         Kconfig:       HAVE_BPF_JIT
--#         description:   arch supports BPF JIT optimizations
--#
--    -----------------------
--    |         arch |status|
--    -----------------------
--    |       alpha: | TODO |
--    |         arc: | TODO |
--    |         arm: |  ok  |
--    |       arm64: |  ok  |
--    |         c6x: | TODO |
--    |       h8300: | TODO |
--    |     hexagon: | TODO |
--    |        ia64: | TODO |
--    |        m68k: | TODO |
--    |  microblaze: | TODO |
--    |        mips: |  ok  |
--    |       nds32: | TODO |
--    |       nios2: | TODO |
--    |    openrisc: | TODO |
--    |      parisc: | TODO |
--    |     powerpc: |  ok  |
--    |       riscv: | TODO |
--    |        s390: |  ok  |
--    |          sh: | TODO |
--    |       sparc: |  ok  |
--    |          um: | TODO |
--    |   unicore32: | TODO |
--    |         x86: |  ok  |
--    |      xtensa: | TODO |
--    -----------------------
-diff --git a/Documentation/features/core/cBPF-JIT/arch-support.txt b/Documentation/features/core/cBPF-JIT/arch-support.txt
-new file mode 100644
-index 0000000000000..90459cdde3143
---- /dev/null
-+++ b/Documentation/features/core/cBPF-JIT/arch-support.txt
-@@ -0,0 +1,33 @@
-+#
-+# Feature name:          cBPF-JIT
-+#         Kconfig:       HAVE_CBPF_JIT
-+#         description:   arch supports cBPF JIT optimizations
-+#
-+    -----------------------
-+    |         arch |status|
-+    -----------------------
-+    |       alpha: | TODO |
-+    |         arc: | TODO |
-+    |         arm: | TODO |
-+    |       arm64: | TODO |
-+    |         c6x: | TODO |
-+    |       h8300: | TODO |
-+    |     hexagon: | TODO |
-+    |        ia64: | TODO |
-+    |        m68k: | TODO |
-+    |  microblaze: | TODO |
-+    |        mips: |  ok  |
-+    |       nds32: | TODO |
-+    |       nios2: | TODO |
-+    |    openrisc: | TODO |
-+    |      parisc: | TODO |
-+    |     powerpc: |  ok  |
-+    |       riscv: | TODO |
-+    |        s390: | TODO |
-+    |          sh: | TODO |
-+    |       sparc: |  ok  |
-+    |          um: | TODO |
-+    |   unicore32: | TODO |
-+    |         x86: | TODO |
-+    |      xtensa: | TODO |
-+    -----------------------
-diff --git a/Documentation/features/core/eBPF-JIT/arch-support.txt b/Documentation/features/core/eBPF-JIT/arch-support.txt
-new file mode 100644
-index 0000000000000..c90a0382fe667
---- /dev/null
-+++ b/Documentation/features/core/eBPF-JIT/arch-support.txt
-@@ -0,0 +1,33 @@
-+#
-+# Feature name:          eBPF-JIT
-+#         Kconfig:       HAVE_EBPF_JIT
-+#         description:   arch supports eBPF JIT optimizations
-+#
-+    -----------------------
-+    |         arch |status|
-+    -----------------------
-+    |       alpha: | TODO |
-+    |         arc: | TODO |
-+    |         arm: |  ok  |
-+    |       arm64: |  ok  |
-+    |         c6x: | TODO |
-+    |       h8300: | TODO |
-+    |     hexagon: | TODO |
-+    |        ia64: | TODO |
-+    |        m68k: | TODO |
-+    |  microblaze: | TODO |
-+    |        mips: |  ok  |
-+    |       nds32: | TODO |
-+    |       nios2: | TODO |
-+    |    openrisc: | TODO |
-+    |      parisc: | TODO |
-+    |     powerpc: |  ok  |
-+    |       riscv: | TODO |
-+    |        s390: |  ok  |
-+    |          sh: | TODO |
-+    |       sparc: |  ok  |
-+    |          um: | TODO |
-+    |   unicore32: | TODO |
-+    |         x86: |  ok  |
-+    |      xtensa: | TODO |
-+    -----------------------
--- 
-2.7.4
+Was this patch accepted or should I push it upstream?
 
+20.12.2017, 22:09, "Gergo Huszty" <huszty.gergo@digitaltrip.hu>:
+> Onewire devices has 6 byte long unique serial numbers, 1 byte family
+> code and 1 byte CRC. Linux sysfs presents the device folder in the
+> form of familyID-deviceID, so CRC is not shown. The consequence is
+> that the device serial number is always a 12 long hex-string, but
+> doc says 13 in one place. This is corrected by this change.
+> Reference: https://en.wikipedia.org/wiki/1-Wire
+>
+> Signed-off-by: Gergo Huszty <huszty.gergo@digitaltrip.hu>
+> ---
+>  Documentation/w1/w1.generic | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/w1/w1.generic b/Documentation/w1/w1.generic
+> index b3ffaf8cfab2..c51b1ab012d0 100644
+> --- a/Documentation/w1/w1.generic
+> +++ b/Documentation/w1/w1.generic
+> @@ -76,7 +76,7 @@ See struct w1_bus_master definition in w1.h for details.
+>
+>  w1 master sysfs interface
+>  ------------------------------------------------------------------
+> -<xx-xxxxxxxxxxxxx> - A directory for a found device. The format is family-serial
+> +<xx-xxxxxxxxxxxx> - A directory for a found device. The format is family-serial
+>  bus - (standard) symlink to the w1 bus
+>  driver - (standard) symlink to the w1 driver
+>  w1_master_add - (rw) manually register a slave device
+> --
+> 2.15.1
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
