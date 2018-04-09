@@ -5,143 +5,275 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E2FA97E86A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 08:29:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6482E7E86A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 09:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751416AbeDII3c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 04:29:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37044 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1750952AbeDII3b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 04:29:31 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w398J99P053538
-        for <linux-doc@vger.kernel.org>; Mon, 9 Apr 2018 04:29:31 -0400
-Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2h8033j1fq-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 09 Apr 2018 04:29:30 -0400
-Received: from localhost
-        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Mon, 9 Apr 2018 09:29:28 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Mon, 9 Apr 2018 09:29:22 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w398TLPO3998028;
-        Mon, 9 Apr 2018 08:29:21 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 57C5A4C04E;
-        Mon,  9 Apr 2018 09:22:04 +0100 (BST)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CB3994C046;
-        Mon,  9 Apr 2018 09:21:59 +0100 (BST)
-Received: from [9.124.31.66] (unknown [9.124.31.66])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon,  9 Apr 2018 09:21:59 +0100 (BST)
-Subject: Re: [PATCH v2 9/9] perf probe: Support SDT markers having reference
- counter (semaphore)
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
-        rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        alexis.berlemont@gmail.com, corbet@lwn.net,
-        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
-        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
-        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
-        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
-        fengguang.wu@intel.com, jglisse@redhat.com,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180404083110.18647-10-ravi.bangoria@linux.vnet.ibm.com>
- <20180409162856.df4c32b840eb5f2ef8c028f1@kernel.org>
-From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Date:   Mon, 9 Apr 2018 13:59:16 +0530
+        id S1751882AbeDIJBL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 05:01:11 -0400
+Received: from www62.your-server.de ([213.133.104.62]:45382 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751630AbeDIJBK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 05:01:10 -0400
+Received: from [62.202.221.10] (helo=linux.home)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-SHA:256)
+        (Exim 4.85_2)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1f5Sfk-0006UR-96; Mon, 09 Apr 2018 11:01:08 +0200
+Subject: Re: [RFC bpf-next] bpf: document eBPF helpers and add a script to
+ generate man page
+To:     Quentin Monnet <quentin.monnet@netronome.com>, ast@kernel.org
+Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+References: <20180406111122.11038-1-quentin.monnet@netronome.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <05d2d03a-0b39-9d0c-9ba0-3461afc45fac@iogearbox.net>
+Date:   Mon, 9 Apr 2018 11:01:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <20180409162856.df4c32b840eb5f2ef8c028f1@kernel.org>
+In-Reply-To: <20180406111122.11038-1-quentin.monnet@netronome.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 18040908-0020-0000-0000-0000040F982C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18040908-0021-0000-0000-000042A3B794
-Message-Id: <643a8fb2-fb96-8dbe-9f36-2540bd8a1de5@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-09_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804090093
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.99.3/24463/Mon Apr  9 06:21:19 2018)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Masami,
+On 04/06/2018 01:11 PM, Quentin Monnet wrote:
+> eBPF helper functions can be called from within eBPF programs to perform
+> a variety of tasks that would be otherwise hard or impossible to do with
+> eBPF itself. There is a growing number of such helper functions in the
+> kernel, but documentation is scarce. The main user space header file
+> does contain a short commented description of most helpers, but it is
+> somewhat outdated and not complete. It is more a "cheat sheet" than a
+> real documentation accessible to new eBPF developers.
+> 
+> This commit attempts to improve the situation by replacing the existing
+> overview for the helpers with a more developed description. Furthermore,
+> a Python script is added to generate a manual page for eBPF helpers. The
+> workflow is the following, and requires the rst2man utility:
+> 
+>     $ ./scripts/bpf_helpers_doc.py \
+>             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+>     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+>     $ man /tmp/bpf-helpers.7
+> 
+> The objective is to keep all documentation related to the helpers in a
+> single place, and to be able to generate from here a manual page that
+> could be packaged in the man-pages repository and shipped with most
+> distributions [1].
+> 
+> Additionally, parsing the prototypes of the helper functions could
+> hopefully be reused, with a different Printer object, to generate
+> header files needed in some eBPF-related projects.
+> 
+> Regarding the description of each helper, it comprises several items:
+> 
+> - The function prototype.
+> - A description of the function and of its arguments (except for a
+>   couple of cases, when there are no arguments and the return value
+>   makes the function usage really obvious).
+> - A description of return values (if not void).
+> - A listing of eBPF program types (if relevant, map types) compatible
+>   with the helper.
+> - Information about the helper being restricted to GPL programs, or not.
+> - The kernel version in which the helper was introduced.
+> - The commit that introduced the helper (this is mostly to have it in
+>   the source of the man page, as it can be used to track changes and
+>   update the page).
+> 
+> For several helpers, descriptions are inspired (at times, nearly copied)
+> from the commit logs introducing them in the kernel--Many thanks to
+> their respective authors! They were completed as much as possible, the
+> objective being to have something easily accessible even for people just
+> starting with eBPF. There is probably a bit more work to do in this
+> direction for some helpers.
+> 
+> Some RST formatting is used in the descriptions (not in function
+> prototypes, to keep them readable, but the Python script provided in
+> order to generate the RST for the manual page does add formatting to
+> prototypes, to produce something pretty) to get "bold" and "italics" in
+> manual pages. Hopefully, the descriptions in bpf.h file remains
+> perfectly readable. Note that the few trailing white spaces are
+> intentional, removing them would break paragraphs for rst2man.
+> 
+> The descriptions should ideally be updated each time someone adds a new
+> helper, or updates the behaviour (compatibility extended to new program
+> types, new socket option supported...) or the interface (new flags
+> available, ...) of existing ones.
+> 
+> [1] I have not contacted people from the man-pages project prior to
+>     sending this RFC, so I can offer no guaranty at this time that they
+>     would accept to take the generated man page.
+> 
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-man@vger.kernel.org
+> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 
-On 04/09/2018 12:58 PM, Masami Hiramatsu wrote:
-> Hi Ravi,
->
-> On Wed,  4 Apr 2018 14:01:10 +0530
-> Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
->
->> @@ -2054,15 +2060,21 @@ char *synthesize_probe_trace_command(struct probe_trace_event *tev)
->>  	}
->>  
->>  	/* Use the tp->address for uprobes */
->> -	if (tev->uprobes)
->> +	if (tev->uprobes) {
->>  		err = strbuf_addf(&buf, "%s:0x%lx", tp->module, tp->address);
->> -	else if (!strncmp(tp->symbol, "0x", 2))
->> +		if (uprobe_ref_ctr_is_supported() &&
->> +		    tp->ref_ctr_offset &&
->> +		    err >= 0)
->> +			err = strbuf_addf(&buf, "(0x%lx)", tp->ref_ctr_offset);
-> If the kernel doesn't support uprobe_ref_ctr but the event requires
-> to increment uprobe_ref_ctr, I think we should (at least) warn user here.
+Great work, thanks a lot for doing this!
 
-pr_debug("A semaphore is associated with %s:%s and seems your kernel doesn't support it.\n"
-         tev->group, tev->event);
+[...]
+> + * int bpf_probe_read(void *dst, u32 size, const void *src)
+> + * 	Description
+> + * 		For tracing programs, safely attempt to read *size* bytes from
+> + * 		address *src* and store the data in *dst*.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + * 	For
+> + * 		*Tracing programs*.
+> + * 	GPL only
+> + * 		Yes
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit 2541517c32be
+>   *
+>   * u64 bpf_ktime_get_ns(void)
+> - *     Return: current ktime
+> - *
+> - * int bpf_trace_printk(const char *fmt, int fmt_size, ...)
+> - *     Return: length of buffer written or negative error
+> + * 	Description
+> + * 		Return the time elapsed since system boot, in nanoseconds.
+> + * 	Return
+> + * 		Current *ktime*.
+> + * 	For
+> + * 		All program types, except
+> + * 		**BPF_PROG_TYPE_CGROUP_DEVICE**.
 
-Looks good?
+I think we should probably always just list the actual program types instead,
+since when new types get added to the kernel not supporting bpf_ktime_get_ns()
+helper in this example, the above statement would be misleading (potentially
+more misleading than the other way around when it's not yet mentioned to be
+supported).
 
->> @@ -776,14 +784,21 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
->>  {
->>  	struct strbuf buf;
->>  	char *ret = NULL, **args;
->> -	int i, args_count;
->> +	int i, args_count, err;
->> +	unsigned long long ref_ctr_offset;
->>  
->>  	if (strbuf_init(&buf, 32) < 0)
->>  		return NULL;
->>  
->> -	if (strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
->> -				sdtgrp, note->name, pathname,
->> -				sdt_note__get_addr(note)) < 0)
->> +	err = strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
->> +			sdtgrp, note->name, pathname,
->> +			sdt_note__get_addr(note));
->> +
->> +	ref_ctr_offset = sdt_note__get_ref_ctr_offset(note);
->> +	if (uprobe_ref_ctr_is_supported() && ref_ctr_offset && err >= 0)
->> +		err = strbuf_addf(&buf, "(0x%llx)", ref_ctr_offset);
-> We don't have to care about uprobe_ref_ctr support here, because
-> this information will be just cached, not directly written to
-> uprobe_events.
+> + * 	GPL only
+> + * 		Yes
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit d9847d310ab4
+> + *
+> + * int bpf_trace_printk(const char *fmt, u32 fmt_size, ...)
+> + * 	Description
+> + * 		This helper is a "printk()-like" facility for debugging. It
+> + * 		prints a message defined by format *fmt* (of size *fmt_size*)
+> + * 		to file *\/sys/kernel/debug/tracing/trace* from DebugFS, if
+> + * 		available. It can take up to three additional **u64**
+> + * 		arguments (as an eBPF helpers, the total number of arguments is
+> + * 		limited to five). Each time the helper is called, it appends a
+> + * 		line that looks like the following:
+> + *
+> + * 		::
+> + *
+> + * 			telnet-470   [001] .N.. 419421.045894: 0x00000001: BPF command: 2
+> + *
+> + * 		In the above:
+> + *
+> + * 			* ``telnet`` is the name of the current task.
+> + * 			* ``470`` is the PID of the current task.
+> + * 			* ``001`` is the CPU number on which the task is
+> + * 			  running.
+> + * 			* In ``.N..``, each character refers to a set of
+> + * 			  options (whether irqs are enabled, scheduling
+> + * 			  options, whether hard/softirqs are running, level of
+> + * 			  preempt_disabled respectively). **N** means that
+> + * 			  **TIF_NEED_RESCHED** and **PREEMPT_NEED_RESCHED**
+> + * 			  are set.
+> + * 			* ``419421.045894`` is a timestamp.
+> + * 			* ``0x00000001`` is a fake value used by BPF for the
+> + * 			  instruction pointer register.
+> + * 			* ``BPF command: 2`` is the message formatted with
+> + * 			  *fmt*.
+> + *
+> + * 		The conversion specifiers supported by *fmt* are similar, but
+> + * 		more limited than for printk(). They are **%d**, **%i**,
+> + * 		**%u**, **%x**, **%ld**, **%li**, **%lu**, **%lx**, **%lld**,
+> + * 		**%lli**, **%llu**, **%llx**, **%p**, **%s**. No modifier (size
+> + * 		of field, padding with zeroes, etc.) is available, and the
+> + * 		helper will silently fail if it encounters an unknown
+> + * 		specifier.
+> + *
+> + * 		Also, note that **bpf_trace_printk**\ () is slow, and should
+> + * 		only be used for debugging purposes. For passing values to user
+> + * 		space, perf events should be preferred.
+> + * 	Return
+> + * 		The number of bytes written to the buffer, or a negative error
+> + * 		in case of failure.
+> + * 	For
+> + * 		All types of programs.
 
-Sure, will remove the check.
+Ditto, and various other places.
 
-Thanks for the review :).
-Ravi
+> + * 	GPL only
+> + * 		Yes
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit 9c959c863f82
+>   *
+>   * u32 bpf_prandom_u32(void)
+> - *     Return: random value
+> - *
+> - * u32 bpf_raw_smp_processor_id(void)
+> - *     Return: SMP processor ID
+> - *
+[...]
+> + * u32 bpf_get_smp_processor_id(void)
+> + * 	Return
+> + * 		The SMP (Symmetric multiprocessing) processor id.
+> + * 	For
+> + * 		*Networking programs*.
 
+Ditto plus above is actually not correct. See tracing_func_proto():
+
+        [...]
+        case BPF_FUNC_get_smp_processor_id:
+                return &bpf_get_smp_processor_id_proto;
+        [...]
+
+> + * 	GPL only
+> + * 		No
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit c04167ce2ca0
+> + *
+> + * int bpf_skb_store_bytes(struct sk_buff *skb, u32 offset, const void *from, u32 len, u64 flags)
+> + * 	Description
+> + * 		Store *len* bytes from address *from* into the packet
+> + * 		associated to *skb*, at *offset*. *flags* are a combination of
+> + * 		**BPF_F_RECOMPUTE_CSUM** (automatically recompute the
+> + * 		checksum for the packet after storing the bytes) and
+> + * 		**BPF_F_INVALIDATE_HASH** (set *skb*\ **->hash**, *skb*\
+> + * 		**->swhash** and *skb*\ **->l4hash** to 0).
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
+> + * 	Return
+[...]
+
+Agree with Alexei that 'Description' but also 'Return' is the most useful
+(the latter we can still improve a bit wrt errors). 'For' gets indeed quickly
+out of hand but I do think that for BPF program developers 'Since' has good
+value to quickly check when a helper could be available, but then again
+this is actually tied to an individual kconfig and/or program type, and could
+potentially require to add or (worst case) remove the info in a second commit
+e.g. after the merge window similar with the commit sha. Probably best indeed
+to stick to the signature, 'Description' and 'Return' initially.
+
+We should probably also have the bpf_helpers_doc.py workflow in a separate
+comment above this one such that developers don't have to look up the original
+commit message, but have the required steps to render the rst/man page available
+right where they need it.
+
+Thanks,
+Daniel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
