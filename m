@@ -1,89 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DATE_IN_FUTURE_06_12,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C6E497E86A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 13:29:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 426907E86A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 13:31:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751455AbeDIN3g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 09:29:36 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:37412 "EHLO mx1.redhat.com"
+        id S1752542AbeDINbZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 09:31:25 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:6730 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752127AbeDIN3e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Apr 2018 09:29:34 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 03C4340201A1;
-        Mon,  9 Apr 2018 13:29:33 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 4126C111DCF6;
-        Mon,  9 Apr 2018 13:29:29 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon,  9 Apr 2018 15:29:32 +0200 (CEST)
-Date:   Mon, 9 Apr 2018 15:29:28 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Cc:     mhiramat@kernel.org, peterz@infradead.org,
-        srikar@linux.vnet.ibm.com, rostedt@goodmis.org, acme@kernel.org,
-        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
-        corbet@lwn.net, dan.j.williams@intel.com, jolsa@redhat.com,
-        kan.liang@intel.com, kjlx@templeofstupid.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
-        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com, tglx@linutronix.de,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com, jglisse@redhat.com
-Subject: Re: [PATCH v2 7/9] trace_uprobe/sdt: Fix multiple update of same
- reference counter
-Message-ID: <20180409132928.GA25722@redhat.com>
-References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180404083110.18647-8-ravi.bangoria@linux.vnet.ibm.com>
+        id S1752370AbeDINbX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Apr 2018 09:31:23 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id C5968AF65E691;
+        Mon,  9 Apr 2018 21:31:00 +0800 (CST)
+Received: from localhost.localdomain (10.143.28.90) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.361.1; Mon, 9 Apr 2018 21:30:53 +0800
+From:   Dongjiu Geng <gengdongjiu@huawei.com>
+To:     <rkrcmar@redhat.com>, <corbet@lwn.net>,
+        <christoffer.dall@linaro.org>, <marc.zyngier@arm.com>,
+        <james.morse@arm.com>, <linux@armlinux.org.uk>,
+        <catalin.marinas@arm.com>, <rjw@rjwysocki.net>, <bp@alien8.de>,
+        <lenb@kernel.org>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <kvmarm@lists.cs.columbia.edu>, <linux-acpi@vger.kernel.org>,
+        <devel@acpica.org>
+CC:     <gengdongjiu@huawei.com>, <huangshaoyu@huawei.com>,
+        <zhengxiang9@huawei.com>
+Subject: [PATCH v11 1/4] arm64: KVM: export the capability to set guest SError syndrome
+Date:   Tue, 10 Apr 2018 05:36:33 +0800
+Message-ID: <1523309796-36423-2-git-send-email-gengdongjiu@huawei.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
+References: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180404083110.18647-8-ravi.bangoria@linux.vnet.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Mon, 09 Apr 2018 13:29:33 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Mon, 09 Apr 2018 13:29:33 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+Content-Type: text/plain
+X-Originating-IP: [10.143.28.90]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/04, Ravi Bangoria wrote:
->
-> +static void sdt_add_mm_list(struct trace_uprobe *tu, struct mm_struct *mm)
-> +{
-> +	struct mmu_notifier *mn;
-> +	struct sdt_mm_list *sml = kzalloc(sizeof(*sml), GFP_KERNEL);
-> +
-> +	if (!sml)
-> +		return;
-> +	sml->mm = mm;
-> +	list_add(&(sml->list), &(tu->sml.list));
-> +
-> +	/* Register mmu_notifier for this mm. */
-> +	mn = kzalloc(sizeof(*mn), GFP_KERNEL);
-> +	if (!mn)
-> +		return;
-> +
-> +	mn->ops = &sdt_mmu_notifier_ops;
-> +	__mmu_notifier_register(mn, mm);
-> +}
+Before user space injects a SError, it needs to know whether it can
+specify the guest Exception Syndrome, so KVM should tell user space
+whether it has such capability.
 
-and what if __mmu_notifier_register() fails simply because signal_pending() == T?
-see mm_take_all_locks().
+Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+---
+ Documentation/virtual/kvm/api.txt | 11 +++++++++++
+ arch/arm64/kvm/reset.c            |  3 +++
+ include/uapi/linux/kvm.h          |  1 +
+ 3 files changed, 15 insertions(+)
 
-at first glance this all look suspicious and sub-optimal, but let me repeat that
-I didn't read this version yet.
-
-Oleg.
+diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+index fc3ae95..8a3d708 100644
+--- a/Documentation/virtual/kvm/api.txt
++++ b/Documentation/virtual/kvm/api.txt
+@@ -4415,3 +4415,14 @@ Parameters: none
+ This capability indicates if the flic device will be able to get/set the
+ AIS states for migration via the KVM_DEV_FLIC_AISM_ALL attribute and allows
+ to discover this without having to create a flic device.
++
++8.14 KVM_CAP_ARM_SET_SERROR_ESR
++
++Architectures: arm, arm64
++
++This capability indicates that userspace can specify syndrome value reported to
++guest OS when guest takes a virtual SError interrupt exception.
++If KVM has this capability, userspace can only specify the ISS field for the ESR
++syndrome, can not specify the EC field which is not under control by KVM.
++If this virtual SError is taken to EL1 using AArch64, this value will be reported
++into ISS filed of ESR_EL1.
+diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+index 3256b92..38c8a64 100644
+--- a/arch/arm64/kvm/reset.c
++++ b/arch/arm64/kvm/reset.c
+@@ -77,6 +77,9 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_ARM_PMU_V3:
+ 		r = kvm_arm_support_pmu_v3();
+ 		break;
++	case KVM_CAP_ARM_INJECT_SERROR_ESR:
++		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
++		break;
+ 	case KVM_CAP_SET_GUEST_DEBUG:
+ 	case KVM_CAP_VCPU_ATTRIBUTES:
+ 		r = 1;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 8fb90a0..3587b33 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -934,6 +934,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_S390_AIS_MIGRATION 150
+ #define KVM_CAP_PPC_GET_CPU_CHAR 151
+ #define KVM_CAP_S390_BPB 152
++#define KVM_CAP_ARM_INJECT_SERROR_ESR 153
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+-- 
+1.9.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
