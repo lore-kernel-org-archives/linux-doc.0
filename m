@@ -1,130 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F2DF7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 14:08:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 96B847DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 14:37:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751662AbeDIOIh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 10:08:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34752 "EHLO mail.kernel.org"
+        id S1752542AbeDIOh2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 10:37:28 -0400
+Received: from mail.kapsi.fi ([91.232.154.25]:39389 "EHLO mail.kapsi.fi"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751543AbeDIOIh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Apr 2018 10:08:37 -0400
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DAE1320779;
-        Mon,  9 Apr 2018 14:08:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DAE1320779
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mhiramat@kernel.org
-Date:   Mon, 9 Apr 2018 23:08:30 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
-        rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        alexis.berlemont@gmail.com, corbet@lwn.net,
-        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
-        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
-        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
-        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
-        fengguang.wu@intel.com, jglisse@redhat.com
-Subject: Re: [PATCH v2 9/9] perf probe: Support SDT markers having reference
- counter (semaphore)
-Message-Id: <20180409230830.48118d3c32f7ec448936ed8a@kernel.org>
-In-Reply-To: <643a8fb2-fb96-8dbe-9f36-2540bd8a1de5@linux.vnet.ibm.com>
-References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
-        <20180404083110.18647-10-ravi.bangoria@linux.vnet.ibm.com>
-        <20180409162856.df4c32b840eb5f2ef8c028f1@kernel.org>
-        <643a8fb2-fb96-8dbe-9f36-2540bd8a1de5@linux.vnet.ibm.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S1750759AbeDIOh1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Apr 2018 10:37:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi; s=20161220;
+        h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject; bh=NMaxRHY8mimO2b5+A9G07u8SAaX7jgBFb7MWx26KDfM=;
+        b=xXvSGQZehXFpflqpZx6qnFL3Z3Li9U3KixdIg+/G47UCTRqRWDhdH10N90Sl/M/QUyjnX9SR4oUXJXBOCk24oNusnXQ2vX8CD8uvd3u3q7p4+dGJl2FcmLxiDPrxQF72c+8WUM0kzB+YDLgBNNRL3sOpHFis1b6pDZOh8lwO4sLigVJ0kzzBMc9jD4bhu1eRD0jXG2euUtWTFhapLECCfPdgaUfFL9pUuWH8Kou5HFgo1ZHRW7VGQfk4yLtHKLs/BZtEzQpbT7UvQjj61E+Cgex8KyCFDWgZJKk/09JqiV8/bpbjdBe1itq+mE6r4qBotcmqBdMdwI0dDCez2y6fdQ==;
+Received: from dsl-hkibng22-54faa2-250.dhcp.inet.fi ([84.250.162.250])
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.84_2)
+        (envelope-from <cyndis@kapsi.fi>)
+        id 1f5Xuz-0005Rn-AS; Mon, 09 Apr 2018 17:37:13 +0300
+Subject: Re: [PATCH V2 3/9] dt-bindings: Tegra186 tachometer device tree
+ bindings
+To:     Rob Herring <robh@kernel.org>
+Cc:     Rajkumar Rampelli <rrajk@nvidia.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Timur Tabi <timur@codeaurora.org>,
+        Andy Gross <andy.gross@linaro.org>,
+        Wei Xu <xuwei5@hisilicon.com>, Alex Elder <elder@linaro.org>,
+        "heiko@sntech.de" <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        linux-tegra@vger.kernel.org,
+        Linux HWMON List <linux-hwmon@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Laxman Dewangan <ldewangan@nvidia.com>
+References: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
+ <1521607244-29734-4-git-send-email-rrajk@nvidia.com>
+ <20180327145249.xjoo42qow34ksdle@rob-hp-laptop>
+ <867aace8-dac7-51d4-bd46-15919b58b37d@kapsi.fi>
+ <CAL_Jsq+AsUiWWBQ7K4OUM58KqQbvBHuFYmXxXLwr7viwoKW-Yw@mail.gmail.com>
+From:   Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <615d6771-00c3-a4a7-a99f-ec4f6e667c8f@kapsi.fi>
+Date:   Mon, 9 Apr 2018 17:37:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <CAL_Jsq+AsUiWWBQ7K4OUM58KqQbvBHuFYmXxXLwr7viwoKW-Yw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 84.250.162.250
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 9 Apr 2018 13:59:16 +0530
-Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
-
-> Hi Masami,
-> 
-> On 04/09/2018 12:58 PM, Masami Hiramatsu wrote:
-> > Hi Ravi,
-> >
-> > On Wed,  4 Apr 2018 14:01:10 +0530
-> > Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
-> >
-> >> @@ -2054,15 +2060,21 @@ char *synthesize_probe_trace_command(struct probe_trace_event *tev)
-> >>  	}
-> >>  
-> >>  	/* Use the tp->address for uprobes */
-> >> -	if (tev->uprobes)
-> >> +	if (tev->uprobes) {
-> >>  		err = strbuf_addf(&buf, "%s:0x%lx", tp->module, tp->address);
-> >> -	else if (!strncmp(tp->symbol, "0x", 2))
-> >> +		if (uprobe_ref_ctr_is_supported() &&
-> >> +		    tp->ref_ctr_offset &&
-> >> +		    err >= 0)
-> >> +			err = strbuf_addf(&buf, "(0x%lx)", tp->ref_ctr_offset);
-> > If the kernel doesn't support uprobe_ref_ctr but the event requires
-> > to increment uprobe_ref_ctr, I think we should (at least) warn user here.
-> 
-> pr_debug("A semaphore is associated with %s:%s and seems your kernel doesn't support it.\n"
->          tev->group, tev->event);
-> 
-> Looks good?
-
-I think it should be pr_warning() and return NULL, since user may not be able to
-trace the event even if it is enabled.
-
-> 
-> >> @@ -776,14 +784,21 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
-> >>  {
-> >>  	struct strbuf buf;
-> >>  	char *ret = NULL, **args;
-> >> -	int i, args_count;
-> >> +	int i, args_count, err;
-> >> +	unsigned long long ref_ctr_offset;
-> >>  
-> >>  	if (strbuf_init(&buf, 32) < 0)
-> >>  		return NULL;
-> >>  
-> >> -	if (strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
-> >> -				sdtgrp, note->name, pathname,
-> >> -				sdt_note__get_addr(note)) < 0)
-> >> +	err = strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
-> >> +			sdtgrp, note->name, pathname,
-> >> +			sdt_note__get_addr(note));
-> >> +
-> >> +	ref_ctr_offset = sdt_note__get_ref_ctr_offset(note);
-> >> +	if (uprobe_ref_ctr_is_supported() && ref_ctr_offset && err >= 0)
-> >> +		err = strbuf_addf(&buf, "(0x%llx)", ref_ctr_offset);
-> > We don't have to care about uprobe_ref_ctr support here, because
-> > this information will be just cached, not directly written to
-> > uprobe_events.
-> 
-> Sure, will remove the check.
-
-Thanks!
-
-> 
-> Thanks for the review :).
-> Ravi
-> 
 
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+On 04/09/2018 04:21 PM, Rob Herring wrote:
+> On Mon, Apr 9, 2018 at 12:38 AM, Mikko Perttunen <cyndis@kapsi.fi> wrote:
+>> Rob,
+> 
+> Please don't top post to lists.
+> 
+>> this binding is for a specific IP block (for measuring/aggregating input
+>> pulses) on the Tegra186 SoC, so I don't think it fits into any generic
+>> binding.
+> 
+> What is it hooked up to to measure? You only mention "fan" five times
+> in the doc.
+
+In practice, fans.
+
+> 
+> You have #pwm-cells too, so this block has PWM output as well? If not,
+> then where's the PWM for the fan control because there is no point in
+> having fan tach without some control mechanism.
+
+It doesn't provide a PWM output. The (Linux) PWM framework provides 
+functionality in both directions - control and capture. But if the 
+device tree #pwm-cells/pwms properties are only for control, we may need 
+to introduce a new #capture-pwm-cells/capture-pwms or similar.
+
+The idea is that the generic fan node can then specify two pwms, one for 
+control and one for capture, to enable e.g. closed-loop control (I'm not 
+personally familiar with the usecase for this but I could imagine 
+something like that). The control PWM can be something completely 
+different, maybe not a PWM in the first place (e.g. some fixed voltage).
+
+> 
+> There's only so many ways to control fans and types of fans, so yes,
+> the interface of control and feedback lines between a fan and its
+> controller should absolutely be generic.
+
+I'm not quite getting what you mean by this. Clearly we need a custom 
+compatibility string for the tachometer as it's a different hardware 
+block with different programming than others. Or are you complaining 
+about the nvidia,pulse-per-rev/capture-window-len properties?
+
+Thanks,
+Mikko
+
+> 
+> Rob
+> 
+>>
+>> Thanks,
+>> Mikko
+>>
+>>
+>> On 03/27/2018 05:52 PM, Rob Herring wrote:
+>>>
+>>> On Wed, Mar 21, 2018 at 10:10:38AM +0530, Rajkumar Rampelli wrote:
+>>>>
+>>>> Supply Device tree binding documentation for the NVIDIA
+>>>> Tegra186 SoC's Tachometer Controller
+>>>>
+>>>> Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
+>>>> ---
+>>>>
+>>>> V2: Renamed compatible string to "nvidia,tegra186-pwm-tachometer"
+>>>>       Renamed dt property values of clock-names and reset-names to
+>>>> "tachometer"
+>>>>       from "tach"
+>>>
+>>>
+>>> Read my prior comments on v1.
+>>>
+>>> Rob
+>>> --
+>>> To unsubscribe from this list: send the line "unsubscribe linux-tegra" in
+>>> the body of a message to majordomo@vger.kernel.org
+>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>>>
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe devicetree" in
+>> the body of a message to majordomo@vger.kernel.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
