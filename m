@@ -1,134 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D13D7E86A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 12:34:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B46C17E86A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 13:17:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751688AbeDIMeY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 08:34:24 -0400
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:35150 "EHLO
-        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751507AbeDIMeQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 08:34:16 -0400
-Received: by mail-pf0-f194.google.com with SMTP id u86so5715526pfd.2;
-        Mon, 09 Apr 2018 05:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to;
-        bh=O6PZxVpv9+XXpSqKxyN0Nkuo3NCnwAALXow3xPSCZ0o=;
-        b=JQDmApiOI+cbxtvGDe5/hAlao2ckA9PMe1ntrfdx+T7vtmRV1zh51sTfbqUkDKBhQe
-         rITR2dnxWZ+9sOBba0XFxMf8KyH1NViMcmItKU7uqrr55+8oMmdwdFxh5seO/KEfXPHf
-         YEe9H2UKI8amG34IprYrvsXVYoo0RHj955etUEv91FJgHF8MAw+dAI8qLPs05FngEOKI
-         CCD2iQMo5bnmdaUwnxstLpvRgRBova22CEwyORzbf7UsHy8ZYGSJe9b3BlQzPegkrW7J
-         TqTrwgrhiyYDZP7sYtWYwcSqGP/eoDdS+uuhiqY846e+YSOGLr2O0ZesB+PMmPKg1gWC
-         uKUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to;
-        bh=O6PZxVpv9+XXpSqKxyN0Nkuo3NCnwAALXow3xPSCZ0o=;
-        b=gEcCp40+MBrQTkw1p6LxdthaetZWwYgwbaLA/dyY2w0mqxHWTLa25h5eeBi341RGb7
-         cwY1/VX5Bw/wTEawaNlpnnWTibF1nTAU5ymqxlXaHxuPL6SqJRdJNYZlqB9YTufxrDPP
-         FDVqMXWNOkptRsflzPxQOHGPCDoS06xjkbUh7Xcl5v5xoMJvf6HJOSanR/XXjDCmWOqP
-         2a//8voBB1KTvGQaWRg02yxb2JJOzLbTueaQoa2E0xj2FIkFP+6+/ADD/wUraeMs/zvC
-         MYmgq/3qIrX/Hx5WIdu+n/8QgWXYt0UElus9QXqGW/VQuML5AZC8UqM7yTgi0XHSs/Hz
-         xT3w==
-X-Gm-Message-State: ALQs6tCl1fd3dJI9gVDIk7yuSVxGgBR1Lb73EFgov94W92gTg/clWdgJ
-        vH233hThFSxFhMbZKEQMwKs=
-X-Google-Smtp-Source: AIpwx4+vLEtP+UWhVBBj2lQ1b38bgIxU6xcf9HV0bXaPpRZsR+OzyDyfcJr38NTMkBXir/se9h8cFQ==
-X-Received: by 10.98.74.17 with SMTP id x17mr17357671pfa.91.1523277256114;
-        Mon, 09 Apr 2018 05:34:16 -0700 (PDT)
-Received: from localhost (outboundhk.mxmail.xiaomi.com. [207.226.244.125])
-        by smtp.gmail.com with ESMTPSA id x27sm712232pfa.134.2018.04.09.05.34.15
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 09 Apr 2018 05:34:15 -0700 (PDT)
-From:   Geliang Tang <geliangtang@gmail.com>
-To:     Phillip Lougher <phillip@squashfs.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Geliang Tang <geliangtang@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] squashfs-tools: Add posix acl support
-Date:   Mon,  9 Apr 2018 20:34:04 +0800
-Message-Id: <711ddb81a0b0e58ca6ee1dd515d85e69b0294234.1523277042.git.geliangtang@gmail.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <af77c1f80e2725c4cf1bf106d6add820b3b0eed5.1523276963.git.geliangtang@gmail.com>
-References: <af77c1f80e2725c4cf1bf106d6add820b3b0eed5.1523276963.git.geliangtang@gmail.com>
-In-Reply-To: <af77c1f80e2725c4cf1bf106d6add820b3b0eed5.1523276963.git.geliangtang@gmail.com>
+        id S1751727AbeDINRh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 09:17:37 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:51844 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1750982AbeDINRh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Apr 2018 09:17:37 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 458BEEB71E;
+        Mon,  9 Apr 2018 13:17:36 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id D23CC2024CA4;
+        Mon,  9 Apr 2018 13:17:31 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Mon,  9 Apr 2018 15:17:36 +0200 (CEST)
+Date:   Mon, 9 Apr 2018 15:17:31 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     mhiramat@kernel.org, peterz@infradead.org,
+        srikar@linux.vnet.ibm.com, rostedt@goodmis.org, acme@kernel.org,
+        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
+        corbet@lwn.net, dan.j.williams@intel.com, jolsa@redhat.com,
+        kan.liang@intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com, tglx@linutronix.de,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com, jglisse@redhat.com
+Subject: Re: [PATCH v2 7/9] trace_uprobe/sdt: Fix multiple update of same
+ reference counter
+Message-ID: <20180409131730.GA25631@redhat.com>
+References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
+ <20180404083110.18647-8-ravi.bangoria@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180404083110.18647-8-ravi.bangoria@linux.vnet.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 09 Apr 2018 13:17:36 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 09 Apr 2018 13:17:36 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add posix acl (Access Control Lists) support for mksquashfs and
-unsquashfs tools.
+On 04/04, Ravi Bangoria wrote:
+>
+> +static void sdt_add_mm_list(struct trace_uprobe *tu, struct mm_struct *mm)
+> +{
+> +	struct mmu_notifier *mn;
+> +	struct sdt_mm_list *sml = kzalloc(sizeof(*sml), GFP_KERNEL);
+> +
+> +	if (!sml)
+> +		return;
+> +	sml->mm = mm;
+> +	list_add(&(sml->list), &(tu->sml.list));
+> +
+> +	/* Register mmu_notifier for this mm. */
+> +	mn = kzalloc(sizeof(*mn), GFP_KERNEL);
+> +	if (!mn)
+> +		return;
+> +
+> +	mn->ops = &sdt_mmu_notifier_ops;
+> +	__mmu_notifier_register(mn, mm);
+> +}
 
-Signed-off-by: Geliang Tang <geliangtang@gmail.com>
----
- squashfs-tools/read_xattrs.c      |  2 ++
- squashfs-tools/squashfs_fs.h      | 12 +++++++-----
- squashfs-tools/unsquashfs_xattr.c |  4 +++-
- 3 files changed, 12 insertions(+), 6 deletions(-)
+I didn't read this version yet, just one question...
 
-diff --git a/squashfs-tools/read_xattrs.c b/squashfs-tools/read_xattrs.c
-index 42106f5..8ef8291 100644
---- a/squashfs-tools/read_xattrs.c
-+++ b/squashfs-tools/read_xattrs.c
-@@ -64,6 +64,8 @@ static long long xattr_table_start;
-  */
- struct prefix prefix_table[] = {
- 	{ "user.", SQUASHFS_XATTR_USER },
-+	{ "system.", SQUASHFS_XATTR_POSIX_ACL_ACCESS },
-+	{ "system.", SQUASHFS_XATTR_POSIX_ACL_DEFAULT },
- 	{ "trusted.", SQUASHFS_XATTR_TRUSTED },
- 	{ "security.", SQUASHFS_XATTR_SECURITY },
- 	{ "", -1 }
-diff --git a/squashfs-tools/squashfs_fs.h b/squashfs-tools/squashfs_fs.h
-index afca918..040035c 100644
---- a/squashfs-tools/squashfs_fs.h
-+++ b/squashfs-tools/squashfs_fs.h
-@@ -122,11 +122,13 @@
- #define SQUASHFS_LSOCKET_TYPE		14
- 
- /* Xattr types */
--#define SQUASHFS_XATTR_USER		0
--#define SQUASHFS_XATTR_TRUSTED		1
--#define SQUASHFS_XATTR_SECURITY		2
--#define SQUASHFS_XATTR_VALUE_OOL	256
--#define SQUASHFS_XATTR_PREFIX_MASK	0xff
-+#define SQUASHFS_XATTR_USER			0
-+#define SQUASHFS_XATTR_POSIX_ACL_ACCESS		1
-+#define SQUASHFS_XATTR_POSIX_ACL_DEFAULT	2
-+#define SQUASHFS_XATTR_TRUSTED			3
-+#define SQUASHFS_XATTR_SECURITY			4
-+#define SQUASHFS_XATTR_VALUE_OOL		256
-+#define SQUASHFS_XATTR_PREFIX_MASK		0xff
- 
- /* Flag whether block is compressed or uncompressed, bit is set if block is
-  * uncompressed */
-diff --git a/squashfs-tools/unsquashfs_xattr.c b/squashfs-tools/unsquashfs_xattr.c
-index 59f4aae..34aae84 100644
---- a/squashfs-tools/unsquashfs_xattr.c
-+++ b/squashfs-tools/unsquashfs_xattr.c
-@@ -57,7 +57,9 @@ void write_xattr(char *pathname, unsigned int xattr)
- 		if(user_xattrs && prefix != SQUASHFS_XATTR_USER)
- 			continue;
- 
--		if(root_process || prefix == SQUASHFS_XATTR_USER) {
-+		if(root_process || prefix == SQUASHFS_XATTR_USER
-+				|| prefix == SQUASHFS_XATTR_POSIX_ACL_ACCESS
-+				|| prefix == SQUASHFS_XATTR_POSIX_ACL_DEFAULT) {
- 			int res = lsetxattr(pathname, xattr_list[i].full_name,
- 				xattr_list[i].value, xattr_list[i].vsize, 0);
- 
--- 
-2.14.1
+So now it depends on CONFIG_MMU_NOTIFIER, yes? I do not see any changes in Kconfig
+files, this doesn't look right...
+
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
