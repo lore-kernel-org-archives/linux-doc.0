@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 65C717E86A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 13:57:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D96127E868
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 13:58:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751291AbeDIN5f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 09:57:35 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47926 "EHLO
+        id S1752238AbeDIN6J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 09:58:09 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50528 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752178AbeDIN5c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 09:57:32 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w39Dueve077648
-        for <linux-doc@vger.kernel.org>; Mon, 9 Apr 2018 09:57:31 -0400
+        by vger.kernel.org with ESMTP id S1752235AbeDIN6H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 09:58:07 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w39DvtaK071023
+        for <linux-doc@vger.kernel.org>; Mon, 9 Apr 2018 09:58:06 -0400
 Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2h85tyaka0-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2h86t97us7-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 09 Apr 2018 09:57:28 -0400
+        for <linux-doc@vger.kernel.org>; Mon, 09 Apr 2018 09:58:02 -0400
 Received: from localhost
         by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <ldufour@linux.vnet.ibm.com>;
-        Mon, 9 Apr 2018 14:57:23 +0100
+        Mon, 9 Apr 2018 14:57:27 +0100
 Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
         by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Mon, 9 Apr 2018 14:57:15 +0100
+        Mon, 9 Apr 2018 14:57:20 +0100
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w39DvFYm10617220;
-        Mon, 9 Apr 2018 13:57:15 GMT
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w39DvKTS14352778;
+        Mon, 9 Apr 2018 13:57:20 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8E1EEAE051;
-        Mon,  9 Apr 2018 14:47:13 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 52F49AE045;
+        Mon,  9 Apr 2018 14:47:18 +0100 (BST)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7E013AE057;
-        Mon,  9 Apr 2018 14:47:11 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id B6EF7AE056;
+        Mon,  9 Apr 2018 14:47:14 +0100 (BST)
 Received: from nimbus.lab.toulouse-stg.fr.ibm.com (unknown [9.145.186.179])
         by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon,  9 Apr 2018 14:47:11 +0100 (BST)
+        Mon,  9 Apr 2018 14:47:14 +0100 (BST)
 From:   Laurent Dufour <ldufour@linux.vnet.ibm.com>
 To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
@@ -63,16 +63,16 @@ To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Albert Ou <albert@sifive.com>,
         Martin Schwidefsky <schwidefsky@de.ibm.com>,
         Heiko Carstens <heiko.carstens@de.ibm.com>
-Subject: [PATCH 1/3] mm: introduce ARCH_HAS_PTE_SPECIAL
-Date:   Mon,  9 Apr 2018 15:57:07 +0200
+Subject: [PATCH 2/3] mm: replace __HAVE_ARCH_PTE_SPECIAL
+Date:   Mon,  9 Apr 2018 15:57:08 +0200
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1523282229-20731-1-git-send-email-ldufour@linux.vnet.ibm.com>
 References: <1523282229-20731-1-git-send-email-ldufour@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18040913-0008-0000-0000-000004E860A5
+x-cbid: 18040913-0008-0000-0000-000004E860A8
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18040913-0009-0000-0000-00001E7B8549
-Message-Id: <1523282229-20731-2-git-send-email-ldufour@linux.vnet.ibm.com>
+x-cbparentid: 18040913-0009-0000-0000-00001E7B854B
+Message-Id: <1523282229-20731-3-git-send-email-ldufour@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-09_06:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -85,170 +85,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently the PTE special supports is turned on in per architecture header
-files. Most of the time, it is defined in arch/*/include/asm/pgtable.h
-depending or not on some other per architecture static definition.
+Replace __HAVE_ARCH_PTE_SPECIAL by the new configuration variable
+CONFIG_ARCH_HAS_PTE_SPECIAL.
 
-This patch introduce a new configuration variable to manage this directly
-in the Kconfig files. It would later replace __HAVE_ARCH_PTE_SPECIAL.
-
-Here notes for some architecture where the definition of
-__HAVE_ARCH_PTE_SPECIAL is not obvious:
-
-arm
- __HAVE_ARCH_PTE_SPECIAL which is currently defined in
-arch/arm/include/asm/pgtable-3level.h which is included by
-arch/arm/include/asm/pgtable.h when CONFIG_ARM_LPAE is set.
-So select ARCH_HAS_PTE_SPECIAL if ARM_LPAE.
-
-powerpc
-__HAVE_ARCH_PTE_SPECIAL is defined in 2 files:
- - arch/powerpc/include/asm/book3s/64/pgtable.h
- - arch/powerpc/include/asm/pte-common.h
-The first one is included if (PPC_BOOK3S & PPC64) while the second is
-included in all the other cases.
-So select ARCH_HAS_PTE_SPECIAL all the time.
-
-sparc:
-__HAVE_ARCH_PTE_SPECIAL is defined if defined(__sparc__) &&
-defined(__arch64__) which are defined through the compiler in
-sparc/Makefile if !SPARC32 which I assume to be if SPARC64.
-So select ARCH_HAS_PTE_SPECIAL if SPARC64
-
-Suggested-by: Jerome Glisse <jglisse@redhat.com>
 Signed-off-by: Laurent Dufour <ldufour@linux.vnet.ibm.com>
 ---
- arch/arc/Kconfig     | 1 +
- arch/arm/Kconfig     | 1 +
- arch/arm64/Kconfig   | 1 +
- arch/powerpc/Kconfig | 1 +
- arch/riscv/Kconfig   | 1 +
- arch/s390/Kconfig    | 1 +
- arch/sh/Kconfig      | 1 +
- arch/sparc/Kconfig   | 1 +
- arch/x86/Kconfig     | 1 +
- mm/Kconfig           | 3 +++
- 10 files changed, 12 insertions(+)
+ Documentation/features/vm/pte_special/arch-support.txt | 2 +-
+ include/linux/pfn_t.h                                  | 4 ++--
+ mm/gup.c                                               | 4 ++--
+ mm/memory.c                                            | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
-index d76bf4a83740..8516e2b0239a 100644
---- a/arch/arc/Kconfig
-+++ b/arch/arc/Kconfig
-@@ -44,6 +44,7 @@ config ARC
- 	select HAVE_GENERIC_DMA_COHERENT
- 	select HAVE_KERNEL_GZIP
- 	select HAVE_KERNEL_LZMA
-+	select ARCH_HAS_PTE_SPECIAL
+diff --git a/Documentation/features/vm/pte_special/arch-support.txt b/Documentation/features/vm/pte_special/arch-support.txt
+index 055004f467d2..cd05924ea875 100644
+--- a/Documentation/features/vm/pte_special/arch-support.txt
++++ b/Documentation/features/vm/pte_special/arch-support.txt
+@@ -1,6 +1,6 @@
+ #
+ # Feature name:          pte_special
+-#         Kconfig:       __HAVE_ARCH_PTE_SPECIAL
++#         Kconfig:       ARCH_HAS_PTE_SPECIAL
+ #         description:   arch supports the pte_special()/pte_mkspecial() VM APIs
+ #
+     -----------------------
+diff --git a/include/linux/pfn_t.h b/include/linux/pfn_t.h
+index a03c2642a87c..21713dc14ce2 100644
+--- a/include/linux/pfn_t.h
++++ b/include/linux/pfn_t.h
+@@ -122,7 +122,7 @@ pud_t pud_mkdevmap(pud_t pud);
+ #endif
+ #endif /* __HAVE_ARCH_PTE_DEVMAP */
  
- config MIGHT_HAVE_PCI
- 	bool
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 1878083771af..a67973cb041c 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -7,6 +7,7 @@ config ARM
- 	select ARCH_HAS_DEBUG_VIRTUAL if MMU
- 	select ARCH_HAS_DEVMEM_IS_ALLOWED
- 	select ARCH_HAS_ELF_RANDOMIZE
-+	select ARCH_HAS_PTE_SPECIAL if ARM_LPAE
- 	select ARCH_HAS_SET_MEMORY
- 	select ARCH_HAS_PHYS_TO_DMA
- 	select ARCH_HAS_STRICT_KERNEL_RWX if MMU && !XIP_KERNEL
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 276e96ceaf27..7ae3c09921fb 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -17,6 +17,7 @@ config ARM64
- 	select ARCH_HAS_GIGANTIC_PAGE if (MEMORY_ISOLATION && COMPACTION) || CMA
- 	select ARCH_HAS_KCOV
- 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
-+	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_SET_MEMORY
- 	select ARCH_HAS_SG_CHAIN
- 	select ARCH_HAS_STRICT_KERNEL_RWX
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index c32a181a7cbb..f7415fe25c07 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -141,6 +141,7 @@ config PPC
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_PHYS_TO_DMA
- 	select ARCH_HAS_PMEM_API                if PPC64
-+	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_MEMBARRIER_CALLBACKS
- 	select ARCH_HAS_SCALED_CPUTIME		if VIRT_CPU_ACCOUNTING_NATIVE
- 	select ARCH_HAS_SG_CHAIN
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 148865de1692..b0a8404bf684 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -34,6 +34,7 @@ config RISCV
- 	select THREAD_INFO_IN_TASK
- 	select RISCV_TIMER
- 	select GENERIC_IRQ_MULTI_HANDLER
-+	select ARCH_HAS_PTE_SPECIAL
+-#ifdef __HAVE_ARCH_PTE_SPECIAL
++#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+ static inline bool pfn_t_special(pfn_t pfn)
+ {
+ 	return (pfn.val & PFN_SPECIAL) == PFN_SPECIAL;
+@@ -132,5 +132,5 @@ static inline bool pfn_t_special(pfn_t pfn)
+ {
+ 	return false;
+ }
+-#endif /* __HAVE_ARCH_PTE_SPECIAL */
++#endif /* CONFIG_ARCH_HAS_PTE_SPECIAL */
+ #endif /* _LINUX_PFN_T_H_ */
+diff --git a/mm/gup.c b/mm/gup.c
+index 2e2df7f3e92d..9e6a4f70deab 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1354,7 +1354,7 @@ static void undo_dev_pagemap(int *nr, int nr_start, struct page **pages)
+ 	}
+ }
  
- config MMU
- 	def_bool y
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index 32a0d5b958bf..5f1f4997e7e9 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -72,6 +72,7 @@ config S390
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_GIGANTIC_PAGE if (MEMORY_ISOLATION && COMPACTION) || CMA
- 	select ARCH_HAS_KCOV
-+	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_SET_MEMORY
- 	select ARCH_HAS_SG_CHAIN
- 	select ARCH_HAS_STRICT_KERNEL_RWX
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 97fe29316476..a6c75b6806d2 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -50,6 +50,7 @@ config SUPERH
- 	select HAVE_ARCH_AUDITSYSCALL
- 	select HAVE_FUTEX_CMPXCHG if FUTEX
- 	select HAVE_NMI
-+	select ARCH_HAS_PTE_SPECIAL
- 	help
- 	  The SuperH is a RISC processor targeted for use in embedded systems
- 	  and consumer electronics; it was also used in the Sega Dreamcast
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 8767e45f1b2b..6b5a4f05dcb2 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -86,6 +86,7 @@ config SPARC64
- 	select ARCH_USE_QUEUED_SPINLOCKS
- 	select GENERIC_TIME_VSYSCALL
- 	select ARCH_CLOCKSOURCE_DATA
-+	select ARCH_HAS_PTE_SPECIAL
+-#ifdef __HAVE_ARCH_PTE_SPECIAL
++#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+ 			 int write, struct page **pages, int *nr)
+ {
+@@ -1430,7 +1430,7 @@ static int gup_pte_range(pmd_t pmd, unsigned long addr, unsigned long end,
+ {
+ 	return 0;
+ }
+-#endif /* __HAVE_ARCH_PTE_SPECIAL */
++#endif /* CONFIG_ARCH_HAS_PTE_SPECIAL */
  
- config ARCH_DEFCONFIG
- 	string
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index bf4ddea48e61..3f5fb25486bf 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -56,6 +56,7 @@ config X86
- 	select ARCH_HAS_KCOV			if X86_64
- 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
- 	select ARCH_HAS_PMEM_API		if X86_64
-+	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_REFCOUNT
- 	select ARCH_HAS_UACCESS_FLUSHCACHE	if X86_64
- 	select ARCH_HAS_SET_MEMORY
-diff --git a/mm/Kconfig b/mm/Kconfig
-index bf9d6366bced..60ae67b83e62 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -757,3 +757,6 @@ config GUP_BENCHMARK
- 	  performance of get_user_pages_fast().
- 
- 	  See tools/testing/selftests/vm/gup_benchmark.c
-+
-+config ARCH_HAS_PTE_SPECIAL
-+	bool
+ #if defined(__HAVE_ARCH_PTE_DEVMAP) && defined(CONFIG_TRANSPARENT_HUGEPAGE)
+ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
+diff --git a/mm/memory.c b/mm/memory.c
+index 1bb725631ded..6fc7b9edc18f 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -817,7 +817,7 @@ static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
+  * PFNMAP mappings in order to support COWable mappings.
+  *
+  */
+-#ifdef __HAVE_ARCH_PTE_SPECIAL
++#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+ # define HAVE_PTE_SPECIAL 1
+ #else
+ # define HAVE_PTE_SPECIAL 0
 -- 
 2.7.4
 
