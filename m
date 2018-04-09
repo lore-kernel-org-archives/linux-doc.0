@@ -1,30 +1,48 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E31F7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 07:29:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2FA97E86A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 08:29:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751522AbeDIH3E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 03:29:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56036 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751441AbeDIH3D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Apr 2018 03:29:03 -0400
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6285A21456;
-        Mon,  9 Apr 2018 07:28:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6285A21456
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=mhiramat@kernel.org
-Date:   Mon, 9 Apr 2018 16:28:56 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+        id S1751416AbeDII3c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 04:29:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37044 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1750952AbeDII3b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 04:29:31 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w398J99P053538
+        for <linux-doc@vger.kernel.org>; Mon, 9 Apr 2018 04:29:31 -0400
+Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2h8033j1fq-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 09 Apr 2018 04:29:30 -0400
+Received: from localhost
+        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
+        Mon, 9 Apr 2018 09:29:28 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Mon, 9 Apr 2018 09:29:22 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w398TLPO3998028;
+        Mon, 9 Apr 2018 08:29:21 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 57C5A4C04E;
+        Mon,  9 Apr 2018 09:22:04 +0100 (BST)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CB3994C046;
+        Mon,  9 Apr 2018 09:21:59 +0100 (BST)
+Received: from [9.124.31.66] (unknown [9.124.31.66])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  9 Apr 2018 09:21:59 +0100 (BST)
+Subject: Re: [PATCH v2 9/9] perf probe: Support SDT markers having reference
+ counter (semaphore)
+To:     Masami Hiramatsu <mhiramat@kernel.org>
 Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
         rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
         akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
@@ -35,169 +53,95 @@ Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
         linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
         namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
         pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
-        fengguang.wu@intel.com, jglisse@redhat.com
-Subject: Re: [PATCH v2 9/9] perf probe: Support SDT markers having reference
- counter (semaphore)
-Message-Id: <20180409162856.df4c32b840eb5f2ef8c028f1@kernel.org>
-In-Reply-To: <20180404083110.18647-10-ravi.bangoria@linux.vnet.ibm.com>
+        fengguang.wu@intel.com, jglisse@redhat.com,
+        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
 References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
-        <20180404083110.18647-10-ravi.bangoria@linux.vnet.ibm.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ <20180404083110.18647-10-ravi.bangoria@linux.vnet.ibm.com>
+ <20180409162856.df4c32b840eb5f2ef8c028f1@kernel.org>
+From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Date:   Mon, 9 Apr 2018 13:59:16 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <20180409162856.df4c32b840eb5f2ef8c028f1@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 18040908-0020-0000-0000-0000040F982C
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18040908-0021-0000-0000-000042A3B794
+Message-Id: <643a8fb2-fb96-8dbe-9f36-2540bd8a1de5@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-09_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1804090093
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ravi,
+Hi Masami,
 
-On Wed,  4 Apr 2018 14:01:10 +0530
-Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+On 04/09/2018 12:58 PM, Masami Hiramatsu wrote:
+> Hi Ravi,
+>
+> On Wed,  4 Apr 2018 14:01:10 +0530
+> Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
+>
+>> @@ -2054,15 +2060,21 @@ char *synthesize_probe_trace_command(struct probe_trace_event *tev)
+>>  	}
+>>  
+>>  	/* Use the tp->address for uprobes */
+>> -	if (tev->uprobes)
+>> +	if (tev->uprobes) {
+>>  		err = strbuf_addf(&buf, "%s:0x%lx", tp->module, tp->address);
+>> -	else if (!strncmp(tp->symbol, "0x", 2))
+>> +		if (uprobe_ref_ctr_is_supported() &&
+>> +		    tp->ref_ctr_offset &&
+>> +		    err >= 0)
+>> +			err = strbuf_addf(&buf, "(0x%lx)", tp->ref_ctr_offset);
+> If the kernel doesn't support uprobe_ref_ctr but the event requires
+> to increment uprobe_ref_ctr, I think we should (at least) warn user here.
 
-> With this, perf buildid-cache will save SDT markers with reference
-> counter in probe cache. Perf probe will be able to probe markers
-> having reference counter. Ex,
-> 
->   # readelf -n /tmp/tick | grep -A1 loop2
->     Name: loop2
->     ... Semaphore: 0x0000000010020036
-> 
->   # ./perf buildid-cache --add /tmp/tick
->   # ./perf probe sdt_tick:loop2
->   # ./perf stat -e sdt_tick:loop2 /tmp/tick
->     hi: 0
->     hi: 1
->     hi: 2
->     ^C
->      Performance counter stats for '/tmp/tick':
->                  3      sdt_tick:loop2
->        2.561851452 seconds time elapsed
-> 
-> Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-> ---
->  tools/perf/util/probe-event.c | 18 ++++++++++++++---
->  tools/perf/util/probe-event.h |  1 +
->  tools/perf/util/probe-file.c  | 34 ++++++++++++++++++++++++++------
->  tools/perf/util/probe-file.h  |  1 +
->  tools/perf/util/symbol-elf.c  | 46 ++++++++++++++++++++++++++++++++-----------
->  tools/perf/util/symbol.h      |  7 +++++++
->  6 files changed, 86 insertions(+), 21 deletions(-)
-> 
-> diff --git a/tools/perf/util/probe-event.c b/tools/perf/util/probe-event.c
-> index e1dbc98..b3a1330 100644
-> --- a/tools/perf/util/probe-event.c
-> +++ b/tools/perf/util/probe-event.c
-> @@ -1832,6 +1832,12 @@ int parse_probe_trace_command(const char *cmd, struct probe_trace_event *tev)
->  			tp->offset = strtoul(fmt2_str, NULL, 10);
->  	}
->  
-> +	if (tev->uprobes) {
-> +		fmt2_str = strchr(p, '(');
-> +		if (fmt2_str)
-> +			tp->ref_ctr_offset = strtoul(fmt2_str + 1, NULL, 0);
-> +	}
-> +
->  	tev->nargs = argc - 2;
->  	tev->args = zalloc(sizeof(struct probe_trace_arg) * tev->nargs);
->  	if (tev->args == NULL) {
-> @@ -2054,15 +2060,21 @@ char *synthesize_probe_trace_command(struct probe_trace_event *tev)
->  	}
->  
->  	/* Use the tp->address for uprobes */
-> -	if (tev->uprobes)
-> +	if (tev->uprobes) {
->  		err = strbuf_addf(&buf, "%s:0x%lx", tp->module, tp->address);
-> -	else if (!strncmp(tp->symbol, "0x", 2))
-> +		if (uprobe_ref_ctr_is_supported() &&
-> +		    tp->ref_ctr_offset &&
-> +		    err >= 0)
-> +			err = strbuf_addf(&buf, "(0x%lx)", tp->ref_ctr_offset);
+pr_debug("A semaphore is associated with %s:%s and seems your kernel doesn't support it.\n"
+         tev->group, tev->event);
 
-If the kernel doesn't support uprobe_ref_ctr but the event requires
-to increment uprobe_ref_ctr, I think we should (at least) warn user here.
+Looks good?
 
-> +	} else if (!strncmp(tp->symbol, "0x", 2)) {
->  		/* Absolute address. See try_to_find_absolute_address() */
->  		err = strbuf_addf(&buf, "%s%s0x%lx", tp->module ?: "",
->  				  tp->module ? ":" : "", tp->address);
-> -	else
-> +	} else {
->  		err = strbuf_addf(&buf, "%s%s%s+%lu", tp->module ?: "",
->  				tp->module ? ":" : "", tp->symbol, tp->offset);
-> +	}
-> +
->  	if (err)
->  		goto error;
->  
-> diff --git a/tools/perf/util/probe-event.h b/tools/perf/util/probe-event.h
-> index 45b14f0..15a98c3 100644
-> --- a/tools/perf/util/probe-event.h
-> +++ b/tools/perf/util/probe-event.h
-> @@ -27,6 +27,7 @@ struct probe_trace_point {
->  	char		*symbol;	/* Base symbol */
->  	char		*module;	/* Module name */
->  	unsigned long	offset;		/* Offset from symbol */
-> +	unsigned long	ref_ctr_offset;	/* SDT reference counter offset */
->  	unsigned long	address;	/* Actual address of the trace point */
->  	bool		retprobe;	/* Return probe flag */
->  };
-> diff --git a/tools/perf/util/probe-file.c b/tools/perf/util/probe-file.c
-> index 4ae1123..ca0e524 100644
-> --- a/tools/perf/util/probe-file.c
-> +++ b/tools/perf/util/probe-file.c
-> @@ -697,8 +697,16 @@ int probe_cache__add_entry(struct probe_cache *pcache,
->  #ifdef HAVE_GELF_GETNOTE_SUPPORT
->  static unsigned long long sdt_note__get_addr(struct sdt_note *note)
->  {
-> -	return note->bit32 ? (unsigned long long)note->addr.a32[0]
-> -		 : (unsigned long long)note->addr.a64[0];
-> +	return note->bit32 ?
-> +		(unsigned long long)note->addr.a32[SDT_NOTE_IDX_LOC] :
-> +		(unsigned long long)note->addr.a64[SDT_NOTE_IDX_LOC];
-> +}
-> +
-> +static unsigned long long sdt_note__get_ref_ctr_offset(struct sdt_note *note)
-> +{
-> +	return note->bit32 ?
-> +		(unsigned long long)note->addr.a32[SDT_NOTE_IDX_REFCTR] :
-> +		(unsigned long long)note->addr.a64[SDT_NOTE_IDX_REFCTR];
->  }
->  
->  static const char * const type_to_suffix[] = {
-> @@ -776,14 +784,21 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
->  {
->  	struct strbuf buf;
->  	char *ret = NULL, **args;
-> -	int i, args_count;
-> +	int i, args_count, err;
-> +	unsigned long long ref_ctr_offset;
->  
->  	if (strbuf_init(&buf, 32) < 0)
->  		return NULL;
->  
-> -	if (strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
-> -				sdtgrp, note->name, pathname,
-> -				sdt_note__get_addr(note)) < 0)
-> +	err = strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
-> +			sdtgrp, note->name, pathname,
-> +			sdt_note__get_addr(note));
-> +
-> +	ref_ctr_offset = sdt_note__get_ref_ctr_offset(note);
-> +	if (uprobe_ref_ctr_is_supported() && ref_ctr_offset && err >= 0)
-> +		err = strbuf_addf(&buf, "(0x%llx)", ref_ctr_offset);
+>> @@ -776,14 +784,21 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
+>>  {
+>>  	struct strbuf buf;
+>>  	char *ret = NULL, **args;
+>> -	int i, args_count;
+>> +	int i, args_count, err;
+>> +	unsigned long long ref_ctr_offset;
+>>  
+>>  	if (strbuf_init(&buf, 32) < 0)
+>>  		return NULL;
+>>  
+>> -	if (strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
+>> -				sdtgrp, note->name, pathname,
+>> -				sdt_note__get_addr(note)) < 0)
+>> +	err = strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
+>> +			sdtgrp, note->name, pathname,
+>> +			sdt_note__get_addr(note));
+>> +
+>> +	ref_ctr_offset = sdt_note__get_ref_ctr_offset(note);
+>> +	if (uprobe_ref_ctr_is_supported() && ref_ctr_offset && err >= 0)
+>> +		err = strbuf_addf(&buf, "(0x%llx)", ref_ctr_offset);
+> We don't have to care about uprobe_ref_ctr support here, because
+> this information will be just cached, not directly written to
+> uprobe_events.
 
-We don't have to care about uprobe_ref_ctr support here, because
-this information will be just cached, not directly written to
-uprobe_events.
+Sure, will remove the check.
 
-Other parts look good to me.
+Thanks for the review :).
+Ravi
 
-Thanks,
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
