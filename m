@@ -5,35 +5,52 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 862047DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 14:54:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17D407DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 16:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751581AbeDIOyK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 10:54:10 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36978 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751456AbeDIOyI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Apr 2018 10:54:08 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B4CF64068050;
-        Mon,  9 Apr 2018 14:54:07 +0000 (UTC)
-Received: from redhat.com (ovpn-125-26.rdu2.redhat.com [10.10.125.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9744C111DCFF;
-        Mon,  9 Apr 2018 14:53:57 +0000 (UTC)
-Date:   Mon, 9 Apr 2018 10:53:56 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Laurent Dufour <ldufour@linux.vnet.ibm.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        aneesh.kumar@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        id S1753289AbeDIQEN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 12:04:13 -0400
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:59955 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753285AbeDIQEJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 12:04:09 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id E44C010C0945;
+        Mon,  9 Apr 2018 09:04:05 -0700 (PDT)
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        by mailhost.synopsys.com (Postfix) with ESMTP id E57154D6B;
+        Mon,  9 Apr 2018 09:04:03 -0700 (PDT)
+Received: from IN01WEHTCB.internal.synopsys.com (10.144.199.106) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 9 Apr 2018 09:04:03 -0700
+Received: from IN01WEHTCA.internal.synopsys.com (10.144.199.103) by
+ IN01WEHTCB.internal.synopsys.com (10.144.199.105) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 9 Apr 2018 21:34:01 +0530
+Received: from [10.10.161.84] (10.10.161.84) by
+ IN01WEHTCA.internal.synopsys.com (10.144.199.243) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 9 Apr 2018 21:34:00 +0530
+Subject: Re: [PATCH 0/3] move __HAVE_ARCH_PTE_SPECIAL in Kconfig
+To:     Laurent Dufour <ldufour@linux.vnet.ibm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-snps-arc@lists.infradead.org" 
+        <linux-snps-arc@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        Jerome Glisse <jglisse@redhat.com>,
+        "mhocko@kernel.org" <mhocko@kernel.org>,
+        "aneesh.kumar@linux.vnet.ibm.com" <aneesh.kumar@linux.vnet.ibm.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "benh@kernel.crashing.org" <benh@kernel.crashing.org>,
+        "paulus@samba.org" <paulus@samba.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -41,54 +58,47 @@ Cc:     Laurent Dufour <ldufour@linux.vnet.ibm.com>,
         Rich Felker <dalias@libc.org>,
         "David S . Miller" <davem@davemloft.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        Vineet Gupta <Vineet.Gupta1@synopsys.com>,
         Palmer Dabbelt <palmer@sifive.com>,
         Albert Ou <albert@sifive.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
         Heiko Carstens <heiko.carstens@de.ibm.com>
-Subject: Re: [PATCH 0/3] move __HAVE_ARCH_PTE_SPECIAL in Kconfig
-Message-ID: <20180409145344.GA3285@redhat.com>
 References: <1523282229-20731-1-git-send-email-ldufour@linux.vnet.ibm.com>
- <20180409140721.GI21835@dhcp22.suse.cz>
+From:   Vineet Gupta <Vineet.Gupta1@synopsys.com>
+Message-ID: <17b19aac-fed7-23a2-013c-43ca867152e9@synopsys.com>
+Date:   Mon, 9 Apr 2018 09:03:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180409140721.GI21835@dhcp22.suse.cz>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 09 Apr 2018 14:54:08 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 09 Apr 2018 14:54:08 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
+In-Reply-To: <1523282229-20731-1-git-send-email-ldufour@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.10.161.84]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 09, 2018 at 04:07:21PM +0200, Michal Hocko wrote:
-> On Mon 09-04-18 15:57:06, Laurent Dufour wrote:
-> > The per architecture __HAVE_ARCH_PTE_SPECIAL is defined statically in the
-> > per architecture header files. This doesn't allow to make other
-> > configuration dependent on it.
-> > 
-> > This series is moving the __HAVE_ARCH_PTE_SPECIAL into the Kconfig files,
-> > setting it automatically when architectures was already setting it in
-> > header file.
-> > 
-> > There is no functional change introduced by this series.
-> 
-> I would just fold all three patches into a single one. It is much easier
-> to review that those selects are done properly when you can see that the
-> define is set for the same architecture.
-> 
-> In general, I like the patch. It is always quite painful to track per
-> arch defines.
+On 04/09/2018 06:57 AM, Laurent Dufour wrote:
+> The per architecture __HAVE_ARCH_PTE_SPECIAL is defined statically in the
+> per architecture header files. This doesn't allow to make other
+> configuration dependent on it.
 
-You can also add Reviewed-by: Jérôme Glisse <jglisse@redhat> my grep fu
-showed no place that was forgotten.
+So I understand this series has more "readability" value and I'm fine with this 
+change but I wonder if you really would want to make something depend on it or 
+make this de-configurable. PTE special is really a fundamental construct - e.g. it 
+is used for anon mapped pages where zero page has been wired up etc...
 
-Cheers,
-Jérôme
+-Vineet
+
+> This series is moving the __HAVE_ARCH_PTE_SPECIAL into the Kconfig files,
+> setting it automatically when architectures was already setting it in
+> header file.
+>
+> There is no functional change introduced by this series.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
