@@ -1,166 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_RP_MATCHES_RCVD autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96B847DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 14:37:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 862047DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 14:54:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752542AbeDIOh2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 10:37:28 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:39389 "EHLO mail.kapsi.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750759AbeDIOh1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Apr 2018 10:37:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi; s=20161220;
-        h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject; bh=NMaxRHY8mimO2b5+A9G07u8SAaX7jgBFb7MWx26KDfM=;
-        b=xXvSGQZehXFpflqpZx6qnFL3Z3Li9U3KixdIg+/G47UCTRqRWDhdH10N90Sl/M/QUyjnX9SR4oUXJXBOCk24oNusnXQ2vX8CD8uvd3u3q7p4+dGJl2FcmLxiDPrxQF72c+8WUM0kzB+YDLgBNNRL3sOpHFis1b6pDZOh8lwO4sLigVJ0kzzBMc9jD4bhu1eRD0jXG2euUtWTFhapLECCfPdgaUfFL9pUuWH8Kou5HFgo1ZHRW7VGQfk4yLtHKLs/BZtEzQpbT7UvQjj61E+Cgex8KyCFDWgZJKk/09JqiV8/bpbjdBe1itq+mE6r4qBotcmqBdMdwI0dDCez2y6fdQ==;
-Received: from dsl-hkibng22-54faa2-250.dhcp.inet.fi ([84.250.162.250])
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.84_2)
-        (envelope-from <cyndis@kapsi.fi>)
-        id 1f5Xuz-0005Rn-AS; Mon, 09 Apr 2018 17:37:13 +0300
-Subject: Re: [PATCH V2 3/9] dt-bindings: Tegra186 tachometer device tree
- bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     Rajkumar Rampelli <rrajk@nvidia.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        id S1751581AbeDIOyK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 10:54:10 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36978 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751456AbeDIOyI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Apr 2018 10:54:08 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B4CF64068050;
+        Mon,  9 Apr 2018 14:54:07 +0000 (UTC)
+Received: from redhat.com (ovpn-125-26.rdu2.redhat.com [10.10.125.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9744C111DCFF;
+        Mon,  9 Apr 2018 14:53:57 +0000 (UTC)
+Date:   Mon, 9 Apr 2018 10:53:56 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Laurent Dufour <ldufour@linux.vnet.ibm.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        aneesh.kumar@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
         Jonathan Corbet <corbet@lwn.net>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Timur Tabi <timur@codeaurora.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        Wei Xu <xuwei5@hisilicon.com>, Alex Elder <elder@linaro.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Laxman Dewangan <ldewangan@nvidia.com>
-References: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
- <1521607244-29734-4-git-send-email-rrajk@nvidia.com>
- <20180327145249.xjoo42qow34ksdle@rob-hp-laptop>
- <867aace8-dac7-51d4-bd46-15919b58b37d@kapsi.fi>
- <CAL_Jsq+AsUiWWBQ7K4OUM58KqQbvBHuFYmXxXLwr7viwoKW-Yw@mail.gmail.com>
-From:   Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <615d6771-00c3-a4a7-a99f-ec4f6e667c8f@kapsi.fi>
-Date:   Mon, 9 Apr 2018 17:37:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.5.2
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <albert@sifive.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>
+Subject: Re: [PATCH 0/3] move __HAVE_ARCH_PTE_SPECIAL in Kconfig
+Message-ID: <20180409145344.GA3285@redhat.com>
+References: <1523282229-20731-1-git-send-email-ldufour@linux.vnet.ibm.com>
+ <20180409140721.GI21835@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+AsUiWWBQ7K4OUM58KqQbvBHuFYmXxXLwr7viwoKW-Yw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 84.250.162.250
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180409140721.GI21835@dhcp22.suse.cz>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 09 Apr 2018 14:54:08 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 09 Apr 2018 14:54:08 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'jglisse@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 04/09/2018 04:21 PM, Rob Herring wrote:
-> On Mon, Apr 9, 2018 at 12:38 AM, Mikko Perttunen <cyndis@kapsi.fi> wrote:
->> Rob,
+On Mon, Apr 09, 2018 at 04:07:21PM +0200, Michal Hocko wrote:
+> On Mon 09-04-18 15:57:06, Laurent Dufour wrote:
+> > The per architecture __HAVE_ARCH_PTE_SPECIAL is defined statically in the
+> > per architecture header files. This doesn't allow to make other
+> > configuration dependent on it.
+> > 
+> > This series is moving the __HAVE_ARCH_PTE_SPECIAL into the Kconfig files,
+> > setting it automatically when architectures was already setting it in
+> > header file.
+> > 
+> > There is no functional change introduced by this series.
 > 
-> Please don't top post to lists.
+> I would just fold all three patches into a single one. It is much easier
+> to review that those selects are done properly when you can see that the
+> define is set for the same architecture.
 > 
->> this binding is for a specific IP block (for measuring/aggregating input
->> pulses) on the Tegra186 SoC, so I don't think it fits into any generic
->> binding.
-> 
-> What is it hooked up to to measure? You only mention "fan" five times
-> in the doc.
+> In general, I like the patch. It is always quite painful to track per
+> arch defines.
 
-In practice, fans.
+You can also add Reviewed-by: Jérôme Glisse <jglisse@redhat> my grep fu
+showed no place that was forgotten.
 
-> 
-> You have #pwm-cells too, so this block has PWM output as well? If not,
-> then where's the PWM for the fan control because there is no point in
-> having fan tach without some control mechanism.
-
-It doesn't provide a PWM output. The (Linux) PWM framework provides 
-functionality in both directions - control and capture. But if the 
-device tree #pwm-cells/pwms properties are only for control, we may need 
-to introduce a new #capture-pwm-cells/capture-pwms or similar.
-
-The idea is that the generic fan node can then specify two pwms, one for 
-control and one for capture, to enable e.g. closed-loop control (I'm not 
-personally familiar with the usecase for this but I could imagine 
-something like that). The control PWM can be something completely 
-different, maybe not a PWM in the first place (e.g. some fixed voltage).
-
-> 
-> There's only so many ways to control fans and types of fans, so yes,
-> the interface of control and feedback lines between a fan and its
-> controller should absolutely be generic.
-
-I'm not quite getting what you mean by this. Clearly we need a custom 
-compatibility string for the tachometer as it's a different hardware 
-block with different programming than others. Or are you complaining 
-about the nvidia,pulse-per-rev/capture-window-len properties?
-
-Thanks,
-Mikko
-
-> 
-> Rob
-> 
->>
->> Thanks,
->> Mikko
->>
->>
->> On 03/27/2018 05:52 PM, Rob Herring wrote:
->>>
->>> On Wed, Mar 21, 2018 at 10:10:38AM +0530, Rajkumar Rampelli wrote:
->>>>
->>>> Supply Device tree binding documentation for the NVIDIA
->>>> Tegra186 SoC's Tachometer Controller
->>>>
->>>> Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
->>>> ---
->>>>
->>>> V2: Renamed compatible string to "nvidia,tegra186-pwm-tachometer"
->>>>       Renamed dt property values of clock-names and reset-names to
->>>> "tachometer"
->>>>       from "tach"
->>>
->>>
->>> Read my prior comments on v1.
->>>
->>> Rob
->>> --
->>> To unsubscribe from this list: send the line "unsubscribe linux-tegra" in
->>> the body of a message to majordomo@vger.kernel.org
->>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>>
->> --
->> To unsubscribe from this list: send the line "unsubscribe devicetree" in
->> the body of a message to majordomo@vger.kernel.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Cheers,
+Jérôme
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
