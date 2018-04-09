@@ -3,23 +3,23 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DATE_IN_FUTURE_06_12,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+	T_RP_MATCHES_RCVD autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E1EDA7E86A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 13:33:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A56617E86A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 13:33:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752584AbeDINby (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 09:31:54 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:6732 "EHLO huawei.com"
+        id S1751875AbeDINbN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 09:31:13 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7162 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752364AbeDINbT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Apr 2018 09:31:19 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 0C11C3C02876D;
-        Mon,  9 Apr 2018 21:31:01 +0800 (CST)
+        id S1751652AbeDINbM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Apr 2018 09:31:12 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 89E62E10076A2;
+        Mon,  9 Apr 2018 21:30:56 +0800 (CST)
 Received: from localhost.localdomain (10.143.28.90) by
  DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.361.1; Mon, 9 Apr 2018 21:30:55 +0800
+ 14.3.361.1; Mon, 9 Apr 2018 21:30:52 +0800
 From:   Dongjiu Geng <gengdongjiu@huawei.com>
 To:     <rkrcmar@redhat.com>, <corbet@lwn.net>,
         <christoffer.dall@linaro.org>, <marc.zyngier@arm.com>,
@@ -32,12 +32,10 @@ To:     <rkrcmar@redhat.com>, <corbet@lwn.net>,
         <devel@acpica.org>
 CC:     <gengdongjiu@huawei.com>, <huangshaoyu@huawei.com>,
         <zhengxiang9@huawei.com>
-Subject: [PATCH v11 4/4] arm64: handle NOTIFY_SEI notification by the APEI driver
-Date:   Tue, 10 Apr 2018 05:36:36 +0800
-Message-ID: <1523309796-36423-5-git-send-email-gengdongjiu@huawei.com>
+Subject: [PATCH v11 0/4] set VSESR_EL2 by user space and support NOTIFY_SEI notification
+Date:   Tue, 10 Apr 2018 05:36:32 +0800
+Message-ID: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
-References: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.143.28.90]
@@ -47,65 +45,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a helper to handle the NOTIFY_SEI notification, when kernel
-gets the NOTIFY_SEI notification, call this helper and let APEI
-driver to handle this notification.
+1. Detect whether KVM can set set guest SError syndrome
+2. Support to Set VSESR_EL2 and inject SError by user space.
+3. Support live migration to keep SError pending state and VSESR_EL2 value.
+4. ACPI 6.1 adds support for NOTIFY_SEI as a GHES notification mechanism, so support this
+   notification in software, KVM or kernel ARCH code call handle_guest_sei() to let ACP driver
+   to handle this notification.
 
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
----
+Change since V10:
+
+Address James's comments, thanks James
+1. Merge the helper function with the user.
+2. Move the ISS_MASK into pend_guest_serror() to clear top bits
+3. Make kvm_vcpu_events struct align to 4 bytes
+4. Add something check in the kvm_arm_vcpu_set_events()
+5. Check kvm_arm_vcpu_get/set_events()'s return value.
+6. Initialise kvm_vcpu_events to 0 so that padding transferred to user-space doesn't
+    contain kernel stack.
+
+Dongjiu Geng (4):
+  arm64: KVM: export the capability to set guest SError syndrome
+  arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
+  ACPI / APEI: Add SEI notification type support for ARMv8
+  arm64: handle NOTIFY_SEI notification by the APEI driver
+
+ Documentation/virtual/kvm/api.txt    | 39 ++++++++++++++++++++++++--
+ arch/arm/include/asm/kvm_host.h      |  6 ++++
+ arch/arm/kvm/guest.c                 | 12 ++++++++
+ arch/arm64/include/asm/kvm_emulate.h |  5 ++++
+ arch/arm64/include/asm/kvm_host.h    |  7 +++++
  arch/arm64/include/asm/system_misc.h |  1 +
- arch/arm64/kernel/traps.c            |  4 ++++
- arch/arm64/mm/fault.c                | 10 ++++++++++
- 3 files changed, 15 insertions(+)
+ arch/arm64/include/uapi/asm/kvm.h    | 12 ++++++++
+ arch/arm64/kernel/traps.c            |  4 +++
+ arch/arm64/kvm/guest.c               | 31 +++++++++++++++++++++
+ arch/arm64/kvm/inject_fault.c        |  7 ++++-
+ arch/arm64/kvm/reset.c               |  4 +++
+ arch/arm64/mm/fault.c                | 10 +++++++
+ drivers/acpi/apei/Kconfig            | 15 ++++++++++
+ drivers/acpi/apei/ghes.c             | 53 ++++++++++++++++++++++++++++++++++++
+ include/acpi/ghes.h                  |  1 +
+ include/uapi/linux/kvm.h             |  1 +
+ virt/kvm/arm/arm.c                   | 21 ++++++++++++++
+ 17 files changed, 226 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/include/asm/system_misc.h b/arch/arm64/include/asm/system_misc.h
-index 07aa8e3..9ee13ad 100644
---- a/arch/arm64/include/asm/system_misc.h
-+++ b/arch/arm64/include/asm/system_misc.h
-@@ -57,6 +57,7 @@ void hook_debug_fault_code(int nr, int (*fn)(unsigned long, unsigned int,
- })
- 
- int handle_guest_sea(phys_addr_t addr, unsigned int esr);
-+int handle_guest_sei(void);
- 
- #endif	/* __ASSEMBLY__ */
- 
-diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-index bbb0fde..d888eb2 100644
---- a/arch/arm64/kernel/traps.c
-+++ b/arch/arm64/kernel/traps.c
-@@ -681,6 +681,10 @@ bool arm64_is_fatal_ras_serror(struct pt_regs *regs, unsigned int esr)
- {
- 	u32 aet = arm64_ras_serror_get_severity(esr);
- 
-+	/* The APEI driver may handle this RAS error. */
-+	if (!handle_guest_sei())
-+		return false;
-+
- 	switch (aet) {
- 	case ESR_ELx_AET_CE:	/* corrected error */
- 	case ESR_ELx_AET_UEO:	/* restartable, not yet consumed */
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index f76bb2c..8f29bd8 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -683,6 +683,16 @@ int handle_guest_sea(phys_addr_t addr, unsigned int esr)
- 	return ret;
- }
- 
-+int handle_guest_sei(void)
-+{
-+	int ret = -ENOENT;
-+
-+	if (IS_ENABLED(CONFIG_ACPI_APEI_SEI))
-+		ret = ghes_notify_sei();
-+
-+	return ret;
-+}
-+
- asmlinkage void __exception do_mem_abort(unsigned long addr, unsigned int esr,
- 					 struct pt_regs *regs)
- {
 -- 
 1.9.1
 
