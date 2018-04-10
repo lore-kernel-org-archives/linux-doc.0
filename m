@@ -5,189 +5,83 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 936737DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 10:23:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D0747DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 11:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752723AbeDJKXV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 06:23:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50430 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752274AbeDJKXT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 06:23:19 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3AAKK1G056276
-        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 06:23:19 -0400
-Received: from e06smtp10.uk.ibm.com (e06smtp10.uk.ibm.com [195.75.94.106])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2h8rac8u7v-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 06:23:19 -0400
-Received: from localhost
-        by e06smtp10.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Tue, 10 Apr 2018 11:23:17 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp10.uk.ibm.com (192.168.101.140) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Tue, 10 Apr 2018 11:23:11 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3AANAVn58458208;
-        Tue, 10 Apr 2018 10:23:10 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9B91F42042;
-        Tue, 10 Apr 2018 11:14:54 +0100 (BST)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F181142041;
-        Tue, 10 Apr 2018 11:14:52 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.108])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Tue, 10 Apr 2018 11:14:52 +0100 (BST)
-Date:   Tue, 10 Apr 2018 13:23:07 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        James Hogan <jhogan@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
-        linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 00/32] docs/vm: convert to ReST format
-References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20180329154607.3d8bda75@lwn.net>
- <20180401063857.GA3357@rapoport-lnx>
+        id S1752586AbeDJLGk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 07:06:40 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:53004 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751940AbeDJLGj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Apr 2018 07:06:39 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 927E8402242D;
+        Tue, 10 Apr 2018 11:06:38 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id D9E066F9E8;
+        Tue, 10 Apr 2018 11:06:33 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue, 10 Apr 2018 13:06:38 +0200 (CEST)
+Date:   Tue, 10 Apr 2018 13:06:33 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     mhiramat@kernel.org, peterz@infradead.org,
+        srikar@linux.vnet.ibm.com, rostedt@goodmis.org, acme@kernel.org,
+        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
+        corbet@lwn.net, dan.j.williams@intel.com, jolsa@redhat.com,
+        kan.liang@intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com, tglx@linutronix.de,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com, jglisse@redhat.com
+Subject: Re: [PATCH v2 7/9] trace_uprobe/sdt: Fix multiple update of same
+ reference counter
+Message-ID: <20180410110633.GA29063@redhat.com>
+References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
+ <20180404083110.18647-8-ravi.bangoria@linux.vnet.ibm.com>
+ <20180409132928.GA25722@redhat.com>
+ <84c1e60f-8aad-a0ce-59af-4fcb3f77df94@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180401063857.GA3357@rapoport-lnx>
+In-Reply-To: <84c1e60f-8aad-a0ce-59af-4fcb3f77df94@linux.vnet.ibm.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18041010-0040-0000-0000-0000042C893D
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18041010-0041-0000-0000-0000263097C4
-Message-Id: <20180410102306.GB5900@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-10_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804100104
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Tue, 10 Apr 2018 11:06:38 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Tue, 10 Apr 2018 11:06:38 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jon, Andrew,
+Hi Ravi,
 
-How do you suggest to continue with this?
+On 04/10, Ravi Bangoria wrote:
+>
+> > and what if __mmu_notifier_register() fails simply because signal_pending() == T?
+> > see mm_take_all_locks().
+> >
+> > at first glance this all look suspicious and sub-optimal,
+>
+> Yes. I should have added checks for failure cases.
+> Will fix them in v3.
 
-On Sun, Apr 01, 2018 at 09:38:58AM +0300, Mike Rapoport wrote:
-> (added akpm)
-> 
-> On Thu, Mar 29, 2018 at 03:46:07PM -0600, Jonathan Corbet wrote:
-> > On Wed, 21 Mar 2018 21:22:16 +0200
-> > Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-> > 
-> > > These patches convert files in Documentation/vm to ReST format, add an
-> > > initial index and link it to the top level documentation.
-> > > 
-> > > There are no contents changes in the documentation, except few spelling
-> > > fixes. The relatively large diffstat stems from the indentation and
-> > > paragraph wrapping changes.
-> > > 
-> > > I've tried to keep the formatting as consistent as possible, but I could
-> > > miss some places that needed markup and add some markup where it was not
-> > > necessary.
-> > 
-> > So I've been pondering on these for a bit.  It looks like a reasonable and
-> > straightforward RST conversion, no real complaints there.  But I do have a
-> > couple of concerns...
-> > 
-> > One is that, as we move documentation into RST, I'm really trying to
-> > organize it a bit so that it is better tuned to the various audiences we
-> > have.  For example, ksm.txt is going to be of interest to sysadmin types,
-> > who might want to tune it.  mmu_notifier.txt is of interest to ...
-> > somebody, but probably nobody who is thinking in user space.  And so on.
-> > 
-> > So I would really like to see this material split up and put into the
-> > appropriate places in the RST hierarchy - admin-guide for administrative
-> > stuff, core-api for kernel development topics, etc.  That, of course,
-> > could be done separately from the RST conversion, but I suspect I know
-> > what will (or will not) happen if we agree to defer that for now :)
-> 
-> Well, I was actually planning on doing that ;-)
-> 
-> My thinking was to start with mechanical RST conversion and then to start
-> working on the contents and ordering of the documentation. Some of the
-> existing files, e.g. ksm.txt, can be moved as is into the appropriate
-> places, others, like transhuge.txt should be at least split into admin/user
-> and developer guides.
-> 
-> Another problem with many of the existing mm docs is that they are rather
-> developer notes and it wouldn't be really straight forward to assign them
-> to a particular topic.
-> 
-> I believe that keeping the mm docs together will give better visibility of
-> what (little) mm documentation we have and will make the updates easier.
-> The documents that fit well into a certain topic could be linked there. For
-> instance:
-> 
-> -------------------------
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index 5bb9161..8f6c6e6 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -63,6 +63,7 @@ configure specific aspects of kernel behavior to your liking.
->     pm/index
->     thunderbolt
->     LSM/index
-> +   vm/index
-> 
->  .. only::  subproject and html
-> 
-> diff --git a/Documentation/admin-guide/vm/index.rst b/Documentation/admin-guide/vm/index.rst
-> new file mode 100644
-> index 0000000..d86f1c8
-> --- /dev/null
-> +++ b/Documentation/admin-guide/vm/index.rst
-> @@ -0,0 +1,5 @@
-> +==============================================
-> +Knobs and Buttons for Memory Management Tuning
-> +==============================================
-> +
-> +* :ref:`ksm <ksm>`
-> -------------------------
-> 
-> > The other is the inevitable merge conflicts that changing that many doc
-> > files will create.  Sending the patches through Andrew could minimize
-> > that, I guess, or at least make it his problem.  Alternatively, we could
-> > try to do it as an end-of-merge-window sort of thing.  I can try to manage
-> > that, but an ack or two from the mm crowd would be nice to have.
-> 
-> I can rebase on top of Andrew's tree if that would help to minimize the
-> merge conflicts.
-> 
-> > Thanks,
-> > 
-> > jon
-> > 
-> 
-> -- 
-> Sincerely yours,
-> Mike.
-> 
+And what can you do if it fails? Nothing except report the problem. But
+signal_pending() is not the unlikely or error condition, it should not
+cause the tracing errors.
 
--- 
-Sincerely yours,
-Mike.
+Plus mm_take_all_locks() is very heavy... BTW, uprobe_mmap_callback() is
+called unconditionally. Whatever it does, can we at least move it after
+the no_uprobe_events() check? Can't we also check MMF_HAS_UPROBES?
+
+Either way, I do not feel that mmu_notifier is the right tool... Did you
+consider the uprobe_clear_state() hook we already have?
+
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
