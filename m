@@ -5,59 +5,55 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D92717E22E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 14:42:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4D0F7E89B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 14:42:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754037AbeDJOmf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 10:42:35 -0400
-Received: from mail-wm0-f54.google.com ([74.125.82.54]:34441 "EHLO
-        mail-wm0-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754255AbeDJOm0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 10:42:26 -0400
-Received: by mail-wm0-f54.google.com with SMTP id w2so22014900wmw.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 07:42:26 -0700 (PDT)
+        id S1754251AbeDJOmZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 10:42:25 -0400
+Received: from mail-wm0-f48.google.com ([74.125.82.48]:53000 "EHLO
+        mail-wm0-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754096AbeDJOmU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 10:42:20 -0400
+Received: by mail-wm0-f48.google.com with SMTP id g8so26597243wmd.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 07:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=netronome-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=67Wkwkw0hpGtXBlmoHYDTV+DzLn/PgcUYtarTENyPLY=;
-        b=CTHrEOscwj2NJ42hYjb1h6C3LxZAlRs1Il3TkWWZ8qMYHZeIcSMmp3bXzOqkm2A6jH
-         VKyVo0eOhsvlRoa66/X2LKCd5325FeOwW6SONJXJy7LgPResnVjeHUYJQcmHrpCgAawR
-         BaQIyRwn6zmqTk6eMS4DfOtPWdbgOVowCbGjA5uyOcP61zMHOOl4svkGzDzv837l5X+0
-         jDHLuo5K7uXpRM0CJhIOkqb/WjwNJ73UzCHofB8hOoRr6FHvTJKV2b4+BANOq0MOxWXN
-         hFda8f0vft6AseF/LFZXE28s5pSJckSzfEZaUU8JBH8jBzGYs4v+FM7mQMHVzAIspLIo
-         vI0A==
+        bh=32jb75/Uqv9cbR0wo2mGwKjyW6K3oSBeSuCy81Qwz98=;
+        b=NeFEmErdImVlL+lv7Wns2EShUXDW+X0IoywFT3QYbbELAXh4MJJXHQ1d8N/9iGL39x
+         kDvZdlDGefjJwVp6EwhJQrO/cqeS4XHiyUcBtOgoAANVmy7HvK9UrTEaiApevfwoT9P7
+         QLBK4R1dHQ8FK499Hn6FAie/mbGvOU7hrMaW08FXf0+E7FNMH8p35QMYfxj5tzk3mgDb
+         goQJ//P0lIrtBkDRz5+DUp0zKDETB1b3TA+Pl2WYSFk8+8BXyibTrx2PNPuMQwVtt+fo
+         4Ezpl7y5vfT4G8QLKsOAFBnBW73NxLK3h4D7CrksrReSptl+WodgKpB34h0Sfn52VOcV
+         4LSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=67Wkwkw0hpGtXBlmoHYDTV+DzLn/PgcUYtarTENyPLY=;
-        b=XAea3TW6vhocgaN4l1amTr/6VoGMaQrFHAttJ5AvCm+8akG3dkc8OkGjU4mH3nWTes
-         cSmTZTqE0uXUGie0KD00CWwucJkBFm/3PZHu8kGv880kM5d5qkSoHh1g+Eqrn9aTROyP
-         DbRzc7z3zPqEmz9VDs+2bnUHHAT0IUzj/mxADoKUv83BIGFSana/62M2GEeRpaEEvYLA
-         iuEnntVeDygJLuAtfWiZ+iwbSItQaLnIB6RzOnUsygwroEB5DO8EVzTbncZnMfAk5QZa
-         O9Q9uywdJREs7kmEI7OKh0CjjUEvMAM+rqs+zRbIxleOeucN/T5Jo/wIYr3kpLl0OyIl
-         WEfQ==
-X-Gm-Message-State: ALQs6tDUidSqGxm3wfNS6ocvsL31ZIieG0GA3za4v2XpJjbz411+GwX0
-        hGgqrxK3pifRLiiUvG5LSIcPhw==
-X-Google-Smtp-Source: AIpwx4+wPVnHpp80QQm3UiAjyBJR7x+dyPqO7z/FUjLpGURJRuvoXURVPw8r1u6R+fSWkQt9lFdKhw==
-X-Received: by 10.80.183.144 with SMTP id h16mr3729428ede.96.1523371345420;
-        Tue, 10 Apr 2018 07:42:25 -0700 (PDT)
+        bh=32jb75/Uqv9cbR0wo2mGwKjyW6K3oSBeSuCy81Qwz98=;
+        b=B87LTcYsDmQ0w98EZIXDwg7LUMX1tWDy1JZxMTCYqppRkPxsXlFl/XUPytQFgAM3R+
+         OgVTwyNzuICl2PO7N/fAIhjiPrBkFMXC7LttFDuYTRjkSlpb3cGJx7tbhD0Dq9+1/1F2
+         eorGZJlwk4U6tgchPeJ0wbm+HZsK2g4LawK/FvdDdui5oWY3agfYXNoYI3zv6pSvc2MT
+         VOfCj9B7mQs/LOnvq6VMSx+krRrHStMHuEaLwNmaqh0vkXyanAG9WJqEx2gNuSQu8zZw
+         TK6MU0zdJrEEJAnnfdxdACU4or78tOfsYLcqc2veDIh1nJVBo+UojaxG5m1nFUWl3L0A
+         qdCA==
+X-Gm-Message-State: ALQs6tBLZisraJQUHts+e4iIYmBrBEMgdM3A44Mpv7U1d9QTSxXs2VWe
+        vpIEYB+rr99NJwmWv1L4iMPMoA==
+X-Google-Smtp-Source: AIpwx4+u8r5s9GgPG1I+yWNPtYyWdaXpJcq+vHprG/9t1uhA56EbR4zJrzj+CLCkM4jceL5tsd8wRg==
+X-Received: by 10.80.166.211 with SMTP id f19mr3830617edc.266.1523371338354;
+        Tue, 10 Apr 2018 07:42:18 -0700 (PDT)
 Received: from reblochon.netronome.com (host-79-78-33-110.static.as9105.net. [79.78.33.110])
-        by smtp.gmail.com with ESMTPSA id i17sm1948907ede.13.2018.04.10.07.42.23
+        by smtp.gmail.com with ESMTPSA id i17sm1948907ede.13.2018.04.10.07.42.16
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Apr 2018 07:42:24 -0700 (PDT)
+        Tue, 10 Apr 2018 07:42:17 -0700 (PDT)
 From:   Quentin Monnet <quentin.monnet@netronome.com>
 To:     daniel@iogearbox.net, ast@kernel.org
 Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
         quentin.monnet@netronome.com, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org, Kaixu Xia <xiakaixu@huawei.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Sargun Dhillon <sargun@sargun.me>, Thomas Graf <tgraf@suug.ch>,
-        Gianluca Borello <g.borello@gmail.com>,
-        Chenbo Feng <fengc@google.com>
-Subject: [RFC bpf-next v2 6/8] bpf: add documentation for eBPF helpers (42-50)
-Date:   Tue, 10 Apr 2018 15:41:55 +0100
-Message-Id: <20180410144157.4831-7-quentin.monnet@netronome.com>
+        linux-man@vger.kernel.org
+Subject: [RFC bpf-next v2 1/8] bpf: add script and prepare bpf.h for new helpers documentation
+Date:   Tue, 10 Apr 2018 15:41:50 +0100
+Message-Id: <20180410144157.4831-2-quentin.monnet@netronome.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180410144157.4831-1-quentin.monnet@netronome.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
@@ -66,238 +62,877 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for eBPF helper functions to bpf.h user header file.
-This documentation can be parsed with the Python script provided in
-another commit of the patch series, in order to provide a RST document
-that can later be converted into a man page.
+Remove previous "overview" of eBPF helpers from user bpf.h header.
+Replace it by a comment explaining how to process the new documentation
+(to come in following patches) with a Python script to produce RST, then
+man page documentation.
 
-The objective is to make the documentation easily understandable and
-accessible to all eBPF developers, including beginners.
+Also add the aforementioned Python script under scripts/. It is used to
+process include/uapi/linux/bpf.h and to extract helper descriptions, to
+turn it into a RST document that can further be processed with rst2man
+to produce a man page. The script takes one "--filename <path/to/file>"
+option. If the script is launched from scripts/ in the kernel root
+directory, it should be able to find the location of the header to
+parse, and "--filename <path/to/file>" is then optional. If it cannot
+find the file, then the option becomes mandatory. RST-formatted
+documentation is printed to standard output.
 
-This patch contains descriptions for the following helper functions:
+Typical workflow for producing the final man page would be:
 
-Helper from Kaixu:
-- bpf_perf_event_read()
+    $ ./scripts/bpf_helpers_doc.py \
+            --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+    $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+    $ man /tmp/bpf-helpers.7
 
-Helpers from Martin:
-- bpf_skb_under_cgroup()
-- bpf_xdp_adjust_head()
+Note that the tool kernel-doc cannot be used to document eBPF helpers,
+whose signatures are not available directly in the header files
+(pre-processor directives are used to produce them at the beginning of
+the compilation process).
 
-Helpers from Sargun:
-- bpf_probe_write_user()
-- bpf_current_task_under_cgroup()
-
-Helper from Thomas:
-- bpf_skb_change_head()
-
-Helper from Gianluca:
-- bpf_probe_read_str()
-
-Helpers from Chenbo:
-- bpf_get_socket_cookie()
-- bpf_get_socket_uid()
-
-Cc: Kaixu Xia <xiakaixu@huawei.com>
-Cc: Martin KaFai Lau <kafai@fb.com>
-Cc: Sargun Dhillon <sargun@sargun.me>
-Cc: Thomas Graf <tgraf@suug.ch>
-Cc: Gianluca Borello <g.borello@gmail.com>
-Cc: Chenbo Feng <fengc@google.com>
 Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 ---
- include/uapi/linux/bpf.h | 158 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 158 insertions(+)
+ include/uapi/linux/bpf.h   | 406 ++------------------------------------------
+ scripts/bpf_helpers_doc.py | 414 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 430 insertions(+), 390 deletions(-)
+ create mode 100755 scripts/bpf_helpers_doc.py
 
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index af429ec79f50..15d9ccafebbe 100644
+index c5ec89732a8d..45f77f01e672 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -701,6 +701,25 @@ union bpf_attr {
-  * 	Return
-  * 		0 on success, or a negative error in case of failure.
-  *
-+ * u64 bpf_perf_event_read(struct bpf_map *map, u64 flags)
-+ * 	Description
-+ * 		Read the value of a perf event counter. This helper relies on a
-+ * 		*map* of type **BPF_MAP_TYPE_PERF_EVENT_ARRAY**. The
-+ * 		nature of the perf event counter is selected at the creation of
-+ * 		the *map*. The *map* is an array whose size is the number of
-+ * 		available CPU cores, and each cell contains a value relative to
-+ * 		one core. The value to retrieve is indicated by *flags*, that
-+ * 		contains the index of the core to look up, masked with
-+ * 		**BPF_F_INDEX_MASK**. Alternatively, *flags* can be set to
-+ * 		**BPF_F_CURRENT_CPU** to indicate that the value for the
-+ * 		current CPU core should be retrieved.
+@@ -365,396 +365,22 @@ union bpf_attr {
+ 	} raw_tracepoint;
+ } __attribute__((aligned(8)));
+ 
+-/* BPF helper function descriptions:
+- *
+- * void *bpf_map_lookup_elem(&map, &key)
+- *     Return: Map value or NULL
+- *
+- * int bpf_map_update_elem(&map, &key, &value, flags)
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_map_delete_elem(&map, &key)
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_probe_read(void *dst, int size, void *src)
+- *     Return: 0 on success or negative error
+- *
+- * u64 bpf_ktime_get_ns(void)
+- *     Return: current ktime
+- *
+- * int bpf_trace_printk(const char *fmt, int fmt_size, ...)
+- *     Return: length of buffer written or negative error
+- *
+- * u32 bpf_prandom_u32(void)
+- *     Return: random value
+- *
+- * u32 bpf_raw_smp_processor_id(void)
+- *     Return: SMP processor ID
+- *
+- * int bpf_skb_store_bytes(skb, offset, from, len, flags)
+- *     store bytes into packet
+- *     @skb: pointer to skb
+- *     @offset: offset within packet from skb->mac_header
+- *     @from: pointer where to copy bytes from
+- *     @len: number of bytes to store into packet
+- *     @flags: bit 0 - if true, recompute skb->csum
+- *             other bits - reserved
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_l3_csum_replace(skb, offset, from, to, flags)
+- *     recompute IP checksum
+- *     @skb: pointer to skb
+- *     @offset: offset within packet where IP checksum is located
+- *     @from: old value of header field
+- *     @to: new value of header field
+- *     @flags: bits 0-3 - size of header field
+- *             other bits - reserved
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_l4_csum_replace(skb, offset, from, to, flags)
+- *     recompute TCP/UDP checksum
+- *     @skb: pointer to skb
+- *     @offset: offset within packet where TCP/UDP checksum is located
+- *     @from: old value of header field
+- *     @to: new value of header field
+- *     @flags: bits 0-3 - size of header field
+- *             bit 4 - is pseudo header
+- *             other bits - reserved
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_tail_call(ctx, prog_array_map, index)
+- *     jump into another BPF program
+- *     @ctx: context pointer passed to next program
+- *     @prog_array_map: pointer to map which type is BPF_MAP_TYPE_PROG_ARRAY
+- *     @index: 32-bit index inside array that selects specific program to run
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_clone_redirect(skb, ifindex, flags)
+- *     redirect to another netdev
+- *     @skb: pointer to skb
+- *     @ifindex: ifindex of the net device
+- *     @flags: bit 0 - if set, redirect to ingress instead of egress
+- *             other bits - reserved
+- *     Return: 0 on success or negative error
+- *
+- * u64 bpf_get_current_pid_tgid(void)
+- *     Return: current->tgid << 32 | current->pid
+- *
+- * u64 bpf_get_current_uid_gid(void)
+- *     Return: current_gid << 32 | current_uid
+- *
+- * int bpf_get_current_comm(char *buf, int size_of_buf)
+- *     stores current->comm into buf
+- *     Return: 0 on success or negative error
+- *
+- * u32 bpf_get_cgroup_classid(skb)
+- *     retrieve a proc's classid
+- *     @skb: pointer to skb
+- *     Return: classid if != 0
+- *
+- * int bpf_skb_vlan_push(skb, vlan_proto, vlan_tci)
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_skb_vlan_pop(skb)
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_skb_get_tunnel_key(skb, key, size, flags)
+- * int bpf_skb_set_tunnel_key(skb, key, size, flags)
+- *     retrieve or populate tunnel metadata
+- *     @skb: pointer to skb
+- *     @key: pointer to 'struct bpf_tunnel_key'
+- *     @size: size of 'struct bpf_tunnel_key'
+- *     @flags: room for future extensions
+- *     Return: 0 on success or negative error
+- *
+- * u64 bpf_perf_event_read(map, flags)
+- *     read perf event counter value
+- *     @map: pointer to perf_event_array map
+- *     @flags: index of event in the map or bitmask flags
+- *     Return: value of perf event counter read or error code
+- *
+- * int bpf_redirect(ifindex, flags)
+- *     redirect to another netdev
+- *     @ifindex: ifindex of the net device
+- *     @flags:
+- *	  cls_bpf:
+- *          bit 0 - if set, redirect to ingress instead of egress
+- *          other bits - reserved
+- *	  xdp_bpf:
+- *	    all bits - reserved
+- *     Return: cls_bpf: TC_ACT_REDIRECT on success or TC_ACT_SHOT on error
+- *	       xdp_bfp: XDP_REDIRECT on success or XDP_ABORT on error
+- * int bpf_redirect_map(map, key, flags)
+- *     redirect to endpoint in map
+- *     @map: pointer to dev map
+- *     @key: index in map to lookup
+- *     @flags: --
+- *     Return: XDP_REDIRECT on success or XDP_ABORT on error
+- *
+- * u32 bpf_get_route_realm(skb)
+- *     retrieve a dst's tclassid
+- *     @skb: pointer to skb
+- *     Return: realm if != 0
+- *
+- * int bpf_perf_event_output(ctx, map, flags, data, size)
+- *     output perf raw sample
+- *     @ctx: struct pt_regs*
+- *     @map: pointer to perf_event_array map
+- *     @flags: index of event in the map or bitmask flags
+- *     @data: data on stack to be output as raw data
+- *     @size: size of data
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_get_stackid(ctx, map, flags)
+- *     walk user or kernel stack and return id
+- *     @ctx: struct pt_regs*
+- *     @map: pointer to stack_trace map
+- *     @flags: bits 0-7 - numer of stack frames to skip
+- *             bit 8 - collect user stack instead of kernel
+- *             bit 9 - compare stacks by hash only
+- *             bit 10 - if two different stacks hash into the same stackid
+- *                      discard old
+- *             other bits - reserved
+- *     Return: >= 0 stackid on success or negative error
+- *
+- * s64 bpf_csum_diff(from, from_size, to, to_size, seed)
+- *     calculate csum diff
+- *     @from: raw from buffer
+- *     @from_size: length of from buffer
+- *     @to: raw to buffer
+- *     @to_size: length of to buffer
+- *     @seed: optional seed
+- *     Return: csum result or negative error code
+- *
+- * int bpf_skb_get_tunnel_opt(skb, opt, size)
+- *     retrieve tunnel options metadata
+- *     @skb: pointer to skb
+- *     @opt: pointer to raw tunnel option data
+- *     @size: size of @opt
+- *     Return: option size
+- *
+- * int bpf_skb_set_tunnel_opt(skb, opt, size)
+- *     populate tunnel options metadata
+- *     @skb: pointer to skb
+- *     @opt: pointer to raw tunnel option data
+- *     @size: size of @opt
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_skb_change_proto(skb, proto, flags)
+- *     Change protocol of the skb. Currently supported is v4 -> v6,
+- *     v6 -> v4 transitions. The helper will also resize the skb. eBPF
+- *     program is expected to fill the new headers via skb_store_bytes
+- *     and lX_csum_replace.
+- *     @skb: pointer to skb
+- *     @proto: new skb->protocol type
+- *     @flags: reserved
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_skb_change_type(skb, type)
+- *     Change packet type of skb.
+- *     @skb: pointer to skb
+- *     @type: new skb->pkt_type type
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_skb_under_cgroup(skb, map, index)
+- *     Check cgroup2 membership of skb
+- *     @skb: pointer to skb
+- *     @map: pointer to bpf_map in BPF_MAP_TYPE_CGROUP_ARRAY type
+- *     @index: index of the cgroup in the bpf_map
+- *     Return:
+- *       == 0 skb failed the cgroup2 descendant test
+- *       == 1 skb succeeded the cgroup2 descendant test
+- *        < 0 error
+- *
+- * u32 bpf_get_hash_recalc(skb)
+- *     Retrieve and possibly recalculate skb->hash.
+- *     @skb: pointer to skb
+- *     Return: hash
+- *
+- * u64 bpf_get_current_task(void)
+- *     Returns current task_struct
+- *     Return: current
+- *
+- * int bpf_probe_write_user(void *dst, void *src, int len)
+- *     safely attempt to write to a location
+- *     @dst: destination address in userspace
+- *     @src: source address on stack
+- *     @len: number of bytes to copy
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_current_task_under_cgroup(map, index)
+- *     Check cgroup2 membership of current task
+- *     @map: pointer to bpf_map in BPF_MAP_TYPE_CGROUP_ARRAY type
+- *     @index: index of the cgroup in the bpf_map
+- *     Return:
+- *       == 0 current failed the cgroup2 descendant test
+- *       == 1 current succeeded the cgroup2 descendant test
+- *        < 0 error
+- *
+- * int bpf_skb_change_tail(skb, len, flags)
+- *     The helper will resize the skb to the given new size, to be used f.e.
+- *     with control messages.
+- *     @skb: pointer to skb
+- *     @len: new skb length
+- *     @flags: reserved
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_skb_pull_data(skb, len)
+- *     The helper will pull in non-linear data in case the skb is non-linear
+- *     and not all of len are part of the linear section. Only needed for
+- *     read/write with direct packet access.
+- *     @skb: pointer to skb
+- *     @len: len to make read/writeable
+- *     Return: 0 on success or negative error
+- *
+- * s64 bpf_csum_update(skb, csum)
+- *     Adds csum into skb->csum in case of CHECKSUM_COMPLETE.
+- *     @skb: pointer to skb
+- *     @csum: csum to add
+- *     Return: csum on success or negative error
+- *
+- * void bpf_set_hash_invalid(skb)
+- *     Invalidate current skb->hash.
+- *     @skb: pointer to skb
+- *
+- * int bpf_get_numa_node_id()
+- *     Return: Id of current NUMA node.
+- *
+- * int bpf_skb_change_head()
+- *     Grows headroom of skb and adjusts MAC header offset accordingly.
+- *     Will extends/reallocae as required automatically.
+- *     May change skb data pointer and will thus invalidate any check
+- *     performed for direct packet access.
+- *     @skb: pointer to skb
+- *     @len: length of header to be pushed in front
+- *     @flags: Flags (unused for now)
+- *     Return: 0 on success or negative error
+- *
+- * int bpf_xdp_adjust_head(xdp_md, delta)
+- *     Adjust the xdp_md.data by delta
+- *     @xdp_md: pointer to xdp_md
+- *     @delta: An positive/negative integer to be added to xdp_md.data
+- *     Return: 0 on success or negative on error
+- *
+- * int bpf_probe_read_str(void *dst, int size, const void *unsafe_ptr)
+- *     Copy a NUL terminated string from unsafe address. In case the string
+- *     length is smaller than size, the target is not padded with further NUL
+- *     bytes. In case the string length is larger than size, just count-1
+- *     bytes are copied and the last byte is set to NUL.
+- *     @dst: destination address
+- *     @size: maximum number of bytes to copy, including the trailing NUL
+- *     @unsafe_ptr: unsafe address
+- *     Return:
+- *       > 0 length of the string including the trailing NUL on success
+- *       < 0 error
+- *
+- * u64 bpf_get_socket_cookie(skb)
+- *     Get the cookie for the socket stored inside sk_buff.
+- *     @skb: pointer to skb
+- *     Return: 8 Bytes non-decreasing number on success or 0 if the socket
+- *     field is missing inside sk_buff
+- *
+- * u32 bpf_get_socket_uid(skb)
+- *     Get the owner uid of the socket stored inside sk_buff.
+- *     @skb: pointer to skb
+- *     Return: uid of the socket owner on success or overflowuid if failed.
+- *
+- * u32 bpf_set_hash(skb, hash)
+- *     Set full skb->hash.
+- *     @skb: pointer to skb
+- *     @hash: hash to set
+- *
+- * int bpf_setsockopt(bpf_socket, level, optname, optval, optlen)
+- *     Calls setsockopt. Not all opts are available, only those with
+- *     integer optvals plus TCP_CONGESTION.
+- *     Supported levels: SOL_SOCKET and IPPROTO_TCP
+- *     @bpf_socket: pointer to bpf_socket
+- *     @level: SOL_SOCKET or IPPROTO_TCP
+- *     @optname: option name
+- *     @optval: pointer to option value
+- *     @optlen: length of optval in bytes
+- *     Return: 0 or negative error
+- *
+- * int bpf_getsockopt(bpf_socket, level, optname, optval, optlen)
+- *     Calls getsockopt. Not all opts are available.
+- *     Supported levels: IPPROTO_TCP
+- *     @bpf_socket: pointer to bpf_socket
+- *     @level: IPPROTO_TCP
+- *     @optname: option name
+- *     @optval: pointer to option value
+- *     @optlen: length of optval in bytes
+- *     Return: 0 or negative error
+- *
+- * int bpf_sock_ops_cb_flags_set(bpf_sock_ops, flags)
+- *     Set callback flags for sock_ops
+- *     @bpf_sock_ops: pointer to bpf_sock_ops_kern struct
+- *     @flags: flags value
+- *     Return: 0 for no error
+- *             -EINVAL if there is no full tcp socket
+- *             bits in flags that are not supported by current kernel
+- *
+- * int bpf_skb_adjust_room(skb, len_diff, mode, flags)
+- *     Grow or shrink room in sk_buff.
+- *     @skb: pointer to skb
+- *     @len_diff: (signed) amount of room to grow/shrink
+- *     @mode: operation mode (enum bpf_adj_room_mode)
+- *     @flags: reserved for future use
+- *     Return: 0 on success or negative error code
+- *
+- * int bpf_sk_redirect_map(map, key, flags)
+- *     Redirect skb to a sock in map using key as a lookup key for the
+- *     sock in map.
+- *     @map: pointer to sockmap
+- *     @key: key to lookup sock in map
+- *     @flags: reserved for future use
+- *     Return: SK_PASS
+- *
+- * int bpf_sock_map_update(skops, map, key, flags)
+- *	@skops: pointer to bpf_sock_ops
+- *	@map: pointer to sockmap to update
+- *	@key: key to insert/update sock in map
+- *	@flags: same flags as map update elem
+- *
+- * int bpf_xdp_adjust_meta(xdp_md, delta)
+- *     Adjust the xdp_md.data_meta by delta
+- *     @xdp_md: pointer to xdp_md
+- *     @delta: An positive/negative integer to be added to xdp_md.data_meta
+- *     Return: 0 on success or negative on error
+- *
+- * int bpf_perf_event_read_value(map, flags, buf, buf_size)
+- *     read perf event counter value and perf event enabled/running time
+- *     @map: pointer to perf_event_array map
+- *     @flags: index of event in the map or bitmask flags
+- *     @buf: buf to fill
+- *     @buf_size: size of the buf
+- *     Return: 0 on success or negative error code
+- *
+- * int bpf_perf_prog_read_value(ctx, buf, buf_size)
+- *     read perf prog attached perf event counter and enabled/running time
+- *     @ctx: pointer to ctx
+- *     @buf: buf to fill
+- *     @buf_size: size of the buf
+- *     Return : 0 on success or negative error code
+- *
+- * int bpf_override_return(pt_regs, rc)
+- *	@pt_regs: pointer to struct pt_regs
+- *	@rc: the return value to set
+- *
+- * int bpf_msg_redirect_map(map, key, flags)
+- *     Redirect msg to a sock in map using key as a lookup key for the
+- *     sock in map.
+- *     @map: pointer to sockmap
+- *     @key: key to lookup sock in map
+- *     @flags: reserved for future use
+- *     Return: SK_PASS
+- *
+- * int bpf_bind(ctx, addr, addr_len)
+- *     Bind socket to address. Only binding to IP is supported, no port can be
+- *     set in addr.
+- *     @ctx: pointer to context of type bpf_sock_addr
+- *     @addr: pointer to struct sockaddr to bind socket to
+- *     @addr_len: length of sockaddr structure
+- *     Return: 0 on success or negative error code
++/* The description below is an attempt at providing documentation to eBPF
++ * developers about the multiple available eBPF helper functions. It can be
++ * parsed and used to produce a manual page. The workflow is the following,
++ * and requires the rst2man utility:
 + *
-+ * 		Note that before Linux 4.13, only hardware perf event can be
-+ * 		retrieved.
-+ * 	Return
-+ * 		The value of the perf event counter read from the map, or a
-+ * 		negative error code in case of failure.
++ *     $ ./scripts/bpf_helpers_doc.py \
++ *             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
++ *     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
++ *     $ man /tmp/bpf-helpers.7
 + *
-  * int bpf_redirect(u32 ifindex, u64 flags)
-  * 	Description
-  * 		Redirect the packet to another net device of index *ifindex*.
-@@ -939,6 +958,17 @@ union bpf_attr {
-  * 	Return
-  * 		0 on success, or a negative error in case of failure.
-  *
-+ * int bpf_skb_under_cgroup(struct sk_buff *skb, struct bpf_map *map, u32 index)
-+ * 	Description
-+ * 		Check whether *skb* is a descendant of the cgroup2 held by
-+ * 		*map* of type **BPF_MAP_TYPE_CGROUP_ARRAY**, at *index*.
-+ * 	Return
-+ * 		The return value depends on the result of the test, and can be:
++ * Note that in order to produce this external documentation, some RST
++ * formatting is used in the descriptions to get "bold" and "italics" in
++ * manual pages. Also note that the few trailing white spaces are
++ * intentional, removing them would break paragraphs for rst2man.
 + *
-+ * 		* 0, if the *skb* failed the cgroup2 descendant test.
-+ * 		* 1, if the *skb* succeeded the cgroup2 descendant test.
-+ * 		* A negative error code, if an error occurred.
-+ *
-  * u32 bpf_get_hash_recalc(struct sk_buff *skb)
-  * 	Description
-  * 		Retrieve the hash of the packet, *skb*\ **->hash**. If it is
-@@ -959,6 +989,37 @@ union bpf_attr {
-  * 	Return
-  * 		A pointer to the current task struct.
-  *
-+ * int bpf_probe_write_user(void *dst, const void *src, u32 len)
-+ * 	Description
-+ * 		Attempt in a safe way to write *len* bytes from the buffer
-+ * 		*src* to *dst* in memory. It only works for threads that are in
-+ * 		user context.
-+ *
-+ * 		This helper should not be used to implement any kind of
-+ * 		security mechanism because of TOC-TOU attacks, but rather to
-+ * 		debug, divert, and manipulate execution of semi-cooperative
-+ * 		processes.
-+ *
-+ * 		Keep in mind that this feature is meant for experiments, and it
-+ * 		has a risk of crashing the system and running programs.
-+ * 		Therefore, when an eBPF program using this helper is attached,
-+ * 		a warning including PID and process name is printed to kernel
-+ * 		logs.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_current_task_under_cgroup(struct bpf_map *map, u32 index)
-+ * 	Description
-+ * 		Check whether the probe is being run is the context of a given
-+ * 		subset of the cgroup2 hierarchy. The cgroup2 to test is held by
-+ * 		*map* of type **BPF_MAP_TYPE_CGROUP_ARRAY**, at *index*.
-+ * 	Return
-+ * 		The return value depends on the result of the test, and can be:
-+ *
-+ * 		* 0, if the *skb* task belongs to the cgroup2.
-+ * 		* 1, if the *skb* task does not belong to the cgroup2.
-+ * 		* A negative error code, if an error occurred.
-+ *
-  * int bpf_skb_change_tail(struct sk_buff *skb, u32 len, u64 flags)
-  * 	Description
-  * 		Resize (trim or grow) the packet associated to *skb* to the
-@@ -1043,6 +1104,103 @@ union bpf_attr {
-  * 	Return
-  * 		The id of current NUMA node.
-  *
-+ * int bpf_skb_change_head(struct sk_buff *skb, u32 len, u64 flags)
-+ * 	Description
-+ * 		Grows headroom of packet associated to *skb* and adjusts the
-+ * 		offset of the MAC header accordingly, adding *len* bytes of
-+ * 		space. It automatically extends and reallocates memory as
-+ * 		required.
-+ *
-+ * 		This helper can be used on a layer 3 *skb* to push a MAC header
-+ * 		for redirection into a layer 2 device.
-+ *
-+ * 		All values for *flags* are reserved for future usage, and must
-+ * 		be left at zero.
-+ *
-+ * 		A call to this helper is susceptible to change data from the
-+ * 		packet. Therefore, at load time, all checks on pointers
-+ * 		previously done by the verifier are invalidated and must be
-+ * 		performed again.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_xdp_adjust_head(struct xdp_buff *xdp_md, int delta)
-+ * 	Description
-+ * 		Adjust (move) *xdp_md*\ **->data** by *delta* bytes. Note that
-+ * 		it is possible to use a negative value for *delta*. This helper
-+ * 		can be used to prepare the packet for pushing or popping
-+ * 		headers.
-+ *
-+ * 		A call to this helper is susceptible to change data from the
-+ * 		packet. Therefore, at load time, all checks on pointers
-+ * 		previously done by the verifier are invalidated and must be
-+ * 		performed again.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_probe_read_str(void *dst, int size, const void *unsafe_ptr)
-+ * 	Description
-+ * 		Copy a NUL terminated string from an unsafe address
-+ * 		*unsafe_ptr* to *dst*. The *size* should include the
-+ * 		terminating NUL byte. In case the string length is smaller than
-+ * 		*size*, the target is not padded with further NUL bytes. If the
-+ * 		string length is larger than *size*, just *size*-1 bytes are
-+ * 		copied and the last byte is set to NUL.
-+ *
-+ * 		On success, the length of the copied string is returned. This
-+ * 		makes this helper useful in tracing programs for reading
-+ * 		strings, and more importantly to get its length at runtime. See
-+ * 		the following snippet:
-+ *
-+ * 		::
-+ *
-+ * 			SEC("kprobe/sys_open")
-+ * 			void bpf_sys_open(struct pt_regs *ctx)
-+ * 			{
-+ * 			        char buf[PATHLEN]; // PATHLEN is defined to 256
-+ * 			        int res = bpf_probe_read_str(buf, sizeof(buf),
-+ * 				                             ctx->di);
-+ *
-+ * 				// Consume buf, for example push it to
-+ * 				// userspace via bpf_perf_event_output(); we
-+ * 				// can use res (the string length) as event
-+ * 				// size, after checking its boundaries.
-+ * 			}
-+ *
-+ * 		In comparison, using **bpf_probe_read()** helper here instead
-+ * 		to read the string would require to estimate the length at
-+ * 		compile time, and would often result in copying more memory
-+ * 		than necessary.
-+ *
-+ * 		Another useful use case is when parsing individual process
-+ * 		arguments or individual environment variables navigating
-+ * 		*current*\ **->mm->arg_start** and *current*\
-+ * 		**->mm->env_start**: using this helper and the return value,
-+ * 		one can quickly iterate at the right offset of the memory area.
-+ * 	Return
-+ * 		On success, the strictly positive length of the string,
-+ * 		including the trailing NUL character. On error, a negative
-+ * 		value.
-+ *
-+ * u64 bpf_get_socket_cookie(struct sk_buff *skb)
-+ * 	Description
-+ * 		Retrieve the socket cookie generated by the kernel from a
-+ * 		**struct sk_buff** with a known socket. If none has been set
-+ * 		yet, generate a new cookie. This helper can be useful for
-+ * 		monitoring per socket networking traffic statistics as it
-+ * 		provides a unique socket identifier per namespace.
-+ * 	Return
-+ * 		A 8-byte long non-decreasing number on success, or 0 if the
-+ * 		socket field is missing inside *skb*.
-+ *
-+ * u32 bpf_get_socket_uid(struct sk_buff *skb)
-+ * 	Return
-+ * 		The owner UID of the socket associated to *skb*. If the socket
-+ * 		is **NULL**, or if it is not a full socket (i.e. if it is a
-+ * 		time-wait or a request socket instead), **overflowuid** value
-+ * 		is returned (note that **overflowuid** might also be the actual
-+ * 		UID value for the socket).
-+ *
-  * u32 bpf_set_hash(struct sk_buff *skb, u32 hash)
-  * 	Description
-  * 		Set the full hash for *skb* (set the field *skb*\ **->hash**)
++ * Start of BPF helper function descriptions:
+  */
+ #define __BPF_FUNC_MAPPER(FN)		\
+ 	FN(unspec),			\
+diff --git a/scripts/bpf_helpers_doc.py b/scripts/bpf_helpers_doc.py
+new file mode 100755
+index 000000000000..3a15ba3f0a83
+--- /dev/null
++++ b/scripts/bpf_helpers_doc.py
+@@ -0,0 +1,414 @@
++#!/usr/bin/python3
++#
++# Copyright (C) 2018 Netronome Systems, Inc.
++#
++# This software is licensed under the GNU General License Version 2,
++# June 1991 as shown in the file COPYING in the top-level directory of this
++# source tree.
++#
++# THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS"
++# WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING,
++# BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
++# FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE
++# OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME
++# THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
++
++# In case user attempts to run with Python 2.
++from __future__ import print_function
++
++import argparse
++import re
++import sys, os
++
++class NoHelperFound(BaseException):
++    pass
++
++class ParsingError(BaseException):
++    def __init__(self, line='<line not provided>', reader=None):
++        if reader:
++            BaseException.__init__(self,
++                                   'Error at file offset %d, parsing line: %s' %
++                                   (reader.tell(), line))
++        else:
++            BaseException.__init__(self, 'Error parsing line: %s' % line)
++
++class Helper(object):
++    """
++    An object representing the description of an eBPF helper function.
++    @proto: function prototype of the helper function
++    @desc: textual description of the helper function
++    @ret: description of the return value of the helper function
++    """
++    def __init__(self, proto='', desc='', ret=''):
++        self.proto = proto
++        self.desc = desc
++        self.ret = ret
++
++    def proto_break_down(self):
++        """
++        Break down helper function protocol into smaller chunks: return type,
++        name, distincts arguments.
++        """
++        arg_re = re.compile('^((const )?(struct )?(\w+|...))( (\**)(\w+))?$')
++        res = {}
++        proto_re = re.compile('^(.+) (\**)(\w+)\(((([^,]+)(, )?){1,5})\)$')
++
++        capture = proto_re.match(self.proto)
++        res['ret_type'] = capture.group(1)
++        res['ret_star'] = capture.group(2)
++        res['name']     = capture.group(3)
++        res['args'] = []
++
++        args    = capture.group(4).split(', ')
++        for a in args:
++            capture = arg_re.match(a)
++            res['args'].append({
++                'type' : capture.group(1),
++                'star' : capture.group(6),
++                'name' : capture.group(7)
++            })
++
++        return res
++
++class HeaderParser(object):
++    """
++    An object used to parse a file in order to extract the documentation of a
++    list of eBPF helper functions. All the helpers that can be retrieved are
++    stored as Helper object, in the self.helpers() array.
++    @filename: name of file to parse, usually include/uapi/linux/bpf.h in the
++               kernel tree
++    """
++    def __init__(self, filename):
++        self.reader = open(filename, 'r')
++        self.line = ''
++        self.helpers = []
++
++    def parse_helper(self):
++        proto    = self.parse_proto()
++        desc     = self.parse_desc()
++        ret      = self.parse_ret()
++        return Helper(proto=proto, desc=desc, ret=ret)
++
++    def parse_proto(self):
++        # Argument can be of shape:
++        #   - "void"
++        #   - "type  name"
++        #   - "type *name"
++        #   - Same as above, with "const" and/or "struct" in front of type
++        #   - "..." (undefined number of arguments, for bpf_trace_printk())
++        # There is at least one term ("void"), and at most five arguments.
++        p = re.compile('^ \* ((.+) \**\w+\((((const )?(struct )?(\w+|\.\.\.)( \**\w+)?)(, )?){1,5}\))$')
++        capture = p.match(self.line)
++        if not capture:
++            raise NoHelperFound
++        self.line = self.reader.readline()
++        return capture.group(1)
++
++    def parse_desc(self):
++        p = re.compile('^ \* \tDescription$')
++        capture = p.match(self.line)
++        if not capture:
++            # Helper can have empty description and we might be parsing another
++            # attribute: return but do not consume.
++            return ''
++        # Description can be several lines, some of them possibly empty, and it
++        # stops when another subsection title is met.
++        desc = ''
++        while True:
++            self.line = self.reader.readline()
++            if self.line == ' *\n':
++                desc += '\n'
++            else:
++                p = re.compile('^ \* \t\t(.*)')
++                capture = p.match(self.line)
++                if capture:
++                    desc += capture.group(1) + '\n'
++                else:
++                    break
++        return desc
++
++    def parse_ret(self):
++        p = re.compile('^ \* \tReturn$')
++        capture = p.match(self.line)
++        if not capture:
++            # Helper can have empty retval and we might be parsing another
++            # attribute: return but do not consume.
++            return ''
++        # Return value description can be several lines, some of them possibly
++        # empty, and it stops when another subsection title is met.
++        ret = ''
++        while True:
++            self.line = self.reader.readline()
++            if self.line == ' *\n':
++                ret += '\n'
++            else:
++                p = re.compile('^ \* \t\t(.*)')
++                capture = p.match(self.line)
++                if capture:
++                    ret += capture.group(1) + '\n'
++                else:
++                    break
++        return ret
++
++    def run(self):
++        # Advance to start of helper function descriptions.
++        offset = self.reader.read().find('* Start of BPF helper function descriptions:')
++        if offset == -1:
++            raise Exception('Could not find start of eBPF helper descriptions list')
++        self.reader.seek(offset)
++        self.reader.readline()
++        self.reader.readline()
++        self.line = self.reader.readline()
++
++        while True:
++            try:
++                helper = self.parse_helper()
++                self.helpers.append(helper)
++            except NoHelperFound:
++                break
++
++        self.reader.close()
++        print('Parsed description of %d helper function(s)' % len(self.helpers),
++              file=sys.stderr)
++
++###############################################################################
++
++class Printer(object):
++    """
++    A generic class for printers. Printers should be created with an array of
++    Helper objects, and implement a way to print them in the desired fashion.
++    @helpers: array of Helper objects to print to standard output
++    """
++    def __init__(self, helpers):
++        self.helpers = helpers
++
++    def print_header(self):
++        pass
++
++    def print_footer(self):
++        pass
++
++    def print_one(self, helper):
++        pass
++
++    def print_all(self):
++        self.print_header()
++        for helper in self.helpers:
++            self.print_one(helper)
++        self.print_footer()
++
++class PrinterRST(Printer):
++    """
++    A printer for dumping collected information about helpers as a ReStructured
++    Text page compatible with the rst2man program, which can be used to
++    generate a manual page for the helpers.
++    @helpers: array of Helper objects to print to standard output
++    """
++    def print_header(self):
++        header = '''\
++.. Copyright (C) 2018 Netronome Systems, Inc.
++.. 
++.. %%%LICENSE_START(VERBATIM)
++.. Permission is granted to make and distribute verbatim copies of this
++.. manual provided the copyright notice and this permission notice are
++.. preserved on all copies.
++.. 
++.. Permission is granted to copy and distribute modified versions of this
++.. manual under the conditions for verbatim copying, provided that the
++.. entire resulting derived work is distributed under the terms of a
++.. permission notice identical to this one.
++.. 
++.. Since the Linux kernel and libraries are constantly changing, this
++.. manual page may be incorrect or out-of-date.  The author(s) assume no
++.. responsibility for errors or omissions, or for damages resulting from
++.. the use of the information contained herein.  The author(s) may not
++.. have taken the same level of care in the production of this manual,
++.. which is licensed free of charge, as they might when working
++.. professionally.
++.. 
++.. Formatted or processed versions of this manual, if unaccompanied by
++.. the source, must acknowledge the copyright and authors of this work.
++.. %%%LICENSE_END
++.. 
++.. Please do not edit this file. It was generated from the documentation
++.. located in file include/uapi/linux/bpf.h of the Linux kernel sources
++.. (helpers description), and from scripts/bpf_helpers_doc.py in the same
++.. repository (header and footer).
++
++===========
++BPF-HELPERS
++===========
++-------------------------------------------------------------------------------
++list of eBPF helper functions
++-------------------------------------------------------------------------------
++
++:Manual section: 7
++
++DESCRIPTION
++===========
++
++The extended Berkeley Packet Filter (eBPF) subsystem consists in programs
++written in a pseudo-assembly language, then attached to one of the several
++kernel hooks and run in reaction of specific events. This framework differs
++from the older, "classic" BPF (or "cBPF") in several aspects, one of them being
++the ability to call special functions (or "helpers") from within a program. For
++security reasons, these functions are restricted to a white-list of helpers
++defined in the kernel.
++
++These helpers are used by eBPF programs to interact with the system, or with
++the context in which they work. For instance, they can be used to print
++debugging messages, to get the time since the system was booted, to interact
++with eBPF maps, or to manipulate network packets metadata. Since there are
++several eBPF program types, and that they do not run in the same context, each
++program type can only call a subset of those helpers.
++
++Due to eBPF conventions, a helper can not have more than five arguments.
++
++This document is an attempt to list and document the helpers available to eBPF
++developers. They are sorted by chronological order (the oldest helpers in the
++kernel at the top).
++
++HELPERS
++=======
++'''
++        print(header)
++
++    def print_footer(self):
++        footer = '''
++NOTES
++=====
++
++On the performance side, eBPF programs move to the stack all arguments to pass
++to the helpers, and call directly into the compiled helper functions without
++requiring any foreign-function interface. As a result, calling helpers
++introduce very little overhead.
++
++EXAMPLES
++========
++
++Example usage for most of the eBPF helpers listed in this manual page are
++available within the Linux kernel sources, at the following locations:
++
++* *samples/bpf/*
++* *tools/testing/selftests/bpf/*
++
++IMPLEMENTATION
++==============
++
++This manual page is an effort to document the existing eBPF helper functions.
++But as of this writing, the BPF sub-system is under heavy development. New eBPF
++program or map types are added, along with new helper functions. Some helpers
++are occasionally made available for additional program types. So in spite of
++the efforts of the community, this page might not be up-to-date. If you want to
++check by yourself what helper functions exist in your kernel, or what types of
++programs they can support, here are some files among the kernel tree that you
++may be interested in:
++
++* *include/uapi/linux/bpf.h* contains the full list of all helper functions.
++* *net/core/filter.c* contains the definition of most network-related helper
++  functions, and the list of program types from which they can be used.
++* *kernel/trace/bpf_trace.c* is the equivalent for most tracing program-related
++  helpers.
++* *kernel/bpf/verifier.c* contains the functions used to check that valid types
++  of eBPF maps are used with a given helper function.
++* *kernel/bpf/* directory contains other files in which additional helpers are
++  defined (for cgroups, sockmaps, etc.).
++
++Compatibility between helper functions and program types can generally be found
++in the files where helper functions are defined. Look for the **struct
++bpf_func_proto** objects and for functions returning them: these functions
++contain a list of helpers that a given program type can call. Note that the
++**default:** label of the **switch ... case** used to filter helpers can call
++other functions, themselves allowing access to additional helpers. The
++requirement for GPL license is also in those **struct bpf_func_proto**.
++
++Compatibility between helper functions and map types can be found in the
++**check_map_func_compatibility**\ () function in file *kernel/bpf/verifier.c*.
++
++Helper functions that invalidate the checks on **data** and **data_end**
++pointers for network processing are listed in function
++**bpf_helper_changes_pkt_data**\ () in file *net/core/filter.c*.
++
++SEE ALSO
++========
++
++**bpf**\ (2),
++**cgroups**\ (7),
++**ip**\ (8),
++**perf_event_open**\ (2),
++**sendmsg**\ (2),
++**socket**\ (7),
++**tc-bpf**\ (8)'''
++        print(footer)
++
++    def print_proto(self, helper):
++        """
++        Format function protocol with bold and italics markers. This makes RST
++        file less readable, but gives nice results in the manual page.
++        """
++        proto = helper.proto_break_down()
++
++        print('**%s %s%s(' % (proto['ret_type'],
++                              proto['ret_star'].replace('*', '\\*'),
++                              proto['name']),
++              end='')
++
++        comma = ''
++        for a in proto['args']:
++            one_arg = '{}{}'.format(comma, a['type'])
++            if a['name']:
++                if a['star']:
++                    one_arg += ' {}**\ '.format(a['star'].replace('*', '\\*'))
++                else:
++                    one_arg += '** '
++                one_arg += '*{}*\\ **'.format(a['name'])
++            comma = ', '
++            print(one_arg, end='')
++
++        print(')**')
++
++    def print_one(self, helper):
++        self.print_proto(helper)
++
++        if (helper.desc):
++            print('\tDescription')
++            # Do not strip all newline characters: formatted code at the end of
++            # a section must be followed by a blank line.
++            for line in re.sub('\n$', '', helper.desc, count=1).split('\n'):
++                print('{}{}'.format('\t\t' if line else '', line))
++
++        if (helper.ret):
++            print('\tReturn')
++            for line in helper.ret.rstrip().split('\n'):
++                print('{}{}'.format('\t\t' if line else '', line))
++
++        print('')
++
++###############################################################################
++
++# If script is launched from scripts/ from kernel tree and can access
++# ../include/uapi/linux/bpf.h, use it as a default name for the file to parse,
++# otherwise the --filename argument will be required from the command line.
++script = os.path.abspath(sys.argv[0])
++linuxRoot = os.path.dirname(os.path.dirname(script))
++bpfh = os.path.join(linuxRoot, 'include/uapi/linux/bpf.h')
++
++argParser = argparse.ArgumentParser(description="""
++Parse eBPF header file and generate documentation for eBPF helper functions.
++The RST-formatted output produced can be turned into a manual page with the
++rst2man utility.
++""")
++if (os.path.isfile(bpfh)):
++    argParser.add_argument('--filename', help='path to include/uapi/linux/bpf.h',
++                           default=bpfh)
++else:
++    argParser.add_argument('--filename', help='path to include/uapi/linux/bpf.h')
++args = argParser.parse_args()
++
++# Parse file.
++headerParser = HeaderParser(args.filename)
++headerParser.run()
++
++# Print formatted output to standard output.
++printer = PrinterRST(headerParser.helpers)
++printer.print_all()
 -- 
 2.14.1
 
