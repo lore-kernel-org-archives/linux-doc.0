@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1CFD7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 17:15:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0DEB97DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 17:15:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751991AbeDJRO5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 13:14:57 -0400
-Received: from smtprelay.synopsys.com ([198.182.60.111]:60187 "EHLO
+        id S1752258AbeDJRPf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 13:15:35 -0400
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:60210 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751546AbeDJROz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 13:14:55 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 60E4110C09B5;
-        Tue, 10 Apr 2018 10:14:54 -0700 (PDT)
+        with ESMTP id S1751504AbeDJRO4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 13:14:56 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 8D9D110C0C22;
+        Tue, 10 Apr 2018 10:14:55 -0700 (PDT)
 Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 176565A5A;
-        Tue, 10 Apr 2018 10:14:53 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id 0A4413F45;
+        Tue, 10 Apr 2018 10:14:55 -0700 (PDT)
 Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 5B75D3D7C9;
+        by pt02.synopsys.com (Postfix) with ESMTP id 9DE173D7DD;
         Tue, 10 Apr 2018 18:14:53 +0100 (WEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
@@ -30,9 +30,9 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
         jesper.nilsson@axis.com
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, gustavo.pimentel@synopsys.com
-Subject: [RFC 04/10] PCI: dwc: MSI callbacks handler rework
-Date:   Tue, 10 Apr 2018 18:14:43 +0100
-Message-Id: <dbfe4f7dfd60f2760f728e43e5f38a68cea91032.1523379766.git.gustavo.pimentel@synopsys.com>
+Subject: [RFC 10/10] tools: PCI: Add MSI-X support
+Date:   Tue, 10 Apr 2018 18:14:49 +0100
+Message-Id: <9865822fb89ea84cb55fe93e151295afcd5c96b3.1523379766.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
 References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
@@ -43,141 +43,138 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds in pci_epc_set_msi function a maximum number of 32 interrupts
-validation.
-
-Removes duplicate defines located on pcie-designware.h file. Uses now
-the defines available on /include/uapi/linux/pci-regs.h file.
+Adds MSI-X support to the pcitest tool and modified the pcitest.sh script
+to accomodate this new type of interruption test.
 
 Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 ---
- drivers/pci/dwc/pcie-designware-ep.c | 46 +++++++++++++++++++++++-------------
- drivers/pci/dwc/pcie-designware.h    | 11 ---------
- drivers/pci/endpoint/pci-epc-core.c  |  3 ++-
- 3 files changed, 32 insertions(+), 28 deletions(-)
+ include/uapi/linux/pcitest.h |  1 +
+ tools/pci/pcitest.c          | 18 +++++++++++++++++-
+ tools/pci/pcitest.sh         | 25 +++++++++++++++++++++++++
+ 3 files changed, 43 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
-index 874d4c2..e352786 100644
---- a/drivers/pci/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/dwc/pcie-designware-ep.c
-@@ -251,29 +251,38 @@ static int dw_pcie_ep_map_addr(struct pci_epc *epc, u8 func_no,
+diff --git a/include/uapi/linux/pcitest.h b/include/uapi/linux/pcitest.h
+index 953cf03..d746fb1 100644
+--- a/include/uapi/linux/pcitest.h
++++ b/include/uapi/linux/pcitest.h
+@@ -16,5 +16,6 @@
+ #define PCITEST_WRITE		_IOW('P', 0x4, unsigned long)
+ #define PCITEST_READ		_IOW('P', 0x5, unsigned long)
+ #define PCITEST_COPY		_IOW('P', 0x6, unsigned long)
++#define PCITEST_MSIX		_IOW('P', 0x7, int)
  
- static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no)
- {
--	int val;
- 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	u32 val, reg;
-+
-+	if (ep->cap_addr.msi_addr == 0)
-+		return 0;
- 
--	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
--	if (!(val & MSI_CAP_MSI_EN_MASK))
-+	reg = ep->cap_addr.msi_addr + PCI_MSI_FLAGS;
-+	val = dw_pcie_readw_dbi(pci, reg);
-+	if (!(val & PCI_MSI_FLAGS_ENABLE))
- 		return -EINVAL;
- 
--	val = (val & MSI_CAP_MME_MASK) >> MSI_CAP_MME_SHIFT;
-+	val = (val & PCI_MSI_FLAGS_QSIZE) >> 4;
-+
- 	return val;
- }
- 
--static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
-+static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
- {
--	int val;
- 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	u32 val, reg;
-+
-+	if (ep->cap_addr.msi_addr == 0)
-+		return 0;
- 
--	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
--	val &= ~MSI_CAP_MMC_MASK;
--	val |= (encode_int << MSI_CAP_MMC_SHIFT) & MSI_CAP_MMC_MASK;
-+	reg = ep->cap_addr.msi_addr + PCI_MSI_FLAGS;
-+	val = dw_pcie_readw_dbi(pci, reg);
-+	val &= ~PCI_MSI_FLAGS_QMASK;
-+	val |= (interrupts << 1) & PCI_MSI_FLAGS_QMASK;
- 	dw_pcie_dbi_ro_wr_en(pci);
--	dw_pcie_writew_dbi(pci, MSI_MESSAGE_CONTROL, val);
-+	dw_pcie_writew_dbi(pci, reg, val);
- 	dw_pcie_dbi_ro_wr_dis(pci);
- 
- 	return 0;
-@@ -372,21 +381,26 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
- 	struct pci_epc *epc = ep->epc;
- 	u16 msg_ctrl, msg_data;
--	u32 msg_addr_lower, msg_addr_upper;
-+	u32 msg_addr_lower, msg_addr_upper, reg;
- 	u64 msg_addr;
- 	bool has_upper;
- 	int ret;
- 
- 	/* Raise MSI per the PCI Local Bus Specification Revision 3.0, 6.8.1. */
--	msg_ctrl = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
-+	reg = ep->cap_addr.msi_addr + PCI_MSI_FLAGS;
-+	msg_ctrl = dw_pcie_readw_dbi(pci, reg);
- 	has_upper = !!(msg_ctrl & PCI_MSI_FLAGS_64BIT);
--	msg_addr_lower = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_L32);
-+	reg = ep->cap_addr.msi_addr + PCI_MSI_ADDRESS_LO;
-+	msg_addr_lower = dw_pcie_readl_dbi(pci, reg);
- 	if (has_upper) {
--		msg_addr_upper = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_U32);
--		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_64);
-+		reg = ep->cap_addr.msi_addr + PCI_MSI_ADDRESS_HI;
-+		msg_addr_upper = dw_pcie_readl_dbi(pci, reg);
-+		reg = ep->cap_addr.msi_addr + PCI_MSI_DATA_64;
-+		msg_data = dw_pcie_readw_dbi(pci, reg);
- 	} else {
- 		msg_addr_upper = 0;
--		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_32);
-+		reg = ep->cap_addr.msi_addr + PCI_MSI_DATA_32;
-+		msg_data = dw_pcie_readw_dbi(pci, reg);
+ #endif /* __UAPI_LINUX_PCITEST_H */
+diff --git a/tools/pci/pcitest.c b/tools/pci/pcitest.c
+index 9074b47..9d145a3 100644
+--- a/tools/pci/pcitest.c
++++ b/tools/pci/pcitest.c
+@@ -37,6 +37,7 @@ struct pci_test {
+ 	char		barnum;
+ 	bool		legacyirq;
+ 	unsigned int	msinum;
++	unsigned int	msixnum;
+ 	bool		read;
+ 	bool		write;
+ 	bool		copy;
+@@ -83,6 +84,15 @@ static int run_test(struct pci_test *test)
+ 			fprintf(stdout, "%s\n", result[ret]);
  	}
- 	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
- 	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msi_mem_phys, msg_addr,
-diff --git a/drivers/pci/dwc/pcie-designware.h b/drivers/pci/dwc/pcie-designware.h
-index 456fd94..2acf18b0 100644
---- a/drivers/pci/dwc/pcie-designware.h
-+++ b/drivers/pci/dwc/pcie-designware.h
-@@ -96,17 +96,6 @@
- #define PCIE_GET_ATU_INB_UNR_REG_OFFSET(region)				\
- 			((0x3 << 20) | ((region) << 9) | (0x1 << 8))
  
--#define MSI_MESSAGE_CONTROL		0x52
--#define MSI_CAP_MMC_SHIFT		1
--#define MSI_CAP_MMC_MASK		(7 << MSI_CAP_MMC_SHIFT)
--#define MSI_CAP_MME_SHIFT		4
--#define MSI_CAP_MSI_EN_MASK		0x1
--#define MSI_CAP_MME_MASK		(7 << MSI_CAP_MME_SHIFT)
--#define MSI_MESSAGE_ADDR_L32		0x54
--#define MSI_MESSAGE_ADDR_U32		0x58
--#define MSI_MESSAGE_DATA_32		0x58
--#define MSI_MESSAGE_DATA_64		0x5C
--
- #define MAX_MSI_IRQS			256
- #define MAX_MSI_IRQS_PER_CTRL		32
- #define MAX_MSI_CTRLS			(MAX_MSI_IRQS / MAX_MSI_IRQS_PER_CTRL)
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index 294a383..dbd17e4 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -201,7 +201,8 @@ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
- 	u8 encode_int;
- 	unsigned long flags;
++	if (test->msixnum > 0 && test->msixnum <= 2048) {
++		ret = ioctl(fd, PCITEST_MSIX, test->msixnum);
++		fprintf(stdout, "MSI-X%d:\t\t", test->msixnum);
++		if (ret < 0)
++			fprintf(stdout, "TEST FAILED\n");
++		else
++			fprintf(stdout, "%s\n", result[ret]);
++	}
++
+ 	if (test->write) {
+ 		ret = ioctl(fd, PCITEST_WRITE, test->size);
+ 		fprintf(stdout, "WRITE (%7ld bytes):\t\t", test->size);
+@@ -133,7 +143,7 @@ int main(int argc, char **argv)
+ 	/* set default endpoint device */
+ 	test->device = "/dev/pci-endpoint-test.0";
  
--	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
-+	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions ||
-+	    interrupts > 32)
- 		return -EINVAL;
+-	while ((c = getopt(argc, argv, "D:b:m:lrwcs:")) != EOF)
++	while ((c = getopt(argc, argv, "D:b:m:x:lrwcs:")) != EOF)
+ 	switch (c) {
+ 	case 'D':
+ 		test->device = optarg;
+@@ -151,6 +161,11 @@ int main(int argc, char **argv)
+ 		if (test->msinum < 1 || test->msinum > 32)
+ 			goto usage;
+ 		continue;
++	case 'x':
++		test->msixnum = atoi(optarg);
++		if (test->msixnum < 1 || test->msixnum > 2048)
++			goto usage;
++		continue;
+ 	case 'r':
+ 		test->read = true;
+ 		continue;
+@@ -173,6 +188,7 @@ int main(int argc, char **argv)
+ 			"\t-D <dev>		PCI endpoint test device {default: /dev/pci-endpoint-test.0}\n"
+ 			"\t-b <bar num>		BAR test (bar number between 0..5)\n"
+ 			"\t-m <msi num>		MSI test (msi number between 1..32)\n"
++			"\t-x <msix num>	MSI-X test (msix number between 1..2048)\n"
+ 			"\t-l			Legacy IRQ test\n"
+ 			"\t-r			Read buffer test\n"
+ 			"\t-w			Write buffer test\n"
+diff --git a/tools/pci/pcitest.sh b/tools/pci/pcitest.sh
+index 77e8c85..86709a2 100644
+--- a/tools/pci/pcitest.sh
++++ b/tools/pci/pcitest.sh
+@@ -4,6 +4,8 @@
+ echo "BAR tests"
+ echo
  
- 	if (!epc->ops->set_msi)
++modprobe pci_endpoint_test
++sleep 2
+ bar=0
+ 
+ while [ $bar -lt 6 ]
+@@ -16,7 +18,14 @@ echo
+ echo "Interrupt tests"
+ echo
+ 
++rmmod pci_endpoint_test
++sleep 2
++modprobe pci_endpoint_test irq_type=0
+ pcitest -l
++
++rmmod pci_endpoint_test
++sleep 2
++modprobe pci_endpoint_test irq_type=1
+ msi=1
+ 
+ while [ $msi -lt 33 ]
+@@ -26,9 +35,25 @@ do
+ done
+ echo
+ 
++rmmod pci_endpoint_test
++sleep 2
++modprobe pci_endpoint_test irq_type=2
++msix=1
++
++while [ $msix -lt 2049 ]
++do
++        pcitest -x $msix
++        msix=`expr $msix + 1`
++done
++echo
++
+ echo "Read Tests"
+ echo
+ 
++rmmod pci_endpoint_test
++sleep 2
++modprobe pci_endpoint_test irq_type=1
++
+ pcitest -r -s 1
+ pcitest -r -s 1024
+ pcitest -r -s 1025
 -- 
 2.7.4
 
