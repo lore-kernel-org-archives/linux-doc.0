@@ -2,27 +2,27 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CDF37E22E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 18:34:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4A117E22E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 18:34:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752646AbeDJSeY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 14:34:24 -0400
-Received: from mga06.intel.com ([134.134.136.31]:23474 "EHLO mga06.intel.com"
+        id S1752366AbeDJSc7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 14:32:59 -0400
+Received: from mga06.intel.com ([134.134.136.31]:23464 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751884AbeDJSdD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Apr 2018 14:33:03 -0400
+        id S1751836AbeDJScz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Apr 2018 14:32:55 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2018 11:33:03 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2018 11:32:54 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.48,433,1517904000"; 
-   d="scan'208";a="219323785"
+   d="scan'208";a="219323751"
 Received: from maru.jf.intel.com ([10.54.51.80])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Apr 2018 11:33:02 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 10 Apr 2018 11:32:53 -0700
 From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 To:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
         Andrew Lunn <andrew@lunn.ch>,
@@ -49,9 +49,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org,
         Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: [PATCH v3 08/10] Documentation: hwmon: Add documents for PECI hwmon client drivers
-Date:   Tue, 10 Apr 2018 11:32:10 -0700
-Message-Id: <20180410183212.16787-9-jae.hyun.yoo@linux.intel.com>
+Subject: [PATCH v3 04/10] Documentations: dt-bindings: Add a document of PECI adapter driver for Aspeed AST24xx/25xx SoCs
+Date:   Tue, 10 Apr 2018 11:32:06 -0700
+Message-Id: <20180410183212.16787-5-jae.hyun.yoo@linux.intel.com>
 X-Mailer: git-send-email 2.16.2
 In-Reply-To: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
 References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
@@ -60,7 +60,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds hwmon documents for PECI cputemp and dimmtemp drivers.
+This commit adds a dt-bindings document of PECI adapter driver for Aspeed
+AST24xx/25xx SoCs.
 
 Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
@@ -86,162 +87,76 @@ Cc: Randy Dunlap <rdunlap@infradead.org>
 Cc: Stef van Os <stef.van.os@prodrive-technologies.com>
 Cc: Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>
 ---
- Documentation/hwmon/peci-cputemp  | 88 +++++++++++++++++++++++++++++++++++++++
- Documentation/hwmon/peci-dimmtemp | 50 ++++++++++++++++++++++
- 2 files changed, 138 insertions(+)
- create mode 100644 Documentation/hwmon/peci-cputemp
- create mode 100644 Documentation/hwmon/peci-dimmtemp
+ .../devicetree/bindings/peci/peci-aspeed.txt       | 60 ++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.txt
 
-diff --git a/Documentation/hwmon/peci-cputemp b/Documentation/hwmon/peci-cputemp
+diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.txt b/Documentation/devicetree/bindings/peci/peci-aspeed.txt
 new file mode 100644
-index 000000000000..cdd5ea49a4a2
+index 000000000000..4598bb8c20fa
 --- /dev/null
-+++ b/Documentation/hwmon/peci-cputemp
-@@ -0,0 +1,88 @@
-+Kernel driver peci-cputemp
-+==========================
++++ b/Documentation/devicetree/bindings/peci/peci-aspeed.txt
+@@ -0,0 +1,60 @@
++Device tree configuration for PECI buses on the AST24XX and AST25XX SoCs.
 +
-+Supported chips:
-+	One of Intel server CPUs listed below which is connected to a PECI bus.
-+		* Intel Xeon E5/E7 v3 server processors
-+			Intel Xeon E5-14xx v3 family
-+			Intel Xeon E5-24xx v3 family
-+			Intel Xeon E5-16xx v3 family
-+			Intel Xeon E5-26xx v3 family
-+			Intel Xeon E5-46xx v3 family
-+			Intel Xeon E7-48xx v3 family
-+			Intel Xeon E7-88xx v3 family
-+		* Intel Xeon E5/E7 v4 server processors
-+			Intel Xeon E5-16xx v4 family
-+			Intel Xeon E5-26xx v4 family
-+			Intel Xeon E5-46xx v4 family
-+			Intel Xeon E7-48xx v4 family
-+			Intel Xeon E7-88xx v4 family
-+		* Intel Xeon Scalable server processors
-+			Intel Xeon Bronze family
-+			Intel Xeon Silver family
-+			Intel Xeon Gold family
-+			Intel Xeon Platinum family
-+	Addresses scanned: PECI client address 0x30 - 0x37
-+	Datasheet: Available from http://www.intel.com/design/literature.htm
++Required properties:
++- compatible        : Should be "aspeed,ast2400-peci" or "aspeed,ast2500-peci"
++		      - aspeed,ast2400-peci: Aspeed AST2400 family PECI
++					     controller
++		      - aspeed,ast2500-peci: Aspeed AST2500 family PECI
++					     controller
++- reg               : Should contain PECI controller registers location and
++		      length.
++- #address-cells    : Should be <1>.
++- #size-cells       : Should be <0>.
++- interrupts        : Should contain PECI controller interrupt.
++- clocks            : Should contain clock source for PECI controller.
++		      Should reference clkin.
++- clock_frequency   : Should contain the operation frequency of PECI controller
++		      in units of Hz.
++		      187500 ~ 24000000
 +
-+Author:
-+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
++Optional properties:
++- msg-timing-nego   : Message timing negotiation period. This value will
++		      determine the period of message timing negotiation to be
++		      issued by PECI controller. The unit of the programmed
++		      value is four times of PECI clock period.
++		      0 ~ 255 (default: 1)
++- addr-timing-nego  : Address timing negotiation period. This value will
++		      determine the period of address timing negotiation to be
++		      issued by PECI controller. The unit of the programmed
++		      value is four times of PECI clock period.
++		      0 ~ 255 (default: 1)
++- rd-sampling-point : Read sampling point selection. The whole period of a bit
++		      time will be divided into 16 time frames. This value will
++		      determine the time frame in which the controller will
++		      sample PECI signal for data read back. Usually in the
++		      middle of a bit time is the best.
++		      0 ~ 15 (default: 8)
++- cmd_timeout_ms    : Command timeout in units of ms.
++		      1 ~ 60000 (default: 1000)
 +
-+Description
-+-----------
++Example:
++	peci: peci@1e78b000 {
++		compatible = "simple-bus";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges = <0x0 0x1e78b000 0x60>;
 +
-+This driver implements a generic PECI hwmon feature which provides Digital
-+Thermal Sensor (DTS) thermal readings of the CPU package and CPU cores that are
-+accessible using the PECI Client Command Suite via the processor PECI client.
-+
-+All temperature values are given in millidegree Celsius and will be measurable
-+only when the target CPU is powered on.
-+
-+sysfs attributes
-+----------------
-+
-+temp1_label		"Die"
-+temp1_input		Provides current die temperature of the CPU package.
-+temp1_max		Provides thermal control temperature of the CPU package
-+			which is also known as Tcontrol.
-+temp1_crit		Provides shutdown temperature of the CPU package which
-+			is also known as the maximum processor junction
-+			temperature, Tjmax or Tprochot.
-+temp1_crit_hyst		Provides the hysteresis value from Tcontrol to Tjmax of
-+			the CPU package.
-+
-+temp2_label		"DTS margin"
-+temp2_input		Provides current DTS thermal margin to Tcontrol of the
-+			CPU package. Value 0 means it reaches to Tcontrol
-+			temperature. Sub-zero value means the die temperature
-+			goes across Tconrtol to Tjmax.
-+temp2_min		Provides the minimum DTS thermal margin to Tcontrol of
-+			the CPU package.
-+temp2_lcrit		Provides the value when the CPU package temperature
-+			reaches to Tjmax.
-+
-+temp3_label		"Tcontrol"
-+temp3_input		Provides current Tcontrol temperature of the CPU
-+			package which is also known as Fan Temperature target.
-+			Indicates the relative value from thermal monitor trip
-+			temperature at which fans should be engaged.
-+temp3_crit		Provides Tcontrol critical value of the CPU package
-+			which is same to Tjmax.
-+
-+temp4_label		"Tthrottle"
-+temp4_input		Provides current Tthrottle temperature of the CPU
-+			package. Used for throttling temperature. If this value
-+			is allowed and lower than Tjmax - the throttle will
-+			occur and reported at lower than Tjmax.
-+
-+temp5_label		"Tjmax"
-+temp5_input		Provides the maximum junction temperature, Tjmax of the
-+			CPU package.
-+
-+temp[6-*]_label		Provides string "Core X", where X is resolved core
-+			number.
-+temp[6-*]_input		Provides current temperature of each core.
-+temp[6-*]_max		Provides thermal control temperature of the core.
-+temp[6-*]_crit		Provides shutdown temperature of the core.
-+temp[6-*]_crit_hyst	Provides the hysteresis value from Tcontrol to Tjmax of
-+			the core.
-diff --git a/Documentation/hwmon/peci-dimmtemp b/Documentation/hwmon/peci-dimmtemp
-new file mode 100644
-index 000000000000..c54f2526188c
---- /dev/null
-+++ b/Documentation/hwmon/peci-dimmtemp
-@@ -0,0 +1,50 @@
-+Kernel driver peci-dimmtemp
-+===========================
-+
-+Supported chips:
-+	One of Intel server CPUs listed below which is connected to a PECI bus.
-+		* Intel Xeon E5/E7 v3 server processors
-+			Intel Xeon E5-14xx v3 family
-+			Intel Xeon E5-24xx v3 family
-+			Intel Xeon E5-16xx v3 family
-+			Intel Xeon E5-26xx v3 family
-+			Intel Xeon E5-46xx v3 family
-+			Intel Xeon E7-48xx v3 family
-+			Intel Xeon E7-88xx v3 family
-+		* Intel Xeon E5/E7 v4 server processors
-+			Intel Xeon E5-16xx v4 family
-+			Intel Xeon E5-26xx v4 family
-+			Intel Xeon E5-46xx v4 family
-+			Intel Xeon E7-48xx v4 family
-+			Intel Xeon E7-88xx v4 family
-+		* Intel Xeon Scalable server processors
-+			Intel Xeon Bronze family
-+			Intel Xeon Silver family
-+			Intel Xeon Gold family
-+			Intel Xeon Platinum family
-+	Addresses scanned: PECI client address 0x30 - 0x37
-+	Datasheet: Available from http://www.intel.com/design/literature.htm
-+
-+Author:
-+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-+
-+Description
-+-----------
-+
-+This driver implements a generic PECI hwmon feature which provides Digital
-+Thermal Sensor (DTS) thermal readings of DIMM components that are accessible
-+using the PECI Client Command Suite via the processor PECI client.
-+
-+All temperature values are given in millidegree Celsius and will be measurable
-+only when the target CPU is powered on.
-+
-+sysfs attributes
-+----------------
-+
-+temp[N]_label		Provides string "DIMM CI", where C is DIMM channel and
-+			I is DIMM index of the populated DIMM.
-+temp[N]_input		Provides current temperature of the populated DIMM.
-+
-+Note:
-+	DIMM temperature attributes will appear when the client CPU's BIOS
-+	completes memory training and testing.
++		peci0: peci-bus@0 {
++			compatible = "aspeed,ast2500-peci";
++			reg = <0x0 0x60>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			interrupts = <15>;
++			clocks = <&clk_clkin>;
++			clock-frequency = <24000000>;
++			msg-timing-nego = <1>;
++			addr-timing-nego = <1>;
++			rd-sampling-point = <8>;
++			cmd-timeout-ms = <1000>;
++		};
++	};
 -- 
 2.16.2
 
