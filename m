@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F90D7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 17:14:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1FCCB7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 17:15:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751896AbeDJRO4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 13:14:56 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:35902 "EHLO
+        id S1752084AbeDJRO5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 13:14:57 -0400
+Received: from smtprelay.synopsys.com ([198.182.47.9]:35901 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751505AbeDJROy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 13:14:54 -0400
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 50EAB24E0B5C;
+        with ESMTP id S1751676AbeDJROz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 13:14:55 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 5527F24E0BDF;
         Tue, 10 Apr 2018 10:14:54 -0700 (PDT)
-Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id C3A243D3C;
+Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 175923F30;
         Tue, 10 Apr 2018 10:14:53 -0700 (PDT)
 Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 213713D7BC;
+        by pt02.synopsys.com (Postfix) with ESMTP id 424B93D7C2;
         Tue, 10 Apr 2018 18:14:53 +0100 (WEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
@@ -30,64 +30,41 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
         jesper.nilsson@axis.com
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, gustavo.pimentel@synopsys.com
-Subject: [RFC 00/10] Adds pcitest tool support for MSI-X
-Date:   Tue, 10 Apr 2018 18:14:39 +0100
-Message-Id: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+Subject: [RFC 02/10] PCI: cadence: Update cdns_pcie_ep_raise_irq function signature
+Date:   Tue, 10 Apr 2018 18:14:41 +0100
+Message-Id: <52314006c63f8d21907dfaa03207b39e36bb8171.1523379766.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch set depends the following series:
-https://lkml.org/lkml/2018/4/10/421
+Changes the cdns_pcie_ep_raise_irq function signature, namely the
+interrupt_num variable type from u8 to u16 to accommodate the MSI-X maximum
+interrupts of 2048.
 
-This series aims to add pcitest tool support for MSI-X. 
+Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+---
+ drivers/pci/cadence/pcie-cadence-ep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Includes new callbacks methods and handlers to trigger the MSI-X
-interruptions on the EP Designware IP driver.
-
-Provides new methods on pci_epf_test driver that allows to set/get
-EP maximum number of MSI-X entries (similar to set/get MSI methods).
-
-Reworks on MSI set/get and triggering methods on EP Designware IP driver
-to be more generic and flexible.
-
-Adds a new input parameter (msix) and replicates the whole MSI mechanism
-applied to the MSI-X feature on pcitest tool. Also updates the pcitest
-script with the new test set applied to this new feature.
-
-Gustavo Pimentel (10):
-  PCI: dwc: Add MSI-X callbacks handler
-  PCI: cadence: Update cdns_pcie_ep_raise_irq function signature
-  PCI: endpoint: Add MSI-X interfaces
-  PCI: dwc: MSI callbacks handler rework
-  PCI: dwc: Add legacy interrupt callback handler
-  misc: pci_endpoint_test: Add MSI-X support
-  misc: pci_endpoint_test: Replace lower into upper case characters
-  PCI: endpoint: functions/pci-epf-test: Add MSI-X support
-  PCI: endpoint: functions/pci-epf-test: Replace lower into upper case
-    characters
-  tools: PCI: Add MSI-X support
-
- Documentation/misc-devices/pci-endpoint-test.txt |   3 +
- drivers/misc/pci_endpoint_test.c                 | 120 ++++++++++----
- drivers/pci/cadence/pcie-cadence-ep.c            |   2 +-
- drivers/pci/dwc/pci-dra7xx.c                     |   2 +-
- drivers/pci/dwc/pcie-artpec6.c                   |   2 +-
- drivers/pci/dwc/pcie-designware-ep.c             | 201 +++++++++++++++++++++--
- drivers/pci/dwc/pcie-designware-plat.c           |   9 +-
- drivers/pci/dwc/pcie-designware.h                |  40 +++--
- drivers/pci/endpoint/functions/pci-epf-test.c    | 113 +++++++++----
- drivers/pci/endpoint/pci-ep-cfs.c                |  24 +++
- drivers/pci/endpoint/pci-epc-core.c              |  60 ++++++-
- include/linux/pci-epc.h                          |  11 +-
- include/linux/pci-epf.h                          |   1 +
- include/uapi/linux/pcitest.h                     |   1 +
- tools/pci/pcitest.c                              |  18 +-
- tools/pci/pcitest.sh                             |  25 +++
- 16 files changed, 528 insertions(+), 104 deletions(-)
-
+diff --git a/drivers/pci/cadence/pcie-cadence-ep.c b/drivers/pci/cadence/pcie-cadence-ep.c
+index 3d8283e..6d6322c 100644
+--- a/drivers/pci/cadence/pcie-cadence-ep.c
++++ b/drivers/pci/cadence/pcie-cadence-ep.c
+@@ -363,7 +363,7 @@ static int cdns_pcie_ep_send_msi_irq(struct cdns_pcie_ep *ep, u8 fn,
+ }
+ 
+ static int cdns_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn,
+-				  enum pci_epc_irq_type type, u8 interrupt_num)
++				  enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct cdns_pcie_ep *ep = epc_get_drvdata(epc);
+ 
 -- 
 2.7.4
 
