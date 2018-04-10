@@ -1,151 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,T_RP_MATCHES_RCVD autolearn=ham autolearn_force=no
-	version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 198D27E22E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Apr 2018 21:03:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3F1B7E8A1
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 01:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753691AbeDIVDl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Apr 2018 17:03:41 -0400
-Received: from mail-pl0-f67.google.com ([209.85.160.67]:44051 "EHLO
-        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752883AbeDIVDj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 17:03:39 -0400
-Received: by mail-pl0-f67.google.com with SMTP id b6-v6so5936634pla.11
-        for <linux-doc@vger.kernel.org>; Mon, 09 Apr 2018 14:03:39 -0700 (PDT)
+        id S1752121AbeDJBr4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Apr 2018 21:47:56 -0400
+Received: from mail-pf0-f196.google.com ([209.85.192.196]:39790 "EHLO
+        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751568AbeDJBr4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Apr 2018 21:47:56 -0400
+Received: by mail-pf0-f196.google.com with SMTP id c78so6906964pfj.6;
+        Mon, 09 Apr 2018 18:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=94+r19UbYTv4XJAtubCVFGrbWGtg6tK/HTxAdkK1Zls=;
-        b=QqOhLfx9SkrlkYx4Y7rYVgA+Qsrg9d3jROUUEztRcangtIltYocDE6hjB35gsJlZGV
-         deFmbBTbkTmwlP3XKEwYw/UUI8MwC37o78C7a3vxn5d3XBzDqYNcClOEnaTdOnpdLEpK
-         ivWV/rxIh8pOHDIrANMuzZaD28CSF2JUXFeQWW6k9FcYZmi/Ayr3J2lo+ih5m9nWSh1T
-         4xwahAPO1cJj3bk1SJxEBd6octugbyQXPrjxSD5+8z7GSCXeol4mjQzISDiPkDkeHQvI
-         +iLsH8xbD9rsbPCAtB4N13hTBH75Wg1Oqzp+OizaI4mrR6dzb4pGYuaHKSbUvPFQxXpd
-         QkiQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vY22XYuwr1X/OeYIYJcehGWc7hx/nfC0XmGC2eKdnpI=;
+        b=OEgolDQd1QNzG0EZejA7F52XsAwtIw2hzhXYZlS+sPuvX0aXRPMyoorFjMm6iijrMM
+         sqNjZOvWuVvxAnbN14O617tvyhWdl/F0DXD0TqfAKVLw1lJVkCE+RuTFnOrLup1oFWPK
+         1IzYgmBypt8ySx0lab35CXI3DIi3W8J+wR2UGzepLmFfsTIri6iW1468kxkDn5GHs4RA
+         YLAfuKh0m3Dvz3FIBO5OmwpxnNqLRVk2RzaS+1jT1+upyBFVg0Q27qNAhAGu+QUHmVRK
+         BtxpFguPH6zPqHcTZ2MlWaRO4KIqMcRCTW2KSmkISjrsVlT6i9VaK2bSbgIgScmyCOkn
+         MdOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=94+r19UbYTv4XJAtubCVFGrbWGtg6tK/HTxAdkK1Zls=;
-        b=mB1qntQ1Mmkr2O98WOVvl6c8iszpjPC5yCuz9WahPeGZNNJjgashTFYo7tXECsFRrv
-         QXNbwBDxGMbKmS/csSD3iD42ZY515ZtxG11sJ3/q3rPxq/heOdWiZZi2L2pA4WP93h6F
-         7E3wrLeTpcJjPsoezbhqphmOZFeiwomO4aHwP1a35/NIhveLrb6r+4NVgFdVErjun8zt
-         0xd3+qqNeRwIJzK4CgEu/tWTFfW1085o2bnPA2w7RYGJyQCoxHYqFP4yuR1mJEdy7oBT
-         /DLwq6KqMQWNFurQmGtS8TD9Lkew1D+ZEEhOVdJXrZsX3Wr3H3kld27sbPQFlf1CEZ0b
-         J6ww==
-X-Gm-Message-State: AElRT7FBGbOshcrszOjBVH/MAaIlTIH6+uxRbBmd1ziliBm2IzaswNUM
-        wu1CAjfK2omdcWcTK4pmgmGYUw==
-X-Google-Smtp-Source: AIpwx4+35KdBHzj6zPiqEEPbNdPR0gwY6h+lT0+astGJ5cWibAxZ8l1vZdftsByXwY3ZU/RqGL59rA==
-X-Received: by 2002:a17:902:227:: with SMTP id 36-v6mr39132887plc.134.1523307819115;
-        Mon, 09 Apr 2018 14:03:39 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
-        by smtp.gmail.com with ESMTPSA id c64sm1979939pfe.152.2018.04.09.14.03.37
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vY22XYuwr1X/OeYIYJcehGWc7hx/nfC0XmGC2eKdnpI=;
+        b=AX7F4GF9tphDbOlcVCNWIfqepGQrSOVpItm8wj6er0/tFLJWfxlP+qyZfmJdGOhw77
+         KTagqOESYZ4z0s03QMapzvUOlzKX3rfmPPYcLQhXXvmnTsJ2AcDcSI5ZvC6L7BWcE2WV
+         F9xAVV+l/Gev4EkLuk33e5VirgKSVkDv19r2fPg9U/md2VdXS0pfOHk3f5i8iTozRuF8
+         AE4R6v9qtN3SEs0U1dwMtGnoBE0DDFKgKPE/sPmmrTrCuO9oWKe64IdfbpBaBcHgd8RB
+         U/svve1zoKV6+tKZYFpdORMlHNxr5K8rM8ey4QtXfcR1A0GdYwEh36fIDKvkWxhmQL8E
+         dGNQ==
+X-Gm-Message-State: AElRT7EsNOL9OpVXsh+pd6FqnqYpVtTfMWSIUlMu5XmvH0ywGqd2teDB
+        pObh7ndzRO31hSZI0vAP7ag=
+X-Google-Smtp-Source: AIpwx4/wa0dF1GgTxGGy1Si5trevJGPYQ3NyeEKyQqg+XudYbPIn8pRY0ke2Ry37VdKxYpBeZsx3eA==
+X-Received: by 10.101.102.69 with SMTP id z5mr26611068pgv.438.1523324875193;
+        Mon, 09 Apr 2018 18:47:55 -0700 (PDT)
+Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::7:bddf])
+        by smtp.gmail.com with ESMTPSA id y7sm2605805pfi.185.2018.04.09.18.47.53
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 Apr 2018 14:03:38 -0700 (PDT)
-Date:   Mon, 09 Apr 2018 14:03:38 -0700 (PDT)
-X-Google-Original-Date: Mon, 09 Apr 2018 14:03:34 PDT (-0700)
-Subject:     Re: [PATCH 1/2] perf: riscv: preliminary RISC-V support
-In-Reply-To: <20180409070710.GA3844@andestech.com>
-CC:     albert@sifive.com, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org, sols@sifive.com,
-        corbet@lwn.net, linux-riscv@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nickhu@andestech.com, greentime@andestech.com
-From:   Palmer Dabbelt <palmer@sifive.com>
-To:     alankao@andestech.com
-Message-ID: <mhng-51708a67-b38d-42a6-848f-9a13375a66cf@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Mon, 09 Apr 2018 18:47:54 -0700 (PDT)
+Date:   Mon, 9 Apr 2018 18:47:53 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Quentin Monnet <quentin.monnet@netronome.com>
+Cc:     Daniel Borkmann <daniel@iogearbox.net>, ast@kernel.org,
+        netdev@vger.kernel.org, oss-drivers@netronome.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+Subject: Re: [RFC bpf-next] bpf: document eBPF helpers and add a script to
+ generate man page
+Message-ID: <20180410014751.mqwqdyujvybir6g5@ast-mbp.dhcp.thefacebook.com>
+References: <20180406111122.11038-1-quentin.monnet@netronome.com>
+ <05d2d03a-0b39-9d0c-9ba0-3461afc45fac@iogearbox.net>
+ <16d4d67a-ab36-3e58-1082-52f0898546e5@netronome.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <16d4d67a-ab36-3e58-1082-52f0898546e5@netronome.com>
+User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 09 Apr 2018 00:07:11 PDT (-0700), alankao@andestech.com wrote:
-> On Thu, Apr 05, 2018 at 09:47:50AM -0700, Palmer Dabbelt wrote:
->> On Mon, 26 Mar 2018 00:57:54 PDT (-0700), alankao@andestech.com wrote:
->> >This patch provide a basic PMU, riscv_base_pmu, which supports two
->> >general hardware event, instructions and cycles.  Furthermore, this
->> >PMU serves as a reference implementation to ease the portings in
->> >the future.
->> >
->> >riscv_base_pmu should be able to run on any RISC-V machine that
->> >conforms to the Priv-Spec.  Note that the latest qemu model hasn't
->> >fully support a proper behavior of Priv-Spec 1.10 yet, but work
->> >around should be easy with very small fixes.  Please check
->> >https://github.com/riscv/riscv-qemu/pull/115 for future updates.
->> >
->> >Cc: Nick Hu <nickhu@andestech.com>
->> >Cc: Greentime Hu <greentime@andestech.com>
->> >Signed-off-by: Alan Kao <alankao@andestech.com>
->>
->> We should really be able to detect PMU types at runtime (via a device tree
->> entry) rather than requiring that a single PMU is built in to the kernel.
->> This will require a handful of modifications to how this patch works, which
->> I'll try to list below.
->
->> >+menu "PMU type"
->> >+	depends on PERF_EVENTS
->> >+
->> >+config RISCV_BASE_PMU
->> >+	bool "Base Performance Monitoring Unit"
->> >+	def_bool y
->> >+	help
->> >+	  A base PMU that serves as a reference implementation and has limited
->> >+	  feature of perf.
->> >+
->> >+endmenu
->> >+
->>
->> Rather than a menu where a single PMU can be selected, there should be
->> options to enable or disable support for each PMU type -- this is just like
->> how all our other drivers work.
->>
->
-> I see.  Sure.  The descriptions and implementation will be refined in v3.
->
->> >+struct pmu * __weak __init riscv_init_platform_pmu(void)
->> >+{
->> >+	riscv_pmu = &riscv_base_pmu;
->> >+	return riscv_pmu->pmu;
->> >+}
->>
->> Rather than relying on a weak symbol that gets overridden by other PMU
->> types, this should look through the device tree for a compatible PMU (in the
->> case of just the base PMU it could be any RISC-V hart) and install a PMU
->> handler for it.  There'd probably be some sort of priority scheme here, like
->> there are for other driver subsystems, where we'd pick the best PMU driver
->> that's compatible with the PMUs on every hart.
->>
->> >+
->> >+int __init init_hw_perf_events(void)
->> >+{
->> >+	struct pmu *pmu = riscv_init_platform_pmu();
->> >+
->> >+	perf_irq = NULL;
->> >+	perf_pmu_register(pmu, "cpu", PERF_TYPE_RAW);
->> >+	return 0;
->> >+}
->> >+arch_initcall(init_hw_perf_events);
->>
->> Since we only have a single PMU type right now this isn't critical to handle
->> right away, but we will have to refactor this before adding another PMU.
->
-> I see.  My rough plan is to do the device tree parsing here, and if no specific
-> PMU string is found then just register the base PMU proposed in this patch.
-> How about this idea?
+On Mon, Apr 09, 2018 at 02:25:26PM +0100, Quentin Monnet wrote:
+> 
+> Anyway, I am fine with keeping just signatures, descriptions and return
+> values for now. I will submit a new version with only those items.
 
-Sounds good.  We know the generic PMU will work on all RISC-V harts, so there's 
-no need to add an explicit device tree entry for it.  Then we can figure out 
-how to add device tree entries for custom performance monitors later :)
+Thank you.
+
+Could you also split it into few patches?
+ include/uapi/linux/bpf.h   | 2237 ++++++++++++++++++++++++++++++++++++--------
+ scripts/bpf_helpers_doc.py |  568 +++++++++++
+ 2 files changed, 2429 insertions(+), 376 deletions(-)
+
+replying back and forth on a single patch of such size will be tedious
+for others to follow.
+May be document ~10 helpers at a time ? Total of ~7 patches and extra
+patch for .py ?
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
