@@ -5,55 +5,55 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2182E7E22E
+	by archive.lwn.net (Postfix) with ESMTP id 434FB7E89B
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 14:43:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754113AbeDJOnA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 10:43:00 -0400
-Received: from mail-wm0-f43.google.com ([74.125.82.43]:34863 "EHLO
-        mail-wm0-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754241AbeDJOmY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 10:42:24 -0400
-Received: by mail-wm0-f43.google.com with SMTP id r82so24054304wme.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 07:42:23 -0700 (PDT)
+        id S1754242AbeDJOnC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 10:43:02 -0400
+Received: from mail-wm0-f46.google.com ([74.125.82.46]:38180 "EHLO
+        mail-wm0-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754233AbeDJOmX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 10:42:23 -0400
+Received: by mail-wm0-f46.google.com with SMTP id i3so23828599wmf.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 07:42:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=netronome-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ASmv4p2IdMLn+mXO1E+VZl1AmB9piIOVe3cA8mNlPPU=;
-        b=xOZZHrfCdPLgUji8WMjIl0m9GmYIHAtdQsOYYSsnlK5LxZatz3c20ROvqCEjQNiEbE
-         COjIvcC3Rb+CHrjKDwYLwt+5p5qL5mwTPZXq+yADQmK7kezHuw8kT7TFHPekkHAY+Wpe
-         I6qk0LnNW9TALsL/ICaedIhrblwM6b7zRrJ46b+L+qoLSwhMgw5jaklXyXUmr/cmk0kM
-         z/n7GsPK1z+PAkx3Timz9sHxiwgUpO046pG6E1+6hbhSyFxsaX/DLypj1tTNnJv57jm8
-         CdOAi0q3nSM0aXBvX60qA443jkKm76HIEjr4rYzoq73mr6rp/ZsXdrKQ49NQDqjnX20s
-         YKEg==
+        bh=hZz/dR+F66MfzaEWkE61k3AbpNikwF6jPu5ikuiaGQo=;
+        b=DnDsBQ0eKh8JXvAPZ7Fc/uYpbIh40HDr4BBHvYxHTVKjC19fz0QNffaCdrh5cnj51t
+         NU1cELmAgV+YcGmBMCe80Wnjc5PGAwtjo6q/um2PaneCTbBsjsOtjj78as9zLVfjMiy3
+         LfFQ9+8GTzh/3qrQkW6FkSaZ+aJQmRhsoXSWJXL/VhdBV+j+3RMfKL2/qys/F/5hNeY0
+         +auqNaTpTHX1QgMq6gqfwXK6fB/e2bz1DMGuD1N4B9qJF3H3H4qoIf/8NkvzYqu4LXUA
+         0PTrhHkAum5xJHVjI1YEBmyGQ1gLotawO4iY2WqRJ8ItYCIfylroZRX3c3RtHFATA4AU
+         UeWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=ASmv4p2IdMLn+mXO1E+VZl1AmB9piIOVe3cA8mNlPPU=;
-        b=Oc62QnGPTRO2uHkomcJru/Zg3IyheQ0HkZP2Cc9T1WXEUqW9wLagIsktk+8NIiF67J
-         OOsIIzjMxqa/gyMzept5rBR4LRXnujvDavlrQzspA7a77dRQx9tudSoUb62ZK77nCPnz
-         tbkjBMGs6ocGJBty16y6mFLwdH/BJfNPnje8ziVSgX68ziaQFXUqRJCcXZAp/LWscWmG
-         ttsngTML+IQZSX7ikwUCS2lrBGnnoq+XSaAfi7fbE7yX6U9Wgqe7d8CMqqdPftYX4wcv
-         QOqwg5qyvioTRYEswqcBpjj+jfEgYmJEEnv7lSchyNUOe88wmC5tdD9dvuyGhF+VPSoo
-         B3hg==
-X-Gm-Message-State: ALQs6tB4e1vS5eG1kqj5dyj9shcq1tiCaRzqMcTTbg/VUbTbbqFAj6+u
-        nhdhXRE9YUhA3sqF8D4d190V9Q==
-X-Google-Smtp-Source: AIpwx49xg7koWQgYwxGNqj0rPUV+mO9U1krFjSpmK0NZB+vExWUIMdnHFsp0vqKWCVV33KZyH/gc5Q==
-X-Received: by 10.80.175.196 with SMTP id h62mr3832082edd.102.1523371342476;
-        Tue, 10 Apr 2018 07:42:22 -0700 (PDT)
-Received: from reblochon.netronome.com (host-79-78-33-110.static.as9105.net. [79.78.33.110])
-        by smtp.gmail.com with ESMTPSA id i17sm1948907ede.13.2018.04.10.07.42.21
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        bh=hZz/dR+F66MfzaEWkE61k3AbpNikwF6jPu5ikuiaGQo=;
+        b=erzHEuEYlq0Zk8RCJwoRzdeDfLdJwSbPgVFfVlVY6j76PL1SxLQ/sSvm7Hn/e6eymN
+         w6NarUjCMgR2ASMdGyKIfPgaNB/A0RJi+i9ZMCxkYkXgHXRXG0j9yp0s7Bkl+h0RQ18r
+         dG9jKkHEBPZFvEcQXmms2TiXTRuN5o1iYHuk03MxTvco6jRvhhGAYg7Ma45edv+n6ZT+
+         vKbS4gFwnsXcalit428Ol9c/8azZnfKpQ6BIX7JSZJum82mpLtIm3L4+xa1aCfu7BsTR
+         myLp3J2swrBKiQyfMprr5B7T3W6Cw7um6yghrTv7uN/avz2AUIX/88lLrEo0FYvaPq8B
+         uzmg==
+X-Gm-Message-State: ALQs6tADjb7b6QF9jkTh67r7e2tBO1iiPv8wViwqz/FjFJJrIZjPeX32
+        eFftXZ4FzjDqlNaGgrWavEEB3A==
+X-Google-Smtp-Source: AIpwx49euYuXxHh9bRmjVepirhIjei6PHt9ogxEqaVowzsB0VSzPF4AfUjnkgv9RJYQDIzs9gVGxYw==
+X-Received: by 10.80.232.200 with SMTP id l8mr3758193edn.273.1523371341311;
         Tue, 10 Apr 2018 07:42:21 -0700 (PDT)
+Received: from reblochon.netronome.com (host-79-78-33-110.static.as9105.net. [79.78.33.110])
+        by smtp.gmail.com with ESMTPSA id i17sm1948907ede.13.2018.04.10.07.42.20
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Apr 2018 07:42:20 -0700 (PDT)
 From:   Quentin Monnet <quentin.monnet@netronome.com>
 To:     daniel@iogearbox.net, ast@kernel.org
 Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
         quentin.monnet@netronome.com, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org
-Subject: [RFC bpf-next v2 4/8] bpf: add documentation for eBPF helpers (23-32)
-Date:   Tue, 10 Apr 2018 15:41:53 +0100
-Message-Id: <20180410144157.4831-5-quentin.monnet@netronome.com>
+Subject: [RFC bpf-next v2 3/8] bpf: add documentation for eBPF helpers (12-22)
+Date:   Tue, 10 Apr 2018 15:41:52 +0100
+Message-Id: <20180410144157.4831-4-quentin.monnet@netronome.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180410144157.4831-1-quentin.monnet@netronome.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
@@ -71,151 +71,65 @@ The objective is to make the documentation easily understandable and
 accessible to all eBPF developers, including beginners.
 
 This patch contains descriptions for the following helper functions, all
-written by Daniel:
+writter by Alexei:
 
-- bpf_get_prandom_u32()
-- bpf_get_smp_processor_id()
-- bpf_get_cgroup_classid()
-- bpf_get_route_realm()
-- bpf_skb_load_bytes()
-- bpf_csum_diff()
-- bpf_skb_get_tunnel_opt()
-- bpf_skb_set_tunnel_opt()
-- bpf_skb_change_proto()
-- bpf_skb_change_type()
+- bpf_get_current_pid_tgid()
+- bpf_get_current_uid_gid()
+- bpf_get_current_comm()
+- bpf_skb_vlan_push()
+- bpf_skb_vlan_pop()
+- bpf_skb_get_tunnel_key()
+- bpf_skb_set_tunnel_key()
+- bpf_redirect()
+- bpf_perf_event_output()
+- bpf_get_stackid()
+- bpf_get_current_task()
 
-Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Alexei Starovoitov <ast@kernel.org>
 Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 ---
- include/uapi/linux/bpf.h | 125 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+ include/uapi/linux/bpf.h | 237 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 237 insertions(+)
 
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index f3ea8824efbc..d147d9dd6a83 100644
+index 2bc653a3a20f..f3ea8824efbc 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -473,6 +473,14 @@ union bpf_attr {
-  * 		The number of bytes written to the buffer, or a negative error
-  * 		in case of failure.
-  *
-+ * u32 bpf_prandom_u32(void)
-+ * 	Return
-+ * 		A random 32-bit unsigned value.
-+ *
-+ * u32 bpf_get_smp_processor_id(void)
-+ * 	Return
-+ * 		The SMP (Symmetric multiprocessing) processor id.
-+ *
-  * int bpf_skb_store_bytes(struct sk_buff *skb, u32 offset, const void *from, u32 len, u64 flags)
-  * 	Description
-  * 		Store *len* bytes from address *from* into the packet
-@@ -604,6 +612,13 @@ union bpf_attr {
+@@ -580,6 +580,243 @@ union bpf_attr {
+  * 		performed again.
   * 	Return
   * 		0 on success, or a negative error in case of failure.
-  *
-+ * u32 bpf_get_cgroup_classid(struct sk_buff *skb)
-+ * 	Description
-+ * 		Retrieve the classid for the current task, i.e. for the
-+ * 		net_cls (network classifier) cgroup to which *skb* belongs.
++ *
++ * u64 bpf_get_current_pid_tgid(void)
 + * 	Return
-+ * 		The classid, or 0 for the default unconfigured classid.
++ * 		A 64-bit integer containing the current tgid and pid, and
++ * 		created as such:
++ * 		*current_task*\ **->tgid << 32 \|**
++ * 		*current_task*\ **->pid**.
 + *
-  * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
-  * 	Description
-  * 		Push a *vlan_tci* (VLAN tag control information) of protocol
-@@ -703,6 +718,14 @@ union bpf_attr {
-  * 		are **TC_ACT_REDIRECT** on success or **TC_ACT_SHOT** on
-  * 		error.
-  *
-+ * u32 bpf_get_route_realm(struct sk_buff *skb)
-+ * 	Description
-+ * 		Retrieve the realm or the route, that is to say the
-+ * 		**tclassid** field of the destination for the *skb*.
++ * u64 bpf_get_current_uid_gid(void)
 + * 	Return
-+ * 		The realm of the route for the packet associated to *sdb*, or 0
-+ * 		if none was found.
++ * 		A 64-bit integer containing the current GID and UID, and
++ * 		created as such: *current_gid* **<< 32 \|** *current_uid*.
 + *
-  * int bpf_perf_event_output(struct pt_reg *ctx, struct bpf_map *map, u64 flags, void *data, u64 size)
-  * 	Description
-  * 		Write perf raw sample into a perf event held by *map* of type
-@@ -779,6 +802,21 @@ union bpf_attr {
-  * 	Return
-  * 		0 on success, or a negative error in case of failure.
-  *
-+ * int bpf_skb_load_bytes(const struct sk_buff *skb, u32 offset, void *to, u32 len)
++ * int bpf_get_current_comm(char *buf, u32 size_of_buf)
 + * 	Description
-+ * 		This helper was provided as an easy way to load data from a
-+ * 		packet. It can be used to load *len* bytes from *offset* from
-+ * 		the packet associated to *skb*, into the buffer pointed by
-+ * 		*to*.
-+ *
-+ * 		Since Linux 4.7, this helper is deprecated in favor of
-+ * 		"direct packet access", enabling packet data to be manipulated
-+ * 		with *skb*\ **->data** and *skb*\ **->data_end** pointing
-+ * 		respectively to the first byte of packet data and to the byte
-+ * 		after the last byte of packet data.
++ * 		Copy the **comm** attribute of the current task into *buf* of
++ * 		*size_of_buf*. The **comm** attribute contains the name of
++ * 		the executable (excluding the path) for the current task. The
++ * 		*size_of_buf* must be strictly positive. On success, the
++ * 		helper makes sure that the *buf* is NUL-terminated. On failure,
++ * 		it is filled with zeroes.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
 + *
-  * int bpf_get_stackid(struct pt_reg *ctx, struct bpf_map *map, u64 flags)
-  * 	Description
-  * 		Walk a user or a kernel stack and return its id. To achieve
-@@ -814,6 +852,93 @@ union bpf_attr {
-  * 		The positive or null stack id on success, or a negative error
-  * 		in case of failure.
-  *
-+ * s64 bpf_csum_diff(__be32 *from, u32 from_size, __be32 *to, u32 to_size, __wsum seed)
++ * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
 + * 	Description
-+ * 		Compute a checksum difference, from the raw buffer pointed by
-+ * 		*from*, of length *from_size* (that must be a multiple of 4),
-+ * 		towards the raw buffer pointed by *to*, of size *to_size*
-+ * 		(same remark). An optional *seed* can be added to the value.
-+ *
-+ * 		This is flexible enough to be used in several ways:
-+ *
-+ * 		* With *from_size* == 0, *to_size* > 0 and *seed* set to
-+ * 		  checksum, it can be used when pushing new data.
-+ * 		* With *from_size* > 0, *to_size* == 0 and *seed* set to
-+ * 		  checksum, it can be used when removing data from a packet.
-+ * 		* With *from_size* > 0, *to_size* > 0 and *seed* set to 0, it
-+ * 		  can be used to compute a diff. Note that *from_size* and
-+ * 		  *to_size* do not need to be equal.
-+ * 	Return
-+ * 		The checksum result, or a negative error code in case of
-+ * 		failure.
-+ *
-+ * int bpf_skb_get_tunnel_opt(struct sk_buff *skb, u8 *opt, u32 size)
-+ * 	Description
-+ * 		Retrieve tunnel options metadata for the packet associated to
-+ * 		*skb*, and store the raw tunnel option data to the buffer *opt*
-+ * 		of *size*.
-+ * 	Return
-+ * 		The size of the option data retrieved.
-+ *
-+ * int bpf_skb_set_tunnel_opt(struct sk_buff *skb, u8 *opt, u32 size)
-+ * 	Description
-+ * 		Set tunnel options metadata for the packet associated to *skb*
-+ * 		to the option data contained in the raw buffer *opt* of *size*.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_skb_change_proto(struct sk_buff *skb, __be16 proto, u64 flags)
-+ * 	Description
-+ * 		Change the protocol of the *skb* to *proto*. Currently
-+ * 		supported are transition from IPv4 to IPv6, and from IPv6 to
-+ * 		IPv4. The helper takes care of the groundwork for the
-+ * 		transition, including resizing the socket buffer. The eBPF
-+ * 		program is expected to fill the new headers, if any, via
-+ * 		**skb_store_bytes**\ () and to recompute the checksums with
-+ * 		**bpf_l3_csum_replace**\ () and **bpf_l4_csum_replace**\
-+ * 		().
-+ *
-+ * 		Internally, the GSO type is marked as dodgy so that headers are
-+ * 		checked and segments are recalculated by the GSO/GRO engine.
-+ * 		The size for GSO target is adapted as well.
-+ *
-+ * 		All values for *flags* are reserved for future usage, and must
-+ * 		be left at zero.
++ * 		Push a *vlan_tci* (VLAN tag control information) of protocol
++ * 		*vlan_proto* to the packet associated to *skb*, then update
++ * 		the checksum. Note that if *vlan_proto* is different from
++ * 		**ETH_P_8021Q** and **ETH_P_8021AD**, it is considered to
++ * 		be **ETH_P_8021Q**.
 + *
 + * 		A call to this helper is susceptible to change data from the
 + * 		packet. Therefore, at load time, all checks on pointers
@@ -224,36 +138,207 @@ index f3ea8824efbc..d147d9dd6a83 100644
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
 + *
-+ * int bpf_skb_change_type(struct sk_buff *skb, u32 type)
++ * int bpf_skb_vlan_pop(struct sk_buff *skb)
 + * 	Description
-+ * 		Change the packet type for the packet associated to *skb*. This
-+ * 		comes down to setting *skb*\ **->pkt_type** to *type*, except
-+ * 		the eBPF program does not have a write access to *skb*\
-+ * 		**->pkt_type** beside this helper. Using a helper here allows
-+ * 		for graceful handling of errors.
++ * 		Pop a VLAN header from the packet associated to *skb*.
 + *
-+ * 		The major use case is to change incoming *skb*s to
-+ * 		**PACKET_HOST** in a programmatic way instead of having to
-+ * 		recirculate via **redirect**\ (..., **BPF_F_INGRESS**), for
-+ * 		example.
-+ *
-+ * 		Note that *type* only allows certain values. At this time, they
-+ * 		are:
-+ *
-+ * 		**PACKET_HOST**
-+ * 			Packet is for us.
-+ * 		**PACKET_BROADCAST**
-+ * 			Send packet to all.
-+ * 		**PACKET_MULTICAST**
-+ * 			Send packet to group.
-+ * 		**PACKET_OTHERHOST**
-+ * 			Send packet to someone else.
++ * 		A call to this helper is susceptible to change data from the
++ * 		packet. Therefore, at load time, all checks on pointers
++ * 		previously done by the verifier are invalidated and must be
++ * 		performed again.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
 + *
-  * u64 bpf_get_current_task(void)
-  * 	Return
-  * 		A pointer to the current task struct.
++ * int bpf_skb_get_tunnel_key(struct sk_buff *skb, struct bpf_tunnel_key *key, u32 size, u64 flags)
++ * 	Description
++ * 		Get tunnel metadata. This helper takes a pointer *key* to an
++ * 		empty **struct bpf_tunnel_key** of **size**, that will be
++ * 		filled with tunnel metadata for the packet associated to *skb*.
++ * 		The *flags* can be set to **BPF_F_TUNINFO_IPV6**, which
++ * 		indicates that the tunnel is based on IPv6 protocol instead of
++ * 		IPv4.
++ *
++ * 		This is typically used on the receive path to perform a lookup
++ * 		or a packet redirection based on the value of *key*:
++ *
++ * 		::
++ *
++ * 			struct bpf_tunnel_key key = {};
++ * 			bpf_skb_get_tunnel_key(skb, &key, sizeof(key), 0);
++ * 			     lookup or redirect based on key ...
++ *
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * int bpf_skb_set_tunnel_key(struct sk_buff *skb, struct bpf_tunnel_key *key, u32 size, u64 flags)
++ * 	Description
++ * 		Populate tunnel metadata for packet associated to *skb.* The
++ * 		tunnel metadata is set to the contents of *key*, of *size*. The
++ * 		*flags* can be set to a combination of the following values:
++ *
++ * 		**BPF_F_TUNINFO_IPV6**
++ * 			Indicate that the tunnel is based on IPv6 protocol
++ * 			instead of IPv4.
++ * 		**BPF_F_ZERO_CSUM_TX**
++ * 			For IPv4 packets, add a flag to tunnel metadata
++ * 			indicating that checksum computation should be skipped
++ * 			and checksum set to zeroes.
++ * 		**BPF_F_DONT_FRAGMENT**
++ * 			Add a flag to tunnel metadata indicating that the
++ * 			packet should not be fragmented.
++ * 		**BPF_F_SEQ_NUMBER**
++ * 			Add a flag to tunnel metadata indicating that a
++ * 			sequence number should be added to tunnel header before
++ * 			sending the packet. This flag was added for GRE
++ * 			encapsulation, but might be used with other protocols
++ * 			as well in the future.
++ *
++ * 		Here is a typical usage on the transmit path:
++ *
++ * 		::
++ *
++ * 			struct bpf_tunnel_key key;
++ * 			     populate key ...
++ * 			bpf_skb_set_tunnel_key(skb, &key, sizeof(key), 0);
++ * 			bpf_clone_redirect(skb, vxlan_dev_ifindex, 0);
++ *
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * int bpf_redirect(u32 ifindex, u64 flags)
++ * 	Description
++ * 		Redirect the packet to another net device of index *ifindex*.
++ * 		This helper is somewhat similar to **bpf_clone_redirect**\
++ * 		(), except that the packet is not cloned, which provides
++ * 		increased performance.
++ *
++ * 		For hooks other than XDP, *flags* can be set to
++ * 		**BPF_F_INGRESS**, which indicates the packet is to be
++ * 		redirected to the ingress interface instead of (by default)
++ * 		egress. Currently, XDP does not support any flag.
++ * 	Return
++ * 		For XDP, the helper returns **XDP_REDIRECT** on success or
++ * 		**XDP_ABORT** on error. For other program types, the values
++ * 		are **TC_ACT_REDIRECT** on success or **TC_ACT_SHOT** on
++ * 		error.
++ *
++ * int bpf_perf_event_output(struct pt_reg *ctx, struct bpf_map *map, u64 flags, void *data, u64 size)
++ * 	Description
++ * 		Write perf raw sample into a perf event held by *map* of type
++ * 		**BPF_MAP_TYPE_PERF_EVENT_ARRAY**. This perf event must
++ * 		have the following attributes: **PERF_SAMPLE_RAW** as
++ * 		**sample_type**, **PERF_TYPE_SOFTWARE** as **type**, and
++ * 		**PERF_COUNT_SW_BPF_OUTPUT** as **config**.
++ *
++ * 		The *flags* are used to indicate the index in *map* for which
++ * 		the value must be put, masked with **BPF_F_INDEX_MASK**.
++ * 		Alternatively, *flags* can be set to **BPF_F_CURRENT_CPU**
++ * 		to indicate that the index of the current CPU core should be
++ * 		used.
++ *
++ * 		The value to write, of *size*, is passed through eBPF stack and
++ * 		pointed by *data*.
++ *
++ * 		The context of the program *ctx* needs also be passed to the
++ * 		helper, and will get interpreted as a pointer to a **struct
++ * 		pt_reg**.
++ *
++ * 		On user space, a program willing to read the values needs to
++ * 		call **perf_event_open**\ () on the perf event (either for
++ * 		one or for all CPUs) and to store the file descriptor into the
++ * 		*map*. This must be done before the eBPF program can send data
++ * 		into it. An example is available in file
++ * 		*samples/bpf/trace_output_user.c* in the Linux kernel source
++ * 		tree (the eBPF program counterpart is in
++ * 		*samples/bpf/trace_output_kern.c*). It looks like the
++ * 		following snippet:
++ *
++ * 		::
++ *
++ * 			volatile struct perf_event_mmap_page *header;
++ * 			struct perf_event_attr attr = {
++ * 			        .sample_type = PERF_SAMPLE_RAW,
++ * 			        .type = PERF_TYPE_SOFTWARE,
++ * 			        .config = PERF_COUNT_SW_BPF_OUTPUT,
++ * 			};
++ * 			int page_size;
++ * 			int mmap_size;
++ * 			int key = 0;
++ * 			int pmu_fd;
++ * 			void *base;
++ * 			
++ * 			if (load_bpf_file(filename))
++ * 			        return -1;
++ * 			
++ * 			pmu_fd = sys_perf_event_open(&attr,
++ * 			                             -1, // pid
++ * 			                              0, // cpu
++ * 			                             -1, // group_fd
++ * 			                              0);
++ * 			
++ * 			assert(pmu_fd >= 0);
++ * 			assert(bpf_map_update_elem(map_fd[0], &key,
++ * 			                           &pmu_fd, BPF_ANY) == 0);
++ * 			assert(ioctl(pmu_fd, PERF_EVENT_IOC_ENABLE, 0) == 0);
++ * 			
++ * 			page_size = getpagesize();
++ * 			mmap_size = page_size * (page_cnt + 1);
++ * 			
++ * 			base = mmap(NULL, mmap_size, PROT_READ | PROT_WRITE,
++ * 			            MAP_SHARED, fd, 0);
++ * 			if (base == MAP_FAILED)
++ * 			        return -1;
++ * 			
++ * 			header = base;
++ *
++ * 		**bpf_perf_event_output**\ () achieves better performance
++ * 		than **bpf_trace_printk**\ () for sharing data with user
++ * 		space, and is much better suitable for streaming data from eBPF
++ * 		programs.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * int bpf_get_stackid(struct pt_reg *ctx, struct bpf_map *map, u64 flags)
++ * 	Description
++ * 		Walk a user or a kernel stack and return its id. To achieve
++ * 		this, the helper needs *ctx*, which is a pointer to the context
++ * 		on which the tracing program is executed, and a pointer to a
++ * 		*map* of type **BPF_MAP_TYPE_STACK_TRACE**.
++ *
++ * 		The last argument, *flags*, holds the number of stack frames to
++ * 		skip (from 0 to 255), masked with
++ * 		**BPF_F_SKIP_FIELD_MASK**. The next bits can be used to set
++ * 		a combination of the following flags:
++ *
++ * 		**BPF_F_USER_STACK**
++ * 			Collect a user space stack instead of a kernel stack.
++ * 		**BPF_F_FAST_STACK_CMP**
++ * 			Compare stacks by hash only.
++ * 		**BPF_F_REUSE_STACKID**
++ * 			If two different stacks hash into the same *stackid*,
++ * 			discard the old one.
++ *
++ * 		The stack id retrieved is a 32 bit long integer handle which
++ * 		can be further combined with other data (including other stack
++ * 		ids) and used as a key into maps. This can be useful for
++ * 		generating a variety of graphs (such as flame graphs or off-cpu
++ * 		graphs).
++ *
++ * 		For walking a stack, this helper is an improvement over
++ * 		**bpf_probe_read**\ (), which can be used with unrolled loops
++ * 		but is not efficient and consumes a lot of eBPF instructions.
++ * 		Instead, **bpf_get_stackid**\ () can collect up to
++ * 		**PERF_MAX_STACK_DEPTH** both kernel and user frames.
++ * 	Return
++ * 		The positive or null stack id on success, or a negative error
++ * 		in case of failure.
++ *
++ * u64 bpf_get_current_task(void)
++ * 	Return
++ * 		A pointer to the current task struct.
+  */
+ #define __BPF_FUNC_MAPPER(FN)		\
+ 	FN(unspec),			\
 -- 
 2.14.1
 
