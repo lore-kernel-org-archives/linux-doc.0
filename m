@@ -1,100 +1,45 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 414987E868
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 13:43:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 848037E89B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 14:19:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752907AbeDJNnr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 09:43:47 -0400
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:34395 "EHLO
-        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752622AbeDJNnp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 09:43:45 -0400
-Received: by mail-pf0-f194.google.com with SMTP id q9so8352147pff.1;
-        Tue, 10 Apr 2018 06:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uIrVlepof7UzBXFxeuEEixRu/1RCcnYcwaqRB8sAdBQ=;
-        b=fiWzySGNb0rce7/lvZp1aPxU/Wx2Fg/54JjCcqp3ZpqdeK6euCgMtvnRcPfxB55WZV
-         lYV+UiMJJiYaVv6+5rIte4V7CdsbMVLZpFnOv5N7JTu2IKFSAvh8aLGmtJ2DdKJOMalz
-         L7Zy314X5dNuNuf5Vr+lL7GXhHoa3bcuuN07n4YcHDGTxfuo2DuRv4VUf2sgpOhWT2U4
-         YAXY+WEFKF8cz28fdxTY4Uw819sr3Xh6BcJ0HEVJuzueztNl2knSG7NtAI9/eekgMygp
-         0ImJsogQhmGtih0kvDEl62/SWHXrdlWQmWcE12mJModorkXeloWYrrU6wlHkPXL5pL84
-         18XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uIrVlepof7UzBXFxeuEEixRu/1RCcnYcwaqRB8sAdBQ=;
-        b=srWUlKJdmgjIIicDhaRj/GqTMGE6ptMCLToLhCFe/gNNs0SUrZvRTFuOVfieqcdRHF
-         6ombmgqVMZr2nGWHlJZFqDr1mpNLgc4uth1IHMrumKjOeR5oiYipsiZsLymV3qEz9XJs
-         sU3kKgZZj3jbglcl7AQvpPh1ogZrZvXjOIkXVjsUrJZZjlVzoUXa58EWHIjIS7/Mwhfb
-         YJi7w8tGs98t4ItaUnCjf8Ykdmh81noB3VZxKp3IeIrtXNB9WMmSlLS04+s7/ueLSxqG
-         hacBXNWGq2tdNcDj5oJ2kySuqDgtm37737d8P6AyIScML3dXWFPf9PKWqa4q09M4Cu/s
-         Z9wA==
-X-Gm-Message-State: ALQs6tBB7JR2Sz5w+MRqOQzJ1Xp0AEi+FHpkbPodlnUE7D2fp2dAS4VX
-        eyosuhSlLTHcG3yaowXSDX4=
-X-Google-Smtp-Source: AIpwx48LiitEpf5FjMGkkeTy38GSxRxgrAefpLnnDmPVdIKCg4nEYSH2GVQLESKbiRIc30k0Li5q4A==
-X-Received: by 10.99.115.4 with SMTP id o4mr350242pgc.404.1523367824564;
-        Tue, 10 Apr 2018 06:43:44 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id b3sm5182588pfi.54.2018.04.10.06.43.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Apr 2018 06:43:43 -0700 (PDT)
-Subject: Re: [PATCH V2 3/9] dt-bindings: Tegra186 tachometer device tree
- bindings
-To:     Rob Herring <robh@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>
-Cc:     Rajkumar Rampelli <rrajk@nvidia.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Timur Tabi <timur@codeaurora.org>,
-        Andy Gross <andy.gross@linaro.org>,
-        Wei Xu <xuwei5@hisilicon.com>, Alex Elder <elder@linaro.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Laxman Dewangan <ldewangan@nvidia.com>
-References: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
- <1521607244-29734-4-git-send-email-rrajk@nvidia.com>
- <20180327145249.xjoo42qow34ksdle@rob-hp-laptop>
- <867aace8-dac7-51d4-bd46-15919b58b37d@kapsi.fi>
- <CAL_Jsq+AsUiWWBQ7K4OUM58KqQbvBHuFYmXxXLwr7viwoKW-Yw@mail.gmail.com>
- <615d6771-00c3-a4a7-a99f-ec4f6e667c8f@kapsi.fi>
- <CAL_JsqJ-ZJtprXcLxVhRGKp30DTFRO1NzNoqpeSne0marcnmBQ@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <b735b140-314e-80f3-b8a4-660c573897b1@roeck-us.net>
-Date:   Tue, 10 Apr 2018 06:43:41 -0700
+        id S1754115AbeDJOSs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 10:18:48 -0400
+Received: from foss.arm.com ([217.140.101.70]:39006 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1753902AbeDJOSq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Apr 2018 10:18:46 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2CC3C15AB;
+        Tue, 10 Apr 2018 07:18:46 -0700 (PDT)
+Received: from [10.1.207.55] (melchizedek.cambridge.arm.com [10.1.207.55])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E3E773F587;
+        Tue, 10 Apr 2018 07:18:42 -0700 (PDT)
+Subject: Re: [PATCH v11 1/4] arm64: KVM: export the capability to set guest
+ SError syndrome
+To:     Dongjiu Geng <gengdongjiu@huawei.com>
+Cc:     rkrcmar@redhat.com, corbet@lwn.net, christoffer.dall@linaro.org,
+        marc.zyngier@arm.com, linux@armlinux.org.uk,
+        catalin.marinas@arm.com, rjw@rjwysocki.net, bp@alien8.de,
+        lenb@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu, linux-acpi@vger.kernel.org,
+        devel@acpica.org, huangshaoyu@huawei.com, zhengxiang9@huawei.com
+References: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
+ <1523309796-36423-2-git-send-email-gengdongjiu@huawei.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <98360e36-5fb7-aea4-52c3-21595d09419f@arm.com>
+Date:   Tue, 10 Apr 2018 15:15:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqJ-ZJtprXcLxVhRGKp30DTFRO1NzNoqpeSne0marcnmBQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <1523309796-36423-2-git-send-email-gengdongjiu@huawei.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -102,83 +47,88 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/10/2018 06:30 AM, Rob Herring wrote:
-> On Mon, Apr 9, 2018 at 9:37 AM, Mikko Perttunen <cyndis@kapsi.fi> wrote:
->>
->>
->> On 04/09/2018 04:21 PM, Rob Herring wrote:
->>>
->>> On Mon, Apr 9, 2018 at 12:38 AM, Mikko Perttunen <cyndis@kapsi.fi> wrote:
->>>>
->>>> Rob,
->>>
->>>
->>> Please don't top post to lists.
->>>
->>>> this binding is for a specific IP block (for measuring/aggregating input
->>>> pulses) on the Tegra186 SoC, so I don't think it fits into any generic
->>>> binding.
->>>
->>>
->>> What is it hooked up to to measure? You only mention "fan" five times
->>> in the doc.
->>
->>
->> In practice, fans.
->>
->>>
->>> You have #pwm-cells too, so this block has PWM output as well? If not,
->>> then where's the PWM for the fan control because there is no point in
->>> having fan tach without some control mechanism.
->>
->>
->> It doesn't provide a PWM output. The (Linux) PWM framework provides
->> functionality in both directions - control and capture. But if the device
->> tree #pwm-cells/pwms properties are only for control, we may need to
->> introduce a new #capture-pwm-cells/capture-pwms or similar.
-> 
-> Yes, perhaps. But there is no point in having
-> #capture-pwm-cells/capture-pwms if you aren't describing the
-> connection between the fan and the fan controller.
-> 
->> The idea is that the generic fan node can then specify two pwms, one for
->> control and one for capture, to enable e.g. closed-loop control (I'm not
->> personally familiar with the usecase for this but I could imagine something
->> like that). The control PWM can be something completely different, maybe not
->> a PWM in the first place (e.g. some fixed voltage).
-> 
-> Yes. As you can have different types of fans (3-wire, 4-wire, etc.)
-> they would have different compatibles and differing properties
-> associated with them.
-> 
->>> There's only so many ways to control fans and types of fans, so yes,
->>> the interface of control and feedback lines between a fan and its
->>> controller should absolutely be generic.
->>
->>
->> I'm not quite getting what you mean by this. Clearly we need a custom
->> compatibility string for the tachometer as it's a different hardware block
->> with different programming than others.
-> 
-> Yes, of course. It's the interface between fan controllers and fans
-> that I'm concerned about.
-> 
->> Or are you complaining about the
->> nvidia,pulse-per-rev/capture-window-len properties?
-> 
-> Well, those sound like properties of a fan (at least the first one),
-> so they belong in a fan node.
-> 
-> The aspeed fan controller is probably the closest thing we have to a
-> fan binding. Look at that if you haven't already.
-> 
+Hi Dongjiu Geng,
 
-FWIW, this is a fan speed (tachometer) counter which is modeled as pwm input.
-This, in my opinion, and as stated before, is conceptually wrong. The pwm
-subsystem should not (need to) know anything about fans, much less about
-specifics such as the number of pulses per revolution.
+On 09/04/18 22:36, Dongjiu Geng wrote:
+> Before user space injects a SError, it needs to know whether it can
+> specify the guest Exception Syndrome, so KVM should tell user space
+> whether it has such capability.
 
-Guenter
+(you could improve the commit message by briefly explaining how/why user-space
+would want to do this. As this is patch 1, you don't have the context of the
+previous patch to say that some systems can provide an ESR with virtual-SError)
+
+
+> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+> index fc3ae95..8a3d708 100644
+> --- a/Documentation/virtual/kvm/api.txt
+> +++ b/Documentation/virtual/kvm/api.txt
+> @@ -4415,3 +4415,14 @@ Parameters: none
+>  This capability indicates if the flic device will be able to get/set the
+>  AIS states for migration via the KVM_DEV_FLIC_AISM_ALL attribute and allows
+>  to discover this without having to create a flic device.
+> +
+> +8.14 KVM_CAP_ARM_SET_SERROR_ESR
+> +
+> +Architectures: arm, arm64
+> +
+> +This capability indicates that userspace can specify syndrome value reported to
+
+(Nit: 'the syndrome value')
+
+> +guest OS when guest takes a virtual SError interrupt exception.
+
+(Nit: 'the guest')
+
+> +If KVM has this capability, userspace can only specify the ISS field for the ESR
+> +syndrome, can not specify the EC field which is not under control by KVM.
+
+(Nit: 'it can not specify...')
+
+> +If this virtual SError is taken to EL1 using AArch64, this value will be reported
+> +into ISS filed of ESR_EL1.
+
+(Nit: 'in the ISS field')
+
+
+> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+> index 3256b92..38c8a64 100644
+> --- a/arch/arm64/kvm/reset.c
+> +++ b/arch/arm64/kvm/reset.c
+> @@ -77,6 +77,9 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
+>  	case KVM_CAP_ARM_PMU_V3:
+>  		r = kvm_arm_support_pmu_v3();
+>  		break;
+> +	case KVM_CAP_ARM_INJECT_SERROR_ESR:
+> +		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
+> +		break;
+>  	case KVM_CAP_SET_GUEST_DEBUG:
+>  	case KVM_CAP_VCPU_ATTRIBUTES:
+>  		r = 1;
+
+'dev_ioctl' feels a bit weird, but we already have cpu_has_32bit_el1() in here.
+
+
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 8fb90a0..3587b33 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -934,6 +934,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_S390_AIS_MIGRATION 150
+>  #define KVM_CAP_PPC_GET_CPU_CHAR 151
+>  #define KVM_CAP_S390_BPB 152
+> +#define KVM_CAP_ARM_INJECT_SERROR_ESR 153
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
+
+(patch 1&2 should probably be swapped around, as on its own this does thing).
+
+Reviewed-by: James Morse <james.morse@arm.com>
+
+
+Thanks,
+
+James
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
