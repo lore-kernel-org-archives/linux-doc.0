@@ -5,55 +5,57 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 360357E22E
+	by archive.lwn.net (Postfix) with ESMTP id 5A8707E89B
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 14:42:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753801AbeDJOmb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 10:42:31 -0400
-Received: from mail-wm0-f44.google.com ([74.125.82.44]:36594 "EHLO
-        mail-wm0-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754245AbeDJOmZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 10:42:25 -0400
-Received: by mail-wm0-f44.google.com with SMTP id x82so23840407wmg.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 07:42:24 -0700 (PDT)
+        id S1754277AbeDJOmc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 10:42:32 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:54345 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754231AbeDJOm2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 10:42:28 -0400
+Received: by mail-wm0-f67.google.com with SMTP id r191so26573098wmg.4
+        for <linux-doc@vger.kernel.org>; Tue, 10 Apr 2018 07:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=netronome-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NMz89HOupgm+cl30eXTtlQRn7yeSVT0hzXRCgnK8138=;
-        b=y27gJVF/M/NZNYmdLWRycB/UP5dpmIJ1evNtf7jLza2NviATglaU1pSCglPr0mExn4
-         9xTEEjzxj0+YDblOfh9IMyptQsD6sfJAxKLdlgI3yZKspjYZMGFPwWFnYEhUkIrLJqP+
-         vdvKk9yNw5UStFAXJF9Ky3j76l9V8HGXL57DidRCX6w0stOeL7obComCUX2bc4AFfpNY
-         0J1dcOxJHyTc89QXyULlUf5EMTBZGJUbQiF27SicDNDO4pUY+BzX2mAgGhkEaCu+4rR+
-         wTbPY0qyft7Fa/gRUl/xxpvu/eKa+1Ij97byndcGFy30O+sHR1JcPNGBU+p4aFuUKFkt
-         tVyQ==
+        bh=YHhNUWwRU4M7fcMsxeA4zqX7VbMgItspy3sBdimz9Bo=;
+        b=zusVUrWMLYYg7Ord3/qfNWHDvLDXviXRFWL211i6B7A8VYcGe0SjVi9z6PdQV7m0g/
+         F170Ej0vGD3y8O6xVAKKDejRcbnq43H8BMIrnDhts/pJdEkRsA+fWc1hXnVuQrERX5M9
+         txlZa1zLj5HZxXkQkcatONITluG5cZL8eXCiLlo07Keuj250CwaEz1dlMCC9pZfITgai
+         FxUKLmPqxr5dEIfX2nXUq/vehBmUechDKidEO7jWLu+6k+5HkZ8rEMG6eGynFqMgDydj
+         CXjp2TEyeqddcx+lcTCijqmK/xNsxX5y+0F8c+3IOXE3QVqii4cZVIPbU/R9IY+aKiD9
+         5a7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=NMz89HOupgm+cl30eXTtlQRn7yeSVT0hzXRCgnK8138=;
-        b=achbF5nbjywMrHngnrn7PeCCh7PY+mgoWdcT98SKErucJT2bEaz9xru2JrfO32zRo1
-         aeMmlRCv0YEOwh4EnsFrUsAv77iP5kn/E1v2yeL/D1KbvaM0i7PQ8dOJfy21qHyCvEog
-         tzoTn2oCnViLtTHiHbyTtWfGn3n90S59QuZlMcNuAWbkjxuGwTTrV10nNIrp8mS5IKVg
-         qrKIqmBmJYHwGw0UbUNJIvjzyvVeT/N48/TgCQUcGUERdy6QhH44kj9/S0NwWA95O5JJ
-         G7PKLek1whFYw7lK/JlnMJjm50PEls/KJEjEYTixJMrv/M+Jb+ddtkI4b5/Kq/rmFSeV
-         DI0w==
-X-Gm-Message-State: ALQs6tA90BZpWIDRvFMcSQO5oiEH8vDzqxR+0yiElpl3pM9T23nNFSAT
-        zfHv3PjuKGJfuVUEKt3CE3ycsu0J
-X-Google-Smtp-Source: AIpwx4/CXTdCJYNswPo9j3yTkYXg/55JffoPxOVaYNocTr9VmkrfVqumfyYmC7bDUMDoVul9+amABw==
-X-Received: by 10.80.201.203 with SMTP id c11mr3849640edi.0.1523371343923;
-        Tue, 10 Apr 2018 07:42:23 -0700 (PDT)
+        bh=YHhNUWwRU4M7fcMsxeA4zqX7VbMgItspy3sBdimz9Bo=;
+        b=jkg1GGeLIq5v/OFPOeLAoSExXeA3F+OqDVNhh9q3iKQTur+VWZbuog+470KWN2CO7X
+         7hLA7o9M9Z7Lo56HUwMKcuhLRVHYY1kJra44eZekcrJescElCSMI8kHUxiPchvBK5egL
+         vHh7+bCwsPWEjKCd1JT/knGFkTCnks4bAdLe8orK9XyrnFkgGdlAFJIlXz8URslxTON+
+         N57JpQbL4dlFvnjlGVX5KPoXF6VmPzq2fseePt7YAhveF997Xih1us7HAXPNkVG50aIj
+         WrjvzaJDbKNcVw7bZxVijd7aznUeNBp6Z171SAp2QwzxCopY6S0PNCCq+zoYlTQydOQw
+         rikA==
+X-Gm-Message-State: ALQs6tDEmwGlCCZEkzNg3/VEVr23B3AQ6rnP1qigd6ifkOWNZbqG05p3
+        PcMHThduz+I7WttnG/4YaN7BmQ==
+X-Google-Smtp-Source: AIpwx4+wzLyFFf/vLO1QTO/zuhAYmhdLcSrksOosyCPksC7A/Y9vt5kKG/df8WeGKkja0+ltEIpHhA==
+X-Received: by 10.80.177.44 with SMTP id k41mr3779202edd.217.1523371346853;
+        Tue, 10 Apr 2018 07:42:26 -0700 (PDT)
 Received: from reblochon.netronome.com (host-79-78-33-110.static.as9105.net. [79.78.33.110])
-        by smtp.gmail.com with ESMTPSA id i17sm1948907ede.13.2018.04.10.07.42.22
+        by smtp.gmail.com with ESMTPSA id i17sm1948907ede.13.2018.04.10.07.42.25
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Apr 2018 07:42:23 -0700 (PDT)
+        Tue, 10 Apr 2018 07:42:26 -0700 (PDT)
 From:   Quentin Monnet <quentin.monnet@netronome.com>
 To:     daniel@iogearbox.net, ast@kernel.org
 Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
         quentin.monnet@netronome.com, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org
-Subject: [RFC bpf-next v2 5/8] bpf: add documentation for eBPF helpers (33-41)
-Date:   Tue, 10 Apr 2018 15:41:54 +0100
-Message-Id: <20180410144157.4831-6-quentin.monnet@netronome.com>
+        linux-man@vger.kernel.org, Lawrence Brakmo <brakmo@fb.com>,
+        Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>,
+        Andrey Ignatov <rdna@fb.com>
+Subject: [RFC bpf-next v2 7/8] bpf: add documentation for eBPF helpers (51-57)
+Date:   Tue, 10 Apr 2018 15:41:56 +0100
+Message-Id: <20180410144157.4831-8-quentin.monnet@netronome.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180410144157.4831-1-quentin.monnet@netronome.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
@@ -70,189 +72,229 @@ that can later be converted into a man page.
 The objective is to make the documentation easily understandable and
 accessible to all eBPF developers, including beginners.
 
-This patch contains descriptions for the following helper functions, all
-written by Daniel:
+This patch contains descriptions for the following helper functions:
 
-- bpf_get_hash_recalc()
-- bpf_skb_change_tail()
-- bpf_skb_pull_data()
-- bpf_csum_update()
-- bpf_set_hash_invalid()
-- bpf_get_numa_node_id()
-- bpf_set_hash()
-- bpf_skb_adjust_room()
-- bpf_xdp_adjust_meta()
+Helpers from Lawrence:
+- bpf_setsockopt()
+- bpf_getsockopt()
+- bpf_sock_ops_cb_flags_set()
 
-Cc: Daniel Borkmann <daniel@iogearbox.net>
+Helpers from Yonghong:
+- bpf_perf_event_read_value()
+- bpf_perf_prog_read_value()
+
+Helper from Josef:
+- bpf_override_return()
+
+Helper from Andrey:
+- bpf_bind()
+
+Cc: Lawrence Brakmo <brakmo@fb.com>
+Cc: Yonghong Song <yhs@fb.com>
+Cc: Josef Bacik <jbacik@fb.com>
+Cc: Andrey Ignatov <rdna@fb.com>
 Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 ---
- include/uapi/linux/bpf.h | 155 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 155 insertions(+)
+ include/uapi/linux/bpf.h | 184 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 184 insertions(+)
 
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index d147d9dd6a83..af429ec79f50 100644
+index 15d9ccafebbe..7343af4196c8 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -939,9 +939,164 @@ union bpf_attr {
+@@ -1208,6 +1208,28 @@ union bpf_attr {
+  * 	Return
+  * 		0
+  *
++ * int bpf_setsockopt(struct bpf_sock_ops_kern *bpf_socket, int level, int optname, char *optval, int optlen)
++ * 	Description
++ * 		Emulate a call to **setsockopt()** on the socket associated to
++ * 		*bpf_socket*, which must be a full socket. The *level* at
++ * 		which the option resides and the name *optname* of the option
++ * 		must be specified, see **setsockopt(2)** for more information.
++ * 		The option value of length *optlen* is pointed by *optval*.
++ *
++ * 		This helper actually implements a subset of **setsockopt()**.
++ * 		It supports the following *level*\ s:
++ *
++ * 		* **SOL_SOCKET**, which supports the following *optname*\ s:
++ * 		  **SO_RCVBUF**, **SO_SNDBUF**, **SO_MAX_PACING_RATE**,
++ * 		  **SO_PRIORITY**, **SO_RCVLOWAT**, **SO_MARK**.
++ * 		* **IPPROTO_TCP**, which supports the following *optname*\ s:
++ * 		  **TCP_CONGESTION**, **TCP_BPF_IW**,
++ * 		  **TCP_BPF_SNDCWND_CLAMP**.
++ * 		* **IPPROTO_IP**, which supports *optname* **IP_TOS**.
++ * 		* **IPPROTO_IPV6**, which supports *optname* **IPV6_TCLASS**.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
+  * int bpf_skb_adjust_room(struct sk_buff *skb, u32 len_diff, u32 mode, u64 flags)
+  * 	Description
+  * 		Grow or shrink the room for data in the packet associated to
+@@ -1255,6 +1277,168 @@ union bpf_attr {
+  * 		performed again.
   * 	Return
   * 		0 on success, or a negative error in case of failure.
-  *
-+ * u32 bpf_get_hash_recalc(struct sk_buff *skb)
++ *
++ * int bpf_perf_event_read_value(struct bpf_map *map, u64 flags, struct bpf_perf_event_value *buf, u32 buf_size)
 + * 	Description
-+ * 		Retrieve the hash of the packet, *skb*\ **->hash**. If it is
-+ * 		not set, in particular if the hash was cleared due to mangling,
-+ * 		recompute this hash. Later accesses to the hash can be done
-+ * 		directly with *skb*\ **->hash**.
++ * 		Read the value of a perf event counter, and store it into *buf*
++ * 		of size *buf_size*. This helper relies on a *map* of type
++ * 		**BPF_MAP_TYPE_PERF_EVENT_ARRAY**. The nature of the perf
++ * 		event counter is selected at the creation of the *map*. The
++ * 		*map* is an array whose size is the number of available CPU
++ * 		cores, and each cell contains a value relative to one core. The
++ * 		value to retrieve is indicated by *flags*, that contains the
++ * 		index of the core to look up, masked with
++ * 		**BPF_F_INDEX_MASK**. Alternatively, *flags* can be set to
++ * 		**BPF_F_CURRENT_CPU** to indicate that the value for the
++ * 		current CPU core should be retrieved.
 + *
-+ * 		Calling **bpf_set_hash_invalid**\ (), changing a packet
-+ * 		prototype with **bpf_skb_change_proto**\ (), or calling
-+ * 		**bpf_skb_store_bytes**\ () with the
-+ * 		**BPF_F_INVALIDATE_HASH** are actions susceptible to clear
-+ * 		the hash and to trigger a new computation for the next call to
-+ * 		**bpf_get_hash_recalc**\ ().
-+ * 	Return
-+ * 		The 32-bit hash.
++ * 		This helper behaves in a way close to
++ * 		**bpf_perf_event_read**\ () helper, save that instead of
++ * 		just returning the value observed, it fills the *buf*
++ * 		structure. This allows for additional data to be retrieved: in
++ * 		particular, the enabled and running times (in *buf*\
++ * 		**->enabled** and *buf*\ **->running**, respectively) are
++ * 		copied.
 + *
-  * u64 bpf_get_current_task(void)
-  * 	Return
-  * 		A pointer to the current task struct.
++ * 		These values are interesting, because hardware PMU (Performance
++ * 		Monitoring Unit) counters are limited resources. When there are
++ * 		more PMU based perf events opened than available counters,
++ * 		kernel will multiplex these events so each event gets certain
++ * 		percentage (but not all) of the PMU time. In case that
++ * 		multiplexing happens, the number of samples or counter value
++ * 		will not reflect the case compared to when no multiplexing
++ * 		occurs. This makes comparison between different runs difficult.
++ * 		Typically, the counter value should be normalized before
++ * 		comparing to other experiments. The usual normalization is done
++ * 		as follows.
 + *
-+ * int bpf_skb_change_tail(struct sk_buff *skb, u32 len, u64 flags)
-+ * 	Description
-+ * 		Resize (trim or grow) the packet associated to *skb* to the
-+ * 		new *len*. The *flags* are reserved for future usage, and must
-+ * 		be left at zero.
++ * 		::
 + *
-+ * 		The basic idea is that the helper performs the needed work to
-+ * 		change the size of the packet, then the eBPF program rewrites
-+ * 		the rest via helpers like **bpf_skb_store_bytes**\ (),
-+ * 		**bpf_l3_csum_replace**\ (), **bpf_l3_csum_replace**\ ()
-+ * 		and others. This helper is a slow path utility intended for
-+ * 		replies with control messages. And because it is targeted for
-+ * 		slow path, the helper itself can afford to be slow: it
-+ * 		implicitly linearizes, unclones and drops offloads from the
-+ * 		*skb*.
++ * 			normalized_counter = counter * t_enabled / t_running
 + *
-+ * 		A call to this helper is susceptible to change data from the
-+ * 		packet. Therefore, at load time, all checks on pointers
-+ * 		previously done by the verifier are invalidated and must be
-+ * 		performed again.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_skb_pull_data(struct sk_buff *skb, u32 len)
-+ * 	Description
-+ * 		Pull in non-linear data in case the *skb* is non-linear and not
-+ * 		all of *len* are part of the linear section. Make *len* bytes
-+ * 		from *skb* readable and writable. If a zero value is passed for
-+ * 		*len*, then the whole length of the *skb* is pulled.
-+ *
-+ * 		This helper is only needed for reading and writing with direct
-+ * 		packet access.
-+ *
-+ * 		For direct packet access, when testing that offsets to access
-+ * 		are within packet boundaries (test on *skb*\ **->data_end**)
-+ * 		fails, programs just bail out, or, in the direct read case, use
-+ * 		**bpf_skb_load_bytes()** as an alternative to overcome this
-+ * 		limitation. If such data sits in non-linear parts, it is
-+ * 		possible to pull them in once with the new helper, retest and
-+ * 		eventually access them.
-+ *
-+ * 		At the same time, this also makes sure the skb is uncloned,
-+ * 		which is a necessary condition for direct write. As this needs
-+ * 		to be an invariant for the write part only, the verifier
-+ * 		detects writes and adds a prologue that is calling
-+ * 		**bpf_skb_pull_data()** to effectively unclone the skb from the
-+ * 		very beginning in case it is indeed cloned.
-+ *
-+ * 		A call to this helper is susceptible to change data from the
-+ * 		packet. Therefore, at load time, all checks on pointers
-+ * 		previously done by the verifier are invalidated and must be
-+ * 		performed again.
++ * 		Where t_enabled is the time enabled for event and t_running is
++ * 		the time running for event since last normalization. The
++ * 		enabled and running times are accumulated since the perf event
++ * 		open. To achieve scaling factor between two invocations of an
++ * 		eBPF program, users can can use CPU id as the key (which is
++ * 		typical for perf array usage model) to remember the previous
++ * 		value and do the calculation inside the eBPF program.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
 + *
-+ * s64 bpf_csum_update(struct sk_buff *skb, __wsum csum)
++ * int bpf_perf_prog_read_value(struct bpf_perf_event_data_kern *ctx, struct bpf_perf_event_value *buf, u32 buf_size)
 + * 	Description
-+ * 		Add the checksum *csum* into *skb*\ **->csum** in case the
-+ * 		driver fed us an IP checksum. Return an error otherwise. This
-+ * 		header is intended to be used in combination with
-+ * 		**bpf_csum_diff()** helper, in particular when the checksum
-+ * 		needs to be updated after data has been written into the packet
-+ * 		through direct packet access.
++ * 		For en eBPF program attached to a perf event, retrieve the
++ * 		value of the event counter associated to *ctx* and store it in
++ * 		the structure pointed by *buf* and of size *buf_size*. Enabled
++ * 		and running times are also stored in the structure (see
++ * 		description of helper **bpf_perf_event_read_value**\ () for
++ * 		more details).
 + * 	Return
-+ * 		The checksum on success, or a negative error code in case of
-+ * 		failure.
++ * 		0 on success, or a negative error in case of failure.
 + *
-+ * void bpf_set_hash_invalid(struct sk_buff *skb)
++ * int bpf_getsockopt(struct bpf_sock_ops_kern *bpf_socket, int level, int optname, char *optval, int optlen)
 + * 	Description
-+ * 		Invalidate the current *skb*\ **->hash**. It can be used after
-+ * 		mangling on headers through direct packet access, in order to
-+ * 		indicate that the hash is outdated and to trigger a
-+ * 		recalculation the next time the kernel tries to access this
-+ * 		hash.
++ * 		Emulate a call to **getsockopt()** on the socket associated to
++ * 		*bpf_socket*, which must be a full socket. The *level* at
++ * 		which the option resides and the name *optname* of the option
++ * 		must be specified, see **getsockopt(2)** for more information.
++ * 		The retrieved value is stored in the structure pointed by
++ * 		*opval* and of length *optlen*.
 + *
-+ * int bpf_get_numa_node_id(void)
-+ * 	Description
-+ * 		Return the id of the current NUMA node. The primary use case
-+ * 		for this helper is the selection of sockets for the local NUMA
-+ * 		node, when the program is attached to sockets using the
-+ * 		**SO_ATTACH_REUSEPORT_EBPF** option (see also **socket(7)**).
++ * 		This helper actually implements a subset of **getsockopt()**.
++ * 		It supports the following *level*\ s:
++ *
++ * 		* **IPPROTO_TCP**, which supports *optname*
++ * 		  **TCP_CONGESTION**.
++ * 		* **IPPROTO_IP**, which supports *optname* **IP_TOS**.
++ * 		* **IPPROTO_IPV6**, which supports *optname* **IPV6_TCLASS**.
 + * 	Return
-+ * 		The id of current NUMA node.
++ * 		0 on success, or a negative error in case of failure.
 + *
-+ * u32 bpf_set_hash(struct sk_buff *skb, u32 hash)
++ * int bpf_override_return(struct pt_reg *regs, u64 rc)
 + * 	Description
-+ * 		Set the full hash for *skb* (set the field *skb*\ **->hash**)
-+ * 		to value *hash*.
++ * 		Used for error injection, this helper uses kprobes to override
++ * 		the return value of the probed function, and to set it to *rc*.
++ * 		The first argument is the context *regs* on which the kprobe
++ * 		works.
++ *
++ * 		This helper works by setting setting the PC (program counter)
++ * 		to an override function which is run in place of the original
++ * 		probed function. This means the probed function is not run at
++ * 		all. The replacement function just returns with the required
++ * 		value.
++ *
++ * 		This helper has security implications, and thus is subject to
++ * 		restrictions. It is only available if the kernel was compiled
++ * 		with the **CONFIG_BPF_KPROBE_OVERRIDE** configuration
++ * 		option, and in this case it only works on functions tagged with
++ * 		**ALLOW_ERROR_INJECTION** in the kernel code.
++ *
++ * 		Also, the helper is only available for the architectures having
++ * 		the CONFIG_FUNCTION_ERROR_INJECTION option. As of this writing,
++ * 		x86 architecture is the only one to support this feature.
 + * 	Return
 + * 		0
 + *
-+ * int bpf_skb_adjust_room(struct sk_buff *skb, u32 len_diff, u32 mode, u64 flags)
++ * int bpf_sock_ops_cb_flags_set(struct bpf_sock_ops_kern *bpf_sock, int argval)
 + * 	Description
-+ * 		Grow or shrink the room for data in the packet associated to
-+ * 		*skb* by *len_diff*, and according to the selected *mode*.
++ * 		Attempt to set the value of the **bpf_sock_ops_cb_flags** field
++ * 		for the full TCP socket associated to *bpf_sock_ops* to
++ * 		*argval*.
 + *
-+ * 		There is a single supported mode at this time:
++ * 		The primary use of this field is to determine if there should
++ * 		be calls to eBPF programs of type
++ * 		**BPF_PROG_TYPE_SOCK_OPS** at various points in the TCP
++ * 		code. A program of the same type can change its value, per
++ * 		connection and as necessary, when the connection is
++ * 		established. This field is directly accessible for reading, but
++ * 		this helper must be used for updates in order to return an
++ * 		error if an eBPF program tries to set a callback that is not
++ * 		supported in the current kernel.
 + *
-+ * 		* **BPF_ADJ_ROOM_NET**: Adjust room at the network layer
-+ * 		  (room space is added or removed below the layer 3 header).
++ * 		The supported callback values that *argval* can combine are:
 + *
-+ * 		All values for *flags* are reserved for future usage, and must
-+ * 		be left at zero.
++ * 		* **BPF_SOCK_OPS_RTO_CB_FLAG** (retransmission time out)
++ * 		* **BPF_SOCK_OPS_RETRANS_CB_FLAG** (retransmission)
++ * 		* **BPF_SOCK_OPS_STATE_CB_FLAG** (TCP state change)
 + *
-+ * 		A call to this helper is susceptible to change data from the
-+ * 		packet. Therefore, at load time, all checks on pointers
-+ * 		previously done by the verifier are invalidated and must be
-+ * 		performed again.
++ * 		Here are some examples of where one could call such eBPF
++ * 		program:
++ *
++ * 		* When RTO fires.
++ * 		* When a packet is retransmitted.
++ * 		* When the connection terminates.
++ * 		* When a packet is sent.
++ * 		* When a packet is received.
 + * 	Return
-+ * 		0 on success, or a negative error in case of failure.
++ * 		Code **-EINVAL** if the socket is not a full TCP socket;
++ * 		otherwise, a positive number containing the bits that could not
++ * 		be set is returned (which comes down to 0 if all bits were set
++ * 		as required).
 + *
-+ * int bpf_xdp_adjust_meta(struct xdp_buff *xdp_md, int delta)
++ * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
 + * 	Description
-+ * 		Adjust the address pointed by *xdp_md*\ **->data_meta** by
-+ * 		*delta* (which can be positive or negative). Note that this
-+ * 		operation modifies the address stored in *xdp_md*\ **->data**,
-+ * 		so the latter must be loaded only after the helper has been
-+ * 		called.
++ * 		Bind the socket associated to *ctx* to the address pointed by
++ * 		*addr*, of length *addr_len*. This allows for making outgoing
++ * 		connection from the desired IP address, which can be useful for
++ * 		example when all processes inside a cgroup should use one
++ * 		single IP address on a host that has multiple IP configured.
 + *
-+ * 		The use of *xdp_md*\ **->data_meta** is optional and programs
-+ * 		are not required to use it. The rationale is that when the
-+ * 		packet is processed with XDP (e.g. as DoS filter), it is
-+ * 		possible to push further meta data along with it before passing
-+ * 		to the stack, and to give the guarantee that an ingress eBPF
-+ * 		program attached as a TC classifier on the same device can pick
-+ * 		this up for further post-processing. Since TC works with socket
-+ * 		buffers, it remains possible to set from XDP the **mark** or
-+ * 		**priority** pointers, or other pointers for the socket buffer.
-+ * 		Having this scratch space generic and programmable allows for
-+ * 		more flexibility as the user is free to store whatever meta
-+ * 		data they need.
++ * 		This helper works for IPv4 and IPv6, TCP and UDP sockets. The
++ * 		domain (*addr*\ **->sa_family**) must be **AF_INET** (or
++ * 		**AF_INET6**). Looking for a free port to bind to can be
++ * 		expensive, therefore binding to port is not permitted by the
++ * 		helper: *addr*\ **->sin_port** (or **sin6_port**, respectively)
++ * 		must be set to zero.
 + *
-+ * 		A call to this helper is susceptible to change data from the
-+ * 		packet. Therefore, at load time, all checks on pointers
-+ * 		previously done by the verifier are invalidated and must be
-+ * 		performed again.
++ * 		As for the remote end, both parts of it can be overridden,
++ * 		remote IP and remote port. This can be useful if an application
++ * 		inside a cgroup wants to connect to another application inside
++ * 		the same cgroup or to itself, but knows nothing about the IP
++ * 		address assigned to the cgroup.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
   */
