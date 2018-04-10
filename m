@@ -1,160 +1,342 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 52E607DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 17:52:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD0C37DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Apr 2018 17:56:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752470AbeDJRv6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Apr 2018 13:51:58 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:55914 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751874AbeDJRv4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 13:51:56 -0400
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3AHpEqw002284;
-        Tue, 10 Apr 2018 10:51:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=facebook; bh=G8rFIC7jVtNohf5a9DXq6S4FrqlaGHgAfIKTqbbv/rY=;
- b=a+jMyDExV+GqGrya464Yi+kXsnrmyQfHFwnIF94ET3UmVDmzrpnmghdl/YSoW2eoZKR7
- nH7o8/cJQHwIwE4ltgv8AVADdUFHciS5JAGf2syEVJO+DlKFxpvfVOFn+rXT5QL8H9Pv
- kjdB0wtiyzP2BXeeqJtuy9XjcghWg3DoT58= 
-Received: from maileast.thefacebook.com ([199.201.65.23])
-        by mx0a-00082601.pphosted.com with ESMTP id 2h91uu041j-4
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Tue, 10 Apr 2018 10:51:32 -0700
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com (192.168.183.28)
- by o365-in.thefacebook.com (192.168.177.34) with Microsoft SMTP Server (TLS)
- id 14.3.361.1; Tue, 10 Apr 2018 13:50:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector1-fb-com; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=G8rFIC7jVtNohf5a9DXq6S4FrqlaGHgAfIKTqbbv/rY=;
- b=PFNXBh1ujWLjAzYhRTr1FhXI69CLDcFit4TS6/cmC+mVTjvJ5aNo2979Dx/FxTv8JWX/WuxABkvnv1WGbsbsHeZ9nKI/OqfdEhq2diQsdcuj6VVbU4oIOoeigNnd6aNuWcKpXrhwbbNkk4JqtM7Z6afMBnn8ME8Ix3EfoqGpoIM=
-Received: from localhost (2620:10d:c090:200::6:c1a3) by
- SN6PR1501MB2048.namprd15.prod.outlook.com (2603:10b6:805:e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.653.12; Tue, 10
- Apr 2018 17:50:19 +0000
-Date:   Tue, 10 Apr 2018 10:50:16 -0700
-From:   Andrey Ignatov <rdna@fb.com>
+        id S1751676AbeDJR4M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Apr 2018 13:56:12 -0400
+Received: from mail-pf0-f195.google.com ([209.85.192.195]:39777 "EHLO
+        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751546AbeDJR4L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Apr 2018 13:56:11 -0400
+Received: by mail-pf0-f195.google.com with SMTP id c78so8913574pfj.6;
+        Tue, 10 Apr 2018 10:56:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=eMwgkJrCiSokOnKeGVhFfF2Xs+wUtWxDnzbmVBOz1Dc=;
+        b=OTQHqu9/Xq+BasgT4eLDQ0HZMaVwMLipe82qOgPnXLXxlc12fg7Kjz56r3igaFOsG8
+         vxB6VNiHqnimvRyeBa5OVbk/XdjQBKkkSAPEDqIk7mhndxzPp3rRQCJGlD5pDmbgXYCs
+         61VEUpYMzC4OyI8hsYnSqVFQpjgcG8lzd0WQ7Da3TRxuhGt6Io151/Ic4tDsUhCJFP+U
+         HeEVKTMMMjoP0pD6cKwfrwtoAuvZX1PR4uUHqvXS7BeqnBEV0SNWPD0tjWy78Bn2VSAD
+         QsWYj/nBqviQrzkHzTtxcN+FEnt1B9wPKJ7qJshGLho7jSIDjiMJkcUnKYMqm65fQIDo
+         KbZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=eMwgkJrCiSokOnKeGVhFfF2Xs+wUtWxDnzbmVBOz1Dc=;
+        b=jg5T5sEw/dOuqzBq4btPOtcfw2eEvrd9VpxkjYV2trC2benAJ1lyHzpPoZ8nXg33qf
+         nS4UmUf+toZwGzx4ip5VIegQhUa2G1cXUU4vSngvDk0TO9VigfsKVsfn5R9PNsudyPXa
+         jqcX1uXV98U433KitwMaZWaZUMffniFVi3Qjv3EsFEb8SSmc1tuItGjyakwAkHV8nQlm
+         uCMsXVj4hT1k5LrqF4P4rIXuv7nseuD1B9XDFBSimYeMG9cWPxceWMXOYiia0yAsveUO
+         xZBw4SvjHwNJ2ggO3RtbYWBzB55PklMGj+1UcsTPo7mRc8wl+bt2DxfVASIqBBh7d8uH
+         9uSw==
+X-Gm-Message-State: ALQs6tC1kstBzWEV4LsapA8XMjBonmwhPic4q2vgX/ndfTpDwOi+m5FV
+        BcUEUVZOd9jzuDpAeBVGDZk=
+X-Google-Smtp-Source: AIpwx49MSletcks5v1buraIv/49V8RfyYOpcO9NZU/n9RdN/LSsM3riwnxMfpJAvXVALfIAm1I+LgQ==
+X-Received: by 10.98.72.74 with SMTP id v71mr1137059pfa.241.1523382970108;
+        Tue, 10 Apr 2018 10:56:10 -0700 (PDT)
+Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:200::4:d349])
+        by smtp.gmail.com with ESMTPSA id a1sm6407777pff.5.2018.04.10.10.56.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Apr 2018 10:56:08 -0700 (PDT)
+Date:   Tue, 10 Apr 2018 10:56:07 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
 To:     Quentin Monnet <quentin.monnet@netronome.com>
-CC:     <daniel@iogearbox.net>, <ast@kernel.org>, <netdev@vger.kernel.org>,
-        <oss-drivers@netronome.com>, <linux-doc@vger.kernel.org>,
-        <linux-man@vger.kernel.org>, Lawrence Brakmo <brakmo@fb.com>,
-        Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>
-Subject: Re: [RFC bpf-next v2 7/8] bpf: add documentation for eBPF helpers
- (51-57)
-Message-ID: <20180410175015.GA6762@rdna-mbp.dhcp.thefacebook.com>
+Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
+        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org
+Subject: Re: [RFC bpf-next v2 2/8] bpf: add documentation for eBPF helpers
+ (01-11)
+Message-ID: <20180410175605.2wqhaqx34a4o3gdi@ast-mbp.dhcp.thefacebook.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
- <20180410144157.4831-8-quentin.monnet@netronome.com>
+ <20180410144157.4831-3-quentin.monnet@netronome.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180410144157.4831-8-quentin.monnet@netronome.com>
-User-Agent: Mutt/1.8.3 (2017-05-23)
-X-Originating-IP: [2620:10d:c090:200::6:c1a3]
-X-ClientProxiedBy: CY4PR13CA0025.namprd13.prod.outlook.com
- (2603:10b6:903:99::11) To SN6PR1501MB2048.namprd15.prod.outlook.com
- (2603:10b6:805:e::19)
-X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(5600026)(2017052603328)(7153060)(7193020);SRVR:SN6PR1501MB2048;
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB2048;3:xXeQUznxqdKrxebOlGs3tGKcdLxMR57ndkxDWislw7DGi2HB6NHntT+Fu03D6BclDp1s9NupeTByI0LdbJF+1pKZfbE6Bk/fv9KbMBpvOwBafpcHyEXwiMUOMcEJx2mSMCKnKvlOf9puTPkirT3JTSKDwcLCbIX8lpdpEAermMyePIRvXBnP7LXNH+V7Q4h7n3oYoUUaMtsOPXE1vwILfW+wQ1lZtA74ZQ05QkBIOVc2r9VMG48D/jy5G3rXqqsp;25:p+Kfuj1J/7OHr9Z8K6yot7bpuoyioUdcij8pTNU5SG/l4Tu+mZuAPCoLBU2oL0c36WLR+HTrtlOfgeQazYCkF7XHuH40ODyocN2LukLkXjxHi3B7wQwHINaM/jiOOfRDk8gXc8WXJk+wfI7QoSwjwqdgXkpkLUYyEsrkSVBXCbfMYaMTO8W6/ute2SEzxG1JHXgMkBnLNxB/nni+MGUinmy3hDaNqTn9Fle6kulTjmecLc08LYwwweaeNA/idLXI+QKZOOTM/tay+9ugDBNBwnK4PTevS8IOTK7oJNrJIR15DwmaG6E2l7elcKo6SzM7DRKF5SPX77FByU2nEPXiDw==;31:qOSsqS9qdgHZFjl4rpzCJwMvWK7MqajgJwgY4lVr38Fv9Eyy/ettLhMWWHOuIJNMZucZj8vmR54lorprxuAoCGs2R45SF9XqhvC36FDvB8zTL2mv7/QQDuXMkmHWOihGaBYeIDBoSF6/lpQMeNQ/tc6Ov7rebBgxQllWIXSufgOmbHaKy+EUPgdZKr7ulGoz7dDghIdZULSGqfrP5cmCFvmGeaRvupp7TUQsp8BjDXs=
-X-MS-TrafficTypeDiagnostic: SN6PR1501MB2048:
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB2048;20:QA8TnDH4G7WIyOyyN5/J1kQXjhGD78qPGRh9W72eSjHkpFjoqGXHJRDwOfhokgEMMJAWvrBrIQX/7Ngo/lQNWiO0N5JUta1hST3gIsjkBcVwpA7tx9d8OsHPOabCZZMeNhuL2P5587K1Mcw6+d5KBokIJQwM6NjOLWF6t3mAMKIdlJJ4rspBBo7amnIa3aGn40Qi+35j27Z3cwOh06cEf8q4qky1yd9kdZe8ZAta/HlV5fZRSTlJNRgt0761gqX6yEHELFRwME35XyhKkF6wT2jorpNcQA72Sp+7qh+jbE2RnXTGNMTDqTvJlVPP9CiGpVSCYrEnjVZsTVa1m7LFkFKcD3JYYNr1YICKbXOukXmEeN3PkkHpobr7c96hdaVJkO03phZkSOea08us7syOLfRQgE4tXiuhuqM/tguHa/x8/mS842/OPFDqk0cOZszp/jMrR17mA4y6MIfwC9ddbO6yWqYwu23ZYhedOZUad5gCx3PrffFuxFPoou2So/t1;4:HdN/jZgsDC2xGWHMH9gI5V9r26q7qeZZEh0aiPk1w4eQ3t46D+mFtxUL7Www+3Ksx+n4Ic4Mh+Q9C2rtgo1cJ2EMHz4nuJ4m+ozL54J9oyGTP1+CAeGwKDi0zPQ1lKYVFScdFuq6qfLMmK0UpNf6e2iMX1dubfQidILOoiHLyKFHczVIyTV4Cs0w1Bt5GjWV16vqYg6H1HeaurnYilJvuE/aclyt3Vf7kVzGZxM/n+d+VQ0UHvV6AWgNAQVz91kI3ZjXEryODn7pOFX4ILwVQbBX0LsKJeRLg/Y2Gnlm7czdbPiUkXCqsv0Jp4HMId9a1WsfaIvFWM+GynfUABE7KLEVMXZO78GA0grbILviry8=
-X-Microsoft-Antispam-PRVS: <SN6PR1501MB2048D58B30DAEAE1E50325A6A8BE0@SN6PR1501MB2048.namprd15.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(21532816269658)(17755550239193);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231221)(11241501184)(944501327)(52105095)(10201501046)(3002001)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(20161123560045)(6072148)(201708071742011);SRVR:SN6PR1501MB2048;BCL:0;PCL:0;RULEID:;SRVR:SN6PR1501MB2048;
-X-Forefront-PRVS: 0638FD5066
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(6069001)(376002)(346002)(396003)(39380400002)(366004)(39860400002)(377424004)(199004)(189003)(52396003)(23676004)(2486003)(52146003)(39060400002)(76176011)(106356001)(68736007)(1076002)(9686003)(33896004)(52116002)(5660300001)(2906002)(6246003)(33656002)(76506005)(47776003)(6116002)(4326008)(105586002)(229853002)(478600001)(305945005)(25786009)(186003)(7736002)(54906003)(97736004)(53936002)(486006)(6496006)(58126008)(6916009)(16586007)(16526019)(316002)(446003)(81166006)(6666003)(81156014)(86362001)(11346002)(8676002)(476003)(386003)(46003)(50466002)(8936002)(6486002)(18370500001)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR1501MB2048;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-Received-SPF: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtTTjZQUjE1MDFNQjIwNDg7MjM6Vk9EZ3NqMHV0VldMZUZHMGpMUzdVYnZI?=
- =?utf-8?B?UThNUEFQdHVQYm94MTdTaWxrc2tVandOcEdKWmNMb2dwY2t3YkhFeVJrQ012?=
- =?utf-8?B?K0xXTWFvbnFTNEtCUDlNRUFqbFhES0tKSzAyWkV5cVlSK3FyWDVNV0NOUDhE?=
- =?utf-8?B?clpTRG4xNXE0dGwyVGg0Z1hxYUtFc3IyczQyUDl3dEtTcS9xSlpzeE5xYjJs?=
- =?utf-8?B?TGs1dkp6MW0yUzNkRmhyZVU5SlZVTUZGZXp2OFMyQ1N5SmxzcTFYWDhvbVVX?=
- =?utf-8?B?VFhxQ1ZmRVNrZ1Mrb0dHZHhzNmE1Skd3OGt3Y2FnRy92VGg5elE1blF0UzZv?=
- =?utf-8?B?YzZNeTdvWFE2Ukk1U3JCcFpETC9CRVhpYVZhSjI0Qi80dnRlTUp1SzlnRTY4?=
- =?utf-8?B?dXRYQ3h2cmtnbjJNbWNyOUY1dzI0S1NHT0ZLNVJjNEdTUEhsWlFEdWZjckxN?=
- =?utf-8?B?T0VadjZrZm5IUER3ZDY2UkxMaW4zRlJIbG1CZHo1czNFa0k0TDlJUG8rMWVW?=
- =?utf-8?B?YXMzSVNzT1RXSVhZd29CbEN2c21vZzhKcWhRY0QxYXR0b0E3Y1Yrd1hjZVUy?=
- =?utf-8?B?UFBERkxPMzIwMHRad1cvVVJxNTFSV0tnVVIyMVY2aTNUUmRvcGVRb1hDMmxP?=
- =?utf-8?B?bysyNW1LbGlZUDVLdUtma1lNQzg3RnB6ZkpzU1Zsbi9OVmkwSy9Kd2lReThM?=
- =?utf-8?B?cjAvTHpZM1FKNDVEQ1UycStLUVVMSGxIb1BvVkNoRTlaalBDTmFjMUhrRGFu?=
- =?utf-8?B?ODVsNUNjeVMwM1VaUVVySzRldzhLcTNwdGVmWlFCL2RyanpBWDVzbklwVm8w?=
- =?utf-8?B?dnBaNUM0VEhxWVFkQ0NLR0YvYTl0RlQvR0FCRWZQNDBxZ2tXR2hxdm0vMzRS?=
- =?utf-8?B?ayt3SXBBRmgyRGFkSTRSb1lkMWJ5UUoxOVYzaFpuUkNxU1VBUmYwTXIzMG0w?=
- =?utf-8?B?ZjNjMFp0dHpVSjBBYjVhVFRudGFVR2ZWM3BVTG9FNk9OTk9uNXlNTXVQczUy?=
- =?utf-8?B?d2V1VDFDY2g0UHRSVWg3QVZHT3ZTdVdMTGZ0djJXTjR6Mnkwd1FJTnZ3NVRz?=
- =?utf-8?B?bFRjeUg5ZDgyajZaeWhvMzE3YlYvM3NJMzJObHE0Vm1Nb1JtMUFuSjZ4NlFB?=
- =?utf-8?B?V2g0dlExUjB3aTM5WEJtWXJvQkxwdmk4a1UwNGg5UmxjdEJpR1pqaFRQSnZo?=
- =?utf-8?B?NXlqNDlHbXd4ejBFMURwdkd0WUJmVnBNWVVpdFVOVTRDYTdhNEd4R29BTmF0?=
- =?utf-8?B?LzFlYkZtb0xhemF6Z2E1V1h6MzNtdXYrN2NqSVMvUDQvRUJWS3A0d1lCNDhz?=
- =?utf-8?B?SlB0MTNnTUxvc3E0K1BhWFVHYURCZWpnV3FFMi9HdngyajhSUzVRS001KzVy?=
- =?utf-8?B?eGxQd1BmOTZjOVFCY1hCMDBZdm5aODVqU0IwQmVRTkFxbmdMTG1XOGJSUFY3?=
- =?utf-8?B?elp4QkdXc3NSaEdJZkM4QlNFWDQyaVNWZ3F2ZTBST0NUTnExUGo2WGF4ZDBs?=
- =?utf-8?B?TFArUkFtbzNJVkhxRjczUEIreDVvZXErcHY2VWJETk43b0VmUUhyLzNvcUUv?=
- =?utf-8?B?SjV6SnlEbG5aRG1ZOWxZTkQ2REQ1TlI4Q3M1Q3oxYXB0TFEwV2tDSGlNN3Rs?=
- =?utf-8?B?OEFTK0V5ZE5kMWY5SWxzMlRQM1hiTC9RZWo3OE5OTGV4eXN6UXE2bWNGUmNv?=
- =?utf-8?B?bTZQRXVWUDJDQ2xLRFViTEFKRGZLRlV1UkV4MnBXWVc2OHlWTTV2cldYZElt?=
- =?utf-8?B?VzBXSDYwUnQ1YlNuSzRta0pZOVp6TDEzRFdmZFY2Sm40QlUrZFpyNXJDODBQ?=
- =?utf-8?B?cWJZNE1TUHFHRUZPcFVxTHZIODc4cTBOd0tMd1pNaUdWeTB6UWFaYU5ZQ1Vt?=
- =?utf-8?Q?RSxK/O5CihJvs=3D?=
-X-Microsoft-Antispam-Message-Info: +r/WkR4krk5p2fhijIhBPjv0TSzb6gQZypaBjoABHNjyk0hGtkAhY66coLjwCIhWADqyo+BIAxr4dyrR9AHdkV3GZQqnRNQpTWAIwo63mFr6OqKonK2EM5YPqxhRJhwQw0VzRE3uynlicLcIUHpdqHCVMHeXsHfac5G27JR1Epd4+1r/JnmKIjzzoJzxLL3I
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB2048;6:dtqGz1BTldngezU0FnzJZSKgaZu+pLjByiLWJyeOU1ykUBVhB47NZeubppOVdlw7U7/LkgQgUXMAX1UrVbYBP/44QogZn6kZUawG1rpFSxM/TTDFjFuKoqaRMPGMM6VMQ1KxjsWNVZ76oM3qYA3V1fHOUt/5cSTog7EBIMIQOTLRcXRDTs/fgcPPvmH9B/KyYNmRJ3gnwzJgDA0x2k+t7me49JgUNLgg7OhM9t8CB2DuTLV3cflJyTRJeCRGCP8HYjVUxVV84aelZCdbV1QeF/3oaApMy/wexXRzBkDxoKxnt5HzXbKidIHb5/VwFANp3unWmF1c+2a5I5ri0V1gYZwvKWvMIfaW9JHT6w2+omhDUZdX/ND7ye2prvpAYNpBQjamxXsJx7+aPpFWU4uJgBRbJgjuB0P9hBwlPMFslVLS4w6c3N5+kgxPip7UVUL3auqvmIHRQLcuNvOCsTkAYA==;5:Uej3+hmPN/oWh0HOF02/qviIZmU7mhl5gnKSIZWi7PpqQe8XK5mNk1fC1Ce/7qDAuAuhJtf3zb9gm9fSbxxYtKE/M4v6aVmSdaFeWQyjvdu3PQjfTLxBGMcAG+S4Oi6kH/BJt+tHhZXGTwSMika+E6QB5QIbjXv7aEtqP9Hwyk4=;24:fXuBslcFZccTfBpeJDg1lxBYxWJeaZF19hi+wV7PMrlIZyIBfwBYEIvLE7gg7RYKtBQjHg/1dtd4Jc2rxE2BkYTWlCQWCR1uCMj5cNoti4A=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB2048;7:yhcWgzXA12dDfiGHmyoG4wEuA3kne1D2GEf5y9DsIE5ngfwWMsUw2kVmtsJSor0l4R/fy4YjXLMkfG/obFjnwSqmk3rFU4G8TzFAOTpmBGl5SCXlVqwrAHbYDQ8RONzf8CMXLzGgDCJqrBVpIpIBwspVIOD48IZIzSg1QhQJfLOPBYtt8RJX3mo0tSDXOB4kC6oQEZFRwCs5KUBWQdQGbbgZgJu18pn7SqygblEVfOPYMEA+qo+FGjDaYrtv6ioP;20:2t8QZELEObbMJmgDyVhTJD3vZzcVPTVrSV5s5va4CLeDzvce4LCebNHzRXxolkQJeQgaWeroDbxrZZaqH6fQIPz1PStuEggcRwMb23U78CNsDIFg+qhUy5mVie4Ku+JCjWp/WQHx8lmb55GSlbsNzr2U/RzmWDldsUarFwWVj2Y=
-X-MS-Office365-Filtering-Correlation-Id: 82f96638-7e01-4a67-6deb-08d59f0b86ea
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2018 17:50:19.8041 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82f96638-7e01-4a67-6deb-08d59f0b86ea
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR1501MB2048
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-10_07:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-FB-Internal: Safe
+In-Reply-To: <20180410144157.4831-3-quentin.monnet@netronome.com>
+User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quentin Monnet <quentin.monnet@netronome.com> [Tue, 2018-04-10 07:43 -0700]:
-> + * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
+On Tue, Apr 10, 2018 at 03:41:51PM +0100, Quentin Monnet wrote:
+> Add documentation for eBPF helper functions to bpf.h user header file.
+> This documentation can be parsed with the Python script provided in
+> another commit of the patch series, in order to provide a RST document
+> that can later be converted into a man page.
+> 
+> The objective is to make the documentation easily understandable and
+> accessible to all eBPF developers, including beginners.
+> 
+> This patch contains descriptions for the following helper functions, all
+> written by Alexei:
+> 
+> - bpf_map_lookup_elem()
+> - bpf_map_update_elem()
+> - bpf_map_delete_elem()
+> - bpf_probe_read()
+> - bpf_ktime_get_ns()
+> - bpf_trace_printk()
+> - bpf_skb_store_bytes()
+> - bpf_l3_csum_replace()
+> - bpf_l4_csum_replace()
+> - bpf_tail_call()
+> - bpf_clone_redirect()
+> 
+> Cc: Alexei Starovoitov <ast@kernel.org>
+> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
+> ---
+>  include/uapi/linux/bpf.h | 199 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 199 insertions(+)
+> 
+> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> index 45f77f01e672..2bc653a3a20f 100644
+> --- a/include/uapi/linux/bpf.h
+> +++ b/include/uapi/linux/bpf.h
+> @@ -381,6 +381,205 @@ union bpf_attr {
+>   * intentional, removing them would break paragraphs for rst2man.
+>   *
+>   * Start of BPF helper function descriptions:
+> + *
+> + * void *bpf_map_lookup_elem(struct bpf_map *map, void *key)
 > + * 	Description
-> + * 		Bind the socket associated to *ctx* to the address pointed by
-> + * 		*addr*, of length *addr_len*. This allows for making outgoing
-> + * 		connection from the desired IP address, which can be useful for
-> + * 		example when all processes inside a cgroup should use one
-> + * 		single IP address on a host that has multiple IP configured.
+> + * 		Perform a lookup in *map* for an entry associated to *key*.
+> + * 	Return
+> + * 		Map value associated to *key*, or **NULL** if no entry was
+> + * 		found.
 > + *
-> + * 		This helper works for IPv4 and IPv6, TCP and UDP sockets. The
-> + * 		domain (*addr*\ **->sa_family**) must be **AF_INET** (or
-> + * 		**AF_INET6**). Looking for a free port to bind to can be
-> + * 		expensive, therefore binding to port is not permitted by the
-> + * 		helper: *addr*\ **->sin_port** (or **sin6_port**, respectively)
-> + * 		must be set to zero.
+> + * int bpf_map_update_elem(struct bpf_map *map, void *key, void *value, u64 flags)
+> + * 	Description
+> + * 		Add or update the value of the entry associated to *key* in
+> + * 		*map* with *value*. *flags* is one of:
 > + *
-> + * 		As for the remote end, both parts of it can be overridden,
-> + * 		remote IP and remote port. This can be useful if an application
-> + * 		inside a cgroup wants to connect to another application inside
-> + * 		the same cgroup or to itself, but knows nothing about the IP
-> + * 		address assigned to the cgroup.
+> + * 		**BPF_NOEXIST**
+> + * 			The entry for *key* must not exist in the map.
+> + * 		**BPF_EXIST**
+> + * 			The entry for *key* must already exist in the map.
+> + * 		**BPF_ANY**
+> + * 			No condition on the existence of the entry for *key*.
+> + *
+> + * 		These flags are only useful for maps of type
+> + * 		**BPF_MAP_TYPE_HASH**. For all other map types, **BPF_ANY**
+> + * 		should be used.
 
-The last paragraph ("As for the remote end ...") is not relevant to
-bpf_bind() and should be removed. It's about sys_connect hook itself
-that can call to bpf_bind() but also has other functionality (and that
-other functionality is described by this paragraph).
+I think that's not entirely accurate.
+The flags work as expected for all other map types as well
+and for lru map, sockmap, map in map the flags have practical use cases.
 
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_map_delete_elem(struct bpf_map *map, void *key)
+> + * 	Description
+> + * 		Delete entry with *key* from *map*.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_probe_read(void *dst, u32 size, const void *src)
+> + * 	Description
+> + * 		For tracing programs, safely attempt to read *size* bytes from
+> + * 		address *src* and store the data in *dst*.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * u64 bpf_ktime_get_ns(void)
+> + * 	Description
+> + * 		Return the time elapsed since system boot, in nanoseconds.
+> + * 	Return
+> + * 		Current *ktime*.
+> + *
+> + * int bpf_trace_printk(const char *fmt, u32 fmt_size, ...)
+> + * 	Description
+> + * 		This helper is a "printk()-like" facility for debugging. It
+> + * 		prints a message defined by format *fmt* (of size *fmt_size*)
+> + * 		to file *\/sys/kernel/debug/tracing/trace* from DebugFS, if
+> + * 		available. It can take up to three additional **u64**
+> + * 		arguments (as an eBPF helpers, the total number of arguments is
+> + * 		limited to five). Each time the helper is called, it appends a
+> + * 		line that looks like the following:
+> + *
+> + * 		::
+> + *
+> + * 			telnet-470   [001] .N.. 419421.045894: 0x00000001: BPF command: 2
+> + *
+> + * 		In the above:
+> + *
+> + * 			* ``telnet`` is the name of the current task.
+> + * 			* ``470`` is the PID of the current task.
+> + * 			* ``001`` is the CPU number on which the task is
+> + * 			  running.
+> + * 			* In ``.N..``, each character refers to a set of
+> + * 			  options (whether irqs are enabled, scheduling
+> + * 			  options, whether hard/softirqs are running, level of
+> + * 			  preempt_disabled respectively). **N** means that
+> + * 			  **TIF_NEED_RESCHED** and **PREEMPT_NEED_RESCHED**
+> + * 			  are set.
+> + * 			* ``419421.045894`` is a timestamp.
+> + * 			* ``0x00000001`` is a fake value used by BPF for the
+> + * 			  instruction pointer register.
+> + * 			* ``BPF command: 2`` is the message formatted with
+> + * 			  *fmt*.
 
--- 
-Andrey Ignatov
+the above depends on how trace_pipe was configured. It's a default
+configuration for many, but would be good to explain this a bit better.
+
+> + *
+> + * 		The conversion specifiers supported by *fmt* are similar, but
+> + * 		more limited than for printk(). They are **%d**, **%i**,
+> + * 		**%u**, **%x**, **%ld**, **%li**, **%lu**, **%lx**, **%lld**,
+> + * 		**%lli**, **%llu**, **%llx**, **%p**, **%s**. No modifier (size
+> + * 		of field, padding with zeroes, etc.) is available, and the
+> + * 		helper will silently fail if it encounters an unknown
+> + * 		specifier.
+
+This is not true. bpf_trace_printk will return -EINVAL for unknown specifier.
+
+> + *
+> + * 		Also, note that **bpf_trace_printk**\ () is slow, and should
+> + * 		only be used for debugging purposes. For passing values to user
+> + * 		space, perf events should be preferred.
+
+please mention the giant dmesg warning that people will definitely
+notice when they try to use this helper.
+
+> + * 	Return
+> + * 		The number of bytes written to the buffer, or a negative error
+> + * 		in case of failure.
+> + *
+> + * int bpf_skb_store_bytes(struct sk_buff *skb, u32 offset, const void *from, u32 len, u64 flags)
+> + * 	Description
+> + * 		Store *len* bytes from address *from* into the packet
+> + * 		associated to *skb*, at *offset*. *flags* are a combination of
+> + * 		**BPF_F_RECOMPUTE_CSUM** (automatically recompute the
+> + * 		checksum for the packet after storing the bytes) and
+> + * 		**BPF_F_INVALIDATE_HASH** (set *skb*\ **->hash**, *skb*\
+> + * 		**->swhash** and *skb*\ **->l4hash** to 0).
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_l3_csum_replace(struct sk_buff *skb, u32 offset, u64 from, u64 to, u64 size)
+> + * 	Description
+> + * 		Recompute the IP checksum for the packet associated to *skb*.
+> + * 		Computation is incremental, so the helper must know the former
+> + * 		value of the header field that was modified (*from*), the new
+> + * 		value of this field (*to*), and the number of bytes (2 or 4)
+> + * 		for this field, stored in *size*. Alternatively, it is possible
+> + * 		to store the difference between the previous and the new values
+> + * 		of the header field in *to*, by setting *from* and *size* to 0.
+> + * 		For both methods, *offset* indicates the location of the IP
+> + * 		checksum within the packet.
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_l4_csum_replace(struct sk_buff *skb, u32 offset, u64 from, u64 to, u64 flags)
+> + * 	Description
+> + * 		Recompute the TCP or UDP checksum for the packet associated to
+> + * 		*skb*. Computation is incremental, so the helper must know the
+> + * 		former value of the header field that was modified (*from*),
+> + * 		the new value of this field (*to*), and the number of bytes (2
+> + * 		or 4) for this field, stored on the lowest four bits of
+> + * 		*flags*. Alternatively, it is possible to store the difference
+> + * 		between the previous and the new values of the header field in
+> + * 		*to*, by setting *from* and the four lowest bits of *flags* to
+> + * 		0. For both methods, *offset* indicates the location of the IP
+> + * 		checksum within the packet. In addition to the size of the
+> + * 		field, *flags* can be added (bitwise OR) actual flags. With
+> + * 		**BPF_F_MARK_MANGLED_0**, a null checksum is left untouched
+> + * 		(unless **BPF_F_MARK_ENFORCE** is added as well), and for
+> + * 		updates resulting in a null checksum the value is set to
+> + * 		**CSUM_MANGLED_0** instead. Flag **BPF_F_PSEUDO_HDR**
+> + * 		indicates the checksum is to be computed against a
+> + * 		pseudo-header.
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_tail_call(void *ctx, struct bpf_map *prog_array_map, u32 index)
+> + * 	Description
+> + * 		This special helper is used to trigger a "tail call", or in
+> + * 		other words, to jump into another eBPF program. The contents of
+> + * 		eBPF registers and stack are not modified, the new program
+> + * 		"inherits" them from the caller. This mechanism allows for
+
+"inherits" is a technically correct, but misleading statement,
+since callee program cannot access caller's registers and stack.
+
+> + * 		program chaining, either for raising the maximum number of
+> + * 		available eBPF instructions, or to execute given programs in
+> + * 		conditional blocks. For security reasons, there is an upper
+> + * 		limit to the number of successive tail calls that can be
+> + * 		performed.
+> + *
+> + * 		Upon call of this helper, the program attempts to jump into a
+> + * 		program referenced at index *index* in *prog_array_map*, a
+> + * 		special map of type **BPF_MAP_TYPE_PROG_ARRAY**, and passes
+> + * 		*ctx*, a pointer to the context.
+> + *
+> + * 		If the call succeeds, the kernel immediately runs the first
+> + * 		instruction of the new program. This is not a function call,
+> + * 		and it never goes back to the previous program. If the call
+> + * 		fails, then the helper has no effect, and the caller continues
+> + * 		to run its own instructions. A call can fail if the destination
+> + * 		program for the jump does not exist (i.e. *index* is superior
+> + * 		to the number of entries in *prog_array_map*), or if the
+> + * 		maximum number of tail calls has been reached for this chain of
+> + * 		programs. This limit is defined in the kernel by the macro
+> + * 		**MAX_TAIL_CALL_CNT** (not accessible to user space), which
+> + * 		is currently set to 32.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_clone_redirect(struct sk_buff *skb, u32 ifindex, u64 flags)
+> + * 	Description
+> + * 		Clone and redirect the packet associated to *skb* to another
+> + * 		net device of index *ifindex*. The only flag supported for now
+> + * 		is **BPF_F_INGRESS**, which indicates the packet is to be
+> + * 		redirected to the ingress interface instead of (by default)
+> + * 		egress.
+
+imo the above sentence is prone to misinterpretation.
+Can you rephrase it to say that both redirect to ingress and redirect to egress
+are supported and flag is used to indicate which path to take ?
+
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+>   */
+>  #define __BPF_FUNC_MAPPER(FN)		\
+>  	FN(unspec),			\
+> -- 
+> 2.14.1
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
