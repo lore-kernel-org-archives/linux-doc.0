@@ -1,32 +1,48 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F7107E22E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 08:50:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A0DC7E22E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 08:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751680AbeDKItp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Apr 2018 04:49:45 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56781 "EHLO mx2.suse.de"
+        id S1752859AbeDKI64 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Apr 2018 04:58:56 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:51819 "EHLO pegase1.c-s.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750825AbeDKItl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Apr 2018 04:49:41 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (charybdis-ext.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 4F2DEAF6E;
-        Wed, 11 Apr 2018 08:49:39 +0000 (UTC)
-Date:   Wed, 11 Apr 2018 10:49:36 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Laurent Dufour <ldufour@linux.vnet.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        id S1751972AbeDKI6w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Apr 2018 04:58:52 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 40LdHn52Twz9ttSP;
+        Wed, 11 Apr 2018 10:58:45 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id 76RY6eSnHJkX; Wed, 11 Apr 2018 10:58:45 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 40LdHn4FJPz9ttRh;
+        Wed, 11 Apr 2018 10:58:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 394E78B83F;
+        Wed, 11 Apr 2018 10:58:47 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id EoQebtcUDhY0; Wed, 11 Apr 2018 10:58:47 +0200 (CEST)
+Received: from PO15451 (unknown [192.168.232.3])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 2A2EC8B847;
+        Wed, 11 Apr 2018 10:58:45 +0200 (CEST)
+Subject: Re: [PATCH v3 2/2] mm: remove odd HAVE_PTE_SPECIAL
+To:     Laurent Dufour <ldufour@linux.vnet.ibm.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-snps-arc@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org,
         linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
         linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        Jerome Glisse <jglisse@redhat.com>,
+        Jerome Glisse <jglisse@redhat.com>, mhocko@kernel.org,
         aneesh.kumar@linux.vnet.ibm.com, akpm@linux-foundation.org,
         mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
         Jonathan Corbet <corbet@lwn.net>,
@@ -44,54 +60,122 @@ Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Heiko Carstens <heiko.carstens@de.ibm.com>,
         David Rientjes <rientjes@google.com>,
         Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v3 2/2] mm: remove odd HAVE_PTE_SPECIAL
-Message-ID: <20180411084936.GC23400@dhcp22.suse.cz>
 References: <1523433816-14460-1-git-send-email-ldufour@linux.vnet.ibm.com>
  <1523433816-14460-3-git-send-email-ldufour@linux.vnet.ibm.com>
- <20180411083315.GA23400@dhcp22.suse.cz>
- <5bd1bb46-8f71-e6db-7fb7-43d023a37f58@linux.vnet.ibm.com>
+From:   Christophe LEROY <christophe.leroy@c-s.fr>
+Message-ID: <de6ee514-8b7e-24d0-a7ee-a8887e8b0ae9@c-s.fr>
+Date:   Wed, 11 Apr 2018 10:58:44 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5bd1bb46-8f71-e6db-7fb7-43d023a37f58@linux.vnet.ibm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1523433816-14460-3-git-send-email-ldufour@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 11-04-18 10:41:23, Laurent Dufour wrote:
-> On 11/04/2018 10:33, Michal Hocko wrote:
-> > On Wed 11-04-18 10:03:36, Laurent Dufour wrote:
-> >> @@ -881,7 +876,8 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
-> >>  
-> >>  	if (is_zero_pfn(pfn))
-> >>  		return NULL;
-> >> -check_pfn:
-> >> +
-> >> +check_pfn: __maybe_unused
-> >>  	if (unlikely(pfn > highest_memmap_pfn)) {
-> >>  		print_bad_pte(vma, addr, pte, NULL);
-> >>  		return NULL;
-> >> @@ -891,7 +887,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
-> >>  	 * NOTE! We still have PageReserved() pages in the page tables.
-> >>  	 * eg. VDSO mappings can cause them to exist.
-> >>  	 */
-> >> -out:
-> >> +out: __maybe_unused
-> >>  	return pfn_to_page(pfn);
-> > 
-> > Why do we need this ugliness all of the sudden?
-> Indeed the compiler doesn't complaint but in theory it should since these
-> labels are not used depending on CONFIG_ARCH_HAS_PTE_SPECIAL.
 
-Well, such a warning would be quite pointless so I would rather not make
-the code ugly. The value of unused label is quite questionable to start
-with...
 
--- 
-Michal Hocko
-SUSE Labs
+Le 11/04/2018 à 10:03, Laurent Dufour a écrit :
+> Remove the additional define HAVE_PTE_SPECIAL and rely directly on
+> CONFIG_ARCH_HAS_PTE_SPECIAL.
+> 
+> There is no functional change introduced by this patch
+> 
+> Signed-off-by: Laurent Dufour <ldufour@linux.vnet.ibm.com>
+> ---
+>   mm/memory.c | 19 ++++++++-----------
+>   1 file changed, 8 insertions(+), 11 deletions(-)
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 96910c625daa..7f7dc7b2a341 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -817,17 +817,12 @@ static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
+>    * PFNMAP mappings in order to support COWable mappings.
+>    *
+>    */
+> -#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+> -# define HAVE_PTE_SPECIAL 1
+> -#else
+> -# define HAVE_PTE_SPECIAL 0
+> -#endif
+>   struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+>   			     pte_t pte, bool with_public_device)
+>   {
+>   	unsigned long pfn = pte_pfn(pte);
+>   
+> -	if (HAVE_PTE_SPECIAL) {
+> +	if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL)) {
+>   		if (likely(!pte_special(pte)))
+>   			goto check_pfn;
+>   		if (vma->vm_ops && vma->vm_ops->find_special_page)
+> @@ -862,7 +857,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+>   		return NULL;
+>   	}
+>   
+> -	/* !HAVE_PTE_SPECIAL case follows: */
+> +	/* !CONFIG_ARCH_HAS_PTE_SPECIAL case follows: */
+>   
+>   	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+>   		if (vma->vm_flags & VM_MIXEDMAP) {
+> @@ -881,7 +876,8 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+>   
+>   	if (is_zero_pfn(pfn))
+>   		return NULL;
+> -check_pfn:
+> +
+> +check_pfn: __maybe_unused
+
+See below
+
+>   	if (unlikely(pfn > highest_memmap_pfn)) {
+>   		print_bad_pte(vma, addr, pte, NULL);
+>   		return NULL;
+> @@ -891,7 +887,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+>   	 * NOTE! We still have PageReserved() pages in the page tables.
+>   	 * eg. VDSO mappings can cause them to exist.
+>   	 */
+> -out:
+> +out: __maybe_unused
+
+Why do you need that change ?
+
+There is no reason for the compiler to complain. It would complain if 
+the goto was within a #ifdef, but all the purpose of using IS_ENABLED() 
+is to allow the compiler to properly handle all possible cases. That's 
+all the force of IS_ENABLED() compared to ifdefs, and that the reason 
+why they are plebicited, ref Linux Codying style for a detailed explanation.
+
+Christophe
+
+
+>   	return pfn_to_page(pfn);
+>   }
+>   
+> @@ -904,7 +900,7 @@ struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
+>   	/*
+>   	 * There is no pmd_special() but there may be special pmds, e.g.
+>   	 * in a direct-access (dax) mapping, so let's just replicate the
+> -	 * !HAVE_PTE_SPECIAL case from vm_normal_page() here.
+> +	 * !CONFIG_ARCH_HAS_PTE_SPECIAL case from vm_normal_page() here.
+>   	 */
+>   	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+>   		if (vma->vm_flags & VM_MIXEDMAP) {
+> @@ -1933,7 +1929,8 @@ static int __vm_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+>   	 * than insert_pfn).  If a zero_pfn were inserted into a VM_MIXEDMAP
+>   	 * without pte special, it would there be refcounted as a normal page.
+>   	 */
+> -	if (!HAVE_PTE_SPECIAL && !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
+> +	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL) &&
+> +	    !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
+>   		struct page *page;
+>   
+>   		/*
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
