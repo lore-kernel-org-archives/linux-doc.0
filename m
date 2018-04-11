@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AFDD7E8CA
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 13:48:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47C307E22E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 13:51:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751699AbeDKNre (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Apr 2018 09:47:34 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:38699 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753236AbeDKNrc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 09:47:32 -0400
-Received: by mail-wr0-f193.google.com with SMTP id l13so808673wrb.5;
-        Wed, 11 Apr 2018 06:47:31 -0700 (PDT)
+        id S1753169AbeDKNrX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Apr 2018 09:47:23 -0400
+Received: from mail-wm0-f43.google.com ([74.125.82.43]:54940 "EHLO
+        mail-wm0-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751699AbeDKNrT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 09:47:19 -0400
+Received: by mail-wm0-f43.google.com with SMTP id r191so4275894wmg.4;
+        Wed, 11 Apr 2018 06:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=N4K3U37CxRz4PY+T5fC5lFiUq5QU8E9my1NpB831EpE=;
-        b=HeklQbLMCVJwG94slS9bs4C4yREQ7Q39DX0qJOUMqa+rdIjvQ6mRCsr98MzqWX7X6u
-         vLVD74AIOikEeH0BdQla13VtF1jIImwLLcCqJr6QL4I2+9PFBeWgoSApW+vzFGp+mAlm
-         RXMQNh1H96OfMoh5D5LxE7v2z58Dbgivt3z2EjkpmKHCTLXokZmJ8+wvu08AxkTGToGG
-         LN4WQ6yd+Ztx8OJyWC3BEQkl+/SSiFdPUtQ/ItNGDRbvJ9I2gLdjZmudrU/+X943q0KU
-         zQx+KXaH+z4aWfKqomqTfiuK/JDnymdcZFmRS1lSTuMEOYNKrSond6icZbsLy3NraRzn
-         2JkA==
+        bh=hUr/ISpgM7Vcl0BqrTx9Dhy1xm19FJvHiXnnxt4FQwc=;
+        b=dUH8VARM+QRHDvvLO8jSnwXlCJTl2upZhj4vhjHsenYLfOWJn0oXnrqEm3ge5sPykN
+         pNMfj4n2LIhQOZcFHSbYaAzEmQF3h2vy7AwtkeMQM7ETCSn1Hho2cZK7pbYxgaPWLM9g
+         3pl2mzbsUpuJBqcvthdYsq7IsIHEpcwHr5Wctm9+2ZQOzvA35fYORrRAYXLFzzlrqdGJ
+         dXhx2AnQqNeQ4JCADLu/ZWIg8sT5VtomWFX/KrRr/Ce8Fe5uV4Vj3XAw0n4Ey+rSVx8f
+         R6FRHSOZEtwo3N5eQGyI2JzSBHAK+ejtg/hOQcKGhRU6d9e1fWm1dn/B7qHfAnjuXjRs
+         vL2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=N4K3U37CxRz4PY+T5fC5lFiUq5QU8E9my1NpB831EpE=;
-        b=DH2SE1sWKnELLLshSp7xJvgguNU4c+NfFkPI/r03mLPMENLEaeLQaH3Q9qWUkanc3R
-         sH0BqBL1HlklCxRB47L1oZy2X1jNd23/6xdGDDKmylR/SHPHv0NYO0ZQ3Luf8S5DBX/I
-         ObyLvq4DlQas/xvaeyAGTeLQCmLXCoPOH4Gj4ByO73yi4m+jWZSxhtGKqd/0RtoSXWld
-         LPYlxqhzV4Q+ShM8oe4tVLbWhgkKyM2vU3+zrwUKowEuA3/rAE92OJvYlsDM+Tzth/a4
-         yVfcx53Otfn27k6wHUgELtCH1HT32WF5SeSK1gjIB1x4uBxr0bJJVzEbaVTJbLyc6GYC
-         KxZw==
-X-Gm-Message-State: ALQs6tBXX8ZbJbbBLjnCAA8+ERoxw8KoHhF92kIdWW5KXjOu59mtbbnn
-        8lRCmO6wejGPzzWBfmtEa/g=
-X-Google-Smtp-Source: AIpwx4+GJD+u0nodSJddDF8/Emfigy7DBR1QJFLK8lPU1CP/FdgmDKe1Fq4KpKPSp3B3MngvnodO0g==
-X-Received: by 10.223.168.7 with SMTP id l7mr3433779wrc.77.1523454450610;
-        Wed, 11 Apr 2018 06:47:30 -0700 (PDT)
+        bh=hUr/ISpgM7Vcl0BqrTx9Dhy1xm19FJvHiXnnxt4FQwc=;
+        b=ayGj7y/HEY6a/ukGXBPa7lvNjxpVTDjfn2cxGZzJufd6dEzAd/2dILwIz5hOLYgrnB
+         MrM3wiUgJj3stnlTdyrJiTUhvVLVBD4fHEWnznPAS0HcZNaq9uYEd6uuRx8lH5TMtei6
+         KD0OJvUq7NXA/+D4PiT2pa2JPc7cZcoCeU/sFzZaiA+WE5Dy80FJ8/HWBLvxQSb3nc1x
+         1iOFwXYuAj5L/F/44Qd/eAi1ui7+Ap1BUu8kHg+1/T+TChfGziH/MRYNIpe8e+z+lclB
+         EIXETPDHd44+FpuAvmQlXYjhNEqNSIBrJGfz7Xkhy/MT5HqZfeQe3i7PfWV16lxZ4CZV
+         v4jw==
+X-Gm-Message-State: ALQs6tB4MfAccETUt0hMmct+JIKuDd+ytxBflRO76b6en+IiL/IfsKvv
+        5SQTSCknqE6G5XvspiAEgVU=
+X-Google-Smtp-Source: AIpwx49kB7uzXc8RODbgmN9ui/Ruvtciz06cBDdX1Bejave2ZSoHmExzl5rW+7U8o86n+9e6KclxrQ==
+X-Received: by 10.28.152.6 with SMTP id a6mr2665242wme.119.1523454437869;
+        Wed, 11 Apr 2018 06:47:17 -0700 (PDT)
 Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id p25sm1041114wmi.14.2018.04.11.06.47.28
+        by smtp.gmail.com with ESMTPSA id w62sm1358043wmb.6.2018.04.11.06.47.16
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Apr 2018 06:47:29 -0700 (PDT)
+        Wed, 11 Apr 2018 06:47:17 -0700 (PDT)
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 8B7782117E;
-        Wed, 11 Apr 2018 09:47:26 -0400 (EDT)
+        by mailauth.nyi.internal (Postfix) with ESMTP id 6403121091;
+        Wed, 11 Apr 2018 09:47:15 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Wed, 11 Apr 2018 09:47:26 -0400
-X-ME-Sender: <xms:7hHOWlvkQre2YFh13ckCZQGQ8pQ1s7k3erNB58paXsb5Fx4fvHzlaA>
+  by compute7.internal (MEProxy); Wed, 11 Apr 2018 09:47:15 -0400
+X-ME-Sender: <xms:4xHOWtd-AO_3sSjHI6jBcCLrmNhlzMlpMoNn-n_vUgr7uL7Vx-tqhg>
 Received: from localhost (unknown [45.32.128.109])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 0361D102D1;
-        Wed, 11 Apr 2018 09:47:26 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id AF0D8102D2;
+        Wed, 11 Apr 2018 09:47:14 -0400 (EDT)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -65,9 +65,9 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [RFC tip/locking/lockdep v6 04/20] lockdep: Redefine LOCK_*_STATE* bits
-Date:   Wed, 11 Apr 2018 21:50:54 +0800
-Message-Id: <20180411135110.9217-5-boqun.feng@gmail.com>
+Subject: [RFC tip/locking/lockdep v6 01/20] lockdep/Documention: Recursive read lock detection reasoning
+Date:   Wed, 11 Apr 2018 21:50:51 +0800
+Message-Id: <20180411135110.9217-2-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.16.2
 In-Reply-To: <20180411135110.9217-1-boqun.feng@gmail.com>
 References: <20180411135110.9217-1-boqun.feng@gmail.com>
@@ -76,219 +76,211 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are three types of lock acquisitions: write, non-recursive read
-and recursive read, among which write locks and non-recursive read locks
-have no difference from a viewpoint for deadlock detections, because a
-write acquisition of the corresponding lock on an independent CPU or
-task makes a non-recursive read lock act as a write lock in the sense of
-deadlock. So we could treat them as the same type (named as
-"non-recursive lock") in lockdep.
+This patch add the documentation piece for the reasoning of deadlock
+detection related to recursive read lock. The following sections are
+added:
 
-As in the irq lock inversion detection (safe->unsafe deadlock
-detection), we used to differ write lock with read lock (non-recursive
-and recursive ones), such a classification could be improved as
-non-recursive read lock behaves the same as write lock, so this patch
-redefines the meanings of LOCK_{USED_IN, ENABLED}_STATE*.
+*	Explain what is a recursive read lock, and what deadlock cases
+	they could introduce.
 
-old:
-	LOCK_* : stands for write lock
-	LOCK_*_READ: stands for read lock(non-recursive and recursive)
-new:
-	LOCK_* : stands for non-recursive(write lock and non-recursive
-	read lock)
-	LOCK_*_RR: stands for recursive read lock
+*	Introduce the notations for different types of dependencies, and
+	the definition of strong paths.
 
-Such a change is needed for a future improvement on recursive read
-related irq inversion deadlock detection.
+*	Proof for a closed strong path is both sufficient and necessary
+	for deadlock detections with recursive read locks involved. The
+	proof could also explain why we call the path "strong"
 
 Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- Documentation/locking/lockdep-design.txt |  6 +++---
- kernel/locking/lockdep.c                 | 28 ++++++++++++++--------------
- kernel/locking/lockdep_internals.h       | 16 ++++++++--------
- kernel/locking/lockdep_proc.c            | 12 ++++++------
- 4 files changed, 31 insertions(+), 31 deletions(-)
+ Documentation/locking/lockdep-design.txt | 178 +++++++++++++++++++++++++++++++
+ 1 file changed, 178 insertions(+)
 
 diff --git a/Documentation/locking/lockdep-design.txt b/Documentation/locking/lockdep-design.txt
-index 6bb9e90e2c4f..53ede30ce16d 100644
+index 9de1c158d44c..6bb9e90e2c4f 100644
 --- a/Documentation/locking/lockdep-design.txt
 +++ b/Documentation/locking/lockdep-design.txt
-@@ -30,9 +30,9 @@ State
- The validator tracks lock-class usage history into 4n + 1 separate state bits:
- 
- - 'ever held in STATE context'
--- 'ever held as readlock in STATE context'
-+- 'ever held as recursive readlock in STATE context'
- - 'ever held with STATE enabled'
--- 'ever held as readlock with STATE enabled'
-+- 'ever held as recurisve readlock with STATE enabled'
- 
- Where STATE can be either one of (kernel/locking/lockdep_states.h)
-  - hardirq
-@@ -51,7 +51,7 @@ locking error messages, inside curlies. A contrived example:
-     (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
- 
- 
--The bit position indicates STATE, STATE-read, for each of the states listed
-+The bit position indicates STATE, STATE-RR, for each of the states listed
- above, and the character displayed in each indicates:
- 
-    '.'  acquired while irqs disabled and not in irq context
-diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
-index f39a071ef0a8..14af2327b52a 100644
---- a/kernel/locking/lockdep.c
-+++ b/kernel/locking/lockdep.c
-@@ -448,10 +448,10 @@ DEFINE_PER_CPU(struct lockdep_stats, lockdep_stats);
-  */
- 
- #define __USAGE(__STATE)						\
--	[LOCK_USED_IN_##__STATE] = "IN-"__stringify(__STATE)"-W",	\
--	[LOCK_ENABLED_##__STATE] = __stringify(__STATE)"-ON-W",		\
--	[LOCK_USED_IN_##__STATE##_READ] = "IN-"__stringify(__STATE)"-R",\
--	[LOCK_ENABLED_##__STATE##_READ] = __stringify(__STATE)"-ON-R",
-+	[LOCK_USED_IN_##__STATE] = "IN-"__stringify(__STATE),		\
-+	[LOCK_ENABLED_##__STATE] = __stringify(__STATE)"-ON",		\
-+	[LOCK_USED_IN_##__STATE##_RR] = "IN-"__stringify(__STATE)"-RR",	\
-+	[LOCK_ENABLED_##__STATE##_RR] = __stringify(__STATE)"-ON-RR",
- 
- static const char *usage_str[] =
- {
-@@ -492,7 +492,7 @@ void get_usage_chars(struct lock_class *class, char usage[LOCK_USAGE_CHARS])
- 
- #define LOCKDEP_STATE(__STATE) 						\
- 	usage[i++] = get_usage_char(class, LOCK_USED_IN_##__STATE);	\
--	usage[i++] = get_usage_char(class, LOCK_USED_IN_##__STATE##_READ);
-+	usage[i++] = get_usage_char(class, LOCK_USED_IN_##__STATE##_RR);
- #include "lockdep_states.h"
- #undef LOCKDEP_STATE
- 
-@@ -1645,7 +1645,7 @@ static const char *state_names[] = {
- 
- static const char *state_rnames[] = {
- #define LOCKDEP_STATE(__STATE) \
--	__stringify(__STATE)"-READ",
-+	__stringify(__STATE)"-RR",
- #include "lockdep_states.h"
- #undef LOCKDEP_STATE
- };
-@@ -3039,14 +3039,14 @@ static int mark_irqflags(struct task_struct *curr, struct held_lock *hlock)
- 	 * mark the lock as used in these contexts:
- 	 */
- 	if (!hlock->trylock) {
--		if (hlock->read) {
-+		if (hlock->read == 2) {
- 			if (curr->hardirq_context)
- 				if (!mark_lock(curr, hlock,
--						LOCK_USED_IN_HARDIRQ_READ))
-+						LOCK_USED_IN_HARDIRQ_RR))
- 					return 0;
- 			if (curr->softirq_context)
- 				if (!mark_lock(curr, hlock,
--						LOCK_USED_IN_SOFTIRQ_READ))
-+						LOCK_USED_IN_SOFTIRQ_RR))
- 					return 0;
- 		} else {
- 			if (curr->hardirq_context)
-@@ -3058,13 +3058,13 @@ static int mark_irqflags(struct task_struct *curr, struct held_lock *hlock)
- 		}
- 	}
- 	if (!hlock->hardirqs_off) {
--		if (hlock->read) {
-+		if (hlock->read == 2) {
- 			if (!mark_lock(curr, hlock,
--					LOCK_ENABLED_HARDIRQ_READ))
-+					LOCK_ENABLED_HARDIRQ_RR))
- 				return 0;
- 			if (curr->softirqs_enabled)
- 				if (!mark_lock(curr, hlock,
--						LOCK_ENABLED_SOFTIRQ_READ))
-+						LOCK_ENABLED_SOFTIRQ_RR))
- 					return 0;
- 		} else {
- 			if (!mark_lock(curr, hlock,
-@@ -3170,9 +3170,9 @@ static int mark_lock(struct task_struct *curr, struct held_lock *this,
- 	switch (new_bit) {
- #define LOCKDEP_STATE(__STATE)			\
- 	case LOCK_USED_IN_##__STATE:		\
--	case LOCK_USED_IN_##__STATE##_READ:	\
-+	case LOCK_USED_IN_##__STATE##_RR:	\
- 	case LOCK_ENABLED_##__STATE:		\
--	case LOCK_ENABLED_##__STATE##_READ:
-+	case LOCK_ENABLED_##__STATE##_RR:
- #include "lockdep_states.h"
- #undef LOCKDEP_STATE
- 		ret = mark_lock_irq(curr, this, new_bit);
-diff --git a/kernel/locking/lockdep_internals.h b/kernel/locking/lockdep_internals.h
-index d459d624ba2a..93002d337936 100644
---- a/kernel/locking/lockdep_internals.h
-+++ b/kernel/locking/lockdep_internals.h
-@@ -13,9 +13,9 @@
- enum lock_usage_bit {
- #define LOCKDEP_STATE(__STATE)		\
- 	LOCK_USED_IN_##__STATE,		\
--	LOCK_USED_IN_##__STATE##_READ,	\
-+	LOCK_USED_IN_##__STATE##_RR,	\
- 	LOCK_ENABLED_##__STATE,		\
--	LOCK_ENABLED_##__STATE##_READ,
-+	LOCK_ENABLED_##__STATE##_RR,
- #include "lockdep_states.h"
- #undef LOCKDEP_STATE
- 	LOCK_USED,
-@@ -30,9 +30,9 @@ enum lock_usage_bit {
- enum {
- #define LOCKDEP_STATE(__STATE)						\
- 	__LOCKF(USED_IN_##__STATE)					\
--	__LOCKF(USED_IN_##__STATE##_READ)				\
-+	__LOCKF(USED_IN_##__STATE##_RR)				\
- 	__LOCKF(ENABLED_##__STATE)					\
--	__LOCKF(ENABLED_##__STATE##_READ)
-+	__LOCKF(ENABLED_##__STATE##_RR)
- #include "lockdep_states.h"
- #undef LOCKDEP_STATE
- 	__LOCKF(USED)
-@@ -41,10 +41,10 @@ enum {
- #define LOCKF_ENABLED_IRQ (LOCKF_ENABLED_HARDIRQ | LOCKF_ENABLED_SOFTIRQ)
- #define LOCKF_USED_IN_IRQ (LOCKF_USED_IN_HARDIRQ | LOCKF_USED_IN_SOFTIRQ)
- 
--#define LOCKF_ENABLED_IRQ_READ \
--		(LOCKF_ENABLED_HARDIRQ_READ | LOCKF_ENABLED_SOFTIRQ_READ)
--#define LOCKF_USED_IN_IRQ_READ \
--		(LOCKF_USED_IN_HARDIRQ_READ | LOCKF_USED_IN_SOFTIRQ_READ)
-+#define LOCKF_ENABLED_IRQ_RR \
-+		(LOCKF_ENABLED_HARDIRQ_RR | LOCKF_ENABLED_SOFTIRQ_RR)
-+#define LOCKF_USED_IN_IRQ_RR \
-+		(LOCKF_USED_IN_HARDIRQ_RR | LOCKF_USED_IN_SOFTIRQ_RR)
- 
- /*
-  * CONFIG_LOCKDEP_SMALL is defined for sparc. Sparc requires .text,
-diff --git a/kernel/locking/lockdep_proc.c b/kernel/locking/lockdep_proc.c
-index ad69bbc9bd28..630a6bc6e24c 100644
---- a/kernel/locking/lockdep_proc.c
-+++ b/kernel/locking/lockdep_proc.c
-@@ -252,17 +252,17 @@ static int lockdep_stats_show(struct seq_file *m, void *v)
- 			nr_hardirq_safe++;
- 		if (class->usage_mask & LOCKF_ENABLED_HARDIRQ)
- 			nr_hardirq_unsafe++;
--		if (class->usage_mask & LOCKF_USED_IN_IRQ_READ)
-+		if (class->usage_mask & LOCKF_USED_IN_IRQ_RR)
- 			nr_irq_read_safe++;
--		if (class->usage_mask & LOCKF_ENABLED_IRQ_READ)
-+		if (class->usage_mask & LOCKF_ENABLED_IRQ_RR)
- 			nr_irq_read_unsafe++;
--		if (class->usage_mask & LOCKF_USED_IN_SOFTIRQ_READ)
-+		if (class->usage_mask & LOCKF_USED_IN_SOFTIRQ_RR)
- 			nr_softirq_read_safe++;
--		if (class->usage_mask & LOCKF_ENABLED_SOFTIRQ_READ)
-+		if (class->usage_mask & LOCKF_ENABLED_SOFTIRQ_RR)
- 			nr_softirq_read_unsafe++;
--		if (class->usage_mask & LOCKF_USED_IN_HARDIRQ_READ)
-+		if (class->usage_mask & LOCKF_USED_IN_HARDIRQ_RR)
- 			nr_hardirq_read_safe++;
--		if (class->usage_mask & LOCKF_ENABLED_HARDIRQ_READ)
-+		if (class->usage_mask & LOCKF_ENABLED_HARDIRQ_RR)
- 			nr_hardirq_read_unsafe++;
- 
- #ifdef CONFIG_PROVE_LOCKING
+@@ -284,3 +284,181 @@ Run the command and save the output, then compare against the output from
+ a later run of this command to identify the leakers.  This same output
+ can also help you find situations where runtime lock initialization has
+ been omitted.
++
++Recursive read locks:
++---------------------
++
++Lockdep now is equipped with deadlock detection for recursive read locks.
++
++Recursive read locks, as their name indicates, are the locks able to be
++acquired recursively. Unlike non-recursive read locks, recursive read locks
++only get blocked by current write lock *holders* other than write lock
++*waiters*, for example:
++
++	TASK A:			TASK B:
++
++	read_lock(X);
++
++				write_lock(X);
++
++	read_lock(X);
++
++is not a deadlock for recursive read locks, as while the task B is waiting for
++the lock X, the second read_lock() doesn't need to wait because it's a recursive
++read lock. However if the read_lock() is non-recursive read lock, then the above
++case is a deadlock, because even if the write_lock() in TASK B can not get the
++lock, but it can block the second read_lock() in TASK A.
++
++Note that a lock can be a write lock (exclusive lock), a non-recursive read
++lock (non-recursive shared lock) or a recursive read lock (recursive shared
++lock), depending on the lock operations used to acquire it (more specifically,
++the value of the 'read' parameter for lock_acquire()). In other words, a single
++lock instance has three types of acquisition depending on the acquisition
++functions: exclusive, non-recursive read, and recursive read.
++
++To be concise, we call that write locks and non-recursive read locks as
++"non-recursive" locks and recursive read locks as "recursive" locks.
++
++Recursive locks don't block each other, while non-recursive locks do (this is
++even true for two non-recursive read locks). A non-recursive lock can block the
++corresponding recursive lock, and vice versa.
++
++A deadlock case with recursive locks involved is as follow:
++
++	TASK A:			TASK B:
++
++	read_lock(X);
++				read_lock(Y);
++	write_lock(Y);
++				write_lock(X);
++
++Task A is waiting for task B to read_unlock() Y and task B is waiting for task
++A to read_unlock() X.
++
++Dependency types and strong dependency paths:
++---------------------------------------------
++In order to detect deadlocks as above, lockdep needs to track different dependencies.
++There are 4 categories for dependency edges in the lockdep graph:
++
++1) -(NN)->: non-recursive to non-recursive dependency. "X -(NN)-> Y" means
++            X -> Y and both X and Y are non-recursive locks.
++
++2) -(RN)->: recursive to non-recursive dependency. "X -(RN)-> Y" means
++            X -> Y and X is recursive read lock and Y is non-recursive lock.
++
++3) -(NR)->: non-recursive to recursive dependency, "X -(NR)-> Y" means
++            X -> Y and X is non-recursive lock and Y is recursive lock.
++
++4) -(RR)->: recursive to recursive dependency, "X -(RR)-> Y" means
++            X -> Y and both X and Y are recursive locks.
++
++Note that given two locks, they may have multiple dependencies between them, for example:
++
++	TASK A:
++
++	read_lock(X);
++	write_lock(Y);
++	...
++
++	TASK B:
++
++	write_lock(X);
++	write_lock(Y);
++
++, we have both X -(RN)-> Y and X -(NN)-> Y in the dependency graph.
++
++We use -(*N)-> for edges that is either -(RN)-> or -(NN)->, the similar for -(N*)->,
++-(*R)-> and -(R*)->
++
++A "path" is a series of conjunct dependency edges in the graph. And we define a
++"strong" path, which indicates the strong dependency throughout each dependency
++in the path, as the path that doesn't have two conjunct edges (dependencies) as
++-(*R)-> and -(R*)->. In other words, a "strong" path is a path from a lock
++walking to another through the lock dependencies, and if X -> Y -> Z in the
++path (where X, Y, Z are locks), if the walk from X to Y is through a -(NR)-> or
++-(RR)-> dependency, the walk from Y to Z must not be through a -(RN)-> or
++-(RR)-> dependency, otherwise it's not a strong path.
++
++We will see why the path is called "strong" in next section.
++
++Recursive Read Deadlock Detection:
++----------------------------------
++
++We now prove two things:
++
++Lemma 1:
++
++If there is a closed strong path (i.e. a strong cirle), then there is a
++combination of locking sequences that causes deadlock. I.e. a strong circle is
++sufficient for deadlock detection.
++
++Lemma 2:
++
++If there is no closed strong path (i.e. strong cirle), then there is no
++combination of locking sequences that could cause deadlock. I.e.  strong
++circles are necessary for deadlock detection.
++
++With these two Lemmas, we can easily say a closed strong path is both sufficient
++and necessary for deadlocks, therefore a closed strong path is equivalent to
++deadlock possibility. As a closed strong path stands for a dependency chain that
++could cause deadlocks, so we call it "strong", considering there are dependency
++circles that won't cause deadlocks.
++
++Proof for sufficiency (Lemma 1):
++
++Let's say we have a strong cirlce:
++
++	L1 -> L2 ... -> Ln -> L1
++
++, which means we have dependencies:
++
++	L1 -> L2
++	L2 -> L3
++	...
++	Ln-1 -> Ln
++	Ln -> L1
++
++We now can construct a combination of locking sequences that cause deadlock:
++
++Firstly let's make one CPU/task get the L1 in L1 -> L2, and then another get
++the L2 in L2 -> L3, and so on. After this, all of the Lx in Lx -> Lx+1 are
++held by different CPU/tasks.
++
++And then because we have L1 -> L2, so the holder of L1 is going to acquire L2
++in L1 -> L2, however since L2 is already held by another CPU/task, plus L1 ->
++L2 and L2 -> L3 are not *R and R* (the definition of strong), therefore the
++holder of L1 can not get L2, it has to wait L2's holder to release.
++
++Moreover, we can have a similar conclusion for L2's holder: it has to wait L3's
++holder to release, and so on. We now can proof that Lx's holder has to wait for
++Lx+1's holder to release, and note that Ln+1 is L1, so we have a circular
++waiting scenario and nobody can get progress, therefore a deadlock.
++
++Proof for necessary (Lemma 2):
++
++Lemma 2 is equivalent to: If there is a deadlock scenario, then there must be a
++strong circle in the dependency graph.
++
++According to Wikipedia[1], if there is a deadlock, then there must be a circular
++waiting scenario, means there are N CPU/tasks, where CPU/task P1 is waiting for
++a lock held by P2, and P2 is waiting for a lock held by P3, ... and Pn is waiting
++for a lock held by P1. Let's name the lock Px is waiting as Lx, so since P1 is waiting
++for L1 and holding Ln, so we will have Ln -> L1 in the dependency graph. Similarly,
++we have L1 -> L2, L2 -> L3, ..., Ln-1 -> Ln in the dependency graph, which means we
++have a circle:
++
++	Ln -> L1 -> L2 -> ... -> Ln
++
++, and now let's prove the circle is strong:
++
++For a lock Lx, Px contributes the dependency Lx-1 -> Lx and Px+1 contributes
++the dependency Lx -> Lx+1, and since Px is waiting for Px+1 to release Lx,
++so Lx can not be both recursive in Lx -> Lx+1 and Lx-1 -> Lx, because recursive
++locks don't block each other, therefore Lx-1 -> Lx and Lx -> Lx+1 can not be a
++-(*R)-> -(R*)-> pair, and this is true for any lock in the circle, therefore,
++the circle is strong.
++
++References:
++-----------
++[1]: https://en.wikipedia.org/wiki/Deadlock
++[2]: Shibu, K. (2009). Intro To Embedded Systems (1st ed.). Tata McGraw-Hill
 -- 
 2.16.2
 
