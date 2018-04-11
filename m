@@ -5,60 +5,60 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44FB47DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 15:44:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6B9187DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 15:45:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752894AbeDKPol (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Apr 2018 11:44:41 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:35437 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753411AbeDKPoi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 11:44:38 -0400
-Received: by mail-wm0-f68.google.com with SMTP id r82so4685636wme.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 08:44:38 -0700 (PDT)
+        id S1753599AbeDKPpR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Apr 2018 11:45:17 -0400
+Received: from mail-wm0-f52.google.com ([74.125.82.52]:35490 "EHLO
+        mail-wm0-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752870AbeDKPpP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 11:45:15 -0400
+Received: by mail-wm0-f52.google.com with SMTP id r82so4689426wme.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 08:45:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=netronome-com.20150623.gappssmtp.com; s=20150623;
         h=from:subject:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=N2gMiEp/g/RCKBWJGrk1tzpOKZUTisHWGsQEcyjJ1Gc=;
-        b=n9xRT2wDh5UV8Ep7yV/PzfPYw0dxEyVI7W70IsVwewFXyUS9avTQdGDIydt8hBbp59
-         a36Qb6UEZj68XFnmRuRKAY4m95jr6ysskV4yKqRTsHo7czNnd/4TFNwEWYP85B50ur0S
-         O7/tvrVd+OV/eJ7Bwu4c/9+PF2ANZfWWSLveegk1peWSvdfHhTHH0J70FJ5enlqcOf4Y
-         Cwg/PzOuRUGnehvFafav18MgAb0KKpJbNrOmSQlba0edz31HjyH6Y3fIbEBfuTZ5QQlb
-         NiOvkl4faMuy0dm5Wyzyd5GowdEjc6uwYdFdFI+l/f2xWICgZudeaqwUlbTernrCJfyp
-         vhPw==
+        bh=TB+Fn3mJ8GxQPxt2hcfzrqPlJwE9P9YNQT2giuW/xAQ=;
+        b=brsh+p+41HfqDItHb4ojyka4prl4W6ufMsUCnhbcXNnMlNbUM/DO3Y4DsgNYI95gBA
+         sWDxz9Ol5NyRomyLSKGEaPc0u4dutWuRH04fqGVH6cVYBqNoFadnprNaJo6GE8h9Sroq
+         Pml2gHcXWD+U1Xe+hXRwXYj6jzFNgvE5SsNh8UiSErQhwoEMJssdA3IoAxiDTaxU6qkL
+         plVc3+idEpGN2do2wxphkpmAx41sCERGRWp6cTamwQWrTzMOdddh+h7IuJVsfvThuCDW
+         q+O7rX2sT/lIAQwVd8Q4EfFcjJYifSQ+1SZU5qkfN18GfeEZ9HcOfyUE+ADG/dfKCMG9
+         5RKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:subject:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=N2gMiEp/g/RCKBWJGrk1tzpOKZUTisHWGsQEcyjJ1Gc=;
-        b=S9etwuOwUrYDlW6Kneqsv17Vipg5dA7gME1n/vvRRLpc36mcCtE1FdwxwXRaBJENBB
-         lHqxqCPhPYIXuOku/R6bffW8zTeY+DEHpwNK+WH72C2dq4avb7G5kkTiCAYlVmFqqO4L
-         Yr74hEwKg92jwwcLfc4QQK1HxCHSr4jSkVOdnDEdDnzcaPAP27aoIc54JfV0efZ4Cjy2
-         v+Col/PPPaB9RtQfXmkhchbl2GdEEUU+FbV6bl/S/RgcPY1y9Di0uOGpTncckgtBVogn
-         LgAlzhEX4uF0P0jQMA5uBOAsILYnlaQmg6gZpMR9ekSLXvrPZeLy7GwtiaakM4epleuW
-         /3VQ==
-X-Gm-Message-State: ALQs6tAU/aZOPBQ9SPfsgjTHfoEvu/SLbhn+AQZ+/4v8jumXIzICZoRL
-        805TIKlBqxvCa93Mb4qRpoM24zEv
-X-Google-Smtp-Source: AIpwx4/hYilEEyqr1f6GFWTN6d97gF1kTh2/W/5BrSX9ao+WTjkukb0nOOGnJV9eDhZ5bphpx3olQg==
-X-Received: by 10.80.177.81 with SMTP id l17mr10578278edd.65.1523461477634;
-        Wed, 11 Apr 2018 08:44:37 -0700 (PDT)
+        bh=TB+Fn3mJ8GxQPxt2hcfzrqPlJwE9P9YNQT2giuW/xAQ=;
+        b=tghuc636nsaNWc82MChhEFxdluXWKXeJG4kMza479Ip4Vf2BXyjuEyV2OWLtXi/EF4
+         wfKAmCQYEI/4nGa2we0MHlKs3GFC+bcIrPKpIujstK1g1Ww0mFK2mIRnUBvoAWI0W7aP
+         qEVppi6JiaEMWoPlWbkHYqnCt9FOfPtwBjdItE0VX9MofRlLtWe+7HjaNq6YmJqjCWs9
+         omdp8WsMzBNTGj2lsLXq3RLHr2l52Enff3sqJtoFYd0UPtdqnEmT2E2pv4coOZijqaBS
+         b1RCQvO7aqS8dHRJ4XvFck757FcaDRo4AqTR8q06HLoornigFBtu3gksWmRCnTrdbtaC
+         8Uzg==
+X-Gm-Message-State: ALQs6tDKZTaCFsS3eRN1Qsr4/ASS3uZR+UdR9Y3L5z5PJheKSh6soxDW
+        yqpMTVJ/USZ0SMfdDq4vcAKKaA==
+X-Google-Smtp-Source: AIpwx4/R+TzpDD2XD6jlPZ5+9nqqpSzRt7OsdB/6gtwBrQf/PV6An5IGwDISDnfC7VpgPbUVthv9Tw==
+X-Received: by 10.80.149.212 with SMTP id x20mr10519815eda.258.1523461513769;
+        Wed, 11 Apr 2018 08:45:13 -0700 (PDT)
 Received: from [172.20.1.93] (host-79-78-33-110.static.as9105.net. [79.78.33.110])
-        by smtp.gmail.com with ESMTPSA id g55sm996953eda.15.2018.04.11.08.44.36
+        by smtp.gmail.com with ESMTPSA id p27sm957313eda.83.2018.04.11.08.45.12
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Apr 2018 08:44:37 -0700 (PDT)
+        Wed, 11 Apr 2018 08:45:13 -0700 (PDT)
 From:   Quentin Monnet <quentin.monnet@netronome.com>
 Subject: [RFC bpf-next v2 7/8] bpf: add documentation for eBPF helpers (51-57)
-To:     Yonghong Song <yhs@fb.com>, daniel@iogearbox.net, ast@kernel.org
-Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
-        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
-        Lawrence Brakmo <brakmo@fb.com>, Josef Bacik <jbacik@fb.com>,
-        Andrey Ignatov <rdna@fb.com>
+To:     Andrey Ignatov <rdna@fb.com>
+Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
+        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org, Lawrence Brakmo <brakmo@fb.com>,
+        Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
  <20180410144157.4831-8-quentin.monnet@netronome.com>
- <cc54b41e-3f2f-e87f-042f-842c96308626@fb.com>
+ <20180410175015.GA6762@rdna-mbp.dhcp.thefacebook.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=quentin.monnet@netronome.com; prefer-encrypt=mutual; keydata=
  xsFNBFnqRlsBEADfkCdH/bkkfjbglpUeGssNbYr/TD4aopXiDZ0dL2EwafFImsGOWmCIIva2
@@ -103,154 +103,52 @@ Autocrypt: addr=quentin.monnet@netronome.com; prefer-encrypt=mutual; keydata=
  oHhplrRgXwPBSOkMMlLKu+FJsmYVFeLAJ81sfmFuTTliRb3Fl2Q27cEr7kNKlsz/t6vLSEN2
  j8x+tWD8x53SEOSn94g2AyJA9Txh2xBhWGuZ9CpBuXjtPrnRSd8xdrw36AL53goTt/NiLHUd
  RHhSHGnKaQ6MfrTge5Q0h5A=
-Message-ID: <7e388b10-ccea-a2b0-e776-5420c8e7f521@netronome.com>
-Date:   Wed, 11 Apr 2018 16:44:35 +0100
+Message-ID: <ae82c204-71cb-f575-c4b0-61e15cf94f7b@netronome.com>
+Date:   Wed, 11 Apr 2018 16:45:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <cc54b41e-3f2f-e87f-042f-842c96308626@fb.com>
+In-Reply-To: <20180410175015.GA6762@rdna-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-04-10 09:58 UTC-0700 ~ Yonghong Song <yhs@fb.com>
-> On 4/10/18 7:41 AM, Quentin Monnet wrote:
->> Add documentation for eBPF helper functions to bpf.h user header file.
->> This documentation can be parsed with the Python script provided in
->> another commit of the patch series, in order to provide a RST document
->> that can later be converted into a man page.
->>
->> The objective is to make the documentation easily understandable and
->> accessible to all eBPF developers, including beginners.
->>
->> This patch contains descriptions for the following helper functions:
->>
->> Helpers from Lawrence:
->> - bpf_setsockopt()
->> - bpf_getsockopt()
->> - bpf_sock_ops_cb_flags_set()
->>
->> Helpers from Yonghong:
->> - bpf_perf_event_read_value()
->> - bpf_perf_prog_read_value()
->>
->> Helper from Josef:
->> - bpf_override_return()
->>
->> Helper from Andrey:
->> - bpf_bind()
->>
->> Cc: Lawrence Brakmo <brakmo@fb.com>
->> Cc: Yonghong Song <yhs@fb.com>
->> Cc: Josef Bacik <jbacik@fb.com>
->> Cc: Andrey Ignatov <rdna@fb.com>
->> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
->> ---
->>   include/uapi/linux/bpf.h | 184
->> +++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 184 insertions(+)
->>
->> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
->> index 15d9ccafebbe..7343af4196c8 100644
->> --- a/include/uapi/linux/bpf.h
->> +++ b/include/uapi/linux/bpf.h
-
-[...]
-
->> @@ -1255,6 +1277,168 @@ union bpf_attr {
->>    *         performed again.
->>    *     Return
->>    *         0 on success, or a negative error in case of failure.
+2018-04-10 10:50 UTC-0700 ~ Andrey Ignatov <rdna@fb.com>
+> Quentin Monnet <quentin.monnet@netronome.com> [Tue, 2018-04-10 07:43 -0700]:
+>> + * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
+>> + * 	Description
+>> + * 		Bind the socket associated to *ctx* to the address pointed by
+>> + * 		*addr*, of length *addr_len*. This allows for making outgoing
+>> + * 		connection from the desired IP address, which can be useful for
+>> + * 		example when all processes inside a cgroup should use one
+>> + * 		single IP address on a host that has multiple IP configured.
 >> + *
->> + * int bpf_perf_event_read_value(struct bpf_map *map, u64 flags,
->> struct bpf_perf_event_value *buf, u32 buf_size)
->> + *     Description
->> + *         Read the value of a perf event counter, and store it into
->> *buf*
->> + *         of size *buf_size*. This helper relies on a *map* of type
->> + *         **BPF_MAP_TYPE_PERF_EVENT_ARRAY**. The nature of the perf
->> + *         event counter is selected at the creation of the *map*. The
+>> + * 		This helper works for IPv4 and IPv6, TCP and UDP sockets. The
+>> + * 		domain (*addr*\ **->sa_family**) must be **AF_INET** (or
+>> + * 		**AF_INET6**). Looking for a free port to bind to can be
+>> + * 		expensive, therefore binding to port is not permitted by the
+>> + * 		helper: *addr*\ **->sin_port** (or **sin6_port**, respectively)
+>> + * 		must be set to zero.
+>> + *
+>> + * 		As for the remote end, both parts of it can be overridden,
+>> + * 		remote IP and remote port. This can be useful if an application
+>> + * 		inside a cgroup wants to connect to another application inside
+>> + * 		the same cgroup or to itself, but knows nothing about the IP
+>> + * 		address assigned to the cgroup.
 > 
-> The nature of the perf event counter is selected when *map* is updated
-> with perf_event fd's.
-> 
+> The last paragraph ("As for the remote end ...") is not relevant to
+> bpf_bind() and should be removed. It's about sys_connect hook itself
+> that can call to bpf_bind() but also has other functionality (and that
+> other functionality is described by this paragraph).
 
-Thanks, I will fix it.
-
->> + *         *map* is an array whose size is the number of available CPU
->> + *         cores, and each cell contains a value relative to one
->> core. The
-> 
-> It is confusing to mix core/cpu here. Maybe just use perf_event
-> convention, always using cpu?
-> 
-
-Right, I'll remove occurrences of "core".
-
->> + *         value to retrieve is indicated by *flags*, that contains the
->> + *         index of the core to look up, masked with
->> + *         **BPF_F_INDEX_MASK**. Alternatively, *flags* can be set to
->> + *         **BPF_F_CURRENT_CPU** to indicate that the value for the
->> + *         current CPU core should be retrieved.
->> + *
->> + *         This helper behaves in a way close to
->> + *         **bpf_perf_event_read**\ () helper, save that instead of
->> + *         just returning the value observed, it fills the *buf*
->> + *         structure. This allows for additional data to be
->> retrieved: in
->> + *         particular, the enabled and running times (in *buf*\
->> + *         **->enabled** and *buf*\ **->running**, respectively) are
->> + *         copied.
->> + *
->> + *         These values are interesting, because hardware PMU
->> (Performance
->> + *         Monitoring Unit) counters are limited resources. When
->> there are
->> + *         more PMU based perf events opened than available counters,
->> + *         kernel will multiplex these events so each event gets certain
->> + *         percentage (but not all) of the PMU time. In case that
->> + *         multiplexing happens, the number of samples or counter value
->> + *         will not reflect the case compared to when no multiplexing
->> + *         occurs. This makes comparison between different runs
->> difficult.
->> + *         Typically, the counter value should be normalized before
->> + *         comparing to other experiments. The usual normalization is
->> done
->> + *         as follows.
->> + *
->> + *         ::
->> + *
->> + *             normalized_counter = counter * t_enabled / t_running
->> + *
->> + *         Where t_enabled is the time enabled for event and
->> t_running is
->> + *         the time running for event since last normalization. The
->> + *         enabled and running times are accumulated since the perf
->> event
->> + *         open. To achieve scaling factor between two invocations of an
->> + *         eBPF program, users can can use CPU id as the key (which is
->> + *         typical for perf array usage model) to remember the previous
->> + *         value and do the calculation inside the eBPF program.
->> + *     Return
->> + *         0 on success, or a negative error in case of failure.
->> + *
-
-[...]
-
-Thanks Yonghong for the review!
-
-I have a favor to ask of you. I got a bounce for Kaixu Xia's email
-address, and I don't know what alternative email address I could use. I
-CC-ed to have a review for helper bpf_perf_event_read() (in patch 6 of
-this series), which is rather close to bpf_perf_event_read_value().
-Would you mind having a look at that one too, please? The description is
-not long.
+Thanks Andrey, I will remove this paragraph.
 
 Quentin
+
 
 
 --
