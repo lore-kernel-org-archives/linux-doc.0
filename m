@@ -5,116 +5,170 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AEAA97E22E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 04:28:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6B37F7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 08:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750797AbeDKE2b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Apr 2018 00:28:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56778 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1750734AbeDKE2a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 00:28:30 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3B4Px2j111493
-        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 00:28:30 -0400
-Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2h97jt7vdf-1
+        id S1752274AbeDKIE0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Apr 2018 04:04:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51652 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752172AbeDKIEZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 04:04:25 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3B83xj7054107
+        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 04:04:25 -0400
+Received: from e06smtp11.uk.ibm.com (e06smtp11.uk.ibm.com [195.75.94.107])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2h9cxgkx52-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 00:28:29 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 04:04:18 -0400
 Received: from localhost
-        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.vnet.ibm.com>;
-        Wed, 11 Apr 2018 05:28:26 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 11 Apr 2018 05:28:19 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3B4SJIO50725016;
-        Wed, 11 Apr 2018 04:28:19 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2F4745204B;
-        Wed, 11 Apr 2018 04:19:17 +0100 (BST)
-Received: from [9.124.31.216] (unknown [9.124.31.216])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 9C41652045;
-        Wed, 11 Apr 2018 04:19:12 +0100 (BST)
-Subject: Re: [PATCH v2 7/9] trace_uprobe/sdt: Fix multiple update of same
- reference counter
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     mhiramat@kernel.org, peterz@infradead.org,
-        srikar@linux.vnet.ibm.com, rostedt@goodmis.org, acme@kernel.org,
-        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
-        corbet@lwn.net, dan.j.williams@intel.com, jolsa@redhat.com,
-        kan.liang@intel.com, kjlx@templeofstupid.com,
-        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
-        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com, tglx@linutronix.de,
-        yao.jin@linux.intel.com, fengguang.wu@intel.com,
-        jglisse@redhat.com,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-References: <20180404083110.18647-1-ravi.bangoria@linux.vnet.ibm.com>
- <20180404083110.18647-8-ravi.bangoria@linux.vnet.ibm.com>
- <20180409132928.GA25722@redhat.com>
- <84c1e60f-8aad-a0ce-59af-4fcb3f77df94@linux.vnet.ibm.com>
- <20180410110633.GA29063@redhat.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
-Date:   Wed, 11 Apr 2018 09:58:13 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <20180410110633.GA29063@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        by e06smtp11.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ldufour@linux.vnet.ibm.com>;
+        Wed, 11 Apr 2018 09:03:55 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp11.uk.ibm.com (192.168.101.141) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 11 Apr 2018 09:03:47 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3B83kbF60030990;
+        Wed, 11 Apr 2018 08:03:46 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E63B811C052;
+        Wed, 11 Apr 2018 08:55:51 +0100 (BST)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A03EA11C04A;
+        Wed, 11 Apr 2018 08:55:49 +0100 (BST)
+Received: from nimbus.lab.toulouse-stg.fr.ibm.com (unknown [9.145.77.191])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 11 Apr 2018 08:55:49 +0100 (BST)
+From:   Laurent Dufour <ldufour@linux.vnet.ibm.com>
+To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        Jerome Glisse <jglisse@redhat.com>, mhocko@kernel.org,
+        aneesh.kumar@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <albert@sifive.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        David Rientjes <rientjes@google.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH v3 2/2] mm: remove odd HAVE_PTE_SPECIAL
+Date:   Wed, 11 Apr 2018 10:03:36 +0200
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1523433816-14460-1-git-send-email-ldufour@linux.vnet.ibm.com>
+References: <1523433816-14460-1-git-send-email-ldufour@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18041104-0020-0000-0000-000004107121
+x-cbid: 18041108-0040-0000-0000-0000044C2C31
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18041104-0021-0000-0000-000042A4986A
-Message-Id: <c3bd7507-977e-67b5-9ab0-d70b4908a6f2@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-11_01:,,
+x-cbparentid: 18041108-0041-0000-0000-000020F058AE
+Message-Id: <1523433816-14460-3-git-send-email-ldufour@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-11_04:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804110041
+ definitions=main-1804110079
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Oleg,
+Remove the additional define HAVE_PTE_SPECIAL and rely directly on
+CONFIG_ARCH_HAS_PTE_SPECIAL.
 
-On 04/10/2018 04:36 PM, Oleg Nesterov wrote:
-> Hi Ravi,
->
-> On 04/10, Ravi Bangoria wrote:
->>> and what if __mmu_notifier_register() fails simply because signal_pending() == T?
->>> see mm_take_all_locks().
->>>
->>> at first glance this all look suspicious and sub-optimal,
->> Yes. I should have added checks for failure cases.
->> Will fix them in v3.
-> And what can you do if it fails? Nothing except report the problem. But
-> signal_pending() is not the unlikely or error condition, it should not
-> cause the tracing errors.
+There is no functional change introduced by this patch
 
-...
+Signed-off-by: Laurent Dufour <ldufour@linux.vnet.ibm.com>
+---
+ mm/memory.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-> Plus mm_take_all_locks() is very heavy... BTW, uprobe_mmap_callback() is
-> called unconditionally. Whatever it does, can we at least move it after
-> the no_uprobe_events() check? Can't we also check MMF_HAS_UPROBES?
-
-Sure, I'll move it after these conditions.
-
-> Either way, I do not feel that mmu_notifier is the right tool... Did you
-> consider the uprobe_clear_state() hook we already have?
-
-Ah! This is really a good idea. We don't need mmu_notifier then.
-
-Thanks for suggestion,
-Ravi
+diff --git a/mm/memory.c b/mm/memory.c
+index 96910c625daa..7f7dc7b2a341 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -817,17 +817,12 @@ static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
+  * PFNMAP mappings in order to support COWable mappings.
+  *
+  */
+-#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+-# define HAVE_PTE_SPECIAL 1
+-#else
+-# define HAVE_PTE_SPECIAL 0
+-#endif
+ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 			     pte_t pte, bool with_public_device)
+ {
+ 	unsigned long pfn = pte_pfn(pte);
+ 
+-	if (HAVE_PTE_SPECIAL) {
++	if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL)) {
+ 		if (likely(!pte_special(pte)))
+ 			goto check_pfn;
+ 		if (vma->vm_ops && vma->vm_ops->find_special_page)
+@@ -862,7 +857,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 		return NULL;
+ 	}
+ 
+-	/* !HAVE_PTE_SPECIAL case follows: */
++	/* !CONFIG_ARCH_HAS_PTE_SPECIAL case follows: */
+ 
+ 	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+ 		if (vma->vm_flags & VM_MIXEDMAP) {
+@@ -881,7 +876,8 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 
+ 	if (is_zero_pfn(pfn))
+ 		return NULL;
+-check_pfn:
++
++check_pfn: __maybe_unused
+ 	if (unlikely(pfn > highest_memmap_pfn)) {
+ 		print_bad_pte(vma, addr, pte, NULL);
+ 		return NULL;
+@@ -891,7 +887,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 	 * NOTE! We still have PageReserved() pages in the page tables.
+ 	 * eg. VDSO mappings can cause them to exist.
+ 	 */
+-out:
++out: __maybe_unused
+ 	return pfn_to_page(pfn);
+ }
+ 
+@@ -904,7 +900,7 @@ struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
+ 	/*
+ 	 * There is no pmd_special() but there may be special pmds, e.g.
+ 	 * in a direct-access (dax) mapping, so let's just replicate the
+-	 * !HAVE_PTE_SPECIAL case from vm_normal_page() here.
++	 * !CONFIG_ARCH_HAS_PTE_SPECIAL case from vm_normal_page() here.
+ 	 */
+ 	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+ 		if (vma->vm_flags & VM_MIXEDMAP) {
+@@ -1933,7 +1929,8 @@ static int __vm_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+ 	 * than insert_pfn).  If a zero_pfn were inserted into a VM_MIXEDMAP
+ 	 * without pte special, it would there be refcounted as a normal page.
+ 	 */
+-	if (!HAVE_PTE_SPECIAL && !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
++	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL) &&
++	    !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
+ 		struct page *page;
+ 
+ 		/*
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
