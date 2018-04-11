@@ -2,171 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7E457E22E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 09:09:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9FC5C7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 10:18:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752474AbeDKJJM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Apr 2018 05:09:12 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:43306 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751960AbeDKJJK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Apr 2018 05:09:10 -0400
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 40LdWk5mjzz9tvN3;
-        Wed, 11 Apr 2018 11:09:06 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id cJGkcB_o8OJR; Wed, 11 Apr 2018 11:09:06 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 40LdWk53fsz9tvMv;
-        Wed, 11 Apr 2018 11:09:06 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 719B28B84F;
-        Wed, 11 Apr 2018 11:09:08 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id Vbdb59DAgqO2; Wed, 11 Apr 2018 11:09:08 +0200 (CEST)
-Received: from PO15451 (unknown [192.168.232.3])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 05A4B8B84C;
-        Wed, 11 Apr 2018 11:09:05 +0200 (CEST)
-Subject: Re: [PATCH v3 2/2] mm: remove odd HAVE_PTE_SPECIAL
-To:     Laurent Dufour <ldufour@linux.vnet.ibm.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        Jerome Glisse <jglisse@redhat.com>, mhocko@kernel.org,
-        aneesh.kumar@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <albert@sifive.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        David Rientjes <rientjes@google.com>,
-        Robin Murphy <robin.murphy@arm.com>
-References: <1523433816-14460-1-git-send-email-ldufour@linux.vnet.ibm.com>
- <1523433816-14460-3-git-send-email-ldufour@linux.vnet.ibm.com>
- <de6ee514-8b7e-24d0-a7ee-a8887e8b0ae9@c-s.fr>
- <93ed4fe4-dd1e-51be-948b-d53b16de21c5@linux.vnet.ibm.com>
-From:   Christophe LEROY <christophe.leroy@c-s.fr>
-Message-ID: <278a5212-b962-9a3a-cc86-76cac744afab@c-s.fr>
-Date:   Wed, 11 Apr 2018 11:09:05 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1752178AbeDKKSI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Apr 2018 06:18:08 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:53968 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751960AbeDKKSG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Apr 2018 06:18:06 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CB52D10D425;
+        Wed, 11 Apr 2018 10:18:05 +0000 (UTC)
+Received: from localhost (ovpn-200-37.brq.redhat.com [10.40.200.37])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 33B1E8444A;
+        Wed, 11 Apr 2018 10:18:00 +0000 (UTC)
+Date:   Wed, 11 Apr 2018 12:17:59 +0200
+From:   Jesper Dangaard Brouer <brouer@redhat.com>
+To:     Quentin Monnet <quentin.monnet@netronome.com>
+Cc:     brouer@redhat.com, daniel@iogearbox.net, ast@kernel.org,
+        netdev@vger.kernel.org, oss-drivers@netronome.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
+        John Fastabend <john.fastabend@gmail.com>
+Subject: Re: [RFC bpf-next v2 8/8] bpf: add documentation for eBPF helpers
+ (58-64)
+Message-ID: <20180411121759.4191e267@redhat.com>
+In-Reply-To: <20180410144157.4831-9-quentin.monnet@netronome.com>
+References: <20180410144157.4831-1-quentin.monnet@netronome.com>
+        <20180410144157.4831-9-quentin.monnet@netronome.com>
 MIME-Version: 1.0
-In-Reply-To: <93ed4fe4-dd1e-51be-948b-d53b16de21c5@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 11 Apr 2018 10:18:05 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 11 Apr 2018 10:18:05 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 10 Apr 2018 15:41:57 +0100
+Quentin Monnet <quentin.monnet@netronome.com> wrote:
 
+> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> index 7343af4196c8..db090ad03626 100644
+> --- a/include/uapi/linux/bpf.h
+> +++ b/include/uapi/linux/bpf.h
+> @@ -1250,6 +1250,51 @@ union bpf_attr {
+>   * 	Return
+>   * 		0 on success, or a negative error in case of failure.
+>   *
+> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+> + * 	Description
+> + * 		Redirect the packet to the endpoint referenced by *map* at
+> + * 		index *key*. Depending on its type, his *map* can contain
+> + * 		references to net devices (for forwarding packets through other
+> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
+> + * 		but this is not fully implemented as of this writing).
 
-Le 11/04/2018 à 11:03, Laurent Dufour a écrit :
-> 
-> 
-> On 11/04/2018 10:58, Christophe LEROY wrote:
->>
->>
->> Le 11/04/2018 à 10:03, Laurent Dufour a écrit :
->>> Remove the additional define HAVE_PTE_SPECIAL and rely directly on
->>> CONFIG_ARCH_HAS_PTE_SPECIAL.
->>>
->>> There is no functional change introduced by this patch
->>>
->>> Signed-off-by: Laurent Dufour <ldufour@linux.vnet.ibm.com>
->>> ---
->>>    mm/memory.c | 19 ++++++++-----------
->>>    1 file changed, 8 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/mm/memory.c b/mm/memory.c
->>> index 96910c625daa..7f7dc7b2a341 100644
->>> --- a/mm/memory.c
->>> +++ b/mm/memory.c
->>> @@ -817,17 +817,12 @@ static void print_bad_pte(struct vm_area_struct *vma,
->>> unsigned long addr,
->>>     * PFNMAP mappings in order to support COWable mappings.
->>>     *
->>>     */
->>> -#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
->>> -# define HAVE_PTE_SPECIAL 1
->>> -#else
->>> -# define HAVE_PTE_SPECIAL 0
->>> -#endif
->>>    struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
->>>                     pte_t pte, bool with_public_device)
->>>    {
->>>        unsigned long pfn = pte_pfn(pte);
->>>    -    if (HAVE_PTE_SPECIAL) {
->>> +    if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL)) {
->>>            if (likely(!pte_special(pte)))
->>>                goto check_pfn;
->>>            if (vma->vm_ops && vma->vm_ops->find_special_page)
->>> @@ -862,7 +857,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma,
->>> unsigned long addr,
->>>            return NULL;
->>>        }
->>>    -    /* !HAVE_PTE_SPECIAL case follows: */
->>> +    /* !CONFIG_ARCH_HAS_PTE_SPECIAL case follows: */
->>>          if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
->>>            if (vma->vm_flags & VM_MIXEDMAP) {
->>> @@ -881,7 +876,8 @@ struct page *_vm_normal_page(struct vm_area_struct *vma,
->>> unsigned long addr,
->>>          if (is_zero_pfn(pfn))
->>>            return NULL;
->>> -check_pfn:
->>> +
->>> +check_pfn: __maybe_unused
->>
->> See below
->>
->>>        if (unlikely(pfn > highest_memmap_pfn)) {
->>>            print_bad_pte(vma, addr, pte, NULL);
->>>            return NULL;
->>> @@ -891,7 +887,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma,
->>> unsigned long addr,
->>>         * NOTE! We still have PageReserved() pages in the page tables.
->>>         * eg. VDSO mappings can cause them to exist.
->>>         */
->>> -out:
->>> +out: __maybe_unused
->>
->> Why do you need that change ?
->>
->> There is no reason for the compiler to complain. It would complain if the goto
->> was within a #ifdef, but all the purpose of using IS_ENABLED() is to allow the
->> compiler to properly handle all possible cases. That's all the force of
->> IS_ENABLED() compared to ifdefs, and that the reason why they are plebicited,
->> ref Linux Codying style for a detailed explanation.
-> 
-> Fair enough.
-> 
-> Should I submit a v4 just to remove these so ugly __maybe_unused ?
-> 
+Stating that CPUMAP redirect "is not fully implemented" is confusing.
+The issue is that CPUMAP only works for "native" XDP.
 
-Most likely, unless the mm maintainer agrees to remove them by himself 
-when applying your patch ?
+What about saying:
 
-Christophe
+"[...] or to CPUs (for redirecting XDP frames to another CPU;
+ but this is only implemented for native XDP as of this writing)"
+
+-- 
+Best regards,
+  Jesper Dangaard Brouer
+  MSc.CS, Principal Kernel Engineer at Red Hat
+  LinkedIn: http://www.linkedin.com/in/brouer
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
