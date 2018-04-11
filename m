@@ -1,78 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 14C3F7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 11:09:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B04FA7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 11:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751999AbeDKLJo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Apr 2018 07:09:44 -0400
-Received: from mx2.suse.de ([195.135.220.15]:41572 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751699AbeDKLJm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Apr 2018 07:09:42 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (charybdis-ext.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id BEFB4AF62;
-        Wed, 11 Apr 2018 11:09:39 +0000 (UTC)
-Date:   Wed, 11 Apr 2018 13:09:36 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Laurent Dufour <ldufour@linux.vnet.ibm.com>
-Cc:     Christophe LEROY <christophe.leroy@c-s.fr>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        Jerome Glisse <jglisse@redhat.com>,
-        aneesh.kumar@linux.vnet.ibm.com, akpm@linux-foundation.org,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <albert@sifive.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        David Rientjes <rientjes@google.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v3 2/2] mm: remove odd HAVE_PTE_SPECIAL
-Message-ID: <20180411110936.GG23400@dhcp22.suse.cz>
-References: <1523433816-14460-1-git-send-email-ldufour@linux.vnet.ibm.com>
- <1523433816-14460-3-git-send-email-ldufour@linux.vnet.ibm.com>
- <de6ee514-8b7e-24d0-a7ee-a8887e8b0ae9@c-s.fr>
- <93ed4fe4-dd1e-51be-948b-d53b16de21c5@linux.vnet.ibm.com>
- <278a5212-b962-9a3a-cc86-76cac744afab@c-s.fr>
- <32655c37-91cb-17aa-58e7-74254e2673a0@linux.vnet.ibm.com>
+        id S1753001AbeDKLwy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Apr 2018 07:52:54 -0400
+Received: from mail-qk0-f169.google.com ([209.85.220.169]:44538 "EHLO
+        mail-qk0-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752990AbeDKLww (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 07:52:52 -0400
+Received: by mail-qk0-f169.google.com with SMTP id n139so1456444qke.11;
+        Wed, 11 Apr 2018 04:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=S0BSRykHaPpL7ZImptP9LRwCTl6+uoOzn7Kd14K2rq4=;
+        b=UijEdOlldCP/ORYIWIAI2X+9gJLwfhSt4ZYn5EdF7hAUSA6A1Cp7CkvQNEoOCkIdiY
+         rc3rCqYB2EucWKVi7wS06QciAzET5qVFx/hWO6R8/BZw0w9BZQVO/QwwGrhFBIUZFIVP
+         dqMKYHAESrOvJWz3vufQSb4GOnxGcyXBO4/VvBLmRNDz2PNO1LNOZAu8TGpUg/egnIRx
+         zJaEIE5hmaW1qgoz8AQgooohDGNV0x3zVuOfvyO7LiCCzZXuy95I7Ih9UV02M+L1yBjY
+         2hvnlS6stiuWTorXOJ4yUWjnRwuH/gowb5lQBe6vSvFSrAKPulcbyqH7w2XyrsGln1tX
+         BsRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=S0BSRykHaPpL7ZImptP9LRwCTl6+uoOzn7Kd14K2rq4=;
+        b=Y6a/mC6GwMvMvbA82Hgodq6CpVZE7zxHa+xjl1knRuRD7muq1t1baQD+lo097iekHw
+         xCdvwnTWTd2g7ou+7rcVc/2SrAk/Scb+48ydRBj+2iX8Lg15O2lDMewkMJdV3xS62NQd
+         PZXwEchK1XAzJser6WzLMq0VtI2A5mmuwQf6w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=S0BSRykHaPpL7ZImptP9LRwCTl6+uoOzn7Kd14K2rq4=;
+        b=nahtNgHKj5kNTNT6aPcxJXiJ/qTyrTDpmoppQerZH2n+uwdi+nb8BrQmxXFBasSho3
+         Tf8P7Xk9ZkXIZ2jXxErPXFax3OMU+0//OqTT6q34GZt46CsiJFamtWdrF2fWTAZnPddA
+         Dx02b5ssyfv2L0jeCLrdHStCpNqU82bNx4cvLxLf2MZeJrxkrjqMy6IyMZ36XlYVfk1L
+         yotyZh0XIyV+7iDU2GV/BzjkbcpFcWwlrzK7vC0QgXe8mzvMgwMKBYKpCjmRJRe2TcaO
+         DNex5QuTwBocg3zhgLDVrAW/l83AZ3+OxCvyeV0LGC8tDXrhfM39G69Aklu1n1aVYUSC
+         F/ww==
+X-Gm-Message-State: ALQs6tCvIODe23FXiqW5gDCgLwWLTKMdmAEk02OfXxHqLaYg17v3Dkmb
+        1qH+65oLZVAZeNLwStNTYnvZnVkwZeLC/uciQ1s=
+X-Google-Smtp-Source: AIpwx4+CEbXT5ARkZBDIWS1I9TrjyR5qyCB2d2eNgUsfOJ56oHM/RNIs0DHoLoR5nMFhcdIpdKaZiPCldcc6Dsr0rpg=
+X-Received: by 10.55.4.129 with SMTP id 123mr6183010qke.203.1523447570916;
+ Wed, 11 Apr 2018 04:52:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <32655c37-91cb-17aa-58e7-74254e2673a0@linux.vnet.ibm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: by 10.200.63.197 with HTTP; Wed, 11 Apr 2018 04:52:30 -0700 (PDT)
+In-Reply-To: <20180410183212.16787-6-jae.hyun.yoo@linux.intel.com>
+References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com> <20180410183212.16787-6-jae.hyun.yoo@linux.intel.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Wed, 11 Apr 2018 21:22:30 +0930
+X-Google-Sender-Auth: 9w3a5uKeB_4X891o5gliPk2JfvU
+Message-ID: <CACPK8Xf7ta43K=POx8J6bAdjvX=wCzy-+HWqHsm+RstQxeetCQ@mail.gmail.com>
+Subject: Re: [PATCH v3 05/10] ARM: dts: aspeed: peci: Add PECI node
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Haiyue Wang <haiyue.wang@linux.intel.com>,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Julia Cartwright <juliac@eso.teric.us>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Milton Miller II <miltonm@us.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>,
+        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, devicetree <devicetree@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 11-04-18 12:32:07, Laurent Dufour wrote:
-[...]
-> Andrew, should I send a v4 or could you wipe the 2 __maybe_unsued when applying
-> the patch ?
+On 11 April 2018 at 04:02, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
+> This commit adds PECI bus/adapter node of AST24xx/AST25xx into
+> aspeed-g4 and aspeed-g5.
+>
 
-A follow $patch-fix should be better rather than post this again and
-spam people with more emails.
--- 
-Michal Hocko
-SUSE Labs
+The patches to the device trees get merged by the ASPEED maintainer
+(me). Once you have the bindings reviewed you can send the patches to
+me and the linux-aspeed list (I've got a pending patch to maintainers
+that will ensure get_maintainers.pl does the right thing as far as
+email addresses go).
+
+I'd suggest dropping it from your series and re-sending once the
+bindings and driver are reviewed.
+
+Cheers,
+
+Joel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
