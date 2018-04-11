@@ -5,60 +5,60 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B9187DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 15:45:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DBF247DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Apr 2018 15:46:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753599AbeDKPpR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Apr 2018 11:45:17 -0400
-Received: from mail-wm0-f52.google.com ([74.125.82.52]:35490 "EHLO
-        mail-wm0-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752870AbeDKPpP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 11:45:15 -0400
-Received: by mail-wm0-f52.google.com with SMTP id r82so4689426wme.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 08:45:14 -0700 (PDT)
+        id S1753560AbeDKPpz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Apr 2018 11:45:55 -0400
+Received: from mail-wm0-f47.google.com ([74.125.82.47]:38664 "EHLO
+        mail-wm0-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753294AbeDKPpx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Apr 2018 11:45:53 -0400
+Received: by mail-wm0-f47.google.com with SMTP id i3so4617644wmf.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Apr 2018 08:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=netronome-com.20150623.gappssmtp.com; s=20150623;
         h=from:subject:to:cc:references:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=TB+Fn3mJ8GxQPxt2hcfzrqPlJwE9P9YNQT2giuW/xAQ=;
-        b=brsh+p+41HfqDItHb4ojyka4prl4W6ufMsUCnhbcXNnMlNbUM/DO3Y4DsgNYI95gBA
-         sWDxz9Ol5NyRomyLSKGEaPc0u4dutWuRH04fqGVH6cVYBqNoFadnprNaJo6GE8h9Sroq
-         Pml2gHcXWD+U1Xe+hXRwXYj6jzFNgvE5SsNh8UiSErQhwoEMJssdA3IoAxiDTaxU6qkL
-         plVc3+idEpGN2do2wxphkpmAx41sCERGRWp6cTamwQWrTzMOdddh+h7IuJVsfvThuCDW
-         q+O7rX2sT/lIAQwVd8Q4EfFcjJYifSQ+1SZU5qkfN18GfeEZ9HcOfyUE+ADG/dfKCMG9
-         5RKw==
+        bh=Jg9fIRYIQUsgat4MdIS20JgzZJW8jnPjMLThjZrxmqI=;
+        b=BIdRjKzXtZI9ZHzz5qRREkLxGjtGG5Pz743TiQ99LQhNs5mUb5V5ZTLKazbmSGqwMu
+         OlOr3i1ICYuaa16KV/1IXCjjiLpmIZYVhaUTWcdtbrG7JNgPc53iJlJCxFZhZiOwcvVr
+         jf24o+1yzec+Grczm1Y1DFBi9bwJBiD3aVVrVsfg/FsY93KfrArw4RFw2iJ4Q2tYBSHj
+         Ey3GAlQbCzPm3z6ObtZqpdAT8vEOpG8eK+SMrv/4qNomA9UYXE+ONzsf/b9pAQCjIb27
+         m4yMXKCr+C1nC7AdW5clCo3N6SiTUujwtm+Lk5Yf+ss84hWGwsjafohcTrF0RPHNcdMw
+         QeZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:subject:to:cc:references:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=TB+Fn3mJ8GxQPxt2hcfzrqPlJwE9P9YNQT2giuW/xAQ=;
-        b=tghuc636nsaNWc82MChhEFxdluXWKXeJG4kMza479Ip4Vf2BXyjuEyV2OWLtXi/EF4
-         wfKAmCQYEI/4nGa2we0MHlKs3GFC+bcIrPKpIujstK1g1Ww0mFK2mIRnUBvoAWI0W7aP
-         qEVppi6JiaEMWoPlWbkHYqnCt9FOfPtwBjdItE0VX9MofRlLtWe+7HjaNq6YmJqjCWs9
-         omdp8WsMzBNTGj2lsLXq3RLHr2l52Enff3sqJtoFYd0UPtdqnEmT2E2pv4coOZijqaBS
-         b1RCQvO7aqS8dHRJ4XvFck757FcaDRo4AqTR8q06HLoornigFBtu3gksWmRCnTrdbtaC
-         8Uzg==
-X-Gm-Message-State: ALQs6tDKZTaCFsS3eRN1Qsr4/ASS3uZR+UdR9Y3L5z5PJheKSh6soxDW
-        yqpMTVJ/USZ0SMfdDq4vcAKKaA==
-X-Google-Smtp-Source: AIpwx4/R+TzpDD2XD6jlPZ5+9nqqpSzRt7OsdB/6gtwBrQf/PV6An5IGwDISDnfC7VpgPbUVthv9Tw==
-X-Received: by 10.80.149.212 with SMTP id x20mr10519815eda.258.1523461513769;
-        Wed, 11 Apr 2018 08:45:13 -0700 (PDT)
+        bh=Jg9fIRYIQUsgat4MdIS20JgzZJW8jnPjMLThjZrxmqI=;
+        b=ipKhSkP+KiuVPX7UEEOASTo56S8ULaobrzFMWKIddoAW5EC3ZRyu0dWc4NEVrpdm36
+         6i90lSxqvqeiDwl3ukEu8JIJAwUDVV5j2+D3RjYe4tKBQmdidk7ENk2svBhsALU1dxSF
+         e19hRIa8JhnArSPd+QdJBRfc6mh4AFW1zwTMuFkPHACAzXjNkhahpIgpsU/kwoFGCXJH
+         zPs+tTJjy0H1kd+c81YxKmDWhHa24MHCeIVLGO5GFdnv4rxoO4G/fUltYRSsIfNWxs6l
+         2ipHkYfdh2TZHHROq5ZHSASqeQ9bizKJtfZyVc+O68S214tEQT12W506ENEIlobnxilh
+         OAww==
+X-Gm-Message-State: ALQs6tAwGaWuRjcqaJLJDIlQY5Iwc+jY5PHaVP3WbpyBK+1qQBzPJSoW
+        p3YNZ5cbaBhYscMTy73vCUZwIg==
+X-Google-Smtp-Source: AIpwx49gFA0+nLIsMbXNIiFSMLlZGWkFdNdwrSQ8DOU+xovGq9HDpYT8y1lH2U9iQFA+KV+wqWKq/A==
+X-Received: by 10.80.234.205 with SMTP id u13mr10368032edp.288.1523461552413;
+        Wed, 11 Apr 2018 08:45:52 -0700 (PDT)
 Received: from [172.20.1.93] (host-79-78-33-110.static.as9105.net. [79.78.33.110])
-        by smtp.gmail.com with ESMTPSA id p27sm957313eda.83.2018.04.11.08.45.12
+        by smtp.gmail.com with ESMTPSA id p5sm922860edh.7.2018.04.11.08.45.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Apr 2018 08:45:13 -0700 (PDT)
+        Wed, 11 Apr 2018 08:45:51 -0700 (PDT)
 From:   Quentin Monnet <quentin.monnet@netronome.com>
-Subject: [RFC bpf-next v2 7/8] bpf: add documentation for eBPF helpers (51-57)
-To:     Andrey Ignatov <rdna@fb.com>
+Subject: [RFC bpf-next v2 8/8] bpf: add documentation for eBPF helpers (58-64)
+To:     Jesper Dangaard Brouer <brouer@redhat.com>
 Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
         oss-drivers@netronome.com, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org, Lawrence Brakmo <brakmo@fb.com>,
-        Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>
+        linux-man@vger.kernel.org,
+        John Fastabend <john.fastabend@gmail.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
- <20180410144157.4831-8-quentin.monnet@netronome.com>
- <20180410175015.GA6762@rdna-mbp.dhcp.thefacebook.com>
+ <20180410144157.4831-9-quentin.monnet@netronome.com>
+ <20180411121759.4191e267@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=quentin.monnet@netronome.com; prefer-encrypt=mutual; keydata=
  xsFNBFnqRlsBEADfkCdH/bkkfjbglpUeGssNbYr/TD4aopXiDZ0dL2EwafFImsGOWmCIIva2
@@ -103,12 +103,12 @@ Autocrypt: addr=quentin.monnet@netronome.com; prefer-encrypt=mutual; keydata=
  oHhplrRgXwPBSOkMMlLKu+FJsmYVFeLAJ81sfmFuTTliRb3Fl2Q27cEr7kNKlsz/t6vLSEN2
  j8x+tWD8x53SEOSn94g2AyJA9Txh2xBhWGuZ9CpBuXjtPrnRSd8xdrw36AL53goTt/NiLHUd
  RHhSHGnKaQ6MfrTge5Q0h5A=
-Message-ID: <ae82c204-71cb-f575-c4b0-61e15cf94f7b@netronome.com>
-Date:   Wed, 11 Apr 2018 16:45:12 +0100
+Message-ID: <61abf6b0-854d-af3c-c2a3-b356f54ab84c@netronome.com>
+Date:   Wed, 11 Apr 2018 16:45:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <20180410175015.GA6762@rdna-mbp.dhcp.thefacebook.com>
+In-Reply-To: <20180411121759.4191e267@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -117,38 +117,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-04-10 10:50 UTC-0700 ~ Andrey Ignatov <rdna@fb.com>
-> Quentin Monnet <quentin.monnet@netronome.com> [Tue, 2018-04-10 07:43 -0700]:
->> + * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
->> + * 	Description
->> + * 		Bind the socket associated to *ctx* to the address pointed by
->> + * 		*addr*, of length *addr_len*. This allows for making outgoing
->> + * 		connection from the desired IP address, which can be useful for
->> + * 		example when all processes inside a cgroup should use one
->> + * 		single IP address on a host that has multiple IP configured.
->> + *
->> + * 		This helper works for IPv4 and IPv6, TCP and UDP sockets. The
->> + * 		domain (*addr*\ **->sa_family**) must be **AF_INET** (or
->> + * 		**AF_INET6**). Looking for a free port to bind to can be
->> + * 		expensive, therefore binding to port is not permitted by the
->> + * 		helper: *addr*\ **->sin_port** (or **sin6_port**, respectively)
->> + * 		must be set to zero.
->> + *
->> + * 		As for the remote end, both parts of it can be overridden,
->> + * 		remote IP and remote port. This can be useful if an application
->> + * 		inside a cgroup wants to connect to another application inside
->> + * 		the same cgroup or to itself, but knows nothing about the IP
->> + * 		address assigned to the cgroup.
+2018-04-11 12:17 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
+> On Tue, 10 Apr 2018 15:41:57 +0100
+> Quentin Monnet <quentin.monnet@netronome.com> wrote:
 > 
-> The last paragraph ("As for the remote end ...") is not relevant to
-> bpf_bind() and should be removed. It's about sys_connect hook itself
-> that can call to bpf_bind() but also has other functionality (and that
-> other functionality is described by this paragraph).
+>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+>> index 7343af4196c8..db090ad03626 100644
+>> --- a/include/uapi/linux/bpf.h
+>> +++ b/include/uapi/linux/bpf.h
+>> @@ -1250,6 +1250,51 @@ union bpf_attr {
+>>   * 	Return
+>>   * 		0 on success, or a negative error in case of failure.
+>>   *
+>> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+>> + * 	Description
+>> + * 		Redirect the packet to the endpoint referenced by *map* at
+>> + * 		index *key*. Depending on its type, his *map* can contain
+>> + * 		references to net devices (for forwarding packets through other
+>> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
+>> + * 		but this is not fully implemented as of this writing).
+> 
+> Stating that CPUMAP redirect "is not fully implemented" is confusing.
+> The issue is that CPUMAP only works for "native" XDP.
+> 
+> What about saying:
+> 
+> "[...] or to CPUs (for redirecting XDP frames to another CPU;
+>  but this is only implemented for native XDP as of this writing)"
+> 
 
-Thanks Andrey, I will remove this paragraph.
+Fine by me, I will change it. Thank you Jesper for the review!
 
 Quentin
-
 
 
 --
