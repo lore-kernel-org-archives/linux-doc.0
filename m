@@ -2,111 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DDA47E868
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Apr 2018 06:11:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D1F17DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Apr 2018 11:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751837AbeDLGKq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Apr 2018 02:10:46 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:6737 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1750743AbeDLGKp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Apr 2018 02:10:45 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 1ADEE75BAB63B;
-        Thu, 12 Apr 2018 14:10:28 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.361.1; Thu, 12 Apr 2018
- 14:10:21 +0800
-Subject: Re: [PATCH v11 0/4] set VSESR_EL2 by user space and support
- NOTIFY_SEI notification
-To:     James Morse <james.morse@arm.com>
-CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>,
-        <christoffer.dall@linaro.org>, <marc.zyngier@arm.com>,
-        <linux@armlinux.org.uk>, <catalin.marinas@arm.com>,
-        <rjw@rjwysocki.net>, <bp@alien8.de>, <lenb@kernel.org>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>, <linux-acpi@vger.kernel.org>,
-        <devel@acpica.org>, <huangshaoyu@huawei.com>,
-        <zhengxiang9@huawei.com>
-References: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
- <d94439b6-9b9a-9bd0-ddec-3bb63ede9461@arm.com>
-From:   gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <5161fb31-e5bb-872c-3e12-d7d38326aaca@huawei.com>
-Date:   Thu, 12 Apr 2018 14:09:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <d94439b6-9b9a-9bd0-ddec-3bb63ede9461@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
+        id S1752095AbeDLLtH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Apr 2018 07:49:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54852 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1751832AbeDLLtH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Apr 2018 07:49:07 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3CBml6s130445
+        for <linux-doc@vger.kernel.org>; Thu, 12 Apr 2018 07:49:06 -0400
+Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2ha6vag2tp-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 12 Apr 2018 07:49:06 -0400
+Received: from localhost
+        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ldufour@linux.vnet.ibm.com>;
+        Thu, 12 Apr 2018 12:49:04 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Thu, 12 Apr 2018 12:48:55 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3CBmskn27721946;
+        Thu, 12 Apr 2018 11:48:54 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0FF3C52047;
+        Thu, 12 Apr 2018 11:39:51 +0100 (BST)
+Received: from nimbus.lab.toulouse-stg.fr.ibm.com (unknown [9.101.4.33])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id DA80752043;
+        Thu, 12 Apr 2018 11:39:49 +0100 (BST)
+From:   Laurent Dufour <ldufour@linux.vnet.ibm.com>
+To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        mhocko@kernel.org, akpm@linux-foundation.org
+Cc:     linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        Jerome Glisse <jglisse@redhat.com>,
+        aneesh.kumar@linux.vnet.ibm.com, benh@kernel.crashing.org,
+        paulus@samba.org, Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <albert@sifive.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        David Rientjes <rientjes@google.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christophe LEROY <christophe.leroy@c-s.fr>
+Subject: [PATCH v4] mm: remove odd HAVE_PTE_SPECIAL
+Date:   Thu, 12 Apr 2018 13:48:53 +0200
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20180411110936.GG23400@dhcp22.suse.cz>
+References: <20180411110936.GG23400@dhcp22.suse.cz>
+X-TM-AS-GCONF: 00
+x-cbid: 18041211-0008-0000-0000-000004E9BA30
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18041211-0009-0000-0000-00001E7DC2FA
+Message-Id: <1523533733-25437-1-git-send-email-ldufour@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-12_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1804120121
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James，
-   thanks for this mail.
+Remove the additional define HAVE_PTE_SPECIAL and rely directly on
+CONFIG_ARCH_HAS_PTE_SPECIAL.
 
-On 2018/4/10 22:15, James Morse wrote:
-> Hi Dongjiu Geng,
-> 
-> On 09/04/18 22:36, Dongjiu Geng wrote:
->> 1. Detect whether KVM can set set guest SError syndrome
->> 2. Support to Set VSESR_EL2 and inject SError by user space.
->> 3. Support live migration to keep SError pending state and VSESR_EL2 value.
->> 4. ACPI 6.1 adds support for NOTIFY_SEI as a GHES notification mechanism, so support this
->>    notification in software, KVM or kernel ARCH code call handle_guest_sei() to let ACP driver
->>    to handle this notification.
-> 
-> Please don't post code during the merge-window, will this apply to v4.17-rc1? We
-> can't know until its tagged.
-I do not know when it is merge-window. About the apply version, it does not have limited.
+There is no functional change introduced by this patch
 
-> 
-> 
-> This series is doing two separate things, please split it into two series.
-OK, thanks!
+Signed-off-by: Laurent Dufour <ldufour@linux.vnet.ibm.com>
+---
+ mm/memory.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-> 
-> But on the ACPI front: I don't see how any OS can support your NOTIFY_SEI when
-> firmware is ignoring the normal world's PSTATE.A.
-> 
-> The latest lobe of that discussion was on the list here:
-> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1611496.html
-I have replied the mail.
-I still have some questions that need to clarify with you.
-After clarification, we will follow that.
-The question is in the reply of this mail "https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1611496.html"
-
-> 
-> 
-> As it is, we would need to spot SError being delivered while SError is masked,
-> spray nasty messages about firmware being horrifically buggy, then panic(). For
-> a corrected error, this looks bad, but its preferable to letting firmware
-> silently overwrite the exception registers, causing linux to spin through the
-> vectors 'eret' with all exceptions masked.
-> I still think its best to wait for firmware that does the right thing.
-Let us  discuss that in another mail.
-In a summary, I think firmware follow below rule can be OK, right?
-1. The exception came from the EL that SError should be routed to(according to hcr_EL2.{AMO, TGE}),but PSTATE.A was set, EL3 firmware can't deliver SError;
-2. The exception came from the EL that SError should not be routed to(according to hcr_EL2.{AMO, TGE}),even though the PSTATE.A was set,EL3 firmware still deliver SError
-
-> 
-> 
-> Thanks,
-> 
-> James
-> 
-> .
-> 
+diff --git a/mm/memory.c b/mm/memory.c
+index 96910c625daa..345e562a138d 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -817,17 +817,12 @@ static void print_bad_pte(struct vm_area_struct *vma, unsigned long addr,
+  * PFNMAP mappings in order to support COWable mappings.
+  *
+  */
+-#ifdef CONFIG_ARCH_HAS_PTE_SPECIAL
+-# define HAVE_PTE_SPECIAL 1
+-#else
+-# define HAVE_PTE_SPECIAL 0
+-#endif
+ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 			     pte_t pte, bool with_public_device)
+ {
+ 	unsigned long pfn = pte_pfn(pte);
+ 
+-	if (HAVE_PTE_SPECIAL) {
++	if (IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL)) {
+ 		if (likely(!pte_special(pte)))
+ 			goto check_pfn;
+ 		if (vma->vm_ops && vma->vm_ops->find_special_page)
+@@ -862,7 +857,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 		return NULL;
+ 	}
+ 
+-	/* !HAVE_PTE_SPECIAL case follows: */
++	/* !CONFIG_ARCH_HAS_PTE_SPECIAL case follows: */
+ 
+ 	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+ 		if (vma->vm_flags & VM_MIXEDMAP) {
+@@ -881,6 +876,7 @@ struct page *_vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 
+ 	if (is_zero_pfn(pfn))
+ 		return NULL;
++
+ check_pfn:
+ 	if (unlikely(pfn > highest_memmap_pfn)) {
+ 		print_bad_pte(vma, addr, pte, NULL);
+@@ -904,7 +900,7 @@ struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
+ 	/*
+ 	 * There is no pmd_special() but there may be special pmds, e.g.
+ 	 * in a direct-access (dax) mapping, so let's just replicate the
+-	 * !HAVE_PTE_SPECIAL case from vm_normal_page() here.
++	 * !CONFIG_ARCH_HAS_PTE_SPECIAL case from vm_normal_page() here.
+ 	 */
+ 	if (unlikely(vma->vm_flags & (VM_PFNMAP|VM_MIXEDMAP))) {
+ 		if (vma->vm_flags & VM_MIXEDMAP) {
+@@ -1933,7 +1929,8 @@ static int __vm_insert_mixed(struct vm_area_struct *vma, unsigned long addr,
+ 	 * than insert_pfn).  If a zero_pfn were inserted into a VM_MIXEDMAP
+ 	 * without pte special, it would there be refcounted as a normal page.
+ 	 */
+-	if (!HAVE_PTE_SPECIAL && !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
++	if (!IS_ENABLED(CONFIG_ARCH_HAS_PTE_SPECIAL) &&
++	    !pfn_t_devmap(pfn) && pfn_t_valid(pfn)) {
+ 		struct page *page;
+ 
+ 		/*
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
