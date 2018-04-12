@@ -1,167 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1AB8D7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Apr 2018 19:51:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A30837DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Apr 2018 20:00:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752999AbeDLTvN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Apr 2018 15:51:13 -0400
-Received: from mga03.intel.com ([134.134.136.65]:35948 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752807AbeDLTvL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 12 Apr 2018 15:51:11 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Apr 2018 12:51:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,443,1517904000"; 
-   d="scan'208";a="42887718"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
-  by orsmga003.jf.intel.com with ESMTP; 12 Apr 2018 12:51:10 -0700
-Subject: Re: [PATCH v3 09/10] drivers/hwmon: Add PECI hwmon client drivers
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-10-jae.hyun.yoo@linux.intel.com>
- <20180410222800.GA8484@roeck-us.net>
- <637d7812-e567-0bc2-4f08-fbdca0ee85d8@linux.intel.com>
- <292be2d9-e572-2e06-9899-f6c2c53fdefc@roeck-us.net>
- <7b378954-1ce8-a2d2-5d09-8b6b36c048be@linux.intel.com>
- <13d4c632-a20e-3c40-066a-1e9df02a0595@roeck-us.net>
- <89c8c847-87e7-a849-e05d-d32b787e9305@linux.intel.com>
- <20180412173714.GA13496@roeck-us.net>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <34c2c925-b62c-388b-d753-15fd4a821459@linux.intel.com>
-Date:   Thu, 12 Apr 2018 12:51:10 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1753468AbeDLUAN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Apr 2018 16:00:13 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:46836 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752923AbeDLUAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Apr 2018 16:00:11 -0400
+Received: by mail-wr0-f196.google.com with SMTP id d1so6220959wrj.13;
+        Thu, 12 Apr 2018 13:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=frlEpkx76aHB2MYngHV7qOkjBtija6sC6i6/bZ7GdYI=;
+        b=Pf/tutnc3OUv5KynQBd8eBJ2oZXWUAJTNRBz30I8EtJoqaSWLk0+preRstn582JuGo
+         WI5ybkBL7odXW/pQtkmm+oMI8a7Wf436RJyaZwaihUG6wtyVcl+Pwvc828Xdmsxo33ps
+         55THyUohNJIr/lBsixV6/T9ObwURxPjlTdHb6pyEXT9ZvK07TOsLYjvou0X9roHTaQGs
+         HA+0kagJJl0DNQMIsN8wUpgu9mIz8DYyd3Q3BcKv6qi0NsDHnz9tdn2yYjCUfuad/4s4
+         ApXHG2eviSpDeSY7prPN/WUoc0L5aVBGlzqckGld5ttLLYXlS5Hk6yru10ttsWEFI4kt
+         /0+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=frlEpkx76aHB2MYngHV7qOkjBtija6sC6i6/bZ7GdYI=;
+        b=sSLZbkgZhg42IbWddRw7togpoxilgkFwsJDIKOil2m723oltw+oA9weQASTIdOKJIC
+         OD7EaL+FlO5FEARg94DSVWrlN3LwxSyFHb1XgWUaFvF8BJ4Lcp4l2ARaJ48S6jfXf+8u
+         dxXg1XYP4QG3LP9Hd3RcEeJuvQMH5KrAJL/L3Wnrg3/2kobvmqnO0TTKFmd/JXfZQJQs
+         HPg2m/kY5VFnfPoavGAlt0XLImC0m6JHhmk0amwu6rALVZ7148n2q2un+knZTJMrhu1i
+         k7ZdV4KA8QnNc+UgfGbk8onul64SAIylBrzDDS6hoFSgc5rknQXGKWCFE+t/xh/VP9TT
+         PI2g==
+X-Gm-Message-State: ALQs6tBtG8JfBPRy6ilJ60fwkcDPOosBPQABlKtkHZ6de/5HEzd9jIcQ
+        rx3CC15XHIYCDdm2zYxUS11whMyC
+X-Google-Smtp-Source: AIpwx4/vhFgewJhFHwAjSbpjbuN2ZSkIKOl7bnKZH8GpuKlxA5MBZNMyvPiau/hnsui/2nBrT+JmSA==
+X-Received: by 10.223.135.51 with SMTP id a48mr1629618wra.242.1523563210281;
+        Thu, 12 Apr 2018 13:00:10 -0700 (PDT)
+Received: from debian64.daheim (p200300D5FBC4BDFC0000000000000830.dip0.t-ipconnect.de. [2003:d5:fbc4:bdfc::830])
+        by smtp.gmail.com with ESMTPSA id m35sm5632218wrm.59.2018.04.12.13.00.08
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 12 Apr 2018 13:00:08 -0700 (PDT)
+Received: from localhost.daheim ([127.0.0.1] helo=debian64.localnet)
+        by debian64.daheim with esmtp (Exim 4.90_1)
+        (envelope-from <chunkeey@gmail.com>)
+        id 1f6iO7-0003r1-R7; Thu, 12 Apr 2018 22:00:07 +0200
+From:   Christian Lamparter <chunkeey@gmail.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] gpiolib: add hogs support for machine code
+Date:   Thu, 12 Apr 2018 22:00:07 +0200
+Message-ID: <17720832.6ELUnVt0BR@debian64>
+In-Reply-To: <20180410203028.11412-1-brgl@bgdev.pl>
+References: <20180410203028.11412-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-In-Reply-To: <20180412173714.GA13496@roeck-us.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/12/2018 10:37 AM, Guenter Roeck wrote:
-> On Thu, Apr 12, 2018 at 10:09:51AM -0700, Jae Hyun Yoo wrote:
-> [ ... ]
->>>>>>>> +static int find_core_index(struct peci_cputemp *priv, int channel)
->>>>>>>> +{
->>>>>>>> +    int core_channel = channel - DEFAULT_CHANNEL_NUMS;
->>>>>>>> +    int idx, found = 0;
->>>>>>>> +
->>>>>>>> +    for (idx = 0; idx < priv->gen_info->core_max; idx++) {
->>>>>>>> +        if (priv->core_mask & BIT(idx)) {
->>>>>>>> +            if (core_channel == found)
->>>>>>>> +                break;
->>>>>>>> +
->>>>>>>> +            found++;
->>>>>>>> +        }
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    return idx;
->>>>>>>
->>>>>>> What if nothing is found ?
->>>>>>>
->>>>>>
->>>>>> Core temperature group will be registered only when it detects at
->>>>>> least one core checked by check_resolved_cores(), so
->>>>>> find_core_index() can be called only when priv->core_mask has a
->>>>>> non-zero value. The 'nothing is found' case will not happen.
->>>>>>
->>>>> That doesn't guarantee a match. If what you are saying is correct
->>>>> there should always be
->>>>> a well defined match of channel -> idx, and the search should be
->>>>> unnecessary.
->>>>>
->>>>
->>>> There could be some disabled cores in the resolved core mask bit
->>>> sequence also it should remove indexing gap in channel numbering so it
->>>> is the reason why this search function is needed. Well defined match of
->>>> channel -> idx would not be always satisfied.
->>>>
->>> Are you saying that each call to the function, with the same parameters,
->>> can return a different result ?
->>>
->>
->> No, the result will be consistent. After reading the priv->core_mask once in
->> check_resolved_cores(), the value will not be changed. I'm saying about this
->> case, for example if core number 2 is unresolved in total 4 cores, then the
->> idx order will be '0, 1, 3' but channel order will be '5, 6, 7' without
->> making any indexing gap.
->>
+On Dienstag, 10. April 2018 22:30:28 CEST Bartosz Golaszewski wrote:
+> Board files constitute a significant part of the users of the legacy
+> GPIO framework. In many cases they only export a line and set its
+> desired value. We could use GPIO hogs for that like we do for DT and
+> ACPI but there's no support for that in machine code.
 > 
-> And you yet you claim that this is not well defined ? Or are you concerned
-> about the amount of memory consumed by providing an array for the mapping ?
+> This patch proposes to extend the machine.h API with support for
+> registering hog tables in board files.
 > 
-> Note that an indexing gap is acceptable and, in many cases, preferred.
-> 
+> Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
+> ---
+> @@ -1326,6 +1364,8 @@ int gpiochip_add_data_with_key(struct gpio_chip *chip, void *data,
+>  
+>  	acpi_gpiochip_add(chip);
+>  
+> +	machine_gpiochip_add(chip);
+> +
+>  	/*
+>  	 * By first adding the chardev, and then adding the device,
+>  	 * we get a device node entry in sysfs under
+> @@ -3462,6 +3502,33 @@ void gpiod_remove_lookup_table(struct gpiod_lookup_table *table)
 
-If the indexing gap is acceptable, the index search function isn't 
-needed anymore. I'll fix all relating code to make that use direct 
-mapping of channel -> idx then. Thanks!
+I think I see the same problem right here in regards to pinctrls
+and gpiohogs that have with DeviceTree:
+<https://patchwork.kernel.org/patch/10313767/>
 
-> [ ... ]
-> 
->>>>>>>> +
->>>>>>>> +    dev_dbg(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev),
->>>>>>>> priv->name);
->>>>>>>> +
->>>>>
->>>>> Why does this message display the device name twice ?
->>>>>
->>>>
->>>> For an example, dev_name(hwmon_dev) shows 'hwmon5' and priv->name shows
->>>> 'peci-cputemp0'.
->>>>
->>> And dev_dbg() shows another device name. So you'll have something like
->>>
->>> peci-cputemp0: hwmon5: sensor 'peci-cputemp0'
->>>
->>
->> Practically it shows like
->>
->> peci-cputemp 0-30:00: hwmon10: sensor 'peci_cputemp.cpu0'
->>
->> where 0-30:00 is assigned by peci core.
->>
-> 
-> And what message would you see for cpu1 ?
-> 
+The problem is that unlike native gpio-controllers, pinctrls need 
+to have a "pin/gpio range" defined before any gpio-hogs can be added.
 
-It shows like
+If this is not the case the generic pinctrl_gpio_reguest() [0] will
+fail with -EPROBE_DEFER at this point. (see the call chain in the
+"pinctrl: msm: fix gpio-hog related boot issueslogin register" mail
+starting from gpiod_hog).
 
-peci-cputemp 0-31:00: hwmon10: sensor 'peci_cputemp.cpu1'
+And now the crux of the matter is that currently in order for pinctrl
+drivers to register the range they have to call gpiochip_add_pin_range() [1]. 
+But they only can do it after the gpiochip_add_data_with_key() [2], since
+this function initializes the pin_ranges list [3].
+
+So what will happen is that you'll get an
+"gpiochip_machine_hog: unable to hog GPIO line $LABEL $GPIONR -517" error
+for every single gpio-hog and wonder why :(.
+
+Regards,
+Christian
+
+[0] <https://elixir.bootlin.com/linux/v4.16.2/source/drivers/pinctrl/core.c#L743>
+[1] <https://elixir.bootlin.com/linux/latest/source/drivers/gpio/gpiolib.c#L2078>
+[2] <https://elixir.bootlin.com/linux/latest/source/drivers/gpio/gpiolib.c#L1136>
+[3] <https://elixir.bootlin.com/linux/latest/source/drivers/gpio/gpiolib.c#L1253>
+
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
