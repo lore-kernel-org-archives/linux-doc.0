@@ -1,104 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E4C77DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Apr 2018 19:13:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1AB8D7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 12 Apr 2018 19:51:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753072AbeDLTNG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 12 Apr 2018 15:13:06 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:32768 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753063AbeDLTNF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 12 Apr 2018 15:13:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=SqtPu57Ed2MBcx+aJ581nTJK64gNNPOHS+2wVNDRAIk=; b=vinbE4QhVyPXlt/JUbqu7cxly
-        HLIfgjv7TG1FfKCbdlIwjrKA/EBUlNJHhdWVzJZ2PVeuzTOpriHfPDVWoy0pqdIVxuyIxjw3hh0JA
-        ck8eetTduO85FFybIJ0tIbEz4z8FC/lHZb4DW6/LXhjvxDh7VAIJxDOBXcDrsPLgbPM42Wp3ffmW5
-        3HNyP/6doVS2Rsv17Ke8yS8gJKFDpFlbiSDoWMpoQFD5tygFs8zfepz48U5LHa5b7HHhBmQReH+jT
-        gllQPDX4ko+X1hTm2dWxn0JJX3rCXY57G5v3bzcSbLsCNbbvHc3FTNWygK48p0GNHnpuOiqEIL69F
-        l5Q/dUTLQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1f6heL-0005l9-Cj; Thu, 12 Apr 2018 19:12:49 +0000
-Received: by worktop (Postfix, from userid 1000)
-        id 0A6E06E079F; Thu, 12 Apr 2018 21:13:19 +0200 (CEST)
-Date:   Thu, 12 Apr 2018 21:13:18 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Steve Muckle <smuckle@google.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Morten Rasmussen <morten.rasmussen@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Paul Turner <pjt@google.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] sched/fair: add support to tune PELT ramp/decay timings
-Message-ID: <20180412191318.GA7129@worktop.programming.kicks-ass.net>
-References: <20180409165134.707-1-patrick.bellasi@arm.com>
+        id S1752999AbeDLTvN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 12 Apr 2018 15:51:13 -0400
+Received: from mga03.intel.com ([134.134.136.65]:35948 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752807AbeDLTvL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 12 Apr 2018 15:51:11 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Apr 2018 12:51:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,443,1517904000"; 
+   d="scan'208";a="42887718"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
+  by orsmga003.jf.intel.com with ESMTP; 12 Apr 2018 12:51:10 -0700
+Subject: Re: [PATCH v3 09/10] drivers/hwmon: Add PECI hwmon client drivers
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Haiyue Wang <haiyue.wang@linux.intel.com>,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Cartwright <juliac@eso.teric.us>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Milton Miller II <miltonm@us.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>,
+        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org
+References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
+ <20180410183212.16787-10-jae.hyun.yoo@linux.intel.com>
+ <20180410222800.GA8484@roeck-us.net>
+ <637d7812-e567-0bc2-4f08-fbdca0ee85d8@linux.intel.com>
+ <292be2d9-e572-2e06-9899-f6c2c53fdefc@roeck-us.net>
+ <7b378954-1ce8-a2d2-5d09-8b6b36c048be@linux.intel.com>
+ <13d4c632-a20e-3c40-066a-1e9df02a0595@roeck-us.net>
+ <89c8c847-87e7-a849-e05d-d32b787e9305@linux.intel.com>
+ <20180412173714.GA13496@roeck-us.net>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <34c2c925-b62c-388b-d753-15fd4a821459@linux.intel.com>
+Date:   Thu, 12 Apr 2018 12:51:10 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180409165134.707-1-patrick.bellasi@arm.com>
-User-Agent: Mutt/1.5.22.1 (2013-10-16)
+In-Reply-To: <20180412173714.GA13496@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 09, 2018 at 05:51:34PM +0100, Patrick Bellasi wrote:
-> The PELT half-life is the time [ms] required by the PELT signal to build
-> up a 50% load/utilization, starting from zero. This time is currently
-> hardcoded to be 32ms, a value which seems to make sense for most of the
-> workloads.
+On 4/12/2018 10:37 AM, Guenter Roeck wrote:
+> On Thu, Apr 12, 2018 at 10:09:51AM -0700, Jae Hyun Yoo wrote:
+> [ ... ]
+>>>>>>>> +static int find_core_index(struct peci_cputemp *priv, int channel)
+>>>>>>>> +{
+>>>>>>>> +    int core_channel = channel - DEFAULT_CHANNEL_NUMS;
+>>>>>>>> +    int idx, found = 0;
+>>>>>>>> +
+>>>>>>>> +    for (idx = 0; idx < priv->gen_info->core_max; idx++) {
+>>>>>>>> +        if (priv->core_mask & BIT(idx)) {
+>>>>>>>> +            if (core_channel == found)
+>>>>>>>> +                break;
+>>>>>>>> +
+>>>>>>>> +            found++;
+>>>>>>>> +        }
+>>>>>>>> +    }
+>>>>>>>> +
+>>>>>>>> +    return idx;
+>>>>>>>
+>>>>>>> What if nothing is found ?
+>>>>>>>
+>>>>>>
+>>>>>> Core temperature group will be registered only when it detects at
+>>>>>> least one core checked by check_resolved_cores(), so
+>>>>>> find_core_index() can be called only when priv->core_mask has a
+>>>>>> non-zero value. The 'nothing is found' case will not happen.
+>>>>>>
+>>>>> That doesn't guarantee a match. If what you are saying is correct
+>>>>> there should always be
+>>>>> a well defined match of channel -> idx, and the search should be
+>>>>> unnecessary.
+>>>>>
+>>>>
+>>>> There could be some disabled cores in the resolved core mask bit
+>>>> sequence also it should remove indexing gap in channel numbering so it
+>>>> is the reason why this search function is needed. Well defined match of
+>>>> channel -> idx would not be always satisfied.
+>>>>
+>>> Are you saying that each call to the function, with the same parameters,
+>>> can return a different result ?
+>>>
+>>
+>> No, the result will be consistent. After reading the priv->core_mask once in
+>> check_resolved_cores(), the value will not be changed. I'm saying about this
+>> case, for example if core number 2 is unresolved in total 4 cores, then the
+>> idx order will be '0, 1, 3' but channel order will be '5, 6, 7' without
+>> making any indexing gap.
+>>
 > 
-> However, 32ms has been verified to be too long for certain classes of
-> workloads. For example, in the mobile space many tasks affecting the
-> user-experience run with a 16ms or 8ms cadence, since they need to match
-> the common 60Hz or 120Hz refresh rate of the graphics pipeline.
-> This contributed so fare to the idea that "PELT is too slow" to properly
-> track the utilization of interactive mobile workloads, especially
-> compared to alternative load tracking solutions which provides a
-> better representation of tasks demand in the range of 10-20ms.
-
-Initially the 32 was chosen to more or less correspond to the effective
-scheduling period (sysctl_sched_latency based). The thinking was that if
-you pick a PELT window shorter than the period, the result becomes
-unstable due to not all tasks getting an equal go at things.
-
-(of course, stuffing enough tasks on a rq will break this, but at that
-point you have worse problems to deal with)
-
-Should we retain this? Esp. with the lower end (8ms) I worry we'll see
-more of those effects.
-
-
-> Fortunately, since the integration of the utilization estimation
-> support in mainline kernel:
+> And you yet you claim that this is not well defined ? Or are you concerned
+> about the amount of memory consumed by providing an array for the mapping ?
 > 
->    commit 7f65ea42eb00 ("sched/fair: Add util_est on top of PELT")
+> Note that an indexing gap is acceptable and, in many cases, preferred.
 > 
-> a fast decay time is no longer an issue for tasks utilization estimation.
-> Although estimated utilization does not slow down the decay of blocked
-> utilization on idle CPUs, for mobile workloads this seems not to be a
-> major concern compared to the benefits in interactivity responsiveness.
 
-By picking a smaller PELT window, the util_est window shrinks
-correspondingly; is that intentional or do we want to modify
-UTIL_EST_WEIGHT_SHIFT to negate the PELT window changes?
+If the indexing gap is acceptable, the index search function isn't 
+needed anymore. I'll fix all relating code to make that use direct 
+mapping of channel -> idx then. Thanks!
+
+> [ ... ]
+> 
+>>>>>>>> +
+>>>>>>>> +    dev_dbg(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev),
+>>>>>>>> priv->name);
+>>>>>>>> +
+>>>>>
+>>>>> Why does this message display the device name twice ?
+>>>>>
+>>>>
+>>>> For an example, dev_name(hwmon_dev) shows 'hwmon5' and priv->name shows
+>>>> 'peci-cputemp0'.
+>>>>
+>>> And dev_dbg() shows another device name. So you'll have something like
+>>>
+>>> peci-cputemp0: hwmon5: sensor 'peci-cputemp0'
+>>>
+>>
+>> Practically it shows like
+>>
+>> peci-cputemp 0-30:00: hwmon10: sensor 'peci_cputemp.cpu0'
+>>
+>> where 0-30:00 is assigned by peci core.
+>>
+> 
+> And what message would you see for cpu1 ?
+> 
+
+It shows like
+
+peci-cputemp 0-31:00: hwmon10: sensor 'peci_cputemp.cpu1'
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
