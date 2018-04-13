@@ -1,128 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BODY_URI_ONLY,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3BAEA7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Apr 2018 16:02:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD4157E22E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Apr 2018 16:05:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751714AbeDMQC0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Apr 2018 12:02:26 -0400
-Received: from mail-vk0-f65.google.com ([209.85.213.65]:38465 "EHLO
-        mail-vk0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750981AbeDMQCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Apr 2018 12:02:25 -0400
-Received: by mail-vk0-f65.google.com with SMTP id b16so5672688vka.5
-        for <linux-doc@vger.kernel.org>; Fri, 13 Apr 2018 09:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=Q+iifnQVEdP1igar+yfoSFQPOQs0PQuRtos+7F5OAVk=;
-        b=wFMmrPhlToK2T9zeQ9y51u/m7A9ZR9p3yOZxxk3R48QEAOOtMhheLS148NguAgEjeT
-         /TPV85RavxCC9WKBJZRPjzxGHi0QM2KLZutMav5UozK8gkpLkV6Aq4zSYumWs+oJgSWu
-         3pXDWBVn6TMpVZWm9WFC+igRJzbR2lPJcrMFGZ5X549VKDqI0H571HY+ltY17+AFBzB4
-         PWPQQ+LrqwkV+FZrAghZS9vQ5gNaO1hlmjMHfx44zHnpkaCCt7uWPNFWsTd4/iwmInZi
-         ywxVsvgfB4pgc2KIm1V0Ule509pCOPgWCPqPaXioPSfepy2pLBQA4KSRJMUHtjolV/2n
-         us/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=Q+iifnQVEdP1igar+yfoSFQPOQs0PQuRtos+7F5OAVk=;
-        b=V1xzlvj2RiEwd/4Lh2qHYB8Soq4TAkAWsp72OF+ySVIy4GI4fzS+laEwok788KWeyh
-         jnIv5IlNeFVUgKDuZWWosxqsxouSW/CdJWN4+eAr4PsXWeTZXfnAT3L3wVhnQYcdOG8b
-         cf9jPfsOt/WtNjrs//LS81amWL3URN+0Lp2Smp/N/M2LlJtINGi11j6WclcwUF6Cvojh
-         JNYUyu5Q0/qcf3Bd6dRHhpW5sCBZdHIynYWozd8E3UItvensCpLjrZc4SFOA4iPg7F9V
-         5F/NhnD8DLCk2/kwK4aHN3OI9Lae4WUoGCFLG5gKbPxigZ7UKcWSQmwgU8APor3+2Mlc
-         jcqg==
-X-Gm-Message-State: ALQs6tAdYkID2yOgmyp7Sw6pMih9aBMarZ45FlOw6cr58C20UAWKpBk7
-        ciJy76XSePblEXLr9qjzc4HvidJWNpleyBQm/LhpmQ==
-X-Google-Smtp-Source: AIpwx4/1yBadeXK0Gv6sNoaYKJmxcHltLoKnVHW4N63Ws05Mevbzq9TyGHyBHW+Mxiz8avAxXN6dt/Pfd1mZ7Q1VTcg=
-X-Received: by 10.31.60.209 with SMTP id j200mr4148914vka.93.1523635344051;
- Fri, 13 Apr 2018 09:02:24 -0700 (PDT)
+        id S1750981AbeDMQFe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Apr 2018 12:05:34 -0400
+Received: from mail-sn1nam02on0068.outbound.protection.outlook.com ([104.47.36.68]:46544
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751335AbeDMQFc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Apr 2018 12:05:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=5Bk14c5+JxTcYd1hRpEfn9h64WPsD5l+vYSp/AVXilQ=;
+ b=MzALxKxSi+DQKEeF6zmXhZWCBGl9rhnDUDEDsOJXxP3q9BYF7ksa42/m+uLVLlCsn7WrxT+OB5jX3yuOY2RUvQmVlu7fB2Gq26v9fM1FSrF9wxZaOazExqAyMK1RmWl+cLFlqzTun0CsxaryyNl8sio1i78eX+meJQWmwRmNeAk=
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com (52.135.94.11) by
+ SN6PR07MB4670.namprd07.prod.outlook.com (52.135.76.157) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.675.11; Fri, 13 Apr 2018 16:05:31 +0000
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98]) by SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98%13]) with mapi id 15.20.0675.011; Fri, 13 Apr
+ 2018 16:05:31 +0000
+From:   Alan Douglas <adouglas@cadence.com>
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [RFC 02/10] PCI: cadence: Update cdns_pcie_ep_raise_irq function
+ signature
+Thread-Topic: [RFC 02/10] PCI: cadence: Update cdns_pcie_ep_raise_irq function
+ signature
+Thread-Index: AQHT0O90NeM9td2lmk6k/FEA2LR2iqP+3xKg
+Date:   Fri, 13 Apr 2018 16:05:31 +0000
+Message-ID: <SN6PR07MB4512CAD75BB34CA72D10713AD8B30@SN6PR07MB4512.namprd07.prod.outlook.com>
+References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+ <52314006c63f8d21907dfaa03207b39e36bb8171.1523379766.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <52314006c63f8d21907dfaa03207b39e36bb8171.1523379766.git.gustavo.pimentel@synopsys.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWRvdWdsYXNcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy03YzliMmY4ZC0zZjM0LTExZTgtODZlNS1mNDk2MzQ4NmY0ZWNcYW1lLXRlc3RcN2M5YjJmOGUtM2YzNC0xMWU4LTg2ZTUtZjQ5NjM0ODZmNGVjYm9keS50eHQiIHN6PSIxMjE1IiB0PSIxMzE2ODEwOTEzMDY1ODIzNDYiIGg9IjFyTFkxNnp5U1dIWGp0MTFqUnh3NGtLOFl2OD0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=adouglas@cadence.com; 
+x-originating-ip: [185.217.253.59]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;SN6PR07MB4670;7:6RQl61tmLnIetsfTjOlGo9ui97aZoikdFt7Vvwmt8hbFG6/StRaOD4NkN5ax5i3G+vOYrjgw66/ignCfBdQ3LtNFu46wX1LN5mx5snVR6n9dM/UJiaaG2Cxtczjvk2gOwfDBCIqxZM+tmw/9wuF1ntJ8mei14LdGHC8oRfNytlugDu0SYBJimvMw0dhFxBTWwPGThOTDwOua6HvIHUoziGRD3ppqNx/Q85QOyQY2H1oecLhIDd/LT34fY8i4rRaO;20:0R64L/sPnNV6crbcBZyVuCw7j3redc1MHHf0sMZt9XrCzY4CHnDGcoN1aZOmwBrh+6yWuX2BGg6gbAZWAtM5o6XVenD4TjDXzcl6ZCG6Cbq4pmgVjZa9svhsvPkNm3ZGQTXIWsuKE3m0Lhcpn26piWh3JNnN5FRYIw1lHOHADB1E1EfPROPJ5sRToOlKCUle46uPkYMgLP1Ukpe+eCs4se4LPaLvjuBqyB1P02Aez93dN2cF4IwYsLr2HYCrvnjj
+x-ms-exchange-antispam-srfa-diagnostics: SOS;
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4670;
+x-ms-traffictypediagnostic: SN6PR07MB4670:
+x-microsoft-antispam-prvs: <SN6PR07MB4670D34E8813409782889EA6D8B30@SN6PR07MB4670.namprd07.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(72806322054110);
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(10201501046)(3231232)(944501327)(52105095)(3002001)(93006095)(93001095)(6041310)(20161123562045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(6072148)(201708071742011);SRVR:SN6PR07MB4670;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4670;
+x-forefront-prvs: 0641678E68
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(979002)(39380400002)(39860400002)(346002)(366004)(396003)(376002)(36092001)(189003)(199004)(55016002)(59450400001)(68736007)(186003)(106356001)(3660700001)(105586002)(2906002)(6436002)(2900100001)(86362001)(26005)(6506007)(3280700002)(7696005)(102836004)(486006)(99286004)(476003)(11346002)(2201001)(97736004)(446003)(76176011)(39060400002)(7736002)(305945005)(14454004)(66066001)(229853002)(8676002)(3846002)(81156014)(5660300001)(6116002)(81166006)(9686003)(6246003)(74316002)(5250100002)(7416002)(2501003)(478600001)(54906003)(53936002)(8936002)(110136005)(316002)(25786009)(33656002)(4326008)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4670;H:SN6PR07MB4512.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: cadence.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: 2BtaOCWfgxLbSZZX+fkkB2XIqKyjS8g+cTQrvFYReqBSf02rHRTn+rbuEr4Bu4DKKWy8OwcHe0xaQWk05yowzxTe3jfwV5iTkgjukQ6pZ2jIahz0ED7CXqq+GK0S4FjdBu6Ne/QEn7kX5Tm25uPgsvyD+64Zj7OooZi0WKbv2+gH715RKGk5XxLKE0tLfkxlWf+QVEPw+/3cql4Pc4lcCg==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Received: by 10.31.58.214 with HTTP; Fri, 13 Apr 2018 09:02:03 -0700 (PDT)
-In-Reply-To: <20180413141359.793919fb@endymion>
-References: <20180412213342.138010-1-hansens@google.com> <20180412222457.x4jdwt27ylgi74o3@katana>
- <20180413141359.793919fb@endymion>
-From:   Sam Hansen <hansens@google.com>
-Date:   Fri, 13 Apr 2018 09:02:03 -0700
-Message-ID: <CAP9bUy7rONNHYeRkYtaWHcfqoZcGKXJz-JocED26zBj9n+-ZbQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/i2c: sync docs with current state of i2c-tools.
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Office365-Filtering-Correlation-Id: c32220a8-bfad-49c6-8535-08d5a15861cb
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c32220a8-bfad-49c6-8535-08d5a15861cb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2018 16:05:31.1308
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4670
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 13, 2018 at 5:13 AM, Jean Delvare <jdelvare@suse.de> wrote:
-> Hi Wolfram, Sam,
->
-> On Fri, 13 Apr 2018 00:24:57 +0200, Wolfram Sang wrote:
->> On Thu, Apr 12, 2018 at 02:33:42PM -0700, Sam Hansen wrote:
->> > Currently, Documentation/i2c/dev-interface describes the use of i2c_smbus_*
->> > helper routines as static inlined functions provided by linux/i2c-dev.h.  Work
->> > has been done to refactor the linux/i2c-dev.h file in the i2c-tools project
->> > out into its own library.  As a result, these docs have become stale.
->>
->> Thanks for fixing this!
->>
->> > This patch corrects the discrepancy and directs the reader to the i2c-tools
->> > project for more information.  Additionally, some trailing-whitespace cleanups
->> > were made.
->>
->> Minor nit: Having the whitespace changes in a seperate patch is a tad
->> easier to review.
->>
->> > -  /* Using I2C Write, equivalent of
->> > +  /* Using I2C Write, equivalent of
->> >       i2c_smbus_write_word_data(file, reg, 0x6543) */
->>
->> Maybe change to Kernel coding style comments while here?
->>
->> > -  Not meant to be called  directly; instead, use the access functions
->> > -  below.
->> > +  If possible, use the provided i2c_smbus_* methods described below in favor
->> > +  of issuing direct ioctls.
->>
->> Why this change?
->
-> I'm also not sure if "in favor of" is right. "instead of" would sound
-> better to me, but I'm no native English speaker, I could be wrong.
-
-Sounds good, I'll adopt "instead of".  Regarding Wolfram's earlier
-comment, as an engineer, requiring an out-of-tree library to build
-drivers felt a little off.  I can revert this section if you want,
-just let me know.
-
->
->> > -The above functions are all inline functions, that resolve to calls to
->> > -the i2c_smbus_access function, that on its turn calls a specific ioctl
->> > -with the data in a specific format. Read the source code if you
->> > -want to know what happens behind the screens.
->> > +The above functions are made available by linking against the libi2c library,
->> > +which is provided by the i2c-tools project.  See:
->> > +https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/.
->>
->> This is fine with me. Maybe Jean has a comment on this?
->
-> Fixing the documentation is always welcome, thanks Sam for stepping in.
-> However we really want separate patches for whitespace fixes and actual
-> contents change, as Wolfram already mentioned above.
-
-Will do!  I'll send a v2 patch set, thanks.
-
->
+On Tue, Apr 10 at 18.15, Gustavo Pimentel wrote:
+> From: Gustavo Pimentel [mailto:gustavo.pimentel@synopsys.com]
+> Changes the cdns_pcie_ep_raise_irq function signature, namely the
+> interrupt_num variable type from u8 to u16 to accommodate the MSI-X
+> maximum interrupts of 2048.
+>=20
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> ---
+>  drivers/pci/cadence/pcie-cadence-ep.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/pci/cadence/pcie-cadence-ep.c
+> b/drivers/pci/cadence/pcie-cadence-ep.c
+> index 3d8283e..6d6322c 100644
+> --- a/drivers/pci/cadence/pcie-cadence-ep.c
+> +++ b/drivers/pci/cadence/pcie-cadence-ep.c
+> @@ -363,7 +363,7 @@ static int cdns_pcie_ep_send_msi_irq(struct
+> cdns_pcie_ep *ep, u8 fn,  }
+>=20
+>  static int cdns_pcie_ep_raise_irq(struct pci_epc *epc, u8 fn,
+> -				  enum pci_epc_irq_type type, u8
+> interrupt_num)
+> +				  enum pci_epc_irq_type type, u16
+> interrupt_num)
+>  {
+>  	struct cdns_pcie_ep *ep =3D epc_get_drvdata(epc);
+>=20
 > --
-> Jean Delvare
-> SUSE L3 Support
+> 2.7.4
+>=20
+Acked-by: Alan Douglas <adouglas@cadence.com>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
