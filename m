@@ -2,119 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 612B47E892
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Apr 2018 09:26:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 375467E22E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 13 Apr 2018 12:14:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754105AbeDMJ0c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Apr 2018 05:26:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39866 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1754097AbeDMJ0c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Apr 2018 05:26:32 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3D9OVRu091463
-        for <linux-doc@vger.kernel.org>; Fri, 13 Apr 2018 05:26:31 -0400
-Received: from e06smtp10.uk.ibm.com (e06smtp10.uk.ibm.com [195.75.94.106])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2hast8ga3r-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 13 Apr 2018 05:26:31 -0400
-Received: from localhost
-        by e06smtp10.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <maier@linux.ibm.com>;
-        Fri, 13 Apr 2018 10:26:29 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp10.uk.ibm.com (192.168.101.140) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Fri, 13 Apr 2018 10:26:26 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3D9QQQH56688736;
-        Fri, 13 Apr 2018 09:26:26 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B9AD4A4057;
-        Fri, 13 Apr 2018 10:18:40 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8B5ECA4051;
-        Fri, 13 Apr 2018 10:18:40 +0100 (BST)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Fri, 13 Apr 2018 10:18:40 +0100 (BST)
-From:   Steffen Maier <maier@linux.ibm.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Steffen Maier <maier@linux.ibm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: ftrace: clarify filters with dynamic ftrace and graph
-Date:   Fri, 13 Apr 2018 11:26:16 +0200
-X-Mailer: git-send-email 2.13.5
-X-TM-AS-GCONF: 00
-x-cbid: 18041309-0040-0000-0000-0000042DE278
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18041309-0041-0000-0000-00002631FE77
-Message-Id: <20180413092616.9239-1-maier@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-13_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804130087
+        id S1752223AbeDMMOE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Apr 2018 08:14:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43125 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751847AbeDMMOD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 13 Apr 2018 08:14:03 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (charybdis-ext.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 185E1AE75;
+        Fri, 13 Apr 2018 12:14:02 +0000 (UTC)
+Date:   Fri, 13 Apr 2018 14:13:59 +0200
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Sam Hansen <hansens@google.com>, linux-i2c@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/i2c: sync docs with current state of
+ i2c-tools.
+Message-ID: <20180413141359.793919fb@endymion>
+In-Reply-To: <20180412222457.x4jdwt27ylgi74o3@katana>
+References: <20180412213342.138010-1-hansens@google.com>
+        <20180412222457.x4jdwt27ylgi74o3@katana>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I fell into the trap of having set up function tracer with a very
-limited filter and then switched over to function_graph and was
-erroneously wondering why the latter did not trace what I expected,
-which was the full unabridged graph recursion.
+Hi Wolfram, Sam,
 
-Signed-off-by: Steffen Maier <maier@linux.ibm.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/trace/ftrace.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+On Fri, 13 Apr 2018 00:24:57 +0200, Wolfram Sang wrote:
+> On Thu, Apr 12, 2018 at 02:33:42PM -0700, Sam Hansen wrote:
+> > Currently, Documentation/i2c/dev-interface describes the use of i2c_smbus_*
+> > helper routines as static inlined functions provided by linux/i2c-dev.h.  Work
+> > has been done to refactor the linux/i2c-dev.h file in the i2c-tools project
+> > out into its own library.  As a result, these docs have become stale.  
+> 
+> Thanks for fixing this!
+> 
+> > This patch corrects the discrepancy and directs the reader to the i2c-tools
+> > project for more information.  Additionally, some trailing-whitespace cleanups
+> > were made.  
+> 
+> Minor nit: Having the whitespace changes in a seperate patch is a tad
+> easier to review.
+> 
+> > -  /* Using I2C Write, equivalent of 
+> > +  /* Using I2C Write, equivalent of
+> >       i2c_smbus_write_word_data(file, reg, 0x6543) */  
+> 
+> Maybe change to Kernel coding style comments while here?
+> 
+> > -  Not meant to be called  directly; instead, use the access functions
+> > -  below.
+> > +  If possible, use the provided i2c_smbus_* methods described below in favor
+> > +  of issuing direct ioctls.  
+> 
+> Why this change?
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index e45f0786f3f9..68835d062344 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -224,6 +224,7 @@ of ftrace. Here is a list of some of the key files:
- 	has a side effect of enabling or disabling specific functions
- 	to be traced. Echoing names of functions into this file
- 	will limit the trace to only those functions.
-+	This influences both the tracers "function" and "function_graph"!
- 
- 	The functions listed in "available_filter_functions" are what
- 	can be written into this file.
-@@ -265,6 +266,9 @@ of ftrace. Here is a list of some of the key files:
- 	Functions listed in this file will cause the function graph
- 	tracer to only trace these functions and the functions that
- 	they call. (See the section "dynamic ftrace" for more details).
-+	With dynamic ftrace, the graph tracer can only trace functions that
-+	set_ftrace_filter minus set_ftrace_notrace armed; this also influences
-+	the ability to chase function call chains.
- 
-   set_graph_notrace:
- 
-@@ -277,7 +281,8 @@ of ftrace. Here is a list of some of the key files:
- 
- 	This lists the functions that ftrace has processed and can trace.
- 	These are the function names that you can pass to
--	"set_ftrace_filter" or "set_ftrace_notrace".
-+	"set_ftrace_filter", "set_ftrace_notrace",
-+	"set_graph_function", or "set_graph_notrace".
- 	(See the section "dynamic ftrace" below for more details.)
- 
-   dyn_ftrace_total_info:
+I'm also not sure if "in favor of" is right. "instead of" would sound
+better to me, but I'm no native English speaker, I could be wrong.
+
+> > -The above functions are all inline functions, that resolve to calls to
+> > -the i2c_smbus_access function, that on its turn calls a specific ioctl
+> > -with the data in a specific format. Read the source code if you
+> > -want to know what happens behind the screens.
+> > +The above functions are made available by linking against the libi2c library,
+> > +which is provided by the i2c-tools project.  See:
+> > +https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/.  
+> 
+> This is fine with me. Maybe Jean has a comment on this?
+
+Fixing the documentation is always welcome, thanks Sam for stepping in.
+However we really want separate patches for whitespace fixes and actual
+contents change, as Wolfram already mentioned above.
+
 -- 
-2.13.5
-
+Jean Delvare
+SUSE L3 Support
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
