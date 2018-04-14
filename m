@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A15F07E22E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 17:51:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 68B957E22E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 17:51:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751292AbeDNRv3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 14 Apr 2018 13:51:29 -0400
-Received: from mail-pf0-f195.google.com ([209.85.192.195]:40241 "EHLO
-        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751202AbeDNRv0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Apr 2018 13:51:26 -0400
-Received: by mail-pf0-f195.google.com with SMTP id y66so8519236pfi.7;
-        Sat, 14 Apr 2018 10:51:26 -0700 (PDT)
+        id S1751347AbeDNRvc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 14 Apr 2018 13:51:32 -0400
+Received: from mail-pf0-f193.google.com ([209.85.192.193]:35742 "EHLO
+        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751246AbeDNRv2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Apr 2018 13:51:28 -0400
+Received: by mail-pf0-f193.google.com with SMTP id u86so8530790pfd.2;
+        Sat, 14 Apr 2018 10:51:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=t/h0kL0o8PmNUtEMT7DVFrsaIwvOm+m86JD810Q+6JU=;
-        b=C9ulx+b+NYQGuVJODGrLQ/0gzhndpGDYKhkOZPLL4+E2IV0ekAfbm5uZft9n3uLV93
-         TLYyV9Ywd0jbiQ7+04k+lbE26ZMG/KEdo3O900EzoSD8ywibkoDM34MWqs81KZtCk9XN
-         n0JU9oJe+rw2vyUcpGPj8qwkesb+qpoZK1lfaxcIYOIaXGBv8r7oTvAkS7UxThdphkDe
-         YIv+1+NAjfwr6uFlzBUT9vcm30Y8okf8BAfwznSzGyMPzxiImRGicQMnO8uMDt2zKGx+
-         S17g79LUvlQmEdsjgR4f3WIJw/FHMG3a1qQVHQsGB8yYFmoePvAcz+riRJ9Ctmpo1fPa
-         JDNA==
+        bh=HC1/mbSgFMiCVG/T5XqpqOwZvWv84wbAlG12UX96Az0=;
+        b=Wl8CgjPPVG69tc6x6FDhG7RNu8NuiPdsKrU2OY6183QI30VMP3UNHxuLa9NtxrVnHO
+         LNbWKoRrEyubQkHRGW39qUOzs6Vf+dkUEfQkqG7uOz4Eu11INBQTbd0OggAP5P2yUn93
+         tK7W/0EJtGiPQMRCEgbREef0gLTJVgF5xszNAvrUGozsyIK34TQq37Q22SCgQwXOSIJI
+         xadeV0zC9t3g2mq+m7Y08/RCgxSLG25Y3i8KMqA+RNWYDH5lZoWed/VGUM0DM6VcnNmv
+         rp1+RbmcFe1I8jngyGopLwhJnZe/Hs3VJzG5meORccZbUUPYHyevtBvv83CJS+WESJCo
+         svlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=t/h0kL0o8PmNUtEMT7DVFrsaIwvOm+m86JD810Q+6JU=;
-        b=eVjZaNkdN1sRIkVVLoku4tpNGSxFzF7/pn1xAW95Z0j0P2hnSdtk14Ybdur5s7nOYP
-         BVjmdhPgdddlnM425GXYLE16Nu8YAo5og6vesJfNUCEBzsiDqHr1iYZSODQq0LPkh75N
-         ZF0Z1XAq6bTelSqfTyqAPxki6fBpsgxSmLwRSdn/K7wrlFJj9ZpoHkGM4IcM8fw2qv/5
-         ktw5luvIVUKPGSZBxYRyi8ldECQRgMy/lKIaNjbjhXC6Bkbz0CKVlgKXBIeAtb8uDc4K
-         J5HoCJwfktDOn0QDxlTwOqVykxoVRV3c82wQZgLviBG0D64jB3GEUpuVeQENaBstesOg
-         i3LA==
-X-Gm-Message-State: ALQs6tDFE+wNCh3sCx8FXvo/gLMZh/7pJVZ4nonDGEtELXXfKqH3QTVK
-        H1ux8zaWab062GmI00v88RY=
-X-Google-Smtp-Source: AIpwx49a2unmv276h5Ek89lyPpk4/XdPWG6mQRvp9rCBrbkrzsJm1va40oxdP5IscBe3/Y9pW8lfFw==
-X-Received: by 10.99.101.194 with SMTP id z185mr7778275pgb.337.1523728286228;
-        Sat, 14 Apr 2018 10:51:26 -0700 (PDT)
+        bh=HC1/mbSgFMiCVG/T5XqpqOwZvWv84wbAlG12UX96Az0=;
+        b=X0W9uNQOymosbUCe35RAVKK7qTfePbAfyRyKJ2gLE0ib6UwwljQmhvWhgKbUPH7IP0
+         somSk0wwXqvWSBMakSE/Wf0gIjVRXBPomxCHxCt9QNiJGXetcx0csZvjqpEMycw5zBDr
+         1+dnhhF1a9ltvTSjQoBgTj0AMukRnbASRqjCdzi21xDEwvpee2++3Oq54Sy9DW2S6gkp
+         Sabk6orVSEdsVqzqIMLPSAeaQekCPgXRsxNmXIEJvmgbyDPistZJdrLK64shpEDEn3ob
+         KNWC7HMx6Ph7b3mx6MAwpdIMpMokzmkcSJullmx7/DFVu8n0x35mGEjp8R4G9o71XMzD
+         deBg==
+X-Gm-Message-State: ALQs6tD6aJySjAlR5PlsSPajrHCIlwqIk90IK9zX/GYH3HLPNJoI0M7q
+        Pk2VUtCD3d+xwu9WQBM2QqQ=
+X-Google-Smtp-Source: AIpwx49sMMVk9xW/86FVNJq6OQJnc3AnW1O1Xz85bxeF3F4/G+XM6yvtzG9oZoysm7LMNvn1FAtKxg==
+X-Received: by 10.98.72.74 with SMTP id v71mr15681391pfa.241.1523728287785;
+        Sat, 14 Apr 2018 10:51:27 -0700 (PDT)
 Received: from midway.home (static-50-53-52-16.bvtn.or.frontiernet.net. [50.53.52.16])
-        by smtp.gmail.com with ESMTPSA id j3sm17232638pfj.60.2018.04.14.10.51.24
+        by smtp.gmail.com with ESMTPSA id j3sm17232638pfj.60.2018.04.14.10.51.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 14 Apr 2018 10:51:25 -0700 (PDT)
+        Sat, 14 Apr 2018 10:51:26 -0700 (PDT)
 From:   Randy Dunlap <rd.dunlab@gmail.com>
 To:     "Nicholas A. Bellinger" <nab@linux-iscsi.org>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-scsi@vger.kernel.org,
@@ -54,9 +54,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-scsi@vger.kernel.org,
         "James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 2/4] target: target_core_transport.c: enable+fix kernel-doc
-Date:   Sat, 14 Apr 2018 10:51:04 -0700
-Message-Id: <20180414175106.13760-3-rd.dunlab@gmail.com>
+Subject: [PATCH v3 3/4] target: target_core_user.[ch]: convert comments into DOC:
+Date:   Sat, 14 Apr 2018 10:51:05 -0700
+Message-Id: <20180414175106.13760-4-rd.dunlab@gmail.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <20180414175106.13760-1-rd.dunlab@gmail.com>
 References: <20180414175106.13760-1-rd.dunlab@gmail.com>
@@ -67,9 +67,9 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-For exported functions that already have near-kernel-doc notation,
-fix them to begin with "/**" and make a few corrections so that they
-don't have any kernel-doc warnings.
+Make documentation on target-supported userspace-I/O design be
+usable by kernel-doc by using "DOC:". This is used in the driver-api
+Documentation chapter.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 To: "Nicholas A. Bellinger" <nab@linux-iscsi.org>
@@ -80,77 +80,64 @@ Cc: "James E.J. Bottomley" <jejb@linux.vnet.ibm.com>
 Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
 ---
- drivers/target/target_core_transport.c |   17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ drivers/target/target_core_user.c     |    8 ++++++--
+ include/uapi/linux/target_core_user.h |   11 ++++++-----
+ 2 files changed, 12 insertions(+), 7 deletions(-)
 
---- linux-next-20180413.orig/drivers/target/target_core_transport.c
-+++ linux-next-20180413/drivers/target/target_core_transport.c
-@@ -1431,7 +1431,7 @@ transport_generic_map_mem_to_cmd(struct
- 	return 0;
- }
+--- linux-next-20180413.orig/drivers/target/target_core_user.c
++++ linux-next-20180413/drivers/target/target_core_user.c
+@@ -42,7 +42,11 @@
+ 
+ #include <linux/target_core_user.h>
  
 -/*
 +/**
-  * target_submit_cmd_map_sgls - lookup unpacked lun and submit uninitialized
-  * 			 se_cmd + use pre-allocated SGL memory.
-  *
-@@ -1441,7 +1441,7 @@ transport_generic_map_mem_to_cmd(struct
-  * @sense: pointer to SCSI sense buffer
-  * @unpacked_lun: unpacked LUN to reference for struct se_lun
-  * @data_length: fabric expected data transfer length
-- * @task_addr: SAM task attribute
-+ * @task_attr: SAM task attribute
-  * @data_dir: DMA data direction
-  * @flags: flags for command submission from target_sc_flags_tables
-  * @sgl: struct scatterlist memory for unidirectional mapping
-@@ -1578,7 +1578,7 @@ int target_submit_cmd_map_sgls(struct se
- }
- EXPORT_SYMBOL(target_submit_cmd_map_sgls);
++ * DOC: Userspace I/O
++ * Userspace I/O
++ * -------------
++ *
+  * Define a shared-memory interface for LIO to pass SCSI commands and
+  * data to userspace for processing. This is to allow backends that
+  * are too complex for in-kernel support to be possible.
+@@ -53,7 +57,7 @@
+  * See the .h file for how the ring is laid out. Note that while the
+  * command ring is defined, the particulars of the data area are
+  * not. Offset values in the command entry point to other locations
+- * internal to the mmap()ed area. There is separate space outside the
++ * internal to the mmap-ed area. There is separate space outside the
+  * command ring for data buffers. This leaves maximum flexibility for
+  * moving buffer allocations, or even page flipping or other
+  * allocation techniques, without altering the command ring layout.
+--- linux-next-20180413.orig/include/uapi/linux/target_core_user.h
++++ linux-next-20180413/include/uapi/linux/target_core_user.h
+@@ -9,21 +9,22 @@
+ 
+ #define TCMU_VERSION "2.0"
  
 -/*
 +/**
-  * target_submit_cmd - lookup unpacked lun and submit uninitialized se_cmd
++ * DOC: Ring Design
+  * Ring Design
+  * -----------
   *
-  * @se_cmd: command descriptor to submit
-@@ -1587,7 +1587,7 @@ EXPORT_SYMBOL(target_submit_cmd_map_sgls
-  * @sense: pointer to SCSI sense buffer
-  * @unpacked_lun: unpacked LUN to reference for struct se_lun
-  * @data_length: fabric expected data transfer length
-- * @task_addr: SAM task attribute
-+ * @task_attr: SAM task attribute
-  * @data_dir: DMA data direction
-  * @flags: flags for command submission from target_sc_flags_tables
+  * The mmaped area is divided into three parts:
+- * 1) The mailbox (struct tcmu_mailbox, below)
+- * 2) The command ring
+- * 3) Everything beyond the command ring (data)
++ * 1) The mailbox (struct tcmu_mailbox, below);
++ * 2) The command ring;
++ * 3) Everything beyond the command ring (data).
   *
-@@ -2606,7 +2606,8 @@ int transport_generic_free_cmd(struct se
- }
- EXPORT_SYMBOL(transport_generic_free_cmd);
- 
--/* target_get_sess_cmd - Add command to active ->sess_cmd_list
-+/**
-+ * target_get_sess_cmd - Add command to active ->sess_cmd_list
-  * @se_cmd:	command descriptor to add
-  * @ack_kref:	Signal that fabric will perform an ack target_put_sess_cmd()
-  */
-@@ -2800,7 +2801,8 @@ void target_show_cmd(const char *pfx, st
- }
- EXPORT_SYMBOL(target_show_cmd);
- 
--/* target_sess_cmd_list_set_waiting - Flag all commands in
-+/**
-+ * target_sess_cmd_list_set_waiting - Flag all commands in
-  *         sess_cmd_list to complete cmd_wait_comp.  Set
-  *         sess_tearing_down so no more commands are queued.
-  * @se_sess:	session to flag
-@@ -2835,7 +2837,8 @@ void target_sess_cmd_list_set_waiting(st
- }
- EXPORT_SYMBOL(target_sess_cmd_list_set_waiting);
- 
--/* target_wait_for_sess_cmds - Wait for outstanding descriptors
-+/**
-+ * target_wait_for_sess_cmds - Wait for outstanding descriptors
-  * @se_sess:    session to wait for active I/O
-  */
- void target_wait_for_sess_cmds(struct se_session *se_sess)
+  * The mailbox tells userspace the offset of the command ring from the
+  * start of the shared memory region, and how big the command ring is.
+  *
+  * The kernel passes SCSI commands to userspace by putting a struct
+  * tcmu_cmd_entry in the ring, updating mailbox->cmd_head, and poking
+- * userspace via uio's interrupt mechanism.
++ * userspace via UIO's interrupt mechanism.
+  *
+  * tcmu_cmd_entry contains a header. If the header type is PAD,
+  * userspace should skip hdr->length bytes (mod cmdr_size) to find the
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
