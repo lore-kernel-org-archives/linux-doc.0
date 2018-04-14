@@ -6,46 +6,47 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EABA7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 17:51:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 572A07EA7D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 17:51:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751152AbeDNRvY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 14 Apr 2018 13:51:24 -0400
-Received: from mail-pf0-f196.google.com ([209.85.192.196]:40237 "EHLO
-        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751138AbeDNRvX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Apr 2018 13:51:23 -0400
-Received: by mail-pf0-f196.google.com with SMTP id y66so8519169pfi.7;
-        Sat, 14 Apr 2018 10:51:23 -0700 (PDT)
+        id S1751188AbeDNRv0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 14 Apr 2018 13:51:26 -0400
+Received: from mail-pf0-f194.google.com ([209.85.192.194]:46196 "EHLO
+        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751173AbeDNRvZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Apr 2018 13:51:25 -0400
+Received: by mail-pf0-f194.google.com with SMTP id h69so8514024pfe.13;
+        Sat, 14 Apr 2018 10:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=4qvx2fWydNwul5wWG+2qLaxXCiNfOnfwIK0xnxv/oy8=;
-        b=BY/2vtxRX2wxhxgoy7HoiPGgUExUWE4dhVBweAPK+MG9sDXTfmmTBYgFmcpeaX21b4
-         xKP4uXIbmPl5vDV0SG8zkBb6FsGfXP3ddHW4eHeHSKkpIVHqBrobKRR7KsfercLPpFMc
-         Kqyg/2eMLvug/g0pI/XAN9i/120BNnKuJfPU+kNy/O/pzcCcPh85s15ore4bXd412rZN
-         9ief4FyLHAWNFoec/vIYaSCGRaFl35/lx/GUS69Z8cD7rUuORyVR3rjUH0iHamJJx4LM
-         v/3SgDvUYKOO62HI3Kv2uDLzYu0ffvw/4CCE6TDy7T39Odoepssc5Bt3boOq1QXT58Eo
-         dvsg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=BLRNtU0kqu4KoBP2ZVkSNQVBUWCvM2fxG0tePARtTxI=;
+        b=dWNzGNDPz2620cAC9rdKuZliQxvK84B5l6w/Y9QY9pZ1+qUQnzP6JUPZcAI9zG6F90
+         cpDO3V1QBoZcDnkKJyqpKnz4etxU001xOwM2QwrXPti0zyNKqMFKbzhYbzKxl2m3lKY8
+         abkTuypOwjE6mNb2MqXBGS4LzfKv+d/Vaed5MRA5ACx84/rHLTEz73Z7Egj5XSluahV+
+         vAAx5nfXq+6dAOmIlA/NLdRlsWz0VpugNWtGORj4kS1BWQD9Xw55/lh6E8/TqCVJ7Qak
+         cHYUJi+ZJnUW+hehXtRcqHzEineoDKjQXPr8wagGyY9ebUBjih0T6u2QzLaXo8KcFGAD
+         YWNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4qvx2fWydNwul5wWG+2qLaxXCiNfOnfwIK0xnxv/oy8=;
-        b=CkahMzt5sEFMebfybhg5gTYmyyipvR57yfwRWbBYKX1QtdWMJIhkYFEi9nB8OaJejO
-         pOZp8kYKzJQcM/7/5awWI/B3UfZLyk2b2qe/SBHc664ctrKSIeEKs3KYkCWDYkAxCbvB
-         TQk/DJg7aBAQONAfU21oZvFKxK7nu7srFeqXe1Jy5IcMZ7+EQ9XjQlpIUcI+6vmCudFl
-         rfORN4s1UjTdurvjvHUYS+0PAA8qSqBm6tQWB/7SDkKKJxaCV+maW9mZvxNcs36C9XUA
-         BMDA1NxCEfDVZ9/jD04OfZ3b+HpGCCCQiALNSWTtd5ReikQyd9uUyZqTA+hXqeYSnf7Z
-         kArg==
-X-Gm-Message-State: ALQs6tCM13Aq1cKVN5iP6PmaPZmTgEPgxz/KzoKONioVOF8Y6WRTC59Y
-        qtg2jYnLeZhkqb59Bwsh60M=
-X-Google-Smtp-Source: AIpwx4+zWU6xApR0DGlwInxhVpFuqGHGf5UyhMNDYJXHJgAz3LR0DG5W0Ay3XYVIbFL1TbJUahowZw==
-X-Received: by 10.101.96.13 with SMTP id m13mr7789325pgu.452.1523728283020;
-        Sat, 14 Apr 2018 10:51:23 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=BLRNtU0kqu4KoBP2ZVkSNQVBUWCvM2fxG0tePARtTxI=;
+        b=afG5FKI1mKEGe+0lzEAt85jMaK3gnCO1LIOx0TBjbXJU7I8lzYDTxqQWUAhq24fFsf
+         Z+9aZRca6DhsFAIPWztkm2cWnFJJ84MJJaU4IJFLFujAYWc5rDQ6ggN1FRvGoyDsLLdM
+         v1vYxPuO03e5J+7+3ZPD+tgrfBrxW4VkINZc3vT2ek9XNsqCKpS1difoAASHhDX9jOpV
+         KFgdbr0VUOp49SNF+BJ9hsQ+HOYT0Scjrk5Y+VP911EQik4uX5i2HEs+Aj4QFLx9pRmM
+         OoFmXa4vP2+AmdacvK79Dj4qw37lm0Q+VIwl7aRH762JpnwT7FMUmZZYQdKajKynKQMi
+         3wHA==
+X-Gm-Message-State: ALQs6tATN/GLIhkGcbUgzRdNjKA6v46GuzbT//gOsn2Q2Tn6sx94dTGx
+        cShVW600FaV0Vom7UAhmPRc=
+X-Google-Smtp-Source: AIpwx4/8mT4PvFRFRWYV59u/x0YNBzpV2nTRSfsPtt2YRV0Udi537ABXme6avimk/tfnhA2m8F/ciw==
+X-Received: by 10.101.74.6 with SMTP id s6mr7782356pgq.79.1523728284589;
+        Sat, 14 Apr 2018 10:51:24 -0700 (PDT)
 Received: from midway.home (static-50-53-52-16.bvtn.or.frontiernet.net. [50.53.52.16])
-        by smtp.gmail.com with ESMTPSA id j3sm17232638pfj.60.2018.04.14.10.51.21
+        by smtp.gmail.com with ESMTPSA id j3sm17232638pfj.60.2018.04.14.10.51.23
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 14 Apr 2018 10:51:21 -0700 (PDT)
+        Sat, 14 Apr 2018 10:51:23 -0700 (PDT)
 From:   Randy Dunlap <rd.dunlab@gmail.com>
 To:     "Nicholas A. Bellinger" <nab@linux-iscsi.org>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-scsi@vger.kernel.org,
@@ -53,10 +54,12 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-scsi@vger.kernel.org,
         "James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: target: clean up kernel-doc and add driver-api document
-Date:   Sat, 14 Apr 2018 10:51:02 -0700
-Message-Id: <20180414175106.13760-1-rd.dunlab@gmail.com>
+Subject: [PATCH v3 1/4] target: target_core_transport.c: fix kernel-doc warnings
+Date:   Sat, 14 Apr 2018 10:51:03 -0700
+Message-Id: <20180414175106.13760-2-rd.dunlab@gmail.com>
 X-Mailer: git-send-email 2.13.6
+In-Reply-To: <20180414175106.13760-1-rd.dunlab@gmail.com>
+References: <20180414175106.13760-1-rd.dunlab@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -64,24 +67,38 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-This patch series fixes kernel-doc warnings in drivers/target/ and
-its header files, then adds a Documentation driver-api chapter for
-target driver interfaces.
+Correct a function parameter's name to eliminate kernel-doc warnings
+in drivers/target/target_core_transport.c.
 
+Fixes these kernel-doc warnings: (tested by adding these files to a new
+target.rst documentation file)
 
-[PATCH v3 1/4] target: target_core_transport.c: fix kernel-doc warnings
-[PATCH v3 2/4] target: target_core_transport.c: enable+fix kernel-doc
-[PATCH v3 3/4] target: target_core_user.[ch]: convert comments into DOC:
-[PATCH v3 4/4] target: add driver-api document
+../drivers/target/target_core_transport.c:1671: warning: No description found for parameter 'fabric_tmr_ptr'
+../drivers/target/target_core_transport.c:1671: warning: Excess function parameter 'fabric_context' description in 'target_submit_tmr'
 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+To: "Nicholas A. Bellinger" <nab@linux-iscsi.org>
+Cc: linux-scsi@vger.kernel.org
+Cc: target-devel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: "James E.J. Bottomley" <jejb@linux.vnet.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+ drivers/target/target_core_transport.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/driver-api/index.rst     |    1 
- Documentation/driver-api/scsi.rst      |    2 
- Documentation/driver-api/target.rst    |   64 +++++++++++++++++++++++
- drivers/target/target_core_transport.c |   19 +++---
- drivers/target/target_core_user.c      |    8 ++
- include/uapi/linux/target_core_user.h  |   11 ++-
- 6 files changed, 89 insertions(+), 16 deletions(-)
+--- linux-next-20180413.orig/drivers/target/target_core_transport.c
++++ linux-next-20180413/drivers/target/target_core_transport.c
+@@ -1654,7 +1654,7 @@ static bool target_lookup_lun_from_tag(s
+  * @se_sess: associated se_sess for endpoint
+  * @sense: pointer to SCSI sense buffer
+  * @unpacked_lun: unpacked LUN to reference for struct se_lun
+- * @fabric_context: fabric context for TMR req
++ * @fabric_tmr_ptr: fabric context for TMR req
+  * @tm_type: Type of TM request
+  * @gfp: gfp type for caller
+  * @tag: referenced task tag for TMR_ABORT_TASK
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
