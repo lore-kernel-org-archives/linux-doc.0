@@ -6,55 +6,55 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5A0237DE78
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 01:27:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1E1097DE78
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 01:27:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751133AbeDNB1u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 13 Apr 2018 21:27:50 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:33075 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750904AbeDNB1u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Apr 2018 21:27:50 -0400
-Received: by mail-it0-f66.google.com with SMTP id x144-v6so6713358itc.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Apr 2018 18:27:50 -0700 (PDT)
+        id S1751148AbeDNB1w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 13 Apr 2018 21:27:52 -0400
+Received: from mail-io0-f195.google.com ([209.85.223.195]:35532 "EHLO
+        mail-io0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750904AbeDNB1w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 13 Apr 2018 21:27:52 -0400
+Received: by mail-io0-f195.google.com with SMTP id k8so1389221ioc.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Apr 2018 18:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=nOL1+5+jAHoxVYy12MDdVEcZzaXRKwYFBuWIpZggL34=;
-        b=PU0RLAWgksM2kGmF3gT8SvZLyM2YbPhFh+7uLTnZ18frQUvat+PW8DiFxsLQX0LNxu
-         BQrkwsjx9A1EB9sGETNykz2Nq3xAeLRZR3x0SArmMARS5o7/AP4QYQ8xqh7nyQYltMLN
-         ujoRufCZInDvSrglpJrUAWJVLTEfca3RV0N7snZXklU/qgXgARWYyp6icRB8wP+WwJCw
-         +uzpUd8Lt5SxVVI5wZAMBpUsFdTC2q5EEdwI5sAgmCt1c7mHcEkpU7RuxtC5GVIHOsS8
-         RNfx6/7kOTsHbMaHie5nKG4i+oNhxX7zv+2abX09ts/XLodxIUTy3frsN7DsFFNLLCm6
-         5vHQ==
+        bh=p2PUFve0oOL7KgCCdZRdgKa5HT8NrtFKD3d/iHunxEE=;
+        b=LdLpSdqb/FRtGFUVH36sY8w6RVKNadNnfXEx8nD7EnsVu9+ZiGRxH69nrhyRYj0vPx
+         +aJ1jqrCc5Hnuy5wrOQS1sC0XJjXp3gK1J6mXdpkeIiwvTLZa3drFsWRm8VrcBXClAls
+         qF4QsUB9RTNaFZn4FQpWNrvpEunR0FChRajJJEq49jFvhJnuyPOhyEyMFPgsT876Wxqv
+         QBCe3gykh2sqDFBo/OLlMIe81stA2Obsl7DCeQrjFA+ioH4PN+OXYLsY0ZE1+tMHGqgB
+         5AQIQmuRS0XDFKYSXz5W/u/HAPipr4gQkQvZs7sXGQ1DXVLR26m9NMWK+l+KPuhKjMmH
+         4qCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=nOL1+5+jAHoxVYy12MDdVEcZzaXRKwYFBuWIpZggL34=;
-        b=G4381W1BVs2SvPjmmAhqVjUh6GxgGAlDZxCNaJgi12TgA3Jaj5TOqq+o214nGpCyIg
-         TZ7Dg/O7IXCTcz2/ZuDQX76MYz8XE531DVp1vN2N1S65lz22xX45WJcqRQ1PNMiHPkLF
-         EV5Jf/9di23oBNr0xg4/d17UgJrv0r/ra/Zownk4ykzU+QyEusx3r9fSubCYsRvByxcD
-         uvjfwC14iRs47ZGwwfyle2eGjsXvCHTbjniYkGEA7VtudiEqpOvGuX6zLY/UTcXeskcK
-         nw341lMfzHZ1bERCCSkdc4aLamr8qQ4wDPxWsa/88NDxb7i4Q/XIwhUTzqnzuDZ4V8ul
-         4PWA==
-X-Gm-Message-State: ALQs6tB/aNmHZkGVbyQDTjHrHhaFW7sDKIPCIUx2AN4c+o5GeAorV03H
-        cS/weg4wOxKD/nsHXHxzxifSIQ==
-X-Google-Smtp-Source: AIpwx48iivnwV8a15vc+NzPAZUpE4EromUjjtqBCYwiDmZYhwkkArVJFfAdw18lDn+4sIT2GGRmF9w==
-X-Received: by 2002:a24:610c:: with SMTP id s12-v6mr8226207itc.102.1523669269859;
-        Fri, 13 Apr 2018 18:27:49 -0700 (PDT)
+        bh=p2PUFve0oOL7KgCCdZRdgKa5HT8NrtFKD3d/iHunxEE=;
+        b=fktm1BXQ8wQXUAPVh/97yM/+lP8dlKn6aCWycAlNUeNVjGM5KiNdhDG08lv10H82jJ
+         Vs6Dm0+xt282jpbhyQhZzKvEStJag4MYwv/VMiCf8a4xFfavRvzK3VtFcyUWc79gU2EA
+         0EI0DT0DL+tL7Ft4lki2tMNGcuLzQ1zZM2BkUELpvc0Z7SW1W/hDSX5FpP++RzZCTmp+
+         3D0jGw3fFuvYb/xaNBF5YDMVjvaaqPUgbGeNukqT1g66Ok+AiJySyZ7LpPeMt3UnBb2s
+         su3cstHp13ntPSkExdnwZTyLpi0MfL2MBlbWqx1OkikKd4TYc8PN1xOJuXQGtdo80qPH
+         kvzw==
+X-Gm-Message-State: ALQs6tCVYudTcF7udaEU1iFvouowpuXfC5Kw5XGmT6O63JhasbqFnTNK
+        38ONuB4k3ehpI5p85sAtV59uPQ==
+X-Google-Smtp-Source: AIpwx486GKbU8lb7EKsIc/H0NVwIBMm5b/rBnDmdPswm4LBZ2d32BsK7Dc5ZGRRukSuxZxh25mGXAw==
+X-Received: by 10.107.20.146 with SMTP id 140mr16252843iou.103.1523669271582;
+        Fri, 13 Apr 2018 18:27:51 -0700 (PDT)
 Received: from midway.home (static-50-53-52-16.bvtn.or.frontiernet.net. [50.53.52.16])
-        by smtp.gmail.com with ESMTPSA id g16-v6sm271257ita.0.2018.04.13.18.27.48
+        by smtp.gmail.com with ESMTPSA id g16-v6sm271257ita.0.2018.04.13.18.27.49
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Fri, 13 Apr 2018 18:27:48 -0700 (PDT)
+        Fri, 13 Apr 2018 18:27:50 -0700 (PDT)
 From:   Randy Dunlap <rd.dunlab@gmail.com>
 To:     linux1394-devel@lists.sourceforge.net
 Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
         Takashi Sakamoto <o-takashi@sakamocchi.jp>,
         linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3 4/5] FireWire: add a Documentation driver-api chapter
-Date:   Fri, 13 Apr 2018 18:27:21 -0700
-Message-Id: <20180414012722.17420-5-rd.dunlab@gmail.com>
+Subject: [PATCH v3 5/5] FireWire: add driver-api Introduction section
+Date:   Fri, 13 Apr 2018 18:27:22 -0700
+Message-Id: <20180414012722.17420-6-rd.dunlab@gmail.com>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <20180414012722.17420-1-rd.dunlab@gmail.com>
 References: <20180414012722.17420-1-rd.dunlab@gmail.com>
@@ -63,71 +63,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-Add a basic Firewire/IEEE 1394 driver API chapter to the Linux
-kernel documentation.
+Replace the Introduction section's TBD with some useful overview text.
 
+Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 To: linux1394-devel@lists.sourceforge.net
 Cc: Stefan Richter <stefanr@s5r6.in-berlin.de>
 Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 Cc: linux-doc@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>
 ---
+ Documentation/driver-api/firewire.rst |   18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-v2: drop final blank line;
-    in Cc:, change tab to space;
-
- Documentation/driver-api/firewire.rst |   32 ++++++++++++++++++++++++
- Documentation/driver-api/index.rst    |    1 
- 2 files changed, 33 insertions(+)
-
---- /dev/null
+--- linux-next-20180413.orig/Documentation/driver-api/firewire.rst
 +++ linux-next-20180413/Documentation/driver-api/firewire.rst
-@@ -0,0 +1,32 @@
-+===========================================
-+Firewire (IEEE 1394) driver Interface Guide
-+===========================================
+@@ -5,17 +5,33 @@ Firewire (IEEE 1394) driver Interface Gu
+ Introduction and Overview
+ =========================
+ 
+-TBD
++The Linux FireWire subsystem adds some interfaces into the Linux system
++to use/maintain any resource on the IEEE 1394 bus.
 +
-+Introduction and Overview
-+=========================
++The main purpose of these interfaces is to access address space on each node
++on the IEEE 1394 bus by ISO/IEC 13213 (IEEE 1212) procedure, and to control
++isochronous resources on the bus by IEEE 1394 procedure.
 +
-+TBD
++Two types of interfaces are added, according to consumers of the interface. A
++set of userspace interfaces is available via `firewire character devices`. A set
++of kernel interfaces is available via exported symbols in the `firewire-core`
++module.
+ 
+ Firewire char device data structures
+ ====================================
+ 
++.. include:: /ABI/stable/firewire-cdev
++    :literal:
 +
-+Firewire char device data structures
-+====================================
+ .. kernel-doc:: include/uapi/linux/firewire-cdev.h
+     :internal:
+ 
+ Firewire device probing and sysfs interfaces
+ ============================================
+ 
++.. include:: /ABI/stable/sysfs-bus-firewire
++    :literal:
 +
-+.. kernel-doc:: include/uapi/linux/firewire-cdev.h
-+    :internal:
-+
-+Firewire device probing and sysfs interfaces
-+============================================
-+
-+.. kernel-doc:: drivers/firewire/core-device.c
-+    :export:
-+
-+Firewire core transaction interfaces
-+====================================
-+
-+.. kernel-doc:: drivers/firewire/core-transaction.c
-+    :export:
-+
-+Firewire Isochronous I/O interfaces
-+===================================
-+
-+.. kernel-doc:: drivers/firewire/core-iso.c
-+   :export:
---- linux-next-20180413.orig/Documentation/driver-api/index.rst
-+++ linux-next-20180413/Documentation/driver-api/index.rst
-@@ -27,6 +27,7 @@ available subsections can be seen below.
-    iio/index
-    input
-    usb/index
-+   firewire
-    pci
-    spi
-    i2c
+ .. kernel-doc:: drivers/firewire/core-device.c
+     :export:
+ 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
