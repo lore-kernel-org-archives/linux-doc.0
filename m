@@ -1,83 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8751A7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 06:27:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 750567E22E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 17:45:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750926AbeDNG1V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 14 Apr 2018 02:27:21 -0400
-Received: from www.zeus03.de ([194.117.254.33]:53022 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750883AbeDNG1U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 14 Apr 2018 02:27:20 -0400
-Received: (qmail 22369 invoked from network); 14 Apr 2018 08:27:18 +0200
-Received: by mail.zeus03.de with ESMTPSA (ECDHE-RSA-AES256-GCM-SHA384 encrypted, authenticated); 14 Apr 2018 08:27:18 +0200
-X-UD-Smtp-Session: l3s3148p1@eo+YFMlpwKkgAwDPW99LAAId4P/+oMhl
-Date:   Sat, 14 Apr 2018 08:27:18 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Sam Hansen <hansens@google.com>
-Cc:     Jean Delvare <jdelvare@suse.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/i2c: sync docs with current state of
- i2c-tools.
-Message-ID: <20180414062718.3tbsdb6jhjurpfta@katana>
-References: <20180412213342.138010-1-hansens@google.com>
- <20180412222457.x4jdwt27ylgi74o3@katana>
- <20180413141359.793919fb@endymion>
- <CAP9bUy7rONNHYeRkYtaWHcfqoZcGKXJz-JocED26zBj9n+-ZbQ@mail.gmail.com>
- <20180413204937.440437e9@endymion>
- <CAP9bUy6Hf+cQzAAckou3QPTk0mJM4xJ4xq-hf+RwyVmD3Le+qg@mail.gmail.com>
+        id S1751173AbeDNRo5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 14 Apr 2018 13:44:57 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42826 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751138AbeDNRo4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Apr 2018 13:44:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=sWa71oN7mLVuaySuiM97pOLYalmyYuFD2BAhXmtC2VY=; b=UpEBAwgbwsthzhA0Uhm69uiAQ
+        /2fbWWBb+W3iTZq3ust9MwYuhzUf3NqPAwxio01+6qN6tHj0sIoByXBYoKXNasAe2lUo7yHeG4tig
+        5mFqDVuHHUUL3hTf6w4cmmZ2NG4X1B/dNSlmiRaP+lJoPvw4mJ6Ozwzvu1bATY16AlIpfSFGSHCPU
+        VDQHGvCHp7TyjAkhjTQBcI5qCBz/DL0DTREAKj6U4yoSuziNJq4JfO+OOK9Bb0DO2HfcxRKQRL0r8
+        6SYo3oO/ygMPkhDGDllLo0jWr59iajJOJgFpfR3bYh7JZVO97lmztcX3XcJ7mZZGwAdpXzGOaEiKd
+        RmwikXHiA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1f7PEN-0007A6-9x; Sat, 14 Apr 2018 17:44:56 +0000
+Subject: Re: target documentation patches?
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     "Nicholas A. Bellinger" <nab@linux-iscsi.org>,
+        target-devel <target-devel@vger.kernel.org>
+Cc:     linux-scsi <linux-scsi@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <e2bc69ce-2270-7996-ca50-928fa3c71ffa@infradead.org>
+Message-ID: <b7b5adf9-2e1b-c5ce-8f54-90468d3da252@infradead.org>
+Date:   Sat, 14 Apr 2018 10:44:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="63ldwbganmqjq6vv"
-Content-Disposition: inline
-In-Reply-To: <CAP9bUy6Hf+cQzAAckou3QPTk0mJM4xJ4xq-hf+RwyVmD3Le+qg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <e2bc69ce-2270-7996-ca50-928fa3c71ffa@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---63ldwbganmqjq6vv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
-> (also, did I send the v3 patch series threaded correctly?)
-
-Yes, that worked. Thanks!
-
-Things to improve there: I was both in To: and CC: field, so I got mails
-twice. Jean was missing completely.
+On 02/22/2018 04:38 PM, Randy Dunlap wrote:
+> Hi Nicholas,
+> 
+> I posted several patches for target documentation cleanups and adding
+> a chapter to the driver-api chapter back in December.
+> 
+> Do I need to repost those?  Do you want someone else to merge them, even
+> though several of them are in drivers/target/ ?
 
 
---63ldwbganmqjq6vv
-Content-Type: application/pgp-signature; name="signature.asc"
+[no response in 7 weeks]
+[adding linux-doc list]
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlrRn0EACgkQFA3kzBSg
-KbaO5w//W/3a7z6XYo+5KE+Nek2G6K49ZDoMt/c9w4xbvL354cxoh9xzTcuPWJH2
-Nbowz9VejPic0ZtoIdZ+PO+OYj/s3G8KrnKLIUQxW1GwKzE9b13s33TUhICCXqkH
-SI6/U81YUOlOASNvDmIa/SUugZK0AEW7Q1AwnRQurGzNaJ9XjEkCJHzy9QZqEQbp
-7lJDh0qCjSrJpSvYsl1RLMnaQcKrIQ7SiFCCAPH+ilBaho7xfbdFRFgUBDq4O9o2
-y397ZU7Y3npsTP08SL5el3H25DmAaj4sjgiFL/tEsYdNyuqDkC0jBtX8tKT7vv6k
-T+ychYVyNvNFuS9RUBYPWYhhlUPt6eqjq9/jHWz+N2AXNqr1sRHMBMan1hPdww/H
-49niaLHYLuihrvPHSMcJPExusIQpSIyC/xf45xK6fXqdBjOFYoV7CAGBOQy4AUiI
-nhq+MHrJGZHvn/sahlhNG9ZdCIGXtcFj9tBLQX40JjrfVJ7X2g9vvS2kDtpOnnZ8
-JwxXMJupI86FcjiSqsr1cdnQypX4bmLEpNaiFftdDFzegDtB36mBOzlf1y35b0bF
-FNvYIptegwdZLmHHoodDDNmtuLUIT8RRKekXACwS8YNb8GLvLJqjydgv2kD4RODp
-k9B3h0Ee1UybDXrqQc0ShE6vhHf7/SJ7PXuZ2Ew+6NCUVovchYE=
-=Qg3j
------END PGP SIGNATURE-----
+I have a new 4-patch series for target kernel-doc fixes and adding
+Documentation/driver-api/target.rst.  However, I am wondering who will
+merge the series.
 
---63ldwbganmqjq6vv--
+I'll post the series to target-devel, linux-scsi, and linux-doc.
+Hopefully one of the maintainers there will apply them.
+
+
+thanks,
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
