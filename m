@@ -1,174 +1,273 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A04297E22E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 14 Apr 2018 17:51:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F39197DE78
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Apr 2018 00:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751355AbeDNRve (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 14 Apr 2018 13:51:34 -0400
-Received: from mail-pf0-f193.google.com ([209.85.192.193]:42959 "EHLO
-        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751257AbeDNRv3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Apr 2018 13:51:29 -0400
-Received: by mail-pf0-f193.google.com with SMTP id o16so8512585pfk.9;
-        Sat, 14 Apr 2018 10:51:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=z8NMIOVoQH9Ytjk7aHBMmnvfrNjy26FkWGFMwUFFiko=;
-        b=MuS9OUH+W8rDgRu/2PtFriOtibkBmlDKzosqMC0e13ClAfLnA2NrV4xrOA7oenXrlK
-         7qEtLYAUPeDUaeDJImyR4e8X1DcPiF539SFztwoV1U8TAOb/+ZE0/ee8pOFLUuGtejI0
-         IXW78YXu+B13aMGGvS/U6aDkhFCwyL5prpxQEHc15+lfTFWWPCPYiF6L3MgebDbEg59H
-         6isT6x8a6YHWeMxulGLeAkF1XgZIxBPW3G4/RbVYwKPk7+YMNX90p5pvzQ6tFkbXHL0v
-         UpGv//jKb+VyI+WNoBvbXfhQkuyJUTZgx0vctYOTD/gZmRXpnF6TtebKkTd6HFZpP9e5
-         HJQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=z8NMIOVoQH9Ytjk7aHBMmnvfrNjy26FkWGFMwUFFiko=;
-        b=IjfHm4/onHn8wEPGxhMTX1pdSeT4G47EN4xkrtkIE4PFd7AQcg7j9NgnKJQ98LRKU/
-         09kfSWzxV0GN1TBgdpAjNKtZCcC8k2tL+0J9DWadr1eEJPzLKH4ONnS/9WmSw/aPoawr
-         lpctsKNPktNxzKgAgYnFjIaTbR6sMFDZoCguX74+He+/xnzVMeDv4fbWHh6kAwjADb3+
-         kbusvtsyPnX+0qtGD35w7DehohE8QWhn4+jhm9ZqtVpssTPzXFKSxXprTLG5A8xAQAqa
-         wauiMnaiMXbDCAs3U/qRLEVhmz8v9BHKr2hd8kB3mDQwuzQueD8rHa50buXg38Ida1jK
-         Yr5A==
-X-Gm-Message-State: ALQs6tBqA3J+YZr+gi+BB+L8E55ejsCxtWXmKHqP4ZsoKUT2Cc+UTQ15
-        p0t1NKvo10tfYP91w52HbsI=
-X-Google-Smtp-Source: AIpwx49WUBq8mwjXbd/Te8B5cIgMpPup/yhPSs014kOksBw3ylqhP8UjB89Moqh570Ln7HbyN6sUZg==
-X-Received: by 10.98.137.218 with SMTP id n87mr15930737pfk.48.1523728289315;
-        Sat, 14 Apr 2018 10:51:29 -0700 (PDT)
-Received: from midway.home (static-50-53-52-16.bvtn.or.frontiernet.net. [50.53.52.16])
-        by smtp.gmail.com with ESMTPSA id j3sm17232638pfj.60.2018.04.14.10.51.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 14 Apr 2018 10:51:28 -0700 (PDT)
-From:   Randy Dunlap <rd.dunlab@gmail.com>
-To:     "Nicholas A. Bellinger" <nab@linux-iscsi.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-scsi@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-doc@vger.kernel.org,
-        "James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 4/4] target: add driver-api document
-Date:   Sat, 14 Apr 2018 10:51:06 -0700
-Message-Id: <20180414175106.13760-5-rd.dunlab@gmail.com>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <20180414175106.13760-1-rd.dunlab@gmail.com>
-References: <20180414175106.13760-1-rd.dunlab@gmail.com>
+        id S1752060AbeDOAi7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 14 Apr 2018 20:38:59 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35560 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751270AbeDOAi6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 14 Apr 2018 20:38:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3gqBc36m1qPGRZdLDOz/rxcadghzLy5PXAHu9h6qUx8=; b=OwM4bpVZnr2oElEtynpqpKFq7
+        7/aKrv5lYEHt3coC9r/SrAbbNUGxtZpXBm923YobgyIXVk4zSUjKa8EngtceuXs27a4SkN263ku6b
+        UTdFcXhGDvDAjeRwIGOzwnryJPcF/4ZwVymp170SLumMdmymccL+LQstu1PH+L/N6BRLfx6ABHNyt
+        n4Wr74TJ1lLR0LTA7slbGT0aK3sfNLC9sKdgtO40j5WfnaokV7CN+BbwsvU0VCM8ajQyYCgWuwUFw
+        op8sPVvKcRbmAsntITRfskXN9Em8cGTONQ3a+A7M7a0gWN34Rs8QGt7RVKNKHNjD6JNn5RLMjAozZ
+        L4lyfQCxw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1f7Vh2-0006mp-Nw; Sun, 15 Apr 2018 00:38:56 +0000
+Subject: Re: [RFC tip/locking/lockdep v6 01/20] lockdep/Documention: Recursive
+ read lock detection reasoning
+To:     Boqun Feng <boqun.feng@gmail.com>, linux-kernel@vger.kernel.org
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20180411135110.9217-1-boqun.feng@gmail.com>
+ <20180411135110.9217-2-boqun.feng@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <0ed9bece-4e63-de49-8be5-0ebab83c9769@infradead.org>
+Date:   Sat, 14 Apr 2018 17:38:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <20180411135110.9217-2-boqun.feng@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi,
 
-Add a driver-api document for target/iSCSI interfaces.
+Just a few typos etc. below...
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-To: "Nicholas A. Bellinger" <nab@linux-iscsi.org>
-Cc: linux-scsi@vger.kernel.org
-Cc: target-devel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: "James E.J. Bottomley" <jejb@linux.vnet.ibm.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/driver-api/index.rst  |    1 
- Documentation/driver-api/scsi.rst   |    2 
- Documentation/driver-api/target.rst |   64 ++++++++++++++++++++++++++
- 3 files changed, 66 insertions(+), 1 deletion(-)
+On 04/11/2018 06:50 AM, Boqun Feng wrote:
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> ---
+>  Documentation/locking/lockdep-design.txt | 178 +++++++++++++++++++++++++++++++
+>  1 file changed, 178 insertions(+)
+> 
+> diff --git a/Documentation/locking/lockdep-design.txt b/Documentation/locking/lockdep-design.txt
+> index 9de1c158d44c..6bb9e90e2c4f 100644
+> --- a/Documentation/locking/lockdep-design.txt
+> +++ b/Documentation/locking/lockdep-design.txt
+> @@ -284,3 +284,181 @@ Run the command and save the output, then compare against the output from
+>  a later run of this command to identify the leakers.  This same output
+>  can also help you find situations where runtime lock initialization has
+>  been omitted.
+> +
+> +Recursive read locks:
+> +---------------------
+> +
+> +Lockdep now is equipped with deadlock detection for recursive read locks.
+> +
+> +Recursive read locks, as their name indicates, are the locks able to be
+> +acquired recursively. Unlike non-recursive read locks, recursive read locks
+> +only get blocked by current write lock *holders* other than write lock
+> +*waiters*, for example:
+> +
+> +	TASK A:			TASK B:
+> +
+> +	read_lock(X);
+> +
+> +				write_lock(X);
+> +
+> +	read_lock(X);
+> +
+> +is not a deadlock for recursive read locks, as while the task B is waiting for
+> +the lock X, the second read_lock() doesn't need to wait because it's a recursive
+> +read lock. However if the read_lock() is non-recursive read lock, then the above
+> +case is a deadlock, because even if the write_lock() in TASK B can not get the
+> +lock, but it can block the second read_lock() in TASK A.
+> +
+> +Note that a lock can be a write lock (exclusive lock), a non-recursive read
+> +lock (non-recursive shared lock) or a recursive read lock (recursive shared
+> +lock), depending on the lock operations used to acquire it (more specifically,
+> +the value of the 'read' parameter for lock_acquire()). In other words, a single
+> +lock instance has three types of acquisition depending on the acquisition
+> +functions: exclusive, non-recursive read, and recursive read.
+> +
+> +To be concise, we call that write locks and non-recursive read locks as
+> +"non-recursive" locks and recursive read locks as "recursive" locks.
+> +
+> +Recursive locks don't block each other, while non-recursive locks do (this is
+> +even true for two non-recursive read locks). A non-recursive lock can block the
+> +corresponding recursive lock, and vice versa.
+> +
+> +A deadlock case with recursive locks involved is as follow:
+> +
+> +	TASK A:			TASK B:
+> +
+> +	read_lock(X);
+> +				read_lock(Y);
+> +	write_lock(Y);
+> +				write_lock(X);
+> +
+> +Task A is waiting for task B to read_unlock() Y and task B is waiting for task
+> +A to read_unlock() X.
+> +
+> +Dependency types and strong dependency paths:
+> +---------------------------------------------
+> +In order to detect deadlocks as above, lockdep needs to track different dependencies.
+> +There are 4 categories for dependency edges in the lockdep graph:
+> +
+> +1) -(NN)->: non-recursive to non-recursive dependency. "X -(NN)-> Y" means
+> +            X -> Y and both X and Y are non-recursive locks.
+> +
+> +2) -(RN)->: recursive to non-recursive dependency. "X -(RN)-> Y" means
+> +            X -> Y and X is recursive read lock and Y is non-recursive lock.
+> +
+> +3) -(NR)->: non-recursive to recursive dependency, "X -(NR)-> Y" means
+> +            X -> Y and X is non-recursive lock and Y is recursive lock.
+> +
+> +4) -(RR)->: recursive to recursive dependency, "X -(RR)-> Y" means
+> +            X -> Y and both X and Y are recursive locks.
+> +
+> +Note that given two locks, they may have multiple dependencies between them, for example:
+> +
+> +	TASK A:
+> +
+> +	read_lock(X);
+> +	write_lock(Y);
+> +	...
+> +
+> +	TASK B:
+> +
+> +	write_lock(X);
+> +	write_lock(Y);
+> +
+> +, we have both X -(RN)-> Y and X -(NN)-> Y in the dependency graph.
+> +
+> +We use -(*N)-> for edges that is either -(RN)-> or -(NN)->, the similar for -(N*)->,
+> +-(*R)-> and -(R*)->
+> +
+> +A "path" is a series of conjunct dependency edges in the graph. And we define a
+> +"strong" path, which indicates the strong dependency throughout each dependency
+> +in the path, as the path that doesn't have two conjunct edges (dependencies) as
+> +-(*R)-> and -(R*)->. In other words, a "strong" path is a path from a lock
+> +walking to another through the lock dependencies, and if X -> Y -> Z in the
+> +path (where X, Y, Z are locks), if the walk from X to Y is through a -(NR)-> or
+> +-(RR)-> dependency, the walk from Y to Z must not be through a -(RN)-> or
+> +-(RR)-> dependency, otherwise it's not a strong path.
+> +
+> +We will see why the path is called "strong" in next section.
+> +
+> +Recursive Read Deadlock Detection:
+> +----------------------------------
+> +
+> +We now prove two things:
+> +
+> +Lemma 1:
+> +
+> +If there is a closed strong path (i.e. a strong cirle), then there is a
 
---- linux-next-20180413.orig/Documentation/driver-api/index.rst
-+++ linux-next-20180413/Documentation/driver-api/index.rst
-@@ -34,6 +34,7 @@ available subsections can be seen below.
-    edac
-    scsi
-    libata
-+   target
-    mtdnand
-    miscellaneous
-    w1
---- linux-next-20180413.orig/Documentation/driver-api/scsi.rst
-+++ linux-next-20180413/Documentation/driver-api/scsi.rst
-@@ -334,5 +334,5 @@ todo
- ~~~~
- 
- Parallel (fast/wide/ultra) SCSI, USB, SATA, SAS, Fibre Channel,
--FireWire, ATAPI devices, Infiniband, I2O, iSCSI, Parallel ports,
-+FireWire, ATAPI devices, Infiniband, I2O, Parallel ports,
- netlink...
---- /dev/null
-+++ linux-next-20180413/Documentation/driver-api/target.rst
-@@ -0,0 +1,64 @@
-+=================================
-+target and iSCSI Interfaces Guide
-+=================================
-+
-+Introduction and Overview
-+=========================
-+
-+TBD
-+
-+Target core device interfaces
-+=============================
-+
-+.. kernel-doc:: drivers/target/target_core_device.c
-+    :export:
-+
-+Target core transport interfaces
-+================================
-+
-+.. kernel-doc:: drivers/target/target_core_transport.c
-+    :export:
-+
-+Target-supported userspace I/O
-+==============================
-+
-+.. kernel-doc:: drivers/target/target_core_user.c
-+    :doc: Userspace I/O
-+
-+.. kernel-doc:: include/uapi/linux/target_core_user.h
-+    :doc: Ring Design
-+
-+iSCSI helper functions
-+======================
-+
-+.. kernel-doc:: drivers/scsi/libiscsi.c
-+   :export:
-+
-+
-+iSCSI boot information
-+======================
-+
-+.. kernel-doc:: drivers/scsi/iscsi_boot_sysfs.c
-+   :export:
-+
-+
-+iSCSI transport class
-+=====================
-+
-+The file drivers/scsi/scsi_transport_iscsi.c defines transport
-+attributes for the iSCSI class, which sends SCSI packets over TCP/IP
-+connections.
-+
-+.. kernel-doc:: drivers/scsi/scsi_transport_iscsi.c
-+   :export:
-+
-+
-+iSCSI TCP interfaces
-+====================
-+
-+.. kernel-doc:: drivers/scsi/iscsi_tcp.c
-+   :internal:
-+
-+.. kernel-doc:: drivers/scsi/libiscsi_tcp.c
-+   :export:
-+
+??                                                 circle
+
+> +combination of locking sequences that causes deadlock. I.e. a strong circle is
+> +sufficient for deadlock detection.
+> +
+> +Lemma 2:
+> +
+> +If there is no closed strong path (i.e. strong cirle), then there is no
+
+??                                                circle
+
+> +combination of locking sequences that could cause deadlock. I.e.  strong
+> +circles are necessary for deadlock detection.
+> +
+> +With these two Lemmas, we can easily say a closed strong path is both sufficient
+> +and necessary for deadlocks, therefore a closed strong path is equivalent to
+> +deadlock possibility. As a closed strong path stands for a dependency chain that
+> +could cause deadlocks, so we call it "strong", considering there are dependency
+> +circles that won't cause deadlocks.
+> +
+> +Proof for sufficiency (Lemma 1):
+> +
+> +Let's say we have a strong cirlce:
+
+                              circle:
+
+> +
+> +	L1 -> L2 ... -> Ln -> L1
+> +
+> +, which means we have dependencies:
+> +
+> +	L1 -> L2
+> +	L2 -> L3
+> +	...
+> +	Ln-1 -> Ln
+> +	Ln -> L1
+> +
+> +We now can construct a combination of locking sequences that cause deadlock:
+> +
+> +Firstly let's make one CPU/task get the L1 in L1 -> L2, and then another get
+> +the L2 in L2 -> L3, and so on. After this, all of the Lx in Lx -> Lx+1 are
+> +held by different CPU/tasks.
+> +
+> +And then because we have L1 -> L2, so the holder of L1 is going to acquire L2
+> +in L1 -> L2, however since L2 is already held by another CPU/task, plus L1 ->
+> +L2 and L2 -> L3 are not *R and R* (the definition of strong), therefore the
+> +holder of L1 can not get L2, it has to wait L2's holder to release.
+> +
+> +Moreover, we can have a similar conclusion for L2's holder: it has to wait L3's
+> +holder to release, and so on. We now can proof that Lx's holder has to wait for
+
+                                            prove
+
+> +Lx+1's holder to release, and note that Ln+1 is L1, so we have a circular
+> +waiting scenario and nobody can get progress, therefore a deadlock.
+> +
+> +Proof for necessary (Lemma 2):
+> +
+> +Lemma 2 is equivalent to: If there is a deadlock scenario, then there must be a
+> +strong circle in the dependency graph.
+> +
+> +According to Wikipedia[1], if there is a deadlock, then there must be a circular
+> +waiting scenario, means there are N CPU/tasks, where CPU/task P1 is waiting for
+> +a lock held by P2, and P2 is waiting for a lock held by P3, ... and Pn is waiting
+> +for a lock held by P1. Let's name the lock Px is waiting as Lx, so since P1 is waiting
+> +for L1 and holding Ln, so we will have Ln -> L1 in the dependency graph. Similarly,
+> +we have L1 -> L2, L2 -> L3, ..., Ln-1 -> Ln in the dependency graph, which means we
+> +have a circle:
+> +
+> +	Ln -> L1 -> L2 -> ... -> Ln
+> +
+> +, and now let's prove the circle is strong:
+> +
+> +For a lock Lx, Px contributes the dependency Lx-1 -> Lx and Px+1 contributes
+> +the dependency Lx -> Lx+1, and since Px is waiting for Px+1 to release Lx,
+> +so Lx can not be both recursive in Lx -> Lx+1 and Lx-1 -> Lx, because recursive
+> +locks don't block each other, therefore Lx-1 -> Lx and Lx -> Lx+1 can not be a
+> +-(*R)-> -(R*)-> pair, and this is true for any lock in the circle, therefore,
+> +the circle is strong.
+> +
+> +References:
+> +-----------
+> +[1]: https://en.wikipedia.org/wiki/Deadlock
+> +[2]: Shibu, K. (2009). Intro To Embedded Systems (1st ed.). Tata McGraw-Hill
+> 
+I would also change all /can not/ to /cannot/...
+
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
