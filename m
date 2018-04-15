@@ -1,150 +1,379 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDD7F7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Apr 2018 17:37:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A66387E22E
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 15 Apr 2018 22:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752460AbeDORhQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 15 Apr 2018 13:37:16 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42858 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752636AbeDORhO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 15 Apr 2018 13:37:14 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3FHYiuk147486
-        for <linux-doc@vger.kernel.org>; Sun, 15 Apr 2018 13:37:14 -0400
-Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2hbvm8h71d-1
-        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sun, 15 Apr 2018 13:37:13 -0400
-Received: from localhost
-        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Sun, 15 Apr 2018 18:37:11 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Sun, 15 Apr 2018 18:37:04 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3FHb3mW12255584;
-        Sun, 15 Apr 2018 17:37:03 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5C39D4C044;
-        Sun, 15 Apr 2018 18:29:37 +0100 (BST)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AB0C34C040;
-        Sun, 15 Apr 2018 18:29:32 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.207.148])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sun, 15 Apr 2018 18:29:32 +0100 (BST)
-Date:   Sun, 15 Apr 2018 20:36:56 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        James Hogan <jhogan@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
-        linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 00/32] docs/vm: convert to ReST format
-References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20180329154607.3d8bda75@lwn.net>
- <20180401063857.GA3357@rapoport-lnx>
- <20180413135551.0e6d1b12@lwn.net>
+        id S1751774AbeDOWmi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 15 Apr 2018 18:42:38 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37075 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751489AbeDOWmi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 15 Apr 2018 18:42:38 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (charybdis-ext.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 513E4AE5E;
+        Sun, 15 Apr 2018 22:42:36 +0000 (UTC)
+From:   NeilBrown <neilb@suse.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>
+Date:   Mon, 16 Apr 2018 08:42:28 +1000
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH] VFS: simplify seq_file iteration code and interface
+Message-ID: <87vacsrt0r.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180413135551.0e6d1b12@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18041517-0008-0000-0000-000004EAC899
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18041517-0009-0000-0000-00001E7EDC3A
-Message-Id: <20180415173655.GB31176@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-15_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804150177
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 13, 2018 at 01:55:51PM -0600, Jonathan Corbet wrote:
-> Sorry for the silence, I'm pedaling as fast as I can, honest...
-> 
-> On Sun, 1 Apr 2018 09:38:58 +0300
-> Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-> 
-> > My thinking was to start with mechanical RST conversion and then to start
-> > working on the contents and ordering of the documentation. Some of the
-> > existing files, e.g. ksm.txt, can be moved as is into the appropriate
-> > places, others, like transhuge.txt should be at least split into admin/user
-> > and developer guides.
-> > 
-> > Another problem with many of the existing mm docs is that they are rather
-> > developer notes and it wouldn't be really straight forward to assign them
-> > to a particular topic.
-> 
-> All this sounds good.
-> 
-> > I believe that keeping the mm docs together will give better visibility of
-> > what (little) mm documentation we have and will make the updates easier.
-> > The documents that fit well into a certain topic could be linked there. For
-> > instance:
-> 
-> ...but this sounds like just the opposite...?  
-> 
-> I've had this conversation with folks in a number of subsystems.
-> Everybody wants to keep their documentation together in one place - it's
-> easier for the developers after all.  But for the readers I think it's
-> objectively worse.  It perpetuates the mess that Documentation/ is, and
-> forces readers to go digging through all kinds of inappropriate material
-> in the hope of finding something that tells them what they need to know.
-> 
-> So I would *really* like to split the documentation by audience, as has
-> been done for a number of other kernel subsystems (and eventually all, I
-> hope).
-> 
-> I can go ahead and apply the RST conversion, that seems like a step in
-> the right direction regardless.  But I sure hope we don't really have to
-> keep it as an unorganized jumble of stuff...
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-I didn't mean we should keep it as unorganized jumble of stuff and I agree
-that splitting the documentation by audience is better because developers
-are already know how to find it :)
 
-I just thought that putting the doc into the place should not be done
-immediately after mechanical ReST conversion but rather after improving the
-contents. Although I'd agree that part of the documentation in
-Documentation/vm is in pretty good shape already.
+The documentation for seq_file suggests that it is necessary to be
+able to move the iterator to a given offset, however that is not the
+case.  If the iterator is stored in the private data and is stable
+from one read() syscall to the next, it is only necessary to support
+first/next interactions.  Implementing this in a client is a little
+clumsy.
+=2D if ->start() is given a pos of zero, it should go to start of
+  sequence.
+=2D if ->start() is given the name pos that was given to the most recent
+  next() or start(), it should restore the iterator to state just
+  before that last call
+=2D if ->start is given another number, it should set the iterator one
+  beyond the start just before the last ->start or ->next call.
 
- 
-> Thanks,
-> 
-> jon
-> 
 
--- 
-Sincerely yours,
-Mike.
+Also, the documentation says that the implementation can interpret the
+pos however it likes (other than zero meaning start), but seq_file
+increments the pos sometimes which does impose on the implementation.
 
+This patch simplifies the interface for first/next iteration and
+simplifies the code, while maintaining complete backward
+compatability.  Now:
+
+=2D if ->start() is given a pos of zero, it should return an iterator
+  placed at the start of the sequence
+=2D if ->start() is given a non-zero pos, it should return the iterator
+  in the same state it was after the last ->start or ->next.
+
+This is particularly useful for interators which walk the multiple
+chains in a hash table, e.g. using rhashtable_walk*. See
+fs/gfs2/glock.c and drivers/staging/lustre/lustre/llite/vvp_dev.c
+
+A large part of achieving this is to *always* call ->next after ->show
+has successfully stored all of an entry in the buffer.  Never just
+increment the index instead.
+Also:
+ - always pass &m->index to ->start() and ->next(), never a temp
+   variable
+ - don't clear ->from when ->count is zero, as ->from is dead when
+    ->count is zero.
+
+
+Some ->next functions do not increment *pos when they return NULL.
+To maintain compatability with this, we still need to increment
+m->index in one place, if ->next didn't increment it.
+Note that such ->next functions are buggy and should be fixed.
+A simple demonstration is
+   dd if=3D/proc/swaps bs=3D1000 skip=3D1
+Choose any block size larger than the size of /proc/swaps.
+This will always show the whole last line of /proc/swaps.
+
+This patch doesn't work around buggy next() functions for this case.
+
+Signed-off-by: NeilBrown <neilb@suse.com>
+=2D--
+ Documentation/filesystems/seq_file.txt | 63 ++++++++++++++++++++++--------=
+----
+ fs/seq_file.c                          | 53 +++++++++++-----------------
+ 2 files changed, 62 insertions(+), 54 deletions(-)
+
+diff --git a/Documentation/filesystems/seq_file.txt b/Documentation/filesys=
+tems/seq_file.txt
+index 9de4303201e1..d412b236a9d6 100644
+=2D-- a/Documentation/filesystems/seq_file.txt
++++ b/Documentation/filesystems/seq_file.txt
+@@ -66,23 +66,39 @@ kernel 3.10. Current versions require the following upd=
+ate
+=20
+ The iterator interface
+=20
+=2DModules implementing a virtual file with seq_file must implement a simple
+=2Diterator object that allows stepping through the data of interest.
+=2DIterators must be able to move to a specific position - like the file th=
+ey
+=2Dimplement - but the interpretation of that position is up to the iterator
+=2Ditself. A seq_file implementation that is formatting firewall rules, for
+=2Dexample, could interpret position N as the Nth rule in the chain.
+=2DPositioning can thus be done in whatever way makes the most sense for the
+=2Dgenerator of the data, which need not be aware of how a position transla=
+tes
+=2Dto an offset in the virtual file. The one obvious exception is that a
+=2Dposition of zero should indicate the beginning of the file.
++Modules implementing a virtual file with seq_file must implement an
++iterator object that allows stepping through the data of interest
++during a "session" (roughly one read() system call).  If the iterator
++is able to move to a specific position - like the file they implement,
++though with freedom to map the position number to a sequence location
++in whatever way is convenient - the iterator need only exist
++transiently during a session.  If the iterator cannot easily find a
++numerical position but works well with a first/next interface, the
++iterator can be stored in the private data area and continue from one
++session to the next.
++
++A seq_file implementation that is formatting firewall rules from a
++table, for example, could provide a simple iterator that interprets
++position N as the Nth rule in the chain.  A seq_file implementation
++that presents the content of a, potentially volatile, linked list
++might record a pointer into that list, providing that can be done
++without risk of the current location being removed.
++
++Positioning can thus be done in whatever way makes the most sense for
++the generator of the data, which need not be aware of how a position
++translates to an offset in the virtual file. The one obvious exception
++is that a position of zero should indicate the beginning of the file.
+=20
+ The /proc/sequence iterator just uses the count of the next number it
+ will output as its position.
+=20
+=2DFour functions must be implemented to make the iterator work. The first,
+=2Dcalled start() takes a position as an argument and returns an iterator
+=2Dwhich will start reading at that position. For our simple sequence examp=
+le,
++Four functions must be implemented to make the iterator work. The
++first, called start(), starts a session and takes a position as an
++argument, returning an iterator which will start reading at that
++position.  The pos passed to start() will always be either zero, or
++the most recent pos used in the previous session.
++
++For our simple sequence example,
+ the start() function looks like:
+=20
+ 	static void *ct_seq_start(struct seq_file *s, loff_t *pos)
+@@ -101,11 +117,12 @@ implementations; in most cases the start() function s=
+hould check for a
+ "past end of file" condition and return NULL if need be.
+=20
+ For more complicated applications, the private field of the seq_file
+=2Dstructure can be used. There is also a special value which can be return=
+ed
+=2Dby the start() function called SEQ_START_TOKEN; it can be used if you wi=
+sh
+=2Dto instruct your show() function (described below) to print a header at =
+the
+=2Dtop of the output. SEQ_START_TOKEN should only be used if the offset is
+=2Dzero, however.
++structure can be used to hold state from session to session.  There is
++also a special value which can be returned by the start() function
++called SEQ_START_TOKEN; it can be used if you wish to instruct your
++show() function (described below) to print a header at the top of the
++output. SEQ_START_TOKEN should only be used if the offset is zero,
++however.
+=20
+ The next function to implement is called, amazingly, next(); its job is to
+ move the iterator forward to the next position in the sequence.  The
+@@ -121,9 +138,13 @@ complete. Here's the example version:
+ 	        return spos;
+ 	}
+=20
+=2DThe stop() function is called when iteration is complete; its job, of
+=2Dcourse, is to clean up. If dynamic memory is allocated for the iterator,
+=2Dstop() is the place to free it.
++The stop() function closes a session; its job, of course, is to clean
++up. If dynamic memory is allocated for the iterator, stop() is the
++place to free it; if a lock was taken by start(), stop() must release
++that lock.  The value that *pos was set to by the last next() call
++before stop() is remembered, and used for the first start() call of
++the next session unless lseek() has been called on the file; in that
++case next start() will be asked to start at position zero.
+=20
+ 	static void ct_seq_stop(struct seq_file *s, void *v)
+ 	{
+diff --git a/fs/seq_file.c b/fs/seq_file.c
+index eea09f6d8830..fe030a0777d0 100644
+=2D-- a/fs/seq_file.c
++++ b/fs/seq_file.c
+@@ -87,23 +87,22 @@ EXPORT_SYMBOL(seq_open);
+=20
+ static int traverse(struct seq_file *m, loff_t offset)
+ {
+=2D	loff_t pos =3D 0, index;
++	loff_t pos =3D 0;
+ 	int error =3D 0;
+ 	void *p;
+=20
+ 	m->version =3D 0;
+=2D	index =3D 0;
++	m->index =3D 0;
+ 	m->count =3D m->from =3D 0;
+=2D	if (!offset) {
+=2D		m->index =3D index;
++	if (!offset)
+ 		return 0;
+=2D	}
++
+ 	if (!m->buf) {
+ 		m->buf =3D seq_buf_alloc(m->size =3D PAGE_SIZE);
+ 		if (!m->buf)
+ 			return -ENOMEM;
+ 	}
+=2D	p =3D m->op->start(m, &index);
++	p =3D m->op->start(m, &m->index);
+ 	while (p) {
+ 		error =3D PTR_ERR(p);
+ 		if (IS_ERR(p))
+@@ -120,20 +119,15 @@ static int traverse(struct seq_file *m, loff_t offset)
+ 		if (pos + m->count > offset) {
+ 			m->from =3D offset - pos;
+ 			m->count -=3D m->from;
+=2D			m->index =3D index;
+ 			break;
+ 		}
+ 		pos +=3D m->count;
+ 		m->count =3D 0;
+=2D		if (pos =3D=3D offset) {
+=2D			index++;
+=2D			m->index =3D index;
++		p =3D m->op->next(m, p, &m->index);
++		if (pos =3D=3D offset)
+ 			break;
+=2D		}
+=2D		p =3D m->op->next(m, p, &index);
+ 	}
+ 	m->op->stop(m, p);
+=2D	m->index =3D index;
+ 	return error;
+=20
+ Eoverflow:
+@@ -157,7 +151,6 @@ ssize_t seq_read(struct file *file, char __user *buf, s=
+ize_t size, loff_t *ppos)
+ {
+ 	struct seq_file *m =3D file->private_data;
+ 	size_t copied =3D 0;
+=2D	loff_t pos;
+ 	size_t n;
+ 	void *p;
+ 	int err =3D 0;
+@@ -220,16 +213,11 @@ ssize_t seq_read(struct file *file, char __user *buf,=
+ size_t size, loff_t *ppos)
+ 		size -=3D n;
+ 		buf +=3D n;
+ 		copied +=3D n;
+=2D		if (!m->count) {
+=2D			m->from =3D 0;
+=2D			m->index++;
+=2D		}
+ 		if (!size)
+ 			goto Done;
+ 	}
+ 	/* we need at least one record in buffer */
+=2D	pos =3D m->index;
+=2D	p =3D m->op->start(m, &pos);
++	p =3D m->op->start(m, &m->index);
+ 	while (1) {
+ 		err =3D PTR_ERR(p);
+ 		if (!p || IS_ERR(p))
+@@ -240,8 +228,7 @@ ssize_t seq_read(struct file *file, char __user *buf, s=
+ize_t size, loff_t *ppos)
+ 		if (unlikely(err))
+ 			m->count =3D 0;
+ 		if (unlikely(!m->count)) {
+=2D			p =3D m->op->next(m, p, &pos);
+=2D			m->index =3D pos;
++			p =3D m->op->next(m, p, &m->index);
+ 			continue;
+ 		}
+ 		if (m->count < m->size)
+@@ -253,29 +240,33 @@ ssize_t seq_read(struct file *file, char __user *buf,=
+ size_t size, loff_t *ppos)
+ 		if (!m->buf)
+ 			goto Enomem;
+ 		m->version =3D 0;
+=2D		pos =3D m->index;
+=2D		p =3D m->op->start(m, &pos);
++		p =3D m->op->start(m, &m->index);
+ 	}
+ 	m->op->stop(m, p);
+ 	m->count =3D 0;
+ 	goto Done;
+ Fill:
+ 	/* they want more? let's try to get some more */
+=2D	while (m->count < size) {
++	while (1) {
+ 		size_t offs =3D m->count;
+=2D		loff_t next =3D pos;
+=2D		p =3D m->op->next(m, p, &next);
++		loff_t pos =3D m->index;
++
++		p =3D m->op->next(m, p, &m->index);
++		if (pos =3D=3D m->index)
++			/* Buggy ->next function */
++			m->index++;
+ 		if (!p || IS_ERR(p)) {
+ 			err =3D PTR_ERR(p);
+ 			break;
+ 		}
++		if (m->count >=3D size)
++			break;
+ 		err =3D m->op->show(m, p);
+ 		if (seq_has_overflowed(m) || err) {
+ 			m->count =3D offs;
+ 			if (likely(err <=3D 0))
+ 				break;
+ 		}
+=2D		pos =3D next;
+ 	}
+ 	m->op->stop(m, p);
+ 	n =3D min(m->count, size);
+@@ -284,11 +275,7 @@ ssize_t seq_read(struct file *file, char __user *buf, =
+size_t size, loff_t *ppos)
+ 		goto Efault;
+ 	copied +=3D n;
+ 	m->count -=3D n;
+=2D	if (m->count)
+=2D		m->from =3D n;
+=2D	else
+=2D		pos++;
+=2D	m->index =3D pos;
++	m->from =3D n;
+ Done:
+ 	if (!copied)
+ 		copied =3D err;
+=2D-=20
+2.14.0.rc0.dirty
+
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlrT1VQACgkQOeye3VZi
+gbm9/w//eaPhbqxgOOFfL9os/ZEGwAtkN9AJswIIzyLpis4p/HJMIHdHzFFZblwo
+T5d2Ak/2zwdLAHn2VVnSgV2oj55L6Bej99EHJA4W3izIodr6HIVLuwhRcReVnF9R
+L3lP2BAGlLApuF3YH39B1BiVyVk7RMNyWZRKLYJXpiEFSwf1UjrTbJbBXLt/A/w/
+8UIkPe605zPZ0WtB+zJzxTsj0RHI9M9zH/vs6W8NcMMb7dADsaSJLDXxmYqQqEN3
+wuWDfpZyvG5SBQ0072VR3Z+9RRgKq3LChqZk+WhFzeFWxqfQfb0CtFsow77o6nXT
+7Gt1l4v4bEjK0kkVVZBauea2WkbJ2+klQHMJhif7TisoJ6hWps77jFCLV1oaCywS
+uoD82EUJsBuLDi8sgSqRYWbKjZNlOaY3qAE+OwXEtt8dLP81OdPSQlG1LdCJLxDS
+0spNf4lcvZVOsJy/VqKWLlsiNppK5Hci/E594v2lmVILuweuTKKoeo2PVGa65zSA
+F9cp376WcCfGZECD2EGuRZkcVWI10+bXGIbxUGE5xh8FjhNNMObMzBVnjqYOOdnP
+u2h3J9WGkxGQU4R4XvWJA65wUIylqfJeiWdABjnvGM/hG3ejzKZ7SStwARw3GGxk
+PfdxW8BqvNpE6UaKtxffb2l2dRQyAutUmeCaR8IgvGNfJ7LE2QI=
+=QMgF
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
