@@ -1,80 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A21477DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 20:35:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D66AB7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 21:48:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751149AbeDPUfm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Apr 2018 16:35:42 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58778 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750979AbeDPUfl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Apr 2018 16:35:41 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DC1262EF;
-        Mon, 16 Apr 2018 20:35:39 +0000 (UTC)
-Date:   Mon, 16 Apr 2018 14:35:38 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        James Hogan <jhogan@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-mips@linux-mips.org,
-        linuxppc-dev@lists.ozlabs.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 00/32] docs/vm: convert to ReST format
-Message-ID: <20180416143538.40a40457@lwn.net>
-In-Reply-To: <20180415173655.GB31176@rapoport-lnx>
-References: <1521660168-14372-1-git-send-email-rppt@linux.vnet.ibm.com>
-        <20180329154607.3d8bda75@lwn.net>
-        <20180401063857.GA3357@rapoport-lnx>
-        <20180413135551.0e6d1b12@lwn.net>
-        <20180415173655.GB31176@rapoport-lnx>
-Organization: LWN.net
+        id S1753077AbeDPVsZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Apr 2018 17:48:25 -0400
+Received: from mail-wr0-f194.google.com ([209.85.128.194]:42814 "EHLO
+        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753012AbeDPVsW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 17:48:22 -0400
+Received: by mail-wr0-f194.google.com with SMTP id s18so29992464wrg.9;
+        Mon, 16 Apr 2018 14:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=7bsUt7GMrIXraQHWvY2Gu2e5r5BziJOhlXEQMBmeK0E=;
+        b=E8smusHDRNojOeM+r8GEyKVlzKVtoCSJRrNvkMnHOLyNcX/Pvkhwu/47J9pRIhNcLs
+         C2K+//Y3lZe1NiMiYXB76SqBbAd19Pskw1OvjCG8yg/R46p8xOU3e3MkzxPinvnTpLg/
+         aAamvfKbDo33xU7rVBtfwPn4uusABzEqHXyjrcybQIRwNa5+AYO8dUn0GAJqCEPfV8Vz
+         BvrTFLSKH71BqO/s78Xy1LPr59wgDv3juoC+6XGKv7rdALt5u22HLrdevzyWoJZq9j+b
+         Vp39BnBWh4XXwXvp3yb0Rv9dGQmQRiZDBHnG+dlLSQR1GnXSWUnm7vMtFawuk3TdKhDH
+         jkPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7bsUt7GMrIXraQHWvY2Gu2e5r5BziJOhlXEQMBmeK0E=;
+        b=LuZU++stVJe9I/YAvHX4sE0x1e34lQ115vZmSQAn9kqi5X6BE5nD9nVWAkTYvSFiD0
+         +cY9DdZusoT99N/S/BLJjDol0WApI3lM2uyL3386Q3Ge3iIsmzWOAUX0u7jF3D2975cu
+         gShrAzzrNGUvUvE7wc08gkLnb4FCrc4CN8asWSyC9i5PhYxOGb21+QsNkgwNhIKvZZRW
+         KbDrkImJYmr1RonTdu78z8HloVqAExeg0kV6xAhJSeL47Mvs3WgeDZ57/Y8n/610gxJ6
+         XhVdZSE3rgZYE3rBrZ5u9wZwNF3DYhzEAAO5Wr/ikFOVmvlWLf2+dq1ltnVvPK39kKvh
+         bUQA==
+X-Gm-Message-State: ALQs6tCJqCYbcJ/rWn5jgidGN7Jqd8iTK+1euvLal/rieVEmzCHxy1jj
+        3chcEDAO5gDOcvfar1hH66X+4qz9tC8=
+X-Google-Smtp-Source: AIpwx4+dhIeiRsRjO1KSCxFfZhNH21+ebtdi28YewDjXNgc22IXOlgBqO8eIXRHOQkdezZyfyidIoQ==
+X-Received: by 10.80.179.45 with SMTP id q42mr34556815edd.264.1523915301224;
+        Mon, 16 Apr 2018 14:48:21 -0700 (PDT)
+Received: from thinkpad (524A8B4B.cm-4-3c.dynamic.ziggo.nl. [82.74.139.75])
+        by smtp.gmail.com with ESMTPSA id q30sm4197421edc.17.2018.04.16.14.48.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 16 Apr 2018 14:48:20 -0700 (PDT)
+Date:   Mon, 16 Apr 2018 23:48:18 +0200
+From:   Thymo van Beers <thymovanbeers@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: kernel-parameters.txt: Fix whitespace
+Message-ID: <20180416214602.GA11295@thinkpad>
+References: <20180416154458.GA24716@thinkpad>
+ <20180416140846.0effe6ad@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20180416140846.0effe6ad@lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 15 Apr 2018 20:36:56 +0300
-Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-
-> I didn't mean we should keep it as unorganized jumble of stuff and I agree
-> that splitting the documentation by audience is better because developers
-> are already know how to find it :)
+On Mon, Apr 16, 2018 at 02:08:46PM -0600, Jonathan Corbet wrote:
+> On Mon, 16 Apr 2018 17:45:01 +0200
+> Thymo van Beers <thymovanbeers@gmail.com> wrote:
 > 
-> I just thought that putting the doc into the place should not be done
-> immediately after mechanical ReST conversion but rather after improving the
-> contents.
+> > Some lines used spaces instead of tabs at line start.
+> > This can cause mangled lines in editors due to inconsistency.
+> > 
+> > Replace spaces for tabs where appropriate.
+> 
+> Seems like a fine idea.  The patch doesn't apply, though; can you please
+> make a version against current docs-next?  (Or against 4.17-rc1 will work
+> too).
+> 
+> Also...
+> 
+> >  			domain
+> > -			  Isolate from the general SMP balancing and scheduling
+> > -			  algorithms. Note that performing domain isolation this way
+> > -			  is irreversible: it's not possible to bring back a CPU to
+> > -			  the domains once isolated through isolcpus. It's strongly
+> > -			  advised to use cpusets instead to disable scheduler load
+> > -			  balancing through the "cpuset.sched_load_balance" file.
+> > -			  It offers a much more flexible interface where CPUs can
+> > -			  move in and out of an isolated set anytime.
+> > -
+> > -			  You can move a process onto or off an "isolated" CPU via
+> > -			  the CPU affinity syscalls or cpuset.
+> > -			  <cpu number> begins at 0 and the maximum value is
+> > -			  "number of CPUs in system - 1".
+> > +				Isolate from the general SMP balancing and scheduling
+> > +				algorithms. Note that performing domain isolation this way
+> > +				is irreversible: it's not possible to bring back a CPU to
+> > +				the domains once isolated through isolcpus. It's strongly
+> > +				advised to use cpusets instead to disable scheduler load
+> > +				balancing through the "cpuset.sched_load_balance" file.
+> > +				It offers a much more flexible interface where CPUs can
+> > +				move in and out of an isolated set anytime.
+> > +
+> > +			You can move a process onto or off an "isolated" CPU via
+> > +			the CPU affinity syscalls or cpuset.
+> > +			<cpu number> begins at 0 and the maximum value is
+> > +			"number of CPUs in system - 1".
+> 
+> This would appear to have changed the indentation of some of the text?
+> 
+> Thanks,
+> 
+> jon
 
-OK, this is fine.  I'll go ahead and apply the set, but then I'll be
-watching to see that the other improvements come :)
+Thanks for the comment.
 
-In applying the set, there was a significant set of conflicts with
-vm/hmm.rst; hopefully I've sorted those out properly.
+I will rebase against docs-next. Hadn't realised my tree wasn't
+up-to-date.
 
-Thanks,
+Upon reviewing that section I see that was intentional indentation and
+not some tab/space mix up.
 
-jon
+Both will be fixed in v2.
+
+- Thymo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
