@@ -1,46 +1,66 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CE7CF7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 22:03:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E4BC37DE74
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 23:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751870AbeDPWDw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Apr 2018 18:03:52 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:57732 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750972AbeDPWDv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 18:03:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=P1OehhbFJK8/Exj4fM85kNBZsKbd2mUM5SyfC1HYNAc=; b=gCY5PoeOtqSWFXpVP6ohafiSje
-        QOeCD/qOf5vsRlf1vOYNrZDxgz0/WWAp74CNUCyncSWhNDaJSz8WzNMi+RXsPPphFeVAZ8lm42QoR
-        iHpgFvQDDCX7iFfh73BlzRER/MQL0zmqZ5D9rPEAOpDAymfaOdHsEhRuDWA/hckT4M/Vf3jjjFYHY
-        /dGWfeZS8tgSTCRiiZ1o5QVTtdknPrhoWDj0C2Pi/4yUW7Jif0zIyd0MPIosSmknfx4qtTBLGAYVI
-        hCe1tR8GVyPRmxIOCzgnmFOcwj6unopARyQn17bUrKJZxXL1UQtwstBCdb5WE82OJnPzdpbVvXSun
-        KiFGxf7g==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1f8CE1-0006Q5-RI; Mon, 16 Apr 2018 22:03:50 +0000
-Subject: Re: [PATCH v2] docs: kernel-parameters.txt: Fix whitespace
-To:     Thymo van Beers <thymovanbeers@gmail.com>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20180416214939.GA11304@thinkpad>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <31612fbd-6624-140a-ed92-04b8f0bd5f64@infradead.org>
-Date:   Mon, 16 Apr 2018 15:03:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1752145AbeDPXGT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Apr 2018 19:06:19 -0400
+Received: from mga01.intel.com ([192.55.52.88]:1608 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751172AbeDPXGS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 16 Apr 2018 19:06:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Apr 2018 16:06:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,461,1517904000"; 
+   d="scan'208";a="192001291"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.150]) ([10.7.153.150])
+  by orsmga004.jf.intel.com with ESMTP; 16 Apr 2018 16:06:17 -0700
+Subject: Re: [PATCH v3 01/10] Documentations: dt-bindings: Add documents of
+ generic PECI bus, adapter and client drivers
+To:     Rob Herring <robh@kernel.org>
+Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Haiyue Wang <haiyue.wang@linux.intel.com>,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Cartwright <juliac@eso.teric.us>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Milton Miller II <miltonm@us.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>,
+        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
+ <20180410183212.16787-2-jae.hyun.yoo@linux.intel.com>
+ <20180416175936.4vcse73mrnyk242m@rob-hp-laptop>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <2ce14097-e003-d59a-a05c-1cee55cb0929@linux.intel.com>
+Date:   Mon, 16 Apr 2018 16:06:16 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <20180416214939.GA11304@thinkpad>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20180416175936.4vcse73mrnyk242m@rob-hp-laptop>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -48,119 +68,206 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/16/18 14:49, Thymo van Beers wrote:
-> Some lines used spaces instead of tabs at line start.
-> This can cause mangled lines in editors due to inconsistency.
+Hi Rob,
+
+Thanks for sharing your time. Please see my answers inline.
+
+On 4/16/2018 10:59 AM, Rob Herring wrote:
+> On Tue, Apr 10, 2018 at 11:32:03AM -0700, Jae Hyun Yoo wrote:
+>> This commit adds documents of generic PECI bus, adapter and client drivers.
 > 
-> Replace spaces for tabs where appropriate.
+> "dt-bindings: ..." for the subject prefix please.
+>
+
+Sure, I'll change the subject.
+
+>>
+>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
+>> Reviewed-by: James Feist <james.feist@linux.intel.com>
+>> Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+>> Cc: Alan Cox <alan@linux.intel.com>
+>> Cc: Andrew Jeffery <andrew@aj.id.au>
+>> Cc: Andrew Lunn <andrew@lunn.ch>
+>> Cc: Andy Shevchenko <andriy.shevchenko@intel.com>
+>> Cc: Arnd Bergmann <arnd@arndb.de>
+>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>> Cc: Fengguang Wu <fengguang.wu@intel.com>
+>> Cc: Greg KH <gregkh@linuxfoundation.org>
+>> Cc: Guenter Roeck <linux@roeck-us.net>
+>> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
+>> Cc: Jean Delvare <jdelvare@suse.com>
+>> Cc: Joel Stanley <joel@jms.id.au>
+>> Cc: Julia Cartwright <juliac@eso.teric.us>
+>> Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+>> Cc: Milton Miller II <miltonm@us.ibm.com>
+>> Cc: Pavel Machek <pavel@ucw.cz>
+>> Cc: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Stef van Os <stef.van.os@prodrive-technologies.com>
+>> Cc: Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>
+>> ---
+>>   .../devicetree/bindings/peci/peci-adapter.txt      | 23 ++++++++++++++++++++
+>>   .../devicetree/bindings/peci/peci-bus.txt          | 15 +++++++++++++
+>>   .../devicetree/bindings/peci/peci-client.txt       | 25 ++++++++++++++++++++++
 > 
-> Signed-off-by: Thymo van Beers <thymovanbeers@gmail.com>
-> ---
-> Changes in v2:
->   - Rebase against docs-next
->   - Fix indentation modifications
+> This should be all one document.
 > 
->  Documentation/admin-guide/kernel-parameters.txt | 136 ++++++++++++------------
->  1 file changed, 68 insertions(+), 68 deletions(-)
+
+Okay. I'll combine them into one document.
+
+>>   3 files changed, 63 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/peci/peci-adapter.txt
+>>   create mode 100644 Documentation/devicetree/bindings/peci/peci-bus.txt
+>>   create mode 100644 Documentation/devicetree/bindings/peci/peci-client.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/peci/peci-adapter.txt b/Documentation/devicetree/bindings/peci/peci-adapter.txt
+>> new file mode 100644
+>> index 000000000000..9221374f6b11
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/peci/peci-adapter.txt
+>> @@ -0,0 +1,23 @@
+>> +Generic device tree configuration for PECI adapters.
+>> +
+>> +Required properties:
+>> +- compatible     : Should contain hardware specific definition strings that can
+>> +		   match an adapter driver implementation.
+>> +- reg            : Should contain PECI controller registers location and length.
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 3487be79847c..f625f65c286f 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> No need for these 2 here.
+> 
 
-Most of the patch is OK IMO, but not the intel_pstate part:
-The 2-space extra indents work fine here, while the extra tab makes a lot of the
-lines go beyond the 80-column mark.
+Will drop these 2.
 
-> @@ -1650,39 +1650,39 @@
->  			0	disables intel_idle and fall back on acpi_idle.
->  			1 to 9	specify maximum depth of C-state.
->  
-> -	intel_pstate=  [X86]
-> -		       disable
-> -		         Do not enable intel_pstate as the default
-> -		         scaling driver for the supported processors
-> -		       passive
-> -			 Use intel_pstate as a scaling driver, but configure it
-> -			 to work with generic cpufreq governors (instead of
-> -			 enabling its internal governor).  This mode cannot be
-> -			 used along with the hardware-managed P-states (HWP)
-> -			 feature.
-> -		       force
-> -			 Enable intel_pstate on systems that prohibit it by default
-> -			 in favor of acpi-cpufreq. Forcing the intel_pstate driver
-> -			 instead of acpi-cpufreq may disable platform features, such
-> -			 as thermal controls and power capping, that rely on ACPI
-> -			 P-States information being indicated to OSPM and therefore
-> -			 should be used with caution. This option does not work with
-> -			 processors that aren't supported by the intel_pstate driver
-> -			 or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
-> -		       no_hwp
-> -		         Do not enable hardware P state control (HWP)
-> -			 if available.
-> -		hwp_only
-> -			Only load intel_pstate on systems which support
-> -			hardware P state control (HWP) if available.
-> -		support_acpi_ppc
-> -			Enforce ACPI _PPC performance limits. If the Fixed ACPI
-> -			Description Table, specifies preferred power management
-> -			profile as "Enterprise Server" or "Performance Server",
-> -			then this feature is turned on by default.
-> -		per_cpu_perf_limits
-> -			Allow per-logical-CPU P-State performance control limits using
-> -			cpufreq sysfs interface
-> +	intel_pstate=	[X86]
-> +			disable
-> +				Do not enable intel_pstate as the default
-> +				scaling driver for the supported processors
-> +			passive
-> +				Use intel_pstate as a scaling driver, but configure it
-> +				to work with generic cpufreq governors (instead of
-> +				enabling its internal governor).  This mode cannot be
-> +				used along with the hardware-managed P-states (HWP)
-> +				feature.
-> +			force
-> +				Enable intel_pstate on systems that prohibit it by default
-> +				in favor of acpi-cpufreq. Forcing the intel_pstate driver
-> +				instead of acpi-cpufreq may disable platform features, such
-> +				as thermal controls and power capping, that rely on ACPI
-> +				P-States information being indicated to OSPM and therefore
-> +				should be used with caution. This option does not work with
-> +				processors that aren't supported by the intel_pstate driver
-> +				or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
-> +			no_hwp
-> +				Do not enable hardware P state control (HWP)
-> +				if available.
-> +			hwp_only
-> +				Only load intel_pstate on systems which support
-> +				hardware P state control (HWP) if available.
-> +			support_acpi_ppc
-> +				Enforce ACPI _PPC performance limits. If the Fixed ACPI
-> +				Description Table, specifies preferred power management
-> +				profile as "Enterprise Server" or "Performance Server",
-> +				then this feature is turned on by default.
-> +			per_cpu_perf_limits
-> +				Allow per-logical-CPU P-State performance control limits using
-> +				cpufreq sysfs interface
->  
->  	intremap=	[X86-64, Intel-IOMMU]
->  			on	enable Interrupt Remapping (default)
-> @@ -2027,7 +2027,7 @@
->  			* [no]ncqtrim: Turn off queued DSM TRIM.
->  
->  			* nohrst, nosrst, norst: suppress hard, soft
-> -                          and both resets.
-> +			and both resets.
+>> +- #address-cells : Should be <1>.
+>> +- #size-cells    : Should be <0>.
+> 
+> Some details on the addressing for PECI would be good.
+> 
 
-I would leave that line above indented like the one after "rstonce" below.
+It is for the PECI client address. Will add details.
 
->  
->  			* rstonce: only attempt one reset during
->  			  hot-unplug link recovery
+>> +
+>> +Example:
+>> +	peci: peci@10000000 {
+>> +		compatible = "simple-bus";
+>> +		#address-cells = <1>;
+>> +		#size-cells = <1>;
+>> +		ranges = <0x0 0x10000000 0x1000>;
+>> +
+> 
+> This part of the example is not relevant. Just start with the adapter
+> node.
+> 
 
+Will remove that part. Thanks!
 
--- 
-~Randy
+>> +		peci0: peci-bus@0 {
+>> +			compatible = "soc,soc-peci";
+>> +			reg = <0x0 0x1000>;
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +		};
+>> +	};
+>> diff --git a/Documentation/devicetree/bindings/peci/peci-bus.txt b/Documentation/devicetree/bindings/peci/peci-bus.txt
+>> new file mode 100644
+>> index 000000000000..90bcc791ccb0
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/peci/peci-bus.txt
+>> @@ -0,0 +1,15 @@
+>> +Generic device tree configuration for PECI buses.
+>> +
+>> +Required properties:
+>> +- compatible     : Should be "simple-bus".
+> 
+> I don't understand what this has to do with PECI? "simple-bus" already
+> has a defined meaning.
+> 
+
+Maybe I'm wrong but I intended to show this node is an umbrella node of 
+a PECI bus subsystem. What should I use then?
+
+>> +- #address-cells : Should be <1>.
+>> +- #size-cells    : Should be <1>.
+>> +- ranges         : Should contain PECI controller registers ranges.
+>> +
+>> +Example:
+>> +	peci: peci@10000000 {
+>> +		compatible = "simple-bus";
+>> +		#address-cells = <1>;
+>> +		#size-cells = <1>;
+>> +		ranges = <0x0 0x10000000 0x1000>;
+>> +	};
+>> diff --git a/Documentation/devicetree/bindings/peci/peci-client.txt b/Documentation/devicetree/bindings/peci/peci-client.txt
+>> new file mode 100644
+>> index 000000000000..8e2bfd8532f6
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/peci/peci-client.txt
+>> @@ -0,0 +1,25 @@
+>> +Generic device tree configuration for PECI clients.
+>> +
+>> +Required properties:
+>> +- compatible : Should contain target device specific definition strings that can
+>> +	       match a client driver implementation.
+> 
+> Bindings are for h/w, not client drivers.
+> 
+> How are PECI devices defined?
+> 
+
+Got it. I'll correct the description. PECI client device is Intel CPU 
+which is connected through a PECI bus.
+
+>> +- reg        : Should contain address of a client CPU. Address range of CPU
+>> +	       clients is starting from 0x30 based on PECI specification.
+>> +	       <0x30> .. <0x37> (depends on the PECI_OFFSET_MAX definition)
+> 
+> 8 devices should be enough for anyone...
+> 
+> Where is PECI_OFFSET_MAX defined?
+> 
+
+PECI_OFFSET_MAX is defined in include/linux/peci.h based on the maximum 
+CPU numbers of the current IA generation. I'll remove the unnecessary 
+details. A setting out of range would be handled accordingly in kernel.
+
+>> +
+>> +Example:
+>> +	peci-bus@0 {
+>> +		#address-cells = <1>;
+>> +		#size-cells = <0>;
+>> +		< more properties >
+>> +
+>> +		function@cpu0 {
+> 
+> Not a valid node name. "function@30" is what it probably should be. For
+> a new bus you can define unit-address format you like, but it must be
+> based on the contents of reg. However, it doesn't look like you should
+> create anything special here.
+> 
+
+Got it. I'll fix these node name like function@30 and function@31.
+
+Thanks a lot for your comments!
+
+-Jae
+
+>> +			compatible = "device,function";
+>> +			reg = <0x30>;
+>> +		};
+>> +
+>> +		function@cpu1 {
+>> +			compatible = "device,function";
+>> +			reg = <0x31>;
+>> +		};
+>> +	};
+>> -- 
+>> 2.16.2
+>>
+>>
+>> _______________________________________________
+>> linux-arm-kernel mailing list
+>> linux-arm-kernel@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
