@@ -6,126 +6,390 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D66AB7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 21:48:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2FE97DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 21:50:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753077AbeDPVsZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Apr 2018 17:48:25 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:42814 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753012AbeDPVsW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 17:48:22 -0400
-Received: by mail-wr0-f194.google.com with SMTP id s18so29992464wrg.9;
-        Mon, 16 Apr 2018 14:48:22 -0700 (PDT)
+        id S1753157AbeDPVtr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Apr 2018 17:49:47 -0400
+Received: from mail-wr0-f193.google.com ([209.85.128.193]:36618 "EHLO
+        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751892AbeDPVtq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 17:49:46 -0400
+Received: by mail-wr0-f193.google.com with SMTP id q13so26584096wre.3;
+        Mon, 16 Apr 2018 14:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7bsUt7GMrIXraQHWvY2Gu2e5r5BziJOhlXEQMBmeK0E=;
-        b=E8smusHDRNojOeM+r8GEyKVlzKVtoCSJRrNvkMnHOLyNcX/Pvkhwu/47J9pRIhNcLs
-         C2K+//Y3lZe1NiMiYXB76SqBbAd19Pskw1OvjCG8yg/R46p8xOU3e3MkzxPinvnTpLg/
-         aAamvfKbDo33xU7rVBtfwPn4uusABzEqHXyjrcybQIRwNa5+AYO8dUn0GAJqCEPfV8Vz
-         BvrTFLSKH71BqO/s78Xy1LPr59wgDv3juoC+6XGKv7rdALt5u22HLrdevzyWoJZq9j+b
-         Vp39BnBWh4XXwXvp3yb0Rv9dGQmQRiZDBHnG+dlLSQR1GnXSWUnm7vMtFawuk3TdKhDH
-         jkPg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=VF1vVaLXMSTXYTViNOUoLcMf2R82FuQFA6VHWFCA8Pg=;
+        b=hKAY8hS2AEd0S/QS+x1gLFsVNG1Kgg2zHnGNNhDV32LilLx3FxPORdJcE4bHYkafnM
+         vSnW254RTgGqGcMq2x9/4QDGAvNlAPWuyEuxfjJChEAsugn+fa/nmK0hDwm0zbfmR9ah
+         18XusabFIlm0lN1a1KvGwDaYUjm+zs7EXmgmvExGxlRA1hTE/g7kqPsrrQ6VjNMCSkOQ
+         toAszcM9zWQiocfkcRVTVitb8xGqcH0E0vEjlxqieQT/qMc/bqq3EWtW6AV6320Givo5
+         dCaLJKOSp+6s4OfEhivt9jmDAqlt0dZkawli6zG0yVmC14w8bLZ71L/6t9BQkWYw5RQ8
+         TJnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7bsUt7GMrIXraQHWvY2Gu2e5r5BziJOhlXEQMBmeK0E=;
-        b=LuZU++stVJe9I/YAvHX4sE0x1e34lQ115vZmSQAn9kqi5X6BE5nD9nVWAkTYvSFiD0
-         +cY9DdZusoT99N/S/BLJjDol0WApI3lM2uyL3386Q3Ge3iIsmzWOAUX0u7jF3D2975cu
-         gShrAzzrNGUvUvE7wc08gkLnb4FCrc4CN8asWSyC9i5PhYxOGb21+QsNkgwNhIKvZZRW
-         KbDrkImJYmr1RonTdu78z8HloVqAExeg0kV6xAhJSeL47Mvs3WgeDZ57/Y8n/610gxJ6
-         XhVdZSE3rgZYE3rBrZ5u9wZwNF3DYhzEAAO5Wr/ikFOVmvlWLf2+dq1ltnVvPK39kKvh
-         bUQA==
-X-Gm-Message-State: ALQs6tCJqCYbcJ/rWn5jgidGN7Jqd8iTK+1euvLal/rieVEmzCHxy1jj
-        3chcEDAO5gDOcvfar1hH66X+4qz9tC8=
-X-Google-Smtp-Source: AIpwx4+dhIeiRsRjO1KSCxFfZhNH21+ebtdi28YewDjXNgc22IXOlgBqO8eIXRHOQkdezZyfyidIoQ==
-X-Received: by 10.80.179.45 with SMTP id q42mr34556815edd.264.1523915301224;
-        Mon, 16 Apr 2018 14:48:21 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=VF1vVaLXMSTXYTViNOUoLcMf2R82FuQFA6VHWFCA8Pg=;
+        b=dRALrpdTB9B634M/AOW+8TVT/epBTKADXVCn2dRJyoys6/eIZzKaCm4qvlYWzxQDIl
+         hUvp/mz4pYNnX0/avI0ZLzC6OaXxE0WH5ayEd4mbqUJ2InVXjOPPsxWt1o32w50WqsTw
+         WlPWxP5d4M27fGFptPi2hHfDTNhpaS/yDN21MbvFCKAlbpIZz4VIFhZWjsAbJLVeI23z
+         26x9jQRajkjm5UyVuGE7VUeUzIWnkcni3SnBBN+wre2wV9n5n9JZRusU5E50JvS9x7BG
+         I/ux+XoMX3WGJSHnxwL6OtLENsDx/LMKtuw41j7OulPsqNz4H3SmWN/1CBC6/lGj7GeO
+         xsdw==
+X-Gm-Message-State: ALQs6tBl/w6ohyas4speCgazA0+mXuackluD69jrUvR4UUWKXzGBcx8A
+        6T/cYFkjrkbYG9fbPgpjxVE=
+X-Google-Smtp-Source: AIpwx4/81zvaL+kQD2nYTU9DkvXp9OAsPtSzNcGuPFkTh7qeCJjnJzXgzphx9/lG1Rwj7cZvNbGLgw==
+X-Received: by 10.80.134.187 with SMTP id r56mr15130eda.64.1523915384578;
+        Mon, 16 Apr 2018 14:49:44 -0700 (PDT)
 Received: from thinkpad (524A8B4B.cm-4-3c.dynamic.ziggo.nl. [82.74.139.75])
-        by smtp.gmail.com with ESMTPSA id q30sm4197421edc.17.2018.04.16.14.48.19
+        by smtp.gmail.com with ESMTPSA id n8sm5563284edb.5.2018.04.16.14.49.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Apr 2018 14:48:20 -0700 (PDT)
-Date:   Mon, 16 Apr 2018 23:48:18 +0200
+        Mon, 16 Apr 2018 14:49:43 -0700 (PDT)
+Date:   Mon, 16 Apr 2018 23:49:42 +0200
 From:   Thymo van Beers <thymovanbeers@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
+To:     corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: kernel-parameters.txt: Fix whitespace
-Message-ID: <20180416214602.GA11295@thinkpad>
-References: <20180416154458.GA24716@thinkpad>
- <20180416140846.0effe6ad@lwn.net>
+Subject: [PATCH v2] docs: kernel-parameters.txt: Fix whitespace
+Message-ID: <20180416214939.GA11304@thinkpad>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20180416140846.0effe6ad@lwn.net>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 16, 2018 at 02:08:46PM -0600, Jonathan Corbet wrote:
-> On Mon, 16 Apr 2018 17:45:01 +0200
-> Thymo van Beers <thymovanbeers@gmail.com> wrote:
-> 
-> > Some lines used spaces instead of tabs at line start.
-> > This can cause mangled lines in editors due to inconsistency.
-> > 
-> > Replace spaces for tabs where appropriate.
-> 
-> Seems like a fine idea.  The patch doesn't apply, though; can you please
-> make a version against current docs-next?  (Or against 4.17-rc1 will work
-> too).
-> 
-> Also...
-> 
-> >  			domain
-> > -			  Isolate from the general SMP balancing and scheduling
-> > -			  algorithms. Note that performing domain isolation this way
-> > -			  is irreversible: it's not possible to bring back a CPU to
-> > -			  the domains once isolated through isolcpus. It's strongly
-> > -			  advised to use cpusets instead to disable scheduler load
-> > -			  balancing through the "cpuset.sched_load_balance" file.
-> > -			  It offers a much more flexible interface where CPUs can
-> > -			  move in and out of an isolated set anytime.
-> > -
-> > -			  You can move a process onto or off an "isolated" CPU via
-> > -			  the CPU affinity syscalls or cpuset.
-> > -			  <cpu number> begins at 0 and the maximum value is
-> > -			  "number of CPUs in system - 1".
-> > +				Isolate from the general SMP balancing and scheduling
-> > +				algorithms. Note that performing domain isolation this way
-> > +				is irreversible: it's not possible to bring back a CPU to
-> > +				the domains once isolated through isolcpus. It's strongly
-> > +				advised to use cpusets instead to disable scheduler load
-> > +				balancing through the "cpuset.sched_load_balance" file.
-> > +				It offers a much more flexible interface where CPUs can
-> > +				move in and out of an isolated set anytime.
-> > +
-> > +			You can move a process onto or off an "isolated" CPU via
-> > +			the CPU affinity syscalls or cpuset.
-> > +			<cpu number> begins at 0 and the maximum value is
-> > +			"number of CPUs in system - 1".
-> 
-> This would appear to have changed the indentation of some of the text?
-> 
-> Thanks,
-> 
-> jon
+Some lines used spaces instead of tabs at line start.
+This can cause mangled lines in editors due to inconsistency.
 
-Thanks for the comment.
+Replace spaces for tabs where appropriate.
 
-I will rebase against docs-next. Hadn't realised my tree wasn't
-up-to-date.
+Signed-off-by: Thymo van Beers <thymovanbeers@gmail.com>
+---
+Changes in v2:
+  - Rebase against docs-next
+  - Fix indentation modifications
 
-Upon reviewing that section I see that was intentional indentation and
-not some tab/space mix up.
+ Documentation/admin-guide/kernel-parameters.txt | 136 ++++++++++++------------
+ 1 file changed, 68 insertions(+), 68 deletions(-)
 
-Both will be fixed in v2.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3487be79847c..f625f65c286f 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -106,11 +106,11 @@
+ 			use by PCI
+ 			Format: <irq>,<irq>...
+ 
+-	acpi_mask_gpe=  [HW,ACPI]
++	acpi_mask_gpe=	[HW,ACPI]
+ 			Due to the existence of _Lxx/_Exx, some GPEs triggered
+ 			by unsupported hardware/firmware features can result in
+-                        GPE floodings that cannot be automatically disabled by
+-                        the GPE dispatcher.
++			GPE floodings that cannot be automatically disabled by
++			the GPE dispatcher.
+ 			This facility can be used to prevent such uncontrolled
+ 			GPE floodings.
+ 			Format: <int>
+@@ -472,10 +472,10 @@
+ 			for platform specific values (SB1, Loongson3 and
+ 			others).
+ 
+-	ccw_timeout_log [S390]
++	ccw_timeout_log	[S390]
+ 			See Documentation/s390/CommonIO for details.
+ 
+-	cgroup_disable= [KNL] Disable a particular controller
++	cgroup_disable=	[KNL] Disable a particular controller
+ 			Format: {name of the controller(s) to disable}
+ 			The effects of cgroup_disable=foo are:
+ 			- foo isn't auto-mounted if you mount all cgroups in
+@@ -641,8 +641,8 @@
+ 		hvc<n>	Use the hypervisor console device <n>. This is for
+ 			both Xen and PowerPC hypervisors.
+ 
+-                If the device connected to the port is not a TTY but a braille
+-                device, prepend "brl," before the device type, for instance
++		If the device connected to the port is not a TTY but a braille
++		device, prepend "brl," before the device type, for instance
+ 			console=brl,ttyS0
+ 		For now, only VisioBraille is supported.
+ 
+@@ -662,7 +662,7 @@
+ 
+ 	consoleblank=	[KNL] The console blank (screen saver) timeout in
+ 			seconds. A value of 0 disables the blank timer.
+-                       Defaults to 0.
++			Defaults to 0.
+ 
+ 	coredump_filter=
+ 			[KNL] Change the default value for
+@@ -730,7 +730,7 @@
+ 			or memory reserved is below 4G.
+ 
+ 	cryptomgr.notests
+-                        [KNL] Disable crypto self-tests
++			[KNL] Disable crypto self-tests
+ 
+ 	cs89x0_dma=	[HW,NET]
+ 			Format: <dma>
+@@ -746,7 +746,7 @@
+ 			Format: <port#>,<type>
+ 			See also Documentation/input/devices/joystick-parport.rst
+ 
+-	ddebug_query=   [KNL,DYNAMIC_DEBUG] Enable debug messages at early boot
++	ddebug_query=	[KNL,DYNAMIC_DEBUG] Enable debug messages at early boot
+ 			time. See
+ 			Documentation/admin-guide/dynamic-debug-howto.rst for
+ 			details.  Deprecated, see dyndbg.
+@@ -833,7 +833,7 @@
+ 			causing system reset or hang due to sending
+ 			INIT from AP to BSP.
+ 
+-	disable_ddw     [PPC/PSERIES]
++	disable_ddw	[PPC/PSERIES]
+ 			Disable Dynamic DMA Window support. Use this if
+ 			to workaround buggy firmware.
+ 
+@@ -1188,7 +1188,7 @@
+ 			parameter will force ia64_sal_cache_flush to call
+ 			ia64_pal_cache_flush instead of SAL_CACHE_FLUSH.
+ 
+-	forcepae [X86-32]
++	forcepae	[X86-32]
+ 			Forcefully enable Physical Address Extension (PAE).
+ 			Many Pentium M systems disable PAE but may have a
+ 			functionally usable PAE implementation.
+@@ -1247,7 +1247,7 @@
+ 
+ 	gamma=		[HW,DRM]
+ 
+-	gart_fix_e820=  [X86_64] disable the fix e820 for K8 GART
++	gart_fix_e820=	[X86_64] disable the fix e820 for K8 GART
+ 			Format: off | on
+ 			default: on
+ 
+@@ -1341,11 +1341,11 @@
+ 			x86-64 are 2M (when the CPU supports "pse") and 1G
+ 			(when the CPU supports the "pdpe1gb" cpuinfo flag).
+ 
+-	hvc_iucv=	[S390] Number of z/VM IUCV hypervisor console (HVC)
+-			       terminal devices. Valid values: 0..8
+-	hvc_iucv_allow=	[S390] Comma-separated list of z/VM user IDs.
+-			       If specified, z/VM IUCV HVC accepts connections
+-			       from listed z/VM user IDs only.
++	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
++				terminal devices. Valid values: 0..8
++	hvc_iucv_allow=	[S390]	Comma-separated list of z/VM user IDs.
++				If specified, z/VM IUCV HVC accepts connections
++				from listed z/VM user IDs only.
+ 
+ 	keep_bootcon	[KNL]
+ 			Do not unregister boot console at start. This is only
+@@ -1353,11 +1353,11 @@
+ 			between unregistering the boot console and initializing
+ 			the real console.
+ 
+-	i2c_bus=	[HW] Override the default board specific I2C bus speed
+-			     or register an additional I2C bus that is not
+-			     registered from board initialization code.
+-			     Format:
+-			     <bus_id>,<clkrate>
++	i2c_bus=	[HW]	Override the default board specific I2C bus speed
++				or register an additional I2C bus that is not
++				registered from board initialization code.
++				Format:
++				<bus_id>,<clkrate>
+ 
+ 	i8042.debug	[HW] Toggle i8042 debug mode
+ 	i8042.unmask_kbd_data
+@@ -1386,7 +1386,7 @@
+ 			Default: only on s2r transitions on x86; most other
+ 			architectures force reset to be always executed
+ 	i8042.unlock	[HW] Unlock (ignore) the keylock
+-	i8042.kbdreset  [HW] Reset device connected to KBD port
++	i8042.kbdreset	[HW] Reset device connected to KBD port
+ 
+ 	i810=		[HW,DRM]
+ 
+@@ -1548,13 +1548,13 @@
+ 			programs exec'd, files mmap'd for exec, and all files
+ 			opened for read by uid=0.
+ 
+-	ima_template=   [IMA]
++	ima_template=	[IMA]
+ 			Select one of defined IMA measurements template formats.
+ 			Formats: { "ima" | "ima-ng" | "ima-sig" }
+ 			Default: "ima-ng"
+ 
+ 	ima_template_fmt=
+-	                [IMA] Define a custom template format.
++			[IMA] Define a custom template format.
+ 			Format: { "field1|...|fieldN" }
+ 
+ 	ima.ahash_minsize= [IMA] Minimum file size for asynchronous hash usage
+@@ -1597,7 +1597,7 @@
+ 	inport.irq=	[HW] Inport (ATI XL and Microsoft) busmouse driver
+ 			Format: <irq>
+ 
+-	int_pln_enable  [x86] Enable power limit notification interrupt
++	int_pln_enable	[x86] Enable power limit notification interrupt
+ 
+ 	integrity_audit=[IMA]
+ 			Format: { "0" | "1" }
+@@ -1650,39 +1650,39 @@
+ 			0	disables intel_idle and fall back on acpi_idle.
+ 			1 to 9	specify maximum depth of C-state.
+ 
+-	intel_pstate=  [X86]
+-		       disable
+-		         Do not enable intel_pstate as the default
+-		         scaling driver for the supported processors
+-		       passive
+-			 Use intel_pstate as a scaling driver, but configure it
+-			 to work with generic cpufreq governors (instead of
+-			 enabling its internal governor).  This mode cannot be
+-			 used along with the hardware-managed P-states (HWP)
+-			 feature.
+-		       force
+-			 Enable intel_pstate on systems that prohibit it by default
+-			 in favor of acpi-cpufreq. Forcing the intel_pstate driver
+-			 instead of acpi-cpufreq may disable platform features, such
+-			 as thermal controls and power capping, that rely on ACPI
+-			 P-States information being indicated to OSPM and therefore
+-			 should be used with caution. This option does not work with
+-			 processors that aren't supported by the intel_pstate driver
+-			 or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
+-		       no_hwp
+-		         Do not enable hardware P state control (HWP)
+-			 if available.
+-		hwp_only
+-			Only load intel_pstate on systems which support
+-			hardware P state control (HWP) if available.
+-		support_acpi_ppc
+-			Enforce ACPI _PPC performance limits. If the Fixed ACPI
+-			Description Table, specifies preferred power management
+-			profile as "Enterprise Server" or "Performance Server",
+-			then this feature is turned on by default.
+-		per_cpu_perf_limits
+-			Allow per-logical-CPU P-State performance control limits using
+-			cpufreq sysfs interface
++	intel_pstate=	[X86]
++			disable
++				Do not enable intel_pstate as the default
++				scaling driver for the supported processors
++			passive
++				Use intel_pstate as a scaling driver, but configure it
++				to work with generic cpufreq governors (instead of
++				enabling its internal governor).  This mode cannot be
++				used along with the hardware-managed P-states (HWP)
++				feature.
++			force
++				Enable intel_pstate on systems that prohibit it by default
++				in favor of acpi-cpufreq. Forcing the intel_pstate driver
++				instead of acpi-cpufreq may disable platform features, such
++				as thermal controls and power capping, that rely on ACPI
++				P-States information being indicated to OSPM and therefore
++				should be used with caution. This option does not work with
++				processors that aren't supported by the intel_pstate driver
++				or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
++			no_hwp
++				Do not enable hardware P state control (HWP)
++				if available.
++			hwp_only
++				Only load intel_pstate on systems which support
++				hardware P state control (HWP) if available.
++			support_acpi_ppc
++				Enforce ACPI _PPC performance limits. If the Fixed ACPI
++				Description Table, specifies preferred power management
++				profile as "Enterprise Server" or "Performance Server",
++				then this feature is turned on by default.
++			per_cpu_perf_limits
++				Allow per-logical-CPU P-State performance control limits using
++				cpufreq sysfs interface
+ 
+ 	intremap=	[X86-64, Intel-IOMMU]
+ 			on	enable Interrupt Remapping (default)
+@@ -2027,7 +2027,7 @@
+ 			* [no]ncqtrim: Turn off queued DSM TRIM.
+ 
+ 			* nohrst, nosrst, norst: suppress hard, soft
+-                          and both resets.
++			and both resets.
+ 
+ 			* rstonce: only attempt one reset during
+ 			  hot-unplug link recovery
+@@ -2215,7 +2215,7 @@
+ 			[KNL,SH] Allow user to override the default size for
+ 			per-device physically contiguous DMA buffers.
+ 
+-        memhp_default_state=online/offline
++	memhp_default_state=online/offline
+ 			[KNL] Set the initial state for the memory hotplug
+ 			onlining policy. If not specified, the default value is
+ 			set according to the
+@@ -2762,7 +2762,7 @@
+ 			[X86,PV_OPS] Disable paravirtualized VMware scheduler
+ 			clock and use the default one.
+ 
+-	no-steal-acc    [X86,KVM] Disable paravirtualized steal time accounting.
++	no-steal-acc	[X86,KVM] Disable paravirtualized steal time accounting.
+ 			steal time is computed, but won't influence scheduler
+ 			behaviour
+ 
+@@ -2823,7 +2823,7 @@
+ 	notsc		[BUGS=X86-32] Disable Time Stamp Counter
+ 
+ 	nowatchdog	[KNL] Disable both lockup detectors, i.e.
+-                        soft-lockup and NMI watchdog (hard-lockup).
++			soft-lockup and NMI watchdog (hard-lockup).
+ 
+ 	nowb		[ARM]
+ 
+@@ -2843,7 +2843,7 @@
+ 			If the dependencies are under your control, you can
+ 			turn on cpu0_hotplug.
+ 
+-	nps_mtm_hs_ctr= [KNL,ARC]
++	nps_mtm_hs_ctr=	[KNL,ARC]
+ 			This parameter sets the maximum duration, in
+ 			cycles, each HW thread of the CTOP can run
+ 			without interruptions, before HW switches it.
+@@ -2984,7 +2984,7 @@
+ 
+ 	pci=option[,option...]	[PCI] various PCI subsystem options:
+ 		earlydump	[X86] dump PCI config space before the kernel
+-			        changes anything
++				changes anything
+ 		off		[X86] don't probe for the PCI bus
+ 		bios		[X86-32] force use of PCI BIOS, don't access
+ 				the hardware directly. Use this if your machine
+@@ -3072,7 +3072,7 @@
+ 				is enabled by default.  If you need to use this,
+ 				please report a bug.
+ 		nocrs		[X86] Ignore PCI host bridge windows from ACPI.
+-			        If you need to use this, please report a bug.
++				If you need to use this, please report a bug.
+ 		routeirq	Do IRQ routing for all PCI devices.
+ 				This is normally done in pci_enable_device(),
+ 				so this option is a temporary workaround
+@@ -4391,7 +4391,7 @@
+ 
+ 	usbcore.initial_descriptor_timeout=
+ 			[USB] Specifies timeout for the initial 64-byte
+-                        USB_REQ_GET_DESCRIPTOR request in milliseconds
++			USB_REQ_GET_DESCRIPTOR request in milliseconds
+ 			(default 5000 = 5.0 seconds).
+ 
+ 	usbcore.nousb	[USB] Disable the USB subsystem
+-- 
+2.16.1
 
-- Thymo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
