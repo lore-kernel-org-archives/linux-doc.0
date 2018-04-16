@@ -3,71 +3,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9DA487DE74
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 19:36:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2CD77DE74
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 19:36:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753425AbeDPTfe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Apr 2018 15:35:34 -0400
-Received: from mail-pf0-f195.google.com ([209.85.192.195]:42457 "EHLO
-        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753206AbeDPTfa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 15:35:30 -0400
-Received: by mail-pf0-f195.google.com with SMTP id o16so10999942pfk.9
-        for <linux-doc@vger.kernel.org>; Mon, 16 Apr 2018 12:35:30 -0700 (PDT)
+        id S1753541AbeDPTgE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Apr 2018 15:36:04 -0400
+Received: from mail-pg0-f66.google.com ([74.125.83.66]:46111 "EHLO
+        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753413AbeDPTfd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 15:35:33 -0400
+Received: by mail-pg0-f66.google.com with SMTP id t12so4288535pgp.13
+        for <linux-doc@vger.kernel.org>; Mon, 16 Apr 2018 12:35:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=y855mi4e0a7SYpAOZLbNUsx0jEwNqRd/AqlHeLyhUtU=;
-        b=OYYwyWJO0m98sJqnlKTaLYfV1FqDVy7AXuj2/yvFJWyh/DO3kLdiSy/h8Fmi4Jx5MX
-         BmjRKoCROP/WpcFjZUkcPw5ONhY3cPVpGB8kkh9Plo8NTuUzoevlnrQyQSKn1KD4lz/h
-         K6OPBtCKTQSrrBXwaNNuwND34hxabeo2j2N2s=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=D5mzh5DvKqqKFxogW1rUY3QVLuTlGlqgrQPU91eVHwg=;
+        b=ZiCW4H7IgHmlgNI2HdWKeLPooCAJ/Jd4DJGIMRAl9fR5asZf/271PbKNhZJxnmySWR
+         KpTQcl0cx/LMdH7bMJBGg6a8JeVMiegViIRZ29QdCOCtmqorYx6+8puh96aW7vqsGHcd
+         A6sBSPuT++HapNGSX4actk11az54xZAh2JrEY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=y855mi4e0a7SYpAOZLbNUsx0jEwNqRd/AqlHeLyhUtU=;
-        b=dt7LMJV9VTNx+Eiqy980Wr5R/oaxPn/r+rZhgJwKhFDOQDQsL2B3XvvTF6m2elkVpK
-         qBHRg20eOa82BzcLWnlWRX/WeuU3ZASlhzGHB7PEWbvZbsgd+mc6TjK9uBlQm1JM0Xt9
-         lRHeftO2iYN0pGqOYKcYtRwgkUZL5z47gPtbmIR9ogb9xvswte/wsPr+RQQrcgMfwOaG
-         mWpDZbJg2fM86RKv0J6su9PeSWSMmTRcEp0SHkznz7F4CkozzlR/sCJXF17Ur5Gr4QD6
-         3If8W/v6aUzGHj+AKQ5gyX3dvTLsijOfiCCRI4iNTxgk2U4S5UC1zD9RCdBaEXeVXQVD
-         SD3g==
-X-Gm-Message-State: ALQs6tBc5EmhVfvuaYVI+Jsg7vjmlVpd9YuGT2EFPk6oS1OE9rlvCxPq
-        ZtK0S4Ohc1uYC/auQ7T+0gxwIw==
-X-Google-Smtp-Source: AIpwx4//dGO/53xthjL8fYkrMmTY/Q3ukbKgkVVGkNGAAg5FtALaxHil1BPUs7sweYemTlV/hAyyYA==
-X-Received: by 10.98.5.196 with SMTP id 187mr6545605pff.151.1523907329494;
-        Mon, 16 Apr 2018 12:35:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=D5mzh5DvKqqKFxogW1rUY3QVLuTlGlqgrQPU91eVHwg=;
+        b=abBJuRqQZi8qlBaunmsbRJLG5yLve/S6b4NnJBznySc8zXPQfQGX6gbQONs08p/296
+         z6gzON4ZmyQO209NTztFATV06nVgTFzwD57zVDTHgAJONXbvWTiiQReDeoh0oxTVQh+c
+         qo35IKWoQZ6AhcUnr28m+sY0z/cIjnVchlw3Dsw0fcqo46Msdy7fCT6JoxDz063RnOQZ
+         SbeU9Q1F85rpq/IxCtdVycHUCqhe5YLTlTnG32pE0ZYcR3FEv8wAWj9gAwJerx8pH7WK
+         oOquhxbS4qwgVeumCPBvjHt8w1Q81zvr6jYMwda5ldU7NLNQczhDqYMcyr8MFYnswnjg
+         9qGQ==
+X-Gm-Message-State: ALQs6tA3Y5mo0/oyoDHaE+aiNISmI6Su/mJESECwIr7gPQf5IZOaLMWF
+        HDdL2ugjj1AumCfrhM32VcTO5A==
+X-Google-Smtp-Source: AIpwx49WTe7SAbAoU9z6CafaMWW7fI52EodmT9yTH4oVmOA4nYIl6xj8dEWo4wQDQIAQvwrpdKKtBQ==
+X-Received: by 10.99.127.80 with SMTP id p16mr4376563pgn.79.1523907332626;
+        Mon, 16 Apr 2018 12:35:32 -0700 (PDT)
 Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id b78sm7038785pfj.6.2018.04.16.12.35.28
+        by smtp.gmail.com with ESMTPSA id b78sm7038785pfj.6.2018.04.16.12.35.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 16 Apr 2018 12:35:28 -0700 (PDT)
+        Mon, 16 Apr 2018 12:35:31 -0700 (PDT)
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     linux-arm-kernel@lists.infradead.org, corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Ben.Gainey@arm.com
-Subject: [PATCH 0/3] coresight: Refresh documenation 
-Date:   Mon, 16 Apr 2018 13:35:24 -0600
-Message-Id: <1523907327-20979-1-git-send-email-mathieu.poirier@linaro.org>
+Subject: [PATCH 2/3] coresight: Add section for integration with the perf tools
+Date:   Mon, 16 Apr 2018 13:35:26 -0600
+Message-Id: <1523907327-20979-3-git-send-email-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1523907327-20979-1-git-send-email-mathieu.poirier@linaro.org>
+References: <1523907327-20979-1-git-send-email-mathieu.poirier@linaro.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that the perf tools CoreSight support is upstream this set adds
-documentation to go with it and move things around so that topics 
-are located together. 
+Adding a section that document how to use the Coresight framework and
+drivers from the perf tools.
 
-Mathieu Poirier (3):
-  coresight: Remove obsolete reference to "owner" in CoreSight
-    descriptor
-  coresight: Add section for integration with the perf tools
-  coresight: Grouping all perf tools oriented section together
+Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+---
+ Documentation/trace/coresight.txt | 50 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
- Documentation/trace/coresight.txt | 101 ++++++++++++++++++++++++++++----------
- 1 file changed, 74 insertions(+), 27 deletions(-)
-
+diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.txt
+index 710c75b6c73f..8caae8050a60 100644
+--- a/Documentation/trace/coresight.txt
++++ b/Documentation/trace/coresight.txt
+@@ -187,9 +187,18 @@ that can be performed on them (see "struct coresight_ops").  The
+ specific to that component only.  "Implementation defined" customisations are
+ expected to be accessed and controlled using those entries.
+ 
++
+ How to use the tracer modules
+ -----------------------------
+ 
++There is two ways to use the Coresight framework: 1) using the perf cmd line
++tools and 2) interacting directly with the Coresight devices using the sysFS
++interface.  Preference is given to the former as using the sysFS interface
++requires a deep understanding of the Coresight HW.  The following sections
++provide details on using both methods.
++
++1) Using the sysFS interface:
++
+ Before trace collection can start, a coresight sink needs to be identify.
+ There is no limit on the amount of sinks (nor sources) that can be enabled at
+ any given moment.  As a generic operation, all device pertaining to the sink
+@@ -295,6 +304,47 @@ Instruction     13570831        0x8026B584      E28DD00C        false   ADD
+ Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
+ Timestamp                                       Timestamp: 17107041535
+ 
++2) Using perf framework:
++
++Coresight tracers are represented using the Perf framework's Performance
++Monitoring Unit (PMU) abstraction.  As such the perf framework takes charge of
++controlling when tracing gets enabled based on when the process of interest is
++scheduled.  When configured in a system, Coresight PMUs will be listed when
++queried by the perf command line tool:
++
++	linaro@linaro-nano:~$ ./perf list pmu
++
++		List of pre-defined events (to be used in -e):
++
++		cs_etm//                                    [Kernel PMU event]
++
++	linaro@linaro-nano:~$
++
++Regardless of the number of tracers available in a system (usually equal to the
++amount of processor core), the "cs_etm" PMU will be listed only once.
++
++A Coresight PMU works the same way as any other PMUs, i.e the name of the PMU is
++listed along with configuration options within forward slashes '/'.  Since a
++Coresight system will typically have more than one sink, the name of the sink to
++work with needs to be specified as an event option.  Names for sink to choose
++from are listed in sysFS under ($SYSFS)/bus/coresight/devices:
++
++	root@linaro-nano:~# ls /sys/bus/coresight/devices/
++		20010000.etf   20040000.funnel  20100000.stm  22040000.etm
++		22140000.etm  230c0000.funnel  23240000.etm 20030000.tpiu
++		20070000.etr     20120000.replicator  220c0000.funnel
++		23040000.etm  23140000.etm     23340000.etm
++
++	root@linaro-nano:~# perf record -e cs_etm/@20070000.etr/u --per-thread program
++
++The syntax within the forward slashes '/' is important.  The '@' character
++tells the parser that a sink is about to be specified and that this is the IP
++to use for the trace session.
++
++More information on the above and other example on how to use Coresight with
++the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
++repository [3].
++
+ How to use the STM module
+ -------------------------
+ 
 -- 
 2.7.4
 
