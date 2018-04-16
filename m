@@ -5,84 +5,149 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E1FC7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 19:36:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 99FBF7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 19:48:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753233AbeDPTgS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Apr 2018 15:36:18 -0400
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:46860 "EHLO
-        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753391AbeDPTfb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 15:35:31 -0400
-Received: by mail-pf0-f194.google.com with SMTP id h69so11000645pfe.13
-        for <linux-doc@vger.kernel.org>; Mon, 16 Apr 2018 12:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=tuybmXnIw8o7e0ZlNrxSj711s4fTF2uNswv5BobIx2Y=;
-        b=KWIcVsbmVyPhQAEmdFl++FxgkrrF5tKlH36pdaix3mBSRyqU/Mu/wpaLdK+aa4VNfB
-         xC7/t+/j0ZNPDer8K+ttSD/GztIntk49FTXILAMOiK0F38umiVUbJ0tt6tIgDmMQa85I
-         jIzCWvLPCd2wVNSbwAiX5xyb2QdmgnREws1Pg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=tuybmXnIw8o7e0ZlNrxSj711s4fTF2uNswv5BobIx2Y=;
-        b=GED5DwRh6R9tmDDm1b1OA3V7ElKFsDmp6mW33mKR2TN11kxr3AFwZgkEuC3CTqi+SD
-         g4zPgk+UktKMn8fKowNqVqGCB3PdNbsBiOFXyJzmM9w2zSiBjPwpg17znpFIb8IUad0D
-         1+GJ7m+TLHSHVZx4WtxQciE2Zzy1MsoPxsMPRZS6z8V8Q9QaI5sIp9X3MkQ5gmppYPXn
-         I3AU16WLxlOl1pBRaQZJcljqiurygabH1pW4Hel0t/ntgxRXZEke0BfkCWgJrluSToR9
-         qNAkTNbrh2H3nDoYK0Xf5/FbGnJZh7UaopjFZv0RvpR5/1SnCr/HHDKEr35ZuLedOGVZ
-         C96A==
-X-Gm-Message-State: ALQs6tDKF3E85IYkuLZ//ncuNY1Ywe8XlW9hAhDQj/QpoFJt8/w5XH3V
-        Rqb//yxBemKIMb7IQ4rIw4pIBQ==
-X-Google-Smtp-Source: AIpwx4/xCS7yHaKCC6rmheyU5PAS+FpT+1Wb2Dub8EicOwixHx97u9GX7IGLy5GlJDV1fYzA9BvJ8A==
-X-Received: by 10.101.76.77 with SMTP id l13mr13860341pgr.192.1523907331111;
-        Mon, 16 Apr 2018 12:35:31 -0700 (PDT)
-Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id b78sm7038785pfj.6.2018.04.16.12.35.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 16 Apr 2018 12:35:30 -0700 (PDT)
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     linux-arm-kernel@lists.infradead.org, corbet@lwn.net
+        id S1753104AbeDPTsc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Apr 2018 15:48:32 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56422 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751210AbeDPTsc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 15:48:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=0yzIq55eUQPb+lVvlkWnrt3KAnkW1nhTpOlIEUbenBo=; b=L2VgpRBU9Ct1yB5aSfhb0yosI
+        kjDQ1L3lqWfe0g5hSPovb7xbJ6P1oRcqNw8CAR0Q/wA5lp9hgtNWHIWPGOXyindjn9tSfQsgweQ+5
+        8gly86NfgUJ1v7f0sAgdsWQPKGA/buwM0UAWXtZ77PeBGSOp4ibaLKMhDLNsSQ84GH2OsxauEf4a9
+        jbaxdW7+pqu/7jbNr4a0LhlzISr0E5iPA1PuZCQRHm6MRHZoex4RxTfT1Msp/gSYZd0IGqDMa+1H+
+        WP3jKEAAFonE7r2YDRcBbXcxlZd6y8BeoEYY+kAzShnK2Uq9UzKknO51As4F4qsy2kbUxwp3O981F
+        BRzCrznUg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1f8A75-0004HO-7w; Mon, 16 Apr 2018 19:48:31 +0000
+Subject: Re: [PATCH 2/3] coresight: Add section for integration with the perf
+ tools
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Ben.Gainey@arm.com
-Subject: [PATCH 1/3] coresight: Remove obsolete reference to "owner" in CoreSight descriptor
-Date:   Mon, 16 Apr 2018 13:35:25 -0600
-Message-Id: <1523907327-20979-2-git-send-email-mathieu.poirier@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1523907327-20979-1-git-send-email-mathieu.poirier@linaro.org>
 References: <1523907327-20979-1-git-send-email-mathieu.poirier@linaro.org>
+ <1523907327-20979-3-git-send-email-mathieu.poirier@linaro.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <fd4b5238-c995-c374-60c0-e4a32f644ae4@infradead.org>
+Date:   Mon, 16 Apr 2018 12:48:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <1523907327-20979-3-git-send-email-mathieu.poirier@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Field "owner" of struct coresight_desc has been removed a while back but
-the documentation was not updated to reflect the changes.
+On 04/16/2018 12:35 PM, Mathieu Poirier wrote:
+> Adding a section that document how to use the Coresight framework and
+> drivers from the perf tools.
+> 
+> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> ---
+>  Documentation/trace/coresight.txt | 50 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+> 
+> diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.txt
+> index 710c75b6c73f..8caae8050a60 100644
+> --- a/Documentation/trace/coresight.txt
+> +++ b/Documentation/trace/coresight.txt
+> @@ -187,9 +187,18 @@ that can be performed on them (see "struct coresight_ops").  The
+>  specific to that component only.  "Implementation defined" customisations are
+>  expected to be accessed and controlled using those entries.
+>  
+> +
+>  How to use the tracer modules
+>  -----------------------------
+>  
+> +There is two ways to use the Coresight framework: 1) using the perf cmd line
 
-Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
----
- Documentation/trace/coresight.txt | 3 ---
- 1 file changed, 3 deletions(-)
+   There are two ways
 
-diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.txt
-index 6f0120c3a4f1..710c75b6c73f 100644
---- a/Documentation/trace/coresight.txt
-+++ b/Documentation/trace/coresight.txt
-@@ -187,9 +187,6 @@ that can be performed on them (see "struct coresight_ops").  The
- specific to that component only.  "Implementation defined" customisations are
- expected to be accessed and controlled using those entries.
- 
--Last but not least, "struct module *owner" is expected to be set to reflect
--the information carried in "THIS_MODULE".
--
- How to use the tracer modules
- -----------------------------
- 
+> +tools and 2) interacting directly with the Coresight devices using the sysFS
+> +interface.  Preference is given to the former as using the sysFS interface
+> +requires a deep understanding of the Coresight HW.  The following sections
+> +provide details on using both methods.
+> +
+> +1) Using the sysFS interface:
+> +
+>  Before trace collection can start, a coresight sink needs to be identify.
+
+                                                                   identified.
+
+>  There is no limit on the amount of sinks (nor sources) that can be enabled at
+>  any given moment.  As a generic operation, all device pertaining to the sink
+> @@ -295,6 +304,47 @@ Instruction     13570831        0x8026B584      E28DD00C        false   ADD
+>  Instruction     0       0x8026B588      E8BD8000        true    LDM      sp!,{pc}
+>  Timestamp                                       Timestamp: 17107041535
+>  
+> +2) Using perf framework:
+> +
+> +Coresight tracers are represented using the Perf framework's Performance
+> +Monitoring Unit (PMU) abstraction.  As such the perf framework takes charge of
+> +controlling when tracing gets enabled based on when the process of interest is
+> +scheduled.  When configured in a system, Coresight PMUs will be listed when
+> +queried by the perf command line tool:
+> +
+> +	linaro@linaro-nano:~$ ./perf list pmu
+> +
+> +		List of pre-defined events (to be used in -e):
+> +
+> +		cs_etm//                                    [Kernel PMU event]
+> +
+> +	linaro@linaro-nano:~$
+> +
+> +Regardless of the number of tracers available in a system (usually equal to the
+> +amount of processor core), the "cs_etm" PMU will be listed only once.
+
+?                      cores),
+
+> +
+> +A Coresight PMU works the same way as any other PMUs, i.e the name of the PMU is
+
+                                         any other PMU, i.e.
+
+> +listed along with configuration options within forward slashes '/'.  Since a
+> +Coresight system will typically have more than one sink, the name of the sink to
+> +work with needs to be specified as an event option.  Names for sink to choose
+> +from are listed in sysFS under ($SYSFS)/bus/coresight/devices:
+> +
+> +	root@linaro-nano:~# ls /sys/bus/coresight/devices/
+> +		20010000.etf   20040000.funnel  20100000.stm  22040000.etm
+> +		22140000.etm  230c0000.funnel  23240000.etm 20030000.tpiu
+> +		20070000.etr     20120000.replicator  220c0000.funnel
+> +		23040000.etm  23140000.etm     23340000.etm
+> +
+> +	root@linaro-nano:~# perf record -e cs_etm/@20070000.etr/u --per-thread program
+> +
+> +The syntax within the forward slashes '/' is important.  The '@' character
+> +tells the parser that a sink is about to be specified and that this is the IP
+
+Can we get away from using "IP" and call it a device or (hardware) module or
+something more descriptive?
+
+> +to use for the trace session.
+> +
+> +More information on the above and other example on how to use Coresight with
+> +the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
+> +repository [3].
+
+
 -- 
-2.7.4
-
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
