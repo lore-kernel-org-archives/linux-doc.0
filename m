@@ -1,216 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9BBC7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 10:33:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 155FD7E27E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 13:17:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751857AbeDQKdl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Apr 2018 06:33:41 -0400
-Received: from lelnx194.ext.ti.com ([198.47.27.80]:58214 "EHLO
-        lelnx194.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751230AbeDQKdk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 06:33:40 -0400
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-        by lelnx194.ext.ti.com (8.15.1/8.15.1) with ESMTP id w3HAXV7x001902;
-        Tue, 17 Apr 2018 05:33:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ti.com;
-        s=ti-com-17Q1; t=1523961211;
-        bh=JTwxJWngvmRE+7zSMps6Vjvjks763lQZzN8uwL93uos=;
-        h=Subject:To:References:CC:From:Date:In-Reply-To;
-        b=tI+47Szx+8c9/n4F6DSvzU3w6mVjURCAYtujd7ztl7N5aJAKEFwmaPTmEE8mfDyd5
-         bPanpFHTQeQntOutt4/iasd30Rnxpo6WJyQ1TV4n9TdFRoL3e/EC1o2TJ0mccQ9itC
-         rG5lmGF6fTffnBZn0hB4I+S4QYUxTNA5SHNuGaLI=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3HAXVhX017943;
-        Tue, 17 Apr 2018 05:33:31 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1261.35; Tue, 17
- Apr 2018 05:33:31 -0500
-Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1261.35 via Frontend Transport;
- Tue, 17 Apr 2018 05:33:31 -0500
-Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3HAXRNC025326;
-        Tue, 17 Apr 2018 05:33:28 -0500
-Subject: Re: [RFC 06/10] misc: pci_endpoint_test: Add MSI-X support
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
-        <adouglas@cadence.com>, <niklas.cassel@axis.com>,
-        <jesper.nilsson@axis.com>
-References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
- <8b88f8c2b766f36c71659deb0fce635154b2b39f.1523379766.git.gustavo.pimentel@synopsys.com>
-CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <b25dcfb1-e770-e302-d9aa-7c35f6c58fa5@ti.com>
-Date:   Tue, 17 Apr 2018 16:03:26 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1753074AbeDQNRQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Apr 2018 09:17:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56400 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752641AbeDQNRO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 17 Apr 2018 09:17:14 -0400
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com [209.85.216.176])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C9D8F21842;
+        Tue, 17 Apr 2018 13:17:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C9D8F21842
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=robh@kernel.org
+Received: by mail-qt0-f176.google.com with SMTP id p9so16585070qtn.0;
+        Tue, 17 Apr 2018 06:17:13 -0700 (PDT)
+X-Gm-Message-State: ALQs6tDstDb6i3tF4c9VLWUvIRmIV2gbxV/jz8FJZ0R3Jdt7ZMnoJ00b
+        Vn8d2YVq7auKdFwQ9/dwNXE54sMJeuNfu9vqog==
+X-Google-Smtp-Source: AIpwx4802ncWWEWk0pJFFsJpjoTSZiUW0j3gsDUlj2tpHMj0vxmkfyQVbhsjL9XI5daoDWXmFS0uHePb+CjLbsHbOoI=
+X-Received: by 10.200.67.210 with SMTP id w18mr2402978qtn.327.1523971032932;
+ Tue, 17 Apr 2018 06:17:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8b88f8c2b766f36c71659deb0fce635154b2b39f.1523379766.git.gustavo.pimentel@synopsys.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: by 10.12.163.228 with HTTP; Tue, 17 Apr 2018 06:16:52 -0700 (PDT)
+In-Reply-To: <53ff5b2b-eba8-8311-64a9-abd4bc72226d@linux.intel.com>
+References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
+ <20180410183212.16787-5-jae.hyun.yoo@linux.intel.com> <20180416181035.rcjvt4rlrwaj5yxf@rob-hp-laptop>
+ <53ff5b2b-eba8-8311-64a9-abd4bc72226d@linux.intel.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 17 Apr 2018 08:16:52 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+1wC-KhXPeCSNhCeCih6=CatJbyumO51ucD17Rt7qofw@mail.gmail.com>
+Message-ID: <CAL_Jsq+1wC-KhXPeCSNhCeCih6=CatJbyumO51ucD17Rt7qofw@mail.gmail.com>
+Subject: Re: [PATCH v3 04/10] Documentations: dt-bindings: Add a document of
+ PECI adapter driver for Aspeed AST24xx/25xx SoCs
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Haiyue Wang <haiyue.wang@linux.intel.com>,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Cartwright <juliac@eso.teric.us>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Milton Miller II <miltonm@us.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>,
+        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        Linux HWMON List <linux-hwmon@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Mon, Apr 16, 2018 at 6:12 PM, Jae Hyun Yoo
+<jae.hyun.yoo@linux.intel.com> wrote:
+> On 4/16/2018 11:10 AM, Rob Herring wrote:
+>>
+>> On Tue, Apr 10, 2018 at 11:32:06AM -0700, Jae Hyun Yoo wrote:
+>>>
+>>> This commit adds a dt-bindings document of PECI adapter driver for Aspeed
+>>> AST24xx/25xx SoCs.
 
-On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
-> Adds the MSI-X support and updates driver documentation accordingly.
-> 
-> Changes the driver parameter in order to allow the interruption type
-> selection.
-> 
-> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> ---
->  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->  drivers/misc/pci_endpoint_test.c                 | 102 +++++++++++++++++------
->  2 files changed, 79 insertions(+), 26 deletions(-)
-> 
-> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
-> index 4ebc359..fdfa0f6 100644
-> --- a/Documentation/misc-devices/pci-endpoint-test.txt
-> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
-> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
->  	*) verifying addresses programmed in BAR
->  	*) raise legacy IRQ
->  	*) raise MSI IRQ
-> +	*) raise MSI-X IRQ
->  	*) read data
->  	*) write data
->  	*) copy data
-> @@ -25,6 +26,8 @@ ioctl
->   PCITEST_LEGACY_IRQ: Tests legacy IRQ
->   PCITEST_MSI: Tests message signalled interrupts. The MSI number
->  	      to be tested should be passed as argument.
-> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
-> +	      to be tested should be passed as argument.
->   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->  		as argument.
->   PCITEST_READ: Perform read tests. The size of the buffer should be passed
-> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-> index 37db0fc..a7d9354 100644
-> --- a/drivers/misc/pci_endpoint_test.c
-> +++ b/drivers/misc/pci_endpoint_test.c
-> @@ -42,11 +42,16 @@
->  #define PCI_ENDPOINT_TEST_COMMAND	0x4
->  #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
->  #define COMMAND_RAISE_MSI_IRQ		BIT(1)
-> -#define MSI_NUMBER_SHIFT		2
-> -/* 6 bits for MSI number */
-> -#define COMMAND_READ                    BIT(8)
-> -#define COMMAND_WRITE                   BIT(9)
-> -#define COMMAND_COPY                    BIT(10)
-> +#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
-> +#define IRQ_TYPE_SHIFT			3
-> +#define IRQ_TYPE_LEGACY			0
-> +#define IRQ_TYPE_MSI			1
-> +#define IRQ_TYPE_MSIX			2
-> +#define MSI_NUMBER_SHIFT		5
+[...]
 
-Now that you are anyways fixing this, add a new register entry for MSI numbers.
-Let's not keep COMMAND and MSI's together.
-> +/* 12 bits for MSI number */
-> +#define COMMAND_READ                    BIT(17)
-> +#define COMMAND_WRITE                   BIT(18)
-> +#define COMMAND_COPY                    BIT(19)
+>>> +- clocks            : Should contain clock source for PECI controller.
+>>> +                     Should reference clkin.
+>>> +- clock_frequency   : Should contain the operation frequency of PECI
+>>> controller
+>>> +                     in units of Hz.
+>>> +                     187500 ~ 24000000
+>>
+>>
+>> This is the frequency of the bus or used to derive it? It would be
+>> better to specify the bus frequency instead and have the driver
+>> calculate its internal freq. And then use "bus-frequency" instead.
+>>
+>
+> I agree with you. Actually, it is being used for operation frequency setting
+> of PECI controller module in SoC so it's different from the meaning of
+> "bus-frequency". I'll change it to "operation-frequency".
 
-This change should be done along with the pci-epf-test in a single patch.
->  
->  #define PCI_ENDPOINT_TEST_STATUS	0x8
->  #define STATUS_READ_SUCCESS             BIT(0)
-> @@ -73,9 +78,9 @@ static DEFINE_IDA(pci_endpoint_test_ida);
->  #define to_endpoint_test(priv) container_of((priv), struct pci_endpoint_test, \
->  					    miscdev)
->  
-> -static bool no_msi;
-> -module_param(no_msi, bool, 0444);
-> -MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
+No, now you've gone from a standard property name to something custom.
+Why do you need to set the frequency in DT if it is not related to the
+interface frequency?
 
-Let's not remove this just to make sure existing users doesn't get affected.
-> +static int irq_type = IRQ_TYPE_MSIX;
-> +module_param(irq_type, int, 0444);
-> +MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI, 2 - MSI-X)");
->  
->  enum pci_barno {
->  	BAR_0,
-> @@ -103,7 +108,7 @@ struct pci_endpoint_test {
->  struct pci_endpoint_test_data {
->  	enum pci_barno test_reg_bar;
->  	size_t alignment;
-> -	bool no_msi;
-> +	int irq_type;
->  };
->  
->  static inline u32 pci_endpoint_test_readl(struct pci_endpoint_test *test,
-> @@ -177,10 +182,10 @@ static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
->  
->  static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
->  {
-> -	u32 val;
-> +	u32 val = COMMAND_RAISE_LEGACY_IRQ;
->  
-> -	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
-> -				 COMMAND_RAISE_LEGACY_IRQ);
-> +	val |= (IRQ_TYPE_LEGACY << IRQ_TYPE_SHIFT);
-> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
->  	val = wait_for_completion_timeout(&test->irq_raised,
->  					  msecs_to_jiffies(1000));
->  	if (!val)
-> @@ -192,12 +197,12 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
->  static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
->  				      u8 msi_num)
->  {
-> -	u32 val;
-> +	u32 val = COMMAND_RAISE_MSI_IRQ;
->  	struct pci_dev *pdev = test->pdev;
->  
-> -	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
-> -				 msi_num << MSI_NUMBER_SHIFT |
-> -				 COMMAND_RAISE_MSI_IRQ);
-> +	val |= (msi_num << MSI_NUMBER_SHIFT);
-> +	val |= (IRQ_TYPE_MSI << IRQ_TYPE_SHIFT);
-> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
->  	val = wait_for_completion_timeout(&test->irq_raised,
->  					  msecs_to_jiffies(1000));
->  	if (!val)
-> @@ -209,6 +214,26 @@ static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
->  	return false;
->  }
->  
-> +static bool pci_endpoint_test_msix_irq(struct pci_endpoint_test *test,
-> +				       u16 msix_num)
-> +{
-> +	u32 val = COMMAND_RAISE_MSIX_IRQ;
-> +	struct pci_dev *pdev = test->pdev;
-> +
-> +	val |= (msix_num << MSI_NUMBER_SHIFT);
-> +	val |= (IRQ_TYPE_MSIX << IRQ_TYPE_SHIFT);
-> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
-> +	val = wait_for_completion_timeout(&test->irq_raised,
-> +					  msecs_to_jiffies(1000));
-> +	if (!val)
-> +		return false;
-> +
-> +	if (test->last_irq - pdev->irq == msix_num - 1)
-> +		return true;
-> +
-> +	return false;
-
-I think you can have a single function for msix_irq and msi_irq.
-
-Thanks
-Kishon
+Rob
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
