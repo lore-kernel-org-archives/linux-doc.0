@@ -2,231 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF33E7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 16 Apr 2018 23:51:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 807147DE74
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 02:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751182AbeDPXvP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 16 Apr 2018 19:51:15 -0400
-Received: from mga04.intel.com ([192.55.52.120]:10938 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750979AbeDPXvO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 16 Apr 2018 19:51:14 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Apr 2018 16:51:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,461,1517904000"; 
-   d="scan'208";a="192007919"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.150]) ([10.7.153.150])
-  by orsmga004.jf.intel.com with ESMTP; 16 Apr 2018 16:51:13 -0700
-Subject: Re: [PATCH v3 07/10] Documentation: dt-bindings: Add documents for
- PECI hwmon client drivers
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-8-jae.hyun.yoo@linux.intel.com>
- <20180416181423.t4vf7sugv6z3aw5h@rob-hp-laptop>
- <aee4e04c-885f-b1d8-9e85-9e741551342f@linux.intel.com>
-Message-ID: <287e0fd9-b631-2602-2785-7b8aaed7a6b9@linux.intel.com>
-Date:   Mon, 16 Apr 2018 16:51:13 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <aee4e04c-885f-b1d8-9e85-9e741551342f@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1752250AbeDQCLK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 16 Apr 2018 22:11:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52958 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1752145AbeDQCLK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 16 Apr 2018 22:11:10 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3H2914b074773
+        for <linux-doc@vger.kernel.org>; Mon, 16 Apr 2018 22:11:09 -0400
+Received: from e06smtp10.uk.ibm.com (e06smtp10.uk.ibm.com [195.75.94.106])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2hd7q3gh74-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 16 Apr 2018 22:11:09 -0400
+Received: from localhost
+        by e06smtp10.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <alastair@au1.ibm.com>;
+        Tue, 17 Apr 2018 03:11:07 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp10.uk.ibm.com (192.168.101.140) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Tue, 17 Apr 2018 03:11:03 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3H2B2oC58196134;
+        Tue, 17 Apr 2018 02:11:02 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6DE5DAE045;
+        Tue, 17 Apr 2018 03:00:53 +0100 (BST)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 130E9AE04D;
+        Tue, 17 Apr 2018 03:00:53 +0100 (BST)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 17 Apr 2018 03:00:53 +0100 (BST)
+Received: from adsilva.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
+        (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 7C77CA01A7;
+        Tue, 17 Apr 2018 12:11:00 +1000 (AEST)
+From:   "Alastair D'Silva" <alastair@au1.ibm.com>
+To:     linuxppc-dev@lists.ozlabs.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikey@neuling.org, vaibhav@linux.vnet.ibm.com,
+        aneesh.kumar@linux.vnet.ibm.com, malat@debian.org,
+        felix@linux.vnet.ibm.com, pombredanne@nexb.com,
+        sukadev@linux.vnet.ibm.com, npiggin@gmail.com,
+        gregkh@linuxfoundation.org, arnd@arndb.de,
+        andrew.donnellan@au1.ibm.com, fbarrat@linux.vnet.ibm.com,
+        corbet@lwn.net, "Alastair D'Silva" <alastair@d-silva.org>
+Subject: [PATCH 0/7] ocxl: Implement Power9 as_notify/wait for OpenCAPI
+Date:   Tue, 17 Apr 2018 12:09:43 +1000
+X-Mailer: git-send-email 2.14.3
+X-TM-AS-GCONF: 00
+x-cbid: 18041702-0040-0000-0000-0000042FBD4C
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18041702-0041-0000-0000-00002633C4B3
+Message-Id: <20180417020950.21446-1-alastair@au1.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-17_01:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1804170020
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/16/2018 4:22 PM, Jae Hyun Yoo wrote:
-> On 4/16/2018 11:14 AM, Rob Herring wrote:
->> On Tue, Apr 10, 2018 at 11:32:09AM -0700, Jae Hyun Yoo wrote:
->>> This commit adds dt-bindings documents for PECI cputemp and dimmtemp 
->>> client
->>> drivers.
->>
->> "dt-bindings: hwmon: ..." for the subject.
->>
-> 
-> I'll change the subject.
-> 
->>>
->>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>> Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
->>> Reviewed-by: James Feist <james.feist@linux.intel.com>
->>> Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
->>> Cc: Alan Cox <alan@linux.intel.com>
->>> Cc: Andrew Jeffery <andrew@aj.id.au>
->>> Cc: Andrew Lunn <andrew@lunn.ch>
->>> Cc: Andy Shevchenko <andriy.shevchenko@intel.com>
->>> Cc: Arnd Bergmann <arnd@arndb.de>
->>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->>> Cc: Fengguang Wu <fengguang.wu@intel.com>
->>> Cc: Greg KH <gregkh@linuxfoundation.org>
->>> Cc: Guenter Roeck <linux@roeck-us.net>
->>> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
->>> Cc: Jean Delvare <jdelvare@suse.com>
->>> Cc: Joel Stanley <joel@jms.id.au>
->>> Cc: Julia Cartwright <juliac@eso.teric.us>
->>> Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
->>> Cc: Milton Miller II <miltonm@us.ibm.com>
->>> Cc: Pavel Machek <pavel@ucw.cz>
->>> Cc: Randy Dunlap <rdunlap@infradead.org>
->>> Cc: Stef van Os <stef.van.os@prodrive-technologies.com>
->>> Cc: Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>
->>> ---
->>>   .../devicetree/bindings/hwmon/peci-cputemp.txt     | 24 
->>> +++++++++++++++++++++
->>>   .../devicetree/bindings/hwmon/peci-dimmtemp.txt    | 25 
->>> ++++++++++++++++++++++
->>>   2 files changed, 49 insertions(+)
->>>   create mode 100644 
->>> Documentation/devicetree/bindings/hwmon/peci-cputemp.txt
->>>   create mode 100644 
->>> Documentation/devicetree/bindings/hwmon/peci-dimmtemp.txt
->>>
->>> diff --git a/Documentation/devicetree/bindings/hwmon/peci-cputemp.txt 
->>> b/Documentation/devicetree/bindings/hwmon/peci-cputemp.txt
->>> new file mode 100644
->>> index 000000000000..d5530ef9cfd2
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/hwmon/peci-cputemp.txt
->>> @@ -0,0 +1,24 @@
->>> +Bindings for Intel PECI (Platform Environment Control Interface) 
->>> cputemp driver.
->>> +
->>> +Required properties:
->>> +- compatible : Should be "intel,peci-cputemp".
->>> +- reg        : Should contain address of a client CPU. Address range 
->>> of CPU
->>> +           clients is starting from 0x30 based on PECI specification.
->>> +           <0x30> .. <0x37> (depends on the PECI_OFFSET_MAX definition)
->>
->> Again, where is PECI_OFFSET_MAX defined? It can't depend on something in
->> the kernel.
->>
-> 
-> I'll remove the unnecessary description.
-> 
->>> +
->>> +Example:
->>> +    peci-bus@0 {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +        < more properties >
->>> +
->>> +        peci-cputemp@cpu0 {
->>> +            compatible = "intel,peci-cputemp";
->>> +            reg = <0x30>;
->>> +        };
->>> +
->>> +        peci-cputemp@cpu1 {
->>> +            compatible = "intel,peci-cputemp";
->>> +            reg = <0x31>;
->>> +        };
->>> +    };
->>> diff --git 
->>> a/Documentation/devicetree/bindings/hwmon/peci-dimmtemp.txt 
->>> b/Documentation/devicetree/bindings/hwmon/peci-dimmtemp.txt
->>> new file mode 100644
->>> index 000000000000..56e5deb61e5c
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/hwmon/peci-dimmtemp.txt
->>> @@ -0,0 +1,25 @@
->>> +Bindings for Intel PECI (Platform Environment Control Interface) 
->>> dimmtemp
->>> +driver.
->>> +
->>> +Required properties:
->>> +- compatible : Should be "intel,peci-dimmtemp".
->>> +- reg        : Should contain address of a client CPU. Address range 
->>> of CPU
->>> +           clients is starting from 0x30 based on PECI specification.
->>> +           <0x30> .. <0x37> (depends on the PECI_OFFSET_MAX definition)
->>> +
->>> +Example:
->>> +    peci-bus@0 {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +        < more properties >
->>> +
->>> +        peci-dimmtemp@cpu0 {
->>
->> unit-address is wrong.
->>
-> 
-> Will fix it using the reg value.
-> 
->> It is a different bus from cputemp? Otherwise, you have conflicting
->> addresses. If that's the case, probably should make it clear by showing
->> different host adapters for each example.
->>
-> 
-> It could be the same bus with cputemp. Also, client address sharing is 
-> possible by PECI core if the functionality is different. I mean, cputemp 
-> and dimmtemp targeting the same client is possible case like this.
-> peci-cputemp@30
-> peci-dimmtemp@30
-> 
+From: Alastair D'Silva <alastair@d-silva.org>
 
-Oh, I got your point. Probably, I should change these separate settings 
-into one like
+The Power 9 as_notify/wait feature provides a lower latency way to
+signal a thread that work is complete. This series enables the use of
+this feature from OpenCAPI adapters, as well as addressing a potential
+starvation issue when allocating thread IDs.
 
-peci-client@30 {
-     compatible = "intel,peci-client";
-     reg = <0x30>;
-};
+Alastair D'Silva (7):
+  powerpc: Add TIDR CPU feature for Power9
+  powerpc: Use TIDR CPU feature to control TIDR allocation
+  powerpc: use task_pid_nr() for TID allocation
+  ocxl: Rename pnv_ocxl_spa_remove_pe to clarify it's action
+  ocxl: Expose the thread_id needed for wait on p9
+  ocxl: Add an IOCTL so userspace knows which platform the kernel
+    requires
+  ocxl: Document new OCXL IOCTLs
 
-Then cputemp and dimmtemp drivers could refer the same compatible 
-string. Will rewrite it.
+ Documentation/accelerators/ocxl.rst   | 10 ++++
+ arch/powerpc/include/asm/cputable.h   |  3 +-
+ arch/powerpc/include/asm/pnv-ocxl.h   |  2 +-
+ arch/powerpc/include/asm/switch_to.h  |  1 -
+ arch/powerpc/kernel/dt_cpu_ftrs.c     |  1 +
+ arch/powerpc/kernel/process.c         | 99 +----------------------------------
+ arch/powerpc/platforms/powernv/ocxl.c |  4 +-
+ drivers/misc/ocxl/context.c           |  5 +-
+ drivers/misc/ocxl/file.c              | 78 +++++++++++++++++++++++++++
+ drivers/misc/ocxl/link.c              | 38 +++++++++++++-
+ drivers/misc/ocxl/ocxl_internal.h     |  1 +
+ include/misc/ocxl.h                   |  9 ++++
+ include/uapi/misc/ocxl.h              | 14 +++++
+ 13 files changed, 161 insertions(+), 104 deletions(-)
 
->>> +            compatible = "intel,peci-dimmtemp";
->>> +            reg = <0x30>;
->>> +        };
->>> +
->>> +        peci-dimmtemp@cpu1 {
->>> +            compatible = "intel,peci-dimmtemp";
->>> +            reg = <0x31>;
->>> +        };
->>> +    };
->>> -- 
->>> 2.16.2
->>>
->>> -- 
->>> To unsubscribe from this list: send the line "unsubscribe devicetree" in
->>> the body of a message to majordomo@vger.kernel.org
->>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+2.14.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
