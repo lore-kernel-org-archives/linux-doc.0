@@ -1,95 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20D7F7E27E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 18:21:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE1717DE74
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 19:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751232AbeDQSVR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Apr 2018 14:21:17 -0400
-Received: from mga02.intel.com ([134.134.136.20]:48508 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751157AbeDQSVQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Apr 2018 14:21:16 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2018 11:21:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,464,1517904000"; 
-   d="scan'208";a="192236637"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.150]) ([10.7.153.150])
-  by orsmga004.jf.intel.com with ESMTP; 17 Apr 2018 11:21:14 -0700
-Subject: Re: [PATCH v3 06/10] drivers/peci: Add a PECI adapter driver for
- Aspeed AST24xx/AST25xx
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Alan Cox <alan@linux.intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-7-jae.hyun.yoo@linux.intel.com>
- <93e7f93c-a2e4-1e16-be4c-b908f88b9897@arm.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <684d1e9e-b07d-ef79-4333-e47d11326e7f@linux.intel.com>
-Date:   Tue, 17 Apr 2018 11:21:13 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1751884AbeDQTSI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Apr 2018 15:18:08 -0400
+Received: from mail-ua0-f181.google.com ([209.85.217.181]:36725 "EHLO
+        mail-ua0-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751836AbeDQTSH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 15:18:07 -0400
+Received: by mail-ua0-f181.google.com with SMTP id v4so13352676uaj.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 12:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=0Lb8PTwuV/17uB3KN4XP+n84Rf6yxD+e7keTnBw7O+I=;
+        b=DBnR9q0m6L/Is2gZh/AfG+KoVjy9NCKZAMurXpIDLNcR6M1BUJtwPPhkJmoeycGWNo
+         Jmcfhde848mku2owTIFEDNZzRy2HgDA82DyED9+UVJTz+GNMTyPet9b2aL4yYFFoWkZv
+         zmK2kazVCmbiVH4CEGgW0c5biwoifmd+oQSKw3eAMy01zdx8r6w2yPeom3jQvWkO+8Mi
+         WWQJrL+4KmsWEks4Z4g9IYjhObu/iavw5yrFLos1vLJH2aKCFC6pj2O9Igycs2Qk7LVq
+         Gh4OX8Km9PetI5NOfuam7f3fP9ffvLJ0fUB7E+iIhCucn4ops+xmIyuJrqBHdLcyreub
+         7YhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=0Lb8PTwuV/17uB3KN4XP+n84Rf6yxD+e7keTnBw7O+I=;
+        b=TTu0Y8X8inDnJ/wzYjzXB9chzm5JSHbSJFlTRDvbRuEjwFy6iyGSD7hQk/4bCj9R1M
+         VP/oHRXUDGa0i8VaFl5LrBwX4NhVPxNT6zoHva772nUBw7g/WLYW6NDc78yuDuYluM/v
+         Qgz9TXb/tuJsWngpZu5s3n11GyHuz+6MzUbawTJWda/jiNa4XjJt4UlCj2sXWq8504jE
+         WD7euB3baxXkyReLXH9AizAHkFaYbOnW3KzzAkziqAwExBzWQ8RPlysngM3ZFiyO8XJo
+         AXU/cf9TmyWDSSIYPAso0EGPMVYDLsH3z3Uftu6jHR/E/k4fxBpwJp06xTT5IvG/uENz
+         aOlA==
+X-Gm-Message-State: ALQs6tBUKMFj0cDytRCzJatLnAk5MG2VInC0eLxaQpt/N+8UJub9zw8W
+        joQJdCkdm1uSgl/jFSiyssQ425R5L9AnYx32MKsSdQ==
+X-Google-Smtp-Source: AIpwx4/Zrn6eNdZl/DnFOwwBK44LUgfb7CUeDNJejQfQxVuI4Y3vugg3J+htHRoL0fY6FOC2yRgBwHK8VQnwelz3avY=
+X-Received: by 10.176.94.74 with SMTP id a10mr2342100uah.113.1523992686978;
+ Tue, 17 Apr 2018 12:18:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <93e7f93c-a2e4-1e16-be4c-b908f88b9897@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 10.31.58.214 with HTTP; Tue, 17 Apr 2018 12:17:46 -0700 (PDT)
+In-Reply-To: <20180414062718.3tbsdb6jhjurpfta@katana>
+References: <20180412213342.138010-1-hansens@google.com> <20180412222457.x4jdwt27ylgi74o3@katana>
+ <20180413141359.793919fb@endymion> <CAP9bUy7rONNHYeRkYtaWHcfqoZcGKXJz-JocED26zBj9n+-ZbQ@mail.gmail.com>
+ <20180413204937.440437e9@endymion> <CAP9bUy6Hf+cQzAAckou3QPTk0mJM4xJ4xq-hf+RwyVmD3Le+qg@mail.gmail.com>
+ <20180414062718.3tbsdb6jhjurpfta@katana>
+From:   Sam Hansen <hansens@google.com>
+Date:   Tue, 17 Apr 2018 12:17:46 -0700
+Message-ID: <CAP9bUy6jiGpTGkRnUVM9mJO-pf=n=6AkSYLH_SiqOON4bG=WoQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/i2c: sync docs with current state of i2c-tools.
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Jean Delvare <jdelvare@suse.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Robin,
+On Fri, Apr 13, 2018 at 11:27 PM, Wolfram Sang <wsa@the-dreams.de> wrote:
+>
+>> (also, did I send the v3 patch series threaded correctly?)
+>
+> Yes, that worked. Thanks!
+>
+> Things to improve there: I was both in To: and CC: field, so I got mails
+> twice. Jean was missing completely.
 
-On 4/17/2018 6:37 AM, Robin Murphy wrote:
-> Just a drive-by nit:
-> 
-> On 10/04/18 19:32, Jae Hyun Yoo wrote:
-> [...]
->> +#define PECI_CTRL_SAMPLING_MASK     GENMASK(19, 16)
->> +#define PECI_CTRL_SAMPLING(x)       (((x) << 16) & 
->> PECI_CTRL_SAMPLING_MASK)
->> +#define PECI_CTRL_SAMPLING_GET(x)   (((x) & PECI_CTRL_SAMPLING_MASK) 
->> >> 16)
-> 
-> FWIW, <linux/bitfield.h> already provides functionality like this, so it 
-> might be worth taking a look at FIELD_{GET,PREP}() to save all these 
-> local definitions.
-> 
-> Robin.
+Ah, thanks.  I had been using scripts/get_maintainer.pl to determine
+the CC list, I'll make sure the right people are on the cc line in the
+future.
 
-Yes, that looks better. Thanks a lot for your pointing it out.
 
-Jae
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
