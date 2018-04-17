@@ -5,82 +5,237 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 716B67DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 08:46:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B4B87DE74
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 10:24:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751147AbeDQIqh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Apr 2018 04:46:37 -0400
-Received: from mail-lf0-f67.google.com ([209.85.215.67]:39101 "EHLO
-        mail-lf0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751200AbeDQIqg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 04:46:36 -0400
-Received: by mail-lf0-f67.google.com with SMTP id p142-v6so26107949lfd.6
-        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 01:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=7QlVE/s672ZCt8UJQeo4tSlJRX61dgdTz8elUaRSHl8=;
-        b=jv9+NAN8pnECZ9E04CUT1qx0hv2+BairioL8oQ1VEQqFu7H23y2CcXKwLLkLlWsPIu
-         vwgSejkIs3hs0HP/NjPqsqGT2Ves3W0LvAK0QlZauKoUIg88NV/5a5ykQy5YexLVRK9y
-         UjUyLdrAmp712cg8LNU2FdxY+pnAiDT2sxl9k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7QlVE/s672ZCt8UJQeo4tSlJRX61dgdTz8elUaRSHl8=;
-        b=bftoSbgZ9BEa0a+e8+xlmEuMNbLibbQwLKMEyJHrbgalTGizTQZBjDFwKzzMVjvudB
-         XrucSYdp2DF8+yLWJ/D2AH6TpNlt19+Si+v/6bzcp7bjmjeBNTbGLUHgjIHVszyJl6hm
-         Vh+gRUoFkPl9By6mKfS806nso75QJ8TcJcejEtZEwAtnKKd7t21fo4eUj2LZHUCm6tPJ
-         G/bw3WQdodF9R9+G79xq7DoEFqBh+ajLIYyYDw6NxkTPL1x/q0OHqAS7wd+WE48nNfxw
-         +V3cOJ3s4HLBEVh3l4SFBrqZwNLW83o5lqia4evb3/tK032/g34N8w7NlRKBBt+lB0Cp
-         A6IQ==
-X-Gm-Message-State: ALQs6tBzQ1I2bfCqp/h4wcoClWeWSP2alJeTmzKs5MyOu/HeV4LRXQVb
-        wP2MQItXLtJx+OLgSMB6fH6ZJg==
-X-Google-Smtp-Source: AIpwx4/M/6GIx15no2mpv6rysu9mc8huYyP2J9DcfdCU3H5tGRUTAAeCDRv2oq81mhEVRWEO1xYG6w==
-X-Received: by 2002:a19:974e:: with SMTP id z75-v6mr956739lfd.41.1523954795370;
-        Tue, 17 Apr 2018 01:46:35 -0700 (PDT)
-Received: from localhost (c-4c3770d5.07-21-73746f28.cust.bredbandsbolaget.se. [213.112.55.76])
-        by smtp.gmail.com with ESMTPSA id y1-v6sm74768lfg.88.2018.04.17.01.46.34
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 17 Apr 2018 01:46:34 -0700 (PDT)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     shuah@kernel.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH] doc: dev-tools: kselftest.rst: update contributing new tests
-Date:   Tue, 17 Apr 2018 10:46:31 +0200
-Message-Id: <20180417084631.11242-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.11.0
+        id S1751345AbeDQKYV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Apr 2018 06:24:21 -0400
+Received: from fllnx210.ext.ti.com ([198.47.19.17]:31202 "EHLO
+        fllnx210.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751211AbeDQKYU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 06:24:20 -0400
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+        by fllnx210.ext.ti.com (8.15.1/8.15.1) with ESMTP id w3HAOBhn005157;
+        Tue, 17 Apr 2018 05:24:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ti.com;
+        s=ti-com-17Q1; t=1523960651;
+        bh=XlnTTNQJB+0qwDeI/vS5eaqezx1QHC64x06zFR+Y5nA=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=hh+jwlViGAMzmWV9/R2WpvDqGmtEJzJq6ndiLo15XV8+R+QPvR737JLyQ442g7zzN
+         tb6alZ9KG4geyJDbH2LdY173hJF4542re+Ek121zEivDeQMPLuI9XxX+z3GlE4h0hm
+         iXDqFhd2D/eOLDgkfu5xJpBEyfg6d/oAqnDvJUqk=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3HAOBJB002944;
+        Tue, 17 Apr 2018 05:24:11 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1261.35; Tue, 17
+ Apr 2018 05:24:10 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1261.35 via Frontend Transport;
+ Tue, 17 Apr 2018 05:24:10 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3HAO6kI013088;
+        Tue, 17 Apr 2018 05:24:07 -0500
+Subject: Re: [RFC 03/10] PCI: endpoint: Add MSI-X interfaces
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <niklas.cassel@axis.com>,
+        <jesper.nilsson@axis.com>
+References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+ <c76688ee290a9ed4f0f70f5e350b906950ec05df.1523379766.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <7fec2005-d7a8-daea-9451-7f3593afe285@ti.com>
+Date:   Tue, 17 Apr 2018 15:54:06 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <c76688ee290a9ed4f0f70f5e350b906950ec05df.1523379766.git.gustavo.pimentel@synopsys.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a description that the kernel headers should be used as far as it is
-possible and then the system headers.
+Hi,
 
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- Documentation/dev-tools/kselftest.rst | 3 +++
- 1 file changed, 3 insertions(+)
+On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
+> Implements the generic method for calling the get/set callbacks.
+> 
+> Adds the PCI_EPC_IRQ_MSIX type.
+> 
+> Adds the MSI-X callbacks signatures to the ops structure.
+> 
+> Adds sysfs interface for altering the number of MSI-X entries.
+> 
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> ---
+>  drivers/pci/endpoint/pci-ep-cfs.c   | 24 ++++++++++++++++
+>  drivers/pci/endpoint/pci-epc-core.c | 57 +++++++++++++++++++++++++++++++++++++
+>  include/linux/pci-epc.h             | 11 ++++++-
+>  include/linux/pci-epf.h             |  1 +
+>  4 files changed, 92 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/endpoint/pci-ep-cfs.c b/drivers/pci/endpoint/pci-ep-cfs.c
+> index 018ea34..d1288a0 100644
+> --- a/drivers/pci/endpoint/pci-ep-cfs.c
+> +++ b/drivers/pci/endpoint/pci-ep-cfs.c
+> @@ -286,6 +286,28 @@ static ssize_t pci_epf_msi_interrupts_show(struct config_item *item,
+>  		       to_pci_epf_group(item)->epf->msi_interrupts);
+>  }
+>  
+> +static ssize_t pci_epf_msix_interrupts_store(struct config_item *item,
+> +					     const char *page, size_t len)
+> +{
+> +	u16 val;
+> +	int ret;
+> +
+> +	ret = kstrtou16(page, 0, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	to_pci_epf_group(item)->epf->msix_interrupts = val;
+> +
+> +	return len;
+> +}
+> +
+> +static ssize_t pci_epf_msix_interrupts_show(struct config_item *item,
+> +					    char *page)
+> +{
+> +	return sprintf(page, "%d\n",
+> +		       to_pci_epf_group(item)->epf->msix_interrupts);
+> +}
+> +
+>  PCI_EPF_HEADER_R(vendorid)
+>  PCI_EPF_HEADER_W_u16(vendorid)
+>  
+> @@ -327,6 +349,7 @@ CONFIGFS_ATTR(pci_epf_, subsys_vendor_id);
+>  CONFIGFS_ATTR(pci_epf_, subsys_id);
+>  CONFIGFS_ATTR(pci_epf_, interrupt_pin);
+>  CONFIGFS_ATTR(pci_epf_, msi_interrupts);
+> +CONFIGFS_ATTR(pci_epf_, msix_interrupts);
+>  
+>  static struct configfs_attribute *pci_epf_attrs[] = {
+>  	&pci_epf_attr_vendorid,
+> @@ -340,6 +363,7 @@ static struct configfs_attribute *pci_epf_attrs[] = {
+>  	&pci_epf_attr_subsys_id,
+>  	&pci_epf_attr_interrupt_pin,
+>  	&pci_epf_attr_msi_interrupts,
+> +	&pci_epf_attr_msix_interrupts,
+>  	NULL,
+>  };
+>  
+> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+> index b0ee427..294a383 100644
+> --- a/drivers/pci/endpoint/pci-epc-core.c
+> +++ b/drivers/pci/endpoint/pci-epc-core.c
+> @@ -218,6 +218,63 @@ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
+>  EXPORT_SYMBOL_GPL(pci_epc_set_msi);
+>  
+>  /**
+> + * pci_epc_get_msix() - get the number of MSI-X interrupt numbers allocated
+> + * @epc: the EPC device to which MSI-X interrupts was requested
+> + * @func_no: the endpoint function number in the EPC device
+> + *
+> + * Invoke to get the number of MSI-X interrupts allocated by the RC
+> + */
+> +int pci_epc_get_msix(struct pci_epc *epc, u8 func_no)
+> +{
+> +	int interrupt;
+> +	unsigned long flags;
+> +
+> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
+> +		return 0;
+> +
+> +	if (!epc->ops->get_msix)
+> +		return 0;
+> +
+> +	spin_lock_irqsave(&epc->lock, flags);
+> +	interrupt = epc->ops->get_msix(epc, func_no);
+> +	spin_unlock_irqrestore(&epc->lock, flags);
+> +
+> +	if (interrupt < 0)
+> +		return 0;
+> +
+> +	return interrupt++;
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index e80850eefe13..27f08d6ba91c 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -151,6 +151,9 @@ Contributing new tests (details)
-    TEST_FILES, TEST_GEN_FILES mean it is the file which is used by
-    test.
- 
-+ * First use the headers inside the kernel, and then the system headers. The
-+   internal headers should be the primary focus to be able to find regressions.
-+
- Test Harness
- ============
- 
--- 
-2.11.0
+return interrupt + 1?
+> +}
+> +EXPORT_SYMBOL_GPL(pci_epc_get_msix);
+> +
+> +/**
+> + * pci_epc_set_msix() - set the number of MSI-X interrupt numbers required
+> + * @epc: the EPC device on which MSI-X has to be configured
+> + * @func_no: the endpoint function number in the EPC device
+> + * @interrupts: number of MSI-X interrupts required by the EPF
+> + *
+> + * Invoke to set the required number of MSI-X interrupts.
+> + */
+> +int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
+> +{
+> +	int ret;
+> +	unsigned long flags;
+> +
+> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions ||
+> +	    interrupts < 1 || interrupts > 2048)
+> +		return -EINVAL;
+> +
+> +	if (!epc->ops->set_msix)
+> +		return 0;
+> +
+> +	spin_lock_irqsave(&epc->lock, flags);
+> +	ret = epc->ops->set_msix(epc, func_no, interrupts - 1);
+> +	spin_unlock_irqrestore(&epc->lock, flags);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_epc_set_msix);
+> +
+> +/**
+>   * pci_epc_unmap_addr() - unmap CPU address from PCI address
+>   * @epc: the EPC device on which address is allocated
+>   * @func_no: the endpoint function number in the EPC device
+> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+> index af657ca..32e8961 100644
+> --- a/include/linux/pci-epc.h
+> +++ b/include/linux/pci-epc.h
+> @@ -17,6 +17,7 @@ enum pci_epc_irq_type {
+>  	PCI_EPC_IRQ_UNKNOWN,
+>  	PCI_EPC_IRQ_LEGACY,
+>  	PCI_EPC_IRQ_MSI,
+> +	PCI_EPC_IRQ_MSIX,
+>  };
+>  
+>  /**
+> @@ -30,6 +31,10 @@ enum pci_epc_irq_type {
+>   *	     capability register
+>   * @get_msi: ops to get the number of MSI interrupts allocated by the RC from
+>   *	     the MSI capability register
+> + * @set_msix: ops to set the requested number of MSI-X interrupts in the
+> + *	     MSI-X capability register
+> + * @get_msix: ops to get the number of MSI-X interrupts allocated by the RC
+> + *	     from the MSI-X capability register
+>   * @raise_irq: ops to raise a legacy or MSI interrupt
+>   * @start: ops to start the PCI link
+>   * @stop: ops to stop the PCI link
+> @@ -48,8 +53,10 @@ struct pci_epc_ops {
+>  			      phys_addr_t addr);
+>  	int	(*set_msi)(struct pci_epc *epc, u8 func_no, u8 interrupts);
+>  	int	(*get_msi)(struct pci_epc *epc, u8 func_no);
+> +	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u16 interrupts);
+> +	int	(*get_msix)(struct pci_epc *epc, u8 func_no);
 
+The 1st patch in the series is already using get_msix, set_msix. This patch
+should precede the 1st patch.
+
+Thanks
+Kishon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
