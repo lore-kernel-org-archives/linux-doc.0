@@ -1,82 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 14F027E279
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 13:38:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 627527E8A1
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 14:35:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753399AbeDQNhh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Apr 2018 09:37:37 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:42838 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753224AbeDQNhg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 17 Apr 2018 09:37:36 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C295B15AB;
-        Tue, 17 Apr 2018 06:37:35 -0700 (PDT)
-Received: from [10.1.210.88] (e110467-lin.cambridge.arm.com [10.1.210.88])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 40C983F487;
-        Tue, 17 Apr 2018 06:37:31 -0700 (PDT)
-Subject: Re: [PATCH v3 06/10] drivers/peci: Add a PECI adapter driver for
- Aspeed AST24xx/AST25xx
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Alan Cox <alan@linux.intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-7-jae.hyun.yoo@linux.intel.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <93e7f93c-a2e4-1e16-be4c-b908f88b9897@arm.com>
-Date:   Tue, 17 Apr 2018 14:37:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <20180410183212.16787-7-jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1753938AbeDQOfW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Apr 2018 10:35:22 -0400
+Received: from mail-wr0-f170.google.com ([209.85.128.170]:44615 "EHLO
+        mail-wr0-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752812AbeDQOfU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 10:35:20 -0400
+Received: by mail-wr0-f170.google.com with SMTP id o15so5189857wro.11
+        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 07:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=22/5DbQAVO34kUtN3RRKBsHPkcToFT5OrKaPnQcpz7k=;
+        b=ZNd8CQw4Bn11uJKr/PJlpDaNiaik6sJNZwS3mZDmsIzXnOJq6TFi1yt2xsVmZgEEoi
+         PuHE3rudXmhDqjjWGLPR2AB+9c2ZlaEaF1PJC4gwloOTMjt9kRrTO5wV9Fvn/EAjjbeN
+         uR+82ML/hDC/9AQBm/DxGmyIXleCEwpEQnCA4TMLjpGd5AQ4PLhD0TlVlZvwCuE0bKqW
+         GPfq9ilPRVtHjI9yC77wz8I+zrm0//WvwQurRLJWkpnwB0wQuvBSeotKhyKPqSIsLVft
+         JtYb9Trupk7kxIZRbDquj/MwUpS2BeJW60WES5UA8PGsgZcIPzAs+BOc396uT4JBuqCn
+         4qgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=22/5DbQAVO34kUtN3RRKBsHPkcToFT5OrKaPnQcpz7k=;
+        b=iyNOGCOC/9YGm1GOsypGUVoYlQxi8jJRKv5ileGbrM2haDW4qYyLQkIMNqUBXAniyq
+         M0ztBFewDqNShMoTiwGqqofjvHkSd+LD8TPYqpjYpyiM5b5Gdb3kO6H0Z1Qqsj2ZNToi
+         hXSaL8lofmOgN6lKqpLzZaYwdwuifgRFm40YEOs0QJNpSY6zS8K6XtEryiV1eN8Wvliv
+         qI8EpKOf7CXzaVNzEYLcsXIezdOYpft1mO3sz1HoIexRE42QGa7yl7a1FLt2xyp8NyxL
+         iZKLgA4QyCKhgpjO9phJjdJ/GJkJuDyiMj32K7X41NEeJ4X1ylEMr68D+cMRQJAZpNYA
+         HsvA==
+X-Gm-Message-State: ALQs6tCfCVK3fgH3K3C2XfE7cwGEuMFKsPbF6sFAdTY3gdZ/zk2f+/2B
+        33OHrDmrxq0tpiytyQR7URlLISlZ
+X-Google-Smtp-Source: AIpwx48gelSo1okvqKmAE0tJxxEHSM8aYfMB28R7MT1DYzWHkeGlB6h/atOvP4418VCuZLvuwwBGtg==
+X-Received: by 10.80.204.8 with SMTP id m8mr3425018edi.116.1523975718877;
+        Tue, 17 Apr 2018 07:35:18 -0700 (PDT)
+Received: from reblochon.netronome.com (host-79-78-33-110.static.as9105.net. [79.78.33.110])
+        by smtp.gmail.com with ESMTPSA id o16sm9340240edc.33.2018.04.17.07.35.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 17 Apr 2018 07:35:17 -0700 (PDT)
+From:   Quentin Monnet <quentin.monnet@netronome.com>
+To:     daniel@iogearbox.net, ast@kernel.org
+Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
+        quentin.monnet@netronome.com, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org
+Subject: [PATCH bpf-next v3 0/8] bpf: document eBPF helpers and add a script to generate man page
+Date:   Tue, 17 Apr 2018 15:34:30 +0100
+Message-Id: <20180417143438.7018-1-quentin.monnet@netronome.com>
+X-Mailer: git-send-email 2.14.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just a drive-by nit:
+eBPF helper functions can be called from within eBPF programs to perform
+a variety of tasks that would be otherwise hard or impossible to do with
+eBPF itself. There is a growing number of such helper functions in the
+kernel, but documentation is scarce. The main user space header file
+does contain a short commented description of most helpers, but it is
+somewhat outdated and not complete. It is more a "cheat sheet" than a
+real documentation accessible to new eBPF developers.
 
-On 10/04/18 19:32, Jae Hyun Yoo wrote:
-[...]
-> +#define PECI_CTRL_SAMPLING_MASK     GENMASK(19, 16)
-> +#define PECI_CTRL_SAMPLING(x)       (((x) << 16) & PECI_CTRL_SAMPLING_MASK)
-> +#define PECI_CTRL_SAMPLING_GET(x)   (((x) & PECI_CTRL_SAMPLING_MASK) >> 16)
+This commit attempts to improve the situation by replacing the existing
+overview for the helpers with a more developed description. Furthermore,
+a Python script is added to generate a manual page for eBPF helpers. The
+workflow is the following, and requires the rst2man utility:
 
-FWIW, <linux/bitfield.h> already provides functionality like this, so it 
-might be worth taking a look at FIELD_{GET,PREP}() to save all these 
-local definitions.
+    $ ./scripts/bpf_helpers_doc.py \
+            --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+    $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+    $ man /tmp/bpf-helpers.7
 
-Robin.
+The objective is to keep all documentation related to the helpers in a
+single place, and to be able to generate from here a manual page that
+could be packaged in the man-pages repository and shipped with most
+distributions.
+
+Additionally, parsing the prototypes of the helper functions could
+hopefully be reused, with a different Printer object, to generate
+header files needed in some eBPF-related projects.
+
+Regarding the description of each helper, it comprises several items:
+
+- The function prototype.
+- A description of the function and of its arguments (except for a
+  couple of cases, when there are no arguments and the return value
+  makes the function usage really obvious).
+- A description of return values (if not void).
+
+Additional items such as the list of compatible eBPF program and map
+types for each helper, Linux kernel version that introduced the helper,
+GPL-only restriction, and commit hash could be added in the future, but
+it was decided on the mailing list to leave them aside for now.
+
+For several helpers, descriptions are inspired (at times, nearly copied)
+from the commit logs introducing them in the kernel--Many thanks to
+their respective authors! They were completed as much as possible, the
+objective being to have something easily accessible even for people just
+starting with eBPF. There is probably a bit more work to do in this
+direction for some helpers.
+
+Some RST formatting is used in the descriptions (not in function
+prototypes, to keep them readable, but the Python script provided in
+order to generate the RST for the manual page does add formatting to
+prototypes, to produce something pretty) to get "bold" and "italics" in
+manual pages. Hopefully, the descriptions in bpf.h file remains
+perfectly readable. Note that the few trailing white spaces are
+intentional, removing them would break paragraphs for rst2man.
+
+The descriptions should ideally be updated each time someone adds a new
+helper, or updates the behaviour (new socket option supported, ...) or
+the interface (new flags available, ...) of existing ones.
+
+To ease the review process, the documentation has been split into several
+patches.
+
+RFC v2 -> PATCH v3:
+Several fixes on man page header and footer, and helpers documentation.
+Please refer to individual patches for details.
+
+RFC v1 -> RFC v2:
+- Remove "For" (compatible program and map types), "Since" (minimal
+  Linux kernel version required), "GPL only" sections and commit hashes
+  for the helpers.
+- Add comment on top of the description list to explain how this
+  documentation is supposed to be processed.
+- Update Python script accordingly (remove the same sections, and remove
+  paragraphs on program types and GPL restrictions from man page
+  header).
+- Split series into several patches.
+
+Cc: linux-doc@vger.kernel.org
+Cc: linux-man@vger.kernel.org
+
+Quentin Monnet (8):
+  bpf: add script and prepare bpf.h for new helpers documentation
+  bpf: add documentation for eBPF helpers (01-11)
+  bpf: add documentation for eBPF helpers (12-22)
+  bpf: add documentation for eBPF helpers (23-32)
+  bpf: add documentation for eBPF helpers (33-41)
+  bpf: add documentation for eBPF helpers (42-50)
+  bpf: add documentation for eBPF helpers (51-57)
+  bpf: add documentation for eBPF helpers (58-64)
+
+ include/uapi/linux/bpf.h   | 1604 +++++++++++++++++++++++++++++++++-----------
+ scripts/bpf_helpers_doc.py |  434 ++++++++++++
+ 2 files changed, 1658 insertions(+), 380 deletions(-)
+ create mode 100755 scripts/bpf_helpers_doc.py
+
+-- 
+2.14.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
