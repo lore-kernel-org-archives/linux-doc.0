@@ -1,244 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAC7A7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 15:52:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C57BF7E279
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 17 Apr 2018 16:31:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752192AbeDQPwN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Apr 2018 11:52:13 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:55680 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751187AbeDQPwM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 11:52:12 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 6993510C04BF;
-        Tue, 17 Apr 2018 08:52:11 -0700 (PDT)
-Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id A98033E79;
-        Tue, 17 Apr 2018 08:52:10 -0700 (PDT)
-Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 088CF3EE20;
-        Tue, 17 Apr 2018 16:52:10 +0100 (WEST)
-Subject: Re: [RFC 03/10] PCI: endpoint: Add MSI-X interfaces
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
- <c76688ee290a9ed4f0f70f5e350b906950ec05df.1523379766.git.gustavo.pimentel@synopsys.com>
- <7fec2005-d7a8-daea-9451-7f3593afe285@ti.com>
-From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Message-ID: <27b67ebd-b585-f3a1-091d-a3cdf13f03eb@synopsys.com>
-Date:   Tue, 17 Apr 2018 16:51:05 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <7fec2005-d7a8-daea-9451-7f3593afe285@ti.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1755369AbeDQQIP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Apr 2018 12:08:15 -0400
+Received: from mail-pg0-f66.google.com ([74.125.83.66]:35909 "EHLO
+        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755349AbeDQQIL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 12:08:11 -0400
+Received: by mail-pg0-f66.google.com with SMTP id z135so3205541pgz.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 09:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=QJQK4m6doh5tMLfO8mYU0PYMqULkQA/xm3DdGrdnMhI=;
+        b=g+IPkKv2lvJJhN+YeI7jyEVX9u1EcEHu8qvLG25C+8Sdk6BcZl7/J34QWzctGcyv3N
+         eH+wrGoy+oy855M4Ktg/+F5QUE1OWsavZlBkiYqLWW4q+/ijoZXCOpv1zV2XUG8Wd3I8
+         AUvpGCRh88o+8c2OfOox2DRPbEKyV+9shOHx0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QJQK4m6doh5tMLfO8mYU0PYMqULkQA/xm3DdGrdnMhI=;
+        b=SLZ7HjUPZO/Ga+fA0oev0kpQEBOLHLGqa0lR8MtTYSqA9ukDPx5sfcD3CmJhnk4e5u
+         cCQKyfu6ZVu1vfBg7kkwZzBkehl524nQJwE0BDyoXxsIMnwK5kyc4Sj/ffffhganzt+a
+         lPWMwCrPOUCFdBV0JK+eE8vQByWYluCYExt3gTtJIuVoZ3Hi6pgkY2wP1I6v3nr/BZeT
+         7XjhsB60CsiL08zMhNppGHShOA+XCse9Z322fCTggIDzg68EO5NVFT/E5g+reQTKtclA
+         zcgOg+Pxoh5CHOAsoTLfYNvBs08B4z70N5Xa4eZrqhRMMnWN9CYq6gWt3yq3sgjvNWpS
+         CspA==
+X-Gm-Message-State: ALQs6tAmKBD9Or3JJE8rG6vXh9Fp86l3aBt4KCqAGVFLXpwDYtz4HQyR
+        GPUGxnczoqVZPl67/sPLdMsgsQ==
+X-Google-Smtp-Source: AIpwx48NYwAcxxdalovq3SA1QcIXpPkCqW+/QVYjWys//UgxBCAso9FLGNwNbA9nuefdpmC814eMlA==
+X-Received: by 10.99.103.6 with SMTP id b6mr2288382pgc.214.1523981289850;
+        Tue, 17 Apr 2018 09:08:09 -0700 (PDT)
+Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id r81sm34829878pfj.79.2018.04.17.09.08.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 17 Apr 2018 09:08:09 -0700 (PDT)
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org, Ben.Gainey@arm.com
+Subject: [PATCH v2 0/3] coresight: Refresh documenation 
+Date:   Tue, 17 Apr 2018 10:08:04 -0600
+Message-Id: <1523981287-15370-1-git-send-email-mathieu.poirier@linaro.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kishon,
+Now that the perf tools CoreSight support is upstream this set adds
+documentation to go with it and move things around so that topics 
+are located together.
 
-On 17/04/2018 11:24, Kishon Vijay Abraham I wrote:
-> Hi,
-> 
-> On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
->> Implements the generic method for calling the get/set callbacks.
->>
->> Adds the PCI_EPC_IRQ_MSIX type.
->>
->> Adds the MSI-X callbacks signatures to the ops structure.
->>
->> Adds sysfs interface for altering the number of MSI-X entries.
->>
->> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->> ---
->>  drivers/pci/endpoint/pci-ep-cfs.c   | 24 ++++++++++++++++
->>  drivers/pci/endpoint/pci-epc-core.c | 57 +++++++++++++++++++++++++++++++++++++
->>  include/linux/pci-epc.h             | 11 ++++++-
->>  include/linux/pci-epf.h             |  1 +
->>  4 files changed, 92 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/pci/endpoint/pci-ep-cfs.c b/drivers/pci/endpoint/pci-ep-cfs.c
->> index 018ea34..d1288a0 100644
->> --- a/drivers/pci/endpoint/pci-ep-cfs.c
->> +++ b/drivers/pci/endpoint/pci-ep-cfs.c
->> @@ -286,6 +286,28 @@ static ssize_t pci_epf_msi_interrupts_show(struct config_item *item,
->>  		       to_pci_epf_group(item)->epf->msi_interrupts);
->>  }
->>  
->> +static ssize_t pci_epf_msix_interrupts_store(struct config_item *item,
->> +					     const char *page, size_t len)
->> +{
->> +	u16 val;
->> +	int ret;
->> +
->> +	ret = kstrtou16(page, 0, &val);
->> +	if (ret)
->> +		return ret;
->> +
->> +	to_pci_epf_group(item)->epf->msix_interrupts = val;
->> +
->> +	return len;
->> +}
->> +
->> +static ssize_t pci_epf_msix_interrupts_show(struct config_item *item,
->> +					    char *page)
->> +{
->> +	return sprintf(page, "%d\n",
->> +		       to_pci_epf_group(item)->epf->msix_interrupts);
->> +}
->> +
->>  PCI_EPF_HEADER_R(vendorid)
->>  PCI_EPF_HEADER_W_u16(vendorid)
->>  
->> @@ -327,6 +349,7 @@ CONFIGFS_ATTR(pci_epf_, subsys_vendor_id);
->>  CONFIGFS_ATTR(pci_epf_, subsys_id);
->>  CONFIGFS_ATTR(pci_epf_, interrupt_pin);
->>  CONFIGFS_ATTR(pci_epf_, msi_interrupts);
->> +CONFIGFS_ATTR(pci_epf_, msix_interrupts);
->>  
->>  static struct configfs_attribute *pci_epf_attrs[] = {
->>  	&pci_epf_attr_vendorid,
->> @@ -340,6 +363,7 @@ static struct configfs_attribute *pci_epf_attrs[] = {
->>  	&pci_epf_attr_subsys_id,
->>  	&pci_epf_attr_interrupt_pin,
->>  	&pci_epf_attr_msi_interrupts,
->> +	&pci_epf_attr_msix_interrupts,
->>  	NULL,
->>  };
->>  
->> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
->> index b0ee427..294a383 100644
->> --- a/drivers/pci/endpoint/pci-epc-core.c
->> +++ b/drivers/pci/endpoint/pci-epc-core.c
->> @@ -218,6 +218,63 @@ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
->>  EXPORT_SYMBOL_GPL(pci_epc_set_msi);
->>  
->>  /**
->> + * pci_epc_get_msix() - get the number of MSI-X interrupt numbers allocated
->> + * @epc: the EPC device to which MSI-X interrupts was requested
->> + * @func_no: the endpoint function number in the EPC device
->> + *
->> + * Invoke to get the number of MSI-X interrupts allocated by the RC
->> + */
->> +int pci_epc_get_msix(struct pci_epc *epc, u8 func_no)
->> +{
->> +	int interrupt;
->> +	unsigned long flags;
->> +
->> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
->> +		return 0;
->> +
->> +	if (!epc->ops->get_msix)
->> +		return 0;
->> +
->> +	spin_lock_irqsave(&epc->lock, flags);
->> +	interrupt = epc->ops->get_msix(epc, func_no);
->> +	spin_unlock_irqrestore(&epc->lock, flags);
->> +
->> +	if (interrupt < 0)
->> +		return 0;
->> +
->> +	return interrupt++;
-> 
-> return interrupt + 1?
+--------
+Changes for V2:
+* Addressed grammatical problems highlighted by Randy
 
-I'll change it.
+Mathieu Poirier (3):
+  coresight: Remove obsolete reference to "owner" in CoreSight
+    descriptor
+  coresight: Add section for integration with the perf tools
+  coresight: Grouping all perf tools oriented section together
 
->> +}
->> +EXPORT_SYMBOL_GPL(pci_epc_get_msix);
->> +
->> +/**
->> + * pci_epc_set_msix() - set the number of MSI-X interrupt numbers required
->> + * @epc: the EPC device on which MSI-X has to be configured
->> + * @func_no: the endpoint function number in the EPC device
->> + * @interrupts: number of MSI-X interrupts required by the EPF
->> + *
->> + * Invoke to set the required number of MSI-X interrupts.
->> + */
->> +int pci_epc_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
->> +{
->> +	int ret;
->> +	unsigned long flags;
->> +
->> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions ||
->> +	    interrupts < 1 || interrupts > 2048)
->> +		return -EINVAL;
->> +
->> +	if (!epc->ops->set_msix)
->> +		return 0;
->> +
->> +	spin_lock_irqsave(&epc->lock, flags);
->> +	ret = epc->ops->set_msix(epc, func_no, interrupts - 1);
->> +	spin_unlock_irqrestore(&epc->lock, flags);
->> +
->> +	return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(pci_epc_set_msix);
->> +
->> +/**
->>   * pci_epc_unmap_addr() - unmap CPU address from PCI address
->>   * @epc: the EPC device on which address is allocated
->>   * @func_no: the endpoint function number in the EPC device
->> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
->> index af657ca..32e8961 100644
->> --- a/include/linux/pci-epc.h
->> +++ b/include/linux/pci-epc.h
->> @@ -17,6 +17,7 @@ enum pci_epc_irq_type {
->>  	PCI_EPC_IRQ_UNKNOWN,
->>  	PCI_EPC_IRQ_LEGACY,
->>  	PCI_EPC_IRQ_MSI,
->> +	PCI_EPC_IRQ_MSIX,
->>  };
->>  
->>  /**
->> @@ -30,6 +31,10 @@ enum pci_epc_irq_type {
->>   *	     capability register
->>   * @get_msi: ops to get the number of MSI interrupts allocated by the RC from
->>   *	     the MSI capability register
->> + * @set_msix: ops to set the requested number of MSI-X interrupts in the
->> + *	     MSI-X capability register
->> + * @get_msix: ops to get the number of MSI-X interrupts allocated by the RC
->> + *	     from the MSI-X capability register
->>   * @raise_irq: ops to raise a legacy or MSI interrupt
->>   * @start: ops to start the PCI link
->>   * @stop: ops to stop the PCI link
->> @@ -48,8 +53,10 @@ struct pci_epc_ops {
->>  			      phys_addr_t addr);
->>  	int	(*set_msi)(struct pci_epc *epc, u8 func_no, u8 interrupts);
->>  	int	(*get_msi)(struct pci_epc *epc, u8 func_no);
->> +	int	(*set_msix)(struct pci_epc *epc, u8 func_no, u16 interrupts);
->> +	int	(*get_msix)(struct pci_epc *epc, u8 func_no);
-> 
-> The 1st patch in the series is already using get_msix, set_msix. This patch
-> should precede the 1st patch.
+ Documentation/trace/coresight.txt | 103 +++++++++++++++++++++++++++-----------
+ 1 file changed, 75 insertions(+), 28 deletions(-)
 
-Yes, you're right.
-
-> 
-> Thanks
-> Kishon
-> 
-
-Regards,
-Gustavo
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
