@@ -1,81 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 394227DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 08:21:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EBF997DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 10:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753160AbeDRIVd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 04:21:33 -0400
-Received: from sauhun.de ([88.99.104.3]:34766 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753097AbeDRIVc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Apr 2018 04:21:32 -0400
-Received: from localhost (unknown [145.253.130.2])
-        by pokefinder.org (Postfix) with ESMTPSA id 03B2830B7AC;
-        Wed, 18 Apr 2018 10:21:30 +0200 (CEST)
-Date:   Wed, 18 Apr 2018 10:21:30 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Sam Hansen <hansens@google.com>
-Cc:     linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] Documentation/i2c: sync docs with current state
- of i2c-tools
-Message-ID: <20180418082130.5oqgy7xsja5qucov@ninjato>
-References: <20180413174257.139182-1-hansens@google.com>
- <20180413174257.139182-2-hansens@google.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2uix42vfbp2u3fyn"
-Content-Disposition: inline
-In-Reply-To: <20180413174257.139182-2-hansens@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        id S1751836AbeDRKcG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 06:32:06 -0400
+Received: from ns391626.ip-176-31-99.eu ([176.31.99.217]:44761 "EHLO
+        ns391626.ip-176-31-99.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751870AbeDRKcF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 06:32:05 -0400
+X-Greylist: delayed 499 seconds by postgrey-1.27 at vger.kernel.org; Wed, 18 Apr 2018 06:32:05 EDT
+Received: by ns391626.ip-176-31-99.eu (Postfix, from userid 1000)
+        id 69A8B15FBBF; Wed, 18 Apr 2018 12:31:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigexec.com; s=mail;
+        t=1524047510; bh=Of270wz88M3APV/Znv67CNkAuZL51pmttuxdTKUq9rI=;
+        h=From:To:Cc:Subject:Date;
+        b=ag60pbHM219Da1iFsBsEJcOeV7AtIBIp6/I1fOAI2DBcFg87v768/zXEYTw/xOtQr
+         OipUEWWt5YzThkMPgOTB3ndtPGfG9eT1TB6z9Qstb1hgPEE3G9ft3q1RWZHqVFMSWR
+         8Vl6S6m95xD0DZVQ3xhB4+j6IJEbPtzwzOqCsOqQ=
+From:   Olivier Gayot <olivier.gayot@sigexec.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        Trivial Patch Monkey <trivial@kernel.org>,
+        Olivier Gayot <olivier.gayot@sigexec.com>
+Subject: [PATCH] docs: ip-sysctl.txt: fix name of some ipv6 variables
+Date:   Wed, 18 Apr 2018 12:31:34 +0200
+Message-Id: <1524047494-32679-1-git-send-email-olivier.gayot@sigexec.com>
+X-Mailer: git-send-email 2.1.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The name of the following proc/sysctl entries were incorrectly
+documented:
 
---2uix42vfbp2u3fyn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+    /proc/sys/net/ipv6/conf/<interface>/max_dst_opts_number
+    /proc/sys/net/ipv6/conf/<interface>/max_hbt_opts_number
+    /proc/sys/net/ipv6/conf/<interface>/max_dst_opts_length
+    /proc/sys/net/ipv6/conf/<interface>/max_hbt_length
 
+Their name was set to the name of the symbol in the .data field of the
+control table instead of their .proc name.
 
-> +The above functions are made available by linking against the libi2c library,
-> +which is provided by the i2c-tools project.  See:
-> +https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/.
+Signed-off-by: Olivier Gayot <olivier.gayot@sigexec.com>
+---
+ Documentation/networking/ip-sysctl.txt | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-In the beginning, we say that '#include <i2c/smbus.h>' is needed.
-Shouldn't we mention i2c-tools there already and in what case it is
-needed (only for SMBus)? I'd think so.
+diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
+index 5dc1a040a2f1..b583a73cf95f 100644
+--- a/Documentation/networking/ip-sysctl.txt
++++ b/Documentation/networking/ip-sysctl.txt
+@@ -1390,26 +1390,26 @@ mld_qrv - INTEGER
+ 	Default: 2 (as specified by RFC3810 9.1)
+ 	Minimum: 1 (as specified by RFC6636 4.5)
+ 
+-max_dst_opts_cnt - INTEGER
++max_dst_opts_number - INTEGER
+ 	Maximum number of non-padding TLVs allowed in a Destination
+ 	options extension header. If this value is less than zero
+ 	then unknown options are disallowed and the number of known
+ 	TLVs allowed is the absolute value of this number.
+ 	Default: 8
+ 
+-max_hbh_opts_cnt - INTEGER
++max_hbh_opts_number - INTEGER
+ 	Maximum number of non-padding TLVs allowed in a Hop-by-Hop
+ 	options extension header. If this value is less than zero
+ 	then unknown options are disallowed and the number of known
+ 	TLVs allowed is the absolute value of this number.
+ 	Default: 8
+ 
+-max dst_opts_len - INTEGER
++max_dst_opts_length - INTEGER
+ 	Maximum length allowed for a Destination options extension
+ 	header.
+ 	Default: INT_MAX (unlimited)
+ 
+-max hbh_opts_len - INTEGER
++max_hbh_length - INTEGER
+ 	Maximum length allowed for a Hop-by-Hop options extension
+ 	header.
+ 	Default: INT_MAX (unlimited)
+-- 
+2.17.0
 
-Sam, would you be open to do this as an incremental patch?
-
-
---2uix42vfbp2u3fyn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlrXAAoACgkQFA3kzBSg
-KbZ/yg/+KCc2z1il/rqkOGxwBeDcTjX3PxWle+xEi5fNCYWfGDHXsmCx5M3khhej
-f/EEkvROKdZD6KScYTqNXZibY+D8GwBCmBuxdSmyp/wEdfo/+KXwtWHQb+pHIR0f
-+y3/5oym9O3TiBd8bc4h+8AGtqPjm06Gur9Io8Ejy4CQMNe/WL1pZVN5PvIJn9as
-RheNO6F7Bot7Pj1VPfmjvwQpWBem8iMST7+gsAsBi3+PRzIC911jcWK/xBHVlOM/
-SpnWfVN2D/50SwgebhlIsvLnH7eaRx5O8Ei5h8j01bCkJR+NHlOygQSjmhV3OFaE
-c2bajtRV6aEkN0GHicp2GO2/R+PL6I3BTvti9/3RHb9TTK+cui1EfbchnKHG+JgN
-A+F/abCtYmWwmNEeHUasbHqLXLqS6QUgrkb2FXPxOOcs6voF8XhATGHqVwYm9EOd
-aGuLL+cdAOUGAENSUU9mhKMZZLBGLE9KF2yQE6noKuiWVjBP6PUFw3N3g4VOeaum
-wMWsvl1QG2wFJv6BCUJd6UK9tPSx2ET57KKctpOXuSuTWmxtI6x5h/HIrSJpvKfJ
-4dKvHrFDr60FcQHfcKErL5etXIIJ9ntdgU8MqQbWpV0++KqGU8StD10SJbQgWuFh
-tJkz1OaC+co+fC36D0aAkcfgzL+l+SE3Mm/L8d7WUS8nPWbnZ+U=
-=hrrX
------END PGP SIGNATURE-----
-
---2uix42vfbp2u3fyn--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
