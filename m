@@ -1,81 +1,189 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACF617DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 18:18:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 791A17DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 18:32:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752159AbeDRSSS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 14:18:18 -0400
-Received: from mail-vk0-f49.google.com ([209.85.213.49]:40745 "EHLO
-        mail-vk0-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752280AbeDRSSQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 14:18:16 -0400
-Received: by mail-vk0-f49.google.com with SMTP id x204so1625692vkd.7
-        for <linux-doc@vger.kernel.org>; Wed, 18 Apr 2018 11:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=AMfl0jeHqjgEQsrdyrTbPtGoJzBV2lEoGwhz9jf4pQ8=;
-        b=HIYhhZWnF4usJAPR0Ra4WxnlIjeRHlEv4wy+3LvKaNR3hgfjm0DnqAWYD4i4HSud8j
-         2+pkFqLjfclB6686eJLyw0QnOQsLHiN/f/Zb2pmKiLlD6XLO/6HLH8uMyD0uTfEUoBU7
-         rWiJ07WdsUWtYVKoQJu4HLv24wvAtNa8dJu5S2Xk3W0dToEmqaxw22XigPTujuowZxUn
-         h8wDt1ZF7lw3q7HwutxNdty5NFUja/S7wf0zWNBLkn/xUVv0DRBFJBCCKWL9PswQ1prP
-         VayEDQ88nBP/1g9ItDqQc7BFj5O3LDTk6p8TLH6jOVtlB/II2L6ZBUMeF1ipY3kC5YUa
-         KbbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=AMfl0jeHqjgEQsrdyrTbPtGoJzBV2lEoGwhz9jf4pQ8=;
-        b=UvIhxe8b7xWX9B502gc/+n2KGp1snTgBNnScKmOwQq0ZpkOsINDzZvzZ1XB8fmKlmH
-         w5kMhOvctAseKm5GK0/ihi6H5KCua5SEfIFF1B4Z3g5QxJZJAO55EJY1WCwFc8Woo3dJ
-         T0lNisxE2lOtwisHWlDbNuGxqfhn7VtO78mumAwtMseNsba78ojgEV9JpjnqV/4KEfbJ
-         sJYDu8Oeok365JcbmCSxBAwKKIPgaX7ay39m8t/qrSOvwdCoAAC/qj/CiR3In9KbCbKW
-         3xOmSRdQYkP95n0wfVaE4CsKQv6qbBmfi4Uqsd3M/h303b1T1pQul9TpXHggPDL3DjhY
-         ixUw==
-X-Gm-Message-State: ALQs6tAgNvT7zsCylRfwUNc7t3oC0KRpIobwIy8+hoPDpy4djT5RgsWe
-        OA+2i0iIihI1L9++8e3oKFy42Xt/MXwWoeAd6kUTHg==
-X-Google-Smtp-Source: AIpwx483Iky2AaeSk6oe38/1138mWCTpGGqK4E9rBxp1l1iTFNA0zvAamBPz13Q+1UYHOO8JtYv6LozOFjVG6L8dhpE=
-X-Received: by 10.31.60.209 with SMTP id j200mr2232269vka.93.1524075495873;
- Wed, 18 Apr 2018 11:18:15 -0700 (PDT)
+        id S1752665AbeDRScH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 14:32:07 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:57576 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752645AbeDRScG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 14:32:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=XMla8/HK+Cw4HZFqgF05n+RWrQQ06RZWQN2NGfXdQVs=; b=UoFvrYbVtJsQHUet3VG5K9HLGM
+        Esen1XBkV825VN3kXxLk4scThjtYCYbZ/0IAz1dXQAsB8yhkUkBW5fu5l2iUJ7Jj+5Jtkw0Po6ogt
+        jtwyA4+Gq9Ll1ZPaZkgHU3SCAQ2bQkHjkqruVu23Eb1n0KkfXsxbl3Kt+TO60aRh3zjHlc5ooeAKQ
+        +J4plVBUW5Lggz0cx1UvWKyr3mY67eyNRI1zIGa96gd55n24LNK5664tbktGHsmf5eBHMgxS6AUZ4
+        ivfVFga3XjYGQI5i5yXMcta6gRjiSIj3gtPKWsxExPDqNSe1huG4nBqaOymfDo+BLG4OvyCjJis8j
+        K6qJAKFA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1f8rsD-0006Um-Hm; Wed, 18 Apr 2018 18:32:05 +0000
+Subject: Re: [PATCH v2] docs: kernel-parameters.txt: Fix whitespace
+To:     Thymo van Beers <thymovanbeers@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20180416214939.GA11304@thinkpad>
+ <31612fbd-6624-140a-ed92-04b8f0bd5f64@infradead.org>
+ <20180418181635.GA24031@thinkpad>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f1c6c111-c9bb-e3d0-f76f-15705c96ac0f@infradead.org>
+Date:   Wed, 18 Apr 2018 11:32:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 10.31.58.214 with HTTP; Wed, 18 Apr 2018 11:17:55 -0700 (PDT)
-In-Reply-To: <20180418082130.5oqgy7xsja5qucov@ninjato>
-References: <20180413174257.139182-1-hansens@google.com> <20180413174257.139182-2-hansens@google.com>
- <20180418082130.5oqgy7xsja5qucov@ninjato>
-From:   Sam Hansen <hansens@google.com>
-Date:   Wed, 18 Apr 2018 11:17:55 -0700
-Message-ID: <CAP9bUy4vZB1LVjLdm7WvrebBF4tSB32WjC+h0PEoyaCFjdfhUg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] Documentation/i2c: sync docs with current state of i2c-tools
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180418181635.GA24031@thinkpad>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 18, 2018 at 1:21 AM, Wolfram Sang <wsa@the-dreams.de> wrote:
->
->> +The above functions are made available by linking against the libi2c library,
->> +which is provided by the i2c-tools project.  See:
->> +https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/.
->
-> In the beginning, we say that '#include <i2c/smbus.h>' is needed.
-> Shouldn't we mention i2c-tools there already and in what case it is
-> needed (only for SMBus)? I'd think so.
->
-> Sam, would you be open to do this as an incremental patch?
+On 04/18/18 11:16, Thymo van Beers wrote:
+> On Mon, Apr 16, 2018 at 03:03:47PM -0700, Randy Dunlap wrote:
+>> On 04/16/18 14:49, Thymo van Beers wrote:
+>>> Some lines used spaces instead of tabs at line start.
+>>> This can cause mangled lines in editors due to inconsistency.
+>>>
+>>> Replace spaces for tabs where appropriate.
+>>>
+>>> Signed-off-by: Thymo van Beers <thymovanbeers@gmail.com>
+>>> ---
+>>> Changes in v2:
+>>>   - Rebase against docs-next
+>>>   - Fix indentation modifications
+>>>
+>>>  Documentation/admin-guide/kernel-parameters.txt | 136 ++++++++++++------------
+>>>  1 file changed, 68 insertions(+), 68 deletions(-)
+>>>
+>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>>> index 3487be79847c..f625f65c286f 100644
+>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>
+>> Most of the patch is OK IMO, but not the intel_pstate part:
+>> The 2-space extra indents work fine here, while the extra tab makes a lot of the
+>> lines go beyond the 80-column mark.
+>>
+>>> @@ -1650,39 +1650,39 @@
+>>>  			0	disables intel_idle and fall back on acpi_idle.
+>>>  			1 to 9	specify maximum depth of C-state.
+>>>  
+>>> -	intel_pstate=  [X86]
+>>> -		       disable
+>>> -		         Do not enable intel_pstate as the default
+>>> -		         scaling driver for the supported processors
+>>> -		       passive
+>>> -			 Use intel_pstate as a scaling driver, but configure it
+>>> -			 to work with generic cpufreq governors (instead of
+>>> -			 enabling its internal governor).  This mode cannot be
+>>> -			 used along with the hardware-managed P-states (HWP)
+>>> -			 feature.
+>>> -		       force
+>>> -			 Enable intel_pstate on systems that prohibit it by default
+>>> -			 in favor of acpi-cpufreq. Forcing the intel_pstate driver
+>>> -			 instead of acpi-cpufreq may disable platform features, such
+>>> -			 as thermal controls and power capping, that rely on ACPI
+>>> -			 P-States information being indicated to OSPM and therefore
+>>> -			 should be used with caution. This option does not work with
+>>> -			 processors that aren't supported by the intel_pstate driver
+>>> -			 or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
+>>> -		       no_hwp
+>>> -		         Do not enable hardware P state control (HWP)
+>>> -			 if available.
+>>> -		hwp_only
+>>> -			Only load intel_pstate on systems which support
+>>> -			hardware P state control (HWP) if available.
+>>> -		support_acpi_ppc
+>>> -			Enforce ACPI _PPC performance limits. If the Fixed ACPI
+>>> -			Description Table, specifies preferred power management
+>>> -			profile as "Enterprise Server" or "Performance Server",
+>>> -			then this feature is turned on by default.
+>>> -		per_cpu_perf_limits
+>>> -			Allow per-logical-CPU P-State performance control limits using
+>>> -			cpufreq sysfs interface
+>>> +	intel_pstate=	[X86]
+>>> +			disable
+>>> +				Do not enable intel_pstate as the default
+>>> +				scaling driver for the supported processors
+>>> +			passive
+>>> +				Use intel_pstate as a scaling driver, but configure it
+>>> +				to work with generic cpufreq governors (instead of
+>>> +				enabling its internal governor).  This mode cannot be
+>>> +				used along with the hardware-managed P-states (HWP)
+>>> +				feature.
+>>> +			force
+>>> +				Enable intel_pstate on systems that prohibit it by default
+>>> +				in favor of acpi-cpufreq. Forcing the intel_pstate driver
+>>> +				instead of acpi-cpufreq may disable platform features, such
+>>> +				as thermal controls and power capping, that rely on ACPI
+>>> +				P-States information being indicated to OSPM and therefore
+>>> +				should be used with caution. This option does not work with
+>>> +				processors that aren't supported by the intel_pstate driver
+>>> +				or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
+>>> +			no_hwp
+>>> +				Do not enable hardware P state control (HWP)
+>>> +				if available.
+>>> +			hwp_only
+>>> +				Only load intel_pstate on systems which support
+>>> +				hardware P state control (HWP) if available.
+>>> +			support_acpi_ppc
+>>> +				Enforce ACPI _PPC performance limits. If the Fixed ACPI
+>>> +				Description Table, specifies preferred power management
+>>> +				profile as "Enterprise Server" or "Performance Server",
+>>> +				then this feature is turned on by default.
+>>> +			per_cpu_perf_limits
+>>> +				Allow per-logical-CPU P-State performance control limits using
+>>> +				cpufreq sysfs interface
+>>>  
+>>>  	intremap=	[X86-64, Intel-IOMMU]
+>>>  			on	enable Interrupt Remapping (default)
+>>> @@ -2027,7 +2027,7 @@
+>>>  			* [no]ncqtrim: Turn off queued DSM TRIM.
+>>>  
+>>>  			* nohrst, nosrst, norst: suppress hard, soft
+>>> -                          and both resets.
+>>> +			and both resets.
+>>
+>> I would leave that line above indented like the one after "rstonce" below.
+>>
+>>>  
+>>>  			* rstonce: only attempt one reset during
+>>>  			  hot-unplug link recovery
+>>
+>>
+>> -- 
+>> ~Randy
+> 
+> Okay, thanks for your feedback.
+> 
+> I reindented intel_pstate as you said and I can still see the whole
+> description for the 'advanced' option is going past the 80-column mark.
+> 
+> I'll leave it indented with two spaces for this patch.
+> If you wish I can make a separate patch that addresses 80-column overrun
+> for intel_pstate.
+> 
+> I'll indent the nohrst,... section like rstonce.
+> 
+> Does that sound good to you?
 
-Yup, I'll send an incremental patch touching this up, thanks.
+Yes, it does.  Go for it!
 
->
+thanks,
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
