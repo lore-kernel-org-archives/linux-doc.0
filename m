@@ -1,80 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD51E7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 14:49:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DAE2D7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 15:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753175AbeDROta (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 10:49:30 -0400
-Received: from mailout.easymail.ca ([64.68.200.34]:37448 "EHLO
-        mailout.easymail.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753158AbeDROt2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 10:49:28 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mailout.easymail.ca (Postfix) with ESMTP id 373002150A;
-        Wed, 18 Apr 2018 14:49:27 +0000 (UTC)
-Received: from mailout.easymail.ca ([127.0.0.1])
-        by localhost (emo02-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 5Tkers1ZICTe; Wed, 18 Apr 2018 14:49:27 +0000 (UTC)
-Received: from [192.168.1.87] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1753420AbeDRPn2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 11:43:28 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48512 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1753859AbeDRPn0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Apr 2018 11:43:26 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mailout.easymail.ca (Postfix) with ESMTPSA id 48549212D9;
-        Wed, 18 Apr 2018 14:49:17 +0000 (UTC)
-Subject: Re: [PATCH] doc: dev-tools: kselftest.rst: update contributing new
- tests
-To:     Anders Roxell <anders.roxell@linaro.org>, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <shuahkh@osg.samsung.com>
-References: <20180417084631.11242-1-anders.roxell@linaro.org>
-From:   Shuah Khan <shuah@kernel.org>
-Message-ID: <cbea46f8-7d30-8298-b830-c6f2a4453101@kernel.org>
-Date:   Wed, 18 Apr 2018 08:48:13 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        by mx1.redhat.com (Postfix) with ESMTPS id 29A4D81638F1;
+        Wed, 18 Apr 2018 15:43:26 +0000 (UTC)
+Received: from localhost (ovpn-200-16.brq.redhat.com [10.40.200.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4173A1C727;
+        Wed, 18 Apr 2018 15:43:20 +0000 (UTC)
+Date:   Wed, 18 Apr 2018 17:43:19 +0200
+From:   Jesper Dangaard Brouer <brouer@redhat.com>
+To:     Quentin Monnet <quentin.monnet@netronome.com>
+Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
+        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org,
+        John Fastabend <john.fastabend@gmail.com>, brouer@redhat.com
+Subject: Re: [PATCH bpf-next v3 8/8] bpf: add documentation for eBPF helpers
+ (58-64)
+Message-ID: <20180418174319.37f6c793@redhat.com>
+In-Reply-To: <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
+References: <20180417143438.7018-1-quentin.monnet@netronome.com>
+        <20180417143438.7018-9-quentin.monnet@netronome.com>
+        <20180418153448.574c6814@redhat.com>
+        <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
 MIME-Version: 1.0
-In-Reply-To: <20180417084631.11242-1-anders.roxell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Wed, 18 Apr 2018 15:43:26 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Wed, 18 Apr 2018 15:43:26 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/17/2018 02:46 AM, Anders Roxell wrote:
-> Add a description that the kernel headers should be used as far as it is
-> possible and then the system headers.
+On Wed, 18 Apr 2018 15:09:41 +0100
+Quentin Monnet <quentin.monnet@netronome.com> wrote:
+
+> 2018-04-18 15:34 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
+> > On Tue, 17 Apr 2018 15:34:38 +0100
+> > Quentin Monnet <quentin.monnet@netronome.com> wrote:
+> >   
+> >> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> >> index 350459c583de..3d329538498f 100644
+> >> --- a/include/uapi/linux/bpf.h
+> >> +++ b/include/uapi/linux/bpf.h
+> >> @@ -1276,6 +1276,50 @@ union bpf_attr {
+> >>   * 	Return
+> >>   * 		0 on success, or a negative error in case of failure.
+> >>   *
+> >> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+> >> + * 	Description
+> >> + * 		Redirect the packet to the endpoint referenced by *map* at
+> >> + * 		index *key*. Depending on its type, his *map* can contain  
+> >                                                     ^^^
+> > 
+> > "his" -> "this"  
 > 
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  Documentation/dev-tools/kselftest.rst | 3 +++
->  1 file changed, 3 insertions(+)
+> Thanks!
 > 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index e80850eefe13..27f08d6ba91c 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -151,6 +151,9 @@ Contributing new tests (details)
->     TEST_FILES, TEST_GEN_FILES mean it is the file which is used by
->     test.
->  
-> + * First use the headers inside the kernel, and then the system headers. The
-> +   internal headers should be the primary focus to be able to find regressions.
+> >> + * 		references to net devices (for forwarding packets through other
+> >> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
+> >> + * 		but this is only implemented for native XDP (with driver
+> >> + * 		support) as of this writing).
+> >> + *
+> >> + * 		All values for *flags* are reserved for future usage, and must
+> >> + * 		be left at zero.
+> >> + * 	Return
+> >> + * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
+> >> + *  
+> > 
+> > "XDP_ABORT" -> "XDP_ABORTED"  
+> 
+> Ouch. And I did the same for bpf_redirect(). Thanks for the catch.
+> 
+> > 
+> > I don't know if it's worth mentioning in the doc/man-page; that for XDP
+> > using bpf_redirect_map() is a HUGE performance advantage, compared to
+> > the bpf_redirect() call ?  
+> 
+> It seems worth to me. How would you simply explain the reason for this
+> difference?
 
-Clarifying the location of the headers might be helpful. This description uses
-different terminology to describe kernel headers.
+The basic reason is "bulking effect", as devmap avoids the NIC
+tailptr/doorbell update on every packet... how to write that in a doc
+format?
 
-"First use the headers inside the kernel sources and/or git reo" would make this
-clear. Instead of "internal headers" headers for the kernel release as opposed
-to headers installed by the distro on the system would make a clear distinction.
+I wrote about why XDP_REDIRECT with maps are smart here:
+ http://vger.kernel.org/netconf2017_files/XDP_devel_update_NetConf2017_Seoul.pdf
 
-thanks,
--- Shuah
+Using maps for redirect, hopefully makes XDP_REDIRECT the last driver
+XDP action code we need.  As new types of redirect can be introduced
+without driver changes. See that AF_XDP also uses a map.
+
+It is more subtle, but maps also function as a sorting step. Imagine
+your XDP program need to redirect out different interfaces (or CPUs in
+cpumap case), and packets arrive intermixed.  Packets get sorted into
+the different map indexes, and the xdp_do_flush_map() will trigger the
+flush operation.
+
+
+Happened to have an i40e NIC benchmark setup, and ran a single flow pktgen test.
+
+Results with 'xdp_redirect_map'
+ 13589297 pps (13,589,297) 
+
+Results with 'xdp_redirect' NOT using devmap:
+  7567575 pps (7,567,575)
+
+Just to point out the performance benefit of devmap...
+
+-- 
+Best regards,
+  Jesper Dangaard Brouer
+  MSc.CS, Principal Kernel Engineer at Red Hat
+  LinkedIn: http://www.linkedin.com/in/brouer
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
