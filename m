@@ -5,45 +5,45 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 16FCB7E279
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 01:11:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 03DB67DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 01:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752736AbeDRBLM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Apr 2018 21:11:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51002 "EHLO
+        id S1753714AbeDRBMZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Apr 2018 21:12:25 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51266 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1753316AbeDRBLJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 21:11:09 -0400
+        by vger.kernel.org with ESMTP id S1753425AbeDRBLM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 21:11:12 -0400
 Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3I1AqbC015897
-        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 21:11:08 -0400
-Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2hds23phg6-1
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3I1AHXl014483
+        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 21:11:11 -0400
+Received: from e06smtp14.uk.ibm.com (e06smtp14.uk.ibm.com [195.75.94.110])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2hds23phh7-1
         (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 21:11:08 -0400
+        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 21:11:11 -0400
 Received: from localhost
-        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp14.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <alastair@au1.ibm.com>;
-        Wed, 18 Apr 2018 02:11:05 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Wed, 18 Apr 2018 02:11:02 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3I1B1f456754418;
-        Wed, 18 Apr 2018 01:11:01 GMT
+        Wed, 18 Apr 2018 02:11:07 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp14.uk.ibm.com (192.168.101.144) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 18 Apr 2018 02:11:03 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3I1B3l253739646;
+        Wed, 18 Apr 2018 01:11:03 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7401642042;
-        Wed, 18 Apr 2018 02:02:34 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 236494203F;
+        Wed, 18 Apr 2018 02:02:36 +0100 (BST)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CE55E42041;
-        Wed, 18 Apr 2018 02:02:33 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 737B842045;
+        Wed, 18 Apr 2018 02:02:35 +0100 (BST)
 Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
         by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed, 18 Apr 2018 02:02:33 +0100 (BST)
+        Wed, 18 Apr 2018 02:02:35 +0100 (BST)
 Received: from adsilva.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
         (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id A8813A0282;
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id C8B57A03AB;
         Wed, 18 Apr 2018 11:10:59 +1000 (AEST)
 From:   "Alastair D'Silva" <alastair@au1.ibm.com>
 To:     linuxppc-dev@lists.ozlabs.org
@@ -55,21 +55,21 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         gregkh@linuxfoundation.org, arnd@arndb.de,
         andrew.donnellan@au1.ibm.com, fbarrat@linux.vnet.ibm.com,
         corbet@lwn.net, "Alastair D'Silva" <alastair@d-silva.org>
-Subject: [PATCH v2 3/7] powerpc: use task_pid_nr() for TID allocation
-Date:   Wed, 18 Apr 2018 11:08:06 +1000
+Subject: [PATCH v2 5/7] ocxl: Expose the thread_id needed for wait on p9
+Date:   Wed, 18 Apr 2018 11:08:08 +1000
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180418010810.30937-1-alastair@au1.ibm.com>
 References: <20180417020950.21446-1-alastair@au1.ibm.com>
  <20180418010810.30937-1-alastair@au1.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18041801-0008-0000-0000-000004EC75A7
+x-cbid: 18041801-0044-0000-0000-00000549606B
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18041801-0009-0000-0000-00001E807C82
-Message-Id: <20180418010810.30937-4-alastair@au1.ibm.com>
+x-cbparentid: 18041801-0045-0000-0000-000028897180
+Message-Id: <20180418010810.30937-6-alastair@au1.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-17_13:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
  definitions=main-1804180008
@@ -80,151 +80,239 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Alastair D'Silva <alastair@d-silva.org>
 
-The current implementation of TID allocation, using a global IDR, may
-result in an errant process starving the system of available TIDs.
-Instead, use task_pid_nr(), as mentioned by the original author. The
-scenario described which prevented it's use is not applicable, as
-set_thread_tidr can only be called after the task struct has been
-populated.
+In order to successfully issue as_notify, an AFU needs to know the TID
+to notify, which in turn means that this information should be
+available in userspace so it can be communicated to the AFU.
 
 Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 ---
- arch/powerpc/include/asm/switch_to.h |  1 -
- arch/powerpc/kernel/process.c        | 97 +-----------------------------------
- 2 files changed, 1 insertion(+), 97 deletions(-)
+ drivers/misc/ocxl/context.c       |  5 +++-
+ drivers/misc/ocxl/file.c          | 53 +++++++++++++++++++++++++++++++++++++++
+ drivers/misc/ocxl/link.c          | 36 ++++++++++++++++++++++++++
+ drivers/misc/ocxl/ocxl_internal.h |  1 +
+ include/misc/ocxl.h               |  9 +++++++
+ include/uapi/misc/ocxl.h          | 10 ++++++++
+ 6 files changed, 113 insertions(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/include/asm/switch_to.h b/arch/powerpc/include/asm/switch_to.h
-index be8c9fa23983..5b03d8a82409 100644
---- a/arch/powerpc/include/asm/switch_to.h
-+++ b/arch/powerpc/include/asm/switch_to.h
-@@ -94,6 +94,5 @@ static inline void clear_task_ebb(struct task_struct *t)
- extern int set_thread_uses_vas(void);
+diff --git a/drivers/misc/ocxl/context.c b/drivers/misc/ocxl/context.c
+index 909e8807824a..95f74623113e 100644
+--- a/drivers/misc/ocxl/context.c
++++ b/drivers/misc/ocxl/context.c
+@@ -34,6 +34,8 @@ int ocxl_context_init(struct ocxl_context *ctx, struct ocxl_afu *afu,
+ 	mutex_init(&ctx->xsl_error_lock);
+ 	mutex_init(&ctx->irq_lock);
+ 	idr_init(&ctx->irq_idr);
++	ctx->tidr = 0;
++
+ 	/*
+ 	 * Keep a reference on the AFU to make sure it's valid for the
+ 	 * duration of the life of the context
+@@ -65,6 +67,7 @@ int ocxl_context_attach(struct ocxl_context *ctx, u64 amr)
+ {
+ 	int rc;
  
- extern int set_thread_tidr(struct task_struct *t);
--extern void clear_thread_tidr(struct task_struct *t);
++	// Locks both status & tidr
+ 	mutex_lock(&ctx->status_mutex);
+ 	if (ctx->status != OPENED) {
+ 		rc = -EIO;
+@@ -72,7 +75,7 @@ int ocxl_context_attach(struct ocxl_context *ctx, u64 amr)
+ 	}
  
- #endif /* _ASM_POWERPC_SWITCH_TO_H */
-diff --git a/arch/powerpc/kernel/process.c b/arch/powerpc/kernel/process.c
-index 3b00da47699b..87f047fd2762 100644
---- a/arch/powerpc/kernel/process.c
-+++ b/arch/powerpc/kernel/process.c
-@@ -1496,103 +1496,12 @@ int set_thread_uses_vas(void)
+ 	rc = ocxl_link_add_pe(ctx->afu->fn->link, ctx->pasid,
+-			current->mm->context.id, 0, amr, current->mm,
++			current->mm->context.id, ctx->tidr, amr, current->mm,
+ 			xsl_fault_error, ctx);
+ 	if (rc)
+ 		goto out;
+diff --git a/drivers/misc/ocxl/file.c b/drivers/misc/ocxl/file.c
+index 038509e5d031..eb409a469f21 100644
+--- a/drivers/misc/ocxl/file.c
++++ b/drivers/misc/ocxl/file.c
+@@ -5,6 +5,8 @@
+ #include <linux/sched/signal.h>
+ #include <linux/uaccess.h>
+ #include <uapi/misc/ocxl.h>
++#include <asm/reg.h>
++#include <asm/switch_to.h>
+ #include "ocxl_internal.h"
+ 
+ 
+@@ -123,11 +125,55 @@ static long afu_ioctl_get_metadata(struct ocxl_context *ctx,
+ 	return 0;
  }
  
- #ifdef CONFIG_PPC64
--static DEFINE_SPINLOCK(vas_thread_id_lock);
--static DEFINE_IDA(vas_thread_ida);
--
--/*
-- * We need to assign a unique thread id to each thread in a process.
-- *
-- * This thread id, referred to as TIDR, and separate from the Linux's tgid,
-- * is intended to be used to direct an ASB_Notify from the hardware to the
-- * thread, when a suitable event occurs in the system.
-- *
-- * One such event is a "paste" instruction in the context of Fast Thread
-- * Wakeup (aka Core-to-core wake up in the Virtual Accelerator Switchboard
-- * (VAS) in POWER9.
-- *
-- * To get a unique TIDR per process we could simply reuse task_pid_nr() but
-- * the problem is that task_pid_nr() is not yet available copy_thread() is
-- * called. Fixing that would require changing more intrusive arch-neutral
-- * code in code path in copy_process()?.
-- *
-- * Further, to assign unique TIDRs within each process, we need an atomic
-- * field (or an IDR) in task_struct, which again intrudes into the arch-
-- * neutral code. So try to assign globally unique TIDRs for now.
-- *
-- * NOTE: TIDR 0 indicates that the thread does not need a TIDR value.
-- *	 For now, only threads that expect to be notified by the VAS
-- *	 hardware need a TIDR value and we assign values > 0 for those.
-- */
--#define MAX_THREAD_CONTEXT	((1 << 16) - 1)
--static int assign_thread_tidr(void)
--{
--	int index;
--	int err;
--	unsigned long flags;
--
--again:
--	if (!ida_pre_get(&vas_thread_ida, GFP_KERNEL))
--		return -ENOMEM;
--
--	spin_lock_irqsave(&vas_thread_id_lock, flags);
--	err = ida_get_new_above(&vas_thread_ida, 1, &index);
--	spin_unlock_irqrestore(&vas_thread_id_lock, flags);
--
--	if (err == -EAGAIN)
--		goto again;
--	else if (err)
--		return err;
--
--	if (index > MAX_THREAD_CONTEXT) {
--		spin_lock_irqsave(&vas_thread_id_lock, flags);
--		ida_remove(&vas_thread_ida, index);
--		spin_unlock_irqrestore(&vas_thread_id_lock, flags);
--		return -ENOMEM;
--	}
--
--	return index;
--}
--
--static void free_thread_tidr(int id)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&vas_thread_id_lock, flags);
--	ida_remove(&vas_thread_ida, id);
--	spin_unlock_irqrestore(&vas_thread_id_lock, flags);
--}
--
--/*
-- * Clear any TIDR value assigned to this thread.
-- */
--void clear_thread_tidr(struct task_struct *t)
--{
--	if (!t->thread.tidr)
--		return;
--
--	if (!cpu_has_feature(CPU_FTR_P9_TIDR)) {
--		WARN_ON_ONCE(1);
--		return;
--	}
--
--	mtspr(SPRN_TIDR, 0);
--	free_thread_tidr(t->thread.tidr);
--	t->thread.tidr = 0;
--}
--
--void arch_release_task_struct(struct task_struct *t)
--{
--	clear_thread_tidr(t);
--}
--
- /*
-  * Assign a unique TIDR (thread id) for task @t and set it in the thread
-  * structure. For now, we only support setting TIDR for 'current' task.
-  */
- int set_thread_tidr(struct task_struct *t)
++#ifdef CONFIG_PPC64
++static long afu_ioctl_enable_p9_wait(struct ocxl_context *ctx,
++		struct ocxl_ioctl_p9_wait __user *uarg)
++{
++	struct ocxl_ioctl_p9_wait arg;
++
++	memset(&arg, 0, sizeof(arg));
++
++	if (cpu_has_feature(CPU_FTR_P9_TIDR)) {
++		enum ocxl_context_status status;
++
++		// Locks both status & tidr
++		mutex_lock(&ctx->status_mutex);
++		if (!ctx->tidr) {
++			if (set_thread_tidr(current))
++				return -ENOENT;
++
++			ctx->tidr = current->thread.tidr;
++		}
++
++		status = ctx->status;
++		mutex_unlock(&ctx->status_mutex);
++
++		if (status == ATTACHED) {
++			int rc;
++			struct link *link = ctx->afu->fn->link;
++
++			rc = ocxl_link_update_pe(link, ctx->pasid, ctx->tidr);
++			if (rc)
++				return rc;
++		}
++
++		arg.thread_id = ctx->tidr;
++	} else
++		return -ENOENT;
++
++	if (copy_to_user(uarg, &arg, sizeof(arg)))
++		return -EFAULT;
++
++	return 0;
++}
++#endif
++
+ #define CMD_STR(x) (x == OCXL_IOCTL_ATTACH ? "ATTACH" :			\
+ 			x == OCXL_IOCTL_IRQ_ALLOC ? "IRQ_ALLOC" :	\
+ 			x == OCXL_IOCTL_IRQ_FREE ? "IRQ_FREE" :		\
+ 			x == OCXL_IOCTL_IRQ_SET_FD ? "IRQ_SET_FD" :	\
+ 			x == OCXL_IOCTL_GET_METADATA ? "GET_METADATA" :	\
++			x == OCXL_IOCTL_ENABLE_P9_WAIT ? "ENABLE_P9_WAIT" :	\
+ 			"UNKNOWN")
+ 
+ static long afu_ioctl(struct file *file, unsigned int cmd,
+@@ -186,6 +232,13 @@ static long afu_ioctl(struct file *file, unsigned int cmd,
+ 				(struct ocxl_ioctl_metadata __user *) args);
+ 		break;
+ 
++#ifdef CONFIG_PPC64
++	case OCXL_IOCTL_ENABLE_P9_WAIT:
++		rc = afu_ioctl_enable_p9_wait(ctx,
++				(struct ocxl_ioctl_p9_wait __user *) args);
++		break;
++#endif
++
+ 	default:
+ 		rc = -EINVAL;
+ 	}
+diff --git a/drivers/misc/ocxl/link.c b/drivers/misc/ocxl/link.c
+index 656e8610eec2..88876ae8f330 100644
+--- a/drivers/misc/ocxl/link.c
++++ b/drivers/misc/ocxl/link.c
+@@ -544,6 +544,42 @@ int ocxl_link_add_pe(void *link_handle, int pasid, u32 pidr, u32 tidr,
+ }
+ EXPORT_SYMBOL_GPL(ocxl_link_add_pe);
+ 
++int ocxl_link_update_pe(void *link_handle, int pasid, __u16 tid)
++{
++	struct link *link = (struct link *) link_handle;
++	struct spa *spa = link->spa;
++	struct ocxl_process_element *pe;
++	int pe_handle, rc;
++
++	if (pasid > SPA_PASID_MAX)
++		return -EINVAL;
++
++	pe_handle = pasid & SPA_PE_MASK;
++	pe = spa->spa_mem + pe_handle;
++
++	mutex_lock(&spa->spa_lock);
++
++	pe->tid = tid;
++
++	/*
++	 * The barrier makes sure the PE is updated
++	 * before we clear the NPU context cache below, so that the
++	 * old PE cannot be reloaded erroneously.
++	 */
++	mb();
++
++	/*
++	 * hook to platform code
++	 * On powerpc, the entry needs to be cleared from the context
++	 * cache of the NPU.
++	 */
++	rc = pnv_ocxl_spa_remove_pe_from_cache(link->platform_data, pe_handle);
++	WARN_ON(rc);
++
++	mutex_unlock(&spa->spa_lock);
++	return rc;
++}
++
+ int ocxl_link_remove_pe(void *link_handle, int pasid)
  {
--	int rc;
--
- 	if (!cpu_has_feature(CPU_FTR_P9_TIDR))
- 		return -EINVAL;
+ 	struct link *link = (struct link *) link_handle;
+diff --git a/drivers/misc/ocxl/ocxl_internal.h b/drivers/misc/ocxl/ocxl_internal.h
+index 5d421824afd9..6c6d4e61888e 100644
+--- a/drivers/misc/ocxl/ocxl_internal.h
++++ b/drivers/misc/ocxl/ocxl_internal.h
+@@ -77,6 +77,7 @@ struct ocxl_context {
+ 	struct ocxl_xsl_error xsl_error;
+ 	struct mutex irq_lock;
+ 	struct idr irq_idr;
++	__u16 tidr; // Thread ID used for P9 wait implementation
+ };
  
-@@ -1602,11 +1511,7 @@ int set_thread_tidr(struct task_struct *t)
- 	if (t->thread.tidr)
- 		return 0;
+ struct ocxl_process_element {
+diff --git a/include/misc/ocxl.h b/include/misc/ocxl.h
+index 51ccf76db293..9ff6ddc28e22 100644
+--- a/include/misc/ocxl.h
++++ b/include/misc/ocxl.h
+@@ -188,6 +188,15 @@ extern int ocxl_link_add_pe(void *link_handle, int pasid, u32 pidr, u32 tidr,
+ 		void (*xsl_err_cb)(void *data, u64 addr, u64 dsisr),
+ 		void *xsl_err_data);
  
--	rc = assign_thread_tidr();
--	if (rc < 0)
--		return rc;
--
--	t->thread.tidr = rc;
-+	t->thread.tidr = (u16)task_pid_nr(t);
- 	mtspr(SPRN_TIDR, t->thread.tidr);
++/**
++ * Update values within a Process Element
++ *
++ * link_handle: the link handle associated with the process element
++ * pasid: the PASID for the AFU context
++ * tid: the new thread id for the process element
++ */
++extern int ocxl_link_update_pe(void *link_handle, int pasid, __u16 tid);
++
+ /*
+  * Remove a Process Element from the Shared Process Area for a link
+  */
+diff --git a/include/uapi/misc/ocxl.h b/include/uapi/misc/ocxl.h
+index 0af83d80fb3e..8d2748e69c84 100644
+--- a/include/uapi/misc/ocxl.h
++++ b/include/uapi/misc/ocxl.h
+@@ -48,6 +48,15 @@ struct ocxl_ioctl_metadata {
+ 	__u64 reserved[13]; // Total of 16*u64
+ };
  
- 	return 0;
++struct ocxl_ioctl_p9_wait {
++	__u16 thread_id; // The thread ID required to wake this thread
++	__u16 reserved1;
++	__u32 reserved2;
++	__u64 reserved3[3];
++};
++
++};
++
+ struct ocxl_ioctl_irq_fd {
+ 	__u64 irq_offset;
+ 	__s32 eventfd;
+@@ -62,5 +71,6 @@ struct ocxl_ioctl_irq_fd {
+ #define OCXL_IOCTL_IRQ_FREE	_IOW(OCXL_MAGIC, 0x12, __u64)
+ #define OCXL_IOCTL_IRQ_SET_FD	_IOW(OCXL_MAGIC, 0x13, struct ocxl_ioctl_irq_fd)
+ #define OCXL_IOCTL_GET_METADATA _IOR(OCXL_MAGIC, 0x14, struct ocxl_ioctl_metadata)
++#define OCXL_IOCTL_ENABLE_P9_WAIT	_IOR(OCXL_MAGIC, 0x15, struct ocxl_ioctl_p9_wait)
+ 
+ #endif /* _UAPI_MISC_OCXL_H */
 -- 
 2.14.3
 
