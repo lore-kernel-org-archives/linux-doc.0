@@ -1,236 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 774AB7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 21:57:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D86507DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 22:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752530AbeDRV5O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 17:57:14 -0400
-Received: from mga14.intel.com ([192.55.52.115]:32756 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752499AbeDRV5L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Apr 2018 17:57:11 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Apr 2018 14:57:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,466,1517904000"; 
-   d="scan'208";a="33630149"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.150]) ([10.7.153.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Apr 2018 14:57:09 -0700
-Subject: Re: [PATCH v3 07/10] Documentation: dt-bindings: Add documents for
- PECI hwmon client drivers
-To:     Rob Herring <robh@kernel.org>
-Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-8-jae.hyun.yoo@linux.intel.com>
- <20180416181423.t4vf7sugv6z3aw5h@rob-hp-laptop>
- <aee4e04c-885f-b1d8-9e85-9e741551342f@linux.intel.com>
- <287e0fd9-b631-2602-2785-7b8aaed7a6b9@linux.intel.com>
- <6ff697e8-cd20-e551-da13-b614cc39f900@linux.intel.com>
- <CAL_JsqLcxEnCOywTtU14G4=6A5m6G=KH3oi8m1VxKSEdxuv-ww@mail.gmail.com>
- <1f2a86ff-b902-1d1d-488a-807ac1dd20cc@linux.intel.com>
- <CAL_JsqLpuNj4kQ8oXB0kxOsS7ww9Jk-oq4tJrroDKkLRTPrjSA@mail.gmail.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <884d3c16-84e8-e38a-731a-313ba7105176@linux.intel.com>
-Date:   Wed, 18 Apr 2018 14:57:09 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1752689AbeDRWKH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 18:10:07 -0400
+Received: from mail-pl0-f67.google.com ([209.85.160.67]:33727 "EHLO
+        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750981AbeDRWKG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 18:10:06 -0400
+Received: by mail-pl0-f67.google.com with SMTP id w12-v6so1947875plp.0;
+        Wed, 18 Apr 2018 15:10:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=iscAVkILweYqb0SkM9S6asBzHCjRFrVrZ5wiAVhsOT0=;
+        b=h0DauilfNFc2VR0PZ4escY+wi7U2HDDUiCEcjJJlpVlm9RZkqYp7i5eCIt9xLAXdZ7
+         KT/MfNGxqFgSkIaovvBO4ioJaUMdLLmNxF1JNcqOnLVFm1oq/oHBdFPtnWALDmlw/1c+
+         g3t22sQYLXQqhkCPj5Pbu4o6lKm4s5YeyZwAM66A397BhhoO1KXMQPU3HPoRAE/69g5/
+         ZS3tmorEn9uGuA8FHAtdTe+FimLby/ERYKQJChPlcpe3TE17gsFM1L/qhS7lktLcvVz4
+         PPfCo9YSnjaHBZtPWf5t+Aa+KoZ6Gaml/xzS4ks1HBhoAdsCFTEa6NLHKhVwYwpG7sQn
+         qiuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=iscAVkILweYqb0SkM9S6asBzHCjRFrVrZ5wiAVhsOT0=;
+        b=aSagpCuKuQxk/7gmVbxYPHe34OfZNBknIkirrc5lqEwR59IxflbxFzfkEf0+jFd15j
+         /eanRgSX5g+cdvyEpmfpvpcu6qodxibCjZ6oUEh5lIc+gJHyZ02D27G2T7G2KV/Wn92+
+         1iHjeBMnf2UnrgZP5AZtgcu4Myyp5F3us2IzvDA+MKpYR1Uy5BN1ydTFICDp3gqsAbCw
+         IXmLBTFsxCFrMNK5X0xCHvAjgw0hXKkYFsCtG5q7zUC48ftAQqXzGkOXHt998kNtCiR6
+         MuqJQAcC48nzsx0MBYyiXCmsUSIF6WmpR4cHfkgaDQlc6FwQfJ3MgI646N/KSQ2OPAnk
+         7Tbg==
+X-Gm-Message-State: ALQs6tBTFoDAXrBFLlaNBHFyvcji+KW33NmKmQ5VGy/pj05XH4NXEaDk
+        2vlMnTQy8Y35FCcoqzaNPGk=
+X-Google-Smtp-Source: AIpwx4+JsgD+J4ghPl+N5a0LHST80LVtNnLmp3Udn2M2Bigv0wgO29sAKUv8xeYda7uWY2RMVHgMuw==
+X-Received: by 2002:a17:902:7101:: with SMTP id a1-v6mr3616414pll.291.1524089405227;
+        Wed, 18 Apr 2018 15:10:05 -0700 (PDT)
+Received: from ast-mbp ([2620:10d:c090:180::1:ac97])
+        by smtp.gmail.com with ESMTPSA id v8sm3873461pff.42.2018.04.18.15.10.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 18 Apr 2018 15:10:04 -0700 (PDT)
+Date:   Wed, 18 Apr 2018 15:10:02 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Quentin Monnet <quentin.monnet@netronome.com>
+Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
+        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH bpf-next v3 3/8] bpf: add documentation for eBPF helpers
+ (12-22)
+Message-ID: <20180418221000.e2gwl54kis2l4ia4@ast-mbp>
+References: <20180417143438.7018-1-quentin.monnet@netronome.com>
+ <20180417143438.7018-4-quentin.monnet@netronome.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqLpuNj4kQ8oXB0kxOsS7ww9Jk-oq4tJrroDKkLRTPrjSA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180417143438.7018-4-quentin.monnet@netronome.com>
+User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/18/2018 2:28 PM, Rob Herring wrote:
-> On Wed, Apr 18, 2018 at 3:28 PM, Jae Hyun Yoo
-> <jae.hyun.yoo@linux.intel.com> wrote:
->> On 4/18/2018 7:32 AM, Rob Herring wrote:
->>>
->>> On Tue, Apr 17, 2018 at 3:40 PM, Jae Hyun Yoo
->>> <jae.hyun.yoo@linux.intel.com> wrote:
->>>>
->>>> On 4/16/2018 4:51 PM, Jae Hyun Yoo wrote:
->>>>>
->>>>>
->>>>> On 4/16/2018 4:22 PM, Jae Hyun Yoo wrote:
->>>>>>
->>>>>>
->>>>>> On 4/16/2018 11:14 AM, Rob Herring wrote:
->>>>>>>
->>>>>>>
->>>>>>> On Tue, Apr 10, 2018 at 11:32:09AM -0700, Jae Hyun Yoo wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> This commit adds dt-bindings documents for PECI cputemp and dimmtemp
->>>>>>>> client
->>>>>>>> drivers.
->>>>>>>
->>>>>>>
->>>>>>>
->>>>
->>>> [...]
->>>>
->>>>>>>> +Example:
->>>>>>>> +    peci-bus@0 {
->>>>>>>> +        #address-cells = <1>;
->>>>>>>> +        #size-cells = <0>;
->>>>>>>> +        < more properties >
->>>>>>>> +
->>>>>>>> +        peci-dimmtemp@cpu0 {
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> unit-address is wrong.
->>>>>>>
->>>>>>
->>>>>> Will fix it using the reg value.
->>>>>>
->>>>>>> It is a different bus from cputemp? Otherwise, you have conflicting
->>>>>>> addresses. If that's the case, probably should make it clear by
->>>>>>> showing
->>>>>>> different host adapters for each example.
->>>>>>>
->>>>>>
->>>>>> It could be the same bus with cputemp. Also, client address sharing is
->>>>>> possible by PECI core if the functionality is different. I mean,
->>>>>> cputemp and
->>>>>> dimmtemp targeting the same client is possible case like this.
->>>>>> peci-cputemp@30
->>>>>> peci-dimmtemp@30
->>>>>>
->>>>>
->>>>> Oh, I got your point. Probably, I should change these separate settings
->>>>> into one like
->>>>>
->>>>> peci-client@30 {
->>>>>        compatible = "intel,peci-client";
->>>>>        reg = <0x30>;
->>>>> };
->>>>>
->>>>> Then cputemp and dimmtemp drivers could refer the same compatible
->>>>> string.
->>>>> Will rewrite it.
->>>>>
->>>>
->>>> I've checked it again and realized that it should use function based node
->>>> name like:
->>>>
->>>> peci-cputemp@30
->>>> peci-dimmtemp@30
->>>>
->>>> If it use the same string like 'peci-client@30', the drivers cannot be
->>>> selectively enabled. The client address sharing way is well handled in
->>>> PECI
->>>> core and this way would be better for the future implementations of other
->>>> PECI functional drivers such as crash dump driver and so on. So I'm going
->>>> change the unit-address only.
->>>
->>>
->>> 2 nodes at the same address is wrong (and soon dtc will warn you on
->>> this). You have 2 potential options. The first is you need additional
->>> address information in the DT if these are in fact 2 independent
->>> devices. This could be something like a function number to use
->>> something from PCI addressing. From what I found on PECI, it doesn't
->>> seem to have anything like that. The 2nd option is you have a single
->>> DT node which registers multiple hwmon devices. DT nodes and drivers
->>> don't have to be 1-1. Don't design your DT nodes from how you want to
->>> partition drivers in some OS.
->>>
->>> Rob
->>>
->>
->> Please correct me if I'm wrong but I'm still thinking that it is
->> possible. Also, I did compile it but dtc doesn't make a warning. Let me
->> show an another use case which is similar to this case:
+On Tue, Apr 17, 2018 at 03:34:33PM +0100, Quentin Monnet wrote:
+> Add documentation for eBPF helper functions to bpf.h user header file.
+> This documentation can be parsed with the Python script provided in
+> another commit of the patch series, in order to provide a RST document
+> that can later be converted into a man page.
 > 
-> I did say *soon*. It's in dtc repo, but not the kernel copy yet.
+> The objective is to make the documentation easily understandable and
+> accessible to all eBPF developers, including beginners.
 > 
->> In arch/arm/boot/dts/aspeed-g5.dtsi
->> [...]
->> lpc_host: lpc-host@80 {
->>          compatible = "aspeed,ast2500-lpc-host", "simple-mfd", "syscon";
->>          reg = <0x80 0x1e0>;
->>          reg-io-width = <4>;
->>
->>          #address-cells = <1>;
->>          #size-cells = <1>;
->>          ranges = <0x0 0x80 0x1e0>;
->>
->>          lpc_ctrl: lpc-ctrl@0 {
->>                  compatible = "aspeed,ast2500-lpc-ctrl";
->>                  reg = <0x0 0x80>;
->>                  clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
->>                  status = "disabled";
->>          };
->>
->>          lpc_snoop: lpc-snoop@0 {
->>                  compatible = "aspeed,ast2500-lpc-snoop";
->>                  reg = <0x0 0x80>;
->>                  interrupts = <8>;
->>                  status = "disabled";
->>          };
->> }
->> [...]
->>
->> This is device tree setting for LPC interface and its child nodes.
->> LPC interface can be used as a multi-functional interface such as
->> snoop 80, KCS, SIO and so on. In this use case, lpc-ctrl@0 and
->> lpc-snoop@0 are sharing their address range from their individual
->> driver modules and they can be registered quite well through both
->> static dt or dynamic dtoverlay. PECI is also a multi-functional
->> interface which is similar to the above case, I think.
+> This patch contains descriptions for the following helper functions, all
+> written by Alexei:
 > 
-> This case too is poor design and should be fixed as well. Simply put,
-> you can have 2 devices on a bus at the same address without some sort
-> of mux or arbitration device in the middle. If you have a device/block
-> with multiple functions provided to the OS, then it is the OS's
-> problem to arbitrate access. It is not a DT problem because OS's can
-> vary in how they handle that both from OS to OS and over time.
+> - bpf_get_current_pid_tgid()
+> - bpf_get_current_uid_gid()
+> - bpf_get_current_comm()
+> - bpf_skb_vlan_push()
+> - bpf_skb_vlan_pop()
+> - bpf_skb_get_tunnel_key()
+> - bpf_skb_set_tunnel_key()
+> - bpf_redirect()
+> - bpf_perf_event_output()
+> - bpf_get_stackid()
+> - bpf_get_current_task()
 > 
-> Rob
+> v3:
+> - bpf_skb_get_tunnel_key(): Change and improve description and example.
+> - bpf_redirect(): Improve description of BPF_F_INGRESS flag.
+> - bpf_perf_event_output(): Fix first sentence of description. Delete
+>   wrong statement on context being evaluated as a struct pt_reg. Remove
+>   the long yet incomplete example.
+> - bpf_get_stackid(): Add a note about PERF_MAX_STACK_DEPTH being
+>   configurable.
 > 
+> Cc: Alexei Starovoitov <ast@kernel.org>
+> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 
-If I change it to a single DT node which registers 2 hwmon devices using
-the 2nd option above, then I still have 2 devices on a bus at the same
-address. Does it also make a problem to the OS then?
+looks great.
+Acked-by: Alexei Starovoitov <ast@kernel.org>
 
-Jae
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
