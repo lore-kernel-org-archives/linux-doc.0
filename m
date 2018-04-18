@@ -1,169 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5756E7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 14:09:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E1C47DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 14:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752643AbeDROJq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 10:09:46 -0400
-Received: from mail-wr0-f195.google.com ([209.85.128.195]:37241 "EHLO
-        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751383AbeDROJo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 10:09:44 -0400
-Received: by mail-wr0-f195.google.com with SMTP id f14-v6so5244796wre.4
-        for <linux-doc@vger.kernel.org>; Wed, 18 Apr 2018 07:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=netronome-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cXIsRmEJPlMyH8fHOjruuHv8QBZ0x+UfZuRiUCwOCAI=;
-        b=dDiq9n3Z/dqNkaXZLD9ftBL3BTyKkilzVUSochRH5OrBG97bJqt1BgdMLAsbCPGoIr
-         Ie7+0Aw9U0Sf0JyirrCV1xQkDe9Y1hbrSSf69wMvYVXTtJJEbY7aa91ziRX962UbQoRe
-         HVa+n9vQJ9sN3DtHArqygjyWn1eu/7IiVQ7gS1QeLpKXappNBah8lHausLWGaaFP1bLo
-         JuwvfROSSlPy/6KuGTYyIlK4JyuozuovKxATPESUf5kIypMFy6GN33rS4e5cCM8eWTsg
-         4GfqHNt1k0bWmyJ0cqnqkN7WjjzLdyY+h+V4JHj0KbdgMot3KbPBNW/GFhRjA//QcGzm
-         AZqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=cXIsRmEJPlMyH8fHOjruuHv8QBZ0x+UfZuRiUCwOCAI=;
-        b=pROg8JVMrNU2EqB3qS8BViwjFyQFVqywZCE5dqg+b1z2rEAEtZn635C/1YrnTjxW3F
-         PU+SyCm5Z+XBjwXFs7y1LSpZw6iyjzsv8KAGGVi4bv69j45Ny3+wi91/76kKZ2g1vrtI
-         JcdNB1Xi+ObRdFdbvo9kYivIjmQxhux2sfxz42F/0tJn6jvJG6eYCneUZLd87sEXU+Jd
-         XKVqwTXiCdhounEyq8jo6xvAJxxV6ePm3x8QlfsCqGpSKP/x/KIfY2Ov7CVuzUQz607k
-         ZSdJM6RnkPP0LvMaRWWnVyZChW4Y+UFuBprIauW9hHFpmjQCNlFrOlV7bhKKct8LH+E3
-         EznQ==
-X-Gm-Message-State: ALQs6tBd4UTyYDNkc4p9r/zmmMvN9dBfYoIck3X9LA7g3Eg9mY2t8ABF
-        UXvASg3dQBR+zHInxVPT/HpGBg==
-X-Google-Smtp-Source: AIpwx4/hY9oK7+EbMZXsUuUdu+X5fA+379LzMcagHDHmbaB/j6n+IFBHkphJAV5RQk9ATkWMZ375WA==
-X-Received: by 10.80.169.117 with SMTP id m50mr3419226edc.242.1524060583080;
-        Wed, 18 Apr 2018 07:09:43 -0700 (PDT)
-Received: from [172.20.1.93] (host-79-78-33-110.static.as9105.net. [79.78.33.110])
-        by smtp.gmail.com with ESMTPSA id x18sm382158edi.58.2018.04.18.07.09.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Apr 2018 07:09:42 -0700 (PDT)
-Subject: Re: [PATCH bpf-next v3 8/8] bpf: add documentation for eBPF helpers
- (58-64)
-To:     Jesper Dangaard Brouer <brouer@redhat.com>
-Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org,
-        John Fastabend <john.fastabend@gmail.com>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-9-quentin.monnet@netronome.com>
- <20180418153448.574c6814@redhat.com>
-From:   Quentin Monnet <quentin.monnet@netronome.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=quentin.monnet@netronome.com; prefer-encrypt=mutual; keydata=
- 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
- RHhSHGnKaQ6MfrTge5Q0h5A=
-Message-ID: <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
-Date:   Wed, 18 Apr 2018 15:09:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1752733AbeDROdA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 10:33:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39918 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752687AbeDROc6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Apr 2018 10:32:58 -0400
+Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com [209.85.216.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 268622184A;
+        Wed, 18 Apr 2018 14:32:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 268622184A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=robh@kernel.org
+Received: by mail-qt0-f171.google.com with SMTP id h4-v6so1976716qtn.13;
+        Wed, 18 Apr 2018 07:32:58 -0700 (PDT)
+X-Gm-Message-State: ALQs6tBlU/SaZVEqgz6oSLH3ZavXNWERLd5exH+HzL7Y4b59qb39S8+g
+        1E2AOomYdJJnxdoE3yfqxO3yp4BeqpvCV/sGpw==
+X-Google-Smtp-Source: AB8JxZofHBqyvBHb2njxYwn38G/wCrguuoEyYSf05I4g6jrYD//8Mkq4eM0egP2d49kLP2ZCltC5ozZ8F/fFhVkzGGY=
+X-Received: by 2002:aed:26c3:: with SMTP id q61-v6mr2526486qtd.60.1524061977109;
+ Wed, 18 Apr 2018 07:32:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180418153448.574c6814@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 10.12.163.228 with HTTP; Wed, 18 Apr 2018 07:32:36 -0700 (PDT)
+In-Reply-To: <6ff697e8-cd20-e551-da13-b614cc39f900@linux.intel.com>
+References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
+ <20180410183212.16787-8-jae.hyun.yoo@linux.intel.com> <20180416181423.t4vf7sugv6z3aw5h@rob-hp-laptop>
+ <aee4e04c-885f-b1d8-9e85-9e741551342f@linux.intel.com> <287e0fd9-b631-2602-2785-7b8aaed7a6b9@linux.intel.com>
+ <6ff697e8-cd20-e551-da13-b614cc39f900@linux.intel.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 18 Apr 2018 09:32:36 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLcxEnCOywTtU14G4=6A5m6G=KH3oi8m1VxKSEdxuv-ww@mail.gmail.com>
+Message-ID: <CAL_JsqLcxEnCOywTtU14G4=6A5m6G=KH3oi8m1VxKSEdxuv-ww@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] Documentation: dt-bindings: Add documents for
+ PECI hwmon client drivers
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Haiyue Wang <haiyue.wang@linux.intel.com>,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Cartwright <juliac@eso.teric.us>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Milton Miller II <miltonm@us.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>,
+        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        Linux HWMON List <linux-hwmon@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-04-18 15:34 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
-> On Tue, 17 Apr 2018 15:34:38 +0100
-> Quentin Monnet <quentin.monnet@netronome.com> wrote:
-> 
->> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
->> index 350459c583de..3d329538498f 100644
->> --- a/include/uapi/linux/bpf.h
->> +++ b/include/uapi/linux/bpf.h
->> @@ -1276,6 +1276,50 @@ union bpf_attr {
->>   * 	Return
->>   * 		0 on success, or a negative error in case of failure.
->>   *
->> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
->> + * 	Description
->> + * 		Redirect the packet to the endpoint referenced by *map* at
->> + * 		index *key*. Depending on its type, his *map* can contain
->                                                     ^^^
-> 
-> "his" -> "this"
+On Tue, Apr 17, 2018 at 3:40 PM, Jae Hyun Yoo
+<jae.hyun.yoo@linux.intel.com> wrote:
+> On 4/16/2018 4:51 PM, Jae Hyun Yoo wrote:
+>>
+>> On 4/16/2018 4:22 PM, Jae Hyun Yoo wrote:
+>>>
+>>> On 4/16/2018 11:14 AM, Rob Herring wrote:
+>>>>
+>>>> On Tue, Apr 10, 2018 at 11:32:09AM -0700, Jae Hyun Yoo wrote:
+>>>>>
+>>>>> This commit adds dt-bindings documents for PECI cputemp and dimmtemp
+>>>>> client
+>>>>> drivers.
+>>>>
+>>>>
+>
+> [...]
+>
+>>>>> +Example:
+>>>>> +    peci-bus@0 {
+>>>>> +        #address-cells = <1>;
+>>>>> +        #size-cells = <0>;
+>>>>> +        < more properties >
+>>>>> +
+>>>>> +        peci-dimmtemp@cpu0 {
+>>>>
+>>>>
+>>>> unit-address is wrong.
+>>>>
+>>>
+>>> Will fix it using the reg value.
+>>>
+>>>> It is a different bus from cputemp? Otherwise, you have conflicting
+>>>> addresses. If that's the case, probably should make it clear by showing
+>>>> different host adapters for each example.
+>>>>
+>>>
+>>> It could be the same bus with cputemp. Also, client address sharing is
+>>> possible by PECI core if the functionality is different. I mean, cputemp and
+>>> dimmtemp targeting the same client is possible case like this.
+>>> peci-cputemp@30
+>>> peci-dimmtemp@30
+>>>
+>>
+>> Oh, I got your point. Probably, I should change these separate settings
+>> into one like
+>>
+>> peci-client@30 {
+>>      compatible = "intel,peci-client";
+>>      reg = <0x30>;
+>> };
+>>
+>> Then cputemp and dimmtemp drivers could refer the same compatible string.
+>> Will rewrite it.
+>>
+>
+> I've checked it again and realized that it should use function based node
+> name like:
+>
+> peci-cputemp@30
+> peci-dimmtemp@30
+>
+> If it use the same string like 'peci-client@30', the drivers cannot be
+> selectively enabled. The client address sharing way is well handled in PECI
+> core and this way would be better for the future implementations of other
+> PECI functional drivers such as crash dump driver and so on. So I'm going
+> change the unit-address only.
 
-Thanks!
+2 nodes at the same address is wrong (and soon dtc will warn you on
+this). You have 2 potential options. The first is you need additional
+address information in the DT if these are in fact 2 independent
+devices. This could be something like a function number to use
+something from PCI addressing. From what I found on PECI, it doesn't
+seem to have anything like that. The 2nd option is you have a single
+DT node which registers multiple hwmon devices. DT nodes and drivers
+don't have to be 1-1. Don't design your DT nodes from how you want to
+partition drivers in some OS.
 
->> + * 		references to net devices (for forwarding packets through other
->> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
->> + * 		but this is only implemented for native XDP (with driver
->> + * 		support) as of this writing).
->> + *
->> + * 		All values for *flags* are reserved for future usage, and must
->> + * 		be left at zero.
->> + * 	Return
->> + * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
->> + *
-> 
-> "XDP_ABORT" -> "XDP_ABORTED"
-
-Ouch. And I did the same for bpf_redirect(). Thanks for the catch.
-
-> 
-> I don't know if it's worth mentioning in the doc/man-page; that for XDP
-> using bpf_redirect_map() is a HUGE performance advantage, compared to
-> the bpf_redirect() call ?
-
-It seems worth to me. How would you simply explain the reason for this
-difference?
-
-Quentin
+Rob
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
