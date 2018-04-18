@@ -1,157 +1,200 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44FD97DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 16:46:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BF5B7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 18:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752077AbeDRQqA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 12:46:00 -0400
-Received: from mga17.intel.com ([192.55.52.151]:16556 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751335AbeDRQp6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Apr 2018 12:45:58 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Apr 2018 09:45:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,466,1517904000"; 
-   d="scan'208";a="33564808"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.150]) ([10.7.153.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Apr 2018 09:45:57 -0700
-Subject: Re: [PATCH v3 04/10] Documentations: dt-bindings: Add a document of
- PECI adapter driver for Aspeed AST24xx/25xx SoCs
-To:     Rob Herring <robh@kernel.org>
-Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-5-jae.hyun.yoo@linux.intel.com>
- <20180416181035.rcjvt4rlrwaj5yxf@rob-hp-laptop>
- <53ff5b2b-eba8-8311-64a9-abd4bc72226d@linux.intel.com>
- <CAL_Jsq+1wC-KhXPeCSNhCeCih6=CatJbyumO51ucD17Rt7qofw@mail.gmail.com>
- <f07623c4-5f0c-4ab1-f761-44bd702bbdf0@linux.intel.com>
- <584aca6c-c87a-ff7a-2fdc-3c742236be60@linux.intel.com>
- <CAL_Jsq+9YDv04Gu=WODdqb6wD4fk6=-fFw_3skU79UC8OW0jZA@mail.gmail.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <7ff3b23c-7dc8-865f-4069-c53642aaf1ab@linux.intel.com>
-Date:   Wed, 18 Apr 2018 09:45:56 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1752093AbeDRSQm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 14:16:42 -0400
+Received: from mail-wr0-f195.google.com ([209.85.128.195]:40298 "EHLO
+        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750885AbeDRSQl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 14:16:41 -0400
+Received: by mail-wr0-f195.google.com with SMTP id v60-v6so7270282wrc.7;
+        Wed, 18 Apr 2018 11:16:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=m/utjJ1PqR2wzb409/X4ww5tXpeqsxU282eN4Jf2/7s=;
+        b=vh9D1pv55IWOSwOUfMFHdPE/IrfTC7QwuB1hKAkx5z53cWT6ynW30aus0+ixORcSyM
+         /mD4RGUEpp1Z8JS7pTcIeQFtdm4ypRsRJwnkOqe77nwEeSZbU7H4qidm5Xvbg0XAuUIn
+         lZh5jmhAjMbazIOg/lDLkYCDU5Vq0ZahvB3M8nI8Tf2Fpf0Z903bFyFmbIdzpbQLvvvx
+         cBu0e43ZuUR9XMKCpg4dtdsxd5G72pBngu6NVlycaSUBV2PW8K9WX2AGHmZEWNH6QfP6
+         EkbiVpvYrf4oFiprlwRSxyyq5IikZrEumy8926nFt/6+uLlyioBYn4XG5zQbMtuwQZlz
+         htpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=m/utjJ1PqR2wzb409/X4ww5tXpeqsxU282eN4Jf2/7s=;
+        b=Ge7kKTqjhFKg//iKshySAwHxPnJ2HZnOAKNM/y4/gh3CLMtR3tkLmC9GewzoS3cMgc
+         byya1DlYniAvfj1DkHyNHG9sEkn18kuqHvtffGvhBYGky/szVmo/uNSbf4w8r4BmwKJc
+         azTDKxsYn/Vg4qL7x6g80tjf3kBIySFaELJsBOPFFQopVri5tknK5SFET0hR2CzWcpXf
+         B4SXukTLSS6K2XCrVrOPZZ5/5pAwxNsGhBo2+5iK2st/idpzFZFTq5v31QW1ed1GC71s
+         uHAPf2Z7eF5Bj17q6lnKnA6BjHW70kcHTG8EgIUx6HUwobNSg1yVBCG/XcuksXmiEnGX
+         boZQ==
+X-Gm-Message-State: ALQs6tCn+Rs09zKa8xsVcXjWs7M9/TTMjMKFaNTYXQCe6NvY/4V6NZW2
+        zNYHx9BtwTUVTfMFkxhp8AvoTBHh
+X-Google-Smtp-Source: AIpwx49/XYIl7z5648Kep+gVlTGSdChrzd0pvJ+RdomH+kaM79PmYSzvCgCdLqFZ4/+mW6T5oXG9Iw==
+X-Received: by 10.80.224.68 with SMTP id g4mr4559716edl.123.1524075400216;
+        Wed, 18 Apr 2018 11:16:40 -0700 (PDT)
+Received: from thinkpad (524A8B4B.cm-4-3c.dynamic.ziggo.nl. [82.74.139.75])
+        by smtp.gmail.com with ESMTPSA id p1sm452326edm.0.2018.04.18.11.16.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 18 Apr 2018 11:16:39 -0700 (PDT)
+Date:   Wed, 18 Apr 2018 20:16:37 +0200
+From:   Thymo van Beers <thymovanbeers@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: kernel-parameters.txt: Fix whitespace
+Message-ID: <20180418181635.GA24031@thinkpad>
+References: <20180416214939.GA11304@thinkpad>
+ <31612fbd-6624-140a-ed92-04b8f0bd5f64@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+9YDv04Gu=WODdqb6wD4fk6=-fFw_3skU79UC8OW0jZA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <31612fbd-6624-140a-ed92-04b8f0bd5f64@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/18/2018 6:59 AM, Rob Herring wrote:
-> On Tue, Apr 17, 2018 at 5:06 PM, Jae Hyun Yoo
-> <jae.hyun.yoo@linux.intel.com> wrote:
->> On 4/17/2018 11:16 AM, Jae Hyun Yoo wrote:
->>>
->>> On 4/17/2018 6:16 AM, Rob Herring wrote:
->>>>
->>>> On Mon, Apr 16, 2018 at 6:12 PM, Jae Hyun Yoo
->>>> <jae.hyun.yoo@linux.intel.com> wrote:
->>>>>
->>>>> On 4/16/2018 11:10 AM, Rob Herring wrote:
->>>>>>
->>>>>>
->>>>>> On Tue, Apr 10, 2018 at 11:32:06AM -0700, Jae Hyun Yoo wrote:
->>>>>>>
->>>>>>>
->>>>>>> This commit adds a dt-bindings document of PECI adapter driver for
->>>>>>> Aspeed
->>>>>>> AST24xx/25xx SoCs.
->>>>
->>>>
->>>> [...]
->>>>
->>>>>>> +- clocks            : Should contain clock source for PECI
->>>>>>> controller.
->>>>>>> +                     Should reference clkin.
->>>>>>> +- clock_frequency   : Should contain the operation frequency of PECI
->>>>>>> controller
->>>>>>> +                     in units of Hz.
->>>>>>> +                     187500 ~ 24000000
->>>>>>
->>>>>>
->>>>>>
->>>>>> This is the frequency of the bus or used to derive it? It would be
->>>>>> better to specify the bus frequency instead and have the driver
->>>>>> calculate its internal freq. And then use "bus-frequency" instead.
->>>>>>
->>>>>
->>>>> I agree with you. Actually, it is being used for operation frequency
->>>>> setting
->>>>> of PECI controller module in SoC so it's different from the meaning of
->>>>> "bus-frequency". I'll change it to "operation-frequency".
->>>>
->>>>
->>>> No, now you've gone from a standard property name to something custom.
->>>> Why do you need to set the frequency in DT if it is not related to the
->>>> interface frequency?
->>>>
->>>> Rob
->>>>
->>>
->>> Actually, the interface frequency is affected by the operation frequency
->>> but there is no description of its relationship in datasheet. I'll check
->>> again about the detail to ASPEED chip vendor and will use
->>> 'bus-frequency' if available.
->>>
->>
->> I investigated it more deeply. Basically, by the spec, PECI bus speed
->> cannot be set as a fixed speed. A PECI bus can have a wide speed range
->> from 2Kbps to 2Mbps which is dynamically set by a handshaking sequence
->> between an originator and clients called 'timing negotiation' in spec.
->> This timing negotiation behavior happens on every single transaction so the
->> bus speed also can vary on every transactions. So I'm thinking a custom
->> property name for it, 'peci-clk-frequency' if it is acceptable.
+On Mon, Apr 16, 2018 at 03:03:47PM -0700, Randy Dunlap wrote:
+> On 04/16/18 14:49, Thymo van Beers wrote:
+> > Some lines used spaces instead of tabs at line start.
+> > This can cause mangled lines in editors due to inconsistency.
+> > 
+> > Replace spaces for tabs where appropriate.
+> > 
+> > Signed-off-by: Thymo van Beers <thymovanbeers@gmail.com>
+> > ---
+> > Changes in v2:
+> >   - Rebase against docs-next
+> >   - Fix indentation modifications
+> > 
+> >  Documentation/admin-guide/kernel-parameters.txt | 136 ++++++++++++------------
+> >  1 file changed, 68 insertions(+), 68 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 3487be79847c..f625f65c286f 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
 > 
-> Okay, seems bus-frequency is not appropriate here. So use
-> 'clock-frequency' (note the '-' not '_' as that is the standard
-> property).
+> Most of the patch is OK IMO, but not the intel_pstate part:
+> The 2-space extra indents work fine here, while the extra tab makes a lot of the
+> lines go beyond the 80-column mark.
 > 
-> Rob
+> > @@ -1650,39 +1650,39 @@
+> >  			0	disables intel_idle and fall back on acpi_idle.
+> >  			1 to 9	specify maximum depth of C-state.
+> >  
+> > -	intel_pstate=  [X86]
+> > -		       disable
+> > -		         Do not enable intel_pstate as the default
+> > -		         scaling driver for the supported processors
+> > -		       passive
+> > -			 Use intel_pstate as a scaling driver, but configure it
+> > -			 to work with generic cpufreq governors (instead of
+> > -			 enabling its internal governor).  This mode cannot be
+> > -			 used along with the hardware-managed P-states (HWP)
+> > -			 feature.
+> > -		       force
+> > -			 Enable intel_pstate on systems that prohibit it by default
+> > -			 in favor of acpi-cpufreq. Forcing the intel_pstate driver
+> > -			 instead of acpi-cpufreq may disable platform features, such
+> > -			 as thermal controls and power capping, that rely on ACPI
+> > -			 P-States information being indicated to OSPM and therefore
+> > -			 should be used with caution. This option does not work with
+> > -			 processors that aren't supported by the intel_pstate driver
+> > -			 or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
+> > -		       no_hwp
+> > -		         Do not enable hardware P state control (HWP)
+> > -			 if available.
+> > -		hwp_only
+> > -			Only load intel_pstate on systems which support
+> > -			hardware P state control (HWP) if available.
+> > -		support_acpi_ppc
+> > -			Enforce ACPI _PPC performance limits. If the Fixed ACPI
+> > -			Description Table, specifies preferred power management
+> > -			profile as "Enterprise Server" or "Performance Server",
+> > -			then this feature is turned on by default.
+> > -		per_cpu_perf_limits
+> > -			Allow per-logical-CPU P-State performance control limits using
+> > -			cpufreq sysfs interface
+> > +	intel_pstate=	[X86]
+> > +			disable
+> > +				Do not enable intel_pstate as the default
+> > +				scaling driver for the supported processors
+> > +			passive
+> > +				Use intel_pstate as a scaling driver, but configure it
+> > +				to work with generic cpufreq governors (instead of
+> > +				enabling its internal governor).  This mode cannot be
+> > +				used along with the hardware-managed P-states (HWP)
+> > +				feature.
+> > +			force
+> > +				Enable intel_pstate on systems that prohibit it by default
+> > +				in favor of acpi-cpufreq. Forcing the intel_pstate driver
+> > +				instead of acpi-cpufreq may disable platform features, such
+> > +				as thermal controls and power capping, that rely on ACPI
+> > +				P-States information being indicated to OSPM and therefore
+> > +				should be used with caution. This option does not work with
+> > +				processors that aren't supported by the intel_pstate driver
+> > +				or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
+> > +			no_hwp
+> > +				Do not enable hardware P state control (HWP)
+> > +				if available.
+> > +			hwp_only
+> > +				Only load intel_pstate on systems which support
+> > +				hardware P state control (HWP) if available.
+> > +			support_acpi_ppc
+> > +				Enforce ACPI _PPC performance limits. If the Fixed ACPI
+> > +				Description Table, specifies preferred power management
+> > +				profile as "Enterprise Server" or "Performance Server",
+> > +				then this feature is turned on by default.
+> > +			per_cpu_perf_limits
+> > +				Allow per-logical-CPU P-State performance control limits using
+> > +				cpufreq sysfs interface
+> >  
+> >  	intremap=	[X86-64, Intel-IOMMU]
+> >  			on	enable Interrupt Remapping (default)
+> > @@ -2027,7 +2027,7 @@
+> >  			* [no]ncqtrim: Turn off queued DSM TRIM.
+> >  
+> >  			* nohrst, nosrst, norst: suppress hard, soft
+> > -                          and both resets.
+> > +			and both resets.
 > 
+> I would leave that line above indented like the one after "rstonce" below.
+> 
+> >  
+> >  			* rstonce: only attempt one reset during
+> >  			  hot-unplug link recovery
+> 
+> 
+> -- 
+> ~Randy
 
-Thanks! I'll use 'clock-frequency' for it.
+Okay, thanks for your feedback.
 
-Jae
+I reindented intel_pstate as you said and I can still see the whole
+description for the 'advanced' option is going past the 80-column mark.
 
+I'll leave it indented with two spaces for this patch.
+If you wish I can make a separate patch that addresses 80-column overrun
+for intel_pstate.
+
+I'll indent the nohrst,... section like rstonce.
+
+Does that sound good to you?
+
+-Thymo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
