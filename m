@@ -1,111 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA1CB7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 01:04:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D4797DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 01:11:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752915AbeDRBEy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 17 Apr 2018 21:04:54 -0400
-Received: from mail-pf0-f196.google.com ([209.85.192.196]:38326 "EHLO
-        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752314AbeDRBEx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 21:04:53 -0400
-Received: by mail-pf0-f196.google.com with SMTP id y69so49161pfb.5;
-        Tue, 17 Apr 2018 18:04:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1k8wvZP/JzGH+w06DvZcX/cEbPcZuXo5erdBfMuDq38=;
-        b=LZMrEq0mI7Y6SW7oiakpj9nTksU5pQFOp7owZYHbxrZwibHU9J/iPcEN6LX1+U3P8L
-         l4/vGUv8ixBDxr1H/NB5P7F5AKwpf1ISoue3ZVPz7+S2NwAtLeDaK6pF/+IcoUdsqbkx
-         5KMkHJt1Uy4UxURmO6W9ZToQqS692KLDXs/tO85MAoRfIUsz6s+gBp4B6X+1cwplfEp5
-         5wFTOEwA15bLpqUcKtxuldf3hEt4m7aNd1o8OxL2TXdjlLPpw1g+PnBwvTXn+Q2IIRU6
-         b+wJNWrkpsSMXY4Ti5DWynEGk6Q/5jmoTZWlSLjCZPcW1xDsGJrrQ0QtORT9IYqEKFSr
-         U6Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1k8wvZP/JzGH+w06DvZcX/cEbPcZuXo5erdBfMuDq38=;
-        b=tC0SxDXNfS2s/vkSiF3+94Xb+CGmSOpQ2KkPZ20mzHguq5aQ6goRsFYa1SqpOw2xlJ
-         x9wAa19J/k6pJTvPJsmwUpANKmYzn6GqnZEqPHpzN6ZWc9YPRb3vTDNXEcBeFA6vavS2
-         2ZiYjPJDEgnbmVlE9Y6YyeTKO8+4riqGrqImfS9HivPiYJKYsiFG8eow8QE/CaSL9Xjc
-         OBm3MCvKF+2M9X3EILqRR8wvsHee711o43PDaAdJ3iJpERTxhfBBCFsRmeMfKfnu+4PV
-         APl0krmXo845l9QbnM6EP2dXq3Ud8RCHrSwRjNfEZksRVWD6bWtljr71jtgX2oTO+gob
-         Jjcg==
-X-Gm-Message-State: ALQs6tAkHGVd26W3Bv78CXjatMs+I04ian+djh7+BMBcENsrb7c+dX1/
-        uA/mtD5Ftpe22SbfN30mLSA=
-X-Google-Smtp-Source: AIpwx4/OoSJFpGEHVuNOBKm3mXyoN/eDlLmh7JYXfdGhFNGJyzC41TgWjwH/Ef3RSzi41GREQgzxTw==
-X-Received: by 10.101.72.140 with SMTP id n12mr21772pgs.155.1524013492706;
-        Tue, 17 Apr 2018 18:04:52 -0700 (PDT)
-Received: from ast-mbp ([2620:10d:c090:180::1:5a07])
-        by smtp.gmail.com with ESMTPSA id g8sm66068pgq.28.2018.04.17.18.04.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 17 Apr 2018 18:04:51 -0700 (PDT)
-Date:   Tue, 17 Apr 2018 18:04:50 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Quentin Monnet <quentin.monnet@netronome.com>
-Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH bpf-next v3 2/8] bpf: add documentation for eBPF helpers
- (01-11)
-Message-ID: <20180418010449.abxlxtdllo7nofg3@ast-mbp>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-3-quentin.monnet@netronome.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180417143438.7018-3-quentin.monnet@netronome.com>
-User-Agent: NeoMutt/20180223
+        id S1753156AbeDRBLH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 17 Apr 2018 21:11:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35902 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752736AbeDRBLH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 17 Apr 2018 21:11:07 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3I19SBA119109
+        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 21:11:06 -0400
+Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2hds1rperm-1
+        (version=TLSv1.2 cipher=AES256-SHA256 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 17 Apr 2018 21:11:06 -0400
+Received: from localhost
+        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <alastair@au1.ibm.com>;
+        Wed, 18 Apr 2018 02:11:04 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 18 Apr 2018 02:11:02 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3I1B1CM56754416;
+        Wed, 18 Apr 2018 01:11:01 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3342FAE051;
+        Wed, 18 Apr 2018 02:00:51 +0100 (BST)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D0942AE045;
+        Wed, 18 Apr 2018 02:00:50 +0100 (BST)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 18 Apr 2018 02:00:50 +0100 (BST)
+Received: from adsilva.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
+        (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id B9BB3A02A1;
+        Wed, 18 Apr 2018 11:10:59 +1000 (AEST)
+From:   "Alastair D'Silva" <alastair@au1.ibm.com>
+To:     linuxppc-dev@lists.ozlabs.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikey@neuling.org, vaibhav@linux.vnet.ibm.com,
+        aneesh.kumar@linux.vnet.ibm.com, malat@debian.org,
+        felix@linux.vnet.ibm.com, pombredanne@nexb.com,
+        sukadev@linux.vnet.ibm.com, npiggin@gmail.com,
+        gregkh@linuxfoundation.org, arnd@arndb.de,
+        andrew.donnellan@au1.ibm.com, fbarrat@linux.vnet.ibm.com,
+        corbet@lwn.net, "Alastair D'Silva" <alastair@d-silva.org>
+Subject: [PATCH v2 4/7] ocxl: Rename pnv_ocxl_spa_remove_pe to clarify it's action
+Date:   Wed, 18 Apr 2018 11:08:07 +1000
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180418010810.30937-1-alastair@au1.ibm.com>
+References: <20180417020950.21446-1-alastair@au1.ibm.com>
+ <20180418010810.30937-1-alastair@au1.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 18041801-0008-0000-0000-000004EC75A6
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18041801-0009-0000-0000-00001E807C81
+Message-Id: <20180418010810.30937-5-alastair@au1.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-17_13:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1804180008
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 17, 2018 at 03:34:32PM +0100, Quentin Monnet wrote:
-> Add documentation for eBPF helper functions to bpf.h user header file.
-> This documentation can be parsed with the Python script provided in
-> another commit of the patch series, in order to provide a RST document
-> that can later be converted into a man page.
-> 
-> The objective is to make the documentation easily understandable and
-> accessible to all eBPF developers, including beginners.
-> 
-> This patch contains descriptions for the following helper functions, all
-> written by Alexei:
-> 
-> - bpf_map_lookup_elem()
-> - bpf_map_update_elem()
-> - bpf_map_delete_elem()
-> - bpf_probe_read()
-> - bpf_ktime_get_ns()
-> - bpf_trace_printk()
-> - bpf_skb_store_bytes()
-> - bpf_l3_csum_replace()
-> - bpf_l4_csum_replace()
-> - bpf_tail_call()
-> - bpf_clone_redirect()
-> 
-> v3:
-> - bpf_map_lookup_elem(): Fix description of restrictions for flags
->   related to the existence of the entry.
-> - bpf_trace_printk(): State that trace_pipe can be configured. Fix
->   return value in case an unknown format specifier is met. Add a note on
->   kernel log notice when the helper is used. Edit example.
-> - bpf_tail_call(): Improve comment on stack inheritance.
-> - bpf_clone_redirect(): Improve description of BPF_F_INGRESS flag.
-> 
-> Cc: Alexei Starovoitov <ast@kernel.org>
-> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
+From: Alastair D'Silva <alastair@d-silva.org>
 
-Acked-by: Alexei Starovoitov <ast@kernel.org>
+The function removes the process element from NPU cache.
+
+Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
+---
+ arch/powerpc/include/asm/pnv-ocxl.h   | 2 +-
+ arch/powerpc/platforms/powernv/ocxl.c | 4 ++--
+ drivers/misc/ocxl/link.c              | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/powerpc/include/asm/pnv-ocxl.h b/arch/powerpc/include/asm/pnv-ocxl.h
+index f6945d3bc971..208b5503f4ed 100644
+--- a/arch/powerpc/include/asm/pnv-ocxl.h
++++ b/arch/powerpc/include/asm/pnv-ocxl.h
+@@ -28,7 +28,7 @@ extern int pnv_ocxl_map_xsl_regs(struct pci_dev *dev, void __iomem **dsisr,
+ extern int pnv_ocxl_spa_setup(struct pci_dev *dev, void *spa_mem, int PE_mask,
+ 			void **platform_data);
+ extern void pnv_ocxl_spa_release(void *platform_data);
+-extern int pnv_ocxl_spa_remove_pe(void *platform_data, int pe_handle);
++extern int pnv_ocxl_spa_remove_pe_from_cache(void *platform_data, int pe_handle);
+ 
+ extern int pnv_ocxl_alloc_xive_irq(u32 *irq, u64 *trigger_addr);
+ extern void pnv_ocxl_free_xive_irq(u32 irq);
+diff --git a/arch/powerpc/platforms/powernv/ocxl.c b/arch/powerpc/platforms/powernv/ocxl.c
+index fa9b53af3c7b..8c65aacda9c8 100644
+--- a/arch/powerpc/platforms/powernv/ocxl.c
++++ b/arch/powerpc/platforms/powernv/ocxl.c
+@@ -475,7 +475,7 @@ void pnv_ocxl_spa_release(void *platform_data)
+ }
+ EXPORT_SYMBOL_GPL(pnv_ocxl_spa_release);
+ 
+-int pnv_ocxl_spa_remove_pe(void *platform_data, int pe_handle)
++int pnv_ocxl_spa_remove_pe_from_cache(void *platform_data, int pe_handle)
+ {
+ 	struct spa_data *data = (struct spa_data *) platform_data;
+ 	int rc;
+@@ -483,7 +483,7 @@ int pnv_ocxl_spa_remove_pe(void *platform_data, int pe_handle)
+ 	rc = opal_npu_spa_clear_cache(data->phb_opal_id, data->bdfn, pe_handle);
+ 	return rc;
+ }
+-EXPORT_SYMBOL_GPL(pnv_ocxl_spa_remove_pe);
++EXPORT_SYMBOL_GPL(pnv_ocxl_spa_remove_pe_from_cache);
+ 
+ int pnv_ocxl_alloc_xive_irq(u32 *irq, u64 *trigger_addr)
+ {
+diff --git a/drivers/misc/ocxl/link.c b/drivers/misc/ocxl/link.c
+index f30790582dc0..656e8610eec2 100644
+--- a/drivers/misc/ocxl/link.c
++++ b/drivers/misc/ocxl/link.c
+@@ -599,7 +599,7 @@ int ocxl_link_remove_pe(void *link_handle, int pasid)
+ 	 * On powerpc, the entry needs to be cleared from the context
+ 	 * cache of the NPU.
+ 	 */
+-	rc = pnv_ocxl_spa_remove_pe(link->platform_data, pe_handle);
++	rc = pnv_ocxl_spa_remove_pe_from_cache(link->platform_data, pe_handle);
+ 	WARN_ON(rc);
+ 
+ 	pe_data = radix_tree_delete(&spa->pe_tree, pe_handle);
+-- 
+2.14.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
