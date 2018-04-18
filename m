@@ -6,70 +6,70 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D86507DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 22:10:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 76CCC7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 22:12:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752689AbeDRWKH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 18:10:07 -0400
-Received: from mail-pl0-f67.google.com ([209.85.160.67]:33727 "EHLO
-        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750981AbeDRWKG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 18:10:06 -0400
-Received: by mail-pl0-f67.google.com with SMTP id w12-v6so1947875plp.0;
-        Wed, 18 Apr 2018 15:10:05 -0700 (PDT)
+        id S1751407AbeDRWMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 18:12:01 -0400
+Received: from mail-pf0-f195.google.com ([209.85.192.195]:35038 "EHLO
+        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750981AbeDRWMA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 18:12:00 -0400
+Received: by mail-pf0-f195.google.com with SMTP id j5so1588287pfh.2;
+        Wed, 18 Apr 2018 15:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=iscAVkILweYqb0SkM9S6asBzHCjRFrVrZ5wiAVhsOT0=;
-        b=h0DauilfNFc2VR0PZ4escY+wi7U2HDDUiCEcjJJlpVlm9RZkqYp7i5eCIt9xLAXdZ7
-         KT/MfNGxqFgSkIaovvBO4ioJaUMdLLmNxF1JNcqOnLVFm1oq/oHBdFPtnWALDmlw/1c+
-         g3t22sQYLXQqhkCPj5Pbu4o6lKm4s5YeyZwAM66A397BhhoO1KXMQPU3HPoRAE/69g5/
-         ZS3tmorEn9uGuA8FHAtdTe+FimLby/ERYKQJChPlcpe3TE17gsFM1L/qhS7lktLcvVz4
-         PPfCo9YSnjaHBZtPWf5t+Aa+KoZ6Gaml/xzS4ks1HBhoAdsCFTEa6NLHKhVwYwpG7sQn
-         qiuw==
+        bh=EAGRwUoRshdmeAi7JqZN4nU9r+J5fp3/LLRYmOATtjk=;
+        b=oEMKK0u3T0M89lwwb9vfuHRQDCKOcumHaN/xubudA92zHciY9A3dgkNYgsQAmBJgsN
+         P0eoM691GpC9VL10FKRuvHE2j6j8paKJJ2N840Jl81fa0vHirfIEIjAietARLngc7phh
+         V5gtHZuRctraE3FJJXUfoEuP3uUF5y/ZubGvv+/wLSrcEp0ym1sli28J11pvOtROOGxH
+         b6Nqq66rve3HXll71Rjsz4a4qz7gbxRwtzyzuzMpTeB0LY6rtxU47oRnAQ5LAc2nlfJx
+         L81bcQF200lxXFiP4PM6szsEe7z0SiTxqnexXlZv+ROcSVyfcfWcabGH2zkVwnliefQe
+         rIEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=iscAVkILweYqb0SkM9S6asBzHCjRFrVrZ5wiAVhsOT0=;
-        b=aSagpCuKuQxk/7gmVbxYPHe34OfZNBknIkirrc5lqEwR59IxflbxFzfkEf0+jFd15j
-         /eanRgSX5g+cdvyEpmfpvpcu6qodxibCjZ6oUEh5lIc+gJHyZ02D27G2T7G2KV/Wn92+
-         1iHjeBMnf2UnrgZP5AZtgcu4Myyp5F3us2IzvDA+MKpYR1Uy5BN1ydTFICDp3gqsAbCw
-         IXmLBTFsxCFrMNK5X0xCHvAjgw0hXKkYFsCtG5q7zUC48ftAQqXzGkOXHt998kNtCiR6
-         MuqJQAcC48nzsx0MBYyiXCmsUSIF6WmpR4cHfkgaDQlc6FwQfJ3MgI646N/KSQ2OPAnk
-         7Tbg==
-X-Gm-Message-State: ALQs6tBTFoDAXrBFLlaNBHFyvcji+KW33NmKmQ5VGy/pj05XH4NXEaDk
-        2vlMnTQy8Y35FCcoqzaNPGk=
-X-Google-Smtp-Source: AIpwx4+JsgD+J4ghPl+N5a0LHST80LVtNnLmp3Udn2M2Bigv0wgO29sAKUv8xeYda7uWY2RMVHgMuw==
-X-Received: by 2002:a17:902:7101:: with SMTP id a1-v6mr3616414pll.291.1524089405227;
-        Wed, 18 Apr 2018 15:10:05 -0700 (PDT)
+        bh=EAGRwUoRshdmeAi7JqZN4nU9r+J5fp3/LLRYmOATtjk=;
+        b=O1ey8SvksGCKo1liO2TxRUkfLlzgLrc+qHA4duN3RaBVGSdbHsrXBJiEqudWhT6unT
+         Vo5ugVXj/G+WNgp/g18Jiv0wN1sKe/iqQ5qtDBCHDoKxdfIU4B33vNSJl85NZcSiyBvT
+         MSiZfXZp9GjeEmOkKV7aNGDVsAI96RDwyompzzIi2STcHj6Ma4TmFt6Sc4X03Q11GD4L
+         rp4nH0Xt/tY2ORKho+XdlMumGCGHpfaqecUCpGu1lZYEQ8oGbstI7M1fuMD7mK51vfkk
+         gSt0SAMHY+5sHF9gpTs3YTDvTg4vjR5RZRA9CRVSyBdXefRKWqrQQYAJdlVMk4mZCqTh
+         FL1g==
+X-Gm-Message-State: ALQs6tDsjCC1HIMxQwPj3F+kRKoEeWTN03fzQQhmWSsmUpNDnvrG6d9c
+        3iPrmfH/ybARyuqwinKTNVU=
+X-Google-Smtp-Source: AIpwx48Uqi6CH1jsteG9JAmNKXLEaFAaH8jb8ltztBrit81X5W4yAcKBOSDsInX2kM3LDaptt0N7sQ==
+X-Received: by 10.99.52.76 with SMTP id b73mr3079718pga.258.1524089520246;
+        Wed, 18 Apr 2018 15:12:00 -0700 (PDT)
 Received: from ast-mbp ([2620:10d:c090:180::1:ac97])
-        by smtp.gmail.com with ESMTPSA id v8sm3873461pff.42.2018.04.18.15.10.03
+        by smtp.gmail.com with ESMTPSA id l11sm3106391pgq.83.2018.04.18.15.11.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Apr 2018 15:10:04 -0700 (PDT)
-Date:   Wed, 18 Apr 2018 15:10:02 -0700
+        Wed, 18 Apr 2018 15:11:59 -0700 (PDT)
+Date:   Wed, 18 Apr 2018 15:11:57 -0700
 From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
 To:     Quentin Monnet <quentin.monnet@netronome.com>
 Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
         oss-drivers@netronome.com, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org
-Subject: Re: [PATCH bpf-next v3 3/8] bpf: add documentation for eBPF helpers
- (12-22)
-Message-ID: <20180418221000.e2gwl54kis2l4ia4@ast-mbp>
+Subject: Re: [PATCH bpf-next v3 4/8] bpf: add documentation for eBPF helpers
+ (23-32)
+Message-ID: <20180418221156.o5ulg2ecixr6oubn@ast-mbp>
 References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-4-quentin.monnet@netronome.com>
+ <20180417143438.7018-5-quentin.monnet@netronome.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180417143438.7018-4-quentin.monnet@netronome.com>
+In-Reply-To: <20180417143438.7018-5-quentin.monnet@netronome.com>
 User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 17, 2018 at 03:34:33PM +0100, Quentin Monnet wrote:
+On Tue, Apr 17, 2018 at 03:34:34PM +0100, Quentin Monnet wrote:
 > Add documentation for eBPF helper functions to bpf.h user header file.
 > This documentation can be parsed with the Python script provided in
 > another commit of the patch series, in order to provide a RST document
@@ -79,33 +79,34 @@ On Tue, Apr 17, 2018 at 03:34:33PM +0100, Quentin Monnet wrote:
 > accessible to all eBPF developers, including beginners.
 > 
 > This patch contains descriptions for the following helper functions, all
-> written by Alexei:
+> written by Daniel:
 > 
-> - bpf_get_current_pid_tgid()
-> - bpf_get_current_uid_gid()
-> - bpf_get_current_comm()
-> - bpf_skb_vlan_push()
-> - bpf_skb_vlan_pop()
-> - bpf_skb_get_tunnel_key()
-> - bpf_skb_set_tunnel_key()
-> - bpf_redirect()
-> - bpf_perf_event_output()
-> - bpf_get_stackid()
-> - bpf_get_current_task()
+> - bpf_get_prandom_u32()
+> - bpf_get_smp_processor_id()
+> - bpf_get_cgroup_classid()
+> - bpf_get_route_realm()
+> - bpf_skb_load_bytes()
+> - bpf_csum_diff()
+> - bpf_skb_get_tunnel_opt()
+> - bpf_skb_set_tunnel_opt()
+> - bpf_skb_change_proto()
+> - bpf_skb_change_type()
 > 
 > v3:
-> - bpf_skb_get_tunnel_key(): Change and improve description and example.
-> - bpf_redirect(): Improve description of BPF_F_INGRESS flag.
-> - bpf_perf_event_output(): Fix first sentence of description. Delete
->   wrong statement on context being evaluated as a struct pt_reg. Remove
->   the long yet incomplete example.
-> - bpf_get_stackid(): Add a note about PERF_MAX_STACK_DEPTH being
->   configurable.
+> - bpf_get_prandom_u32(): Fix helper name :(. Add description, including
+>   a note on the internal random state.
+> - bpf_get_smp_processor_id(): Add description, including a note on the
+>   processor id remaining stable during program run.
+> - bpf_get_cgroup_classid(): State that CONFIG_CGROUP_NET_CLASSID is
+>   required to use the helper. Add a reference to related documentation.
+>   State that placing a task in net_cls controller disables cgroup-bpf.
+> - bpf_get_route_realm(): State that CONFIG_CGROUP_NET_CLASSID is
+>   required to use this helper.
+> - bpf_skb_load_bytes(): Fix comment on current use cases for the helper.
 > 
-> Cc: Alexei Starovoitov <ast@kernel.org>
+> Cc: Daniel Borkmann <daniel@iogearbox.net>
 > Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 
-looks great.
 Acked-by: Alexei Starovoitov <ast@kernel.org>
 
 --
