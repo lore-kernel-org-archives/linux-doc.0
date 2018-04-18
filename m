@@ -4,156 +4,77 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E1C47DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 14:33:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD51E7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 14:49:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752733AbeDROdA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 10:33:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39918 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752687AbeDROc6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Apr 2018 10:32:58 -0400
-Received: from mail-qt0-f171.google.com (mail-qt0-f171.google.com [209.85.216.171])
+        id S1753175AbeDROta (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 10:49:30 -0400
+Received: from mailout.easymail.ca ([64.68.200.34]:37448 "EHLO
+        mailout.easymail.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753158AbeDROt2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 10:49:28 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mailout.easymail.ca (Postfix) with ESMTP id 373002150A;
+        Wed, 18 Apr 2018 14:49:27 +0000 (UTC)
+Received: from mailout.easymail.ca ([127.0.0.1])
+        by localhost (emo02-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 5Tkers1ZICTe; Wed, 18 Apr 2018 14:49:27 +0000 (UTC)
+Received: from [192.168.1.87] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 268622184A;
-        Wed, 18 Apr 2018 14:32:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 268622184A
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=robh@kernel.org
-Received: by mail-qt0-f171.google.com with SMTP id h4-v6so1976716qtn.13;
-        Wed, 18 Apr 2018 07:32:58 -0700 (PDT)
-X-Gm-Message-State: ALQs6tBlU/SaZVEqgz6oSLH3ZavXNWERLd5exH+HzL7Y4b59qb39S8+g
-        1E2AOomYdJJnxdoE3yfqxO3yp4BeqpvCV/sGpw==
-X-Google-Smtp-Source: AB8JxZofHBqyvBHb2njxYwn38G/wCrguuoEyYSf05I4g6jrYD//8Mkq4eM0egP2d49kLP2ZCltC5ozZ8F/fFhVkzGGY=
-X-Received: by 2002:aed:26c3:: with SMTP id q61-v6mr2526486qtd.60.1524061977109;
- Wed, 18 Apr 2018 07:32:57 -0700 (PDT)
+        by mailout.easymail.ca (Postfix) with ESMTPSA id 48549212D9;
+        Wed, 18 Apr 2018 14:49:17 +0000 (UTC)
+Subject: Re: [PATCH] doc: dev-tools: kselftest.rst: update contributing new
+ tests
+To:     Anders Roxell <anders.roxell@linaro.org>, corbet@lwn.net
+Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <shuahkh@osg.samsung.com>
+References: <20180417084631.11242-1-anders.roxell@linaro.org>
+From:   Shuah Khan <shuah@kernel.org>
+Message-ID: <cbea46f8-7d30-8298-b830-c6f2a4453101@kernel.org>
+Date:   Wed, 18 Apr 2018 08:48:13 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 10.12.163.228 with HTTP; Wed, 18 Apr 2018 07:32:36 -0700 (PDT)
-In-Reply-To: <6ff697e8-cd20-e551-da13-b614cc39f900@linux.intel.com>
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-8-jae.hyun.yoo@linux.intel.com> <20180416181423.t4vf7sugv6z3aw5h@rob-hp-laptop>
- <aee4e04c-885f-b1d8-9e85-9e741551342f@linux.intel.com> <287e0fd9-b631-2602-2785-7b8aaed7a6b9@linux.intel.com>
- <6ff697e8-cd20-e551-da13-b614cc39f900@linux.intel.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 18 Apr 2018 09:32:36 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLcxEnCOywTtU14G4=6A5m6G=KH3oi8m1VxKSEdxuv-ww@mail.gmail.com>
-Message-ID: <CAL_JsqLcxEnCOywTtU14G4=6A5m6G=KH3oi8m1VxKSEdxuv-ww@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] Documentation: dt-bindings: Add documents for
- PECI hwmon client drivers
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Alan Cox <alan@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180417084631.11242-1-anders.roxell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 17, 2018 at 3:40 PM, Jae Hyun Yoo
-<jae.hyun.yoo@linux.intel.com> wrote:
-> On 4/16/2018 4:51 PM, Jae Hyun Yoo wrote:
->>
->> On 4/16/2018 4:22 PM, Jae Hyun Yoo wrote:
->>>
->>> On 4/16/2018 11:14 AM, Rob Herring wrote:
->>>>
->>>> On Tue, Apr 10, 2018 at 11:32:09AM -0700, Jae Hyun Yoo wrote:
->>>>>
->>>>> This commit adds dt-bindings documents for PECI cputemp and dimmtemp
->>>>> client
->>>>> drivers.
->>>>
->>>>
->
-> [...]
->
->>>>> +Example:
->>>>> +    peci-bus@0 {
->>>>> +        #address-cells = <1>;
->>>>> +        #size-cells = <0>;
->>>>> +        < more properties >
->>>>> +
->>>>> +        peci-dimmtemp@cpu0 {
->>>>
->>>>
->>>> unit-address is wrong.
->>>>
->>>
->>> Will fix it using the reg value.
->>>
->>>> It is a different bus from cputemp? Otherwise, you have conflicting
->>>> addresses. If that's the case, probably should make it clear by showing
->>>> different host adapters for each example.
->>>>
->>>
->>> It could be the same bus with cputemp. Also, client address sharing is
->>> possible by PECI core if the functionality is different. I mean, cputemp and
->>> dimmtemp targeting the same client is possible case like this.
->>> peci-cputemp@30
->>> peci-dimmtemp@30
->>>
->>
->> Oh, I got your point. Probably, I should change these separate settings
->> into one like
->>
->> peci-client@30 {
->>      compatible = "intel,peci-client";
->>      reg = <0x30>;
->> };
->>
->> Then cputemp and dimmtemp drivers could refer the same compatible string.
->> Will rewrite it.
->>
->
-> I've checked it again and realized that it should use function based node
-> name like:
->
-> peci-cputemp@30
-> peci-dimmtemp@30
->
-> If it use the same string like 'peci-client@30', the drivers cannot be
-> selectively enabled. The client address sharing way is well handled in PECI
-> core and this way would be better for the future implementations of other
-> PECI functional drivers such as crash dump driver and so on. So I'm going
-> change the unit-address only.
+On 04/17/2018 02:46 AM, Anders Roxell wrote:
+> Add a description that the kernel headers should be used as far as it is
+> possible and then the system headers.
+> 
+> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+> ---
+>  Documentation/dev-tools/kselftest.rst | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index e80850eefe13..27f08d6ba91c 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -151,6 +151,9 @@ Contributing new tests (details)
+>     TEST_FILES, TEST_GEN_FILES mean it is the file which is used by
+>     test.
+>  
+> + * First use the headers inside the kernel, and then the system headers. The
+> +   internal headers should be the primary focus to be able to find regressions.
 
-2 nodes at the same address is wrong (and soon dtc will warn you on
-this). You have 2 potential options. The first is you need additional
-address information in the DT if these are in fact 2 independent
-devices. This could be something like a function number to use
-something from PCI addressing. From what I found on PECI, it doesn't
-seem to have anything like that. The 2nd option is you have a single
-DT node which registers multiple hwmon devices. DT nodes and drivers
-don't have to be 1-1. Don't design your DT nodes from how you want to
-partition drivers in some OS.
+Clarifying the location of the headers might be helpful. This description uses
+different terminology to describe kernel headers.
 
-Rob
+"First use the headers inside the kernel sources and/or git reo" would make this
+clear. Instead of "internal headers" headers for the kernel release as opposed
+to headers installed by the distro on the system would make a clear distinction.
+
+thanks,
+-- Shuah
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
