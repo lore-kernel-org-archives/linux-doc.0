@@ -5,88 +5,58 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D010F7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 13:35:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3AB3B7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 13:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752659AbeDRNez (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 09:34:55 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:50968 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752624AbeDRNey (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 18 Apr 2018 09:34:54 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1751232AbeDRNoC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 09:44:02 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41750 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752698AbeDRNn6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 18 Apr 2018 09:43:58 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A436840201A1;
-        Wed, 18 Apr 2018 13:34:53 +0000 (UTC)
-Received: from localhost (ovpn-200-16.brq.redhat.com [10.40.200.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B75F52023594;
-        Wed, 18 Apr 2018 13:34:50 +0000 (UTC)
-Date:   Wed, 18 Apr 2018 15:34:48 +0200
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Quentin Monnet <quentin.monnet@netronome.com>
-Cc:     brouer@redhat.com, daniel@iogearbox.net, ast@kernel.org,
-        netdev@vger.kernel.org, oss-drivers@netronome.com,
-        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
-        John Fastabend <john.fastabend@gmail.com>
-Subject: Re: [PATCH bpf-next v3 8/8] bpf: add documentation for eBPF helpers
- (58-64)
-Message-ID: <20180418153448.574c6814@redhat.com>
-In-Reply-To: <20180417143438.7018-9-quentin.monnet@netronome.com>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
-        <20180417143438.7018-9-quentin.monnet@netronome.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 7C8B3ACC;
+        Wed, 18 Apr 2018 13:43:57 +0000 (UTC)
+Date:   Wed, 18 Apr 2018 07:43:56 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Olivier Gayot <olivier.gayot@sigexec.com>
+Cc:     linux-doc@vger.kernel.org,
+        Trivial Patch Monkey <trivial@kernel.org>
+Subject: Re: [PATCH] docs: ip-sysctl.txt: fix name of some ipv6 variables
+Message-ID: <20180418074356.01d61108@lwn.net>
+In-Reply-To: <1524047494-32679-1-git-send-email-olivier.gayot@sigexec.com>
+References: <1524047494-32679-1-git-send-email-olivier.gayot@sigexec.com>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 18 Apr 2018 13:34:53 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 18 Apr 2018 13:34:53 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 17 Apr 2018 15:34:38 +0100
-Quentin Monnet <quentin.monnet@netronome.com> wrote:
+On Wed, 18 Apr 2018 12:31:34 +0200
+Olivier Gayot <olivier.gayot@sigexec.com> wrote:
 
-> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> index 350459c583de..3d329538498f 100644
-> --- a/include/uapi/linux/bpf.h
-> +++ b/include/uapi/linux/bpf.h
-> @@ -1276,6 +1276,50 @@ union bpf_attr {
->   * 	Return
->   * 		0 on success, or a negative error in case of failure.
->   *
-> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-> + * 	Description
-> + * 		Redirect the packet to the endpoint referenced by *map* at
-> + * 		index *key*. Depending on its type, his *map* can contain
-                                                    ^^^
+> The name of the following proc/sysctl entries were incorrectly
+> documented:
+> 
+>     /proc/sys/net/ipv6/conf/<interface>/max_dst_opts_number
+>     /proc/sys/net/ipv6/conf/<interface>/max_hbt_opts_number
+>     /proc/sys/net/ipv6/conf/<interface>/max_dst_opts_length
+>     /proc/sys/net/ipv6/conf/<interface>/max_hbt_length
+> 
+> Their name was set to the name of the symbol in the .data field of the
+> control table instead of their .proc name.
 
-"his" -> "this"
+The patch seems good, but can I suggest resending it to netdev?  Davem
+likes to handle networking docs patches himself.
 
-> + * 		references to net devices (for forwarding packets through other
-> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
-> + * 		but this is only implemented for native XDP (with driver
-> + * 		support) as of this writing).
-> + *
-> + * 		All values for *flags* are reserved for future usage, and must
-> + * 		be left at zero.
-> + * 	Return
-> + * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
-> + *
+Thanks,
 
-"XDP_ABORT" -> "XDP_ABORTED"
-
-I don't know if it's worth mentioning in the doc/man-page; that for XDP
-using bpf_redirect_map() is a HUGE performance advantage, compared to
-the bpf_redirect() call ?
-
--- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
