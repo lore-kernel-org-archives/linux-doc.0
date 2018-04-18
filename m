@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D72F27DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 18:53:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BF3C37DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 18:54:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753048AbeDRSxs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 14:53:48 -0400
-Received: from mail-wr0-f195.google.com ([209.85.128.195]:46834 "EHLO
+        id S1753153AbeDRSxt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 14:53:49 -0400
+Received: from mail-wr0-f195.google.com ([209.85.128.195]:35805 "EHLO
         mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752944AbeDRSx2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 14:53:28 -0400
-Received: by mail-wr0-f195.google.com with SMTP id d1-v6so7521622wrj.13
-        for <linux-doc@vger.kernel.org>; Wed, 18 Apr 2018 11:53:27 -0700 (PDT)
+        with ESMTP id S1752992AbeDRSx0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 14:53:26 -0400
+Received: by mail-wr0-f195.google.com with SMTP id w3-v6so7540969wrg.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Apr 2018 11:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=toZBohlOWDiEKrPW3p9JdtOT1z0eiogSGWK/THMLOZ8=;
-        b=wCsTPP/lgPn3EvPWa4udd8AK+U36N1PQjXKBm4wauzo1Eks0os35Ev2seoyEZxxVGI
-         dNtXNPM0XOdQzzcykewx4zhfxEt1jzQ3yrCMon3IW+CQ5fKvCanelrSjYSJ2E18Qs7Cf
-         txRBCJC5OO4rKPw26uy+83nrK9fJvSKak5ZEkpP5uebqAJVtTqtd4jNEITF2Ez03Ynmt
-         ZLPnqP2NWllzuDd64ohHHuebmAk2aNpH4KnWN0CdK2C3wrZv+atI/ujv0IQgtOMa8vUq
-         jzTak6Zo2rotICxTwkQ51CHuwzcM/onQ8TSL/KxZLr0TpW1OO2YbcxgEQ+tHj8qVjGhy
-         J48Q==
+        bh=PJ5XUe+ltNClCgiZ/w1sU8NdaWdPhX/PsNl2IWrnZo4=;
+        b=a2pnlJdQ8EE/Aq3W32UwUHOB3LCELEG+hK21clc+673A0T4L6W1Toc0lzT0ElX/Rzj
+         8HR7P06fbA1L4DccXePrgQlCkE00y+a5rD/EbW1KMEcoXlZtOcdgKzZfxWx6i2GTPfWY
+         3DhDR3sieLdyhbt4rzMd/1n0Pf66nSZO+96FXs6ABP1wF59RSRHS4UNMiAgJi0M+UGas
+         RAi+LsYXnlc3i2QijC53CWhKx1cUglDOHmGHE7lTE/wxfXoCbljhQF8BMZb5Eux8EDFW
+         IYyv/hBzqIY7U1z1/9m4DjfEXzsnFunNTtdXbsDkGO7iLsP4NaJRXzn5/xmbuzhdLfvw
+         jkug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=toZBohlOWDiEKrPW3p9JdtOT1z0eiogSGWK/THMLOZ8=;
-        b=kT0xm2p6qjnMmISpL8HWj8Vclop5jcAxQnunk97Vr/YuGAhKtk+il0s7oOxw2DYiP7
-         pKt3IxuUNePTQXB21+LDz7PmEYL5Eokex2zSYOLveSx26yZ21KPnhJNrkf8mD/EE3JBT
-         cz+8CJ2Ku89hQ5H7N4NHKfwdxYuJ27Ltkxtv/2A66NzKw2x8vJi2ujv4v5Dg2KQk/bny
-         c/Zh3M5qSbyTnzxEnFgv/X6IJ4R61urKOmlUPUtZmjrCu6NowntSN3e8+IqhMal4p5Yv
-         AJnRq7yRtDaQv2m+PuAcJIVNlZZkagcXbsWKBPWv352OsMQTeQ0LKYIzTos5LWGzfpiN
-         6NZg==
-X-Gm-Message-State: ALQs6tDTKcuIKPKhIS/GQId29ROIQr128KInRWxmtbYHYd6fAQg8Wxv6
-        g2+7EXIVwTiyZtxOQ9ChAzm5KA==
-X-Google-Smtp-Source: AIpwx4+S5EFC7jdGqy0sLbR9gOfqpUBQsmSEOETBpuJK0ZJ3gjbYmpNce77c+5swtw0tc6Ghd7tG3Q==
-X-Received: by 10.28.34.7 with SMTP id i7mr2438174wmi.97.1524077606692;
-        Wed, 18 Apr 2018 11:53:26 -0700 (PDT)
+        bh=PJ5XUe+ltNClCgiZ/w1sU8NdaWdPhX/PsNl2IWrnZo4=;
+        b=HFl0aOvKYd3+Kz6rza2oZZ1L9QTWVnRWel5ZMb4bU07xn600e2QVT9a4CNp74Xm4ml
+         qbaR9o2vXPBGcmGRCjDYET/8GLAJ9KIkmlHTyNX/TCRFoqKWCBoc4O6YvIFJgnFrgg1i
+         sQSfTOAQm730PYVxZtLy9WTo/3KRRKQOu+/oRvTun6LYyBkTdbNeHSShbv7hxUy2zZ2M
+         Lo6qCXjlEADw11RePRc+VuLTedBo5d5UUruKP62agBBTkT0WwND6k2WbsyCaymIKdp1M
+         arG+aEHB8XzfvylOy4krCF9eD4reboVpus7hp0s8bVuO0Bbh6PnMJZm1ulRSkFAJmTHR
+         8N8A==
+X-Gm-Message-State: ALQs6tARVgyrw6qKri9KVJA3XntmSjrEhfWC/inNUJ+kh1QUmKPRAbmd
+        gXqwf+9szzaCwFGBaEtFh9Lrxw==
+X-Google-Smtp-Source: AIpwx49hGnmZ7BV/wHOQtwkJhcg6g5r3CZUaOrWwmlL9x26D+GKFTSsf9qRNCVnR7RVbNhjTM0wWOA==
+X-Received: by 10.28.5.198 with SMTP id 189mr2402518wmf.155.1524077604918;
+        Wed, 18 Apr 2018 11:53:24 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id k79sm2616735wmg.39.2018.04.18.11.53.25
+        by smtp.gmail.com with ESMTPSA id k79sm2616735wmg.39.2018.04.18.11.53.23
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Apr 2018 11:53:25 -0700 (PDT)
+        Wed, 18 Apr 2018 11:53:24 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -77,9 +77,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
-Subject: [PATCH 5/6] lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-Date:   Wed, 18 Apr 2018 20:53:14 +0200
-Message-Id: <82ccccd82c350f9243fc4e1d377cdad9bf23809c.1524077494.git.andreyknvl@google.com>
+Subject: [PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
+Date:   Wed, 18 Apr 2018 20:53:13 +0200
+Message-Id: <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.17.0.484.g0c8726318c-goog
 In-Reply-To: <cover.1524077494.git.andreyknvl@google.com>
 References: <cover.1524077494.git.andreyknvl@google.com>
@@ -90,44 +90,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-strncpy_from_user and strnlen_user accept user addresses as arguments, and
-do not go through the same path as copy_from_user and others, so here we
-need to separately handle the case of tagged user addresses as well.
+mm/gup.c provides a kernel interface that accepts user addresses and
+manipulates user pages directly (for example get_user_pages, that is used
+by the futex syscall). Here we also need to handle the case of tagged user
+pointers.
 
-Untag user pointers passed to these functions.
+Untag addresses passed to this interface.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/strncpy_from_user.c | 2 ++
- lib/strnlen_user.c      | 2 ++
- 2 files changed, 4 insertions(+)
+ mm/gup.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
-index b53e1b5d80f4..97467cd2bc59 100644
---- a/lib/strncpy_from_user.c
-+++ b/lib/strncpy_from_user.c
-@@ -106,6 +106,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
- 	if (unlikely(count <= 0))
+diff --git a/mm/gup.c b/mm/gup.c
+index 76af4cfeaf68..fb375de7d40d 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -386,6 +386,8 @@ struct page *follow_page_mask(struct vm_area_struct *vma,
+ 	struct page *page;
+ 	struct mm_struct *mm = vma->vm_mm;
+ 
++	address = untagged_addr(address);
++
+ 	*page_mask = 0;
+ 
+ 	/* make this handle hugepd */
+@@ -647,6 +649,8 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+ 	if (!nr_pages)
  		return 0;
  
-+	src = untagged_addr(src);
++	start = untagged_addr(start);
 +
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)src;
- 	if (likely(src_addr < max_addr)) {
-diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
-index 60d0bbda8f5e..8b5f56466e00 100644
---- a/lib/strnlen_user.c
-+++ b/lib/strnlen_user.c
-@@ -108,6 +108,8 @@ long strnlen_user(const char __user *str, long count)
- 	if (unlikely(count <= 0))
- 		return 0;
+ 	VM_BUG_ON(!!pages != !!(gup_flags & FOLL_GET));
  
-+	str = untagged_addr(str);
+ 	/*
+@@ -801,6 +805,8 @@ int fixup_user_fault(struct task_struct *tsk, struct mm_struct *mm,
+ 	struct vm_area_struct *vma;
+ 	int ret, major = 0;
+ 
++	address = untagged_addr(address);
 +
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)str;
- 	if (likely(src_addr < max_addr)) {
+ 	if (unlocked)
+ 		fault_flags |= FAULT_FLAG_ALLOW_RETRY;
+ 
+@@ -854,6 +860,8 @@ static __always_inline long __get_user_pages_locked(struct task_struct *tsk,
+ 	long ret, pages_done;
+ 	bool lock_dropped;
+ 
++	start = untagged_addr(start);
++
+ 	if (locked) {
+ 		/* if VM_FAULT_RETRY can be returned, vmas become invalid */
+ 		BUG_ON(vmas);
+@@ -1751,6 +1759,8 @@ int __get_user_pages_fast(unsigned long start, int nr_pages, int write,
+ 	unsigned long flags;
+ 	int nr = 0;
+ 
++	start = untagged_addr(start);
++
+ 	start &= PAGE_MASK;
+ 	addr = start;
+ 	len = (unsigned long) nr_pages << PAGE_SHIFT;
+@@ -1803,6 +1813,8 @@ int get_user_pages_fast(unsigned long start, int nr_pages, int write,
+ 	unsigned long addr, len, end;
+ 	int nr = 0, ret = 0;
+ 
++	start = untagged_addr(start);
++
+ 	start &= PAGE_MASK;
+ 	addr = start;
+ 	len = (unsigned long) nr_pages << PAGE_SHIFT;
 -- 
 2.17.0.484.g0c8726318c-goog
 
