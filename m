@@ -1,103 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F39717DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 22:24:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60F0A7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 23:25:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753765AbeDSWYM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Apr 2018 18:24:12 -0400
-Received: from mail-io0-f202.google.com ([209.85.223.202]:35288 "EHLO
-        mail-io0-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753750AbeDSWYL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Apr 2018 18:24:11 -0400
-Received: by mail-io0-f202.google.com with SMTP id 202-v6so1948549ion.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Apr 2018 15:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:date:message-id:subject:from:to:cc;
-        bh=oZSNGhrEgWv0ra2tL36T22nFrCZfE3//iOUNFFGTBes=;
-        b=OqJJVbkjwf8Aty81+yEIAKc9XIlaMPkSIxveejTnfbIY1i72nRp9iSYrZESOt25CBL
-         eoguVyUaNCqbL/P8/urEF53TOj+8k+XKd5lGX6O2yKo0BLI2ylfx5pmsUlcaJn2GPLfA
-         0LzNaB7kZlhvNMCVaMsTfhkRvL3RpdvAJl684KYOQd00uOFw6vPqTPOiZTeDwJ+O3H9I
-         /PwNFID4RifFRShyOAZswu/2SDEI695/c+qhjl9PhOR43IWY7rUJ7Gzlie+ImvQ10h0X
-         wa70S/PgBUI/kDDc4+l0Rs2wX+/Vx98Fux3Gt95HvLmexvrTEp+ePt0+NLiXvekUE6uZ
-         w4sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to:cc;
-        bh=oZSNGhrEgWv0ra2tL36T22nFrCZfE3//iOUNFFGTBes=;
-        b=cyXB7RdX/juBvWxELW/bFk7X2l9xrCLvpfZhA5L4cxxgQsmElBTQytVc2Rdeupwb95
-         OG67V2cD2ACFAfdOXsu//uRVmmQwWF2owrZPXb+wejKnmiVOMd8OS6LyNMaUNtkHS5KQ
-         t0P6SmHrZXebuUjawL3Ht4Y84KuBaWmIpSpgpYfSj0fZS1x3w7H3Z7tC/CFzhWIF60UU
-         rLNHqqXIFOM0FNFPEPkDHEgACuOfCQZTP5SmieLkaz2NAHKc7MDhHxL0uwoXKj1mC80T
-         qrtQhZRNFaF256fAz2jbHcTe21J4accnQXZoNDZg8ow645jIV4UQWPsT0YChkwHDXBXn
-         oPOg==
-X-Gm-Message-State: ALQs6tDmJNMobdt+DWCYEhohNd03sfta5febcT72Sjfy85r/OGM2yZfX
-        NvzN8J3q811BrAnzUV29H3sT5IP3KmPN
-X-Google-Smtp-Source: AIpwx48ivyS6m9U1K1dqSCr4G1bosaOHMfLh0H7LHthsL9T92/uLkzL1nK64O3YdrhQOgS4tZ6MhGrqnDKNL
+        id S1753821AbeDSXZX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Apr 2018 19:25:23 -0400
+Received: from exmail.andestech.com ([59.124.169.137]:15042 "EHLO
+        ATCSQR.andestech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753772AbeDSXZU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Apr 2018 19:25:20 -0400
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+        by ATCSQR.andestech.com with ESMTP id w3JNHr6U002593;
+        Fri, 20 Apr 2018 07:17:53 +0800 (GMT-8)
+        (envelope-from alankao@andestech.com)
+Received: from andestech.com (10.0.1.85) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.123.3; Fri, 20 Apr 2018
+ 07:24:18 +0800
+Date:   Fri, 20 Apr 2018 07:24:18 +0800
+From:   Alan Kao <alankao@andestech.com>
+To:     Atish Patra <atish.patra@wdc.com>
+CC:     Palmer Dabbelt <palmer@sifive.com>, Albert Ou <albert@sifive.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        "Namhyung Kim" <namhyung@kernel.org>,
+        Alex Solomatnikov <sols@sifive.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <greentime@andestech.com>
+Subject: Re: [PATCH v4 1/2] perf: riscv: preliminary RISC-V support
+Message-ID: <20180419232418.GA3902@andestech.com>
+References: <1524017523-25076-1-git-send-email-alankao@andestech.com>
+ <1524017523-25076-2-git-send-email-alankao@andestech.com>
+ <c057c7d1-421f-f4eb-3f03-2abda16d876a@wdc.com>
 MIME-Version: 1.0
-X-Received: by 2002:a24:764f:: with SMTP id z76-v6mr319565itb.11.1524176650165;
- Thu, 19 Apr 2018 15:24:10 -0700 (PDT)
-Date:   Thu, 19 Apr 2018 15:23:56 -0700
-Message-Id: <20180419222356.242535-1-hansens@google.com>
-X-Mailer: git-send-email 2.17.0.484.g0c8726318c-goog
-Subject: [PATCH] Documentation/i2c: direct users to i2c-tools regarding i2c/smbus.h
-From:   Sam Hansen <hansens@google.com>
-To:     linux-i2c@vger.kernel.org, jdelvare@suse.de, hansens@google.com,
-        wsa@the-dreams.de, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     jdelvare@suse.de, Sam Hansen <hansens@google.com>,
-        wsa@the-dreams.de, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <c057c7d1-421f-f4eb-3f03-2abda16d876a@wdc.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.0.1.85]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com w3JNHr6U002593
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current examples reference i2c/smbus.h, which is the first reference
-in Documentation/i2c/dev-interface to anything related to the i2c-tools
-project.  This moves the existing reference to i2c-tools up into the
-C-example, directing the user to the project's git repository.
+On Thu, Apr 19, 2018 at 12:46:24PM -0700, Atish Patra wrote:
+> On 4/17/18 7:13 PM, Alan Kao wrote:
+> >This patch provide a basic PMU, riscv_base_pmu, which supports two
+> >general hardware event, instructions and cycles.  Furthermore, this
+> >PMU serves as a reference implementation to ease the portings in
+> >the future.
+> >
+> >riscv_base_pmu should be able to run on any RISC-V machine that
+> >conforms to the Priv-Spec.  Note that the latest qemu model hasn't
+> >fully support a proper behavior of Priv-Spec 1.10 yet, but work
+> >around should be easy with very small fixes.  Please check
+> >https://github.com/riscv/riscv-qemu/pull/115 for future updates.
+> >
+> >Cc: Nick Hu <nickhu@andestech.com>
+> >Cc: Greentime Hu <greentime@andestech.com>
+> >Signed-off-by: Alan Kao <alankao@andestech.com>
+> >---
+> >  arch/riscv/Kconfig                  |  13 +
+> >  arch/riscv/include/asm/perf_event.h |  79 ++++-
+> >  arch/riscv/kernel/Makefile          |   1 +
+> >  arch/riscv/kernel/perf_event.c      | 482 ++++++++++++++++++++++++++++
+> >  4 files changed, 571 insertions(+), 4 deletions(-)
+> >  create mode 100644 arch/riscv/kernel/perf_event.c
+> >
+> >diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> >index c22ebe08e902..90d9c8e50377 100644
+> >--- a/arch/riscv/Kconfig
+> >+++ b/arch/riscv/Kconfig
+> Some check patch errors.
+> 
+> ERROR: spaces required around that '>=' (ctx:WxV)
+> #517: FILE: arch/riscv/kernel/perf_event.c:356:
+> +	if (riscv_pmu->irq >=0 && riscv_pmu->handle_irq) {
+>  	                   ^
+> 
+> ERROR: spaces required around that '>=' (ctx:WxV)
+> #529: FILE: arch/riscv/kernel/perf_event.c:368:
+> +	if (riscv_pmu->irq >=0) {
+>  	                   ^
+> 
+> WARNING: braces {} are not necessary for single statement blocks
+> #529: FILE: arch/riscv/kernel/perf_event.c:368:
+> +	if (riscv_pmu->irq >=0) {
+> +		free_irq(riscv_pmu->irq, NULL);
+> +	}
+> 
+> WARNING: DT compatible string "riscv,base-pmu" appears un-documented --
+> check ./Documentation/devicetree/bindings/
+> #626: FILE: arch/riscv/kernel/perf_event.c:465:
+> +	{.compatible = "riscv,base-pmu",	.data = &riscv_base_pmu},
+> 
+> ERROR: trailing whitespace
+> #634: FILE: arch/riscv/kernel/perf_event.c:473:
+> +^I$
+> 
+> ERROR: do not use assignment in if condition
+> #635: FILE: arch/riscv/kernel/perf_event.c:474:
+> +	if (node && (of_id = of_match_node(riscv_pmu_of_ids, node)))
+> 
+> total: 4 errors, 3 warnings, 595 lines checked
+> 
+> 
+> Regards,
+> Atish
 
-Signed-off-by: Sam Hansen <hansens@google.com>
----
- Documentation/i2c/dev-interface | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/i2c/dev-interface b/Documentation/i2c/dev-interface
-index fbed645ccd75..ed20f7b7851a 100644
---- a/Documentation/i2c/dev-interface
-+++ b/Documentation/i2c/dev-interface
-@@ -23,6 +23,10 @@ First, you need to include these two headers:
-   #include <linux/i2c-dev.h>
-   #include <i2c/smbus.h>
- 
-+The i2c/smbus header file is provided by the i2c-tools project.  For more info
-+about i2c-tools, see:
-+https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/
-+
- Now, you have to decide which adapter you want to access. You should
- inspect /sys/class/i2c-dev/ or run "i2cdetect -l" to decide this.
- Adapter numbers are assigned somewhat dynamically, so you can not
-@@ -163,10 +167,6 @@ what happened. The 'write' transactions return 0 on success; the
- returns the number of values read. The block buffers need not be longer
- than 32 bytes.
- 
--The above functions are made available by linking against the libi2c library,
--which is provided by the i2c-tools project.  See:
--https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/.
--
- 
- Implementation details
- ======================
--- 
-2.17.0.484.g0c8726318c-goog
-
+Thanks for pointing this out.  I happened to develop this patchset on a machine
+without the post-commit settings.  A new version is ready.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
