@@ -1,114 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.3 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SUSPICIOUS_RECIPS autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E53A7E6A7
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 20:00:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A535F7E6A7
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 20:02:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753048AbeDSUA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Apr 2018 16:00:27 -0400
-Received: from sauhun.de ([88.99.104.3]:48004 "EHLO pokefinder.org"
+        id S1753202AbeDSUAx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Apr 2018 16:00:53 -0400
+Received: from sauhun.de ([88.99.104.3]:48062 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752153AbeDSUA0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Apr 2018 16:00:26 -0400
+        id S1753486AbeDSUAw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Apr 2018 16:00:52 -0400
 Received: from localhost (unknown [46.183.103.8])
-        by pokefinder.org (Postfix) with ESMTPSA id D0B41314F5C;
-        Thu, 19 Apr 2018 22:00:23 +0200 (CEST)
+        by pokefinder.org (Postfix) with ESMTPSA id 3EAB7314F65;
+        Thu, 19 Apr 2018 22:00:50 +0200 (CEST)
 From:   Wolfram Sang <wsa@the-dreams.de>
 To:     linux-i2c@vger.kernel.org
 Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@linux-mips.org, linux-omap@vger.kernel.org,
-        linux-sh@vger.kernel.org
-Subject: [PATCH 0/7] i2c: clean up include/linux/i2c-*
-Date:   Thu, 19 Apr 2018 22:00:06 +0200
-Message-Id: <20180419200015.15095-1-wsa@the-dreams.de>
+        Peter Korsgaard <jacmet@sunsite.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 3/7] i2c: i2c-ocores: move header to platform_data
+Date:   Thu, 19 Apr 2018 22:00:09 +0200
+Message-Id: <20180419200015.15095-4-wsa@the-dreams.de>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180419200015.15095-1-wsa@the-dreams.de>
+References: <20180419200015.15095-1-wsa@the-dreams.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move all plain platform_data includes to the platform_data-dir
-(except for i2c-pnx which can be moved into the driver itself).
+This header only contains platform_data. Move it to the proper directory.
 
-My preference is to take these patches via the i2c tree. I can provide an
-immutable branch if needed. But we can also discuss those going in via
-arch-trees if dependencies are against us.
-
-The current branch can be found here:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/platform_data
-
-and buildbot had no complaints.
-
-Looking forward to comments or Acks, Revs...
-
-Kind regards,
-
-   Wolfram
-
-
-Wolfram Sang (7):
-  i2c: i2c-gpio: move header to platform_data
-  i2c: i2c-mux-gpio: move header to platform_data
-  i2c: i2c-ocores: move header to platform_data
-  i2c: i2c-omap: move header to platform_data
-  i2c: i2c-pca-platform: move header to platform_data
-  i2c: i2c-xiic: move header to platform_data
-  i2c: pnx: move header into the driver
-
- Documentation/i2c/busses/i2c-ocores                |  2 +-
- Documentation/i2c/muxes/i2c-mux-gpio               |  4 +--
- MAINTAINERS                                        |  8 ++---
- arch/arm/mach-ks8695/board-acs5k.c                 |  2 +-
- arch/arm/mach-omap1/board-htcherald.c              |  2 +-
- arch/arm/mach-omap1/common.h                       |  2 +-
- arch/arm/mach-omap1/i2c.c                          |  2 +-
- arch/arm/mach-omap2/common.h                       |  2 +-
- arch/arm/mach-omap2/omap_hwmod_2420_data.c         |  2 +-
- arch/arm/mach-omap2/omap_hwmod_2430_data.c         |  2 +-
- arch/arm/mach-omap2/omap_hwmod_33xx_data.c         |  2 +-
- arch/arm/mach-omap2/omap_hwmod_3xxx_data.c         |  2 +-
- arch/arm/mach-omap2/omap_hwmod_44xx_data.c         |  2 +-
- arch/arm/mach-omap2/omap_hwmod_54xx_data.c         |  2 +-
- arch/arm/mach-omap2/omap_hwmod_7xx_data.c          |  2 +-
- arch/arm/mach-pxa/palmz72.c                        |  2 +-
- arch/arm/mach-pxa/viper.c                          |  2 +-
- arch/arm/mach-sa1100/simpad.c                      |  2 +-
- arch/mips/alchemy/board-gpr.c                      |  2 +-
- arch/sh/boards/board-sh7785lcr.c                   |  2 +-
- drivers/i2c/busses/i2c-gpio.c                      |  2 +-
- drivers/i2c/busses/i2c-i801.c                      |  2 +-
- drivers/i2c/busses/i2c-ocores.c                    |  2 +-
- drivers/i2c/busses/i2c-omap.c                      |  2 +-
- drivers/i2c/busses/i2c-pca-platform.c              |  2 +-
- drivers/i2c/busses/i2c-pnx.c                       | 21 +++++++++++-
- drivers/i2c/busses/i2c-xiic.c                      |  2 +-
- drivers/i2c/muxes/i2c-mux-gpio.c                   |  2 +-
- drivers/media/platform/marvell-ccic/mmp-driver.c   |  2 +-
- drivers/mfd/sm501.c                                |  2 +-
- drivers/mfd/timberdale.c                           |  4 +--
- include/linux/i2c-pnx.h                            | 38 ----------------------
- include/linux/{ => platform_data}/i2c-gpio.h       |  0
- include/linux/{ => platform_data}/i2c-mux-gpio.h   |  0
- include/linux/{ => platform_data}/i2c-ocores.h     |  0
- include/linux/{ => platform_data}/i2c-omap.h       |  0
- .../linux/{ => platform_data}/i2c-pca-platform.h   |  0
- include/linux/{ => platform_data}/i2c-xiic.h       |  0
- 38 files changed, 55 insertions(+), 74 deletions(-)
- delete mode 100644 include/linux/i2c-pnx.h
- rename include/linux/{ => platform_data}/i2c-gpio.h (100%)
- rename include/linux/{ => platform_data}/i2c-mux-gpio.h (100%)
+Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
+---
+ Documentation/i2c/busses/i2c-ocores            | 2 +-
+ drivers/i2c/busses/i2c-ocores.c                | 2 +-
+ drivers/mfd/timberdale.c                       | 2 +-
+ include/linux/{ => platform_data}/i2c-ocores.h | 0
+ 4 files changed, 3 insertions(+), 3 deletions(-)
  rename include/linux/{ => platform_data}/i2c-ocores.h (100%)
- rename include/linux/{ => platform_data}/i2c-omap.h (100%)
- rename include/linux/{ => platform_data}/i2c-pca-platform.h (100%)
- rename include/linux/{ => platform_data}/i2c-xiic.h (100%)
 
+diff --git a/Documentation/i2c/busses/i2c-ocores b/Documentation/i2c/busses/i2c-ocores
+index c269aaa2f26a..c12fa9d3b050 100644
+--- a/Documentation/i2c/busses/i2c-ocores
++++ b/Documentation/i2c/busses/i2c-ocores
+@@ -18,7 +18,7 @@ Usage
+ i2c-ocores uses the platform bus, so you need to provide a struct
+ platform_device with the base address and interrupt number. The
+ dev.platform_data of the device should also point to a struct
+-ocores_i2c_platform_data (see linux/i2c-ocores.h) describing the
++ocores_i2c_platform_data (see linux/platform_data/i2c-ocores.h) describing the
+ distance between registers and the input clock speed.
+ There is also a possibility to attach a list of i2c_board_info which
+ the i2c-ocores driver will add to the bus upon creation.
+diff --git a/drivers/i2c/busses/i2c-ocores.c b/drivers/i2c/busses/i2c-ocores.c
+index 8c42ca7107b2..d7da9adf7ee1 100644
+--- a/drivers/i2c/busses/i2c-ocores.c
++++ b/drivers/i2c/busses/i2c-ocores.c
+@@ -21,7 +21,7 @@
+ #include <linux/i2c.h>
+ #include <linux/interrupt.h>
+ #include <linux/wait.h>
+-#include <linux/i2c-ocores.h>
++#include <linux/platform_data/i2c-ocores.h>
+ #include <linux/slab.h>
+ #include <linux/io.h>
+ #include <linux/log2.h>
+diff --git a/drivers/mfd/timberdale.c b/drivers/mfd/timberdale.c
+index cd4a6d7d6750..118d7ef727e6 100644
+--- a/drivers/mfd/timberdale.c
++++ b/drivers/mfd/timberdale.c
+@@ -30,7 +30,7 @@
+ #include <linux/timb_gpio.h>
+ 
+ #include <linux/i2c.h>
+-#include <linux/i2c-ocores.h>
++#include <linux/platform_data/i2c-ocores.h>
+ #include <linux/i2c-xiic.h>
+ 
+ #include <linux/spi/spi.h>
+diff --git a/include/linux/i2c-ocores.h b/include/linux/platform_data/i2c-ocores.h
+similarity index 100%
+rename from include/linux/i2c-ocores.h
+rename to include/linux/platform_data/i2c-ocores.h
 -- 
 2.11.0
 
