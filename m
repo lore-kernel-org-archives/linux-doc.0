@@ -5,186 +5,71 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 441337E27E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 02:09:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 26C327DD31
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 04:10:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752159AbeDSCJM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 22:09:12 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:55793 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1751032AbeDSCJL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 22:09:11 -0400
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
-   d="scan'208";a="39103996"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 19 Apr 2018 10:09:09 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-        by cn.fujitsu.com (Postfix) with ESMTP id 0629148AE93B;
-        Thu, 19 Apr 2018 10:09:09 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.106) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 19 Apr 2018 10:09:07 +0800
-Subject: Re: [RESEND PATCH] x86/boot/KASLR: Extend movable_node option for
- KASLR
-To:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
-        <linux-doc@vger.kernel.org>
-CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <hpa@zytor.com>,
-        <keescook@chromium.org>, <bhe@redhat.com>,
-        <fanc.fnst@cn.fujitsu.com>, <indou.takao@jp.fujitsu.com>
-References: <20180403033612.19925-1-douly.fnst@cn.fujitsu.com>
-From:   Dou Liyang <douly.fnst@cn.fujitsu.com>
-Message-ID: <5e5fb89e-f06a-64cd-4295-2f4b2b28774e@cn.fujitsu.com>
-Date:   Thu, 19 Apr 2018 10:09:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.5.2
+        id S1752743AbeDSEKC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Apr 2018 00:10:02 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33065 "EHLO huawei.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751092AbeDSEKB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Apr 2018 00:10:01 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 85C0373E35AEA;
+        Thu, 19 Apr 2018 12:09:56 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.361.1; Thu, 19 Apr 2018
+ 12:09:51 +0800
+Subject: Re: [PATCH v11 0/4] set VSESR_EL2 by user space and support
+ NOTIFY_SEI notification
+To:     James Morse <james.morse@arm.com>
+CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>,
+        <christoffer.dall@linaro.org>, <marc.zyngier@arm.com>,
+        <linux@armlinux.org.uk>, <catalin.marinas@arm.com>,
+        <rjw@rjwysocki.net>, <bp@alien8.de>, <lenb@kernel.org>,
+        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <kvmarm@lists.cs.columbia.edu>, <linux-acpi@vger.kernel.org>,
+        <devel@acpica.org>, <huangshaoyu@huawei.com>,
+        <zhengxiang9@huawei.com>
+References: <1523309796-36423-1-git-send-email-gengdongjiu@huawei.com>
+ <d94439b6-9b9a-9bd0-ddec-3bb63ede9461@arm.com>
+ <5161fb31-e5bb-872c-3e12-d7d38326aaca@huawei.com>
+ <eb65baf4-abb0-570f-f3af-61f505c9de10@arm.com>
+From:   gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <ebfea154-eceb-b2d2-d038-f27687d2bc01@huawei.com>
+Date:   Thu, 19 Apr 2018 12:09:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <20180403033612.19925-1-douly.fnst@cn.fujitsu.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
+In-Reply-To: <eb65baf4-abb0-570f-f3af-61f505c9de10@arm.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.167.226.106]
-X-yoursite-MailScanner-ID: 0629148AE93B.AB975
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: douly.fnst@cn.fujitsu.com
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ingo,
+James,
 
-Any comments about that?
-
-Now, When users want to support node hotplug with KASLR, they use
-'mem=' to restrict the boot-up memory to the first node memory size.
-If we want to boot up some hotpluggable node, their memory can't be
-shown.
-
-IMO, only few machines can support physical NUMA Node hotplug, and
-we can't get memory hotplug info from ACPI SRAT earlier now(If we can do
-that, we even can remove the 'movable_node' option).
-
-So, IMO, extend movable_node to replace the misuse of 'mem' option.
-
-Thought?
-
-Thanks,
-
-	dou
-
-At 04/03/2018 11:36 AM, Dou Liyang wrote:
-> The movable_node option is a boot-time switch to make sure the physical
-> NUMA nodes can be hot-added/removed when ACPI table can't be parsed to
-> provide the memory hotplug information.
 > 
-> As we all know, there is always one node, called "home node", which
-> can't be movabled and the kernel image resides in it. With movable_node
-> option, Linux allocates new early memorys near the kernel image to avoid
-> using the other movable node.
+>> I do not know when it is merge-window. About the apply version, it does not have limited.
 > 
-> But, due to KASLR also can't get the the memory hotplug information, it may
-> randomize the kernel image into a movable node which breaks the rule of
-> movable_node option and makes the physical hot-add/remove operation failed.
+> 'git fetch' Linus' tree and look at the tags. 'v4.16' lost its '-rc' suffixes,
+> and there isn't a 'v4.17-rc1' yet, so we are still in the merge window.
 > 
-> The perfect solution is providing the memory hotplug information to KASLR.
-> But, it needs the efforts from hardware engineers and software engineers.
+> Linus sends a message to LKML. eg:
+> https://lkml.org/lkml/2018/4/1/175
 > 
-> Here is an alternative method. Extend movable_node option to restrict kernel
-> to be randomized in the home node by adding a parameter. this parameter sets
-> up the boundaries between the home nodes and other nodes.
-> 
-> Reported-by: Chao Fan <fanc.fnst@cn.fujitsu.com>
-> Signed-off-by: Dou Liyang <douly.fnst@cn.fujitsu.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> ---
-> Changelog:
->    -Rewrite the commit log and document.
-> 
->   Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++--
->   arch/x86/boot/compressed/kaslr.c                | 19 ++++++++++++++++---
->   2 files changed, 26 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 1d1d53f85ddd..0cfc0b10a117 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2353,7 +2353,8 @@
->   	mousedev.yres=	[MOUSE] Vertical screen resolution, used for devices
->   			reporting absolute coordinates, such as tablets
->   
-> -	movablecore=nn[KMG]	[KNL,X86,IA-64,PPC] This parameter
-> +	movablecore=nn[KMG]
-> +			[KNL,X86,IA-64,PPC] This parameter
->   			is similar to kernelcore except it specifies the
->   			amount of memory used for migratable allocations.
->   			If both kernelcore and movablecore is specified,
-> @@ -2363,12 +2364,19 @@
->   			that the amount of memory usable for all allocations
->   			is not too small.
->   
-> -	movable_node	[KNL] Boot-time switch to make hotplugable memory
-> +	movable_node	[KNL] Boot-time switch to make hot-pluggable memory
->   			NUMA nodes to be movable. This means that the memory
->   			of such nodes will be usable only for movable
->   			allocations which rules out almost all kernel
->   			allocations. Use with caution!
->   
-> +	movable_node=nn[KMG]
-> +			[KNL] Extend movable_node to make it work well with KASLR.
-> +			This parameter is the boundaries between the "home node" and
-> +			the other nodes. The "home node" is an immovable node and is
-> +			defined by BIOS. Set the 'nn' to the memory size of "home
-> +			node", the kernel image will be extracted in immovable nodes.
-> +
->   	MTD_Partition=	[MTD]
->   			Format: <name>,<region-number>,<size>,<offset>
->   
-> diff --git a/arch/x86/boot/compressed/kaslr.c b/arch/x86/boot/compressed/kaslr.c
-> index 8199a6187251..f906d7890e69 100644
-> --- a/arch/x86/boot/compressed/kaslr.c
-> +++ b/arch/x86/boot/compressed/kaslr.c
-> @@ -92,7 +92,10 @@ struct mem_vector {
->   static bool memmap_too_large;
->   
->   
-> -/* Store memory limit specified by "mem=nn[KMG]" or "memmap=nn[KMG]" */
-> +/*
-> + * Store memory limit specified by the following situations:
-> + * "mem=nn[KMG]" or "memmap=nn[KMG]" or "movable_node=nn[KMG]"
-> + */
->   unsigned long long mem_limit = ULLONG_MAX;
->   
->   
-> @@ -214,7 +217,8 @@ static int handle_mem_memmap(void)
->   	char *param, *val;
->   	u64 mem_size;
->   
-> -	if (!strstr(args, "memmap=") && !strstr(args, "mem="))
-> +	if (!strstr(args, "memmap=") && !strstr(args, "mem=") &&
-> +		!strstr(args, "movable_node="))
->   		return 0;
->   
->   	tmp_cmdline = malloc(len + 1);
-> @@ -249,7 +253,16 @@ static int handle_mem_memmap(void)
->   				free(tmp_cmdline);
->   				return -EINVAL;
->   			}
-> -			mem_limit = mem_size;
-> +			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
-> +		} else if (!strcmp(param, "movable_node")) {
-> +			char *p = val;
-> +
-> +			mem_size = memparse(p, &p);
-> +			if (mem_size == 0) {
-> +				free(tmp_cmdline);
-> +				return -EINVAL;
-> +			}
-> +			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
->   		}
->   	}
->   
-> 
+> net-next closes shortly before the merge window, and re-opens afterwards. There
+> is a handy web page:
+> http://vger.kernel.org/~davem/net-next.html
 
+ Thanks for this information, got it.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
