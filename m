@@ -1,209 +1,750 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 324F67DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 19:36:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 84F7D7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 19:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752558AbeDSTgQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Apr 2018 15:36:16 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59358 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752511AbeDSTgP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Apr 2018 15:36:15 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D36904270948;
-        Thu, 19 Apr 2018 19:36:14 +0000 (UTC)
-Received: from llong.com (ovpn-126-106.rdu2.redhat.com [10.10.126.106])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 37EA12023238;
-        Thu, 19 Apr 2018 19:36:14 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
+        id S1753048AbeDSTq1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Apr 2018 15:46:27 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:7658 "EHLO
+        esa5.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751386AbeDSTq0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Apr 2018 15:46:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1524167186; x=1555703186;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=kfWQs7EruuZMwadMXlrjGqmolBK3JUoZG61RBPe588w=;
+  b=aGe72slndgvM7bTJP/mOvOU7JpDI4Ze9dZFEt/0H6ABji5F7LwUJD9O8
+   Qsj8LTC+hrdcrra3rv7LhbfaOTNaQ4UtsJgh+wZJmb4E7iy58Evnd6Hom
+   qQwj8WQIlci4YBn9kdq8egXVocZ5CkkCoXjETi4sKwALFcwxBhD03eDK+
+   m4pVMdHgGdNW0iEennVNKjJScRkx/bw5OrU/fxSc5J48mmkFHN1BGVnR/
+   XHDEtmXboU2i3JLYcU3r7U4bL+GWpuPfJ2n5qo4oxo0YM+T7eY69X3ml+
+   +/EdvIgs7vwlwDAolsqYWtju6ptNkFsUel5QUGJa5NrSNOhKBVilz0QAt
+   g==;
+X-IronPort-AV: E=Sophos;i="5.49,297,1520870400"; 
+   d="scan'208";a="76378378"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 20 Apr 2018 03:46:25 +0800
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP; 19 Apr 2018 12:38:49 -0700
+Received: from c02v91rdhtd5.sdcorp.global.sandisk.com (HELO [10.11.46.45]) ([10.11.46.45])
+  by uls-op-cesaip01.wdc.com with ESMTP; 19 Apr 2018 12:46:25 -0700
+Subject: Re: [PATCH v4 1/2] perf: riscv: preliminary RISC-V support
+To:     Alan Kao <alankao@andestech.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <albert@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Alex Solomatnikov <sols@sifive.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v2] proc/stat: Separate out individual irq counts into /proc/stat_irqs
-Date:   Thu, 19 Apr 2018 15:36:02 -0400
-Message-Id: <1524166562-5644-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 19 Apr 2018 19:36:14 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 19 Apr 2018 19:36:14 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc:     Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <greentime@andestech.com>
+References: <1524017523-25076-1-git-send-email-alankao@andestech.com>
+ <1524017523-25076-2-git-send-email-alankao@andestech.com>
+From:   Atish Patra <atish.patra@wdc.com>
+Message-ID: <c057c7d1-421f-f4eb-3f03-2abda16d876a@wdc.com>
+Date:   Thu, 19 Apr 2018 12:46:24 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+ Gecko/20100101 Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <1524017523-25076-2-git-send-email-alankao@andestech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It was found that reading /proc/stat could be time consuming on
-systems with a lot of irqs. For example, reading /proc/stat in a
-certain 2-socket Skylake server took about 4.6ms because it had over
-5k irqs. In that particular case, the majority of the CPU cycles for
-reading /proc/stat was spent in the kstat_irqs() function.  Therefore,
-application performance can be impacted if the application reads
-/proc/stat rather frequently.
+On 4/17/18 7:13 PM, Alan Kao wrote:
+> This patch provide a basic PMU, riscv_base_pmu, which supports two
+> general hardware event, instructions and cycles.  Furthermore, this
+> PMU serves as a reference implementation to ease the portings in
+> the future.
+> 
+> riscv_base_pmu should be able to run on any RISC-V machine that
+> conforms to the Priv-Spec.  Note that the latest qemu model hasn't
+> fully support a proper behavior of Priv-Spec 1.10 yet, but work
+> around should be easy with very small fixes.  Please check
+> https://github.com/riscv/riscv-qemu/pull/115 for future updates.
+> 
+> Cc: Nick Hu <nickhu@andestech.com>
+> Cc: Greentime Hu <greentime@andestech.com>
+> Signed-off-by: Alan Kao <alankao@andestech.com>
+> ---
+>   arch/riscv/Kconfig                  |  13 +
+>   arch/riscv/include/asm/perf_event.h |  79 ++++-
+>   arch/riscv/kernel/Makefile          |   1 +
+>   arch/riscv/kernel/perf_event.c      | 482 ++++++++++++++++++++++++++++
+>   4 files changed, 571 insertions(+), 4 deletions(-)
+>   create mode 100644 arch/riscv/kernel/perf_event.c
+> 
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index c22ebe08e902..90d9c8e50377 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -203,6 +203,19 @@ config RISCV_ISA_C
+>   config RISCV_ISA_A
+>   	def_bool y
+>   
+> +menu "supported PMU type"
+> +	depends on PERF_EVENTS
+> +
+> +config RISCV_BASE_PMU
+> +	bool "Base Performance Monitoring Unit"
+> +	def_bool y
+> +	help
+> +	  A base PMU that serves as a reference implementation and has limited
+> +	  feature of perf.  It can run on any RISC-V machines so serves as the
+> +	  fallback, but this option can also be disable to reduce kernel size.
+> +
+> +endmenu
+> +
+>   endmenu
+>   
+>   menu "Kernel type"
+> diff --git a/arch/riscv/include/asm/perf_event.h b/arch/riscv/include/asm/perf_event.h
+> index e13d2ff29e83..0e638a0c3feb 100644
+> --- a/arch/riscv/include/asm/perf_event.h
+> +++ b/arch/riscv/include/asm/perf_event.h
+> @@ -1,13 +1,84 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+>   /*
+>    * Copyright (C) 2018 SiFive
+> + * Copyright (C) 2018 Andes Technology Corporation
+>    *
+> - * This program is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU General Public Licence
+> - * as published by the Free Software Foundation; either version
+> - * 2 of the Licence, or (at your option) any later version.
+>    */
+>   
+>   #ifndef _ASM_RISCV_PERF_EVENT_H
+>   #define _ASM_RISCV_PERF_EVENT_H
+>   
+> +#include <linux/perf_event.h>
+> +#include <linux/ptrace.h>
+> +
+> +#define RISCV_BASE_COUNTERS	2
+> +
+> +/*
+> + * The RISCV_MAX_COUNTERS parameter should be specified.
+> + */
+> +
+> +#ifdef CONFIG_RISCV_BASE_PMU
+> +#define RISCV_MAX_COUNTERS	2
+> +#endif
+> +
+> +#ifndef RISCV_MAX_COUNTERS
+> +#error "Please provide a valid RISCV_MAX_COUNTERS for the PMU."
+> +#endif
+> +
+> +/*
+> + * These are the indexes of bits in counteren register *minus* 1,
+> + * except for cycle.  It would be coherent if it can directly mapped
+> + * to counteren bit definition, but there is a *time* register at
+> + * counteren[1].  Per-cpu structure is scarce resource here.
+> + *
+> + * According to the spec, an implementation can support counter up to
+> + * mhpmcounter31, but many high-end processors has at most 6 general
+> + * PMCs, we give the definition to MHPMCOUNTER8 here.
+> + */
+> +#define RISCV_PMU_CYCLE		0
+> +#define RISCV_PMU_INSTRET	1
+> +#define RISCV_PMU_MHPMCOUNTER3	2
+> +#define RISCV_PMU_MHPMCOUNTER4	3
+> +#define RISCV_PMU_MHPMCOUNTER5	4
+> +#define RISCV_PMU_MHPMCOUNTER6	5
+> +#define RISCV_PMU_MHPMCOUNTER7	6
+> +#define RISCV_PMU_MHPMCOUNTER8	7
+> +
+> +#define RISCV_OP_UNSUPP		(-EOPNOTSUPP)
+> +
+> +struct cpu_hw_events {
+> +	/* # currently enabled events*/
+> +	int			n_events;
+> +	/* currently enabled events */
+> +	struct perf_event	*events[RISCV_MAX_COUNTERS];
+> +	/* vendor-defined PMU data */
+> +	void			*platform;
+> +};
+> +
+> +struct riscv_pmu {
+> +	struct pmu	*pmu;
+> +
+> +	/* generic hw/cache events table */
+> +	const int	*hw_events;
+> +	const int	(*cache_events)[PERF_COUNT_HW_CACHE_MAX]
+> +				       [PERF_COUNT_HW_CACHE_OP_MAX]
+> +				       [PERF_COUNT_HW_CACHE_RESULT_MAX];
+> +	/* method used to map hw/cache events */
+> +	int		(*map_hw_event)(u64 config);
+> +	int		(*map_cache_event)(u64 config);
+> +
+> +	/* max generic hw events in map */
+> +	int		max_events;
+> +	/* number total counters, 2(base) + x(general) */
+> +	int		num_counters;
+> +	/* the width of the counter */
+> +	int		counter_width;
+> +
+> +	/* vendor-defined PMU features */
+> +	void		*platform;
+> +
+> +	irqreturn_t	(*handle_irq)(int irq_num, void *dev);
+> +	int		irq;
+> +};
+> +
+>   #endif /* _ASM_RISCV_PERF_EVENT_H */
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index ffa439d4a364..f50d19816757 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -39,5 +39,6 @@ obj-$(CONFIG_MODULE_SECTIONS)	+= module-sections.o
+>   obj-$(CONFIG_FUNCTION_TRACER)	+= mcount.o
+>   obj-$(CONFIG_DYNAMIC_FTRACE)	+= mcount-dyn.o
+>   obj-$(CONFIG_FUNCTION_GRAPH_TRACER)	+= ftrace.o
+> +obj-$(CONFIG_PERF_EVENTS)      += perf_event.o
+>   
+>   clean:
+> diff --git a/arch/riscv/kernel/perf_event.c b/arch/riscv/kernel/perf_event.c
+> new file mode 100644
+> index 000000000000..ba3192afc470
+> --- /dev/null
+> +++ b/arch/riscv/kernel/perf_event.c
+> @@ -0,0 +1,482 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2008 Thomas Gleixner <tglx@linutronix.de>
+> + * Copyright (C) 2008-2009 Red Hat, Inc., Ingo Molnar
+> + * Copyright (C) 2009 Jaswinder Singh Rajput
+> + * Copyright (C) 2009 Advanced Micro Devices, Inc., Robert Richter
+> + * Copyright (C) 2008-2009 Red Hat, Inc., Peter Zijlstra
+> + * Copyright (C) 2009 Intel Corporation, <markus.t.metzger@intel.com>
+> + * Copyright (C) 2009 Google, Inc., Stephane Eranian
+> + * Copyright 2014 Tilera Corporation. All Rights Reserved.
+> + * Copyright (C) 2018 Andes Technology Corporation
+> + *
+> + * Perf_events support for RISC-V platforms.
+> + *
+> + * Since the spec. (as of now, Priv-Spec 1.10) does not provide enough
+> + * functionality for perf event to fully work, this file provides
+> + * the very basic framework only.
+> + *
+> + * For platform portings, please check Documentations/riscv/pmu.txt.
+> + *
+> + * The Copyright line includes x86 and tile ones.
+> + */
+> +
+> +#include <linux/kprobes.h>
+> +#include <linux/kernel.h>
+> +#include <linux/kdebug.h>
+> +#include <linux/mutex.h>
+> +#include <linux/bitmap.h>
+> +#include <linux/irq.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/perf_event.h>
+> +#include <linux/atomic.h>
+> +#include <linux/of.h>
+> +#include <asm/perf_event.h>
+> +
+> +static const struct riscv_pmu *riscv_pmu __read_mostly;
+> +static DEFINE_PER_CPU(struct cpu_hw_events, cpu_hw_events);
+> +
+> +/*
+> + * Hardware & cache maps and their methods
+> + */
+> +
+> +static const int riscv_hw_event_map[] = {
+> +	[PERF_COUNT_HW_CPU_CYCLES]		= RISCV_PMU_CYCLE,
+> +	[PERF_COUNT_HW_INSTRUCTIONS]		= RISCV_PMU_INSTRET,
+> +	[PERF_COUNT_HW_CACHE_REFERENCES]	= RISCV_OP_UNSUPP,
+> +	[PERF_COUNT_HW_CACHE_MISSES]		= RISCV_OP_UNSUPP,
+> +	[PERF_COUNT_HW_BRANCH_INSTRUCTIONS]	= RISCV_OP_UNSUPP,
+> +	[PERF_COUNT_HW_BRANCH_MISSES]		= RISCV_OP_UNSUPP,
+> +	[PERF_COUNT_HW_BUS_CYCLES]		= RISCV_OP_UNSUPP,
+> +};
+> +
+> +#define C(x) PERF_COUNT_HW_CACHE_##x
+> +static const int riscv_cache_event_map[PERF_COUNT_HW_CACHE_MAX]
+> +[PERF_COUNT_HW_CACHE_OP_MAX]
+> +[PERF_COUNT_HW_CACHE_RESULT_MAX] = {
+> +	[C(L1D)] = {
+> +		[C(OP_READ)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_WRITE)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_PREFETCH)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +	},
+> +	[C(L1I)] = {
+> +		[C(OP_READ)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_WRITE)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_PREFETCH)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +	},
+> +	[C(LL)] = {
+> +		[C(OP_READ)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_WRITE)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_PREFETCH)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +	},
+> +	[C(DTLB)] = {
+> +		[C(OP_READ)] = {
+> +			[C(RESULT_ACCESS)] =  RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] =  RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_WRITE)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_PREFETCH)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +	},
+> +	[C(ITLB)] = {
+> +		[C(OP_READ)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_WRITE)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_PREFETCH)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +	},
+> +	[C(BPU)] = {
+> +		[C(OP_READ)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_WRITE)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +		[C(OP_PREFETCH)] = {
+> +			[C(RESULT_ACCESS)] = RISCV_OP_UNSUPP,
+> +			[C(RESULT_MISS)] = RISCV_OP_UNSUPP,
+> +		},
+> +	},
+> +};
+> +
+> +static int riscv_map_hw_event(u64 config)
+> +{
+> +	if (config >= riscv_pmu->max_events)
+> +		return -EINVAL;
+> +
+> +	return riscv_pmu->hw_events[config];
+> +}
+> +
+> +int riscv_map_cache_decode(u64 config, unsigned int *type,
+> +			   unsigned int *op, unsigned int *result)
+> +{
+> +	return -ENOENT;
+> +}
+> +
+> +static int riscv_map_cache_event(u64 config)
+> +{
+> +	unsigned int type, op, result;
+> +	int err = -ENOENT;
+> +		int code;
+> +
+> +	err = riscv_map_cache_decode(config, &type, &op, &result);
+> +	if (!riscv_pmu->cache_events || err)
+> +		return err;
+> +
+> +	if (type >= PERF_COUNT_HW_CACHE_MAX ||
+> +	    op >= PERF_COUNT_HW_CACHE_OP_MAX ||
+> +	    result >= PERF_COUNT_HW_CACHE_RESULT_MAX)
+> +		return -EINVAL;
+> +
+> +	code = (*riscv_pmu->cache_events)[type][op][result];
+> +	if (code == RISCV_OP_UNSUPP)
+> +		return -EINVAL;
+> +
+> +	return code;
+> +}
+> +
+> +/*
+> + * Low-level functions: reading/writing counters
+> + */
+> +
+> +static inline u64 read_counter(int idx)
+> +{
+> +	u64 val = 0;
+> +
+> +	switch (idx) {
+> +	case RISCV_PMU_CYCLE:
+> +		val = csr_read(cycle);
+> +		break;
+> +	case RISCV_PMU_INSTRET:
+> +		val = csr_read(instret);
+> +		break;
+> +	default:
+> +		WARN_ON_ONCE(idx < 0 ||	idx > RISCV_MAX_COUNTERS);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return val;
+> +}
+> +
+> +static inline void write_counter(int idx, u64 value)
+> +{
+> +	/* currently not supported */
+> +	WARN_ON_ONCE(1);
+> +}
+> +
+> +/*
+> + * pmu->read: read and update the counter
+> + *
+> + * Other architectures' implementation often have a xxx_perf_event_update
+> + * routine, which can return counter values when called in the IRQ, but
+> + * return void when being called by the pmu->read method.
+> + */
+> +static void riscv_pmu_read(struct perf_event *event)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	u64 prev_raw_count, new_raw_count;
+> +	u64 oldval;
+> +	int idx = hwc->idx;
+> +	u64 delta;
+> +
+> +	do {
+> +		prev_raw_count = local64_read(&hwc->prev_count);
+> +		new_raw_count = read_counter(idx);
+> +
+> +		oldval = local64_cmpxchg(&hwc->prev_count, prev_raw_count,
+> +					 new_raw_count);
+> +	} while (oldval != prev_raw_count);
+> +
+> +	/*
+> +	 * delta is the value to update the counter we maintain in the kernel.
+> +	 */
+> +	delta = (new_raw_count - prev_raw_count) &
+> +		((1ULL << riscv_pmu->counter_width) - 1);
+> +	local64_add(delta, &event->count);
+> +	/*
+> +	 * Something like local64_sub(delta, &hwc->period_left) here is
+> +	 * needed if there is an interrupt for perf.
+> +	 */
+> +}
+> +
+> +/*
+> + * State transition functions:
+> + *
+> + * stop()/start() & add()/del()
+> + */
+> +
+> +/*
+> + * pmu->stop: stop the counter
+> + */
+> +static void riscv_pmu_stop(struct perf_event *event, int flags)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	WARN_ON_ONCE(hwc->state & PERF_HES_STOPPED);
+> +	hwc->state |= PERF_HES_STOPPED;
+> +
+> +	if ((flags & PERF_EF_UPDATE) && !(hwc->state & PERF_HES_UPTODATE)) {
+> +		riscv_pmu->pmu->read(event);
+> +		hwc->state |= PERF_HES_UPTODATE;
+> +	}
+> +}
+> +
+> +/*
+> + * pmu->start: start the event.
+> + */
+> +static void riscv_pmu_start(struct perf_event *event, int flags)
+> +{
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	if (WARN_ON_ONCE(!(event->hw.state & PERF_HES_STOPPED)))
+> +		return;
+> +
+> +	if (flags & PERF_EF_RELOAD) {
+> +		WARN_ON_ONCE(!(event->hw.state & PERF_HES_UPTODATE));
+> +
+> +		/*
+> +		 * Set the counter to the period to the next interrupt here,
+> +		 * if you have any.
+> +		 */
+> +	}
+> +
+> +	hwc->state = 0;
+> +	perf_event_update_userpage(event);
+> +
+> +	/*
+> +	 * Since we cannot write to counters, this serves as an initialization
+> +	 * to the delta-mechanism in pmu->read(); otherwise, the delta would be
+> +	 * wrong when pmu->read is called for the first time.
+> +	 */
+> +	local64_set(&hwc->prev_count, read_counter(hwc->idx));
+> +}
+> +
+> +/*
+> + * pmu->add: add the event to PMU.
+> + */
+> +static int riscv_pmu_add(struct perf_event *event, int flags)
+> +{
+> +	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	if (cpuc->n_events == riscv_pmu->num_counters)
+> +		return -ENOSPC;
+> +
+> +	/*
+> +	 * We don't have general conunters, so no binding-event-to-counter
+> +	 * process here.
+> +	 *
+> +	 * Indexing using hwc->config generally not works, since config may
+> +	 * contain extra information, but here the only info we have in
+> +	 * hwc->config is the event index.
+> +	 */
+> +	hwc->idx = hwc->config;
+> +	cpuc->events[hwc->idx] = event;
+> +	cpuc->n_events++;
+> +
+> +	hwc->state = PERF_HES_UPTODATE | PERF_HES_STOPPED;
+> +
+> +	if (flags & PERF_EF_START)
+> +		riscv_pmu->pmu->start(event, PERF_EF_RELOAD);
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * pmu->del: delete the event from PMU.
+> + */
+> +static void riscv_pmu_del(struct perf_event *event, int flags)
+> +{
+> +	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+> +	struct hw_perf_event *hwc = &event->hw;
+> +
+> +	cpuc->events[hwc->idx] = NULL;
+> +	cpuc->n_events--;
+> +	riscv_pmu->pmu->stop(event, PERF_EF_UPDATE);
+> +	perf_event_update_userpage(event);
+> +}
+> +
+> +/*
+> + * Interrupt: a skeletion for reference.
+> + */
+> +
+> +static DEFINE_MUTEX(pmc_reserve_mutex);
+> +
+> +irqreturn_t riscv_base_pmu_handle_irq(int irq_num, void *dev)
+> +{
+> +	return IRQ_NONE;
+> +}
+> +
+> +static int reserve_pmc_hardware(void)
+> +{
+> +	int err = 0;
+> +
+> +	mutex_lock(&pmc_reserve_mutex);
+> +	if (riscv_pmu->irq >=0 && riscv_pmu->handle_irq) {
+> +		err = request_irq(riscv_pmu->irq, riscv_pmu->handle_irq,
+> +				  IRQF_PERCPU, "riscv-base-perf", NULL);
+> +	}
+> +	mutex_unlock(&pmc_reserve_mutex);
+> +
+> +	return err;
+> +}
+> +
+> +void release_pmc_hardware(void)
+> +{
+> +	mutex_lock(&pmc_reserve_mutex);
+> +	if (riscv_pmu->irq >=0) {
+> +		free_irq(riscv_pmu->irq, NULL);
+> +	}
+> +	mutex_unlock(&pmc_reserve_mutex);
+> +}
+> +
+> +/*
+> + * Event Initialization/Finalization
+> + */
+> +
+> +static atomic_t riscv_active_events = ATOMIC_INIT(0);
+> +
+> +static void riscv_event_destroy(struct perf_event *event)
+> +{
+> +	if (atomic_dec_return(&riscv_active_events) == 0)
+> +		release_pmc_hardware();
+> +}
+> +
+> +static int riscv_event_init(struct perf_event *event)
+> +{
+> +	struct perf_event_attr *attr = &event->attr;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	int err;
+> +	int code;
+> +
+> +	if (atomic_inc_return(&riscv_active_events) == 1) {
+> +		err = reserve_pmc_hardware();
+> +
+> +		if (err) {
+> +			pr_warn("PMC hardware not available\n");
+> +			atomic_dec(&riscv_active_events);
+> +			return -EBUSY;
+> +		}
+> +	}
+> +
+> +	switch (event->attr.type) {
+> +	case PERF_TYPE_HARDWARE:
+> +		code = riscv_pmu->map_hw_event(attr->config);
+> +		break;
+> +	case PERF_TYPE_HW_CACHE:
+> +		code = riscv_pmu->map_cache_event(attr->config);
+> +		break;
+> +	case PERF_TYPE_RAW:
+> +		return -EOPNOTSUPP;
+> +	default:
+> +		return -ENOENT;
+> +	}
+> +
+> +	event->destroy = riscv_event_destroy;
+> +	if (code < 0) {
+> +		event->destroy(event);
+> +		return code;
+> +	}
+> +
+> +	/*
+> +	 * idx is set to -1 because the index of a general event should not be
+> +	 * decided until binding to some counter in pmu->add().
+> +	 *
+> +	 * But since we don't have such support, later in pmu->add(), we just
+> +	 * use hwc->config as the index instead.
+> +	 */
+> +	hwc->config = code;
+> +	hwc->idx = -1;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Initialization
+> + */
+> +
+> +static struct pmu min_pmu = {
+> +	.name		= "riscv-base",
+> +	.event_init	= riscv_event_init,
+> +	.add		= riscv_pmu_add,
+> +	.del		= riscv_pmu_del,
+> +	.start		= riscv_pmu_start,
+> +	.stop		= riscv_pmu_stop,
+> +	.read		= riscv_pmu_read,
+> +};
+> +
+> +static const struct riscv_pmu riscv_base_pmu = {
+> +	.pmu = &min_pmu,
+> +	.max_events = ARRAY_SIZE(riscv_hw_event_map),
+> +	.map_hw_event = riscv_map_hw_event,
+> +	.hw_events = riscv_hw_event_map,
+> +	.map_cache_event = riscv_map_cache_event,
+> +	.cache_events = &riscv_cache_event_map,
+> +	.counter_width = 63,
+> +	.num_counters = RISCV_BASE_COUNTERS + 0,
+> +	.handle_irq = &riscv_base_pmu_handle_irq,
+> +
+> +	/* This means this PMU has no IRQ. */
+> +	.irq = -1,
+> +};
+> +
+> +static const struct of_device_id riscv_pmu_of_ids[] = {
+> +	{.compatible = "riscv,base-pmu",	.data = &riscv_base_pmu},
+> +	{ /* sentinel value */ }
+> +};
+> +
+> +int __init init_hw_perf_events(void)
+> +{
+> +	struct device_node *node = of_find_node_by_type(NULL, "pmu");
+> +	const struct of_device_id *of_id;
+> +	
+> +	if (node && (of_id = of_match_node(riscv_pmu_of_ids, node)))
+> +		riscv_pmu = of_id->data;
+> +	else
+> +		riscv_pmu = &riscv_base_pmu;
+> +
+> +	perf_pmu_register(riscv_pmu->pmu, "cpu", PERF_TYPE_RAW);
+> +	return 0;
+> +}
+> +arch_initcall(init_hw_perf_events);
+> 
+Some check patch errors.
 
-The "intr" line within /proc/stat contains a sum total of all the
-irqs that have been serviced followed by a list of irq counts for
-each individual irq number. In many cases, the first number is good
-enough. The individual irq counts may not provide that much more
-information.
+ERROR: spaces required around that '>=' (ctx:WxV)
+#517: FILE: arch/riscv/kernel/perf_event.c:356:
++	if (riscv_pmu->irq >=0 && riscv_pmu->handle_irq) {
+  	                   ^
 
-In order to avoid this kind of performance issue, all these individual
-irq counts are now separated into a new /proc/stat_irqs file. The
-sum total irq count will stay in /proc/stat and be duplicated in
-/proc/stat_irqs. Applications that need to look up individual irq counts
-will now have to look into /proc/stat_irqs instead of /proc/stat.
+ERROR: spaces required around that '>=' (ctx:WxV)
+#529: FILE: arch/riscv/kernel/perf_event.c:368:
++	if (riscv_pmu->irq >=0) {
+  	                   ^
 
-v2: Update Documentation/filesystems/proc.txt accordingly.
-
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/filesystems/proc.txt | 22 ++++++++++++-----
- fs/proc/stat.c                     | 48 ++++++++++++++++++++++++++++++++------
- 2 files changed, 57 insertions(+), 13 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index 2a84bb3..15558ff 100644
---- a/Documentation/filesystems/proc.txt
-+++ b/Documentation/filesystems/proc.txt
-@@ -1300,7 +1300,7 @@ since the system first booted.  For a quick look, simply cat the file:
-   cpu  2255 34 2290 22625563 6290 127 456 0 0 0
-   cpu0 1132 34 1441 11311718 3675 127 438 0 0 0
-   cpu1 1123 0 849 11313845 2614 0 18 0 0 0
--  intr 114930548 113199788 3 0 5 263 0 4 [... lots more numbers ...]
-+  intr 114930548
-   ctxt 1990473
-   btime 1062191376
-   processes 2915
-@@ -1333,11 +1333,10 @@ second).  The meanings of the columns are as follows, from left to right:
- - guest: running a normal guest
- - guest_nice: running a niced guest
- 
--The "intr" line gives counts of interrupts  serviced since boot time, for each
--of the  possible system interrupts.   The first  column  is the  total of  all
--interrupts serviced  including  unnumbered  architecture specific  interrupts;
--each  subsequent column is the  total for that particular numbered interrupt.
--Unnumbered interrupts are not shown, only summed into the total.
-+The "intr" line gives the total of all interrupts including unnumbered
-+architecture specific interrupts serviced since boot time.  To see the
-+number of interrupts serviced for a particular numbered interrupt,
-+the /proc/stat_irqs file should be used instead.
- 
- The "ctxt" line gives the total number of context switches across all CPUs.
- 
-@@ -1359,6 +1358,17 @@ of the possible system softirqs. The first column is the total of all
- softirqs serviced; each subsequent column is the total for that particular
- softirq.
- 
-+To see the number of interrupts serviced for each of the numbered
-+interrupts, the /proc/stat_irqs file can be viewed.
-+
-+  > cat /proc/stat_irqs
-+  intr 114930548 113199788 3 0 5 263 0 4 [... lots more numbers ...]
-+
-+The "intr" line gives counts of interrupts  serviced since boot time, for each
-+of the  possible system interrupts.   The first  column  is the  total of  all
-+interrupts serviced  including  unnumbered  architecture specific  interrupts;
-+each  subsequent column is the  total for that particular numbered interrupt.
-+Unnumbered interrupts are not shown, only summed into the total.
- 
- 1.9 Ext4 file system parameters
- -------------------------------
-diff --git a/fs/proc/stat.c b/fs/proc/stat.c
-index 59749df..79e3c03 100644
---- a/fs/proc/stat.c
-+++ b/fs/proc/stat.c
-@@ -155,11 +155,6 @@ static int show_stat(struct seq_file *p, void *v)
- 		seq_putc(p, '\n');
- 	}
- 	seq_put_decimal_ull(p, "intr ", (unsigned long long)sum);
--
--	/* sum again ? it could be updated? */
--	for_each_irq_nr(j)
--		seq_put_decimal_ull(p, " ", kstat_irqs_usr(j));
--
- 	seq_printf(p,
- 		"\nctxt %llu\n"
- 		"btime %llu\n"
-@@ -181,15 +176,46 @@ static int show_stat(struct seq_file *p, void *v)
- 	return 0;
- }
- 
-+/*
-+ * Showing individual irq counts can be expensive if there are a lot of
-+ * irqs. So it is done in a separate procfs file to reduce performance
-+ * overhead of reading other statistical counts.
-+ */
-+static int show_stat_irqs(struct seq_file *p, void *v)
-+{
-+	int i, j;
-+	u64 sum = 0;
-+
-+	for_each_possible_cpu(i) {
-+		sum += kstat_cpu_irqs_sum(i);
-+		sum += arch_irq_stat_cpu(i);
+WARNING: braces {} are not necessary for single statement blocks
+#529: FILE: arch/riscv/kernel/perf_event.c:368:
++	if (riscv_pmu->irq >=0) {
++		free_irq(riscv_pmu->irq, NULL);
 +	}
-+	sum += arch_irq_stat();
-+
-+	seq_put_decimal_ull(p, "intr ", (unsigned long long)sum);
-+
-+	for_each_irq_nr(j)
-+		seq_put_decimal_ull(p, " ", kstat_irqs_usr(j));
-+
-+	seq_putc(p, '\n');
-+
-+	return 0;
-+}
-+
- static int stat_open(struct inode *inode, struct file *file)
- {
- 	size_t size = 1024 + 128 * num_online_cpus();
- 
--	/* minimum size to display an interrupt count : 2 bytes */
--	size += 2 * nr_irqs;
- 	return single_open_size(file, show_stat, NULL, size);
- }
- 
-+static int stat_irqs_open(struct inode *inode, struct file *file)
-+{
-+	size_t size = 1024 + 16 * nr_irqs;
-+
-+	return single_open_size(file, show_stat_irqs, NULL, size);
-+}
-+
- static const struct file_operations proc_stat_operations = {
- 	.open		= stat_open,
- 	.read		= seq_read,
-@@ -197,9 +223,17 @@ static int stat_open(struct inode *inode, struct file *file)
- 	.release	= single_release,
- };
- 
-+static const struct file_operations proc_stat_irqs_operations = {
-+	.open		= stat_irqs_open,
-+	.read		= seq_read,
-+	.llseek		= seq_lseek,
-+	.release	= single_release,
-+};
-+
- static int __init proc_stat_init(void)
- {
- 	proc_create("stat", 0, NULL, &proc_stat_operations);
-+	proc_create("stat_irqs", 0, NULL, &proc_stat_irqs_operations);
- 	return 0;
- }
- fs_initcall(proc_stat_init);
--- 
-1.8.3.1
 
+WARNING: DT compatible string "riscv,base-pmu" appears un-documented -- 
+check ./Documentation/devicetree/bindings/
+#626: FILE: arch/riscv/kernel/perf_event.c:465:
++	{.compatible = "riscv,base-pmu",	.data = &riscv_base_pmu},
+
+ERROR: trailing whitespace
+#634: FILE: arch/riscv/kernel/perf_event.c:473:
++^I$
+
+ERROR: do not use assignment in if condition
+#635: FILE: arch/riscv/kernel/perf_event.c:474:
++	if (node && (of_id = of_match_node(riscv_pmu_of_ids, node)))
+
+total: 4 errors, 3 warnings, 595 lines checked
+
+
+Regards,
+Atish
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
