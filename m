@@ -1,102 +1,191 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE1837E27E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 18 Apr 2018 23:42:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 441337E27E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 02:09:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752291AbeDRXm4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 18 Apr 2018 19:42:56 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:34202 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1752091AbeDRXmz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 19:42:55 -0400
-Received: from pps.filterd (m0044008.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3INYBaE006535;
-        Wed, 18 Apr 2018 16:42:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=facebook; bh=l+H00dmrYpWJ0b/qYjGy0bl+yNrI0CwHnWNQgTxvZjw=;
- b=HxtRMRx5knzw4gVsxcVhkDS+08o6RfE0HTTthnTTBd+SGfJTb83OMdCTaN+5N8+rElpb
- p4/kVSuhQ48FR3mFXLvcgnxpFIYbapvs7te1V0XEiB5stxzQtfqy56JqIJ0NSexIyCpy
- wUxCyhW5GXn2ETfpRHfmVe0VQsG7SdsBVYs= 
-Received: from mail.thefacebook.com ([199.201.64.23])
-        by mx0a-00082601.pphosted.com with ESMTP id 2hee0nr99w-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 18 Apr 2018 16:42:13 -0700
-Received: from PRN-CHUB02.TheFacebook.com (2620:10d:c081:35::11) by
- PRN-CHUB16.TheFacebook.com (2620:10d:c081:35::28) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 18 Apr 2018 16:42:12 -0700
-Received: from kafai-mbp (192.168.52.123) by mail.thefacebook.com
- (192.168.16.12) with Microsoft SMTP Server (TLS) id 14.3.361.1; Wed, 18 Apr
- 2018 16:42:10 -0700
-Date:   Wed, 18 Apr 2018 16:42:04 -0700
-From:   Martin KaFai Lau <kafai@fb.com>
-To:     Quentin Monnet <quentin.monnet@netronome.com>
-CC:     <daniel@iogearbox.net>, <ast@kernel.org>, <netdev@vger.kernel.org>,
-        <oss-drivers@netronome.com>, <linux-doc@vger.kernel.org>,
-        <linux-man@vger.kernel.org>, Kaixu Xia <xiakaixu@huawei.com>,
-        Sargun Dhillon <sargun@sargun.me>, Thomas Graf <tgraf@suug.ch>,
-        Gianluca Borello <g.borello@gmail.com>,
-        Chenbo Feng <fengc@google.com>
-Subject: Re: [PATCH bpf-next v3 6/8] bpf: add documentation for eBPF helpers
- (42-50)
-Message-ID: <20180418234202.abrxhspxegdkhunv@kafai-mbp>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-7-quentin.monnet@netronome.com>
+        id S1752159AbeDSCJM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 18 Apr 2018 22:09:12 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:55793 "EHLO
+        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1751032AbeDSCJL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 18 Apr 2018 22:09:11 -0400
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
+   d="scan'208";a="39103996"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 19 Apr 2018 10:09:09 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+        by cn.fujitsu.com (Postfix) with ESMTP id 0629148AE93B;
+        Thu, 19 Apr 2018 10:09:09 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.106) by
+ G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Thu, 19 Apr 2018 10:09:07 +0800
+Subject: Re: [RESEND PATCH] x86/boot/KASLR: Extend movable_node option for
+ KASLR
+To:     <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+        <linux-doc@vger.kernel.org>
+CC:     <tglx@linutronix.de>, <mingo@redhat.com>, <hpa@zytor.com>,
+        <keescook@chromium.org>, <bhe@redhat.com>,
+        <fanc.fnst@cn.fujitsu.com>, <indou.takao@jp.fujitsu.com>
+References: <20180403033612.19925-1-douly.fnst@cn.fujitsu.com>
+From:   Dou Liyang <douly.fnst@cn.fujitsu.com>
+Message-ID: <5e5fb89e-f06a-64cd-4295-2f4b2b28774e@cn.fujitsu.com>
+Date:   Thu, 19 Apr 2018 10:09:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20180417143438.7018-7-quentin.monnet@netronome.com>
-User-Agent: NeoMutt/20171208
-X-Originating-IP: [192.168.52.123]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-18_06:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-FB-Internal: Safe
+In-Reply-To: <20180403033612.19925-1-douly.fnst@cn.fujitsu.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.167.226.106]
+X-yoursite-MailScanner-ID: 0629148AE93B.AB975
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: douly.fnst@cn.fujitsu.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 17, 2018 at 03:34:36PM +0100, Quentin Monnet wrote:
-[...]
-> @@ -965,6 +984,17 @@ union bpf_attr {
->   * 	Return
->   * 		0 on success, or a negative error in case of failure.
->   *
-> + * int bpf_skb_under_cgroup(struct sk_buff *skb, struct bpf_map *map, u32 index)
-> + * 	Description
-> + * 		Check whether *skb* is a descendant of the cgroup2 held by
-> + * 		*map* of type **BPF_MAP_TYPE_CGROUP_ARRAY**, at *index*.
-> + * 	Return
-> + * 		The return value depends on the result of the test, and can be:
-> + *
-> + * 		* 0, if the *skb* failed the cgroup2 descendant test.
-> + * 		* 1, if the *skb* succeeded the cgroup2 descendant test.
-> + * 		* A negative error code, if an error occurred.
-> + *
-[...]
-> + * int bpf_xdp_adjust_head(struct xdp_buff *xdp_md, int delta)
-> + * 	Description
-> + * 		Adjust (move) *xdp_md*\ **->data** by *delta* bytes. Note that
-> + * 		it is possible to use a negative value for *delta*. This helper
-> + * 		can be used to prepare the packet for pushing or popping
-> + * 		headers.
-> + *
-> + * 		A call to this helper is susceptible to change data from the
-> + * 		packet. Therefore, at load time, all checks on pointers
-> + * 		previously done by the verifier are invalidated and must be
-> + * 		performed again.
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
-> + *
-LGTM. Thanks!
+Hi Ingo,
 
-Acked-by: Martin KaFai Lau <kafai@fb.com>
+Any comments about that?
+
+Now, When users want to support node hotplug with KASLR, they use
+'mem=' to restrict the boot-up memory to the first node memory size.
+If we want to boot up some hotpluggable node, their memory can't be
+shown.
+
+IMO, only few machines can support physical NUMA Node hotplug, and
+we can't get memory hotplug info from ACPI SRAT earlier now(If we can do
+that, we even can remove the 'movable_node' option).
+
+So, IMO, extend movable_node to replace the misuse of 'mem' option.
+
+Thought?
+
+Thanks,
+
+	dou
+
+At 04/03/2018 11:36 AM, Dou Liyang wrote:
+> The movable_node option is a boot-time switch to make sure the physical
+> NUMA nodes can be hot-added/removed when ACPI table can't be parsed to
+> provide the memory hotplug information.
+> 
+> As we all know, there is always one node, called "home node", which
+> can't be movabled and the kernel image resides in it. With movable_node
+> option, Linux allocates new early memorys near the kernel image to avoid
+> using the other movable node.
+> 
+> But, due to KASLR also can't get the the memory hotplug information, it may
+> randomize the kernel image into a movable node which breaks the rule of
+> movable_node option and makes the physical hot-add/remove operation failed.
+> 
+> The perfect solution is providing the memory hotplug information to KASLR.
+> But, it needs the efforts from hardware engineers and software engineers.
+> 
+> Here is an alternative method. Extend movable_node option to restrict kernel
+> to be randomized in the home node by adding a parameter. this parameter sets
+> up the boundaries between the home nodes and other nodes.
+> 
+> Reported-by: Chao Fan <fanc.fnst@cn.fujitsu.com>
+> Signed-off-by: Dou Liyang <douly.fnst@cn.fujitsu.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+> Changelog:
+>    -Rewrite the commit log and document.
+> 
+>   Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++--
+>   arch/x86/boot/compressed/kaslr.c                | 19 ++++++++++++++++---
+>   2 files changed, 26 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 1d1d53f85ddd..0cfc0b10a117 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2353,7 +2353,8 @@
+>   	mousedev.yres=	[MOUSE] Vertical screen resolution, used for devices
+>   			reporting absolute coordinates, such as tablets
+>   
+> -	movablecore=nn[KMG]	[KNL,X86,IA-64,PPC] This parameter
+> +	movablecore=nn[KMG]
+> +			[KNL,X86,IA-64,PPC] This parameter
+>   			is similar to kernelcore except it specifies the
+>   			amount of memory used for migratable allocations.
+>   			If both kernelcore and movablecore is specified,
+> @@ -2363,12 +2364,19 @@
+>   			that the amount of memory usable for all allocations
+>   			is not too small.
+>   
+> -	movable_node	[KNL] Boot-time switch to make hotplugable memory
+> +	movable_node	[KNL] Boot-time switch to make hot-pluggable memory
+>   			NUMA nodes to be movable. This means that the memory
+>   			of such nodes will be usable only for movable
+>   			allocations which rules out almost all kernel
+>   			allocations. Use with caution!
+>   
+> +	movable_node=nn[KMG]
+> +			[KNL] Extend movable_node to make it work well with KASLR.
+> +			This parameter is the boundaries between the "home node" and
+> +			the other nodes. The "home node" is an immovable node and is
+> +			defined by BIOS. Set the 'nn' to the memory size of "home
+> +			node", the kernel image will be extracted in immovable nodes.
+> +
+>   	MTD_Partition=	[MTD]
+>   			Format: <name>,<region-number>,<size>,<offset>
+>   
+> diff --git a/arch/x86/boot/compressed/kaslr.c b/arch/x86/boot/compressed/kaslr.c
+> index 8199a6187251..f906d7890e69 100644
+> --- a/arch/x86/boot/compressed/kaslr.c
+> +++ b/arch/x86/boot/compressed/kaslr.c
+> @@ -92,7 +92,10 @@ struct mem_vector {
+>   static bool memmap_too_large;
+>   
+>   
+> -/* Store memory limit specified by "mem=nn[KMG]" or "memmap=nn[KMG]" */
+> +/*
+> + * Store memory limit specified by the following situations:
+> + * "mem=nn[KMG]" or "memmap=nn[KMG]" or "movable_node=nn[KMG]"
+> + */
+>   unsigned long long mem_limit = ULLONG_MAX;
+>   
+>   
+> @@ -214,7 +217,8 @@ static int handle_mem_memmap(void)
+>   	char *param, *val;
+>   	u64 mem_size;
+>   
+> -	if (!strstr(args, "memmap=") && !strstr(args, "mem="))
+> +	if (!strstr(args, "memmap=") && !strstr(args, "mem=") &&
+> +		!strstr(args, "movable_node="))
+>   		return 0;
+>   
+>   	tmp_cmdline = malloc(len + 1);
+> @@ -249,7 +253,16 @@ static int handle_mem_memmap(void)
+>   				free(tmp_cmdline);
+>   				return -EINVAL;
+>   			}
+> -			mem_limit = mem_size;
+> +			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
+> +		} else if (!strcmp(param, "movable_node")) {
+> +			char *p = val;
+> +
+> +			mem_size = memparse(p, &p);
+> +			if (mem_size == 0) {
+> +				free(tmp_cmdline);
+> +				return -EINVAL;
+> +			}
+> +			mem_limit = mem_limit > mem_size ? mem_size : mem_limit;
+>   		}
+>   	}
+>   
+> 
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
