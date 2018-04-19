@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0265C7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 11:16:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AA2B7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 12:27:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752510AbeDSLQs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Apr 2018 07:16:48 -0400
-Received: from www62.your-server.de ([213.133.104.62]:33368 "EHLO
+        id S1752754AbeDSM1W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Apr 2018 08:27:22 -0400
+Received: from www62.your-server.de ([213.133.104.62]:41297 "EHLO
         www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751047AbeDSLQr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Apr 2018 07:16:47 -0400
+        with ESMTP id S1751957AbeDSM1H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 19 Apr 2018 08:27:07 -0400
 Received: from [62.202.221.10] (helo=linux.home)
         by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-SHA:256)
         (Exim 4.85_2)
         (envelope-from <daniel@iogearbox.net>)
-        id 1f97YS-0007MN-PM; Thu, 19 Apr 2018 13:16:44 +0200
-Subject: Re: [PATCH bpf-next v3 4/8] bpf: add documentation for eBPF helpers
- (23-32)
+        id 1f98eW-0006sF-Qg; Thu, 19 Apr 2018 14:27:04 +0200
+Subject: Re: [PATCH bpf-next v3 5/8] bpf: add documentation for eBPF helpers
+ (33-41)
 To:     Quentin Monnet <quentin.monnet@netronome.com>, ast@kernel.org
 Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
         linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-5-quentin.monnet@netronome.com>
+ <20180417143438.7018-6-quentin.monnet@netronome.com>
 From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <6f1b43c7-5d79-7419-1053-d0b29c1e2bb9@iogearbox.net>
-Date:   Thu, 19 Apr 2018 13:16:44 +0200
+Message-ID: <de8e9531-8833-e22e-1b65-ec400d7979a7@iogearbox.net>
+Date:   Thu, 19 Apr 2018 14:27:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <20180417143438.7018-5-quentin.monnet@netronome.com>
+In-Reply-To: <20180417143438.7018-6-quentin.monnet@netronome.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -55,232 +55,175 @@ On 04/17/2018 04:34 PM, Quentin Monnet wrote:
 > This patch contains descriptions for the following helper functions, all
 > written by Daniel:
 > 
-> - bpf_get_prandom_u32()
-> - bpf_get_smp_processor_id()
-> - bpf_get_cgroup_classid()
-> - bpf_get_route_realm()
-> - bpf_skb_load_bytes()
-> - bpf_csum_diff()
-> - bpf_skb_get_tunnel_opt()
-> - bpf_skb_set_tunnel_opt()
-> - bpf_skb_change_proto()
-> - bpf_skb_change_type()
-> 
-> v3:
-> - bpf_get_prandom_u32(): Fix helper name :(. Add description, including
->   a note on the internal random state.
-> - bpf_get_smp_processor_id(): Add description, including a note on the
->   processor id remaining stable during program run.
-> - bpf_get_cgroup_classid(): State that CONFIG_CGROUP_NET_CLASSID is
->   required to use the helper. Add a reference to related documentation.
->   State that placing a task in net_cls controller disables cgroup-bpf.
-> - bpf_get_route_realm(): State that CONFIG_CGROUP_NET_CLASSID is
->   required to use this helper.
-> - bpf_skb_load_bytes(): Fix comment on current use cases for the helper.
+> - bpf_get_hash_recalc()
+> - bpf_skb_change_tail()
+> - bpf_skb_pull_data()
+> - bpf_csum_update()
+> - bpf_set_hash_invalid()
+> - bpf_get_numa_node_id()
+> - bpf_set_hash()
+> - bpf_skb_adjust_room()
+> - bpf_xdp_adjust_meta()
 > 
 > Cc: Daniel Borkmann <daniel@iogearbox.net>
 > Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 > ---
->  include/uapi/linux/bpf.h | 152 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 152 insertions(+)
+>  include/uapi/linux/bpf.h | 155 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 155 insertions(+)
 > 
 > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> index c59bf5b28164..d748f65a8f58 100644
+> index d748f65a8f58..3a40f5debac2 100644
 > --- a/include/uapi/linux/bpf.h
 > +++ b/include/uapi/linux/bpf.h
-> @@ -483,6 +483,23 @@ union bpf_attr {
->   * 		The number of bytes written to the buffer, or a negative error
->   * 		in case of failure.
->   *
-> + * u32 bpf_get_prandom_u32(void)
-> + * 	Description
-> + * 		Get a pseudo-random number. Note that this helper uses its own
-> + * 		pseudo-random internal state, and cannot be used to infer the
-> + * 		seed of other random functions in the kernel.
-
-We should still add that this prng is not cryptographically secure.
-
-> + * 	Return
-> + * 		A random 32-bit unsigned value.
-> + *
-> + * u32 bpf_get_smp_processor_id(void)
-> + * 	Description
-> + * 		Get the SMP (Symmetric multiprocessing) processor id. Note that
-
-Nit: s/Symmetric/symmetric/ ?
-
-> + * 		all programs run with preemption disabled, which means that the
-> + * 		SMP processor id is stable during all the execution of the
-> + * 		program.
-> + * 	Return
-> + * 		The SMP id of the processor running the program.
-> + *
->   * int bpf_skb_store_bytes(struct sk_buff *skb, u32 offset, const void *from, u32 len, u64 flags)
->   * 	Description
->   * 		Store *len* bytes from address *from* into the packet
-> @@ -615,6 +632,27 @@ union bpf_attr {
+> @@ -965,9 +965,164 @@ union bpf_attr {
 >   * 	Return
 >   * 		0 on success, or a negative error in case of failure.
 >   *
-> + * u32 bpf_get_cgroup_classid(struct sk_buff *skb)
+> + * u32 bpf_get_hash_recalc(struct sk_buff *skb)
 > + * 	Description
-> + * 		Retrieve the classid for the current task, i.e. for the
-> + * 		net_cls (network classifier) cgroup to which *skb* belongs.
+> + * 		Retrieve the hash of the packet, *skb*\ **->hash**. If it is
+> + * 		not set, in particular if the hash was cleared due to mangling,
+> + * 		recompute this hash. Later accesses to the hash can be done
+> + * 		directly with *skb*\ **->hash**.
 > + *
-> + * 		This helper is only available is the kernel was compiled with
-> + * 		the **CONFIG_CGROUP_NET_CLASSID** configuration option set to
-> + * 		"**y**" or to "**m**".
-> + *
-> + * 		Note that placing a task into the net_cls controller completely
-> + * 		disables the execution of eBPF programs with the cgroup.
-
-I'm not sure I follow the above sentence, what do you mean by that?
-
-I would definitely also add here that this helper is limited to cgroups v1
-only, and that it works on clsact TC egress hook but not the ingress one.
-
-> + * 		Also note that, in the above description, the "network
-> + * 		classifier" cgroup does not designate a generic classifier, but
-> + * 		a particular mechanism that provides an interface to tag
-> + * 		network packets with a specific class identifier. See also the
-
-The "generic classifier" part is a bit strange to parse. I would probably
-leave the first part out and explain that this provides a means to tag
-packets based on a user-provided ID for all traffic coming from the tasks
-belonging to the related cgroup.
-
-> + * 		related kernel documentation, available from the Linux sources
-> + * 		in file *Documentation/cgroup-v1/net_cls.txt*.
+> + * 		Calling **bpf_set_hash_invalid**\ (), changing a packet
+> + * 		prototype with **bpf_skb_change_proto**\ (), or calling
+> + * 		**bpf_skb_store_bytes**\ () with the
+> + * 		**BPF_F_INVALIDATE_HASH** are actions susceptible to clear
+> + * 		the hash and to trigger a new computation for the next call to
+> + * 		**bpf_get_hash_recalc**\ ().
 > + * 	Return
-> + * 		The classid, or 0 for the default unconfigured classid.
+> + * 		The 32-bit hash.
 > + *
->   * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
->   * 	Description
->   * 		Push a *vlan_tci* (VLAN tag control information) of protocol
-> @@ -734,6 +772,16 @@ union bpf_attr {
->   * 		are **TC_ACT_REDIRECT** on success or **TC_ACT_SHOT** on
->   * 		error.
->   *
-> + * u32 bpf_get_route_realm(struct sk_buff *skb)
-> + * 	Description
-> + * 		Retrieve the realm or the route, that is to say the
-> + * 		**tclassid** field of the destination for the *skb*. This
-> + * 		helper is available only if the kernel was compiled with
-> + * 		**CONFIG_IP_ROUTE_CLASSID** configuration option.
-
-Could mention that this is a similar user provided tag like in the net_cls
-case with cgroups only that this applies to routes here (dst entries) which
-hold this tag.
-
-Also, should say that this works with clsact TC egress hook or alternatively
-conventional classful egress qdiscs, but not on TC ingress. In case of clsact
-TC egress hook this has the advantage that the dst entry has not been dropped
-yet in the xmit path. Therefore, the dst entry does not need to be artificially
-held via netif_keep_dst() for a classful qdisc until the skb is freed.
-
-> + * 	Return
-> + * 		The realm of the route for the packet associated to *sdb*, or 0
-
-Typo: sdb
-
-> + * 		if none was found.
-> + *
->   * int bpf_perf_event_output(struct pt_reg *ctx, struct bpf_map *map, u64 flags, void *data, u64 size)
->   * 	Description
->   * 		Write raw *data* blob into a special BPF perf event held by
-> @@ -770,6 +818,23 @@ union bpf_attr {
+>   * u64 bpf_get_current_task(void)
 >   * 	Return
->   * 		0 on success, or a negative error in case of failure.
->   *
-> + * int bpf_skb_load_bytes(const struct sk_buff *skb, u32 offset, void *to, u32 len)
-> + * 	Description
-> + * 		This helper was provided as an easy way to load data from a
-> + * 		packet. It can be used to load *len* bytes from *offset* from
-> + * 		the packet associated to *skb*, into the buffer pointed by
-> + * 		*to*.
+>   * 		A pointer to the current task struct.
 > + *
-> + * 		Since Linux 4.7, usage of this helper has mostly been replaced
-> + * 		by "direct packet access", enabling packet data to be
-> + * 		manipulated with *skb*\ **->data** and *skb*\ **->data_end**
-> + * 		pointing respectively to the first byte of packet data and to
-> + * 		the byte after the last byte of packet data. However, it
-> + * 		remains useful if one wishes to read large quantities of data
-> + * 		at once from a packet.
-
-I would add: s/at once from a packet/at once from a packet into the BPF stack/
-
+> + * int bpf_skb_change_tail(struct sk_buff *skb, u32 len, u64 flags)
+> + * 	Description
+> + * 		Resize (trim or grow) the packet associated to *skb* to the
+> + * 		new *len*. The *flags* are reserved for future usage, and must
+> + * 		be left at zero.
+> + *
+> + * 		The basic idea is that the helper performs the needed work to
+> + * 		change the size of the packet, then the eBPF program rewrites
+> + * 		the rest via helpers like **bpf_skb_store_bytes**\ (),
+> + * 		**bpf_l3_csum_replace**\ (), **bpf_l3_csum_replace**\ ()
+> + * 		and others. This helper is a slow path utility intended for
+> + * 		replies with control messages. And because it is targeted for
+> + * 		slow path, the helper itself can afford to be slow: it
+> + * 		implicitly linearizes, unclones and drops offloads from the
+> + * 		*skb*.
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
 > + * 	Return
 > + * 		0 on success, or a negative error in case of failure.
 > + *
->   * int bpf_get_stackid(struct pt_reg *ctx, struct bpf_map *map, u64 flags)
->   * 	Description
->   * 		Walk a user or a kernel stack and return its id. To achieve
-> @@ -813,6 +878,93 @@ union bpf_attr {
->   * 		The positive or null stack id on success, or a negative error
->   * 		in case of failure.
->   *
-> + * s64 bpf_csum_diff(__be32 *from, u32 from_size, __be32 *to, u32 to_size, __wsum seed)
+> + * int bpf_skb_pull_data(struct sk_buff *skb, u32 len)
 > + * 	Description
-> + * 		Compute a checksum difference, from the raw buffer pointed by
-> + * 		*from*, of length *from_size* (that must be a multiple of 4),
-> + * 		towards the raw buffer pointed by *to*, of size *to_size*
-> + * 		(same remark). An optional *seed* can be added to the value.
-
-Wrt seed, we should explicitly mention that this can be cascaded but also that
-this helper works in combination with the l3/l4 csum ones where you feed in this
-diff coming from bpf_csum_diff().
-
-> + * 		This is flexible enough to be used in several ways:
+> + * 		Pull in non-linear data in case the *skb* is non-linear and not
+> + * 		all of *len* are part of the linear section. Make *len* bytes
+> + * 		from *skb* readable and writable. If a zero value is passed for
+> + * 		*len*, then the whole length of the *skb* is pulled.
 > + *
-> + * 		* With *from_size* == 0, *to_size* > 0 and *seed* set to
-> + * 		  checksum, it can be used when pushing new data.
-> + * 		* With *from_size* > 0, *to_size* == 0 and *seed* set to
-> + * 		  checksum, it can be used when removing data from a packet.
-> + * 		* With *from_size* > 0, *to_size* > 0 and *seed* set to 0, it
-> + * 		  can be used to compute a diff. Note that *from_size* and
-> + * 		  *to_size* do not need to be equal.
+> + * 		This helper is only needed for reading and writing with direct
+> + * 		packet access.
+> + *
+> + * 		For direct packet access, when testing that offsets to access
+> + * 		are within packet boundaries (test on *skb*\ **->data_end**)
+> + * 		fails, programs just bail out, or, in the direct read case, use
+
+I would add here to why it can fail, meaning either due to invalid offsets
+or due to the requested data being in non-linear parts of the skb where then
+either the bpf_skb_load_bytes() can be used as you mentioned or the data
+pulled in via bpf_skb_pull_data().
+
+> + * 		**bpf_skb_load_bytes()** as an alternative to overcome this
+> + * 		limitation. If such data sits in non-linear parts, it is
+> + * 		possible to pull them in once with the new helper, retest and
+> + * 		eventually access them.
+
+You do this here, but maybe slightly rearranging this one paragraph a bit as
+to why one would use either of the helpers would help reading flow a bit.
+
+> + * 		At the same time, this also makes sure the skb is uncloned,
+> + * 		which is a necessary condition for direct write. As this needs
+> + * 		to be an invariant for the write part only, the verifier
+> + * 		detects writes and adds a prologue that is calling
+> + * 		**bpf_skb_pull_data()** to effectively unclone the skb from the
+> + * 		very beginning in case it is indeed cloned.
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
 > + * 	Return
-> + * 		The checksum result, or a negative error code in case of
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * s64 bpf_csum_update(struct sk_buff *skb, __wsum csum)
+> + * 	Description
+> + * 		Add the checksum *csum* into *skb*\ **->csum** in case the
+> + * 		driver fed us an IP checksum. Return an error otherwise. This
+
+It's not IP checksum specifically (if that is what you meant), it's when the
+driver propagates CHECKSUM_COMPLETE to the skb, where the device has supplied
+the checksum of the whole packet into skb->csum. At TC ingress time, this
+covers everything starting from net header offset to the end of the skb since
+mac hdr skb->csum has been pulled already. Main use case indeed direct packet
+access.
+
+> + * 		header is intended to be used in combination with
+> + * 		**bpf_csum_diff()** helper, in particular when the checksum
+> + * 		needs to be updated after data has been written into the packet
+> + * 		through direct packet access.
+> + * 	Return
+> + * 		The checksum on success, or a negative error code in case of
 > + * 		failure.
 > + *
-> + * int bpf_skb_get_tunnel_opt(struct sk_buff *skb, u8 *opt, u32 size)
+> + * void bpf_set_hash_invalid(struct sk_buff *skb)
 > + * 	Description
-> + * 		Retrieve tunnel options metadata for the packet associated to
-> + * 		*skb*, and store the raw tunnel option data to the buffer *opt*
-> + * 		of *size*.
+> + * 		Invalidate the current *skb*\ **->hash**. It can be used after
+> + * 		mangling on headers through direct packet access, in order to
+> + * 		indicate that the hash is outdated and to trigger a
+> + * 		recalculation the next time the kernel tries to access this
+> + * 		hash.
+
+[...] hash or through the helper bpf_get_hash_recalc().
+
+> + *
+> + * int bpf_get_numa_node_id(void)
+> + * 	Description
+> + * 		Return the id of the current NUMA node. The primary use case
+> + * 		for this helper is the selection of sockets for the local NUMA
+> + * 		node, when the program is attached to sockets using the
+> + * 		**SO_ATTACH_REUSEPORT_EBPF** option (see also **socket(7)**).
+
+I would mention that this also available for other types similarly to
+bpf_get_smp_processor_id() helper though. (Otherwise one might read that
+this could not be the case.)
+
 > + * 	Return
-> + * 		The size of the option data retrieved.
+> + * 		The id of current NUMA node.
 > + *
-> + * int bpf_skb_set_tunnel_opt(struct sk_buff *skb, u8 *opt, u32 size)
+> + * u32 bpf_set_hash(struct sk_buff *skb, u32 hash)
 > + * 	Description
-> + * 		Set tunnel options metadata for the packet associated to *skb*
-> + * 		to the option data contained in the raw buffer *opt* of *size*.
-
-Also here the same remark with collect meta data I made earlier, and as a
-particular example where this can be used in combination with geneve where
-this allows for pushing and retrieving (bpf_skb_get_tunnel_opt() case)
-arbitrary TLVs from the BPF program that allows for full customization.
-
+> + * 		Set the full hash for *skb* (set the field *skb*\ **->hash**)
+> + * 		to value *hash*.
 > + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
+> + * 		0
 > + *
-> + * int bpf_skb_change_proto(struct sk_buff *skb, __be16 proto, u64 flags)
+> + * int bpf_skb_adjust_room(struct sk_buff *skb, u32 len_diff, u32 mode, u64 flags)
 > + * 	Description
-> + * 		Change the protocol of the *skb* to *proto*. Currently
-> + * 		supported are transition from IPv4 to IPv6, and from IPv6 to
-> + * 		IPv4. The helper takes care of the groundwork for the
-> + * 		transition, including resizing the socket buffer. The eBPF
-> + * 		program is expected to fill the new headers, if any, via
-> + * 		**skb_store_bytes**\ () and to recompute the checksums with
-> + * 		**bpf_l3_csum_replace**\ () and **bpf_l4_csum_replace**\
-> + * 		().
-
-Could mention the main use case for NAT64 out of an BPF program.
-
+> + * 		Grow or shrink the room for data in the packet associated to
+> + * 		*skb* by *len_diff*, and according to the selected *mode*.
 > + *
-> + * 		Internally, the GSO type is marked as dodgy so that headers are
-> + * 		checked and segments are recalculated by the GSO/GRO engine.
-> + * 		The size for GSO target is adapted as well.
+> + * 		There is a single supported mode at this time:
+> + *
+> + * 		* **BPF_ADJ_ROOM_NET**: Adjust room at the network layer
+> + * 		  (room space is added or removed below the layer 3 header).
 > + *
 > + * 		All values for *flags* are reserved for future usage, and must
 > + * 		be left at zero.
@@ -292,36 +235,36 @@ Could mention the main use case for NAT64 out of an BPF program.
 > + * 	Return
 > + * 		0 on success, or a negative error in case of failure.
 > + *
-> + * int bpf_skb_change_type(struct sk_buff *skb, u32 type)
+> + * int bpf_xdp_adjust_meta(struct xdp_buff *xdp_md, int delta)
 > + * 	Description
-> + * 		Change the packet type for the packet associated to *skb*. This
-> + * 		comes down to setting *skb*\ **->pkt_type** to *type*, except
-> + * 		the eBPF program does not have a write access to *skb*\
-> + * 		**->pkt_type** beside this helper. Using a helper here allows
-> + * 		for graceful handling of errors.
+> + * 		Adjust the address pointed by *xdp_md*\ **->data_meta** by
+> + * 		*delta* (which can be positive or negative). Note that this
+> + * 		operation modifies the address stored in *xdp_md*\ **->data**,
+> + * 		so the latter must be loaded only after the helper has been
+> + * 		called.
 > + *
-> + * 		The major use case is to change incoming *skb*s to
-> + * 		**PACKET_HOST** in a programmatic way instead of having to
-> + * 		recirculate via **redirect**\ (..., **BPF_F_INGRESS**), for
-> + * 		example.
+> + * 		The use of *xdp_md*\ **->data_meta** is optional and programs
+> + * 		are not required to use it. The rationale is that when the
+> + * 		packet is processed with XDP (e.g. as DoS filter), it is
+> + * 		possible to push further meta data along with it before passing
+> + * 		to the stack, and to give the guarantee that an ingress eBPF
+> + * 		program attached as a TC classifier on the same device can pick
+> + * 		this up for further post-processing. Since TC works with socket
+> + * 		buffers, it remains possible to set from XDP the **mark** or
+> + * 		**priority** pointers, or other pointers for the socket buffer.
+> + * 		Having this scratch space generic and programmable allows for
+> + * 		more flexibility as the user is free to store whatever meta
+> + * 		data they need.
 > + *
-> + * 		Note that *type* only allows certain values. At this time, they
-> + * 		are:
-> + *
-> + * 		**PACKET_HOST**
-> + * 			Packet is for us.
-> + * 		**PACKET_BROADCAST**
-> + * 			Send packet to all.
-> + * 		**PACKET_MULTICAST**
-> + * 			Send packet to group.
-> + * 		**PACKET_OTHERHOST**
-> + * 			Send packet to someone else.
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
 > + * 	Return
 > + * 		0 on success, or a negative error in case of failure.
-> + *
->   * u64 bpf_get_current_task(void)
->   * 	Return
->   * 		A pointer to the current task struct.
+>   */
+>  #define __BPF_FUNC_MAPPER(FN)		\
+>  	FN(unspec),			\
 > 
 
 --
