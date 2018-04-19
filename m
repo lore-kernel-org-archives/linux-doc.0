@@ -2,160 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E9227E677
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 12:58:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8DB0D7E279
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 19 Apr 2018 13:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753190AbeDSM6M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 19 Apr 2018 08:58:12 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33258 "EHLO mx1.redhat.com"
+        id S1753299AbeDSNrV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 19 Apr 2018 09:47:21 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44280 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752617AbeDSM6K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 19 Apr 2018 08:58:10 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        id S1751293AbeDSNrR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 19 Apr 2018 09:47:17 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 554308182D1E;
-        Thu, 19 Apr 2018 12:58:09 +0000 (UTC)
-Received: from localhost (ovpn-200-19.brq.redhat.com [10.40.200.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AD5DC2026DFD;
-        Thu, 19 Apr 2018 12:58:06 +0000 (UTC)
-Date:   Thu, 19 Apr 2018 14:58:04 +0200
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Quentin Monnet <quentin.monnet@netronome.com>
-Cc:     daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org,
-        John Fastabend <john.fastabend@gmail.com>, brouer@redhat.com
-Subject: Re: [PATCH bpf-next v3 8/8] bpf: add documentation for eBPF helpers
- (58-64)
-Message-ID: <20180419145804.4cf56574@redhat.com>
-In-Reply-To: <62931080-6f69-3877-7a84-0df5be5754e6@netronome.com>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
-        <20180417143438.7018-9-quentin.monnet@netronome.com>
-        <20180418153448.574c6814@redhat.com>
-        <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
-        <20180418174319.37f6c793@redhat.com>
-        <62931080-6f69-3877-7a84-0df5be5754e6@netronome.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Thu, 19 Apr 2018 12:58:09 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Thu, 19 Apr 2018 12:58:09 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
+        by mx1.redhat.com (Postfix) with ESMTPS id 883C640201A4;
+        Thu, 19 Apr 2018 13:47:16 +0000 (UTC)
+Received: from llong.com (dhcp-17-164.bos.redhat.com [10.18.17.164])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E14D4215CDCB;
+        Thu, 19 Apr 2018 13:47:15 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
+        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v7 4/5] cpuset: Restrict load balancing off cpus to subset of cpus.isolated
+Date:   Thu, 19 Apr 2018 09:47:03 -0400
+Message-Id: <1524145624-23655-5-git-send-email-longman@redhat.com>
+In-Reply-To: <1524145624-23655-1-git-send-email-longman@redhat.com>
+References: <1524145624-23655-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 19 Apr 2018 13:47:16 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 19 Apr 2018 13:47:16 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Apr 2018 13:44:41 +0100
-Quentin Monnet <quentin.monnet@netronome.com> wrote:
+With the addition of "cpuset.cpus.isolated", it makes sense to add the
+restriction that load balancing can only be turned off if the CPUs in
+the isolated cpuset are subset of "cpuset.cpus.isolated".
 
-> 2018-04-18 17:43 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
-> > On Wed, 18 Apr 2018 15:09:41 +0100
-> > Quentin Monnet <quentin.monnet@netronome.com> wrote:
-> >   
-> >> 2018-04-18 15:34 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>  
-> >>> On Tue, 17 Apr 2018 15:34:38 +0100
-> >>> Quentin Monnet <quentin.monnet@netronome.com> wrote:
-> >>>     
-> >>>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> >>>> index 350459c583de..3d329538498f 100644
-> >>>> --- a/include/uapi/linux/bpf.h
-> >>>> +++ b/include/uapi/linux/bpf.h
-> >>>> @@ -1276,6 +1276,50 @@ union bpf_attr {
-> >>>>   * 	Return
-> >>>>   * 		0 on success, or a negative error in case of failure.
-> >>>>   *
-> >>>> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-> >>>> + * 	Description
-> >>>> + * 		Redirect the packet to the endpoint referenced by *map* at
-> >>>> + * 		index *key*. Depending on its type, his *map* can contain    
-> >>>                                                     ^^^
-> >>>
-> >>> "his" -> "this"    
-> >>
-> >> Thanks!
-> >>  
-> >>>> + * 		references to net devices (for forwarding packets through other
-> >>>> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
-> >>>> + * 		but this is only implemented for native XDP (with driver
-> >>>> + * 		support) as of this writing).
-> >>>> + *
-> >>>> + * 		All values for *flags* are reserved for future usage, and must
-> >>>> + * 		be left at zero.
-> >>>> + * 	Return
-> >>>> + * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
-> >>>> + *    
-> >>>
-> >>> "XDP_ABORT" -> "XDP_ABORTED"    
-> >>
-> >> Ouch. And I did the same for bpf_redirect(). Thanks for the catch.
-> >>  
-> >>>
-> >>> I don't know if it's worth mentioning in the doc/man-page; that for XDP
-> >>> using bpf_redirect_map() is a HUGE performance advantage, compared to
-> >>> the bpf_redirect() call ?    
-> >>
-> >> It seems worth to me. How would you simply explain the reason for this
-> >> difference?  
-> > 
-> > The basic reason is "bulking effect", as devmap avoids the NIC
-> > tailptr/doorbell update on every packet... how to write that in a doc
-> > format?
-> > 
-> > I wrote about why XDP_REDIRECT with maps are smart here:
-> >  http://vger.kernel.org/netconf2017_files/XDP_devel_update_NetConf2017_Seoul.pdf
-> > 
-> > Using maps for redirect, hopefully makes XDP_REDIRECT the last driver
-> > XDP action code we need.  As new types of redirect can be introduced
-> > without driver changes. See that AF_XDP also uses a map.
-> > 
-> > It is more subtle, but maps also function as a sorting step. Imagine
-> > your XDP program need to redirect out different interfaces (or CPUs in
-> > cpumap case), and packets arrive intermixed.  Packets get sorted into
-> > the different map indexes, and the xdp_do_flush_map() will trigger the
-> > flush operation.
-> > 
-> > 
-> > Happened to have an i40e NIC benchmark setup, and ran a single flow pktgen test.
-> > 
-> > Results with 'xdp_redirect_map'
-> >  13589297 pps (13,589,297) 
-> > 
-> > Results with 'xdp_redirect' NOT using devmap:
-> >   7567575 pps (7,567,575)
-> > 
-> > Just to point out the performance benefit of devmap...  
-> 
-> 
-> Thanks for those details! This is an impressive change in performance
-> indeed.
-> 
-> I think I will just keep it simple for the documentation. I will add the
-> following for bpf_redirect_map():
-> 
->     When used to redirect packets to net devices, this helper
->     provides a high performance increase over **bpf_redirect**\ ().
->     This is due to various implementation details of the underlying
->     mechanisms, one of which is the fact that **bpf_redirect_map**\ ()
->     tries to send packet as a "bulk" to the device.
-> 
-> And also append the following to bpf_redirect():
-> 
->     The same effect can be attained with the more generic
->     **bpf_redirect_map**\ (), which requires specific maps
->     to be used but offers better performance.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/cgroup-v2.txt |  7 ++++---
+ kernel/cgroup/cpuset.c      | 29 ++++++++++++++++++++++++++---
+ 2 files changed, 30 insertions(+), 6 deletions(-)
 
-This sounds good to me! :-)
-
+diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
+index 8d89dc2..c4227ee 100644
+--- a/Documentation/cgroup-v2.txt
++++ b/Documentation/cgroup-v2.txt
+@@ -1554,9 +1554,10 @@ Cpuset Interface Files
+ 	and will not be moved to other CPUs.
+ 
+ 	This flag is hierarchical and is inherited by child cpusets. It
+-	can be turned off only when the CPUs in this cpuset aren't
+-	listed in the cpuset.cpus of other sibling cgroups, and all
+-	the child cpusets, if present, have this flag turned off.
++	can be explicitly turned off only when it is a direct child of
++	the root cgroup and the CPUs in this cpuset are subset of the
++	root's "cpuset.cpus.isolated".	Moreover, the CPUs cannot be
++	listed in the "cpuset.cpus" of other sibling cgroups.
+ 
+ 	Once it is off, it cannot be turned back on as long as the
+ 	parent cgroup still has this flag in the off state.
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index c746b18..d05c4c8 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -511,6 +511,16 @@ static int validate_change(struct cpuset *cur, struct cpuset *trial)
+ 
+ 	par = parent_cs(cur);
+ 
++	/*
++	 * On default hierarchy with sched_load_balance flag off, the cpu
++	 * list must be a subset of the parent's isolated CPU list, if
++	 * defined (root).
++	 */
++	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) &&
++	    !is_sched_load_balance(trial) && par->isolation_count &&
++	    !cpumask_subset(trial->cpus_allowed, par->isolated_cpus))
++		goto out;
++
+ 	/* On legacy hierarchy, we must be a subset of our parent cpuset. */
+ 	ret = -EACCES;
+ 	if (!is_in_v2_mode() && !is_cpuset_subset(trial, par))
+@@ -1431,10 +1441,16 @@ static int update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ 	else
+ 		clear_bit(bit, &trialcs->flags);
+ 
++	balance_flag_changed = (is_sched_load_balance(cs) !=
++				is_sched_load_balance(trialcs));
++
+ 	/*
+ 	 * On default hierarchy, turning off sched_load_balance flag implies
+ 	 * an implicit cpu_exclusive. Turning on sched_load_balance will
+ 	 * clear the cpu_exclusive flag.
++	 *
++	 * sched_load_balance can only be turned off if all the CPUs are
++	 * in the parent's isolated CPU list.
+ 	 */
+ 	if ((bit == CS_SCHED_LOAD_BALANCE) &&
+ 	    cgroup_subsys_on_dfl(cpuset_cgrp_subsys)) {
+@@ -1442,15 +1458,22 @@ static int update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ 			clear_bit(CS_CPU_EXCLUSIVE, &trialcs->flags);
+ 		else
+ 			set_bit(CS_CPU_EXCLUSIVE, &trialcs->flags);
++
++		if (balance_flag_changed && !turning_on) {
++			struct cpuset *parent = parent_cs(cs);
++
++			err = -EBUSY;
++			if (!parent->isolation_count ||
++			    !cpumask_subset(trialcs->cpus_allowed,
++					    parent->cpus_allowed))
++				goto out;
++		}
+ 	}
+ 
+ 	err = validate_change(cs, trialcs);
+ 	if (err < 0)
+ 		goto out;
+ 
+-	balance_flag_changed = (is_sched_load_balance(cs) !=
+-				is_sched_load_balance(trialcs));
+-
+ 	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
+ 			|| (is_spread_page(cs) != is_spread_page(trialcs)));
+ 
 -- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
