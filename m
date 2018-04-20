@@ -3,184 +3,256 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2E207DD31
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Apr 2018 17:04:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 799057E279
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Apr 2018 18:54:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753516AbeDTREQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Apr 2018 13:04:16 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:41485 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752337AbeDTREN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Apr 2018 13:04:13 -0400
-Received: by mail-wr0-f193.google.com with SMTP id v24-v6so24712217wra.8
-        for <linux-doc@vger.kernel.org>; Fri, 20 Apr 2018 10:04:13 -0700 (PDT)
+        id S1751136AbeDTSyn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Apr 2018 14:54:43 -0400
+Received: from mail-wr0-f181.google.com ([209.85.128.181]:37625 "EHLO
+        mail-wr0-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750858AbeDTSyk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Apr 2018 14:54:40 -0400
+Received: by mail-wr0-f181.google.com with SMTP id f14-v6so25452699wre.4
+        for <linux-doc@vger.kernel.org>; Fri, 20 Apr 2018 11:54:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DzowARiO//9Ou3osh1Vl0e0zjhzdZWCKpEK8ivL1/7Y=;
-        b=OrpM2qrwoPrr5SZ0shCBZ3R2w7ks3aob7maJZvKJ2U6rZZenxgT1AdaC7asRbUf1AG
-         sVbNa+XVrcWSNv2J5gNT6syreArSHG1VFsZ53i6aoRnXIsF9AAI9Sx92IpAH0aZIgpAZ
-         aqKORlM1GbJo+3mw5v2w/YKyXJi/xOAK3nUR8=
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6w1APBnwxDG2VjlJijrE6qsquPwvK6w/mw4s2x0Ysjw=;
+        b=0S2M65hPX3x8erIUYk8YAoyp5+48vPwnNO+ZF/8pLywhv9ffRBLgh8t0d+0JxZZvjN
+         00iigQuWRYTQi/lVKCJpBWeOxtUHWE2y7wNzv27hTWdpXKy2Q8xt3peHLqwSlQOc3z0g
+         JFyftxpFQGKjZyf02t4vLniCpyDb81/lS2fMCJY1pB+Umm22QnxVgx1ELwXlbPh3KLQT
+         QjlcWDudaN7WvJfnLYS0xkSBHm3R1SVWnFCdsPlyfCSaFyGX727INQV78cHcL0zRojRw
+         k4VkmaYQ3K6qZk3BPv0UNp91DwqfmN8zqNAXJkDpTmenjS/o3mT8iMKFW0wjU1MYCJ0X
+         K2JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DzowARiO//9Ou3osh1Vl0e0zjhzdZWCKpEK8ivL1/7Y=;
-        b=MX7HaLTXr0GLTpBjXKI5XiDAXo4wBQDE5d/vsD0qiwF3b3UPzzwkOodfbo5Zjt0CP3
-         9A0LSTYTqDuk7kg4VG8STcuyUhtsJUBuGHNBUvodFWk6BZlM6YzNHTBJkyGksILbUnAD
-         cvKKMGItHTPccvnwqXzl1qeymX6EJR87bjpoyGfGN1kjHMKIw70fCIAvLFUNdese3V4d
-         A9PxLCPR5nvqYrHnMoIviTl0A7X6vE3kf82L5m9ZpHLkAwuVaRtum2883dMcG9nlQ1yp
-         ZHXT1mKYO81uGDc3WnIsdbyPWJPVSIUw7xJvwLlswytAXp3eJn8fS94prw3pZ9Rqh7I6
-         Jntw==
-X-Gm-Message-State: ALQs6tBC7+LOE1ct45n1X8QBDK1yXLXs6nAe+WSzzvhc0AgsEa+a8rGb
-        RVPwM91q9Uy2iw63LPs9GRZli69T
-X-Google-Smtp-Source: AIpwx4+IER4BcXtIUWb7nxSFQKVUo9dQM7IMlOxR8wXRReq6MWWpXE1qzEjgVg1laGSKVGQ7lmGeDA==
-X-Received: by 2002:adf:e843:: with SMTP id d3-v6mr1445116wrn.146.1524243852288;
-        Fri, 20 Apr 2018 10:04:12 -0700 (PDT)
-Received: from andrea ([94.230.152.15])
-        by smtp.gmail.com with ESMTPSA id x70sm2606363wma.9.2018.04.20.10.04.11
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=6w1APBnwxDG2VjlJijrE6qsquPwvK6w/mw4s2x0Ysjw=;
+        b=b4EI7Mm+3gmRzbm0n6pmyi+l63+tPczTwAfGBHNeTV8JbSrfa6QYVftzcWUE7XudTY
+         Oz6j564jW4V7Oa8ju8H4HqbRDvqIiGSBzZc7iZip04s09ITtPj8XGHehbjzZR9JVSedp
+         /aTzd1UwvdYEbCzF52ufHLjluDItFtr4lb7G9PerxPrNa81kif5BuEzixLLVpLB12Ol1
+         HMG3HHCPofbC94UGGrqRRXM625RYrECKV/6rJ4jDE/ziAskg+f5SiVjgnYGNvDVJ++P6
+         0jg1ARaoAcybtOMkdVmKCKE0zIK1JqlKSqy3hZpD9w+PAHZyqSy39KSBVBd8DGpGpVU8
+         CKvA==
+X-Gm-Message-State: ALQs6tBw3DT84lQx7H4yOhUi5Dq5Au1gWQJSeomfu3TGxM0MBOxgE+S2
+        dMDqAFF4WkSYXNn2NBkD85Dp4w==
+X-Google-Smtp-Source: AB8JxZpKKEqMgnHOJFFEdKdQcfugEOeREXt4A3zcul+xXK3sh4Ms4MwdpVfVBzlnuQmxOyx7WGRCOQ==
+X-Received: by 10.28.145.134 with SMTP id t128mr1680682wmd.41.1524250479377;
+        Fri, 20 Apr 2018 11:54:39 -0700 (PDT)
+Received: from [172.20.1.93] (host-79-78-33-110.static.as9105.net. [79.78.33.110])
+        by smtp.gmail.com with ESMTPSA id 71sm2760982wmg.11.2018.04.20.11.54.37
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 20 Apr 2018 10:04:11 -0700 (PDT)
-Date:   Fri, 20 Apr 2018 19:04:05 +0200
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        paulmck@linux.vnet.ibm.com
-Subject: Re: [RFC PATCH v2 0/6] Documentation/features: Provide and apply
- 'features-refresh.sh'
-Message-ID: <20180420170405.GA14509@andrea>
-References: <1523205027-31786-1-git-send-email-andrea.parri@amarulasolutions.com>
+        Fri, 20 Apr 2018 11:54:38 -0700 (PDT)
+Subject: Re: [PATCH bpf-next v3 4/8] bpf: add documentation for eBPF helpers
+ (23-32)
+To:     Daniel Borkmann <daniel@iogearbox.net>, ast@kernel.org
+Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+References: <20180417143438.7018-1-quentin.monnet@netronome.com>
+ <20180417143438.7018-5-quentin.monnet@netronome.com>
+ <6f1b43c7-5d79-7419-1053-d0b29c1e2bb9@iogearbox.net>
+From:   Quentin Monnet <quentin.monnet@netronome.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=quentin.monnet@netronome.com; prefer-encrypt=mutual; keydata=
+ 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
+ RHhSHGnKaQ6MfrTge5Q0h5A=
+Message-ID: <b7ef2bc0-90f7-8bd9-2dd2-3b5ba2a6d4b0@netronome.com>
+Date:   Fri, 20 Apr 2018 19:54:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1523205027-31786-1-git-send-email-andrea.parri@amarulasolutions.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <6f1b43c7-5d79-7419-1053-d0b29c1e2bb9@iogearbox.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ingo, Jon,
+2018-04-19 13:16 UTC+0200 ~ Daniel Borkmann <daniel@iogearbox.net>
+> On 04/17/2018 04:34 PM, Quentin Monnet wrote:
+>> Add documentation for eBPF helper functions to bpf.h user header file.
+>> This documentation can be parsed with the Python script provided in
+>> another commit of the patch series, in order to provide a RST document
+>> that can later be converted into a man page.
+>>
+>> The objective is to make the documentation easily understandable and
+>> accessible to all eBPF developers, including beginners.
+>>
+>> This patch contains descriptions for the following helper functions, all
+>> written by Daniel:
+>>
+>> - bpf_get_prandom_u32()
+>> - bpf_get_smp_processor_id()
+>> - bpf_get_cgroup_classid()
+>> - bpf_get_route_realm()
+>> - bpf_skb_load_bytes()
+>> - bpf_csum_diff()
+>> - bpf_skb_get_tunnel_opt()
+>> - bpf_skb_set_tunnel_opt()
+>> - bpf_skb_change_proto()
+>> - bpf_skb_change_type()
+>>
+>> v3:
+>> - bpf_get_prandom_u32(): Fix helper name :(. Add description, including
+>>   a note on the internal random state.
+>> - bpf_get_smp_processor_id(): Add description, including a note on the
+>>   processor id remaining stable during program run.
+>> - bpf_get_cgroup_classid(): State that CONFIG_CGROUP_NET_CLASSID is
+>>   required to use the helper. Add a reference to related documentation.
+>>   State that placing a task in net_cls controller disables cgroup-bpf.
+>> - bpf_get_route_realm(): State that CONFIG_CGROUP_NET_CLASSID is
+>>   required to use this helper.
+>> - bpf_skb_load_bytes(): Fix comment on current use cases for the helper.
+>>
+>> Cc: Daniel Borkmann <daniel@iogearbox.net>
+>> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
+>> ---
+>>  include/uapi/linux/bpf.h | 152 +++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 152 insertions(+)
+>>
+>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+>> index c59bf5b28164..d748f65a8f58 100644
+>> --- a/include/uapi/linux/bpf.h
+>> +++ b/include/uapi/linux/bpf.h
 
-On Sun, Apr 08, 2018 at 06:30:21PM +0200, Andrea Parri wrote:
-> Hi,
-> 
-> This series provides the script 'features-refresh.sh', which operates on
-> the arch support status files, and it applies this script to refresh the
-> status files in place; previous discussions about this series are at [1].
-> 
-> The series is organized as follows.
-> 
->   - Patch 1/6 adds the script to 'Documentation/features/scripts/'.
-> 
->   - Patch 2/6 presents the results of running the script; this run
->     also printed the messages
-> 
->        WARNING: 'HAVE_BPF_JIT' is not a valid Kconfig
->        WARNING: '__HAVE_ARCH_STRNCASECMP' is not a valid Kconfig
->        WARNING: 'Optimized asm/rwsem.h' is not a valid Kconfig
->        WARNING: '__HAVE_ARCH_PTE_SPECIAL' is not a valid Kconfig
-> 
->     to standard output.
-> 
->   - Patches 3-6/6 fix each of these warnings.
-> 
-> (Applies on today's mainline.)
-> 
-> Cheers,
->   Andrea
-> 
-> [1] https://marc.info/?l=linux-kernel&m=152223974927255&w=2
->     https://marc.info/?l=linux-kernel&m=152277458614862&w=2
-> 
-> Changes in v2:
->   - support negation operators in Kconfig (suggested by Ingo Molnar)
->   - reorder patches 2/6 and 3/6 (suggested by Ingo Molnar)
->   - add patches 4-6/6 (suggested by Ingo Molnar)
-> 
-> Andrea Parri (6):
->   Documentation/features: Add script that refreshes the arch support
->     status files in place
->   Documentation/features: Refresh the arch support status files in place
->   Documentation/features/core: Add arch support status files for
->     'cBPF-JIT' and 'eBPF-JIT'
->   Documentation/features/locking: Use '!RWSEM_GENERIC_SPINLOCK' as
->     Kconfig for 'rwsem-optimized'
->   Documentation/features/lib: Remove arch support status file for
->     'strncasecmp'
->   Documentation/features/vm: Remove arch support status file for
->     'pte_special'
+[...]
 
-I understand that you didn't get the chance to look into this yet ;D
-please let me know if you'd like me to rebase and re-send the series.
-
-Thanks,
-  Andrea
-
-
+>> @@ -615,6 +632,27 @@ union bpf_attr {
+>>   * 	Return
+>>   * 		0 on success, or a negative error in case of failure.
+>>   *
+>> + * u32 bpf_get_cgroup_classid(struct sk_buff *skb)
+>> + * 	Description
+>> + * 		Retrieve the classid for the current task, i.e. for the
+>> + * 		net_cls (network classifier) cgroup to which *skb* belongs.
+>> + *
+>> + * 		This helper is only available is the kernel was compiled with
+>> + * 		the **CONFIG_CGROUP_NET_CLASSID** configuration option set to
+>> + * 		"**y**" or to "**m**".
+>> + *
+>> + * 		Note that placing a task into the net_cls controller completely
+>> + * 		disables the execution of eBPF programs with the cgroup.
 > 
->  .../features/core/BPF-JIT/arch-support.txt         | 31 -------
->  .../features/core/cBPF-JIT/arch-support.txt        | 33 ++++++++
->  .../features/core/eBPF-JIT/arch-support.txt        | 33 ++++++++
->  .../core/generic-idle-thread/arch-support.txt      |  4 +-
->  .../features/core/jump-labels/arch-support.txt     |  2 +
->  .../features/core/tracehook/arch-support.txt       |  2 +
->  .../features/debug/KASAN/arch-support.txt          |  4 +-
->  .../debug/gcov-profile-all/arch-support.txt        |  2 +
->  Documentation/features/debug/kgdb/arch-support.txt |  4 +-
->  .../debug/kprobes-on-ftrace/arch-support.txt       |  2 +
->  .../features/debug/kprobes/arch-support.txt        |  4 +-
->  .../features/debug/kretprobes/arch-support.txt     |  4 +-
->  .../features/debug/optprobes/arch-support.txt      |  4 +-
->  .../features/debug/stackprotector/arch-support.txt |  2 +
->  .../features/debug/uprobes/arch-support.txt        |  6 +-
->  .../debug/user-ret-profiler/arch-support.txt       |  2 +
->  .../features/io/dma-api-debug/arch-support.txt     |  2 +
->  .../features/io/dma-contiguous/arch-support.txt    |  4 +-
->  .../features/io/sg-chain/arch-support.txt          |  2 +
->  .../features/lib/strncasecmp/arch-support.txt      | 31 -------
->  .../locking/cmpxchg-local/arch-support.txt         |  4 +-
->  .../features/locking/lockdep/arch-support.txt      |  4 +-
->  .../locking/queued-rwlocks/arch-support.txt        | 10 ++-
->  .../locking/queued-spinlocks/arch-support.txt      |  8 +-
->  .../locking/rwsem-optimized/arch-support.txt       | 10 ++-
->  .../features/perf/kprobes-event/arch-support.txt   |  6 +-
->  .../features/perf/perf-regs/arch-support.txt       |  4 +-
->  .../features/perf/perf-stackdump/arch-support.txt  |  4 +-
->  .../sched/membarrier-sync-core/arch-support.txt    |  2 +
->  .../features/sched/numa-balancing/arch-support.txt |  6 +-
->  Documentation/features/scripts/features-refresh.sh | 98 ++++++++++++++++++++++
->  .../seccomp/seccomp-filter/arch-support.txt        |  6 +-
->  .../time/arch-tick-broadcast/arch-support.txt      |  4 +-
->  .../features/time/clockevents/arch-support.txt     |  4 +-
->  .../time/context-tracking/arch-support.txt         |  2 +
->  .../features/time/irq-time-acct/arch-support.txt   |  4 +-
->  .../time/modern-timekeeping/arch-support.txt       |  2 +
->  .../features/time/virt-cpuacct/arch-support.txt    |  2 +
->  .../features/vm/ELF-ASLR/arch-support.txt          |  4 +-
->  .../features/vm/PG_uncached/arch-support.txt       |  2 +
->  Documentation/features/vm/THP/arch-support.txt     |  2 +
->  Documentation/features/vm/TLB/arch-support.txt     |  2 +
->  .../features/vm/huge-vmap/arch-support.txt         |  2 +
->  .../features/vm/ioremap_prot/arch-support.txt      |  2 +
->  .../features/vm/numa-memblock/arch-support.txt     |  4 +-
->  .../features/vm/pte_special/arch-support.txt       | 31 -------
->  46 files changed, 279 insertions(+), 128 deletions(-)
->  delete mode 100644 Documentation/features/core/BPF-JIT/arch-support.txt
->  create mode 100644 Documentation/features/core/cBPF-JIT/arch-support.txt
->  create mode 100644 Documentation/features/core/eBPF-JIT/arch-support.txt
->  delete mode 100644 Documentation/features/lib/strncasecmp/arch-support.txt
->  create mode 100755 Documentation/features/scripts/features-refresh.sh
->  delete mode 100644 Documentation/features/vm/pte_special/arch-support.txt
+> I'm not sure I follow the above sentence, what do you mean by that?
+
+Please see comment below.
+
+> I would definitely also add here that this helper is limited to cgroups v1
+> only, and that it works on clsact TC egress hook but not the ingress one.
 > 
-> -- 
-> 2.7.4
+>> + * 		Also note that, in the above description, the "network
+>> + * 		classifier" cgroup does not designate a generic classifier, but
+>> + * 		a particular mechanism that provides an interface to tag
+>> + * 		network packets with a specific class identifier. See also the
 > 
+> The "generic classifier" part is a bit strange to parse. I would probably
+> leave the first part out and explain that this provides a means to tag
+> packets based on a user-provided ID for all traffic coming from the tasks
+> belonging to the related cgroup.
+
+In this paragraph and in the one above, I am trying to address Alexei
+comments to the RFC v2:
+
+    please add that kernel should be configured with
+    CONFIG_NET_CLS_CGROUP=y|m
+    and mention Documentation/cgroup-v1/net_cls.txt
+    Otherwise 'network classifier' is way too generic.
+    I'd also mention that placing a task into net_cls controller
+    disables all of cgroup-bpf.
+
+But I must admit I am struggling a bit on this helper. If I understand
+correctly, "network classifier" is too generic and could be confused
+with TC classifiers? Hence the attempt to avoid that in the second
+paragraph... As for "placing a task into net_cls controller disables all
+of cgroup-bpf", again if I understand correctly, I think it refers to
+cgroup_sk_alloc_disable() being called in write_classid() in file
+net/core/netclassid_cgroup.c. But I am not familiar with it and cannot
+find a nice way to explain that in the doc :/.
+
+>> + * 		related kernel documentation, available from the Linux sources
+>> + * 		in file *Documentation/cgroup-v1/net_cls.txt*.
+>> + * 	Return
+>> + * 		The classid, or 0 for the default unconfigured classid.
+>> + *
+>>   * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
+>>   * 	Description
+>>   * 		Push a *vlan_tci* (VLAN tag control information) of protocol
+>> @@ -734,6 +772,16 @@ union bpf_attr {
+>>   * 		are **TC_ACT_REDIRECT** on success or **TC_ACT_SHOT** on
+>>   * 		error.
+>>   *
+>> + * u32 bpf_get_route_realm(struct sk_buff *skb)
+>> + * 	Description
+>> + * 		Retrieve the realm or the route, that is to say the
+>> + * 		**tclassid** field of the destination for the *skb*. This
+>> + * 		helper is available only if the kernel was compiled with
+>> + * 		**CONFIG_IP_ROUTE_CLASSID** configuration option.
+> 
+> Could mention that this is a similar user provided tag like in the net_cls
+> case with cgroups only that this applies to routes here (dst entries) which
+> hold this tag.
+> 
+> Also, should say that this works with clsact TC egress hook or alternatively
+> conventional classful egress qdiscs, but not on TC ingress. In case of clsact
+> TC egress hook this has the advantage that the dst entry has not been dropped
+> yet in the xmit path. Therefore, the dst entry does not need to be artificially
+> held via netif_keep_dst() for a classful qdisc until the skb is freed.
+
+Here I am not sure to follow, the advantage is for clsact, but this is
+only for a classful qdisc that we can avoid holding the dst entry? How
+does holding the entry with netif_keep_dst() translate, from a user
+space point of view?
+
+Thanks a lot for the exhaustive review!
+Quentin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
