@@ -1,92 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A7AB7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Apr 2018 08:06:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 06C717DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 20 Apr 2018 08:25:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754279AbeDTIGP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 20 Apr 2018 04:06:15 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:36984 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754424AbeDTIFh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 20 Apr 2018 04:05:37 -0400
-Received: by mail-wr0-f194.google.com with SMTP id f14-v6so20493097wre.4
-        for <linux-doc@vger.kernel.org>; Fri, 20 Apr 2018 01:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=ejgi9B3fG0bjnS2ccBeEoEjRv1hErslLx0MbRDWfLlw=;
-        b=U/qDr16deBCmqktVtaNe1igcTc9Beq1TFjroJpZfCDbeiGeXtwK11hbgNHD/WeSZaZ
-         5j3NYH8O1G70rKsiH5DdmLxpjVJRPYWtViZKZJo5VB7B23Rwbde299ts/LAtlbArSPcx
-         lhs3O574dsPw4ACnUj8HJwnSLgQYpEvVKNzHo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=ejgi9B3fG0bjnS2ccBeEoEjRv1hErslLx0MbRDWfLlw=;
-        b=CJXh+MCVp/MqVyr24DXzNkEZDma1kf8y8kMtTAFWf2fc/VgBAMrsNShOeIVbzPDhij
-         1My+l9cccgYZuVRyoRjEOzZtDEdtJu1zxXIDAaJVLlMakpqll++Id7OvQRVQZYAPCZrB
-         YrNo60YLzGsf+UzZH8bTp4aRE9DhAcPC+9RMrkJFJ7mhqwB7pmii7Isn7IbJkfG1ADtM
-         2u538BkmHPqXqFCRmGHZ841o7/485tOXrkwD/oGv2JRoQayPucQvV6m/VCyj906OpGR2
-         k7+BDNTb0B1ONQhp/abCxV+aq+wE0ZeFCy5OLHz997HH062IkZLS1Lrt2YkIsfZa1dx3
-         U+XA==
-X-Gm-Message-State: ALQs6tBOPQT5xjAVpa3IPmg4SBtmeprlNATk430czsRSnXQPnbDs7DL1
-        cHPyCuDXa21t3JarqtpHrz8krA==
-X-Google-Smtp-Source: AIpwx4+Qmz4esnDJtXvV7H49Kc5s6MTL8w8IfUK4TnrlZhzwTE+IjYUbkZ/c8fK7O8zjWQDDjmDjtg==
-X-Received: by 2002:adf:c992:: with SMTP id f18-v6mr7281135wrh.202.1524211536113;
-        Fri, 20 Apr 2018 01:05:36 -0700 (PDT)
-Received: from dell ([2.27.167.70])
-        by smtp.gmail.com with ESMTPSA id 2-v6sm8642009wrb.22.2018.04.20.01.05.34
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 20 Apr 2018 01:05:35 -0700 (PDT)
-Date:   Fri, 20 Apr 2018 09:05:33 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, Peter Korsgaard <jacmet@sunsite.dk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] i2c: i2c-ocores: move header to platform_data
-Message-ID: <20180420080533.ohryzn7wkg4525os@dell>
-References: <20180419200015.15095-1-wsa@the-dreams.de>
- <20180419200015.15095-4-wsa@the-dreams.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180419200015.15095-4-wsa@the-dreams.de>
-User-Agent: NeoMutt/20170609 (1.8.3)
+        id S1754142AbeDTIYF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 20 Apr 2018 04:24:05 -0400
+Received: from mout.gmx.net ([212.227.15.18]:52515 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1753905AbeDTIYB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 20 Apr 2018 04:24:01 -0400
+Received: from homer.simpson.net ([185.221.150.85]) by mail.gmx.com (mrgmx003
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0MCcvy-1fIkiU01L8-009Lln; Fri, 20
+ Apr 2018 10:23:24 +0200
+Message-ID: <1524212601.11030.2.camel@gmx.de>
+Subject: Re: [PATCH v7 0/5] cpuset: Enable cpuset controller in default
+ hierarchy
+From:   Mike Galbraith <efault@gmx.de>
+To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
+        luto@amacapital.net, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>
+Date:   Fri, 20 Apr 2018 10:23:21 +0200
+In-Reply-To: <1524145624-23655-1-git-send-email-longman@redhat.com>
+References: <1524145624-23655-1-git-send-email-longman@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cKR187XmS0/JnqrhOqzg3IW+TcZA5IsAhQlNfqyD/+LCqd2BOoy
+ Sqq4hBGLVwY/LTKfIfecoEb3UZoS04WBnl9AAu4OWSctDjua231s0b0Ii0ya+I/6W8KVEoc
+ DauQuOkdXZgYex8Wklpa6Mwgej0kd142uTQBcuZwXaUxjkdw0rwE7Vj2DICI+W19sBVsn0h
+ 9vI5xvCpOtXOMGvKQYduA==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:w/7ET0+DbCs=:O3q/4+PDoOOo5CsLOuZVvF
+ QhBQirLdw4g0dB02ZIabHCb4s+QYwp6Mq8xxML+K+SNeMLyvDUtCtJ5sI+7d1r9u1MD+qJqJY
+ g6vqJ4NOwi7QLEiJu0ouShKnQfE4IFN9sF36EvhER8tu1GR8eFBcN4TkEN0Ai/wraBC1xD6li
+ R/2bRvgDIZtaCfmLx/k3aRhJiFjK21iArEiFaIjgrMHcLAIH69rErMq02xS6LVEmD0DbztZe4
+ LUwmgaR5AlnJcSxohZ/zPZWzggpf345sVLa1mcwLcOqiyGG8c2ukdtFC3g4GKAZwcA6F0DCDg
+ ih/8nk29k+5qm8N5TrwRkUWB5DGp5tWe7fOWFF/BfMfus3PBzDzCZbWaAUryeYU/A3eP+l9ph
+ KDcu7bUQH7G+nB3ZcpsE9TFcR1Qg7yijXpyLpx5ebguWLMLGJWP6HAhBdp5R3P0LYlFo0DOsP
+ eOmntAQ84tFyxz/hdbTlu9SCDCn+ukHj/mv1DTvrjY6Olg7zkVdaECALkqZOjJV5lW0UNLIOQ
+ FI+uUmQQR6zxvpVKu+XEPjAuJ686hBWZqIn42oqruIuA9VmiIbJgRbsOvegUeUj8BoWOZu6MW
+ sNNYn125bVorwxmuIlGaoF+KyP6725+LiFIW3xgePXyDaAMp85qyuiQxM+V1y3VVncDqX0dod
+ woNrjrC/w5AiVSpewxzKahVdSpvSveCGiqnsQlfQVjIDCcjGSEC72Kq8Es5iZuv0CBA0Xq4Kb
+ YgvSloKVM1StWcx+XSk9eskwwDbkX6HiBFowGbuGwmnUCaKfOxfE5xWB1QgE1g9UndIbJbDCf
+ vrXIltmownUQ1ASsu9+3lFUjjjxnb8IYC4Hyt8r+jN5pArBFkU=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 19 Apr 2018, Wolfram Sang wrote:
+On Thu, 2018-04-19 at 09:46 -0400, Waiman Long wrote:
+> v7:
+>  - Add a root-only cpuset.cpus.isolated control file for CPU isolation.
+>  - Enforce that load_balancing can only be turned off on cpusets with
+>    CPUs from the isolated list.
+>  - Update sched domain generation to allow cpusets with CPUs only
+>    from the isolated CPU list to be in separate root domains.
 
-> This header only contains platform_data. Move it to the proper directory.
-> 
-> Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
-> ---
->  Documentation/i2c/busses/i2c-ocores            | 2 +-
->  drivers/i2c/busses/i2c-ocores.c                | 2 +-
->  drivers/mfd/timberdale.c                       | 2 +-
->  include/linux/{ => platform_data}/i2c-ocores.h | 0
->  4 files changed, 3 insertions(+), 3 deletions(-)
->  rename include/linux/{ => platform_data}/i2c-ocores.h (100%)
+I haven't done much, but was able to do a q/d manual build, populate
+and teardown of system/critical sets on my desktop box, and it looked
+ok.  Thanks for getting this aboard the v2 boat.
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
