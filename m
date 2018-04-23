@@ -5,74 +5,220 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E1227DD31
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Apr 2018 16:32:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D136F7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Apr 2018 17:38:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755473AbeDWQcQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Apr 2018 12:32:16 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:49326 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1755165AbeDWQcP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Apr 2018 12:32:15 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BE466406C796;
-        Mon, 23 Apr 2018 16:32:14 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-164.bos.redhat.com [10.18.17.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 78348215CDC8;
-        Mon, 23 Apr 2018 16:32:12 +0000 (UTC)
-Subject: Re: [PATCH v7 0/5] cpuset: Enable cpuset controller in default
- hierarchy
-To:     Mike Galbraith <efault@gmx.de>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <1524145624-23655-1-git-send-email-longman@redhat.com>
- <1524212601.11030.2.camel@gmx.de>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <f1f02718-c7e7-f6b3-be7b-3d7c2f2ffa50@redhat.com>
-Date:   Mon, 23 Apr 2018 12:32:12 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S932093AbeDWRiU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 23 Apr 2018 13:38:20 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:47360 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932092AbeDWRiT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 23 Apr 2018 13:38:19 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id B69972073C; Mon, 23 Apr 2018 19:38:16 +0200 (CEST)
+Received: from bbrezillon (unknown [195.53.49.241])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 1441C2038E;
+        Mon, 23 Apr 2018 19:38:14 +0200 (CEST)
+Date:   Mon, 23 Apr 2018 19:38:14 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] Add the I3C subsystem
+Message-ID: <20180423193814.5c8ca75a@bbrezillon>
+In-Reply-To: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1524212601.11030.2.camel@gmx.de>
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 23 Apr 2018 16:32:14 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 23 Apr 2018 16:32:14 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/20/2018 04:23 AM, Mike Galbraith wrote:
-> On Thu, 2018-04-19 at 09:46 -0400, Waiman Long wrote:
->> v7:
->>  - Add a root-only cpuset.cpus.isolated control file for CPU isolation.
->>  - Enforce that load_balancing can only be turned off on cpusets with
->>    CPUs from the isolated list.
->>  - Update sched domain generation to allow cpusets with CPUs only
->>    from the isolated CPU list to be in separate root domains.
-> I haven't done much, but was able to do a q/d manual build, populate
-> and teardown of system/critical sets on my desktop box, and it looked
-> ok.  Thanks for getting this aboard the v2 boat.
->
-> 	-Mike
+Hi,
 
-Thank for the testing.
+On Fri, 30 Mar 2018 09:47:41 +0200
+Boris Brezillon <boris.brezillon@bootlin.com> wrote:
 
-Cheers,
-Longman
+> This patch series is a proposal for a new I3C subsystem.
+
+This v4 has been sent almost a month ago and I didn't get any feedback
+so far apart from Rob's R-b. Greg, is there any chance we can get these
+patches merged in 4.18? If not, could you tell me what should be
+addressed/improved/reworked?
+
+Thanks,
+
+Boris
+
+> 
+> This infrastructure is not complete yet and will be extended over
+> time.
+> 
+> There are a few design choices that are worth mentioning because they
+> impact the way I3C device drivers can interact with their devices:
+> 
+> - all functions used to send I3C/I2C frames must be called in
+>   non-atomic context. Mainly done this way to ease implementation, but
+>   this is still open to discussion. Please let me know if you think it's
+>   worth considering an asynchronous model here
+> - the bus element is a separate object and is not implicitly described
+>   by the master (as done in I2C). The reason is that I want to be able
+>   to handle multiple master connected to the same bus and visible to
+>   Linux.
+>   In this situation, we should only have one instance of the device and
+>   not one per master, and sharing the bus object would be part of the
+>   solution to gracefully handle this case.
+>   I'm not sure if we will ever need to deal with multiple masters
+>   controlling the same bus and exposed under Linux, but separating the
+>   bus and master concept is pretty easy, hence the decision to do it
+>   now, just in case we need it some day.
+>   The other benefit of separating the bus and master concepts is that
+>   master devices appear under the bus directory in sysfs.
+> - I2C backward compatibility has been designed to be transparent to I2C
+>   drivers and the I2C subsystem. The I3C master just registers an I2C
+>   adapter which creates a new I2C bus. I'd say that, from a
+>   representation PoV it's not ideal because what should appear as a
+>   single I3C bus exposing I3C and I2C devices here appears as 2
+>   different busses connected to each other through the parenting (the
+>   I3C master is the parent of the I2C and I3C busses).
+>   On the other hand, I don't see a better solution if we want something
+>   that is not invasive.
+> 
+> Missing features in this preliminary version:
+> - support for HDR modes (has been removed because of lack of real users)
+> - no support for multi-master and the associated concepts (mastership
+>   handover, support for secondary masters, ...)
+> - I2C devices can only be described using DT because this is the only
+>   use case I have. However, the framework can easily be extended with
+>   ACPI and board info support
+> - I3C slave framework. This has been completely omitted, but shouldn't
+>   have a huge impact on the I3C framework because I3C slaves don't see
+>   the whole bus, it's only about handling master requests and generating
+>   IBIs. Some of the struct, constant and enum definitions could be
+>   shared, but most of the I3C slave framework logic will be different
+> 
+> Main changes between v2 and v3 are:
+> - Reworked the DT bindings as suggested by Rob
+> - Reworked the bus initialization step as suggested by Vitor
+> - Added a driver for an I3C GPIO expander
+> 
+> Main changes between the initial RFC and this v2 are:
+> - Add a generic infrastructure to support IBIs. It's worth mentioning
+>   that I tried exposing IBIs as a regular IRQs, but after several
+>   attempts and a discussion with Mark Zyngier, it appeared that it was
+>   not really fitting in the Linux IRQ model (the fact that you have
+>   payload attached to IBIs, the fact that most of the time an IBI will
+>   generate a transfer on the bus which has to be done in an atomic
+>   context, ...)
+>   The counterpart of this decision is the latency induced by the
+>   workqueue approach, but since I don't have real use cases, I don't
+>   know if this can be a problem or not. 
+> - Add helpers to support Hot Join
+> - Add support for IBIs and Hot Join in Cadence I3C master driver
+> - Address several issues in how I was using the device model
+> 
+> Note that I2C changes have been sent separately [1] this time. Other
+> than that, no big changes in this version, I just addressed the
+> comments I received from Thomas, Peter, Geert and Rob.
+> 
+> Thanks,
+> 
+> Boris
+> 
+> [1]https://patchwork.ozlabs.org/project/linux-i2c/list/?series=35687
+> 
+> Boris Brezillon (10):
+>   i3c: Add core I3C infrastructure
+>   docs: driver-api: Add I3C documentation
+>   i3c: Add sysfs ABI spec
+>   dt-bindings: i3c: Document core bindings
+>   dt-bindings: i3c: Add macros to help fill I3C/I2C device's reg
+>     property
+>   MAINTAINERS: Add myself as the I3C subsystem maintainer
+>   i3c: master: Add driver for Cadence IP
+>   dt-bindings: i3c: Document Cadence I3C master bindings
+>   gpio: Add a driver for Cadence I3C GPIO expander
+>   dt-bindings: gpio: Add bindings for Cadence I3C gpio expander
+> 
+>  Documentation/ABI/testing/sysfs-bus-i3c            |   95 ++
+>  .../devicetree/bindings/gpio/gpio-cdns-i3c.txt     |   39 +
+>  .../devicetree/bindings/i3c/cdns,i3c-master.txt    |   44 +
+>  Documentation/devicetree/bindings/i3c/i3c.txt      |  140 ++
+>  Documentation/driver-api/i3c/conf.py               |   10 +
+>  Documentation/driver-api/i3c/device-driver-api.rst |    7 +
+>  Documentation/driver-api/i3c/index.rst             |    9 +
+>  Documentation/driver-api/i3c/master-driver-api.rst |    8 +
+>  Documentation/driver-api/i3c/protocol.rst          |  201 +++
+>  Documentation/driver-api/index.rst                 |    1 +
+>  MAINTAINERS                                        |    9 +
+>  drivers/Kconfig                                    |    2 +
+>  drivers/Makefile                                   |    2 +-
+>  drivers/gpio/Kconfig                               |   11 +
+>  drivers/gpio/Makefile                              |    1 +
+>  drivers/gpio/gpio-cdns-i3c.c                       |  380 +++++
+>  drivers/i3c/Kconfig                                |   24 +
+>  drivers/i3c/Makefile                               |    4 +
+>  drivers/i3c/core.c                                 |  620 +++++++
+>  drivers/i3c/device.c                               |  294 ++++
+>  drivers/i3c/internals.h                            |   28 +
+>  drivers/i3c/master.c                               | 1723 ++++++++++++++++++++
+>  drivers/i3c/master/Kconfig                         |    5 +
+>  drivers/i3c/master/Makefile                        |    1 +
+>  drivers/i3c/master/i3c-master-cdns.c               | 1650 +++++++++++++++++++
+>  include/dt-bindings/i3c/i3c.h                      |   28 +
+>  include/linux/i3c/ccc.h                            |  382 +++++
+>  include/linux/i3c/device.h                         |  305 ++++
+>  include/linux/i3c/master.h                         |  587 +++++++
+>  include/linux/mod_devicetable.h                    |   17 +
+>  30 files changed, 6626 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-cdns-i3c.txt
+>  create mode 100644 Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+>  create mode 100644 Documentation/devicetree/bindings/i3c/i3c.txt
+>  create mode 100644 Documentation/driver-api/i3c/conf.py
+>  create mode 100644 Documentation/driver-api/i3c/device-driver-api.rst
+>  create mode 100644 Documentation/driver-api/i3c/index.rst
+>  create mode 100644 Documentation/driver-api/i3c/master-driver-api.rst
+>  create mode 100644 Documentation/driver-api/i3c/protocol.rst
+>  create mode 100644 drivers/gpio/gpio-cdns-i3c.c
+>  create mode 100644 drivers/i3c/Kconfig
+>  create mode 100644 drivers/i3c/Makefile
+>  create mode 100644 drivers/i3c/core.c
+>  create mode 100644 drivers/i3c/device.c
+>  create mode 100644 drivers/i3c/internals.h
+>  create mode 100644 drivers/i3c/master.c
+>  create mode 100644 drivers/i3c/master/Kconfig
+>  create mode 100644 drivers/i3c/master/Makefile
+>  create mode 100644 drivers/i3c/master/i3c-master-cdns.c
+>  create mode 100644 include/dt-bindings/i3c/i3c.h
+>  create mode 100644 include/linux/i3c/ccc.h
+>  create mode 100644 include/linux/i3c/device.h
+>  create mode 100644 include/linux/i3c/master.h
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
