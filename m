@@ -5,58 +5,55 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FF787E279
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 10:58:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6E0027DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 11:13:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756309AbeDXK6X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 06:58:23 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:48926 "EHLO
+        id S1755196AbeDXLNC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 07:13:02 -0400
+Received: from smtprelay6.synopsys.com ([198.182.37.59]:48972 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1756013AbeDXK6W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 06:58:22 -0400
+        with ESMTP id S1754626AbeDXLNB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 07:13:01 -0400
 Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 360E01E065B;
-        Tue, 24 Apr 2018 12:58:20 +0200 (CEST)
+        by smtprelay.synopsys.com (Postfix) with ESMTP id CD6431E05E7;
+        Tue, 24 Apr 2018 13:12:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1524567500; bh=NCvnHtetJD8rXHNAtlAYL/Kg63MsgQYdy8zGl9VO984=;
+        t=1524568380; bh=4x/RlYv/v/dH+im7o0ph4Y2bGgG4nd5k2zJf1wTZLz0=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=VGTAfftiJ+aLFzG7Lg/242FQIoNXquBGBZTkeWPRJVC6SwrYKtq/+E/euSPF0i2tR
-         gzSQ4/NEYZczRwwnOFZWJsw9hKaCGNVjbRNl7M48ZNCuXvUe21otAqt3ainoPUeMgj
-         BNVT+7X3zgBWHuGrwd0RD6X+YfTeGXTk+kCvaioYZcykAv0i9xpXT8BIcWWTt5/28e
-         OojEOcOk3j4QP5AWGVQTluN01b3n9S1U7iFuauMGhuPMeOPAFLLmew1AVAZ4Vn1BMp
-         N0oPiGKO7mU1ZgP7sDJedm2dtv+4J6WwJdR8B+KFB/TATfqvUFA8scHOHikEg08Dkp
-         x7Uy9nQTuexTQ==
+        b=l02dyPpvnmbzd15qQfkFjiLfl4zgy8vsMZpUBPmIPzTJamddLAY4QrfgKm2HFExt4
+         wfN5jwzLcV0wPvTshFDLnhnlhKGfW7qa5knHHYPlQJg849q3vtBekYtbhmQ8sP9ZX3
+         tvLLsb/lSSwO5gVbyf5f5gICt2XJwtw6mLT0eRo9+HnaAt9aKOGt7/EtWeCbQYV+YS
+         coEBA9+e7hOKMTVxtxMgot4iEex+pHJSCOMbgJbuym4h1dCSiqZVwBUiaNlHS0aGSS
+         qgWdSdFKnwetIqNCJiecvZYShVKvqTZPXpiyfgGQtfA5QjBm5iWDpXkNVKbzxsNjPH
+         03DCAjGJL+Ixg==
 Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id EB236365B;
-        Tue, 24 Apr 2018 03:58:18 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id A5A4E3AF7;
+        Tue, 24 Apr 2018 04:12:58 -0700 (PDT)
 Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 21D0C3EBDF;
-        Tue, 24 Apr 2018 11:58:18 +0100 (WEST)
+        by pt02.synopsys.com (Postfix) with ESMTP id C9EEE3ED1E;
+        Tue, 24 Apr 2018 12:12:57 +0100 (WEST)
 Subject: Re: [RFC 06/10] misc: pci_endpoint_test: Add MSI-X support
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
+To:     Alan Douglas <adouglas@cadence.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
         "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
         "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
         "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
+        "kishon@ti.com" <kishon@ti.com>,
         "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
 Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
  <8b88f8c2b766f36c71659deb0fce635154b2b39f.1523379766.git.gustavo.pimentel@synopsys.com>
- <b25dcfb1-e770-e302-d9aa-7c35f6c58fa5@ti.com>
- <c6d1d492-38a0-6a03-7e61-b8b50226734b@synopsys.com>
- <a982ca92-d34c-12ea-30bf-9a9b1661d50d@ti.com>
+ <SN6PR07MB45121288F5ACECF3AB3A6D0AD8880@SN6PR07MB4512.namprd07.prod.outlook.com>
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Message-ID: <2bd77bf2-1d64-6043-422a-6a96c1a3d3a4@synopsys.com>
-Date:   Tue, 24 Apr 2018 11:57:09 +0100
+Message-ID: <237066ef-6049-6f10-698b-9d9878b72291@synopsys.com>
+Date:   Tue, 24 Apr 2018 12:11:49 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <a982ca92-d34c-12ea-30bf-9a9b1661d50d@ti.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <SN6PR07MB45121288F5ACECF3AB3A6D0AD8880@SN6PR07MB4512.namprd07.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -64,166 +61,166 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kishon,
+Hi Alan,
 
-On 24/04/2018 08:19, Kishon Vijay Abraham I wrote:
-> Hi,
+On 24/04/2018 07:59, Alan Douglas wrote:
+> Hi Gustavo,
 > 
-> On Tuesday 17 April 2018 11:08 PM, Gustavo Pimentel wrote:
->> Hi Kishon,
+> On 10 April 2018 18:15 Gustavo Pimentel wrote:
 >>
->> On 17/04/2018 11:33, Kishon Vijay Abraham I wrote:
->>> Hi,
->>>
->>> On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
->>>> Adds the MSI-X support and updates driver documentation accordingly.
->>>>
->>>> Changes the driver parameter in order to allow the interruption type
->>>> selection.
->>>>
->>>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->>>> ---
->>>>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->>>>  drivers/misc/pci_endpoint_test.c                 | 102 +++++++++++++++++------
->>>>  2 files changed, 79 insertions(+), 26 deletions(-)
->>>>
->>>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
->>>> index 4ebc359..fdfa0f6 100644
->>>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
->>>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
->>>> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
->>>>  	*) verifying addresses programmed in BAR
->>>>  	*) raise legacy IRQ
->>>>  	*) raise MSI IRQ
->>>> +	*) raise MSI-X IRQ
->>>>  	*) read data
->>>>  	*) write data
->>>>  	*) copy data
->>>> @@ -25,6 +26,8 @@ ioctl
->>>>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
->>>>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
->>>>  	      to be tested should be passed as argument.
->>>> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->>>> +	      to be tested should be passed as argument.
->>>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->>>>  		as argument.
->>>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
->>>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
->>>> index 37db0fc..a7d9354 100644
->>>> --- a/drivers/misc/pci_endpoint_test.c
->>>> +++ b/drivers/misc/pci_endpoint_test.c
->>>> @@ -42,11 +42,16 @@
->>>>  #define PCI_ENDPOINT_TEST_COMMAND	0x4
->>>>  #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
->>>>  #define COMMAND_RAISE_MSI_IRQ		BIT(1)
->>>> -#define MSI_NUMBER_SHIFT		2
->>>> -/* 6 bits for MSI number */
->>>> -#define COMMAND_READ                    BIT(8)
->>>> -#define COMMAND_WRITE                   BIT(9)
->>>> -#define COMMAND_COPY                    BIT(10)
->>>> +#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
->>>> +#define IRQ_TYPE_SHIFT			3
->>>> +#define IRQ_TYPE_LEGACY			0
->>>> +#define IRQ_TYPE_MSI			1
->>>> +#define IRQ_TYPE_MSIX			2
->>>> +#define MSI_NUMBER_SHIFT		5
->>>
->>> Now that you are anyways fixing this, add a new register entry for MSI numbers.
->>> Let's not keep COMMAND and MSI's together.
+>> Adds the MSI-X support and updates driver documentation accordingly.
 >>
->> What you suggest?
-> 
-> #define PCI_ENDPOINT_TEST_COMMAND	0x4
-> #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
-> #define COMMAND_RAISE_MSI_IRQ		BIT(1)
-> #define COMMAND_RAISE_MSIX_IRQ		BIT(2)
-> #define COMMAND_READ                    BIT(3)
-> #define COMMAND_WRITE                   BIT(4)
-> #define COMMAND_COPY                    BIT(5)
-> 
-> #define PCI_ENDPOINT_TEST_STATUS	0x8
-> #define STATUS_READ_SUCCESS             BIT(0)
-> #define STATUS_READ_FAIL                BIT(1)
-> #define STATUS_WRITE_SUCCESS            BIT(2)
-> #define STATUS_WRITE_FAIL               BIT(3)
-> #define STATUS_COPY_SUCCESS             BIT(4)
-> #define STATUS_COPY_FAIL                BIT(5)
-> #define STATUS_IRQ_RAISED               BIT(6)
-> #define STATUS_SRC_ADDR_INVALID         BIT(7)
-> #define STATUS_DST_ADDR_INVALID         BIT(8)
-> 
-> #define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0xc
-> #define PCI_ENDPOINT_TEST_UPPER_SRC_ADDR	0x10
-> 
-> #define PCI_ENDPOINT_TEST_LOWER_DST_ADDR	0x14
-> #define PCI_ENDPOINT_TEST_UPPER_DST_ADDR	0x18
-> 
-> #define PCI_ENDPOINT_TEST_SIZE		0x1c
-> #define PCI_ENDPOINT_TEST_CHECKSUM	0x20
-> 
-> #define PCI_ENDPOINT_TEST_MSI_NUMBER	0x24
-
-Ok. I will do it.
-
-> 
-> We should try not to modify either the existing register offsets or the bit
-> fields within these registers in the future as EP and RC will be running on
-> different systems and it is possible one of them might not have the updated
-> kernel.
-
-I totally agree.
-
+>> Changes the driver parameter in order to allow the interruption type
+>> selection.
 >>
->>>> +/* 12 bits for MSI number */
->>>> +#define COMMAND_READ                    BIT(17)
->>>> +#define COMMAND_WRITE                   BIT(18)
->>>> +#define COMMAND_COPY                    BIT(19)
->>>
->>> This change should be done along with the pci-epf-test in a single patch.
+>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+>> ---
+>>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>>  drivers/misc/pci_endpoint_test.c                 | 102 +++++++++++++++++------
+>>  2 files changed, 79 insertions(+), 26 deletions(-)
 >>
->> To be clear, you're saying is this patch should be just be squashed into the
->> patch number 8 [1], because there is a lot of dependencies namely the defines,
->> that is used on the alter functions.
+>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt
+>> b/Documentation/misc-devices/pci-endpoint-test.txt
+>> index 4ebc359..fdfa0f6 100644
+>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+>> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the
+>> following tests
+>>  	*) verifying addresses programmed in BAR
+>>  	*) raise legacy IRQ
+>>  	*) raise MSI IRQ
+>> +	*) raise MSI-X IRQ
+>>  	*) read data
+>>  	*) write data
+>>  	*) copy data
+>> @@ -25,6 +26,8 @@ ioctl
+>>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
+>>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
+>>  	      to be tested should be passed as argument.
+>> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+>> +	      to be tested should be passed as argument.
+>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>>  		as argument.
+>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+>> diff --git a/drivers/misc/pci_endpoint_test.c
+>> b/drivers/misc/pci_endpoint_test.c
+>> index 37db0fc..a7d9354 100644
+>> --- a/drivers/misc/pci_endpoint_test.c
+>> +++ b/drivers/misc/pci_endpoint_test.c
+>> @@ -42,11 +42,16 @@
+>>  #define PCI_ENDPOINT_TEST_COMMAND	0x4
+>>  #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
+>>  #define COMMAND_RAISE_MSI_IRQ		BIT(1)
+>> -#define MSI_NUMBER_SHIFT		2
+>> -/* 6 bits for MSI number */
+>> -#define COMMAND_READ                    BIT(8)
+>> -#define COMMAND_WRITE                   BIT(9)
+>> -#define COMMAND_COPY                    BIT(10)
+>> +#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
+>> +#define IRQ_TYPE_SHIFT			3
+>> +#define IRQ_TYPE_LEGACY			0
+>> +#define IRQ_TYPE_MSI			1
+>> +#define IRQ_TYPE_MSIX			2
+>> +#define MSI_NUMBER_SHIFT		5
+>> +/* 12 bits for MSI number */
+>> +#define COMMAND_READ                    BIT(17)
+>> +#define COMMAND_WRITE                   BIT(18)
+>> +#define COMMAND_COPY                    BIT(19)
 >>
->> [1] -> https://urldefense.proofpoint.com/v2/url?u=https-3A__patchwork.ozlabs.org_patch_896841_&d=DwIC-g&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=8urVwHCybXa1XMxsEbwHZAzzaEI_HJGXqmWgXpXb9TY&s=MRVr2YPY2Bk_WNFOxBfU4FGrFReTKdPhfzNDLiVxDbs&e=
+>>  #define PCI_ENDPOINT_TEST_STATUS	0x8
+>>  #define STATUS_READ_SUCCESS             BIT(0)
+>> @@ -73,9 +78,9 @@ static DEFINE_IDA(pci_endpoint_test_ida);
+>>  #define to_endpoint_test(priv) container_of((priv), struct pci_endpoint_test,
+>> \
+>>  					    miscdev)
+>>
+>> -static bool no_msi;
+>> -module_param(no_msi, bool, 0444);
+>> -MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in
+>> pci_endpoint_test");
+>> +static int irq_type = IRQ_TYPE_MSIX;
+>> +module_param(irq_type, int, 0444);
+>> +MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test
+>> (0
+>> +- Legacy, 1 - MSI, 2 - MSI-X)");
+>>
+>>  enum pci_barno {
+>>  	BAR_0,
+>> @@ -103,7 +108,7 @@ struct pci_endpoint_test {  struct
+>> pci_endpoint_test_data {
+>>  	enum pci_barno test_reg_bar;
+>>  	size_t alignment;
+>> -	bool no_msi;
+>> +	int irq_type;
+>>  };
+>>
+>>  static inline u32 pci_endpoint_test_readl(struct pci_endpoint_test *test,
+>> @@ -177,10 +182,10 @@ static bool pci_endpoint_test_bar(struct
+>> pci_endpoint_test *test,
+>>
+>>  static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)  {
+>> -	u32 val;
+>> +	u32 val = COMMAND_RAISE_LEGACY_IRQ;
+>>
+>> -	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
+>> -				 COMMAND_RAISE_LEGACY_IRQ);
+>> +	val |= (IRQ_TYPE_LEGACY << IRQ_TYPE_SHIFT);
+>> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
+>>  	val = wait_for_completion_timeout(&test->irq_raised,
+>>  					  msecs_to_jiffies(1000));
+>>  	if (!val)
+>> @@ -192,12 +197,12 @@ static bool pci_endpoint_test_legacy_irq(struct
+>> pci_endpoint_test *test)  static bool pci_endpoint_test_msi_irq(struct
+>> pci_endpoint_test *test,
+>>  				      u8 msi_num)
+>>  {
+>> -	u32 val;
+>> +	u32 val = COMMAND_RAISE_MSI_IRQ;
+>>  	struct pci_dev *pdev = test->pdev;
+>>
+>> -	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
+>> -				 msi_num << MSI_NUMBER_SHIFT |
+>> -				 COMMAND_RAISE_MSI_IRQ);
+>> +	val |= (msi_num << MSI_NUMBER_SHIFT);
+>> +	val |= (IRQ_TYPE_MSI << IRQ_TYPE_SHIFT);
+>> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
+>>  	val = wait_for_completion_timeout(&test->irq_raised,
+>>  					  msecs_to_jiffies(1000));
+>>  	if (!val)
+>> @@ -209,6 +214,26 @@ static bool pci_endpoint_test_msi_irq(struct
+>> pci_endpoint_test *test,
+>>  	return false;
+>>  }
+>>
+>> +static bool pci_endpoint_test_msix_irq(struct pci_endpoint_test *test,
+>> +				       u16 msix_num)
+>> +{
+>> +	u32 val = COMMAND_RAISE_MSIX_IRQ;
+>> +	struct pci_dev *pdev = test->pdev;
+>> +
+>> +	val |= (msix_num << MSI_NUMBER_SHIFT);
+>> +	val |= (IRQ_TYPE_MSIX << IRQ_TYPE_SHIFT);
+>> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
+>> +	val = wait_for_completion_timeout(&test->irq_raised,
+>> +					  msecs_to_jiffies(1000));
+>> +	if (!val)
+>> +		return false;
+>> +
+>> +	if (test->last_irq - pdev->irq == msix_num - 1)
+>> +		return true;
+> I think we should use pci_irq_vector() to convert from device vector to Linux IRQ.
+> It can be done in pci_endpoint_test_irqhandler()
+> (With MSI, pdev->irq will be updated during MSI init, but it is not for MSI-X.)
 > 
-> yeah. We have to make sure git bisect doesn't break functionality.
+> pci_irq_vector()  should also be used for devm_request_irq() and devm_free_irq()
+> so some changes required in probe and remove.
 
-Ok, it'll be squashed.
+We could try it, sounds good.
+Let's see if Kishon also agrees.
 
->>
->>>>  
->>>>  #define PCI_ENDPOINT_TEST_STATUS	0x8
->>>>  #define STATUS_READ_SUCCESS             BIT(0)
->>>> @@ -73,9 +78,9 @@ static DEFINE_IDA(pci_endpoint_test_ida);
->>>>  #define to_endpoint_test(priv) container_of((priv), struct pci_endpoint_test, \
->>>>  					    miscdev)
->>>>  
->>>> -static bool no_msi;
->>>> -module_param(no_msi, bool, 0444);
->>>> -MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
->>>
->>> Let's not remove this just to make sure existing users doesn't get affected.
->>
->> Hum, by making an internal conversion? Like this
->> no_msi = false <=> irq_type = 1
->> no_msi = true <=> irq_type = 0
 > 
-Disregard previous comment, it doesn't make sense. I don't know where my head was.
-
-It will be like this on probe:
-
-if (no_msi)
-	irq_type = IRQ_TYPE_LEGACY;
-
-However since we are breaking the compatibility on terms of MSI/MSI-X
-bits/registers (discussion on the top), it makes sense to keep the compatibility
-on this parameter?
-
-> yeah..
-> 
-> Thanks
-> Kishon
+> Regards,
+> Alan
 > 
 
 Regards,
