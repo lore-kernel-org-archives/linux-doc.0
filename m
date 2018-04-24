@@ -1,301 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D5227DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 11:44:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 80DC87E677
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 13:01:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756151AbeDXLo5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 07:44:57 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:49105 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755359AbeDXLo4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 07:44:56 -0400
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 0AD521E05E7;
-        Tue, 24 Apr 2018 13:44:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1524570294; bh=0/9bpcEalzwMO3XoxgT/Tsz8uciPHhQxs9I68WJxar4=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=P4HdLU8gLIuydBxcTT7eUx2xmyqo0sFBo4FcxqHwUQakjSF2Svmp705u7T2y0vReS
-         c3yQpvVjPJSmn0j2q422miQ1tktvLEIzZ088d4kN8/uE5EBosaRe7MX66oRsnIN49I
-         cxyalU86Ve7iaO0xskLKJBo9ITP6de+RHSEw7qSEy29XysEnFoRkkX86+o546wKaCx
-         HmdnhHO/A4K0MABn7JZVyUVRjnq93glLg7OFdneK7U6TNxhD8hK3YjvsGxQh70eU49
-         uub1hy5EJufXbFBp1EBjT+ihSgi0QjxhXlPTWHAt6pfGvXmPICKT8WvVxw0SqpTWyQ
-         K5ZwK4a/PBPpA==
-Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id B85623D64;
-        Tue, 24 Apr 2018 04:44:52 -0700 (PDT)
-Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 162903EFBF;
-        Tue, 24 Apr 2018 12:44:52 +0100 (WEST)
-Subject: Re: [RFC 01/10] PCI: dwc: Add MSI-X callbacks handler
-To:     Alan Douglas <adouglas@cadence.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
- <77b7b2687e9618d3f7d1f11c3fc6ecec9a9442ef.1523379766.git.gustavo.pimentel@synopsys.com>
- <SN6PR07MB4512414ADA94E98C0E4EA61DD8880@SN6PR07MB4512.namprd07.prod.outlook.com>
-From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Message-ID: <57bb52a5-08bd-ef73-5fc3-a5ef327055f5@synopsys.com>
-Date:   Tue, 24 Apr 2018 12:43:43 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <SN6PR07MB4512414ADA94E98C0E4EA61DD8880@SN6PR07MB4512.namprd07.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S932845AbeDXNBi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 09:01:38 -0400
+Received: from mga11.intel.com ([192.55.52.93]:51789 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932502AbeDXNBi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Apr 2018 09:01:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Apr 2018 06:01:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,323,1520924400"; 
+   d="scan'208";a="34250263"
+Received: from jqi-mobl2.ccr.corp.intel.com ([10.249.169.96])
+  by fmsmga007.fm.intel.com with ESMTP; 24 Apr 2018 06:01:35 -0700
+Message-ID: <1524574894.2597.27.camel@intel.com>
+Subject: Re: [PATCH] thermal: core: fix emulation of subzero temps
+From:   Zhang Rui <rui.zhang@intel.com>
+To:     Kevin DuBois <kevindubois@google.com>, linux-pm@vger.kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, edubezval@gmail.com
+Date:   Tue, 24 Apr 2018 21:01:34 +0800
+In-Reply-To: <20180423175340.32598-1-kevindubois@google.com>
+References: <20180423175340.32598-1-kevindubois@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/04/2018 10:15, Alan Douglas wrote:
-> Hi,
+On 一, 2018-04-23 at 10:53 -0700, Kevin DuBois wrote:
+> The current implementation casted away its sign.
+> It was also using '0' to disable emulation, but 0C is a valid
+> thermal reading. A large negative value (below absolute zero) now
+> disables the emulation.
+
+Makes sense to me.
 > 
-> On 10 April 2018 18:15 Gustavo Pimentel wrote:
->> Changes the pcie_raise_irq function signature, namely the interrupt_num
->> variable type from u8 to u16 to accommodate the MSI-X maximum interrupts
->> of 2048.
->>
->> Implements a PCIe config space capability iterator function to search and save
->> the MSI and MSI-X pointers. With this method the code becomes more
->> generic and flexible.
->>
->> Implements MSI-X set/get functions for sysfs interface in order to change the
->> EP entries number.
->>
->> Implements EP MSI-X interface for triggering interruptions.
->>
->> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->> ---
->>  drivers/pci/dwc/pci-dra7xx.c           |   2 +-
->>  drivers/pci/dwc/pcie-artpec6.c         |   2 +-
->>  drivers/pci/dwc/pcie-designware-ep.c   | 145
->> ++++++++++++++++++++++++++++++++-
->>  drivers/pci/dwc/pcie-designware-plat.c |   6 +-
->>  drivers/pci/dwc/pcie-designware.h      |  23 +++++-
->>  5 files changed, 173 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/pci/dwc/pci-dra7xx.c b/drivers/pci/dwc/pci-dra7xx.c index
->> ed8558d..5265725 100644
->> --- a/drivers/pci/dwc/pci-dra7xx.c
->> +++ b/drivers/pci/dwc/pci-dra7xx.c
->> @@ -369,7 +369,7 @@ static void dra7xx_pcie_raise_msi_irq(struct
->> dra7xx_pcie *dra7xx,  }
->>
->>  static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->> -				 enum pci_epc_irq_type type, u8
->> interrupt_num)
->> +				 enum pci_epc_irq_type type, u16
->> interrupt_num)
->>  {
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>  	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci); diff --git
->> a/drivers/pci/dwc/pcie-artpec6.c b/drivers/pci/dwc/pcie-artpec6.c index
->> e66cede..96dc259 100644
->> --- a/drivers/pci/dwc/pcie-artpec6.c
->> +++ b/drivers/pci/dwc/pcie-artpec6.c
->> @@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep
->> *ep)  }
->>
->>  static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->> -				  enum pci_epc_irq_type type, u8
->> interrupt_num)
->> +				  enum pci_epc_irq_type type, u16
->> interrupt_num)
->>  {
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>
->> diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-
->> designware-ep.c
->> index 15b22a6..874d4c2 100644
->> --- a/drivers/pci/dwc/pcie-designware-ep.c
->> +++ b/drivers/pci/dwc/pcie-designware-ep.c
->> @@ -40,6 +40,44 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci,
->> enum pci_barno bar)
->>  	__dw_pcie_ep_reset_bar(pci, bar, 0);
->>  }
->>
->> +void dw_pcie_ep_find_cap_addr(struct dw_pcie_ep *ep) {
->> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	u8 next_ptr, curr_ptr, cap_id;
->> +	u16 reg;
->> +
->> +	memset(&ep->cap_addr, 0, sizeof(ep->cap_addr));
->> +
->> +	reg = dw_pcie_readw_dbi(pci, PCI_STATUS);
->> +	if (!(reg & PCI_STATUS_CAP_LIST))
->> +		return;
->> +
->> +	reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
->> +	next_ptr = (reg & 0x00ff);
->> +	if (!next_ptr)
->> +		return;
->> +
->> +	reg = dw_pcie_readw_dbi(pci, next_ptr);
->> +	curr_ptr = next_ptr;
->> +	next_ptr = (reg & 0xff00) >> 8;
->> +	cap_id = (reg & 0x00ff);
->> +
->> +	while (next_ptr && (cap_id <= PCI_CAP_ID_MAX)) {
->> +		switch (cap_id) {
->> +		case PCI_CAP_ID_MSI:
->> +			ep->cap_addr.msi_addr = curr_ptr;
->> +			break;
->> +		case PCI_CAP_ID_MSIX:
->> +			ep->cap_addr.msix_addr = curr_ptr;
->> +			break;
->> +		}
->> +		reg = dw_pcie_readw_dbi(pci, next_ptr);
->> +		curr_ptr = next_ptr;
->> +		next_ptr = (reg & 0xff00) >> 8;
->> +		cap_id = (reg & 0x00ff);
->> +	}
->> +}
->> +
->>  static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no,
->>  				   struct pci_epf_header *hdr)
->>  {
->> @@ -241,8 +279,47 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc,
->> u8 func_no, u8 encode_int)
->>  	return 0;
->>  }
->>
->> +static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no) {
->> +	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
->> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	u32 val, reg;
->> +
->> +	if (ep->cap_addr.msix_addr == 0)
->> +		return 0;
->> +
->> +	reg = ep->cap_addr.msix_addr + PCI_MSIX_FLAGS;
->> +	val = dw_pcie_readw_dbi(pci, reg);
->> +	if (!(val & PCI_MSIX_FLAGS_ENABLE))
->> +		return -EINVAL;
->> +
->> +	val &= PCI_MSIX_FLAGS_QSIZE;
->> +
->> +	return val;
->> +}
->> +
->> +static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u16
->> +interrupts) {
->> +	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
->> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	u32 val, reg;
->> +
->> +	if (ep->cap_addr.msix_addr == 0)
->> +		return 0;
->> +
->> +	reg = ep->cap_addr.msix_addr + PCI_MSIX_FLAGS;
->> +	val = dw_pcie_readw_dbi(pci, reg);
->> +	val &= ~PCI_MSIX_FLAGS_QSIZE;
->> +	val |= interrupts;
->> +	dw_pcie_dbi_ro_wr_en(pci);
->> +	dw_pcie_writew_dbi(pci, reg, val);
->> +	dw_pcie_dbi_ro_wr_dis(pci);
->> +
->> +	return 0;
->> +}
->> +
->>  static int dw_pcie_ep_raise_irq(struct pci_epc *epc, u8 func_no,
->> -				enum pci_epc_irq_type type, u8
->> interrupt_num)
->> +				enum pci_epc_irq_type type, u16
->> interrupt_num)
->>  {
->>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
->>
->> @@ -282,6 +359,8 @@ static const struct pci_epc_ops epc_ops = {
->>  	.unmap_addr		= dw_pcie_ep_unmap_addr,
->>  	.set_msi		= dw_pcie_ep_set_msi,
->>  	.get_msi		= dw_pcie_ep_get_msi,
->> +	.set_msix		= dw_pcie_ep_set_msix,
->> +	.get_msix		= dw_pcie_ep_get_msix,
->>  	.raise_irq		= dw_pcie_ep_raise_irq,
->>  	.start			= dw_pcie_ep_start,
->>  	.stop			= dw_pcie_ep_stop,
->> @@ -322,6 +401,60 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep
->> *ep, u8 func_no,
->>  	return 0;
->>  }
->>
->> +int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
->> +			     u16 interrupt_num)
->> +{
->> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	struct pci_epc *epc = ep->epc;
->> +	u16 tbl_offset, bir;
->> +	u32 bar_addr_upper, bar_addr_lower;
->> +	u32 msg_addr_upper, msg_addr_lower;
->> +	u32 reg, msg_data;
->> +	u64 tbl_addr, msg_addr, reg_u64;
->> +	void __iomem *msix_tbl;
->> +	int ret;
->> +
->> +	reg = ep->cap_addr.msix_addr + PCI_MSIX_TABLE;
->> +	tbl_offset = dw_pcie_readl_dbi(pci, reg);
->> +	bir = (tbl_offset & PCI_MSIX_TABLE_BIR);
->> +	tbl_offset &= PCI_MSIX_TABLE_OFFSET;
->> +	tbl_offset >>= 3;
->> +
->> +	reg = PCI_BASE_ADDRESS_0 + (4 * bir);
->> +	bar_addr_lower = dw_pcie_readl_dbi(pci, reg);
->> +	reg_u64 = (bar_addr_lower & PCI_BASE_ADDRESS_MEM_TYPE_MASK);
->> +	if (reg_u64 == PCI_BASE_ADDRESS_MEM_TYPE_64)
->> +		bar_addr_upper = dw_pcie_readl_dbi(pci, reg + 4);
->> +	else
->> +		bar_addr_upper = 0;
->> +
->> +	tbl_addr = ((u64) bar_addr_upper) << 32 | bar_addr_lower;
->> +	tbl_addr += (tbl_offset + ((interrupt_num - 1) * PCI_MSIX_ENTRY_SIZE));
->> +	tbl_addr &= PCI_BASE_ADDRESS_MEM_MASK;
->> +
->> +	msix_tbl = ioremap_nocache(ep->phys_base + tbl_addr, ep->addr_size);
->> +	if (!msix_tbl)
->> +		return -EINVAL;
->> +
-> I think you need to check the mask bit in  vector control for the requested IRQ.
-> You could set the pending bit if masked, but would then need some output 
-> signal to inform when the mask bit is cleared (or poll it) so the message can be sent
-> later.
+> Test: Build kernel with CONFIG_THERMAL_EMULATION=y, then write
+> negative
+> values to the emul_temp sysfs entry. Check the temp entry, and see
+> the
+> negative value. Write -INT_MAX to emul_temp, and see the proper
+> sensor
+> reading appear.
+> Bug: 77599739
 
-I have to analyze this careful and with detail to provide you a valid and good
-feedback as soon as possible.
+can you paste the bug link here?
 
+> Signed-off-by: Kevin DuBois <kevindubois@google.com>
 > 
-> Also, do you need to check PCI_MSIX_FLAGS_ENABLE here as well, or is it checked earlier?
-
-I applied the same logic for MSI-X already implemented before for the MSI.
-
-Before calling the pci_epc_raise_irq(), the number of interrupts is checked by
-calling the pci_epc_get_msi() first, which leads to one of
-dw_pcie_ep_get_msi()/cdns_pcie_ep_get_msi().
-
-From what I could see the PCI_MSI_FLAGS_ENABLE/PCI_MSIX_FLAGS_ENABLE flags are
-check on the dw_pcie_ep_get_msi()/dw_pcie_ep_get_msix() funcitons, the same
-logic is applied on cdns_pcie_ep_get_msi().
-
+> Change-Id: Iee1a4f0aacf7b4299b67c7f8f4effedf2d7a8425
+> ---
+>  Documentation/thermal/sysfs-api.txt |  2 +-
+>  drivers/thermal/thermal_core.c      | 13 ++++++++-----
+>  2 files changed, 9 insertions(+), 6 deletions(-)
 > 
-> Regards,
-> Alan
-> 
+> diff --git a/Documentation/thermal/sysfs-api.txt
+> b/Documentation/thermal/sysfs-api.txt
+> index 10f062ea6bc2..e240d9e165a0 100644
+> --- a/Documentation/thermal/sysfs-api.txt
+> +++ b/Documentation/thermal/sysfs-api.txt
+> @@ -312,7 +312,7 @@ emul_temp
+>  	this temperature to platform emulation function if
+> registered or
+>  	cache it locally. This is useful in debugging different
+> temperature
+>  	threshold and its associated cooling action. This is write
+> only node
+> -	and writing 0 on this node should disable emulation.
+> +	and writing -INT_MAX on this node should disable emulation.
 
+This is an ABI change. I'm not sure if there is any userspace tool
+depends on this.
+could you please resend the bug with a real bug link, and I will keep
+it in my tree for a longer period to see if there is any objections.
 
+thanks,
+rui
+>  	Unit: millidegree Celsius
+>  	WO, Optional
+>  
+> diff --git a/drivers/thermal/thermal_core.c
+> b/drivers/thermal/thermal_core.c
+> index 768783ab3dac..650a6b124fc7 100644
+> --- a/drivers/thermal/thermal_core.c
+> +++ b/drivers/thermal/thermal_core.c
+> @@ -636,8 +636,8 @@ int get_tz_trend(struct thermal_zone_device *tz,
+> int trip)
+>  {
+>  	enum thermal_trend trend;
+>  
+> -	if (tz->emul_temperature || !tz->ops->get_trend ||
+> -	    tz->ops->get_trend(tz, trip, &trend)) {
+> +	if ((tz->emul_temperature > THERMAL_TEMP_INVALID) ||
+> +		!tz->ops->get_trend || tz->ops->get_trend(tz, trip,
+> &trend)) {
+>  		if (tz->temperature > tz->last_temperature)
+>  			trend = THERMAL_TREND_RAISING;
+>  		else if (tz->temperature < tz->last_temperature)
+> @@ -904,7 +904,8 @@ int thermal_zone_get_temp(struct
+> thermal_zone_device *tz, int *temp)
+>  
+>  	ret = tz->ops->get_temp(tz, temp);
+>  
+> -	if (IS_ENABLED(CONFIG_THERMAL_EMULATION) && tz-
+> >emul_temperature) {
+> +	if (IS_ENABLED(CONFIG_THERMAL_EMULATION) &&
+> +		(tz->emul_temperature > THERMAL_TEMP_INVALID)) {
+>  		for (count = 0; count < tz->trips; count++) {
+>  			ret = tz->ops->get_trip_type(tz, count,
+> &type);
+>  			if (!ret && type == THERMAL_TRIP_CRITICAL) {
+> @@ -961,6 +962,7 @@ static void thermal_zone_device_reset(struct
+> thermal_zone_device *tz)
+>  	struct thermal_instance *pos;
+>  
+>  	tz->temperature = THERMAL_TEMP_INVALID;
+> +	tz->emul_temperature = THERMAL_TEMP_INVALID;
+>  	tz->passive = 0;
+>  	list_for_each_entry(pos, &tz->thermal_instances, tz_node)
+>  		pos->initialized = false;
+> @@ -1351,9 +1353,9 @@ emul_temp_store(struct device *dev, struct
+> device_attribute *attr,
+>  {
+>  	struct thermal_zone_device *tz = to_thermal_zone(dev);
+>  	int ret = 0;
+> -	unsigned long temperature;
+> +	int temperature;
+>  
+> -	if (kstrtoul(buf, 10, &temperature))
+> +	if (kstrtoint(buf, 10, &temperature))
+>  		return -EINVAL;
+>  
+>  	if (!tz->ops->set_emul_temp) {
+> @@ -2296,6 +2298,7 @@ struct thermal_zone_device
+> *thermal_zone_device_register(const char *type,
+>  	tz->trips = trips;
+>  	tz->passive_delay = passive_delay;
+>  	tz->polling_delay = polling_delay;
+> +	tz->emul_temperature = THERMAL_TEMP_INVALID;
+>  	/* A new thermal zone needs to be updated anyway. */
+>  	atomic_set(&tz->need_update, 1);
+>  
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
