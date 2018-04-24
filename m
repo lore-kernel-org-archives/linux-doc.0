@@ -5,214 +5,128 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08BF67DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 09:37:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 018DC7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 09:57:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751234AbeDXJhl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 05:37:41 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:48615 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751483AbeDXJhj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 05:37:39 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 090A71E065B;
-        Tue, 24 Apr 2018 11:37:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1524562658; bh=81gGG+SNvYGACbUNRkLMWkDaI+q6z0QPQ5g2K5RIyC0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=gqWYX3Xz9T1usmrgrMUaoL5UWjGTmdohAA5sODSXWphWCcJgIRW7s83CNb26DDa2C
-         N8J0ikJarHUxW2/P52zgQGMkFGHFixNiZ9SD0BLto6F7q3b80K0dJlJAZmLM9XYxa5
-         5YSnao9GpBXWtvfe6MfDG3fud0A4lFzVgD07Q0svVQYlf/U5KIiG6kumpZznfnD2I4
-         ILugXLewJr1lt+aKhRbOoDjacrY5N8KbinqjMyN35pG3zDPSCKl30wAXsQ6Z0z6/VP
-         eCnONpw8pUe0RPKRx9p93a4Jh3KugE04gH7BukE5WbyB7omVly/4MmNI36QL6Dtts+
-         amoJSTEfX5Yig==
-Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id D8AF03A3F;
-        Tue, 24 Apr 2018 02:37:36 -0700 (PDT)
-Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 38E833E5AB;
-        Tue, 24 Apr 2018 10:37:36 +0100 (WEST)
-Subject: Re: [RFC 01/10] PCI: dwc: Add MSI-X callbacks handler
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        id S1754196AbeDXJ5u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 05:57:50 -0400
+Received: from mail-bl2nam02on0065.outbound.protection.outlook.com ([104.47.38.65]:41664
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1754189AbeDXJ5s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Apr 2018 05:57:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=tzPEOyYMvHBFANsNF9vF4oQ0bpvVIB4qx5UoonxXmO8=;
+ b=npTjRhB9IbSMHGSe7ybv0vb7ZwQlJ7JcTdZ7LuqFt4gjr6hFlUUSuV8kFWJPpOktpEC54op6h/WsaPocgRmBrxFrfltXJYcYfUMIzWfZ64I9ciEA0Vg3bw3iQm39lTftAHelnjmMA07b65JxuAWQ4hA9Z+BH7uF28fryLp5p8Y8=
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com (52.135.94.11) by
+ SN6PR07MB4718.namprd07.prod.outlook.com (52.135.77.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.696.15; Tue, 24 Apr 2018 09:57:45 +0000
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98]) by SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98%13]) with mapi id 15.20.0696.016; Tue, 24 Apr
+ 2018 09:57:45 +0000
+From:   Alan Douglas <adouglas@cadence.com>
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
         "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
         "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
         "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
+        "kishon@ti.com" <kishon@ti.com>,
         "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
         "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [RFC 10/10] tools: PCI: Add MSI-X support
+Thread-Topic: [RFC 10/10] tools: PCI: Add MSI-X support
+Thread-Index: AQHT0O92Kvfyq11NjUeE5n5ZBlzNrKQPt6aA
+Date:   Tue, 24 Apr 2018 09:57:45 +0000
+Message-ID: <SN6PR07MB45126298F09735193B0F0F00D8880@SN6PR07MB4512.namprd07.prod.outlook.com>
 References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
- <77b7b2687e9618d3f7d1f11c3fc6ecec9a9442ef.1523379766.git.gustavo.pimentel@synopsys.com>
- <0b7023d9-29c6-0993-07d3-b046d25b67ff@ti.com>
- <e2fe7d5f-9f57-0e67-d321-541ff4706792@synopsys.com>
- <0e8b8ce9-db12-1e11-3eb5-62f3fa686d59@ti.com>
-From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Message-ID: <16d237b2-0052-447e-13cb-bc2f15848be4@synopsys.com>
-Date:   Tue, 24 Apr 2018 10:36:27 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <0e8b8ce9-db12-1e11-3eb5-62f3fa686d59@ti.com>
-Content-Type: text/plain; charset=windows-1252
+ <9865822fb89ea84cb55fe93e151295afcd5c96b3.1523379766.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <9865822fb89ea84cb55fe93e151295afcd5c96b3.1523379766.git.gustavo.pimentel@synopsys.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWRvdWdsYXNcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1mMDdiZTA3YS00N2E1LTExZTgtODZlNS1mNDk2MzQ4NmY0ZWNcYW1lLXRlc3RcZjA3YmUwN2ItNDdhNS0xMWU4LTg2ZTUtZjQ5NjM0ODZmNGVjYm9keS50eHQiIHN6PSIxNDc3IiB0PSIxMzE2OTAzNzQ2NzQ5NzAxNjAiIGg9IjhJYW1sUGQ1NG5TMHIvQ05ieW1zdUdPSVZYND0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=adouglas@cadence.com; 
+x-originating-ip: [185.217.253.59]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;SN6PR07MB4718;7:BvtSOcbVr8RXA5rtbRVqFfrlvdUbxRnzNew/57xKGuiOesZ5U991WEYm6d4FxmlaGn5XwIwpInHWDEI5BdpuEqAdWzz7mN0HMxRUlm2zubKtirzEQcRrl2ULPm8O/VXyLx8MgZJCTvheoZNNlA0RuVd174xEWfS4nQ97EvFDS3vaQ+DGTLglZHRukYQvpBKZzfjd0CzfPzb3e3lqV7T2M23je44T+JC2Onq7Wo2voVuM/Xs2S/Owrh82YaoXoqNL;20:yn1hx3RqdPV/JeYqV/jtxaplGZcao1uXkxN+yGfMYj51wYFeQbU0Jx1lB/Nu6+7Sv/tsRrGuevcA37xn3JpM1+eXKwmmZy8qEsK9ii6coCFGe1GaDSketMWwbGz3qejCE20lqFShgiQY4diMYxusZ7LXsqYLovIKVNh2NuF/uyz7gvpY8ij2KQgWN3Y/6kG7ERIKMUZ7jBtUmhbIeiNmNmKZ7DDjYgwhxne0GvjV8FgpS/NLuP3VHyQPZ9DYYM3D
+x-ms-exchange-antispam-srfa-diagnostics: SOS;
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4718;
+x-ms-traffictypediagnostic: SN6PR07MB4718:
+x-microsoft-antispam-prvs: <SN6PR07MB4718C64560030F5EF0F439BAD8880@SN6PR07MB4718.namprd07.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231232)(944501410)(52105095)(93006095)(93001095)(3002001)(10201501046)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(20161123560045)(6072148)(201708071742011);SRVR:SN6PR07MB4718;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4718;
+x-forefront-prvs: 0652EA5565
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(376002)(39860400002)(39380400002)(346002)(366004)(36092001)(199004)(189003)(7696005)(26005)(68736007)(9686003)(14454004)(6246003)(53936002)(55016002)(4326008)(478600001)(186003)(7416002)(39060400002)(6436002)(3846002)(76176011)(86362001)(59450400001)(105586002)(2201001)(106356001)(25786009)(229853002)(11346002)(446003)(74316002)(53546011)(99286004)(486006)(476003)(5660300001)(2501003)(5250100002)(3280700002)(81166006)(8676002)(81156014)(2900100001)(6506007)(6116002)(3660700001)(7736002)(66066001)(102836004)(2906002)(305945005)(97736004)(54906003)(8936002)(316002)(110136005)(33656002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4718;H:SN6PR07MB4512.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: cadence.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: 2M2Z2dfat7gb+9TAgnr3NYHNaAJU1viaLwcBHbyHCQz4131EoOokDMha7JyfsUD8lKlVrocO//bZ9IUpBmuNqlSjTKYygdMhJAvRe168XJKDBt8jStvQQZ202iEvvuPpHWcjpNey74Aao9Vbk21rtVFJ8aKnyr9kNa2nsa5Z7A9/duCCKQaaf3PuB7AmTrm0PeimeQWz1MygCOByHtu/Jw==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Office365-Filtering-Correlation-Id: 41d866cc-3da5-4f73-b0cd-08d5a9c9d41a
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41d866cc-3da5-4f73-b0cd-08d5a9c9d41a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2018 09:57:45.3582
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4718
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kishon,
+Hi Gustavo,
 
-On 24/04/2018 08:07, Kishon Vijay Abraham I wrote:
-> Hi,
-> 
-> On Monday 23 April 2018 03:06 PM, Gustavo Pimentel wrote:
->> Hi Kishon,
->>
->> On 16/04/2018 10:29, Kishon Vijay Abraham I wrote:
->>> Hi Gustavo,
->>>
->>> On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
->>>> Changes the pcie_raise_irq function signature, namely the interrupt_num
->>>> variable type from u8 to u16 to accommodate the MSI-X maximum interrupts
->>>> of 2048.
->>>>
->>>> Implements a PCIe config space capability iterator function to search and
->>>> save the MSI and MSI-X pointers. With this method the code becomes more
->>>> generic and flexible.
->>>>
->>>> Implements MSI-X set/get functions for sysfs interface in order to change
->>>> the EP entries number.
->>>>
->>>> Implements EP MSI-X interface for triggering interruptions.
->>>>
->>>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->>>> ---
->>>>  drivers/pci/dwc/pci-dra7xx.c           |   2 +-
->>>>  drivers/pci/dwc/pcie-artpec6.c         |   2 +-
->>>>  drivers/pci/dwc/pcie-designware-ep.c   | 145 ++++++++++++++++++++++++++++++++-
->>>>  drivers/pci/dwc/pcie-designware-plat.c |   6 +-
->>>>  drivers/pci/dwc/pcie-designware.h      |  23 +++++-
->>>>  5 files changed, 173 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/pci/dwc/pci-dra7xx.c b/drivers/pci/dwc/pci-dra7xx.c
->>>> index ed8558d..5265725 100644
->>>> --- a/drivers/pci/dwc/pci-dra7xx.c
->>>> +++ b/drivers/pci/dwc/pci-dra7xx.c
->>>> @@ -369,7 +369,7 @@ static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
->>>>  }
->>>>  
->>>>  static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->>>> -				 enum pci_epc_irq_type type, u8 interrupt_num)
->>>> +				 enum pci_epc_irq_type type, u16 interrupt_num)
->>>>  {
->>>>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>>>  	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
->>>> diff --git a/drivers/pci/dwc/pcie-artpec6.c b/drivers/pci/dwc/pcie-artpec6.c
->>>> index e66cede..96dc259 100644
->>>> --- a/drivers/pci/dwc/pcie-artpec6.c
->>>> +++ b/drivers/pci/dwc/pcie-artpec6.c
->>>> @@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep *ep)
->>>>  }
->>>>  
->>>>  static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->>>> -				  enum pci_epc_irq_type type, u8 interrupt_num)
->>>> +				  enum pci_epc_irq_type type, u16 interrupt_num)
->>>>  {
->>>>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>>>  
->>>> diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
->>>> index 15b22a6..874d4c2 100644
->>>> --- a/drivers/pci/dwc/pcie-designware-ep.c
->>>> +++ b/drivers/pci/dwc/pcie-designware-ep.c
->>>> @@ -40,6 +40,44 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
->>>>  	__dw_pcie_ep_reset_bar(pci, bar, 0);
->>>>  }
->>>>  
->>>> +void dw_pcie_ep_find_cap_addr(struct dw_pcie_ep *ep)
->>>> +{
->>>
->>> This should be implemented in a generic way similar to pci_find_capability().
->>> It'll be useful when we try to implement other capabilities as well.
->>
->> Hum, what you suggest? Something implemented on the pci-epf-core?
-> 
-> yeah, Initially thought it could be implemented as a helper function in
-> pci-epc-core so that both designware and cadence can use it.
+On 10 April 2018 18:15, Gustavo Pimentel wrote:
+> Adds MSI-X support to the pcitest tool and modified the pcitest.sh script=
+ to
+> accomodate this new type of interruption test.
+>=20
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> ---
+>  include/uapi/linux/pcitest.h |  1 +
+>  tools/pci/pcitest.c          | 18 +++++++++++++++++-
+>  tools/pci/pcitest.sh         | 25 +++++++++++++++++++++++++
+>  3 files changed, 43 insertions(+), 1 deletion(-)
+I found some possible problems when testing with the Cadence EP driver.  Th=
+e problem
+is that pcitest uses the BARs for tests, but we also use one for the MSI-X =
+tables
 
-That would be nice, however I couldn't find out how to access the config space,
-through the pci_epf or pci_epc structs.
+In Cadence core the MSI-X table is in BAR0 by default, but this is configur=
+ed to a size
+of 0x80 in the test driver, since it is used as the test_reg_bar.  So, I ch=
+anged the=20
+configuration to use BAR4 instead, which is configured to a size of 131072=
+=20
+in pci-efp-test.c, and this gives me enough space.
 
-So, I reworked the functions like this:
+However, if I run the BAR tests in pcitest before running the MSI-X tests, =
+the
+MSI-X tests fail, since the BAR content is overwritten.  It's not a problem=
+ with the=20
+scenario in pcitest.sh, but it would be if the module wasn't re-loaded.
 
-(on pcie-designware-ep.c)
+So, wondering if we need to come up with some mechanism to specify that a s=
+pecific
+BAR will be used for MSI-X, and that its size and content shouldn't be modi=
+fied by
+pcitest?
 
-u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
-                              u8 cap)
-{
-        u8 cap_id, next_cap_ptr;
-        u16 reg;
-
-        reg = dw_pcie_readw_dbi(pci, cap_ptr);
-        next_cap_ptr = (reg & 0xff00) >> 8;
-        cap_id = (reg & 0x00ff);
-
-        if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
-                return 0;
-
-        if (cap_id == cap)
-                return cap_ptr;
-
-        return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
-}
-
-u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
-{
-        u8 next_cap_ptr;
-        u16 reg;
-
-        reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
-        next_cap_ptr = (reg & 0x00ff);
-
-        if (!next_cap_ptr)
-                return 0;
-
-        return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
-}
-
-int dw_pcie_ep_init(struct dw_pcie_ep *ep)
-{
-[...]
-        ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
-        ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
-[...]
-}
-
-> 
-> But do we really have to find the address like this? since all designware IP's
-> will have a particular capability at a fixed address offset, why not follow use
-> existing mechanism in dw_pcie_ep_get_msi?
-
-The capabilities are not fixed to a specific address offset by default they
-assume those values, but they can be easily change at design stage.
-
-> 
-> Or is it possible for a particular capability to have address offsets for
-> different vendors? How is it for cadence?
-
-Yes, it's possible to have different address offset for different vendors.
-
-> 
-> Thanks
-> Kishon
-> 
-
-Thanks,
-Gustavo
-
+Regards,
+Alan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
