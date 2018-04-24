@@ -5,227 +5,231 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6E0027DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 11:13:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1690B7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 11:24:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755196AbeDXLNC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 07:13:02 -0400
-Received: from smtprelay6.synopsys.com ([198.182.37.59]:48972 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754626AbeDXLNB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 07:13:01 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id CD6431E05E7;
-        Tue, 24 Apr 2018 13:12:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1524568380; bh=4x/RlYv/v/dH+im7o0ph4Y2bGgG4nd5k2zJf1wTZLz0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=l02dyPpvnmbzd15qQfkFjiLfl4zgy8vsMZpUBPmIPzTJamddLAY4QrfgKm2HFExt4
-         wfN5jwzLcV0wPvTshFDLnhnlhKGfW7qa5knHHYPlQJg849q3vtBekYtbhmQ8sP9ZX3
-         tvLLsb/lSSwO5gVbyf5f5gICt2XJwtw6mLT0eRo9+HnaAt9aKOGt7/EtWeCbQYV+YS
-         coEBA9+e7hOKMTVxtxMgot4iEex+pHJSCOMbgJbuym4h1dCSiqZVwBUiaNlHS0aGSS
-         qgWdSdFKnwetIqNCJiecvZYShVKvqTZPXpiyfgGQtfA5QjBm5iWDpXkNVKbzxsNjPH
-         03DCAjGJL+Ixg==
-Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id A5A4E3AF7;
-        Tue, 24 Apr 2018 04:12:58 -0700 (PDT)
-Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id C9EEE3ED1E;
-        Tue, 24 Apr 2018 12:12:57 +0100 (WEST)
-Subject: Re: [RFC 06/10] misc: pci_endpoint_test: Add MSI-X support
-To:     Alan Douglas <adouglas@cadence.com>,
+        id S1754034AbeDXLYg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 07:24:36 -0400
+Received: from fllnx209.ext.ti.com ([198.47.19.16]:12091 "EHLO
+        fllnx209.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753057AbeDXLYf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 07:24:35 -0400
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by fllnx209.ext.ti.com (8.15.1/8.15.1) with ESMTP id w3OBOOtx023950;
+        Tue, 24 Apr 2018 06:24:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ti.com;
+        s=ti-com-17Q1; t=1524569064;
+        bh=GK0tekP5Lsda9tN7C95V+s0NPDheTm5m+05DbRgAato=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=r7Gp9iM5YLzw4Gbm88w60SU6jlfkhrv+o3jBfpea7XMhGPjCKaKyy1n6hFp8KjyAZ
+         KoaLY0vDXYpgCLli5QhxjfeC7tn0lDpTnNIUo8g+vrGbASUZ9cQq3OiiHgxFuzLETn
+         3+z1L8VDRYF+zBPai4hkOwGiWf2C85Q6jlrPg3vg=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3OBOOnj030687;
+        Tue, 24 Apr 2018 06:24:24 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Tue, 24
+ Apr 2018 06:24:24 -0500
+Received: from dlep32.itg.ti.com (157.170.170.100) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Tue, 24 Apr 2018 06:24:24 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dlep32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3OBOKnj006463;
+        Tue, 24 Apr 2018 06:24:21 -0500
+Subject: Re: [RFC 01/10] PCI: dwc: Add MSI-X callbacks handler
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
         "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
         "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
         "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
+        "adouglas@cadence.com" <adouglas@cadence.com>,
+        "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
         "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+ <77b7b2687e9618d3f7d1f11c3fc6ecec9a9442ef.1523379766.git.gustavo.pimentel@synopsys.com>
+ <0b7023d9-29c6-0993-07d3-b046d25b67ff@ti.com>
+ <e2fe7d5f-9f57-0e67-d321-541ff4706792@synopsys.com>
+ <0e8b8ce9-db12-1e11-3eb5-62f3fa686d59@ti.com>
+ <16d237b2-0052-447e-13cb-bc2f15848be4@synopsys.com>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
- <8b88f8c2b766f36c71659deb0fce635154b2b39f.1523379766.git.gustavo.pimentel@synopsys.com>
- <SN6PR07MB45121288F5ACECF3AB3A6D0AD8880@SN6PR07MB4512.namprd07.prod.outlook.com>
-From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Message-ID: <237066ef-6049-6f10-698b-9d9878b72291@synopsys.com>
-Date:   Tue, 24 Apr 2018 12:11:49 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <eeb3ace0-9206-efbf-f5db-97ccea0f47b7@ti.com>
+Date:   Tue, 24 Apr 2018 16:54:20 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <SN6PR07MB45121288F5ACECF3AB3A6D0AD8880@SN6PR07MB4512.namprd07.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <16d237b2-0052-447e-13cb-bc2f15848be4@synopsys.com>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alan,
+Hi,
 
-On 24/04/2018 07:59, Alan Douglas wrote:
-> Hi Gustavo,
+On Tuesday 24 April 2018 03:06 PM, Gustavo Pimentel wrote:
+> Hi Kishon,
 > 
-> On 10 April 2018 18:15 Gustavo Pimentel wrote:
+> On 24/04/2018 08:07, Kishon Vijay Abraham I wrote:
+>> Hi,
 >>
->> Adds the MSI-X support and updates driver documentation accordingly.
+>> On Monday 23 April 2018 03:06 PM, Gustavo Pimentel wrote:
+>>> Hi Kishon,
+>>>
+>>> On 16/04/2018 10:29, Kishon Vijay Abraham I wrote:
+>>>> Hi Gustavo,
+>>>>
+>>>> On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
+>>>>> Changes the pcie_raise_irq function signature, namely the interrupt_num
+>>>>> variable type from u8 to u16 to accommodate the MSI-X maximum interrupts
+>>>>> of 2048.
+>>>>>
+>>>>> Implements a PCIe config space capability iterator function to search and
+>>>>> save the MSI and MSI-X pointers. With this method the code becomes more
+>>>>> generic and flexible.
+>>>>>
+>>>>> Implements MSI-X set/get functions for sysfs interface in order to change
+>>>>> the EP entries number.
+>>>>>
+>>>>> Implements EP MSI-X interface for triggering interruptions.
+>>>>>
+>>>>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+>>>>> ---
+>>>>>  drivers/pci/dwc/pci-dra7xx.c           |   2 +-
+>>>>>  drivers/pci/dwc/pcie-artpec6.c         |   2 +-
+>>>>>  drivers/pci/dwc/pcie-designware-ep.c   | 145 ++++++++++++++++++++++++++++++++-
+>>>>>  drivers/pci/dwc/pcie-designware-plat.c |   6 +-
+>>>>>  drivers/pci/dwc/pcie-designware.h      |  23 +++++-
+>>>>>  5 files changed, 173 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/pci/dwc/pci-dra7xx.c b/drivers/pci/dwc/pci-dra7xx.c
+>>>>> index ed8558d..5265725 100644
+>>>>> --- a/drivers/pci/dwc/pci-dra7xx.c
+>>>>> +++ b/drivers/pci/dwc/pci-dra7xx.c
+>>>>> @@ -369,7 +369,7 @@ static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
+>>>>>  }
+>>>>>  
+>>>>>  static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>>>>> -				 enum pci_epc_irq_type type, u8 interrupt_num)
+>>>>> +				 enum pci_epc_irq_type type, u16 interrupt_num)
+>>>>>  {
+>>>>>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>>>>>  	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
+>>>>> diff --git a/drivers/pci/dwc/pcie-artpec6.c b/drivers/pci/dwc/pcie-artpec6.c
+>>>>> index e66cede..96dc259 100644
+>>>>> --- a/drivers/pci/dwc/pcie-artpec6.c
+>>>>> +++ b/drivers/pci/dwc/pcie-artpec6.c
+>>>>> @@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep *ep)
+>>>>>  }
+>>>>>  
+>>>>>  static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>>>>> -				  enum pci_epc_irq_type type, u8 interrupt_num)
+>>>>> +				  enum pci_epc_irq_type type, u16 interrupt_num)
+>>>>>  {
+>>>>>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>>>>>  
+>>>>> diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
+>>>>> index 15b22a6..874d4c2 100644
+>>>>> --- a/drivers/pci/dwc/pcie-designware-ep.c
+>>>>> +++ b/drivers/pci/dwc/pcie-designware-ep.c
+>>>>> @@ -40,6 +40,44 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+>>>>>  	__dw_pcie_ep_reset_bar(pci, bar, 0);
+>>>>>  }
+>>>>>  
+>>>>> +void dw_pcie_ep_find_cap_addr(struct dw_pcie_ep *ep)
+>>>>> +{
+>>>>
+>>>> This should be implemented in a generic way similar to pci_find_capability().
+>>>> It'll be useful when we try to implement other capabilities as well.
+>>>
+>>> Hum, what you suggest? Something implemented on the pci-epf-core?
 >>
->> Changes the driver parameter in order to allow the interruption type
->> selection.
->>
->> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->> ---
->>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->>  drivers/misc/pci_endpoint_test.c                 | 102 +++++++++++++++++------
->>  2 files changed, 79 insertions(+), 26 deletions(-)
->>
->> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt
->> b/Documentation/misc-devices/pci-endpoint-test.txt
->> index 4ebc359..fdfa0f6 100644
->> --- a/Documentation/misc-devices/pci-endpoint-test.txt
->> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
->> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the
->> following tests
->>  	*) verifying addresses programmed in BAR
->>  	*) raise legacy IRQ
->>  	*) raise MSI IRQ
->> +	*) raise MSI-X IRQ
->>  	*) read data
->>  	*) write data
->>  	*) copy data
->> @@ -25,6 +26,8 @@ ioctl
->>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
->>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
->>  	      to be tested should be passed as argument.
->> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->> +	      to be tested should be passed as argument.
->>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->>  		as argument.
->>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
->> diff --git a/drivers/misc/pci_endpoint_test.c
->> b/drivers/misc/pci_endpoint_test.c
->> index 37db0fc..a7d9354 100644
->> --- a/drivers/misc/pci_endpoint_test.c
->> +++ b/drivers/misc/pci_endpoint_test.c
->> @@ -42,11 +42,16 @@
->>  #define PCI_ENDPOINT_TEST_COMMAND	0x4
->>  #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
->>  #define COMMAND_RAISE_MSI_IRQ		BIT(1)
->> -#define MSI_NUMBER_SHIFT		2
->> -/* 6 bits for MSI number */
->> -#define COMMAND_READ                    BIT(8)
->> -#define COMMAND_WRITE                   BIT(9)
->> -#define COMMAND_COPY                    BIT(10)
->> +#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
->> +#define IRQ_TYPE_SHIFT			3
->> +#define IRQ_TYPE_LEGACY			0
->> +#define IRQ_TYPE_MSI			1
->> +#define IRQ_TYPE_MSIX			2
->> +#define MSI_NUMBER_SHIFT		5
->> +/* 12 bits for MSI number */
->> +#define COMMAND_READ                    BIT(17)
->> +#define COMMAND_WRITE                   BIT(18)
->> +#define COMMAND_COPY                    BIT(19)
->>
->>  #define PCI_ENDPOINT_TEST_STATUS	0x8
->>  #define STATUS_READ_SUCCESS             BIT(0)
->> @@ -73,9 +78,9 @@ static DEFINE_IDA(pci_endpoint_test_ida);
->>  #define to_endpoint_test(priv) container_of((priv), struct pci_endpoint_test,
->> \
->>  					    miscdev)
->>
->> -static bool no_msi;
->> -module_param(no_msi, bool, 0444);
->> -MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in
->> pci_endpoint_test");
->> +static int irq_type = IRQ_TYPE_MSIX;
->> +module_param(irq_type, int, 0444);
->> +MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test
->> (0
->> +- Legacy, 1 - MSI, 2 - MSI-X)");
->>
->>  enum pci_barno {
->>  	BAR_0,
->> @@ -103,7 +108,7 @@ struct pci_endpoint_test {  struct
->> pci_endpoint_test_data {
->>  	enum pci_barno test_reg_bar;
->>  	size_t alignment;
->> -	bool no_msi;
->> +	int irq_type;
->>  };
->>
->>  static inline u32 pci_endpoint_test_readl(struct pci_endpoint_test *test,
->> @@ -177,10 +182,10 @@ static bool pci_endpoint_test_bar(struct
->> pci_endpoint_test *test,
->>
->>  static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)  {
->> -	u32 val;
->> +	u32 val = COMMAND_RAISE_LEGACY_IRQ;
->>
->> -	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
->> -				 COMMAND_RAISE_LEGACY_IRQ);
->> +	val |= (IRQ_TYPE_LEGACY << IRQ_TYPE_SHIFT);
->> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
->>  	val = wait_for_completion_timeout(&test->irq_raised,
->>  					  msecs_to_jiffies(1000));
->>  	if (!val)
->> @@ -192,12 +197,12 @@ static bool pci_endpoint_test_legacy_irq(struct
->> pci_endpoint_test *test)  static bool pci_endpoint_test_msi_irq(struct
->> pci_endpoint_test *test,
->>  				      u8 msi_num)
->>  {
->> -	u32 val;
->> +	u32 val = COMMAND_RAISE_MSI_IRQ;
->>  	struct pci_dev *pdev = test->pdev;
->>
->> -	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
->> -				 msi_num << MSI_NUMBER_SHIFT |
->> -				 COMMAND_RAISE_MSI_IRQ);
->> +	val |= (msi_num << MSI_NUMBER_SHIFT);
->> +	val |= (IRQ_TYPE_MSI << IRQ_TYPE_SHIFT);
->> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
->>  	val = wait_for_completion_timeout(&test->irq_raised,
->>  					  msecs_to_jiffies(1000));
->>  	if (!val)
->> @@ -209,6 +214,26 @@ static bool pci_endpoint_test_msi_irq(struct
->> pci_endpoint_test *test,
->>  	return false;
->>  }
->>
->> +static bool pci_endpoint_test_msix_irq(struct pci_endpoint_test *test,
->> +				       u16 msix_num)
->> +{
->> +	u32 val = COMMAND_RAISE_MSIX_IRQ;
->> +	struct pci_dev *pdev = test->pdev;
->> +
->> +	val |= (msix_num << MSI_NUMBER_SHIFT);
->> +	val |= (IRQ_TYPE_MSIX << IRQ_TYPE_SHIFT);
->> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND, val);
->> +	val = wait_for_completion_timeout(&test->irq_raised,
->> +					  msecs_to_jiffies(1000));
->> +	if (!val)
->> +		return false;
->> +
->> +	if (test->last_irq - pdev->irq == msix_num - 1)
->> +		return true;
-> I think we should use pci_irq_vector() to convert from device vector to Linux IRQ.
-> It can be done in pci_endpoint_test_irqhandler()
-> (With MSI, pdev->irq will be updated during MSI init, but it is not for MSI-X.)
+>> yeah, Initially thought it could be implemented as a helper function in
+>> pci-epc-core so that both designware and cadence can use it.
 > 
-> pci_irq_vector()  should also be used for devm_request_irq() and devm_free_irq()
-> so some changes required in probe and remove.
+> That would be nice, however I couldn't find out how to access the config space,
+> through the pci_epf or pci_epc structs.
 
-We could try it, sounds good.
-Let's see if Kishon also agrees.
+It's just a helper function so it can directly take the base address of the
+configuration space as argument (in our case, it should be dbi_base).
+
+Thanks
+Kishon
 
 > 
-> Regards,
-> Alan
+> So, I reworked the functions like this:
 > 
-
-Regards,
-Gustavo
-
+> (on pcie-designware-ep.c)
+> 
+> u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
+>                               u8 cap)
+> {
+>         u8 cap_id, next_cap_ptr;
+>         u16 reg;
+> 
+>         reg = dw_pcie_readw_dbi(pci, cap_ptr);
+>         next_cap_ptr = (reg & 0xff00) >> 8;
+>         cap_id = (reg & 0x00ff);
+> 
+>         if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
+>                 return 0;
+> 
+>         if (cap_id == cap)
+>                 return cap_ptr;
+> 
+>         return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
+> }
+> 
+> u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
+> {
+>         u8 next_cap_ptr;
+>         u16 reg;
+> 
+>         reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
+>         next_cap_ptr = (reg & 0x00ff);
+> 
+>         if (!next_cap_ptr)
+>                 return 0;
+> 
+>         return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
+> }
+> 
+> int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+> {
+> [...]
+>         ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
+>         ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
+> [...]
+> }
+> 
+>>
+>> But do we really have to find the address like this? since all designware IP's
+>> will have a particular capability at a fixed address offset, why not follow use
+>> existing mechanism in dw_pcie_ep_get_msi?
+> 
+> The capabilities are not fixed to a specific address offset by default they
+> assume those values, but they can be easily change at design stage.
+> 
+>>
+>> Or is it possible for a particular capability to have address offsets for
+>> different vendors? How is it for cadence?
+> 
+> Yes, it's possible to have different address offset for different vendors.
+> 
+>>
+>> Thanks
+>> Kishon
+>>
+> 
+> Thanks,
+> Gustavo
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
