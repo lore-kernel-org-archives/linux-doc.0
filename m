@@ -1,129 +1,214 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB3D27DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 21:12:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47A1D7E279
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 22:16:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751150AbeDXVMn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 17:12:43 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37542 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751061AbeDXVMl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 17:12:41 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3OLCDPq015246
-        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 17:12:41 -0400
-Received: from e38.co.us.ibm.com (e38.co.us.ibm.com [32.97.110.159])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2hj9ra6j0p-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 17:12:41 -0400
-Received: from localhost
-        by e38.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <sukadev@linux.ibm.com>;
-        Tue, 24 Apr 2018 15:12:39 -0600
-Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
-        by e38.co.us.ibm.com (192.168.1.138) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Tue, 24 Apr 2018 15:12:35 -0600
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3OLCX1E10617160;
-        Tue, 24 Apr 2018 14:12:33 -0700
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D89CB136043;
-        Tue, 24 Apr 2018 15:12:33 -0600 (MDT)
-Received: from suka-w540.localdomain (unknown [9.70.94.25])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP id AA11613603A;
-        Tue, 24 Apr 2018 15:12:33 -0600 (MDT)
-Received: by suka-w540.localdomain (Postfix, from userid 1000)
-        id 13AD6229284; Tue, 24 Apr 2018 14:12:32 -0700 (PDT)
-Date:   Tue, 24 Apr 2018 14:12:32 -0700
-From:   Sukadev Bhattiprolu <sukadev@linux.ibm.com>
-To:     Andrew Donnellan <andrew.donnellan@au1.ibm.com>
-Cc:     "Alastair D'Silva" <alastair@au1.ibm.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, mikey@neuling.org,
-        vaibhav@linux.vnet.ibm.com, aneesh.kumar@linux.vnet.ibm.com,
-        malat@debian.org, felix@linux.vnet.ibm.com, pombredanne@nexb.com,
-        sukadev@linux.vnet.ibm.com, npiggin@gmail.com,
-        gregkh@linuxfoundation.org, arnd@arndb.de,
-        fbarrat@linux.vnet.ibm.com, corbet@lwn.net,
-        "Alastair D'Silva" <alastair@d-silva.org>,
-        Christophe Lombard <clombard@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 3/7] powerpc: use task_pid_nr() for TID allocation
-References: <20180417020950.21446-1-alastair@au1.ibm.com>
- <20180418010810.30937-1-alastair@au1.ibm.com>
- <20180418010810.30937-4-alastair@au1.ibm.com>
- <b088d063-058a-2557-812c-6d5659f9d67b@au1.ibm.com>
+        id S1750853AbeDXWQS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 18:16:18 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:61281 "EHLO
+        esa2.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750756AbeDXWQR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 18:16:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1524608852; x=1556144852;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=JLEGH0T4l0B9wYmc12OO5Qt8YYsWhUyMS3preevDo4M=;
+  b=g2IG3xoGUAtgzUzOHINCC0H5IGLPaHt6u94sy++yRpHCxJLQr42l9gYB
+   dw28paw2hpA2uK5pJZr/LAIDYsmc+DjE56U8lZEdQMkgPl2/SEUBirmLe
+   73pH3y3FQuZ1IdnaNfO1JMtGbGpePXT4usxoRdLGWgK4BTfyza3ytYH/F
+   gpUO2QhgBFEjglrf7UO0C5GDLtrjNy18ODxuauxXyynUW9pqqt12zMQbB
+   yDeBa/P+onGPRZGt5CimGgzA+/qpfnDoGk48vAScx2RB2Whr5QoOaVtUI
+   JUZ40auTJn79bxo++EzA1l49py9sGDz8tZYTMn8A/D5rNGJh+m0OvsyzF
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.49,324,1520870400"; 
+   d="scan'208";a="173301547"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2018 06:27:31 +0800
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP; 24 Apr 2018 15:08:30 -0700
+Received: from c02v91rdhtd5.sdcorp.global.sandisk.com (HELO [10.111.65.51]) ([10.111.65.51])
+  by uls-op-cesaip02.wdc.com with ESMTP; 24 Apr 2018 15:16:18 -0700
+Subject: Re: [PATCH v5 0/2] perf: riscv: Preliminary Perf Event Support on
+ RISC-V
+To:     Palmer Dabbelt <palmer@sifive.com>
+Cc:     "alankao@andestech.com" <alankao@andestech.com>,
+        "albert@sifive.com" <albert@sifive.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "acme@kernel.org" <acme@kernel.org>,
+        "alexander.shishkin@linux.intel.com" 
+        <alexander.shishkin@linux.intel.com>,
+        "jolsa@redhat.com" <jolsa@redhat.com>,
+        "namhyung@kernel.org" <namhyung@kernel.org>,
+        "sols@sifive.com" <sols@sifive.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "greentime@andestech.com" <greentime@andestech.com>,
+        "nickhu@andestech.com" <nickhu@andestech.com>
+References: <mhng-355dc09a-ef4a-4cb0-b7fe-c2ac57a04a5c@palmer-si-x1c4>
+From:   Atish Patra <atish.patra@wdc.com>
+Message-ID: <054df682-c002-23ba-075b-a38c9085260c@wdc.com>
+Date:   Tue, 24 Apr 2018 15:16:16 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+ Gecko/20100101 Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b088d063-058a-2557-812c-6d5659f9d67b@au1.ibm.com>
-X-Operating-System: Linux 2.0.32 on an i486
-User-Agent: Mutt/1.7.1 (2016-10-04)
-X-TM-AS-GCONF: 00
-x-cbid: 18042421-0028-0000-0000-0000097EEB58
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00008915; HX=3.00000241; KW=3.00000007;
- PH=3.00000004; SC=3.00000257; SDB=6.01022740; UDB=6.00522045; IPR=6.00801975;
- MB=3.00020756; MTD=3.00000008; XFM=3.00000015; UTC=2018-04-24 21:12:38
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18042421-0029-0000-0000-00003A83EF87
-Message-Id: <20180424211231.GA25392@us.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-24_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804240200
+In-Reply-To: <mhng-355dc09a-ef4a-4cb0-b7fe-c2ac57a04a5c@palmer-si-x1c4>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrew Donnellan [andrew.donnellan@au1.ibm.com] wrote:
-> [+ Sukadev, Christophe]
+On 4/24/18 12:44 PM, Palmer Dabbelt wrote:
+> On Tue, 24 Apr 2018 12:27:26 PDT (-0700), atish.patra@wdc.com wrote:
+>> On 4/24/18 11:07 AM, Atish Patra wrote:
+>>> On 4/19/18 4:28 PM, Alan Kao wrote:
+>>>> This implements the baseline PMU for RISC-V platforms.
+>>>>
+>>>> To ease future PMU portings, a guide is also written, containing
+>>>> perf concepts, arch porting practices and some hints.
+>>>>
+>>>> Changes in v5:
+>>>>     - Fix patch errors from checkpatch.pl.
+>>>>
+>>>> Changes in v4:
+>>>>     - Fix several compilation errors.  Sorry for that.
+>>>>     - Raise a warning in the write_counter body.
+>>>>
+>>>> Changes in v3:
+>>>>     - Fix typos in the document.
+>>>>     - Change the initialization routine from statically assigning PMU to
+>>>>       device-tree-based methods, and set default to the PMU proposed in
+>>>>       this patch.
+>>>>
+>>>> Changes in v2:
+>>>>     - Fix the bug reported by Alex, which was caused by not sufficient
+>>>>       initialization.  Check https://lkml.org/lkml/2018/3/31/251 for the
+>>>>       discussion.
+>>>>
+>>>> Alan Kao (2):
+>>>>      perf: riscv: preliminary RISC-V support
+>>>>      perf: riscv: Add Document for Future Porting Guide
+>>>>
+>>>>     Documentation/riscv/pmu.txt         | 249 ++++++++++++++
+>>>>     arch/riscv/Kconfig                  |  13 +
+>>>>     arch/riscv/include/asm/perf_event.h |  79 ++++-
+>>>>     arch/riscv/kernel/Makefile          |   1 +
+>>>>     arch/riscv/kernel/perf_event.c      | 485 ++++++++++++++++++++++++++++
+>>>>     5 files changed, 823 insertions(+), 4 deletions(-)
+>>>>     create mode 100644 Documentation/riscv/pmu.txt
+>>>>     create mode 100644 arch/riscv/kernel/perf_event.c
+>>>>
+>>> Most of the perf tests either pass or fail because of unsupported
+>>> event/trace point which is fine.
+>>>
+>>> However, I got an rcu-stall for the test "47: Event times".
+>>> # ./perf test -v 47
+>>> 47: Event times                                :
+>>> --- start ---
+>>> test child forked, pid 2774
+>>> attaching to spawned child, enable on exec
+>>>       OK    : ena 2243000, run 2243000
+>>> attaching to current thread as enabled
+>>>       OK    : ena 19000, run 19000
+>>> attaching to current thread as disabled
+>>>       OK    : ena 5000, run 5000
+>>> attaching to CPU 0 as enabled
+>>> [ 1001.466578] INFO: rcu_sched self-detected stall on CPU
+>>> [ 1001.470947]  4-....: (29999 ticks this GP) idle=5fa/140000000000001/0
+>>> softirq=19762/19762 fqs=14602
+>>> [ 1001.480053]   (t=30001 jiffies g=3471 c=3470 q=125)
+>>> [ 1001.484917] Task dump for CPU 4:
+>>> [ 1001.488129] perf            R  running task        0  2774   2773
+>>> 0x00000008
+>>> [ 1001.495161] Call Trace:
+>>> [ 1001.497606] [<000000006a3d4f87>] walk_stackframe+0x0/0xc0
+>>> [ 1001.502980] [<000000004b4b0780>] show_stack+0x3c/0x46
+>>> [ 1001.508024] [<0000000060c96ab8>] sched_show_task+0xd0/0x122
+>>> [ 1001.513573] [<000000007d8bd54e>] dump_cpu_task+0x50/0x5a
+>>> [ 1001.518870] [<0000000053990e11>] rcu_dump_cpu_stacks+0x98/0xd2
+>>> [ 1001.524685] [<00000000fe94c593>] rcu_check_callbacks+0x614/0x822
+>>> [ 1001.530680] [<0000000057688dd3>] update_process_times+0x38/0x6a
+>>> [ 1001.536585] [<0000000063a96de0>] tick_periodic+0x58/0xd8
+>>> [ 1001.541876] [<0000000013d712f1>] tick_handle_periodic+0x2e/0x7c
+>>> [ 1001.547780] [<000000009e2ef428>] riscv_timer_interrupt+0x34/0x3c
+>>> [ 1001.553774] [<00000000ff6b1f18>] riscv_intc_irq+0xbc/0xe0
+>>> [ 1001.559153] [<00000000c8614c3b>] ret_from_exception+0x0/0xc
+>>>
+>>> It is quite possible that we don't support some dependency
+>>> infrastructure. I am looking into it.
+>>>
+>>> Regards,
+>>> Atish
+>>>
+>>>
+>>>
+>>>
+>>>
+>>
+>> Got it working. The test tries to attach the event to CPU0 which doesn't
+>> exist in HighFive Unleashed. Changing it to cpu1 works.
+>>
+>> diff --git a/tools/perf/tests/event-times.c b/tools/perf/tests/event-times.c
+>> index 1a2686f..eb11632f 100644
+>> --- a/tools/perf/tests/event-times.c
+>> +++ b/tools/perf/tests/event-times.c
+>> @@ -113,9 +113,9 @@ static int attach__cpu_disabled(struct perf_evlist
+>> *evlist)
+>>           struct cpu_map *cpus;
+>>           int err;
+>>
+>> -       pr_debug("attaching to CPU 0 as enabled\n");
+>> +       pr_debug("attaching to CPU 1 as disabled\n");
+>>
+>> -       cpus = cpu_map__new("0");
+>> +       cpus = cpu_map__new("1");
+>>           if (cpus == NULL) {
+>>                   pr_debug("failed to call cpu_map__new\n");
+>>                   return -1;
+>> @@ -142,9 +142,9 @@ static int attach__cpu_enabled(struct perf_evlist
+>> *evlist)
+>>           struct cpu_map *cpus;
+>>           int err;
+>>
+>> -       pr_debug("attaching to CPU 0 as enabled\n");
+>> +       pr_debug("attaching to CPU 1 as enabled\n");
+>>
+>> -       cpus = cpu_map__new("0");
+>> +       cpus = cpu_map__new("1");
+>>           if (cpus == NULL) {
+>>                   pr_debug("failed to call cpu_map__new\n");
+>>                   return -1;
+>>
+>>
+>> Palmer,
+>> Would it be better to officially document it somewhere that CPU0 doesn't
+>> exist in the HighFive Unleashed board ?
+>> I fear that there will be other standard tests/code path that may fail
+>> because of inherent assumption of cpu0 presence.
 > 
-> On 18/04/18 11:08, Alastair D'Silva wrote:
-> > From: Alastair D'Silva <alastair@d-silva.org>
-> > 
-> > The current implementation of TID allocation, using a global IDR, may
-> > result in an errant process starving the system of available TIDs.
-> > Instead, use task_pid_nr(), as mentioned by the original author. The
-> > scenario described which prevented it's use is not applicable, as
-> > set_thread_tidr can only be called after the task struct has been
-> > populated.
-> > 
-> > Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
-> 
-> So it's too late in the evening for me to completely get my head around
-> what's going on here enough to give my Reviewed-by:, but my current thinking
-> is:
-> 
-> - In the first version of the patch to add TIDR support
-> (https://patchwork.ozlabs.org/patch/799494/), it was originally proposed to
-> call assign_thread_id() (as it was then called) from copy_thread()
-> 
-> - The comment block documents the reason why we can't use task_pid_nr() but
-> assumes that we're trying to assign a TIDR from within copy_thread()
-> 
-> - The final patch that was accepted
-> (https://patchwork.ozlabs.org/patch/835552/,
-> ec233ede4c8654894610ea54f4dae7adc954ac62) instead sets the TIDR to 0 from
-> copy_thread(), so the original reasoning regarding not using task_pid_nr()
-> within copy_thread() is no longer applicable.
-> 
-> Sukadev: does this sound right?
+> I think the best way to fix this is to just have BBL (or whatever the
+> bootloader is) renumber the CPUs so they're contiguous and begin with 0.
 
-Yes. Like with PIDR, was trying to assign TIDR initially to all threads.
-But since only a subset of threads need/use TIDR, we can assign the
-value later (when set_thread_tidr() is called). So we should be able to
-use task_pid_nr() then.
+Do you mean BBL will update the device tree that kernel eventually parse 
+and set the hart id?
+Sounds good to me unless it acts as a big hack in future boot loaders.
 
-Sukadev
+> Documenting it it just a way to tell people their code needs to be changed,
+> it'll still break.
+> 
+Agreed.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
