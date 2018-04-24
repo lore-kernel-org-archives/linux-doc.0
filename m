@@ -5,128 +5,230 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 018DC7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 09:57:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FF787E279
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 10:58:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754196AbeDXJ5u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 05:57:50 -0400
-Received: from mail-bl2nam02on0065.outbound.protection.outlook.com ([104.47.38.65]:41664
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1754189AbeDXJ5s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Apr 2018 05:57:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=tzPEOyYMvHBFANsNF9vF4oQ0bpvVIB4qx5UoonxXmO8=;
- b=npTjRhB9IbSMHGSe7ybv0vb7ZwQlJ7JcTdZ7LuqFt4gjr6hFlUUSuV8kFWJPpOktpEC54op6h/WsaPocgRmBrxFrfltXJYcYfUMIzWfZ64I9ciEA0Vg3bw3iQm39lTftAHelnjmMA07b65JxuAWQ4hA9Z+BH7uF28fryLp5p8Y8=
-Received: from SN6PR07MB4512.namprd07.prod.outlook.com (52.135.94.11) by
- SN6PR07MB4718.namprd07.prod.outlook.com (52.135.77.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.696.15; Tue, 24 Apr 2018 09:57:45 +0000
-Received: from SN6PR07MB4512.namprd07.prod.outlook.com
- ([fe80::619b:e1c4:c2d0:7e98]) by SN6PR07MB4512.namprd07.prod.outlook.com
- ([fe80::619b:e1c4:c2d0:7e98%13]) with mapi id 15.20.0696.016; Tue, 24 Apr
- 2018 09:57:45 +0000
-From:   Alan Douglas <adouglas@cadence.com>
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        id S1756309AbeDXK6X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 06:58:23 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:48926 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1756013AbeDXK6W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 06:58:22 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 360E01E065B;
+        Tue, 24 Apr 2018 12:58:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1524567500; bh=NCvnHtetJD8rXHNAtlAYL/Kg63MsgQYdy8zGl9VO984=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=VGTAfftiJ+aLFzG7Lg/242FQIoNXquBGBZTkeWPRJVC6SwrYKtq/+E/euSPF0i2tR
+         gzSQ4/NEYZczRwwnOFZWJsw9hKaCGNVjbRNl7M48ZNCuXvUe21otAqt3ainoPUeMgj
+         BNVT+7X3zgBWHuGrwd0RD6X+YfTeGXTk+kCvaioYZcykAv0i9xpXT8BIcWWTt5/28e
+         OojEOcOk3j4QP5AWGVQTluN01b3n9S1U7iFuauMGhuPMeOPAFLLmew1AVAZ4Vn1BMp
+         N0oPiGKO7mU1ZgP7sDJedm2dtv+4J6WwJdR8B+KFB/TATfqvUFA8scHOHikEg08Dkp
+         x7Uy9nQTuexTQ==
+Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id EB236365B;
+        Tue, 24 Apr 2018 03:58:18 -0700 (PDT)
+Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
+        by pt02.synopsys.com (Postfix) with ESMTP id 21D0C3EBDF;
+        Tue, 24 Apr 2018 11:58:18 +0100 (WEST)
+Subject: Re: [RFC 06/10] misc: pci_endpoint_test: Add MSI-X support
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
         "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
         "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
         "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
+        "adouglas@cadence.com" <adouglas@cadence.com>,
         "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
         "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [RFC 10/10] tools: PCI: Add MSI-X support
-Thread-Topic: [RFC 10/10] tools: PCI: Add MSI-X support
-Thread-Index: AQHT0O92Kvfyq11NjUeE5n5ZBlzNrKQPt6aA
-Date:   Tue, 24 Apr 2018 09:57:45 +0000
-Message-ID: <SN6PR07MB45126298F09735193B0F0F00D8880@SN6PR07MB4512.namprd07.prod.outlook.com>
 References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
- <9865822fb89ea84cb55fe93e151295afcd5c96b3.1523379766.git.gustavo.pimentel@synopsys.com>
-In-Reply-To: <9865822fb89ea84cb55fe93e151295afcd5c96b3.1523379766.git.gustavo.pimentel@synopsys.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWRvdWdsYXNcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1mMDdiZTA3YS00N2E1LTExZTgtODZlNS1mNDk2MzQ4NmY0ZWNcYW1lLXRlc3RcZjA3YmUwN2ItNDdhNS0xMWU4LTg2ZTUtZjQ5NjM0ODZmNGVjYm9keS50eHQiIHN6PSIxNDc3IiB0PSIxMzE2OTAzNzQ2NzQ5NzAxNjAiIGg9IjhJYW1sUGQ1NG5TMHIvQ05ieW1zdUdPSVZYND0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=adouglas@cadence.com; 
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;SN6PR07MB4718;7:BvtSOcbVr8RXA5rtbRVqFfrlvdUbxRnzNew/57xKGuiOesZ5U991WEYm6d4FxmlaGn5XwIwpInHWDEI5BdpuEqAdWzz7mN0HMxRUlm2zubKtirzEQcRrl2ULPm8O/VXyLx8MgZJCTvheoZNNlA0RuVd174xEWfS4nQ97EvFDS3vaQ+DGTLglZHRukYQvpBKZzfjd0CzfPzb3e3lqV7T2M23je44T+JC2Onq7Wo2voVuM/Xs2S/Owrh82YaoXoqNL;20:yn1hx3RqdPV/JeYqV/jtxaplGZcao1uXkxN+yGfMYj51wYFeQbU0Jx1lB/Nu6+7Sv/tsRrGuevcA37xn3JpM1+eXKwmmZy8qEsK9ii6coCFGe1GaDSketMWwbGz3qejCE20lqFShgiQY4diMYxusZ7LXsqYLovIKVNh2NuF/uyz7gvpY8ij2KQgWN3Y/6kG7ERIKMUZ7jBtUmhbIeiNmNmKZ7DDjYgwhxne0GvjV8FgpS/NLuP3VHyQPZ9DYYM3D
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4718;
-x-ms-traffictypediagnostic: SN6PR07MB4718:
-x-microsoft-antispam-prvs: <SN6PR07MB4718C64560030F5EF0F439BAD8880@SN6PR07MB4718.namprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231232)(944501410)(52105095)(93006095)(93001095)(3002001)(10201501046)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(20161123560045)(6072148)(201708071742011);SRVR:SN6PR07MB4718;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4718;
-x-forefront-prvs: 0652EA5565
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(376002)(39860400002)(39380400002)(346002)(366004)(36092001)(199004)(189003)(7696005)(26005)(68736007)(9686003)(14454004)(6246003)(53936002)(55016002)(4326008)(478600001)(186003)(7416002)(39060400002)(6436002)(3846002)(76176011)(86362001)(59450400001)(105586002)(2201001)(106356001)(25786009)(229853002)(11346002)(446003)(74316002)(53546011)(99286004)(486006)(476003)(5660300001)(2501003)(5250100002)(3280700002)(81166006)(8676002)(81156014)(2900100001)(6506007)(6116002)(3660700001)(7736002)(66066001)(102836004)(2906002)(305945005)(97736004)(54906003)(8936002)(316002)(110136005)(33656002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4718;H:SN6PR07MB4512.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: cadence.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: 2M2Z2dfat7gb+9TAgnr3NYHNaAJU1viaLwcBHbyHCQz4131EoOokDMha7JyfsUD8lKlVrocO//bZ9IUpBmuNqlSjTKYygdMhJAvRe168XJKDBt8jStvQQZ202iEvvuPpHWcjpNey74Aao9Vbk21rtVFJ8aKnyr9kNa2nsa5Z7A9/duCCKQaaf3PuB7AmTrm0PeimeQWz1MygCOByHtu/Jw==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ <8b88f8c2b766f36c71659deb0fce635154b2b39f.1523379766.git.gustavo.pimentel@synopsys.com>
+ <b25dcfb1-e770-e302-d9aa-7c35f6c58fa5@ti.com>
+ <c6d1d492-38a0-6a03-7e61-b8b50226734b@synopsys.com>
+ <a982ca92-d34c-12ea-30bf-9a9b1661d50d@ti.com>
+From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Message-ID: <2bd77bf2-1d64-6043-422a-6a96c1a3d3a4@synopsys.com>
+Date:   Tue, 24 Apr 2018 11:57:09 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 41d866cc-3da5-4f73-b0cd-08d5a9c9d41a
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41d866cc-3da5-4f73-b0cd-08d5a9c9d41a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2018 09:57:45.3582
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4718
+In-Reply-To: <a982ca92-d34c-12ea-30bf-9a9b1661d50d@ti.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gustavo,
+Hi Kishon,
 
-On 10 April 2018 18:15, Gustavo Pimentel wrote:
-> Adds MSI-X support to the pcitest tool and modified the pcitest.sh script=
- to
-> accomodate this new type of interruption test.
->=20
-> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> ---
->  include/uapi/linux/pcitest.h |  1 +
->  tools/pci/pcitest.c          | 18 +++++++++++++++++-
->  tools/pci/pcitest.sh         | 25 +++++++++++++++++++++++++
->  3 files changed, 43 insertions(+), 1 deletion(-)
-I found some possible problems when testing with the Cadence EP driver.  Th=
-e problem
-is that pcitest uses the BARs for tests, but we also use one for the MSI-X =
-tables
+On 24/04/2018 08:19, Kishon Vijay Abraham I wrote:
+> Hi,
+> 
+> On Tuesday 17 April 2018 11:08 PM, Gustavo Pimentel wrote:
+>> Hi Kishon,
+>>
+>> On 17/04/2018 11:33, Kishon Vijay Abraham I wrote:
+>>> Hi,
+>>>
+>>> On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
+>>>> Adds the MSI-X support and updates driver documentation accordingly.
+>>>>
+>>>> Changes the driver parameter in order to allow the interruption type
+>>>> selection.
+>>>>
+>>>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+>>>> ---
+>>>>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>>>>  drivers/misc/pci_endpoint_test.c                 | 102 +++++++++++++++++------
+>>>>  2 files changed, 79 insertions(+), 26 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+>>>> index 4ebc359..fdfa0f6 100644
+>>>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+>>>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+>>>> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
+>>>>  	*) verifying addresses programmed in BAR
+>>>>  	*) raise legacy IRQ
+>>>>  	*) raise MSI IRQ
+>>>> +	*) raise MSI-X IRQ
+>>>>  	*) read data
+>>>>  	*) write data
+>>>>  	*) copy data
+>>>> @@ -25,6 +26,8 @@ ioctl
+>>>>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
+>>>>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
+>>>>  	      to be tested should be passed as argument.
+>>>> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+>>>> +	      to be tested should be passed as argument.
+>>>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>>>>  		as argument.
+>>>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+>>>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+>>>> index 37db0fc..a7d9354 100644
+>>>> --- a/drivers/misc/pci_endpoint_test.c
+>>>> +++ b/drivers/misc/pci_endpoint_test.c
+>>>> @@ -42,11 +42,16 @@
+>>>>  #define PCI_ENDPOINT_TEST_COMMAND	0x4
+>>>>  #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
+>>>>  #define COMMAND_RAISE_MSI_IRQ		BIT(1)
+>>>> -#define MSI_NUMBER_SHIFT		2
+>>>> -/* 6 bits for MSI number */
+>>>> -#define COMMAND_READ                    BIT(8)
+>>>> -#define COMMAND_WRITE                   BIT(9)
+>>>> -#define COMMAND_COPY                    BIT(10)
+>>>> +#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
+>>>> +#define IRQ_TYPE_SHIFT			3
+>>>> +#define IRQ_TYPE_LEGACY			0
+>>>> +#define IRQ_TYPE_MSI			1
+>>>> +#define IRQ_TYPE_MSIX			2
+>>>> +#define MSI_NUMBER_SHIFT		5
+>>>
+>>> Now that you are anyways fixing this, add a new register entry for MSI numbers.
+>>> Let's not keep COMMAND and MSI's together.
+>>
+>> What you suggest?
+> 
+> #define PCI_ENDPOINT_TEST_COMMAND	0x4
+> #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
+> #define COMMAND_RAISE_MSI_IRQ		BIT(1)
+> #define COMMAND_RAISE_MSIX_IRQ		BIT(2)
+> #define COMMAND_READ                    BIT(3)
+> #define COMMAND_WRITE                   BIT(4)
+> #define COMMAND_COPY                    BIT(5)
+> 
+> #define PCI_ENDPOINT_TEST_STATUS	0x8
+> #define STATUS_READ_SUCCESS             BIT(0)
+> #define STATUS_READ_FAIL                BIT(1)
+> #define STATUS_WRITE_SUCCESS            BIT(2)
+> #define STATUS_WRITE_FAIL               BIT(3)
+> #define STATUS_COPY_SUCCESS             BIT(4)
+> #define STATUS_COPY_FAIL                BIT(5)
+> #define STATUS_IRQ_RAISED               BIT(6)
+> #define STATUS_SRC_ADDR_INVALID         BIT(7)
+> #define STATUS_DST_ADDR_INVALID         BIT(8)
+> 
+> #define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0xc
+> #define PCI_ENDPOINT_TEST_UPPER_SRC_ADDR	0x10
+> 
+> #define PCI_ENDPOINT_TEST_LOWER_DST_ADDR	0x14
+> #define PCI_ENDPOINT_TEST_UPPER_DST_ADDR	0x18
+> 
+> #define PCI_ENDPOINT_TEST_SIZE		0x1c
+> #define PCI_ENDPOINT_TEST_CHECKSUM	0x20
+> 
+> #define PCI_ENDPOINT_TEST_MSI_NUMBER	0x24
 
-In Cadence core the MSI-X table is in BAR0 by default, but this is configur=
-ed to a size
-of 0x80 in the test driver, since it is used as the test_reg_bar.  So, I ch=
-anged the=20
-configuration to use BAR4 instead, which is configured to a size of 131072=
-=20
-in pci-efp-test.c, and this gives me enough space.
+Ok. I will do it.
 
-However, if I run the BAR tests in pcitest before running the MSI-X tests, =
-the
-MSI-X tests fail, since the BAR content is overwritten.  It's not a problem=
- with the=20
-scenario in pcitest.sh, but it would be if the module wasn't re-loaded.
+> 
+> We should try not to modify either the existing register offsets or the bit
+> fields within these registers in the future as EP and RC will be running on
+> different systems and it is possible one of them might not have the updated
+> kernel.
 
-So, wondering if we need to come up with some mechanism to specify that a s=
-pecific
-BAR will be used for MSI-X, and that its size and content shouldn't be modi=
-fied by
-pcitest?
+I totally agree.
+
+>>
+>>>> +/* 12 bits for MSI number */
+>>>> +#define COMMAND_READ                    BIT(17)
+>>>> +#define COMMAND_WRITE                   BIT(18)
+>>>> +#define COMMAND_COPY                    BIT(19)
+>>>
+>>> This change should be done along with the pci-epf-test in a single patch.
+>>
+>> To be clear, you're saying is this patch should be just be squashed into the
+>> patch number 8 [1], because there is a lot of dependencies namely the defines,
+>> that is used on the alter functions.
+>>
+>> [1] -> https://urldefense.proofpoint.com/v2/url?u=https-3A__patchwork.ozlabs.org_patch_896841_&d=DwIC-g&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=8urVwHCybXa1XMxsEbwHZAzzaEI_HJGXqmWgXpXb9TY&s=MRVr2YPY2Bk_WNFOxBfU4FGrFReTKdPhfzNDLiVxDbs&e=
+> 
+> yeah. We have to make sure git bisect doesn't break functionality.
+
+Ok, it'll be squashed.
+
+>>
+>>>>  
+>>>>  #define PCI_ENDPOINT_TEST_STATUS	0x8
+>>>>  #define STATUS_READ_SUCCESS             BIT(0)
+>>>> @@ -73,9 +78,9 @@ static DEFINE_IDA(pci_endpoint_test_ida);
+>>>>  #define to_endpoint_test(priv) container_of((priv), struct pci_endpoint_test, \
+>>>>  					    miscdev)
+>>>>  
+>>>> -static bool no_msi;
+>>>> -module_param(no_msi, bool, 0444);
+>>>> -MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
+>>>
+>>> Let's not remove this just to make sure existing users doesn't get affected.
+>>
+>> Hum, by making an internal conversion? Like this
+>> no_msi = false <=> irq_type = 1
+>> no_msi = true <=> irq_type = 0
+> 
+Disregard previous comment, it doesn't make sense. I don't know where my head was.
+
+It will be like this on probe:
+
+if (no_msi)
+	irq_type = IRQ_TYPE_LEGACY;
+
+However since we are breaking the compatibility on terms of MSI/MSI-X
+bits/registers (discussion on the top), it makes sense to keep the compatibility
+on this parameter?
+
+> yeah..
+> 
+> Thanks
+> Kishon
+> 
 
 Regards,
-Alan
+Gustavo
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
