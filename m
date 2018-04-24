@@ -1,300 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC34C7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 06:43:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4A8F97DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 06:49:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756255AbeDXGnC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 02:43:02 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33016 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1755982AbeDXGkm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 02:40:42 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3O6d5NC038753
-        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 02:40:41 -0400
-Received: from e06smtp11.uk.ibm.com (e06smtp11.uk.ibm.com [195.75.94.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2hhy9y8n2b-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 02:40:40 -0400
-Received: from localhost
-        by e06smtp11.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Tue, 24 Apr 2018 07:40:39 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp11.uk.ibm.com (192.168.101.141) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Tue, 24 Apr 2018 07:40:36 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3O6eZ0F7471418;
-        Tue, 24 Apr 2018 06:40:35 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 462B64C05A;
-        Tue, 24 Apr 2018 07:32:57 +0100 (BST)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B6FA34C059;
-        Tue, 24 Apr 2018 07:32:55 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.99])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Tue, 24 Apr 2018 07:32:55 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Tue, 24 Apr 2018 09:40:33 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 2/7] docs/vm: ksm: (mostly) formatting updates
-Date:   Tue, 24 Apr 2018 09:40:23 +0300
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1524552028-7017-1-git-send-email-rppt@linux.vnet.ibm.com>
-References: <1524552028-7017-1-git-send-email-rppt@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18042406-0040-0000-0000-00000450C4E7
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18042406-0041-0000-0000-000020F530B5
-Message-Id: <1524552028-7017-3-git-send-email-rppt@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-24_01:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1804240067
+        id S1755701AbeDXGtE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 02:49:04 -0400
+Received: from mail-by2nam01on0082.outbound.protection.outlook.com ([104.47.34.82]:31327
+        "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1755603AbeDXGtC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Apr 2018 02:49:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=O78zi4xfCl4LdQ608aoAjw2nyuArqHZ305V6zqkE3nI=;
+ b=b5EB2s51xkyYAi87C6+5y7jtYEWFO9BDgkBJVHouyaqUYFWPs+TzsIzYQGy0RUx1u1g57qdQ/FTfAVJ5OQxOC9ZrMib1OXhIaKXTVPEC2hd3wW3FDsg0Hab2Ux168P7s7oXtO/+GM2veDaP0CMHN23p3/T3uED80UdbKLba1tiQ=
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com (52.135.94.11) by
+ SN6PR07MB4368.namprd07.prod.outlook.com (52.135.91.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.696.13; Tue, 24 Apr 2018 06:48:59 +0000
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98]) by SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98%13]) with mapi id 15.20.0696.016; Tue, 24 Apr
+ 2018 06:48:59 +0000
+From:   Alan Douglas <adouglas@cadence.com>
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [RFC 00/10] Adds pcitest tool support for MSI-X
+Thread-Topic: [RFC 00/10] Adds pcitest tool support for MSI-X
+Thread-Index: AQHT0O90yDxqCBo79kmidlAQjKomXKQPjFig
+Date:   Tue, 24 Apr 2018 06:48:59 +0000
+Message-ID: <SN6PR07MB45123840F0C9487F1CD119A9D8880@SN6PR07MB4512.namprd07.prod.outlook.com>
+References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWRvdWdsYXNcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy04ZjI5YjhiOC00NzhiLTExZTgtODZlNS1mNDk2MzQ4NmY0ZWNcYW1lLXRlc3RcOGYyOWI4YjktNDc4Yi0xMWU4LTg2ZTUtZjQ5NjM0ODZmNGVjYm9keS50eHQiIHN6PSIyNzc5IiB0PSIxMzE2OTAyNjEzNzMwNzEwMzciIGg9InFwa2dGZ05ycnlpcWRpcHBHMUEwWnZCMUo2TT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=adouglas@cadence.com; 
+x-originating-ip: [59.145.174.78]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;SN6PR07MB4368;7:0BU4Bx/FVTwL1Mw/tpAVqOn0p6X75OljcLgRYQn0/kGXXgAtqomDP9OnKKHUZ8qtCVqmwuyQk7jNHhHSuib11XdkjI/HBj92pmByMmXwGfI30etoZ+cgDYbjzhYPH263EbonSX6+OnS+xlEuptC8Nq99Z3HhEi95O+nXAz+ltu9cAJOOGBjNqeTQ6pCC0PcwQuv+FXjmfKY3GCqBukrTHQbLqh0wYZRECetYFkMENCBtASnVP1mJHgwAstDoUc52;20:8BKgDonWIuixRcF629UyMVswpBpXFVcb96hJq40H8r0D7PPbXU6U9hthteB8onNLWlZ5zsVdtMFrE5otuNyjlxhkGINJFLioNpw+AjnzMP505zT7/WTJ0DOlBVDRQeChn6VP/c7hGzO9nFoPh5ihkbozur+DdFxH+2DbgJ2If0sRolQSolwq1SNOkAfJzu90ivcQSBVMV7vLxOmA6B9w2Y7DIBGAAVbQu2IQZJJlEW/bv0QmfWQONuXYMQw6AegC
+x-ms-exchange-antispam-srfa-diagnostics: SOS;
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4368;
+x-ms-traffictypediagnostic: SN6PR07MB4368:
+x-microsoft-antispam-prvs: <SN6PR07MB436813DDFEE4C7B835C0C344D8880@SN6PR07MB4368.namprd07.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(788757137089);
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3231232)(944501410)(52105095)(10201501046)(3002001)(93006095)(93001095)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123560045)(20161123558120)(6072148)(201708071742011);SRVR:SN6PR07MB4368;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4368;
+x-forefront-prvs: 0652EA5565
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39380400002)(39860400002)(376002)(346002)(396003)(366004)(36092001)(966005)(7736002)(305945005)(7416002)(5660300001)(478600001)(6306002)(316002)(9686003)(6436002)(2501003)(8676002)(4326008)(102836004)(2906002)(8936002)(59450400001)(3280700002)(7696005)(76176011)(3660700001)(81166006)(2201001)(99286004)(11346002)(74316002)(26005)(476003)(229853002)(5250100002)(86362001)(446003)(186003)(53546011)(6506007)(66066001)(14454004)(55016002)(54906003)(6246003)(39060400002)(110136005)(33656002)(3846002)(25786009)(6116002)(53936002)(2900100001);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4368;H:SN6PR07MB4512.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;MLV:ovrnspm;PTR:InfoNoRecords;
+received-spf: None (protection.outlook.com: cadence.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: cUH9mbRdo8OPpmTcckZJoqYZHggAuMXd5pYi+/peEL2elkmtsWxF7grNSnSOv549Hyo6ECcSm+yOfdBqe0LNAg2o2UeXureAYa35Dt+xgSA5f9KARE9Q6brYO7UHj2ZnFugfR9pbdL5m9qcM2tyUNMUjupqFnzlxNfy3O9seCpkGh+6ENz+bz67O/xoNAREGJx0DGRnHb2eihEPaYTL8JQ==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Office365-Filtering-Correlation-Id: 63fde684-5b66-473d-0151-08d5a9af757b
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63fde684-5b66-473d-0151-08d5a9af757b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2018 06:48:59.7534
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4368
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Aside from the formatting:
-* fixed typos
-* added section and sub-section headers
-* moved ksmd overview after the description of KSM origins
+Hi Gustavo,
 
-Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
----
- Documentation/vm/ksm.rst | 110 +++++++++++++++++++++++++++++------------------
- 1 file changed, 69 insertions(+), 41 deletions(-)
+On 10 April 2018 18:15 Gustavo Pimentel wrote:
+> This patch set depends the following series:
+> https://lkml.org/lkml/2018/4/10/421> This series aims to add pcitest tool=
+ support for MSI-X.
+>=20
+> Includes new callbacks methods and handlers to trigger the MSI-X
+> interruptions on the EP Designware IP driver.
+>=20
+> Provides new methods on pci_epf_test driver that allows to set/get EP
+> maximum number of MSI-X entries (similar to set/get MSI methods).
+>=20
+> Reworks on MSI set/get and triggering methods on EP Designware IP driver =
+to
+> be more generic and flexible.
+>=20
+> Adds a new input parameter (msix) and replicates the whole MSI mechanism
+> applied to the MSI-X feature on pcitest tool. Also updates the pcitest sc=
+ript
+> with the new test set applied to this new feature.
+>=20
+> Gustavo Pimentel (10):
+>   PCI: dwc: Add MSI-X callbacks handler
+>   PCI: cadence: Update cdns_pcie_ep_raise_irq function signature
+>   PCI: endpoint: Add MSI-X interfaces
+>   PCI: dwc: MSI callbacks handler rework
+>   PCI: dwc: Add legacy interrupt callback handler
+>   misc: pci_endpoint_test: Add MSI-X support
+>   misc: pci_endpoint_test: Replace lower into upper case characters
+>   PCI: endpoint: functions/pci-epf-test: Add MSI-X support
+>   PCI: endpoint: functions/pci-epf-test: Replace lower into upper case
+>     characters
+>   tools: PCI: Add MSI-X support
+>=20
+>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>  drivers/misc/pci_endpoint_test.c                 | 120 ++++++++++----
+>  drivers/pci/cadence/pcie-cadence-ep.c            |   2 +-
+>  drivers/pci/dwc/pci-dra7xx.c                     |   2 +-
+>  drivers/pci/dwc/pcie-artpec6.c                   |   2 +-
+>  drivers/pci/dwc/pcie-designware-ep.c             | 201
+> +++++++++++++++++++++--
+>  drivers/pci/dwc/pcie-designware-plat.c           |   9 +-
+>  drivers/pci/dwc/pcie-designware.h                |  40 +++--
+>  drivers/pci/endpoint/functions/pci-epf-test.c    | 113 +++++++++----
+>  drivers/pci/endpoint/pci-ep-cfs.c                |  24 +++
+>  drivers/pci/endpoint/pci-epc-core.c              |  60 ++++++-
+>  include/linux/pci-epc.h                          |  11 +-
+>  include/linux/pci-epf.h                          |   1 +
+>  include/uapi/linux/pcitest.h                     |   1 +
+>  tools/pci/pcitest.c                              |  18 +-
+>  tools/pci/pcitest.sh                             |  25 +++
+>  16 files changed, 528 insertions(+), 104 deletions(-)
+>=20
+> --
+> 2.7.4
+>=20
+Nice set of patches.  I have tested this with the Cadence EP driver after a=
+dding MSI-X support, and found a few changes required.
+I will send you comments.
 
-diff --git a/Documentation/vm/ksm.rst b/Documentation/vm/ksm.rst
-index 87e7eef..786d460 100644
---- a/Documentation/vm/ksm.rst
-+++ b/Documentation/vm/ksm.rst
-@@ -4,34 +4,50 @@
- Kernel Samepage Merging
- =======================
- 
-+Overview
-+========
-+
- KSM is a memory-saving de-duplication feature, enabled by CONFIG_KSM=y,
- added to the Linux kernel in 2.6.32.  See ``mm/ksm.c`` for its implementation,
- and http://lwn.net/Articles/306704/ and http://lwn.net/Articles/330589/
- 
--The KSM daemon ksmd periodically scans those areas of user memory which
--have been registered with it, looking for pages of identical content which
--can be replaced by a single write-protected page (which is automatically
--copied if a process later wants to update its content).
--
- KSM was originally developed for use with KVM (where it was known as
- Kernel Shared Memory), to fit more virtual machines into physical memory,
- by sharing the data common between them.  But it can be useful to any
- application which generates many instances of the same data.
- 
-+The KSM daemon ksmd periodically scans those areas of user memory
-+which have been registered with it, looking for pages of identical
-+content which can be replaced by a single write-protected page (which
-+is automatically copied if a process later wants to update its
-+content). The amount of pages that KSM daemon scans in a single pass
-+and the time between the passes are configured using :ref:`sysfs
-+intraface <ksm_sysfs>`
-+
- KSM only merges anonymous (private) pages, never pagecache (file) pages.
- KSM's merged pages were originally locked into kernel memory, but can now
- be swapped out just like other user pages (but sharing is broken when they
- are swapped back in: ksmd must rediscover their identity and merge again).
- 
-+Controlling KSM with madvise
-+============================
-+
- KSM only operates on those areas of address space which an application
- has advised to be likely candidates for merging, by using the madvise(2)
--system call: int madvise(addr, length, MADV_MERGEABLE).
-+system call::
-+
-+	int madvise(addr, length, MADV_MERGEABLE)
-+
-+The app may call
-+
-+::
-+
-+	int madvise(addr, length, MADV_UNMERGEABLE)
- 
--The app may call int madvise(addr, length, MADV_UNMERGEABLE) to cancel
--that advice and restore unshared pages: whereupon KSM unmerges whatever
--it merged in that range.  Note: this unmerging call may suddenly require
--more memory than is available - possibly failing with EAGAIN, but more
--probably arousing the Out-Of-Memory killer.
-+to cancel that advice and restore unshared pages: whereupon KSM
-+unmerges whatever it merged in that range.  Note: this unmerging call
-+may suddenly require more memory than is available - possibly failing
-+with EAGAIN, but more probably arousing the Out-Of-Memory killer.
- 
- If KSM is not configured into the running kernel, madvise MADV_MERGEABLE
- and MADV_UNMERGEABLE simply fail with EINVAL.  If the running kernel was
-@@ -43,7 +59,7 @@ MADV_UNMERGEABLE is applied to a range which was never MADV_MERGEABLE.
- 
- If a region of memory must be split into at least one new MADV_MERGEABLE
- or MADV_UNMERGEABLE region, the madvise may return ENOMEM if the process
--will exceed vm.max_map_count (see Documentation/sysctl/vm.txt).
-+will exceed ``vm.max_map_count`` (see Documentation/sysctl/vm.txt).
- 
- Like other madvise calls, they are intended for use on mapped areas of
- the user address space: they will report ENOMEM if the specified range
-@@ -54,21 +70,28 @@ Applications should be considerate in their use of MADV_MERGEABLE,
- restricting its use to areas likely to benefit.  KSM's scans may use a lot
- of processing power: some installations will disable KSM for that reason.
- 
-+.. _ksm_sysfs:
-+
-+KSM daemon sysfs interface
-+==========================
-+
- The KSM daemon is controlled by sysfs files in ``/sys/kernel/mm/ksm/``,
- readable by all but writable only by root:
- 
- pages_to_scan
--        how many present pages to scan before ksmd goes to sleep
--        e.g. ``echo 100 > /sys/kernel/mm/ksm/pages_to_scan`` Default: 100
--        (chosen for demonstration purposes)
-+        how many pages to scan before ksmd goes to sleep
-+        e.g. ``echo 100 > /sys/kernel/mm/ksm/pages_to_scan``.
-+
-+        Default: 100 (chosen for demonstration purposes)
- 
- sleep_millisecs
-         how many milliseconds ksmd should sleep before next scan
--        e.g. ``echo 20 > /sys/kernel/mm/ksm/sleep_millisecs`` Default: 20
--        (chosen for demonstration purposes)
-+        e.g. ``echo 20 > /sys/kernel/mm/ksm/sleep_millisecs``
-+
-+        Default: 20 (chosen for demonstration purposes)
- 
- merge_across_nodes
--        specifies if pages from different numa nodes can be merged.
-+        specifies if pages from different NUMA nodes can be merged.
-         When set to 0, ksm merges only pages which physically reside
-         in the memory area of same NUMA node. That brings lower
-         latency to access of shared pages. Systems with more nodes, at
-@@ -77,19 +100,21 @@ merge_across_nodes
-         minimize memory usage, are likely to benefit from the greater
-         sharing of setting 1 (default). You may wish to compare how
-         your system performs under each setting, before deciding on
--        which to use. merge_across_nodes setting can be changed only
--        when there are no ksm shared pages in system: set run 2 to
-+        which to use. ``merge_across_nodes`` setting can be changed only
-+        when there are no ksm shared pages in the system: set run 2 to
-         unmerge pages first, then to 1 after changing
--        merge_across_nodes, to remerge according to the new setting.
-+        ``merge_across_nodes``, to remerge according to the new setting.
-+
-         Default: 1 (merging across nodes as in earlier releases)
- 
- run
--        set 0 to stop ksmd from running but keep merged pages,
--        set 1 to run ksmd e.g. ``echo 1 > /sys/kernel/mm/ksm/run``,
--        set 2 to stop ksmd and unmerge all pages currently merged, but
--        leave mergeable areas registered for next run Default: 0 (must
--        be changed to 1 to activate KSM, except if CONFIG_SYSFS is
--        disabled)
-+        * set to 0 to stop ksmd from running but keep merged pages,
-+        * set to 1 to run ksmd e.g. ``echo 1 > /sys/kernel/mm/ksm/run``,
-+        * set to 2 to stop ksmd and unmerge all pages currently merged, but
-+	  leave mergeable areas registered for next run.
-+
-+        Default: 0 (must be changed to 1 to activate KSM, except if
-+        CONFIG_SYSFS is disabled)
- 
- use_zero_pages
-         specifies whether empty pages (i.e. allocated pages that only
-@@ -102,8 +127,9 @@ use_zero_pages
-         KSM for some workloads, for example if the checksums of pages
-         candidate for merging match the checksum of an empty
-         page. This setting can be changed at any time, it is only
--        effective for pages merged after the change.  Default: 0
--        (normal KSM behaviour as in earlier releases)
-+        effective for pages merged after the change.
-+
-+        Default: 0 (normal KSM behaviour as in earlier releases)
- 
- max_page_sharing
-         Maximum sharing allowed for each KSM page. This enforces a
-@@ -112,7 +138,7 @@ max_page_sharing
-         page will have at least two sharers. The rmap walk has O(N)
-         complexity where N is the number of rmap_items (i.e. virtual
-         mappings) that are sharing the page, which is in turn capped
--        by max_page_sharing. So this effectively spread the the linear
-+        by ``max_page_sharing``. So this effectively spreads the linear
-         O(N) computational complexity from rmap walk context over
-         different KSM pages. The ksmd walk over the stable_node
-         "chains" is also O(N), but N is the number of stable_node
-@@ -140,7 +166,7 @@ stable_node_chains_prune_millisecs
-         metadata with lower latency, but they will make ksmd use more
-         CPU during the scan. This only applies to the stable_node
-         chains so it's a noop if not a single KSM page hit the
--        max_page_sharing yet (there would be no stable_node chains in
-+        ``max_page_sharing`` yet (there would be no stable_node chains in
-         such case).
- 
- The effectiveness of KSM and MADV_MERGEABLE is shown in ``/sys/kernel/mm/ksm/``:
-@@ -157,27 +183,29 @@ full_scans
-         how many times all mergeable areas have been scanned
- stable_node_chains
-         number of stable node chains allocated, this is effectively
--        the number of KSM pages that hit the max_page_sharing limit
-+        the number of KSM pages that hit the ``max_page_sharing`` limit
- stable_node_dups
-         number of stable node dups queued into the stable_node chains
- 
--A high ratio of pages_sharing to pages_shared indicates good sharing, but
--a high ratio of pages_unshared to pages_sharing indicates wasted effort.
--pages_volatile embraces several different kinds of activity, but a high
--proportion there would also indicate poor use of madvise MADV_MERGEABLE.
-+A high ratio of ``pages_sharing`` to ``pages_shared`` indicates good
-+sharing, but a high ratio of ``pages_unshared`` to ``pages_sharing``
-+indicates wasted effort.  ``pages_volatile`` embraces several
-+different kinds of activity, but a high proportion there would also
-+indicate poor use of madvise MADV_MERGEABLE.
- 
--The maximum possible page_sharing/page_shared ratio is limited by the
--max_page_sharing tunable. To increase the ratio max_page_sharing must
-+The maximum possible ``pages_sharing/pages_shared`` ratio is limited by the
-+``max_page_sharing`` tunable. To increase the ratio ``max_page_sharing`` must
- be increased accordingly.
- 
--The stable_node_dups/stable_node_chains ratio is also affected by the
--max_page_sharing tunable, and an high ratio may indicate fragmentation
-+The ``stable_node_dups/stable_node_chains`` ratio is also affected by the
-+``max_page_sharing`` tunable, and an high ratio may indicate fragmentation
- in the stable_node dups, which could be solved by introducing
- fragmentation algorithms in ksmd which would refile rmap_items from
--one stable_node dup to another stable_node dup, in order to freeup
-+one stable_node dup to another stable_node dup, in order to free up
- stable_node "dups" with few rmap_items in them, but that may increase
- the ksmd CPU usage and possibly slowdown the readonly computations on
- the KSM pages of the applications.
- 
-+--
- Izik Eidus,
- Hugh Dickins, 17 Nov 2009
--- 
-2.7.4
-
+Thanks,
+Alan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
