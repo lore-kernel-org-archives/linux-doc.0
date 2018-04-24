@@ -1,113 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1BBA47E279
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 23 Apr 2018 21:17:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D07E77DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 06:40:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932280AbeDWVRd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 23 Apr 2018 17:17:33 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52380 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932254AbeDWVRd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Apr 2018 17:17:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=pMi3EKrftXs5OMkv+xkb+R0VcYXX4g+CEqGoLLs3JBs=; b=M33AFhEnCvNyclI94WH/1QS+8
-        Oel5D6ZUBIG5jSQyjtFYpdyANLbwgDR04sJJyVhSivokgbOjURk34URTbT+nIdiXpDyL3lPwthb2T
-        wgEQdGDLijIRqX8hvT9woolKn57hUZbz/catfpSdaBy/CsadP+MZakCXE3dJ9sSVYTxEyQbOhUHK3
-        p2qIm3g63xkeh9taB8JHrSGtBiEjiS/f5HlkJauyWm088Nf4VORBy+xAVFYmpcx6vPFmS1DADGzSn
-        9/nwQ8QYeuFufVVuIh/JVzw0kA4fctti4rHO/xUjvfB67STD/r0QToiXMLqKSUk9NV46GUwydhv2j
-        6IhuJSEFg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fAiq1-0004Nl-Rs; Mon, 23 Apr 2018 21:17:30 +0000
-Subject: Re: [PATCH v1 1/1] misc: IBM Virtual Management Channel Driver
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     "Bryant G. Ly" <bryantly@linux.vnet.ibm.com>,
-        benh@kernel.crashing.org, mpe@ellerman.id.au, arnd@arndb.de,
-        corbet@lwn.net, seroyer@linux.vnet.ibm.com,
-        mrochs@linux.vnet.ibm.com, adreznec@linux.vnet.ibm.com,
-        fbarrat@linux.vnet.ibm.com, davem@davemloft.net,
-        linus.walleij@linaro.org, akpm@linux-foundation.org,
-        mikey@neuling.org, pombredanne@nexb.com,
-        tlfalcon@linux.vnet.ibm.com, msuchanek@suse.de,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-References: <1524494812-60150-1-git-send-email-bryantly@linux.vnet.ibm.com>
- <1524494812-60150-2-git-send-email-bryantly@linux.vnet.ibm.com>
- <c07b14b7-8f34-2ba5-536f-85896ff21661@infradead.org>
- <20180423195310.GA10693@kroah.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <4142fd3b-05eb-d934-bcd3-f8f564e24fa7@infradead.org>
-Date:   Mon, 23 Apr 2018 14:17:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <20180423195310.GA10693@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1755917AbeDXGkj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 02:40:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48370 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1755910AbeDXGki (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 02:40:38 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w3O6eaLW021258
+        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 02:40:38 -0400
+Received: from e06smtp13.uk.ibm.com (e06smtp13.uk.ibm.com [195.75.94.109])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2hhvy7egq3-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 02:40:37 -0400
+Received: from localhost
+        by e06smtp13.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Tue, 24 Apr 2018 07:40:35 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp13.uk.ibm.com (192.168.101.143) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Tue, 24 Apr 2018 07:40:31 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w3O6eVIv4653362;
+        Tue, 24 Apr 2018 06:40:31 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6868511C058;
+        Tue, 24 Apr 2018 07:32:18 +0100 (BST)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D7CA211C052;
+        Tue, 24 Apr 2018 07:32:16 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.99])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 24 Apr 2018 07:32:16 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Tue, 24 Apr 2018 09:40:29 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH 0/7] docs/vm: update KSM documentation
+Date:   Tue, 24 Apr 2018 09:40:21 +0300
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18042406-0012-0000-0000-000005CE122B
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18042406-0013-0000-0000-0000194A7FB6
+Message-Id: <1524552028-7017-1-git-send-email-rppt@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-04-24_01:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1804240067
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/23/18 12:53, Greg KH wrote:
-> On Mon, Apr 23, 2018 at 11:38:18AM -0700, Randy Dunlap wrote:
->> On 04/23/18 07:46, Bryant G. Ly wrote:
->>> This driver is a logical device which provides an
->>> interface between the hypervisor and a management
->>> partition.
->>>
->>> This driver is to be used for the POWER Virtual
->>> Management Channel Virtual Adapter on the PowerVM
->>> platform. It provides both request/response and
->>> async message support through the /dev/ibmvmc node.
->>>
->>> Signed-off-by: Bryant G. Ly <bryantly@linux.vnet.ibm.com>
->>> Reviewed-by: Steven Royer <seroyer@linux.vnet.ibm.com>
->>> Reviewed-by: Adam Reznechek <adreznec@linux.vnet.ibm.com>
->>> Tested-by: Taylor Jakobson <tjakobs@us.ibm.com>
->>> Tested-by: Brad Warrum <bwarrum@us.ibm.com>
->>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Cc: Arnd Bergmann <arnd@arndb.de>
->>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->>> Cc: Michael Ellerman <mpe@ellerman.id.au>
->>> ---
->>>  Documentation/ioctl/ioctl-number.txt  |    1 +
->>>  Documentation/misc-devices/ibmvmc.txt |  161 +++
->>>  MAINTAINERS                           |    6 +
->>>  arch/powerpc/include/asm/hvcall.h     |    1 +
->>>  drivers/misc/Kconfig                  |   14 +
->>>  drivers/misc/Makefile                 |    1 +
->>>  drivers/misc/ibmvmc.c                 | 2415 +++++++++++++++++++++++++++++++++
->>>  drivers/misc/ibmvmc.h                 |  209 +++
->>>  8 files changed, 2808 insertions(+)
->>>  create mode 100644 Documentation/misc-devices/ibmvmc.txt
->>>  create mode 100644 drivers/misc/ibmvmc.c
->>>  create mode 100644 drivers/misc/ibmvmc.h
->>
->>> diff --git a/Documentation/misc-devices/ibmvmc.txt b/Documentation/misc-devices/ibmvmc.txt
->>> new file mode 100644
->>> index 0000000..bae1064
->>> --- /dev/null
->>> +++ b/Documentation/misc-devices/ibmvmc.txt
-> 
-> Aren't we doing new documentation in .rst format instead of .txt?
+Hi,
 
-I am not aware that .rst format is a *requirement* for new documentation.
+These patches extend KSM documentation with high level design overview and
+some details about reverse mappings and split the userspace interface
+description to Documentation/admin-guide/mm.
 
-??
+The description of some KSM sysfs attributes is changed so that it won't
+include implementation detail. The description of these implementation
+details are moved to the new "Design" section.
+
+The last patch in the series depends on the patchset that create
+Documentation/admin-guide/mm [1], all the rest applies cleanly to the
+current docs-next.
+
+[1] https://lkml.org/lkml/2018/4/18/110
+
+Mike Rapoport (7):
+  mm/ksm: docs: extend overview comment and make it "DOC:"
+  docs/vm: ksm: (mostly) formatting updates
+  docs/vm: ksm: add "Design" section
+  docs/vm: ksm: reshuffle text between "sysfs" and "design" sections
+  docs/vm: ksm: update stable_node_chains_prune_millisecs description
+  docs/vm: ksm: udpate description of stable_node_{dups,chains}
+  docs/vm: ksm: split userspace interface to admin-guide/mm/ksm.rst
+
+ Documentation/admin-guide/mm/index.rst |   1 +
+ Documentation/admin-guide/mm/ksm.rst   | 189 ++++++++++++++++++++++++++
+ Documentation/vm/ksm.rst               | 234 ++++++++++-----------------------
+ mm/ksm.c                               |  19 ++-
+ 4 files changed, 277 insertions(+), 166 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/ksm.rst
 
 -- 
-~Randy
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
