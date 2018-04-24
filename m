@@ -1,125 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0487D7E6A7
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 15:21:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D66BA7E6A7
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 15:57:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750778AbeDXPV0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 11:21:26 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36702 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750766AbeDXPV0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 11:21:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=B7eUzcpZSDKFKm1xxjMcERh0IZUj5Z0LThUaif49Wew=; b=sLCUIdAbwPMEl288o0XFk2iDJ
-        DL7ykCmykV9eZ/v7zxypYp8zdP55eVgvz5WOo4mMH+CvgxXjInYTXhr/B+jRhmwOQ6TIybmZmXJ7X
-        aeZbT0YvoSFShrdIshY2I2njRdTHaG922B8x/3SueXtD51aPa731xu9t+D2QtYL3OYKHsNPNjAT53
-        VYfMUtUSgpU2WYCd7UwQW8IHsE94jqytEO83RDv12dbi0oSbdwG5HtJDSV5G3t1jai6+IMu8aeMP6
-        uL0eDzgXtFHAYu2pXESTSdfiuBvVrxOSKI56iZAya1IiYw7G0WXr41Y6VapdOGKRi+bA/relJKWqY
-        x+xsvG55g==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fAzkv-0006ke-V0; Tue, 24 Apr 2018 15:21:22 +0000
-Subject: Re: [PATCH v1 1/1] misc: IBM Virtual Management Channel Driver
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     "Bryant G. Ly" <bryantly@linux.vnet.ibm.com>,
-        benh@kernel.crashing.org, mpe@ellerman.id.au, arnd@arndb.de,
-        corbet@lwn.net, seroyer@linux.vnet.ibm.com,
-        mrochs@linux.vnet.ibm.com, adreznec@linux.vnet.ibm.com,
-        fbarrat@linux.vnet.ibm.com, davem@davemloft.net,
-        linus.walleij@linaro.org, akpm@linux-foundation.org,
-        mikey@neuling.org, pombredanne@nexb.com,
-        tlfalcon@linux.vnet.ibm.com, msuchanek@suse.de,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-References: <1524494812-60150-1-git-send-email-bryantly@linux.vnet.ibm.com>
- <1524494812-60150-2-git-send-email-bryantly@linux.vnet.ibm.com>
- <c07b14b7-8f34-2ba5-536f-85896ff21661@infradead.org>
- <20180423195310.GA10693@kroah.com>
- <4142fd3b-05eb-d934-bcd3-f8f564e24fa7@infradead.org>
- <20180424142918.GA2459@kroah.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f8f39907-82c8-cf73-bcb2-3601c56c7c09@infradead.org>
-Date:   Tue, 24 Apr 2018 08:21:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <20180424142918.GA2459@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1751389AbeDXP45 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 11:56:57 -0400
+Received: from mga01.intel.com ([192.55.52.88]:1268 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751167AbeDXP4o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Apr 2018 11:56:44 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Apr 2018 08:56:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,323,1520924400"; 
+   d="scan'208";a="222955339"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.86])
+  by fmsmga005.fm.intel.com with ESMTP; 24 Apr 2018 08:56:38 -0700
+Message-ID: <1524585397.21176.502.camel@linux.intel.com>
+Subject: Re: [PATCH v3 09/10] drivers/hwmon: Add PECI hwmon client drivers
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Alan Cox <alan@linux.intel.com>,
+        Andrew Jeffery <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Haiyue Wang <haiyue.wang@linux.intel.com>,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Cartwright <juliac@eso.teric.us>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Milton Miller II <miltonm@us.ibm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stef van Os <stef.van.os@prodrive-technologies.com>,
+        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org
+Date:   Tue, 24 Apr 2018 18:56:37 +0300
+In-Reply-To: <20180410183212.16787-10-jae.hyun.yoo@linux.intel.com>
+References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
+         <20180410183212.16787-10-jae.hyun.yoo@linux.intel.com>
+Organization: Intel Finland Oy
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.5-1+b1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/24/2018 07:29 AM, Greg KH wrote:
-> On Mon, Apr 23, 2018 at 02:17:28PM -0700, Randy Dunlap wrote:
->> On 04/23/18 12:53, Greg KH wrote:
->>> On Mon, Apr 23, 2018 at 11:38:18AM -0700, Randy Dunlap wrote:
->>>> On 04/23/18 07:46, Bryant G. Ly wrote:
->>>>> This driver is a logical device which provides an
->>>>> interface between the hypervisor and a management
->>>>> partition.
->>>>>
->>>>> This driver is to be used for the POWER Virtual
->>>>> Management Channel Virtual Adapter on the PowerVM
->>>>> platform. It provides both request/response and
->>>>> async message support through the /dev/ibmvmc node.
->>>>>
->>>>> Signed-off-by: Bryant G. Ly <bryantly@linux.vnet.ibm.com>
->>>>> Reviewed-by: Steven Royer <seroyer@linux.vnet.ibm.com>
->>>>> Reviewed-by: Adam Reznechek <adreznec@linux.vnet.ibm.com>
->>>>> Tested-by: Taylor Jakobson <tjakobs@us.ibm.com>
->>>>> Tested-by: Brad Warrum <bwarrum@us.ibm.com>
->>>>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>>>> Cc: Arnd Bergmann <arnd@arndb.de>
->>>>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->>>>> Cc: Michael Ellerman <mpe@ellerman.id.au>
->>>>> ---
->>>>>  Documentation/ioctl/ioctl-number.txt  |    1 +
->>>>>  Documentation/misc-devices/ibmvmc.txt |  161 +++
->>>>>  MAINTAINERS                           |    6 +
->>>>>  arch/powerpc/include/asm/hvcall.h     |    1 +
->>>>>  drivers/misc/Kconfig                  |   14 +
->>>>>  drivers/misc/Makefile                 |    1 +
->>>>>  drivers/misc/ibmvmc.c                 | 2415 +++++++++++++++++++++++++++++++++
->>>>>  drivers/misc/ibmvmc.h                 |  209 +++
->>>>>  8 files changed, 2808 insertions(+)
->>>>>  create mode 100644 Documentation/misc-devices/ibmvmc.txt
->>>>>  create mode 100644 drivers/misc/ibmvmc.c
->>>>>  create mode 100644 drivers/misc/ibmvmc.h
->>>>
->>>>> diff --git a/Documentation/misc-devices/ibmvmc.txt b/Documentation/misc-devices/ibmvmc.txt
->>>>> new file mode 100644
->>>>> index 0000000..bae1064
->>>>> --- /dev/null
->>>>> +++ b/Documentation/misc-devices/ibmvmc.txt
->>>
->>> Aren't we doing new documentation in .rst format instead of .txt?
->>
->> I am not aware that .rst format is a *requirement* for new documentation.
->>
->> ??
+On Tue, 2018-04-10 at 11:32 -0700, Jae Hyun Yoo wrote:
+
+>  drivers/hwmon/peci-cputemp.c  | 783
+> ++++++++++++++++++++++++++++++++++++++++++
+>  drivers/hwmon/peci-dimmtemp.c | 432 +++++++++++++++++++++++
+
+Does it make sense one driver per patch?
+
+> +#define CLIENT_CPU_ID_MASK    0xf0ff0  /* Mask for Family / Model
+> info */
+
+> +struct cpu_gen_info {
+> +	u32 type;
+> +	u32 cpu_id;
+> +	u32 core_max;
+> +};
 > 
-> Why wouldn't you create new documentation in that format?  Just saves
-> the step of having to change it again in the future.
 
-Not everything needs to be in that format.
-If a document contains graphics or lots of tables, then sure, use RST.
+> +static const struct cpu_gen_info cpu_gen_info_table[] = {
+> +	{ .type = CPU_GEN_HSX,
+> +	  .cpu_id = 0x306f0, /* Family code: 6, Model number: 63
+> (0x3f) */
+> +	  .core_max = CORE_MAX_ON_HSX },
+> +	{ .type = CPU_GEN_BRX,
+> +	  .cpu_id = 0x406f0, /* Family code: 6, Model number: 79
+> (0x4f) */
+> +	  .core_max = CORE_MAX_ON_BDX },
+> +	{ .type = CPU_GEN_SKX,
+> +	  .cpu_id = 0x50650, /* Family code: 6, Model number: 85
+> (0x55) */
+> +	  .core_max = CORE_MAX_ON_SKX },
+> +};
 
-Do you do kernel Documentation builds yourself?  Do you know how slow they are?
+Are we talking about x86 CPU IDs here?
+If so, why x86 corresponding headers, including intel-family.h are not
+used?
 
 -- 
-~Randy
+Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Intel Finland Oy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
