@@ -1,65 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB04B7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 16:29:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 12D367DD31
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 17:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751463AbeDXQ3x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 12:29:53 -0400
-Received: from mga07.intel.com ([134.134.136.100]:45485 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750868AbeDXQ3w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Apr 2018 12:29:52 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Apr 2018 09:29:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,323,1520924400"; 
-   d="scan'208";a="53285782"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.147]) ([10.7.153.147])
-  by orsmga002.jf.intel.com with ESMTP; 24 Apr 2018 09:29:48 -0700
-Subject: Re: [PATCH v3 03/10] drivers/peci: Add support for PECI bus driver
- core
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alan Cox <alan@linux.intel.com>,
-        Andrew Jeffery <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Cartwright <juliac@eso.teric.us>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Milton Miller II <miltonm@us.ibm.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stef van Os <stef.van.os@prodrive-technologies.com>,
-        Sumeet R Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, openbmc@lists.ozlabs.org
-References: <20180410183212.16787-1-jae.hyun.yoo@linux.intel.com>
- <20180410183212.16787-4-jae.hyun.yoo@linux.intel.com>
- <1524585717.21176.504.camel@linux.intel.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <af70513f-a827-9aaa-1acf-629ae1692d7c@linux.intel.com>
-Date:   Tue, 24 Apr 2018 09:29:48 -0700
+        id S1750841AbeDXRUI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 13:20:08 -0400
+Received: from smtprelay6.synopsys.com ([198.182.37.59]:50312 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750735AbeDXRUH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 13:20:07 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id EC2AF1E05F3;
+        Tue, 24 Apr 2018 19:20:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1524590406; bh=HM8N0h5nuEtc+Shifmx6bQTMjO/Uif+xj3OyC7PmKbI=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ilSCzxP9RRJfA8QKD63rO4h+I78wlxxgvClCWiI1zOpC0matxbcqMOivJQnn2+404
+         SiNBhiY4iQxmSpgPfhoW1kDPonVRlvSBoU5Basd9YwCaCEuj29Bwv6GwtYwQuJaroY
+         rX/OmFhRSNVVKCn5qt5y5nz2lTBLtA3qDUsnN0OzOp5NzqC4nsxT8ma7xoPNjecfjh
+         tzUxcoWMLn4nLQf5qX40YvRwNq3YhvKuke+VZ6VJ1Slec9+WGc7sJYLWVmlXklU+zo
+         FrNHLruxgjVh/J4GUEO4RI68Kfso0BkngChKD0uZGqYPJdo6F6hsfH5f07oNwmVMrV
+         ZHuDQyAONUTww==
+Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id B2DD948EA;
+        Tue, 24 Apr 2018 10:20:04 -0700 (PDT)
+Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
+        by pt02.synopsys.com (Postfix) with ESMTP id DBC8F3DA53;
+        Tue, 24 Apr 2018 18:20:03 +0100 (WEST)
+Subject: Re: [RFC 10/10] tools: PCI: Add MSI-X support
+To:     Alan Douglas <adouglas@cadence.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "niklas.cassel@axis.com" <niklas.cassel@axis.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
+Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
+ <9865822fb89ea84cb55fe93e151295afcd5c96b3.1523379766.git.gustavo.pimentel@synopsys.com>
+ <SN6PR07MB45126298F09735193B0F0F00D8880@SN6PR07MB4512.namprd07.prod.outlook.com>
+From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Message-ID: <b51efe22-f57e-ee1c-ab00-87f34ea6452d@synopsys.com>
+Date:   Tue, 24 Apr 2018 18:18:55 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <1524585717.21176.504.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <SN6PR07MB45126298F09735193B0F0F00D8880@SN6PR07MB4512.namprd07.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -67,23 +62,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/24/2018 9:01 AM, Andy Shevchenko wrote:
-> On Tue, 2018-04-10 at 11:32 -0700, Jae Hyun Yoo wrote:
->> This commit adds driver implementation for PECI bus core into linux
->> driver framework.
+Hi Alan,
+
+On 24/04/2018 10:57, Alan Douglas wrote:
+> Hi Gustavo,
+> 
+> On 10 April 2018 18:15, Gustavo Pimentel wrote:
+>> Adds MSI-X support to the pcitest tool and modified the pcitest.sh script to
+>> accomodate this new type of interruption test.
 >>
+>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+>> ---
+>>  include/uapi/linux/pcitest.h |  1 +
+>>  tools/pci/pcitest.c          | 18 +++++++++++++++++-
+>>  tools/pci/pcitest.sh         | 25 +++++++++++++++++++++++++
+>>  3 files changed, 43 insertions(+), 1 deletion(-)
+> I found some possible problems when testing with the Cadence EP driver.  The problem
+> is that pcitest uses the BARs for tests, but we also use one for the MSI-X tables
 > 
-> All comments you got for patch 6 are applicable here.
+> In Cadence core the MSI-X table is in BAR0 by default, but this is configured to a size
+> of 0x80 in the test driver, since it is used as the test_reg_bar.  So, I changed the 
+> configuration to use BAR4 instead, which is configured to a size of 131072 
+> in pci-efp-test.c, and this gives me enough space.
 > 
-> And perhaps in the rest of the series.
+> However, if I run the BAR tests in pcitest before running the MSI-X tests, the
+> MSI-X tests fail, since the BAR content is overwritten.  It's not a problem with the 
+> scenario in pcitest.sh, but it would be if the module wasn't re-loaded.
 > 
-> The rule of thumb: when you get even single comment in a certain place,
-> re-check _entire_ series for the same / similar patterns!
-> 
+> So, wondering if we need to come up with some mechanism to specify that a specific
+> BAR will be used for MSI-X, and that its size and content shouldn't be modified by
+> pcitest?
 
-Thanks for your advice. I'll keep that in mind.
+I see your point. I have bypassed the problem by doing the module load/unload
+(to avoid having to fight on multiple fronts).
 
-Jae
+I like your suggestion. Maybe we could have a bool variable for each BARs that
+could be set to false if a resource have intent to use it.
+
+However this change must be accepted by Kishon.
+
+> 
+> Regards,
+> Alan
+> 
+Regards,
+Gustavo
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
