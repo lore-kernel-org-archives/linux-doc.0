@@ -1,85 +1,205 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5A6FA7E279
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 19:36:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 49FFE7E279
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 19:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752952AbeDXTgB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 15:36:01 -0400
-Received: from mailout.easymail.ca ([64.68.200.34]:55167 "EHLO
-        mailout.easymail.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752075AbeDXTf5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 15:35:57 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mailout.easymail.ca (Postfix) with ESMTP id 2C83B41776;
-        Tue, 24 Apr 2018 19:35:56 +0000 (UTC)
-Received: from mailout.easymail.ca ([127.0.0.1])
-        by localhost (emo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 5EpIUlmm-iUE; Tue, 24 Apr 2018 19:35:56 +0000 (UTC)
-Received: from [192.168.1.87] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailout.easymail.ca (Postfix) with ESMTPSA id C6F304157F;
-        Tue, 24 Apr 2018 19:35:48 +0000 (UTC)
-Subject: Re: [PATCH v2] doc: dev-tools: kselftest.rst: update contributing new
- tests
-To:     Anders Roxell <anders.roxell@linaro.org>, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>
-References: <20180417084631.11242-1-anders.roxell@linaro.org>
- <20180419102825.2990-1-anders.roxell@linaro.org>
-From:   Shuah Khan <shuah@kernel.org>
-Message-ID: <d65f770f-e871-53e4-828f-4ba94df90ae3@kernel.org>
-Date:   Tue, 24 Apr 2018 13:35:47 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <20180419102825.2990-1-anders.roxell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1751476AbeDXToa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 15:44:30 -0400
+Received: from mail-pg0-f66.google.com ([74.125.83.66]:41248 "EHLO
+        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751492AbeDXToY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 15:44:24 -0400
+Received: by mail-pg0-f66.google.com with SMTP id m21so8604341pgv.8
+        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 12:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Gq3aCpBosiU+i4ktD+hrB7qF4Gyf/xt780GHOBVzbGk=;
+        b=O2oe4ENdvV9WCf8Km0FRcd7LA5nUmHMgzGMBcpJeO8VYLtsGLtY7OBOfy0hw2+LUwE
+         1C8LOUUibOP3ncBPlUUCOhbGZz7wCbU8W8keVs8J3vmgrjRwi3r8aZSV8e2aDd/xBZkD
+         ltS7//uQ2SscRjfOlk4v9Y3jre7QXeKkcMiklNCXBrtKIPbllhTTP52bu+cSr0e47i3c
+         5E6Z31+7oJECBKiRljqQFWqmSrGoD/Lp8uobEeUILBSWLbCMPCqLqayTP5fMPUERLnDj
+         u//PkLwbSkYOzajD/n1t2NqTZQWn+Fdc4aZIM760SXHEyto3St06p7bmR0NndQbQWF48
+         gqQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Gq3aCpBosiU+i4ktD+hrB7qF4Gyf/xt780GHOBVzbGk=;
+        b=bRn9AIYX3Rt7Ueu8MSMrBuz8LQ3UwqwahKxYiwLyV5EyG1/IeuzLTW4OhvE4HFraur
+         VxlV5UcPOo4//O397kbK/W2Hn2j4P4MIZ1y23f5JoWCkCG6PFRQe9i1qcbjJ9QjBfSJ+
+         IYqCGxXgd1yROuHaJDH6u+MAQuw6+FgU1KYRXgWfjBDPB6hFVHomQXv8QOtLl5WGSpTk
+         KXZGnZ1TjfToCeygsFo/6iDwRwMzkI8fYSP2ZYe+gu02X8XHWc5s5G+nEpo28N/XwWL6
+         JGLmeyZt/k6igSYLQEtI0z1DIRGx0xT9FpzlW46ykHrteoqiWdDmL273jp2C8dg5WQyd
+         rLpA==
+X-Gm-Message-State: ALQs6tDv9OE0JbbD0NKznlSd0FsPfNvj37r+jm4jq49r83PvnUmUR5/N
+        A0xtZkGtPbXdRPDvh2qcTMle9g==
+X-Google-Smtp-Source: AIpwx4+gvWP2BbbEsVRlAquQDiXp6iTvdzWhyaBiJSha0dM4MyOPvg1TrrYTH4m4+E5dHf/BIG3/Bg==
+X-Received: by 10.99.114.83 with SMTP id c19mr14654425pgn.425.1524599063308;
+        Tue, 24 Apr 2018 12:44:23 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+        by smtp.gmail.com with ESMTPSA id t9sm31725180pgr.37.2018.04.24.12.44.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 24 Apr 2018 12:44:22 -0700 (PDT)
+Date:   Tue, 24 Apr 2018 12:44:22 -0700 (PDT)
+X-Google-Original-Date: Tue, 24 Apr 2018 12:43:25 PDT (-0700)
+Subject:     Re: [PATCH v5 0/2] perf: riscv: Preliminary Perf Event Support on RISC-V
+In-Reply-To: <661405fd-7b23-5f95-568d-0e2eb1925217@wdc.com>
+CC:     alankao@andestech.com, albert@sifive.com, peterz@infradead.org,
+        mingo@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, sols@sifive.com, corbet@lwn.net,
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, greentime@andestech.com,
+        nickhu@andestech.com
+From:   Palmer Dabbelt <palmer@sifive.com>
+To:     atish.patra@wdc.com
+Message-ID: <mhng-355dc09a-ef4a-4cb0-b7fe-c2ac57a04a5c@palmer-si-x1c4>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/19/2018 04:28 AM, Anders Roxell wrote:
-> Add a description that the kernel headers should be used as far as it is
-> possible and then the system headers.
-> 
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  Documentation/dev-tools/kselftest.rst | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index e80850eefe13..3bf371a938d0 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -151,6 +151,11 @@ Contributing new tests (details)
->     TEST_FILES, TEST_GEN_FILES mean it is the file which is used by
->     test.
->  
-> + * First use the headers inside the kernel source and/or git repo, and then the
-> +   system headers.  Headers for the kernel release as opposed to headers
-> +   installed by the distro on the system should be the primary focus to be able
-> +   to find regressions.
-> +
->  Test Harness
->  ============
->  
-> 
+On Tue, 24 Apr 2018 12:27:26 PDT (-0700), atish.patra@wdc.com wrote:
+> On 4/24/18 11:07 AM, Atish Patra wrote:
+>> On 4/19/18 4:28 PM, Alan Kao wrote:
+>>> This implements the baseline PMU for RISC-V platforms.
+>>>
+>>> To ease future PMU portings, a guide is also written, containing
+>>> perf concepts, arch porting practices and some hints.
+>>>
+>>> Changes in v5:
+>>>    - Fix patch errors from checkpatch.pl.
+>>>
+>>> Changes in v4:
+>>>    - Fix several compilation errors.  Sorry for that.
+>>>    - Raise a warning in the write_counter body.
+>>>
+>>> Changes in v3:
+>>>    - Fix typos in the document.
+>>>    - Change the initialization routine from statically assigning PMU to
+>>>      device-tree-based methods, and set default to the PMU proposed in
+>>>      this patch.
+>>>
+>>> Changes in v2:
+>>>    - Fix the bug reported by Alex, which was caused by not sufficient
+>>>      initialization.  Check https://lkml.org/lkml/2018/3/31/251 for the
+>>>      discussion.
+>>>
+>>> Alan Kao (2):
+>>>     perf: riscv: preliminary RISC-V support
+>>>     perf: riscv: Add Document for Future Porting Guide
+>>>
+>>>    Documentation/riscv/pmu.txt         | 249 ++++++++++++++
+>>>    arch/riscv/Kconfig                  |  13 +
+>>>    arch/riscv/include/asm/perf_event.h |  79 ++++-
+>>>    arch/riscv/kernel/Makefile          |   1 +
+>>>    arch/riscv/kernel/perf_event.c      | 485 ++++++++++++++++++++++++++++
+>>>    5 files changed, 823 insertions(+), 4 deletions(-)
+>>>    create mode 100644 Documentation/riscv/pmu.txt
+>>>    create mode 100644 arch/riscv/kernel/perf_event.c
+>>>
+>> Most of the perf tests either pass or fail because of unsupported
+>> event/trace point which is fine.
+>>
+>> However, I got an rcu-stall for the test "47: Event times".
+>> # ./perf test -v 47
+>> 47: Event times                                :
+>> --- start ---
+>> test child forked, pid 2774
+>> attaching to spawned child, enable on exec
+>>      OK    : ena 2243000, run 2243000
+>> attaching to current thread as enabled
+>>      OK    : ena 19000, run 19000
+>> attaching to current thread as disabled
+>>      OK    : ena 5000, run 5000
+>> attaching to CPU 0 as enabled
+>> [ 1001.466578] INFO: rcu_sched self-detected stall on CPU
+>> [ 1001.470947]  4-....: (29999 ticks this GP) idle=5fa/140000000000001/0
+>> softirq=19762/19762 fqs=14602
+>> [ 1001.480053]   (t=30001 jiffies g=3471 c=3470 q=125)
+>> [ 1001.484917] Task dump for CPU 4:
+>> [ 1001.488129] perf            R  running task        0  2774   2773
+>> 0x00000008
+>> [ 1001.495161] Call Trace:
+>> [ 1001.497606] [<000000006a3d4f87>] walk_stackframe+0x0/0xc0
+>> [ 1001.502980] [<000000004b4b0780>] show_stack+0x3c/0x46
+>> [ 1001.508024] [<0000000060c96ab8>] sched_show_task+0xd0/0x122
+>> [ 1001.513573] [<000000007d8bd54e>] dump_cpu_task+0x50/0x5a
+>> [ 1001.518870] [<0000000053990e11>] rcu_dump_cpu_stacks+0x98/0xd2
+>> [ 1001.524685] [<00000000fe94c593>] rcu_check_callbacks+0x614/0x822
+>> [ 1001.530680] [<0000000057688dd3>] update_process_times+0x38/0x6a
+>> [ 1001.536585] [<0000000063a96de0>] tick_periodic+0x58/0xd8
+>> [ 1001.541876] [<0000000013d712f1>] tick_handle_periodic+0x2e/0x7c
+>> [ 1001.547780] [<000000009e2ef428>] riscv_timer_interrupt+0x34/0x3c
+>> [ 1001.553774] [<00000000ff6b1f18>] riscv_intc_irq+0xbc/0xe0
+>> [ 1001.559153] [<00000000c8614c3b>] ret_from_exception+0x0/0xc
+>>
+>> It is quite possible that we don't support some dependency
+>> infrastructure. I am looking into it.
+>>
+>> Regards,
+>> Atish
+>>
+>>
+>>
+>>
+>>
+>
+> Got it working. The test tries to attach the event to CPU0 which doesn't
+> exist in HighFive Unleashed. Changing it to cpu1 works.
+>
+> diff --git a/tools/perf/tests/event-times.c b/tools/perf/tests/event-times.c
+> index 1a2686f..eb11632f 100644
+> --- a/tools/perf/tests/event-times.c
+> +++ b/tools/perf/tests/event-times.c
+> @@ -113,9 +113,9 @@ static int attach__cpu_disabled(struct perf_evlist
+> *evlist)
+>          struct cpu_map *cpus;
+>          int err;
+>
+> -       pr_debug("attaching to CPU 0 as enabled\n");
+> +       pr_debug("attaching to CPU 1 as disabled\n");
+>
+> -       cpus = cpu_map__new("0");
+> +       cpus = cpu_map__new("1");
+>          if (cpus == NULL) {
+>                  pr_debug("failed to call cpu_map__new\n");
+>                  return -1;
+> @@ -142,9 +142,9 @@ static int attach__cpu_enabled(struct perf_evlist
+> *evlist)
+>          struct cpu_map *cpus;
+>          int err;
+>
+> -       pr_debug("attaching to CPU 0 as enabled\n");
+> +       pr_debug("attaching to CPU 1 as enabled\n");
+>
+> -       cpus = cpu_map__new("0");
+> +       cpus = cpu_map__new("1");
+>          if (cpus == NULL) {
+>                  pr_debug("failed to call cpu_map__new\n");
+>                  return -1;
+>
+>
+> Palmer,
+> Would it be better to officially document it somewhere that CPU0 doesn't
+> exist in the HighFive Unleashed board ?
+> I fear that there will be other standard tests/code path that may fail
+> because of inherent assumption of cpu0 presence.
 
-Here is my reviewed by for this to go through documentation tree.
-
-Reviewed-by: Shuah Khan (Samsung OSG) <shuah@kernel.org>
-
-thanks,
--- Shuah
-
+I think the best way to fix this is to just have BBL (or whatever the 
+bootloader is) renumber the CPUs so they're contiguous and begin with 0.  
+Documenting it it just a way to tell people their code needs to be changed, 
+it'll still break.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
