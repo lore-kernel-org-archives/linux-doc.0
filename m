@@ -5,57 +5,57 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 057FC7DD32
+	by archive.lwn.net (Postfix) with ESMTP id 0FD8C7E279
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 17:18:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755917AbeDYRSE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Apr 2018 13:18:04 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:37386 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755015AbeDYRRr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 13:17:47 -0400
-Received: by mail-wm0-f67.google.com with SMTP id l16so8178160wmh.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Apr 2018 10:17:47 -0700 (PDT)
+        id S1755866AbeDYRSF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Apr 2018 13:18:05 -0400
+Received: from mail-wm0-f44.google.com ([74.125.82.44]:39495 "EHLO
+        mail-wm0-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755865AbeDYRRp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 13:17:45 -0400
+Received: by mail-wm0-f44.google.com with SMTP id b21so8167664wme.4
+        for <linux-doc@vger.kernel.org>; Wed, 25 Apr 2018 10:17:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=netronome-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=E1/zc02CwK/C9ZQpxhbxPyX1TLiwTYPGbFvUxsbuIhE=;
-        b=yWYKKteoYmlBRoR1jdTYsysa5I20HBiWGzHyLIPMc4fjVJmFXiwEoAkHRAu5npRmiT
-         tD7aUGcKn1tuA0lstw+iSjlXKXdek7ZacCtabG7nMmqS+Lx/YYa5GzlF1pgvnEi3bHhp
-         4lAcfcqXQQDx8VJyHW2a4aBnslFZJ6s46LG2cFQWOgbzURiyUlKUg58EvB/KWHRKRaKz
-         l9Ff63EpixnHTrE/bDJOPiHS5GHK+j9sa7BkSaePsc2aTKq2dlEj6z2JM566PIPivDjo
-         e8QJyKrS/O2VOJkwtv+oEJPFvVJw4XraNO1E8iI3Q8TuPIr1zbFrOsUOCmtQsQ+OdxBT
-         esFw==
+        bh=8hSpIgyCVYZJ9H5/T2iJ11LHqVKX6g2HF+QU4uVP5eg=;
+        b=vfy2WpvklH7WCTUS0rg5+g8dAtfN5vEXvqs9wBzC1lCQq8K9IdUeYowPMgGVkUDdn7
+         wsgKffzs3y9YjAUL6iIct4d2WN76IZXCgkkxYQzayn0i4jrASYhu7ANoFCcA3okyh2hV
+         8ImMCcBNzZsJKpYR/sJFp4RmkTO9D9yzvHY44Ci4+ypwl8Y19TBaItO2rCxEdvx2yd/1
+         kZy/WFM9FC/RIsZvDDYz4xNYTZ3F8ICwNg/Wldc8BCfgANYPfpHofm66sd9t1Jh8VTUF
+         Pub/IXETvfUNTT/yzhslYHkr+7j35JkFcvQp976lIHoaRvS/fWZ7dYreh5VWmlZqGwEd
+         U5wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=E1/zc02CwK/C9ZQpxhbxPyX1TLiwTYPGbFvUxsbuIhE=;
-        b=NKB7M1u5EdRhrr/lSHQkSUvsN4FH3Yd7WucONdUnaBGs4LIZy91qznq2YGuC85LZfU
-         sJg6FKFpTTJ1Lk6xg58U4vAHb5MEGNaRI9vWkt2DJQNn4NIZIMG0ieo+SHxal7NFa5hG
-         cvDkiyvuI+MfRfV9+/3c3ccb3RLj4THdAQ3qoA4oKazh0qNOYIBRMnciV5PnnCjpLQTk
-         obsh9HbkmuO1hUMmqTAQcwDNb/feFC0bYoooxYg8oowkts+VA+tu6iEUJA0u1TF7fwzL
-         hxyt8nfNUwaOBmHTIJdRVu8LxpaUPWbzXcmQIszD2V9FeJnqOMq9ih89YZaX6J6GLhIx
-         sAPQ==
-X-Gm-Message-State: ALQs6tAevtsZ2TFbJlHkSRYOK8qttMEUvEP13MKGPtZXXLj9btv/CAhX
-        1m37hy0Hlw4EUV5qH3RL4s/gPg==
-X-Google-Smtp-Source: AIpwx48Unl2MN7Dst2P/2CBuzLtE/6UfMLtSUGebySEpK3TxkTjWwmQHWoEJWWxnCIedHJ1dwN+Lyg==
-X-Received: by 10.167.211.78 with SMTP id m14mr29199267edr.108.1524676666604;
-        Wed, 25 Apr 2018 10:17:46 -0700 (PDT)
+        bh=8hSpIgyCVYZJ9H5/T2iJ11LHqVKX6g2HF+QU4uVP5eg=;
+        b=OPjyjjRLEgsSU368y4oF4nq9zmb5W6IS+vMP1+WsToIMbaGawYnunLKaO33gedfiAN
+         ZLInIHVITKwBZ+FdkdemHcUbo327a9L0XtVnxzdQ0hI2YezRpPKaCC1OCSusTqmxRd2T
+         nFmuA+DFqIPhPIpO1Q8TVZVxAM8kA+hfII91JcAklgKEK+mYEwzF1MQXACKyJ8/lF1y4
+         gUto3lhWJiU9k0Jv2+uuxiANxcIqvFAhtzLl72+jZ7StcjV/pHML5//if5I9YXlfTYXi
+         /yPYY4t3acGOcZRiwmAKI3+xEKb8hkzsGYymCXa4RZ1JDUx7xVbpPGppPhaCXAFhdRmW
+         uYxQ==
+X-Gm-Message-State: ALQs6tB0d5HlDN3sWepiZwgLETdE9DMoagCX+QnpiWX4Gp3fbRenyWHb
+        E2fFLTFXhLSR7dnEkYRen3GC6Q==
+X-Google-Smtp-Source: AB8JxZpoGlMIkojgTCmCbabqEHf67shoAZqfUqKXST6IjClzaRdYx93VqdQpLn6j2es5tQA/xFe2lA==
+X-Received: by 10.80.163.6 with SMTP id 6mr7355895edn.292.1524676663994;
+        Wed, 25 Apr 2018 10:17:43 -0700 (PDT)
 Received: from reblochon.netronome.com (host-79-78-33-110.static.as9105.net. [79.78.33.110])
-        by smtp.gmail.com with ESMTPSA id p36sm12277957eda.43.2018.04.25.10.17.44
+        by smtp.gmail.com with ESMTPSA id p36sm12277957eda.43.2018.04.25.10.17.42
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Apr 2018 10:17:45 -0700 (PDT)
+        Wed, 25 Apr 2018 10:17:43 -0700 (PDT)
 From:   Quentin Monnet <quentin.monnet@netronome.com>
 To:     daniel@iogearbox.net, ast@kernel.org
 Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
         quentin.monnet@netronome.com, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org,
-        "Nikita V . Shirokov" <tehnerd@tehnerd.com>,
-        Eyal Birger <eyal.birger@gmail.com>
-Subject: [PATCH bpf-next v4 09/10] bpf: add documentation for eBPF helpers (65-66)
-Date:   Wed, 25 Apr 2018 18:17:00 +0100
-Message-Id: <20180425171701.11048-10-quentin.monnet@netronome.com>
+        Jesper Dangaard Brouer <brouer@redhat.com>,
+        John Fastabend <john.fastabend@gmail.com>
+Subject: [PATCH bpf-next v4 08/10] bpf: add documentation for eBPF helpers (58-64)
+Date:   Wed, 25 Apr 2018 18:16:59 +0100
+Message-Id: <20180425171701.11048-9-quentin.monnet@netronome.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20180425171701.11048-1-quentin.monnet@netronome.com>
 References: <20180425171701.11048-1-quentin.monnet@netronome.com>
@@ -72,65 +72,202 @@ that can later be converted into a man page.
 The objective is to make the documentation easily understandable and
 accessible to all eBPF developers, including beginners.
 
-This patch contains descriptions for the following helper functions:
+This patch contains descriptions for the following helper functions, all
+written by John:
 
-Helper from Nikita:
-- bpf_xdp_adjust_tail()
-
-Helper from Eyal:
-- bpf_skb_get_xfrm_state()
+- bpf_redirect_map()
+- bpf_sk_redirect_map()
+- bpf_sock_map_update()
+- bpf_msg_redirect_map()
+- bpf_msg_apply_bytes()
+- bpf_msg_cork_bytes()
+- bpf_msg_pull_data()
 
 v4:
-- New patch (helpers did not exist yet for previous versions).
+- bpf_redirect_map(): Fix typos: "XDP_ABORT" changed to "XDP_ABORTED",
+  "his" to "this". Also add a paragraph on performance improvement over
+  bpf_redirect() helper.
 
-Cc: Nikita V. Shirokov <tehnerd@tehnerd.com>
-Cc: Eyal Birger <eyal.birger@gmail.com>
+v3:
+- bpf_sk_redirect_map(): Improve description of BPF_F_INGRESS flag.
+- bpf_msg_redirect_map(): Improve description of BPF_F_INGRESS flag.
+- bpf_redirect_map(): Fix note on CPU redirection, not fully implemented
+  for generic XDP but supported on native XDP.
+- bpf_msg_pull_data(): Clarify comment about invalidated verifier
+  checks.
+
+Cc: Jesper Dangaard Brouer <brouer@redhat.com>
+Cc: John Fastabend <john.fastabend@gmail.com>
 Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 ---
- include/uapi/linux/bpf.h | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ include/uapi/linux/bpf.h | 147 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 147 insertions(+)
 
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index 335ac427d43b..3b91e22f68c1 100644
+index 9fe008dd51e7..335ac427d43b 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -1737,6 +1737,36 @@ union bpf_attr {
-  * 		must be set to zero.
+@@ -1404,6 +1404,56 @@ union bpf_attr {
   * 	Return
   * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_xdp_adjust_tail(struct xdp_buff *xdp_md, int delta)
+  *
++ * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
 + * 	Description
-+ * 		Adjust (move) *xdp_md*\ **->data_end** by *delta* bytes. It is
-+ * 		only possible to shrink the packet as of this writing,
-+ * 		therefore *delta* must be a negative integer.
++ * 		Redirect the packet to the endpoint referenced by *map* at
++ * 		index *key*. Depending on its type, this *map* can contain
++ * 		references to net devices (for forwarding packets through other
++ * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
++ * 		but this is only implemented for native XDP (with driver
++ * 		support) as of this writing).
++ *
++ * 		All values for *flags* are reserved for future usage, and must
++ * 		be left at zero.
++ *
++ * 		When used to redirect packets to net devices, this helper
++ * 		provides a high performance increase over **bpf_redirect**\ ().
++ * 		This is due to various implementation details of the underlying
++ * 		mechanisms, one of which is the fact that **bpf_redirect_map**\
++ * 		() tries to send packet as a "bulk" to the device.
++ * 	Return
++ * 		**XDP_REDIRECT** on success, or **XDP_ABORTED** on error.
++ *
++ * int bpf_sk_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++ * 	Description
++ * 		Redirect the packet to the socket referenced by *map* (of type
++ * 		**BPF_MAP_TYPE_SOCKMAP**) at index *key*. Both ingress and
++ * 		egress interfaces can be used for redirection. The
++ * 		**BPF_F_INGRESS** value in *flags* is used to make the
++ * 		distinction (ingress path is selected if the flag is present,
++ * 		egress path otherwise). This is the only flag supported for now.
++ * 	Return
++ * 		**SK_PASS** on success, or **SK_DROP** on error.
++ *
++ * int bpf_sock_map_update(struct bpf_sock_ops_kern *skops, struct bpf_map *map, void *key, u64 flags)
++ * 	Description
++ * 		Add an entry to, or update a *map* referencing sockets. The
++ * 		*skops* is used as a new value for the entry associated to
++ * 		*key*. *flags* is one of:
++ *
++ * 		**BPF_NOEXIST**
++ * 			The entry for *key* must not exist in the map.
++ * 		**BPF_EXIST**
++ * 			The entry for *key* must already exist in the map.
++ * 		**BPF_ANY**
++ * 			No condition on the existence of the entry for *key*.
++ *
++ * 		If the *map* has eBPF programs (parser and verdict), those will
++ * 		be inherited by the socket being added. If the socket is
++ * 		already attached to eBPF programs, this results in an error.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
+  * int bpf_xdp_adjust_meta(struct xdp_buff *xdp_md, int delta)
+  * 	Description
+  * 		Adjust the address pointed by *xdp_md*\ **->data_meta** by
+@@ -1574,6 +1624,103 @@ union bpf_attr {
+  * 		be set is returned (which comes down to 0 if all bits were set
+  * 		as required).
+  *
++ * int bpf_msg_redirect_map(struct sk_msg_buff *msg, struct bpf_map *map, u32 key, u64 flags)
++ * 	Description
++ * 		This helper is used in programs implementing policies at the
++ * 		socket level. If the message *msg* is allowed to pass (i.e. if
++ * 		the verdict eBPF program returns **SK_PASS**), redirect it to
++ * 		the socket referenced by *map* (of type
++ * 		**BPF_MAP_TYPE_SOCKMAP**) at index *key*. Both ingress and
++ * 		egress interfaces can be used for redirection. The
++ * 		**BPF_F_INGRESS** value in *flags* is used to make the
++ * 		distinction (ingress path is selected if the flag is present,
++ * 		egress path otherwise). This is the only flag supported for now.
++ * 	Return
++ * 		**SK_PASS** on success, or **SK_DROP** on error.
++ *
++ * int bpf_msg_apply_bytes(struct sk_msg_buff *msg, u32 bytes)
++ * 	Description
++ * 		For socket policies, apply the verdict of the eBPF program to
++ * 		the next *bytes* (number of bytes) of message *msg*.
++ *
++ * 		For example, this helper can be used in the following cases:
++ *
++ * 		* A single **sendmsg**\ () or **sendfile**\ () system call
++ * 		  contains multiple logical messages that the eBPF program is
++ * 		  supposed to read and for which it should apply a verdict.
++ * 		* An eBPF program only cares to read the first *bytes* of a
++ * 		  *msg*. If the message has a large payload, then setting up
++ * 		  and calling the eBPF program repeatedly for all bytes, even
++ * 		  though the verdict is already known, would create unnecessary
++ * 		  overhead.
++ *
++ * 		When called from within an eBPF program, the helper sets a
++ * 		counter internal to the BPF infrastructure, that is used to
++ * 		apply the last verdict to the next *bytes*. If *bytes* is
++ * 		smaller than the current data being processed from a
++ * 		**sendmsg**\ () or **sendfile**\ () system call, the first
++ * 		*bytes* will be sent and the eBPF program will be re-run with
++ * 		the pointer for start of data pointing to byte number *bytes*
++ * 		**+ 1**. If *bytes* is larger than the current data being
++ * 		processed, then the eBPF verdict will be applied to multiple
++ * 		**sendmsg**\ () or **sendfile**\ () calls until *bytes* are
++ * 		consumed.
++ *
++ * 		Note that if a socket closes with the internal counter holding
++ * 		a non-zero value, this is not a problem because data is not
++ * 		being buffered for *bytes* and is sent as it is received.
++ * 	Return
++ * 		0
++ *
++ * int bpf_msg_cork_bytes(struct sk_msg_buff *msg, u32 bytes)
++ * 	Description
++ * 		For socket policies, prevent the execution of the verdict eBPF
++ * 		program for message *msg* until *bytes* (byte number) have been
++ * 		accumulated.
++ *
++ * 		This can be used when one needs a specific number of bytes
++ * 		before a verdict can be assigned, even if the data spans
++ * 		multiple **sendmsg**\ () or **sendfile**\ () calls. The extreme
++ * 		case would be a user calling **sendmsg**\ () repeatedly with
++ * 		1-byte long message segments. Obviously, this is bad for
++ * 		performance, but it is still valid. If the eBPF program needs
++ * 		*bytes* bytes to validate a header, this helper can be used to
++ * 		prevent the eBPF program to be called again until *bytes* have
++ * 		been accumulated.
++ * 	Return
++ * 		0
++ *
++ * int bpf_msg_pull_data(struct sk_msg_buff *msg, u32 start, u32 end, u64 flags)
++ * 	Description
++ * 		For socket policies, pull in non-linear data from user space
++ * 		for *msg* and set pointers *msg*\ **->data** and *msg*\
++ * 		**->data_end** to *start* and *end* bytes offsets into *msg*,
++ * 		respectively.
++ *
++ * 		If a program of type **BPF_PROG_TYPE_SK_MSG** is run on a
++ * 		*msg* it can only parse data that the (**data**, **data_end**)
++ * 		pointers have already consumed. For **sendmsg**\ () hooks this
++ * 		is likely the first scatterlist element. But for calls relying
++ * 		on the **sendpage** handler (e.g. **sendfile**\ ()) this will
++ * 		be the range (**0**, **0**) because the data is shared with
++ * 		user space and by default the objective is to avoid allowing
++ * 		user space to modify data while (or after) eBPF verdict is
++ * 		being decided. This helper can be used to pull in data and to
++ * 		set the start and end pointer to given values. Data will be
++ * 		copied if necessary (i.e. if data was not linear and if start
++ * 		and end pointers do not point to the same chunk).
 + *
 + * 		A call to this helper is susceptible to change the underlaying
 + * 		packet buffer. Therefore, at load time, all checks on pointers
 + * 		previously done by the verifier are invalidated and must be
 + * 		performed again, if the helper is used in combination with
 + * 		direct packet access.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_skb_get_xfrm_state(struct sk_buff *skb, u32 index, struct bpf_xfrm_state *xfrm_state, u32 size, u64 flags)
-+ * 	Description
-+ * 		Retrieve the XFRM state (IP transform framework, see also
-+ * 		**ip-xfrm(8)**) at *index* in XFRM "security path" for *skb*.
-+ *
-+ * 		The retrieved value is stored in the **struct bpf_xfrm_state**
-+ * 		pointed by *xfrm_state* and of length *size*.
 + *
 + * 		All values for *flags* are reserved for future usage, and must
 + * 		be left at zero.
-+ *
-+ * 		This helper is available only if the kernel was compiled with
-+ * 		**CONFIG_XFRM** configuration option.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
-  */
- #define __BPF_FUNC_MAPPER(FN)		\
- 	FN(unspec),			\
++ *
+  * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
+  * 	Description
+  * 		Bind the socket associated to *ctx* to the address pointed by
 -- 
 2.14.1
 
