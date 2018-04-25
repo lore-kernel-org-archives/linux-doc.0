@@ -3,165 +3,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D4D8F7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 16:39:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C990D7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 17:17:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755141AbeDYQjH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Apr 2018 12:39:07 -0400
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:44930 "EHLO
-        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754849AbeDYQjG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 12:39:06 -0400
-Received: by mail-pf0-f194.google.com with SMTP id q22so748736pff.11
-        for <linux-doc@vger.kernel.org>; Wed, 25 Apr 2018 09:39:06 -0700 (PDT)
+        id S1755591AbeDYRRc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Apr 2018 13:17:32 -0400
+Received: from mail-wm0-f41.google.com ([74.125.82.41]:53695 "EHLO
+        mail-wm0-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755151AbeDYRRb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 13:17:31 -0400
+Received: by mail-wm0-f41.google.com with SMTP id 66so8411545wmd.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Apr 2018 10:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m1UJ9Bk2PAVH+Yaxn2dV+g+XU6oSedmywTC1nhcYL30=;
-        b=cjPw+Po8U623bK6SsxEfqsTzKTIwx7mV7JNLyNZ0PpUyS8+z9kqFKW/N9Vf2Spbdvl
-         k3szOFDa9dPVXuPBCJmXZzZbl4ML2WIg2+2EJrvFsAtHuenpVFZ8Fn7VhfKD9t7jz4Ep
-         tuoB6Y24EeIJQbf8lbKLOKOVaYQVX/5qlYlLXyGoV+S5SU+ahb11Ty6hr5YB3YVNzMp0
-         AFGs2C0D/fGpYMs/qvWmL2XBMw4jO7DdcwIhpcmQig/DGU6FDqq2xSljsytdWICWbzl1
-         BNcXjWEa6TbzHcSlUuSfyigcrT0WcFSY//W0ZsjEFr48CeGGExiPTvCG0a2f2UphUFO3
-         +fvg==
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=QGj5l9iQhhg5cy9N/m7ehbKh06pwXhVp7Me6qkFgHbc=;
+        b=ARL5O5PrhzPQUUg749+kP2PG6sSCY2LJmhaUnqea+dInEOmltUyX9VjvJlLpzG931Z
+         x2GHDBisfRT99WCOIHcNwMGjYXi3lgrZw53WWx3/XxSDgglSI0yeEWF078XEr/H37r6k
+         V/QTfBD1v9uIngqx250yMjPexp/dRv9puCIAQ4u4wQrB0oMC2vS/q5ayz3m8NgwkU51g
+         Nojln/4KLFZAG4T1WlP2mpztz8jrPCe4nuZCTblPx6Eywt5nA7p2SoFkswzkn10DYCPK
+         qDe8G3dG7nWQ6K/bAz2XEL4KMKqfk2K3/qb7mp8WTulvzeeBXNzg2tiNRxVxpQH3uzsV
+         ozMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=m1UJ9Bk2PAVH+Yaxn2dV+g+XU6oSedmywTC1nhcYL30=;
-        b=DSAFha+aAH8aTxdhhm8aOZ9VIjG/PSJIbT3ZUkhtimNHt00Gdc6XNLVG9zrEbx5VYe
-         uJ/Br/at1vLossvEwQXcIXze8IiTbQhkcvp2vgMiiDN59FtnWOZXOim4FfFlr9Y5bPgx
-         pjdS7lvTG0/60RNuYXrVOCiw3dqoMtBHb8SGLMHPB+UN96PKxwo1d18eUMkSn3TkqKmt
-         tZ6tZsF7oocZcoju8CJdyOXX1KXgPRcSPWhXyenmRy1TScJLRF3XCwp+7je2/iuLGdEO
-         ENJXuJfQ59Ot4ZxFEJ06+olMdI/XKI/c1oFD6nCeTUjpiY8nT//26MLhXtsSD5FrR2Y9
-         bfxg==
-X-Gm-Message-State: ALQs6tCkMDTH2Fm80OJo7Xkh1jBSUORnq9f9+drK3ioqqDwqftc9yB2W
-        fgTYmFWu36NWg2p83tZ4I+YYFw==
-X-Google-Smtp-Source: AB8JxZpUzaBCJEC015IR879quu/Bg5iRJiu4w6fxhPmONmiGpQ+vJlRet7x83ghpK6pdZNvgSI5D8A==
-X-Received: by 2002:a17:902:a586:: with SMTP id az6-v6mr2923664plb.210.1524674345675;
-        Wed, 25 Apr 2018 09:39:05 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
-        by smtp.gmail.com with ESMTPSA id u4sm29538906pfh.120.2018.04.25.09.39.04
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QGj5l9iQhhg5cy9N/m7ehbKh06pwXhVp7Me6qkFgHbc=;
+        b=tVEkCFP8utc37ZWYafL8ZsFiPt4ilLe5cot8WAJBFfoOqFgitJF6ZEP6vXncVyfECO
+         VJ6BSr6qm/MtijEBz9npotsFDxMG/9S9i0IcKrcPgRue+vs7aRs56LNFdCVJBZahXJA2
+         PCq0RIQ9RL+6b9jPaKyGQEQDWrSIeZ9slRRcCAh13Cs//c3K4aO7BgQ/YXvzKVDM6JOW
+         s5qr4DEVMtIx87EftDNmvHnv+ANOnv7kWlIEZITqIvlyPv4tszML0UmadiHPDLKfRxQ6
+         sqvZs2faDjdFb6S4FB8hxN5QeWekX27SRZ+EykieEzJlBTvHKRPFeb2ZBCmgaPwUozEg
+         b+Bg==
+X-Gm-Message-State: ALQs6tDaCEsiEydcyPOPLiWAxkWykFVD9xG2CInCIiH7M3BSPmsWAloA
+        qnGz5hkUgRjQ4BPShMtQD8MF3g==
+X-Google-Smtp-Source: AIpwx49zpzi90TdNQZdh6uTnAvH1MQZneLBRZhMosglfhSJ5afnIpQmNtMbFUGNrjYL9rGW46bcg2A==
+X-Received: by 10.80.135.14 with SMTP id i14mr36243068edb.86.1524676649801;
+        Wed, 25 Apr 2018 10:17:29 -0700 (PDT)
+Received: from reblochon.netronome.com (host-79-78-33-110.static.as9105.net. [79.78.33.110])
+        by smtp.gmail.com with ESMTPSA id p36sm12277957eda.43.2018.04.25.10.17.28
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 25 Apr 2018 09:39:04 -0700 (PDT)
-Date:   Wed, 25 Apr 2018 09:39:04 -0700 (PDT)
-X-Google-Original-Date: Wed, 25 Apr 2018 09:34:44 PDT (-0700)
-Subject:     Re: [PATCH v5 0/2] perf: riscv: Preliminary Perf Event Support on RISC-V
-In-Reply-To: <20180425031936.GA7303@andestech.com>
-CC:     atish.patra@wdc.com, sols@sifive.com, nickhu@andestech.com,
-        corbet@lwn.net, peterz@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, mingo@redhat.com,
-        albert@sifive.com, namhyung@kernel.org,
-        linux-riscv@lists.infradead.org, jolsa@redhat.com,
-        greentime@andestech.com
-From:   Palmer Dabbelt <palmer@sifive.com>
-To:     alankao@andestech.com
-Message-ID: <mhng-aec39091-7a3b-4def-99f3-577e023c6919@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Wed, 25 Apr 2018 10:17:28 -0700 (PDT)
+From:   Quentin Monnet <quentin.monnet@netronome.com>
+To:     daniel@iogearbox.net, ast@kernel.org
+Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
+        quentin.monnet@netronome.com, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org
+Subject: [PATCH bpf-next v4 00/10] bpf: document eBPF helpers and add a script to generate man page
+Date:   Wed, 25 Apr 2018 18:16:51 +0100
+Message-Id: <20180425171701.11048-1-quentin.monnet@netronome.com>
+X-Mailer: git-send-email 2.14.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 24 Apr 2018 20:19:36 PDT (-0700), alankao@andestech.com wrote:
-> Hi Atish, Palmer,
->
-> On Tue, Apr 24, 2018 at 06:15:49PM -0700, Atish Patra wrote:
->> On 4/24/18 5:29 PM, Palmer Dabbelt wrote:
->> >On Tue, 24 Apr 2018 15:16:16 PDT (-0700), atish.patra@wdc.com wrote:
->> >>On 4/24/18 12:44 PM, Palmer Dabbelt wrote:
->> >>>On Tue, 24 Apr 2018 12:27:26 PDT (-0700), atish.patra@wdc.com wrote:
->> >>>>On 4/24/18 11:07 AM, Atish Patra wrote:
->> >>>>>On 4/19/18 4:28 PM, Alan Kao wrote:
->> >>>>>However, I got an rcu-stall for the test "47: Event times".
->> >>>>># ./perf test -v 47
->> >>>>Got it working. The test tries to attach the event to CPU0 which doesn't
->> >>>>exist in HighFive Unleashed. Changing it to cpu1 works.
->> >>>>
->> >>>>diff --git a/tools/perf/tests/event-times.c b/tools/perf/tests/event-times.c
->> >>>>index 1a2686f..eb11632f 100644
->> >>>>--- a/tools/perf/tests/event-times.c
->> >>>>+++ b/tools/perf/tests/event-times.c
->> >>>>@@ -113,9 +113,9 @@ static int attach__cpu_disabled(struct perf_evlist
->> >>>>*evlist)
->> >>>>           struct cpu_map *cpus;
->> >>>>           int err;
->> >>>>
->> >>>>-       pr_debug("attaching to CPU 0 as enabled\n");
->> >>>>+       pr_debug("attaching to CPU 1 as disabled\n");
->> >>>>
->> >>>>-       cpus = cpu_map__new("0");
->> >>>>+       cpus = cpu_map__new("1");
->> >>>>           if (cpus == NULL) {
->> >>>>                   pr_debug("failed to call cpu_map__new\n");
->> >>>>                   return -1;
->> >>>>@@ -142,9 +142,9 @@ static int attach__cpu_enabled(struct perf_evlist
->> >>>>*evlist)
->> >>>>           struct cpu_map *cpus;
->> >>>>           int err;
->> >>>>
->> >>>>-       pr_debug("attaching to CPU 0 as enabled\n");
->> >>>>+       pr_debug("attaching to CPU 1 as enabled\n");
->> >>>>
->> >>>>-       cpus = cpu_map__new("0");
->> >>>>+       cpus = cpu_map__new("1");
->> >>>>           if (cpus == NULL) {
->> >>>>                   pr_debug("failed to call cpu_map__new\n");
->> >>>>                   return -1;
->> >>>>
->> >>>>
->> >>>>Palmer,
->> >>>>Would it be better to officially document it somewhere that CPU0 doesn't
->> >>>>exist in the HighFive Unleashed board ?
->> >>>>I fear that there will be other standard tests/code path that may fail
->> >>>>because of inherent assumption of cpu0 presence.
->> >>>
->> >>>I think the best way to fix this is to just have BBL (or whatever the
->> >>>bootloader is) renumber the CPUs so they're contiguous and begin with 0.
->> >>
->> >>Do you mean BBL will update the device tree that kernel eventually parse
->> >>and set the hart id?
->> >>Sounds good to me unless it acts as a big hack in future boot loaders.
->> >
->> >Right now the machine-mode and supervisor-mode hart IDs are logically separate:
->> >the bootloader just provides the hart ID as a register argument when starting
->> >the kernel.
->>
->> Yes.
->>
->>   BBL already needs to enumerate the harts by looking through the
->> >device tree for various other reasons (at least to mask off the harts that
->> >Linux doesn't support), so it's not that much effort to just maintain a mapping
->> >from supervisor-mode hart IDs to machine-mode hart IDs.
->> >
->>
->> But Linux also parses the device tree to get hart ID in
->> riscv_of_processor_hart(). This is used to setup the possible/present cpu
->> map in setup_smp().
->>
->> Thus, Linux also need to see a device tree with cpu0-3 instead of cpu1-4.
->> Otherwise, present cpu map will be incorrect. Isn't it ?
->>
->> >I have some patches floating around that do this, but appear to do it
->> >incorrectly enough that nothing boots so maybe I'm missing something that makes
->> >this complicated :).
->> >
->>
->> Just a wild guess: May be the because of the above reason ;)
->>
->
-> Thanks for the test and discussion.  It looks like am implementation issue from
-> Unleash, so ... is there anything I should fix and provide a further patch?
+eBPF helper functions can be called from within eBPF programs to perform
+a variety of tasks that would be otherwise hard or impossible to do with
+eBPF itself. There is a growing number of such helper functions in the
+kernel, but documentation is scarce. The main user space header file
+does contain a short commented description of most helpers, but it is
+somewhat outdated and not complete. It is more a "cheat sheet" than a
+real documentation accessible to new eBPF developers.
 
-You're welcome to fix BBL if you want, but that's unrelated to this patch set.  
-I'm going to look over the code again as soon as I get a chance to, thanks for 
-submitting the patches!
+This commit attempts to improve the situation by replacing the existing
+overview for the helpers with a more developed description. Furthermore,
+a Python script is added to generate a manual page for eBPF helpers. The
+workflow is the following, and requires the rst2man utility:
+
+    $ ./scripts/bpf_helpers_doc.py \
+            --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+    $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+    $ man /tmp/bpf-helpers.7
+
+The objective is to keep all documentation related to the helpers in a
+single place, and to be able to generate from here a manual page that
+could be packaged in the man-pages repository and shipped with most
+distributions.
+
+Additionally, parsing the prototypes of the helper functions could
+hopefully be reused, with a different Printer object, to generate
+header files needed in some eBPF-related projects.
+
+Regarding the description of each helper, it comprises several items:
+
+- The function prototype.
+- A description of the function and of its arguments (except for a
+  couple of cases, when there are no arguments and the return value
+  makes the function usage really obvious).
+- A description of return values (if not void).
+
+Additional items such as the list of compatible eBPF program and map
+types for each helper, Linux kernel version that introduced the helper,
+GPL-only restriction, and commit hash could be added in the future, but
+it was decided on the mailing list to leave them aside for now.
+
+For several helpers, descriptions are inspired (at times, nearly copied)
+from the commit logs introducing them in the kernel--Many thanks to
+their respective authors! Some sentences were also adapted from comments
+from the reviews, thanks to the reviewers as well. Descriptions were
+completed as much as possible, the objective being to have something easily
+accessible even for people just starting with eBPF. There is probably a bit
+more work to do in this direction for some helpers.
+
+Some RST formatting is used in the descriptions (not in function
+prototypes, to keep them readable, but the Python script provided in
+order to generate the RST for the manual page does add formatting to
+prototypes, to produce something pretty) to get "bold" and "italics" in
+manual pages. Hopefully, the descriptions in bpf.h file remains
+perfectly readable. Note that the few trailing white spaces are
+intentional, removing them would break paragraphs for rst2man.
+
+The descriptions should ideally be updated each time someone adds a new
+helper, or updates the behaviour (new socket option supported, ...) or
+the interface (new flags available, ...) of existing ones.
+
+To ease the review process, the documentation has been split into several
+patches.
+
+v3 -> v4:
+- Add a patch (#9) for newly added BPF helpers.
+- Add a patch (#10) to update UAPI bpf.h version under tools/.
+- Use SPDX tag in Python script.
+- Several fixes on man page header and footer, and helpers documentation.
+  Please refer to individual patches for details.
+
+RFC v2 -> PATCH v3:
+Several fixes on man page header and footer, and helpers documentation.
+Please refer to individual patches for details.
+
+RFC v1 -> RFC v2:
+- Remove "For" (compatible program and map types), "Since" (minimal
+  Linux kernel version required), "GPL only" sections and commit hashes
+  for the helpers.
+- Add comment on top of the description list to explain how this
+  documentation is supposed to be processed.
+- Update Python script accordingly (remove the same sections, and remove
+  paragraphs on program types and GPL restrictions from man page
+  header).
+- Split series into several patches.
+
+Cc: linux-doc@vger.kernel.org
+Cc: linux-man@vger.kernel.org
+
+Quentin Monnet (10):
+  bpf: add script and prepare bpf.h for new helpers documentation
+  bpf: add documentation for eBPF helpers (01-11)
+  bpf: add documentation for eBPF helpers (12-22)
+  bpf: add documentation for eBPF helpers (23-32)
+  bpf: add documentation for eBPF helpers (33-41)
+  bpf: add documentation for eBPF helpers (42-50)
+  bpf: add documentation for eBPF helpers (51-57)
+  bpf: add documentation for eBPF helpers (58-64)
+  bpf: add documentation for eBPF helpers (65-66)
+  bpf: update bpf.h uapi header for tools
+
+ include/uapi/linux/bpf.h       | 1776 +++++++++++++++++++++++++++++++---------
+ scripts/bpf_helpers_doc.py     |  421 ++++++++++
+ tools/include/uapi/linux/bpf.h | 1776 +++++++++++++++++++++++++++++++---------
+ 3 files changed, 3181 insertions(+), 792 deletions(-)
+ create mode 100755 scripts/bpf_helpers_doc.py
+
+-- 
+2.14.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
