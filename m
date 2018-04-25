@@ -4,39 +4,39 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CECE7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 14:47:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA4407DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 14:50:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754686AbeDYOrc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Apr 2018 10:47:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35388 "EHLO mail.kernel.org"
+        id S1754566AbeDYOuR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Apr 2018 10:50:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754203AbeDYOra (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Apr 2018 10:47:30 -0400
-Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com [209.85.216.180])
+        id S1754300AbeDYOuP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Apr 2018 10:50:15 -0400
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com [209.85.220.178])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 46314217D9;
-        Wed, 25 Apr 2018 14:47:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46314217D9
+        by mail.kernel.org (Postfix) with ESMTPSA id AB73C21759;
+        Wed, 25 Apr 2018 14:50:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AB73C21759
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=robh+dt@kernel.org
-Received: by mail-qt0-f180.google.com with SMTP id c2-v6so9424773qtn.9;
-        Wed, 25 Apr 2018 07:47:29 -0700 (PDT)
-X-Gm-Message-State: ALQs6tBD5WPoKT45NsdXTxeLP3QBa0So+8vnHmK73aC/mX4D38FxPPuJ
-        EiJNqdHCcQeMQW1TuOjbgAxMrGaf0C/wydbJ9w==
-X-Google-Smtp-Source: AB8JxZpZof4hY8WpFccYDrFKD/pBz537bub1hmRpXEhWh5r/m77O0L3ZzE3ZWa0xfbaHTu3rZnSb5u31sZjx27b/uCY=
-X-Received: by 2002:ac8:1e18:: with SMTP id n24-v6mr33501112qtl.118.1524667648478;
- Wed, 25 Apr 2018 07:47:28 -0700 (PDT)
+Received: by mail-qk0-f178.google.com with SMTP id b131so18527986qkg.2;
+        Wed, 25 Apr 2018 07:50:14 -0700 (PDT)
+X-Gm-Message-State: ALQs6tC+IL/cnr/gy/hfHvCE7jRPRVotQHkqTd7Ihvy7TSUnI2UXcW5z
+        lGqxfFK/3eKPwIuMVH60jCAQv0oTY5ORCWx0OQ==
+X-Google-Smtp-Source: AB8JxZrjwcg5IVBxQVtASfpQh5/Nbp1qm73F9kbHmfsgHyYKkdlayWvzily68G0v3npX1WIfwPatC623R/NR4UbyWLk=
+X-Received: by 10.55.31.132 with SMTP id n4mr29350132qkh.375.1524667813859;
+ Wed, 25 Apr 2018 07:50:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.12.163.228 with HTTP; Wed, 25 Apr 2018 07:47:08 -0700 (PDT)
-In-Reply-To: <20180425125449.19755-12-kishon@ti.com>
-References: <20180425125449.19755-1-kishon@ti.com> <20180425125449.19755-12-kishon@ti.com>
+Received: by 10.12.163.228 with HTTP; Wed, 25 Apr 2018 07:49:53 -0700 (PDT)
+In-Reply-To: <20180425125449.19755-10-kishon@ti.com>
+References: <20180425125449.19755-1-kishon@ti.com> <20180425125449.19755-10-kishon@ti.com>
 From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 25 Apr 2018 09:47:08 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKBXbcQxbN7z9j_DKgiaQg4buUa+08fg9zPELv-ucpRZA@mail.gmail.com>
-Message-ID: <CAL_JsqKBXbcQxbN7z9j_DKgiaQg4buUa+08fg9zPELv-ucpRZA@mail.gmail.com>
-Subject: Re: [PATCH v3 11/15] ARM: dts: dra7-evm: Add wilink8 wlan support
+Date:   Wed, 25 Apr 2018 09:49:53 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+d6VdbYT3djvYQARjEP3qXiG16f9e8XESfNBj3zzf2NQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+d6VdbYT3djvYQARjEP3qXiG16f9e8XESfNBj3zzf2NQ@mail.gmail.com>
+Subject: Re: [PATCH v3 09/15] ARM: dts: dra72-evm-common: Add wilink8 wlan support
 To:     Kishon Vijay Abraham I <kishon@ti.com>
 Cc:     =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
         Tony Lindgren <tony@atomide.com>,
@@ -46,8 +46,8 @@ Cc:     =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
         devicetree@vger.kernel.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         linux-omap <linux-omap@vger.kernel.org>,
-        Hari Nagalla <hnagalla@ti.com>, Ido Yariv <ido@wizery.com>,
-        Eyal Reizer <eyalr@ti.com>, Sekhar Nori <nsekhar@ti.com>
+        Hari Nagalla <hnagalla@ti.com>, Eyal Reizer <eyalr@ti.com>,
+        Sekhar Nori <nsekhar@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -57,42 +57,78 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Wed, Apr 25, 2018 at 7:54 AM, Kishon Vijay Abraham I <kishon@ti.com> wrote:
 > From: Hari Nagalla <hnagalla@ti.com>
 >
-> The wilink module is a combo wireless connectivity sdio
-> card based on Texas Instrument's wl18xx solution. It is a
-> 4-wire, 1.8V, embedded sdio wlan device with an external
-> irq line and is power-controlled by a gpio-based fixed
-> regulator.
+> Wilink8 module is a combo wireless connectivity card based
+> on Texas Instrument's wl18xx solution.
 >
-> Add pinmux configuration and IODelay values for MMC4.
-> On dra7-evm, MMC4 is used for connecting to wilink module.
+> Add support for the wlan capabilities of this module by muxing
+> the relevant mmc lines, and setting the required device-tree
+> data.
 >
-> IODelay data credits to :  Vishal Mahaveer <vishalm@ti.com>
-> and Sekhar Nori <nsekhar@ti.com>
->
-> Signed-off-by: Ido Yariv <ido@wizery.com>
 > Signed-off-by: Eyal Reizer <eyalr@ti.com>
 > Signed-off-by: Hari Nagalla <hnagalla@ti.com>
+> [nsekhar@ti.com: drop WLAN_EN pinmux. It should be done by bootloader.
+>                  Also, some commit message adjustments]
 > Signed-off-by: Sekhar Nori <nsekhar@ti.com>
 > Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
 > ---
->  arch/arm/boot/dts/dra7-evm-common.dtsi | 15 +++++++++++++++
->  arch/arm/boot/dts/dra7-evm.dts         | 25 +++++++++++++++++++++++++
->  2 files changed, 40 insertions(+)
+>  arch/arm/boot/dts/dra72-evm-common.dtsi   | 42 +++++++++++++++++++++++
+>  arch/arm/boot/dts/dra72x-mmc-iodelay.dtsi | 11 ++++++
+>  2 files changed, 53 insertions(+)
 >
-> diff --git a/arch/arm/boot/dts/dra7-evm-common.dtsi b/arch/arm/boot/dts/dra7-evm-common.dtsi
-> index 05a7b1a01bc3..3590c40fc112 100644
-> --- a/arch/arm/boot/dts/dra7-evm-common.dtsi
-> +++ b/arch/arm/boot/dts/dra7-evm-common.dtsi
-> @@ -260,3 +260,18 @@
->  &pcie1_rc {
->         status = "okay";
->  };
+> diff --git a/arch/arm/boot/dts/dra72-evm-common.dtsi b/arch/arm/boot/dts/dra72-evm-common.dtsi
+> index 8e3b185d864b..1e4d36e33a1b 100644
+> --- a/arch/arm/boot/dts/dra72-evm-common.dtsi
+> +++ b/arch/arm/boot/dts/dra72-evm-common.dtsi
+> @@ -44,6 +44,16 @@
+>                 regulator-boot-on;
+>         };
+>
+> +       evm_3v6: fixedregulator-evm_3v6 {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "evm_3v6";
+> +               regulator-min-microvolt = <3600000>;
+> +               regulator-max-microvolt = <3600000>;
+> +               vin-supply = <&evm_5v0>;
+> +               regulator-always-on;
+> +               regulator-boot-on;
+> +       };
 > +
+>         vsys_3v3: fixedregulator-vsys3v3 {
+>                 /* Output 2 of TPS43351QDAPRQ1 on dra72-evm */
+>                 /* Output 2 of LM5140QRWGTQ1 on dra71-evm */
+> @@ -171,6 +181,15 @@
+>                         clocks = <&atl_clkin2_ck>;
+>                 };
+>         };
+> +
+> +       vmmcwl_fixed: fixedregulator-mmcwl {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "vmmcwl_fixed";
+> +               regulator-min-microvolt = <1800000>;
+> +               regulator-max-microvolt = <1800000>;
+> +               gpio = <&gpio5 8 GPIO_ACTIVE_HIGH>;
+> +               enable-active-high;
+> +       };
+>  };
+>
+>  &dra7_pmx_core {
+> @@ -398,6 +417,29 @@
+>         max-frequency = <192000000>;
+>  };
+>
 > +&mmc4 {
+> +       status = "okay";
+> +       vmmc-supply = <&evm_3v6>;
+> +       vqmmc-supply = <&vmmcwl_fixed>;
 > +       bus-width = <4>;
 > +       cap-power-off-card;
 > +       keep-power-in-suspend;
 > +       non-removable;
+> +       pinctrl-names = "default", "hs", "sdr12", "sdr25";
+> +       pinctrl-0 = <&mmc4_pins_default>;
+> +       pinctrl-1 = <&mmc4_pins_default>;
+> +       pinctrl-2 = <&mmc4_pins_default>;
+> +       pinctrl-3 = <&mmc4_pins_default>;
 > +       #address-cells = <1>;
 > +       #size-cells = <0>;
 > +       wlcore: wlcore@2 {
