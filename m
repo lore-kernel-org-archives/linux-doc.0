@@ -5,166 +5,249 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E89E7E27E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 08:10:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF2D17E27E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 08:29:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751353AbeDYIKB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Apr 2018 04:10:01 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:4096 "EHLO
-        esa1.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750941AbeDYIJ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 04:09:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1524643798; x=1556179798;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=X9MhwpPjcORZDmEE8q5t6pxfjVyCpxgHoLNAgkNiFvI=;
-  b=h/cC9kCGFPsSVLiTCbvDoALtcbi5qGhRvtbRy89Nt+pTG91NzzlhDqpo
-   MDkUvfDaerp19L9Bj9uoTd8PXOXb1RvW0PefEJLRBX8G914ljj4xnnuPk
-   i6wEtaov07dVs5oas+70jMNUDgj9GVatr8plVz4G0pMv0LxHrythPsYdG
-   F6lwo3f/VAgeFh68ONGmJifbUJQUQQBEOH6/aAX9MQqgLJq660PigGBEz
-   oj1AWrmzHhc8bk8PEGrq+kc2FZGx9aOSXK7Rea3Nu8hVNPqy/5xhI6uRD
-   OIvzMlqaZBfL707cWWLokczSHjvLqjsUd4WXqJ8aVX5vL9DWFZmt2rTBt
-   g==;
-X-IronPort-AV: E=Sophos;i="5.49,325,1520870400"; 
-   d="scan'208";a="179764231"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2018 16:09:58 +0800
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP; 25 Apr 2018 01:02:10 -0700
-Received: from 6kx8cg2.ad.shared (HELO [10.86.56.234]) ([10.86.56.234])
-  by uls-op-cesaip01.wdc.com with ESMTP; 25 Apr 2018 01:09:57 -0700
-Subject: Re: [PATCH v5 0/2] perf: riscv: Preliminary Perf Event Support on
- RISC-V
-To:     Alan Kao <alankao@andestech.com>
-Cc:     Palmer Dabbelt <palmer@sifive.com>,
-        "albert@sifive.com" <albert@sifive.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "acme@kernel.org" <acme@kernel.org>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "jolsa@redhat.com" <jolsa@redhat.com>,
-        "namhyung@kernel.org" <namhyung@kernel.org>,
-        "sols@sifive.com" <sols@sifive.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "greentime@andestech.com" <greentime@andestech.com>,
-        "nickhu@andestech.com" <nickhu@andestech.com>
-References: <mhng-0abe4f84-0dd3-437c-8cf2-b87def246796@palmer-si-x1c4>
- <6b211b64-5c17-2884-5b6a-6ff1d3287b16@wdc.com>
- <20180425031936.GA7303@andestech.com>
-From:   Atish Patra <atish.patra@wdc.com>
-Message-ID: <51b78a28-bd21-678e-f6b4-5418a53ad920@wdc.com>
-Date:   Wed, 25 Apr 2018 01:09:57 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
- Gecko/20100101 Thunderbird/52.7.0
+        id S1750943AbeDYI3d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Apr 2018 04:29:33 -0400
+Received: from mail-it0-f42.google.com ([209.85.214.42]:51063 "EHLO
+        mail-it0-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750882AbeDYI3a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 04:29:30 -0400
+Received: by mail-it0-f42.google.com with SMTP id p3-v6so18493964itc.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Apr 2018 01:29:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=cW+0tbax+EgA02smpAtOcrmWt8Jdt4ZcSOhVn75zjR0=;
+        b=cE7latlhhOCELSF9HOBP0jNm4//ITy0WH6sXLuFKdp5tfZyse1TCbr93N5rXG6FhFt
+         pF4hjwgCKTSNADapvlJTpPAKLS3wb9i4V47nr+Mcc2TyaqHEytL5PmVsthFdwM9Fl3PG
+         vsv9JvdXqzthP14LcTTPr1XCg8pnKLGh0yOGs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=cW+0tbax+EgA02smpAtOcrmWt8Jdt4ZcSOhVn75zjR0=;
+        b=RMYdr5teHT8AHLfyt/38ThmuZbdH3WB3HoLG1wNH3hBVEFV6l67Po+R+IsB4tVUCvI
+         yfckVTM6RgLjtC3uK1L4tZ+gkqv+uCAjgOuSFI1tEOFGPE1RJyrDWljfhDvJEBRYFXEl
+         Z9DHCMx6nL8uU6/7qIz9D4TKZdajvfKN1L4RY0qjD/4X3vrwbDRb8rZDae6UdXLq6nbz
+         cl7IsvmaWA+AmtI295itdCvbHxKP3WTrzCWXoXTWVW6MQOmnJHM3M3fjX59RpinIlsUi
+         Xef1Bbl0Y9xojQ1xj0eoSE6JMLQ9CxvQqYfkuaz/8pHF/WYFlwf1W7LmiG38C7IgW0wB
+         WUFA==
+X-Gm-Message-State: ALQs6tAC43PGOsXuT1MtPA43Pbzh+ILbyLE/HpbAcwafZ0hgbeHb/xqy
+        teveBY2eZWBHrk6+YM1EwmDXngaArRqBznHcsom75g==
+X-Google-Smtp-Source: AIpwx4+WU3e4Agq2TJaC3wrhynl34JZjucpCRBtKasg5DY9lxjPkvU3+AWURNt3sTpdQ3z4PGqbGkFVj6xhcmaTj3tM=
+X-Received: by 2002:a24:4090:: with SMTP id n138-v6mr22109386ita.135.1524644969682;
+ Wed, 25 Apr 2018 01:29:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180425031936.GA7303@andestech.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a4f:2793:0:0:0:0:0 with HTTP; Wed, 25 Apr 2018 01:29:29
+ -0700 (PDT)
+In-Reply-To: <1524494812-60150-2-git-send-email-bryantly@linux.vnet.ibm.com>
+References: <1524494812-60150-1-git-send-email-bryantly@linux.vnet.ibm.com> <1524494812-60150-2-git-send-email-bryantly@linux.vnet.ibm.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 25 Apr 2018 10:29:29 +0200
+Message-ID: <CACRpkdZH4kheSf_G=i-r=0yZN04W_4bJ1Q7ZXPw=62NrV+LCnQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] misc: IBM Virtual Management Channel Driver
+To:     "Bryant G. Ly" <bryantly@linux.vnet.ibm.com>,
+        christoffer.dall@arm.com
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, seroyer@linux.vnet.ibm.com,
+        mrochs@linux.vnet.ibm.com, adreznec@linux.vnet.ibm.com,
+        fbarrat@linux.vnet.ibm.com,
+        "David S. Miller" <davem@davemloft.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, mikey@neuling.org,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        tlfalcon@linux.vnet.ibm.com, msuchanek@suse.de,
+        linux-doc@vger.kernel.org,
+        "linuxppc-dev@lists.ozlabs.org list" <linuxppc-dev@lists.ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/24/18 8:19 PM, Alan Kao wrote:
-> Hi Atish, Palmer,
-> 
-> On Tue, Apr 24, 2018 at 06:15:49PM -0700, Atish Patra wrote:
->> On 4/24/18 5:29 PM, Palmer Dabbelt wrote:
->>> On Tue, 24 Apr 2018 15:16:16 PDT (-0700), atish.patra@wdc.com wrote:
->>>> On 4/24/18 12:44 PM, Palmer Dabbelt wrote:
->>>>> On Tue, 24 Apr 2018 12:27:26 PDT (-0700), atish.patra@wdc.com wrote:
->>>>>> On 4/24/18 11:07 AM, Atish Patra wrote:
->>>>>>> On 4/19/18 4:28 PM, Alan Kao wrote:
->>>>>>> However, I got an rcu-stall for the test "47: Event times".
->>>>>>> # ./perf test -v 47
->>>>>> Got it working. The test tries to attach the event to CPU0 which doesn't
->>>>>> exist in HighFive Unleashed. Changing it to cpu1 works.
->>>>>>
->>>>>> diff --git a/tools/perf/tests/event-times.c b/tools/perf/tests/event-times.c
->>>>>> index 1a2686f..eb11632f 100644
->>>>>> --- a/tools/perf/tests/event-times.c
->>>>>> +++ b/tools/perf/tests/event-times.c
->>>>>> @@ -113,9 +113,9 @@ static int attach__cpu_disabled(struct perf_evlist
->>>>>> *evlist)
->>>>>>            struct cpu_map *cpus;
->>>>>>            int err;
->>>>>>
->>>>>> -       pr_debug("attaching to CPU 0 as enabled\n");
->>>>>> +       pr_debug("attaching to CPU 1 as disabled\n");
->>>>>>
->>>>>> -       cpus = cpu_map__new("0");
->>>>>> +       cpus = cpu_map__new("1");
->>>>>>            if (cpus == NULL) {
->>>>>>                    pr_debug("failed to call cpu_map__new\n");
->>>>>>                    return -1;
->>>>>> @@ -142,9 +142,9 @@ static int attach__cpu_enabled(struct perf_evlist
->>>>>> *evlist)
->>>>>>            struct cpu_map *cpus;
->>>>>>            int err;
->>>>>>
->>>>>> -       pr_debug("attaching to CPU 0 as enabled\n");
->>>>>> +       pr_debug("attaching to CPU 1 as enabled\n");
->>>>>>
->>>>>> -       cpus = cpu_map__new("0");
->>>>>> +       cpus = cpu_map__new("1");
->>>>>>            if (cpus == NULL) {
->>>>>>                    pr_debug("failed to call cpu_map__new\n");
->>>>>>                    return -1;
->>>>>>
->>>>>>
->>>>>> Palmer,
->>>>>> Would it be better to officially document it somewhere that CPU0 doesn't
->>>>>> exist in the HighFive Unleashed board ?
->>>>>> I fear that there will be other standard tests/code path that may fail
->>>>>> because of inherent assumption of cpu0 presence.
->>>>>
->>>>> I think the best way to fix this is to just have BBL (or whatever the
->>>>> bootloader is) renumber the CPUs so they're contiguous and begin with 0.
->>>>
->>>> Do you mean BBL will update the device tree that kernel eventually parse
->>>> and set the hart id?
->>>> Sounds good to me unless it acts as a big hack in future boot loaders.
->>>
->>> Right now the machine-mode and supervisor-mode hart IDs are logically separate:
->>> the bootloader just provides the hart ID as a register argument when starting
->>> the kernel.
->>
->> Yes.
->>
->>    BBL already needs to enumerate the harts by looking through the
->>> device tree for various other reasons (at least to mask off the harts that
->>> Linux doesn't support), so it's not that much effort to just maintain a mapping
->> >from supervisor-mode hart IDs to machine-mode hart IDs.
->>>
->>
->> But Linux also parses the device tree to get hart ID in
->> riscv_of_processor_hart(). This is used to setup the possible/present cpu
->> map in setup_smp().
->>
->> Thus, Linux also need to see a device tree with cpu0-3 instead of cpu1-4.
->> Otherwise, present cpu map will be incorrect. Isn't it ?
->>
->>> I have some patches floating around that do this, but appear to do it
->>> incorrectly enough that nothing boots so maybe I'm missing something that makes
->>> this complicated :).
->>>
->>
->> Just a wild guess: May be the because of the above reason ;)
->>
-> 
-> Thanks for the test and discussion.  It looks like am implementation issue from
-> Unleash, so ... is there anything I should fix and provide a further patch?
-> 
-Nope. Nothing for this issue.
-The fix for this issue should be either in bbl or kernel as a separate 
-patch.
+I don't know why I'm included in review of this driver, but why
+not :) it is good to include people.
+
+Thanks for your patch! It looks exciting and complicated,
+I like that kind of stuff.
+
+On Mon, Apr 23, 2018 at 4:46 PM, Bryant G. Ly
+<bryantly@linux.vnet.ibm.com> wrote:
+
+> This driver is a logical device which provides an
+> interface between the hypervisor and a management
+> partition.
+
+Please indicate what this management partition is to
+be used for, i.e. the intended use case.
+
+> This driver is to be used for the POWER Virtual
+> Management Channel Virtual Adapter on the PowerVM
+> platform.
+
+Is that virtualization on the PowerPC platform?
+
+> It provides both request/response and
+> async message support through the /dev/ibmvmc node.
+
+Is that a character or block device?
+I guess block, but it's nice to have some specifics
+in the commit message.
+
+> diff --git a/Documentation/misc-devices/ibmvmc.txt b/Documentation/misc-d=
+evices/ibmvmc.txt
+
+The document suffers a bit from internal lingo, so it's be great
+if you improve it a bit with a style that will be welcoming for newcomers
+who have no idea what you are talking about.
+
+I will point out some items below.
+
+> +Description
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Virtual Management Channel (VMC) is a logical device which provides =
+an
+> +interface between the hypervisor and a management partition.
+
+What kind of interface? A bitstream? Message passing interface?
+Marshalling of structs? Some specifics would be great.
+
+> This
+> +management partition is intended to provide an alternative to HMC-based
+> +system management.
+
+Please expand the acronym HMC for the newcomer so we do not need
+to look it up, or it looks like the document is only for people who already
+know everything about virtualization specifics.
+
+> In the management partition, a Novalink application
+> +exists
+
+Is Novalink some kind of product name? In that case, can it be
+instead described with some neutral technology name and state
+Novalink as an examplf of this type of technology?
+
+> which enables a system administrator to configure the system=E2=80=99s
+> +partitioning characteristics
+
+Exemplify "partitioning characteristics", with a sentence in this
+vein: "partitioning characteristics such as FOO, BAR and BAZ".
+
+> via a command line interface (CLI) or
+> +Representational State Transfer Application (REST).
+
+I understand what CLI is but what is a representational state
+transfer application? Is that a fancy name for a GUI application
+doing the same thing as a CLI program would do?
+
+> You can also manage the
+> +server by using PowerVC
+
+There was PowerVM now there is PowerVC. What are those things
+really? PowerVM I guess is virtual machine on PowerPC? What is
+PowerVC? Virtual client (guest) in the PowerVM?
+
+This kind of lingo makes the document a hard read for me.
+
+> or other OpenStack solution.
+
+I heard about OpenStack. I have a vague idea about what it is,
+do you mean "other virtualization concepts"?
+
+> Support for
+> +conventional HMC management of the system may still be provided on a
+> +system; however, when an HMC is attached to the system, the VMC
+> +interface is disabled by the hypervisor.
+
+The VMC acronym is expanded below, instead expand it at first
+instance. The same for HMC (hypervisor management channel I guess?
+it is never really explained.)
+
+> +NovaLink runs on a Linux logical partition on a POWER8 or newer processo=
+r-
+> +based server that is virtualized by PowerVM.
+
+So this information needs to be in the top of the document.
+
+> System configuration,
+> +maintenance, and control functions which traditionally require an HMC ca=
+n
+> +be implemented in the Novalink using a combination of HMC to hypervisor
+> +interfaces and existing operating system methods. This tool provides
+
+What tool? It is unclear what tool we are referring to here.
+A command line tool? A technology? etc.
+
+> a
+> +subset of the functions implemented by the HMC and enables basic partiti=
+on
+> +configuration. The set of HMC to hypervisor messages
+
+This makes me think that probably the "h" in HMC stands for "hypervisor"
+so now I start to puzzle things together. But it's nicer if you just expand
+the acronym the first time you use it.
+
+> supported by the
+> +Novalink component
+
+I still haven't figured out what that is, in practice.
+
+> are passed to the hypervisor over a VMC interface, which
+> +is defined below.
+
+Maybe some illustration of how HMC, Novalink and VMC work
+together would be appropriate?
+
+> +Virtual Management Channel (VMC)
+> +A logical device, called the virtual management channel (VMC), is define=
+d
+> +for communicating between the Novalink application and the hypervisor.
+
+
+So is "Novalink" some specific application, as in a proprietary
+piece of software or something?
+
+I'm still confused.
+
+> +This device, similar to a VSCSI server device,
+
+What is that acronym now, I get completely confused.
+
+> is presented to a designated
+> +management partition as a virtual device and is only presented when the
+> +system is not HMC managed.
+> +This communication device borrows aspects from both VSCSI and ILLAN devi=
+ces
+
+Now there is ILLAN too.
+
+> +and is implemented using the CRQ and the RDMA interfaces.
+
+CRQ and RDMA. The RDMA I heard about, I wonder what CRQ is.
+
+At this point the document is referring to so much external a priori
+knowledge that I don't have that I don't understand anything at all.
+
+So if this document is meant as an introduction to the technology
+for newcomers, it's not working at all, unfortunately.
+
+If some specific domain knowledge is needed to read and
+understand the document, you need to state these prerequisites
+at the beginning of the document.
+
+Something like: "if you don't know a lot about virtualization already,
+then don't even bother trying to read this document".
+
+Yours,
+Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
