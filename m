@@ -5,39 +5,39 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D76257E677
+	by archive.lwn.net (Postfix) with ESMTP id EC4767E88F
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 12:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753686AbeDYMzs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Apr 2018 08:55:48 -0400
-Received: from lelnx193.ext.ti.com ([198.47.27.77]:11929 "EHLO
-        lelnx193.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751525AbeDYMzp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 08:55:45 -0400
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-        by lelnx193.ext.ti.com (8.15.1/8.15.1) with ESMTP id w3PCtcxF009643;
-        Wed, 25 Apr 2018 07:55:38 -0500
+        id S1754105AbeDYMz6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Apr 2018 08:55:58 -0400
+Received: from fllnx209.ext.ti.com ([198.47.19.16]:15285 "EHLO
+        fllnx209.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753354AbeDYMzx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 08:55:53 -0400
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by fllnx209.ext.ti.com (8.15.1/8.15.1) with ESMTP id w3PCtN0K024426;
+        Wed, 25 Apr 2018 07:55:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ti.com;
-        s=ti-com-17Q1; t=1524660938;
-        bh=/8Ou7B4dm28U6sJ/5E525V6EKnE/c5mEPDn+8+oiZR8=;
+        s=ti-com-17Q1; t=1524660923;
+        bh=9iJPrhsmwWZn4+54sd6nnY9SVFPKFEx8O6NDd6WXnZc=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=lsBtIMLx7AlMdyPAlO/z2ydORZXFmuTrB3VEtadzScL/rJ5clydTmbwLt8/C3NBlq
-         1sc0GSwJro/gqjWxHeI+txbd3Ta8je+wadTci6onWlV0+FCvDHwZ4yxFvB7YbNMYpU
-         poRkJw6xUu4213tToHlKVs3ZpV3o1x+EbMhohHEo=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3PCtcKJ024305;
-        Wed, 25 Apr 2018 07:55:38 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+        b=VGyXBPO2qK081uy4R4ISGPp/CW4matDzB7alyibmug62QUyKzX8TwuQyy1hqH0F86
+         JQ6juTYLiYU6NTeaW5FBeqYtzZZjGBxWhwF8UuG2vuX2CmfFU7MQ2ZeI3yO3s/0I9N
+         FTA7N4AsIR4Vc604fjFsy3O8i1mZ6ksTc/jxrn+c=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3PCtN8E024326;
+        Wed, 25 Apr 2018 07:55:23 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Wed, 25
- Apr 2018 07:55:37 -0500
-Received: from dlep32.itg.ti.com (157.170.170.100) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_0,
+ Apr 2018 07:55:23 -0500
+Received: from dlep32.itg.ti.com (157.170.170.100) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_0,
  cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
- Wed, 25 Apr 2018 07:55:37 -0500
+ Wed, 25 Apr 2018 07:55:23 -0500
 Received: from a0393678ub.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dlep32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3PCt1SM021671;
-        Wed, 25 Apr 2018 07:55:34 -0500
+        by dlep32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3PCt1SI021671;
+        Wed, 25 Apr 2018 07:55:20 -0500
 From:   Kishon Vijay Abraham I <kishon@ti.com>
 To:     =?UTF-8?q?Beno=C3=AEt=20Cousson=20?= <bcousson@baylibre.com>,
         Tony Lindgren <tony@atomide.com>
@@ -45,12 +45,10 @@ CC:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         <linux-doc@vger.kernel.org>, <kishon@ti.com>,
         <linux-mmc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        Hari Nagalla <hnagalla@ti.com>, Eyal Reizer <eyalr@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>
-Subject: [PATCH v3 09/15] ARM: dts: dra72-evm-common: Add wilink8 wlan support
-Date:   Wed, 25 Apr 2018 18:24:43 +0530
-Message-ID: <20180425125449.19755-10-kishon@ti.com>
+        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>
+Subject: [PATCH v3 05/15] ARM: dts: dra76x-mmc-iodelay: Add a new pinctrl group for clk line without pullup
+Date:   Wed, 25 Apr 2018 18:24:39 +0530
+Message-ID: <20180425125449.19755-6-kishon@ti.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180425125449.19755-1-kishon@ti.com>
 References: <20180425125449.19755-1-kishon@ti.com>
@@ -62,115 +60,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Hari Nagalla <hnagalla@ti.com>
+During a short period when the bus voltage is switched from 3.3v to 1.8v,
+(to enumerate UHS mode), the mmc module is disabled and the mmc IO lines
+are kept in a state according to the programmed pad mux pull type.
 
-Wilink8 module is a combo wireless connectivity card based
-on Texas Instrument's wl18xx solution.
+According to 4.2.4.2 Timing to Switch Signal Voltage in "SD Specifications
+Part 1 Physical Layer Specification Version 5.00 February 22, 2016", the
+host should hold CLK line low for at least 5ms.
 
-Add support for the wlan capabilities of this module by muxing
-the relevant mmc lines, and setting the required device-tree
-data.
+In order to keep the card line low during voltage switch, the pad mux of
+mmc1_clk line should be configured to pull down.
 
-Signed-off-by: Eyal Reizer <eyalr@ti.com>
-Signed-off-by: Hari Nagalla <hnagalla@ti.com>
-[nsekhar@ti.com: drop WLAN_EN pinmux. It should be done by bootloader.
-                 Also, some commit message adjustments]
-Signed-off-by: Sekhar Nori <nsekhar@ti.com>
+Add a new pinctrl group for clock line without pullup to be used in boards
+where mmc1_clk line is not connected to an external pullup.
+
 Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
- arch/arm/boot/dts/dra72-evm-common.dtsi   | 42 +++++++++++++++++++++++
- arch/arm/boot/dts/dra72x-mmc-iodelay.dtsi | 11 ++++++
- 2 files changed, 53 insertions(+)
+ arch/arm/boot/dts/dra76x-mmc-iodelay.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/arch/arm/boot/dts/dra72-evm-common.dtsi b/arch/arm/boot/dts/dra72-evm-common.dtsi
-index 8e3b185d864b..1e4d36e33a1b 100644
---- a/arch/arm/boot/dts/dra72-evm-common.dtsi
-+++ b/arch/arm/boot/dts/dra72-evm-common.dtsi
-@@ -44,6 +44,16 @@
- 		regulator-boot-on;
- 	};
- 
-+	evm_3v6: fixedregulator-evm_3v6 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "evm_3v6";
-+		regulator-min-microvolt = <3600000>;
-+		regulator-max-microvolt = <3600000>;
-+		vin-supply = <&evm_5v0>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+
- 	vsys_3v3: fixedregulator-vsys3v3 {
- 		/* Output 2 of TPS43351QDAPRQ1 on dra72-evm */
- 		/* Output 2 of LM5140QRWGTQ1 on dra71-evm */
-@@ -171,6 +181,15 @@
- 			clocks = <&atl_clkin2_ck>;
- 		};
- 	};
-+
-+	vmmcwl_fixed: fixedregulator-mmcwl {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vmmcwl_fixed";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		gpio = <&gpio5 8 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
- };
- 
- &dra7_pmx_core {
-@@ -398,6 +417,29 @@
- 	max-frequency = <192000000>;
- };
- 
-+&mmc4 {
-+	status = "okay";
-+	vmmc-supply = <&evm_3v6>;
-+	vqmmc-supply = <&vmmcwl_fixed>;
-+	bus-width = <4>;
-+	cap-power-off-card;
-+	keep-power-in-suspend;
-+	non-removable;
-+	pinctrl-names = "default", "hs", "sdr12", "sdr25";
-+	pinctrl-0 = <&mmc4_pins_default>;
-+	pinctrl-1 = <&mmc4_pins_default>;
-+	pinctrl-2 = <&mmc4_pins_default>;
-+	pinctrl-3 = <&mmc4_pins_default>;
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	wlcore: wlcore@2 {
-+		compatible = "ti,wl1835";
-+		reg = <2>;
-+		interrupt-parent = <&gpio5>;
-+		interrupts = <7 IRQ_TYPE_EDGE_RISING>;
-+	};
-+};
-+
- &mac {
- 	status = "okay";
- };
-diff --git a/arch/arm/boot/dts/dra72x-mmc-iodelay.dtsi b/arch/arm/boot/dts/dra72x-mmc-iodelay.dtsi
-index c9351eaf97f0..4cf5482fbc33 100644
---- a/arch/arm/boot/dts/dra72x-mmc-iodelay.dtsi
-+++ b/arch/arm/boot/dts/dra72x-mmc-iodelay.dtsi
-@@ -213,6 +213,17 @@
- 			DRA7XX_CORE_IOPAD(0x3498, PIN_INPUT_PULLUP | MODE_SELECT | MUX_MODE1) /* gpmc_a22.mmc2_dat7 */
+diff --git a/arch/arm/boot/dts/dra76x-mmc-iodelay.dtsi b/arch/arm/boot/dts/dra76x-mmc-iodelay.dtsi
+index baba7b00eca7..b6327220a88e 100644
+--- a/arch/arm/boot/dts/dra76x-mmc-iodelay.dtsi
++++ b/arch/arm/boot/dts/dra76x-mmc-iodelay.dtsi
+@@ -38,6 +38,17 @@
  		>;
  	};
-+
-+	mmc4_pins_default: mmc4_pins_default {
+ 
++	mmc1_pins_default_no_clk_pu: mmc1_pins_default_no_clk_pu {
 +		pinctrl-single,pins = <
-+			DRA7XX_CORE_IOPAD(0x37e8, PIN_INPUT_PULLUP | MUX_MODE3) /* uart1_ctsn.mmc4_clk */
-+			DRA7XX_CORE_IOPAD(0x37ec, PIN_INPUT_PULLUP | MUX_MODE3) /* uart1_rtsn.mmc4_cmd */
-+			DRA7XX_CORE_IOPAD(0x37f0, PIN_INPUT_PULLUP | MUX_MODE3) /* uart2_rxd.mmc4_dat0 */
-+			DRA7XX_CORE_IOPAD(0x37f4, PIN_INPUT_PULLUP | MUX_MODE3) /* uart2_txd.mmc4_dat1 */
-+			DRA7XX_CORE_IOPAD(0x37f8, PIN_INPUT_PULLUP | MUX_MODE3) /* uart2_ctsn.mmc4_dat2 */
-+			DRA7XX_CORE_IOPAD(0x37fc, PIN_INPUT_PULLUP | MUX_MODE3) /* uart2_rtsn.mmc4_dat3 */
++			DRA7XX_CORE_IOPAD(0x3754, PIN_INPUT_PULLDOWN | MUX_MODE0) /* mmc1_clk.clk */
++			DRA7XX_CORE_IOPAD(0x3758, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_cmd.cmd */
++			DRA7XX_CORE_IOPAD(0x375c, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat0.dat0 */
++			DRA7XX_CORE_IOPAD(0x3760, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat1.dat1 */
++			DRA7XX_CORE_IOPAD(0x3764, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat2.dat2 */
++			DRA7XX_CORE_IOPAD(0x3768, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat3.dat3 */
 +		>;
 +	};
- };
- 
- &dra7_iodelay_core {
++
+ 	mmc1_pins_hs: mmc1_pins_hs {
+ 		pinctrl-single,pins = <
+ 			DRA7XX_CORE_IOPAD(0x3754, PIN_INPUT_PULLUP | MUX_VIRTUAL_MODE11 | MUX_MODE0) /* mmc1_clk.clk */
 -- 
 2.17.0
 
