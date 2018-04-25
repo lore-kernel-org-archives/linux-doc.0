@@ -1,215 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 47A1D7E279
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 24 Apr 2018 22:16:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5EC297DD31
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 00:00:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750853AbeDXWQS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 24 Apr 2018 18:16:18 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:61281 "EHLO
-        esa2.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750756AbeDXWQR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 18:16:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1524608852; x=1556144852;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=JLEGH0T4l0B9wYmc12OO5Qt8YYsWhUyMS3preevDo4M=;
-  b=g2IG3xoGUAtgzUzOHINCC0H5IGLPaHt6u94sy++yRpHCxJLQr42l9gYB
-   dw28paw2hpA2uK5pJZr/LAIDYsmc+DjE56U8lZEdQMkgPl2/SEUBirmLe
-   73pH3y3FQuZ1IdnaNfO1JMtGbGpePXT4usxoRdLGWgK4BTfyza3ytYH/F
-   gpUO2QhgBFEjglrf7UO0C5GDLtrjNy18ODxuauxXyynUW9pqqt12zMQbB
-   yDeBa/P+onGPRZGt5CimGgzA+/qpfnDoGk48vAScx2RB2Whr5QoOaVtUI
-   JUZ40auTJn79bxo++EzA1l49py9sGDz8tZYTMn8A/D5rNGJh+m0OvsyzF
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.49,324,1520870400"; 
-   d="scan'208";a="173301547"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 25 Apr 2018 06:27:31 +0800
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP; 24 Apr 2018 15:08:30 -0700
-Received: from c02v91rdhtd5.sdcorp.global.sandisk.com (HELO [10.111.65.51]) ([10.111.65.51])
-  by uls-op-cesaip02.wdc.com with ESMTP; 24 Apr 2018 15:16:18 -0700
-Subject: Re: [PATCH v5 0/2] perf: riscv: Preliminary Perf Event Support on
- RISC-V
-To:     Palmer Dabbelt <palmer@sifive.com>
-Cc:     "alankao@andestech.com" <alankao@andestech.com>,
-        "albert@sifive.com" <albert@sifive.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "acme@kernel.org" <acme@kernel.org>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "jolsa@redhat.com" <jolsa@redhat.com>,
-        "namhyung@kernel.org" <namhyung@kernel.org>,
-        "sols@sifive.com" <sols@sifive.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "greentime@andestech.com" <greentime@andestech.com>,
-        "nickhu@andestech.com" <nickhu@andestech.com>
-References: <mhng-355dc09a-ef4a-4cb0-b7fe-c2ac57a04a5c@palmer-si-x1c4>
-From:   Atish Patra <atish.patra@wdc.com>
-Message-ID: <054df682-c002-23ba-075b-a38c9085260c@wdc.com>
-Date:   Tue, 24 Apr 2018 15:16:16 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
- Gecko/20100101 Thunderbird/52.7.0
+        id S1750791AbeDYAAl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 24 Apr 2018 20:00:41 -0400
+Received: from mail-ua0-f194.google.com ([209.85.217.194]:36072 "EHLO
+        mail-ua0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750766AbeDYAAk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Apr 2018 20:00:40 -0400
+Received: by mail-ua0-f194.google.com with SMTP id v4so13773795uaj.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Apr 2018 17:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to;
+        bh=pSwvP27gE/tY/MIKwYpFGuQGhVzbcqJRSJi2xJskKrU=;
+        b=eUrZXEvKuyx0Y3bRZbITsqmUIhdrD/BYCOvwI7xE7qGf0gde9NeJ2l/U6EfZHJKn7k
+         iqVRcbMjA0f0IfefxridMo9l5iJdJaLGMTAWVIH2gTLOvDSvUT2/B2imcf0cgAdC0Zcb
+         LTPAUM5wiQMvSltoKwjfzOZnhj+8ajkMEtSb7ZfV892t0AYD70EM+hiK14CAPZ+diDuQ
+         XxMOdhgLwYe+LbR/Cz8QtRS9BSXqSgBDnt5c6B19ZZw+WcwpEwSzX4Q7Q0QXFZbFNDJd
+         eBOiqcAvut3xNxBVXQFAIQ/smX0N8QC4Y8RkzsF9BrqnFJAa9C+oeg9N9e0v7i9kO27L
+         2ODw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to;
+        bh=pSwvP27gE/tY/MIKwYpFGuQGhVzbcqJRSJi2xJskKrU=;
+        b=oW7HpmNxCVjLK2hCEZxdabOq1DHpfu3kYi1lUsPO/PYMz/uS1kafi8v3uopKEkB6q9
+         N7M7RidJ7VWoi4Iv+Xw2m2hqRDvrHBMSeSfjueR1CCfy9rxMMN0MvSlqXkSDMQFiOKNl
+         8h9wIDOSBTSgYrofe3mNrUXWW+3FltaLbD1z0KYTg80+/U/4Z8Y399xqqfIf4T7DWp00
+         hZ4pBmSo+0Be4Qyl6Q18ggXqOuaxPoxmFOu0ikUriIEy/ZXy7z68fPZXVFMCavusj9F9
+         qA4bj5uclggIUHbQog1G3zblM5EpB0D3WR5TtXmEfUh+1BV61YpqDF295Rd8/eIILK2Q
+         dIaA==
+X-Gm-Message-State: ALQs6tDeHF2mWmNMjtEsFjjwR0fQhhTH5L5FCRsUNDATcrlXytxUic88
+        NugGq5Fid9kDvVkScJ/AWBifg6WphZ3FPL5swKtgqw==
+X-Google-Smtp-Source: AIpwx49C3JFa54U8RiJIQiVvohbhKvHuMKuyB0g6Q54qxqRjN76G5CSMNMWSZ44w2ZqwdP3sCY6W+QONM8/0lpkDr/I=
+X-Received: by 10.176.21.1 with SMTP id o1mr12832012uae.126.1524614439708;
+ Tue, 24 Apr 2018 17:00:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <mhng-355dc09a-ef4a-4cb0-b7fe-c2ac57a04a5c@palmer-si-x1c4>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 10.31.110.140 with HTTP; Tue, 24 Apr 2018 17:00:19 -0700 (PDT)
+In-Reply-To: <20180419222356.242535-1-hansens@google.com>
+References: <20180419222356.242535-1-hansens@google.com>
+From:   Sam Hansen <hansens@google.com>
+Date:   Tue, 24 Apr 2018 17:00:19 -0700
+Message-ID: <CAP9bUy4aPPn=FdU1ZoFshK0dGpVuuaHt=M_YdHnSGLB63Q8Z+Q@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/i2c: direct users to i2c-tools regarding i2c/smbus.h
+To:     linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.de>,
+        Sam Hansen <hansens@google.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/24/18 12:44 PM, Palmer Dabbelt wrote:
-> On Tue, 24 Apr 2018 12:27:26 PDT (-0700), atish.patra@wdc.com wrote:
->> On 4/24/18 11:07 AM, Atish Patra wrote:
->>> On 4/19/18 4:28 PM, Alan Kao wrote:
->>>> This implements the baseline PMU for RISC-V platforms.
->>>>
->>>> To ease future PMU portings, a guide is also written, containing
->>>> perf concepts, arch porting practices and some hints.
->>>>
->>>> Changes in v5:
->>>>     - Fix patch errors from checkpatch.pl.
->>>>
->>>> Changes in v4:
->>>>     - Fix several compilation errors.  Sorry for that.
->>>>     - Raise a warning in the write_counter body.
->>>>
->>>> Changes in v3:
->>>>     - Fix typos in the document.
->>>>     - Change the initialization routine from statically assigning PMU to
->>>>       device-tree-based methods, and set default to the PMU proposed in
->>>>       this patch.
->>>>
->>>> Changes in v2:
->>>>     - Fix the bug reported by Alex, which was caused by not sufficient
->>>>       initialization.  Check https://lkml.org/lkml/2018/3/31/251 for the
->>>>       discussion.
->>>>
->>>> Alan Kao (2):
->>>>      perf: riscv: preliminary RISC-V support
->>>>      perf: riscv: Add Document for Future Porting Guide
->>>>
->>>>     Documentation/riscv/pmu.txt         | 249 ++++++++++++++
->>>>     arch/riscv/Kconfig                  |  13 +
->>>>     arch/riscv/include/asm/perf_event.h |  79 ++++-
->>>>     arch/riscv/kernel/Makefile          |   1 +
->>>>     arch/riscv/kernel/perf_event.c      | 485 ++++++++++++++++++++++++++++
->>>>     5 files changed, 823 insertions(+), 4 deletions(-)
->>>>     create mode 100644 Documentation/riscv/pmu.txt
->>>>     create mode 100644 arch/riscv/kernel/perf_event.c
->>>>
->>> Most of the perf tests either pass or fail because of unsupported
->>> event/trace point which is fine.
->>>
->>> However, I got an rcu-stall for the test "47: Event times".
->>> # ./perf test -v 47
->>> 47: Event times                                :
->>> --- start ---
->>> test child forked, pid 2774
->>> attaching to spawned child, enable on exec
->>>       OK    : ena 2243000, run 2243000
->>> attaching to current thread as enabled
->>>       OK    : ena 19000, run 19000
->>> attaching to current thread as disabled
->>>       OK    : ena 5000, run 5000
->>> attaching to CPU 0 as enabled
->>> [ 1001.466578] INFO: rcu_sched self-detected stall on CPU
->>> [ 1001.470947]  4-....: (29999 ticks this GP) idle=5fa/140000000000001/0
->>> softirq=19762/19762 fqs=14602
->>> [ 1001.480053]   (t=30001 jiffies g=3471 c=3470 q=125)
->>> [ 1001.484917] Task dump for CPU 4:
->>> [ 1001.488129] perf            R  running task        0  2774   2773
->>> 0x00000008
->>> [ 1001.495161] Call Trace:
->>> [ 1001.497606] [<000000006a3d4f87>] walk_stackframe+0x0/0xc0
->>> [ 1001.502980] [<000000004b4b0780>] show_stack+0x3c/0x46
->>> [ 1001.508024] [<0000000060c96ab8>] sched_show_task+0xd0/0x122
->>> [ 1001.513573] [<000000007d8bd54e>] dump_cpu_task+0x50/0x5a
->>> [ 1001.518870] [<0000000053990e11>] rcu_dump_cpu_stacks+0x98/0xd2
->>> [ 1001.524685] [<00000000fe94c593>] rcu_check_callbacks+0x614/0x822
->>> [ 1001.530680] [<0000000057688dd3>] update_process_times+0x38/0x6a
->>> [ 1001.536585] [<0000000063a96de0>] tick_periodic+0x58/0xd8
->>> [ 1001.541876] [<0000000013d712f1>] tick_handle_periodic+0x2e/0x7c
->>> [ 1001.547780] [<000000009e2ef428>] riscv_timer_interrupt+0x34/0x3c
->>> [ 1001.553774] [<00000000ff6b1f18>] riscv_intc_irq+0xbc/0xe0
->>> [ 1001.559153] [<00000000c8614c3b>] ret_from_exception+0x0/0xc
->>>
->>> It is quite possible that we don't support some dependency
->>> infrastructure. I am looking into it.
->>>
->>> Regards,
->>> Atish
->>>
->>>
->>>
->>>
->>>
->>
->> Got it working. The test tries to attach the event to CPU0 which doesn't
->> exist in HighFive Unleashed. Changing it to cpu1 works.
->>
->> diff --git a/tools/perf/tests/event-times.c b/tools/perf/tests/event-times.c
->> index 1a2686f..eb11632f 100644
->> --- a/tools/perf/tests/event-times.c
->> +++ b/tools/perf/tests/event-times.c
->> @@ -113,9 +113,9 @@ static int attach__cpu_disabled(struct perf_evlist
->> *evlist)
->>           struct cpu_map *cpus;
->>           int err;
->>
->> -       pr_debug("attaching to CPU 0 as enabled\n");
->> +       pr_debug("attaching to CPU 1 as disabled\n");
->>
->> -       cpus = cpu_map__new("0");
->> +       cpus = cpu_map__new("1");
->>           if (cpus == NULL) {
->>                   pr_debug("failed to call cpu_map__new\n");
->>                   return -1;
->> @@ -142,9 +142,9 @@ static int attach__cpu_enabled(struct perf_evlist
->> *evlist)
->>           struct cpu_map *cpus;
->>           int err;
->>
->> -       pr_debug("attaching to CPU 0 as enabled\n");
->> +       pr_debug("attaching to CPU 1 as enabled\n");
->>
->> -       cpus = cpu_map__new("0");
->> +       cpus = cpu_map__new("1");
->>           if (cpus == NULL) {
->>                   pr_debug("failed to call cpu_map__new\n");
->>                   return -1;
->>
->>
->> Palmer,
->> Would it be better to officially document it somewhere that CPU0 doesn't
->> exist in the HighFive Unleashed board ?
->> I fear that there will be other standard tests/code path that may fail
->> because of inherent assumption of cpu0 presence.
-> 
-> I think the best way to fix this is to just have BBL (or whatever the
-> bootloader is) renumber the CPUs so they're contiguous and begin with 0.
+friendly ping :)
 
-Do you mean BBL will update the device tree that kernel eventually parse 
-and set the hart id?
-Sounds good to me unless it acts as a big hack in future boot loaders.
+This was an incremental patch requested by Wolfram.
 
-> Documenting it it just a way to tell people their code needs to be changed,
-> it'll still break.
-> 
-Agreed.
-
+On Thu, Apr 19, 2018 at 3:23 PM, Sam Hansen <hansens@google.com> wrote:
+> The current examples reference i2c/smbus.h, which is the first reference
+> in Documentation/i2c/dev-interface to anything related to the i2c-tools
+> project.  This moves the existing reference to i2c-tools up into the
+> C-example, directing the user to the project's git repository.
+>
+> Signed-off-by: Sam Hansen <hansens@google.com>
+> ---
+>  Documentation/i2c/dev-interface | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/i2c/dev-interface b/Documentation/i2c/dev-interface
+> index fbed645ccd75..ed20f7b7851a 100644
+> --- a/Documentation/i2c/dev-interface
+> +++ b/Documentation/i2c/dev-interface
+> @@ -23,6 +23,10 @@ First, you need to include these two headers:
+>    #include <linux/i2c-dev.h>
+>    #include <i2c/smbus.h>
+>
+> +The i2c/smbus header file is provided by the i2c-tools project.  For more info
+> +about i2c-tools, see:
+> +https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/
+> +
+>  Now, you have to decide which adapter you want to access. You should
+>  inspect /sys/class/i2c-dev/ or run "i2cdetect -l" to decide this.
+>  Adapter numbers are assigned somewhat dynamically, so you can not
+> @@ -163,10 +167,6 @@ what happened. The 'write' transactions return 0 on success; the
+>  returns the number of values read. The block buffers need not be longer
+>  than 32 bytes.
+>
+> -The above functions are made available by linking against the libi2c library,
+> -which is provided by the i2c-tools project.  See:
+> -https://git.kernel.org/pub/scm/utils/i2c-tools/i2c-tools.git/.
+> -
+>
+>  Implementation details
+>  ======================
+> --
+> 2.17.0.484.g0c8726318c-goog
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
