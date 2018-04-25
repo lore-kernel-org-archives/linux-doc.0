@@ -1,144 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 77EF47DD32
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 14:45:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4CECE7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 25 Apr 2018 14:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754586AbeDYOpk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Apr 2018 10:45:40 -0400
-Received: from mail-io0-f194.google.com ([209.85.223.194]:44390 "EHLO
-        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753508AbeDYOpj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 10:45:39 -0400
-Received: by mail-io0-f194.google.com with SMTP id d11-v6so19232582iof.11
-        for <linux-doc@vger.kernel.org>; Wed, 25 Apr 2018 07:45:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=YlBfK6n7Of0FzQdbj9r2UZ0nRYPmsU2alNg5wsFFVxM=;
-        b=BpfeXz3cWKqH0Ir4jT9Op5NWUhoEdQwcxmapmgCMBDOpmywIXq54piBa8CFTGJyxqK
-         emxLddiJb/SVpOeNfZVbaAyW1o24mnUMSkt27Dik11e9nbexTLyiwiOfGKZ3Ll0ypL+8
-         Q3SIbHf/44KGk+aeOSMXJs3SJRoSaBTyBlJ51E9E7wrxvgAsILDljCnUYm5DtA/vGEzV
-         XvuvyXLWjEy5uzfPraWZi3HsvljzBpW5v4WanaxGW1IDs58atlq20WPglQe8LOHYY2H8
-         OVfLnmyT0hTTz7MDdxoTSSAH+FXK55SFlDgRQsNzPa9PcV5hVpo/8BjpRXLlo2n7b39h
-         YKWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=YlBfK6n7Of0FzQdbj9r2UZ0nRYPmsU2alNg5wsFFVxM=;
-        b=B7nnqK+anMyJPSS8DyP8frboEFXnC7EtmvkVQp68nkmmLFR10Q6Pr7jGGT8pr3XxTk
-         8XSkPNFX0mg2w1hCyQ0UJv5HZGYZrPKQjUD2FCUYi7q6c8vOHxmzxyuSjCwYY1/2gnDy
-         2biTg0PBX8rwjJBrJJ4YK1ST6tVif9U7Q/Obk7KuQCr5cnGySZHs/hIQ/kSMAGmRcPj4
-         m33fQ0knWEDiTrs8zehgLZMVv3Py3EViqpy2aRPPY7O3WyIJQChy8458CZu2bbUrDKe9
-         DYSAUIR27wMFRcWc48GFoakz4+runQnzwPwycfHzWkWmPARbTvlhR0M+hKHubOyeO91F
-         M4/w==
-X-Gm-Message-State: ALQs6tBZlB+H/J6pMPjiQA0yGYTMvdZJ/kLDqZiuRI4cV8TSjy97qbFe
-        vm93X7KzzWOt45t0jwW7yI7+l0LPC3Vc0BJW3YHM5A==
-X-Google-Smtp-Source: AIpwx48QK6d+WZcKCE7kty16J6CKVGzyUtUq0mXFQZ7ZXygiX4i+nJq67hcTnfdyRhPvNQR6sG6za3fbmk3S+YOkgWc=
-X-Received: by 2002:a6b:b90b:: with SMTP id j11-v6mr32370038iof.58.1524667537766;
- Wed, 25 Apr 2018 07:45:37 -0700 (PDT)
+        id S1754686AbeDYOrc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 25 Apr 2018 10:47:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35388 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1754203AbeDYOra (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Apr 2018 10:47:30 -0400
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com [209.85.216.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 46314217D9;
+        Wed, 25 Apr 2018 14:47:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 46314217D9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=robh+dt@kernel.org
+Received: by mail-qt0-f180.google.com with SMTP id c2-v6so9424773qtn.9;
+        Wed, 25 Apr 2018 07:47:29 -0700 (PDT)
+X-Gm-Message-State: ALQs6tBD5WPoKT45NsdXTxeLP3QBa0So+8vnHmK73aC/mX4D38FxPPuJ
+        EiJNqdHCcQeMQW1TuOjbgAxMrGaf0C/wydbJ9w==
+X-Google-Smtp-Source: AB8JxZpZof4hY8WpFccYDrFKD/pBz537bub1hmRpXEhWh5r/m77O0L3ZzE3ZWa0xfbaHTu3rZnSb5u31sZjx27b/uCY=
+X-Received: by 2002:ac8:1e18:: with SMTP id n24-v6mr33501112qtl.118.1524667648478;
+ Wed, 25 Apr 2018 07:47:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:6658:0:0:0:0:0 with HTTP; Wed, 25 Apr 2018 07:45:37
- -0700 (PDT)
-In-Reply-To: <20180419093306.rn5bz264nxsn7d7c@node.shutemov.name>
-References: <cover.1524077494.git.andreyknvl@google.com> <20180419093306.rn5bz264nxsn7d7c@node.shutemov.name>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 25 Apr 2018 16:45:37 +0200
-Message-ID: <CAAeHK+yb-U3h0666i3u3fF3=8XVcZUo1nxZ5CnOd9oUiDFP=Ng@mail.gmail.com>
-Subject: Re: [PATCH 0/6] arm64: untag user pointers passed to the kernel
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
+Received: by 10.12.163.228 with HTTP; Wed, 25 Apr 2018 07:47:08 -0700 (PDT)
+In-Reply-To: <20180425125449.19755-12-kishon@ti.com>
+References: <20180425125449.19755-1-kishon@ti.com> <20180425125449.19755-12-kishon@ti.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 25 Apr 2018 09:47:08 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKBXbcQxbN7z9j_DKgiaQg4buUa+08fg9zPELv-ucpRZA@mail.gmail.com>
+Message-ID: <CAL_JsqKBXbcQxbN7z9j_DKgiaQg4buUa+08fg9zPELv-ucpRZA@mail.gmail.com>
+Subject: Re: [PATCH v3 11/15] ARM: dts: dra7-evm: Add wilink8 wlan support
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Hari Nagalla <hnagalla@ti.com>, Ido Yariv <ido@wizery.com>,
+        Eyal Reizer <eyalr@ti.com>, Sekhar Nori <nsekhar@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 19, 2018 at 11:33 AM, Kirill A. Shutemov
-<kirill@shutemov.name> wrote:
-> On Wed, Apr 18, 2018 at 08:53:09PM +0200, Andrey Konovalov wrote:
->> Hi!
->>
->> arm64 has a feature called Top Byte Ignore, which allows to embed pointer
->> tags into the top byte of each pointer. Userspace programs (such as
->> HWASan, a memory debugging tool [1]) might use this feature and pass
->> tagged user pointers to the kernel through syscalls or other interfaces.
->>
->> This patch makes a few of the kernel interfaces accept tagged user
->> pointers. The kernel is already able to handle user faults with tagged
->> pointers and has the untagged_addr macro, which this patchset reuses.
->>
->> We're not trying to cover all possible ways the kernel accepts user
->> pointers in one patchset, so this one should be considered as a start.
+On Wed, Apr 25, 2018 at 7:54 AM, Kishon Vijay Abraham I <kishon@ti.com> wrote:
+> From: Hari Nagalla <hnagalla@ti.com>
 >
-> How many changes do you anticipate?
+> The wilink module is a combo wireless connectivity sdio
+> card based on Texas Instrument's wl18xx solution. It is a
+> 4-wire, 1.8V, embedded sdio wlan device with an external
+> irq line and is power-controlled by a gpio-based fixed
+> regulator.
 >
-> This patchset looks small and reasonable, but I see a potential to become a
-> boilerplate. Would we need to change every driver which implements ioctl()
-> to strip these bits?
+> Add pinmux configuration and IODelay values for MMC4.
+> On dra7-evm, MMC4 is used for connecting to wilink module.
+>
+> IODelay data credits to :  Vishal Mahaveer <vishalm@ti.com>
+> and Sekhar Nori <nsekhar@ti.com>
+>
+> Signed-off-by: Ido Yariv <ido@wizery.com>
+> Signed-off-by: Eyal Reizer <eyalr@ti.com>
+> Signed-off-by: Hari Nagalla <hnagalla@ti.com>
+> Signed-off-by: Sekhar Nori <nsekhar@ti.com>
+> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+> ---
+>  arch/arm/boot/dts/dra7-evm-common.dtsi | 15 +++++++++++++++
+>  arch/arm/boot/dts/dra7-evm.dts         | 25 +++++++++++++++++++++++++
+>  2 files changed, 40 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/dra7-evm-common.dtsi b/arch/arm/boot/dts/dra7-evm-common.dtsi
+> index 05a7b1a01bc3..3590c40fc112 100644
+> --- a/arch/arm/boot/dts/dra7-evm-common.dtsi
+> +++ b/arch/arm/boot/dts/dra7-evm-common.dtsi
+> @@ -260,3 +260,18 @@
+>  &pcie1_rc {
+>         status = "okay";
+>  };
+> +
+> +&mmc4 {
+> +       bus-width = <4>;
+> +       cap-power-off-card;
+> +       keep-power-in-suspend;
+> +       non-removable;
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +       wlcore: wlcore@2 {
 
-I've replied to somewhat similar question in one of the previous
-versions of the patchset.
-
-"""
-There are two different approaches to untagging the user pointers that I see:
-
-1. Untag user pointers right after they are passed to the kernel.
-
-While this might be possible for pointers that are passed to syscalls
-as arguments (Catalin's "hack"), this leaves user pointers, that are
-embedded into for example structs that are passed to the kernel. Since
-there's no specification of the interface between user space and the
-kernel, different kernel parts handle user pointers differently and I
-don't see an easy way to cover them all.
-
-2. Untag user pointers where they are used in the kernel.
-
-Although there's no specification on the interface between the user
-space and the kernel, the kernel still has to use one of a few
-specific ways to access user data (copy_from_user, etc.). So the idea
-here is to add untagging into them. This patchset mostly takes this
-approach (with the exception of memory subsystem syscalls).
-
-If there's a better approach, I'm open to suggestions.
-"""
-
-So if we go with the first way, we'll need to go through every syscall
-and ioctl handler, which doesn't seem feasible.
+wifi@2
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
