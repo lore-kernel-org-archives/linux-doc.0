@@ -1,136 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D8DF57DD32
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 17:57:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5100C7E22E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 20:56:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756732AbeDZR5D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 13:57:03 -0400
-Received: from foss.arm.com ([217.140.101.70]:57350 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1755998AbeDZR5B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Apr 2018 13:57:01 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF0D91435;
-        Thu, 26 Apr 2018 10:57:00 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 16F5E3F487;
-        Thu, 26 Apr 2018 10:56:55 -0700 (PDT)
-Date:   Thu, 26 Apr 2018 18:56:53 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        James Morse <james.morse@arm.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH 0/6] arm64: untag user pointers passed to the kernel
-Message-ID: <20180426175653.q7mqzzqvdoihn5so@armageddon.cambridge.arm.com>
-References: <cover.1524077494.git.andreyknvl@google.com>
- <20180419093306.rn5bz264nxsn7d7c@node.shutemov.name>
- <CAAeHK+yb-U3h0666i3u3fF3=8XVcZUo1nxZ5CnOd9oUiDFP=Ng@mail.gmail.com>
+        id S1754239AbeDZU4F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 16:56:05 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43962 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754228AbeDZU4E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 16:56:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=rFF6hz4noi/N1YsSXjZU7hD8umezovIPdXnyLfAC4F4=; b=etjOo2WZFfy2s2WP0g+UipmaK
+        UdbEdwvXuraa0w6QWSVhADNnfOMt7WK1yNmTyI0eTFmd3Hvp21iQqgQWd/JjxKv1ndsFOuRs673EN
+        EznIP4zDoBGMIOUoDOmV+VS/1JlJWqrJIcl8lIqtSE/yYtxu22U2qW02OnGZpamGuvnvpCTJXu4GO
+        jJ9Y06NVJt5f22I3pL6PR8OEllEm/z1xpsXY72G+y+N7i9E/l+miihCbVmksN4ADud+04SAprguL6
+        CnQ5DpZN9PCNeZnV/rACZozNZZ40ivMwqstPOlz4dvElenIZNKMZombBQSFe82I4DNvMey4dUHJ/G
+        ZNTCXJtCQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fBnvt-0006Fu-Pq; Thu, 26 Apr 2018 20:56:01 +0000
+Subject: Re: [PATCH v4 1/2] perf: uncore: Adding documentation for ThunderX2
+ pmu uncore driver
+To:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Will.Deacon@arm.com, mark.rutland@arm.com,
+        jnair@caviumnetworks.com, Robert.Richter@cavium.com,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com,
+        gklkml16@gmail.com
+References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
+ <20180425090047.6485-2-ganapatrao.kulkarni@cavium.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7c8ff675-2b27-8e7b-f046-513b73f1ae5f@infradead.org>
+Date:   Thu, 26 Apr 2018 13:55:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+yb-U3h0666i3u3fF3=8XVcZUo1nxZ5CnOd9oUiDFP=Ng@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20180425090047.6485-2-ganapatrao.kulkarni@cavium.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 25, 2018 at 04:45:37PM +0200, Andrey Konovalov wrote:
-> On Thu, Apr 19, 2018 at 11:33 AM, Kirill A. Shutemov
-> <kirill@shutemov.name> wrote:
-> > On Wed, Apr 18, 2018 at 08:53:09PM +0200, Andrey Konovalov wrote:
-> >> arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-> >> tags into the top byte of each pointer. Userspace programs (such as
-> >> HWASan, a memory debugging tool [1]) might use this feature and pass
-> >> tagged user pointers to the kernel through syscalls or other interfaces.
-> >>
-> >> This patch makes a few of the kernel interfaces accept tagged user
-> >> pointers. The kernel is already able to handle user faults with tagged
-> >> pointers and has the untagged_addr macro, which this patchset reuses.
-> >>
-> >> We're not trying to cover all possible ways the kernel accepts user
-> >> pointers in one patchset, so this one should be considered as a start.
-> >
-> > How many changes do you anticipate?
-> >
-> > This patchset looks small and reasonable, but I see a potential to become a
-> > boilerplate. Would we need to change every driver which implements ioctl()
-> > to strip these bits?
-> 
-> I've replied to somewhat similar question in one of the previous
-> versions of the patchset.
-> 
-> """
-> There are two different approaches to untagging the user pointers that I see:
-> 
-> 1. Untag user pointers right after they are passed to the kernel.
-> 
-> While this might be possible for pointers that are passed to syscalls
-> as arguments (Catalin's "hack"), this leaves user pointers, that are
-> embedded into for example structs that are passed to the kernel. Since
-> there's no specification of the interface between user space and the
-> kernel, different kernel parts handle user pointers differently and I
-> don't see an easy way to cover them all.
-> 
-> 2. Untag user pointers where they are used in the kernel.
-> 
-> Although there's no specification on the interface between the user
-> space and the kernel, the kernel still has to use one of a few
-> specific ways to access user data (copy_from_user, etc.). So the idea
-> here is to add untagging into them. This patchset mostly takes this
-> approach (with the exception of memory subsystem syscalls).
-> 
-> If there's a better approach, I'm open to suggestions.
-> """
-> 
-> So if we go with the first way, we'll need to go through every syscall
-> and ioctl handler, which doesn't seem feasible.
+Hi,
 
-I agree with you that (1) isn't feasible. My hack is sufficient for the
-pointer arguments but doesn't help with pointers in user structures
-passed to the kernel.
+Just a few typo corrections...
 
-Now, since the hardware allows access to user pointers with non-zero top
-8-bit, the kernel uaccess routines can also use such pointers directly.
-What's needed, as per your patches, is the access_ok() macro and
-whatever ends up calling find_vma() (at a first look, there may be other
-cases). I don't think drivers need changing as long as the in-kernel API
-they use performs the untagging (e.g. get_user_pages()).
+On 04/25/2018 02:00 AM, Ganapatrao Kulkarni wrote:
+> Documentation for the UNCORE PMUs on Cavium's ThunderX2 SoC.
+> The SoC has PMU support in its L3 cache controller (L3C) and in the
+> DDR4 Memory Controller (DMC).
+> 
+> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+> ---
+>  Documentation/perf/thunderx2-pmu.txt | 66 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/perf/thunderx2-pmu.txt
+> 
+> diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.txt
+> new file mode 100644
+> index 0000000..9e9f535
+> --- /dev/null
+> +++ b/Documentation/perf/thunderx2-pmu.txt
+> @@ -0,0 +1,66 @@
+> +
+> +Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
+> +==========================================================================
+> +
+> +ThunderX2 SoC PMU consists of independent system wide per Socket PMUs such
+> +as Level 3 Cache(L3C) and DDR4 Memory Controller(DMC).
+> +
+> +It has 8 independent DMC PMUs to capture performance events corresponding
+> +to 8 channels of DDR4 Memory Controller. There are 16 independent L3C PMUs
+> +to capture events corresponding to 16 tiles of L3 cache. Each PMU supports
+> +up to 4 counters.
+> +
+> +Counters are independent programmable and can be started and stopped
+
+                independently
+
+> +individually. Each counter can be set to sample specific perf events.
+> +Counters are 32 bit and does not support overflow interrupt, they are
+
+                           do not                    interrupt; they are
+
+
+> +sampled at every 2 seconds. The Counters register access are multiplexed
+> +across channels of DMC and L3C. The muxing(select channel) is done through
+> +write to a Secure register using smcc calls.
+> +
+> +PMU UNCORE (perf) driver:
+> +
+> +The thunderx2-pmu driver registers several perf PMUs for DMC and L3C devices.
+> +Each of the PMU provides description of its available events
+
+        of the PMUs
+
+> +and configuration options in sysfs.
+> +	see /sys/devices/uncore_<l3c_S_X/dmc_S_X/>
+> +
+> +S is socket id and X represents channel number.
+> +Each PMU can be used to sample up to 4 events simultaneously.
+> +
+> +The "format" directory describes format of the config (event ID).
+> +The "events" directory provides configuration templates for all
+> +supported event types that can be used with perf tool.
+> +
+> +For example, "uncore_dmc_0_0/cnt_cycles/" is an
+> +equivalent of "uncore_dmc_0_0/config=0x1/".
+> +
+> +Each perf driver also provides a "cpumask" sysfs attribute, which contains a
+> +single CPU ID of the processor which is likely to be used to handle all the
+> +PMU events. It will be the first online CPU from the NUMA node of PMU device.
+> +
+> +Example for perf tool use:
+> +
+> +perf stat -a -e \
+> +uncore_dmc_0_0/cnt_cycles/,\
+> +uncore_dmc_0_1/cnt_cycles/,\
+> +uncore_dmc_0_2/cnt_cycles/,\
+> +uncore_dmc_0_3/cnt_cycles/,\
+> +uncore_dmc_0_4/cnt_cycles/,\
+> +uncore_dmc_0_5/cnt_cycles/,\
+> +uncore_dmc_0_6/cnt_cycles/,\
+> +uncore_dmc_0_7/cnt_cycles/ sleep 1
+> +
+> +perf stat -a -e \
+> +uncore_dmc_0_0/cancelled_read_txns/,\
+> +uncore_dmc_0_0/cnt_cycles/,\
+> +uncore_dmc_0_0/consumed_read_txns/,\
+> +uncore_dmc_0_0/data_transfers/ sleep 1
+> +
+> +perf stat -a -e \
+> +uncore_l3c_0_0/l3_retry/,\
+> +uncore_l3c_0_0/read_hit/,\
+> +uncore_l3c_0_0/read_request/,\
+> +uncore_l3c_0_0/inv_request/ sleep 1
+> +
+> +The driver does not support sampling, therefore "perf record" will
+> +not work. Per-task (without "-a") perf sessions are not supported.
+> 
+
 
 -- 
-Catalin
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
