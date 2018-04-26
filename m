@@ -5,34 +5,34 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EDA557DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 15:31:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E63D7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 15:38:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756723AbeDZPbX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 11:31:23 -0400
-Received: from smtprelay6.synopsys.com ([198.182.37.59]:60006 "EHLO
+        id S1755871AbeDZPi0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 11:38:26 -0400
+Received: from smtprelay6.synopsys.com ([198.182.37.59]:60028 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1756414AbeDZPbW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 11:31:22 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 91BCD1E05F3;
-        Thu, 26 Apr 2018 17:31:20 +0200 (CEST)
+        with ESMTP id S1754462AbeDZPiZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 11:38:25 -0400
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 4DF6C1E0281;
+        Thu, 26 Apr 2018 17:38:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1524756680; bh=eSfWkbZh6v6jR3zwGlgM3B04au0pMxNWmsfwlkzsXNg=;
+        t=1524757103; bh=z0tFdp3/apeot90zE10s55SRve0B9/ogDffhs0m2Ddo=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=MkXA81yaChRyBB1pmnAypjnHD01Agg6FqpvbDSlvBcJN0y9ONd5ZRVIiNurXzV7IC
-         ZnC4oHyb4dSOiXuXvt5wCmXRO7VwOT9N595OOGGJoy0oWKO0jlQb4DoFnw95waXS9q
-         NWecgQxS9ubCeZfl5Z42TbS7md4/DpVRT2moNVu7fiXH6rSkhiF235foQEvFSyE3M5
-         eWZJ6XSs0Nu/bcXJOo2e+5eW9bvuRqnW/xziGbLtyPj5KDv1JTwBvAoNytUp4mDPs7
-         rw3GeSv6Tl7Z7z+Mcgu0eHLxIdrsz1SiTGA3A2xBqgampuuuTNwM1a8t99p59GCnXF
-         lrasRvL6phvWw==
-Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 2CE2755D7;
-        Thu, 26 Apr 2018 08:31:19 -0700 (PDT)
+        b=WE1VIaEVau3ufbVppRhd1y2GeDfFNZ/h5DIZvJjD2SMAT1+kySvUgaSXKzW0L/Zin
+         hKo+TqqNXINaXz4oHrg7MgGzCyM1andYoCP41UdHRYaosthOnNFeUuK/1U3u+xMnG+
+         dAllGu9A88V5/1IJ3TX9Y3ZEoVXZ2sVSrGMiXWXAubNXnvjtrkJrKq+3p96VaQz1kP
+         jznAO0k85bw2NYrYuAf27I9ntYe8CuLFddQXX9au3QBNjpnUv6MCulHVZsYcmU7JQe
+         yznHsC/Z6vGiALWRzm0xdvVrBhWfpTr/OhPyG/NNILoK2BGw/WuWnoJfWuQ5cGS3DM
+         7+/6LdK27tIbA==
+Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 418E3388F;
+        Thu, 26 Apr 2018 08:38:22 -0700 (PDT)
 Received: from [127.0.0.1] (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 8417B3DA2A;
-        Thu, 26 Apr 2018 16:31:18 +0100 (WEST)
-Subject: Re: [RFC 01/10] PCI: dwc: Add MSI-X callbacks handler
+        by pt02.synopsys.com (Postfix) with ESMTP id 9594B3DAA6;
+        Thu, 26 Apr 2018 16:37:51 +0100 (WEST)
+Subject: Re: [RFC 06/10] misc: pci_endpoint_test: Add MSI-X support
 To:     Kishon Vijay Abraham I <kishon@ti.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
         "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
@@ -45,19 +45,19 @@ Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <cover.1523379766.git.gustavo.pimentel@synopsys.com>
- <77b7b2687e9618d3f7d1f11c3fc6ecec9a9442ef.1523379766.git.gustavo.pimentel@synopsys.com>
- <0b7023d9-29c6-0993-07d3-b046d25b67ff@ti.com>
- <e2fe7d5f-9f57-0e67-d321-541ff4706792@synopsys.com>
- <0e8b8ce9-db12-1e11-3eb5-62f3fa686d59@ti.com>
- <16d237b2-0052-447e-13cb-bc2f15848be4@synopsys.com>
- <eeb3ace0-9206-efbf-f5db-97ccea0f47b7@ti.com>
+ <8b88f8c2b766f36c71659deb0fce635154b2b39f.1523379766.git.gustavo.pimentel@synopsys.com>
+ <b25dcfb1-e770-e302-d9aa-7c35f6c58fa5@ti.com>
+ <c6d1d492-38a0-6a03-7e61-b8b50226734b@synopsys.com>
+ <a982ca92-d34c-12ea-30bf-9a9b1661d50d@ti.com>
+ <2bd77bf2-1d64-6043-422a-6a96c1a3d3a4@synopsys.com>
+ <aa1c6446-bcf4-1cdb-d900-22e5d6fa4cab@ti.com>
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Message-ID: <45ad7d7e-9986-cebe-c2c0-3f0693b56a9b@synopsys.com>
-Date:   Thu, 26 Apr 2018 16:30:09 +0100
+Message-ID: <ac362508-8322-e4f0-fb70-d0b76198c7bc@synopsys.com>
+Date:   Thu, 26 Apr 2018 16:36:42 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <eeb3ace0-9206-efbf-f5db-97ccea0f47b7@ti.com>
+In-Reply-To: <aa1c6446-bcf4-1cdb-d900-22e5d6fa4cab@ti.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -66,177 +66,186 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
 Hi Kishon,
 
-On 24/04/2018 12:24, Kishon Vijay Abraham I wrote:
+On 24/04/2018 12:43, Kishon Vijay Abraham I wrote:
 > Hi,
 > 
-> On Tuesday 24 April 2018 03:06 PM, Gustavo Pimentel wrote:
+> On Tuesday 24 April 2018 04:27 PM, Gustavo Pimentel wrote:
 >> Hi Kishon,
 >>
->> On 24/04/2018 08:07, Kishon Vijay Abraham I wrote:
+>> On 24/04/2018 08:19, Kishon Vijay Abraham I wrote:
 >>> Hi,
 >>>
->>> On Monday 23 April 2018 03:06 PM, Gustavo Pimentel wrote:
+>>> On Tuesday 17 April 2018 11:08 PM, Gustavo Pimentel wrote:
 >>>> Hi Kishon,
 >>>>
->>>> On 16/04/2018 10:29, Kishon Vijay Abraham I wrote:
->>>>> Hi Gustavo,
+>>>> On 17/04/2018 11:33, Kishon Vijay Abraham I wrote:
+>>>>> Hi,
 >>>>>
 >>>>> On Tuesday 10 April 2018 10:44 PM, Gustavo Pimentel wrote:
->>>>>> Changes the pcie_raise_irq function signature, namely the interrupt_num
->>>>>> variable type from u8 to u16 to accommodate the MSI-X maximum interrupts
->>>>>> of 2048.
+>>>>>> Adds the MSI-X support and updates driver documentation accordingly.
 >>>>>>
->>>>>> Implements a PCIe config space capability iterator function to search and
->>>>>> save the MSI and MSI-X pointers. With this method the code becomes more
->>>>>> generic and flexible.
->>>>>>
->>>>>> Implements MSI-X set/get functions for sysfs interface in order to change
->>>>>> the EP entries number.
->>>>>>
->>>>>> Implements EP MSI-X interface for triggering interruptions.
+>>>>>> Changes the driver parameter in order to allow the interruption type
+>>>>>> selection.
 >>>>>>
 >>>>>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 >>>>>> ---
->>>>>>  drivers/pci/dwc/pci-dra7xx.c           |   2 +-
->>>>>>  drivers/pci/dwc/pcie-artpec6.c         |   2 +-
->>>>>>  drivers/pci/dwc/pcie-designware-ep.c   | 145 ++++++++++++++++++++++++++++++++-
->>>>>>  drivers/pci/dwc/pcie-designware-plat.c |   6 +-
->>>>>>  drivers/pci/dwc/pcie-designware.h      |  23 +++++-
->>>>>>  5 files changed, 173 insertions(+), 5 deletions(-)
+>>>>>>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>>>>>>  drivers/misc/pci_endpoint_test.c                 | 102 +++++++++++++++++------
+>>>>>>  2 files changed, 79 insertions(+), 26 deletions(-)
 >>>>>>
->>>>>> diff --git a/drivers/pci/dwc/pci-dra7xx.c b/drivers/pci/dwc/pci-dra7xx.c
->>>>>> index ed8558d..5265725 100644
->>>>>> --- a/drivers/pci/dwc/pci-dra7xx.c
->>>>>> +++ b/drivers/pci/dwc/pci-dra7xx.c
->>>>>> @@ -369,7 +369,7 @@ static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
->>>>>>  }
->>>>>>  
->>>>>>  static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->>>>>> -				 enum pci_epc_irq_type type, u8 interrupt_num)
->>>>>> +				 enum pci_epc_irq_type type, u16 interrupt_num)
->>>>>>  {
->>>>>>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>>>>>  	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
->>>>>> diff --git a/drivers/pci/dwc/pcie-artpec6.c b/drivers/pci/dwc/pcie-artpec6.c
->>>>>> index e66cede..96dc259 100644
->>>>>> --- a/drivers/pci/dwc/pcie-artpec6.c
->>>>>> +++ b/drivers/pci/dwc/pcie-artpec6.c
->>>>>> @@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep *ep)
->>>>>>  }
->>>>>>  
->>>>>>  static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
->>>>>> -				  enum pci_epc_irq_type type, u8 interrupt_num)
->>>>>> +				  enum pci_epc_irq_type type, u16 interrupt_num)
->>>>>>  {
->>>>>>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>>>>>  
->>>>>> diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
->>>>>> index 15b22a6..874d4c2 100644
->>>>>> --- a/drivers/pci/dwc/pcie-designware-ep.c
->>>>>> +++ b/drivers/pci/dwc/pcie-designware-ep.c
->>>>>> @@ -40,6 +40,44 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
->>>>>>  	__dw_pcie_ep_reset_bar(pci, bar, 0);
->>>>>>  }
->>>>>>  
->>>>>> +void dw_pcie_ep_find_cap_addr(struct dw_pcie_ep *ep)
->>>>>> +{
+>>>>>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+>>>>>> index 4ebc359..fdfa0f6 100644
+>>>>>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+>>>>>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+>>>>>> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
+>>>>>>  	*) verifying addresses programmed in BAR
+>>>>>>  	*) raise legacy IRQ
+>>>>>>  	*) raise MSI IRQ
+>>>>>> +	*) raise MSI-X IRQ
+>>>>>>  	*) read data
+>>>>>>  	*) write data
+>>>>>>  	*) copy data
+>>>>>> @@ -25,6 +26,8 @@ ioctl
+>>>>>>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
+>>>>>>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
+>>>>>>  	      to be tested should be passed as argument.
+>>>>>> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+>>>>>> +	      to be tested should be passed as argument.
+>>>>>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>>>>>>  		as argument.
+>>>>>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+>>>>>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+>>>>>> index 37db0fc..a7d9354 100644
+>>>>>> --- a/drivers/misc/pci_endpoint_test.c
+>>>>>> +++ b/drivers/misc/pci_endpoint_test.c
+>>>>>> @@ -42,11 +42,16 @@
+>>>>>>  #define PCI_ENDPOINT_TEST_COMMAND	0x4
+>>>>>>  #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
+>>>>>>  #define COMMAND_RAISE_MSI_IRQ		BIT(1)
+>>>>>> -#define MSI_NUMBER_SHIFT		2
+>>>>>> -/* 6 bits for MSI number */
+>>>>>> -#define COMMAND_READ                    BIT(8)
+>>>>>> -#define COMMAND_WRITE                   BIT(9)
+>>>>>> -#define COMMAND_COPY                    BIT(10)
+>>>>>> +#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
+>>>>>> +#define IRQ_TYPE_SHIFT			3
+>>>>>> +#define IRQ_TYPE_LEGACY			0
+>>>>>> +#define IRQ_TYPE_MSI			1
+>>>>>> +#define IRQ_TYPE_MSIX			2
+>>>>>> +#define MSI_NUMBER_SHIFT		5
 >>>>>
->>>>> This should be implemented in a generic way similar to pci_find_capability().
->>>>> It'll be useful when we try to implement other capabilities as well.
+>>>>> Now that you are anyways fixing this, add a new register entry for MSI numbers.
+>>>>> Let's not keep COMMAND and MSI's together.
 >>>>
->>>> Hum, what you suggest? Something implemented on the pci-epf-core?
+>>>> What you suggest?
 >>>
->>> yeah, Initially thought it could be implemented as a helper function in
->>> pci-epc-core so that both designware and cadence can use it.
+>>> #define PCI_ENDPOINT_TEST_COMMAND	0x4
+>>> #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
+>>> #define COMMAND_RAISE_MSI_IRQ		BIT(1)
+>>> #define COMMAND_RAISE_MSIX_IRQ		BIT(2)
+>>> #define COMMAND_READ                    BIT(3)
+>>> #define COMMAND_WRITE                   BIT(4)
+>>> #define COMMAND_COPY                    BIT(5)
+>>>
+>>> #define PCI_ENDPOINT_TEST_STATUS	0x8
+>>> #define STATUS_READ_SUCCESS             BIT(0)
+>>> #define STATUS_READ_FAIL                BIT(1)
+>>> #define STATUS_WRITE_SUCCESS            BIT(2)
+>>> #define STATUS_WRITE_FAIL               BIT(3)
+>>> #define STATUS_COPY_SUCCESS             BIT(4)
+>>> #define STATUS_COPY_FAIL                BIT(5)
+>>> #define STATUS_IRQ_RAISED               BIT(6)
+>>> #define STATUS_SRC_ADDR_INVALID         BIT(7)
+>>> #define STATUS_DST_ADDR_INVALID         BIT(8)
+>>>
+>>> #define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0xc
+>>> #define PCI_ENDPOINT_TEST_UPPER_SRC_ADDR	0x10
+>>>
+>>> #define PCI_ENDPOINT_TEST_LOWER_DST_ADDR	0x14
+>>> #define PCI_ENDPOINT_TEST_UPPER_DST_ADDR	0x18
+>>>
+>>> #define PCI_ENDPOINT_TEST_SIZE		0x1c
+>>> #define PCI_ENDPOINT_TEST_CHECKSUM	0x20
+>>>
+>>> #define PCI_ENDPOINT_TEST_MSI_NUMBER	0x24
 >>
->> That would be nice, however I couldn't find out how to access the config space,
->> through the pci_epf or pci_epc structs.
+>> Ok. I will do it.
+>>
+>>>
+>>> We should try not to modify either the existing register offsets or the bit
+>>> fields within these registers in the future as EP and RC will be running on
+>>> different systems and it is possible one of them might not have the updated
+>>> kernel.
+>>
+>> I totally agree.
+>>
+>>>>
+>>>>>> +/* 12 bits for MSI number */
+>>>>>> +#define COMMAND_READ                    BIT(17)
+>>>>>> +#define COMMAND_WRITE                   BIT(18)
+>>>>>> +#define COMMAND_COPY                    BIT(19)
+>>>>>
+>>>>> This change should be done along with the pci-epf-test in a single patch.
+>>>>
+>>>> To be clear, you're saying is this patch should be just be squashed into the
+>>>> patch number 8 [1], because there is a lot of dependencies namely the defines,
+>>>> that is used on the alter functions.
+>>>>
+>>>> [1] -> https://urldefense.proofpoint.com/v2/url?u=https-3A__patchwork.ozlabs.org_patch_896841_&d=DwIC-g&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=8urVwHCybXa1XMxsEbwHZAzzaEI_HJGXqmWgXpXb9TY&s=MRVr2YPY2Bk_WNFOxBfU4FGrFReTKdPhfzNDLiVxDbs&e=
+>>>
+>>> yeah. We have to make sure git bisect doesn't break functionality.
+>>
+>> Ok, it'll be squashed.
+>>
+>>>>
+>>>>>>  
+>>>>>>  #define PCI_ENDPOINT_TEST_STATUS	0x8
+>>>>>>  #define STATUS_READ_SUCCESS             BIT(0)
+>>>>>> @@ -73,9 +78,9 @@ static DEFINE_IDA(pci_endpoint_test_ida);
+>>>>>>  #define to_endpoint_test(priv) container_of((priv), struct pci_endpoint_test, \
+>>>>>>  					    miscdev)
+>>>>>>  
+>>>>>> -static bool no_msi;
+>>>>>> -module_param(no_msi, bool, 0444);
+>>>>>> -MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
+>>>>>
+>>>>> Let's not remove this just to make sure existing users doesn't get affected.
+>>>>
+>>>> Hum, by making an internal conversion? Like this
+>>>> no_msi = false <=> irq_type = 1
+>>>> no_msi = true <=> irq_type = 0
+>>>
+>> Disregard previous comment, it doesn't make sense. I don't know where my head was.
+>>
+>> It will be like this on probe:
+>>
+>> if (no_msi)
+>> 	irq_type = IRQ_TYPE_LEGACY;
+>>
+>> However since we are breaking the compatibility on terms of MSI/MSI-X
+>> bits/registers (discussion on the top), it makes sense to keep the compatibility
+>> on this parameter?
 > 
-> It's just a helper function so it can directly take the base address of the
-> configuration space as argument (in our case, it should be dbi_base).
+> This is userspace compatibility, so lets not break it.
+> Btw can we have a sysfs entry per device for defining irq_type. Having a sysfs
+> entry might be helpful instead of insmod/rmmod with different irq_type values?
 
-I don't think it will bring much benefit to this particular scope at this time
-being. In any case this could be improved later.
+Can you explain it? An sysfs entry where, on RC side? How this will work with
+the irq allocation/deallocation in runtime?
 
-Regards,
-Gustavo
+> It will also help if a system has enumerated multiple PCI_ENDPOINT_TEST EP devices.
+
+Can you elaborate more this idea?
 
 > 
 > Thanks
 > Kishon
 > 
->>
->> So, I reworked the functions like this:
->>
->> (on pcie-designware-ep.c)
->>
->> u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
->>                               u8 cap)
->> {
->>         u8 cap_id, next_cap_ptr;
->>         u16 reg;
->>
->>         reg = dw_pcie_readw_dbi(pci, cap_ptr);
->>         next_cap_ptr = (reg & 0xff00) >> 8;
->>         cap_id = (reg & 0x00ff);
->>
->>         if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
->>                 return 0;
->>
->>         if (cap_id == cap)
->>                 return cap_ptr;
->>
->>         return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
->> }
->>
->> u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
->> {
->>         u8 next_cap_ptr;
->>         u16 reg;
->>
->>         reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
->>         next_cap_ptr = (reg & 0x00ff);
->>
->>         if (!next_cap_ptr)
->>                 return 0;
->>
->>         return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
->> }
->>
->> int dw_pcie_ep_init(struct dw_pcie_ep *ep)
->> {
->> [...]
->>         ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
->>         ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
->> [...]
->> }
->>
->>>
->>> But do we really have to find the address like this? since all designware IP's
->>> will have a particular capability at a fixed address offset, why not follow use
->>> existing mechanism in dw_pcie_ep_get_msi?
->>
->> The capabilities are not fixed to a specific address offset by default they
->> assume those values, but they can be easily change at design stage.
->>
->>>
->>> Or is it possible for a particular capability to have address offsets for
->>> different vendors? How is it for cadence?
->>
->> Yes, it's possible to have different address offset for different vendors.
->>
->>>
->>> Thanks
->>> Kishon
->>>
->>
->> Thanks,
->> Gustavo
->>
 
+Regards,
+Gustavo
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
