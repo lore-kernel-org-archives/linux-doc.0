@@ -1,116 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1EA87DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 15:47:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 656967DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 16:42:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756615AbeDZPre (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 11:47:34 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:55642 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1756613AbeDZPrd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Apr 2018 11:47:33 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C99A515AD;
-        Thu, 26 Apr 2018 08:47:32 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21DC13F4FF;
-        Thu, 26 Apr 2018 08:47:27 -0700 (PDT)
-Date:   Thu, 26 Apr 2018 16:47:25 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH 3/6] arm64: untag user addresses in copy_from_user and
- others
-Message-ID: <20180426154725.74a33tnevvbtqx63@armageddon.cambridge.arm.com>
-References: <cover.1524077494.git.andreyknvl@google.com>
- <949c343a4b02b41b80f324c2b7cd56b75e6a04f3.1524077494.git.andreyknvl@google.com>
+        id S1756742AbeDZQmy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 12:42:54 -0400
+Received: from mail-io0-f194.google.com ([209.85.223.194]:38918 "EHLO
+        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754582AbeDZQmx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 12:42:53 -0400
+Received: by mail-io0-f194.google.com with SMTP id r9-v6so15758855iod.6
+        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 09:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=/3xZ6WNublQWszIRaUqlclJsj4CoSbtB+cfFr/Yzjlo=;
+        b=ptz20M35md2E/5WwGPZkz20ZpSfSPa3LwwtRnA3rctqUVjnNALHR/W3b0u8IpPU9xb
+         WzY0ROeSjOQN2N4Q52fGiy4evWNcWYtO91DrMPAoFRGNH9uW18R2giziLco4ae6HX7Et
+         JLaJOCAzHI5tS2d7s/72arBbbmwuY/7HT1UvTtHkS/z39TWJMjaG5kNAymkagZ8hY8DN
+         4rc6wTKUSiqQzvn7ugwao8Ujx72V83FytFAyp3JjEtU6No0Uuk3J29t0Wu5c/d1VqQpx
+         PBwcRJiLW8hZT4XRy2rWav3wuDPx8QVEEWv8CoK5XrzgTsn4CkHgQ06SWc5GGY0VoFtB
+         xGeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=/3xZ6WNublQWszIRaUqlclJsj4CoSbtB+cfFr/Yzjlo=;
+        b=l8U+Pwum2tzauu/B5/Gw/HsDQBDTv2TFDUvBeEEnszHtuMsyI6gEIoJq64iLRQWCc1
+         g4gXwtlyUY6K+uhSqFWfPuxnJFVlrvMspF+lBiP+loJld37vGXkT2QdMqrUniGBYw3mW
+         Q9OyWAcwpt8eLQlZPM3BK3jDDCmX7JaIQaE/GrBVbc8oU4KL0c3DeIiOkzOqUCRZoznd
+         DyfH0qfDjkaWUREFwvXQwfGcxijLlhjKLyVWR3rFue3GlD4Ixv3kAGJmuNHmur2zAcas
+         T9g7scsks9pbLUPZJCiY0elKTkSjXQ8qbG9qb4/t1S5IgbLiX7CT9QD9wE7KB8xqBrap
+         ueTg==
+X-Gm-Message-State: ALQs6tCegK43EeRRxneerZhxx1PmTyEoDpC9jBTnm7Q9EafDrXlqXnr7
+        8Msw2moo4gxrxaFaUVoS/2ML8mGiY27bwMo/Ai0bBMAX
+X-Google-Smtp-Source: AB8JxZpffb/u3mD3pu/kbVehGhySyk4duaRtQ2rg45SZyfVsEnBTJceFIQTKoec4/LugcLePPqID0JWDes5Jtz8V4fI=
+X-Received: by 2002:a6b:250d:: with SMTP id l13-v6mr433232iol.47.1524760973009;
+ Thu, 26 Apr 2018 09:42:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <949c343a4b02b41b80f324c2b7cd56b75e6a04f3.1524077494.git.andreyknvl@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Received: by 10.107.181.1 with HTTP; Thu, 26 Apr 2018 09:42:52 -0700 (PDT)
+In-Reply-To: <CACRpkda+K3-=sPpJO90rjW0=+bsQ1uYT6E9Hp+G+-OEyTpc=fg@mail.gmail.com>
+References: <20180410203028.11412-1-brgl@bgdev.pl> <CACRpkda+K3-=sPpJO90rjW0=+bsQ1uYT6E9Hp+G+-OEyTpc=fg@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 26 Apr 2018 18:42:52 +0200
+Message-ID: <CAMRc=Me2YD49VkwENwFmRUHGDYzPc_80b6uABUvi7_QeeoMrrQ@mail.gmail.com>
+Subject: Re: [PATCH v2] gpiolib: add hogs support for machine code
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 18, 2018 at 08:53:12PM +0200, Andrey Konovalov wrote:
-> @@ -238,12 +239,15 @@ static inline void uaccess_enable_not_uao(void)
->  /*
->   * Sanitise a uaccess pointer such that it becomes NULL if above the
->   * current addr_limit.
-> + * Also untag user pointers that have the top byte tag set.
->   */
->  #define uaccess_mask_ptr(ptr) (__typeof__(ptr))__uaccess_mask_ptr(ptr)
->  static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
->  {
->  	void __user *safe_ptr;
->  
-> +	ptr = untagged_addr(ptr);
-> +
->  	asm volatile(
->  	"	bics	xzr, %1, %2\n"
->  	"	csel	%0, %1, xzr, eq\n"
+2018-04-26 14:07 GMT+02:00 Linus Walleij <linus.walleij@linaro.org>:
+> On Tue, Apr 10, 2018 at 10:30 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>
+>> Board files constitute a significant part of the users of the legacy
+>> GPIO framework. In many cases they only export a line and set its
+>> desired value. We could use GPIO hogs for that like we do for DT and
+>> ACPI but there's no support for that in machine code.
+>>
+>> This patch proposes to extend the machine.h API with support for
+>> registering hog tables in board files.
+>>
+>> Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
+>> ---
+>> v1 -> v2:
+>> - kbuild bot complains about enum gpiod_flags having incomplete type
+>>   although it builds fine for me locally: change the type of dflags
+>>   to int
+>
+> I like the idea and thinking behind this patch, so patch applied.
+>
+> It's a bit of code to carry, so if it doesn't see any use, I will simply
+> revert it :)
+>
+> But I bet you intend to follow up with some machine patches
+> and then it is immediately worth it.
 
-First of all, passing a tagged user pointer throughout the kernel is
-safe with uaccess routines but not suitable for find_vma() etc.
+Yes, I'll be submitting patches removing the legacy gpio calls for
+boards in mach-davinci.
 
-With this change, we may have an inconsistent behaviour on the tag
-masking, depending on whether the entry code uses __uaccess_mask_ptr()
-or not. We could preserve the tag with something like:
-
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index e66b0fca99c2..ed15bfcbd797 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -244,10 +244,11 @@ static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
- 	void __user *safe_ptr;
- 
- 	asm volatile(
--	"	bics	xzr, %1, %2\n"
-+	"	bics	xzr, %3, %2\n"
- 	"	csel	%0, %1, xzr, eq\n"
- 	: "=&r" (safe_ptr)
--	: "r" (ptr), "r" (current_thread_info()->addr_limit)
-+	: "r" (ptr), "r" (current_thread_info()->addr_limit),
-+	  "r" (untagged_addr(ptr))
- 	: "cc");
- 
- 	csdb();
-
--- 
-Catalin
+Thanks,
+Bartosz
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
