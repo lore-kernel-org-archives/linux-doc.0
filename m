@@ -3,90 +3,155 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 027557DD32
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 02:27:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F78A7E279
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 08:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751560AbeDZC1N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 25 Apr 2018 22:27:13 -0400
-Received: from mail-pg0-f67.google.com ([74.125.83.67]:35346 "EHLO
-        mail-pg0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750868AbeDZC1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Apr 2018 22:27:12 -0400
-Received: by mail-pg0-f67.google.com with SMTP id j11so14722224pgf.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Apr 2018 19:27:12 -0700 (PDT)
+        id S1754081AbeDZIod (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 04:44:33 -0400
+Received: from mail-qt0-f194.google.com ([209.85.216.194]:39826 "EHLO
+        mail-qt0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753708AbeDZIo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 04:44:28 -0400
+Received: by mail-qt0-f194.google.com with SMTP id f1-v6so13283444qtj.6
+        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 01:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=BGn9RurNL8JCQhf6cDNAQ8blDFcwJiAtHhzz92PlreM=;
-        b=VRp83QKWbQ8vgyFKl4i0ohQ5v3DG7+6wyPj7IWJgOCiUbNUgaSKrHxWrRjPeNMz8FY
-         suTGtMxcpmvjgg4lBI8y5prgEHKk3sxuQLit0dcrpgZ5gnMh99F27gutyZkZ7myZeiCi
-         HoY+L1C7eSHKAazsc4EMgJC1SyuDU+hpvf72c=
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=K9aClyGZjPs/V2O1Mn4D/qIgC/WMPxw7UB+vj4khDV8=;
+        b=SjrS/isOXsmb5nxUwWcufAk4OFWGuiQEzGIiZGMlknrX/0bBR1g6Au5GM+pO03Z9yO
+         kbDLwvEMZ+7pbrKKruX8f7/Nk7qpqRPkf4JKulbNHUZUYMtnG8eUERpMF+vzeO4klT7H
+         uPBQX12xK0gM8h46lEVvIKMDpUyWrXHWeP/+M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=BGn9RurNL8JCQhf6cDNAQ8blDFcwJiAtHhzz92PlreM=;
-        b=o6PwCx6fBuP1WOUbofyGxHLjwtFcEirTBNAMtTTwlPw9QilXz9lGh5wlX3mrODrxS4
-         GpmwUkrwG+KFVcS9bgxAHzRT8jYFjWBRSYi4mpjIXd1mVNE3G9usQkfncxbKGrD02Od0
-         qhGteHGU5Tym8p3cqAyj5hCrSd5CN6XgX3/R8LBjAzY95YygZglw4sES6n65J/ApzvQL
-         3eJ1exeS9mYtVSkB9/sxV9PTpseeGADcPsCgsAJ1d36sru506HXd7k/BATKY1GecXsxL
-         A5jUqUCk/OMUn3Nfti3wnfF9AEXEJL1LzDHkjaE8eJzHMrjHRgzT7crnOix5F80HIGmW
-         sL1A==
-X-Gm-Message-State: ALQs6tBKMSnrUu68q+bZO7dP2dhbW7sqUig4U2lcAVAxQDpl/i6ATbXD
-        zeGawr70pZOzgXxnrLDEqL/0Yg==
-X-Google-Smtp-Source: AIpwx4+gmxQtgDeKVUG9f6dEaNb/ZM9jvdsR9cb3cOQBw23t45dCDA5BCBaf5MTYncyNC2teqS6oWQ==
-X-Received: by 10.98.103.86 with SMTP id b83mr30273948pfc.76.1524709631529;
-        Wed, 25 Apr 2018 19:27:11 -0700 (PDT)
-Received: from localhost.localdomain (li1168-94.members.linode.com. [45.79.69.94])
-        by smtp.gmail.com with ESMTPSA id w17sm38598161pfa.141.2018.04.25.19.27.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 25 Apr 2018 19:27:10 -0700 (PDT)
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [PATCH bpf-next] bpf, doc: Update bpf_jit_enable limitation for CONFIG_BPF_JIT_ALWAYS_ON
-Date:   Thu, 26 Apr 2018 10:26:51 +0800
-Message-Id: <1524709611-29437-1-git-send-email-leo.yan@linaro.org>
-X-Mailer: git-send-email 1.9.1
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=K9aClyGZjPs/V2O1Mn4D/qIgC/WMPxw7UB+vj4khDV8=;
+        b=mQsfYJuNBeEJvPLKImWJROX5xqRf+hHFsTFfEALQ+h/97WUbNUzrDryXO0wRnfUGFO
+         35XRpstt4WAoLfHGtSjyf7IFlbw4O6Z6nb9uVRniz9DeJtH4KUBdj41Ufhk2Xm6sPIYo
+         FMJ9BjPsIv0C5NcS+rfkATsC7VJ1d8hrzP1xZqp5urQ5h+gIWY7fasTaYkn4PANdSAe0
+         QOiXaTAKlYv/Ct1sjgBo2V5qmW7CtUEr2kqGxW8tRIZrDRJGhCdRZtnWNl3IGbRTbmBX
+         T7j/JEGV6a4sLHfWWFruYqB30nql5o7DjOZOujqsTVG3JKdQQ9l9iY6y9NtWwEZqAvde
+         l23g==
+X-Gm-Message-State: ALQs6tC9vx8h2OPmzBKRZ7R4rfFPGHCrLLqJwEoMg3HK7WKUkM411qxV
+        Jrb16HRDkj/uupLYXHh701z4ER4whqQi8YF/2rjgHA==
+X-Google-Smtp-Source: AB8JxZqLR4MilXCsUuuJE/H0gnUsmMe1R0XrZ2dJiDxq3O6qcdh9Qbr70P9eGtu0i3dvLX3BkfobVyXhx/rhCV1g+eQ=
+X-Received: by 2002:ac8:2724:: with SMTP id g33-v6mr34088240qtg.37.1524732268064;
+ Thu, 26 Apr 2018 01:44:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.200.16.7 with HTTP; Thu, 26 Apr 2018 01:44:26 -0700 (PDT)
+In-Reply-To: <20180330074751.25987-10-boris.brezillon@bootlin.com>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com> <20180330074751.25987-10-boris.brezillon@bootlin.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 26 Apr 2018 10:44:26 +0200
+Message-ID: <CACRpkdY_7mi8GPiopZ9Yg4Y0-AV_SriZe=1yN5is6eH6FUm6Qg@mail.gmail.com>
+Subject: Re: [PATCH v4 09/10] gpio: Add a driver for Cadence I3C GPIO expander
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When CONFIG_BPF_JIT_ALWAYS_ON is enabled, kernel has limitation for
-bpf_jit_enable, so it has fixed value 1 and we cannot set it to 2
-for JIT opcode dumping; this patch is to update the doc for it.
+On Fri, Mar 30, 2018 at 9:47 AM, Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
 
-Signed-off-by: Leo Yan <leo.yan@linaro.org>
----
- Documentation/networking/filter.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+> Add a driver for Cadence I3C GPIO expander.
+>
+> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
 
-diff --git a/Documentation/networking/filter.txt b/Documentation/networking/filter.txt
-index fd55c7d..feddab9 100644
---- a/Documentation/networking/filter.txt
-+++ b/Documentation/networking/filter.txt
-@@ -483,6 +483,12 @@ Example output from dmesg:
- [ 3389.935851] JIT code: 00000030: 00 e8 28 94 ff e0 83 f8 01 75 07 b8 ff ff 00 00
- [ 3389.935852] JIT code: 00000040: eb 02 31 c0 c9 c3
- 
-+When CONFIG_BPF_JIT_ALWAYS_ON is enabled, bpf_jit_enable is set to 1 by default
-+and it returns failure if change to any other value from proc node; this is
-+for security consideration to avoid leaking info to unprivileged users. In this
-+case, we can't directly dump JIT opcode image from kernel log, alternatively we
-+need to use bpf tool for the dumping.
-+
- In the kernel source tree under tools/bpf/, there's bpf_jit_disasm for
- generating disassembly out of the kernel log's hexdump:
- 
--- 
-1.9.1
+This is pretty much OK, and I don't want to raise the bar
+even higher for you to get this code into the kernel, so:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
+The following is an observation for future improvement:
+
+> +static int cdns_i3c_gpio_read_reg(struct cdns_i3c_gpio *gpioc, u8 reg,
+> +                                 u8 *val)
+> +{
+> +       struct i3c_priv_xfer xfers[] = {
+> +               {
+> +                       .len = sizeof(reg),
+> +                       .data.out = &reg,
+> +               },
+> +               {
+> +                       .rnw = true,
+> +                       .len = sizeof(*val),
+> +                       .data.in = val,
+> +               },
+> +       };
+> +
+> +       return i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
+> +                                       ARRAY_SIZE(xfers));
+> +}
+> +
+> +static int cdns_i3c_gpio_write_reg(struct cdns_i3c_gpio *gpioc, u8 reg,
+> +                                  u8 val)
+> +{
+> +       struct i3c_priv_xfer xfers[] = {
+> +               {
+> +                       .len = sizeof(reg),
+> +                       .data.out = &reg,
+> +               },
+> +               {
+> +                       .len = sizeof(val),
+> +                       .data.out = &val,
+> +               },
+> +       };
+> +
+> +       return i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
+> +                                       ARRAY_SIZE(xfers));
+> +}
+
+This is starting to resemble
+drivers/base/regmap/regmap-i2c.c
+
+Maybe we should very quickly add regmap-i3c.c as this
+infrastructre has had a great positive effect on may kernel
+subsystems.
+
+> +static int cdns_i3c_gpio_get_direction(struct gpio_chip *g, unsigned offset)
+> +{
+> +       struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
+> +
+> +       return gpioc->dir & BIT(offset);
+
+I would:
+
+return !!(gpioc->dir & BIT(offset));
+
+So you clamp it to bit 0.
+
+Yours,
+Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
