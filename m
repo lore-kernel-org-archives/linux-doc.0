@@ -2,140 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1AD447DD32
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 17:47:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8DF57DD32
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 17:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756433AbeDZRrX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 13:47:23 -0400
-Received: from foss.arm.com ([217.140.101.70]:57214 "EHLO foss.arm.com"
+        id S1756732AbeDZR5D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 13:57:03 -0400
+Received: from foss.arm.com ([217.140.101.70]:57350 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754569AbeDZRrW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Apr 2018 13:47:22 -0400
+        id S1755998AbeDZR5B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Apr 2018 13:57:01 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 244491435;
-        Thu, 26 Apr 2018 10:47:22 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF0D91435;
+        Thu, 26 Apr 2018 10:57:00 -0700 (PDT)
 Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E5BF3F487;
-        Thu, 26 Apr 2018 10:47:17 -0700 (PDT)
-Date:   Thu, 26 Apr 2018 18:47:14 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 16F5E3F487;
+        Thu, 26 Apr 2018 10:56:55 -0700 (PDT)
+Date:   Thu, 26 Apr 2018 18:56:53 +0100
 From:   Catalin Marinas <catalin.marinas@arm.com>
 To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
         Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
         Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
         Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Bart Van Assche <bart.vanassche@wdc.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Lee Smith <Lee.Smith@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
-Message-ID: <20180426174714.4jtb72q56w3xonsa@armageddon.cambridge.arm.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        James Morse <james.morse@arm.com>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Zi Yan <zi.yan@cs.rutgers.edu>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH 0/6] arm64: untag user pointers passed to the kernel
+Message-ID: <20180426175653.q7mqzzqvdoihn5so@armageddon.cambridge.arm.com>
 References: <cover.1524077494.git.andreyknvl@google.com>
- <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
+ <20180419093306.rn5bz264nxsn7d7c@node.shutemov.name>
+ <CAAeHK+yb-U3h0666i3u3fF3=8XVcZUo1nxZ5CnOd9oUiDFP=Ng@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
+In-Reply-To: <CAAeHK+yb-U3h0666i3u3fF3=8XVcZUo1nxZ5CnOd9oUiDFP=Ng@mail.gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 18, 2018 at 08:53:13PM +0200, Andrey Konovalov wrote:
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 76af4cfeaf68..fb375de7d40d 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -386,6 +386,8 @@ struct page *follow_page_mask(struct vm_area_struct *vma,
->  	struct page *page;
->  	struct mm_struct *mm = vma->vm_mm;
->  
-> +	address = untagged_addr(address);
-> +
->  	*page_mask = 0;
->  
->  	/* make this handle hugepd */
+On Wed, Apr 25, 2018 at 04:45:37PM +0200, Andrey Konovalov wrote:
+> On Thu, Apr 19, 2018 at 11:33 AM, Kirill A. Shutemov
+> <kirill@shutemov.name> wrote:
+> > On Wed, Apr 18, 2018 at 08:53:09PM +0200, Andrey Konovalov wrote:
+> >> arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+> >> tags into the top byte of each pointer. Userspace programs (such as
+> >> HWASan, a memory debugging tool [1]) might use this feature and pass
+> >> tagged user pointers to the kernel through syscalls or other interfaces.
+> >>
+> >> This patch makes a few of the kernel interfaces accept tagged user
+> >> pointers. The kernel is already able to handle user faults with tagged
+> >> pointers and has the untagged_addr macro, which this patchset reuses.
+> >>
+> >> We're not trying to cover all possible ways the kernel accepts user
+> >> pointers in one patchset, so this one should be considered as a start.
+> >
+> > How many changes do you anticipate?
+> >
+> > This patchset looks small and reasonable, but I see a potential to become a
+> > boilerplate. Would we need to change every driver which implements ioctl()
+> > to strip these bits?
+> 
+> I've replied to somewhat similar question in one of the previous
+> versions of the patchset.
+> 
+> """
+> There are two different approaches to untagging the user pointers that I see:
+> 
+> 1. Untag user pointers right after they are passed to the kernel.
+> 
+> While this might be possible for pointers that are passed to syscalls
+> as arguments (Catalin's "hack"), this leaves user pointers, that are
+> embedded into for example structs that are passed to the kernel. Since
+> there's no specification of the interface between user space and the
+> kernel, different kernel parts handle user pointers differently and I
+> don't see an easy way to cover them all.
+> 
+> 2. Untag user pointers where they are used in the kernel.
+> 
+> Although there's no specification on the interface between the user
+> space and the kernel, the kernel still has to use one of a few
+> specific ways to access user data (copy_from_user, etc.). So the idea
+> here is to add untagging into them. This patchset mostly takes this
+> approach (with the exception of memory subsystem syscalls).
+> 
+> If there's a better approach, I'm open to suggestions.
+> """
+> 
+> So if we go with the first way, we'll need to go through every syscall
+> and ioctl handler, which doesn't seem feasible.
 
-Does having a tagged address here makes any difference? I couldn't hit a
-failure with my simple tests (LD_PRELOAD a library that randomly adds
-tags to pointers returned by malloc).
+I agree with you that (1) isn't feasible. My hack is sufficient for the
+pointer arguments but doesn't help with pointers in user structures
+passed to the kernel.
 
-> @@ -647,6 +649,8 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
->  	if (!nr_pages)
->  		return 0;
->  
-> +	start = untagged_addr(start);
-> +
->  	VM_BUG_ON(!!pages != !!(gup_flags & FOLL_GET));
->  
->  	/*
-> @@ -801,6 +805,8 @@ int fixup_user_fault(struct task_struct *tsk, struct mm_struct *mm,
->  	struct vm_area_struct *vma;
->  	int ret, major = 0;
->  
-> +	address = untagged_addr(address);
-> +
->  	if (unlocked)
->  		fault_flags |= FAULT_FLAG_ALLOW_RETRY;
->  
-> @@ -854,6 +860,8 @@ static __always_inline long __get_user_pages_locked(struct task_struct *tsk,
->  	long ret, pages_done;
->  	bool lock_dropped;
->  
-> +	start = untagged_addr(start);
-> +
->  	if (locked) {
->  		/* if VM_FAULT_RETRY can be returned, vmas become invalid */
->  		BUG_ON(vmas);
-
-Isn't __get_user_pages() untagging enough to cover this case as well?
-Can this function not cope with tagged pointers?
-
-> @@ -1751,6 +1759,8 @@ int __get_user_pages_fast(unsigned long start, int nr_pages, int write,
->  	unsigned long flags;
->  	int nr = 0;
->  
-> +	start = untagged_addr(start);
-> +
->  	start &= PAGE_MASK;
->  	addr = start;
->  	len = (unsigned long) nr_pages << PAGE_SHIFT;
-> @@ -1803,6 +1813,8 @@ int get_user_pages_fast(unsigned long start, int nr_pages, int write,
->  	unsigned long addr, len, end;
->  	int nr = 0, ret = 0;
->  
-> +	start = untagged_addr(start);
-> +
->  	start &= PAGE_MASK;
->  	addr = start;
->  	len = (unsigned long) nr_pages << PAGE_SHIFT;
-
-Have you hit a problem with the fast gup functions and tagged pointers?
-The page table walking macros (e.g. p*d_index()) should mask the tag out
-already.
+Now, since the hardware allows access to user pointers with non-zero top
+8-bit, the kernel uaccess routines can also use such pointers directly.
+What's needed, as per your patches, is the access_ok() macro and
+whatever ends up calling find_vma() (at a first look, there may be other
+cases). I don't think drivers need changing as long as the in-kernel API
+they use performs the untagging (e.g. get_user_pages()).
 
 -- 
 Catalin
