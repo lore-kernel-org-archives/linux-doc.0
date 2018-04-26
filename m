@@ -5,52 +5,54 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 547B07E27E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 12:07:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E02507DD32
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 12:13:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755979AbeDZMHZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 08:07:25 -0400
-Received: from mail-it0-f47.google.com ([209.85.214.47]:54103 "EHLO
-        mail-it0-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755207AbeDZMHV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 08:07:21 -0400
-Received: by mail-it0-f47.google.com with SMTP id m134-v6so24058547itb.3
-        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 05:07:21 -0700 (PDT)
+        id S1755074AbeDZMNm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 08:13:42 -0400
+Received: from mail-it0-f51.google.com ([209.85.214.51]:50802 "EHLO
+        mail-it0-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754277AbeDZMNl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 08:13:41 -0400
+Received: by mail-it0-f51.google.com with SMTP id p3-v6so23584049itc.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 05:13:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=BaIUcVJJB1IZT9ZhgMRGp+d8QqN2KWuPLugWs+xnd3U=;
-        b=JGtO24q92TSIJ8hdX5sA8+fwF429ihh7IM57jdGZyl1KNweH9AEkTD/pPVJP5QMRV3
-         xqLriZjfd6WeWwfpjwij01H7y8MgqdzKS5bBMWbOzW8Mvvo1bTHVjaNxiMYfyi5Axp/q
-         SkuxOw0vf5TeDUfVweuU8x92QiKLRhxFIWpL8=
+        bh=LEWY//XWBM8XklR1/nYiDMK3q6ggM8+or/1JLxedQy4=;
+        b=OyKXUE1BsQ/iEZG6BMK6ZhmqJ1uA+KO+r7C4Xmnk2+RT2YbNdastegfaBcF0jJRjyj
+         RG4WmvxZ2oDPmgt5OatEMATijEcxk/+Jd/W59aVv7dRsS2sFlPGgDPYyLzOvX3a+YwDJ
+         kUJxN2B41Tpqr5npQcTlNTn6Ml4uM5HWZVz58=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=BaIUcVJJB1IZT9ZhgMRGp+d8QqN2KWuPLugWs+xnd3U=;
-        b=sedvP1cikOUYEvAA/+ijt9uoFmk3b6MCrekkprG7kdPn8BhfMMdv+19lE7yuid/TxN
-         yd5RXRfbqpJ5hdYhhx/LXxS7yIQz9GefhGEh4vOcsMOox9DkSu/hqARj38wBG34bQDQc
-         zAh+E+U+iRH9XPAfX2cxeLCNHZrLsJFSgPM48gU4JvT3KbYvdp8r5vBOWB8rczJXep2+
-         VG9UhHzrc7T2K/TduOe6nmz6w2q2iMGguvtZuDEBAHuHLpYyH3icsgQtjPxbIZiyURH6
-         NkJUgQVs8gOw6lt1lcHggZFesEVX0+xP+n8aA7QuCaykp+0zHk8P0t+cbiBxuTD1visl
-         lwPA==
-X-Gm-Message-State: ALQs6tAfBthgokNBB9ILi3I8GSR9lk4BZMJLDoCwl24q5x7RzPpqfW0E
-        m428EWFCEi/+76rDT7W7F6gmuaaVEw57Rd9PWsiel+PY
-X-Google-Smtp-Source: AIpwx4/y8mzfbIBIa70QlTgvTGjEe/ZZCnlM8BGTc9J4sJigkSAAgNjSGakd40ywiy1maRZXkMqDEWcIVOTq7SOpGHw=
-X-Received: by 2002:a24:c146:: with SMTP id e67-v6mr26472064itg.70.1524744441197;
- Thu, 26 Apr 2018 05:07:21 -0700 (PDT)
+        bh=LEWY//XWBM8XklR1/nYiDMK3q6ggM8+or/1JLxedQy4=;
+        b=peb/bz4/8ZaDEsyBxtWMp8EgK7IX0u0BBtHBFipXY/Xyb8XuU3gy151WVLS6FK6+tv
+         hJljwyktROvSX1jphP/rmQS47N2tDAM14OdfIgblu4uSDHcWqH8aShRUQi46KQE185XP
+         sF1AZz2+DfC9eI6aXtPoG71jXRZG9ubAE2TAI2fmbwrndLMMYCOCY0MvhB0qz9hJ0sVL
+         v7c0ghya0WiaGLqN+oFeEmeahgJ/biLXOyz2bl5ayReEEJRdwVpDLQEMA319Zi7G1rSe
+         PDkzmpsRZovErYaelveDOx7UMUGFBDy9Gd1DdJ/WozqfDZfIMLFIrX0xRnc/QmWVMMSN
+         QtRQ==
+X-Gm-Message-State: ALQs6tC/4Nh9aOngmalpxWLBmLz01sOVaXVG9FDwPk40cQWm/jF70ARO
+        xWnt3lshEL1vIEjLJ9MrZSp9hrM88M83x3nYAKd8LA==
+X-Google-Smtp-Source: AB8JxZqx7UxppalR/4SsWloxZ6ooH58QfnHkVntsuMFVp/BtMX7rCIPOtv6GZ2f6ZlAW0Ai2zju/4lyFgOd58YbDaDg=
+X-Received: by 2002:a24:ad1e:: with SMTP id c30-v6mr5194578itf.38.1524744821274;
+ Thu, 26 Apr 2018 05:13:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4f:2793:0:0:0:0:0 with HTTP; Thu, 26 Apr 2018 05:07:20
+Received: by 2002:a4f:2793:0:0:0:0:0 with HTTP; Thu, 26 Apr 2018 05:13:40
  -0700 (PDT)
-In-Reply-To: <20180410203028.11412-1-brgl@bgdev.pl>
-References: <20180410203028.11412-1-brgl@bgdev.pl>
+In-Reply-To: <17720832.6ELUnVt0BR@debian64>
+References: <20180410203028.11412-1-brgl@bgdev.pl> <17720832.6ELUnVt0BR@debian64>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 26 Apr 2018 14:07:20 +0200
-Message-ID: <CACRpkda+K3-=sPpJO90rjW0=+bsQ1uYT6E9Hp+G+-OEyTpc=fg@mail.gmail.com>
+Date:   Thu, 26 Apr 2018 14:13:40 +0200
+Message-ID: <CACRpkdbFGXGqjtcyXLmgL=kYFkfR9_s9McrNU1-=bTO7-Wgs0w@mail.gmail.com>
 Subject: Re: [PATCH v2] gpiolib: add hogs support for machine code
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+To:     Christian Lamparter <chunkeey@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         linux-doc@vger.kernel.org,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
@@ -60,30 +62,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 10, 2018 at 10:30 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+On Thu, Apr 12, 2018 at 10:00 PM, Christian Lamparter
+<chunkeey@gmail.com> wrote:
 
-> Board files constitute a significant part of the users of the legacy
-> GPIO framework. In many cases they only export a line and set its
-> desired value. We could use GPIO hogs for that like we do for DT and
-> ACPI but there's no support for that in machine code.
->
-> This patch proposes to extend the machine.h API with support for
-> registering hog tables in board files.
->
-> Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
-> ---
-> v1 -> v2:
-> - kbuild bot complains about enum gpiod_flags having incomplete type
->   although it builds fine for me locally: change the type of dflags
->   to int
+> The problem is that unlike native gpio-controllers, pinctrls need
+> to have a "pin/gpio range" defined before any gpio-hogs can be added.
 
-I like the idea and thinking behind this patch, so patch applied.
+Indeed. But the primary use case (correct me if I am wrong Bartosz)
+is to clean up old boardfile code.
 
-It's a bit of code to carry, so if it doesn't see any use, I will simply
-revert it :)
+Old boardfiles belong to equally old boards. They very often do not
+have pin control, just GPIO, and they very often have custom code
+that just issue gpio_get(), gpio_* etc to set up hogs.
 
-But I bet you intend to follow up with some machine patches
-and then it is immediately worth it.
+So this will be able to replace all such boilerplate with some
+hog table for each boardfile and be done with it.
+
+I.e. they have only drivers/gpio/gpio-foo.c and no pin control
+driver in 9 cases out of 10. Cases do exist where they use
+pin control with board files. Those are rare. But they will have
+problems.
+
+Some machine descriptor tables are used on modern archs
+and the most prominent is x86 Intel. However the Intel pin control
+driver is one of those that (IIRC) will actually survive this (i.e. it
+doesn not have this bug). They are not even using DT, they
+use ACPI.
+
+> So what will happen is that you'll get an
+> "gpiochip_machine_hog: unable to hog GPIO line $LABEL $GPIONR -517" error
+> for every single gpio-hog and wonder why :(.
+
+Hm maybe we can simply improbe the error messages so
+people realize they have to go and fix their pin control driver(s)?
+
+OK maybe a bit whimsical comment from me here... :/
 
 Yours,
 Linus Walleij
