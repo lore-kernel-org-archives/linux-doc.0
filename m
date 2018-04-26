@@ -1,162 +1,401 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5100C7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 20:56:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 23FF97DD32
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 26 Apr 2018 21:59:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754239AbeDZU4F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 16:56:05 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43962 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754228AbeDZU4E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 16:56:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=rFF6hz4noi/N1YsSXjZU7hD8umezovIPdXnyLfAC4F4=; b=etjOo2WZFfy2s2WP0g+UipmaK
-        UdbEdwvXuraa0w6QWSVhADNnfOMt7WK1yNmTyI0eTFmd3Hvp21iQqgQWd/JjxKv1ndsFOuRs673EN
-        EznIP4zDoBGMIOUoDOmV+VS/1JlJWqrJIcl8lIqtSE/yYtxu22U2qW02OnGZpamGuvnvpCTJXu4GO
-        jJ9Y06NVJt5f22I3pL6PR8OEllEm/z1xpsXY72G+y+N7i9E/l+miihCbVmksN4ADud+04SAprguL6
-        CnQ5DpZN9PCNeZnV/rACZozNZZ40ivMwqstPOlz4dvElenIZNKMZombBQSFe82I4DNvMey4dUHJ/G
-        ZNTCXJtCQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fBnvt-0006Fu-Pq; Thu, 26 Apr 2018 20:56:01 +0000
-Subject: Re: [PATCH v4 1/2] perf: uncore: Adding documentation for ThunderX2
- pmu uncore driver
-To:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Will.Deacon@arm.com, mark.rutland@arm.com,
-        jnair@caviumnetworks.com, Robert.Richter@cavium.com,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com,
-        gklkml16@gmail.com
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
- <20180425090047.6485-2-ganapatrao.kulkarni@cavium.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7c8ff675-2b27-8e7b-f046-513b73f1ae5f@infradead.org>
-Date:   Thu, 26 Apr 2018 13:55:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1756568AbeDZV7P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 17:59:15 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:36146 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754231AbeDZV7N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 17:59:13 -0400
+Received: by mail-wm0-f68.google.com with SMTP id n10so357131wmc.1;
+        Thu, 26 Apr 2018 14:59:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=YJ57CiRUkz1cgxbtE0m3FspeQgwkxtn4nQlXe/jcyB4=;
+        b=O+UrQkqH/5XdrrT0KHI2/Gf3O/2DYsuzoZImG9FnU66+c7dy8LJFxlN3HFZdwhWsOR
+         t0B11SkRMHHNdc14C68Pv+StvH8Wsgn1ugI7Y2v8TMCV+FhlCoNxLrYZdBMau0+7rau0
+         HEn+z1J9tFnohpv+qligU1SVvITD6mU3YDSznHDXJD7Z7vHJwQJBhq22ceBoz/AdY6fG
+         FI68H32SjKU8owHe48paXdAWKfwWptOpKkFn/A/k1yCJbvxJ5VYYINLWSHsgpOrkWGDO
+         6bjQ6sTnRk852z7pGLbXXbN44T3K2xPLVUSjwgN+8d+YMtvZ7XhbOzgbP8OMhn62MC7C
+         2tAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=YJ57CiRUkz1cgxbtE0m3FspeQgwkxtn4nQlXe/jcyB4=;
+        b=fWET9XkOaMXh8xRvtLC10rvVaARBvourq6NTMgnFLYz4f0eaAfc8VcqQI2bUHoCUto
+         tm3jE5fTJPEvdOdsmgsAb9g32mGrx4/7yqYth5MUB37nUxwvwG08dg79hyKng2zDWtlm
+         8PkZ//VR7rthVEdZt0Fgr4OEP4DydrcqSfALNc3eGduKRW7abBdEMZPZ+Zpn9O/QeaiL
+         /TkeJ9Eu13qyBXcYTZ7QVRf/Ui+6IozAwZTwTobu9eqGGjp/jS1W/IE2rH2vAasPo+X2
+         dRd9sUcRpSFnFku3QAy/+TWU2DJQKJ4KO8jn7KXQ9yK2aocI8AphPn7fdqOw3xplFbBr
+         NShA==
+X-Gm-Message-State: ALQs6tBXYpIEfj4U0a5/T+m8g8mFo9wJOrog1naP17ACCHD+K+T/8PUj
+        LUC0GvfQPlu1QNnGfgdJg8EKpWNt
+X-Google-Smtp-Source: AB8JxZp4/1oS0fdHSwwPVZnuTbgvxgmhYGtiFjuC9PoOwo8WSoKJ0LI4ZqJSMeRAs+gAYS2jIg/k9g==
+X-Received: by 2002:a50:f05c:: with SMTP id u28-v6mr260340edl.91.1524779952200;
+        Thu, 26 Apr 2018 14:59:12 -0700 (PDT)
+Received: from thinkpad (524A8B4B.cm-4-3c.dynamic.ziggo.nl. [82.74.139.75])
+        by smtp.gmail.com with ESMTPSA id x16-v6sm66754edd.52.2018.04.26.14.59.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 26 Apr 2018 14:59:10 -0700 (PDT)
+Date:   Thu, 26 Apr 2018 23:59:09 +0200
+From:   Thymo van Beers <thymovanbeers@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v3] docs: kernel-parameters.txt: Fix whitespace
+Message-ID: <20180426215909.GA15300@thinkpad>
 MIME-Version: 1.0
-In-Reply-To: <20180425090047.6485-2-ganapatrao.kulkarni@cavium.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Some lines used spaces instead of tabs at line start.
+This can cause mangled lines in editors due to inconsistency.
 
-Just a few typo corrections...
+Replace spaces for tabs where appropriate.
 
-On 04/25/2018 02:00 AM, Ganapatrao Kulkarni wrote:
-> Documentation for the UNCORE PMUs on Cavium's ThunderX2 SoC.
-> The SoC has PMU support in its L3 cache controller (L3C) and in the
-> DDR4 Memory Controller (DMC).
-> 
-> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
-> ---
->  Documentation/perf/thunderx2-pmu.txt | 66 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 66 insertions(+)
->  create mode 100644 Documentation/perf/thunderx2-pmu.txt
-> 
-> diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.txt
-> new file mode 100644
-> index 0000000..9e9f535
-> --- /dev/null
-> +++ b/Documentation/perf/thunderx2-pmu.txt
-> @@ -0,0 +1,66 @@
-> +
-> +Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
-> +==========================================================================
-> +
-> +ThunderX2 SoC PMU consists of independent system wide per Socket PMUs such
-> +as Level 3 Cache(L3C) and DDR4 Memory Controller(DMC).
-> +
-> +It has 8 independent DMC PMUs to capture performance events corresponding
-> +to 8 channels of DDR4 Memory Controller. There are 16 independent L3C PMUs
-> +to capture events corresponding to 16 tiles of L3 cache. Each PMU supports
-> +up to 4 counters.
-> +
-> +Counters are independent programmable and can be started and stopped
+Signed-off-by: Thymo van Beers <thymovanbeers@gmail.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Changes in v3:
+ - Change indentation in intel_pstate to reduce overrunning 80-column
+   mark
+ - Indent "nohrst, nosrst, norst:" like "rstonce"
 
-                independently
+Changes in v2:
+ - Rebase against docs-next
+ - Fix indentation modifications
 
-> +individually. Each counter can be set to sample specific perf events.
-> +Counters are 32 bit and does not support overflow interrupt, they are
+ Documentation/admin-guide/kernel-parameters.txt | 136 ++++++++++++------------
+ 1 file changed, 68 insertions(+), 68 deletions(-)
 
-                           do not                    interrupt; they are
-
-
-> +sampled at every 2 seconds. The Counters register access are multiplexed
-> +across channels of DMC and L3C. The muxing(select channel) is done through
-> +write to a Secure register using smcc calls.
-> +
-> +PMU UNCORE (perf) driver:
-> +
-> +The thunderx2-pmu driver registers several perf PMUs for DMC and L3C devices.
-> +Each of the PMU provides description of its available events
-
-        of the PMUs
-
-> +and configuration options in sysfs.
-> +	see /sys/devices/uncore_<l3c_S_X/dmc_S_X/>
-> +
-> +S is socket id and X represents channel number.
-> +Each PMU can be used to sample up to 4 events simultaneously.
-> +
-> +The "format" directory describes format of the config (event ID).
-> +The "events" directory provides configuration templates for all
-> +supported event types that can be used with perf tool.
-> +
-> +For example, "uncore_dmc_0_0/cnt_cycles/" is an
-> +equivalent of "uncore_dmc_0_0/config=0x1/".
-> +
-> +Each perf driver also provides a "cpumask" sysfs attribute, which contains a
-> +single CPU ID of the processor which is likely to be used to handle all the
-> +PMU events. It will be the first online CPU from the NUMA node of PMU device.
-> +
-> +Example for perf tool use:
-> +
-> +perf stat -a -e \
-> +uncore_dmc_0_0/cnt_cycles/,\
-> +uncore_dmc_0_1/cnt_cycles/,\
-> +uncore_dmc_0_2/cnt_cycles/,\
-> +uncore_dmc_0_3/cnt_cycles/,\
-> +uncore_dmc_0_4/cnt_cycles/,\
-> +uncore_dmc_0_5/cnt_cycles/,\
-> +uncore_dmc_0_6/cnt_cycles/,\
-> +uncore_dmc_0_7/cnt_cycles/ sleep 1
-> +
-> +perf stat -a -e \
-> +uncore_dmc_0_0/cancelled_read_txns/,\
-> +uncore_dmc_0_0/cnt_cycles/,\
-> +uncore_dmc_0_0/consumed_read_txns/,\
-> +uncore_dmc_0_0/data_transfers/ sleep 1
-> +
-> +perf stat -a -e \
-> +uncore_l3c_0_0/l3_retry/,\
-> +uncore_l3c_0_0/read_hit/,\
-> +uncore_l3c_0_0/read_request/,\
-> +uncore_l3c_0_0/inv_request/ sleep 1
-> +
-> +The driver does not support sampling, therefore "perf record" will
-> +not work. Per-task (without "-a") perf sessions are not supported.
-> 
-
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3487be79847c..865a24e4d516 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -106,11 +106,11 @@
+ 			use by PCI
+ 			Format: <irq>,<irq>...
+ 
+-	acpi_mask_gpe=  [HW,ACPI]
++	acpi_mask_gpe=	[HW,ACPI]
+ 			Due to the existence of _Lxx/_Exx, some GPEs triggered
+ 			by unsupported hardware/firmware features can result in
+-                        GPE floodings that cannot be automatically disabled by
+-                        the GPE dispatcher.
++			GPE floodings that cannot be automatically disabled by
++			the GPE dispatcher.
+ 			This facility can be used to prevent such uncontrolled
+ 			GPE floodings.
+ 			Format: <int>
+@@ -472,10 +472,10 @@
+ 			for platform specific values (SB1, Loongson3 and
+ 			others).
+ 
+-	ccw_timeout_log [S390]
++	ccw_timeout_log	[S390]
+ 			See Documentation/s390/CommonIO for details.
+ 
+-	cgroup_disable= [KNL] Disable a particular controller
++	cgroup_disable=	[KNL] Disable a particular controller
+ 			Format: {name of the controller(s) to disable}
+ 			The effects of cgroup_disable=foo are:
+ 			- foo isn't auto-mounted if you mount all cgroups in
+@@ -641,8 +641,8 @@
+ 		hvc<n>	Use the hypervisor console device <n>. This is for
+ 			both Xen and PowerPC hypervisors.
+ 
+-                If the device connected to the port is not a TTY but a braille
+-                device, prepend "brl," before the device type, for instance
++		If the device connected to the port is not a TTY but a braille
++		device, prepend "brl," before the device type, for instance
+ 			console=brl,ttyS0
+ 		For now, only VisioBraille is supported.
+ 
+@@ -662,7 +662,7 @@
+ 
+ 	consoleblank=	[KNL] The console blank (screen saver) timeout in
+ 			seconds. A value of 0 disables the blank timer.
+-                       Defaults to 0.
++			Defaults to 0.
+ 
+ 	coredump_filter=
+ 			[KNL] Change the default value for
+@@ -730,7 +730,7 @@
+ 			or memory reserved is below 4G.
+ 
+ 	cryptomgr.notests
+-                        [KNL] Disable crypto self-tests
++			[KNL] Disable crypto self-tests
+ 
+ 	cs89x0_dma=	[HW,NET]
+ 			Format: <dma>
+@@ -746,7 +746,7 @@
+ 			Format: <port#>,<type>
+ 			See also Documentation/input/devices/joystick-parport.rst
+ 
+-	ddebug_query=   [KNL,DYNAMIC_DEBUG] Enable debug messages at early boot
++	ddebug_query=	[KNL,DYNAMIC_DEBUG] Enable debug messages at early boot
+ 			time. See
+ 			Documentation/admin-guide/dynamic-debug-howto.rst for
+ 			details.  Deprecated, see dyndbg.
+@@ -833,7 +833,7 @@
+ 			causing system reset or hang due to sending
+ 			INIT from AP to BSP.
+ 
+-	disable_ddw     [PPC/PSERIES]
++	disable_ddw	[PPC/PSERIES]
+ 			Disable Dynamic DMA Window support. Use this if
+ 			to workaround buggy firmware.
+ 
+@@ -1188,7 +1188,7 @@
+ 			parameter will force ia64_sal_cache_flush to call
+ 			ia64_pal_cache_flush instead of SAL_CACHE_FLUSH.
+ 
+-	forcepae [X86-32]
++	forcepae	[X86-32]
+ 			Forcefully enable Physical Address Extension (PAE).
+ 			Many Pentium M systems disable PAE but may have a
+ 			functionally usable PAE implementation.
+@@ -1247,7 +1247,7 @@
+ 
+ 	gamma=		[HW,DRM]
+ 
+-	gart_fix_e820=  [X86_64] disable the fix e820 for K8 GART
++	gart_fix_e820=	[X86_64] disable the fix e820 for K8 GART
+ 			Format: off | on
+ 			default: on
+ 
+@@ -1341,11 +1341,11 @@
+ 			x86-64 are 2M (when the CPU supports "pse") and 1G
+ 			(when the CPU supports the "pdpe1gb" cpuinfo flag).
+ 
+-	hvc_iucv=	[S390] Number of z/VM IUCV hypervisor console (HVC)
+-			       terminal devices. Valid values: 0..8
+-	hvc_iucv_allow=	[S390] Comma-separated list of z/VM user IDs.
+-			       If specified, z/VM IUCV HVC accepts connections
+-			       from listed z/VM user IDs only.
++	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
++				terminal devices. Valid values: 0..8
++	hvc_iucv_allow=	[S390]	Comma-separated list of z/VM user IDs.
++				If specified, z/VM IUCV HVC accepts connections
++				from listed z/VM user IDs only.
+ 
+ 	keep_bootcon	[KNL]
+ 			Do not unregister boot console at start. This is only
+@@ -1353,11 +1353,11 @@
+ 			between unregistering the boot console and initializing
+ 			the real console.
+ 
+-	i2c_bus=	[HW] Override the default board specific I2C bus speed
+-			     or register an additional I2C bus that is not
+-			     registered from board initialization code.
+-			     Format:
+-			     <bus_id>,<clkrate>
++	i2c_bus=	[HW]	Override the default board specific I2C bus speed
++				or register an additional I2C bus that is not
++				registered from board initialization code.
++				Format:
++				<bus_id>,<clkrate>
+ 
+ 	i8042.debug	[HW] Toggle i8042 debug mode
+ 	i8042.unmask_kbd_data
+@@ -1386,7 +1386,7 @@
+ 			Default: only on s2r transitions on x86; most other
+ 			architectures force reset to be always executed
+ 	i8042.unlock	[HW] Unlock (ignore) the keylock
+-	i8042.kbdreset  [HW] Reset device connected to KBD port
++	i8042.kbdreset	[HW] Reset device connected to KBD port
+ 
+ 	i810=		[HW,DRM]
+ 
+@@ -1548,13 +1548,13 @@
+ 			programs exec'd, files mmap'd for exec, and all files
+ 			opened for read by uid=0.
+ 
+-	ima_template=   [IMA]
++	ima_template=	[IMA]
+ 			Select one of defined IMA measurements template formats.
+ 			Formats: { "ima" | "ima-ng" | "ima-sig" }
+ 			Default: "ima-ng"
+ 
+ 	ima_template_fmt=
+-	                [IMA] Define a custom template format.
++			[IMA] Define a custom template format.
+ 			Format: { "field1|...|fieldN" }
+ 
+ 	ima.ahash_minsize= [IMA] Minimum file size for asynchronous hash usage
+@@ -1597,7 +1597,7 @@
+ 	inport.irq=	[HW] Inport (ATI XL and Microsoft) busmouse driver
+ 			Format: <irq>
+ 
+-	int_pln_enable  [x86] Enable power limit notification interrupt
++	int_pln_enable	[x86] Enable power limit notification interrupt
+ 
+ 	integrity_audit=[IMA]
+ 			Format: { "0" | "1" }
+@@ -1650,39 +1650,39 @@
+ 			0	disables intel_idle and fall back on acpi_idle.
+ 			1 to 9	specify maximum depth of C-state.
+ 
+-	intel_pstate=  [X86]
+-		       disable
+-		         Do not enable intel_pstate as the default
+-		         scaling driver for the supported processors
+-		       passive
+-			 Use intel_pstate as a scaling driver, but configure it
+-			 to work with generic cpufreq governors (instead of
+-			 enabling its internal governor).  This mode cannot be
+-			 used along with the hardware-managed P-states (HWP)
+-			 feature.
+-		       force
+-			 Enable intel_pstate on systems that prohibit it by default
+-			 in favor of acpi-cpufreq. Forcing the intel_pstate driver
+-			 instead of acpi-cpufreq may disable platform features, such
+-			 as thermal controls and power capping, that rely on ACPI
+-			 P-States information being indicated to OSPM and therefore
+-			 should be used with caution. This option does not work with
+-			 processors that aren't supported by the intel_pstate driver
+-			 or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
+-		       no_hwp
+-		         Do not enable hardware P state control (HWP)
+-			 if available.
+-		hwp_only
+-			Only load intel_pstate on systems which support
+-			hardware P state control (HWP) if available.
+-		support_acpi_ppc
+-			Enforce ACPI _PPC performance limits. If the Fixed ACPI
+-			Description Table, specifies preferred power management
+-			profile as "Enterprise Server" or "Performance Server",
+-			then this feature is turned on by default.
+-		per_cpu_perf_limits
+-			Allow per-logical-CPU P-State performance control limits using
+-			cpufreq sysfs interface
++	intel_pstate=	[X86]
++			disable
++			  Do not enable intel_pstate as the default
++			  scaling driver for the supported processors
++			passive
++			  Use intel_pstate as a scaling driver, but configure it
++			  to work with generic cpufreq governors (instead of
++			  enabling its internal governor).  This mode cannot be
++			  used along with the hardware-managed P-states (HWP)
++			  feature.
++			force
++			  Enable intel_pstate on systems that prohibit it by default
++			  in favor of acpi-cpufreq. Forcing the intel_pstate driver
++			  instead of acpi-cpufreq may disable platform features, such
++			  as thermal controls and power capping, that rely on ACPI
++			  P-States information being indicated to OSPM and therefore
++			  should be used with caution. This option does not work with
++			  processors that aren't supported by the intel_pstate driver
++			  or on platforms that use pcc-cpufreq instead of acpi-cpufreq.
++			no_hwp
++			  Do not enable hardware P state control (HWP)
++			  if available.
++			hwp_only
++			  Only load intel_pstate on systems which support
++			  hardware P state control (HWP) if available.
++			support_acpi_ppc
++			  Enforce ACPI _PPC performance limits. If the Fixed ACPI
++			  Description Table, specifies preferred power management
++			  profile as "Enterprise Server" or "Performance Server",
++			  then this feature is turned on by default.
++			per_cpu_perf_limits
++			  Allow per-logical-CPU P-State performance control limits using
++			  cpufreq sysfs interface
+ 
+ 	intremap=	[X86-64, Intel-IOMMU]
+ 			on	enable Interrupt Remapping (default)
+@@ -2027,7 +2027,7 @@
+ 			* [no]ncqtrim: Turn off queued DSM TRIM.
+ 
+ 			* nohrst, nosrst, norst: suppress hard, soft
+-                          and both resets.
++			  and both resets.
+ 
+ 			* rstonce: only attempt one reset during
+ 			  hot-unplug link recovery
+@@ -2215,7 +2215,7 @@
+ 			[KNL,SH] Allow user to override the default size for
+ 			per-device physically contiguous DMA buffers.
+ 
+-        memhp_default_state=online/offline
++	memhp_default_state=online/offline
+ 			[KNL] Set the initial state for the memory hotplug
+ 			onlining policy. If not specified, the default value is
+ 			set according to the
+@@ -2762,7 +2762,7 @@
+ 			[X86,PV_OPS] Disable paravirtualized VMware scheduler
+ 			clock and use the default one.
+ 
+-	no-steal-acc    [X86,KVM] Disable paravirtualized steal time accounting.
++	no-steal-acc	[X86,KVM] Disable paravirtualized steal time accounting.
+ 			steal time is computed, but won't influence scheduler
+ 			behaviour
+ 
+@@ -2823,7 +2823,7 @@
+ 	notsc		[BUGS=X86-32] Disable Time Stamp Counter
+ 
+ 	nowatchdog	[KNL] Disable both lockup detectors, i.e.
+-                        soft-lockup and NMI watchdog (hard-lockup).
++			soft-lockup and NMI watchdog (hard-lockup).
+ 
+ 	nowb		[ARM]
+ 
+@@ -2843,7 +2843,7 @@
+ 			If the dependencies are under your control, you can
+ 			turn on cpu0_hotplug.
+ 
+-	nps_mtm_hs_ctr= [KNL,ARC]
++	nps_mtm_hs_ctr=	[KNL,ARC]
+ 			This parameter sets the maximum duration, in
+ 			cycles, each HW thread of the CTOP can run
+ 			without interruptions, before HW switches it.
+@@ -2984,7 +2984,7 @@
+ 
+ 	pci=option[,option...]	[PCI] various PCI subsystem options:
+ 		earlydump	[X86] dump PCI config space before the kernel
+-			        changes anything
++				changes anything
+ 		off		[X86] don't probe for the PCI bus
+ 		bios		[X86-32] force use of PCI BIOS, don't access
+ 				the hardware directly. Use this if your machine
+@@ -3072,7 +3072,7 @@
+ 				is enabled by default.  If you need to use this,
+ 				please report a bug.
+ 		nocrs		[X86] Ignore PCI host bridge windows from ACPI.
+-			        If you need to use this, please report a bug.
++				If you need to use this, please report a bug.
+ 		routeirq	Do IRQ routing for all PCI devices.
+ 				This is normally done in pci_enable_device(),
+ 				so this option is a temporary workaround
+@@ -4391,7 +4391,7 @@
+ 
+ 	usbcore.initial_descriptor_timeout=
+ 			[USB] Specifies timeout for the initial 64-byte
+-                        USB_REQ_GET_DESCRIPTOR request in milliseconds
++			USB_REQ_GET_DESCRIPTOR request in milliseconds
+ 			(default 5000 = 5.0 seconds).
+ 
+ 	usbcore.nousb	[USB] Disable the USB subsystem
 -- 
-~Randy
+2.16.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
