@@ -1,173 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 21D877DD32
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 01:11:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 289DD7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 01:26:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755737AbeD0BLE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 21:11:04 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55502 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754728AbeD0BLD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 21:11:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QUy1AZ6sjkf0c4WyW5RljTPJwaSD/44UBsrF5yZun38=; b=asiRaWBtIdN3yz/BY+rEAClcu
-        wDwEASCHZDo5JYoM6dBW1i4O8AksIGccmhoL30oqWKWtAeWNykNEPnbVjYEwTo7tsjoUStGuvwDVj
-        VrpB6tHp4W5kb8x5gpgFr0TsrSbVrKgFz0d96EDW9f44fDJJmuyVGl/Z2/o2H8udTqgQ+lFuw5wt3
-        N9pR18bPvLT7uiZTQLJZrqyYQkCUyZa5m1SP5AwAH+oaYQduaHSFEg7ucj6eAT608IhBJEAhV1GXG
-        KIkVTGiZo/YpQWixtTGzKa1wNbywCuUIvJJWJYBCgf6EUWEBvNsu5ajTLjTcxguV+G6NHbWVBn/oV
-        STMgZIgGw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fBruh-0004Xm-8W; Fri, 27 Apr 2018 01:11:03 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     LKML <linux-kernel@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] documentation: core-api: rearrange a few kernel-api chapters
- and sections
-Message-ID: <f05c8785-e9e1-0a5e-b362-50669b75d80b@infradead.org>
-Date:   Thu, 26 Apr 2018 18:11:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1757287AbeD0B0N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 21:26:13 -0400
+Received: from mail-ot0-f196.google.com ([74.125.82.196]:45096 "EHLO
+        mail-ot0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757206AbeD0B0M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 21:26:12 -0400
+Received: by mail-ot0-f196.google.com with SMTP id w4-v6so284715ote.12
+        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 18:26:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=r1ZfDO2W434tlRWFZa6Oyi2oUl5DrFghhKf2ScBGnow=;
+        b=g4SI1dt91iF/NQku9dQ7dA0PO6OKr93r9Kr2aCFJ886LdBHgroxI22r7og0lEa3JUc
+         XOqs+kl0jmtxWr8MT4SoiWBvCqm+l3Pwslz0CJL8oz0Jn1l0LiYD9fzvj+2ApCIKTUH8
+         os2jMTGmGS6y9IKZ70zAbxqwh/FE1ThH+GLJpOXXS+9149pKAJ7wp8sPyiTFUFGk/ufY
+         7sislBC3FDjIThSEf9G8GAVDcrzWKIzRGEKhCXwe7s041Kk3NMZKIF71ZF8Mz7qB0oOO
+         Jm+GudjKHz960ZRFoB+UOe7veed2cPiSNxehF7D34O9rM159EDXI2SIimv/QQkmRwMFh
+         jOuw==
+X-Gm-Message-State: ALQs6tCuu3ET4grsMsx7v17ah19Ai5RHy5UXSX0lfxpazZGx+EhTu3FO
+        gwXL90RgffnLsV3YSqYZXdyjrw==
+X-Google-Smtp-Source: AB8JxZoovpNNiiucokQ1ytGNdA5ckWvf8sbPOK+at9JbLc2calTx/7FzOMvB4PtEYvXATw28JEc1Gg==
+X-Received: by 2002:a9d:6093:: with SMTP id m19-v6mr191105otj.131.1524792371530;
+        Thu, 26 Apr 2018 18:26:11 -0700 (PDT)
+Received: from localhost ([130.164.62.82])
+        by smtp.gmail.com with ESMTPSA id 60-v6sm146429otc.15.2018.04.26.18.26.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 26 Apr 2018 18:26:10 -0700 (PDT)
+From:   Moritz Fischer <mdf@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fpga@vger.kernel.org, michal.simek@xilinx.com,
+        corbet@lwn.net, atull@kernel.org, Moritz Fischer <mdf@kernel.org>
+Subject: [PATCH 0/4] FPGA Manager Patches for 4.18
+Date:   Thu, 26 Apr 2018 18:26:01 -0700
+Message-Id: <20180427012605.28981-1-mdf@kernel.org>
+X-Mailer: git-send-email 2.17.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi Greg,
 
-Rearrange some kernel-api chapters and sections to group them
-together better.
+Here's Alan's reworked patchset changing the API
+for creating and registering FPGA Managers, Bridges and
+Regions following your suggestions on the API.
 
-- move Bit Operations from Basic C Library Functions to Basic
-  Kernel Library Functions (now adjacent to Bitmap Operations since
-  they are not typical C library functions)
+These go on top of Paolo and Alan's patches that you
+queued up the other day.
 
-- move Sorting from Math Functions to Basic Kernel Library Functions
-  since sort functions are more Basic than Math Functions
+Thanks,
 
-- move Text Searching from Math Functions to Basic Kernel Library
-  Functions (keep Sorting and Searching close to each other)
+Moritz
 
-- combine CRC and Math functions together into the (newly named)
-  CRC and Math Functions chapter
+Alan Tull (4):
+  fpga: region: don't use drvdata in common fpga code
+  fpga: manager: change api, don't use drvdata
+  fpga: bridge: change api, don't use drvdata
+  fpga: region: change api, add fpga_region_create/free
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
- Documentation/core-api/kernel-api.rst |   60 ++++++++++++------------
- 1 file changed, 30 insertions(+), 30 deletions(-)
+ Documentation/fpga/fpga-mgr.txt     | 35 ++++++++++---
+ Documentation/fpga/fpga-region.txt  |  3 +-
+ drivers/fpga/altera-cvp.c           | 19 +++++--
+ drivers/fpga/altera-fpga2sdram.c    | 21 ++++++--
+ drivers/fpga/altera-freeze-bridge.c | 22 ++++++--
+ drivers/fpga/altera-hps2fpga.c      | 24 +++++++--
+ drivers/fpga/altera-pr-ip-core.c    | 18 ++++++-
+ drivers/fpga/altera-ps-spi.c        | 20 ++++++--
+ drivers/fpga/fpga-bridge.c          | 70 +++++++++++++++++---------
+ drivers/fpga/fpga-mgr.c             | 78 +++++++++++++++++++----------
+ drivers/fpga/fpga-region.c          | 69 +++++++++++++++++++------
+ drivers/fpga/ice40-spi.c            | 21 ++++++--
+ drivers/fpga/machxo2-spi.c          | 20 ++++++--
+ drivers/fpga/of-fpga-region.c       | 14 +++---
+ drivers/fpga/socfpga-a10.c          | 14 ++++--
+ drivers/fpga/socfpga.c              | 19 +++++--
+ drivers/fpga/ts73xx-fpga.c          | 20 ++++++--
+ drivers/fpga/xilinx-pr-decoupler.c  | 22 ++++++--
+ drivers/fpga/xilinx-spi.c           | 20 ++++++--
+ drivers/fpga/zynq-fpga.c            | 14 ++++--
+ include/linux/fpga/fpga-bridge.h    |  9 ++--
+ include/linux/fpga/fpga-mgr.h       | 10 ++--
+ include/linux/fpga/fpga-region.h    | 11 ++--
+ 23 files changed, 429 insertions(+), 144 deletions(-)
 
---- linux-next-20180426.orig/Documentation/core-api/kernel-api.rst
-+++ linux-next-20180426/Documentation/core-api/kernel-api.rst
-@@ -39,17 +39,17 @@ String Manipulation
- .. kernel-doc:: lib/string.c
-    :export:
- 
-+Basic Kernel Library Functions
-+==============================
-+
-+The Linux kernel provides more basic utility functions.
-+
- Bit Operations
- --------------
- 
- .. kernel-doc:: arch/x86/include/asm/bitops.h
-    :internal:
- 
--Basic Kernel Library Functions
--==============================
--
--The Linux kernel provides more basic utility functions.
--
- Bitmap Operations
- -----------------
- 
-@@ -80,6 +80,31 @@ Command-line Parsing
- .. kernel-doc:: lib/cmdline.c
-    :export:
- 
-+Sorting
-+-------
-+
-+.. kernel-doc:: lib/sort.c
-+   :export:
-+
-+.. kernel-doc:: lib/list_sort.c
-+   :export:
-+
-+Text Searching
-+--------------
-+
-+.. kernel-doc:: lib/textsearch.c
-+   :doc: ts_intro
-+
-+.. kernel-doc:: lib/textsearch.c
-+   :export:
-+
-+.. kernel-doc:: include/linux/textsearch.h
-+   :functions: textsearch_find textsearch_next \
-+               textsearch_get_pattern textsearch_get_pattern_len
-+
-+CRC and Math Functions in Linux
-+===============================
-+
- CRC Functions
- -------------
- 
-@@ -103,9 +128,6 @@ CRC Functions
- .. kernel-doc:: lib/crc-itu-t.c
-    :export:
- 
--Math Functions in Linux
--=======================
--
- Base 2 log and power Functions
- ------------------------------
- 
-@@ -127,28 +149,6 @@ Division Functions
- .. kernel-doc:: lib/gcd.c
-    :export:
- 
--Sorting
---------
--
--.. kernel-doc:: lib/sort.c
--   :export:
--
--.. kernel-doc:: lib/list_sort.c
--   :export:
--
--Text Searching
----------------
--
--.. kernel-doc:: lib/textsearch.c
--   :doc: ts_intro
--
--.. kernel-doc:: lib/textsearch.c
--   :export:
--
--.. kernel-doc:: include/linux/textsearch.h
--   :functions: textsearch_find textsearch_next \
--               textsearch_get_pattern textsearch_get_pattern_len
--
- UUID/GUID
- ---------
- 
-
+-- 
+2.17.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
