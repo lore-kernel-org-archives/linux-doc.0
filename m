@@ -1,181 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3936F7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 04:50:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A81B7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 09:08:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751348AbeD0EuB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 00:50:01 -0400
-Received: from mail-oi0-f65.google.com ([209.85.218.65]:38731 "EHLO
-        mail-oi0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750982AbeD0EuA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 00:50:00 -0400
-Received: by mail-oi0-f65.google.com with SMTP id k17-v6so522359oih.5;
-        Thu, 26 Apr 2018 21:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=C/YyO0R/ioT71070NtRH9V1ic7TZ7hKiabRfsKTocWM=;
-        b=h6qlXJ6kjg950X8KX5IW2stcedLUdFxwXJhz5BWWuKPxNMTaBeco4BC0lHtrgJcAnv
-         4ch4E7UPOlo95hdq3ZHO9rTS7RSfm8wSvvBWEfbzS9GRZgsIaS52ys4SWTOXkpw7PJad
-         Rz2w0qdntZq66yKZQrxMsrX90RDd1ILgWofiA/iGj7jEeku+Ze6bqMfNDiDpYULTdxW7
-         y+4TTXL9KV89YM64JV7QdjxRPwaC2lBT359j2o45Z8If9xLSI3g6QhB6ZPmukl4V1Qne
-         zDk2czQmqL4qtixwuBjp4/AJK4oJ0aNGvw7EdsY/eQ26aa2ardgUNa1o19W0bqPozFve
-         Vuzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=C/YyO0R/ioT71070NtRH9V1ic7TZ7hKiabRfsKTocWM=;
-        b=QdDt58Aecr5XoimmVeBZt7dOHF9JKIF8aV8XmwELJ7PQ9qvE7KmXTXyK95vzNlbuX4
-         9d/dXCMPrERrbMF2v/GyBBh9jgPr4v27KqumNwBXPWdvf/vA8MPVFbAiFNHtDVCKt+es
-         3F4MML4A2zSYlTjgZ5mFAdqH/is3D2yD+mzHXVzsuzEnhhjRga2o/SOcLsUN0IhYHoMq
-         8VTnhvFoJ3NM12P1Z3KM0eRi4wNP532Zr71e/+IdjfVoOa6DqWdi5JdgokSSJY754ovC
-         fz9HjEVCOqB+C/yLzZTUns3Mi/op1OXzepTqFN4g+L90J+zoScQjziNA/3rMmR5BPQuO
-         BjJg==
-X-Gm-Message-State: ALQs6tCNwtaAOqtHq1JRlDB2PZxRtnHm+2KZ2/JTjqbg2pSc+pWNRWcg
-        ne/9JO6Q2y4Zd+0zpSxkP2G82QDL++cgPXGVshE=
-X-Google-Smtp-Source: AB8JxZrow633CUs4FZZ4GtEBiH8hNgs6Q0+SSyfxEQUX9A9WTDwKsu3wsgW//lrQzHc7Vaf3Nw8E/OiWXqBDgJgL5QU=
-X-Received: by 2002:aca:4e15:: with SMTP id c21-v6mr394772oib.254.1524804599971;
- Thu, 26 Apr 2018 21:49:59 -0700 (PDT)
+        id S932384AbeD0JIh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 05:08:37 -0400
+Received: from www62.your-server.de ([213.133.104.62]:44266 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932282AbeD0JIh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 05:08:37 -0400
+Received: from [62.202.221.10] (helo=linux.home)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-SHA:256)
+        (Exim 4.85_2)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1fBzMo-00086B-Mo; Fri, 27 Apr 2018 11:08:34 +0200
+Subject: Re: [PATCH bpf-next v4 00/10] bpf: document eBPF helpers and add a
+ script to generate man page
+To:     Quentin Monnet <quentin.monnet@netronome.com>, ast@kernel.org
+Cc:     netdev@vger.kernel.org, oss-drivers@netronome.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+References: <20180425171701.11048-1-quentin.monnet@netronome.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <37a883ea-a714-6a6e-58df-d67fa9aa106c@iogearbox.net>
+Date:   Fri, 27 Apr 2018 11:08:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.201.88.68 with HTTP; Thu, 26 Apr 2018 21:49:59 -0700 (PDT)
-In-Reply-To: <7c8ff675-2b27-8e7b-f046-513b73f1ae5f@infradead.org>
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
- <20180425090047.6485-2-ganapatrao.kulkarni@cavium.com> <7c8ff675-2b27-8e7b-f046-513b73f1ae5f@infradead.org>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Fri, 27 Apr 2018 10:19:59 +0530
-Message-ID: <CAKTKpr4MgCRNgsna+BnJ89F8S6Ur1e6hG-R+GHvn-OVQLhswuQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] perf: uncore: Adding documentation for ThunderX2
- pmu uncore driver
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <Will.Deacon@arm.com>, mark.rutland@arm.com,
-        jnair@caviumnetworks.com,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180425171701.11048-1-quentin.monnet@netronome.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.99.3/24517/Fri Apr 27 06:24:46 2018)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 27, 2018 at 2:25 AM, Randy Dunlap <rdunlap@infradead.org> wrote:
-> Hi,
->
-> Just a few typo corrections...
->
-> On 04/25/2018 02:00 AM, Ganapatrao Kulkarni wrote:
->> Documentation for the UNCORE PMUs on Cavium's ThunderX2 SoC.
->> The SoC has PMU support in its L3 cache controller (L3C) and in the
->> DDR4 Memory Controller (DMC).
->>
->> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
->> ---
->>  Documentation/perf/thunderx2-pmu.txt | 66 ++++++++++++++++++++++++++++++++++++
->>  1 file changed, 66 insertions(+)
->>  create mode 100644 Documentation/perf/thunderx2-pmu.txt
->>
->> diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.txt
->> new file mode 100644
->> index 0000000..9e9f535
->> --- /dev/null
->> +++ b/Documentation/perf/thunderx2-pmu.txt
->> @@ -0,0 +1,66 @@
->> +
->> +Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
->> +==========================================================================
->> +
->> +ThunderX2 SoC PMU consists of independent system wide per Socket PMUs such
->> +as Level 3 Cache(L3C) and DDR4 Memory Controller(DMC).
->> +
->> +It has 8 independent DMC PMUs to capture performance events corresponding
->> +to 8 channels of DDR4 Memory Controller. There are 16 independent L3C PMUs
->> +to capture events corresponding to 16 tiles of L3 cache. Each PMU supports
->> +up to 4 counters.
->> +
->> +Counters are independent programmable and can be started and stopped
->
->                 independently
+On 04/25/2018 07:16 PM, Quentin Monnet wrote:
+> eBPF helper functions can be called from within eBPF programs to perform
+> a variety of tasks that would be otherwise hard or impossible to do with
+> eBPF itself. There is a growing number of such helper functions in the
+> kernel, but documentation is scarce. The main user space header file
+> does contain a short commented description of most helpers, but it is
+> somewhat outdated and not complete. It is more a "cheat sheet" than a
+> real documentation accessible to new eBPF developers.
+> 
+> This commit attempts to improve the situation by replacing the existing
+> overview for the helpers with a more developed description. Furthermore,
+> a Python script is added to generate a manual page for eBPF helpers. The
+> workflow is the following, and requires the rst2man utility:
+> 
+>     $ ./scripts/bpf_helpers_doc.py \
+>             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+>     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+>     $ man /tmp/bpf-helpers.7
+> 
+> The objective is to keep all documentation related to the helpers in a
+> single place, and to be able to generate from here a manual page that
+> could be packaged in the man-pages repository and shipped with most
+> distributions.
+> 
+> Additionally, parsing the prototypes of the helper functions could
+> hopefully be reused, with a different Printer object, to generate
+> header files needed in some eBPF-related projects.
+> 
+> Regarding the description of each helper, it comprises several items:
+> 
+> - The function prototype.
+> - A description of the function and of its arguments (except for a
+>   couple of cases, when there are no arguments and the return value
+>   makes the function usage really obvious).
+> - A description of return values (if not void).
+> 
+> Additional items such as the list of compatible eBPF program and map
+> types for each helper, Linux kernel version that introduced the helper,
+> GPL-only restriction, and commit hash could be added in the future, but
+> it was decided on the mailing list to leave them aside for now.
+> 
+> For several helpers, descriptions are inspired (at times, nearly copied)
+> from the commit logs introducing them in the kernel--Many thanks to
+> their respective authors! Some sentences were also adapted from comments
+> from the reviews, thanks to the reviewers as well. Descriptions were
+> completed as much as possible, the objective being to have something easily
+> accessible even for people just starting with eBPF. There is probably a bit
+> more work to do in this direction for some helpers.
+[...]
 
-thanks, will update.
->
->> +individually. Each counter can be set to sample specific perf events.
->> +Counters are 32 bit and does not support overflow interrupt, they are
->
->                            do not                    interrupt; they are
->
->
->> +sampled at every 2 seconds. The Counters register access are multiplexed
->> +across channels of DMC and L3C. The muxing(select channel) is done through
->> +write to a Secure register using smcc calls.
->> +
->> +PMU UNCORE (perf) driver:
->> +
->> +The thunderx2-pmu driver registers several perf PMUs for DMC and L3C devices.
->> +Each of the PMU provides description of its available events
->
->         of the PMUs
->
->> +and configuration options in sysfs.
->> +     see /sys/devices/uncore_<l3c_S_X/dmc_S_X/>
->> +
->> +S is socket id and X represents channel number.
->> +Each PMU can be used to sample up to 4 events simultaneously.
->> +
->> +The "format" directory describes format of the config (event ID).
->> +The "events" directory provides configuration templates for all
->> +supported event types that can be used with perf tool.
->> +
->> +For example, "uncore_dmc_0_0/cnt_cycles/" is an
->> +equivalent of "uncore_dmc_0_0/config=0x1/".
->> +
->> +Each perf driver also provides a "cpumask" sysfs attribute, which contains a
->> +single CPU ID of the processor which is likely to be used to handle all the
->> +PMU events. It will be the first online CPU from the NUMA node of PMU device.
->> +
->> +Example for perf tool use:
->> +
->> +perf stat -a -e \
->> +uncore_dmc_0_0/cnt_cycles/,\
->> +uncore_dmc_0_1/cnt_cycles/,\
->> +uncore_dmc_0_2/cnt_cycles/,\
->> +uncore_dmc_0_3/cnt_cycles/,\
->> +uncore_dmc_0_4/cnt_cycles/,\
->> +uncore_dmc_0_5/cnt_cycles/,\
->> +uncore_dmc_0_6/cnt_cycles/,\
->> +uncore_dmc_0_7/cnt_cycles/ sleep 1
->> +
->> +perf stat -a -e \
->> +uncore_dmc_0_0/cancelled_read_txns/,\
->> +uncore_dmc_0_0/cnt_cycles/,\
->> +uncore_dmc_0_0/consumed_read_txns/,\
->> +uncore_dmc_0_0/data_transfers/ sleep 1
->> +
->> +perf stat -a -e \
->> +uncore_l3c_0_0/l3_retry/,\
->> +uncore_l3c_0_0/read_hit/,\
->> +uncore_l3c_0_0/read_request/,\
->> +uncore_l3c_0_0/inv_request/ sleep 1
->> +
->> +The driver does not support sampling, therefore "perf record" will
->> +not work. Per-task (without "-a") perf sessions are not supported.
->>
->
->
-> --
-> ~Randy
-
-thanks
-Ganapat
+Applied yesterday night to bpf-next (and now in net-next), thanks Quentin!
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
