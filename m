@@ -1,113 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A51E47DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 15:46:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B5067DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 15:47:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757562AbeD0Pqc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 11:46:32 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:42904 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1757539AbeD0Pqb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Apr 2018 11:46:31 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BFC5A15AD;
-        Fri, 27 Apr 2018 08:46:30 -0700 (PDT)
-Received: from dupont (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13E0C3F487;
-        Fri, 27 Apr 2018 08:46:30 -0700 (PDT)
-Date:   Fri, 27 Apr 2018 10:46:29 -0500
-From:   Kim Phillips <kim.phillips@arm.com>
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <jnair@caviumnetworks.com>,
-        <Robert.Richter@cavium.com>, <Vadim.Lomovtsev@cavium.com>,
-        <Jan.Glauber@cavium.com>, <gklkml16@gmail.com>
-Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
- driver
-Message-Id: <20180427104629.2bff4b4b683a93ddf39f8df5@arm.com>
-In-Reply-To: <20180427143719.GA5093@arm.com>
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
-        <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
-        <20180426170624.bfcba885431d57d0de2a3ddd@arm.com>
-        <20180427093027.ngtuoezyh6mtz26p@lakrids.cambridge.arm.com>
-        <20180427081525.f9dcc756678baf3bb6e6e473@arm.com>
-        <20180427143719.GA5093@arm.com>
-Organization: Arm
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1758515AbeD0PrW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 11:47:22 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59876 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1758513AbeD0PrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 11:47:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3J7SsYoSz2FTprcC3amXDz8Gy8xJY1oTvVnw6mgoL0k=; b=IUS/bNqZOrCARamjQKURHGxX/
+        Likyy+Z8r9ArYHZTNEJcVwBUV+XKGP8Reh+q1wUVLXt4eS0+mEsu2j5wEhfTY+qoTrleVK+Cc97pp
+        edT0nMRoSdRXTZ1aLRyoqtDbaY4l1tuGa3lbHso7PC955W2JTRfcqmSDN3OpvdLxlleOp7BywxxsB
+        mWGoTNVOYJCdtoGF4otJVCq9HoVdK5OuSGdR2A4aozA+3FL0pi8Dzgd7BgkPs7Tn1mL/uuYwsakDi
+        3EKjyy+VdqePmSp042RARmPXV9TVyCqdTrG97LIHl+voVz41ZhngdrCvONilQsHzdQ01+OiRPkTs0
+        6aGgOkppA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fC5ae-0005jJ-8R; Fri, 27 Apr 2018 15:47:16 +0000
+Subject: Re: [net-next] ipv6: sr: Add documentation for seg_flowlabel sysctl
+To:     Ahmed Abdelsalam <amsalam20@gmail.com>, davem@davemloft.net,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org
+References: <1524825344-2573-1-git-send-email-amsalam20@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <e9dcc2ad-798f-5dce-a508-e3d1fb450d0e@infradead.org>
+Date:   Fri, 27 Apr 2018 08:47:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <1524825344-2573-1-git-send-email-amsalam20@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 27 Apr 2018 15:37:20 +0100
-Will Deacon <will.deacon@arm.com> wrote:
-
-> On Fri, Apr 27, 2018 at 08:15:25AM -0500, Kim Phillips wrote:
-> > On Fri, 27 Apr 2018 10:30:27 +0100
-> > Mark Rutland <mark.rutland@arm.com> wrote:
-> > > On Thu, Apr 26, 2018 at 05:06:24PM -0500, Kim Phillips wrote:
-> > > > On Wed, 25 Apr 2018 14:30:47 +0530
-> > > > Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com> wrote:
-> > > > 
-> > > > > +static int thunderx2_uncore_event_init(struct perf_event *event)
-> > > 
-> > > > This PMU driver can be made more user-friendly by not just silently
-> > > > returning an error code such as -EINVAL, but by emitting a useful
-> > > > message describing the specific error via dmesg.
-> > > 
-> > > As has previously been discussed on several occasions, patches which log
-> > > to dmesg in a pmu::event_init() path at any level above pr_debug() are
-> > > not acceptable -- dmesg is not intended as a mechanism to inform users
-> > > of driver-specific constraints.
-> > 
-> > I disagree - drivers do it all the time, using dev_err(), dev_warn(), etc.
-> > 
-> > > I would appreciate if in future you could qualify your suggestion with
-> > > the requirement that pr_debug() is used.
-> > 
-> > It shouldn't - the driver isn't being debugged, it's in regular use.
+On 04/27/2018 03:35 AM, Ahmed Abdelsalam wrote:
+> This patch adds a documentation for seg_flowlabel sysctl into
+> Documentation/networking/ip-sysctl.txt
 > 
-> For anything under drivers/perf/, I'd prefer not to have these prints
-> and instead see efforts to improve error reporting via the perf system
-> call interface.
+> Signed-off-by: Ahmed Abdelsalam <amsalam20@gmail.com>
+> ---
+>  Documentation/networking/ip-sysctl.txt | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
+> index 5dc1a04..7528f71 100644
+> --- a/Documentation/networking/ip-sysctl.txt
+> +++ b/Documentation/networking/ip-sysctl.txt
+> @@ -1428,6 +1428,19 @@ ip6frag_low_thresh - INTEGER
+>  ip6frag_time - INTEGER
+>  	Time in seconds to keep an IPv6 fragment in memory.
+>  
+> +IPv6 Segment Routing:
+> +
+> +seg6_flowlabel - INTEGER
+> +	Controls the behaviour of computing the flowlabel of outer
+> +	IPv6 header in case of SR T.encaps
+> +
+> +	-1 set flowlabel to zero.
+> +	0 copy flowlabel from Inner paceket in case of Inner IPv6
 
-We'd all prefer that, and for all PMU drivers, why should ones under
-drivers/perf be treated differently?
+	                            packet
 
-As you are already aware, I've personally tried to fix this problem -
-that has existed since before the introduction of the perf tool (I
-consider it a syscall-independent enhanced error interface), multiple
-times, and failed.
+> +		(Set flowlabel to 0 in case IPv4/L2)
+> +	1 Compute the flowlabel using seg6_make_flowlabel()
+> +
+> +	Default is 0.
+> +
+>  conf/default/*:
+>  	Change the interface-specific default settings.
+>  
+> 
 
-So until someone comes up with a solution that works for everyone
-up to and including Linus Torvalds (who hasn't put up a problem
-pulling PMU drivers emitting things to dmesg so far, by the way), this
-keep PMU drivers' errors silent preference of yours is unnecessarily
-impeding people trying to measure system performance on Arm based
-machines - all other archs' maintainers are fine with PMU drivers using
-dmesg.
 
-> Anyway, I think this driver has bigger problems that need addressing.
-
-To me it represents yet another PMU driver submission - as the years go
-by - that is lacking in the user messaging area.  Which reminds me, can
-you take another look at applying this?:
-
-https://patchwork.kernel.org/patch/10068535/
-
-Thanks,
-
-Kim
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
