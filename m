@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C82537DE79
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 21:02:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B41EA7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 21:02:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1759367AbeD0VBy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 17:01:54 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:43252 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1759296AbeD0VAy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1759292AbeD0VAy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 27 Apr 2018 17:00:54 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:45694 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1759084AbeD0VAw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Apr 2018 17:00:52 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2324F42709C0;
-        Fri, 27 Apr 2018 21:00:54 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id C70E940858F2;
+        Fri, 27 Apr 2018 21:00:51 +0000 (UTC)
 Received: from llong.com (dhcp-17-164.bos.redhat.com [10.18.17.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CF56310B2B44;
-        Fri, 27 Apr 2018 21:00:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7D94B10B2B44;
+        Fri, 27 Apr 2018 21:00:51 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
@@ -32,173 +32,115 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v6 6/8] test_sysctl: Add range clamping test
-Date:   Fri, 27 Apr 2018 17:00:36 -0400
-Message-Id: <1524862838-8247-7-git-send-email-longman@redhat.com>
+Subject: [PATCH v6 2/8] proc/sysctl: Provide additional ctl_table.flags checks
+Date:   Fri, 27 Apr 2018 17:00:32 -0400
+Message-Id: <1524862838-8247-3-git-send-email-longman@redhat.com>
 In-Reply-To: <1524862838-8247-1-git-send-email-longman@redhat.com>
 References: <1524862838-8247-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Fri, 27 Apr 2018 21:00:54 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Fri, 27 Apr 2018 21:00:54 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 27 Apr 2018 21:00:51 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 27 Apr 2018 21:00:51 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a range clamping test to verify that the input value will be
-clamped if it exceeds the builtin maximum or minimum value.
+Checking code is added to provide the following additional
+ctl_table.flags checks:
 
-Below is the expected test run result:
+ 1) No unknown flag is allowed.
+ 2) Minimum of a range cannot be larger than the maximum value.
+ 3) The signed and unsigned flags are mutually exclusive.
+ 4) The proc_handler should be consistent with the signed or unsigned
+    flags.
 
-Running test: sysctl_test_0006 - run #0
-Checking range minimum clamping ... ok
-Checking range maximum clamping ... ok
-Checking range minimum clamping ... ok
-Checking range maximum clamping ... ok
+The separation of signed and unsigned flags helps to provide more
+comprehensive checking than it would have been if there is only one
+flag available.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- lib/test_sysctl.c                        | 29 ++++++++++++++++++
- tools/testing/selftests/sysctl/sysctl.sh | 52 ++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
+ fs/proc/proc_sysctl.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
-index 3dd801c..3c619b9 100644
---- a/lib/test_sysctl.c
-+++ b/lib/test_sysctl.c
-@@ -38,12 +38,18 @@
- 
- static int i_zero;
- static int i_one_hundred = 100;
-+static int signed_min = -10;
-+static int signed_max = 10;
-+static unsigned int unsigned_min = 10;
-+static unsigned int unsigned_max = 30;
- 
- struct test_sysctl_data {
- 	int int_0001;
- 	int int_0002;
- 	int int_0003[4];
-+	int range_0001;
- 
-+	unsigned int urange_0001;
- 	unsigned int uint_0001;
- 
- 	char string_0001[65];
-@@ -58,6 +64,9 @@ struct test_sysctl_data {
- 	.int_0003[2] = 2,
- 	.int_0003[3] = 3,
- 
-+	.range_0001 = 0,
-+	.urange_0001 = 20,
-+
- 	.uint_0001 = 314,
- 
- 	.string_0001 = "(none)",
-@@ -102,6 +111,26 @@ struct test_sysctl_data {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dostring,
- 	},
-+	{
-+		.procname	= "range_0001",
-+		.data		= &test_data.range_0001,
-+		.maxlen		= sizeof(test_data.range_0001),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.flags		= CTL_FLAGS_CLAMP_SIGNED_RANGE,
-+		.extra1		= &signed_min,
-+		.extra2		= &signed_max,
-+	},
-+	{
-+		.procname	= "urange_0001",
-+		.data		= &test_data.urange_0001,
-+		.maxlen		= sizeof(test_data.urange_0001),
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec_minmax,
-+		.flags		= CTL_FLAGS_CLAMP_UNSIGNED_RANGE,
-+		.extra1		= &unsigned_min,
-+		.extra2		= &unsigned_max,
-+	},
- 	{ }
- };
- 
-diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
-index ec232c3..1aa1bba 100755
---- a/tools/testing/selftests/sysctl/sysctl.sh
-+++ b/tools/testing/selftests/sysctl/sysctl.sh
-@@ -34,6 +34,7 @@ ALL_TESTS="$ALL_TESTS 0002:1:1"
- ALL_TESTS="$ALL_TESTS 0003:1:1"
- ALL_TESTS="$ALL_TESTS 0004:1:1"
- ALL_TESTS="$ALL_TESTS 0005:3:1"
-+ALL_TESTS="$ALL_TESTS 0006:1:1"
- 
- test_modprobe()
- {
-@@ -543,6 +544,38 @@ run_stringtests()
- 	test_rc
+diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+index 8989936..fb09454 100644
+--- a/fs/proc/proc_sysctl.c
++++ b/fs/proc/proc_sysctl.c
+@@ -1092,6 +1092,64 @@ static int sysctl_check_table_array(const char *path, struct ctl_table *table)
+ 	return err;
  }
  
-+# TARGET, RANGE_MIN & RANGE_MAX need to be defined before running test.
-+run_range_clamping_test()
++/*
++ * This code assumes that only one integer value is allowed in an integer
++ * sysctl when one of the clamping flags is used. If that assumption is no
++ * longer true, we may need to add another flag to indicate the entry size.
++ */
++static int sysctl_check_flags(const char *path, struct ctl_table *table)
 +{
-+	rc=0
++	int err = 0;
 +
-+	echo -n "Checking range minimum clamping ... "
-+	VAL=$((RANGE_MIN - 1))
-+	echo -n $VAL > "${TARGET}" 2> /dev/null
-+	EXITVAL=$?
-+	NEWVAL=$(cat "${TARGET}")
-+	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MIN ]]; then
-+		echo "FAIL" >&2
-+		rc=1
-+	else
-+		echo "ok"
-+	fi
++	if ((table->flags & ~CTL_TABLE_FLAGS_ALL) ||
++	   ((table->flags & CTL_FLAGS_CLAMP_RANGE) == CTL_FLAGS_CLAMP_RANGE))
++		err = sysctl_err(path, table, "invalid flags");
 +
-+	echo -n "Checking range maximum clamping ... "
-+	VAL=$((RANGE_MAX + 1))
-+	echo -n $VAL > "${TARGET}" 2> /dev/null
-+	EXITVAL=$?
-+	NEWVAL=$(cat "${TARGET}")
-+	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MAX ]]; then
-+		echo "FAIL" >&2
-+		rc=1
-+	else
-+		echo "ok"
-+	fi
++	if (table->flags & CTL_FLAGS_CLAMP_RANGE) {
++		int range_err = 0;
++		bool is_int = (table->maxlen == sizeof(int));
 +
-+	test_rc
++		if (!is_int && (table->maxlen != sizeof(long))) {
++			range_err++;
++		} else if (!table->extra1 || !table->extra2) {
++			/* No min > max checking needed */
++		} else if (table->flags & CTL_FLAGS_CLAMP_UNSIGNED_RANGE) {
++			unsigned long min, max;
++
++			min = is_int ? *(unsigned int *)table->extra1
++				     : *(unsigned long *)table->extra1;
++			max = is_int ? *(unsigned int *)table->extra2
++				     : *(unsigned long *)table->extra2;
++			range_err += (min > max);
++		} else { /* table->flags & CTL_FLAGS_CLAMP_SIGNED_RANGE */
++
++			long min, max;
++
++			min = is_int ? *(int *)table->extra1
++				     : *(long *)table->extra1;
++			max = is_int ? *(int *)table->extra2
++				     : *(long *)table->extra2;
++			range_err += (min > max);
++		}
++
++		/*
++		 * proc_handler and flag consistency check.
++		 */
++		if (((table->proc_handler == proc_douintvec_minmax)   ||
++		     (table->proc_handler == proc_doulongvec_minmax)) &&
++		    !(table->flags & CTL_FLAGS_CLAMP_UNSIGNED_RANGE))
++			range_err++;
++
++		if ((table->proc_handler == proc_dointvec_minmax) &&
++		   !(table->flags & CTL_FLAGS_CLAMP_SIGNED_RANGE))
++			range_err++;
++
++		if (range_err)
++			err |= sysctl_err(path, table, "Invalid range");
++	}
++	return err;
 +}
 +
- sysctl_test_0001()
+ static int sysctl_check_table(const char *path, struct ctl_table *table)
  {
- 	TARGET="${SYSCTL}/int_0001"
-@@ -600,6 +633,25 @@ sysctl_test_0005()
- 	run_limit_digit_int_array
- }
- 
-+sysctl_test_0006()
-+{
-+	TARGET="${SYSCTL}/range_0001"
-+	ORIG=$(cat "${TARGET}")
-+	RANGE_MIN=-10
-+	RANGE_MAX=10
-+
-+	run_range_clamping_test
-+	set_orig
-+
-+	TARGET="${SYSCTL}/urange_0001"
-+	ORIG=$(cat "${TARGET}")
-+	RANGE_MIN=10
-+	RANGE_MAX=30
-+
-+	run_range_clamping_test
-+	set_orig
-+}
-+
- list_tests()
- {
- 	echo "Test ID list:"
+ 	int err = 0;
+@@ -1111,6 +1169,8 @@ static int sysctl_check_table(const char *path, struct ctl_table *table)
+ 		    (table->proc_handler == proc_doulongvec_ms_jiffies_minmax)) {
+ 			if (!table->data)
+ 				err |= sysctl_err(path, table, "No data");
++			if (table->flags)
++				err |= sysctl_check_flags(path, table);
+ 			if (!table->maxlen)
+ 				err |= sysctl_err(path, table, "No maxlen");
+ 			else
 -- 
 1.8.3.1
 
