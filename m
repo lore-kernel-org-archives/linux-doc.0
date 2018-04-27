@@ -1,440 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8539A7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 01:27:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B36537DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 01:29:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757223AbeD0B1C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 21:27:02 -0400
-Received: from mail-oi0-f67.google.com ([209.85.218.67]:42281 "EHLO
-        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1757303AbeD0B0U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 21:26:20 -0400
-Received: by mail-oi0-f67.google.com with SMTP id t27-v6so225793oij.9
-        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 18:26:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=fwGePodZbPrwaKOpjpCzXLQXw34bN1jobeXnJPRCBnQ=;
-        b=Xs7tTi3TeMZTTiyRU7+AjrfaPH+3q6zUl92/Wg6dS3HWr9OoSZgR/IDAa7fCsS9n+g
-         bCnjGo+kwzm9lc8gTyO3ZPly6gjCILyXCrWGybSKC2owQpzIQmdVX/Pik5Mo5IAkNoGr
-         +rZCdMIbnJ364668ccCgtmDgjpvX2sqSED5N1iH9A6KQcbb1hSNVsQnfSmLRLWVXt3B3
-         nz5r1f8Ym9BzQk9cevZk8W8wA3IVEj6ycDCSpOhb2GlELjDLqLbwDQ/7hElqUzIZcyws
-         1gKr0v0hyHfuqdhuMIqs1nMTOX72aHR6SdOELV5aaFKGoIHh+PAEExhW+wQ1g/CXKoL6
-         fJUQ==
-X-Gm-Message-State: ALQs6tBBEs7Ev9R/VGYWRmPl48fupbhrNK9/sLNSGTSOWF8EqqRwDtJg
-        NQFILClLQgv9zH8EiQHUjxcLZA==
-X-Google-Smtp-Source: AB8JxZq28cuIfL3u7CA/R72llBWyRoMK78Jo0SoMXWJygGjLrI+vzEUZJuZMNof75/OtsqASUXeJOg==
-X-Received: by 2002:aca:6243:: with SMTP id w64-v6mr207525oib.26.1524792379823;
-        Thu, 26 Apr 2018 18:26:19 -0700 (PDT)
-Received: from localhost ([130.164.62.82])
-        by smtp.gmail.com with ESMTPSA id d201-v6sm145715oig.18.2018.04.26.18.26.18
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 26 Apr 2018 18:26:18 -0700 (PDT)
-From:   Moritz Fischer <mdf@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-fpga@vger.kernel.org, michal.simek@xilinx.com,
-        corbet@lwn.net, atull@kernel.org, Moritz Fischer <mdf@kernel.org>
-Subject: [PATCH 3/4] fpga: bridge: change api, don't use drvdata
-Date:   Thu, 26 Apr 2018 18:26:04 -0700
-Message-Id: <20180427012605.28981-4-mdf@kernel.org>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180427012605.28981-1-mdf@kernel.org>
-References: <20180427012605.28981-1-mdf@kernel.org>
+        id S1757204AbeD0B3v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 21:29:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34240 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1756854AbeD0B3u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 21:29:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=XoFVXFuYs2HKyCyykPTPxYg9I1ujdzoDqUeD85gWxIk=; b=CUzArWpR7PHl2LVSsra/Tv/8K
+        zARTa/PUbGWZxMFxDBNkDs5wX/CYgnf2R89wKWI5e55+Mk304XzEA9RJ0CWBilrnOOpL+ZnTuwS1v
+        4B8otKLXtG7PXurxNNRot+33RTA+LeNTtx+seahU55U3Wb3GdkAxgFLKHYtMHSNneyBVIA92xOjoS
+        6D56APgvLruMZsETXaWnV0dPyYjTq0WDV/zYAzDhzWTdM+U9pQZPS7lBYUQeZ+0grwGfBiWXedLe6
+        gOymilHzShJbHBJgooJwMvI0Sy2ULi9g4dWooyMNKjkfInl0gGH1w7+GBp9fMS0mZZPwns17KR66R
+        ETDs/KLFw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fBsCl-0002hS-6C; Fri, 27 Apr 2018 01:29:43 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: driver-api: fix device_connection.rst
+ kernel-doc error
+Message-ID: <4dcdb5c8-1365-9a0a-81be-893b0d1ea731@infradead.org>
+Date:   Thu, 26 Apr 2018 18:29:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alan Tull <atull@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Change fpga_bridge_register to not set drvdata.  This is to support
-the case where a PCIe device can have more than one bridge.
+Using incorrect :functions: syntax (extra space) causes an odd kernel-doc
+warning, so fix that.
 
-Add API functions to create/free the fpga bridge struct. Change
-fpga_bridge_register/unregister to take FPGA bridge struct as
-the only parameter.
+Documentation/driver-api/device_connection.rst:42: ERROR: Error in "kernel-doc" directive:
 
-  struct fpga_bridge
-  *fpga_bridge_create(struct device *dev, const char *name,
-                      const struct fpga_bridge_ops *br_ops,
-                      void *priv);
-  void fpga_bridge_free(struct fpga_bridge *br);
-  int fpga_bridge_register(struct fpga_bridge *br);
-  void fpga_bridge_unregister(struct fpga_bridge *br);
-
-Update the drivers that call fpga_bridge_register with the new API.
-
-Signed-off-by: Alan Tull <atull@kernel.org>
-Reported-by: Jiuyue Ma <majiuyue@huawei.com>
-Signed-off-by: Moritz Fischer <mdf@kernel.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/fpga/altera-fpga2sdram.c    | 21 ++++++---
- drivers/fpga/altera-freeze-bridge.c | 22 +++++++--
- drivers/fpga/altera-hps2fpga.c      | 24 +++++++---
- drivers/fpga/fpga-bridge.c          | 70 +++++++++++++++++++----------
- drivers/fpga/xilinx-pr-decoupler.c  | 22 ++++++---
- include/linux/fpga/fpga-bridge.h    |  9 ++--
- 6 files changed, 123 insertions(+), 45 deletions(-)
+ Documentation/driver-api/device_connection.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/fpga/altera-fpga2sdram.c b/drivers/fpga/altera-fpga2sdram.c
-index d4eeb74388da..5a29ab6e3b28 100644
---- a/drivers/fpga/altera-fpga2sdram.c
-+++ b/drivers/fpga/altera-fpga2sdram.c
-@@ -106,6 +106,7 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct alt_fpga2sdram_data *priv;
-+	struct fpga_bridge *br;
- 	u32 enable;
- 	struct regmap *sysmgr;
- 	int ret = 0;
-@@ -131,10 +132,18 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
- 	/* Get f2s bridge configuration saved in handoff register */
- 	regmap_read(sysmgr, SYSMGR_ISWGRP_HANDOFF3, &priv->mask);
+--- linux-next-20180426.orig/Documentation/driver-api/device_connection.rst
++++ linux-next-20180426/Documentation/driver-api/device_connection.rst
+@@ -40,4 +40,4 @@ API
+ ---
  
--	ret = fpga_bridge_register(dev, F2S_BRIDGE_NAME,
--				   &altera_fpga2sdram_br_ops, priv);
--	if (ret)
-+	br = fpga_bridge_create(dev, F2S_BRIDGE_NAME,
-+				&altera_fpga2sdram_br_ops, priv);
-+	if (!br)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, br);
-+
-+	ret = fpga_bridge_register(br);
-+	if (ret) {
-+		fpga_bridge_free(br);
- 		return ret;
-+	}
- 
- 	dev_info(dev, "driver initialized with handoff %08x\n", priv->mask);
- 
-@@ -146,7 +155,7 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
- 				 (enable ? "enabling" : "disabling"));
- 			ret = _alt_fpga2sdram_enable_set(priv, enable);
- 			if (ret) {
--				fpga_bridge_unregister(&pdev->dev);
-+				fpga_bridge_unregister(br);
- 				return ret;
- 			}
- 		}
-@@ -157,7 +166,9 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
- 
- static int alt_fpga_bridge_remove(struct platform_device *pdev)
- {
--	fpga_bridge_unregister(&pdev->dev);
-+	struct fpga_bridge *br = platform_get_drvdata(pdev);
-+
-+	fpga_bridge_unregister(br);
- 
- 	return 0;
- }
-diff --git a/drivers/fpga/altera-freeze-bridge.c b/drivers/fpga/altera-freeze-bridge.c
-index 6159cfcf78a2..fa4b693cf4be 100644
---- a/drivers/fpga/altera-freeze-bridge.c
-+++ b/drivers/fpga/altera-freeze-bridge.c
-@@ -221,8 +221,10 @@ static int altera_freeze_br_probe(struct platform_device *pdev)
- 	struct device_node *np = pdev->dev.of_node;
- 	void __iomem *base_addr;
- 	struct altera_freeze_br_data *priv;
-+	struct fpga_bridge *br;
- 	struct resource *res;
- 	u32 status, revision;
-+	int ret;
- 
- 	if (!np)
- 		return -ENODEV;
-@@ -254,13 +256,27 @@ static int altera_freeze_br_probe(struct platform_device *pdev)
- 
- 	priv->base_addr = base_addr;
- 
--	return fpga_bridge_register(dev, FREEZE_BRIDGE_NAME,
--				    &altera_freeze_br_br_ops, priv);
-+	br = fpga_bridge_create(dev, FREEZE_BRIDGE_NAME,
-+				&altera_freeze_br_br_ops, priv);
-+	if (!br)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, br);
-+
-+	ret = fpga_bridge_register(br);
-+	if (ret) {
-+		fpga_bridge_free(br);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static int altera_freeze_br_remove(struct platform_device *pdev)
- {
--	fpga_bridge_unregister(&pdev->dev);
-+	struct fpga_bridge *br = platform_get_drvdata(pdev);
-+
-+	fpga_bridge_unregister(br);
- 
- 	return 0;
- }
-diff --git a/drivers/fpga/altera-hps2fpga.c b/drivers/fpga/altera-hps2fpga.c
-index 406d2f10741f..e4d39f0a7572 100644
---- a/drivers/fpga/altera-hps2fpga.c
-+++ b/drivers/fpga/altera-hps2fpga.c
-@@ -139,6 +139,7 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct altera_hps2fpga_data *priv;
- 	const struct of_device_id *of_id;
-+	struct fpga_bridge *br;
- 	u32 enable;
- 	int ret;
- 
-@@ -190,11 +191,24 @@ static int alt_fpga_bridge_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	ret = fpga_bridge_register(dev, priv->name, &altera_hps2fpga_br_ops,
--				   priv);
--err:
-+	br = fpga_bridge_create(dev, priv->name, &altera_hps2fpga_br_ops, priv);
-+	if (!br) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+
-+	platform_set_drvdata(pdev, br);
-+
-+	ret = fpga_bridge_register(br);
- 	if (ret)
--		clk_disable_unprepare(priv->clk);
-+		goto err_free;
-+
-+	return 0;
-+
-+err_free:
-+	fpga_bridge_free(br);
-+err:
-+	clk_disable_unprepare(priv->clk);
- 
- 	return ret;
- }
-@@ -204,7 +218,7 @@ static int alt_fpga_bridge_remove(struct platform_device *pdev)
- 	struct fpga_bridge *bridge = platform_get_drvdata(pdev);
- 	struct altera_hps2fpga_data *priv = bridge->priv;
- 
--	fpga_bridge_unregister(&pdev->dev);
-+	fpga_bridge_unregister(bridge);
- 
- 	clk_disable_unprepare(priv->clk);
- 
-diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
-index 31bd2c59c305..2db1573507eb 100644
---- a/drivers/fpga/fpga-bridge.c
-+++ b/drivers/fpga/fpga-bridge.c
-@@ -328,28 +328,29 @@ static struct attribute *fpga_bridge_attrs[] = {
- ATTRIBUTE_GROUPS(fpga_bridge);
- 
- /**
-- * fpga_bridge_register - register a fpga bridge driver
-+ * fpga_bridge_create - create and initialize a struct fpga_bridge
-  * @dev:	FPGA bridge device from pdev
-  * @name:	FPGA bridge name
-  * @br_ops:	pointer to structure of fpga bridge ops
-  * @priv:	FPGA bridge private data
-  *
-- * Return: 0 for success, error code otherwise.
-+ * Return: struct fpga_bridge or NULL
-  */
--int fpga_bridge_register(struct device *dev, const char *name,
--			 const struct fpga_bridge_ops *br_ops, void *priv)
-+struct fpga_bridge *fpga_bridge_create(struct device *dev, const char *name,
-+				       const struct fpga_bridge_ops *br_ops,
-+				       void *priv)
- {
- 	struct fpga_bridge *bridge;
- 	int id, ret = 0;
- 
- 	if (!name || !strlen(name)) {
- 		dev_err(dev, "Attempt to register with no name!\n");
--		return -EINVAL;
-+		return NULL;
- 	}
- 
- 	bridge = kzalloc(sizeof(*bridge), GFP_KERNEL);
- 	if (!bridge)
--		return -ENOMEM;
-+		return NULL;
- 
- 	id = ida_simple_get(&fpga_bridge_ida, 0, 0, GFP_KERNEL);
- 	if (id < 0) {
-@@ -370,40 +371,62 @@ int fpga_bridge_register(struct device *dev, const char *name,
- 	bridge->dev.parent = dev;
- 	bridge->dev.of_node = dev->of_node;
- 	bridge->dev.id = id;
--	dev_set_drvdata(dev, bridge);
- 
- 	ret = dev_set_name(&bridge->dev, "br%d", id);
- 	if (ret)
- 		goto error_device;
- 
--	ret = device_add(&bridge->dev);
--	if (ret)
--		goto error_device;
--
--	of_platform_populate(dev->of_node, NULL, NULL, dev);
--
--	dev_info(bridge->dev.parent, "fpga bridge [%s] registered\n",
--		 bridge->name);
--
--	return 0;
-+	return bridge;
- 
- error_device:
- 	ida_simple_remove(&fpga_bridge_ida, id);
- error_kfree:
- 	kfree(bridge);
- 
--	return ret;
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(fpga_bridge_create);
-+
-+/**
-+ * fpga_bridge_free - free a fpga bridge and its id
-+ * @bridge:	FPGA bridge struct created by fpga_bridge_create
-+ */
-+void fpga_bridge_free(struct fpga_bridge *bridge)
-+{
-+	ida_simple_remove(&fpga_bridge_ida, bridge->dev.id);
-+	kfree(bridge);
-+}
-+EXPORT_SYMBOL_GPL(fpga_bridge_free);
-+
-+/**
-+ * fpga_bridge_register - register a fpga bridge
-+ * @bridge:	FPGA bridge struct created by fpga_bridge_create
-+ *
-+ * Return: 0 for success, error code otherwise.
-+ */
-+int fpga_bridge_register(struct fpga_bridge *bridge)
-+{
-+	struct device *dev = &bridge->dev;
-+	int ret;
-+
-+	ret = device_add(dev);
-+	if (ret)
-+		return ret;
-+
-+	of_platform_populate(dev->of_node, NULL, NULL, dev);
-+
-+	dev_info(dev->parent, "fpga bridge [%s] registered\n", bridge->name);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(fpga_bridge_register);
- 
- /**
-  * fpga_bridge_unregister - unregister a fpga bridge driver
-- * @dev: FPGA bridge device from pdev
-+ * @bridge:	FPGA bridge struct created by fpga_bridge_create
-  */
--void fpga_bridge_unregister(struct device *dev)
-+void fpga_bridge_unregister(struct fpga_bridge *bridge)
- {
--	struct fpga_bridge *bridge = dev_get_drvdata(dev);
--
- 	/*
- 	 * If the low level driver provides a method for putting bridge into
- 	 * a desired state upon unregister, do it.
-@@ -419,8 +442,7 @@ static void fpga_bridge_dev_release(struct device *dev)
- {
- 	struct fpga_bridge *bridge = to_fpga_bridge(dev);
- 
--	ida_simple_remove(&fpga_bridge_ida, bridge->dev.id);
--	kfree(bridge);
-+	fpga_bridge_free(bridge);
- }
- 
- static int __init fpga_bridge_dev_init(void)
-diff --git a/drivers/fpga/xilinx-pr-decoupler.c b/drivers/fpga/xilinx-pr-decoupler.c
-index 0d7743089414..07ba1539e82c 100644
---- a/drivers/fpga/xilinx-pr-decoupler.c
-+++ b/drivers/fpga/xilinx-pr-decoupler.c
-@@ -94,6 +94,7 @@ MODULE_DEVICE_TABLE(of, xlnx_pr_decoupler_of_match);
- static int xlnx_pr_decoupler_probe(struct platform_device *pdev)
- {
- 	struct xlnx_pr_decoupler_data *priv;
-+	struct fpga_bridge *br;
- 	int err;
- 	struct resource *res;
- 
-@@ -120,16 +121,27 @@ static int xlnx_pr_decoupler_probe(struct platform_device *pdev)
- 
- 	clk_disable(priv->clk);
- 
--	err = fpga_bridge_register(&pdev->dev, "Xilinx PR Decoupler",
--				   &xlnx_pr_decoupler_br_ops, priv);
-+	br = fpga_bridge_create(&pdev->dev, "Xilinx PR Decoupler",
-+				&xlnx_pr_decoupler_br_ops, priv);
-+	if (!br) {
-+		err = -ENOMEM;
-+		goto err_clk;
-+	}
-+
-+	platform_set_drvdata(pdev, br);
- 
-+	err = fpga_bridge_register(br);
- 	if (err) {
- 		dev_err(&pdev->dev, "unable to register Xilinx PR Decoupler");
--		clk_unprepare(priv->clk);
--		return err;
-+		goto err_clk;
- 	}
- 
- 	return 0;
-+
-+err_clk:
-+	clk_unprepare(priv->clk);
-+
-+	return err;
- }
- 
- static int xlnx_pr_decoupler_remove(struct platform_device *pdev)
-@@ -137,7 +149,7 @@ static int xlnx_pr_decoupler_remove(struct platform_device *pdev)
- 	struct fpga_bridge *bridge = platform_get_drvdata(pdev);
- 	struct xlnx_pr_decoupler_data *p = bridge->priv;
- 
--	fpga_bridge_unregister(&pdev->dev);
-+	fpga_bridge_unregister(bridge);
- 
- 	clk_unprepare(p->clk);
- 
-diff --git a/include/linux/fpga/fpga-bridge.h b/include/linux/fpga/fpga-bridge.h
-index 3694821a6d2d..ce550fcf6360 100644
---- a/include/linux/fpga/fpga-bridge.h
-+++ b/include/linux/fpga/fpga-bridge.h
-@@ -62,8 +62,11 @@ int of_fpga_bridge_get_to_list(struct device_node *np,
- 			       struct fpga_image_info *info,
- 			       struct list_head *bridge_list);
- 
--int fpga_bridge_register(struct device *dev, const char *name,
--			 const struct fpga_bridge_ops *br_ops, void *priv);
--void fpga_bridge_unregister(struct device *dev);
-+struct fpga_bridge *fpga_bridge_create(struct device *dev, const char *name,
-+				       const struct fpga_bridge_ops *br_ops,
-+				       void *priv);
-+void fpga_bridge_free(struct fpga_bridge *br);
-+int fpga_bridge_register(struct fpga_bridge *br);
-+void fpga_bridge_unregister(struct fpga_bridge *br);
- 
- #endif /* _LINUX_FPGA_BRIDGE_H */
--- 
-2.17.0
+ .. kernel-doc:: drivers/base/devcon.c
+-   : functions: device_connection_find_match device_connection_find device_connection_add device_connection_remove
++   :functions: device_connection_find_match device_connection_find device_connection_add device_connection_remove
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
