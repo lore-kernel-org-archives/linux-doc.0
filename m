@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC5EE7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 17:00:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 18B2B7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 17:00:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932938AbeD0Q7c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 12:59:32 -0400
-Received: from smtprelay6.synopsys.com ([198.182.37.59]:37148 "EHLO
+        id S1758951AbeD0RAa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 13:00:30 -0400
+Received: from smtprelay6.synopsys.com ([198.182.37.59]:37145 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1758920AbeD0Q57 (ORCPT
+        with ESMTP id S1758919AbeD0Q57 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 12:57:59 -0400
 Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 75D4C1E169E;
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 2F8591E083A;
         Fri, 27 Apr 2018 18:57:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1524848276; bh=YprutGMUcMu1ZFXSfUam/azpHGSnHXm0khCyldNBMIM=;
+        t=1524848276; bh=EmwSw1eIhj1ynR203fv/m2fwPYvTcG4f2kQB/Ms6Q9o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=O2jcrYY9Abcj+k4IjmHvh3QF5KJzoy8Mk6u8ipRc0EKLggY/eKSOqkQvnf0kSsAiM
-         Fn7aL+9+4UUNs2S1zr/8RYCXJ2y28iOe65C8WDdBqQJpBz62GPRL+Bv5cp/gGkjkmV
-         xcAXlwBTYxr9B2Ujxggo1+gfLINEDHs7pjDs52mILWLUgMILvV5xck8aTWxeZKrZGT
-         fnr9femc5H6BpXMVjO6Ca+1uPWMSMmMrnDu1R6exo/OhCk+ujHf68Kc5j1JHxt4ckh
-         TGxddEC1equp73prFsrKV4xmEQnhAG6jcmU4GBiUa6NwepJNt7M9WvAOEOqujqD7rH
-         CEMJKn4orBDIg==
+        b=SfKRpxZItVm3hzFTh5yc1yiLO/aZvc3IH+UDuPVB9oGMe2sCzNqpxVRBp/Bh8774i
+         Dlj22PWACDQY575t6xjyBi1/iwAAIlHbQ2rVFHixVK3YlaEMRa8Da6Rc+AzvpwN2R4
+         TMePhTiI+FrrOckotU776bBbsiUxmP4b5CMtlr28rGXCBhACuuAQRLwqKusDaTPDF+
+         EdRbK3urPWamFI12kjnp2MURe7s6SYG22YErsdeHynS4PEeP6DKL6FbIgQs/25V/3G
+         zVTfxRfOSl1h4N7jykg+3AhD8qJgOeUI8N/AjOSc5SW0IMTTabc5huloB0vv6T6yMS
+         VSllzCsx3J2bQ==
 Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 671E83030;
+        by mailhost.synopsys.com (Postfix) with ESMTP id 63A6B302E;
         Fri, 27 Apr 2018 09:57:55 -0700 (PDT)
 Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 027BA3DC1C;
-        Fri, 27 Apr 2018 17:57:54 +0100 (WEST)
+        by pt02.synopsys.com (Postfix) with ESMTP id DCCA13DC13;
+        Fri, 27 Apr 2018 17:57:53 +0100 (WEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
         Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
         adouglas@cadence.com, jesper.nilsson@axis.com
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, gustavo.pimentel@synopsys.com
-Subject: [PATCH 07/10] misc: pci_endpoint_test: Replace lower into upper case characters
-Date:   Fri, 27 Apr 2018 17:57:44 +0100
-Message-Id: <17224b32eaf73ac071975c4b6cda526472f11d15.1524845816.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH 05/10] PCI: dwc: Add legacy interrupt callback handler
+Date:   Fri, 27 Apr 2018 17:57:42 +0100
+Message-Id: <8d1204f6e1e0d4ceaa4df30415c025feaa72e6ee.1524845816.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
 References: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
@@ -52,99 +52,75 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace all initial lower case character into upper case in comments
-and debug printks.
+Add a legacy interrupt callback handler. Currently DesignWare IP don't
+allow triggering the legacy interrupt.
 
 Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 ---
- drivers/misc/pci_endpoint_test.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/pci/dwc/pcie-designware-ep.c   | 10 ++++++++++
+ drivers/pci/dwc/pcie-designware-plat.c |  3 +--
+ drivers/pci/dwc/pcie-designware.h      |  6 ++++++
+ 3 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index b003079..c9b6e26 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -250,7 +250,7 @@ static bool pci_endpoint_test_copy(struct pci_endpoint_test *test, size_t size)
- 	orig_src_addr = dma_alloc_coherent(dev, size + alignment,
- 					   &orig_src_phys_addr, GFP_KERNEL);
- 	if (!orig_src_addr) {
--		dev_err(dev, "failed to allocate source buffer\n");
-+		dev_err(dev, "Failed to allocate source buffer\n");
- 		ret = false;
- 		goto err;
- 	}
-@@ -276,7 +276,7 @@ static bool pci_endpoint_test_copy(struct pci_endpoint_test *test, size_t size)
- 	orig_dst_addr = dma_alloc_coherent(dev, size + alignment,
- 					   &orig_dst_phys_addr, GFP_KERNEL);
- 	if (!orig_dst_addr) {
--		dev_err(dev, "failed to allocate destination address\n");
-+		dev_err(dev, "Failed to allocate destination address\n");
- 		ret = false;
- 		goto err_orig_src_addr;
- 	}
-@@ -340,7 +340,7 @@ static bool pci_endpoint_test_write(struct pci_endpoint_test *test, size_t size)
- 	orig_addr = dma_alloc_coherent(dev, size + alignment, &orig_phys_addr,
- 				       GFP_KERNEL);
- 	if (!orig_addr) {
--		dev_err(dev, "failed to allocate address\n");
-+		dev_err(dev, "Failed to allocate address\n");
- 		ret = false;
- 		goto err;
- 	}
-@@ -403,7 +403,7 @@ static bool pci_endpoint_test_read(struct pci_endpoint_test *test, size_t size)
- 	orig_addr = dma_alloc_coherent(dev, size + alignment, &orig_phys_addr,
- 				       GFP_KERNEL);
- 	if (!orig_addr) {
--		dev_err(dev, "failed to allocate destination address\n");
-+		dev_err(dev, "Failed to allocate destination address\n");
- 		ret = false;
- 		goto err;
- 	}
-@@ -543,7 +543,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 	case IRQ_TYPE_MSI:
- 		irq = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
- 		if (irq < 0)
--			dev_err(dev, "failed to get MSI interrupts\n");
-+			dev_err(dev, "Failed to get MSI interrupts\n");
- 		test->num_irqs = irq;
- 		break;
- 	case IRQ_TYPE_MSIX:
-@@ -560,7 +560,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 	err = devm_request_irq(dev, pdev->irq, pci_endpoint_test_irqhandler,
- 			       IRQF_SHARED, DRV_MODULE_NAME, test);
- 	if (err) {
--		dev_err(dev, "failed to request IRQ %d\n", pdev->irq);
-+		dev_err(dev, "Failed to request IRQ %d\n", pdev->irq);
- 		goto err_disable_msi;
- 	}
+diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
+index 1ba3a7f..b599169 100644
+--- a/drivers/pci/dwc/pcie-designware-ep.c
++++ b/drivers/pci/dwc/pcie-designware-ep.c
+@@ -370,6 +370,16 @@ static const struct pci_epc_ops epc_ops = {
+ 	.stop			= dw_pcie_ep_stop,
+ };
  
-@@ -578,7 +578,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 		if (pci_resource_flags(pdev, bar) & IORESOURCE_MEM) {
- 			base = pci_ioremap_bar(pdev, bar);
- 			if (!base) {
--				dev_err(dev, "failed to read BAR%d\n", bar);
-+				dev_err(dev, "Failed to read BAR%d\n", bar);
- 				WARN_ON(bar == test_reg_bar);
- 			}
- 			test->bar[bar] = base;
-@@ -598,7 +598,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 	id = ida_simple_get(&pci_endpoint_test_ida, 0, 0, GFP_KERNEL);
- 	if (id < 0) {
- 		err = id;
--		dev_err(dev, "unable to get id\n");
-+		dev_err(dev, "Unable to get id\n");
- 		goto err_iounmap;
- 	}
++int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
++{
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	struct device *dev = pci->dev;
++
++	dev_err(dev, "EP cannot trigger legacy IRQs\n");
++
++	return -EINVAL;
++}
++
+ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 			     u8 interrupt_num)
+ {
+diff --git a/drivers/pci/dwc/pcie-designware-plat.c b/drivers/pci/dwc/pcie-designware-plat.c
+index 654dcb5..90a8c95 100644
+--- a/drivers/pci/dwc/pcie-designware-plat.c
++++ b/drivers/pci/dwc/pcie-designware-plat.c
+@@ -84,8 +84,7 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
  
-@@ -614,7 +614,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+ 	switch (type) {
+ 	case PCI_EPC_IRQ_LEGACY:
+-		dev_err(pci->dev, "EP cannot trigger legacy IRQs\n");
+-		return -EINVAL;
++		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+ 	case PCI_EPC_IRQ_MSI:
+ 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+ 	case PCI_EPC_IRQ_MSIX:
+diff --git a/drivers/pci/dwc/pcie-designware.h b/drivers/pci/dwc/pcie-designware.h
+index a0ab12f..69e6e17 100644
+--- a/drivers/pci/dwc/pcie-designware.h
++++ b/drivers/pci/dwc/pcie-designware.h
+@@ -350,6 +350,7 @@ static inline int dw_pcie_allocate_domains(struct pcie_port *pp)
+ void dw_pcie_ep_linkup(struct dw_pcie_ep *ep);
+ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+ void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
++int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no);
+ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 			     u8 interrupt_num);
+ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+@@ -369,6 +370,11 @@ static inline void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+ {
+ }
  
- 	err = misc_register(misc_device);
- 	if (err) {
--		dev_err(dev, "failed to register device\n");
-+		dev_err(dev, "Failed to register device\n");
- 		goto err_kfree_name;
- 	}
- 
++static inline int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
++{
++	return 0;
++}
++
+ static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 					   u8 interrupt_num)
+ {
 -- 
 2.7.4
 
