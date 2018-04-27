@@ -1,108 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED2617DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 15:53:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B156D7E22E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 16:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1758480AbeD0PxY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 11:53:24 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:36315 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1758469AbeD0PxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 11:53:23 -0400
-Received: by mail-wm0-f67.google.com with SMTP id n10so3744708wmc.1;
-        Fri, 27 Apr 2018 08:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2sc/CNdVlf4F5Yk38jJlRMvufevC5RNZM7Z1+H4ADF4=;
-        b=qdvPJiKwVdrXsV/LUjmIGTTESEUGrNSnA5TUx/cyRQT9t4MUHGt4smSfUU6AYWvdoc
-         15puliqyzGZ2vsPX7WlxkPGL2IjVkHUgGEFmKMuOtLMdXIJKdnd16vMMfE/NM7Hj+wtL
-         0buIUuLTwuXvIUjURCJiZY4v3dManFrzFiCYr1+SOCRXY5tJaS1fhwT5hCzOGJ4KLYXd
-         r6fne9uxmXFLh0r0FEzc29ryB3yCOCBGxLheOWHHZW2xEtezTZq3zGR1GRk83WNLuLAa
-         j/KwhPVZDpY/eKqGNsPo9dgj1iayvOkmp81KeMNBZZmvJSuOxRBvyecy8deonYeqRstd
-         wdZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2sc/CNdVlf4F5Yk38jJlRMvufevC5RNZM7Z1+H4ADF4=;
-        b=sMpKDPd3/Twv4Ffm9rudQe1Dq/LfbOKQXAjtxrBQ8J9RJ5zq9HlInvtRzOhMKqci1W
-         2BSMlhYMnSH/0LaowycHz/OSNvIRxP3EAZp4mh7VUNus3FIVNUuke7AuV0QMXXYG3jzl
-         MR9gvSn7t8yAeIw1u3iwvBCS8u1qY7C+SeWPozenUBb3kSmkU0z0WfYUm4gJhUJAJQ/U
-         sCynqI3KuMNAQpC49218Mri70rrW2PSj8D5IU+I1nEhCRlq4vGjdbHv3pbuIqHy13e0q
-         SpjiDxeh2xLR76d5sGRuHW85eHdEJD7/8mPK0wT2yfjoGgmuhd4tfa5Hzrf1LpTbQxgS
-         Z1nQ==
-X-Gm-Message-State: ALQs6tBAsfgXvJtqBZPbO5J+ic6fzxY2+kK+TxSahYa3lYjG+5e1WcTo
-        zkcatMlytncmNSQOT3EKYTo=
-X-Google-Smtp-Source: AB8JxZozl46oim1QLZmgbihKLRD1Hfr3JNOsw32WKuOea/WpgJqWv75MWbOkGFbs/s7qsr8gVqTVfA==
-X-Received: by 10.28.160.26 with SMTP id j26mr1649554wme.74.1524844402031;
-        Fri, 27 Apr 2018 08:53:22 -0700 (PDT)
-Received: from AHABDELS-M-M2VD (wifi-guest-target.gssi.infn.it. [192.135.27.147])
-        by smtp.gmail.com with ESMTPSA id k89sm1543193wmc.15.2018.04.27.08.53.21
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Fri, 27 Apr 2018 08:53:21 -0700 (PDT)
-Date:   Fri, 27 Apr 2018 17:53:20 +0200
-From:   Ahmed Abdelsalam <amsalam20@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     davem@davemloft.net, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [net-next] ipv6: sr: Add documentation for seg_flowlabel sysctl
-Message-Id: <20180427175320.9690fefcead52e3b73ad100f@gmail.com>
-In-Reply-To: <e9dcc2ad-798f-5dce-a508-e3d1fb450d0e@infradead.org>
-References: <1524825344-2573-1-git-send-email-amsalam20@gmail.com>
-        <e9dcc2ad-798f-5dce-a508-e3d1fb450d0e@infradead.org>
-X-Mailer: Sylpheed 3.4.1 (GTK+ 2.24.21; x86_64-apple-darwin10.8.0)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1758603AbeD0QI4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 12:08:56 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:43290 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1758276AbeD0QIz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Apr 2018 12:08:55 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CC9B15AD;
+        Fri, 27 Apr 2018 09:08:55 -0700 (PDT)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E174E3F487;
+        Fri, 27 Apr 2018 09:08:54 -0700 (PDT)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id F0B141AE523C; Fri, 27 Apr 2018 17:09:14 +0100 (BST)
+Date:   Fri, 27 Apr 2018 17:09:14 +0100
+From:   Will Deacon <will.deacon@arm.com>
+To:     Kim Phillips <kim.phillips@arm.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, jnair@caviumnetworks.com,
+        Robert.Richter@cavium.com, Vadim.Lomovtsev@cavium.com,
+        Jan.Glauber@cavium.com, gklkml16@gmail.com
+Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
+ driver
+Message-ID: <20180427160914.GA5286@arm.com>
+References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
+ <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
+ <20180426170624.bfcba885431d57d0de2a3ddd@arm.com>
+ <20180427093027.ngtuoezyh6mtz26p@lakrids.cambridge.arm.com>
+ <20180427081525.f9dcc756678baf3bb6e6e473@arm.com>
+ <20180427143719.GA5093@arm.com>
+ <20180427104629.2bff4b4b683a93ddf39f8df5@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180427104629.2bff4b4b683a93ddf39f8df5@arm.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 27 Apr 2018 08:47:14 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Kim,
 
-> On 04/27/2018 03:35 AM, Ahmed Abdelsalam wrote:
-> > This patch adds a documentation for seg_flowlabel sysctl into
-> > Documentation/networking/ip-sysctl.txt
-> > 
-> > Signed-off-by: Ahmed Abdelsalam <amsalam20@gmail.com>
-> > ---
-> >  Documentation/networking/ip-sysctl.txt | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> > 
-> > diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
-> > index 5dc1a04..7528f71 100644
-> > --- a/Documentation/networking/ip-sysctl.txt
-> > +++ b/Documentation/networking/ip-sysctl.txt
-> > @@ -1428,6 +1428,19 @@ ip6frag_low_thresh - INTEGER
-> >  ip6frag_time - INTEGER
-> >  	Time in seconds to keep an IPv6 fragment in memory.
-> >  
-> > +IPv6 Segment Routing:
-> > +
-> > +seg6_flowlabel - INTEGER
-> > +	Controls the behaviour of computing the flowlabel of outer
-> > +	IPv6 header in case of SR T.encaps
-> > +
-> > +	-1 set flowlabel to zero.
-> > +	0 copy flowlabel from Inner paceket in case of Inner IPv6
-> 
-> 	                            packet
-> 
+[Ganapat: please don't let this discussion disrupt your PMU driver
+ development. You can safely ignore it for now :)]
 
-Thanks
-I fixed it in v2 of the patch.
--- 
-Ahmed Abdelsalam <amsalam20@gmail.com>
+On Fri, Apr 27, 2018 at 10:46:29AM -0500, Kim Phillips wrote:
+> On Fri, 27 Apr 2018 15:37:20 +0100
+> Will Deacon <will.deacon@arm.com> wrote:
+> 
+> > On Fri, Apr 27, 2018 at 08:15:25AM -0500, Kim Phillips wrote:
+> > > On Fri, 27 Apr 2018 10:30:27 +0100
+> > > Mark Rutland <mark.rutland@arm.com> wrote:
+> > > > On Thu, Apr 26, 2018 at 05:06:24PM -0500, Kim Phillips wrote:
+> > > > > On Wed, 25 Apr 2018 14:30:47 +0530
+> > > > > Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com> wrote:
+> > > > > 
+> > > > > > +static int thunderx2_uncore_event_init(struct perf_event *event)
+> > > > 
+> > > > > This PMU driver can be made more user-friendly by not just silently
+> > > > > returning an error code such as -EINVAL, but by emitting a useful
+> > > > > message describing the specific error via dmesg.
+> > > > 
+> > > > As has previously been discussed on several occasions, patches which log
+> > > > to dmesg in a pmu::event_init() path at any level above pr_debug() are
+> > > > not acceptable -- dmesg is not intended as a mechanism to inform users
+> > > > of driver-specific constraints.
+> > > 
+> > > I disagree - drivers do it all the time, using dev_err(), dev_warn(), etc.
+> > > 
+> > > > I would appreciate if in future you could qualify your suggestion with
+> > > > the requirement that pr_debug() is used.
+> > > 
+> > > It shouldn't - the driver isn't being debugged, it's in regular use.
+> > 
+> > For anything under drivers/perf/, I'd prefer not to have these prints
+> > and instead see efforts to improve error reporting via the perf system
+> > call interface.
+> 
+> We'd all prefer that, and for all PMU drivers, why should ones under
+> drivers/perf be treated differently?
+
+Because they're the ones I maintain...
+
+> As you are already aware, I've personally tried to fix this problem -
+> that has existed since before the introduction of the perf tool (I
+> consider it a syscall-independent enhanced error interface), multiple
+> times, and failed.
+
+Why is that my problem? Try harder?
+
+> So until someone comes up with a solution that works for everyone
+> up to and including Linus Torvalds (who hasn't put up a problem
+> pulling PMU drivers emitting things to dmesg so far, by the way), this
+> keep PMU drivers' errors silent preference of yours is unnecessarily
+> impeding people trying to measure system performance on Arm based
+> machines - all other archs' maintainers are fine with PMU drivers using
+> dmesg.
+
+Good for them, although I'm pretty sure that at least the x86 folks are
+against this crap too.
+
+> > Anyway, I think this driver has bigger problems that need addressing.
+> 
+> To me it represents yet another PMU driver submission - as the years go
+> by - that is lacking in the user messaging area.  Which reminds me, can
+> you take another look at applying this?:
+
+As I said before, I'm not going to take anything that logs above pr_debug
+for things that are directly triggerable from userspace. Spin a version
+using pr_debug and I'll queue it.
+
+Have a good weekend,
+
+Will
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
