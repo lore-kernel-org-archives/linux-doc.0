@@ -4,45 +4,45 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C838E7DD32
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 01:26:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D78C7E677
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 01:26:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757337AbeD0B0S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 21:26:18 -0400
-Received: from mail-ot0-f193.google.com ([74.125.82.193]:34408 "EHLO
-        mail-ot0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1757308AbeD0B0O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 21:26:14 -0400
-Received: by mail-ot0-f193.google.com with SMTP id i5-v6so313640oth.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 18:26:14 -0700 (PDT)
+        id S1757176AbeD0B0Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 26 Apr 2018 21:26:24 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:36241 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757322AbeD0B0X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 21:26:23 -0400
+Received: by mail-oi0-f67.google.com with SMTP id v2-v6so237236oif.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Apr 2018 18:26:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=U9IKzmjGPggyRJ/ezvgFGiVGz17y84H4pFdYSxoUzMY=;
-        b=iBZHPgPEC5uXLQYHBqYLsbfX8Qh2CkLArAee/RUkhEJpyQledxv57v/4EvR2g4pI+p
-         acVimR6kagpn20qikwVC35vFWpyc8XmPBCrjDRx6HXlioiYapjopQ6vAwl/5sl+INtQD
-         vWABF6tf+m6iymZLS/HNeYwj66DvdoHTpfGNjr0IPP/mqwMIvL5XeBajxKNgRGRfSCbq
-         0QuExNwMvJmTTlyOgB8ebxe+xj4eQGR+z07Gz3PbA0SeHq6cMuyvLSwfOSmdXnjI8oWf
-         CDASynA7BMp/mOqp+mAzmgfNjfmpV36PYNT5cputDy0I0xL+eFubTUHzAbeg20zuw28n
-         0tqg==
-X-Gm-Message-State: ALQs6tCcMgbngxk7yQUMSyHZH/xzFyZg8FjLjbEYlrGawVqJTdswgvlg
-        HwfpCqM/mmC1Wzl5Lnfk7YXpTQ==
-X-Google-Smtp-Source: AB8JxZpOBDXgOaZN3bBXEVOmIv+nnLe/lSEeTDD5YdyhNYKCgsur85NeSr46aZyfmdJ+uwo0ZEhFeg==
-X-Received: by 2002:a9d:3f49:: with SMTP id m67-v6mr212883otc.133.1524792374224;
-        Thu, 26 Apr 2018 18:26:14 -0700 (PDT)
+        bh=b6eBAxsnSBT2f8w9l/lLXzitzXwItTFfgM5mmHQ1bBI=;
+        b=SmrSgxi90Ja+wfKigw8Qu83YEzSjxC+ndMzL3w0i/P+5TxH8+JV/Ep54mNw5Ry4lbB
+         N4dlug6zIY0ZAgsXUTmw4sdSiMaII5ql58bhGFPZFWqRYICwyBVBETngh8Ij9RRrpbP6
+         7ruk+9hu27mpHxsX87ob/4HV32BJ5Tc0dy+pxaPbl6GH6sNRTpfqxPyhRZbNdn6VC06W
+         Fu8YRMXDm5Wtf+39/xmDZjyn6wqmBvrDWCE5qLZ6N7Gzh1jPIxEU/ucchRVxmb0T7Uk5
+         mCej2xcHruB2+4XKE1nGcn3yh4ZSDKb+iMaIHNb88Ba4yXD4ta4++c5UEzIDLsAxVcqq
+         99pw==
+X-Gm-Message-State: ALQs6tDJaxOKDJVgxN8lL8Qg0ToV4HovorBMlmvFCqOHVMZLNiRoo11x
+        NNFx+vcSsGOtBlrH5IeWK4ZCe1LJwes=
+X-Google-Smtp-Source: AB8JxZrBYCjPIEPpBtNBAApqhbRW7lj3dHLfir/o6/MRuSBDX8XqRFhQqn5UzMl+ddtktLglZYxlYw==
+X-Received: by 2002:aca:d8d6:: with SMTP id p205-v6mr204021oig.136.1524792382517;
+        Thu, 26 Apr 2018 18:26:22 -0700 (PDT)
 Received: from localhost ([130.164.62.82])
-        by smtp.gmail.com with ESMTPSA id g23-v6sm132338otc.73.2018.04.26.18.26.12
+        by smtp.gmail.com with ESMTPSA id 8-v6sm136032otu.39.2018.04.26.18.26.20
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 26 Apr 2018 18:26:12 -0700 (PDT)
+        Thu, 26 Apr 2018 18:26:21 -0700 (PDT)
 From:   Moritz Fischer <mdf@kernel.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-fpga@vger.kernel.org, michal.simek@xilinx.com,
         corbet@lwn.net, atull@kernel.org, Moritz Fischer <mdf@kernel.org>
-Subject: [PATCH 1/4] fpga: region: don't use drvdata in common fpga code
-Date:   Thu, 26 Apr 2018 18:26:02 -0700
-Message-Id: <20180427012605.28981-2-mdf@kernel.org>
+Subject: [PATCH 4/4] fpga: region: change api, add fpga_region_create/free
+Date:   Thu, 26 Apr 2018 18:26:05 -0700
+Message-Id: <20180427012605.28981-5-mdf@kernel.org>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180427012605.28981-1-mdf@kernel.org>
 References: <20180427012605.28981-1-mdf@kernel.org>
@@ -53,46 +53,229 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Alan Tull <atull@kernel.org>
 
-Changes to fpga_region_register function to not set drvdata.
+Add fpga_region_create/free API functions.
 
-Setting drvdata is fine for DT based devices that will have one region
-per platform device.  However PCIe based devices may have multiple
-FPGA regions under one PCIe device.  Without these changes, the PCIe
-solution has to create an extra device for each child region to hold
-drvdata.
+Change fpga_region_register to take FPGA region struct as the only
+parameter.  Change fpga_region_unregister to return void.
+
+  struct fpga_region *fpga_region_create(struct device *dev,
+                        struct fpga_manager *mgr,
+                        int (*get_bridges)(struct fpga_region *));
+  void fpga_region_free(struct fpga_region *region);
+  int fpga_region_register(struct fpga_region *region);
+  void fpga_region_unregister(struct fpga_region *region);
+
+Remove groups storage from struct fpga_region, it's not
+needed.  Callers can just "region->dev.groups = groups;"
+after calling fpga_region_create.
+
+Update the drivers that call fpga_region_register with the new API.
 
 Signed-off-by: Alan Tull <atull@kernel.org>
-Reported-by: Jiuyue Ma <majiuyue@huawei.com>
 Signed-off-by: Moritz Fischer <mdf@kernel.org>
 ---
- drivers/fpga/fpga-region.c    | 1 -
- drivers/fpga/of-fpga-region.c | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ Documentation/fpga/fpga-region.txt |  3 +-
+ drivers/fpga/fpga-region.c         | 68 ++++++++++++++++++++++++------
+ drivers/fpga/of-fpga-region.c      | 13 +++---
+ include/linux/fpga/fpga-region.h   | 11 +++--
+ 4 files changed, 68 insertions(+), 27 deletions(-)
 
+diff --git a/Documentation/fpga/fpga-region.txt b/Documentation/fpga/fpga-region.txt
+index 139a02ba1ff6..d38fa3b4154a 100644
+--- a/Documentation/fpga/fpga-region.txt
++++ b/Documentation/fpga/fpga-region.txt
+@@ -42,8 +42,7 @@ The FPGA region API
+ To register or unregister a region:
+ -----------------------------------
+ 
+-	int fpga_region_register(struct device *dev,
+-				 struct fpga_region *region);
++	int fpga_region_register(struct fpga_region *region);
+ 	int fpga_region_unregister(struct fpga_region *region);
+ 
+ An example of usage can be seen in the probe function of [3]
 diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
-index cb0603e07ff8..f634a8ed5e2c 100644
+index f634a8ed5e2c..b3ba3e40c44b 100644
 --- a/drivers/fpga/fpga-region.c
 +++ b/drivers/fpga/fpga-region.c
-@@ -183,7 +183,6 @@ int fpga_region_register(struct device *dev, struct fpga_region *region)
+@@ -167,18 +167,36 @@ int fpga_region_program_fpga(struct fpga_region *region)
+ }
+ EXPORT_SYMBOL_GPL(fpga_region_program_fpga);
+ 
+-int fpga_region_register(struct device *dev, struct fpga_region *region)
++/**
++ * fpga_region_create - alloc and init a struct fpga_region
++ * @dev: device parent
++ * @mgr: manager that programs this region
++ * @get_bridges: optional function to get bridges to a list
++ *
++ * Return: struct fpga_region or NULL
++ */
++struct fpga_region
++*fpga_region_create(struct device *dev,
++		    struct fpga_manager *mgr,
++		    int (*get_bridges)(struct fpga_region *))
+ {
++	struct fpga_region *region;
+ 	int id, ret = 0;
+ 
++	region = kzalloc(sizeof(*region), GFP_KERNEL);
++	if (!region)
++		return NULL;
++
+ 	id = ida_simple_get(&fpga_region_ida, 0, 0, GFP_KERNEL);
+ 	if (id < 0)
+-		return id;
++		goto err_free;
+ 
++	region->mgr = mgr;
++	region->get_bridges = get_bridges;
+ 	mutex_init(&region->mutex);
+ 	INIT_LIST_HEAD(&region->bridge_list);
++
+ 	device_initialize(&region->dev);
+-	region->dev.groups = region->groups;
+ 	region->dev.class = fpga_region_class;
  	region->dev.parent = dev;
  	region->dev.of_node = dev->of_node;
- 	region->dev.id = id;
--	dev_set_drvdata(dev, region);
- 
- 	ret = dev_set_name(&region->dev, "region%d", id);
+@@ -188,23 +206,47 @@ int fpga_region_register(struct device *dev, struct fpga_region *region)
  	if (ret)
+ 		goto err_remove;
+ 
+-	ret = device_add(&region->dev);
+-	if (ret)
+-		goto err_remove;
+-
+-	return 0;
++	return region;
+ 
+ err_remove:
+ 	ida_simple_remove(&fpga_region_ida, id);
+-	return ret;
++err_free:
++	kfree(region);
++
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(fpga_region_create);
++
++/**
++ * fpga_region_free - free a struct fpga_region
++ * @region: FPGA region created by fpga_region_create
++ */
++void fpga_region_free(struct fpga_region *region)
++{
++	ida_simple_remove(&fpga_region_ida, region->dev.id);
++	kfree(region);
++}
++EXPORT_SYMBOL_GPL(fpga_region_free);
++
++/*
++ * fpga_region_register - register a FPGA region
++ * @region: FPGA region created by fpga_region_create
++ * Return: 0 or -errno
++ */
++int fpga_region_register(struct fpga_region *region)
++{
++	return device_add(&region->dev);
++
+ }
+ EXPORT_SYMBOL_GPL(fpga_region_register);
+ 
+-int fpga_region_unregister(struct fpga_region *region)
++/*
++ * fpga_region_unregister - unregister a FPGA region
++ * @region: FPGA region
++ */
++void fpga_region_unregister(struct fpga_region *region)
+ {
+ 	device_unregister(&region->dev);
+-
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(fpga_region_unregister);
+ 
+@@ -212,7 +254,7 @@ static void fpga_region_dev_release(struct device *dev)
+ {
+ 	struct fpga_region *region = to_fpga_region(dev);
+ 
+-	ida_simple_remove(&fpga_region_ida, region->dev.id);
++	fpga_region_free(region);
+ }
+ 
+ /**
 diff --git a/drivers/fpga/of-fpga-region.c b/drivers/fpga/of-fpga-region.c
-index 119ff75522f1..35e7e8c4a0cb 100644
+index 35e7e8c4a0cb..9d681a1c5738 100644
 --- a/drivers/fpga/of-fpga-region.c
 +++ b/drivers/fpga/of-fpga-region.c
-@@ -438,6 +438,7 @@ static int of_fpga_region_probe(struct platform_device *pdev)
+@@ -422,20 +422,15 @@ static int of_fpga_region_probe(struct platform_device *pdev)
+ 	if (IS_ERR(mgr))
+ 		return -EPROBE_DEFER;
+ 
+-	region = devm_kzalloc(dev, sizeof(*region), GFP_KERNEL);
++	region = fpga_region_create(dev, mgr, of_fpga_region_get_bridges);
+ 	if (!region) {
+ 		ret = -ENOMEM;
  		goto eprobe_mgr_put;
+ 	}
+ 
+-	region->mgr = mgr;
+-
+-	/* Specify how to get bridges for this type of region. */
+-	region->get_bridges = of_fpga_region_get_bridges;
+-
+-	ret = fpga_region_register(dev, region);
++	ret = fpga_region_register(region);
+ 	if (ret)
+-		goto eprobe_mgr_put;
++		goto eprobe_free;
  
  	of_platform_populate(np, fpga_region_of_match, NULL, &region->dev);
-+	dev_set_drvdata(dev, region);
+ 	dev_set_drvdata(dev, region);
+@@ -444,6 +439,8 @@ static int of_fpga_region_probe(struct platform_device *pdev)
  
- 	dev_info(dev, "FPGA Region probed\n");
+ 	return 0;
  
++eprobe_free:
++	fpga_region_free(region);
+ eprobe_mgr_put:
+ 	fpga_mgr_put(mgr);
+ 	return ret;
+diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+index b6520318ab9c..f2e215bd1330 100644
+--- a/include/linux/fpga/fpga-region.h
++++ b/include/linux/fpga/fpga-region.h
+@@ -14,7 +14,6 @@
+  * @info: FPGA image info
+  * @priv: private data
+  * @get_bridges: optional function to get bridges to a list
+- * @groups: optional attribute groups.
+  */
+ struct fpga_region {
+ 	struct device dev;
+@@ -24,7 +23,6 @@ struct fpga_region {
+ 	struct fpga_image_info *info;
+ 	void *priv;
+ 	int (*get_bridges)(struct fpga_region *region);
+-	const struct attribute_group **groups;
+ };
+ 
+ #define to_fpga_region(d) container_of(d, struct fpga_region, dev)
+@@ -34,7 +32,12 @@ struct fpga_region *fpga_region_class_find(
+ 	int (*match)(struct device *, const void *));
+ 
+ int fpga_region_program_fpga(struct fpga_region *region);
+-int fpga_region_register(struct device *dev, struct fpga_region *region);
+-int fpga_region_unregister(struct fpga_region *region);
++
++struct fpga_region
++*fpga_region_create(struct device *dev, struct fpga_manager *mgr,
++		    int (*get_bridges)(struct fpga_region *));
++void fpga_region_free(struct fpga_region *region);
++int fpga_region_register(struct fpga_region *region);
++void fpga_region_unregister(struct fpga_region *region);
+ 
+ #endif /* _FPGA_REGION_H */
 -- 
 2.17.0
 
