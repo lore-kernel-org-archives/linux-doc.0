@@ -1,78 +1,181 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B36537DD32
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 01:29:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3936F7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 04:50:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757204AbeD0B3v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 26 Apr 2018 21:29:51 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34240 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1756854AbeD0B3u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Apr 2018 21:29:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=XoFVXFuYs2HKyCyykPTPxYg9I1ujdzoDqUeD85gWxIk=; b=CUzArWpR7PHl2LVSsra/Tv/8K
-        zARTa/PUbGWZxMFxDBNkDs5wX/CYgnf2R89wKWI5e55+Mk304XzEA9RJ0CWBilrnOOpL+ZnTuwS1v
-        4B8otKLXtG7PXurxNNRot+33RTA+LeNTtx+seahU55U3Wb3GdkAxgFLKHYtMHSNneyBVIA92xOjoS
-        6D56APgvLruMZsETXaWnV0dPyYjTq0WDV/zYAzDhzWTdM+U9pQZPS7lBYUQeZ+0grwGfBiWXedLe6
-        gOymilHzShJbHBJgooJwMvI0Sy2ULi9g4dWooyMNKjkfInl0gGH1w7+GBp9fMS0mZZPwns17KR66R
-        ETDs/KLFw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fBsCl-0002hS-6C; Fri, 27 Apr 2018 01:29:43 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: driver-api: fix device_connection.rst
- kernel-doc error
-Message-ID: <4dcdb5c8-1365-9a0a-81be-893b0d1ea731@infradead.org>
-Date:   Thu, 26 Apr 2018 18:29:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1751348AbeD0EuB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 00:50:01 -0400
+Received: from mail-oi0-f65.google.com ([209.85.218.65]:38731 "EHLO
+        mail-oi0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750982AbeD0EuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 00:50:00 -0400
+Received: by mail-oi0-f65.google.com with SMTP id k17-v6so522359oih.5;
+        Thu, 26 Apr 2018 21:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=C/YyO0R/ioT71070NtRH9V1ic7TZ7hKiabRfsKTocWM=;
+        b=h6qlXJ6kjg950X8KX5IW2stcedLUdFxwXJhz5BWWuKPxNMTaBeco4BC0lHtrgJcAnv
+         4ch4E7UPOlo95hdq3ZHO9rTS7RSfm8wSvvBWEfbzS9GRZgsIaS52ys4SWTOXkpw7PJad
+         Rz2w0qdntZq66yKZQrxMsrX90RDd1ILgWofiA/iGj7jEeku+Ze6bqMfNDiDpYULTdxW7
+         y+4TTXL9KV89YM64JV7QdjxRPwaC2lBT359j2o45Z8If9xLSI3g6QhB6ZPmukl4V1Qne
+         zDk2czQmqL4qtixwuBjp4/AJK4oJ0aNGvw7EdsY/eQ26aa2ardgUNa1o19W0bqPozFve
+         Vuzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=C/YyO0R/ioT71070NtRH9V1ic7TZ7hKiabRfsKTocWM=;
+        b=QdDt58Aecr5XoimmVeBZt7dOHF9JKIF8aV8XmwELJ7PQ9qvE7KmXTXyK95vzNlbuX4
+         9d/dXCMPrERrbMF2v/GyBBh9jgPr4v27KqumNwBXPWdvf/vA8MPVFbAiFNHtDVCKt+es
+         3F4MML4A2zSYlTjgZ5mFAdqH/is3D2yD+mzHXVzsuzEnhhjRga2o/SOcLsUN0IhYHoMq
+         8VTnhvFoJ3NM12P1Z3KM0eRi4wNP532Zr71e/+IdjfVoOa6DqWdi5JdgokSSJY754ovC
+         fz9HjEVCOqB+C/yLzZTUns3Mi/op1OXzepTqFN4g+L90J+zoScQjziNA/3rMmR5BPQuO
+         BjJg==
+X-Gm-Message-State: ALQs6tCNwtaAOqtHq1JRlDB2PZxRtnHm+2KZ2/JTjqbg2pSc+pWNRWcg
+        ne/9JO6Q2y4Zd+0zpSxkP2G82QDL++cgPXGVshE=
+X-Google-Smtp-Source: AB8JxZrow633CUs4FZZ4GtEBiH8hNgs6Q0+SSyfxEQUX9A9WTDwKsu3wsgW//lrQzHc7Vaf3Nw8E/OiWXqBDgJgL5QU=
+X-Received: by 2002:aca:4e15:: with SMTP id c21-v6mr394772oib.254.1524804599971;
+ Thu, 26 Apr 2018 21:49:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 10.201.88.68 with HTTP; Thu, 26 Apr 2018 21:49:59 -0700 (PDT)
+In-Reply-To: <7c8ff675-2b27-8e7b-f046-513b73f1ae5f@infradead.org>
+References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
+ <20180425090047.6485-2-ganapatrao.kulkarni@cavium.com> <7c8ff675-2b27-8e7b-f046-513b73f1ae5f@infradead.org>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Fri, 27 Apr 2018 10:19:59 +0530
+Message-ID: <CAKTKpr4MgCRNgsna+BnJ89F8S6Ur1e6hG-R+GHvn-OVQLhswuQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] perf: uncore: Adding documentation for ThunderX2
+ pmu uncore driver
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <Will.Deacon@arm.com>, mark.rutland@arm.com,
+        jnair@caviumnetworks.com,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Fri, Apr 27, 2018 at 2:25 AM, Randy Dunlap <rdunlap@infradead.org> wrote:
+> Hi,
+>
+> Just a few typo corrections...
+>
+> On 04/25/2018 02:00 AM, Ganapatrao Kulkarni wrote:
+>> Documentation for the UNCORE PMUs on Cavium's ThunderX2 SoC.
+>> The SoC has PMU support in its L3 cache controller (L3C) and in the
+>> DDR4 Memory Controller (DMC).
+>>
+>> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+>> ---
+>>  Documentation/perf/thunderx2-pmu.txt | 66 ++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 66 insertions(+)
+>>  create mode 100644 Documentation/perf/thunderx2-pmu.txt
+>>
+>> diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.txt
+>> new file mode 100644
+>> index 0000000..9e9f535
+>> --- /dev/null
+>> +++ b/Documentation/perf/thunderx2-pmu.txt
+>> @@ -0,0 +1,66 @@
+>> +
+>> +Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
+>> +==========================================================================
+>> +
+>> +ThunderX2 SoC PMU consists of independent system wide per Socket PMUs such
+>> +as Level 3 Cache(L3C) and DDR4 Memory Controller(DMC).
+>> +
+>> +It has 8 independent DMC PMUs to capture performance events corresponding
+>> +to 8 channels of DDR4 Memory Controller. There are 16 independent L3C PMUs
+>> +to capture events corresponding to 16 tiles of L3 cache. Each PMU supports
+>> +up to 4 counters.
+>> +
+>> +Counters are independent programmable and can be started and stopped
+>
+>                 independently
 
-Using incorrect :functions: syntax (extra space) causes an odd kernel-doc
-warning, so fix that.
+thanks, will update.
+>
+>> +individually. Each counter can be set to sample specific perf events.
+>> +Counters are 32 bit and does not support overflow interrupt, they are
+>
+>                            do not                    interrupt; they are
+>
+>
+>> +sampled at every 2 seconds. The Counters register access are multiplexed
+>> +across channels of DMC and L3C. The muxing(select channel) is done through
+>> +write to a Secure register using smcc calls.
+>> +
+>> +PMU UNCORE (perf) driver:
+>> +
+>> +The thunderx2-pmu driver registers several perf PMUs for DMC and L3C devices.
+>> +Each of the PMU provides description of its available events
+>
+>         of the PMUs
+>
+>> +and configuration options in sysfs.
+>> +     see /sys/devices/uncore_<l3c_S_X/dmc_S_X/>
+>> +
+>> +S is socket id and X represents channel number.
+>> +Each PMU can be used to sample up to 4 events simultaneously.
+>> +
+>> +The "format" directory describes format of the config (event ID).
+>> +The "events" directory provides configuration templates for all
+>> +supported event types that can be used with perf tool.
+>> +
+>> +For example, "uncore_dmc_0_0/cnt_cycles/" is an
+>> +equivalent of "uncore_dmc_0_0/config=0x1/".
+>> +
+>> +Each perf driver also provides a "cpumask" sysfs attribute, which contains a
+>> +single CPU ID of the processor which is likely to be used to handle all the
+>> +PMU events. It will be the first online CPU from the NUMA node of PMU device.
+>> +
+>> +Example for perf tool use:
+>> +
+>> +perf stat -a -e \
+>> +uncore_dmc_0_0/cnt_cycles/,\
+>> +uncore_dmc_0_1/cnt_cycles/,\
+>> +uncore_dmc_0_2/cnt_cycles/,\
+>> +uncore_dmc_0_3/cnt_cycles/,\
+>> +uncore_dmc_0_4/cnt_cycles/,\
+>> +uncore_dmc_0_5/cnt_cycles/,\
+>> +uncore_dmc_0_6/cnt_cycles/,\
+>> +uncore_dmc_0_7/cnt_cycles/ sleep 1
+>> +
+>> +perf stat -a -e \
+>> +uncore_dmc_0_0/cancelled_read_txns/,\
+>> +uncore_dmc_0_0/cnt_cycles/,\
+>> +uncore_dmc_0_0/consumed_read_txns/,\
+>> +uncore_dmc_0_0/data_transfers/ sleep 1
+>> +
+>> +perf stat -a -e \
+>> +uncore_l3c_0_0/l3_retry/,\
+>> +uncore_l3c_0_0/read_hit/,\
+>> +uncore_l3c_0_0/read_request/,\
+>> +uncore_l3c_0_0/inv_request/ sleep 1
+>> +
+>> +The driver does not support sampling, therefore "perf record" will
+>> +not work. Per-task (without "-a") perf sessions are not supported.
+>>
+>
+>
+> --
+> ~Randy
 
-Documentation/driver-api/device_connection.rst:42: ERROR: Error in "kernel-doc" directive:
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- Documentation/driver-api/device_connection.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- linux-next-20180426.orig/Documentation/driver-api/device_connection.rst
-+++ linux-next-20180426/Documentation/driver-api/device_connection.rst
-@@ -40,4 +40,4 @@ API
- ---
- 
- .. kernel-doc:: drivers/base/devcon.c
--   : functions: device_connection_find_match device_connection_find device_connection_add device_connection_remove
-+   :functions: device_connection_find_match device_connection_find device_connection_add device_connection_remove
-
-
+thanks
+Ganapat
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
