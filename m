@@ -1,94 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B5067DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 15:47:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21A837DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 15:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1758515AbeD0PrW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 11:47:22 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59876 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1758513AbeD0PrV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 11:47:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=3J7SsYoSz2FTprcC3amXDz8Gy8xJY1oTvVnw6mgoL0k=; b=IUS/bNqZOrCARamjQKURHGxX/
-        Likyy+Z8r9ArYHZTNEJcVwBUV+XKGP8Reh+q1wUVLXt4eS0+mEsu2j5wEhfTY+qoTrleVK+Cc97pp
-        edT0nMRoSdRXTZ1aLRyoqtDbaY4l1tuGa3lbHso7PC955W2JTRfcqmSDN3OpvdLxlleOp7BywxxsB
-        mWGoTNVOYJCdtoGF4otJVCq9HoVdK5OuSGdR2A4aozA+3FL0pi8Dzgd7BgkPs7Tn1mL/uuYwsakDi
-        3EKjyy+VdqePmSp042RARmPXV9TVyCqdTrG97LIHl+voVz41ZhngdrCvONilQsHzdQ01+OiRPkTs0
-        6aGgOkppA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fC5ae-0005jJ-8R; Fri, 27 Apr 2018 15:47:16 +0000
-Subject: Re: [net-next] ipv6: sr: Add documentation for seg_flowlabel sysctl
-To:     Ahmed Abdelsalam <amsalam20@gmail.com>, davem@davemloft.net,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
-References: <1524825344-2573-1-git-send-email-amsalam20@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e9dcc2ad-798f-5dce-a508-e3d1fb450d0e@infradead.org>
-Date:   Fri, 27 Apr 2018 08:47:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <1524825344-2573-1-git-send-email-amsalam20@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S932730AbeD0Pvv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 11:51:51 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:34161 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757560AbeD0Pvt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 11:51:49 -0400
+Received: by mail-wr0-f196.google.com with SMTP id p18-v6so2236474wrm.1;
+        Fri, 27 Apr 2018 08:51:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=54mh5aEK8c1j4oeqxxcWr6zpGHOjUDcDkz0uw1Q4xLA=;
+        b=u9rApoF+bvAOGakXIkeAyoFM67Q3zTZcGIq+ovHa3g1nv2xoQ2JYy0nSqAumHtitP6
+         knIoOO4XcwZO5V1StM+DChX5XXA2zu7EdtWXRFVCeqHN6PnOz5FG62hvPP+Qk3lJ1XoK
+         pSRi3ekZUju3cP2+mlFRJThJzaZIc8W861HI/gsRL0fYQ0y85MxmvrQBy9k6ZvjM7gzk
+         CAlyWnVTea5wpH2LFr0eQgYXokePVG16jHv31yQDZO7Rx1bwffUwOXLVkA2/BaY/Xyub
+         o/1E9nV0kZy84KBIkY6oaXw0jCrZjIIWY5jKaAfgWfoAmf3epZOyJIK3Pu4fixQNNygQ
+         MmXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=54mh5aEK8c1j4oeqxxcWr6zpGHOjUDcDkz0uw1Q4xLA=;
+        b=bWdJ+ndTsZAcHa/5v4eI13KVc5iTga4XaOS4ZgRCA2ApbSkbsf9WGjR5Iyne/C2JX9
+         /oetpcrba1PnH3+XVvTmH7wyRHksTkK5BuQ8SbBHXF5ZYisiZJ5TSCIa5Yt89etIB8PG
+         HrZbe9Flw4pRs61FRjIG7c3jetz9KciaSgfiLq9kLqZKbVfnru9mBsZypXvoz9D702dW
+         gNjSHtTkibN3QcGQMSipMqvbhTCVXPONlZsC0U3XhmtmOYlFFQriXITkLH+s6Tu+Zg5L
+         Jc+hnozsZNm6/Mu1upfcnN1ldYNUcVq11PwGiTlR/fCr1tYjNbOjK0LYbeTEMZ3Vq7LX
+         0K2Q==
+X-Gm-Message-State: ALQs6tDZIpbeN59Xuv6C4/iQCr7DboPpCQBiUKS5aYAKqNIHHP/b2Gzs
+        BkRA0kEEWngy6YRwgBYO+yw=
+X-Google-Smtp-Source: AB8JxZrCv9FkP3Gm/rRe7Kqi+AsoEhDrLEyFAFQi5ezg7d18qOCqIr79VuL6EZ9TIhTbftb172jAIg==
+X-Received: by 2002:adf:a281:: with SMTP id s1-v6mr2483562wra.176.1524844308502;
+        Fri, 27 Apr 2018 08:51:48 -0700 (PDT)
+Received: from localhost.localdomain ([192.135.27.140])
+        by smtp.gmail.com with ESMTPSA id 42-v6sm2570429wrx.24.2018.04.27.08.51.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Fri, 27 Apr 2018 08:51:47 -0700 (PDT)
+From:   Ahmed Abdelsalam <amsalam20@gmail.com>
+To:     davem@davemloft.net, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org
+Cc:     Ahmed Abdelsalam <amsalam20@gmail.com>
+Subject: [net-next v2] ipv6: sr: Add documentation for seg_flowlabel sysctl
+Date:   Fri, 27 Apr 2018 17:51:48 +0200
+Message-Id: <1524844308-2891-1-git-send-email-amsalam20@gmail.com>
+X-Mailer: git-send-email 2.1.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/27/2018 03:35 AM, Ahmed Abdelsalam wrote:
-> This patch adds a documentation for seg_flowlabel sysctl into
-> Documentation/networking/ip-sysctl.txt
-> 
-> Signed-off-by: Ahmed Abdelsalam <amsalam20@gmail.com>
-> ---
->  Documentation/networking/ip-sysctl.txt | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
-> index 5dc1a04..7528f71 100644
-> --- a/Documentation/networking/ip-sysctl.txt
-> +++ b/Documentation/networking/ip-sysctl.txt
-> @@ -1428,6 +1428,19 @@ ip6frag_low_thresh - INTEGER
->  ip6frag_time - INTEGER
->  	Time in seconds to keep an IPv6 fragment in memory.
->  
-> +IPv6 Segment Routing:
-> +
-> +seg6_flowlabel - INTEGER
-> +	Controls the behaviour of computing the flowlabel of outer
-> +	IPv6 header in case of SR T.encaps
-> +
-> +	-1 set flowlabel to zero.
-> +	0 copy flowlabel from Inner paceket in case of Inner IPv6
+This patch adds a documentation for seg_flowlabel sysctl into
+Documentation/networking/ip-sysctl.txt
 
-	                            packet
+Signed-off-by: Ahmed Abdelsalam <amsalam20@gmail.com>
+---
+ Documentation/networking/ip-sysctl.txt | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-> +		(Set flowlabel to 0 in case IPv4/L2)
-> +	1 Compute the flowlabel using seg6_make_flowlabel()
-> +
-> +	Default is 0.
-> +
->  conf/default/*:
->  	Change the interface-specific default settings.
->  
-> 
-
-
+diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
+index 5dc1a04..7c14747 100644
+--- a/Documentation/networking/ip-sysctl.txt
++++ b/Documentation/networking/ip-sysctl.txt
+@@ -1428,6 +1428,19 @@ ip6frag_low_thresh - INTEGER
+ ip6frag_time - INTEGER
+ 	Time in seconds to keep an IPv6 fragment in memory.
+ 
++IPv6 Segment Routing:
++
++seg6_flowlabel - INTEGER
++	Controls the behaviour of computing the flowlabel of outer
++	IPv6 header in case of SR T.encaps
++
++	-1 set flowlabel to zero.
++	0 copy flowlabel from Inner packet in case of Inner IPv6
++		(Set flowlabel to 0 in case IPv4/L2)
++	1 Compute the flowlabel using seg6_make_flowlabel()
++
++	Default is 0.
++
+ conf/default/*:
+ 	Change the interface-specific default settings.
+ 
 -- 
-~Randy
+2.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
