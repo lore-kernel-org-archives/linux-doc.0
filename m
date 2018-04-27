@@ -1,156 +1,363 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E536E7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 16:56:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D6B9C7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 16:58:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1758618AbeD0Q41 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 12:56:27 -0400
-Received: from foss.arm.com ([217.140.101.70]:43798 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1757569AbeD0Q40 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Apr 2018 12:56:26 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6213615AD;
-        Fri, 27 Apr 2018 09:56:26 -0700 (PDT)
-Received: from dupont (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD9FB3F4FF;
-        Fri, 27 Apr 2018 09:56:25 -0700 (PDT)
-Date:   Fri, 27 Apr 2018 11:56:25 -0500
-From:   Kim Phillips <kim.phillips@arm.com>
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <jnair@caviumnetworks.com>,
-        <Robert.Richter@cavium.com>, <Vadim.Lomovtsev@cavium.com>,
-        <Jan.Glauber@cavium.com>, <gklkml16@gmail.com>
-Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
- driver
-Message-Id: <20180427115625.b5191d381cd41e7ee092fea1@arm.com>
-In-Reply-To: <20180427160914.GA5286@arm.com>
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
-        <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
-        <20180426170624.bfcba885431d57d0de2a3ddd@arm.com>
-        <20180427093027.ngtuoezyh6mtz26p@lakrids.cambridge.arm.com>
-        <20180427081525.f9dcc756678baf3bb6e6e473@arm.com>
-        <20180427143719.GA5093@arm.com>
-        <20180427104629.2bff4b4b683a93ddf39f8df5@arm.com>
-        <20180427160914.GA5286@arm.com>
-Organization: Arm
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1758941AbeD0Q6D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 12:58:03 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:37143 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1758760AbeD0Q55 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 12:57:57 -0400
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 7B5EE1E0659;
+        Fri, 27 Apr 2018 18:57:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1524848275; bh=gqRjF4d/ktWQQYQ426VXc77+j/fTw5GhgEgXbui8wcU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
+         References:From;
+        b=THxkEepJNEDxrocrrU7WYqory5AMNeCK0hafW9TzfqSKiFKOD4ynUTyczhJ1mk0VM
+         ZZz5r3/NS08mbijfC3kEptaQHq3n/Ru9b/0RAoae5ScBSOaX1VD+DOilAJSk2NfcV/
+         Ke2m3FGfO3Azoggemkxed1iLyjzIQRnwK489LZQgZLCLyRQCcGVHbY94kpL+BrUuO0
+         IrHgDEOOmE1PcZftW/Bku2RqxZRK8Bixz9lY+T6vNtjo7CtO0x2xBJjItC2EYuxd68
+         Z5nF/DpRJe5cuzqc+QGJqUbdZ9CHiXO3q9pFbh3EXBvC8a8bNDkVdXVhg6RlViWgfK
+         S0UZgbgXClegA==
+Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 56D10301B;
+        Fri, 27 Apr 2018 09:57:54 -0700 (PDT)
+Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
+        by pt02.synopsys.com (Postfix) with ESMTP id B18003DC0A;
+        Fri, 27 Apr 2018 17:57:53 +0100 (WEST)
+From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
+        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
+        adouglas@cadence.com, jesper.nilsson@axis.com
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gustavo.pimentel@synopsys.com
+Subject: [PATCH 02/10] PCI: dwc: Add MSI-X callbacks handler
+Date:   Fri, 27 Apr 2018 17:57:39 +0100
+Message-Id: <fb52dbb6f9f394cb43a0d9af8f6edcfdbe473462.1524845816.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
+References: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
+References: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 27 Apr 2018 17:09:14 +0100
-Will Deacon <will.deacon@arm.com> wrote:
+Change pcie_raise_irq() signature, namely the interrupt_num variable type
+from u8 to u16 to accommodate the 2048 maximum MSI-X interrupts.
 
-> Kim,
-> 
-> [Ganapat: please don't let this discussion disrupt your PMU driver
->  development. You can safely ignore it for now :)]
-> 
-> On Fri, Apr 27, 2018 at 10:46:29AM -0500, Kim Phillips wrote:
-> > On Fri, 27 Apr 2018 15:37:20 +0100
-> > Will Deacon <will.deacon@arm.com> wrote:
-> > 
-> > > On Fri, Apr 27, 2018 at 08:15:25AM -0500, Kim Phillips wrote:
-> > > > On Fri, 27 Apr 2018 10:30:27 +0100
-> > > > Mark Rutland <mark.rutland@arm.com> wrote:
-> > > > > On Thu, Apr 26, 2018 at 05:06:24PM -0500, Kim Phillips wrote:
-> > > > > > On Wed, 25 Apr 2018 14:30:47 +0530
-> > > > > > Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com> wrote:
-> > > > > > 
-> > > > > > > +static int thunderx2_uncore_event_init(struct perf_event *event)
-> > > > > 
-> > > > > > This PMU driver can be made more user-friendly by not just silently
-> > > > > > returning an error code such as -EINVAL, but by emitting a useful
-> > > > > > message describing the specific error via dmesg.
-> > > > > 
-> > > > > As has previously been discussed on several occasions, patches which log
-> > > > > to dmesg in a pmu::event_init() path at any level above pr_debug() are
-> > > > > not acceptable -- dmesg is not intended as a mechanism to inform users
-> > > > > of driver-specific constraints.
-> > > > 
-> > > > I disagree - drivers do it all the time, using dev_err(), dev_warn(), etc.
-> > > > 
-> > > > > I would appreciate if in future you could qualify your suggestion with
-> > > > > the requirement that pr_debug() is used.
-> > > > 
-> > > > It shouldn't - the driver isn't being debugged, it's in regular use.
-> > > 
-> > > For anything under drivers/perf/, I'd prefer not to have these prints
-> > > and instead see efforts to improve error reporting via the perf system
-> > > call interface.
-> > 
-> > We'd all prefer that, and for all PMU drivers, why should ones under
-> > drivers/perf be treated differently?
-> 
-> Because they're the ones I maintain...
+Add PCIe config space capability search function.
 
-You represent a minority on your opinion on this matter though.
+Add sysfs set/get interface to allow to change of EP MSI-X maximum number.
 
-> > As you are already aware, I've personally tried to fix this problem -
-> > that has existed since before the introduction of the perf tool (I
-> > consider it a syscall-independent enhanced error interface), multiple
-> > times, and failed.
-> 
-> Why is that my problem? Try harder?
+Add EP MSI-X callback for triggering interruptions.
 
-It's your problem because we're here reviewing a patch that happens to
-fall under your maintainership.  I'll be the first person to tell you
-I'm obviously incompetent and haven't been able to come up with a
-solution that is acceptable for everyone up to and including Linus
-Torvalds.  I'm just noticing a chronic usability problem that can be
-easily alleviated in the context of this patch review.
+Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+---
+ drivers/pci/dwc/pci-dra7xx.c           |   2 +-
+ drivers/pci/dwc/pcie-artpec6.c         |   2 +-
+ drivers/pci/dwc/pcie-designware-ep.c   | 143 ++++++++++++++++++++++++++++++++-
+ drivers/pci/dwc/pcie-designware-plat.c |   4 +-
+ drivers/pci/dwc/pcie-designware.h      |  14 +++-
+ 5 files changed, 160 insertions(+), 5 deletions(-)
 
-> > So until someone comes up with a solution that works for everyone
-> > up to and including Linus Torvalds (who hasn't put up a problem
-> > pulling PMU drivers emitting things to dmesg so far, by the way), this
-> > keep PMU drivers' errors silent preference of yours is unnecessarily
-> > impeding people trying to measure system performance on Arm based
-> > machines - all other archs' maintainers are fine with PMU drivers using
-> > dmesg.
-> 
-> Good for them, although I'm pretty sure that at least the x86 folks are
-> against this crap too.
+diff --git a/drivers/pci/dwc/pci-dra7xx.c b/drivers/pci/dwc/pci-dra7xx.c
+index ed8558d..5265725 100644
+--- a/drivers/pci/dwc/pci-dra7xx.c
++++ b/drivers/pci/dwc/pci-dra7xx.c
+@@ -369,7 +369,7 @@ static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
+ }
+ 
+ static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+-				 enum pci_epc_irq_type type, u8 interrupt_num)
++				 enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
+diff --git a/drivers/pci/dwc/pcie-artpec6.c b/drivers/pci/dwc/pcie-artpec6.c
+index e66cede..96dc259 100644
+--- a/drivers/pci/dwc/pcie-artpec6.c
++++ b/drivers/pci/dwc/pcie-artpec6.c
+@@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep *ep)
+ }
+ 
+ static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+-				  enum pci_epc_irq_type type, u8 interrupt_num)
++				  enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 
+diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
+index 15b22a6..9b0d396 100644
+--- a/drivers/pci/dwc/pcie-designware-ep.c
++++ b/drivers/pci/dwc/pcie-designware-ep.c
+@@ -40,6 +40,39 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+ 	__dw_pcie_ep_reset_bar(pci, bar, 0);
+ }
+ 
++u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
++			      u8 cap)
++{
++	u8 cap_id, next_cap_ptr;
++	u16 reg;
++
++	reg = dw_pcie_readw_dbi(pci, cap_ptr);
++	next_cap_ptr = (reg & 0xff00) >> 8;
++	cap_id = (reg & 0x00ff);
++
++	if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
++		return 0;
++
++	if (cap_id == cap)
++		return cap_ptr;
++
++	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
++}
++
++u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
++{
++	u8 next_cap_ptr;
++	u16 reg;
++
++	reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
++	next_cap_ptr = (reg & 0x00ff);
++
++	if (!next_cap_ptr)
++		return 0;
++
++	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
++}
++
+ static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no,
+ 				   struct pci_epf_header *hdr)
+ {
+@@ -241,8 +274,47 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
+ 	return 0;
+ }
+ 
++static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no)
++{
++	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	u32 val, reg;
++
++	if (!ep->msix_cap)
++		return 0;
++
++	reg = ep->msix_cap + PCI_MSIX_FLAGS;
++	val = dw_pcie_readw_dbi(pci, reg);
++	if (!(val & PCI_MSIX_FLAGS_ENABLE))
++		return -EINVAL;
++
++	val &= PCI_MSIX_FLAGS_QSIZE;
++
++	return val;
++}
++
++static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
++{
++	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	u32 val, reg;
++
++	if (!ep->msix_cap)
++		return 0;
++
++	reg = ep->msix_cap + PCI_MSIX_FLAGS;
++	val = dw_pcie_readw_dbi(pci, reg);
++	val &= ~PCI_MSIX_FLAGS_QSIZE;
++	val |= interrupts;
++	dw_pcie_dbi_ro_wr_en(pci);
++	dw_pcie_writew_dbi(pci, reg, val);
++	dw_pcie_dbi_ro_wr_dis(pci);
++
++	return 0;
++}
++
+ static int dw_pcie_ep_raise_irq(struct pci_epc *epc, u8 func_no,
+-				enum pci_epc_irq_type type, u8 interrupt_num)
++				enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+ 
+@@ -282,6 +354,8 @@ static const struct pci_epc_ops epc_ops = {
+ 	.unmap_addr		= dw_pcie_ep_unmap_addr,
+ 	.set_msi		= dw_pcie_ep_set_msi,
+ 	.get_msi		= dw_pcie_ep_get_msi,
++	.set_msix		= dw_pcie_ep_set_msix,
++	.get_msix		= dw_pcie_ep_get_msix,
+ 	.raise_irq		= dw_pcie_ep_raise_irq,
+ 	.start			= dw_pcie_ep_start,
+ 	.stop			= dw_pcie_ep_stop,
+@@ -322,6 +396,60 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 	return 0;
+ }
+ 
++int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
++			     u16 interrupt_num)
++{
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	struct pci_epc *epc = ep->epc;
++	u16 tbl_offset, bir;
++	u32 bar_addr_upper, bar_addr_lower;
++	u32 msg_addr_upper, msg_addr_lower;
++	u32 reg, msg_data;
++	u64 tbl_addr, msg_addr, reg_u64;
++	void __iomem *msix_tbl;
++	int ret;
++
++	reg = ep->msix_cap + PCI_MSIX_TABLE;
++	tbl_offset = dw_pcie_readl_dbi(pci, reg);
++	bir = (tbl_offset & PCI_MSIX_TABLE_BIR);
++	tbl_offset &= PCI_MSIX_TABLE_OFFSET;
++	tbl_offset >>= 3;
++
++	reg = PCI_BASE_ADDRESS_0 + (4 * bir);
++	bar_addr_lower = dw_pcie_readl_dbi(pci, reg);
++	reg_u64 = (bar_addr_lower & PCI_BASE_ADDRESS_MEM_TYPE_MASK);
++	if (reg_u64 == PCI_BASE_ADDRESS_MEM_TYPE_64)
++		bar_addr_upper = dw_pcie_readl_dbi(pci, reg + 4);
++	else
++		bar_addr_upper = 0;
++
++	tbl_addr = ((u64) bar_addr_upper) << 32 | bar_addr_lower;
++	tbl_addr += (tbl_offset + ((interrupt_num - 1) * PCI_MSIX_ENTRY_SIZE));
++	tbl_addr &= PCI_BASE_ADDRESS_MEM_MASK;
++
++	msix_tbl = ioremap_nocache(ep->phys_base + tbl_addr, ep->addr_size);
++	if (!msix_tbl)
++		return -EINVAL;
++
++	msg_addr_lower = readl(msix_tbl + PCI_MSIX_ENTRY_LOWER_ADDR);
++	msg_addr_upper = readl(msix_tbl + PCI_MSIX_ENTRY_UPPER_ADDR);
++	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
++	msg_data = readl(msix_tbl + PCI_MSIX_ENTRY_DATA);
++
++	iounmap(msix_tbl);
++
++	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msix_mem_phys, msg_addr,
++				  epc->mem->page_size);
++	if (ret)
++		return ret;
++
++	writel(msg_data, ep->msix_mem);
++
++	dw_pcie_ep_unmap_addr(epc, func_no, ep->msix_mem_phys);
++
++	return 0;
++}
++
+ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+ {
+ 	struct pci_epc *epc = ep->epc;
+@@ -329,6 +457,9 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+ 	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
+ 			      epc->mem->page_size);
+ 
++	pci_epc_mem_free_addr(epc, ep->msix_mem_phys, ep->msix_mem,
++			      epc->mem->page_size);
++
+ 	pci_epc_mem_exit(epc);
+ }
+ 
+@@ -411,6 +542,16 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 		return -ENOMEM;
+ 	}
+ 
++	ep->msix_mem = pci_epc_mem_alloc_addr(epc, &ep->msix_mem_phys,
++					     epc->mem->page_size);
++	if (!ep->msix_mem) {
++		dev_err(dev, "Failed to reserve memory for MSI-\n");
++		return -ENOMEM;
++	}
++
++	ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
++	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
++
+ 	ep->epc = epc;
+ 	epc_set_drvdata(epc, ep);
+ 	dw_pcie_setup(pci);
+diff --git a/drivers/pci/dwc/pcie-designware-plat.c b/drivers/pci/dwc/pcie-designware-plat.c
+index 5937fed..654dcb5 100644
+--- a/drivers/pci/dwc/pcie-designware-plat.c
++++ b/drivers/pci/dwc/pcie-designware-plat.c
+@@ -78,7 +78,7 @@ static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
+ 
+ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 				     enum pci_epc_irq_type type,
+-				     u8 interrupt_num)
++				     u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 
+@@ -88,6 +88,8 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 		return -EINVAL;
+ 	case PCI_EPC_IRQ_MSI:
+ 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
++	case PCI_EPC_IRQ_MSIX:
++		return dw_pcie_ep_raise_msix_irq(ep, func_no, interrupt_num);
+ 	default:
+ 		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+ 	}
+diff --git a/drivers/pci/dwc/pcie-designware.h b/drivers/pci/dwc/pcie-designware.h
+index bee4e25..b22c5bb 100644
+--- a/drivers/pci/dwc/pcie-designware.h
++++ b/drivers/pci/dwc/pcie-designware.h
+@@ -191,7 +191,7 @@ enum dw_pcie_as_type {
+ struct dw_pcie_ep_ops {
+ 	void	(*ep_init)(struct dw_pcie_ep *ep);
+ 	int	(*raise_irq)(struct dw_pcie_ep *ep, u8 func_no,
+-			     enum pci_epc_irq_type type, u8 interrupt_num);
++			     enum pci_epc_irq_type type, u16 interrupt_num);
+ };
+ 
+ struct dw_pcie_ep {
+@@ -208,6 +208,10 @@ struct dw_pcie_ep {
+ 	u32			num_ob_windows;
+ 	void __iomem		*msi_mem;
+ 	phys_addr_t		msi_mem_phys;
++	void __iomem		*msix_mem;
++	phys_addr_t		msix_mem_phys;
++	u8			msi_cap;	/* MSI capability offset */
++	u8			msix_cap;	/* MSI-X capability offset */
+ };
+ 
+ struct dw_pcie_ops {
+@@ -359,6 +363,8 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+ void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
+ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 			     u8 interrupt_num);
++int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
++			     u16 interrupt_num);
+ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar);
+ #else
+ static inline void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+@@ -380,6 +386,12 @@ static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 	return 0;
+ }
+ 
++static inline int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
++					   u16 interrupt_num)
++{
++	return 0;
++}
++
+ static inline void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+ {
+ }
+-- 
+2.7.4
 
-Unfortunately, it doesn't affect them nearly as much as it does our
-more diverse platforms, which is why I don't think they care to do
-much about it.
 
-> > > Anyway, I think this driver has bigger problems that need addressing.
-> > 
-> > To me it represents yet another PMU driver submission - as the years go
-> > by - that is lacking in the user messaging area.  Which reminds me, can
-> > you take another look at applying this?:
-> 
-> As I said before, I'm not going to take anything that logs above pr_debug
-> for things that are directly triggerable from userspace. Spin a version
-
-Why?  There are plenty of things that emit stuff into dmesg that are
-directly triggerable from userspace.  Is it because it upsets fuzzing
-tests?  How about those be run with a patched kernel that somehow
-mitigates the printing?
-
-> using pr_debug and I'll queue it.
-
-How about using a ratelimited dev_err variant?
-
-> Have a good weekend,
-
-You too.
-
-Kim
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
