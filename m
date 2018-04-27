@@ -5,68 +5,82 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C336E7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 09:30:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D73957DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 09:45:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757832AbeD0Jag (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 05:30:36 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:37170 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751608AbeD0Jac (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Apr 2018 05:30:32 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA16C15AD;
-        Fri, 27 Apr 2018 02:30:31 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC5793F487;
-        Fri, 27 Apr 2018 02:30:29 -0700 (PDT)
-Date:   Fri, 27 Apr 2018 10:30:27 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Kim Phillips <kim.phillips@arm.com>
-Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, Will.Deacon@arm.com,
-        jnair@caviumnetworks.com, Robert.Richter@cavium.com,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com,
-        gklkml16@gmail.com
-Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
- driver
-Message-ID: <20180427093027.ngtuoezyh6mtz26p@lakrids.cambridge.arm.com>
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
- <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
- <20180426170624.bfcba885431d57d0de2a3ddd@arm.com>
+        id S932439AbeD0Joy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 05:44:54 -0400
+Received: from www62.your-server.de ([213.133.104.62]:47577 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757353AbeD0Jox (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 05:44:53 -0400
+Received: from [62.202.221.10] (helo=linux.home)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-SHA:256)
+        (Exim 4.85_2)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1fBzvp-0003Xc-3W; Fri, 27 Apr 2018 11:44:45 +0200
+Subject: Re: [PATCH bpf-next] bpf, doc: Update bpf_jit_enable limitation for
+ CONFIG_BPF_JIT_ALWAYS_ON
+To:     Leo Yan <leo.yan@linaro.org>, Alexei Starovoitov <ast@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <1524709611-29437-1-git-send-email-leo.yan@linaro.org>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <275e03a2-b74e-8f60-4ffe-26c9a79fae9d@iogearbox.net>
+Date:   Fri, 27 Apr 2018 11:44:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180426170624.bfcba885431d57d0de2a3ddd@arm.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <1524709611-29437-1-git-send-email-leo.yan@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.99.3/24517/Fri Apr 27 06:24:46 2018)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kim,
-
-On Thu, Apr 26, 2018 at 05:06:24PM -0500, Kim Phillips wrote:
-> On Wed, 25 Apr 2018 14:30:47 +0530
-> Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com> wrote:
+On 04/26/2018 04:26 AM, Leo Yan wrote:
+> When CONFIG_BPF_JIT_ALWAYS_ON is enabled, kernel has limitation for
+> bpf_jit_enable, so it has fixed value 1 and we cannot set it to 2
+> for JIT opcode dumping; this patch is to update the doc for it.
 > 
-> > +static int thunderx2_uncore_event_init(struct perf_event *event)
+> Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> ---
+>  Documentation/networking/filter.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/networking/filter.txt b/Documentation/networking/filter.txt
+> index fd55c7d..feddab9 100644
+> --- a/Documentation/networking/filter.txt
+> +++ b/Documentation/networking/filter.txt
+> @@ -483,6 +483,12 @@ Example output from dmesg:
+>  [ 3389.935851] JIT code: 00000030: 00 e8 28 94 ff e0 83 f8 01 75 07 b8 ff ff 00 00
+>  [ 3389.935852] JIT code: 00000040: eb 02 31 c0 c9 c3
+>  
+> +When CONFIG_BPF_JIT_ALWAYS_ON is enabled, bpf_jit_enable is set to 1 by default
+> +and it returns failure if change to any other value from proc node; this is
+> +for security consideration to avoid leaking info to unprivileged users. In this
+> +case, we can't directly dump JIT opcode image from kernel log, alternatively we
+> +need to use bpf tool for the dumping.
+> +
 
-> This PMU driver can be made more user-friendly by not just silently
-> returning an error code such as -EINVAL, but by emitting a useful
-> message describing the specific error via dmesg.
+Could you change this doc text a bit, I think it's slightly misleading. From the first
+sentence one could also interpret that value 0 would leaking info to unprivileged users
+whereas here we're only talking about the case of value 2. Maybe something roughly like
+this to make it more clear:
 
-As has previously been discussed on several occasions, patches which log
-to dmesg in a pmu::event_init() path at any level above pr_debug() are
-not acceptable -- dmesg is not intended as a mechanism to inform users
-of driver-specific constraints.
-
-I would appreciate if in future you could qualify your suggestion with
-the requirement that pr_debug() is used.
+  When CONFIG_BPF_JIT_ALWAYS_ON is enabled, bpf_jit_enable is permanently set to 1 and
+  setting any other value than that will return in failure. This is even the case for
+  setting bpf_jit_enable to 2, since dumping the final JIT image into the kernel log
+  is discouraged and introspection through bpftool (under tools/bpf/bpftool/) is the
+  generally recommended approach instead.
 
 Thanks,
-Mark.
+Daniel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
