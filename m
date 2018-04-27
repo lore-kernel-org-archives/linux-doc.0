@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 431127DE79
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 21:02:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C82537DE79
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 21:02:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1759373AbeD0VBz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 17:01:55 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48160 "EHLO mx1.redhat.com"
+        id S1759367AbeD0VBy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 17:01:54 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:43252 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1759291AbeD0VAy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1759296AbeD0VAy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 27 Apr 2018 17:00:54 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C8C7B4022909;
-        Fri, 27 Apr 2018 21:00:53 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 2324F42709C0;
+        Fri, 27 Apr 2018 21:00:54 +0000 (UTC)
 Received: from llong.com (dhcp-17-164.bos.redhat.com [10.18.17.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8104510B2B45;
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CF56310B2B44;
         Fri, 27 Apr 2018 21:00:53 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -32,118 +32,173 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v6 5/8] ipc: Clamp semmni to the real IPCMNI limit
-Date:   Fri, 27 Apr 2018 17:00:35 -0400
-Message-Id: <1524862838-8247-6-git-send-email-longman@redhat.com>
+Subject: [PATCH v6 6/8] test_sysctl: Add range clamping test
+Date:   Fri, 27 Apr 2018 17:00:36 -0400
+Message-Id: <1524862838-8247-7-git-send-email-longman@redhat.com>
 In-Reply-To: <1524862838-8247-1-git-send-email-longman@redhat.com>
 References: <1524862838-8247-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 27 Apr 2018 21:00:53 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 27 Apr 2018 21:00:53 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Fri, 27 Apr 2018 21:00:54 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Fri, 27 Apr 2018 21:00:54 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For SysV semaphores, the semmni value is the last part of the 4-element
-sem number array. To make semmni behave in a similar way to msgmni
-and shmmni, we can't directly use the _minmax handler. Instead,
-a special sem specific handler is added to check the last argument
-to make sure that it is clamped to the [0, IPCMNI] range and prints
-a warning message once when an out-of-range value is being written.
-This does require duplicating some of the code in the _minmax handlers.
+Add a range clamping test to verify that the input value will be
+clamped if it exceeds the builtin maximum or minimum value.
+
+Below is the expected test run result:
+
+Running test: sysctl_test_0006 - run #0
+Checking range minimum clamping ... ok
+Checking range maximum clamping ... ok
+Checking range minimum clamping ... ok
+Checking range maximum clamping ... ok
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- ipc/ipc_sysctl.c | 12 +++++++++++-
- ipc/sem.c        | 25 +++++++++++++++++++++++++
- ipc/util.h       |  4 ++++
- 3 files changed, 40 insertions(+), 1 deletion(-)
+ lib/test_sysctl.c                        | 29 ++++++++++++++++++
+ tools/testing/selftests/sysctl/sysctl.sh | 52 ++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
 
-diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-index d71f949..478e634 100644
---- a/ipc/ipc_sysctl.c
-+++ b/ipc/ipc_sysctl.c
-@@ -88,12 +88,22 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
- 	return proc_dointvec_minmax(&ipc_table, write, buffer, lenp, ppos);
- }
+diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
+index 3dd801c..3c619b9 100644
+--- a/lib/test_sysctl.c
++++ b/lib/test_sysctl.c
+@@ -38,12 +38,18 @@
  
-+static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
-+	void __user *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	int ret = proc_ipc_dointvec(table, write, buffer, lenp, ppos);
-+
-+	sem_check_semmni(table, current->nsproxy->ipc_ns);
-+	return ret;
-+}
-+
- #else
- #define proc_ipc_doulongvec_minmax NULL
- #define proc_ipc_dointvec	   NULL
- #define proc_ipc_dointvec_minmax   NULL
- #define proc_ipc_dointvec_minmax_orphans   NULL
- #define proc_ipc_auto_msgmni	   NULL
-+#define proc_ipc_sem_dointvec	   NULL
- #endif
+ static int i_zero;
+ static int i_one_hundred = 100;
++static int signed_min = -10;
++static int signed_max = 10;
++static unsigned int unsigned_min = 10;
++static unsigned int unsigned_max = 30;
  
- static int zero;
-@@ -177,7 +187,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
- 		.data		= &init_ipc_ns.sem_ctls,
- 		.maxlen		= 4*sizeof(int),
+ struct test_sysctl_data {
+ 	int int_0001;
+ 	int int_0002;
+ 	int int_0003[4];
++	int range_0001;
+ 
++	unsigned int urange_0001;
+ 	unsigned int uint_0001;
+ 
+ 	char string_0001[65];
+@@ -58,6 +64,9 @@ struct test_sysctl_data {
+ 	.int_0003[2] = 2,
+ 	.int_0003[3] = 3,
+ 
++	.range_0001 = 0,
++	.urange_0001 = 20,
++
+ 	.uint_0001 = 314,
+ 
+ 	.string_0001 = "(none)",
+@@ -102,6 +111,26 @@ struct test_sysctl_data {
  		.mode		= 0644,
--		.proc_handler	= proc_ipc_dointvec,
-+		.proc_handler	= proc_ipc_sem_dointvec,
+ 		.proc_handler	= proc_dostring,
  	},
- #ifdef CONFIG_CHECKPOINT_RESTORE
- 	{
-diff --git a/ipc/sem.c b/ipc/sem.c
-index 06be75d..96bdec6 100644
---- a/ipc/sem.c
-+++ b/ipc/sem.c
-@@ -2397,3 +2397,28 @@ static int sysvipc_sem_proc_show(struct seq_file *s, void *it)
- 	return 0;
- }
- #endif
-+
-+#ifdef CONFIG_PROC_SYSCTL
-+/*
-+ * Check to see if semmni is out of range and clamp it if necessary.
-+ */
-+void sem_check_semmni(struct ctl_table *table, struct ipc_namespace *ns)
-+{
-+	bool clamped = false;
-+
-+	/*
-+	 * Clamp semmni to the range [0, IPCMNI].
-+	 */
-+	if (ns->sc_semmni < 0) {
-+		ns->sc_semmni = 0;
-+		clamped = true;
-+	}
-+	if (ns->sc_semmni > IPCMNI) {
-+		ns->sc_semmni = IPCMNI;
-+		clamped = true;
-+	}
-+	if (clamped)
-+		pr_warn_ratelimited("sysctl: \"sem[3]\" was set out of range [%d, %d], clamped to %d.\n",
-+				     0, IPCMNI, ns->sc_semmni);
-+}
-+#endif
-diff --git a/ipc/util.h b/ipc/util.h
-index acc5159..7c20871 100644
---- a/ipc/util.h
-+++ b/ipc/util.h
-@@ -218,6 +218,10 @@ int ipcget(struct ipc_namespace *ns, struct ipc_ids *ids,
- void free_ipcs(struct ipc_namespace *ns, struct ipc_ids *ids,
- 		void (*free)(struct ipc_namespace *, struct kern_ipc_perm *));
++	{
++		.procname	= "range_0001",
++		.data		= &test_data.range_0001,
++		.maxlen		= sizeof(test_data.range_0001),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.flags		= CTL_FLAGS_CLAMP_SIGNED_RANGE,
++		.extra1		= &signed_min,
++		.extra2		= &signed_max,
++	},
++	{
++		.procname	= "urange_0001",
++		.data		= &test_data.urange_0001,
++		.maxlen		= sizeof(test_data.urange_0001),
++		.mode		= 0644,
++		.proc_handler	= proc_douintvec_minmax,
++		.flags		= CTL_FLAGS_CLAMP_UNSIGNED_RANGE,
++		.extra1		= &unsigned_min,
++		.extra2		= &unsigned_max,
++	},
+ 	{ }
+ };
  
-+#ifdef CONFIG_PROC_SYSCTL
-+extern void sem_check_semmni(struct ctl_table *table, struct ipc_namespace *ns);
-+#endif
+diff --git a/tools/testing/selftests/sysctl/sysctl.sh b/tools/testing/selftests/sysctl/sysctl.sh
+index ec232c3..1aa1bba 100755
+--- a/tools/testing/selftests/sysctl/sysctl.sh
++++ b/tools/testing/selftests/sysctl/sysctl.sh
+@@ -34,6 +34,7 @@ ALL_TESTS="$ALL_TESTS 0002:1:1"
+ ALL_TESTS="$ALL_TESTS 0003:1:1"
+ ALL_TESTS="$ALL_TESTS 0004:1:1"
+ ALL_TESTS="$ALL_TESTS 0005:3:1"
++ALL_TESTS="$ALL_TESTS 0006:1:1"
+ 
+ test_modprobe()
+ {
+@@ -543,6 +544,38 @@ run_stringtests()
+ 	test_rc
+ }
+ 
++# TARGET, RANGE_MIN & RANGE_MAX need to be defined before running test.
++run_range_clamping_test()
++{
++	rc=0
 +
- #ifdef CONFIG_COMPAT
- #include <linux/compat.h>
- struct compat_ipc_perm {
++	echo -n "Checking range minimum clamping ... "
++	VAL=$((RANGE_MIN - 1))
++	echo -n $VAL > "${TARGET}" 2> /dev/null
++	EXITVAL=$?
++	NEWVAL=$(cat "${TARGET}")
++	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MIN ]]; then
++		echo "FAIL" >&2
++		rc=1
++	else
++		echo "ok"
++	fi
++
++	echo -n "Checking range maximum clamping ... "
++	VAL=$((RANGE_MAX + 1))
++	echo -n $VAL > "${TARGET}" 2> /dev/null
++	EXITVAL=$?
++	NEWVAL=$(cat "${TARGET}")
++	if [[ $EXITVAL -ne 0 || $NEWVAL -ne $RANGE_MAX ]]; then
++		echo "FAIL" >&2
++		rc=1
++	else
++		echo "ok"
++	fi
++
++	test_rc
++}
++
+ sysctl_test_0001()
+ {
+ 	TARGET="${SYSCTL}/int_0001"
+@@ -600,6 +633,25 @@ sysctl_test_0005()
+ 	run_limit_digit_int_array
+ }
+ 
++sysctl_test_0006()
++{
++	TARGET="${SYSCTL}/range_0001"
++	ORIG=$(cat "${TARGET}")
++	RANGE_MIN=-10
++	RANGE_MAX=10
++
++	run_range_clamping_test
++	set_orig
++
++	TARGET="${SYSCTL}/urange_0001"
++	ORIG=$(cat "${TARGET}")
++	RANGE_MIN=10
++	RANGE_MAX=30
++
++	run_range_clamping_test
++	set_orig
++}
++
+ list_tests()
+ {
+ 	echo "Test ID list:"
 -- 
 1.8.3.1
 
