@@ -1,99 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3AEC57DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 10:35:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C5A747DD32
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 11:20:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932546AbeD0Kfs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 06:35:48 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:35408 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932415AbeD0Kfr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 06:35:47 -0400
-Received: by mail-wr0-f193.google.com with SMTP id w3-v6so1298118wrg.2;
-        Fri, 27 Apr 2018 03:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=pMVzJh8Wqnz04wkN8songpGDeHnnhUDZOHq47GugNfc=;
-        b=Tck11ogN7J4BYnnufRUNvkcd8NyLiMev1gOFkrQByC9st0cxrALdZc7QWf76pCti50
-         t8CbmE52Sh/1Lcj4KeOEsQBSRbNJSfhqYEGnerAumRiK/IRzt9Ptus5RYMguCA66qPIH
-         2zblX6Tq57v4tieoJ+6TJqX9eMPWLspwBn0zfKhP3VTTUOn/1nph+u5/2VwCqg3r3Nyh
-         6X6l8ukGrndUEyKUoaFm55VBrtGcgV0CtaVk/UDeBbqpQ2HiJJYK6j18skTYNZlFVz3x
-         P45eCRXwC946pZB1wtKr5X27h2G+8sIL10JQYVrPiSgFmOg7qZTAODW2BTgdxRWKZDQS
-         o4Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=pMVzJh8Wqnz04wkN8songpGDeHnnhUDZOHq47GugNfc=;
-        b=sNeabwt+yeTH8aHNqDYP2Km5iw6FwkiqDzbIXCsyj3e4VaetO+kZSeTCZbH1D74E2T
-         1FzH2E6bh/M+feC4SZpNEoJdx0xjRAnUdEFCzMsG7e7eMfOau+cUt6gDZI2ffuGWV3yE
-         YOoP5vwkauctdfIcLTopkCMGU4rJyQUwP1HEBMsfGEyl7D/3JJG2bIvBScg2czYHcOh8
-         0IXWLg+TJpIldYFrJ3HWuGHkOgxV2osjb6LAFw8x/vL8Lmr3pN+WgDxeSLwxAZ4fzVEV
-         OkTyigSOckbAbfD0OpPJckpDtMDoXXYlnWVvQYmQrQ/7P0PGCjpYlCzld51XTQyyqr1g
-         7vsw==
-X-Gm-Message-State: ALQs6tCe5R60hdGGr4yixhB7Hp6GeaF3hSlqSVhuk4RBUv7sr+YjXigM
-        U4Z/e96AHPQy6CGEWf+MtYM=
-X-Google-Smtp-Source: AB8JxZrdhRfN34LbF+93NhofATqhYVcFBhJkYnLKzBGxLZ0o1zXNEtJAVxHW8jhWHE0mcLbWn/huSg==
-X-Received: by 2002:adf:8248:: with SMTP id 66-v6mr1402076wrb.127.1524825346114;
-        Fri, 27 Apr 2018 03:35:46 -0700 (PDT)
-Received: from localhost.localdomain ([192.135.27.140])
-        by smtp.gmail.com with ESMTPSA id a129sm1892537wme.3.2018.04.27.03.35.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Fri, 27 Apr 2018 03:35:45 -0700 (PDT)
-From:   Ahmed Abdelsalam <amsalam20@gmail.com>
-To:     davem@davemloft.net, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org
-Cc:     Ahmed Abdelsalam <amsalam20@gmail.com>
-Subject: [net-next] ipv6: sr: Add documentation for seg_flowlabel sysctl
-Date:   Fri, 27 Apr 2018 12:35:44 +0200
-Message-Id: <1524825344-2573-1-git-send-email-amsalam20@gmail.com>
-X-Mailer: git-send-email 2.1.4
+        id S1752061AbeD0LUE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 07:20:04 -0400
+Received: from lelnx194.ext.ti.com ([198.47.27.80]:13988 "EHLO
+        lelnx194.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751566AbeD0LUC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 07:20:02 -0400
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by lelnx194.ext.ti.com (8.15.1/8.15.1) with ESMTP id w3RBJrkZ006581;
+        Fri, 27 Apr 2018 06:19:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ti.com;
+        s=ti-com-17Q1; t=1524827993;
+        bh=vYutYSYJxq3lRm/fgcIwExLPIDQRqcRMhuzC3WnhETQ=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=w0bJidHAjfenhznGNKl81rNZSIn60eT8/PGyK+fDlgS9XcWu0DAIH8RiqWaTcD10Z
+         AvNmVROmvH63XWWFoTad/faQqxqijs3chX7uYPLjv0816ymH8dyMf6uDx5Th6pnhl/
+         vgY7GigJ8+6JiFSJ/675yI0XrPVxNODfv90NLojI=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3RBJrTg009128;
+        Fri, 27 Apr 2018 06:19:53 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Fri, 27
+ Apr 2018 06:19:53 -0500
+Received: from dlep32.itg.ti.com (157.170.170.100) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Fri, 27 Apr 2018 06:19:53 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dlep32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w3RBJn9Z023334;
+        Fri, 27 Apr 2018 06:19:49 -0500
+Subject: Re: [PATCH v3 04/15] ARM: dts: dra74x-mmc-iodelay: Add a new pinctrl
+ group for clk line without pullup
+To:     Tony Lindgren <tony@atomide.com>
+References: <20180425125449.19755-1-kishon@ti.com>
+ <20180425125449.19755-5-kishon@ti.com> <20180425133529.GU5671@atomide.com>
+CC:     =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        <linux-doc@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <859a6ba4-3dd7-2507-d536-e6b559372f32@ti.com>
+Date:   Fri, 27 Apr 2018 16:49:48 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180425133529.GU5671@atomide.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds a documentation for seg_flowlabel sysctl into
-Documentation/networking/ip-sysctl.txt
+Hi Tony,
 
-Signed-off-by: Ahmed Abdelsalam <amsalam20@gmail.com>
----
- Documentation/networking/ip-sysctl.txt | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On Wednesday 25 April 2018 07:05 PM, Tony Lindgren wrote:
+> * Kishon Vijay Abraham I <kishon@ti.com> [180425 12:57]:
+>> --- a/arch/arm/boot/dts/dra74x-mmc-iodelay.dtsi
+>> +++ b/arch/arm/boot/dts/dra74x-mmc-iodelay.dtsi
+>> @@ -49,6 +49,17 @@
+>>  		>;
+>>  	};
+>>  
+>> +	mmc1_pins_default_no_clk_pu: mmc1_pins_default_no_clk_pu {
+>> +		pinctrl-single,pins = <
+>> +			DRA7XX_CORE_IOPAD(0x3754, PIN_INPUT_PULLDOWN | MUX_MODE0) /* mmc1_clk.clk */
+>> +			DRA7XX_CORE_IOPAD(0x3758, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_cmd.cmd */
+>> +			DRA7XX_CORE_IOPAD(0x375c, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat0.dat0 */
+>> +			DRA7XX_CORE_IOPAD(0x3760, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat1.dat1 */
+>> +			DRA7XX_CORE_IOPAD(0x3764, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat2.dat2 */
+>> +			DRA7XX_CORE_IOPAD(0x3768, PIN_INPUT_PULLUP | MUX_MODE0) /* mmc1_dat3.dat3 */
+>> +		>;
+>> +	};
+>> +
+>>  	mmc1_pins_sdr12: mmc1_pins_sdr12 {
+>>  		pinctrl-single,pins = <
+>>  			DRA7XX_CORE_IOPAD(0x3754, PIN_INPUT_PULLUP | MUX_MODE0)	/* mmc1_clk.clk */
+>> -- 
+> 
+> If this data is the same for all of them, why don't you add something
+> like dra7-iodelay.dtsi that can be included as needed?
 
-diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
-index 5dc1a04..7528f71 100644
---- a/Documentation/networking/ip-sysctl.txt
-+++ b/Documentation/networking/ip-sysctl.txt
-@@ -1428,6 +1428,19 @@ ip6frag_low_thresh - INTEGER
- ip6frag_time - INTEGER
- 	Time in seconds to keep an IPv6 fragment in memory.
- 
-+IPv6 Segment Routing:
-+
-+seg6_flowlabel - INTEGER
-+	Controls the behaviour of computing the flowlabel of outer
-+	IPv6 header in case of SR T.encaps
-+
-+	-1 set flowlabel to zero.
-+	0 copy flowlabel from Inner paceket in case of Inner IPv6
-+		(Set flowlabel to 0 in case IPv4/L2)
-+	1 Compute the flowlabel using seg6_make_flowlabel()
-+
-+	Default is 0.
-+
- conf/default/*:
- 	Change the interface-specific default settings.
- 
--- 
-2.1.4
+okay, I'll add dra7-mmc-iodelay.dtsi and send a new revision.
 
+Thanks
+Kishon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
