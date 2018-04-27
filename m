@@ -1,104 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01F3E7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 17:01:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4835E7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 18:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1759018AbeD0RBA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 13:01:00 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:37141 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1758739AbeD0Q56 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 12:57:58 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 5D4921E05F3;
-        Fri, 27 Apr 2018 18:57:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1524848275; bh=DNO3z41LcTw1POhCom4Vj3zCMaNzPtdm0UMAPDMAcZk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Mkq6MY+HuCANDZa8a+gTh25WzZww731Fc0HbVLLJYZVLkhIbZX6KhlG8Q7lWVCdDI
-         hm+7LqewMKeJ7cFIm+qqbrMuwu0gUZueZEMZGqtYnK5o5xBqA+GqWIxm2/3MkihN0W
-         +PSuvPPpwdjxkwDQuwDCnEoA1/Nl91x/fFWOlrACVBDF3H8aGT22K5omEloNH+hf5a
-         c8E69joQ/vEASRgvtlNCV2PhU1f3IRvPFfwRj6tsKlyE6cv3kJZx1w3cpqvqA7rHzQ
-         vJkoKHjfGt/+nu3/e5G7WFi9YMYBkQqtnI4LGViBOsT88j97HzSaos4DaSfLPr781B
-         fBrDcUuRq1VVQ==
-Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 3A98958EE;
-        Fri, 27 Apr 2018 09:57:54 -0700 (PDT)
-Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 8E2F53DC03;
-        Fri, 27 Apr 2018 17:57:53 +0100 (WEST)
-From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
-        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
-        adouglas@cadence.com, jesper.nilsson@axis.com
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gustavo.pimentel@synopsys.com
-Subject: [PATCH 00/10] Add MSI-X support on pcitest tool
-Date:   Fri, 27 Apr 2018 17:57:37 +0100
-Message-Id: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
-X-Mailer: git-send-email 2.7.4
+        id S1757943AbeD0S0d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 14:26:33 -0400
+Received: from mail-qt0-f170.google.com ([209.85.216.170]:44911 "EHLO
+        mail-qt0-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1757862AbeD0S0b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Apr 2018 14:26:31 -0400
+Received: by mail-qt0-f170.google.com with SMTP id d3-v6so3478694qtp.11;
+        Fri, 27 Apr 2018 11:26:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EW/jjEhwwcUPU7ccYzYL1WRoLD9xnN9lpRvqrVW39x0=;
+        b=h9hkmmn0jV5OoCoAJQD+8uu6anVCtFGCoBwlGyN+l9nn3Elv1CkNqhG5r1c67UMWcu
+         f4lbt1QmyjirJEpiltH7EifBYUOPLD8BKgCIhTTekIHBqqIjZBhaO7+CSDMF0jJX2nvO
+         iOAREJclfocAWJTnAVZPiIrBpLL9RegLfyvyzTeIfOUUOpdsIErPmKdCAhBGLYYvqvGB
+         zzjMSsaYblcKrP8kWqIorv22Okw2rvcPz/PCUGsWyvbEWDkCKb+ZOGv8W/Q5MsolDTlL
+         wnSWQBXeccjyDlUJRw0awYHFLt7Qhg/CeTlpeJVlww9ApdWlYVmhMWpbB7KykwdCaTbf
+         HoLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=EW/jjEhwwcUPU7ccYzYL1WRoLD9xnN9lpRvqrVW39x0=;
+        b=nsnphL7xiF7sINAiVwD8abQ0UEJhUZqxsrIZPWjcxcT0zMJ3a9CS9hpvuq9eNBffuq
+         K0QgKGXMVKHE31VDeiJiiTdw2O5vVKxZbsPr9jjT6oT+jEbVINj46zA7soVBuOecLmgp
+         6YAlMnhx087F8Ab+lA8lRB1ZfaQ0F5DZLKVdkjEHxai2IgmudUWYGA8lQUU/Iq5qZXDo
+         10TAyFRP7sQoNS1BQmt1vEtxr/UKrQPCDbXxip2xF9LIPggks6vgb+RjVerIdA05HhiC
+         /fWqnVqEnjxCYBekKQZP4GnPm6rIMIexHeMPWTPOtJenBHjvq1OWR/3HmCwjjelWdwgd
+         pwCw==
+X-Gm-Message-State: ALQs6tC2qkdeEZ6w8Tq720/mAu6l0W5K6vBtsXeRlYi9vTs6DWpUgi+M
+        wRPq0GbovJhm6eAsO4MxbfSSkJ/H
+X-Google-Smtp-Source: AB8JxZotiqAgiOxq7oERYh3Ae5auwueoZ2i3LsXzqXkE28rVOlshnS9hLygOhusXaMXjl9cJCbpALg==
+X-Received: by 2002:aed:22f8:: with SMTP id q53-v6mr3008869qtc.99.1524853590632;
+        Fri, 27 Apr 2018 11:26:30 -0700 (PDT)
+Received: from [10.69.41.93] ([192.19.223.250])
+        by smtp.googlemail.com with ESMTPSA id p63sm1448829qki.37.2018.04.27.11.26.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 27 Apr 2018 11:26:29 -0700 (PDT)
+Subject: Re: [PATCH 2/4] fpga: manager: change api, don't use drvdata
+To:     Moritz Fischer <mdf@kernel.org>, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, linux-fpga@vger.kernel.org, atull@kernel.org,
+        linux-doc@vger.kernel.org, michal.simek@xilinx.com,
+        linux-arm-kernel@lists.infradead.org
+References: <20180427012605.28981-1-mdf@kernel.org>
+ <20180427012605.28981-3-mdf@kernel.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ HGuUuzv+GKZ6nsysJw==
+Message-ID: <152cb232-ea4d-292b-8b60-8bdc1732dc23@gmail.com>
+Date:   Fri, 27 Apr 2018 11:26:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <20180427012605.28981-3-mdf@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Depends of the following serie [1].
+On 04/26/2018 06:26 PM, Moritz Fischer wrote:
+> From: Alan Tull <atull@kernel.org>
+> 
+> Change fpga_mgr_register to not set or use drvdata.  This supports
+> the case where a PCIe device has more than one manager.
+> 
+> Add fpga_mgr_create/free functions.  Change fpga_mgr_register and
+> fpga_mgr_unregister functions to take the mgr struct as their only
+> parameter.
+> 
+>   struct fpga_manager *fpga_mgr_create(struct device *dev,
+>                 const char *name,
+>                 const struct fpga_manager_ops *mops,
+>                 void *priv);
+>   void fpga_mgr_free(struct fpga_manager *mgr);
+>   int fpga_mgr_register(struct fpga_manager *mgr);
+>   void fpga_mgr_unregister(struct fpga_manager *mgr);
+> 
+> Update the drivers that call fpga_mgr_register with the new API.
 
-Add MSI-X support on pcitest tool.
+Apologies for chiming in so late, this commit does not make it clear
+that fpga_mgr_unregister() now also free the 'mgr' argument by calling
+fpga_mgr_free(), this is kind of detail, but an API should make that
+clear IMHO.
 
-Add new callbacks methods and handlers to trigger the MSI-X interrupts
-on the EP DesignWare IP driver.
-
-Allow to set/get MSI-X EP maximum capability number.
-
-Rework on set/get and triggering MSI methods on EP DesignWare IP driver.
-
-Add a new input parameter (msix) to pcitest tool to test MSI-X feature.
-
-Update the pcitest.sh script to support MSI-X feature tests.
-
-[1] -> https://lkml.org/lkml/2018/4/27/342
-
-Gustavo Pimentel (10):
-  PCI: endpoint: Add MSI-X interfaces
-  PCI: dwc: Add MSI-X callbacks handler
-  PCI: cadence: Update cdns_pcie_ep_raise_irq function signature
-  PCI: dwc: Rework MSI callbacks handler
-  PCI: dwc: Add legacy interrupt callback handler
-  misc: pci_endpoint_test: Add MSI-X support
-  misc: pci_endpoint_test: Replace lower into upper case characters
-  PCI: endpoint: functions/pci-epf-test: Replace lower into upper case
-    characters
-  tools: PCI: Add MSI-X support
-  misc: pci_endpoint_test: Use pci_irq_vector function
-
- Documentation/misc-devices/pci-endpoint-test.txt |   3 +
- drivers/misc/pci_endpoint_test.c                 | 147 +++++++++++------
- drivers/pci/cadence/pcie-cadence-ep.c            |   2 +-
- drivers/pci/dwc/pci-dra7xx.c                     |   2 +-
- drivers/pci/dwc/pcie-artpec6.c                   |   2 +-
- drivers/pci/dwc/pcie-designware-ep.c             | 202 +++++++++++++++++++++--
- drivers/pci/dwc/pcie-designware-plat.c           |   7 +-
- drivers/pci/dwc/pcie-designware.h                |  31 ++--
- drivers/pci/endpoint/functions/pci-epf-test.c    | 104 ++++++++----
- drivers/pci/endpoint/pci-ep-cfs.c                |  24 +++
- drivers/pci/endpoint/pci-epc-core.c              |  60 ++++++-
- include/linux/pci-epc.h                          |  11 +-
- include/linux/pci-epf.h                          |   1 +
- include/uapi/linux/pcitest.h                     |   1 +
- tools/pci/pcitest.c                              |  18 +-
- tools/pci/pcitest.sh                             |  25 +++
- 16 files changed, 517 insertions(+), 123 deletions(-)
-
+Thanks
 -- 
-2.7.4
-
-
+Florian
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
