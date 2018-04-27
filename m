@@ -2,226 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3252E7E279
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 21:03:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 39C427DE79
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 27 Apr 2018 22:17:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1759324AbeD0VC4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 27 Apr 2018 17:02:56 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:58500 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1759221AbeD0VAw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Apr 2018 17:00:52 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1759316AbeD0WRN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 27 Apr 2018 18:17:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42042 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1753569AbeD0WRM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Apr 2018 18:17:12 -0400
+Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 228E020D86B;
-        Fri, 27 Apr 2018 21:00:52 +0000 (UTC)
-Received: from llong.com (dhcp-17-164.bos.redhat.com [10.18.17.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CEDAA10B2B46;
-        Fri, 27 Apr 2018 21:00:51 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v6 3/8] sysctl: Warn when a clamped sysctl parameter is set out of range
-Date:   Fri, 27 Apr 2018 17:00:33 -0400
-Message-Id: <1524862838-8247-4-git-send-email-longman@redhat.com>
-In-Reply-To: <1524862838-8247-1-git-send-email-longman@redhat.com>
-References: <1524862838-8247-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 27 Apr 2018 21:00:52 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 27 Apr 2018 21:00:52 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        by mail.kernel.org (Postfix) with ESMTPSA id 477AC2191E;
+        Fri, 27 Apr 2018 22:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 477AC2191E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=rostedt@goodmis.org
+Date:   Fri, 27 Apr 2018 18:17:09 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Masanari Iida <standby24x7@gmail.com>, mingo@redhat.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] linux-next: ftrace/docs: Fix spelling typos in
+ ftrace-users.rst
+Message-ID: <20180427181709.06bc0b1b@gandalf.local.home>
+In-Reply-To: <20171127224636.7c0850d3@gandalf.local.home>
+References: <20171128032613.28315-1-standby24x7@gmail.com>
+        <20171127224636.7c0850d3@gandalf.local.home>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Even with clamped sysctl parameters, it is still not that straight
-forward to figure out the exact range of those parameters. One may
-try to write extreme parameter values to see if they get clamped.
-To make it easier, a warning with the expected range will now be
-printed into the kernel ring buffer when a clamped sysctl parameter
-receives an out of range value.
+I just noticed that this was never applied.
 
-The pr_warn_ratelimited() macro is used to limit the number of warning
-messages that can be printed within a given period of time.
+Jon, can you take this?
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/sysctl.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+-- Steve
 
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 5b84c1d..76b2f1b 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -17,6 +17,7 @@
-  * The list_for_each() macro wasn't appropriate for the sysctl loop.
-  *  Removed it and replaced it with older style, 03/23/00, Bill Wendling
-  */
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/module.h>
- #include <linux/aio.h>
-@@ -2516,6 +2517,7 @@ static int proc_dointvec_minmax_sysadmin(struct ctl_table *table, int write,
-  * @min: pointer to minimum allowable value
-  * @max: pointer to maximum allowable value
-  * @flags: pointer to flags
-+ * @name: sysctl parameter name
-  *
-  * The do_proc_dointvec_minmax_conv_param structure provides the
-  * minimum and maximum values for doing range checking for those sysctl
-@@ -2525,6 +2527,7 @@ struct do_proc_dointvec_minmax_conv_param {
- 	int *min;
- 	int *max;
- 	uint16_t *flags;
-+	const char *name;
- };
- 
- static int do_proc_dointvec_minmax_conv(bool *negp, unsigned long *lvalp,
-@@ -2534,12 +2537,14 @@ static int do_proc_dointvec_minmax_conv(bool *negp, unsigned long *lvalp,
- 	struct do_proc_dointvec_minmax_conv_param *param = data;
- 	if (write) {
- 		int val = *negp ? -*lvalp : *lvalp;
-+		bool clamped = false;
- 		bool clamp = param->flags &&
- 			   (*param->flags & CTL_FLAGS_CLAMP_SIGNED_RANGE);
- 
- 		if (param->min && *param->min > val) {
- 			if (clamp) {
- 				val = *param->min;
-+				clamped = true;
- 			} else {
- 				return -EINVAL;
- 			}
-@@ -2547,11 +2552,17 @@ static int do_proc_dointvec_minmax_conv(bool *negp, unsigned long *lvalp,
- 		if (param->max && *param->max < val) {
- 			if (clamp) {
- 				val = *param->max;
-+				clamped = true;
- 			} else {
- 				return -EINVAL;
- 			}
- 		}
- 		*valp = val;
-+		if (clamped && param->name)
-+			pr_warn_ratelimited("\"%s\" was set out of range [%d, %d], clamped to %d.\n",
-+				param->name,
-+				param->min ? *param->min : -INT_MAX,
-+				param->max ? *param->max :  INT_MAX, val);
- 	} else {
- 		int val = *valp;
- 		if (val < 0) {
-@@ -2589,6 +2600,7 @@ int proc_dointvec_minmax(struct ctl_table *table, int write,
- 		.min = (int *) table->extra1,
- 		.max = (int *) table->extra2,
- 		.flags = &table->flags,
-+		.name  = table->procname,
- 	};
- 	return do_proc_dointvec(table, write, buffer, lenp, ppos,
- 				do_proc_dointvec_minmax_conv, &param);
-@@ -2599,6 +2611,7 @@ int proc_dointvec_minmax(struct ctl_table *table, int write,
-  * @min: pointer to minimum allowable value
-  * @max: pointer to maximum allowable value
-  * @flags: pointer to flags
-+ * @name: sysctl parameter name
-  *
-  * The do_proc_douintvec_minmax_conv_param structure provides the
-  * minimum and maximum values for doing range checking for those sysctl
-@@ -2608,6 +2621,7 @@ struct do_proc_douintvec_minmax_conv_param {
- 	unsigned int *min;
- 	unsigned int *max;
- 	uint16_t *flags;
-+	const char *name;
- };
- 
- static int do_proc_douintvec_minmax_conv(unsigned long *lvalp,
-@@ -2618,6 +2632,7 @@ static int do_proc_douintvec_minmax_conv(unsigned long *lvalp,
- 
- 	if (write) {
- 		unsigned int val = *lvalp;
-+		bool clamped = false;
- 		bool clamp = param->flags &&
- 			   (*param->flags & CTL_FLAGS_CLAMP_UNSIGNED_RANGE);
- 
-@@ -2627,6 +2642,7 @@ static int do_proc_douintvec_minmax_conv(unsigned long *lvalp,
- 		if (param->min && *param->min > val) {
- 			if (clamp) {
- 				val = *param->min;
-+				clamped = true;
- 			} else {
- 				return -ERANGE;
- 			}
-@@ -2634,11 +2650,17 @@ static int do_proc_douintvec_minmax_conv(unsigned long *lvalp,
- 		if (param->max && *param->max < val) {
- 			if (clamp) {
- 				val = *param->max;
-+				clamped = true;
- 			} else {
- 				return -ERANGE;
- 			}
- 		}
- 		*valp = val;
-+		if (clamped && param->name)
-+			pr_warn_ratelimited("\"%s\" was set out of range [%u, %u], clamped to %u.\n",
-+				param->name,
-+				param->min ? *param->min : 0,
-+				param->max ? *param->max : UINT_MAX, val);
- 	} else {
- 		unsigned int val = *valp;
- 		*lvalp = (unsigned long) val;
-@@ -2674,6 +2696,7 @@ int proc_douintvec_minmax(struct ctl_table *table, int write,
- 		.min = (unsigned int *) table->extra1,
- 		.max = (unsigned int *) table->extra2,
- 		.flags = &table->flags,
-+		.name  = table->procname,
- 	};
- 	return do_proc_douintvec(table, write, buffer, lenp, ppos,
- 				 do_proc_douintvec_minmax_conv, &param);
-@@ -2780,6 +2803,7 @@ static int __do_proc_doulongvec_minmax(void *data, struct ctl_table *table, int
- 
- 		if (write) {
- 			bool neg;
-+			bool clamped = false;
- 
- 			left -= proc_skip_spaces(&p);
- 
-@@ -2794,6 +2818,7 @@ static int __do_proc_doulongvec_minmax(void *data, struct ctl_table *table, int
- 			if (min && val < *min) {
- 				if (flags & CTL_FLAGS_CLAMP_UNSIGNED_RANGE) {
- 					val = *min;
-+					clamped = true;
- 				} else {
- 					continue;
- 				}
-@@ -2801,11 +2826,16 @@ static int __do_proc_doulongvec_minmax(void *data, struct ctl_table *table, int
- 			if (max && val > *max) {
- 				if (flags & CTL_FLAGS_CLAMP_UNSIGNED_RANGE) {
- 					val = *max;
-+					clamped = true;
- 				} else {
- 					continue;
- 				}
- 			}
- 			*i = val;
-+			if (clamped && table->procname)
-+				pr_warn_ratelimited("\"%s\" was set out of range [%lu, %lu], clamped to %lu.\n",
-+					table->procname, min ? *min : 0,
-+					max ? *max : ULONG_MAX, val);
- 		} else {
- 			val = convdiv * (*i) / convmul;
- 			if (!first) {
--- 
-1.8.3.1
+
+On Mon, 27 Nov 2017 22:46:36 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
+
+> On Tue, 28 Nov 2017 12:26:13 +0900
+> Masanari Iida <standby24x7@gmail.com> wrote:
+> 
+> > This patch corrects some spelling typo in ftrace-users.rst
+> > 
+> > Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+> > ---
+> >  Documentation/trace/ftrace-uses.rst | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
+> > index 8494a801d341..9df5ee15859a 100644
+> > --- a/Documentation/trace/ftrace-uses.rst
+> > +++ b/Documentation/trace/ftrace-uses.rst
+> > @@ -12,7 +12,7 @@ Written for: 4.14
+> >  Introduction
+> >  ============
+> >  
+> > -The ftrace infrastructure was originially created to attach callbacks to the
+> > +The ftrace infrastructure was originally created to attach callbacks to the
+> >  beginning of functions in order to record and trace the flow of the kernel.
+> >  But callbacks to the start of a function can have other use cases. Either
+> >  for live kernel patching, or for security monitoring. This document describes
+> > @@ -29,7 +29,7 @@ going to idle, during CPU bring up and takedown, or going to user space.
+> >  This requires extra care to what can be done inside a callback. A callback
+> >  can be called outside the protective scope of RCU.
+> >  
+> > -The ftrace infrastructure has some protections agains recursions and RCU
+> > +The ftrace infrastructure has some protections against recursions and RCU
+> >  but one must still be very careful how they use the callbacks.
+> >  
+> >    
+> 
+> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> 
+> -- Steve
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
