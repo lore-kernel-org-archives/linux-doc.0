@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-4.6 required=5.0 tests=DATE_IN_PAST_06_12,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F5087DE79
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Apr 2018 19:41:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 594647DE79
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Apr 2018 19:42:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754386AbeD2TlS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 29 Apr 2018 15:41:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42674 "EHLO mail.kernel.org"
+        id S1754397AbeD2TlW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 29 Apr 2018 15:41:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754253AbeD2Tkc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Apr 2018 15:40:32 -0400
+        id S1754249AbeD2Tkb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Apr 2018 15:40:31 -0400
 Received: from localhost (mobile-166-137-179-035.mycingular.net [166.137.179.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 98B99229F5;
-        Sun, 29 Apr 2018 19:40:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 98B99229F5
+        by mail.kernel.org (Postfix) with ESMTPSA id 9C417229EE;
+        Sun, 29 Apr 2018 19:40:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C417229EE
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=fail smtp.mailfrom=gregkh@linuxfoundation.org
-Date:   Sun, 29 Apr 2018 15:37:00 +0200
+Date:   Sun, 29 Apr 2018 15:36:42 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Boris Brezillon <boris.brezillon@bootlin.com>
 Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
@@ -48,42 +48,44 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 03/10] i3c: Add sysfs ABI spec
-Message-ID: <20180429133700.GD28913@kroah.com>
+Subject: Re: [PATCH v4 00/10] Add the I3C subsystem
+Message-ID: <20180429133642.GC28913@kroah.com>
 References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
- <20180330074751.25987-4-boris.brezillon@bootlin.com>
+ <20180423193814.5c8ca75a@bbrezillon>
+ <20180423175646.GA23210@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180330074751.25987-4-boris.brezillon@bootlin.com>
+In-Reply-To: <20180423175646.GA23210@kroah.com>
 User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 30, 2018 at 09:47:44AM +0200, Boris Brezillon wrote:
-> Document sysfs files/directories/symlinks exposed by the I3C subsystem.
+On Mon, Apr 23, 2018 at 07:56:46PM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Apr 23, 2018 at 07:38:14PM +0200, Boris Brezillon wrote:
+> > Hi,
+> > 
+> > On Fri, 30 Mar 2018 09:47:41 +0200
+> > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> > 
+> > > This patch series is a proposal for a new I3C subsystem.
+> > 
+> > This v4 has been sent almost a month ago and I didn't get any feedback
+> > so far apart from Rob's R-b. Greg, is there any chance we can get these
+> > patches merged in 4.18? If not, could you tell me what should be
+> > addressed/improved/reworked?
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
-> ---
-> Changes in v2:
-> - new patch
-> ---
->  Documentation/ABI/testing/sysfs-bus-i3c | 95 +++++++++++++++++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
-> new file mode 100644
-> index 000000000000..5e88cc093e0e
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-bus-i3c
-> @@ -0,0 +1,95 @@
-> +What:		/sys/bus/i3c/devices/i3c-<bus-id>
-> +KernelVersion:  4.16
+> I'll look over it later this week, thanks.
 
-Wrong kernel versions :)
+At first glance, it would be great to have at least one other
+reviewed-by or signed-off-by on the main code here.  I don't want to be
+the only one to have to review it :)
+
+thanks,
+
+greg k-h
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
