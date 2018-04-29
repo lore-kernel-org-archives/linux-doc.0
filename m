@@ -2,32 +2,31 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A70107E22E
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Apr 2018 15:55:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9FEFF7E22E
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Apr 2018 16:52:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753404AbeD2PzC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 29 Apr 2018 11:55:02 -0400
-Received: from mga14.intel.com ([192.55.52.115]:19764 "EHLO mga14.intel.com"
+        id S1753845AbeD2QwX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 29 Apr 2018 12:52:23 -0400
+Received: from mga07.intel.com ([134.134.136.100]:52721 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753393AbeD2PzB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Apr 2018 11:55:01 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+        id S1753550AbeD2QwV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Apr 2018 12:52:21 -0400
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Apr 2018 08:55:00 -0700
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Apr 2018 09:52:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,343,1520924400"; 
-   d="gz'50?scan'50,208,50";a="37348186"
+   d="gz'50?scan'50,208,50";a="50073407"
 Received: from bee.sh.intel.com (HELO bee) ([10.239.97.14])
-  by orsmga008.jf.intel.com with ESMTP; 29 Apr 2018 08:54:57 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 29 Apr 2018 09:52:17 -0700
 Received: from kbuild by bee with local (Exim 4.84_2)
         (envelope-from <fengguang.wu@intel.com>)
-        id 1fCofA-000F8D-Vr; Sun, 29 Apr 2018 23:54:57 +0800
-Date:   Sun, 29 Apr 2018 23:54:11 +0800
+        id 1fCpYe-000LyC-1X; Mon, 30 Apr 2018 00:52:16 +0800
+Date:   Mon, 30 Apr 2018 00:51:42 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Waiman Long <longman@redhat.com>
 Cc:     kbuild-all@01.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
@@ -39,14 +38,14 @@ Cc:     kbuild-all@01.org, "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v6 7/8] ipc: Allow boot time extension of IPCMNI from 32k
- to 2M
-Message-ID: <201804292324.cdD5Qhyl%fengguang.wu@intel.com>
-References: <1524862838-8247-8-git-send-email-longman@redhat.com>
+Subject: Re: [PATCH v6 8/8] ipc: Conserve sequence numbers in extended IPCMNI
+ mode
+Message-ID: <201804300004.LLdT0dsp%fengguang.wu@intel.com>
+References: <1524862838-8247-9-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="huq684BweRXVnRxX"
+Content-Type: multipart/mixed; boundary="RnlQjJ0d97Da+TV1"
 Content-Disposition: inline
-In-Reply-To: <1524862838-8247-8-git-send-email-longman@redhat.com>
+In-Reply-To: <1524862838-8247-9-git-send-email-longman@redhat.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 X-SA-Exim-Connect-IP: <locally generated>
 X-SA-Exim-Mail-From: fengguang.wu@intel.com
@@ -57,7 +56,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---huq684BweRXVnRxX
+--RnlQjJ0d97Da+TV1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -81,34 +80,38 @@ reproduce:
 All errors (new ones prefixed by >>):
 
    ipc/util.o: In function `sysvipc_find_ipc':
->> util.c:(.text+0x2ca): undefined reference to `ipc_mni'
+   util.c:(.text+0x2ca): undefined reference to `ipc_mni'
+   ipc/util.o: In function `ipc_init_ids':
+>> util.c:(.text+0x3e2): undefined reference to `ipc_mni_extended'
    ipc/util.o: In function `ipc_addid':
-   util.c:(.text+0x448): undefined reference to `ipc_mni'
->> util.c:(.text+0x6d6): undefined reference to `ipc_mni_shift'
+   util.c:(.text+0x458): undefined reference to `ipc_mni'
+   util.c:(.text+0x6d8): undefined reference to `ipc_mni_extended'
+   util.c:(.text+0x6f0): undefined reference to `ipc_mni_shift'
+   util.c:(.text+0x714): undefined reference to `ipc_mni_shift'
    ipc/util.o: In function `ipc_rmid':
-   util.c:(.text+0x712): undefined reference to `ipc_mni_shift'
+   util.c:(.text+0x736): undefined reference to `ipc_mni_shift'
    ipc/util.o: In function `ipc_obtain_object_idr':
-   util.c:(.text+0x97c): undefined reference to `ipc_mni_shift'
+   util.c:(.text+0x9a6): undefined reference to `ipc_mni_shift'
    ipc/util.o: In function `ipc_obtain_object_check':
-   util.c:(.text+0x9f0): undefined reference to `ipc_mni_shift'
+   util.c:(.text+0xa1a): undefined reference to `ipc_mni_shift'
    ipc/msg.o: In function `ksys_msgctl':
->> msg.c:(.text+0x4da): undefined reference to `ipc_mni'
+   msg.c:(.text+0x4da): undefined reference to `ipc_mni'
    ipc/sem.o: In function `semctl_info.isra.3':
->> sem.c:(.text+0x91c): undefined reference to `ipc_mni'
+   sem.c:(.text+0x91c): undefined reference to `ipc_mni'
    ipc/shm.o: In function `ksys_shmctl':
->> shm.c:(.text+0xa36): undefined reference to `ipc_mni'
+   shm.c:(.text+0xa36): undefined reference to `ipc_mni'
    shm.c:(.text+0xb0a): undefined reference to `ipc_mni'
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---huq684BweRXVnRxX
+--RnlQjJ0d97Da+TV1
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICO/k5VoAAy5jb25maWcAjFzrk9q4sv9+/grXbtWt3Q/ZMMwjk7o1H2RZxlpsy2PJwMwX
+H4sICB7z5VoAAy5jb25maWcAjFzrk9q4sv9+/grXbtWt3Q/ZMMwjk7o1H2RZxlpsy2PJwMwX
 F2FIQoUBDo9zkv/+dksY/JC8d6uyDOqWLEv9+HWrxe//+t0jp+P2fX5cLebr9S/v23Kz3M+P
 yzfv62q9/F8vEF4qlMcCrv4C5ni1Of38+P7w+MO7++vm01+DD/vF0Bsv95vl2qPbzdfVtxN0
 X203//r9X1SkIR+VycPj+OlX9Y1mRenDJ0sDTtJrez6VLClHLGU5p6XMeBoLWutXUaIp46NI
@@ -237,7 +240,7 @@ KjE/VcJovI6zNOjOLWZ2H4MXZPMl8azrju8MDd6jgjbDJJIqeLzxfNRSKD0xLEIvaDVFjoA4
 2pa0MZT+pOhJFLCOgvTvl/askZ+JJ3g23mPhkmvOw8MTLERf8RG0JvFMI1Z9iV9ehXcpqkAT
 Pw6bWv9CwamKO85pX2/rkHANKCQU/NcBWAft6WZqD19aVyD23Mc3Gf8Bvf0ngxVjAAA=
 
---huq684BweRXVnRxX--
+--RnlQjJ0d97Da+TV1--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
