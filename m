@@ -1,87 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=5.0 tests=DATE_IN_PAST_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 594647DE79
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 29 Apr 2018 19:42:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 931BF7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Apr 2018 00:09:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754397AbeD2TlW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 29 Apr 2018 15:41:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42628 "EHLO mail.kernel.org"
+        id S1754511AbeD3AJZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 29 Apr 2018 20:09:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754249AbeD2Tkb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Apr 2018 15:40:31 -0400
-Received: from localhost (mobile-166-137-179-035.mycingular.net [166.137.179.35])
+        id S1754409AbeD3AJY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Apr 2018 20:09:24 -0400
+Received: from localhost (unknown [12.46.108.250])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C417229EE;
-        Sun, 29 Apr 2018 19:40:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9C417229EE
+        by mail.kernel.org (Postfix) with ESMTPSA id B6E3622A01;
+        Mon, 30 Apr 2018 00:09:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B6E3622A01
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=fail smtp.mailfrom=gregkh@linuxfoundation.org
-Date:   Sun, 29 Apr 2018 15:36:42 +0200
+Date:   Sun, 29 Apr 2018 17:09:14 -0700
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 00/10] Add the I3C subsystem
-Message-ID: <20180429133642.GC28913@kroah.com>
-References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
- <20180423193814.5c8ca75a@bbrezillon>
- <20180423175646.GA23210@kroah.com>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        DOCUMENTATION <linux-doc@vger.kernel.org>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Andrew Morton <akpm@linuxfoundation.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Rob Herring <rob.herring@linaro.org>,
+        Jonas Oberg <jonas@fsfe.org>, Joe Perches <joe@perches.com>,
+        linux-xfs@vger.kernel.org,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>
+Subject: Re: LICENSES: Missing ISC text & possibly a category ("Not
+ recommended" vs. "Preferred licenses")
+Message-ID: <20180430000914.GB29548@kroah.com>
+References: <CACna6rz_Ms2Uv1P6E0gCGNsRwK4nm=PMAOaJ5Uk9aJxs2VSamQ@mail.gmail.com>
+ <20180429052617.GC24294@kroah.com>
+ <CACna6rw0R7j9pkFnUKnJFcudoZ2n1r1Dig4xSpj+n7e9Qo129w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20180423175646.GA23210@kroah.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACna6rw0R7j9pkFnUKnJFcudoZ2n1r1Dig4xSpj+n7e9Qo129w@mail.gmail.com>
 User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 23, 2018 at 07:56:46PM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Apr 23, 2018 at 07:38:14PM +0200, Boris Brezillon wrote:
-> > Hi,
-> > 
-> > On Fri, 30 Mar 2018 09:47:41 +0200
-> > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> > 
-> > > This patch series is a proposal for a new I3C subsystem.
-> > 
-> > This v4 has been sent almost a month ago and I didn't get any feedback
-> > so far apart from Rob's R-b. Greg, is there any chance we can get these
-> > patches merged in 4.18? If not, could you tell me what should be
-> > addressed/improved/reworked?
+On Sun, Apr 29, 2018 at 12:15:11PM +0200, Rafał Miłecki wrote:
+> On 29 April 2018 at 07:26, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Sat, Apr 28, 2018 at 11:25:17PM +0200, Rafał Miłecki wrote:
+> >> Due to some maintainers *preferring* BSD-compatible license for DTS
+> >> files [0], I was writing mine using ISC. I had no very special reason
+> >> for it: I was choosing between BSD-2-Clause, MIT and ISC. I've chosen
+> >> ISC as I read about its "removal of language deemed unnecessary".
+> >>
+> >> I took a moment to look at the new SPDX thing and noticed that:
+> >> 1) File license-rules.rst provides "LICENSES/other/ISC" as an example
+> >
+> > Yeah, bad example, we should fix that text up.  Care to send a patch? :)
 > 
-> I'll look over it later this week, thanks.
+> Sure. I see that license-rules.rst also refers to LICENSES/other/ZLib
+> which also doesn't exist.
+> 
+> As "other" directory contains only GPL-1.0 and MPL-1.1 I guess one of
+> these should be referenced.
 
-At first glance, it would be great to have at least one other
-reviewed-by or signed-off-by on the main code here.  I don't want to be
-the only one to have to review it :)
+See the patch set that Thomas has posted to hopefully resolve these
+issues.  I think they are all now taken care of with that series.
+
+> >> 2) License file LICENSES/other/ISC doesn't exist
+> >> 3) ISC is listed as an *example* under the "Not recommended licenses"
+> >
+> > Yes, please don't use it if at all possible.
+> >
+> >> First of all, as ISC is used by some files in the Linux kernel, I
+> >> think it's worth adding to the LICENSE/*/ISC.
+> >
+> > I see it is only used in a very small number of dts files.  Why not just
+> > use BSD-2-Clause instead?  What do you find in ISC that is not available
+> > to you with just BSD?
+> 
+> As said, I read about its "removal of language deemed unnecessary". I
+> assumed that the simpler license text the better.
+
+Simple up to a point, having loads of different licenses is a mess, as
+you are finding out :)
+
+> >> Secondly, it isn't 100% clear to me if ISC is preferred or not
+> >> recommended. File license-rules.rst suggests the later by listing it
+> >> as an example for "Not recommended". It's just an example though, so
+> >> I'm not 100% sure without seeing it in either: "preferred" or "other"
+> >> directories. Also if anyone finds it "Not recommended", can we get a
+> >> short explanation why is it so, please?
+> >
+> > The license is functionally equalivant to BSD-2, so why would you want
+> > to add more complexity here and have two licenses that are the same be
+> > "recommended"?
+> 
+> I don't insist on it, I'm trying to figure out what's the best for the
+> Linux community.
+> 
+> On the other hand I could ask why do we want more complexity by having
+> MIT license. It's very similar to the BSD-2-Clause after all. AFAIK
+> the only minor differences are that:
+> 1) MIT clearly allows sublicensing
+> 2) BSD 2-Clause clearly requires distributing *binaries* with
+> copyrights + license text
+
+I think you will find more dual-licensed MIT code in the tree already
+than ISC, right?
+
+And really, in the end, the odds of someone taking this code _out_ of
+the tree and using it only under a non-GPLv2 license is slim, to none,
+so it's best to just stick with the common licenses, as long as they
+match what you wish the code to abide by.  As you want to follow what
+MIT says, then just use that and all should be good, right?
 
 thanks,
 
