@@ -1,163 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD56F7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Apr 2018 09:52:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 218917DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Apr 2018 15:35:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752501AbeD3JwF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Apr 2018 05:52:05 -0400
-Received: from mail-wr0-f195.google.com ([209.85.128.195]:46351 "EHLO
-        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751513AbeD3JwD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Apr 2018 05:52:03 -0400
-Received: by mail-wr0-f195.google.com with SMTP id o2-v6so4535238wrj.13;
-        Mon, 30 Apr 2018 02:52:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wT74rgCsD1mNwP5LYNX6hwgUMiGnfTDE1Mk9TZ12klM=;
-        b=GsLv83/WgplR4EEcsrv8+spjgZsrJig4Vn+n8sn6mL6NVEvdDTOkZD0FQchFXQvg4F
-         iDg4aOGXOGJqYNbI70LLX4mS1YcwZXZAyv0W5wff1hvhLXZpKAZc3DapatM4bgPnt8tf
-         nMSOyPdjCQCylE4IilXCyGmRKPWIPk0uGerVfGc4MWQD1qjT2yNL+T3jGGlc/yFGDdOb
-         kdJbe+c9Wr+x45dke46o9XP1s7c1qsRRzIhPnbEVlW5aITDU2TlL9uvSO1KUVR9meMdl
-         kTdJzrHqfpcgIWIJbSdsC/hIsFUQ6x9EVLRTgWnkFK/Nqchy2FYLopOSn4dDpskzcJSl
-         C8Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wT74rgCsD1mNwP5LYNX6hwgUMiGnfTDE1Mk9TZ12klM=;
-        b=FXd/rRzdxyRz5doF3bImIyxwhjiE52U1SSdyK0JtC0JGvjuYmbPCxiJDJiI4ykB0Dr
-         Uho40mYLISuKhNWOkuia4LhCkuyiGrx6DaRtEKKHkSEKGIiA7O/+MsEGj6Jz+oS7Uh8a
-         +0TXYAdEF4Y5ss/OJwUsaI52AUUVyGD3DC/vtNI6vhRS+Ll7oDAaBram5qwVRMMtcr1e
-         Z/o9JTT/DW0XMbA/aEfcDBx18CuoGb4jMfWuw607vKB6sjvp8IsH60LLse6k0FCIEfv+
-         pKwuLQzwolK8ebPw3tJ8aYzl+/oxC5GnqfFeeh1AwXN3+myJUBEfK4kjOGtePF43k4ve
-         tDSg==
-X-Gm-Message-State: ALQs6tCYonhR2n3h0ElcuGEzxdezqnMmLk8rZQm26QggqCTh5dgEekG/
-        hu3lA7ffi++5j8+TTA1WQl8=
-X-Google-Smtp-Source: AB8JxZqjkRatoThS6f8A7TvuGDJlcDG9CSgN+lURYRBO4Kg+67ZVdy+zeVvXa5loHgKNyXq5rTDaMw==
-X-Received: by 2002:adf:adf0:: with SMTP id w103-v6mr8860635wrc.101.1525081921346;
-        Mon, 30 Apr 2018 02:52:01 -0700 (PDT)
-Received: from localhost (p200300E41F041C0032947E635CB49D15.dip0.t-ipconnect.de. [2003:e4:1f04:1c00:3294:7e63:5cb4:9d15])
-        by smtp.gmail.com with ESMTPSA id u8sm6897913wmf.3.2018.04.30.02.52.00
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 30 Apr 2018 02:52:00 -0700 (PDT)
-Date:   Mon, 30 Apr 2018 11:51:59 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Rajkumar Rampelli <rrajk@nvidia.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, jonathanh@nvidia.com,
-        jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
-        catalin.marinas@arm.com, will.deacon@arm.com,
-        kstewart@linuxfoundation.org, gregkh@linuxfoundation.org,
-        pombredanne@nexb.com, mmaddireddy@nvidia.com,
-        mperttunen@nvidia.com, arnd@arndb.de, timur@codeaurora.org,
-        andy.gross@linaro.org, xuwei5@hisilicon.com, elder@linaro.org,
-        heiko@sntech.de, krzk@kernel.org, ard.biesheuvel@linaro.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, ldewangan@nvidia.com
-Subject: Re: [PATCH V2 1/9] pwm: core: Add support for PWM HW driver with pwm
- capture only
-Message-ID: <20180430095159.GD2476@ulmo>
-References: <1521607244-29734-1-git-send-email-rrajk@nvidia.com>
- <1521607244-29734-2-git-send-email-rrajk@nvidia.com>
+        id S1754626AbeD3Pf0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 30 Apr 2018 11:35:26 -0400
+Received: from mail-bl2nam02on0083.outbound.protection.outlook.com ([104.47.38.83]:12704
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1753981AbeD3PfY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 30 Apr 2018 11:35:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=qOSW8yFnNeOnVGH64AALOWvP9jEv5Ul/Qpfu1+2DkAc=;
+ b=KMeYKGuuk0oEvPMOpeDkzh4N5ZDxcq3RiP023JCe2l/vDqqcOGZ4/1t8JG/DfzEJDJD4G9VrqrmMpSCYYlX7cEsP15ANF4He44xuxWjs1L4ckgMaVzAJJIIHTWa2R025C3jXkRSfe6rFjMHj0U3vyv35aAL/VGC4jgUFNon6dQ4=
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com (52.135.94.11) by
+ SN6PR07MB4158.namprd07.prod.outlook.com (52.135.90.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.715.20; Mon, 30 Apr 2018 15:35:21 +0000
+Received: from SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98]) by SN6PR07MB4512.namprd07.prod.outlook.com
+ ([fe80::619b:e1c4:c2d0:7e98%13]) with mapi id 15.20.0715.023; Mon, 30 Apr
+ 2018 15:35:21 +0000
+From:   Alan Douglas <adouglas@cadence.com>
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 06/10] misc: pci_endpoint_test: Add MSI-X support
+Thread-Topic: [PATCH 06/10] misc: pci_endpoint_test: Add MSI-X support
+Thread-Index: AQHT3kjnoUS1owtVlUeEwdvSd4Gb5qQZc7ag
+Date:   Mon, 30 Apr 2018 15:35:21 +0000
+Message-ID: <SN6PR07MB45124A237879C78453495C50D8820@SN6PR07MB4512.namprd07.prod.outlook.com>
+References: <cover.1524845816.git.gustavo.pimentel@synopsys.com>
+ <633ea6faef782de5ea753bffe5028aceff09115a.1524845816.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <633ea6faef782de5ea753bffe5028aceff09115a.1524845816.git.gustavo.pimentel@synopsys.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWRvdWdsYXNcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0xN2M3MTZiZC00YzhjLTExZTgtODZlNS1mNDk2MzQ4NmY0ZWNcYW1lLXRlc3RcMTdjNzE2YmUtNGM4Yy0xMWU4LTg2ZTUtZjQ5NjM0ODZmNGVjYm9keS50eHQiIHN6PSIxMDc2IiB0PSIxMzE2OTU3NjEyMjMyNTIxMjkiIGg9IlFBK3dxYlNJb21hTXJoMHE3UTdobEVRVWZ3ST0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=adouglas@cadence.com; 
+x-originating-ip: [59.145.174.78]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;SN6PR07MB4158;7:SVjw1clP2gJdZYMUdNwMWWJIaTaby/NBuR+M9x9VWqoiQPLAy1PRzzdVyDjda+DMOZq9I8ksVhuT408T8YsHz03RYhYdifMSMJFgtlnH+aYRr8ihRWkIygUjLe2d7FRj+rqYACNncw6xXLleIeJYIctnn1ZFs6C3iVXfnM+6UM0f/B/tgbwfrC9hEuRDgooCJCPMKGTVzZ9YbgRiEHWReh+VD0gw70z7/D46Pwbdvkn9cyM6w88PJw3ynSPtf6fK;20:WwAR1Oy6C7Bw1Fpx0yza0JvK0V/SYxs/LaE3TNbn7VUVxZ9AcmBgzsFUUoELAxy05V/OK3Z6bpB/XtlkBqbCgXhoPAXWuCuqp7u2QwdNeymnevWmTRxxa6v2oz6Ad4DVteAYw3oAOSSoicfg8b5Kiq44mz2hjJ6kLr5Ba70na22MVeuD8SxPCoCoYXomiiUWt8fQqrlDFC/1Tu2mD1AY0oFCeNWuNFCbGpQLsl4dwDCG+CxovJwEsyQZ2p8gqb8z
+x-ms-exchange-antispam-srfa-diagnostics: SOS;
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4158;
+x-ms-traffictypediagnostic: SN6PR07MB4158:
+x-microsoft-antispam-prvs: <SN6PR07MB4158210B44193F7316BC6C12D8820@SN6PR07MB4158.namprd07.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231254)(944501410)(52105095)(3002001)(10201501046)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123564045)(20161123560045)(6072148)(201708071742011);SRVR:SN6PR07MB4158;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4158;
+x-forefront-prvs: 0658BAF71F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(39380400002)(366004)(396003)(39860400002)(346002)(189003)(199004)(36092001)(5660300001)(2900100001)(2201001)(6246003)(7416002)(6116002)(8676002)(74316002)(3846002)(66066001)(7696005)(2501003)(4326008)(305945005)(3280700002)(39060400002)(81156014)(8936002)(6436002)(7736002)(68736007)(81166006)(5250100002)(86362001)(99286004)(14454004)(54906003)(110136005)(102836004)(486006)(53936002)(106356001)(229853002)(6506007)(59450400001)(316002)(76176011)(9686003)(33656002)(105586002)(2906002)(186003)(26005)(25786009)(97736004)(11346002)(3660700001)(446003)(476003)(55016002)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4158;H:SN6PR07MB4512.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: cadence.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: 2sK84uF9jrMhdIBNMPkgOJ3Uw8VnFwpPwqLGDbevV80qhcTDRLeLiYjoEZFdEBYaaClITNkb7yXVun9cHuVmHba5iYSaLuVOs85KgSEisvwB/CKyFv0gS0eXNISxqTcz3wYxoyjdT+sNTCMGV9rF0xDZM4R6nzIDF9xthe6Nn0bh+4XUiqaW3jTV0LX2rMOp3eTZrKlveSqOOvmecIVAUA==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="+B+y8wtTXqdUj1xM"
-Content-Disposition: inline
-In-Reply-To: <1521607244-29734-2-git-send-email-rrajk@nvidia.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+X-MS-Office365-Filtering-Correlation-Id: 54fbac87-552e-45ac-2372-08d5aeaffc3e
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54fbac87-552e-45ac-2372-08d5aeaffc3e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2018 15:35:21.6296
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4158
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Gustavo,
 
---+B+y8wtTXqdUj1xM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Mar 21, 2018 at 10:10:36AM +0530, Rajkumar Rampelli wrote:
-> Add support for pwm HW driver which has only capture functionality.
-> This helps to implement the PWM based Tachometer driver which reads
-> the PWM output signals from electronic fans.
+On April 27, 2018, 4:57 p.m. Gustavo Pimentel wrote:
+> Add MSI-X support and update driver documentation accordingly.
 >=20
-> PWM Tachometer captures the period and duty cycle of the PWM signal
+> Add new driver parameter to allow interruption type selection.
 >=20
-> Add conditional checks for callabacks enable(), disable(), config()
-> to check if they are supported by the client driver or not. Skip these
-> callbacks if they are not supported.
+> Modify the Legacy/MSI/MSI-X test process, by:
+>  - Add and use a specific register located in a BAR, which defines the in=
+terrupt
+> type is been triggered.
+>  - Move the interrupt ID number from the command section to a register
+> located in a BAR.
 >=20
-> Signed-off-by: Rajkumar Rampelli <rrajk@nvidia.com>
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 > ---
+>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>  drivers/misc/pci_endpoint_test.c                 | 121 +++++++++++++++--=
+------
+>  drivers/pci/endpoint/functions/pci-epf-test.c    |  78 +++++++++++----
+>  3 files changed, 143 insertions(+), 59 deletions(-)
 >=20
-> V2: Added if conditional checks for pwm callbacks since drivers may
->     implements only pwm capture functionality.
->=20
->  drivers/pwm/core.c | 21 +++++++++++++++------
->  1 file changed, 15 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index 1581f6a..f70fe68 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -246,6 +246,10 @@ static bool pwm_ops_check(const struct pwm_ops *ops)
->  	if (ops->apply)
->  		return true;
-> =20
-> +	/* driver supports capture operation */
-> +	if (ops->capture)
-> +		return true;
-> +
->  	return false;
->  }
-> =20
-> @@ -495,7 +499,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct pw=
-m_state *state)
->  			 * ->apply().
->  			 */
->  			if (pwm->state.enabled) {
-> -				pwm->chip->ops->disable(pwm->chip, pwm);
-> +				if (pwm->chip->ops->disable)
-> +					pwm->chip->ops->disable(pwm->chip, pwm);
+In testing these changes  I found that pci_epc_raise_irq() also needs to be
+updated in pci-epc-core.c, since it has interrupt_num parameter as u8
 
-This is not a good idea. It means that you'll be able to successfully
-configure a capture-only PWM channel for output. I think all of the
-output configuration functions should return an error (-ENOSYS?) for
-capture-only devices, much like we return -ENOSYS for pwm_capture() if
-the driver doesn't implement capture support.
-
-Thierry
-
---+B+y8wtTXqdUj1xM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlrm5z8ACgkQ3SOs138+
-s6GW/A/+MImm7BmQSd+UOQUP4N0vddntkXN9FGKsxb1wIZPQBPMKfmH5xpBzfb61
-hz1s8KLWOpgqEZQVs7eVp2ICQEOXNgwKdCWbHPsHIU+FUf5zd1ESd7rNu9IrddhR
-ZM2lU8YGaREnIFPt2dFpjLVuXA8ak7id02RdeoylpLRaTlgcdE3q1AEY5ewnTNRn
-JLI4eEroYAfwtJVC5PSvdZvD5Diq2H+ASe+McYSAbTg8+rHQ3w4KMmTIKoEiv4Us
-UCwF89+zCm3K+AVcvdCe2jBSc2OtZm6QXY9BrhIBnGf4D9fGWBTQ0cmZpHtcxHhf
-YOqyb+tM1rFgZutFgcrJ2fmFRZp2wrJjGByilhwEWfrdM57zrCQSLPWdnELOIETM
-4aGyI1cmKc2DIdXI4Ksv7PRN3LBvvxq8H0Revozmi1MfNWrcB2Qr7sgvBNYTHTfi
-T5TWD8oWJ6rs9E+JUJd7SU2fimoDft7i7bbA26mKFN65Y+i7jgCi3d/lTDhVMMA0
-nby4wCgKDGnTK9vXsNK93WhUB5R3d6jXAgOePb3UotYIcE2z4hUv8I0Rp24PJWh4
-s4zL38OPugoEI0iPfTodURu1m7F1QK2wOdd48OzQBRiQ9nFXywm8KLVxVLZoSck6
-xsY1+I848Lu/UNHULnbaCY163rDTcM9/PJwRFrnuCA2Lpr/9M/s=
-=yusN
------END PGP SIGNATURE-----
-
---+B+y8wtTXqdUj1xM--
+Thanks,
+Alan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
