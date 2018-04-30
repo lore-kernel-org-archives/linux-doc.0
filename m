@@ -1,136 +1,389 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 931BF7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Apr 2018 00:09:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BEB587E22E
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Apr 2018 01:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754511AbeD3AJZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 29 Apr 2018 20:09:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57236 "EHLO mail.kernel.org"
+        id S1753672AbeD3BuS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 29 Apr 2018 21:50:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58428 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754409AbeD3AJY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 29 Apr 2018 20:09:24 -0400
-Received: from localhost (unknown [12.46.108.250])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B6E3622A01;
-        Mon, 30 Apr 2018 00:09:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B6E3622A01
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: mail.kernel.org; spf=fail smtp.mailfrom=gregkh@linuxfoundation.org
-Date:   Sun, 29 Apr 2018 17:09:14 -0700
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1753659AbeD3BuQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 29 Apr 2018 21:50:16 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (charybdis-ext.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 3B884ACE6;
+        Mon, 30 Apr 2018 01:50:15 +0000 (UTC)
+From:   NeilBrown <neilb@suse.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        DOCUMENTATION <linux-doc@vger.kernel.org>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Andrew Morton <akpm@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Rob Herring <rob.herring@linaro.org>,
-        Jonas Oberg <jonas@fsfe.org>, Joe Perches <joe@perches.com>,
-        linux-xfs@vger.kernel.org,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>
-Subject: Re: LICENSES: Missing ISC text & possibly a category ("Not
- recommended" vs. "Preferred licenses")
-Message-ID: <20180430000914.GB29548@kroah.com>
-References: <CACna6rz_Ms2Uv1P6E0gCGNsRwK4nm=PMAOaJ5Uk9aJxs2VSamQ@mail.gmail.com>
- <20180429052617.GC24294@kroah.com>
- <CACna6rw0R7j9pkFnUKnJFcudoZ2n1r1Dig4xSpj+n7e9Qo129w@mail.gmail.com>
+        Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 30 Apr 2018 11:50:04 +1000
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH resend] VFS: simplify seq_file iteration code and interface
+In-Reply-To: <87vacsrt0r.fsf@notabene.neil.brown.name>
+References: <87vacsrt0r.fsf@notabene.neil.brown.name>
+Message-ID: <87fu3dihtf.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACna6rw0R7j9pkFnUKnJFcudoZ2n1r1Dig4xSpj+n7e9Qo129w@mail.gmail.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 29, 2018 at 12:15:11PM +0200, Rafał Miłecki wrote:
-> On 29 April 2018 at 07:26, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Sat, Apr 28, 2018 at 11:25:17PM +0200, Rafał Miłecki wrote:
-> >> Due to some maintainers *preferring* BSD-compatible license for DTS
-> >> files [0], I was writing mine using ISC. I had no very special reason
-> >> for it: I was choosing between BSD-2-Clause, MIT and ISC. I've chosen
-> >> ISC as I read about its "removal of language deemed unnecessary".
-> >>
-> >> I took a moment to look at the new SPDX thing and noticed that:
-> >> 1) File license-rules.rst provides "LICENSES/other/ISC" as an example
-> >
-> > Yeah, bad example, we should fix that text up.  Care to send a patch? :)
-> 
-> Sure. I see that license-rules.rst also refers to LICENSES/other/ZLib
-> which also doesn't exist.
-> 
-> As "other" directory contains only GPL-1.0 and MPL-1.1 I guess one of
-> these should be referenced.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-See the patch set that Thomas has posted to hopefully resolve these
-issues.  I think they are all now taken care of with that series.
 
-> >> 2) License file LICENSES/other/ISC doesn't exist
-> >> 3) ISC is listed as an *example* under the "Not recommended licenses"
-> >
-> > Yes, please don't use it if at all possible.
-> >
-> >> First of all, as ISC is used by some files in the Linux kernel, I
-> >> think it's worth adding to the LICENSE/*/ISC.
-> >
-> > I see it is only used in a very small number of dts files.  Why not just
-> > use BSD-2-Clause instead?  What do you find in ISC that is not available
-> > to you with just BSD?
-> 
-> As said, I read about its "removal of language deemed unnecessary". I
-> assumed that the simpler license text the better.
+Just resending after 2 weeks silence, in case it fell through a crack.
+Thanks,
+NeilBrown
 
-Simple up to a point, having loads of different licenses is a mess, as
-you are finding out :)
+("git am -c" understands this line)
+=2D-----------------8<-------------
 
-> >> Secondly, it isn't 100% clear to me if ISC is preferred or not
-> >> recommended. File license-rules.rst suggests the later by listing it
-> >> as an example for "Not recommended". It's just an example though, so
-> >> I'm not 100% sure without seeing it in either: "preferred" or "other"
-> >> directories. Also if anyone finds it "Not recommended", can we get a
-> >> short explanation why is it so, please?
-> >
-> > The license is functionally equalivant to BSD-2, so why would you want
-> > to add more complexity here and have two licenses that are the same be
-> > "recommended"?
-> 
-> I don't insist on it, I'm trying to figure out what's the best for the
-> Linux community.
-> 
-> On the other hand I could ask why do we want more complexity by having
-> MIT license. It's very similar to the BSD-2-Clause after all. AFAIK
-> the only minor differences are that:
-> 1) MIT clearly allows sublicensing
-> 2) BSD 2-Clause clearly requires distributing *binaries* with
-> copyrights + license text
+The documentation for seq_file suggests that it is necessary to be
+able to move the iterator to a given offset, however that is not the
+case.  If the iterator is stored in the private data and is stable
+from one read() syscall to the next, it is only necessary to support
+first/next interactions.  Implementing this in a client is a little
+clumsy.
+=2D if ->start() is given a pos of zero, it should go to start of
+  sequence.
+=2D if ->start() is given the name pos that was given to the most recent
+  next() or start(), it should restore the iterator to state just
+  before that last call
+=2D if ->start is given another number, it should set the iterator one
+  beyond the start just before the last ->start or ->next call.
 
-I think you will find more dual-licensed MIT code in the tree already
-than ISC, right?
 
-And really, in the end, the odds of someone taking this code _out_ of
-the tree and using it only under a non-GPLv2 license is slim, to none,
-so it's best to just stick with the common licenses, as long as they
-match what you wish the code to abide by.  As you want to follow what
-MIT says, then just use that and all should be good, right?
+Also, the documentation says that the implementation can interpret the
+pos however it likes (other than zero meaning start), but seq_file
+increments the pos sometimes which does impose on the implementation.
 
-thanks,
+This patch simplifies the interface for first/next iteration and
+simplifies the code, while maintaining complete backward
+compatability.  Now:
 
-greg k-h
+=2D if ->start() is given a pos of zero, it should return an iterator
+  placed at the start of the sequence
+=2D if ->start() is given a non-zero pos, it should return the iterator
+  in the same state it was after the last ->start or ->next.
+
+This is particularly useful for interators which walk the multiple
+chains in a hash table, e.g. using rhashtable_walk*. See
+fs/gfs2/glock.c and drivers/staging/lustre/lustre/llite/vvp_dev.c
+
+A large part of achieving this is to *always* call ->next after ->show
+has successfully stored all of an entry in the buffer.  Never just
+increment the index instead.
+Also:
+ - always pass &m->index to ->start() and ->next(), never a temp
+   variable
+ - don't clear ->from when ->count is zero, as ->from is dead when
+    ->count is zero.
+
+
+Some ->next functions do not increment *pos when they return NULL.
+To maintain compatability with this, we still need to increment
+m->index in one place, if ->next didn't increment it.
+Note that such ->next functions are buggy and should be fixed.
+A simple demonstration is
+   dd if=3D/proc/swaps bs=3D1000 skip=3D1
+Choose any block size larger than the size of /proc/swaps.
+This will always show the whole last line of /proc/swaps.
+
+This patch doesn't work around buggy next() functions for this case.
+
+Signed-off-by: NeilBrown <neilb@suse.com>
+=2D--
+ Documentation/filesystems/seq_file.txt | 63 ++++++++++++++++++++++--------=
+----
+ fs/seq_file.c                          | 53 +++++++++++-----------------
+ 2 files changed, 62 insertions(+), 54 deletions(-)
+
+diff --git a/Documentation/filesystems/seq_file.txt b/Documentation/filesys=
+tems/seq_file.txt
+index 9de4303201e1..d412b236a9d6 100644
+=2D-- a/Documentation/filesystems/seq_file.txt
++++ b/Documentation/filesystems/seq_file.txt
+@@ -66,23 +66,39 @@ kernel 3.10. Current versions require the following upd=
+ate
+=20
+ The iterator interface
+=20
+=2DModules implementing a virtual file with seq_file must implement a simple
+=2Diterator object that allows stepping through the data of interest.
+=2DIterators must be able to move to a specific position - like the file th=
+ey
+=2Dimplement - but the interpretation of that position is up to the iterator
+=2Ditself. A seq_file implementation that is formatting firewall rules, for
+=2Dexample, could interpret position N as the Nth rule in the chain.
+=2DPositioning can thus be done in whatever way makes the most sense for the
+=2Dgenerator of the data, which need not be aware of how a position transla=
+tes
+=2Dto an offset in the virtual file. The one obvious exception is that a
+=2Dposition of zero should indicate the beginning of the file.
++Modules implementing a virtual file with seq_file must implement an
++iterator object that allows stepping through the data of interest
++during a "session" (roughly one read() system call).  If the iterator
++is able to move to a specific position - like the file they implement,
++though with freedom to map the position number to a sequence location
++in whatever way is convenient - the iterator need only exist
++transiently during a session.  If the iterator cannot easily find a
++numerical position but works well with a first/next interface, the
++iterator can be stored in the private data area and continue from one
++session to the next.
++
++A seq_file implementation that is formatting firewall rules from a
++table, for example, could provide a simple iterator that interprets
++position N as the Nth rule in the chain.  A seq_file implementation
++that presents the content of a, potentially volatile, linked list
++might record a pointer into that list, providing that can be done
++without risk of the current location being removed.
++
++Positioning can thus be done in whatever way makes the most sense for
++the generator of the data, which need not be aware of how a position
++translates to an offset in the virtual file. The one obvious exception
++is that a position of zero should indicate the beginning of the file.
+=20
+ The /proc/sequence iterator just uses the count of the next number it
+ will output as its position.
+=20
+=2DFour functions must be implemented to make the iterator work. The first,
+=2Dcalled start() takes a position as an argument and returns an iterator
+=2Dwhich will start reading at that position. For our simple sequence examp=
+le,
++Four functions must be implemented to make the iterator work. The
++first, called start(), starts a session and takes a position as an
++argument, returning an iterator which will start reading at that
++position.  The pos passed to start() will always be either zero, or
++the most recent pos used in the previous session.
++
++For our simple sequence example,
+ the start() function looks like:
+=20
+ 	static void *ct_seq_start(struct seq_file *s, loff_t *pos)
+@@ -101,11 +117,12 @@ implementations; in most cases the start() function s=
+hould check for a
+ "past end of file" condition and return NULL if need be.
+=20
+ For more complicated applications, the private field of the seq_file
+=2Dstructure can be used. There is also a special value which can be return=
+ed
+=2Dby the start() function called SEQ_START_TOKEN; it can be used if you wi=
+sh
+=2Dto instruct your show() function (described below) to print a header at =
+the
+=2Dtop of the output. SEQ_START_TOKEN should only be used if the offset is
+=2Dzero, however.
++structure can be used to hold state from session to session.  There is
++also a special value which can be returned by the start() function
++called SEQ_START_TOKEN; it can be used if you wish to instruct your
++show() function (described below) to print a header at the top of the
++output. SEQ_START_TOKEN should only be used if the offset is zero,
++however.
+=20
+ The next function to implement is called, amazingly, next(); its job is to
+ move the iterator forward to the next position in the sequence.  The
+@@ -121,9 +138,13 @@ complete. Here's the example version:
+ 	        return spos;
+ 	}
+=20
+=2DThe stop() function is called when iteration is complete; its job, of
+=2Dcourse, is to clean up. If dynamic memory is allocated for the iterator,
+=2Dstop() is the place to free it.
++The stop() function closes a session; its job, of course, is to clean
++up. If dynamic memory is allocated for the iterator, stop() is the
++place to free it; if a lock was taken by start(), stop() must release
++that lock.  The value that *pos was set to by the last next() call
++before stop() is remembered, and used for the first start() call of
++the next session unless lseek() has been called on the file; in that
++case next start() will be asked to start at position zero.
+=20
+ 	static void ct_seq_stop(struct seq_file *s, void *v)
+ 	{
+diff --git a/fs/seq_file.c b/fs/seq_file.c
+index c6c27f1f9c98..c6156b309ed2 100644
+=2D-- a/fs/seq_file.c
++++ b/fs/seq_file.c
+@@ -90,23 +90,22 @@ EXPORT_SYMBOL(seq_open);
+=20
+ static int traverse(struct seq_file *m, loff_t offset)
+ {
+=2D	loff_t pos =3D 0, index;
++	loff_t pos =3D 0;
+ 	int error =3D 0;
+ 	void *p;
+=20
+ 	m->version =3D 0;
+=2D	index =3D 0;
++	m->index =3D 0;
+ 	m->count =3D m->from =3D 0;
+=2D	if (!offset) {
+=2D		m->index =3D index;
++	if (!offset)
+ 		return 0;
+=2D	}
++
+ 	if (!m->buf) {
+ 		m->buf =3D seq_buf_alloc(m->size =3D PAGE_SIZE);
+ 		if (!m->buf)
+ 			return -ENOMEM;
+ 	}
+=2D	p =3D m->op->start(m, &index);
++	p =3D m->op->start(m, &m->index);
+ 	while (p) {
+ 		error =3D PTR_ERR(p);
+ 		if (IS_ERR(p))
+@@ -123,20 +122,15 @@ static int traverse(struct seq_file *m, loff_t offset)
+ 		if (pos + m->count > offset) {
+ 			m->from =3D offset - pos;
+ 			m->count -=3D m->from;
+=2D			m->index =3D index;
+ 			break;
+ 		}
+ 		pos +=3D m->count;
+ 		m->count =3D 0;
+=2D		if (pos =3D=3D offset) {
+=2D			index++;
+=2D			m->index =3D index;
++		p =3D m->op->next(m, p, &m->index);
++		if (pos =3D=3D offset)
+ 			break;
+=2D		}
+=2D		p =3D m->op->next(m, p, &index);
+ 	}
+ 	m->op->stop(m, p);
+=2D	m->index =3D index;
+ 	return error;
+=20
+ Eoverflow:
+@@ -160,7 +154,6 @@ ssize_t seq_read(struct file *file, char __user *buf, s=
+ize_t size, loff_t *ppos)
+ {
+ 	struct seq_file *m =3D file->private_data;
+ 	size_t copied =3D 0;
+=2D	loff_t pos;
+ 	size_t n;
+ 	void *p;
+ 	int err =3D 0;
+@@ -223,16 +216,11 @@ ssize_t seq_read(struct file *file, char __user *buf,=
+ size_t size, loff_t *ppos)
+ 		size -=3D n;
+ 		buf +=3D n;
+ 		copied +=3D n;
+=2D		if (!m->count) {
+=2D			m->from =3D 0;
+=2D			m->index++;
+=2D		}
+ 		if (!size)
+ 			goto Done;
+ 	}
+ 	/* we need at least one record in buffer */
+=2D	pos =3D m->index;
+=2D	p =3D m->op->start(m, &pos);
++	p =3D m->op->start(m, &m->index);
+ 	while (1) {
+ 		err =3D PTR_ERR(p);
+ 		if (!p || IS_ERR(p))
+@@ -243,8 +231,7 @@ ssize_t seq_read(struct file *file, char __user *buf, s=
+ize_t size, loff_t *ppos)
+ 		if (unlikely(err))
+ 			m->count =3D 0;
+ 		if (unlikely(!m->count)) {
+=2D			p =3D m->op->next(m, p, &pos);
+=2D			m->index =3D pos;
++			p =3D m->op->next(m, p, &m->index);
+ 			continue;
+ 		}
+ 		if (m->count < m->size)
+@@ -256,29 +243,33 @@ ssize_t seq_read(struct file *file, char __user *buf,=
+ size_t size, loff_t *ppos)
+ 		if (!m->buf)
+ 			goto Enomem;
+ 		m->version =3D 0;
+=2D		pos =3D m->index;
+=2D		p =3D m->op->start(m, &pos);
++		p =3D m->op->start(m, &m->index);
+ 	}
+ 	m->op->stop(m, p);
+ 	m->count =3D 0;
+ 	goto Done;
+ Fill:
+ 	/* they want more? let's try to get some more */
+=2D	while (m->count < size) {
++	while (1) {
+ 		size_t offs =3D m->count;
+=2D		loff_t next =3D pos;
+=2D		p =3D m->op->next(m, p, &next);
++		loff_t pos =3D m->index;
++
++		p =3D m->op->next(m, p, &m->index);
++		if (pos =3D=3D m->index)
++			/* Buggy ->next function */
++			m->index++;
+ 		if (!p || IS_ERR(p)) {
+ 			err =3D PTR_ERR(p);
+ 			break;
+ 		}
++		if (m->count >=3D size)
++			break;
+ 		err =3D m->op->show(m, p);
+ 		if (seq_has_overflowed(m) || err) {
+ 			m->count =3D offs;
+ 			if (likely(err <=3D 0))
+ 				break;
+ 		}
+=2D		pos =3D next;
+ 	}
+ 	m->op->stop(m, p);
+ 	n =3D min(m->count, size);
+@@ -287,11 +278,7 @@ ssize_t seq_read(struct file *file, char __user *buf, =
+size_t size, loff_t *ppos)
+ 		goto Efault;
+ 	copied +=3D n;
+ 	m->count -=3D n;
+=2D	if (m->count)
+=2D		m->from =3D n;
+=2D	else
+=2D		pos++;
+=2D	m->index =3D pos;
++	m->from =3D n;
+ Done:
+ 	if (!copied)
+ 		copied =3D err;
+=2D-=20
+2.14.0.rc0.dirty
+
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlrmdk0ACgkQOeye3VZi
+gbkHlA//WrcjjSaCDg6maDF9lH+3ubbzZwMRsmUCr31uvCM2yiKl69BQ7mzUfi+A
+4j+094CLCNYu0+MeFTrtzD3rx5Cy2+bdPZ3nGZe4Jhhp1gmGCTS9pWXec5vlzPyK
+MwM1TQTBeD/uaQZmYntOeOAv6crr38MtPbkBTy52SQ2opWouW+zFrc+LkEb7TQav
+nF579XbeSViLka3rzjItZg7fFFhuTgfXxRMZMXJne0zeK80NTaKWDKoIXBCW7qEc
+T3LhaGhorQQhLfPAt+nrhOqFmuAjgNBfw2CpweD1PPysJWPHxkAXaDPatA9mrbbA
+pdsnaA9dVNr8IRbYUzlhFCjra+NRCGJZgmiDNGRAg/F2THUd9ErAQ4FnNyh5k2FE
+B78XtCIJBpd+t6BSNQZigUX92u8Y+KD9qQsAhNy4OAc+VOI/uNprD25r4WLyYF/6
+uGfgZbKFenb0uCM9SYOPh2lq2ZFASyjsFEA+OEtFzJc6o/6gbD62rRuBw2ivtEpp
+80cTAnluUsq8b/2MKz2tebQnF58MEt4E0DEe760elCFWTDK+xrIkZwMjP1oa3Ovb
+mpjW5NXINcq0PHmZzQepyq2cKLJO0+9ms9cAt/lPqvqfon2R4h6sNbeFPm0bzHz1
+ScTuK3Z23QNab2B+svxV2WbaF1BBhdaZXzjbPK5r4EbBCwAFiTM=
+=hH6a
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
