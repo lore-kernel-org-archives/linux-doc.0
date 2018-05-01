@@ -1,101 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 593087DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 30 Apr 2018 22:40:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2AA07DE79
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 May 2018 11:53:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755382AbeD3Wkc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 30 Apr 2018 18:40:32 -0400
-Received: from mail-ua0-f176.google.com ([209.85.217.176]:44197 "EHLO
-        mail-ua0-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755219AbeD3Wkb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Apr 2018 18:40:31 -0400
-Received: by mail-ua0-f176.google.com with SMTP id h15so6445177uan.11
-        for <linux-doc@vger.kernel.org>; Mon, 30 Apr 2018 15:40:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=Nre+3pIAHVH5BrjFJ5SupWrb2aGE7DdMTtnscibReNM=;
-        b=NUfXSfIUz++h13VgTL86GlPJPpXGaoeFT9owLB4eUlTxMmgg4NoM+tvN9uvLMQf7K4
-         mmn4hgOa6DuhB1IJCv6Pwknvn9zZfmllw3jSjqfCp5kJp9mnAvGKa5kpLpgcwPNm7fgh
-         eC2/RqQqBtexEZTLyxQoQ1OhfkmV+z8O/dMDUVYWfFVHMq6UdgDp/nKWC5HzX+DT6cIY
-         vtFifbEdR0h0FYDwEgtng61MJW3x39XEfjboZukg4OgTfTCHlTf2xT1VSC8vIX9MLMng
-         txk/bvgGD+IY/xc89VlUQ4Prc4NeQ1LTCYTIoLrUAhI/cM4o/pSRwWiTD0JufnaKWU9D
-         tDwQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=Nre+3pIAHVH5BrjFJ5SupWrb2aGE7DdMTtnscibReNM=;
-        b=BPE0LmYp/Bfxd4fCupnhkAU1bDVrCb7w5io9pv4YDwzc5OWFOcXaWjFuFH4gEr/CjG
-         bwEH585MxIZAMfZk+qp1RLLCayYkILxD19088HvYZtNJ8vinDrNPA2C9XiGfwZCd6JWH
-         PTCfIcCQA5/0FUEbQ2Ox6aVIn/sv13hNDbdME=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=Nre+3pIAHVH5BrjFJ5SupWrb2aGE7DdMTtnscibReNM=;
-        b=m5QIyTwYEFUxNYuud4jb0mOn54JsLgv2Ha3TVMbgLYQ62th2ObtaSTobyIs1c9j8ee
-         w7EthpTO4rP/+BSTJkXWOYsBH/J0a/id6kzM9Gwc0E6mLsGt2Q5MgXxikk5tMUB+HfoL
-         ppGNwHDIJs0qdfnrwwU5aG4p2jyTm1k0o02SaFXMUrgD7enSeM0qsYEKWKz9HNftvEBF
-         26jnBUX3Pi/bk7fwOQ8bA8iED7jLvZqxrDG99DMXBoYPM0qUAZSIXkvlYcJsIYThiZLa
-         26UqRyQT/rmttjc7f/tyi8m/QPPIISRjrRZj2+bLEzJajIOm/7UlfFlPaHOJTxSXiZbi
-         3RlA==
-X-Gm-Message-State: ALQs6tB0eel1WGYsbhwhVaLCV6CEHEXV7T4m4ozb0GBltDK9ayFC/6ih
-        EZtLAL7KH262TYA0/jFBTjlYn7MWxJBMn2pF9mOewQ==
-X-Google-Smtp-Source: AB8JxZqeR8vcmkS0F3kFvInIm89+VXaPOXZoPilfZksI+NVGTncA180EKX7Q3Ye2XrwWaj5L2aZVtU1kITSA2MJTXPU=
-X-Received: by 10.176.76.226 with SMTP id e34mr11770701uag.0.1525128030394;
- Mon, 30 Apr 2018 15:40:30 -0700 (PDT)
+        id S1754749AbeEALxq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 May 2018 07:53:46 -0400
+Received: from foss.arm.com ([217.140.101.70]:45904 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1754623AbeEALxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 May 2018 07:53:45 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0D5FF;
+        Tue,  1 May 2018 04:53:44 -0700 (PDT)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 813503F5A0;
+        Tue,  1 May 2018 04:53:44 -0700 (PDT)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id B57601AE4D06; Tue,  1 May 2018 12:54:05 +0100 (BST)
+Date:   Tue, 1 May 2018 12:54:05 +0100
+From:   Will Deacon <will.deacon@arm.com>
+To:     Kim Phillips <kim.phillips@arm.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, jnair@caviumnetworks.com,
+        Robert.Richter@cavium.com, Vadim.Lomovtsev@cavium.com,
+        Jan.Glauber@cavium.com, gklkml16@gmail.com
+Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
+ driver
+Message-ID: <20180501115405.GE25237@arm.com>
+References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
+ <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
+ <20180426170624.bfcba885431d57d0de2a3ddd@arm.com>
+ <20180427093027.ngtuoezyh6mtz26p@lakrids.cambridge.arm.com>
+ <20180427081525.f9dcc756678baf3bb6e6e473@arm.com>
+ <20180427143719.GA5093@arm.com>
+ <20180427104629.2bff4b4b683a93ddf39f8df5@arm.com>
+ <20180427160914.GA5286@arm.com>
+ <20180427115625.b5191d381cd41e7ee092fea1@arm.com>
 MIME-Version: 1.0
-Received: by 10.31.11.209 with HTTP; Mon, 30 Apr 2018 15:40:29 -0700 (PDT)
-In-Reply-To: <1524862838-8247-4-git-send-email-longman@redhat.com>
-References: <1524862838-8247-1-git-send-email-longman@redhat.com> <1524862838-8247-4-git-send-email-longman@redhat.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Mon, 30 Apr 2018 15:40:29 -0700
-X-Google-Sender-Auth: JxC2T18zJeqKAf-C0vlStqhW5ow
-Message-ID: <CAGXu5jJrkeJTCrajYh3oCnYsfLCtL+LBvRbMn75p4=gxKzBpcQ@mail.gmail.com>
-Subject: Re: [PATCH v6 3/8] sysctl: Warn when a clamped sysctl parameter is
- set out of range
-To:     Waiman Long <longman@redhat.com>
-Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180427115625.b5191d381cd41e7ee092fea1@arm.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I like this series overall, thanks! No objections from me. One thing I
-noted, though:
+Hi Kim,
 
-On Fri, Apr 27, 2018 at 2:00 PM, Waiman Long <longman@redhat.com> wrote:
->                 if (param->min && *param->min > val) {
->                         if (clamp) {
->                                 val = *param->min;
-> +                               clamped = true;
->                         } else {
->                                 return -EINVAL;
->                         }
+On Fri, Apr 27, 2018 at 11:56:25AM -0500, Kim Phillips wrote:
+> On Fri, 27 Apr 2018 17:09:14 +0100
+> Will Deacon <will.deacon@arm.com> wrote:
+> > On Fri, Apr 27, 2018 at 10:46:29AM -0500, Kim Phillips wrote:
+> > > On Fri, 27 Apr 2018 15:37:20 +0100
+> > > Will Deacon <will.deacon@arm.com> wrote:
+> > > > For anything under drivers/perf/, I'd prefer not to have these prints
+> > > > and instead see efforts to improve error reporting via the perf system
+> > > > call interface.
+> > > 
+> > > We'd all prefer that, and for all PMU drivers, why should ones under
+> > > drivers/perf be treated differently?
+> > 
+> > Because they're the ones I maintain...
+> 
+> You represent a minority on your opinion on this matter though.
 
-This appears as a common bit of logic in many places in the series. It
-seems like it'd make sense to make this a helper of some kind?
+I'm not sure that's true -- you tend to be the only one raising this issue;
+I think most people don't actually care one way or the other. If you know of
+others who care about it too then I suggest you work together as a group to
+solve the problem in a way which is amenable to the upstream maintainers.
+Then you won't have to worry about fixing it personally. You could even
+propose a topic for plumbers if there is enough interest in a general
+framework for propagating error messages to userspace.
 
--Kees
+> > > As you are already aware, I've personally tried to fix this problem -
+> > > that has existed since before the introduction of the perf tool (I
+> > > consider it a syscall-independent enhanced error interface), multiple
+> > > times, and failed.
+> > 
+> > Why is that my problem? Try harder?
+> 
+> It's your problem because we're here reviewing a patch that happens to
+> fall under your maintainership.  I'll be the first person to tell you
+> I'm obviously incompetent and haven't been able to come up with a
+> solution that is acceptable for everyone up to and including Linus
+> Torvalds.  I'm just noticing a chronic usability problem that can be
+> easily alleviated in the context of this patch review.
 
--- 
-Kees Cook
-Pixel Security
+I don't see how incompetence has anything to do with it and, like most
+people (lucky gits...), I doubt Torvalds cares too deeply about PMU driver
+internals. No arguments on the usability problem, but this ain't the fix
+you're looking for: it's a bodge. We've been over this many times before.
+
+> > > So until someone comes up with a solution that works for everyone
+> > > up to and including Linus Torvalds (who hasn't put up a problem
+> > > pulling PMU drivers emitting things to dmesg so far, by the way), this
+> > > keep PMU drivers' errors silent preference of yours is unnecessarily
+> > > impeding people trying to measure system performance on Arm based
+> > > machines - all other archs' maintainers are fine with PMU drivers using
+> > > dmesg.
+> > 
+> > Good for them, although I'm pretty sure that at least the x86 folks are
+> > against this crap too.
+> 
+> Unfortunately, it doesn't affect them nearly as much as it does our
+> more diverse platforms, which is why I don't think they care to do
+> much about it.
+
+x86 has its fair share of PMUs too, so I don't think we're special in this
+regard. The main difference seems to be that they have better support in
+the perf tool for diagnosing problems.
+
+> > > > Anyway, I think this driver has bigger problems that need addressing.
+> > > 
+> > > To me it represents yet another PMU driver submission - as the years go
+> > > by - that is lacking in the user messaging area.  Which reminds me, can
+> > > you take another look at applying this?:
+> > 
+> > As I said before, I'm not going to take anything that logs above pr_debug
+> > for things that are directly triggerable from userspace. Spin a version
+> 
+> Why?  There are plenty of things that emit stuff into dmesg that are
+> directly triggerable from userspace.  Is it because it upsets fuzzing
+> tests?  How about those be run with a patched kernel that somehow
+> mitigates the printing?
+
+[we've been over this before]
+
+There are two camps that might find this information useful:
+
+  1. People writing userspace support for a new PMU using the
+     perf_event_open syscall
+
+  2. People trying to use a tool which abstracts the PMU details to some
+     degree (e.g. perf tool)
+
+Those in (1) can get by with pr_debug. Sure, they have to recompile, but
+it's not like there are many people in this camp and they'll probably be
+working with the PMU driver writer to some degree anyway and taking new
+kernel drops.
+
+Those in (2) may not have access to dmesg, absolutely should not be able
+to spam it (since this could hide other important messages), will probably
+struggle to match an internal message from the PMU driver to their
+invocation of the high-level tool and may well be in a multi-user
+environment so will struggle to identify the messages that they are
+responsible for. What they actually want is for the perf tool to give
+them more information, and dmesg is not the right channel for that, for
+similar reasons.
+
+> > using pr_debug and I'll queue it.
+> 
+> How about using a ratelimited dev_err variant?
+
+Nah, I don't want dmesg being parsed by users of perf tool. pr_debug should
+be sufficient for perf tool developers working with a new PMU type.
+
+Will
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
