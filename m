@@ -5,53 +5,53 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66F7D7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 May 2018 15:19:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7BD997E279
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 May 2018 15:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755501AbeEAPS7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 May 2018 11:18:59 -0400
-Received: from mail-lf0-f66.google.com ([209.85.215.66]:34964 "EHLO
-        mail-lf0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755236AbeEAPS6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 May 2018 11:18:58 -0400
-Received: by mail-lf0-f66.google.com with SMTP id y72-v6so2939191lfd.2
-        for <linux-doc@vger.kernel.org>; Tue, 01 May 2018 08:18:57 -0700 (PDT)
+        id S1755539AbeEAP1t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 May 2018 11:27:49 -0400
+Received: from mail-lf0-f65.google.com ([209.85.215.65]:38923 "EHLO
+        mail-lf0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755492AbeEAP1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 May 2018 11:27:48 -0400
+Received: by mail-lf0-f65.google.com with SMTP id j193-v6so16705871lfg.6
+        for <linux-doc@vger.kernel.org>; Tue, 01 May 2018 08:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=1CowC9n/ZCdykYQj2xTuwdAXTJs4SMQT+rN5WWz4Mf0=;
-        b=NlmwZ5FLzLrJtRtjXao4HsACyn1ru7cXK4/jAp9BSBLkzuaHRsw946pXV0jhCYYBRR
-         2d30ekw/xhnQUe4EyTCSRXeW+VxWmcpCTr+9k5WCa5i411Cf2lKX3Px8kUpmMmyNHvlh
-         Kc7WcCvtfSXgI9L80RdP7lVO7EO9rpmEgxJv0ayGKEtSXU/1BCf4zd/CS7haK++S+dpD
-         Q3kiZP/qwwqzjmx30MUA2JxSnnvnw7KqbEkR0O6f5o9ijCLc3rgRrZic3gFvUkBd8mfV
-         +8vHT0RcbtrQQ2MJ11356i5o+VyM+Puhihaqq/0o3F1rv4HU1b+KDk6MlXwoyCJDdLRs
-         uAKg==
+        bh=81hnb7n8WnZU7QTTbDWL5XN9dy1b1NJrYeTglTfDuJs=;
+        b=2PiK+haNOMP0jF8XndRv5IFHpQ3ie/Qi9s3Kx7FRlQZhdklLSKHEfYnE64Sv+WScN/
+         E5Q4BxFpHjOu6W+pwPCQq5q7DUTOZ5Eqn9xrYeXqcZ1MF3vbaa68WmboD/LX6NGSQ4HA
+         +vqP/XPimWkw5PMrn7VGD0n+8GRFlVQP7jl1sU+5/0/CUyHzhgqUC6nctV18PJCz0lEd
+         uuyhv+93OJoUrZGdhqE9Mj7peWU2cKuPANGh90aG+kXmERChAFYXMkjSAnfmArlh7Tsn
+         sLqd7uj6bWYg5Rmdx/Ps2X2yW1HwI1/KrT6VT7VZN49MzVNc7X3eDjaf8Ng5MhtuUkwE
+         YTbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=1CowC9n/ZCdykYQj2xTuwdAXTJs4SMQT+rN5WWz4Mf0=;
-        b=GGJcm22U9Q5zSFgk9EnntxmCm1kMKe36PhEMj+mYu0hreShp1RhpRZHYt5qdQNySMk
-         7V3qk25u3qUhOmCXTIatZXpZPnzmpuDGrOLAVqutfdKk+LkFSEJ0LrCYxo3kzRtTL1Fe
-         W/EQP9Ew2gUOevzsYuHF9HsKRlkaUGCoZ0tFbq4SxLc4oUN6Ui/gGj32iDGlvY4I4xub
-         /I0zYinjmnCMU1dcGGd4oELQTQ90BVQY6OA3+ecW8L5bWk4Qwo0lP0Q/CzRMHfIixIVO
-         is+MEcDOshJ4NeLSSmYvuCSc4gKBnOy989zwjI3/c6O4eBF3wz67f0t6D4isI/WWFZsF
-         E54Q==
-X-Gm-Message-State: ALQs6tAxhMMt2C5R1jomRhNjXF8FjiMbSp0k2uroix/NMc55KUiwNpGd
-        0CwMwM3Dp0KXAKPhLUxsKRqJU3Ybo2fn+JdvpKAE
-X-Google-Smtp-Source: AB8JxZrnzFM8NFNlkN+uof0y2Mqndiy3CBzvMRy5smOBBubJ8NqxQlZz/hirlykW7xHT5mmuZgD1FpQCvrQPoqT+7as=
-X-Received: by 2002:a2e:c41:: with SMTP id o1-v6mr10664564ljd.87.1525187936455;
- Tue, 01 May 2018 08:18:56 -0700 (PDT)
+        bh=81hnb7n8WnZU7QTTbDWL5XN9dy1b1NJrYeTglTfDuJs=;
+        b=dbHDKBIR+Sh+acvZ1ykAQ8IJqjsi9wU9txUj7p8YxwWTkdlIlT+F93IFNak3/+oYQD
+         FYQPfDkRBdY1FMleKeAbEguxDLu+hpTTnk3g7SknyjBccq5XISQJnoF4bdCorL4YiZV4
+         bBQ+EpVyShIaAgu1jttEL2V5pG1ytKcLlhY5HVQ+BkdRHK0CHhf+ze4ne4ZkOYa16+WM
+         ltQX+Sxu85wcoa1eSHUPeZa3m5eJle0fFTdQQj6Ckq9UUwNNyDnd8lfN0sH+sGWhfFJW
+         CEkdY0shtLArw6tX/+IPndmAoKTz3OnpvaAaYFop4pBvYWjLF9SR3v7HsHosjTGQ/paJ
+         wxlw==
+X-Gm-Message-State: ALQs6tAxmIc8dnuIBZGeSVua76RA3wjE3/kSLmBu22HrJ9OZKYgqqcXk
+        BM1DkOpFHXo8IGqGOZ4xVEQCL5fkTYYgotS9yMTV
+X-Google-Smtp-Source: AB8JxZqLAQymGOGE7l7VaESL3Lez8c2e2ZoFUxqN0lm5qVFj62n5bSBAsVcqMXcLwbBWkSb6e7lhIkjCygCJqt3HV78=
+X-Received: by 2002:a2e:8246:: with SMTP id j6-v6mr1695320ljh.72.1525188466580;
+ Tue, 01 May 2018 08:27:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a19:c78f:0:0:0:0:0 with HTTP; Tue, 1 May 2018 08:18:55 -0700 (PDT)
+Received: by 2002:a19:c78f:0:0:0:0:0 with HTTP; Tue, 1 May 2018 08:27:45 -0700 (PDT)
 X-Originating-IP: [108.20.156.165]
-In-Reply-To: <1524856562-22566-3-git-send-email-tyhicks@canonical.com>
-References: <1524856562-22566-1-git-send-email-tyhicks@canonical.com> <1524856562-22566-3-git-send-email-tyhicks@canonical.com>
+In-Reply-To: <1524856562-22566-4-git-send-email-tyhicks@canonical.com>
+References: <1524856562-22566-1-git-send-email-tyhicks@canonical.com> <1524856562-22566-4-git-send-email-tyhicks@canonical.com>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 1 May 2018 11:18:55 -0400
-Message-ID: <CAHC9VhTwrKG2hySCrZaVwHgqyekZXDofkJy9_jCa-CxFgCVUGQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] seccomp: Audit attempts to modify the actions_logged sysctl
+Date:   Tue, 1 May 2018 11:27:45 -0400
+Message-ID: <CAHC9VhSfOCLASK9k07ENwBBP39rPk2uggcVLbWgDeo4bzbgdqg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] seccomp: Don't special case audited processes when logging
 To:     Tyler Hicks <tyhicks@canonical.com>
 Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Andy Lutomirski <luto@amacapital.net>,
@@ -66,144 +66,143 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Fri, Apr 27, 2018 at 3:16 PM, Tyler Hicks <tyhicks@canonical.com> wrote:
-> The decision to log a seccomp action will always be subject to the
-> value of the kernel.seccomp.actions_logged sysctl, even for processes
-> that are being inspected via the audit subsystem, in an upcoming patch.
-> Therefore, we need to emit an audit record on attempts at writing to the
-> actions_logged sysctl when auditing is enabled.
+> Seccomp logging for "handled" actions such as RET_TRAP, RET_TRACE, or
+> RET_ERRNO can be very noisy for processes that are being audited. This
+> patch modifies the seccomp logging behavior to treat processes that are
+> being inspected via the audit subsystem the same as processes that
+> aren't under inspection. Handled actions will no longer be logged just
+> because the process is being inspected. Since v4.14, applications have
+> the ability to request logging of handled actions by using the
+> SECCOMP_FILTER_FLAG_LOG flag when loading seccomp filters.
 >
-> This patch updates the write handler for the actions_logged sysctl to
-> emit an audit record on attempts to write to the sysctl. Successful
-> writes to the sysctl will result in a record that includes a normalized
-> list of logged actions in the "actions" field and a "res" field equal to
-> 0. Unsuccessful writes to the sysctl will result in a record that
-> doesn't include the "actions" field and has a "res" field equal to 1.
+> With this patch, the logic for deciding if an action will be logged is:
 >
-> Not all unsuccessful writes to the sysctl are audited. For example, an
-> audit record will not be emitted if an unprivileged process attempts to
-> open the sysctl file for reading since that access control check is not
-> part of the sysctl's write handler.
+>   if action == RET_ALLOW:
+>     do not log
+>   else if action not in actions_logged:
+>     do not log
+>   else if action == RET_KILL:
+>     log
+>   else if action == RET_LOG:
+>     log
+>   else if filter-requests-logging:
+>     log
+>   else:
+>     do not log
 >
-> Below are some example audit records when writing various strings to the
-> actions_logged sysctl.
->
-> Writing "not-a-real-action" emits:
->
->  type=CONFIG_CHANGE msg=audit(1524600971.363:119): pid=1651 uid=0
->  auid=1000 tty=pts8 ses=1 comm="tee" exe="/usr/bin/tee"
->  op=seccomp-logging res=1
->
-> Writing "kill_process kill_thread errno trace log" emits:
->
->  type=CONFIG_CHANGE msg=audit(1524601023.982:131): pid=1658 uid=0
->  auid=1000 tty=pts8 ses=1 comm="tee" exe="/usr/bin/tee"
->  op=seccomp-logging actions="kill_process kill_thread errno trace log"
->  res=0
-
-I've got some additional comments regarding the fields in the code
-below, but it would be good to hear Steve comment on the "actions"
-field since his userspace tools are extremely picky about what they
-will accept.  It looks like you are treating the actions as an
-untrusted string, which is good, so I suspect you are okay, but still
-...
-
-> Writing the string "log log errno trace kill_process kill_thread", which
-> is unordered and contains the log action twice, results in the same
-> value as the previous example for the actions field:
->
->  type=CONFIG_CHANGE msg=audit(1524601204.365:152): pid=1704 uid=0
->  auid=1000 tty=pts8 ses=1 comm="tee" exe="/usr/bin/tee"
->  op=seccomp-logging actions="kill_process kill_thread errno trace log"
->  res=0
->
-> No audit records are generated when reading the actions_logged sysctl.
->
-> Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> Reported-by: Steve Grubb <sgrubb@redhat.com>
 > Signed-off-by: Tyler Hicks <tyhicks@canonical.com>
 > ---
->  include/linux/audit.h |  3 +++
->  kernel/auditsc.c      | 37 +++++++++++++++++++++++++++++++++++++
->  kernel/seccomp.c      | 43 ++++++++++++++++++++++++++++++++++---------
->  3 files changed, 74 insertions(+), 9 deletions(-)
-
-...
-
+>  Documentation/userspace-api/seccomp_filter.rst |  7 -------
+>  include/linux/audit.h                          | 10 +---------
+>  kernel/auditsc.c                               |  2 +-
+>  kernel/seccomp.c                               | 15 +++++----------
+>  4 files changed, 7 insertions(+), 27 deletions(-)
+>
+> diff --git a/Documentation/userspace-api/seccomp_filter.rst b/Documentation/userspace-api/seccomp_filter.rst
+> index 099c412..82a468b 100644
+> --- a/Documentation/userspace-api/seccomp_filter.rst
+> +++ b/Documentation/userspace-api/seccomp_filter.rst
+> @@ -207,13 +207,6 @@ directory. Here's a description of each file in that directory:
+>         to the file do not need to be in ordered form but reads from the file
+>         will be ordered in the same way as the actions_avail sysctl.
+>
+> -       It is important to note that the value of ``actions_logged`` does not
+> -       prevent certain actions from being logged when the audit subsystem is
+> -       configured to audit a task. If the action is not found in
+> -       ``actions_logged`` list, the final decision on whether to audit the
+> -       action for that task is ultimately left up to the audit subsystem to
+> -       decide for all seccomp return values other than ``SECCOMP_RET_ALLOW``.
+> -
+>         The ``allow`` string is not accepted in the ``actions_logged`` sysctl
+>         as it is not possible to log ``SECCOMP_RET_ALLOW`` actions. Attempting
+>         to write ``allow`` to the sysctl will result in an EINVAL being
 > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> index 75d5b03..b311d7d 100644
+> index b311d7d..1964fbd 100644
 > --- a/include/linux/audit.h
 > +++ b/include/linux/audit.h
-> @@ -233,6 +233,7 @@ extern void __audit_inode_child(struct inode *parent,
+> @@ -232,7 +232,7 @@ extern void __audit_file(const struct file *);
+>  extern void __audit_inode_child(struct inode *parent,
 >                                 const struct dentry *dentry,
 >                                 const unsigned char type);
->  extern void __audit_seccomp(unsigned long syscall, long signr, int code);
-> +extern void audit_seccomp_actions_logged(const char *names, int res);
+> -extern void __audit_seccomp(unsigned long syscall, long signr, int code);
+> +extern void audit_seccomp(unsigned long syscall, long signr, int code);
+>  extern void audit_seccomp_actions_logged(const char *names, int res);
 >  extern void __audit_ptrace(struct task_struct *t);
 >
->  static inline bool audit_dummy_context(void)
-> @@ -502,6 +503,8 @@ static inline void __audit_seccomp(unsigned long syscall, long signr, int code)
+> @@ -303,12 +303,6 @@ static inline void audit_inode_child(struct inode *parent,
+>  }
+>  void audit_core_dumps(long signr);
+>
+> -static inline void audit_seccomp(unsigned long syscall, long signr, int code)
+> -{
+> -       if (audit_enabled && unlikely(!audit_dummy_context()))
+> -               __audit_seccomp(syscall, signr, code);
+> -}
+> -
+>  static inline void audit_ptrace(struct task_struct *t)
+>  {
+>         if (unlikely(!audit_dummy_context()))
+> @@ -499,8 +493,6 @@ static inline void audit_inode_child(struct inode *parent,
 >  { }
+>  static inline void audit_core_dumps(long signr)
+>  { }
+> -static inline void __audit_seccomp(unsigned long syscall, long signr, int code)
+> -{ }
 >  static inline void audit_seccomp(unsigned long syscall, long signr, int code)
 >  { }
-> +static inline void audit_seccomp_actions_logged(const char *names, int res)
-> +{ }
->  static inline int auditsc_get_stamp(struct audit_context *ctx,
->                               struct timespec64 *t, unsigned int *serial)
->  {
+>  static inline void audit_seccomp_actions_logged(const char *names, int res)
 > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index 4e0a4ac..3496238 100644
+> index 3496238..1e64b91 100644
 > --- a/kernel/auditsc.c
 > +++ b/kernel/auditsc.c
-> @@ -2478,6 +2478,43 @@ void __audit_seccomp(unsigned long syscall, long signr, int code)
+> @@ -2464,7 +2464,7 @@ void audit_core_dumps(long signr)
 >         audit_log_end(ab);
 >  }
 >
-> +void audit_seccomp_actions_logged(const char *names, int res)
-> +{
-> +       struct tty_struct *tty;
-> +       const struct cred *cred;
-> +       struct audit_buffer *ab;
-> +       char comm[sizeof(current->comm)];
-> +
-> +       if (!audit_enabled)
-> +               return;
-> +
-> +       ab = audit_log_start(NULL, GFP_KERNEL, AUDIT_CONFIG_CHANGE);
-> +       if (unlikely(!ab))
-> +               return;
+> -void __audit_seccomp(unsigned long syscall, long signr, int code)
+> +void audit_seccomp(unsigned long syscall, long signr, int code)
+>  {
+>         struct audit_buffer *ab;
 
-Instead of NULL, let's pass current->audit_context to
-audit_log_start().  Yes, most of the AUDIT_CONFIG_CHANGE users pass
-NULL but all of that is going to need to change because of 1) the
-audit container ID work and 2) it makes sense to connect records that
-are related.  Let's do it right the first time here :)
+Since it is a bit unusual, it might be nice to add a comment at the
+top of audit_seccomp() that the event filtering is being done in the
+seccomp_log() function, and we may need to force auditing independent
+of the audit_enabled and dummy context state.
 
-> +       cred = current_cred();
-> +       tty = audit_get_tty(current);
-> +       audit_log_format(ab, "pid=%d uid=%u auid=%u tty=%s ses=%u",
-> +                        task_tgid_nr(current),
-> +                        from_kuid(&init_user_ns, cred->uid),
-> +                        from_kuid(&init_user_ns,
-> +                        audit_get_loginuid(current)),
-> +                        tty ? tty_name(tty) : "(none)",
-> +                        audit_get_sessionid(current));
-> +       audit_put_tty(tty);
-> +       audit_log_task_context(ab);
-> +       audit_log_format(ab, " comm=");
-> +       audit_log_untrustedstring(ab, get_task_comm(comm, current));
-> +       audit_log_d_path_exe(ab, current->mm);
-> +       audit_log_format(ab, " op=seccomp-logging");
-> +       if (names)
-> +               audit_log_format(ab, " actions=\"%s\"", names);
-> +
-> +       audit_log_format(ab, " res=%d", res);
-> +       audit_log_end(ab);
+> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> index e28ddcc..947cc0f 100644
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -584,18 +584,13 @@ static inline void seccomp_log(unsigned long syscall, long signr, u32 action,
+>         }
+>
+>         /*
+> -        * Force an audit message to be emitted when the action is RET_KILL_*,
+> -        * RET_LOG, or the FILTER_FLAG_LOG bit was set and the action is
+> -        * allowed to be logged by the admin.
+> +        * Emit an audit message when the action is RET_KILL_*, RET_LOG, or the
+> +        * FILTER_FLAG_LOG bit was set. The admin has the ability to silence
+> +        * any action from being logged by removing the action name from the
+> +        * seccomp_actions_logged sysctl.
+>          */
+>         if (log)
+> -               return __audit_seccomp(syscall, signr, action);
+> -
+> -       /*
+> -        * Let the audit subsystem decide if the action should be audited based
+> -        * on whether the current task itself is being audited.
+> -        */
+> -       return audit_seccomp(syscall, signr, action);
+> +               audit_seccomp(syscall, signr, action);
+>  }
+>
+>  /*
+> --
+> 2.7.4
+>
 
-One of the benefits of using current->audit_context is that we get a
-lot of this info from the associated SYSCALL record (assuming the
-admin isn't filtering that, e.g. Fedora defaults).  We can safely drop
-most everything except for the "op" and "actions" fields.
 
-Steve might also want an "old-actions" field, but I'll let him speak to that.
 
 -- 
 paul moore
