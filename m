@@ -1,133 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 928067DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 16:57:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6515A7E22E
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 17:25:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751629AbeEBQ5N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 12:57:13 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:47035 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751687AbeEBQ5I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 12:57:08 -0400
-Received: by mail-ua0-f193.google.com with SMTP id e8so7708248uam.13
-        for <linux-doc@vger.kernel.org>; Wed, 02 May 2018 09:57:07 -0700 (PDT)
+        id S1751154AbeEBRZU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 13:25:20 -0400
+Received: from mail-it0-f45.google.com ([209.85.214.45]:52698 "EHLO
+        mail-it0-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750942AbeEBRZS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 13:25:18 -0400
+Received: by mail-it0-f45.google.com with SMTP id i136-v6so9511521ita.2
+        for <linux-doc@vger.kernel.org>; Wed, 02 May 2018 10:25:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=K8d6C5TrMGgYKyPv72Dl+o5N5VZTWRwTFfwjmFwYVl8=;
-        b=lejUOmNWqEHkY4FIlxoVZcMOjHJhCxuOiPZQePicGwK6UIB+2z1UzX7Jh33GfqTSZo
-         a44cXgWrLQ1xK8TGJc8N9xBqPZaZUi/wZT196farAxUJWbSx4U4UmlQkODOvj3Sr5ka9
-         k+/EherdFWHlWJMskEuPO/feuuDFxnJ7BDa1jymyDve6GX3P9Ide107gFNUwrSU7QWjj
-         4LbDBLcrJUPtc2hJ0CU7K/5AolmyeOeKcGRI6AkJM9UR0ivKk18Ky3gm6VR5Cco6wmrh
-         m6BASljjAD9rMTbKximRkM8NqA7kILveJm6DV05tqBCZhpvAs+bx4SmUAZhRGNYTwpg0
-         xuhQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=K8d6C5TrMGgYKyPv72Dl+o5N5VZTWRwTFfwjmFwYVl8=;
-        b=G9U3jkKwo3kRYgnZYc3ueAFRwObQOIT6/E//oWNfU1DgY8U2PUwc/6G2A7wdpjDtGo
-         dHCMyRi973kGXzb8xdqLYMYW5uXYJ8TH6eMGJFg+1HYaSf1Yt/cZX3l69eAzA6/ODn9U
-         3NFMPL3GZ7JDFRrUSf3nEHkmYKIpXbyTFUyo0=
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=iy/QIicasq+EO8o2dAfPPMdQcTfRaxi+FJzYj6CZJfE=;
+        b=vG26IieNHIsw9TyrxtWnlg+p+Q1h18EIlEt29YspRoeyTJs0AdOo5gl5E9CoGPU6fj
+         Yyg74kBUy+wiLe08DmbHnxvWmQsZZkxCSyEEadDZffdKVXQHxpxEgL0ptCMOhLkxGnNe
+         9khugtDktk0KRRD0PrvbUQn/tkNvTn9Hxjg3uG+ReBULKbR7Fj8DtsaAG1JvH1H/+nzj
+         KyawbCJ3y9FW2A6Fl9Cm6czeQqHar8EPTiMG1vck6V1eIU51uOoRVVSTd/rtpzSTloTf
+         Z4ogXeq/qoNrOaJpWUqDGnC9+Su4jnvgsuCSARhzNJ6JwF0wJByQvuNRRmL8ma0bQDXV
+         WBZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=K8d6C5TrMGgYKyPv72Dl+o5N5VZTWRwTFfwjmFwYVl8=;
-        b=Bu8k6XQv+mgWtCgeEBeCyhgZUP0XU/Vt3UGxqRb/H2xPZaJAZpCFayeCON0J4AceXI
-         TSHyd9vdcIXhXX/fluqwdfPHO7dVVkG6x/u0dne0YGgzIaiG/e90RYNhAQY6sNn0ZPbs
-         7MbmE4ZxkVvk1JBNWMMKjICIbxEMb9CRnrzrhiEgNUHSz7fn4COE8P/6vSKFrubqs6pn
-         uceUFkiMjbRSgqBA/LS/f8voNfXpc6EczXDLXfMBR4KghOWQuQWRJNFezGY7AJ912TQv
-         Z59gttedAZO3gy0OyvyrZ1J2jLPJbjEjSLzmGDGO9dTlKhv4GsxuRD+rgHj1rpb+7SXe
-         btrA==
-X-Gm-Message-State: ALQs6tDtdgeryp7PzIcXwSVVD8Onao1RHbGZADBNogBg1riCjEzhDME1
-        OShkPzEd8FAVeHDzTJznj8fFMzVBj3qQam3nyUiBzw==
-X-Google-Smtp-Source: AB8JxZrx1YQ172gRVsikCWxQ/PcMG2fC5eXKuslaoQXK4KIioh4tvRBGKhcUpS5onv6tVGQ7kFVC4gflz8uAyUnJlrM=
-X-Received: by 10.159.40.35 with SMTP id c32mr19870080uac.193.1525280226376;
- Wed, 02 May 2018 09:57:06 -0700 (PDT)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=iy/QIicasq+EO8o2dAfPPMdQcTfRaxi+FJzYj6CZJfE=;
+        b=Pyjf0P+7E3HozbjgEijRHx2S00ANogR/oMYclRsGsTzfspkQv9wLy+UALFJmA7XOuP
+         EV7sy10tP5BPrueMBUuvcHnGmQD0FsRWu636AL/D4W3NN0BgtNaEz42l9FzSbA/1cyDV
+         odWBugx2Ye48/O1fHaCBp3hnxM+n4sjUG20N61edTT+nTPuT14r9JqnTnusT+zd6LhnR
+         s9MCa7unYJMmq4lgtrFGIkW39tOD1P70oLpsNqoJf8tnckOaFQ0M7sBeix8eh0BRtKWL
+         /pb8tV/Wl+ADCe4j3+2qM2tbCegHFAzewJplQaE2UaeLSdDLDmbzFsgmVpMJl939lG2w
+         WmSQ==
+X-Gm-Message-State: ALQs6tA2oiihhSoD+Gs5N9FVAhPKp9O3FUX9L6+PgluPP3T7Y+kqc11i
+        FY9xD0UFn6AZGOAfxBHMMVWLMYvpcD1gwsqudKrQbw==
+X-Google-Smtp-Source: AB8JxZro+x4E6etcw1aZ5rFdnvE4dKyQmOHUddiV9UPnUQubVgGNeekDC28ddc2Wg5AkujCNYkO0sCo7f/+KWZpJ2M8=
+X-Received: by 2002:a24:b915:: with SMTP id w21-v6mr21279171ite.53.1525281918050;
+ Wed, 02 May 2018 10:25:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.11.209 with HTTP; Wed, 2 May 2018 09:57:05 -0700 (PDT)
-In-Reply-To: <1525276400-7161-5-git-send-email-tyhicks@canonical.com>
-References: <1525276400-7161-1-git-send-email-tyhicks@canonical.com> <1525276400-7161-5-git-send-email-tyhicks@canonical.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Wed, 2 May 2018 09:57:05 -0700
-X-Google-Sender-Auth: GB4wDQPPPhD2zcH22WBY16U0fnE
-Message-ID: <CAGXu5jLnD=g=LxR5KTrvcwr1qaYiYXbH-ersvhs5NPRR6JA91w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] seccomp: Don't special case audited processes when logging
-To:     Tyler Hicks <tyhicks@canonical.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@redhat.com>,
-        Steve Grubb <sgrubb@redhat.com>,
+Received: by 2002:a02:6658:0:0:0:0:0 with HTTP; Wed, 2 May 2018 10:25:17 -0700 (PDT)
+In-Reply-To: <20180502153645.fui4ju3scsze3zkq@black.fi.intel.com>
+References: <cover.1524077494.git.andreyknvl@google.com> <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
+ <20180426174714.4jtb72q56w3xonsa@armageddon.cambridge.arm.com>
+ <CAAeHK+zY8p9E4FZa7mbdgR=wR0u-RDS552dn=h9fKRC-ArYLdw@mail.gmail.com> <20180502153645.fui4ju3scsze3zkq@black.fi.intel.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 2 May 2018 19:25:17 +0200
+Message-ID: <CAAeHK+yTbmZfkeNbqbo+J90zsjsM99rwnYBGfQBxphHMMfgD7A@mail.gmail.com>
+Subject: Re: [PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
+To:     "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Audit <linux-audit@redhat.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        linux-doc@vger.kernel.org
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        James Morse <james.morse@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Bart Van Assche <bart.vanassche@wdc.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Zi Yan <zi.yan@cs.rutgers.edu>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 2, 2018 at 8:53 AM, Tyler Hicks <tyhicks@canonical.com> wrote:
-> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-> index da78835..9029d9d 100644
-> --- a/kernel/seccomp.c
-> +++ b/kernel/seccomp.c
-> @@ -584,18 +584,13 @@ static inline void seccomp_log(unsigned long syscall, long signr, u32 action,
->         }
+On Wed, May 2, 2018 at 5:36 PM, Kirill A. Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
+> On Wed, May 02, 2018 at 02:38:42PM +0000, Andrey Konovalov wrote:
+>> > Does having a tagged address here makes any difference? I couldn't hit a
+>> > failure with my simple tests (LD_PRELOAD a library that randomly adds
+>> > tags to pointers returned by malloc).
+>>
+>> I think you're right, follow_page_mask is only called from
+>> __get_user_pages, which already untagged the address. I'll remove
+>> untagging here.
 >
->         /*
-> -        * Force an audit message to be emitted when the action is RET_KILL_*,
-> -        * RET_LOG, or the FILTER_FLAG_LOG bit was set and the action is
-> -        * allowed to be logged by the admin.
-> +        * Emit an audit message when the action is RET_KILL_*, RET_LOG, or the
-> +        * FILTER_FLAG_LOG bit was set. The admin has the ability to silence
-> +        * any action from being logged by removing the action name from the
-> +        * seccomp_actions_logged sysctl.
->          */
->         if (log)
-> -               return __audit_seccomp(syscall, signr, action);
-> -
-> -       /*
-> -        * Let the audit subsystem decide if the action should be audited based
-> -        * on whether the current task itself is being audited.
-> -        */
-> -       return audit_seccomp(syscall, signr, action);
-> +               audit_seccomp(syscall, signr, action);
->  }
+> It also called from follow_page(). Have you covered all its callers?
 
-This whole series looks great to me. If I can get an Ack from Paul for
-the audit bits, I can take it via the seccomp tree. One minor nit on
-seccomp_log() above, I'd probably change this to show the "exception"
-case as "out of line" of normal code flow. i.e. instead of "if (log)
-audit_seccomp", invert it to return early:
+Oh, missed that, will take a look.
 
-...
-    if (!log)
-        return;
-
-    audit_seccomp(syscall, signr, action);
-}
-
-But if there isn't some other need for a v3, I can just make this
-change when I commit.
-
-Thanks for fixing this up!
-
--Kees
-
--- 
-Kees Cook
-Pixel Security
+Thinking about that, would it make sense to add untagging to find_vma
+(and others) instead of trying to cover all find_vma callers?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
