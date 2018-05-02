@@ -5,74 +5,81 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 033697E27B
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 May 2018 21:31:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EAEA17E278
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 02:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751181AbeEAVbK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 May 2018 17:31:10 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59090 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1750743AbeEAVbH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 May 2018 17:31:07 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C8692406C797;
-        Tue,  1 May 2018 21:31:06 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-164.bos.redhat.com [10.18.17.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0E59F2022C00;
-        Tue,  1 May 2018 21:31:06 +0000 (UTC)
-Subject: Re: [PATCH v7 4/5] cpuset: Restrict load balancing off cpus to subset
- of cpus.isolated
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <1524145624-23655-1-git-send-email-longman@redhat.com>
- <1524145624-23655-5-git-send-email-longman@redhat.com>
- <20180501195148.GC2368884@devbig577.frc2.facebook.com>
- <9eb2c45e-e71e-61ef-aa6d-b8124b739cdf@redhat.com>
- <20180501205828.GD2368884@devbig577.frc2.facebook.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <c3064aa6-6114-95f2-6204-e80937f40a92@redhat.com>
-Date:   Tue, 1 May 2018 17:31:05 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S1750823AbeEBCSr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 May 2018 22:18:47 -0400
+Received: from out01.mta.xmission.com ([166.70.13.231]:42923 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750766AbeEBCSr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 May 2018 22:18:47 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1fDhLc-0005XR-16; Tue, 01 May 2018 20:18:24 -0600
+Received: from [97.119.174.25] (helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1fDhLa-0007Dr-Th; Tue, 01 May 2018 20:18:23 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Waiman Long <longman@redhat.com>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>
+References: <1524862838-8247-1-git-send-email-longman@redhat.com>
+Date:   Tue, 01 May 2018 21:18:17 -0500
+In-Reply-To: <1524862838-8247-1-git-send-email-longman@redhat.com> (Waiman
+        Long's message of "Fri, 27 Apr 2018 17:00:30 -0400")
+Message-ID: <87po2ex0k6.fsf@xmission.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20180501205828.GD2368884@devbig577.frc2.facebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 01 May 2018 21:31:06 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 01 May 2018 21:31:06 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain
+X-XM-SPF: eid=1fDhLa-0007Dr-Th;;;mid=<87po2ex0k6.fsf@xmission.com>;;;hst=in02.mta.xmission.com;;;ip=97.119.174.25;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX194fR8D97k8KGopeMkPAD/2gD+zliWQSiU=
+X-SA-Exim-Connect-IP: 97.119.174.25
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH v6 0/8] ipc: Clamp *mni to the real IPCMNI limit & increase that limit
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/01/2018 04:58 PM, Tejun Heo wrote:
-> Hello,
+
+
+> The sysctl parameters msgmni, shmmni and semmni have an inherent limit
+> of IPC_MNI (32k). However, users may not be aware of that because they
+> can write a value much higher than that without getting any error or
+> notification. Reading the parameters back will show the newly written
+> values which are not real.
 >
-> On Tue, May 01, 2018 at 04:33:45PM -0400, Waiman Long wrote:
->> I think that will work too. We currently don't have a flag to make a
->> file visible on first-level children only, but it shouldn't be hard to
->> make one.
-> I think it'd be fine to make the flag file exist on all !root cgroups
-> but only writable on the first level children.
+> Enforcing the limit by failing sysctl parameter write, however, may
+> cause regressions if existing user setup scripts set those parameters
+> above 32k as those scripts will now fail in this case.
 
-Right. This flag will be inherited by child cgroups like the
-sched_load_balance.
+I have a serious problem with this approach.  Have you made any effort
+to identify any code that sets these values above 32k?  Have you looked
+to see if these applications actually care if you return an error when
+a value is set too large?
 
-Cheers,
-Longman
+Right now this seems like a lot of work to avoid breaking applications
+and or users that may or may not exist.  If you can find something that
+will care sure.  We need to avoid breaking userspace and causing
+regressions.  However as this stands it looks you are making maintenance
+of the kernel more difficult to avoid having to look to see if there are
+monsters under the bed.
+
+
+
+Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
