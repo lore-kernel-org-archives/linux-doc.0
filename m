@@ -1,39 +1,29 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7E8687E27C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 13:42:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AAC347E27C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 13:47:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751344AbeEBNmo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 09:42:44 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:56092 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750954AbeEBNmn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 09:42:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=mu+Vj1ezXhwU9IwXbpzccGaBNGHYt7RVy1UgKQINBww=; b=zqkZe7SG96NvIfeLLsg9aDPPA
-        +jXtonLBp3MeS8SSnneNp7PDvju3AH9h+QcwlIYOHOXNiGXVPFniNQM4iN5LMinXtgYkz+JjY/Lra
-        dff48gaLksf/q52L36QHGuGweqhgHYy1Qw2Tqef0YJqt5pgeH2sizEaUCir+Z+s8tRt6PnwOaJ5Cv
-        21JTYpeJJEo19uZkhkW0oFalaiWxnk1rA8s+1yNzXX+2g7ZDzf0r10onYlDQ8ajAX9fmI9swtI2oy
-        SFMb2XjnNC6f23mEQvit277G9jsghhXkysf2A0X8brcXO43NwR5BUzc+AGp6D+Su99mneVwx+EOa4
-        iLJ0wwVbA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fDs1a-00016g-Rg; Wed, 02 May 2018 13:42:27 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 563EB2029FA14; Wed,  2 May 2018 15:42:25 +0200 (CEST)
-Date:   Wed, 2 May 2018 15:42:25 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
+        id S1751171AbeEBNrD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 09:47:03 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:42532 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751109AbeEBNrC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 May 2018 09:47:02 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 983A140201AF;
+        Wed,  2 May 2018 13:47:01 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-164.bos.redhat.com [10.18.17.164])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AB9962024CA1;
+        Wed,  2 May 2018 13:47:00 +0000 (UTC)
+Subject: Re: [PATCH v7 2/5] cpuset: Add cpuset.sched_load_balance to v2
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
@@ -42,103 +32,118 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
         Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>
-Subject: Re: [PATCH v7 2/5] cpuset: Add cpuset.sched_load_balance to v2
-Message-ID: <20180502134225.GR12217@hirez.programming.kicks-ass.net>
 References: <1524145624-23655-1-git-send-email-longman@redhat.com>
  <1524145624-23655-3-git-send-email-longman@redhat.com>
  <20180502102416.GJ12180@hirez.programming.kicks-ass.net>
  <14d7604c-1254-1146-e2b6-23f4cc020b34@redhat.com>
+ <20180502134225.GR12217@hirez.programming.kicks-ass.net>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <94c80e1c-049d-6ec3-8e8c-40eb88d1341d@redhat.com>
+Date:   Wed, 2 May 2018 09:47:00 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14d7604c-1254-1146-e2b6-23f4cc020b34@redhat.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+In-Reply-To: <20180502134225.GR12217@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 02 May 2018 13:47:01 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 02 May 2018 13:47:01 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 02, 2018 at 09:29:54AM -0400, Waiman Long wrote:
-> On 05/02/2018 06:24 AM, Peter Zijlstra wrote:
-> > On Thu, Apr 19, 2018 at 09:47:01AM -0400, Waiman Long wrote:
-> >> +  cpuset.sched_load_balance
-> >> +	A read-write single value file which exists on non-root cgroups.
-> > Uhhm.. it should very much exist in the root group too. Otherwise you
-> > cannot disable it there, which is required to allow smaller groups to
-> > load-balance between themselves.
-> >
-> >> +	The default is "1" (on), and the other possible value is "0"
-> >> +	(off).
-> >> +
-> >> +	When it is on, tasks within this cpuset will be load-balanced
-> >> +	by the kernel scheduler.  Tasks will be moved from CPUs with
-> >> +	high load to other CPUs within the same cpuset with less load
-> >> +	periodically.
-> >> +
-> >> +	When it is off, there will be no load balancing among CPUs on
-> >> +	this cgroup.  Tasks will stay in the CPUs they are running on
-> >> +	and will not be moved to other CPUs.
-> >> +
-> >> +	This flag is hierarchical and is inherited by child cpusets. It
-> >> +	can be turned off only when the CPUs in this cpuset aren't
-> >> +	listed in the cpuset.cpus of other sibling cgroups, and all
-> >> +	the child cpusets, if present, have this flag turned off.
-> >> +
-> >> +	Once it is off, it cannot be turned back on as long as the
-> >> +	parent cgroup still has this flag in the off state.
-> > That too is wrong and broken. You explicitly want to turn it on for
-> > children.
-> >
-> > So the idea is that you can have:
-> >
-> > 		R
-> > 	      /   \
-> >             A       B
-> >
-> > With:
-> >
-> > 	R cpus=0-3, load_balance=0
-> > 	A cpus=0-1, load_balance=1
-> > 	B cpus=2-3, load_balance=1
-> >
-> > Which will allow all tasks in A,B (and its children) to load-balance
-> > across 0-1 or 2-3 resp.
-> >
-> > If you don't allow the root group to disable load_balance, it will
-> > always be the largest group and load-balancing will always happen system
-> > wide.
-> 
-> If you look at the remaining patches in the series, I was proposing a
-> different way to support isolcpus and separate sched domains with
-> turning off load balancing in the root cgroup.
-> 
-> For me, it doesn't feel right to have load balancing disabled in the
-> root cgroup as we probably cannot move all the tasks away from the root
-> cgroup anyway. I am going to update the current patchset to incorporate
-> suggestion from Tejun. It will probably be ready sometime next week.
-> 
+On 05/02/2018 09:42 AM, Peter Zijlstra wrote:
+> On Wed, May 02, 2018 at 09:29:54AM -0400, Waiman Long wrote:
+>> On 05/02/2018 06:24 AM, Peter Zijlstra wrote:
+>>> On Thu, Apr 19, 2018 at 09:47:01AM -0400, Waiman Long wrote:
+>>>> +  cpuset.sched_load_balance
+>>>> +	A read-write single value file which exists on non-root cgroups.
+>>> Uhhm.. it should very much exist in the root group too. Otherwise you
+>>> cannot disable it there, which is required to allow smaller groups to
+>>> load-balance between themselves.
+>>>
+>>>> +	The default is "1" (on), and the other possible value is "0"
+>>>> +	(off).
+>>>> +
+>>>> +	When it is on, tasks within this cpuset will be load-balanced
+>>>> +	by the kernel scheduler.  Tasks will be moved from CPUs with
+>>>> +	high load to other CPUs within the same cpuset with less load
+>>>> +	periodically.
+>>>> +
+>>>> +	When it is off, there will be no load balancing among CPUs on
+>>>> +	this cgroup.  Tasks will stay in the CPUs they are running on
+>>>> +	and will not be moved to other CPUs.
+>>>> +
+>>>> +	This flag is hierarchical and is inherited by child cpusets. It
+>>>> +	can be turned off only when the CPUs in this cpuset aren't
+>>>> +	listed in the cpuset.cpus of other sibling cgroups, and all
+>>>> +	the child cpusets, if present, have this flag turned off.
+>>>> +
+>>>> +	Once it is off, it cannot be turned back on as long as the
+>>>> +	parent cgroup still has this flag in the off state.
+>>> That too is wrong and broken. You explicitly want to turn it on for
+>>> children.
+>>>
+>>> So the idea is that you can have:
+>>>
+>>> 		R
+>>> 	      /   \
+>>>             A       B
+>>>
+>>> With:
+>>>
+>>> 	R cpus=0-3, load_balance=0
+>>> 	A cpus=0-1, load_balance=1
+>>> 	B cpus=2-3, load_balance=1
+>>>
+>>> Which will allow all tasks in A,B (and its children) to load-balance
+>>> across 0-1 or 2-3 resp.
+>>>
+>>> If you don't allow the root group to disable load_balance, it will
+>>> always be the largest group and load-balancing will always happen system
+>>> wide.
+>> If you look at the remaining patches in the series, I was proposing a
+>> different way to support isolcpus and separate sched domains with
+>> turning off load balancing in the root cgroup.
+>>
+>> For me, it doesn't feel right to have load balancing disabled in the
+>> root cgroup as we probably cannot move all the tasks away from the root
+>> cgroup anyway. I am going to update the current patchset to incorporate
+>> suggestion from Tejun. It will probably be ready sometime next week.
+>>
+> I've read half of the next patch that adds the isolation thing. And
+> while that kludges around the whole root cgorup is magic thing, it
+> doesn't help if you move the above scenario on level down:
+>
+>
+> 	R
+>      /    \
+>    A        B
+>           /   \
+>         C       D
+>
+>
+> R: cpus=0-7, load_balance=0
+> A: cpus=0-1, load_balance=1
+> B: cpus=2-7, load_balance=0
+> C: cpus=2-3, load_balance=1
+> D: cpus=4-7, load_balance=1
+>
+>
+> Also, I feel we should strive to have a minimal amount of tasks that
+> cannot be moved out of the root group; the current set is far too large.
 
-I've read half of the next patch that adds the isolation thing. And
-while that kludges around the whole root cgorup is magic thing, it
-doesn't help if you move the above scenario on level down:
+What exactly is the use case you have in mind with loading balancing
+disabled in B, but enabled in C and D? We would like to support some
+sensible use cases, but not every possible combinations.
 
+Cheers,
+Longman
 
-	R
-     /    \
-   A        B
-          /   \
-        C       D
-
-
-R: cpus=0-7, load_balance=0
-A: cpus=0-1, load_balance=1
-B: cpus=2-7, load_balance=0
-C: cpus=2-3, load_balance=1
-D: cpus=4-7, load_balance=1
-
-
-Also, I feel we should strive to have a minimal amount of tasks that
-cannot be moved out of the root group; the current set is far too large.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
