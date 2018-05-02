@@ -5,127 +5,106 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1231E7E27C
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 09:47:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 440187E677
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 10:26:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750907AbeEBJrx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 05:47:53 -0400
-Received: from mail-vk0-f65.google.com ([209.85.213.65]:38640 "EHLO
-        mail-vk0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750897AbeEBJrv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 05:47:51 -0400
-Received: by mail-vk0-f65.google.com with SMTP id 10-v6so8577761vkh.5;
-        Wed, 02 May 2018 02:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=o3yWDWi4vxeuwm2Nc0GxyKU/keqI3bQeq2MC388JJfo=;
-        b=W5H0sX3b8W8VUBkgsubDAkwR6MNbPhcTvn4n6nR4PfHBhBNu4hn/ytCnh/TGm1eIjh
-         tYW2cN5DqFe7N2icEelDjfazdopBict6gnUJI5PZw/+UvYEpelRrNRAL4ZIs224wB8le
-         VkTs+YfDOe8WBImcT8pW72/HFVZ1rozOHhzCmky8GFzd1kSzYcan1IWgq88cW3kXt79o
-         YMX6t6VpO40tSYpBN9O+jmrMu5XyR+7TsfuGIROkV+cSyQARcGzPQQ3isNiveOLFQvMX
-         LmTJxvgC48xMaYbg1usGQU7rWoU1dR17RxDFm1yCoM8BcApr93ean5qFSXhtP7M9q/Yx
-         PWJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=o3yWDWi4vxeuwm2Nc0GxyKU/keqI3bQeq2MC388JJfo=;
-        b=p9WuEe20kbhebLKljVZxR4UdncD7gIL5I0SXx0PPthk2GIkwioWMF01i/l3SRbenGu
-         +QZj+0YeqRt37E6m6wjsnJG7+J6uX/XqJ/NgfAa3k+vjDzT2KGMrmhCjjQF6GBux2Lyu
-         Vq1e5l2AonQPTCD0lFzg/kmzZxCCDs2XN0CRFmDLXyWL2/uicIDqBHH87+2Sh2mW/TR5
-         xvnAsEk0JTWRRqSYOduon0TCE9EEVH/rntfpghx9cUtiVqwVjkn9qx87vzkKsqBbOfCh
-         wbOHFjKP8jGJn3LZPQtIKgTEAFy9RA/vxtVSB4sAw4c4xzAg77j7AfD/IIF6y+7zDogE
-         I/HA==
-X-Gm-Message-State: ALQs6tBavks531EJ6Be1rFINnzxnlaGiHFZKDV4Td6oYJMNgs1HyV1pV
-        QZP2udDTeADVFYby1vTbBxhWz4vMq8WmmBjkYZo=
-X-Google-Smtp-Source: AB8JxZqh1/fTCqt/xMc1oI3koGehWDSZ9gWDfYOrNz1bNtlfFSUnxvoKWvBZNLPW7jGMnz/YIMClDIOTWR0JNmq2TQE=
-X-Received: by 2002:a1f:214b:: with SMTP id h72-v6mr17427755vkh.176.1525254470052;
- Wed, 02 May 2018 02:47:50 -0700 (PDT)
+        id S1750918AbeEBKYc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 06:24:32 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33768 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750897AbeEBKYa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 06:24:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=+eTGSS7Cv6Co7u5U111G0eVVRGuuFovTlO69IISNExI=; b=fV+VB4mISPeyh5XMUgs6SUkFZ
+        /ESM9V03e0fJk9OtCcd7fArRr2lym7RFlnKORTJj/ouJ1h+vcdozNd1KTFa3s6p4reOAtL/Xb7FZR
+        iAQnnd2JfHjzOG0bYx9Sisej4m5vTXtesVZCr3yxPVh9NnFHFg1iEANWJgoVubi7nEDQddZuiBu5r
+        ss1XxaN0d5DPLfENy9dCbyReIDxo8QDnr3OCjJ3Hq/RvBpV2oaB2yho5nMGkTh2hPyZZ8GzD7LP+p
+        85rhGh0zrk1qUd8L97nghbWlAV/kdPJQ2FY6/Af/pEu7iNjilDSYJ9mVdpirFocgNoa8VSsJQAVIT
+        optHXnmcQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fDovr-00036D-0Y; Wed, 02 May 2018 10:24:20 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B277A2029FA14; Wed,  2 May 2018 12:24:16 +0200 (CEST)
+Date:   Wed, 2 May 2018 12:24:16 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH v7 2/5] cpuset: Add cpuset.sched_load_balance to v2
+Message-ID: <20180502102416.GJ12180@hirez.programming.kicks-ass.net>
+References: <1524145624-23655-1-git-send-email-longman@redhat.com>
+ <1524145624-23655-3-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-Received: by 10.103.122.10 with HTTP; Wed, 2 May 2018 02:47:49 -0700 (PDT)
-In-Reply-To: <20180429133700.GD28913@kroah.com>
-References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
- <20180330074751.25987-4-boris.brezillon@bootlin.com> <20180429133700.GD28913@kroah.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 2 May 2018 11:47:49 +0200
-X-Google-Sender-Auth: BvWgmjA3aGbIGWgCVyjhfAPpTm8
-Message-ID: <CAMuHMdUe=zauTS7BQXyTvMbmc-AsEVdWN0gG_3Ejg3E4T-xFXQ@mail.gmail.com>
-Subject: Re: [PATCH v4 03/10] i3c: Add sysfs ABI spec
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1524145624-23655-3-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+On Thu, Apr 19, 2018 at 09:47:01AM -0400, Waiman Long wrote:
+> +  cpuset.sched_load_balance
+> +	A read-write single value file which exists on non-root cgroups.
 
-On Sun, Apr 29, 2018 at 3:37 PM, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Fri, Mar 30, 2018 at 09:47:44AM +0200, Boris Brezillon wrote:
->> Document sysfs files/directories/symlinks exposed by the I3C subsystem.
->>
->> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
->> ---
->> Changes in v2:
->> - new patch
->> ---
->>  Documentation/ABI/testing/sysfs-bus-i3c | 95 +++++++++++++++++++++++++++++++++
->>  1 file changed, 95 insertions(+)
->>  create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
->>
->> diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
->> new file mode 100644
->> index 000000000000..5e88cc093e0e
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/sysfs-bus-i3c
->> @@ -0,0 +1,95 @@
->> +What:                /sys/bus/i3c/devices/i3c-<bus-id>
->> +KernelVersion:  4.16
->
-> Wrong kernel versions :)
+Uhhm.. it should very much exist in the root group too. Otherwise you
+cannot disable it there, which is required to allow smaller groups to
+load-balance between themselves.
 
-Do you update these when backporting to stable? ;-)
+> +	The default is "1" (on), and the other possible value is "0"
+> +	(off).
+> +
+> +	When it is on, tasks within this cpuset will be load-balanced
+> +	by the kernel scheduler.  Tasks will be moved from CPUs with
+> +	high load to other CPUs within the same cpuset with less load
+> +	periodically.
+> +
+> +	When it is off, there will be no load balancing among CPUs on
+> +	this cgroup.  Tasks will stay in the CPUs they are running on
+> +	and will not be moved to other CPUs.
+> +
+> +	This flag is hierarchical and is inherited by child cpusets. It
+> +	can be turned off only when the CPUs in this cpuset aren't
+> +	listed in the cpuset.cpus of other sibling cgroups, and all
+> +	the child cpusets, if present, have this flag turned off.
+> +
+> +	Once it is off, it cannot be turned back on as long as the
+> +	parent cgroup still has this flag in the off state.
 
-Gr{oetje,eeting}s,
+That too is wrong and broken. You explicitly want to turn it on for
+children.
 
-                        Geert
+So the idea is that you can have:
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+		R
+	      /   \
+            A       B
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+With:
+
+	R cpus=0-3, load_balance=0
+	A cpus=0-1, load_balance=1
+	B cpus=2-3, load_balance=1
+
+Which will allow all tasks in A,B (and its children) to load-balance
+across 0-1 or 2-3 resp.
+
+If you don't allow the root group to disable load_balance, it will
+always be the largest group and load-balancing will always happen system
+wide.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
