@@ -1,102 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D61957DE79
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 11:51:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD69B7E27C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 13:24:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751174AbeEBLvL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 07:51:11 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:33130 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751020AbeEBLvK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 07:51:10 -0400
-Received: by mail-it0-f66.google.com with SMTP id t7-v6so8090095itf.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 May 2018 04:51:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=WOCbKwrD4HPuSZgtFI09s5YbzOmu/+mqU5O5PPnQbrA=;
-        b=H2XzHer7YDEUk8hLhPny8X6JUDrt8BLWkCwq87S7Q69WFRZzW3VE7KCZgL6e2NMihe
-         SPt7unpE3LppOc4ZbyfUwh07CBv0uY8gkUkbdL18FaPvVQ7ME2OAI8KDTyZDdworUs59
-         tDtZr7HeJ6KDiUpgK1wO0ljgV454dSGCKMaQ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=WOCbKwrD4HPuSZgtFI09s5YbzOmu/+mqU5O5PPnQbrA=;
-        b=d3p0kjlaBBJp0qvvy2575QiS8XXOfiGJ7EXG1Nk4wdvhysK7kWK+/CiQ2b7CoNJs6p
-         39VJCOHoE6Kd37U6lAjTc/FPyBPwF7U3U3vsZeVfg1I4UQCMU6p5WSDnJGZMKnqwkFXO
-         WBam2spzt75e32p8uwlc95bXHZ0aPofZUv+Hz+7A3Bya04ZqHaEj+jl/VA+IJpOsT6bD
-         BEqyo22bZkEBPDN3UhJRD397khYk7LaSZ1nneWgxiHbF9eSc+XEJS+qZkzp0IUIC/RME
-         bmDeR+XSkke6fPuw6DWvhTW2zS0ecjkT+gkNS0D+J72vowEVv1f1wUMIFfu2CQtRnL3h
-         beFw==
-X-Gm-Message-State: ALQs6tBm95c4dIzs+BdFja37SSPvGdNVFMZIF+2CnInw/rRFQaN7gT59
-        jrGLDQMGXxxO89RTS4S2lHukhkDibuExpHf3kJZHkg==
-X-Google-Smtp-Source: AB8JxZp5E/hf1VGT2sWyszYu+hnDZWr8UXLZJdHK8G2tIEBi3Iw1omEZdLP3EQD1CY3BzogUt4XfQMSLQVj/E0YM8Rw=
-X-Received: by 2002:a24:c146:: with SMTP id e67-v6mr19243645itg.70.1525261870276;
- Wed, 02 May 2018 04:51:10 -0700 (PDT)
+        id S1751121AbeEBNYA convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 09:24:00 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:39280 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751100AbeEBNYA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 May 2018 09:24:00 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 7A811EC014;
+        Wed,  2 May 2018 13:23:59 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-164.bos.redhat.com [10.18.17.164])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AA38D63529;
+        Wed,  2 May 2018 13:23:58 +0000 (UTC)
+Subject: Re: [PATCH v6 0/8] ipc: Clamp *mni to the real IPCMNI limit &
+ increase that limit
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>
+References: <1524862838-8247-1-git-send-email-longman@redhat.com>
+ <87po2ex0k6.fsf@xmission.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <5aac35f0-77e3-5693-ddf0-a03695ff1192@redhat.com>
+Date:   Wed, 2 May 2018 09:23:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Received: by 2002:a4f:2793:0:0:0:0:0 with HTTP; Wed, 2 May 2018 04:51:09 -0700 (PDT)
-In-Reply-To: <CAMRc=Me2YD49VkwENwFmRUHGDYzPc_80b6uABUvi7_QeeoMrrQ@mail.gmail.com>
-References: <20180410203028.11412-1-brgl@bgdev.pl> <CACRpkda+K3-=sPpJO90rjW0=+bsQ1uYT6E9Hp+G+-OEyTpc=fg@mail.gmail.com>
- <CAMRc=Me2YD49VkwENwFmRUHGDYzPc_80b6uABUvi7_QeeoMrrQ@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 2 May 2018 13:51:09 +0200
-Message-ID: <CACRpkdbbCKkzCq1S86OTwjrZ4SQFFPAg92qgbzt2U2QaqEwZaw@mail.gmail.com>
-Subject: Re: [PATCH v2] gpiolib: add hogs support for machine code
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <87po2ex0k6.fsf@xmission.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 02 May 2018 13:23:59 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 02 May 2018 13:23:59 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 26, 2018 at 6:42 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> 2018-04-26 14:07 GMT+02:00 Linus Walleij <linus.walleij@linaro.org>:
->> On Tue, Apr 10, 2018 at 10:30 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->>
->>> Board files constitute a significant part of the users of the legacy
->>> GPIO framework. In many cases they only export a line and set its
->>> desired value. We could use GPIO hogs for that like we do for DT and
->>> ACPI but there's no support for that in machine code.
->>>
->>> This patch proposes to extend the machine.h API with support for
->>> registering hog tables in board files.
->>>
->>> Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
->>> ---
->>> v1 -> v2:
->>> - kbuild bot complains about enum gpiod_flags having incomplete type
->>>   although it builds fine for me locally: change the type of dflags
->>>   to int
->>
->> I like the idea and thinking behind this patch, so patch applied.
->>
->> It's a bit of code to carry, so if it doesn't see any use, I will simply
->> revert it :)
->>
->> But I bet you intend to follow up with some machine patches
->> and then it is immediately worth it.
+On 05/01/2018 10:18 PM, Eric W. Biederman wrote:
 >
-> Yes, I'll be submitting patches removing the legacy gpio calls for
-> boards in mach-davinci.
+>> The sysctl parameters msgmni, shmmni and semmni have an inherent limit
+>> of IPC_MNI (32k). However, users may not be aware of that because they
+>> can write a value much higher than that without getting any error or
+>> notification. Reading the parameters back will show the newly written
+>> values which are not real.
+>>
+>> Enforcing the limit by failing sysctl parameter write, however, may
+>> cause regressions if existing user setup scripts set those parameters
+>> above 32k as those scripts will now fail in this case.
+> I have a serious problem with this approach.  Have you made any effort
+> to identify any code that sets these values above 32k?  Have you looked
+> to see if these applications actually care if you return an error when
+> a value is set too large?
 
-Awesome, thanks!
+It is not that an application cares about if an error is returned or
+not. Most applications don't care. It is that if an error is returned,
+it means that the sysctl parameter isn't change at all instead of being
+set to a large value and then internally clamped to a smaller number
+which is still bigger than the original value. That is what can break an
+application because the sysctl parameters may be just too small for the
+application.
 
-(I guess they should all be converted to device tree though, hope that
-will happen...)
+> Right now this seems like a lot of work to avoid breaking applications
+> and or users that may or may not exist.  If you can find something that
+> will care sure.  We need to avoid breaking userspace and causing
+> regressions.  However as this stands it looks you are making maintenance
+> of the kernel more difficult to avoid having to look to see if there are
+> monsters under the bed.
 
-Yours,
-Linus Walleij
+I shall admit that it can be hard to find applications that will
+explicitly need that as we usually don't have access to the applications
+that the customers have. It is more a correctness issue where the
+existing code is kind of lying about what can actually be supported. I
+just want to make the users more aware of what the right limits are.
+
+Cheers,
+Longman
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
