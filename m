@@ -5,87 +5,86 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 575A87DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 15:37:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF2047E27B
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 15:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751020AbeEBPgz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 11:36:55 -0400
-Received: from mga14.intel.com ([192.55.52.115]:27530 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750878AbeEBPgy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 May 2018 11:36:54 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 May 2018 08:36:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,354,1520924400"; 
-   d="scan'208";a="51787309"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 02 May 2018 08:36:47 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-        id 1BCEB161F; Wed,  2 May 2018 18:36:46 +0300 (EEST)
-Date:   Wed, 2 May 2018 18:36:46 +0300
-From:   "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
-Message-ID: <20180502153645.fui4ju3scsze3zkq@black.fi.intel.com>
-References: <cover.1524077494.git.andreyknvl@google.com>
- <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
- <20180426174714.4jtb72q56w3xonsa@armageddon.cambridge.arm.com>
- <CAAeHK+zY8p9E4FZa7mbdgR=wR0u-RDS552dn=h9fKRC-ArYLdw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+zY8p9E4FZa7mbdgR=wR0u-RDS552dn=h9fKRC-ArYLdw@mail.gmail.com>
-User-Agent: NeoMutt/20170714-126-deb55f (1.8.3)
+        id S1751637AbeEBPyH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 11:54:07 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54836 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751100AbeEBPyG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 11:54:06 -0400
+Received: from 2.general.tyhicks.us.vpn ([10.172.64.53] helo=sec.l.tihix.com)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <tyhicks@canonical.com>)
+        id 1fDu4y-0007uo-Ld; Wed, 02 May 2018 15:54:04 +0000
+From:   Tyler Hicks <tyhicks@canonical.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@redhat.com>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-audit@redhat.com,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/4] Better integrate seccomp logging and auditing
+Date:   Wed,  2 May 2018 15:53:16 +0000
+Message-Id: <1525276400-7161-1-git-send-email-tyhicks@canonical.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 02, 2018 at 02:38:42PM +0000, Andrey Konovalov wrote:
-> > Does having a tagged address here makes any difference? I couldn't hit a
-> > failure with my simple tests (LD_PRELOAD a library that randomly adds
-> > tags to pointers returned by malloc).
-> 
-> I think you're right, follow_page_mask is only called from
-> __get_user_pages, which already untagged the address. I'll remove
-> untagging here.
+Seccomp received improved logging controls in v4.14. Applications can opt into
+logging of "handled" actions (SECCOMP_RET_TRAP, SECCOMP_RET_TRACE,
+SECCOMP_RET_ERRNO) using the SECCOMP_FILTER_FLAG_LOG bit when loading filters.
+They can also debug filter matching with the new SECCOMP_RET_LOG action.
+Administrators can prevent specific actions from being logged using the
+kernel.seccomp.actions_logged sysctl.
 
-It also called from follow_page(). Have you covered all its callers?
+However, one corner case intentionally wasn't addressed in those v4.14 changes.
+When a process is being inspected by the audit subsystem, seccomp's decision
+making for logging ignores the new controls and unconditionally logs every
+action taken except for SECCOMP_RET_ALLOW. This isn't particularly useful since
+many existing applications don't intend to log handled actions due to them
+occurring very frequently. This amount of logging fills the audit logs without
+providing many benefits now that application authors have fine grained controls
+at their disposal.
 
--- 
- Kirill A. Shutemov
+This patch set aligns the seccomp logging behavior for both audited and
+non-audited processes. It also emits an audit record, if auditing is enabled,
+when the kernel.seccomp.actions_logged sysctl is written to so that there's a
+paper trail when entire actions are quieted.
+
+Changes since v1:
+* Patch 1
+  - No changes
+* Patch 2
+  - New patch, allowing for a configurable separator between action names
+* Patch 3
+  - The value of the actions field in the audit record now uses a comma instead
+    of a space
+  - The value of the actions field in the audit record is no longer enclosed in
+    quotes
+  - audit_log_start() is called with the current processes' audit_context in
+    audit_seccomp_actions_logged()
+  - audit_seccomp_actions_logged() no longer records the pid, uid, auid, tty,
+    ses, task context, comm, or executable path
+  - The new and old value of seccomp_actions_logged is recorded in the
+    AUDIT_CONFIG_CHANGE record
+  - The value of the "res" field in the CONFIG_CHANGE audit record is corrected
+    (1 indicates success, 0 failure)
+  - Updated patch 3's commit message to reflect the updated audit record format
+    in the examples
+* Patch 4
+  - A function comment for audit_seccomp() was added to explain, among other
+    things, that event filtering is performed in seccomp_log()
+
+Tyler
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
