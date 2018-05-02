@@ -5,93 +5,127 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA5D77E27E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 07:51:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1231E7E27C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 09:47:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751020AbeEBHvM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 03:51:12 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:32869 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751004AbeEBHvM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 03:51:12 -0400
-Received: by mail-wm0-f67.google.com with SMTP id x12so17651254wmc.0
-        for <linux-doc@vger.kernel.org>; Wed, 02 May 2018 00:51:11 -0700 (PDT)
+        id S1750907AbeEBJrx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 05:47:53 -0400
+Received: from mail-vk0-f65.google.com ([209.85.213.65]:38640 "EHLO
+        mail-vk0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750897AbeEBJrv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 05:47:51 -0400
+Received: by mail-vk0-f65.google.com with SMTP id 10-v6so8577761vkh.5;
+        Wed, 02 May 2018 02:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=ZweXpq+vSw41jboRFRtRpq7qHkGeJUcg9jYZAFbyCIg=;
-        b=JmxzKos0+kHiXr3R225gMRO9pBlPzGnjQIaBjjmH2Ujp2aypjn4sGfmQUix1UlpZJS
-         xjT2Stkn+lMl31RSHsSQOk2uQaxV50nMjDjXEJDsMPZxj7l+G/FkBGZ28o86FzmmHiE+
-         pLjiU0XS1Fk6YzKpDeuhz4OI7I+qTSS1E5UbA=
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=o3yWDWi4vxeuwm2Nc0GxyKU/keqI3bQeq2MC388JJfo=;
+        b=W5H0sX3b8W8VUBkgsubDAkwR6MNbPhcTvn4n6nR4PfHBhBNu4hn/ytCnh/TGm1eIjh
+         tYW2cN5DqFe7N2icEelDjfazdopBict6gnUJI5PZw/+UvYEpelRrNRAL4ZIs224wB8le
+         VkTs+YfDOe8WBImcT8pW72/HFVZ1rozOHhzCmky8GFzd1kSzYcan1IWgq88cW3kXt79o
+         YMX6t6VpO40tSYpBN9O+jmrMu5XyR+7TsfuGIROkV+cSyQARcGzPQQ3isNiveOLFQvMX
+         LmTJxvgC48xMaYbg1usGQU7rWoU1dR17RxDFm1yCoM8BcApr93ean5qFSXhtP7M9q/Yx
+         PWJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=ZweXpq+vSw41jboRFRtRpq7qHkGeJUcg9jYZAFbyCIg=;
-        b=ZBfA0uXEG3NdnprxUzqyRb/ksfY4D5DdV7zUwVi39z0CXjGaq6DeC0q/bNhQlDDO0B
-         9+g5fQVR9zqvSNF40qaZvfScH9x5lJU1oV8CCdAQkDhkM4flPSTz4JcZCmQtvtny9YQ3
-         USbiCNRdwxHDcHmtyo4fIGiRDwTrEd0TPY19tqmQlQYkJHYhjAx0OOXtNlUlsQ7A+EsW
-         DcD/cXw/EDIH8z3sRuC/dkEohEhHXVq8TjEe+1bP2KGDVPjO67noYa1OlIBAuUzDSSdm
-         veqHY2iISohGD9JsheOQJ7P+XE1b8Q7Cw16W/JXuyCZwcW8ezXHRp2DVqWFJwSKVtOAE
-         Ozuw==
-X-Gm-Message-State: ALQs6tAsJ2MwCoTSGurvBLIymhxZ5jQeyLqOGj0sFHMkuIXV4Y7OOLAa
-        claeG3QXIxsG+TTAOj6KL9hw1Q==
-X-Google-Smtp-Source: AB8JxZpbBZyE1JuUbrQG08br+h8idjKeD+k7pnyqcNc5UquA49zBJLkCMDMbGrskSvToDzkBPzu7Ag==
-X-Received: by 2002:a50:949c:: with SMTP id s28-v6mr24664159eda.201.1525247471238;
-        Wed, 02 May 2018 00:51:11 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:5635:0:39d2:f87e:2033:9f6])
-        by smtp.gmail.com with ESMTPSA id v23-v6sm6353224edr.48.2018.05.02.00.51.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 May 2018 00:51:10 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Eric Anholt <eric@anholt.net>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH] doc: botching-up-ioctls: Make it clearer why structs must be padded
-Date:   Wed,  2 May 2018 09:51:06 +0200
-Message-Id: <20180502075106.7476-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.17.0
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=o3yWDWi4vxeuwm2Nc0GxyKU/keqI3bQeq2MC388JJfo=;
+        b=p9WuEe20kbhebLKljVZxR4UdncD7gIL5I0SXx0PPthk2GIkwioWMF01i/l3SRbenGu
+         +QZj+0YeqRt37E6m6wjsnJG7+J6uX/XqJ/NgfAa3k+vjDzT2KGMrmhCjjQF6GBux2Lyu
+         Vq1e5l2AonQPTCD0lFzg/kmzZxCCDs2XN0CRFmDLXyWL2/uicIDqBHH87+2Sh2mW/TR5
+         xvnAsEk0JTWRRqSYOduon0TCE9EEVH/rntfpghx9cUtiVqwVjkn9qx87vzkKsqBbOfCh
+         wbOHFjKP8jGJn3LZPQtIKgTEAFy9RA/vxtVSB4sAw4c4xzAg77j7AfD/IIF6y+7zDogE
+         I/HA==
+X-Gm-Message-State: ALQs6tBavks531EJ6Be1rFINnzxnlaGiHFZKDV4Td6oYJMNgs1HyV1pV
+        QZP2udDTeADVFYby1vTbBxhWz4vMq8WmmBjkYZo=
+X-Google-Smtp-Source: AB8JxZqh1/fTCqt/xMc1oI3koGehWDSZ9gWDfYOrNz1bNtlfFSUnxvoKWvBZNLPW7jGMnz/YIMClDIOTWR0JNmq2TQE=
+X-Received: by 2002:a1f:214b:: with SMTP id h72-v6mr17427755vkh.176.1525254470052;
+ Wed, 02 May 2018 02:47:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.103.122.10 with HTTP; Wed, 2 May 2018 02:47:49 -0700 (PDT)
+In-Reply-To: <20180429133700.GD28913@kroah.com>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+ <20180330074751.25987-4-boris.brezillon@bootlin.com> <20180429133700.GD28913@kroah.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 2 May 2018 11:47:49 +0200
+X-Google-Sender-Auth: BvWgmjA3aGbIGWgCVyjhfAPpTm8
+Message-ID: <CAMuHMdUe=zauTS7BQXyTvMbmc-AsEVdWN0gG_3Ejg3E4T-xFXQ@mail.gmail.com>
+Subject: Re: [PATCH v4 03/10] i3c: Add sysfs ABI spec
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This came up in discussions when reviewing drm patches.
+Hi Greg,
 
-Cc: Eric Anholt <eric@anholt.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+On Sun, Apr 29, 2018 at 3:37 PM, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Fri, Mar 30, 2018 at 09:47:44AM +0200, Boris Brezillon wrote:
+>> Document sysfs files/directories/symlinks exposed by the I3C subsystem.
+>>
+>> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+>> ---
+>> Changes in v2:
+>> - new patch
+>> ---
+>>  Documentation/ABI/testing/sysfs-bus-i3c | 95 +++++++++++++++++++++++++++++++++
+>>  1 file changed, 95 insertions(+)
+>>  create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
+>> new file mode 100644
+>> index 000000000000..5e88cc093e0e
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-bus-i3c
+>> @@ -0,0 +1,95 @@
+>> +What:                /sys/bus/i3c/devices/i3c-<bus-id>
+>> +KernelVersion:  4.16
+>
+> Wrong kernel versions :)
 
---
+Do you update these when backporting to stable? ;-)
 
-Aside: I wonder whether we shouldn't move this to some other place and
-rst-ify it? Any good suggestions?
--Daniel
----
- Documentation/ioctl/botching-up-ioctls.txt | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Gr{oetje,eeting}s,
 
-diff --git a/Documentation/ioctl/botching-up-ioctls.txt b/Documentation/ioctl/botching-up-ioctls.txt
-index d02cfb48901c..883fb034bd04 100644
---- a/Documentation/ioctl/botching-up-ioctls.txt
-+++ b/Documentation/ioctl/botching-up-ioctls.txt
-@@ -73,7 +73,9 @@ will have a second iteration or at least an extension for any given interface.
-    future extensions is going right down the gutters since someone will submit
-    an ioctl struct with random stack garbage in the yet unused parts. Which
-    then bakes in the ABI that those fields can never be used for anything else
--   but garbage.
-+   but garbage. This is also the reason why you must explicitly pad all
-+   structures, even if you never use them in an array - the padding the compiler
-+   might insert could contain garbage.
- 
-  * Have simple testcases for all of the above.
- 
+                        Geert
+
 -- 
-2.17.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
