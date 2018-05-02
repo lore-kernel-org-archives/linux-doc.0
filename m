@@ -5,135 +5,98 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05CA77DE79
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 11:32:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D61957DE79
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 11:51:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751192AbeEBLcI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 07:32:08 -0400
-Received: from mail-vk0-f67.google.com ([209.85.213.67]:43458 "EHLO
-        mail-vk0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750939AbeEBLcG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 07:32:06 -0400
-Received: by mail-vk0-f67.google.com with SMTP id v134-v6so8737593vkd.10;
-        Wed, 02 May 2018 04:32:05 -0700 (PDT)
+        id S1751174AbeEBLvL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 07:51:11 -0400
+Received: from mail-it0-f66.google.com ([209.85.214.66]:33130 "EHLO
+        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751020AbeEBLvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 07:51:10 -0400
+Received: by mail-it0-f66.google.com with SMTP id t7-v6so8090095itf.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 May 2018 04:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=0QtBf/z/p5YVnQKaBxo68oDtlbHPqU8a4K0vtrzZxms=;
-        b=ARRy4T8eSDdjaJcOxSKP4FMbVqMtuiV6gLKLqEtxY/dJb0bcV+/RXilR2RbkWlmYNx
-         dX0WwmHGsbMvaITy43bomYxOXLbL2KrOTFimBusz/KJmCeegntsjmPcDWIPnxDU9zx0y
-         36/TT3bSdnwP8bW77xzZWPnHhdzqDPGtq9y54PYh5ThcDXFWihlQ2OYhsqFFmftfkvEX
-         NekUTIrBJXM0pwHYfzNMSnPIDuUiuhNy3LhZcdUyCl/y34S4z15KwgDU9Rtr3esxq9N3
-         q3ZhUjP029JcxEzfRvhE1AVaPfnhiqOYqeNT86E8Iz1Eoz+R70z9xrpLw0qIO5m6UkWp
-         ZXKg==
+        d=linaro.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=WOCbKwrD4HPuSZgtFI09s5YbzOmu/+mqU5O5PPnQbrA=;
+        b=H2XzHer7YDEUk8hLhPny8X6JUDrt8BLWkCwq87S7Q69WFRZzW3VE7KCZgL6e2NMihe
+         SPt7unpE3LppOc4ZbyfUwh07CBv0uY8gkUkbdL18FaPvVQ7ME2OAI8KDTyZDdworUs59
+         tDtZr7HeJ6KDiUpgK1wO0ljgV454dSGCKMaQ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=0QtBf/z/p5YVnQKaBxo68oDtlbHPqU8a4K0vtrzZxms=;
-        b=JPR+NpBeCOqv2i2ktY4u1Jmzl7rmpSlfXI2DU8xBuOLylYDQqJCpnQ6elVLnVAIH3z
-         g9IWUerJF00QKpDiyfpFy34NY5hYeT3OAxzZQy5ikpfnXHOG0FnUGe/9w7kW5aMJH5+b
-         TOvss9VfJYZWwcXYuQvklqi1XVFWqyjAHXLa2OrJDLu2F3NVPpp5q4uyoIljSZR7Bpdc
-         M+G6S+Qi6kxTbGBSpvNdDzlOhBh38w2S6oMTZwGoXgrooR6niftuQTzW/qSuEa5UtvRo
-         5dD9Ozri1vvlIl1NJCEQVIlAtkfzj0Vz6A+KsMoFHKdZoft1RUvBCrGkmC6drU84n9+d
-         YtlA==
-X-Gm-Message-State: ALQs6tCzxB2AsATpVpTXUueLqEFhRgpXl72SYy4HRw3n6RAYgdq+4FMN
-        I7uLZYeHPPVStY5XSDHLKU+kCiMqMkrIKMb8GFA=
-X-Google-Smtp-Source: AB8JxZpvq9sTFjIfZthkq8grSogNL2sd3gaOPdGcVMANA55pFYcolsgQYafA8/dliT+nKrAFEmLmO+yQ9MEQKMAdx04=
-X-Received: by 2002:a1f:8994:: with SMTP id l142-v6mr17118709vkd.50.1525260725175;
- Wed, 02 May 2018 04:32:05 -0700 (PDT)
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=WOCbKwrD4HPuSZgtFI09s5YbzOmu/+mqU5O5PPnQbrA=;
+        b=d3p0kjlaBBJp0qvvy2575QiS8XXOfiGJ7EXG1Nk4wdvhysK7kWK+/CiQ2b7CoNJs6p
+         39VJCOHoE6Kd37U6lAjTc/FPyBPwF7U3U3vsZeVfg1I4UQCMU6p5WSDnJGZMKnqwkFXO
+         WBam2spzt75e32p8uwlc95bXHZ0aPofZUv+Hz+7A3Bya04ZqHaEj+jl/VA+IJpOsT6bD
+         BEqyo22bZkEBPDN3UhJRD397khYk7LaSZ1nneWgxiHbF9eSc+XEJS+qZkzp0IUIC/RME
+         bmDeR+XSkke6fPuw6DWvhTW2zS0ecjkT+gkNS0D+J72vowEVv1f1wUMIFfu2CQtRnL3h
+         beFw==
+X-Gm-Message-State: ALQs6tBm95c4dIzs+BdFja37SSPvGdNVFMZIF+2CnInw/rRFQaN7gT59
+        jrGLDQMGXxxO89RTS4S2lHukhkDibuExpHf3kJZHkg==
+X-Google-Smtp-Source: AB8JxZp5E/hf1VGT2sWyszYu+hnDZWr8UXLZJdHK8G2tIEBi3Iw1omEZdLP3EQD1CY3BzogUt4XfQMSLQVj/E0YM8Rw=
+X-Received: by 2002:a24:c146:: with SMTP id e67-v6mr19243645itg.70.1525261870276;
+ Wed, 02 May 2018 04:51:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.122.10 with HTTP; Wed, 2 May 2018 04:32:04 -0700 (PDT)
-In-Reply-To: <20180502111046.GA22091@kroah.com>
-References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
- <20180330074751.25987-4-boris.brezillon@bootlin.com> <20180429133700.GD28913@kroah.com>
- <CAMuHMdUe=zauTS7BQXyTvMbmc-AsEVdWN0gG_3Ejg3E4T-xFXQ@mail.gmail.com> <20180502111046.GA22091@kroah.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 2 May 2018 13:32:04 +0200
-X-Google-Sender-Auth: L3G-yGQUB46lnldvHyT9mji8ujM
-Message-ID: <CAMuHMdWgmPOntSQH0artOgBf4GrxOHJmHX8gyw1gmAW0ichPyg@mail.gmail.com>
-Subject: Re: [PATCH v4 03/10] i3c: Add sysfs ABI spec
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Received: by 2002:a4f:2793:0:0:0:0:0 with HTTP; Wed, 2 May 2018 04:51:09 -0700 (PDT)
+In-Reply-To: <CAMRc=Me2YD49VkwENwFmRUHGDYzPc_80b6uABUvi7_QeeoMrrQ@mail.gmail.com>
+References: <20180410203028.11412-1-brgl@bgdev.pl> <CACRpkda+K3-=sPpJO90rjW0=+bsQ1uYT6E9Hp+G+-OEyTpc=fg@mail.gmail.com>
+ <CAMRc=Me2YD49VkwENwFmRUHGDYzPc_80b6uABUvi7_QeeoMrrQ@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 2 May 2018 13:51:09 +0200
+Message-ID: <CACRpkdbbCKkzCq1S86OTwjrZ4SQFFPAg92qgbzt2U2QaqEwZaw@mail.gmail.com>
+Subject: Re: [PATCH v2] gpiolib: add hogs support for machine code
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
-
-On Wed, May 2, 2018 at 1:10 PM, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Wed, May 02, 2018 at 11:47:49AM +0200, Geert Uytterhoeven wrote:
->> On Sun, Apr 29, 2018 at 3:37 PM, Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org> wrote:
->> > On Fri, Mar 30, 2018 at 09:47:44AM +0200, Boris Brezillon wrote:
->> >> Document sysfs files/directories/symlinks exposed by the I3C subsystem.
->> >>
->> >> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
->> >> ---
->> >> Changes in v2:
->> >> - new patch
->> >> ---
->> >>  Documentation/ABI/testing/sysfs-bus-i3c | 95 +++++++++++++++++++++++++++++++++
->> >>  1 file changed, 95 insertions(+)
->> >>  create mode 100644 Documentation/ABI/testing/sysfs-bus-i3c
->> >>
->> >> diff --git a/Documentation/ABI/testing/sysfs-bus-i3c b/Documentation/ABI/testing/sysfs-bus-i3c
->> >> new file mode 100644
->> >> index 000000000000..5e88cc093e0e
->> >> --- /dev/null
->> >> +++ b/Documentation/ABI/testing/sysfs-bus-i3c
->> >> @@ -0,0 +1,95 @@
->> >> +What:                /sys/bus/i3c/devices/i3c-<bus-id>
->> >> +KernelVersion:  4.16
->> >
->> > Wrong kernel versions :)
+On Thu, Apr 26, 2018 at 6:42 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> 2018-04-26 14:07 GMT+02:00 Linus Walleij <linus.walleij@linaro.org>:
+>> On Tue, Apr 10, 2018 at 10:30 PM, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 >>
->> Do you update these when backporting to stable? ;-)
+>>> Board files constitute a significant part of the users of the legacy
+>>> GPIO framework. In many cases they only export a line and set its
+>>> desired value. We could use GPIO hogs for that like we do for DT and
+>>> ACPI but there's no support for that in machine code.
+>>>
+>>> This patch proposes to extend the machine.h API with support for
+>>> registering hog tables in board files.
+>>>
+>>> Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
+>>> ---
+>>> v1 -> v2:
+>>> - kbuild bot complains about enum gpiod_flags having incomplete type
+>>>   although it builds fine for me locally: change the type of dflags
+>>>   to int
+>>
+>> I like the idea and thinking behind this patch, so patch applied.
+>>
+>> It's a bit of code to carry, so if it doesn't see any use, I will simply
+>> revert it :)
+>>
+>> But I bet you intend to follow up with some machine patches
+>> and then it is immediately worth it.
 >
-> I'm not adding new features/subsystems to stable :)
+> Yes, I'll be submitting patches removing the legacy gpio calls for
+> boards in mach-davinci.
 
-True. So let's leave that for the LTSI patch monkey ;-)
+Awesome, thanks!
 
-Gr{oetje,eeting}s,
+(I guess they should all be converted to device tree though, hope that
+will happen...)
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
