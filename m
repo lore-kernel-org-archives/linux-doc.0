@@ -5,139 +5,93 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC0987DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 06:10:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AA5D77E27E
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 07:51:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751007AbeEBGKt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 02:10:49 -0400
-Received: from mail-pg0-f67.google.com ([74.125.83.67]:43197 "EHLO
-        mail-pg0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750883AbeEBGKs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 02:10:48 -0400
-Received: by mail-pg0-f67.google.com with SMTP id k11-v6so8738911pgo.10
-        for <linux-doc@vger.kernel.org>; Tue, 01 May 2018 23:10:47 -0700 (PDT)
+        id S1751020AbeEBHvM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 03:51:12 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:32869 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751004AbeEBHvM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 03:51:12 -0400
+Received: by mail-wm0-f67.google.com with SMTP id x12so17651254wmc.0
+        for <linux-doc@vger.kernel.org>; Wed, 02 May 2018 00:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Nyg9l8Qn9OaFOnoASwyT1EkDO86IN5B51WxoVSTvMro=;
-        b=JTJV5zaJcIExJTlzuEjj4X+XWpkJ2pug9h7DbC6eTlDLakOmkpuA388eb6mJzqC6Vd
-         /B6w5/d3QEbrMKrPkITVChUzJm1bU+JfdDXS/GJkCm2KlK0oUONLhCjZ+IaqV8KF9G5V
-         IA+8RLtqzaQP2kzDVn4w13gUon/Auae454Lgw=
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=ZweXpq+vSw41jboRFRtRpq7qHkGeJUcg9jYZAFbyCIg=;
+        b=JmxzKos0+kHiXr3R225gMRO9pBlPzGnjQIaBjjmH2Ujp2aypjn4sGfmQUix1UlpZJS
+         xjT2Stkn+lMl31RSHsSQOk2uQaxV50nMjDjXEJDsMPZxj7l+G/FkBGZ28o86FzmmHiE+
+         pLjiU0XS1Fk6YzKpDeuhz4OI7I+qTSS1E5UbA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Nyg9l8Qn9OaFOnoASwyT1EkDO86IN5B51WxoVSTvMro=;
-        b=iqM0izx0s8ymEzutAeijRXbChyl5KdMZVlOtKrSTQbbK1QxqEKLG0vxnHnzRQCvVBj
-         nGoS1poYcmAV8NcKQrTcjjFId3fFTTzby+zGkGiImn0Rs9WpqySxj2p6AyF9DJuKn7cA
-         DEm93M2HBSrpk2OXNk4lOsaxtJH45ai7/K7nOt1k35ElCJAdKc/MN3tgH2ZTA4OyvOda
-         fmkGrZW5XG73YQwTnuhgPzPElDVHy29zHfltR5YNd4JOXDxchsa4/1zvc/fCaYEuNk+4
-         OacjSm92pF0rmRXNQodpNBfajAOO2J8MmEvtjmJTvk4nLT2hgmBNSXXq3fQiscvX4giE
-         qomg==
-X-Gm-Message-State: ALQs6tDBJRnSZYIE/wfarOK5i6+u+C1RmevEWFN1on1vEPC5GPtUy9ks
-        JHWBGtzWv9byZqTk6luPTO/GXQ==
-X-Google-Smtp-Source: AB8JxZrCi7KYf8sKW4xvcVUmD9KWonxukXVyjT5f/2gi2fLcirCJVwSq/SK8Dqi8dpVBFsH24FOl1g==
-X-Received: by 2002:a17:902:7e05:: with SMTP id b5-v6mr18472957plm.230.1525241447493;
-        Tue, 01 May 2018 23:10:47 -0700 (PDT)
-Received: from leoy-ThinkPad-X240s (li1168-94.members.linode.com. [45.79.69.94])
-        by smtp.gmail.com with ESMTPSA id y24sm6344339pfn.23.2018.05.01.23.10.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ZweXpq+vSw41jboRFRtRpq7qHkGeJUcg9jYZAFbyCIg=;
+        b=ZBfA0uXEG3NdnprxUzqyRb/ksfY4D5DdV7zUwVi39z0CXjGaq6DeC0q/bNhQlDDO0B
+         9+g5fQVR9zqvSNF40qaZvfScH9x5lJU1oV8CCdAQkDhkM4flPSTz4JcZCmQtvtny9YQ3
+         USbiCNRdwxHDcHmtyo4fIGiRDwTrEd0TPY19tqmQlQYkJHYhjAx0OOXtNlUlsQ7A+EsW
+         DcD/cXw/EDIH8z3sRuC/dkEohEhHXVq8TjEe+1bP2KGDVPjO67noYa1OlIBAuUzDSSdm
+         veqHY2iISohGD9JsheOQJ7P+XE1b8Q7Cw16W/JXuyCZwcW8ezXHRp2DVqWFJwSKVtOAE
+         Ozuw==
+X-Gm-Message-State: ALQs6tAsJ2MwCoTSGurvBLIymhxZ5jQeyLqOGj0sFHMkuIXV4Y7OOLAa
+        claeG3QXIxsG+TTAOj6KL9hw1Q==
+X-Google-Smtp-Source: AB8JxZpbBZyE1JuUbrQG08br+h8idjKeD+k7pnyqcNc5UquA49zBJLkCMDMbGrskSvToDzkBPzu7Ag==
+X-Received: by 2002:a50:949c:: with SMTP id s28-v6mr24664159eda.201.1525247471238;
+        Wed, 02 May 2018 00:51:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:5635:0:39d2:f87e:2033:9f6])
+        by smtp.gmail.com with ESMTPSA id v23-v6sm6353224edr.48.2018.05.02.00.51.10
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 May 2018 23:10:45 -0700 (PDT)
-Date:   Wed, 2 May 2018 14:10:39 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Wed, 02 May 2018 00:51:10 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Eric Anholt <eric@anholt.net>, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] coresight: Remove %px for printing pcsr value
-Message-ID: <20180502061039.GB332@leoy-ThinkPad-X240s>
-References: <1525237251-32496-1-git-send-email-leo.yan@linaro.org>
- <CAGXu5jJjCJuDNOJPMHmu94naQvKke47LVv-Y=t9vji88FtkRDw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGXu5jJjCJuDNOJPMHmu94naQvKke47LVv-Y=t9vji88FtkRDw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH] doc: botching-up-ioctls: Make it clearer why structs must be padded
+Date:   Wed,  2 May 2018 09:51:06 +0200
+Message-Id: <20180502075106.7476-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.17.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 01, 2018 at 10:29:46PM -0700, Kees Cook wrote:
-> On Tue, May 1, 2018 at 10:00 PM, Leo Yan <leo.yan@linaro.org> wrote:
-> > The driver prints pcsr twice: the first time it uses specifier %px to
-> > print hexadecimal pcsr value and the second time uses specifier %pS for
-> > output kernel symbols.
-> >
-> > As suggested by Kees, using %pS should be sufficient and %px isn't
-> > necessary; the reason is if the pcsr is a kernel space address, we can
-> > easily get to know the code line from %pS format, on the other hand, if
-> > the pcsr value doesn't fall into kernel space range (e.g. if the CPU is
-> > stuck in firmware), %pS also gives out pcsr hexadecimal value.
-> >
-> > So this commit removes useless %px and update section "Output format"
-> > in the document for alignment between the code and document.
-> >
-> > Suggested-by: Kees Cook <keescook@chromium.org>
-> > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Signed-off-by: Leo Yan <leo.yan@linaro.org>
-> 
-> Thanks!
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+This came up in discussions when reviewing drm patches.
 
-Thanks for reviewing, Kees.
+Cc: Eric Anholt <eric@anholt.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-> -Kees
-> 
-> > ---
-> >  Documentation/trace/coresight-cpu-debug.txt       | 4 ++--
-> >  drivers/hwtracing/coresight/coresight-cpu-debug.c | 2 +-
-> >  2 files changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/trace/coresight-cpu-debug.txt b/Documentation/trace/coresight-cpu-debug.txt
-> > index 2b9b51c..89ab09e 100644
-> > --- a/Documentation/trace/coresight-cpu-debug.txt
-> > +++ b/Documentation/trace/coresight-cpu-debug.txt
-> > @@ -177,11 +177,11 @@ Here is an example of the debugging output format:
-> >  ARM external debug module:
-> >  coresight-cpu-debug 850000.debug: CPU[0]:
-> >  coresight-cpu-debug 850000.debug:  EDPRSR:  00000001 (Power:On DLK:Unlock)
-> > -coresight-cpu-debug 850000.debug:  EDPCSR:  [<ffff00000808e9bc>] handle_IPI+0x174/0x1d8
-> > +coresight-cpu-debug 850000.debug:  EDPCSR:  handle_IPI+0x174/0x1d8
-> >  coresight-cpu-debug 850000.debug:  EDCIDSR: 00000000
-> >  coresight-cpu-debug 850000.debug:  EDVIDSR: 90000000 (State:Non-secure Mode:EL1/0 Width:64bits VMID:0)
-> >  coresight-cpu-debug 852000.debug: CPU[1]:
-> >  coresight-cpu-debug 852000.debug:  EDPRSR:  00000001 (Power:On DLK:Unlock)
-> > -coresight-cpu-debug 852000.debug:  EDPCSR:  [<ffff0000087fab34>] debug_notifier_call+0x23c/0x358
-> > +coresight-cpu-debug 852000.debug:  EDPCSR:  debug_notifier_call+0x23c/0x358
-> >  coresight-cpu-debug 852000.debug:  EDCIDSR: 00000000
-> >  coresight-cpu-debug 852000.debug:  EDVIDSR: 90000000 (State:Non-secure Mode:EL1/0 Width:64bits VMID:0)
-> > diff --git a/drivers/hwtracing/coresight/coresight-cpu-debug.c b/drivers/hwtracing/coresight/coresight-cpu-debug.c
-> > index 9cdb3fb..78a054e 100644
-> > --- a/drivers/hwtracing/coresight/coresight-cpu-debug.c
-> > +++ b/drivers/hwtracing/coresight/coresight-cpu-debug.c
-> > @@ -315,7 +315,7 @@ static void debug_dump_regs(struct debug_drvdata *drvdata)
-> >         }
-> >
-> >         pc = debug_adjust_pc(drvdata);
-> > -       dev_emerg(dev, " EDPCSR:  [<%px>] %pS\n", (void *)pc, (void *)pc);
-> > +       dev_emerg(dev, " EDPCSR:  %pS\n", (void *)pc);
-> >
-> >         if (drvdata->edcidsr_present)
-> >                 dev_emerg(dev, " EDCIDSR: %08x\n", drvdata->edcidsr);
-> > --
-> > 2.7.4
-> >
-> 
-> 
-> 
-> -- 
-> Kees Cook
-> Pixel Security
+--
+
+Aside: I wonder whether we shouldn't move this to some other place and
+rst-ify it? Any good suggestions?
+-Daniel
+---
+ Documentation/ioctl/botching-up-ioctls.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/ioctl/botching-up-ioctls.txt b/Documentation/ioctl/botching-up-ioctls.txt
+index d02cfb48901c..883fb034bd04 100644
+--- a/Documentation/ioctl/botching-up-ioctls.txt
++++ b/Documentation/ioctl/botching-up-ioctls.txt
+@@ -73,7 +73,9 @@ will have a second iteration or at least an extension for any given interface.
+    future extensions is going right down the gutters since someone will submit
+    an ioctl struct with random stack garbage in the yet unused parts. Which
+    then bakes in the ABI that those fields can never be used for anything else
+-   but garbage.
++   but garbage. This is also the reason why you must explicitly pad all
++   structures, even if you never use them in an array - the padding the compiler
++   might insert could contain garbage.
+ 
+  * Have simple testcases for all of the above.
+ 
+-- 
+2.17.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
