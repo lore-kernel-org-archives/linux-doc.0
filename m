@@ -1,101 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C49E27E278
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 14:08:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C41607DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 14:35:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751144AbeEBOIv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 10:08:51 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38896 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751109AbeEBOIu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 10:08:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=C1H3Ob2QKGUSolnCS2yNEqJK5IQKKBmRUzbgjMwvlNw=; b=a/f2hcrpeagigO9lON0xl/Pi4
-        wDm8Vxl2wOFDb+3NXq1EwIx1NfPmHxKkwKHf+Tr5EQ9qB0+0H8j3i1BTqB6qSsyrs0eYFgyqHi7Dq
-        oy1QtNuhtkk1/lMmwtodf8xPXtF+rpWCdcybYv6rv4ZWJEFuDIJVKzfoReOr/BGeRp1rvhSKGzIQX
-        0OQELoMUewIWtkilLd7vQdipjbm6vl+rcDhek1eg5Pf3BGOXJGlQmHsdnznyREDCoRgqMNuhU57Gq
-        WD24Ihg3pFwg2vASg9iGvbBAXnBMzRH5b77AtNuOrScUoWugfhJS0dw3JZQOqu3iBWSB0c5BviuP5
-        E2Y16qdEA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fDsQw-0003vx-GC; Wed, 02 May 2018 14:08:38 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D9C9E2029FA14; Wed,  2 May 2018 16:08:35 +0200 (CEST)
-Date:   Wed, 2 May 2018 16:08:35 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
+        id S1751174AbeEBOfp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 10:35:45 -0400
+Received: from mout.gmx.net ([212.227.15.15]:56939 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750936AbeEBOfo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 May 2018 10:35:44 -0400
+Received: from homer.simpson.net ([185.191.216.25]) by mail.gmx.com (mrgmx001
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0M7pDs-1eRIUs1OpU-00vP6K; Wed, 02
+ May 2018 16:35:06 +0200
+Message-ID: <1525271702.4975.3.camel@gmx.de>
+Subject: Re: [PATCH v7 2/5] cpuset: Add cpuset.sched_load_balance to v2
+From:   Mike Galbraith <efault@gmx.de>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Waiman Long <longman@redhat.com>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
+        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>
-Subject: Re: [PATCH v7 3/5] cpuset: Add a root-only cpus.isolated v2 control
- file
-Message-ID: <20180502140835.GK12180@hirez.programming.kicks-ass.net>
+Date:   Wed, 02 May 2018 16:35:02 +0200
+In-Reply-To: <20180502140226.GU12217@hirez.programming.kicks-ass.net>
 References: <1524145624-23655-1-git-send-email-longman@redhat.com>
- <1524145624-23655-4-git-send-email-longman@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1524145624-23655-4-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+         <1524145624-23655-3-git-send-email-longman@redhat.com>
+         <20180502102416.GJ12180@hirez.programming.kicks-ass.net>
+         <14d7604c-1254-1146-e2b6-23f4cc020b34@redhat.com>
+         <20180502134225.GR12217@hirez.programming.kicks-ass.net>
+         <94c80e1c-049d-6ec3-8e8c-40eb88d1341d@redhat.com>
+         <20180502140226.GU12217@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.22.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:zEAieqQMBsuU9mkUlzU7cM4ZhLBj9AKeFJ4tDfwPOf+yuOehqN2
+ jM47W3pvYdw1vatfNrsSLBj7tgIknHDA/H3iC389u/qTl9qpsmJJaPFAb9t1VeyWyvNnXbK
+ BEBkhppNzW1SCQ7CdpOiTWQAhGtoXXu4ybM8IWXGrgNxvtMBTVaYJYqzVcOymqBMtg4M2DU
+ W17PKy50U+hTkj1LDTwWQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:/HeTV7Ohtmc=:D2DYh1zeJwuqDrCuQN0G/U
+ 3sATyrc/rriSpfI0QVU1cHKdd4xztKjclC4ltAl2InMbs8tgAy+cpYaoxej6xBqfrcFSBIQou
+ NVRRYvU6mp8jahASSfQ8EwdAgbEvH+AZ2T3ctM2aFUJxflTnbuvX8au3YlZaC/eiJYHJpa1SW
+ Ps7qy3D7FB3vSuSIvq+2p5lHqJWDCVjBiHsPXAlcEn9/KJoDmHGDzfchfGdK7Zc6sp5eck9fr
+ BSNySXIgJhwmazOTGh3n8UTi/EtDdKArXsYL8gJz2P8GpcU/ys675QtAZY6Tk+QtSjULrXXAX
+ IT9E8ZhybvAXuuaksbUqPFAeyuRTQ9t1LvqqdN7jSNroBv2KzLLqQuFqUok4l1ykU4IpdRiup
+ Vwc0L71FDlnFAOXOThHUjKTfZAx9uPPGTxMbesGqCn13m0Er6J5cTJ25cVZXKxlEwfe/LSu9+
+ 8fUQrxytoZC6dcS6mWvFxWx4gEnsVDg2rvUJrlURu2hK2ZlgpW4Cbzzu9U3o751DLheHX6ycS
+ z4hGTukN9+PWi5QafbuBWspfKhqtF2uhZosrFimPBaMs4IsiuFmwjcaQ0P4Rf133KYfTxVpWy
+ ihfoJL3iO0FyQeUtJZXCXfL9NCcgEyztgT8ddlLn7RlKpkSMAJrM+yAOirIAcH/+PkO/5TMBC
+ 6CdLUaHsHZLPwadDNfSUW2jF8ox30pjLzaRjn9fa2q3u7Vhf32xSb4t4vxg5/LMeGSj1X5IAb
+ /hNozgMzYxUouI3/H6gy1QT96Tv7WFOfMYAWwTtqvubxelEdrQxqjPk6sejB7miWq+Z3aJDoo
+ kKZpbx/
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 19, 2018 at 09:47:02AM -0400, Waiman Long wrote:
-> diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
-> index c970bd7..8d89dc2 100644
-> --- a/Documentation/cgroup-v2.txt
-> +++ b/Documentation/cgroup-v2.txt
-> @@ -1484,6 +1484,31 @@ Cpuset Interface Files
->  	a subset of "cpuset.cpus".  Its value will be affected by CPU
->  	hotplug events.
->  
-> +  cpuset.cpus.isolated
-> +	A read-write multiple values file which exists on root cgroup
-> +	only.
-> +
-> +	It lists the CPUs that have been withdrawn from the root cgroup
-> +	for load balancing.  These CPUs can still be allocated to child
-> +	cpusets with load balancing enabled, if necessary.
-> +
-> +	If a child cpuset contains only an exclusive set of CPUs that are
-> +	a subset of the isolated CPUs and with load balancing enabled,
-> +	these CPUs will be load balanced on a separate root domain from
-> +	the one in the root cgroup.
-> +
-> +	Just putting the CPUs into "cpuset.cpus.isolated" will be
-> +	enough to disable load balancing on those CPUs as long as they
-> +	do not appear in a child cpuset with load balancing enabled.
-> +	Fine-grained control of cpu isolation can also be done by
-> +	putting these isolated CPUs into child cpusets with load
-> +	balancing disabled.
-> +
-> +	The "cpuset.cpus.isolated" should be set up before child
-> +	cpusets are created.  Once child cpusets are present, changes
-> +	to "cpuset.cpus.isolated" will not be allowed if the CPUs that
-> +	change their states are in any of the child cpusets.
-> +
+On Wed, 2018-05-02 at 16:02 +0200, Peter Zijlstra wrote:
+> On Wed, May 02, 2018 at 09:47:00AM -0400, Waiman Long wrote:
+> 
+> > > I've read half of the next patch that adds the isolation thing. And
+> > > while that kludges around the whole root cgorup is magic thing, it
+> > > doesn't help if you move the above scenario on level down:
+> > >
+> > >
+> > > 	R
+> > >      /    \
+> > >    A        B
+> > >           /   \
+> > >         C       D
+> > >
+> > >
+> > > R: cpus=0-7, load_balance=0
+> > > A: cpus=0-1, load_balance=1
+> > > B: cpus=2-7, load_balance=0
+> > > C: cpus=2-3, load_balance=1
+> > > D: cpus=4-7, load_balance=1
+> > >
+> > >
+> > > Also, I feel we should strive to have a minimal amount of tasks that
+> > > cannot be moved out of the root group; the current set is far too large.
+> > 
+> > What exactly is the use case you have in mind with loading balancing
+> > disabled in B, but enabled in C and D? We would like to support some
+> > sensible use cases, but not every possible combinations.
+> 
+> Suppose A is your system group, and C and D are individual RT workloads
+> or something.
 
-So I see why you did this, but it is _really_ ugly and breaks the
-container invariant.
+Yeah, it does have a distinct "640K ought to be enough for anybody"
+flavor to it.
 
-Ideally we'd make the root group less special, not more special.
+	-Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
