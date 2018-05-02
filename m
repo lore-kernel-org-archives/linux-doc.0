@@ -1,110 +1,258 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6515A7E22E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 17:25:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ABFB97DE79
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 May 2018 18:18:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751154AbeEBRZU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 May 2018 13:25:20 -0400
-Received: from mail-it0-f45.google.com ([209.85.214.45]:52698 "EHLO
-        mail-it0-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750942AbeEBRZS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 May 2018 13:25:18 -0400
-Received: by mail-it0-f45.google.com with SMTP id i136-v6so9511521ita.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 May 2018 10:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=iy/QIicasq+EO8o2dAfPPMdQcTfRaxi+FJzYj6CZJfE=;
-        b=vG26IieNHIsw9TyrxtWnlg+p+Q1h18EIlEt29YspRoeyTJs0AdOo5gl5E9CoGPU6fj
-         Yyg74kBUy+wiLe08DmbHnxvWmQsZZkxCSyEEadDZffdKVXQHxpxEgL0ptCMOhLkxGnNe
-         9khugtDktk0KRRD0PrvbUQn/tkNvTn9Hxjg3uG+ReBULKbR7Fj8DtsaAG1JvH1H/+nzj
-         KyawbCJ3y9FW2A6Fl9Cm6czeQqHar8EPTiMG1vck6V1eIU51uOoRVVSTd/rtpzSTloTf
-         Z4ogXeq/qoNrOaJpWUqDGnC9+Su4jnvgsuCSARhzNJ6JwF0wJByQvuNRRmL8ma0bQDXV
-         WBZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=iy/QIicasq+EO8o2dAfPPMdQcTfRaxi+FJzYj6CZJfE=;
-        b=Pyjf0P+7E3HozbjgEijRHx2S00ANogR/oMYclRsGsTzfspkQv9wLy+UALFJmA7XOuP
-         EV7sy10tP5BPrueMBUuvcHnGmQD0FsRWu636AL/D4W3NN0BgtNaEz42l9FzSbA/1cyDV
-         odWBugx2Ye48/O1fHaCBp3hnxM+n4sjUG20N61edTT+nTPuT14r9JqnTnusT+zd6LhnR
-         s9MCa7unYJMmq4lgtrFGIkW39tOD1P70oLpsNqoJf8tnckOaFQ0M7sBeix8eh0BRtKWL
-         /pb8tV/Wl+ADCe4j3+2qM2tbCegHFAzewJplQaE2UaeLSdDLDmbzFsgmVpMJl939lG2w
-         WmSQ==
-X-Gm-Message-State: ALQs6tA2oiihhSoD+Gs5N9FVAhPKp9O3FUX9L6+PgluPP3T7Y+kqc11i
-        FY9xD0UFn6AZGOAfxBHMMVWLMYvpcD1gwsqudKrQbw==
-X-Google-Smtp-Source: AB8JxZro+x4E6etcw1aZ5rFdnvE4dKyQmOHUddiV9UPnUQubVgGNeekDC28ddc2Wg5AkujCNYkO0sCo7f/+KWZpJ2M8=
-X-Received: by 2002:a24:b915:: with SMTP id w21-v6mr21279171ite.53.1525281918050;
- Wed, 02 May 2018 10:25:18 -0700 (PDT)
+        id S1750978AbeEBSSh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 May 2018 14:18:37 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:53626 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1750800AbeEBSSg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 May 2018 14:18:36 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id AFEC920E4B;
+        Wed,  2 May 2018 18:18:35 +0000 (UTC)
+Received: from x2.localnet (ovpn-124-79.rdu2.redhat.com [10.10.124.79])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 018842024CA1;
+        Wed,  2 May 2018 18:18:34 +0000 (UTC)
+From:   Steve Grubb <sgrubb@redhat.com>
+To:     Tyler Hicks <tyhicks@canonical.com>
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-audit@redhat.com,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] seccomp: Audit attempts to modify the actions_logged sysctl
+Date:   Wed, 02 May 2018 14:18:34 -0400
+Message-ID: <2193990.pCRMhOm3SD@x2>
+Organization: Red Hat
+In-Reply-To: <1525276400-7161-4-git-send-email-tyhicks@canonical.com>
+References: <1525276400-7161-1-git-send-email-tyhicks@canonical.com> <1525276400-7161-4-git-send-email-tyhicks@canonical.com>
 MIME-Version: 1.0
-Received: by 2002:a02:6658:0:0:0:0:0 with HTTP; Wed, 2 May 2018 10:25:17 -0700 (PDT)
-In-Reply-To: <20180502153645.fui4ju3scsze3zkq@black.fi.intel.com>
-References: <cover.1524077494.git.andreyknvl@google.com> <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
- <20180426174714.4jtb72q56w3xonsa@armageddon.cambridge.arm.com>
- <CAAeHK+zY8p9E4FZa7mbdgR=wR0u-RDS552dn=h9fKRC-ArYLdw@mail.gmail.com> <20180502153645.fui4ju3scsze3zkq@black.fi.intel.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 2 May 2018 19:25:17 +0200
-Message-ID: <CAAeHK+yTbmZfkeNbqbo+J90zsjsM99rwnYBGfQBxphHMMfgD7A@mail.gmail.com>
-Subject: Re: [PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
-To:     "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        James Morse <james.morse@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 02 May 2018 18:18:35 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Wed, 02 May 2018 18:18:35 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'sgrubb@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 2, 2018 at 5:36 PM, Kirill A. Shutemov
-<kirill.shutemov@linux.intel.com> wrote:
-> On Wed, May 02, 2018 at 02:38:42PM +0000, Andrey Konovalov wrote:
->> > Does having a tagged address here makes any difference? I couldn't hit a
->> > failure with my simple tests (LD_PRELOAD a library that randomly adds
->> > tags to pointers returned by malloc).
->>
->> I think you're right, follow_page_mask is only called from
->> __get_user_pages, which already untagged the address. I'll remove
->> untagging here.
->
-> It also called from follow_page(). Have you covered all its callers?
+On Wednesday, May 2, 2018 11:53:19 AM EDT Tyler Hicks wrote:
+> The decision to log a seccomp action will always be subject to the
+> value of the kernel.seccomp.actions_logged sysctl, even for processes
+> that are being inspected via the audit subsystem, in an upcoming patch.
+> Therefore, we need to emit an audit record on attempts at writing to the
+> actions_logged sysctl when auditing is enabled.
+> 
+> This patch updates the write handler for the actions_logged sysctl to
+> emit an audit record on attempts to write to the sysctl. Successful
+> writes to the sysctl will result in a record that includes a normalized
+> list of logged actions in the "actions" field and a "res" field equal to
+> 0. Unsuccessful writes to the sysctl will result in a record that
+> doesn't include the "actions" field and has a "res" field equal to 1.
+> 
+> Not all unsuccessful writes to the sysctl are audited. For example, an
+> audit record will not be emitted if an unprivileged process attempts to
+> open the sysctl file for reading since that access control check is not
+> part of the sysctl's write handler.
+> 
+> Below are some example audit records when writing various strings to the
+> actions_logged sysctl.
+> 
+> Writing "not-a-real-action", when the kernel.seccomp.actions_logged
+> sysctl previously was "kill_process kill_thread trap errno trace log",
+> emits this audit record:
+> 
+>  type=CONFIG_CHANGE msg=audit(1525275273.537:130): op=seccomp-logging
+>  old-actions=kill_process,kill_thread,trap,errno,trace,log res=0
+> 
+> If you then write "kill_process kill_thread errno trace log", this audit
+> record is emitted:
+> 
+>  type=CONFIG_CHANGE msg=audit(1525275310.208:136): op=seccomp-logging
+>  actions=kill_process,kill_thread,errno,trace,log
+>  old-actions=kill_process,kill_thread,trap,errno,trace,log res=1
+> 
+> If you then write the string "log log errno trace kill_process
+> kill_thread", which is unordered and contains the log action twice,
+> it results in the same actions value as the previous record:
+> 
+>  type=CONFIG_CHANGE msg=audit(1525275325.613:142): op=seccomp-logging
+>  actions=kill_process,kill_thread,errno,trace,log
+>  old-actions=kill_process,kill_thread,errno,trace,log res=1
+> 
+> No audit records are generated when reading the actions_logged sysctl.
 
-Oh, missed that, will take a look.
+ACK for the format of the records.
 
-Thinking about that, would it make sense to add untagging to find_vma
-(and others) instead of trying to cover all find_vma callers?
+-Steve
+
+> Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> Signed-off-by: Tyler Hicks <tyhicks@canonical.com>
+> ---
+>  include/linux/audit.h |  5 +++++
+>  kernel/auditsc.c      | 25 +++++++++++++++++++++++++
+>  kernel/seccomp.c      | 51
+> ++++++++++++++++++++++++++++++++++++++++++--------- 3 files changed, 72
+> insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/audit.h b/include/linux/audit.h
+> index 75d5b03..d4e35e7 100644
+> --- a/include/linux/audit.h
+> +++ b/include/linux/audit.h
+> @@ -233,6 +233,8 @@ extern void __audit_inode_child(struct inode *parent,
+>  				const struct dentry *dentry,
+>  				const unsigned char type);
+>  extern void __audit_seccomp(unsigned long syscall, long signr, int code);
+> +extern void audit_seccomp_actions_logged(const char *names,
+> +					 const char *old_names, int res);
+>  extern void __audit_ptrace(struct task_struct *t);
+> 
+>  static inline bool audit_dummy_context(void)
+> @@ -502,6 +504,9 @@ static inline void __audit_seccomp(unsigned long
+> syscall, long signr, int code) { }
+>  static inline void audit_seccomp(unsigned long syscall, long signr, int
+> code) { }
+> +static inline void audit_seccomp_actions_logged(const char *names,
+> +						const char *old_names, int res)
+> +{ }
+>  static inline int auditsc_get_stamp(struct audit_context *ctx,
+>  			      struct timespec64 *t, unsigned int *serial)
+>  {
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index 4e0a4ac..5a0b770 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -2478,6 +2478,31 @@ void __audit_seccomp(unsigned long syscall, long
+> signr, int code) audit_log_end(ab);
+>  }
+> 
+> +void audit_seccomp_actions_logged(const char *names, const char
+> *old_names, +				  int res)
+> +{
+> +	struct audit_buffer *ab;
+> +
+> +	if (!audit_enabled)
+> +		return;
+> +
+> +	ab = audit_log_start(current->audit_context, GFP_KERNEL,
+> +			     AUDIT_CONFIG_CHANGE);
+> +	if (unlikely(!ab))
+> +		return;
+> +
+> +	audit_log_format(ab, "op=seccomp-logging");
+> +
+> +	if (names)
+> +		audit_log_format(ab, " actions=%s", names);
+> +
+> +	if (old_names)
+> +		audit_log_format(ab, " old-actions=%s", old_names);
+> +
+> +	audit_log_format(ab, " res=%d", res);
+> +	audit_log_end(ab);
+> +}
+> +
+>  struct list_head *audit_killed_trees(void)
+>  {
+>  	struct audit_context *ctx = current->audit_context;
+> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> index b36ac1e..da78835 100644
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -1219,11 +1219,10 @@ static int read_actions_logged(struct ctl_table
+> *ro_table, void __user *buffer, }
+> 
+>  static int write_actions_logged(struct ctl_table *ro_table, void __user
+> *buffer, -				size_t *lenp, loff_t *ppos)
+> +				size_t *lenp, loff_t *ppos, u32 *actions_logged)
+>  {
+>  	char names[sizeof(seccomp_actions_avail)];
+>  	struct ctl_table table;
+> -	u32 actions_logged;
+>  	int ret;
+> 
+>  	if (!capable(CAP_SYS_ADMIN))
+> @@ -1238,24 +1237,58 @@ static int write_actions_logged(struct ctl_table
+> *ro_table, void __user *buffer, if (ret)
+>  		return ret;
+> 
+> -	if (!seccomp_actions_logged_from_names(&actions_logged, table.data))
+> +	if (!seccomp_actions_logged_from_names(actions_logged, table.data))
+>  		return -EINVAL;
+> 
+> -	if (actions_logged & SECCOMP_LOG_ALLOW)
+> +	if (*actions_logged & SECCOMP_LOG_ALLOW)
+>  		return -EINVAL;
+> 
+> -	seccomp_actions_logged = actions_logged;
+> +	seccomp_actions_logged = *actions_logged;
+>  	return 0;
+>  }
+> 
+> +static void audit_actions_logged(u32 actions_logged, u32
+> old_actions_logged, +				 int ret)
+> +{
+> +	char names[sizeof(seccomp_actions_avail)];
+> +	char old_names[sizeof(seccomp_actions_avail)];
+> +	const char *new = names;
+> +	const char *old = old_names;
+> +
+> +	if (!audit_enabled)
+> +		return;
+> +
+> +	memset(names, 0, sizeof(names));
+> +	memset(old_names, 0, sizeof(old_names));
+> +
+> +	if (ret || !seccomp_names_from_actions_logged(names, sizeof(names),
+> +						      actions_logged, ","))
+> +		new = NULL;
+> +
+> +	if (!seccomp_names_from_actions_logged(old_names, sizeof(old_names),
+> +					       old_actions_logged, ","))
+> +		old = NULL;
+> +
+> +	return audit_seccomp_actions_logged(new, old, !ret);
+> +}
+> +
+>  static int seccomp_actions_logged_handler(struct ctl_table *ro_table, int
+> write, void __user *buffer, size_t *lenp,
+>  					  loff_t *ppos)
+>  {
+> -	if (write)
+> -		return write_actions_logged(ro_table, buffer, lenp, ppos);
+> -	else
+> -		return read_actions_logged(ro_table, buffer, lenp, ppos);
+> +	int ret;
+> +
+> +	if (write) {
+> +		u32 actions_logged = 0;
+> +		u32 old_actions_logged = seccomp_actions_logged;
+> +
+> +		ret = write_actions_logged(ro_table, buffer, lenp, ppos,
+> +					   &actions_logged);
+> +		audit_actions_logged(actions_logged, old_actions_logged, ret);
+> +	} else
+> +		ret = read_actions_logged(ro_table, buffer, lenp, ppos);
+> +
+> +	return ret;
+>  }
+> 
+>  static struct ctl_path seccomp_sysctl_path[] = {
+
+
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
