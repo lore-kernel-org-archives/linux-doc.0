@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD5B87E22E
+	by archive.lwn.net (Postfix) with ESMTP id D1F017E280
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 May 2018 14:19:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751346AbeECOQh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 May 2018 10:16:37 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:52260 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751154AbeECOQA (ORCPT
+        id S1751484AbeECOQj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 May 2018 10:16:39 -0400
+Received: from mail-wr0-f193.google.com ([209.85.128.193]:45255 "EHLO
+        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751316AbeECOQA (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 3 May 2018 10:16:00 -0400
-Received: by mail-wm0-f68.google.com with SMTP id w194so6586797wmf.2
-        for <linux-doc@vger.kernel.org>; Thu, 03 May 2018 07:16:00 -0700 (PDT)
+Received: by mail-wr0-f193.google.com with SMTP id p5-v6so17772903wre.12
+        for <linux-doc@vger.kernel.org>; Thu, 03 May 2018 07:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=UK5wc6DlUcroqlO7Swx8mX58fL3XtYOgQeE0FdL7+yM=;
-        b=SCYKEXLSpkNlZ9mHjShUuLWwNSiajDqZHo9U6ZQfP94nylXpVwhaK/sq9SWYSuw6qZ
-         xgQ1LKQGfbq7VMeFIP6LF7phM9DOO4kNWoESi0QbI1EHcEFsPwSEJmupL1OyoB05vXoE
-         TupctVtdSq13zTI46v73lUWLEIohw8yHPSyROzFIi/sfPuE5ulZNhFr++XsbAQL2/i3U
-         l7FJtduUS2tb6945qKr4Ok8wb+PScpzEommAHb3yD+rJ3Hb9yz8ruCtvZSL6xpamwEIm
-         ywOUlxxHQ0CTeZuLgI4GuOUP+T5FSGpLlZMwsCUky+i7P3jHK2Y42sb6Z0bEOVVTa/+W
-         xRrg==
+        bh=ctyxioGiNTZ7rpdFbKdyZtiNPRmeyeSFA/d5IrA7HX8=;
+        b=hryGsx/yxTmgjv4bZv8g8mXRkFPYEd6EltiF5RFvZ96FGFw+N+FiaCYSgucX74CTrN
+         Q+UenCZ/98WaZggEUBXp8aEUycrM2o8FNOFNm0oNq8YgJz6N8q8NcEyhnEOw5yT1uxhs
+         yCJLdo7Lm0Z70ZqM4uRbI0jAR2EGbJGI/iJszvGU8bVp+c8BpSqNrSv2yums7mzpPAMv
+         uaPZp9+wUtBsxhuB5+RUDZxzNdnVm50xv3vsddL6fYrqN00cFI7IYe6CtP7d+lFB6S68
+         LFbUGv2Umtjp0+ObFIzYawnGxdiD2wu97vu5kI3cIquxhPtIY5kS7TAp5mqROWSdXSsP
+         48Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=UK5wc6DlUcroqlO7Swx8mX58fL3XtYOgQeE0FdL7+yM=;
-        b=RnGjCkwJT41vUz9AiI7lSg1WPYzonCIhXnvap5JLVtT+KhrSwuER17f79vFhalw3DJ
-         ceEnXH0BDppXKNW4wQTRs7bij21I1aX7aYI858hfMVr9g7pwj+JscgNA/OGn572zecrB
-         oZtVRDs+DKHUT9Z2gwcWB4FrRQUFNxwJIommapCSxlwcG3jB4sa5xK6huNbkpqKvvvot
-         Pud24RpDnY61ptLbcY0soIu1mJ6mkAuvjmRpUSuFje9Dxti/AG/uFIcr7suqOjubw77z
-         V8QMTA6h2J1P24GeiH7jb8pQ/7379j2yznwzdDlqvGVkb0W3/4ecMXhDznryb0zk21+N
-         PJkQ==
-X-Gm-Message-State: ALQs6tBN3MHbmIEng8dLgpuRIlOw3CUEWMOGXxXMbHXtxS8+dofGlG+m
-        x3F7bodkM+wSOp/KHidsATwklA==
-X-Google-Smtp-Source: AB8JxZp3MQmZZ6oNm3X5fe1bQ1T4o6Ql+t77Nx3UuR1G4D5mj7PNDW0sv4E6Oua5EgFMYH61+7XlKQ==
-X-Received: by 10.28.142.149 with SMTP id q143mr14751135wmd.161.1525356959476;
-        Thu, 03 May 2018 07:15:59 -0700 (PDT)
+        bh=ctyxioGiNTZ7rpdFbKdyZtiNPRmeyeSFA/d5IrA7HX8=;
+        b=dIxsnU6n1AYwKr2RYP9pATqa4eg0+VES1//0t5w/jcq0kk6dJCR6OigqjuuuTo6/f2
+         PkMWUE9/CwExQNaTDvqKbt4l+F4b0fdrT9tKJnFtYE42JZJ9B5aYLHRQttGZ9Al/yS5l
+         hKM9gfvkdHRMc30q6GUZae627dCR1tKwQbIsedjMIRow5cXExdvQqFTW5VOhm/ibOSiF
+         Kw+cD/6nHuxrjOPwBXY64hti4KgxKN1ny/vgWibQBJlK8ZMgT0MrwrsROTX2cxV3QvoW
+         QRX3Gp4lIdKE7cQWPCF5/AoaL0gO3xOmakuod4ZB9VPE7iUFRjiIT8n533ruRyMLT+QF
+         SacA==
+X-Gm-Message-State: ALQs6tDtoIIku6LswqDqqFBVXwgztaz95mbl/AZ5Ej7blzjOtrP0n0qQ
+        Cl2LdlUKhAoud/06cFBlLm3Usg==
+X-Google-Smtp-Source: AB8JxZpawo+iTN3j3wND3dZiwHsLK73Ji/eDYkcylrk4gUPBNiMOM8Uttu/rSNJkfJl7Xbmq767iZw==
+X-Received: by 2002:adf:9444:: with SMTP id 62-v6mr17792664wrq.264.1525356953516;
+        Thu, 03 May 2018 07:15:53 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id u20-v6sm22090298wru.33.2018.05.03.07.15.57
+        by smtp.gmail.com with ESMTPSA id u20-v6sm22090298wru.33.2018.05.03.07.15.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 May 2018 07:15:58 -0700 (PDT)
+        Thu, 03 May 2018 07:15:52 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -78,9 +78,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v2 6/6] arm64: update Documentation/arm64/tagged-pointers.txt
-Date:   Thu,  3 May 2018 16:15:44 +0200
-Message-Id: <1a708210a8056aa356407e72973e00970523e7e2.1525356769.git.andreyknvl@google.com>
+Subject: [PATCH v2 3/6] arm64: untag user addresses in access_ok and __uaccess_mask_ptr
+Date:   Thu,  3 May 2018 16:15:41 +0200
+Message-Id: <20bddb7a15984ba05eb1d248162a845af246449b.1525356769.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
 In-Reply-To: <cover.1525356769.git.andreyknvl@google.com>
 References: <cover.1525356769.git.andreyknvl@google.com>
@@ -91,30 +91,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a note that work on passing tagged user pointers to the kernel via
-syscalls has started, but might not be complete yet.
+copy_from_user (and a few other similar functions) are used to copy data
+from user memory into the kernel memory or vice versa. Since a user can
+provided a tagged pointer to one of the syscalls that use copy_from_user,
+we need to correctly handle such pointers.
+
+Do this by untagging user pointers in access_ok and in __uaccess_mask_ptr,
+before performing access validity checks.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- Documentation/arm64/tagged-pointers.txt | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ arch/arm64/include/asm/uaccess.h | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.txt
-index a25a99e82bb1..361481283f00 100644
---- a/Documentation/arm64/tagged-pointers.txt
-+++ b/Documentation/arm64/tagged-pointers.txt
-@@ -35,8 +35,9 @@ Using non-zero address tags in any of these locations may result in an
- error code being returned, a (fatal) signal being raised, or other modes
- of failure.
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index 2d6451cbaa86..fa7318d3d7d5 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -105,7 +105,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+ #define untagged_addr(addr)		\
+ 	((__typeof__(addr))sign_extend64((__u64)(addr), 55))
  
--For these reasons, passing non-zero address tags to the kernel via
--system calls is forbidden, and using a non-zero address tag for sp is
-+Some initial work for supporting non-zero address tags passed to the
-+kernel via system calls has been done, but the kernel doesn't provide
-+any guarantees at this point. Using a non-zero address tag for sp is
- strongly discouraged.
+-#define access_ok(type, addr, size)	__range_ok(addr, size)
++#define access_ok(type, addr, size)	\
++	__range_ok(untagged_addr(addr), size)
+ #define user_addr_max			get_fs
  
- Programs maintaining a frame pointer and frame records that use non-zero
+ #define _ASM_EXTABLE(from, to)						\
+@@ -237,7 +238,8 @@ static inline void uaccess_enable_not_uao(void)
+ 
+ /*
+  * Sanitise a uaccess pointer such that it becomes NULL if above the
+- * current addr_limit.
++ * current addr_limit. In case the pointer is tagged (has the top byte set),
++ * untag the pointer before checking.
+  */
+ #define uaccess_mask_ptr(ptr) (__typeof__(ptr))__uaccess_mask_ptr(ptr)
+ static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
+@@ -245,10 +247,11 @@ static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
+ 	void __user *safe_ptr;
+ 
+ 	asm volatile(
+-	"	bics	xzr, %1, %2\n"
++	"	bics	xzr, %3, %2\n"
+ 	"	csel	%0, %1, xzr, eq\n"
+ 	: "=&r" (safe_ptr)
+-	: "r" (ptr), "r" (current_thread_info()->addr_limit)
++	: "r" (ptr), "r" (current_thread_info()->addr_limit),
++	  "r" (untagged_addr(ptr))
+ 	: "cc");
+ 
+ 	csdb();
 -- 
 2.17.0.441.gb46fe60e1d-goog
 
