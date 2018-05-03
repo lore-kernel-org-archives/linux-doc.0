@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 073387E67A
+	by archive.lwn.net (Postfix) with ESMTP id 46DD57E688
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 May 2018 14:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751739AbeECOSX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 May 2018 10:18:23 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:55691 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751279AbeECOP6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 May 2018 10:15:58 -0400
-Received: by mail-wm0-f68.google.com with SMTP id a8so28655076wmg.5
-        for <linux-doc@vger.kernel.org>; Thu, 03 May 2018 07:15:58 -0700 (PDT)
+        id S1751145AbeECOSk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 May 2018 10:18:40 -0400
+Received: from mail-wr0-f193.google.com ([209.85.128.193]:46716 "EHLO
+        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751166AbeECOPv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 May 2018 10:15:51 -0400
+Received: by mail-wr0-f193.google.com with SMTP id o2-v6so14884175wrj.13
+        for <linux-doc@vger.kernel.org>; Thu, 03 May 2018 07:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20120113;
+        d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=o+ak8aT7T3uE1kdwTWR13dwi0UfLy2jLaOVdoh2IUAY=;
-        b=LsqUKggNktg8eN6z+vIy2COAcmK3axAFA6UCN/2gDZ8Np1ZlsLG/UyDlsQmt0m/qOk
-         XK/LQug75xAbYijiJswdDtt9Uw7jEbVwty3AvcqkXJzH5OiCJRC7CBfdQs94dw5wfCpp
-         UAkE/GYr4pKqCxDen8QLbx+dXplaro6soXvhdRg53rRA6LlO1U5osCK3oNjr1x7omveM
-         jo6RDTdo173a9Eqkn9GTLFHUfU68lqntf/TpgZn2izDoYkw9mmdcMdDJ8unLYTHeeYGw
-         +yoDuWkwvcb6pPwznLqvpeJrQ7s8V6c122RUJHIam2/QR04Lj5Du8PXmzBHSShErqZD5
-         cXxA==
+        bh=xUzcMaOTF1xTWiYdFgJJTAKZY8fgLS4Wayk3qwMg3og=;
+        b=Gaf2GpyxAxLLoEg/CKyWWUvIWN4HcJRL4Rimd/ht7vvHJX816/tibX3CWOFjYC+6T3
+         7HmRrsInR/22Q+MkhZKSHPFRat/wqedQxsYsmJAhTLfKsGz1yG0KQGBx3nNyoid5TzxL
+         kOCRNjalXQfwJMmlhjoD03riy05CxYfO1J5T9nx1K+z64VQ+sdUyxGV5q6ztG+EaJHGx
+         yeOLltdJeRHMPfdz4lJ5/Q3aYev19/+IT/lEWmCAsqzLgzuT00PAGyjRJ0aQnLPvxOT3
+         rzqWse8l4mkNArFjlU4ArkeOO6+D28wDXRl4FfSx1JfYdf6X2rTIjor/Va0msDCRSNcb
+         uKBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20130820;
+        d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=o+ak8aT7T3uE1kdwTWR13dwi0UfLy2jLaOVdoh2IUAY=;
-        b=UkSwRaPFVqIBxEgdbBqqL7XIw897P7ClH7hoEwK493lrRm3LP8B/7QUKUS3cVMXAVu
-         kWWweqAqBwCKrArl5xzMEcD16jIeE13iMKSLKArS7i6CNa9jPZvZ49FR68Wu2cNjFypi
-         HL6eQzhsvDjOtwRHrCaNE0pc0V1Toqx9wXLvQz9W0SgSArQZnUJJ+lpbHQNfj6lGgMec
-         rbHxLL2+OV14BbHIcURcFFmbqPuwFMd3wKzo9KQdIyeb6yGxoF3fd+otX592Odju8JmZ
-         iRbVKbqRodPeSIMCQC7zPntaOd+kKs+fxOk2UN7CYfQe6JP6FSJ352DOdYwCaqxXW4/v
-         Cy8Q==
-X-Gm-Message-State: ALQs6tDMfkLAM6t72rVUJXaHmCiy2tUCqckVdbvmXD6m3DgdzjTz06dC
-        9bqTv+lTIqqX/ERcgM2C4EBoMw==
-X-Google-Smtp-Source: AB8JxZptJtXiKJBDGbwE89q0SZRWIhadPxCAvvpndroOWisTrqqDu2K9+Rg0HJfCfSaZ0FKxnM9UiA==
-X-Received: by 2002:a1c:6a0a:: with SMTP id f10-v6mr244958wmc.1.1525356955378;
-        Thu, 03 May 2018 07:15:55 -0700 (PDT)
+        bh=xUzcMaOTF1xTWiYdFgJJTAKZY8fgLS4Wayk3qwMg3og=;
+        b=MYgVnqAiQsmITTodOdYp27aj/LKEokd2ysqcwjOxFEe85WmzL/DyIedideIfkaACs2
+         Wl/m1SxJxgNxYIreYu/ySVYlDrP56GO/9En7C0UwSFne31TyLRf5xLPBolgxhbzyj8//
+         MqnghlUunNCfGIVX1CCcMQozzWtNTp4cRElF6SaN8KcNdFI2iH2K6V838y3n7fw7jHjL
+         C3EoJ6GktYXGSAzhogMLAXHDhXUTG747xAUAhxagmjqawuhmnLInN6myXTuhUiBDnrS2
+         n1e0TvdqWZQ4ib6EvEFA5OM27KvjVjeRMinra4s33Q1FcUS3R69oigVfe0eLU/NZAKXr
+         zRPw==
+X-Gm-Message-State: ALQs6tCuYVyT7P9VADVtBWK/4G2kWQhsuwvVNi/J13FP+JmGGYNKcOhu
+        ucyTlMztQuP1B2zKRUv+1QFJvg==
+X-Google-Smtp-Source: AB8JxZrm/imnlmPwzpExlXduL2x4spddcr4ddWYXxEzYjIk+xY0vq8dipS9QYyUmHsWZ+eYk+o2xjA==
+X-Received: by 2002:adf:e642:: with SMTP id b2-v6mr17276262wrn.172.1525356950011;
+        Thu, 03 May 2018 07:15:50 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id u20-v6sm22090298wru.33.2018.05.03.07.15.53
+        by smtp.gmail.com with ESMTPSA id u20-v6sm22090298wru.33.2018.05.03.07.15.48
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 May 2018 07:15:54 -0700 (PDT)
+        Thu, 03 May 2018 07:15:49 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -78,9 +78,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v2 4/6] mm, arm64: untag user addresses in mm/gup.c
-Date:   Thu,  3 May 2018 16:15:42 +0200
-Message-Id: <24ab244adc196fda8536cf2efb59cc654e1c234b.1525356769.git.andreyknvl@google.com>
+Subject: [PATCH v2 1/6] arm64: add type casts to untagged_addr macro
+Date:   Thu,  3 May 2018 16:15:39 +0200
+Message-Id: <54622375c498b1e0037e26074cd2ba500ca7cbd6.1525356769.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
 In-Reply-To: <cover.1525356769.git.andreyknvl@google.com>
 References: <cover.1525356769.git.andreyknvl@google.com>
@@ -91,40 +91,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mm/gup.c provides a kernel interface that accepts user addresses and
-manipulates user pages directly (for example get_user_pages, that is used
-by the futex syscall). Here we also need to handle the case of tagged user
-pointers.
-
-Add untagging to gup.c functions that use user pointers for vma lookup.
+This patch makes the untagged_addr macro accept all kinds of address types
+(void *, unsigned long, etc.) and allows not to specify type casts in each
+place where it is used. This is done by using __typeof__.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/gup.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/include/asm/uaccess.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 76af4cfeaf68..65a9566c96d3 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -647,6 +647,8 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
- 	if (!nr_pages)
- 		return 0;
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index e66b0fca99c2..2d6451cbaa86 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -102,7 +102,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+  * up with a tagged userland pointer. Clear the tag to get a sane pointer to
+  * pass on to access_ok(), for instance.
+  */
+-#define untagged_addr(addr)		sign_extend64(addr, 55)
++#define untagged_addr(addr)		\
++	((__typeof__(addr))sign_extend64((__u64)(addr), 55))
  
-+	start = untagged_addr(start);
-+
- 	VM_BUG_ON(!!pages != !!(gup_flags & FOLL_GET));
- 
- 	/*
-@@ -801,6 +803,8 @@ int fixup_user_fault(struct task_struct *tsk, struct mm_struct *mm,
- 	struct vm_area_struct *vma;
- 	int ret, major = 0;
- 
-+	address = untagged_addr(address);
-+
- 	if (unlocked)
- 		fault_flags |= FAULT_FLAG_ALLOW_RETRY;
- 
+ #define access_ok(type, addr, size)	__range_ok(addr, size)
+ #define user_addr_max			get_fs
 -- 
 2.17.0.441.gb46fe60e1d-goog
 
