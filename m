@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D4B07E679
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 May 2018 14:17:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD5B87E22E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 May 2018 14:19:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751507AbeECOQn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 May 2018 10:16:43 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:36847 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751283AbeECOP7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 May 2018 10:15:59 -0400
-Received: by mail-wr0-f194.google.com with SMTP id f2-v6so5983801wrm.3
-        for <linux-doc@vger.kernel.org>; Thu, 03 May 2018 07:15:58 -0700 (PDT)
+        id S1751346AbeECOQh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 May 2018 10:16:37 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:52260 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751154AbeECOQA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 May 2018 10:16:00 -0400
+Received: by mail-wm0-f68.google.com with SMTP id w194so6586797wmf.2
+        for <linux-doc@vger.kernel.org>; Thu, 03 May 2018 07:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=M5UHAvrtR5/eJhShSI1YJ0Xmi/BIFkhr39NHkoB1ybI=;
-        b=dbEUj9y/d9revilF41htY8tL8vfwOjD+LyR/3xiYiL8nDwFb2RNFx2jhSzefyIce59
-         cIyLKeIWW/ckQvWDsWbeNgvU9t6S4MGX6eYo8jWEdYCAV2tfTxNF9CkCtm+4yCU+inLO
-         65DK88iaqemjOrBBYUBVguEp/xBraRAi1EAUxlkhRzh2SQUp6zywAB6o3Hak2NXju22a
-         LadHnLSttfkzETN1Pn4COb9e92lFiW5MK7NXaY38UjJPHfVXK3zvmwrXH2g0kz+HvXml
-         LNLCtKWzJ7wMhh+1qMRqKsLk/in9sKyd3gQkQWEmnuX+mPO/beUGcFeyr4tPb4/rpvPv
-         nDVw==
+        bh=UK5wc6DlUcroqlO7Swx8mX58fL3XtYOgQeE0FdL7+yM=;
+        b=SCYKEXLSpkNlZ9mHjShUuLWwNSiajDqZHo9U6ZQfP94nylXpVwhaK/sq9SWYSuw6qZ
+         xgQ1LKQGfbq7VMeFIP6LF7phM9DOO4kNWoESi0QbI1EHcEFsPwSEJmupL1OyoB05vXoE
+         TupctVtdSq13zTI46v73lUWLEIohw8yHPSyROzFIi/sfPuE5ulZNhFr++XsbAQL2/i3U
+         l7FJtduUS2tb6945qKr4Ok8wb+PScpzEommAHb3yD+rJ3Hb9yz8ruCtvZSL6xpamwEIm
+         ywOUlxxHQ0CTeZuLgI4GuOUP+T5FSGpLlZMwsCUky+i7P3jHK2Y42sb6Z0bEOVVTa/+W
+         xRrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=M5UHAvrtR5/eJhShSI1YJ0Xmi/BIFkhr39NHkoB1ybI=;
-        b=oTN24dMDnk/KlM3UN7PhgV8/RUICKOkScorEgvWuZuks+CNTFucSPqX8W3iy9uA5/e
-         NNXBYEenEglqmi4A4X6lJc0as5YhxEc4DipngcF3PL98exDuEPAzydAU5ycJrELyg9r0
-         dYKaZ/07HfTAkGDYuf6sxOxOkXlRLgO0fQjk0IhciPB8WrkjG3taevAg4lL4PwSDZKUa
-         h+74EHVkuATbZ6jJ/mkn8JDNHGYolAAeKm2m5j2VAO6SHgUaNxKTJKwyVmIKZntznaVy
-         8/rcMXx67yz+n0+u5Uf2fAQRw8B9fbJMNw79SnmDLyxKe2wCPJo8HxgGUoTklXosYlD1
-         Io4g==
-X-Gm-Message-State: ALQs6tCJVYkXCb9Vj5drawBmPGYhKlGpGGHyjc73enhW//ryReSy0X8r
-        2atJCYrc6jCU2eTbZVO+6NbAjQ==
-X-Google-Smtp-Source: AB8JxZrtgvBbu51uuNOrM930KRxctyDs8aDRqxQKJDoQnvKSatdZ45lFj+2+C4ayBT0TuQT8vva3KA==
-X-Received: by 2002:adf:c3cd:: with SMTP id d13-v6mr14198496wrg.282.1525356957822;
-        Thu, 03 May 2018 07:15:57 -0700 (PDT)
+        bh=UK5wc6DlUcroqlO7Swx8mX58fL3XtYOgQeE0FdL7+yM=;
+        b=RnGjCkwJT41vUz9AiI7lSg1WPYzonCIhXnvap5JLVtT+KhrSwuER17f79vFhalw3DJ
+         ceEnXH0BDppXKNW4wQTRs7bij21I1aX7aYI858hfMVr9g7pwj+JscgNA/OGn572zecrB
+         oZtVRDs+DKHUT9Z2gwcWB4FrRQUFNxwJIommapCSxlwcG3jB4sa5xK6huNbkpqKvvvot
+         Pud24RpDnY61ptLbcY0soIu1mJ6mkAuvjmRpUSuFje9Dxti/AG/uFIcr7suqOjubw77z
+         V8QMTA6h2J1P24GeiH7jb8pQ/7379j2yznwzdDlqvGVkb0W3/4ecMXhDznryb0zk21+N
+         PJkQ==
+X-Gm-Message-State: ALQs6tBN3MHbmIEng8dLgpuRIlOw3CUEWMOGXxXMbHXtxS8+dofGlG+m
+        x3F7bodkM+wSOp/KHidsATwklA==
+X-Google-Smtp-Source: AB8JxZp3MQmZZ6oNm3X5fe1bQ1T4o6Ql+t77Nx3UuR1G4D5mj7PNDW0sv4E6Oua5EgFMYH61+7XlKQ==
+X-Received: by 10.28.142.149 with SMTP id q143mr14751135wmd.161.1525356959476;
+        Thu, 03 May 2018 07:15:59 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id u20-v6sm22090298wru.33.2018.05.03.07.15.55
+        by smtp.gmail.com with ESMTPSA id u20-v6sm22090298wru.33.2018.05.03.07.15.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 May 2018 07:15:56 -0700 (PDT)
+        Thu, 03 May 2018 07:15:58 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -78,9 +78,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v2 5/6] lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-Date:   Thu,  3 May 2018 16:15:43 +0200
-Message-Id: <98e18e4ca8e40bb8e7ea8e622833ce9123207e1e.1525356769.git.andreyknvl@google.com>
+Subject: [PATCH v2 6/6] arm64: update Documentation/arm64/tagged-pointers.txt
+Date:   Thu,  3 May 2018 16:15:44 +0200
+Message-Id: <1a708210a8056aa356407e72973e00970523e7e2.1525356769.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
 In-Reply-To: <cover.1525356769.git.andreyknvl@google.com>
 References: <cover.1525356769.git.andreyknvl@google.com>
@@ -91,44 +91,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-strncpy_from_user and strnlen_user accept user addresses as arguments, and
-do not go through the same path as copy_from_user and others, so here we
-need to handle the case of tagged user addresses separately.
-
-Untag user pointers passed to these functions.
+Add a note that work on passing tagged user pointers to the kernel via
+syscalls has started, but might not be complete yet.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/strncpy_from_user.c | 2 ++
- lib/strnlen_user.c      | 2 ++
- 2 files changed, 4 insertions(+)
+ Documentation/arm64/tagged-pointers.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
-index b53e1b5d80f4..97467cd2bc59 100644
---- a/lib/strncpy_from_user.c
-+++ b/lib/strncpy_from_user.c
-@@ -106,6 +106,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
- 	if (unlikely(count <= 0))
- 		return 0;
+diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.txt
+index a25a99e82bb1..361481283f00 100644
+--- a/Documentation/arm64/tagged-pointers.txt
++++ b/Documentation/arm64/tagged-pointers.txt
+@@ -35,8 +35,9 @@ Using non-zero address tags in any of these locations may result in an
+ error code being returned, a (fatal) signal being raised, or other modes
+ of failure.
  
-+	src = untagged_addr(src);
-+
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)src;
- 	if (likely(src_addr < max_addr)) {
-diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
-index 60d0bbda8f5e..8b5f56466e00 100644
---- a/lib/strnlen_user.c
-+++ b/lib/strnlen_user.c
-@@ -108,6 +108,8 @@ long strnlen_user(const char __user *str, long count)
- 	if (unlikely(count <= 0))
- 		return 0;
+-For these reasons, passing non-zero address tags to the kernel via
+-system calls is forbidden, and using a non-zero address tag for sp is
++Some initial work for supporting non-zero address tags passed to the
++kernel via system calls has been done, but the kernel doesn't provide
++any guarantees at this point. Using a non-zero address tag for sp is
+ strongly discouraged.
  
-+	str = untagged_addr(str);
-+
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)str;
- 	if (likely(src_addr < max_addr)) {
+ Programs maintaining a frame pointer and frame records that use non-zero
 -- 
 2.17.0.441.gb46fe60e1d-goog
 
