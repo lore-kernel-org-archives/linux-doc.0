@@ -1,122 +1,378 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46DD57E688
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 May 2018 14:19:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67E427DE78
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 May 2018 14:57:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751145AbeECOSk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 May 2018 10:18:40 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:46716 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751166AbeECOPv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 May 2018 10:15:51 -0400
-Received: by mail-wr0-f193.google.com with SMTP id o2-v6so14884175wrj.13
-        for <linux-doc@vger.kernel.org>; Thu, 03 May 2018 07:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references;
-        bh=xUzcMaOTF1xTWiYdFgJJTAKZY8fgLS4Wayk3qwMg3og=;
-        b=Gaf2GpyxAxLLoEg/CKyWWUvIWN4HcJRL4Rimd/ht7vvHJX816/tibX3CWOFjYC+6T3
-         7HmRrsInR/22Q+MkhZKSHPFRat/wqedQxsYsmJAhTLfKsGz1yG0KQGBx3nNyoid5TzxL
-         kOCRNjalXQfwJMmlhjoD03riy05CxYfO1J5T9nx1K+z64VQ+sdUyxGV5q6ztG+EaJHGx
-         yeOLltdJeRHMPfdz4lJ5/Q3aYev19/+IT/lEWmCAsqzLgzuT00PAGyjRJ0aQnLPvxOT3
-         rzqWse8l4mkNArFjlU4ArkeOO6+D28wDXRl4FfSx1JfYdf6X2rTIjor/Va0msDCRSNcb
-         uKBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references;
-        bh=xUzcMaOTF1xTWiYdFgJJTAKZY8fgLS4Wayk3qwMg3og=;
-        b=MYgVnqAiQsmITTodOdYp27aj/LKEokd2ysqcwjOxFEe85WmzL/DyIedideIfkaACs2
-         Wl/m1SxJxgNxYIreYu/ySVYlDrP56GO/9En7C0UwSFne31TyLRf5xLPBolgxhbzyj8//
-         MqnghlUunNCfGIVX1CCcMQozzWtNTp4cRElF6SaN8KcNdFI2iH2K6V838y3n7fw7jHjL
-         C3EoJ6GktYXGSAzhogMLAXHDhXUTG747xAUAhxagmjqawuhmnLInN6myXTuhUiBDnrS2
-         n1e0TvdqWZQ4ib6EvEFA5OM27KvjVjeRMinra4s33Q1FcUS3R69oigVfe0eLU/NZAKXr
-         zRPw==
-X-Gm-Message-State: ALQs6tCuYVyT7P9VADVtBWK/4G2kWQhsuwvVNi/J13FP+JmGGYNKcOhu
-        ucyTlMztQuP1B2zKRUv+1QFJvg==
-X-Google-Smtp-Source: AB8JxZrm/imnlmPwzpExlXduL2x4spddcr4ddWYXxEzYjIk+xY0vq8dipS9QYyUmHsWZ+eYk+o2xjA==
-X-Received: by 2002:adf:e642:: with SMTP id b2-v6mr17276262wrn.172.1525356950011;
-        Thu, 03 May 2018 07:15:50 -0700 (PDT)
-Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id u20-v6sm22090298wru.33.2018.05.03.07.15.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 May 2018 07:15:49 -0700 (PDT)
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        James Morse <james.morse@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Zi Yan <zi.yan@cs.rutgers.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v2 1/6] arm64: add type casts to untagged_addr macro
-Date:   Thu,  3 May 2018 16:15:39 +0200
-Message-Id: <54622375c498b1e0037e26074cd2ba500ca7cbd6.1525356769.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
-In-Reply-To: <cover.1525356769.git.andreyknvl@google.com>
-References: <cover.1525356769.git.andreyknvl@google.com>
-In-Reply-To: <cover.1525356769.git.andreyknvl@google.com>
-References: <cover.1525356769.git.andreyknvl@google.com>
+        id S1751174AbeECO5U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 May 2018 10:57:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34568 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751152AbeECO5T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 May 2018 10:57:19 -0400
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8F8CB21771;
+        Thu,  3 May 2018 14:57:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1525359439;
+        bh=sXmCNo/uKI6JmbLZT3oPcp1qrwZpLWS0JkqqJFy8eeM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mNkzPwcx6RmfH8HJsgfTEwA8pCFTz5JlDBJU7jZ+HH6brcUZDx6MZ9KMNM5UQXFGG
+         v/JI6QbOAjTruEMfLCobGnKfEWQIZ4e0JsiV+EejruyzRyDapGtFFnF4iZmIsM5y79
+         QlahJ8+N3E6Munj+weu8F9Llj/TrsadljPSAJkY4=
+Date:   Thu, 3 May 2018 23:57:13 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
+        rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        alexis.berlemont@gmail.com, corbet@lwn.net,
+        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
+        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
+        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
+        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
+        fengguang.wu@intel.com, jglisse@redhat.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Subject: Re: [PATCH v3 9/9] perf probe: Support SDT markers having reference
+ counter (semaphore)
+Message-Id: <20180503235713.6dff5b19b3a26b888abdb08b@kernel.org>
+In-Reply-To: <20180417043244.7501-10-ravi.bangoria@linux.vnet.ibm.com>
+References: <20180417043244.7501-1-ravi.bangoria@linux.vnet.ibm.com>
+        <20180417043244.7501-10-ravi.bangoria@linux.vnet.ibm.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch makes the untagged_addr macro accept all kinds of address types
-(void *, unsigned long, etc.) and allows not to specify type casts in each
-place where it is used. This is done by using __typeof__.
+On Tue, 17 Apr 2018 10:02:44 +0530
+Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- arch/arm64/include/asm/uaccess.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> From: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+> 
+> With this, perf buildid-cache will save SDT markers with reference
+> counter in probe cache. Perf probe will be able to probe markers
+> having reference counter. Ex,
+> 
+>   # readelf -n /tmp/tick | grep -A1 loop2
+>     Name: loop2
+>     ... Semaphore: 0x0000000010020036
+> 
+>   # ./perf buildid-cache --add /tmp/tick
+>   # ./perf probe sdt_tick:loop2
+>   # ./perf stat -e sdt_tick:loop2 /tmp/tick
+>     hi: 0
+>     hi: 1
+>     hi: 2
+>     ^C
+>      Performance counter stats for '/tmp/tick':
+>                  3      sdt_tick:loop2
+>        2.561851452 seconds time elapsed
+> 
+> Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
 
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index e66b0fca99c2..2d6451cbaa86 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -102,7 +102,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
-  * up with a tagged userland pointer. Clear the tag to get a sane pointer to
-  * pass on to access_ok(), for instance.
-  */
--#define untagged_addr(addr)		sign_extend64(addr, 55)
-+#define untagged_addr(addr)		\
-+	((__typeof__(addr))sign_extend64((__u64)(addr), 55))
- 
- #define access_ok(type, addr, size)	__range_ok(addr, size)
- #define user_addr_max			get_fs
+Looks good to me.
+
+Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+
+Thanks!
+
+> ---
+>  tools/perf/util/probe-event.c | 39 ++++++++++++++++++++++++++++++++----
+>  tools/perf/util/probe-event.h |  1 +
+>  tools/perf/util/probe-file.c  | 34 ++++++++++++++++++++++++++------
+>  tools/perf/util/probe-file.h  |  1 +
+>  tools/perf/util/symbol-elf.c  | 46 ++++++++++++++++++++++++++++++++-----------
+>  tools/perf/util/symbol.h      |  7 +++++++
+>  6 files changed, 106 insertions(+), 22 deletions(-)
+> 
+> diff --git a/tools/perf/util/probe-event.c b/tools/perf/util/probe-event.c
+> index e1dbc98..9b9c26e 100644
+> --- a/tools/perf/util/probe-event.c
+> +++ b/tools/perf/util/probe-event.c
+> @@ -1832,6 +1832,12 @@ int parse_probe_trace_command(const char *cmd, struct probe_trace_event *tev)
+>  			tp->offset = strtoul(fmt2_str, NULL, 10);
+>  	}
+>  
+> +	if (tev->uprobes) {
+> +		fmt2_str = strchr(p, '(');
+> +		if (fmt2_str)
+> +			tp->ref_ctr_offset = strtoul(fmt2_str + 1, NULL, 0);
+> +	}
+> +
+>  	tev->nargs = argc - 2;
+>  	tev->args = zalloc(sizeof(struct probe_trace_arg) * tev->nargs);
+>  	if (tev->args == NULL) {
+> @@ -2025,6 +2031,22 @@ static int synthesize_probe_trace_arg(struct probe_trace_arg *arg,
+>  	return err;
+>  }
+>  
+> +static int
+> +synthesize_uprobe_trace_def(struct probe_trace_event *tev, struct strbuf *buf)
+> +{
+> +	struct probe_trace_point *tp = &tev->point;
+> +	int err;
+> +
+> +	err = strbuf_addf(buf, "%s:0x%lx", tp->module, tp->address);
+> +
+> +	if (err >= 0 && tp->ref_ctr_offset) {
+> +		if (!uprobe_ref_ctr_is_supported())
+> +			return -1;
+> +		err = strbuf_addf(buf, "(0x%lx)", tp->ref_ctr_offset);
+> +	}
+> +	return err >= 0 ? 0 : -1;
+> +}
+> +
+>  char *synthesize_probe_trace_command(struct probe_trace_event *tev)
+>  {
+>  	struct probe_trace_point *tp = &tev->point;
+> @@ -2054,15 +2076,17 @@ char *synthesize_probe_trace_command(struct probe_trace_event *tev)
+>  	}
+>  
+>  	/* Use the tp->address for uprobes */
+> -	if (tev->uprobes)
+> -		err = strbuf_addf(&buf, "%s:0x%lx", tp->module, tp->address);
+> -	else if (!strncmp(tp->symbol, "0x", 2))
+> +	if (tev->uprobes) {
+> +		err = synthesize_uprobe_trace_def(tev, &buf);
+> +	} else if (!strncmp(tp->symbol, "0x", 2)) {
+>  		/* Absolute address. See try_to_find_absolute_address() */
+>  		err = strbuf_addf(&buf, "%s%s0x%lx", tp->module ?: "",
+>  				  tp->module ? ":" : "", tp->address);
+> -	else
+> +	} else {
+>  		err = strbuf_addf(&buf, "%s%s%s+%lu", tp->module ?: "",
+>  				tp->module ? ":" : "", tp->symbol, tp->offset);
+> +	}
+> +
+>  	if (err)
+>  		goto error;
+>  
+> @@ -2646,6 +2670,13 @@ static void warn_uprobe_event_compat(struct probe_trace_event *tev)
+>  {
+>  	int i;
+>  	char *buf = synthesize_probe_trace_command(tev);
+> +	struct probe_trace_point *tp = &tev->point;
+> +
+> +	if (tp->ref_ctr_offset && !uprobe_ref_ctr_is_supported()) {
+> +		pr_warning("A semaphore is associated with %s:%s and "
+> +			   "seems your kernel doesn't support it.\n",
+> +			   tev->group, tev->event);
+> +	}
+>  
+>  	/* Old uprobe event doesn't support memory dereference */
+>  	if (!tev->uprobes || tev->nargs == 0 || !buf)
+> diff --git a/tools/perf/util/probe-event.h b/tools/perf/util/probe-event.h
+> index 45b14f0..15a98c3 100644
+> --- a/tools/perf/util/probe-event.h
+> +++ b/tools/perf/util/probe-event.h
+> @@ -27,6 +27,7 @@ struct probe_trace_point {
+>  	char		*symbol;	/* Base symbol */
+>  	char		*module;	/* Module name */
+>  	unsigned long	offset;		/* Offset from symbol */
+> +	unsigned long	ref_ctr_offset;	/* SDT reference counter offset */
+>  	unsigned long	address;	/* Actual address of the trace point */
+>  	bool		retprobe;	/* Return probe flag */
+>  };
+> diff --git a/tools/perf/util/probe-file.c b/tools/perf/util/probe-file.c
+> index 4ae1123..a17ba6a 100644
+> --- a/tools/perf/util/probe-file.c
+> +++ b/tools/perf/util/probe-file.c
+> @@ -697,8 +697,16 @@ int probe_cache__add_entry(struct probe_cache *pcache,
+>  #ifdef HAVE_GELF_GETNOTE_SUPPORT
+>  static unsigned long long sdt_note__get_addr(struct sdt_note *note)
+>  {
+> -	return note->bit32 ? (unsigned long long)note->addr.a32[0]
+> -		 : (unsigned long long)note->addr.a64[0];
+> +	return note->bit32 ?
+> +		(unsigned long long)note->addr.a32[SDT_NOTE_IDX_LOC] :
+> +		(unsigned long long)note->addr.a64[SDT_NOTE_IDX_LOC];
+> +}
+> +
+> +static unsigned long long sdt_note__get_ref_ctr_offset(struct sdt_note *note)
+> +{
+> +	return note->bit32 ?
+> +		(unsigned long long)note->addr.a32[SDT_NOTE_IDX_REFCTR] :
+> +		(unsigned long long)note->addr.a64[SDT_NOTE_IDX_REFCTR];
+>  }
+>  
+>  static const char * const type_to_suffix[] = {
+> @@ -776,14 +784,21 @@ static char *synthesize_sdt_probe_command(struct sdt_note *note,
+>  {
+>  	struct strbuf buf;
+>  	char *ret = NULL, **args;
+> -	int i, args_count;
+> +	int i, args_count, err;
+> +	unsigned long long ref_ctr_offset;
+>  
+>  	if (strbuf_init(&buf, 32) < 0)
+>  		return NULL;
+>  
+> -	if (strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
+> -				sdtgrp, note->name, pathname,
+> -				sdt_note__get_addr(note)) < 0)
+> +	err = strbuf_addf(&buf, "p:%s/%s %s:0x%llx",
+> +			sdtgrp, note->name, pathname,
+> +			sdt_note__get_addr(note));
+> +
+> +	ref_ctr_offset = sdt_note__get_ref_ctr_offset(note);
+> +	if (ref_ctr_offset && err >= 0)
+> +		err = strbuf_addf(&buf, "(0x%llx)", ref_ctr_offset);
+> +
+> +	if (err < 0)
+>  		goto error;
+>  
+>  	if (!note->args)
+> @@ -999,6 +1014,7 @@ int probe_cache__show_all_caches(struct strfilter *filter)
+>  enum ftrace_readme {
+>  	FTRACE_README_PROBE_TYPE_X = 0,
+>  	FTRACE_README_KRETPROBE_OFFSET,
+> +	FTRACE_README_UPROBE_REF_CTR,
+>  	FTRACE_README_END,
+>  };
+>  
+> @@ -1010,6 +1026,7 @@ enum ftrace_readme {
+>  	[idx] = {.pattern = pat, .avail = false}
+>  	DEFINE_TYPE(FTRACE_README_PROBE_TYPE_X, "*type: * x8/16/32/64,*"),
+>  	DEFINE_TYPE(FTRACE_README_KRETPROBE_OFFSET, "*place (kretprobe): *"),
+> +	DEFINE_TYPE(FTRACE_README_UPROBE_REF_CTR, "*ref_ctr_offset*"),
+>  };
+>  
+>  static bool scan_ftrace_readme(enum ftrace_readme type)
+> @@ -1065,3 +1082,8 @@ bool kretprobe_offset_is_supported(void)
+>  {
+>  	return scan_ftrace_readme(FTRACE_README_KRETPROBE_OFFSET);
+>  }
+> +
+> +bool uprobe_ref_ctr_is_supported(void)
+> +{
+> +	return scan_ftrace_readme(FTRACE_README_UPROBE_REF_CTR);
+> +}
+> diff --git a/tools/perf/util/probe-file.h b/tools/perf/util/probe-file.h
+> index 63f29b1..2a24918 100644
+> --- a/tools/perf/util/probe-file.h
+> +++ b/tools/perf/util/probe-file.h
+> @@ -69,6 +69,7 @@ struct probe_cache_entry *probe_cache__find_by_name(struct probe_cache *pcache,
+>  int probe_cache__show_all_caches(struct strfilter *filter);
+>  bool probe_type_is_available(enum probe_type type);
+>  bool kretprobe_offset_is_supported(void);
+> +bool uprobe_ref_ctr_is_supported(void);
+>  #else	/* ! HAVE_LIBELF_SUPPORT */
+>  static inline struct probe_cache *probe_cache__new(const char *tgt __maybe_unused, struct nsinfo *nsi __maybe_unused)
+>  {
+> diff --git a/tools/perf/util/symbol-elf.c b/tools/perf/util/symbol-elf.c
+> index 2de7705..45b7dba 100644
+> --- a/tools/perf/util/symbol-elf.c
+> +++ b/tools/perf/util/symbol-elf.c
+> @@ -1803,6 +1803,34 @@ void kcore_extract__delete(struct kcore_extract *kce)
+>  }
+>  
+>  #ifdef HAVE_GELF_GETNOTE_SUPPORT
+> +
+> +static void sdt_adjust_loc(struct sdt_note *tmp, GElf_Addr base_off)
+> +{
+> +	if (!base_off)
+> +		return;
+> +
+> +	if (tmp->bit32)
+> +		tmp->addr.a32[SDT_NOTE_IDX_LOC] =
+> +			tmp->addr.a32[SDT_NOTE_IDX_LOC] + base_off -
+> +			tmp->addr.a32[SDT_NOTE_IDX_BASE];
+> +	else
+> +		tmp->addr.a64[SDT_NOTE_IDX_LOC] =
+> +			tmp->addr.a64[SDT_NOTE_IDX_LOC] + base_off -
+> +			tmp->addr.a64[SDT_NOTE_IDX_BASE];
+> +}
+> +
+> +static void sdt_adjust_refctr(struct sdt_note *tmp, GElf_Addr base_addr,
+> +			      GElf_Addr base_off)
+> +{
+> +	if (!base_off)
+> +		return;
+> +
+> +	if (tmp->bit32)
+> +		tmp->addr.a32[SDT_NOTE_IDX_REFCTR] -= (base_addr - base_off);
+> +	else
+> +		tmp->addr.a64[SDT_NOTE_IDX_REFCTR] -= (base_addr - base_off);
+> +}
+> +
+>  /**
+>   * populate_sdt_note : Parse raw data and identify SDT note
+>   * @elf: elf of the opened file
+> @@ -1820,7 +1848,6 @@ static int populate_sdt_note(Elf **elf, const char *data, size_t len,
+>  	const char *provider, *name, *args;
+>  	struct sdt_note *tmp = NULL;
+>  	GElf_Ehdr ehdr;
+> -	GElf_Addr base_off = 0;
+>  	GElf_Shdr shdr;
+>  	int ret = -EINVAL;
+>  
+> @@ -1916,17 +1943,12 @@ static int populate_sdt_note(Elf **elf, const char *data, size_t len,
+>  	 * base address in the description of the SDT note. If its different,
+>  	 * then accordingly, adjust the note location.
+>  	 */
+> -	if (elf_section_by_name(*elf, &ehdr, &shdr, SDT_BASE_SCN, NULL)) {
+> -		base_off = shdr.sh_offset;
+> -		if (base_off) {
+> -			if (tmp->bit32)
+> -				tmp->addr.a32[0] = tmp->addr.a32[0] + base_off -
+> -					tmp->addr.a32[1];
+> -			else
+> -				tmp->addr.a64[0] = tmp->addr.a64[0] + base_off -
+> -					tmp->addr.a64[1];
+> -		}
+> -	}
+> +	if (elf_section_by_name(*elf, &ehdr, &shdr, SDT_BASE_SCN, NULL))
+> +		sdt_adjust_loc(tmp, shdr.sh_offset);
+> +
+> +	/* Adjust reference counter offset */
+> +	if (elf_section_by_name(*elf, &ehdr, &shdr, SDT_PROBES_SCN, NULL))
+> +		sdt_adjust_refctr(tmp, shdr.sh_addr, shdr.sh_offset);
+>  
+>  	list_add_tail(&tmp->note_list, sdt_notes);
+>  	return 0;
+> diff --git a/tools/perf/util/symbol.h b/tools/perf/util/symbol.h
+> index 70c16741..aa095bf 100644
+> --- a/tools/perf/util/symbol.h
+> +++ b/tools/perf/util/symbol.h
+> @@ -384,12 +384,19 @@ struct sdt_note {
+>  int cleanup_sdt_note_list(struct list_head *sdt_notes);
+>  int sdt_notes__get_count(struct list_head *start);
+>  
+> +#define SDT_PROBES_SCN ".probes"
+>  #define SDT_BASE_SCN ".stapsdt.base"
+>  #define SDT_NOTE_SCN  ".note.stapsdt"
+>  #define SDT_NOTE_TYPE 3
+>  #define SDT_NOTE_NAME "stapsdt"
+>  #define NR_ADDR 3
+>  
+> +enum {
+> +	SDT_NOTE_IDX_LOC = 0,
+> +	SDT_NOTE_IDX_BASE,
+> +	SDT_NOTE_IDX_REFCTR,
+> +};
+> +
+>  struct mem_info *mem_info__new(void);
+>  struct mem_info *mem_info__get(struct mem_info *mi);
+>  void   mem_info__put(struct mem_info *mi);
+> -- 
+> 1.8.3.1
+> 
+
+
 -- 
-2.17.0.441.gb46fe60e1d-goog
-
+Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
