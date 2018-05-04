@@ -1,104 +1,435 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD22F7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 01:11:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD71A7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 04:48:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751287AbeEDBKM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 May 2018 21:10:12 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:52092 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751190AbeEDBKK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 May 2018 21:10:10 -0400
-Received: from 2.general.tyhicks.us.vpn ([10.172.64.53] helo=sec.ubuntu-ci)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-        (Exim 4.76)
-        (envelope-from <tyhicks@canonical.com>)
-        id 1fEPDi-0008Hm-5R; Fri, 04 May 2018 01:09:10 +0000
-From:   Tyler Hicks <tyhicks@canonical.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@redhat.com>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-audit@redhat.com,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v3 0/4] Better integrate seccomp logging and auditing
-Date:   Fri,  4 May 2018 01:08:11 +0000
-Message-Id: <1525396095-27737-1-git-send-email-tyhicks@canonical.com>
-X-Mailer: git-send-email 2.7.4
+        id S1750820AbeEDEsX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 May 2018 00:48:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40554 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750774AbeEDEsW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 May 2018 00:48:22 -0400
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D83BE2177F;
+        Fri,  4 May 2018 04:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1525409301;
+        bh=rcFcPRCqCjZvCEUzDvmt56fsA30YoDhKmy8g5Ld9UvY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fbwb5b34kBC1kkHYaDTXgpg4aO39V+ITo+0PUN2dM+xgIPI4A+eMs/F7CirEt3MeS
+         plp1RoAVtdH81HjLa74coSsxUHbLhyOFWEG4XVNomx4M6CRwU9xLyS5dciL0LvrSjv
+         A6ANGKaTV6GsEujGoxiAYSpfpWCf1R4ZHfdLF02w=
+Date:   Fri, 4 May 2018 13:48:16 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>
+Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
+        rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        alexis.berlemont@gmail.com, corbet@lwn.net,
+        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
+        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
+        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
+        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
+        fengguang.wu@intel.com, jglisse@redhat.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Subject: Re: [PATCH v3 6/9] trace_uprobe: Support SDT markers having
+ reference count (semaphore)
+Message-Id: <20180504134816.8633a157dd036489d9b0f1db@kernel.org>
+In-Reply-To: <20180417043244.7501-7-ravi.bangoria@linux.vnet.ibm.com>
+References: <20180417043244.7501-1-ravi.bangoria@linux.vnet.ibm.com>
+        <20180417043244.7501-7-ravi.bangoria@linux.vnet.ibm.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Seccomp received improved logging controls in v4.14. Applications can opt into
-logging of "handled" actions (SECCOMP_RET_TRAP, SECCOMP_RET_TRACE,
-SECCOMP_RET_ERRNO) using the SECCOMP_FILTER_FLAG_LOG bit when loading filters.
-They can also debug filter matching with the new SECCOMP_RET_LOG action.
-Administrators can prevent specific actions from being logged using the
-kernel.seccomp.actions_logged sysctl.
+Hi Ravi,
 
-However, one corner case intentionally wasn't addressed in those v4.14 changes.
-When a process is being inspected by the audit subsystem, seccomp's decision
-making for logging ignores the new controls and unconditionally logs every
-action taken except for SECCOMP_RET_ALLOW. This isn't particularly useful since
-many existing applications don't intend to log handled actions due to them
-occurring very frequently. This amount of logging fills the audit logs without
-providing many benefits now that application authors have fine grained controls
-at their disposal.
+I have some comments, please see below.
 
-This patch set aligns the seccomp logging behavior for both audited and
-non-audited processes. It also emits an audit record, if auditing is enabled,
-when the kernel.seccomp.actions_logged sysctl is written to so that there's a
-paper trail when entire actions are quieted.
+On Tue, 17 Apr 2018 10:02:41 +0530
+Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com> wrote:\
 
-Changes in v3:
-* Patch 3
-  - Never drop a field when emitting the audit record
-  - Use the value "?" for the actions field when an error occurred while
-    writing to the sysctl
-  - Use the value "?" for the actions and/or old-actions fields when a failure
-    to translate actions to names
-  - Use the value "(none)" for the actions and/or old-actions fields when no
-    actions are specified
-    + This is possible when writing an empty string to the sysctl
-  - Update the commit message to note the new values and give an example of
-    when an empty string is written
-* Patch 4
-  - Adjust the control flow of seccomp_log() to exit early if nothing should be
-    logged
+> diff --git a/include/linux/uprobes.h b/include/linux/uprobes.h
+> index 7bd2760..2db3ed1 100644
+> --- a/include/linux/uprobes.h
+> +++ b/include/linux/uprobes.h
+> @@ -122,6 +122,8 @@ struct uprobe_map_info {
+>  	unsigned long vaddr;
+>  };
+>  
+> +extern void (*uprobe_mmap_callback)(struct vm_area_struct *vma);
+> +
+>  extern int set_swbp(struct arch_uprobe *aup, struct mm_struct *mm, unsigned long vaddr);
+>  extern int set_orig_insn(struct arch_uprobe *aup, struct mm_struct *mm, unsigned long vaddr);
+>  extern bool is_swbp_insn(uprobe_opcode_t *insn);
+> @@ -136,6 +138,8 @@ struct uprobe_map_info {
+>  extern void uprobe_munmap(struct vm_area_struct *vma, unsigned long start, unsigned long end);
+>  extern void uprobe_start_dup_mmap(void);
+>  extern void uprobe_end_dup_mmap(void);
+> +extern void uprobe_down_write_dup_mmap(void);
+> +extern void uprobe_up_write_dup_mmap(void);
+>  extern void uprobe_dup_mmap(struct mm_struct *oldmm, struct mm_struct *newmm);
+>  extern void uprobe_free_utask(struct task_struct *t);
+>  extern void uprobe_copy_process(struct task_struct *t, unsigned long flags);
+> @@ -192,6 +196,12 @@ static inline void uprobe_start_dup_mmap(void)
+>  static inline void uprobe_end_dup_mmap(void)
+>  {
+>  }
+> +static inline void uprobe_down_write_dup_mmap(void)
+> +{
+> +}
+> +static inline void uprobe_up_write_dup_mmap(void)
+> +{
+> +}
+>  static inline void
+>  uprobe_dup_mmap(struct mm_struct *oldmm, struct mm_struct *newmm)
+>  {
+> diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+> index 096d1e6..e26ad83 100644
+> --- a/kernel/events/uprobes.c
+> +++ b/kernel/events/uprobes.c
+> @@ -1044,6 +1044,9 @@ static void build_probe_list(struct inode *inode,
+>  	spin_unlock(&uprobes_treelock);
+>  }
+>  
+> +/* Rightnow the only user of this is trace_uprobe. */
+> +void (*uprobe_mmap_callback)(struct vm_area_struct *vma);
+> +
+>  /*
+>   * Called from mmap_region/vma_adjust with mm->mmap_sem acquired.
+>   *
+> @@ -1056,7 +1059,13 @@ int uprobe_mmap(struct vm_area_struct *vma)
+>  	struct uprobe *uprobe, *u;
+>  	struct inode *inode;
+>  
+> -	if (no_uprobe_events() || !valid_vma(vma, true))
+> +	if (no_uprobe_events())
+> +		return 0;
+> +
+> +	if (uprobe_mmap_callback)
+> +		uprobe_mmap_callback(vma);
+> +
+> +	if (!valid_vma(vma, true))
+>  		return 0;
+>  
+>  	inode = file_inode(vma->vm_file);
+> @@ -1247,6 +1256,16 @@ void uprobe_end_dup_mmap(void)
+>  	percpu_up_read(&dup_mmap_sem);
+>  }
+>  
+> +void uprobe_down_write_dup_mmap(void)
+> +{
+> +	percpu_down_write(&dup_mmap_sem);
+> +}
+> +
+> +void uprobe_up_write_dup_mmap(void)
+> +{
+> +	percpu_up_write(&dup_mmap_sem);
+> +}
+> +
 
-Changes in v2:
-* Patch 2
-  - New patch, allowing for a configurable separator between action names
-* Patch 3
-  - The value of the actions field in the audit record now uses a comma instead
-    of a space
-  - The value of the actions field in the audit record is no longer enclosed in
-    quotes
-  - audit_log_start() is called with the current processes' audit_context in
-    audit_seccomp_actions_logged()
-  - audit_seccomp_actions_logged() no longer records the pid, uid, auid, tty,
-    ses, task context, comm, or executable path
-  - The new and old value of seccomp_actions_logged is recorded in the
-    AUDIT_CONFIG_CHANGE record
-  - The value of the "res" field in the CONFIG_CHANGE audit record is corrected
-    (1 indicates success, 0 failure)
-  - Updated patch 3's commit message to reflect the updated audit record format
-    in the examples
-* Patch 4
-  - A function comment for audit_seccomp() was added to explain, among other
-    things, that event filtering is performed in seccomp_log()
+I'm not sure why these hunks are not done in previous patch.
+If you separate "uprobe_map_info" export patch, this also
+should be separated. (Or both merged into this patch)
 
-Tyler
 
+>  void uprobe_dup_mmap(struct mm_struct *oldmm, struct mm_struct *newmm)
+>  {
+>  	if (test_bit(MMF_HAS_UPROBES, &oldmm->flags)) {
+> diff --git a/kernel/trace/trace_uprobe.c b/kernel/trace/trace_uprobe.c
+> index 0d450b4..1a48b04 100644
+> --- a/kernel/trace/trace_uprobe.c
+> +++ b/kernel/trace/trace_uprobe.c
+> @@ -25,6 +25,8 @@
+>  #include <linux/namei.h>
+>  #include <linux/string.h>
+>  #include <linux/rculist.h>
+> +#include <linux/sched/mm.h>
+> +#include <linux/highmem.h>
+>  
+>  #include "trace_probe.h"
+>  
+> @@ -58,6 +60,7 @@ struct trace_uprobe {
+>  	struct inode			*inode;
+>  	char				*filename;
+>  	unsigned long			offset;
+> +	unsigned long			ref_ctr_offset;
+>  	unsigned long			nhit;
+>  	struct trace_probe		tp;
+>  };
+> @@ -364,10 +367,10 @@ static int create_trace_uprobe(int argc, char **argv)
+>  {
+>  	struct trace_uprobe *tu;
+>  	struct inode *inode;
+> -	char *arg, *event, *group, *filename;
+> +	char *arg, *event, *group, *filename, *rctr, *rctr_end;
+>  	char buf[MAX_EVENT_NAME_LEN];
+>  	struct path path;
+> -	unsigned long offset;
+> +	unsigned long offset, ref_ctr_offset;
+>  	bool is_delete, is_return;
+>  	int i, ret;
+>  
+> @@ -377,6 +380,7 @@ static int create_trace_uprobe(int argc, char **argv)
+>  	is_return = false;
+>  	event = NULL;
+>  	group = NULL;
+> +	ref_ctr_offset = 0;
+>  
+>  	/* argc must be >= 1 */
+>  	if (argv[0][0] == '-')
+> @@ -456,6 +460,26 @@ static int create_trace_uprobe(int argc, char **argv)
+>  		goto fail_address_parse;
+>  	}
+>  
+> +	/* Parse reference counter offset if specified. */
+> +	rctr = strchr(arg, '(');
+> +	if (rctr) {
+> +		rctr_end = strchr(rctr, ')');
+> +		if (rctr > rctr_end || *(rctr_end + 1) != 0) {
+> +			ret = -EINVAL;
+> +			pr_info("Invalid reference counter offset.\n");
+> +			goto fail_address_parse;
+> +		}
+> +
+> +		*rctr++ = '\0';
+> +		*rctr_end = '\0';
+> +		ret = kstrtoul(rctr, 0, &ref_ctr_offset);
+> +		if (ret) {
+> +			pr_info("Invalid reference counter offset.\n");
+> +			goto fail_address_parse;
+> +		}
+> +	}
+> +
+> +	/* Parse uprobe offset. */
+>  	ret = kstrtoul(arg, 0, &offset);
+>  	if (ret)
+>  		goto fail_address_parse;
+> @@ -490,6 +514,7 @@ static int create_trace_uprobe(int argc, char **argv)
+>  		goto fail_address_parse;
+>  	}
+>  	tu->offset = offset;
+> +	tu->ref_ctr_offset = ref_ctr_offset;
+>  	tu->inode = inode;
+>  	tu->filename = kstrdup(filename, GFP_KERNEL);
+>  
+> @@ -622,6 +647,8 @@ static int probes_seq_show(struct seq_file *m, void *v)
+>  			break;
+>  		}
+>  	}
+> +	if (tu->ref_ctr_offset)
+> +		seq_printf(m, "(0x%lx)", tu->ref_ctr_offset);
+>  
+>  	for (i = 0; i < tu->tp.nr_args; i++)
+>  		seq_printf(m, " %s=%s", tu->tp.args[i].name, tu->tp.args[i].comm);
+> @@ -896,6 +923,129 @@ static void uretprobe_trace_func(struct trace_uprobe *tu, unsigned long func,
+>  	return trace_handle_return(s);
+>  }
+>  
+> +static bool sdt_valid_vma(struct trace_uprobe *tu,
+> +			  struct vm_area_struct *vma,
+> +			  unsigned long vaddr)
+> +{
+> +	return tu->ref_ctr_offset &&
+> +		vma->vm_file &&
+> +		file_inode(vma->vm_file) == tu->inode &&
+> +		vma->vm_flags & VM_WRITE &&
+> +		vma->vm_start <= vaddr &&
+> +		vma->vm_end > vaddr;
+> +}
+> +
+> +static struct vm_area_struct *sdt_find_vma(struct trace_uprobe *tu,
+> +					   struct mm_struct *mm,
+> +					   unsigned long vaddr)
+> +{
+> +	struct vm_area_struct *vma = find_vma(mm, vaddr);
+> +
+> +	return (vma && sdt_valid_vma(tu, vma, vaddr)) ? vma : NULL;
+> +}
+> +
+> +/*
+> + * Reference counter gate the invocation of probe. If present,
+> + * by default reference counter is 0. One needs to increment
+> + * it before tracing the probe and decrement it when done.
+> + */
+> +static int
+> +sdt_update_ref_ctr(struct mm_struct *mm, unsigned long vaddr, short d)
+> +{
+> +	void *kaddr;
+> +	struct page *page;
+> +	struct vm_area_struct *vma;
+> +	int ret = 0;
+> +	unsigned short *ptr;
+> +
+> +	if (vaddr == 0)
+> +		return -EINVAL;
+> +
+> +	ret = get_user_pages_remote(NULL, mm, vaddr, 1,
+> +		FOLL_FORCE | FOLL_WRITE, &page, &vma, NULL);
+> +	if (ret <= 0)
+> +		return ret;
+
+Hmm, get_user_pages_remote() said
+
+===
+If nr_pages is 0 or negative, returns 0. If no pages were pinned, returns -errno.
+===
+
+And you've passed 1 for nr_pages, so it must be 1 or -errno.
+
+> +
+> +	kaddr = kmap_atomic(page);
+> +	ptr = kaddr + (vaddr & ~PAGE_MASK);
+> +	*ptr += d;
+> +	kunmap_atomic(kaddr);
+> +
+> +	put_page(page);
+> +	return 0;
+
+And obviously 0 means "success" for sdt_update_ref_ctr().
+I think if get_user_pages_remote returns 0, this should
+return -EBUSY (*) or something else.
+
+* It seems that if faultin_page() in __get_user_pages()
+returns -EBUSY, get_user_pages_remote() can return 0.
+
+> +}
+> +
+> +static void sdt_increment_ref_ctr(struct trace_uprobe *tu)
+> +{
+> +	struct uprobe_map_info *info;
+> +
+> +	uprobe_down_write_dup_mmap();
+> +	info = uprobe_build_map_info(tu->inode->i_mapping,
+> +				tu->ref_ctr_offset, false);
+> +	if (IS_ERR(info))
+> +		goto out;
+> +
+> +	while (info) {
+> +		down_write(&info->mm->mmap_sem);
+> +
+> +		if (sdt_find_vma(tu, info->mm, info->vaddr))
+> +			sdt_update_ref_ctr(info->mm, info->vaddr, 1);
+
+Don't you have to handle the error to map pages here?
+
+> +
+> +		up_write(&info->mm->mmap_sem);
+> +		info = uprobe_free_map_info(info);
+> +	}
+> +
+> +out:
+> +	uprobe_up_write_dup_mmap();
+> +}
+> +
+> +/* Called with down_write(&vma->vm_mm->mmap_sem) */
+> +static void trace_uprobe_mmap(struct vm_area_struct *vma)
+> +{
+> +	struct trace_uprobe *tu;
+> +	unsigned long vaddr;
+> +
+> +	if (!(vma->vm_flags & VM_WRITE))
+> +		return;
+> +
+> +	mutex_lock(&uprobe_lock);
+> +	list_for_each_entry(tu, &uprobe_list, list) {
+> +		if (!trace_probe_is_enabled(&tu->tp))
+> +			continue;
+> +
+> +		vaddr = vma_offset_to_vaddr(vma, tu->ref_ctr_offset);
+> +		if (!sdt_valid_vma(tu, vma, vaddr))
+> +			continue;
+> +
+> +		sdt_update_ref_ctr(vma->vm_mm, vaddr, 1);
+
+Same here.
+
+> +	}
+> +	mutex_unlock(&uprobe_lock);
+> +}
+> +
+> +static void sdt_decrement_ref_ctr(struct trace_uprobe *tu)
+> +{
+> +	struct uprobe_map_info *info;
+> +
+> +	uprobe_down_write_dup_mmap();
+> +	info = uprobe_build_map_info(tu->inode->i_mapping,
+> +				tu->ref_ctr_offset, false);
+> +	if (IS_ERR(info))
+> +		goto out;
+> +
+> +	while (info) {
+> +		down_write(&info->mm->mmap_sem);
+> +
+> +		if (sdt_find_vma(tu, info->mm, info->vaddr))
+> +			sdt_update_ref_ctr(info->mm, info->vaddr, -1);
+
+Ditto.
+
+Thank you,
+
+> +
+> +		up_write(&info->mm->mmap_sem);
+> +		info = uprobe_free_map_info(info);
+> +	}
+> +
+> +out:
+> +	uprobe_up_write_dup_mmap();
+> +}
+> +
+>  typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+>  				enum uprobe_filter_ctx ctx,
+>  				struct mm_struct *mm);
+> @@ -941,6 +1091,9 @@ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+>  	if (ret)
+>  		goto err_buffer;
+>  
+> +	if (tu->ref_ctr_offset)
+> +		sdt_increment_ref_ctr(tu);
+> +
+>  	return 0;
+>  
+>   err_buffer:
+> @@ -981,6 +1134,9 @@ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+>  
+>  	WARN_ON(!uprobe_filter_is_empty(&tu->filter));
+>  
+> +	if (tu->ref_ctr_offset)
+> +		sdt_decrement_ref_ctr(tu);
+> +
+>  	uprobe_unregister(tu->inode, tu->offset, &tu->consumer);
+>  	tu->tp.flags &= file ? ~TP_FLAG_TRACE : ~TP_FLAG_PROFILE;
+>  
+> @@ -1425,6 +1581,8 @@ static __init int init_uprobe_trace(void)
+>  	/* Profile interface */
+>  	trace_create_file("uprobe_profile", 0444, d_tracer,
+>  				    NULL, &uprobe_profile_ops);
+> +
+> +	uprobe_mmap_callback = trace_uprobe_mmap;
+>  	return 0;
+>  }
+>  
+> -- 
+> 1.8.3.1
+> 
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
