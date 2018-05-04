@@ -1,556 +1,702 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EBCFD7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 17:10:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9AEAB7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 18:46:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751741AbeEDRKv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 May 2018 13:10:51 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:56956 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751562AbeEDRKt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 May 2018 13:10:49 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2FDD1529;
-        Fri,  4 May 2018 10:10:48 -0700 (PDT)
-Received: from [10.1.210.88] (e110467-lin.cambridge.arm.com [10.1.210.88])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8102C3F487;
-        Fri,  4 May 2018 10:10:46 -0700 (PDT)
-Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
- driver
-To:     Kim Phillips <kim.phillips@arm.com>,
-        Will Deacon <will.deacon@arm.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>, Vadim.Lomovtsev@cavium.com,
-        linux-doc@vger.kernel.org, gklkml16@gmail.com,
-        Jan.Glauber@cavium.com, linux-kernel@vger.kernel.org,
-        Robert.Richter@cavium.com, jnair@caviumnetworks.com,
-        Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-arm-kernel@lists.infradead.org
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
- <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
- <20180426170624.bfcba885431d57d0de2a3ddd@arm.com>
- <20180427093027.ngtuoezyh6mtz26p@lakrids.cambridge.arm.com>
- <20180427081525.f9dcc756678baf3bb6e6e473@arm.com>
- <20180427143719.GA5093@arm.com>
- <20180427104629.2bff4b4b683a93ddf39f8df5@arm.com>
- <20180427160914.GA5286@arm.com>
- <20180427115625.b5191d381cd41e7ee092fea1@arm.com>
- <20180501115405.GE25237@arm.com>
- <20180503193023.9c27512d6a0e9af85f8c0407@arm.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <bb3e3c6f-f4df-a182-c947-10c77c998cd1@arm.com>
-Date:   Fri, 4 May 2018 18:10:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1751800AbeEDSqR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 May 2018 14:46:17 -0400
+Received: from mail-ot0-f176.google.com ([74.125.82.176]:45612 "EHLO
+        mail-ot0-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751796AbeEDSqP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 May 2018 14:46:15 -0400
+Received: by mail-ot0-f176.google.com with SMTP id 15-v6so10744095otn.12;
+        Fri, 04 May 2018 11:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=grXWUNKgS88R5b2bxnla33ioJI4LsRZeoPB7pzuJyrE=;
+        b=d9JtZ+7/f7HZCApy+/e4hFoCfdD8g1Ls6m9qTsbLRycuMAXXvFqOjlkvJ1QpCsv9Yp
+         E5hTh14LhtXfh8tao65E+JPUsm3luNDe8nd5SRsuiW1JHDjlY9WxmwtGOKOOGZEuVHpB
+         uPyuE9ZcQY5LqE8SoBgcu+KxAWiUfmouo/+zjbpWbDBvCiCKil5gNe/WRrUjxSK4wVIr
+         5xXC4iKk/0Fo4/EhXSSMS8ksDBtUx1hrjdEM7bcFnQH/h8bmk7MLST8pI/UggzU3OAPj
+         rt4h/kiik9KDxu1O7mDq9779iglyP+7+iusjKsgvyGxhh9Pe44uNM/k7lvHm5/nPQLmc
+         5cqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=grXWUNKgS88R5b2bxnla33ioJI4LsRZeoPB7pzuJyrE=;
+        b=b5XlfaJKhgkjpkkz3X1ShkqX0kpZIRyuouQCZ+M0fTyMZ3SgOQAQGA+ZP6nAu1UziF
+         RAaM2ljgIS8fnnqhpdYqqLN/aIACP7CK+6uAgXPlTEI537tfd884Cgv4ugjWLnMc959H
+         lX78StIZe8hbOd0/bWgaWz02j/FpDL3Ql8PzUaq7Yx4jnmkP3CV03ylR3wojqihnjqIB
+         0JycebjCaQbaa2XXf8ATRgeXN6L4BjXbS3uMOMrYnLyrAWNIj2qwwi2qPgqoMizAyOBE
+         m6J7tZ5OSKrxqRrwuZfq8EsZQ3V1N2hOLME+9Mz3pVbkt6iiNG09YBvjQL6dunTQyLX+
+         nsfQ==
+X-Gm-Message-State: ALKqPwc6ya1n5o6THfAAsRmmRrChrJfH2G2KdJDztIIGad5bcvfYJZeA
+        c2QhRG0z9HaxNdWGSNwv8SmNtIDUEw+D2i1zMJo=
+X-Google-Smtp-Source: AB8JxZqZEOo1HfqBp42t0DPN25Zg+YUmapqBJgssZiZXAnT4ec6csjJQO01pej/gU5bckS3QWzixbbcvy7PeLqzllmk=
+X-Received: by 2002:a9d:336c:: with SMTP id u41-v6mr640749otd.259.1525459574698;
+ Fri, 04 May 2018 11:46:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180503193023.9c27512d6a0e9af85f8c0407@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Received: by 10.201.88.68 with HTTP; Fri, 4 May 2018 11:46:13 -0700 (PDT)
+In-Reply-To: <20180426105938.y6unpt36lisb7kbr@lakrids.cambridge.arm.com>
+References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
+ <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com> <20180426105938.y6unpt36lisb7kbr@lakrids.cambridge.arm.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Sat, 5 May 2018 00:16:13 +0530
+Message-ID: <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kim,
+Hi Mark,
 
-On 04/05/18 01:30, Kim Phillips wrote:
-> On Tue, 1 May 2018 12:54:05 +0100
-> Will Deacon <will.deacon@arm.com> wrote:
-> 
->> Hi Kim,
-> 
-> Hi Will, thanks for responding.
-> 
->> On Fri, Apr 27, 2018 at 11:56:25AM -0500, Kim Phillips wrote:
->>> On Fri, 27 Apr 2018 17:09:14 +0100
->>> Will Deacon <will.deacon@arm.com> wrote:
->>>> On Fri, Apr 27, 2018 at 10:46:29AM -0500, Kim Phillips wrote:
->>>>> On Fri, 27 Apr 2018 15:37:20 +0100
->>>>> Will Deacon <will.deacon@arm.com> wrote:
->>>>>> For anything under drivers/perf/, I'd prefer not to have these prints
->>>>>> and instead see efforts to improve error reporting via the perf system
->>>>>> call interface.
->>>>>
->>>>> We'd all prefer that, and for all PMU drivers, why should ones under
->>>>> drivers/perf be treated differently?
->>>>
->>>> Because they're the ones I maintain...
->>>
->>> You represent a minority on your opinion on this matter though.
->>
->> I'm not sure that's true
-> 
-> I haven't seen another arch/PMU driver maintainer actively oppose it
-> other than you (and Mark).
-> 
->> -- you tend to be the only one raising this issue;
-> 
-> If you're basing that on list activity, I wouldn't, since most Arm perf
-> users don't subscribe to LKML.  I'm trying to represent current and
-> future Arm perf users that shouldn't be expected to hang out here on
-> LKML and review PMU drivers.  Couldn't tell you why PMU driver authors
-> themselves don't chime in, but will note that some drivers in
-> drivers/perf do print things from their event_init functions.
+On Thu, Apr 26, 2018 at 4:29 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> Hi,
+>
+> On Wed, Apr 25, 2018 at 02:30:47PM +0530, Ganapatrao Kulkarni wrote:
+>> +
+>> +/* L3c and DMC has 16 and 8 channels per socket respectively.
+>> + * Each Channel supports UNCORE PMU device and consists of
+>> + * 4 independent programmable counters. Counters are 32 bit
+>> + * and does not support overflow interrupt, they needs to be
+>> + * sampled before overflow(i.e, at every 2 seconds).
+>> + */
+>> +
+>> +#define UNCORE_MAX_COUNTERS          4
+>> +#define UNCORE_L3_MAX_TILES          16
+>> +#define UNCORE_DMC_MAX_CHANNELS              8
+>> +
+>> +#define UNCORE_HRTIMER_INTERVAL              (2 * NSEC_PER_SEC)
+>
+> How was a period of two seconds chosen?
 
-As a PMU driver author who *has* already invested not-inconsiderable 
-time and effort in trying to explain to you the technical issues from a 
-non-maintainer perspective (and is about to do so again), I can't help 
-but feel rather slighted by that comment.
+It has been suggested from hw team  to sample before  3 to 4 seconds.
 
-> Also, you have been cc'd on off-list email threads where SPE users had
-> to debug the SPE driver's event_init() manually.  There are other SPE
-> users I know that have had to go through the same painstaking process of
-> debugging the SPE driver.  Last but not least, there's me, and I'd sure
-> appreciate more verbose PMU drivers, based on my real-life performance
-> monitoring experience(s).
-> 
->> I think most people don't actually care one way or the other. If you know of
-> 
-> Like I said, I think you're limiting your audience to LKML subscribers,
-> who are more amenable to being convinced they need to debug their
-> kernel.
-> 
->> others who care about it too then I suggest you work together as a group to
->> solve the problem in a way which is amenable to the upstream maintainers.
-> 
-> I know a few off-list people that would like a more user-friendly Arm
-> perf experience, but we're not qualified to solve the larger problem
-> that perf has had since its inception, and I think it's a little unfair
-> for you to suggest that, esp. given you're one of the maintainers, and
-> there's Linus on top of you.
-> 
->> Then you won't have to worry about fixing it personally. You could even
->> propose a topic for plumbers if there is enough interest in a general
->> framework for propagating error messages to userspace.
-> 
-> I'm not worried about fixing it personally or not.  I'm worried about
-> our perf users' experience given your objection to using the vehicle
-> already in use on other architectures and PMU drivers.
-> 
-> If you - or anyone else for that matter - know of a way that'll get us
-> past this, by all means, say something.
-> 
-> If it helps, I recently asked acme if we could borrow bits from struct
-> perf_event and got no response.
-> 
->>>>> As you are already aware, I've personally tried to fix this problem -
->>>>> that has existed since before the introduction of the perf tool (I
->>>>> consider it a syscall-independent enhanced error interface), multiple
->>>>> times, and failed.
->>>>
->>>> Why is that my problem? Try harder?
->>>
->>> It's your problem because we're here reviewing a patch that happens to
->>> fall under your maintainership.  I'll be the first person to tell you
->>> I'm obviously incompetent and haven't been able to come up with a
->>> solution that is acceptable for everyone up to and including Linus
->>> Torvalds.  I'm just noticing a chronic usability problem that can be
->>> easily alleviated in the context of this patch review.
->>
->> I don't see how incompetence has anything to do with it and, like most
-> 
-> Well you told me to try harder, and I'm trying to let you know that I
-> can try harder - ad infinitum - and still not get it, so telling me to
-> try harder isn't going to necessarily resolve the issue.
-> 
->> people (lucky gits...), I doubt Torvalds cares too deeply about PMU driver
->> internals. No arguments on the usability problem, but this ain't the fix
-> 
-> Like acme, I doubt Linus runs perf on real Arm h/w, so yes, I don't
-> think they care that much, but if they did try to do it one day, I'd
-> like to that they'd be able to have dmesg contain that extra error
-> information for them.
-> 
-> As you know, David Howells wrote a supplemental error syscall facility
-> [1], that Linus nacked (off list no less).  Does Linus care about what
-> David Howells was developing it for?  I don't know, but he does have
-> enough experience to know whether a certain approach to a problem is
-> sustainable in his kernel or not.
-> 
->> you're looking for: it's a bodge. We've been over this many times before.
-> 
-> I think it's OK - necessary even - until this error infrastructure
-> problem perf has is fixed, and I think you're being unrealistic if you
-> think it will be fixed anytime soon.
-> 
->>>>> So until someone comes up with a solution that works for everyone
->>>>> up to and including Linus Torvalds (who hasn't put up a problem
->>>>> pulling PMU drivers emitting things to dmesg so far, by the way), this
->>>>> keep PMU drivers' errors silent preference of yours is unnecessarily
->>>>> impeding people trying to measure system performance on Arm based
->>>>> machines - all other archs' maintainers are fine with PMU drivers using
->>>>> dmesg.
->>>>
->>>> Good for them, although I'm pretty sure that at least the x86 folks are
->>>> against this crap too.
->>>
->>> Unfortunately, it doesn't affect them nearly as much as it does our
->>> more diverse platforms, which is why I don't think they care to do
->>> much about it.
->>
->> x86 has its fair share of PMUs too, so I don't think we're special in this
->> regard. The main difference seems to be that they have better support in
->> the perf tool for diagnosing problems.
-> 
-> Indeed, their software is as vertically integrated as their hardware,
-> and, well, they have more people with more experience working and caring
-> about perf running and being more usable.
+>
+> What's the maximum clock speed for the L3C and DMC?
 
-I note that uncore_pmu_event_init() and snb_uncore_imc_event_init(), to 
-pick a couple of Intel examples, contain a lot of the same logic to the 
-ARM system PMU drivers you repeatedly request should be more verbose. 
-Now, surely either perf tool already has some magic which somehow makes 
-those routines "user-friendly", in which case there seems no reason that 
-at least any generic event attribute stuff couldn't be applied to ARM 
-PMUs as well; or if not then you could easily send a patch adding 
-"helpful" printk()s to those drivers too and actively solicit the 
-maintainer feedback you lament not having.
+L3C at 1.5GHz and DMC at 1.2GHz
+>
+> Given that all channels compete for access to the muxed register
+> interface, I suspect we need to try more often than once every 2
+> seconds...
 
->>>>>> Anyway, I think this driver has bigger problems that need addressing.
->>>>>
->>>>> To me it represents yet another PMU driver submission - as the years go
->>>>> by - that is lacking in the user messaging area.  Which reminds me, can
->>>>> you take another look at applying this?:
->>>>
->>>> As I said before, I'm not going to take anything that logs above pr_debug
->>>> for things that are directly triggerable from userspace. Spin a version
->>>
->>> Why?  There are plenty of things that emit stuff into dmesg that are
->>> directly triggerable from userspace.  Is it because it upsets fuzzing
->>> tests?  How about those be run with a patched kernel that somehow
->>> mitigates the printing?
->>
->> [we've been over this before]
->> There are two camps that might find this information useful:
->>
->>    1. People writing userspace support for a new PMU using the
->>       perf_event_open syscall
->>
->>    2. People trying to use a tool which abstracts the PMU details to some
->>       degree (e.g. perf tool)
->>
->> Those in (1) can get by with pr_debug. Sure, they have to recompile, but
->> it's not like there are many people in this camp and they'll probably be
->> working with the PMU driver writer to some degree anyway and taking new
->> kernel drops.
-> 
-> No, please, that's a worse user experience than necessary.
-> 
-> FWIW, I see this type of person as e.g., a JIT developer - a
-> compiler/toolchain person - who has decided to use h/w monitoring to
-> help the JIT engine find hotspots.  The first place they should start
-> is to start using the perf tool itself, experimenting with events and
-> PMUs of interest.  When satisfied, they should clone the parameters
-> the tool makes to the perf_event_open syscall in their JIT engine.  We
-> should not be wasting their time forcing them to hack around in the
-> kernel trying to debug perf driver semantics.
-> 
->> Those in (2) may not have access to dmesg, absolutely should not be able
-> 
-> I don't think you're being realistic here: we're talking about people
-> trying to improve performance: They would likely have kptr_restrict ==
-> 0 (unrestricted), so why would they have dmesg_restrict set?  Btw, the
-> rationale for dmesg_restrict was kernel pointer visibility [2], but now
-> %Kp hashes addresses before printing them, so it's even less likely to
-> be used.  Curious, where have you seen dmesg_restrict being set?
-> 
->> to spam it (since this could hide other important messages), will probably
-> 
-> How will it hide other important messages?  Run a logging daemon?
-> We're not talking about a lot of messages here: one line per perf
-> invocation: see e.g. runs in [2].
+2 seconds seems to be sufficient. So far testing looks good.
 
-Assuming you meant [3], that's a pretty trivial case which doesn't 
-really illustrate the whole scope of the problem.
+>
+> [...]
+>
+>> +struct active_timer {
+>> +     struct perf_event *event;
+>> +     struct hrtimer hrtimer;
+>> +};
+>> +
+>> +/*
+>> + * pmu on each socket has 2 uncore devices(dmc and l3),
+>> + * each uncore device has up to 16 channels, each channel can sample
+>> + * events independently with counters up to 4.
+>> + *
+>> + * struct thunderx2_pmu_uncore_channel created per channel.
+>> + * struct thunderx2_pmu_uncore_dev per uncore device.
+>> + */
+>> +struct thunderx2_pmu_uncore_channel {
+>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
+>> +     struct pmu pmu;
+>
+> Can we put the pmu first in the struct, please?
 
-Just for you, I added prints in 4 places where event_init validation 
-returns -EINVAL in my not-yet-upstream SMMUv2 PMU driver. Let's capture 
-a few events on my Juno board to get some arbitrary cross-sections of 
-system-wide I/O activity:
+ok
+>
+>> +     int counter;
+>
+> AFAICT, this counter field is never used.
 
-[root@space-channel-5 ~]# perf stat -e arm_smmu/cycles/ -e 
-arm_smmu/access,tcefcfg=1/ -e arm_smmu/access,tcefcfg=1,smr_id=1/ -e 
-arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ -e 
-arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ find /usr > /dev/null
+hmm ok, will remove.
+>
+>> +     int channel;
+>> +     DECLARE_BITMAP(counter_mask, UNCORE_MAX_COUNTERS);
+>> +     struct active_timer *active_timers;
+>
+> You should only need a single timer per channel, rather than one per
+> event.
+>
+> I think you can get rid of the active_timer structure, and have:
+>
+>         struct perf_event *events[UNCORE_MAX_COUNTERS];
+>         struct hrtimer timer;
+>
 
-  Performance counter stats for 'system wide':
+thanks, will change as suggested.
 
-          729128494      arm_smmu/cycles/ 
-               (12.08%)
-          841301489      arm_smmu/cycles/ 
-               (28.10%)
-          834458758      arm_smmu/cycles/ 
-               (23.40%)
-          774373529      arm_smmu/cycles/ 
-               (15.69%)
-         1028501665      arm_smmu/cycles/ 
-               (13.84%)
-               5401      arm_smmu/access,tcefcfg=1/ 
-                (27.11%)
-                  0      arm_smmu/access,tcefcfg=1/ 
-                (14.73%)
-                  0      arm_smmu/access,tcefcfg=1/ 
-                (23.27%)
-                  0      arm_smmu/access,tcefcfg=1/ 
-                (20.54%)
-             220788      arm_smmu/access,tcefcfg=1/ 
-                (17.37%)
-                  0      arm_smmu/access,tcefcfg=1,smr_id=1/ 
-                         (28.18%)
-                  0      arm_smmu/access,tcefcfg=1,smr_id=1/ 
-                         (24.10%)
-                  0      arm_smmu/access,tcefcfg=1,smr_id=1/ 
-                         (12.52%)
-                  0      arm_smmu/access,tcefcfg=1,smr_id=1/ 
-                         (16.17%)
-                  0      arm_smmu/access,tcefcfg=1,smr_id=1/ 
-                         (19.71%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
-                         (19.68%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
-                         (23.69%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
-                         (29.15%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
-                         (29.19%)
-              12092      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
-                         (27.70%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
-                         (16.97%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
-                         (13.36%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
-                         (16.01%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
-                         (24.70%)
-                  0      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
-                         (28.39%)
+>> +     /* to sync counter alloc/release */
+>> +     raw_spinlock_t lock;
+>> +};
+>> +
+>> +struct thunderx2_pmu_uncore_dev {
+>> +     char *name;
+>> +     struct device *dev;
+>> +     enum thunderx2_uncore_type type;
+>> +     unsigned long base;
+>
+> This should be:
+>
+> void __iomem *base;
 
-        2.315150449 seconds time elapsed
+ok
+>
+> [...]
+>
+>> +static ssize_t cpumask_show(struct device *dev,
+>> +                             struct device_attribute *attr, char *buf)
+>> +{
+>> +     struct cpumask cpu_mask;
+>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore =
+>> +             pmu_to_thunderx2_pmu_uncore(dev_get_drvdata(dev));
+>> +
+>> +     /* Pick first online cpu from the node */
+>> +     cpumask_clear(&cpu_mask);
+>> +     cpumask_set_cpu(cpumask_first(
+>> +                     cpumask_of_node(pmu_uncore->uncore_dev->node)),
+>> +                     &cpu_mask);
+>> +
+>> +     return cpumap_print_to_pagebuf(true, buf, &cpu_mask);
+>> +}
+>
+> AFAICT cpumask_of_node() returns a mask that can include offline CPUs.
+>
+> Regardless, I don't think that you can keep track of the management CPU
+> this way. Please keep track of the CPU the PMU should be managed by,
+> either with a cpumask or int embedded within the PMU structure.
 
+thanks, will add hotplug callbacks.
+>
+> At hotplug time, you'll need to update the management CPU, calling
+> perf_pmu_migrate_context() when it is offlined.
 
-Wonderful, it worked OK. And yet in that brief time it spammed 
-*sixty-one* lines to the kernel log:
+ok
+>
+> [...]
+>
+>> +static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
+>> +{
+>> +     int counter;
+>> +
+>> +     raw_spin_lock(&pmu_uncore->lock);
+>> +     counter = find_first_zero_bit(pmu_uncore->counter_mask,
+>> +                             pmu_uncore->uncore_dev->max_counters);
+>> +     if (counter == pmu_uncore->uncore_dev->max_counters) {
+>> +             raw_spin_unlock(&pmu_uncore->lock);
+>> +             return -ENOSPC;
+>> +     }
+>> +     set_bit(counter, pmu_uncore->counter_mask);
+>> +     raw_spin_unlock(&pmu_uncore->lock);
+>> +     return counter;
+>> +}
+>> +
+>> +static void free_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore,
+>> +                                     int counter)
+>> +{
+>> +     raw_spin_lock(&pmu_uncore->lock);
+>> +     clear_bit(counter, pmu_uncore->counter_mask);
+>> +     raw_spin_unlock(&pmu_uncore->lock);
+>> +}
+>
+> I don't believe that locking is required in either of these, as the perf
+> core serializes pmu::add() and pmu::del(), where these get called.
 
-[ 2096.220934] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.226893] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.232852] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.238798] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.244744] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.250690] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.256641] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.262594] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.268546] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.274492] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.280437] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.286381] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.292326] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.298271] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.304215] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.310164] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.316109] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.322053] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.327997] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.333941] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.339887] event_source arm_smmu_3: Incompatible SMR value
-[ 2096.345408] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.351361] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.357313] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.363263] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.369214] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.375171] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.381124] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.387078] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.393029] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.398984] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.404936] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.410890] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.416840] event_source arm_smmu_4: Incompatible context bank index
-[ 2096.423130] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.429075] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.435019] event_source arm_smmu_1: Incompatible context bank index
-[ 2096.441308] event_source arm_smmu_3: Incompatible context bank index
-[ 2096.447611] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.453557] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.459501] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.465445] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.471390] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.477342] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.483286] event_source arm_smmu_2: Incompatible SMR value
-[ 2096.488800] event_source arm_smmu_0: Incompatible SMR value
-[ 2096.494316] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.500319] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.571799] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.577749] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.583705] event_source arm_smmu_4: Incompatible SMR value
-[ 2096.589221] event_source arm_smmu_2: Incompatible SMR value
-[ 2096.594736] event_source arm_smmu_0: Incompatible SMR value
-[ 2096.600256] event_source arm_smmu_1: Incompatible SMR value
-[ 2096.605770] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.611718] event_source arm_smmu_4: Incompatible filtering mode
-[ 2096.617663] event_source arm_smmu_2: Incompatible filtering mode
-[ 2096.623607] event_source arm_smmu_0: Incompatible filtering mode
-[ 2096.629550] event_source arm_smmu_1: Incompatible filtering mode
-[ 2096.635494] event_source arm_smmu_3: Incompatible filtering mode
-[ 2096.641443] event_source arm_smmu_4: Incompatible context bank index
+thanks, it seems to be not required.
+>
+>> +
+>> +/*
+>> + * DMC and L3 counter interface is muxed across all channels.
+>> + * hence we need to select the channel before accessing counter
+>> + * data/control registers.
+>
+> Are there separate interfaces for all-dmc-channels and all-l3c-channels?
 
-(and in case it's not clear, that output is *continual* during the perf 
-run; empirically, the runtime only needs to reach about 6 seconds or so 
-for the dmesg ringbuffer to wrap so I have to fall back to journalctl to 
-see what I missed)
+separate interface for DMC and L3c.
+channels within DMC/L3C are muxed.
 
-Now how about we try counting those exact same events a slightly 
-different way:
+>
+> ... or is a single interface used by all-dmc-and-l3c-channels?
+>
+>> + *
+>> + *  L3 Tile and DMC channel selection is through SMC call
+>> + *  SMC call arguments,
+>> + *   x0 = THUNDERX2_SMC_CALL_ID      (Vendor SMC call Id)
+>> + *   x1 = THUNDERX2_SMC_SET_CHANNEL  (Id to set DMC/L3C channel)
+>> + *   x2 = Node id
+>
+> How do we map Linux node IDs to the firmware's view of node IDs?
+>
+> I don't believe the two are necessarily the same -- Linux's node IDs are
+> a Linux-specific construct.
 
-[root@space-channel-5 ~]# perf stat -e 
-\{arm_smmu/cycles/,arm_smmu/access,tcefcfg=1/,arm_smmu/access,tcefcfg=1,smr_id=1/,arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/,arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/\} 
-find /usr > /dev/null
+both are same, it is numa node id from ACPI/firmware.
 
-  Performance counter stats for 'system wide':
+>
+> It would be much nicer if we could pass something based on the MPIDR,
+> which is a known HW construct, or if this implicitly affected the
+> current node.
 
-      <not counted>      arm_smmu/cycles/ 
+IMO,  node id is sufficient.
 
-    <not supported>      arm_smmu/cycles/ 
+>
+> It would be vastly more sane for this to not be muxed at all. :/
 
-    <not supported>      arm_smmu/cycles/ 
+i am helpless due to crappy hw design!
 
-    <not supported>      arm_smmu/cycles/ 
+>
+>> + *   x3 = DMC(1)/L3C(0)
+>> + *   x4 = channel Id
+>> + */
+>> +static void uncore_select_channel(struct perf_event *event)
+>> +{
+>> +     struct arm_smccc_res res;
+>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore =
+>> +             pmu_to_thunderx2_pmu_uncore(event->pmu);
+>> +
+>> +     arm_smccc_smc(THUNDERX2_SMC_CALL_ID, THUNDERX2_SMC_SET_CHANNEL,
+>> +                     pmu_uncore->uncore_dev->node,
+>> +                     pmu_uncore->uncore_dev->type,
+>> +                     pmu_uncore->channel, 0, 0, 0, &res);
+>> +
+>> +}
+>
+> Why aren't we checking the return value of the SMC call?
 
-    <not supported>      arm_smmu/cycles/ 
+thanks, i will add.
 
-    <not supported>      arm_smmu/access,tcefcfg=1/ 
+>
+> The muxing and SMC sound quite scary. :/
 
-    <not supported>      arm_smmu/access,tcefcfg=1/ 
+i too agree!, however i have no other option since the muxing register
+is a secure register.
+>
+>> +
+>> +static void uncore_start_event_l3c(struct perf_event *event, int flags)
+>> +{
+>> +     u32 val;
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +
+>> +     /* event id encoded in bits [07:03] */
+>> +     val = GET_EVENTID(event) << 3;
+>> +     reg_writel(val, hwc->config_base);
+>> +
+>> +     if (flags & PERF_EF_RELOAD) {
+>> +             u64 prev_raw_count =
+>> +                     local64_read(&event->hw.prev_count);
+>> +             reg_writel(prev_raw_count, hwc->event_base);
+>> +     }
+>> +     local64_set(&event->hw.prev_count,
+>> +                     reg_readl(hwc->event_base));
+>
+> It would be simpler to ignore PERF_EF_RELOAD, and always reprogram the
+> prev_count and HW to zero.
 
-    <not supported>      arm_smmu/access,tcefcfg=1/ 
+ok, will change
+>
+>> +}
+>> +
+>> +static void uncore_start_event_dmc(struct perf_event *event, int flags)
+>> +{
+>> +     u32 val, event_shift = 8;
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +
+>> +     /* enable and start counters and read current value in prev_count */
+>> +     val = reg_readl(hwc->config_base);
+>> +
+>> +     /* 8 bits for each counter,
+>> +      * bits [05:01] of a counter to set event type.
+>> +      */
+>> +     reg_writel((val & ~(0x1f << (((GET_COUNTERID(event)) *
+>> +             event_shift) + 1))) |
+>> +             (GET_EVENTID(event) <<
+>> +              (((GET_COUNTERID(event)) * event_shift) + 1)),
+>> +             hwc->config_base);
+>
+> This would be far more legible if val were constructed before the
+> reg_writel(), especially if there were a helper for the event field
+> shifting, e.g.
+>
+>         #define DMC_EVENT_CFG(idx, val) ((val) << (((idx) * 8) + 1))
+>
+>         int id = GET_COUNTERID(event);
+>         int event = GET_EVENTID(event);
+>
+>         val = reg_readl(hwc->config_base);
+>         val &= ~DMC_EVENT_CFG(id, 0x1f);
+>         val |= DMCC_EVENT_CFG(id, event);
+>         reg_writel(val, hwc->config_base));
+>
+> What are bits 7:6 and 1 used for?
 
-    <not supported>      arm_smmu/access,tcefcfg=1/ 
+not used/reserved bits.
 
-    <not supported>      arm_smmu/access,tcefcfg=1/ 
+>
+>> +
+>> +     if (flags & PERF_EF_RELOAD) {
+>> +             u64 prev_raw_count =
+>> +                     local64_read(&event->hw.prev_count);
+>> +             reg_writel(prev_raw_count, hwc->event_base);
+>> +     }
+>> +     local64_set(&event->hw.prev_count,
+>> +                     reg_readl(hwc->event_base));
+>
+>
+> As with the L3C events, it would be simpler to always reprogram the
+> prev_count and HW to zero.
 
-    <not supported>      arm_smmu/access,tcefcfg=1,smr_id=1/ 
+ok
+>
+>> +}
+>> +
+>> +static void uncore_stop_event_l3c(struct perf_event *event)
+>> +{
+>> +     reg_writel(0, event->hw.config_base);
+>> +}
+>> +
+>> +static void uncore_stop_event_dmc(struct perf_event *event)
+>> +{
+>> +     u32 val, event_shift = 8;
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +
+>> +     val = reg_readl(hwc->config_base);
+>> +     reg_writel((val & ~(0xff << ((GET_COUNTERID(event)) * event_shift))),
+>> +                     hwc->config_base);
+>
+>
+> This could be simplified with the helper proposed above.
 
-    <not supported>      arm_smmu/access,tcefcfg=1,smr_id=1/ 
+ok
+>
+>> +}
+>> +
+>> +static void init_cntr_base_l3c(struct perf_event *event,
+>> +             struct thunderx2_pmu_uncore_dev *uncore_dev)
+>> +{
+>> +
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +
+>> +     /* counter ctrl/data reg offset at 8 */
+>
+> Offset 8, or stride 8?
 
-    <not supported>      arm_smmu/access,tcefcfg=1,smr_id=1/ 
+stride 8
+>
+> What does the register layout look like?
+>
+>> +     hwc->config_base = uncore_dev->base
+>> +             + L3C_COUNTER_CTL + (8 * GET_COUNTERID(event));
+>> +     hwc->event_base =  uncore_dev->base
+>> +             + L3C_COUNTER_DATA + (8 * GET_COUNTERID(event));
+>> +}
+>> +
+>> +static void init_cntr_base_dmc(struct perf_event *event,
+>> +             struct thunderx2_pmu_uncore_dev *uncore_dev)
+>> +{
+>> +
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +
+>> +     hwc->config_base = uncore_dev->base
+>> +             + DMC_COUNTER_CTL;
+>> +     /* counter data reg offset at 0xc */
+>
+> A stride of 0xc seems unusual.
+>
+> What does the register layout look like?
 
-    <not supported>      arm_smmu/access,tcefcfg=1,smr_id=1/ 
+the offsets are at 0x640, 0x64c, 0x658, 0x664,
+>
+>> +     hwc->event_base =  uncore_dev->base
+>> +             + DMC_COUNTER_DATA + (0xc * GET_COUNTERID(event));
+>> +}
+>> +
+>> +static void thunderx2_uncore_update(struct perf_event *event)
+>> +{
+>> +     s64 prev, new = 0;
+>> +     u64 delta;
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>> +     enum thunderx2_uncore_type type;
+>> +
+>> +     pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+>> +     type = pmu_uncore->uncore_dev->type;
+>
+> AFAICT this variable is not used below.
 
-    <not supported>      arm_smmu/access,tcefcfg=1,smr_id=1/ 
+thanks.
+>
+>> +
+>> +     if (pmu_uncore->uncore_dev->select_channel)
+>> +             pmu_uncore->uncore_dev->select_channel(event);
+>
+> This should always be non-NULL, right?
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
+yes, unwanted check at the moment, will remove.
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
+>
+> [...]
+>
+>> +static bool thunderx2_uncore_validate_event_group(struct perf_event *event)
+>> +{
+>> +     struct pmu *pmu = event->pmu;
+>> +     struct perf_event *leader = event->group_leader;
+>> +     struct perf_event *sibling;
+>> +     int counters = 0;
+>> +
+>> +     if (leader->pmu != event->pmu && !is_software_event(leader))
+>> +             return false;
+>> +
+>> +     counters++;
+>
+> I don't think this is right when event != leader and the leader is a SW
+> event. In that case, the leader doesn't take a HW counter.
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
+I think this check to avoid the grouping of  multiple hw PMUs ,
+however it is allowed to group sw events along with hw PMUs.
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
+>
+>> +
+>> +     for_each_sibling_event(sibling, event->group_leader) {
+>> +             if (is_software_event(sibling))
+>> +                     continue;
+>> +             if (sibling->pmu != pmu)
+>> +                     return false;
+>> +             counters++;
+>> +     }
+>> +
+>> +     /*
+>> +      * If the group requires more counters than the HW has,
+>> +      * it cannot ever be scheduled.
+>> +      */
+>> +     return counters <= UNCORE_MAX_COUNTERS;
+>> +}
+>
+> [...]
+>
+>> +static int thunderx2_uncore_event_init(struct perf_event *event)
+>> +{
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>
+>> +     pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+>> +
+>> +     if (!pmu_uncore)
+>> +             return -ENODEV;
+>
+> This cannot happen, given pmu_to_thunderx2_pmu_uncore() is a wrapper
+> around container_of().
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=0/ 
+thanks, unnecessary check!
+>
+>> +
+>> +     /* Pick first online cpu from the node */
+>> +     event->cpu = cpumask_first(
+>> +                     cpumask_of_node(pmu_uncore->uncore_dev->node));
+>
+> I don't believe this is safe. You must keep track of which CPU is
+> managing the PMU, with hotplug callbacks.
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
+ok, will add callbacks.
+>
+> [...]
+>
+>> +static void thunderx2_uncore_start(struct perf_event *event, int flags)
+>> +{
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
+>> +     unsigned long irqflags;
+>> +     struct active_timer *active_timer;
+>> +
+>> +     hwc->state = 0;
+>> +     pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+>> +     uncore_dev = pmu_uncore->uncore_dev;
+>> +
+>> +     raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
+>> +
+>> +     if (uncore_dev->select_channel)
+>> +             uncore_dev->select_channel(event);
+>> +     uncore_dev->start_event(event, flags);
+>> +     raw_spin_unlock_irqrestore(&uncore_dev->lock, irqflags);
+>> +
+>> +     perf_event_update_userpage(event);
+>> +     active_timer = &pmu_uncore->active_timers[GET_COUNTERID(event)];
+>> +     active_timer->event = event;
+>> +
+>> +     hrtimer_start(&active_timer->hrtimer,
+>> +                     ns_to_ktime(uncore_dev->hrtimer_interval),
+>> +                     HRTIMER_MODE_REL_PINNED);
+>> +}
+>
+> Please use a single hrtimer, and update *all* of the events when it
+> fires.
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
+sure
+>
+> I *think* that can be done in the pmu::pmu_enable() and
+> pmu::pmu_disable() callbacks.
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
+ok
+>
+> Are there control bits to enable/disable all counters, or can that only
+> be done through the event configuration registers?
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
+only through config register.
+>
+>> +static void thunderx2_uncore_stop(struct perf_event *event, int flags)
+>> +{
+>> +     struct hw_perf_event *hwc = &event->hw;
+>> +     struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
+>> +     unsigned long irqflags;
+>> +
+>> +     if (hwc->state & PERF_HES_UPTODATE)
+>> +             return;
+>> +
+>> +     pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+>> +     uncore_dev = pmu_uncore->uncore_dev;
+>> +
+>> +     raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
+>> +
+>> +     if (uncore_dev->select_channel)
+>> +             uncore_dev->select_channel(event);
+>
+> AFAICT this cannot be NULL.
 
-    <not supported>      arm_smmu/tlb_alloc,tcefcfg=2,ndx=1/ 
+ok.
+>
+> [...]
+>
+>> +static int thunderx2_pmu_uncore_register(
+>> +             struct thunderx2_pmu_uncore_channel *pmu_uncore)
+>> +{
+>> +     struct device *dev = pmu_uncore->uncore_dev->dev;
+>> +     char *name = pmu_uncore->uncore_dev->name;
+>> +     int channel = pmu_uncore->channel;
+>> +
+>> +     /* Perf event registration */
+>> +     pmu_uncore->pmu = (struct pmu) {
+>> +             .attr_groups    = pmu_uncore->uncore_dev->attr_groups,
+>> +             .task_ctx_nr    = perf_invalid_context,
+>> +             .event_init     = thunderx2_uncore_event_init,
+>> +             .add            = thunderx2_uncore_add,
+>> +             .del            = thunderx2_uncore_del,
+>> +             .start          = thunderx2_uncore_start,
+>> +             .stop           = thunderx2_uncore_stop,
+>> +             .read           = thunderx2_uncore_read,
+>> +     };
+>> +
+>> +     pmu_uncore->pmu.name = devm_kasprintf(dev, GFP_KERNEL,
+>> +                     "%s_%d", name, channel);
+>
+> Does the channel idx take the NUMA node into account?
 
+name already has node id suffix.
+>
+> [...]
+>
+>> +static int thunderx2_pmu_uncore_add(struct thunderx2_pmu_uncore_dev *uncore_dev,
+>> +             int channel)
+>> +{
+>
+>> +     /* we can run up to (max_counters * max_channels) events
+>> +      * simultaneously, allocate hrtimers per channel.
+>> +      */
+>> +     pmu_uncore->active_timers = devm_kzalloc(uncore_dev->dev,
+>> +                     sizeof(struct active_timer) * uncore_dev->max_counters,
+>> +                     GFP_KERNEL);
+>
+> Please just fold a single hrtimer into the thunderx2_pmu_uncore_channel
+> structure, and you can get rid of this allocation...
 
-        0.721310193 seconds time elapsed
+sure, i will rewrite code to have timer per channel and all active
+counters are updated when timer fires.
 
+>
+>> +
+>> +     for (counter = 0; counter < uncore_dev->max_counters; counter++) {
+>> +             hrtimer_init(&pmu_uncore->active_timers[counter].hrtimer,
+>> +                             CLOCK_MONOTONIC,
+>> +                             HRTIMER_MODE_REL);
+>> +             pmu_uncore->active_timers[counter].hrtimer.function =
+>> +                             thunderx2_uncore_hrtimer_callback;
+>> +     }
+>
+> ... and simplify this initialization.
 
-Oh, that didn't work. Let's check dmesg to see why:
+ok
+>
+> [...]
+>
+>> +static struct thunderx2_pmu_uncore_dev *init_pmu_uncore_dev(
+>> +             struct device *dev, acpi_handle handle,
+>> +             struct acpi_device *adev, u32 type)
+>> +{
+>> +     struct thunderx2_pmu_uncore_dev *uncore_dev;
+>> +     unsigned long base;
+>
+>> +     base = (unsigned long)devm_ioremap_resource(dev, &res);
+>> +     if (IS_ERR((void *)base)) {
+>> +             dev_err(dev, "PMU type %d: Fail to map resource\n", type);
+>> +             return NULL;
+>> +     }
+>
+> Please treat this as a void __iomem *base.
 
-[ 2416.494951] event_source arm_smmu_3: Incompatible filtering mode
-[ 2416.500933] event_source arm_smmu_3: Incompatible filtering mode
-[ 2416.506958] event_source arm_smmu_3: Incompatible filtering mode
-[ 2416.513276] event_source arm_smmu_3: Incompatible filtering mode
+ok
+>
+> [...]
+>
+>> +static int thunderx2_uncore_probe(struct platform_device *pdev)
+>> +{
+>> +     struct device *dev = &pdev->dev;
+>> +     struct arm_smccc_res res;
+>> +
+>> +     set_dev_node(dev, acpi_get_node(ACPI_HANDLE(dev)));
+>> +
+>> +     /* Make sure firmware supports DMC/L3C set channel smc call */
+>> +     arm_smccc_smc(THUNDERX2_SMC_CALL_ID, THUNDERX2_SMC_SET_CHANNEL,
+>> +                     dev_to_node(dev), 0, 0, 0, 0, 0, &res);
+>> +     if (res.a0) {
+>> +             dev_err(dev, "No Firmware support for PMU UNCORE(%d)\n",
+>> +                             dev_to_node(dev));
+>> +             return -ENODEV;
+>> +     }
+>
+> Please re-use the uncore_select_channel() wrapper rather than
+> open-coding this.
 
+ok.
+>
+> Which FW supports this interface?
 
-Well, it said the same thing continually when it worked correctly, so I 
-guess it must have failed for some other reason. As the user I'm now not 
-only confused but unknowingly heading towards the *wrong* conclusion 
-thanks to those "helpful" messages. And that's not even contemplating 
-the "what if multiple programs did this at the same time" case.
-
->> struggle to match an internal message from the PMU driver to their
->> invocation of the high-level tool and may well be in a multi-user
->> environment so will struggle to identify the messages that they are
->> responsible for.
-> 
-> Again, I think you're being unrealistic.  My experience - in
-> multiple performance analysis roles - was that I was always the only
-> person using the machine at the time, and can easily correlate perf
-> invocations with dmesg output, particularly if I run 'dmesg -w &' prior
-> to invoking perf.  In one of those roles, having to mess with the
-> kernel was almost inconceivable - it literally 'just worked' for
-> everything else.  I was lucky that I had prior kernel experience in
-> order to debug the driver and be able find out how to invoke perf.
-> 
->> What they actually want is for the perf tool to give
->> them more information, and dmesg is not the right channel for that, for
->> similar reasons.
-> 
-> We'd all like the perf tool to do things better, and dmesg is all we
-> have for now, and now I'm sounding like I did 1 1/2 years ago.
-> 
->>>> using pr_debug and I'll queue it.
->>>
->>> How about using a ratelimited dev_err variant?
->>
->> Nah, I don't want dmesg being parsed by users of perf tool. pr_debug should
->> be sufficient for perf tool developers working with a new PMU type.
-> 
-> OK the question was to the ratelimited part, but I think that even
-> might be the default these days [4].
-> 
-> For reasons (different perceptions?) already mentioned above, I also
-> don't agree that this has to do with just perf tool developers, and
-> only when working with a new PMU type.  My main concern is new/future
-> users to perf on Arm, working with any PMU type - new or old.  If there
-> is a perf tool-side component to this driver, I don't see it.  Having
-> said that, I think the owners of this and other PMU drivers should have
-> a say in what type of experience they want for their users in this
-> regard...is that fair?
-
-As I've said before, a significant portion of what you want to improve 
-involves generic perf_event properties which would already be much 
-better validated in the core than by every driver individually, so the 
-first straightforward step would be to improve the interface between 
-drivers and perf core, such that the "hard" problem reduces to 
-communicating from a single part of perf core to userspace. As it is, 
-PMU drivers alone simply don't have enough context to know when an 
-event_init "failure" is actually significant to the user or not, thus if 
-they display user-visible messages directly then half the time the user 
-will be thoroughly misled unless they are intimately familiar with how 
-perf core grouping and event rotation work (see above), yet required 
-knowledge of perf internals is exactly what you're arguing against!
-
-Robin.
-
-> 
+it is through vendor specific ATF runtime services.
+>
 > Thanks,
-> 
-> Kim
-> 
-> [1] https://patchwork.kernel.org/patch/9907463/
-> [2] https://lwn.net/Articles/414813/
-> [3] https://lkml.org/lkml/2017/11/21/385
-> [4] https://lwn.net/Articles/693010/
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+> Mark.
+
+thanks,
+Ganapat
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
