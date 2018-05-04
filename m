@@ -1,269 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 355567DE74
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 19:28:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B83957DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 21:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751573AbeEDT2H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 May 2018 15:28:07 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:43922 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751558AbeEDT2G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 May 2018 15:28:06 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E6C6B406C796;
-        Fri,  4 May 2018 19:28:05 +0000 (UTC)
-Received: from x2.localnet (ovpn-121-200.rdu2.redhat.com [10.10.121.200])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5EBD32166BAD;
-        Fri,  4 May 2018 19:28:05 +0000 (UTC)
-From:   Steve Grubb <sgrubb@redhat.com>
-To:     Tyler Hicks <tyhicks@canonical.com>
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-audit@redhat.com,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] seccomp: Audit attempts to modify the actions_logged sysctl
-Date:   Fri, 04 May 2018 15:28:05 -0400
-Message-ID: <4245752.EBNmQNxroQ@x2>
-Organization: Red Hat
-In-Reply-To: <1525396095-27737-4-git-send-email-tyhicks@canonical.com>
-References: <1525396095-27737-1-git-send-email-tyhicks@canonical.com> <1525396095-27737-4-git-send-email-tyhicks@canonical.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 04 May 2018 19:28:05 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 04 May 2018 19:28:05 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'sgrubb@redhat.com' RCPT:''
+        id S1751736AbeEDVMK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 May 2018 17:12:10 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:52065 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751655AbeEDVMJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 May 2018 17:12:09 -0400
+Received: by mail-wm0-f65.google.com with SMTP id j4so5938827wme.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 May 2018 14:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=3o9MNOdzCJFCYIAc4yMirNdMGXyQJHmjX2oZmvkALLg=;
+        b=cu3Yq9XR5sZJbvD1pvUJQQaLbP1rtlWbUy+i6QJxAUtQdS1kUIKh5GXaVxlfMvc0V/
+         Im3qQt64ZYH7foVYB4UuOtc1bZZTME6+nJ8ePJ71LmvNIoOPW4LaBrlhb98FX7bRmN5s
+         qtJ/olJNiMrNEmvsZje5BR6UgMgbjIAoTW1ZQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=3o9MNOdzCJFCYIAc4yMirNdMGXyQJHmjX2oZmvkALLg=;
+        b=pIgsVek523KDHCaeP6Cm3kFjq3sK/gQDlzKkKYADDZ3/hHo8+YChDqriq8npuqjszG
+         bkMLfm7Ri0ABLZ+fH3+Nry7gU73TjhPt3wtZjAZl4LINONdAMMurQVfNA1PrAPCNizqg
+         3sldk6Nn+J5pEacm4LAogd9L4LsrTuKDhBMIRSPbJ/tPnvf3fQ7X4bcrOuG4M76LlX8J
+         KyJBgMpM4ZNPbY+TcqAGZcN4KU0P+Cy6NiBJuJ5K9ITMiehxPWvWrvSoYDw/mJV+aNnp
+         vM5vAeASJaHeR0MiJhgefCqDLZ/OxfrZTEDFUJ1ybBLZO85IDONCnb0XdcKNEOEAQWCB
+         Fpsw==
+X-Gm-Message-State: ALQs6tCu0hfbSWeATW1c6f57c5t9zpJoQnAGZyrMq9nzOKs4kTLbZ10P
+        8QTqpLZtQqCfGSIDUmeXN8CElg==
+X-Google-Smtp-Source: AB8JxZppL2b8dyvZ30YVM4iZ1GcajxIJwuM+7GZ/KpTv6oeSPmAPQRYP8Oq+XBXlgoRR18pMTfBKgg==
+X-Received: by 10.28.181.149 with SMTP id e143mr17460994wmf.66.1525468328476;
+        Fri, 04 May 2018 14:12:08 -0700 (PDT)
+Received: from localhost.localdomain ([94.230.152.15])
+        by smtp.gmail.com with ESMTPSA id v12-v6sm2108273wmc.35.2018.05.04.14.12.07
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Fri, 04 May 2018 14:12:07 -0700 (PDT)
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrea Parri <andrea.parri@amarulasolutions.com>
+Subject: [PATCH] Documentation: refcount-vs-atomic: Update reference to LKMM doc.
+Date:   Fri,  4 May 2018 23:11:49 +0200
+Message-Id: <1525468309-5310-1-git-send-email-andrea.parri@amarulasolutions.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, May 3, 2018 9:08:14 PM EDT Tyler Hicks wrote:
-> The decision to log a seccomp action will always be subject to the
-> value of the kernel.seccomp.actions_logged sysctl, even for processes
-> that are being inspected via the audit subsystem, in an upcoming patch.
-> Therefore, we need to emit an audit record on attempts at writing to the
-> actions_logged sysctl when auditing is enabled.
-> 
-> This patch updates the write handler for the actions_logged sysctl to
-> emit an audit record on attempts to write to the sysctl. Successful
-> writes to the sysctl will result in a record that includes a normalized
-> list of logged actions in the "actions" field and a "res" field equal to
-> 1. Unsuccessful writes to the sysctl will result in a record that
-> doesn't include the "actions" field and has a "res" field equal to 0.
-> 
-> Not all unsuccessful writes to the sysctl are audited. For example, an
-> audit record will not be emitted if an unprivileged process attempts to
-> open the sysctl file for reading since that access control check is not
-> part of the sysctl's write handler.
-> 
-> Below are some example audit records when writing various strings to the
-> actions_logged sysctl.
-> 
-> Writing "not-a-real-action", when the kernel.seccomp.actions_logged
-> sysctl previously was "kill_process kill_thread trap errno trace log",
-> emits this audit record:
-> 
->  type=CONFIG_CHANGE msg=audit(1525392371.454:120): op=seccomp-logging
->  actions=? old-actions=kill_process,kill_thread,trap,errno,trace,log
->  res=0
-> 
-> If you then write "kill_process kill_thread errno trace log", this audit
-> record is emitted:
-> 
->  type=CONFIG_CHANGE msg=audit(1525392401.645:126): op=seccomp-logging
->  actions=kill_process,kill_thread,errno,trace,log
->  old-actions=kill_process,kill_thread,trap,errno,trace,log res=1
-> 
-> If you then write "log log errno trace kill_process kill_thread", which
-> is unordered and contains the log action twice, it results in the same
-> actions value as the previous record:
-> 
->  type=CONFIG_CHANGE msg=audit(1525392436.354:132): op=seccomp-logging
->  actions=kill_process,kill_thread,errno,trace,log
->  old-actions=kill_process,kill_thread,errno,trace,log res=1
-> 
-> If you then write an empty string to the sysctl, this audit record is
-> emitted:
-> 
->  type=CONFIG_CHANGE msg=audit(1525392494.413:138): op=seccomp-logging
->  actions=(none) old-actions=kill_process,kill_thread,errno,trace,log
->  res=1
-> 
-> No audit records are generated when reading the actions_logged sysctl.
+The LKMM project has moved to 'tools/memory-model/'.
 
-This appears to cover all the corner cases we talked about. ACK for the 
-format of the records.
+Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
+---
+ Documentation/core-api/refcount-vs-atomic.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
--Steve
+diff --git a/Documentation/core-api/refcount-vs-atomic.rst b/Documentation/core-api/refcount-vs-atomic.rst
+index 83351c258cdb9..322851bada167 100644
+--- a/Documentation/core-api/refcount-vs-atomic.rst
++++ b/Documentation/core-api/refcount-vs-atomic.rst
+@@ -17,7 +17,7 @@ in order to help maintainers validate their code against the change in
+ these memory ordering guarantees.
  
-> Suggested-by: Steve Grubb <sgrubb@redhat.com>
-> Signed-off-by: Tyler Hicks <tyhicks@canonical.com>
-> ---
->  include/linux/audit.h |  5 +++++
->  kernel/auditsc.c      | 20 ++++++++++++++++++
->  kernel/seccomp.c      | 58
-> +++++++++++++++++++++++++++++++++++++++++++-------- 3 files changed, 74
-> insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/audit.h b/include/linux/audit.h
-> index 75d5b03..d4e35e7 100644
-> --- a/include/linux/audit.h
-> +++ b/include/linux/audit.h
-> @@ -233,6 +233,8 @@ extern void __audit_inode_child(struct inode *parent,
->  				const struct dentry *dentry,
->  				const unsigned char type);
->  extern void __audit_seccomp(unsigned long syscall, long signr, int code);
-> +extern void audit_seccomp_actions_logged(const char *names,
-> +					 const char *old_names, int res);
->  extern void __audit_ptrace(struct task_struct *t);
-> 
->  static inline bool audit_dummy_context(void)
-> @@ -502,6 +504,9 @@ static inline void __audit_seccomp(unsigned long
-> syscall, long signr, int code) { }
->  static inline void audit_seccomp(unsigned long syscall, long signr, int
-> code) { }
-> +static inline void audit_seccomp_actions_logged(const char *names,
-> +						const char *old_names, int res)
-> +{ }
->  static inline int auditsc_get_stamp(struct audit_context *ctx,
->  			      struct timespec64 *t, unsigned int *serial)
->  {
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index 4e0a4ac..5195a29 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -2478,6 +2478,26 @@ void __audit_seccomp(unsigned long syscall, long
-> signr, int code) audit_log_end(ab);
->  }
-> 
-> +void audit_seccomp_actions_logged(const char *names, const char
-> *old_names, +				  int res)
-> +{
-> +	struct audit_buffer *ab;
-> +
-> +	if (!audit_enabled)
-> +		return;
-> +
-> +	ab = audit_log_start(current->audit_context, GFP_KERNEL,
-> +			     AUDIT_CONFIG_CHANGE);
-> +	if (unlikely(!ab))
-> +		return;
-> +
-> +	audit_log_format(ab, "op=seccomp-logging");
-> +	audit_log_format(ab, " actions=%s", names);
-> +	audit_log_format(ab, " old-actions=%s", old_names);
-> +	audit_log_format(ab, " res=%d", res);
-> +	audit_log_end(ab);
-> +}
-> +
->  struct list_head *audit_killed_trees(void)
->  {
->  	struct audit_context *ctx = current->audit_context;
-> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-> index b36ac1e..f5630d1 100644
-> --- a/kernel/seccomp.c
-> +++ b/kernel/seccomp.c
-> @@ -1219,11 +1219,10 @@ static int read_actions_logged(struct ctl_table
-> *ro_table, void __user *buffer, }
-> 
->  static int write_actions_logged(struct ctl_table *ro_table, void __user
-> *buffer, -				size_t *lenp, loff_t *ppos)
-> +				size_t *lenp, loff_t *ppos, u32 *actions_logged)
->  {
->  	char names[sizeof(seccomp_actions_avail)];
->  	struct ctl_table table;
-> -	u32 actions_logged;
->  	int ret;
-> 
->  	if (!capable(CAP_SYS_ADMIN))
-> @@ -1238,24 +1237,65 @@ static int write_actions_logged(struct ctl_table
-> *ro_table, void __user *buffer, if (ret)
->  		return ret;
-> 
-> -	if (!seccomp_actions_logged_from_names(&actions_logged, table.data))
-> +	if (!seccomp_actions_logged_from_names(actions_logged, table.data))
->  		return -EINVAL;
-> 
-> -	if (actions_logged & SECCOMP_LOG_ALLOW)
-> +	if (*actions_logged & SECCOMP_LOG_ALLOW)
->  		return -EINVAL;
-> 
-> -	seccomp_actions_logged = actions_logged;
-> +	seccomp_actions_logged = *actions_logged;
->  	return 0;
->  }
-> 
-> +static void audit_actions_logged(u32 actions_logged, u32
-> old_actions_logged, +				 int ret)
-> +{
-> +	char names[sizeof(seccomp_actions_avail)];
-> +	char old_names[sizeof(seccomp_actions_avail)];
-> +	const char *new = names;
-> +	const char *old = old_names;
-> +
-> +	if (!audit_enabled)
-> +		return;
-> +
-> +	memset(names, 0, sizeof(names));
-> +	memset(old_names, 0, sizeof(old_names));
-> +
-> +	if (ret)
-> +		new = "?";
-> +	else if (!actions_logged)
-> +		new = "(none)";
-> +	else if (!seccomp_names_from_actions_logged(names, sizeof(names),
-> +						    actions_logged, ","))
-> +		new = "?";
-> +
-> +	if (!old_actions_logged)
-> +		old = "(none)";
-> +	else if (!seccomp_names_from_actions_logged(old_names,
-> +						    sizeof(old_names),
-> +						    old_actions_logged, ","))
-> +		old = "?";
-> +
-> +	return audit_seccomp_actions_logged(new, old, !ret);
-> +}
-> +
->  static int seccomp_actions_logged_handler(struct ctl_table *ro_table, int
-> write, void __user *buffer, size_t *lenp,
->  					  loff_t *ppos)
->  {
-> -	if (write)
-> -		return write_actions_logged(ro_table, buffer, lenp, ppos);
-> -	else
-> -		return read_actions_logged(ro_table, buffer, lenp, ppos);
-> +	int ret;
-> +
-> +	if (write) {
-> +		u32 actions_logged = 0;
-> +		u32 old_actions_logged = seccomp_actions_logged;
-> +
-> +		ret = write_actions_logged(ro_table, buffer, lenp, ppos,
-> +					   &actions_logged);
-> +		audit_actions_logged(actions_logged, old_actions_logged, ret);
-> +	} else
-> +		ret = read_actions_logged(ro_table, buffer, lenp, ppos);
-> +
-> +	return ret;
->  }
-> 
->  static struct ctl_path seccomp_sysctl_path[] = {
-
-
-
+ The terms used through this document try to follow the formal LKMM defined in
+-github.com/aparri/memory-model/blob/master/Documentation/explanation.txt
++tools/memory-model/Documentation/explanation.txt.
+ 
+ memory-barriers.txt and atomic_t.txt provide more background to the
+ memory ordering in general and for atomic operations specifically.
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
