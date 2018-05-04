@@ -5,89 +5,259 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB74A7E27D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 14:30:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67F217DE78
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 May 2018 15:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751423AbeEDOaa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 May 2018 10:30:30 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48614 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751729AbeEDOa1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 May 2018 10:30:27 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 145EC8160F82;
-        Fri,  4 May 2018 14:30:27 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 73520215CDA7;
-        Fri,  4 May 2018 14:30:22 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Fri,  4 May 2018 16:30:26 +0200 (CEST)
-Date:   Fri, 4 May 2018 16:30:21 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     mhiramat@kernel.org,
-        Ravi Bangoria <ravi.bangoria@linux.vnet.ibm.com>,
-        peterz@infradead.org, srikar@linux.vnet.ibm.com,
-        rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        alexis.berlemont@gmail.com, corbet@lwn.net,
-        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
-        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
-        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
-        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
-        fengguang.wu@intel.com, jglisse@redhat.com
-Subject: Re: [PATCH v3 0/9] trace_uprobe: Support SDT markers having
- reference count (semaphore)
-Message-ID: <20180504143021.GB26151@redhat.com>
-References: <20180417043244.7501-1-ravi.bangoria@linux.vnet.ibm.com>
- <f77789c0-9277-23bf-9abb-92f3f36c4baa@linux.ibm.com>
+        id S1751268AbeEDPGd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 May 2018 11:06:33 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:41112 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751059AbeEDPGd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 May 2018 11:06:33 -0400
+Received: from localhost ([127.0.0.1] helo=bazinga.breakpoint.cc)
+        by Galois.linutronix.de with esmtp (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1fEcHz-0006G8-GH; Fri, 04 May 2018 17:06:27 +0200
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     linux-ide@vger.kernel.org
+Cc:     tglx@linutronix.de, Tejun Heo <tj@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH] libata: remove ata_sff_data_xfer_noirq()
+Date:   Fri,  4 May 2018 17:06:20 +0200
+Message-Id: <20180504150620.6501-1-bigeasy@linutronix.de>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f77789c0-9277-23bf-9abb-92f3f36c4baa@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 04 May 2018 14:30:27 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 04 May 2018 14:30:27 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry Ravi, I saved the new version for review and forgot about it... I'll
-try to do this on weekend.
+ata_sff_data_xfer_noirq() is invoked via the ->sff_data_xfer hook. The
+latter is invoked by ata_pio_sector(), atapi_send_cdb() and
+__atapi_pio_bytes() which in turn is invoked by ata_sff_hsm_move().
+The latter function requires that the "ap->lock" lock is held which
+needs to be taken with disabled interrupts.
 
-On 05/03, Ravi Bangoria wrote:
-> 
-> On 04/17/2018 10:02 AM, Ravi Bangoria wrote:
-> > Userspace Statically Defined Tracepoints[1] are dtrace style markers
-> > inside userspace applications. Applications like PostgreSQL, MySQL,
-> > Pthread, Perl, Python, Java, Ruby, Node.js, libvirt, QEMU, glib etc
-> > have these markers embedded in them. These markers are added by developer
-> > at important places in the code. Each marker source expands to a single
-> > nop instruction in the compiled code but there may be additional
-> > overhead for computing the marker arguments which expands to couple of
-> > instructions. In case the overhead is more, execution of it can be
-> > omitted by runtime if() condition when no one is tracing on the marker:
-> >
-> >     if (reference_counter > 0) {
-> >         Execute marker instructions;
-> >     }   
-> >
-> > Default value of reference counter is 0. Tracer has to increment the 
-> > reference counter before tracing on a marker and decrement it when
-> > done with the tracing.
-> 
-> Hi Oleg, Masami,
-> 
-> Can you please review this :) ?
-> 
-> Thanks.
-> 
+There is no need have to have ata_sff_data_xfer_noirq() which invokes
+ata_sff_data_xfer32() with disabled interrupts because at this point the
+interrupts are already disabled.
+Remove the function and its references to it and replace all callers
+with ata_sff_data_xfer32().
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ Documentation/driver-api/libata.rst |  3 +--
+ drivers/ata/libata-sff.c            | 30 -----------------------------
+ drivers/ata/pata_cmd640.c           |  2 +-
+ drivers/ata/pata_icside.c           |  2 +-
+ drivers/ata/pata_imx.c              |  2 +-
+ drivers/ata/pata_legacy.c           |  6 +++---
+ drivers/ata/pata_palmld.c           |  2 +-
+ drivers/ata/pata_pcmcia.c           |  2 +-
+ drivers/ata/pata_platform.c         |  2 +-
+ drivers/ata/pata_via.c              |  2 +-
+ include/linux/libata.h              |  2 --
+ 11 files changed, 11 insertions(+), 44 deletions(-)
+
+diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api=
+/libata.rst
+index 4adc056f7635..70e180e6b93d 100644
+--- a/Documentation/driver-api/libata.rst
++++ b/Documentation/driver-api/libata.rst
+@@ -118,8 +118,7 @@ PIO data read/write
+ All bmdma-style drivers must implement this hook. This is the low-level
+ operation that actually copies the data bytes during a PIO data
+ transfer. Typically the driver will choose one of
+-:c:func:`ata_sff_data_xfer_noirq`, :c:func:`ata_sff_data_xfer`, or
+-:c:func:`ata_sff_data_xfer32`.
++:c:func:`ata_sff_data_xfer`, or :c:func:`ata_sff_data_xfer32`.
+=20
+ ATA command execute
+ ~~~~~~~~~~~~~~~~~~~
+diff --git a/drivers/ata/libata-sff.c b/drivers/ata/libata-sff.c
+index cc2f2e35f4c2..c5ea0fc635e5 100644
+--- a/drivers/ata/libata-sff.c
++++ b/drivers/ata/libata-sff.c
+@@ -657,36 +657,6 @@ unsigned int ata_sff_data_xfer32(struct ata_queued_cmd=
+ *qc, unsigned char *buf,
+ }
+ EXPORT_SYMBOL_GPL(ata_sff_data_xfer32);
+=20
+-/**
+- *	ata_sff_data_xfer_noirq - Transfer data by PIO
+- *	@qc: queued command
+- *	@buf: data buffer
+- *	@buflen: buffer length
+- *	@rw: read/write
+- *
+- *	Transfer data from/to the device data register by PIO. Do the
+- *	transfer with interrupts disabled.
+- *
+- *	LOCKING:
+- *	Inherited from caller.
+- *
+- *	RETURNS:
+- *	Bytes consumed.
+- */
+-unsigned int ata_sff_data_xfer_noirq(struct ata_queued_cmd *qc, unsigned c=
+har *buf,
+-				     unsigned int buflen, int rw)
+-{
+-	unsigned long flags;
+-	unsigned int consumed;
+-
+-	local_irq_save(flags);
+-	consumed =3D ata_sff_data_xfer32(qc, buf, buflen, rw);
+-	local_irq_restore(flags);
+-
+-	return consumed;
+-}
+-EXPORT_SYMBOL_GPL(ata_sff_data_xfer_noirq);
+-
+ /**
+  *	ata_pio_sector - Transfer a sector of data.
+  *	@qc: Command on going
+diff --git a/drivers/ata/pata_cmd640.c b/drivers/ata/pata_cmd640.c
+index c47caa807fa9..e3532eda7b05 100644
+--- a/drivers/ata/pata_cmd640.c
++++ b/drivers/ata/pata_cmd640.c
+@@ -178,7 +178,7 @@ static struct scsi_host_template cmd640_sht =3D {
+ static struct ata_port_operations cmd640_port_ops =3D {
+ 	.inherits	=3D &ata_sff_port_ops,
+ 	/* In theory xfer_noirq is not needed once we kill the prefetcher */
+-	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer	=3D ata_sff_data_xfer32,
+ 	.sff_irq_check	=3D cmd640_sff_irq_check,
+ 	.qc_issue	=3D cmd640_qc_issue,
+ 	.cable_detect	=3D ata_cable_40wire,
+diff --git a/drivers/ata/pata_icside.c b/drivers/ata/pata_icside.c
+index 188f2f2eb21f..c272f2cbb47c 100644
+--- a/drivers/ata/pata_icside.c
++++ b/drivers/ata/pata_icside.c
+@@ -324,7 +324,7 @@ static struct ata_port_operations pata_icside_port_ops =
+=3D {
+ 	.inherits		=3D &ata_bmdma_port_ops,
+ 	/* no need to build any PRD tables for DMA */
+ 	.qc_prep		=3D ata_noop_qc_prep,
+-	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer		=3D ata_sff_data_xfer32,
+ 	.bmdma_setup		=3D pata_icside_bmdma_setup,
+ 	.bmdma_start		=3D pata_icside_bmdma_start,
+ 	.bmdma_stop		=3D pata_icside_bmdma_stop,
+diff --git a/drivers/ata/pata_imx.c b/drivers/ata/pata_imx.c
+index d4caa23f5a88..108101325efd 100644
+--- a/drivers/ata/pata_imx.c
++++ b/drivers/ata/pata_imx.c
+@@ -102,7 +102,7 @@ static struct scsi_host_template pata_imx_sht =3D {
+=20
+ static struct ata_port_operations pata_imx_port_ops =3D {
+ 	.inherits		=3D &ata_sff_port_ops,
+-	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer		=3D ata_sff_data_xfer32,
+ 	.cable_detect		=3D ata_cable_unknown,
+ 	.set_piomode		=3D pata_imx_set_piomode,
+ };
+diff --git a/drivers/ata/pata_legacy.c b/drivers/ata/pata_legacy.c
+index 53828b6c3044..8ea4b8431fc8 100644
+--- a/drivers/ata/pata_legacy.c
++++ b/drivers/ata/pata_legacy.c
+@@ -246,12 +246,12 @@ static const struct ata_port_operations legacy_base_p=
+ort_ops =3D {
+=20
+ static struct ata_port_operations simple_port_ops =3D {
+ 	.inherits	=3D &legacy_base_port_ops,
+-	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer	=3D ata_sff_data_xfer32,
+ };
+=20
+ static struct ata_port_operations legacy_port_ops =3D {
+ 	.inherits	=3D &legacy_base_port_ops,
+-	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer	=3D ata_sff_data_xfer32,
+ 	.set_mode	=3D legacy_set_mode,
+ };
+=20
+@@ -341,7 +341,7 @@ static unsigned int pdc_data_xfer_vlb(struct ata_queued=
+_cmd *qc,
+ 		}
+ 		local_irq_restore(flags);
+ 	} else
+-		buflen =3D ata_sff_data_xfer_noirq(qc, buf, buflen, rw);
++		buflen =3D ata_sff_data_xfer32(qc, buf, buflen, rw);
+=20
+ 	return buflen;
+ }
+diff --git a/drivers/ata/pata_palmld.c b/drivers/ata/pata_palmld.c
+index 8c0d7d736b7a..d071ab6864a8 100644
+--- a/drivers/ata/pata_palmld.c
++++ b/drivers/ata/pata_palmld.c
+@@ -44,7 +44,7 @@ static struct scsi_host_template palmld_sht =3D {
+=20
+ static struct ata_port_operations palmld_port_ops =3D {
+ 	.inherits		=3D &ata_sff_port_ops,
+-	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer		=3D ata_sff_data_xfer32,
+ 	.cable_detect		=3D ata_cable_40wire,
+ };
+=20
+diff --git a/drivers/ata/pata_pcmcia.c b/drivers/ata/pata_pcmcia.c
+index a541eacc5e95..9b0e6c72e3f9 100644
+--- a/drivers/ata/pata_pcmcia.c
++++ b/drivers/ata/pata_pcmcia.c
+@@ -151,7 +151,7 @@ static struct scsi_host_template pcmcia_sht =3D {
+=20
+ static struct ata_port_operations pcmcia_port_ops =3D {
+ 	.inherits	=3D &ata_sff_port_ops,
+-	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer	=3D ata_sff_data_xfer32,
+ 	.cable_detect	=3D ata_cable_40wire,
+ 	.set_mode	=3D pcmcia_set_mode,
+ };
+diff --git a/drivers/ata/pata_platform.c b/drivers/ata/pata_platform.c
+index c503ded87bb8..d6f8f5406442 100644
+--- a/drivers/ata/pata_platform.c
++++ b/drivers/ata/pata_platform.c
+@@ -49,7 +49,7 @@ static struct scsi_host_template pata_platform_sht =3D {
+=20
+ static struct ata_port_operations pata_platform_port_ops =3D {
+ 	.inherits		=3D &ata_sff_port_ops,
+-	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer		=3D ata_sff_data_xfer32,
+ 	.cable_detect		=3D ata_cable_unknown,
+ 	.set_mode		=3D pata_platform_set_mode,
+ };
+diff --git a/drivers/ata/pata_via.c b/drivers/ata/pata_via.c
+index 1ca6bcab369f..fd19f1ce83aa 100644
+--- a/drivers/ata/pata_via.c
++++ b/drivers/ata/pata_via.c
+@@ -471,7 +471,7 @@ static struct ata_port_operations via_port_ops =3D {
+=20
+ static struct ata_port_operations via_port_ops_noirq =3D {
+ 	.inherits	=3D &via_port_ops,
+-	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
++	.sff_data_xfer	=3D ata_sff_data_xfer32,
+ };
+=20
+ /**
+diff --git a/include/linux/libata.h b/include/linux/libata.h
+index ed9826b21c5e..1435e0e68823 100644
+--- a/include/linux/libata.h
++++ b/include/linux/libata.h
+@@ -1831,8 +1831,6 @@ extern unsigned int ata_sff_data_xfer(struct ata_queu=
+ed_cmd *qc,
+ 			unsigned char *buf, unsigned int buflen, int rw);
+ extern unsigned int ata_sff_data_xfer32(struct ata_queued_cmd *qc,
+ 			unsigned char *buf, unsigned int buflen, int rw);
+-extern unsigned int ata_sff_data_xfer_noirq(struct ata_queued_cmd *qc,
+-			unsigned char *buf, unsigned int buflen, int rw);
+ extern void ata_sff_irq_on(struct ata_port *ap);
+ extern void ata_sff_irq_clear(struct ata_port *ap);
+ extern int ata_sff_hsm_move(struct ata_port *ap, struct ata_queued_cmd *qc,
+--=20
+2.17.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
