@@ -5,118 +5,135 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 603217DE78
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 May 2018 18:50:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8384C7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 May 2018 21:31:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751789AbeEFSuh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 May 2018 14:50:37 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:43232 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751771AbeEFSug (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 May 2018 14:50:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=owF4dZH0KGCKt3x+8k+Y4CqdMqn89fSwy63TcGrt464=; b=HjiyLkFjKSKaXCogVXuNXXoRtS
-        xq6up81iQvtVTJq1kuVCsiNl5rmKPNHP2nFXHwOYgn7K55mm3vO8FN06Ey0vQZfQ7lGsZZB7oJdif
-        JKWcTSU08Zf144ddi/pfTtjIsGe5ZG4BZJd9NeppvYLHbRdJWZeh8/EVHzjwgkA4JF3Ip3uN8Xcup
-        W6yuAfzkvc95Op/PzPbaQaHFuwxxbVQAJKHl8ubRjvXtmbHQ6FnLK9t6DojWm46c8AYU2cev+6nNe
-        H8LlooyMlDrLuEhoR3jKPWXc/nGjQZuaGRJetpAZNlUjT8p2ZoGCe5QaIgy2t8ZuTWgAfmINq9GAX
-        SzFZ5OsQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fFOjv-0006gr-Of; Sun, 06 May 2018 18:50:32 +0000
-To:     "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        axboe <axboe@kernel.dk>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Cai Zhiyong <caizhiyong@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: block: cmdline-partition.txt fixes and
- additions
-Message-ID: <dba389fc-2745-34b1-e33e-fc83f53eaf42@infradead.org>
-Date:   Sun, 6 May 2018 11:50:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1751871AbeEFVbo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 May 2018 17:31:44 -0400
+Received: from mail-lf0-f52.google.com ([209.85.215.52]:43647 "EHLO
+        mail-lf0-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751869AbeEFVbn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 May 2018 17:31:43 -0400
+Received: by mail-lf0-f52.google.com with SMTP id g12-v6so37794691lfb.10
+        for <linux-doc@vger.kernel.org>; Sun, 06 May 2018 14:31:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=k9mY/ZBIB6QmoFoLPlnEGiPCF65alw46fi3QoASJNwI=;
+        b=RP1Ng1gQARlWgXAeom3jh9O5O9wtYNjA9mPsLbBTGsNVbF5jO3p4HdGjD24g4XHoJN
+         Qunbrq1B39ykc7Phe6XPTbklmAIxNysKgQtRCo1R2zJBhgyPJv4406hcYqxvGakcmp8+
+         VAtus/VWjoSVB8FDEDmSwyvix2Ef8/Pt5FQEXSavsyUrm3vdUztoYN6M927539qQ90u2
+         mF6iaYJiW14lU5+qo60rHnO5QRu+GSfFLpQ578W7ek0SPwAv5jbk4IBuR4dqgGF+vYLp
+         cG3fHeAJwD44RUppSk4CL6a+XeuXcyPfDA8ZM+bzCF+Ab7nc8Q1MzlNBl0F76N1rfXiW
+         gdhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=k9mY/ZBIB6QmoFoLPlnEGiPCF65alw46fi3QoASJNwI=;
+        b=JTBsOYEHe5FuVV0XLBVT0YY/NaEIX74SU3W73Pqa8S0onnVMvNxEHiaUaKIEGBRbCv
+         nFz/g8BMdt/3JY+U7MyXG/ZZVAwmzJOAOD1JKhUJvPzr+ysJO3e8LFOM8O447JxfE+HO
+         oP3pc3D559KTdtXdHCULjeStqCWULHFsY9an5bor1fCo2wv+DJNkuqGwfkpMXxk9zjrD
+         dfLMuSQWGjP2wRYiF9J6OrK1dLwHvOSNoDEoTsSIPsuTTb+3ymQ4SiAN87PWDRXtspsn
+         1cHE+6NgYzWQ2IQ5otAruf09LvjgQcTug+53cR2hfUjbQ2Od8as454wqxbrXD1ErxbNp
+         uqsw==
+X-Gm-Message-State: ALQs6tBKjRyeB5FfRFVJklIfhLldcORZk5y3Cm3wGpap3vHGOBBQCDuZ
+        TC4FAz6Ifaa+L3/m3vincVOjzGz8/UkCtb0yeXq2
+X-Google-Smtp-Source: AB8JxZojsH637OXT/TCXFJXtAJ0eulPZZb9Yob9ys3kawYR26fna2ihNBOZCUPZ95vYTi/T7kUwDbd0ok3btVr/3Wys=
+X-Received: by 2002:a19:f505:: with SMTP id j5-v6mr21504512lfb.12.1525642301386;
+ Sun, 06 May 2018 14:31:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a19:c78f:0:0:0:0:0 with HTTP; Sun, 6 May 2018 14:31:40 -0700 (PDT)
+X-Originating-IP: [108.20.156.165]
+In-Reply-To: <1525396095-27737-1-git-send-email-tyhicks@canonical.com>
+References: <1525396095-27737-1-git-send-email-tyhicks@canonical.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Sun, 6 May 2018 17:31:40 -0400
+Message-ID: <CAHC9VhQb46F0q4bbum9NMqi-spuDHaVDG7xSPDmOsWDP0RZ47g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Better integrate seccomp logging and auditing
+To:     Tyler Hicks <tyhicks@canonical.com>,
+        Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Eric Paris <eparis@redhat.com>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-audit@redhat.com,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Thu, May 3, 2018 at 9:08 PM, Tyler Hicks <tyhicks@canonical.com> wrote:
+> Seccomp received improved logging controls in v4.14. Applications can opt into
+> logging of "handled" actions (SECCOMP_RET_TRAP, SECCOMP_RET_TRACE,
+> SECCOMP_RET_ERRNO) using the SECCOMP_FILTER_FLAG_LOG bit when loading filters.
+> They can also debug filter matching with the new SECCOMP_RET_LOG action.
+> Administrators can prevent specific actions from being logged using the
+> kernel.seccomp.actions_logged sysctl.
+>
+> However, one corner case intentionally wasn't addressed in those v4.14 changes.
+> When a process is being inspected by the audit subsystem, seccomp's decision
+> making for logging ignores the new controls and unconditionally logs every
+> action taken except for SECCOMP_RET_ALLOW. This isn't particularly useful since
+> many existing applications don't intend to log handled actions due to them
+> occurring very frequently. This amount of logging fills the audit logs without
+> providing many benefits now that application authors have fine grained controls
+> at their disposal.
+>
+> This patch set aligns the seccomp logging behavior for both audited and
+> non-audited processes. It also emits an audit record, if auditing is enabled,
+> when the kernel.seccomp.actions_logged sysctl is written to so that there's a
+> paper trail when entire actions are quieted.
+>
+> Changes in v3:
+> * Patch 3
+>   - Never drop a field when emitting the audit record
+>   - Use the value "?" for the actions field when an error occurred while
+>     writing to the sysctl
+>   - Use the value "?" for the actions and/or old-actions fields when a failure
+>     to translate actions to names
+>   - Use the value "(none)" for the actions and/or old-actions fields when no
+>     actions are specified
+>     + This is possible when writing an empty string to the sysctl
+>   - Update the commit message to note the new values and give an example of
+>     when an empty string is written
+> * Patch 4
+>   - Adjust the control flow of seccomp_log() to exit early if nothing should be
+>     logged
+>
+> Changes in v2:
+> * Patch 2
+>   - New patch, allowing for a configurable separator between action names
+> * Patch 3
+>   - The value of the actions field in the audit record now uses a comma instead
+>     of a space
+>   - The value of the actions field in the audit record is no longer enclosed in
+>     quotes
+>   - audit_log_start() is called with the current processes' audit_context in
+>     audit_seccomp_actions_logged()
+>   - audit_seccomp_actions_logged() no longer records the pid, uid, auid, tty,
+>     ses, task context, comm, or executable path
+>   - The new and old value of seccomp_actions_logged is recorded in the
+>     AUDIT_CONFIG_CHANGE record
+>   - The value of the "res" field in the CONFIG_CHANGE audit record is corrected
+>     (1 indicates success, 0 failure)
+>   - Updated patch 3's commit message to reflect the updated audit record format
+>     in the examples
+> * Patch 4
+>   - A function comment for audit_seccomp() was added to explain, among other
+>     things, that event filtering is performed in seccomp_log()
 
-Make the description of the kernel command line option "blkdevparts"
-a bit more flowing and readable.
+Kees, are you still okay with v3?  Also, are you okay with these
+patches going in via the audit tree, or would you prefer to take them
+via seccomp?  I've got a slight preference for the audit tree myself,
+but as I said before, as long as it hits Linus' tree I'm happy.
 
-Fix a few typos.
-Add the optional <size> and <offset> suffixes.
-Note that size can be "-" to indicate all of the remaining space.
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Cai Zhiyong <caizhiyong@huawei.com>
----
-Should the "ro" and "lk" flags options be described?
-
- Documentation/block/cmdline-partition.txt |   21 +++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
-
---- linux-next-20180504.orig/Documentation/block/cmdline-partition.txt
-+++ linux-next-20180504/Documentation/block/cmdline-partition.txt
-@@ -1,7 +1,9 @@
- Embedded device command line partition parsing
- =====================================================================
- 
--Support for reading the block device partition table from the command line.
-+The "blkdevparts" command line option adds support for reading the
-+block device partition table from the kernel command line.
-+
- It is typically used for fixed block (eMMC) embedded devices.
- It has no MBR, so saves storage space. Bootloader can be easily accessed
- by absolute address of data on the block device.
-@@ -14,22 +16,27 @@ blkdevparts=<blkdev-def>[;<blkdev-def>]
-     <partdef> := <size>[@<offset>](part-name)
- 
- <blkdev-id>
--    block device disk name, embedded device used fixed block device,
--    it's disk name also fixed. such as: mmcblk0, mmcblk1, mmcblk0boot0.
-+    block device disk name. Embedded device uses fixed block device.
-+    Its disk name is also fixed, such as: mmcblk0, mmcblk1, mmcblk0boot0.
- 
- <size>
-     partition size, in bytes, such as: 512, 1m, 1G.
-+    size may contain an optional suffix of (upper or lower case):
-+      K, M, G, T, P, E.
-+    "-" is used to denote all remaining space.
- 
- <offset>
-     partition start address, in bytes.
-+    offset may contain an optional suffix of (upper or lower case):
-+      K, M, G, T, P, E.
- 
- (part-name)
--    partition name, kernel send uevent with "PARTNAME". application can create
--    a link to block device partition with the name "PARTNAME".
--    user space application can access partition by partition name.
-+    partition name. Kernel sends uevent with "PARTNAME". Application can
-+    create a link to block device partition with the name "PARTNAME".
-+    User space application can access partition by partition name.
- 
- Example:
--    eMMC disk name is "mmcblk0" and "mmcblk0boot0"
-+    eMMC disk names are "mmcblk0" and "mmcblk0boot0".
- 
-   bootargs:
-     'blkdevparts=mmcblk0:1G(data0),1G(data1),-;mmcblk0boot0:1m(boot),-(kernel)'
-
+-- 
+paul moore
+www.paul-moore.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
