@@ -5,113 +5,78 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F2677DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 02:43:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 846A97DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 03:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751940AbeEGCnz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 May 2018 22:43:55 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:5546 "EHLO huawei.com"
+        id S1751903AbeEGDC0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 May 2018 23:02:26 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:7230 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751852AbeEGCnz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 6 May 2018 22:43:55 -0400
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
-        by Forcepoint Email with ESMTP id 96A0467C106BD;
-        Mon,  7 May 2018 10:43:51 +0800 (CST)
-Received: from DGGEMM511-MBS.china.huawei.com ([169.254.2.123]) by
- DGGEMM401-HUB.china.huawei.com ([10.3.20.209]) with mapi id 14.03.0361.001;
- Mon, 7 May 2018 10:43:25 +0800
-From:   Caizhiyong <caizhiyong@hisilicon.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        axboe <axboe@kernel.dk>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiangheng <jiangheng@hisilicon.com>
-Subject: RE: [PATCH] Documentation: block: cmdline-partition.txt fixes and
- additions
-Thread-Topic: [PATCH] Documentation: block: cmdline-partition.txt fixes and
- additions
-Thread-Index: AQHT5Wsmk+zbgmPRgU6xzKM5CECa56QjjefQ
-Date:   Mon, 7 May 2018 02:43:24 +0000
-Message-ID: <C3050A4DBA34F345975765E43127F10F8B7720F8@dggemm511-mbs.china.huawei.com>
-References: <dba389fc-2745-34b1-e33e-fc83f53eaf42@infradead.org>
-In-Reply-To: <dba389fc-2745-34b1-e33e-fc83f53eaf42@infradead.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.67.217.112]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1751852AbeEGDCZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 6 May 2018 23:02:25 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 27B83E1FD5493;
+        Mon,  7 May 2018 11:02:12 +0800 (CST)
+Received: from [127.0.0.1] (10.63.195.168) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.361.1; Mon, 7 May 2018
+ 11:02:12 +0800
+To:     <alex.williamson@redhat.com>, <corbet@lwn.net>
+CC:     <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From:   "dongbo (E)" <dongbo4@huawei.com>
+Subject: [PATCH] vfio: fix documentation
+Message-ID: <eacddc78-279c-abe8-e663-9849973dd6a3@huawei.com>
+Date:   Mon, 7 May 2018 11:02:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.1.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.63.195.168]
 X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSYW5keSBEdW5sYXAgW21haWx0
-bzpyZHVubGFwQGluZnJhZGVhZC5vcmddDQo+IFNlbnQ6IE1vbmRheSwgTWF5IDA3LCAyMDE4IDI6
-NTAgQU0NCj4gVG86IGxpbnV4LWJsb2NrQHZnZXIua2VybmVsLm9yZzsgYXhib2UgPGF4Ym9lQGtl
-cm5lbC5kaz4NCj4gQ2M6IExLTUwgPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc+OyBDYWl6
-aGl5b25nDQo+IDxjYWl6aGl5b25nQGhpc2lsaWNvbi5jb20+OyBBbmRyZXcgTW9ydG9uIDxha3Bt
-QGxpbnV4LWZvdW5kYXRpb24ub3JnPjsNCj4gbGludXgtZG9jQHZnZXIua2VybmVsLm9yZzsgSm9u
-YXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4NCj4gU3ViamVjdDogW1BBVENIXSBEb2N1bWVu
-dGF0aW9uOiBibG9jazogY21kbGluZS1wYXJ0aXRpb24udHh0IGZpeGVzIGFuZA0KPiBhZGRpdGlv
-bnMNCj4gDQo+IEZyb206IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPg0KPiAN
-Cj4gTWFrZSB0aGUgZGVzY3JpcHRpb24gb2YgdGhlIGtlcm5lbCBjb21tYW5kIGxpbmUgb3B0aW9u
-ICJibGtkZXZwYXJ0cyINCj4gYSBiaXQgbW9yZSBmbG93aW5nIGFuZCByZWFkYWJsZS4NCj4gDQo+
-IEZpeCBhIGZldyB0eXBvcy4NCj4gQWRkIHRoZSBvcHRpb25hbCA8c2l6ZT4gYW5kIDxvZmZzZXQ+
-IHN1ZmZpeGVzLg0KPiBOb3RlIHRoYXQgc2l6ZSBjYW4gYmUgIi0iIHRvIGluZGljYXRlIGFsbCBv
-ZiB0aGUgcmVtYWluaW5nIHNwYWNlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUmFuZHkgRHVubGFw
-IDxyZHVubGFwQGluZnJhZGVhZC5vcmc+DQo+IENjOiBDYWkgWmhpeW9uZyA8Y2FpemhpeW9uZ0Bo
-dWF3ZWkuY29tPg0KPiAtLS0NCj4gU2hvdWxkIHRoZSAicm8iIGFuZCAibGsiIGZsYWdzIG9wdGlv
-bnMgYmUgZGVzY3JpYmVkPw0KDQp0aGFuayB5b3UgZm9yIGZpeCB0eXBvcy4NClRoZSAicm8iIGFu
-ZCAibGsiIGZlYXR1cmUgYXJlIG5vdCBpbXBsZW1lbnRlZCBpbiBibG9jayBkZXZpY2VzLiBjb3Vs
-ZCB5b3UgaW1wbGVtZW50IHRoZW0/DQoNCj4gIERvY3VtZW50YXRpb24vYmxvY2svY21kbGluZS1w
-YXJ0aXRpb24udHh0IHwgICAyMSArKysrKysrKysrKysrLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDE0IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pDQo+IA0KPiAtLS0gbGludXgtbmV4
-dC0yMDE4MDUwNC5vcmlnL0RvY3VtZW50YXRpb24vYmxvY2svY21kbGluZS1wYXJ0aXRpb24udHh0
-DQo+ICsrKyBsaW51eC1uZXh0LTIwMTgwNTA0L0RvY3VtZW50YXRpb24vYmxvY2svY21kbGluZS1w
-YXJ0aXRpb24udHh0DQo+IEBAIC0xLDcgKzEsOSBAQA0KPiAgRW1iZWRkZWQgZGV2aWNlIGNvbW1h
-bmQgbGluZSBwYXJ0aXRpb24gcGFyc2luZw0KPiANCj4gPT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA9PT09PT09PT09PQ0KPiANCj4g
-LVN1cHBvcnQgZm9yIHJlYWRpbmcgdGhlIGJsb2NrIGRldmljZSBwYXJ0aXRpb24gdGFibGUgZnJv
-bSB0aGUgY29tbWFuZCBsaW5lLg0KPiArVGhlICJibGtkZXZwYXJ0cyIgY29tbWFuZCBsaW5lIG9w
-dGlvbiBhZGRzIHN1cHBvcnQgZm9yIHJlYWRpbmcgdGhlDQo+ICtibG9jayBkZXZpY2UgcGFydGl0
-aW9uIHRhYmxlIGZyb20gdGhlIGtlcm5lbCBjb21tYW5kIGxpbmUuDQo+ICsNCj4gIEl0IGlzIHR5
-cGljYWxseSB1c2VkIGZvciBmaXhlZCBibG9jayAoZU1NQykgZW1iZWRkZWQgZGV2aWNlcy4NCj4g
-IEl0IGhhcyBubyBNQlIsIHNvIHNhdmVzIHN0b3JhZ2Ugc3BhY2UuIEJvb3Rsb2FkZXIgY2FuIGJl
-IGVhc2lseSBhY2Nlc3NlZA0KPiAgYnkgYWJzb2x1dGUgYWRkcmVzcyBvZiBkYXRhIG9uIHRoZSBi
-bG9jayBkZXZpY2UuDQo+IEBAIC0xNCwyMiArMTYsMjcgQEAgYmxrZGV2cGFydHM9PGJsa2Rldi1k
-ZWY+Wzs8YmxrZGV2LWRlZj5dDQo+ICAgICAgPHBhcnRkZWY+IDo9IDxzaXplPltAPG9mZnNldD5d
-KHBhcnQtbmFtZSkNCj4gDQo+ICA8YmxrZGV2LWlkPg0KPiAtICAgIGJsb2NrIGRldmljZSBkaXNr
-IG5hbWUsIGVtYmVkZGVkIGRldmljZSB1c2VkIGZpeGVkIGJsb2NrIGRldmljZSwNCj4gLSAgICBp
-dCdzIGRpc2sgbmFtZSBhbHNvIGZpeGVkLiBzdWNoIGFzOiBtbWNibGswLCBtbWNibGsxLCBtbWNi
-bGswYm9vdDAuDQo+ICsgICAgYmxvY2sgZGV2aWNlIGRpc2sgbmFtZS4gRW1iZWRkZWQgZGV2aWNl
-IHVzZXMgZml4ZWQgYmxvY2sgZGV2aWNlLg0KPiArICAgIEl0cyBkaXNrIG5hbWUgaXMgYWxzbyBm
-aXhlZCwgc3VjaCBhczogbW1jYmxrMCwgbW1jYmxrMSwgbW1jYmxrMGJvb3QwLg0KPiANCj4gIDxz
-aXplPg0KPiAgICAgIHBhcnRpdGlvbiBzaXplLCBpbiBieXRlcywgc3VjaCBhczogNTEyLCAxbSwg
-MUcuDQo+ICsgICAgc2l6ZSBtYXkgY29udGFpbiBhbiBvcHRpb25hbCBzdWZmaXggb2YgKHVwcGVy
-IG9yIGxvd2VyIGNhc2UpOg0KPiArICAgICAgSywgTSwgRywgVCwgUCwgRS4NCj4gKyAgICAiLSIg
-aXMgdXNlZCB0byBkZW5vdGUgYWxsIHJlbWFpbmluZyBzcGFjZS4NCj4gDQo+ICA8b2Zmc2V0Pg0K
-PiAgICAgIHBhcnRpdGlvbiBzdGFydCBhZGRyZXNzLCBpbiBieXRlcy4NCj4gKyAgICBvZmZzZXQg
-bWF5IGNvbnRhaW4gYW4gb3B0aW9uYWwgc3VmZml4IG9mICh1cHBlciBvciBsb3dlciBjYXNlKToN
-Cj4gKyAgICAgIEssIE0sIEcsIFQsIFAsIEUuDQo+IA0KPiAgKHBhcnQtbmFtZSkNCj4gLSAgICBw
-YXJ0aXRpb24gbmFtZSwga2VybmVsIHNlbmQgdWV2ZW50IHdpdGggIlBBUlROQU1FIi4gYXBwbGlj
-YXRpb24gY2FuDQo+IGNyZWF0ZQ0KPiAtICAgIGEgbGluayB0byBibG9jayBkZXZpY2UgcGFydGl0
-aW9uIHdpdGggdGhlIG5hbWUgIlBBUlROQU1FIi4NCj4gLSAgICB1c2VyIHNwYWNlIGFwcGxpY2F0
-aW9uIGNhbiBhY2Nlc3MgcGFydGl0aW9uIGJ5IHBhcnRpdGlvbiBuYW1lLg0KPiArICAgIHBhcnRp
-dGlvbiBuYW1lLiBLZXJuZWwgc2VuZHMgdWV2ZW50IHdpdGggIlBBUlROQU1FIi4gQXBwbGljYXRp
-b24gY2FuDQo+ICsgICAgY3JlYXRlIGEgbGluayB0byBibG9jayBkZXZpY2UgcGFydGl0aW9uIHdp
-dGggdGhlIG5hbWUgIlBBUlROQU1FIi4NCj4gKyAgICBVc2VyIHNwYWNlIGFwcGxpY2F0aW9uIGNh
-biBhY2Nlc3MgcGFydGl0aW9uIGJ5IHBhcnRpdGlvbiBuYW1lLg0KPiANCj4gIEV4YW1wbGU6DQo+
-IC0gICAgZU1NQyBkaXNrIG5hbWUgaXMgIm1tY2JsazAiIGFuZCAibW1jYmxrMGJvb3QwIg0KPiAr
-ICAgIGVNTUMgZGlzayBuYW1lcyBhcmUgIm1tY2JsazAiIGFuZCAibW1jYmxrMGJvb3QwIi4NCj4g
-DQo+ICAgIGJvb3RhcmdzOg0KPiAgICAgICdibGtkZXZwYXJ0cz1tbWNibGswOjFHKGRhdGEwKSwx
-RyhkYXRhMSksLTttbWNibGswYm9vdDA6MW0oYm9vdCksLQ0KPiAoa2VybmVsKScNCg0K
+From: Dong Bo <dongbo4@huawei.com>
+
+Update vfio_add_group_dev description to match the current API.
+
+Signed-off-by: Dong Bo <dongbo4@huawei.com>
+---
+ Documentation/vfio.txt | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/vfio.txt b/Documentation/vfio.txt
+index ef6a511..f1a4d3c 100644
+--- a/Documentation/vfio.txt
++++ b/Documentation/vfio.txt
+@@ -252,15 +252,14 @@ into VFIO core.  When devices are bound and unbound to the driver,
+ the driver should call vfio_add_group_dev() and vfio_del_group_dev()
+ respectively::
+
+-	extern int vfio_add_group_dev(struct iommu_group *iommu_group,
+-	                              struct device *dev,
++	extern int vfio_add_group_dev(struct device *dev,
+ 				      const struct vfio_device_ops *ops,
+ 				      void *device_data);
+
+ 	extern void *vfio_del_group_dev(struct device *dev);
+
+ vfio_add_group_dev() indicates to the core to begin tracking the
+-specified iommu_group and register the specified dev as owned by
++iommu_group of the specified dev and register the dev as owned by
+ a VFIO bus driver.  The driver provides an ops structure for callbacks
+ similar to a file operations structure::
+
+-- 
+1.9.1
+
+
+.
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
