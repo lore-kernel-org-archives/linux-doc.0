@@ -2,55 +2,48 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C802C7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 15:56:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08DD77DE74
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 17:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752548AbeEGP46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 11:56:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57506 "EHLO mail.kernel.org"
+        id S1752227AbeEGRIJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 May 2018 13:08:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37046 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752303AbeEGP45 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 May 2018 11:56:57 -0400
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        id S1752020AbeEGRIJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 May 2018 13:08:09 -0400
+Received: from archlinux (cpc91196-cmbg18-2-0-cust659.5-4.cable.virginm.net [81.96.234.148])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 12A982173F;
-        Mon,  7 May 2018 15:56:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5C07C214DA;
+        Mon,  7 May 2018 17:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1525708616;
-        bh=IqSxR7itApE7VDokhU9279IvlZFugLu1LUDj1SyDd6Y=;
+        s=default; t=1525712888;
+        bh=qCy/xl16dNSm+nNL9JF0nqJqVabOrAIItvaUWREnMGo=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Zyyl694jtxzC2ojdhCdWFTz8ah0KlRV6iZr8z3xZh5G+gP2M2jtt8a2kzD1OQfU2W
-         R8sCpKqu+/JIqLB2S15CRpHP2Ec1Gqi6+wNRSEZx5ASKZXSXJTk9knumNEPIMn6pDf
-         WWeuWy8VBaV8tRk4CVQTimpcWP7b/GTkyaFRdduo=
-Date:   Tue, 8 May 2018 00:56:51 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
-        rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
-        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
-        alexis.berlemont@gmail.com, corbet@lwn.net,
-        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
-        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
-        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
-        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
-        fengguang.wu@intel.com, jglisse@redhat.com
-Subject: Re: [PATCH v3 6/9] trace_uprobe: Support SDT markers having
- reference count (semaphore)
-Message-Id: <20180508005651.45553d3cf72521481d16b801@kernel.org>
-In-Reply-To: <f3d066d2-a85a-bd21-d4f9-fc27e59135df@linux.ibm.com>
-References: <20180417043244.7501-1-ravi.bangoria@linux.vnet.ibm.com>
-        <20180417043244.7501-7-ravi.bangoria@linux.vnet.ibm.com>
-        <20180504134816.8633a157dd036489d9b0f1db@kernel.org>
-        <206e4a16-ae21-7da3-f752-853dc2f51947@linux.ibm.com>
-        <f3d066d2-a85a-bd21-d4f9-fc27e59135df@linux.ibm.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
+        b=Qs97S64ATDSb5QdEa0nFTXbXejMNt0E7VuhGkz9cJ2UDqqchqHOEoepBcm/HusAE4
+         7pnZ/4rYlsOIAZj+tbXa9TSqu9AW0HrfXzbBy3LAoaY81J/VgM2FLGXadoLdYwYtyI
+         FWCpMCEgFmhN+5cenImmbIZH0QXc6+5cDW10DNRg=
+Date:   Mon, 7 May 2018 18:08:03 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH 15/18] iio: iio.h: use nested struct support on
+ kernel-doc markup
+Message-ID: <20180507180803.21e967b2@archlinux>
+In-Reply-To: <1a31240699b1b6ee089b5b36889ab27ae14ad94e.1525684985.git.mchehab+samsung@kernel.org>
+References: <cover.1525684985.git.mchehab+samsung@kernel.org>
+        <1a31240699b1b6ee089b5b36889ab27ae14ad94e.1525684985.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -58,78 +51,72 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 7 May 2018 13:51:21 +0530
-Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
+On Mon,  7 May 2018 06:35:51 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> Hi Masami,
+> Solve those Sphinx warnings:
 > 
-> On 05/04/2018 07:51 PM, Ravi Bangoria wrote:
-> >
-> >>> +}
-> >>> +
-> >>> +static void sdt_increment_ref_ctr(struct trace_uprobe *tu)
-> >>> +{
-> >>> +	struct uprobe_map_info *info;
-> >>> +
-> >>> +	uprobe_down_write_dup_mmap();
-> >>> +	info = uprobe_build_map_info(tu->inode->i_mapping,
-> >>> +				tu->ref_ctr_offset, false);
-> >>> +	if (IS_ERR(info))
-> >>> +		goto out;
-> >>> +
-> >>> +	while (info) {
-> >>> +		down_write(&info->mm->mmap_sem);
-> >>> +
-> >>> +		if (sdt_find_vma(tu, info->mm, info->vaddr))
-> >>> +			sdt_update_ref_ctr(info->mm, info->vaddr, 1);
-> >> Don't you have to handle the error to map pages here?
-> > Correct.. I think, I've to feedback error code to probe_event_{enable|disable}
-> > and handler failure there.
+>     ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.sign' not described in 'iio_chan_spec'
+>     ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.realbits' not described in 'iio_chan_spec'
+>     ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.storagebits' not described in 'iio_chan_spec'
+>     ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.shift' not described in 'iio_chan_spec'
+>     ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.repeat' not described in 'iio_chan_spec'
+>     ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.endianness' not described in 'iio_chan_spec'
 > 
-> I looked at this. Actually, It looks difficult to feedback errors to
-> probe_event_{enable|disable}, esp. in the mmap() case.
-
-Hmm, can't you roll that back if sdt_increment_ref_ctr() fails?
-If so, how does sdt_decrement_ref_ctr() work in that case?
-
-> Is it fine if we just warn sdt_update_ref_ctr() failures in dmesg? I'm
-> doing this in [PATCH 7]. (Though, it makes more sense to do that in
-> [PATCH 6], will change it in next version).
-
-Of course we need to warn it at least, but the best is rejecting to
-enable it.
-
+>     ./include/linux/iio/iio.h:191: WARNING: Unexpected indentation.
+>     ./include/linux/iio/iio.h:192: WARNING: Block quote ends without a blank line; unexpected unindent.
+>     ./include/linux/iio/iio.h:198: WARNING: Definition list ends without a blank line; unexpected unindent.
 > 
-> Any better ideas?
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Great thanks.  I couldn't figure out how to do this last time
+I looked at it.
+
+Applied to the togreg branch of iio.git and pushed out as testing for
+the autobuilders to ignore it.
+
+Thanks,
+
+Jonathan
+> ---
+>  include/linux/iio/iio.h | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
 > 
-> BTW, same issue exists for normal uprobe. If uprobe_mmap() fails,
-> there is no feedback to trace_uprobe and no warnigns in dmesg as
-> well !! There was a patch by Naveen to warn such failures in dmesg
-> but that didn't go in: https://lkml.org/lkml/2017/9/22/155
+> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+> index 11579fd4126e..a74cb177dc6f 100644
+> --- a/include/linux/iio/iio.h
+> +++ b/include/linux/iio/iio.h
+> @@ -183,18 +183,18 @@ struct iio_event_spec {
+>   * @address:		Driver specific identifier.
+>   * @scan_index:		Monotonic index to give ordering in scans when read
+>   *			from a buffer.
+> - * @scan_type:		sign:		's' or 'u' to specify signed or unsigned
+> - *			realbits:	Number of valid bits of data
+> - *			storagebits:	Realbits + padding
+> - *			shift:		Shift right by this before masking out
+> - *					realbits.
+> - *			repeat:		Number of times real/storage bits
+> - *					repeats. When the repeat element is
+> - *					more than 1, then the type element in
+> - *					sysfs will show a repeat value.
+> - *					Otherwise, the number of repetitions is
+> - *					omitted.
+> - *			endianness:	little or big endian
+> + * @scan_type:		struct describing the scan type
+> + * @scan_type.sign:		's' or 'u' to specify signed or unsigned
+> + * @scan_type.realbits:		Number of valid bits of data
+> + * @scan_type.storagebits:	Realbits + padding
+> + * @scan_type.shift:		Shift right by this before masking out
+> + *				realbits.
+> + * @scan_type.repeat:		Number of times real/storage bits repeats.
+> + *				When the repeat element is more than 1, then
+> + *				the type element in sysfs will show a repeat
+> + *				value. Otherwise, the number of repetitions
+> + *				is omitted.
+> + * @scan_type.endianness:	little or big endian
+>   * @info_mask_separate: What information is to be exported that is specific to
+>   *			this channel.
+>   * @info_mask_separate_available: What availability information is to be
 
-Oops, that's a real bug. It seems the ball is in Naveen's hand.
-Naveen, could you update it according to Oleg's comment, and resend it?
-
-> 
-> Also, I'll add a check in sdt_update_ref_ctr() to make sure reference
-> counter never goes to negative incase increment fails but decrement
-> succeeds. OTOH, if increment succeeds but decrement fails, the
-> counter remains >0 but there is no harm as such, except we will
-> execute some unnecessary code.
-
-I see. Please carefully clarify whether such case is kernel's bug or not.
-I would like to know what the condition causes that uneven behavior.
-
-Thank you,
-
-> 
-> Thanks,
-> Ravi
-> 
-
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
