@@ -1,135 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA8E67DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 22:29:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E57BC7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 22:39:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752820AbeEGW3S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 18:29:18 -0400
-Received: from foss.arm.com ([217.140.101.70]:50968 "EHLO foss.arm.com"
+        id S1753312AbeEGWjO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 May 2018 18:39:14 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47447 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752158AbeEGW3R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 May 2018 18:29:17 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C5B480D;
-        Mon,  7 May 2018 15:29:17 -0700 (PDT)
-Received: from dupont (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD86F3F592;
-        Mon,  7 May 2018 15:29:16 -0700 (PDT)
-Date:   Mon, 7 May 2018 17:29:15 -0500
-From:   Kim Phillips <kim.phillips@arm.com>
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: coresight: documentation: update sysfs section
-Message-Id: <20180507172915.c032cd71c07b1849bf419a5f@arm.com>
-Organization: Arm
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1752929AbeEGWjN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 May 2018 18:39:13 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (charybdis-ext.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 6BBE0AEF9;
+        Mon,  7 May 2018 22:39:11 +0000 (UTC)
+Date:   Mon, 7 May 2018 22:39:10 +0000
+From:   "Luis R. Rodriguez" <mcgrof@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v7 1/4] ipc: IPCMNI limit check for msgmni and shmmni
+Message-ID: <20180507223910.GW27853@wotan.suse.de>
+References: <1525726752-29281-1-git-send-email-longman@redhat.com>
+ <1525726752-29281-2-git-send-email-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1525726752-29281-2-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Align and show updated ls devices output from the TC2, based on
-  current driver
+On Mon, May 07, 2018 at 04:59:09PM -0400, Waiman Long wrote:
+> A user can write arbitrary integer values to msgmni and shmmni sysctl
+> parameters without getting error, but the actual limit is really
+> IPCMNI (32k). This can mislead users as they think they can get a
+> value that is not real.
+> 
+> The right limits are now set for msgmni and shmmni so that the users
+> will become aware if they set a value outside of the acceptable range.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  ipc/ipc_sysctl.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
+> index 8ad93c2..f87cb29 100644
+> --- a/ipc/ipc_sysctl.c
+> +++ b/ipc/ipc_sysctl.c
+> @@ -99,6 +99,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+>  static int zero;
+>  static int one = 1;
+>  static int int_max = INT_MAX;
+> +static int ipc_mni = IPCMNI;
+>  
+>  static struct ctl_table ipc_kern_table[] = {
+>  	{
+> @@ -120,7 +121,9 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+>  		.data		= &init_ipc_ns.shm_ctlmni,
+>  		.maxlen		= sizeof(init_ipc_ns.shm_ctlmni),
+>  		.mode		= 0644,
+> -		.proc_handler	= proc_ipc_dointvec,
+> +		.proc_handler	= proc_ipc_dointvec_minmax,
+> +		.extra1		= &zero,
+> +		.extra2		= &ipc_mni,
+>  	},
+>  	{
+>  		.procname	= "shm_rmid_forced",
+> @@ -147,7 +150,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+>  		.mode		= 0644,
+>  		.proc_handler	= proc_ipc_dointvec_minmax,
+>  		.extra1		= &zero,
+> -		.extra2		= &int_max,
+> +		.extra2		= &ipc_mni,
+>  	},
+>  	{
+>  		.procname	= "auto_msgmni",
+> -- 
+> 1.8.3.1
 
-- Provide an example from an ETMv4 based system (Juno)
+It seems negative values are not allowed, if true then having
+a caller to use proc_douintvec_minmax() would help with ensuring
+no invalid negative input values are used as well.
 
-- Reflect changes to the way the RAM write pointer is accessed since
-  it got changed in commit 7d83d17795ef ("coresight: tmc: adding sysFS
-  management entries").
-
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Kim Phillips <kim.phillips@arm.com>
----
- Documentation/trace/coresight.txt | 40 ++++++++++++++++++-------------
- 1 file changed, 24 insertions(+), 16 deletions(-)
-
-diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.txt
-index 6f0120c3a4f1..d23d6354b372 100644
---- a/Documentation/trace/coresight.txt
-+++ b/Documentation/trace/coresight.txt
-@@ -144,10 +144,21 @@ If everything goes well during the registration process the new devices will
- show up under /sys/bus/coresight/devices, as showns here for a TC2 platform:
- 
- root:~# ls /sys/bus/coresight/devices/
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm  replicator
-+20030000.tpiu  2201c000.ptm	2203c000.etm  2203e000.etm
- root:~#
- 
-+and here for a Juno platform:
-+
-+root@juno:~# ls /sys/bus/coresight/devices/
-+20010000.etf	 20120000.replicator  22040000.etm     230c0000.funnel
-+20030000.tpiu	 20130000.funnel      220c0000.funnel  23140000.etm
-+20040000.funnel  20140000.etf	      22140000.etm     23240000.etm
-+20070000.etr	 20150000.funnel      23040000.etm     23340000.etm
-+root@juno:~# 
-+
-+Note the Juno uses an Embedded Trace Router (ETR) instead of an ETB.
-+
- The functions take a "struct coresight_device", which looks like this:
- 
- struct coresight_desc {
-@@ -193,16 +204,16 @@ the information carried in "THIS_MODULE".
- How to use the tracer modules
- -----------------------------
- 
--Before trace collection can start, a coresight sink needs to be identify.
-+Before trace collection can start, a coresight sink needs to be identified.
- There is no limit on the amount of sinks (nor sources) that can be enabled at
- any given moment.  As a generic operation, all device pertaining to the sink
- class will have an "active" entry in sysfs:
- 
- root:/sys/bus/coresight/devices# ls
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm  replicator
-+20030000.tpiu  2201c000.ptm	2203c000.etm  2203e000.etm
- root:/sys/bus/coresight/devices# ls 20010000.etb
--enable_sink  status  trigger_cntr
-+enable_sink  mgmt  power  subsystem  trigger_cntr  uevent
- root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
- root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
- 1
-@@ -216,16 +227,13 @@ trigger a trace capture:
- root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
- root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
- 1
--root:/sys/bus/coresight/devices# cat 20010000.etb/status
--Depth:          0x2000
--Status:         0x1
--RAM read ptr:   0x0
--RAM wrt ptr:    0x19d3   <----- The write pointer is moving
--Trigger cnt:    0x0
--Control:        0x1
--Flush status:   0x0
--Flush ctrl:     0x2001
--root:/sys/bus/coresight/devices#
-+
-+Observe the write pointer moving:
-+
-+root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
-+0x1a8
-+root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
-+0x19a6
- 
- Trace collection is stopped the same way:
- 
--- 
-2.17.0
-
+  Luis
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
