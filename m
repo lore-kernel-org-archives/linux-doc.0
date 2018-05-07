@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E90207DE74
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 12:30:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A6FB7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 12:31:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752223AbeEGM3v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 08:29:51 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:33211 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752213AbeEGM3r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 May 2018 08:29:47 -0400
-Received: by mail-wr0-f194.google.com with SMTP id o4-v6so28564642wrm.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 May 2018 05:29:47 -0700 (PDT)
+        id S1752349AbeEGMbK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 May 2018 08:31:10 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:40791 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752342AbeEGMbJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 May 2018 08:31:09 -0400
+Received: by mail-wm0-f66.google.com with SMTP id j5-v6so15086317wme.5
+        for <linux-doc@vger.kernel.org>; Mon, 07 May 2018 05:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=PuAMe2802YQ0/KNepyeqlDtNx5qypSMcJoXAVUr5NXo=;
-        b=ZIp72EpJGL5u8InEJGSMEeDKab5qQ/txmbGOwkDF9Y9/cd5zlaKNxgKlSJoQ1poXTF
-         /JFbsnGWZKd3wVBYj4dzjgFfIoLM1Z/qsaIwQ9ccsJwjjvBJQKjXRXfOQNd+9A0eGesL
-         O+v/4ovG2rXvEZ2sOoLWkfRFqYyOjyObJIbLU=
+        bh=BguRn9heUdLD9nqCv2WrVJczNmS+9tu6hdZYJP/3NQ0=;
+        b=RO/Fvsh/nUVbkElWVIMGr1zdN35hyiIdh69SD4nbuH9C32GLFt77G/V6mTh/B8v38o
+         torhdpEVrS7PlExYJ2X+IGPrUz/l3SB5vOBhPwxkKFPO1xnc25xvR4EyTKiYf189g9ce
+         1RHh71byjJlfNYJGROP3eSHEIfoMzBLmnatV4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=PuAMe2802YQ0/KNepyeqlDtNx5qypSMcJoXAVUr5NXo=;
-        b=dXOlGSjrOeuIONCEr3V1f+yDcITuMkqcdFZaNVG2qDQXz85jN93F+rd3a4uqUlc3VQ
-         mnwVKnsru9s9n+gYBhEjh4rS3fByBxLUtn9bwhilNh8tis80tgWGmO/JwutqD40AEC2d
-         AARmym40+6JGDueoLHOy0MRYb2FnZ7T3zeLpFecElPFy/bP49op4G1Up8xP6l1+CV84e
-         S4PVkK6vyutUTGlwi2ndN2q2TnhGJX+9cpzAYJj0ydsXgv96ZZo+I7g1TRllYXOb7yxo
-         v2uF/B0Umi3pbqxR6dkkrsHDaJvRH/7CHvA2B3nkj+RF9X1b5dKQ1M9I+nSaBxJyQiAZ
-         Z6tA==
-X-Gm-Message-State: ALQs6tDxkeYvo1cFaMcE9ogJbpvn7b2JNhjPZgWaTCk+EMEiEyQf00JR
-        7QeoOaBnO+36SQ4e/+3V+5J7Bll8goE=
-X-Google-Smtp-Source: AB8JxZomL4kCH9b1gfL6auOz+x8xA/ysDujpM2AzfGk4pfJyovbEtmaWuaAab9T6ZXK96nP52Jq1sQ==
-X-Received: by 2002:adf:860d:: with SMTP id 13-v6mr30608900wrv.12.1525696185349;
-        Mon, 07 May 2018 05:29:45 -0700 (PDT)
+        bh=BguRn9heUdLD9nqCv2WrVJczNmS+9tu6hdZYJP/3NQ0=;
+        b=BAuO91PLjhAVckuAbsQtNZfjKDsDcXWQ3Xm3NDfG6UxGzYcVx4pBo+Vq7QT1azT7V0
+         5mmy7V/aqm05AmK+gXJigjQc5fMG9k9dCsbcW70vKwNRzt5k1ukqLKb6aA1YhihiWYmh
+         f8bvjnwhlINiFpMhVZDa0C0H1KnUx87G/LLv/47mNLE+GppE+rxanEYWZ2eYWh8kRK2/
+         p7UirawRyONXia53T5LjFfiqkoN/NjVqrEZN1cjPEZZFFZjDq3VhuOP1peGaScdTB+tV
+         u3Qneec0N1SCUeh3c7HTCssTe2/R6RmhE9YILUdQqd2g9E/zHmQH/hvmA2YHrpnQYjTj
+         5zIw==
+X-Gm-Message-State: ALKqPweJEhKT8y3jCQfGIkCNEYlupbZ33fKceq8uEJ75x27CcxXhPOvS
+        c7ceyORjIfwmevOyCRQZCRw+fw==
+X-Google-Smtp-Source: AB8JxZoRG+stxEvnhtm2z+AyDF3sqtMlVCEtOS5G0/TlGk2+ztQTbdk0YvkzwcAnqpggyB0mPCF+ww==
+X-Received: by 10.28.59.212 with SMTP id i203mr726482wma.41.1525696267906;
+        Mon, 07 May 2018 05:31:07 -0700 (PDT)
 Received: from andrea (85.100.broadband17.iol.cz. [109.80.100.85])
-        by smtp.gmail.com with ESMTPSA id m17-v6sm21781705wrh.3.2018.05.07.05.29.43
+        by smtp.gmail.com with ESMTPSA id a129-v6sm6329374wme.3.2018.05.07.05.31.06
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 07 May 2018 05:29:44 -0700 (PDT)
-Date:   Mon, 7 May 2018 14:29:37 +0200
+        Mon, 07 May 2018 05:31:07 -0700 (PDT)
+Date:   Mon, 7 May 2018 14:31:04 +0200
 From:   Andrea Parri <andrea.parri@amarulasolutions.com>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -65,110 +65,105 @@ Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Akira Yokosawa <akiyks@gmail.com>,
         Matthew Wilcox <mawilcox@microsoft.com>,
         Jeff Layton <jlayton@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Elena Reshetova <elena.reshetova@intel.com>,
         "Tobin C. Harding" <me@tobin.cc>,
         SeongJae Park <sj38.park@gmail.com>,
         Ingo Molnar <mingo@kernel.org>,
         Helmut Grohne <h.grohne@intenta.de>
-Subject: Re: [PATCH 05/18] docs: core-api: add cachetlb documentation
-Message-ID: <20180507122937.GA5813@andrea>
+Subject: Re: [PATCH 07/18] docs: core-api: add circular-buffers documentation
+Message-ID: <20180507123104.GB5813@andrea>
 References: <cover.1525684985.git.mchehab+samsung@kernel.org>
- <07b59879d34502828467f0190f941e23e08fdc81.1525684985.git.mchehab+samsung@kernel.org>
+ <93ca8a46ed15b23d522ce514dbda62bd64d4584e.1525684985.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <07b59879d34502828467f0190f941e23e08fdc81.1525684985.git.mchehab+samsung@kernel.org>
+In-Reply-To: <93ca8a46ed15b23d522ce514dbda62bd64d4584e.1525684985.git.mchehab+samsung@kernel.org>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 07, 2018 at 06:35:41AM -0300, Mauro Carvalho Chehab wrote:
-> The cachetlb.txt is already in ReST format. So, move it to the
+On Mon, May 07, 2018 at 06:35:43AM -0300, Mauro Carvalho Chehab wrote:
+> The circular-buffers.txt is already in ReST format. So, move it to the
 > core-api guide, where it belongs.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 > ---
->  Documentation/00-INDEX                                | 2 --
->  Documentation/{cachetlb.txt => core-api/cachetlb.rst} | 0
->  Documentation/core-api/index.rst                      | 1 +
->  Documentation/memory-barriers.txt                     | 2 +-
->  Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
+>  Documentation/00-INDEX                                          | 2 --
+>  .../{circular-buffers.txt => core-api/circular-buffers.rst}     | 0
+>  Documentation/core-api/index.rst                                | 1 +
+>  Documentation/memory-barriers.txt                               | 2 +-
+>  Documentation/translations/ko_KR/memory-barriers.txt            | 2 +-
 >  5 files changed, 3 insertions(+), 4 deletions(-)
->  rename Documentation/{cachetlb.txt => core-api/cachetlb.rst} (100%)
+>  rename Documentation/{circular-buffers.txt => core-api/circular-buffers.rst} (100%)
 
-I see a few "inline" references to the .txt file in -rc4 (see below):
-I am not sure if you managed to update them too.
+Similarly:
 
-./arch/microblaze/include/asm/cacheflush.h:/* Look at Documentation/cachetlb.txt */
-./arch/unicore32/include/asm/cacheflush.h: *	See Documentation/cachetlb.txt for more information.
-./arch/arm64/include/asm/cacheflush.h: *	See Documentation/cachetlb.txt for more information. Please note that
-./arch/arm/include/asm/cacheflush.h: *	See Documentation/cachetlb.txt for more information.
-./arch/xtensa/include/asm/cacheflush.h: * (see also Documentation/cachetlb.txt)
-./arch/xtensa/include/asm/cacheflush.h:/* This is not required, see Documentation/cachetlb.txt */
+./include/linux/circ_buf.h: * See Documentation/circular-buffers.txt for more information.
+./drivers/lightnvm/pblk-rb.c: * (Documentation/circular-buffers.txt)
+./drivers/media/dvb-core/dvb_ringbuffer.c:	 * for memory barriers also see Documentation/circular-buffers.txt
 
   Andrea
 
 
 > 
 > diff --git a/Documentation/00-INDEX b/Documentation/00-INDEX
-> index 53699c79ee54..04074059bcdc 100644
+> index c6b81ef9827b..a9dd1384d8e3 100644
 > --- a/Documentation/00-INDEX
 > +++ b/Documentation/00-INDEX
-> @@ -76,8 +76,6 @@ bus-devices/
->  	- directory with info on TI GPMC (General Purpose Memory Controller)
->  bus-virt-phys-mapping.txt
->  	- how to access I/O mapped memory from within device drivers.
-> -cachetlb.txt
-> -	- describes the cache/TLB flushing interfaces Linux uses.
->  cdrom/
+> @@ -80,8 +80,6 @@ cdrom/
 >  	- directory with information on the CD-ROM drivers that Linux has.
 >  cgroup-v1/
-> diff --git a/Documentation/cachetlb.txt b/Documentation/core-api/cachetlb.rst
+>  	- cgroups v1 features, including cpusets and memory controller.
+> -circular-buffers.txt
+> -	- how to make use of the existing circular buffer infrastructure
+>  clk.txt
+>  	- info on the common clock framework
+>  cma/
+> diff --git a/Documentation/circular-buffers.txt b/Documentation/core-api/circular-buffers.rst
 > similarity index 100%
-> rename from Documentation/cachetlb.txt
-> rename to Documentation/core-api/cachetlb.rst
+> rename from Documentation/circular-buffers.txt
+> rename to Documentation/core-api/circular-buffers.rst
 > diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index c670a8031786..d4d71ee564ae 100644
+> index d4d71ee564ae..3864de589126 100644
 > --- a/Documentation/core-api/index.rst
 > +++ b/Documentation/core-api/index.rst
-> @@ -14,6 +14,7 @@ Core utilities
->     kernel-api
->     assoc_array
->     atomic_ops
-> +   cachetlb
->     refcount-vs-atomic
->     cpu_hotplug
->     idr
+> @@ -26,6 +26,7 @@ Core utilities
+>     genalloc
+>     errseq
+>     printk-formats
+> +   circular-buffers
+>  
+>  Interfaces for kernel debugging
+>  ===============================
 > diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index 6dafc8085acc..983249906fc6 100644
+> index 983249906fc6..33b8bc9573f8 100644
 > --- a/Documentation/memory-barriers.txt
 > +++ b/Documentation/memory-barriers.txt
-> @@ -2903,7 +2903,7 @@ is discarded from the CPU's cache and reloaded.  To deal with this, the
->  appropriate part of the kernel must invalidate the overlapping bits of the
->  cache on each CPU.
+> @@ -3083,7 +3083,7 @@ CIRCULAR BUFFERS
+>  Memory barriers can be used to implement circular buffering without the need
+>  of a lock to serialise the producer with the consumer.  See:
 >  
-> -See Documentation/cachetlb.txt for more information on cache management.
-> +See Documentation/core-api/cachetlb.rst for more information on cache management.
+> -	Documentation/circular-buffers.txt
+> +	Documentation/core-api/circular-buffers.rst
 >  
+>  for details.
 >  
->  CACHE COHERENCY VS MMIO
 > diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-> index 0a0930ab4156..081937577c1a 100644
+> index 081937577c1a..2ec5fe0c9cf4 100644
 > --- a/Documentation/translations/ko_KR/memory-barriers.txt
 > +++ b/Documentation/translations/ko_KR/memory-barriers.txt
-> @@ -2846,7 +2846,7 @@ CPU 의 캐시에서 RAM 으로 쓰여지는 더티 캐시 라인에 의해 덮
->  문제를 해결하기 위해선, 커널의 적절한 부분에서 각 CPU 의 캐시 안의 문제가 되는
->  비트들을 무효화 시켜야 합니다.
+> @@ -3023,7 +3023,7 @@ smp_mb() 가 아니라 virt_mb() 를 사용해야 합니다.
+>  동기화에 락을 사용하지 않고 구현하는데에 사용될 수 있습니다.  더 자세한 내용을
+>  위해선 다음을 참고하세요:
 >  
-> -캐시 관리에 대한 더 많은 정보를 위해선 Documentation/cachetlb.txt 를
-> +캐시 관리에 대한 더 많은 정보를 위해선 Documentation/core-api/cachetlb.rst 를
->  참고하세요.
+> -	Documentation/circular-buffers.txt
+> +	Documentation/core-api/circular-buffers.rst
 >  
 >  
+>  =========
 > -- 
 > 2.17.0
 > 
