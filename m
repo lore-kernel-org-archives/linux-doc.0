@@ -5,82 +5,125 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB59C7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 19:14:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A24A17DE74
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 20:59:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752719AbeEGTOb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 15:14:31 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:50556 "EHLO mx1.redhat.com"
+        id S1753294AbeEGU7V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 May 2018 16:59:21 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:49610 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752099AbeEGTOa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 May 2018 15:14:30 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        id S1752950AbeEGU7V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 May 2018 16:59:21 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A517784257;
-        Mon,  7 May 2018 19:14:29 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-120-35.rdu2.redhat.com [10.10.120.35])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 01C972024CA1;
-        Mon,  7 May 2018 19:14:28 +0000 (UTC)
-Subject: Re: [PATCH v6 0/8] ipc: Clamp *mni to the real IPCMNI limit &
- increase that limit
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        by mx1.redhat.com (Postfix) with ESMTPS id 70E67406C740;
+        Mon,  7 May 2018 20:59:20 +0000 (UTC)
+Received: from llong.com (ovpn-120-35.rdu2.redhat.com [10.10.120.35])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C861E2166BAD;
+        Mon,  7 May 2018 20:59:19 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>
-References: <1524862838-8247-1-git-send-email-longman@redhat.com>
- <87po2ex0k6.fsf@xmission.com>
- <5aac35f0-77e3-5693-ddf0-a03695ff1192@redhat.com>
- <87tvrqf66r.fsf@xmission.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <a767b365-0646-55fe-6c23-f05c212c9104@redhat.com>
-Date:   Mon, 7 May 2018 15:14:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <87tvrqf66r.fsf@xmission.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Mon, 07 May 2018 19:14:29 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Mon, 07 May 2018 19:14:29 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v7 0/4] ipc: IPCMNI limit check for *mni & increase that limit
+Date:   Mon,  7 May 2018 16:59:08 -0400
+Message-Id: <1525726752-29281-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 07 May 2018 20:59:20 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 07 May 2018 20:59:20 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/02/2018 11:06 AM, Eric W. Biederman wrote:
->
->>> and or users that may or may not exist.  If you can find something that
->>> will care sure.  We need to avoid breaking userspace and causing
->>> regressions.  However as this stands it looks you are making maintenance
->>> of the kernel more difficult to avoid having to look to see if there are
->>> monsters under the bed.
->> I shall admit that it can be hard to find applications that will
->> explicitly need that as we usually don't have access to the applications
->> that the customers have. It is more a correctness issue where the
->> existing code is kind of lying about what can actually be supported. I
->> just want to make the users more aware of what the right limits are.
-> You presume the kernel is lying to applications.  I admit the kernel
-> can lie to applications.  I don't see any evidence that the kernel is
-> actually doing so.  So far (to me) it looks like a large number of sysv
-> shared memory segments is not particulalry common.
->
-> So I would not be at all surprised if no regressions would be generated
-> if you simply deny setting the value past the maximum.
+v6->v7:
+ - Drop the range clamping code and just return error instead for now
+   until there is user request for clamping support.
+ - Fix compilation error when CONFIG_SYSVIPC_SYSCTL isn't defined.
 
-Maybe you are right. I will update the patchset to fail the update if
-the range is exceeded since I had added option of extending the limit if
-the users choose to do so.
+v5->v6:
+ - Consolidate the 3 ctl_table flags into 2.
+ - Make similar changes to proc_doulongvec_minmax() and its associates
+   to complete the clamping change.
+ - Remove the sysctl registration failure test patch for now for later
+   consideration.
+ - Add extra braces to patch 1 to reduce code diff in a later patch.
 
-Cheers,
-Longman
+v4->v5:
+ - Revert the flags back to 16-bit so that there will be no change to
+   the size of ctl_table.
+ - Enhance the sysctl_check_flags() as requested by Luis to perform more
+   checks to spot incorrect ctl_table entries.
+ - Change the sysctl selftest to use dummy sysctls instead of production
+   ones & enhance it to do more checks.
+ - Add one more sysctl selftest for registration failure.
+ - Add 2 ipc patches to add an extended mode to increase IPCMNI from
+   32k to 2M.
+ - Miscellaneous change to incorporate feedback comments from
+   reviewers.
+
+v3->v4:
+ - Remove v3 patches 1 & 2 as they have been merged into the mm tree.
+ - Change flags from uint16_t to unsigned int.
+ - Remove CTL_FLAGS_OOR_WARNED and use pr_warn_ratelimited() instead.
+ - Simplify the warning message code.
+ - Add a new patch to fail the ctl_table registration with invalid flag.
+ - Add a test case for range clamping in sysctl selftest.
+
+v2->v3:
+ - Fix kdoc comment errors.
+ - Incorporate comments and suggestions from Luis R. Rodriguez.
+ - Add a patch to fix a typo error in fs/proc/proc_sysctl.c.
+
+v1->v2:
+ - Add kdoc comments to the do_proc_do{u}intvec_minmax_conv_param
+   structures.
+ - Add a new flags field to the ctl_table structure for specifying
+   whether range clamping should be activated instead of adding new
+   sysctl parameter handlers.
+ - Clamp the semmni value embedded in the multi-values sem parameter.
+
+v4 patch: https://lkml.org/lkml/2018/3/12/867
+v5 patch: https://lkml.org/lkml/2018/3/16/1106
+v6 patch: https://lkml.org/lkml/2018/4/27/1094
+
+The sysctl parameters msgmni, shmmni and semmni have an inherent limit
+of IPC_MNI (32k). However, users may not be aware of that because they
+can write a value much higher than that without getting any error or
+notification. Reading the parameters back will show the newly written
+values which are not real.
+
+The real IPCMNI limit is now enforced to make sure that users won't
+put in an unrealistic value. The first 2 patches enforce the limits.
+
+There are also users out there requesting increase in the IPCMNI value.
+The last 2 patches attempt to do that by using a boot kernel parameter
+"ipcmni_extend" to increase the IPCMNI limit from 32k to 2M if the users
+really want the extended value.
+
+Waiman Long (4):
+  ipc: IPCMNI limit check for msgmni and shmmni
+  ipc: IPCMNI limit check for semmni
+  ipc: Allow boot time extension of IPCMNI from 32k to 2M
+  ipc: Conserve sequence numbers in extended IPCMNI mode
+
+ Documentation/admin-guide/kernel-parameters.txt |  3 ++
+ include/linux/ipc_namespace.h                   |  1 +
+ ipc/ipc_sysctl.c                                | 42 +++++++++++++++++++--
+ ipc/util.c                                      | 41 ++++++++++++++-------
+ ipc/util.h                                      | 49 +++++++++++++++++++++----
+ 5 files changed, 112 insertions(+), 24 deletions(-)
+
+-- 
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
