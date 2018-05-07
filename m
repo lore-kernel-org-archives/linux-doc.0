@@ -2,44 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1CC7A7E27D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 09:39:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB6F97E27D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 09:39:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752345AbeEGJi4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 05:38:56 -0400
-Received: from osg.samsung.com ([64.30.133.232]:49868 "EHLO osg.samsung.com"
+        id S1752008AbeEGJiy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 May 2018 05:38:54 -0400
+Received: from osg.samsung.com ([64.30.133.232]:60958 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752470AbeEGJgH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1752474AbeEGJgH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Mon, 7 May 2018 05:36:07 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id CC2662344C;
-        Mon,  7 May 2018 02:36:06 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 54A3D23456;
+        Mon,  7 May 2018 02:36:07 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0rH1d_mCTp1B; Mon,  7 May 2018 02:36:05 -0700 (PDT)
+        with ESMTP id faDeM43qJ7Vx; Mon,  7 May 2018 02:36:06 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.109.86.dynamic.adsl.gvt.net.br [177.41.109.86])
-        by osg.samsung.com (Postfix) with ESMTPSA id 56A82233E6;
+        by osg.samsung.com (Postfix) with ESMTPSA id 5619D233E5;
         Mon,  7 May 2018 02:36:01 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.90_1)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fFcYp-000884-3q; Mon, 07 May 2018 06:35:59 -0300
+        id 1fFcYo-00087I-P0; Mon, 07 May 2018 06:35:58 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org
-Subject: [PATCH 15/18] iio: iio.h: use nested struct support on kernel-doc markup
-Date:   Mon,  7 May 2018 06:35:51 -0300
-Message-Id: <1a31240699b1b6ee089b5b36889ab27ae14ad94e.1525684985.git.mchehab+samsung@kernel.org>
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Vinod Koul <vinod.koul@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, linux-crypto@vger.kernel.org
+Subject: [PATCH 03/18] docs: */index.rst: Add newer documents to their respective index.rst
+Date:   Mon,  7 May 2018 06:35:39 -0300
+Message-Id: <e6852448ac11e827f86dab1e183b82af6a320559.1525684985.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525684985.git.mchehab+samsung@kernel.org>
 References: <cover.1525684985.git.mchehab+samsung@kernel.org>
@@ -50,59 +58,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Solve those Sphinx warnings:
+A number of new docs were added, but they're currently not on
+the index.rst from the session they're supposed to be, causing
+Sphinx warnings.
 
-    ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.sign' not described in 'iio_chan_spec'
-    ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.realbits' not described in 'iio_chan_spec'
-    ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.storagebits' not described in 'iio_chan_spec'
-    ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.shift' not described in 'iio_chan_spec'
-    ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.repeat' not described in 'iio_chan_spec'
-    ./include/linux/iio/iio.h:270: warning: Function parameter or member 'scan_type.endianness' not described in 'iio_chan_spec'
-
-    ./include/linux/iio/iio.h:191: WARNING: Unexpected indentation.
-    ./include/linux/iio/iio.h:192: WARNING: Block quote ends without a blank line; unexpected unindent.
-    ./include/linux/iio/iio.h:198: WARNING: Definition list ends without a blank line; unexpected unindent.
+Add them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- include/linux/iio/iio.h | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ Documentation/crypto/index.rst     | 1 +
+ Documentation/driver-api/index.rst | 1 +
+ Documentation/process/index.rst    | 1 +
+ Documentation/security/index.rst   | 2 ++
+ 4 files changed, 5 insertions(+)
 
-diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-index 11579fd4126e..a74cb177dc6f 100644
---- a/include/linux/iio/iio.h
-+++ b/include/linux/iio/iio.h
-@@ -183,18 +183,18 @@ struct iio_event_spec {
-  * @address:		Driver specific identifier.
-  * @scan_index:		Monotonic index to give ordering in scans when read
-  *			from a buffer.
-- * @scan_type:		sign:		's' or 'u' to specify signed or unsigned
-- *			realbits:	Number of valid bits of data
-- *			storagebits:	Realbits + padding
-- *			shift:		Shift right by this before masking out
-- *					realbits.
-- *			repeat:		Number of times real/storage bits
-- *					repeats. When the repeat element is
-- *					more than 1, then the type element in
-- *					sysfs will show a repeat value.
-- *					Otherwise, the number of repetitions is
-- *					omitted.
-- *			endianness:	little or big endian
-+ * @scan_type:		struct describing the scan type
-+ * @scan_type.sign:		's' or 'u' to specify signed or unsigned
-+ * @scan_type.realbits:		Number of valid bits of data
-+ * @scan_type.storagebits:	Realbits + padding
-+ * @scan_type.shift:		Shift right by this before masking out
-+ *				realbits.
-+ * @scan_type.repeat:		Number of times real/storage bits repeats.
-+ *				When the repeat element is more than 1, then
-+ *				the type element in sysfs will show a repeat
-+ *				value. Otherwise, the number of repetitions
-+ *				is omitted.
-+ * @scan_type.endianness:	little or big endian
-  * @info_mask_separate: What information is to be exported that is specific to
-  *			this channel.
-  * @info_mask_separate_available: What availability information is to be
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index 94c4786f2573..c4ff5d791233 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -20,5 +20,6 @@ for cryptographic use cases, as well as programming examples.
+    architecture
+    devel-algos
+    userspace-if
++   crypto_engine
+    api
+    api-samples
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 6d8352c0f354..3ac51c94f97b 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -18,6 +18,7 @@ available subsections can be seen below.
+    infrastructure
+    pm/index
+    device-io
++   device_connection
+    dma-buf
+    device_link
+    message-based
+diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+index 1c9fe657ed01..37bd0628b6ee 100644
+--- a/Documentation/process/index.rst
++++ b/Documentation/process/index.rst
+@@ -52,6 +52,7 @@ lack of a better place.
+    adding-syscalls
+    magic-number
+    volatile-considered-harmful
++   clang-format
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/security/index.rst b/Documentation/security/index.rst
+index 298a94a33f05..85492bfca530 100644
+--- a/Documentation/security/index.rst
++++ b/Documentation/security/index.rst
+@@ -9,5 +9,7 @@ Security Documentation
+    IMA-templates
+    keys/index
+    LSM
++   LSM-sctp
++   SELinux-sctp
+    self-protection
+    tpm/index
 -- 
 2.17.0
 
