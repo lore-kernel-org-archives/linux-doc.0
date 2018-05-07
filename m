@@ -1,103 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 684807DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 15:41:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 742DD7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 15:49:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752282AbeEGPlJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 11:41:09 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:41234 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751931AbeEGPlI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 May 2018 11:41:08 -0400
-Received: by mail-wr0-f194.google.com with SMTP id g21-v6so29216175wrb.8
-        for <linux-doc@vger.kernel.org>; Mon, 07 May 2018 08:41:08 -0700 (PDT)
+        id S1752196AbeEGPtL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 May 2018 11:49:11 -0400
+Received: from mail-yw0-f171.google.com ([209.85.161.171]:40992 "EHLO
+        mail-yw0-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751947AbeEGPtK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 May 2018 11:49:10 -0400
+Received: by mail-yw0-f171.google.com with SMTP id q125-v6so4646077ywc.8;
+        Mon, 07 May 2018 08:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=4le+Nyz580qV7Zu4Xs9xypkA41QcV//9rNnMfCXQXlY=;
-        b=kSAmd6SAJ9ByFkVYJz1g5imwqPBzU6ciOrHl8B7RD+0flb3eG8rvLW1pIQxhSsrm7u
-         QUjjMvNKff12+vXPKDcuALTeerdYw3FYsb/EsGGwg5PiTZ4FFixVLu7rPUOCm8zCGe1y
-         1yJyomhOmbEuF5y439ZalBzRMP1KXSxI0E6+g=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=n54zLLf3NPznh4KdvZZFwLWSH22oBhBH1oVbfm4mF7o=;
+        b=ryQCqiFySuigH2ZMMVEg19M3JB3gXWaSJWJF/J/Fap3wa3fm/o/uoJ8X8rIL5t79xu
+         t1VKAUSw78K73jxzaaHK2bfSGM8+j+Bx1Eib5CDXvaAAtU72QjanIY4xd+6IMivHkmpo
+         XJVZtrULHbB6rKDiE6BVR1HJS7VsHwSEJxfJFilOtayfmHW5EkPJVj1STB0320LQz5iW
+         zyNSrXduzVlGgY+mkXhumqSXpsNfXyicLIlzosc3JL6bMqKRPUQuIpjs0wErVOXRXdi3
+         QAKlbiQsOdeuamsb4Z/BSmCM4iasXHRzYGb1n2+s2S/cHVhilbkwO+M1X1Dj982qlzoj
+         7Z7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4le+Nyz580qV7Zu4Xs9xypkA41QcV//9rNnMfCXQXlY=;
-        b=Svj0jN1boORjHfIlz3TUSdSXQqQHN2w7nYDcADEYoKjjo1DxplspnyLatV+2VF/ott
-         0+y3BtUMU6SxCzjAikhp1J1N1e6oPAA4y+GD06NWz0yeEl7FIEt7jwRSAmOpUSbbiTXC
-         ywoxGkqMXvKBgSPkyzW8OBTp21WsFuHiuhGOhL8kpvR/z5iNtGT+2cFTGodNtChxpG2K
-         mZkoauzKHSMTirXnHBn0xoKr53kKzrvM9pkAdnH98uay/rGk7a278GiKZzzcbXkhPv5/
-         P6gJ5QdBB12pPBaRFrbKfAmiJldeLhuGgbSP/K7V1t+U8P0nssmma21qdVqeKaQY5aXd
-         Y0UQ==
-X-Gm-Message-State: ALQs6tAxjzk8v13nMETFovW9wIwVsdKQw72Hu5lGJJmLga2UC+iKc4iB
-        otHjESQrw79ofY6z1aSqxWZKbET1
-X-Google-Smtp-Source: AB8JxZqgPtFsL6lwS3GnX1xLM9bVTHV7X1ESBjv5NTIqBstm/qKeKU4faUFO2Jv6CXV47KcNiG7wgg==
-X-Received: by 2002:adf:84c3:: with SMTP id 61-v6mr31057367wrg.37.1525707667536;
-        Mon, 07 May 2018 08:41:07 -0700 (PDT)
-Received: from localhost.localdomain ([94.230.152.15])
-        by smtp.gmail.com with ESMTPSA id m134-v6sm11283836wmg.13.2018.05.07.08.41.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 07 May 2018 08:41:06 -0700 (PDT)
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrea Parri <andrea.parri@amarulasolutions.com>
-Subject: [PATCH] certificate handling: Update references to the documentation
-Date:   Mon,  7 May 2018 17:40:55 +0200
-Message-Id: <1525707655-3542-1-git-send-email-andrea.parri@amarulasolutions.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=n54zLLf3NPznh4KdvZZFwLWSH22oBhBH1oVbfm4mF7o=;
+        b=ADZrXcULLD1qPyCKH8thR+UpKzLNrNOEnuBijzac7XDJPyB1Xyz5W8lYGXB3vtlTFQ
+         3+QaGjRcp44xRl1NjwcW1ILbUjN5XbB197A+jf35YehitMm63EruHt+RRQYj/b4C6QFT
+         Vbt2c4pVvpDjHx+96jyPSHb7tiw6PBV3WcLKR0mspPiaoGsMJRdZPVJPwyvCOCiiKp4+
+         Pb329Nn8d+NGzw0PzSPDwOa4yRLsQ/9Vo2PhGGyPKLF71S9+gLCn/9cawE2AKTaF4ik9
+         6rCFoBIqDxXWmENkdrWRHCz4s8zhnhoWpg0suqlU10apruPtg5691P2igDY0WR4Q/iSs
+         elVQ==
+X-Gm-Message-State: ALQs6tBb0TcUSZCCUmUvYD3J8+gBzqcNXdjRZfyxp2vHKyfV81QImOFd
+        0fq3TYidLwhxGw7bvpKBW0w=
+X-Google-Smtp-Source: AB8JxZorUEwEFj7aFYpUsJ5s3wlKYnow+fO2l9SuA0pAEvULCjKTk82MffchUdf71e3wEQKB+K2sIQ==
+X-Received: by 2002:a81:2d56:: with SMTP id t83-v6mr20039676ywt.344.1525708150186;
+        Mon, 07 May 2018 08:49:10 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::2:981a])
+        by smtp.gmail.com with ESMTPSA id q127-v6sm4818117ywb.90.2018.05.07.08.49.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 07 May 2018 08:49:09 -0700 (PDT)
+Date:   Mon, 7 May 2018 08:49:08 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     linux-ide@vger.kernel.org, tglx@linutronix.de,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] libata: remove ata_sff_data_xfer_noirq()
+Message-ID: <20180507154908.GF2368884@devbig577.frc2.facebook.com>
+References: <20180504150620.6501-1-bigeasy@linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180504150620.6501-1-bigeasy@linutronix.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 94e980cc45f2b2 ("Documentation/module-signing.txt: convert to
-ReST markup") converted the .txt doc. to ReST markup, but it did not
-update the references to the doc. (including in MAINTAINERS).
+Hello, Sebastian.
 
-Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
----
- MAINTAINERS   | 2 +-
- certs/Kconfig | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Fri, May 04, 2018 at 05:06:20PM +0200, Sebastian Andrzej Siewior wrote:
+> ata_sff_data_xfer_noirq() is invoked via the ->sff_data_xfer hook. The
+> latter is invoked by ata_pio_sector(), atapi_send_cdb() and
+> __atapi_pio_bytes() which in turn is invoked by ata_sff_hsm_move().
+> The latter function requires that the "ap->lock" lock is held which
+> needs to be taken with disabled interrupts.
+> 
+> There is no need have to have ata_sff_data_xfer_noirq() which invokes
+> ata_sff_data_xfer32() with disabled interrupts because at this point the
+> interrupts are already disabled.
+> Remove the function and its references to it and replace all callers
+> with ata_sff_data_xfer32().
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index df6e9bb2559af..803d4b4ff5f1d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3347,7 +3347,7 @@ M:	David Howells <dhowells@redhat.com>
- M:	David Woodhouse <dwmw2@infradead.org>
- L:	keyrings@vger.kernel.org
- S:	Maintained
--F:	Documentation/module-signing.txt
-+F:	Documentation/admin-guide/module-signing.rst
- F:	certs/
- F:	scripts/sign-file.c
- F:	scripts/extract-cert.c
-diff --git a/certs/Kconfig b/certs/Kconfig
-index 5f7663df6e8e3..c94e93d8bccf0 100644
---- a/certs/Kconfig
-+++ b/certs/Kconfig
-@@ -13,7 +13,7 @@ config MODULE_SIG_KEY
- 
-          If this option is unchanged from its default "certs/signing_key.pem",
-          then the kernel will automatically generate the private key and
--         certificate as described in Documentation/module-signing.txt
-+         certificate as described in Documentation/admin-guide/module-signing.rst
- 
- config SYSTEM_TRUSTED_KEYRING
- 	bool "Provide system-wide ring of trusted keys"
+Can you please add irq disabled assert to ata_sff_data_xfer*()?
+
+Thanks.
+
 -- 
-2.7.4
-
+tejun
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
