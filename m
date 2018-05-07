@@ -1,65 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D8CA7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 15:52:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C802C7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 May 2018 15:56:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752144AbeEGPwY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 11:52:24 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:51945 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751951AbeEGPwX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 May 2018 11:52:23 -0400
-Received: from bigeasy by Galois.linutronix.de with local (Exim 4.80)
-        (envelope-from <bigeasy@linutronix.de>)
-        id 1fFiQz-0008QS-7P; Mon, 07 May 2018 17:52:17 +0200
-Date:   Mon, 7 May 2018 17:52:17 +0200
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     linux-ide@vger.kernel.org, tglx@linutronix.de,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] libata: remove ata_sff_data_xfer_noirq()
-Message-ID: <20180507155216.g3ycg3e5pvnmhztz@linutronix.de>
-References: <20180504150620.6501-1-bigeasy@linutronix.de>
- <20180507154908.GF2368884@devbig577.frc2.facebook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20180507154908.GF2368884@devbig577.frc2.facebook.com>
-User-Agent: NeoMutt/20180323
+        id S1752548AbeEGP46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 May 2018 11:56:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57506 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752303AbeEGP45 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 May 2018 11:56:57 -0400
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 12A982173F;
+        Mon,  7 May 2018 15:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1525708616;
+        bh=IqSxR7itApE7VDokhU9279IvlZFugLu1LUDj1SyDd6Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Zyyl694jtxzC2ojdhCdWFTz8ah0KlRV6iZr8z3xZh5G+gP2M2jtt8a2kzD1OQfU2W
+         R8sCpKqu+/JIqLB2S15CRpHP2Ec1Gqi6+wNRSEZx5ASKZXSXJTk9knumNEPIMn6pDf
+         WWeuWy8VBaV8tRk4CVQTimpcWP7b/GTkyaFRdduo=
+Date:   Tue, 8 May 2018 00:56:51 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc:     oleg@redhat.com, peterz@infradead.org, srikar@linux.vnet.ibm.com,
+        rostedt@goodmis.org, acme@kernel.org, ananth@linux.vnet.ibm.com,
+        akpm@linux-foundation.org, alexander.shishkin@linux.intel.com,
+        alexis.berlemont@gmail.com, corbet@lwn.net,
+        dan.j.williams@intel.com, jolsa@redhat.com, kan.liang@intel.com,
+        kjlx@templeofstupid.com, kstewart@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, milian.wolff@kdab.com, mingo@redhat.com,
+        namhyung@kernel.org, naveen.n.rao@linux.vnet.ibm.com,
+        pc@us.ibm.com, tglx@linutronix.de, yao.jin@linux.intel.com,
+        fengguang.wu@intel.com, jglisse@redhat.com
+Subject: Re: [PATCH v3 6/9] trace_uprobe: Support SDT markers having
+ reference count (semaphore)
+Message-Id: <20180508005651.45553d3cf72521481d16b801@kernel.org>
+In-Reply-To: <f3d066d2-a85a-bd21-d4f9-fc27e59135df@linux.ibm.com>
+References: <20180417043244.7501-1-ravi.bangoria@linux.vnet.ibm.com>
+        <20180417043244.7501-7-ravi.bangoria@linux.vnet.ibm.com>
+        <20180504134816.8633a157dd036489d9b0f1db@kernel.org>
+        <206e4a16-ae21-7da3-f752-853dc2f51947@linux.ibm.com>
+        <f3d066d2-a85a-bd21-d4f9-fc27e59135df@linux.ibm.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2018-05-07 08:49:08 [-0700], Tejun Heo wrote:
-> Hello, Sebastian.
+On Mon, 7 May 2018 13:51:21 +0530
+Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
+
+> Hi Masami,
 > 
-> On Fri, May 04, 2018 at 05:06:20PM +0200, Sebastian Andrzej Siewior wrote:
-> > ata_sff_data_xfer_noirq() is invoked via the ->sff_data_xfer hook. The
-> > latter is invoked by ata_pio_sector(), atapi_send_cdb() and
-> > __atapi_pio_bytes() which in turn is invoked by ata_sff_hsm_move().
-> > The latter function requires that the "ap->lock" lock is held which
-> > needs to be taken with disabled interrupts.
-> > 
-> > There is no need have to have ata_sff_data_xfer_noirq() which invokes
-> > ata_sff_data_xfer32() with disabled interrupts because at this point the
-> > interrupts are already disabled.
-> > Remove the function and its references to it and replace all callers
-> > with ata_sff_data_xfer32().
+> On 05/04/2018 07:51 PM, Ravi Bangoria wrote:
+> >
+> >>> +}
+> >>> +
+> >>> +static void sdt_increment_ref_ctr(struct trace_uprobe *tu)
+> >>> +{
+> >>> +	struct uprobe_map_info *info;
+> >>> +
+> >>> +	uprobe_down_write_dup_mmap();
+> >>> +	info = uprobe_build_map_info(tu->inode->i_mapping,
+> >>> +				tu->ref_ctr_offset, false);
+> >>> +	if (IS_ERR(info))
+> >>> +		goto out;
+> >>> +
+> >>> +	while (info) {
+> >>> +		down_write(&info->mm->mmap_sem);
+> >>> +
+> >>> +		if (sdt_find_vma(tu, info->mm, info->vaddr))
+> >>> +			sdt_update_ref_ctr(info->mm, info->vaddr, 1);
+> >> Don't you have to handle the error to map pages here?
+> > Correct.. I think, I've to feedback error code to probe_event_{enable|disable}
+> > and handler failure there.
 > 
-> Can you please add irq disabled assert to ata_sff_data_xfer*()?
+> I looked at this. Actually, It looks difficult to feedback errors to
+> probe_event_{enable|disable}, esp. in the mmap() case.
 
-Why irq-disabled assert? Can we use lockdep_assert_held() instead?
+Hmm, can't you roll that back if sdt_increment_ref_ctr() fails?
+If so, how does sdt_decrement_ref_ctr() work in that case?
 
-> Thanks.
+> Is it fine if we just warn sdt_update_ref_ctr() failures in dmesg? I'm
+> doing this in [PATCH 7]. (Though, it makes more sense to do that in
+> [PATCH 6], will change it in next version).
 
-Sebastian
+Of course we need to warn it at least, but the best is rejecting to
+enable it.
+
+> 
+> Any better ideas?
+> 
+> BTW, same issue exists for normal uprobe. If uprobe_mmap() fails,
+> there is no feedback to trace_uprobe and no warnigns in dmesg as
+> well !! There was a patch by Naveen to warn such failures in dmesg
+> but that didn't go in: https://lkml.org/lkml/2017/9/22/155
+
+Oops, that's a real bug. It seems the ball is in Naveen's hand.
+Naveen, could you update it according to Oleg's comment, and resend it?
+
+> 
+> Also, I'll add a check in sdt_update_ref_ctr() to make sure reference
+> counter never goes to negative incase increment fails but decrement
+> succeeds. OTOH, if increment succeeds but decrement fails, the
+> counter remains >0 but there is no harm as such, except we will
+> execute some unnecessary code.
+
+I see. Please carefully clarify whether such case is kernel's bug or not.
+I would like to know what the condition causes that uneven behavior.
+
+Thank you,
+
+> 
+> Thanks,
+> Ravi
+> 
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
