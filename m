@@ -1,122 +1,158 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AB767E679
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 18:07:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 924B77E6A4
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 18:29:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932872AbeEHSHe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 May 2018 14:07:34 -0400
-Received: from mail-pl0-f67.google.com ([209.85.160.67]:39900 "EHLO
-        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932400AbeEHSHb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 May 2018 14:07:31 -0400
-Received: by mail-pl0-f67.google.com with SMTP id q18-v6so2691003plr.6;
-        Tue, 08 May 2018 11:07:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=VS8l3hZ9OK+rBxZbMpoarfIZQY+He7GsmQCYltGHl7M=;
-        b=j/DwZ7H4WjpIqymbshDCPHKeB57qWOPuELg+pnb7m/AEMj3ir/ZV462P2WCCs5LNEW
-         NYZbaLX2tEO58tEuVCZwFlwW0bJosM+dkCNIld1vjmmbto0mQzQX80Sczx1uETC2t81Q
-         HocUE35XXmy37IdEwLRei6narYwYEZD2lMcer8UOlm70dFqmXSXXtEVD0eipqhXz4zDr
-         sd8XP2feoRcteLGbiFdnnxgEEvIfZBOjka6LZqTaTPxqCbhpH7P9RQ8BeOx5G3OxdXsv
-         K493YELjdRCnSDX0lbxaAo5ezY59z0TCnp57IzfABjeJLkZsS7SxvdtlmMc07BIVlLax
-         zkhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VS8l3hZ9OK+rBxZbMpoarfIZQY+He7GsmQCYltGHl7M=;
-        b=FGSqXiEv14tN0Ck/u2PCdv+mcjtlfPiF2mFX6v7tAItGLhvFRxUibQoYrKF6dlpPms
-         Gx567Op4A3Sslmf6LkUjryjEFBCX+pUOn79StrwlV/IAlfwmYvYbqJ0Ri6ahpB6v41W+
-         4d5gn4TBMo8WOLz0Sxju6uj8GMQWVvZZAmRHaDo/X1OgHNwFZgEPHFGGP6evR6umIB/U
-         ZFeVfguwXNclhfHvLv7EWo7eeHX1tIuB4L3s3uZpsG0SrOp2sROhLEzVN3q43SjLQp1t
-         zN1JOuAX4PWtJ7xIufvYWob89ZOc0hOKZO9oVp4VC9roT4f0k49B7uc066+7R7zxIRq2
-         087A==
-X-Gm-Message-State: ALQs6tCsihe3Vqpg9/3g0JpMyO+s0qszBogbG++CvAsEQ4bloaH5wgl5
-        0FYwpsG2vRp3Ou1XE9IR0wK39kJn
-X-Google-Smtp-Source: AB8JxZr7vSzL/2dgl9VpwK/dLlQmTBI4dL9pvP0JvYp2zCA/0mUmVOwcq59INxkdLuyzLmT+fdRpgA==
-X-Received: by 2002:a17:902:5382:: with SMTP id c2-v6mr42775966pli.335.1525802850926;
-        Tue, 08 May 2018 11:07:30 -0700 (PDT)
-Received: from gmail.com ([2620:15c:17:3:dc28:5c82:b905:e8a8])
-        by smtp.gmail.com with ESMTPSA id y20-v6sm31027033pgv.27.2018.05.08.11.07.30
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 08 May 2018 11:07:30 -0700 (PDT)
-Date:   Tue, 8 May 2018 11:07:28 -0700
-From:   Eric Biggers <ebiggers3@gmail.com>
-To:     keyrings@vger.kernel.org, David Howells <dhowells@redhat.com>
-Cc:     Ben Hutchings <ben@decadent.org.uk>, linux-doc@vger.kernel.org,
-        Eric Biggers <ebiggers@google.com>
-Subject: Re: [keyutils PATCH v2] man: keyctl_read(3): fix documentation for
- short buffer case
-Message-ID: <20180508180728.GB135321@gmail.com>
-References: <20171102180605.110627-1-ebiggers3@gmail.com>
- <20180220194234.GC70958@gmail.com>
+        id S932400AbeEHS3J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 May 2018 14:29:09 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51396 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754370AbeEHS3H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 May 2018 14:29:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=d1vJoaJWk9t6pp0a8E+eY8GGC79szae7oOIqbb9AF88=; b=NS1YPEzgR0BOST64xatZQkgAl
+        qaAFLGhXYiV1dh/ObuIS14zMB4r0hw60tM3xo4F/cwjztoGbMAWxk0jQQiwZiTQ2rXxpkREQXCG5m
+        TBW7ClMDCF7SZ+rZx+agcI4UwH4kOyw+9DaB7L8N2q8oIYAgMGQfAhVDBkgLzNtTK3H3M+KtmuSUz
+        iSXQFsrS2lwLKIApSUkTwEeAcJ8pEk7X3pcSRZG1plLphekoy3a49K9XtaE6DZ3peBi03NXRI2gEx
+        D/vLxOI8wSeW4Xd+hnZRuPVwRuw4CszZiXTl1UIjzjqIGWmUTHJegu+Itc3cRKGBbqNpl1yU1tNDl
+        LR30kowQA==;
+Received: from 177.41.109.86.dynamic.adsl.gvt.net.br ([177.41.109.86] helo=vento.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fG7MA-0006Ge-PM; Tue, 08 May 2018 18:29:01 +0000
+Date:   Tue, 8 May 2018 15:28:51 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Matthew Wilcox <mawilcox@microsoft.com>,
+        Jeff Layton <jlayton@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "Tobin C. Harding" <me@tobin.cc>
+Subject: Re: [PATCH 05/18] docs: core-api: add cachetlb documentation
+Message-ID: <20180508152851.11f39370@vento.lan>
+In-Reply-To: <20180508150507.284ef477@vento.lan>
+References: <cover.1525684985.git.mchehab+samsung@kernel.org>
+        <07b59879d34502828467f0190f941e23e08fdc81.1525684985.git.mchehab+samsung@kernel.org>
+        <20180507122937.GA5813@andrea>
+        <87y3gu43d3.fsf@intel.com>
+        <20180508150507.284ef477@vento.lan>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180220194234.GC70958@gmail.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 20, 2018 at 11:42:34AM -0800, Eric Biggers wrote:
-> On Thu, Nov 02, 2017 at 11:06:05AM -0700, Eric Biggers wrote:
-> > From: Eric Biggers <ebiggers@google.com>
-> > 
-> > When keyctl_read() is passed a buffer that is too small, the behavior is
-> > inconsistent.  Some key types will fill as much of the buffer as
-> > possible, while others won't copy anything.  Moreover, the in-kernel
-> > documentation contradicted the man page on this point.
-> > 
-> > Update the man page to say that this point is unspecified.
-> > 
-> > Signed-off-by: Eric Biggers <ebiggers@google.com>
-> > ---
-> >  man/keyctl_read.3 | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/man/keyctl_read.3 b/man/keyctl_read.3
-> > index 25821ad..852bc05 100644
-> > --- a/man/keyctl_read.3
-> > +++ b/man/keyctl_read.3
-> > @@ -33,8 +33,8 @@ permission on a key to be able to read it.
-> >  and
-> >  .I buflen
-> >  specify the buffer into which the payload data will be placed.  If the buffer
-> > -is too small, the full size of the payload will be returned and no copy will
-> > -take place.
-> > +is too small, then the full size of the payload will be returned, and the
-> > +contents of the buffer may be overwritten in some undefined way.
-> >  .P
-> >  .BR keyctl_read_alloc ()
-> >  is similar to
-> > @@ -62,8 +62,8 @@ though the byte-ordering is as appropriate for the kernel.
-> >  On success
-> >  .BR keyctl_read ()
-> >  returns the amount of data placed into the buffer.  If the buffer was too
-> > -small, then the size of buffer required will be returned, but no data will be
-> > -transferred.
-> > +small, then the size of buffer required will be returned, and the contents of
-> > +the buffer may have been overwritten in some undefined way.
-> >  .P
-> >  On success
-> >  .BR keyctl_read_alloc ()
-> > -- 
-> > 2.15.0.403.gc27cc4dac6-goog
-> > 
-> 
-> Ping.
+Em Tue, 8 May 2018 15:05:07 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
 
-Ping.
+> Em Tue, 08 May 2018 17:40:56 +0300
+> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+> 
+> > On Mon, 07 May 2018, Andrea Parri <andrea.parri@amarulasolutions.com> wrote:  
+> > > On Mon, May 07, 2018 at 06:35:41AM -0300, Mauro Carvalho Chehab wrote:    
+> > >> The cachetlb.txt is already in ReST format. So, move it to the
+> > >> core-api guide, where it belongs.
+> > >> 
+> > >> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > >> ---
+> > >>  Documentation/00-INDEX                                | 2 --
+> > >>  Documentation/{cachetlb.txt => core-api/cachetlb.rst} | 0
+> > >>  Documentation/core-api/index.rst                      | 1 +
+> > >>  Documentation/memory-barriers.txt                     | 2 +-
+> > >>  Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
+> > >>  5 files changed, 3 insertions(+), 4 deletions(-)
+> > >>  rename Documentation/{cachetlb.txt => core-api/cachetlb.rst} (100%)    
+> > >
+> > > I see a few "inline" references to the .txt file in -rc4 (see below):
+> > > I am not sure if you managed to update them too.    
+> > 
+> > Side note, there's scripts/documentation-file-ref-check to grep the
+> > kernel tree for things that look like file references to Documentation/*
+> > and complain if they don't exist.
+> > 
+> > I get about 350+ hits with that, patches welcome! ;)  
+> 
+> This small script fixes a bunch of such errors:
+> 
+> 	scripts/documentation-file-ref-check 2>broken_refs
+> 	for i in $(cat broken_refs|cut -d: -f 2|grep -v devicetree|sort|uniq|grep \\.txt); do
+> 	        rst=$(basename $i)
+> 	        rst=${rst/.txt/.rst}
+> 	        f=$(find . -name $rst)
+> 	        f=${f#./}
+> 	        if [ "$f" != "" ]; then
+> 	                echo "Replacing $i to $f"
+> 	                for j in $(git grep -l $i); do
+> 	                        sed "s@$i@$f@g" -i $j
+> 	                done
+> 	        fi
+> 	done
+
+It follows an improvement to the above script that shows also what
+it didn't find as a ReST file, and the ones that have common names
+with multiple matches.
+
+I guess we could integrate something like that at 
+scripts/documentation-file-ref-check, in order to allow auto-correcting
+renamed .txt files.
+
+Regards,
+Mauro
+
+
+#!/bin/bash
+
+scripts/documentation-file-ref-check 2>broken_refs
+for i in $(cat broken_refs|cut -d: -f 2|grep -v devicetree|sort|uniq|grep \\.txt); do
+        rst=$(basename $i)
+        rst=${rst/.txt/.rst}
+        f=$(find . -name $rst)
+
+        if [ "$f" == "" ]; then
+                echo "ERROR: Didn't find a .rst replacement for $i"
+        elif [ "$(echo $f | grep ' ')" != "" ]; then
+                echo "ERROR: Found multiple possible replacements for $i:"
+                for j in $f; do
+                        echo "    $j"
+                done
+        else
+                echo "Replacing $i to $f"
+                f=${f#./}
+                for j in $(git grep -l $i); do
+                        sed "s@$i@$f@g" -i $j
+                done
+        fi
+done
+
+
+Thanks,
+Mauro
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
