@@ -1,150 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 446FD7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 03:54:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6718B7DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 06:09:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754336AbeEHDyk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 May 2018 23:54:40 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49082 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1754280AbeEHDyk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 May 2018 23:54:40 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w483s5lE083317
-        for <linux-doc@vger.kernel.org>; Mon, 7 May 2018 23:54:40 -0400
-Received: from e06smtp13.uk.ibm.com (e06smtp13.uk.ibm.com [195.75.94.109])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2htyt6rxpm-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 07 May 2018 23:54:39 -0400
-Received: from localhost
-        by e06smtp13.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <alastair@au1.ibm.com>;
-        Tue, 8 May 2018 04:54:37 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp13.uk.ibm.com (192.168.101.143) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Tue, 8 May 2018 04:54:35 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w483sYLl5571020;
-        Tue, 8 May 2018 03:54:34 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CBF1452041;
-        Tue,  8 May 2018 03:44:54 +0100 (BST)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 7799352045;
-        Tue,  8 May 2018 03:44:54 +0100 (BST)
-Received: from adsilva.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 4D472A0254;
-        Tue,  8 May 2018 13:54:31 +1000 (AEST)
-Subject: Re: [PATCH v2 6/7] ocxl: Add an IOCTL so userspace knows what CPU
- features are available
-From:   "Alastair D'Silva" <alastair@au1.ibm.com>
-To:     Nicholas Piggin <npiggin@gmail.com>
-Cc:     Frederic Barrat <fbarrat@linux.ibm.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, mikey@neuling.org,
-        vaibhav@linux.vnet.ibm.com, aneesh.kumar@linux.vnet.ibm.com,
-        malat@debian.org, felix@linux.vnet.ibm.com, pombredanne@nexb.com,
-        sukadev@linux.vnet.ibm.com, gregkh@linuxfoundation.org,
-        arnd@arndb.de, andrew.donnellan@au1.ibm.com,
-        fbarrat@linux.vnet.ibm.com, corbet@lwn.net
-Date:   Tue, 08 May 2018 13:54:31 +1000
-In-Reply-To: <20180508135019.3e08d57a@roar.ozlabs.ibm.com>
-References: <20180417020950.21446-1-alastair@au1.ibm.com>
-         <20180418010810.30937-1-alastair@au1.ibm.com>
-         <20180418010810.30937-7-alastair@au1.ibm.com>
-         <eec7dceb-0b25-8644-7f32-3700c3c4ed46@linux.ibm.com>
-         <1525740115.7796.46.camel@au1.ibm.com>
-         <20180508135019.3e08d57a@roar.ozlabs.ibm.com>
-Organization: IBM Australia
+        id S1754024AbeEHGJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 May 2018 02:09:38 -0400
+Received: from mail-lf0-f48.google.com ([209.85.215.48]:37148 "EHLO
+        mail-lf0-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753991AbeEHGJg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 May 2018 02:09:36 -0400
+Received: by mail-lf0-f48.google.com with SMTP id r2-v6so7929542lff.4
+        for <linux-doc@vger.kernel.org>; Mon, 07 May 2018 23:09:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=+4CWQNlIerEJVg4Oghz1CSYPfG4pBIF1JrT3zi3jIQg=;
+        b=1Y4xoVL6ZL+YQdnhpFxf8gYaQEiSrTRG9rfc+Y7AtSmcJ1d+SrgnbovjQAaHnoSWQH
+         hXv0k/OoXG0SmjuclU2rqnuyiYeIxmcsF/qLSXCcoZM296gGAgSFRHrXTU1eCKNcMG9s
+         3fpKZafd9JBKItrQvJr6Hc3MSNRLs6EKpg0uu8eds+9BpfSVUPxd66E/4ly7XZnESffA
+         9Uf4d1cIiFHPrEyDltQtOBhiCpKCWwUrUACf1bzUf8sOazCxXjyTuO50ovfC/lGKVwAE
+         otoYlyAEr+x88oAW2ZB78d65BlJ31h82ytJ9k5Mb+1u9BxbYad1yR874PEtAv7pOtthM
+         HJ7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=+4CWQNlIerEJVg4Oghz1CSYPfG4pBIF1JrT3zi3jIQg=;
+        b=BpnLMvBgd/otSJK764Qice1ktVEFgBeXqY5H0tIsZbLBFxKEz2wr1Nu1QgInppOHUD
+         GxC7rmA58xXZYxaT2PkeFXf+s4Rs7lNcLY7Bsn0BmWNfFI5P7puxjfDwh9YXRBRlhhzn
+         pWDllFA2/R1xExr9HSh532uFND9gZAdlUV2uNXmKsV66YvACEWTUVrCtYzi2CW4DglCx
+         rb5pWWXI2fyNZBm/r+JItNiT6J27tJoIwu8B/GekS+U6bgumTeDcU6JSqzCiflyf0eF2
+         O+WOhzECHN/c9Q5D3PlEc/7QRN3UmY5dhcqpVHYmO3QySTC0OE2OjCAMlKpbyiV8yg7k
+         KAiw==
+X-Gm-Message-State: ALKqPwcWmec9zlvoBa351zOHm+EFt226rFX08h7CEVpnyaKnSoXs56Wo
+        cog4U3UTCOo2FIGo1sPvPYRfABB0LBsIQPRiU4hB
+X-Google-Smtp-Source: AB8JxZoqPyNro5ia6jfp5vBtml9j8ovaqZg5wM3uA7/85WqtkdSZKivGsKN24xg/e37amLwPQ+do+X96uyeQ4kN+QPM=
+X-Received: by 2002:a19:10e1:: with SMTP id 94-v6mr4699508lfq.145.1525759774121;
+ Mon, 07 May 2018 23:09:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a19:a947:0:0:0:0:0 with HTTP; Mon, 7 May 2018 23:09:33 -0700 (PDT)
+X-Originating-IP: [172.3.143.147]
+In-Reply-To: <CAGXu5jLZ5MRrQzg0zOvLbmnq_sJe3EA_VN6S=xwRmzgHLTzCeA@mail.gmail.com>
+References: <1525396095-27737-1-git-send-email-tyhicks@canonical.com>
+ <CAHC9VhQb46F0q4bbum9NMqi-spuDHaVDG7xSPDmOsWDP0RZ47g@mail.gmail.com> <CAGXu5jLZ5MRrQzg0zOvLbmnq_sJe3EA_VN6S=xwRmzgHLTzCeA@mail.gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 8 May 2018 02:09:33 -0400
+Message-ID: <CAHC9VhSijj0TGaR7f_fM1OwpF73fjanJrkBwiF1j4n47DLnrYQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Better integrate seccomp logging and auditing
+To:     Kees Cook <keescook@chromium.org>,
+        Tyler Hicks <tyhicks@canonical.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Eric Paris <eparis@redhat.com>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Audit <linux-audit@redhat.com>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 (3.26.6-1.fc27) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 18050803-0012-0000-0000-000005D3CDFE
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18050803-0013-0000-0000-00001950DB2A
-Message-Id: <1525751671.7796.49.camel@au1.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-08_01:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1805080038
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2018-05-08 at 13:50 +1000, Nicholas Piggin wrote:
-> On Tue, 08 May 2018 10:41:55 +1000
-> "Alastair D'Silva" <alastair@au1.ibm.com> wrote:
-> 
-> > On Mon, 2018-05-07 at 20:14 +0200, Frederic Barrat wrote:
-> > > 
-> > > Le 18/04/2018 à 03:08, Alastair D'Silva a écrit :  
-> > > > From: Alastair D'Silva <alastair@d-silva.org>
-> > > > 
-> > > > In order for a userspace AFU driver to call the Power9 specific
-> > > > OCXL_IOCTL_ENABLE_P9_WAIT, it needs to verify that it can
-> > > > actually
-> > > > make that call.
-> > > > 
-> > > > Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
-> > > > ---
-> > > >   Documentation/accelerators/ocxl.rst |  1 -
-> > > >   drivers/misc/ocxl/file.c            | 25
-> > > > +++++++++++++++++++++++++
-> > > >   include/uapi/misc/ocxl.h            |  4 ++++
-> > > >   3 files changed, 29 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/Documentation/accelerators/ocxl.rst
-> > > > b/Documentation/accelerators/ocxl.rst
-> > > > index ddcc58d01cfb..7904adcc07fd 100644
-> > > > --- a/Documentation/accelerators/ocxl.rst
-> > > > +++ b/Documentation/accelerators/ocxl.rst
-> > > > @@ -157,7 +157,6 @@ OCXL_IOCTL_GET_METADATA:
-> > > >     Obtains configuration information from the card, such at
-> > > > the
-> > > > size of
-> > > >     MMIO areas, the AFU version, and the PASID for the current
-> > > > context.
-> > > > 
-> > > > -  
-> > > 
-> > > 
-> > > Intended?
-> > > 
-> > > Other than that,
-> > > Acked-by: Frederic Barrat <fbarrat@linux.vnet.ibm.com>
-> > >   
-> > 
-> > Nope, I'll fix that, thanks.
-> > 
-> 
-> Just to be clear, this is for OCXL features. I would just make that
-> explicit in the title (s/CPU/OCXL).
-> 
-> Thanks,
-> Nick
-> 
+On Sun, May 6, 2018 at 7:36 PM, Kees Cook <keescook@chromium.org> wrote:
+> On Sun, May 6, 2018 at 2:31 PM, Paul Moore <paul@paul-moore.com> wrote:
+>> On Thu, May 3, 2018 at 9:08 PM, Tyler Hicks <tyhicks@canonical.com> wrote:
+>>> Seccomp received improved logging controls in v4.14. Applications can opt into
+>>> logging of "handled" actions (SECCOMP_RET_TRAP, SECCOMP_RET_TRACE,
+>>> SECCOMP_RET_ERRNO) using the SECCOMP_FILTER_FLAG_LOG bit when loading filters.
+>>> They can also debug filter matching with the new SECCOMP_RET_LOG action.
+>>> Administrators can prevent specific actions from being logged using the
+>>> kernel.seccomp.actions_logged sysctl.
+>>>
+>>> However, one corner case intentionally wasn't addressed in those v4.14 changes.
+>>> When a process is being inspected by the audit subsystem, seccomp's decision
+>>> making for logging ignores the new controls and unconditionally logs every
+>>> action taken except for SECCOMP_RET_ALLOW. This isn't particularly useful since
+>>> many existing applications don't intend to log handled actions due to them
+>>> occurring very frequently. This amount of logging fills the audit logs without
+>>> providing many benefits now that application authors have fine grained controls
+>>> at their disposal.
+>>>
+>>> This patch set aligns the seccomp logging behavior for both audited and
+>>> non-audited processes. It also emits an audit record, if auditing is enabled,
+>>> when the kernel.seccomp.actions_logged sysctl is written to so that there's a
+>>> paper trail when entire actions are quieted.
+>>>
+>>> Changes in v3:
+>>> * Patch 3
+>>>   - Never drop a field when emitting the audit record
+>>>   - Use the value "?" for the actions field when an error occurred while
+>>>     writing to the sysctl
+>>>   - Use the value "?" for the actions and/or old-actions fields when a failure
+>>>     to translate actions to names
+>>>   - Use the value "(none)" for the actions and/or old-actions fields when no
+>>>     actions are specified
+>>>     + This is possible when writing an empty string to the sysctl
+>>>   - Update the commit message to note the new values and give an example of
+>>>     when an empty string is written
+>>> * Patch 4
+>>>   - Adjust the control flow of seccomp_log() to exit early if nothing should be
+>>>     logged
+>>>
+>>> Changes in v2:
+>>> * Patch 2
+>>>   - New patch, allowing for a configurable separator between action names
+>>> * Patch 3
+>>>   - The value of the actions field in the audit record now uses a comma instead
+>>>     of a space
+>>>   - The value of the actions field in the audit record is no longer enclosed in
+>>>     quotes
+>>>   - audit_log_start() is called with the current processes' audit_context in
+>>>     audit_seccomp_actions_logged()
+>>>   - audit_seccomp_actions_logged() no longer records the pid, uid, auid, tty,
+>>>     ses, task context, comm, or executable path
+>>>   - The new and old value of seccomp_actions_logged is recorded in the
+>>>     AUDIT_CONFIG_CHANGE record
+>>>   - The value of the "res" field in the CONFIG_CHANGE audit record is corrected
+>>>     (1 indicates success, 0 failure)
+>>>   - Updated patch 3's commit message to reflect the updated audit record format
+>>>     in the examples
+>>> * Patch 4
+>>>   - A function comment for audit_seccomp() was added to explain, among other
+>>>     things, that event filtering is performed in seccomp_log()
+>>
+>> Kees, are you still okay with v3?  Also, are you okay with these
+>> patches going in via the audit tree, or would you prefer to take them
+>> via seccomp?  I've got a slight preference for the audit tree myself,
+>> but as I said before, as long as it hits Linus' tree I'm happy.
+>
+> Yup, it looks good. I have no tree preference, so you win! :) Please
+> consider the whole series:
+>
+> Acked-by: Kees Cook <keescook@chromium.org>
 
-OK, sounds reasonable.
+Merged into audit/next, thanks guys.
 
 -- 
-Alastair D'Silva
-Open Source Developer
-Linux Technology Centre, IBM Australia
-mob: 0423 762 819
-
+paul moore
+www.paul-moore.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
