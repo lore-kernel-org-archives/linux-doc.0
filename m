@@ -1,87 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7EE07DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 11:11:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 447187E27D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 14:38:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752246AbeEHLLZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 May 2018 07:11:25 -0400
-Received: from forward3j.cmail.yandex.net ([5.255.227.21]:45331 "EHLO
-        forward3j.cmail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751463AbeEHLLY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 May 2018 07:11:24 -0400
-X-Greylist: delayed 462 seconds by postgrey-1.27 at vger.kernel.org; Tue, 08 May 2018 07:11:24 EDT
-Received: from mxback6j.mail.yandex.net (mxback6j.mail.yandex.net [IPv6:2a02:6b8:0:1619::10f])
-        by forward3j.cmail.yandex.net (Yandex) with ESMTP id 7BA95210FE;
-        Tue,  8 May 2018 14:03:41 +0300 (MSK)
-Received: from localhost (localhost [::1])
-        by mxback6j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id nEomScDIlD-3dkSiZ96;
-        Tue, 08 May 2018 14:03:40 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1525777420;
-        bh=1sb8u4zladgXXYUI4W8JZhDIorKwVe4/SsMifjMT5WA=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date;
-        b=OC3NtcL5GsJ0WhUyPxyRrXe32vTb3LthxSMYpzFrTDQQXxubwVOls6MqdaEbMAi/s
-         4XOiRrkDmkflQDT5KM6RIRlmXmWYmY5Z9YXqhjO8o+wU2Sp7lfln1lkfXzi/llwai6
-         iaa9XsGikPpzPGyW8H4wZ1ySXrZJRO/7FvpVgEYU=
-Authentication-Results: mxback6j.mail.yandex.net; dkim=pass header.i=@yandex.ru
-Received: by web22j.yandex.ru with HTTP;
-        Tue, 08 May 2018 14:03:39 +0300
-From:   Evgeniy Polyakov <zbr@ioremap.net>
-Envelope-From: drustafa@yandex.ru
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-In-Reply-To: <cd5b6e6a8d51820ee158127cdd50e44645c44ee7.1525684985.git.mchehab+samsung@kernel.org>
-References: <cover.1525684985.git.mchehab+samsung@kernel.org><cover.1525684985.git.mchehab+samsung@kernel.org> <cd5b6e6a8d51820ee158127cdd50e44645c44ee7.1525684985.git.mchehab+samsung@kernel.org>
-Subject: Re: [PATCH 18/18] w1: w1_io.c: fix a kernel-doc warning
+        id S932644AbeEHOib convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 May 2018 10:38:31 -0400
+Received: from mga03.intel.com ([134.134.136.65]:18833 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932375AbeEHOi1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 May 2018 10:38:27 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 May 2018 07:38:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,378,1520924400"; 
+   d="scan'208";a="53429297"
+Received: from jnikula-mobl2.fi.intel.com (HELO localhost) ([10.237.66.59])
+  by fmsmga001.fm.intel.com with ESMTP; 08 May 2018 07:38:17 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Matthew Wilcox <mawilcox@microsoft.com>,
+        Jeff Layton <jlayton@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "Tobin C. Harding" <me@tobin.cc>,
+        SeongJae Park <sj38.park@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Helmut Grohne <h.grohne@intenta.de>
+Subject: Re: [PATCH 05/18] docs: core-api: add cachetlb documentation
+In-Reply-To: <20180507122937.GA5813@andrea>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1525684985.git.mchehab+samsung@kernel.org> <07b59879d34502828467f0190f941e23e08fdc81.1525684985.git.mchehab+samsung@kernel.org> <20180507122937.GA5813@andrea>
+Date:   Tue, 08 May 2018 17:40:56 +0300
+Message-ID: <87y3gu43d3.fsf@intel.com>
 MIME-Version: 1.0
-Message-Id: <702861525777419@web22j.yandex.ru>
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date:   Tue, 08 May 2018 14:03:39 +0300
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi
-
-07.05.2018, 12:36, "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>:
-> Add a blank line to avoid this Sphinx warning:
->         ./drivers/w1/w1_io.c:197: WARNING: Definition list ends without a blank line; unexpected unindent.
+On Mon, 07 May 2018, Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
+> On Mon, May 07, 2018 at 06:35:41AM -0300, Mauro Carvalho Chehab wrote:
+>> The cachetlb.txt is already in ReST format. So, move it to the
+>> core-api guide, where it belongs.
+>> 
+>> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+>> ---
+>>  Documentation/00-INDEX                                | 2 --
+>>  Documentation/{cachetlb.txt => core-api/cachetlb.rst} | 0
+>>  Documentation/core-api/index.rst                      | 1 +
+>>  Documentation/memory-barriers.txt                     | 2 +-
+>>  Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
+>>  5 files changed, 3 insertions(+), 4 deletions(-)
+>>  rename Documentation/{cachetlb.txt => core-api/cachetlb.rst} (100%)
 >
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> I see a few "inline" references to the .txt file in -rc4 (see below):
+> I am not sure if you managed to update them too.
 
-Looks good to me, thank you!
-What tree should this be forwarded to, or folks from linux doc will pick it up?
+Side note, there's scripts/documentation-file-ref-check to grep the
+kernel tree for things that look like file references to Documentation/*
+and complain if they don't exist.
 
-Acked-by: Evgeniy Polyakov <zbr@ioremap.net>
+I get about 350+ hits with that, patches welcome! ;)
 
-> ---
->  drivers/w1/w1_io.c | 1 +
->  1 file changed, 1 insertion(+)
+
+BR,
+Jani.
+
+
 >
-> diff --git a/drivers/w1/w1_io.c b/drivers/w1/w1_io.c
-> index 075d120e7b88..0364d3329c52 100644
-> --- a/drivers/w1/w1_io.c
-> +++ b/drivers/w1/w1_io.c
-> @@ -194,6 +194,7 @@ static u8 w1_read_bit(struct w1_master *dev)
->   * bit 0 = id_bit
->   * bit 1 = comp_bit
->   * bit 2 = dir_taken
-> + *
->   * If both bits 0 & 1 are set, the search should be restarted.
->   *
->   * Return: bit fields - see above
+> ./arch/microblaze/include/asm/cacheflush.h:/* Look at Documentation/cachetlb.txt */
+> ./arch/unicore32/include/asm/cacheflush.h: *	See Documentation/cachetlb.txt for more information.
+> ./arch/arm64/include/asm/cacheflush.h: *	See Documentation/cachetlb.txt for more information. Please note that
+> ./arch/arm/include/asm/cacheflush.h: *	See Documentation/cachetlb.txt for more information.
+> ./arch/xtensa/include/asm/cacheflush.h: * (see also Documentation/cachetlb.txt)
+> ./arch/xtensa/include/asm/cacheflush.h:/* This is not required, see Documentation/cachetlb.txt */
+>
+>   Andrea
+>
+>
+>> 
+>> diff --git a/Documentation/00-INDEX b/Documentation/00-INDEX
+>> index 53699c79ee54..04074059bcdc 100644
+>> --- a/Documentation/00-INDEX
+>> +++ b/Documentation/00-INDEX
+>> @@ -76,8 +76,6 @@ bus-devices/
+>>  	- directory with info on TI GPMC (General Purpose Memory Controller)
+>>  bus-virt-phys-mapping.txt
+>>  	- how to access I/O mapped memory from within device drivers.
+>> -cachetlb.txt
+>> -	- describes the cache/TLB flushing interfaces Linux uses.
+>>  cdrom/
+>>  	- directory with information on the CD-ROM drivers that Linux has.
+>>  cgroup-v1/
+>> diff --git a/Documentation/cachetlb.txt b/Documentation/core-api/cachetlb.rst
+>> similarity index 100%
+>> rename from Documentation/cachetlb.txt
+>> rename to Documentation/core-api/cachetlb.rst
+>> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+>> index c670a8031786..d4d71ee564ae 100644
+>> --- a/Documentation/core-api/index.rst
+>> +++ b/Documentation/core-api/index.rst
+>> @@ -14,6 +14,7 @@ Core utilities
+>>     kernel-api
+>>     assoc_array
+>>     atomic_ops
+>> +   cachetlb
+>>     refcount-vs-atomic
+>>     cpu_hotplug
+>>     idr
+>> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+>> index 6dafc8085acc..983249906fc6 100644
+>> --- a/Documentation/memory-barriers.txt
+>> +++ b/Documentation/memory-barriers.txt
+>> @@ -2903,7 +2903,7 @@ is discarded from the CPU's cache and reloaded.  To deal with this, the
+>>  appropriate part of the kernel must invalidate the overlapping bits of the
+>>  cache on each CPU.
+>>  
+>> -See Documentation/cachetlb.txt for more information on cache management.
+>> +See Documentation/core-api/cachetlb.rst for more information on cache management.
+>>  
+>>  
+>>  CACHE COHERENCY VS MMIO
+>> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+>> index 0a0930ab4156..081937577c1a 100644
+>> --- a/Documentation/translations/ko_KR/memory-barriers.txt
+>> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
+>> @@ -2846,7 +2846,7 @@ CPU 의 캐시에서 RAM 으로 쓰여지는 더티 캐시 라인에 의해 덮
+>>  문제를 해결하기 위해선, 커널의 적절한 부분에서 각 CPU 의 캐시 안의 문제가 되는
+>>  비트들을 무효화 시켜야 합니다.
+>>  
+>> -캐시 관리에 대한 더 많은 정보를 위해선 Documentation/cachetlb.txt 를
+>> +캐시 관리에 대한 더 많은 정보를 위해선 Documentation/core-api/cachetlb.rst 를
+>>  참고하세요.
+>>  
+>>  
+>> -- 
+>> 2.17.0
+>> 
 > --
-> 2.17.0
+> To unsubscribe from this list: send the line "unsubscribe linux-doc" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+-- 
+Jani Nikula, Intel Open Source Technology Center
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
