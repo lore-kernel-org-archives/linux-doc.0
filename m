@@ -2,38 +2,39 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 924B77E6A4
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 18:29:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EB7D77E679
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 18:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932400AbeEHS3J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 May 2018 14:29:09 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51396 "EHLO
+        id S1755721AbeEHSe1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 May 2018 14:34:27 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47206 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754370AbeEHS3H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 May 2018 14:29:07 -0400
+        with ESMTP id S1755642AbeEHSFX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 May 2018 14:05:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=d1vJoaJWk9t6pp0a8E+eY8GGC79szae7oOIqbb9AF88=; b=NS1YPEzgR0BOST64xatZQkgAl
-        qaAFLGhXYiV1dh/ObuIS14zMB4r0hw60tM3xo4F/cwjztoGbMAWxk0jQQiwZiTQ2rXxpkREQXCG5m
-        TBW7ClMDCF7SZ+rZx+agcI4UwH4kOyw+9DaB7L8N2q8oIYAgMGQfAhVDBkgLzNtTK3H3M+KtmuSUz
-        iSXQFsrS2lwLKIApSUkTwEeAcJ8pEk7X3pcSRZG1plLphekoy3a49K9XtaE6DZ3peBi03NXRI2gEx
-        D/vLxOI8wSeW4Xd+hnZRuPVwRuw4CszZiXTl1UIjzjqIGWmUTHJegu+Itc3cRKGBbqNpl1yU1tNDl
-        LR30kowQA==;
+         bh=7qVA0B5M9tvk2PiFArmEExDsHB/Qkdtv2y/G8LUApPo=; b=WZLommRUw9RURYSVixdc4B6FA
+        dLmQVYzslZzuOXRE5J+ovaVPr/KWG1OIbUa5Yw4TwgxAaBiICP5Iphcr+MJqQDXTXHq1u3RjitSF8
+        D0HqERpErarS2HpzoCRk4tKujZGs72paayoiTGriwX1tmJdC3/Rzl709fxZCZU2djO+av2j+Rqc5j
+        fLO0wsfidzJ/jepaMJ6xQ8oPTSZqRIr+uNNxk7jTfYYeJlrSbcgQQeixL7q22S7bxNKhizFfQ9wBM
+        2y4mL/9TOHatnkwI1GMbuoTXC7xKaioVhjW2KIjUb13xs2CQQFB73pAiVTuJTWtVB1Mg+fPd34BrC
+        peBDxT59A==;
 Received: from 177.41.109.86.dynamic.adsl.gvt.net.br ([177.41.109.86] helo=vento.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fG7MA-0006Ge-PM; Tue, 08 May 2018 18:29:01 +0000
-Date:   Tue, 8 May 2018 15:28:51 -0300
+        id 1fG6zE-0004uc-RT; Tue, 08 May 2018 18:05:17 +0000
+Date:   Tue, 8 May 2018 15:05:07 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Jani Nikula <jani.nikula@linux.intel.com>
 Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Alan Stern <stern@rowland.harvard.edu>,
         Andrea Parri <parri.andrea@gmail.com>,
@@ -52,107 +53,1277 @@ Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
         Elena Reshetova <elena.reshetova@intel.com>,
         "Tobin C. Harding" <me@tobin.cc>
 Subject: Re: [PATCH 05/18] docs: core-api: add cachetlb documentation
-Message-ID: <20180508152851.11f39370@vento.lan>
-In-Reply-To: <20180508150507.284ef477@vento.lan>
+Message-ID: <20180508150507.284ef477@vento.lan>
+In-Reply-To: <87y3gu43d3.fsf@intel.com>
 References: <cover.1525684985.git.mchehab+samsung@kernel.org>
         <07b59879d34502828467f0190f941e23e08fdc81.1525684985.git.mchehab+samsung@kernel.org>
         <20180507122937.GA5813@andrea>
         <87y3gu43d3.fsf@intel.com>
-        <20180508150507.284ef477@vento.lan>
 X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 8 May 2018 15:05:07 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+Em Tue, 08 May 2018 17:40:56 +0300
+Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
-> Em Tue, 08 May 2018 17:40:56 +0300
-> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-> 
-> > On Mon, 07 May 2018, Andrea Parri <andrea.parri@amarulasolutions.com> wrote:  
-> > > On Mon, May 07, 2018 at 06:35:41AM -0300, Mauro Carvalho Chehab wrote:    
-> > >> The cachetlb.txt is already in ReST format. So, move it to the
-> > >> core-api guide, where it belongs.
-> > >> 
-> > >> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > >> ---
-> > >>  Documentation/00-INDEX                                | 2 --
-> > >>  Documentation/{cachetlb.txt => core-api/cachetlb.rst} | 0
-> > >>  Documentation/core-api/index.rst                      | 1 +
-> > >>  Documentation/memory-barriers.txt                     | 2 +-
-> > >>  Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
-> > >>  5 files changed, 3 insertions(+), 4 deletions(-)
-> > >>  rename Documentation/{cachetlb.txt => core-api/cachetlb.rst} (100%)    
-> > >
-> > > I see a few "inline" references to the .txt file in -rc4 (see below):
-> > > I am not sure if you managed to update them too.    
-> > 
-> > Side note, there's scripts/documentation-file-ref-check to grep the
-> > kernel tree for things that look like file references to Documentation/*
-> > and complain if they don't exist.
-> > 
-> > I get about 350+ hits with that, patches welcome! ;)  
-> 
-> This small script fixes a bunch of such errors:
-> 
-> 	scripts/documentation-file-ref-check 2>broken_refs
-> 	for i in $(cat broken_refs|cut -d: -f 2|grep -v devicetree|sort|uniq|grep \\.txt); do
-> 	        rst=$(basename $i)
-> 	        rst=${rst/.txt/.rst}
-> 	        f=$(find . -name $rst)
-> 	        f=${f#./}
-> 	        if [ "$f" != "" ]; then
-> 	                echo "Replacing $i to $f"
-> 	                for j in $(git grep -l $i); do
-> 	                        sed "s@$i@$f@g" -i $j
-> 	                done
-> 	        fi
-> 	done
+> On Mon, 07 May 2018, Andrea Parri <andrea.parri@amarulasolutions.com> wro=
+te:
+> > On Mon, May 07, 2018 at 06:35:41AM -0300, Mauro Carvalho Chehab wrote: =
+=20
+> >> The cachetlb.txt is already in ReST format. So, move it to the
+> >> core-api guide, where it belongs.
+> >>=20
+> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> >> ---
+> >>  Documentation/00-INDEX                                | 2 --
+> >>  Documentation/{cachetlb.txt =3D> core-api/cachetlb.rst} | 0
+> >>  Documentation/core-api/index.rst                      | 1 +
+> >>  Documentation/memory-barriers.txt                     | 2 +-
+> >>  Documentation/translations/ko_KR/memory-barriers.txt  | 2 +-
+> >>  5 files changed, 3 insertions(+), 4 deletions(-)
+> >>  rename Documentation/{cachetlb.txt =3D> core-api/cachetlb.rst} (100%)=
+ =20
+> >
+> > I see a few "inline" references to the .txt file in -rc4 (see below):
+> > I am not sure if you managed to update them too. =20
+>=20
+> Side note, there's scripts/documentation-file-ref-check to grep the
+> kernel tree for things that look like file references to Documentation/*
+> and complain if they don't exist.
+>=20
+> I get about 350+ hits with that, patches welcome! ;)
 
-It follows an improvement to the above script that shows also what
-it didn't find as a ReST file, and the ones that have common names
-with multiple matches.
+This small script fixes a bunch of such errors:
 
-I guess we could integrate something like that at 
-scripts/documentation-file-ref-check, in order to allow auto-correcting
-renamed .txt files.
-
-Regards,
-Mauro
-
-
-#!/bin/bash
-
-scripts/documentation-file-ref-check 2>broken_refs
-for i in $(cat broken_refs|cut -d: -f 2|grep -v devicetree|sort|uniq|grep \\.txt); do
-        rst=$(basename $i)
-        rst=${rst/.txt/.rst}
-        f=$(find . -name $rst)
-
-        if [ "$f" == "" ]; then
-                echo "ERROR: Didn't find a .rst replacement for $i"
-        elif [ "$(echo $f | grep ' ')" != "" ]; then
-                echo "ERROR: Found multiple possible replacements for $i:"
-                for j in $f; do
-                        echo "    $j"
-                done
-        else
-                echo "Replacing $i to $f"
-                f=${f#./}
-                for j in $(git grep -l $i); do
-                        sed "s@$i@$f@g" -i $j
-                done
-        fi
-done
-
+	scripts/documentation-file-ref-check 2>broken_refs
+	for i in $(cat broken_refs|cut -d: -f 2|grep -v devicetree|sort|uniq|grep =
+\\.txt); do
+	        rst=3D$(basename $i)
+	        rst=3D${rst/.txt/.rst}
+	        f=3D$(find . -name $rst)
+	        f=3D${f#./}
+	        if [ "$f" !=3D "" ]; then
+	                echo "Replacing $i to $f"
+	                for j in $(git grep -l $i); do
+	                        sed "s@$i@$f@g" -i $j
+	                done
+	        fi
+	done
 
 Thanks,
 Mauro
+
+[PATCH] docs: Fix some broken references
+
+As we move stuff around, some doc references are broken. Fix some of
+them via this script:
+
+	scripts/documentation-file-ref-check 2>broken_refs
+	for i in $(cat broken_refs|cut -d: -f 2|grep -v devicetree|sort|uniq|grep =
+\\.txt); do
+	        rst=3D$(basename $i)
+	        rst=3D${rst/.txt/.rst}
+	        f=3D$(find . -name $rst)
+	        f=3D${f#./}
+	        if [ "$f" !=3D "" ]; then
+	                echo "Replacing $i to $f"
+	                for j in $(git grep -l $i); do
+	                        sed "s@$i@$f@g" -i $j
+	                done
+	        fi
+	done
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
+n/admin-guide/kernel-parameters.txt
+index 42f3e2884e7c..a7c4dfb573df 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4259,7 +4259,7 @@
+ 			[FTRACE] Set and start specified trace events in order
+ 			to facilitate early boot debugging. The event-list is a
+ 			comma separated list of trace events to enable. See
+-			also Documentation/trace/events.txt
++			also Documentation/trace/events.rst
+=20
+ 	trace_options=3D[option-list]
+ 			[FTRACE] Enable or disable tracer options at boot.
+@@ -4274,7 +4274,7 @@
+=20
+ 			      trace_options=3Dstacktrace
+=20
+-			See also Documentation/trace/ftrace.txt "trace options"
++			See also Documentation/trace/ftrace.rst "trace options"
+ 			section.
+=20
+ 	tp_printk[FTRACE]
+diff --git a/Documentation/devicetree/bindings/input/rotary-encoder.txt b/D=
+ocumentation/devicetree/bindings/input/rotary-encoder.txt
+index f99fe5cdeaec..a644408b33b8 100644
+--- a/Documentation/devicetree/bindings/input/rotary-encoder.txt
++++ b/Documentation/devicetree/bindings/input/rotary-encoder.txt
+@@ -28,7 +28,7 @@ Deprecated properties:
+   This property is deprecated. Instead, a 'steps-per-period ' value should
+   be used, such as "rotary-encoder,steps-per-period =3D <2>".
+=20
+-See Documentation/input/rotary-encoder.txt for more information.
++See Documentation/input/devices/rotary-encoder.rst for more information.
+=20
+ Example:
+=20
+diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/dri=
+ver-api/gpio/consumer.rst
+index c71a50d85b50..aa03f389d41d 100644
+--- a/Documentation/driver-api/gpio/consumer.rst
++++ b/Documentation/driver-api/gpio/consumer.rst
+@@ -57,7 +57,7 @@ device that displays digits), an additional index argumen=
+t can be specified::
+ 					  enum gpiod_flags flags)
+=20
+ For a more detailed description of the con_id parameter in the DeviceTree =
+case
+-see Documentation/gpio/board.txt
++see Documentation/driver-api/gpio/board.rst
+=20
+ The flags parameter is used to optionally specify a direction and initial =
+value
+ for the GPIO. Values can be:
+diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
+index 22208bf2386d..cb3b0de83fc6 100644
+--- a/Documentation/kprobes.txt
++++ b/Documentation/kprobes.txt
+@@ -724,8 +724,8 @@ migrate your tool to one of the following options:
+=20
+   See following documents:
+=20
+-  - Documentation/trace/kprobetrace.txt
+-  - Documentation/trace/events.txt
++  - Documentation/trace/kprobetrace.rst
++  - Documentation/trace/events.rst
+   - tools/perf/Documentation/perf-probe.txt
+=20
+=20
+diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresi=
+ght.txt
+index 1d74ad0202b6..efbc832146e7 100644
+--- a/Documentation/trace/coresight.txt
++++ b/Documentation/trace/coresight.txt
+@@ -426,5 +426,5 @@ root@genericarmv8:~#
+ Details on how to use the generic STM API can be found here [2].
+=20
+ [1]. Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+-[2]. Documentation/trace/stm.txt
++[2]. Documentation/trace/stm.rst
+ [3]. https://github.com/Linaro/perf-opencsd
+diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+index a5ea2cb0082b..7b6b1236ec2e 100644
+--- a/Documentation/trace/events.rst
++++ b/Documentation/trace/events.rst
+@@ -338,7 +338,7 @@ used for conditionally invoking triggers.
+=20
+ The syntax for event triggers is roughly based on the syntax for
+ set_ftrace_filter 'ftrace filter commands' (see the 'Filter commands'
+-section of Documentation/trace/ftrace.txt), but there are major
++section of Documentation/trace/ftrace.rst), but there are major
+ differences and the implementation isn't currently tied to it in any
+ way, so beware about making generalizations between the two.
+=20
+diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftra=
+ce-uses.rst
+index 00283b6dd101..1fbc69894eed 100644
+--- a/Documentation/trace/ftrace-uses.rst
++++ b/Documentation/trace/ftrace-uses.rst
+@@ -199,7 +199,7 @@ If @buf is NULL and reset is set, all functions will be=
+ enabled for tracing.
+ The @buf can also be a glob expression to enable all functions that
+ match a specific pattern.
+=20
+-See Filter Commands in :file:`Documentation/trace/ftrace.txt`.
++See Filter Commands in :file:`Documentation/trace/ftrace.rst`.
+=20
+ To just trace the schedule function:
+=20
+diff --git a/Documentation/trace/histogram.txt b/Documentation/trace/histog=
+ram.txt
+index 6e05510afc28..7da413e94f87 100644
+--- a/Documentation/trace/histogram.txt
++++ b/Documentation/trace/histogram.txt
+@@ -7,7 +7,7 @@
+=20
+   Histogram triggers are special event triggers that can be used to
+   aggregate trace event data into histograms.  For information on
+-  trace events and event triggers, see Documentation/trace/events.txt.
++  trace events and event triggers, see Documentation/trace/events.rst.
+=20
+=20
+ 2. Histogram Trigger Command
+diff --git a/Documentation/trace/intel_th.rst b/Documentation/trace/intel_t=
+h.rst
+index 990f13265178..19e2d633f3c7 100644
+--- a/Documentation/trace/intel_th.rst
++++ b/Documentation/trace/intel_th.rst
+@@ -38,7 +38,7 @@ description is at Documentation/ABI/testing/sysfs-bus-int=
+el_th-devices-gth.
+=20
+ STH registers an stm class device, through which it provides interface
+ to userspace and kernelspace software trace sources. See
+-Documentation/trace/stm.txt for more information on that.
++Documentation/trace/stm.rst for more information on that.
+=20
+ MSU can be configured to collect trace data into a system memory
+ buffer, which can later on be read from its device nodes via read() or
+diff --git a/Documentation/trace/tracepoint-analysis.rst b/Documentation/tr=
+ace/tracepoint-analysis.rst
+index a4d3ff2e5efb..b0c9c21f129d 100644
+--- a/Documentation/trace/tracepoint-analysis.rst
++++ b/Documentation/trace/tracepoint-analysis.rst
+@@ -55,7 +55,7 @@ simple case of::
+ 3.1 System-Wide Event Enabling
+ ------------------------------
+=20
+-See Documentation/trace/events.txt for a proper description on how events
++See Documentation/trace/events.rst for a proper description on how events
+ can be enabled system-wide. A short example of enabling all events related
+ to page allocation would look something like::
+=20
+@@ -112,7 +112,7 @@ at that point.
+ 3.4 Local Event Enabling
+ ------------------------
+=20
+-Documentation/trace/ftrace.txt describes how to enable events on a per-thr=
+ead
++Documentation/trace/ftrace.rst describes how to enable events on a per-thr=
+ead
+ basis using set_ftrace_pid.
+=20
+ 3.5 Local Event Enablement with PCL
+@@ -137,7 +137,7 @@ basis using PCL such as follows.
+ 4. Event Filtering
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-Documentation/trace/ftrace.txt covers in-depth how to filter events in
++Documentation/trace/ftrace.rst covers in-depth how to filter events in
+ ftrace.  Obviously using grep and awk of trace_pipe is an option as well
+ as any script reading trace_pipe.
+=20
+diff --git a/Documentation/translations/zh_CN/magic-number.txt b/Documentat=
+ion/translations/zh_CN/magic-number.txt
+index e9db693c0a23..7159cec04090 100644
+--- a/Documentation/translations/zh_CN/magic-number.txt
++++ b/Documentation/translations/zh_CN/magic-number.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/magic-number.txt
++Chinese translated version of Documentation/process/magic-number.rst
+=20
+ If you have any comment or update to the content, please post to LKML dire=
+ctly.
+ However, if you have problem communicating in English you can also ask the
+@@ -7,7 +7,7 @@ translation is outdated or there is problem with translatio=
+n.
+=20
+ Chinese maintainer: Jia Wei Wei <harryxiyou@gmail.com>
+ ---------------------------------------------------------------------
+-Documentation/magic-number.txt=E7=9A=84=E4=B8=AD=E6=96=87=E7=BF=BB=E8=AF=91
++Documentation/process/magic-number.rst=E7=9A=84=E4=B8=AD=E6=96=87=E7=BF=BB=
+=E8=AF=91
+=20
+ =E5=A6=82=E6=9E=9C=E6=83=B3=E8=AF=84=E8=AE=BA=E6=88=96=E6=9B=B4=E6=96=B0=
+=E6=9C=AC=E6=96=87=E7=9A=84=E5=86=85=E5=AE=B9=EF=BC=8C=E8=AF=B7=E7=9B=B4=E6=
+=8E=A5=E5=8F=91=E4=BF=A1=E5=88=B0LKML=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=
+=E4=BD=BF=E7=94=A8=E8=8B=B1=E6=96=87=E4=BA=A4=E6=B5=81=E6=9C=89=E5=9B=B0=E9=
+=9A=BE=E7=9A=84=E8=AF=9D=EF=BC=8C=E4=B9=9F=E5=8F=AF
+ =E4=BB=A5=E5=90=91=E4=B8=AD=E6=96=87=E7=89=88=E7=BB=B4=E6=8A=A4=E8=80=85=
+=E6=B1=82=E5=8A=A9=E3=80=82=E5=A6=82=E6=9E=9C=E6=9C=AC=E7=BF=BB=E8=AF=91=E6=
+=9B=B4=E6=96=B0=E4=B8=8D=E5=8F=8A=E6=97=B6=E6=88=96=E8=80=85=E7=BF=BB=E8=AF=
+=91=E5=AD=98=E5=9C=A8=E9=97=AE=E9=A2=98=EF=BC=8C=E8=AF=B7=E8=81=94=E7=B3=BB=
+=E4=B8=AD=E6=96=87=E7=89=88=E7=BB=B4=E6=8A=A4=E8=80=85=E3=80=82
+diff --git a/Documentation/translations/zh_CN/video4linux/omap3isp.txt b/Do=
+cumentation/translations/zh_CN/video4linux/omap3isp.txt
+index 67ffbf352ae0..e9f29375aa95 100644
+--- a/Documentation/translations/zh_CN/video4linux/omap3isp.txt
++++ b/Documentation/translations/zh_CN/video4linux/omap3isp.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/video4linux/omap3isp.txt
++Chinese translated version of Documentation/media/v4l-drivers/omap3isp.rst
+=20
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -11,7 +11,7 @@ Maintainer: Laurent Pinchart <laurent.pinchart@ideasonboa=
+rd.com>
+ 	  David Cohen <dacohen@gmail.com>
+ Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
+ ---------------------------------------------------------------------
+-Documentation/video4linux/omap3isp.txt =E7=9A=84=E4=B8=AD=E6=96=87=E7=BF=
+=BB=E8=AF=91
++Documentation/media/v4l-drivers/omap3isp.rst =E7=9A=84=E4=B8=AD=E6=96=87=
+=E7=BF=BB=E8=AF=91
+=20
+ =E5=A6=82=E6=9E=9C=E6=83=B3=E8=AF=84=E8=AE=BA=E6=88=96=E6=9B=B4=E6=96=B0=
+=E6=9C=AC=E6=96=87=E7=9A=84=E5=86=85=E5=AE=B9=EF=BC=8C=E8=AF=B7=E7=9B=B4=E6=
+=8E=A5=E8=81=94=E7=B3=BB=E5=8E=9F=E6=96=87=E6=A1=A3=E7=9A=84=E7=BB=B4=E6=8A=
+=A4=E8=80=85=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=E4=BD=BF=E7=94=A8=E8=8B=B1=
+=E6=96=87
+ =E4=BA=A4=E6=B5=81=E6=9C=89=E5=9B=B0=E9=9A=BE=E7=9A=84=E8=AF=9D=EF=BC=8C=
+=E4=B9=9F=E5=8F=AF=E4=BB=A5=E5=90=91=E4=B8=AD=E6=96=87=E7=89=88=E7=BB=B4=E6=
+=8A=A4=E8=80=85=E6=B1=82=E5=8A=A9=E3=80=82=E5=A6=82=E6=9E=9C=E6=9C=AC=E7=BF=
+=BB=E8=AF=91=E6=9B=B4=E6=96=B0=E4=B8=8D=E5=8F=8A=E6=97=B6=E6=88=96=E8=80=85=
+=E7=BF=BB
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc9832dbb6ab..404aecfc518d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3347,7 +3347,7 @@ M:	David Howells <dhowells@redhat.com>
+ M:	David Woodhouse <dwmw2@infradead.org>
+ L:	keyrings@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/module-signing.txt
++F:	Documentation/admin-guide/module-signing.rst
+ F:	certs/
+ F:	scripts/sign-file.c
+ F:	scripts/extract-cert.c
+@@ -6434,7 +6434,7 @@ L:	linux-mm@kvack.org
+ S:	Maintained
+ F:	mm/hmm*
+ F:	include/linux/hmm*
+-F:	Documentation/vm/hmm.txt
++F:	Documentation/vm/hmm.rst
+=20
+ HOST AP DRIVER
+ M:	Jouni Malinen <j@w1.fi>
+@@ -7314,7 +7314,7 @@ F:	drivers/platform/x86/intel-wmi-thunderbolt.c
+ INTEL(R) TRACE HUB
+ M:	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+ S:	Supported
+-F:	Documentation/trace/intel_th.txt
++F:	Documentation/trace/intel_th.rst
+ F:	drivers/hwtracing/intel_th/
+=20
+ INTEL(R) TRUSTED EXECUTION TECHNOLOGY (TXT)
+@@ -10115,7 +10115,7 @@ F:	arch/powerpc/include/asm/pnv-ocxl.h
+ F:	drivers/misc/ocxl/
+ F:	include/misc/ocxl*
+ F:	include/uapi/misc/ocxl.h
+-F:	Documentation/accelerators/ocxl.txt
++F:	Documentation/accelerators/ocxl.rst
+=20
+ OMAP AUDIO SUPPORT
+ M:	Peter Ujfalusi <peter.ujfalusi@ti.com>
+@@ -13624,7 +13624,7 @@ SYSTEM TRACE MODULE CLASS
+ M:	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/ash/stm.git
+-F:	Documentation/trace/stm.txt
++F:	Documentation/trace/stm.rst
+ F:	drivers/hwtracing/stm/
+ F:	include/linux/stm.h
+ F:	include/uapi/linux/stm.h
+@@ -14305,7 +14305,7 @@ M:	Steven Rostedt <rostedt@goodmis.org>
+ M:	Ingo Molnar <mingo@redhat.com>
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git perf/core
+ S:	Maintained
+-F:	Documentation/trace/ftrace.txt
++F:	Documentation/trace/ftrace.rst
+ F:	arch/*/*/*/ftrace.h
+ F:	arch/*/kernel/ftrace.c
+ F:	include/*/ftrace.h
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 8e0d665c8d53..a4d35bf33b68 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -399,7 +399,7 @@ config SECCOMP_FILTER
+ 	  in terms of Berkeley Packet Filter programs which implement
+ 	  task-defined system call filtering polices.
+=20
+-	  See Documentation/prctl/seccomp_filter.txt for details.
++	  See Documentation/userspace-api/seccomp_filter.rst for details.
+=20
+ config HAVE_GCC_PLUGINS
+ 	bool
+diff --git a/arch/arm/include/asm/cacheflush.h b/arch/arm/include/asm/cache=
+flush.h
+index 869080bedb89..ec1a5fd0d294 100644
+--- a/arch/arm/include/asm/cacheflush.h
++++ b/arch/arm/include/asm/cacheflush.h
+@@ -35,7 +35,7 @@
+  *	Start addresses are inclusive and end addresses are exclusive;
+  *	start addresses should be rounded down, end addresses up.
+  *
+- *	See Documentation/cachetlb.txt for more information.
++ *	See Documentation/core-api/cachetlb.rst for more information.
+  *	Please note that the implementation of these, and the required
+  *	effects are cache-type (VIVT/VIPT/PIPT) specific.
+  *
+diff --git a/arch/arm64/include/asm/cacheflush.h b/arch/arm64/include/asm/c=
+acheflush.h
+index 0094c6653b06..d264a7274811 100644
+--- a/arch/arm64/include/asm/cacheflush.h
++++ b/arch/arm64/include/asm/cacheflush.h
+@@ -36,7 +36,7 @@
+  *	Start addresses are inclusive and end addresses are exclusive; start
+  *	addresses should be rounded down, end addresses up.
+  *
+- *	See Documentation/cachetlb.txt for more information. Please note that
++ *	See Documentation/core-api/cachetlb.rst for more information. Please no=
+te that
+  *	the implementation assumes non-aliasing VIPT D-cache and (aliasing)
+  *	VIPT I-cache.
+  *
+diff --git a/arch/microblaze/include/asm/cacheflush.h b/arch/microblaze/inc=
+lude/asm/cacheflush.h
+index ffea82a16d2c..b091de77b15b 100644
+--- a/arch/microblaze/include/asm/cacheflush.h
++++ b/arch/microblaze/include/asm/cacheflush.h
+@@ -19,7 +19,7 @@
+ #include <linux/mm.h>
+ #include <linux/io.h>
+=20
+-/* Look at Documentation/cachetlb.txt */
++/* Look at Documentation/core-api/cachetlb.rst */
+=20
+ /*
+  * Cache handling functions.
+diff --git a/arch/um/Kconfig.um b/arch/um/Kconfig.um
+index 3e7f228b22e1..20da5a8ca949 100644
+--- a/arch/um/Kconfig.um
++++ b/arch/um/Kconfig.um
+@@ -80,7 +80,7 @@ config MAGIC_SYSRQ
+ 	  On UML, this is accomplished by sending a "sysrq" command with
+ 	  mconsole, followed by the letter for the requested command.
+=20
+-	  The keys are documented in <file:Documentation/sysrq.txt>. Don't say Y
++	  The keys are documented in <file:Documentation/admin-guide/sysrq.rst>. =
+Don't say Y
+ 	  unless you really know what this hack does.
+=20
+ config KERNEL_STACK_ORDER
+diff --git a/arch/unicore32/include/asm/cacheflush.h b/arch/unicore32/inclu=
+de/asm/cacheflush.h
+index 1d9132b66039..1c8b9f13a9e1 100644
+--- a/arch/unicore32/include/asm/cacheflush.h
++++ b/arch/unicore32/include/asm/cacheflush.h
+@@ -33,7 +33,7 @@
+  *	Start addresses are inclusive and end addresses are exclusive;
+  *	start addresses should be rounded down, end addresses up.
+  *
+- *	See Documentation/cachetlb.txt for more information.
++ *	See Documentation/core-api/cachetlb.rst for more information.
+  *	Please note that the implementation of these, and the required
+  *	effects are cache-type (VIVT/VIPT/PIPT) specific.
+  *
+diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscal=
+l/vsyscall_64.c
+index 70b7845434cb..15e38873a6c8 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_64.c
++++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+@@ -201,7 +201,7 @@ bool emulate_vsyscall(struct pt_regs *regs, unsigned lo=
+ng address)
+=20
+ 	/*
+ 	 * Handle seccomp.  regs->ip must be the original value.
+-	 * See seccomp_send_sigsys and Documentation/prctl/seccomp_filter.txt.
++	 * See seccomp_send_sigsys and Documentation/userspace-api/seccomp_filter=
+.rst.
+ 	 *
+ 	 * We could optimize the seccomp disabled case, but performance
+ 	 * here doesn't matter.
+diff --git a/arch/xtensa/include/asm/cacheflush.h b/arch/xtensa/include/asm=
+/cacheflush.h
+index 397d6a1a4224..a0d50be5a8cb 100644
+--- a/arch/xtensa/include/asm/cacheflush.h
++++ b/arch/xtensa/include/asm/cacheflush.h
+@@ -88,7 +88,7 @@ static inline void __invalidate_icache_page_alias(unsigne=
+d long virt,
+  *
+  * Pages can get remapped. Because this might change the 'color' of that p=
+age,
+  * we have to flush the cache before the PTE is changed.
+- * (see also Documentation/cachetlb.txt)
++ * (see also Documentation/core-api/cachetlb.rst)
+  */
+=20
+ #if defined(CONFIG_MMU) && \
+@@ -152,7 +152,7 @@ void local_flush_cache_page(struct vm_area_struct *vma,
+ 		__invalidate_icache_range(start,(end) - (start));	\
+ 	} while (0)
+=20
+-/* This is not required, see Documentation/cachetlb.txt */
++/* This is not required, see Documentation/core-api/cachetlb.rst */
+ #define	flush_icache_page(vma,page)			do { } while (0)
+=20
+ #define flush_dcache_mmap_lock(mapping)			do { } while (0)
+diff --git a/certs/Kconfig b/certs/Kconfig
+index 5f7663df6e8e..c94e93d8bccf 100644
+--- a/certs/Kconfig
++++ b/certs/Kconfig
+@@ -13,7 +13,7 @@ config MODULE_SIG_KEY
+=20
+          If this option is unchanged from its default "certs/signing_key.p=
+em",
+          then the kernel will automatically generate the private key and
+-         certificate as described in Documentation/module-signing.txt
++         certificate as described in Documentation/admin-guide/module-sign=
+ing.rst
+=20
+ config SYSTEM_TRUSTED_KEYRING
+ 	bool "Provide system-wide ring of trusted keys"
+diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
+index e538061eadcb..088d5fe26214 100644
+--- a/drivers/char/Kconfig
++++ b/drivers/char/Kconfig
+@@ -81,7 +81,7 @@ config PRINTER
+ 	  corresponding drivers into the kernel.
+=20
+ 	  To compile this driver as a module, choose M here and read
+-	  <file:Documentation/parport.txt>.  The module will be called lp.
++	  <file:Documentation/admin-guide/parport.rst>.  The module will be calle=
+d lp.
+=20
+ 	  If you have several parallel ports, you can specify which ports to
+ 	  use with the "lp" kernel command line option.  (Try "man bootparam"
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index ea67ac81c6f9..a67ed8d650c8 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -6,7 +6,7 @@
+  * it under the terms of the GNU General Public License version 2 as
+  * published by the Free Software Foundation.
+  *
+- * Standard functionality for the common clock API.  See Documentation/clk=
+.txt
++ * Standard functionality for the common clock API.  See Documentation/dri=
+ver-api/clk.rst
+  */
+=20
+ #include <linux/clk.h>
+@@ -2827,7 +2827,7 @@ static int __clk_core_init(struct clk_core *core)
+ 		goto out;
+ 	}
+=20
+-	/* check that clk_ops are sane.  See Documentation/clk.txt */
++	/* check that clk_ops are sane.  See Documentation/driver-api/clk.rst */
+ 	if (core->ops->set_rate &&
+ 	    !((core->ops->round_rate || core->ops->determine_rate) &&
+ 	      core->ops->recalc_rate)) {
+diff --git a/drivers/clk/ingenic/cgu.h b/drivers/clk/ingenic/cgu.h
+index 9da34910bd80..584ee2edcdfc 100644
+--- a/drivers/clk/ingenic/cgu.h
++++ b/drivers/clk/ingenic/cgu.h
+@@ -190,7 +190,7 @@ struct ingenic_cgu {
+=20
+ /**
+  * struct ingenic_clk - private data for a clock
+- * @hw: see Documentation/clk.txt
++ * @hw: see Documentation/driver-api/clk.rst
+  * @cgu: a pointer to the CGU data
+  * @idx: the index of this clock in cgu->clock_info
+  */
+diff --git a/drivers/gpu/vga/Kconfig b/drivers/gpu/vga/Kconfig
+index 29437eabe095..b677e5d524e6 100644
+--- a/drivers/gpu/vga/Kconfig
++++ b/drivers/gpu/vga/Kconfig
+@@ -6,7 +6,7 @@ config VGA_ARB
+ 	  Some "legacy" VGA devices implemented on PCI typically have the same
+ 	  hard-decoded addresses as they did on ISA. When multiple PCI devices
+ 	  are accessed at same time they need some kind of coordination. Please
+-	  see Documentation/vgaarbiter.txt for more details. Select this to
++	  see Documentation/gpu/vgaarbiter.rst for more details. Select this to
+ 	  enable VGA arbiter.
+=20
+ config VGA_ARB_MAX_GPUS
+diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
+index 1c5e74cb9279..c61b04555779 100644
+--- a/drivers/gpu/vga/vgaarb.c
++++ b/drivers/gpu/vga/vgaarb.c
+@@ -1,6 +1,6 @@
+ /*
+  * vgaarb.c: Implements the VGA arbitration. For details refer to
+- * Documentation/vgaarbiter.txt
++ * Documentation/gpu/vgaarbiter.rst
+  *
+  *
+  * (C) Copyright 2005 Benjamin Herrenschmidt <benh@kernel.crashing.org>
+diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+index 9591fc04a8ab..242c6a88d9cc 100644
+--- a/drivers/input/joystick/Kconfig
++++ b/drivers/input/joystick/Kconfig
+@@ -214,7 +214,7 @@ config JOYSTICK_DB9
+ 	  gamepad, Sega Saturn gamepad, or a Multisystem -- Atari, Amiga,
+ 	  Commodore, Amstrad CPC joystick connected to your parallel port.
+ 	  For more information on how to use the driver please read
+-	  <file:Documentation/input/joystick-parport.txt>.
++	  <file:Documentation/input/devices/joystick-parport.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called db9.
+@@ -229,7 +229,7 @@ config JOYSTICK_GAMECON
+ 	  Sony PlayStation gamepad or a Multisystem -- Atari, Amiga,
+ 	  Commodore, Amstrad CPC joystick connected to your parallel port.
+ 	  For more information on how to use the driver please read
+-	  <file:Documentation/input/joystick-parport.txt>.
++	  <file:Documentation/input/devices/joystick-parport.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called gamecon.
+@@ -241,7 +241,7 @@ config JOYSTICK_TURBOGRAFX
+ 	  Say Y here if you have the TurboGraFX interface by Steffen Schwenke,
+ 	  and want to use it with Multisystem -- Atari, Amiga, Commodore,
+ 	  Amstrad CPC joystick. For more information on how to use the driver
+-	  please read <file:Documentation/input/joystick-parport.txt>.
++	  please read <file:Documentation/input/devices/joystick-parport.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called turbografx.
+@@ -287,7 +287,7 @@ config JOYSTICK_XPAD
+ 	  and/or "Event interface support" (CONFIG_INPUT_EVDEV) as well.
+=20
+ 	  For information about how to connect the X-Box pad to USB, see
+-	  <file:Documentation/input/xpad.txt>.
++	  <file:Documentation/input/devices/xpad.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called xpad.
+@@ -313,7 +313,7 @@ config JOYSTICK_WALKERA0701
+ 	  Say Y or M here if you have a Walkera WK-0701 transmitter which is
+ 	  supplied with a ready to fly Walkera helicopters such as HM36,
+ 	  HM37, HM60 and want to use it via parport as a joystick. More
+-	  information is available: <file:Documentation/input/walkera0701.txt>
++	  information is available: <file:Documentation/input/devices/walkera0701=
+.rst>
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called walkera0701.
+diff --git a/drivers/input/joystick/iforce/Kconfig b/drivers/input/joystick=
+/iforce/Kconfig
+index 8fde22a021b3..1eea5fd6a5c5 100644
+--- a/drivers/input/joystick/iforce/Kconfig
++++ b/drivers/input/joystick/iforce/Kconfig
+@@ -28,5 +28,5 @@ config JOYSTICK_IFORCE_232
+=20
+ 	  You will need an additional utility called inputattach, see
+ 	  <file:Documentation/input/joystick.txt>
+-	  and <file:Documentation/input/ff.txt>.
++	  and <file:Documentation/input/ff.rst>.
+=20
+diff --git a/drivers/input/joystick/walkera0701.c b/drivers/input/joystick/=
+walkera0701.c
+index 36a5b93156ed..dce313dc260a 100644
+--- a/drivers/input/joystick/walkera0701.c
++++ b/drivers/input/joystick/walkera0701.c
+@@ -3,7 +3,7 @@
+  *
+  *  Copyright (c) 2008 Peter Popovec
+  *
+- *  More about driver:  <file:Documentation/input/walkera0701.txt>
++ *  More about driver:  <file:Documentation/input/devices/walkera0701.rst>
+  */
+=20
+ /*
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 572b15fa18c2..c25606e00693 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -411,7 +411,7 @@ config INPUT_YEALINK
+ 	  usb sound driver, so you might want to enable that as well.
+=20
+ 	  For information about how to use these additional functions, see
+-	  <file:Documentation/input/yealink.txt>.
++	  <file:Documentation/input/devices/yealink.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the module will be
+ 	  called yealink.
+@@ -595,7 +595,7 @@ config INPUT_GPIO_ROTARY_ENCODER
+ 	depends on GPIOLIB || COMPILE_TEST
+ 	help
+ 	  Say Y here to add support for rotary encoders connected to GPIO lines.
+-	  Check file:Documentation/input/rotary-encoder.txt for more
++	  Check file:Documentation/input/devices/rotary-encoder.rst for more
+ 	  information.
+=20
+ 	  To compile this driver as a module, choose M here: the
+diff --git a/drivers/input/misc/rotary_encoder.c b/drivers/input/misc/rotar=
+y_encoder.c
+index 1588aecafff7..2c191a0d88c3 100644
+--- a/drivers/input/misc/rotary_encoder.c
++++ b/drivers/input/misc/rotary_encoder.c
+@@ -7,7 +7,7 @@
+  * state machine code inspired by code from Tim Ruetz
+  *
+  * A generic driver for rotary encoders connected to GPIO lines.
+- * See file:Documentation/input/rotary-encoder.txt for more information
++ * See file:Documentation/input/devices/rotary-encoder.rst for more inform=
+ation
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 as
+diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
+index 89ebb8f39fee..7f564a1eedd5 100644
+--- a/drivers/input/mouse/Kconfig
++++ b/drivers/input/mouse/Kconfig
+@@ -129,7 +129,7 @@ config MOUSE_PS2_ELANTECH
+=20
+ 	  This driver exposes some configuration registers via sysfs
+ 	  entries. For further information,
+-	  see <file:Documentation/input/elantech.txt>.
++	  see <file:Documentation/input/devices/elantech.rst>.
+=20
+ 	  If unsure, say N.
+=20
+@@ -216,7 +216,7 @@ config MOUSE_APPLETOUCH
+ 	  scrolling in X11.
+=20
+ 	  For further information, see
+-	  <file:Documentation/input/appletouch.txt>.
++	  <file:Documentation/input/devices/appletouch.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called appletouch.
+@@ -239,7 +239,7 @@ config MOUSE_BCM5974
+=20
+ 	  The interface is currently identical to the appletouch interface,
+ 	  for further information, see
+-	  <file:Documentation/input/appletouch.txt>.
++	  <file:Documentation/input/devices/appletouch.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called bcm5974.
+diff --git a/drivers/input/mouse/alps.c b/drivers/input/mouse/alps.c
+index 0a67f235ba88..caf4bde6b308 100644
+--- a/drivers/input/mouse/alps.c
++++ b/drivers/input/mouse/alps.c
+@@ -212,7 +212,7 @@ static void alps_set_abs_params_v7(struct alps_data *pr=
+iv,
+ static void alps_set_abs_params_ss4_v2(struct alps_data *priv,
+ 				       struct input_dev *dev1);
+=20
+-/* Packet formats are described in Documentation/input/alps.txt */
++/* Packet formats are described in Documentation/input/devices/alps.rst */
+=20
+ static bool alps_is_valid_first_byte(struct alps_data *priv,
+ 				     unsigned char data)
+diff --git a/drivers/input/touchscreen/wm97xx-core.c b/drivers/input/touchs=
+creen/wm97xx-core.c
+index fd714ee881f7..2566b4d8b342 100644
+--- a/drivers/input/touchscreen/wm97xx-core.c
++++ b/drivers/input/touchscreen/wm97xx-core.c
+@@ -68,7 +68,7 @@
+  * The default values correspond to Mainstone II in QVGA mode
+  *
+  * Please read
+- * Documentation/input/input-programming.txt for more details.
++ * Documentation/input/input-programming.rst for more details.
+  */
+=20
+ static int abs_x[3] =3D {150, 4000, 5};
+diff --git a/drivers/lightnvm/pblk-rb.c b/drivers/lightnvm/pblk-rb.c
+index 52fdd85dbc97..e76822ffdf52 100644
+--- a/drivers/lightnvm/pblk-rb.c
++++ b/drivers/lightnvm/pblk-rb.c
+@@ -38,7 +38,7 @@ void pblk_rb_data_free(struct pblk_rb *rb)
+ /*
+  * Initialize ring buffer. The data and metadata buffers must be previously
+  * allocated and their size must be a power of two
+- * (Documentation/circular-buffers.txt)
++ * (Documentation/core-api/circular-buffers.rst)
+  */
+ int pblk_rb_init(struct pblk_rb *rb, struct pblk_rb_entry *rb_entry_base,
+ 		 unsigned int power_size, unsigned int power_seg_sz)
+diff --git a/drivers/md/bcache/Kconfig b/drivers/md/bcache/Kconfig
+index 4d200883c505..17bf109c58e9 100644
+--- a/drivers/md/bcache/Kconfig
++++ b/drivers/md/bcache/Kconfig
+@@ -5,7 +5,7 @@ config BCACHE
+ 	Allows a block device to be used as cache for other devices; uses
+ 	a btree for indexing and the layout is optimized for SSDs.
+=20
+-	See Documentation/bcache.txt for details.
++	See Documentation/admin-guide/bcache.rst for details.
+=20
+ config BCACHE_DEBUG
+ 	bool "Bcache debugging"
+diff --git a/drivers/md/bcache/btree.c b/drivers/md/bcache/btree.c
+index 17936b2dc7d6..35d9cf325ddc 100644
+--- a/drivers/md/bcache/btree.c
++++ b/drivers/md/bcache/btree.c
+@@ -18,7 +18,7 @@
+  * as keys are inserted we only sort the pages that have not yet been writ=
+ten.
+  * When garbage collection is run, we resort the entire node.
+  *
+- * All configuration is done via sysfs; see Documentation/bcache.txt.
++ * All configuration is done via sysfs; see Documentation/admin-guide/bcac=
+he.rst.
+  */
+=20
+ #include "bcache.h"
+diff --git a/drivers/md/bcache/extents.c b/drivers/md/bcache/extents.c
+index c334e6666461..1d096742eb41 100644
+--- a/drivers/md/bcache/extents.c
++++ b/drivers/md/bcache/extents.c
+@@ -18,7 +18,7 @@
+  * as keys are inserted we only sort the pages that have not yet been writ=
+ten.
+  * When garbage collection is run, we resort the entire node.
+  *
+- * All configuration is done via sysfs; see Documentation/bcache.txt.
++ * All configuration is done via sysfs; see Documentation/admin-guide/bcac=
+he.rst.
+  */
+=20
+ #include "bcache.h"
+diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c b/drivers/media/dvb-co=
+re/dvb_ringbuffer.c
+index 4330b6fa4af2..d1d471af0636 100644
+--- a/drivers/media/dvb-core/dvb_ringbuffer.c
++++ b/drivers/media/dvb-core/dvb_ringbuffer.c
+@@ -55,7 +55,7 @@ int dvb_ringbuffer_empty(struct dvb_ringbuffer *rbuf)
+ 	 * this pairs with smp_store_release() in dvb_ringbuffer_write(),
+ 	 * dvb_ringbuffer_write_user(), or dvb_ringbuffer_reset()
+ 	 *
+-	 * for memory barriers also see Documentation/circular-buffers.txt
++	 * for memory barriers also see Documentation/core-api/circular-buffers.r=
+st
+ 	 */
+ 	return (rbuf->pread =3D=3D smp_load_acquire(&rbuf->pwrite));
+ }
+diff --git a/drivers/media/pci/meye/Kconfig b/drivers/media/pci/meye/Kconfig
+index b4bf848be5a0..881a80f0483f 100644
+--- a/drivers/media/pci/meye/Kconfig
++++ b/drivers/media/pci/meye/Kconfig
+@@ -4,7 +4,7 @@ config VIDEO_MEYE
+ 	---help---
+ 	  This is the video4linux driver for the Motion Eye camera found
+ 	  in the Vaio Picturebook laptops. Please read the material in
+-	  <file:Documentation/video4linux/meye.txt> for more information.
++	  <file:Documentation/media/v4l-drivers/meye.rst> for more information.
+=20
+ 	  If you say Y or M here, you need to say Y or M to "Sony Laptop
+ 	  Extras" in the misc device section.
+diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/p=
+xa_camera.c
+index c71a00736541..2536dda76b7c 100644
+--- a/drivers/media/platform/pxa_camera.c
++++ b/drivers/media/platform/pxa_camera.c
+@@ -1021,7 +1021,7 @@ static void pxa_camera_wakeup(struct pxa_camera_dev *=
+pcdev,
+  *  - a videobuffer is queued on the pcdev->capture list
+  *
+  * Please check the "DMA hot chaining timeslice issue" in
+- *   Documentation/video4linux/pxa_camera.txt
++ *   Documentation/media/v4l-drivers/pxa_camera.rst
+  *
+  * Context: should only be called within the dma irq handler
+  */
+@@ -1443,7 +1443,7 @@ static void pxac_vb2_queue(struct vb2_buffer *vb)
+=20
+ /*
+  * Please check the DMA prepared buffer structure in :
+- *   Documentation/video4linux/pxa_camera.txt
++ *   Documentation/media/v4l-drivers/pxa_camera.rst
+  * Please check also in pxa_camera_check_link_miss() to understand why DMA=
+ chain
+  * modification while DMA chain is running will work anyway.
+  */
+diff --git a/drivers/media/platform/soc_camera/sh_mobile_ceu_camera.c b/dri=
+vers/media/platform/soc_camera/sh_mobile_ceu_camera.c
+index 242342fd7ede..9897213f2618 100644
+--- a/drivers/media/platform/soc_camera/sh_mobile_ceu_camera.c
++++ b/drivers/media/platform/soc_camera/sh_mobile_ceu_camera.c
+@@ -1111,7 +1111,7 @@ static void sh_mobile_ceu_put_formats(struct soc_came=
+ra_device *icd)
+ /*
+  * CEU can scale and crop, but we don't want to waste bandwidth and kill t=
+he
+  * framerate by always requesting the maximum image from the client. See
+- * Documentation/video4linux/sh_mobile_ceu_camera.txt for a description of
++ * Documentation/media/v4l-drivers/sh_mobile_ceu_camera.rst for a descript=
+ion of
+  * scaling and cropping algorithms and for the meaning of referenced here =
+steps.
+  */
+ static int sh_mobile_ceu_set_selection(struct soc_camera_device *icd,
+diff --git a/drivers/media/radio/Kconfig b/drivers/media/radio/Kconfig
+index 192f36f2f4aa..801d032f4242 100644
+--- a/drivers/media/radio/Kconfig
++++ b/drivers/media/radio/Kconfig
+@@ -274,7 +274,7 @@ config RADIO_RTRACK
+ 	  been reported to be used by these cards.
+=20
+ 	  More information is contained in the file
+-	  <file:Documentation/video4linux/radiotrack.txt>.
++	  <file:Documentation/media/v4l-drivers/radiotrack.rst>.
+=20
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called radio-aimslab.
+diff --git a/drivers/media/radio/si470x/Kconfig b/drivers/media/radio/si470=
+x/Kconfig
+index a466654ee5c9..40546b2311b8 100644
+--- a/drivers/media/radio/si470x/Kconfig
++++ b/drivers/media/radio/si470x/Kconfig
+@@ -15,7 +15,7 @@ config USB_SI470X
+=20
+ 	  Please have a look at the documentation, especially on how
+ 	  to redirect the audio stream from the radio to your sound device:
+-	  Documentation/video4linux/si470x.txt
++	  Documentation/media/v4l-drivers/si470x.rst
+=20
+ 	  Say Y here if you want to connect this type of radio to your
+ 	  computer's USB port.
+diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c b/drivers/media/usb/dvb=
+-usb-v2/lmedm04.c
+index be26c029546b..39db6dc4b5cd 100644
+--- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
++++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
+@@ -21,7 +21,7 @@
+  *
+  * LME2510C + M88RS2000
+  *
+- * For firmware see Documentation/dvb/lmedm04.txt
++ * For firmware see Documentation/media/dvb-drivers/lmedm04.rst
+  *
+  * I2C addresses:
+  * 0xd0 - STV0288	- Demodulator
+diff --git a/drivers/media/usb/zr364xx/Kconfig b/drivers/media/usb/zr364xx/=
+Kconfig
+index 0f585662881d..ac429bca70e8 100644
+--- a/drivers/media/usb/zr364xx/Kconfig
++++ b/drivers/media/usb/zr364xx/Kconfig
+@@ -6,7 +6,7 @@ config USB_ZR364XX
+ 	---help---
+ 	  Say Y here if you want to connect this type of camera to your
+ 	  computer's USB port.
+-	  See <file:Documentation/video4linux/zr364xx.txt> for more info
++	  See <file:Documentation/media/v4l-drivers/zr364xx.rst> for more info
+ 	  and list of supported cameras.
+=20
+ 	  To compile this driver as a module, choose M here: the
+diff --git a/drivers/parport/Kconfig b/drivers/parport/Kconfig
+index 44333bd8f908..a97f4eada60b 100644
+--- a/drivers/parport/Kconfig
++++ b/drivers/parport/Kconfig
+@@ -20,7 +20,7 @@ menuconfig PARPORT
+ 	  drive, PLIP link (Parallel Line Internet Protocol is mainly used to
+ 	  create a mini network by connecting the parallel ports of two local
+ 	  machines) etc., then you need to say Y here; please read
+-	  <file:Documentation/parport.txt> and
++	  <file:Documentation/admin-guide/parport.rst> and
+ 	  <file:drivers/parport/BUGS-parport>.
+=20
+ 	  For extensive information about drivers for many devices attaching
+@@ -33,7 +33,7 @@ menuconfig PARPORT
+ 	  the module will be called parport.
+ 	  If you have more than one parallel port and want to specify which
+ 	  port and IRQ to be used by this driver at module load time, take a
+-	  look at <file:Documentation/parport.txt>.
++	  look at <file:Documentation/admin-guide/parport.rst>.
+=20
+ 	  If unsure, say Y.
+=20
+@@ -71,7 +71,7 @@ config PARPORT_PC_FIFO
+ 	  As well as actually having a FIFO, or DMA capability, the kernel
+ 	  will need to know which IRQ the parallel port has.  By default,
+ 	  parallel port interrupts will not be used, and so neither will the
+-	  FIFO.  See <file:Documentation/parport.txt> to find out how to
++	  FIFO.  See <file:Documentation/admin-guide/parport.rst> to find out how=
+ to
+ 	  specify which IRQ/DMA to use.
+=20
+ config PARPORT_PC_SUPERIO
+diff --git a/drivers/staging/media/bcm2048/TODO b/drivers/staging/media/bcm=
+2048/TODO
+index 051f85dbe89e..6bee2a2dad68 100644
+--- a/drivers/staging/media/bcm2048/TODO
++++ b/drivers/staging/media/bcm2048/TODO
+@@ -3,7 +3,7 @@ TODO:
+ From the initial code review:
+=20
+ The main thing you need to do is to implement all the controls using the
+-control framework (see Documentation/video4linux/v4l2-controls.txt).
++control framework (see Documentation/media/kapi/v4l2-controls.rst).
+ Most drivers are by now converted to the control framework, so you will
+ find many examples of how to do this in drivers/media/radio.
+=20
+diff --git a/include/linux/assoc_array.h b/include/linux/assoc_array.h
+index a89df3be1686..65e3832f96b2 100644
+--- a/include/linux/assoc_array.h
++++ b/include/linux/assoc_array.h
+@@ -1,6 +1,6 @@
+ /* Generic associative array implementation.
+  *
+- * See Documentation/assoc_array.txt for information.
++ * See Documentation/core-api/assoc_array.rst for information.
+  *
+  * Copyright (C) 2013 Red Hat, Inc. All Rights Reserved.
+  * Written by David Howells (dhowells@redhat.com)
+diff --git a/include/linux/assoc_array_priv.h b/include/linux/assoc_array_p=
+riv.h
+index 711275e6681c..a00a06550c10 100644
+--- a/include/linux/assoc_array_priv.h
++++ b/include/linux/assoc_array_priv.h
+@@ -1,6 +1,6 @@
+ /* Private definitions for the generic associative array implementation.
+  *
+- * See Documentation/assoc_array.txt for information.
++ * See Documentation/core-api/assoc_array.rst for information.
+  *
+  * Copyright (C) 2013 Red Hat, Inc. All Rights Reserved.
+  * Written by David Howells (dhowells@redhat.com)
+diff --git a/include/linux/circ_buf.h b/include/linux/circ_buf.h
+index 7cf262a421c3..b3233e8202f9 100644
+--- a/include/linux/circ_buf.h
++++ b/include/linux/circ_buf.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * See Documentation/circular-buffers.txt for more information.
++ * See Documentation/core-api/circular-buffers.rst for more information.
+  */
+=20
+ #ifndef _LINUX_CIRC_BUF_H
+diff --git a/include/linux/ftrace.h b/include/linux/ftrace.h
+index 9c3c9a319e48..8154f4920fcb 100644
+--- a/include/linux/ftrace.h
++++ b/include/linux/ftrace.h
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * Ftrace header.  For implementation details beyond the random comments
+- * scattered below, see: Documentation/trace/ftrace-design.txt
++ * scattered below, see: Documentation/trace/ftrace-design.rst
+  */
+=20
+ #ifndef _LINUX_FTRACE_H
+diff --git a/include/linux/rculist_nulls.h b/include/linux/rculist_nulls.h
+index e4b257ff881b..bc8206a8f30e 100644
+--- a/include/linux/rculist_nulls.h
++++ b/include/linux/rculist_nulls.h
+@@ -109,7 +109,7 @@ static inline void hlist_nulls_add_head_rcu(struct hlis=
+t_nulls_node *n,
+  *
+  * The barrier() is needed to make sure compiler doesn't cache first eleme=
+nt [1],
+  * as this loop can be restarted [2]
+- * [1] Documentation/atomic_ops.txt around line 114
++ * [1] Documentation/core-api/atomic_ops.rst around line 114
+  * [2] Documentation/RCU/rculist_nulls.txt around line 146
+  */
+ #define hlist_nulls_for_each_entry_rcu(tpos, pos, head, member)			\
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index af5f8c2df87a..d9ed4230401d 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -170,7 +170,7 @@ struct prctl_mm_map {
+  * asking selinux for a specific new context (e.g. with runcon) will result
+  * in execve returning -EPERM.
+  *
+- * See Documentation/prctl/no_new_privs.txt for more details.
++ * See Documentation/userspace-api/no_new_privs.rst for more details.
+  */
+ #define PR_SET_NO_NEW_PRIVS	38
+ #define PR_GET_NO_NEW_PRIVS	39
+diff --git a/include/xen/interface/io/kbdif.h b/include/xen/interface/io/kb=
+dif.h
+index 2a9510ade701..e2340a4130cf 100644
+--- a/include/xen/interface/io/kbdif.h
++++ b/include/xen/interface/io/kbdif.h
+@@ -317,7 +317,7 @@ struct xenkbd_position {
+  * Linux [2] and Windows [3] multi-touch support.
+  *
+  * [1] https://cgit.freedesktop.org/wayland/wayland/tree/protocol/wayland.=
+xml
+- * [2] https://www.kernel.org/doc/Documentation/input/multi-touch-protocol=
+.txt
++ * [2] https://www.kernel.org/doc/Documentation/input/multi-touch-protocol=
+.rst
+  * [3] https://msdn.microsoft.com/en-us/library/jj151564(v=3Dvs.85).aspx
+  *
+  *
+diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+index c4f0f2e4126e..a4804a848cae 100644
+--- a/kernel/trace/Kconfig
++++ b/kernel/trace/Kconfig
+@@ -12,22 +12,22 @@ config NOP_TRACER
+ config HAVE_FTRACE_NMI_ENTER
+ 	bool
+ 	help
+-	  See Documentation/trace/ftrace-design.txt
++	  See Documentation/trace/ftrace-design.rst
+=20
+ config HAVE_FUNCTION_TRACER
+ 	bool
+ 	help
+-	  See Documentation/trace/ftrace-design.txt
++	  See Documentation/trace/ftrace-design.rst
+=20
+ config HAVE_FUNCTION_GRAPH_TRACER
+ 	bool
+ 	help
+-	  See Documentation/trace/ftrace-design.txt
++	  See Documentation/trace/ftrace-design.rst
+=20
+ config HAVE_DYNAMIC_FTRACE
+ 	bool
+ 	help
+-	  See Documentation/trace/ftrace-design.txt
++	  See Documentation/trace/ftrace-design.rst
+=20
+ config HAVE_DYNAMIC_FTRACE_WITH_REGS
+ 	bool
+@@ -35,12 +35,12 @@ config HAVE_DYNAMIC_FTRACE_WITH_REGS
+ config HAVE_FTRACE_MCOUNT_RECORD
+ 	bool
+ 	help
+-	  See Documentation/trace/ftrace-design.txt
++	  See Documentation/trace/ftrace-design.rst
+=20
+ config HAVE_SYSCALL_TRACEPOINTS
+ 	bool
+ 	help
+-	  See Documentation/trace/ftrace-design.txt
++	  See Documentation/trace/ftrace-design.rst
+=20
+ config HAVE_FENTRY
+ 	bool
+@@ -452,7 +452,7 @@ config KPROBE_EVENTS
+ 	help
+ 	  This allows the user to add tracing events (similar to tracepoints)
+ 	  on the fly via the ftrace interface. See
+-	  Documentation/trace/kprobetrace.txt for more details.
++	  Documentation/trace/kprobetrace.rst for more details.
+=20
+ 	  Those events can be inserted wherever kprobes can probe, and record
+ 	  various register and memory values.
+@@ -579,7 +579,7 @@ config MMIOTRACE
+ 	  implementation and works via page faults. Tracing is disabled by
+ 	  default and can be enabled at run-time.
+=20
+-	  See Documentation/trace/mmiotrace.txt.
++	  See Documentation/trace/mmiotrace.rst.
+ 	  If you are not helping to develop drivers, say N.
+=20
+ config TRACING_MAP
+diff --git a/lib/Kconfig b/lib/Kconfig
+index 5fe577673b98..79483c8d8b9c 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -405,7 +405,7 @@ config ASSOCIATIVE_ARRAY
+=20
+ 	  See:
+=20
+-		Documentation/assoc_array.txt
++		Documentation/core-api/assoc_array.rst
+=20
+ 	  for more information.
+=20
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 4cafe6a19167..bb94bb7ffe8b 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -4697,7 +4697,7 @@ static int selinux_socket_bind(struct socket *sock, s=
+truct sockaddr *address, in
+ }
+=20
+ /* This supports connect(2) and SCTP connect services such as sctp_connect=
+x(3)
+- * and sctp_sendmsg(3) as described in Documentation/security/LSM-sctp.txt
++ * and sctp_sendmsg(3) as described in Documentation/security/LSM-sctp.rst
+  */
+ static int selinux_socket_connect_helper(struct socket *sock,
+ 					 struct sockaddr *address, int addrlen)
+diff --git a/sound/drivers/Kconfig b/sound/drivers/Kconfig
+index 7144cc36e8ae..648a12da44f9 100644
+--- a/sound/drivers/Kconfig
++++ b/sound/drivers/Kconfig
+@@ -153,7 +153,7 @@ config SND_SERIAL_U16550
+ 	select SND_RAWMIDI
+ 	help
+ 	  To include support for MIDI serial port interfaces, say Y here
+-	  and read <file:Documentation/sound/alsa/serial-u16550.txt>.
++	  and read <file:Documentation/sound/cards/serial-u16550.rst>.
+ 	  This driver works with serial UARTs 16550 and better.
+=20
+ 	  This driver accesses the serial port hardware directly, so
+@@ -223,7 +223,7 @@ config SND_AC97_POWER_SAVE
+ 	  the device frequently.  A value of 10 seconds would be a
+ 	  good choice for normal operations.
+=20
+-	  See Documentation/sound/alsa/powersave.txt for more details.
++	  See Documentation/sound/designs/powersave.rst for more details.
+=20
+ config SND_AC97_POWER_SAVE_DEFAULT
+ 	int "Default time-out for AC97 power-save mode"
+diff --git a/tools/include/uapi/linux/prctl.h b/tools/include/uapi/linux/pr=
+ctl.h
+index af5f8c2df87a..d9ed4230401d 100644
+--- a/tools/include/uapi/linux/prctl.h
++++ b/tools/include/uapi/linux/prctl.h
+@@ -170,7 +170,7 @@ struct prctl_mm_map {
+  * asking selinux for a specific new context (e.g. with runcon) will result
+  * in execve returning -EPERM.
+  *
+- * See Documentation/prctl/no_new_privs.txt for more details.
++ * See Documentation/userspace-api/no_new_privs.rst for more details.
+  */
+ #define PR_SET_NO_NEW_PRIVS	38
+ #define PR_GET_NO_NEW_PRIVS	39
+diff --git a/tools/lib/api/fs/fs.c b/tools/lib/api/fs/fs.c
+index 6a12bbf39f7b..7aba8243a0e7 100644
+--- a/tools/lib/api/fs/fs.c
++++ b/tools/lib/api/fs/fs.c
+@@ -201,7 +201,7 @@ static void mem_toupper(char *f, size_t len)
+=20
+ /*
+  * Check for "NAME_PATH" environment variable to override fs location (for
+- * testing). This matches the recommendation in Documentation/sysfs-rules.=
+txt
++ * testing). This matches the recommendation in Documentation/admin-guide/=
+sysfs-rules.rst
+  * for SYSFS_PATH.
+  */
+ static bool fs__env_override(struct fs *fs)
+diff --git a/tools/perf/util/bpf-prologue.c b/tools/perf/util/bpf-prologue.c
+index 29347756b0af..77e4891e17b0 100644
+--- a/tools/perf/util/bpf-prologue.c
++++ b/tools/perf/util/bpf-prologue.c
+@@ -61,7 +61,7 @@ check_pos(struct bpf_insn_pos *pos)
+=20
+ /*
+  * Convert type string (u8/u16/u32/u64/s8/s16/s32/s64 ..., see
+- * Documentation/trace/kprobetrace.txt) to size field of BPF_LDX_MEM
++ * Documentation/trace/kprobetrace.rst) to size field of BPF_LDX_MEM
+  * instruction (BPF_{B,H,W,DW}).
+  */
+ static int
+diff --git a/tools/power/pm-graph/config/custom-timeline-functions.cfg b/to=
+ols/power/pm-graph/config/custom-timeline-functions.cfg
+index 4f80ad7d7275..f8fcb06fd68b 100644
+--- a/tools/power/pm-graph/config/custom-timeline-functions.cfg
++++ b/tools/power/pm-graph/config/custom-timeline-functions.cfg
+@@ -105,7 +105,7 @@ override-dev-timeline-functions: true
+ #       example: [color=3D#CC00CC]
+ #
+ #   arglist: A list of arguments from registers/stack addresses. See URL:
+-#            https://www.kernel.org/doc/Documentation/trace/kprobetrace.txt
++#            https://www.kernel.org/doc/Documentation/trace/kprobetrace.rst
+ #
+ #       example: cpu=3D%di:s32
+ #
+@@ -170,7 +170,7 @@ pm_restore_console:
+ #       example: [color=3D#CC00CC]
+ #
+ #   arglist: A list of arguments from registers/stack addresses. See URL:
+-#            https://www.kernel.org/doc/Documentation/trace/kprobetrace.txt
++#            https://www.kernel.org/doc/Documentation/trace/kprobetrace.rst
+ #
+ #       example: port=3D+36(%di):s32
+ #
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
