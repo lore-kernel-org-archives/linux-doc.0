@@ -5,30 +5,33 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5A6C67DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 15:17:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4A6C97DE78
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 May 2018 15:19:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932252AbeEHPRM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 May 2018 11:17:12 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35524 "EHLO ms.lwn.net"
+        id S1755059AbeEHPTK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 May 2018 11:19:10 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35562 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754632AbeEHPRM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 May 2018 11:17:12 -0400
+        id S1752228AbeEHPTK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 May 2018 11:19:10 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 20C5A2DD;
-        Tue,  8 May 2018 15:17:11 +0000 (UTC)
-Date:   Tue, 8 May 2018 09:17:08 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 8FE2B318;
+        Tue,  8 May 2018 15:19:08 +0000 (UTC)
+Date:   Tue, 8 May 2018 09:19:06 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "dongbo (E)" <dongbo4@huawei.com>
-Cc:     <alex.williamson@redhat.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] vfio: fix documentation
-Message-ID: <20180508091708.7e8ed88c@lwn.net>
-In-Reply-To: <eacddc78-279c-abe8-e663-9849973dd6a3@huawei.com>
-References: <eacddc78-279c-abe8-e663-9849973dd6a3@huawei.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        axboe <axboe@kernel.dk>, LKML <linux-kernel@vger.kernel.org>,
+        Cai Zhiyong <caizhiyong@huawei.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: block: cmdline-partition.txt fixes and
+ additions
+Message-ID: <20180508091906.7d085bf4@lwn.net>
+In-Reply-To: <dba389fc-2745-34b1-e33e-fc83f53eaf42@infradead.org>
+References: <dba389fc-2745-34b1-e33e-fc83f53eaf42@infradead.org>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -39,12 +42,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 7 May 2018 11:02:10 +0800
-"dongbo (E)" <dongbo4@huawei.com> wrote:
+On Sun, 6 May 2018 11:50:29 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> Update vfio_add_group_dev description to match the current API.
+> Make the description of the kernel command line option "blkdevparts"
+> a bit more flowing and readable.
 > 
-> Signed-off-by: Dong Bo <dongbo4@huawei.com>
+> Fix a few typos.
+> Add the optional <size> and <offset> suffixes.
+> Note that size can be "-" to indicate all of the remaining space.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
 Applied, thanks.
 
