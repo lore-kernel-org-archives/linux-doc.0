@@ -4,45 +4,37 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B45697DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 13:20:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7BB57DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 13:20:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935271AbeEINTf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 May 2018 09:19:35 -0400
-Received: from osg.samsung.com ([64.30.133.232]:58914 "EHLO osg.samsung.com"
+        id S935260AbeEINTd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 May 2018 09:19:33 -0400
+Received: from osg.samsung.com ([64.30.133.232]:60030 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S935188AbeEINTR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 May 2018 09:19:17 -0400
+        id S935219AbeEINTS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 May 2018 09:19:18 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 85B322C25E;
-        Wed,  9 May 2018 06:19:16 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 889222C26A;
+        Wed,  9 May 2018 06:19:17 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id MJ_ihCerSvnf; Wed,  9 May 2018 06:19:14 -0700 (PDT)
+        with ESMTP id bpluf1_MX-mx; Wed,  9 May 2018 06:19:16 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.96.165.dynamic.adsl.gvt.net.br [177.41.96.165])
-        by osg.samsung.com (Postfix) with ESMTPSA id C59D12C226;
+        by osg.samsung.com (Postfix) with ESMTPSA id D60B22C22A;
         Wed,  9 May 2018 06:19:10 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.90_1)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fGOzs-0004Ok-UZ; Wed, 09 May 2018 10:19:08 -0300
+        id 1fGOzs-0004OQ-QU; Wed, 09 May 2018 10:19:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        "James E.J. Bottomley" <jejb@parisc-linux.org>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: [PATCH v2 10/11] arch/*: Kconfig: fix documentation for NMI watchdog
-Date:   Wed,  9 May 2018 10:18:53 -0300
-Message-Id: <30b7698983a917b736088821420ac0c3bd9f9a0f.1525870886.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 06/11] scripts/documentation-file-ref-check: rewrite it in perl with auto-fix mode
+Date:   Wed,  9 May 2018 10:18:49 -0300
+Message-Id: <f66d3153db8798ddb96a1231ca5994e47afda076.1525870886.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525870886.git.mchehab+samsung@kernel.org>
 References: <cover.1525870886.git.mchehab+samsung@kernel.org>
@@ -53,74 +45,172 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 9919cba7ff71 ("watchdog: Update documentation") updated
-the documentation, removing the old nmi_watchdog.txt and adding
-a file with a new content.
+The original shell script works, but:
+	1) it is too slow;
+	2) it is hard to exclude rejex patterns
 
-Update Kconfig files accordingly.
+Convert it to perl.
 
-Fixes: 9919cba7ff71 ("watchdog: Update documentation")
+Here, the new version is able to check the entire tree in
+less than a second (after cached):
+
+	real	0m0,284s
+	user	0m0,668s
+	sys	0m0,778s
+
+The old version takes more than a minute to complete (also
+after cached):
+	real	1m17,905s
+	user	0m25,583s
+	sys	0m55,334s
+
+It also produce less false-positives (if any).
+
+The new script also contains an auto-fix mode.
+
+Usually, file references get lost when they're moved to some other
+place and/or renamed to .rst.
+
+Add an experimental mode to auto-fix those.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- arch/arm/Kconfig    | 2 +-
- arch/parisc/Kconfig | 2 +-
- arch/sh/Kconfig     | 2 +-
- arch/sparc/Kconfig  | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ scripts/documentation-file-ref-check | 125 ++++++++++++++++++++++++---
+ 1 file changed, 113 insertions(+), 12 deletions(-)
 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index a7f8e7f4b88f..7b4fa8356978 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -1305,7 +1305,7 @@ config SMP
- 	  will run faster if you say N here.
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index bc1659900e89..2520bc14ffac 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -1,15 +1,116 @@
+-#!/bin/sh
++#!/usr/bin/env perl
++# SPDX-License-Identifier: GPL-2.0
++#
+ # Treewide grep for references to files under Documentation, and report
+ # non-existing files in stderr.
  
- 	  See also <file:Documentation/x86/i386/IO-APIC.txt>,
--	  <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO available at
-+	  <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO available at
- 	  <http://tldp.org/HOWTO/SMP-HOWTO.html>.
- 
- 	  If you don't know what to do here, say N.
-diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
-index fc5a574c3482..b6823215cc9a 100644
---- a/arch/parisc/Kconfig
-+++ b/arch/parisc/Kconfig
-@@ -279,7 +279,7 @@ config SMP
- 	  machines, but will use only one CPU of a multiprocessor machine.
- 	  On a uniprocessor machine, the kernel will run faster if you say N.
- 
--	  See also <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO
-+	  See also <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO
- 	  available at <http://www.tldp.org/docs.html#howto>.
- 
- 	  If you don't know what to do here, say N.
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 97fe29316476..bf628dd7c195 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -689,7 +689,7 @@ config SMP
- 	  People using multiprocessor machines who say Y here should also say
- 	  Y to "Enhanced Real Time Clock Support", below.
- 
--	  See also <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO
-+	  See also <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO
- 	  available at <http://www.tldp.org/docs.html#howto>.
- 
- 	  If you don't know what to do here, say N.
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 8767e45f1b2b..66171c2e428b 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -189,7 +189,7 @@ config SMP
- 	  Y to "Enhanced Real Time Clock Support", below. The "Advanced Power
- 	  Management" code will be disabled if you say Y here.
- 
--	  See also <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO
-+	  See also <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO
- 	  available at <http://www.tldp.org/docs.html#howto>.
- 
- 	  If you don't know what to do here, say N.
+-for f in $(git ls-files); do
+-	for ref in $(grep -ho "Documentation/[A-Za-z0-9_.,~/*+-]*" "$f"); do
+-		# presume trailing . and , are not part of the name
+-		ref=${ref%%[.,]}
+-
+-		# use ls to handle wildcards
+-		if ! ls $ref >/dev/null 2>&1; then
+-			echo "$f: $ref" >&2
+-		fi
+-	done
+-done
++use warnings;
++use strict;
++use Getopt::Long qw(:config no_auto_abbrev);
++
++my $scriptname = $0;
++$scriptname =~ s,.*/([^/]+/),$1,;
++
++# Parse arguments
++my $help = 0;
++my $fix = 0;
++
++GetOptions(
++	'fix' => \$fix,
++	'h|help|usage' => \$help,
++);
++
++if ($help != 0) {
++    print "$scriptname [--help] [--fix-rst]\n";
++    exit -1;
++}
++
++# Step 1: find broken references
++print "Finding broken references. This may take a while...  " if ($fix);
++
++my %broken_ref;
++
++open IN, "git grep 'Documentation/'|"
++     or die "Failed to run git grep";
++while (<IN>) {
++	next if (!m/^([^:]+):(.*)/);
++
++	my $f = $1;
++	my $ln = $2;
++
++	# Makefiles contain nasty expressions to parse docs
++	next if ($f =~ m/Makefile/);
++	# Skip this script
++	next if ($f eq $scriptname);
++
++	if ($ln =~ m,\b(\S*)(Documentation/[A-Za-z0-9\_\.\,\~/\*+-]*),) {
++		my $prefix = $1;
++		my $ref = $2;
++		my $base = $2;
++
++		$ref =~ s/[\,\.]+$//;
++
++		my $fulref = "$prefix$ref";
++
++		$fulref =~ s/^(\<file|ref)://;
++		$fulref =~ s/^[\'\`]+//;
++		$fulref =~ s,^\$\(.*\)/,,;
++		$base =~ s,.*/,,;
++
++		# Remove URL false-positives
++		next if ($fulref =~ m/^http/);
++
++		# Check if exists, evaluating wildcards
++		next if (grep -e, glob("$ref $fulref"));
++
++		if ($fix) {
++			if (!($ref =~ m/(devicetree|scripts|Kconfig|Kbuild)/)) {
++				$broken_ref{$ref}++;
++			}
++		} else {
++			print STDERR "$f: $fulref\n";
++		}
++	}
++}
++
++exit 0 if (!$fix);
++
++# Step 2: Seek for file name alternatives
++print "Auto-fixing broken references. Please double-check the results\n";
++
++foreach my $ref (keys %broken_ref) {
++	my $new =$ref;
++
++	# get just the basename
++	$new =~ s,.*/,,;
++
++	# Seek for the same name on another place, as it may have been moved
++	my $f="";
++
++	$f = qx(find . -iname $new) if ($new);
++
++	# usual reason for breakage: file renamed to .rst
++	if (!$f) {
++		$new =~ s/\.txt$/.rst/;
++		$f=qx(find . -iname $new) if ($new);
++	}
++
++	my @find = split /\s+/, $f;
++
++	if (!$f) {
++		print STDERR "ERROR: Didn't find a replacement for $ref\n";
++	} elsif (scalar(@find) > 1) {
++		print STDERR "WARNING: Won't auto-replace, as found multiple files close to $ref:\n";
++		foreach my $j (@find) {
++			$j =~ s,^./,,;
++			print STDERR "    $j\n";
++		}
++	} else {
++		$f = $find[0];
++		$f =~ s,^./,,;
++		print "INFO: Replacing $ref to $f\n";
++		foreach my $j (qx(git grep -l $ref)) {
++			qx(sed "s\@$ref\@$f\@g" -i $j);
++		}
++	}
++}
 -- 
 2.17.0
 
