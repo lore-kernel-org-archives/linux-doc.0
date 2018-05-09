@@ -1,110 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E0E277DE79
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 15:20:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E74F7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 15:56:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935296AbeEIPUe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 May 2018 11:20:34 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:56646 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935065AbeEIPUd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 May 2018 11:20:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=E4OtT9HulACvdU28ZDeVglojfjylcWsbaC363OQYM7w=; b=dNsmRQFDnwPjC7YNJePLECZTG
-        YAHEurTQESiXeupCNv+bAc+JlOOx2bnIw/P6TiFGmKIBeQePIsOoTvdrlFYDPmQMcJPFftIs/RLWb
-        SscBsQtuiItzICkgEGGTvr0kBBz0wbOCPFsuplZezKAWO/Nhpx8xoGO4d/X9w/mDHX6dm8AjxYGHe
-        NynB5p5UnjyXv/gYzF46FU6tiwkZA5oVHXh9l2yCnsqGevbBkkDR9STreRTjuBqQND6sPEVTLUYK/
-        rwqcQTJehABCzHA2oGgnyJx91Y+/MqCU473ytx7qDSthRWkbxV4/DFC+8MWFfX1N9/v4zt6xFld0J
-        LA+SqSDoQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fGQtI-0000cx-FZ; Wed, 09 May 2018 15:20:28 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B9A292029FA13; Wed,  9 May 2018 17:20:26 +0200 (CEST)
-Date:   Wed, 9 May 2018 17:20:26 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S965132AbeEIP4m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 May 2018 11:56:42 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:34931 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S964984AbeEIP4l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 May 2018 11:56:41 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 0CE9A206FB; Wed,  9 May 2018 17:56:39 +0200 (CEST)
+Received: from bbrezillon (unknown [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id B3DF720898;
+        Wed,  9 May 2018 17:56:28 +0200 (CEST)
+Date:   Wed, 9 May 2018 17:56:28 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Weinberger <richard@nod.at>,
+        linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH 13/18] wait: wait.h: Get rid of a kernel-doc/Sphinx
- warnings
-Message-ID: <20180509152026.GA12198@hirez.programming.kicks-ass.net>
+        linux-mtd@lists.infradead.org,
+        Brian Norris <computersforpeace@gmail.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Marek Vasut <marek.vasut@gmail.com>
+Subject: Re: [PATCH 16/18] mtd: rawnand.h: use nested union kernel-doc
+ markups
+Message-ID: <20180509175628.204fdb71@bbrezillon>
+In-Reply-To: <39d8d4f0e0ff5a06be0303f7f4f2eac5fb45b9ca.1525684985.git.mchehab+samsung@kernel.org>
 References: <cover.1525684985.git.mchehab+samsung@kernel.org>
- <6b9b3184cbfabab1ad89c974ddf1c61631e8f1bf.1525684985.git.mchehab+samsung@kernel.org>
- <20180509084120.GF12217@hirez.programming.kicks-ass.net>
- <20180509084518.247650e2@lwn.net>
+        <39d8d4f0e0ff5a06be0303f7f4f2eac5fb45b9ca.1525684985.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180509084518.247650e2@lwn.net>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 09, 2018 at 08:45:18AM -0600, Jonathan Corbet wrote:
-> On Wed, 9 May 2018 10:41:20 +0200
-> Peter Zijlstra <peterz@infradead.org> wrote:
+On Mon,  7 May 2018 06:35:52 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+
+> Gets rid of those warnings and better document the parameters.
 > 
-> > > This is easily done by using "::" instead of just ":".  
-> > 
-> > And I'll voice my objection once again. This makes a regular comment
-> > worse. This rst stuff is utter shit for making normal text files less
-> > readable in your favourite text editor.
-> > 
-> > If this gets merged, I'll simply remove that spurious ':' the next time
-> > I'm near that comment.
+>   ./include/linux/mtd/rawnand.h:752: warning: Function parameter or member 'timings.sdr' not described in 'nand_data_interface'
+>   ./include/linux/mtd/rawnand.h:817: warning: Function parameter or member 'buf' not described in 'nand_op_data_instr'
+>   ./include/linux/mtd/rawnand.h:817: warning: Function parameter or member 'buf.in' not described in 'nand_op_data_instr'
+>   ./include/linux/mtd/rawnand.h:817: warning: Function parameter or member 'buf.out' not described in 'nand_op_data_instr'
+>   ./include/linux/mtd/rawnand.h:863: warning: Function parameter or member 'ctx' not described in 'nand_op_instr'
+>   ./include/linux/mtd/rawnand.h:863: warning: Function parameter or member 'ctx.cmd' not described in 'nand_op_instr'
+>   ./include/linux/mtd/rawnand.h:863: warning: Function parameter or member 'ctx.addr' not described in 'nand_op_instr'
+>   ./include/linux/mtd/rawnand.h:863: warning: Function parameter or member 'ctx.data' not described in 'nand_op_instr'
+>   ./include/linux/mtd/rawnand.h:863: warning: Function parameter or member 'ctx.waitrdy' not described in 'nand_op_instr'
+>   ./include/linux/mtd/rawnand.h:1010: warning: Function parameter or member 'ctx' not described in 'nand_op_parser_pattern_elem'
+>   ./include/linux/mtd/rawnand.h:1010: warning: Function parameter or member 'ctx.addr' not described in 'nand_op_parser_pattern_elem'
+>   ./include/linux/mtd/rawnand.h:1010: warning: Function parameter or member 'ctx.data' not described in 'nand_op_parser_pattern_elem'
+>   ./include/linux/mtd/rawnand.h:1313: warning: Function parameter or member 'manufacturer.desc' not described in 'nand_chip'
+>   ./include/linux/mtd/rawnand.h:1313: warning: Function parameter or member 'manufacturer.priv' not described in 'nand_chip'
 > 
-> Seriously, Peter?
+>   ./include/linux/mtd/rawnand.h:848: WARNING: Unexpected indentation.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Yep... it makes for pointlessly ugly text. And seeing that the only way
-to write code is using text editors, the text editor is the primary
-interface to our code.
+Applied.
 
-The whole rst wankery is detrimental to that interface in order to
-pander to something else.. I don't see the value. I've objected before,
-and I suppose I'll object again.
+Thanks,
 
-> It's a simple colon.  It goes along with the /** marker for kerneldoc
-> comments and the @ markers found within them, both of which you seem to
-> have found a way to live with.
+Boris
 
-Barely, and personally I tend to not bother with kerneldoc much. Most of
-the comments I write lack the extra *, and I note that the other fix to
-this problem it to drop that spurious * here as well.
-
-The @arg thing is okay, it clearly distinguishes arguments/variable
-names from regular text. But "::" is the C++ class member syntax, not
-the start of an English enumeration or the like.
-
-> The RST work was discussed for a year before we even started.  It has
-> brought in the efforts of a large number of developers, all of whom see
-> the value in actually caring about our documentation and making it
-> accessible to a much larger group of readers.  And it has all happened
-> while preserving the primacy of the plain-text documentation.
-
-Clearly I don't agree. It reads like crap. I suspect many of the other
-options, which I suppose there were, were even worse. Doesn't mean rst
-is any good.
-
-> You're not the only consumer of the docs.  You may not appreciate the
-> improvements that have come, but others certainly do.  I do hope that you
-> can find it in youself to avoid vandalizing things for everybody else ...?
-
-Why should I care for people not using text editors to write code?
+> ---
+>  include/linux/mtd/rawnand.h | 26 ++++++++++++++++++--------
+>  1 file changed, 18 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/linux/mtd/rawnand.h b/include/linux/mtd/rawnand.h
+> index 5dad59b31244..b986f94906df 100644
+> --- a/include/linux/mtd/rawnand.h
+> +++ b/include/linux/mtd/rawnand.h
+> @@ -740,8 +740,9 @@ enum nand_data_interface_type {
+>  
+>  /**
+>   * struct nand_data_interface - NAND interface timing
+> - * @type:	type of the timing
+> - * @timings:	The timing, type according to @type
+> + * @type:	 type of the timing
+> + * @timings:	 The timing, type according to @type
+> + * @timings.sdr: Use it when @type is %NAND_SDR_IFACE.
+>   */
+>  struct nand_data_interface {
+>  	enum nand_data_interface_type type;
+> @@ -798,8 +799,9 @@ struct nand_op_addr_instr {
+>  /**
+>   * struct nand_op_data_instr - Definition of a data instruction
+>   * @len: number of data bytes to move
+> - * @in: buffer to fill when reading from the NAND chip
+> - * @out: buffer to read from when writing to the NAND chip
+> + * @buf: buffer to fill
+> + * @buf.in: buffer to fill when reading from the NAND chip
+> + * @buf.out: buffer to read from when writing to the NAND chip
+>   * @force_8bit: force 8-bit access
+>   *
+>   * Please note that "in" and "out" are inverted from the ONFI specification
+> @@ -842,9 +844,13 @@ enum nand_op_instr_type {
+>  /**
+>   * struct nand_op_instr - Instruction object
+>   * @type: the instruction type
+> - * @cmd/@addr/@data/@waitrdy: extra data associated to the instruction.
+> - *                            You'll have to use the appropriate element
+> - *                            depending on @type
+> + * @ctx:  extra data associated to the instruction. You'll have to use the
+> + *        appropriate element depending on @type
+> + * @ctx.cmd: use it if @type is %NAND_OP_CMD_INSTR
+> + * @ctx.addr: use it if @type is %NAND_OP_ADDR_INSTR
+> + * @ctx.data: use it if @type is %NAND_OP_DATA_IN_INSTR
+> + *	      or %NAND_OP_DATA_OUT_INSTR
+> + * @ctx.waitrdy: use it if @type is %NAND_OP_WAITRDY_INSTR
+>   * @delay_ns: delay the controller should apply after the instruction has been
+>   *	      issued on the bus. Most modern controllers have internal timings
+>   *	      control logic, and in this case, the controller driver can ignore
+> @@ -997,7 +1003,9 @@ struct nand_op_parser_data_constraints {
+>   * struct nand_op_parser_pattern_elem - One element of a pattern
+>   * @type: the instructuction type
+>   * @optional: whether this element of the pattern is optional or mandatory
+> - * @addr/@data: address or data constraint (number of cycles or data length)
+> + * @ctx: address or data constraint
+> + * @ctx.addr: address constraint (number of cycles)
+> + * @ctx.data: data constraint (data length)
+>   */
+>  struct nand_op_parser_pattern_elem {
+>  	enum nand_op_instr_type type;
+> @@ -1224,6 +1232,8 @@ int nand_op_parser_exec_op(struct nand_chip *chip,
+>   *			devices.
+>   * @priv:		[OPTIONAL] pointer to private chip data
+>   * @manufacturer:	[INTERN] Contains manufacturer information
+> + * @manufacturer.desc:	[INTERN] Contains manufacturer's description
+> + * @manufacturer.priv:	[INTERN] Contains manufacturer private information
+>   */
+>  
+>  struct nand_chip {
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
