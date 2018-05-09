@@ -1,75 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4CB17DE78
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 19:31:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7B8A67DE78
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 19:32:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S964944AbeEITbv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 May 2018 15:31:51 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:36136 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S964850AbeEITbu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 May 2018 15:31:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=1fUaM4LDHHOawoYSoIwzOCcCsW9ZxQWw4muxzEoF6F4=; b=1xhOv9JNtlic9sTezvj2JbFFy
-        S8a9fkPszGHkh0BmOxD0z7RnMAA+1KesDghHvVRhqPwl1DkiuzbABNe92SBIIqJk7ZhCzN7MA+6IJ
-        wJNwr5XabPy8pqnrIQJBBHWg7fcEu3ecSnA8I/e4njVZkzQ+QJXL13GC4NedQiE3J3yNSbF36S4b1
-        Apt+KCPS9yX2+3nws/lVt9Ya5Rx0PADjb4Jgn5Ze5tK/WFnNVAbI23H8QwIoeBik8LcuKVAXnr6AZ
-        ZGv0sVHOFokn8mVWHmB+Aoyz8AR1hrJ7p1uwVOUw46LZgtZx//F6mvR/CdJaynys5Cs7i5SVH8yh+
-        DmCj7jL8g==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fGUoR-00035H-5T; Wed, 09 May 2018 19:31:43 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 48EDF2029FA13; Wed,  9 May 2018 21:31:38 +0200 (CEST)
-Date:   Wed, 9 May 2018 21:31:38 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH 13/18] wait: wait.h: Get rid of a kernel-doc/Sphinx
- warnings
-Message-ID: <20180509193138.GW12217@hirez.programming.kicks-ass.net>
-References: <cover.1525684985.git.mchehab+samsung@kernel.org>
- <6b9b3184cbfabab1ad89c974ddf1c61631e8f1bf.1525684985.git.mchehab+samsung@kernel.org>
- <20180509084120.GF12217@hirez.programming.kicks-ass.net>
- <20180509084518.247650e2@lwn.net>
- <20180509152026.GA12198@hirez.programming.kicks-ass.net>
- <20180509123540.083b61d2@lwn.net>
+        id S965372AbeEITcE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 May 2018 15:32:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:32804 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S964850AbeEITcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 May 2018 15:32:03 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (charybdis-ext.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 5019FADDC;
+        Wed,  9 May 2018 19:32:01 +0000 (UTC)
+Date:   Wed, 9 May 2018 19:32:00 +0000
+From:   "Luis R. Rodriguez" <mcgrof@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v7 1/4] ipc: IPCMNI limit check for msgmni and shmmni
+Message-ID: <20180509193200.GU27853@wotan.suse.de>
+References: <1525726752-29281-1-git-send-email-longman@redhat.com>
+ <1525726752-29281-2-git-send-email-longman@redhat.com>
+ <20180507223910.GW27853@wotan.suse.de>
+ <edcc0a97-fbec-f511-36d2-fea0e123b4ee@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180509123540.083b61d2@lwn.net>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+In-Reply-To: <edcc0a97-fbec-f511-36d2-fea0e123b4ee@redhat.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 09, 2018 at 12:35:40PM -0600, Jonathan Corbet wrote:
-> On Wed, 9 May 2018 17:20:26 +0200
-> Peter Zijlstra <peterz@infradead.org> wrote:
+On Mon, May 07, 2018 at 07:57:12PM -0400, Waiman Long wrote:
+> On 05/07/2018 06:39 PM, Luis R. Rodriguez wrote:
+> > On Mon, May 07, 2018 at 04:59:09PM -0400, Waiman Long wrote:
+> >> A user can write arbitrary integer values to msgmni and shmmni sysctl
+> >> parameters without getting error, but the actual limit is really
+> >> IPCMNI (32k). This can mislead users as they think they can get a
+> >> value that is not real.
+> >>
+> >> The right limits are now set for msgmni and shmmni so that the users
+> >> will become aware if they set a value outside of the acceptable range.
+> >>
+> >> Signed-off-by: Waiman Long <longman@redhat.com>
+> >> ---
+> >>  ipc/ipc_sysctl.c | 7 +++++--
+> >>  1 file changed, 5 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
+> >> index 8ad93c2..f87cb29 100644
+> >> --- a/ipc/ipc_sysctl.c
+> >> +++ b/ipc/ipc_sysctl.c
+> >> @@ -99,6 +99,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+> >>  static int zero;
+> >>  static int one = 1;
+> >>  static int int_max = INT_MAX;
+> >> +static int ipc_mni = IPCMNI;
+> >>  
+> >>  static struct ctl_table ipc_kern_table[] = {
+> >>  	{
+> >> @@ -120,7 +121,9 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+> >>  		.data		= &init_ipc_ns.shm_ctlmni,
+> >>  		.maxlen		= sizeof(init_ipc_ns.shm_ctlmni),
+> >>  		.mode		= 0644,
+> >> -		.proc_handler	= proc_ipc_dointvec,
+> >> +		.proc_handler	= proc_ipc_dointvec_minmax,
+> >> +		.extra1		= &zero,
+> >> +		.extra2		= &ipc_mni,
+> >>  	},
+> >>  	{
+> >>  		.procname	= "shm_rmid_forced",
+> >> @@ -147,7 +150,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
+> >>  		.mode		= 0644,
+> >>  		.proc_handler	= proc_ipc_dointvec_minmax,
+> >>  		.extra1		= &zero,
+> >> -		.extra2		= &int_max,
+> >> +		.extra2		= &ipc_mni,
+> >>  	},
+> >>  	{
+> >>  		.procname	= "auto_msgmni",
+> >> -- 
+> >> 1.8.3.1
+> > It seems negative values are not allowed, if true then having
+> > a caller to use proc_douintvec_minmax() would help with ensuring
+> > no invalid negative input values are used as well.
+> >
+> >   Luis
 > 
-> > The whole rst wankery is detrimental to that interface in order to
-> > pander to something else.. I don't see the value. I've objected before,
-> > and I suppose I'll object again.
-> 
-> One person's wankery is another's integrated, browsable, and searchable
-> documentation that shows some signs of having actually been thought about,
-> I guess.
+> Negative value doesn't mean sense here. So it is true that we can use
+> proc_douintvec_minmax() instead. However, the data types themselves are
+> defined as "int". So I think it is better to keep using
+> proc_dointvec_minmax() to be consistent with the data type.
 
-Browsable is what we have ctags/cscope for and searchable is git-grep, right?
+Huh, no... If you *know* the valid values *are* only positive, the right
+thing to do is to then *change* the data type. Tons of odd bugs can creep
+up because of these stupid things.
+
+  Luis
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
