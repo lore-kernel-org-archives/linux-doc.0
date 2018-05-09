@@ -1,81 +1,235 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 91BC47DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 12:32:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAF357DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 12:40:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934553AbeEIMcZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 May 2018 08:32:25 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60342 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934126AbeEIMcX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 May 2018 08:32:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=PJ+jDccTd7ZHGMbCFLmCQENhVSBHyhvrj8oOlTwWvzw=; b=FGyGxPl9CVw0DUQWWLJiRnHYB
-        OlDweZVrdCKtc+mq8O5vya5A7++6YdVpLTlTaWqfRVjXQp0P+rlVUCRwfGIQc+31EP67+Bvd1BlzY
-        sZICFvwKBRqbRUaBiyrvwx4SBiW6OW/HCrNSzPPyMt+gHLkTQDa6Z6BX0vRmekseDKQfGw99wgJSi
-        N0UXh1qSO/uQRm8Pm/EjvbV/jtb8IK4mVRsYdfd0eXbSaBLloRT1g956/usSOfD/Ll7wGDAIhKjjL
-        wk5rgxFmP1fkRM4YxOHFuApVzHwIAJxvkVNiuS7M/vOdHBRpIBn2alLnYW9pOWHn+l8sWGasEaVyu
-        fDxNHHoKQ==;
-Received: from 177.41.96.165.dynamic.adsl.gvt.net.br ([177.41.96.165] helo=vento.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fGOGc-000702-0c; Wed, 09 May 2018 12:32:22 +0000
-Date:   Wed, 9 May 2018 09:32:18 -0300
+        id S934126AbeEIMkQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 May 2018 08:40:16 -0400
+Received: from osg.samsung.com ([64.30.133.232]:40685 "EHLO osg.samsung.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932875AbeEIMkP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 May 2018 08:40:15 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by osg.samsung.com (Postfix) with ESMTP id 70BC92C0B0;
+        Wed,  9 May 2018 05:40:14 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from osg.samsung.com ([127.0.0.1])
+        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id yboXdGLI4DAu; Wed,  9 May 2018 05:40:12 -0700 (PDT)
+Received: from smtp.s-opensource.com (177.41.96.165.dynamic.adsl.gvt.net.br [177.41.96.165])
+        by osg.samsung.com (Postfix) with ESMTPSA id BB3DD2C0A2;
+        Wed,  9 May 2018 05:40:12 -0700 (PDT)
+Received: from mchehab by smtp.s-opensource.com with local (Exim 4.90_1)
+        (envelope-from <mchehab@smtp.s-opensource.com>)
+        id 1fGOOA-0003CN-3b; Wed, 09 May 2018 09:40:10 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Evgeniy Polyakov <zbr@ioremap.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 18/18] w1: w1_io.c: fix a kernel-doc warning
-Message-ID: <20180509093218.5e566439@vento.lan>
-In-Reply-To: <702861525777419@web22j.yandex.ru>
-References: <cover.1525684985.git.mchehab+samsung@kernel.org>
-        <cover.1525684985.git.mchehab+samsung@kernel.org>
-        <cd5b6e6a8d51820ee158127cdd50e44645c44ee7.1525684985.git.mchehab+samsung@kernel.org>
-        <702861525777419@web22j.yandex.ru>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Erik Andren <erik.andren@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Takashi Iwai <tiwai@suse.de>, linux-kernel@zh-kernel.org,
+        linux-doc@vger.kernel.org, mjpeg-users@lists.sourceforge.net
+Subject: [PATCH 3/3] media: v4l: fix broken video4linux docs locations
+Date:   Wed,  9 May 2018 09:40:07 -0300
+Message-Id: <8ee3955662fb6a652599ae4f3b00201b44eda97a.1525869503.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.17.0
+In-Reply-To: <d805b8f0265652f5b9dfc8f8f276a490a1fdba5f.1525869503.git.mchehab+samsung@kernel.org>
+References: <d805b8f0265652f5b9dfc8f8f276a490a1fdba5f.1525869503.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <d805b8f0265652f5b9dfc8f8f276a490a1fdba5f.1525869503.git.mchehab+samsung@kernel.org>
+References: <d805b8f0265652f5b9dfc8f8f276a490a1fdba5f.1525869503.git.mchehab+samsung@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 08 May 2018 14:03:39 +0300
-Evgeniy Polyakov <zbr@ioremap.net> escreveu:
+There are several places pointing to old documentation files:
 
-> Hi
->=20
-> 07.05.2018, 12:36, "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>:
-> > Add a blank line to avoid this Sphinx warning:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0./drivers/w1/w1_io.c:19=
-7: WARNING: Definition list ends without a blank line; unexpected unindent.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org> =20
->=20
-> Looks good to me, thank you!
-> What tree should this be forwarded to, or folks from linux doc will pick =
-it up?
->=20
-> Acked-by: Evgeniy Polyakov <zbr@ioremap.net>
+  Documentation/video4linux/API.html
+  Documentation/video4linux/bttv/
+  Documentation/video4linux/cx2341x/fw-encoder-api.txt
+  Documentation/video4linux/m5602.txt
+  Documentation/video4linux/v4l2-framework.txt
+  Documentation/video4linux/videobuf
+  Documentation/video4linux/Zoran
 
-Jon prefers if this could go via the usual maintainer's tree.
+Make them point to the new location where available, removing
+otherwise.
 
-So, could you send it via yours?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ .../translations/zh_CN/video4linux/v4l2-framework.txt  |  6 +++---
+ drivers/media/pci/bt8xx/Kconfig                        |  2 +-
+ drivers/media/pci/cx18/cx18-streams.c                  |  4 ++--
+ drivers/media/pci/zoran/Kconfig                        |  2 +-
+ drivers/media/radio/Kconfig                            | 10 +++++-----
+ drivers/media/radio/wl128x/Kconfig                     |  2 +-
+ drivers/media/usb/gspca/m5602/Kconfig                  |  2 --
+ 7 files changed, 13 insertions(+), 15 deletions(-)
 
-Thanks,
-Mauro
+diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+index 698660b7f21f..054716a7ae77 100644
+--- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
++++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/video4linux/v4l2-framework.txt
++Chinese translated version of Documentation/media/media_kapi.rst
+ 
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -9,7 +9,7 @@ or if there is a problem with the translation.
+ Maintainer: Mauro Carvalho Chehab <mchehab@infradead.org>
+ Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
+ ---------------------------------------------------------------------
+-Documentation/video4linux/v4l2-framework.txt 的中文翻译
++Documentation/media/media_kapi.rst 的中文翻译
+ 
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+@@ -777,7 +777,7 @@ v4l2 核心 API 提供了一个处理视频缓冲的标准方法(称为“videob
+ 线性 DMA(videobuf-dma-contig)以及大多用于 USB 设备的用 vmalloc
+ 分配的缓冲(videobuf-vmalloc)。
+ 
+-请参阅 Documentation/video4linux/videobuf，以获得更多关于 videobuf
++请参阅 Documentation/media/kapi/v4l2-videobuf.rst，以获得更多关于 videobuf
+ 层的使用信息。
+ 
+ v4l2_fh 结构体
+diff --git a/drivers/media/pci/bt8xx/Kconfig b/drivers/media/pci/bt8xx/Kconfig
+index 4a93f6ded100..bc89e37608cd 100644
+--- a/drivers/media/pci/bt8xx/Kconfig
++++ b/drivers/media/pci/bt8xx/Kconfig
+@@ -16,7 +16,7 @@ config VIDEO_BT848
+ 	---help---
+ 	  Support for BT848 based frame grabber/overlay boards. This includes
+ 	  the Miro, Hauppauge and STB boards. Please read the material in
+-	  <file:Documentation/video4linux/bttv/> for more information.
++	  <file:Documentation/media/v4l-drivers/bttv.rst> for more information.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called bttv.
+diff --git a/drivers/media/pci/cx18/cx18-streams.c b/drivers/media/pci/cx18/cx18-streams.c
+index a594cfdeca20..b36f4ce25d22 100644
+--- a/drivers/media/pci/cx18/cx18-streams.c
++++ b/drivers/media/pci/cx18/cx18-streams.c
+@@ -853,7 +853,7 @@ int cx18_start_v4l2_encode_stream(struct cx18_stream *s)
+ 
+ 		/*
+ 		 * Audio related reset according to
+-		 * Documentation/video4linux/cx2341x/fw-encoder-api.txt
++		 * Documentation/media/v4l-drivers/cx2341x.rst
+ 		 */
+ 		if (atomic_read(&cx->ana_capturing) == 0)
+ 			cx18_vapi(cx, CX18_CPU_SET_MISC_PARAMETERS, 2,
+@@ -861,7 +861,7 @@ int cx18_start_v4l2_encode_stream(struct cx18_stream *s)
+ 
+ 		/*
+ 		 * Number of lines for Field 1 & Field 2 according to
+-		 * Documentation/video4linux/cx2341x/fw-encoder-api.txt
++		 * Documentation/media/v4l-drivers/cx2341x.rst
+ 		 * Field 1 is 312 for 625 line systems in BT.656
+ 		 * Field 2 is 313 for 625 line systems in BT.656
+ 		 */
+diff --git a/drivers/media/pci/zoran/Kconfig b/drivers/media/pci/zoran/Kconfig
+index 39ec35bd21a5..66c4c238ac0f 100644
+--- a/drivers/media/pci/zoran/Kconfig
++++ b/drivers/media/pci/zoran/Kconfig
+@@ -7,7 +7,7 @@ config VIDEO_ZORAN
+ 	  36057/36067 PCI controller chipset. This includes the Iomega
+ 	  Buz, Pinnacle DC10+ and the Linux Media Labs LML33. There is
+ 	  a driver homepage at <http://mjpeg.sf.net/driver-zoran/>. For
+-	  more information, check <file:Documentation/video4linux/Zoran>.
++	  more information, check <file:Documentation/media/v4l-drivers/zoran.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called zr36067.
+diff --git a/drivers/media/radio/Kconfig b/drivers/media/radio/Kconfig
+index 8fa403c7149e..04ddd5057098 100644
+--- a/drivers/media/radio/Kconfig
++++ b/drivers/media/radio/Kconfig
+@@ -35,7 +35,7 @@ config RADIO_SI476X
+ 	  In order to control your radio card, you will need to use programs
+ 	  that are compatible with the Video For Linux 2 API.  Information on
+ 	  this API and pointers to "v4l2" programs may be found at
+-	  <file:Documentation/video4linux/API.html>.
++	  <file:Documentation/media/media_uapi.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called radio-si476x.
+@@ -75,7 +75,7 @@ config RADIO_MAXIRADIO
+ 	  In order to control your radio card, you will need to use programs
+ 	  that are compatible with the Video For Linux API.  Information on
+ 	  this API and pointers to "v4l" programs may be found at
+-	  <file:Documentation/video4linux/API.html>.
++	  <file:Documentation/media/media_uapi.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called radio-maxiradio.
+@@ -93,7 +93,7 @@ config RADIO_SHARK
+ 	  In order to control your radio card, you will need to use programs
+ 	  that are compatible with the Video For Linux API.  Information on
+ 	  this API and pointers to "v4l" programs may be found at
+-	  <file:Documentation/video4linux/API.html>.
++	  <file:Documentation/media/media_uapi.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called radio-shark.
+@@ -110,7 +110,7 @@ config RADIO_SHARK2
+ 	  In order to control your radio card, you will need to use programs
+ 	  that are compatible with the Video For Linux API.  Information on
+ 	  this API and pointers to "v4l" programs may be found at
+-	  <file:Documentation/video4linux/API.html>.
++	  <file:Documentation/media/media_uapi.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called radio-shark2.
+@@ -217,7 +217,7 @@ config RADIO_WL1273
+ 	  In order to control your radio card, you will need to use programs
+ 	  that are compatible with the Video For Linux 2 API.  Information on
+ 	  this API and pointers to "v4l2" programs may be found at
+-	  <file:Documentation/video4linux/API.html>.
++	  <file:Documentation/media/media_uapi.rst>.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called radio-wl1273.
+diff --git a/drivers/media/radio/wl128x/Kconfig b/drivers/media/radio/wl128x/Kconfig
+index 2add222ea346..64b66bbdae72 100644
+--- a/drivers/media/radio/wl128x/Kconfig
++++ b/drivers/media/radio/wl128x/Kconfig
+@@ -12,6 +12,6 @@ config RADIO_WL128X
+ 	  In order to control your radio card, you will need to use programs
+ 	  that are compatible with the Video For Linux 2 API.  Information on
+ 	  this API and pointers to "v4l2" programs may be found at
+-	  <file:Documentation/video4linux/API.html>.
++	  <file:Documentation/media/media_uapi.rst>.
+ 
+ endmenu
+diff --git a/drivers/media/usb/gspca/m5602/Kconfig b/drivers/media/usb/gspca/m5602/Kconfig
+index 5a69016ed75f..13a00399ced9 100644
+--- a/drivers/media/usb/gspca/m5602/Kconfig
++++ b/drivers/media/usb/gspca/m5602/Kconfig
+@@ -5,7 +5,5 @@ config USB_M5602
+ 	  Say Y here if you want support for cameras based on the
+ 	  ALi m5602 connected to various image sensors.
+ 
+-	  See <file:Documentation/video4linux/m5602.txt> for more info.
+-
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called gspca_m5602.
+-- 
+2.17.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
