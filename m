@@ -2,137 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5A4117E22E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 13:00:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 56BA87DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 13:11:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934964AbeEIM67 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 May 2018 08:58:59 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56432 "EHLO mx2.suse.de"
+        id S934727AbeEINLf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 May 2018 09:11:35 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41682 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934857AbeEIM6C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 May 2018 08:58:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (charybdis-ext.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id C0EF5ADE1;
-        Wed,  9 May 2018 12:57:59 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 12AA51E0A35; Wed,  9 May 2018 14:57:56 +0200 (CEST)
-Date:   Wed, 9 May 2018 14:57:56 +0200
-From:   Jan Kara <jack@suse.cz>
+        id S934706AbeEINLf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 May 2018 09:11:35 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 4E60C133D;
+        Wed,  9 May 2018 13:11:34 +0000 (UTC)
+Date:   Wed, 9 May 2018 07:11:32 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Cc:     Evgeniy Polyakov <zbr@ioremap.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Brian Warner <brian.warner@samsung.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Gustavo A. R. Silva" <garsilva@embeddedor.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Arvind Yadav <arvind.yadav.cs@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Bhumika Goyal <bhumirks@gmail.com>, Sean Young <sean@mess.org>,
-        Brad Love <brad@nextdimension.cc>,
-        Devin Heitmueller <dheitmueller@kernellabs.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Markus Elfring <elfring@users.sourceforge.net>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
-        Yong Zhi <yong.zhi@intel.com>, Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Kamil Rytarowski <n54@gmx.com>,
-        Matthew Wilcox <mawilcox@microsoft.com>,
-        linux-doc@vger.kernel.org, linux-kernel@zh-kernel.org,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>
-Subject: Re: [PATCH] MAINTAINERS & files: Canonize the e-mails I use at files
-Message-ID: <20180509125756.zj5ngtjm6fji52gf@quack2.suse.cz>
-References: <85bfc919e068ea7bb1e9b533ac6f60798844a5c0.1525428104.git.mchehab+samsung@kernel.org>
- <87in837km8.fsf@intel.com>
- <20180504083355.0c891ab3@vento.lan>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 18/18] w1: w1_io.c: fix a kernel-doc warning
+Message-ID: <20180509071132.069a5d5d@lwn.net>
+In-Reply-To: <20180509093218.5e566439@vento.lan>
+References: <cover.1525684985.git.mchehab+samsung@kernel.org>
+        <cover.1525684985.git.mchehab+samsung@kernel.org>
+        <cd5b6e6a8d51820ee158127cdd50e44645c44ee7.1525684985.git.mchehab+samsung@kernel.org>
+        <702861525777419@web22j.yandex.ru>
+        <20180509093218.5e566439@vento.lan>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180504083355.0c891ab3@vento.lan>
-User-Agent: NeoMutt/20170421 (1.8.2)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 04-05-18 08:33:55, Mauro Carvalho Chehab wrote:
-> Em Fri, 04 May 2018 13:58:39 +0300
-> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-> 
-> > On Fri, 04 May 2018, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > > From now on, I'll start using my @kernel.org as my development e-mail.
-> > >
-> > > As such, let's remove the entries that point to the old
-> > > mchehab@s-opensource.com at MAINTAINERS file.
-> > >
-> > > For the files written with a copyright with mchehab@s-opensource,
-> > > let's keep Samsung on their names, using mchehab+samsung@kernel.org,
-> > > in order to keep pointing to my employer, with sponsors the work.
-> > >
-> > > For the files written before I join Samsung (on July, 4 2013),
-> > > let's just use mchehab@kernel.org.
-> > >
-> > > For bug reports, we can simply point to just kernel.org, as
-> > > this will reach my mchehab+samsung inbox anyway.  
+On Wed, 9 May 2018 09:32:18 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+
+> > Looks good to me, thank you!
+> > What tree should this be forwarded to, or folks from linux doc will pick it up?
 > > 
-> > I suppose this begs the question, why do we insist on adding our email
-> > addresses all over the place? On a quick grep, there are at least 40k+
-> > email addresses in the sources. Do we expect them all to be up-to-date
-> > too?
+> > Acked-by: Evgeniy Polyakov <zbr@ioremap.net>  
 > 
-> That's a good question.
+> Jon prefers if this could go via the usual maintainer's tree.
 > 
-> The usual use case is that the e-mail allows people to contact developers
-> if needed. Such contact could simply due to something like handling SPDX
-> or other license-related issues or for troubleshooting.
-> 
-> There's also another reason (with IMHO, is more relevant): just the name
-> may not be enough to uniquely identify the author of some code. While
-> that might happen on occidental Countries, this is a way more relevant
-> for Asian Countries. For example, there are very few surnames on
-> some Countries there[1], and common names are usually... common. So, it
-> is not hard to find several people with exactly the same name working at
-> the same company. I've seen e-mails from those people that are things like
-> john.doe51@some.company, john.doe69@some.company, ...
-> 
-> [1] For example: https://en.wikipedia.org/wiki/List_of_Korean_surnames.
-> 
-> The e-mail is a way to uniquely identify a person. If we remove it,
-> then we may need to add another thing instead (like parents names,
-> security number or whatever), with would be weird, IMO. 
-> 
-> As we all use e-mails to uniquely identify contributors submissions,
-> IMHO, the best is to keep using e-mails. The side effect is that
-> we should keep those emails updated.
+> So, could you send it via yours?
 
-Understood but e-mails in code get stale eventually as people rarely update
-those. So I think having a contact email in MAINTAINERS and git logs is
-enough for practical purposes.
+With the ack I can pick it up, no worries.  I somehow missed this when I
+went through the set.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
