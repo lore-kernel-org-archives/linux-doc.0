@@ -1,52 +1,44 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F94A7DE74
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 12:02:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2A6D7DE74
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 May 2018 12:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934507AbeEIMCH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 May 2018 08:02:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42224 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755541AbeEIMCH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 May 2018 08:02:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=LeKjRIh97yzDW8uywTFfb224/Qb5V0t8Zfg93xtfvH0=; b=BC+ZBc64kRXGLxfNcHzonkAP+
-        ndN/w17r10KWllgkxsAXc6RTPTpd2lghUWLUQhMQphZpKcLhewgoXHMgrhPCnfWZyb8k7y6v8QJ/1
-        lQYW+ID0fPJupf6xm3GhfgMk7iSKbK5rzsbIy1sdidUvUnmAJAzSy8zyTVJABLBckdd5+J6E1pj1s
-        vJZUpITrFxeQZnw6vNaqjXL1Bw6bEVupOj9LkGLVZ5PS5TDRqDEPfnUiFFiC0+IknX0z+Nig89gNz
-        EKC4Fi18XIr+7h+OSr/QgSRytoOTIua8VMLfu1SxEqKPqVxAKVNZKOEL5bJEG1qevAL10cVXeTdDx
-        0nob5N81A==;
-Received: from 177.41.96.165.dynamic.adsl.gvt.net.br ([177.41.96.165] helo=vento.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fGNnJ-000715-Il; Wed, 09 May 2018 12:02:06 +0000
-Date:   Wed, 9 May 2018 09:02:01 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+        id S934870AbeEIMCl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 May 2018 08:02:41 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:54898 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S934721AbeEIMCi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 May 2018 08:02:38 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 404472072B; Wed,  9 May 2018 14:02:36 +0200 (CEST)
+Received: from bbrezillon (LStLambert-657-1-97-87.w90-63.abo.wanadoo.fr [90.63.216.87])
+        by mail.bootlin.com (Postfix) with ESMTPSA id DF59620376;
+        Wed,  9 May 2018 14:02:35 +0200 (CEST)
+Date:   Wed, 9 May 2018 14:02:36 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH 06/18] docs: core-api: add cgroup-v2 documentation
-Message-ID: <20180509090201.145572f1@vento.lan>
-In-Reply-To: <20180508095114.0da69ef3@lwn.net>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Richard Weinberger <richard@nod.at>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        linux-mtd@lists.infradead.org
+Subject: Re: [PATCH 16/18] mtd: rawnand.h: use nested union kernel-doc
+ markups
+Message-ID: <20180509140236.17d437f8@bbrezillon>
+In-Reply-To: <20180507083232.5a084ba7@vento.lan>
 References: <cover.1525684985.git.mchehab+samsung@kernel.org>
-        <b45083a64578b661cabadcf99d509e7def7c21a5.1525684985.git.mchehab+samsung@kernel.org>
-        <20180508095114.0da69ef3@lwn.net>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        <39d8d4f0e0ff5a06be0303f7f4f2eac5fb45b9ca.1525684985.git.mchehab+samsung@kernel.org>
+        <20180507114650.171edcc2@bbrezillon>
+        <20180507083232.5a084ba7@vento.lan>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -55,33 +47,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 8 May 2018 09:51:14 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Mon, 7 May 2018 08:32:32 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> On Mon,  7 May 2018 06:35:42 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> Hi Boris,
 > 
-> > The cgroup-v2.txt is already in ReST format. So, move it to the
-> > core-api guide, where it belongs.
+> Em Mon, 7 May 2018 11:46:50 +0200
+> Boris Brezillon <boris.brezillon@bootlin.com> escreveu:
+> 
+> > Hi Mauro,  
+> 
+> > > diff --git a/include/linux/mtd/rawnand.h b/include/linux/mtd/rawnand.h
+> > > index 5dad59b31244..b986f94906df 100644
+> > > --- a/include/linux/mtd/rawnand.h
+> > > +++ b/include/linux/mtd/rawnand.h
+> > > @@ -740,8 +740,9 @@ enum nand_data_interface_type {
+> > >  
+> > >  /**
+> > >   * struct nand_data_interface - NAND interface timing
+> > > - * @type:	type of the timing
+> > > - * @timings:	The timing, type according to @type
+> > > + * @type:	 type of the timing
+> > > + * @timings:	 The timing, type according to @type
+> > > + * @timings.sdr: Use it when @type is %NAND_SDR_IFACE.    
 > > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
+> > Hm, really feels weird to do that. I mean, either we describe
+> > timings.sdr or timings, but not both. I this case, I agree that
+> > describing timings.sdr would make more sense than generically
+> > describing any possible entries in the timings union.  
 > 
-> Honestly, this seems to me like sysadmin material, so I think it should
-> go into the admin guide instead.
+> This struct is funny, as the union has just one item. I assume
+> that the original intend is to be ready to have more timing
+> types (or you had it in the past). By the time you have a
+> second value there, describing the union would make more
+> sense.
 > 
-> Actually, looking at the patch, it seems you agree - it's just the
-> changelog that's wrong :)
+> > Is there a simple
+> > way we can get rid of the warning we have when not describing timings
+> > but all of its fields?  
+> 
+> There's no direct way. It won't be hard to add a way to do it,
+> like applying the enclosed patch with ends by declaring timings as:
+> 
+> 	* @timings:	 -- undescribed --
+> 
+> IMHO, this is uglier.
 
-Yeah, wrong cut-and-paste. Sorry for that.
-
-> I could fix that, but it should probably be posted with a CC to Tejun
-> first.
-
-I'll repost it c/c to cgroup maintainers with the right
-description.
+Yep, don't like it either. I'll just take your initial patch.
 
 Thanks,
-Mauro
+
+Boris
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
