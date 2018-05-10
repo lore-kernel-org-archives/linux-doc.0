@@ -5,37 +5,36 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A021D7DE79
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 13:16:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6878E7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 13:30:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757258AbeEJNQE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 May 2018 09:16:04 -0400
-Received: from ms.lwn.net ([45.79.88.28]:56862 "EHLO ms.lwn.net"
+        id S935285AbeEJNaS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 May 2018 09:30:18 -0400
+Received: from ms.lwn.net ([45.79.88.28]:56974 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1757063AbeEJNQE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 May 2018 09:16:04 -0400
+        id S934693AbeEJNaS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 May 2018 09:30:18 -0400
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 29FC9318;
-        Thu, 10 May 2018 13:16:03 +0000 (UTC)
-Date:   Thu, 10 May 2018 07:15:59 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 8F231318;
+        Thu, 10 May 2018 13:30:16 +0000 (UTC)
+Date:   Thu, 10 May 2018 07:30:12 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
 Subject: Re: [PATCH 13/18] wait: wait.h: Get rid of a kernel-doc/Sphinx
  warnings
-Message-ID: <20180510071559.59dcc8cc@lwn.net>
-In-Reply-To: <20180510122335.GA7704@andrea>
+Message-ID: <20180510073012.5902088e@lwn.net>
+In-Reply-To: <20180510063805.1859b1aa@vento.lan>
 References: <cover.1525684985.git.mchehab+samsung@kernel.org>
         <6b9b3184cbfabab1ad89c974ddf1c61631e8f1bf.1525684985.git.mchehab+samsung@kernel.org>
-        <20180509084120.GF12217@hirez.programming.kicks-ass.net>
-        <20180509084518.247650e2@lwn.net>
-        <20180510122335.GA7704@andrea>
+        <20180510083838.GA21846@infradead.org>
+        <20180510063805.1859b1aa@vento.lan>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -46,22 +45,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 May 2018 14:23:35 +0200
-Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
+On Thu, 10 May 2018 06:38:05 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> only
-> remember that other people (including some developers running into the
-> "disadventure" of opening an RST doc. from their preferred text editor
-> and being brought to conclude:  "WTH!  I need to open a web browser, I
-> guess...") _use_ such doc. and _do care_ about it, and that what might
-> be an improvement for some people might look as "vandalizing" to others.
+> (Peter said):
+> > Independent of any philosophical discussion not allowing a setence to
+> > end with a single ':' is completely idiotic.  Please fix the tooling
+> > instead to allow it, as it is very important for being able to just
+> > write understandable comments.  
 
-If you have an example of a place where use of a web browser has been
-made mandatory, please point it out.  Avoiding that was at the top of the
-list of explicit requirements.  Surely an extra colon is not going to
-force you to run screaming to the protective embrace of Firefox...?
+FWIW, there's no problem with a sentence ending with a single colon.
+It's only an issue if you want to flag a special interpretation for the
+text that follows that sentence.  Just to be precise.
 
-Thanks,
+> Patches are welcome, although I don't see any easy way to solve it.
+
+I could envision some sort of heuristic that would recognize an indented
+block containing code.  Probably we could go simpler and force the
+"literal block" treatment for any indented block that lacks explicit
+enumeration markers.  So:
+
+	this->would_be("a literal block");
+
+but:
+
+  - This would not be
+
+Such a thing would likely be a bit fragile (people feel, rightly, that
+they can put anything into normal text) but it might just work well
+enough.  For best results, it should probably be done as part of Sphinx
+itself, rather than yet another ugly hack in the kerneldoc script.
+
+This particular problem may be solvable, and I'll look into it, but not
+right away.  The offline world is being rather insistently obnoxious
+these days...
 
 jon
 --
