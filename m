@@ -1,81 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E4447DE74
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 15:38:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA94C7DE79
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 16:33:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966295AbeEJPiu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 May 2018 11:38:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57732 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S966209AbeEJPiu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 May 2018 11:38:50 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1EEA8308;
-        Thu, 10 May 2018 15:38:49 +0000 (UTC)
-Date:   Thu, 10 May 2018 09:38:46 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
+        id S966376AbeEJQds (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 May 2018 12:33:48 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:45690 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S965017AbeEJQdr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 May 2018 12:33:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=kuC3vHgFv91dwGAusfXiLs77jtXyMRdINpInbIDzB6I=; b=P6oJx6evsrPlVgnZ9Z4AOt9Wca
+        phghzbFfm7btbMctb8BqpZ3/Uforxb2vl7i7mJ9rlfR0XXX9YrlFlj1cRYlX7m8OR9r/zmrT8arn0
+        ViqxzzR6b4eEklRvNGfgRMY8SxVNh+GZcEpPgChbKCkqEORLlf+IMPNQ87L8KJ91kQ0tCrUu4qzhL
+        3Ds6K4G8Q3KODDVwD8JAWkd9c8tYMnw7Pd1KHawUJS4JgKjCBpCpJFJ2/W89GCNH7JwdLD+oGasN4
+        RxYykxuxnLMqiHY6/qr3TIFjTt06gm4NrPWj14l8PlzAHAp62fg6O/rCA/6sP5CtMWwHNDHFEtfML
+        YfdFU28g==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fGoVk-0001Wo-2U; Thu, 10 May 2018 16:33:44 +0000
+Subject: Re: [RFC PATCH 2/2] wait: add a keyword to indicate a diagram code
+ block on a kernel-doc
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH 13/18] wait: wait.h: Get rid of a kernel-doc/Sphinx
- warnings
-Message-ID: <20180510093846.184f6de0@lwn.net>
-In-Reply-To: <20180510112113.4db65764@vento.lan>
-References: <cover.1525684985.git.mchehab+samsung@kernel.org>
-        <6b9b3184cbfabab1ad89c974ddf1c61631e8f1bf.1525684985.git.mchehab+samsung@kernel.org>
-        <20180510083838.GA21846@infradead.org>
-        <20180510063805.1859b1aa@vento.lan>
-        <20180510073012.5902088e@lwn.net>
-        <20180510112113.4db65764@vento.lan>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+References: <2ac6e3da22119f714406925139e40f4d835d11a4.1525962971.git.mchehab+samsung@kernel.org>
+ <dfe40a6f75e9bd445ea36218dbcf367090b2367b.1525962971.git.mchehab+samsung@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f0c8a649-5304-b9e9-975e-e80fa3a4c44e@infradead.org>
+Date:   Thu, 10 May 2018 09:33:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <dfe40a6f75e9bd445ea36218dbcf367090b2367b.1525962971.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 May 2018 11:21:13 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On 05/10/2018 07:38 AM, Mauro Carvalho Chehab wrote:
+> When handling code-blocks, usual parsing should be disabled.
+> Indicate it by using the keyword disagram.
 
-> The problem with a hint-based mechanism is that it will generate
-> false hints. If added, we may end by needing to add extra tags to
-> disable the hints mechanism where it gets wrong, or to periodically
-> do code changes at kernel-doc comments in order to make the hints
-> logic happy.
+                                   diagram.
+
+Please add such keyword(s) to one of Documentation/doc-guide/{kernel-doc,sphinx}.rst.
+
 > 
-> So, IMO, we should provide non-hints based mechanism, like forcing the
-> string that prepends the colon to have a keyword that will make it to
-> parse the block as literal, where expressions like:
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  include/linux/wait.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 	See the code-block foo:
-> 	See the following code example:
-> 	See the following flow diagram:
-> 	See the following artwork:
+> diff --git a/include/linux/wait.h b/include/linux/wait.h
+> index d9f131ecf708..653814475ee9 100644
+> --- a/include/linux/wait.h
+> +++ b/include/linux/wait.h
+> @@ -101,7 +101,7 @@ init_waitqueue_func_entry(struct wait_queue_entry *wq_entry, wait_queue_func_t f
+>   * lead to sporadic and non-obvious failure.
+>   *
+>   * Use either while holding wait_queue_head::lock or when used for wakeups
+> - * with an extra smp_mb() like:
+> + * with an extra smp_mb() as shown in this diagram:
+>   *
+>   *      CPU0 - waker                    CPU1 - waiter
+>   *
 > 
-> Is the best alternative to avoid "::", as on the enclosed patch.
 
-But this, too, is a hint-based mechanism.  Thanks for the patches, I'll
-keep them around, but I would like an opportunity to try to do better
-before applying them.  I fear that using magic words in this way will
-lead to a constant stream of surprises, and I'd like to avoid that if
-possible...
 
-Thanks,
-
-jon
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
