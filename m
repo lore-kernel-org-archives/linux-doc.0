@@ -1,74 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 31BF07DE79
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 14:39:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E4447DE74
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 15:38:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965266AbeEJOiX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 May 2018 10:38:23 -0400
-Received: from osg.samsung.com ([64.30.133.232]:50825 "EHLO osg.samsung.com"
+        id S966295AbeEJPiu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 May 2018 11:38:50 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57732 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S935660AbeEJOiW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 May 2018 10:38:22 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 44AFD2ED3A;
-        Thu, 10 May 2018 07:38:21 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
-Received: from osg.samsung.com ([127.0.0.1])
-        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id bKp7-KhXNtFi; Thu, 10 May 2018 07:38:20 -0700 (PDT)
-Received: from smtp.s-opensource.com (177.41.96.165.dynamic.adsl.gvt.net.br [177.41.96.165])
-        by osg.samsung.com (Postfix) with ESMTPSA id 3E97D2ED31;
-        Thu, 10 May 2018 07:38:20 -0700 (PDT)
-Received: from mchehab by smtp.s-opensource.com with local (Exim 4.90_1)
-        (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fGmi1-0005HF-Nl; Thu, 10 May 2018 10:38:17 -0400
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>,
+        id S966209AbeEJPiu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 May 2018 11:38:50 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1EEA8308;
+        Thu, 10 May 2018 15:38:49 +0000 (UTC)
+Date:   Thu, 10 May 2018 09:38:46 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>
-Subject: [RFC PATCH 1/2] scripts/kernel-doc: Auto-detect common code-blocks
-Date:   Thu, 10 May 2018 10:38:16 -0400
-Message-Id: <2ac6e3da22119f714406925139e40f4d835d11a4.1525962971.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.17.0
+Subject: Re: [PATCH 13/18] wait: wait.h: Get rid of a kernel-doc/Sphinx
+ warnings
+Message-ID: <20180510093846.184f6de0@lwn.net>
+In-Reply-To: <20180510112113.4db65764@vento.lan>
+References: <cover.1525684985.git.mchehab+samsung@kernel.org>
+        <6b9b3184cbfabab1ad89c974ddf1c61631e8f1bf.1525684985.git.mchehab+samsung@kernel.org>
+        <20180510083838.GA21846@infradead.org>
+        <20180510063805.1859b1aa@vento.lan>
+        <20180510073012.5902088e@lwn.net>
+        <20180510112113.4db65764@vento.lan>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Comments that end with a comma and have certain keywords
-should be presented as code-blocks
+On Thu, 10 May 2018 11:21:13 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- scripts/kernel-doc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> The problem with a hint-based mechanism is that it will generate
+> false hints. If added, we may end by needing to add extra tags to
+> disable the hints mechanism where it gets wrong, or to periodically
+> do code changes at kernel-doc comments in order to make the hints
+> logic happy.
+> 
+> So, IMO, we should provide non-hints based mechanism, like forcing the
+> string that prepends the colon to have a keyword that will make it to
+> parse the block as literal, where expressions like:
+> 
+> 	See the code-block foo:
+> 	See the following code example:
+> 	See the following flow diagram:
+> 	See the following artwork:
+> 
+> Is the best alternative to avoid "::", as on the enclosed patch.
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 0057d8eafcc1..8ce2d0f54369 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -803,7 +803,8 @@ sub output_highlight_rst {
- 	#
- 	if (! $in_literal) {
- 	    $block .= $line . "\n";
--	    if (($line =~ /$sphinx_literal/) || ($line =~ /$sphinx_cblock/)) {
-+	    if (($block =~ s/(code|example|artwork|flow|diagram)([^\:]*:)\n/$1$2:\n/) ||
-+	        ($line =~ /$sphinx_literal/) || ($line =~ /$sphinx_cblock/)) {
- 		$in_literal = 1;
- 		$litprefix = "";
- 		$output .= highlight_block($block);
--- 
-2.17.0
+But this, too, is a hint-based mechanism.  Thanks for the patches, I'll
+keep them around, but I would like an opportunity to try to do better
+before applying them.  I fear that using magic words in this way will
+lead to a constant stream of surprises, and I'd like to avoid that if
+possible...
 
+Thanks,
 
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
