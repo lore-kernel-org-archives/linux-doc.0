@@ -1,69 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD8717DE79
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 16:34:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0BD077DE79
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 May 2018 16:43:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966346AbeEJQe7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 May 2018 12:34:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34530 "EHLO
+        id S965017AbeEJQnK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 May 2018 12:43:10 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36782 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S965017AbeEJQe6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 May 2018 12:34:58 -0400
+        with ESMTP id S966402AbeEJQnJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 May 2018 12:43:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Fexp7bhbcjZvaNOfeGfDXgYRBAXsGLocCyoyaRBbeHY=; b=oaw5aSlP/djr6lMOTOa/FSJci
-        uvGso09D9YSlebvphERMwrXvLq32l3ADfNLeSZgInhQ1ICaajdjTj30aJpMtcXKNVh5YaoPJVrRf4
-        SwCloCDvLvpqs8+3LoKeBAT+4kZDBBYK1o/C3PQGoSjJdmCoNMD5K4raGDYDv1JUYzvrpMM3X/usB
-        qPasqKcc7K/VO2qXcMp5/Dgb8+IggQna9LcMISWgNx517HxrpHJvh7C1XlbvnQqrP79BcDVGN4qx7
-        KdaYAeduMDXYnXHbGwIrrcGDQrlmKxHqsnElcs595DZM2C+cavoKgrBcuZ5DeDC4wkgaDuouF6kjF
-        EkYEHlKig==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fGoWv-0001PU-4R; Thu, 10 May 2018 16:34:57 +0000
-Date:   Thu, 10 May 2018 09:34:56 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Christoph Hellwig <hch@infradead.org>,
+         bh=0Qyf77F5RYFrFrJrwFdzktwuJIO2GEyJT7GbOAziSew=; b=Cmp/dTit1izOiB1LGoS0s/Auw
+        S7aFyIlAl5hbVJevj/hpzeOCLFRLPgtzVsAEIzakFPm/5dTRAOwoDF/QOGk+DLONxjar+BEqDpveA
+        5JaHHqQymb2QFBQ0Y13n+Sf4pdmLrqM1sMVLGnJwuU5W/n+22C7oc9MbjoNN4BgldQ8RpkehLxlsn
+        r5a2VHXE07tUv4abizoBuMuLds0RcLzpgj3d8gGT00IPyHEQArOI34kuSskNqqc40zi55EBDmWhOh
+        I/Idr4RPTZ6lP2Xt8E045JflgPKqYDNVD4VpFSjQH8X3+0PzI2Z4DiVk8idn4TSawgeWX4v1+5ojG
+        w6bIwzRqg==;
+Received: from 177.41.96.165.dynamic.adsl.gvt.net.br ([177.41.96.165] helo=vento.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fGoek-0005ER-TG; Thu, 10 May 2018 16:43:03 +0000
+Date:   Thu, 10 May 2018 13:42:58 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Christoph Hellwig <hch@infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC PATCH 1/2] scripts/kernel-doc: Auto-detect common
- code-blocks
-Message-ID: <20180510163456.GC30442@bombadil.infradead.org>
-References: <2ac6e3da22119f714406925139e40f4d835d11a4.1525962971.git.mchehab+samsung@kernel.org>
+Subject: Re: [PATCH 13/18] wait: wait.h: Get rid of a kernel-doc/Sphinx
+ warnings
+Message-ID: <20180510134249.64445281@vento.lan>
+In-Reply-To: <20180510093846.184f6de0@lwn.net>
+References: <cover.1525684985.git.mchehab+samsung@kernel.org>
+        <6b9b3184cbfabab1ad89c974ddf1c61631e8f1bf.1525684985.git.mchehab+samsung@kernel.org>
+        <20180510083838.GA21846@infradead.org>
+        <20180510063805.1859b1aa@vento.lan>
+        <20180510073012.5902088e@lwn.net>
+        <20180510112113.4db65764@vento.lan>
+        <20180510093846.184f6de0@lwn.net>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ac6e3da22119f714406925139e40f4d835d11a4.1525962971.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 10, 2018 at 10:38:16AM -0400, Mauro Carvalho Chehab wrote:
-> Comments that end with a comma and have certain keywords
-> should be presented as code-blocks
+Em Thu, 10 May 2018 09:38:46 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-I think this is a bit fragile.  Why not just search for ':\n'?  Is
-there ever a case where we want to write:
+> On Thu, 10 May 2018 11:21:13 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> 
+> > The problem with a hint-based mechanism is that it will generate
+> > false hints. If added, we may end by needing to add extra tags to
+> > disable the hints mechanism where it gets wrong, or to periodically
+> > do code changes at kernel-doc comments in order to make the hints
+> > logic happy.
+> > 
+> > So, IMO, we should provide non-hints based mechanism, like forcing the
+> > string that prepends the colon to have a keyword that will make it to
+> > parse the block as literal, where expressions like:
+> > 
+> > 	See the code-block foo:
+> > 	See the following code example:
+> > 	See the following flow diagram:
+> > 	See the following artwork:
+> > 
+> > Is the best alternative to avoid "::", as on the enclosed patch.  
+> 
+> But this, too, is a hint-based mechanism.  Thanks for the patches, I'll
+> keep them around, but I would like an opportunity to try to do better
+> before applying them.  I fear that using magic words in this way will
+> lead to a constant stream of surprises, and I'd like to avoid that if
+> possible...
 
-/**
- * foo is a bar:
- * wibble
- */
-and have wibble not be a code-block?
+Yes, it is still hint-based. A careful selection of the "magic spell
+words/phrases" would minimize the risks of false positives, but it
+could still lead into some unwanted surprises.
 
+IMO, "::" (or some other character combination that is not used
+elsewhere) is still the safest option.
+
+
+Thanks,
+Mauro
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
