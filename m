@@ -5,117 +5,133 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E12217E27D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 May 2018 07:06:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D45D7E27B
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 May 2018 08:39:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752153AbeEKHGM convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 May 2018 03:06:12 -0400
-Received: from smtp2.goneo.de ([85.220.129.33]:35480 "EHLO smtp2.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751406AbeEKHGL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 May 2018 03:06:11 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id 3D9A523F372;
-        Fri, 11 May 2018 09:06:09 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id roK1In6Sm1lA; Fri, 11 May 2018 09:06:08 +0200 (CEST)
-Received: from [192.168.1.112] (dyndsl-091-248-242-098.ewe-ip-backbone.de [91.248.242.98])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id E87BC23F000;
-        Fri, 11 May 2018 09:06:07 +0200 (CEST)
-Content-Type: text/plain; charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH 13/18] wait: wait.h: Get rid of a kernel-doc/Sphinx
- warnings
-From:   Markus Heiser <markus.heiser@darmarit.de>
-In-Reply-To: <20180510134249.64445281@vento.lan>
-Date:   Fri, 11 May 2018 09:06:06 +0200
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <6C65056C-8A0D-4E0A-9A49-07F10C31955E@darmarit.de>
-References: <cover.1525684985.git.mchehab+samsung@kernel.org>
- <6b9b3184cbfabab1ad89c974ddf1c61631e8f1bf.1525684985.git.mchehab+samsung@kernel.org>
- <20180510083838.GA21846@infradead.org> <20180510063805.1859b1aa@vento.lan>
- <20180510073012.5902088e@lwn.net> <20180510112113.4db65764@vento.lan>
- <20180510093846.184f6de0@lwn.net> <20180510134249.64445281@vento.lan>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-X-Mailer: Apple Mail (2.3273)
+        id S1752272AbeEKIjL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 May 2018 04:39:11 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43916 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1752174AbeEKIjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 May 2018 04:39:11 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4B8cvXn044123
+        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 04:39:10 -0400
+Received: from e06smtp14.uk.ibm.com (e06smtp14.uk.ibm.com [195.75.94.110])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2hw4xny32n-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 04:39:10 -0400
+Received: from localhost
+        by e06smtp14.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <fbarrat@linux.ibm.com>;
+        Fri, 11 May 2018 09:39:07 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp14.uk.ibm.com (192.168.101.144) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Fri, 11 May 2018 09:39:02 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4B8d12i8257824;
+        Fri, 11 May 2018 08:39:01 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C0C26A4040;
+        Fri, 11 May 2018 09:30:38 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EF327A4053;
+        Fri, 11 May 2018 09:30:36 +0100 (BST)
+Received: from [9.164.157.79] (unknown [9.164.157.79])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 11 May 2018 09:30:36 +0100 (BST)
+Subject: Re: [PATCH v5 1/7] powerpc: Add TIDR CPU feature for POWER9
+To:     "Alastair D'Silva" <alastair@au1.ibm.com>,
+        linuxppc-dev@lists.ozlabs.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikey@neuling.org, vaibhav@linux.vnet.ibm.com,
+        aneesh.kumar@linux.vnet.ibm.com, malat@debian.org,
+        felix@linux.vnet.ibm.com, pombredanne@nexb.com,
+        sukadev@linux.vnet.ibm.com, npiggin@gmail.com,
+        gregkh@linuxfoundation.org, arnd@arndb.de,
+        andrew.donnellan@au1.ibm.com, fbarrat@linux.vnet.ibm.com,
+        corbet@lwn.net, "Alastair D'Silva" <alastair@d-silva.org>
+References: <20180511061303.10728-1-alastair@au1.ibm.com>
+ <20180511061303.10728-2-alastair@au1.ibm.com>
+From:   Frederic Barrat <fbarrat@linux.ibm.com>
+Date:   Fri, 11 May 2018 10:38:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <20180511061303.10728-2-alastair@au1.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 18051108-0044-0000-0000-0000055176B1
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18051108-0045-0000-0000-00002892C65A
+Message-Id: <215f7aba-4e24-bc09-e164-1618693be072@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-11_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1805110083
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-> Am 10.05.2018 um 18:42 schrieb Mauro Carvalho Chehab <mchehab+samsung@kernel.org>:
+
+Le 11/05/2018 à 08:12, Alastair D'Silva a écrit :
+> From: Alastair D'Silva <alastair@d-silva.org>
 > 
-> Em Thu, 10 May 2018 09:38:46 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
+> This patch adds a CPU feature bit to show whether the CPU has
+> the TIDR register available, enabling as_notify/wait in userspace.
 > 
->> On Thu, 10 May 2018 11:21:13 -0300
->> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
->> 
->>> The problem with a hint-based mechanism is that it will generate
->>> false hints. If added, we may end by needing to add extra tags to
->>> disable the hints mechanism where it gets wrong, or to periodically
->>> do code changes at kernel-doc comments in order to make the hints
->>> logic happy.
->>> 
->>> So, IMO, we should provide non-hints based mechanism, like forcing the
->>> string that prepends the colon to have a keyword that will make it to
->>> parse the block as literal, where expressions like:
->>> 
->>> 	See the code-block foo:
->>> 	See the following code example:
->>> 	See the following flow diagram:
->>> 	See the following artwork:
->>> 
->>> Is the best alternative to avoid "::", as on the enclosed patch.  
->> 
->> But this, too, is a hint-based mechanism.  Thanks for the patches, I'll
->> keep them around, but I would like an opportunity to try to do better
->> before applying them.  I fear that using magic words in this way will
->> lead to a constant stream of surprises, and I'd like to avoid that if
->> possible...
+> Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
+> ---
+
+Reviewed-by: Frederic Barrat <fbarrat@linux.vnet.ibm.com>
+
+
+
+>   arch/powerpc/include/asm/cputable.h | 3 ++-
+>   arch/powerpc/kernel/dt_cpu_ftrs.c   | 1 +
+>   2 files changed, 3 insertions(+), 1 deletion(-)
 > 
-> Yes, it is still hint-based. A careful selection of the "magic spell
-> words/phrases" would minimize the risks of false positives, but it
-> could still lead into some unwanted surprises.
+> diff --git a/arch/powerpc/include/asm/cputable.h b/arch/powerpc/include/asm/cputable.h
+> index 66fcab13c8b4..9c0a3083571b 100644
+> --- a/arch/powerpc/include/asm/cputable.h
+> +++ b/arch/powerpc/include/asm/cputable.h
+> @@ -215,6 +215,7 @@ static inline void cpu_feature_keys_init(void) { }
+>   #define CPU_FTR_P9_TM_HV_ASSIST		LONG_ASM_CONST(0x0000100000000000)
+>   #define CPU_FTR_P9_TM_XER_SO_BUG	LONG_ASM_CONST(0x0000200000000000)
+>   #define CPU_FTR_P9_TLBIE_BUG		LONG_ASM_CONST(0x0000400000000000)
+> +#define CPU_FTR_P9_TIDR			LONG_ASM_CONST(0x0000800000000000)
 > 
-> IMO, "::" (or some other character combination that is not used
-> elsewhere) is still the safest option.
-
-Right, let's just stay with reST:
-
- http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
-
-We already have some special kernel-doc additions e.g. for highlighting,
-cross referencing and "DOC:":
-
- https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
-
-But we should not break with reST fundamentals.
-
-There are other plain text markups on the market, I would remember Markdown as one.
-They all come with markup rules (syntax), to make text parseable. Mauro brought the
-example with lists and colons. In ReST, the "::" introduce an indented literal block,
-which can be used for code block examples or a small ASCII art.
-
-FWIW: at docutils there is also a (slow ongoing) discussion about reST syntax
-alternatives  
-
- http://docutils.sourceforge.net/docs/dev/rst/alternatives.html
-
-may the syntax discussion is better placed there?
-
--- Markus --
+>   #ifndef __ASSEMBLY__
+> 
+> @@ -462,7 +463,7 @@ static inline void cpu_feature_keys_init(void) { }
+>   	    CPU_FTR_CFAR | CPU_FTR_HVMODE | CPU_FTR_VMX_COPY | \
+>   	    CPU_FTR_DBELL | CPU_FTR_HAS_PPR | CPU_FTR_ARCH_207S | \
+>   	    CPU_FTR_TM_COMP | CPU_FTR_ARCH_300 | CPU_FTR_PKEY | \
+> -	    CPU_FTR_P9_TLBIE_BUG)
+> +	    CPU_FTR_P9_TLBIE_BUG | CPU_FTR_P9_TIDR)
+>   #define CPU_FTRS_POWER9_DD1 ((CPU_FTRS_POWER9 | CPU_FTR_POWER9_DD1) & \
+>   			     (~CPU_FTR_SAO))
+>   #define CPU_FTRS_POWER9_DD2_0 CPU_FTRS_POWER9
+> diff --git a/arch/powerpc/kernel/dt_cpu_ftrs.c b/arch/powerpc/kernel/dt_cpu_ftrs.c
+> index 8ab51f6ca03a..415555e5b69f 100644
+> --- a/arch/powerpc/kernel/dt_cpu_ftrs.c
+> +++ b/arch/powerpc/kernel/dt_cpu_ftrs.c
+> @@ -716,6 +716,7 @@ static __init void cpufeatures_cpu_quirks(void)
+>   	if ((version & 0xffff0000) == 0x004e0000) {
+>   		cur_cpu_spec->cpu_features &= ~(CPU_FTR_DAWR);
+>   		cur_cpu_spec->cpu_features |= CPU_FTR_P9_TLBIE_BUG;
+> +		cur_cpu_spec->cpu_features |= CPU_FTR_P9_TIDR;
+>   	}
+> 
+>   	/*
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
