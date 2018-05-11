@@ -1,385 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 642897DE74
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 May 2018 11:03:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 575D37E22E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 May 2018 12:36:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752677AbeEKLDx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 May 2018 07:03:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37366 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1752666AbeEKLDw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 May 2018 07:03:52 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4BB0EZt027559
-        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 07:03:52 -0400
-Received: from e06smtp13.uk.ibm.com (e06smtp13.uk.ibm.com [195.75.94.109])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2hw7b3pq97-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 07:03:52 -0400
-Received: from localhost
-        by e06smtp13.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <fbarrat@linux.ibm.com>;
-        Fri, 11 May 2018 12:03:49 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp13.uk.ibm.com (192.168.101.143) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 11 May 2018 12:03:46 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4BB3iOo52953342
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 11 May 2018 11:03:44 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 35335A405D;
-        Fri, 11 May 2018 11:55:21 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 01848A4055;
-        Fri, 11 May 2018 11:55:19 +0100 (BST)
-Received: from [9.164.157.79] (unknown [9.164.157.79])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 11 May 2018 11:55:18 +0100 (BST)
-Subject: Re: [PATCH v5 5/7] ocxl: Expose the thread_id needed for wait on
- POWER9
-To:     "Alastair D'Silva" <alastair@d-silva.org>,
-        "'Alastair D'Silva'" <alastair@au1.ibm.com>,
-        linuxppc-dev@lists.ozlabs.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mikey@neuling.org, vaibhav@linux.vnet.ibm.com,
-        aneesh.kumar@linux.vnet.ibm.com, malat@debian.org,
-        felix@linux.vnet.ibm.com, pombredanne@nexb.com,
-        sukadev@linux.vnet.ibm.com, npiggin@gmail.com,
-        gregkh@linuxfoundation.org, arnd@arndb.de,
-        andrew.donnellan@au1.ibm.com, fbarrat@linux.vnet.ibm.com,
-        corbet@lwn.net
-References: <20180511061303.10728-1-alastair@au1.ibm.com>
- <20180511061303.10728-6-alastair@au1.ibm.com>
- <9656b063-eafd-a882-c678-a1c4d504cd54@linux.ibm.com>
- <02a401d3e90f$cdb0be90$69123bb0$@d-silva.org>
-From:   Frederic Barrat <fbarrat@linux.ibm.com>
-Date:   Fri, 11 May 2018 13:03:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1752835AbeEKMgY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 May 2018 08:36:24 -0400
+Received: from mail-io0-f170.google.com ([209.85.223.170]:37146 "EHLO
+        mail-io0-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752752AbeEKMgX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 May 2018 08:36:23 -0400
+Received: by mail-io0-f170.google.com with SMTP id e20-v6so6829709iof.4
+        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 05:36:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=nukVuubG0PtvETsOeOCDB8+hK3wKQhWo+f6+7KQfU24=;
+        b=JRRUs0Aym53/FNuTLyJGgMysXql8jgDkqxpAe1w4LQQmjp1BarLmCSbnfjzYMNdT3e
+         LoTTII+pPmRlR79QzMnZFZ0OHfIuvg3GoIXLVvdk+v/ZN6o0Ewsu6/VGKqAZMionm/TM
+         xI+qEKJDnzTaaW3bOPRltcrnCiEO3seB/M3qGBn0uS5rl03WAMhfx5dNZc44soY7kQUy
+         KoZUZRcLwwejdEUqHbSu4x+BCzrIMJxXzHhHmbVjn8SX2SAwfft1J6APMmxwdZ49PNzU
+         GFHrRU19UtyNGm1KAHjttPsGUhySdOFUh9Hf8FB9yxaKSXulSG1FM6z7cBebEexfRBmK
+         5fjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=nukVuubG0PtvETsOeOCDB8+hK3wKQhWo+f6+7KQfU24=;
+        b=jCUSUGR6Cig/O88lNdmzcEfnov7+OUuGGG1+uj126y9rkwWbKE3ykydqiUO6zAENAP
+         YKqorwGnaylHn0Y9Lc1YwyVOHAmaTY5XSvM6cFMD6HErQTpgpEY3N1ef7XvuX6mG5Ajd
+         zbU6jtPEz+lQ6DG+ivL55WenzFNbOU3VqYy2Y9eVlfxLBw4XDDLlG0gESM2JjZpsOZ19
+         YD3cNze/daNDpJoupBy3cRfviX3rAkjQnwkjKthygJMKZtCup6luz41HC5gUHxKfvkHZ
+         BdFLS3asKHYSsBaIkt3lmsrQVC8ZnXynAXdxWZvrSMpm06yp/bBxthmSnbAn6hzqDMz4
+         wfeQ==
+X-Gm-Message-State: ALKqPweJldEcyZ1QR5zn+wlH407NS6LulquTN9HEMd7Evj/n7Mo5Cx6t
+        eznU5Iw5J1n6rHUx9+3O4RygGx+RRyNfYpYT4AUvEuB6D24=
+X-Google-Smtp-Source: AB8JxZqPPwr2n8Jby83evYFjEIEBVlfFFH98d8EVRx37cXxoeKOoq6bO8MXFcyU14bya2kmpX+T5mekM+UTWuqyimsg=
+X-Received: by 2002:a6b:4514:: with SMTP id s20-v6mr5822734ioa.38.1526042182751;
+ Fri, 11 May 2018 05:36:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <02a401d3e90f$cdb0be90$69123bb0$@d-silva.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 18051111-0012-0000-0000-000005D59ECE
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18051111-0013-0000-0000-00001952A6BA
-Message-Id: <dac86d19-d537-1b28-09ad-72c8b7c260a6@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-11_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1805110105
+Received: by 2002:a02:6646:0:0:0:0:0 with HTTP; Fri, 11 May 2018 05:36:22
+ -0700 (PDT)
+In-Reply-To: <20180508151137.zguepljs3pa7xv5g@armageddon.cambridge.arm.com>
+References: <cover.1524077494.git.andreyknvl@google.com> <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
+ <20180426174714.4jtb72q56w3xonsa@armageddon.cambridge.arm.com>
+ <CAAeHK+zY8p9E4FZa7mbdgR=wR0u-RDS552dn=h9fKRC-ArYLdw@mail.gmail.com>
+ <20180502153645.fui4ju3scsze3zkq@black.fi.intel.com> <CAAeHK+yTbmZfkeNbqbo+J90zsjsM99rwnYBGfQBxphHMMfgD7A@mail.gmail.com>
+ <20180508151137.zguepljs3pa7xv5g@armageddon.cambridge.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 11 May 2018 14:36:22 +0200
+Message-ID: <CAAeHK+yR9=SYEBg-Pvi+x3qSqQSG1u+79pk5vQvOcsp+o=zkxw@mail.gmail.com>
+Subject: Re: [PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Bart Van Assche <bart.vanassche@wdc.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        James Morse <james.morse@arm.com>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Zi Yan <zi.yan@cs.rutgers.edu>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, May 8, 2018 at 5:11 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
+> On Wed, May 02, 2018 at 07:25:17PM +0200, Andrey Konovalov wrote:
+>> On Wed, May 2, 2018 at 5:36 PM, Kirill A. Shutemov
+>> <kirill.shutemov@linux.intel.com> wrote:
+>> > On Wed, May 02, 2018 at 02:38:42PM +0000, Andrey Konovalov wrote:
+>> >> > Does having a tagged address here makes any difference? I couldn't hit a
+>> >> > failure with my simple tests (LD_PRELOAD a library that randomly adds
+>> >> > tags to pointers returned by malloc).
+>> >>
+>> >> I think you're right, follow_page_mask is only called from
+>> >> __get_user_pages, which already untagged the address. I'll remove
+>> >> untagging here.
+>> >
+>> > It also called from follow_page(). Have you covered all its callers?
+>>
+>> Oh, missed that, will take a look.
+>>
+>> Thinking about that, would it make sense to add untagging to find_vma
+>> (and others) instead of trying to cover all find_vma callers?
+>
+> I don't think adding the untagging to find_vma() is sufficient. In many
+> cases the caller does a subsequent check like 'start < vma->vm_start'
+> (see sys_msync() as an example, there are a few others as well).
 
+OK.
 
-Le 11/05/2018 à 12:06, Alastair D'Silva a écrit :
-> 
->> -----Original Message-----
->> From: Frederic Barrat <fbarrat@linux.ibm.com>
->> Sent: Friday, 11 May 2018 7:25 PM
->> To: Alastair D'Silva <alastair@au1.ibm.com>; linuxppc-dev@lists.ozlabs.org
->> Cc: linux-kernel@vger.kernel.org; linux-doc@vger.kernel.org;
->> mikey@neuling.org; vaibhav@linux.vnet.ibm.com;
->> aneesh.kumar@linux.vnet.ibm.com; malat@debian.org;
->> felix@linux.vnet.ibm.com; pombredanne@nexb.com;
->> sukadev@linux.vnet.ibm.com; npiggin@gmail.com;
->> gregkh@linuxfoundation.org; arnd@arndb.de;
->> andrew.donnellan@au1.ibm.com; fbarrat@linux.vnet.ibm.com;
->> corbet@lwn.net; Alastair D'Silva <alastair@d-silva.org>
->> Subject: Re: [PATCH v5 5/7] ocxl: Expose the thread_id needed for wait on
->> POWER9
->>
->>
->>
->> Le 11/05/2018 à 08:13, Alastair D'Silva a écrit :
->>> From: Alastair D'Silva <alastair@d-silva.org>
->>>
->>> In order to successfully issue as_notify, an AFU needs to know the TID
->>> to notify, which in turn means that this information should be
->>> available in userspace so it can be communicated to the AFU.
->>>
->>> Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
->>> ---
->>
->> Ok, so we keep the limitation of having only one thread per context able to
->> call 'wait', even though we don't have to worry about depleting the pool of
->> TIDs any more. I think that's acceptable, though we don't really have a reason
->> to justify it any more. Any reason you want to keep it that way?
->>
-> 
-> No strong reason, just trying to minimise the amount of changes. We can always expand the scope later, if we have a use-case for it.
+> What I
+> did in my tests was a WARN_ON_ONCE() in find_vma() if the address is
+> tagged.
 
-ok. Agreed, it's not worth holding up this series, we can send a follow 
-up patch.
+So this is similar to what I did.
 
-   Fred
-
-
->>     Fred
->>
->>
->>>    drivers/misc/ocxl/context.c       |  5 ++-
->>>    drivers/misc/ocxl/file.c          | 53 +++++++++++++++++++++++++++++++
->>>    drivers/misc/ocxl/link.c          | 36 +++++++++++++++++++++
->>>    drivers/misc/ocxl/ocxl_internal.h |  1 +
->>>    include/misc/ocxl.h               |  9 ++++++
->>>    include/uapi/misc/ocxl.h          |  8 +++++
->>>    6 files changed, 111 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/misc/ocxl/context.c b/drivers/misc/ocxl/context.c
->>> index 909e8807824a..95f74623113e 100644
->>> --- a/drivers/misc/ocxl/context.c
->>> +++ b/drivers/misc/ocxl/context.c
->>> @@ -34,6 +34,8 @@ int ocxl_context_init(struct ocxl_context *ctx, struct
->> ocxl_afu *afu,
->>>    	mutex_init(&ctx->xsl_error_lock);
->>>    	mutex_init(&ctx->irq_lock);
->>>    	idr_init(&ctx->irq_idr);
->>> +	ctx->tidr = 0;
->>> +
->>>    	/*
->>>    	 * Keep a reference on the AFU to make sure it's valid for the
->>>    	 * duration of the life of the context @@ -65,6 +67,7 @@ int
->>> ocxl_context_attach(struct ocxl_context *ctx, u64 amr)
->>>    {
->>>    	int rc;
->>>
->>> +	// Locks both status & tidr
->>>    	mutex_lock(&ctx->status_mutex);
->>>    	if (ctx->status != OPENED) {
->>>    		rc = -EIO;
->>> @@ -72,7 +75,7 @@ int ocxl_context_attach(struct ocxl_context *ctx, u64
->> amr)
->>>    	}
->>>
->>>    	rc = ocxl_link_add_pe(ctx->afu->fn->link, ctx->pasid,
->>> -			current->mm->context.id, 0, amr, current->mm,
->>> +			current->mm->context.id, ctx->tidr, amr, current-
->>> mm,
->>>    			xsl_fault_error, ctx);
->>>    	if (rc)
->>>    		goto out;
->>> diff --git a/drivers/misc/ocxl/file.c b/drivers/misc/ocxl/file.c index
->>> 038509e5d031..eb409a469f21 100644
->>> --- a/drivers/misc/ocxl/file.c
->>> +++ b/drivers/misc/ocxl/file.c
->>> @@ -5,6 +5,8 @@
->>>    #include <linux/sched/signal.h>
->>>    #include <linux/uaccess.h>
->>>    #include <uapi/misc/ocxl.h>
->>> +#include <asm/reg.h>
->>> +#include <asm/switch_to.h>
->>>    #include "ocxl_internal.h"
->>>
->>>
->>> @@ -123,11 +125,55 @@ static long afu_ioctl_get_metadata(struct
->> ocxl_context *ctx,
->>>    	return 0;
->>>    }
->>>
->>> +#ifdef CONFIG_PPC64
->>> +static long afu_ioctl_enable_p9_wait(struct ocxl_context *ctx,
->>> +		struct ocxl_ioctl_p9_wait __user *uarg) {
->>> +	struct ocxl_ioctl_p9_wait arg;
->>> +
->>> +	memset(&arg, 0, sizeof(arg));
->>> +
->>> +	if (cpu_has_feature(CPU_FTR_P9_TIDR)) {
->>> +		enum ocxl_context_status status;
->>> +
->>> +		// Locks both status & tidr
->>> +		mutex_lock(&ctx->status_mutex);
->>> +		if (!ctx->tidr) {
->>> +			if (set_thread_tidr(current))
->>> +				return -ENOENT;
->>> +
->>> +			ctx->tidr = current->thread.tidr;
->>> +		}
->>> +
->>> +		status = ctx->status;
->>> +		mutex_unlock(&ctx->status_mutex);
->>> +
->>> +		if (status == ATTACHED) {
->>> +			int rc;
->>> +			struct link *link = ctx->afu->fn->link;
->>> +
->>> +			rc = ocxl_link_update_pe(link, ctx->pasid, ctx->tidr);
->>> +			if (rc)
->>> +				return rc;
->>> +		}
->>> +
->>> +		arg.thread_id = ctx->tidr;
->>> +	} else
->>> +		return -ENOENT;
->>> +
->>> +	if (copy_to_user(uarg, &arg, sizeof(arg)))
->>> +		return -EFAULT;
->>> +
->>> +	return 0;
->>> +}
->>> +#endif
->>> +
->>>    #define CMD_STR(x) (x == OCXL_IOCTL_ATTACH ? "ATTACH" :
->> 		\
->>>    			x == OCXL_IOCTL_IRQ_ALLOC ? "IRQ_ALLOC" :	\
->>>    			x == OCXL_IOCTL_IRQ_FREE ? "IRQ_FREE" :
->> 	\
->>>    			x == OCXL_IOCTL_IRQ_SET_FD ? "IRQ_SET_FD" :
->> 	\
->>>    			x == OCXL_IOCTL_GET_METADATA ?
->> "GET_METADATA" :	\
->>> +			x == OCXL_IOCTL_ENABLE_P9_WAIT ?
->> "ENABLE_P9_WAIT" :	\
->>>    			"UNKNOWN")
->>>
->>>    static long afu_ioctl(struct file *file, unsigned int cmd, @@ -186,6
->>> +232,13 @@ static long afu_ioctl(struct file *file, unsigned int cmd,
->>>    				(struct ocxl_ioctl_metadata __user *) args);
->>>    		break;
->>>
->>> +#ifdef CONFIG_PPC64
->>> +	case OCXL_IOCTL_ENABLE_P9_WAIT:
->>> +		rc = afu_ioctl_enable_p9_wait(ctx,
->>> +				(struct ocxl_ioctl_p9_wait __user *) args);
->>> +		break;
->>> +#endif
->>> +
->>>    	default:
->>>    		rc = -EINVAL;
->>>    	}
->>> diff --git a/drivers/misc/ocxl/link.c b/drivers/misc/ocxl/link.c index
->>> 656e8610eec2..88876ae8f330 100644
->>> --- a/drivers/misc/ocxl/link.c
->>> +++ b/drivers/misc/ocxl/link.c
->>> @@ -544,6 +544,42 @@ int ocxl_link_add_pe(void *link_handle, int pasid,
->> u32 pidr, u32 tidr,
->>>    }
->>>    EXPORT_SYMBOL_GPL(ocxl_link_add_pe);
->>>
->>> +int ocxl_link_update_pe(void *link_handle, int pasid, __u16 tid) {
->>> +	struct link *link = (struct link *) link_handle;
->>> +	struct spa *spa = link->spa;
->>> +	struct ocxl_process_element *pe;
->>> +	int pe_handle, rc;
->>> +
->>> +	if (pasid > SPA_PASID_MAX)
->>> +		return -EINVAL;
->>> +
->>> +	pe_handle = pasid & SPA_PE_MASK;
->>> +	pe = spa->spa_mem + pe_handle;
->>> +
->>> +	mutex_lock(&spa->spa_lock);
->>> +
->>> +	pe->tid = tid;
->>> +
->>> +	/*
->>> +	 * The barrier makes sure the PE is updated
->>> +	 * before we clear the NPU context cache below, so that the
->>> +	 * old PE cannot be reloaded erroneously.
->>> +	 */
->>> +	mb();
->>> +
->>> +	/*
->>> +	 * hook to platform code
->>> +	 * On powerpc, the entry needs to be cleared from the context
->>> +	 * cache of the NPU.
->>> +	 */
->>> +	rc = pnv_ocxl_spa_remove_pe_from_cache(link->platform_data,
->> pe_handle);
->>> +	WARN_ON(rc);
->>> +
->>> +	mutex_unlock(&spa->spa_lock);
->>> +	return rc;
->>> +}
->>> +
->>>    int ocxl_link_remove_pe(void *link_handle, int pasid)
->>>    {
->>>    	struct link *link = (struct link *) link_handle; diff --git
->>> a/drivers/misc/ocxl/ocxl_internal.h
->>> b/drivers/misc/ocxl/ocxl_internal.h
->>> index 5d421824afd9..a32f2151029f 100644
->>> --- a/drivers/misc/ocxl/ocxl_internal.h
->>> +++ b/drivers/misc/ocxl/ocxl_internal.h
->>> @@ -77,6 +77,7 @@ struct ocxl_context {
->>>    	struct ocxl_xsl_error xsl_error;
->>>    	struct mutex irq_lock;
->>>    	struct idr irq_idr;
->>> +	u16 tidr; // Thread ID used for P9 wait implementation
->>>    };
->>>
->>>    struct ocxl_process_element {
->>> diff --git a/include/misc/ocxl.h b/include/misc/ocxl.h index
->>> 51ccf76db293..9ff6ddc28e22 100644
->>> --- a/include/misc/ocxl.h
->>> +++ b/include/misc/ocxl.h
->>> @@ -188,6 +188,15 @@ extern int ocxl_link_add_pe(void *link_handle, int
->> pasid, u32 pidr, u32 tidr,
->>>    		void (*xsl_err_cb)(void *data, u64 addr, u64 dsisr),
->>>    		void *xsl_err_data);
->>>
->>> +/**
->>> + * Update values within a Process Element
->>> + *
->>> + * link_handle: the link handle associated with the process element
->>> + * pasid: the PASID for the AFU context
->>> + * tid: the new thread id for the process element  */ extern int
->>> +ocxl_link_update_pe(void *link_handle, int pasid, __u16 tid);
->>> +
->>>    /*
->>>     * Remove a Process Element from the Shared Process Area for a link
->>>     */
->>> diff --git a/include/uapi/misc/ocxl.h b/include/uapi/misc/ocxl.h index
->>> 0af83d80fb3e..561e6f0dfcb7 100644
->>> --- a/include/uapi/misc/ocxl.h
->>> +++ b/include/uapi/misc/ocxl.h
->>> @@ -48,6 +48,13 @@ struct ocxl_ioctl_metadata {
->>>    	__u64 reserved[13]; // Total of 16*u64
->>>    };
->>>
->>> +struct ocxl_ioctl_p9_wait {
->>> +	__u16 thread_id; // The thread ID required to wake this thread
->>> +	__u16 reserved1;
->>> +	__u32 reserved2;
->>> +	__u64 reserved3[3];
->>> +};
->>> +
->>>    struct ocxl_ioctl_irq_fd {
->>>    	__u64 irq_offset;
->>>    	__s32 eventfd;
->>> @@ -62,5 +69,6 @@ struct ocxl_ioctl_irq_fd {
->>>    #define OCXL_IOCTL_IRQ_FREE	_IOW(OCXL_MAGIC, 0x12, __u64)
->>>    #define OCXL_IOCTL_IRQ_SET_FD	_IOW(OCXL_MAGIC, 0x13, struct
->> ocxl_ioctl_irq_fd)
->>>    #define OCXL_IOCTL_GET_METADATA _IOR(OCXL_MAGIC, 0x14, struct
->>> ocxl_ioctl_metadata)
->>> +#define OCXL_IOCTL_ENABLE_P9_WAIT	_IOR(OCXL_MAGIC, 0x15,
->> struct ocxl_ioctl_p9_wait)
->>>
->>>    #endif /* _UAPI_MISC_OCXL_H */
->>>
->>
->>
->> ---
->> This email has been checked for viruses by AVG.
->> http://www.avg.com
-> 
-> 
-
+Do you think trying to find "all places where we cast out __user" with
+static analysis as Kirill suggested is something I should pursue? Or
+is this patchset is good as is as the first approximation, since we
+can fix more things where untagging is needed as we discover them one
+by one?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
