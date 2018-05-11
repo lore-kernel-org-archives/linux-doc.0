@@ -2,48 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 772167E6A6
+	by archive.lwn.net (Postfix) with ESMTP id C0FFA7E6B4
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 May 2018 06:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752319AbeEKGPJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 May 2018 02:15:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49664 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1750852AbeEKGPC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 May 2018 02:15:02 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4B698Dm114622
-        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 02:15:01 -0400
-Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2hw41vv019-1
+        id S1752616AbeEKGQO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 May 2018 02:16:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49838 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752352AbeEKGPE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 May 2018 02:15:04 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4B699OC128515
+        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 02:15:03 -0400
+Received: from e06smtp10.uk.ibm.com (e06smtp10.uk.ibm.com [195.75.94.106])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2hw5f5ruxh-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 02:14:59 -0400
+        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 02:15:03 -0400
 Received: from localhost
-        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp10.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <alastair@au1.ibm.com>;
+        Fri, 11 May 2018 07:15:01 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp10.uk.ibm.com (192.168.101.140) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         Fri, 11 May 2018 07:14:57 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Fri, 11 May 2018 07:14:54 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4B6ErGj3211564;
-        Fri, 11 May 2018 06:14:53 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0952042014;
-        Fri, 11 May 2018 07:05:53 +0100 (BST)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A9FAD42011;
-        Fri, 11 May 2018 07:05:52 +0100 (BST)
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4B6EuPv9830840;
+        Fri, 11 May 2018 06:14:56 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 44ACF5203F;
+        Fri, 11 May 2018 06:05:12 +0100 (BST)
 Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 11 May 2018 07:05:52 +0100 (BST)
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id A981D5204D;
+        Fri, 11 May 2018 06:05:11 +0100 (BST)
 Received: from adsilva.ozlabs.ibm.com (haven.au.ibm.com [9.192.254.114])
         (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id BC879A02D4;
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id E3546A037F;
         Fri, 11 May 2018 16:14:51 +1000 (AEST)
 From:   "Alastair D'Silva" <alastair@au1.ibm.com>
 To:     linuxppc-dev@lists.ozlabs.org
@@ -55,24 +52,24 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         gregkh@linuxfoundation.org, arnd@arndb.de,
         andrew.donnellan@au1.ibm.com, fbarrat@linux.vnet.ibm.com,
         corbet@lwn.net, "Alastair D'Silva" <alastair@d-silva.org>
-Subject: [PATCH v5 1/7] powerpc: Add TIDR CPU feature for POWER9
-Date:   Fri, 11 May 2018 16:12:57 +1000
+Subject: [PATCH v5 5/7] ocxl: Expose the thread_id needed for wait on POWER9
+Date:   Fri, 11 May 2018 16:13:01 +1000
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180511061303.10728-1-alastair@au1.ibm.com>
 References: <20180511061303.10728-1-alastair@au1.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18051106-0020-0000-0000-0000041C2466
+x-cbid: 18051106-0040-0000-0000-0000043872C4
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18051106-0021-0000-0000-000042B12597
-Message-Id: <20180511061303.10728-2-alastair@au1.ibm.com>
+x-cbparentid: 18051106-0041-0000-0000-0000263CB9CB
+Message-Id: <20180511061303.10728-6-alastair@au1.ibm.com>
 Content-Type:   text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7BIT
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-11_03:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
  definitions=main-1805110057
 Sender: linux-doc-owner@vger.kernel.org
@@ -82,48 +79,237 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Alastair D'Silva <alastair@d-silva.org>
 
-This patch adds a CPU feature bit to show whether the CPU has
-the TIDR register available, enabling as_notify/wait in userspace.
+In order to successfully issue as_notify, an AFU needs to know the TID
+to notify, which in turn means that this information should be
+available in userspace so it can be communicated to the AFU.
 
 Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 ---
- arch/powerpc/include/asm/cputable.h | 3 ++-
- arch/powerpc/kernel/dt_cpu_ftrs.c   | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/misc/ocxl/context.c       |  5 ++-
+ drivers/misc/ocxl/file.c          | 53 +++++++++++++++++++++++++++++++
+ drivers/misc/ocxl/link.c          | 36 +++++++++++++++++++++
+ drivers/misc/ocxl/ocxl_internal.h |  1 +
+ include/misc/ocxl.h               |  9 ++++++
+ include/uapi/misc/ocxl.h          |  8 +++++
+ 6 files changed, 111 insertions(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/include/asm/cputable.h b/arch/powerpc/include/asm/cputable.h
-index 66fcab13c8b4..9c0a3083571b 100644
---- a/arch/powerpc/include/asm/cputable.h
-+++ b/arch/powerpc/include/asm/cputable.h
-@@ -215,6 +215,7 @@ static inline void cpu_feature_keys_init(void) { }
- #define CPU_FTR_P9_TM_HV_ASSIST		LONG_ASM_CONST(0x0000100000000000)
- #define CPU_FTR_P9_TM_XER_SO_BUG	LONG_ASM_CONST(0x0000200000000000)
- #define CPU_FTR_P9_TLBIE_BUG		LONG_ASM_CONST(0x0000400000000000)
-+#define CPU_FTR_P9_TIDR			LONG_ASM_CONST(0x0000800000000000)
+diff --git a/drivers/misc/ocxl/context.c b/drivers/misc/ocxl/context.c
+index 909e8807824a..95f74623113e 100644
+--- a/drivers/misc/ocxl/context.c
++++ b/drivers/misc/ocxl/context.c
+@@ -34,6 +34,8 @@ int ocxl_context_init(struct ocxl_context *ctx, struct ocxl_afu *afu,
+ 	mutex_init(&ctx->xsl_error_lock);
+ 	mutex_init(&ctx->irq_lock);
+ 	idr_init(&ctx->irq_idr);
++	ctx->tidr = 0;
++
+ 	/*
+ 	 * Keep a reference on the AFU to make sure it's valid for the
+ 	 * duration of the life of the context
+@@ -65,6 +67,7 @@ int ocxl_context_attach(struct ocxl_context *ctx, u64 amr)
+ {
+ 	int rc;
  
- #ifndef __ASSEMBLY__
- 
-@@ -462,7 +463,7 @@ static inline void cpu_feature_keys_init(void) { }
- 	    CPU_FTR_CFAR | CPU_FTR_HVMODE | CPU_FTR_VMX_COPY | \
- 	    CPU_FTR_DBELL | CPU_FTR_HAS_PPR | CPU_FTR_ARCH_207S | \
- 	    CPU_FTR_TM_COMP | CPU_FTR_ARCH_300 | CPU_FTR_PKEY | \
--	    CPU_FTR_P9_TLBIE_BUG)
-+	    CPU_FTR_P9_TLBIE_BUG | CPU_FTR_P9_TIDR)
- #define CPU_FTRS_POWER9_DD1 ((CPU_FTRS_POWER9 | CPU_FTR_POWER9_DD1) & \
- 			     (~CPU_FTR_SAO))
- #define CPU_FTRS_POWER9_DD2_0 CPU_FTRS_POWER9
-diff --git a/arch/powerpc/kernel/dt_cpu_ftrs.c b/arch/powerpc/kernel/dt_cpu_ftrs.c
-index 8ab51f6ca03a..415555e5b69f 100644
---- a/arch/powerpc/kernel/dt_cpu_ftrs.c
-+++ b/arch/powerpc/kernel/dt_cpu_ftrs.c
-@@ -716,6 +716,7 @@ static __init void cpufeatures_cpu_quirks(void)
- 	if ((version & 0xffff0000) == 0x004e0000) {
- 		cur_cpu_spec->cpu_features &= ~(CPU_FTR_DAWR);
- 		cur_cpu_spec->cpu_features |= CPU_FTR_P9_TLBIE_BUG;
-+		cur_cpu_spec->cpu_features |= CPU_FTR_P9_TIDR;
++	// Locks both status & tidr
+ 	mutex_lock(&ctx->status_mutex);
+ 	if (ctx->status != OPENED) {
+ 		rc = -EIO;
+@@ -72,7 +75,7 @@ int ocxl_context_attach(struct ocxl_context *ctx, u64 amr)
  	}
  
- 	/*
+ 	rc = ocxl_link_add_pe(ctx->afu->fn->link, ctx->pasid,
+-			current->mm->context.id, 0, amr, current->mm,
++			current->mm->context.id, ctx->tidr, amr, current->mm,
+ 			xsl_fault_error, ctx);
+ 	if (rc)
+ 		goto out;
+diff --git a/drivers/misc/ocxl/file.c b/drivers/misc/ocxl/file.c
+index 038509e5d031..eb409a469f21 100644
+--- a/drivers/misc/ocxl/file.c
++++ b/drivers/misc/ocxl/file.c
+@@ -5,6 +5,8 @@
+ #include <linux/sched/signal.h>
+ #include <linux/uaccess.h>
+ #include <uapi/misc/ocxl.h>
++#include <asm/reg.h>
++#include <asm/switch_to.h>
+ #include "ocxl_internal.h"
+ 
+ 
+@@ -123,11 +125,55 @@ static long afu_ioctl_get_metadata(struct ocxl_context *ctx,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_PPC64
++static long afu_ioctl_enable_p9_wait(struct ocxl_context *ctx,
++		struct ocxl_ioctl_p9_wait __user *uarg)
++{
++	struct ocxl_ioctl_p9_wait arg;
++
++	memset(&arg, 0, sizeof(arg));
++
++	if (cpu_has_feature(CPU_FTR_P9_TIDR)) {
++		enum ocxl_context_status status;
++
++		// Locks both status & tidr
++		mutex_lock(&ctx->status_mutex);
++		if (!ctx->tidr) {
++			if (set_thread_tidr(current))
++				return -ENOENT;
++
++			ctx->tidr = current->thread.tidr;
++		}
++
++		status = ctx->status;
++		mutex_unlock(&ctx->status_mutex);
++
++		if (status == ATTACHED) {
++			int rc;
++			struct link *link = ctx->afu->fn->link;
++
++			rc = ocxl_link_update_pe(link, ctx->pasid, ctx->tidr);
++			if (rc)
++				return rc;
++		}
++
++		arg.thread_id = ctx->tidr;
++	} else
++		return -ENOENT;
++
++	if (copy_to_user(uarg, &arg, sizeof(arg)))
++		return -EFAULT;
++
++	return 0;
++}
++#endif
++
+ #define CMD_STR(x) (x == OCXL_IOCTL_ATTACH ? "ATTACH" :			\
+ 			x == OCXL_IOCTL_IRQ_ALLOC ? "IRQ_ALLOC" :	\
+ 			x == OCXL_IOCTL_IRQ_FREE ? "IRQ_FREE" :		\
+ 			x == OCXL_IOCTL_IRQ_SET_FD ? "IRQ_SET_FD" :	\
+ 			x == OCXL_IOCTL_GET_METADATA ? "GET_METADATA" :	\
++			x == OCXL_IOCTL_ENABLE_P9_WAIT ? "ENABLE_P9_WAIT" :	\
+ 			"UNKNOWN")
+ 
+ static long afu_ioctl(struct file *file, unsigned int cmd,
+@@ -186,6 +232,13 @@ static long afu_ioctl(struct file *file, unsigned int cmd,
+ 				(struct ocxl_ioctl_metadata __user *) args);
+ 		break;
+ 
++#ifdef CONFIG_PPC64
++	case OCXL_IOCTL_ENABLE_P9_WAIT:
++		rc = afu_ioctl_enable_p9_wait(ctx,
++				(struct ocxl_ioctl_p9_wait __user *) args);
++		break;
++#endif
++
+ 	default:
+ 		rc = -EINVAL;
+ 	}
+diff --git a/drivers/misc/ocxl/link.c b/drivers/misc/ocxl/link.c
+index 656e8610eec2..88876ae8f330 100644
+--- a/drivers/misc/ocxl/link.c
++++ b/drivers/misc/ocxl/link.c
+@@ -544,6 +544,42 @@ int ocxl_link_add_pe(void *link_handle, int pasid, u32 pidr, u32 tidr,
+ }
+ EXPORT_SYMBOL_GPL(ocxl_link_add_pe);
+ 
++int ocxl_link_update_pe(void *link_handle, int pasid, __u16 tid)
++{
++	struct link *link = (struct link *) link_handle;
++	struct spa *spa = link->spa;
++	struct ocxl_process_element *pe;
++	int pe_handle, rc;
++
++	if (pasid > SPA_PASID_MAX)
++		return -EINVAL;
++
++	pe_handle = pasid & SPA_PE_MASK;
++	pe = spa->spa_mem + pe_handle;
++
++	mutex_lock(&spa->spa_lock);
++
++	pe->tid = tid;
++
++	/*
++	 * The barrier makes sure the PE is updated
++	 * before we clear the NPU context cache below, so that the
++	 * old PE cannot be reloaded erroneously.
++	 */
++	mb();
++
++	/*
++	 * hook to platform code
++	 * On powerpc, the entry needs to be cleared from the context
++	 * cache of the NPU.
++	 */
++	rc = pnv_ocxl_spa_remove_pe_from_cache(link->platform_data, pe_handle);
++	WARN_ON(rc);
++
++	mutex_unlock(&spa->spa_lock);
++	return rc;
++}
++
+ int ocxl_link_remove_pe(void *link_handle, int pasid)
+ {
+ 	struct link *link = (struct link *) link_handle;
+diff --git a/drivers/misc/ocxl/ocxl_internal.h b/drivers/misc/ocxl/ocxl_internal.h
+index 5d421824afd9..a32f2151029f 100644
+--- a/drivers/misc/ocxl/ocxl_internal.h
++++ b/drivers/misc/ocxl/ocxl_internal.h
+@@ -77,6 +77,7 @@ struct ocxl_context {
+ 	struct ocxl_xsl_error xsl_error;
+ 	struct mutex irq_lock;
+ 	struct idr irq_idr;
++	u16 tidr; // Thread ID used for P9 wait implementation
+ };
+ 
+ struct ocxl_process_element {
+diff --git a/include/misc/ocxl.h b/include/misc/ocxl.h
+index 51ccf76db293..9ff6ddc28e22 100644
+--- a/include/misc/ocxl.h
++++ b/include/misc/ocxl.h
+@@ -188,6 +188,15 @@ extern int ocxl_link_add_pe(void *link_handle, int pasid, u32 pidr, u32 tidr,
+ 		void (*xsl_err_cb)(void *data, u64 addr, u64 dsisr),
+ 		void *xsl_err_data);
+ 
++/**
++ * Update values within a Process Element
++ *
++ * link_handle: the link handle associated with the process element
++ * pasid: the PASID for the AFU context
++ * tid: the new thread id for the process element
++ */
++extern int ocxl_link_update_pe(void *link_handle, int pasid, __u16 tid);
++
+ /*
+  * Remove a Process Element from the Shared Process Area for a link
+  */
+diff --git a/include/uapi/misc/ocxl.h b/include/uapi/misc/ocxl.h
+index 0af83d80fb3e..561e6f0dfcb7 100644
+--- a/include/uapi/misc/ocxl.h
++++ b/include/uapi/misc/ocxl.h
+@@ -48,6 +48,13 @@ struct ocxl_ioctl_metadata {
+ 	__u64 reserved[13]; // Total of 16*u64
+ };
+ 
++struct ocxl_ioctl_p9_wait {
++	__u16 thread_id; // The thread ID required to wake this thread
++	__u16 reserved1;
++	__u32 reserved2;
++	__u64 reserved3[3];
++};
++
+ struct ocxl_ioctl_irq_fd {
+ 	__u64 irq_offset;
+ 	__s32 eventfd;
+@@ -62,5 +69,6 @@ struct ocxl_ioctl_irq_fd {
+ #define OCXL_IOCTL_IRQ_FREE	_IOW(OCXL_MAGIC, 0x12, __u64)
+ #define OCXL_IOCTL_IRQ_SET_FD	_IOW(OCXL_MAGIC, 0x13, struct ocxl_ioctl_irq_fd)
+ #define OCXL_IOCTL_GET_METADATA _IOR(OCXL_MAGIC, 0x14, struct ocxl_ioctl_metadata)
++#define OCXL_IOCTL_ENABLE_P9_WAIT	_IOR(OCXL_MAGIC, 0x15, struct ocxl_ioctl_p9_wait)
+ 
+ #endif /* _UAPI_MISC_OCXL_H */
 -- 
 2.17.0
 
