@@ -1,133 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 575D37E22E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 May 2018 12:36:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7474C7D0DD
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 12 May 2018 11:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752835AbeEKMgY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 May 2018 08:36:24 -0400
-Received: from mail-io0-f170.google.com ([209.85.223.170]:37146 "EHLO
-        mail-io0-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752752AbeEKMgX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 May 2018 08:36:23 -0400
-Received: by mail-io0-f170.google.com with SMTP id e20-v6so6829709iof.4
-        for <linux-doc@vger.kernel.org>; Fri, 11 May 2018 05:36:23 -0700 (PDT)
+        id S1751474AbeELLYk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 12 May 2018 07:24:40 -0400
+Received: from mail-wr0-f193.google.com ([209.85.128.193]:36276 "EHLO
+        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751089AbeELLYi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 May 2018 07:24:38 -0400
+Received: by mail-wr0-f193.google.com with SMTP id p4-v6so7694722wrh.3;
+        Sat, 12 May 2018 04:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=nukVuubG0PtvETsOeOCDB8+hK3wKQhWo+f6+7KQfU24=;
-        b=JRRUs0Aym53/FNuTLyJGgMysXql8jgDkqxpAe1w4LQQmjp1BarLmCSbnfjzYMNdT3e
-         LoTTII+pPmRlR79QzMnZFZ0OHfIuvg3GoIXLVvdk+v/ZN6o0Ewsu6/VGKqAZMionm/TM
-         xI+qEKJDnzTaaW3bOPRltcrnCiEO3seB/M3qGBn0uS5rl03WAMhfx5dNZc44soY7kQUy
-         KoZUZRcLwwejdEUqHbSu4x+BCzrIMJxXzHhHmbVjn8SX2SAwfft1J6APMmxwdZ49PNzU
-         GFHrRU19UtyNGm1KAHjttPsGUhySdOFUh9Hf8FB9yxaKSXulSG1FM6z7cBebEexfRBmK
-         5fjA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=/RzGimCxJbJBH2tQnyt7MUJ1Br3aVWrZuc1tyQruatM=;
+        b=Zn2YUER0TFRAFKlqNJkg/upLv816Hhsv7ITrDUJ+XcGUIIB4UikrTGZF9liLHTSyUU
+         nEUPDPWSMwyZYhp0WwPtplhNzag1KRrhyDJpS1/UbyoWjgP/6b+gtpa9ow0aUdLheLoE
+         3rnInv0r9eq5GPgf7yUukCKQXZY6KOQ9H9gD6K1rX+Cg5Kd4mR3ICHd+SLLYMJklPlO2
+         X8bGvi2ApIGQvfOmU4YrotFwviT6LT5mxMyH+ZQDzH0a1CP1YsYHlHKqnNCmmZq/X0Zc
+         4IWXbRAtDAua3oFVBcCOC/FddN7Pw12UfXOKWi4LVhXLH9vURQUt6UDAq4TNw/0IW8yZ
+         7lvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=nukVuubG0PtvETsOeOCDB8+hK3wKQhWo+f6+7KQfU24=;
-        b=jCUSUGR6Cig/O88lNdmzcEfnov7+OUuGGG1+uj126y9rkwWbKE3ykydqiUO6zAENAP
-         YKqorwGnaylHn0Y9Lc1YwyVOHAmaTY5XSvM6cFMD6HErQTpgpEY3N1ef7XvuX6mG5Ajd
-         zbU6jtPEz+lQ6DG+ivL55WenzFNbOU3VqYy2Y9eVlfxLBw4XDDLlG0gESM2JjZpsOZ19
-         YD3cNze/daNDpJoupBy3cRfviX3rAkjQnwkjKthygJMKZtCup6luz41HC5gUHxKfvkHZ
-         BdFLS3asKHYSsBaIkt3lmsrQVC8ZnXynAXdxWZvrSMpm06yp/bBxthmSnbAn6hzqDMz4
-         wfeQ==
-X-Gm-Message-State: ALKqPweJldEcyZ1QR5zn+wlH407NS6LulquTN9HEMd7Evj/n7Mo5Cx6t
-        eznU5Iw5J1n6rHUx9+3O4RygGx+RRyNfYpYT4AUvEuB6D24=
-X-Google-Smtp-Source: AB8JxZqPPwr2n8Jby83evYFjEIEBVlfFFH98d8EVRx37cXxoeKOoq6bO8MXFcyU14bya2kmpX+T5mekM+UTWuqyimsg=
-X-Received: by 2002:a6b:4514:: with SMTP id s20-v6mr5822734ioa.38.1526042182751;
- Fri, 11 May 2018 05:36:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:6646:0:0:0:0:0 with HTTP; Fri, 11 May 2018 05:36:22
- -0700 (PDT)
-In-Reply-To: <20180508151137.zguepljs3pa7xv5g@armageddon.cambridge.arm.com>
-References: <cover.1524077494.git.andreyknvl@google.com> <0db34d04fa16be162336106e3b4a94f3dacc0af4.1524077494.git.andreyknvl@google.com>
- <20180426174714.4jtb72q56w3xonsa@armageddon.cambridge.arm.com>
- <CAAeHK+zY8p9E4FZa7mbdgR=wR0u-RDS552dn=h9fKRC-ArYLdw@mail.gmail.com>
- <20180502153645.fui4ju3scsze3zkq@black.fi.intel.com> <CAAeHK+yTbmZfkeNbqbo+J90zsjsM99rwnYBGfQBxphHMMfgD7A@mail.gmail.com>
- <20180508151137.zguepljs3pa7xv5g@armageddon.cambridge.arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 11 May 2018 14:36:22 +0200
-Message-ID: <CAAeHK+yR9=SYEBg-Pvi+x3qSqQSG1u+79pk5vQvOcsp+o=zkxw@mail.gmail.com>
-Subject: Re: [PATCH 4/6] mm, arm64: untag user addresses in mm/gup.c
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Bart Van Assche <bart.vanassche@wdc.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        James Morse <james.morse@arm.com>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Zi Yan <zi.yan@cs.rutgers.edu>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=/RzGimCxJbJBH2tQnyt7MUJ1Br3aVWrZuc1tyQruatM=;
+        b=ZtK9lL3dfqVX3GVIn7CYDChb90xiCQK7wo25o8+CT0xLv2Tf72BkkzYjckZ+UOCWbH
+         pamfZBGQhSnBTG7emb8JAzWggObMnMCkQcwGxYofR0OFO3s2PtpEQcfFhVGkFRoLrm5F
+         FcoIc6ymwiDrOAwKtcBD9jppyRoa+6fWc2Cbj+fMDHU69VueaJtyBZK1O+A9ablikB75
+         L877h1fLt7VSx2sE6U6ts3jraS4HFLyXpu4x470LDCmTRremEa11Be8lC5PLNy7xA3sm
+         RQWjd94XdVgm1RfSYYOiP/8UVv1fyxXjiOcld/dp04i4+vQBJ5WwelpsA7fwin6ZKMdy
+         GZgA==
+X-Gm-Message-State: ALKqPwecQYVQrE71wOMPXku7PcTjwiVKXX3iAuoawmXknHhy4mTMYOcP
+        oVp4Rw4//x4f/ppwzQma/KlU6Q==
+X-Google-Smtp-Source: AB8JxZpPNhg8apfK7bCjjrYJaoR6ZTj/EQNKopZpPGqP+22B2hiJhTRwBPBNrUWSajRjGto0rm9MdQ==
+X-Received: by 2002:adf:b3d7:: with SMTP id x23-v6mr1833986wrd.142.1526124276246;
+        Sat, 12 May 2018 04:24:36 -0700 (PDT)
+Received: from dvbdev.wuest.de (ip-176-199-71-134.hsi06.unitymediagroup.de. [176.199.71.134])
+        by smtp.gmail.com with ESMTPSA id 141-v6sm3845434wmf.35.2018.05.12.04.24.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 12 May 2018 04:24:35 -0700 (PDT)
+From:   Daniel Scheller <d.scheller.oss@gmail.com>
+To:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        mchehab@s-opensource.com, mchehab+samsung@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/3] Documentation: ioctl-number: add ddbridge IOCTLs
+Date:   Sat, 12 May 2018 13:24:30 +0200
+Message-Id: <20180512112432.30887-2-d.scheller.oss@gmail.com>
+X-Mailer: git-send-email 2.16.1
+In-Reply-To: <20180512112432.30887-1-d.scheller.oss@gmail.com>
+References: <20180512112432.30887-1-d.scheller.oss@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 8, 2018 at 5:11 PM, Catalin Marinas <catalin.marinas@arm.com> wrote:
-> On Wed, May 02, 2018 at 07:25:17PM +0200, Andrey Konovalov wrote:
->> On Wed, May 2, 2018 at 5:36 PM, Kirill A. Shutemov
->> <kirill.shutemov@linux.intel.com> wrote:
->> > On Wed, May 02, 2018 at 02:38:42PM +0000, Andrey Konovalov wrote:
->> >> > Does having a tagged address here makes any difference? I couldn't hit a
->> >> > failure with my simple tests (LD_PRELOAD a library that randomly adds
->> >> > tags to pointers returned by malloc).
->> >>
->> >> I think you're right, follow_page_mask is only called from
->> >> __get_user_pages, which already untagged the address. I'll remove
->> >> untagging here.
->> >
->> > It also called from follow_page(). Have you covered all its callers?
->>
->> Oh, missed that, will take a look.
->>
->> Thinking about that, would it make sense to add untagging to find_vma
->> (and others) instead of trying to cover all find_vma callers?
->
-> I don't think adding the untagging to find_vma() is sufficient. In many
-> cases the caller does a subsequent check like 'start < vma->vm_start'
-> (see sys_msync() as an example, there are a few others as well).
+From: Daniel Scheller <d.scheller@gmx.net>
 
-OK.
+drivers/media/pci/ddbridge exposes a few IOCTLs which are used by userspace
+utilities to ie. update PCIe card's FPGA firmware.
 
-> What I
-> did in my tests was a WARN_ON_ONCE() in find_vma() if the address is
-> tagged.
+The IOCTLs chosen are in the range 0xDD/0xE0 up to 0xDD/0xFF, with 0xDD as
+sort of gimmick for "Digital Devices". To not conflict with the zfpc driver
+the upper range (0xE0-0xFF) is used. It is not clear if and which IOCTL
+numbers the zfpc driver really uses, from reading the sources at
+drivers/s390/scsi/ I couldn't really determine if IOCTLs are in use at all.
+Maybe the S390 maintainers can double-check or comment, thus Cc linux-s390.
 
-So this is similar to what I did.
+The upstream dddvb driver currently exposes 12 IOCTLs from which we're
+going to handle two at the moment (DDB_FLASHIO and DDB_ID), which is all
+that's required to perform the FPGA update on this hardware. The
+"reservation" of 32 IDs may seem way too much in this regard, however,
+we'd like to be able to stay compatible with the upstream out-of-tree
+driver as much as possible, so should any of the remaining 10 IOCTLs be
+required at any time (or even more, should upstream add more in the
+future), we can just add them into this range without any hassles or
+without creating conflicts anywhere.
 
-Do you think trying to find "all places where we cast out __user" with
-static analysis as Kirill suggested is something I should pursue? Or
-is this patchset is good as is as the first approximation, since we
-can fix more things where untagging is needed as we discover them one
-by one?
+Cc: linux-doc@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Daniel Scheller <d.scheller@gmx.net>
+---
+ Documentation/ioctl/ioctl-number.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
+index 84bb74dcae12..feac1b56900b 100644
+--- a/Documentation/ioctl/ioctl-number.txt
++++ b/Documentation/ioctl/ioctl-number.txt
+@@ -334,6 +334,7 @@ Code  Seq#(hex)	Include File		Comments
+ 0xDB	00-0F	drivers/char/mwave/mwavepub.h
+ 0xDD	00-3F	ZFCP device driver	see drivers/s390/scsi/
+ 					<mailto:aherrman@de.ibm.com>
++0xDD	E0-FF	linux/ddbridge-ioctl.h
+ 0xE5	00-3F	linux/fuse.h
+ 0xEC	00-01	drivers/platform/chrome/cros_ec_dev.h	ChromeOS EC driver
+ 0xF3	00-3F	drivers/usb/misc/sisusbvga/sisusb.h	sisfb (in development)
+-- 
+2.16.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
