@@ -1,112 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7474C7D0DD
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 12 May 2018 11:24:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EFFB57D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 May 2018 08:41:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751474AbeELLYk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 12 May 2018 07:24:40 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:36276 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751089AbeELLYi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 May 2018 07:24:38 -0400
-Received: by mail-wr0-f193.google.com with SMTP id p4-v6so7694722wrh.3;
-        Sat, 12 May 2018 04:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/RzGimCxJbJBH2tQnyt7MUJ1Br3aVWrZuc1tyQruatM=;
-        b=Zn2YUER0TFRAFKlqNJkg/upLv816Hhsv7ITrDUJ+XcGUIIB4UikrTGZF9liLHTSyUU
-         nEUPDPWSMwyZYhp0WwPtplhNzag1KRrhyDJpS1/UbyoWjgP/6b+gtpa9ow0aUdLheLoE
-         3rnInv0r9eq5GPgf7yUukCKQXZY6KOQ9H9gD6K1rX+Cg5Kd4mR3ICHd+SLLYMJklPlO2
-         X8bGvi2ApIGQvfOmU4YrotFwviT6LT5mxMyH+ZQDzH0a1CP1YsYHlHKqnNCmmZq/X0Zc
-         4IWXbRAtDAua3oFVBcCOC/FddN7Pw12UfXOKWi4LVhXLH9vURQUt6UDAq4TNw/0IW8yZ
-         7lvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=/RzGimCxJbJBH2tQnyt7MUJ1Br3aVWrZuc1tyQruatM=;
-        b=ZtK9lL3dfqVX3GVIn7CYDChb90xiCQK7wo25o8+CT0xLv2Tf72BkkzYjckZ+UOCWbH
-         pamfZBGQhSnBTG7emb8JAzWggObMnMCkQcwGxYofR0OFO3s2PtpEQcfFhVGkFRoLrm5F
-         FcoIc6ymwiDrOAwKtcBD9jppyRoa+6fWc2Cbj+fMDHU69VueaJtyBZK1O+A9ablikB75
-         L877h1fLt7VSx2sE6U6ts3jraS4HFLyXpu4x470LDCmTRremEa11Be8lC5PLNy7xA3sm
-         RQWjd94XdVgm1RfSYYOiP/8UVv1fyxXjiOcld/dp04i4+vQBJ5WwelpsA7fwin6ZKMdy
-         GZgA==
-X-Gm-Message-State: ALKqPwecQYVQrE71wOMPXku7PcTjwiVKXX3iAuoawmXknHhy4mTMYOcP
-        oVp4Rw4//x4f/ppwzQma/KlU6Q==
-X-Google-Smtp-Source: AB8JxZpPNhg8apfK7bCjjrYJaoR6ZTj/EQNKopZpPGqP+22B2hiJhTRwBPBNrUWSajRjGto0rm9MdQ==
-X-Received: by 2002:adf:b3d7:: with SMTP id x23-v6mr1833986wrd.142.1526124276246;
-        Sat, 12 May 2018 04:24:36 -0700 (PDT)
-Received: from dvbdev.wuest.de (ip-176-199-71-134.hsi06.unitymediagroup.de. [176.199.71.134])
-        by smtp.gmail.com with ESMTPSA id 141-v6sm3845434wmf.35.2018.05.12.04.24.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 12 May 2018 04:24:35 -0700 (PDT)
-From:   Daniel Scheller <d.scheller.oss@gmail.com>
-To:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        mchehab@s-opensource.com, mchehab+samsung@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/3] Documentation: ioctl-number: add ddbridge IOCTLs
-Date:   Sat, 12 May 2018 13:24:30 +0200
-Message-Id: <20180512112432.30887-2-d.scheller.oss@gmail.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180512112432.30887-1-d.scheller.oss@gmail.com>
-References: <20180512112432.30887-1-d.scheller.oss@gmail.com>
+        id S1751255AbeEMIlg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 13 May 2018 04:41:36 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:59439 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750862AbeEMIlg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 May 2018 04:41:36 -0400
+Received: from 79.184.255.167.ipv4.supernova.orange.pl (79.184.255.167) (HELO aspire.rjw.lan)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83)
+ id 34f0da1133bca20b; Sun, 13 May 2018 10:41:33 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Juri Lelli <juri.lelli@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] Documentation/admin-guide/pm/intel_pstate: fix Active Mode w/o HWP paragraph
+Date:   Sun, 13 May 2018 10:41:05 +0200
+Message-ID: <2012541.gp2fSrYHDl@aspire.rjw.lan>
+In-Reply-To: <1525804604.49308.15.camel@linux.intel.com>
+References: <20180508151209.9314-1-juri.lelli@redhat.com> <1525804604.49308.15.camel@linux.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Daniel Scheller <d.scheller@gmx.net>
+On Tuesday, May 8, 2018 8:36:44 PM CEST Srinivas Pandruvada wrote:
+> On Tue, 2018-05-08 at 17:12 +0200, Juri Lelli wrote:
+> > P-state selection algorithm (powersave or performance) is selected by
+> > echoing the desired choice to scaling_governor sysfs attribute and
+> > not
+> > to scaling_cur_freq (as currently stated).
+> > 
+> > Fix it.
+> Thanks for the fix.
+> 
+> > 
+> > Signed-off-by: Juri Lelli <juri.lelli@redhat.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: linux-pm@vger.kernel.org
+> Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> 
+> 
+> > 
+> > ---
+> >  Documentation/admin-guide/pm/intel_pstate.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/admin-guide/pm/intel_pstate.rst
+> > b/Documentation/admin-guide/pm/intel_pstate.rst
+> > index d2b6fda3d67b..ab2fe0eda1d7 100644
+> > --- a/Documentation/admin-guide/pm/intel_pstate.rst
+> > +++ b/Documentation/admin-guide/pm/intel_pstate.rst
+> > @@ -145,7 +145,7 @@ feature enabled.]
+> >  
+> >  In this mode ``intel_pstate`` registers utilization update callbacks
+> > with the
+> >  CPU scheduler in order to run a P-state selection algorithm, either
+> > -``powersave`` or ``performance``, depending on the
+> > ``scaling_cur_freq`` policy
+> > +``powersave`` or ``performance``, depending on the
+> > ``scaling_governor`` policy
+> >  setting in ``sysfs``.  The current CPU frequency information to be
+> > made
+> >  available from the ``scaling_cur_freq`` policy attribute in
+> > ``sysfs`` is
+> >  periodically updated by those utilization update callbacks too.
+> 
 
-drivers/media/pci/ddbridge exposes a few IOCTLs which are used by userspace
-utilities to ie. update PCIe card's FPGA firmware.
-
-The IOCTLs chosen are in the range 0xDD/0xE0 up to 0xDD/0xFF, with 0xDD as
-sort of gimmick for "Digital Devices". To not conflict with the zfpc driver
-the upper range (0xE0-0xFF) is used. It is not clear if and which IOCTL
-numbers the zfpc driver really uses, from reading the sources at
-drivers/s390/scsi/ I couldn't really determine if IOCTLs are in use at all.
-Maybe the S390 maintainers can double-check or comment, thus Cc linux-s390.
-
-The upstream dddvb driver currently exposes 12 IOCTLs from which we're
-going to handle two at the moment (DDB_FLASHIO and DDB_ID), which is all
-that's required to perform the FPGA update on this hardware. The
-"reservation" of 32 IDs may seem way too much in this regard, however,
-we'd like to be able to stay compatible with the upstream out-of-tree
-driver as much as possible, so should any of the remaining 10 IOCTLs be
-required at any time (or even more, should upstream add more in the
-future), we can just add them into this range without any hassles or
-without creating conflicts anywhere.
-
-Cc: linux-doc@vger.kernel.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Daniel Scheller <d.scheller@gmx.net>
----
- Documentation/ioctl/ioctl-number.txt | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
-index 84bb74dcae12..feac1b56900b 100644
---- a/Documentation/ioctl/ioctl-number.txt
-+++ b/Documentation/ioctl/ioctl-number.txt
-@@ -334,6 +334,7 @@ Code  Seq#(hex)	Include File		Comments
- 0xDB	00-0F	drivers/char/mwave/mwavepub.h
- 0xDD	00-3F	ZFCP device driver	see drivers/s390/scsi/
- 					<mailto:aherrman@de.ibm.com>
-+0xDD	E0-FF	linux/ddbridge-ioctl.h
- 0xE5	00-3F	linux/fuse.h
- 0xEC	00-01	drivers/platform/chrome/cros_ec_dev.h	ChromeOS EC driver
- 0xF3	00-3F	drivers/usb/misc/sisusbvga/sisusb.h	sisfb (in development)
--- 
-2.16.1
+Applied and pushed for 4.17-rc5, thanks!
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
