@@ -5,147 +5,113 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 516797D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 19:18:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 915B37D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 19:38:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751626AbeENTSC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 May 2018 15:18:02 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:48320 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750760AbeENTSB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 May 2018 15:18:01 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5657A1529;
-        Mon, 14 May 2018 12:18:01 -0700 (PDT)
-Received: from dupont (dupont.austin.arm.com [10.118.16.87])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 094FF3F25D;
-        Mon, 14 May 2018 12:18:01 -0700 (PDT)
-Date:   Mon, 14 May 2018 14:18:00 -0500
-From:   Kim Phillips <kim.phillips@arm.com>
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3] coresight: documentation: update sysfs section
-Message-Id: <20180514141800.f1be30ce9d1f6ae20ca2d04c@arm.com>
-In-Reply-To: <a09cbbb5-0237-31f5-dc81-d816c9ec26c5@infradead.org>
-References: <20180507172915.c032cd71c07b1849bf419a5f@arm.com>
-        <CANLsYkyQLan3XajOz2uuoOF8OQchGfeu2ZkZJ9H1Xm9q==aXTw@mail.gmail.com>
-        <20180514121959.a9a3d2fb3d3d270849ffbc39@arm.com>
-        <a09cbbb5-0237-31f5-dc81-d816c9ec26c5@infradead.org>
-Organization: Arm
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1751962AbeENTim (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 May 2018 15:38:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33892 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1751855AbeENTim (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 May 2018 15:38:42 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4EJSikT126409
+        for <linux-doc@vger.kernel.org>; Mon, 14 May 2018 15:38:41 -0400
+Received: from e19.ny.us.ibm.com (e19.ny.us.ibm.com [129.33.205.209])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2hyfnsjnrc-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 14 May 2018 15:38:41 -0400
+Received: from localhost
+        by e19.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Mon, 14 May 2018 15:38:40 -0400
+Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
+        by e19.ny.us.ibm.com (146.89.104.206) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Mon, 14 May 2018 15:38:36 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4EJcapQ56623140;
+        Mon, 14 May 2018 19:38:36 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 00E5CB2058;
+        Mon, 14 May 2018 16:40:34 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.108])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP id BD64DB2046;
+        Mon, 14 May 2018 16:40:33 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 507FA16C36B0; Mon, 14 May 2018 12:40:07 -0700 (PDT)
+Date:   Mon, 14 May 2018 12:40:07 -0700
+From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>
+Subject: Re: [PATCH 10/18] rcu: rcupdate.h: get rid of Sphinx warnings at
+ rcu_pointer_handoff()
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <cover.1525684985.git.mchehab+samsung@kernel.org>
+ <a87d742e81124ddfeaa5b83daf10c91758c1b025.1525684985.git.mchehab+samsung@kernel.org>
+ <20180507142322.GW26088@linux.vnet.ibm.com>
+ <20180509085533.54951174@vento.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180509085533.54951174@vento.lan>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18051419-0056-0000-0000-0000044E2F9C
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009025; HX=3.00000241; KW=3.00000007;
+ PH=3.00000004; SC=3.00000260; SDB=6.01032305; UDB=6.00527737; IPR=6.00811437;
+ MB=3.00021111; MTD=3.00000008; XFM=3.00000015; UTC=2018-05-14 19:38:39
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18051419-0057-0000-0000-000008924335
+Message-Id: <20180514194007.GH26088@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-14_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1805140196
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Align and show updated ls devices output from the TC2, based on
-  current driver
+On Wed, May 09, 2018 at 08:55:33AM -0300, Mauro Carvalho Chehab wrote:
+> Em Mon, 7 May 2018 07:23:22 -0700
+> "Paul E. McKenney" <paulmck@linux.vnet.ibm.com> escreveu:
+> 
+> > On Mon, May 07, 2018 at 06:35:46AM -0300, Mauro Carvalho Chehab wrote:
+> > > The code example at rcupdate.h currently produce lots of warnings:
+> > > 
+> > > 	./include/linux/rcupdate.h:572: WARNING: Unexpected indentation.
+> > > 	./include/linux/rcupdate.h:576: WARNING: Unexpected indentation.
+> > > 	./include/linux/rcupdate.h:580: WARNING: Block quote ends without a blank line; unexpected unindent.
+> > > 	./include/linux/rcupdate.h:582: WARNING: Block quote ends without a blank line; unexpected unindent.
+> > > 	./include/linux/rcupdate.h:582: WARNING: Inline literal start-string without end-string.
+> > > 
+> > > Change it to a code-block.
+> > > 
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
+> > 
+> > Acked-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+> > 
+> > If you don't tell me otherwise, I will assume that you are pushing this.
+> > If you would rather that I take it, please let me know!
+> 
+> Hi Paul,
+> 
+> Feel free to merge it via your tree. It seems that Jon prefers to have
+> code changes merged via the usual maintainers.
 
-- Provide an example from an ETMv4 based system (Juno)
+I have queued it for v4.19, thank you!
 
-- Reflect changes to the way the RAM write pointer is accessed since
-  it got changed in commit 7d83d17795ef ("coresight: tmc: adding sysFS
-  management entries").
-
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Kim Phillips <kim.phillips@arm.com>
----
-v3: address Randy Dunlap's showns->shown,  corrected - and + line merging
-v2: address Mathieu's comment about clarifying the sinks on the Juno
-    vs. TC2 platforms.
-
- Documentation/trace/coresight.txt | 43 +++++++++++++++++++------------
- 1 file changed, 26 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.txt
-index 6f0120c3a4f1..15d2a0f1e1b8 100644
---- a/Documentation/trace/coresight.txt
-+++ b/Documentation/trace/coresight.txt
-@@ -141,13 +141,25 @@ register the device with the core framework.  The unregister function takes
- a reference to a "struct coresight_device", obtained at registration time.
- 
- If everything goes well during the registration process the new devices will
--show up under /sys/bus/coresight/devices, as showns here for a TC2 platform:
-+show up under /sys/bus/coresight/devices, as shown here for a TC2 platform:
- 
- root:~# ls /sys/bus/coresight/devices/
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm  replicator
-+20030000.tpiu  2201c000.ptm	2203c000.etm  2203e000.etm
- root:~#
- 
-+and here for a Juno platform:
-+
-+root@juno:~# ls /sys/bus/coresight/devices/
-+20010000.etf	 20120000.replicator  22040000.etm     230c0000.funnel
-+20030000.tpiu	 20130000.funnel      220c0000.funnel  23140000.etm
-+20040000.funnel  20140000.etf	      22140000.etm     23240000.etm
-+20070000.etr	 20150000.funnel      23040000.etm     23340000.etm
-+root@juno:~# 
-+
-+Note that on Juno users can select the ETF, ETR and TPIU as a sink target while
-+on TC2, the ETB and TPIU can be selected.
-+
- The functions take a "struct coresight_device", which looks like this:
- 
- struct coresight_desc {
-@@ -193,16 +205,16 @@ the information carried in "THIS_MODULE".
- How to use the tracer modules
- -----------------------------
- 
--Before trace collection can start, a coresight sink needs to be identify.
-+Before trace collection can start, a coresight sink needs to be identified.
- There is no limit on the amount of sinks (nor sources) that can be enabled at
- any given moment.  As a generic operation, all device pertaining to the sink
- class will have an "active" entry in sysfs:
- 
- root:/sys/bus/coresight/devices# ls
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm  replicator
-+20030000.tpiu  2201c000.ptm	2203c000.etm  2203e000.etm
- root:/sys/bus/coresight/devices# ls 20010000.etb
--enable_sink  status  trigger_cntr
-+enable_sink  mgmt  power  subsystem  trigger_cntr  uevent
- root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
- root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
- 1
-@@ -216,16 +228,13 @@ trigger a trace capture:
- root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
- root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
- 1
--root:/sys/bus/coresight/devices# cat 20010000.etb/status
--Depth:          0x2000
--Status:         0x1
--RAM read ptr:   0x0
--RAM wrt ptr:    0x19d3   <----- The write pointer is moving
--Trigger cnt:    0x0
--Control:        0x1
--Flush status:   0x0
--Flush ctrl:     0x2001
--root:/sys/bus/coresight/devices#
-+
-+Observe the write pointer moving:
-+
-+root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
-+0x1a8
-+root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
-+0x19a6
- 
- Trace collection is stopped the same way:
- 
--- 
-2.17.0
+							Thanx, Paul
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
