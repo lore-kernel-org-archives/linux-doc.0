@@ -1,94 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 572E27D0DC
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 09:49:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9F5187D071
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 11:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752096AbeENJtX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 May 2018 05:49:23 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:33527 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751780AbeENJtU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 May 2018 05:49:20 -0400
-Received: by mail-wr0-f194.google.com with SMTP id o4-v6so11602597wrm.0;
-        Mon, 14 May 2018 02:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cWKP+5eD1ivpJiA2Ly3oiHwzl4Pm3VcgCS51KLtrETg=;
-        b=CrRIVFAzTNPAI/bGdPStRFocIQHoiVb1aVHbQcfJRJ8rd3Vi2Sd6aj2ZnUIjfpaBPU
-         xxGvid17SLwcfiwlgUQ4Wk9fVvlkX4w3QNwtldVMy89kwT3mjECvVS42gl7MslvwO4H1
-         sOQRGcCjzWb5/3msMqs2kDqLbWjQd4So+PzLFg6imBDpWcRWq41KLvgHUfOcNUBVFloG
-         L5NqWUu9SWPRWYNsxqE/ixC5pMD2LbX+lK4bTKlJDIATmSJUacsVX/dk280D6fEfZkLx
-         RqWT/pobkkd09gOc1rIOrF/KgdohNKBP0q6bM1NPlE0UxOcyy80WNoJTOjlVCyg4h2+m
-         +XoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cWKP+5eD1ivpJiA2Ly3oiHwzl4Pm3VcgCS51KLtrETg=;
-        b=S4vNUNYKhk2wsqYcDaCN/UIwbIa24KHiHZFZ400dm1tfgZg7LSeNXBxAmwTr8JIq4u
-         K82kqhxupBzg55lbXHCJCMNyBR8W2So6cROPURdpSUAlV5K1gB0TORAgT+eoYyCGb8mF
-         M9ZnbJk0hbSG08Tvezo2VQtXh7XmMBQhshMYjOO8NLCbGnjc2vunNpT5nyKtF4eQqlIg
-         +78qVlBRXoEPrg4fPkCYPkJ49uegcdLuEcmktTJINoGzidF9DSJYx02onCvuTc1xrbdd
-         2SV9wgWMrwgOVGLSdbb54YhT8kSU/Ab1h02ERKNpM8jKFLd5t1PsVX96dIrR6LlTDewh
-         VIng==
-X-Gm-Message-State: ALKqPwcK0dOJaxBj/LXra18zpjY49393vfG13sZ1j6QQbQuO2KzNuXZr
-        9fYesm67Mnj8qCUmuLp3k7wOVA==
-X-Google-Smtp-Source: AB8JxZozs6iY7dNb+0yMk24OCi3c2ytzpsPZhRQUlkCr4bGCocF/TLX/tnid0YjXC4VSlGgTsxUi+Q==
-X-Received: by 2002:adf:a70c:: with SMTP id c12-v6mr6146906wrd.140.1526291359532;
-        Mon, 14 May 2018 02:49:19 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id v196-v6sm7388107wmf.36.2018.05.14.02.47.16
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 14 May 2018 02:47:48 -0700 (PDT)
-Date:   Mon, 14 May 2018 11:47:14 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        paulmck@linux.vnet.ibm.com
-Subject: Re: [RFC PATCH v3 0/6] Documentation/features: Provide and apply
- 'features-refresh.sh'
-Message-ID: <20180514094714.GA5951@gmail.com>
-References: <1525689823-3340-1-git-send-email-andrea.parri@amarulasolutions.com>
- <20180508093045.7397f31c@lwn.net>
+        id S1752117AbeENLBB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 May 2018 07:01:01 -0400
+Received: from mga17.intel.com ([192.55.52.151]:35893 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752086AbeENLBB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 May 2018 07:01:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 May 2018 04:00:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,399,1520924400"; 
+   d="scan'208";a="54989652"
+Received: from jnikula-mobl2.fi.intel.com (HELO localhost) ([10.237.72.62])
+  by fmsmga001.fm.intel.com with ESMTP; 14 May 2018 04:00:56 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [RFC PATCH 1/2] scripts/kernel-doc: Auto-detect common code-blocks
+In-Reply-To: <20180510105105.5cb0d54f@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <2ac6e3da22119f714406925139e40f4d835d11a4.1525962971.git.mchehab+samsung@kernel.org> <20180510163456.GC30442@bombadil.infradead.org> <20180510105105.5cb0d54f@lwn.net>
+Date:   Mon, 14 May 2018 14:03:33 +0300
+Message-ID: <87in7q33ei.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180508093045.7397f31c@lwn.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 10 May 2018, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Thu, 10 May 2018 09:34:56 -0700
+> Matthew Wilcox <willy@infradead.org> wrote:
+>
+>> I think this is a bit fragile.  Why not just search for ':\n'?  Is
+>> there ever a case where we want to write:
+>> 
+>> /**
+>>  * foo is a bar:
+>>  * wibble
+>>  */
+>> and have wibble not be a code-block?
+>
+> Yeah, we might want to write something like:
+>
+>  - Leading off a bulleted list
+>
+>  1) or a numbered list
+>
+> for example.  That's why I was thinking of looking for explicit markers
+> for such lists.
+>
+> It'll take some playing around with to have a hope of getting right,
+> methinks.
 
-* Jonathan Corbet <corbet@lwn.net> wrote:
+We had serious trouble with the old DocBook toolchain because the tool
+pipeline was so long, and each step had its own expectations and quirks.
+For example, remember the escaping needed for xml in kernel-doc? Or tmpl
+xml files being invalid xml because of the docproc directives? One of
+the big benefits of the current toolchain is minimizing the amount of
+special casing magic required.
 
-> On Mon,  7 May 2018 12:43:37 +0200
-> Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
-> 
-> > This series provides the script 'features-refresh.sh', which operates on
-> > the arch support status files, and it applies this script to refresh the
-> > status files in place; previous discussions about this series are at [1].
-> 
-> Looks good, I've applied the set, thanks.
+The more we add custom syntax sugar in kernel-doc, the more we run the
+risk of running into hard problems later on in the Sphinx phase. For
+example, our own syntax preventing the use of legitimate rst syntax. And
+now we get somewhat reasonable error messages from Sphinx when things go
+wrong; we didn't get that when the impedance mismatches caused issues
+with the old toolchain. They were hard to debug and mostly nobody even
+bothered. We should work to reduce the amount of special processing in
+kernel-doc, not the other way round.
 
-A belated:
+The use of "::" is a valid and arguably rather non-invasive rst token
+for indicating the following indented block is a literal block. Adding
+heuristics (especially ones based on English language magic words) will
+lead to bigger problems than it's trying to solve.
 
-  Reviewed-by: Ingo Molnar <mingo@kernel.org>
 
-Thanks guys!
+BR,
+Jani.
 
-	Ingo
+
+-- 
+Jani Nikula, Intel Open Source Technology Center
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
