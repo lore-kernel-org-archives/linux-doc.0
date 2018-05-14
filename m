@@ -1,123 +1,165 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22ADB7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 18:46:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 23F947D0DD
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 18:54:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751954AbeENSqW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 May 2018 14:46:22 -0400
-Received: from mail-wm0-f43.google.com ([74.125.82.43]:37542 "EHLO
-        mail-wm0-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751596AbeENSqV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 May 2018 14:46:21 -0400
-Received: by mail-wm0-f43.google.com with SMTP id l1-v6so17099850wmb.2;
-        Mon, 14 May 2018 11:46:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=BUBARR1v7euSMBVLu7Jha1PqDnIfpEErDOWUZjeWvzU=;
-        b=STezAIcZDG1oQ/4Ye8edF90whNw4uV2kt3L61XDCWHNTb/DvetK+QZWhKNb8DpAxyR
-         XNj/PyVj2QpF+s+ccaTwJoOul91AN9/H2Txqx0fO1FcIJhERuY1AoYo4YKXZqlrObpCK
-         xLw3A3qOZDtEeEa8pTHAvapvVhXDGDMbizbaYDWGRpsQpu0/i5vzhyPNGEWb0A3a/Gzv
-         VvvgqzmdiKU6dcEwLOVQ4Bzx7loavVsDlOUKYXNmpKNhdDLbgqZ5lI5xqDCS2TPbS85j
-         m+8NV/6GzvHfEgpWcyVSPDTzIbDoiNZ1NzxvCCUQs0MJzR40B6B9Ah70rUlJf9v3Fcy1
-         j0aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BUBARR1v7euSMBVLu7Jha1PqDnIfpEErDOWUZjeWvzU=;
-        b=gboU32iKaSsiZCkpmqMHF82gBTVyeyZt67pE4ldQcqEFZHZcY4vt+CPLpsw6kSlnT5
-         ETAMv/YRSWAGAHt2t4kubBTN49fC/ldE9OBFrnX2Cm/A7dJX+Yt2prFC3u6JmqLMELLO
-         9baKdD9gPihFrTfVWuA+nPj4V0F5jkKOYcLO74BSa7jQu95blt0gyycISldh4rPV5Rbm
-         68J7zDwjbJcHz8AiQ84TFEkXy8NR+7qZxzVn48pgittbZIYs4llcpNvg1fEbKiFsDWcH
-         2X6ckN9WiAWOUScGInLayW9p3sCAzZ2cYLu4yhO86HQmYRHHxNP/QUhfb6ZU39ovGZiU
-         xF3Q==
-X-Gm-Message-State: ALKqPwfX2tvTSa+zDl0f84YgBhw2I07NNpcio2qceSrn/wkKRgalafku
-        +9BU4IklH1fpIEd1fxWO7Ug=
-X-Google-Smtp-Source: AB8JxZoEuAoAotc0GJZV9OfBe+RGZmx0lL9Qe+gAB/Urxi2ebrK+38ZgREAME6cggfw4ybx4CssWEw==
-X-Received: by 2002:a50:f384:: with SMTP id g4-v6mr13797307edm.13.1526323580033;
-        Mon, 14 May 2018 11:46:20 -0700 (PDT)
-Received: from localhost ([81.6.39.140])
-        by smtp.gmail.com with ESMTPSA id g7-v6sm5248520edf.90.2018.05.14.11.46.18
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 14 May 2018 11:46:18 -0700 (PDT)
-Date:   Mon, 14 May 2018 20:46:17 +0200
-From:   Silvan Jegen <s.jegen@gmail.com>
-To:     Jesper Dangaard Brouer <brouer@redhat.com>
-Cc:     borkmann@iogearbox.net, alexei.starovoitov@gmail.com,
-        netdev@vger.kernel.org, quentin.monnet@netronome.com,
-        linux-man <linux-man@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [bpf-next PATCH 5/5] bpf, doc: howto use/run the BPF selftests
-Message-ID: <20180514184617.GA1723@homearch.localdomain>
-References: <152630528901.29210.9018565600000101307.stgit@firesoul>
- <152630535224.29210.11623921130132517306.stgit@firesoul>
- <CAKvUva-_EbMez7c=CHXUPcGKmU=jGne5ZVu4CXwR8szrNUhRhw@mail.gmail.com>
- <20180514180514.4fd0ba66@redhat.com>
+        id S1752293AbeENSyv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 May 2018 14:54:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46744 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752250AbeENSyu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 May 2018 14:54:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=4YvpYcPWW47gb0beFk1Qt0kDm6usYeCGr+CdGeJMIiI=; b=BkwwUFWVE4XBlWIjFYQ8lcmj5
+        gKbHbaLPM7gBqc3j+ehEw4h0T7g0aNl7t7J7Uo5GK4WOaGatkdgmCEEDYtpjOgYVdcbjIU0hRRj4d
+        pWtQSYbJjKtAwsClVFhhgTP5Lb8DdKANuoFO1tgnZr4Mdc2brfz41sMOWAMpw/LtZMS+ij5yscSgV
+        O+sLsU8rJ0lI6smKtlWMfsEZF6iejG9Z1CZqThfecalGwoiKOa6GG02V9ZYEMtrPhdHVrnCE9E1Gq
+        l33C4OijE8xjDkha16egtlhRDVgGJVS9WOJkVSb89CG+enO11vYwZ2LfYfXjbIC8GBfIGaUUH5u9b
+        gc4pYX1NA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fIIcT-00082m-6a; Mon, 14 May 2018 18:54:49 +0000
+Subject: Re: [PATCH v2] coresight: documentation: update sysfs section
+To:     Kim Phillips <kim.phillips@arm.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+References: <20180507172915.c032cd71c07b1849bf419a5f@arm.com>
+ <CANLsYkyQLan3XajOz2uuoOF8OQchGfeu2ZkZJ9H1Xm9q==aXTw@mail.gmail.com>
+ <20180514121959.a9a3d2fb3d3d270849ffbc39@arm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <a09cbbb5-0237-31f5-dc81-d816c9ec26c5@infradead.org>
+Date:   Mon, 14 May 2018 11:54:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
+In-Reply-To: <20180514121959.a9a3d2fb3d3d270849ffbc39@arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20180514180514.4fd0ba66@redhat.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 14, 2018 at 06:05:14PM +0200, Jesper Dangaard Brouer wrote:
-> On Mon, 14 May 2018 17:15:54 +0200
-> Silvan Jegen <s.jegen@gmail.com> wrote:
+On 05/14/2018 10:19 AM, Kim Phillips wrote:
+> - Align and show updated ls devices output from the TC2, based on
+>   current driver
 > 
-> > Hi
-> > 
-> > Some typo fixes below.
-> > 
-> > On Mon, May 14, 2018 at 3:43 PM Jesper Dangaard Brouer <brouer@redhat.com>
-> > wrote:
-> > > I always forget howto run the BPF selftests. Thus, lets add that info
-> > > to the QA document.  
-> >
-> > [...] 
-> >
-> > I also think the underscore at the end of this line is misplaced (or it
-> > should be a dash instead).
+> - Provide an example from an ETMv4 based system (Juno)
 > 
-> This is also part of the RST formatting.  This is a link. 
+> - Reflect changes to the way the RAM write pointer is accessed since
+>   it got changed in commit 7d83d17795ef ("coresight: tmc: adding sysFS
+>   management entries").
 > 
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Kim Phillips <kim.phillips@arm.com>
+> ---
+> v2: address Mathieu's comment about clarifying the sinks on the Juno
+> vs. TC2 platforms.
 > 
-> > > +document for further documentation.
-> > > +
-> > >   Q: Which BPF kernel selftests version should I run my kernel against?
-> > >   ---------------------------------------------------------------------
-> > >   A: If you run a kernel ``xyz``, then always run the BPF kernel selftests
-> > > @@ -607,5 +634,7 @@ when:
-> > >   .. _netdev FAQ: ../networking/netdev-FAQ.txt
-> > >   .. _samples/bpf/: ../../samples/bpf/
-> > >   .. _selftests: ../../tools/testing/selftests/bpf/
-> > > +.. _Documentation/dev-tools/kselftest.rst:
-> > > +   https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html  
+>  Documentation/trace/coresight.txt | 41 +++++++++++++++++++------------
+>  1 file changed, 25 insertions(+), 16 deletions(-)
 > 
-> The link is defined above/here.
+> diff --git a/Documentation/trace/coresight.txt
+> b/Documentation/trace/coresight.txt index 6f0120c3a4f1..134994e9fa6d
+> 100644
+> --- a/Documentation/trace/coresight.txt
+> +++ b/Documentation/trace/coresight.txt
+> @@ -144,10 +144,22 @@ If everything goes well during the registration
+> process the new devices will show up under /sys/bus/coresight/devices,
+> as showns here for a TC2 platform: 
 
-Ah, thanks I didn't know.
+  as shown here
+
+>  root:~# ls /sys/bus/coresight/devices/
+> -replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+> -20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+> +20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm
+> replicator +20030000.tpiu  2201c000.ptm	2203c000.etm
+> 2203e000.etm root:~#
+>  
+> +and here for a Juno platform:
+> +
+> +root@juno:~# ls /sys/bus/coresight/devices/
+> +20010000.etf	 20120000.replicator  22040000.etm
+> 230c0000.funnel +20030000.tpiu	 20130000.funnel
+> 220c0000.funnel  23140000.etm +20040000.funnel
+> 20140000.etf	      22140000.etm     23240000.etm
+> +20070000.etr	 20150000.funnel      23040000.etm
+> 23340000.etm +root@juno:~# +
+> +Note that on Juno users can select the ETF, ETR and TPIU as a sink
+> target while +on TC2, the ETB and TPIU can be selected.
+> +
+>  The functions take a "struct coresight_device", which looks like this:
+>  
+>  struct coresight_desc {
+> @@ -193,16 +205,16 @@ the information carried in "THIS_MODULE".
+>  How to use the tracer modules
+>  -----------------------------
+>  
+> -Before trace collection can start, a coresight sink needs to be
+> identify. +Before trace collection can start, a coresight sink needs to
+
+The - and + lines seems to be merged...
+
+> be identified. There is no limit on the amount of sinks (nor sources)
+> that can be enabled at any given moment.  As a generic operation, all
+> device pertaining to the sink class will have an "active" entry in
+> sysfs: 
+>  root:/sys/bus/coresight/devices# ls
+> -replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+> -20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
+> +20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm
+> replicator +20030000.tpiu  2201c000.ptm	2203c000.etm
+> 2203e000.etm root:/sys/bus/coresight/devices# ls 20010000.etb
+> -enable_sink  status  trigger_cntr
+> +enable_sink  mgmt  power  subsystem  trigger_cntr  uevent
+>  root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
+>  root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
+>  1
+> @@ -216,16 +228,13 @@ trigger a trace capture:
+>  root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
+>  root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
+>  1
+> -root:/sys/bus/coresight/devices# cat 20010000.etb/status
+> -Depth:          0x2000
+> -Status:         0x1
+> -RAM read ptr:   0x0
+> -RAM wrt ptr:    0x19d3   <----- The write pointer is moving
+> -Trigger cnt:    0x0
+> -Control:        0x1
+> -Flush status:   0x0
+> -Flush ctrl:     0x2001
+> -root:/sys/bus/coresight/devices#
+> +
+> +Observe the write pointer moving:
+> +
+> +root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
+> +0x1a8
+> +root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
+> +0x19a6
+>  
+>  Trace collection is stopped the same way:
+>  
+> 
 
 
-Cheers,
-
-Silvan
-
- 
-> -- 
-> Best regards,
->   Jesper Dangaard Brouer
->   MSc.CS, Principal Kernel Engineer at Red Hat
->   LinkedIn: http://www.linkedin.com/in/brouer
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
