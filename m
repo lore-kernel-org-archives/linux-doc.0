@@ -2,141 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E40F7D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 16:05:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 13E237D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 17:21:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752950AbeENQFW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 May 2018 12:05:22 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33922 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752727AbeENQFV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 May 2018 12:05:21 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 193D74040073;
-        Mon, 14 May 2018 16:05:21 +0000 (UTC)
-Received: from localhost (ovpn-200-17.brq.redhat.com [10.40.200.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A64D011166F0;
-        Mon, 14 May 2018 16:05:16 +0000 (UTC)
-Date:   Mon, 14 May 2018 18:05:14 +0200
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Silvan Jegen <s.jegen@gmail.com>
-Cc:     borkmann@iogearbox.net, alexei.starovoitov@gmail.com,
-        netdev@vger.kernel.org, quentin.monnet@netronome.com,
-        linux-man <linux-man@vger.kernel.org>, linux-doc@vger.kernel.org,
-        brouer@redhat.com
-Subject: Re: [bpf-next PATCH 5/5] bpf, doc: howto use/run the BPF selftests
-Message-ID: <20180514180514.4fd0ba66@redhat.com>
-In-Reply-To: <CAKvUva-_EbMez7c=CHXUPcGKmU=jGne5ZVu4CXwR8szrNUhRhw@mail.gmail.com>
-References: <152630528901.29210.9018565600000101307.stgit@firesoul>
-        <152630535224.29210.11623921130132517306.stgit@firesoul>
-        <CAKvUva-_EbMez7c=CHXUPcGKmU=jGne5ZVu4CXwR8szrNUhRhw@mail.gmail.com>
-MIME-Version: 1.0
+        id S1752019AbeENRUh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 May 2018 13:20:37 -0400
+Received: from foss.arm.com ([217.140.101.70]:47110 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752056AbeENRUA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 May 2018 13:20:00 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E6F51596;
+        Mon, 14 May 2018 10:20:00 -0700 (PDT)
+Received: from dupont (dupont.austin.arm.com [10.118.16.87])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF49C3F59F;
+        Mon, 14 May 2018 10:19:59 -0700 (PDT)
+Date:   Mon, 14 May 2018 12:19:59 -0500
+From:   Kim Phillips <kim.phillips@arm.com>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] coresight: documentation: update sysfs section
+Message-Id: <20180514121959.a9a3d2fb3d3d270849ffbc39@arm.com>
+In-Reply-To: <CANLsYkyQLan3XajOz2uuoOF8OQchGfeu2ZkZJ9H1Xm9q==aXTw@mail.gmail.com>
+References: <20180507172915.c032cd71c07b1849bf419a5f@arm.com>
+        <CANLsYkyQLan3XajOz2uuoOF8OQchGfeu2ZkZJ9H1Xm9q==aXTw@mail.gmail.com>
+Organization: Arm
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 14 May 2018 16:05:21 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 14 May 2018 16:05:21 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 14 May 2018 17:15:54 +0200
-Silvan Jegen <s.jegen@gmail.com> wrote:
+- Align and show updated ls devices output from the TC2, based on
+  current driver
 
-> Hi
-> 
-> Some typo fixes below.
-> 
-> On Mon, May 14, 2018 at 3:43 PM Jesper Dangaard Brouer <brouer@redhat.com>
-> wrote:
-> > I always forget howto run the BPF selftests. Thus, lets add that info
-> > to the QA document.  
-> 
-> > Documentation was based on Cilium's documentation:
-> >   http://cilium.readthedocs.io/en/latest/bpf/#verifying-the-setup  
-> 
-> > Signed-off-by: Jesper Dangaard Brouer <brouer@redhat.com>
-> > ---
-> >   Documentation/bpf/bpf_devel_QA.rst |   29 +++++++++++++++++++++++++++++
-> >   1 file changed, 29 insertions(+)  
-> 
-> > diff --git a/Documentation/bpf/bpf_devel_QA.rst  
-> b/Documentation/bpf/bpf_devel_QA.rst
-> > index 2254bdeae990..0e7c1d946e83 100644
-> > --- a/Documentation/bpf/bpf_devel_QA.rst
-> > +++ b/Documentation/bpf/bpf_devel_QA.rst
-> > @@ -417,6 +417,33 @@ submitted by the BPF maintainers to the stable  
-> maintainers.
-> >   Testing patches
-> >   ===============  
-> 
-> > +Q: How to run BPF selftests
-> > +---------------------------
-> > +A: After you have booted into the newly compiled kernel, navigate to
-> > +the BPF selftests_ suite in order to test BPF functionality (current
-> > +working directory points to the root of the cloned git tree)::
-> > +
-> > +  $ cd tools/testing/selftests/bpf/
-> > +  $ make
-> > +
-> > +To run the verifier tests::
-> > +
-> > +  $ sudo ./test_verifier
-> > +
-> > +The verifier tests print out all the current checks being
-> > +performed. The summary at the end of running all tests will dump
-> > +information of test successes and failures::  
-> 
-> Two colons at the end of the line. Don't think that was intended.
+- Provide an example from an ETMv4 based system (Juno)
 
-It is intended, that is part of the RST formatting.
+- Reflect changes to the way the RAM write pointer is accessed since
+  it got changed in commit 7d83d17795ef ("coresight: tmc: adding sysFS
+  management entries").
 
-> 
-> > +
-> > +  Summary: 418 PASSED, 0 FAILED
-> > +
-> > +In order to run through all BPF selftests, the following command is
-> > +needed::
-> > +
-> > +  $ sudo make run_tests
-> > +
-> > +See the kernels selftest `Documentation/dev-tools/kselftest.rst`_  
-> 
-> s/kernels/kernel's/
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Kim Phillips <kim.phillips@arm.com>
+---
+v2: address Mathieu's comment about clarifying the sinks on the Juno
+vs. TC2 platforms.
 
-I guess that is more correct...
+ Documentation/trace/coresight.txt | 41 +++++++++++++++++++------------
+ 1 file changed, 25 insertions(+), 16 deletions(-)
 
-> I also think the underscore at the end of this line is misplaced (or it
-> should be a dash instead).
-
-This is also part of the RST formatting.  This is a link. 
-
-
-> > +document for further documentation.
-> > +
-> >   Q: Which BPF kernel selftests version should I run my kernel against?
-> >   ---------------------------------------------------------------------
-> >   A: If you run a kernel ``xyz``, then always run the BPF kernel selftests
-> > @@ -607,5 +634,7 @@ when:
-> >   .. _netdev FAQ: ../networking/netdev-FAQ.txt
-> >   .. _samples/bpf/: ../../samples/bpf/
-> >   .. _selftests: ../../tools/testing/selftests/bpf/
-> > +.. _Documentation/dev-tools/kselftest.rst:
-> > +   https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html  
-
-The link is defined above/here.
-
+diff --git a/Documentation/trace/coresight.txt
+b/Documentation/trace/coresight.txt index 6f0120c3a4f1..134994e9fa6d
+100644
+--- a/Documentation/trace/coresight.txt
++++ b/Documentation/trace/coresight.txt
+@@ -144,10 +144,22 @@ If everything goes well during the registration
+process the new devices will show up under /sys/bus/coresight/devices,
+as showns here for a TC2 platform: 
+ root:~# ls /sys/bus/coresight/devices/
+-replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+-20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
++20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm
+replicator +20030000.tpiu  2201c000.ptm	2203c000.etm
+2203e000.etm root:~#
+ 
++and here for a Juno platform:
++
++root@juno:~# ls /sys/bus/coresight/devices/
++20010000.etf	 20120000.replicator  22040000.etm
+230c0000.funnel +20030000.tpiu	 20130000.funnel
+220c0000.funnel  23140000.etm +20040000.funnel
+20140000.etf	      22140000.etm     23240000.etm
++20070000.etr	 20150000.funnel      23040000.etm
+23340000.etm +root@juno:~# +
++Note that on Juno users can select the ETF, ETR and TPIU as a sink
+target while +on TC2, the ETB and TPIU can be selected.
++
+ The functions take a "struct coresight_device", which looks like this:
+ 
+ struct coresight_desc {
+@@ -193,16 +205,16 @@ the information carried in "THIS_MODULE".
+ How to use the tracer modules
+ -----------------------------
+ 
+-Before trace collection can start, a coresight sink needs to be
+identify. +Before trace collection can start, a coresight sink needs to
+be identified. There is no limit on the amount of sinks (nor sources)
+that can be enabled at any given moment.  As a generic operation, all
+device pertaining to the sink class will have an "active" entry in
+sysfs: 
+ root:/sys/bus/coresight/devices# ls
+-replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
+-20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
++20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm
+replicator +20030000.tpiu  2201c000.ptm	2203c000.etm
+2203e000.etm root:/sys/bus/coresight/devices# ls 20010000.etb
+-enable_sink  status  trigger_cntr
++enable_sink  mgmt  power  subsystem  trigger_cntr  uevent
+ root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
+ root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
+ 1
+@@ -216,16 +228,13 @@ trigger a trace capture:
+ root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
+ root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
+ 1
+-root:/sys/bus/coresight/devices# cat 20010000.etb/status
+-Depth:          0x2000
+-Status:         0x1
+-RAM read ptr:   0x0
+-RAM wrt ptr:    0x19d3   <----- The write pointer is moving
+-Trigger cnt:    0x0
+-Control:        0x1
+-Flush status:   0x0
+-Flush ctrl:     0x2001
+-root:/sys/bus/coresight/devices#
++
++Observe the write pointer moving:
++
++root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
++0x1a8
++root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
++0x19a6
+ 
+ Trace collection is stopped the same way:
+ 
 -- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+2.17.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
