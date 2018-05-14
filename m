@@ -1,93 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A392A7D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 08:15:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 572E27D0DC
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 09:49:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752464AbeENINx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 May 2018 04:13:53 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40890 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752307AbeENINu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 May 2018 04:13:50 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4E84HSa137072
-        for <linux-doc@vger.kernel.org>; Mon, 14 May 2018 04:13:49 -0400
-Received: from e06smtp13.uk.ibm.com (e06smtp13.uk.ibm.com [195.75.94.109])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2hy5tgae3v-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 14 May 2018 04:13:49 -0400
-Received: from localhost
-        by e06smtp13.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Mon, 14 May 2018 09:13:47 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp13.uk.ibm.com (192.168.101.143) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        Mon, 14 May 2018 09:13:44 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4E8Divp10158546;
-        Mon, 14 May 2018 08:13:44 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 93BAD52041;
-        Mon, 14 May 2018 08:03:55 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.81])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 1B07D52043;
-        Mon, 14 May 2018 08:03:54 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 14 May 2018 11:13:41 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+        id S1752096AbeENJtX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 May 2018 05:49:23 -0400
+Received: from mail-wr0-f194.google.com ([209.85.128.194]:33527 "EHLO
+        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751780AbeENJtU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 May 2018 05:49:20 -0400
+Received: by mail-wr0-f194.google.com with SMTP id o4-v6so11602597wrm.0;
+        Mon, 14 May 2018 02:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=cWKP+5eD1ivpJiA2Ly3oiHwzl4Pm3VcgCS51KLtrETg=;
+        b=CrRIVFAzTNPAI/bGdPStRFocIQHoiVb1aVHbQcfJRJ8rd3Vi2Sd6aj2ZnUIjfpaBPU
+         xxGvid17SLwcfiwlgUQ4Wk9fVvlkX4w3QNwtldVMy89kwT3mjECvVS42gl7MslvwO4H1
+         sOQRGcCjzWb5/3msMqs2kDqLbWjQd4So+PzLFg6imBDpWcRWq41KLvgHUfOcNUBVFloG
+         L5NqWUu9SWPRWYNsxqE/ixC5pMD2LbX+lK4bTKlJDIATmSJUacsVX/dk280D6fEfZkLx
+         RqWT/pobkkd09gOc1rIOrF/KgdohNKBP0q6bM1NPlE0UxOcyy80WNoJTOjlVCyg4h2+m
+         +XoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cWKP+5eD1ivpJiA2Ly3oiHwzl4Pm3VcgCS51KLtrETg=;
+        b=S4vNUNYKhk2wsqYcDaCN/UIwbIa24KHiHZFZ400dm1tfgZg7LSeNXBxAmwTr8JIq4u
+         K82kqhxupBzg55lbXHCJCMNyBR8W2So6cROPURdpSUAlV5K1gB0TORAgT+eoYyCGb8mF
+         M9ZnbJk0hbSG08Tvezo2VQtXh7XmMBQhshMYjOO8NLCbGnjc2vunNpT5nyKtF4eQqlIg
+         +78qVlBRXoEPrg4fPkCYPkJ49uegcdLuEcmktTJINoGzidF9DSJYx02onCvuTc1xrbdd
+         2SV9wgWMrwgOVGLSdbb54YhT8kSU/Ab1h02ERKNpM8jKFLd5t1PsVX96dIrR6LlTDewh
+         VIng==
+X-Gm-Message-State: ALKqPwcK0dOJaxBj/LXra18zpjY49393vfG13sZ1j6QQbQuO2KzNuXZr
+        9fYesm67Mnj8qCUmuLp3k7wOVA==
+X-Google-Smtp-Source: AB8JxZozs6iY7dNb+0yMk24OCi3c2ytzpsPZhRQUlkCr4bGCocF/TLX/tnid0YjXC4VSlGgTsxUi+Q==
+X-Received: by 2002:adf:a70c:: with SMTP id c12-v6mr6146906wrd.140.1526291359532;
+        Mon, 14 May 2018 02:49:19 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id v196-v6sm7388107wmf.36.2018.05.14.02.47.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 14 May 2018 02:47:48 -0700 (PDT)
+Date:   Mon, 14 May 2018 11:47:14 +0200
+From:   Ingo Molnar <mingo@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc <linux-doc@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 0/3] docs/vm: transhuge: split userspace bits to admin-guide/mm 
-Date:   Mon, 14 May 2018 11:13:37 +0300
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 18051408-0012-0000-0000-000005D652AE
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18051408-0013-0000-0000-000019536692
-Message-Id: <1526285620-453-1-git-send-email-rppt@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-14_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
- definitions=main-1805140085
+Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        paulmck@linux.vnet.ibm.com
+Subject: Re: [RFC PATCH v3 0/6] Documentation/features: Provide and apply
+ 'features-refresh.sh'
+Message-ID: <20180514094714.GA5951@gmail.com>
+References: <1525689823-3340-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180508093045.7397f31c@lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180508093045.7397f31c@lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-Here are minor updates to transparent hugepage docs. Except from minor
-formatting and spelling updates, these patches re-arrange the transhuge.rst
-so that userspace interface description will not be interleaved with the
-implementation details and it would be possible to split the userspace
-related bits to Documentation/admin-guide/mm, which is done by the third
-patch.
+* Jonathan Corbet <corbet@lwn.net> wrote:
 
-Mike Rapoport (3):
-  docs/vm: transhuge: change sections order
-  docs/vm: transhuge: minor updates
-  docs/vm: transhuge: split userspace bits to admin-guide/mm/transhuge
+> On Mon,  7 May 2018 12:43:37 +0200
+> Andrea Parri <andrea.parri@amarulasolutions.com> wrote:
+> 
+> > This series provides the script 'features-refresh.sh', which operates on
+> > the arch support status files, and it applies this script to refresh the
+> > status files in place; previous discussions about this series are at [1].
+> 
+> Looks good, I've applied the set, thanks.
 
- Documentation/admin-guide/kernel-parameters.txt |   3 +-
- Documentation/admin-guide/mm/index.rst          |   1 +
- Documentation/admin-guide/mm/transhuge.rst      | 418 ++++++++++++++++++++++++
- Documentation/vm/transhuge.rst                  | 395 +---------------------
- 4 files changed, 426 insertions(+), 391 deletions(-)
- create mode 100644 Documentation/admin-guide/mm/transhuge.rst
+A belated:
 
--- 
-2.7.4
+  Reviewed-by: Ingo Molnar <mingo@kernel.org>
 
+Thanks guys!
+
+	Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
