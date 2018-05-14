@@ -5,113 +5,188 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCF647D085
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 May 2018 14:01:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 43CD57D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 May 2018 08:14:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751634AbeEMOBl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 13 May 2018 10:01:41 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:37059 "EHLO
-        terminus.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751260AbeEMOB2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 May 2018 10:01:28 -0400
-Received: from terminus.zytor.com (localhost [127.0.0.1])
-        by terminus.zytor.com (8.15.2/8.15.2) with ESMTPS id w4DE0lwo361819
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Sun, 13 May 2018 07:00:47 -0700
-Received: (from tipbot@localhost)
-        by terminus.zytor.com (8.15.2/8.15.2/Submit) id w4DE0kj6361816;
-        Sun, 13 May 2018 07:00:46 -0700
-Date:   Sun, 13 May 2018 07:00:46 -0700
-X-Authentication-Warning: terminus.zytor.com: tipbot set sender to tipbot@zytor.com using -f
-From:   tip-bot for Mauro Carvalho Chehab <tipbot@zytor.com>
-Message-ID: <tip-bf9c96bec76fbc4424b4c70be563af4107d8044f@git.kernel.org>
-Cc:     hpa@zytor.com, mingo@kernel.org, john.stultz@linaro.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, sboyd@kernel.org,
-        mchehab@infradead.org, mchehab+samsung@kernel.org,
-        tglx@linutronix.de, linux-kernel@vger.kernel.org
-Reply-To: corbet@lwn.net, sboyd@kernel.org, linux-doc@vger.kernel.org,
-          tglx@linutronix.de, linux-kernel@vger.kernel.org,
-          mchehab@infradead.org, mchehab+samsung@kernel.org,
-          mingo@kernel.org, hpa@zytor.com, john.stultz@linaro.org
-In-Reply-To: <f02e6a0ce27f3b5e33415d92d07a40598904b3ee.1525684985.git.mchehab+samsung@kernel.org>
-References: <f02e6a0ce27f3b5e33415d92d07a40598904b3ee.1525684985.git.mchehab+samsung@kernel.org>
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip:timers/core] timers: Adjust a kernel-doc comment
-Git-Commit-ID: bf9c96bec76fbc4424b4c70be563af4107d8044f
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot.git.kernel.org>
-Robot-Unsubscribe: Contact <mailto:hpa@kernel.org> to get blacklisted from
- these emails
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline
+        id S1752077AbeENIN4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 May 2018 04:13:56 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49562 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752681AbeENINy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 May 2018 04:13:54 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4E84I0I091262
+        for <linux-doc@vger.kernel.org>; Mon, 14 May 2018 04:13:53 -0400
+Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2hy53w424d-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 14 May 2018 04:13:53 -0400
+Received: from localhost
+        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Mon, 14 May 2018 09:13:52 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Mon, 14 May 2018 09:13:48 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4E8Dmur8520122;
+        Mon, 14 May 2018 08:13:48 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9A7D84C04A;
+        Mon, 14 May 2018 09:05:41 +0100 (BST)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2EBA34C040;
+        Mon, 14 May 2018 09:05:40 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.81])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon, 14 May 2018 09:05:40 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 14 May 2018 11:13:46 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc <linux-doc@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH 1/3] docs/vm: transhuge: change sections order
+Date:   Mon, 14 May 2018 11:13:38 +0300
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1526285620-453-1-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1526285620-453-1-git-send-email-rppt@linux.vnet.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 18051408-0008-0000-0000-000004F639B8
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18051408-0009-0000-0000-00001E8A96F7
+Message-Id: <1526285620-453-2-git-send-email-rppt@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-14_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1805140085
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit-ID:  bf9c96bec76fbc4424b4c70be563af4107d8044f
-Gitweb:     https://git.kernel.org/tip/bf9c96bec76fbc4424b4c70be563af4107d8044f
-Author:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-AuthorDate: Mon, 7 May 2018 06:35:48 -0300
-Committer:  Thomas Gleixner <tglx@linutronix.de>
-CommitDate: Sun, 13 May 2018 15:55:43 +0200
+so that userspace interface and implementation description will be grouped
+together
 
-timers: Adjust a kernel-doc comment
-
-Those three warnings can easily solved by using :: to indicate a
-code block:
-
-	./kernel/time/timer.c:1259: WARNING: Unexpected indentation.
-	./kernel/time/timer.c:1261: WARNING: Unexpected indentation.
-	./kernel/time/timer.c:1262: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-While here, align the lines at the block.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@infradead.org>
-Cc: John Stultz <john.stultz@linaro.org>
-Link: https://lkml.kernel.org/r/f02e6a0ce27f3b5e33415d92d07a40598904b3ee.1525684985.git.mchehab%2Bsamsung@kernel.org
-
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- kernel/time/timer.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ Documentation/vm/transhuge.rst | 82 +++++++++++++++++++++---------------------
+ 1 file changed, 41 insertions(+), 41 deletions(-)
 
-diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-index 4a4fd567fb26..cc2d23e6ff61 100644
---- a/kernel/time/timer.c
-+++ b/kernel/time/timer.c
-@@ -1251,18 +1251,18 @@ EXPORT_SYMBOL(try_to_del_timer_sync);
-  *
-  * Note: For !irqsafe timers, you must not hold locks that are held in
-  *   interrupt context while calling this function. Even if the lock has
-- *   nothing to do with the timer in question.  Here's why:
-+ *   nothing to do with the timer in question.  Here's why::
-  *
-  *    CPU0                             CPU1
-  *    ----                             ----
-- *                                   <SOFTIRQ>
-- *                                   call_timer_fn();
-- *                                     base->running_timer = mytimer;
-- *  spin_lock_irq(somelock);
-+ *                                     <SOFTIRQ>
-+ *                                       call_timer_fn();
-+ *                                       base->running_timer = mytimer;
-+ *    spin_lock_irq(somelock);
-  *                                     <IRQ>
-  *                                        spin_lock(somelock);
-- *  del_timer_sync(mytimer);
-- *   while (base->running_timer == mytimer);
-+ *    del_timer_sync(mytimer);
-+ *    while (base->running_timer == mytimer);
-  *
-  * Now del_timer_sync() will never return and never release somelock.
-  * The interrupt on the other CPU is waiting to grab somelock but
+diff --git a/Documentation/vm/transhuge.rst b/Documentation/vm/transhuge.rst
+index 2c6867f..56d04cbb 100644
+--- a/Documentation/vm/transhuge.rst
++++ b/Documentation/vm/transhuge.rst
+@@ -38,31 +38,6 @@ are using hugepages but a significant speedup already happens if only
+ one of the two is using hugepages just because of the fact the TLB
+ miss is going to run faster.
+ 
+-Design
+-======
+-
+-- "graceful fallback": mm components which don't have transparent hugepage
+-  knowledge fall back to breaking huge pmd mapping into table of ptes and,
+-  if necessary, split a transparent hugepage. Therefore these components
+-  can continue working on the regular pages or regular pte mappings.
+-
+-- if a hugepage allocation fails because of memory fragmentation,
+-  regular pages should be gracefully allocated instead and mixed in
+-  the same vma without any failure or significant delay and without
+-  userland noticing
+-
+-- if some task quits and more hugepages become available (either
+-  immediately in the buddy or through the VM), guest physical memory
+-  backed by regular pages should be relocated on hugepages
+-  automatically (with khugepaged)
+-
+-- it doesn't require memory reservation and in turn it uses hugepages
+-  whenever possible (the only possible reservation here is kernelcore=
+-  to avoid unmovable pages to fragment all the memory but such a tweak
+-  is not specific to transparent hugepage support and it's a generic
+-  feature that applies to all dynamic high order allocations in the
+-  kernel)
+-
+ Transparent Hugepage Support maximizes the usefulness of free memory
+ if compared to the reservation approach of hugetlbfs by allowing all
+ unused memory to be used as cache or other movable (or even unmovable
+@@ -401,6 +376,47 @@ tracer to record how long was spent in __alloc_pages_nodemask and
+ using the mm_page_alloc tracepoint to identify which allocations were
+ for huge pages.
+ 
++Optimizing the applications
++===========================
++
++To be guaranteed that the kernel will map a 2M page immediately in any
++memory region, the mmap region has to be hugepage naturally
++aligned. posix_memalign() can provide that guarantee.
++
++Hugetlbfs
++=========
++
++You can use hugetlbfs on a kernel that has transparent hugepage
++support enabled just fine as always. No difference can be noted in
++hugetlbfs other than there will be less overall fragmentation. All
++usual features belonging to hugetlbfs are preserved and
++unaffected. libhugetlbfs will also work fine as usual.
++
++Design principles
++=================
++
++- "graceful fallback": mm components which don't have transparent hugepage
++  knowledge fall back to breaking huge pmd mapping into table of ptes and,
++  if necessary, split a transparent hugepage. Therefore these components
++  can continue working on the regular pages or regular pte mappings.
++
++- if a hugepage allocation fails because of memory fragmentation,
++  regular pages should be gracefully allocated instead and mixed in
++  the same vma without any failure or significant delay and without
++  userland noticing
++
++- if some task quits and more hugepages become available (either
++  immediately in the buddy or through the VM), guest physical memory
++  backed by regular pages should be relocated on hugepages
++  automatically (with khugepaged)
++
++- it doesn't require memory reservation and in turn it uses hugepages
++  whenever possible (the only possible reservation here is kernelcore=
++  to avoid unmovable pages to fragment all the memory but such a tweak
++  is not specific to transparent hugepage support and it's a generic
++  feature that applies to all dynamic high order allocations in the
++  kernel)
++
+ get_user_pages and follow_page
+ ==============================
+ 
+@@ -432,22 +448,6 @@ hugepages being returned (as it's not only checking the pfn of the
+ page and pinning it during the copy but it pretends to migrate the
+ memory in regular page sizes and with regular pte/pmd mappings).
+ 
+-Optimizing the applications
+-===========================
+-
+-To be guaranteed that the kernel will map a 2M page immediately in any
+-memory region, the mmap region has to be hugepage naturally
+-aligned. posix_memalign() can provide that guarantee.
+-
+-Hugetlbfs
+-=========
+-
+-You can use hugetlbfs on a kernel that has transparent hugepage
+-support enabled just fine as always. No difference can be noted in
+-hugetlbfs other than there will be less overall fragmentation. All
+-usual features belonging to hugetlbfs are preserved and
+-unaffected. libhugetlbfs will also work fine as usual.
+-
+ Graceful fallback
+ =================
+ 
+-- 
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
