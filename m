@@ -5,107 +5,130 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA2AF7D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 May 2018 10:22:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DBA647D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 May 2018 10:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752403AbeEOKWl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 May 2018 06:22:41 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:54222 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752162AbeEOKWj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 May 2018 06:22:39 -0400
+        id S1752725AbeEOK2z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 May 2018 06:28:55 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:41413 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752243AbeEOK2w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 May 2018 06:28:52 -0400
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20180515102236euoutp023816b03eca1d0bac54fa52d526820d33~uyk1Dk3nN1820518205euoutp02w;
-        Tue, 15 May 2018 10:22:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20180515102236euoutp023816b03eca1d0bac54fa52d526820d33~uyk1Dk3nN1820518205euoutp02w
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20180515102848euoutp01316da37268a01316c63e01b99e953d4e~uyqPbWiOO0627806278euoutp01-;
+        Tue, 15 May 2018 10:28:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20180515102848euoutp01316da37268a01316c63e01b99e953d4e~uyqPbWiOO0627806278euoutp01-
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1526379756;
-        bh=b6mHGRlK1ZrdInMgZ9oc2xYR2EO8NblGda8mMf94Rgg=;
+        s=mail20170921; t=1526380128;
+        bh=oIL8750qv+naJe3f5yxkIlnfYW8UrceiI9OhwLwbpJ0=;
         h=From:To:Cc:Subject:Date:In-reply-to:References:From;
-        b=FIW0WEmEkne9cavECcEnDzVhqcj/+5oXRgVHTira/0ENf44bgXSaQm70cb8biCWLb
-         HTHmRDh0+cc2yiYRIh04M//m73jKXOJEqAlhByFIt4Pli+lIFTJ+WSCYKjaDd3OsAq
-         /OfsL8PNdFml74BsJWRIDmuZvenUbAChaCd/DnVo=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        b=ZQE0F19CtHKZVs2HMPayyuu6sDbwB0TphGUu7ACEF9Z1OIXWLQktL9t4VAa8hDlA5
+         IaJ3RgBaJxA2oQWL2091qkspQhh4FpDFCiObN2hE1fuQqS181FuRVS0yARidGWuzxH
+         jnGB5zeLH/dRqJRLCcZeDI23/XHZhohYFtFODy+I=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20180515102848eucas1p28dc19937abd17db0fd7518aa377299e7~uyqO0t3s11896518965eucas1p2u;
+        Tue, 15 May 2018 10:28:48 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id B6.0B.05700.F56BAFA5; Tue, 15
+        May 2018 11:28:47 +0100 (BST)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
         eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20180515102236eucas1p1c0f86b9a5227a53e01878dd0567216d6~uyk0ah7Gu1402114021eucas1p1N;
-        Tue, 15 May 2018 10:22:36 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 5A.1F.17380.BE4BAFA5; Tue, 15
-        May 2018 11:22:35 +0100 (BST)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20180515102235eucas1p196740463cc65cec23bada9202c66e6c8~uykzp0bSH1040510405eucas1p1N;
-        Tue, 15 May 2018 10:22:35 +0000 (GMT)
-X-AuditID: cbfec7f4-713ff700000043e4-99-5afab4ebecd3
-Received: from eusync3.samsung.com ( [203.254.199.213]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id B9.C9.04178.BE4BAFA5; Tue, 15
-        May 2018 11:22:35 +0100 (BST)
-Received: from amdc3058.localnet ([106.120.53.102]) by eusync3.samsung.com
+        20180515102847eucas1p15466ad147e8836cad2dc3f2ef5044c79~uyqODIdRR1171811718eucas1p1x;
+        Tue, 15 May 2018 10:28:47 +0000 (GMT)
+X-AuditID: cbfec7f2-1dbff70000011644-97-5afab65f645c
+Received: from eusync1.samsung.com ( [203.254.199.211]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 26.EA.04183.F56BAFA5; Tue, 15
+        May 2018 11:28:47 +0100 (BST)
+Received: from amdc3058.localnet ([106.120.53.102]) by eusync1.samsung.com
         (Oracle Communications Messaging Server 7.0.5.31.0 64bit (built May  5
-        2014)) with ESMTPA id <0P8R00K1MM5N4860@eusync3.samsung.com>; Tue, 15 May
-        2018 11:22:35 +0100 (BST)
+        2014)) with ESMTPA id <0P8R008SPMFYDK60@eusync1.samsung.com>; Tue, 15 May
+        2018 11:28:47 +0100 (BST)
 From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 14/18] fbdev: modedb.c: fix a kernel-doc markup
-Date:   Tue, 15 May 2018 12:22:34 +0200
-Message-id: <4109551.rZs3yKu93M@amdc3058>
+        Linus Walleij <linus.walleij@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Roy Pledge <Roy.Pledge@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@zh-kernel.org, linux-usb@vger.kernel.org,
+        linux-input@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-fbdev@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 11/11] docs: fix broken references with multiple
+ hints
+Date:   Tue, 15 May 2018 12:28:46 +0200
+Message-id: <9091975.Ce87WTtYpq@amdc3058>
 User-Agent: KMail/4.13.3 (Linux/3.13.0-96-generic; KDE/4.13.3; x86_64; ; )
-In-reply-to: <a712d724d034cedeab76335071f916808db77e7a.1525684985.git.mchehab+samsung@kernel.org>
+In-reply-to: <63a4f8a93f9115475bc184d0f37d076c9b9c75ff.1525870886.git.mchehab+samsung@kernel.org>
 MIME-version: 1.0
 Content-transfer-encoding: 7Bit
 Content-type: text/plain; charset="us-ascii"
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLIsWRmVeSWpSXmKPExsWy7djPc7qvt/yKMpj41MziyYF2RosrX9+z
-        WSxsW8JicaLvA6vF5V1z2Czef+pksthxahGzA7vH5hVaHptWdbJ53O8+zuSxuG8yq8fnTXIB
-        rFFcNimpOZllqUX6dglcGcdX3GIt6GWrOLxhEnMD42LWLkZODgkBE4mrl2+zdDFycQgJrGCU
-        +HZrLjOE85lRYnLzMxaYqtldx6ASyxglPp1ohWr5zShxa8pcRpAqNgEriYntq8BsEQEziZPn
-        jrKBFDELvGSUWH7qD9hCYQFniTON74BsDg4WAVWJO6+kQcK8ApoSu2Y9ACsRFfCS2LKvnQnE
-        5hRIljjZ848dokZQ4sfke2AXMQvIS+zbP5UVwtaROHtsHSPILgmBHWwSl/reQp3tInHn5hxG
-        CFtY4tXxLewQtoxEZ8dBJoiGZqCnd+xhhkhMYJTYs14IwraWOHz8ItQGPolJ26YzgxwtIcAr
-        0dEGVeIhcej/Sqj5jhLfp9xmhITKC0aJtfuWsUxglJ2F5PBZSA6fheTwBYzMqxjFU0uLc9NT
-        i43yUsv1ihNzi0vz0vWS83M3MQITxel/x7/sYNz1J+kQowAHoxIP744ZP6OEWBPLiitzDzFK
-        cDArifDuNgIK8aYkVlalFuXHF5XmpBYfYpTmYFES543TqIsSEkhPLEnNTk0tSC2CyTJxcEo1
-        MIpyVN5LWfggd0+F2VYhzsZT6RszJ8679ubGNYnC9/pu17ZK6sioepX1f81a/qrz2K2em3Nu
-        +yr/6zyt7vzolL+SwWQ/gUWmBZqVJXmeVx5v37LwuPyxZz783WWOSf/28POopFau6sx22GSl
-        ssP2O7NF0b1rB86bnp2zRn/Tpft1zVuNpYujnyixFGckGmoxFxUnAgDdCNbMEAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPLMWRmVeSWpSXmKPExsVy+t/xq7qvt/yKMvi7S8ziyYF2RosrX9+z
-        WSxsW8JicaLvA6vF5V1z2Czef+pksthxahGzA7vH5hVaHptWdbJ53O8+zuSxuG8yq8fnTXIB
-        rFFcNimpOZllqUX6dglcGcdX3GIt6GWrOLxhEnMD42LWLkZODgkBE4nZXceYuxi5OIQEljBK
-        7D72jw3C+csocfb3FyaQKjYBK4mJ7asYQWwRATOJk+eOghUxC7xklNjYtB5slLCAs8SZxndA
-        NgcHi4CqxJ1X0iBhXgFNiV2zHoCViAp4SWzZ1w42k1MgWeLgz3csEMteMErcPHKADaJBUOLH
-        5HssIDazgLzEvv1TWSFsLYn1O48zTWDkn4WkbBaSsllIyhYwMq9iFEktLc5Nzy021CtOzC0u
-        zUvXS87P3cQIDOZtx35u3sF4aWPwIUYBDkYlHt4dM35GCbEmlhVX5h5ilOBgVhLh3W0EFOJN
-        SaysSi3Kjy8qzUktPsQozcGiJM573qAySkggPbEkNTs1tSC1CCbLxMEp1cAoeJo/tWz91Tm+
-        f4y8VdMs9v5/+i6c9Q2/5TWdRX9NDv8/l/XousyVaouesCwl1hVntd/tZjKofvoypFXk9fH/
-        Z0UqFZXX9XMas4ee+lWrevaGc8GjA/VPnntstLU4Jvvj9yRvjmeyEp48DyrupJVMdLNx7Nz3
-        8vbLH6se/rqp3nDvK6vGncCPSizFGYmGWsxFxYkATJiV3GICAAA=
-X-CMS-MailID: 20180515102235eucas1p196740463cc65cec23bada9202c66e6c8
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUzMcRzHfX/PNWe/rugrZDvaYsqzfYd5mrXvbMbMmJuVq35i6uSui9oQ
+        lTgkyiQPpSepIz06lZOOTtTRg5LcZZWHbMqO4oh0/bL13+v7+bw/3/d7n304UnqZ8eD2KiME
+        lVIRKmOcqfJa+wufgPJf8gXaosXorLmOQG0pJTTqqU4AqKr+F4vSH5tpZMz8BFDLQD+DYrMK
+        GfShQUegN6Z4gO4UZhEoZegmgW6cyKbQ08SvNCpJHwKo3TZIo+aKqwyKG56Nvp7pYlBmbjyJ
+        ctoaCdRvO0Ug/bNMEjVVZxAo/sFjFhlOviNQi72RRC9emtk107Huug5gq8FI4ftpFhbHGd6w
+        uLVyBy7Jm4uL808x+G1rFYPvDb6j8cNrOhZ3njYROCsxmcZnfgThoj49gfsNrxj8rdhzs4vc
+        eWWwELo3UlDNX7XLeU9+rRGEx1CHBq78YWLALVILnDjIL4FltlJaC5w5KZ8HYGzTF1Z8fAMw
+        TlvB/Fdl27oIB0v5XADvVu8TRb8B1HfHUo4Gwy+H5xPygYPd+GWwzvyEcYhIvpuFBeV3WUfD
+        ld8E857YaQdTvBccTjWO1iX8HNiV3TH60WR+Ayw1JIy4cZwTHwQNxq2ixAX+TLaOSkh+JjQ8
+        vEiLPA821N4BDi/IX+Rgp3kYiKnXw8aOZkJkV/jZVMqKPB02J5+mxIFYAAf1VWPLSAKwqlAq
+        8gpoNDWOOUyCF8ovkY5AkJfAkyfGJBimlN0bG10LOxLPU+JWPgGY+7GHSAIz0sYFTxsXPG1c
+        8AxA5gN3QaMOCxHUC5XCQV+1IkytUYb4Bu0PKwYjB/v8r8mmBwNNgTWA54BsokSfapdLaUWk
+        OiqsBkCOlLlJKheNlCTBiqhoQbU/QKUJFdQ1YBpHydwl/t5H5FI+RBEh7BOEcEH1v0twTh4x
+        wGWnvOHott5H5FLL5KH4A1a9pfO11S+wO91N6+3t1+S+vnQjs+nI4Qk1Sr+bfVNW2UG75lwk
+        bTlUGbgoY3VUi6t/oq5oVqpPXz1+r50VYXG61VP30XN35HbfYw2tt21eW2Jcy3oPCMevsFPX
+        RfsVWEH06oLvbZqEicHUlpJ2LZsjo9R7FAvnkiq14h+P7D7vrAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0iTYRTHed7bXofDVzN6sEgYCSWkJqFPERb0oYcgMNIPGpRDX6bpVDaV
+        7EteM68UW6Ar05x3zeVd017NeW0685Kilcoy0SAVTUvTzGmB337nnN//nC+HJe2+Uw5sSHgU
+        rwyXhUkZMWX80zNy+nbDpr9bf4YtyjT1EWhcU0uj2fYUgFr7N0Uor9NEI0PBPECja0sMStTp
+        GTQ3UEmgyZ5kgKr0OgJptkoI9OJBIYV6s5ZpVJu3BdDEyjqNRl4/Y1DSzgm0nGFmUEFxMomK
+        xocItLSSSqCmdwUkGm7PJ1Dym04REh7OEGh0Y4hEg+9NokvHcOXzSoCnBAOFm7WfRThJmBTh
+        sRY/XFvqjGvKUxn8aayVwY3rMzRuy60U4en0HgLrstQ0zvgZiKsXmwi8JHxg8GrNcW9bf/GF
+        ID4sJIZXunoFiIPLuw0gMo66u/Z0m4kDZWQasGIhdxYWrpiJNCBm7bhCAHO/1VP7xTaAxmE9
+        ZbEY7jx8nFIOLGzPecA+UxdjkUjuqwgmqlv2Boe4a1C/OiGyMMU5wZ1swx5LuFPQXPhxb9Fh
+        7iqsE1IIC1txgbC61UzuX5sHcHsp/V/AFv5ST+0FSM4RCm1P6H12hvrmHuIRsNEe0LQHNO0B
+        LR+Q5cCej1Yp5AqVu4tKplBFh8tdAiMUNWD3CRq6N+qaQNrijQ7AsUBqLWnK3vC3o2UxqlhF
+        B4AsKbWXtLjvtiRBsth7vDLitjI6jFd1gKMsJT0iGXSL9bfj5LIoPpTnI3nl/ynBWjnEgfz6
+        KwkRpazRN8d02dpt9I7OxfucWK+ZHLbtNeYsL8zOm31cNRejmbIKpKw7aWysf+UlF6gtq+Yv
+        HjeDTfedfK8XG2ZChZEutfDjd/wyj/1iEhYC5jx1jS+D3lrb0PYlAxKjKb5qMMo1M2d9uijY
+        04e9ZRpfna6IrZqcc/SVUqpg2RlnUqmS/QUogIluAAMAAA==
+X-CMS-MailID: 20180515102847eucas1p15466ad147e8836cad2dc3f2ef5044c79
 X-Msg-Generator: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20180507093605epcas3p332cb6a795335f41109dbb9544b1c4165
-X-RootMTR: 20180507093605epcas3p332cb6a795335f41109dbb9544b1c4165
-References: <cover.1525684985.git.mchehab+samsung@kernel.org>
-        <CGME20180507093605epcas3p332cb6a795335f41109dbb9544b1c4165@epcas3p3.samsung.com>
-        <a712d724d034cedeab76335071f916808db77e7a.1525684985.git.mchehab+samsung@kernel.org>
+X-CMS-RootMailID: 20180509131942epcas2p3b11ff686acaa5e3d9afedef1a2a03aa7
+X-RootMTR: 20180509131942epcas2p3b11ff686acaa5e3d9afedef1a2a03aa7
+References: <cover.1525870886.git.mchehab+samsung@kernel.org>
+        <CGME20180509131942epcas2p3b11ff686acaa5e3d9afedef1a2a03aa7@epcas2p3.samsung.com>
+        <63a4f8a93f9115475bc184d0f37d076c9b9c75ff.1525870886.git.mchehab+samsung@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, May 07, 2018 06:35:50 AM Mauro Carvalho Chehab wrote:
-> Use code blocks to avoid those warnings and make it look nicer.
+On Wednesday, May 09, 2018 10:18:54 AM Mauro Carvalho Chehab wrote:
+> The script:
+> 	./scripts/documentation-file-ref-check --fix-rst
 > 
-> 	./drivers/video/fbdev/core/modedb.c:647: WARNING: Inline strong start-string without end-string.
-> 	./drivers/video/fbdev/core/modedb.c:647: WARNING: Inline strong start-string without end-string.
-> 	./drivers/video/fbdev/core/modedb.c:647: WARNING: Inline strong start-string without end-string.
-> 	./drivers/video/fbdev/core/modedb.c:647: WARNING: Inline strong start-string without end-string.
+> Gives multiple hints for broken references on some files.
+> Manually use the one that applies for some files.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com> # for fbdev part
 
 Best regards,
 --
