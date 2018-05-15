@@ -1,119 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DATE_IN_FUTURE_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BC8F7D085
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 May 2018 12:54:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D016F7D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 May 2018 14:52:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753316AbeEOMxp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 May 2018 08:53:45 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:7251 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752102AbeEOMwv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 May 2018 08:52:51 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 04049E019D6B5;
-        Tue, 15 May 2018 20:52:35 +0800 (CST)
-Received: from localhost.localdomain (10.143.28.90) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.382.0; Tue, 15 May 2018 20:52:26 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <marc.zyngier@arm.com>, <james.morse@arm.com>,
-        <linux@armlinux.org.uk>, <catalin.marinas@arm.com>,
-        <rjw@rjwysocki.net>, <bp@alien8.de>, <lenb@kernel.org>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>, <linux-acpi@vger.kernel.org>,
-        <devel@acpica.org>
-CC:     <gengdongjiu@huawei.com>, <huangshaoyu@huawei.com>,
-        <zhengxiang9@huawei.com>
-Subject: [PATCH v12 1/4] arm64: KVM: export the capability to set guest SError syndrome
-Date:   Wed, 16 May 2018 04:58:04 +0800
-Message-ID: <1526417887-25843-2-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1526417887-25843-1-git-send-email-gengdongjiu@huawei.com>
-References: <1526417887-25843-1-git-send-email-gengdongjiu@huawei.com>
+        id S1753325AbeEOOwe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 May 2018 10:52:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55774 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752448AbeEOOwd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 May 2018 10:52:33 -0400
+Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D5B4723895;
+        Tue, 15 May 2018 14:52:29 +0000 (UTC)
+Date:   Tue, 15 May 2018 10:52:28 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        David Airlie <airlied@linux.ie>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Roy Pledge <Roy.Pledge@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@zh-kernel.org, linux-usb@vger.kernel.org,
+        linux-input@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-fbdev@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 11/11] docs: fix broken references with multiple
+ hints
+Message-ID: <20180515105228.4ac2df94@gandalf.local.home>
+In-Reply-To: <63a4f8a93f9115475bc184d0f37d076c9b9c75ff.1525870886.git.mchehab+samsung@kernel.org>
+References: <cover.1525870886.git.mchehab+samsung@kernel.org>
+        <63a4f8a93f9115475bc184d0f37d076c9b9c75ff.1525870886.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.90]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For the arm64 RAS Extension, user space can inject a virtual-SError
-with specified ESR. So user space needs to know whether KVM support
-to inject such SError, this interface adds this query for this capability.
+On Wed,  9 May 2018 10:18:54 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-KVM will check whether system support RAS Extension, if supported, KVM
-returns true to user space, otherwise returns false.
 
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-Reviewed-by: James Morse <james.morse@arm.com>
+> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> index 7b6b1236ec2e..c292117b83a9 100644
+> --- a/Documentation/trace/events.rst
+> +++ b/Documentation/trace/events.rst
+> @@ -8,7 +8,7 @@ Event Tracing
+>  1. Introduction
+>  ===============
+>  
+> -Tracepoints (see Documentation/trace/tracepoints.txt) can be used
+> +Tracepoints (see Documentation/trace/tracepoints.rst) can be used
+>  without creating custom kernel modules to register probe functions
+>  using the event tracing infrastructure.
+>  
+> diff --git a/Documentation/trace/tracepoint-analysis.rst b/Documentation/trace/tracepoint-analysis.rst
+> index b0c9c21f129d..716326b9f152 100644
+> --- a/Documentation/trace/tracepoint-analysis.rst
+> +++ b/Documentation/trace/tracepoint-analysis.rst
+> @@ -6,7 +6,7 @@ Notes on Analysing Behaviour Using Events and Tracepoints
+>  1. Introduction
+>  ===============
+>  
+> -Tracepoints (see Documentation/trace/tracepoints.txt) can be used without
+> +Tracepoints (see Documentation/trace/tracepoints.rst) can be used without
+>  creating custom kernel modules to register probe functions using the event
+>  tracing infrastructure.
+>  
 
-Change from V11:
-1. Change the commit message
-2. Update the Documentation/virtual/kvm/api.tx
----
- Documentation/virtual/kvm/api.txt | 11 +++++++++++
- arch/arm64/kvm/reset.c            |  3 +++
- include/uapi/linux/kvm.h          |  1 +
- 3 files changed, 15 insertions(+)
+> diff --git a/include/linux/tracepoint.h b/include/linux/tracepoint.h
+> index c94f466d57ef..19a690b559ca 100644
+> --- a/include/linux/tracepoint.h
+> +++ b/include/linux/tracepoint.h
+> @@ -4,7 +4,7 @@
+>  /*
+>   * Kernel Tracepoint API.
+>   *
+> - * See Documentation/trace/tracepoints.txt.
+> + * See Documentation/trace/tracepoints.rst.
+>   *
+>   * Copyright (C) 2008-2014 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>   *
 
-diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-index fc3ae95..66494a5 100644
---- a/Documentation/virtual/kvm/api.txt
-+++ b/Documentation/virtual/kvm/api.txt
-@@ -4415,3 +4415,14 @@ Parameters: none
- This capability indicates if the flic device will be able to get/set the
- AIS states for migration via the KVM_DEV_FLIC_AISM_ALL attribute and allows
- to discover this without having to create a flic device.
-+
-+8.14 KVM_CAP_ARM_SET_SERROR_ESR
-+
-+Architectures: arm, arm64
-+
-+This capability indicates that userspace can specify the syndrome value reported
-+to the guest OS when guest takes a virtual SError interrupt exception.
-+If KVM has this capability, userspace can only specify the ISS field for the ESR
-+syndrome, it can not specify the EC field which is not under control by KVM.
-+If this virtual SError is taken to EL1 using AArch64, this value will be reported
-+in ISS filed of ESR_EL1.
-diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-index 3256b92..38c8a64 100644
---- a/arch/arm64/kvm/reset.c
-+++ b/arch/arm64/kvm/reset.c
-@@ -77,6 +77,9 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_ARM_PMU_V3:
- 		r = kvm_arm_support_pmu_v3();
- 		break;
-+	case KVM_CAP_ARM_INJECT_SERROR_ESR:
-+		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
-+		break;
- 	case KVM_CAP_SET_GUEST_DEBUG:
- 	case KVM_CAP_VCPU_ATTRIBUTES:
- 		r = 1;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 8fb90a0..3587b33 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -934,6 +934,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_S390_AIS_MIGRATION 150
- #define KVM_CAP_PPC_GET_CPU_CHAR 151
- #define KVM_CAP_S390_BPB 152
-+#define KVM_CAP_ARM_INJECT_SERROR_ESR 153
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
--- 
-1.9.1
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
+-- Steve
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
