@@ -3,30 +3,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE2357D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:26:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 13BD47D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752798AbeEPIW7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 May 2018 04:22:59 -0400
-Received: from mail-dm3nam03on0080.outbound.protection.outlook.com ([104.47.41.80]:41283
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
+        id S1752985AbeEPI0G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 May 2018 04:26:06 -0400
+Received: from mail-sn1nam02on0046.outbound.protection.outlook.com ([104.47.36.46]:25024
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752716AbeEPIWr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 May 2018 04:22:47 -0400
+        id S1751319AbeEPIWz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 May 2018 04:22:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CAu+1a9S+Gzhj2aEcuv3SLuKKsnLIXUynWAqDdQmCRQ=;
- b=aCrm5uksHuqX1uQFpBng9aUWcVgeVWi158NCblM0qd5roV14PXUGe9IvXScb59mZE6fCSc5eotDaBahIOB5/XGB5RQ4Tqn2KaAoXs5hnwy6cnCERuIjIF3r+HrQpE/JAC9fWUxbY3xWE9lWloSGdycq2gNefSRH/fsKsUTjfbhw=
+ bh=9mS6/ZZ8o1VlbfS7HxNE9RIuU4teeQo0ntENa4t39IU=;
+ b=IBns7yz7LrrJu0tsuBj9RjARJ8Rnv5rFtUsMrw+kfipuDjN9mvhgBUHCKbihXI1NUp98SFWTtMSRCQOpB0Rv3SSEDLGu+e+dbe9Q1+fNU9IJMvCCZkppVzsMU2kT47qiV4z2n11RQwsQOoBWYd0uwL5VUOpPeu6FlKO4OjRJMiY=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Yuri.Norov@cavium.com; 
 Received: from localhost (176.59.36.13) by
- SN6PR07MB4381.namprd07.prod.outlook.com (2603:10b6:805:58::12) with Microsoft
+ BYAPR07MB4373.namprd07.prod.outlook.com (2603:10b6:a02:c0::16) with Microsoft
  SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.755.16; Wed, 16
- May 2018 08:22:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.776.11; Wed, 16
+ May 2018 08:22:53 +0000
 From:   Yury Norov <ynorov@caviumnetworks.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -61,867 +61,203 @@ Cc:     Yury Norov <ynorov@caviumnetworks.com>,
         Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
         Steve Ellcey <sellcey@caviumnetworks.com>,
         Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: [PATCH 18/24] arm64: signal: share lp64 signal structures and routines to ilp32
-Date:   Wed, 16 May 2018 11:19:03 +0300
-Message-Id: <20180516081910.10067-19-ynorov@caviumnetworks.com>
+Subject: [PATCH 19/24] arm64: signal32: move ilp32 and aarch32 common code to separated file
+Date:   Wed, 16 May 2018 11:19:04 +0300
+Message-Id: <20180516081910.10067-20-ynorov@caviumnetworks.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [176.59.36.13]
-X-ClientProxiedBy: VI1PR08CA0121.eurprd08.prod.outlook.com
- (2603:10a6:800:d4::23) To SN6PR07MB4381.namprd07.prod.outlook.com
- (2603:10b6:805:58::12)
+X-ClientProxiedBy: VI1PR08CA0111.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::13) To BYAPR07MB4373.namprd07.prod.outlook.com
+ (2603:10b6:a02:c0::16)
 X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4381;
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4381;3:QBANSMVlzKfo28s8Z6/+1TnpTvnpjOq5ik/RHr8xhe2D9dC5oL/y49qGQRYxZFIb1de5iS2sh1OKsYz5CmBlB7SKs4WQWa3SK8/TGjg6sqEwOlboNUP7JCpcQLPuKJlA+hkpCsTtssup0+SZK7RYJRW+Ghg2d4+iekObgAzC/f+zqEpmnM+NkzJ93TZJvY/J2HHb9rPuS2FIYPdkheOrBl5t3IP9PvkC2lEQ5O//fbr8/JQIMbEBFI89N7CcvFqU;25:0aKia9i04By5xpiFQcDFxjtGvRCYoIM7aGenkj/NXf5jhYh7RKGmRjB1d3xSV95O/F2jtQtcq1KExP3UCQR0JOkFMobmHfsY1aIX/qXblN8R66sMY1GsCup8AV4dXPxV9ykLcVLJOCyJEbNqpnweL5vkouwtGNoFRVpbGC2kJyCoYTC2j/E+/l6vhKuw/6ejn7DgaOPcEsUkN1QLI6DOJo3K/k7RranU/dGCqepOqKwBXWTplHwajT3OrJeRXRe4FysWalEk23Yp0aJOkEZTSBd1vhXJHROBGovYrgvKO7JZk/iccTYDA69Rt3psdbU2A9TVn+l++p+rfA7W1g0TNg==;31:gC2p0Ytp175g/uQxPIP+/ilkrvJfxdx4n5yziUUpzbuy4/q3IuUAIVggw5TmXFW7DdVw6ZslpSc2mhkqEPIKTZQqbHUkWwe0WIYQ8ATEjGYuIA07/R38SfAool6S19TYRbV0FMw0eUr53QMOM6zajGVUZJKiA9D5T2Qt9oKe6XZAep0mhO14P8GYiCmBf5cZQUPkd0Obx/uFQq9KIJU75ambdjOBDCYpHeBoHpTNmY4=
-X-MS-TrafficTypeDiagnostic: SN6PR07MB4381:
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4381;20:FmNSLQeVyO8cZrGiRpwa9ZG8ZmFUkjlnSN8jvifdN39pLJh7nkgPXZ6/74DeIfZrM3/n6s7rbog+e3zJUroxWPW9z3xIMTghgBlE/l3cOItxcjz3iOO6V7z86eKcGHT/zpN/kaSfnZCusKHMhHmoyusuHLhL0iEXBHFR5knk1twpmofPcM+ONBubDbnVfag+B6B1rWt+dCR3MAiUCYCJcCysX0D212PuVuYtjSOLLvmgKyTGfRyaMX5/k4vG5BnUgWm6BGyx8Xzv90z/dqwLrSFW4y4mFl+Kp+gF9G2t25IA5KNlaMzzkmypI5gomw5kD7gIFV4q+btUv/qh+6VTPp/B1667u0L2oVH1HA8n6cXrpbcDw2v+mLLlWJZebp0dy7p4nXhtrzJt7GjfS0s+nTd/KOB9LTnEEq1mIdZUkK4BC+/TmMUHAcpxkwUc8GQuwvhG0ee+Qn4jGbH5Zb4BxLwtAD2Mi6Y61sPVG9vMBPzOtqEW5vBjrbOtrZYcatueqCUqLUT6/0UGJIiwTCRUTrpJILZv4PfgSH01X3s7EySmlsacUpFLgAJFiJpjN3JpbmqUawhJhvnoBjHh3mUa78EW73ou5wfcITbzffwVMxg=;4:qrpVwTXCve/VEumlXzM45qe7joXQlpS3vp4s4sfl4PLMhtQ2EIK4slrxZ0nvOdMqoycA950IORQVQLboBb0VQV1oijklOCXHwAExZDvqhlrojJItG1+HUmsdzd6bY+NNxjGOzaC9GpoWyOKBIkuw2UCMH0aJCWhu/SaqcTuGA+5IQjspLYkrk3eZhCE2pJLBOZQ/awfSoo84eyzZVMSKpeXVME2uXGOhcCZG7Y8i/7s8XwuwoZxQSSfdBX4QGvRk69Bi2jl0qtdfr+dXTWT8SQ==
-X-Microsoft-Antispam-PRVS: <SN6PR07MB4381D4006AE7AE04D47051B1E3920@SN6PR07MB4381.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4373;
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;3:DILY91qX/3RCf+SaqbCFdd9O3pw+AYjVaESOT7ENBjK9bBNUuFG31I3ZiTdl25oORmHtNqPMiDARCL62/Yaeru7p1927nQWYhPznRjjCxD5u9oRoHV8QxOy4LojZz+D+2ceTBS2ty88gjNN1DVG+YBMnlJE6ceMJTUfewf7HHglArC/v6igVGAyPdNMEGdBMkOvW4UlQdPE3R234hrDcYhB51ZgQ0AC5Dd5PryUXmt7Pi1Ef5Wq42M5Z3zj1dqUU;25:6WVjlGo5KOh+BuRotF2/QVe2iulLVMSObtTH+xKyNLxntvw3B7lL4ef6r+wiXEfYwj9OOrVOb3CoAsvJyQMyPl/YelkBmakPa0WwlrZR5hlmpH7iFAPl7dOghhc3ymu9hhMHnkc/KMS0oim/JRPflbL47+CCuVC+YzlzO9X2zDsipyd8DGn0vCvZBCoFTwd0lbgGbAT41LqKX8Uk+Qdz2uftsgOKiRP4013f6LzX03mXPswuOOxPDxnSIk44z42qBK33RnV3f5Zbd7q61BnM95ik/fhpwjadFkbhbYjdilBLAlyuKga0VtQEpzOaQRSxYJAfARpbHCdQdY4UbX8TvA==;31:bZdc8SW8R37JnMs3x+GnLLnnNoWopvKVXIxPyXhy5czZuG1RIVXHWYAtA+SgRlA9NeDxudl4tfSk5paUfCnTT++Udy5dVgzhWZ8hEAMjXUvkRBMvV2nMRIgzjuul6TYKERkXbklCaGNIs0IlDVk1H8y5SYNUjHTxq+xstVYic0f9NJjBp1XbnOa7H5QHzftcurX/gaYZwv1fK1o6gPHRzHAA6Rd7XbUox0fN2zMsrUg=
+X-MS-TrafficTypeDiagnostic: BYAPR07MB4373:
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;20:eXQACVUyJ7A9HZORlrFKUs8q3BmuJenqWk4kBzrde/06bdbSp7ROBWoZpWobU9HvxKwcfFIpAxL2ePKb2qCywmB/H/NcbYoUaVXN3TM3qW7FxWewWKnLHMSUPX8IgJYS+aQpNXthD1K9AUcFN97vITCLScBgKDBBV0B+14ixw26NBiA50csqhGrio48TqGM/3WjDiL+vj7UKn/lZmz1AHIla9F0Qe8S5xk6t+4yYtafsuXm2C8WryZTluhRRcF/pav6Ruj4Rxt8x0B8bdOnfYo6uiMo7fIPuCPoGG3hej1h1Fx0kOJ9Gb0EVxLOSaiAAP8JasZnirSpisChIFGHUZNn+vUAvFTMuo2qzWUmvC++QK/ogiUbx3AyqF+/McXrnqJLWQJxIQfQw9LVbERAabNQf9b4nAQw8BUIHBxhlqAGfsDz/WfDyz1g6XXSzWRsEyv2dkAD0wIalH2kqZLOszMduBCXSSO5AZWMfNP3Nv7n0X2aMbQtfiVIhz6EZn6nIodPp0d9oMEyzinFo7ApJFE0BcyUSGouJoAKALYU9xJzhOlDUOzW490m8cs1YOcHcueSPFi3XVkzIygrVCTbzDN/3iK7hg/x963IHMXFbOb8=;4:m9StfvWIUyD/CCmAx7SOXJtb5PpayWb9iGJlG+wcBozxVAYBJTMh2XzHIBSneNb0MAIaB4aWSkRRn9rmL8hkU982tCLSBXYS9sOAg56WnUx8n9ih0zDe+OMib1lFUGfoNL2aoKm7JFZGLMEyR1qsbYoFRLmV+JsuA4qfw3WEiMGe7X4lHqzwTIriWB31QyzZa7h65PUtJEAtaF9BFcM/j6rToXP+fEtu5nCJVHq4spsYxMZ6E6HhRO84EU9vEx2UujpAGArPvyP9p26eqkmvzQLpOn0BiMz6KYcoKdIeo2xsFkYs8Ygv9HSQ0L4z4l+v
+X-Microsoft-Antispam-PRVS: <BYAPR07MB43738FA566D7A8C89900F7ECE3920@BYAPR07MB4373.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(180628864354917);
 X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(93006095)(3231254)(944501410)(52105095)(10201501046)(149027)(150027)(6041310)(20161123560045)(20161123558120)(20161123564045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);SRVR:SN6PR07MB4381;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4381;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(10201501046)(93006095)(3002001)(149027)(150027)(6041310)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(6072148)(201708071742011);SRVR:BYAPR07MB4373;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4373;
 X-Forefront-PRVS: 0674DC6DD3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(39860400002)(376002)(396003)(39380400002)(346002)(366004)(199004)(189003)(386003)(478600001)(5660300001)(16586007)(6666003)(36756003)(2906002)(54906003)(316002)(110136005)(68736007)(97736004)(51416003)(76176011)(72206003)(6496006)(52116002)(3846002)(7416002)(7406005)(53936002)(59450400001)(1076002)(16526019)(26005)(186003)(6116002)(486006)(66066001)(47776003)(6486002)(7736002)(305945005)(42882007)(446003)(476003)(956004)(2616005)(76506005)(25786009)(50466002)(106356001)(4326008)(81156014)(39060400002)(50226002)(105586002)(8936002)(11346002)(48376002)(81166006)(8676002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4381;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(39380400002)(396003)(346002)(39860400002)(366004)(189003)(199004)(575784001)(2906002)(305945005)(39060400002)(7736002)(42882007)(7416002)(7406005)(446003)(11346002)(956004)(476003)(2616005)(53936002)(106356001)(68736007)(6666003)(36756003)(47776003)(4326008)(5660300001)(3846002)(6116002)(25786009)(50466002)(72206003)(386003)(76176011)(76506005)(54906003)(110136005)(26005)(6496006)(66066001)(105586002)(1076002)(48376002)(8936002)(50226002)(6486002)(8676002)(486006)(81166006)(81156014)(478600001)(52116002)(186003)(59450400001)(16586007)(97736004)(16526019)(316002)(51416003);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4373;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: cavium.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;SN6PR07MB4381;23:lCurgLHPz8WPQKi6aOmN/9oz81qrUDf+89Po1bgkC?=
- =?us-ascii?Q?P7l6JgdM9wjgAMEVbm6kcVFYEbD/2r9YIUVDNcRaONZ8HbGG+GxjH7BnQlFM?=
- =?us-ascii?Q?SN1ky/P73hllNcYsvGkPcZtCd6RMzAeJXoW2HS2iDYwtgnLh0EbVMCrsqI5G?=
- =?us-ascii?Q?pLFI8buZBtanx7aIAnyvH9THj4bPz3pe2K1XPAyO8Bac1ih8IgUNpuADV1gl?=
- =?us-ascii?Q?npLJtbONQvQPXK//k1XOVAZVEYxvKESRgp7M5n5DsiG2kouzEAwd7M55lr5j?=
- =?us-ascii?Q?OUSQRchzwjN72ztgrjXJ8C8evi393pBxzXFiD27pbonVMyhhWcZe4MRr/Op4?=
- =?us-ascii?Q?4IuDc6yZVdrlDkKPoPb04RvWm0s0CesBWeUk6UEVjbT2ehdZOfSe2gVzIDuG?=
- =?us-ascii?Q?avNYiTiEu9qAHNdAG4noFPkMlDRLmZ75MpdAMKXcBLnK2936Z3Ok865aIpy0?=
- =?us-ascii?Q?A3ZwXixbgrBkTJl7rnhnYP60YCYbxNb6RI7/TcAcD89hI4tZw1PfMjxLiuHv?=
- =?us-ascii?Q?RTerPXmrthvNHOSJ7bh5uHj2+SmdV6XAGyS4Y027xyFtDRk65I5RfAjnmSMJ?=
- =?us-ascii?Q?LV6zkpqa/sT+zmqR2E1+fxZUoNy89MhgS1GR11Wroc/bXIIGX6mno4xMY+VW?=
- =?us-ascii?Q?45A80OUXSHLgjhgrKLqHN70gUDhncBP0tLna/H0R1GoitgG6PEiWrjZ8QrGZ?=
- =?us-ascii?Q?JvEpzfbrlYWBbfMxLMIhPRec/eK1Kl5NVgqmhebNh7RnTcWT2hhe6vZF7GpP?=
- =?us-ascii?Q?I1Aj1vTjBkc2KZ89WAgvYKy6ZXtDtBsLaZdxvfO6ABGla8XttciIzn8NrveM?=
- =?us-ascii?Q?30kKFGlqvRhNg3zB81s6XyXguTN/PQUtHHZTNr2yjEB9Msb15vmLWmJHpdUJ?=
- =?us-ascii?Q?Uhx+2+erqWOT47TU/qzoFLVqFcgFthHNiweZH8vaMPVuYJZ0kJGFL9kuLOlU?=
- =?us-ascii?Q?vpsI1xCpWxKzBfkWQkf4LmnGh9gpUQzjhSz8BfxUys7VwUQHv9TohCE56/KM?=
- =?us-ascii?Q?F4vL5gkeS9g2mNHRpERATfy0zND1pO5hMal7FeqkcjT4Cvj3aYv0FBu+qCRD?=
- =?us-ascii?Q?jFFpM3qU7+1AlW5Coc0fyk4pusMRIgIlqAkvlHzXHsJr0iRVGHPL0vzZru60?=
- =?us-ascii?Q?AKhdvUWDon3lRKlB7gQmbwnP2Y4SDUy5ZWnMYPbtdiBZTW0hPzp01xCLS37q?=
- =?us-ascii?Q?oDtkIVYkkGk+Gpj25qO8pj+kzTrnt9vl6EHXUbV66n7nVBfDMcI9iCW2twJJ?=
- =?us-ascii?Q?dZ0GjjePk0KQtQl4jk9NbNfSN8WjC9MAX8nkNGU0hPHMMA6obya2qm4WRPgS?=
- =?us-ascii?Q?HvncKkNvSqNrO08YlHiwRS9OFoT/GxjWNYO4Ji+EuZzIblDCp9EhPm4B9zOY?=
- =?us-ascii?Q?+p+cQ=3D=3D?=
-X-Microsoft-Antispam-Message-Info: oOojlP17Q1Sicj442UMzmU114MPQkLJJt1w4DqmAI/1Q1TPsRAIWVfxv2/XF/3vt+CJ7ObsXBX4JoUa/ElCyx5X2DgiDvITV6wbxdYHKUZGgx4G8is120uyTuGfkpNwLIGCsu+7KMWDaHIqCDZHoICU8J6bzeDIalO31UU833npHZMzYS2WUi3LjMxWfxfbD
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4381;6:qQGZQa7EsMM9l4uaLrKb2B+qitCbq09M27kRbP2S0zywH/hohti9vYOt+hsC2mwpKSLACurTQxkA/B21/9Z/M9Oys9GkvJsDuozbYQhitXKDpd5qZ2SDGJeCf9ZLQ50SnEIzeNToA0gMR3z3DV8izz5PxXm0te4Ln0uYX/HTIZgOtsEab0cEBGQOpr0qgBg/fSwYdpBlV5AuXn4c9aBYi08LyJ/l1CK5kUM8qZLN3jP/glOeOfqJ0r7REb2Mg1yjbnr8rqYlWYvwaFovNa1wMUZnhTI+fx/E1j4OjRubrKMxa184o5RAFE0VD3h6cSHHP8Masxot9kSD2buCiCPrAwLhxd+5+wyP+SmidhvYp0uxRCtG5ozil9nZpDm/bv3H9jC64nXSY2ECPHiaOFFkETamVzrFkxF2svyn0krh4votb3cd7VBhXo+zLbKVJ/IhW7wWgCDsOrGA5UKD66gImw==;5:Xga3SyukxhnCf3RWVoQUZKYa62FGXkJVsbXXcLbXeadB0qnVKV0oUotj7wClEtz/YnFZrOGXEUwBYbj3/U+bfnwRlcoHZY0gpMHoSeq/qBpe3iVClPKCdvwrJ3wU6qmRb963RD1IpxS/mE4XPYnjSbcALXcrIInlptC6/Nr0Xe0=;24:DY1niTohacreNqDjV1Hw3JE+E3Q5ek2ZMNpcvcPCkKJ530+iSKNFILZL3+50K/rK/XKqH/3ovGUhY/7PY2uHGDWqTJCigzmdsAUX9A5nQsA=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BYAPR07MB4373;23:TEQUAcTm0hxsKfzP7H0JdcU01/7QKVPXTMd8X4Pe7?=
+ =?us-ascii?Q?L19pYa5nKWuoNxIPTEdMpvJ0v68NDuSHT1oUdIP8tiw81DmDtmmyum4AKF6i?=
+ =?us-ascii?Q?5ETvgM5Slhrm62ezVX9lR3adN+6HfbI681iZbvqQZRgstb/8xm/0IijtWfa0?=
+ =?us-ascii?Q?UWRxSJPQgRjeg87UBphzUOIiX5WKFgjlTQMjdbctnLA9Z8ocLiso+f66uWA+?=
+ =?us-ascii?Q?zn3Dfz+qtZczgyGtLEji4GU49TupP1VDzbAqlbOwJtjKqpkt+vAq3E6LHgY2?=
+ =?us-ascii?Q?c78UhaOaNEeg0BPVtIVJD9bdowoyqaLObGRYOG2gUEYjh5CeQhquX6FQBabn?=
+ =?us-ascii?Q?LDAj/spQHPxwfEwT8lOsntvL6FW+D2XpNukFxAJzaxculnlt79cAqckv+nZ/?=
+ =?us-ascii?Q?eto+8CKRAimOJ8lBdCKJWbogCbQSSn4xvokAC1SkyQ9UGt7yCxnaEYkjB5ot?=
+ =?us-ascii?Q?9Hb9bRmZJdbTkRkhMf/Jz/pYMxeFygjBFR67hYRO9daU8vkyaVx8T4nu00tx?=
+ =?us-ascii?Q?zMf3RNh7fWOu6Pas+kN6ERwke+kQAsVWg9v79iMoO2T+KVKtrN9QkE6M3Rnm?=
+ =?us-ascii?Q?YF+o0P/gtF3hMSolBuZF+9VDPLLaTtTWQFvRSvnl1PIeiM+ydE31CZFXBjuu?=
+ =?us-ascii?Q?R2XwRw5uZIcyecdjhZPsMlukOON2kb60kwssQBoTR/cGNpc+6UbVjTqgbq31?=
+ =?us-ascii?Q?lfTJVOsDF4bepelwCyMBSZRq4HP5q+Ilq60Zn+mKlM1N0ckYMvSJoviQUVJU?=
+ =?us-ascii?Q?s7mMeaQKgWmenAMuzwtrw+ICes6IkDQuKdTbCqGf6k99SFoJjxG5Y5Bw96NS?=
+ =?us-ascii?Q?zsMx4L4307Fe5tAc46vLoE1CJwk58+4v5HVr1Iy7xRxIgQI7/4aTUWcVYSwx?=
+ =?us-ascii?Q?kg/CMSTsetzpyFOPhWz+nhatm39iNpTnqEpf5hq2eDAqdqowBSKt2kWbMmZT?=
+ =?us-ascii?Q?dTaeEKbypPXYSIQBcPp4UjToFOjie8J9+nBvxDZ6eAsPdnM6/0jItC6zvSVG?=
+ =?us-ascii?Q?nactm/GWQYwPebBX/gtN15dN8NhfaBorD/fBErQT1KJUX2kdWwfVZOApiLEf?=
+ =?us-ascii?Q?TzQZzbhdXqEKIIbUTpR2mJUzb3q6or8z496n989mpnZZKSEGFatjlb1Devq7?=
+ =?us-ascii?Q?QVvEzbGN84oUnT0fWfaBgzmKyNKvH0A0p/DuXnPSqwD/5fn5FO+bgeeH5dKz?=
+ =?us-ascii?Q?5K7xrXKyaGobm/EZZakX/ZUgEiHPF5Y8aUpM4XyN/gQOa9LHmPfjTBh+7m7T?=
+ =?us-ascii?Q?FoGf/N7/n9HBkuA5HDTLAUW3nFvpxVeF2M81DCcklHJGkoAGX21Reok7YeEj?=
+ =?us-ascii?Q?HeoSHnMPisP4Q4sXDYSdIu1yRoE9mW6kkzZcZVI2M2ys4KjzpzrSW9sqSUXu?=
+ =?us-ascii?Q?dzKspnNU1I/C/RZBIsbVEwY2Ew=3D?=
+X-Microsoft-Antispam-Message-Info: 3cpCnXBCYFKqbwL8/vUR/h2nOn4KV69HvgQ73EbujgRRrJBo64I6c+IDE3OsynHizz0Qq7sKsT66fLFZYKrOfEgc1IqWmzHkl5AuBnBg7X17kX0iADfGy8NdFKB+C6fCFEnWqudg8TW3xRorxbKSgUc2sC9rP0IPXzhvtp4tB74WJ4svY8rmJKsAZJgPgblv
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;6:ai6A8VxFZnKSbLg3kdD4mQUvx2HQJ/aJw6U4OR1bVIRzsVKPrtzfO47CExkWdmnmmM81q1uOR/nlTAKvBygKbOTqX2jhXaYQcdhvUgVYWb+UXFm2taQ4F7FguJNG9A2VfnY/WsGom1qpw9C36NdTl0WCBSw2/GJYi+1pKX6gUgCUbGEu5Kr15I6oekI+RI1wh31/H/EQ8IWhNoZchTsCkTe1KZMymfDpQ9ThDSr37fH9WTLYLWue6lCFPPCbQsOJkpT+HriGz5exqulmuD6YVnM89l9/u9kwOGYc/ncs+FHvIpVJcKZ/VQ0PHuteNe94A7rvsDf9W5Hi8ZHCI5StbPNzjavvo3OR0vpsVhfnc87alAifpNpyI+YigleJqm2w7saZA1o8QTJXdlcoVLzcpPBfvMzRyw/3vvBGyUuKS8OwwQQFqoa1xjgwI7FqhDmcya0hz+Tt2m7pKQD0fxwrzw==;5:g3HeMdbzKLfS3WdgFywOI1IUR/w/8ax1Q67D8reojtYPJw54sq/1Q8+R+d/fjDBUPsGeyz8OVTMdl3iaCd18qC9nv1WpgYYVFpYj2cH+IERage1jcrdw/6+8dalW+WnlNp9npDRE9kqXdjKPBuVtRyEClEZO5kP4pC+owVLhMV8=;24:Q/w1yvbXJJVSQEKr0kPM/KIdcr6z0GJml1FY+smktc3htkDA7xRTJVvOx41CH1uDth44Gw67/CpA7HnYrvznk96DilPyFVvEdMbhit5gvZs=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4381;7:UBWdEj4UOjyHbTslzgLLclidMcaj84Lo0A20bhBuRRGXzRTebL7hb4MW2pypRYOgxMGKh6qbWbMpds7SrwHV/EylcAMkQxCDfR3Gi/ZI9juJXUmxcG11hyWbK+e/jjqGSmTkfNu5uQOAgoeYciKJSAMYaAklFvM+8hmqppXRl/vghtAE4k1YyM2SpGMg5uib2yqJgG/9M2VJ5LDYwsKHn2HWWF2mXfPjE6qmLNEu3RbsWRmA8fpe0Vm9Tc6rGZrU
-X-MS-Office365-Filtering-Correlation-Id: 0515d64b-33c3-4627-800c-08d5bb063206
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;7:wYLmRh/w/csQuUMFF+wD+hnpQ/zc8s+2Kjy/Xd3P3XX9ne2I7H5cjUys4VmZz46oKaz0+G3LkcQrlvOWI0s1fidYoMz+MHYZC6uj7USblC/0b/LzrRuQBpObF3EIx6kAbjtOKEQI+OwRzYYcNLXh7z32iVHLdvtcT40iroOMX+gN3Qbd3wjvKlcFUapldM/hNMdL0muHOGtU0jmtYc2S31bh0SMKYW5v7pLIInmNScXc5eIFA575fTswGDmDde3S
+X-MS-Office365-Filtering-Correlation-Id: 02d4fd64-225d-4aa1-5bf4-08d5bb0638eb
 X-OriginatorOrg: caviumnetworks.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:22:41.9402 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0515d64b-33c3-4627-800c-08d5bb063206
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:22:53.3033 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02d4fd64-225d-4aa1-5bf4-08d5bb0638eb
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4381
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4373
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Following patches of the series introduce ILP32-specific structures and
-handlers for signal subsystem. In this patch, functions and structures
-that common for LP64 and ILP32 are moved to
-arch/arm64/include/asm/signal_common.h to let ILP32 code reuse them. Some
-functions work with struct rt_sigframe which differs for ILP32. Therefore,
-to let ILP32 generate correct code, body of that functions are moved to
-arch/arm64/include/asm/signal_common.h. Others just declared in new header.
+ILP32 needs to mix 32bit struct siginfo and 64bit sigframe for its signal
+handlers. Move the existing compat code for copying siginfo to user space
+and manipulating signal masks into signal32_common.c so it can be used to
+deliver aarch32 and ilp32 signals.
 
 Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
 ---
- arch/arm64/include/asm/signal_common.h | 306 ++++++++++++++++++++++
- arch/arm64/kernel/signal.c             | 336 ++++---------------------
- 2 files changed, 359 insertions(+), 283 deletions(-)
- create mode 100644 arch/arm64/include/asm/signal_common.h
+ arch/arm64/include/asm/signal32_common.h | 13 +++++++++
+ arch/arm64/kernel/Makefile               |  2 +-
+ arch/arm64/kernel/signal32.c             | 23 +--------------
+ arch/arm64/kernel/signal32_common.c      | 37 ++++++++++++++++++++++++
+ 4 files changed, 52 insertions(+), 23 deletions(-)
+ create mode 100644 arch/arm64/include/asm/signal32_common.h
+ create mode 100644 arch/arm64/kernel/signal32_common.c
 
-diff --git a/arch/arm64/include/asm/signal_common.h b/arch/arm64/include/asm/signal_common.h
+diff --git a/arch/arm64/include/asm/signal32_common.h b/arch/arm64/include/asm/signal32_common.h
 new file mode 100644
-index 000000000000..84abe973e8b3
+index 000000000000..10bcdf6b8b4c
 --- /dev/null
-+++ b/arch/arm64/include/asm/signal_common.h
-@@ -0,0 +1,306 @@
++++ b/arch/arm64/include/asm/signal32_common.h
+@@ -0,0 +1,13 @@
 +/* SPDX-License-Identifier: GPL-2.0+ */
 +
++#ifndef __ASM_SIGNAL32_COMMON_H
++#define __ASM_SIGNAL32_COMMON_H
++
++#ifdef CONFIG_COMPAT
++
++int put_sigset_t(compat_sigset_t __user *uset, sigset_t *set);
++int get_sigset_t(sigset_t *set, const compat_sigset_t __user *uset);
++
++#endif /* CONFIG_COMPAT*/
++
++#endif /* __ASM_SIGNAL32_COMMON_H */
+diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
+index a6db407d4089..9e127c47a25c 100644
+--- a/arch/arm64/kernel/Makefile
++++ b/arch/arm64/kernel/Makefile
+@@ -29,7 +29,7 @@ $(obj)/%.stub.o: $(obj)/%.o FORCE
+ arm64-obj-$(CONFIG_AARCH32_EL0)		+= sys32.o kuser32.o signal32.o 	\
+ 					   sys_compat.o entry32.o binfmt_elf32.o
+ arm64-obj-$(CONFIG_ARM64_ILP32)		+= binfmt_ilp32.o sys_ilp32.o
+-arm64-obj-$(CONFIG_COMPAT)		+= entry32_common.o
++arm64-obj-$(CONFIG_COMPAT)		+= entry32_common.o signal32_common.o
+ arm64-obj-$(CONFIG_FUNCTION_TRACER)	+= ftrace.o entry-ftrace.o
+ arm64-obj-$(CONFIG_MODULES)		+= arm64ksyms.o module.o
+ arm64-obj-$(CONFIG_ARM64_MODULE_PLTS)	+= module-plts.o
+diff --git a/arch/arm64/kernel/signal32.c b/arch/arm64/kernel/signal32.c
+index 739e13b54820..fdcc210028b5 100644
+--- a/arch/arm64/kernel/signal32.c
++++ b/arch/arm64/kernel/signal32.c
+@@ -26,6 +26,7 @@
+ #include <asm/esr.h>
+ #include <asm/fpsimd.h>
+ #include <asm/signal32.h>
++#include <asm/signal32_common.h>
+ #include <linux/uaccess.h>
+ #include <asm/unistd.h>
+ 
+@@ -103,28 +104,6 @@ struct a32_rt_sigframe {
+ 
+ #define _BLOCKABLE (~(sigmask(SIGKILL) | sigmask(SIGSTOP)))
+ 
+-static inline int put_sigset_t(compat_sigset_t __user *uset, sigset_t *set)
+-{
+-	compat_sigset_t	cset;
+-
+-	cset.sig[0] = set->sig[0] & 0xffffffffull;
+-	cset.sig[1] = set->sig[0] >> 32;
+-
+-	return copy_to_user(uset, &cset, sizeof(*uset));
+-}
+-
+-static inline int get_sigset_t(sigset_t *set,
+-			       const compat_sigset_t __user *uset)
+-{
+-	compat_sigset_t s32;
+-
+-	if (copy_from_user(&s32, uset, sizeof(*uset)))
+-		return -EFAULT;
+-
+-	set->sig[0] = s32.sig[0] | (((long)s32.sig[1]) << 32);
+-	return 0;
+-}
+-
+ /*
+  * VFP save/restore code.
+  *
+diff --git a/arch/arm64/kernel/signal32_common.c b/arch/arm64/kernel/signal32_common.c
+new file mode 100644
+index 000000000000..21995fc4e0b4
+--- /dev/null
++++ b/arch/arm64/kernel/signal32_common.c
+@@ -0,0 +1,37 @@
++// SPDX-License-Identifier: GPL-2.0+
++
 +/*
++ * Based on arch/arm/kernel/signal.c
++ *
 + * Copyright (C) 1995-2009 Russell King
 + * Copyright (C) 2012 ARM Ltd.
-+ * Copyright (C) 2018 Cavium Networks.
++ * Modified by Will Deacon <will.deacon@arm.com>
 + */
 +
-+#ifndef __ASM_SIGNAL_COMMON_H
-+#define __ASM_SIGNAL_COMMON_H
-+
++#include <linux/compat.h>
++#include <linux/signal.h>
 +#include <linux/uaccess.h>
-+#include <asm/fpsimd.h>
 +
-+#define EXTRA_CONTEXT_SIZE round_up(sizeof(struct extra_context), 16)
-+#define TERMINATOR_SIZE round_up(sizeof(struct _aarch64_ctx), 16)
-+#define SIGCONTEXT_RESERVED_SIZE sizeof(((struct sigcontext *)0)->__reserved)
-+#define RT_SIGFRAME_RESERVED_OFFSET \
-+		offsetof(struct rt_sigframe, uc.uc_mcontext.__reserved)
++#include <asm/signal32_common.h>
++#include <asm/unistd.h>
 +
-+/*
-+ * Sanity limit on the approximate maximum size of signal frame we'll
-+ * try to generate.  Stack alignment padding and the frame record are
-+ * not taken into account.  This limit is not a guarantee and is
-+ * NOT ABI.
-+ */
-+#define SIGFRAME_MAXSZ SZ_64K
-+
-+struct rt_sigframe_user_layout {
-+	void __user *sigframe;
-+	struct frame_record __user *next_frame;
-+
-+	unsigned long size;	/* size of allocated sigframe data */
-+	unsigned long limit;	/* largest allowed size */
-+
-+	unsigned long fpsimd_offset;
-+	unsigned long esr_offset;
-+	unsigned long sve_offset;
-+	unsigned long extra_offset;
-+	unsigned long end_offset;
-+};
-+
-+struct user_ctxs {
-+	struct fpsimd_context __user *fpsimd;
-+	struct sve_context __user *sve;
-+};
-+
-+struct frame_record {
-+	u64 fp;
-+	u64 lr;
-+};
-+
-+void __user *apply_user_offset(struct rt_sigframe_user_layout const *user,
-+			       unsigned long offset);
-+
-+int setup_sigframe_layout(struct rt_sigframe_user_layout *user);
-+int setup_extra_context(char __user *sfp, unsigned long sf_size,
-+			char __user *exprap);
-+int __parse_user_sigcontext(struct user_ctxs *user,
-+				   struct sigcontext __user const *sc,
-+				   void __user const *sigframe_base);
-+#define parse_user_sigcontext(user, sf)					\
-+	__parse_user_sigcontext(user, &(sf)->uc.uc_mcontext, sf)
-+
-+int preserve_fpsimd_context(struct fpsimd_context __user *ctx);
-+int restore_fpsimd_context(struct fpsimd_context __user *ctx);
-+
-+#ifdef CONFIG_ARM64_SVE
-+int preserve_sve_context(struct sve_context __user *ctx);
-+int restore_sve_fpsimd_context(struct user_ctxs *user);
-+#else /* ! CONFIG_ARM64_SVE */
-+
-+/* Turn any non-optimised out attempts to use these into a link error: */
-+extern int preserve_sve_context(void __user *ctx);
-+extern int restore_sve_fpsimd_context(struct user_ctxs *user);
-+
-+#endif /* ! CONFIG_ARM64_SVE */
-+
-+int sigframe_alloc(struct rt_sigframe_user_layout *user,
-+		   unsigned long *offset, size_t size);
-+int sigframe_alloc_end(struct rt_sigframe_user_layout *user);
-+
-+void __setup_return(struct pt_regs *regs, struct k_sigaction *ka,
-+		    struct rt_sigframe_user_layout *user, int usig);
-+
-+static void init_user_layout(struct rt_sigframe_user_layout *user)
++int put_sigset_t(compat_sigset_t __user *uset, sigset_t *set)
 +{
-+	memset(user, 0, sizeof(*user));
-+	user->size = RT_SIGFRAME_RESERVED_OFFSET;
++	compat_sigset_t	cset;
 +
-+	user->limit = user->size + SIGCONTEXT_RESERVED_SIZE;
++	cset.sig[0] = set->sig[0] & 0xffffffffull;
++	cset.sig[1] = set->sig[0] >> 32;
 +
-+	user->limit -= TERMINATOR_SIZE;
-+	user->limit -= EXTRA_CONTEXT_SIZE;
-+	/* Reserve space for extension and terminator ^ */
++	return copy_to_user(uset, &cset, sizeof(*uset));
 +}
 +
-+static size_t sigframe_size(struct rt_sigframe_user_layout const *user)
++int get_sigset_t(sigset_t *set, const compat_sigset_t __user *uset)
 +{
-+	return round_up(max(user->size, sizeof(struct rt_sigframe)), 16);
-+}
++	compat_sigset_t s32;
 +
-+static int get_sigframe(struct rt_sigframe_user_layout *user,
-+			 struct ksignal *ksig, struct pt_regs *regs)
-+{
-+	unsigned long sp, sp_top;
-+	int err;
-+
-+	init_user_layout(user);
-+	err = setup_sigframe_layout(user);
-+	if (err)
-+		return err;
-+
-+	sp = sp_top = sigsp(regs->sp, ksig);
-+
-+	sp = round_down(sp - sizeof(struct frame_record), 16);
-+	user->next_frame = (struct frame_record __user *)sp;
-+
-+	sp = round_down(sp, 16) - sigframe_size(user);
-+	user->sigframe = (void __user *)sp;
-+
-+	/*
-+	 * Check that we can actually write to the signal frame.
-+	 */
-+	if (!access_ok(VERIFY_WRITE, user->sigframe, sp_top - sp))
++	if (copy_from_user(&s32, uset, sizeof(*uset)))
 +		return -EFAULT;
 +
++	set->sig[0] = s32.sig[0] | (((long)s32.sig[1]) << 32);
 +	return 0;
 +}
-+
-+static int restore_sigframe(struct pt_regs *regs,
-+			    struct rt_sigframe __user *sf)
-+{
-+	sigset_t set;
-+	int i, err;
-+	struct user_ctxs user;
-+
-+	err = get_sigset(&set, &sf->uc.uc_sigmask);
-+	if (err == 0)
-+		set_current_blocked(&set);
-+
-+	for (i = 0; i < 31; i++)
-+		__get_user_error(regs->regs[i], &sf->uc.uc_mcontext.regs[i],
-+				 err);
-+	__get_user_error(regs->sp, &sf->uc.uc_mcontext.sp, err);
-+	__get_user_error(regs->pc, &sf->uc.uc_mcontext.pc, err);
-+	__get_user_error(regs->pstate, &sf->uc.uc_mcontext.pstate, err);
-+
-+	/*
-+	 * Avoid sys_rt_sigreturn() restarting.
-+	 */
-+	forget_syscall(regs);
-+
-+	err |= !valid_user_regs(&regs->user_regs, current);
-+	if (err == 0)
-+		err = parse_user_sigcontext(&user, sf);
-+
-+	if (err == 0) {
-+		if (!user.fpsimd)
-+			return -EINVAL;
-+
-+		if (user.sve) {
-+			if (!system_supports_sve())
-+				return -EINVAL;
-+
-+			err = restore_sve_fpsimd_context(&user);
-+		} else {
-+			err = restore_fpsimd_context(user.fpsimd);
-+		}
-+	}
-+
-+	return err;
-+}
-+
-+static int setup_sigframe(struct rt_sigframe_user_layout *user,
-+			  struct pt_regs *regs, sigset_t *set)
-+{
-+	int i, err = 0;
-+	struct rt_sigframe __user *sf = user->sigframe;
-+
-+	/* set up the stack frame for unwinding */
-+	__put_user_error(regs->regs[29], &user->next_frame->fp, err);
-+	__put_user_error(regs->regs[30], &user->next_frame->lr, err);
-+
-+	for (i = 0; i < 31; i++)
-+		__put_user_error(regs->regs[i], &sf->uc.uc_mcontext.regs[i],
-+				 err);
-+	__put_user_error(regs->sp, &sf->uc.uc_mcontext.sp, err);
-+	__put_user_error(regs->pc, &sf->uc.uc_mcontext.pc, err);
-+	__put_user_error(regs->pstate, &sf->uc.uc_mcontext.pstate, err);
-+
-+	__put_user_error(current->thread.fault_address,
-+			 &sf->uc.uc_mcontext.fault_address, err);
-+
-+	err |= put_sigset(set, &sf->uc.uc_sigmask);
-+
-+	if (err == 0) {
-+		struct fpsimd_context __user *fpsimd_ctx =
-+			apply_user_offset(user, user->fpsimd_offset);
-+		err |= preserve_fpsimd_context(fpsimd_ctx);
-+	}
-+
-+	/* fault information, if valid */
-+	if (err == 0 && user->esr_offset) {
-+		struct esr_context __user *esr_ctx =
-+			apply_user_offset(user, user->esr_offset);
-+
-+		__put_user_error(ESR_MAGIC, &esr_ctx->head.magic, err);
-+		__put_user_error(sizeof(*esr_ctx), &esr_ctx->head.size, err);
-+		__put_user_error(current->thread.fault_code,
-+				 &esr_ctx->esr, err);
-+	}
-+
-+	/* Scalable Vector Extension state, if present */
-+	if (system_supports_sve() && err == 0 && user->sve_offset) {
-+		struct sve_context __user *sve_ctx =
-+			apply_user_offset(user, user->sve_offset);
-+		err |= preserve_sve_context(sve_ctx);
-+	}
-+
-+	if (err == 0 && user->extra_offset)
-+		setup_extra_context((char __user *)user->sigframe, user->size,
-+				    (char __user *)apply_user_offset(user,
-+						   user->extra_offset));
-+
-+	/* set the "end" magic */
-+	if (err == 0) {
-+		struct _aarch64_ctx __user *end =
-+			apply_user_offset(user, user->end_offset);
-+
-+		__put_user_error(0, &end->magic, err);
-+		__put_user_error(0, &end->size, err);
-+	}
-+
-+	return err;
-+}
-+
-+static long __sys_rt_sigreturn(struct pt_regs *regs)
-+{
-+	struct rt_sigframe __user *frame;
-+
-+	/* Always make any pending restarted system calls return -EINTR */
-+	current->restart_block.fn = do_no_restart_syscall;
-+
-+	/*
-+	 * Since we stacked the signal on a 128-bit boundary, then 'sp' should
-+	 * be word aligned here.
-+	 */
-+	if (regs->sp & 15)
-+		goto badframe;
-+
-+	frame = (struct rt_sigframe __user *)regs->sp;
-+
-+	if (!access_ok(VERIFY_READ, frame, sizeof(*frame)))
-+		goto badframe;
-+
-+	if (restore_sigframe(regs, frame))
-+		goto badframe;
-+
-+	if (restore_altstack(&frame->uc.uc_stack))
-+		goto badframe;
-+
-+	return regs->regs[0];
-+
-+badframe:
-+	if (show_unhandled_signals)
-+		pr_info_ratelimited("%s[%d]: bad frame in %s: pc=%08llx sp=%08llx\n",
-+				    current->comm, task_pid_nr(current), __func__,
-+				    regs->pc, regs->sp);
-+	force_sig(SIGSEGV, current);
-+	return 0;
-+}
-+
-+static int __setup_rt_frame(int usig, struct ksignal *ksig,
-+				sigset_t *set, struct pt_regs *regs)
-+{
-+	struct rt_sigframe_user_layout user;
-+	struct rt_sigframe __user *frame;
-+	int err = 0;
-+
-+	fpsimd_signal_preserve_current_state();
-+
-+	if (get_sigframe(&user, ksig, regs))
-+		return 1;
-+
-+	frame = user.sigframe;
-+
-+	__put_user_error(0, &frame->uc.uc_flags, err);
-+	__put_user_error((typeof(frame->uc.uc_link)) 0,
-+			  &frame->uc.uc_link, err);
-+
-+	err |= __save_altstack(&frame->uc.uc_stack, regs->sp);
-+	err |= setup_sigframe(&user, regs, set);
-+	if (err == 0) {
-+		setup_return(regs, &ksig->ka, &user, usig);
-+		if (ksig->ka.sa.sa_flags & SA_SIGINFO) {
-+			err |= copy_siginfo_to_user(&frame->info, &ksig->info);
-+			regs->regs[1] = (unsigned long)&frame->info;
-+			regs->regs[2] = (unsigned long)&frame->uc;
-+		}
-+	}
-+
-+	return err;
-+}
-+
-+#endif /* __ASM_SIGNAL_COMMON_H */
-diff --git a/arch/arm64/kernel/signal.c b/arch/arm64/kernel/signal.c
-index 0a829f6f1832..c1a2523bac02 100644
---- a/arch/arm64/kernel/signal.c
-+++ b/arch/arm64/kernel/signal.c
-@@ -41,6 +41,10 @@
- #include <asm/ptrace.h>
- #include <asm/signal32.h>
- #include <asm/vdso.h>
-+#include <asm/signal_ilp32.h>
-+
-+#define get_sigset(s, m) __copy_from_user(s, m, sizeof(*s))
-+#define put_sigset(s, m) __copy_to_user(m, s, sizeof(*s))
- 
- /*
-  * Do a signal return; undo the signal stack. These are aligned to 128-bit.
-@@ -49,57 +53,12 @@ struct rt_sigframe {
- 	struct siginfo info;
- 	struct ucontext uc;
- };
-+struct rt_sigframe_user_layout;
- 
--struct frame_record {
--	u64 fp;
--	u64 lr;
--};
--
--struct rt_sigframe_user_layout {
--	struct rt_sigframe __user *sigframe;
--	struct frame_record __user *next_frame;
--
--	unsigned long size;	/* size of allocated sigframe data */
--	unsigned long limit;	/* largest allowed size */
--
--	unsigned long fpsimd_offset;
--	unsigned long esr_offset;
--	unsigned long sve_offset;
--	unsigned long extra_offset;
--	unsigned long end_offset;
--};
--
--#define BASE_SIGFRAME_SIZE round_up(sizeof(struct rt_sigframe), 16)
--#define TERMINATOR_SIZE round_up(sizeof(struct _aarch64_ctx), 16)
--#define EXTRA_CONTEXT_SIZE round_up(sizeof(struct extra_context), 16)
--
--static void init_user_layout(struct rt_sigframe_user_layout *user)
--{
--	const size_t reserved_size =
--		sizeof(user->sigframe->uc.uc_mcontext.__reserved);
--
--	memset(user, 0, sizeof(*user));
--	user->size = offsetof(struct rt_sigframe, uc.uc_mcontext.__reserved);
--
--	user->limit = user->size + reserved_size;
--
--	user->limit -= TERMINATOR_SIZE;
--	user->limit -= EXTRA_CONTEXT_SIZE;
--	/* Reserve space for extension and terminator ^ */
--}
--
--static size_t sigframe_size(struct rt_sigframe_user_layout const *user)
--{
--	return round_up(max(user->size, sizeof(struct rt_sigframe)), 16);
--}
-+static void setup_return(struct pt_regs *regs, struct k_sigaction *ka,
-+			 struct rt_sigframe_user_layout *user, int usig);
- 
--/*
-- * Sanity limit on the approximate maximum size of signal frame we'll
-- * try to generate.  Stack alignment padding and the frame record are
-- * not taken into account.  This limit is not a guarantee and is
-- * NOT ABI.
-- */
--#define SIGFRAME_MAXSZ SZ_64K
-+#include <asm/signal_common.h>
- 
- static int __sigframe_alloc(struct rt_sigframe_user_layout *user,
- 			    unsigned long *offset, size_t size, bool extend)
-@@ -144,14 +103,14 @@ static int __sigframe_alloc(struct rt_sigframe_user_layout *user,
-  * signal frame.  The offset from the signal frame base address to the
-  * allocated block is assigned to *offset.
-  */
--static int sigframe_alloc(struct rt_sigframe_user_layout *user,
-+int sigframe_alloc(struct rt_sigframe_user_layout *user,
- 			  unsigned long *offset, size_t size)
- {
- 	return __sigframe_alloc(user, offset, size, true);
- }
- 
- /* Allocate the null terminator record and prevent further allocations */
--static int sigframe_alloc_end(struct rt_sigframe_user_layout *user)
-+int sigframe_alloc_end(struct rt_sigframe_user_layout *user)
- {
- 	int ret;
- 
-@@ -168,7 +127,7 @@ static int sigframe_alloc_end(struct rt_sigframe_user_layout *user)
- 	return 0;
- }
- 
--static void __user *apply_user_offset(
-+void __user *apply_user_offset(
- 	struct rt_sigframe_user_layout const *user, unsigned long offset)
- {
- 	char __user *base = (char __user *)user->sigframe;
-@@ -176,7 +135,7 @@ static void __user *apply_user_offset(
- 	return base + offset;
- }
- 
--static int preserve_fpsimd_context(struct fpsimd_context __user *ctx)
-+int preserve_fpsimd_context(struct fpsimd_context __user *ctx)
- {
- 	struct user_fpsimd_state const *fpsimd =
- 		&current->thread.fpsimd_state.user_fpsimd;
-@@ -194,7 +153,7 @@ static int preserve_fpsimd_context(struct fpsimd_context __user *ctx)
- 	return err ? -EFAULT : 0;
- }
- 
--static int restore_fpsimd_context(struct fpsimd_context __user *ctx)
-+int restore_fpsimd_context(struct fpsimd_context __user *ctx)
- {
- 	struct user_fpsimd_state fpsimd;
- 	__u32 magic, size;
-@@ -223,15 +182,9 @@ static int restore_fpsimd_context(struct fpsimd_context __user *ctx)
- 	return err ? -EFAULT : 0;
- }
- 
--
--struct user_ctxs {
--	struct fpsimd_context __user *fpsimd;
--	struct sve_context __user *sve;
--};
--
- #ifdef CONFIG_ARM64_SVE
- 
--static int preserve_sve_context(struct sve_context __user *ctx)
-+int preserve_sve_context(struct sve_context __user *ctx)
- {
- 	int err = 0;
- 	u16 reserved[ARRAY_SIZE(ctx->__reserved)];
-@@ -263,7 +216,7 @@ static int preserve_sve_context(struct sve_context __user *ctx)
- 	return err ? -EFAULT : 0;
- }
- 
--static int restore_sve_fpsimd_context(struct user_ctxs *user)
-+int restore_sve_fpsimd_context(struct user_ctxs *user)
- {
- 	int err;
- 	unsigned int vq;
-@@ -326,15 +279,9 @@ static int restore_sve_fpsimd_context(struct user_ctxs *user)
- 	return err ? -EFAULT : 0;
- }
- 
--#else /* ! CONFIG_ARM64_SVE */
--
--/* Turn any non-optimised out attempts to use these into a link error: */
--extern int preserve_sve_context(void __user *ctx);
--extern int restore_sve_fpsimd_context(struct user_ctxs *user);
--
- #endif /* ! CONFIG_ARM64_SVE */
- 
--static int __parse_user_sigcontext(struct user_ctxs *user,
-+int __parse_user_sigcontext(struct user_ctxs *user,
- 				   struct sigcontext __user const *sc,
- 				   void __user const *sigframe_base)
- {
-@@ -492,91 +439,13 @@ static int __parse_user_sigcontext(struct user_ctxs *user,
- 	return -EINVAL;
- }
- 
--#define parse_user_sigcontext(user, sf)					\
--	__parse_user_sigcontext(user, &(sf)->uc.uc_mcontext, sf)
--
--static int restore_sigframe(struct pt_regs *regs,
--			    struct rt_sigframe __user *sf)
--{
--	sigset_t set;
--	int i, err;
--	struct user_ctxs user;
--
--	err = __copy_from_user(&set, &sf->uc.uc_sigmask, sizeof(set));
--	if (err == 0)
--		set_current_blocked(&set);
--
--	for (i = 0; i < 31; i++)
--		__get_user_error(regs->regs[i], &sf->uc.uc_mcontext.regs[i],
--				 err);
--	__get_user_error(regs->sp, &sf->uc.uc_mcontext.sp, err);
--	__get_user_error(regs->pc, &sf->uc.uc_mcontext.pc, err);
--	__get_user_error(regs->pstate, &sf->uc.uc_mcontext.pstate, err);
--
--	/*
--	 * Avoid sys_rt_sigreturn() restarting.
--	 */
--	forget_syscall(regs);
--
--	err |= !valid_user_regs(&regs->user_regs, current);
--	if (err == 0)
--		err = parse_user_sigcontext(&user, sf);
--
--	if (err == 0) {
--		if (!user.fpsimd)
--			return -EINVAL;
--
--		if (user.sve) {
--			if (!system_supports_sve())
--				return -EINVAL;
--
--			err = restore_sve_fpsimd_context(&user);
--		} else {
--			err = restore_fpsimd_context(user.fpsimd);
--		}
--	}
--
--	return err;
--}
--
- asmlinkage long sys_rt_sigreturn(struct pt_regs *regs)
- {
--	struct rt_sigframe __user *frame;
--
--	/* Always make any pending restarted system calls return -EINTR */
--	current->restart_block.fn = do_no_restart_syscall;
--
--	/*
--	 * Since we stacked the signal on a 128-bit boundary, then 'sp' should
--	 * be word aligned here.
--	 */
--	if (regs->sp & 15)
--		goto badframe;
--
--	frame = (struct rt_sigframe __user *)regs->sp;
--
--	if (!access_ok(VERIFY_READ, frame, sizeof (*frame)))
--		goto badframe;
--
--	if (restore_sigframe(regs, frame))
--		goto badframe;
--
--	if (restore_altstack(&frame->uc.uc_stack))
--		goto badframe;
--
--	return regs->regs[0];
--
--badframe:
--	if (show_unhandled_signals)
--		pr_info_ratelimited("%s[%d]: bad frame in %s: pc=%08llx sp=%08llx\n",
--				    current->comm, task_pid_nr(current), __func__,
--				    regs->pc, regs->sp);
--	force_sig(SIGSEGV, current);
--	return 0;
-+	return __sys_rt_sigreturn(regs);
- }
- 
- /* Determine the layout of optional records in the signal frame */
--static int setup_sigframe_layout(struct rt_sigframe_user_layout *user)
-+int setup_sigframe_layout(struct rt_sigframe_user_layout *user)
- {
- 	int err;
- 
-@@ -608,123 +477,50 @@ static int setup_sigframe_layout(struct rt_sigframe_user_layout *user)
- 	return sigframe_alloc_end(user);
- }
- 
--
--static int setup_sigframe(struct rt_sigframe_user_layout *user,
--			  struct pt_regs *regs, sigset_t *set)
-+int setup_extra_context(char __user *sfp, unsigned long sf_size,
-+			char __user *extrap)
- {
--	int i, err = 0;
--	struct rt_sigframe __user *sf = user->sigframe;
--
--	/* set up the stack frame for unwinding */
--	__put_user_error(regs->regs[29], &user->next_frame->fp, err);
--	__put_user_error(regs->regs[30], &user->next_frame->lr, err);
--
--	for (i = 0; i < 31; i++)
--		__put_user_error(regs->regs[i], &sf->uc.uc_mcontext.regs[i],
--				 err);
--	__put_user_error(regs->sp, &sf->uc.uc_mcontext.sp, err);
--	__put_user_error(regs->pc, &sf->uc.uc_mcontext.pc, err);
--	__put_user_error(regs->pstate, &sf->uc.uc_mcontext.pstate, err);
--
--	__put_user_error(current->thread.fault_address, &sf->uc.uc_mcontext.fault_address, err);
--
--	err |= __copy_to_user(&sf->uc.uc_sigmask, set, sizeof(*set));
--
--	if (err == 0) {
--		struct fpsimd_context __user *fpsimd_ctx =
--			apply_user_offset(user, user->fpsimd_offset);
--		err |= preserve_fpsimd_context(fpsimd_ctx);
--	}
--
--	/* fault information, if valid */
--	if (err == 0 && user->esr_offset) {
--		struct esr_context __user *esr_ctx =
--			apply_user_offset(user, user->esr_offset);
--
--		__put_user_error(ESR_MAGIC, &esr_ctx->head.magic, err);
--		__put_user_error(sizeof(*esr_ctx), &esr_ctx->head.size, err);
--		__put_user_error(current->thread.fault_code, &esr_ctx->esr, err);
--	}
--
--	/* Scalable Vector Extension state, if present */
--	if (system_supports_sve() && err == 0 && user->sve_offset) {
--		struct sve_context __user *sve_ctx =
--			apply_user_offset(user, user->sve_offset);
--		err |= preserve_sve_context(sve_ctx);
--	}
--
--	if (err == 0 && user->extra_offset) {
--		char __user *sfp = (char __user *)user->sigframe;
--		char __user *userp =
--			apply_user_offset(user, user->extra_offset);
--
--		struct extra_context __user *extra;
--		struct _aarch64_ctx __user *end;
--		u64 extra_datap;
--		u32 extra_size;
--
--		extra = (struct extra_context __user *)userp;
--		userp += EXTRA_CONTEXT_SIZE;
--
--		end = (struct _aarch64_ctx __user *)userp;
--		userp += TERMINATOR_SIZE;
-+	int err = 0;
-+	struct extra_context __user *extra;
-+	struct _aarch64_ctx __user *end;
-+	u64 extra_datap;
-+	u32 extra_size;
- 
--		/*
--		 * extra_datap is just written to the signal frame.
--		 * The value gets cast back to a void __user *
--		 * during sigreturn.
--		 */
--		extra_datap = (__force u64)userp;
--		extra_size = sfp + round_up(user->size, 16) - userp;
-+	extra = (struct extra_context __user *)extrap;
-+	extrap += EXTRA_CONTEXT_SIZE;
- 
--		__put_user_error(EXTRA_MAGIC, &extra->head.magic, err);
--		__put_user_error(EXTRA_CONTEXT_SIZE, &extra->head.size, err);
--		__put_user_error(extra_datap, &extra->datap, err);
--		__put_user_error(extra_size, &extra->size, err);
-+	end = (struct _aarch64_ctx __user *)extrap;
-+	extrap += TERMINATOR_SIZE;
- 
--		/* Add the terminator */
--		__put_user_error(0, &end->magic, err);
--		__put_user_error(0, &end->size, err);
--	}
-+	/*
-+	 * extra_datap is just written to the signal frame.
-+	 * The value gets cast back to a void __user *
-+	 * during sigreturn.
-+	 */
-+	extra_datap = (__force u64)extrap;
-+	extra_size = sfp + round_up(sf_size, 16) - extrap;
- 
--	/* set the "end" magic */
--	if (err == 0) {
--		struct _aarch64_ctx __user *end =
--			apply_user_offset(user, user->end_offset);
-+	__put_user_error(EXTRA_MAGIC, &extra->head.magic, err);
-+	__put_user_error(EXTRA_CONTEXT_SIZE, &extra->head.size, err);
-+	__put_user_error(extra_datap, &extra->datap, err);
-+	__put_user_error(extra_size, &extra->size, err);
- 
--		__put_user_error(0, &end->magic, err);
--		__put_user_error(0, &end->size, err);
--	}
-+	/* Add the terminator */
-+	__put_user_error(0, &end->magic, err);
-+	__put_user_error(0, &end->size, err);
- 
- 	return err;
- }
- 
--static int get_sigframe(struct rt_sigframe_user_layout *user,
--			 struct ksignal *ksig, struct pt_regs *regs)
-+void __setup_return(struct pt_regs *regs, struct k_sigaction *ka,
-+		struct rt_sigframe_user_layout *user, int usig)
- {
--	unsigned long sp, sp_top;
--	int err;
--
--	init_user_layout(user);
--	err = setup_sigframe_layout(user);
--	if (err)
--		return err;
--
--	sp = sp_top = sigsp(regs->sp, ksig);
--
--	sp = round_down(sp - sizeof(struct frame_record), 16);
--	user->next_frame = (struct frame_record __user *)sp;
- 
--	sp = round_down(sp, 16) - sigframe_size(user);
--	user->sigframe = (struct rt_sigframe __user *)sp;
--
--	/*
--	 * Check that we can actually write to the signal frame.
--	 */
--	if (!access_ok(VERIFY_WRITE, user->sigframe, sp_top - sp))
--		return -EFAULT;
-+	regs->regs[0] = usig;
-+	regs->sp = (unsigned long)user->sigframe;
-+	regs->regs[29] = (unsigned long)&user->next_frame->fp;
-+	regs->pc = (unsigned long)ka->sa.sa_handler;
- 
--	return 0;
- }
- 
- static void setup_return(struct pt_regs *regs, struct k_sigaction *ka,
-@@ -732,10 +528,7 @@ static void setup_return(struct pt_regs *regs, struct k_sigaction *ka,
- {
- 	__sigrestore_t sigtramp;
- 
--	regs->regs[0] = usig;
--	regs->sp = (unsigned long)user->sigframe;
--	regs->regs[29] = (unsigned long)&user->next_frame->fp;
--	regs->pc = (unsigned long)ka->sa.sa_handler;
-+	__setup_return(regs, ka, user, usig);
- 
- 	if (ka->sa.sa_flags & SA_RESTORER)
- 		sigtramp = ka->sa.sa_restorer;
-@@ -748,32 +541,7 @@ static void setup_return(struct pt_regs *regs, struct k_sigaction *ka,
- static int setup_rt_frame(int usig, struct ksignal *ksig, sigset_t *set,
- 			  struct pt_regs *regs)
- {
--	struct rt_sigframe_user_layout user;
--	struct rt_sigframe __user *frame;
--	int err = 0;
--
--	fpsimd_signal_preserve_current_state();
--
--	if (get_sigframe(&user, ksig, regs))
--		return 1;
--
--	frame = user.sigframe;
--
--	__put_user_error(0, &frame->uc.uc_flags, err);
--	__put_user_error(NULL, &frame->uc.uc_link, err);
--
--	err |= __save_altstack(&frame->uc.uc_stack, regs->sp);
--	err |= setup_sigframe(&user, regs, set);
--	if (err == 0) {
--		setup_return(regs, &ksig->ka, &user, usig);
--		if (ksig->ka.sa.sa_flags & SA_SIGINFO) {
--			err |= copy_siginfo_to_user(&frame->info, &ksig->info);
--			regs->regs[1] = (unsigned long)&frame->info;
--			regs->regs[2] = (unsigned long)&frame->uc;
--		}
--	}
--
--	return err;
-+	return __setup_rt_frame(usig, ksig, set, regs);
- }
- 
- static void setup_restart_syscall(struct pt_regs *regs)
-@@ -802,6 +570,8 @@ static void handle_signal(struct ksignal *ksig, struct pt_regs *regs)
- 			ret = a32_setup_rt_frame(usig, ksig, oldset, regs);
- 		else
- 			ret = a32_setup_frame(usig, ksig, oldset, regs);
-+	} else if (is_ilp32_compat_task()) {
-+		ret = ilp32_setup_rt_frame(usig, ksig, oldset, regs);
- 	} else {
- 		ret = setup_rt_frame(usig, ksig, oldset, regs);
- 	}
 -- 
 2.17.0
 
