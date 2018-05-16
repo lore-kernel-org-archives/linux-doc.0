@@ -1,1140 +1,519 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SORBS_WEB,T_DKIM_INVALID autolearn=unavailable autolearn_force=no
-	version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A18447D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 04:56:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC09F7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751859AbeEPE4U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 May 2018 00:56:20 -0400
-Received: from mail-by2nam01on0061.outbound.protection.outlook.com ([104.47.34.61]:10603
+        id S1752849AbeEPIUc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 May 2018 04:20:32 -0400
+Received: from mail-by2nam01on0042.outbound.protection.outlook.com ([104.47.34.42]:50976
         "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751489AbeEPE4F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 May 2018 00:56:05 -0400
+        id S1752831AbeEPIUW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 May 2018 04:20:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V2LOt5ycUfc9l8FAU2sIv2OnBl/su0dxQrxULeaMjIY=;
- b=A6wfXKX+jGIKs8hNlL6W9qpKGQqBCy51KfKtJlb3xDbf0TJkq+dUiHP7G7NSDsJ90OEhPMNW4GPLzBNkIiTC6/gP9Z7l1517gF7ApCwoXFItcTXNTv19KbVW+CddjuKTu1u8NCUCAM04heoimGf55uwaU54pcAVzr0F0lJA/CFo=
+ bh=dMdw2LbIY179ISdBDFE2ac8TypH5UQkauZv8w/kfiDE=;
+ b=MMStW5kQTIkmBtYbDM0zF+p+Vc55euo0uRjkkyBBob/5XlGS0sTv/YDI2CZU7vVuIh0oQ9bUTL9ZfMfzYEw9c4oPzv8+OvILB/8fzTppoQUVebrwqtzzb88+97kUS/XPr9WcSb0ByHolhL+8ggM20ZGkpOF48Fl4iNdeChg3nRg=
 Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Ganapatrao.Kulkarni@cavium.com; 
-Received: from mypc.cavium.com.com (111.93.218.67) by
- CO2PR0701MB744.namprd07.prod.outlook.com (2a01:111:e400:142f::18) with
- Microsoft SMTP Server (version=TLS1_2,
+ smtp.mailfrom=Yuri.Norov@cavium.com; 
+Received: from localhost (176.59.36.13) by
+ DM6PR07MB4378.namprd07.prod.outlook.com (2603:10b6:5:bf::20) with Microsoft
+ SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.755.16; Wed, 16
- May 2018 04:55:59 +0000
-From:   Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Will.Deacon@arm.com, mark.rutland@arm.com,
-        jnair@caviumnetworks.com, Robert.Richter@cavium.com,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com,
-        gklkml16@gmail.com
-Subject: [PATCH v5 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
-Date:   Wed, 16 May 2018 10:25:18 +0530
-Message-Id: <20180516045518.6876-3-ganapatrao.kulkarni@cavium.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <20180516045518.6876-1-ganapatrao.kulkarni@cavium.com>
-References: <20180516045518.6876-1-ganapatrao.kulkarni@cavium.com>
+ May 2018 08:20:19 +0000
+From:   Yury Norov <ynorov@caviumnetworks.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org
+Cc:     Yury Norov <ynorov@caviumnetworks.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: [PATCH 04/24] 32-bit userspace ABI: introduce ARCH_32BIT_OFF_T config option
+Date:   Wed, 16 May 2018 11:18:49 +0300
+Message-Id: <20180516081910.10067-5-ynorov@caviumnetworks.com>
+X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [111.93.218.67]
-X-ClientProxiedBy: BM1PR01CA0084.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:1::24) To CO2PR0701MB744.namprd07.prod.outlook.com
- (2a01:111:e400:142f::18)
+X-Originating-IP: [176.59.36.13]
+X-ClientProxiedBy: VI1PR08CA0119.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::21) To DM6PR07MB4378.namprd07.prod.outlook.com
+ (2603:10b6:5:bf::20)
 X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:CO2PR0701MB744;
-X-Microsoft-Exchange-Diagnostics: 1;CO2PR0701MB744;3:Y9HnTnJsgFfaIEJK1HiDZ0p51nBFB210RrpLRf2lJiZ8NacsewK7a3BexvyOPj9XZaX/YOngaLNjy3YKl+PHAq4SPZlYBoX7luzHqAIDPmZr7SY6UnJVfffO/rtH19MJgqDOx4H3i6lB2HV1ZWny/R7kqBVIdx6qVZqchhARIXUV+6vgpWBPXm9dQvKHBBvRLm+8f1XAHq/Cc+njR02qkyVWV2KTydFFZLeg3vDKarLVHMfBvaMuJTbgdyZ/koIJ;25:nc3UpRtDpQLvsgqoPdohjNs140SGN8j9kaj6gUmbE48RTEoCyz1+CsDzt9qM09imctM2SKwSu8A7VRHHye3b3tf+C6UY/haEXLG+Q0+yooN60CrKj1lLrDcMUcwl3hJ7lBE2Gw0k8N3Y2wwS9BqkyLtvb36dVITLNZdJwL7KYhAPkPfmSz6BZk5l5v//OOVpTF56QPaEZ1m/B3vZk/A3ODGLg0CKd6HlokF8WhfPh5p4PbyBsgeLX5y5xsrdsMxl++tuYNdtbXJxueB9STmW0MyAAghRj1IEbMMfhGroP1tjP/46wu2VWwS/6kD2zfVpGX5HkhNKaUfWQltQwurlTQ==;31:lOU4dow/BzmwZdyk/OZ7g9E/QfE1FlRF22a1POtVkeUYoc1joXe9pe3eIAfOUyqjbpWG4xRqWvMXLxUdaiy3fhk4Zrs7pnMxbH055FiYLrexjHFN4s6qkMri5pYncJNNONpXyopRFkGVKz4OVbCLsK5YCOP+tAY5GwThElWVGRyz9YpsTLiAISHwtOT/vQ30mXph7400MWn9jVIE/Q2Ju6HxGBxyouiuKvgBbGan0pU=
-X-MS-TrafficTypeDiagnostic: CO2PR0701MB744:
-X-Microsoft-Exchange-Diagnostics: 1;CO2PR0701MB744;20:OioaTX//ZC+xr9FoguOHdSItWvwf8d29gkj9I97b8yKOgSJdN1cUf/KnGHh2KOhih+7ESR0K4seBxRItzIxNV+zev55IbOzHm7JGK3OCBQxZUSXIjBT1VUKNL5L9QlojOd8oGToU9ljiAruwVz6nq0AAHFC7AspLFYXE6CZbCWMlVlXLpajfBXL0V92LyR6howH6WYbwDDmS9STkcCzBG8/GAcUgT/2qws0TsMQWSs5RRBLnYRei/onci+dNnLZ9EmId1TVSVMJ5ejKQ3IWnqZLj4WuxknqCZDqydfrIG5ma+NFStDH0lY7T/Aaoybw9YVnAz8IYRHu7dkZbRr2gOupEKz+3GKOdcXNypd08z7etr//37R3YKrqOJDBiaUh03r8Xd8dyyYCKMC8lkXCn1bhNKss+wyTLKafou+c8W7G+povf9xZ5SVS45bH2D0duClFOJOwgmhppTZNng0EUfo7ncB8MHptK4EMIaYZ7+y5X2aHzI0A3R9I9j0daoFjq;4:0MBeRM70YEGGXPm6k5IiMvY7rF3eAeP2Chh11hobNqYHIcOkJmaOrfFZzTjuJyDfBU3A4zlo+y8gTfSSpoj6s5Q0QbfzLjEzgf34hK7GlFN8u3AiSIpHkE6dl4M6NdGgIgN2uGpTkClF8jpWsXBUY0MeLvL3uWC3giZXH7RMrsHTI+4yeykvdLmMVDV6j/p3BoR7/sRjtZ8+5Zz2kTaeaq+MqLyuaMlMh5hK2/QXSqGyO7DYDqvELw1snp7mOhTDMh2zk+EV8OrFbTH79v51Qw6A2TjzGZ9UH4uB9uCAykgf6sKzjgCX9rspngmXkK1r04IGkxFplcTbDVbXYqF85VmO7FYYkAemOoXe6znFqdnItrvfkYR5qiGnnpZhAsHF
-X-Microsoft-Antispam-PRVS: <CO2PR0701MB744BA776CB105D5E421CB7683920@CO2PR0701MB744.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(250305191791016)(72170088055959)(22074186197030);
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:DM6PR07MB4378;
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4378;3:r/sZWCcUkIcmJaLAS9U5sC4Y9GKkTMjIO7gN/3zJQHlixs7qHzRRCSTwKEu/LYdaCkLsrb9hW1VyCONqy2q5oIb2X+5n2GE2EPHmmvvdv6HB/U6DhHxUMYiYq2lt6EjHWrn/JVqSvzCiUSdt1HkHJXYdARHxJ6JBZDszQyQHboFXLhiCLi0BnwZjZtNQNXsEcH+MvufopP47lIXgN7IDfwk7F266skxVy9+2EF9AH9MmBxm7bxRJLZbxH3vMtK3V;25:Pet6YodaprB7iUr7dOym8JHLUwekpU+llTdRpawlYkMqvE0nRUZKH5thjXmdbpG03LxR6S9FiYPR8nFwl7yXWVRVq4mXU7jQVr3zIHTzRPAoOV6qdh/Tp4p4sCk8wrCo7YYrlg30g8wu7MYwu9eI0DUdPJV7qmYRfPrS02I5hoQsZeKzy7wDdvtKlzp0m7e3f8xfEEJK4lsUQY5yOYpnOIzvsfA+tsJJ+BooUEhtq1YJCuIdr+nbxrP5e6y4O+Z2e5eerT6ULLDWZ2anXSzesXuZ0WJb4oaVPjWD84a99NSC4D/QNCZb9ZfzyTGEnGtNWCBDQHm9/hOCRptE7/6emA==;31:SJnUE8+GBKvTudGUvYj4DpcF6gEriQWJOGiuDK08x/KaVUmgECJxvZzqHK6S6489CaG7XsXXA1FKi4sTBtbdYTvoty34cqOClvnoSeWDkzt9nvU+Mv5L3hl1/ouxxKODreSr1K4PapL4fhTia+sSqH23aBcmejpV51FHOnd8h4YDasw7NkISEpy+H8TmL0/CK6KSIPSBX/lFsLGqLAJ7YZG2/cOPwM3YWehAcJrHCf0=
+X-MS-TrafficTypeDiagnostic: DM6PR07MB4378:
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4378;20:vQqkNnPaDXZT5UqiiMHN/WQsP9ed8dBfe3c0IJtpND+K7UPrbcPnvaIn60enA+DZBFfyODMQ8p3kxJoj58eiaEiKu45J/3ZfQlhWWZdKFi8cmatx2tZF1rcGFOWz2qb+aZ1ZYhgWFen81RZdgOlWm8k7Zui0vGWLwwBq5ATPRRzEgNTsBFqxPe+Tl4lRn0hgpUyC1oH6A+ZeutBFoKPpFwdfCLbdF6uL2rNBX1RCrqq55zQa14crK74ktC/ACqLpG2eRvBXh58fz2l56s3ku+PjpyOHRhmDnP7zGW1wSSfSd8Ld9Cb/T5ngq+51d9h+gQ03QTWAkdAjxbj7LiG8aQau/uWuAIX3cRIcZym942DwyU8hWlAueIRYThjo+MUNFsKj+DSVIidO47/WP0nZKnjmKl1KLpzW/lK7q56VvZMi7S88Tk2h381vd4AOup6dRvdzFogM/4PJib1YN/LP4df3rrpAEF65R517NsrK/C2y4/cTX+ZUpdMx9MveVWm9n5l41DTC7OQYa1k8G6wiUiFPX6HJp0la8VlK34k4nG3HFoIv/YNDq75e+7nmdrDLxp073G2Zfe9iDjSwxGHlZirWZzFOi+atz4Afdg7m2TBM=;4:usfHejypWpjh264RMHEMNQwJopM7oqY84kzyqdN/o6NRu7xkrwGZv5kHznssw5no+NjXecpSr4Myw/q0ZGqx+qNmuNFuxnpV0Gu7vkbuhVd9e3Psyr9wgI8H+Eb7XS35lEBkbft0XQr3agJfEdZvM0xTqVshpjhBnohWj0FxfsMXjJMRNb5JS0wJmUeVxzhWgS2+WTM5wDA1QYJQPS3WouTGli6qN2yrRWs6DvuJ9E+Dv0bgC7N6gu/8mO6wXilclLrKxbtZDSAkm4Y73Ha4fKwXcQfL59vXOQWFNAXup/xcF86i54yS2gMmoeyq+976
+X-Microsoft-Antispam-PRVS: <DM6PR07MB4378C4F5925CC68A8651DC44E3920@DM6PR07MB4378.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(5213294742642);
 X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(93006095)(93001095)(3231254)(944501410)(52105095)(149027)(150027)(6041310)(20161123560045)(20161123558120)(20161123564045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);SRVR:CO2PR0701MB744;BCL:0;PCL:0;RULEID:;SRVR:CO2PR0701MB744;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(93006095)(3231254)(944501410)(52105095)(149027)(150027)(6041310)(20161123560045)(20161123558120)(20161123564045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);SRVR:DM6PR07MB4378;BCL:0;PCL:0;RULEID:;SRVR:DM6PR07MB4378;
 X-Forefront-PRVS: 0674DC6DD3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(366004)(346002)(39380400002)(376002)(396003)(39860400002)(189003)(199004)(72206003)(6506007)(2616005)(47776003)(66066001)(956004)(50226002)(478600001)(476003)(36756003)(44832011)(8936002)(446003)(50466002)(486006)(53936002)(48376002)(11346002)(6666003)(26005)(305945005)(16526019)(186003)(7736002)(59450400001)(51416003)(7696005)(5890100001)(76176011)(52116002)(575784001)(86362001)(25786009)(386003)(97736004)(6116002)(3846002)(105586002)(106356001)(1076002)(2906002)(81166006)(8676002)(81156014)(5009440100003)(68736007)(6512007)(6306002)(316002)(16586007)(39060400002)(5660300001)(6486002)(53946003)(4326008)(2004002)(217873001);DIR:OUT;SFP:1101;SCL:1;SRVR:CO2PR0701MB744;H:mypc.cavium.com.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(346002)(376002)(366004)(39860400002)(39380400002)(396003)(199004)(189003)(76506005)(42882007)(54906003)(478600001)(72206003)(4326008)(51416003)(25786009)(53936002)(52116002)(6496006)(476003)(2616005)(11346002)(446003)(956004)(316002)(486006)(106356001)(36756003)(7416002)(5660300001)(16586007)(105586002)(110136005)(305945005)(97736004)(6666003)(7406005)(8676002)(6486002)(81166006)(81156014)(68736007)(15760500003)(48376002)(50466002)(7736002)(8936002)(6116002)(50226002)(16526019)(66066001)(39060400002)(575784001)(47776003)(1076002)(186003)(59450400001)(76176011)(386003)(2906002)(3846002)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR07MB4378;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 Received-SPF: None (protection.outlook.com: cavium.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;CO2PR0701MB744;23:M2JwUubcy/4jd+8DjQJ1r5aegw+zyBRkn5pv901p?=
- =?us-ascii?Q?Jv9oBW8ytaWVYP1ZANXgvgX/A2tk3Lwdivn5a0keezBF60tk2HEhygqyuB2D?=
- =?us-ascii?Q?6g1m0LKDc3VJkfmhI1AxNyURRUoAFq7/B8aTecW/I3vzXVBpT5RjOs0HhvLL?=
- =?us-ascii?Q?gmJb84FWvO39SfOzY1r6MxjCkVBwcyYW8B0ur8jOK8UFCHoE8f5KAVmNr2oj?=
- =?us-ascii?Q?I4pXwkzv7mLX6rkQITMb9msvlyqj6nuyA/RmgQoA9PNjauKQ6NrUOOlSt2Zx?=
- =?us-ascii?Q?tFjMZaFiOTqpxMf1+iFn3vKcBJiU4+WgsAaHWZFiLQQWat9As4IfES05hKSv?=
- =?us-ascii?Q?+IaKbKam/ni/tkuMLGxp4Krrc7gssX2xEC6KOmDV+zYi9ngyKeutIG4zrRVj?=
- =?us-ascii?Q?gG6pg6WjKWGjdWiyi5jkWFAaE/41H601SspTA0Nb2jQ1rM+AfUiUhyHscj+O?=
- =?us-ascii?Q?FoHqA6LvTd304jEmUv/80t0Ew3FR4yVAr7exJv/hNbQDQ0Za+ij/9SSkOXMg?=
- =?us-ascii?Q?VtmrIUy0PdZbNNyc5XUAMYB3j99gH0l6nsLvmqwcQThVOshdwJdZaV67KC5z?=
- =?us-ascii?Q?hrdjjiHUpz70mV4kE2xP9KchBd3y+Q3VS0oLyuwd+X/vSReKIrrfm/p3sABr?=
- =?us-ascii?Q?WtGiu75piY6dKP8P1p/Yxp2cOWkKUvnBp0BohMvAcfiBeoxwnd6s6ILuYas1?=
- =?us-ascii?Q?o0sUZsN10MdOwiL9ISZcXpMlE6NQxLp93rPOsAOBO3Yrk+q0pQOI76sSGuoM?=
- =?us-ascii?Q?BjoUtdpFuC7VVvlvZKC463upoYftYGqP7T0N6ATVfqrvx5DufEc5OMeJs4af?=
- =?us-ascii?Q?AnBn7ruv71XLqkncRiofG61IiQwDgI1e+NTQtpTPWSL6hI+BWAf0OzdV/Ehx?=
- =?us-ascii?Q?uE4zIK9JhS87ZGK+RCSH/odyz+ptspcAxsxzPbYp0W/vPeIz1pTcnHrBBdTH?=
- =?us-ascii?Q?itIVb4Ya9+TDAd76ucwgShSgiL2Mm3a1XdpXg1l01gXuPwP3fCCExi4FeTbX?=
- =?us-ascii?Q?pf+fJGBkRRV/tTuK8+tXjL+hLNneTouHgymnr1SePNRSnTEj2oh8pLDLxNKd?=
- =?us-ascii?Q?alGCdkWRxfDS9PHt6+MvuR6iyDGkOHPCU1wXPrd58nt6WoDo8soMRfQwVh6n?=
- =?us-ascii?Q?voxsoOD5MWaU9cUsDdp9bmFZFT4UuY+UEFygUvRRbypZUAPMmk0X5hdzNn3g?=
- =?us-ascii?Q?HgGzN+qjj580ouoK03k0nQl6Gwbil3N10seGKnOeWy42mRwRBJ5ZK1VgqjOM?=
- =?us-ascii?Q?Lcqjq1j4T52lW91cSnP1fA9HT6+8at5La8wVL0HS5YBTNXHqdpAFHt5SbcYa?=
- =?us-ascii?Q?8c+FTTgZzaPbO+72QG0Ts+/TCOxLAowKbbnWijejXsP4AibXlRjZrLVyw2VT?=
- =?us-ascii?Q?nZvcOOg88BKP92jNzvFw7wNiulKFHYRAh/01JR9jXYVLvXZn4Hr6oLciYs/F?=
- =?us-ascii?Q?j7ZjGlP3kin7I8H67VcF2rByptm3p6KJzJhvhXNSu8BFy0JWg0v1?=
-X-Microsoft-Antispam-Message-Info: 7SzrCciqd3Mi4INfgXSkDznHaejyybe2miKy/1Y/qSEA59KTZYX1/o/wAOmyro8aCkRO5wBfpm3J11UZDRnYiIAwx9bkvr6psn5rmfKq9tpG0qI99mkACsQJyIbQ0fgK9jWaFZZhyVQp1W62vEL8JD+rs5aLV7VXC1LS0JSJWOzxxH+mewJvAViPcvlfWV9O
-X-Microsoft-Exchange-Diagnostics: 1;CO2PR0701MB744;6:X9h8/B2+ppvj+/fAqytp3HOfuAflX1BHg9Uym0Q4bnNHo3jDb1PvwFBThnlziQoRiPywieAkTp1GiKOSnca0DAe0DIKKa6felQANrL52IKirQNtYO7J7k4AL+m/Y9q5ImijlTZD4ycfDcmrs6y3ldRIsUWjVQxmssjmaQCB2hgchxvhyzw1XoDE+1Jnuk40pONCSuooch6G01pYhWF+pzj0yggK+uzWJmYW+bkHn3oAIkCnYFVVkzR/NwP4sOGWvxToudWCpmGt3rwmnPaTCm9kZU6WaU7r9sva4hDFxm7Yf7ZmLS72B4R6q4wGblH6M8E+FTAZJ83s6Xw0kN/PPDbO7/UkWCqtaAVgqiBHthUrni7fIZqHA0j/zHzVqt0yHCACQ6kVvJfUn0I5AoetFVi2ipqLcHiKb4fhQI2mMXXMSXv44CWPjrxiMqeo/ciPV0uOJ1TGTVcNzqOya7ywg4w==;5:5NX7R6GREmpsJ43Jk6ZtRMWSPjcQCxXRBDMRp/g2heJr8KjmB7/NNI09bg1fst4rqoLrLCTadrdOW4h9DfJb9TMeeQhpjgClNgzU6w5ihYNNlhByTrdRpsbGea2gRCXl/qjmRt+duTMyB+jSnr+1VLKq+9Gd2FbLbujKl27mOqE=;24:OIr9uEt7U3CwGGCYbhHkpMIW1a2B6IFoOsNTYY9K4E0H1pUtnDgELtJLiiiUIt38CDwya1K7c1ZtM5HHeJFlBtB6Q6jvNgtffLcuusvJuEw=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;DM6PR07MB4378;23:I/LmrQn5/EtLU7y7W0xBscDAdU9svulnKaOKM4bev?=
+ =?us-ascii?Q?WpDFA+zbXM6pCIbwRvUem5VRLt9KyA6QJoZ4trBO78jUUGyBXh5PVbiNIb40?=
+ =?us-ascii?Q?1+9uhciZEOii9U+xeP8K9F5SiRTawNcCPgII566vQy2n4GbnIf9nVgZuKehl?=
+ =?us-ascii?Q?qCj2x22hiDPkz16+chbQhszBKxaPD531UetSjZRJm9uxbfPZGFTmH80cUkIj?=
+ =?us-ascii?Q?oR3FsLdXSO1zD2KS1HJMQSQ7MJ6eVz7gr7RxCRoPAPIiWhzbrhGuqeh6l4JZ?=
+ =?us-ascii?Q?QUAuZBPNAeKM2rAqezS0WfjbyyX7H2T7XrnX8T715JaRecArK5wtSKEEd20r?=
+ =?us-ascii?Q?il2gUxdkmEMeOlqYsJdBfoIlVlvbVydpkzXyXIy2BU/4/LfU8usVJKh9L3m+?=
+ =?us-ascii?Q?3ZE7BHZECljmqvwbkQakL7RPUNZtGVOeCk3ed8J+B2B3M/H+FWR42WrwRK3v?=
+ =?us-ascii?Q?F+B9ivR8pWBT3wZTYR/4UNdMgVXE2AL5aWvmsGurXvrCHLzlEQJ4V3fxbyUg?=
+ =?us-ascii?Q?nIn+1W3uhNOyue2ECbFnSwMKaFqNVbn+PKiCuWZxNUo35nkzYyhiugwEmUro?=
+ =?us-ascii?Q?lZ9QrpKCWTB2JvqDucEAVxVmIaPlQEGEUWihAIr1ojfwWIMoJiC8VuF8u4rP?=
+ =?us-ascii?Q?bQFTf9htQjljXEJKNgtIatT73dn5Fb9J5Zm3erZFT2NQI+40KrrPnY2ldJCq?=
+ =?us-ascii?Q?QkBkjWInScNjrOa+uVnvdJgJEcDDqp8c77vTdnOwVTdpZhiQNxWN2ny94PLg?=
+ =?us-ascii?Q?M2Xj/YcdIk1pMTWJyMblhkYcc8vRZgVWm6ujC8g+s7o1SUkC4XaHJVqNrYla?=
+ =?us-ascii?Q?+grrBfTYSgjnlxuEo8Q/VN0nQUAw2mRGq5qfWpJorLzGy3B35yqxP93MPFac?=
+ =?us-ascii?Q?vT3iARSHl6jzJPh1afNJ3r/3oNG+WxGu8V2HS1fmlRdMx3e45YAHdlU4t/gQ?=
+ =?us-ascii?Q?s1SLSqOAca1kq+Xf37Zksb/ot0O12VElJXw6biAM5vEAK6mOaW5VzqpJLN8J?=
+ =?us-ascii?Q?WyDYpqfBL9YVBExb4BwAcTbj4ckyPdQ+WG65xwtFQVI65DyOSSNvReghXo+N?=
+ =?us-ascii?Q?nwD2aKrUMWGQPo9lfcbG2wWiYOahooxdh0tAfRN3YJdOlIGNthl+OUT2YUwN?=
+ =?us-ascii?Q?Rxuzc1TCZ7+f2Eeu2ttjcms7dvaXp2vNca04uEPWmjlHEw02YJMYjfT6FSkn?=
+ =?us-ascii?Q?JL9bcx2QChSMZw2qJ1m6p8xEvdQ4m7YBtUWbcCxISzCa8z5/8TvSOZLLFJAq?=
+ =?us-ascii?Q?8MLvdgUgJmOckU57Vr99cO+2lUUB+EI6gOmnVE0D7yefzPtQSUH23KcfHFmT?=
+ =?us-ascii?Q?mzwWj2klbUQ+NV1X61Wl09NpDZR3wOqPySUMuhump4EhN9DmG3za0RqVTiYA?=
+ =?us-ascii?Q?s06nk5gGRn7L1Dq9Eq9CRrbVXes00omKKIFppY7XYN3ecp+?=
+X-Microsoft-Antispam-Message-Info: pX//i3zn5Y1fI2aJVs3G3+6F/IDKXCh+KgdTup8X+cZD5ZHk9SYPlj4Fx6GvSD9Kpy3qp3/fOtIMEgnq0Emg5DBid7T5GS5Z+VtcFu4fLJSND+Bi5GO0DQmaow/bmGE7o+ndJuUBVfyxjc2xoTJl6MwW9a4EIWLUJQx0OdqLPB+DTjyW3j16QVOKiRrF0f/x
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4378;6:Cgu+lq3nl110MFxE1zwkow7azIlF2Wq1RxbqvHApqJH3R+9EsuSulN0cudxaJ0cW4u9+kUDAWU+6SoTBSGCGxG5y1bPMK/+u39zBktji8Ty4QLwNCrHMg6Pn40pa1UnaXcQSM9cWT9EHr/UWrcPEzJzURUgRuk2h4UIoQAM7/fVm33jD0d+Xym0g6pCBDiAReosijQk6/KlT/GsHjyKaeyHkqUB6ER9RE0VNKcOsCDQ4DnfcvEr4kFjvZR2hJro1kmdqzWgACXdLAOPNMb1F+hLi4OtkemPsWX0SxEhJNEZms9qmNA2F02/j9dfPfW8d8xCbuy59Hz7ucfsFC+vDdBY04i5V+THCUxSgSjH2dW4BWOAV5hV3Bt8bqyHsHJM65XI1dEynufV70Cs879ifPTTqQrM6KqlQG9KdRIZfq9O2uJeDAj8kjMeU0m97r3fVCV4LYAAF8Ca6alHwcYHoAg==;5:sx/cmwVmxLJqgskI610MDnzgJUdh0mCRvjKmDOt9TZwWd273lO/k8ZrORq8txc4SZE9erUIMUnUQAwEy7UDdFXRZE8HmTsLJAb2cchR9CzACMA8M+rwBUMrp+XMTU0DLA3JDtroQuVt9kQkt5zvRl3V7U/C8z8DQ1xhC6/fFBmk=;24:RqRA2Jfj4x7RjRNdXBPuTb4QFLLMOcdvp7zxEHD1uk7sDiYbK0WJzNxZFIelFC//17wVeuc7oomyBiWG/HnwqpcbsdFlM3f65Hp3Zo776lo=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;CO2PR0701MB744;7:qY1nag8xTuLJ0gospSyP1XzpJrYvKfqhqqdalLsjr4cA6GaSmckx2vnPwE94PlEhBhyY6/QPhY6pnRRGDwhBmLRxlB26zMS3b+9Up5sUfeCOpGc2d0Oz2QNvpd5RsKbSNyVK5M29VOZD5eIkwnt4z/cC/q7oas4kbrqHV/eI+mLvSflMQ53JRL2BKDl5oU84GGyZHpdXpK9vTm5kasy5D5oJ8oaScyzumwVtTqViYM+4xntUKV37p7Q3EDfYhatu
-X-MS-Office365-Filtering-Correlation-Id: 7f7f50b3-bd34-4000-f96f-08d5bae952d0
-X-OriginatorOrg: cavium.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 04:55:59.1897 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f7f50b3-bd34-4000-f96f-08d5bae952d0
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4378;7:ONCaCNnc4WVPajxI9D81FX2x+5ebHm14vrkWsF8HOOotwsyYQCY/k+TiW38EXti9VFVrWt+8TUs8THY6niwnjelbQcPoznaT6wWjk+14rZ2n0aoh1TfiSLBa6ASLDUl3C66GqB25uvsp0FtGU01y7/lCFJB/+o7ww+WwE6DpqcJkJexFyGeVfhTKPTrGWIDRURvGLA+XEZ0nBpss6153LR3VteDHZGTDNkYYiusT65iLCwt4jHXtASXpf/Giywxj
+X-MS-Office365-Filtering-Correlation-Id: c13ef3cf-2b35-4f7c-d785-08d5bb05dcf5
+X-OriginatorOrg: caviumnetworks.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:20:19.2403 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c13ef3cf-2b35-4f7c-d785-08d5bb05dcf5
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR0701MB744
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB4378
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds a perf driver for the PMU UNCORE devices DDR4 Memory
-Controller(DMC) and Level 3 Cache(L3C).
+All new 32-bit architectures should have 64-bit userspace off_t type, but
+existing architectures has 32-bit ones.
 
-ThunderX2 has 8 independent DMC PMUs to capture performance events
-corresponding to 8 channels of DDR4 Memory Controller and 16 independent
-L3C PMUs to capture events corresponding to 16 tiles of L3 cache.
-Each PMU supports up to 4 counters. All counters lack overflow interrupt
-and are sampled periodically.
+To enforce the rule, new config option is added to arch/Kconfig that defaults
+ARCH_32BIT_OFF_T to be disabled for new 32-bit architectures. All existing
+32-bit architectures enable it explicitly.
 
-Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+New option affects force_o_largefile() behaviour. Namely, if userspace
+off_t is 64-bits long, we have no reason to reject user to open big files.
+
+Note that even if architectures has only 64-bit off_t in the kernel
+(arc, c6x, h8300, hexagon, metag, nios2, openrisc, tile32 and unicore32),
+a libc may use 32-bit off_t, and therefore want to limit the file size
+to 4GB unless specified differently in the open flags.
+
+Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/perf/Kconfig         |   8 +
- drivers/perf/Makefile        |   1 +
- drivers/perf/thunderx2_pmu.c | 965 +++++++++++++++++++++++++++++++++++++++++++
- include/linux/cpuhotplug.h   |   1 +
- 4 files changed, 975 insertions(+)
- create mode 100644 drivers/perf/thunderx2_pmu.c
+ arch/Kconfig            | 15 +++++++++++++++
+ arch/arc/Kconfig        |  1 +
+ arch/arm/Kconfig        |  1 +
+ arch/blackfin/Kconfig   |  1 +
+ arch/cris/Kconfig       |  1 +
+ arch/frv/Kconfig        |  1 +
+ arch/h8300/Kconfig      |  1 +
+ arch/hexagon/Kconfig    |  1 +
+ arch/m32r/Kconfig       |  1 +
+ arch/m68k/Kconfig       |  1 +
+ arch/metag/Kconfig      |  1 +
+ arch/microblaze/Kconfig |  1 +
+ arch/mips/Kconfig       |  1 +
+ arch/mn10300/Kconfig    |  1 +
+ arch/nios2/Kconfig      |  1 +
+ arch/openrisc/Kconfig   |  1 +
+ arch/parisc/Kconfig     |  1 +
+ arch/powerpc/Kconfig    |  1 +
+ arch/score/Kconfig      |  1 +
+ arch/sh/Kconfig         |  1 +
+ arch/sparc/Kconfig      |  1 +
+ arch/tile/Kconfig       |  1 +
+ arch/unicore32/Kconfig  |  1 +
+ arch/x86/Kconfig        |  1 +
+ arch/x86/um/Kconfig     |  1 +
+ arch/xtensa/Kconfig     |  1 +
+ include/linux/fcntl.h   |  2 +-
+ 27 files changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-index 28bb5a0..eafd0fc 100644
---- a/drivers/perf/Kconfig
-+++ b/drivers/perf/Kconfig
-@@ -85,6 +85,14 @@ config QCOM_L3_PMU
- 	   Adds the L3 cache PMU into the perf events subsystem for
- 	   monitoring L3 cache events.
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 76c0b54443b1..ee079244dc3c 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -264,6 +264,21 @@ config ARCH_THREAD_STACK_ALLOCATOR
+ config ARCH_WANTS_DYNAMIC_TASK_STRUCT
+ 	bool
  
-+config THUNDERX2_PMU
-+        bool "Cavium ThunderX2 SoC PMU UNCORE"
-+        depends on ARCH_THUNDER2 && PERF_EVENTS && ACPI
++config ARCH_32BIT_OFF_T
++	bool
++	depends on !64BIT
 +	help
-+	  Provides support for ThunderX2 UNCORE events.
-+	  The SoC has PMU support in its L3 cache controller (L3C) and
-+	  in the DDR4 Memory Controller (DMC).
-+
- config XGENE_PMU
-         depends on ARCH_XGENE
-         bool "APM X-Gene SoC PMU"
-diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
-index b3902bd..909f27f 100644
---- a/drivers/perf/Makefile
-+++ b/drivers/perf/Makefile
-@@ -7,5 +7,6 @@ obj-$(CONFIG_ARM_PMU_ACPI) += arm_pmu_acpi.o
- obj-$(CONFIG_HISI_PMU) += hisilicon/
- obj-$(CONFIG_QCOM_L2_PMU)	+= qcom_l2_pmu.o
- obj-$(CONFIG_QCOM_L3_PMU) += qcom_l3_pmu.o
-+obj-$(CONFIG_THUNDERX2_PMU) += thunderx2_pmu.o
- obj-$(CONFIG_XGENE_PMU) += xgene_pmu.o
- obj-$(CONFIG_ARM_SPE_PMU) += arm_spe_pmu.o
-diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
-new file mode 100644
-index 0000000..0401443
---- /dev/null
-+++ b/drivers/perf/thunderx2_pmu.c
-@@ -0,0 +1,965 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * CAVIUM THUNDERX2 SoC PMU UNCORE
-+ *
-+ * Copyright (C) 2018 Cavium Inc.
-+ * Author: Ganapatrao Kulkarni <gkulkarni@cavium.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/arm-smccc.h>
-+#include <linux/cpuhotplug.h>
-+#include <linux/perf_event.h>
-+#include <linux/platform_device.h>
-+
-+/* L3c and DMC has 16 and 8 channels per socket respectively.
-+ * Each Channel supports UNCORE PMU device and consists of
-+ * 4 independent programmable counters. Counters are 32 bit
-+ * and does not support overflow interrupt, they needs to be
-+ * sampled before overflow(i.e, at every 2 seconds).
-+ */
-+
-+#define UNCORE_MAX_COUNTERS		4
-+#define UNCORE_L3_MAX_TILES		16
-+#define UNCORE_DMC_MAX_CHANNELS		8
-+
-+#define UNCORE_HRTIMER_INTERVAL		(2 * NSEC_PER_SEC)
-+#define GET_EVENTID(ev)			((ev->hw.config) & 0x1ff)
-+#define GET_COUNTERID(ev)		((ev->hw.idx) & 0xf)
-+#define GET_CHANNELID(pmu_uncore)	(pmu_uncore->channel)
-+#define DMC_EVENT_CFG(idx, val)		((val) << (((idx) * 8) + 1))
-+
-+#define DMC_COUNTER_CTL			0x234
-+#define DMC_COUNTER_DATA		0x240
-+#define L3C_COUNTER_CTL			0xA8
-+#define L3C_COUNTER_DATA		0xAC
-+
-+#define THUNDERX2_SMC_CALL_ID		0xC200FF00
-+#define THUNDERX2_SMC_SET_CHANNEL	0xB010
-+
-+enum thunderx2_uncore_l3_events {
-+	L3_EVENT_NONE,
-+	L3_EVENT_NBU_CANCEL,
-+	L3_EVENT_DIB_RETRY,
-+	L3_EVENT_DOB_RETRY,
-+	L3_EVENT_DIB_CREDIT_RETRY,
-+	L3_EVENT_DOB_CREDIT_RETRY,
-+	L3_EVENT_FORCE_RETRY,
-+	L3_EVENT_IDX_CONFLICT_RETRY,
-+	L3_EVENT_EVICT_CONFLICT_RETRY,
-+	L3_EVENT_BANK_CONFLICT_RETRY,
-+	L3_EVENT_FILL_ENTRY_RETRY,
-+	L3_EVENT_EVICT_NOT_READY_RETRY,
-+	L3_EVENT_L3_RETRY,
-+	L3_EVENT_READ_REQ,
-+	L3_EVENT_WRITE_BACK_REQ,
-+	L3_EVENT_INVALIDATE_NWRITE_REQ,
-+	L3_EVENT_INV_REQ,
-+	L3_EVENT_SELF_REQ,
-+	L3_EVENT_REQ,
-+	L3_EVENT_EVICT_REQ,
-+	L3_EVENT_INVALIDATE_NWRITE_HIT,
-+	L3_EVENT_INVALIDATE_HIT,
-+	L3_EVENT_SELF_HIT,
-+	L3_EVENT_READ_HIT,
-+	L3_EVENT_MAX,
-+};
-+
-+enum thunderx2_uncore_dmc_events {
-+	DMC_EVENT_NONE,
-+	DMC_EVENT_COUNT_CYCLES,
-+	DMC_EVENT_RES2,
-+	DMC_EVENT_RES3,
-+	DMC_EVENT_RES4,
-+	DMC_EVENT_RES5,
-+	DMC_EVENT_RES6,
-+	DMC_EVENT_RES7,
-+	DMC_EVENT_RES8,
-+	DMC_EVENT_READ_64B_TXNS,
-+	DMC_EVENT_READ_BELOW_64B_TXNS,
-+	DMC_EVENT_WRITE_TXNS,
-+	DMC_EVENT_TXN_CYCLES,
-+	DMC_EVENT_DATA_TRANSFERS,
-+	DMC_EVENT_CANCELLED_READ_TXNS,
-+	DMC_EVENT_CONSUMED_READ_TXNS,
-+	DMC_EVENT_MAX,
-+};
-+
-+enum thunderx2_uncore_type {
-+	PMU_TYPE_L3C,
-+	PMU_TYPE_DMC,
-+	PMU_TYPE_INVALID,
-+};
-+
-+/*
-+ * pmu on each socket has 2 uncore devices(dmc and l3),
-+ * each uncore device has up to 16 channels, each channel can sample
-+ * events independently with counters up to 4.
-+ *
-+ * struct thunderx2_pmu_uncore_channel created per channel.
-+ * struct thunderx2_pmu_uncore_dev per uncore device.
-+ */
-+struct thunderx2_pmu_uncore_channel {
-+	struct pmu pmu;
-+	struct hlist_node	node;
-+	struct thunderx2_pmu_uncore_dev *uncore_dev;
-+	int channel;
-+	int cpu;
-+	DECLARE_BITMAP(active_counters, UNCORE_MAX_COUNTERS);
-+	struct perf_event *events[UNCORE_MAX_COUNTERS];
-+	struct hrtimer hrtimer;
-+	/* to sync counter alloc/release */
-+	raw_spinlock_t lock;
-+};
-+
-+struct thunderx2_pmu_uncore_dev {
-+	char *name;
-+	struct device *dev;
-+	enum thunderx2_uncore_type type;
-+	void __iomem *base;
-+	int node;
-+	u32    max_counters;
-+	u32    max_channels;
-+	u32    max_events;
-+	u64 hrtimer_interval;
-+	/* this lock synchronizes across channels */
-+	raw_spinlock_t lock;
-+	const struct attribute_group **attr_groups;
-+	void	(*init_cntr_base)(struct perf_event *event,
-+			struct thunderx2_pmu_uncore_dev *uncore_dev);
-+	void	(*select_channel)(struct perf_event *event);
-+	void	(*stop_event)(struct perf_event *event);
-+	void	(*start_event)(struct perf_event *event, int flags);
-+};
-+
-+static inline struct thunderx2_pmu_uncore_channel *
-+pmu_to_thunderx2_pmu_uncore(struct pmu *pmu)
-+{
-+	return container_of(pmu, struct thunderx2_pmu_uncore_channel, pmu);
-+}
-+
-+/*
-+ * sysfs format attributes
-+ */
-+static ssize_t thunderx2_pmu_format_show(struct device *dev,
-+				     struct device_attribute *attr, char *buf)
-+{
-+	struct dev_ext_attribute *eattr;
-+
-+	eattr = container_of(attr, struct dev_ext_attribute, attr);
-+	return sprintf(buf, "%s\n", (char *) eattr->var);
-+}
-+
-+#define FORMAT_ATTR(_name, _config) \
-+	(&((struct dev_ext_attribute[]) { \
-+	   { \
-+	   .attr = __ATTR(_name, 0444, thunderx2_pmu_format_show, NULL), \
-+	   .var = (void *) _config, \
-+	   } \
-+	})[0].attr.attr)
-+
-+static struct attribute *l3c_pmu_format_attrs[] = {
-+	FORMAT_ATTR(event,	"config:0-4"),
-+	NULL,
-+};
-+
-+static struct attribute *dmc_pmu_format_attrs[] = {
-+	FORMAT_ATTR(event,	"config:0-4"),
-+	NULL,
-+};
-+
-+static const struct attribute_group l3c_pmu_format_attr_group = {
-+	.name = "format",
-+	.attrs = l3c_pmu_format_attrs,
-+};
-+
-+static const struct attribute_group dmc_pmu_format_attr_group = {
-+	.name = "format",
-+	.attrs = dmc_pmu_format_attrs,
-+};
-+
-+/*
-+ * sysfs event attributes
-+ */
-+static ssize_t thunderx2_pmu_event_show(struct device *dev,
-+				    struct device_attribute *attr, char *buf)
-+{
-+	struct dev_ext_attribute *eattr;
-+
-+	eattr = container_of(attr, struct dev_ext_attribute, attr);
-+	return sprintf(buf, "config=0x%lx\n", (unsigned long) eattr->var);
-+}
-+
-+#define EVENT_ATTR(_name, _config) \
-+	(&((struct dev_ext_attribute[]) { \
-+	   { \
-+	   .attr = __ATTR(_name, 0444, thunderx2_pmu_event_show, NULL), \
-+	   .var = (void *) _config, \
-+	   } \
-+	 })[0].attr.attr)
-+
-+static struct attribute *l3c_pmu_events_attrs[] = {
-+	EVENT_ATTR(nbu_cancel,			L3_EVENT_NBU_CANCEL),
-+	EVENT_ATTR(dib_retry,			L3_EVENT_DIB_RETRY),
-+	EVENT_ATTR(dob_retry,			L3_EVENT_DOB_RETRY),
-+	EVENT_ATTR(dib_credit_retry,		L3_EVENT_DIB_CREDIT_RETRY),
-+	EVENT_ATTR(dob_credit_retry,		L3_EVENT_DOB_CREDIT_RETRY),
-+	EVENT_ATTR(force_retry,			L3_EVENT_FORCE_RETRY),
-+	EVENT_ATTR(idx_conflict_retry,		L3_EVENT_IDX_CONFLICT_RETRY),
-+	EVENT_ATTR(evict_conflict_retry,	L3_EVENT_EVICT_CONFLICT_RETRY),
-+	EVENT_ATTR(bank_conflict_retry,		L3_EVENT_BANK_CONFLICT_RETRY),
-+	EVENT_ATTR(fill_entry_retry,		L3_EVENT_FILL_ENTRY_RETRY),
-+	EVENT_ATTR(evict_not_ready_retry,	L3_EVENT_EVICT_NOT_READY_RETRY),
-+	EVENT_ATTR(l3_retry,			L3_EVENT_L3_RETRY),
-+	EVENT_ATTR(read_request,		L3_EVENT_READ_REQ),
-+	EVENT_ATTR(write_back_request,		L3_EVENT_WRITE_BACK_REQ),
-+	EVENT_ATTR(inv_nwrite_request,		L3_EVENT_INVALIDATE_NWRITE_REQ),
-+	EVENT_ATTR(inv_request,			L3_EVENT_INV_REQ),
-+	EVENT_ATTR(self_request,		L3_EVENT_SELF_REQ),
-+	EVENT_ATTR(request,			L3_EVENT_REQ),
-+	EVENT_ATTR(evict_request,		L3_EVENT_EVICT_REQ),
-+	EVENT_ATTR(inv_nwrite_hit,		L3_EVENT_INVALIDATE_NWRITE_HIT),
-+	EVENT_ATTR(inv_hit,			L3_EVENT_INVALIDATE_HIT),
-+	EVENT_ATTR(self_hit,			L3_EVENT_SELF_HIT),
-+	EVENT_ATTR(read_hit,			L3_EVENT_READ_HIT),
-+	NULL,
-+};
-+
-+static struct attribute *dmc_pmu_events_attrs[] = {
-+	EVENT_ATTR(cnt_cycles,			DMC_EVENT_COUNT_CYCLES),
-+	EVENT_ATTR(read_64b_txns,		DMC_EVENT_READ_64B_TXNS),
-+	EVENT_ATTR(read_below_64b_txns,		DMC_EVENT_READ_BELOW_64B_TXNS),
-+	EVENT_ATTR(write_txns,			DMC_EVENT_WRITE_TXNS),
-+	EVENT_ATTR(txn_cycles,			DMC_EVENT_TXN_CYCLES),
-+	EVENT_ATTR(data_transfers,		DMC_EVENT_DATA_TRANSFERS),
-+	EVENT_ATTR(cancelled_read_txns,		DMC_EVENT_CANCELLED_READ_TXNS),
-+	EVENT_ATTR(consumed_read_txns,		DMC_EVENT_CONSUMED_READ_TXNS),
-+	NULL,
-+};
-+
-+static const struct attribute_group l3c_pmu_events_attr_group = {
-+	.name = "events",
-+	.attrs = l3c_pmu_events_attrs,
-+};
-+
-+static const struct attribute_group dmc_pmu_events_attr_group = {
-+	.name = "events",
-+	.attrs = dmc_pmu_events_attrs,
-+};
-+
-+/*
-+ * sysfs cpumask attributes
-+ */
-+static ssize_t cpumask_show(struct device *dev,
-+				struct device_attribute *attr, char *buf)
-+{
-+	struct cpumask cpu_mask;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore =
-+		pmu_to_thunderx2_pmu_uncore(dev_get_drvdata(dev));
-+
-+	cpumask_clear(&cpu_mask);
-+	cpumask_set_cpu(pmu_uncore->cpu, &cpu_mask);
-+	return cpumap_print_to_pagebuf(true, buf, &cpu_mask);
-+}
-+static DEVICE_ATTR_RO(cpumask);
-+
-+static struct attribute *thunderx2_pmu_cpumask_attrs[] = {
-+	&dev_attr_cpumask.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group pmu_cpumask_attr_group = {
-+	.attrs = thunderx2_pmu_cpumask_attrs,
-+};
-+
-+/*
-+ * Per PMU device attribute groups
-+ */
-+static const struct attribute_group *l3c_pmu_attr_groups[] = {
-+	&l3c_pmu_format_attr_group,
-+	&pmu_cpumask_attr_group,
-+	&l3c_pmu_events_attr_group,
-+	NULL
-+};
-+
-+static const struct attribute_group *dmc_pmu_attr_groups[] = {
-+	&dmc_pmu_format_attr_group,
-+	&pmu_cpumask_attr_group,
-+	&dmc_pmu_events_attr_group,
-+	NULL
-+};
-+
-+static inline u32 reg_readl(unsigned long addr)
-+{
-+	return readl((void __iomem *)addr);
-+}
-+
-+static inline void reg_writel(u32 val, unsigned long addr)
-+{
-+	writel(val, (void __iomem *)addr);
-+}
-+
-+static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
-+{
-+	int counter;
-+
-+	raw_spin_lock(&pmu_uncore->lock);
-+	counter = find_first_zero_bit(pmu_uncore->active_counters,
-+				pmu_uncore->uncore_dev->max_counters);
-+	if (counter == pmu_uncore->uncore_dev->max_counters) {
-+		raw_spin_unlock(&pmu_uncore->lock);
-+		return -ENOSPC;
-+	}
-+	set_bit(counter, pmu_uncore->active_counters);
-+	raw_spin_unlock(&pmu_uncore->lock);
-+	return counter;
-+}
-+
-+static void free_counter(
-+		struct thunderx2_pmu_uncore_channel *pmu_uncore, int counter)
-+{
-+	raw_spin_lock(&pmu_uncore->lock);
-+	clear_bit(counter, pmu_uncore->active_counters);
-+	raw_spin_unlock(&pmu_uncore->lock);
-+}
-+
-+/*
-+ * DMC and L3 counter interface is muxed across all channels.
-+ * hence we need to select the channel before accessing counter
-+ * data/control registers.
-+ *
-+ *  L3 Tile and DMC channel selection is through SMC call
-+ *  SMC call arguments,
-+ *	x0 = THUNDERX2_SMC_CALL_ID	(Vendor SMC call Id)
-+ *	x1 = THUNDERX2_SMC_SET_CHANNEL	(Id to set DMC/L3C channel)
-+ *	x2 = Node id
-+ *	x3 = DMC(1)/L3C(0)
-+ *	x4 = channel Id
-+ */
-+static void uncore_select_channel(struct perf_event *event)
-+{
-+	struct arm_smccc_res res;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore =
-+		pmu_to_thunderx2_pmu_uncore(event->pmu);
-+	struct thunderx2_pmu_uncore_dev *uncore_dev =
-+		pmu_uncore->uncore_dev;
-+
-+	arm_smccc_smc(THUNDERX2_SMC_CALL_ID, THUNDERX2_SMC_SET_CHANNEL,
-+			uncore_dev->node, uncore_dev->type,
-+			pmu_uncore->channel, 0, 0, 0, &res);
-+	if (res.a0) {
-+		dev_err(uncore_dev->dev,
-+			"SMC to Select channel failed for PMU UNCORE[%s]\n",
-+				pmu_uncore->uncore_dev->name);
-+	}
-+}
-+
-+/* early probe for firmware support */
-+static int __init test_uncore_select_channel_early(struct device *dev)
-+{
-+	struct arm_smccc_res res;
-+
-+	arm_smccc_smc(THUNDERX2_SMC_CALL_ID, THUNDERX2_SMC_SET_CHANNEL,
-+			dev_to_node(dev), 0, 0, 0, 0, 0, &res);
-+	if (res.a0) {
-+		dev_err(dev, "No Firmware support for PMU UNCORE(%d)\n",
-+				dev_to_node(dev));
-+		return -ENODEV;
-+	}
-+	return 0;
-+}
-+
-+static void uncore_start_event_l3c(struct perf_event *event, int flags)
-+{
-+	u32 val;
-+	struct hw_perf_event *hwc = &event->hw;
-+
-+	/* event id encoded in bits [07:03] */
-+	val = GET_EVENTID(event) << 3;
-+	reg_writel(val, hwc->config_base);
-+	local64_set(&hwc->prev_count, 0);
-+	reg_writel(0, hwc->event_base);
-+}
-+
-+static void uncore_stop_event_l3c(struct perf_event *event)
-+{
-+	reg_writel(0, event->hw.config_base);
-+}
-+
-+static void uncore_start_event_dmc(struct perf_event *event, int flags)
-+{
-+	u32 val;
-+	struct hw_perf_event *hwc = &event->hw;
-+	int idx = GET_COUNTERID(event);
-+	int event_type = GET_EVENTID(event);
-+
-+	/* enable and start counters.
-+	 * 8 bits for each counter, bits[05:01] of a counter to set event type.
-+	 */
-+	val = reg_readl(hwc->config_base);
-+	val &= ~DMC_EVENT_CFG(idx, 0x1f);
-+	val |= DMC_EVENT_CFG(idx, event_type);
-+	reg_writel(val, hwc->config_base);
-+	local64_set(&hwc->prev_count, 0);
-+	reg_writel(0, hwc->event_base);
-+}
-+
-+static void uncore_stop_event_dmc(struct perf_event *event)
-+{
-+	u32 val;
-+	struct hw_perf_event *hwc = &event->hw;
-+	int idx = GET_COUNTERID(event);
-+
-+	/* clear event type(bits[05:01]) to stop counter */
-+	val = reg_readl(hwc->config_base);
-+	val &= ~DMC_EVENT_CFG(idx, 0x1f);
-+	reg_writel(val, hwc->config_base);
-+}
-+
-+static void init_cntr_base_l3c(struct perf_event *event,
-+		struct thunderx2_pmu_uncore_dev *uncore_dev)
-+{
-+	struct hw_perf_event *hwc = &event->hw;
-+
-+	/* counter ctrl/data reg offset at 8 */
-+	hwc->config_base = (unsigned long)uncore_dev->base
-+		+ L3C_COUNTER_CTL + (8 * GET_COUNTERID(event));
-+	hwc->event_base =  (unsigned long)uncore_dev->base
-+		+ L3C_COUNTER_DATA + (8 * GET_COUNTERID(event));
-+}
-+
-+static void init_cntr_base_dmc(struct perf_event *event,
-+		struct thunderx2_pmu_uncore_dev *uncore_dev)
-+{
-+	struct hw_perf_event *hwc = &event->hw;
-+
-+	hwc->config_base = (unsigned long)uncore_dev->base
-+		+ DMC_COUNTER_CTL;
-+	/* counter data reg offset at 0xc */
-+	hwc->event_base = (unsigned long)uncore_dev->base
-+		+ DMC_COUNTER_DATA + (0xc * GET_COUNTERID(event));
-+}
-+
-+static void thunderx2_uncore_update(struct perf_event *event)
-+{
-+	s64 prev, new = 0;
-+	u64 delta;
-+	struct hw_perf_event *hwc = &event->hw;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+	enum thunderx2_uncore_type type;
-+
-+	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
-+	type = pmu_uncore->uncore_dev->type;
-+
-+	pmu_uncore->uncore_dev->select_channel(event);
-+
-+	new = reg_readl(hwc->event_base);
-+	prev = local64_xchg(&hwc->prev_count, new);
-+
-+	/* handles rollover of 32 bit counter */
-+	delta = (u32)(((1UL << 32) - prev) + new);
-+	local64_add(delta, &event->count);
-+}
-+
-+enum thunderx2_uncore_type get_uncore_device_type(struct acpi_device *adev)
-+{
-+	int i = 0;
-+	struct acpi_uncore_device {
-+		__u8 id[ACPI_ID_LEN];
-+		enum thunderx2_uncore_type type;
-+	} devices[] = {
-+		{"CAV901D", PMU_TYPE_L3C},
-+		{"CAV901F", PMU_TYPE_DMC},
-+		{"", PMU_TYPE_INVALID},
-+	};
-+
-+	while (devices[i].type != PMU_TYPE_INVALID) {
-+		if (!strcmp(acpi_device_hid(adev), devices[i].id))
-+			return devices[i].type;
-+		i++;
-+	}
-+	return PMU_TYPE_INVALID;
-+}
-+
-+/*
-+ * We must NOT create groups containing events from multiple hardware PMUs,
-+ * although mixing different software and hardware PMUs is allowed.
-+ */
-+static bool thunderx2_uncore_validate_event_group(struct perf_event *event)
-+{
-+	struct pmu *pmu = event->pmu;
-+	struct perf_event *leader = event->group_leader;
-+	struct perf_event *sibling;
-+	int counters = 0;
-+
-+	if (leader->pmu != event->pmu && !is_software_event(leader))
-+		return false;
-+
-+	for_each_sibling_event(sibling, event->group_leader) {
-+		if (is_software_event(sibling))
-+			continue;
-+		if (sibling->pmu != pmu)
-+			return false;
-+		counters++;
-+	}
-+
-+	/*
-+	 * If the group requires more counters than the HW has,
-+	 * it cannot ever be scheduled.
-+	 */
-+	return counters < UNCORE_MAX_COUNTERS;
-+}
-+
-+static int thunderx2_uncore_event_init(struct perf_event *event)
-+{
-+	struct hw_perf_event *hwc = &event->hw;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+
-+	/* Test the event attr type check for PMU enumeration */
-+	if (event->attr.type != event->pmu->type)
-+		return -ENOENT;
-+
-+	/*
-+	 * SOC PMU counters are shared across all cores.
-+	 * Therefore, it does not support per-process mode.
-+	 * Also, it does not support event sampling mode.
-+	 */
-+	if (is_sampling_event(event) || event->attach_state & PERF_ATTACH_TASK)
-+		return -EINVAL;
-+
-+	/* SOC counters do not have usr/os/guest/host bits */
-+	if (event->attr.exclude_user || event->attr.exclude_kernel ||
-+	    event->attr.exclude_host || event->attr.exclude_guest)
-+		return -EINVAL;
-+
-+	if (event->cpu < 0)
-+		return -EINVAL;
-+
-+	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
-+	event->cpu = pmu_uncore->cpu;
-+
-+	if (event->attr.config >= pmu_uncore->uncore_dev->max_events)
-+		return -EINVAL;
-+
-+	/* store event id */
-+	hwc->config = event->attr.config;
-+
-+	/* Validate the group */
-+	if (!thunderx2_uncore_validate_event_group(event))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static void thunderx2_uncore_start(struct perf_event *event, int flags)
-+{
-+	struct hw_perf_event *hwc = &event->hw;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+	struct thunderx2_pmu_uncore_dev *uncore_dev;
-+	unsigned long irqflags;
-+
-+	hwc->state = 0;
-+	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
-+	uncore_dev = pmu_uncore->uncore_dev;
-+
-+	raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
-+	uncore_dev->select_channel(event);
-+	uncore_dev->start_event(event, flags);
-+	raw_spin_unlock_irqrestore(&uncore_dev->lock, irqflags);
-+
-+	perf_event_update_userpage(event);
-+
-+	if (!find_last_bit(pmu_uncore->active_counters,
-+				pmu_uncore->uncore_dev->max_counters)) {
-+		hrtimer_start(&pmu_uncore->hrtimer,
-+			ns_to_ktime(uncore_dev->hrtimer_interval),
-+			HRTIMER_MODE_REL_PINNED);
-+	}
-+}
-+
-+static void thunderx2_uncore_stop(struct perf_event *event, int flags)
-+{
-+	struct hw_perf_event *hwc = &event->hw;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+	struct thunderx2_pmu_uncore_dev *uncore_dev;
-+	unsigned long irqflags;
-+
-+	if (hwc->state & PERF_HES_UPTODATE)
-+		return;
-+
-+	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
-+	uncore_dev = pmu_uncore->uncore_dev;
-+
-+	raw_spin_lock_irqsave(&uncore_dev->lock, irqflags);
-+
-+	uncore_dev->select_channel(event);
-+	uncore_dev->stop_event(event);
-+
-+	WARN_ON_ONCE(hwc->state & PERF_HES_STOPPED);
-+	hwc->state |= PERF_HES_STOPPED;
-+	if ((flags & PERF_EF_UPDATE) && !(hwc->state & PERF_HES_UPTODATE)) {
-+		thunderx2_uncore_update(event);
-+		hwc->state |= PERF_HES_UPTODATE;
-+	}
-+	raw_spin_unlock_irqrestore(&uncore_dev->lock, irqflags);
-+}
-+
-+static int thunderx2_uncore_add(struct perf_event *event, int flags)
-+{
-+	struct hw_perf_event *hwc = &event->hw;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+	struct thunderx2_pmu_uncore_dev *uncore_dev;
-+
-+	pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
-+	uncore_dev = pmu_uncore->uncore_dev;
-+
-+	/* Allocate a free counter */
-+	hwc->idx  = alloc_counter(pmu_uncore);
-+	if (hwc->idx < 0)
-+		return -EAGAIN;
-+
-+	pmu_uncore->events[hwc->idx] = event;
-+	/* set counter control and data registers base address */
-+	uncore_dev->init_cntr_base(event, uncore_dev);
-+
-+	hwc->state = PERF_HES_UPTODATE | PERF_HES_STOPPED;
-+	if (flags & PERF_EF_START)
-+		thunderx2_uncore_start(event, flags);
-+
-+	return 0;
-+}
-+
-+static void thunderx2_uncore_del(struct perf_event *event, int flags)
-+{
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore =
-+			pmu_to_thunderx2_pmu_uncore(event->pmu);
-+	struct hw_perf_event *hwc = &event->hw;
-+
-+	thunderx2_uncore_stop(event, PERF_EF_UPDATE);
-+
-+	/* clear the assigned counter */
-+	free_counter(pmu_uncore, GET_COUNTERID(event));
-+
-+	perf_event_update_userpage(event);
-+	pmu_uncore->events[hwc->idx] = NULL;
-+	hwc->idx = -1;
-+}
-+
-+static void thunderx2_uncore_read(struct perf_event *event)
-+{
-+	unsigned long irqflags;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore =
-+			pmu_to_thunderx2_pmu_uncore(event->pmu);
-+
-+	raw_spin_lock_irqsave(&pmu_uncore->uncore_dev->lock, irqflags);
-+	thunderx2_uncore_update(event);
-+	raw_spin_unlock_irqrestore(&pmu_uncore->uncore_dev->lock, irqflags);
-+}
-+
-+static enum hrtimer_restart thunderx2_uncore_hrtimer_callback(
-+		struct hrtimer *hrt)
-+{
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+	unsigned long irqflags;
-+	int idx;
-+	bool restart_timer = false;
-+
-+	pmu_uncore = container_of(hrt, struct thunderx2_pmu_uncore_channel,
-+			hrtimer);
-+
-+	raw_spin_lock_irqsave(&pmu_uncore->uncore_dev->lock, irqflags);
-+	for_each_set_bit(idx, pmu_uncore->active_counters,
-+			pmu_uncore->uncore_dev->max_counters) {
-+		struct perf_event *event = pmu_uncore->events[idx];
-+
-+		thunderx2_uncore_update(event);
-+		restart_timer = true;
-+	}
-+	raw_spin_unlock_irqrestore(&pmu_uncore->uncore_dev->lock, irqflags);
-+
-+	if (restart_timer)
-+		hrtimer_forward_now(hrt,
-+			ns_to_ktime(
-+				pmu_uncore->uncore_dev->hrtimer_interval));
-+
-+	return restart_timer ? HRTIMER_RESTART : HRTIMER_NORESTART;
-+}
-+
-+static int thunderx2_pmu_uncore_register(
-+		struct thunderx2_pmu_uncore_channel *pmu_uncore)
-+{
-+	struct device *dev = pmu_uncore->uncore_dev->dev;
-+	char *name = pmu_uncore->uncore_dev->name;
-+	int channel = pmu_uncore->channel;
-+
-+	/* Perf event registration */
-+	pmu_uncore->pmu = (struct pmu) {
-+		.attr_groups	= pmu_uncore->uncore_dev->attr_groups,
-+		.task_ctx_nr	= perf_invalid_context,
-+		.event_init	= thunderx2_uncore_event_init,
-+		.add		= thunderx2_uncore_add,
-+		.del		= thunderx2_uncore_del,
-+		.start		= thunderx2_uncore_start,
-+		.stop		= thunderx2_uncore_stop,
-+		.read		= thunderx2_uncore_read,
-+	};
-+
-+	pmu_uncore->pmu.name = devm_kasprintf(dev, GFP_KERNEL,
-+			"%s_%d", name, channel);
-+
-+	return perf_pmu_register(&pmu_uncore->pmu, pmu_uncore->pmu.name, -1);
-+}
-+
-+static int thunderx2_pmu_uncore_add(struct thunderx2_pmu_uncore_dev *uncore_dev,
-+		int channel)
-+{
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+	int ret, cpu;
-+
-+	pmu_uncore = devm_kzalloc(uncore_dev->dev, sizeof(*pmu_uncore),
-+			GFP_KERNEL);
-+	if (!pmu_uncore)
-+		return -ENOMEM;
-+
-+	cpu = cpumask_any_and(cpumask_of_node(uncore_dev->node),
-+			cpu_online_mask);
-+	if (cpu >= nr_cpu_ids)
-+		return -EINVAL;
-+
-+	pmu_uncore->cpu = cpu;
-+	pmu_uncore->channel = channel;
-+	pmu_uncore->uncore_dev = uncore_dev;
-+
-+	hrtimer_init(&pmu_uncore->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+	pmu_uncore->hrtimer.function = thunderx2_uncore_hrtimer_callback;
-+
-+	ret = thunderx2_pmu_uncore_register(pmu_uncore);
-+	if (ret) {
-+		dev_err(uncore_dev->dev, "%s PMU: Failed to init driver\n",
-+				uncore_dev->name);
-+		return -ENODEV;
-+	}
-+
-+	/* register hotplug callback for the pmu */
-+	ret = cpuhp_state_add_instance(
-+			CPUHP_AP_PERF_ARM_THUNDERX2_UNCORE_ONLINE,
-+			&pmu_uncore->node);
-+	if (ret) {
-+		dev_err(uncore_dev->dev, "Error %d registering hotplug", ret);
-+		return ret;
-+	}
-+
-+	dev_dbg(uncore_dev->dev, "%s PMU UNCORE registered\n",
-+			pmu_uncore->pmu.name);
-+	return ret;
-+}
-+
-+static struct thunderx2_pmu_uncore_dev *init_pmu_uncore_dev(
-+		struct device *dev, acpi_handle handle,
-+		struct acpi_device *adev, u32 type)
-+{
-+	struct thunderx2_pmu_uncore_dev *uncore_dev;
-+	void __iomem *base;
-+	struct resource res;
-+	struct resource_entry *rentry;
-+	struct list_head list;
-+	int ret;
-+
-+	INIT_LIST_HEAD(&list);
-+	ret = acpi_dev_get_resources(adev, &list, NULL, NULL);
-+	if (ret <= 0) {
-+		dev_err(dev, "failed to parse _CRS method, error %d\n", ret);
-+		return NULL;
-+	}
-+
-+	list_for_each_entry(rentry, &list, node) {
-+		if (resource_type(rentry->res) == IORESOURCE_MEM) {
-+			res = *rentry->res;
-+			break;
-+		}
-+	}
-+
-+	if (!rentry->res)
-+		return NULL;
-+
-+	acpi_dev_free_resource_list(&list);
-+	base = devm_ioremap_resource(dev, &res);
-+	if (IS_ERR(base)) {
-+		dev_err(dev, "PMU type %d: Fail to map resource\n", type);
-+		return NULL;
-+	}
-+
-+	uncore_dev = devm_kzalloc(dev, sizeof(*uncore_dev), GFP_KERNEL);
-+	if (!uncore_dev)
-+		return NULL;
-+
-+	uncore_dev->dev = dev;
-+	uncore_dev->type = type;
-+	uncore_dev->base = base;
-+	uncore_dev->node = dev_to_node(dev);
-+
-+	raw_spin_lock_init(&uncore_dev->lock);
-+
-+	switch (uncore_dev->type) {
-+	case PMU_TYPE_L3C:
-+		uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
-+		uncore_dev->max_channels = UNCORE_L3_MAX_TILES;
-+		uncore_dev->max_events = L3_EVENT_MAX;
-+		uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
-+		uncore_dev->attr_groups = l3c_pmu_attr_groups;
-+		uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
-+				"uncore_l3c_%d", uncore_dev->node);
-+		uncore_dev->init_cntr_base = init_cntr_base_l3c;
-+		uncore_dev->start_event = uncore_start_event_l3c;
-+		uncore_dev->stop_event = uncore_stop_event_l3c;
-+		uncore_dev->select_channel = uncore_select_channel;
-+		break;
-+	case PMU_TYPE_DMC:
-+		uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
-+		uncore_dev->max_channels = UNCORE_DMC_MAX_CHANNELS;
-+		uncore_dev->max_events = DMC_EVENT_MAX;
-+		uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
-+		uncore_dev->attr_groups = dmc_pmu_attr_groups;
-+		uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
-+				"uncore_dmc_%d", uncore_dev->node);
-+		uncore_dev->init_cntr_base = init_cntr_base_dmc;
-+		uncore_dev->start_event = uncore_start_event_dmc;
-+		uncore_dev->stop_event = uncore_stop_event_dmc;
-+		uncore_dev->select_channel = uncore_select_channel;
-+		break;
-+	case PMU_TYPE_INVALID:
-+		devm_kfree(dev, uncore_dev);
-+		uncore_dev = NULL;
-+		break;
-+	}
-+
-+	return uncore_dev;
-+}
-+
-+static acpi_status thunderx2_pmu_uncore_dev_add(acpi_handle handle, u32 level,
-+				    void *data, void **return_value)
-+{
-+	struct thunderx2_pmu_uncore_dev *uncore_dev;
-+	struct acpi_device *adev;
-+	enum thunderx2_uncore_type type;
-+	int channel;
-+
-+	if (acpi_bus_get_device(handle, &adev))
-+		return AE_OK;
-+	if (acpi_bus_get_status(adev) || !adev->status.present)
-+		return AE_OK;
-+
-+	type = get_uncore_device_type(adev);
-+	if (type == PMU_TYPE_INVALID)
-+		return AE_OK;
-+
-+	uncore_dev = init_pmu_uncore_dev((struct device *)data, handle,
-+			adev, type);
-+
-+	if (!uncore_dev)
-+		return AE_ERROR;
-+
-+	for (channel = 0; channel < uncore_dev->max_channels; channel++) {
-+		if (thunderx2_pmu_uncore_add(uncore_dev, channel)) {
-+			/* Can't add the PMU device, abort */
-+			return AE_ERROR;
-+		}
-+	}
-+	return AE_OK;
-+}
-+
-+static int thunderx2_uncore_pmu_offline_cpu(unsigned int cpu,
-+		struct hlist_node *node)
-+{
-+	int new_cpu;
-+	struct thunderx2_pmu_uncore_channel *pmu_uncore;
-+
-+	pmu_uncore = hlist_entry_safe(node,
-+			struct thunderx2_pmu_uncore_channel, node);
-+	if (cpu != pmu_uncore->cpu)
-+		return 0;
-+
-+	new_cpu = cpumask_any_and(
-+			cpumask_of_node(pmu_uncore->uncore_dev->node),
-+			cpu_online_mask);
-+	if (new_cpu >= nr_cpu_ids)
-+		return 0;
-+
-+	pmu_uncore->cpu = new_cpu;
-+	perf_pmu_migrate_context(&pmu_uncore->pmu, cpu, new_cpu);
-+	return 0;
-+}
-+
-+static const struct acpi_device_id thunderx2_uncore_acpi_match[] = {
-+	{"CAV901C", 0},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(acpi, thunderx2_uncore_acpi_match);
-+
-+static int thunderx2_uncore_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	acpi_handle handle;
-+	acpi_status status;
-+
-+	set_dev_node(dev, acpi_get_node(ACPI_HANDLE(dev)));
-+
-+	/* Make sure firmware supports DMC/L3C set channel smc call */
-+	if (test_uncore_select_channel_early(dev))
-+		return -ENODEV;
-+
-+	if (!has_acpi_companion(dev))
-+		return -ENODEV;
-+
-+	handle = ACPI_HANDLE(dev);
-+	if (!handle)
-+		return -EINVAL;
-+
-+	/* Walk through the tree for all PMU UNCORE devices */
-+	status = acpi_walk_namespace(ACPI_TYPE_DEVICE, handle, 1,
-+				     thunderx2_pmu_uncore_dev_add,
-+				     NULL, dev, NULL);
-+	if (ACPI_FAILURE(status)) {
-+		dev_err(dev, "failed to probe PMU devices\n");
-+		return_ACPI_STATUS(status);
-+	}
-+
-+	dev_info(dev, "node%d: pmu uncore registered\n", dev_to_node(dev));
-+	return 0;
-+}
-+
-+static struct platform_driver thunderx2_uncore_driver = {
-+	.probe = thunderx2_uncore_probe,
-+	.driver = {
-+		.name		= "thunderx2-uncore-pmu",
-+		.acpi_match_table = ACPI_PTR(thunderx2_uncore_acpi_match),
-+	},
-+};
-+
-+static int __init register_thunderx2_uncore_driver(void)
-+{
-+	int ret;
-+
-+	ret = cpuhp_setup_state_multi(CPUHP_AP_PERF_ARM_THUNDERX2_UNCORE_ONLINE,
-+				      "perf/tx2/uncore:online",
-+				      NULL,
-+				      thunderx2_uncore_pmu_offline_cpu);
-+	if (ret)
-+		return ret;
-+
-+	return platform_driver_register(&thunderx2_uncore_driver);
-+
-+}
-+device_initcall(register_thunderx2_uncore_driver);
-diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-index 8796ba3..eb0c896 100644
---- a/include/linux/cpuhotplug.h
-+++ b/include/linux/cpuhotplug.h
-@@ -161,6 +161,7 @@ enum cpuhp_state {
- 	CPUHP_AP_PERF_ARM_L2X0_ONLINE,
- 	CPUHP_AP_PERF_ARM_QCOM_L2_ONLINE,
- 	CPUHP_AP_PERF_ARM_QCOM_L3_ONLINE,
-+	CPUHP_AP_PERF_ARM_THUNDERX2_UNCORE_ONLINE,
- 	CPUHP_AP_PERF_POWERPC_NEST_IMC_ONLINE,
- 	CPUHP_AP_PERF_POWERPC_CORE_IMC_ONLINE,
- 	CPUHP_AP_PERF_POWERPC_THREAD_IMC_ONLINE,
++	  All new 32-bit architectures should have 64-bit off_t type on
++	  userspace side which corresponds to the loff_t kernel type. This
++	  is the requirement for modern ABIs. Some existing architectures
++	  already have 32-bit off_t. This option is enabled for all such
++	  architectures explicitly. Namely: arc, arm, blackfin, cris, frv,
++	  h8300, hexagon, m32r, m68k, metag, microblaze, mips32, mn10300,
++	  nios2, openrisc, parisc32, powerpc32, score, sh, sparc, tile32,
++	  unicore32, x86_32 and xtensa. This is the complete list. Any
++	  new 32-bit architecture should declare 64-bit off_t type on user
++	  side and so should not enable this option.
++
+ config HAVE_REGS_AND_STACK_ACCESS_API
+ 	bool
+ 	help
+diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+index d76bf4a83740..9b48c82a12f6 100644
+--- a/arch/arc/Kconfig
++++ b/arch/arc/Kconfig
+@@ -11,6 +11,7 @@ config ARC
+ 	select ARC_TIMERS
+ 	select ARCH_HAS_SG_CHAIN
+ 	select ARCH_SUPPORTS_ATOMIC_RMW if ARC_HAS_LLSC
++	select ARCH_32BIT_OFF_T
+ 	select BUILDTIME_EXTABLE_SORT
+ 	select CLONE_BACKWARDS
+ 	select COMMON_CLK
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 7e3d53575486..825a611a9d86 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -2,6 +2,7 @@
+ config ARM
+ 	bool
+ 	default y
++	select ARCH_32BIT_OFF_T
+ 	select ARCH_CLOCKSOURCE_DATA
+ 	select ARCH_DISCARD_MEMBLOCK if !HAVE_ARCH_PFN_VALID && !KEXEC
+ 	select ARCH_HAS_DEBUG_VIRTUAL if MMU
+diff --git a/arch/blackfin/Kconfig b/arch/blackfin/Kconfig
+index d9c2866ba618..5a99c1ccad67 100644
+--- a/arch/blackfin/Kconfig
++++ b/arch/blackfin/Kconfig
+@@ -13,6 +13,7 @@ config RWSEM_XCHGADD_ALGORITHM
+ 
+ config BLACKFIN
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select HAVE_ARCH_KGDB
+ 	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_DYNAMIC_FTRACE
+diff --git a/arch/cris/Kconfig b/arch/cris/Kconfig
+index cd5a0865c97f..db7ea0a9e805 100644
+--- a/arch/cris/Kconfig
++++ b/arch/cris/Kconfig
+@@ -54,6 +54,7 @@ config LOCKDEP_SUPPORT
+ config CRIS
+ 	bool
+ 	default y
++	select ARCH_32BIT_OFF_T
+ 	select HAVE_IDE
+ 	select GENERIC_ATOMIC64
+ 	select HAVE_UID16
+diff --git a/arch/frv/Kconfig b/arch/frv/Kconfig
+index af369b05fed5..9dc671f8f4a6 100644
+--- a/arch/frv/Kconfig
++++ b/arch/frv/Kconfig
+@@ -2,6 +2,7 @@
+ config FRV
+ 	bool
+ 	default y
++	select ARCH_32BIT_OFF_T
+ 	select HAVE_IDE
+ 	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_PERF_EVENTS
+diff --git a/arch/h8300/Kconfig b/arch/h8300/Kconfig
+index 091d6d04b5e5..6fc8a034ddb6 100644
+--- a/arch/h8300/Kconfig
++++ b/arch/h8300/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config H8300
+         def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select GENERIC_ATOMIC64
+ 	select HAVE_UID16
+ 	select VIRT_TO_BUS
+diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
+index 76d2f20d525e..f6e748178292 100644
+--- a/arch/hexagon/Kconfig
++++ b/arch/hexagon/Kconfig
+@@ -4,6 +4,7 @@ comment "Linux Kernel Configuration for Hexagon"
+ 
+ config HEXAGON
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select HAVE_OPROFILE
+ 	# Other pending projects/to-do items.
+ 	# select HAVE_REGS_AND_STACK_ACCESS_API
+diff --git a/arch/m32r/Kconfig b/arch/m32r/Kconfig
+index dd84ee194579..8d9c2244b144 100644
+--- a/arch/m32r/Kconfig
++++ b/arch/m32r/Kconfig
+@@ -2,6 +2,7 @@
+ config M32R
+ 	bool
+ 	default y
++	select ARCH_32BIT_OFF_T
+ 	select HAVE_IDE
+ 	select HAVE_OPROFILE
+ 	select INIT_ALL_POSSIBLE
+diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+index 785612b576f7..8aafd39b5142 100644
+--- a/arch/m68k/Kconfig
++++ b/arch/m68k/Kconfig
+@@ -2,6 +2,7 @@
+ config M68K
+ 	bool
+ 	default y
++	select ARCH_32BIT_OFF_T
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT if ISA
+ 	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
+ 	select HAVE_IDE
+diff --git a/arch/metag/Kconfig b/arch/metag/Kconfig
+index c7b62a339539..8bc07fa5982d 100644
+--- a/arch/metag/Kconfig
++++ b/arch/metag/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config METAG
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select EMBEDDED
+ 	select GENERIC_ATOMIC64
+ 	select GENERIC_CLOCKEVENTS
+diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
+index 3817a3e2146c..48270951c3aa 100644
+--- a/arch/microblaze/Kconfig
++++ b/arch/microblaze/Kconfig
+@@ -1,5 +1,6 @@
+ config MICROBLAZE
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT
+ 	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 8128c3b68d6b..3eb048042004 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -2,6 +2,7 @@
+ config MIPS
+ 	bool
+ 	default y
++	select ARCH_32BIT_OFF_T if !64BIT
+ 	select ARCH_BINFMT_ELF_STATE
+ 	select ARCH_CLOCKSOURCE_DATA
+ 	select ARCH_DISCARD_MEMBLOCK
+diff --git a/arch/mn10300/Kconfig b/arch/mn10300/Kconfig
+index e9d8d60bd28b..7840859b3f9f 100644
+--- a/arch/mn10300/Kconfig
++++ b/arch/mn10300/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config MN10300
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select HAVE_EXIT_THREAD
+ 	select HAVE_OPROFILE
+ 	select HAVE_UID16
+diff --git a/arch/nios2/Kconfig b/arch/nios2/Kconfig
+index 3d4ec88f1db1..9b4a9cf4af3b 100644
+--- a/arch/nios2/Kconfig
++++ b/arch/nios2/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config NIOS2
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select TIMER_OF
+ 	select GENERIC_ATOMIC64
+ 	select GENERIC_CLOCKEVENTS
+diff --git a/arch/openrisc/Kconfig b/arch/openrisc/Kconfig
+index 339df7324e9c..24c7c25064e5 100644
+--- a/arch/openrisc/Kconfig
++++ b/arch/openrisc/Kconfig
+@@ -6,6 +6,7 @@
+ 
+ config OPENRISC
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select OF
+ 	select OF_EARLY_FLATTREE
+ 	select IRQ_DOMAIN
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index 9792d8cf4f56..93f8cecbb741 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config PARISC
+ 	def_bool y
++	select ARCH_32BIT_OFF_T if !64BIT
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT
+ 	select HAVE_IDE
+ 	select HAVE_OPROFILE
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 73ce5dd07642..4f38ce304b78 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -134,6 +134,7 @@ config PPC
+ 	#
+ 	# Please keep this list sorted alphabetically.
+ 	#
++	select ARCH_32BIT_OFF_T if PPC32
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAS_DMA_SET_COHERENT_MASK
+ 	select ARCH_HAS_ELF_RANDOMIZE
+diff --git a/arch/score/Kconfig b/arch/score/Kconfig
+index d881f99c9ddd..7371e5fb18b9 100644
+--- a/arch/score/Kconfig
++++ b/arch/score/Kconfig
+@@ -3,6 +3,7 @@ menu "Machine selection"
+ 
+ config SCORE
+        def_bool y
++       select ARCH_32BIT_OFF_T
+        select GENERIC_IRQ_SHOW
+        select GENERIC_IOMAP
+        select GENERIC_ATOMIC64
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index 97fe29316476..bbd75a7cbbc4 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -58,6 +58,7 @@ config SUPERH
+ 
+ config SUPERH32
+ 	def_bool ARCH = "sh"
++	select ARCH_32BIT_OFF_T
+ 	select HAVE_KPROBES
+ 	select HAVE_KRETPROBES
+ 	select HAVE_IOREMAP_PROT if MMU && !X2TLB
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index 8767e45f1b2b..3cc26d90ab82 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -47,6 +47,7 @@ config SPARC
+ 
+ config SPARC32
+ 	def_bool !64BIT
++	select ARCH_32BIT_OFF_T
+ 	select GENERIC_ATOMIC64
+ 	select CLZ_TAB
+ 	select HAVE_UID16
+diff --git a/arch/tile/Kconfig b/arch/tile/Kconfig
+index ef9d403cbbe4..542bf49cdfcc 100644
+--- a/arch/tile/Kconfig
++++ b/arch/tile/Kconfig
+@@ -4,6 +4,7 @@
+ 
+ config TILE
+ 	def_bool y
++	select ARCH_32BIT_OFF_T if !64BIT
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+ 	select ARCH_WANT_FRAME_POINTERS
+diff --git a/arch/unicore32/Kconfig b/arch/unicore32/Kconfig
+index 462e59a7ae78..34694eb7c790 100644
+--- a/arch/unicore32/Kconfig
++++ b/arch/unicore32/Kconfig
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config UNICORE32
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT
+ 	select ARCH_MIGHT_HAVE_PC_SERIO
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 0fa71a78ec99..47c2f1eaa7ad 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -44,6 +44,7 @@ config X86
+ 	select ACPI_LEGACY_TABLES_LOOKUP	if ACPI
+ 	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
+ 	select ANON_INODES
++	select ARCH_32BIT_OFF_T			if X86_32
+ 	select ARCH_CLOCKSOURCE_DATA
+ 	select ARCH_DISCARD_MEMBLOCK
+ 	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
+diff --git a/arch/x86/um/Kconfig b/arch/x86/um/Kconfig
+index 13ed827c7c66..d1de823a8fe7 100644
+--- a/arch/x86/um/Kconfig
++++ b/arch/x86/um/Kconfig
+@@ -22,6 +22,7 @@ config 64BIT
+ config X86_32
+ 	def_bool !64BIT
+ 	select HAVE_AOUT
++	select ARCH_32BIT_OFF_T
+ 	select ARCH_WANT_IPC_PARSE_VERSION
+ 	select MODULES_USE_ELF_REL
+ 	select CLONE_BACKWARDS
+diff --git a/arch/xtensa/Kconfig b/arch/xtensa/Kconfig
+index c921e8bccdc8..20ebab4fbaf6 100644
+--- a/arch/xtensa/Kconfig
++++ b/arch/xtensa/Kconfig
+@@ -4,6 +4,7 @@ config ZONE_DMA
+ 
+ config XTENSA
+ 	def_bool y
++	select ARCH_32BIT_OFF_T
+ 	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
+ 	select ARCH_WANT_FRAME_POINTERS
+ 	select ARCH_WANT_IPC_PARSE_VERSION
+diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+index 27dc7a60693e..d019df946cb2 100644
+--- a/include/linux/fcntl.h
++++ b/include/linux/fcntl.h
+@@ -12,7 +12,7 @@
+ 	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
+ 
+ #ifndef force_o_largefile
+-#define force_o_largefile() (BITS_PER_LONG != 32)
++#define force_o_largefile() (!IS_ENABLED(CONFIG_ARCH_32BIT_OFF_T))
+ #endif
+ 
+ #if BITS_PER_LONG == 32
 -- 
-2.9.4
+2.17.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
