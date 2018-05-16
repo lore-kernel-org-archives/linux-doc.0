@@ -3,30 +3,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A8957D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:24:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A5337D08B
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:24:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752483AbeEPIYB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 May 2018 04:24:01 -0400
-Received: from mail-bl2nam02on0069.outbound.protection.outlook.com ([104.47.38.69]:19782
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        id S1752823AbeEPIXv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 May 2018 04:23:51 -0400
+Received: from mail-sn1nam02on0070.outbound.protection.outlook.com ([104.47.36.70]:57117
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752007AbeEPIXy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 May 2018 04:23:54 -0400
+        id S1752239AbeEPIXn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 May 2018 04:23:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kVL8oiL7R5aXK/2DmtfKkzryPiH2ZYR5424ChJNB1Dg=;
- b=ZoNxgtj2uARUJsAqsPCFOBweJ4xXb0auRpguiIKW1gDyY8soPAM89XxaIybt1tMjBNQZRLTqDhPPDHZ9zKmlNHGun9zNEjlzzCSuEpqACERt6218gWg5M3oEsneOLrjj00Ers/pm+BSNc7nne4Hhfv3uHTziiM2+oMVvucPjn3s=
+ bh=9z/xbcScPTdvjZ9VDquJhcE+PIXGFhhKP8ekJ2uVLRg=;
+ b=DF8Ra14CxgztU2RuMKtRUoxWbR/9R8ZeNWF3JmlfDxysbzpbHQgfr+x4D2EDiOW+5LjM4iMM9eBd1vJ7ViBaGZWq4HVxNoM3gNj3sCk0YltMn1b1y4vY0fbJJz6DdnXc3As3wLVBJPkwwz5Zi7If3rRZ3J5a4Ez95bvItbd120w=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Yuri.Norov@cavium.com; 
 Received: from localhost (176.59.36.13) by
  SN6PR07MB4383.namprd07.prod.outlook.com (2603:10b6:805:58::14) with Microsoft
  SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.755.16; Wed, 16
- May 2018 08:23:50 +0000
+ May 2018 08:23:40 +0000
 From:   Yury Norov <ynorov@caviumnetworks.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -60,65 +60,67 @@ Cc:     Yury Norov <ynorov@caviumnetworks.com>,
         Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
         Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
         Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: [PATCH 24/24] arm64: ilp32: Make the Kconfig option default y
-Date:   Wed, 16 May 2018 11:19:09 +0300
-Message-Id: <20180516081910.10067-25-ynorov@caviumnetworks.com>
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrew Pinski <apinski@cavium.com>,
+        Andrew Pinski <Andrew.Pinski@caviumnetworks.com>
+Subject: [PATCH 23/24] arm64:ilp32: add ARM64_ILP32 to Kconfig
+Date:   Wed, 16 May 2018 11:19:08 +0300
+Message-Id: <20180516081910.10067-24-ynorov@caviumnetworks.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [176.59.36.13]
-X-ClientProxiedBy: VI1PR08CA0112.eurprd08.prod.outlook.com
- (2603:10a6:800:d4::14) To SN6PR07MB4383.namprd07.prod.outlook.com
+X-ClientProxiedBy: VI1PR08CA0126.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::28) To SN6PR07MB4383.namprd07.prod.outlook.com
  (2603:10b6:805:58::14)
 X-MS-PublicTrafficType: Email
 X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(5600026)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4383;
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;3:zrIJyAbrPfzDDY+Th45+NW4MuFQF5UoPB5DsDC7oREYP1GkyTs1sIl8a6JshZYHfh2cFxzyD/6ApL0fZpL0HWswpnSMt2ebiroWp0Ji9jOpks0wt3sohptAHfnSQ/aQyNuAK/4q2eh5o9mctzCmkrTX99aVmEZz3Ukw3R3F3Z5xTFU7+OG4w3N/EZKsTrzx6EgdzT+nybdwn0IIOZrPUfJQegVEbcBuNCpkfjfJyagQq+EoBDsv/rT2002Sk+alt;25:ceLon6GtKiB8HH7c0aM8gEleJDdjFJSGuNH7rb/o+tbbI+qZMfEi5dQIqRZVhJIXzbAoRBk0AQDyGSwO+l+RnK5dXqgNx9T4sWHPOy5ZC8MXW+ihgNtBy8Vqb55WVPqo1ci7jPc7jPy4nhEXsWcLuQ1hNxeBSTl0805Jaf0s4jBhmSMwdpKl/kLu+X+3tnAU3nCo3sfVt6mxuFEK1peJ4FOjG5T/P/imB8AljWGPSYqcScbMr7DwW4qfKHCPujIU2+ls6mameL7SWH6l0fWGVoe3kY7jqtKEyV19meFRRmw+Anh9fN0dcbSdCWBEgEoyHeCCKrGmN7X6cVk3qr2Adw==;31:twglFgpqNcFMisxfMLtU94ztsm1nDASN3dQMvvPv4kIPuxfalxnd8UASsgzBxFMS+Ph82Jbrdh0oZsCnXILgvX3kUNNf9EPGLqLARX+SDlgg7wQzFtTeEJRGb44//Ix5fsiHCy8yuPNWNPPSFlDRh5ujjYSR3X0AG0SQUQBPd5nVZ9vdA8TBknWTLa9TJd5V+URn5VM55qAw5WRPBNQHBcskuNLiyoz7/1io02EKuw4=
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;3:vklxnesREWdhahI0VyEMGHPMFoNwrgFvuXNBvHodWclyN7yMPtkw0Hik7kGolfq/3XrjAR3NUUDrbxfEfcKo48fmtmFDmNx/q6i1IiV2YsmcMPJMr4ApqblrtEwYtFFlw7nlBREdfUdkFlK4Kzivd/A6Kmbx8U5i70irmB3MkFzZZTBTWuLrWKUWS/JEwY/3ac+NKDA4JoDx899gOmthtXEoV8/0UeZ3G1UN4zs41uuMi75R/njHdym8W6hcAVja;25:eCGrSIIJhL59PqA5v7VrYOGDIzbNTNe3e5CEjkaxbDabPZUH22e3W+rd1o8+sbiHRSuO2Q6I/lP7iwSqJ9BGWaRDj9z7zKMuMOH8Ifbbrir1VO5bCUcQAoiiuaW/5ycB8gWTibGteqYB9d1u//PZrRn25raDXPuILy6yhQ1enjPcIUPQVyaYx9LzDnk3EatPdfEF9kTOVux3PQ2YzAipesUFhrlkBYPH3bu1Ym6NnVQao4FyTFn0B6yE2NrkjvfQKeUMS3v3VWRM77H78zT+4DOB0w8Bo7NyaXzrLwD3CuTWvrya15pbZHxP0cqXncPWnPTyylXrJF/W4cdVACD+xQ==;31:iDLtIwNXXII6w5jlbWKfVoWWi0aWbyEmS6cMLa81aaBjjA9H2eERnf54vTEu+rbJcjOp3v7CvUMG0QhSk9L0kOek+7zrb17SJtTQEfI4vdrKlBe3SFJaqHKIyuT0q/a3U7QBUUc8H7r8dARVtX0gt3Sll8/i2sXYLDhax5kCN2XD9PoKTuO2slviM0UYrOQZTHB/kYf+ZteE78mQ6jwucrj3sfnFZsJJtyS/meqJkvs=
 X-MS-TrafficTypeDiagnostic: SN6PR07MB4383:
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;20:/J2GjyIrH8FfVXo8fr2tdfPGXb6nooDJ6N7M5PEbFDTMUfsF7TYlyFVc9VwVgjBz/3jn/plaXKWU0Vz8oCtTRzEOJSxfbTzj8/EF7xjxBo1FKLAHmum7sOYTv1arrSL86eVTDWs1GWMoPwiSohlKS5Sg9ddSH8WqWzs6Rtmb4oGPgIyrby8IFCyupX9OWvWPZFMI16dUGanu+drgeVwF7uP4Ftv4KXzCyfx4TOofX3dUU+03reudDiNGUDJhaaWhJM/vaU7A/ewm1+GZUsooiFTbec94n1hrNsV4ISEx4wipIghIAudEkugvF7xDXBBojjruhjEeRgXqdHJyGrMm4g6S5hmpKn3usNqZIbPZdZdpXjuPy3zUMGx57jQmkEOmy6a/r7v8kp3p+U69O1nb/YWSQzmAPp+Ji9XZZ9aZzEBpiFV/sX/36EWgWKFwS9W+a2Qat1e1II3hRpxJO3vA3xfRyj8xv83BREA6hQTxr5ZHbGZVcGy624qM8pQ7inO+G5gkqWB04Zs/T9Jx3qbhBbc2bK3txrDfX0hRCtv5pKxEje5IkU6S0PHV95WBGlwXDl344HPOcuyd4qDAiq8ucCFpfHL+dOuP5C92rIFarCg=;4:Q1tYUippVCwb/hTU2JTRIdKa+rDHn9n6t7/qftgq6SeuMqcLyW8eHfvkXAOld6qiMO3SVzpEitcW1yj7rqXCUkCbsSJJyi+6jxV0FarkQIhuag4ZbuGvSq8YchSOgYEOgvmWvIl/p+gfmho1ooy3IXu4W258ImdkRQixmrM1E3I91b8J4Z3OLXBYPiR5eL8ZISqVeCxhhTl4eClTmq88DgV+Y0pVLpxgvpTUMeOLs64QUL7RATqtzfDDXq6+zfmGIx9oDJ2TIThCQyKy3/c3wvBelISoHssqiauFytJzN6yAyskBQYmlJl+NvjESYto6
-X-Microsoft-Antispam-PRVS: <SN6PR07MB4383A3A8E4EE78D4D98EE786E3920@SN6PR07MB4383.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(180628864354917);
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;20:wpz+c0d5VRVYQA415VK0jzdOZWyRFG1qIzUGRKjVlcf2McrMqzrJAQuW4CPRuSRr0wGZPfiesTehvhKOHH/5bJIPzmfg82fplcPMOVVe9UNxCLyg1bKYzejBfuTKn/9+VTugPmyX72vMiLjXsqB/d93GcpAjF2OJjWSJMFMpd80vdSPcNJcndcQ5fmlZjyl+l5dN4UI6vO+2rUsT3wIo12J7ukuKbeWoz0FXQkQaWIScmpeV2lcoTJhJGlA8/fj+mPlDV9+GndTa5X3+X26HedA2IE6VAfiQGePiI9Of8WVZy3gFLRHKvdOvc5fwH/j7SwAn9TvpYxcaIoxOon1jNGjHrA+QH06xAWcFrOlt5ETWGI9sC8jKJmGq8NbrmFAAVLQSWcMuhBQi2R/FI48tRud8snOwcTT9JVH4zPnHewkgrFHPMxw1765MU6ZFn8NmXJdtSV9Mw8FIJXHs3ew8A8dpHRNvT+1RC93teZYX/t+y8fVvj6z0l8d5renoFyTCkoeWMKAywJtLQrgi9cNbtMAS8cHgZ2bNfjihr3LoMtgWlX2wWunKtTIeP6Gtv3Oqb1kyu6NqeqDeXZYaxrlb57ncfvJOq6CHT4atExqDd1Q=;4:dPGTfed35g8qtLgcsweat7z2E/zi+UQUZSCzcnjXxk+aeFjn0YP/dGDXKpkhD3QqhHdH1rwkQ/ykP3Y7WDufMrLdGB4dKQ3w3B6dV/uG3A9zYnd0yLvn3fR0bHH03jOWy6wqaeNyLSeoLsAYDb8abJ/fSOgspOrwPzTSGviqlpAINUo8hJ3+zYdTnubWI1EmpNJTQVYJHxSK4Vc0zS97KBzc97ztVojARBTRhfQggiJEsuAeq+AV6hxM/pfssD+Pd1X+BGkNPoZBmF6qKOzrnWnKkZbwOT17/HpWuYJO4r2zjB7fK+r9H65tgddrkS//
+X-Microsoft-Antispam-PRVS: <SN6PR07MB438351A5AF8A2DE5D2174B26E3920@SN6PR07MB4383.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(278428928389397);
 X-MS-Exchange-SenderADCheck: 1
 X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(93006095)(3002001)(10201501046)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123560045)(20161123564045)(20161123562045)(6072148)(201708071742011);SRVR:SN6PR07MB4383;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4383;
 X-Forefront-PRVS: 0674DC6DD3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(346002)(376002)(39860400002)(366004)(396003)(39380400002)(189003)(199004)(6496006)(72206003)(478600001)(446003)(39060400002)(2906002)(11346002)(486006)(3846002)(4326008)(956004)(2616005)(25786009)(6116002)(1076002)(42882007)(53936002)(50466002)(476003)(48376002)(50226002)(66066001)(6666003)(47776003)(16586007)(36756003)(68736007)(110136005)(54906003)(8676002)(76506005)(81156014)(81166006)(106356001)(386003)(7416002)(8936002)(76176011)(305945005)(7736002)(5660300001)(97736004)(7406005)(26005)(16526019)(186003)(316002)(105586002)(6486002)(51416003)(52116002)(129723003);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4383;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(346002)(376002)(39860400002)(366004)(396003)(39380400002)(189003)(199004)(6496006)(72206003)(478600001)(446003)(39060400002)(2906002)(11346002)(486006)(3846002)(4326008)(956004)(2616005)(25786009)(6116002)(1076002)(42882007)(53936002)(50466002)(476003)(107886003)(48376002)(50226002)(66066001)(6666003)(47776003)(16586007)(36756003)(68736007)(110136005)(54906003)(8676002)(76506005)(81156014)(81166006)(106356001)(386003)(7416002)(8936002)(76176011)(305945005)(59450400001)(7736002)(5660300001)(97736004)(7406005)(26005)(16526019)(186003)(316002)(105586002)(6486002)(51416003)(52116002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4383;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: cavium.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;SN6PR07MB4383;23:lwaAb4TZWVSVOJsi9kLOTbPfgYzhAgZ53FeoABrwP?=
- =?us-ascii?Q?nLq8pBQHPAwHqI2ani9Azp/w+jd3fW08AzuOcIHyXCvApnS+jdSqTcOQKrk+?=
- =?us-ascii?Q?5GUsZsNcaT6uuygAAQvH9f3ibb5e1iq/FkvzEvmhlhtOG0t96NAfwhLPDrvi?=
- =?us-ascii?Q?PJQFA+Wazv810V8ykkbEOg323Wk8FYgD/eQAX8xOlhyg8skNCfb1AVmsYe0M?=
- =?us-ascii?Q?kZdVYG8sYsEpr67adeoX0+77VhNHdOEB2WMhzk7X5GwJvZiX7DpXTi4zMsgR?=
- =?us-ascii?Q?QI3i8ba62xKxMhV62wiMSxdwwNyuSz06oKxeOoLg1fGnDIjruYFl/Px3wXuh?=
- =?us-ascii?Q?U6Hv22YYW3ewWkj/sgz+LaBpeP0KUKCxUHNa3JMDVxuxtSCCRvnAEGYbLOsT?=
- =?us-ascii?Q?uslplBWjLmHCimaTp0U/UoWICff5nERqZQN7ifaDraoJaYtnZ4ZqIYL9lGc5?=
- =?us-ascii?Q?hZDpqFXJKCnSI+c78mpNvfTOcaz9MnRXB8dXQDlIvqq76H7amIfdbj5XOhJN?=
- =?us-ascii?Q?7d3Te4xWKmEiDdDk2nL/vSXqMVzDkgaI6a8t4juTiXQ4L8YF8RmM+2FPcDXq?=
- =?us-ascii?Q?2KYNUd89E3kHExG4E8n3zd/XRyfG7Vy/37FUcJI8merxxza4xiJDgvfM/Uxr?=
- =?us-ascii?Q?odlLeyJpA6qR27sCDewOCCnOS8i0g6JKnGchhZz4Pcy5hF6lFzHTK6OJoOws?=
- =?us-ascii?Q?vZBBpK4BhqbarHnFklZ0Mj8w46AKASt813SfE5rS+ZtBothTm451YwgILGCP?=
- =?us-ascii?Q?ImM+VxNqOtj0CDf9G8dEbWj6iwuzm5d1FjrGaqr4bEOBsCREwaCnwcunocqY?=
- =?us-ascii?Q?EXgYEKikX3wybNPLZWpJK2rqrjaOHmNuFUrmQBSRNvlhucWyIX5DrB4rvH8v?=
- =?us-ascii?Q?9VHWI07L58t2IgW5Dkhp6/duFZvHWR4oBf0bnxQ4cT0fBCn86wD1AAOrESu8?=
- =?us-ascii?Q?bbSYCPTdAaUWhMDCojf3Wg3Ty0KGXdgwd9eaBMGzDAPwI5EZMeQV5Lvo6p0F?=
- =?us-ascii?Q?VF3PpetVVBMqsA0Rv5IWl4psAuSxUmSMWt++tm6Xrcnfn15esviX/yS0GUbC?=
- =?us-ascii?Q?So8YJEKo1hDRqgq5ZrzGYRmMFWdMzFt2q37oKibBNOp3FOx1CkZe7MnEmlhL?=
- =?us-ascii?Q?WXl4PoMo7zMlWV00FHsLbgV4etzFacUcz4X0UnegT+OWz6yST8MFjODZmdKo?=
- =?us-ascii?Q?hu/hgaKGJTuc9woQIlW715hOwoLRzwxUnifxIvF+jHk7av5QZ/dM9hGHUTrG?=
- =?us-ascii?Q?rFFrCpL29aUS8GBTRSKfNV/6gar2gnNMqbPm1Xw/KOaBdlAF6dOgp8vXBOAZ?=
- =?us-ascii?Q?lwnWuk9D+TWldJufIlMc3XXM+xtlw6ioegOmv/dN4b0v4viibXcFHZBF07nb?=
- =?us-ascii?Q?FA6AQ=3D=3D?=
-X-Microsoft-Antispam-Message-Info: MEZRS/mkiPsiSkih184xf4ceIzj2LWiSSETGWC6iwjoh7DJEjGAhHF27chiOGJ7i8wJ/OOXYKfshTnkIm0/tcezx8Emw/KJJA9tb/oYSqwNo9dkpmTkaC5cbXf9apPDw+B8AYSckUWCX5s58rPdC//3uIg9dbVR7WlmlpoNPT9cn8coxq9dqSY6JaENGa7Zq
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;6:3OADtAsOdb9M5GoxHU2hauAS1a9h444+dnRAgzcZ6nQ1IkF7MJrLbCxCyuDb2kYpoKW/+KnJ7SRW3WvwCeBO0vCeY6D1xBWKIxOqc6PBWN++zt5MQxgkJ7AwTCZtgs1L+bNYBzPnCAweXqHiY3Gxn1ySfuAkOmQ9k9Socznz7EIxl8raKVJv96PKaZ2VtbfDYbaoDP1pIR0F8q2Bwmwj25QAs8QJPAMWrbn3vmMSRRn7+UuIWfOlvyg+8v4sX/L6rfqsTWr0BK4Cyk9JrSuAIGTtZ7n/NTi5FpY1MoDvuz5G9B0bKKa/+ODXDv85KHOhlblhZyhP+h9l8+vGVxpZrLKyjfG+8HGM5BJbEkjsWoKI/SCxk+U49zpf09vvyFPc9gRJ7o9UwFhwajcP1i5nPIRpCiXRYvM3y1CxGdwzZf3ILE3FkxbJR/kOz/dRTjtNYR70pdk2pET4Ah3po7DSPA==;5:HSz93eapkGOYJ/+Z3nH792ZC88nvCgI5kxgRVIJcuHbcQQ/AIJz6L5V7huiNeE21F0COaXd0Nh+Is6gD95lPJO5r1CeHu30kFHLWeOzv7haGUy9MgH96VUuueqHslyItmMdWRPN60tXqRi5SmPe663r+PT8UrurfPCcyl6fLAzo=;24:mNE9rO2tpNzIRDScCyMxg0aK65wFDO3rxs8JZ6ZTzfHfABblUa8X9IbZQbYjjnh935wKVhOHPWgi00W654ZF+/tiBokBNJWxwr1imwIXft0=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;SN6PR07MB4383;23:KQwuG6L7oLAfKuwShUyCd6/graU3odcPifqhVqbW4?=
+ =?us-ascii?Q?vBmwmP0ePCFe/B3yjMFCh+p7ibKUIiAqOkZZONbsQBZNkn3qqu8SRR7QhPd7?=
+ =?us-ascii?Q?j55uQT1HkQZbNBYtxLBY3WpG+GBE09uNFG6n8Ihi72S97xiHr+2gwwZSy4rf?=
+ =?us-ascii?Q?2wLfXKzQTGNRrijLJHvKZ3/bdu5e2HszvjHdjsX69rCwMWg4jux+LCtYsU/o?=
+ =?us-ascii?Q?kB7ugPARSYn+cDnpEYodaZddpHnFLLBUBvogvSGJL9SuSeKDjjMrZNVox9BE?=
+ =?us-ascii?Q?DltHDzL7os5JKYINU/qIN/tya0NPaGAC6EZAihJsiVDn4DedKB18Z9PcZm79?=
+ =?us-ascii?Q?noLKB6+NbtXxxbmFI5/Be9ylBbocl1invshsQC796r+bIC3iuNskxYDb37Ny?=
+ =?us-ascii?Q?ADuSrR1Qo1/mWW1jtc9BWSlhVyiqwx5fNb9PQzOBdTBrW4NOftsOTImW0n1M?=
+ =?us-ascii?Q?JlfzhvpSUV9E0Uyptrx6PnrHgcILn6E2yrRXtMAOw4NusiZP1DtPoGHGkKr4?=
+ =?us-ascii?Q?ofISmk0mXT7JW/xl1x+x9xEOWR5/YM0QvIx2nY92ond9Lf8tZPbWhmGRX1Gd?=
+ =?us-ascii?Q?m9mQkGjAdFkP07Gp9imI6dJm8gvehkz4oYBjfPnCF+CBarc+iy6zTr5CtSnr?=
+ =?us-ascii?Q?VXYVdUz5E5Fa0tRh020uik44pJbWUilh2V/WDXZlC4lxS8vblcmuDjNV+sEN?=
+ =?us-ascii?Q?0RoZEf8edqW3m9lfx642YpG+SalmPYRXe/ke0zdXv9TelSz+A4sDNALjjeDC?=
+ =?us-ascii?Q?Jd4dfcry9y4p47k/yht3aR7UhuDzTzPZJgjs0qbrgHaYwW3U2Muol01ePxYt?=
+ =?us-ascii?Q?prd7T+j+FsllazB7F1yyi/sO8Dump2rI+g7HQPvC4h9zDjpFUjt+b24gGcIZ?=
+ =?us-ascii?Q?rB8qTK4nI0D5qiGSwenX15SSB4FYPpLeREAe21c4MctI0k3nKpwYHYVJARHJ?=
+ =?us-ascii?Q?bZwn7nNhs5F2/BwNpyyBvvZy/lx4RuZ0NoiVLvMgJ/qAAJVJcCry1t8UsZaz?=
+ =?us-ascii?Q?Zooqm044BADxeZaSsh3jXRk10qQbfSrhNxF71Cz9V9OUen6Myilv5k1QeXIe?=
+ =?us-ascii?Q?2Ao4nInYi6jTRLmypWJgT68hr1UFPRs++4wU6X/9jc2U6J55Op8D4aWOmlGs?=
+ =?us-ascii?Q?+m8gwJwgnILo+bhcoXEkqTjcyoAjONHko/5p42QKSFZ61cD/WOpAJ2yBri4P?=
+ =?us-ascii?Q?uZp2Nb36VsKEMbBrrtMxRf6twGlc7lF7EXEmf7raURN7H7GOUXLC0tNF6vhC?=
+ =?us-ascii?Q?WHzwJPXS2RU+FSZi4+8bf20hCCp+1kCwSFVi/iGWThY1J3jwSqhg5SKC6b3E?=
+ =?us-ascii?Q?rgl4Y8r+5EzLOE1g0pYgYiClspIAZzo8eLM7Ffbfok6ePGf/xWzfsDUPGy5v?=
+ =?us-ascii?Q?emV739MCskHLMFxLYKiR0oc650=3D?=
+X-Microsoft-Antispam-Message-Info: g3ZE4DUaU8oxXVbomyijTm0s0UwiUhhrIrA0QxZshDvJf/afYHpvn4NoxVDuQoO86y0MNi5LxVk1T9lzIZDtcFwCCmKZAJLocDygRWsPXcI+N+3QCAw4BnkjcA8m2jNQqfpKY4KQQwoiEaXTEVCcottsvuelLiy1WUr7V2iFbvn9vS6kPZ2C8Rr41F0vV67F
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;6:jhvQq/r1W6xq8YhhiVN7bSou6uX1ffbxiEs9YD6yXKBNfkQkSGZsN0CqBAStU6jRhM9pi7IIWxtpoBE5JXChD0tBxcGIi04InqZEQWWaxoOrIFgiNyw8ZE67u7mBaqXOo5bKVQCoJQLJflUXhpf1uBlhrQm2LVuNAy2X9xLqfM7ftuqfGsyBwvg3tR7uGEP+ecfB7g06m03JR83JtVXAy2gB5xyGgIFq5pzaXVOJofVXDiQfrmK9Ax5LE4b4Z9iN9IJw+M44exPp7M4wHMHk4x6KjAyPVvMu/WVJ/te/+Hqw8ejj8PQKJZnWWHRymkCMlqCaW80qKq9DOXKqeYE71MFmdzZaZTgg2YIiZlml2FaPO7A6diNCdY1+R3JnIFJ5rBknI9iBC8FuNPn+OKiqM2j5TA5Xqcu2qZJ+YvfFRPARnsYdJ8SwqvxTUqrtStV0wJkSdGWjIH0Uz/vDD9jslw==;5:CpYDwIuS++ciSb9Ed30LVqvjIRJJfhchqLz4KbCNnuHBaIvE2tcaSMjTvygKYvbdrlTTYZ2vWbhkRe6VoKEhal6GuPJolpsaoOO1Xo9hg1JQLBdpkoa2TD6xg5AI3LqtQgITuGqjXyizdhCarhT0EmHEQrg94Qu4899KLiMRm4E=;24:F+KHwcsymeYaf5TVQP0cVs+r1EQeSX06j7Rk+2f91P+Y9dWNu7TS+KlSB1DjPERic1xAPMPEG6ScIUg6G8QY37MJqDU42gooLO4R0J1wOTQ=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;7:BKw91MCc3GNHltmeK5juFUexSfb0lLcPprhVU/vHftK0iAqlo7orD5EeOHGGFsE+q9tEtlVcilVK6gLNWOZ0Bv2ibiUc/BDfljDaqHRgxp0u//Qgl/K1cd4j0GFex6Ml9c+MdSeoyV1Wmh6QcjVDv1nejlOFMmYNntsKgO/SBkXyyzug1GoruziFIKjKU9+XMXuYVE3iTjumTECi9Vk0IPLDn3RERx//K3zrSQQ10OIFK9S385wYvoDLhNWRTmE+
-X-MS-Office365-Filtering-Correlation-Id: cd4fcafa-ba62-484d-d34f-08d5bb065abe
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR07MB4383;7:ar4lAM8UE9pQup7taC4D7LIXU3Y1dkrDGtr/Jzrb9vz8ADC9Uu4p3zKXpj9zcYjxozMRVOeHwzudJ0lCgHOjj9+GebN3+yHSBZW00nVWaT1maKZ7KhxT5PuGXYA8YPOJ1L7Lv/biCPzCYR6CSMP7gBaeRzAlKMWfqn8liEyr+lqshuOnVm34eEWuDrjmYSNHyvN/oA4sOtQZ+geyZ2Jh5BeZMWKGgYWAfRocBHEFgTR+tfnAuE1OhO4lstFCkx/G
+X-MS-Office365-Filtering-Correlation-Id: 68da309a-4acf-4bfc-777b-08d5bb0654b3
 X-OriginatorOrg: caviumnetworks.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:23:50.3821 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd4fcafa-ba62-484d-d34f-08d5bb065abe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:23:40.2882 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68da309a-4acf-4bfc-777b-08d5bb0654b3
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4383
@@ -127,29 +129,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Catalin Marinas <catalin.marinas@arm.com>
+From: Andrew Pinski <apinski@cavium.com>
 
-The intention of the ILP32 branches is to enable ILP32 by default. This
-default is to be revisited for upstream merging.
+This patch adds the config option for ILP32.
 
-Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Andrew Pinski <Andrew.Pinski@caviumnetworks.com>
+Signed-off-by: Philipp Tomsich <philipp.tomsich@theobroma-systems.com>
+Signed-off-by: Christoph Muellner <christoph.muellner@theobroma-systems.com>
 Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
+Reviewed-by: David Daney <ddaney@caviumnetworks.com>
 ---
- arch/arm64/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/Kconfig | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index a3134b8e3123..3551990a2726 100644
+index 0685754a9f7b..a3134b8e3123 100644
 --- a/arch/arm64/Kconfig
 +++ b/arch/arm64/Kconfig
-@@ -1249,6 +1249,7 @@ config AARCH32_EL0
+@@ -1226,7 +1226,7 @@ source "fs/Kconfig.binfmt"
  
- config ARM64_ILP32
- 	bool "Kernel support for ILP32"
-+	default y
- 	help
- 	  This option enables support for AArch64 ILP32 user space.  ILP32
- 	  is an ABI where long and pointers are 32bits but it uses the AARCH64
+ config COMPAT
+ 	def_bool y
+-	depends on AARCH32_EL0
++	depends on AARCH32_EL0 || ARM64_ILP32
+ 
+ config AARCH32_EL0
+ 	bool "Kernel support for 32-bit EL0"
+@@ -1247,6 +1247,13 @@ config AARCH32_EL0
+ 
+ 	  If you want to execute 32-bit userspace applications, say Y.
+ 
++config ARM64_ILP32
++	bool "Kernel support for ILP32"
++	help
++	  This option enables support for AArch64 ILP32 user space.  ILP32
++	  is an ABI where long and pointers are 32bits but it uses the AARCH64
++	  instruction set.
++
+ config SYSVIPC_COMPAT
+ 	def_bool y
+ 	depends on COMPAT && SYSVIPC
 -- 
 2.17.0
 
