@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A76A27D08B
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:21:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D627F7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752483AbeEPIVJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 May 2018 04:21:09 -0400
-Received: from mail-cys01nam02on0081.outbound.protection.outlook.com ([104.47.37.81]:12349
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        id S1752910AbeEPIVT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 May 2018 04:21:19 -0400
+Received: from mail-co1nam03on0058.outbound.protection.outlook.com ([104.47.40.58]:24928
+        "EHLO NAM03-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752245AbeEPIVC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 May 2018 04:21:02 -0400
+        id S1752245AbeEPIVM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 May 2018 04:21:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kZOgkSOIBPGJPLUPbvxw7kRDYeUeGFpYRIDmWhJ7Tj4=;
- b=C/BrVnxASSG82m+l8AmoVfPrwvkwLOLviWnjbCbT/e/vvATr4JBCzNWeSynE7Jd0e7F1jpc53B0rRNKYk7uHHeOk8QoSrPnpq7OvdEkrKeJMRhGxePRkhFZfgeZ37ODGSVicAJ41DreLyzvny4cE8wxhkl79sZPK1BCB23Im1GU=
+ bh=+GOEO9NC6mtpB08efodNO1aG2LKMP42VFw76hx3tRUk=;
+ b=PzgtLl2gp1M7LMRC5urbtYvI91nEcVUp+z2RFmVN3Jt7LkCbiZ2u149YOEFMCDTGZi3DgVIAJL9e9dbuQMlYZEfcphjyGevgOD6gZCt9aOzm3jxYubMHSVcOpk24DFAvfmR2gtgraOZeyv+qVrMVoQ4q34PmaUWQzdgKQZL8cr8=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Yuri.Norov@cavium.com; 
 Received: from localhost (176.59.36.13) by
- BYAPR07MB4374.namprd07.prod.outlook.com (2603:10b6:a02:c0::17) with Microsoft
+ BN7PR07MB4370.namprd07.prod.outlook.com (2603:10b6:406:b5::10) with Microsoft
  SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.776.11; Wed, 16
- May 2018 08:20:57 +0000
+ May 2018 08:21:05 +0000
 From:   Yury Norov <ynorov@caviumnetworks.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -60,132 +60,545 @@ Cc:     Yury Norov <ynorov@caviumnetworks.com>,
         Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
         Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
         Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: [PATCH 07/24] arm64: ilp32: add documentation on the ILP32 ABI for ARM64
-Date:   Wed, 16 May 2018 11:18:52 +0300
-Message-Id: <20180516081910.10067-8-ynorov@caviumnetworks.com>
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrew Pinski <apinski@cavium.com>,
+        Andrew Pinski <Andrew.Pinski@caviumnetworks.com>
+Subject: [PATCH 08/24] arm64: rename COMPAT to AARCH32_EL0 in Kconfig
+Date:   Wed, 16 May 2018 11:18:53 +0300
+Message-Id: <20180516081910.10067-9-ynorov@caviumnetworks.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [176.59.36.13]
-X-ClientProxiedBy: VI1PR08CA0115.eurprd08.prod.outlook.com
- (2603:10a6:800:d4::17) To BYAPR07MB4374.namprd07.prod.outlook.com
- (2603:10b6:a02:c0::17)
+X-ClientProxiedBy: VI1PR08CA0124.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::26) To BN7PR07MB4370.namprd07.prod.outlook.com
+ (2603:10b6:406:b5::10)
 X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4374;
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;3:fkrIjfvGcZKkBOen97Lcm140az6nuLuB6TUc4RNo6/xh6my7az2KK8NDrExAGNdK+N4A2CCjxfmxm+CYluvUZkXL/WKi5gQe4jhuA0IZxjZTI7IEfdTsVgHT/LOkZKCw1Q1DZGlrkIyArPU7VseO46bAILIdtkbzOb/aBQ3wy7/3TVAWWFz5T3urKyFZ+0cExOWnt/Mav/cxoKCyO9+HlRQQ5x5k1vKPisvtkqTjdU/u3n/s1zliXdpnefS31tPC;25:xgnbaVj2Emy2PFoiAk7hUy9J/bPBhIwIrWj15i4o0lOKinqkhXBGAvctApDhkJExy/rLOrUXRgSHq1RvNEbpRW6IREA36cZFoPj9oSbdTFa8QKAw6XGXWJYMfW3X77Hy15ItvieK5TUJ7REtpEePPM0GmNJx4mqC9wFnzZ2+EbeNTpBEv+vTvt49PCbAJTNoCG1rEl2hpkf239cpAlFVJEmS6AT7Ge5BoqRhYAYTfke9kc4TXOfjjIplVg3w5nZB7QP92KiJVQ7EvxozV6A5xmzMucazARQObTB8RdpXFHUfmeTmGnIAQqLNNPoU8WPDCSVO4qdfH7zMqbB7oZV+cA==;31:D4csiEOSpQSNjbmVMSIZm0J/nvl4z39uKdjt157U9Nf+MDHMNLg2u7fl6s/XZoqINZv0LXXxLXgPixaWKB8+Dr4ODO3E+mzGTuIWzu8jo6PqZ61+TNteOKKb7hzTvhGcMThSw4WahINkoyNkOcDflocN+b8/4kYPLTHd6Fp+C7y0UJSVlMmnPNeolE16t+gtswftOXcpRN+q/u/Nurq49h5q7jvQKYkDpI5MXisIhBQ=
-X-MS-TrafficTypeDiagnostic: BYAPR07MB4374:
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;20:EvZcgkK+C6j4vovft78OUlTFXkiq9bZmlBLt5XdbuIci8bphDjazMaoW5XakvYrffIU2x+gcx96til9JUy4Qt+r/qOwkXSmjI1qWVuV3F6+jk28iDza2FwUW1Ps7ZWQHn5eJa8vvc1vS+9Q5pPWlokQKgOmGbOW9cDNg1ptiVe6gpji6TrYnZHGhHriK0l04V2y6aBqrA/FRC0Km5ElNiiWDhbF37UZaOQkGu3VVeXpBgfG1i9zMBaVJbLRHy+FdpTOTC4HeUvFKWZSZzKmjKNTTfK8sgiCTgc9GTH1T+JosdPgZ+JQKVKZ1EzRkWvK17YMqKJgSZoTzIug6NLeZyO9MNFP9FTZyMj7C4toaaPHxKHoJbn7qa4F6HWX0CSK2hVVvc0YlrmWPweQOZ0p+ku9lNwhGLe9Q6zm0ZGO1aKYg4fHJYow4la4hxHbDcntA6qozaTixi9kFxwAH5aE0Gge5idcjNN+dz4vZjLlf56yoLhAYa4dL3NwymYN8+UB8QZOc7jEZkTU9rOiJwbuXwAtGmAXtOR+JQHGVgv78VZsR11xxeTsRG9LSEOE7lHn1yPQAiMxsmiyPd+LVNHb8fEiOB+6PH9OCeWKGRvT4cAg=;4:6p/0na0d6qFzUiq9NqjfcmJIceYrX0cNrflJ8e7ZJzDy8DYX2jqqp133rDxtENEdHJ4BUXrHFlUthpsHp7tguWmiVDxIZiDN3zr2PNeDaFi9qfpxtlYRQz4bHFixzSHmykyUSbQzYkSZoANDVqooXJztoyWtV9khk/Mt5G0t8qQ80Djj8tf4fzorVgDK/m61fY/XSsf5YjbRsBKJ8PKG/hVf1VxNnqDsVRpe77U4BIb/iel9SEZgKjgrxtpxMh+FQGD2GDiLIGc6yhIsZ8DWew==
-X-Microsoft-Antispam-PRVS: <BYAPR07MB4374BDE3E8C47971B8F79737E3920@BYAPR07MB4374.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BN7PR07MB4370;
+X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4370;3:4sTLnwJPYfk6DPC0YJtcN00sU3N6v8rGAB0T2uvcNV8d4WJBPuMFrtTvYrmvPFj6fNJBjRd8lqfoheNTuVYKZjIyykXXSH4vozcAXl6liPiEtAOZkfvOjnZWm2XPj0g1JdYMhqWDC6NQg0NOsVzdeFWo+7iZPboN1eViKvVckaqtFFIIqZtfaJkETk8ZvxwOcqZ3T4lpmOd36EYDs7dfVzuoHDCfBjwGRz6ZSI3CjZmsUIGZUtQtz22d+LbJpNOR;25:zggRN57DqRoT5fYYSv8px+E4F2JrkUeKi6GMyUqI8zzRnTHtFCldOng8V90s3yPeUVEpZjvMtnkE9NIupBiPLl2K87K3lcwtUt9kLRmKlSPrEk8WtZJFq/sgyTHZ56Tyof5IJeD8vEhfg2ienIHUrawe0jGlJ+ggCBu5BpwFYGDJOQYkR2eLqNJlq+bGs876LqMIjLmcji6slB2eeXlPcv5mEr78OeV/z7+oR3KI5E0RZAkdxdnVXCq2idoGeRmdY8ddLrhmD62JdwVYn8VzxyT9Tb7p3RByyaI8Jc/ZV2fRr93Q30iEwL+LHWGy1ZnoLksAT8g5CMCDHf3lHLEFrA==;31:kzQ1DmlqORFcQLVPxlCO4FjE11Ggl2lZSr+OAhG3U3oq7afUl7JYMRJAP9mEqPim7VuGE462TP2h9PbURGU83N4CdR8iunIzL83Qc5EtB+9GdLvEaLNxP/w8MT+aogsJ8xil2EDbPwEabw/iQkb4ZFpBySOnyyH8wFq41XBtsgnSxYlrYLAj8vM6UMND8P1UmHihkJjIugUJThwshTEYjII0uefRsXRFGVOZBzedltY=
+X-MS-TrafficTypeDiagnostic: BN7PR07MB4370:
+X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4370;20:ObUdyfIdYBrUYWF55DpV5ygy9Towy4qt55MZMwNh5EpTA+5n3S4yLs5wokdexkPwazv1MGHgEswqmFj7AcRll8UY1KYbAt01VJQIAQch7+V912o09JGyFvlVqSGmqn0w3dxblynGf1qzkzVkuPGVBQFysaOR+V7RBkdvdiBC//biW9B7vQRPER/35RvxEALJcYqmUgQqutxg5giO4CtuVsADfOthTQbGKKzTep0NvkxRL9s3Lwpu5emnI9b8Ox7zHMiki+aDuyoyeqdK2J2ou2xeGnN+o+pLsS5qHsTcTm1rK286c1XRezuuTCYF1djw+G3BKJq+u9/hizfBmH+7rYeCRk2BeuNoJk6D7EAbQJbf0vGhOtsDuIWFgQmnP5ZHXeBR0iQPQTV8Mx9lDYb1UAT0/ssZzlRjZt5jmgQWpTDDPl8lMjIiZYQdK7KVc1bzglYswjNmCXKwayxmGDgRKYYtFpF1fkfOXUY4q/n3bZs3vO9oJj4AGNMZjCyy4XpTYuNggh4fPnR1dREYpEJkIGuiAYtAKn/ZyIWYIsMxjzXGEmBiLK8cIjyLzZCbV0mIaBCtwqDf8EeHPYdboR2mS0Bbj1d1nOhlQdC8JZebo4A=
+X-Microsoft-Antispam-PRVS: <BN7PR07MB4370F76FE0CB5CC02443BAB6E3920@BN7PR07MB4370.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(250305191791016)(22074186197030)(85827821059158);
 X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(10201501046)(93006095)(3002001)(149027)(150027)(6041310)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(6072148)(201708071742011);SRVR:BYAPR07MB4374;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4374;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(3231254)(944501410)(52105095)(10201501046)(3002001)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123560045)(20161123564045)(20161123558120)(6072148)(201708071742011);SRVR:BN7PR07MB4370;BCL:0;PCL:0;RULEID:;SRVR:BN7PR07MB4370;
+X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4370;4:QTSL7cjOgf0LfibMDRBdxDkuNlIUIg/6HFUvr2hcl8HDPQYQshRCOu1mgVHrSLN/R8IE681NQwAHFPqFO4pMhOEjhCP7074PNXX11sH+lHPVspHG+UFVGdShKx6LF09jwMN0DrfpZeqFg1Ey0nHLL/kl1aKvwGr2FUBrcE75jifbqsOJPXZ7XT5tdbxcKVDELdcshgAn6O5Zon8M0LWjyS6D2EJVK5P+5b5+RWtvIi4aQkuom/Yjs0vU/b2eIE2kU5/qc67jZfOtEckY6Rbn9hdsMN7bzmvoczjCyU8ON9K1OY/DVwiH8qHhBol+SKE99iGmVeNfs2Gx5TZow9YZeIdoKjJiet1RvpGh2id/O2dUolB3KS/BI6McVuS+6GlG
 X-Forefront-PRVS: 0674DC6DD3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(366004)(346002)(396003)(39860400002)(39380400002)(199004)(189003)(25786009)(478600001)(68736007)(42882007)(16526019)(36756003)(305945005)(4326008)(386003)(81156014)(7406005)(7416002)(50226002)(6666003)(2906002)(81166006)(53936002)(8676002)(575784001)(5660300001)(39060400002)(8936002)(110136005)(3846002)(6116002)(6496006)(54906003)(51416003)(6486002)(52116002)(1076002)(47776003)(72206003)(7736002)(97736004)(66066001)(16586007)(486006)(186003)(2616005)(26005)(476003)(956004)(48376002)(446003)(11346002)(76176011)(105586002)(106356001)(50466002)(316002)(76506005);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4374;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(39860400002)(39380400002)(346002)(376002)(366004)(396003)(189003)(199004)(81156014)(386003)(39060400002)(26005)(52116002)(51416003)(50226002)(6496006)(8936002)(316002)(47776003)(6666003)(305945005)(68736007)(66066001)(16586007)(7736002)(81166006)(8676002)(36756003)(107886003)(97736004)(76176011)(25786009)(16526019)(186003)(59450400001)(2906002)(6116002)(5660300001)(76506005)(3846002)(1076002)(476003)(486006)(42882007)(446003)(2616005)(6306002)(956004)(11346002)(106356001)(478600001)(50466002)(48376002)(105586002)(54906003)(110136005)(4326008)(7406005)(7416002)(72206003)(53936002)(575784001)(6486002);DIR:OUT;SFP:1101;SCL:1;SRVR:BN7PR07MB4370;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: cavium.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BYAPR07MB4374;23:mHsSiaSMMpecEk/lrCl70OdnYpJdnkpWCurLbrNWf?=
- =?us-ascii?Q?i6fFT0ICh7XCzmQrcaFGEvWlK3DY9UmvTrfdsboMwfR/nRPV8ZQprtIV6GGM?=
- =?us-ascii?Q?CgnQa+BhgSZrBeSjp70REFWLdb4cgsSun80AbnTfDhaBsSz38cgx7K97k3g3?=
- =?us-ascii?Q?Oe6YKMRQRg5uKPIltl1qxggjE6c76DV/7jlFRuAljp2RwEx2FQA3PzSh4/sL?=
- =?us-ascii?Q?ADnE5SNPz5u56yiQ3kzF09VGRHIU2GysatBEl5gQ0n3z4FWb0K+UT/wKErZq?=
- =?us-ascii?Q?Mm1p+ScQlIVN0L89O7sFAe+iyfTZo9EdjUnoVUkj6sgf1ApUzLBfdygCU2Pi?=
- =?us-ascii?Q?H9jlfFWVxwEe7WzzyMDMcQakqlmOP0WYY8Xh7wFMALXsB6aO077vhqb3mOgB?=
- =?us-ascii?Q?FRPbwYTNxmgxwdaWqvPhTX+cKCHJRDRxdQcK6vodm7tvNgZlJInGcJVMCtRX?=
- =?us-ascii?Q?ymRKOtxtfh0Fa6UkLJfO/BwPGDY51dmNPBE4QqB4O83LDJSASNJqQxWZ2VyU?=
- =?us-ascii?Q?NeQ+K1AgyaXuAMXh33Tk7LIGTECQ4rxC/Oj8Q/NKU7toqEDTgS2hD2u/KbhZ?=
- =?us-ascii?Q?oQdXJySxIQLqkraddqFhljtLmXqv5HTFJQ3AU5t4o1g58KaW/f1+Nx96Lxym?=
- =?us-ascii?Q?mKwmzHWjtBcKHiijGYatMx0bfUXsqeTAntKmISMSuznPqpgiDyTpQdI1nTRT?=
- =?us-ascii?Q?jtRp3uR2IEeRNjz1hxjNkJf2DkaVgXfgt0mJxWJO6Z+YjK5V/c8awqtwpYlS?=
- =?us-ascii?Q?6aReBDoxgItnduk6IyPQkZOo9A7cXzp/A0Czk4qZDjN82R3HrJL+SKRQqkzu?=
- =?us-ascii?Q?C/R7GMTN5oD9tOHVZXwvtxZ9MZCoBdWX65y4sWFS1+4jJzBkG2RrzZVpk8rl?=
- =?us-ascii?Q?5gbIK0in26J42nemH1XQ3ixCV7I9CTZ9xyIPzSfngJo0iXfAmViHf4MFf6So?=
- =?us-ascii?Q?IJKqRuvR+rTo69I1SpVqWkwJyKr1afab850gKvcLN6hXOcoJ7M5PRY9xSYCJ?=
- =?us-ascii?Q?rvucqpb3XqAGTpdlkNBd+XM7EycQhcnW0oVh/EhuVLa87zur4CUWdUN9ndJu?=
- =?us-ascii?Q?HQtAFJf2LOkZXirN36XNPAtlcCciYvGcJXduJ3n/pVkq2QBxyxea5v9tkUJo?=
- =?us-ascii?Q?GqJScyKz0uR6LX8l2VxKyeN0bxfHMfn34RCE03id95WBwk3hQ/CVy0DKQVIX?=
- =?us-ascii?Q?cTIOY1l0EMuXkoVxXquOa3bqzTbneqsGzJdscMrsQfgbivmx4eFHDjCTODwP?=
- =?us-ascii?Q?XTSn0vRAG9nvCRfpHp5uMUbH5Fwn8oeQ8/euFVrJVnztqwJFxBgnRJW/rquc?=
- =?us-ascii?Q?QeCm2yL3xl4fswLAaCW6wIwCOTg54gVec17xa5eYsDPe6MfFH4neuGNb2D50?=
- =?us-ascii?Q?xFtuw=3D=3D?=
-X-Microsoft-Antispam-Message-Info: SSjkjH4uW10xV6Pj+rtDFKnRU+DyM51ptWVEyzwnUMYVViwr6WTK8ODaDwe4etAiFHBGtSh+YVe/udx/H5XxlKrCWmkh67IkCZX7z6A/8JO5ZQrS/rnfsp3LlIdZJ0QllMfp35bsbPTMQT8urc14wcW0JzefIea6vy3XmrBvMk82u1rptXcbOD565Wj2FWHz
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;6:l9QH6+q+sk7D5QZS61e7YBDOZaAdogQAwSq5wd5cnA7j7hQe4CvjXRXhHXzSOu/GC2l46tElX5utIEJrkNJaeeqpJ64DTjvgrHj2Zt49DdC0mLRAuEjuNCPeQ08CKKNywmfDmOC+ukBRZhIaFaGGga7e+YZSR785ue4XkMSFSYJmYDdsyxNkd8IYqpWnEHK9A7NX2545XOehTx7+BCmPZXRwpB2lbw5To+7386EKzFWbMD4XekrnGXy8YiWilSyCB0IMpRKgkzq95LJpAvJLA4UWSBQHWry8DeTABBC5BkcWQqWleuIgnhT3hBA2RBOvUsGaee2Cv7bMR8/dPIoxWGlRZmO4UWCjnbCkabOg4BVDLWp67nHIEugPw2rxt15SYv5gLn1gXjKJdWOGURhLDpI1uibEdRk2wyDOLikrtmLlzigUwmRTOqgpAWV9zdOYXSY3QVQdNmnm6v/wkaalTQ==;5:jaSU+5tQ1jnZh4UAjYcpas5x0Cus+btCU4dQ5pY1fD/Ra9AtOYezL9dnHZwGZ6onkjB8N1VZuYdPbpkaJcdJWBvCStlYlmqVM7LaBiFd5RQTTyi61Xh57MdC/Cie1VvwAxPmNjLCyoU6W/SVmfyxTkwdiN/s4QqgFi9iGkORzkk=;24:sYm//1VdCxjX4WsLuVeo4e3Sc3rx6JEERnOfCHrsRCGU8kY5nK9tSaWsWlYaLzgm8T1943hg5V4Seoyj5Qo9pzmtbCXo0vEQ6TNheUEZH+4=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BN7PR07MB4370;23:1uDRDNGKCDPKFs52gmiFWWW9vJiE+zJFAcHv1VcdR?=
+ =?us-ascii?Q?0g9JmzF5QOz6etxnTujW0/bz/GjoKKRfjkDfSgnoh34e+5MriCjCblpD03Cd?=
+ =?us-ascii?Q?TmwovUf4MuZf75vc9T0vZCl3PnL5HkHJOBL7Ylt5o0Eb6l4QzSpUJFeXn1+U?=
+ =?us-ascii?Q?J7JR+seZMM0oCTcTKTbeRmfm9JcbSWazPwh9X7ArlPSxfX3SIGscNgJPWuLb?=
+ =?us-ascii?Q?1PRJ3LLOdBBothrNwAdzOGfRb3KzjK+zVolgbeFuci1RLwS1VXxAxdoejhrF?=
+ =?us-ascii?Q?zVoiJqxGj4v6Ej4IrDYWepn09V7pfa+bj4V/w36nFfYo0hxMOiBf2kRhu4lf?=
+ =?us-ascii?Q?lJI6el8ZOZm8mDT6iRCUFlSnmWufuIw3pst9p6st8GsIovgl8vccK26C1tlC?=
+ =?us-ascii?Q?4zrA0JYG+jgV7xxPyab0ENutF6p9+/dAdP9gEpYpoj0tjBdLMJ5n5tXnWs3M?=
+ =?us-ascii?Q?xSkYWBb42sXO13PvpEMMu12+Brk0XsBCi88Usz+9bcjj7WhvaxgjF7yRoL+C?=
+ =?us-ascii?Q?JPcSOcMgSVWGjIka+GTkrgQ94TO5bUVd12cm3pOGNoikAhuhQn0iRSYr4Wvf?=
+ =?us-ascii?Q?n1eqoOViX5yr6fnvaCqzoURyxb1pr4Fx2JZo1xhneA+pjkjjxX28jTcxufgq?=
+ =?us-ascii?Q?PTyxe1Lw0nnZjS8p6SbUNZEo2zO3JpDjZXihX//tV3hWy6brRQ4h5D/vtqRt?=
+ =?us-ascii?Q?vx59+gLzdwtS2app8vSDR1L9+oFBiUe1s0Pxe2ysRuYW2FWxtktLu1AJBE0g?=
+ =?us-ascii?Q?Z5JKCQ34VW+JQd0VOcziTfmJ8W3hD2gtdCOo1jLBQNym44nXolyaK02mJ2tv?=
+ =?us-ascii?Q?x753j4nvfsH/NXIMIxEsjHGJqV5nMzwFriF8IYgfx/r/hb1/2W02eYaXyD1U?=
+ =?us-ascii?Q?aJKCX63HO/XPGD3YwGKq5NAFvxcaaH1a9wQ8FwzNZGfLvuTO+NDb3UlwMdrF?=
+ =?us-ascii?Q?r2E1hL0JqfQUIhCp76SycK35Kk8r73oo9b2/zak5p7T5EoyumGDZktH/eDsU?=
+ =?us-ascii?Q?tNEsUGL8/29dc5lfXMVuhAQ2BRMjAK9t3jWfmOo6vYMRg8R5v/VcZfNChJAV?=
+ =?us-ascii?Q?pmG8NBWeXPHnTU6N+FHPAdifVwkjQjw2gOPPs7HRpUsXizQ0vdxycAtpV2K+?=
+ =?us-ascii?Q?9Fnf1PVToP1r/rMVF7BM9PWx8GNBcTKqpGdrQ8J23khq4K8jgo5Mhl/IHX9c?=
+ =?us-ascii?Q?Zc2LONlSPKuKY6CnDR033tJDwB4xxWI5rX9xSaZyJzrphph9NV6xYVBJ9uMK?=
+ =?us-ascii?Q?+/FwXkpk82w+f16kO4J2ZWtsOsuT4NJ1HKH1/Sjpb8PM7wJNb7uJfjzUTSnB?=
+ =?us-ascii?Q?QqplBfxp2khK4Sx+6ZPdCTSCpjfIP4TQF6fouogi1DUy1HXUnqCmN6Akyoxu?=
+ =?us-ascii?Q?7oDd7jzhsmRgRMaisNx3dECAJBKjfRF7RUBQny9REYrvlzx7H25S8pJ/2ugM?=
+ =?us-ascii?Q?z9fCETapQ=3D=3D?=
+X-Microsoft-Antispam-Message-Info: 0sQTZ1Fn/nEzFxuUAw0f6mPTEzKxgeQpKoddpNzhz2KV58L9nCcXdhm8QZXLCygQMUkxWjq2s33oQJr2dfBtuaX+NFMu2ussqKika3SgL76+zv7gpEwiDXBcAAxjfGfIHsdmuD4s5Z4+pEJYgFLy5m5kksY4PXuglOblykR/rBM3Qw6O+UOVM73WsZJQl8Ds
+X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4370;6:3ow/vGXAjxxSsBd9RwVzh7PSS9megBBWDK8t2leZu3r0HGKz93uwh7UBk4pHjY5ouYLe7L3GPD5/j02WK1hg+N20Fy1UbjR/xK4yZij6ZmhJPHP4iBMKmrnVldc5r56aPa5vOvL6kK2PH41dyxOMAs1luvpmsVIWvzYoZvOsBY0JKH44g3fseHzt3ecLah0CCw0JzNKwOG6O5rDzc3GMOEebYbUt+1TKvLTGJ8oERlNBFMhaY5rIo4QyOOfucOFdAH66IsDp8chqQd6N0mzyvZEuFRkgUiNYxDyQO4E795d9sXNNe2ht2u5WIvaM0M+e4rLovvJwuOTWqfnGYceBZClLTlS/RFxhT/lm49KV81Hxxvb8PEjH7vlF76cb3WwiADa1FNG+SiR6dWa1gj7mP4Xn96+m9J8JcLhv2tLwsfFPWcBEpoxen1FcyOnQ/WUwsVXdd3/zKxlbvy2wXZF9bQ==;5:92Fo5vy3QBujxKS7CduOvhF1zFzHDxYqrEpXvGttgLrlm1w6SNkzI0rKl0kMdTAJrP8TzaL4/w7u2qG3+tVjZ05sxRiAx1deM6BgiwR+8ZJRflp5QgCS1L7RXrseRfKz4smsTEFwhgTFWjvqg2reHvNCNFKdSm9Hv0xGKcuGCd0=;24:yE2eNmZF5z2c4jtBd1TK9/8YzWphb2vy8N1bsKN8rk5wnPq7FPg5FlygKbAzUVF5BCAK6xFzgr5mFqy1akE8McubFuJKqotxXnANOl0eHCY=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;7:pH1eI/mHF6qW/kKO8d5RtHUMiwJBNQGjv6nL3y4xGIsuVyM1Vq5nkWEt9u0vLHMq5x+KvylwT322zAbeXDVze73oLz1NxG/QF4iW0X2UDu0MJTAipKptpNEPJnoAlfeiqi8SPhrBj8IjpK49GGjP/su2PFQfznduWaQzqeUn0JxKlcuN1jxGBPsrvqgoH8gZTZNVxNYHsak/BDgnOianTZMPNTqxenDFVIAo7kQV6SFzJiugRboGfIChA340srqJ
-X-MS-Office365-Filtering-Correlation-Id: 8ae0c413-6526-4513-676a-08d5bb05f39e
+X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4370;7:Inr/EjR5qse0BO3+15JElzXchsF/0kKTaajQm3O+eOw3NLshxknbCB9o3xwRD2/ohWDEaNzuvq3iLNeVDu0LTPwFGzjGO3Ejg4cvTGvATO5HgpKN0Mg0TUaUBY8pnImmpV4ItS6m2gSWtXeGBYi528hig7esVHYCuCdwZAGyNrhx4ULu5vXg2MhupSWkEnMrBVOqSDkWz3OaxZUaJK228RthUzMzgeQxY9UHNFyHS6CQ4ARo8ffwZmWoGG4YOu+O
+X-MS-Office365-Filtering-Correlation-Id: bdd237fb-413f-458b-b254-08d5bb05f8a4
 X-OriginatorOrg: caviumnetworks.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:20:57.1768 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ae0c413-6526-4513-676a-08d5bb05f39e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:21:05.7004 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bdd237fb-413f-458b-b254-08d5bb05f8a4
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4374
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR07MB4370
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Based on Andrew Pinski's patch-series.
+From: Andrew Pinski <apinski@cavium.com>
 
+In this patchset ILP32 ABI support is added. Additionally to AARCH32,
+which is binary-compatible with ARM, ILP32 is (mostly) ABI-compatible.
+
+From now, AARCH32_EL0 (former COMPAT) config option means the support of
+AARCH32 userspace, and ARM64_ILP32 - support of ILP32 ABI (see following
+patches), and COMPAT indicates that one of them or both is enabled.
+
+Where needed, CONFIG_COMPAT is changed over to use CONFIG_AARCH32_EL0
+instead.
+
+Reviewed-by: David Daney <ddaney@caviumnetworks.com>
+Signed-off-by: Andrew Pinski <Andrew.Pinski@caviumnetworks.com>
 Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
+Signed-off-by: Philipp Tomsich <philipp.tomsich@theobroma-systems.com>
+Signed-off-by: Christoph Muellner <christoph.muellner@theobroma-systems.com>
+Signed-off-by: Bamvor Jian Zhang <bamv2005@gmail.com>
 ---
- Documentation/arm64/ilp32.txt | 45 +++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
- create mode 100644 Documentation/arm64/ilp32.txt
+ arch/arm64/Kconfig                   | 9 +++++++--
+ arch/arm64/include/asm/fpsimd.h      | 2 +-
+ arch/arm64/include/asm/hwcap.h       | 4 ++--
+ arch/arm64/include/asm/processor.h   | 6 +++---
+ arch/arm64/include/asm/ptrace.h      | 2 +-
+ arch/arm64/include/asm/seccomp.h     | 2 +-
+ arch/arm64/include/asm/signal32.h    | 6 ++++--
+ arch/arm64/include/asm/unistd.h      | 2 +-
+ arch/arm64/kernel/Makefile           | 2 +-
+ arch/arm64/kernel/asm-offsets.c      | 2 +-
+ arch/arm64/kernel/cpufeature.c       | 8 ++++----
+ arch/arm64/kernel/cpuinfo.c          | 8 ++++----
+ arch/arm64/kernel/entry.S            | 6 +++---
+ arch/arm64/kernel/head.S             | 2 +-
+ arch/arm64/kernel/perf_callchain.c   | 6 +++---
+ arch/arm64/kernel/ptrace.c           | 8 ++++----
+ arch/arm64/kernel/traps.c            | 2 +-
+ arch/arm64/kernel/vdso.c             | 4 ++--
+ drivers/clocksource/arm_arch_timer.c | 2 +-
+ 19 files changed, 45 insertions(+), 38 deletions(-)
 
-diff --git a/Documentation/arm64/ilp32.txt b/Documentation/arm64/ilp32.txt
-new file mode 100644
-index 000000000000..d0fd5109c4b2
---- /dev/null
-+++ b/Documentation/arm64/ilp32.txt
-@@ -0,0 +1,45 @@
-+ILP32 AARCH64 SYSCALL ABI
-+=========================
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 7381eeb7ef8e..a16916be20f5 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -433,7 +433,7 @@ config ARM64_ERRATUM_834220
+ 
+ config ARM64_ERRATUM_845719
+ 	bool "Cortex-A53: 845719: a load might read incorrect data"
+-	depends on COMPAT
++	depends on AARCH32_EL0
+ 	default y
+ 	help
+ 	  This option adds an alternative code sequence to work around ARM
+@@ -906,7 +906,7 @@ config HARDEN_BRANCH_PREDICTOR
+ 
+ menuconfig ARMV8_DEPRECATED
+ 	bool "Emulate deprecated/obsolete ARMv8 instructions"
+-	depends on COMPAT
++	depends on AARCH32_EL0
+ 	depends on SYSCTL
+ 	help
+ 	  Legacy software support may require certain instructions
+@@ -1225,7 +1225,12 @@ menu "Userspace binary formats"
+ source "fs/Kconfig.binfmt"
+ 
+ config COMPAT
++	def_bool y
++	depends on AARCH32_EL0
 +
-+This document describes the ILP32 syscall ABI and where it differs
-+from the generic compat linux syscall interface.
++config AARCH32_EL0
+ 	bool "Kernel support for 32-bit EL0"
++	def_bool y
+ 	depends on ARM64_4K_PAGES || EXPERT
+ 	select COMPAT_BINFMT_ELF if BINFMT_ELF
+ 	select HAVE_UID16
+diff --git a/arch/arm64/include/asm/fpsimd.h b/arch/arm64/include/asm/fpsimd.h
+index 8857a0f0d0f7..0971bf730d44 100644
+--- a/arch/arm64/include/asm/fpsimd.h
++++ b/arch/arm64/include/asm/fpsimd.h
+@@ -49,7 +49,7 @@ struct fpsimd_state {
+ 	unsigned int cpu;
+ };
+ 
+-#if defined(__KERNEL__) && defined(CONFIG_COMPAT)
++#if defined(__KERNEL__) && defined(CONFIG_AARCH32_EL0)
+ /* Masks for extracting the FPSR and FPCR from the FPSCR */
+ #define VFP_FPSCR_STAT_MASK	0xf800009f
+ #define VFP_FPSCR_CTRL_MASK	0x07f79f00
+diff --git a/arch/arm64/include/asm/hwcap.h b/arch/arm64/include/asm/hwcap.h
+index 400b80b49595..2c7fc5d89813 100644
+--- a/arch/arm64/include/asm/hwcap.h
++++ b/arch/arm64/include/asm/hwcap.h
+@@ -46,7 +46,7 @@
+  */
+ #define ELF_HWCAP		(elf_hwcap)
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ #define COMPAT_ELF_HWCAP	(compat_elf_hwcap)
+ #define COMPAT_ELF_HWCAP2	(compat_elf_hwcap2)
+ extern unsigned int compat_elf_hwcap, compat_elf_hwcap2;
+@@ -54,7 +54,7 @@ extern unsigned int compat_elf_hwcap, compat_elf_hwcap2;
+ 
+ enum {
+ 	CAP_HWCAP = 1,
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	CAP_COMPAT_HWCAP,
+ 	CAP_COMPAT_HWCAP2,
+ #endif
+diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+index fce604e3e599..79cbc385f52a 100644
+--- a/arch/arm64/include/asm/processor.h
++++ b/arch/arm64/include/asm/processor.h
+@@ -104,7 +104,7 @@ struct cpu_context {
+ struct thread_struct {
+ 	struct cpu_context	cpu_context;	/* cpu context */
+ 	unsigned long		tp_value;	/* TLS register */
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	unsigned long		tp2_value;
+ #endif
+ 	struct fpsimd_state	fpsimd_state;
+@@ -126,7 +126,7 @@ static inline void arch_thread_struct_whitelist(unsigned long *offset,
+ 	*offset = *size = 0;
+ }
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ #define task_user_tls(t)						\
+ ({									\
+ 	unsigned long *__tls;						\
+@@ -160,7 +160,7 @@ static inline void start_thread(struct pt_regs *regs, unsigned long pc,
+ 	regs->sp = sp;
+ }
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ static inline void compat_start_thread(struct pt_regs *regs, unsigned long pc,
+ 				       unsigned long sp)
+ {
+diff --git a/arch/arm64/include/asm/ptrace.h b/arch/arm64/include/asm/ptrace.h
+index 6069d66e0bc2..0c85b469ad68 100644
+--- a/arch/arm64/include/asm/ptrace.h
++++ b/arch/arm64/include/asm/ptrace.h
+@@ -154,7 +154,7 @@ static inline void forget_syscall(struct pt_regs *regs)
+ 
+ #define arch_has_single_step()	(1)
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ #define compat_thumb_mode(regs) \
+ 	(((regs)->pstate & COMPAT_PSR_T_BIT))
+ #else
+diff --git a/arch/arm64/include/asm/seccomp.h b/arch/arm64/include/asm/seccomp.h
+index c76fac979629..00ef0bf63230 100644
+--- a/arch/arm64/include/asm/seccomp.h
++++ b/arch/arm64/include/asm/seccomp.h
+@@ -13,7 +13,7 @@
+ 
+ #include <asm/unistd.h>
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ #define __NR_seccomp_read_32		__NR_compat_read
+ #define __NR_seccomp_write_32		__NR_compat_write
+ #define __NR_seccomp_exit_32		__NR_compat_exit
+diff --git a/arch/arm64/include/asm/signal32.h b/arch/arm64/include/asm/signal32.h
+index 81abea0b7650..2ebde460f5a0 100644
+--- a/arch/arm64/include/asm/signal32.h
++++ b/arch/arm64/include/asm/signal32.h
+@@ -17,7 +17,9 @@
+ #define __ASM_SIGNAL32_H
+ 
+ #ifdef __KERNEL__
+-#ifdef CONFIG_COMPAT
 +
-+AARCH64/ILP32 userspace can pass garbage in the top halve of w0-w7 registers
-+(syscall arguments). So top 32 bits are zeroed for them.
++#ifdef CONFIG_AARCH32_EL0
 +
-+Comparing to AARCH32, AARCH64/ILP32 has 64-bit length of following types:
-+ino_t       is u64 type.
-+off_t       is s64 type.
-+blkcnt_t    is s64 type.
-+fsblkcnt_t  is u64 type.
-+fsfilcnt_t  is u64 type.
-+rlim_t      is u64 type.
-+
-+AARCH64/ILP32 ABI uses standard syscall table which can be found at
-+include/uapi/asm-generic/unistd.h, with the exceptions listed below.
-+
-+Syscalls which pass 64-bit values are handled by the code shared from
-+AARCH32 and pass that value as a pair. Following syscalls are affected:
-+fadvise64_64()
-+fallocate()
-+ftruncate64()
-+pread64()
-+pwrite64()
-+readahead()
-+sync_file_range()
-+truncate64()
-+
-+ptrace() syscall is handled by compat version.
-+
-+shmat() syscall is handled by non-compat handler as aarch64/ilp32 has no
-+limitation on 4-pages alignment for shared memory.
-+
-+statfs() and fstatfs() take the size of struct statfs as an argument.
-+It is calculated differently in kernel and user spaces. So AARCH32 handlers
-+are taken to handle it.
-+
-+struct rt_sigframe is redefined and contains struct compat_siginfo,
-+as compat syscalls expect, and struct ilp32_ucontext, to handle
-+AARCH64 register set and 32-bit userspace register representation.
-+
-+elf_gregset_t is taken from lp64 to handle registers properly.
+ #include <linux/compat.h>
+ 
+ #define AARCH32_KERN_SIGRET_CODE_OFFSET	0x500
+@@ -45,6 +47,6 @@ static inline int compat_setup_rt_frame(int usig, struct ksignal *ksig, sigset_t
+ static inline void compat_setup_restart_syscall(struct pt_regs *regs)
+ {
+ }
+-#endif /* CONFIG_COMPAT */
++#endif /* CONFIG_AARCH32_EL0 */
+ #endif /* __KERNEL__ */
+ #endif /* __ASM_SIGNAL32_H */
+diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+index a0baa9af5487..99d29290c98b 100644
+--- a/arch/arm64/include/asm/unistd.h
++++ b/arch/arm64/include/asm/unistd.h
+@@ -13,7 +13,7 @@
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ #define __ARCH_WANT_COMPAT_STAT64
+ #define __ARCH_WANT_SYS_GETHOSTNAME
+ #define __ARCH_WANT_SYS_PAUSE
+diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
+index b87541360f43..cff1a78bdf4c 100644
+--- a/arch/arm64/kernel/Makefile
++++ b/arch/arm64/kernel/Makefile
+@@ -26,7 +26,7 @@ OBJCOPYFLAGS := --prefix-symbols=__efistub_
+ $(obj)/%.stub.o: $(obj)/%.o FORCE
+ 	$(call if_changed,objcopy)
+ 
+-arm64-obj-$(CONFIG_COMPAT)		+= sys32.o kuser32.o signal32.o 	\
++arm64-obj-$(CONFIG_AARCH32_EL0)		+= sys32.o kuser32.o signal32.o 	\
+ 					   sys_compat.o entry32.o
+ arm64-obj-$(CONFIG_FUNCTION_TRACER)	+= ftrace.o entry-ftrace.o
+ arm64-obj-$(CONFIG_MODULES)		+= arm64ksyms.o module.o
+diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
+index 1303e04110cd..a416c2333e2f 100644
+--- a/arch/arm64/kernel/asm-offsets.c
++++ b/arch/arm64/kernel/asm-offsets.c
+@@ -69,7 +69,7 @@ int main(void)
+   DEFINE(S_X28,			offsetof(struct pt_regs, regs[28]));
+   DEFINE(S_LR,			offsetof(struct pt_regs, regs[30]));
+   DEFINE(S_SP,			offsetof(struct pt_regs, sp));
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+   DEFINE(S_COMPAT_SP,		offsetof(struct pt_regs, compat_sp));
+ #endif
+   DEFINE(S_PSTATE,		offsetof(struct pt_regs, pstate));
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 2985a067fc13..1ea242547466 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -37,7 +37,7 @@
+ unsigned long elf_hwcap __read_mostly;
+ EXPORT_SYMBOL_GPL(elf_hwcap);
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ #define COMPAT_ELF_HWCAP_DEFAULT	\
+ 				(COMPAT_HWCAP_HALF|COMPAT_HWCAP_THUMB|\
+ 				 COMPAT_HWCAP_FAST_MULT|COMPAT_HWCAP_EDSP|\
+@@ -1133,7 +1133,7 @@ static const struct arm64_cpu_capabilities arm64_elf_hwcaps[] = {
+ };
+ 
+ static const struct arm64_cpu_capabilities compat_elf_hwcaps[] = {
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	HWCAP_CAP(SYS_ID_ISAR5_EL1, ID_ISAR5_AES_SHIFT, FTR_UNSIGNED, 2, CAP_COMPAT_HWCAP2, COMPAT_HWCAP2_PMULL),
+ 	HWCAP_CAP(SYS_ID_ISAR5_EL1, ID_ISAR5_AES_SHIFT, FTR_UNSIGNED, 1, CAP_COMPAT_HWCAP2, COMPAT_HWCAP2_AES),
+ 	HWCAP_CAP(SYS_ID_ISAR5_EL1, ID_ISAR5_SHA1_SHIFT, FTR_UNSIGNED, 1, CAP_COMPAT_HWCAP2, COMPAT_HWCAP2_SHA1),
+@@ -1149,7 +1149,7 @@ static void __init cap_set_elf_hwcap(const struct arm64_cpu_capabilities *cap)
+ 	case CAP_HWCAP:
+ 		elf_hwcap |= cap->hwcap;
+ 		break;
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	case CAP_COMPAT_HWCAP:
+ 		compat_elf_hwcap |= (u32)cap->hwcap;
+ 		break;
+@@ -1172,7 +1172,7 @@ static bool cpus_have_elf_hwcap(const struct arm64_cpu_capabilities *cap)
+ 	case CAP_HWCAP:
+ 		rc = (elf_hwcap & cap->hwcap) != 0;
+ 		break;
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	case CAP_COMPAT_HWCAP:
+ 		rc = (compat_elf_hwcap & (u32)cap->hwcap) != 0;
+ 		break;
+diff --git a/arch/arm64/kernel/cpuinfo.c b/arch/arm64/kernel/cpuinfo.c
+index 7f94623df8a5..23fdf30dc0a3 100644
+--- a/arch/arm64/kernel/cpuinfo.c
++++ b/arch/arm64/kernel/cpuinfo.c
+@@ -80,7 +80,7 @@ static const char *const hwcap_str[] = {
+ 	NULL
+ };
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ static const char *const compat_hwcap_str[] = {
+ 	"swp",
+ 	"half",
+@@ -115,7 +115,7 @@ static const char *const compat_hwcap2_str[] = {
+ 	"crc32",
+ 	NULL
+ };
+-#endif /* CONFIG_COMPAT */
++#endif /* CONFIG_AARCH32_EL0 */
+ 
+ static int c_show(struct seq_file *m, void *v)
+ {
+@@ -148,7 +148,7 @@ static int c_show(struct seq_file *m, void *v)
+ 		 */
+ 		seq_puts(m, "Features\t:");
+ 		if (compat) {
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 			for (j = 0; compat_hwcap_str[j]; j++)
+ 				if (compat_elf_hwcap & (1 << j))
+ 					seq_printf(m, " %s", compat_hwcap_str[j]);
+@@ -156,7 +156,7 @@ static int c_show(struct seq_file *m, void *v)
+ 			for (j = 0; compat_hwcap2_str[j]; j++)
+ 				if (compat_elf_hwcap2 & (1 << j))
+ 					seq_printf(m, " %s", compat_hwcap2_str[j]);
+-#endif /* CONFIG_COMPAT */
++#endif /* CONFIG_AARCH32_EL0 */
+ 		} else {
+ 			for (j = 0; hwcap_str[j]; j++)
+ 				if (elf_hwcap & (1 << j))
+diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+index ec2ee720e33e..698907724eed 100644
+--- a/arch/arm64/kernel/entry.S
++++ b/arch/arm64/kernel/entry.S
+@@ -423,7 +423,7 @@ ENTRY(vectors)
+ 	kernel_ventry	0, fiq_invalid			// FIQ 64-bit EL0
+ 	kernel_ventry	0, error			// Error 64-bit EL0
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	kernel_ventry	0, sync_compat, 32		// Synchronous 32-bit EL0
+ 	kernel_ventry	0, irq_compat, 32		// IRQ 32-bit EL0
+ 	kernel_ventry	0, fiq_invalid_compat, 32	// FIQ 32-bit EL0
+@@ -492,7 +492,7 @@ el0_error_invalid:
+ 	inv_entry 0, BAD_ERROR
+ ENDPROC(el0_error_invalid)
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ el0_fiq_invalid_compat:
+ 	inv_entry 0, BAD_FIQ, 32
+ ENDPROC(el0_fiq_invalid_compat)
+@@ -656,7 +656,7 @@ el0_sync:
+ 	b.ge	el0_dbg
+ 	b	el0_inv
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	.align	6
+ el0_sync_compat:
+ 	kernel_entry 0, 32
+diff --git a/arch/arm64/kernel/head.S b/arch/arm64/kernel/head.S
+index 2b6b8b24e5ab..fdd706a839e4 100644
+--- a/arch/arm64/kernel/head.S
++++ b/arch/arm64/kernel/head.S
+@@ -544,7 +544,7 @@ set_hcr:
+ 	msr	vpidr_el2, x0
+ 	msr	vmpidr_el2, x1
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	msr	hstr_el2, xzr			// Disable CP15 traps to EL2
+ #endif
+ 
+diff --git a/arch/arm64/kernel/perf_callchain.c b/arch/arm64/kernel/perf_callchain.c
+index bcafd7dcfe8b..32e07818835d 100644
+--- a/arch/arm64/kernel/perf_callchain.c
++++ b/arch/arm64/kernel/perf_callchain.c
+@@ -59,7 +59,7 @@ user_backtrace(struct frame_tail __user *tail,
+ 	return buftail.fp;
+ }
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ /*
+  * The registers we're interested in are at the end of the variable
+  * length saved register structure. The fp points at the end of this
+@@ -104,7 +104,7 @@ compat_user_backtrace(struct compat_frame_tail __user *tail,
+ 
+ 	return (struct compat_frame_tail __user *)compat_ptr(buftail.fp) - 1;
+ }
+-#endif /* CONFIG_COMPAT */
++#endif /* CONFIG_AARCH32_EL0 */
+ 
+ void perf_callchain_user(struct perf_callchain_entry_ctx *entry,
+ 			 struct pt_regs *regs)
+@@ -126,7 +126,7 @@ void perf_callchain_user(struct perf_callchain_entry_ctx *entry,
+ 		       tail && !((unsigned long)tail & 0xf))
+ 			tail = user_backtrace(tail, entry);
+ 	} else {
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 		/* AARCH32 compat mode */
+ 		struct compat_frame_tail __user *tail;
+ 
+diff --git a/arch/arm64/kernel/ptrace.c b/arch/arm64/kernel/ptrace.c
+index 9ae31f7e2243..04e9b7973b28 100644
+--- a/arch/arm64/kernel/ptrace.c
++++ b/arch/arm64/kernel/ptrace.c
+@@ -188,7 +188,7 @@ static void ptrace_hbptriggered(struct perf_event *bp,
+ 	info.si_code	= TRAP_HWBKPT;
+ 	info.si_addr	= (void __user *)(bkpt->trigger);
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	if (is_compat_task()) {
+ 		int si_errno = 0;
+ 		int i;
+@@ -1039,7 +1039,7 @@ static const struct user_regset_view user_aarch64_view = {
+ 	.regsets = aarch64_regsets, .n = ARRAY_SIZE(aarch64_regsets)
+ };
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ #include <linux/compat.h>
+ 
+ enum compat_regset {
+@@ -1581,11 +1581,11 @@ long compat_arch_ptrace(struct task_struct *child, compat_long_t request,
+ 
+ 	return ret;
+ }
+-#endif /* CONFIG_COMPAT */
++#endif /* CONFIG_AARCH32_EL0 */
+ 
+ const struct user_regset_view *task_user_regset_view(struct task_struct *task)
+ {
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	/*
+ 	 * Core dumping of 32-bit tasks or compat ptrace requests must use the
+ 	 * user_aarch32_view compatible with arm32. Native ptrace requests on
+diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
+index eb2d15147e8d..691b3bbc7606 100644
+--- a/arch/arm64/kernel/traps.c
++++ b/arch/arm64/kernel/traps.c
+@@ -517,7 +517,7 @@ long compat_arm_syscall(struct pt_regs *regs);
+ 
+ asmlinkage long do_ni_syscall(struct pt_regs *regs)
+ {
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	long ret;
+ 	if (is_compat_task()) {
+ 		ret = compat_arm_syscall(regs);
+diff --git a/arch/arm64/kernel/vdso.c b/arch/arm64/kernel/vdso.c
+index 2d419006ad43..440fe2652d4a 100644
+--- a/arch/arm64/kernel/vdso.c
++++ b/arch/arm64/kernel/vdso.c
+@@ -49,7 +49,7 @@ static union {
+ } vdso_data_store __page_aligned_data;
+ struct vdso_data *vdso_data = &vdso_data_store.data;
+ 
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ /*
+  * Create and map the vectors page for AArch32 tasks.
+  */
+@@ -108,7 +108,7 @@ int aarch32_setup_vectors_page(struct linux_binprm *bprm, int uses_interp)
+ 
+ 	return PTR_ERR_OR_ZERO(ret);
+ }
+-#endif /* CONFIG_COMPAT */
++#endif /* CONFIG_AARCH32_EL0 */
+ 
+ static int vdso_mremap(const struct vm_special_mapping *sm,
+ 		struct vm_area_struct *new_vma)
+diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
+index 57cb2f00fc07..c3c6a8d48adc 100644
+--- a/drivers/clocksource/arm_arch_timer.c
++++ b/drivers/clocksource/arm_arch_timer.c
+@@ -764,7 +764,7 @@ static void arch_timer_evtstrm_enable(int divider)
+ 			| ARCH_TIMER_VIRT_EVT_EN;
+ 	arch_timer_set_cntkctl(cntkctl);
+ 	elf_hwcap |= HWCAP_EVTSTRM;
+-#ifdef CONFIG_COMPAT
++#ifdef CONFIG_AARCH32_EL0
+ 	compat_elf_hwcap |= COMPAT_HWCAP_EVTSTRM;
+ #endif
+ 	cpumask_set_cpu(smp_processor_id(), &evtstrm_available);
 -- 
 2.17.0
 
