@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACC027D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:20:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A76A27D08B
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:21:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752872AbeEPIUx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 May 2018 04:20:53 -0400
-Received: from mail-dm3nam03on0073.outbound.protection.outlook.com ([104.47.41.73]:35872
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
+        id S1752483AbeEPIVJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 May 2018 04:21:09 -0400
+Received: from mail-cys01nam02on0081.outbound.protection.outlook.com ([104.47.37.81]:12349
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751904AbeEPIUs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 May 2018 04:20:48 -0400
+        id S1752245AbeEPIVC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 May 2018 04:21:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oeSBxHIuf/Tqf8yOKE/47XyXXtlLmFlM3t33ksf6H3A=;
- b=N14R3cslOwjl4jic8Z7FSilI/AjbX7Jno3SDfW5+HU2nSRygbUhVZfB/JNCh0SIIc13csduXPzTMVz1iXQu0/AXsvJiEbkJ+9nzGdIIfuo6oVtN4F1d+cCKqpvYv2I1Vh1uuOnBcKl7Lt44BicYLFIoBWd0ikSVCidgQ5V4wJEU=
+ bh=kZOgkSOIBPGJPLUPbvxw7kRDYeUeGFpYRIDmWhJ7Tj4=;
+ b=C/BrVnxASSG82m+l8AmoVfPrwvkwLOLviWnjbCbT/e/vvATr4JBCzNWeSynE7Jd0e7F1jpc53B0rRNKYk7uHHeOk8QoSrPnpq7OvdEkrKeJMRhGxePRkhFZfgeZ37ODGSVicAJ41DreLyzvny4cE8wxhkl79sZPK1BCB23Im1GU=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Yuri.Norov@cavium.com; 
 Received: from localhost (176.59.36.13) by
- BYAPR07MB4376.namprd07.prod.outlook.com (2603:10b6:a02:c0::19) with Microsoft
+ BYAPR07MB4374.namprd07.prod.outlook.com (2603:10b6:a02:c0::17) with Microsoft
  SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.755.16; Wed, 16
- May 2018 08:20:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.776.11; Wed, 16
+ May 2018 08:20:57 +0000
 From:   Yury Norov <ynorov@caviumnetworks.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -61,265 +61,131 @@ Cc:     Yury Norov <ynorov@caviumnetworks.com>,
         Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
         Steve Ellcey <sellcey@caviumnetworks.com>,
         Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: [PATCH 06/24] thread: move thread bits accessors to separated file
-Date:   Wed, 16 May 2018 11:18:51 +0300
-Message-Id: <20180516081910.10067-7-ynorov@caviumnetworks.com>
+Subject: [PATCH 07/24] arm64: ilp32: add documentation on the ILP32 ABI for ARM64
+Date:   Wed, 16 May 2018 11:18:52 +0300
+Message-Id: <20180516081910.10067-8-ynorov@caviumnetworks.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [176.59.36.13]
-X-ClientProxiedBy: VI1PR08CA0116.eurprd08.prod.outlook.com
- (2603:10a6:800:d4::18) To BYAPR07MB4376.namprd07.prod.outlook.com
- (2603:10b6:a02:c0::19)
+X-ClientProxiedBy: VI1PR08CA0115.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::17) To BYAPR07MB4374.namprd07.prod.outlook.com
+ (2603:10b6:a02:c0::17)
 X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4376;
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;3:MRdyN7uWHM+UfBRjGgFI4bkbFabFzadpv8GMFcGEVJtwmVQZPPO3Entv+ZwtScX5PO4bmgXZkgJZLaZyVpdv0PKQsjOS2hixNaa+9/IOIPLwOcMJbxrVQ7ELRYSmcP64cumppYKhxdawkwZeHBQ2TAla8x9ct0cHgLzLNRwC+VEPmlYTdCyjZwrlEmKOmsyMnZJ3VB5duVVMqI8aH+71P/8xGQvKeP++Sy0pyaig8ghYlX69JrBnjWVOb5mPfMe2;25:oQMTthZn7PyT2zVbF/+OfGQVjgZMQ+EihQpVXrm9J7kq3COA/AEMgCWCJwlgxxu/hnt3Klhh6Fmpu5HTSapDDpfKwVoITRMr7BzYXnU6wGtauRlSvYikMrsijuQMoVvz76XJrtdIEs7sZr7WjP7sStyD0sTs3ZJ0lMfgpcANTBUkoWWZFe3zjdQ31NV3ZbXCGHgY7wfHLK6DPaTf3PPutJCLFz3QlbtYLMIBXSexNJ4rU0JVc/TlQEa5g71wM8f6bFIe8uOjMUB4y7ketdOX3d8bXBwUr+ilpsB+kX1RjyRsU/yNAiOuXpa5tzhYl2+dt4n94Yb2J5a41Qhgo4QE0A==;31:x6puukXLwKzVGNaHNCW57M9lBxwagm9LPk1HqYyadzigqCXkjCi4cZ5afaHq3g4grAO1aUCrM7aQcA9UvUvFJ9hp98DJquBJl0Nmo0u1eufNF1BPqIijmMkADzHGdgdI57tPJwLInffazYcizn/9m3PQYAJBTtVVhxsXaas6UIX13HIZ5ZbkYVrHdEQyJGbQji052WvtyYclo44J9naiKBcgF2pxmmfvvfgOm3pp3u4=
-X-MS-TrafficTypeDiagnostic: BYAPR07MB4376:
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;20:Jyapb+w38GqL5fQQcvZB4AD2u7qH0/pMmjq26AdIyYJVEY/VNRX11bDDYHG0hhWBY4lYNO2weO1qjOURrGtZZwYtin3UxhZ4BEAl9eux9257aN2pAajM8ImYwYHlchKKmSvoMuitW92VTHhv+2HRa7nhgwtZ11tfWWeHNBSXyG9ztaWy6UMU9RJZmXrsPMvvJKrlaYqao9WlkwORKL6D2caew7m/g5XjWUHFSnO+1UfGZYHHEzs5YexTRqgX8s5k/gfDbVpSclBqWB1cmwhmoeXE956w7X3U28JoUzpy+AhhduwwFR35JB5vdlizUnKBsbTEaWCpw6WoCEHJdw/IQC8CedErL1ogf/T08DUkzpBeYxX9ZTUQoGPSipsgLrF13WUqjdbvjCXQCMSj8GRFdEY1A5Nho7esDCFsX30JOxTBj2Fvv0ZU62EqMh7T1PD7c5i14EHs4a4QREEHBXNuH/IJnkFOU8aKgCl1nys8yEzyA7q/GRwMBDpnsUCX0aYn3mJJHrpX/UHjenz2dAddn8aTBzsNxz9NEv9Rx77AJbG9Y5ADWHuuPgt/9q7u8sQ8wJVAi7s3Kz0/Xhs59vPDaqy2UJfu+AjHOAlBC9Sz9PE=;4:VruydIPwbryDqoZKZKx/capTmkj1DZIbbOaIiPihQ/aaE0pQoAjM8+UjgN1jh7YAypwStnbQVU0++bloYt5WCgqeMkVupTeMTzNlVZV+J1vKwjx4PsZIKSiyKKkiYgzN1QwUowGlMNnK5xbXhTZwB40UGZXaceK6s3jdfI4/oIcpffo+J+RZxlbo6qma28U1cYs8RIz7FHqzP199KEbZjG1qiEQQkJnfxjJgK5ihwisrP+FOr7TGNFrPbIZJtzj46TMYx4qf8UWF6IyTEW+rtw==
-X-Microsoft-Antispam-PRVS: <BYAPR07MB4376A3385E3EC0994524EBCDE3920@BYAPR07MB4376.namprd07.prod.outlook.com>
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4374;
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;3:fkrIjfvGcZKkBOen97Lcm140az6nuLuB6TUc4RNo6/xh6my7az2KK8NDrExAGNdK+N4A2CCjxfmxm+CYluvUZkXL/WKi5gQe4jhuA0IZxjZTI7IEfdTsVgHT/LOkZKCw1Q1DZGlrkIyArPU7VseO46bAILIdtkbzOb/aBQ3wy7/3TVAWWFz5T3urKyFZ+0cExOWnt/Mav/cxoKCyO9+HlRQQ5x5k1vKPisvtkqTjdU/u3n/s1zliXdpnefS31tPC;25:xgnbaVj2Emy2PFoiAk7hUy9J/bPBhIwIrWj15i4o0lOKinqkhXBGAvctApDhkJExy/rLOrUXRgSHq1RvNEbpRW6IREA36cZFoPj9oSbdTFa8QKAw6XGXWJYMfW3X77Hy15ItvieK5TUJ7REtpEePPM0GmNJx4mqC9wFnzZ2+EbeNTpBEv+vTvt49PCbAJTNoCG1rEl2hpkf239cpAlFVJEmS6AT7Ge5BoqRhYAYTfke9kc4TXOfjjIplVg3w5nZB7QP92KiJVQ7EvxozV6A5xmzMucazARQObTB8RdpXFHUfmeTmGnIAQqLNNPoU8WPDCSVO4qdfH7zMqbB7oZV+cA==;31:D4csiEOSpQSNjbmVMSIZm0J/nvl4z39uKdjt157U9Nf+MDHMNLg2u7fl6s/XZoqINZv0LXXxLXgPixaWKB8+Dr4ODO3E+mzGTuIWzu8jo6PqZ61+TNteOKKb7hzTvhGcMThSw4WahINkoyNkOcDflocN+b8/4kYPLTHd6Fp+C7y0UJSVlMmnPNeolE16t+gtswftOXcpRN+q/u/Nurq49h5q7jvQKYkDpI5MXisIhBQ=
+X-MS-TrafficTypeDiagnostic: BYAPR07MB4374:
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;20:EvZcgkK+C6j4vovft78OUlTFXkiq9bZmlBLt5XdbuIci8bphDjazMaoW5XakvYrffIU2x+gcx96til9JUy4Qt+r/qOwkXSmjI1qWVuV3F6+jk28iDza2FwUW1Ps7ZWQHn5eJa8vvc1vS+9Q5pPWlokQKgOmGbOW9cDNg1ptiVe6gpji6TrYnZHGhHriK0l04V2y6aBqrA/FRC0Km5ElNiiWDhbF37UZaOQkGu3VVeXpBgfG1i9zMBaVJbLRHy+FdpTOTC4HeUvFKWZSZzKmjKNTTfK8sgiCTgc9GTH1T+JosdPgZ+JQKVKZ1EzRkWvK17YMqKJgSZoTzIug6NLeZyO9MNFP9FTZyMj7C4toaaPHxKHoJbn7qa4F6HWX0CSK2hVVvc0YlrmWPweQOZ0p+ku9lNwhGLe9Q6zm0ZGO1aKYg4fHJYow4la4hxHbDcntA6qozaTixi9kFxwAH5aE0Gge5idcjNN+dz4vZjLlf56yoLhAYa4dL3NwymYN8+UB8QZOc7jEZkTU9rOiJwbuXwAtGmAXtOR+JQHGVgv78VZsR11xxeTsRG9LSEOE7lHn1yPQAiMxsmiyPd+LVNHb8fEiOB+6PH9OCeWKGRvT4cAg=;4:6p/0na0d6qFzUiq9NqjfcmJIceYrX0cNrflJ8e7ZJzDy8DYX2jqqp133rDxtENEdHJ4BUXrHFlUthpsHp7tguWmiVDxIZiDN3zr2PNeDaFi9qfpxtlYRQz4bHFixzSHmykyUSbQzYkSZoANDVqooXJztoyWtV9khk/Mt5G0t8qQ80Djj8tf4fzorVgDK/m61fY/XSsf5YjbRsBKJ8PKG/hVf1VxNnqDsVRpe77U4BIb/iel9SEZgKjgrxtpxMh+FQGD2GDiLIGc6yhIsZ8DWew==
+X-Microsoft-Antispam-PRVS: <BYAPR07MB4374BDE3E8C47971B8F79737E3920@BYAPR07MB4374.namprd07.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(93006095)(3002001)(10201501046)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(6072148)(201708071742011);SRVR:BYAPR07MB4376;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4376;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(10201501046)(93006095)(3002001)(149027)(150027)(6041310)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(6072148)(201708071742011);SRVR:BYAPR07MB4374;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4374;
 X-Forefront-PRVS: 0674DC6DD3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(346002)(366004)(39850400004)(39380400002)(396003)(189003)(199004)(39060400002)(42882007)(59450400001)(6486002)(53936002)(6666003)(4326008)(51416003)(386003)(76176011)(52116002)(446003)(6496006)(50226002)(16586007)(305945005)(7736002)(72206003)(2616005)(26005)(316002)(478600001)(11346002)(36756003)(956004)(105586002)(186003)(16526019)(97736004)(2906002)(486006)(5660300001)(106356001)(8936002)(476003)(76506005)(50466002)(48376002)(110136005)(47776003)(66066001)(25786009)(54906003)(7416002)(3846002)(81166006)(7406005)(1076002)(68736007)(81156014)(8676002)(6116002);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4376;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(366004)(346002)(396003)(39860400002)(39380400002)(199004)(189003)(25786009)(478600001)(68736007)(42882007)(16526019)(36756003)(305945005)(4326008)(386003)(81156014)(7406005)(7416002)(50226002)(6666003)(2906002)(81166006)(53936002)(8676002)(575784001)(5660300001)(39060400002)(8936002)(110136005)(3846002)(6116002)(6496006)(54906003)(51416003)(6486002)(52116002)(1076002)(47776003)(72206003)(7736002)(97736004)(66066001)(16586007)(486006)(186003)(2616005)(26005)(476003)(956004)(48376002)(446003)(11346002)(76176011)(105586002)(106356001)(50466002)(316002)(76506005);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4374;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 Received-SPF: None (protection.outlook.com: cavium.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BYAPR07MB4376;23:Y+Ae4WdwiUNuLk5kSCCeJLi42tPcYEcxyw+1sxSjP?=
- =?us-ascii?Q?yIvvjPUTRD3ifZVgk88omwtU2H+dInxjzeisT6/o+ew1Cvlv11aJvnAyeV0E?=
- =?us-ascii?Q?HzbrpJkgjkODoWg6Okb7yYe18Xnm6LZp+rcxD4OeXHYHRORySbphql0tg0Vp?=
- =?us-ascii?Q?chC1MWbO7JY2tgs8RTfHnpMbJufx2MQ5Re4psKYKHUN6b0xrtfk1FmJFotZz?=
- =?us-ascii?Q?P6n9MZSt90YrJVL11EU5z+UNxKZjk3UAu467dJ7ry3ES7G/eBTEJutjS8EjC?=
- =?us-ascii?Q?rFd1FD+yCGT9eMyIChyR76TyLn34QEkBJbV0lmGcJ5J78ZBWwn8tjzhWySe4?=
- =?us-ascii?Q?OSAAnz8wy9WVvDkvA3daH8TaRTF1JaVWxPJ0F/lrkv2SksKu7Ztxd9CspgTe?=
- =?us-ascii?Q?+nb2rmzQH0XEk1c7YumlPXzR0iFI4Z+R14IVRi1MVE7VAQxpR7DFvrPlTeMF?=
- =?us-ascii?Q?xoi2iyMl0mDFBB39wtTEJwtRbNyQZIBKt8/Bkc/gywWG2pFMx2QHW9KedidS?=
- =?us-ascii?Q?sxmIfVw4i8ISngm2vGAtPO9bTpGwLIoBBoC7ScAHFxmdMemrOmfBXi+ntfn1?=
- =?us-ascii?Q?/5UbwgX/PcQvVSJacfRoZ+LqaVEacEneAfsyISjmCOZXcP1+OniQWTAnDSTC?=
- =?us-ascii?Q?nYRIkM8Fm6sa91JOAasae3U8knE88ZEz6NeMDEtWS3QRxnguujwamfWAWoh0?=
- =?us-ascii?Q?fEgtX6mX7f0qfesKOsCzftWne+KkcOEVrqY3BCDB9Ih1qDPtAvNosAsiRUK+?=
- =?us-ascii?Q?XoY9lFQI5an2VmH1HIUKq8O+zQ38zGvVApp8dG57tKENigNbJKKszdN82rJb?=
- =?us-ascii?Q?6NQeJMPkPqPVa7GAsm6d4He9AZCXD/24uGDhZeJ5VzaPRoS+yjeTUPr+viUl?=
- =?us-ascii?Q?/mg7PCqVOmtX2BcOW16rw62vQJySUwt/QkgyepEr+2wjsswxgCYVtmPurduZ?=
- =?us-ascii?Q?y88IA3W/p5BxoKgmZ7D9V4bSgAAYyuIgG/p9o3tMSXdoM0cwWnE/dn9vk5Z9?=
- =?us-ascii?Q?UmxboOktxzWvI8/tXduGqqfKDgQ7skyvwF7/bfiRWjr77SqJvdBrHe2xZKKe?=
- =?us-ascii?Q?3/t7N9ch3JTls220/xwk3LEyQ9m6wwNc19VnNNYuYhnv2tBeRpioAzurFUEP?=
- =?us-ascii?Q?zJdNoe/+XWQsRH9w5JFmj9jVFIGLJq1L5BcqBxJSoWX+k38i39MAAjZtnP6j?=
- =?us-ascii?Q?38gDLWtwZ1/5+zLYy1nZHRt+ctcarjSr45gvzAsxizx1lsAmd/URTwU7DKSn?=
- =?us-ascii?Q?OVbeIcmYzhjvmEMEEomNLLf2cIPB11TeTAGtACxcRpq5PmqhScMDVFhou5NI?=
- =?us-ascii?Q?Avip5QPqr/3ic/Wrpx2prtWgKKtu15HFc8PNS4Sm664eA/POOd2KysRTNIeT?=
- =?us-ascii?Q?aAL4g=3D=3D?=
-X-Microsoft-Antispam-Message-Info: Lj7tFqPXMjvk/Xhznz05JLuIxaiVbrri/ar2SyIsZ2zXaJ4PCXYDaWFw8lzsRLlPNY2yjsyMm/eAxE0HQ3felnI6T0Nx8y71RDUe//3DFsSaUtZN7W+2qGhZY40CRk8Qs4ChUuz4Pq2uhcCv0VTDWvGzjwkFPV/AkhyHY2qxLyDq+eK62MavcV5F+rz0qlAl
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;6:PISO3ImZ8UDCM/XOiYCEoK0xSzQ3VA3jHxRATvaAwO77muDdtXxB15PKneKpZ3NFpefF42xGRy8/cRyhXFTU0kzeKTEWAboRSAF1LDZWUtHlS3SV5os4n97DtgoBHVyL+Lsx5a/+NbQRcbQyNHx7PGyVF496r+FdqQ7jwNfYdcH+6XwomkS6DtiL3NgHrcMUDue5wcbw+xh1pbJQ8eQZYP7+EZtjFWMo4esMqKAi3R1Jo+tNWjan0WyQO27hQGvXZXYJb5z3ewE94gQbsRvA2vjWCRhXu+E0TzZ6dTclC0HdchmSqgGniwwwIcj29oWeYI9Z4EkUKNaAChEupHCBh27j/2ssRHLLXU3Pd5+mE59dZcznKJ+gJpbga0DhVnCK/Th18Mgy+qPwxapo/dGUv1Hpxi+idqae4B1trtCBidqaU0eWzamUzLauP4qgNpL95CFnBX0hCkbvekwmIBPqjA==;5:C1ygaMtIBhrziOKDT0IbPiKB9+0E/gdyAiqf99xa8tcZrvYZ7RHzgusRQcwylyb2LZDRpuPaQfz/Hs7ATMp9E72yF9gPF2I3PPgtZXekwxzUPKnk4/Dj+ZBfDG6JN7FQhVd7QJn2Y9bmKY8j6qLDgw1Uugta3/6dkPwVCcPK7jM=;24:dbSghtACev4FMqfs/8gsvPj02qBOxLWr+spsUZtyi7AulTbwn+TDQXorH89SNJqcJfGtRHMoeCPHYkD5kMqkx7y6hQiy7vaKLfo14Hea6YM=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BYAPR07MB4374;23:mHsSiaSMMpecEk/lrCl70OdnYpJdnkpWCurLbrNWf?=
+ =?us-ascii?Q?i6fFT0ICh7XCzmQrcaFGEvWlK3DY9UmvTrfdsboMwfR/nRPV8ZQprtIV6GGM?=
+ =?us-ascii?Q?CgnQa+BhgSZrBeSjp70REFWLdb4cgsSun80AbnTfDhaBsSz38cgx7K97k3g3?=
+ =?us-ascii?Q?Oe6YKMRQRg5uKPIltl1qxggjE6c76DV/7jlFRuAljp2RwEx2FQA3PzSh4/sL?=
+ =?us-ascii?Q?ADnE5SNPz5u56yiQ3kzF09VGRHIU2GysatBEl5gQ0n3z4FWb0K+UT/wKErZq?=
+ =?us-ascii?Q?Mm1p+ScQlIVN0L89O7sFAe+iyfTZo9EdjUnoVUkj6sgf1ApUzLBfdygCU2Pi?=
+ =?us-ascii?Q?H9jlfFWVxwEe7WzzyMDMcQakqlmOP0WYY8Xh7wFMALXsB6aO077vhqb3mOgB?=
+ =?us-ascii?Q?FRPbwYTNxmgxwdaWqvPhTX+cKCHJRDRxdQcK6vodm7tvNgZlJInGcJVMCtRX?=
+ =?us-ascii?Q?ymRKOtxtfh0Fa6UkLJfO/BwPGDY51dmNPBE4QqB4O83LDJSASNJqQxWZ2VyU?=
+ =?us-ascii?Q?NeQ+K1AgyaXuAMXh33Tk7LIGTECQ4rxC/Oj8Q/NKU7toqEDTgS2hD2u/KbhZ?=
+ =?us-ascii?Q?oQdXJySxIQLqkraddqFhljtLmXqv5HTFJQ3AU5t4o1g58KaW/f1+Nx96Lxym?=
+ =?us-ascii?Q?mKwmzHWjtBcKHiijGYatMx0bfUXsqeTAntKmISMSuznPqpgiDyTpQdI1nTRT?=
+ =?us-ascii?Q?jtRp3uR2IEeRNjz1hxjNkJf2DkaVgXfgt0mJxWJO6Z+YjK5V/c8awqtwpYlS?=
+ =?us-ascii?Q?6aReBDoxgItnduk6IyPQkZOo9A7cXzp/A0Czk4qZDjN82R3HrJL+SKRQqkzu?=
+ =?us-ascii?Q?C/R7GMTN5oD9tOHVZXwvtxZ9MZCoBdWX65y4sWFS1+4jJzBkG2RrzZVpk8rl?=
+ =?us-ascii?Q?5gbIK0in26J42nemH1XQ3ixCV7I9CTZ9xyIPzSfngJo0iXfAmViHf4MFf6So?=
+ =?us-ascii?Q?IJKqRuvR+rTo69I1SpVqWkwJyKr1afab850gKvcLN6hXOcoJ7M5PRY9xSYCJ?=
+ =?us-ascii?Q?rvucqpb3XqAGTpdlkNBd+XM7EycQhcnW0oVh/EhuVLa87zur4CUWdUN9ndJu?=
+ =?us-ascii?Q?HQtAFJf2LOkZXirN36XNPAtlcCciYvGcJXduJ3n/pVkq2QBxyxea5v9tkUJo?=
+ =?us-ascii?Q?GqJScyKz0uR6LX8l2VxKyeN0bxfHMfn34RCE03id95WBwk3hQ/CVy0DKQVIX?=
+ =?us-ascii?Q?cTIOY1l0EMuXkoVxXquOa3bqzTbneqsGzJdscMrsQfgbivmx4eFHDjCTODwP?=
+ =?us-ascii?Q?XTSn0vRAG9nvCRfpHp5uMUbH5Fwn8oeQ8/euFVrJVnztqwJFxBgnRJW/rquc?=
+ =?us-ascii?Q?QeCm2yL3xl4fswLAaCW6wIwCOTg54gVec17xa5eYsDPe6MfFH4neuGNb2D50?=
+ =?us-ascii?Q?xFtuw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: SSjkjH4uW10xV6Pj+rtDFKnRU+DyM51ptWVEyzwnUMYVViwr6WTK8ODaDwe4etAiFHBGtSh+YVe/udx/H5XxlKrCWmkh67IkCZX7z6A/8JO5ZQrS/rnfsp3LlIdZJ0QllMfp35bsbPTMQT8urc14wcW0JzefIea6vy3XmrBvMk82u1rptXcbOD565Wj2FWHz
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;6:l9QH6+q+sk7D5QZS61e7YBDOZaAdogQAwSq5wd5cnA7j7hQe4CvjXRXhHXzSOu/GC2l46tElX5utIEJrkNJaeeqpJ64DTjvgrHj2Zt49DdC0mLRAuEjuNCPeQ08CKKNywmfDmOC+ukBRZhIaFaGGga7e+YZSR785ue4XkMSFSYJmYDdsyxNkd8IYqpWnEHK9A7NX2545XOehTx7+BCmPZXRwpB2lbw5To+7386EKzFWbMD4XekrnGXy8YiWilSyCB0IMpRKgkzq95LJpAvJLA4UWSBQHWry8DeTABBC5BkcWQqWleuIgnhT3hBA2RBOvUsGaee2Cv7bMR8/dPIoxWGlRZmO4UWCjnbCkabOg4BVDLWp67nHIEugPw2rxt15SYv5gLn1gXjKJdWOGURhLDpI1uibEdRk2wyDOLikrtmLlzigUwmRTOqgpAWV9zdOYXSY3QVQdNmnm6v/wkaalTQ==;5:jaSU+5tQ1jnZh4UAjYcpas5x0Cus+btCU4dQ5pY1fD/Ra9AtOYezL9dnHZwGZ6onkjB8N1VZuYdPbpkaJcdJWBvCStlYlmqVM7LaBiFd5RQTTyi61Xh57MdC/Cie1VvwAxPmNjLCyoU6W/SVmfyxTkwdiN/s4QqgFi9iGkORzkk=;24:sYm//1VdCxjX4WsLuVeo4e3Sc3rx6JEERnOfCHrsRCGU8kY5nK9tSaWsWlYaLzgm8T1943hg5V4Seoyj5Qo9pzmtbCXo0vEQ6TNheUEZH+4=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;7:aNQ4cMrveyW+sm2xFAlkH1qdxRtAAeiRcmU3mdsEOH+VjrSLM6H/UBbfYAdUSOGP2w4EK1Zy27bG9hoS+E3Vnrtu+CkOFIE9Z3AURKaC+85jOyiucP6WztbEIliQB8N9jMXgJeLbNttTaJk2g1YEaEImtbuynILBr5HOBTuSOJBQUnWJ2GNMoG19oYQQxmSuIzhXAtaqU+9MjSFwb6oGz28FvAt2JnV3tKG5E81/7sh1FALBByAadIitgR6d+ROo
-X-MS-Office365-Filtering-Correlation-Id: a06266f0-582f-414b-5ca8-08d5bb05eb84
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4374;7:pH1eI/mHF6qW/kKO8d5RtHUMiwJBNQGjv6nL3y4xGIsuVyM1Vq5nkWEt9u0vLHMq5x+KvylwT322zAbeXDVze73oLz1NxG/QF4iW0X2UDu0MJTAipKptpNEPJnoAlfeiqi8SPhrBj8IjpK49GGjP/su2PFQfznduWaQzqeUn0JxKlcuN1jxGBPsrvqgoH8gZTZNVxNYHsak/BDgnOianTZMPNTqxenDFVIAo7kQV6SFzJiugRboGfIChA340srqJ
+X-MS-Office365-Filtering-Correlation-Id: 8ae0c413-6526-4513-676a-08d5bb05f39e
 X-OriginatorOrg: caviumnetworks.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:20:43.5375 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a06266f0-582f-414b-5ca8-08d5bb05eb84
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:20:57.1768 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ae0c413-6526-4513-676a-08d5bb05f39e
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4376
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4374
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thread bits may be accessed from low-level code, so isolating is a measure
-to avoid circular dependencies in header files.
-
-The exact reason for circular dependency is WARN_ON() macro added in patch
-edd63a27 "set_restore_sigmask() is never called without SIGPENDING (and
-never should be)"
+Based on Andrew Pinski's patch-series.
 
 Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
 ---
- include/linux/sched.h       |  1 +
- include/linux/thread_bits.h | 76 +++++++++++++++++++++++++++++++++++++
- include/linux/thread_info.h | 64 +------------------------------
- 3 files changed, 78 insertions(+), 63 deletions(-)
- create mode 100644 include/linux/thread_bits.h
+ Documentation/arm64/ilp32.txt | 45 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 Documentation/arm64/ilp32.txt
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index b161ef8a902e..c1bddf06baed 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -27,6 +27,7 @@
- #include <linux/signal_types.h>
- #include <linux/mm_types_task.h>
- #include <linux/task_io_accounting.h>
-+#include <linux/thread_bits.h>
- 
- /* task_struct member predeclarations (sorted alphabetically): */
- struct audit_context;
-diff --git a/include/linux/thread_bits.h b/include/linux/thread_bits.h
+diff --git a/Documentation/arm64/ilp32.txt b/Documentation/arm64/ilp32.txt
 new file mode 100644
-index 000000000000..7512f8527e9a
+index 000000000000..d0fd5109c4b2
 --- /dev/null
-+++ b/include/linux/thread_bits.h
-@@ -0,0 +1,76 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
++++ b/Documentation/arm64/ilp32.txt
+@@ -0,0 +1,45 @@
++ILP32 AARCH64 SYSCALL ABI
++=========================
 +
-+/* Common low-level thread bits accessors */
++This document describes the ILP32 syscall ABI and where it differs
++from the generic compat linux syscall interface.
 +
-+#ifndef _LINUX_THREAD_BITS_H
-+#define _LINUX_THREAD_BITS_H
++AARCH64/ILP32 userspace can pass garbage in the top halve of w0-w7 registers
++(syscall arguments). So top 32 bits are zeroed for them.
 +
-+#ifndef __ASSEMBLY__
++Comparing to AARCH32, AARCH64/ILP32 has 64-bit length of following types:
++ino_t       is u64 type.
++off_t       is s64 type.
++blkcnt_t    is s64 type.
++fsblkcnt_t  is u64 type.
++fsfilcnt_t  is u64 type.
++rlim_t      is u64 type.
 +
-+/*
-+ * For per-arch arch_within_stack_frames() implementations, defined in
-+ * asm/thread_info.h.
-+ */
-+enum {
-+	BAD_STACK = -1,
-+	NOT_STACK = 0,
-+	GOOD_FRAME,
-+	GOOD_STACK,
-+};
++AARCH64/ILP32 ABI uses standard syscall table which can be found at
++include/uapi/asm-generic/unistd.h, with the exceptions listed below.
 +
-+#include <linux/bitops.h>
-+#include <asm/thread_info.h>
++Syscalls which pass 64-bit values are handled by the code shared from
++AARCH32 and pass that value as a pair. Following syscalls are affected:
++fadvise64_64()
++fallocate()
++ftruncate64()
++pread64()
++pwrite64()
++readahead()
++sync_file_range()
++truncate64()
 +
-+#ifdef CONFIG_THREAD_INFO_IN_TASK
-+/*
-+ * For CONFIG_THREAD_INFO_IN_TASK kernels we need <asm/current.h> for the
-+ * definition of current, but for !CONFIG_THREAD_INFO_IN_TASK kernels,
-+ * including <asm/current.h> can cause a circular dependency on some platforms.
-+ */
-+#include <asm/current.h>
-+#define current_thread_info() ((struct thread_info *)current)
-+#endif
++ptrace() syscall is handled by compat version.
 +
-+/*
-+ * flag set/clear/test wrappers
-+ * - pass TIF_xxxx constants to these functions
-+ */
++shmat() syscall is handled by non-compat handler as aarch64/ilp32 has no
++limitation on 4-pages alignment for shared memory.
 +
-+static inline void set_ti_thread_flag(struct thread_info *ti, int flag)
-+{
-+	set_bit(flag, (unsigned long *)&ti->flags);
-+}
++statfs() and fstatfs() take the size of struct statfs as an argument.
++It is calculated differently in kernel and user spaces. So AARCH32 handlers
++are taken to handle it.
 +
-+static inline void clear_ti_thread_flag(struct thread_info *ti, int flag)
-+{
-+	clear_bit(flag, (unsigned long *)&ti->flags);
-+}
++struct rt_sigframe is redefined and contains struct compat_siginfo,
++as compat syscalls expect, and struct ilp32_ucontext, to handle
++AARCH64 register set and 32-bit userspace register representation.
 +
-+static inline int test_and_set_ti_thread_flag(struct thread_info *ti, int flag)
-+{
-+	return test_and_set_bit(flag, (unsigned long *)&ti->flags);
-+}
-+
-+static inline int test_and_clear_ti_thread_flag(struct thread_info *ti, int flag)
-+{
-+	return test_and_clear_bit(flag, (unsigned long *)&ti->flags);
-+}
-+
-+static inline int test_ti_thread_flag(struct thread_info *ti, int flag)
-+{
-+	return test_bit(flag, (unsigned long *)&ti->flags);
-+}
-+
-+#define set_thread_flag(flag) \
-+	set_ti_thread_flag(current_thread_info(), flag)
-+#define clear_thread_flag(flag) \
-+	clear_ti_thread_flag(current_thread_info(), flag)
-+#define test_and_set_thread_flag(flag) \
-+	test_and_set_ti_thread_flag(current_thread_info(), flag)
-+#define test_and_clear_thread_flag(flag) \
-+	test_and_clear_ti_thread_flag(current_thread_info(), flag)
-+#define test_thread_flag(flag) \
-+	test_ti_thread_flag(current_thread_info(), flag)
-+
-+#endif /* !__ASSEMBLY__ */
-+#endif /* _LINUX_THREAD_BITS_H */
-diff --git a/include/linux/thread_info.h b/include/linux/thread_info.h
-index 34f053a150a9..793ab9b290ad 100644
---- a/include/linux/thread_info.h
-+++ b/include/linux/thread_info.h
-@@ -11,30 +11,9 @@
- #include <linux/types.h>
- #include <linux/bug.h>
- #include <linux/restart_block.h>
--
--#ifdef CONFIG_THREAD_INFO_IN_TASK
--/*
-- * For CONFIG_THREAD_INFO_IN_TASK kernels we need <asm/current.h> for the
-- * definition of current, but for !CONFIG_THREAD_INFO_IN_TASK kernels,
-- * including <asm/current.h> can cause a circular dependency on some platforms.
-- */
--#include <asm/current.h>
--#define current_thread_info() ((struct thread_info *)current)
--#endif
-+#include <linux/thread_bits.h>
- 
- #include <linux/bitops.h>
--
--/*
-- * For per-arch arch_within_stack_frames() implementations, defined in
-- * asm/thread_info.h.
-- */
--enum {
--	BAD_STACK = -1,
--	NOT_STACK = 0,
--	GOOD_FRAME,
--	GOOD_STACK,
--};
--
- #include <asm/thread_info.h>
- 
- #ifdef __KERNEL__
-@@ -49,47 +28,6 @@ enum {
- # define THREADINFO_GFP		(GFP_KERNEL_ACCOUNT)
- #endif
- 
--/*
-- * flag set/clear/test wrappers
-- * - pass TIF_xxxx constants to these functions
-- */
--
--static inline void set_ti_thread_flag(struct thread_info *ti, int flag)
--{
--	set_bit(flag, (unsigned long *)&ti->flags);
--}
--
--static inline void clear_ti_thread_flag(struct thread_info *ti, int flag)
--{
--	clear_bit(flag, (unsigned long *)&ti->flags);
--}
--
--static inline int test_and_set_ti_thread_flag(struct thread_info *ti, int flag)
--{
--	return test_and_set_bit(flag, (unsigned long *)&ti->flags);
--}
--
--static inline int test_and_clear_ti_thread_flag(struct thread_info *ti, int flag)
--{
--	return test_and_clear_bit(flag, (unsigned long *)&ti->flags);
--}
--
--static inline int test_ti_thread_flag(struct thread_info *ti, int flag)
--{
--	return test_bit(flag, (unsigned long *)&ti->flags);
--}
--
--#define set_thread_flag(flag) \
--	set_ti_thread_flag(current_thread_info(), flag)
--#define clear_thread_flag(flag) \
--	clear_ti_thread_flag(current_thread_info(), flag)
--#define test_and_set_thread_flag(flag) \
--	test_and_set_ti_thread_flag(current_thread_info(), flag)
--#define test_and_clear_thread_flag(flag) \
--	test_and_clear_ti_thread_flag(current_thread_info(), flag)
--#define test_thread_flag(flag) \
--	test_ti_thread_flag(current_thread_info(), flag)
--
- #define tif_need_resched() test_thread_flag(TIF_NEED_RESCHED)
- 
- #ifndef CONFIG_HAVE_ARCH_WITHIN_STACK_FRAMES
++elf_gregset_t is taken from lp64 to handle registers properly.
 -- 
 2.17.0
 
