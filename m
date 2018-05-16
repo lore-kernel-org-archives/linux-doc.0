@@ -3,30 +3,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A047B7D08B
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:28:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 689A37D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752910AbeEPI25 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 May 2018 04:28:57 -0400
-Received: from mail-cys01nam02on0068.outbound.protection.outlook.com ([104.47.37.68]:43392
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        id S1752802AbeEPIUN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 May 2018 04:20:13 -0400
+Received: from mail-sn1nam02on0064.outbound.protection.outlook.com ([104.47.36.64]:26144
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751664AbeEPIVa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 May 2018 04:21:30 -0400
+        id S1752336AbeEPIUE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 May 2018 04:20:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k06L/NUKPVaWva0xbBZ9F3w6m89eju95+MZ5+9AdzXI=;
- b=lpAuZkZfFtegj2cElvPwnIt4gqtDWOQSJIQsxaLHvrZjedE6mbrZH+lsLftAh9cEgYVOOTw7Ufe8YKspY1/uxq51opwB8q8jq6MVBw6ihu+7/rMt/I5uP0EmmcHej9rK/BfZWTLy7qCYX8yQZXHeQyvQkNOxpiab0bt+xz2Lcjg=
+ bh=nZ26KlTEVnRaHlwrtiIoLZd1sA+N7KePRgLmgyuQrj4=;
+ b=hvz/x5kGfmzmw4kJxu+njcg2C4wrrMkOkjXI2CWmtsh/1LVyddvpr0x94ZTMBFFF4V6sMi6t2fGrNNap0jI1P907OC+KQnX9YHcx9KERTwWNty6Lg2lLs5SvMC1HVOGhm1+ysG5KFgTwtF5iqwG1Pp+uZxbqMWNEtF8JC1rtz4k=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Yuri.Norov@cavium.com; 
 Received: from localhost (176.59.36.13) by
- BN7PR07MB4371.namprd07.prod.outlook.com (2603:10b6:406:b5::11) with Microsoft
+ BYAPR07MB4373.namprd07.prod.outlook.com (2603:10b6:a02:c0::16) with Microsoft
  SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.776.11; Wed, 16
- May 2018 08:21:27 +0000
+ May 2018 08:20:02 +0000
 From:   Yury Norov <ynorov@caviumnetworks.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -60,109 +60,125 @@ Cc:     Yury Norov <ynorov@caviumnetworks.com>,
         Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
         Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
         Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Andrew Pinski <apinski@cavium.com>
-Subject: [PATCH 10/24] arm64: uapi: set __BITS_PER_LONG correctly for ILP32 and LP64
-Date:   Wed, 16 May 2018 11:18:55 +0300
-Message-Id: <20180516081910.10067-11-ynorov@caviumnetworks.com>
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: [PATCH 03/24] compat ABI: use non-compat openat and open_by_handle_at variants
+Date:   Wed, 16 May 2018 11:18:48 +0300
+Message-Id: <20180516081910.10067-4-ynorov@caviumnetworks.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [176.59.36.13]
-X-ClientProxiedBy: VI1PR08CA0119.eurprd08.prod.outlook.com
- (2603:10a6:800:d4::21) To BN7PR07MB4371.namprd07.prod.outlook.com
- (2603:10b6:406:b5::11)
+X-ClientProxiedBy: VI1PR08CA0124.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::26) To BYAPR07MB4373.namprd07.prod.outlook.com
+ (2603:10b6:a02:c0::16)
 X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(5600026)(2017052603328)(7153060)(7193020);SRVR:BN7PR07MB4371;
-X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4371;3:oOWHiUfNonkPGQczf/XxQpmYIDyaQJutXmRHeHnO3rCJfkYBZvKDNQT7tuEF9skWAUGQGGkMJFqFVV+dRpoZ0N0T33dOMBLTcpbjnj1O9xkzVxQe/EuLRaFZFyNie2MgpltdXiHFCyGTefoxW329Ev403FihLuzGP1v6JGAxJ15ruhsZul+uQZiSCSBMtdM/9gJcRtVdTrr/8yXbHx/OxWi8QxM4/ZqIsSPDAd4brinjZLUAYIIEyXTG0TriE99t;25:gFIQvwwYuiu06sp6/tufMoapCyKSb4Qakq7WOlmRBa3LixmfA8vVQmKJGu2rs/Pgl43bzrtNQgYJHJMUT0epVxlD863vBc+4vDi8M55yIDUgjGoYI0x5K6Z1N3fHgXaBr5vimUW89EirTRTcMH8LFU5Xift1AUb2583LQKMpKAumdJppgTFaZBYaVvzEvz99nlTbX+4ciuKJqOS3WIminmzAqmOL8jj2rHj8KFeHLekUEU2XYG+wki2eRL+Bx2bsqSgu/cKGi9GoioBrbOACFHvPxQNW7+OSf2ehHsItM9hId5EDWAvJP8yDJ7nKwuWF9jit6uX0QxnevLhpga6LrA==;31:3lSZisl/n/00WhhEfDtEfaD/WH7ugeG8ll04UmbhWFqiHIdI68pTOHZuaGpIRcKDXhHgUYGnzKRf18mUzBWXlKryQOFqjgJr8XSjQRQgvGnF3NW8mzaZJdwyWFDi965s+fBX1ehunQm2ZpsX2/Q1KZcm8x9mrRjn0Ol88mAaOtZrihuQewB27wSFEJHJ+PzbwOdllKVRG6wqevS8W6FpnjBncGVFPeO9wbh5w7hjAFc=
-X-MS-TrafficTypeDiagnostic: BN7PR07MB4371:
-X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4371;20:BqeCH444BL/w2hWVlDZzx+ZxjgiyFTps/eKnLgAt7fs+d1NCfXmxkDh90Wx3GcswFxBOY5Mz2InmtsOGoJEiyod/Yk/H6Ve/o5IOYyS2KHYIca9eAMOzVkYK63fK0B7n62s6mWkUY4ruUQcweLj26Hkev5ztxkmry2dLtVObWOGIlMYplNofMioPsObGb/v66G655mUkVw8cAEklG08jpgbGn3Ru2UeutgdaiN+RMjAML5r2AGiA1xF++X6Tuak/GI8AKpODQHCJ4sesL++zAnx+ZgIA+GLo9Sr5BuuurGtAmRmicHojZgQ26P7xa9QGSG0gyUyBhqaDM12yubZdEv5nfYpvSauQM/msdMQNwwdGcINAinSUUh+uhV2wmjsq6LFQzSUExVFhJzy4PvyDWyyzQjjdEk1gmy9GGwWw+q14VGBIZqIpnsrLEzmpfvi3cDtmkj/H5aa9A/PpBUugdHcBRX5kZslmCKQc7apSyicJQzTOguT/LiCX82qAEilZfdEwkI1taRAZaWRyir83QBFuYxzM+wRkrjaHBx3ZOH6Mr9GkMRKjig2KWneSDRhuXGpdCRBugF8l7UuvMykaIVTALcUv5H2chfSK2yMk9fw=;4:DWO9MTE5dWOYUNjz9dzdmitJ0AlKanV+sI14W1NfeaVZ3wYKj1Z1KjbWV7iZOmKqfR1Z+3ZWNsLf0SDcOM0Zlhy04BFqmugeAn1p0fdBD1Kkhx6pbyUepetENwM3khnROMOOyVQephU32q8i5H9zPqD/3MF6MI9VB2mGj/xtFSTPcbGQw0dokgOYiy15u/RWhQ5mJoSsdspJmdWia3UBzzF4NbTmQMWWT8s//8AK+YWrrIsGA6A3T9MlY8eHxJQMs77DJE3Z9e51YSDI63w8rQ==
-X-Microsoft-Antispam-PRVS: <BN7PR07MB43717AB414C6B8675B5B7EB4E3920@BN7PR07MB4371.namprd07.prod.outlook.com>
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4373;
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;3:FvBYHDpxWNr5v3ICvAe0MrhtwnQOaRkpSgNUZgUhfm1NmjRqmchpLgZT8OoAyUEVpF46zYYEK5Okp9gam4NcOc/ZbYHCywh9a1eVvEhcFb73FFofgPoXJBzz1NIDFluuWf5Qx7CK1yHwzO0eED7jo3tOPtzVXPJd6czJ2RJgTISzeEBMpYcUCCkx2MeFfWGXa+/npfWThbvVAZ6yvVvIRx4KApDeC8PU/j/MEwEpBm6jkN++2nn/zuOeHfYRS83H;25:jL4K8ZLmY+EhjFRkYYeMppalzd0ozM03HVFp0b8sG9iEelwoVWdCgAqqh8hRT8YIA/UK/SbSklbX3+70tLYLsDZXWxd38ihOpez5n/h/oTljc2os4YsM31oCy25SdVgjHiPQtlIxQ/0LA+9uepZJfgAGzDnSzFKdocWNGlJUykAyTNIMGejrOIOAN+G6Bx1vNldtE2BAJNJ+OJ7nbf+o263hxNEqOKnKO9G7Hupk2OxhDCxBrMEdw/pANkymo4PbGqlHAU9zKtBmOL/WUnIQHf9scOrmE/xXYLOPO4JCgHC8JYNIHnq4qL11NPbsO0nxcAbtub3oOZk5rirqkwS95A==;31:etVZHv3Wc7RukIx6G4V/29JUk8SjH1JcAQTU04y04c1xDrKbdl8jkOGtYTSpgwzKJx7Nrs8NmLr7B6qmpm3o8aYL6EKhIyNfipZsYTAi4389uMXoXts/xr6AbIw10zaabnDGdFb61T+LwD987GkXv0boJIWQH5urq+KQRpIaYrGp347LuolCwZFGRVVmaztF2IkHe/XdVTVGCGf+cfP5HSGMSNf1o23e2Ar32j7og6E=
+X-MS-TrafficTypeDiagnostic: BYAPR07MB4373:
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;20:Q9I7QLv4jk2LojcHkvC4DcSoTdfzZdabnOgy7ilrg7Bu1byH7LzrdFwe3Wr+vLVvPZAjsgHacPHyU07FtxjLFGUPa0uFO2sbQSgKLpXNQRGB1y73TFzI75c9jNKm6Wm5ggsbS0eSHfCS2a5KHDEft5Q86AUqes43yvHh97RjZLytQOhb3XxsgCBZo4Z6uxDOQoOeUR//PqKpA6XEY6xLfvQHxfXxpYPrMiHDlP4VTsBnP5tVetQFKaPYO0DQqFokqOVK6GDFJKzIy707kP8pKVCjx9kSJxx7rPxQHHmW4ZCGvz0MMIWjjqqzRQ46i+Cx0SVHS4R0R23dHsSJD2e+/h0dgbID63J+Yr5KwdOaY8qRpyagPKXa0/kO1GstP2eB4VE2K9n2Ywg9szEf6gJkWn9crrQ3BnBhsPN2uqG3xbXC3X/0HzB4RaXGuc6rh3I8r/ZqwJeOvw52FWdDSxzGnN3QWVtokSwlwfwvQjEew4AuwC9M8QZfnf+EOXmgu99bo8ACRGgRzCpv3W835hhshGOqUoRWR6H2BCcY2pqpcx+eDmVqeowTx6XmbGE3F3UpMo17Fd12G5YRIXjE/JD65zQ0lAH1wvgvcaPntdNkNMY=;4:wF0A1db8Yy1fpQp1J00ivfgJ0kDtBy53YIhUPe4vUk41dZVpvMeKaR3HzBCmNMgCeiwf68zmwzt/2UmluDIXXVrpF/c3femoAojjfqmGuFlKTf80mEN+IFP/qos8dMzdQNGshS0sldDiN/edvBrSLi5WxCn0HGGZ/U1EFLBjfIy7aE7PB2wWgfXTKJt9FRKO4Xkxz9bNh5GtdW9DTIgGMuvlyPjTDRWOlAqpGVeahII4o2vKGJgVal7dygvObmPilf17fREYxOhTXlUxdP78MA==
+X-Microsoft-Antispam-PRVS: <BYAPR07MB4373EB0E160548352A7A69F0E3920@BYAPR07MB4373.namprd07.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(93006095)(3002001)(10201501046)(149027)(150027)(6041310)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123558120)(20161123560045)(6072148)(201708071742011);SRVR:BN7PR07MB4371;BCL:0;PCL:0;RULEID:;SRVR:BN7PR07MB4371;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(10201501046)(93006095)(3002001)(149027)(150027)(6041310)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(6072148)(201708071742011);SRVR:BYAPR07MB4373;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4373;
 X-Forefront-PRVS: 0674DC6DD3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(346002)(39850400004)(366004)(396003)(39380400002)(199004)(189003)(956004)(2906002)(3846002)(2616005)(7406005)(42882007)(486006)(76176011)(446003)(6116002)(16586007)(16526019)(76506005)(386003)(50226002)(51416003)(476003)(305945005)(11346002)(59450400001)(7736002)(25786009)(7416002)(53936002)(4326008)(72206003)(6486002)(5660300001)(107886003)(316002)(6666003)(66066001)(39060400002)(52116002)(47776003)(48376002)(97736004)(81166006)(50466002)(81156014)(36756003)(54906003)(478600001)(106356001)(6496006)(186003)(68736007)(8676002)(8936002)(1076002)(105586002)(110136005)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:BN7PR07MB4371;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(39380400002)(396003)(346002)(39860400002)(366004)(189003)(199004)(2906002)(305945005)(39060400002)(7736002)(42882007)(7416002)(7406005)(446003)(11346002)(956004)(476003)(2616005)(53936002)(106356001)(68736007)(6666003)(36756003)(47776003)(4326008)(5660300001)(3846002)(6116002)(25786009)(50466002)(72206003)(386003)(76176011)(76506005)(54906003)(110136005)(26005)(6496006)(66066001)(105586002)(1076002)(48376002)(8936002)(50226002)(6486002)(8676002)(486006)(81166006)(81156014)(478600001)(52116002)(186003)(59450400001)(16586007)(97736004)(16526019)(316002)(51416003);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4373;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: cavium.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BN7PR07MB4371;23:g7PLFBkr1mo2/RJQ2f28ewzW41rdGiznkdO/RZkRe?=
- =?us-ascii?Q?BNNGbujWGolQkgS+iE1L/goo4ZqguyV8qlv2EOayAT1k062qnoZw6S9UJPrc?=
- =?us-ascii?Q?fMJAO5EDgfathD39dYZeS1Ph31lJXobbKAvrNHh3qLtYig+UzPYqYF0OJiJd?=
- =?us-ascii?Q?z+Au1nwsrVFxEXRcUfPe120AJ4wjcTFQYWggzXTycJUEGSZncTve7nouTswk?=
- =?us-ascii?Q?c16zew0MZqyQ+zKj260s1Bg7T88b6W6Lge3F80Llo+9xUySMJxHaPvjBwJbn?=
- =?us-ascii?Q?E8OWzA0rLev8mOLeIUBBaYkd+Ap69uEbt5X9HhoIkksKLaSx/LyRNqBKiPI0?=
- =?us-ascii?Q?29OyFXVHm/SS0oIzes6x0kUd/MuX62zkT7yFYfJQgJKrmModbx+n9AmYfjS/?=
- =?us-ascii?Q?60IeaP6FeHmCh+ek/kkFag23LnT6ccXvBy4dKX4XeDNV5jEC7hRwAntV3mCr?=
- =?us-ascii?Q?d7zxXVQHuNLmeBsRcvQBn0qoaf57IAlG8qlLXlfORGLkLLlj+OhB0Q2+wWwH?=
- =?us-ascii?Q?l3T3ERhMHpnWsxl84MYxYT18Xoa1dkOrkyDsU/6IfWZoXSjrCyzL8A9uO/3G?=
- =?us-ascii?Q?kEBtvnRrD7d5ny94gZxL5RLH4q6DQKmWyrmCPA5DHzJEvPATplbOf5vxGRwt?=
- =?us-ascii?Q?OvOmVg7o0M/SQw4o6rHUBkjkHL9TvvbfUX0oYVMtCqsm5pNi7bwzxZZlcFNM?=
- =?us-ascii?Q?DlD8mAEDgFzr4Ln8W0vQkTVwXIC5eNSpyyxl6Qgp78PgE0J9KLW/7NhNSzEl?=
- =?us-ascii?Q?oCMCFXcBn+RRH7Wvkg4DhzF5T0DjaV8TLGaauuypjhHdSdtLp65H5JKM4mfb?=
- =?us-ascii?Q?zFdW6t9HG7Jf+IuCrPTgBeqlUzlzCSUVgjeM7x6mARQI0+Lbp+kJa/7LPALG?=
- =?us-ascii?Q?9t/mjhRE9d/+K9MKcPyDUzKXJgMLXqXfwC5ol/iIUxw1iCOkUnkNNrGRdgme?=
- =?us-ascii?Q?RI8xKB4gDY2ZhOw+8u6kwI36tistIDOSuWm+lruRZg+Dxd2GNvOWmxxbFVwV?=
- =?us-ascii?Q?UCcDcLCfWNx09i1j60TZi9RPaJ9TZPball2Vbb/5/vZsL5Fj7z+dH+BQysq0?=
- =?us-ascii?Q?EUL4Gk+Nh7hCaX0d0FzVgGCEexejlwGjefZZGanhYUyjIa9WBU0q1OzNHbCw?=
- =?us-ascii?Q?wp0lWtUXahyb4SPxekW6E2ndnpPVgcA+/zA9j3fv5xv7qjphtgfQhdn53dEo?=
- =?us-ascii?Q?QQndbvvqXr3U/wzvEaD+pl+vSnzOvItP3R0l9k/nrb7mafIWFklxdtjWDG6j?=
- =?us-ascii?Q?Yez4msDAU3zdp26IKFAEN9F5LesoO92SYQZTMYyvcecJHnIG6JCawpGqCS/h?=
- =?us-ascii?Q?6Cr6EV+fJ9Oa9Cx5/mD97mW/3uwaWfN0Q3K2HkdiAT0QuJRwYMYmWG/5nLWZ?=
- =?us-ascii?Q?JEuwZOtx27536EFzUuGZQOYieo=3D?=
-X-Microsoft-Antispam-Message-Info: ZgAG43n6zgDPA+9X+H6w3aJHI0rHrvncdeOKVv9I3NK8+qsgOrQuTSIk4ATMpMOZpvJdH01QXAo2u7WLXCc9L/CSLLOfd0AH/9LGvZlGEZRziUaT2X9JCNKaeS/xnwlV6PKSMrbk7HtChFdBKTaDfZA28dkP581DSBHGwnr6qKp6OeuX0YDRCT/8HZbS2ujD
-X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4371;6:iEOaMXrF45AZiTJKAGXDKwL9yVPOBcvDXA+BSADjLwGDl1yK4dt0ha8xkRH10i1CPSkvEvtX7GdhA+/wgfxaFfbbdyq5T4iz2wkor+KrRdZK1uSGlNIZ7smkS+DUa0woTDbBohSDue7KjGuc8ZdRi6BgRSI9H3CvHatOx6MCYUB2p7beqyIl/yi0IuvmlyZByVlt0jzRGYY8Zr7XNhlHWjDf7hDWv6OQCdnBVZB7yZicpoRpD25CVh17BYpOs2UEI1rtv8DLJVgrw/QkF7pcXo169DrxXwdmCWcLV6X0RjDFynhmG28ZyDdqQ7b5J/aP9sR0/ZskCuNcyDV4ZWeemL+tdxrbrmh1B8g818qkvUPFum0JW59OoWDnsIKnWUYEbi6HYASjyvzSEhMjmI1u/KkiZwmiIeqabW5TmuxuudterESa++QN+W+vjZYW3DXuCf9YvBnMwrJ3xfotC2FV9Q==;5:MCmxN9U8LbU+5WDVHu46SkfZ+JY8yP/UZ/i+L24AL0JG/0gXovyQWYBIsPGdaKFhff4kZVKYbVZZ22kj1atohXj3csdXwnoGAyJ+3vY0UujoRoNi7a65ytnFb6/ewFiudLmfmJgG4vX7yj32mOR/lncYZSY8DFqy4F5PUql+Fwg=;24:0fTeOfe7ICL/eY97cr9e/b3zYUKUg+ZsBw+wxNeSD11JtLWxsKXdyqs3jwPQq1eAYe1gMz+ey27fH1N4rVm9ZgkS35gsp2zibAcFHdCQ+bY=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BYAPR07MB4373;23:jJF3EtXbQgt8055cR3uDqgUo63ROMUPWXUbIUl/FA?=
+ =?us-ascii?Q?6itRxLByk6UDbIKpMEgcBS3hfSQMkH2h2oYkBa6PcKlR3tzlWbzpYbdahFuP?=
+ =?us-ascii?Q?b3MOQ+XBNDtD1MTriXDrHb7vNmkczbigvfat8ylU194zIdAKISOdEreqrRk9?=
+ =?us-ascii?Q?lKyOE0almhPJVWP/tzBLeCMJJwhLlBiy997/12V/OFV9d84WiwH/B05FN9oG?=
+ =?us-ascii?Q?2Hvv0ux65QvylgElkLcq4pb2Lyk4r3w2YKVWrfEpirI9QZCGIzO4D4o+b6d1?=
+ =?us-ascii?Q?izyLO4ttVa0r2xIxys9/kS95gPPP7s0hv7q65a9OqYx+PJK7NOO9I560UZmi?=
+ =?us-ascii?Q?HGENtpAMqy0oFUZr5AmTvc2o1os9wMOVp+xd+aVDzHE5bVQo5TqNs8NO4W7o?=
+ =?us-ascii?Q?eKCUNU9rT651BW3zpR2wQynbBVoxqueyTHNkkhZ5N09jE3APoCOEY8JyNzm/?=
+ =?us-ascii?Q?cWOJt+hvYoojMVl2Wy2ZnEvWYA1PJHt2OWH9Dc+5oB68SlYboxQTW3CjrviS?=
+ =?us-ascii?Q?Eu5t6s4NfUZVhwVh/+FoVygI9rggJ7OMTjfHjiqDYV0egaiGIUiVArWiT7vj?=
+ =?us-ascii?Q?HISWRMdr6RfhQvQErqc0QgLTqDw4H57t5nyujA1mcs4qzlcY8+DJlSJXkIay?=
+ =?us-ascii?Q?5CB5Ym5xNN4ZO7seFxwRi2U6t+3mSdh6BUkK2AnpJUlWR7JE6lPxsVS2belE?=
+ =?us-ascii?Q?R5s0FJY/rsu30iaddHXtZ58fCqj14wDilyUms6P9IDazWLPozD8+DNK/f2NL?=
+ =?us-ascii?Q?Czsr2IhMBmGk4mSnTk4ZGTW1dOvuj6S7yAFw8GX+CdaiN2fzNzu9ft3wdCQY?=
+ =?us-ascii?Q?Bjf1phNHWX2fsB7vo2cT3FUuyvNcA0vS06kcCePr67hWo2N/+x/scjuysvQ8?=
+ =?us-ascii?Q?BSN81pdfmioReSMGlY1tUSh82HnYcKB2ENGZWnc7RXQVwXOx2oM/u8YG56+7?=
+ =?us-ascii?Q?n1/3dnjb1+0lqKGIbWQGWiZrULTPi/buNmiyR4lMVBwPsXmsNcLNcHWGrHdc?=
+ =?us-ascii?Q?sm1FhB8tGR4Mv2WRqKt1aDnlJm1/fCP0G+2vo+GSX0Q1B2lL4e/dW68MagBS?=
+ =?us-ascii?Q?eUjMXYSUbv3WrbgIMTeLZBJiC5kqXv5z5TRhMXb6fDqGOHaF5+xl5Q7fnjQq?=
+ =?us-ascii?Q?LnIbnFn6s1/cxD/90L75m4xyIZ/ebFO8i77YsvlOa28tdytNTDV5sgbjrBPW?=
+ =?us-ascii?Q?azn3pwWN+jzQZ28XPwpXudwd2t0dEAkn7UCbEFZ4RMO8aEK3+pxHRv1BUof4?=
+ =?us-ascii?Q?uLQdG76H12RhqpgnDD9IWZYloWZk4nuiK1m75OVHjsMwftStbt1lkBPyIRPS?=
+ =?us-ascii?Q?19CyZiEFU1Y/4M7oBVsoW7Qq13kxbc+xsaVmVaCm1BW3mDPrQV415zdmeom9?=
+ =?us-ascii?Q?pR4fw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: WPV12xSC8XUVwnloA7KOibRFnnRPYH97f4eug6KQCAA96fFaxqMQWE2CTChU3TEZCtmijFT8VwSL1t616HhPYb5N/jNEQcV5e2nXAH+X/ijZ7g8aCTKDja3eAe1/ZBfEKrLK4/qcz41a3wg1XP//GqXMyz0WK2saYX5WDg4QUvBmIN58NqhVyCbALPZKHJ/i
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;6:3X/uqSAROwnJrg9Lcpl3PutHfN0D0KOfnyA6yHSQsqqHeu6LEslvSDqjxwc2Ef/J8mrW1pyyvidpUkgLZIGwNkPhrty9j5kCqgMBRr0OXuqVmbBgX/HSSCx9HYe0i2yyGuaOr+0crqNpIqZvv4f1p2kiBWARnLMq1plqxicEFAvPlePX94ZzT9dHfWul88AJ4gyFQfhcjU/4zhRg6yAAG9uqRPwfJmmDE5F279b28J4GogT7unCEwVT6oWQfL/7dj8YYlZ9DG5xjmFKKNr4WfwK7i2FYTFnWWterVRt4qY+BeCzHq18M5gDHq0Clcy4wgmoQgfqRkK8plIKlOcfY6YgWGjSy5tQXiUUL6wemZwo7iYcVkz3FR9vw1SnsQ1O5hZExIPuxTXEJxJo14EzoAgJPLKvxVk8fpIAvH1Ff56/mbHyxEZWnNxat8TAcUK2b7BoIDLqIhJC94y5dF0rq9w==;5:pe/P13NELynVPk52eKPifme/TBojtxPgxdVUHzqSk0Pbb2siU8/mJEv7Xg4nK4t9nhINtLBdbG0vReDHZ+djgspNZ70V8oxa2SSkEnYY7Mv7FO9QidUyFcBc+dnc84UbWSetxSl98fk2C94iFgd49wzTDeVMNxmnz4KKAQXbf3U=;24:LS577eft9tcqtoOW0nipH+qHqoacsKfXW6cVo1w9aoUiR2BKS2yLFFEfy5QiqhnAD2KgmRqHdlbWDOYBx/Bbxr/8iNglhu5L2EmMzG+b/dI=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;BN7PR07MB4371;7:jsFyDXsL4citg7onCW7EE87BzIEoQW4ynndobHNoabYK0Ahk8A1rHe06uosAGqepJb7gxdP91hQZF30eGvGWI58RqS7jEWy9K5KcwytCvgrH1h414bXo8xSoq7RxhfvMMdaQZSgeONjMLXoMmqnlgFdSTUcCkJ3t7c1UpA6h0hkljUtusMRqsOCF07BbERrWJb6gAJ/tV4v0lztSLL1JClPhrCqQYpEy7lW4Yu9z6mefheJY6T1Hm9EBZzR7qspp
-X-MS-Office365-Filtering-Correlation-Id: 1f057e86-6c69-421f-1290-08d5bb06056f
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;7:7phcWE6TFejJMkdSZEXQEZnVuMG+zb9AmwDS5ZzyzQ7MVqce2tiYxLc+VSmtaCBoolM+SDdkf13unipVetTHUAHz/zqzjDz9MclM4SNEZGu141MKnrYMm5mfpZUK7Cp5Sl32AFhMrQVlPKtLbhOb5h6keutm3E7VwNrALIYX7eMMCx901vhO++0w6RvzrrWfgYcdCkgXR/We2YFC75SdulH2WOqAVZKEKVjH2ivP+ZA1yU6IfEeDhRAtoLVx4nVs
+X-MS-Office365-Filtering-Correlation-Id: c6592bf8-6008-4951-5f88-08d5bb05d329
 X-OriginatorOrg: caviumnetworks.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:21:27.3312 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f057e86-6c69-421f-1290-08d5bb06056f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:20:02.8477 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6592bf8-6008-4951-5f88-08d5bb05d329
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR07MB4371
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4373
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andrew Pinski <apinski@cavium.com>
+The only difference between native and compat openat and open_by_handle_at
+is that non-compat version forces O_LARGEFILE, and it should be the
+default behaviour for all architectures, as we are going to drop the
+support of 32-bit userspace off_t.
 
-Define __BITS_PER_LONG depending on the ABI used (i.e. check whether
-__ILP32__ or __LP64__ is defined).  This is necessary for glibc to
-determine the appropriate type definitions for the system call interface.
+The exception is tile32 that continues with compat version of syscalls.
 
-Signed-off-by: Andrew Pinski <apinski@cavium.com>
-Signed-off-by: Philipp Tomsich <philipp.tomsich@theobroma-systems.com>
-Signed-off-by: Christoph Muellner <christoph.muellner@theobroma-systems.com>
 Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
-Reviewed-by: David Daney <ddaney@caviumnetworks.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Acked-by: Chris Metcalf <cmetcalf@ezchip.com> [for tile]
 ---
- arch/arm64/include/uapi/asm/bitsperlong.h | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ arch/tile/kernel/compat.c         | 3 +++
+ include/uapi/asm-generic/unistd.h | 5 ++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/include/uapi/asm/bitsperlong.h b/arch/arm64/include/uapi/asm/bitsperlong.h
-index 485d60bee26c..9a05a9659e76 100644
---- a/arch/arm64/include/uapi/asm/bitsperlong.h
-+++ b/arch/arm64/include/uapi/asm/bitsperlong.h
-@@ -17,7 +17,14 @@
- #ifndef __ASM_BITSPERLONG_H
- #define __ASM_BITSPERLONG_H
+diff --git a/arch/tile/kernel/compat.c b/arch/tile/kernel/compat.c
+index bdaf71d31a4a..3b7853c59395 100644
+--- a/arch/tile/kernel/compat.c
++++ b/arch/tile/kernel/compat.c
+@@ -103,6 +103,9 @@ COMPAT_SYSCALL_DEFINE5(llseek, unsigned int, fd, unsigned int, offset_high,
+ #define compat_sys_readahead sys32_readahead
+ #define sys_llseek compat_sys_llseek
  
--#define __BITS_PER_LONG 64
-+#if defined(__LP64__)
-+/* Assuming __LP64__ will be defined for native ELF64's and not for ILP32. */
-+#  define __BITS_PER_LONG 64
-+#elif defined(__ILP32__)
-+#  define __BITS_PER_LONG 32
-+#else
-+#  error "Neither LP64 nor ILP32: unsupported ABI in asm/bitsperlong.h"
-+#endif
- 
- #include <asm-generic/bitsperlong.h>
- 
++#define sys_openat		compat_sys_openat
++#define sys_open_by_handle_at	compat_sys_open_by_handle_at
++
+ /* Call the assembly trampolines where necessary. */
+ #define compat_sys_rt_sigreturn _compat_sys_rt_sigreturn
+ #define sys_clone _sys_clone
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 8b87de067bc7..426a1a496d9d 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -179,7 +179,7 @@ __SYSCALL(__NR_fchownat, sys_fchownat)
+ #define __NR_fchown 55
+ __SYSCALL(__NR_fchown, sys_fchown)
+ #define __NR_openat 56
+-__SC_COMP(__NR_openat, sys_openat, compat_sys_openat)
++__SYSCALL(__NR_openat, sys_openat)
+ #define __NR_close 57
+ __SYSCALL(__NR_close, sys_close)
+ #define __NR_vhangup 58
+@@ -676,8 +676,7 @@ __SYSCALL(__NR_fanotify_mark, sys_fanotify_mark)
+ #define __NR_name_to_handle_at         264
+ __SYSCALL(__NR_name_to_handle_at, sys_name_to_handle_at)
+ #define __NR_open_by_handle_at         265
+-__SC_COMP(__NR_open_by_handle_at, sys_open_by_handle_at, \
+-	  compat_sys_open_by_handle_at)
++__SYSCALL(__NR_open_by_handle_at, sys_open_by_handle_at)
+ #define __NR_clock_adjtime 266
+ __SC_COMP(__NR_clock_adjtime, sys_clock_adjtime, compat_sys_clock_adjtime)
+ #define __NR_syncfs 267
 -- 
 2.17.0
 
