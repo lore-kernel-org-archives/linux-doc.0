@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ADDA47D08C
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:30:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E55B97D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 May 2018 08:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751485AbeEPITu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 May 2018 04:19:50 -0400
-Received: from mail-dm3nam03on0064.outbound.protection.outlook.com ([104.47.41.64]:53860
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
+        id S1752568AbeEPITg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 May 2018 04:19:36 -0400
+Received: from mail-sn1nam02on0087.outbound.protection.outlook.com ([104.47.36.87]:31968
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752495AbeEPITn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 May 2018 04:19:43 -0400
+        id S1752524AbeEPIT1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 May 2018 04:19:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iE1ShwXT97gcw1DghG/7asN6tgL0zQ896B38HSzqzzg=;
- b=lYUbF/1MfJCvH7XhCuhP2bWadVaFNvvBOfSDkYWohSuSjHk6ogv2BcQbZeJmuv7l3culy/fTbX07FHHB8FjQRcqdErSE3jMTCdsGvve5WKdCWLCULpHs89Ojs66kSdP9AUScbOqi530yAIWlCHHs96hMt11TWOOJvxq1rwc/CwQ=
+ bh=7wAhJRdIPYWsI4Wr2XdpCuM66sjAA32TnHJV1FBpSTQ=;
+ b=ck+cnqmXbZ9o0c7NGfAho1cF7HJoEYElOcJ/tLuwP5WY2RQj4YgoU4f/UNbTq815dRD2GuExgTWPcetRDLeWP+BcymxvMdxtEEHqgGFGaBmrgJE57rxJyyVq1sL8CLJAIyrBZht8ZYhf2RmVa8i9HcOKlTdAdREPdphoXSNDuHM=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Yuri.Norov@cavium.com; 
 Received: from localhost (176.59.36.13) by
- BYAPR07MB4376.namprd07.prod.outlook.com (2603:10b6:a02:c0::19) with Microsoft
+ BYAPR07MB4373.namprd07.prod.outlook.com (2603:10b6:a02:c0::16) with Microsoft
  SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.755.16; Wed, 16
- May 2018 08:19:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.776.11; Wed, 16
+ May 2018 08:19:23 +0000
 From:   Yury Norov <ynorov@caviumnetworks.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -61,140 +61,262 @@ Cc:     Yury Norov <ynorov@caviumnetworks.com>,
         Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
         Steve Ellcey <sellcey@caviumnetworks.com>,
         Szabolcs Nagy <szabolcs.nagy@arm.com>
-Subject: [PATCH 01/24] arm64: signal: Make parse_user_sigframe() independent of rt_sigframe layout
-Date:   Wed, 16 May 2018 11:18:46 +0300
-Message-Id: <20180516081910.10067-2-ynorov@caviumnetworks.com>
+Subject: [PATCH v9 00/24] ILP32 for ARM64
+Date:   Wed, 16 May 2018 11:18:45 +0300
+Message-Id: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [176.59.36.13]
-X-ClientProxiedBy: VI1PR08CA0114.eurprd08.prod.outlook.com
- (2603:10a6:800:d4::16) To BYAPR07MB4376.namprd07.prod.outlook.com
- (2603:10b6:a02:c0::19)
+X-ClientProxiedBy: VI1PR04CA0090.eurprd04.prod.outlook.com
+ (2603:10a6:803:64::25) To BYAPR07MB4373.namprd07.prod.outlook.com
+ (2603:10b6:a02:c0::16)
 X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4376;
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;3:M1jqorQZkkS7mDYCmGI1kJIJ6ktljDWVwiq1eHl8ENOs4ltEqGyyZ0/Qm21VFlC2XpMVshtcaAVS4xA9MjHhb0Y+K2hOmLEs+zBG6GABdcAXmRTPjfnmBIuvtkRQUmTe/ILP/jmbF67nIR22srCYey0ERCHyA1SNgPyO8wocRMNg5gQGi76nrdoH1/3yX7zboYBMht8bSBtYLxDGoPJYOwA783Dlv/rnbOWXmk6Ty2dZoY1ZZdeWIZPW+Grzt/xJ;25:HaDvKYhnR3HuZyo4iVpsxXjn6Nd9x50Mnohbxl8vAWMMwcVOOTFe5Ap87gKnhCNwaV6w6LLO9tr6QfvHtdx4p+cFJHXrxub45lrGtevlBwjZTPkLkys09J8PzatkZE4dzNT2865k7LWGWtr7zOXTI/TF50ZZrzK5AjvKLdEZ0rxOgKu7CCJa0kVD/Wjm2swg6bZ2R4MyAKE9E0T/B6ul+Z1HVKMY5hNfXxQPJxq3c9Bo3YnNSTMZFLbToi+a9UVF2nDvCXt0szyM3Vic3/byj8jCgDmU5f2K9LLz1wQ63bLDVAhUffSnNSKthx0NvXmlS3gEz0uzMMgiLnCpADsR7g==;31:e8/GggLImTY7I1CQ92iIdqryVCxnAFZRgk+c0KsOXzIAbGMY4SGRkpHt8qVUTX5Ce1YDjbxykCzPB8kKxs8L6geIoOAB+A8MbrWhEc9592moLnQK2OdfV0c7TzpujalwEBNzJQ3RmZvTtf7kE5SKvLfGQfvPRYqUlIqVMVOOJe1lz39rJu/8hr19ReExppQ4PgqSulv4yQghF12+BE41F1wmb6sUSroYEkz7Awbl75k=
-X-MS-TrafficTypeDiagnostic: BYAPR07MB4376:
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;20:9P+d4X+IdUV5utvBTVO7uX0u3gNMq7f1KT749aFaemLz7ezU0VQRKx8xl7xcUDEUv7YQ6ItYcvbg1o0wFRmLvCvRhP4Mm+QfgypjKO168UWktvoxye9qPsi84S5JwglnMwdY0v2TObxxVlcjal26Z4g5mScutW5Py+nTswWodzwXkEuXpag9O4xQveHcAcAve6t/YHPGBSzWr+0IvIo1s/nJlouu/40up8D0chNHXB1zoNyMFGyhGXcyOFV0LBKdNQXq/NjeUfFPDBNR9mlq0Dup13fzh4aT00Vj7OSbyNcykTwFWHSzBrlsiBRWVvrr/GtWGIbuGx1ssAbbVZPiKZarV6qr2lUMRuX3eYEWYaeTu8tMCgziwipWB1Mybk/jSFHTnqMOnqP0vkU7BCzyruy8D17TrOPDFjf0vkffeFMMvK8t0UEbP9qByTo2/RalfnQFYOQKI8zJa1nZme/Ogba+IefbFVkr/j1UlKxfmiVp/HRS7EPR0kgCjhb3d+KkUUpFmerEf4OkoM83x256Gt22lk1NG2a8Ion/Lwbh3006yYdwrOdaMl6Q6Kj7OqbIp/JCCcNLC/1N/hhdwROp//85FhiOY4eAFJL3NEX11dU=;4:8tBNMdiBprQWDcB7oRzoIAW746ZY47b/T0Up8tPB2IJfga1yKw0cfaTtFB9YwHTARkeql3uFeBRMU1OG9Kuxup221C16+rTsniUMFvwJwbvnCwilKEiS+9zhF4GC1sD30xcICsRbntSw2mpKlt/sJ4b3nYFbyK5yDyGS6+qcMHpIi3IHRQaoc5DarQGctz/GFtTTTRpflGVF/AX55vQmtUrlx2jvP3ATn51lbxvfzP6p3cvIgmbaskF67kalsmk0D+fIolKMzcXZSrCib+jx0kvAdJt65/hRSM2qw4thvOdEXNUTwgLgeM+b2xWEbR9D
-X-Microsoft-Antispam-PRVS: <BYAPR07MB4376E123FC4B5E2904DC6063E3920@BYAPR07MB4376.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(180628864354917);
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB4373;
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;3:wMvzK6s99PeICUXwSOKv8o6hUw5yHvdoD+l+HaYKCQXrhdqUyGIyT7npui8Ib9SIysxrFxxCQK5u5kLT9r2/3m+M1z7bk8eIXmRGv04xswktAOyFDqHh+OL7G8s8L87vFbJjBP0dXbRe/ovvv5uSHYLVcU/IlRFEo1In+grBPGsUoaNB/uUmeguvptrN47vUFgJFaBlOEWiPphey7JLunIb+Cyv9aUXMqfPUBzKpbp5cY/Ph5ucNcszI2S2Ws2oH;25:+vL7sTp3LAuAsNPOZ6MFEQmVpQIHCiucoMzu1Y0Dsw1TWwhTWu3jVe3hh3acoTC7M8VPF0MUvFIN1y5GLTJwMrxHhyH64/uGjJsIpowve2GF80XNOpiK/CManciRp7IYH6VpORYKWhHqR+Apr7vvLmYvL8mjmpkFyPuG8TReg9rxKZt1m2xovjuUBQJGV/wShn1VjrBYpfLQuXQQ3VzyqhUMv41RZ2XeOdHZcbjf6RzWPgSbxHUzJSUa4DRhYqT+2oLeirPN1Fed6jvTByx9Z/u0295Wy7hrC7yugzrRB1tolshpYdYmn2Iv6BuA0NbP/LLr/wIkLNsO2woBmjDrBA==;31:bduwk1xrpjpVv4lxFwvEqPJPN881CP1/ALzFmsmEBS7+iN+RgVTSc1MPtNHB+kh+2Wrfbtbhii3TllCd88Qtk9sCGO5fgY/GhIxiC0IAI/ugTSqlTNx/UyrCFHxuWHR//7kTlooJYb33Yy/5oodUpLiYAi3dwln5cQ3XUjEZmRtqxk91wd+s/cKUh2SnOpFDfq9Xs9XDnkZ6VBTOdhhffOn0wbPiAQQxtoAT6EVXeTk=
+X-MS-TrafficTypeDiagnostic: BYAPR07MB4373:
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;20:HBVv0outtcW93OAQ46qMeu027/9/eaz25Dm73T+B3m0ebSghK/NYqqFLtdEK0SiKy+jTCusECrnCMEIjoJiUCJCFR99JSaCq3QSpm1KhDs1iGtkvolLLRp7z91D+S9wBy1nBU8tmq3Vd/S2XAabjIHkciEybw8BahGSUg1/MircFzInvi6PH2M8qDzj9kOVOqpM+aXarDJBR9NtfMSadUGmpyKu6sJ5LabVdwuLHVNMEBC0TTn2SRQ47EN1F4xUZxqZTP0RQoghFAuEIn6AddwlnrdiAqgcPJnw8n0YOiOxI2RSab/2nXPS9s8ojSya27NBCfaOHsDOgKLF9FRI1ZR6ZySL0ju5NeTF67VyzKvxuG9qgMX78Hi5gbA0znIxxeBJ85seYWhDF6zW3CqpNq3Z8Y/QMwAikZnX5KG7HAzX9+dw/v8oZJtV4XUS57P5bLpkaK85zAn8l8DF9nHw0pdSOzFBmENLpuWwL3098ePv1MwM8vi6lHCVrvKlsqAV+4qsaT58omnPt74PgVizVeQIEfXjk1fkugNgw9M/3683x7zk+Lvnd5EB7fW3WQnKhjNn0sQ8TbKLwFHO04UJgzxOZWq2Murz05rr7x1GttRk=;4:JjZyCLgO9E4V+xOr+KBGC16V+h7zwBLIBtsXpkzRWB5RegoRZcCYUsCR6lnJFN2qv5ZRapRL52C1wTqwJLJwAnyhRXMJjYKhzkBMO2g+cKqsFtwPJG8DxJ9vl4V1X9HYuYzGEfLRl2+qyoxP0yKxIR5+JmcDoY+Q0SbfTVUMrFPCZavHhPMkFSubaD6UpRO4bd893aWzVzM0RaknmAKjbEHQlnGD5bsOX2xmMyEFcenX3XNjrNdvorIOp6daylmbKwkQxT05A83k8n3o0TjlsVmZaMaHqIL/jKODuyZpPWvHZcZ9zhSkX3d4yOL1gkld
+X-Microsoft-Antispam-PRVS: <BYAPR07MB43733DF8B1B0D30C0C88FD62E3920@BYAPR07MB4373.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(166708455590820);
 X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(93006095)(3002001)(10201501046)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(6072148)(201708071742011);SRVR:BYAPR07MB4376;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4376;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231254)(944501410)(52105095)(10201501046)(93006095)(3002001)(149027)(150027)(6041310)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(6072148)(201708071742011);SRVR:BYAPR07MB4373;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB4373;
 X-Forefront-PRVS: 0674DC6DD3
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(346002)(366004)(39850400004)(39380400002)(396003)(189003)(199004)(39060400002)(42882007)(59450400001)(6486002)(53936002)(6666003)(4326008)(51416003)(386003)(76176011)(52116002)(446003)(6496006)(50226002)(16586007)(305945005)(7736002)(72206003)(2616005)(26005)(316002)(478600001)(11346002)(36756003)(956004)(105586002)(186003)(16526019)(97736004)(2906002)(486006)(5660300001)(106356001)(8936002)(476003)(76506005)(50466002)(48376002)(110136005)(47776003)(66066001)(25786009)(54906003)(7416002)(3846002)(81166006)(7406005)(1076002)(68736007)(81156014)(8676002)(6116002);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4376;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(376002)(39380400002)(396003)(346002)(39860400002)(366004)(189003)(199004)(2906002)(305945005)(39060400002)(7736002)(42882007)(7416002)(7406005)(956004)(476003)(2616005)(53936002)(106356001)(68736007)(6666003)(36756003)(47776003)(4326008)(5660300001)(3846002)(6116002)(25786009)(50466002)(966005)(72206003)(386003)(76506005)(54906003)(110136005)(26005)(6496006)(66066001)(105586002)(1076002)(48376002)(8936002)(50226002)(6486002)(6306002)(8676002)(486006)(81166006)(81156014)(478600001)(52116002)(186003)(59450400001)(16586007)(97736004)(16526019)(316002)(51416003);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4373;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: cavium.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BYAPR07MB4376;23:CZWA7czvuLlouWj+Ph0+3uj7yI6t5dcU0hzXeoqkn?=
- =?us-ascii?Q?bwN3YFp7OT8Twxt8GnlcHScvBJzRj/K0Xk83ZXj9s3LwGDBmoPZ1dnYyQy5X?=
- =?us-ascii?Q?4nJkJCzRoIiSR8Z3PU62RpgBm2NDx7mRFlxVhwOIyJKwKYJDHKNIn0G4xp1R?=
- =?us-ascii?Q?Z0znczH/yIqReDsoN235UTWct+X5pQVDfAFmv7srKFw6CVIUmEV4nHpPkg05?=
- =?us-ascii?Q?YJB/hoCevkbBHahR5QqezApN4NuuGcyzM7lTML15ue8Cz7jUD27rH02XPprU?=
- =?us-ascii?Q?2sWcDAYR8Xnu0XG8XMGQJ7kwJkWdIW3xVCV4XROqBqnnAb9oxSduoDdBZ71I?=
- =?us-ascii?Q?t1D06KUfRZILt/bPZZB2ZDiCiMXq4Woy4Vr1sekluSpDxwLpVwNKMLrr3keq?=
- =?us-ascii?Q?bzDQrQpS2g9TPklTYl7plg2s+mAVWFUu3pieMLWvv/2K2L4KqumJ0vbtwubM?=
- =?us-ascii?Q?W7j6qLUGhsmGTRO6noqlBiE/PFVslIPjbkiYPk8dxcTLJZp2W1LN9Phzj79K?=
- =?us-ascii?Q?/UkupgRr6USDaEkZ7IsvVzSSnOaSE6ZSqjt6aCTk7d2QLUIqs7QZmrNz+Vuw?=
- =?us-ascii?Q?sNrMqO3ESdWL8NGjL+UIp1VhpZIr8re+C32Wpj2Qf6OtHuImfWXBnJ82mXNv?=
- =?us-ascii?Q?yRn2ajiAaQUub8wMwMPHBHEGhLgDFxNgBRV13/VHgGq+jM/wot8D0efqe3wX?=
- =?us-ascii?Q?yci4vcFRagE08SBQhxs3V9JsJHPyVywS3AtFMD9Shd3GORYF/ADN0Z8hxe5o?=
- =?us-ascii?Q?IGeSfIlswafBbxsmNRo2lvuM7lq4m6s8OQ6w5PkTHg7I90Yhkoj94+7BcA/e?=
- =?us-ascii?Q?j+GVy8WVyGmvCBq4TN3oila4+IHa0gYlDqEn0Rw9ku8xUyCbxNnGWOb0kLbg?=
- =?us-ascii?Q?mYEW3Ekf6skl2EZ08sYUv3rWTWwqSEgft5rJgQDulKliy7Txjw3kxuh1v/C7?=
- =?us-ascii?Q?ybFkadB4VUpUIy02Nbn5uAc8kTsiKXttqH8FuOBlctHfhNVGLfLIlvTUc6ZP?=
- =?us-ascii?Q?ReafsJVBpb6nuaAiwYnfjjJu9Yqj7+YKZRvPGkaGRhQJBLqE6/xx/tzTdjux?=
- =?us-ascii?Q?UlbhOd8VUm0pV/VpvPr5o/pyZAruBxf4pfIemyEaEeJBg9RdVfGlBF8Zfs0S?=
- =?us-ascii?Q?mNXFrHi4Qb5kqcB6t1zJaUV9+N1iYcLqONDVz0F1HyP3ZmGj89wOftA41yaa?=
- =?us-ascii?Q?HaJwPM1yY5gCNYNHGCstyZwRYZAQI4Z6JyIx49BbADwXe4eJn6Gaw4bjjQsz?=
- =?us-ascii?Q?qADfwYW/Z6tIB1tvLECYCGp4LhubF9ZN5AbU2Th/40+jbjRUMvZV/dDq/zmc?=
- =?us-ascii?Q?XRRRR2Tl59OXAhxYIKpNvMV07KT74a0IMFoemmRv6EgaFSbwIFYN8Bpb4dGb?=
- =?us-ascii?Q?scV2A=3D=3D?=
-X-Microsoft-Antispam-Message-Info: Gq1cPGyDcy6hgOG7/ocBZ7EoVKTI3hoR9FRHhKrbFIuNf+OwxCXg3jF6173KZJ3o0dyi38eisVJF7r5MVlBAF6p1cnpCOGK2YIhXXvSEZpo4l1Ewf9lLSGA9u4/BYI/JTEMZuXTOLFB9bHt2boymGz9437QlNrMLL6uGEOWFWJ59Q9XQDBBmp+3cRQz1iwT2
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;6:8NcKHqXyGq1/xIl0nke6s50vL2OShD56HKzSS4cPrYAHMsq5ZdJCgvR0fE7xKXO+XjAuFHqGhqNZ7XmFe25r+SyUtHqmQTCboDFBFl59yhE/ea429t/Gaz4uljZtH30/hnDLYXHlCzPlGVt0AJFf6apf1KIGp/zH9CXPKInkMtswM7rVdpI+D2NbStP5oS1la5Z24QjWhEoGBs7CmC2nwjdRrAvLlfQBhGILFWPUz5LZ0mZkVZZFlP5dWpaPaVEh2yLi0qMpdxmQBEZMvjasHgD1R0+7E4eBprtKm0QFFaq5ZoMgWOEYDy5fq/iPkkzX2eFcSJ35nP8raeVjsBUT8sG60t1yCPWetH2ifp2gbHiE4f/9FVpuXsn5xaBTUJPrNLP/GkKtGNrBB9t4t2tTb3a/ohSpl9SDXOkZafpqHpy4DcynwvpjdvzC01zzzz8Yqg0INGQGDhL9KqUl1iKnhQ==;5:QdUh99/4buMDlbxn4V5YUZQH+NnE/PuoCwLq1luYiz+8y8kR5B7McnKnQsRnBY7h+1M9jfII2VrCAWwaYYnbchBHK0qmsadLR67lz9SB8PgLgFS85JDv85uekPWPH771GeWW7DzFCpqqT5S3Qz/ru67BmEdyFHGQqMMW3+UwD2A=;24:cFjIDczPoWFQeYcUxS0Hy6+iD4ooBzmMaU2D4tiLKu1MWoGXZDWVtx4YIsC6Rom1yoKk5adOf7yakKf/TfHvOuCMsBn1iiLPGP1Ixx880bY=
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BYAPR07MB4373;23:XnRJ6UU7XtPbE07smLVmn0D1ODG0ZVLGLMivmy2z1?=
+ =?us-ascii?Q?/WS2+D/u6dFYTDBJPqqPc0FU10B/SMFHR/o17BSeOUT/fbPSn3myPK3qT4+2?=
+ =?us-ascii?Q?kIUcpLhTqGLgt2CdESYY0XjfEjDJh0aKoDt+8nt3pjrS3N5MSMFZgepZfK9t?=
+ =?us-ascii?Q?u2lVfXO/YEjPyLZ01vVurRzfO1/7JCgosbuPnqK4pFFiM7TmKIlC+zID7FvS?=
+ =?us-ascii?Q?m3flv+0QPs81ZwVNUH8IPJBpHSzbqUcMeoY8o/7VzwSadSfqFft33jJMjX9T?=
+ =?us-ascii?Q?Qx+o4MszL5zfdM7+9nBI5Gob5TWKOxLMA2zJfLsX8qgwpdpYPluDv2/yqaoS?=
+ =?us-ascii?Q?/w41KIkYy8btaw4qd0KZwB6RLcHdUPSQpQ9DJNGQgHtU6c8vI5E+XI0pDml2?=
+ =?us-ascii?Q?JsGROQdAVJF2JMscBP95exuPOkRMWv20p0ho8Ml+b/7IZyqS1JwQifyLvDc9?=
+ =?us-ascii?Q?WlSYVKYsEZoXAlm6Czfy7lh5qPKHRJCo/lV7CHncv7LTFAtdnqizIz5Mt9Ul?=
+ =?us-ascii?Q?R9gRpSXBFjSjG82F1TcVEnFtC0Md98UU0CJjjV2s45ZevwUV43GrfCvZcv0U?=
+ =?us-ascii?Q?5qyEk4mTaafqtF5sol3sO10eFDGtsIhb6THTVVNHhuPi5WfIODkymddIs1ZU?=
+ =?us-ascii?Q?FvsnoI3lqLgDAyOLdBfvD7e9EioUlftJxz4v04FClScsvy78/6BkqU14l1t0?=
+ =?us-ascii?Q?RagvfcCyg8jBwuFHNJWC4zQxYpeY0vnpvjPkZ66ebvHdVb01t9PlLbt9qHXp?=
+ =?us-ascii?Q?TO0hhXxoWtkdg3v5jdD/sVEOLW+WfqXbkVomuGy6xcQV7GsMJFtXgGrt33yX?=
+ =?us-ascii?Q?uvOW/UGXIYcDXyLQYUb8wavwqEOjOLqPH9rcDuP9ovfjT68rFv9Dplk7sLfZ?=
+ =?us-ascii?Q?j7G+m7PkwoXH2nOzTjek2aat+4vchuwOBRUHt/pnm3L9rXHGYdK3dZ2QIq0/?=
+ =?us-ascii?Q?HOV9W1o1k0+y448TOBzo9z6dcB/uNInc8OJTDwCYWnrn40/ecKRN3s42NmDm?=
+ =?us-ascii?Q?P9j3R1hj6IzlyzaUdY/+miPBxeNuVTkV+lKYvB5BWHeS2fBa1Gzqx8w5+ViW?=
+ =?us-ascii?Q?Fztuq0VEp/kBcS1BT3wvT3ospXxlyM72/4kCjjZf5wBokVPRbz32/c0W/1AJ?=
+ =?us-ascii?Q?9nm8xPoIC+uJdi0lAvIlysU0nzXOJV6n4QEKCU0RMBQGXDnZ+tz2aMo8TalX?=
+ =?us-ascii?Q?47lVLhPWvdE1MgqQBm4soq1ongIytRrDBvSw/WVhX7JQrPlq/h1u5fJZb8Vd?=
+ =?us-ascii?Q?Tu0/pbhIs0GUISKygeqV3GoBmxiUgYr28nDWNl33Xm/uxsgUit8UpNkA6TbU?=
+ =?us-ascii?Q?W24UtMIyPrhSVPFyKBgXhRlpOdhEk+1uyTyQYzWGO7/?=
+X-Microsoft-Antispam-Message-Info: VycgOVwXxrKQ9r4I/oVZ3SrHTS0kzcJ7pOjO9q1FyIvpaiqxZgxSLKNt90VLxjmVpD/wZICcoYLfyZu31fcepkwX4JGgVXvfOo46nd319z9lSKrcxWlcxo0e2N+qOl5nYXtWMdqCHOgqU2X6ROrS2VTRPJbCJ7n5h4FhdH3XxiJvGGHJ/m8zZC48nXkqIigQ
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;6:T0gYAtQIW9EyyWskW0EwCZvlYqmyB2b+/QhTTJCSlckSh6W0FFAtimkjcBEpYilfySAOt+9XD3sIltPr1wsr5V/v758YFqww1iHkO4EBvD1vTSMLv08YUQY9PAiiUrXq1e4Bs1wZ8YX0TQYS6u7muDDNi5fyMYJneX0SBaQZnOb7VjhzXm/X/TydZa0U3QlcCrkl08jhcj7pKhjRNEPGnAQhVEGpEZS578xET2VIfklMfZxipLe5y8eDpHfTP31Xz7kVTJV0VTnol9+se/dzjj8iRDNlo2ZHEuxh6HM5ReLo5s12WC/Fq+UATOzG5FxeuXydD+9rk+0QjhrC571UkWeyhkx8pl7C/NRVyo2ykMo2BfU001xDgHKx6cWFMBHx0lj/Gd+UYFeiMsK3mMnpGYwo5rh/Lx2GQZIpD3Cbi+i+U9Tqhb/fxZ6aIRIQogbONRHNtpXVWp1l42/cAB06sw==;5:fehE8kmMy+OQ/QW2F3baLlvAJKvNdGsnAuBehbiw39yWHwrxbEkxns4/h+WFJPGJtU05k3WY9VEdXFimE15fR1GXsiHdKD6Q1gzqT8/ghkOWgUh6J6ykHpvgsOX8CvuB9AQtQGa2klclsFTV5wn/qd3p6jDwTtilW7zsuCvUOqM=;24:sD4+vGtmaCycuY15EGlryiS97JcLap5O3ka+IcD+9TJ8Fb24J/9sximUS8sUecS8EpDJhT3g/Jc2y0BiQufHQz069fLwU544/smmZL0k434=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4376;7:2sKim44g1gsWMkTJI8U0FlR0fOTQYY2e3dDlBQK5E+PWwg3wgzd9MBpmZGhwq1GG9NUVZfOjLJlTuPrN1SdzJExtDiaGJa2U1VeQerTK+XkJ/6BVyEXYVMmESFzBhEobrUGQkXaBRCWqMPsIbyI4bdK8matngGSV9asEjX5YXaFxm01rlPagUx1u0cmB0MXNy2R9YL8+W4CTgeu65xh64WlEz/yImCGijzxY6lVEAPNIabFf4xm7epmno74V04lf
-X-MS-Office365-Filtering-Correlation-Id: 7843e00e-1138-4bf3-2a57-08d5bb05c43e
+X-Microsoft-Exchange-Diagnostics: 1;BYAPR07MB4373;7:w+gF5icQ2xs1tJe6hd5gejNyYWm095JgOE0uGEshL0asFzcdTblzZZh0WktqhMm+a1hn+1OLIDkHsfwaAZGC4gD5ZtovznUk3CD59GUt+9ccvjQhmwp9RpYZCr4/EtW+5bRC5t+RMwDH+LiaqkkYsJX/mIuK+yLl55+SEUxfp+2Ebc0baj66fd3WLQEsJnsoQYw/m1Ucu+li95G3Nl0EGWUiT+tzxioe7IWFKlapBdk59dR9Jff2CwqG2vjIe5CJ
+X-MS-Office365-Filtering-Correlation-Id: de1150a3-a85f-4620-33e5-08d5bb05bc02
 X-OriginatorOrg: caviumnetworks.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:19:37.4900 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7843e00e-1138-4bf3-2a57-08d5bb05c43e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2018 08:19:23.7222 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: de1150a3-a85f-4620-33e5-08d5bb05bc02
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4376
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4373
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Martin <Dave.Martin@arm.com>
+This series enables AARCH64 with ILP32 mode.
 
-ILP32 uses the same struct sigcontext as the native ABI (i.e.,
-LP64), but a different layout for the rest of the signal frame (since
-siginfo_t and ucontext_t are both ABI-dependent).
+As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+option that is enabled for existing 32-bit architectures but disabled
+for new arches (so 64-bit off_t userspace type is used by new userspace).
+Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
 
-Since the purpose of parse_user_sigframe() is really to parse sigcontext
-and not the whole signal frame, the function does not need to depend
-on the layout of rt_sigframe -- the only purpose of the rt_sigframe
-pointer is for use as a base to measure the signal frame size.
+Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity, lmbench,
+CPUSpec.
 
-So, this patch renames the function to make it clear that only the
-sigcontext is really being parsed, and makes the sigframe base pointer
-generic.  A macro is defined to provide a suitable duck-typed interface
-that can be used with both sigframe definitions.
+This series on github: 
+https://github.com/norov/linux/tree/ilp32-4.16
+Linaro toolchain:
+http://snapshots.linaro.org/components/toolchain/binaries/7.3-2018.04-rc1/aarch64-linux-gnu_ilp32/
+Debian repo:
+http://people.linaro.org/~wookey/ilp32/
+OpenSUSE repo:
+https://build.opensuse.org/project/show/devel:ARM:Factory:Contrib:ILP32
 
-Suggested-by: Yury Norov <ynorov@caviumnetworks.com>
-Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
----
- arch/arm64/kernel/signal.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Changes:
+v3: https://lkml.org/lkml/2014/9/3/704
+v4: https://lkml.org/lkml/2015/4/13/691
+v5: https://lkml.org/lkml/2015/9/29/911
+v6: https://lkml.org/lkml/2016/5/23/661
+v7: https://lkml.org/lkml/2017/1/9/213
+v8: https://lkml.org/lkml/2017/6/19/624
+v9: - rebased on top of v4.16;
+    - signal subsystem reworked to avoid code duplication, as requested
+      by Dave Martin (patches 18 and 20);
+    - new files introduced in series use SPDX notation for license;
+    - linux-api and linux-arch CCed as the series changes kernel ABI;
+    - checkpatch and other minor fixes.
+    - Zhou Chengming's reported-by for patch 2 and signed-off-by for
+      patch 21 removed because his email became invalid. Zhou, please
+      share your new email.
 
-diff --git a/arch/arm64/kernel/signal.c b/arch/arm64/kernel/signal.c
-index f60c052e8d1c..65406218743c 100644
---- a/arch/arm64/kernel/signal.c
-+++ b/arch/arm64/kernel/signal.c
-@@ -334,17 +334,16 @@ extern int restore_sve_fpsimd_context(struct user_ctxs *user);
- 
- #endif /* ! CONFIG_ARM64_SVE */
- 
--
--static int parse_user_sigframe(struct user_ctxs *user,
--			       struct rt_sigframe __user *sf)
-+static int __parse_user_sigcontext(struct user_ctxs *user,
-+				   struct sigcontext __user const *sc,
-+				   void __user const *sigframe_base)
- {
--	struct sigcontext __user *const sc = &sf->uc.uc_mcontext;
- 	struct _aarch64_ctx __user *head;
- 	char __user *base = (char __user *)&sc->__reserved;
- 	size_t offset = 0;
- 	size_t limit = sizeof(sc->__reserved);
- 	bool have_extra_context = false;
--	char const __user *const sfp = (char const __user *)sf;
-+	char const __user *const sfp = (char const __user *)sigframe_base;
- 
- 	user->fpsimd = NULL;
- 	user->sve = NULL;
-@@ -493,6 +492,9 @@ static int parse_user_sigframe(struct user_ctxs *user,
- 	return -EINVAL;
- }
- 
-+#define parse_user_sigcontext(user, sf)					\
-+	__parse_user_sigcontext(user, &(sf)->uc.uc_mcontext, sf)
-+
- static int restore_sigframe(struct pt_regs *regs,
- 			    struct rt_sigframe __user *sf)
- {
-@@ -518,7 +520,7 @@ static int restore_sigframe(struct pt_regs *regs,
- 
- 	err |= !valid_user_regs(&regs->user_regs, current);
- 	if (err == 0)
--		err = parse_user_sigframe(&user, sf);
-+		err = parse_user_sigcontext(&user, sf);
- 
- 	if (err == 0) {
- 		if (!user.fpsimd)
+Andrew Pinski (4):
+  arm64: rename COMPAT to AARCH32_EL0 in Kconfig
+  arm64:uapi: set __BITS_PER_LONG correctly for ILP32 and LP64
+  arm64: ilp32: add sys_ilp32.c and a separate table (in entry.S) to use
+    it
+  arm64:ilp32: add ARM64_ILP32 to Kconfig
+
+Catalin Marinas (1):
+  arm64: ilp32: Make the Kconfig option default y
+
+Dave Martin (1):
+  arm64: signal: Make parse_user_sigframe() independent of rt_sigframe
+    layout
+
+James Morse (1):
+  ptrace: Add compat PTRACE_{G,S}ETSIGMASK handlers
+
+Philipp Tomsich (1):
+  arm64:ilp32: add vdso-ilp32 and use for signal return
+
+Yury Norov (16):
+  compat ABI: use non-compat openat and open_by_handle_at variants
+  32-bit userspace ABI: introduce ARCH_32BIT_OFF_T config option
+  asm-generic: Drop getrlimit and setrlimit syscalls from default list
+  thread: move thread bits accessors to separated file
+  arm64: ilp32: add documentation on the ILP32 ABI for ARM64
+  arm64: rename functions that reference compat term
+  arm64: introduce is_a32_task and is_a32_thread (for AArch32 compat)
+  arm64: ilp32: add is_ilp32_compat_{task,thread} and TIF_32BIT_AARCH64
+  arm64: introduce binfmt_elf32.c
+  arm64: change compat_elf_hwcap and compat_elf_hwcap2 prefix to a32
+  arm64: ilp32: introduce binfmt_ilp32.c
+  arm64: ilp32: share aarch32 syscall handlers
+  arm64: signal: share lp64 signal structures and routines to ilp32
+  arm64: signal32: move ilp32 and aarch32 common code to separated file
+  arm64: ilp32: introduce ilp32-specific sigframe and ucontext
+  arm64: ptrace: handle ptrace_request differently for aarch32 and ilp32
+
+ Documentation/arm64/ilp32.txt                 |  45 +++
+ arch/Kconfig                                  |  15 +
+ arch/arc/Kconfig                              |   1 +
+ arch/arc/include/uapi/asm/unistd.h            |   1 +
+ arch/arm/Kconfig                              |   1 +
+ arch/arm64/Kconfig                            |  18 +-
+ arch/arm64/Makefile                           |   3 +
+ arch/arm64/include/asm/compat.h               |  19 +-
+ arch/arm64/include/asm/elf.h                  |  36 +-
+ arch/arm64/include/asm/fpsimd.h               |   2 +-
+ arch/arm64/include/asm/ftrace.h               |   2 +-
+ arch/arm64/include/asm/hwcap.h                |   8 +-
+ arch/arm64/include/asm/is_compat.h            |  78 ++++
+ arch/arm64/include/asm/processor.h            |  15 +-
+ arch/arm64/include/asm/ptrace.h               |  12 +-
+ arch/arm64/include/asm/seccomp.h              |   2 +-
+ arch/arm64/include/asm/signal32.h             |  19 +-
+ arch/arm64/include/asm/signal32_common.h      |  13 +
+ arch/arm64/include/asm/signal_common.h        | 306 +++++++++++++++
+ arch/arm64/include/asm/signal_ilp32.h         |  23 ++
+ arch/arm64/include/asm/syscall.h              |   2 +-
+ arch/arm64/include/asm/thread_info.h          |   4 +-
+ arch/arm64/include/asm/unistd.h               |   6 +-
+ arch/arm64/include/asm/vdso.h                 |   6 +
+ arch/arm64/include/uapi/asm/bitsperlong.h     |   9 +-
+ arch/arm64/include/uapi/asm/unistd.h          |  13 +
+ arch/arm64/kernel/Makefile                    |   8 +-
+ arch/arm64/kernel/armv8_deprecated.c          |   6 +-
+ arch/arm64/kernel/asm-offsets.c               |   9 +-
+ arch/arm64/kernel/binfmt_elf32.c              |  35 ++
+ arch/arm64/kernel/binfmt_ilp32.c              |  87 +++++
+ arch/arm64/kernel/cpufeature.c                |  28 +-
+ arch/arm64/kernel/cpuinfo.c                   |  18 +-
+ arch/arm64/kernel/debug-monitors.c            |   4 +-
+ arch/arm64/kernel/entry.S                     |  37 +-
+ arch/arm64/kernel/entry32.S                   |  80 ----
+ arch/arm64/kernel/entry32_common.S            |  97 +++++
+ arch/arm64/kernel/entry_ilp32.S               |  12 +
+ arch/arm64/kernel/head.S                      |   2 +-
+ arch/arm64/kernel/hw_breakpoint.c             |   8 +-
+ arch/arm64/kernel/perf_callchain.c            |  28 +-
+ arch/arm64/kernel/perf_regs.c                 |   4 +-
+ arch/arm64/kernel/process.c                   |  11 +-
+ arch/arm64/kernel/ptrace.c                    |  36 +-
+ arch/arm64/kernel/signal.c                    | 352 +++---------------
+ arch/arm64/kernel/signal32.c                  | 111 +++---
+ arch/arm64/kernel/signal32_common.c           |  37 ++
+ arch/arm64/kernel/signal_ilp32.c              |  65 ++++
+ arch/arm64/kernel/sys_compat.c                |  10 +-
+ arch/arm64/kernel/sys_ilp32.c                 |  90 +++++
+ arch/arm64/kernel/traps.c                     |  11 +-
+ arch/arm64/kernel/vdso-ilp32/.gitignore       |   2 +
+ arch/arm64/kernel/vdso-ilp32/Makefile         |  82 ++++
+ arch/arm64/kernel/vdso-ilp32/vdso-ilp32.S     |  22 ++
+ arch/arm64/kernel/vdso-ilp32/vdso-ilp32.lds.S |  84 +++++
+ arch/arm64/kernel/vdso.c                      |  65 +++-
+ arch/arm64/kernel/vdso/gettimeofday.S         |  20 +-
+ arch/arm64/kernel/vdso/vdso.S                 |   6 +-
+ arch/arm64/mm/mmap.c                          |   2 +-
+ arch/blackfin/Kconfig                         |   1 +
+ arch/c6x/include/uapi/asm/unistd.h            |   1 +
+ arch/cris/Kconfig                             |   1 +
+ arch/frv/Kconfig                              |   1 +
+ arch/h8300/Kconfig                            |   1 +
+ arch/h8300/include/uapi/asm/unistd.h          |   1 +
+ arch/hexagon/Kconfig                          |   1 +
+ arch/hexagon/include/uapi/asm/unistd.h        |   1 +
+ arch/m32r/Kconfig                             |   1 +
+ arch/m68k/Kconfig                             |   1 +
+ arch/metag/Kconfig                            |   1 +
+ arch/metag/include/uapi/asm/unistd.h          |   1 +
+ arch/microblaze/Kconfig                       |   1 +
+ arch/mips/Kconfig                             |   1 +
+ arch/mn10300/Kconfig                          |   1 +
+ arch/nios2/Kconfig                            |   1 +
+ arch/nios2/include/uapi/asm/unistd.h          |   1 +
+ arch/openrisc/Kconfig                         |   1 +
+ arch/openrisc/include/uapi/asm/unistd.h       |   1 +
+ arch/parisc/Kconfig                           |   1 +
+ arch/powerpc/Kconfig                          |   1 +
+ arch/score/Kconfig                            |   1 +
+ arch/score/include/uapi/asm/unistd.h          |   1 +
+ arch/sh/Kconfig                               |   1 +
+ arch/sparc/Kconfig                            |   1 +
+ arch/tile/Kconfig                             |   1 +
+ arch/tile/include/uapi/asm/unistd.h           |   1 +
+ arch/tile/kernel/compat.c                     |   3 +
+ arch/unicore32/Kconfig                        |   1 +
+ arch/unicore32/include/uapi/asm/unistd.h      |   1 +
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/um/Kconfig                           |   1 +
+ arch/xtensa/Kconfig                           |   1 +
+ drivers/clocksource/arm_arch_timer.c          |   4 +-
+ include/linux/fcntl.h                         |   2 +-
+ include/linux/sched.h                         |   1 +
+ include/linux/thread_bits.h                   |  76 ++++
+ include/linux/thread_info.h                   |  64 +---
+ include/uapi/asm-generic/unistd.h             |  10 +-
+ kernel/ptrace.c                               |  48 ++-
+ scripts/checksyscalls.sh                      |   5 +
+ 100 files changed, 1675 insertions(+), 698 deletions(-)
+ create mode 100644 Documentation/arm64/ilp32.txt
+ create mode 100644 arch/arm64/include/asm/is_compat.h
+ create mode 100644 arch/arm64/include/asm/signal32_common.h
+ create mode 100644 arch/arm64/include/asm/signal_common.h
+ create mode 100644 arch/arm64/include/asm/signal_ilp32.h
+ create mode 100644 arch/arm64/kernel/binfmt_elf32.c
+ create mode 100644 arch/arm64/kernel/binfmt_ilp32.c
+ create mode 100644 arch/arm64/kernel/entry32_common.S
+ create mode 100644 arch/arm64/kernel/entry_ilp32.S
+ create mode 100644 arch/arm64/kernel/signal32_common.c
+ create mode 100644 arch/arm64/kernel/signal_ilp32.c
+ create mode 100644 arch/arm64/kernel/sys_ilp32.c
+ create mode 100644 arch/arm64/kernel/vdso-ilp32/.gitignore
+ create mode 100644 arch/arm64/kernel/vdso-ilp32/Makefile
+ create mode 100644 arch/arm64/kernel/vdso-ilp32/vdso-ilp32.S
+ create mode 100644 arch/arm64/kernel/vdso-ilp32/vdso-ilp32.lds.S
+ create mode 100644 include/linux/thread_bits.h
+
 -- 
 2.17.0
 
