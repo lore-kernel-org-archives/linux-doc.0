@@ -1,369 +1,891 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 87CF47D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 May 2018 17:12:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C21B97D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 May 2018 17:38:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752218AbeEQRLk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 May 2018 13:11:40 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:53442 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751788AbeEQRJc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 May 2018 13:09:32 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 280CA1E15FA;
-        Thu, 17 May 2018 19:09:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1526576970; bh=r5Jy4lwzS7hMD9bDfeN3BBTSFxl5sjwweq0zCx7w1VQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
-         References:From;
-        b=IbSnbFn8odggaEPBi3JD4FMZwgtF9f0EHgWSrgRuYgPz3f4r1pIUqwNRQIxbe3V3c
-         UVgOA09ZXHid5ZLroNq/G8PdP1PAnNfJkFHCu0JPrFqLMR2FkQKorPaymiuktUW4ge
-         1HuFQdLpsq1wdILKoCFBrFEFgtbf3rhGDwe9D2P5AuRIb3NfC0I11WJR35iCHNXxYu
-         XZR4j+8Lhhzrns7/ivj5mjPVKhBISXctUxyhHZSKmnLKEg6ebzinlbT44cFLtHi6uZ
-         ouGJseVOdCn16ZUZwTIVpeajh6lcVWFyk/du+ogfIW10l5uV+spyuGaY5iVK0JE3Hh
-         wpElrbPr6w03w==
-Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id C08A55845;
-        Thu, 17 May 2018 10:09:28 -0700 (PDT)
-Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 05F493DD1D;
-        Thu, 17 May 2018 18:09:28 +0100 (WEST)
-From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
-        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
-        adouglas@cadence.com, jesper.nilsson@axis.com
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v2 2/7] PCI: dwc: Add MSI-X callbacks handler
-Date:   Thu, 17 May 2018 18:09:18 +0100
-Message-Id: <24e9cdc20d57aaea0bcb62879824c57004df46c9.1526576613.git.gustavo.pimentel@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
-References: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
-In-Reply-To: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
-References: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
+        id S1751921AbeEQRiB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 May 2018 13:38:01 -0400
+Received: from fw-tnat.cambridge.arm.com ([217.140.96.140]:12305 "EHLO
+        cam-smtp0.cambridge.arm.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752231AbeEQRiA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 May 2018 13:38:00 -0400
+X-Greylist: delayed 3211 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 May 2018 13:37:59 EDT
+Received: from e110455-lin.cambridge.arm.com (e110455-lin.cambridge.arm.com [10.2.131.15])
+        by cam-smtp0.cambridge.arm.com (8.13.8/8.13.8) with ESMTP id w4HGhS3W006127;
+        Thu, 17 May 2018 17:43:30 +0100
+From:   Liviu Dudau <Liviu.Dudau@arm.com>
+To:     Gustavo Padovan <gustavo@padovan.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Alexandru-Cosmin Gheorghe <alexandru-cosmin.gheorghe@arm.com>,
+        Eric Anholt <eric@anholt.net>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Daniel Stone <daniels@collabora.com>,
+        linux-doc@vger.kernel.org,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Liviu Dudau <liviu.dudau@arm.com>
+Subject: [PATCH v7 1/3] drm: Add writeback connector type
+Date:   Thu, 17 May 2018 17:43:26 +0100
+Message-Id: <20180517164328.11814-2-Liviu.Dudau@arm.com>
+X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20180517164328.11814-1-Liviu.Dudau@arm.com>
+References: <20180517164328.11814-1-Liviu.Dudau@arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change pcie_raise_irq() signature, namely the interrupt_num variable type
-from u8 to u16 to accommodate 2048 maximum MSI-X interrupts.
+From: Brian Starkey <brian.starkey@arm.com>
 
-Add PCIe config space capability search function.
+Writeback connectors represent writeback engines which can write the
+CRTC output to a memory framebuffer. Add a writeback connector type and
+related support functions.
 
-Add sysfs set/get interface to allow the change of EP MSI-X maximum number.
+Drivers should initialize a writeback connector with
+drm_writeback_connector_init() which takes care of setting up all the
+writeback-specific details on top of the normal functionality of
+drm_connector_init().
 
-Add EP MSI-X callback for triggering interruptions.
+Writeback connectors have a WRITEBACK_FB_ID property, used to set the
+output framebuffer, and a WRITEBACK_PIXEL_FORMATS blob used to expose the
+supported writeback formats to userspace.
 
-Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+When a framebuffer is attached to a writeback connector with the
+WRITEBACK_FB_ID property, it is used only once (for the commit in which
+it was included), and userspace can never read back the value of
+WRITEBACK_FB_ID. WRITEBACK_FB_ID can only be set if the connector is
+attached to a CRTC.
+
+Changes since v1:
+ - Added drm_writeback.c + documentation
+ - Added helper to initialize writeback connector in one go
+ - Added core checks
+ - Squashed into a single commit
+ - Dropped the client cap
+ - Writeback framebuffers are no longer persistent
+
+Changes since v2:
+ Daniel Vetter:
+ - Subclass drm_connector to drm_writeback_connector
+ - Relax check to allow CRTC to be set without an FB
+ - Add some writeback_ prefixes
+ - Drop PIXEL_FORMATS_SIZE property, as it was unnecessary
+ Gustavo Padovan:
+ - Add drm_writeback_job to handle writeback signalling centrally
+
+Changes since v3:
+ - Rebased
+ - Rename PIXEL_FORMATS -> WRITEBACK_PIXEL_FORMATS
+
+Chances since v4:
+ - Embed a drm_encoder inside the drm_writeback_connector to
+   reduce the amount of boilerplate code required from the drivers
+   that are using it.
+
+Changes since v5:
+ - Added Rob Clark's atomic_commit() vfunc to connector helper
+   funcs, so that writeback jobs are committed from atomic helpers
+ - Updated create_writeback_properties() signature to return an
+   error code rather than a boolean false for failure.
+ - Free writeback job with the connector state rather than when
+   doing the cleanup_work()
+
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Brian Starkey <brian.starkey@arm.com>
+[rebased and fixed conflicts]
+Signed-off-by: Mihail Atanassov <mihail.atanassov@arm.com>
+[rebased and added atomic_commit() vfunc for writeback jobs]
+Signed-off-by: Rob Clark <robdclark@gmail.com>
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
 ---
-Change v1->v2:
- - Nothing changed, just to follow the patch set version.
+ Documentation/gpu/drm-kms.rst            |   9 +
+ drivers/gpu/drm/Makefile                 |   2 +-
+ drivers/gpu/drm/drm_atomic.c             | 128 ++++++++++++
+ drivers/gpu/drm/drm_atomic_helper.c      |  30 +++
+ drivers/gpu/drm/drm_connector.c          |   4 +-
+ drivers/gpu/drm/drm_writeback.c          | 256 +++++++++++++++++++++++
+ include/drm/drm_atomic.h                 |   3 +
+ include/drm/drm_connector.h              |  13 ++
+ include/drm/drm_mode_config.h            |  15 ++
+ include/drm/drm_modeset_helper_vtables.h |  11 +
+ include/drm/drm_writeback.h              |  88 ++++++++
+ include/uapi/drm/drm_mode.h              |   1 +
+ 12 files changed, 558 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_writeback.c
+ create mode 100644 include/drm/drm_writeback.h
 
- drivers/pci/dwc/pci-dra7xx.c           |   2 +-
- drivers/pci/dwc/pcie-artpec6.c         |   2 +-
- drivers/pci/dwc/pcie-designware-ep.c   | 146 ++++++++++++++++++++++++++++++++-
- drivers/pci/dwc/pcie-designware-plat.c |   4 +-
- drivers/pci/dwc/pcie-designware.h      |  14 +++-
- 5 files changed, 163 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/pci/dwc/pci-dra7xx.c b/drivers/pci/dwc/pci-dra7xx.c
-index f688204..bdf948b 100644
---- a/drivers/pci/dwc/pci-dra7xx.c
-+++ b/drivers/pci/dwc/pci-dra7xx.c
-@@ -370,7 +370,7 @@ static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 1dffd1ac4cd44..809d403087f95 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -373,6 +373,15 @@ Connector Functions Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_connector.c
+    :export:
+ 
++Writeback Connectors
++--------------------
++
++.. kernel-doc:: drivers/gpu/drm/drm_writeback.c
++  :doc: overview
++
++.. kernel-doc:: drivers/gpu/drm/drm_writeback.c
++  :export:
++
+ Encoder Abstraction
+ ===================
+ 
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 50093ff4479b4..3d708959b224c 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -18,7 +18,7 @@ drm-y       :=	drm_auth.o drm_bufs.o drm_cache.o \
+ 		drm_encoder.o drm_mode_object.o drm_property.o \
+ 		drm_plane.o drm_color_mgmt.o drm_print.o \
+ 		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+-		drm_syncobj.o drm_lease.o
++		drm_syncobj.o drm_lease.o drm_writeback.o
+ 
+ drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+ drm-$(CONFIG_DRM_VM) += drm_vm.o
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 7d25c42f22dbc..3f1e4b894803b 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -30,6 +30,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_mode.h>
+ #include <drm/drm_print.h>
++#include <drm/drm_writeback.h>
+ #include <linux/sync_file.h>
+ 
+ #include "drm_crtc_internal.h"
+@@ -668,6 +669,45 @@ static void drm_atomic_crtc_print_state(struct drm_printer *p,
+ 		crtc->funcs->atomic_print_state(p, state);
  }
  
- static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
--				 enum pci_epc_irq_type type, u8 interrupt_num)
-+				 enum pci_epc_irq_type type, u16 interrupt_num)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
- 	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
-diff --git a/drivers/pci/dwc/pcie-artpec6.c b/drivers/pci/dwc/pcie-artpec6.c
-index 321b56c..9a2474b 100644
---- a/drivers/pci/dwc/pcie-artpec6.c
-+++ b/drivers/pci/dwc/pcie-artpec6.c
-@@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep *ep)
- }
- 
- static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
--				  enum pci_epc_irq_type type, u8 interrupt_num)
-+				  enum pci_epc_irq_type type, u16 interrupt_num)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
- 
-diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
-index 1eec441..e5f2377 100644
---- a/drivers/pci/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/dwc/pcie-designware-ep.c
-@@ -40,6 +40,39 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
- 	__dw_pcie_ep_reset_bar(pci, bar, 0);
- }
- 
-+u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
-+			      u8 cap)
++/**
++ * drm_atomic_connector_check - check connector state
++ * @connector: connector to check
++ * @state: connector state to check
++ *
++ * Provides core sanity checks for connector state.
++ *
++ * RETURNS:
++ * Zero on success, error code on failure
++ */
++static int drm_atomic_connector_check(struct drm_connector *connector,
++		struct drm_connector_state *state)
 +{
-+	u8 cap_id, next_cap_ptr;
-+	u16 reg;
++	struct drm_crtc_state *crtc_state;
++	struct drm_writeback_job *writeback_job = state->writeback_job;
 +
-+	reg = dw_pcie_readw_dbi(pci, cap_ptr);
-+	next_cap_ptr = (reg & 0xff00) >> 8;
-+	cap_id = (reg & 0x00ff);
-+
-+	if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
++	if ((connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK) || !writeback_job)
 +		return 0;
 +
-+	if (cap_id == cap)
-+		return cap_ptr;
-+
-+	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
-+}
-+
-+u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
-+{
-+	u8 next_cap_ptr;
-+	u16 reg;
-+
-+	reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
-+	next_cap_ptr = (reg & 0x00ff);
-+
-+	if (!next_cap_ptr)
-+		return 0;
-+
-+	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
-+}
-+
- static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no,
- 				   struct pci_epf_header *hdr)
- {
-@@ -241,8 +274,47 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
- 	return 0;
- }
- 
-+static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no)
-+{
-+	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	u32 val, reg;
-+
-+	if (!ep->msix_cap)
-+		return 0;
-+
-+	reg = ep->msix_cap + PCI_MSIX_FLAGS;
-+	val = dw_pcie_readw_dbi(pci, reg);
-+	if (!(val & PCI_MSIX_FLAGS_ENABLE))
++	if (writeback_job->fb && !state->crtc) {
++		DRM_DEBUG_ATOMIC("[CONNECTOR:%d:%s] framebuffer without CRTC\n",
++				 connector->base.id, connector->name);
 +		return -EINVAL;
++	}
 +
-+	val &= PCI_MSIX_FLAGS_QSIZE;
++	if (state->crtc)
++		crtc_state = drm_atomic_get_existing_crtc_state(state->state,
++								state->crtc);
 +
-+	return val;
-+}
-+
-+static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
-+{
-+	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	u32 val, reg;
-+
-+	if (!ep->msix_cap)
-+		return 0;
-+
-+	reg = ep->msix_cap + PCI_MSIX_FLAGS;
-+	val = dw_pcie_readw_dbi(pci, reg);
-+	val &= ~PCI_MSIX_FLAGS_QSIZE;
-+	val |= interrupts;
-+	dw_pcie_dbi_ro_wr_en(pci);
-+	dw_pcie_writew_dbi(pci, reg, val);
-+	dw_pcie_dbi_ro_wr_dis(pci);
++	if (writeback_job->fb && !crtc_state->active) {
++		DRM_DEBUG_ATOMIC("[CONNECTOR:%d:%s] has framebuffer, but [CRTC:%d] is off\n",
++				 connector->base.id, connector->name,
++				 state->crtc->base.id);
++		return -EINVAL;
++	}
 +
 +	return 0;
 +}
 +
- static int dw_pcie_ep_raise_irq(struct pci_epc *epc, u8 func_no,
--				enum pci_epc_irq_type type, u8 interrupt_num)
-+				enum pci_epc_irq_type type, u16 interrupt_num)
- {
- 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
- 
-@@ -282,6 +354,8 @@ static const struct pci_epc_ops epc_ops = {
- 	.unmap_addr		= dw_pcie_ep_unmap_addr,
- 	.set_msi		= dw_pcie_ep_set_msi,
- 	.get_msi		= dw_pcie_ep_get_msi,
-+	.set_msix		= dw_pcie_ep_set_msix,
-+	.get_msix		= dw_pcie_ep_get_msix,
- 	.raise_irq		= dw_pcie_ep_raise_irq,
- 	.start			= dw_pcie_ep_start,
- 	.stop			= dw_pcie_ep_stop,
-@@ -322,6 +396,64 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 	return 0;
+ /**
+  * drm_atomic_get_plane_state - get plane state
+  * @state: global atomic state object
+@@ -1274,6 +1314,12 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+ 			return -EINVAL;
+ 		}
+ 		state->content_protection = val;
++	} else if (property == config->writeback_fb_id_property) {
++		struct drm_framebuffer *fb = drm_framebuffer_lookup(dev, NULL, val);
++		int ret = drm_atomic_set_writeback_fb_for_connector(state, fb);
++		if (fb)
++			drm_framebuffer_unreference(fb);
++		return ret;
+ 	} else if (connector->funcs->atomic_set_property) {
+ 		return connector->funcs->atomic_set_property(connector,
+ 				state, property, val);
+@@ -1355,6 +1401,9 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+ 		*val = state->scaling_mode;
+ 	} else if (property == connector->content_protection_property) {
+ 		*val = state->content_protection;
++	} else if (property == config->writeback_fb_id_property) {
++		/* Writeback framebuffer is one-shot, write and forget */
++		*val = 0;
+ 	} else if (connector->funcs->atomic_get_property) {
+ 		return connector->funcs->atomic_get_property(connector,
+ 				state, property, val);
+@@ -1562,6 +1611,74 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
  }
+ EXPORT_SYMBOL(drm_atomic_set_crtc_for_connector);
  
-+int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
-+			     u16 interrupt_num)
++/*
++ * drm_atomic_get_writeback_job - return or allocate a writeback job
++ * @conn_state: Connector state to get the job for
++ *
++ * Writeback jobs have a different lifetime to the atomic state they are
++ * associated with. This convenience function takes care of allocating a job
++ * if there isn't yet one associated with the connector state, otherwise
++ * it just returns the existing job.
++ *
++ * Returns: The writeback job for the given connector state
++ */
++static struct drm_writeback_job *
++drm_atomic_get_writeback_job(struct drm_connector_state *conn_state)
 +{
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	struct pci_epc *epc = ep->epc;
-+	u16 tbl_offset, bir;
-+	u32 bar_addr_upper, bar_addr_lower;
-+	u32 msg_addr_upper, msg_addr_lower;
-+	u32 reg, msg_data, vec_ctrl;
-+	u64 tbl_addr, msg_addr, reg_u64;
-+	void __iomem *msix_tbl;
-+	int ret;
++	WARN_ON(conn_state->connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK);
 +
-+	reg = ep->msix_cap + PCI_MSIX_TABLE;
-+	tbl_offset = dw_pcie_readl_dbi(pci, reg);
-+	bir = (tbl_offset & PCI_MSIX_TABLE_BIR);
-+	tbl_offset &= PCI_MSIX_TABLE_OFFSET;
-+	tbl_offset >>= 3;
++	if (!conn_state->writeback_job)
++		conn_state->writeback_job =
++			kzalloc(sizeof(*conn_state->writeback_job), GFP_KERNEL);
 +
-+	reg = PCI_BASE_ADDRESS_0 + (4 * bir);
-+	bar_addr_lower = dw_pcie_readl_dbi(pci, reg);
-+	reg_u64 = (bar_addr_lower & PCI_BASE_ADDRESS_MEM_TYPE_MASK);
-+	if (reg_u64 == PCI_BASE_ADDRESS_MEM_TYPE_64)
-+		bar_addr_upper = dw_pcie_readl_dbi(pci, reg + 4);
++	return conn_state->writeback_job;
++}
++
++/**
++ * drm_atomic_set_writeback_fb_for_connector - set writeback framebuffer
++ * @conn_state: atomic state object for the connector
++ * @fb: fb to use for the connector
++ *
++ * This is used to set the framebuffer for a writeback connector, which outputs
++ * to a buffer instead of an actual physical connector.
++ * Changing the assigned framebuffer requires us to grab a reference to the new
++ * fb and drop the reference to the old fb, if there is one. This function
++ * takes care of all these details besides updating the pointer in the
++ * state object itself.
++ *
++ * Note: The only way conn_state can already have an fb set is if the commit
++ * sets the property more than once.
++ *
++ * See also: drm_writeback_connector_init()
++ *
++ * Returns: 0 on success
++ */
++int drm_atomic_set_writeback_fb_for_connector(
++		struct drm_connector_state *conn_state,
++		struct drm_framebuffer *fb)
++{
++	struct drm_writeback_job *job =
++		drm_atomic_get_writeback_job(conn_state);
++	if (!job)
++		return -ENOMEM;
++
++	if (job->fb)
++		drm_framebuffer_unreference(job->fb);
++	if (fb)
++		drm_framebuffer_reference(fb);
++	job->fb = fb;
++
++	if (fb)
++		DRM_DEBUG_ATOMIC("Set [FB:%d] for connector state %p\n",
++				 fb->base.id, conn_state);
 +	else
-+		bar_addr_upper = 0;
++		DRM_DEBUG_ATOMIC("Set [NOFB] for connector state %p\n",
++				 conn_state);
 +
-+	tbl_addr = ((u64) bar_addr_upper) << 32 | bar_addr_lower;
-+	tbl_addr += (tbl_offset + ((interrupt_num - 1) * PCI_MSIX_ENTRY_SIZE));
-+	tbl_addr &= PCI_BASE_ADDRESS_MEM_MASK;
++	return 0;
++}
++EXPORT_SYMBOL(drm_atomic_set_writeback_fb_for_connector);
 +
-+	msix_tbl = ioremap_nocache(ep->phys_base + tbl_addr, ep->addr_size);
-+	if (!msix_tbl)
-+		return -EINVAL;
+ /**
+  * drm_atomic_add_affected_connectors - add connectors for crtc
+  * @state: atomic state
+@@ -1680,6 +1797,8 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+ 	struct drm_plane_state *plane_state;
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *crtc_state;
++	struct drm_connector *conn;
++	struct drm_connector_state *conn_state;
+ 	int i, ret = 0;
+ 
+ 	DRM_DEBUG_ATOMIC("checking %p\n", state);
+@@ -1702,6 +1821,15 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+ 		}
+ 	}
+ 
++	for_each_new_connector_in_state(state, conn, conn_state, i) {
++		ret = drm_atomic_connector_check(conn, conn_state);
++		if (ret) {
++			DRM_DEBUG_ATOMIC("[CONNECTOR:%d:%s] atomic core check failed\n",
++					 conn->base.id, conn->name);
++			return ret;
++		}
++	}
 +
-+	msg_addr_lower = readl(msix_tbl + PCI_MSIX_ENTRY_LOWER_ADDR);
-+	msg_addr_upper = readl(msix_tbl + PCI_MSIX_ENTRY_UPPER_ADDR);
-+	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
-+	msg_data = readl(msix_tbl + PCI_MSIX_ENTRY_DATA);
-+	vec_ctrl = readl(msix_tbl + PCI_MSIX_ENTRY_VECTOR_CTRL);
+ 	if (config->funcs->atomic_check)
+ 		ret = config->funcs->atomic_check(state->dev, state);
+ 
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index c35654591c124..276f247b2733b 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -30,6 +30,7 @@
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_writeback.h>
+ #include <linux/dma-fence.h>
+ 
+ #include "drm_crtc_helper_internal.h"
+@@ -1161,6 +1162,25 @@ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_disables);
+ 
++static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
++						struct drm_atomic_state *old_state)
++{
++	struct drm_connector *connector;
++	struct drm_connector_state *new_conn_state;
++	int i;
 +
-+	if (vec_ctrl & PCI_MSIX_ENTRY_CTRL_MASKBIT)
-+		return -EPERM;
++	for_each_new_connector_in_state(old_state, connector, new_conn_state, i) {
++		const struct drm_connector_helper_funcs *funcs;
 +
-+	iounmap(msix_tbl);
++		funcs = connector->helper_private;
 +
-+	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msix_mem_phys, msg_addr,
-+				  epc->mem->page_size);
-+	if (ret)
++		if (new_conn_state->writeback_job && new_conn_state->writeback_job->fb) {
++			WARN_ON(connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK);
++			funcs->atomic_commit(connector, new_conn_state->writeback_job);
++		}
++	}
++}
++
+ /**
+  * drm_atomic_helper_commit_modeset_enables - modeset commit to enable outputs
+  * @dev: DRM device
+@@ -1240,6 +1260,8 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+ 
+ 		drm_bridge_enable(encoder->bridge);
+ 	}
++
++	drm_atomic_helper_commit_writebacks(dev, old_state);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
+ 
+@@ -3629,6 +3651,9 @@ __drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector,
+ 	if (state->crtc)
+ 		drm_connector_get(connector);
+ 	state->commit = NULL;
++
++	/* Don't copy over a writeback job, they are used only once */
++	state->writeback_job = NULL;
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_connector_duplicate_state);
+ 
+@@ -3758,6 +3783,11 @@ __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state)
+ 
+ 	if (state->commit)
+ 		drm_crtc_commit_put(state->commit);
++
++	if (state->writeback_job) {
++		drm_writeback_cleanup_job(state->writeback_job);
++		kfree(state->writeback_job);
++	}
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_connector_destroy_state);
+ 
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index b3cde897cd802..929c547ebb431 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -87,6 +87,7 @@ static struct drm_conn_prop_enum_list drm_connector_enum_list[] = {
+ 	{ DRM_MODE_CONNECTOR_VIRTUAL, "Virtual" },
+ 	{ DRM_MODE_CONNECTOR_DSI, "DSI" },
+ 	{ DRM_MODE_CONNECTOR_DPI, "DPI" },
++	{ DRM_MODE_CONNECTOR_WRITEBACK, "Writeback" },
+ };
+ 
+ void drm_connector_ida_init(void)
+@@ -249,7 +250,8 @@ int drm_connector_init(struct drm_device *dev,
+ 	config->num_connector++;
+ 	spin_unlock_irq(&config->connector_list_lock);
+ 
+-	if (connector_type != DRM_MODE_CONNECTOR_VIRTUAL)
++	if (connector_type != DRM_MODE_CONNECTOR_VIRTUAL &&
++	    connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
+ 		drm_object_attach_property(&connector->base,
+ 					      config->edid_property,
+ 					      0);
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+new file mode 100644
+index 0000000000000..17cacd2170b0c
+--- /dev/null
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -0,0 +1,256 @@
++/*
++ * (C) COPYRIGHT 2016 ARM Limited. All rights reserved.
++ * Author: Brian Starkey <brian.starkey@arm.com>
++ *
++ * This program is free software and is provided to you under the terms of the
++ * GNU General Public License version 2 as published by the Free Software
++ * Foundation, and any use by you of this program is subject to the terms
++ * of such GNU licence.
++ */
++
++#include <drm/drm_crtc.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_property.h>
++#include <drm/drm_writeback.h>
++#include <drm/drmP.h>
++
++/**
++ * DOC: overview
++ *
++ * Writeback connectors are used to expose hardware which can write the output
++ * from a CRTC to a memory buffer. They are used and act similarly to other
++ * types of connectors, with some important differences:
++ *  - Writeback connectors don't provide a way to output visually to the user.
++ *  - Writeback connectors should always report as "disconnected" (so that
++ *    clients which don't understand them will ignore them).
++ *  - Writeback connectors don't have EDID.
++ *
++ * A framebuffer may only be attached to a writeback connector when the
++ * connector is attached to a CRTC. The WRITEBACK_FB_ID property which sets the
++ * framebuffer applies only to a single commit (see below). A framebuffer may
++ * not be attached while the CRTC is off.
++ *
++ * Writeback connectors have some additional properties, which userspace
++ * can use to query and control them:
++ *
++ *  "WRITEBACK_FB_ID":
++ *	Write-only object property storing a DRM_MODE_OBJECT_FB: it stores the
++ *	framebuffer to be written by the writeback connector. This property is
++ *	similar to the FB_ID property on planes, but will always read as zero
++ *	and is not preserved across commits.
++ *	Userspace must set this property to an output buffer every time it
++ *	wishes the buffer to get filled.
++ *
++ *  "WRITEBACK_PIXEL_FORMATS":
++ *	Immutable blob property to store the supported pixel formats table. The
++ *	data is an array of u32 DRM_FORMAT_* fourcc values.
++ *	Userspace can use this blob to find out what pixel formats are supported
++ *	by the connector's writeback engine.
++ */
++
++static int create_writeback_properties(struct drm_device *dev)
++{
++	struct drm_property *prop;
++
++	if (!dev->mode_config.writeback_fb_id_property) {
++		prop = drm_property_create_object(dev, DRM_MODE_PROP_ATOMIC,
++						  "WRITEBACK_FB_ID",
++						  DRM_MODE_OBJECT_FB);
++		if (!prop)
++			return -ENOMEM;
++		dev->mode_config.writeback_fb_id_property = prop;
++	}
++
++	if (!dev->mode_config.writeback_pixel_formats_property) {
++		prop = drm_property_create(dev, DRM_MODE_PROP_BLOB |
++					   DRM_MODE_PROP_ATOMIC |
++					   DRM_MODE_PROP_IMMUTABLE,
++					   "WRITEBACK_PIXEL_FORMATS", 0);
++		if (!prop)
++			return -ENOMEM;
++		dev->mode_config.writeback_pixel_formats_property = prop;
++	}
++
++	return 0;
++}
++
++static const struct drm_encoder_funcs drm_writeback_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
++/**
++ * drm_writeback_connector_init - Initialize a writeback connector and its properties
++ * @dev: DRM device
++ * @wb_connector: Writeback connector to initialize
++ * @con_funcs: Connector funcs vtable
++ * @enc_helper_funcs: Encoder helper funcs vtable to be used by the internal encoder
++ * @formats: Array of supported pixel formats for the writeback engine
++ * @n_formats: Length of the formats array
++ *
++ * This function creates the writeback-connector-specific properties if they
++ * have not been already created, initializes the connector as
++ * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
++ * values. It will also create an internal encoder associated with the
++ * drm_writeback_connector and set it to use the @enc_helper_funcs vtable for
++ * the encoder helper.
++ *
++ * Drivers should always use this function instead of drm_connector_init() to
++ * set up writeback connectors.
++ *
++ * Returns: 0 on success, or a negative error code
++ */
++int drm_writeback_connector_init(struct drm_device *dev,
++				 struct drm_writeback_connector *wb_connector,
++				 const struct drm_connector_funcs *con_funcs,
++				 const struct drm_encoder_helper_funcs *enc_helper_funcs,
++				 const u32 *formats, int n_formats)
++{
++	struct drm_property_blob *blob;
++	struct drm_connector *connector = &wb_connector->base;
++	struct drm_mode_config *config = &dev->mode_config;
++	int ret = create_writeback_properties(dev);
++
++	if (ret != 0)
 +		return ret;
 +
-+	writel(msg_data, ep->msix_mem);
++	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
++					formats);
++	if (IS_ERR(blob))
++		return PTR_ERR(blob);
 +
-+	dw_pcie_ep_unmap_addr(epc, func_no, ep->msix_mem_phys);
++	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
++	ret = drm_encoder_init(dev, &wb_connector->encoder,
++			       &drm_writeback_encoder_funcs,
++			       DRM_MODE_ENCODER_VIRTUAL, NULL);
++	if (ret)
++		goto fail;
++
++	connector->interlace_allowed = 0;
++
++	ret = drm_connector_init(dev, connector, con_funcs,
++				 DRM_MODE_CONNECTOR_WRITEBACK);
++	if (ret)
++		goto connector_fail;
++
++	ret = drm_mode_connector_attach_encoder(connector,
++						&wb_connector->encoder);
++	if (ret)
++		goto attach_fail;
++
++	INIT_LIST_HEAD(&wb_connector->job_queue);
++	spin_lock_init(&wb_connector->job_lock);
++
++	drm_object_attach_property(&connector->base,
++				   config->writeback_fb_id_property, 0);
++
++	drm_object_attach_property(&connector->base,
++				   config->writeback_pixel_formats_property,
++				   blob->base.id);
++	wb_connector->pixel_formats_blob_ptr = blob;
 +
 +	return 0;
++
++attach_fail:
++	drm_connector_cleanup(connector);
++connector_fail:
++	drm_encoder_cleanup(&wb_connector->encoder);
++fail:
++	drm_property_unreference_blob(blob);
++	return ret;
 +}
++EXPORT_SYMBOL(drm_writeback_connector_init);
 +
- void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
- {
- 	struct pci_epc *epc = ep->epc;
-@@ -329,6 +461,9 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
- 	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
- 			      epc->mem->page_size);
- 
-+	pci_epc_mem_free_addr(epc, ep->msix_mem_phys, ep->msix_mem,
-+			      epc->mem->page_size);
-+
- 	pci_epc_mem_exit(epc);
- }
- 
-@@ -410,6 +545,15 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
- 		dev_err(dev, "Failed to reserve memory for MSI\n");
- 		return -ENOMEM;
- 	}
-+	ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
-+
-+	ep->msix_mem = pci_epc_mem_alloc_addr(epc, &ep->msix_mem_phys,
-+					     epc->mem->page_size);
-+	if (!ep->msix_mem) {
-+		dev_err(dev, "Failed to reserve memory for MSI-X\n");
-+		return -ENOMEM;
-+	}
-+	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
- 
- 	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
- 	EPC_FEATURE_SET_BAR(epc->features, BAR_0);
-diff --git a/drivers/pci/dwc/pcie-designware-plat.c b/drivers/pci/dwc/pcie-designware-plat.c
-index 5937fed..654dcb5 100644
---- a/drivers/pci/dwc/pcie-designware-plat.c
-+++ b/drivers/pci/dwc/pcie-designware-plat.c
-@@ -78,7 +78,7 @@ static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
- 
- static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
- 				     enum pci_epc_irq_type type,
--				     u8 interrupt_num)
-+				     u16 interrupt_num)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
- 
-@@ -88,6 +88,8 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
- 		return -EINVAL;
- 	case PCI_EPC_IRQ_MSI:
- 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
-+	case PCI_EPC_IRQ_MSIX:
-+		return dw_pcie_ep_raise_msix_irq(ep, func_no, interrupt_num);
- 	default:
- 		dev_err(pci->dev, "UNKNOWN IRQ type\n");
- 	}
-diff --git a/drivers/pci/dwc/pcie-designware.h b/drivers/pci/dwc/pcie-designware.h
-index bee4e25..b22c5bb 100644
---- a/drivers/pci/dwc/pcie-designware.h
-+++ b/drivers/pci/dwc/pcie-designware.h
-@@ -191,7 +191,7 @@ enum dw_pcie_as_type {
- struct dw_pcie_ep_ops {
- 	void	(*ep_init)(struct dw_pcie_ep *ep);
- 	int	(*raise_irq)(struct dw_pcie_ep *ep, u8 func_no,
--			     enum pci_epc_irq_type type, u8 interrupt_num);
-+			     enum pci_epc_irq_type type, u16 interrupt_num);
- };
- 
- struct dw_pcie_ep {
-@@ -208,6 +208,10 @@ struct dw_pcie_ep {
- 	u32			num_ob_windows;
- 	void __iomem		*msi_mem;
- 	phys_addr_t		msi_mem_phys;
-+	void __iomem		*msix_mem;
-+	phys_addr_t		msix_mem_phys;
-+	u8			msi_cap;	/* MSI capability offset */
-+	u8			msix_cap;	/* MSI-X capability offset */
- };
- 
- struct dw_pcie_ops {
-@@ -359,6 +363,8 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
- void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
- int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 			     u8 interrupt_num);
-+int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
-+			     u16 interrupt_num);
- void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar);
- #else
- static inline void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
-@@ -380,6 +386,12 @@ static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 	return 0;
- }
- 
-+static inline int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
-+					   u16 interrupt_num)
++/**
++ * drm_writeback_queue_job - Queue a writeback job for later signalling
++ * @wb_connector: The writeback connector to queue a job on
++ * @job: The job to queue
++ *
++ * This function adds a job to the job_queue for a writeback connector. It
++ * should be considered to take ownership of the writeback job, and so any other
++ * references to the job must be cleared after calling this function.
++ *
++ * Drivers must ensure that for a given writeback connector, jobs are queued in
++ * exactly the same order as they will be completed by the hardware (and
++ * signaled via drm_writeback_signal_completion).
++ *
++ * For every call to drm_writeback_queue_job() there must be exactly one call to
++ * drm_writeback_signal_completion()
++ *
++ * See also: drm_writeback_signal_completion()
++ */
++void drm_writeback_queue_job(struct drm_writeback_connector *wb_connector,
++			     struct drm_writeback_job *job)
 +{
-+	return 0;
++	unsigned long flags;
++
++	spin_lock_irqsave(&wb_connector->job_lock, flags);
++	list_add_tail(&job->list_entry, &wb_connector->job_queue);
++	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
++}
++EXPORT_SYMBOL(drm_writeback_queue_job);
++
++/**
++ * drm_writeback_cleanup_job - Cleanup and free a writeback job
++ * @job: The writeback job to free
++ *
++ * Drops any references held by the writeback job, and frees the structure.
++ */
++void drm_writeback_cleanup_job(struct drm_writeback_job *job)
++{
++	if (job->fb)
++		drm_framebuffer_unreference(job->fb);
++	dma_fence_put(job->out_fence);
++}
++EXPORT_SYMBOL(drm_writeback_cleanup_job);
++
++/*
++ * @cleanup_work: deferred cleanup of a writeback job
++ *
++ * The job cannot be cleaned up directly in drm_writeback_signal_completion,
++ * because it may be called in interrupt context. Dropping the framebuffer
++ * reference can sleep, and so the cleanup is deferred to a workqueue.
++ */
++static void cleanup_work(struct work_struct *work)
++{
++	struct drm_writeback_job *job = container_of(work,
++						     struct drm_writeback_job,
++						     cleanup_work);
++	drm_writeback_cleanup_job(job);
 +}
 +
- static inline void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
- {
- }
++/**
++ * drm_writeback_signal_completion - Signal the completion of a writeback job
++ * @wb_connector: The writeback connector whose job is complete
++ *
++ * Drivers should call this to signal the completion of a previously queued
++ * writeback job. It should be called as soon as possible after the hardware
++ * has finished writing, and may be called from interrupt context.
++ * It is the driver's responsibility to ensure that for a given connector, the
++ * hardware completes writeback jobs in the same order as they are queued.
++ *
++ * Unless the driver is holding its own reference to the framebuffer, it must
++ * not be accessed after calling this function.
++ *
++ * See also: drm_writeback_queue_job()
++ */
++void
++drm_writeback_signal_completion(struct drm_writeback_connector *wb_connector)
++{
++	unsigned long flags;
++	struct drm_writeback_job *job;
++
++	spin_lock_irqsave(&wb_connector->job_lock, flags);
++	job = list_first_entry_or_null(&wb_connector->job_queue,
++				       struct drm_writeback_job,
++				       list_entry);
++	if (job)
++		list_del(&job->list_entry);
++	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
++
++	if (WARN_ON(!job))
++		return;
++
++	INIT_WORK(&job->cleanup_work, cleanup_work);
++	queue_work(system_long_wq, &job->cleanup_work);
++}
++EXPORT_SYMBOL(drm_writeback_signal_completion);
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index a57a8aa90ffb7..a5e904105db3a 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -594,6 +594,9 @@ void drm_atomic_set_fence_for_plane(struct drm_plane_state *plane_state,
+ int __must_check
+ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
+ 				  struct drm_crtc *crtc);
++int drm_atomic_set_writeback_fb_for_connector(
++		struct drm_connector_state *conn_state,
++		struct drm_framebuffer *fb);
+ int __must_check
+ drm_atomic_add_affected_connectors(struct drm_atomic_state *state,
+ 				   struct drm_crtc *crtc);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 675cc3f8cf852..60c0ffb947d5e 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -429,6 +429,19 @@ struct drm_connector_state {
+ 	 * protection. This is most commonly used for HDCP.
+ 	 */
+ 	unsigned int content_protection;
++
++	/**
++	 * @writeback_job: Writeback job for writeback connectors
++	 *
++	 * Holds the framebuffer for a writeback connector. As the writeback
++	 * completion may be asynchronous to the normal commit cycle, the
++	 * writeback job lifetime is managed separately from the normal atomic
++	 * state by this object.
++	 *
++	 * See also: drm_writeback_queue_job() and
++	 * drm_writeback_signal_completion()
++	 */
++	struct drm_writeback_job *writeback_job;
+ };
+ 
+ /**
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 7569f22ffef6b..de8881324f734 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -779,6 +779,21 @@ struct drm_mode_config {
+ 	 */
+ 	struct drm_property *panel_orientation_property;
+ 
++	/**
++	 * @writeback_fb_id_property: Property for writeback connectors, storing
++	 * the ID of the output framebuffer.
++	 * See also: drm_writeback_connector_init()
++	 */
++	struct drm_property *writeback_fb_id_property;
++
++	/**
++	 * @writeback_pixel_formats_property: Property for writeback connectors,
++	 * storing an array of the supported pixel formats for the writeback
++	 * engine (read-only).
++	 * See also: drm_writeback_connector_init()
++	 */
++	struct drm_property *writeback_pixel_formats_property;
++
+ 	/* dumb ioctl parameters */
+ 	uint32_t preferred_depth, prefer_shadow;
+ 
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index 3e76ca805b0f4..636deaf52325a 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -974,6 +974,17 @@ struct drm_connector_helper_funcs {
+ 	 */
+ 	int (*atomic_check)(struct drm_connector *connector,
+ 			    struct drm_connector_state *state);
++
++	/**
++	 * @atomic_commit:
++	 *
++	 * This hook is to be used by drivers implementing writeback connectors
++	 * that need a point when to commit the writeback job to the hardware.
++	 *
++	 * This callback is used by the atomic modeset helpers.
++	 */
++	void (*atomic_commit)(struct drm_connector *connector,
++			      struct drm_writeback_job *writeback_job);
+ };
+ 
+ /**
+diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+new file mode 100644
+index 0000000000000..cf3a28676006a
+--- /dev/null
++++ b/include/drm/drm_writeback.h
+@@ -0,0 +1,88 @@
++/*
++ * (C) COPYRIGHT 2016 ARM Limited. All rights reserved.
++ * Author: Brian Starkey <brian.starkey@arm.com>
++ *
++ * This program is free software and is provided to you under the terms of the
++ * GNU General Public License version 2 as published by the Free Software
++ * Foundation, and any use by you of this program is subject to the terms
++ * of such GNU licence.
++ */
++
++#ifndef __DRM_WRITEBACK_H__
++#define __DRM_WRITEBACK_H__
++#include <drm/drm_connector.h>
++#include <drm/drm_encoder.h>
++#include <linux/workqueue.h>
++
++struct drm_writeback_connector {
++	struct drm_connector base;
++
++	/**
++	 * @encoder: Internal encoder used by the connector to fulfill
++	 * the DRM framework requirements. The users of the
++	 * @drm_writeback_connector control the behaviour of the @encoder
++	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
++	 * function.
++	 */
++	struct drm_encoder encoder;
++
++	/**
++	 * @pixel_formats_blob_ptr:
++	 *
++	 * DRM blob property data for the pixel formats list on writeback
++	 * connectors
++	 * See also drm_writeback_connector_init()
++	 */
++	struct drm_property_blob *pixel_formats_blob_ptr;
++
++	/** @job_lock: Protects job_queue */
++	spinlock_t job_lock;
++
++	/**
++	 * @job_queue:
++	 *
++	 * Holds a list of a connector's writeback jobs; the last item is the
++	 * most recent. The first item may be either waiting for the hardware
++	 * to begin writing, or currently being written.
++	 *
++	 * See also: drm_writeback_queue_job() and
++	 * drm_writeback_signal_completion()
++	 */
++	struct list_head job_queue;
++};
++
++struct drm_writeback_job {
++	/**
++	 * @cleanup_work:
++	 *
++	 * Used to allow drm_writeback_signal_completion to defer dropping the
++	 * framebuffer reference to a workqueue.
++	 */
++	struct work_struct cleanup_work;
++	/**
++	 * @list_entry:
++	 *
++	 * List item for the connector's @job_queue
++	 */
++	struct list_head list_entry;
++	/**
++	 * @fb:
++	 *
++	 * Framebuffer to be written to by the writeback connector. Do not set
++	 * directly, use drm_atomic_set_writeback_fb_for_connector()
++	 */
++	struct drm_framebuffer *fb;
++};
++
++int drm_writeback_connector_init(struct drm_device *dev,
++				 struct drm_writeback_connector *wb_connector,
++				 const struct drm_connector_funcs *con_funcs,
++				 const struct drm_encoder_helper_funcs *enc_helper_funcs,
++				 const u32 *formats, int n_formats);
++
++void drm_writeback_queue_job(struct drm_writeback_connector *wb_connector,
++			     struct drm_writeback_job *job);
++
++void drm_writeback_cleanup_job(struct drm_writeback_job *job);
++void drm_writeback_signal_completion(struct drm_writeback_connector *wb_connector);
++#endif
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 50bcf4214ff97..704d67ab1235e 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -338,6 +338,7 @@ enum drm_mode_subconnector {
+ #define DRM_MODE_CONNECTOR_VIRTUAL      15
+ #define DRM_MODE_CONNECTOR_DSI		16
+ #define DRM_MODE_CONNECTOR_DPI		17
++#define DRM_MODE_CONNECTOR_WRITEBACK	18
+ 
+ struct drm_mode_get_connector {
+ 
 -- 
-2.7.4
-
+2.17.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
