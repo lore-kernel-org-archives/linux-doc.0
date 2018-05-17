@@ -3,35 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4A447D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 May 2018 17:11:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87CF47D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 May 2018 17:12:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751784AbeEQRLj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 May 2018 13:11:39 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:53444 "EHLO
+        id S1752218AbeEQRLk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 May 2018 13:11:40 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:53442 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751999AbeEQRJd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 May 2018 13:09:33 -0400
+        with ESMTP id S1751788AbeEQRJc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 May 2018 13:09:32 -0400
 Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 9AF001E16CE;
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 280CA1E15FA;
         Thu, 17 May 2018 19:09:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1526576970; bh=9J+sRhdogA5MduK/xW/I1pcJ+TOH2w8DTsr28/Obt9I=;
+        t=1526576970; bh=r5Jy4lwzS7hMD9bDfeN3BBTSFxl5sjwweq0zCx7w1VQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=TVOK+T7FaeNNMI9b3Yk9uYwvUmlJF1NCj/sdEs8rcpd/kEQSiLZbWOcFIPiYVIhm/
-         +CuCOKOZNCv6Mgoqx2opUR4HHb9LFa96kSAB/896iQlqUQ2/xtC9+10l8NJ7zmNgXQ
-         zIBft4E2h2pudT7pH00SZVmwcsgOaCvSbbbo57Ya2Np0Yl645p5Gs4CzCWApr/Tgqx
-         NRGqGh9Oz+rFXEcWcAME9418NSlyGvi+5wKJ1XLgq7UZPEZm8ORfFLOHeIMC/mzcY9
-         oZyKH9L3aoTg7ZrbYq0M6eIt28j0EOxxO54IhxIXNuMw7tub3kdehdTclsDmhoxj2r
-         ZscF9UlPKrv/g==
+        b=IbSnbFn8odggaEPBi3JD4FMZwgtF9f0EHgWSrgRuYgPz3f4r1pIUqwNRQIxbe3V3c
+         UVgOA09ZXHid5ZLroNq/G8PdP1PAnNfJkFHCu0JPrFqLMR2FkQKorPaymiuktUW4ge
+         1HuFQdLpsq1wdILKoCFBrFEFgtbf3rhGDwe9D2P5AuRIb3NfC0I11WJR35iCHNXxYu
+         XZR4j+8Lhhzrns7/ivj5mjPVKhBISXctUxyhHZSKmnLKEg6ebzinlbT44cFLtHi6uZ
+         ouGJseVOdCn16ZUZwTIVpeajh6lcVWFyk/du+ogfIW10l5uV+spyuGaY5iVK0JE3Hh
+         wpElrbPr6w03w==
 Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id C5F71586B;
-        Thu, 17 May 2018 10:09:29 -0700 (PDT)
+        by mailhost.synopsys.com (Postfix) with ESMTP id C08A55845;
+        Thu, 17 May 2018 10:09:28 -0700 (PDT)
 Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 30EB63DD29;
+        by pt02.synopsys.com (Postfix) with ESMTP id 05F493DD1D;
         Thu, 17 May 2018 18:09:28 +0100 (WEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
@@ -40,9 +40,9 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v2 5/7] PCI: dwc: Add legacy interrupt callback handler
-Date:   Thu, 17 May 2018 18:09:21 +0100
-Message-Id: <c94a66476c391f8bdc781384e6d096453c2c885b.1526576613.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v2 2/7] PCI: dwc: Add MSI-X callbacks handler
+Date:   Thu, 17 May 2018 18:09:18 +0100
+Message-Id: <24e9cdc20d57aaea0bcb62879824c57004df46c9.1526576613.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
 References: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
@@ -53,78 +53,314 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a legacy interrupt callback handler. Currently DesignWare IP don't
-allow trigger legacy interrupts.
+Change pcie_raise_irq() signature, namely the interrupt_num variable type
+from u8 to u16 to accommodate 2048 maximum MSI-X interrupts.
+
+Add PCIe config space capability search function.
+
+Add sysfs set/get interface to allow the change of EP MSI-X maximum number.
+
+Add EP MSI-X callback for triggering interruptions.
 
 Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 ---
 Change v1->v2:
  - Nothing changed, just to follow the patch set version.
 
- drivers/pci/dwc/pcie-designware-ep.c   | 10 ++++++++++
- drivers/pci/dwc/pcie-designware-plat.c |  3 +--
- drivers/pci/dwc/pcie-designware.h      |  6 ++++++
- 3 files changed, 17 insertions(+), 2 deletions(-)
+ drivers/pci/dwc/pci-dra7xx.c           |   2 +-
+ drivers/pci/dwc/pcie-artpec6.c         |   2 +-
+ drivers/pci/dwc/pcie-designware-ep.c   | 146 ++++++++++++++++++++++++++++++++-
+ drivers/pci/dwc/pcie-designware-plat.c |   4 +-
+ drivers/pci/dwc/pcie-designware.h      |  14 +++-
+ 5 files changed, 163 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
-index a4baa0d..9822127 100644
---- a/drivers/pci/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/dwc/pcie-designware-ep.c
-@@ -370,6 +370,16 @@ static const struct pci_epc_ops epc_ops = {
- 	.stop			= dw_pcie_ep_stop,
- };
- 
-+int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
-+{
-+	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-+	struct device *dev = pci->dev;
-+
-+	dev_err(dev, "EP cannot trigger legacy IRQs\n");
-+
-+	return -EINVAL;
-+}
-+
- int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 			     u8 interrupt_num)
- {
-diff --git a/drivers/pci/dwc/pcie-designware-plat.c b/drivers/pci/dwc/pcie-designware-plat.c
-index 654dcb5..90a8c95 100644
---- a/drivers/pci/dwc/pcie-designware-plat.c
-+++ b/drivers/pci/dwc/pcie-designware-plat.c
-@@ -84,8 +84,7 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
- 
- 	switch (type) {
- 	case PCI_EPC_IRQ_LEGACY:
--		dev_err(pci->dev, "EP cannot trigger legacy IRQs\n");
--		return -EINVAL;
-+		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
- 	case PCI_EPC_IRQ_MSI:
- 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
- 	case PCI_EPC_IRQ_MSIX:
-diff --git a/drivers/pci/dwc/pcie-designware.h b/drivers/pci/dwc/pcie-designware.h
-index a0ab12f..69e6e17 100644
---- a/drivers/pci/dwc/pcie-designware.h
-+++ b/drivers/pci/dwc/pcie-designware.h
-@@ -350,6 +350,7 @@ static inline int dw_pcie_allocate_domains(struct pcie_port *pp)
- void dw_pcie_ep_linkup(struct dw_pcie_ep *ep);
- int dw_pcie_ep_init(struct dw_pcie_ep *ep);
- void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
-+int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no);
- int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 			     u8 interrupt_num);
- int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
-@@ -369,6 +370,11 @@ static inline void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
- {
+diff --git a/drivers/pci/dwc/pci-dra7xx.c b/drivers/pci/dwc/pci-dra7xx.c
+index f688204..bdf948b 100644
+--- a/drivers/pci/dwc/pci-dra7xx.c
++++ b/drivers/pci/dwc/pci-dra7xx.c
+@@ -370,7 +370,7 @@ static void dra7xx_pcie_raise_msi_irq(struct dra7xx_pcie *dra7xx,
  }
  
-+static inline int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
+ static int dra7xx_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+-				 enum pci_epc_irq_type type, u8 interrupt_num)
++				 enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 	struct dra7xx_pcie *dra7xx = to_dra7xx_pcie(pci);
+diff --git a/drivers/pci/dwc/pcie-artpec6.c b/drivers/pci/dwc/pcie-artpec6.c
+index 321b56c..9a2474b 100644
+--- a/drivers/pci/dwc/pcie-artpec6.c
++++ b/drivers/pci/dwc/pcie-artpec6.c
+@@ -428,7 +428,7 @@ static void artpec6_pcie_ep_init(struct dw_pcie_ep *ep)
+ }
+ 
+ static int artpec6_pcie_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+-				  enum pci_epc_irq_type type, u8 interrupt_num)
++				  enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 
+diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
+index 1eec441..e5f2377 100644
+--- a/drivers/pci/dwc/pcie-designware-ep.c
++++ b/drivers/pci/dwc/pcie-designware-ep.c
+@@ -40,6 +40,39 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+ 	__dw_pcie_ep_reset_bar(pci, bar, 0);
+ }
+ 
++u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
++			      u8 cap)
++{
++	u8 cap_id, next_cap_ptr;
++	u16 reg;
++
++	reg = dw_pcie_readw_dbi(pci, cap_ptr);
++	next_cap_ptr = (reg & 0xff00) >> 8;
++	cap_id = (reg & 0x00ff);
++
++	if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
++		return 0;
++
++	if (cap_id == cap)
++		return cap_ptr;
++
++	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
++}
++
++u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
++{
++	u8 next_cap_ptr;
++	u16 reg;
++
++	reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
++	next_cap_ptr = (reg & 0x00ff);
++
++	if (!next_cap_ptr)
++		return 0;
++
++	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
++}
++
+ static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no,
+ 				   struct pci_epf_header *hdr)
+ {
+@@ -241,8 +274,47 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
+ 	return 0;
+ }
+ 
++static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no)
++{
++	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	u32 val, reg;
++
++	if (!ep->msix_cap)
++		return 0;
++
++	reg = ep->msix_cap + PCI_MSIX_FLAGS;
++	val = dw_pcie_readw_dbi(pci, reg);
++	if (!(val & PCI_MSIX_FLAGS_ENABLE))
++		return -EINVAL;
++
++	val &= PCI_MSIX_FLAGS_QSIZE;
++
++	return val;
++}
++
++static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
++{
++	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	u32 val, reg;
++
++	if (!ep->msix_cap)
++		return 0;
++
++	reg = ep->msix_cap + PCI_MSIX_FLAGS;
++	val = dw_pcie_readw_dbi(pci, reg);
++	val &= ~PCI_MSIX_FLAGS_QSIZE;
++	val |= interrupts;
++	dw_pcie_dbi_ro_wr_en(pci);
++	dw_pcie_writew_dbi(pci, reg, val);
++	dw_pcie_dbi_ro_wr_dis(pci);
++
++	return 0;
++}
++
+ static int dw_pcie_ep_raise_irq(struct pci_epc *epc, u8 func_no,
+-				enum pci_epc_irq_type type, u8 interrupt_num)
++				enum pci_epc_irq_type type, u16 interrupt_num)
+ {
+ 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+ 
+@@ -282,6 +354,8 @@ static const struct pci_epc_ops epc_ops = {
+ 	.unmap_addr		= dw_pcie_ep_unmap_addr,
+ 	.set_msi		= dw_pcie_ep_set_msi,
+ 	.get_msi		= dw_pcie_ep_get_msi,
++	.set_msix		= dw_pcie_ep_set_msix,
++	.get_msix		= dw_pcie_ep_get_msix,
+ 	.raise_irq		= dw_pcie_ep_raise_irq,
+ 	.start			= dw_pcie_ep_start,
+ 	.stop			= dw_pcie_ep_stop,
+@@ -322,6 +396,64 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 	return 0;
+ }
+ 
++int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
++			     u16 interrupt_num)
++{
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	struct pci_epc *epc = ep->epc;
++	u16 tbl_offset, bir;
++	u32 bar_addr_upper, bar_addr_lower;
++	u32 msg_addr_upper, msg_addr_lower;
++	u32 reg, msg_data, vec_ctrl;
++	u64 tbl_addr, msg_addr, reg_u64;
++	void __iomem *msix_tbl;
++	int ret;
++
++	reg = ep->msix_cap + PCI_MSIX_TABLE;
++	tbl_offset = dw_pcie_readl_dbi(pci, reg);
++	bir = (tbl_offset & PCI_MSIX_TABLE_BIR);
++	tbl_offset &= PCI_MSIX_TABLE_OFFSET;
++	tbl_offset >>= 3;
++
++	reg = PCI_BASE_ADDRESS_0 + (4 * bir);
++	bar_addr_lower = dw_pcie_readl_dbi(pci, reg);
++	reg_u64 = (bar_addr_lower & PCI_BASE_ADDRESS_MEM_TYPE_MASK);
++	if (reg_u64 == PCI_BASE_ADDRESS_MEM_TYPE_64)
++		bar_addr_upper = dw_pcie_readl_dbi(pci, reg + 4);
++	else
++		bar_addr_upper = 0;
++
++	tbl_addr = ((u64) bar_addr_upper) << 32 | bar_addr_lower;
++	tbl_addr += (tbl_offset + ((interrupt_num - 1) * PCI_MSIX_ENTRY_SIZE));
++	tbl_addr &= PCI_BASE_ADDRESS_MEM_MASK;
++
++	msix_tbl = ioremap_nocache(ep->phys_base + tbl_addr, ep->addr_size);
++	if (!msix_tbl)
++		return -EINVAL;
++
++	msg_addr_lower = readl(msix_tbl + PCI_MSIX_ENTRY_LOWER_ADDR);
++	msg_addr_upper = readl(msix_tbl + PCI_MSIX_ENTRY_UPPER_ADDR);
++	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
++	msg_data = readl(msix_tbl + PCI_MSIX_ENTRY_DATA);
++	vec_ctrl = readl(msix_tbl + PCI_MSIX_ENTRY_VECTOR_CTRL);
++
++	if (vec_ctrl & PCI_MSIX_ENTRY_CTRL_MASKBIT)
++		return -EPERM;
++
++	iounmap(msix_tbl);
++
++	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msix_mem_phys, msg_addr,
++				  epc->mem->page_size);
++	if (ret)
++		return ret;
++
++	writel(msg_data, ep->msix_mem);
++
++	dw_pcie_ep_unmap_addr(epc, func_no, ep->msix_mem_phys);
++
++	return 0;
++}
++
+ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+ {
+ 	struct pci_epc *epc = ep->epc;
+@@ -329,6 +461,9 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+ 	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
+ 			      epc->mem->page_size);
+ 
++	pci_epc_mem_free_addr(epc, ep->msix_mem_phys, ep->msix_mem,
++			      epc->mem->page_size);
++
+ 	pci_epc_mem_exit(epc);
+ }
+ 
+@@ -410,6 +545,15 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 		dev_err(dev, "Failed to reserve memory for MSI\n");
+ 		return -ENOMEM;
+ 	}
++	ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
++
++	ep->msix_mem = pci_epc_mem_alloc_addr(epc, &ep->msix_mem_phys,
++					     epc->mem->page_size);
++	if (!ep->msix_mem) {
++		dev_err(dev, "Failed to reserve memory for MSI-X\n");
++		return -ENOMEM;
++	}
++	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
+ 
+ 	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
+ 	EPC_FEATURE_SET_BAR(epc->features, BAR_0);
+diff --git a/drivers/pci/dwc/pcie-designware-plat.c b/drivers/pci/dwc/pcie-designware-plat.c
+index 5937fed..654dcb5 100644
+--- a/drivers/pci/dwc/pcie-designware-plat.c
++++ b/drivers/pci/dwc/pcie-designware-plat.c
+@@ -78,7 +78,7 @@ static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
+ 
+ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 				     enum pci_epc_irq_type type,
+-				     u8 interrupt_num)
++				     u16 interrupt_num)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 
+@@ -88,6 +88,8 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 		return -EINVAL;
+ 	case PCI_EPC_IRQ_MSI:
+ 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
++	case PCI_EPC_IRQ_MSIX:
++		return dw_pcie_ep_raise_msix_irq(ep, func_no, interrupt_num);
+ 	default:
+ 		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+ 	}
+diff --git a/drivers/pci/dwc/pcie-designware.h b/drivers/pci/dwc/pcie-designware.h
+index bee4e25..b22c5bb 100644
+--- a/drivers/pci/dwc/pcie-designware.h
++++ b/drivers/pci/dwc/pcie-designware.h
+@@ -191,7 +191,7 @@ enum dw_pcie_as_type {
+ struct dw_pcie_ep_ops {
+ 	void	(*ep_init)(struct dw_pcie_ep *ep);
+ 	int	(*raise_irq)(struct dw_pcie_ep *ep, u8 func_no,
+-			     enum pci_epc_irq_type type, u8 interrupt_num);
++			     enum pci_epc_irq_type type, u16 interrupt_num);
+ };
+ 
+ struct dw_pcie_ep {
+@@ -208,6 +208,10 @@ struct dw_pcie_ep {
+ 	u32			num_ob_windows;
+ 	void __iomem		*msi_mem;
+ 	phys_addr_t		msi_mem_phys;
++	void __iomem		*msix_mem;
++	phys_addr_t		msix_mem_phys;
++	u8			msi_cap;	/* MSI capability offset */
++	u8			msix_cap;	/* MSI-X capability offset */
+ };
+ 
+ struct dw_pcie_ops {
+@@ -359,6 +363,8 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+ void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
+ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 			     u8 interrupt_num);
++int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
++			     u16 interrupt_num);
+ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar);
+ #else
+ static inline void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+@@ -380,6 +386,12 @@ static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 	return 0;
+ }
+ 
++static inline int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
++					   u16 interrupt_num)
 +{
 +	return 0;
 +}
 +
- static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 					   u8 interrupt_num)
+ static inline void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
  {
+ }
 -- 
 2.7.4
 
