@@ -5,63 +5,52 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 037C37D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 May 2018 06:38:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08A627D048
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 May 2018 07:10:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752328AbeEQGiI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 May 2018 02:38:08 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:38101 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751907AbeEQGiF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 May 2018 02:38:05 -0400
-Received: by mail-ua0-f193.google.com with SMTP id y8-v6so2234541ual.5
-        for <linux-doc@vger.kernel.org>; Wed, 16 May 2018 23:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=IKJA6cZNqW1WmqxcYAISQnVEkE8tkhj7NHYPymWuzaY=;
-        b=MvNvWUt9D5jbjwnj9duAv8uJlA3pwv7UZP0YGJY53GreDnTHZhbjbv+jr0ASGd76ld
-         EqG72tsrO8hd2X/9CgwSyw/nPewQKzwU6h/DZAfm2bSYhGqDOzfcaRBsWv042iBk0Ft+
-         VcyqYyBM4clLVKGyAAuye/KD6OwkUDEqWoCpjXJNNvTLlUDhhUxYTKMv4YCgbsdEhAun
-         ryZZX2WfSE5Sd3v1RwTVoAhXILdVNRqMSaK1EeBtaLCtcXUqAmb0u30l6S+HrhgSnF3M
-         MSZRvVvJ7njDJ1i2QRntSag5SSAa4P38q8e8aWr26C/eb1WflrnMM4dGDH4iwsLA54t5
-         LGoQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=IKJA6cZNqW1WmqxcYAISQnVEkE8tkhj7NHYPymWuzaY=;
-        b=CXWCHmxFk6lzP1cUpeI6X+pTRD27N4ohgdy+IBtehmNUfa6T15GM6tq+2A0ik8nv3b
-         rn3/za8gJqw67eekfYVkq5xIyD7fLZ7KRB1FrGywKfr1yVBcaPqlx2tA/IZuyyG4lPeW
-         lFehEOiaya2tOai+XX3uutMdTqBuGy/cTyg4w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=IKJA6cZNqW1WmqxcYAISQnVEkE8tkhj7NHYPymWuzaY=;
-        b=hIVYnDpqm0HqlYpVDrTKOAqobGKEWZ75pRUprdTnL7IzEY6ZDqHTYtWwsTw86waJz7
-         XXElaMX8qQFQpLCvK5gxbQzs4faOnTWglXjtLQmoXLsTynxfv3pDcGp78dOiwjAIgoBY
-         GFiFpVnJVfoE9NhEjZqf1EhBaYLYdzqbt2vwG5dYEGE0r88NUpfOEbAt2+eHrepQIEtE
-         2yneHQyPuooA/p58CwJyu3mt4GdCS+/EejN7AX5X7oUUD8w+xUiu/eKh6SlkFgnGVz2F
-         OKy4r3t8+3hPSih0nQ4uIkQ9ZRymwceUq7TxI4i4So4u/oxw8ab8zn/5pB0Ko7lcYugg
-         pJCw==
-X-Gm-Message-State: ALKqPwdJ9jeuy/Ltsy3guDwueo8AbCGowRJyzaFU7/RQ1yPcPSJpuqOe
-        mVyVQqo1zkLJAlmRBw4vQQTzAL2rir6Gf//3ibUbVA==
-X-Google-Smtp-Source: AB8JxZqnvtSGO0fSgueFHOKbzz6wUtXP3XkG5DX1vaPIk/BAXsc+xptDguO6hKdonZPdzEgbpL+MDN7Xhz1v+neCa04=
-X-Received: by 2002:ab0:2508:: with SMTP id j8-v6mr3373405uan.83.1526539084245;
- Wed, 16 May 2018 23:38:04 -0700 (PDT)
+        id S1751468AbeEQHKQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 May 2018 03:10:16 -0400
+Received: from condef-06.nifty.com ([202.248.20.71]:43066 "EHLO
+        condef-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750938AbeEQHKQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 May 2018 03:10:16 -0400
+X-Greylist: delayed 556 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 May 2018 03:10:15 EDT
+Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-06.nifty.com with ESMTP id w4H6uA7S015556
+        for <linux-doc@vger.kernel.org>; Thu, 17 May 2018 15:56:10 +0900
+Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com [209.85.217.173]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id w4H6u0bF026693;
+        Thu, 17 May 2018 15:56:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com w4H6u0bF026693
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1526540161;
+        bh=iZVHR/SzddjAIDi3pFXkdl4vJvLrCQrEhEgA0fRw2BI=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=mYLgO29Y5FaR0qBWwwA+JHe/zCKK1HCTQ63wyQYsB/3+bKoNc5nBUNHGsa8o4yfbX
+         /a0tA9TdGY7pBTVKYCFXOL2QCU9/44OUE1Ibc/kgkwJ9rMiMHXEulK8x6wh+1J+HlT
+         X12nPad2h8hj2ZytsuQrmaMx0022IE3Lvi1wYstXDyfJ98+n2dWFc5NEYf14ple3le
+         l+XgH2nDg3/f1IQ0Cc07D7j45Z1ZkhlMs7YvQecJPog7vvtKW69fUvTl0c1Tw2N5tQ
+         aArg1AHced1KAahke8h7TXG9n8lmJnu17HVjffbbcNZkxPJHEmskqUwrUBP7YG3/3h
+         UcRgyLziVtEHw==
+X-Nifty-SrcIP: [209.85.217.173]
+Received: by mail-ua0-f173.google.com with SMTP id g9-v6so2251155uak.7;
+        Wed, 16 May 2018 23:56:00 -0700 (PDT)
+X-Gm-Message-State: ALKqPwc2u+6X7LsigvcQT07dvEDVGeDJsqoU2FS2DhliTn4tCE0mOIui
+        sKtfjEQnRGoHOF66N97ePZvL+N/6oGHl3f0AyCc=
+X-Google-Smtp-Source: AB8JxZpHcED36si+Z5Qg1m7d2iyiAXEiBqdWBn0Xamy4BRH1cE1VW3ctUc/cL9lhISDDPrVWROq9SupwPvWef3c9MkE=
+X-Received: by 2002:ab0:13c9:: with SMTP id n9-v6mr3464459uae.140.1526540159584;
+ Wed, 16 May 2018 23:55:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a1f:bd1:0:0:0:0:0 with HTTP; Wed, 16 May 2018 23:38:03 -0700 (PDT)
-In-Reply-To: <1526537830-22606-20-git-send-email-yamada.masahiro@socionext.com>
-References: <1526537830-22606-1-git-send-email-yamada.masahiro@socionext.com> <1526537830-22606-20-git-send-email-yamada.masahiro@socionext.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Wed, 16 May 2018 23:38:03 -0700
-X-Google-Sender-Auth: Fx-AmOyGe1n_oJkuada0LngjUgE
-Message-ID: <CAGXu5jK6mDBkQoAEV6ohttXU1o3Xy1uD2RcZMaY_+kKN2XCxYA@mail.gmail.com>
+Received: by 10.176.85.216 with HTTP; Wed, 16 May 2018 23:55:19 -0700 (PDT)
+In-Reply-To: <CAGXu5jK6mDBkQoAEV6ohttXU1o3Xy1uD2RcZMaY_+kKN2XCxYA@mail.gmail.com>
+References: <1526537830-22606-1-git-send-email-yamada.masahiro@socionext.com>
+ <1526537830-22606-20-git-send-email-yamada.masahiro@socionext.com> <CAGXu5jK6mDBkQoAEV6ohttXU1o3Xy1uD2RcZMaY_+kKN2XCxYA@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 17 May 2018 15:55:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARYUqWGCtD=LZcj-=a8bkuE2gNajDfu0Zu0giz6pMedvA@mail.gmail.com>
+Message-ID: <CAK7LNARYUqWGCtD=LZcj-=a8bkuE2gNajDfu0Zu0giz6pMedvA@mail.gmail.com>
 Subject: Re: [PATCH v4 19/31] Documentation: kconfig: document a new Kconfig
  macro language
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Kees Cook <keescook@chromium.org>
 Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Sam Ravnborg <sam@ravnborg.org>,
@@ -71,345 +60,360 @@ Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
         Nicholas Piggin <npiggin@gmail.com>,
         Emese Revfy <re.emese@gmail.com>, X86 ML <x86@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 16, 2018 at 11:16 PM, Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
-> Add a document for the macro language introduced to Kconfig.
+2018-05-17 15:38 GMT+09:00 Kees Cook <keescook@chromium.org>:
+> On Wed, May 16, 2018 at 11:16 PM, Masahiro Yamada
+> <yamada.masahiro@socionext.com> wrote:
+>> Add a document for the macro language introduced to Kconfig.
+>>
+>> The motivation of this work is to move the compiler option tests to
+>> Kconfig from Makefile.  A number of kernel features require the
+>> compiler support.  Enabling such features blindly in Kconfig ends up
+>> with a lot of nasty build-time testing in Makefiles.  If a chosen
+>> feature turns out unsupported by the compiler, what the build system
+>> can do is either to disable it (silently!) or to forcibly break the
+>> build, despite Kconfig has let the user to enable it.  By moving the
+>> compiler capability tests to Kconfig, features unsupported by the
+>> compiler will be hidden automatically.
+>>
+>> This change was strongly prompted by Linus Torvalds.  You can find
+>> his suggestions [1] [2] in ML.  The original idea was to add a new
+>> attribute with 'option shell=...', but I found more generalized text
+>> expansion would make Kconfig more powerful and lovely.  The basic
+>> ideas are from Make, but there are some differences.
+>>
+>> [1]: https://lkml.org/lkml/2016/12/9/577
+>> [2]: https://lkml.org/lkml/2018/2/7/527
+>>
+>> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 >
-> The motivation of this work is to move the compiler option tests to
-> Kconfig from Makefile.  A number of kernel features require the
-> compiler support.  Enabling such features blindly in Kconfig ends up
-> with a lot of nasty build-time testing in Makefiles.  If a chosen
-> feature turns out unsupported by the compiler, what the build system
-> can do is either to disable it (silently!) or to forcibly break the
-> build, despite Kconfig has let the user to enable it.  By moving the
-> compiler capability tests to Kconfig, features unsupported by the
-> compiler will be hidden automatically.
+> (Added Randy, Jon, and linux-doc to CC for more review)
 >
-> This change was strongly prompted by Linus Torvalds.  You can find
-> his suggestions [1] [2] in ML.  The original idea was to add a new
-> attribute with 'option shell=...', but I found more generalized text
-> expansion would make Kconfig more powerful and lovely.  The basic
-> ideas are from Make, but there are some differences.
+> This should likely be written in .rst and linked to from the developer index...
 >
-> [1]: https://lkml.org/lkml/2016/12/9/577
-> [2]: https://lkml.org/lkml/2018/2/7/527
+> https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation
 >
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> As for the content, though:
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> -Kees
 
-(Added Randy, Jon, and linux-doc to CC for more review)
+At least, nothing in Documentation/kbuild/ has not been
+converted to ReST yet.
 
-This should likely be written in .rst and linked to from the developer index...
 
-https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation
 
-As for the content, though:
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
 
--Kees
-
-> ---
+>> ---
+>>
+>> Changes in v4:
+>>  - Update according to the syntax change
+>>
+>> Changes in v3:
+>>  - Newly added
+>>
+>> Changes in v2: None
+>>
+>>  Documentation/kbuild/kconfig-macro-language.txt | 252 ++++++++++++++++++++++++
+>>  MAINTAINERS                                     |   2 +-
+>>  2 files changed, 253 insertions(+), 1 deletion(-)
+>>  create mode 100644 Documentation/kbuild/kconfig-macro-language.txt
+>>
+>> diff --git a/Documentation/kbuild/kconfig-macro-language.txt b/Documentation/kbuild/kconfig-macro-language.txt
+>> new file mode 100644
+>> index 0000000..a8dc792
+>> --- /dev/null
+>> +++ b/Documentation/kbuild/kconfig-macro-language.txt
+>> @@ -0,0 +1,252 @@
+>> +Concept
+>> +-------
+>> +
+>> +The basic idea was inspired by Make. When we look at Make, we notice sort of
+>> +two languages in one. One language describes dependency graphs consisting of
+>> +targets and prerequisites. The other is a macro language for performing textual
+>> +substitution.
+>> +
+>> +There is clear distinction between the two language stages. For example, you
+>> +can write a makefile like follows:
+>> +
+>> +    APP := foo
+>> +    SRC := foo.c
+>> +    CC := gcc
+>> +
+>> +    $(APP): $(SRC)
+>> +            $(CC) -o $(APP) $(SRC)
+>> +
+>> +The macro language replaces the variable references with their expanded form,
+>> +and handles as if the source file were input like follows:
+>> +
+>> +    foo: foo.c
+>> +            gcc -o foo foo.c
+>> +
+>> +Then, Make analyzes the dependency graph and determines the targets to be
+>> +updated.
+>> +
+>> +The idea is quite similar in Kconfig - it is possible to describe a Kconfig
+>> +file like this:
+>> +
+>> +    CC := gcc
+>> +
+>> +    config CC_HAS_FOO
+>> +            def_bool $(shell, $(srctree)/scripts/gcc-check-foo.sh $(CC))
+>> +
+>> +The macro language in Kconfig processes the source file into the following
+>> +intermediate:
+>> +
+>> +    config CC_HAS_FOO
+>> +            def_bool y
+>> +
+>> +Then, Kconfig moves onto the evaluation stage to resolve inter-symbol
+>> +dependency as explained in kconfig-language.txt.
+>> +
+>> +
+>> +Variables
+>> +---------
+>> +
+>> +Like in Make, a variable in Kconfig works as a macro variable.  A macro
+>> +variable is expanded "in place" to yield a text string that may then be
+>> +expanded further. To get the value of a variable, enclose the variable name in
+>> +$( ). The parentheses are required even for single-letter variable names; $X is
+>> +a syntax error. The curly brace form as in ${CC} is not supported either.
+>> +
+>> +There are two types of variables: simply expanded variables and recursively
+>> +expanded variables.
+>> +
+>> +A simply expanded variable is defined using the := assignment operator. Its
+>> +righthand side is expanded immediately upon reading the line from the Kconfig
+>> +file.
+>> +
+>> +A recursively expanded variable is defined using the = assignment operator.
+>> +Its righthand side is simply stored as the value of the variable without
+>> +expanding it in any way. Instead, the expansion is performed when the variable
+>> +is used.
+>> +
+>> +There is another type of assignment operator; += is used to append text to a
+>> +variable. The righthand side of += is expanded immediately if the lefthand
+>> +side was originally defined as a simple variable. Otherwise, its evaluation is
+>> +deferred.
+>> +
+>> +The variable reference can take parameters, in the following form:
+>> +
+>> +  $(name,arg1,arg2,arg3)
+>> +
+>> +You can consider the parameterized reference as a function. (more precisely,
+>> +"user-defined function" in the contrast to "built-in function" listed below).
+>> +
+>> +Useful functions must be expanded when they are used since the same function is
+>> +expanded differently if different parameters are passed. Hence, a user-defined
+>> +function is defined using the = assignment operator. The parameters are
+>> +referenced within the body definition with $(1), $(2), etc.
+>> +
+>> +In fact, recursively expanded variables and user-defined functions are the same
+>> +internally. (In other words, "variable" is "function with zero argument".)
+>> +When we say "variable" in a broad sense, it includes "user-defined function".
+>> +
+>> +
+>> +Built-in functions
+>> +------------------
+>> +
+>> +Like Make, Kconfig provides several built-in functions. Every function takes a
+>> +particular number of arguments.
+>> +
+>> +In Make, every built-in function takes at least one argument. Kconfig allows
+>> +zero argument for built-in functions, such as $(fileno), $(lineno). You could
+>> +consider those as "built-in variable", but it is just a matter of how we call
+>> +it after all. Let's say "built-in function" here to refer to natively supported
+>> +functionality.
+>> +
+>> +Kconfig currently supports the following built-in functions.
+>> +
+>> + - $(shell,command)
+>> +
+>> +  The "shell" function accepts a single argument that is expanded and passed
+>> +  to a subshell for execution. The standard output of the command is then read
+>> +  and returned as the value of the function. Every newline in the output is
+>> +  replaced with a space. Any trailing newlines are deleted. The standard error
+>> +  is not returned, nor is any program exit status.
+>> +
+>> + - $(info,text)
+>> +
+>> +  The "info" function takes a single argument and prints it to stdout.
+>> +  It evaluates to an empty string.
+>> +
+>> + - $(warning,text)
+>> +
+>> +  The "warning" function is similar to "info" except that it sends its argument
+>> +  to stderr and prefixes the output with the name of the current Kconfig file
+>> +  and the current line number.
+>> +
+>> + - $(error,text)
+>> +
+>> +  The "error" function is similar to "warning", but it terminates the parsing
+>> +  immediately.
+>> +
+>> + - $(if,condition,then-part[,else-part])
+>> +
+>> +  The "if" function takes two or three arguments ('else-part' is optional).
+>> +  Depending on the value of the condition part, the argument to be expanded
+>> +  is selected. The condition is true if its expansion contains any characters
+>> +  except whitespaces. In this case, the then-part is expanded. Otherwise, the
+>> +  else-part is expanded.
+>> +
+>> +  Note:
+>> +  In Make, the condition is true if it contains any characters including
+>> +  whitespaces, which is why $(strip ...) is sometimes necessary in the
+>> +  condition part. Kconfig changed the behavior to make it handier.
+>> +
+>> + - $(filename)
+>> +
+>> +  The 'filename' takes no argument, and $(filename) is expanded to a file name
+>> +  being parsed.
+>> +
+>> + - $(lineno)
+>> +
+>> +  The 'lineno' takes no argument, and $(lineno) is expanded to a line number
+>> +  being parsed.
+>> +
+>> +
+>> +Difference of function call syntax
+>> +----------------------------------
+>> +
+>> +Kconfig adopts Make-like macro language, but the function call syntax is
+>> +slightly different.
+>> +
+>> +A function call in Make looks like follows:
+>> +
+>> +  $(func-name arg1,arg2,arg3)
+>> +
+>> +The function name and the first argument are separated by at least one
+>> +whitespace. Then, leading whitespaces are trimmed from the first argument,
+>> +but whitespaces in the other arguments are kept. You need to use a kind of
+>> +trick to start the first parameter with spaces. For example, if you want
+>> +to make "info" function print "  hello", you can write like follows:
+>> +
+>> +  $(info $(space)$(space)hello)
+>> +
+>> +Kconfig uses only commas for delimiters, and keeps all whitespaces in the
+>> +function call. Some people prefer putting a space after each comma delimiter:
+>> +
+>> +  $(func-name, arg1, arg2, arg3)
+>> +
+>> +In this case, "func-name" will receive " arg1", " arg2", " arg3". The presence
+>> +of leading spaces may really matter depending on the function. The same applies
+>> +to Make - for example, $(subst .c, .o, $(sources)) is a typical mistake.
+>> +
+>> +In Make, a user-defined function is referenced by using a built-in function,
+>> +'call', like this:
+>> +
+>> +    $(call my-func,arg1,arg2,arg3)
+>> +
+>> +Kconfig invokes user-defined functions and built-in functions in the same way.
+>> +The omission of 'call' makes the syntax shorter.
+>> +
+>> +In Make, some functions exceptionally treat commas verbatim instead of argument
+>> +separators. For example, $(shell echo hello, world) evaluates to "hello, world".
+>> +Likewise, $(info hello, world) prints "hello, world" to stdout. You could say
+>> +this is _useful_ inconsistency.
+>> +
+>> +For simpler implementation and grammatical consistency, Kconfig always treats
+>> +commas that appear in the $( ) form as delimiters. It means
+>> +
+>> +  $(shell, echo hello, world)
+>> +
+>> +is an error because it is passing two parameters where the 'shell' function
+>> +accepts only one. To pass commas in arguments, you can use the following trick:
+>> +
+>> +  comma := ,
+>> +  $(shell, echo hello$(comma) world)
+>> +
+>> +
+>> +Caveats
+>> +-------
+>> +
+>> +A variable (or function) cannot be expanded across tokens. So, you cannot use
+>> +a variable as a shorthand for an expression that consists of multiple tokens.
+>> +The following works:
+>> +
+>> +    RANGE_MIN := 1
+>> +    RANGE_MAX := 3
+>> +
+>> +    config FOO
+>> +            int "foo"
+>> +            range $(RANGE_MIN) $(RANGE_MAX)
+>> +
+>> +But, the following does not work:
+>> +
+>> +    RANGES := 1 3
+>> +
+>> +    config FOO
+>> +            int "foo"
+>> +            range $(RANGES)
+>> +
+>> +A variable cannot be expanded to any keyword in Kconfig.  The following does
+>> +not work:
+>> +
+>> +    MY_TYPE := tristate
+>> +
+>> +    config FOO
+>> +            $(MY_TYPE) "foo"
+>> +            default y
+>> +
+>> +Obviously from the design, $(shell command) is expanded in the textual
+>> +substitution phase. You cannot pass symbols to the 'shell' function.
+>> +The following does not work as expected.
+>> +
+>> +    config ENDIAN_FLAG
+>> +            string
+>> +            default "-mbig-endian" if CPU_BIG_ENDIAN
+>> +            default "-mlittle-endian" if CPU_LITTLE_ENDIAN
+>> +
+>> +    config CC_HAS_ENDIAN_FLAG
+>> +            def_bool $(shell $(srctree)/scripts/gcc-check-flag ENDIAN_FLAG)
+>> +
+>> +Instead, you can do like follows so that any function call is statically
+>> +expanded.
+>> +
+>> +    config CC_HAS_ENDIAN_FLAG
+>> +            bool
+>> +            default $(shell $(srctree)/scripts/gcc-check-flag -mbig-endian) if CPU_BIG_ENDIAN
+>> +            default $(shell $(srctree)/scripts/gcc-check-flag -mlittle-endian) if CPU_LITTLE_ENDIAN
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 58b9861..b7d7ae61 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -7632,7 +7632,7 @@ M:        Masahiro Yamada <yamada.masahiro@socionext.com>
+>>  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kconfig
+>>  L:     linux-kbuild@vger.kernel.org
+>>  S:     Maintained
+>> -F:     Documentation/kbuild/kconfig-language.txt
+>> +F:     Documentation/kbuild/kconfig*
+>>  F:     scripts/kconfig/
+>>
+>>  KDUMP
+>> --
+>> 2.7.4
+>>
 >
-> Changes in v4:
->  - Update according to the syntax change
 >
-> Changes in v3:
->  - Newly added
 >
-> Changes in v2: None
->
->  Documentation/kbuild/kconfig-macro-language.txt | 252 ++++++++++++++++++++++++
->  MAINTAINERS                                     |   2 +-
->  2 files changed, 253 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/kbuild/kconfig-macro-language.txt
->
-> diff --git a/Documentation/kbuild/kconfig-macro-language.txt b/Documentation/kbuild/kconfig-macro-language.txt
-> new file mode 100644
-> index 0000000..a8dc792
-> --- /dev/null
-> +++ b/Documentation/kbuild/kconfig-macro-language.txt
-> @@ -0,0 +1,252 @@
-> +Concept
-> +-------
-> +
-> +The basic idea was inspired by Make. When we look at Make, we notice sort of
-> +two languages in one. One language describes dependency graphs consisting of
-> +targets and prerequisites. The other is a macro language for performing textual
-> +substitution.
-> +
-> +There is clear distinction between the two language stages. For example, you
-> +can write a makefile like follows:
-> +
-> +    APP := foo
-> +    SRC := foo.c
-> +    CC := gcc
-> +
-> +    $(APP): $(SRC)
-> +            $(CC) -o $(APP) $(SRC)
-> +
-> +The macro language replaces the variable references with their expanded form,
-> +and handles as if the source file were input like follows:
-> +
-> +    foo: foo.c
-> +            gcc -o foo foo.c
-> +
-> +Then, Make analyzes the dependency graph and determines the targets to be
-> +updated.
-> +
-> +The idea is quite similar in Kconfig - it is possible to describe a Kconfig
-> +file like this:
-> +
-> +    CC := gcc
-> +
-> +    config CC_HAS_FOO
-> +            def_bool $(shell, $(srctree)/scripts/gcc-check-foo.sh $(CC))
-> +
-> +The macro language in Kconfig processes the source file into the following
-> +intermediate:
-> +
-> +    config CC_HAS_FOO
-> +            def_bool y
-> +
-> +Then, Kconfig moves onto the evaluation stage to resolve inter-symbol
-> +dependency as explained in kconfig-language.txt.
-> +
-> +
-> +Variables
-> +---------
-> +
-> +Like in Make, a variable in Kconfig works as a macro variable.  A macro
-> +variable is expanded "in place" to yield a text string that may then be
-> +expanded further. To get the value of a variable, enclose the variable name in
-> +$( ). The parentheses are required even for single-letter variable names; $X is
-> +a syntax error. The curly brace form as in ${CC} is not supported either.
-> +
-> +There are two types of variables: simply expanded variables and recursively
-> +expanded variables.
-> +
-> +A simply expanded variable is defined using the := assignment operator. Its
-> +righthand side is expanded immediately upon reading the line from the Kconfig
-> +file.
-> +
-> +A recursively expanded variable is defined using the = assignment operator.
-> +Its righthand side is simply stored as the value of the variable without
-> +expanding it in any way. Instead, the expansion is performed when the variable
-> +is used.
-> +
-> +There is another type of assignment operator; += is used to append text to a
-> +variable. The righthand side of += is expanded immediately if the lefthand
-> +side was originally defined as a simple variable. Otherwise, its evaluation is
-> +deferred.
-> +
-> +The variable reference can take parameters, in the following form:
-> +
-> +  $(name,arg1,arg2,arg3)
-> +
-> +You can consider the parameterized reference as a function. (more precisely,
-> +"user-defined function" in the contrast to "built-in function" listed below).
-> +
-> +Useful functions must be expanded when they are used since the same function is
-> +expanded differently if different parameters are passed. Hence, a user-defined
-> +function is defined using the = assignment operator. The parameters are
-> +referenced within the body definition with $(1), $(2), etc.
-> +
-> +In fact, recursively expanded variables and user-defined functions are the same
-> +internally. (In other words, "variable" is "function with zero argument".)
-> +When we say "variable" in a broad sense, it includes "user-defined function".
-> +
-> +
-> +Built-in functions
-> +------------------
-> +
-> +Like Make, Kconfig provides several built-in functions. Every function takes a
-> +particular number of arguments.
-> +
-> +In Make, every built-in function takes at least one argument. Kconfig allows
-> +zero argument for built-in functions, such as $(fileno), $(lineno). You could
-> +consider those as "built-in variable", but it is just a matter of how we call
-> +it after all. Let's say "built-in function" here to refer to natively supported
-> +functionality.
-> +
-> +Kconfig currently supports the following built-in functions.
-> +
-> + - $(shell,command)
-> +
-> +  The "shell" function accepts a single argument that is expanded and passed
-> +  to a subshell for execution. The standard output of the command is then read
-> +  and returned as the value of the function. Every newline in the output is
-> +  replaced with a space. Any trailing newlines are deleted. The standard error
-> +  is not returned, nor is any program exit status.
-> +
-> + - $(info,text)
-> +
-> +  The "info" function takes a single argument and prints it to stdout.
-> +  It evaluates to an empty string.
-> +
-> + - $(warning,text)
-> +
-> +  The "warning" function is similar to "info" except that it sends its argument
-> +  to stderr and prefixes the output with the name of the current Kconfig file
-> +  and the current line number.
-> +
-> + - $(error,text)
-> +
-> +  The "error" function is similar to "warning", but it terminates the parsing
-> +  immediately.
-> +
-> + - $(if,condition,then-part[,else-part])
-> +
-> +  The "if" function takes two or three arguments ('else-part' is optional).
-> +  Depending on the value of the condition part, the argument to be expanded
-> +  is selected. The condition is true if its expansion contains any characters
-> +  except whitespaces. In this case, the then-part is expanded. Otherwise, the
-> +  else-part is expanded.
-> +
-> +  Note:
-> +  In Make, the condition is true if it contains any characters including
-> +  whitespaces, which is why $(strip ...) is sometimes necessary in the
-> +  condition part. Kconfig changed the behavior to make it handier.
-> +
-> + - $(filename)
-> +
-> +  The 'filename' takes no argument, and $(filename) is expanded to a file name
-> +  being parsed.
-> +
-> + - $(lineno)
-> +
-> +  The 'lineno' takes no argument, and $(lineno) is expanded to a line number
-> +  being parsed.
-> +
-> +
-> +Difference of function call syntax
-> +----------------------------------
-> +
-> +Kconfig adopts Make-like macro language, but the function call syntax is
-> +slightly different.
-> +
-> +A function call in Make looks like follows:
-> +
-> +  $(func-name arg1,arg2,arg3)
-> +
-> +The function name and the first argument are separated by at least one
-> +whitespace. Then, leading whitespaces are trimmed from the first argument,
-> +but whitespaces in the other arguments are kept. You need to use a kind of
-> +trick to start the first parameter with spaces. For example, if you want
-> +to make "info" function print "  hello", you can write like follows:
-> +
-> +  $(info $(space)$(space)hello)
-> +
-> +Kconfig uses only commas for delimiters, and keeps all whitespaces in the
-> +function call. Some people prefer putting a space after each comma delimiter:
-> +
-> +  $(func-name, arg1, arg2, arg3)
-> +
-> +In this case, "func-name" will receive " arg1", " arg2", " arg3". The presence
-> +of leading spaces may really matter depending on the function. The same applies
-> +to Make - for example, $(subst .c, .o, $(sources)) is a typical mistake.
-> +
-> +In Make, a user-defined function is referenced by using a built-in function,
-> +'call', like this:
-> +
-> +    $(call my-func,arg1,arg2,arg3)
-> +
-> +Kconfig invokes user-defined functions and built-in functions in the same way.
-> +The omission of 'call' makes the syntax shorter.
-> +
-> +In Make, some functions exceptionally treat commas verbatim instead of argument
-> +separators. For example, $(shell echo hello, world) evaluates to "hello, world".
-> +Likewise, $(info hello, world) prints "hello, world" to stdout. You could say
-> +this is _useful_ inconsistency.
-> +
-> +For simpler implementation and grammatical consistency, Kconfig always treats
-> +commas that appear in the $( ) form as delimiters. It means
-> +
-> +  $(shell, echo hello, world)
-> +
-> +is an error because it is passing two parameters where the 'shell' function
-> +accepts only one. To pass commas in arguments, you can use the following trick:
-> +
-> +  comma := ,
-> +  $(shell, echo hello$(comma) world)
-> +
-> +
-> +Caveats
-> +-------
-> +
-> +A variable (or function) cannot be expanded across tokens. So, you cannot use
-> +a variable as a shorthand for an expression that consists of multiple tokens.
-> +The following works:
-> +
-> +    RANGE_MIN := 1
-> +    RANGE_MAX := 3
-> +
-> +    config FOO
-> +            int "foo"
-> +            range $(RANGE_MIN) $(RANGE_MAX)
-> +
-> +But, the following does not work:
-> +
-> +    RANGES := 1 3
-> +
-> +    config FOO
-> +            int "foo"
-> +            range $(RANGES)
-> +
-> +A variable cannot be expanded to any keyword in Kconfig.  The following does
-> +not work:
-> +
-> +    MY_TYPE := tristate
-> +
-> +    config FOO
-> +            $(MY_TYPE) "foo"
-> +            default y
-> +
-> +Obviously from the design, $(shell command) is expanded in the textual
-> +substitution phase. You cannot pass symbols to the 'shell' function.
-> +The following does not work as expected.
-> +
-> +    config ENDIAN_FLAG
-> +            string
-> +            default "-mbig-endian" if CPU_BIG_ENDIAN
-> +            default "-mlittle-endian" if CPU_LITTLE_ENDIAN
-> +
-> +    config CC_HAS_ENDIAN_FLAG
-> +            def_bool $(shell $(srctree)/scripts/gcc-check-flag ENDIAN_FLAG)
-> +
-> +Instead, you can do like follows so that any function call is statically
-> +expanded.
-> +
-> +    config CC_HAS_ENDIAN_FLAG
-> +            bool
-> +            default $(shell $(srctree)/scripts/gcc-check-flag -mbig-endian) if CPU_BIG_ENDIAN
-> +            default $(shell $(srctree)/scripts/gcc-check-flag -mlittle-endian) if CPU_LITTLE_ENDIAN
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 58b9861..b7d7ae61 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7632,7 +7632,7 @@ M:        Masahiro Yamada <yamada.masahiro@socionext.com>
->  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kconfig
->  L:     linux-kbuild@vger.kernel.org
->  S:     Maintained
-> -F:     Documentation/kbuild/kconfig-language.txt
-> +F:     Documentation/kbuild/kconfig*
->  F:     scripts/kconfig/
->
->  KDUMP
 > --
-> 2.7.4
->
+> Kees Cook
+> Pixel Security
 
 
 
 -- 
-Kees Cook
-Pixel Security
+Best Regards
+Masahiro Yamada
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
