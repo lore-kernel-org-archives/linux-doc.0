@@ -5,23 +5,21 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E65C7D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 04:36:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F19E67D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 04:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750951AbeEREgV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 May 2018 00:36:21 -0400
-Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:61269 "EHLO
+        id S1750959AbeEREhR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 May 2018 00:37:17 -0400
+Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:61275 "EHLO
         ns.ascade.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750828AbeEREgU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 00:36:20 -0400
+        with ESMTP id S1751142AbeEREhQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 00:37:16 -0400
 Received: from server0001.ascade.co.jp (server0001.ascade.co.jp [10.1.1.63])
-        by ns.ascade.co.jp (Postfix) with ESMTP id 7FAA3993D1;
-        Fri, 18 May 2018 13:36:18 +0900 (JST)
+        by ns.ascade.co.jp (Postfix) with ESMTP id 086D6993BD;
+        Fri, 18 May 2018 13:27:45 +0900 (JST)
 Received: from [IPv6:::1] (server0001.ascade.co.jp [10.1.1.63])
-        by server0001.ascade.co.jp (Postfix) with ESMTP id 159C710050E;
-        Fri, 18 May 2018 13:36:17 +0900 (JST)
-Subject: [PATCH v2 4/7] mm, sysctl: make charging surplus hugepages
- controllable
+        by server0001.ascade.co.jp (Postfix) with ESMTP id 9E4091004E1;
+        Fri, 18 May 2018 13:27:43 +0900 (JST)
 To:     Johannes Weiner <hannes@cmpxchg.org>,
         Michal Hocko <mhocko@kernel.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
@@ -41,14 +39,14 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, cgroups@vger.kernel.org, tsukada@ascade.co.jp
-References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
 From:   TSUKADA Koutaro <tsukada@ascade.co.jp>
-Message-ID: <d87cac0d-e395-a528-4c25-226399a09121@ascade.co.jp>
-Date:   Fri, 18 May 2018 13:36:11 +0900
+Subject: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
+ charge to memcg
+Message-ID: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
+Date:   Fri, 18 May 2018 13:27:27 +0900
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -57,82 +55,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make the default hugetlb surplus hugepage controlable by
-/proc/sys/vm/charge_surplus_hugepages.
+Thanks to Mike Kravetz for comment on the previous version patch.
 
-Signed-off-by: TSUKADA Koutaro <tsukada@ascade.co.jp>
----
- include/linux/hugetlb.h |    2 ++
- kernel/sysctl.c         |    7 +++++++
- mm/hugetlb.c            |   21 +++++++++++++++++++++
- 3 files changed, 30 insertions(+)
+The purpose of this patch-set is to make it possible to control whether or
+not to charge surplus hugetlb pages obtained by overcommitting to memory
+cgroup. In the future, I am trying to accomplish limiting the memory usage
+of applications that use both normal pages and hugetlb pages by the memory
+cgroup(not use the hugetlb cgroup).
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 33fe5be..9314b07 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -80,6 +80,8 @@ struct hugepage_subpool *hugepage_new_subpool(struct hstate *h, long max_hpages,
- void reset_vma_resv_huge_pages(struct vm_area_struct *vma);
- int hugetlb_sysctl_handler(struct ctl_table *, int, void __user *, size_t *, loff_t *);
- int hugetlb_overcommit_handler(struct ctl_table *, int, void __user *, size_t *, loff_t *);
-+int hugetlb_charge_surplus_handler(struct ctl_table *, int, void __user *,
-+					size_t *, loff_t *);
- int hugetlb_treat_movable_handler(struct ctl_table *, int, void __user *, size_t *, loff_t *);
+Applications that use shared libraries like libhugetlbfs.so use both normal
+pages and hugetlb pages, but we do not know how much to use each. Please
+suppose you want to manage the memory usage of such applications by cgroup
+How do you set the memory cgroup and hugetlb cgroup limit when you want to
+limit memory usage to 10GB?
 
- #ifdef CONFIG_NUMA
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 6a78cf7..d562d64 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -1394,6 +1394,13 @@ static int sysrq_sysctl_handler(struct ctl_table *table, int write,
- 		.mode		= 0644,
- 		.proc_handler	= hugetlb_overcommit_handler,
- 	},
-+	{
-+		.procname	= "charge_surplus_hugepages",
-+		.data		= NULL,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= hugetlb_charge_surplus_handler,
-+	},
- #endif
- 	{
- 		.procname	= "lowmem_reserve_ratio",
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 2e7b543..9a9549c 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3069,6 +3069,27 @@ int hugetlb_overcommit_handler(struct ctl_table *table, int write,
- 	return ret;
- }
+If you set a limit of 10GB for each, the user can use a total of 20GB of
+memory and can not limit it well. Since it is difficult to estimate the
+ratio used by user of normal pages and hugetlb pages, setting limits of 2GB
+to memory cgroup and 8GB to hugetlb cgroup is not very good idea. In such a
+case, I thought that by using my patch-set, we could manage resources just
+by setting 10GB as the limit of memory cgoup(there is no limit to hugetlb
+cgroup).
 
-+int hugetlb_charge_surplus_handler(struct ctl_table *table, int write,
-+			void __user *buffer, size_t *length, loff_t *ppos)
-+{
-+	struct hstate *h = &default_hstate;
-+	int tmp, ret;
-+
-+	if (!hugepages_supported())
-+		return -EOPNOTSUPP;
-+
-+	tmp = h->charge_surplus_huge_pages ? 1 : 0;
-+	table->data = &tmp;
-+	table->maxlen = sizeof(int);
-+	ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-+	if (ret)
-+		goto out;
-+
-+	if (write)
-+		h->charge_surplus_huge_pages = tmp ? true : false;
-+out:
-+	return ret;
-+}
- #endif /* CONFIG_SYSCTL */
+In this patch-set, introduce the charge_surplus_huge_pages(boolean) to
+struct hstate. If it is true, it charges to the memory cgroup to which the
+task that obtained surplus hugepages belongs. If it is false, do nothing as
+before, and the default value is false. The charge_surplus_huge_pages can
+be controlled procfs or sysfs interfaces.
 
- void hugetlb_report_meminfo(struct seq_file *m)
+Since THP is very effective in environments with kernel page size of 4KB,
+such as x86, there is no reason to positively use HugeTLBfs, so I think
+that there is no situation to enable charge_surplus_huge_pages. However, in
+some distributions such as arm64, the page size of the kernel is 64KB, and
+the size of THP is too huge as 512MB, making it difficult to use. HugeTLBfs
+may support multiple huge page sizes, and in such a special environment
+there is a desire to use HugeTLBfs.
 
---
+The patch set is for 4.17.0-rc3+. I don't know whether patch-set are
+acceptable or not, so I just done a simple test.
+
+Thanks,
 Tsukada
+
+TSUKADA Koutaro (7):
+  hugetlb: introduce charge_surplus_huge_pages to struct hstate
+  hugetlb: supports migrate charging for surplus hugepages
+  memcg: use compound_order rather than hpage_nr_pages
+  mm, sysctl: make charging surplus hugepages controllable
+  hugetlb: add charge_surplus_hugepages attribute
+  Documentation, hugetlb: describe about charge_surplus_hugepages
+  memcg: supports movement of surplus hugepages statistics
+
+ Documentation/vm/hugetlbpage.txt |    6 +
+ include/linux/hugetlb.h          |    4 +
+ kernel/sysctl.c                  |    7 +
+ mm/hugetlb.c                     |  148 +++++++++++++++++++++++++++++++++++++++
+ mm/memcontrol.c                  |  109 +++++++++++++++++++++++++++-
+ 5 files changed, 269 insertions(+), 5 deletions(-)
+
+-- 
+Tsukada
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
