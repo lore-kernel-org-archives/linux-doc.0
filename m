@@ -2,26 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF9F07D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 04:37:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2BE07D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 04:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751184AbeEREhR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 May 2018 00:37:17 -0400
-Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:61277 "EHLO
+        id S1751304AbeEREhs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 May 2018 00:37:48 -0400
+Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:61283 "EHLO
         ns.ascade.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750838AbeEREhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 00:37:16 -0400
+        with ESMTP id S1750959AbeEREhq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 00:37:46 -0400
 Received: from server0001.ascade.co.jp (server0001.ascade.co.jp [10.1.1.63])
-        by ns.ascade.co.jp (Postfix) with ESMTP id 062DC993CF;
-        Fri, 18 May 2018 13:29:52 +0900 (JST)
+        by ns.ascade.co.jp (Postfix) with ESMTP id 58340993BD;
+        Fri, 18 May 2018 13:37:45 +0900 (JST)
 Received: from [IPv6:::1] (server0001.ascade.co.jp [10.1.1.63])
-        by server0001.ascade.co.jp (Postfix) with ESMTP id 9BBA91004E1;
-        Fri, 18 May 2018 13:29:50 +0900 (JST)
-Subject: [PATCH v2 1/7] hugetlb: introduce charge_surplus_huge_pages to struct
- hstate
+        by server0001.ascade.co.jp (Postfix) with ESMTP id 1080010050E;
+        Fri, 18 May 2018 13:37:43 +0900 (JST)
+Subject: [PATCH v2 5/7] hugetlb: add charge_surplus_hugepages attribute
 To:     Johannes Weiner <hannes@cmpxchg.org>,
         Michal Hocko <mhocko@kernel.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
@@ -43,8 +42,8 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm@kvack.org, cgroups@vger.kernel.org, tsukada@ascade.co.jp
 References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
 From:   TSUKADA Koutaro <tsukada@ascade.co.jp>
-Message-ID: <a6a46388-347c-8422-c3f3-1061ccfed26f@ascade.co.jp>
-Date:   Fri, 18 May 2018 13:29:43 +0900
+Message-ID: <2e8b5907-36e1-094b-ec87-149e1f0b7f69@ascade.co.jp>
+Date:   Fri, 18 May 2018 13:37:37 +0900
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
@@ -57,214 +56,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The charge_surplus_huge_pages indicates to charge surplus huge pages
-obteined from the normal page pool to memory cgroup. The default value is
-false.
-
-This patch implements the core part of charging surplus hugepages. Use the
-private and mem_cgroup member of the second entry of compound hugepage for
-surplus hugepage charging.
-
-Mark when surplus hugepage is obtained from normal pool, and charge to
-memory cgroup at alloc_huge_page. Once the mapping of the page is decided,
-commit the charge. surplus hugepages will uncharge or cancel at
-free_huge_page.
+Add an entry for charge_surplus_hugepages to sysfs.
 
 Signed-off-by: TSUKADA Koutaro <tsukada@ascade.co.jp>
 ---
- include/linux/hugetlb.h |    2
- mm/hugetlb.c            |  100 ++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 102 insertions(+)
+ hugetlb.c |   25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 36fa6a2..33fe5be 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -158,6 +158,7 @@ unsigned long hugetlb_change_protection(struct vm_area_struct *vma,
- 		unsigned long address, unsigned long end, pgprot_t newprot);
-
- bool is_hugetlb_entry_migration(pte_t pte);
-+bool PageSurplusCharge(struct page *page);
-
- #else /* !CONFIG_HUGETLB_PAGE */
-
-@@ -338,6 +339,7 @@ struct hstate {
- 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
- 	unsigned int free_huge_pages_node[MAX_NUMNODES];
- 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
-+	bool charge_surplus_huge_pages;	/* default to off */
- #ifdef CONFIG_CGROUP_HUGETLB
- 	/* cgroup control files */
- 	struct cftype cgroup_files[5];
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 2186791..679c151f 100644
+index 9a9549c..2f9bdbc 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -36,6 +36,7 @@
- #include <linux/node.h>
- #include <linux/userfaultfd_k.h>
- #include <linux/page_owner.h>
-+#include <linux/memcontrol.h>
- #include "internal.h"
-
- int hugetlb_max_hstate __read_mostly;
-@@ -1236,6 +1237,90 @@ static inline void ClearPageHugeTemporary(struct page *page)
- 	page[2].mapping = NULL;
+@@ -2662,6 +2662,30 @@ static ssize_t surplus_hugepages_show(struct kobject *kobj,
  }
+ HSTATE_ATTR_RO(surplus_hugepages);
 
-+#define HUGETLB_SURPLUS_CHARGE		1UL
-+
-+bool PageSurplusCharge(struct page *page)
++static ssize_t charge_surplus_hugepages_show(struct kobject *kobj,
++					struct kobj_attribute *attr, char *buf)
 +{
-+	if (!PageHuge(page))
-+		return false;
-+	return page[1].private == HUGETLB_SURPLUS_CHARGE;
++	struct hstate *h = kobj_to_hstate(kobj, NULL);
++	return sprintf(buf, "%d\n", h->charge_surplus_huge_pages);
 +}
 +
-+static inline void SetPageSurplusCharge(struct page *page)
++static ssize_t charge_surplus_hugepages_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t len)
 +{
-+	page[1].private = HUGETLB_SURPLUS_CHARGE;
++	int err;
++	unsigned long input;
++	struct hstate *h = kobj_to_hstate(kobj, NULL);
++
++	err = kstrtoul(buf, 10, &input);
++	if (err)
++		return err;
++
++	h->charge_surplus_huge_pages = input ? true : false;
++
++	return len;
 +}
++HSTATE_ATTR(charge_surplus_hugepages);
 +
-+static inline void ClearPageSurplusCharge(struct page *page)
-+{
-+	page[1].private = 0;
-+}
-+
-+static inline void
-+set_surplus_hugepage_memcg(struct page *page, struct mem_cgroup *memcg)
-+{
-+	page[1].mem_cgroup = memcg;
-+}
-+
-+static inline struct mem_cgroup *get_surplus_hugepage_memcg(struct page *page)
-+{
-+	return page[1].mem_cgroup;
-+}
-+
-+static void surplus_hugepage_set_charge(struct hstate *h, struct page *page)
-+{
-+	if (likely(!h->charge_surplus_huge_pages))
-+		return;
-+	if (unlikely(!page))
-+		return;
-+	SetPageSurplusCharge(page);
-+}
-+
-+static int surplus_hugepage_try_charge(struct page *page, struct mm_struct *mm)
-+{
-+	struct mem_cgroup *memcg;
-+
-+	if (likely(!PageSurplusCharge(page)))
-+		return 0;
-+
-+	if (mem_cgroup_try_charge(page, mm, GFP_KERNEL, &memcg, true)) {
-+		/* mem_cgroup oom invoked */
-+		ClearPageSurplusCharge(page);
-+		return -ENOMEM;
-+	}
-+	set_surplus_hugepage_memcg(page, memcg);
-+
-+	return 0;
-+}
-+
-+static void surplus_hugepage_commit_charge(struct page *page)
-+{
-+	struct mem_cgroup *memcg;
-+
-+	if (likely(!PageSurplusCharge(page)))
-+		return;
-+
-+	memcg = get_surplus_hugepage_memcg(page);
-+	mem_cgroup_commit_charge(page, memcg, false, true);
-+	set_surplus_hugepage_memcg(page, NULL);
-+}
-+
-+static void surplus_hugepage_finalize_charge(struct page *page)
-+{
-+	struct mem_cgroup *memcg;
-+
-+	if (likely(!PageSurplusCharge(page)))
-+		return;
-+
-+	memcg = get_surplus_hugepage_memcg(page);
-+	if (memcg)
-+		mem_cgroup_cancel_charge(page, memcg, true);
-+	else
-+		mem_cgroup_uncharge(page);
-+	set_surplus_hugepage_memcg(page, NULL);
-+	ClearPageSurplusCharge(page);
-+}
-+
- void free_huge_page(struct page *page)
- {
- 	/*
-@@ -1248,6 +1333,8 @@ void free_huge_page(struct page *page)
- 		(struct hugepage_subpool *)page_private(page);
- 	bool restore_reserve;
+ static struct attribute *hstate_attrs[] = {
+ 	&nr_hugepages_attr.attr,
+ 	&nr_overcommit_hugepages_attr.attr,
+@@ -2671,6 +2695,7 @@ static ssize_t surplus_hugepages_show(struct kobject *kobj,
+ #ifdef CONFIG_NUMA
+ 	&nr_hugepages_mempolicy_attr.attr,
+ #endif
++	&charge_surplus_hugepages_attr.attr,
+ 	NULL,
+ };
 
-+	surplus_hugepage_finalize_charge(page);
-+
- 	set_page_private(page, 0);
- 	page->mapping = NULL;
- 	VM_BUG_ON_PAGE(page_count(page), page);
-@@ -1583,6 +1670,8 @@ static struct page *alloc_surplus_huge_page(struct hstate *h, gfp_t gfp_mask,
- out_unlock:
- 	spin_unlock(&hugetlb_lock);
-
-+	surplus_hugepage_set_charge(h, page);
-+
- 	return page;
- }
-
-@@ -2062,6 +2151,11 @@ struct page *alloc_huge_page(struct vm_area_struct *vma,
- 	hugetlb_cgroup_commit_charge(idx, pages_per_huge_page(h), h_cg, page);
- 	spin_unlock(&hugetlb_lock);
-
-+	if (unlikely(surplus_hugepage_try_charge(page, vma->vm_mm))) {
-+		put_page(page);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
- 	set_page_private(page, (unsigned long)spool);
-
- 	map_commit = vma_commit_reservation(h, vma, addr);
-@@ -3610,6 +3704,7 @@ static int hugetlb_cow(struct mm_struct *mm, struct vm_area_struct *vma,
- 				make_huge_pte(vma, new_page, 1));
- 		page_remove_rmap(old_page, true);
- 		hugepage_add_new_anon_rmap(new_page, vma, address);
-+		surplus_hugepage_commit_charge(new_page);
- 		/* Make the old page be freed below */
- 		new_page = old_page;
- 	}
-@@ -3667,6 +3762,9 @@ int huge_add_to_page_cache(struct page *page, struct address_space *mapping,
-
- 	if (err)
- 		return err;
-+
-+	surplus_hugepage_commit_charge(page);
-+
- 	ClearPagePrivate(page);
-
- 	spin_lock(&inode->i_lock);
-@@ -3809,6 +3907,7 @@ static int hugetlb_no_page(struct mm_struct *mm, struct vm_area_struct *vma,
- 	if (anon_rmap) {
- 		ClearPagePrivate(page);
- 		hugepage_add_new_anon_rmap(page, vma, address);
-+		surplus_hugepage_commit_charge(page);
- 	} else
- 		page_dup_rmap(page, true);
- 	new_pte = make_huge_pte(vma, page, ((vma->vm_flags & VM_WRITE)
-@@ -4108,6 +4207,7 @@ int hugetlb_mcopy_atomic_pte(struct mm_struct *dst_mm,
- 	} else {
- 		ClearPagePrivate(page);
- 		hugepage_add_new_anon_rmap(page, dst_vma, dst_addr);
-+		surplus_hugepage_commit_charge(page);
- 	}
-
- 	_dst_pte = make_huge_pte(dst_vma, page, dst_vma->vm_flags & VM_WRITE);
 -- 
 Tsukada
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
