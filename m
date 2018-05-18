@@ -3,46 +3,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A8DD7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 21:16:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 01CF67D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 21:16:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752562AbeERVQc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 May 2018 17:16:32 -0400
-Received: from mail-lf0-f65.google.com ([209.85.215.65]:45627 "EHLO
-        mail-lf0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752075AbeERVPU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 17:15:20 -0400
-Received: by mail-lf0-f65.google.com with SMTP id w202-v6so15856586lff.12
-        for <linux-doc@vger.kernel.org>; Fri, 18 May 2018 14:15:19 -0700 (PDT)
+        id S1752552AbeERVQ3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 May 2018 17:16:29 -0400
+Received: from mail-lf0-f67.google.com ([209.85.215.67]:33394 "EHLO
+        mail-lf0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752044AbeERVPW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 17:15:22 -0400
+Received: by mail-lf0-f67.google.com with SMTP id h9-v6so15925089lfi.0
+        for <linux-doc@vger.kernel.org>; Fri, 18 May 2018 14:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=evqVlSgwE0Mq3D3CWJiiP/nrSl0JupLCAxkyhHdkCDo=;
-        b=WoT3uFz2l1Ig2Hb8nuOBRLmj+prhEM/N7QtBaCTrE5h7DdyLImWJ8EN8BXQgLgBb6z
-         IT9DeRR169jNdTgTTXJXK5rPyxtBId3D3aFbxk4pojtlBMphio0VEX6mcsHNIFZkeNvc
-         Lja90ER3Tx+Eez7UWmVAIjFJcO6I+qfm9+bBw=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2goMSuJTLIPVP1LiUGCXld9OtWQKdUTdKAVqXRx0QZ8=;
+        b=J1+jkHPHNpEdUckB4dTrFUnod3h3Gp3RQxZhxJdqAdiWnlb6OZNIMfDkYzQgsH0eM9
+         ++H2XIT8FVye68gMoW3yCnDeJmcBa2M7XsKLfKA19b3pV0DL84EWDFYkNGm5DtgbHYhy
+         /7Rnddnt4VtQnQH2V+UBpaOZwknIlc4h4z+MQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=evqVlSgwE0Mq3D3CWJiiP/nrSl0JupLCAxkyhHdkCDo=;
-        b=mc8wJAU4J5Ptsek0WM3Bj09dEr7JQhra7b8VpLQZN74JxjlFTwQnF+Ei7qlZxVcZFn
-         5skYrEVKKynbgAHmzQfzmjQVyGOd6nCxYg1pguRuIKMG5lOI17DyZB6mB5vKI32c0iwA
-         DoysI2P34l5qQuVDVcMPJIYkwuboUYaGcwjaLnQoM1MJXQ1rLEmrBL0Y3ITBdWsA35mt
-         gqTKsLERm0ZgIDVPlKMCnHLPYPr9h8KDHpMbkC8Xj/IHW7Hw/8MrwNYjMFI/Lc7JMchu
-         yMpK/PZS4BYEB8r9UEgq02QusPgdIsS6Eru34PoMcDvx+wd2HWk5yay1rL8k8631QPv4
-         /6LQ==
-X-Gm-Message-State: ALKqPwcmCkX0P5hAtV0gKOR1z+N6ALTHRz4P8go5kXdroOHF2TUyAoiM
-        o8txq4CE6opXTLi55w8rtEAAOw==
-X-Google-Smtp-Source: AB8JxZp3kRmfbeeLsZcY4p/VEAxU7uk2U6XZKlXQYw962tlodg2j8BA9h2ZIUY1D01p6tTASoHEwDQ==
-X-Received: by 2002:a2e:2a45:: with SMTP id q66-v6mr6617173ljq.40.1526678118623;
-        Fri, 18 May 2018 14:15:18 -0700 (PDT)
+         :references:mime-version:content-transfer-encoding;
+        bh=2goMSuJTLIPVP1LiUGCXld9OtWQKdUTdKAVqXRx0QZ8=;
+        b=g5lQ3vnfO1li19W8wYQh6ppcg8F8yi0i5YCUrcn0yMuGpCXtJ7VH8PruVtJGa8+vxK
+         Dwv2V3JYnakz2URmK6Tog2Qt/1d82V+NmQphI0daqYnm6rSNHQD2aMYZO6YYUOqj9kE9
+         /1yJ7ppXfOGlkwteSN9yd4gPZunNrf79DZfiWPHbs+xd2AV0IMQ2IhERCuikiYBon+2l
+         HvMqKN6IZ6HrbnN+cqbS9i+10a3AJXfocc9NfseXK8sncseb3jEuvlx2pWEVLNNUWMGE
+         mnHGY6TK302ffsvkDztFaPPH7iAS3XmJRNM8PrBOb838Q0BZu2TLxWHjYI4nYRi4AILn
+         /OrA==
+X-Gm-Message-State: ALKqPwfOrArLUI9YnFQElP+GXEH1BqfpZKw356rd2gdCSKy7GbvY6dDW
+        VDz0dLCxezlGbmLTxPuVmF/wEw==
+X-Google-Smtp-Source: AB8JxZr9zNccSbJ2j83LnnzHOH6ecrUYEncV5bm8GUunrx4gwmrhoo7qe+gHKGk/FPc7I9RONUj0wg==
+X-Received: by 2002:a19:7906:: with SMTP id u6-v6mr21249412lfc.34.1526678120005;
+        Fri, 18 May 2018 14:15:20 -0700 (PDT)
 Received: from localhost.localdomain (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
-        by smtp.gmail.com with ESMTPSA id g20-v6sm2045991lfk.39.2018.05.18.14.15.17
+        by smtp.gmail.com with ESMTPSA id g20-v6sm2045991lfk.39.2018.05.18.14.15.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 May 2018 14:15:18 -0700 (PDT)
+        Fri, 18 May 2018 14:15:19 -0700 (PDT)
 From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
 To:     grygorii.strashko@ti.com, davem@davemloft.net
 Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
@@ -50,82 +51,179 @@ Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
         linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
         henrik@austad.us, jesus.sanchez-palencia@intel.com,
         Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Subject: [RFC PATCH 2/6] net: ethernet: ti: cpdma: fit rated channels in backward order
-Date:   Sat, 19 May 2018 00:15:06 +0300
-Message-Id: <20180518211510.13341-3-ivan.khoronzhuk@linaro.org>
+Subject: [RFC PATCH 3/6] net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
+Date:   Sat, 19 May 2018 00:15:07 +0300
+Message-Id: <20180518211510.13341-4-ivan.khoronzhuk@linaro.org>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
 References: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-According to TRM tx rated channels should be in 7..0 order,
-so correct it.
+That's possible to offload vlan to tc priority mapping with
+assumption sk_prio == L2 prio.
+
+Example:
+$ ethtool -L eth0 rx 1 tx 4
+
+$ qdisc replace dev eth0 handle 100: parent root mqprio num_tc 3 \
+map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@0 1@1 2@2 hw 1
+
+$ tc -g class show dev eth0
++---(100:ffe2) mqprio
+|    +---(100:3) mqprio
+|    +---(100:4) mqprio
+|    
++---(100:ffe1) mqprio
+|    +---(100:2) mqprio
+|    
++---(100:ffe0) mqprio
+     +---(100:1) mqprio
+
+Here, 100:1 is txq0, 100:2 is txq1, 100:3 is txq2, 100:4 is txq3
+txq0 belongs to tc0, txq1 to tc1, txq2 and txq3 to tc2
+The offload part only maps L2 prio to classes of traffic, but not
+to transmit queues, so to direct traffic to traffic class vlan has
+to be created with appropriate egress map.
 
 Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
 ---
- drivers/net/ethernet/ti/davinci_cpdma.c | 31 ++++++++++++-------------
- 1 file changed, 15 insertions(+), 16 deletions(-)
+ drivers/net/ethernet/ti/cpsw.c | 82 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
 
-diff --git a/drivers/net/ethernet/ti/davinci_cpdma.c b/drivers/net/ethernet/ti/davinci_cpdma.c
-index 31ae04117f0a..37fbdc668cc7 100644
---- a/drivers/net/ethernet/ti/davinci_cpdma.c
-+++ b/drivers/net/ethernet/ti/davinci_cpdma.c
-@@ -406,37 +406,36 @@ static int cpdma_chan_fit_rate(struct cpdma_chan *ch, u32 rate,
- 	struct cpdma_chan *chan;
- 	u32 old_rate = ch->rate;
- 	u32 new_rmask = 0;
--	int rlim = 1;
-+	int rlim = 0;
- 	int i;
+diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
+index 9bd615da04d3..4b232cda5436 100644
+--- a/drivers/net/ethernet/ti/cpsw.c
++++ b/drivers/net/ethernet/ti/cpsw.c
+@@ -39,6 +39,7 @@
+ #include <linux/sys_soc.h>
  
--	*prio_mode = 0;
- 	for (i = tx_chan_num(0); i < tx_chan_num(CPDMA_MAX_CHANNELS); i++) {
- 		chan = ctlr->channels[i];
--		if (!chan) {
--			rlim = 0;
-+		if (!chan)
- 			continue;
--		}
+ #include <linux/pinctrl/consumer.h>
++#include <net/pkt_cls.h>
  
- 		if (chan == ch)
- 			chan->rate = rate;
+ #include "cpsw.h"
+ #include "cpsw_ale.h"
+@@ -153,6 +154,8 @@ do {								\
+ #define IRQ_NUM			2
+ #define CPSW_MAX_QUEUES		8
+ #define CPSW_CPDMA_DESCS_POOL_SIZE_DEFAULT 256
++#define CPSW_TC_NUM			4
++#define CPSW_FIFO_SHAPERS_NUM		(CPSW_TC_NUM - 1)
  
- 		if (chan->rate) {
--			if (rlim) {
--				new_rmask |= chan->mask;
--			} else {
--				ch->rate = old_rate;
--				dev_err(ctlr->dev, "Prev channel of %dch is not rate limited\n",
--					chan->chan_num);
--				return -EINVAL;
--			}
--		} else {
--			*prio_mode = 1;
--			rlim = 0;
-+			rlim = 1;
-+			new_rmask |= chan->mask;
-+			continue;
- 		}
-+
-+		if (rlim)
-+			goto err;
- 	}
- 
- 	*rmask = new_rmask;
-+	*prio_mode = rlim;
- 	return 0;
-+
-+err:
-+	ch->rate = old_rate;
-+	dev_err(ctlr->dev, "Upper cpdma ch%d is not rate limited\n",
-+		chan->chan_num);
-+	return -EINVAL;
+ #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_SHIFT	29
+ #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_MSK		GENMASK(2, 0)
+@@ -453,6 +456,7 @@ struct cpsw_priv {
+ 	u8				mac_addr[ETH_ALEN];
+ 	bool				rx_pause;
+ 	bool				tx_pause;
++	bool				mqprio_hw;
+ 	u32 emac_port;
+ 	struct cpsw_common *cpsw;
+ };
+@@ -1577,6 +1581,14 @@ static void cpsw_slave_stop(struct cpsw_slave *slave, struct cpsw_common *cpsw)
+ 	soft_reset_slave(slave);
  }
  
- static u32 cpdma_chan_set_factors(struct cpdma_ctlr *ctlr,
++static int cpsw_tc_to_fifo(int tc, int num_tc)
++{
++	if (tc == num_tc - 1)
++		return 0;
++
++	return CPSW_FIFO_SHAPERS_NUM - tc;
++}
++
+ static int cpsw_ndo_open(struct net_device *ndev)
+ {
+ 	struct cpsw_priv *priv = netdev_priv(ndev);
+@@ -2190,6 +2202,75 @@ static int cpsw_ndo_set_tx_maxrate(struct net_device *ndev, int queue, u32 rate)
+ 	return ret;
+ }
+ 
++static int cpsw_set_tc(struct net_device *ndev, void *type_data)
++{
++	struct tc_mqprio_qopt_offload *mqprio = type_data;
++	struct cpsw_priv *priv = netdev_priv(ndev);
++	struct cpsw_common *cpsw = priv->cpsw;
++	int fifo, num_tc, count, offset;
++	struct cpsw_slave *slave;
++	u32 tx_prio_map = 0;
++	int i, tc, ret;
++
++	num_tc = mqprio->qopt.num_tc;
++	if (num_tc > CPSW_TC_NUM)
++		return -EINVAL;
++
++	if (mqprio->mode != TC_MQPRIO_MODE_DCB)
++		return -EINVAL;
++
++	ret = pm_runtime_get_sync(cpsw->dev);
++	if (ret < 0) {
++		pm_runtime_put_noidle(cpsw->dev);
++		return ret;
++	}
++
++	if (num_tc) {
++		for (i = 0; i < 8; i++) {
++			tc = mqprio->qopt.prio_tc_map[i];
++			fifo = cpsw_tc_to_fifo(tc, num_tc);
++			tx_prio_map |= fifo << (4 * i);
++		}
++
++		netdev_set_num_tc(ndev, num_tc);
++		for (i = 0; i < num_tc; i++) {
++			count = mqprio->qopt.count[i];
++			offset = mqprio->qopt.offset[i];
++			netdev_set_tc_queue(ndev, i, count, offset);
++		}
++	}
++
++	if (!mqprio->qopt.hw) {
++		/* restore default configuration */
++		netdev_reset_tc(ndev);
++		tx_prio_map = TX_PRIORITY_MAPPING;
++	}
++
++	priv->mqprio_hw = mqprio->qopt.hw;
++
++	offset = cpsw->version == CPSW_VERSION_1 ?
++		 CPSW1_TX_PRI_MAP : CPSW2_TX_PRI_MAP;
++
++	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
++	slave_write(slave, tx_prio_map, offset);
++
++	pm_runtime_put_sync(cpsw->dev);
++
++	return 0;
++}
++
++static int cpsw_ndo_setup_tc(struct net_device *ndev, enum tc_setup_type type,
++			     void *type_data)
++{
++	switch (type) {
++	case TC_SETUP_QDISC_MQPRIO:
++		return cpsw_set_tc(ndev, type_data);
++
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
+ static const struct net_device_ops cpsw_netdev_ops = {
+ 	.ndo_open		= cpsw_ndo_open,
+ 	.ndo_stop		= cpsw_ndo_stop,
+@@ -2205,6 +2286,7 @@ static const struct net_device_ops cpsw_netdev_ops = {
+ #endif
+ 	.ndo_vlan_rx_add_vid	= cpsw_ndo_vlan_rx_add_vid,
+ 	.ndo_vlan_rx_kill_vid	= cpsw_ndo_vlan_rx_kill_vid,
++	.ndo_setup_tc           = cpsw_ndo_setup_tc,
+ };
+ 
+ static int cpsw_get_regs_len(struct net_device *ndev)
 -- 
 2.17.0
 
