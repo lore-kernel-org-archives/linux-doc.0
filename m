@@ -5,22 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2BE07D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 04:37:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 688C77D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 04:39:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751304AbeEREhs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 May 2018 00:37:48 -0400
-Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:61283 "EHLO
+        id S1751014AbeEREjl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 May 2018 00:39:41 -0400
+Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:61305 "EHLO
         ns.ascade.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750959AbeEREhq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 00:37:46 -0400
+        with ESMTP id S1750838AbeEREjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 00:39:40 -0400
 Received: from server0001.ascade.co.jp (server0001.ascade.co.jp [10.1.1.63])
-        by ns.ascade.co.jp (Postfix) with ESMTP id 58340993BD;
-        Fri, 18 May 2018 13:37:45 +0900 (JST)
+        by ns.ascade.co.jp (Postfix) with ESMTP id E0319993BD;
+        Fri, 18 May 2018 13:39:38 +0900 (JST)
 Received: from [IPv6:::1] (server0001.ascade.co.jp [10.1.1.63])
-        by server0001.ascade.co.jp (Postfix) with ESMTP id 1080010050E;
-        Fri, 18 May 2018 13:37:43 +0900 (JST)
-Subject: [PATCH v2 5/7] hugetlb: add charge_surplus_hugepages attribute
+        by server0001.ascade.co.jp (Postfix) with ESMTP id 9437810050E;
+        Fri, 18 May 2018 13:39:32 +0900 (JST)
+Subject: [PATCH v2 6/7] Documentation, hugetlb: describe about
+ charge_surplus_hugepages,
 To:     Johannes Weiner <hannes@cmpxchg.org>,
         Michal Hocko <mhocko@kernel.org>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
@@ -42,8 +43,8 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm@kvack.org, cgroups@vger.kernel.org, tsukada@ascade.co.jp
 References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
 From:   TSUKADA Koutaro <tsukada@ascade.co.jp>
-Message-ID: <2e8b5907-36e1-094b-ec87-149e1f0b7f69@ascade.co.jp>
-Date:   Fri, 18 May 2018 13:37:37 +0900
+Message-ID: <07466cce-ca82-9024-a04a-c17291e64f84@ascade.co.jp>
+Date:   Fri, 18 May 2018 13:39:21 +0900
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
@@ -56,55 +57,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an entry for charge_surplus_hugepages to sysfs.
+Add a description about charge_surplus_hugepages.
 
 Signed-off-by: TSUKADA Koutaro <tsukada@ascade.co.jp>
 ---
- hugetlb.c |   25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ hugetlbpage.txt |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 9a9549c..2f9bdbc 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -2662,6 +2662,30 @@ static ssize_t surplus_hugepages_show(struct kobject *kobj,
- }
- HSTATE_ATTR_RO(surplus_hugepages);
+diff --git a/Documentation/vm/hugetlbpage.txt b/Documentation/vm/hugetlbpage.txt
+index faf077d..af8d112 100644
+--- a/Documentation/vm/hugetlbpage.txt
++++ b/Documentation/vm/hugetlbpage.txt
+@@ -129,6 +129,11 @@ number of "surplus" huge pages from the kernel's normal page pool, when the
+ persistent huge page pool is exhausted. As these surplus huge pages become
+ unused, they are freed back to the kernel's normal page pool.
 
-+static ssize_t charge_surplus_hugepages_show(struct kobject *kobj,
-+					struct kobj_attribute *attr, char *buf)
-+{
-+	struct hstate *h = kobj_to_hstate(kobj, NULL);
-+	return sprintf(buf, "%d\n", h->charge_surplus_huge_pages);
-+}
++/proc/sys/vm/charge_surplus_hugepages indicates to charge "surplus" huge pages
++obteined from the normal page pool to memory cgroup. If true, the amount to be
++overcommitted is limited within memory usage allowed by the memory cgroup to
++which the task belongs. The default value is false.
 +
-+static ssize_t charge_surplus_hugepages_store(struct kobject *kobj,
-+		struct kobj_attribute *attr, const char *buf, size_t len)
-+{
-+	int err;
-+	unsigned long input;
-+	struct hstate *h = kobj_to_hstate(kobj, NULL);
-+
-+	err = kstrtoul(buf, 10, &input);
-+	if (err)
-+		return err;
-+
-+	h->charge_surplus_huge_pages = input ? true : false;
-+
-+	return len;
-+}
-+HSTATE_ATTR(charge_surplus_hugepages);
-+
- static struct attribute *hstate_attrs[] = {
- 	&nr_hugepages_attr.attr,
- 	&nr_overcommit_hugepages_attr.attr,
-@@ -2671,6 +2695,7 @@ static ssize_t surplus_hugepages_show(struct kobject *kobj,
- #ifdef CONFIG_NUMA
- 	&nr_hugepages_mempolicy_attr.attr,
- #endif
-+	&charge_surplus_hugepages_attr.attr,
- 	NULL,
- };
+ When increasing the huge page pool size via nr_hugepages, any existing surplus
+ pages will first be promoted to persistent huge pages.  Then, additional
+ huge pages will be allocated, if necessary and if possible, to fulfill
+@@ -169,6 +174,7 @@ Inside each of these directories, the same set of files will exist:
+ 	free_hugepages
+ 	resv_hugepages
+ 	surplus_hugepages
++	charge_surplus_hugepages
+
+ which function as described above for the default huge page-sized case.
 
 -- 
 Tsukada
