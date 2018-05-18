@@ -1,109 +1,953 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 74B4C7D062
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 09:41:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C54577D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 10:58:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752059AbeERJlb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 May 2018 05:41:31 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:42434 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751280AbeERJl3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 May 2018 05:41:29 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2B8B779D36;
-        Fri, 18 May 2018 09:41:29 +0000 (UTC)
-Received: from [10.36.117.82] (ovpn-117-82.ams2.redhat.com [10.36.117.82])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E0C1D6B5B4;
-        Fri, 18 May 2018 09:41:24 +0000 (UTC)
-Subject: Re: [PATCH] kvm: rename HINTS_DEDICATED to KVM_HINTS_REALTIME
-To:     Eduardo Habkost <ehabkost@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <1526568841-35372-1-git-send-email-mst@redhat.com>
- <20180517184658.GA1543@localhost.localdomain>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=pbonzini@redhat.com; prefer-encrypt=mutual; keydata=
- xsEhBFRCcBIBDqDGsz4K0zZun3jh+U6Z9wNGLKQ0kSFyjN38gMqU1SfP+TUNQepFHb/Gc0E2
- CxXPkIBTvYY+ZPkoTh5xF9oS1jqI8iRLzouzF8yXs3QjQIZ2SfuCxSVwlV65jotcjD2FTN04
- hVopm9llFijNZpVIOGUTqzM4U55sdsCcZUluWM6x4HSOdw5F5Utxfp1wOjD/v92Lrax0hjiX
- DResHSt48q+8FrZzY+AUbkUS+Jm34qjswdrgsC5uxeVcLkBgWLmov2kMaMROT0YmFY6A3m1S
- P/kXmHDXxhe23gKb3dgwxUTpENDBGcfEzrzilWueOeUWiOcWuFOed/C3SyijBx3Av/lbCsHU
- Vx6pMycNTdzU1BuAroB+Y3mNEuW56Yd44jlInzG2UOwt9XjjdKkJZ1g0P9dwptwLEgTEd3Fo
- UdhAQyRXGYO8oROiuh+RZ1lXp6AQ4ZjoyH8WLfTLf5g1EKCTc4C1sy1vQSdzIRu3rBIjAvnC
- tGZADei1IExLqB3uzXKzZ1BZ+Z8hnt2og9hb7H0y8diYfEk2w3R7wEr+Ehk5NQsT2MPI2QBd
- wEv1/Aj1DgUHZAHzG1QN9S8wNWQ6K9DqHZTBnI1hUlkp22zCSHK/6FwUCuYp1zcAEQEAAc0f
- UGFvbG8gQm9uemluaSA8Ym9uemluaUBnbnUub3JnPsLBTQQTAQIAIwUCVEJ7AwIbAwcLCQgH
- AwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEH4VEAzNNmmxNcwOniaZVLsuy1lW/ntYCA0Caz0i
- sHpmecK8aWlvL9wpQCk4GlOX9L1emyYXZPmzIYB0IRqmSzAlZxi+A2qm9XOxs5gJ2xqMEXX5
- FMtUH3kpkWWJeLqe7z0EoQdUI4EG988uv/tdZyqjUn2XJE+K01x7r3MkUSFz/HZKZiCvYuze
- VlS0NTYdUt5jBXualvAwNKfxEkrxeHjxgdFHjYWhjflahY7TNRmuqPM/Lx7wAuyoDjlYNE40
- Z+Kun4/KjMbjgpcF4Nf3PJQR8qXI6p3so2qsSn91tY7DFSJO6v2HwFJkC2jU95wxfNmTEUZc
- znXahYbVOwCDJRuPrE5GKFd/XJU9u5hNtr/uYipHij01WXal2cce1S5mn1/HuM1yo1u8xdHy
- IupCd57EWI948e8BlhpujUCU2tzOb2iYS0kpmJ9/oLVZrOcSZCcCl2P0AaCAsj59z2kwQS9D
- du0WxUs8waso0Qq6tDEHo8yLCOJDzSz4oojTtWe4zsulVnWV+wu70AioemAT8S6JOtlu60C5
- dHgQUD1Tp+ReXpDKXmjbASJx4otvW0qah3o6JaqO79tbDqIvncu3tewwp6c85uZd48JnIOh3
- utBAu684nJakbbvZUGikJfxd887ATQRUQnHuAQgAx4dxXO6/Zun0eVYOnr5GRl76+2UrAAem
- Vv9Yfn2PbDIbxXqLff7oyVJIkw4WdhQIIvvtu5zH24iYjmdfbg8iWpP7NqxUQRUZJEWbx2CR
- wkMHtOmzQiQ2tSLjKh/cHeyFH68xjeLcinR7jXMrHQK+UCEw6jqi1oeZzGvfmxarUmS0uRuf
- fAb589AJW50kkQK9VD/9QC2FJISSUDnRC0PawGSZDXhmvITJMdD4TjYrePYhSY4uuIV02v02
- 8TVAaYbIhxvDY0hUQE4r8ZbGRLn52bEzaIPgl1p/adKfeOUeMReg/CkyzQpmyB1TSk8lDMxQ
- zCYHXAzwnGi8WU9iuE1P0wARAQABwsEzBBgBAgAJBQJUQnHuAhsMAAoJEH4VEAzNNmmxp1EO
- oJy0uZggJm7gZKeJ7iUpeX4eqUtqelUw6gU2daz2hE/jsxsTbC/w5piHmk1H1VWDKEM4bQBT
- uiJ0bfo55SWsUNN+c9hhIX+Y8LEe22izK3w7mRpvGcg+/ZRG4DEMHLP6JVsv5GMpoYwYOmHn
- plOzCXHvmdlW0i6SrMsBDl9rw4AtIa6bRwWLim1lQ6EM3PWifPrWSUPrPcw4OLSwFk0CPqC4
- HYv/7ZnASVkR5EERFF3+6iaaVi5OgBd81F1TCvCX2BEyIDRZLJNvX3TOd5FEN+lIrl26xecz
- 876SvcOb5SL5SKg9/rCBufdPSjojkGFWGziHiFaYhbuI2E+NfWLJtd+ZvWAAV+O0d8vFFSvr
- iy9enJ8kxJwhC0ECbSKFY+W1eTIhMD3aeAKY90drozWEyHhENf4l/V+Ja5vOnW+gCDQkGt2Y
- 1lJAPPSIqZKvHzGShdh8DduC0U3xYkfbGAUvbxeepjgzp0uEnBXfPTy09JGpgWbg0w91GyfT
- /ujKaGd4vxG2Ei+MMNDmS1SMx7wu0evvQ5kT9NPzyq8R2GIhVSiAd2jioGuTjX6AZCFv3ToO
- 53DliFMkVTecLptsXaesuUHgL9dKIfvpm+rNXRn9wAwGjk0X/A==
-Message-ID: <a95b2a12-f3a9-b930-49fe-46c2278df34d@redhat.com>
-Date:   Fri, 18 May 2018 11:41:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1752458AbeERK6C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 May 2018 06:58:02 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:35514 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752451AbeERK57 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 06:57:59 -0400
+Received: by mail-oi0-f66.google.com with SMTP id a6-v6so6732141oia.2;
+        Fri, 18 May 2018 03:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=813gl7F0FT/O7TtbAGik0aCVp0A8hK3VMtP7CnCsnOM=;
+        b=cjdmdTSht6BrMwKqZoXLS6hs68MeBxXfk1Km5/l0qJtg+humQozNUIP4hdimZ8Rqd4
+         lRpV/m26kzu8SSyZ7xOWEF2aaZMkcIWLQmXEymjUqREqgY9Tl4mzLSvsUPU2bp9YtqeD
+         XvRRFV8bSwejXAAeaCHMIIsSHLLy6xWyptKRJfuRr+ybz2tfF2sfRRBMQI+iJDosi5zk
+         eB20BmrZJFO5OCCXZ2NssdS1zqAViAZMyRVumuONTkAzwOewlgakyEEuc8TOu/IRUdr+
+         G0v2cf++VO6YMAGEMtn5B/5QRCdor+mgHouOKwAsSV+n3YYcJxCDi6kt2oXP/2B/k2Og
+         0yeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=813gl7F0FT/O7TtbAGik0aCVp0A8hK3VMtP7CnCsnOM=;
+        b=jVl0apQF7aG+eqMySyupjbaFwUbbMSCvuL0VRcI/0oQMzdVUUb3pEwt+P3XYtsffrJ
+         18bsEA6OE3P+C36qprRh/FSKWQj03cEifJMPQt/6j2j0bHRurC1Z7A/qTgWHvk+ylI2O
+         /K/OWyfjRQtx5FGPgGLCzVFbrv0G1MfIw25clxsBDevy2VyippKi87U0kS2yyiUyOKb/
+         d8HTHpkHp2GHQPu5o5iQIM3i5wf6LXN1ffpDS72ulGDCvSd4oRNWoH+uqVqFvOTfOcON
+         vlPsqlGt6JxY/yI6mCp8bXrEkFAOYyUyQ96ab8kue/L4CnbwPcrLB82CiImIevkwOOWy
+         DAzA==
+X-Gm-Message-State: ALKqPwdSUXiWr5F6Wm8dkoXdgfoyWZgznaGkRBvZNpNaagUU1WGXd8dh
+        s0TDdrwXKNfVOJI8SG3e54Qf+Gm1+8QWc2dW+O8=
+X-Google-Smtp-Source: AB8JxZp4YKEFBhCsbeXPdGMEgy6A6oMk/lHYMviz54fYCgO7hpFvsi/2ATU2QQNCNv6iL5HkuhtBsOxEr7SHBNSZDrw=
+X-Received: by 2002:aca:72d3:: with SMTP id p202-v6mr4864292oic.278.1526641078674;
+ Fri, 18 May 2018 03:57:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180517184658.GA1543@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 18 May 2018 09:41:29 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 18 May 2018 09:41:29 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'pbonzini@redhat.com' RCPT:''
+Received: by 10.201.88.68 with HTTP; Fri, 18 May 2018 03:57:58 -0700 (PDT)
+In-Reply-To: <8f2f9e2c-50c1-bf93-525f-ebf93c69bcd7@huawei.com>
+References: <20180516045518.6876-1-ganapatrao.kulkarni@cavium.com>
+ <20180516045518.6876-3-ganapatrao.kulkarni@cavium.com> <8f2f9e2c-50c1-bf93-525f-ebf93c69bcd7@huawei.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Fri, 18 May 2018 16:27:58 +0530
+Message-ID: <CAKTKpr7dk4h7ZM+7fBV_CSVknV0+EnAgE2t2b4dDiycdOm1U3w@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
+To:     John Garry <john.garry@huawei.com>
+Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "Vadim.Lomovtsev@cavium.com" <Vadim.Lomovtsev@cavium.com>,
+        "Jan.Glauber@cavium.com" <Jan.Glauber@cavium.com>,
+        "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "Robert.Richter@cavium.com" <Robert.Richter@cavium.com>,
+        "jnair@caviumnetworks.com" <jnair@caviumnetworks.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17/05/2018 20:46, Eduardo Habkost wrote:
-> My understanding of the original patch is that the intention is
-> to tell the guest that it is very unlikely to be preempted, so it
-> can choose a more appropriate spinlock implementation.  This
-> description implies that the guest will never be preempted, which
-> is much stronger guarantee.
-> 
-> Isn't this new description incompatible with existing usage of
-> the hint, which might include people who just use vCPU pinning
-> but no mlock?
+On Thu, May 17, 2018 at 4:42 PM, John Garry <john.garry@huawei.com> wrote:
+> On 16/05/2018 05:55, Ganapatrao Kulkarni wrote:
+>>
+>> This patch adds a perf driver for the PMU UNCORE devices DDR4 Memory
+>> Controller(DMC) and Level 3 Cache(L3C).
+>>
+>
+> Hi,
+>
+> Just some coding comments below:
+>
+>> ThunderX2 has 8 independent DMC PMUs to capture performance events
+>> corresponding to 8 channels of DDR4 Memory Controller and 16 independent
+>> L3C PMUs to capture events corresponding to 16 tiles of L3 cache.
+>> Each PMU supports up to 4 counters. All counters lack overflow interrupt
+>> and are sampled periodically.
+>>
+>> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+>> ---
+>>  drivers/perf/Kconfig         |   8 +
+>>  drivers/perf/Makefile        |   1 +
+>>  drivers/perf/thunderx2_pmu.c | 965
+>> +++++++++++++++++++++++++++++++++++++++++++
+>>  include/linux/cpuhotplug.h   |   1 +
+>>  4 files changed, 975 insertions(+)
+>>  create mode 100644 drivers/perf/thunderx2_pmu.c
+>>
+>> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+>> index 28bb5a0..eafd0fc 100644
+>> --- a/drivers/perf/Kconfig
+>> +++ b/drivers/perf/Kconfig
+>> @@ -85,6 +85,14 @@ config QCOM_L3_PMU
+>>            Adds the L3 cache PMU into the perf events subsystem for
+>>            monitoring L3 cache events.
+>>
+>> +config THUNDERX2_PMU
+>> +        bool "Cavium ThunderX2 SoC PMU UNCORE"
+>> +        depends on ARCH_THUNDER2 && PERF_EVENTS && ACPI
+>
+>
+> Is the explicit dependency for PERF_EVENTS required, since we're under the
+> PERF_EVENTS menu?
 
-If you use hugetlbfs and vhost-user you don't really need mlock for the
-QEMU process, do you?  The QEMU process is not doing much in that case
-and hugetlbfs gives you pinned memory automatically.
+not really, i can drop this.
+>
+> And IIRC for other perf drivers we required a dependency on ARM64 - is that
+> required here also? I see arm_smccc_smc() calls in the code...
 
-Paolo
+ok.
+>
+>
+>> +       help
+>> +         Provides support for ThunderX2 UNCORE events.
+>> +         The SoC has PMU support in its L3 cache controller (L3C) and
+>> +         in the DDR4 Memory Controller (DMC).
+>> +
+>>  config XGENE_PMU
+>>          depends on ARCH_XGENE
+>>          bool "APM X-Gene SoC PMU"
+>> diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
+>> index b3902bd..909f27f 100644
+>> --- a/drivers/perf/Makefile
+>> +++ b/drivers/perf/Makefile
+>> @@ -7,5 +7,6 @@ obj-$(CONFIG_ARM_PMU_ACPI) += arm_pmu_acpi.o
+>>  obj-$(CONFIG_HISI_PMU) += hisilicon/
+>>  obj-$(CONFIG_QCOM_L2_PMU)      += qcom_l2_pmu.o
+>>  obj-$(CONFIG_QCOM_L3_PMU) += qcom_l3_pmu.o
+>> +obj-$(CONFIG_THUNDERX2_PMU) += thunderx2_pmu.o
+>>  obj-$(CONFIG_XGENE_PMU) += xgene_pmu.o
+>>  obj-$(CONFIG_ARM_SPE_PMU) += arm_spe_pmu.o
+>> diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+>> new file mode 100644
+>> index 0000000..0401443
+>> --- /dev/null
+>> +++ b/drivers/perf/thunderx2_pmu.c
+>> @@ -0,0 +1,965 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * CAVIUM THUNDERX2 SoC PMU UNCORE
+>> + *
+>> + * Copyright (C) 2018 Cavium Inc.
+>> + * Author: Ganapatrao Kulkarni <gkulkarni@cavium.com>
+>> + *
+>> + * This program is free software; you can redistribute it and/or modify
+>> + * it under the terms of the GNU General Public License version 2 as
+>> + * published by the Free Software Foundation.
+>> + *
+>> + * This program is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> + * GNU General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License
+>> + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>> + */
+>
+>
+> Isn't this the same as the SPDX?
+
+ok, i will remove it.
+>
+>> +
+>> +#include <linux/acpi.h>
+>> +#include <linux/arm-smccc.h>
+>> +#include <linux/cpuhotplug.h>
+>> +#include <linux/perf_event.h>
+>> +#include <linux/platform_device.h>
+>> +
+>> +/* L3c and DMC has 16 and 8 channels per socket respectively.
+>
+>
+> L3C, right?
+
+ok
+>
+>> + * Each Channel supports UNCORE PMU device and consists of
+>> + * 4 independent programmable counters. Counters are 32 bit
+>> + * and does not support overflow interrupt, they needs to be
+>
+>
+> /s/needs/need/, /s/does/do/
+
+ok
+>
+>> + * sampled before overflow(i.e, at every 2 seconds).
+>
+>
+> how can you ensure that this value is low enough?
+>
+> "I saw this comment in previous patch:
+>> Given that all channels compete for access to the muxed register
+>> interface, I suspect we need to try more often than once every 2
+>> seconds...
+>
+> 2 seconds seems to be sufficient. So far testing looks good."
+>
+> Can you provide any more analytical reasoning than this?
+>
+>> + */
+>> +
+>> +#define UNCORE_MAX_COUNTERS            4
+>> +#define UNCORE_L3_MAX_TILES            16
+>> +#define UNCORE_DMC_MAX_CHANNELS                8
+>> +
+>> +#define UNCORE_HRTIMER_INTERVAL                (2 * NSEC_PER_SEC)
+>> +#define GET_EVENTID(ev)                        ((ev->hw.config) & 0x1ff)
+>> +#define GET_COUNTERID(ev)              ((ev->hw.idx) & 0xf)
+>> +#define GET_CHANNELID(pmu_uncore)      (pmu_uncore->channel)
+>> +#define DMC_EVENT_CFG(idx, val)                ((val) << (((idx) * 8) +
+>> 1))
+>> +
+>> +#define DMC_COUNTER_CTL                        0x234
+>> +#define DMC_COUNTER_DATA               0x240
+>> +#define L3C_COUNTER_CTL                        0xA8
+>> +#define L3C_COUNTER_DATA               0xAC
+>
+>
+> I feel it's generally better to keep register offsets in numeric order (if
+> indeed, that is what they are)
+
+ok.
+>
+>
+>> +
+>> +#define THUNDERX2_SMC_CALL_ID          0xC200FF00
+>> +#define THUNDERX2_SMC_SET_CHANNEL      0xB010
+>> +
+>> +enum thunderx2_uncore_l3_events {
+>> +       L3_EVENT_NONE,
+>> +       L3_EVENT_NBU_CANCEL,
+>> +       L3_EVENT_DIB_RETRY,
+>> +       L3_EVENT_DOB_RETRY,
+>> +       L3_EVENT_DIB_CREDIT_RETRY,
+>> +       L3_EVENT_DOB_CREDIT_RETRY,
+>> +       L3_EVENT_FORCE_RETRY,
+>> +       L3_EVENT_IDX_CONFLICT_RETRY,
+>> +       L3_EVENT_EVICT_CONFLICT_RETRY,
+>> +       L3_EVENT_BANK_CONFLICT_RETRY,
+>> +       L3_EVENT_FILL_ENTRY_RETRY,
+>> +       L3_EVENT_EVICT_NOT_READY_RETRY,
+>> +       L3_EVENT_L3_RETRY,
+>> +       L3_EVENT_READ_REQ,
+>> +       L3_EVENT_WRITE_BACK_REQ,
+>> +       L3_EVENT_INVALIDATE_NWRITE_REQ,
+>> +       L3_EVENT_INV_REQ,
+>> +       L3_EVENT_SELF_REQ,
+>> +       L3_EVENT_REQ,
+>> +       L3_EVENT_EVICT_REQ,
+>> +       L3_EVENT_INVALIDATE_NWRITE_HIT,
+>> +       L3_EVENT_INVALIDATE_HIT,
+>> +       L3_EVENT_SELF_HIT,
+>> +       L3_EVENT_READ_HIT,
+>> +       L3_EVENT_MAX,
+>
+>
+> ',' required?
+
+not really; however, having this will help in moving around without
+worring about adding it.
+>
+>> +};
+>> +
+>> +enum thunderx2_uncore_dmc_events {
+>> +       DMC_EVENT_NONE,
+>> +       DMC_EVENT_COUNT_CYCLES,
+>> +       DMC_EVENT_RES2,
+>> +       DMC_EVENT_RES3,
+>> +       DMC_EVENT_RES4,
+>> +       DMC_EVENT_RES5,
+>> +       DMC_EVENT_RES6,
+>> +       DMC_EVENT_RES7,
+>> +       DMC_EVENT_RES8,
+>> +       DMC_EVENT_READ_64B_TXNS,
+>> +       DMC_EVENT_READ_BELOW_64B_TXNS,
+>> +       DMC_EVENT_WRITE_TXNS,
+>> +       DMC_EVENT_TXN_CYCLES,
+>> +       DMC_EVENT_DATA_TRANSFERS,
+>> +       DMC_EVENT_CANCELLED_READ_TXNS,
+>> +       DMC_EVENT_CONSUMED_READ_TXNS,
+>> +       DMC_EVENT_MAX,
+>
+>
+> ditto
+>
+>> +};
+>> +
+>> +enum thunderx2_uncore_type {
+>> +       PMU_TYPE_L3C,
+>> +       PMU_TYPE_DMC,
+>> +       PMU_TYPE_INVALID,
+>> +};
+>> +
+>> +/*
+>> + * pmu on each socket has 2 uncore devices(dmc and l3),
+>> + * each uncore device has up to 16 channels, each channel can sample
+>> + * events independently with counters up to 4.
+>> + *
+>> + * struct thunderx2_pmu_uncore_channel created per channel.
+>> + * struct thunderx2_pmu_uncore_dev per uncore device.
+>
+>
+> this comment is a bit obvious
+
+ok.
+>
+>
+>> + */
+>> +struct thunderx2_pmu_uncore_channel {
+>> +       struct pmu pmu;
+>> +       struct hlist_node       node;
+>> +       struct thunderx2_pmu_uncore_dev *uncore_dev;
+>> +       int channel;
+>> +       int cpu;
+>> +       DECLARE_BITMAP(active_counters, UNCORE_MAX_COUNTERS);
+>> +       struct perf_event *events[UNCORE_MAX_COUNTERS];
+>> +       struct hrtimer hrtimer;
+>> +       /* to sync counter alloc/release */
+>> +       raw_spinlock_t lock;
+>> +};
+>> +
+>> +struct thunderx2_pmu_uncore_dev {
+>> +       char *name;
+>> +       struct device *dev;
+>> +       enum thunderx2_uncore_type type;
+>> +       void __iomem *base;
+>> +       int node;
+>> +       u32    max_counters;
+>> +       u32    max_channels;
+>> +       u32    max_events;
+>> +       u64 hrtimer_interval;
+>> +       /* this lock synchronizes across channels */
+>> +       raw_spinlock_t lock;
+>> +       const struct attribute_group **attr_groups;
+>> +       void    (*init_cntr_base)(struct perf_event *event,
+>> +                       struct thunderx2_pmu_uncore_dev *uncore_dev);
+>> +       void    (*select_channel)(struct perf_event *event);
+>> +       void    (*stop_event)(struct perf_event *event);
+>> +       void    (*start_event)(struct perf_event *event, int flags);
+>> +};
+>> +
+>> +static inline struct thunderx2_pmu_uncore_channel *
+>
+>
+> is inline keyword required or even used generally? Since static, can't the
+> compiler figure this out?
+>
+>> +pmu_to_thunderx2_pmu_uncore(struct pmu *pmu)
+>> +{
+>> +       return container_of(pmu, struct thunderx2_pmu_uncore_channel,
+>> pmu);
+>> +}
+>> +
+>> +/*
+>> + * sysfs format attributes
+>> + */
+>
+>
+> can't this comment fit on a single line?
+>
+>
+>> +static ssize_t thunderx2_pmu_format_show(struct device *dev,
+>> +                                    struct device_attribute *attr, char
+>> *buf)
+>> +{
+>> +       struct dev_ext_attribute *eattr;
+>> +
+>> +       eattr = container_of(attr, struct dev_ext_attribute, attr);
+>> +       return sprintf(buf, "%s\n", (char *) eattr->var);
+>> +}
+>> +
+>> +#define FORMAT_ATTR(_name, _config) \
+>> +       (&((struct dev_ext_attribute[]) { \
+>> +          { \
+>> +          .attr = __ATTR(_name, 0444, thunderx2_pmu_format_show, NULL), \
+>> +          .var = (void *) _config, \
+>> +          } \
+>> +       })[0].attr.attr)
+>> +
+>> +static struct attribute *l3c_pmu_format_attrs[] = {
+>> +       FORMAT_ATTR(event,      "config:0-4"),
+>> +       NULL,
+>> +};
+>> +
+>> +static struct attribute *dmc_pmu_format_attrs[] = {
+>> +       FORMAT_ATTR(event,      "config:0-4"),
+>> +       NULL,
+>> +};
+>> +
+>> +static const struct attribute_group l3c_pmu_format_attr_group = {
+>> +       .name = "format",
+>> +       .attrs = l3c_pmu_format_attrs,
+>> +};
+>> +
+>> +static const struct attribute_group dmc_pmu_format_attr_group = {
+>> +       .name = "format",
+>> +       .attrs = dmc_pmu_format_attrs,
+>> +};
+>> +
+>
+>
+> [ ... ]
+>
+>
+>> + * Per PMU device attribute groups
+>> + */
+>> +static const struct attribute_group *l3c_pmu_attr_groups[] = {
+>> +       &l3c_pmu_format_attr_group,
+>> +       &pmu_cpumask_attr_group,
+>> +       &l3c_pmu_events_attr_group,
+>> +       NULL
+>> +};
+>> +
+>> +static const struct attribute_group *dmc_pmu_attr_groups[] = {
+>> +       &dmc_pmu_format_attr_group,
+>> +       &pmu_cpumask_attr_group,
+>> +       &dmc_pmu_events_attr_group,
+>> +       NULL
+>> +};
+>> +
+>> +static inline u32 reg_readl(unsigned long addr)
+>> +{
+>> +       return readl((void __iomem *)addr);
+>> +}
+>> +
+>> +static inline void reg_writel(u32 val, unsigned long addr)
+>> +{
+>> +       writel(val, (void __iomem *)addr);
+>> +}
+>> +
+>> +static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
+>> +{
+>> +       int counter;
+>> +
+>> +       raw_spin_lock(&pmu_uncore->lock);
+>> +       counter = find_first_zero_bit(pmu_uncore->active_counters,
+>> +                               pmu_uncore->uncore_dev->max_counters);
+>> +       if (counter == pmu_uncore->uncore_dev->max_counters) {
+>> +               raw_spin_unlock(&pmu_uncore->lock);
+>> +               return -ENOSPC;
+>> +       }
+>> +       set_bit(counter, pmu_uncore->active_counters);
+>> +       raw_spin_unlock(&pmu_uncore->lock);
+>> +       return counter;
+>> +}
+>> +
+>> +static void free_counter(
+>> +               struct thunderx2_pmu_uncore_channel *pmu_uncore, int
+>> counter)
+>
+>
+> strange formatting
+
+it is to fit in 80 char line.
+>
+>> +{
+>> +       raw_spin_lock(&pmu_uncore->lock);
+>> +       clear_bit(counter, pmu_uncore->active_counters);
+>> +       raw_spin_unlock(&pmu_uncore->lock);
+>> +}
+>> +
+>
+>
+> [ ... ]
+>
+>
+>> +static void uncore_stop_event_l3c(struct perf_event *event)
+>> +{
+>> +       reg_writel(0, event->hw.config_base);
+>> +}
+>> +
+>> +static void uncore_start_event_dmc(struct perf_event *event, int flags)
+>> +{
+>> +       u32 val;
+>> +       struct hw_perf_event *hwc = &event->hw;
+>> +       int idx = GET_COUNTERID(event);
+>> +       int event_type = GET_EVENTID(event);
+>> +
+>> +       /* enable and start counters.
+>> +        * 8 bits for each counter, bits[05:01] of a counter to set event
+>> type.
+>> +        */
+>> +       val = reg_readl(hwc->config_base);
+>> +       val &= ~DMC_EVENT_CFG(idx, 0x1f);
+>> +       val |= DMC_EVENT_CFG(idx, event_type);
+>> +       reg_writel(val, hwc->config_base);
+>> +       local64_set(&hwc->prev_count, 0);
+>> +       reg_writel(0, hwc->event_base);
+>> +}
+>> +
+>> +static void uncore_stop_event_dmc(struct perf_event *event)
+>> +{
+>> +       u32 val;
+>> +       struct hw_perf_event *hwc = &event->hw;
+>> +       int idx = GET_COUNTERID(event);
+>> +
+>> +       /* clear event type(bits[05:01]) to stop counter */
+>> +       val = reg_readl(hwc->config_base);
+>> +       val &= ~DMC_EVENT_CFG(idx, 0x1f);
+>> +       reg_writel(val, hwc->config_base);
+>> +}
+>> +
+>> +static void init_cntr_base_l3c(struct perf_event *event,
+>> +               struct thunderx2_pmu_uncore_dev *uncore_dev)
+>> +{
+>> +       struct hw_perf_event *hwc = &event->hw;
+>> +
+>> +       /* counter ctrl/data reg offset at 8 */
+>> +       hwc->config_base = (unsigned long)uncore_dev->base
+>> +               + L3C_COUNTER_CTL + (8 * GET_COUNTERID(event));
+>> +       hwc->event_base =  (unsigned long)uncore_dev->base
+>> +               + L3C_COUNTER_DATA + (8 * GET_COUNTERID(event));
+>
+>
+> Is there a better way to hold this, since we're casting back to a void *
+> when writing to the register?
+>
+
+dont think so.
+>
+>> +}
+>> +
+>> +static void init_cntr_base_dmc(struct perf_event *event,
+>> +               struct thunderx2_pmu_uncore_dev *uncore_dev)
+>> +{
+>> +       struct hw_perf_event *hwc = &event->hw;
+>> +
+>> +       hwc->config_base = (unsigned long)uncore_dev->base
+>> +               + DMC_COUNTER_CTL;
+>> +       /* counter data reg offset at 0xc */
+>> +       hwc->event_base = (unsigned long)uncore_dev->base
+>> +               + DMC_COUNTER_DATA + (0xc * GET_COUNTERID(event));
+>> +}
+>> +
+>> +static void thunderx2_uncore_update(struct perf_event *event)
+>> +{
+>> +       s64 prev, new = 0;
+>> +       u64 delta;
+>> +       struct hw_perf_event *hwc = &event->hw;
+>> +       struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>> +       enum thunderx2_uncore_type type;
+>> +
+>> +       pmu_uncore = pmu_to_thunderx2_pmu_uncore(event->pmu);
+>> +       type = pmu_uncore->uncore_dev->type;
+>> +
+>> +       pmu_uncore->uncore_dev->select_channel(event);
+>> +
+>> +       new = reg_readl(hwc->event_base);
+>> +       prev = local64_xchg(&hwc->prev_count, new);
+>> +
+>> +       /* handles rollover of 32 bit counter */
+>> +       delta = (u32)(((1UL << 32) - prev) + new);
+>> +       local64_add(delta, &event->count);
+>> +}
+>> +
+>> +enum thunderx2_uncore_type get_uncore_device_type(struct acpi_device
+>> *adev)
+>> +{
+>> +       int i = 0;
+>> +       struct acpi_uncore_device {
+>> +               __u8 id[ACPI_ID_LEN];
+>> +               enum thunderx2_uncore_type type;
+>> +       } devices[] = {
+>> +               {"CAV901D", PMU_TYPE_L3C},
+>> +               {"CAV901F", PMU_TYPE_DMC},
+>> +               {"", PMU_TYPE_INVALID},
+>
+>
+>
+> for sentinels, ',' should not be required
+
+ok, i will remove.
+>
+>> +       };
+>> +
+>> +       while (devices[i].type != PMU_TYPE_INVALID) {
+>> +               if (!strcmp(acpi_device_hid(adev), devices[i].id))
+>> +                       return devices[i].type;
+>
+>
+> Can't you use acpi_match_device()?
+
+alredy i have acpi device id, just i have to compare to find type.
+acpi_match_device is unnecessary which goes in loop over all device ids/names.
+
+>
+>> +               i++;
+>> +       }
+>> +       return PMU_TYPE_INVALID;
+>> +}
+>> +
+>> +/*
+>> + * We must NOT create groups containing events from multiple hardware
+>> PMUs,
+>> + * although mixing different software and hardware PMUs is allowed.
+>> + */
+>> +static bool thunderx2_uncore_validate_event_group(struct perf_event
+>> *event)
+>
+>
+> [ ... ]
+>
+>
+>> +
+>> +static int thunderx2_pmu_uncore_add(struct thunderx2_pmu_uncore_dev
+>> *uncore_dev,
+>> +               int channel)
+>> +{
+>> +       struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>> +       int ret, cpu;
+>> +
+>> +       pmu_uncore = devm_kzalloc(uncore_dev->dev, sizeof(*pmu_uncore),
+>> +                       GFP_KERNEL);
+>> +       if (!pmu_uncore)
+>> +               return -ENOMEM;
+>> +
+>> +       cpu = cpumask_any_and(cpumask_of_node(uncore_dev->node),
+>> +                       cpu_online_mask);
+>> +       if (cpu >= nr_cpu_ids)
+>> +               return -EINVAL;
+>> +
+>> +       pmu_uncore->cpu = cpu;
+>> +       pmu_uncore->channel = channel;
+>> +       pmu_uncore->uncore_dev = uncore_dev;
+>> +
+>> +       hrtimer_init(&pmu_uncore->hrtimer, CLOCK_MONOTONIC,
+>> HRTIMER_MODE_REL);
+>> +       pmu_uncore->hrtimer.function = thunderx2_uncore_hrtimer_callback;
+>> +
+>> +       ret = thunderx2_pmu_uncore_register(pmu_uncore);
+>> +       if (ret) {
+>> +               dev_err(uncore_dev->dev, "%s PMU: Failed to init
+>> driver\n",
+>> +                               uncore_dev->name);
+>> +               return -ENODEV;
+>> +       }
+>> +
+>> +       /* register hotplug callback for the pmu */
+>> +       ret = cpuhp_state_add_instance(
+>> +                       CPUHP_AP_PERF_ARM_THUNDERX2_UNCORE_ONLINE,
+>> +                       &pmu_uncore->node);
+>> +       if (ret) {
+>> +               dev_err(uncore_dev->dev, "Error %d registering hotplug",
+>> ret);
+>> +               return ret;
+>> +       }
+>> +
+>> +       dev_dbg(uncore_dev->dev, "%s PMU UNCORE registered\n",
+>> +                       pmu_uncore->pmu.name);
+>
+>
+> strange alignment, and many more times in the code
+
+same as said above.
+
+>
+>
+>> +       return ret;
+>> +}
+>> +
+>> +static struct thunderx2_pmu_uncore_dev *init_pmu_uncore_dev(
+>> +               struct device *dev, acpi_handle handle,
+>> +               struct acpi_device *adev, u32 type)
+>> +{
+>> +       struct thunderx2_pmu_uncore_dev *uncore_dev;
+>> +       void __iomem *base;
+>> +       struct resource res;
+>> +       struct resource_entry *rentry;
+>> +       struct list_head list;
+>> +       int ret;
+>> +
+>> +       INIT_LIST_HEAD(&list);
+>> +       ret = acpi_dev_get_resources(adev, &list, NULL, NULL);
+>> +       if (ret <= 0) {
+>> +               dev_err(dev, "failed to parse _CRS method, error %d\n",
+>> ret);
+>> +               return NULL;
+>> +       }
+>> +
+>> +       list_for_each_entry(rentry, &list, node) {
+>> +               if (resource_type(rentry->res) == IORESOURCE_MEM) {
+>> +                       res = *rentry->res;
+>> +                       break;
+>> +               }
+>> +       }
+>
+>
+> what I am missing that you can not use
+> platform_get_resource(,IORESOURCE_MEM,)?
+
+i have uncore device per socket defined in acpi table and inturn each
+device has 2 sub devices(l3c and dmc)
+>
+>
+> And I also wonder if you need all the device-related arguments for the code
+>
+>> +
+>> +       if (!rentry->res)
+>> +               return NULL;
+>> +
+>> +       acpi_dev_free_resource_list(&list);
+>> +       base = devm_ioremap_resource(dev, &res);
+>> +       if (IS_ERR(base)) {
+>> +               dev_err(dev, "PMU type %d: Fail to map resource\n", type);
+>> +               return NULL;
+>> +       }
+>> +
+>> +       uncore_dev = devm_kzalloc(dev, sizeof(*uncore_dev), GFP_KERNEL);
+>> +       if (!uncore_dev)
+>> +               return NULL;
+>> +
+>> +       uncore_dev->dev = dev;
+>> +       uncore_dev->type = type;
+>> +       uncore_dev->base = base;
+>> +       uncore_dev->node = dev_to_node(dev);
+>> +
+>> +       raw_spin_lock_init(&uncore_dev->lock);
+>> +
+>> +       switch (uncore_dev->type) {
+>
+>
+> if we can re-arrange, isn't it better to do the steps which can fail before
+> the steps which can't?
+>
+>> +       case PMU_TYPE_L3C:
+>> +               uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
+>> +               uncore_dev->max_channels = UNCORE_L3_MAX_TILES;
+>> +               uncore_dev->max_events = L3_EVENT_MAX;
+>> +               uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
+>> +               uncore_dev->attr_groups = l3c_pmu_attr_groups;
+>> +               uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
+>> +                               "uncore_l3c_%d", uncore_dev->node);
+>> +               uncore_dev->init_cntr_base = init_cntr_base_l3c;
+>> +               uncore_dev->start_event = uncore_start_event_l3c;
+>> +               uncore_dev->stop_event = uncore_stop_event_l3c;
+>> +               uncore_dev->select_channel = uncore_select_channel;
+>
+>
+> it's possible to bring the common code outside the swicth statement, but
+> probably not worth it
+>
+>> +               break;
+>> +       case PMU_TYPE_DMC:
+>> +               uncore_dev->max_counters = UNCORE_MAX_COUNTERS;
+>> +               uncore_dev->max_channels = UNCORE_DMC_MAX_CHANNELS;
+>> +               uncore_dev->max_events = DMC_EVENT_MAX;
+>> +               uncore_dev->hrtimer_interval = UNCORE_HRTIMER_INTERVAL;
+>> +               uncore_dev->attr_groups = dmc_pmu_attr_groups;
+>> +               uncore_dev->name = devm_kasprintf(dev, GFP_KERNEL,
+>> +                               "uncore_dmc_%d", uncore_dev->node);
+>> +               uncore_dev->init_cntr_base = init_cntr_base_dmc;
+>> +               uncore_dev->start_event = uncore_start_event_dmc;
+>> +               uncore_dev->stop_event = uncore_stop_event_dmc;
+>> +               uncore_dev->select_channel = uncore_select_channel;
+>> +               break;
+>> +       case PMU_TYPE_INVALID:
+>> +               devm_kfree(dev, uncore_dev);
+>
+>
+> do you really need this?
+
+yes, in case corrupted table.
+>
+>> +               uncore_dev = NULL;
+>> +               break;
+>
+>
+> return NULL
+>
+> And don't we require a default statement?
+>
+>> +       }
+>> +
+>> +       return uncore_dev;
+>> +}
+>> +
+>> +static acpi_status thunderx2_pmu_uncore_dev_add(acpi_handle handle, u32
+>> level,
+>> +                                   void *data, void **return_value)
+>> +{
+>> +       struct thunderx2_pmu_uncore_dev *uncore_dev;
+>> +       struct acpi_device *adev;
+>> +       enum thunderx2_uncore_type type;
+>> +       int channel;
+>> +
+>> +       if (acpi_bus_get_device(handle, &adev))
+>> +               return AE_OK;
+>> +       if (acpi_bus_get_status(adev) || !adev->status.present)
+>> +               return AE_OK;
+>> +
+>> +       type = get_uncore_device_type(adev);
+>> +       if (type == PMU_TYPE_INVALID)
+>> +               return AE_OK;
+>> +
+>> +       uncore_dev = init_pmu_uncore_dev((struct device *)data, handle,
+>
+>
+> no need to cast void *
+>
+>
+>> +                       adev, type);
+>> +
+>> +       if (!uncore_dev)
+>> +               return AE_ERROR;
+>> +
+>> +       for (channel = 0; channel < uncore_dev->max_channels; channel++) {
+>> +               if (thunderx2_pmu_uncore_add(uncore_dev, channel)) {
+>> +                       /* Can't add the PMU device, abort */
+>> +                       return AE_ERROR;
+>> +               }
+>> +       }
+>> +       return AE_OK;
+>> +}
+>> +
+>> +static int thunderx2_uncore_pmu_offline_cpu(unsigned int cpu,
+>> +               struct hlist_node *node)
+>> +{
+>> +       int new_cpu;
+>> +       struct thunderx2_pmu_uncore_channel *pmu_uncore;
+>> +
+>> +       pmu_uncore = hlist_entry_safe(node,
+>> +                       struct thunderx2_pmu_uncore_channel, node);
+>> +       if (cpu != pmu_uncore->cpu)
+>> +               return 0;
+>> +
+>> +       new_cpu = cpumask_any_and(
+>> +                       cpumask_of_node(pmu_uncore->uncore_dev->node),
+>> +                       cpu_online_mask);
+>> +       if (new_cpu >= nr_cpu_ids)
+>> +               return 0;
+>> +
+>> +       pmu_uncore->cpu = new_cpu;
+>> +       perf_pmu_migrate_context(&pmu_uncore->pmu, cpu, new_cpu);
+>> +       return 0;
+>> +}
+>> +
+>> +static const struct acpi_device_id thunderx2_uncore_acpi_match[] = {
+>> +       {"CAV901C", 0},
+>> +       {},
+>
+>
+> no ',' required
+
+ok
+>
+>> +};
+>> +MODULE_DEVICE_TABLE(acpi, thunderx2_uncore_acpi_match);
+>> +
+>> +static int thunderx2_uncore_probe(struct platform_device *pdev)
+>> +{
+>> +       struct device *dev = &pdev->dev;
+>> +       acpi_handle handle;
+>> +       acpi_status status;
+>> +
+>> +       set_dev_node(dev, acpi_get_node(ACPI_HANDLE(dev)));
+>
+>
+> Is this already done when the platform device is created in ACPI
+> enumeration? I assume the child devices have enumerated at this point.
+
+no
+>
+>
+>> +
+>> +       /* Make sure firmware supports DMC/L3C set channel smc call */
+>> +       if (test_uncore_select_channel_early(dev))
+>> +               return -ENODEV;
+>> +
+>> +       if (!has_acpi_companion(dev))
+>> +               return -ENODEV;
+>> +
+>> +       handle = ACPI_HANDLE(dev);
+>> +       if (!handle)
+>> +               return -EINVAL;
+>> +
+>> +       /* Walk through the tree for all PMU UNCORE devices */
+>> +       status = acpi_walk_namespace(ACPI_TYPE_DEVICE, handle, 1,
+>> +                                    thunderx2_pmu_uncore_dev_add,
+>> +                                    NULL, dev, NULL);
+>> +       if (ACPI_FAILURE(status)) {
+>> +               dev_err(dev, "failed to probe PMU devices\n");
+>> +               return_ACPI_STATUS(status);
+>> +       }
+>> +
+>> +       dev_info(dev, "node%d: pmu uncore registered\n",
+>> dev_to_node(dev));
+>> +       return 0;
+>> +}
+>> +
+>> +static struct platform_driver thunderx2_uncore_driver = {
+>> +       .probe = thunderx2_uncore_probe,
+>
+>
+> why no remove?
+
+this is built in driver.
+>
+>
+>> +       .driver = {
+>> +               .name           = "thunderx2-uncore-pmu",
+>> +               .acpi_match_table = ACPI_PTR(thunderx2_uncore_acpi_match),
+>> +       },
+>> +};
+>> +
+>> +static int __init register_thunderx2_uncore_driver(void)
+>> +{
+>> +       int ret;
+>> +
+>> +       ret =
+>> cpuhp_setup_state_multi(CPUHP_AP_PERF_ARM_THUNDERX2_UNCORE_ONLINE,
+>> +                                     "perf/tx2/uncore:online",
+>> +                                     NULL,
+>> +                                     thunderx2_uncore_pmu_offline_cpu);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       return platform_driver_register(&thunderx2_uncore_driver);
+>> +
+>> +}
+>> +device_initcall(register_thunderx2_uncore_driver);
+>> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+>> index 8796ba3..eb0c896 100644
+>> --- a/include/linux/cpuhotplug.h
+>> +++ b/include/linux/cpuhotplug.h
+>> @@ -161,6 +161,7 @@ enum cpuhp_state {
+>>         CPUHP_AP_PERF_ARM_L2X0_ONLINE,
+>>         CPUHP_AP_PERF_ARM_QCOM_L2_ONLINE,
+>>         CPUHP_AP_PERF_ARM_QCOM_L3_ONLINE,
+>> +       CPUHP_AP_PERF_ARM_THUNDERX2_UNCORE_ONLINE,
+>>         CPUHP_AP_PERF_POWERPC_NEST_IMC_ONLINE,
+>>         CPUHP_AP_PERF_POWERPC_CORE_IMC_ONLINE,
+>>         CPUHP_AP_PERF_POWERPC_THREAD_IMC_ONLINE,
+>>
+>
+>
+
+thanks
+Ganapat
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
