@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 016347D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 17:18:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1AF677D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 17:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751405AbeERRRv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 May 2018 13:17:51 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:58930 "EHLO mx1.redhat.com"
+        id S1751920AbeERRTD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 May 2018 13:19:03 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36920 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1750975AbeERRRu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 May 2018 13:17:50 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        id S1751906AbeERRTC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 May 2018 13:19:02 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B4BCD19545D;
-        Fri, 18 May 2018 17:17:49 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5E61481663D4;
+        Fri, 18 May 2018 17:19:01 +0000 (UTC)
 Received: from [10.36.117.82] (ovpn-117-82.ams2.redhat.com [10.36.117.82])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 67B671102E1D;
-        Fri, 18 May 2018 17:17:45 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 069612024CBC;
+        Fri, 18 May 2018 17:18:58 +0000 (UTC)
 Subject: Re: [PATCH] kvm: rename HINTS_DEDICATED to KVM_HINTS_REALTIME
 To:     Eduardo Habkost <ehabkost@redhat.com>,
         "Michael S. Tsirkin" <mst@redhat.com>
@@ -37,6 +37,8 @@ References: <1526568841-35372-1-git-send-email-mst@redhat.com>
  <20180517184658.GA1543@localhost.localdomain>
  <20180517225316-mutt-send-email-mst@kernel.org>
  <20180518160431.GX25013@localhost.localdomain>
+ <20180518195139-mutt-send-email-mst@kernel.org>
+ <20180518171311.GB25013@localhost.localdomain>
 From:   Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=pbonzini@redhat.com; prefer-encrypt=mutual; keydata=
@@ -74,40 +76,36 @@ Autocrypt: addr=pbonzini@redhat.com; prefer-encrypt=mutual; keydata=
  1lJAPPSIqZKvHzGShdh8DduC0U3xYkfbGAUvbxeepjgzp0uEnBXfPTy09JGpgWbg0w91GyfT
  /ujKaGd4vxG2Ei+MMNDmS1SMx7wu0evvQ5kT9NPzyq8R2GIhVSiAd2jioGuTjX6AZCFv3ToO
  53DliFMkVTecLptsXaesuUHgL9dKIfvpm+rNXRn9wAwGjk0X/A==
-Message-ID: <9d528020-87f6-a600-9d08-02c88d20b18c@redhat.com>
-Date:   Fri, 18 May 2018 19:17:43 +0200
+Message-ID: <0764c230-3f84-36a5-ad89-fc8dd318d1e4@redhat.com>
+Date:   Fri, 18 May 2018 19:18:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <20180518160431.GX25013@localhost.localdomain>
+In-Reply-To: <20180518171311.GB25013@localhost.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 18 May 2018 17:17:49 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 18 May 2018 17:17:49 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'pbonzini@redhat.com' RCPT:''
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 18 May 2018 17:19:01 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Fri, 18 May 2018 17:19:01 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'pbonzini@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/05/2018 18:04, Eduardo Habkost wrote:
->> Without mlock you should always use pv spinlocks.
->>
->> Otherwise you risk blocking on a lock taken by
->> a VCPU that is in turn blocked on IO, where the IO
->> is not completing because CPU is being used up
->> spinning.
->
-> So the stronger guarantee seems necessary.
-> 
-> Now what should host userspace do if the user is trying to run an
-> existing configuration where the CPUID hint was set but memory is
-> not pinned?
+On 18/05/2018 19:13, Eduardo Habkost wrote:
+>> As much as we'd like to be helpful and validate input, you need a real
+>> time host too. I'm not sure how we'd find out - I suggest we do not
+>> bother for now.
+> I'm worried that people will start enabling the flag in all kinds
+> of scenarios where the guarantees can't be kept, and make the
+> meaning of the flag in practice completely different from its
+> documented meaning.
 
-As mentioned elsewhere in the thread, there are many ways to pin memory,
-and mlock is not always necessary.  However, I agree with Michael in
-making the hint provide a stronger guarantee.
+I don't think we should try to detect anything.  As far as QEMU is
+concerned, it's mostly garbage in, garbage out when it comes to invalid
+configurations.  It's just a bit, and using it in invalid configurations
+is okay if you're doing it (for example) for debugging.
 
 Paolo
 --
