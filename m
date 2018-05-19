@@ -1,139 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 138B87D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 May 2018 21:17:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC0A37D043
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 May 2018 15:06:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752277AbeERVRh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 May 2018 17:17:37 -0400
-Received: from mail-lf0-f68.google.com ([209.85.215.68]:40108 "EHLO
-        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751815AbeERVPS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 May 2018 17:15:18 -0400
-Received: by mail-lf0-f68.google.com with SMTP id u140-v6so3615193lff.7
-        for <linux-doc@vger.kernel.org>; Fri, 18 May 2018 14:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=LG3vbTOt3H4eqZw84rnHtarB8hn9NN2ZT3db1ZaLe8w=;
-        b=Iq7ekSlXrcMHEzYWVyaU9iPWUbLNPrEUrtbvOJCsxayInBm2lXxPRpWAwwCTLlMXgN
-         IQ0gjTZGCESBk4pHQNlKhT9tvm2h48Auu9j6++UdwTLyu0yad8vWEE7I5ByR+MI9EW0+
-         W6rrMtaxOndSFeTKv49+doRfXkafjQImYY3x8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=LG3vbTOt3H4eqZw84rnHtarB8hn9NN2ZT3db1ZaLe8w=;
-        b=k8fiiW6hVasZJ6hd/VJR5WW+fOEYcC//zvHrD4i9U8CRsHWnkjfpzJV9Jdd3PdoaWg
-         Rqzo/DLJkNc/kmqRTuXMDWWBk9rCgVBOmnIlJS99AedsiyKQw58JxthUK4w7Lnu+/vbw
-         Kv3/h/My7Pm/R2GMnaWi1fFICUfosDQZ31eIQnhLxp8xGEdtxBxVcTe6GK+ccfwjz42V
-         zzeMkRlNEjgNTad1SVuQb74f/9uDxOC/d7RrZUwoBK/T3OguUxip+t9h7yOvN1sbWkeK
-         4AqpwPh9DHD630yfVK87TktBKKP+aq5o4H+VDav5jfgMmff7scd24HopC5e8QEGi5VTa
-         L8SA==
-X-Gm-Message-State: ALKqPwcLg4PB+DtC3x88AsnQ7fci73L68WrhoPPXx1SHrEhlL0JIJAhS
-        xF5vZeLrHeK4WZiUZHGqzVtoErmoW4w=
-X-Google-Smtp-Source: AB8JxZqthlIr1sM+E3tkKBczzULGFwbIjm0taB0h+ZcqLNrUxjSK8SyMEDZOX6+veF1E8FJ82XTlCw==
-X-Received: by 2002:a2e:4d5d:: with SMTP id a90-v6mr6918962ljb.86.1526678117391;
-        Fri, 18 May 2018 14:15:17 -0700 (PDT)
-Received: from localhost.localdomain (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
-        by smtp.gmail.com with ESMTPSA id g20-v6sm2045991lfk.39.2018.05.18.14.15.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 May 2018 14:15:16 -0700 (PDT)
-From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-To:     grygorii.strashko@ti.com, davem@davemloft.net
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
-        henrik@austad.us, jesus.sanchez-palencia@intel.com,
-        Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Subject: [RFC PATCH 1/6] net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
-Date:   Sat, 19 May 2018 00:15:05 +0300
-Message-Id: <20180518211510.13341-2-ivan.khoronzhuk@linaro.org>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
-References: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
+        id S1752417AbeESPGk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 19 May 2018 11:06:40 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:55967 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752404AbeESPGj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 May 2018 11:06:39 -0400
+Received: from p4fea4eb5.dip0.t-ipconnect.de ([79.234.78.181] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1fK3RG-0001ml-2N; Sat, 19 May 2018 17:06:30 +0200
+Date:   Sat, 19 May 2018 17:06:29 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Dou Liyang <douly.fnst@cn.fujitsu.com>
+cc:     LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
+        linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+        Ingo Molnar <mingo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Len Brown <lenb@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 4/5] acpi/processor: Fix the return value of
+ acpi_processor_ids_walk()
+In-Reply-To: <20180320110432.28127-5-douly.fnst@cn.fujitsu.com>
+Message-ID: <alpine.DEB.2.21.1805191704150.1599@nanos.tec.linutronix.de>
+References: <20180320110432.28127-1-douly.fnst@cn.fujitsu.com> <20180320110432.28127-5-douly.fnst@cn.fujitsu.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The cpdma channel highest priority is from hi to lo number.
-The driver has limited number of descriptors that are shared between
-number of cpdma channels. Number of queues can be tuned with ethtool,
-that allows to not spend descriptors on not needed cpdma channels.
-In AVB usually only 2 tx queues can be enough with rate limitation.
-The rate limitation can be used only for hi priority queues. Thus, to
-use only 2 queues the 8 has to be created. It's wasteful.
+On Tue, 20 Mar 2018, Dou Liyang wrote:
 
-So, in order to allow using only needed number of rate limited
-tx queues, save resources, and be able to set rate limitation for
-them, let assign tx cpdma channels in backward order to queues.
+> ACPI driver should make sure all the processor IDs in their ACPI Namespace
+> are unique for CPU hotplug. the driver performs a depth-first walk of the
+> namespace tree and calls the acpi_processor_ids_walk().
+> 
+> But, the acpi_processor_ids_walk() will return true if one processor is
+> checked, that cause the walk break after walking pass the first processor.
+> 
+> Repace the value with AE_OK which is the standard acpi_status value.
+> 
+> Fixes 8c8cb30f49b8 ("acpi/processor: Implement DEVICE operator for processor enumeration")
+> 
+> Signed-off-by: Dou Liyang <douly.fnst@cn.fujitsu.com>
+> ---
+>  drivers/acpi/acpi_processor.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
+> index 449d86d39965..db5bdb59639c 100644
+> --- a/drivers/acpi/acpi_processor.c
+> +++ b/drivers/acpi/acpi_processor.c
+> @@ -663,11 +663,11 @@ static acpi_status __init acpi_processor_ids_walk(acpi_handle handle,
+>  	}
+>  
+>  	processor_validated_ids_update(uid);
+> -	return true;
+> +	return AE_OK;
+>  
+>  err:
+>  	acpi_handle_info(handle, "Invalid processor object\n");
+> -	return false;
+> +	return AE_OK;
 
-Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
----
- drivers/net/ethernet/ti/cpsw.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+I'm not sure whether this is the right return value here. Rafael?
 
-diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
-index a7285dddfd29..9bd615da04d3 100644
---- a/drivers/net/ethernet/ti/cpsw.c
-+++ b/drivers/net/ethernet/ti/cpsw.c
-@@ -967,8 +967,8 @@ static int cpsw_tx_mq_poll(struct napi_struct *napi_tx, int budget)
- 
- 	/* process every unprocessed channel */
- 	ch_map = cpdma_ctrl_txchs_state(cpsw->dma);
--	for (ch = 0, num_tx = 0; ch_map; ch_map >>= 1, ch++) {
--		if (!(ch_map & 0x01))
-+	for (ch = 0, num_tx = 0; ch_map & 0xff; ch_map <<= 1, ch++) {
-+		if (!(ch_map & 0x80))
- 			continue;
- 
- 		txv = &cpsw->txv[ch];
-@@ -2431,7 +2431,7 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
- 	void (*handler)(void *, int, int);
- 	struct netdev_queue *queue;
- 	struct cpsw_vector *vec;
--	int ret, *ch;
-+	int ret, *ch, vch;
- 
- 	if (rx) {
- 		ch = &cpsw->rx_ch_num;
-@@ -2444,7 +2444,8 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
- 	}
- 
- 	while (*ch < ch_num) {
--		vec[*ch].ch = cpdma_chan_create(cpsw->dma, *ch, handler, rx);
-+		vch = rx ? *ch : 7 - *ch;
-+		vec[*ch].ch = cpdma_chan_create(cpsw->dma, vch, handler, rx);
- 		queue = netdev_get_tx_queue(priv->ndev, *ch);
- 		queue->tx_maxrate = 0;
- 
-@@ -2980,7 +2981,7 @@ static int cpsw_probe(struct platform_device *pdev)
- 	u32 slave_offset, sliver_offset, slave_size;
- 	const struct soc_device_attribute *soc;
- 	struct cpsw_common		*cpsw;
--	int ret = 0, i;
-+	int ret = 0, i, ch;
- 	int irq;
- 
- 	cpsw = devm_kzalloc(&pdev->dev, sizeof(struct cpsw_common), GFP_KERNEL);
-@@ -3155,7 +3156,8 @@ static int cpsw_probe(struct platform_device *pdev)
- 	if (soc)
- 		cpsw->quirk_irq = 1;
- 
--	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, 0, cpsw_tx_handler, 0);
-+	ch = cpsw->quirk_irq ? 0 : 7;
-+	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, ch, cpsw_tx_handler, 0);
- 	if (IS_ERR(cpsw->txv[0].ch)) {
- 		dev_err(priv->dev, "error initializing tx dma channel\n");
- 		ret = PTR_ERR(cpsw->txv[0].ch);
--- 
-2.17.0
+Thanks,
 
+	tglx
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
