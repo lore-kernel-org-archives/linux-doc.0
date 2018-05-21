@@ -5,85 +5,171 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC0A37D043
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 May 2018 15:06:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D0F527D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 03:48:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752417AbeESPGk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 19 May 2018 11:06:40 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:55967 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752404AbeESPGj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 May 2018 11:06:39 -0400
-Received: from p4fea4eb5.dip0.t-ipconnect.de ([79.234.78.181] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1fK3RG-0001ml-2N; Sat, 19 May 2018 17:06:30 +0200
-Date:   Sat, 19 May 2018 17:06:29 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Dou Liyang <douly.fnst@cn.fujitsu.com>
-cc:     LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
-        linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-        Ingo Molnar <mingo@kernel.org>,
+        id S1751483AbeEUDs1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 20 May 2018 23:48:27 -0400
+Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:62050 "EHLO
+        ns.ascade.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751280AbeEUDsZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 May 2018 23:48:25 -0400
+Received: from server0001.ascade.co.jp (server0001.ascade.co.jp [10.1.1.63])
+        by ns.ascade.co.jp (Postfix) with ESMTP id 3C31D993BD;
+        Mon, 21 May 2018 12:48:23 +0900 (JST)
+Received: from [127.0.0.1] (dh176.ascade.co.jp [10.1.1.176])
+        by server0001.ascade.co.jp (Postfix) with ESMTP id 37558100512;
+        Mon, 21 May 2018 12:48:23 +0900 (JST)
+Subject: Re: [PATCH v2 3/7] memcg: use compound_order rather than
+ hpage_nr_pages
+To:     Punit Agrawal <punit.agrawal@arm.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Len Brown <lenb@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH 4/5] acpi/processor: Fix the return value of
- acpi_processor_ids_walk()
-In-Reply-To: <20180320110432.28127-5-douly.fnst@cn.fujitsu.com>
-Message-ID: <alpine.DEB.2.21.1805191704150.1599@nanos.tec.linutronix.de>
-References: <20180320110432.28127-1-douly.fnst@cn.fujitsu.com> <20180320110432.28127-5-douly.fnst@cn.fujitsu.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        David Rientjes <rientjes@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, cgroups@vger.kernel.org
+References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
+ <262267fe-d98c-0b25-9013-3dafb52e8679@ascade.co.jp>
+ <87wow0zwja.fsf@e105922-lin.cambridge.arm.com>
+ <87sh6ozwc4.fsf@e105922-lin.cambridge.arm.com>
+From:   TSUKADA Koutaro <tsukada@ascade.co.jp>
+Message-ID: <2053ac36-74df-b05e-d1ce-36f69dde2a47@ascade.co.jp>
+Date:   Mon, 21 May 2018 12:48:22 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+In-Reply-To: <87sh6ozwc4.fsf@e105922-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=iso-2022-jp; format=flowed; delsp=yes
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 20 Mar 2018, Dou Liyang wrote:
+On 2018/05/19 2:51, Punit Agrawal wrote:
+> Punit Agrawal <punit.agrawal@arm.com> writes:
+> 
+>> Tsukada-san,
+>>
+>> I am not familiar with memcg so can't comment about whether the patchset
+>> is the right way to solve the problem outlined in the cover letter but
+>> had a couple of comments about this patch.
+>>
+>> TSUKADA Koutaro <tsukada@ascade.co.jp> writes:
+>>
+>>> The current memcg implementation assumes that the compound page is THP.
+>>> In order to be able to charge surplus hugepage, we use compound_order.
+>>>
+>>> Signed-off-by: TSUKADA Koutaro <tsukada@ascade.co.jp>
+>>
+>> Please move this before Patch 1/7. This is to prevent wrong accounting
+>> of pages to memcg for size != PMD_SIZE.
+> 
+> I just noticed that the default state is off so the change isn't enabled
+> until the sysfs node is exposed in the next patch. Please ignore this
+> comment.
+> 
+> One below still applies.
+> 
+>>
+>>> ---
+>>>   memcontrol.c |   10 +++++-----
+>>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+>>> index 2bd3df3..a8f1ff8 100644
+>>> --- a/mm/memcontrol.c
+>>> +++ b/mm/memcontrol.c
+>>> @@ -4483,7 +4483,7 @@ static int mem_cgroup_move_account(struct page *page,
+>>>   				   struct mem_cgroup *to)
+>>>   {
+>>>   	unsigned long flags;
+>>> -	unsigned int nr_pages = compound ? hpage_nr_pages(page) : 1;
+>>> +	unsigned int nr_pages = compound ? (1 << compound_order(page)) : 1;
+>>
+>> Instead of replacing calls to hpage_nr_pages(), is it possible to modify
+>> it to do the calculation?
 
-> ACPI driver should make sure all the processor IDs in their ACPI Namespace
-> are unique for CPU hotplug. the driver performs a depth-first walk of the
-> namespace tree and calls the acpi_processor_ids_walk().
-> 
-> But, the acpi_processor_ids_walk() will return true if one processor is
-> checked, that cause the walk break after walking pass the first processor.
-> 
-> Repace the value with AE_OK which is the standard acpi_status value.
-> 
-> Fixes 8c8cb30f49b8 ("acpi/processor: Implement DEVICE operator for processor enumeration")
-> 
-> Signed-off-by: Dou Liyang <douly.fnst@cn.fujitsu.com>
-> ---
->  drivers/acpi/acpi_processor.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
-> index 449d86d39965..db5bdb59639c 100644
-> --- a/drivers/acpi/acpi_processor.c
-> +++ b/drivers/acpi/acpi_processor.c
-> @@ -663,11 +663,11 @@ static acpi_status __init acpi_processor_ids_walk(acpi_handle handle,
->  	}
->  
->  	processor_validated_ids_update(uid);
-> -	return true;
-> +	return AE_OK;
->  
->  err:
->  	acpi_handle_info(handle, "Invalid processor object\n");
-> -	return false;
-> +	return AE_OK;
+Thank you for review my code and please just call me Tsukada.
 
-I'm not sure whether this is the right return value here. Rafael?
+I think it is possible to modify the inside of itself rather than
+replacing the call to hpage_nr_pages().
 
+Inferring from the processing that hpage_nr_pages() desires, I thought
+that the definition of hpage_nr_pages() could be moved outside the
+CONFIG_TRANSPARENT_HUGEPAGE. It seems that THP and HugeTLBfs can be
+handled correctly because compound_order() is judged by seeing whether it
+is PageHead or not.
+
+Also, I would like to use compound_order() inside hpage_nr_pages(), but
+since huge_mm.h is included before mm.h where compound_order() is defined,
+move hpage_nr_pages to mm.h.
+
+Instead of patch 3/7, are the following patches implementing what you
+intended?
+
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index a8a1262..1186ab7 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -204,12 +204,6 @@ static inline spinlock_t *pud_trans_huge_lock(pud_t *pud,
+  	else
+  		return NULL;
+  }
+-static inline int hpage_nr_pages(struct page *page)
+-{
+-	if (unlikely(PageTransHuge(page)))
+-		return HPAGE_PMD_NR;
+-	return 1;
+-}
+
+  struct page *follow_devmap_pmd(struct vm_area_struct *vma, unsigned long addr,
+  		pmd_t *pmd, int flags);
+@@ -254,8 +248,6 @@ static inline bool thp_migration_supported(void)
+  #define HPAGE_PUD_MASK ({ BUILD_BUG(); 0; })
+  #define HPAGE_PUD_SIZE ({ BUILD_BUG(); 0; })
+
+-#define hpage_nr_pages(x) 1
+-
+  static inline bool transparent_hugepage_enabled(struct vm_area_struct *vma)
+  {
+  	return false;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 1ac1f06..082f2ee 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -673,6 +673,12 @@ static inline unsigned int compound_order(struct page *page)
+  	return page[1].compound_order;
+  }
+
++static inline int hpage_nr_pages(struct page *page)
++{
++	VM_BUG_ON_PAGE(PageTail(page), page);
++	return (1 << compound_order(page));
++}
++
+  static inline void set_compound_order(struct page *page, unsigned int order)
+  {
+  	page[1].compound_order = order;
+
+-- 
 Thanks,
+Tsukada
 
-	tglx
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
