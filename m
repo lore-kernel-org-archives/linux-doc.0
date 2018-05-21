@@ -5,321 +5,69 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28D9D7D071
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 11:55:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8BCA7D0DC
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 12:28:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752684AbeEULzf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 07:55:35 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:48194 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751077AbeEULze (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 May 2018 07:55:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE06680D;
-        Mon, 21 May 2018 04:55:33 -0700 (PDT)
-Received: from e110439-lin (e110439-lin.cambridge.arm.com [10.1.210.68])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F2AB3F25D;
-        Mon, 21 May 2018 04:55:31 -0700 (PDT)
-Date:   Mon, 21 May 2018 12:55:28 +0100
-From:   Patrick Bellasi <patrick.bellasi@arm.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
-Subject: Re: [PATCH v8 1/6] cpuset: Enable cpuset controller in default
- hierarchy
-Message-ID: <20180521115528.GR30654@e110439-lin>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-2-git-send-email-longman@redhat.com>
+        id S1751019AbeEUM2k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 08:28:40 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59672 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1750923AbeEUM2j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 May 2018 08:28:39 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id E5C8DCB9C1;
+        Mon, 21 May 2018 12:28:38 +0000 (UTC)
+Received: from asgard.redhat.com (ovpn-200-31.brq.redhat.com [10.40.200.31])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B7482017D1F;
+        Mon, 21 May 2018 12:28:36 +0000 (UTC)
+Date:   Mon, 21 May 2018 14:29:30 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     netdev@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>,
+        Jesper Dangaard Brouer <brouer@redhat.com>
+Subject: [PATCH 0/3] bpf: add boot parameters for sysctl knobs
+Message-ID: <20180521122923.GA15717@asgard.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1526590545-3350-2-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 21 May 2018 12:28:38 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 21 May 2018 12:28:38 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'esyr@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Waiman!
+Hello.
 
-I've started looking at the possibility to move Android to use cgroups
-v2 and the availability of the cpuset controller makes this even more
-promising.
+This patch set adds ability to set default values for
+kernel.unprivileged_bpf_disable, net.core.bpf_jit_harden,
+net.core.bpf_jit_kallsyms sysctl knobs as well as option to override
+them via a boot-time kernel parameter.
 
-I'll try to give a run to this series on Android, meanwhile I have
-some (hopefully not too much dummy) questions below.
+Eugene Syromiatnikov (3):
+  bpf: add ability to configure unprivileged BPF via boot-time parameter
+  bpf: add ability to configure BPF JIT hardening via boot-time
+    parameter
+  bpf: add ability to configure BPF JIT kallsyms export at the boot time
 
-On 17-May 16:55, Waiman Long wrote:
-> Given the fact that thread mode had been merged into 4.14, it is now
-> time to enable cpuset to be used in the default hierarchy (cgroup v2)
-> as it is clearly threaded.
-> 
-> The cpuset controller had experienced feature creep since its
-> introduction more than a decade ago. Besides the core cpus and mems
-> control files to limit cpus and memory nodes, there are a bunch of
-> additional features that can be controlled from the userspace. Some of
-> the features are of doubtful usefulness and may not be actively used.
-> 
-> This patch enables cpuset controller in the default hierarchy with
-> a minimal set of features, namely just the cpus and mems and their
-> effective_* counterparts.  We can certainly add more features to the
-> default hierarchy in the future if there is a real user need for them
-> later on.
-> 
-> Alternatively, with the unified hiearachy, it may make more sense
-> to move some of those additional cpuset features, if desired, to
-> memory controller or may be to the cpu controller instead of staying
-> with cpuset.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  Documentation/cgroup-v2.txt | 90 ++++++++++++++++++++++++++++++++++++++++++---
->  kernel/cgroup/cpuset.c      | 48 ++++++++++++++++++++++--
->  2 files changed, 130 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
-> index 74cdeae..cf7bac6 100644
-> --- a/Documentation/cgroup-v2.txt
-> +++ b/Documentation/cgroup-v2.txt
-> @@ -53,11 +53,13 @@ v1 is available under Documentation/cgroup-v1/.
->         5-3-2. Writeback
->       5-4. PID
->         5-4-1. PID Interface Files
-> -     5-5. Device
-> -     5-6. RDMA
-> -       5-6-1. RDMA Interface Files
-> -     5-7. Misc
-> -       5-7-1. perf_event
-> +     5-5. Cpuset
-> +       5.5-1. Cpuset Interface Files
-> +     5-6. Device
-> +     5-7. RDMA
-> +       5-7-1. RDMA Interface Files
-> +     5-8. Misc
-> +       5-8-1. perf_event
->       5-N. Non-normative information
->         5-N-1. CPU controller root cgroup process behaviour
->         5-N-2. IO controller root cgroup process behaviour
-> @@ -1435,6 +1437,84 @@ through fork() or clone(). These will return -EAGAIN if the creation
->  of a new process would cause a cgroup policy to be violated.
->  
->  
-> +Cpuset
-> +------
-> +
-> +The "cpuset" controller provides a mechanism for constraining
-> +the CPU and memory node placement of tasks to only the resources
-> +specified in the cpuset interface files in a task's current cgroup.
-> +This is especially valuable on large NUMA systems where placing jobs
-> +on properly sized subsets of the systems with careful processor and
-> +memory placement to reduce cross-node memory access and contention
-> +can improve overall system performance.
-
-Another quite important use-case for cpuset is Android, where they are
-actively used to do both power-saving as well as performance tunings.
-For example, depending on the status of an application, its threads
-can be allowed to run on all available CPUS (e.g. foreground apps) or
-be restricted only on few energy efficient CPUs (e.g. backgroud apps).
-
-Since here we are at "rewriting" cpusets for v2, I think it's important
-to keep this mobile world scenario into consideration.
-
-For example, in this context, we are looking at the possibility to
-update/tune cpuset.cpus with a relatively high rate, i.e. tens of
-times per second. Not sure that's the same update rate usually
-required for the large NUMA systems you cite above.  However, in this
-case it's quite important to have really small overheads for these
-operations.
-
-> +
-> +The "cpuset" controller is hierarchical.  That means the controller
-> +cannot use CPUs or memory nodes not allowed in its parent.
-> +
-> +
-> +Cpuset Interface Files
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +  cpuset.cpus
-> +	A read-write multiple values file which exists on non-root
-> +	cpuset-enabled cgroups.
-> +
-> +	It lists the CPUs allowed to be used by tasks within this
-> +	cgroup.  The CPU numbers are comma-separated numbers or
-> +	ranges.  For example:
-> +
-> +	  # cat cpuset.cpus
-> +	  0-4,6,8-10
-> +
-> +	An empty value indicates that the cgroup is using the same
-> +	setting as the nearest cgroup ancestor with a non-empty
-> +	"cpuset.cpus" or all the available CPUs if none is found.
-
-Does that means that we can move tasks into a newly created group for
-which we have not yet configured this value?
-AFAIK, that's a different behavior wrt v1... and I like it better.
-
-> +
-> +	The value of "cpuset.cpus" stays constant until the next update
-> +	and won't be affected by any CPU hotplug events.
-
-This also sounds interesting, does it means that we use the
-cpuset.cpus mask to restrict online CPUs, whatever they are?
-
-I'll have a better look at the code, but my understanding of v1 is
-that we spent a lot of effort to keep task cpu-affinity masks aligned
-with the cpuset in which they live, and we do something similar at each
-HP event, which ultimately generates a lot of overheads in systems
-where: you have many HP events and/or cpuset.cpus change quite
-frequently.
-
-I hope to find some better behavior in this series.
-
-> +
-> +  cpuset.cpus.effective
-> +	A read-only multiple values file which exists on non-root
-> +	cpuset-enabled cgroups.
-> +
-> +	It lists the onlined CPUs that are actually allowed to be
-> +	used by tasks within the current cgroup.  If "cpuset.cpus"
-> +	is empty, it shows all the CPUs from the parent cgroup that
-> +	will be available to be used by this cgroup.  Otherwise, it is
-> +	a subset of "cpuset.cpus".  Its value will be affected by CPU
-> +	hotplug events.
-
-This looks similar to v1, isn't it?
-
-> +
-> +  cpuset.mems
-> +	A read-write multiple values file which exists on non-root
-> +	cpuset-enabled cgroups.
-> +
-> +	It lists the memory nodes allowed to be used by tasks within
-> +	this cgroup.  The memory node numbers are comma-separated
-> +	numbers or ranges.  For example:
-> +
-> +	  # cat cpuset.mems
-> +	  0-1,3
-> +
-> +	An empty value indicates that the cgroup is using the same
-> +	setting as the nearest cgroup ancestor with a non-empty
-> +	"cpuset.mems" or all the available memory nodes if none
-> +	is found.
-> +
-> +	The value of "cpuset.mems" stays constant until the next update
-> +	and won't be affected by any memory nodes hotplug events.
-> +
-> +  cpuset.mems.effective
-> +	A read-only multiple values file which exists on non-root
-> +	cpuset-enabled cgroups.
-> +
-> +	It lists the onlined memory nodes that are actually allowed to
-> +	be used by tasks within the current cgroup.  If "cpuset.mems"
-> +	is empty, it shows all the memory nodes from the parent cgroup
-> +	that will be available to be used by this cgroup.  Otherwise,
-> +	it is a subset of "cpuset.mems".  Its value will be affected
-> +	by memory nodes hotplug events.
-> +
-> +
->  Device controller
->  -----------------
->  
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index b42037e..419b758 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -1823,12 +1823,11 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
->  	return 0;
->  }
->  
-> -
->  /*
->   * for the common functions, 'private' gives the type of file
->   */
->  
-> -static struct cftype files[] = {
-> +static struct cftype legacy_files[] = {
->  	{
->  		.name = "cpus",
->  		.seq_show = cpuset_common_seq_show,
-> @@ -1931,6 +1930,47 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
->  };
->  
->  /*
-> + * This is currently a minimal set for the default hierarchy. It can be
-> + * expanded later on by migrating more features and control files from v1.
-> + */
-> +static struct cftype dfl_files[] = {
-> +	{
-> +		.name = "cpus",
-> +		.seq_show = cpuset_common_seq_show,
-> +		.write = cpuset_write_resmask,
-> +		.max_write_len = (100U + 6 * NR_CPUS),
-> +		.private = FILE_CPULIST,
-> +		.flags = CFTYPE_NOT_ON_ROOT,
-> +	},
-> +
-> +	{
-> +		.name = "mems",
-> +		.seq_show = cpuset_common_seq_show,
-> +		.write = cpuset_write_resmask,
-> +		.max_write_len = (100U + 6 * MAX_NUMNODES),
-> +		.private = FILE_MEMLIST,
-> +		.flags = CFTYPE_NOT_ON_ROOT,
-> +	},
-> +
-> +	{
-> +		.name = "cpus.effective",
-> +		.seq_show = cpuset_common_seq_show,
-> +		.private = FILE_EFFECTIVE_CPULIST,
-> +		.flags = CFTYPE_NOT_ON_ROOT,
-> +	},
-> +
-> +	{
-> +		.name = "mems.effective",
-> +		.seq_show = cpuset_common_seq_show,
-> +		.private = FILE_EFFECTIVE_MEMLIST,
-> +		.flags = CFTYPE_NOT_ON_ROOT,
-> +	},
-> +
-> +	{ }	/* terminate */
-> +};
-> +
-> +
-> +/*
->   *	cpuset_css_alloc - allocate a cpuset css
->   *	cgrp:	control group that the new cpuset will be part of
->   */
-> @@ -2104,8 +2144,10 @@ struct cgroup_subsys cpuset_cgrp_subsys = {
->  	.post_attach	= cpuset_post_attach,
->  	.bind		= cpuset_bind,
->  	.fork		= cpuset_fork,
-> -	.legacy_cftypes	= files,
-> +	.legacy_cftypes	= legacy_files,
-> +	.dfl_cftypes	= dfl_files,
->  	.early_init	= true,
-> +	.threaded	= true,
-
-Which means that by default we can attach tasks instead of only
-processes, right?
-
->  };
->  
->  /**
-> -- 
-> 1.8.3.1
-> 
+ Documentation/admin-guide/kernel-parameters.txt | 28 ++++++++
+ init/Kconfig                                    | 90 +++++++++++++++++++++++++
+ kernel/bpf/core.c                               | 31 +++++++++
+ kernel/bpf/syscall.c                            | 16 +++++
+ 4 files changed, 165 insertions(+)
 
 -- 
-#include <best/regards.h>
+2.1.4
 
-Patrick Bellasi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
