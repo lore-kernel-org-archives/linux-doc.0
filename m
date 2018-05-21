@@ -1,156 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B906B7D0DC
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 12:29:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 061B47D0DC
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 12:34:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752650AbeEUM3f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 08:29:35 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:60498 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752631AbeEUM3c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 May 2018 08:29:32 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D99264076045;
-        Mon, 21 May 2018 12:29:31 +0000 (UTC)
-Received: from asgard.redhat.com (ovpn-200-31.brq.redhat.com [10.40.200.31])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 09F09215CDA7;
-        Mon, 21 May 2018 12:29:29 +0000 (UTC)
-Date:   Mon, 21 May 2018 14:30:24 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>,
-        Jesper Dangaard Brouer <brouer@redhat.com>
-Subject: [PATCH 3/3] bpf: add ability to configure BPF JIT kallsyms export at
- the boot time
-Message-ID: <20180521123024.GA20159@asgard.redhat.com>
+        id S1751788AbeEUMeO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 08:34:14 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:44695 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751292AbeEUMeN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 May 2018 08:34:13 -0400
+Received: by mail-oi0-f66.google.com with SMTP id e80-v6so12812700oig.11;
+        Mon, 21 May 2018 05:34:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=ozTigdjhhtfCzY7eSD8vf0HTUY7EyvFZxFX4p6xEoFM=;
+        b=Au/1GTHQ6mO6A1xmsqGIbeNvQeJcgFjmgRfyMyV/ewznGVUdFcDJsNHdbj8KiGjTHu
+         FYuI3+Saym6FjX3NFsFpc/xJJy9ohCCBhRexzoryi+qni4NXQq2oId1hOKcO9Jp1OJfm
+         /QbgQvTQNkHCkWv3V2gZdfKj2+wIhztJcFHh28e6BP3s1AME26OCE8lvFYrPANOhLSrm
+         JjRxad1UIJzyoR6d6CDvGGZR0+kZx70HmprrjjJd4+fIDR/Z/pYG9lvWYPxyZ7wDqMNF
+         P1L28mwBkJjUYiBlPVH1KqKgOe4UflWw6QAhP+RsB7+WZBIAqHL0sqL2z+uEpGkdNIRm
+         4dlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=ozTigdjhhtfCzY7eSD8vf0HTUY7EyvFZxFX4p6xEoFM=;
+        b=fKaPzklyNxYOLO5EGNEgR5QPqxGItqcWEmXEUiAZUhxMrbxyu/luxJqbuy35TefxQn
+         ouFjKzRp1EU5KfJNaf2ZyX/5Rb9evBLRgxH9GwI82255oSY5cPC694UcnAygWYlVUCuO
+         EXXDTjEpbUf4qSZimLL6l+Tmkq+f9ndHUMOuJ7MmUqf1J50JRAMMaHrBFpEBWyPkNXf2
+         DRn3XE2Kc0UtN7EfiIyh3S204AKWAhu3ATvr8CAlf6uCOvSakWM/VfV01X0AjCvqb2N1
+         kF5T0TFYdKpK6J7wevnlBDbaHNJl7e1Zn9Qy5/3AXDIIYJ5eCZ5WRP+9OQ6NK5ZQVPB7
+         X/LA==
+X-Gm-Message-State: ALKqPwdQloeKm0mag9hn42yOo2Qq14G0VXdK/7Ls/IoujL3xC4SUnNK9
+        FqWuoim83d1/RNTf4uDwIZZNxWYC0naZFNqWyrVExg==
+X-Google-Smtp-Source: AB8JxZpXbvujm9Mw+wBMW9ouCELdIXxGn1EF5NNQhJ2rixnTserAGT15BEMHVbyjji1aoMxe+5HmT1YbVszFe2Cn6uA=
+X-Received: by 2002:aca:e781:: with SMTP id e123-v6mr4726599oih.62.1526906053005;
+ Mon, 21 May 2018 05:34:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 21 May 2018 12:29:31 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 21 May 2018 12:29:31 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'esyr@redhat.com' RCPT:''
+Received: by 10.201.88.68 with HTTP; Mon, 21 May 2018 05:34:12 -0700 (PDT)
+In-Reply-To: <20180521105511.6ztjk5conf7lfaiz@lakrids.cambridge.arm.com>
+References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
+ <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com> <20180426105938.y6unpt36lisb7kbr@lakrids.cambridge.arm.com>
+ <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com> <20180521105511.6ztjk5conf7lfaiz@lakrids.cambridge.arm.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Mon, 21 May 2018 18:04:12 +0530
+Message-ID: <CAKTKpr7fhR1aRenZBFUAzinjpD9DJ0NoNptCpkXAGx_J7DmMfA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch introduces two configuration options,
-BPF_JIT_KALLSYMS_BOOTPARAM and BPF_JIT_KALLSYMS_BOOTPARAM_VALUE, that
-allow configuring the initial value of net.core.bpf_jit_kallsyms sysctl
-knob. This enables export of addresses of JIT'ed BPF programs that
-created during the early boot.
+Hi Mark,
 
-Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 10 +++++++++
- init/Kconfig                                    | 30 +++++++++++++++++++++++++
- kernel/bpf/core.c                               | 14 ++++++++++++
- 3 files changed, 54 insertions(+)
+On Mon, May 21, 2018 at 4:25 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> On Sat, May 05, 2018 at 12:16:13AM +0530, Ganapatrao Kulkarni wrote:
+>> On Thu, Apr 26, 2018 at 4:29 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+>> > On Wed, Apr 25, 2018 at 02:30:47PM +0530, Ganapatrao Kulkarni wrote:
+>
+>> >> + *
+>> >> + *  L3 Tile and DMC channel selection is through SMC call
+>> >> + *  SMC call arguments,
+>> >> + *   x0 = THUNDERX2_SMC_CALL_ID      (Vendor SMC call Id)
+>> >> + *   x1 = THUNDERX2_SMC_SET_CHANNEL  (Id to set DMC/L3C channel)
+>> >> + *   x2 = Node id
+>> >
+>> > How do we map Linux node IDs to the firmware's view of node IDs?
+>> >
+>> > I don't believe the two are necessarily the same -- Linux's node IDs are
+>> > a Linux-specific construct.
+>>
+>> both are same, it is numa node id from ACPI/firmware.
+>
+> I am very wary about assuming that the Linux nid will always be the same
+> as the ACPI node id.
+>
+> For that to *potentially* be true, this driver should depend on
+> CONFIG_NUMA, NUMA must not be disabled on the command line, etc, or the
+> node id will always be NUMA_NO_NODE.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5adc6d0..10e7502 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -452,6 +452,16 @@
- 			2 - JIT hardening is enabled for all users.
- 			Default value is set via kernel config option.
- 
-+	bpf_jit_kallsyms=
-+			Format: { "0" | "1" }
-+			Sets initial value of net.core.bpf_jit_kallsyms
-+			sysctl knob.
-+			0 - Addresses of JIT'ed BPF programs are not exported
-+			    to kallsyms.
-+			1 - Export of addresses of JIT'ed BPF programs is
-+			    enabled for privileged users.
-+			Default value is set via kernel config option.
-+
- 	bttv.card=	[HW,V4L] bttv (bt848 + bt878 based grabber cards)
- 	bttv.radio=	Most important insmod options are available as
- 			kernel args too.
-diff --git a/init/Kconfig b/init/Kconfig
-index b661497..b5405ca 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1464,6 +1464,36 @@ config BPF_JIT_HARDEN_BOOTPARAM_VALUE
- 
- 	  If you are unsure how to answer this question, answer 0.
- 
-+config BPF_JIT_KALLSYMS_BOOTPARAM
-+	bool "BPF JIT kallsyms export boot parameter"
-+	default n
-+	help
-+	  This option adds a kernel parameter 'bpf_jit_kallsyms' that allows
-+	  configuring default state of the net.core.bpf_jit_kallsyms sysctl
-+	  knob.  If this option is selected, the default value of the
-+	  net.core.bpf_jit_kallsyms sysctl knob can be set on the kernel command
-+	  line.  The purpose of this option is to allow enabling BPF JIT
-+	  kallsyms export for the BPF programs created during the early boot,
-+	  so they can be traced later.
-+
-+	  If you are unsure how to answer this question, answer N.
-+
-+config BPF_JIT_KALLSYMS_BOOTPARAM_VALUE
-+	int "BPF JIT kallsyms export boot parameter default value"
-+	depends on BPF_JIT_HARDEN_BOOTPARAM
-+	range 0 1
-+	default 0
-+	help
-+	  This option sets the default value for the kernel parameter
-+	  'bpf_jit_kallsyms' that configures default value of the
-+	  net.core.bpf_jit_kallsyms sysctl knob at boot.  If this option is set
-+	  to 0 (zero), the net.core.bpf_jit_kallsyms will default to 0, which
-+	  will lead to disabling of exporting of addresses of JIT'ed BPF
-+	  programs.  If this option is set to 1 (one), addresses of privileged
-+	  BPF programs are exported to kallsyms.
-+
-+	  If you are unsure how to answer this question, answer 0.
-+
- config USERFAULTFD
- 	bool "Enable userfaultfd() system call"
- 	select ANON_INODES
-diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
-index 9edb7a8..003d708 100644
---- a/kernel/bpf/core.c
-+++ b/kernel/bpf/core.c
-@@ -321,7 +321,21 @@ __setup("bpf_jit_harden=", bpf_jit_harden_setup);
- int bpf_jit_harden   __read_mostly;
- #endif /* CONFIG_BPF_JIT_HARDEN_BOOTPARAM */
- 
-+#ifdef CONFIG_BPF_JIT_KALLSYMS_BOOTPARAM
-+int bpf_jit_kallsyms __read_mostly = CONFIG_BPF_JIT_KALLSYMS_BOOTPARAM_VALUE;
-+
-+static int __init bpf_jit_kallsyms_setup(char *str)
-+{
-+	unsigned long enabled;
-+
-+	if (!kstrtoul(str, 0, &enabled))
-+		bpf_jit_kallsyms = !!enabled;
-+	return 1;
-+}
-+__setup("bpf_jit_kallsyms=", bpf_jit_kallsyms_setup);
-+#else /* !CONFIG_BPF_JIT_KALLSYMS_BOOTPARAM */
- int bpf_jit_kallsyms __read_mostly;
-+#endif /* CONFIG_BPF_JIT_KALLSYMS_BOOTPARAM */
- 
- static __always_inline void
- bpf_get_prog_addr_region(const struct bpf_prog *prog,
--- 
-2.1.4
+ok, i can check the node id which we get from ACPI helpers in probe.
+if it is NUMA_NO_NODE, I will init first socket uncore only and nid
+param to fw is always zero?
 
+>
+> I would be *much* happier if we had an explicit mapping somewhere to the
+> ID the FW expects.
+>
+>> > It would be much nicer if we could pass something based on the MPIDR,
+>> > which is a known HW construct, or if this implicitly affected the
+>> > current node.
+>>
+>> IMO,  node id is sufficient.
+>
+> I agree that *a* node ID is sufficient, I just don't think that we're
+> guaranteed to have the specific node ID the FW wants.
+
+for thunderx2 which is 2 socket only platform, pxm and nid should be
+same(either 0 or 1)
+however, i can send PXM id(node_to_pxm) to firmware to make it more sane.
+
+>
+>> > It would be vastly more sane for this to not be muxed at all. :/
+>>
+>> i am helpless due to crappy hw design!
+>
+> I'm certainly not blaming you for this! :)
+>
+> I hope the HW designers don't make the same mistake in future, though...
+>
+> Thanks,
+> Mark.
+
+thanks
+Ganapat
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
