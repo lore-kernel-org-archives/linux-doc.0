@@ -1,136 +1,358 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57CC47D085
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 12:42:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B68A7D085
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 13:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751738AbeEUMmJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 08:42:09 -0400
-Received: from mail-ot0-f193.google.com ([74.125.82.193]:33932 "EHLO
-        mail-ot0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751039AbeEUMmI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 May 2018 08:42:08 -0400
-Received: by mail-ot0-f193.google.com with SMTP id i5-v6so16692293otf.1;
-        Mon, 21 May 2018 05:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=rwbjy1hoNtdO0AepUcpAJyINmPUaGPHlkTtUF4SNV80=;
-        b=TwbBHvPpDBcRKHyfOMKSG6BPWuSqC1NQA9iO0UA0qjHcNBRGvt9EZ9Cb4fitrY0mz1
-         Zqqtkk/+nnZMRyl0Ex/VdH9v/IwAdkJTM5IwzcVV5WVlZisEUI4TawKJRsNAn+KOlUHn
-         CHWcNg8o6HVDL6YgIejFGL7xv4gCKHFqdzDnjduL6j/iWBZ3EvRCPoPiXZWDSTPoPDqQ
-         ewBBq9gHLXS4Qyl3xu8QfttJVR09pDwkbw4075Q+2/eadlQqp/74ViIkEoAwMy2itf7o
-         SsVJUX4oEju7OpmrlW7wQcDGbn4g1JpSk9Spaj2nN4E63Tdr20fomZtdSaQl/O+s/sgk
-         mf4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=rwbjy1hoNtdO0AepUcpAJyINmPUaGPHlkTtUF4SNV80=;
-        b=VnOKfIXL+xWpbTJo4O6dq7Q7MspPksI641QkVWT4im2JpQX1I96Yfd6yfQ6lIw2v7r
-         j+6jb3ErngI4mZnjsXakmzVt/hSguddA3d85BcMbJuP7WEIYuYkU+AYKcXenTZR57+zh
-         S+vkCeS8iDaffNPWzu9gjnb4AY6NhVXgpyBiQzMakERNnbY9oxNNk1DkJf1yyqQwB4q7
-         n7L0n8Ewro7K626d6ejYrZyrLXhOKzW5rOGocYCNcSdg8pmmYFjcqpqt4R7ew7lYPHKC
-         9yX33V0BQ9A8QSLouU6tXz3XP9okUyKRUDpmbMk8ZrxCHdMlvZ72z5RmCQpXShfWOmFG
-         JwOA==
-X-Gm-Message-State: ALKqPweZUvFJFROBaifLX33rBZzjNYPIti22C8hFFo82Yauh7ZNKV3Na
-        y5P6n4wTA1dNmObThUiigis/YJExi0LDMfRuP1I=
-X-Google-Smtp-Source: AB8JxZoYaGfqW73kGqXilrVybtUVhbNUqnylgRiBTudVvb70JMhXwNg0/C7Hy4DL6kaY1TXTxmntLYTX0/+XJtEVfpU=
-X-Received: by 2002:a9d:2842:: with SMTP id h2-v6mr14259593otd.210.1526906528290;
- Mon, 21 May 2018 05:42:08 -0700 (PDT)
+        id S1751280AbeEUNz5 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 09:55:57 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:35102 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751115AbeEUNz4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 May 2018 09:55:56 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B3A5D40711B2;
+        Mon, 21 May 2018 13:55:55 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-182.bos.redhat.com [10.18.17.182])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1F0136B5AC;
+        Mon, 21 May 2018 13:55:51 +0000 (UTC)
+Subject: Re: [PATCH v8 1/6] cpuset: Enable cpuset controller in default
+ hierarchy
+To:     Patrick Bellasi <patrick.bellasi@arm.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>
+References: <1526590545-3350-1-git-send-email-longman@redhat.com>
+ <1526590545-3350-2-git-send-email-longman@redhat.com>
+ <20180521115528.GR30654@e110439-lin>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <fbc71cfc-6801-0fda-b0c6-2a70f7c9fe25@redhat.com>
+Date:   Mon, 21 May 2018 09:55:51 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Received: by 10.201.88.68 with HTTP; Mon, 21 May 2018 05:42:07 -0700 (PDT)
-In-Reply-To: <20180521104008.z6ei5zjve7u5iwho@lakrids.cambridge.arm.com>
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
- <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com> <20180426105938.y6unpt36lisb7kbr@lakrids.cambridge.arm.com>
- <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com>
- <CAKTKpr61zBW_D6v_Ck1Lcp0NJ4wPFOpgbiM5aU_EtuiFU-qp4Q@mail.gmail.com>
- <20180521103712.gofbrjdtghfwolmd@lakrids.cambridge.arm.com> <20180521104008.z6ei5zjve7u5iwho@lakrids.cambridge.arm.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Mon, 21 May 2018 18:12:07 +0530
-Message-ID: <CAKTKpr7rBj2Ai5jsPgfH308GYNviQm1GWNnkvOhBD_Zak34+-Q@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180521115528.GR30654@e110439-lin>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 21 May 2018 13:55:55 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 21 May 2018 13:55:55 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 21, 2018 at 4:10 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Mon, May 21, 2018 at 11:37:12AM +0100, Mark Rutland wrote:
->> Hi Ganapat,
->>
->>
->> Sorry for the delay in replying; I was away most of last week.
->>
->> On Tue, May 15, 2018 at 04:03:19PM +0530, Ganapatrao Kulkarni wrote:
->> > On Sat, May 5, 2018 at 12:16 AM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
->> > > On Thu, Apr 26, 2018 at 4:29 PM, Mark Rutland <mark.rutland@arm.com> wrote:
->> > >> On Wed, Apr 25, 2018 at 02:30:47PM +0530, Ganapatrao Kulkarni wrote:
->>
->> > >>> +static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
->> > >>> +{
->> > >>> +     int counter;
->> > >>> +
->> > >>> +     raw_spin_lock(&pmu_uncore->lock);
->> > >>> +     counter = find_first_zero_bit(pmu_uncore->counter_mask,
->> > >>> +                             pmu_uncore->uncore_dev->max_counters);
->> > >>> +     if (counter == pmu_uncore->uncore_dev->max_counters) {
->> > >>> +             raw_spin_unlock(&pmu_uncore->lock);
->> > >>> +             return -ENOSPC;
->> > >>> +     }
->> > >>> +     set_bit(counter, pmu_uncore->counter_mask);
->> > >>> +     raw_spin_unlock(&pmu_uncore->lock);
->> > >>> +     return counter;
->> > >>> +}
->> > >>> +
->> > >>> +static void free_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore,
->> > >>> +                                     int counter)
->> > >>> +{
->> > >>> +     raw_spin_lock(&pmu_uncore->lock);
->> > >>> +     clear_bit(counter, pmu_uncore->counter_mask);
->> > >>> +     raw_spin_unlock(&pmu_uncore->lock);
->> > >>> +}
->> > >>
->> > >> I don't believe that locking is required in either of these, as the perf
->> > >> core serializes pmu::add() and pmu::del(), where these get called.
->> >
->> > without this locking, i am seeing "BUG: scheduling while atomic" when
->> > i run perf with more events together than the maximum counters
->> > supported
->>
->> Did you manage to get to the bottom of this?
->>
->> Do you have a backtrace?
->>
->> It looks like in your latest posting you reserve counters through the
->> userspace ABI, which doesn't seem right to me, and I'd like to
->> understand the problem.
+On 05/21/2018 07:55 AM, Patrick Bellasi wrote:
+> Hi Waiman!
 >
-> Looks like I misunderstood -- those are still allocated kernel-side.
+> I've started looking at the possibility to move Android to use cgroups
+> v2 and the availability of the cpuset controller makes this even more
+> promising.
 >
-> I'll follow that up in the v5 posting.
+> I'll try to give a run to this series on Android, meanwhile I have
+> some (hopefully not too much dummy) questions below.
+>
+> On 17-May 16:55, Waiman Long wrote:
+>> Given the fact that thread mode had been merged into 4.14, it is now
+>> time to enable cpuset to be used in the default hierarchy (cgroup v2)
+>> as it is clearly threaded.
+>>
+>> The cpuset controller had experienced feature creep since its
+>> introduction more than a decade ago. Besides the core cpus and mems
+>> control files to limit cpus and memory nodes, there are a bunch of
+>> additional features that can be controlled from the userspace. Some of
+>> the features are of doubtful usefulness and may not be actively used.
+>>
+>> This patch enables cpuset controller in the default hierarchy with
+>> a minimal set of features, namely just the cpus and mems and their
+>> effective_* counterparts.  We can certainly add more features to the
+>> default hierarchy in the future if there is a real user need for them
+>> later on.
+>>
+>> Alternatively, with the unified hiearachy, it may make more sense
+>> to move some of those additional cpuset features, if desired, to
+>> memory controller or may be to the cpu controller instead of staying
+>> with cpuset.
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>  Documentation/cgroup-v2.txt | 90 ++++++++++++++++++++++++++++++++++++++++++---
+>>  kernel/cgroup/cpuset.c      | 48 ++++++++++++++++++++++--
+>>  2 files changed, 130 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
+>> index 74cdeae..cf7bac6 100644
+>> --- a/Documentation/cgroup-v2.txt
+>> +++ b/Documentation/cgroup-v2.txt
+>> @@ -53,11 +53,13 @@ v1 is available under Documentation/cgroup-v1/.
+>>         5-3-2. Writeback
+>>       5-4. PID
+>>         5-4-1. PID Interface Files
+>> -     5-5. Device
+>> -     5-6. RDMA
+>> -       5-6-1. RDMA Interface Files
+>> -     5-7. Misc
+>> -       5-7-1. perf_event
+>> +     5-5. Cpuset
+>> +       5.5-1. Cpuset Interface Files
+>> +     5-6. Device
+>> +     5-7. RDMA
+>> +       5-7-1. RDMA Interface Files
+>> +     5-8. Misc
+>> +       5-8-1. perf_event
+>>       5-N. Non-normative information
+>>         5-N-1. CPU controller root cgroup process behaviour
+>>         5-N-2. IO controller root cgroup process behaviour
+>> @@ -1435,6 +1437,84 @@ through fork() or clone(). These will return -EAGAIN if the creation
+>>  of a new process would cause a cgroup policy to be violated.
+>>  
+>>  
+>> +Cpuset
+>> +------
+>> +
+>> +The "cpuset" controller provides a mechanism for constraining
+>> +the CPU and memory node placement of tasks to only the resources
+>> +specified in the cpuset interface files in a task's current cgroup.
+>> +This is especially valuable on large NUMA systems where placing jobs
+>> +on properly sized subsets of the systems with careful processor and
+>> +memory placement to reduce cross-node memory access and contention
+>> +can improve overall system performance.
+> Another quite important use-case for cpuset is Android, where they are
+> actively used to do both power-saving as well as performance tunings.
+> For example, depending on the status of an application, its threads
+> can be allowed to run on all available CPUS (e.g. foreground apps) or
+> be restricted only on few energy efficient CPUs (e.g. backgroud apps).
+>
+> Since here we are at "rewriting" cpusets for v2, I think it's important
+> to keep this mobile world scenario into consideration.
+>
+> For example, in this context, we are looking at the possibility to
+> update/tune cpuset.cpus with a relatively high rate, i.e. tens of
+> times per second. Not sure that's the same update rate usually
+> required for the large NUMA systems you cite above.  However, in this
+> case it's quite important to have really small overheads for these
+> operations.
 
-please review v5.
->
-> Thanks,
-> Mark.
+The cgroup interface isn't designed for high update throughput. Changing
+cpuset.cpus will require searching for the all the tasks in the cpuset
+and change its cpu mask. That isn't a fast operation, but it shouldn't
+be too bad either depending on how many tasks are in the cpuset.
 
-thanks
-Ganapat
+I would not suggest doing rapid changes to cpuset.cpus as a mean to tune
+the behavior of a task. So what exactly is the tuning you are thinking
+about? Is it moving a task from the a high-power cpu to a low power one
+or vice versa? If so, it is probably better to move the task from one
+cpuset of high-power cpus to another cpuset of low-power cpus.
+
+>> +
+>> +The "cpuset" controller is hierarchical.  That means the controller
+>> +cannot use CPUs or memory nodes not allowed in its parent.
+>> +
+>> +
+>> +Cpuset Interface Files
+>> +~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +  cpuset.cpus
+>> +	A read-write multiple values file which exists on non-root
+>> +	cpuset-enabled cgroups.
+>> +
+>> +	It lists the CPUs allowed to be used by tasks within this
+>> +	cgroup.  The CPU numbers are comma-separated numbers or
+>> +	ranges.  For example:
+>> +
+>> +	  # cat cpuset.cpus
+>> +	  0-4,6,8-10
+>> +
+>> +	An empty value indicates that the cgroup is using the same
+>> +	setting as the nearest cgroup ancestor with a non-empty
+>> +	"cpuset.cpus" or all the available CPUs if none is found.
+> Does that means that we can move tasks into a newly created group for
+> which we have not yet configured this value?
+> AFAIK, that's a different behavior wrt v1... and I like it better.
+>
+
+For v2, if you haven't set up the cpuset.cpus, it defaults to the
+effective cpu list of its parent.
+
+>> +
+>> +	The value of "cpuset.cpus" stays constant until the next update
+>> +	and won't be affected by any CPU hotplug events.
+> This also sounds interesting, does it means that we use the
+> cpuset.cpus mask to restrict online CPUs, whatever they are?
+
+cpuset.cpus holds the cpu list written by the users.
+cpuset.cpus.effective is the actual cpu mask that is being used. The
+effective cpu mask is always a subset of cpuset.cpus. They differ if not
+all the CPUs in cpuset.cpus are online.
+> I'll have a better look at the code, but my understanding of v1 is
+> that we spent a lot of effort to keep task cpu-affinity masks aligned
+> with the cpuset in which they live, and we do something similar at each
+> HP event, which ultimately generates a lot of overheads in systems
+> where: you have many HP events and/or cpuset.cpus change quite
+> frequently.
+>
+> I hope to find some better behavior in this series.
+>
+
+The behavior of CPU offline event should be similar in v2. Any HP event
+will cause the system to reset the cpu masks of task affected by the
+event. The online event, however, will be a bit different between v1 and
+v2. For v1, the online event won't restore the CPU back to those cpusets
+that had the onlined CPU previously. For v2, the v2, the online CPU will
+be restored back to those cpusets. So there is less work from the
+management layer, but overhead is still there in the kernel of doing the
+restore.
+
+>> +
+>> +  cpuset.cpus.effective
+>> +	A read-only multiple values file which exists on non-root
+>> +	cpuset-enabled cgroups.
+>> +
+>> +	It lists the onlined CPUs that are actually allowed to be
+>> +	used by tasks within the current cgroup.  If "cpuset.cpus"
+>> +	is empty, it shows all the CPUs from the parent cgroup that
+>> +	will be available to be used by this cgroup.  Otherwise, it is
+>> +	a subset of "cpuset.cpus".  Its value will be affected by CPU
+>> +	hotplug events.
+> This looks similar to v1, isn't it?
+
+For v1, cpuset.cpus.effective is the same as cpuset.cpus unless you turn
+on the v2 mode when mounting the v1 cpuset. For v2, they differ. Please
+see the explanation above.
+
+>> +
+>> +  cpuset.mems
+>> +	A read-write multiple values file which exists on non-root
+>> +	cpuset-enabled cgroups.
+>> +
+>> +	It lists the memory nodes allowed to be used by tasks within
+>> +	this cgroup.  The memory node numbers are comma-separated
+>> +	numbers or ranges.  For example:
+>> +
+>> +	  # cat cpuset.mems
+>> +	  0-1,3
+>> +
+>> +	An empty value indicates that the cgroup is using the same
+>> +	setting as the nearest cgroup ancestor with a non-empty
+>> +	"cpuset.mems" or all the available memory nodes if none
+>> +	is found.
+>> +
+>> +	The value of "cpuset.mems" stays constant until the next update
+>> +	and won't be affected by any memory nodes hotplug events.
+>> +
+>> +  cpuset.mems.effective
+>> +	A read-only multiple values file which exists on non-root
+>> +	cpuset-enabled cgroups.
+>> +
+>> +	It lists the onlined memory nodes that are actually allowed to
+>> +	be used by tasks within the current cgroup.  If "cpuset.mems"
+>> +	is empty, it shows all the memory nodes from the parent cgroup
+>> +	that will be available to be used by this cgroup.  Otherwise,
+>> +	it is a subset of "cpuset.mems".  Its value will be affected
+>> +	by memory nodes hotplug events.
+>> +
+>> +
+>>  Device controller
+>>  -----------------
+>>  
+>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>> index b42037e..419b758 100644
+>> --- a/kernel/cgroup/cpuset.c
+>> +++ b/kernel/cgroup/cpuset.c
+>> @@ -1823,12 +1823,11 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+>>  	return 0;
+>>  }
+>>  
+>> -
+>>  /*
+>>   * for the common functions, 'private' gives the type of file
+>>   */
+>>  
+>> -static struct cftype files[] = {
+>> +static struct cftype legacy_files[] = {
+>>  	{
+>>  		.name = "cpus",
+>>  		.seq_show = cpuset_common_seq_show,
+>> @@ -1931,6 +1930,47 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+>>  };
+>>  
+>>  /*
+>> + * This is currently a minimal set for the default hierarchy. It can be
+>> + * expanded later on by migrating more features and control files from v1.
+>> + */
+>> +static struct cftype dfl_files[] = {
+>> +	{
+>> +		.name = "cpus",
+>> +		.seq_show = cpuset_common_seq_show,
+>> +		.write = cpuset_write_resmask,
+>> +		.max_write_len = (100U + 6 * NR_CPUS),
+>> +		.private = FILE_CPULIST,
+>> +		.flags = CFTYPE_NOT_ON_ROOT,
+>> +	},
+>> +
+>> +	{
+>> +		.name = "mems",
+>> +		.seq_show = cpuset_common_seq_show,
+>> +		.write = cpuset_write_resmask,
+>> +		.max_write_len = (100U + 6 * MAX_NUMNODES),
+>> +		.private = FILE_MEMLIST,
+>> +		.flags = CFTYPE_NOT_ON_ROOT,
+>> +	},
+>> +
+>> +	{
+>> +		.name = "cpus.effective",
+>> +		.seq_show = cpuset_common_seq_show,
+>> +		.private = FILE_EFFECTIVE_CPULIST,
+>> +		.flags = CFTYPE_NOT_ON_ROOT,
+>> +	},
+>> +
+>> +	{
+>> +		.name = "mems.effective",
+>> +		.seq_show = cpuset_common_seq_show,
+>> +		.private = FILE_EFFECTIVE_MEMLIST,
+>> +		.flags = CFTYPE_NOT_ON_ROOT,
+>> +	},
+>> +
+>> +	{ }	/* terminate */
+>> +};
+>> +
+>> +
+>> +/*
+>>   *	cpuset_css_alloc - allocate a cpuset css
+>>   *	cgrp:	control group that the new cpuset will be part of
+>>   */
+>> @@ -2104,8 +2144,10 @@ struct cgroup_subsys cpuset_cgrp_subsys = {
+>>  	.post_attach	= cpuset_post_attach,
+>>  	.bind		= cpuset_bind,
+>>  	.fork		= cpuset_fork,
+>> -	.legacy_cftypes	= files,
+>> +	.legacy_cftypes	= legacy_files,
+>> +	.dfl_cftypes	= dfl_files,
+>>  	.early_init	= true,
+>> +	.threaded	= true,
+> Which means that by default we can attach tasks instead of only
+> processes, right?
+
+Yes, you can control task placement on the thread level, not just process.
+
+Regards,
+Longman
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
