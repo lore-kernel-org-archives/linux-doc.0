@@ -1,133 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AA3B7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 08:56:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC30D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 10:37:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751154AbeEUIxh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 04:53:37 -0400
-Received: from mail-pg0-f51.google.com ([74.125.83.51]:46075 "EHLO
-        mail-pg0-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751087AbeEUIxg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 May 2018 04:53:36 -0400
-Received: by mail-pg0-f51.google.com with SMTP id w3-v6so6065400pgv.12
-        for <linux-doc@vger.kernel.org>; Mon, 21 May 2018 01:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=7HNfZFmkg7H2Dsk1KDP61dJ//0n7TfGIrRFVLHVIUGw=;
-        b=BMk7NoVHQzrpmWA45Ejw3uTfudT6ayf1MAKS0W/pgmRFdHbHvNvEL2Mc40nG4VbfYW
-         n0OmTOYxHvAe+e67JWUi0/xoz1UDTc/4OffOZlBb1pTZlxHrPLgXcPAUDFvUxVuC4eol
-         LhKIqLWJYTSBXERSiw6V3MEpYrOV9CJCw6dPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7HNfZFmkg7H2Dsk1KDP61dJ//0n7TfGIrRFVLHVIUGw=;
-        b=A3FUKTwrSiU3AXFLLvYGqRuislVEq1jAdTlIir9oBY4BX+tyu7lOKPBIH7GggkiXCb
-         dSQ5mY3qvUzUdz3DxwM3LTou57Co/7PaDtVavP0db/ZqXTAT1oi+ySF3ThKnWIcz/M11
-         QszHOQEK3StJI8YBv2PKxXb3ybE19ApsDr+Ic8w6Jw5SaW0KbdCYe+bzIWDgpN8OHweq
-         8XtBEBI4slm8xL3vP2i0+WfrzgJ6E6foQqC7rdt0Ubr0WAetPAz3KUAd0OeN9oQLnal4
-         ZRR0j9/VE1HAD/Ku21P26c3leTyYQNP6va3HdwwAggBS0bcYUKOyzXUpSrR5aE4AmWao
-         DK8Q==
-X-Gm-Message-State: ALKqPwelVylZTzv1cWjbx01BWSHZU9X218O+DqLtDWo3qy0i7m3cX5cx
-        CQa/ejRSyFAVGqCmakDsTNnsEw==
-X-Google-Smtp-Source: AB8JxZqVtx+881z9OW6NHzx+OaGznngtTrTyO1/VMaPFTpyawUY1FA655sdg5HtGj9cJ7clpHerYLw==
-X-Received: by 2002:a62:e107:: with SMTP id q7-v6mr19105268pfh.226.1526892815536;
-        Mon, 21 May 2018 01:53:35 -0700 (PDT)
-Received: from localhost.localdomain (li1209-69.members.linode.com. [45.79.110.69])
-        by smtp.gmail.com with ESMTPSA id 16-v6sm28553918pfq.115.2018.05.21.01.53.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 21 May 2018 01:53:34 -0700 (PDT)
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tor Jeremiassen <tor@ti.com>,
-        mike.leach@linaro.org, kim.phillips@arm.com,
-        Robert Walker <Robert.Walker@arm.com>,
-        coresight@lists.linaro.org
-Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [RFT v2 0/4] Perf script: Add python script for CoreSight trace disassembler
-Date:   Mon, 21 May 2018 16:52:24 +0800
-Message-Id: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
-X-Mailer: git-send-email 2.7.4
+        id S1750978AbeEUKhR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 06:37:17 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:46722 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750883AbeEUKhR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 May 2018 06:37:17 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A6AB1435;
+        Mon, 21 May 2018 03:37:17 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F7563F25D;
+        Mon, 21 May 2018 03:37:15 -0700 (PDT)
+Date:   Mon, 21 May 2018 11:37:12 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
+Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
+ driver
+Message-ID: <20180521103712.gofbrjdtghfwolmd@lakrids.cambridge.arm.com>
+References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
+ <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
+ <20180426105938.y6unpt36lisb7kbr@lakrids.cambridge.arm.com>
+ <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com>
+ <CAKTKpr61zBW_D6v_Ck1Lcp0NJ4wPFOpgbiM5aU_EtuiFU-qp4Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKTKpr61zBW_D6v_Ck1Lcp0NJ4wPFOpgbiM5aU_EtuiFU-qp4Q@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch series is to support for using 'perf script' for CoreSight
-trace disassembler, for this purpose this patch series adds a new
-python script to parse CoreSight tracing event and use command 'objdump'
-for disassembled lines, finally this can generate readable program
-execution flow for reviewing tracing data.
-
-Patch 0001 is one fixing patch to generate samples for the start packet
-and exception packets.
-
-Patch 0002 is the prerequisite to add addr into sample dict, so this
-value can be used by python script to analyze instruction range.
-
-Patch 0003 is to add python script for trace disassembler.
-
-Patch 0004 is to add doc to explain python script usage and give
-example for it.
-
-This patch series has been rebased on acme git tree [1] with the last
-commit 19422a9f2a3b ("perf tools: Fix kernel_start for PTI on x86") and
-tested on Hikey (ARM64 octa CA53 cores).
-
-In this version the script has no dependency on ARM64 platform and is
-expected to support ARM32 platform, but I am lacking ARM32 platform for
-testing on it, so firstly upstream to support ARM64 platform.
-
-This patch series is firstly to support 'per-thread' recording tracing
-data, but we also need to verify the script can dump trace disassembler
-CPU wide tracing and kernel panic kdump tracing data.  I also verified
-this patch series which can work with kernel panic kdump tracing data,
-because Mathieu is working on CPU wide tracing related work, so after
-this we need to retest for CPU wide tracing and kdump tracing to ensure
-the python script can handle well for all cases.
-
-You are very welcome to test the script in this patch series, your
-testing result and suggestion are very valuable to perfect this script
-to cover more cases.
-
-Changes from v1:
-* According to Mike and Rob suggestion, add the fixing to generate samples
-  for the start packet and exception packets.
-* Simplify the python script to remove the exception prediction algorithm,
-  we can rely on the sane exception packets for disassembler.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/acme/linux.git
+Hi Ganapat,
 
 
-Leo Yan (4):
-  perf cs-etm: Generate sample for missed packets
-  perf script python: Add addr into perf sample dict
-  perf script python: Add script for CoreSight trace disassembler
-  coresight: Document for CoreSight trace disassembler
+Sorry for the delay in replying; I was away most of last week.
 
- Documentation/trace/coresight.txt                  |  52 +++++
- tools/perf/scripts/python/arm-cs-trace-disasm.py   | 234 +++++++++++++++++++++
- tools/perf/util/cs-etm.c                           |  35 ++-
- .../util/scripting-engines/trace-event-python.c    |   2 +
- 4 files changed, 316 insertions(+), 7 deletions(-)
- create mode 100644 tools/perf/scripts/python/arm-cs-trace-disasm.py
+On Tue, May 15, 2018 at 04:03:19PM +0530, Ganapatrao Kulkarni wrote:
+> On Sat, May 5, 2018 at 12:16 AM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
+> > On Thu, Apr 26, 2018 at 4:29 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> >> On Wed, Apr 25, 2018 at 02:30:47PM +0530, Ganapatrao Kulkarni wrote:
 
--- 
-2.7.4
+> >>> +static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
+> >>> +{
+> >>> +     int counter;
+> >>> +
+> >>> +     raw_spin_lock(&pmu_uncore->lock);
+> >>> +     counter = find_first_zero_bit(pmu_uncore->counter_mask,
+> >>> +                             pmu_uncore->uncore_dev->max_counters);
+> >>> +     if (counter == pmu_uncore->uncore_dev->max_counters) {
+> >>> +             raw_spin_unlock(&pmu_uncore->lock);
+> >>> +             return -ENOSPC;
+> >>> +     }
+> >>> +     set_bit(counter, pmu_uncore->counter_mask);
+> >>> +     raw_spin_unlock(&pmu_uncore->lock);
+> >>> +     return counter;
+> >>> +}
+> >>> +
+> >>> +static void free_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore,
+> >>> +                                     int counter)
+> >>> +{
+> >>> +     raw_spin_lock(&pmu_uncore->lock);
+> >>> +     clear_bit(counter, pmu_uncore->counter_mask);
+> >>> +     raw_spin_unlock(&pmu_uncore->lock);
+> >>> +}
+> >>
+> >> I don't believe that locking is required in either of these, as the perf
+> >> core serializes pmu::add() and pmu::del(), where these get called.
+> 
+> without this locking, i am seeing "BUG: scheduling while atomic" when
+> i run perf with more events together than the maximum counters
+> supported
 
+Did you manage to get to the bottom of this?
+
+Do you have a backtrace?
+
+It looks like in your latest posting you reserve counters through the
+userspace ABI, which doesn't seem right to me, and I'd like to
+understand the problem.
+
+Thanks,
+Mark.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
