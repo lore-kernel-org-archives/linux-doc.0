@@ -1,203 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 25E007DF88
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 19:59:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 258C17D085
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 20:49:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751985AbeEUT7R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 15:59:17 -0400
-Received: from mga11.intel.com ([192.55.52.93]:12394 "EHLO mga11.intel.com"
+        id S1751526AbeEUUt3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 16:49:29 -0400
+Received: from www.zeus03.de ([194.117.254.33]:38706 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751143AbeEUT7Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 May 2018 15:59:16 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 May 2018 12:59:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,427,1520924400"; 
-   d="scan'208";a="57200415"
-Received: from maru.jf.intel.com ([10.54.51.80])
-  by fmsmga001.fm.intel.com with ESMTP; 21 May 2018 12:59:15 -0700
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [v4 08/11] Documentation: hwmon: Add documents for PECI hwmon client drivers
-Date:   Mon, 21 May 2018 12:59:14 -0700
-Message-Id: <20180521195914.28027-1-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.17.0
+        id S1751050AbeEUUt1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 May 2018 16:49:27 -0400
+Received: (qmail 21987 invoked from network); 21 May 2018 22:49:24 +0200
+Received: by mail.zeus03.de with ESMTPSA (ECDHE-RSA-AES256-GCM-SHA384 encrypted, authenticated); 21 May 2018 22:49:24 +0200
+X-UD-Smtp-Session: l3s3148p1@4ZDab71sQqAgAwDPW8cyAAId4P/+oMhl
+Date:   Mon, 21 May 2018 22:49:24 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+Cc:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
+        dianders@chromium.org, Sagar Dharia <sdharia@codeaurora.org>,
+        Girish Mahadevan <girishm@codeaurora.org>
+Subject: Re: [PATCH v5 3/5] i2c: i2c-qcom-geni: Add bus driver for the
+ Qualcomm GENI I2C controller
+Message-ID: <20180521204924.4ldbke6udjshdz2k@katana>
+References: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
+ <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="g6y5tzxhgcwm5btd"
+Content-Disposition: inline
+In-Reply-To: <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds hwmon documents for PECI cputemp and dimmtemp drivers.
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
-Reviewed-by: James Feist <james.feist@linux.intel.com>
-Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
-Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
----
- Documentation/hwmon/peci-cputemp  | 78 +++++++++++++++++++++++++++++++
- Documentation/hwmon/peci-dimmtemp | 50 ++++++++++++++++++++
- 2 files changed, 128 insertions(+)
- create mode 100644 Documentation/hwmon/peci-cputemp
- create mode 100644 Documentation/hwmon/peci-dimmtemp
+--g6y5tzxhgcwm5btd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/hwmon/peci-cputemp b/Documentation/hwmon/peci-cputemp
-new file mode 100644
-index 000000000000..821a9258f2e6
---- /dev/null
-+++ b/Documentation/hwmon/peci-cputemp
-@@ -0,0 +1,78 @@
-+Kernel driver peci-cputemp
-+==========================
-+
-+Supported chips:
-+	One of Intel server CPUs listed below which is connected to a PECI bus.
-+		* Intel Xeon E5/E7 v3 server processors
-+			Intel Xeon E5-14xx v3 family
-+			Intel Xeon E5-24xx v3 family
-+			Intel Xeon E5-16xx v3 family
-+			Intel Xeon E5-26xx v3 family
-+			Intel Xeon E5-46xx v3 family
-+			Intel Xeon E7-48xx v3 family
-+			Intel Xeon E7-88xx v3 family
-+		* Intel Xeon E5/E7 v4 server processors
-+			Intel Xeon E5-16xx v4 family
-+			Intel Xeon E5-26xx v4 family
-+			Intel Xeon E5-46xx v4 family
-+			Intel Xeon E7-48xx v4 family
-+			Intel Xeon E7-88xx v4 family
-+		* Intel Xeon Scalable server processors
-+			Intel Xeon Bronze family
-+			Intel Xeon Silver family
-+			Intel Xeon Gold family
-+			Intel Xeon Platinum family
-+	Addresses scanned: PECI client address 0x30 - 0x37
-+	Datasheet: Available from http://www.intel.com/design/literature.htm
-+
-+Author:
-+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-+
-+Description
-+-----------
-+
-+This driver implements a generic PECI hwmon feature which provides Digital
-+Thermal Sensor (DTS) thermal readings of the CPU package and CPU cores that are
-+accessible using the PECI Client Command Suite via the processor PECI client.
-+
-+All temperature values are given in millidegree Celsius and will be measurable
-+only when the target CPU is powered on.
-+
-+sysfs attributes
-+----------------
-+
-+temp1_label		"Die"
-+temp1_input		Provides current die temperature of the CPU package.
-+temp1_max		Provides thermal control temperature of the CPU package
-+			which is also known as Tcontrol.
-+temp1_crit		Provides shutdown temperature of the CPU package which
-+			is also known as the maximum processor junction
-+			temperature, Tjmax or Tprochot.
-+temp1_crit_hyst		Provides the hysteresis value from Tcontrol to Tjmax of
-+			the CPU package.
-+
-+temp2_label		"Tcontrol"
-+temp2_input		Provides current Tcontrol temperature of the CPU
-+			package which is also known as Fan Temperature target.
-+			Indicates the relative value from thermal monitor trip
-+			temperature at which fans should be engaged.
-+temp2_crit		Provides Tcontrol critical value of the CPU package
-+			which is same to Tjmax.
-+
-+temp3_label		"Tthrottle"
-+temp3_input		Provides current Tthrottle temperature of the CPU
-+			package. Used for throttling temperature. If this value
-+			is allowed and lower than Tjmax - the throttle will
-+			occur and reported at lower than Tjmax.
-+
-+temp4_label		"Tjmax"
-+temp4_input		Provides the maximum junction temperature, Tjmax of the
-+			CPU package.
-+
-+temp[5-*]_label		Provides string "Core X", where X is resolved core
-+			number.
-+temp[5-*]_input		Provides current temperature of each core.
-+temp[5-*]_max		Provides thermal control temperature of the core.
-+temp[5-*]_crit		Provides shutdown temperature of the core.
-+temp[5-*]_crit_hyst	Provides the hysteresis value from Tcontrol to Tjmax of
-+			the core.
-diff --git a/Documentation/hwmon/peci-dimmtemp b/Documentation/hwmon/peci-dimmtemp
-new file mode 100644
-index 000000000000..c54f2526188c
---- /dev/null
-+++ b/Documentation/hwmon/peci-dimmtemp
-@@ -0,0 +1,50 @@
-+Kernel driver peci-dimmtemp
-+===========================
-+
-+Supported chips:
-+	One of Intel server CPUs listed below which is connected to a PECI bus.
-+		* Intel Xeon E5/E7 v3 server processors
-+			Intel Xeon E5-14xx v3 family
-+			Intel Xeon E5-24xx v3 family
-+			Intel Xeon E5-16xx v3 family
-+			Intel Xeon E5-26xx v3 family
-+			Intel Xeon E5-46xx v3 family
-+			Intel Xeon E7-48xx v3 family
-+			Intel Xeon E7-88xx v3 family
-+		* Intel Xeon E5/E7 v4 server processors
-+			Intel Xeon E5-16xx v4 family
-+			Intel Xeon E5-26xx v4 family
-+			Intel Xeon E5-46xx v4 family
-+			Intel Xeon E7-48xx v4 family
-+			Intel Xeon E7-88xx v4 family
-+		* Intel Xeon Scalable server processors
-+			Intel Xeon Bronze family
-+			Intel Xeon Silver family
-+			Intel Xeon Gold family
-+			Intel Xeon Platinum family
-+	Addresses scanned: PECI client address 0x30 - 0x37
-+	Datasheet: Available from http://www.intel.com/design/literature.htm
-+
-+Author:
-+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-+
-+Description
-+-----------
-+
-+This driver implements a generic PECI hwmon feature which provides Digital
-+Thermal Sensor (DTS) thermal readings of DIMM components that are accessible
-+using the PECI Client Command Suite via the processor PECI client.
-+
-+All temperature values are given in millidegree Celsius and will be measurable
-+only when the target CPU is powered on.
-+
-+sysfs attributes
-+----------------
-+
-+temp[N]_label		Provides string "DIMM CI", where C is DIMM channel and
-+			I is DIMM index of the populated DIMM.
-+temp[N]_input		Provides current temperature of the populated DIMM.
-+
-+Note:
-+	DIMM temperature attributes will appear when the client CPU's BIOS
-+	completes memory training and testing.
--- 
-2.17.0
+Hi,
 
+On Fri, Mar 23, 2018 at 02:20:59PM -0600, Karthikeyan Ramasubramanian wrote:
+> This bus driver supports the GENI based i2c hardware controller in the
+> Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
+> module supporting a wide range of serial interfaces including I2C. The
+> driver supports FIFO mode and DMA mode of transfer and switches modes
+> dynamically depending on the size of the transfer.
+>=20
+> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
+> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+
+Is one of these people interested in maintaining this driver? Then, an
+entry for MAINTAINERS would be needed, too. (Same goes for
+drivers/soc/qcom/ IMHO, but this is not my realm, so just saying)
+
+> +static const struct geni_i2c_err_log gi2c_log[] =3D {
+> +	[GP_IRQ0] =3D {-EINVAL, "Unknown I2C err GP_IRQ0"},
+> +	[NACK] =3D {-ENOTCONN, "NACK: slv unresponsive, check its power/reset-l=
+n"},
+> +	[GP_IRQ2] =3D {-EINVAL, "Unknown I2C err GP IRQ2"},
+> +	[BUS_PROTO] =3D {-EPROTO, "Bus proto err, noisy/unepxected start/stop"},
+> +	[ARB_LOST] =3D {-EBUSY, "Bus arbitration lost, clock line undriveable"},
+> +	[GP_IRQ5] =3D {-EINVAL, "Unknown I2C err GP IRQ5"},
+> +	[GENI_OVERRUN] =3D {-EIO, "Cmd overrun, check GENI cmd-state machine"},
+> +	[GENI_ILLEGAL_CMD] =3D {-EILSEQ, "Illegal cmd, check GENI cmd-state mac=
+hine"},
+> +	[GENI_ABORT_DONE] =3D {-ETIMEDOUT, "Abort after timeout successful"},
+> +	[GENI_TIMEOUT] =3D {-ETIMEDOUT, "I2C TXN timed out"},
+> +};
+
+Please check Documentation/i2c/fault-codes for better -ERRNO values,
+especially for NACK and ARB_LOST.
+
+Rest looks good from a glimpse.
+
+Thanks,
+
+   Wolfram
+
+
+--g6y5tzxhgcwm5btd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlsDMM8ACgkQFA3kzBSg
+KbZTAxAAtVdlLzlBafWFZ3jFJN8U2+SgJhML+/z85BIQjZaD1WOKSwTzXd698lx1
++1oeiTn5PUuZFrxA68mHSTuI5keucWZFwgvLmbU/L05jQI77oxWkIrXIVEiwQKR6
+74FYcqqpEEgR9hK4v2GDYziHMEovI/3fP2OWpi0Zi7JJIIfolC8TDyL3M1MtoXux
+zeyPPwjd+jakFNYcCx6hZ8Da1Id98bdwI7mzGGrCRusp8hKHG4o8mGnf2ll6Sk4K
+T+VQ+t87CAvP4lTxEtMmDmZSk3uJHo0HOqgcA2vPbcfrgGzWt1Ve9omS/5KZM2yG
+uPSsknq2rqgw8dtikb9AzV9gECJwk/a6WoPhWip27SyurKgA6HpiGMXO9TafWHeD
+B1v1/t2LCY2FIwCMu4LdBAUtEngnmUEhExJBfP75RRfcX+x0+UQdul2Yz8spOHzq
+fqRHIO+pAn0HJL6dd5xb0FFsRUGqSK3OHNLAaPIFLVdOG5R4mwtW/ewsI+gEz3Vr
+Dm27Ze2eumC+ndTTQ+aPzwcZ1+ZbisONu5ctpMiDdxsZ6vwsZOQ5KB3bayzNPO9A
+2aoEzRDl1JU1R1FkOWUaT0PvO5NrlOzLkmSspOPg+GojXOPbLTUa7TGjQwhrG/zM
+YbNBfWeRNlk69oPLnUndFb4Podgb/vxt7s+A/+xpQOVX5kne8wQ=
+=7vPe
+-----END PGP SIGNATURE-----
+
+--g6y5tzxhgcwm5btd--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
