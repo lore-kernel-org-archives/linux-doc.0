@@ -1,117 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 258C17D085
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 20:49:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD3F77D085
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 21:02:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751526AbeEUUt3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 16:49:29 -0400
-Received: from www.zeus03.de ([194.117.254.33]:38706 "EHLO mail.zeus03.de"
+        id S1751074AbeEUVC0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 17:02:26 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:13340 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751050AbeEUUt1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 May 2018 16:49:27 -0400
-Received: (qmail 21987 invoked from network); 21 May 2018 22:49:24 +0200
-Received: by mail.zeus03.de with ESMTPSA (ECDHE-RSA-AES256-GCM-SHA384 encrypted, authenticated); 21 May 2018 22:49:24 +0200
-X-UD-Smtp-Session: l3s3148p1@4ZDab71sQqAgAwDPW8cyAAId4P/+oMhl
-Date:   Mon, 21 May 2018 22:49:24 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-Cc:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
-        robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
-        dianders@chromium.org, Sagar Dharia <sdharia@codeaurora.org>,
-        Girish Mahadevan <girishm@codeaurora.org>
-Subject: Re: [PATCH v5 3/5] i2c: i2c-qcom-geni: Add bus driver for the
- Qualcomm GENI I2C controller
-Message-ID: <20180521204924.4ldbke6udjshdz2k@katana>
-References: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
- <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
+        id S1750909AbeEUVCZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 May 2018 17:02:25 -0400
+X-Greylist: delayed 483 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 May 2018 17:02:25 EDT
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id A75D9403F1;
+        Mon, 21 May 2018 22:54:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :organization:message-id:date:date:subject:subject:from:from
+        :received:received:received; s=dkim20160331; t=1526936060; x=
+        1528750461; bh=t4XSfFF/BZeofSbJ+SX7zd8Ui4XT/RcGn/4m6ZVS+hA=; b=d
+        dBPXwarCnzLJDg9n7Jwhe3U8dRfJjfNCqRXrDp6y42wKHN185hmGro5V/VqS35Om
+        YGVpgSGkdspJaYvfX7iRF+8+4k7ELMgchpywsyY3QUa+LrP4m+9Zypn+1vHrVf8R
+        kuXm/vldCmpn3OxQsyfyI4amCmNrI8Gt0RtVi1fIOgwuyEGQH/O4lg+q15a73hnF
+        Rf+2fl75EPsUoCKFBZAMIP9iZ8RabCmvcCCiY/IdKl8I9X1zP03COFlyFycZWi9G
+        8bm4wpBJmKtfXi5FLRunARM/ZL0y+fIaxNXlPMDzOHEobe3UFX5B/KLzxVOKQF/N
+        v3y91sFVowCW9M3qLA5pLZJcDR71EglyXXPWIYdlrsAFCoeXjHL8vvhG7q2Uv/yI
+        gvYtBHG/aeyqtZ8wDYwNfQ6Cpdxfox+2KAHMIvnei1F8pHyzNM+c2j7i3/h+MIiK
+        VcwmD0ZiAFV8t3XatTX1Pv1BdYmULLTrx82EaKIK02NyZcdUdgEFnu+gaiYUQxfq
+        fUB5fXFawaGwophcEDA162nmStJiFEznFrxuSqIzx0K48akWdPdSP5fLfwNFZPIB
+        E0bZ6jd4O3sHEYF62emL3Jx1WD/BeOgearVEv2sRkX7I2bpCfdgBMqFQAHwtk8Zh
+        Z4O+tDQcYFdGVa7TGx2JhknpXel7ioT8ERtH9Xh6L0=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 8hvIfMZQoTpl; Mon, 21 May 2018 22:54:20 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 891C3401F7;
+        Mon, 21 May 2018 22:54:20 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 461E511C;
+        Mon, 21 May 2018 22:54:20 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     amantegazza@vaga.pv.it
+Subject: Documentation/translations: Italian
+Date:   Mon, 21 May 2018 22:54:18 +0200
+Message-ID: <152696186.kHulSgLgWb@harkonnen>
+Organization: VAGA
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="g6y5tzxhgcwm5btd"
-Content-Disposition: inline
-In-Reply-To: <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello,
 
---g6y5tzxhgcwm5btd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm writing you because I would like to start an effort to translate the 
+Documentation in Italian. I would like also to express the idea of providing 
+guide lines for translations.
 
-Hi,
+A looked a bit in the archive but I did not find anything about these two 
+topics (Italian translation, guide lines for translations).
 
-On Fri, Mar 23, 2018 at 02:20:59PM -0600, Karthikeyan Ramasubramanian wrote:
-> This bus driver supports the GENI based i2c hardware controller in the
-> Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
-> module supporting a wide range of serial interfaces including I2C. The
-> driver supports FIFO mode and DMA mode of transfer and switches modes
-> dynamically depending on the size of the transfer.
->=20
-> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
-> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
-> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+I know that there are already translations for Asian languages but I am not 
+able to find the history of them. I do not know if translations in European 
+languages are going to be accepted (perhaps there is the assumption that 
+everyone knows English in the European continent and it is a waste of energy 
+to do translations[?]). For example, even if French and Germans are quite 
+active there are not translations yet in their language: is there a particular 
+reason or simply nobody did it?
 
-Is one of these people interested in maintaining this driver? Then, an
-entry for MAINTAINERS would be needed, too. (Same goes for
-drivers/soc/qcom/ IMHO, but this is not my realm, so just saying)
+Why
+===
+There is nothing better for understanding than our own mother tongue, and 
+reading Documentation is one of those activities where it is important to 
+understand its message rather than learning a different language (there are 
+dedicated books and courses for that). This is especially true for young 
+developers and new-comers who are really focused on understanding Linux and a 
+different language can be an obstacle sometimes. I personally had a couple of 
+experiences where I pointed people to the documentation and I had to explain 
+English rather than Linux. Very competent people but they were not used to use 
+English every day.
 
-> +static const struct geni_i2c_err_log gi2c_log[] =3D {
-> +	[GP_IRQ0] =3D {-EINVAL, "Unknown I2C err GP_IRQ0"},
-> +	[NACK] =3D {-ENOTCONN, "NACK: slv unresponsive, check its power/reset-l=
-n"},
-> +	[GP_IRQ2] =3D {-EINVAL, "Unknown I2C err GP IRQ2"},
-> +	[BUS_PROTO] =3D {-EPROTO, "Bus proto err, noisy/unepxected start/stop"},
-> +	[ARB_LOST] =3D {-EBUSY, "Bus arbitration lost, clock line undriveable"},
-> +	[GP_IRQ5] =3D {-EINVAL, "Unknown I2C err GP IRQ5"},
-> +	[GENI_OVERRUN] =3D {-EIO, "Cmd overrun, check GENI cmd-state machine"},
-> +	[GENI_ILLEGAL_CMD] =3D {-EILSEQ, "Illegal cmd, check GENI cmd-state mac=
-hine"},
-> +	[GENI_ABORT_DONE] =3D {-ETIMEDOUT, "Abort after timeout successful"},
-> +	[GENI_TIMEOUT] =3D {-ETIMEDOUT, "I2C TXN timed out"},
-> +};
+I put myself in this list of people who prefer the mother tongue language when 
+it is time to really understand something. I work for an international 
+organization in a country that is not mine with people coming from all around 
+the European continent and our common tongue is bad-English with all its 
+dialects and accents: true-English (with its own dialects), spaghetti-English, 
+kartoffel-English, paella-English, formage-English and more. Misunderstanding 
+is not rare, and sometimes express ourselves takes more time than needed. This 
+is another reason why I believe that for understanding purposes is good to 
+read in our own mother tongue.
 
-Please check Documentation/i2c/fault-codes for better -ERRNO values,
-especially for NACK and ARB_LOST.
+Plan
+====
+If you agree with the need to support different translations, I would like to 
+do the Italian one. But first I would like to open a little discussion about 
+translations  "how to write translations"; this discussion should produce a 
+document (in English) with guide lines for translator (e.g. Documentation/
+translation/howto.rst): what to translate first, what to NOT translate, how to 
+structure it.
+Once this is defined I will start the Italian translation (I already have some 
+documents translated).
 
-Rest looks good from a glimpse.
+How to do translations (IMHO)
+-----------------------------
+Here my personal guide lines for translations
 
-Thanks,
+- Translate only sphinx-ready documents, do not translate documents which are 
+not yet sphinx. We should avoid useless double work; at some point, I guess, 
+everything will be sphinx.
+- Include in all documents a disclaimer saying that English is the main 
+reference (use sphinx directive 'include' to include it).
+- Include in all documents a reference to the English version. So it will be 
+easy jump to the original document.
+- Translate in order: non-technical documents (they are stable, useful for a 
+wider group of people (developers and managers): process/, doc-guide/ ), 
+technical documents about key concepts (they are stable, and important for 
+new-comers), subsystems (the big picture is stable, typically they do not 
+describe all little details that may change), and then other documents
+- avoid scattered translations: try to finish one "topic" before translating 
+something else
 
-   Wolfram
+Probably there is much more, that's why I would like to have a little 
+discussion about it.
 
 
---g6y5tzxhgcwm5btd
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks for reading everything :)
 
------BEGIN PGP SIGNATURE-----
+-- 
+Federico Vaga
+http://www.federicovaga.it/
 
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlsDMM8ACgkQFA3kzBSg
-KbZTAxAAtVdlLzlBafWFZ3jFJN8U2+SgJhML+/z85BIQjZaD1WOKSwTzXd698lx1
-+1oeiTn5PUuZFrxA68mHSTuI5keucWZFwgvLmbU/L05jQI77oxWkIrXIVEiwQKR6
-74FYcqqpEEgR9hK4v2GDYziHMEovI/3fP2OWpi0Zi7JJIIfolC8TDyL3M1MtoXux
-zeyPPwjd+jakFNYcCx6hZ8Da1Id98bdwI7mzGGrCRusp8hKHG4o8mGnf2ll6Sk4K
-T+VQ+t87CAvP4lTxEtMmDmZSk3uJHo0HOqgcA2vPbcfrgGzWt1Ve9omS/5KZM2yG
-uPSsknq2rqgw8dtikb9AzV9gECJwk/a6WoPhWip27SyurKgA6HpiGMXO9TafWHeD
-B1v1/t2LCY2FIwCMu4LdBAUtEngnmUEhExJBfP75RRfcX+x0+UQdul2Yz8spOHzq
-fqRHIO+pAn0HJL6dd5xb0FFsRUGqSK3OHNLAaPIFLVdOG5R4mwtW/ewsI+gEz3Vr
-Dm27Ze2eumC+ndTTQ+aPzwcZ1+ZbisONu5ctpMiDdxsZ6vwsZOQ5KB3bayzNPO9A
-2aoEzRDl1JU1R1FkOWUaT0PvO5NrlOzLkmSspOPg+GojXOPbLTUa7TGjQwhrG/zM
-YbNBfWeRNlk69oPLnUndFb4Podgb/vxt7s+A/+xpQOVX5kne8wQ=
-=7vPe
------END PGP SIGNATURE-----
 
---g6y5tzxhgcwm5btd--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
