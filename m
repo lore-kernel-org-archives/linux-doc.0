@@ -5,102 +5,91 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9E0B47D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 10:40:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3BC5C7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 10:55:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751117AbeEUKkN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 06:40:13 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:46792 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751056AbeEUKkN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 May 2018 06:40:13 -0400
+        id S1751905AbeEUKzQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 06:55:16 -0400
+Received: from foss.arm.com ([217.140.101.70]:46970 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751078AbeEUKzQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 May 2018 06:55:16 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04C901435;
-        Mon, 21 May 2018 03:40:13 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8CB61435;
+        Mon, 21 May 2018 03:55:15 -0700 (PDT)
 Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39E343F25D;
-        Mon, 21 May 2018 03:40:11 -0700 (PDT)
-Date:   Mon, 21 May 2018 11:40:08 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DDBA73F25D;
+        Mon, 21 May 2018 03:55:13 -0700 (PDT)
+Date:   Mon, 21 May 2018 11:55:11 +0100
 From:   Mark Rutland <mark.rutland@arm.com>
 To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
 Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
         Robert Richter <Robert.Richter@cavium.com>,
         Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
 Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
  driver
-Message-ID: <20180521104008.z6ei5zjve7u5iwho@lakrids.cambridge.arm.com>
+Message-ID: <20180521105511.6ztjk5conf7lfaiz@lakrids.cambridge.arm.com>
 References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
  <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
  <20180426105938.y6unpt36lisb7kbr@lakrids.cambridge.arm.com>
  <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com>
- <CAKTKpr61zBW_D6v_Ck1Lcp0NJ4wPFOpgbiM5aU_EtuiFU-qp4Q@mail.gmail.com>
- <20180521103712.gofbrjdtghfwolmd@lakrids.cambridge.arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180521103712.gofbrjdtghfwolmd@lakrids.cambridge.arm.com>
+In-Reply-To: <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 21, 2018 at 11:37:12AM +0100, Mark Rutland wrote:
-> Hi Ganapat,
-> 
-> 
-> Sorry for the delay in replying; I was away most of last week.
-> 
-> On Tue, May 15, 2018 at 04:03:19PM +0530, Ganapatrao Kulkarni wrote:
-> > On Sat, May 5, 2018 at 12:16 AM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
-> > > On Thu, Apr 26, 2018 at 4:29 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> > >> On Wed, Apr 25, 2018 at 02:30:47PM +0530, Ganapatrao Kulkarni wrote:
-> 
-> > >>> +static int alloc_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore)
-> > >>> +{
-> > >>> +     int counter;
-> > >>> +
-> > >>> +     raw_spin_lock(&pmu_uncore->lock);
-> > >>> +     counter = find_first_zero_bit(pmu_uncore->counter_mask,
-> > >>> +                             pmu_uncore->uncore_dev->max_counters);
-> > >>> +     if (counter == pmu_uncore->uncore_dev->max_counters) {
-> > >>> +             raw_spin_unlock(&pmu_uncore->lock);
-> > >>> +             return -ENOSPC;
-> > >>> +     }
-> > >>> +     set_bit(counter, pmu_uncore->counter_mask);
-> > >>> +     raw_spin_unlock(&pmu_uncore->lock);
-> > >>> +     return counter;
-> > >>> +}
-> > >>> +
-> > >>> +static void free_counter(struct thunderx2_pmu_uncore_channel *pmu_uncore,
-> > >>> +                                     int counter)
-> > >>> +{
-> > >>> +     raw_spin_lock(&pmu_uncore->lock);
-> > >>> +     clear_bit(counter, pmu_uncore->counter_mask);
-> > >>> +     raw_spin_unlock(&pmu_uncore->lock);
-> > >>> +}
-> > >>
-> > >> I don't believe that locking is required in either of these, as the perf
-> > >> core serializes pmu::add() and pmu::del(), where these get called.
-> > 
-> > without this locking, i am seeing "BUG: scheduling while atomic" when
-> > i run perf with more events together than the maximum counters
-> > supported
-> 
-> Did you manage to get to the bottom of this?
-> 
-> Do you have a backtrace?
-> 
-> It looks like in your latest posting you reserve counters through the
-> userspace ABI, which doesn't seem right to me, and I'd like to
-> understand the problem.
+On Sat, May 05, 2018 at 12:16:13AM +0530, Ganapatrao Kulkarni wrote:
+> On Thu, Apr 26, 2018 at 4:29 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> > On Wed, Apr 25, 2018 at 02:30:47PM +0530, Ganapatrao Kulkarni wrote:
 
-Looks like I misunderstood -- those are still allocated kernel-side.
+> >> + *
+> >> + *  L3 Tile and DMC channel selection is through SMC call
+> >> + *  SMC call arguments,
+> >> + *   x0 = THUNDERX2_SMC_CALL_ID      (Vendor SMC call Id)
+> >> + *   x1 = THUNDERX2_SMC_SET_CHANNEL  (Id to set DMC/L3C channel)
+> >> + *   x2 = Node id
+> >
+> > How do we map Linux node IDs to the firmware's view of node IDs?
+> >
+> > I don't believe the two are necessarily the same -- Linux's node IDs are
+> > a Linux-specific construct.
+> 
+> both are same, it is numa node id from ACPI/firmware.
 
-I'll follow that up in the v5 posting.
+I am very wary about assuming that the Linux nid will always be the same
+as the ACPI node id.
+
+For that to *potentially* be true, this driver should depend on
+CONFIG_NUMA, NUMA must not be disabled on the command line, etc, or the
+node id will always be NUMA_NO_NODE.
+
+I would be *much* happier if we had an explicit mapping somewhere to the
+ID the FW expects.
+
+> > It would be much nicer if we could pass something based on the MPIDR,
+> > which is a known HW construct, or if this implicitly affected the
+> > current node.
+> 
+> IMO,  node id is sufficient.
+
+I agree that *a* node ID is sufficient, I just don't think that we're
+guaranteed to have the specific node ID the FW wants.
+
+> > It would be vastly more sane for this to not be muxed at all. :/
+> 
+> i am helpless due to crappy hw design!
+
+I'm certainly not blaming you for this! :)
+
+I hope the HW designers don't make the same mistake in future, though...
 
 Thanks,
 Mark.
