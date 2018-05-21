@@ -5,94 +5,155 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3BC5C7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 10:55:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C43EC7DF88
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 11:28:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751905AbeEUKzQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 06:55:16 -0400
-Received: from foss.arm.com ([217.140.101.70]:46970 "EHLO foss.arm.com"
+        id S1753150AbeEUL2O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 07:28:14 -0400
+Received: from foss.arm.com ([217.140.101.70]:47390 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751078AbeEUKzQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 May 2018 06:55:16 -0400
+        id S1753147AbeEUL2L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 May 2018 07:28:11 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8CB61435;
-        Mon, 21 May 2018 03:55:15 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DDBA73F25D;
-        Mon, 21 May 2018 03:55:13 -0700 (PDT)
-Date:   Mon, 21 May 2018 11:55:11 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
-Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Subject: Re: [PATCH v4 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU
- driver
-Message-ID: <20180521105511.6ztjk5conf7lfaiz@lakrids.cambridge.arm.com>
-References: <20180425090047.6485-1-ganapatrao.kulkarni@cavium.com>
- <20180425090047.6485-3-ganapatrao.kulkarni@cavium.com>
- <20180426105938.y6unpt36lisb7kbr@lakrids.cambridge.arm.com>
- <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 400CF1435;
+        Mon, 21 May 2018 04:28:11 -0700 (PDT)
+Received: from [10.33.0.150] (e111474-lin.blackburn.arm.com [10.33.0.150])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DBCF53F25D;
+        Mon, 21 May 2018 04:28:07 -0700 (PDT)
+Subject: Re: [RFT v2 1/4] perf cs-etm: Generate sample for missed packets
+To:     Leo Yan <leo.yan@linaro.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tor Jeremiassen <tor@ti.com>,
+        mike.leach@linaro.org, kim.phillips@arm.com,
+        coresight@lists.linaro.org
+Cc:     Mike Leach <mike.leach@arm.com>
+References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
+ <1526892748-326-2-git-send-email-leo.yan@linaro.org>
+From:   Robert Walker <robert.walker@arm.com>
+Message-ID: <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
+Date:   Mon, 21 May 2018 12:27:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKTKpr7Q7T9ZCTBi=LQR=XaAoihbBA3OKCO7yFobzNmR8EfyjQ@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <1526892748-326-2-git-send-email-leo.yan@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 05, 2018 at 12:16:13AM +0530, Ganapatrao Kulkarni wrote:
-> On Thu, Apr 26, 2018 at 4:29 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> > On Wed, Apr 25, 2018 at 02:30:47PM +0530, Ganapatrao Kulkarni wrote:
+Hi Leo,
 
-> >> + *
-> >> + *  L3 Tile and DMC channel selection is through SMC call
-> >> + *  SMC call arguments,
-> >> + *   x0 = THUNDERX2_SMC_CALL_ID      (Vendor SMC call Id)
-> >> + *   x1 = THUNDERX2_SMC_SET_CHANNEL  (Id to set DMC/L3C channel)
-> >> + *   x2 = Node id
-> >
-> > How do we map Linux node IDs to the firmware's view of node IDs?
-> >
-> > I don't believe the two are necessarily the same -- Linux's node IDs are
-> > a Linux-specific construct.
+On 21/05/18 09:52, Leo Yan wrote:
+> Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
+> traces") reworks the samples generation flow from CoreSight trace to
+> match the correct format so Perf report tool can display the samples
+> properly.  But the change has side effect for packet handling, it only
+> generate samples when 'prev_packet->last_instr_taken_branch' is true,
+> this results in the start tracing packet and exception packets are
+> dropped.
 > 
-> both are same, it is numa node id from ACPI/firmware.
-
-I am very wary about assuming that the Linux nid will always be the same
-as the ACPI node id.
-
-For that to *potentially* be true, this driver should depend on
-CONFIG_NUMA, NUMA must not be disabled on the command line, etc, or the
-node id will always be NUMA_NO_NODE.
-
-I would be *much* happier if we had an explicit mapping somewhere to the
-ID the FW expects.
-
-> > It would be much nicer if we could pass something based on the MPIDR,
-> > which is a known HW construct, or if this implicitly affected the
-> > current node.
+> This patch checks extra two conditions for complete samples:
 > 
-> IMO,  node id is sufficient.
-
-I agree that *a* node ID is sufficient, I just don't think that we're
-guaranteed to have the specific node ID the FW wants.
-
-> > It would be vastly more sane for this to not be muxed at all. :/
+> - If 'prev_packet->sample_type' is zero we can use this condition to
+>    get to know this is the start tracing packet; for this case, the start
+>    packet's end_addr is zero as well so we need to handle it in the
+>    function cs_etm__last_executed_instr();
 > 
-> i am helpless due to crappy hw design!
 
-I'm certainly not blaming you for this! :)
+I think you also need to add something in to handle discontinuities in
+trace - for example it is possible to configure the ETM to only trace
+execution in specific code regions or to trace a few cycles every so
+often. In these cases, prev_packet->sample_type will not be zero, but 
+whatever the previous packet was.  You will get a CS_ETM_TRACE_ON packet 
+in such cases, generated by an I_TRACE_ON element in the trace stream.
+You also get this on exception return.
 
-I hope the HW designers don't make the same mistake in future, though...
+However, you should also keep the test for prev_packet->sample_type == 0
+as you may not see a CS_ETM_TRACE_ON when decoding a buffer that has
+wrapped.
 
-Thanks,
-Mark.
+Regards
+
+Rob
+
+> - If 'prev_packet->exc' is true, we can know the previous packet is
+>    exception handling packet so need to generate sample for exception
+>    flow.
+> 
+> Fixes: e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight traces")
+> Cc: Mike Leach <mike.leach@arm.com>
+> Cc: Robert Walker <robert.walker@arm.com>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> ---
+>   tools/perf/util/cs-etm.c | 35 ++++++++++++++++++++++++++++-------
+>   1 file changed, 28 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+> index 822ba91..378953b 100644
+> --- a/tools/perf/util/cs-etm.c
+> +++ b/tools/perf/util/cs-etm.c
+> @@ -495,6 +495,13 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
+>   static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
+>   {
+>   	/*
+> +	 * The packet is the start tracing packet if the end_addr is zero,
+> +	 * returns 0 for this case.
+> +	 */
+> +	if (!packet->end_addr)
+> +		return 0;
+> +
+> +	/*
+>   	 * The packet records the execution range with an exclusive end address
+>   	 *
+>   	 * A64 instructions are constant size, so the last executed
+> @@ -897,13 +904,27 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+>   		etmq->period_instructions = instrs_over;
+>   	}
+>   
+> -	if (etm->sample_branches &&
+> -	    etmq->prev_packet &&
+> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+> -	    etmq->prev_packet->last_instr_taken_branch) {
+> -		ret = cs_etm__synth_branch_sample(etmq);
+> -		if (ret)
+> -			return ret;
+> +	if (etm->sample_branches && etmq->prev_packet) {
+> +		bool generate_sample = false;
+> +
+> +		/* Generate sample for start tracing packet */
+> +		if (etmq->prev_packet->sample_type == 0)
+> +			generate_sample = true;
+> +
+> +		/* Generate sample for exception packet */
+> +		if (etmq->prev_packet->exc == true)
+> +			generate_sample = true;
+> +
+> +		/* Generate sample for normal branch packet */
+> +		if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+> +		    etmq->prev_packet->last_instr_taken_branch)
+> +			generate_sample = true;
+> +
+> +		if (generate_sample) {
+> +			ret = cs_etm__synth_branch_sample(etmq);
+> +			if (ret)
+> +				return ret;
+> +		}
+>   	}
+>   
+>   	if (etm->sample_branches || etm->synth_opts.last_branch) {
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
