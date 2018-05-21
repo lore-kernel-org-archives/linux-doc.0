@@ -3,46 +3,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2DEC7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 08:54:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC3557D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 May 2018 08:54:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751246AbeEUIyo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 May 2018 04:54:44 -0400
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:37474 "EHLO
-        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751879AbeEUIyA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 May 2018 04:54:00 -0400
-Received: by mail-pf0-f194.google.com with SMTP id e9-v6so6767082pfi.4
-        for <linux-doc@vger.kernel.org>; Mon, 21 May 2018 01:53:59 -0700 (PDT)
+        id S1751019AbeEUIxx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 May 2018 04:53:53 -0400
+Received: from mail-pf0-f195.google.com ([209.85.192.195]:41234 "EHLO
+        mail-pf0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751171AbeEUIxs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 May 2018 04:53:48 -0400
+Received: by mail-pf0-f195.google.com with SMTP id v63-v6so6755596pfk.8
+        for <linux-doc@vger.kernel.org>; Mon, 21 May 2018 01:53:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NnN/fhGrSR8SrEds0HmRI/5r4C+zJoMVSRbsuhZ0Y3Y=;
-        b=Myu1ilwl1cX/e+DgnWHGowuOZYQcc6J3QGoDMvIwz8KULGpSPGEGOAOjk1nTuMV3cD
-         QQfkeldDdwlzhz2PclCVUIhdvyp8CWM1WUyTZ/K4pzsiGXQhOC8nT3PIAgmuwc7FPEwR
-         wR/4tdETaXc15BMZOUuWfTLJDWbYghUMbQqIE=
+        bh=g2s0qKAeszFhKKHrQ+56mjV/yVHzAXmicKjIaEfOtZk=;
+        b=GE279JS20lqPnyDT/EctkUZE9fTNwX7lTGyFFiii8DuW9FqzqUwbuB36MhTqT8qREB
+         kr0ikmOfxnmdi9bjoTt8ivGLdPJDv8p7S9diaJUWxNJixSLt7APFpFf5Kn0axt0Grff3
+         1YswPReSsmyAlRfroZ5unoR4PHFmkPYbtmnKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=NnN/fhGrSR8SrEds0HmRI/5r4C+zJoMVSRbsuhZ0Y3Y=;
-        b=q+bK0sQpa1vuHV2tSdKfMJxoKre6bwEF+YGbCLTeUnPXfNrR6eOvwiGCo1qwsYED6r
-         FQQ8ay2MX5B0JEEzDxoZrYsm7gxPoEPmjX5OXlLkEd5i/RoROMlhiqPgR33BYbGpqmY9
-         AQ036UrsQ9HEyZo/4uPbW5ivOzdIIlFRRGf0f+OTspJch+f4DLNnDcrAtlOHsbyHTvTa
-         JPSdrHAVyJg/xhqRzHUcx/c7WTcBIckNNI8payM2122yaR4bMmE2mYQ1X1Px0jbxD0o/
-         7gm5Y8qCC390bh+g92Itx8wUvMdQJ9OT1oUA4P4tksTzvNx+b9pb5xMlcc1lVVXFbdkr
-         T2nQ==
-X-Gm-Message-State: ALKqPweFoYQd7tr7NYKacnPqxUPJEUCM/Tq5FRpRnzzXmlKmN1LdlYHQ
-        WuZrFC/gI8Bjkb82aE881ZVcbQ==
-X-Google-Smtp-Source: AB8JxZqQJb10smTJX1GyMKYt41JhARlwzG4PlVNTBHkO6SDpePpjRIPVxD5TPtV53ih6j9D4Tae0Yw==
-X-Received: by 2002:a62:9d89:: with SMTP id a9-v6mr19171509pfk.206.1526892839364;
-        Mon, 21 May 2018 01:53:59 -0700 (PDT)
+        bh=g2s0qKAeszFhKKHrQ+56mjV/yVHzAXmicKjIaEfOtZk=;
+        b=RIUhiD+qXeW6+an15icX6HIWkjUCyKLnSlp+t0+q+9GovTcL5HNnLTbBhLek037f30
+         nmjemmanpCZJCyDzkAXAs7otg//W+Y71qfV1s3vdbQkhuZAUJEZpNiJjVpNSw2bAqIg/
+         Q6hntEN2B5DwTCEARSTyVRJLRE420502yFroqoGy6dJvUA8ZnpfwfeAd0oBm6GHQ9G2m
+         UN6KuSppB4wGHFhY4a8r9QXyHYS+xTuSxQj9bL738kCWa8VzQx0LoI+WQfAGnsvWdlqt
+         FUDfm7rnbu7mnbOUrd5wCJ3VBzwtYIb7HxcE0t5YT/H0kfD0qtyT512xjKOdAsd05ZFd
+         QUHw==
+X-Gm-Message-State: ALKqPwcARC5SoL5ZTCaW7ZiJjzZMjdhrs+ke0xwW1sP0QxDSsOQ5JlVl
+        6nQUS5CcuSGqouemYJG8e1O0PQ==
+X-Google-Smtp-Source: AB8JxZpwxUD2cElAfq6PTAKRCXowDQc8bopKRd6oACbRojga41/2yROXVDPzlwgMyW43yVzcfJahjQ==
+X-Received: by 2002:a62:3ec2:: with SMTP id y63-v6mr19235088pfj.102.1526892827728;
+        Mon, 21 May 2018 01:53:47 -0700 (PDT)
 Received: from localhost.localdomain (li1209-69.members.linode.com. [45.79.110.69])
-        by smtp.gmail.com with ESMTPSA id 16-v6sm28553918pfq.115.2018.05.21.01.53.54
+        by smtp.gmail.com with ESMTPSA id 16-v6sm28553918pfq.115.2018.05.21.01.53.42
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 21 May 2018 01:53:58 -0700 (PDT)
+        Mon, 21 May 2018 01:53:46 -0700 (PDT)
 From:   Leo Yan <leo.yan@linaro.org>
 To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
@@ -58,9 +58,9 @@ To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Robert Walker <Robert.Walker@arm.com>,
         coresight@lists.linaro.org
 Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [RFT v2 4/4] coresight: Document for CoreSight trace disassembler
-Date:   Mon, 21 May 2018 16:52:28 +0800
-Message-Id: <1526892748-326-5-git-send-email-leo.yan@linaro.org>
+Subject: [RFT v2 2/4] perf script python: Add addr into perf sample dict
+Date:   Mon, 21 May 2018 16:52:26 +0800
+Message-Id: <1526892748-326-3-git-send-email-leo.yan@linaro.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
 References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
@@ -69,74 +69,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit documents CoreSight trace disassembler usage and gives
-example for it.
+ARM CoreSight auxtrace uses 'sample->addr' to record the target address
+for branch instructions, so the data of 'sample->addr' is required for
+tracing data analysis.
+
+This commit collects data of 'sample->addr' into perf sample dict,
+finally can be used for python script for parsing event.
 
 Signed-off-by: Leo Yan <leo.yan@linaro.org>
 ---
- Documentation/trace/coresight.txt | 52 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ tools/perf/util/scripting-engines/trace-event-python.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.txt
-index 6f0120c..b8f2359 100644
---- a/Documentation/trace/coresight.txt
-+++ b/Documentation/trace/coresight.txt
-@@ -381,3 +381,55 @@ sort example is from the AutoFDO tutorial (https://gcc.gnu.org/wiki/AutoFDO/Tuto
- 	$ taskset -c 2 ./sort_autofdo
- 	Bubble sorting array of 30000 elements
- 	5806 ms
-+
-+
-+Tracing data disassembler
-+-------------------------
-+
-+'perf script' supports to use script to parse tracing packet and rely on
-+'objdump' for disassembled lines, this can convert tracing data to readable
-+program execution flow for easily reviewing tracing data.
-+
-+The CoreSight trace disassembler is located in the folder:
-+tools/perf/scripts/python/arm-cs-trace-disasm.py.  This script support below
-+options:
-+
-+	-d, --objdump: Set path to objdump executable, this option is
-+		       mandatory.
-+	-k, --vmlinux: Set path to vmlinux file.
-+	-v, --verbose: Enable debugging log, after enable this option the
-+		       script dumps every event data.
-+
-+Below is one example for using python script to dump CoreSight trace
-+disassembler:
-+
-+	$ perf script -s arm-cs-trace-disasm.py -i perf.data \
-+	    -F cpu,event,ip,addr,sym -- -d objdump -k ./vmlinux > cs-disasm.log
-+
-+Below is one example for the disassembler log:
-+
-+ARM CoreSight Trace Data Assembler Dump
-+	ffff000008a5f2dc <etm4_enable_hw+0x344>:
-+	ffff000008a5f2dc:	340000a0 	cbz	w0, ffff000008a5f2f0 <etm4_enable_hw+0x358>
-+	ffff000008a5f2f0 <etm4_enable_hw+0x358>:
-+	ffff000008a5f2f0:	f9400260 	ldr	x0, [x19]
-+	ffff000008a5f2f4:	d5033f9f 	dsb	sy
-+	ffff000008a5f2f8:	913ec000 	add	x0, x0, #0xfb0
-+	ffff000008a5f2fc:	b900001f 	str	wzr, [x0]
-+	ffff000008a5f300:	f9400bf3 	ldr	x19, [sp, #16]
-+	ffff000008a5f304:	a8c27bfd 	ldp	x29, x30, [sp], #32
-+	ffff000008a5f308:	d65f03c0 	ret
-+	ffff000008a5fa18 <etm4_enable+0x1b0>:
-+	ffff000008a5fa18:	14000025 	b	ffff000008a5faac <etm4_enable+0x244>
-+	ffff000008a5faac <etm4_enable+0x244>:
-+	ffff000008a5faac:	b9406261 	ldr	w1, [x19, #96]
-+	ffff000008a5fab0:	52800015 	mov	w21, #0x0                   	// #0
-+	ffff000008a5fab4:	f901ca61 	str	x1, [x19, #912]
-+	ffff000008a5fab8:	2a1503e0 	mov	w0, w21
-+	ffff000008a5fabc:	3940e261 	ldrb	w1, [x19, #56]
-+	ffff000008a5fac0:	f901ce61 	str	x1, [x19, #920]
-+	ffff000008a5fac4:	a94153f3 	ldp	x19, x20, [sp, #16]
-+	ffff000008a5fac8:	a9425bf5 	ldp	x21, x22, [sp, #32]
-+	ffff000008a5facc:	a94363f7 	ldp	x23, x24, [sp, #48]
-+	ffff000008a5fad0:	a8c47bfd 	ldp	x29, x30, [sp], #64
-+	ffff000008a5fad4:	d65f03c0 	ret
+diff --git a/tools/perf/util/scripting-engines/trace-event-python.c b/tools/perf/util/scripting-engines/trace-event-python.c
+index 10dd5fc..7f8afac 100644
+--- a/tools/perf/util/scripting-engines/trace-event-python.c
++++ b/tools/perf/util/scripting-engines/trace-event-python.c
+@@ -531,6 +531,8 @@ static PyObject *get_perf_sample_dict(struct perf_sample *sample,
+ 			PyLong_FromUnsignedLongLong(sample->period));
+ 	pydict_set_item_string_decref(dict_sample, "phys_addr",
+ 			PyLong_FromUnsignedLongLong(sample->phys_addr));
++	pydict_set_item_string_decref(dict_sample, "addr",
++			PyLong_FromUnsignedLongLong(sample->addr));
+ 	set_sample_read_in_dict(dict_sample, sample, evsel);
+ 	pydict_set_item_string_decref(dict, "sample", dict_sample);
+ 
 -- 
 2.7.4
 
