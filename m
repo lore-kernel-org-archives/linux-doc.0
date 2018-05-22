@@ -5,156 +5,118 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AB737D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 14:41:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 593CA7D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 14:53:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751272AbeEVOlU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 May 2018 10:41:20 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:39048 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751199AbeEVOlS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 10:41:18 -0400
-Received: from pps.filterd (m0044008.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4MEcuHc025931;
-        Tue, 22 May 2018 07:41:16 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=facebook;
- bh=pyGyst6CwqeV5Q/PD0dBswtRw65+/xB3wFZAo8T8W68=;
- b=Thpcd6pVWuyT5i5NFYbWW+77Wywh2cK00X5Hvj+0ziS3gy+DkwHZR4MhshntQYwI2Tqk
- wBLIvG91MFIaEfWQFMFB3hzAWefl6+a8qc0yH11cr/UNAQjzBxQi9Y4189jHMJWHkKOg
- W0sQEY36Gw3sIEX9nzaPELiWrsyNOStZtS0= 
-Received: from mail.thefacebook.com ([199.201.64.23])
-        by mx0a-00082601.pphosted.com with ESMTP id 2j4f6j8tm3-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Tue, 22 May 2018 07:41:16 -0700
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com (192.168.54.28)
- by o365-in.thefacebook.com (192.168.16.14) with Microsoft SMTP Server (TLS)
- id 14.3.361.1; Tue, 22 May 2018 07:41:14 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector1-fb-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pyGyst6CwqeV5Q/PD0dBswtRw65+/xB3wFZAo8T8W68=;
- b=DM5iM5qdlOnoBQvHK1BfsfyiLWBfg0Ae8iW1i1wOLFS17JHHjgl6ETADF5j67osxy1LLPfyT23rRPiwX4D8e3vr5eGhpsYyXM1xFo57DuvYhBg2cZeAVQP7hF86wP4h5Goz1FueubY8DyxqKqaWRDxeXrF/vgEhsPTVNML8Nq+8=
-Received: from castle.thefacebook.com (2620:10d:c092:200::1:c39d) by
- DM3PR15MB1084.namprd15.prod.outlook.com (2603:10b6:0:12::10) with Microsoft
- SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.776.11; Tue, 22
- May 2018 14:41:11 +0000
-From:   Roman Gushchin <guro@fb.com>
-To:     Tejun Heo <tj@kernel.org>
-CC:     Roman Gushchin <guro@fb.com>, <kernel-team@fb.com>,
-        <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] cgroup, docs: add a note about returning EBUSY in some cases
-Date:   Tue, 22 May 2018 15:36:48 +0100
-Message-ID: <20180522143648.29508-1-guro@fb.com>
-X-Mailer: git-send-email 2.14.3
+        id S1751469AbeEVOxA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 May 2018 10:53:00 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:55962 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751245AbeEVOw5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 10:52:57 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id DA88660C66; Tue, 22 May 2018 14:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527000776;
+        bh=xoIvdiBYr2+tw55E5IG9wvoGaM2oRHScTU5reckmcAg=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=DsjU+JgGjyw776u4TM2I9ix0Av1cPamgShY05jzpT9SEJtWKALQ/4kK6t7TCVFazE
+         ejRycOB1Dr/XChFXRdwtU68R0D4iOXBMI83S/nnPxGySmQ+vZgvKwU8AX8K/B+Hlxy
+         5+ZzDSZlkOPzVNgXpsgPl51yECdkbMb8A6o7LcJU=
+Received: from [192.168.0.109] (unknown [161.97.199.73])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kramasub@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 48B85601D7;
+        Tue, 22 May 2018 14:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527000776;
+        bh=xoIvdiBYr2+tw55E5IG9wvoGaM2oRHScTU5reckmcAg=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=DsjU+JgGjyw776u4TM2I9ix0Av1cPamgShY05jzpT9SEJtWKALQ/4kK6t7TCVFazE
+         ejRycOB1Dr/XChFXRdwtU68R0D4iOXBMI83S/nnPxGySmQ+vZgvKwU8AX8K/B+Hlxy
+         5+ZzDSZlkOPzVNgXpsgPl51yECdkbMb8A6o7LcJU=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 48B85601D7
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kramasub@codeaurora.org
+Subject: Re: [PATCH v5 3/5] i2c: i2c-qcom-geni: Add bus driver for the
+ Qualcomm GENI I2C controller
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     corbet@lwn.net, andy.gross@linaro.org, david.brown@linaro.org,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        evgreen@chromium.org, acourbot@chromium.org, swboyd@chromium.org,
+        dianders@chromium.org, Sagar Dharia <sdharia@codeaurora.org>,
+        Girish Mahadevan <girishm@codeaurora.org>
+References: <1521836461-6515-1-git-send-email-kramasub@codeaurora.org>
+ <1521836461-6515-4-git-send-email-kramasub@codeaurora.org>
+ <20180521204924.4ldbke6udjshdz2k@katana>
+From:   Karthik Ramasubramanian <kramasub@codeaurora.org>
+Message-ID: <bae1c27a-fdc4-c33b-63d5-c776e9c0b9c8@codeaurora.org>
+Date:   Tue, 22 May 2018 08:52:54 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [2620:10d:c092:200::1:c39d]
-X-ClientProxiedBy: AM5PR0602CA0004.eurprd06.prod.outlook.com
- (2603:10a6:203:a3::14) To DM3PR15MB1084.namprd15.prod.outlook.com
- (2603:10b6:0:12::10)
-X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:DM3PR15MB1084;
-X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;3:+zYRrLsN8QE5c8UGqCrObbU5EzxlX5LK8Yjbq3Ghg9omLF2fFmYl1Gi0mrAPv019F1kiZ89DJLltDbxCl9TZLPx2Ln4WoxYRQN/boVfHPh4otS8uLrNluHClT1qzhloc+P7DOtMzey1lUGHhNVbtBbDPXBTpjKqx5wCOpRaD0vTDwp68+mVM6IkNRLFaKWBjy/3d2T5AR7+LQQTV4RAwlDjMPo3vy1gHwyS4XegeB2h18bDNNWn+PplgLMqn0o8e;25:tTcvewscnGhhxix4g6qa3BuTSA6w3hx/4uYKP8RixejFjbUyREa7s5DfRPCtyiiVRwBXQ/ZaWso0NSLmZLF6VqjOm8JvGtH1kmVGiIqhjMj6qeyy+4pDcHT5jFw79NcK27Aov3T2y+02DIxV1GyTf3IXIV7w35dJCaQuGUK8omPOY7xy+tpAqDNfLHds9Zq7Q10pdwrSPffdRsEtkEXaIMJCVreC+xTA35SAVDzcvzhVeLbrOY2J7ChGXODYCpy0I7W9qF4njjeZNH93KFhp7ipqG/wk3lJ1ybEUVTk4bVmDxA9gLdMFzNrpryplyxNsqKG4go5rEprTUOYJyQFLcg==;31:G1UCxTLnlygPYResz1Ewri5qcC8HsNyDTcRScOOGan1U7UhSqSsyDhE+E7yB7tgPwcUmgN3yY7V8NEGZDrJBQDgN0EFzkhOdEa/g3YC+LXtNbotCbzrO/1ydf8eSL/BVP6pEscLv2tZLHLPiVi63QVtjvhEb2UEhpnoCAC9u/RF4qKsVqfNzecq9B+owcRJedBpLq5nxKF258GrKIAtbNZW4poaPtgsVTaQ1eIKkSNo=
-X-MS-TrafficTypeDiagnostic: DM3PR15MB1084:
-X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;20:nmbRshfdQsqo32vxE9cpae+aUEF9QHY93TeTko2KsfSG8F89fm8ZHla61nNMXrjMpgTWhXv7BKWX6ngHkmmzAszDQDbIAJuRjnUuL94CNJ97dTuzckThXx2oj8hd54G+IG7tjocTaYHIH8sghBvo961ZGHDTOczRYUnuq/eHdLlI0GM3APbCGH3XIM26pK/Qk9UNAGwItl5j1BrPiDMp+TLAm6fF4Ahykei2MH+RKSCDxu1fT3yZ0zpr0xeMl+w3OeTIrEtdQgT3tsDTwIzWGhg2J4in7O1huQo0IOrUAStd5kXoDjsNZ1dBoHSlBzu8WOuFbEkpApWTWladnZz5jCjC/AL6W2E/9nfaFgOHzCf4CEIaq+H1JkN/CNuYXOATkgS+mwg69B/EFi/KJzNC66Kr7uHlQgI4Wqci3rVS0NXRm/3Dy7S+qF4/XXWjtWucG7BP5d92FjKL6Qb2Q4VPMjAEP4Jd5CcvkVd5py8N+mr8eje9IdACsLyXL4bEtVDx;4:DMcMjClBLnQ5M0Qiem8tJD+4+jsZq+0TsKjzErI80avqwaCg25vNMW+3ULXOAE9nURIPctXBCC4E0wjJWd+pwIYToRNuXBO0gM659zYcTN/4OjMiu3BSNWNYlmVMciCdK5F9+6gKyGTphdrL3JB4SvHXBjv8PWllcwdpADp7ulxY0wSnHKjbPM8Ne6kZyNOUtv8ox8pBZ++3T/JMg5y6ILOxAYQrMuyCZ/xBnZCTPBoqzWF8a9FeAAdsDwPNs9bhRcS8O84AEhnGjDkWN+R+fBXQPDE6BaD3Ij9gvy0Frq1jH30EFeW25Kn1+OsHVstQ5IWXesOU0CQKqps54ZlkubBL+ELba2yDgXeiQ47x1EU=
-X-Microsoft-Antispam-PRVS: <DM3PR15MB10848E001489B435B85654FBBE940@DM3PR15MB1084.namprd15.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(9452136761055)(67672495146484);
-X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3002001)(93006095)(93001095)(10201501046)(3231254)(11241501184)(944501410)(52105095)(149027)(150027)(6041310)(20161123560045)(20161123564045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(6072148)(201708071742011)(7699016);SRVR:DM3PR15MB1084;BCL:0;PCL:0;RULEID:;SRVR:DM3PR15MB1084;
-X-Forefront-PRVS: 0680FADD48
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(39380400002)(39860400002)(376002)(346002)(396003)(366004)(199004)(189003)(1076002)(8676002)(81166006)(6116002)(81156014)(47776003)(86362001)(8936002)(386003)(59450400001)(1857600001)(6506007)(6666003)(16526019)(53936002)(5660300001)(50466002)(69596002)(53416004)(48376002)(5890100001)(186003)(6916009)(105586002)(6486002)(106356001)(52396003)(305945005)(476003)(2616005)(46003)(25786009)(486006)(50226002)(36756003)(2906002)(68736007)(97736004)(16586007)(7736002)(6512007)(478600001)(4326008)(52116002)(51416003)(316002)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:DM3PR15MB1084;H:castle.thefacebook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-Received-SPF: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;DM3PR15MB1084;23:W0UmYSz4v2yMRJDSyCvTvg8a6Ag4OMNoBHHNn3RPX?=
- =?us-ascii?Q?DPhDe5FoZ8ULGNvWzYSJGbXKYHxXqzMnKlRq5dWK+1wQa6wo2BsQHopQMouP?=
- =?us-ascii?Q?tid/CW0tOKmmXYlCnH6LFC3LHNVEu5hRCs4NV10GsGwGreZ1q1y0P2KxmiiM?=
- =?us-ascii?Q?PtLeFz8B5uaH1iSRiiF/QQ0lMGnyAABd3/5yrWHtiyN+s4xkFAfWG5U94Sxz?=
- =?us-ascii?Q?X31ONynQDVebRef96YVHYuyOZMP85UQHcPtEQKaZzHrApKsxoJ/WL+313hG5?=
- =?us-ascii?Q?CZ44xF+3lRKIzUGok6dOh73jt879HqI7yVhKBu2CedE4BphmNkJzDw7xVCub?=
- =?us-ascii?Q?96AjLWh4DR1FGMLAVCqLDQkjtgwlUK9YoyIshljGxtI0yWjnTk8XM4A3vZ1g?=
- =?us-ascii?Q?2g7YaUaK5TJW1EDVtqauQ/CDVrLTFLNNZ0i+Bkz1X0ZXPJZ4tn5Dd2T4nXFW?=
- =?us-ascii?Q?ovTe/56j192sB9SzUW+m+qHyooVRtR/Dj2hExdZpClCdFWYxLL33QZKh6ru8?=
- =?us-ascii?Q?yArOPyD6EuH+Cxu/IkmJWooLnulj9XQpF/wJYkNWIVZmOssSFf79dm/N7lAK?=
- =?us-ascii?Q?jtBuZDW7S9LSYRAl8ZzRjJWrHrEzUA1SUK19Hg9+xndh+r1UqkPGO/GonIpx?=
- =?us-ascii?Q?7SWXCN4f4nC252A8vIDEox8y8MLohRE3ZhLCRsXaZlnGr32M6r0CWRRW2D9s?=
- =?us-ascii?Q?SrEVwcEGoRZ58ZbalgnHVBd+LTnSN1ym7c/hef0RidH0D+Jaam+aoUDNhmkw?=
- =?us-ascii?Q?8h9kcuw7I6U83eYmKcZYlI/5hPCsQujW3PZDqYcdGNMC5DUUs3CkUk2/ZUt5?=
- =?us-ascii?Q?iPvrlu6ASPmf9gMl+U5nH933YE4Nd7H5ajpBWrT/wjUC2vsJjJyY8OZvzQKK?=
- =?us-ascii?Q?iR4gIw0NQ9PcUAxI5o+//mC6e1QZv81UHB1LYisRcemW91VzciuBWIxbhCqH?=
- =?us-ascii?Q?ttMSqTAylsYUFIQe29JC9xMMmj2xELiMAOM9QlFkADIk1w/CiDEKZIBKRvUh?=
- =?us-ascii?Q?CQKMJMEyrrWkjFHKHEmimTjZ3W2dQ7ofKMBGCCpgSb8frwOkzcfezcb6BKdf?=
- =?us-ascii?Q?E/wX0Czug/CaKBEiGM9AQ/Pd67ajQbvBfIInHRnvqsS4IjpPZ8KFqzZz8Uu7?=
- =?us-ascii?Q?KyX+YFpYBSWyy7EqdTPFfWmk1zzgR9xTldYyZXHaIKMfVBBZ1CyRuBtyNQ28?=
- =?us-ascii?Q?Yj0TFXofEPDg5c4fq7GaSHsraesaikJeVjUJD590VE78H4gIK1IwSshUizbk?=
- =?us-ascii?Q?jSxJslYkHQ5vRj3Cc0=3D?=
-X-Microsoft-Antispam-Message-Info: KU7i/TS0GqtaqW9GTjghVlXlk13ZVGse8zCVy6ncFIo4HVrAX897hDa9zvdnXpnfyPHPJjBWUYKt3f19QJqvopIssn28s23iHuPRyhpg3/Dt538V5xDCh/W+pKedcD1B4utFkFo2u9GLEAGmk+uqczJFZJgUhvZCsdx8O0tCEaZNHi1r9feR4VtIZVsoFEzp
-X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;6:JSYVWZrWoZ2u0Ii/Wd5vEdGPuGpSS1El1r4LDTedcOof7wnAG+4xwBbyC7KYjzf7OdV8eKJiwvZdwNPTP7qQD49YtJ4yM72FgEel7+1yrzqz23lK6rCmV3ljMcYYheZmxaE8mIwOEL7S9oL3c7tqJm9DUL6WkM1XpjU6XkQ0Y69ITRwMHZ5ekcxxm8j29tbB3uJTM66q0WL9M47CULdDnBGx8W+zP0dDnPIKPBwcSX1kOVZTXMaLuh2HfFvqyboTho9xg7yYhsTydJ1/ArAphsrvbuquur5jxnMrB/v4ASX3aCpvkrn5BI0Kl+Jos3VtsxxFpfnDVMvdhIxN0PvGYL0QEz9ocinDhaAodSOQ1RrGuu3L5hAZsu0ChdCI8j32NO2qBn5ofU1QNPhOZGagg03Q8FvgJChpZN+cjRLtxgHTe9eorpRTIBLh5qSQhl55tTJkVzHtqnJpbIdvh2/riQ==;5:py/69oJ6T7l3pn8kBkTPvc2sVgO1i9olDe9s+UjHxrbyBTP55kk15WHwW3lqPmDQFi0oX0zaC5SwuIjCuljWNRO1NlpXlF2rxBZgHBtUnHHB/8xPzihPBFiQ931W5Pw8Y1/I+n6JhpfmgUHxuOpHUgWGEO0dao3yGWKsVXE12gk=;24:yfmOKHIlWI805x16JTvNm1kwxvBNkqqmIcq8W1jC4ULS6oPq88MkAzVtrnJDVhx5Fo+5Ll7G9+2sPGhrj8JgQiLrFw/A2ldJk4Yp8mJw32o=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;7:CArKgVRmYJ3qFnepCrZWvIcjv8KOlVi/BKfxbH6syTW4nZGlS/M19X7oywoHRoLwby/cxWUd8t1wEqx46IoHOJpfUjDn1r3bJ8JpeDKJeOjSJoomcP+2EH7mPFqe4U8z0YjG6UnjeK47PhqbyFr9Dt3lnemsBWMzE584IJpr1dKhZWGvAbACyl4iNRqcllRVYX4wPIeIhAFuEVFgDbFGucQJSkXSTUA9cyZ15NAA9R7+CYpNP3n0whECZu9p4Sd1;20:SSdObyleZ7hHNKRfFzbz537WOPITyMYZBNGt4Nul9jjIFfWOW3quQ6UgrwYMluYO8ACnjxkRrZzJpusHF8RDBLJC+GmKMypreOA4QuqlfHcQSAs5VUoMpOIRiiHgEvhLBrSiMY07g2EXphlHt2fR44zv+0ThiUkGg4kkugBgazc=
-X-MS-Office365-Filtering-Correlation-Id: 35f101e3-75c5-41e0-fac4-08d5bff2107c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2018 14:41:11.1784 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35f101e3-75c5-41e0-fac4-08d5bff2107c
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR15MB1084
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-22_04:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-FB-Internal: Safe
+In-Reply-To: <20180521204924.4ldbke6udjshdz2k@katana>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Explicitly document EBUSY returned by writing into cgroup.procs
-if controllers are enabled; and writing into cgroup.subtree_control
-if there are attached processes.
 
-The return code might be slightly surprising, and because there is
-nothing obviously better, let's document it at least.
 
-Signed-off-by: Roman Gushchin <guro@fb.com>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: kernel-team@fb.com
-Cc: cgroups@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- Documentation/cgroup-v2.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
-index 74cdeaed9f7a..57302f88a4ad 100644
---- a/Documentation/cgroup-v2.txt
-+++ b/Documentation/cgroup-v2.txt
-@@ -799,6 +799,9 @@ All cgroup core files are prefixed with "cgroup."
- 	When delegating a sub-hierarchy, write access to this file
- 	should be granted along with the containing directory.
- 
-+	If the target cgroup has enabled controllers, writing to this
-+	file will fail with EBUSY.
-+
- 	In a threaded cgroup, reading this file fails with EOPNOTSUPP
- 	as all the processes belong to the thread root.  Writing is
- 	supported and moves every thread of the process to the cgroup.
-@@ -850,6 +853,9 @@ All cgroup core files are prefixed with "cgroup."
- 	the last one is effective.  When multiple enable and disable
- 	operations are specified, either all succeed or all fail.
- 
-+	If the cgroup has attached tasks, writing to this file will
-+	fail with EBUSY.
-+
-   cgroup.events
- 	A read-only flat-keyed file which exists on non-root cgroups.
- 	The following entries are defined.  Unless specified
+On 5/21/2018 2:49 PM, Wolfram Sang wrote:
+> Hi,
+> 
+> On Fri, Mar 23, 2018 at 02:20:59PM -0600, Karthikeyan Ramasubramanian wrote:
+>> This bus driver supports the GENI based i2c hardware controller in the
+>> Qualcomm SOCs. The Qualcomm Generic Interface (GENI) is a programmable
+>> module supporting a wide range of serial interfaces including I2C. The
+>> driver supports FIFO mode and DMA mode of transfer and switches modes
+>> dynamically depending on the size of the transfer.
+>>
+>> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
+>> Signed-off-by: Sagar Dharia <sdharia@codeaurora.org>
+>> Signed-off-by: Girish Mahadevan <girishm@codeaurora.org>
+> 
+> Is one of these people interested in maintaining this driver? Then, an
+> entry for MAINTAINERS would be needed, too. (Same goes for
+> drivers/soc/qcom/ IMHO, but this is not my realm, so just saying)
+One of us will maintain this driver and I will update the MAINTAINERS
+appropriately.
+> 
+>> +static const struct geni_i2c_err_log gi2c_log[] = {
+>> +	[GP_IRQ0] = {-EINVAL, "Unknown I2C err GP_IRQ0"},
+>> +	[NACK] = {-ENOTCONN, "NACK: slv unresponsive, check its power/reset-ln"},
+>> +	[GP_IRQ2] = {-EINVAL, "Unknown I2C err GP IRQ2"},
+>> +	[BUS_PROTO] = {-EPROTO, "Bus proto err, noisy/unepxected start/stop"},
+>> +	[ARB_LOST] = {-EBUSY, "Bus arbitration lost, clock line undriveable"},
+>> +	[GP_IRQ5] = {-EINVAL, "Unknown I2C err GP IRQ5"},
+>> +	[GENI_OVERRUN] = {-EIO, "Cmd overrun, check GENI cmd-state machine"},
+>> +	[GENI_ILLEGAL_CMD] = {-EILSEQ, "Illegal cmd, check GENI cmd-state machine"},
+>> +	[GENI_ABORT_DONE] = {-ETIMEDOUT, "Abort after timeout successful"},
+>> +	[GENI_TIMEOUT] = {-ETIMEDOUT, "I2C TXN timed out"},
+>> +};
+> 
+> Please check Documentation/i2c/fault-codes for better -ERRNO values,
+> especially for NACK and ARB_LOST.
+I will check the fault-codes and fix the error codes here.
+> 
+> Rest looks good from a glimpse.
+> 
+> Thanks,
+> 
+>    Wolfram
+> 
+Regards,
+Karthik.
 -- 
-2.14.3
-
+Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
