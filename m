@@ -1,146 +1,324 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 670AB7D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 18:54:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B83F7DF90
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 19:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751421AbeEVSyM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 May 2018 14:54:12 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39708 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751361AbeEVSyL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 May 2018 14:54:11 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (charybdis-ext.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 85827AEFE;
-        Tue, 22 May 2018 18:54:09 +0000 (UTC)
-Date:   Tue, 22 May 2018 20:54:07 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     TSUKADA Koutaro <tsukada@ascade.co.jp>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        id S1752724AbeEVTcW convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 May 2018 15:32:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:44055 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752601AbeEVTcU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 15:32:20 -0400
+Received: from null ([172.19.249.150]) by mrelayeu.kundenserver.de (mreue004
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 0Lxru4-1gO7wN32X6-015LqM; Tue, 22
+ May 2018 21:31:23 +0200
+Date:   Tue, 22 May 2018 21:31:20 +0200 (CEST)
+From:   Stefan Wahren <stefan.wahren@i2se.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Eric Anholt <eric@anholt.net>,
+        Mark Rutland <mark.rutland@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        David Rientjes <rientjes@google.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
-        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
-        Punit Agrawal <punit.agrawal@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
- charge to memcg
-Message-ID: <20180522185407.GC20441@dhcp22.suse.cz>
-References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
- <240f1b14-ed7d-4983-6c52-be4899d4caa5@oracle.com>
- <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
+        Jean Delvare <jdelvare@suse.com>
+Cc:     Scott Branden <sbranden@broadcom.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        Phil Elwell <phil@raspberrypi.org>,
+        bcm-kernel-feedback-list@broadcom.com, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Ray Jui <rjui@broadcom.com>,
+        linux-arm-kernel@lists.infradead.org
+Message-ID: <723014352.17580.1527017480381@email.1und1.de>
+In-Reply-To: <bea3d6c7-a713-c4aa-8ae8-7fec80c5da5d@roeck-us.net>
+References: <1526988112-4021-1-git-send-email-stefan.wahren@i2se.com>
+ <1526988112-4021-3-git-send-email-stefan.wahren@i2se.com>
+ <90a768aa-ee8c-1050-cf15-60637069dbdb@roeck-us.net>
+ <659923372.11518.1526997096662@email.1und1.de>
+ <bea3d6c7-a713-c4aa-8ae8-7fec80c5da5d@roeck-us.net>
+Subject: Re: [PATCH RFC V2 2/6] hwmon: Add support for RPi voltage sensor
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev28
+X-Originating-Client: open-xchange-appsuite
+X-Provags-ID: V03:K1:WgaWcDW6+OyzGQ5pIIwYL9hSCrQqTjWlp2jPK5a4VyMba8djm/f
+ 7bE6x84ul4yDtb9hhDEyrZbXGlX185C8vY9dzwBA0NQL9tpo4tXq8Azxbmk9sZM25cl6Nii
+ gcIw1jnjZzOfr712+smVT87W0SeeWgwPLZ6e9fqMBKaCaj834uO+s7ltUDBRy6C+kCOeAKT
+ 8lg4mx93w+K9N9U98MTSQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:xPBU2zQ9riA=:CvRtqNq9G0eiB/GojFzP5H
+ LbI3w6VhOzLP54BSJqqXKp1izlN+n6dKxHipsVrnSTEELRIS9tNtDh5zWgytIM4CqnPphm59u
+ bSuU3in+k6MN/cbQGQeG2ZbQw6kfw69SR6nlS1OqORCqe+dqti5o1+gH9t/mkURjelZLO9ujy
+ CP1nUSuXoGDhUsmWhftPNHNi+kxVX2ZtV+G5E9u4bUcLDg4aUp/FvxNrw+U9wm2ZWmfTyuTB6
+ 8aOAITwccWy9FxUE6+A5nnDktcxXGcuwRHgSaMMMoNgTJ7n6Jj75WO/syv/W0w9f9NO16qsA6
+ 7Td84dpFa1DB54DhMKM6dbAI65LWAxcbhXP3wcKOSBFy7SEHND4fjg58rpR5llhUoQ2zVmxj+
+ vNMsSuo3NSVgW7iWCzKzeDZvx+idmOBIb5+koC8OS/ODWyNIa/plI67e8E4UnaMuWehJToBIO
+ EUfUZ+NVRlXi2h7GFxKCGQnZPfykMWrfO0RMUOr/yJAq1ci6NcBj9MJRQyeTK3nWWA6UPRQMn
+ I0dWthQrg0nk/LuyM7j2k23/xE6j+G4Seip8og72r/JWhc/qlXYnrtbedSWV15LP18vC8bNbV
+ S39It6AjGgsiar7KxKxhRCeu53svC5iWbikj9JuQji2l4gLi3aZn1z67s3+gJVa5nSW8E8jWp
+ /RWwQO1z/IqC0BjZVkD2c+rXzO4zWs1FzuSejBV5xaVJlmJbYu7HG3lmD4pyG4cyNqbsF7uuO
+ DYsKhc2FADytz82oSI8497BwnOEPmzGRyqj/gG+6fRpK6kNZgQkxyj4mLg5JMBy6OUkkrkkjR
+ hVjAXLx
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 22-05-18 22:04:23, TSUKADA Koutaro wrote:
-> On 2018/05/22 3:07, Mike Kravetz wrote:
-> > On 05/17/2018 09:27 PM, TSUKADA Koutaro wrote:
-> >> Thanks to Mike Kravetz for comment on the previous version patch.
-> >>
-> >> The purpose of this patch-set is to make it possible to control whether or
-> >> not to charge surplus hugetlb pages obtained by overcommitting to memory
-> >> cgroup. In the future, I am trying to accomplish limiting the memory usage
-> >> of applications that use both normal pages and hugetlb pages by the memory
-> >> cgroup(not use the hugetlb cgroup).
-> >>
-> >> Applications that use shared libraries like libhugetlbfs.so use both normal
-> >> pages and hugetlb pages, but we do not know how much to use each. Please
-> >> suppose you want to manage the memory usage of such applications by cgroup
-> >> How do you set the memory cgroup and hugetlb cgroup limit when you want to
-> >> limit memory usage to 10GB?
-> >>
-> >> If you set a limit of 10GB for each, the user can use a total of 20GB of
-> >> memory and can not limit it well. Since it is difficult to estimate the
-> >> ratio used by user of normal pages and hugetlb pages, setting limits of 2GB
-> >> to memory cgroup and 8GB to hugetlb cgroup is not very good idea. In such a
-> >> case, I thought that by using my patch-set, we could manage resources just
-> >> by setting 10GB as the limit of memory cgoup(there is no limit to hugetlb
-> >> cgroup).
-> >>
-> >> In this patch-set, introduce the charge_surplus_huge_pages(boolean) to
-> >> struct hstate. If it is true, it charges to the memory cgroup to which the
-> >> task that obtained surplus hugepages belongs. If it is false, do nothing as
-> >> before, and the default value is false. The charge_surplus_huge_pages can
-> >> be controlled procfs or sysfs interfaces.
-> >>
-> >> Since THP is very effective in environments with kernel page size of 4KB,
-> >> such as x86, there is no reason to positively use HugeTLBfs, so I think
-> >> that there is no situation to enable charge_surplus_huge_pages. However, in
-> >> some distributions such as arm64, the page size of the kernel is 64KB, and
-> >> the size of THP is too huge as 512MB, making it difficult to use. HugeTLBfs
-> >> may support multiple huge page sizes, and in such a special environment
-> >> there is a desire to use HugeTLBfs.
+
+> Guenter Roeck <linux@roeck-us.net> hat am 22. Mai 2018 um 16:10 geschrieben:
+> 
+> 
+> On 05/22/2018 06:51 AM, Stefan Wahren wrote:
+> > Hi Guenter,
 > > 
-> > One of the basic questions/concerns I have is accounting for surplus huge
-> > pages in the default memory resource controller.  The existing huegtlb
-> > resource controller already takes hugetlbfs huge pages into account,
-> > including surplus pages.  This series would allow surplus pages to be
-> > accounted for in the default  memory controller, or the hugetlb controller
-> > or both.
+> >> Guenter Roeck <linux@roeck-us.net> hat am 22. Mai 2018 um 15:41 geschrieben:
+> >>
+> >>
+> >> On 05/22/2018 04:21 AM, Stefan Wahren wrote:
+> >>> Currently there is no easy way to detect undervoltage conditions on a
+> >>> remote Raspberry Pi. This hwmon driver retrieves the state of the
+> >>> undervoltage sensor via mailbox interface. The handling based on
+> >>> Noralf's modifications to the downstream firmware driver. In case of
+> >>> an undervoltage condition only an entry is written to the kernel log.
+> >>>
+> >>> CC: "Noralf Trønnes" <noralf@tronnes.org>
+> >>> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> >>> ---
+> >>>    Documentation/hwmon/raspberrypi-hwmon |  22 +++++
+> >>>    drivers/hwmon/Kconfig                 |  10 ++
+> >>>    drivers/hwmon/Makefile                |   1 +
+> >>>    drivers/hwmon/raspberrypi-hwmon.c     | 168 ++++++++++++++++++++++++++++++++++
+> >>>    4 files changed, 201 insertions(+)
+> >>>    create mode 100644 Documentation/hwmon/raspberrypi-hwmon
+> >>>    create mode 100644 drivers/hwmon/raspberrypi-hwmon.c
+> >>>
+> >>> diff --git a/Documentation/hwmon/raspberrypi-hwmon b/Documentation/hwmon/raspberrypi-hwmon
+> >>> new file mode 100644
+> >>> index 0000000..3c92e2c
+> >>> --- /dev/null
+> >>> +++ b/Documentation/hwmon/raspberrypi-hwmon
+> >>> @@ -0,0 +1,22 @@
+> >>> +Kernel driver raspberrypi-hwmon
+> >>> +===============================
+> >>> +
+> >>> +Supported boards:
+> >>> +  * Raspberry Pi A+ (via GPIO on SoC)
+> >>> +  * Raspberry Pi B+ (via GPIO on SoC)
+> >>> +  * Raspberry Pi 2 B (via GPIO on SoC)
+> >>> +  * Raspberry Pi 3 B (via GPIO on port expander)
+> >>> +  * Raspberry Pi 3 B+ (via PMIC)
+> >>> +
+> >>> +Author: Stefan Wahren <stefan.wahren@i2se.com>
+> >>> +
+> >>> +Description
+> >>> +-----------
+> >>> +
+> >>> +This driver periodically polls a mailbox property of the VC4 firmware to detect
+> >>> +undervoltage conditions.
+> >>> +
+> >>> +Sysfs entries
+> >>> +-------------
+> >>> +
+> >>> +in0_lcrit_alarm		Undervoltage alarm
+> >>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> >>> index 768aed5..9a5bdb0 100644
+> >>> --- a/drivers/hwmon/Kconfig
+> >>> +++ b/drivers/hwmon/Kconfig
+> >>> @@ -1298,6 +1298,16 @@ config SENSORS_PWM_FAN
+> >>>    	  This driver can also be built as a module.  If so, the module
+> >>>    	  will be called pwm-fan.
+> >>>    
+> >>> +config SENSORS_RASPBERRYPI_HWMON
+> >>> +	tristate "Raspberry Pi voltage monitor"
+> >>> +	depends on RASPBERRYPI_FIRMWARE || COMPILE_TEST
+> >>> +	help
+> >>> +	  If you say yes here you get support for voltage sensor on the
+> >>> +	  Raspberry Pi.
+> >>> +
+> >>> +	  This driver can also be built as a module. If so, the module
+> >>> +	  will be called raspberrypi-hwmon.
+> >>> +
+> >>>    config SENSORS_SHT15
+> >>>    	tristate "Sensiron humidity and temperature sensors. SHT15 and compat."
+> >>>    	depends on GPIOLIB || COMPILE_TEST
+> >>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> >>> index e7d52a3..a929770 100644
+> >>> --- a/drivers/hwmon/Makefile
+> >>> +++ b/drivers/hwmon/Makefile
+> >>> @@ -141,6 +141,7 @@ obj-$(CONFIG_SENSORS_PC87427)	+= pc87427.o
+> >>>    obj-$(CONFIG_SENSORS_PCF8591)	+= pcf8591.o
+> >>>    obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
+> >>>    obj-$(CONFIG_SENSORS_PWM_FAN)	+= pwm-fan.o
+> >>> +obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)	+= raspberrypi-hwmon.o
+> >>>    obj-$(CONFIG_SENSORS_S3C)	+= s3c-hwmon.o
+> >>>    obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
+> >>>    obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
+> >>> diff --git a/drivers/hwmon/raspberrypi-hwmon.c b/drivers/hwmon/raspberrypi-hwmon.c
+> >>> new file mode 100644
+> >>> index 0000000..6233e84
+> >>> --- /dev/null
+> >>> +++ b/drivers/hwmon/raspberrypi-hwmon.c
+> >>> @@ -0,0 +1,168 @@
+> >>> +// SPDX-License-Identifier: GPL-2.0+
+> >>> +/*
+> >>> + * Raspberry Pi voltage sensor driver
+> >>> + *
+> >>> + * Based on firmware/raspberrypi.c by Noralf Trønnes
+> >>> + *
+> >>> + * Copyright (C) 2018 Stefan Wahren <stefan.wahren@i2se.com>
+> >>> + */
+> >>> +#include <linux/device.h>
+> >>> +#include <linux/err.h>
+> >>> +#include <linux/hwmon.h>
+> >>> +#include <linux/module.h>
+> >>> +#include <linux/platform_device.h>
+> >>> +#include <linux/slab.h>
+> >>> +#include <linux/workqueue.h>
+> >>> +#include <soc/bcm2835/raspberrypi-firmware.h>
+> >>> +
+> >>> +#define UNDERVOLTAGE_STICKY_BIT	BIT(16)
+> >>> +
+> >>> +struct rpi_hwmon_data {
+> >>> +	struct device *hwmon_dev;
+> >>> +	struct rpi_firmware *fw;
+> >>> +	u32 last_throttled;
+> >>> +	struct delayed_work get_values_poll_work;
+> >>> +};
+> >>> +
+> >>> +static void rpi_firmware_get_throttled(struct rpi_hwmon_data *data)
+> >>> +{
+> >>> +	u32 new_uv, old_uv, value;
+> >>> +	int ret;
+> >>> +
+> >>> +	/* Request firmware to clear sticky bits */
+> >>> +	value = 0xffff;
+> >>> +
+> >>> +	ret = rpi_firmware_property(data->fw, RPI_FIRMWARE_GET_THROTTLED,
+> >>> +				    &value, sizeof(value));
+> >>> +	if (ret) {
+> >>> +		dev_err_once(data->hwmon_dev, "Failed to get throttled (%d)\n",
+> >>> +			     ret);
+> >>> +		return;
+> >>> +	}
+> >>> +
+> >>> +	new_uv = value & UNDERVOLTAGE_STICKY_BIT;
+> >>> +	old_uv = data->last_throttled & UNDERVOLTAGE_STICKY_BIT;
+> >>> +	data->last_throttled = value;
+> >>> +
+> >>> +	if (new_uv == old_uv)
+> >>> +		return;
+> >>> +
+> >>> +	if (new_uv)
+> >>> +		dev_crit(data->hwmon_dev, "Undervoltage detected!\n");
+> >>> +	else
+> >>> +		dev_info(data->hwmon_dev, "Voltage normalised\n");
+> >>> +
+> >>> +	sysfs_notify(&data->hwmon_dev->kobj, NULL, "in0_lcrit_alarm");
+> >>> +}
+> >>> +
+> >>> +static void get_values_poll(struct work_struct *work)
+> >>> +{
+> >>> +	struct rpi_hwmon_data *data;
+> >>> +
+> >>> +	data = container_of(work, struct rpi_hwmon_data,
+> >>> +			    get_values_poll_work.work);
+> >>> +
+> >>> +	rpi_firmware_get_throttled(data);
+> >>> +
+> >>> +	/*
+> >>> +	 * We can't run faster than the sticky shift (100ms) since we get
+> >>> +	 * flipping in the sticky bits that are cleared.
+> >>> +	 */
+> >>> +	schedule_delayed_work(&data->get_values_poll_work, 2 * HZ);
+> >>> +}
+> >>> +
+> >>> +static int rpi_read(struct device *dev, enum hwmon_sensor_types type,
+> >>> +		    u32 attr, int channel, long *val)
+> >>> +{
+> >>> +	struct rpi_hwmon_data *data = dev_get_drvdata(dev);
+> >>> +
+> >>> +	*val = !!(data->last_throttled & UNDERVOLTAGE_STICKY_BIT);
+> >>> +	return 0;
+> >>> +}
+> >>> +
+> >>> +static umode_t rpi_is_visible(const void *_data, enum hwmon_sensor_types type,
+> >>> +			      u32 attr, int channel)
+> >>> +{
+> >>> +	return 0444;
+> >>> +}
+> >>> +
+> >>> +static const u32 rpi_in_config[] = {
+> >>> +	HWMON_I_LCRIT_ALARM,
+> >>> +	0
+> >>> +};
+> >>> +
+> >>> +static const struct hwmon_channel_info rpi_in = {
+> >>> +	.type = hwmon_in,
+> >>> +	.config = rpi_in_config,
+> >>> +};
+> >>> +
+> >>> +static const struct hwmon_channel_info *rpi_info[] = {
+> >>> +	&rpi_in,
+> >>> +	NULL
+> >>> +};
+> >>> +
+> >>> +static const struct hwmon_ops rpi_hwmon_ops = {
+> >>> +	.is_visible = rpi_is_visible,
+> >>> +	.read = rpi_read,
+> >>> +};
+> >>> +
+> >>> +static const struct hwmon_chip_info rpi_chip_info = {
+> >>> +	.ops = &rpi_hwmon_ops,
+> >>> +	.info = rpi_info,
+> >>> +};
+> >>> +
+> >>> +static int rpi_hwmon_probe(struct platform_device *pdev)
+> >>> +{
+> >>> +	struct device *dev = &pdev->dev;
+> >>> +	struct rpi_hwmon_data *data;
+> >>> +	int ret;
+> >>> +
+> >>> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> >>> +	if (!data)
+> >>> +		return -ENOMEM;
+> >>> +
+> >>> +	data->fw = platform_get_drvdata(to_platform_device(dev->parent));
+> >>> +	if (!data->fw)
+> >>> +		return -EPROBE_DEFER;
+> >>> +
+> >>
+> >> I am a bit at loss here (and sorry I didn't bring this up before).
+> >> How would this ever be possible, given that the driver is registered
+> >> from the firmware driver ?
 > > 
-> > I understand that current mechanisms do not meet the needs of the above
-> > use case.  The question is whether this is an appropriate way to approach
-> > the issue.
-
-I do share your view Mike!
-
-> > My cgroup experience and knowledge is extremely limited, but
-> > it does not appear that any other resource can be controlled by multiple
-> > controllers.  Therefore, I am concerned that this may be going against
-> > basic cgroup design philosophy.
+> > Do you refer to the (wrong) return code, the assumption that the parent must be a platform driver or a possible race?
+> > 
 > 
-> Thank you for your feedback.
-> That makes sense, surplus hugepages are charged to both memcg and hugetlb
-> cgroup, which may be contrary to cgroup design philosophy.
-> 
-> Based on the above advice, I have considered the following improvements,
-> what do you think about?
-> 
-> The 'charge_surplus_hugepages' of v2 patch-set was an option to switch
-> "whether to charge memcg in addition to hugetlb cgroup", but it will be
-> abolished. Instead, change to "switch only to memcg instead of hugetlb
-> cgroup" option. This is called 'surplus_charge_to_memcg'.
+> The return code is one thing. My question was how the driver would ever be instantiated
+> with platform_get_drvdata(to_platform_device(dev->parent)) == NULL (but dev->parent != NULL),
+> so I referred to the race. But, sure, a second question would be how that would indicate
+> that the parent is not instantiated yet (which by itself seems like an odd question).
 
-This all looks so hackish and ad-hoc that I would be tempted to give it
-an outright nack, but let's here more about why do we need this fiddling
-at all. I've asked in other email so I guess I will get an answer there
-but let me just emphasize again that I absolutely detest a possibility
-to put hugetlb pages into the memcg mix. They just do not belong there.
-Try to look at previous discussions why it has been decided to have a
-separate hugetlb pages at all.
+This shouldn't happen and worth a log error. In patch #3 the registration is called after the complete private data of the firmware driver is initialized. Did i missed something?
 
-I am also quite confused why you keep distinguishing surplus hugetlb
-pages from regular preallocated ones. Being a surplus page is an
-implementation detail that we use for an internal accounting rather than
-something to exhibit to the userspace even more than we do currently.
-Just look at what [sw]hould when you need to adjust accounting - e.g.
-due to the pool resize. Are you going to uncharge those surplus pages
-ffrom memcg to reflect their persistence?
--- 
-Michal Hocko
-SUSE Labs
+But i must confess that i didn't test all builtin/module combinations.
+
+> 
+> Yet another question, as you point out, is why to use platform_get_drvdata(to_platform_device(dev->parent))
+> instead of dev_get_drvdata(dev->parent).
+
+Sure this is much simpler
+
+Thanks
+Stefan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
