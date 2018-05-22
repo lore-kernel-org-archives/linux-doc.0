@@ -2,342 +2,238 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05E237D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 13:53:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9F3927D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 13:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751278AbeEVNx1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 May 2018 09:53:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:42023 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751196AbeEVNxZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 09:53:25 -0400
-Received: from null ([172.19.249.174]) by mrelayeu.kundenserver.de (mreue006
- [212.227.15.167]) with ESMTPSA (Nemesis) id 0Lt8sp-1gNvaX1vrv-012oOS; Tue, 22
- May 2018 15:51:42 +0200
-Date:   Tue, 22 May 2018 15:51:36 +0200 (CEST)
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Eric Anholt <eric@anholt.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     Scott Branden <sbranden@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-rpi-kernel@lists.infradead.org,
-        Phil Elwell <phil@raspberrypi.org>,
-        bcm-kernel-feedback-list@broadcom.com, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Ray Jui <rjui@broadcom.com>,
-        linux-arm-kernel@lists.infradead.org
-Message-ID: <659923372.11518.1526997096662@email.1und1.de>
-In-Reply-To: <90a768aa-ee8c-1050-cf15-60637069dbdb@roeck-us.net>
-References: <1526988112-4021-1-git-send-email-stefan.wahren@i2se.com>
- <1526988112-4021-3-git-send-email-stefan.wahren@i2se.com>
- <90a768aa-ee8c-1050-cf15-60637069dbdb@roeck-us.net>
-Subject: Re: [PATCH RFC V2 2/6] hwmon: Add support for RPi voltage sensor
+        id S1751214AbeEVNxz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 May 2018 09:53:55 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:39861 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751229AbeEVNxx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 09:53:53 -0400
+Received: by mail-wm0-f65.google.com with SMTP id f8-v6so33920444wmc.4
+        for <linux-doc@vger.kernel.org>; Tue, 22 May 2018 06:53:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xlW2EEmJB3In71duW8IETr1jmg5vnf032sxB7t6mE5Q=;
+        b=q2K15nMgKj/41iCLSK1lgXjDcvghjpSJSqEUCy2APCWAK6kzXT/bDinNc99C3Rm2kI
+         l5JbL5IA/4e9W1L8l3p/Akn5PWQmh76W+om9huIemlisIgRuYnf27/zxYgFKnwAaPaY+
+         17MFFmslDqit6O6trfzG6727pskVCqa2lmYu2XC9r5Ll64E6TBoXWAc9q41ZPxR2loAW
+         PrS0Gy6vLRwHk+5I+UKffdV/oy7TEhdUqZFyojBghNaY3tni5G9PrCAB/hse/tXoQWmq
+         eLvxN+fJRTdLig+JB+7PaLmsSVZRJYg3zXZ8gj2NQWBctm0lC6BONDvNVGUnDfGSEWdQ
+         mPwg==
+X-Gm-Message-State: ALKqPwdXKLXB7H3WI77OmfBvQQk8Tzl7vPUG7VAsUjNL/5LrKSDs4V0T
+        RxFs60JHaWlmVqhsmiPUZhIkzw==
+X-Google-Smtp-Source: AB8JxZpX94JIU2c3M/LNAM1G812Sd6sZtzsMRPIPQ5SBG3WyGo25xRhY2TtPug7s8yztilCG/AmkfA==
+X-Received: by 2002:a1c:b943:: with SMTP id j64-v6mr1215594wmf.30.1526997232308;
+        Tue, 22 May 2018 06:53:52 -0700 (PDT)
+Received: from localhost.localdomain ([151.15.207.242])
+        by smtp.gmail.com with ESMTPSA id d12-v6sm10705453wre.39.2018.05.22.06.53.50
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 22 May 2018 06:53:51 -0700 (PDT)
+Date:   Tue, 22 May 2018 15:53:49 +0200
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH v8 6/6] cpuset: Allow reporting of sched domain
+ generation info
+Message-ID: <20180522135349.GB31040@localhost.localdomain>
+References: <1526590545-3350-1-git-send-email-longman@redhat.com>
+ <1526590545-3350-7-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.8.4-Rev28
-X-Originating-Client: open-xchange-appsuite
-X-Provags-ID: V03:K1:KnhzQeqQHLb2KA+nc9WCNeYEsItFnbIe+82Hi5VsC6k/sxKQrkD
- HJKQ/FyYekKB6pA0gc2EVpo+mbTYCKsjE1ZjyOaTghVDYsJdngGQ5dEZLuMlus0Fy/aIV5u
- Mw9wIts8B+omD4ixKH/i9tnmtz1BaDJK21FOWm2qNXm3fcEEp8bYzNGWvjJsqWRP0x850CG
- LTQYQDrklLMsOCQws44fQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:jsQVYEJnbdw=:kkL2sucMwgVXERfJy3Ow9N
- GU/+oBVoY2Pe5LlzPpk0MbFG2Y1XDpPFn/0rj/DubgTSdMWjc7z/bsq1IiDoHNTd9/nrz6raR
- e8FM3bG2DceGM3eS45qTWEOl5odzQ2N06ezBP055ACykJY2u7a/cRqGH5HkYZ2iUVP/6Xm8YQ
- W5Nj4k6FteWESCEdnQV8CpC1Y6lKYFtbl6eoZm6ohGLpqwoC9vQirxbZHZ2lvKWj/Bz+Y125q
- MJl0ka2FVqmNRyunr/4Pcd/KwAJaQGZJ8sfEQv+COHtlTu6CBz7rqOSay3IaUM5QRH3+b13AV
- Sb0htGcJwRXSYm1BJz8XImOs4zC/8jJJO0r3xX2eJTmCBmdgRyCnknmnYJDpcG8wuY5rShvHT
- kxB0NGd6jsjRjByAwSPEQ8YoLg9o39pvzutSdogoNVVNtqYXcsyHaMOh1pAnutCbFHO2UWqXy
- Rul5B4UX736ew74ku0AvHGy101fmJZlx2enczxQeCVq5UHE88h2y6O6i++lhWlFG4PlUU06qj
- A9odMn2Mfv0XWcfVfIa9w7zlgLU9s3mx3huutJoIAFXxd2H/UrxO1Sakgr6fCbPGE42Rc9wug
- PDYgODpgy2fqW1DYPJQRhEvaUZNDIXKSelUVh0P1+dcXhG0eO+KD/fPGnIgLzy8RGauntbQcs
- vKQlWLTsOHikBjwC/QhWqcUPPW00CK+ML0ZRau1hf+42Tx+yY4M+34151MS9Z7EEUgZo/4cFu
- 43Ohd6dxcESeQ5R67mSoH10OrHrKONbuzedxckK8UXnKyZtSs3FW4C/EXGlxsUyp7qNDxqVxe
- cTNnrkp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1526590545-3350-7-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guenter,
+Hi,
 
-> Guenter Roeck <linux@roeck-us.net> hat am 22. Mai 2018 um 15:41 geschrieben:
+On 17/05/18 16:55, Waiman Long wrote:
+> This patch enables us to report sched domain generation information.
 > 
+> If DYNAMIC_DEBUG is enabled, issuing the following command
 > 
-> On 05/22/2018 04:21 AM, Stefan Wahren wrote:
-> > Currently there is no easy way to detect undervoltage conditions on a
-> > remote Raspberry Pi. This hwmon driver retrieves the state of the
-> > undervoltage sensor via mailbox interface. The handling based on
-> > Noralf's modifications to the downstream firmware driver. In case of
-> > an undervoltage condition only an entry is written to the kernel log.
-> > 
-> > CC: "Noralf Trønnes" <noralf@tronnes.org>
-> > Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
-> > ---
-> >   Documentation/hwmon/raspberrypi-hwmon |  22 +++++
-> >   drivers/hwmon/Kconfig                 |  10 ++
-> >   drivers/hwmon/Makefile                |   1 +
-> >   drivers/hwmon/raspberrypi-hwmon.c     | 168 ++++++++++++++++++++++++++++++++++
-> >   4 files changed, 201 insertions(+)
-> >   create mode 100644 Documentation/hwmon/raspberrypi-hwmon
-> >   create mode 100644 drivers/hwmon/raspberrypi-hwmon.c
-> > 
-> > diff --git a/Documentation/hwmon/raspberrypi-hwmon b/Documentation/hwmon/raspberrypi-hwmon
-> > new file mode 100644
-> > index 0000000..3c92e2c
-> > --- /dev/null
-> > +++ b/Documentation/hwmon/raspberrypi-hwmon
-> > @@ -0,0 +1,22 @@
-> > +Kernel driver raspberrypi-hwmon
-> > +===============================
-> > +
-> > +Supported boards:
-> > +  * Raspberry Pi A+ (via GPIO on SoC)
-> > +  * Raspberry Pi B+ (via GPIO on SoC)
-> > +  * Raspberry Pi 2 B (via GPIO on SoC)
-> > +  * Raspberry Pi 3 B (via GPIO on port expander)
-> > +  * Raspberry Pi 3 B+ (via PMIC)
-> > +
-> > +Author: Stefan Wahren <stefan.wahren@i2se.com>
-> > +
-> > +Description
-> > +-----------
-> > +
-> > +This driver periodically polls a mailbox property of the VC4 firmware to detect
-> > +undervoltage conditions.
-> > +
-> > +Sysfs entries
-> > +-------------
-> > +
-> > +in0_lcrit_alarm		Undervoltage alarm
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index 768aed5..9a5bdb0 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -1298,6 +1298,16 @@ config SENSORS_PWM_FAN
-> >   	  This driver can also be built as a module.  If so, the module
-> >   	  will be called pwm-fan.
-> >   
-> > +config SENSORS_RASPBERRYPI_HWMON
-> > +	tristate "Raspberry Pi voltage monitor"
-> > +	depends on RASPBERRYPI_FIRMWARE || COMPILE_TEST
-> > +	help
-> > +	  If you say yes here you get support for voltage sensor on the
-> > +	  Raspberry Pi.
-> > +
-> > +	  This driver can also be built as a module. If so, the module
-> > +	  will be called raspberrypi-hwmon.
-> > +
-> >   config SENSORS_SHT15
-> >   	tristate "Sensiron humidity and temperature sensors. SHT15 and compat."
-> >   	depends on GPIOLIB || COMPILE_TEST
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index e7d52a3..a929770 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -141,6 +141,7 @@ obj-$(CONFIG_SENSORS_PC87427)	+= pc87427.o
-> >   obj-$(CONFIG_SENSORS_PCF8591)	+= pcf8591.o
-> >   obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
-> >   obj-$(CONFIG_SENSORS_PWM_FAN)	+= pwm-fan.o
-> > +obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)	+= raspberrypi-hwmon.o
-> >   obj-$(CONFIG_SENSORS_S3C)	+= s3c-hwmon.o
-> >   obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
-> >   obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
-> > diff --git a/drivers/hwmon/raspberrypi-hwmon.c b/drivers/hwmon/raspberrypi-hwmon.c
-> > new file mode 100644
-> > index 0000000..6233e84
-> > --- /dev/null
-> > +++ b/drivers/hwmon/raspberrypi-hwmon.c
-> > @@ -0,0 +1,168 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Raspberry Pi voltage sensor driver
-> > + *
-> > + * Based on firmware/raspberrypi.c by Noralf Trønnes
-> > + *
-> > + * Copyright (C) 2018 Stefan Wahren <stefan.wahren@i2se.com>
-> > + */
-> > +#include <linux/device.h>
-> > +#include <linux/err.h>
-> > +#include <linux/hwmon.h>
-> > +#include <linux/module.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/workqueue.h>
-> > +#include <soc/bcm2835/raspberrypi-firmware.h>
-> > +
-> > +#define UNDERVOLTAGE_STICKY_BIT	BIT(16)
-> > +
-> > +struct rpi_hwmon_data {
-> > +	struct device *hwmon_dev;
-> > +	struct rpi_firmware *fw;
-> > +	u32 last_throttled;
-> > +	struct delayed_work get_values_poll_work;
-> > +};
-> > +
-> > +static void rpi_firmware_get_throttled(struct rpi_hwmon_data *data)
-> > +{
-> > +	u32 new_uv, old_uv, value;
-> > +	int ret;
-> > +
-> > +	/* Request firmware to clear sticky bits */
-> > +	value = 0xffff;
-> > +
-> > +	ret = rpi_firmware_property(data->fw, RPI_FIRMWARE_GET_THROTTLED,
-> > +				    &value, sizeof(value));
-> > +	if (ret) {
-> > +		dev_err_once(data->hwmon_dev, "Failed to get throttled (%d)\n",
-> > +			     ret);
-> > +		return;
-> > +	}
-> > +
-> > +	new_uv = value & UNDERVOLTAGE_STICKY_BIT;
-> > +	old_uv = data->last_throttled & UNDERVOLTAGE_STICKY_BIT;
-> > +	data->last_throttled = value;
-> > +
-> > +	if (new_uv == old_uv)
-> > +		return;
-> > +
-> > +	if (new_uv)
-> > +		dev_crit(data->hwmon_dev, "Undervoltage detected!\n");
-> > +	else
-> > +		dev_info(data->hwmon_dev, "Voltage normalised\n");
-> > +
-> > +	sysfs_notify(&data->hwmon_dev->kobj, NULL, "in0_lcrit_alarm");
-> > +}
-> > +
-> > +static void get_values_poll(struct work_struct *work)
-> > +{
-> > +	struct rpi_hwmon_data *data;
-> > +
-> > +	data = container_of(work, struct rpi_hwmon_data,
-> > +			    get_values_poll_work.work);
-> > +
-> > +	rpi_firmware_get_throttled(data);
-> > +
-> > +	/*
-> > +	 * We can't run faster than the sticky shift (100ms) since we get
-> > +	 * flipping in the sticky bits that are cleared.
-> > +	 */
-> > +	schedule_delayed_work(&data->get_values_poll_work, 2 * HZ);
-> > +}
-> > +
-> > +static int rpi_read(struct device *dev, enum hwmon_sensor_types type,
-> > +		    u32 attr, int channel, long *val)
-> > +{
-> > +	struct rpi_hwmon_data *data = dev_get_drvdata(dev);
-> > +
-> > +	*val = !!(data->last_throttled & UNDERVOLTAGE_STICKY_BIT);
-> > +	return 0;
-> > +}
-> > +
-> > +static umode_t rpi_is_visible(const void *_data, enum hwmon_sensor_types type,
-> > +			      u32 attr, int channel)
-> > +{
-> > +	return 0444;
-> > +}
-> > +
-> > +static const u32 rpi_in_config[] = {
-> > +	HWMON_I_LCRIT_ALARM,
-> > +	0
-> > +};
-> > +
-> > +static const struct hwmon_channel_info rpi_in = {
-> > +	.type = hwmon_in,
-> > +	.config = rpi_in_config,
-> > +};
-> > +
-> > +static const struct hwmon_channel_info *rpi_info[] = {
-> > +	&rpi_in,
-> > +	NULL
-> > +};
-> > +
-> > +static const struct hwmon_ops rpi_hwmon_ops = {
-> > +	.is_visible = rpi_is_visible,
-> > +	.read = rpi_read,
-> > +};
-> > +
-> > +static const struct hwmon_chip_info rpi_chip_info = {
-> > +	.ops = &rpi_hwmon_ops,
-> > +	.info = rpi_info,
-> > +};
-> > +
-> > +static int rpi_hwmon_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct rpi_hwmon_data *data;
-> > +	int ret;
-> > +
-> > +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> > +	if (!data)
-> > +		return -ENOMEM;
-> > +
-> > +	data->fw = platform_get_drvdata(to_platform_device(dev->parent));
-> > +	if (!data->fw)
-> > +		return -EPROBE_DEFER;
-> > +
+>   echo "file cpuset.c +p" > /sys/kernel/debug/dynamic_debug/control
 > 
-> I am a bit at loss here (and sorry I didn't bring this up before).
-> How would this ever be possible, given that the driver is registered
-> from the firmware driver ?
+> and setting loglevel to 8 will allow the kernel to show what scheduling
+> domain changes are being made.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  kernel/cgroup/cpuset.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index fb8aa82b..8f586e8 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -820,6 +820,12 @@ static int generate_sched_domains(cpumask_var_t **domains,
+>  	}
+>  	BUG_ON(nslot != ndoms);
+>  
+> +#ifdef CONFIG_DEBUG_KERNEL
+> +	for (i = 0; i < ndoms; i++)
+> +		pr_debug("generate_sched_domains dom %d: %*pbl\n", i,
+> +			 cpumask_pr_args(doms[i]));
+> +#endif
+> +
 
-Do you refer to the (wrong) return code, the assumption that the parent must be a platform driver or a possible race?
+While I'm always in favor of adding debug output, in this case I'm not
+sure it's adding much to what we already print when booting with
+sched_debug kernel command-line param, e.g.
 
-> 
-> > +	ret = rpi_firmware_property(data->fw, RPI_FIRMWARE_GET_THROTTLED,
-> > +				    &data->last_throttled,
-> > +				    sizeof(data->last_throttled));
-> > +	if (ret)
-> > +		return -ENODEV;
-> > +
-> > +	data->hwmon_dev = devm_hwmon_device_register_with_info(dev, "rpi_volt",
-> > +							       data,
-> > +							       &rpi_chip_info,
-> > +							       NULL);
-> > +
-> > +	INIT_DELAYED_WORK(&data->get_values_poll_work, get_values_poll);
-> > +	platform_set_drvdata(pdev, data);
-> > +
-> > +	if (!PTR_ERR_OR_ZERO(data->hwmon_dev))
-> > +		schedule_delayed_work(&data->get_values_poll_work, 2 * HZ);
-> > +
-> > +	return PTR_ERR_OR_ZERO(data->hwmon_dev);
-> > +}
-> > +
-> > +static int rpi_hwmon_remove(struct platform_device *pdev)
-> > +{
-> > +	struct rpi_hwmon_data *data = platform_get_drvdata(pdev);
-> > +
-> > +	cancel_delayed_work_sync(&data->get_values_poll_work);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct platform_driver rpi_hwmon_driver = {
-> > +	.probe = rpi_hwmon_probe,
-> > +	.remove = rpi_hwmon_remove,
-> > +	.driver = {
-> > +		.name = "raspberrypi-hwmon",
-> > +	},
-> > +};
-> > +module_platform_driver(rpi_hwmon_driver);
-> > +
-> > +MODULE_AUTHOR("Stefan Wahren <stefan.wahren@i2se.com>");
-> > +MODULE_DESCRIPTION("Raspberry Pi voltage sensor driver");
-> > +MODULE_LICENSE("GPL v2");
-> > 
->
+--->8---
+ Kernel command line: BOOT_IMAGE=/vmlinuz-4.17.0-rc5+ ... sched_debug
+
+[...]
+
+ smp: Bringing up secondary CPUs ...
+ x86: Booting SMP configuration:
+ .... node  #0, CPUs:        #1  #2  #3  #4  #5
+ .... node  #1, CPUs:    #6  #7  #8  #9 #10 #11
+ smp: Brought up 2 nodes, 12 CPUs
+ smpboot: Max logical packages: 2
+ smpboot: Total of 12 processors activated (45636.50 BogoMIPS)
+ CPU0 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }
+   domain-1: span=0-11 level=NUMA
+    groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
+ CPU1 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }
+   domain-1: span=0-11 level=NUMA
+    groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
+ CPU2 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }
+   domain-1: span=0-11 level=NUMA
+    groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
+ CPU3 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }
+   domain-1: span=0-11 level=NUMA
+    groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
+ CPU4 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }
+   domain-1: span=0-11 level=NUMA
+    groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
+ CPU5 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }
+   domain-1: span=0-11 level=NUMA
+    groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
+ CPU6 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }
+   domain-1: span=0-11 level=NUMA
+    groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
+ CPU7 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }
+   domain-1: span=0-11 level=NUMA
+    groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
+ CPU8 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }
+   domain-1: span=0-11 level=NUMA
+    groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
+ CPU9 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }
+   domain-1: span=0-11 level=NUMA
+    groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
+ CPU10 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }
+   domain-1: span=0-11 level=NUMA
+    groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
+ CPU11 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }
+   domain-1: span=0-11 level=NUMA
+    groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
+ span: 0-11 (max cpu_capacity = 1024)
+
+[...]
+
+ generate_sched_domains dom 0: 6-11 <-- this and the one below is what
+ generate_sched_domains dom 1: 0-5      you are adding
+ CPU0 attaching NULL sched-domain.
+ CPU1 attaching NULL sched-domain.
+ CPU2 attaching NULL sched-domain.
+ CPU3 attaching NULL sched-domain.
+ CPU4 attaching NULL sched-domain.
+ CPU5 attaching NULL sched-domain.
+ CPU6 attaching NULL sched-domain.
+ CPU7 attaching NULL sched-domain.
+ CPU8 attaching NULL sched-domain.
+ CPU9 attaching NULL sched-domain.
+ CPU10 attaching NULL sched-domain.
+ CPU11 attaching NULL sched-domain.
+ CPU6 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }
+ CPU7 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }
+ CPU8 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }
+ CPU9 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }
+ CPU10 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }
+ CPU11 attaching sched-domain(s):
+  domain-0: span=6-11 level=MC
+   groups: 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }
+ span: 6-11 (max cpu_capacity = 1024)
+ CPU0 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }
+ CPU1 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }
+ CPU2 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }
+ CPU3 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }
+ CPU4 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }
+ CPU5 attaching sched-domain(s):
+  domain-0: span=0-5 level=MC
+   groups: 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }
+ span: 0-5 (max cpu_capacity = 1024)
+ --->8---
+
+ Do you think there is still a benefit in printing out what
+ generate_sched_domains does?
+
+ Best,
+
+ - Juri
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
