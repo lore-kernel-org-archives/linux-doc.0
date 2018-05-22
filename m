@@ -5,165 +5,291 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 280537D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 08:39:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C56207D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 08:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750733AbeEVIjR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 May 2018 04:39:17 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:20302 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750709AbeEVIjO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 May 2018 04:39:14 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 84A89403A1;
-        Tue, 22 May 2018 10:39:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1526978351; x=1528792752; bh=lGCf0XeHrLoGGkUITZGN2TYrg3s2ygwcCOu
-        u2sU5Drw=; b=yg1ThNjbaLrx591D3j65+xDP1pnPljcOGgRcEOkTYnHGbEFxpcL
-        8UHEAVKdo4MWssKr6V+KpN3OCnypMsYfTm9ot1oq9cauhR0KgPL1Hzg/Muub5FOJ
-        j+wR2xyTgxTHIOp/uKZQ0//5klxkSTnZZiqWRzJMJrH7wHf1TOUcRy/aIz3n1lL0
-        ONsUxSvS//YC4z02VfsOMqg/oiCzSZn6zZuRL7sVBShBmklP5bE3oheOwM+iiGRD
-        vEXc8t0JWkZ41ke3pJL+iaX76/47vmTuo/qCGDuKvj2HesCuHAvY/uXBHsgPv5Nn
-        lbS2qGtUZNzL0Zs+HJT2cwELSxRGMhNxoq5at53BJfovCnwOIvAEYDne89J//nVT
-        A34P/UvOOxVob4HnqsNiB0fdsbuiitlCM35UqknE6EtEzX+ZH7k67qOsOv6l4tXM
-        as6qben4yLArQaCHmqgoFiJnd45dA9zlEvJOcMKI49Vmhwt05NWkVmXeZ5KVD4Qj
-        PXA8DMi79zlbI6gJ9oH4xF09pXHt30Bst+G0iBsoGPtav8rVdim28ODTBb2otIu0
-        8MHPgEs1vfUzYYVOtio76wOhzAt1kunJDyKr4h/UWepQasU2AutitTv1B1//vnah
-        ATOypM882ZYzjGPiBl6WIRch6PGmGsyfJrJESGdTGbiEa7rESp1RtMoU=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Kdj5LB8GyAh2; Tue, 22 May 2018 10:39:11 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 697E1401CD;
-        Tue, 22 May 2018 10:39:11 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 35BD3A26;
-        Tue, 22 May 2018 10:39:11 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, amantegazza@vaga.pv.it
-Subject: Re: Documentation/translations: Italian
-Date:   Tue, 22 May 2018 10:39:09 +0200
-Message-ID: <3094464.Q0nrLVF18W@pcbe13614>
-In-Reply-To: <20180521170035.7e75f54b@lwn.net>
-References: <152696186.kHulSgLgWb@harkonnen> <20180521170035.7e75f54b@lwn.net>
+        id S1751173AbeEVIjg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 May 2018 04:39:36 -0400
+Received: from mail-pg0-f66.google.com ([74.125.83.66]:33682 "EHLO
+        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751002AbeEVIje (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 04:39:34 -0400
+Received: by mail-pg0-f66.google.com with SMTP id e21-v6so2653580pgv.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 May 2018 01:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kAUwDb0EkBkcp4j9Xj3XkPMa1zxX5DcL2CzrAbGqey4=;
+        b=LN0R4UOouE46Vmjh5QI556F27x+k2InaQfA4yqayDiDhPOdmCxxqyZUjWlVkGVV/lG
+         3efPP3qNQaaQwdirbo8kLkiNLDkCTgoI/6Nu40E9Cm6Vwi+IwnYRVBIxqcELndz2YxNo
+         X/EO1TFQztA7JrV0qx+bvRJNDR8BzGat8N1fM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kAUwDb0EkBkcp4j9Xj3XkPMa1zxX5DcL2CzrAbGqey4=;
+        b=C57PCfVSLSdSdUW18nHJXnvxJhlz5SrMzjOezB5O/h24FihJOxTfVEIfMiHyDz5bJd
+         Pt0+zO73NEwZgZP4BIVO5k922kOFLUiMh4xUIxSya8vruR6BraC7ufqWYdGAd2sJvhp3
+         /u3mDK2K+SOK6HATt7ru4H7vScYmI+QZLW453w/XeRjXf/XXTx9Td7+QoJk6GQxUWthu
+         lhoYyPysUxy6bnq8CYTnprt6wf0dJlZtaLmGl1GJNpQqTVbE9zus7TID5PoYun6ea8Q6
+         zeU1d0OdPxuudCitLp49u1c5p1ChadiCoKR5y9Ch6hbo4RtOz/473oTRhRVjEMsQ/0H9
+         Z51w==
+X-Gm-Message-State: ALKqPwfjgIspLrXHuMxeERah/edyyrNYbAfvGMARGeWgHIfKPNOqKsM9
+        zapbNeda84/D7ABSN3yussEvFQ==
+X-Google-Smtp-Source: AB8JxZoYB00SGFI2rmRSc6LaaMXz1v6k29UBgqtcc340aEOQoBGdJICxmZH6FBFzFZ95uerlj97TBA==
+X-Received: by 2002:a65:4502:: with SMTP id n2-v6mr17875951pgq.95.1526978373815;
+        Tue, 22 May 2018 01:39:33 -0700 (PDT)
+Received: from leoy-ThinkPad-X240s (li1170-132.members.linode.com. [45.79.71.132])
+        by smtp.gmail.com with ESMTPSA id z25-v6sm32018142pfi.171.2018.05.22.01.39.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 May 2018 01:39:32 -0700 (PDT)
+Date:   Tue, 22 May 2018 16:39:20 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Robert Walker <robert.walker@arm.com>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tor Jeremiassen <tor@ti.com>,
+        mike.leach@linaro.org, kim.phillips@arm.com,
+        coresight@lists.linaro.org, Mike Leach <mike.leach@arm.com>
+Subject: Re: [RFT v2 1/4] perf cs-etm: Generate sample for missed packets
+Message-ID: <20180522083920.GD31075@leoy-ThinkPad-X240s>
+References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
+ <1526892748-326-2-git-send-email-leo.yan@linaro.org>
+ <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, 22 May 2018 01:00:35 CEST Jonathan Corbet wrote:
-> On Mon, 21 May 2018 22:54:18 +0200
-> 
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > I'm writing you because I would like to start an effort to
-> > translate the Documentation in Italian. I would like also to
-> > express the idea of providing guide lines for translations.
-> 
-> Mi sembra un'ottima idea! :)
+Hi Rob,
 
-Siamo sulla stessa lunghezza d'onda :)
+On Mon, May 21, 2018 at 12:27:42PM +0100, Robert Walker wrote:
+> Hi Leo,
+> 
+> On 21/05/18 09:52, Leo Yan wrote:
+> >Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
+> >traces") reworks the samples generation flow from CoreSight trace to
+> >match the correct format so Perf report tool can display the samples
+> >properly.  But the change has side effect for packet handling, it only
+> >generate samples when 'prev_packet->last_instr_taken_branch' is true,
+> >this results in the start tracing packet and exception packets are
+> >dropped.
+> >
+> >This patch checks extra two conditions for complete samples:
+> >
+> >- If 'prev_packet->sample_type' is zero we can use this condition to
+> >   get to know this is the start tracing packet; for this case, the start
+> >   packet's end_addr is zero as well so we need to handle it in the
+> >   function cs_etm__last_executed_instr();
+> >
+> 
+> I think you also need to add something in to handle discontinuities in
+> trace - for example it is possible to configure the ETM to only trace
+> execution in specific code regions or to trace a few cycles every so
+> often. In these cases, prev_packet->sample_type will not be zero, but
+> whatever the previous packet was.  You will get a CS_ETM_TRACE_ON packet in
+> such cases, generated by an I_TRACE_ON element in the trace stream.
+> You also get this on exception return.
+> 
+> However, you should also keep the test for prev_packet->sample_type == 0
+> as you may not see a CS_ETM_TRACE_ON when decoding a buffer that has
+> wrapped.
+
+Thanks for reviewing.  Let's dig more detailed into this issue,
+especially for handling packet CS_ETM_TRACE_ON, I'd like divide into two
+sub cases.
+
+- The first case is for using python script:
+
+  I use python script to analyze packets with below command:
+  ./perf script --itrace=ril128 -s arm-cs-trace-disasm.py -F cpu,event,ip,addr,sym -- -v -d objdump -k ./vmlinux
+
+  What I observe is after we pass python script with parameter '-s
+  arm-cs-trace-disasm.py', then instruction tracing options
+  '--itrace=ril128' isn't really used;  the perf tool creates another
+  new process for launch python script and re-enter cmd_script()
+  function, but at the second time when invoke cmd_script() for python
+  script execution the option '--itrace=ril128' is dropped and all
+  parameters are only valid defined by the python script.
+
+  As result, I can the variable 'etmq->etm->synth_opts.last_branch' is
+  always FALSE for running python script.  So all CS_ETM_TRACE_ON
+  packets will be ignored in the function cs_etm__flush().
+
+  Even the CS_ETM_TRACE_ON packets are missed to handle, the program
+  flow still can work well.  The reason is without the interference by
+  CS_ETM_TRACE_ON, the CS_ETM_RANGE packets can smoothly create
+  instruction range by ignore the middle CS_ETM_TRACE_ON packet.
+
+  Please see below example, in this example there have 3 packets, the
+  first one packet is CS_ETM_RANGE packet which is labelled with
+  'PACKET_1', the first one packet can properly generate branch sample
+  data with previous packet as expected;  the second packet is
+  PACKET_2 which is CS_ETM_TRACE_ON, but
+  'etmq->etm->synth_opts.last_branch' is false so function
+  cs_etm__flush() doesn't handle it and skip the swap operation
+  "etmq->prev_packet = tmp"; the third packet is PACKET_3, which is
+  CS_ETM_RANGE packet and we can see it's smoontly to create
+  continous instruction range between PACKET_1 and PACKET_3.
+
+  cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f79c end_addr=0xffff000008a5f7bc last_instr_taken_branch=1
+  PACKET_1: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+  cs_etm__synth_branch_sample: ip=0xffff000008a5f7b8 addr=0xffff000008a5f858 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=1 flags=0 cpumode=2
+
+  cs_etm__flush: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+  PACKET_2: cs_etm__flush: packet: sample_type=2 exc=0 exc_ret=0 cpu=2 start_addr=0xdeadbeefdeadbeef end_addr=0xdeadbeefdeadbeef last_instr_taken_branch=1
+
+  cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+  PACKET_3: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=2 start_addr=0xffff000008be7528 end_addr=0xffff000008be7538 last_instr_taken_branch=1
+  cs_etm__synth_branch_sample: ip=0xffff000008a5f860 addr=0xffff000008be7528 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=2 flags=0 cpumode=2
+
+  So seems to me, the CS_ETM_TRACE_ON packet doesn't introduce trouble
+  for the program flow analysis if we can handle all CS_ETM_RANGE
+  packets and without handling CS_ETM_TRACE_ON packet for branch
+  samples.
+
+- The second case is for --itrace option without python script:
+  ./perf script --itrace=ril -F cpu,event,ip,addr,sym -k ./vmlinux
+
+  In this case, the flag 'etmq->etm->synth_opts.last_branch' is true
+  so CS_ETM_TRACE_ON packet will be handled; but I can observe the
+  CS_ETM_RANGE packet in etmq->prev_packet isn't handled in the
+  function cs_etm__flush() for branch sample, so actually we miss some
+  branch sample for this case.
+
+  So I think we also need handle CS_ETM_RANGE packet in function
+  cs_etm__flush() to generate branch samples.  But this has side
+  effect, we introduce the extra track for CS_ETM_TRACE_ON packet for
+  branch samples, so we will see one branch range like:
+  [ 0xdeadbeefdeadbeef .. 0xdeadbeefdeadbeef ].
+
+Please reivew below change is okay for you?  Thanks a lot for
+suggestions.
+
+diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+index 822ba91..37d3722 100644
+--- a/tools/perf/util/cs-etm.c
++++ b/tools/perf/util/cs-etm.c
+@@ -495,6 +495,13 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
+ static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
+ {
+ 	/*
++	 * The packet is the start tracing packet if the end_addr is zero,
++	 * returns 0 for this case.
++	 */
++	if (!packet->end_addr)
++		return 0;
++
++	/*
+ 	 * The packet records the execution range with an exclusive end address
+ 	 *
+ 	 * A64 instructions are constant size, so the last executed
+@@ -897,13 +904,28 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+ 		etmq->period_instructions = instrs_over;
+ 	}
  
-> > I know that there are already translations for Asian languages but
-> > I am not able to find the history of them. I do not know if
-> > translations in European languages are going to be accepted
-> > (perhaps there is the assumption that everyone knows English in
-> > the European continent and it is a waste of energy to do
-> > translations[?]). For example, even if French and Germans are
-> > quite active there are not translations yet in their language: is
-> > there a particular reason or simply nobody did it?
-> 
-> Nobody has done it.  There certainly is no policy against
-> translations to any specific language - that would be hard to
-> justify, to say the least.
-> 
-> OK, I might draw the line at Klingon.  But the discussion of error
-> handling in Klingon could actually be a lot of fun.
-> 
-> I'm happy to accept new translations of stuff in the documentation
-> directory.  In general, I've had two concerns about translations:
-> they are generally impossible for me to review, and there needs to
-> be somebody committed to keeping the translations current as the
-> documentation changes.  For Italian, the first problem doesn't
-> exist, but the second is always there. What are your intentions for
-> maintaining the translations in the long term?
-
-I can maintain the Italian translation. 
+-	if (etm->sample_branches &&
+-	    etmq->prev_packet &&
+-	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+-	    etmq->prev_packet->last_instr_taken_branch) {
+-		ret = cs_etm__synth_branch_sample(etmq);
+-		if (ret)
+-			return ret;
++	if (etm->sample_branches && etmq->prev_packet) {
++		bool generate_sample = false;
++
++		/* Generate sample for start tracing packet */
++		if (etmq->prev_packet->sample_type == 0 ||
++		    etmq->prev_packet->sample_type == CS_ETM_TRACE_ON)
++			generate_sample = true;
++
++		/* Generate sample for exception packet */
++		if (etmq->prev_packet->exc == true)
++			generate_sample = true;
++
++		/* Generate sample for normal branch packet */
++		if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
++		    etmq->prev_packet->last_instr_taken_branch)
++			generate_sample = true;
++
++		if (generate_sample) {
++			ret = cs_etm__synth_branch_sample(etmq);
++			if (ret)
++				return ret;
++		}
+ 	}
  
-> > If you agree with the need to support different translations, I
-> > would like to do the Italian one. But first I would like to open
-> > a little discussion about translations  "how to write
-> > translations"; this discussion should produce a document (in
-> > English) with guide lines for translator (e.g. Documentation/
-> > translation/howto.rst): what to translate first, what to NOT
-> > translate, how to structure it.
-> > Once this is defined I will start the Italian translation (I
-> > already have some documents translated).
-> 
-> This can be a fine plan, assuming we're convinced that the
-> guidelines document is really needed.  I guess I'm not yet
-> convinced of that.  But you might also consider gaining some
-> experience in writing, merging, and maintaining a translation
-> before trying to lay down rules for everybody else.  In other
-> words, I think you might want to do things in the opposite order.
-
-You are right, probably I was over-engineering this thing :)
-
-> 
-> > How to do translations (IMHO)
-> > -----------------------------
-> > Here my personal guide lines for translations
-> > 
-> > - Translate only sphinx-ready documents, do not translate
-> > documents which are not yet sphinx. We should avoid useless
-> > double work; at some point, I guess, everything will be sphinx.
-> 
-> I wouldn't insist on that.  But a better idea in any case would be:
-> if a document you want to translate isn't yet in RST, just do the
-> conversion. The amount of work required is usually quite small.
-
-ok
-
-> > - Include in all documents a disclaimer saying that English is the
-> > main reference (use sphinx directive 'include' to include it).
-> > - Include in all documents a reference to the English version. So
-> > it will be easy jump to the original document.
-> 
-> Remember that the docs need to be readable *without* Sphinx
-> processing. Better to just name the source document in a quick line
-> at the top, IMO.
-
-ok
-
-> > - Translate in order: non-technical documents (they are stable,
-> > useful for a wider group of people (developers and managers):
-> > process/, doc-guide/ ), technical documents about key concepts
-> > (they are stable, and important for new-comers), subsystems (the
-> > big picture is stable, typically they do not describe all little
-> > details that may change), and then other documents
-> If you want to work in that order, that is more than fine.  Others
-> have agreed - the process docs tend to get translated first.  But
-> if somebody else wants to start elsewhere, I wouldn't try to tell
-> them not to.
-> 
-> Anyway, thanks for wanting to help improve the documentation!  If
-> you have some of this work already done, you might want to consider
-> going ahead and posting some patches.
-
-I will review them and push something in the next days
-
+ 	if (etm->sample_branches || etm->synth_opts.last_branch) {
+@@ -921,12 +943,17 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+ 
+ static int cs_etm__flush(struct cs_etm_queue *etmq)
+ {
++	struct cs_etm_auxtrace *etm = etmq->etm;
+ 	int err = 0;
+ 	struct cs_etm_packet *tmp;
+ 
+-	if (etmq->etm->synth_opts.last_branch &&
+-	    etmq->prev_packet &&
+-	    etmq->prev_packet->sample_type == CS_ETM_RANGE) {
++	if (!etmq->prev_packet)
++		return 0;
++
++	if (etmq->prev_packet->sample_type != CS_ETM_RANGE)
++		return 0;
++
++	if (etmq->etm->synth_opts.last_branch) {
+ 		/*
+ 		 * Generate a last branch event for the branches left in the
+ 		 * circular buffer at the end of the trace.
+@@ -939,18 +966,25 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
+ 		err = cs_etm__synth_instruction_sample(
+ 			etmq, addr,
+ 			etmq->period_instructions);
++		if (err)
++			return err;
+ 		etmq->period_instructions = 0;
++	}
+ 
+-		/*
+-		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+-		 * the next incoming packet.
+-		 */
+-		tmp = etmq->packet;
+-		etmq->packet = etmq->prev_packet;
+-		etmq->prev_packet = tmp;
++	if (etm->sample_branches) {
++		err = cs_etm__synth_branch_sample(etmq);
++		if (err)
++			return err;
+ 	}
+ 
+-	return err;
++	/*
++	 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
++	 * the next incoming packet.
++	 */
++	tmp = etmq->packet;
++	etmq->packet = etmq->prev_packet;
++	etmq->prev_packet = tmp;
++	return 0;
+ }
+ 
+ static int cs_etm__run_decoder(struct cs_etm_queue *etmq)
 -- 
-Federico Vaga
-http://www.federicovaga.it/
-
-
+2.7.4
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
