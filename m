@@ -5,365 +5,155 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C46787D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 14:10:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8AB737D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 14:41:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751272AbeEVOKP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 May 2018 10:10:15 -0400
-Received: from mail-pf0-f193.google.com ([209.85.192.193]:44168 "EHLO
-        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751173AbeEVOKO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 10:10:14 -0400
-Received: by mail-pf0-f193.google.com with SMTP id q22-v6so8835536pff.11;
-        Tue, 22 May 2018 07:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kDoOoQuq3S+CULrLAuq8fGho5Afnhnx4cnmS0H1tHNo=;
-        b=UxC0+a3TTHygjTHJkqV/gu70wawi/tXkrX9U5KUYVtyZRspqkk/bUIk2dTAegJLvSp
-         I3lqyNb7S+CDPQULJpaH/7oU9kCaPjC0ns69R1OP2YboqM0e67q7WEkGKP8zrX9vwRbv
-         1VV/fLPiQrvKhdZMGMY2xWxfzLKwkFUMVYMQktSy6NoVudUjbKd3CEKmM7AxL/13Lk3m
-         /ou4Qa1LRFWRGG3I96/aKWynZFbJ8DQ1QL99rNtlvuyQFrGC251ZTLmY9KP6AzWVH595
-         2Ci5CknCGENQj5IuEE8yHeaXPYwhSQwm9Xb8JqFwHv5zRSJMBBgF4Nv1f9kGUqDW+Z89
-         zymg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kDoOoQuq3S+CULrLAuq8fGho5Afnhnx4cnmS0H1tHNo=;
-        b=FJ69C2/FgqKF8tETu03B3XYrCxgJYOVAs1krVc4jd8nCt/Q/YXMouxsnY7g9GZir+O
-         8T0JLCxadZ/141433JZ8HkjGStPet7QqisGToV5by1lgYiSKwBtFRV8ZzaJnzPOHcSGQ
-         +WeaIgy0H5CP874qZ6xEP+De5hoaeoGRAZIjkenOltJSWHTLz6hnm0ngOmm4k2yAFyDD
-         ZnJErbyNNojTCDKswJ+TmZoYZ7Bej2xadQpF3Y7DpxlqMvShAu7r2vC/7YAvNfChuyGw
-         gj12N1VGgSsN41wa+2H5OMWa0QO3UGGBsoy0Kf0bQFfnGFTOCMhZgY+5fezOnp3TXchM
-         EVpA==
-X-Gm-Message-State: ALKqPwd/CIbbINJ3mchDYzGB1E1w6CpBiUlkAnyRsXbJQCIiMjYGLMFT
-        qio8W79a7Ut18ae/I8SjD6c=
-X-Google-Smtp-Source: AB8JxZr6VU3O2OuBsZPZ1TfRuo4N8J3Zfbord+xAAuRBH1NF9GIpaBny41w277ZrppUNLWVL8VXF3Q==
-X-Received: by 2002:a63:6fcf:: with SMTP id k198-v6mr11564796pgc.307.1526998213818;
-        Tue, 22 May 2018 07:10:13 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id t80-v6sm34247496pfg.0.2018.05.22.07.10.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 May 2018 07:10:12 -0700 (PDT)
-Subject: Re: [PATCH RFC V2 2/6] hwmon: Add support for RPi voltage sensor
-To:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Eric Anholt <eric@anholt.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     Scott Branden <sbranden@broadcom.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-rpi-kernel@lists.infradead.org,
-        Phil Elwell <phil@raspberrypi.org>,
-        bcm-kernel-feedback-list@broadcom.com, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
-        Ray Jui <rjui@broadcom.com>,
-        linux-arm-kernel@lists.infradead.org
-References: <1526988112-4021-1-git-send-email-stefan.wahren@i2se.com>
- <1526988112-4021-3-git-send-email-stefan.wahren@i2se.com>
- <90a768aa-ee8c-1050-cf15-60637069dbdb@roeck-us.net>
- <659923372.11518.1526997096662@email.1und1.de>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <bea3d6c7-a713-c4aa-8ae8-7fec80c5da5d@roeck-us.net>
-Date:   Tue, 22 May 2018 07:10:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1751272AbeEVOlU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 May 2018 10:41:20 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:39048 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1751199AbeEVOlS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 10:41:18 -0400
+Received: from pps.filterd (m0044008.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4MEcuHc025931;
+        Tue, 22 May 2018 07:41:16 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=pyGyst6CwqeV5Q/PD0dBswtRw65+/xB3wFZAo8T8W68=;
+ b=Thpcd6pVWuyT5i5NFYbWW+77Wywh2cK00X5Hvj+0ziS3gy+DkwHZR4MhshntQYwI2Tqk
+ wBLIvG91MFIaEfWQFMFB3hzAWefl6+a8qc0yH11cr/UNAQjzBxQi9Y4189jHMJWHkKOg
+ W0sQEY36Gw3sIEX9nzaPELiWrsyNOStZtS0= 
+Received: from mail.thefacebook.com ([199.201.64.23])
+        by mx0a-00082601.pphosted.com with ESMTP id 2j4f6j8tm3-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Tue, 22 May 2018 07:41:16 -0700
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com (192.168.54.28)
+ by o365-in.thefacebook.com (192.168.16.14) with Microsoft SMTP Server (TLS)
+ id 14.3.361.1; Tue, 22 May 2018 07:41:14 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector1-fb-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pyGyst6CwqeV5Q/PD0dBswtRw65+/xB3wFZAo8T8W68=;
+ b=DM5iM5qdlOnoBQvHK1BfsfyiLWBfg0Ae8iW1i1wOLFS17JHHjgl6ETADF5j67osxy1LLPfyT23rRPiwX4D8e3vr5eGhpsYyXM1xFo57DuvYhBg2cZeAVQP7hF86wP4h5Goz1FueubY8DyxqKqaWRDxeXrF/vgEhsPTVNML8Nq+8=
+Received: from castle.thefacebook.com (2620:10d:c092:200::1:c39d) by
+ DM3PR15MB1084.namprd15.prod.outlook.com (2603:10b6:0:12::10) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.776.11; Tue, 22
+ May 2018 14:41:11 +0000
+From:   Roman Gushchin <guro@fb.com>
+To:     Tejun Heo <tj@kernel.org>
+CC:     Roman Gushchin <guro@fb.com>, <kernel-team@fb.com>,
+        <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] cgroup, docs: add a note about returning EBUSY in some cases
+Date:   Tue, 22 May 2018 15:36:48 +0100
+Message-ID: <20180522143648.29508-1-guro@fb.com>
+X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
-In-Reply-To: <659923372.11518.1526997096662@email.1und1.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [2620:10d:c092:200::1:c39d]
+X-ClientProxiedBy: AM5PR0602CA0004.eurprd06.prod.outlook.com
+ (2603:10a6:203:a3::14) To DM3PR15MB1084.namprd15.prod.outlook.com
+ (2603:10b6:0:12::10)
+X-MS-PublicTrafficType: Email
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:DM3PR15MB1084;
+X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;3:+zYRrLsN8QE5c8UGqCrObbU5EzxlX5LK8Yjbq3Ghg9omLF2fFmYl1Gi0mrAPv019F1kiZ89DJLltDbxCl9TZLPx2Ln4WoxYRQN/boVfHPh4otS8uLrNluHClT1qzhloc+P7DOtMzey1lUGHhNVbtBbDPXBTpjKqx5wCOpRaD0vTDwp68+mVM6IkNRLFaKWBjy/3d2T5AR7+LQQTV4RAwlDjMPo3vy1gHwyS4XegeB2h18bDNNWn+PplgLMqn0o8e;25:tTcvewscnGhhxix4g6qa3BuTSA6w3hx/4uYKP8RixejFjbUyREa7s5DfRPCtyiiVRwBXQ/ZaWso0NSLmZLF6VqjOm8JvGtH1kmVGiIqhjMj6qeyy+4pDcHT5jFw79NcK27Aov3T2y+02DIxV1GyTf3IXIV7w35dJCaQuGUK8omPOY7xy+tpAqDNfLHds9Zq7Q10pdwrSPffdRsEtkEXaIMJCVreC+xTA35SAVDzcvzhVeLbrOY2J7ChGXODYCpy0I7W9qF4njjeZNH93KFhp7ipqG/wk3lJ1ybEUVTk4bVmDxA9gLdMFzNrpryplyxNsqKG4go5rEprTUOYJyQFLcg==;31:G1UCxTLnlygPYResz1Ewri5qcC8HsNyDTcRScOOGan1U7UhSqSsyDhE+E7yB7tgPwcUmgN3yY7V8NEGZDrJBQDgN0EFzkhOdEa/g3YC+LXtNbotCbzrO/1ydf8eSL/BVP6pEscLv2tZLHLPiVi63QVtjvhEb2UEhpnoCAC9u/RF4qKsVqfNzecq9B+owcRJedBpLq5nxKF258GrKIAtbNZW4poaPtgsVTaQ1eIKkSNo=
+X-MS-TrafficTypeDiagnostic: DM3PR15MB1084:
+X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;20:nmbRshfdQsqo32vxE9cpae+aUEF9QHY93TeTko2KsfSG8F89fm8ZHla61nNMXrjMpgTWhXv7BKWX6ngHkmmzAszDQDbIAJuRjnUuL94CNJ97dTuzckThXx2oj8hd54G+IG7tjocTaYHIH8sghBvo961ZGHDTOczRYUnuq/eHdLlI0GM3APbCGH3XIM26pK/Qk9UNAGwItl5j1BrPiDMp+TLAm6fF4Ahykei2MH+RKSCDxu1fT3yZ0zpr0xeMl+w3OeTIrEtdQgT3tsDTwIzWGhg2J4in7O1huQo0IOrUAStd5kXoDjsNZ1dBoHSlBzu8WOuFbEkpApWTWladnZz5jCjC/AL6W2E/9nfaFgOHzCf4CEIaq+H1JkN/CNuYXOATkgS+mwg69B/EFi/KJzNC66Kr7uHlQgI4Wqci3rVS0NXRm/3Dy7S+qF4/XXWjtWucG7BP5d92FjKL6Qb2Q4VPMjAEP4Jd5CcvkVd5py8N+mr8eje9IdACsLyXL4bEtVDx;4:DMcMjClBLnQ5M0Qiem8tJD+4+jsZq+0TsKjzErI80avqwaCg25vNMW+3ULXOAE9nURIPctXBCC4E0wjJWd+pwIYToRNuXBO0gM659zYcTN/4OjMiu3BSNWNYlmVMciCdK5F9+6gKyGTphdrL3JB4SvHXBjv8PWllcwdpADp7ulxY0wSnHKjbPM8Ne6kZyNOUtv8ox8pBZ++3T/JMg5y6ILOxAYQrMuyCZ/xBnZCTPBoqzWF8a9FeAAdsDwPNs9bhRcS8O84AEhnGjDkWN+R+fBXQPDE6BaD3Ij9gvy0Frq1jH30EFeW25Kn1+OsHVstQ5IWXesOU0CQKqps54ZlkubBL+ELba2yDgXeiQ47x1EU=
+X-Microsoft-Antispam-PRVS: <DM3PR15MB10848E001489B435B85654FBBE940@DM3PR15MB1084.namprd15.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(9452136761055)(67672495146484);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3002001)(93006095)(93001095)(10201501046)(3231254)(11241501184)(944501410)(52105095)(149027)(150027)(6041310)(20161123560045)(20161123564045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(6072148)(201708071742011)(7699016);SRVR:DM3PR15MB1084;BCL:0;PCL:0;RULEID:;SRVR:DM3PR15MB1084;
+X-Forefront-PRVS: 0680FADD48
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(39380400002)(39860400002)(376002)(346002)(396003)(366004)(199004)(189003)(1076002)(8676002)(81166006)(6116002)(81156014)(47776003)(86362001)(8936002)(386003)(59450400001)(1857600001)(6506007)(6666003)(16526019)(53936002)(5660300001)(50466002)(69596002)(53416004)(48376002)(5890100001)(186003)(6916009)(105586002)(6486002)(106356001)(52396003)(305945005)(476003)(2616005)(46003)(25786009)(486006)(50226002)(36756003)(2906002)(68736007)(97736004)(16586007)(7736002)(6512007)(478600001)(4326008)(52116002)(51416003)(316002)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:DM3PR15MB1084;H:castle.thefacebook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;DM3PR15MB1084;23:W0UmYSz4v2yMRJDSyCvTvg8a6Ag4OMNoBHHNn3RPX?=
+ =?us-ascii?Q?DPhDe5FoZ8ULGNvWzYSJGbXKYHxXqzMnKlRq5dWK+1wQa6wo2BsQHopQMouP?=
+ =?us-ascii?Q?tid/CW0tOKmmXYlCnH6LFC3LHNVEu5hRCs4NV10GsGwGreZ1q1y0P2KxmiiM?=
+ =?us-ascii?Q?PtLeFz8B5uaH1iSRiiF/QQ0lMGnyAABd3/5yrWHtiyN+s4xkFAfWG5U94Sxz?=
+ =?us-ascii?Q?X31ONynQDVebRef96YVHYuyOZMP85UQHcPtEQKaZzHrApKsxoJ/WL+313hG5?=
+ =?us-ascii?Q?CZ44xF+3lRKIzUGok6dOh73jt879HqI7yVhKBu2CedE4BphmNkJzDw7xVCub?=
+ =?us-ascii?Q?96AjLWh4DR1FGMLAVCqLDQkjtgwlUK9YoyIshljGxtI0yWjnTk8XM4A3vZ1g?=
+ =?us-ascii?Q?2g7YaUaK5TJW1EDVtqauQ/CDVrLTFLNNZ0i+Bkz1X0ZXPJZ4tn5Dd2T4nXFW?=
+ =?us-ascii?Q?ovTe/56j192sB9SzUW+m+qHyooVRtR/Dj2hExdZpClCdFWYxLL33QZKh6ru8?=
+ =?us-ascii?Q?yArOPyD6EuH+Cxu/IkmJWooLnulj9XQpF/wJYkNWIVZmOssSFf79dm/N7lAK?=
+ =?us-ascii?Q?jtBuZDW7S9LSYRAl8ZzRjJWrHrEzUA1SUK19Hg9+xndh+r1UqkPGO/GonIpx?=
+ =?us-ascii?Q?7SWXCN4f4nC252A8vIDEox8y8MLohRE3ZhLCRsXaZlnGr32M6r0CWRRW2D9s?=
+ =?us-ascii?Q?SrEVwcEGoRZ58ZbalgnHVBd+LTnSN1ym7c/hef0RidH0D+Jaam+aoUDNhmkw?=
+ =?us-ascii?Q?8h9kcuw7I6U83eYmKcZYlI/5hPCsQujW3PZDqYcdGNMC5DUUs3CkUk2/ZUt5?=
+ =?us-ascii?Q?iPvrlu6ASPmf9gMl+U5nH933YE4Nd7H5ajpBWrT/wjUC2vsJjJyY8OZvzQKK?=
+ =?us-ascii?Q?iR4gIw0NQ9PcUAxI5o+//mC6e1QZv81UHB1LYisRcemW91VzciuBWIxbhCqH?=
+ =?us-ascii?Q?ttMSqTAylsYUFIQe29JC9xMMmj2xELiMAOM9QlFkADIk1w/CiDEKZIBKRvUh?=
+ =?us-ascii?Q?CQKMJMEyrrWkjFHKHEmimTjZ3W2dQ7ofKMBGCCpgSb8frwOkzcfezcb6BKdf?=
+ =?us-ascii?Q?E/wX0Czug/CaKBEiGM9AQ/Pd67ajQbvBfIInHRnvqsS4IjpPZ8KFqzZz8Uu7?=
+ =?us-ascii?Q?KyX+YFpYBSWyy7EqdTPFfWmk1zzgR9xTldYyZXHaIKMfVBBZ1CyRuBtyNQ28?=
+ =?us-ascii?Q?Yj0TFXofEPDg5c4fq7GaSHsraesaikJeVjUJD590VE78H4gIK1IwSshUizbk?=
+ =?us-ascii?Q?jSxJslYkHQ5vRj3Cc0=3D?=
+X-Microsoft-Antispam-Message-Info: KU7i/TS0GqtaqW9GTjghVlXlk13ZVGse8zCVy6ncFIo4HVrAX897hDa9zvdnXpnfyPHPJjBWUYKt3f19QJqvopIssn28s23iHuPRyhpg3/Dt538V5xDCh/W+pKedcD1B4utFkFo2u9GLEAGmk+uqczJFZJgUhvZCsdx8O0tCEaZNHi1r9feR4VtIZVsoFEzp
+X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;6:JSYVWZrWoZ2u0Ii/Wd5vEdGPuGpSS1El1r4LDTedcOof7wnAG+4xwBbyC7KYjzf7OdV8eKJiwvZdwNPTP7qQD49YtJ4yM72FgEel7+1yrzqz23lK6rCmV3ljMcYYheZmxaE8mIwOEL7S9oL3c7tqJm9DUL6WkM1XpjU6XkQ0Y69ITRwMHZ5ekcxxm8j29tbB3uJTM66q0WL9M47CULdDnBGx8W+zP0dDnPIKPBwcSX1kOVZTXMaLuh2HfFvqyboTho9xg7yYhsTydJ1/ArAphsrvbuquur5jxnMrB/v4ASX3aCpvkrn5BI0Kl+Jos3VtsxxFpfnDVMvdhIxN0PvGYL0QEz9ocinDhaAodSOQ1RrGuu3L5hAZsu0ChdCI8j32NO2qBn5ofU1QNPhOZGagg03Q8FvgJChpZN+cjRLtxgHTe9eorpRTIBLh5qSQhl55tTJkVzHtqnJpbIdvh2/riQ==;5:py/69oJ6T7l3pn8kBkTPvc2sVgO1i9olDe9s+UjHxrbyBTP55kk15WHwW3lqPmDQFi0oX0zaC5SwuIjCuljWNRO1NlpXlF2rxBZgHBtUnHHB/8xPzihPBFiQ931W5Pw8Y1/I+n6JhpfmgUHxuOpHUgWGEO0dao3yGWKsVXE12gk=;24:yfmOKHIlWI805x16JTvNm1kwxvBNkqqmIcq8W1jC4ULS6oPq88MkAzVtrnJDVhx5Fo+5Ll7G9+2sPGhrj8JgQiLrFw/A2ldJk4Yp8mJw32o=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1;DM3PR15MB1084;7:CArKgVRmYJ3qFnepCrZWvIcjv8KOlVi/BKfxbH6syTW4nZGlS/M19X7oywoHRoLwby/cxWUd8t1wEqx46IoHOJpfUjDn1r3bJ8JpeDKJeOjSJoomcP+2EH7mPFqe4U8z0YjG6UnjeK47PhqbyFr9Dt3lnemsBWMzE584IJpr1dKhZWGvAbACyl4iNRqcllRVYX4wPIeIhAFuEVFgDbFGucQJSkXSTUA9cyZ15NAA9R7+CYpNP3n0whECZu9p4Sd1;20:SSdObyleZ7hHNKRfFzbz537WOPITyMYZBNGt4Nul9jjIFfWOW3quQ6UgrwYMluYO8ACnjxkRrZzJpusHF8RDBLJC+GmKMypreOA4QuqlfHcQSAs5VUoMpOIRiiHgEvhLBrSiMY07g2EXphlHt2fR44zv+0ThiUkGg4kkugBgazc=
+X-MS-Office365-Filtering-Correlation-Id: 35f101e3-75c5-41e0-fac4-08d5bff2107c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2018 14:41:11.1784 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35f101e3-75c5-41e0-fac4-08d5bff2107c
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR15MB1084
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-22_04:,,
+ signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-FB-Internal: Safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/22/2018 06:51 AM, Stefan Wahren wrote:
-> Hi Guenter,
-> 
->> Guenter Roeck <linux@roeck-us.net> hat am 22. Mai 2018 um 15:41 geschrieben:
->>
->>
->> On 05/22/2018 04:21 AM, Stefan Wahren wrote:
->>> Currently there is no easy way to detect undervoltage conditions on a
->>> remote Raspberry Pi. This hwmon driver retrieves the state of the
->>> undervoltage sensor via mailbox interface. The handling based on
->>> Noralf's modifications to the downstream firmware driver. In case of
->>> an undervoltage condition only an entry is written to the kernel log.
->>>
->>> CC: "Noralf Trønnes" <noralf@tronnes.org>
->>> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
->>> ---
->>>    Documentation/hwmon/raspberrypi-hwmon |  22 +++++
->>>    drivers/hwmon/Kconfig                 |  10 ++
->>>    drivers/hwmon/Makefile                |   1 +
->>>    drivers/hwmon/raspberrypi-hwmon.c     | 168 ++++++++++++++++++++++++++++++++++
->>>    4 files changed, 201 insertions(+)
->>>    create mode 100644 Documentation/hwmon/raspberrypi-hwmon
->>>    create mode 100644 drivers/hwmon/raspberrypi-hwmon.c
->>>
->>> diff --git a/Documentation/hwmon/raspberrypi-hwmon b/Documentation/hwmon/raspberrypi-hwmon
->>> new file mode 100644
->>> index 0000000..3c92e2c
->>> --- /dev/null
->>> +++ b/Documentation/hwmon/raspberrypi-hwmon
->>> @@ -0,0 +1,22 @@
->>> +Kernel driver raspberrypi-hwmon
->>> +===============================
->>> +
->>> +Supported boards:
->>> +  * Raspberry Pi A+ (via GPIO on SoC)
->>> +  * Raspberry Pi B+ (via GPIO on SoC)
->>> +  * Raspberry Pi 2 B (via GPIO on SoC)
->>> +  * Raspberry Pi 3 B (via GPIO on port expander)
->>> +  * Raspberry Pi 3 B+ (via PMIC)
->>> +
->>> +Author: Stefan Wahren <stefan.wahren@i2se.com>
->>> +
->>> +Description
->>> +-----------
->>> +
->>> +This driver periodically polls a mailbox property of the VC4 firmware to detect
->>> +undervoltage conditions.
->>> +
->>> +Sysfs entries
->>> +-------------
->>> +
->>> +in0_lcrit_alarm		Undervoltage alarm
->>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
->>> index 768aed5..9a5bdb0 100644
->>> --- a/drivers/hwmon/Kconfig
->>> +++ b/drivers/hwmon/Kconfig
->>> @@ -1298,6 +1298,16 @@ config SENSORS_PWM_FAN
->>>    	  This driver can also be built as a module.  If so, the module
->>>    	  will be called pwm-fan.
->>>    
->>> +config SENSORS_RASPBERRYPI_HWMON
->>> +	tristate "Raspberry Pi voltage monitor"
->>> +	depends on RASPBERRYPI_FIRMWARE || COMPILE_TEST
->>> +	help
->>> +	  If you say yes here you get support for voltage sensor on the
->>> +	  Raspberry Pi.
->>> +
->>> +	  This driver can also be built as a module. If so, the module
->>> +	  will be called raspberrypi-hwmon.
->>> +
->>>    config SENSORS_SHT15
->>>    	tristate "Sensiron humidity and temperature sensors. SHT15 and compat."
->>>    	depends on GPIOLIB || COMPILE_TEST
->>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
->>> index e7d52a3..a929770 100644
->>> --- a/drivers/hwmon/Makefile
->>> +++ b/drivers/hwmon/Makefile
->>> @@ -141,6 +141,7 @@ obj-$(CONFIG_SENSORS_PC87427)	+= pc87427.o
->>>    obj-$(CONFIG_SENSORS_PCF8591)	+= pcf8591.o
->>>    obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
->>>    obj-$(CONFIG_SENSORS_PWM_FAN)	+= pwm-fan.o
->>> +obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)	+= raspberrypi-hwmon.o
->>>    obj-$(CONFIG_SENSORS_S3C)	+= s3c-hwmon.o
->>>    obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
->>>    obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
->>> diff --git a/drivers/hwmon/raspberrypi-hwmon.c b/drivers/hwmon/raspberrypi-hwmon.c
->>> new file mode 100644
->>> index 0000000..6233e84
->>> --- /dev/null
->>> +++ b/drivers/hwmon/raspberrypi-hwmon.c
->>> @@ -0,0 +1,168 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/*
->>> + * Raspberry Pi voltage sensor driver
->>> + *
->>> + * Based on firmware/raspberrypi.c by Noralf Trønnes
->>> + *
->>> + * Copyright (C) 2018 Stefan Wahren <stefan.wahren@i2se.com>
->>> + */
->>> +#include <linux/device.h>
->>> +#include <linux/err.h>
->>> +#include <linux/hwmon.h>
->>> +#include <linux/module.h>
->>> +#include <linux/platform_device.h>
->>> +#include <linux/slab.h>
->>> +#include <linux/workqueue.h>
->>> +#include <soc/bcm2835/raspberrypi-firmware.h>
->>> +
->>> +#define UNDERVOLTAGE_STICKY_BIT	BIT(16)
->>> +
->>> +struct rpi_hwmon_data {
->>> +	struct device *hwmon_dev;
->>> +	struct rpi_firmware *fw;
->>> +	u32 last_throttled;
->>> +	struct delayed_work get_values_poll_work;
->>> +};
->>> +
->>> +static void rpi_firmware_get_throttled(struct rpi_hwmon_data *data)
->>> +{
->>> +	u32 new_uv, old_uv, value;
->>> +	int ret;
->>> +
->>> +	/* Request firmware to clear sticky bits */
->>> +	value = 0xffff;
->>> +
->>> +	ret = rpi_firmware_property(data->fw, RPI_FIRMWARE_GET_THROTTLED,
->>> +				    &value, sizeof(value));
->>> +	if (ret) {
->>> +		dev_err_once(data->hwmon_dev, "Failed to get throttled (%d)\n",
->>> +			     ret);
->>> +		return;
->>> +	}
->>> +
->>> +	new_uv = value & UNDERVOLTAGE_STICKY_BIT;
->>> +	old_uv = data->last_throttled & UNDERVOLTAGE_STICKY_BIT;
->>> +	data->last_throttled = value;
->>> +
->>> +	if (new_uv == old_uv)
->>> +		return;
->>> +
->>> +	if (new_uv)
->>> +		dev_crit(data->hwmon_dev, "Undervoltage detected!\n");
->>> +	else
->>> +		dev_info(data->hwmon_dev, "Voltage normalised\n");
->>> +
->>> +	sysfs_notify(&data->hwmon_dev->kobj, NULL, "in0_lcrit_alarm");
->>> +}
->>> +
->>> +static void get_values_poll(struct work_struct *work)
->>> +{
->>> +	struct rpi_hwmon_data *data;
->>> +
->>> +	data = container_of(work, struct rpi_hwmon_data,
->>> +			    get_values_poll_work.work);
->>> +
->>> +	rpi_firmware_get_throttled(data);
->>> +
->>> +	/*
->>> +	 * We can't run faster than the sticky shift (100ms) since we get
->>> +	 * flipping in the sticky bits that are cleared.
->>> +	 */
->>> +	schedule_delayed_work(&data->get_values_poll_work, 2 * HZ);
->>> +}
->>> +
->>> +static int rpi_read(struct device *dev, enum hwmon_sensor_types type,
->>> +		    u32 attr, int channel, long *val)
->>> +{
->>> +	struct rpi_hwmon_data *data = dev_get_drvdata(dev);
->>> +
->>> +	*val = !!(data->last_throttled & UNDERVOLTAGE_STICKY_BIT);
->>> +	return 0;
->>> +}
->>> +
->>> +static umode_t rpi_is_visible(const void *_data, enum hwmon_sensor_types type,
->>> +			      u32 attr, int channel)
->>> +{
->>> +	return 0444;
->>> +}
->>> +
->>> +static const u32 rpi_in_config[] = {
->>> +	HWMON_I_LCRIT_ALARM,
->>> +	0
->>> +};
->>> +
->>> +static const struct hwmon_channel_info rpi_in = {
->>> +	.type = hwmon_in,
->>> +	.config = rpi_in_config,
->>> +};
->>> +
->>> +static const struct hwmon_channel_info *rpi_info[] = {
->>> +	&rpi_in,
->>> +	NULL
->>> +};
->>> +
->>> +static const struct hwmon_ops rpi_hwmon_ops = {
->>> +	.is_visible = rpi_is_visible,
->>> +	.read = rpi_read,
->>> +};
->>> +
->>> +static const struct hwmon_chip_info rpi_chip_info = {
->>> +	.ops = &rpi_hwmon_ops,
->>> +	.info = rpi_info,
->>> +};
->>> +
->>> +static int rpi_hwmon_probe(struct platform_device *pdev)
->>> +{
->>> +	struct device *dev = &pdev->dev;
->>> +	struct rpi_hwmon_data *data;
->>> +	int ret;
->>> +
->>> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
->>> +	if (!data)
->>> +		return -ENOMEM;
->>> +
->>> +	data->fw = platform_get_drvdata(to_platform_device(dev->parent));
->>> +	if (!data->fw)
->>> +		return -EPROBE_DEFER;
->>> +
->>
->> I am a bit at loss here (and sorry I didn't bring this up before).
->> How would this ever be possible, given that the driver is registered
->> from the firmware driver ?
-> 
-> Do you refer to the (wrong) return code, the assumption that the parent must be a platform driver or a possible race?
-> 
+Explicitly document EBUSY returned by writing into cgroup.procs
+if controllers are enabled; and writing into cgroup.subtree_control
+if there are attached processes.
 
-The return code is one thing. My question was how the driver would ever be instantiated
-with platform_get_drvdata(to_platform_device(dev->parent)) == NULL (but dev->parent != NULL),
-so I referred to the race. But, sure, a second question would be how that would indicate
-that the parent is not instantiated yet (which by itself seems like an odd question).
+The return code might be slightly surprising, and because there is
+nothing obviously better, let's document it at least.
 
-Yet another question, as you point out, is why to use platform_get_drvdata(to_platform_device(dev->parent))
-instead of dev_get_drvdata(dev->parent).
+Signed-off-by: Roman Gushchin <guro@fb.com>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: kernel-team@fb.com
+Cc: cgroups@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/cgroup-v2.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Guenter
-
->>
->>> +	ret = rpi_firmware_property(data->fw, RPI_FIRMWARE_GET_THROTTLED,
->>> +				    &data->last_throttled,
->>> +				    sizeof(data->last_throttled));
->>> +	if (ret)
->>> +		return -ENODEV;
->>> +
->>> +	data->hwmon_dev = devm_hwmon_device_register_with_info(dev, "rpi_volt",
->>> +							       data,
->>> +							       &rpi_chip_info,
->>> +							       NULL);
->>> +
->>> +	INIT_DELAYED_WORK(&data->get_values_poll_work, get_values_poll);
->>> +	platform_set_drvdata(pdev, data);
->>> +
->>> +	if (!PTR_ERR_OR_ZERO(data->hwmon_dev))
->>> +		schedule_delayed_work(&data->get_values_poll_work, 2 * HZ);
->>> +
->>> +	return PTR_ERR_OR_ZERO(data->hwmon_dev);
->>> +}
->>> +
->>> +static int rpi_hwmon_remove(struct platform_device *pdev)
->>> +{
->>> +	struct rpi_hwmon_data *data = platform_get_drvdata(pdev);
->>> +
->>> +	cancel_delayed_work_sync(&data->get_values_poll_work);
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static struct platform_driver rpi_hwmon_driver = {
->>> +	.probe = rpi_hwmon_probe,
->>> +	.remove = rpi_hwmon_remove,
->>> +	.driver = {
->>> +		.name = "raspberrypi-hwmon",
->>> +	},
->>> +};
->>> +module_platform_driver(rpi_hwmon_driver);
->>> +
->>> +MODULE_AUTHOR("Stefan Wahren <stefan.wahren@i2se.com>");
->>> +MODULE_DESCRIPTION("Raspberry Pi voltage sensor driver");
->>> +MODULE_LICENSE("GPL v2");
->>>
->>
-> 
+diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
+index 74cdeaed9f7a..57302f88a4ad 100644
+--- a/Documentation/cgroup-v2.txt
++++ b/Documentation/cgroup-v2.txt
+@@ -799,6 +799,9 @@ All cgroup core files are prefixed with "cgroup."
+ 	When delegating a sub-hierarchy, write access to this file
+ 	should be granted along with the containing directory.
+ 
++	If the target cgroup has enabled controllers, writing to this
++	file will fail with EBUSY.
++
+ 	In a threaded cgroup, reading this file fails with EOPNOTSUPP
+ 	as all the processes belong to the thread root.  Writing is
+ 	supported and moves every thread of the process to the cgroup.
+@@ -850,6 +853,9 @@ All cgroup core files are prefixed with "cgroup."
+ 	the last one is effective.  When multiple enable and disable
+ 	operations are specified, either all succeed or all fail.
+ 
++	If the cgroup has attached tasks, writing to this file will
++	fail with EBUSY.
++
+   cgroup.events
+ 	A read-only flat-keyed file which exists on non-root cgroups.
+ 	The following entries are defined.  Unless specified
+-- 
+2.14.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
