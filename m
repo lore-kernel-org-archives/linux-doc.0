@@ -5,46 +5,46 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C56207D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 08:39:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CABE87D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 09:53:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751173AbeEVIjg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 May 2018 04:39:36 -0400
-Received: from mail-pg0-f66.google.com ([74.125.83.66]:33682 "EHLO
-        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751002AbeEVIje (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 04:39:34 -0400
-Received: by mail-pg0-f66.google.com with SMTP id e21-v6so2653580pgv.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 May 2018 01:39:34 -0700 (PDT)
+        id S1751173AbeEVJxE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 May 2018 05:53:04 -0400
+Received: from mail-pg0-f68.google.com ([74.125.83.68]:41329 "EHLO
+        mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751106AbeEVJxC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 05:53:02 -0400
+Received: by mail-pg0-f68.google.com with SMTP id d14-v6so4052793pgv.8
+        for <linux-doc@vger.kernel.org>; Tue, 22 May 2018 02:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=kAUwDb0EkBkcp4j9Xj3XkPMa1zxX5DcL2CzrAbGqey4=;
-        b=LN0R4UOouE46Vmjh5QI556F27x+k2InaQfA4yqayDiDhPOdmCxxqyZUjWlVkGVV/lG
-         3efPP3qNQaaQwdirbo8kLkiNLDkCTgoI/6Nu40E9Cm6Vwi+IwnYRVBIxqcELndz2YxNo
-         X/EO1TFQztA7JrV0qx+bvRJNDR8BzGat8N1fM=
+        bh=U7YBbDsM4awq/v1ZlW+haJQmiy72s9QX+4GQxjEFegw=;
+        b=BMIbj4LvxvAA3soz4XKLKWWyyyq1yyDuOLqfoCeg13JYt5d+xB9HfUX+0o/wYH+qiF
+         t2Zf3FX43tH80Vi49DbSyXVtTFkyRcxc1xIy0Kuv4WsqEdTgQ1XdZNmjE//ANJ1s7uKY
+         A4i3azK9OQRpThgSghdVO7yMYosTIsfaeA8rc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kAUwDb0EkBkcp4j9Xj3XkPMa1zxX5DcL2CzrAbGqey4=;
-        b=C57PCfVSLSdSdUW18nHJXnvxJhlz5SrMzjOezB5O/h24FihJOxTfVEIfMiHyDz5bJd
-         Pt0+zO73NEwZgZP4BIVO5k922kOFLUiMh4xUIxSya8vruR6BraC7ufqWYdGAd2sJvhp3
-         /u3mDK2K+SOK6HATt7ru4H7vScYmI+QZLW453w/XeRjXf/XXTx9Td7+QoJk6GQxUWthu
-         lhoYyPysUxy6bnq8CYTnprt6wf0dJlZtaLmGl1GJNpQqTVbE9zus7TID5PoYun6ea8Q6
-         zeU1d0OdPxuudCitLp49u1c5p1ChadiCoKR5y9Ch6hbo4RtOz/473oTRhRVjEMsQ/0H9
-         Z51w==
-X-Gm-Message-State: ALKqPwfjgIspLrXHuMxeERah/edyyrNYbAfvGMARGeWgHIfKPNOqKsM9
-        zapbNeda84/D7ABSN3yussEvFQ==
-X-Google-Smtp-Source: AB8JxZoYB00SGFI2rmRSc6LaaMXz1v6k29UBgqtcc340aEOQoBGdJICxmZH6FBFzFZ95uerlj97TBA==
-X-Received: by 2002:a65:4502:: with SMTP id n2-v6mr17875951pgq.95.1526978373815;
-        Tue, 22 May 2018 01:39:33 -0700 (PDT)
+        bh=U7YBbDsM4awq/v1ZlW+haJQmiy72s9QX+4GQxjEFegw=;
+        b=IOaa9SVqzVSmMDm/G+1mM1hkPbH7KICaU9/6SFotSYrteOH42Y+hA6ldp34o6yzmDo
+         oHnwBtmHUwkhBTJxJuZgUJzpZmPbcdsrqAX0OtCSGx2kTAyy5n6XtEjbnAdzsXKXup+m
+         uCPrWpf9cAEZwmDBIrhcy71UKRXG9yhTA2rdxCVZAq4h1uMEF0YeFOrxI0xKcpEPjku5
+         Uk1y7rAO4i1a84m1WFyErBN1YE0CPYkt+jG0EG9QG43MvrG7p7QaLNc+11f7HPOG6/v7
+         Xe2sDk5Kc8YJF2tGShhbj+FC/MBbuyuOtwIKn8Mh8/KY1W8uLwlQ+XdP1gC7V92WXiuu
+         s3zg==
+X-Gm-Message-State: ALKqPwfu+iOGBHvpSh3C028riegbG5YhVj6RVjNd22EFbNeSTcvi/22s
+        zOwizwEwiAb9WdfVOeZkFY/HqA==
+X-Google-Smtp-Source: AB8JxZqZsemCDh6sF1HAr1BnWpras/puJiy8co1gGVmZ5efZClBAzo8L7YBUwNeE1K7HXsnkvQOw3w==
+X-Received: by 2002:a62:8b92:: with SMTP id e18-v6mr23390061pfl.60.1526982782364;
+        Tue, 22 May 2018 02:53:02 -0700 (PDT)
 Received: from leoy-ThinkPad-X240s (li1170-132.members.linode.com. [45.79.71.132])
-        by smtp.gmail.com with ESMTPSA id z25-v6sm32018142pfi.171.2018.05.22.01.39.28
+        by smtp.gmail.com with ESMTPSA id n19-v6sm10487853pgv.89.2018.05.22.02.52.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 May 2018 01:39:32 -0700 (PDT)
-Date:   Tue, 22 May 2018 16:39:20 +0800
+        Tue, 22 May 2018 02:53:00 -0700 (PDT)
+Date:   Tue, 22 May 2018 17:52:49 +0800
 From:   Leo Yan <leo.yan@linaro.org>
 To:     Robert Walker <robert.walker@arm.com>
 Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
@@ -60,127 +60,47 @@ Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         mike.leach@linaro.org, kim.phillips@arm.com,
         coresight@lists.linaro.org, Mike Leach <mike.leach@arm.com>
 Subject: Re: [RFT v2 1/4] perf cs-etm: Generate sample for missed packets
-Message-ID: <20180522083920.GD31075@leoy-ThinkPad-X240s>
+Message-ID: <20180522095249.GE31075@leoy-ThinkPad-X240s>
 References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
  <1526892748-326-2-git-send-email-leo.yan@linaro.org>
  <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
+ <20180522083920.GD31075@leoy-ThinkPad-X240s>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
+In-Reply-To: <20180522083920.GD31075@leoy-ThinkPad-X240s>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+On Tue, May 22, 2018 at 04:39:20PM +0800, Leo Yan wrote:
 
-On Mon, May 21, 2018 at 12:27:42PM +0100, Robert Walker wrote:
-> Hi Leo,
-> 
-> On 21/05/18 09:52, Leo Yan wrote:
-> >Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
-> >traces") reworks the samples generation flow from CoreSight trace to
-> >match the correct format so Perf report tool can display the samples
-> >properly.  But the change has side effect for packet handling, it only
-> >generate samples when 'prev_packet->last_instr_taken_branch' is true,
-> >this results in the start tracing packet and exception packets are
-> >dropped.
-> >
-> >This patch checks extra two conditions for complete samples:
-> >
-> >- If 'prev_packet->sample_type' is zero we can use this condition to
-> >   get to know this is the start tracing packet; for this case, the start
-> >   packet's end_addr is zero as well so we need to handle it in the
-> >   function cs_etm__last_executed_instr();
-> >
-> 
-> I think you also need to add something in to handle discontinuities in
-> trace - for example it is possible to configure the ETM to only trace
-> execution in specific code regions or to trace a few cycles every so
-> often. In these cases, prev_packet->sample_type will not be zero, but
-> whatever the previous packet was.  You will get a CS_ETM_TRACE_ON packet in
-> such cases, generated by an I_TRACE_ON element in the trace stream.
-> You also get this on exception return.
-> 
-> However, you should also keep the test for prev_packet->sample_type == 0
-> as you may not see a CS_ETM_TRACE_ON when decoding a buffer that has
-> wrapped.
+[...]
 
-Thanks for reviewing.  Let's dig more detailed into this issue,
-especially for handling packet CS_ETM_TRACE_ON, I'd like divide into two
-sub cases.
+Rather than the patch I posted in my previous email, I think below new
+patch is more reasonable for me.
 
-- The first case is for using python script:
+In the below change, 'etmq->prev_packet' is only used to store the
+previous CS_ETM_RANGE packet, we don't need to save CS_ETM_TRACE_ON
+packet into 'etmq->prev_packet'.
 
-  I use python script to analyze packets with below command:
-  ./perf script --itrace=ril128 -s arm-cs-trace-disasm.py -F cpu,event,ip,addr,sym -- -v -d objdump -k ./vmlinux
+On the other hand, cs_etm__flush() can use 'etmq->period_instructions'
+to indicate if need to generate instruction sample or not.  If it's
+non-zero, then generate instruction sample and
+'etmq->period_instructions' will be cleared; so next time if there
+have more tracing CS_ETM_TRACE_ON packet, it can skip to generate
+instruction sample due 'etmq->period_instructions' is zero.
 
-  What I observe is after we pass python script with parameter '-s
-  arm-cs-trace-disasm.py', then instruction tracing options
-  '--itrace=ril128' isn't really used;  the perf tool creates another
-  new process for launch python script and re-enter cmd_script()
-  function, but at the second time when invoke cmd_script() for python
-  script execution the option '--itrace=ril128' is dropped and all
-  parameters are only valid defined by the python script.
+How about you think for this?
 
-  As result, I can the variable 'etmq->etm->synth_opts.last_branch' is
-  always FALSE for running python script.  So all CS_ETM_TRACE_ON
-  packets will be ignored in the function cs_etm__flush().
+Thanks,
+Leo Yan
 
-  Even the CS_ETM_TRACE_ON packets are missed to handle, the program
-  flow still can work well.  The reason is without the interference by
-  CS_ETM_TRACE_ON, the CS_ETM_RANGE packets can smoothly create
-  instruction range by ignore the middle CS_ETM_TRACE_ON packet.
-
-  Please see below example, in this example there have 3 packets, the
-  first one packet is CS_ETM_RANGE packet which is labelled with
-  'PACKET_1', the first one packet can properly generate branch sample
-  data with previous packet as expected;  the second packet is
-  PACKET_2 which is CS_ETM_TRACE_ON, but
-  'etmq->etm->synth_opts.last_branch' is false so function
-  cs_etm__flush() doesn't handle it and skip the swap operation
-  "etmq->prev_packet = tmp"; the third packet is PACKET_3, which is
-  CS_ETM_RANGE packet and we can see it's smoontly to create
-  continous instruction range between PACKET_1 and PACKET_3.
-
-  cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f79c end_addr=0xffff000008a5f7bc last_instr_taken_branch=1
-  PACKET_1: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
-  cs_etm__synth_branch_sample: ip=0xffff000008a5f7b8 addr=0xffff000008a5f858 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=1 flags=0 cpumode=2
-
-  cs_etm__flush: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
-  PACKET_2: cs_etm__flush: packet: sample_type=2 exc=0 exc_ret=0 cpu=2 start_addr=0xdeadbeefdeadbeef end_addr=0xdeadbeefdeadbeef last_instr_taken_branch=1
-
-  cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
-  PACKET_3: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=2 start_addr=0xffff000008be7528 end_addr=0xffff000008be7538 last_instr_taken_branch=1
-  cs_etm__synth_branch_sample: ip=0xffff000008a5f860 addr=0xffff000008be7528 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=2 flags=0 cpumode=2
-
-  So seems to me, the CS_ETM_TRACE_ON packet doesn't introduce trouble
-  for the program flow analysis if we can handle all CS_ETM_RANGE
-  packets and without handling CS_ETM_TRACE_ON packet for branch
-  samples.
-
-- The second case is for --itrace option without python script:
-  ./perf script --itrace=ril -F cpu,event,ip,addr,sym -k ./vmlinux
-
-  In this case, the flag 'etmq->etm->synth_opts.last_branch' is true
-  so CS_ETM_TRACE_ON packet will be handled; but I can observe the
-  CS_ETM_RANGE packet in etmq->prev_packet isn't handled in the
-  function cs_etm__flush() for branch sample, so actually we miss some
-  branch sample for this case.
-
-  So I think we also need handle CS_ETM_RANGE packet in function
-  cs_etm__flush() to generate branch samples.  But this has side
-  effect, we introduce the extra track for CS_ETM_TRACE_ON packet for
-  branch samples, so we will see one branch range like:
-  [ 0xdeadbeefdeadbeef .. 0xdeadbeefdeadbeef ].
-
-Please reivew below change is okay for you?  Thanks a lot for
-suggestions.
 
 diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
-index 822ba91..37d3722 100644
+index 822ba91..dd354ad 100644
 --- a/tools/perf/util/cs-etm.c
 +++ b/tools/perf/util/cs-etm.c
 @@ -495,6 +495,13 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
@@ -197,7 +117,7 @@ index 822ba91..37d3722 100644
  	 * The packet records the execution range with an exclusive end address
  	 *
  	 * A64 instructions are constant size, so the last executed
-@@ -897,13 +904,28 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+@@ -897,13 +904,27 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
  		etmq->period_instructions = instrs_over;
  	}
  
@@ -212,8 +132,7 @@ index 822ba91..37d3722 100644
 +		bool generate_sample = false;
 +
 +		/* Generate sample for start tracing packet */
-+		if (etmq->prev_packet->sample_type == 0 ||
-+		    etmq->prev_packet->sample_type == CS_ETM_TRACE_ON)
++		if (etmq->prev_packet->sample_type == 0)
 +			generate_sample = true;
 +
 +		/* Generate sample for exception packet */
@@ -233,36 +152,26 @@ index 822ba91..37d3722 100644
  	}
  
  	if (etm->sample_branches || etm->synth_opts.last_branch) {
-@@ -921,12 +943,17 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
- 
+@@ -922,11 +943,12 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
  static int cs_etm__flush(struct cs_etm_queue *etmq)
  {
-+	struct cs_etm_auxtrace *etm = etmq->etm;
  	int err = 0;
- 	struct cs_etm_packet *tmp;
+-	struct cs_etm_packet *tmp;
  
--	if (etmq->etm->synth_opts.last_branch &&
--	    etmq->prev_packet &&
+ 	if (etmq->etm->synth_opts.last_branch &&
+ 	    etmq->prev_packet &&
 -	    etmq->prev_packet->sample_type == CS_ETM_RANGE) {
-+	if (!etmq->prev_packet)
-+		return 0;
++	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
++	    etmq->period_instructions) {
 +
-+	if (etmq->prev_packet->sample_type != CS_ETM_RANGE)
-+		return 0;
-+
-+	if (etmq->etm->synth_opts.last_branch) {
  		/*
  		 * Generate a last branch event for the branches left in the
  		 * circular buffer at the end of the trace.
-@@ -939,18 +966,25 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
- 		err = cs_etm__synth_instruction_sample(
+@@ -940,14 +962,6 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
  			etmq, addr,
  			etmq->period_instructions);
-+		if (err)
-+			return err;
  		etmq->period_instructions = 0;
-+	}
- 
+-
 -		/*
 -		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
 -		 * the next incoming packet.
@@ -270,24 +179,9 @@ index 822ba91..37d3722 100644
 -		tmp = etmq->packet;
 -		etmq->packet = etmq->prev_packet;
 -		etmq->prev_packet = tmp;
-+	if (etm->sample_branches) {
-+		err = cs_etm__synth_branch_sample(etmq);
-+		if (err)
-+			return err;
  	}
  
--	return err;
-+	/*
-+	 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
-+	 * the next incoming packet.
-+	 */
-+	tmp = etmq->packet;
-+	etmq->packet = etmq->prev_packet;
-+	etmq->prev_packet = tmp;
-+	return 0;
- }
- 
- static int cs_etm__run_decoder(struct cs_etm_queue *etmq)
+ 	return err;
 -- 
 2.7.4
 --
