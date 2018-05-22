@@ -1,124 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 547557D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 20:29:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6BD717DF8A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 May 2018 22:29:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752658AbeEVU3U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 May 2018 16:29:20 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:53974 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751601AbeEVU3T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 16:29:19 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w4MKPi2T057119;
-        Tue, 22 May 2018 20:28:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2017-10-26;
- bh=nejuSqe2DUTcwHUGYJa1QQhWa0q7LOwFVJP5QjpN7ek=;
- b=J+ObywwCY6k93UmaPVod27GNGoAUtZGL/E1Br+vXqpC/QsJ2VdgAJ+kVbeCgDD8TAY+A
- O6rFAV3Q2JeygMPmHuK/pRSaDs0ZxWTjkJQlME6qZ6I7D5M/Cce95AaSOCYW+9Akb0Rt
- W8F58JuZP1a1dJZcOzWv7dc+fgVd7zuVsRHXIuqJBUBKN3aayIBTrYBqng34Ykpz6qfW
- Zfjit6kZ/ieJ9gYOGxnPfsdpv4ho+gCpjiN3BYcjrpYsvf0NPaGJUVFjaKP6tV90MOOt
- CzAn6FLdpiIMSbxyKlOpYwBjWSMguVN2rwiC9LijnNHv8WvTdkOEo6ufW31SkNO1f+NK PA== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by aserp2130.oracle.com with ESMTP id 2j4nh79b44-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 22 May 2018 20:28:36 +0000
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w4MKSYLb002725
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 22 May 2018 20:28:34 GMT
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w4MKSWJw005572;
-        Tue, 22 May 2018 20:28:32 GMT
-Received: from [192.168.1.164] (/50.38.38.67)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 22 May 2018 13:28:32 -0700
-Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
- charge to memcg
-To:     TSUKADA Koutaro <tsukada@ascade.co.jp>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        id S1753232AbeEVW2Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 May 2018 18:28:16 -0400
+Received: from mail-pf0-f194.google.com ([209.85.192.194]:42453 "EHLO
+        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753105AbeEVW2O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 May 2018 18:28:14 -0400
+Received: by mail-pf0-f194.google.com with SMTP id p14-v6so9444324pfh.9
+        for <linux-doc@vger.kernel.org>; Tue, 22 May 2018 15:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=027o/2OeYAs8ktRMQ23ZKyEtA1fOF6X7CAFwP/wwUdk=;
+        b=Ph1bkmZ8pDg+VbmWSCrI3odz/jvWqXfjul11WJTGdya69YkeeNZKjcutb0FVoeMvSG
+         W6t1ogDzUaauI3LEIn9Z7opi5N7vw4uVt3vczIyzQxBD6OVY9MjrO+Ea2jqTkqiv/Tnp
+         gJj2zNBGOUDovwYB6KNNBVTbJMu5EDJQJCBijJF7GnBxcvoYm8B+ytatRyTcP9queLT9
+         cqcMkv/nJXREjQcuzRiRXbvAgHx+HcrB8X+Dlx6sPO/Xq72v025lj1XDq0rynchoZzru
+         YJF944Uxbvdh4tk3vE0nY7HqPqrGbCl6RmyNsPm6KCRH6NFyxV8fUiHIj1Md9U4RYVeN
+         ki2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=027o/2OeYAs8ktRMQ23ZKyEtA1fOF6X7CAFwP/wwUdk=;
+        b=OK+1wY6h0cG6ckH1PX9z6j0+OVMJ9PSj1LrSifyxGnMufI95BX2RhwT/MTj4u67Bob
+         SxHLQgOQmaRKxN4qQctENHukDgGlXVd0vXmRsXdwucK4pF9v5ho3CxpBJTWBHL4CpxZK
+         GpRu7aNqblgNQxDDIF7sPwohuem7+xg659pHnTYrE33pmC3RqwbLMXNMrPo6dPTFPWji
+         c9yqx+1IeBCZEnYHIFkjUVTsZKIIK0kDsziu5BZuABD5akTWc+Tso0b1nGqz3sk0RlwE
+         otfTICFuDtYrsDHEgU/h5n1nbVo6/CAovjb8o2/EIMlHc9xRqWro+kWaHm5QHMQ7s0OW
+         hFJw==
+X-Gm-Message-State: ALKqPwe+lM5cH3t3aNWaJui091Ro2zhbrH1QEGOV/+urk4Gb7Hdw0oZL
+        qW5NWYry6jKTyPsOmEoESsNAtw==
+X-Google-Smtp-Source: AB8JxZpmDDDauYpupl3mGmsjehKAbr9iHRtuGYnTUQ/6Vbp/DhiRPDAafLSSqi3pOFK+XJgzZzn7JA==
+X-Received: by 2002:a62:6a0a:: with SMTP id f10-v6mr282795pfc.99.1527028093741;
+        Tue, 22 May 2018 15:28:13 -0700 (PDT)
+Received: from rajat.mtv.corp.google.com ([2620:0:1000:1501:dc81:9a9e:fdee:decf])
+        by smtp.gmail.com with ESMTPSA id b72-v6sm34327852pfm.69.2018.05.22.15.28.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 May 2018 15:28:12 -0700 (PDT)
+From:   Rajat Jain <rajatja@google.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        David Rientjes <rientjes@google.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
-        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
-        Punit Agrawal <punit.agrawal@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, cgroups@vger.kernel.org
-References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
- <240f1b14-ed7d-4983-6c52-be4899d4caa5@oracle.com>
- <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <5c32a05e-da2e-84b8-3435-4cd5f8a1f0f9@oracle.com>
-Date:   Tue, 22 May 2018 13:28:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.5.2
-MIME-Version: 1.0
-In-Reply-To: <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8901 signatures=668700
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=677
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1711220000 definitions=main-1805220211
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajat Jain <rajatja@google.com>,
+        Frederick Lawler <fred@fredlawl.com>,
+        Oza Pawandeep <poza@codeaurora.org>,
+        Keith Busch <keith.busch@intel.com>,
+        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
+        Kyle McMartin <jkkm@fb.com>
+Cc:     rajatxjain@gmail.com
+Subject: [PATCH 0/5] Expose PCIe AER stats via sysfs
+Date:   Tue, 22 May 2018 15:28:00 -0700
+Message-Id: <20180522222805.80314-1-rajatja@google.com>
+X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/22/2018 06:04 AM, TSUKADA Koutaro wrote:
-> 
-> I stared at the commit log of mm/hugetlb_cgroup.c, but it did not seem to
-> have specially considered of surplus hugepages. Later, I will send a mail
-> to hugetlb cgroup's committer to ask about surplus hugepages charge
-> specifications.
-> 
+This patchset exposes the AER stats via the sysfs attributes.
 
-I went back and looked at surplus huge page allocation.  Previously, I made
-a statement that the hugetlb controller accounts for surplus huge pages.
-Turns out that may not be 100% correct.
+Rajat Jain (5):
+  PCI/AER: Define and allocate aer_stats structure for AER capable
+    devices
+  PCI/AER: Add sysfs stats for AER capable devices
+  PCP/AER: Add sysfs attributes to provide breakdown of AERs
+  PCI/AER: Add sysfs attributes for rootport cumulative stats
+  Documentation/PCI: Add details of PCI AER statistics
 
-Thanks to Michal, all surplus huge page allocation is performed via the
-alloc_surplus_huge_page() routine.  This will ultimately call into the
-buddy allocator without any cgroup charges.  Calls to alloc_surplus_huge_page
-are made from:
-- alloc_huge_page() when allocating a huge page to a mapping/file.  In this
-  case, appropriate calls to the hugetlb controller are in place.  So, any
-  limits are enforced here.
-- gather_surplus_pages() when allocating and setting aside 'reserved' huge
-  pages. No accounting is performed here.  Do note that in this case the
-  allocated huge pages are not assigned to the mapping/file.  Even though
-  'reserved', they are deposited into the global pool and also counted as
-  'free'.  When these reserved pages are ultimately used to populate a
-  file/mapping, the code path goes through alloc_huge_page() where appropriate
-  calls to the hugetlb controller are in place.
-
-So, the bottom line is that surplus huge pages are not accounted for when
-they are allocated as 'reserves'.  It is not until these reserves are actually
-used that accounting limits are checked.  This 'seems' to align with general
-allocation of huge pages within the pool.  No accounting is done until they
-are actually allocated to a mapping/file.
+ Documentation/PCI/pcieaer-howto.txt    |  35 +++++
+ drivers/pci/pci-sysfs.c                |   3 +
+ drivers/pci/pci.h                      |   4 +-
+ drivers/pci/pcie/aer/Makefile          |   2 +-
+ drivers/pci/pcie/aer/aerdrv.h          |  15 ++
+ drivers/pci/pcie/aer/aerdrv_core.c     |  11 ++
+ drivers/pci/pcie/aer/aerdrv_errprint.c |   7 +-
+ drivers/pci/pcie/aer/aerdrv_stats.c    | 192 +++++++++++++++++++++++++
+ drivers/pci/probe.c                    |   1 +
+ include/linux/pci.h                    |   3 +
+ 10 files changed, 269 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/pci/pcie/aer/aerdrv_stats.c
 
 -- 
-Mike Kravetz
+2.17.0.441.gb46fe60e1d-goog
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
