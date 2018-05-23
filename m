@@ -1,57 +1,37 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 035987D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 14:26:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F359E7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 14:27:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933337AbeEWO0P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 10:26:15 -0400
-Received: from mail-oi0-f67.google.com ([209.85.218.67]:46668 "EHLO
-        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933114AbeEWO0M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 10:26:12 -0400
-Received: by mail-oi0-f67.google.com with SMTP id y15-v6so19631301oia.13;
-        Wed, 23 May 2018 07:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=42OJcamRyf2Zrvk6FHK0+d1xP/sqTR+lpdUePJOdscA=;
-        b=lSh+pzCXDL7Cb+h6LWHAFJ/9jFrI0tL9hhWKHfZww6hJkByxIhqbLCUoZF4iOvrQOW
-         2OUvBhIbIhfw3ziFMVucMeQH8HBKAZ3WiKZozpmRQ/46nwei1v5SC1inZqmQbcvEPQe1
-         SRRTQ0KLtV6J9/Mz5Csb9GOzqMJA67O+0scz5BY2qQajYCtqR3gpbx+PTVsZa+8h2xku
-         8yHJ54HSTMAe/TpszWgC3g7kfPb9/23wJdrB1yAo4f214PJhGfYfJKjDbRoKXejqqisc
-         Ld9Czc3C2rq0nCeHm1ykUJK/bjTR/v/TT0zdzemurJIyQilajrHxyr5n2zsSF6bmHnvV
-         +5Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=42OJcamRyf2Zrvk6FHK0+d1xP/sqTR+lpdUePJOdscA=;
-        b=Qt5kliU/HDoxlPJI5QQcZ5T3CVK9E/8nMYkBpDC7fn1EsjoO6xOCK+ll4HKnqX+pbb
-         4etoXeETBJYqnBCjMarQOpNNRobrYJ7HBMt20zeAlZwY0R0+6tmMaYMNU0LIFD2Zf/Q9
-         gHEmu1RWC9qDscc9Cv/23Ji+wJV5NU1kDDnVR39p3U1jKtYDju0zLbrwnJy6TFTRr672
-         S/Kv5nNsQNcEoZrJes2W0g4xudD3LMt3LXXMfNTZo+L2z3Al9Izua9eWDDYraXWYdMTo
-         eOr/9HtnNkfVLISvEe5Ucp3sGsHH0CpRyycik7jkbeVlEafW1MoBrsNsyQ1DZ9MGSzOG
-         NHeA==
-X-Gm-Message-State: ALKqPwdiSm0XD+n/4+fbIMSxW2APDpCRWLnuF7Irw7XjDq+52osQl+1M
-        Bk4P2SZOCz2c2p9TL5fa1pc=
-X-Google-Smtp-Source: AB8JxZoyn0CbQk8FHtVtK7c/FG05hHBEkZAOwh8Sf8jsf37Zt6g4q1bujBT+Vz0YILk2YSBqMe8yuQ==
-X-Received: by 2002:aca:af4e:: with SMTP id y75-v6mr1534042oie.223.1527085570790;
-        Wed, 23 May 2018 07:26:10 -0700 (PDT)
-Received: from nuclearis2_1.gtech (c-98-201-114-184.hsd1.tx.comcast.net. [98.201.114.184])
-        by smtp.gmail.com with ESMTPSA id s9-v6sm10207559otb.41.2018.05.23.07.26.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 May 2018 07:26:10 -0700 (PDT)
-Subject: Re: [PATCH 1/5] PCI/AER: Define and allocate aer_stats structure for
- AER capable devices
-To:     Jes Sorensen <jsorensen@fb.com>, Rajat Jain <rajatja@google.com>,
+        id S933165AbeEWO1G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 10:27:06 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60068 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933114AbeEWO1E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 10:27:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3189R8bGe+tnYiJ2j9YyCMbFDZVajvcyLNLZkWPF5Ho=; b=lomb7NDPO8m2CWdrvms9dZsle
+        7xunSRejCgCBzLVkUrzQR80cyhrnLtL+azC7uBEVN7S1QlHIp0UR7HMxdg5gTGqJ8icyTLx2+0Qyn
+        sr+lyRo5GlimjCg0t9ueiFw4CpRsJ8B/VhiflRR8L8IMm8/MTetc5FN7r8lNp3++Y3QT4w0ZXhB1W
+        LSrUOTUSC4suGu/WzhT2OXV812bR4pRkAQFAnxTL+mkhQtBkhef6Y/vS3Tl7j5gy8wdezmwX099e/
+        BNlhfvHObr+UVQ63e2nexxXjkY1IjEY5k7esHKgUx4dbZr0c7ts3/BY6Ic6RpYuN7PKm0tx++e3Wd
+        MawSWccYw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fLUjA-0006Q8-LJ; Wed, 23 May 2018 14:26:56 +0000
+Date:   Wed, 23 May 2018 07:26:56 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jes Sorensen <jsorensen@fb.com>
+Cc:     Rajat Jain <rajatja@google.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Philippe Ombredanne <pombredanne@nexb.com>,
@@ -62,48 +42,48 @@ To:     Jes Sorensen <jsorensen@fb.com>, Rajat Jain <rajatja@google.com>,
         Oza Pawandeep <poza@codeaurora.org>,
         Keith Busch <keith.busch@intel.com>,
         Gabriele Paoloni <gabriele.paoloni@huawei.com>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
         Thomas Tai <thomas.tai@oracle.com>,
         "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
         linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle McMartin <jkkm@fb.com>
-Cc:     rajatxjain@gmail.com
+        linux-kernel@vger.kernel.org, Kyle McMartin <jkkm@fb.com>,
+        rajatxjain@gmail.com
+Subject: Re: [PATCH 1/5] PCI/AER: Define and allocate aer_stats structure for
+ AER capable devices
+Message-ID: <20180523142656.GE19987@bombadil.infradead.org>
 References: <20180522222805.80314-1-rajatja@google.com>
  <20180522222805.80314-2-rajatja@google.com>
  <62fae8eb-aaed-65b2-19ad-7c57b3a9bfdc@fb.com>
-From:   "Alex G." <mr.nuke.me@gmail.com>
-Message-ID: <53789ac0-b571-5d6a-5925-7e83925b5b31@gmail.com>
-Date:   Wed, 23 May 2018 09:26:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <62fae8eb-aaed-65b2-19ad-7c57b3a9bfdc@fb.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/23/2018 09:20 AM, Jes Sorensen wrote:
-> On 05/22/2018 06:28 PM, Rajat Jain wrote:
->> new file mode 100644
->> index 000000000000..b9f251992209
->> --- /dev/null
->> +++ b/drivers/pci/pcie/aer/aerdrv_stats.c
->> @@ -0,0 +1,64 @@
->> +// SPDX-License-Identifier: GPL-2.0
+On Wed, May 23, 2018 at 10:20:10AM -0400, Jes Sorensen wrote:
+> > +++ b/drivers/pci/pcie/aer/aerdrv_stats.c
+> > @@ -0,0 +1,64 @@
+> > +// SPDX-License-Identifier: GPL-2.0
 > 
 > Fix the formatting please - that gross // gibberish doesn't belong there.
 
-Deep breath in. Deep breath out.
+Sorry, Jes.  The Chief Penguin has Spoken, and that's the preferred
+syntax:
 
-git grep SPDX
+2. Style:
 
-Although I don't like it, this format is already too common.
+   The SPDX license identifier is added in form of a comment.  The comment
+   style depends on the file type::
 
-Cheers,
-Alex
+      C source: // SPDX-License-Identifier: <SPDX License Expression>
+
+(you can dig up the discussion around this on the mailing list if you
+like.  Linus actually thinks that C++ single-line comments are one of
+the few things that language got right)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
