@@ -1,186 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E927E7D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 18:00:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AAE337DF8C
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 18:13:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932975AbeEWSAG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 14:00:06 -0400
-Received: from mail-pl0-f68.google.com ([209.85.160.68]:42874 "EHLO
-        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933879AbeEWR6w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 13:58:52 -0400
-Received: by mail-pl0-f68.google.com with SMTP id u6-v6so13478411pls.9
-        for <linux-doc@vger.kernel.org>; Wed, 23 May 2018 10:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=rRJmxrzXnUxJl5YE/ieiOxX3vdnvlw4/Cw16gBRP6I0=;
-        b=f5WpiZnjE2Z0ZdMKxx/JMooxieg6CgiFpCXUpYMqRul2gSz+T0stNdzzGG9WV6qfi/
-         Yg0NKY1ZY56TIV5yNKB2dMbr9BtATvhEA9e27ZFsqMvIhnaNkyW0kmSPiMR4PLrLpOgL
-         dPdcobj0J73n02ClCCFGlsi+FoI18rzI0UK5un24y2NNKWZxQ6r+YsXZLHS2/exLbC81
-         bxcExxZd6v7vbF73xcKyqleMAQItLshG/qkroF9ZnW+PK4X7DZpHotBqkrzI6yTA83ZM
-         PdGizY2n2qS/PHIp5rl23CkUgobdqqsWHldhTPQ3PdHREwGT4sub6dTgJiFLV3JKoXaG
-         ZOHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=rRJmxrzXnUxJl5YE/ieiOxX3vdnvlw4/Cw16gBRP6I0=;
-        b=OXohDN0+z/UJPGOBn/qB/v/Dr9FJXxoPZzPStyEoLIFVkfb0ywZAol4sgvHyw6DRhg
-         ijqvrJHZb0SDar3R6bdC5buTosqnCiBU2yZ/sGadIHDIHGqyqx7Jw9EaMIhL+YmDeFzD
-         P9J25PxW10bSststDQ53SvQCKlZpo3HP3sRUn5o7S3YtfZv4mFt1Vq3ihC0f34IYUWKN
-         RYdbbR/++J9JmCujyGDaen+dOBHLudEpXm5p8BLOHXJ0XGKcHElcmP0szhG35suRGCZk
-         w/v541L5k4I3G3bYAqV+InizqYvKb03FbS/klzjSRzabEvc/A6NAzwy1CYQvxq65E7ti
-         ya9g==
-X-Gm-Message-State: ALKqPwfjz/9YnhR2ZTLAPvcCvjYwCeBjiFYRBr0OlRlVbX03TwLqzX/z
-        6rJaH2rLJGZQizbf1vHDyJWL/w==
-X-Google-Smtp-Source: AB8JxZoJ0vsBkwR20eATk59eL6A+UeO5JRaGh5s88NT4oUzdax+soTzsJ9gthppCwZ9EpSbOnQy1vw==
-X-Received: by 2002:a17:902:28a7:: with SMTP id f36-v6mr3890374plb.155.1527098331982;
-        Wed, 23 May 2018 10:58:51 -0700 (PDT)
-Received: from rajat.mtv.corp.google.com ([2620:0:1000:1501:dc81:9a9e:fdee:decf])
-        by smtp.gmail.com with ESMTPSA id k186-v6sm41433025pfc.142.2018.05.23.10.58.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 May 2018 10:58:51 -0700 (PDT)
-From:   Rajat Jain <rajatja@google.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
+        id S1754781AbeEWSM0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 14:12:26 -0400
+Received: from bh-25.webhostbox.net ([208.91.199.152]:38722 "EHLO
+        bh-25.webhostbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754681AbeEWSMZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 14:12:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=B3VvBZENytI79tGgGakflNTIWnH1CUZ0TUgUfucRkT8=; b=lHn6fuNE0adamor5PGvVZulRIe
+        xsMoQ9506aJ4hzvHcLEg2z1p10dkh0u7Jwd0BpMGyqERn7hhqac/cjmNGJZqxPJ4gRsL/SbPtDr58
+        QF9/C6kG7nfZdrK9diMHVFZxew8c1g1BWKZC6dgkQTeCl3j3bGo8oEQXlh8+Hug5qPBzGJiZv23G3
+        PHGMDdAVZqfmDrrcBjRXu84YksBz39pPQyhulXcxkyvN8mYfpF8lNnz+IDtx1XRtHflCQOHimkv6j
+        IB4D34RAa9bZ/y6sG0yr5cs/Gazrq+UpbdQlurotyKvDPbG0+jqedDA7++tnVYG3HXpae+u2pdYC+
+        t7iJPZxw==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:50020 helo=localhost)
+        by bh-25.webhostbox.net with esmtpa (Exim 4.89)
+        (envelope-from <linux@roeck-us.net>)
+        id 1fLYFK-002p3S-1E; Wed, 23 May 2018 18:12:22 +0000
+Date:   Wed, 23 May 2018 11:12:21 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Eric Anholt <eric@anholt.net>,
+        Mark Rutland <mark.rutland@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajat Jain <rajatja@google.com>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>
-Cc:     rajatxjain@gmail.com
-Subject: [PATCH v2 4/5] PCI/AER: Add sysfs attributes for rootport cumulative stats
-Date:   Wed, 23 May 2018 10:58:07 -0700
-Message-Id: <20180523175808.28030-5-rajatja@google.com>
-X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
-In-Reply-To: <20180523175808.28030-1-rajatja@google.com>
-References: <20180522222805.80314-1-rajatja@google.com>
- <20180523175808.28030-1-rajatja@google.com>
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        linux-doc@vger.kernel.org, Ray Jui <rjui@broadcom.com>,
+        Phil Elwell <phil@raspberrypi.org>,
+        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH RFC V2 2/6] hwmon: Add support for RPi voltage sensor
+Message-ID: <20180523181221.GD27570@roeck-us.net>
+References: <1526988112-4021-1-git-send-email-stefan.wahren@i2se.com>
+ <1526988112-4021-3-git-send-email-stefan.wahren@i2se.com>
+ <90a768aa-ee8c-1050-cf15-60637069dbdb@roeck-us.net>
+ <659923372.11518.1526997096662@email.1und1.de>
+ <bea3d6c7-a713-c4aa-8ae8-7fec80c5da5d@roeck-us.net>
+ <723014352.17580.1527017480381@email.1und1.de>
+ <cbbdab47-cde3-7a7c-c797-c00d546e00d5@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cbbdab47-cde3-7a7c-c797-c00d546e00d5@arm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Authenticated_sender: guenter@roeck-us.net
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-Get-Message-Sender-Via: bh-25.webhostbox.net: authenticated_id: guenter@roeck-us.net
+X-Authenticated-Sender: bh-25.webhostbox.net: guenter@roeck-us.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add sysfs attributes for rootport statistics (that are cumulative
-of all the ERR_* messages seen on this PCI hierarchy).
+On Wed, May 23, 2018 at 01:12:10PM +0100, Robin Murphy wrote:
+> On 22/05/18 20:31, Stefan Wahren wrote:
+> [...]
+> >>>>>+static int rpi_hwmon_probe(struct platform_device *pdev)
+> >>>>>+{
+> >>>>>+	struct device *dev = &pdev->dev;
+> >>>>>+	struct rpi_hwmon_data *data;
+> >>>>>+	int ret;
+> >>>>>+
+> >>>>>+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> >>>>>+	if (!data)
+> >>>>>+		return -ENOMEM;
+> >>>>>+
+> >>>>>+	data->fw = platform_get_drvdata(to_platform_device(dev->parent));
+> >>>>>+	if (!data->fw)
+> >>>>>+		return -EPROBE_DEFER;
+> >>>>>+
+> >>>>
+> >>>>I am a bit at loss here (and sorry I didn't bring this up before).
+> >>>>How would this ever be possible, given that the driver is registered
+> >>>>from the firmware driver ?
+> >>>
+> >>>Do you refer to the (wrong) return code, the assumption that the parent must be a platform driver or a possible race?
+> >>>
+> >>
+> >>The return code is one thing. My question was how the driver would ever be instantiated
+> >>with platform_get_drvdata(to_platform_device(dev->parent)) == NULL (but dev->parent != NULL),
+> >>so I referred to the race. But, sure, a second question would be how that would indicate
+> >>that the parent is not instantiated yet (which by itself seems like an odd question).
+> >
+> >This shouldn't happen and worth a log error. In patch #3 the registration is called after the complete private data of the firmware driver is initialized. Did i missed something?
+> >
+> >But i must confess that i didn't test all builtin/module combinations.
+> 
+> The point is that, by construction, a "raspberrypi-hwmon" device will only
+> ever be created for this driver to bind to if the firmware device is both
+> fully initialised and known to support the GET_THROTTLED call already. Thus
+> trying to check those again from the hwmon driver is at best pointless, and
+> at worst misleading. If somebody *does* manage to bind this driver to some
+> random inappropriate device, you've still got no guarantee that dev->parent
+> is valid or that dev_get_drvdata(dev->parent)) won't return something
+> non-NULL that isn't a struct rpi_firmware pointer, at which point you're
+> liable to pass the paranoid check yet still crash anyway.
+> 
+> IOW, you can't reasonably defend against incorrect operation, and under
+> correct operation there's nothing to defend against, so either way it's
+> pretty futile to waste effort trying.
+> 
 
-Signed-off-by: Rajat Jain <rajatja@google.com>
----
-v2: same as v1
+Well said.
 
- drivers/pci/pcie/aer/aerdrv.h       |  2 ++
- drivers/pci/pcie/aer/aerdrv_core.c  |  2 ++
- drivers/pci/pcie/aer/aerdrv_stats.c | 31 +++++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+)
-
-diff --git a/drivers/pci/pcie/aer/aerdrv.h b/drivers/pci/pcie/aer/aerdrv.h
-index 048fbd7c9633..77d8355551d9 100644
---- a/drivers/pci/pcie/aer/aerdrv.h
-+++ b/drivers/pci/pcie/aer/aerdrv.h
-@@ -88,6 +88,8 @@ irqreturn_t aer_irq(int irq, void *context);
- int pci_aer_stats_init(struct pci_dev *pdev);
- void pci_aer_stats_exit(struct pci_dev *pdev);
- void pci_dev_aer_stats_incr(struct pci_dev *pdev, struct aer_err_info *info);
-+void pci_rootport_aer_stats_incr(struct pci_dev *pdev,
-+				 struct aer_err_source *e_src);
- 
- extern const char
- *aer_correctable_error_string[AER_MAX_TYPEOF_CORRECTABLE_ERRS];
-diff --git a/drivers/pci/pcie/aer/aerdrv_core.c b/drivers/pci/pcie/aer/aerdrv_core.c
-index 42a6f913069a..0f70e22563f3 100644
---- a/drivers/pci/pcie/aer/aerdrv_core.c
-+++ b/drivers/pci/pcie/aer/aerdrv_core.c
-@@ -424,6 +424,8 @@ static void aer_isr_one_error(struct pcie_device *p_device,
- 	struct aer_rpc *rpc = get_service_data(p_device);
- 	struct aer_err_info *e_info = &rpc->e_info;
- 
-+	pci_rootport_aer_stats_incr(p_device->port, e_src);
-+
- 	/*
- 	 * There is a possibility that both correctable error and
- 	 * uncorrectable error being logged. Report correctable error first.
-diff --git a/drivers/pci/pcie/aer/aerdrv_stats.c b/drivers/pci/pcie/aer/aerdrv_stats.c
-index e47321b267f6..898c9bc02ec2 100644
---- a/drivers/pci/pcie/aer/aerdrv_stats.c
-+++ b/drivers/pci/pcie/aer/aerdrv_stats.c
-@@ -57,6 +57,9 @@ static DEVICE_ATTR_RO(field)
- aer_stats_aggregate_attr(dev_total_cor_errs);
- aer_stats_aggregate_attr(dev_total_fatal_errs);
- aer_stats_aggregate_attr(dev_total_nonfatal_errs);
-+aer_stats_aggregate_attr(rootport_total_cor_errs);
-+aer_stats_aggregate_attr(rootport_total_fatal_errs);
-+aer_stats_aggregate_attr(rootport_total_nonfatal_errs);
- 
- #define aer_stats_breakdown_attr(field, stats_array, strings_array)	\
- 	static ssize_t							\
-@@ -90,6 +93,9 @@ static struct attribute *aer_stats_attrs[] __ro_after_init = {
- 	&dev_attr_dev_total_nonfatal_errs.attr,
- 	&dev_attr_dev_breakdown_correctable.attr,
- 	&dev_attr_dev_breakdown_uncorrectable.attr,
-+	&dev_attr_rootport_total_cor_errs.attr,
-+	&dev_attr_rootport_total_fatal_errs.attr,
-+	&dev_attr_rootport_total_nonfatal_errs.attr,
- 	NULL
- };
- 
-@@ -102,6 +108,12 @@ static umode_t aer_stats_attrs_are_visible(struct kobject *kobj,
- 	if (!pdev->aer_stats)
- 		return 0;
- 
-+	if ((a == &dev_attr_rootport_total_cor_errs.attr ||
-+	     a == &dev_attr_rootport_total_fatal_errs.attr ||
-+	     a == &dev_attr_rootport_total_nonfatal_errs.attr) &&
-+	    pci_pcie_type(pdev) != PCI_EXP_TYPE_ROOT_PORT)
-+		return 0;
-+
- 	return a->mode;
- }
- 
-@@ -144,6 +156,25 @@ void pci_dev_aer_stats_incr(struct pci_dev *pdev, struct aer_err_info *info)
- 			counter[i]++;
- }
- 
-+void pci_rootport_aer_stats_incr(struct pci_dev *pdev,
-+				 struct aer_err_source *e_src)
-+{
-+	struct aer_stats *aer_stats = pdev->aer_stats;
-+
-+	if (!aer_stats)
-+		return;
-+
-+	if (e_src->status & PCI_ERR_ROOT_COR_RCV)
-+		aer_stats->rootport_total_cor_errs++;
-+
-+	if (e_src->status & PCI_ERR_ROOT_UNCOR_RCV) {
-+		if (e_src->status & PCI_ERR_ROOT_FATAL_RCV)
-+			aer_stats->rootport_total_fatal_errs++;
-+		else
-+			aer_stats->rootport_total_nonfatal_errs++;
-+	}
-+}
-+
- int pci_aer_stats_init(struct pci_dev *pdev)
- {
- 	pdev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
--- 
-2.17.0.441.gb46fe60e1d-goog
-
+Guenter
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
