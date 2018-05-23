@@ -1,110 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 159C87DF8D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 20:19:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 802F17D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 22:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934862AbeEWUS7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 16:18:59 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:42094 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S934873AbeEWUS5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 May 2018 16:18:57 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4569F4023112;
-        Wed, 23 May 2018 20:18:56 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-182.bos.redhat.com [10.18.17.182])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 96E1D2166BB2;
-        Wed, 23 May 2018 20:18:53 +0000 (UTC)
-Subject: Re: [PATCH v8 4/6] cpuset: Make generate_sched_domains() recognize
- isolated_cpus
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-5-git-send-email-longman@redhat.com>
- <20180523173453.GY30654@e110439-lin>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <bf4cb72b-9ff3-eb8b-ca2c-f6c4fee5c123@redhat.com>
-Date:   Wed, 23 May 2018 16:18:53 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S933975AbeEWWCv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 18:02:51 -0400
+Received: from mail-pf0-f196.google.com ([209.85.192.196]:38773 "EHLO
+        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933791AbeEWWCt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 18:02:49 -0400
+Received: by mail-pf0-f196.google.com with SMTP id o76-v6so11154296pfi.5;
+        Wed, 23 May 2018 15:02:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=SxR00VCGCXMsKzi6yyIgx/zN3SRISeTuqJ6hiYaIuJU=;
+        b=Zw1vXZyyOiEkbhiUWU8rtqaZMQzNc050cPFyWpapEQ8eugMtstWvfoiaptAesQf3QJ
+         mlU11Xp/BCsz+XzyWYVCq7tQJJ7a8ekfxBZmugsaTjFXyttK71W4PHyUPRwLl01/dLkq
+         bkayYG5RCLChUo3/E60lzb5SIqxzSUMjTxZ9+Dg9I/+WNRLQtR9R7FatWEuBgGeYj/Es
+         D/iW1JiLjHQb7Oy/8M+EEcJrKW++UxbjMV62xSDbzy4VDUomKfoDXluhv3kRInVh+V1d
+         4EE9sCLq/JAXFmmdRbw1omX5hzGEhha/Gnd4XPrsMEWCe6Yr9VU0hy8XG/CQ6ApiHPzD
+         RGmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SxR00VCGCXMsKzi6yyIgx/zN3SRISeTuqJ6hiYaIuJU=;
+        b=tf4koKstpHihqPA27tSZ+2JM7THJ7TWuWcDga8coUnVAzG3/XZ5jUZDEXqthpRncHd
+         FNOk76pblw/WqE+rOszzVixDfKz9oqnw9GK+EMZLyfZFHj6ipWsuaSsF89XOIacYnd5b
+         QfBWvw6AjljI/EbhdZRBHaWn0BtGHXQkacyLHpSNN26O73AaSt9gkL976fywhr4lYXKw
+         O54N1Rg7nQn4W8PpdHhKmyrID3B7RT/6gCBCkishwn/2Bnno0rGMTIJ8m2DS929l5YTE
+         EwEMyeb5yumRbEmYdfrFCM9HU+JEUMUZthem2sWJRxVv73doGqJhJszFf+4w1pkxzav5
+         OUUg==
+X-Gm-Message-State: ALKqPwdQO73joEF6hNifkTb3zyjG+37lKLuN1xeF/Z6lBtsf/4GBX+Wu
+        XkO+yK9W57sKJrkBxRbR4aw=
+X-Google-Smtp-Source: AB8JxZrhje+BAN3CcIlkY5olfp3P1TCIyya/K6wqvaAbR23YqhQ0LJ9UQLGx/PIAJzeU1UGqVT5eew==
+X-Received: by 2002:a65:550d:: with SMTP id f13-v6mr3644731pgr.324.1527112968819;
+        Wed, 23 May 2018 15:02:48 -0700 (PDT)
+Received: from ast-mbp ([2620:10d:c090:180::1:19c8])
+        by smtp.gmail.com with ESMTPSA id b5-v6sm26663209pgc.16.2018.05.23.15.02.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 23 May 2018 15:02:47 -0700 (PDT)
+Date:   Wed, 23 May 2018 15:02:45 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>,
+        Jesper Dangaard Brouer <brouer@redhat.com>
+Subject: Re: [PATCH bpf-next v2 0/3] bpf: add boot parameters for sysctl knobs
+Message-ID: <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
+References: <20180523121806.GA27675@asgard.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20180523173453.GY30654@e110439-lin>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 23 May 2018 20:18:56 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Wed, 23 May 2018 20:18:56 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180523121806.GA27675@asgard.redhat.com>
+User-Agent: NeoMutt/20180223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/23/2018 01:34 PM, Patrick Bellasi wrote:
-> Hi Waiman,
->
-> On 17-May 16:55, Waiman Long wrote:
->
-> [...]
->
->> @@ -672,13 +672,14 @@ static int generate_sched_domains(cpumask_var_t **domains,
->>  	int ndoms = 0;		/* number of sched domains in result */
->>  	int nslot;		/* next empty doms[] struct cpumask slot */
->>  	struct cgroup_subsys_state *pos_css;
->> +	bool root_load_balance = is_sched_load_balance(&top_cpuset);
->>  
->>  	doms = NULL;
->>  	dattr = NULL;
->>  	csa = NULL;
->>  
->>  	/* Special case for the 99% of systems with one, full, sched domain */
->> -	if (is_sched_load_balance(&top_cpuset)) {
->> +	if (root_load_balance && !top_cpuset.isolation_count) {
-> Perhaps I'm missing something but, it seems to me that, when the two
-> conditions above are true, then we are going to destroy and rebuild
-> the exact same scheduling domains.
->
-> IOW, on 99% of systems where:
->
->    is_sched_load_balance(&top_cpuset)
->    top_cpuset.isolation_count = 0
->
-> since boot time and forever, then every time we update a value for
-> cpuset.cpus we keep rebuilding the same SDs.
->
-> It's not strictly related to this patch, the same already happens in
-> mainline based just on the first condition, but since you are extending
-> that optimization, perhaps you can tell me where I'm possibly wrong or
-> which cases I'm not considering.
->
-> I'm interested mainly because on Android systems those conditions
-> are always true and we see SDs rebuilds every time we write
-> something in cpuset.cpus, which ultimately accounts for almost all the
-> 6-7[ms] time required for the write to return, depending on the CPU
-> frequency.
->
-> Cheers Patrick
->
-Yes, that is true. I will look into how to further optimize this. Thanks
-for the suggestion.
+On Wed, May 23, 2018 at 02:18:19PM +0200, Eugene Syromiatnikov wrote:
+> Some BPF sysctl knobs affect the loading of BPF programs, and during
+> system boot/init stages these sysctls are not yet configured.
+> A concrete example is systemd, that has implemented loading of BPF
+> programs.
+> 
+> Thus, to allow controlling these setting at early boot, this patch set
+> adds the ability to change the default setting of these sysctl knobs
+> as well as option to override them via a boot-time kernel parameter
+> (in order to avoid rebuilding kernel each time a need of changing these
+> defaults arises).
+> 
+> The sysctl knobs in question are kernel.unprivileged_bpf_disable,
+> net.core.bpf_jit_harden, and net.core.bpf_jit_kallsyms.
 
--Longman
+- systemd is root. today it only uses cgroup-bpf progs which require root,
+  so disabling unpriv during boot time makes no difference to systemd.
+  what is the actual reason to present time?
+
+- say in the future systemd wants to use so_reuseport+bpf for faster
+  networking. With unpriv disable during boot, it will force systemd
+  to do such networking from root, which will lower its security barrier.
+  How that make sense?
+
+- bpf_jit_kallsyms sysctl has immediate effect on loaded programs.
+  Flipping it during the boot or right after or any time after
+  is the same thing. Why add such boot flag then?
+
+- jit_harden can be turned on by systemd. so turning it during the boot
+  will make systemd progs to be constant blinded.
+  Constant blinding protects kernel from unprivileged JIT spraying.
+  Are you worried that systemd will attack the kernel with JIT spraying?
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
