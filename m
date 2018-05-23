@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8874A7D085
+	by archive.lwn.net (Postfix) with ESMTP id B1F237DF8B
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 18:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933790AbeEWR6p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 13:58:45 -0400
-Received: from mail-pl0-f67.google.com ([209.85.160.67]:37938 "EHLO
-        mail-pl0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933791AbeEWR6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 13:58:41 -0400
-Received: by mail-pl0-f67.google.com with SMTP id c11-v6so13492413plr.5
-        for <linux-doc@vger.kernel.org>; Wed, 23 May 2018 10:58:41 -0700 (PDT)
+        id S933800AbeEWSAI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 14:00:08 -0400
+Received: from mail-pl0-f66.google.com ([209.85.160.66]:34680 "EHLO
+        mail-pl0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933821AbeEWR6p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 13:58:45 -0400
+Received: by mail-pl0-f66.google.com with SMTP id ay10-v6so13494078plb.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 May 2018 10:58:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=IEAutE9cxB7orHhpJxLdqD0h2W4Uzw4lit8J9lEs0MM=;
-        b=VKUBl2Dy4JUWpxpdT/o6e9f+mmpFVTExBm0kaOonR3O+ZQMw1vJr0JxJWDBAHYOfWu
-         zHM8IczCvvESkFx1FBbEdTZFSyErGiGk8lJ2c/lFrvbY0bVze815ncHngUwKBEa8IhAI
-         4aUcyk+tMkDx2o0++C5vnulHIY4bGUB4UJPXyMvRMQWc6r9OoRUOy55iVJVqTfhy5Ggy
-         Upkxn2QCYg3zfRl3caHl36koc2vdnMZbbrHtA8HZBqvOMttFEkezu3jHOrYD4y9RQydq
-         ixG0TPf6VoB7pOfNvcijS7fLAVFhjhmqrIhhtPN2Nc/WVf2FGb9qWMmdJUiha0DAfk+5
-         PoOQ==
+        bh=lWXdoHBojoAI8FDQqlYl7uv53Q0VOOWpE8AirUaJNuQ=;
+        b=IHa4HCWqrfieKuMrypmL0fdX4bbijJ6ye+H+Xs7F2gPhm1tUeRtJu3coXogyZYh0Qw
+         42Fw5NLePU0fym2fH8/FNINxif8sro2btXpydEAyJqh7XR/5AH3yaYZIeIfNHPdeOfFg
+         o1/ytbLtqVhn8Az3jAkRztSvDtGMs7Go0yGajwXA2zh48t/ewenvxGlNrW/5/TnYRZQh
+         xlpfow0IQ7dLU9DHWZ4pgQu1TRi0dvY9dqUUwny/3OudnmL1oJ12gZbNVf+wrUIr/zbp
+         qxg3vhbNq135D+QEvs2oSoOtOI6me8ILzaW4tw67Pf2vReg1xAVzbI4v9398OzlgWc+Z
+         0FUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=IEAutE9cxB7orHhpJxLdqD0h2W4Uzw4lit8J9lEs0MM=;
-        b=bqTJvZ+XLWiNFE61JsQizrjkXeLjw2wr8ANwSjHHLq2K4l2IyFcZDktU8Ar94e5tp2
-         +jfc62OSSJH1rXWkFXfZKfNKeeCLnLezPfxTWocAVF3h5P4WbIPiTa8tJZ5dDTStpN3X
-         5D2YMFQlqvrJT7v2GI91p20hk6v1itOb3J9I82f2iGxTGn5fBbNiSjeAlMJ8Jv7QU2tD
-         /VKY+1UTwnLw3UjIif2HPAC8ee+90YO0ZMwom7LZGzUEp0gaUu8aZrCtoMQHp4uhU578
-         iObVonw41WFduNToLE/FVZ2w7Z6baIfUj478CUv3Y2Xfe/MvBo92Em+aEk3dnjC1bGW7
-         exPw==
-X-Gm-Message-State: ALKqPwcSBlrReDu9EGXjpXO89wn0pWDiTEj3+X6KHEFBxCFpY9ElZ3Pk
-        FSCC71XFotWIf+ywEHOkhK01jQ==
-X-Google-Smtp-Source: AB8JxZr+nXKflSzonvmuyIkHGZPogAXr2gS2wjHGixOAB9l52Sm6p8nx0ByFghoFr5nltfa5gAOS5A==
-X-Received: by 2002:a17:902:d24:: with SMTP id 33-v6mr3885096plu.22.1527098320864;
-        Wed, 23 May 2018 10:58:40 -0700 (PDT)
+        bh=lWXdoHBojoAI8FDQqlYl7uv53Q0VOOWpE8AirUaJNuQ=;
+        b=lPnoFUFVGhhY4a3wvdjOvc7LwyEcsa5F/00XLLfS9snICj9ptUV6NXTRKi/ZcOZUQJ
+         vDZGDKz3+gOOiqjS+W5YMPkSUwSZXrMPeEd+u/3cwz4lmuf9sAS8t2Nm02cLm9EytVvs
+         rUV982+8sanxeGbntyTzBIRmcZxMsIk4mkSSNuF10pH5zMdULvPnZvd+HjKIIJCiE+kv
+         VY9ho3/l9wELceUzJ9Vputbgoci+ElnFi7Xs0ZR0T5UR7uTrZaNnzEr1YlzSichHGXXa
+         R2iIoGb9/9PA3V1aaeI4Bn2yu4BajbkoFYYHT9rH8g3wR+qy7kqydHfo0rt+7OkdN5yw
+         7qRQ==
+X-Gm-Message-State: ALKqPwfF9r/A69mBmqwqlZ11hQPbV7niRA/EEZ0n8kDSLQ01ll3Cmrds
+        UvZUTB06GLSUzkvrLN435OfyxA==
+X-Google-Smtp-Source: AB8JxZqmLCzaE9qEmZUGJ4IcHZ+nc0wz+HNHxV2sLKECMziWAvKR6ogmgEovjoJ1HxU17DKaUUFSBA==
+X-Received: by 2002:a17:902:b58e:: with SMTP id a14-v6mr3933781pls.261.1527098324771;
+        Wed, 23 May 2018 10:58:44 -0700 (PDT)
 Received: from rajat.mtv.corp.google.com ([2620:0:1000:1501:dc81:9a9e:fdee:decf])
-        by smtp.gmail.com with ESMTPSA id k186-v6sm41433025pfc.142.2018.05.23.10.58.39
+        by smtp.gmail.com with ESMTPSA id k186-v6sm41433025pfc.142.2018.05.23.10.58.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 May 2018 10:58:39 -0700 (PDT)
+        Wed, 23 May 2018 10:58:44 -0700 (PDT)
 From:   Rajat Jain <rajatja@google.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -65,50 +65,207 @@ To:     Bjorn Helgaas <bhelgaas@google.com>,
         linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
         Kyle McMartin <jkkm@fb.com>
 Cc:     rajatxjain@gmail.com
-Subject: [PATCH v2 0/5] Expose PCIe AER stats via sysfs
-Date:   Wed, 23 May 2018 10:58:03 -0700
-Message-Id: <20180523175808.28030-1-rajatja@google.com>
+Subject: [PATCH v2 1/5] PCI/AER: Define and allocate aer_stats structure for AER capable devices
+Date:   Wed, 23 May 2018 10:58:04 -0700
+Message-Id: <20180523175808.28030-2-rajatja@google.com>
 X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
-In-Reply-To: <20180522222805.80314-1-rajatja@google.com>
+In-Reply-To: <20180523175808.28030-1-rajatja@google.com>
 References: <20180522222805.80314-1-rajatja@google.com>
+ <20180523175808.28030-1-rajatja@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset exposes the AER stats via the sysfs attributes.
+Define a structure to hold the AER statistics. There are 2 groups
+of statistics: dev_* counters that are to be collected for all AER
+capable devices and rootport_* counters that are collected for all
+(AER capable) rootports only. Allocate and free this structure when
+device is added or released (thus counters survive the lifetime of the
+device).
 
-Patchset v2 has minor changes to v1 based on the review comments,
-no functional change.
-Primarily:
- * Fix license header
- * Use tabs instead of spaces
- * Remove use on unlikely() etc
- * Move documentation to Documentation/ABI/
+Add a new file aerdrv_stats.c to hold the AER stats collection logic.
 
-Rajat Jain (5):
-  PCI/AER: Define and allocate aer_stats structure for AER capable
-    devices
-  PCI/AER: Add sysfs stats for AER capable devices
-  PCI/AER: Add sysfs attributes to provide breakdown of AERs
-  PCI/AER: Add sysfs attributes for rootport cumulative stats
-  Documentation/ABI: Add details of PCI AER statistics
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+v2: Fix the license header as per Greg's suggestions
+    (Since there is disagreement with using "//" vs "/* */" for license
+     I decided to keep the one preferred by Linus, also used by others
+     in this directory)
 
- .../testing/sysfs-bus-pci-devices-aer_stats   | 103 ++++++++++
- Documentation/PCI/pcieaer-howto.txt           |   5 +
- drivers/pci/pci-sysfs.c                       |   3 +
- drivers/pci/pci.h                             |   4 +-
- drivers/pci/pcie/aer/Makefile                 |   2 +-
- drivers/pci/pcie/aer/aerdrv.h                 |  15 ++
- drivers/pci/pcie/aer/aerdrv_core.c            |  11 +
- drivers/pci/pcie/aer/aerdrv_errprint.c        |   7 +-
- drivers/pci/pcie/aer/aerdrv_stats.c           | 192 ++++++++++++++++++
- drivers/pci/probe.c                           |   1 +
- include/linux/pci.h                           |   3 +
- 11 files changed, 342 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+ drivers/pci/pcie/aer/Makefile       |  2 +-
+ drivers/pci/pcie/aer/aerdrv.h       |  6 +++
+ drivers/pci/pcie/aer/aerdrv_core.c  |  9 +++++
+ drivers/pci/pcie/aer/aerdrv_stats.c | 61 +++++++++++++++++++++++++++++
+ drivers/pci/probe.c                 |  1 +
+ include/linux/pci.h                 |  3 ++
+ 6 files changed, 81 insertions(+), 1 deletion(-)
  create mode 100644 drivers/pci/pcie/aer/aerdrv_stats.c
 
+diff --git a/drivers/pci/pcie/aer/Makefile b/drivers/pci/pcie/aer/Makefile
+index 09bd890875a3..a06f9cc2bde5 100644
+--- a/drivers/pci/pcie/aer/Makefile
++++ b/drivers/pci/pcie/aer/Makefile
+@@ -7,7 +7,7 @@ obj-$(CONFIG_PCIEAER) += aerdriver.o
+ 
+ obj-$(CONFIG_PCIE_ECRC)	+= ecrc.o
+ 
+-aerdriver-objs := aerdrv_errprint.o aerdrv_core.o aerdrv.o
++aerdriver-objs := aerdrv_errprint.o aerdrv_core.o aerdrv.o aerdrv_stats.o
+ aerdriver-$(CONFIG_ACPI) += aerdrv_acpi.o
+ 
+ obj-$(CONFIG_PCIEAER_INJECT) += aer_inject.o
+diff --git a/drivers/pci/pcie/aer/aerdrv.h b/drivers/pci/pcie/aer/aerdrv.h
+index b4c950683cc7..d8b9fba536ed 100644
+--- a/drivers/pci/pcie/aer/aerdrv.h
++++ b/drivers/pci/pcie/aer/aerdrv.h
+@@ -33,6 +33,10 @@
+ 					PCI_ERR_UNC_MALF_TLP)
+ 
+ #define AER_MAX_MULTI_ERR_DEVICES	5	/* Not likely to have more */
++
++#define AER_MAX_TYPEOF_CORRECTABLE_ERRS 16	/* as per PCI_ERR_COR_STATUS */
++#define AER_MAX_TYPEOF_UNCORRECTABLE_ERRS 26	/* as per PCI_ERR_UNCOR_STATUS*/
++
+ struct aer_err_info {
+ 	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
+ 	int error_dev_num;
+@@ -81,6 +85,8 @@ void aer_isr(struct work_struct *work);
+ void aer_print_error(struct pci_dev *dev, struct aer_err_info *info);
+ void aer_print_port_info(struct pci_dev *dev, struct aer_err_info *info);
+ irqreturn_t aer_irq(int irq, void *context);
++int pci_aer_stats_init(struct pci_dev *pdev);
++void pci_aer_stats_exit(struct pci_dev *pdev);
+ 
+ #ifdef CONFIG_ACPI_APEI
+ int pcie_aer_get_firmware_first(struct pci_dev *pci_dev);
+diff --git a/drivers/pci/pcie/aer/aerdrv_core.c b/drivers/pci/pcie/aer/aerdrv_core.c
+index 36e622d35c48..42a6f913069a 100644
+--- a/drivers/pci/pcie/aer/aerdrv_core.c
++++ b/drivers/pci/pcie/aer/aerdrv_core.c
+@@ -95,9 +95,18 @@ int pci_cleanup_aer_error_status_regs(struct pci_dev *dev)
+ int pci_aer_init(struct pci_dev *dev)
+ {
+ 	dev->aer_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
++
++	if (!dev->aer_cap || pci_aer_stats_init(dev))
++		return -EIO;
++
+ 	return pci_cleanup_aer_error_status_regs(dev);
+ }
+ 
++void pci_aer_exit(struct pci_dev *dev)
++{
++	pci_aer_stats_exit(dev);
++}
++
+ /**
+  * add_error_device - list device to be handled
+  * @e_info: pointer to error info
+diff --git a/drivers/pci/pcie/aer/aerdrv_stats.c b/drivers/pci/pcie/aer/aerdrv_stats.c
+new file mode 100644
+index 000000000000..2f48d6bc81f1
+--- /dev/null
++++ b/drivers/pci/pcie/aer/aerdrv_stats.c
+@@ -0,0 +1,61 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2018 Google Inc, All Rights Reserved.
++ *
++ * Rajat Jain (rajatja@google.com)
++ *
++ * AER Statistics - exposed to userspace via /sysfs attributes.
++ */
++
++#include <linux/pci.h>
++#include "aerdrv.h"
++
++/* AER stats for the device */
++struct aer_stats {
++
++	/*
++	 * Fields for all AER capable devices. They indicate the errors
++	 * "as seen by this device". Note that this may mean that if an
++	 * end point is causing problems, the AER counters may increment
++	 * at its link partner (e.g. root port) because the errors will be
++	 * "seen" by the link partner and not the the problematic end point
++	 * itself (which may report all counters as 0 as it never saw any
++	 * problems).
++	 */
++	/* Individual counters for different type of correctable errors */
++	u64 dev_cor_errs[AER_MAX_TYPEOF_CORRECTABLE_ERRS];
++	/* Individual counters for different type of uncorrectable errors */
++	u64 dev_uncor_errs[AER_MAX_TYPEOF_UNCORRECTABLE_ERRS];
++	/* Total number of correctable errors seen by this device */
++	u64 dev_total_cor_errs;
++	/* Total number of fatal uncorrectable errors seen by this device */
++	u64 dev_total_fatal_errs;
++	/* Total number of fatal uncorrectable errors seen by this device */
++	u64 dev_total_nonfatal_errs;
++
++	/*
++	 * Fields for Root ports only, these indicate the total number of
++	 * ERR_COR, ERR_FATAL, and ERR_NONFATAL messages received by the
++	 * rootport, INCLUDING the ones that are generated internally (by
++	 * the rootport itself)
++	 */
++	u64 rootport_total_cor_errs;
++	u64 rootport_total_fatal_errs;
++	u64 rootport_total_nonfatal_errs;
++};
++
++int pci_aer_stats_init(struct pci_dev *pdev)
++{
++	pdev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
++	if (!pdev->aer_stats) {
++		dev_err(&pdev->dev, "No memory for aer_stats\n");
++		return -ENOMEM;
++	}
++	return 0;
++}
++
++void pci_aer_stats_exit(struct pci_dev *pdev)
++{
++	kfree(pdev->aer_stats);
++	pdev->aer_stats = NULL;
++}
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 384020757b81..dd662c241373 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -2064,6 +2064,7 @@ static void pci_configure_device(struct pci_dev *dev)
+ 
+ static void pci_release_capabilities(struct pci_dev *dev)
+ {
++	pci_aer_exit(dev);
+ 	pci_vpd_release(dev);
+ 	pci_iov_release(dev);
+ 	pci_free_cap_save_buffers(dev);
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 21965e0dbe62..5c84b1304de7 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -299,6 +299,7 @@ struct pci_dev {
+ 	u8		hdr_type;	/* PCI header type (`multi' flag masked out) */
+ #ifdef CONFIG_PCIEAER
+ 	u16		aer_cap;	/* AER capability offset */
++	struct aer_stats *aer_stats;	/* AER stats for this device */
+ #endif
+ 	u8		pcie_cap;	/* PCIe capability offset */
+ 	u8		msi_cap;	/* MSI capability offset */
+@@ -1470,10 +1471,12 @@ static inline bool pcie_aspm_support_enabled(void) { return false; }
+ void pci_no_aer(void);
+ bool pci_aer_available(void);
+ int pci_aer_init(struct pci_dev *dev);
++void pci_aer_exit(struct pci_dev *dev);
+ #else
+ static inline void pci_no_aer(void) { }
+ static inline bool pci_aer_available(void) { return false; }
+ static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
++static inline void pci_aer_exit(struct pci_dev *d) { }
+ #endif
+ 
+ #ifdef CONFIG_PCIE_ECRC
 -- 
 2.17.0.441.gb46fe60e1d-goog
 
