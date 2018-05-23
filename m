@@ -5,108 +5,108 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 571197DF92
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 15:16:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DE5827D08C
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 15:45:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933342AbeEWPOI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 11:14:08 -0400
-Received: from mail-vk0-f68.google.com ([209.85.213.68]:40394 "EHLO
-        mail-vk0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933495AbeEWPOC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 11:14:02 -0400
-Received: by mail-vk0-f68.google.com with SMTP id e67-v6so13344938vke.7
-        for <linux-doc@vger.kernel.org>; Wed, 23 May 2018 08:14:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=MOapYNVlHrkzrYuOrNJKxvgQr+d/Liqi73u1iDMLVC0=;
-        b=rFTx04wtw+NOV9Rm7yfXw8ypG/j6AQmrfiQ2mA3FrkDPIvmvxnAqZrlUcwvtou6OIn
-         fn4j0qR7mOddvVWlrViFWFtuITsLEMwBVt05MjEvWD+qBhfKvzG5sbUwXxIPJ5kJTQNA
-         IiNs4DNOphDFHSuAEr0y975hU2DRty6IJ9WH65An4kkCPSdVY5Nz1KFcmpSFUsRcEjEU
-         nfUz8I7KMOzqJ/+Ya9+aaqCOFP8M0EuGly8KVDujbM8L+ta67K28zTrxYRd9/KGA4470
-         XjXLLPf+FXMvIsjluh3/+8O1FU8fUsobXi9jM0jqXLIBjCQ5YblTaBROTmq4EFnA+B3a
-         W7WQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=MOapYNVlHrkzrYuOrNJKxvgQr+d/Liqi73u1iDMLVC0=;
-        b=HBc/SJoiKwmu7Le9i+DZSzG3SDET4CVc5MGkQcw/trypapG6tIu5QqHG34zMqK5Wxm
-         e4RF0TZKVzLgTC8tI99OjmEK7cAM2T551hn1sOa6zdGolC1lqUJKSRRX6lfPqRPX2A64
-         4jD5ZEaNsW36KpWwRAzzojIx3ihaCuzWr8O6A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=MOapYNVlHrkzrYuOrNJKxvgQr+d/Liqi73u1iDMLVC0=;
-        b=Ibs1W/kEVqxyfqBorbhMWxmva0eQQoXpX/qft+2WcebBKXeCRBxSlRacwUDknTob/s
-         nNYAc9BMxL2lBVBXxD0r47uCwg/U3qt/ADazdsDSdXGPacqAVb7UT/S4vV49JRsDgush
-         5mZobyXDwJk4UXZHxzjAmW/2bUeGNs3FbSR1X0u/FhlcDbq8L4oeEO1alZAM6hSqzA5C
-         +WNq+4b/uzPf67y4Qjg0G+ut4Vo9E1xtZgDhXYN72TnRDrEYrN7k5bHL5QZ6eUsc5Bfs
-         KXgZl+XXh2Vzlut594IjuoMXh38kbt+AuLm+OfIjPj84rmtdu/zY3XzXvihbWBE6ZsZd
-         /AQQ==
-X-Gm-Message-State: ALKqPweypxDJrB7a32bVJtNzYh4HFnNHNX6LCa16iuKIH8NJxxHBrNDa
-        T17O+WKd9Q2x2PGS97dGDdRzCil6ir08PN8zU2APEQ==
-X-Google-Smtp-Source: AB8JxZrSS163Gr5WX0Yap6Wlscbl4HeMabd25Jm/MEMsYgX54yTSu6KdORdrWzQ/GdQn+6QXWmCOddd+ZiSb752y+4Q=
-X-Received: by 2002:a1f:1957:: with SMTP id 84-v6mr2065444vkz.90.1527088440510;
- Wed, 23 May 2018 08:14:00 -0700 (PDT)
+        id S1750866AbeEWPnu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 11:43:50 -0400
+Received: from lelnx194.ext.ti.com ([198.47.27.80]:11441 "EHLO
+        lelnx194.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750771AbeEWPnt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 11:43:49 -0400
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+        by lelnx194.ext.ti.com (8.15.1/8.15.1) with ESMTP id w4NFhgOs022196;
+        Wed, 23 May 2018 10:43:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1527090222;
+        bh=ysubGUSHK9Wf2BeAEe5yfbT9COgPgqX4KSL6wA69vTU=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=PlJMMKgOmDCwtf/EK3llP7r64NiX/mAFG/plz2huwI4oQ8pVtKP6kh8GhFhMLKMod
+         F5kcTAw1nOnYl9bWVr+VdjEPnVbn8QAp+ekk4OJlemDFu+yB2wUuGLL7KLhTNYWI5Y
+         /BhBe/B+0yNEbZpaa0vOhCnuU5SJHpbxCTCJ8ozA=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w4NFhgjM019258;
+        Wed, 23 May 2018 10:43:42 -0500
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Wed, 23
+ May 2018 10:43:42 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Wed, 23 May 2018 10:43:42 -0500
+Received: from [128.247.59.147] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w4NFhgfD007860;
+        Wed, 23 May 2018 10:43:42 -0500
+Subject: Re: [RFC PATCH 0/6] net: ethernet: ti: cpsw: add MQPRIO and CBS Qdisc
+ offload
+To:     Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>, <davem@davemloft.net>
+CC:     <corbet@lwn.net>, <akpm@linux-foundation.org>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+        <vinicius.gomes@intel.com>, <henrik@austad.us>,
+        <jesus.sanchez-palencia@intel.com>, Sekhar Nori <nsekhar@ti.com>,
+        Yogesh Siraswar <yogeshs@ti.com>,
+        Schuyler Patton <spatton@ti.com>
+References: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
+From:   Grygorii Strashko <grygorii.strashko@ti.com>
+Message-ID: <176f9a29-0a89-ffa1-d7f7-708a2cdfdc7e@ti.com>
+Date:   Wed, 23 May 2018 10:43:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 2002:a1f:3052:0:0:0:0:0 with HTTP; Wed, 23 May 2018 08:13:59
- -0700 (PDT)
-In-Reply-To: <ebe4515d-a26f-a825-0353-666b0b5ad9f5@codeaurora.org>
-References: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org>
- <1522429700-13083-5-git-send-email-kramasub@codeaurora.org> <ebe4515d-a26f-a825-0353-666b0b5ad9f5@codeaurora.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 23 May 2018 08:13:59 -0700
-X-Google-Sender-Auth: pX-cHW-K1C3Q5dMeffo1-bGBbeo
-Message-ID: <CAD=FV=WwVjMKDoL29fqdzSmi5SRQOxk_mV2=7br8HUK_hUc+XQ@mail.gmail.com>
-Subject: Re: [PATCH v6 4/5] arm64: dts: sdm845: Add serial console support
-To:     Rajendra Nayak <rnayak@codeaurora.org>
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Evan Green <evgreen@chromium.org>,
-        acourbot@chromium.org, Stephen Boyd <swboyd@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rajendra,
+Hi Ivan,
 
-On Tue, May 22, 2018 at 11:30 PM, Rajendra Nayak <rnayak@codeaurora.org> wrote:
->
->
-> On 03/30/2018 10:38 PM, Karthikeyan Ramasubramanian wrote:
->> From: Rajendra Nayak <rnayak@codeaurora.org>
->>
->> Add the qup uart node and geni se instance needed to
->> support the serial console on the MTP.
->>
->> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
->> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
->> ---
->
-> Andy, is it possible to pull this one in for 4.18?
-> Sorry, I only realized we somehow missed this after looking at your pull request.
->
-> This is the only patch that prevents linux-next from booting up my sdm845 MTP
-> to a minimal console shell.
+On 05/18/2018 04:15 PM, Ivan Khoronzhuk wrote:
+> This series adds MQPRIO and CBS Qdisc offload for TI cpsw driver.
+> It potentially can be used in audio video bridging (AVB) and time
+> sensitive networking (TSN).
+> 
+> Patchset was tested on AM572x EVM and BBB boards. Last patch from this
+> series adds detailed description of configuration with examples. For
+> consistency reasons, in role of talker and listener, tools from
+> patchset "TSN: Add qdisc based config interface for CBS" were used and
+> can be seen here: https://www.spinics.net/lists/netdev/msg460869.html
+> 
+> Based on net-next/master
 
-It was in Andy's tree but then got dropped.  Unfortunately the clock
-bindings didn't land early enough so it's a bit difficult to land any
-device tree changes that use the clock bindings until the next kernel
-revision...
+Thanks a lot, it is great work.
 
--Doug
+In general I have no comments as of now, but I prefer to wait a bit (few 
+weeks) for more comments and possible test reports.
+
+If no comments, pls feel free to repost as final series.
+
+
+> 
+> Ivan Khoronzhuk (6):
+>    net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
+>    net: ethernet: ti: cpdma: fit rated channels in backward order
+>    net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
+>    net: ethernet: ti: cpsw: add CBS Qdisc offload
+>    net: ethernet: ti: cpsw: restore shaper configuration while down/up
+>    Documentation: networking: cpsw: add MQPRIO & CBS offload examples
+> 
+>   Documentation/networking/cpsw.txt       | 540 ++++++++++++++++++++++++
+>   drivers/net/ethernet/ti/cpsw.c          | 364 +++++++++++++++-
+>   drivers/net/ethernet/ti/davinci_cpdma.c |  31 +-
+>   3 files changed, 913 insertions(+), 22 deletions(-)
+>   create mode 100644 Documentation/networking/cpsw.txt
+> 
+
+-- 
+regards,
+-grygorii
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
