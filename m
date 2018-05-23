@@ -3,49 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A965D7DF8E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 17:59:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 45BC57D0DC
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 18:00:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933878AbeEWR6v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 13:58:51 -0400
-Received: from mail-pl0-f68.google.com ([209.85.160.68]:45484 "EHLO
-        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933800AbeEWR6s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 13:58:48 -0400
-Received: by mail-pl0-f68.google.com with SMTP id bi12-v6so13466685plb.12
-        for <linux-doc@vger.kernel.org>; Wed, 23 May 2018 10:58:48 -0700 (PDT)
+        id S933920AbeEWR7A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 13:59:00 -0400
+Received: from mail-pg0-f66.google.com ([74.125.83.66]:42256 "EHLO
+        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933907AbeEWR6z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 13:58:55 -0400
+Received: by mail-pg0-f66.google.com with SMTP id p9-v6so9746668pgc.9
+        for <linux-doc@vger.kernel.org>; Wed, 23 May 2018 10:58:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=1z6WlIioae4RJkNxz63Hd/MK6NhhxjTdMf3aE2BQvnA=;
-        b=Lg9l9OQJ2YtWy8xvPLDBmjaapHNf2ndZgaxX3wNqhxCnBB/byuUQ5j3WGjdp6gAuro
-         PYw51LAloq0MwzlqQOeuB05ztUQ2QxZzkwhhtjNkBgFunPIdd7Kj98ccrLvg2/GXXD+q
-         NV4A4SZWDwIlHrwvf5v1k1Kvh6DEUsszFRof+PCHsM0k3/6WUS9/4/5EG2WzLMx7YTbd
-         gezy1VWeqoEHlAaiANmxIsbJRaQaoEo+O15YIlzeDUGkUCAjfhXOpV81k6QTq1S2ELAg
-         yZ13nv8DftUMtBjJLliSQZVmCWcaEgVMsr+JZ5fASaKxd6eV+JbrqLdWAODns77HKKBY
-         FeFw==
+        bh=2EJ4D+L/5H9znFFvXT8cS2yNFydduxQdfWP8MkCCpCY=;
+        b=PB0Ho++UDSX86btyoWRXqC1Djl9bfLrR7i3orXdiboy4BkwUN8Q/NGNhOZT5yD1E6f
+         XezwC/7BrycTX4uwMFDZ2PUGPU3oPcdAEltyCYn5NnS0Jm+eiA6u9dxb1HpEHmX3hoHu
+         NteX6WMFSjQU8hhRPXZK9eibRDrsNJbQJRJM5qCckdEy1ZMi8q53f8guer5ML3MhW95x
+         fWcgqk2/4NXTGnI+tq4zbX873lRMnTfDoMJH5vlb17gVf4+2NQzVypgIQOfN5/NA4bmj
+         Oi4mqys6sQZusMcJCSGi5jcXbUGuQxuxIfiX0doNIzQHv1lRwRolRr9REsAF+wLPV0Lc
+         5+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=1z6WlIioae4RJkNxz63Hd/MK6NhhxjTdMf3aE2BQvnA=;
-        b=d+ODOcoXTPcAJKD9KdnnSTmc/WRfVQM+L5ncHvzlWk4y3SYIX1eUVu9LQUFe7QlmKt
-         R554AzUzq2Er7Uvqvm88TAZFSbMwbHZW0w1UBdl/VswYyG9sJ0tTVqRCcLi85Ihnh93e
-         F6Vl87MKHf6+qFUg2PIIVqyZsA89FznK9OmlUe6emLkQ3/bpk4/sSGc+At8erFc7lrHB
-         YC6tQWLptZP2d/RhDvgZ7AbPDNlo2MPA+xIedqwoJpIyTLRt24M1n6O5wOJYAa6DNAMz
-         ass9AGQkc588JFQBASv+Xa4EF3RjIFLTSUImEEHaRCDV7fNUGIP/DfjMqY5Qm6SGCAEL
-         +mYA==
-X-Gm-Message-State: ALKqPwdTRuVcd5LWTvNenaPxU6KMNLTuDGXLDz1gXw5TG20B29YnX6Tp
-        6xUzs/lc/edX9N7kycC8OiSktQ==
-X-Google-Smtp-Source: AB8JxZrxMqKdSYp4VWWIEmBL6HKVrT8ZJwTGTmpfX/YwsZLYxgD5I6n8X0zoVgGx2CkiUQ1qlkJiPQ==
-X-Received: by 2002:a17:902:6687:: with SMTP id e7-v6mr3983984plk.242.1527098327759;
-        Wed, 23 May 2018 10:58:47 -0700 (PDT)
+        bh=2EJ4D+L/5H9znFFvXT8cS2yNFydduxQdfWP8MkCCpCY=;
+        b=bgc+QX6QyVEPhGr8J8OioSYIlPYu2+1ay8KVwtlE5ntrmIrOAwgv9povc05tG6E3qs
+         7TlcYgPc1QpgjjqdySVbSYOaPE9SXsvNeuH5pBZ/i4vbEaTAgsNpnH3kxF8rwXwVDLpO
+         ZMfBcf0/I9Q9MRH1TbJ7st4ZP2AWpYjgaJKjL6oaDDwvRiel793HRM7FdisLPSV0TmTd
+         Nh1JKKsqEn+qsBG6EKVw4DOUGYBAhkHmxL9xc4Ye9FWQYcl0kAxNGch/WEYTfRYcXG+L
+         C4uj7XOWwmMT70DevK7s2GOBgn8jq+LkSS9vgNgGS3zYtJvQRJLi/n52pQYQjMZKfmPV
+         5jOg==
+X-Gm-Message-State: ALKqPwe1R6rVHWHJTRDqvKdCL+L96rrHOf88dUBPNnrQyvBl+68oSUfd
+        HyAlDElrsuMEA0iL6Y+jxFglOA==
+X-Google-Smtp-Source: AB8JxZomxsrEJinog35+5xAo3ZeUIpJNr3Xq4Si+cwbjBhi7QbK75AGd3dqLdO+Ysk/Lt5/jLRH0qQ==
+X-Received: by 2002:a63:a743:: with SMTP id w3-v6mr3085079pgo.374.1527098334165;
+        Wed, 23 May 2018 10:58:54 -0700 (PDT)
 Received: from rajat.mtv.corp.google.com ([2620:0:1000:1501:dc81:9a9e:fdee:decf])
-        by smtp.gmail.com with ESMTPSA id k186-v6sm41433025pfc.142.2018.05.23.10.58.46
+        by smtp.gmail.com with ESMTPSA id k186-v6sm41433025pfc.142.2018.05.23.10.58.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 May 2018 10:58:46 -0700 (PDT)
+        Wed, 23 May 2018 10:58:53 -0700 (PDT)
 From:   Rajat Jain <rajatja@google.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -65,9 +65,9 @@ To:     Bjorn Helgaas <bhelgaas@google.com>,
         linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
         Kyle McMartin <jkkm@fb.com>
 Cc:     rajatxjain@gmail.com
-Subject: [PATCH v2 2/5] PCI/AER: Add sysfs stats for AER capable devices
-Date:   Wed, 23 May 2018 10:58:05 -0700
-Message-Id: <20180523175808.28030-3-rajatja@google.com>
+Subject: [PATCH v2 5/5] Documentation/ABI: Add details of PCI AER statistics
+Date:   Wed, 23 May 2018 10:58:08 -0700
+Message-Id: <20180523175808.28030-6-rajatja@google.com>
 X-Mailer: git-send-email 2.17.0.441.gb46fe60e1d-goog
 In-Reply-To: <20180523175808.28030-1-rajatja@google.com>
 References: <20180522222805.80314-1-rajatja@google.com>
@@ -77,161 +77,145 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the following AER sysfs stats to represent the counters for each
-kind of error as seen by the device:
-
-dev_total_cor_errs
-dev_total_fatal_errs
-dev_total_nonfatal_errs
+Add the PCI AER statistics details to
+Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+and provide a pointer to it in
+Documentation/PCI/pcieaer-howto.txt
 
 Signed-off-by: Rajat Jain <rajatja@google.com>
 ---
-v2: Use tabs instead of spaces at the end of macro lines, and remove
-    the use of unlikely() as per Greg's suggestion.
+v2: Move the documentation to Documentation/ABI/
 
- drivers/pci/pci-sysfs.c                |  3 ++
- drivers/pci/pci.h                      |  4 +-
- drivers/pci/pcie/aer/aerdrv.h          |  1 +
- drivers/pci/pcie/aer/aerdrv_errprint.c |  1 +
- drivers/pci/pcie/aer/aerdrv_stats.c    | 72 ++++++++++++++++++++++++++
- 5 files changed, 80 insertions(+), 1 deletion(-)
+ .../testing/sysfs-bus-pci-devices-aer_stats   | 103 ++++++++++++++++++
+ Documentation/PCI/pcieaer-howto.txt           |   5 +
+ 2 files changed, 108 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
 
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 366d93af051d..730f985a3dc9 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -1743,6 +1743,9 @@ static const struct attribute_group *pci_dev_attr_groups[] = {
- #endif
- 	&pci_bridge_attr_group,
- 	&pcie_dev_attr_group,
-+#ifdef CONFIG_PCIEAER
-+	&aer_stats_attr_group,
-+#endif
- 	NULL,
- };
+diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+new file mode 100644
+index 000000000000..f55c389290ac
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+@@ -0,0 +1,103 @@
++==========================
++PCIe Device AER statistics
++==========================
++These attributes show up under all the devices that are AER capable. These
++statistical counters indicate the errors "as seen/reported by the device".
++Note that this may mean that if an end point is causing problems, the AER
++counters may increment at its link partner (e.g. root port) because the
++errors will be "seen" / reported by the link partner and not the the
++problematic end point itself (which may report all counters as 0 as it never
++saw any problems).
++
++Where:		/sys/bus/pci/devices/<dev>/aer_stats/dev_total_cor_errs
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Total number of correctable errors seen and reported by this
++		PCI device using ERR_COR.
++
++Where:		/sys/bus/pci/devices/<dev>/aer_stats/dev_total_fatal_errs
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Total number of uncorrectable fatal errors seen and reported
++		by this PCI device using ERR_FATAL.
++
++Where:		/sys/bus/pci/devices/<dev>/aer_stats/dev_total_nonfatal_errs
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Total number of uncorrectable non-fatal errors seen and reported
++		by this PCI device using ERR_NONFATAL.
++
++Where:		/sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_correctable
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Breakdown of of correctable errors seen and reported by this
++		PCI device using ERR_COR. A sample result looks like this:
++-----------------------------------------
++Receiver Error = 0x174
++Bad TLP = 0x19
++Bad DLLP = 0x3
++RELAY_NUM Rollover = 0x0
++Replay Timer Timeout = 0x1
++Advisory Non-Fatal = 0x0
++Corrected Internal Error = 0x0
++Header Log Overflow = 0x0
++-----------------------------------------
++
++Where:		/sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_uncorrectable
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Breakdown of of correctable errors seen and reported by this
++		PCI device using ERR_FATAL or ERR_NONFATAL. A sample result
++		looks like this:
++-----------------------------------------
++Undefined = 0x0
++Data Link Protocol = 0x0
++Surprise Down Error = 0x0
++Poisoned TLP = 0x0
++Flow Control Protocol = 0x0
++Completion Timeout = 0x0
++Completer Abort = 0x0
++Unexpected Completion = 0x0
++Receiver Overflow = 0x0
++Malformed TLP = 0x0
++ECRC = 0x0
++Unsupported Request = 0x0
++ACS Violation = 0x0
++Uncorrectable Internal Error = 0x0
++MC Blocked TLP = 0x0
++AtomicOp Egress Blocked = 0x0
++TLP Prefix Blocked Error = 0x0
++-----------------------------------------
++
++============================
++PCIe Rootport AER statistics
++============================
++These attributes showup under only the rootports that are AER capable. These
++indicate the number of error messages as "reported to" the rootport. Please note
++that the rootports also transmit (internally) the ERR_* messages for errors seen
++by the internal rootport PCI device, so these counters includes them and are
++thus cumulative of all the error messages on the PCI hierarchy originating
++at that root port.
++
++Where:		/sys/bus/pci/devices/<dev>/aer_stats/rootport_total_cor_errs
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Total number of ERR_COR messages reported to rootport.
++
++Where:		/sys/bus/pci/devices/<dev>/aer_stats/rootport_total_fatal_errs
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Total number of ERR_FATAL messages reported to rootport.
++
++Where:	    /sys/bus/pci/devices/<dev>/aer_stats/rootport_total_nonfatal_errs
++Date:		May 2018
++Kernel Version: 4.17.0
++Contact:	linux-pci@vger.kernel.org, rajatja@google.com
++Description:	Total number of ERR_NONFATAL messages reported to rootport.
+diff --git a/Documentation/PCI/pcieaer-howto.txt b/Documentation/PCI/pcieaer-howto.txt
+index acd0dddd6bb8..91b6e677cb8c 100644
+--- a/Documentation/PCI/pcieaer-howto.txt
++++ b/Documentation/PCI/pcieaer-howto.txt
+@@ -73,6 +73,11 @@ In the example, 'Requester ID' means the ID of the device who sends
+ the error message to root port. Pls. refer to pci express specs for
+ other fields.
  
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index c358e7a07f3f..9a28ec600225 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -181,7 +181,9 @@ extern const struct attribute_group *pci_dev_groups[];
- extern const struct attribute_group *pcibus_groups[];
- extern const struct device_type pci_dev_type;
- extern const struct attribute_group *pci_bus_groups[];
--
-+#ifdef CONFIG_PCIEAER
-+extern const struct attribute_group aer_stats_attr_group;
-+#endif
++2.4 AER Statistics / Counters
++
++When PCIe AER errors are captured, the counters / statistics are also exposed
++in form of sysfs attributes which are documented at
++Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
  
- /**
-  * pci_match_one_device - Tell if a PCI device structure has a matching
-diff --git a/drivers/pci/pcie/aer/aerdrv.h b/drivers/pci/pcie/aer/aerdrv.h
-index d8b9fba536ed..b5d5ad6f2c03 100644
---- a/drivers/pci/pcie/aer/aerdrv.h
-+++ b/drivers/pci/pcie/aer/aerdrv.h
-@@ -87,6 +87,7 @@ void aer_print_port_info(struct pci_dev *dev, struct aer_err_info *info);
- irqreturn_t aer_irq(int irq, void *context);
- int pci_aer_stats_init(struct pci_dev *pdev);
- void pci_aer_stats_exit(struct pci_dev *pdev);
-+void pci_dev_aer_stats_incr(struct pci_dev *pdev, struct aer_err_info *info);
+ 3. Developer Guide
  
- #ifdef CONFIG_ACPI_APEI
- int pcie_aer_get_firmware_first(struct pci_dev *pci_dev);
-diff --git a/drivers/pci/pcie/aer/aerdrv_errprint.c b/drivers/pci/pcie/aer/aerdrv_errprint.c
-index 21ca5e1b0ded..5e8b98deda08 100644
---- a/drivers/pci/pcie/aer/aerdrv_errprint.c
-+++ b/drivers/pci/pcie/aer/aerdrv_errprint.c
-@@ -155,6 +155,7 @@ static void __aer_print_error(struct pci_dev *dev,
- 			pci_err(dev, "   [%2d] Unknown Error Bit%s\n",
- 				i, info->first_error == i ? " (First)" : "");
- 	}
-+	pci_dev_aer_stats_incr(dev, info);
- }
- 
- void aer_print_error(struct pci_dev *dev, struct aer_err_info *info)
-diff --git a/drivers/pci/pcie/aer/aerdrv_stats.c b/drivers/pci/pcie/aer/aerdrv_stats.c
-index 2f48d6bc81f1..5555beffef2b 100644
---- a/drivers/pci/pcie/aer/aerdrv_stats.c
-+++ b/drivers/pci/pcie/aer/aerdrv_stats.c
-@@ -44,6 +44,78 @@ struct aer_stats {
- 	u64 rootport_total_nonfatal_errs;
- };
- 
-+#define aer_stats_aggregate_attr(field)					\
-+	static ssize_t							\
-+	field##_show(struct device *dev, struct device_attribute *attr,	\
-+		     char *buf)						\
-+{									\
-+	struct pci_dev *pdev = to_pci_dev(dev);				\
-+	return sprintf(buf, "0x%llx\n", pdev->aer_stats->field);	\
-+}									\
-+static DEVICE_ATTR_RO(field)
-+
-+aer_stats_aggregate_attr(dev_total_cor_errs);
-+aer_stats_aggregate_attr(dev_total_fatal_errs);
-+aer_stats_aggregate_attr(dev_total_nonfatal_errs);
-+
-+static struct attribute *aer_stats_attrs[] __ro_after_init = {
-+	&dev_attr_dev_total_cor_errs.attr,
-+	&dev_attr_dev_total_fatal_errs.attr,
-+	&dev_attr_dev_total_nonfatal_errs.attr,
-+	NULL
-+};
-+
-+static umode_t aer_stats_attrs_are_visible(struct kobject *kobj,
-+					   struct attribute *a, int n)
-+{
-+	struct device *dev = kobj_to_dev(kobj);
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+
-+	if (!pdev->aer_stats)
-+		return 0;
-+
-+	return a->mode;
-+}
-+
-+const struct attribute_group aer_stats_attr_group = {
-+	.name  = "aer_stats",
-+	.attrs  = aer_stats_attrs,
-+	.is_visible = aer_stats_attrs_are_visible,
-+};
-+
-+void pci_dev_aer_stats_incr(struct pci_dev *pdev, struct aer_err_info *info)
-+{
-+	int status, i, max = -1;
-+	u64 *counter = NULL;
-+	struct aer_stats *aer_stats = pdev->aer_stats;
-+
-+	if (!aer_stats)
-+		return;
-+
-+	switch (info->severity) {
-+	case AER_CORRECTABLE:
-+		aer_stats->dev_total_cor_errs++;
-+		counter = &aer_stats->dev_cor_errs[0];
-+		max = AER_MAX_TYPEOF_CORRECTABLE_ERRS;
-+		break;
-+	case AER_NONFATAL:
-+		aer_stats->dev_total_nonfatal_errs++;
-+		counter = &aer_stats->dev_uncor_errs[0];
-+		max = AER_MAX_TYPEOF_UNCORRECTABLE_ERRS;
-+		break;
-+	case AER_FATAL:
-+		aer_stats->dev_total_fatal_errs++;
-+		counter = &aer_stats->dev_uncor_errs[0];
-+		max = AER_MAX_TYPEOF_UNCORRECTABLE_ERRS;
-+		break;
-+	}
-+
-+	status = (info->status & ~info->mask);
-+	for (i = 0; i < max; i++)
-+		if (status & (1 << i))
-+			counter[i]++;
-+}
-+
- int pci_aer_stats_init(struct pci_dev *pdev)
- {
- 	pdev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
 -- 
 2.17.0.441.gb46fe60e1d-goog
 
