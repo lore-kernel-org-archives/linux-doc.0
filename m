@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8B2B7DF90
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 08:26:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FC167D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 08:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754477AbeEWI0D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 04:26:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60170 "EHLO mail.kernel.org"
+        id S1754599AbeEWI1h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 04:27:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60918 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754353AbeEWI0B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 May 2018 04:26:01 -0400
+        id S1754196AbeEWI1c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 May 2018 04:27:32 -0400
 Received: from localhost (unknown [37.173.74.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C4E0F20873;
-        Wed, 23 May 2018 08:25:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6383E20873;
+        Wed, 23 May 2018 08:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1527063960;
-        bh=BiORtgAUiniSmzCiwVC4nAQnXEu3+t2g+z2IJH+obSs=;
+        s=default; t=1527064051;
+        bh=ywEGLbaOjV1y43Jo5VI4fWMpfJt+bet/UBhC1NAkUAY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bB+APgsjSQHnI34Xy5iWRiryHZJPkaAp4FhJoP/8Sk2hzKMM7CS8hp4jfy+zS06fd
-         BhaioyHzgXgBEcNkJ9q5G5XloZ2KFYQL7uCBeaBRQcXgk9Gjl7FHSk/gFEm7Xo4j8k
-         tXjlFAPjENr2GG4R40NeuyDjvkiYKd7+PePMItFE=
-Date:   Wed, 23 May 2018 10:25:41 +0200
+        b=tRbiTrRW/jtCGQQqZ4G5RMhY07tYSeNltoz5R9sG5pow/OTlJPpz+PgP7d/tGOKhF
+         c5r7D1WF4rfaPmuTjYtiFcAlb7WEHAHky+MrqGQpEKhzqjhtWLPH6Xq4QEDhHeHqAW
+         BT61j0lWN5FbG0VMz1Q09HTIjqU9jJeOt5aZUSzg=
+Date:   Wed, 23 May 2018 10:27:13 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Rajat Jain <rajatja@google.com>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>,
@@ -43,104 +43,41 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>,
         "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
         linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
-        Rajat Jain <rajatj@google.com>
-Subject: Re: [PATCH 3/5] PCP/AER: Add sysfs attributes to provide breakdown
- of AERs
-Message-ID: <20180523082541.GF7247@kroah.com>
+        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com
+Subject: Re: [PATCH 1/5] PCI/AER: Define and allocate aer_stats structure for
+ AER capable devices
+Message-ID: <20180523082713.GG7247@kroah.com>
 References: <20180522222805.80314-1-rajatja@google.com>
- <20180522222805.80314-4-rajatja@google.com>
+ <20180522222805.80314-2-rajatja@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180522222805.80314-4-rajatja@google.com>
+In-Reply-To: <20180522222805.80314-2-rajatja@google.com>
 User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 22, 2018 at 03:28:03PM -0700, Rajat Jain wrote:
-> Add sysfs attributes to provide breakdown of the AERs seen,
-> into different type of correctable or uncorrectable errors:
-> 
-> dev_breakdown_correctable
-> dev_breakdown_uncorrectable
-> 
-> Signed-off-by: Rajat Jain <rajatj@google.com>
-> ---
->  drivers/pci/pcie/aer/aerdrv.h          |  6 ++++++
->  drivers/pci/pcie/aer/aerdrv_errprint.c |  6 ++++--
->  drivers/pci/pcie/aer/aerdrv_stats.c    | 25 +++++++++++++++++++++++++
->  3 files changed, 35 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/pcie/aer/aerdrv.h b/drivers/pci/pcie/aer/aerdrv.h
-> index b5d5ad6f2c03..048fbd7c9633 100644
-> --- a/drivers/pci/pcie/aer/aerdrv.h
-> +++ b/drivers/pci/pcie/aer/aerdrv.h
-> @@ -89,6 +89,12 @@ int pci_aer_stats_init(struct pci_dev *pdev);
->  void pci_aer_stats_exit(struct pci_dev *pdev);
->  void pci_dev_aer_stats_incr(struct pci_dev *pdev, struct aer_err_info *info);
->  
-> +extern const char
-> +*aer_correctable_error_string[AER_MAX_TYPEOF_CORRECTABLE_ERRS];
-> +
-> +extern const char
-> +*aer_uncorrectable_error_string[AER_MAX_TYPEOF_UNCORRECTABLE_ERRS];
-> +
->  #ifdef CONFIG_ACPI_APEI
->  int pcie_aer_get_firmware_first(struct pci_dev *pci_dev);
->  #else
-> diff --git a/drivers/pci/pcie/aer/aerdrv_errprint.c b/drivers/pci/pcie/aer/aerdrv_errprint.c
-> index 5e8b98deda08..5585f309f1a8 100644
-> --- a/drivers/pci/pcie/aer/aerdrv_errprint.c
-> +++ b/drivers/pci/pcie/aer/aerdrv_errprint.c
-> @@ -68,7 +68,8 @@ static const char *aer_error_layer[] = {
->  	"Transaction Layer"
->  };
->  
-> -static const char *aer_correctable_error_string[] = {
-> +const char
-> +*aer_correctable_error_string[AER_MAX_TYPEOF_CORRECTABLE_ERRS] = {
->  	"Receiver Error",		/* Bit Position 0	*/
->  	NULL,
->  	NULL,
-> @@ -87,7 +88,8 @@ static const char *aer_correctable_error_string[] = {
->  	"Header Log Overflow",		/* Bit Position 15	*/
->  };
->  
-> -static const char *aer_uncorrectable_error_string[] = {
-> +const char
-> +*aer_uncorrectable_error_string[AER_MAX_TYPEOF_UNCORRECTABLE_ERRS] = {
->  	"Undefined",			/* Bit Position 0	*/
->  	NULL,
->  	NULL,
-> diff --git a/drivers/pci/pcie/aer/aerdrv_stats.c b/drivers/pci/pcie/aer/aerdrv_stats.c
-> index 87b7119d0a86..5f0a6e144f56 100644
-> --- a/drivers/pci/pcie/aer/aerdrv_stats.c
+On Tue, May 22, 2018 at 03:28:01PM -0700, Rajat Jain wrote:
+> --- /dev/null
 > +++ b/drivers/pci/pcie/aer/aerdrv_stats.c
-> @@ -61,10 +61,35 @@ aer_stats_aggregate_attr(dev_total_cor_errs);
->  aer_stats_aggregate_attr(dev_total_fatal_errs);
->  aer_stats_aggregate_attr(dev_total_nonfatal_errs);
->  
-> +#define aer_stats_breakdown_attr(field, stats_array, strings_array)            \
-> +	static ssize_t                                                         \
-> +	field##_show(struct device *dev, struct device_attribute *attr,        \
-> +		     char *buf)                                                \
-> +{                                                                              \
-> +	unsigned int i;                                                        \
-> +	char *str = buf;                                                       \
-> +	struct pci_dev *pdev = to_pci_dev(dev);                                \
-> +	u64 *stats = pdev->aer_stats->stats_array;                             \
-> +	for (i = 0; i < ARRAY_SIZE(strings_array); i++) {                      \
-> +		if (strings_array[i])                                          \
-> +			str += sprintf(str, "%s = 0x%llx\n",                   \
-> +				       strings_array[i], stats[i]);            \
-> +	}                                                                      \
-> +	return str-buf;                                                        \
-> +}                                                                              \
+> @@ -0,0 +1,64 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *  Copyright (C) 2018 Google Inc, All Rights Reserved.
+> + *  Rajat Jain (rajatja@google.com)
 
-Again with the tabs instead of spaces please.
+Google has the copyright, not you, right?  You might want to make that a
+bit more explicit by putting a blank line somewhere here...
+
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License version 2 as
+> + * published by the Free Software Foundation.
+
+If you have a SPDX line, you do not need this paragraph.  Please drop it
+so we don't have to delete it later on.
 
 thanks,
 
