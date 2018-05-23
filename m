@@ -1,59 +1,50 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C075E7D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 14:33:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DBE827D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 14:33:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933142AbeEWOde (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 10:33:34 -0400
-Received: from mail-ot0-f193.google.com ([74.125.82.193]:45785 "EHLO
-        mail-ot0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933114AbeEWOdd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 10:33:33 -0400
-Received: by mail-ot0-f193.google.com with SMTP id 15-v6so25426625otn.12;
-        Wed, 23 May 2018 07:33:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=l+w65klDHCvyTNJi6v/ef0iEN3gJDGJoCXj0g6kqToE=;
-        b=dcaR6e4lKYirNDISzH0DNdxrT4QysJjh9HbZKjLDmWMlpOtrhzQQ6InjXwDW3S92BE
-         vyPo8uzMdXl2D6FPn0oqfNsK+LIZ8yDb1UFC4y3dTa/D/MdgBCPg1wbJKqdhG+0WqFOB
-         OsJCN8r/wqsnUJQIJOCA5qe88xsECW/OADbJ1xLYxe6Lv57QgiQs06buw6pueWGIOVhc
-         ZghdWSI7P3a6/SSosvwQcrhrrD6QMgucyD0gupjMESoHbMvz4bfAjcGkqfRzQO7fPMEk
-         RS3xyI65oiLToxpK+ubrzV9YBa5lUCZ5U7/JYL9zTliMVBzkoeKvZzxmOAuDSw/lmwI1
-         Y1zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=l+w65klDHCvyTNJi6v/ef0iEN3gJDGJoCXj0g6kqToE=;
-        b=k5XfGxcbzcpFo9WDGBtDK+b7O0tt9FX7WAeu7Z7KSw4DZEZ2P0MEP5UeQD9yu1PtJE
-         eqoVlT4xu8rtw4r2iy/e8Bl3ZuF0k5Uw6VJH8EP+D3I9MqdejJPGb8bu0IuQIPkhL7O4
-         JiVCqeYaeIJ9mvVp3X17td/j8bNn3uICGWCyIIQkCCMMObCKhdTsExJ8fh6FpNNm97wM
-         V0Fs6uymDzW0jhUSt5F3fHcsX5aSsFlIIPTmLDTGD/aiXBVKN3try+Q3Vl1Xuw7lqOAG
-         r+Q4c6x+B6p56awzuLq8Mb5QnrL/JBN7nOEWT3HnAov8zWV1j3KJ4ufkz0kxULulxVjy
-         12Tg==
-X-Gm-Message-State: ALKqPwdUi2bXKCkMvffY5E8swtDZPK+Tvf4rXPoHa+A96TQZeVkJT/L+
-        IHBAmWZ5g91B4reQlUuq15I=
-X-Google-Smtp-Source: AB8JxZoRSI8RU6d743RYWfMRz8/mg7mmc3pXhHy/RBLZO/JOltxkxtCHxK6Ly4r1N2T0NzY4pRbffA==
-X-Received: by 2002:a9d:26a2:: with SMTP id l31-v6mr1948245otb.303.1527086012201;
-        Wed, 23 May 2018 07:33:32 -0700 (PDT)
-Received: from nuclearis2_1.gtech (c-98-201-114-184.hsd1.tx.comcast.net. [98.201.114.184])
-        by smtp.gmail.com with ESMTPSA id w12-v6sm10016724otg.5.2018.05.23.07.33.31
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 May 2018 07:33:31 -0700 (PDT)
+        id S933114AbeEWOdt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 10:33:49 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:32844 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S933290AbeEWOdp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 10:33:45 -0400
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4NESHkI001798;
+        Wed, 23 May 2018 07:32:36 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=facebook;
+ bh=xmt70xA3cEFZOVwXP1rbHtybYnr+N0z0C6FrvfUOqzU=;
+ b=k1aAT2d+7yol+L1Oo8uQSLM8p5FrK2VPa/QjpWfpE+CxWAJXBcDZ+8q/GGPa0jQsGCcp
+ f8ZbH3ERKkJ/yH7epl8OalrxLCZLN8jdGFIwlquA0g9Bma61NdcHqbFI3KL/8u0WK4tZ
+ KSV5dkgVePY2UZhBP3BHzr7xNFGB372xf3Q= 
+Received: from mail.thefacebook.com ([199.201.64.23])
+        by mx0a-00082601.pphosted.com with ESMTP id 2j57un0dvr-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Wed, 23 May 2018 07:32:36 -0700
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com (192.168.54.28)
+ by o365-in.thefacebook.com (192.168.16.11) with Microsoft SMTP Server (TLS)
+ id 14.3.361.1; Wed, 23 May 2018 07:32:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector1-fb-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xmt70xA3cEFZOVwXP1rbHtybYnr+N0z0C6FrvfUOqzU=;
+ b=GZfvv9AcRD0P8mlbN4jWijLkGxEk/Hj1J7iBzAw+hzsJTfGT7B3dXqYJBanYvpWFbGA5oRcXIygHOl1c9uuUn28ZqEY8muKOHJ6pOa1tyjVwY8T2b9g6rNpUznaztvL2gG7YyYtjxWMSEzTdODH1y7V/7VSgvh62Z9KEFMjk8ZM=
+Received: from [IPv6:2620:10d:c0a3:10fb::15b] (2620:10d:c091:200::2:5b8b) by
+ SN6PR1501MB1965.namprd15.prod.outlook.com (2603:10b6:805:d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.797.11; Wed, 23
+ May 2018 14:32:28 +0000
 Subject: Re: [PATCH 1/5] PCI/AER: Define and allocate aer_stats structure for
  AER capable devices
-To:     Jes Sorensen <jsorensen@fb.com>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Rajat Jain <rajatja@google.com>,
+To:     Matthew Wilcox <willy@infradead.org>
+CC:     Rajat Jain <rajatja@google.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Philippe Ombredanne <pombredanne@nexb.com>,
@@ -64,60 +55,123 @@ Cc:     Rajat Jain <rajatja@google.com>,
         Oza Pawandeep <poza@codeaurora.org>,
         Keith Busch <keith.busch@intel.com>,
         Gabriele Paoloni <gabriele.paoloni@huawei.com>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
         Thomas Tai <thomas.tai@oracle.com>,
         "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle McMartin <jkkm@fb.com>,
-        rajatxjain@gmail.com
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Kyle McMartin <jkkm@fb.com>,
+        <rajatxjain@gmail.com>
 References: <20180522222805.80314-1-rajatja@google.com>
  <20180522222805.80314-2-rajatja@google.com>
  <62fae8eb-aaed-65b2-19ad-7c57b3a9bfdc@fb.com>
  <20180523142656.GE19987@bombadil.infradead.org>
- <46f0a2fa-9b48-c6d3-05ac-a75168b1998c@fb.com>
-From:   "Alex G." <mr.nuke.me@gmail.com>
-Message-ID: <ffa4e203-f320-b9be-c0d7-8432e949765b@gmail.com>
-Date:   Wed, 23 May 2018 09:33:30 -0500
+From:   Jes Sorensen <jsorensen@fb.com>
+Message-ID: <46f0a2fa-9b48-c6d3-05ac-a75168b1998c@fb.com>
+Date:   Wed, 23 May 2018 10:32:24 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <46f0a2fa-9b48-c6d3-05ac-a75168b1998c@fb.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20180523142656.GE19987@bombadil.infradead.org>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [2620:10d:c091:200::2:5b8b]
+X-ClientProxiedBy: BN6PR06CA0015.namprd06.prod.outlook.com
+ (2603:10b6:404:10b::25) To SN6PR1501MB1965.namprd15.prod.outlook.com
+ (2603:10b6:805:d::20)
+X-MS-PublicTrafficType: Email
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR1501MB1965;
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB1965;3:oKk7dnk9Xzgamh/QGNVhuTjZNfowXviS9Udij6oJmXDCOGq+hkCFseEA9mXMGVk7GLm+7sXp9SbqU03Ci4l7H9S/ciEgiKA7VP80oNO2luUPCtAU+vwVywh2YlZqM9WsT5WMmwWZqFauNNGLvp6wHv9tj0Ydw0sEXHzhmx0Ox+RMAK7udgy8LPf6cpQJHdyjmGZ0dTb6ycPE4xsLsSTdl9+lfr45zVNLwQ8cAJNJuB3SyTyz4F0/VD0KiyAvLO0d;25:7q+jUi85dCJM/m+t/txYOoSBf7sMsAWGPTIh1K0zlNq4gfCYdex7Ge0MieT6jS9dMDC22CD8BCYycCN0TAqfCZG3cbLLFBRXNZ6FC6YQLJu7mrAHoxG4mrcqbjchV+uGF7Z/AHE42myL46dymqlB2FLNjTzGEfp16cB38F1aGsIogalDV3PLHoyC7Me8DqP6sai4PxaJYoZbEld2tJPxlWFkCgI7dwDEFaU9f+fxSXjF/qtaodS0SZbTVDOVeAJY8YrXt8LcRGdkFYufqRgU72dLUpTesw6ZwCDrqiMbJxMx+iELlcc0K+XFQEaXRXhfQSLEOknJdL9pRmhRmW19WQ==;31:wr7HMw0Fcaruv3E2vjVaoQ7jLx2TqF2/Ktx2lht/Ogbd0DGxM2rAojAvivQn3xqbjsS4F8dlb3qE+VmFdfKTWq6v99V9L4pyZc0SiiBW15Sg+ePYXee8VuWk2K51knufdNGMHcRhD2SfqmkF6YV/WLxgY2vSiGksa15OiUr6wf9X5YXRtbM5zwpnRw62i8vl0s+mRgLfAXm/+Vsw4goyEZN7xGO8dnrnlhJv5PgwSU8=
+X-MS-TrafficTypeDiagnostic: SN6PR1501MB1965:
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB1965;20:r8qIVvAdblC1PjGIeC8N/dltpUdqtYM0VfzrqVgqXBTR/itIlGYLvYJSGycVhfc44eA7nOeMl9TMZEoMz1PiNi8Qe42nDkoKWPDIEHHwNgKoz4rA7OVT/vsVWxVymt+XYZwV66r9Iu1bLomFUHtIzFuplCykj1oqWorPLXXBS7xb8FanmBmh5aXqACIP5iD7BRphLG+Iq9dv7e7MEJutksKp1eih0o4wpYsqqlGfLVNPMsfQqPbXzQWq1zg9035E7FznYJ6enyc7DWvBK/cVV5/Yg4UM0A5hbIJLRI8z4MTKbhdxWMP3Oh+aP/z5xcDLH8wDILYpWrtqFS9b9jvq2/hyqMwDQa64NxdVTqWnvZC1uqTWjNUNKESbR3HuD23nlSue9NjzCtzA60IPLTrA6eL6MFfHzZQxWC5WKUFlOPJI/2iXBeocHHgcg4MPXtMTO/uXNrMgMH5AEQoF0MG1YMbVdtBx8DSTWf8/73rO7c1lydcwtuZFd+y3Ip9bHIvO;4:z8yAnTpvZqd8Qq3OaUIcukNwOJF5DDum8l2HcEEkpXusbVBXk6gSv5mMmqY2nQLDpWXeD6YhWtxnK/jI1d1tzQrQHhkNGzuyVwRbspTnC3hgKvGY5h/AbreBPnPZ1xH0FJLvrDYQjNrdaEDgTE8zAHUXEyg97KXi2sOV7t+QmVvgam21Gnc6cCPZFkhORWnEd6s7Sm8vRAhMsfIfg5HFdcGMf2BlLRIJGSgatV2JNbDDJQ/jd/J2u/4v624+9dRFxx6TxSMiwJOh+H4xhamgng==
+X-Microsoft-Antispam-PRVS: <SN6PR1501MB1965EA6A6D0A8ED28F13D2DBC66B0@SN6PR1501MB1965.namprd15.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3002001)(10201501046)(3231254)(11241501184)(944501410)(52105095)(93006095)(93001095)(149027)(150027)(6041310)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011)(7699016);SRVR:SN6PR1501MB1965;BCL:0;PCL:0;RULEID:;SRVR:SN6PR1501MB1965;
+X-Forefront-PRVS: 06818431B9
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(396003)(39380400002)(39860400002)(366004)(346002)(376002)(199004)(189003)(6666003)(76176011)(97736004)(6116002)(2486003)(52146003)(7416002)(52396003)(23676004)(52116002)(5660300001)(65826007)(6486002)(16526019)(53546011)(386003)(229853002)(186003)(2906002)(46003)(11346002)(446003)(476003)(2616005)(478600001)(1706002)(25786009)(68736007)(486006)(36756003)(316002)(58126008)(64126003)(54906003)(31696002)(50466002)(230700001)(93886005)(47776003)(65956001)(65806001)(106356001)(105586002)(31686004)(4326008)(6246003)(39060400002)(305945005)(8676002)(8936002)(6916009)(81156014)(81166006)(86362001)(7736002)(53936002);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR1501MB1965;H:[IPv6:2620:10d:c0a3:10fb::15b];FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtTTjZQUjE1MDFNQjE5NjU7MjM6V29xR0xFaXp5aEllV3ZORlkxcDQwVU53?=
+ =?utf-8?B?a3lxMzhhT292Y2NkOXhLeFF4RERPazdYWGpxa2ZwZDFOQWU3SXNlK29ROWdT?=
+ =?utf-8?B?SXV3cFFGbjJ3K0NRNU9QNkxYdGtaTnh0OGNLeERoOGdrb3FFMmd6L1cxcHU3?=
+ =?utf-8?B?TzVTejJaV0YzNzlreHp1aTlYTm4rUWYzdkRJTWJqOG8rQWpMS0g4V3V5cVpR?=
+ =?utf-8?B?VHQ1S0ZVbW5IR0MwMTEySUJ5SUt1TldKMDkxU1M1dnZEUUZ4SStUMDhmakJO?=
+ =?utf-8?B?YkVNdFNnTEVWRW00aHhBcG5zeG50dklRQms0RHZDMXJRMTlJZ0t6WE1YM05F?=
+ =?utf-8?B?VEZXYnJJNkNZQnZTdE02bnc5UDNjZW52cEFDQjdpU2xIT2F4a0lDaDdSZ2pC?=
+ =?utf-8?B?RHlrZ3cvZEplYmxHUXpoL1RlUzZtU2IrdTc5aHNlQ3p4ckxNS0lwcUJWNG56?=
+ =?utf-8?B?MnN6WnJTK1ErbndqQldxTGt5WWdRZ3o2U09IbjhYVWdvSW1yL0MreUdFVWpF?=
+ =?utf-8?B?d0wvTTBNeldtcmh5Zi9RNzhNVGR3OWxRdG1zb0djU1lGRCs3dkhvU2JRSXho?=
+ =?utf-8?B?S2FWMzFaK2kxZkptQll3MlA3UWVVTWtZMFJ2UmRvRDFTNVk4aHBnQUF2MkNp?=
+ =?utf-8?B?VWpnb2VCeXNlNWt4bEF1TWVMdDF5U2VNTElicnJwZUhFeERvZWk0aGFSenFE?=
+ =?utf-8?B?Lzd3NWJtS0wzRkNWYVd0d2orTzlNODhYNkVoRjZZTHlXQUl4N2JhZHgvOXRH?=
+ =?utf-8?B?UlRQT0JMY3krRGw2ZVFDQnVxbitiWUJRaGdSNGxFdEhGRVpLeVNTcExWdm94?=
+ =?utf-8?B?bGloeS9GUlZQcWRYM1V6bjV1SEZuNzg4a3MyYW9wT3BENHJQZ29IdFo3MnJ1?=
+ =?utf-8?B?WEFBTFM0MmxTK0Q3NGIxK1BuRGo0MzRYVTZMTi92ZVRyaU9ZbEczcGV5ZGYr?=
+ =?utf-8?B?S2NQc2hJbmQyYVlpdmlXYUt2TG5pZnBUTWZKaC9xcTBzaWp4UkJxR3dWR2hj?=
+ =?utf-8?B?cktpR1NMb3lqSC9LQVNwN2RJUGdEbW8rVG8zSUlHamFNRG9lc2J2dWRaQ09w?=
+ =?utf-8?B?cjFZbnZ4NWljZnFJVlI1MU53a3JyVGU4S0hTaGJEbkNpbEdoWGM0ckppRHlP?=
+ =?utf-8?B?T2kvc3BwaU05T29ndkFuVUZuL3MyM2ZqdklMSDRVNldYUUxTdjlpaUxnNXp4?=
+ =?utf-8?B?bmtqTDBVMmdUQkd3Si9yT2pvOTVNVThRQlNVamtNdXVnSHJuZWxHYVptZjBI?=
+ =?utf-8?B?bkJmNjB4T1FsL1dWZ1NsRjd2Wk83c3ROZjdKQ1ZQelVOQkIyTEJpUWhOVTlQ?=
+ =?utf-8?B?Mjg0TDNGZ0ZJNlg0dG1NWVRXYURDd2tBZm44Zk9EcWhaMEhvVjF5SEpabXhn?=
+ =?utf-8?B?MXc5MTJxVFJrVzBRUHg0WmNWNktWTExZRUNETm8wUTZzSllSQUZXcEdVMElF?=
+ =?utf-8?B?dlFFVWo4eHZ5c2pINmcwQTdxamF0Y2NDYVUyZFkzNExzR3djUzhyOWdQeFVD?=
+ =?utf-8?B?cUl2OUZGK1FxNEc0U0wreWFtck01clc1bU04d2Rzcko1dFduU2trVnl1UWhr?=
+ =?utf-8?B?YTRHaCtxU21WVFJ0SVVYRTNPcmhiMUEyMnhDVkZjRWZMOXZkRFd1Mkh2TTRr?=
+ =?utf-8?B?QlNQV0dvSkJYcldlTzhTZVRPYlpCakxtVStTVEhUbWtxa2VvQTgzcC9Rdzh1?=
+ =?utf-8?B?WkJxZlpFSFFBM1BkdWIrbklsWlNHNHlyQVd6QlpVMkJzSC84Tkl3MFVzL0hC?=
+ =?utf-8?B?Y21xdGRhK0l6Z2x0bitFaFdXem1jT0dkOE5YUEk4Yi9UVmc0TVdXS1MrR0lH?=
+ =?utf-8?B?QlBscThVOW9kKzhBTWdnVklCN1pwVG54T0FZamhpWVhweWZNYWdWd1FubEVU?=
+ =?utf-8?B?UmRvUzYrdkxDQUFiMkd1ZWRWSU1MTFZ6K3lncXdCYlQ5M2wyL2RnaWRSRHlS?=
+ =?utf-8?B?ekpvaG1zOHZGNkE9PQ==?=
+X-Microsoft-Antispam-Message-Info: SmDQ8TlhRIC/lXB5qL/q/qEDhx0UBDozZr4FTNuwJUqDv3v6anV1kHfQMJEvqz10SsOlAIfkoSN+UrUgI57sJXJPxsXS9VYp7CANwRED21JGu0cOFFGxo1DI7eY6Xv9yt6sbC4yDVFv1BzjWekzMHRUwWWeByN/p0zoQZDcIdt4VGqbaeEPNNUZ3AwCk+vBj
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB1965;6:ZTF9axy5XGpKsW+vUuy2P5fc+yN8bC4qhYZ5TOnL4ug8EO+8YFUwDYXEDv3Cqf38d2/jeoctr80RJYG9hSzaECDeXzQ1jWo+QRdL+kMLHMO5CSW1zAQzFOfCtNYHU/eWTY6blVTH3yJEvJ9VOgunXK0vahk07NDplMqf21ag2uMMo4MxjvpWfnQgmMTvdCWm/1CUJDOVGPGUZbwOPLHithJ/07lHbDuKqwkJtoICKJuSt9mxLPfa/IeOigyoCUWz9iACdNCdvAMz5Acj0Q5YhWiAkpCPkD4G7zUEIHQZL7/TcBPrH/5Z5TKIzg0PYlEbnCXyRNRTEVpkHPgWdbH9jWJFXCeVXqO+VfHyT4hpgbAMewEgsKtgkO3MZbO1YJkvX3fMGIishO4FQv/p8Q79E/HOJmXxPXqdme4Wm8XoaKBtmnu3um8UQ1R/E4Jvl17bs472ZaHVYUOkj4j9om6tMQ==;5:6Yl5/HaH3O3l6XbYx9C33uFTjeZfNpMwDJeHfCkpQkOEJWzmXso5aP66zxTR9xsWaiR26sY4LB7TqRZMx2S3Q9FaPxgzqhBN7sVBTFIem+2u1STnbu8tHMU0M9Swj6NsVDGj/wWHsb7yCRv0N4aA6kq3pfFa4n4UhRvOfkUw1uY=;24:+efEzwGT06AhDd+kFg1wQKgNumjEOIWrK/NpH/avda42i/OMavkWapuOYpcO7svSgaUPhSgFSGzWQKDvDQrdMw6jO2wSXEpZFxaXngGQI04=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1;SN6PR1501MB1965;7:Jb1RT52smAu4vxEripmMHYWfP6Op0ViZlHUcCyMx/IAEsaaec38bESQlG4kOdLIGzMFOLYgZNoziFTrWMPHdsZUXHUXz2VthEs1WpVjTx9S8k3+mVO1VC59ayKsOF/Df+AsfQGgGg9Ozfm2ypeV3nUFdTiBl4Fa0W3Pia1ZdrrynpRj1CFMMNpTl31yYQ9wdg4wzyT93F4ZpmmgxHTFJgzWgnbGB92l1aoIThfwarvmwmjI44H9mTwKLC9ckTT2Y;20:8LUaw7/hu6qpHjHUrErmErveEiBhbzOFmx63SQ4Gqon+Vxz3M8Dr8DH2SYNbmxywDz3n408sZi0rGxmEQz/7LGGQlaTJq6q04Z6vOhnX6iY6ni2Ahzd/E37gavKO7EqWSXDdWd1Qa5ypCiRsblzx0/GutjTaB237zF+5PBxlpvg=
+X-MS-Office365-Filtering-Correlation-Id: 641ca1cd-4d08-4eed-4cbd-08d5c0ba0386
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2018 14:32:28.2751 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 641ca1cd-4d08-4eed-4cbd-08d5c0ba0386
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR1501MB1965
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-23_06:,,
+ signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-FB-Internal: Safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/23/2018 09:32 AM, Jes Sorensen wrote:
-> On 05/23/2018 10:26 AM, Matthew Wilcox wrote:
->> On Wed, May 23, 2018 at 10:20:10AM -0400, Jes Sorensen wrote:
->>>> +++ b/drivers/pci/pcie/aer/aerdrv_stats.c
->>>> @@ -0,0 +1,64 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>
->>> Fix the formatting please - that gross // gibberish doesn't belong there.
+On 05/23/2018 10:26 AM, Matthew Wilcox wrote:
+> On Wed, May 23, 2018 at 10:20:10AM -0400, Jes Sorensen wrote:
+>>> +++ b/drivers/pci/pcie/aer/aerdrv_stats.c
+>>> @@ -0,0 +1,64 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
 >>
->> Sorry, Jes.  The Chief Penguin has Spoken, and that's the preferred
->> syntax:
->>
->> 2. Style:
->>
->>    The SPDX license identifier is added in form of a comment.  The comment
->>    style depends on the file type::
->>
->>       C source: // SPDX-License-Identifier: <SPDX License Expression>
->>
->> (you can dig up the discussion around this on the mailing list if you
->> like.  Linus actually thinks that C++ single-line comments are one of
->> the few things that language got right)
+>> Fix the formatting please - that gross // gibberish doesn't belong there.
 > 
-> Well I'll agree to disagree with Linus on this one. It's ugly as fsck
-> and allows for ambiguous statements in the code.
+> Sorry, Jes.  The Chief Penguin has Spoken, and that's the preferred
+> syntax:
+> 
+> 2. Style:
+> 
+>    The SPDX license identifier is added in form of a comment.  The comment
+>    style depends on the file type::
+> 
+>       C source: // SPDX-License-Identifier: <SPDX License Expression>
+> 
+> (you can dig up the discussion around this on the mailing list if you
+> like.  Linus actually thinks that C++ single-line comments are one of
+> the few things that language got right)
 
-You misspelled "fuck".
+Well I'll agree to disagree with Linus on this one. It's ugly as fsck
+and allows for ambiguous statements in the code.
 
-Alex
+Jes
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
