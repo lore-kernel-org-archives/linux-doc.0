@@ -1,112 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE5827D08C
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 15:45:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C4A1C7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 May 2018 17:35:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750866AbeEWPnu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 11:43:50 -0400
-Received: from lelnx194.ext.ti.com ([198.47.27.80]:11441 "EHLO
-        lelnx194.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750771AbeEWPnt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 11:43:49 -0400
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-        by lelnx194.ext.ti.com (8.15.1/8.15.1) with ESMTP id w4NFhgOs022196;
-        Wed, 23 May 2018 10:43:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1527090222;
-        bh=ysubGUSHK9Wf2BeAEe5yfbT9COgPgqX4KSL6wA69vTU=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=PlJMMKgOmDCwtf/EK3llP7r64NiX/mAFG/plz2huwI4oQ8pVtKP6kh8GhFhMLKMod
-         F5kcTAw1nOnYl9bWVr+VdjEPnVbn8QAp+ekk4OJlemDFu+yB2wUuGLL7KLhTNYWI5Y
-         /BhBe/B+0yNEbZpaa0vOhCnuU5SJHpbxCTCJ8ozA=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w4NFhgjM019258;
-        Wed, 23 May 2018 10:43:42 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Wed, 23
- May 2018 10:43:42 -0500
-Received: from dflp33.itg.ti.com (10.64.6.16) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
- Wed, 23 May 2018 10:43:42 -0500
-Received: from [128.247.59.147] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w4NFhgfD007860;
-        Wed, 23 May 2018 10:43:42 -0500
-Subject: Re: [RFC PATCH 0/6] net: ethernet: ti: cpsw: add MQPRIO and CBS Qdisc
- offload
-To:     Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>, <davem@davemloft.net>
-CC:     <corbet@lwn.net>, <akpm@linux-foundation.org>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        <vinicius.gomes@intel.com>, <henrik@austad.us>,
-        <jesus.sanchez-palencia@intel.com>, Sekhar Nori <nsekhar@ti.com>,
-        Yogesh Siraswar <yogeshs@ti.com>,
-        Schuyler Patton <spatton@ti.com>
-References: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
-From:   Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <176f9a29-0a89-ffa1-d7f7-708a2cdfdc7e@ti.com>
-Date:   Wed, 23 May 2018 10:43:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S933870AbeEWRe7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 13:34:59 -0400
+Received: from foss.arm.com ([217.140.101.70]:59200 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932667AbeEWRe6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 23 May 2018 13:34:58 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 873751435;
+        Wed, 23 May 2018 10:34:58 -0700 (PDT)
+Received: from e110439-lin (e110439-lin.cambridge.arm.com [10.1.210.68])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCC103F589;
+        Wed, 23 May 2018 10:34:55 -0700 (PDT)
+Date:   Wed, 23 May 2018 18:34:53 +0100
+From:   Patrick Bellasi <patrick.bellasi@arm.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH v8 4/6] cpuset: Make generate_sched_domains() recognize
+ isolated_cpus
+Message-ID: <20180523173453.GY30654@e110439-lin>
+References: <1526590545-3350-1-git-send-email-longman@redhat.com>
+ <1526590545-3350-5-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1526590545-3350-5-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ivan,
+Hi Waiman,
 
-On 05/18/2018 04:15 PM, Ivan Khoronzhuk wrote:
-> This series adds MQPRIO and CBS Qdisc offload for TI cpsw driver.
-> It potentially can be used in audio video bridging (AVB) and time
-> sensitive networking (TSN).
-> 
-> Patchset was tested on AM572x EVM and BBB boards. Last patch from this
-> series adds detailed description of configuration with examples. For
-> consistency reasons, in role of talker and listener, tools from
-> patchset "TSN: Add qdisc based config interface for CBS" were used and
-> can be seen here: https://www.spinics.net/lists/netdev/msg460869.html
-> 
-> Based on net-next/master
+On 17-May 16:55, Waiman Long wrote:
 
-Thanks a lot, it is great work.
+[...]
 
-In general I have no comments as of now, but I prefer to wait a bit (few 
-weeks) for more comments and possible test reports.
+> @@ -672,13 +672,14 @@ static int generate_sched_domains(cpumask_var_t **domains,
+>  	int ndoms = 0;		/* number of sched domains in result */
+>  	int nslot;		/* next empty doms[] struct cpumask slot */
+>  	struct cgroup_subsys_state *pos_css;
+> +	bool root_load_balance = is_sched_load_balance(&top_cpuset);
+>  
+>  	doms = NULL;
+>  	dattr = NULL;
+>  	csa = NULL;
+>  
+>  	/* Special case for the 99% of systems with one, full, sched domain */
+> -	if (is_sched_load_balance(&top_cpuset)) {
+> +	if (root_load_balance && !top_cpuset.isolation_count) {
 
-If no comments, pls feel free to repost as final series.
+Perhaps I'm missing something but, it seems to me that, when the two
+conditions above are true, then we are going to destroy and rebuild
+the exact same scheduling domains.
 
+IOW, on 99% of systems where:
 
-> 
-> Ivan Khoronzhuk (6):
->    net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
->    net: ethernet: ti: cpdma: fit rated channels in backward order
->    net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
->    net: ethernet: ti: cpsw: add CBS Qdisc offload
->    net: ethernet: ti: cpsw: restore shaper configuration while down/up
->    Documentation: networking: cpsw: add MQPRIO & CBS offload examples
-> 
->   Documentation/networking/cpsw.txt       | 540 ++++++++++++++++++++++++
->   drivers/net/ethernet/ti/cpsw.c          | 364 +++++++++++++++-
->   drivers/net/ethernet/ti/davinci_cpdma.c |  31 +-
->   3 files changed, 913 insertions(+), 22 deletions(-)
->   create mode 100644 Documentation/networking/cpsw.txt
-> 
+   is_sched_load_balance(&top_cpuset)
+   top_cpuset.isolation_count = 0
+
+since boot time and forever, then every time we update a value for
+cpuset.cpus we keep rebuilding the same SDs.
+
+It's not strictly related to this patch, the same already happens in
+mainline based just on the first condition, but since you are extending
+that optimization, perhaps you can tell me where I'm possibly wrong or
+which cases I'm not considering.
+
+I'm interested mainly because on Android systems those conditions
+are always true and we see SDs rebuilds every time we write
+something in cpuset.cpus, which ultimately accounts for almost all the
+6-7[ms] time required for the write to return, depending on the CPU
+frequency.
+
+Cheers Patrick
 
 -- 
-regards,
--grygorii
+#include <best/regards.h>
+
+Patrick Bellasi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
