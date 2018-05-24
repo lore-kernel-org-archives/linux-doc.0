@@ -1,159 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_HK_NAME_DR autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96C297D08C
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 12:24:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 420D17D085
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 12:59:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966165AbeEXMYg convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 08:24:36 -0400
-Received: from vegas.theobroma-systems.com ([144.76.126.164]:58507 "EHLO
-        mail.theobroma-systems.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S966142AbeEXMYe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 08:24:34 -0400
-Received: from [86.59.122.178] (port=52587 helo=[10.4.9.36])
-        by mail.theobroma-systems.com with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <philipp.tomsich@theobroma-systems.com>)
-        id 1fLpI5-0004ig-Fw; Thu, 24 May 2018 14:24:21 +0200
+        id S967762AbeEXM7L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 08:59:11 -0400
+Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:63384 "EHLO
+        ns.ascade.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S964789AbeEXM7K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 08:59:10 -0400
+Received: from server0001.ascade.co.jp (server0001.ascade.co.jp [10.1.1.63])
+        by ns.ascade.co.jp (Postfix) with ESMTP id 3DB48993BD;
+        Thu, 24 May 2018 21:59:08 +0900 (JST)
+Received: from [IPv6:::1] (server0001.ascade.co.jp [10.1.1.63])
+        by server0001.ascade.co.jp (Postfix) with ESMTP id C5C65100512;
+        Thu, 24 May 2018 21:59:06 +0900 (JST)
+Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
+ charge to memcg
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        David Rientjes <rientjes@google.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
+        Punit Agrawal <punit.agrawal@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, cgroups@vger.kernel.org
+References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
+ <240f1b14-ed7d-4983-6c52-be4899d4caa5@oracle.com>
+ <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
+ <20180522185407.GC20441@dhcp22.suse.cz>
+ <455b1a07-d7e3-102b-65e7-3892947b7675@ascade.co.jp>
+ <20180524082044.GW20441@dhcp22.suse.cz>
+From:   TSUKADA Koutaro <tsukada@ascade.co.jp>
+Message-ID: <b2afbff6-b59f-7105-3808-64d41bd4a3a8@ascade.co.jp>
+Date:   Thu, 24 May 2018 21:58:49 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180524082044.GW20441@dhcp22.suse.cz>
 Content-Type: text/plain; charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH 07/24] arm64: ilp32: add documentation on the ILP32 ABI
- for ARM64
-From:   "Dr. Philipp Tomsich" <philipp.tomsich@theobroma-systems.com>
-In-Reply-To: <20180524121524.GA3873@yury-thinkpad>
-Date:   Thu, 24 May 2018 14:24:19 +0200
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <ACC31423-0367-4DB4-B077-B85639FA416C@theobroma-systems.com>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20180516081910.10067-8-ynorov@caviumnetworks.com>
- <20180523140620.GA27215@amd> <20180524121524.GA3873@yury-thinkpad>
-To:     Yury Norov <ynorov@caviumnetworks.com>
-X-Mailer: Apple Mail (2.3273)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yury & Pavel,
-
-> On 24 May 2018, at 14:15, Yury Norov <ynorov@caviumnetworks.com> wrote:
+On 2018/05/24 17:20, Michal Hocko wrote:
+> On Thu 24-05-18 13:39:59, TSUKADA Koutaro wrote:
+>> On 2018/05/23 3:54, Michal Hocko wrote:
+> [...]
+>>> I am also quite confused why you keep distinguishing surplus hugetlb
+>>> pages from regular preallocated ones. Being a surplus page is an
+>>> implementation detail that we use for an internal accounting rather than
+>>> something to exhibit to the userspace even more than we do currently.
+>>
+>> I apologize for having confused.
+>>
+>> The hugetlb pages obtained from the pool do not waste the buddy pool.
 > 
-> Hi Pavel,
+> Because they have already allocated from the buddy allocator so the end
+> result is very same.
 > 
-> On Wed, May 23, 2018 at 04:06:20PM +0200, Pavel Machek wrote:
->> On Wed 2018-05-16 11:18:52, Yury Norov wrote:
->>> Based on Andrew Pinski's patch-series.
->>> 
->>> Signed-off-by: Yury Norov <ynorov@caviumnetworks.com>
->> 
->> So Andrew's signoff should be here?
+>> On
+>> the other hand, surplus hugetlb pages waste the buddy pool. Due to this
+>> difference in property, I thought it could be distinguished.
 > 
-> Yes it should, but it lost since v4. I'll restore it.
+> But this is simply not correct. Surplus pages are fluid. If you increase
+> the hugetlb size they will become regular persistent hugetlb pages.
+
+I really can not understand what's wrong with this. That page is obviously
+released before being added to the persistent pool, and at that time it is
+uncharged from memcg to which the task belongs(This assumes my patch-set).
+After that, the same page obtained from the pool is not surplus hugepage
+so it will not be charged to memcg again.
+
+>> Although my memcg knowledge is extremely limited, memcg is accounting for
+>> various kinds of pages obtained from the buddy pool by the task belonging
+>> to it. I would like to argue that surplus hugepage has specificity in
+>> terms of obtaining from the buddy pool, and that it is specially permitted
+>> charge requirements for memcg.
 > 
->>> ---
->>> Documentation/arm64/ilp32.txt | 45 +++++++++++++++++++++++++++++++++++
->>> 1 file changed, 45 insertions(+)
->>> create mode 100644 Documentation/arm64/ilp32.txt
->>> 
->>> diff --git a/Documentation/arm64/ilp32.txt b/Documentation/arm64/ilp32.txt
->>> new file mode 100644
->>> index 000000000000..d0fd5109c4b2
->>> --- /dev/null
->>> +++ b/Documentation/arm64/ilp32.txt
->>> @@ -0,0 +1,45 @@
->>> +ILP32 AARCH64 SYSCALL ABI
->>> +=========================
->>> +
->>> +This document describes the ILP32 syscall ABI and where it differs
->>> +from the generic compat linux syscall interface.
->> 
->> I was hoping to learn what ILP32 is / what is it good for, but no,
->> this does not tell me... it would be good to do a short explanation
->> here, and maybe reference it from cover letter of the series...
->> 								Pavel
+> Not really. Memcg accounts primarily for reclaimable memory. We do
+> account for some non-reclaimable slabs but the life time should be at
+> least bound to a process life time. Otherwise the memcg oom killer
+> behavior is not guaranteed to unclutter the situation. Hugetlb pages are
+> simply persistent. Well, to be completely honest tmpfs pages have a
+> similar problem but lacking the swap space for them is kinda
+> configuration bug.
+
+Absolutely you are saying the right thing, but, for example, can mlock(2)ed
+pages be swapped out by reclaim?(What is the difference between mlock(2)ed
+pages and hugetlb page?)
+
+>> It seems very strange that charge hugetlb page to memcg, but essentially
+>> it only charges the usage of the compound page obtained from the buddy pool,
+>> and even if that page is used as hugetlb page after that, memcg is not
+>> interested in that.
 > 
-> ILP32 is ABI acronym that means "Integers, Longs and Pointers are 32-bit".
-> And LP64 means "Longs and Pointers are 64-bit”.
+> Ohh, it is very much interested. The primary goal of memcg is to enforce
+> the limit. How are you going to do that in an absence of the reclaimable
+> memory? And quite a lot of it because hugetlb pages usually consume a
+> lot of memory.
 
-Just a nitpick: ILP32 is in fact just the memory model, but calling from ILP32
-code into the Linux kernel requires modifications to the syscall-ABI due to
-datastructure layout changing (every time a pointer or a ‘long’ is present in
-a structure). As such structures are passed between the userspace and the
-kernel (and also due to the fact that time_t is an ‘unsigned long’ in the C
-language standard), modifications to the syscall ABI in Linux are needed to
-support ILP32 processes calling into the kernel.
+Simply kill any of the tasks belonging to that memcg. Maybe, no one wants
+reclaim at the time of account of with surplus hugepages.
 
-Things get a bit more involved, as the final consensus was to pass 64bit
-quantities in the lower half of 2 64bit registers instead of as a single register:
-this makes the way (on AArch64) that an ILP32 process calls into the kernel
-more dissimilar from a LP64 process calling the same syscall.
+[...]
+>> I could not understand the intention of this question, sorry. When resize
+>> the pool, I think that the number of surplus hugepages in use does not
+>> change. Could you explain what you were concerned about?
+> 
+> It does change when you change the hugetlb pool size, migrate pages
+> between per-numa pools (have a look at adjust_pool_surplus).
 
-What this rambling boils down to is: “ILP32" is the memory model, whereas
-this series deals with the “Linux/AArch64 syscall ABI for ILP32 processes”.
+As I looked at, what kind of fatal problem is caused by charging surplus
+hugepages to memcg by just manipulating counter of statistical information?
 
+-- 
 Thanks,
-Phil.
-
-> 
-> There's AN490 - "ILP32 for AArch64 Whitepaper" from ARM which covers
-> the topic:
-> http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dai0490a/ar01s01.html
-> 
-> And some talks:
-> http://connect.linaro.org/resource/bkk16/bkk16-305b/
-> 
-> Briefly, ILP32 is 32-bit ABI that works with AARCH64 instruction set. It looks
-> better in some performance tests, and is useful for compatibility with 32-bit
-> legacy code.
-> 
-> If you're more familiar with x86 terminology, in ARM world LP64 corresponds
-> to x86_64, AARCH32_EL0 corresponds to x86_32, and ILP32 corresponds to x32
-> ABI.
-> 
-> I'll add link to AN490 in next submission.
-> 
-> Yury
-> 
->> -- 
->> (english) http://www.livejournal.com/~pavelmachek
->> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+Tsukada
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
