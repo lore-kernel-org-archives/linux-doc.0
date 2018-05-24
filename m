@@ -1,120 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 178727D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 15:25:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8227E7D085
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 15:42:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S970645AbeEXPWQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 11:22:16 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:45038 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S966472AbeEXPWQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 May 2018 11:22:16 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 6666BBB43D;
-        Thu, 24 May 2018 15:22:15 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 286D82023580;
-        Thu, 24 May 2018 15:22:14 +0000 (UTC)
-Subject: Re: [PATCH v8 3/6] cpuset: Add cpuset.sched.load_balance flag to v2
-To:     Juri Lelli <juri.lelli@redhat.com>
+        id S967585AbeEXPma (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 11:42:30 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:48984 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S967710AbeEXPmV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 11:42:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=y/8P9Qhg/+MQWekfFBN/IJQwlqOULEmCausPJgGbFKk=; b=oGDFl9Zv9NNT6hOm4/P8l9IP8
+        vw0JuYSEqklJvNYQR+4bihtJBurwKuWKg07PNH7/auhtl/Tk2RTzKLYjHxPzvF9u+E0cUL8HBae96
+        7E+pZu5N80Spu/Zxk1zrpXveikU1WKbLimtAeLoFPDtKAYcfgzp5hq/8KlIUBdrj4ARaIXk3J4Rbh
+        EIU5RBVm3EAq8pbA27GYx+01lNCkd7Vl65GkT+6nKgQT1CjYhJKx0tTHrk3GNzyVrMmF15m/87PDy
+        uaosJOUuXUFqhS4s1dWO3gFx7JKCmG3IU2UrKykDfk2RzLMar3UIu1CgSBe/lUqjho5rdfN59Tr6B
+        9LXmGVPHQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fLsNM-0001Wy-J1; Thu, 24 May 2018 15:42:00 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E08B32029F1C3; Thu, 24 May 2018 17:41:56 +0200 (CEST)
+Date:   Thu, 24 May 2018 17:41:56 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
         Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>
+Subject: Re: [PATCH v8 2/6] cpuset: Add new v2 cpuset.sched.domain flag
+Message-ID: <20180524154156.GI12198@hirez.programming.kicks-ass.net>
 References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-4-git-send-email-longman@redhat.com>
- <20180524143614.GC3948@localhost.localdomain>
- <4bd31510-4f73-e263-8dc1-5edb0fe63b59@redhat.com>
- <20180524151656.GD3948@localhost.localdomain>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <5f409ed7-3850-f1ea-58cf-4326605d1570@redhat.com>
-Date:   Thu, 24 May 2018 11:22:13 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+ <1526590545-3350-3-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20180524151656.GD3948@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 24 May 2018 15:22:15 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 24 May 2018 15:22:15 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1526590545-3350-3-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/24/2018 11:16 AM, Juri Lelli wrote:
-> On 24/05/18 11:09, Waiman Long wrote:
->> On 05/24/2018 10:36 AM, Juri Lelli wrote:
->>> On 17/05/18 16:55, Waiman Long wrote:
->>>
->>> [...]
->>>
->>>> +	A parent cgroup cannot distribute all its CPUs to child
->>>> +	scheduling domain cgroups unless its load balancing flag is
->>>> +	turned off.
->>>> +
->>>> +  cpuset.sched.load_balance
->>>> +	A read-write single value file which exists on non-root
->>>> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
->>>> +	either "0" (off) or a non-zero value (on).  This flag is set
->>>> +	by the parent and is not delegatable.
->>>> +
->>>> +	When it is on, tasks within this cpuset will be load-balanced
->>>> +	by the kernel scheduler.  Tasks will be moved from CPUs with
->>>> +	high load to other CPUs within the same cpuset with less load
->>>> +	periodically.
->>>> +
->>>> +	When it is off, there will be no load balancing among CPUs on
->>>> +	this cgroup.  Tasks will stay in the CPUs they are running on
->>>> +	and will not be moved to other CPUs.
->>>> +
->>>> +	The initial value of this flag is "1".	This flag is then
->>>> +	inherited by child cgroups with cpuset enabled.  Its state
->>>> +	can only be changed on a scheduling domain cgroup with no
->>>> +	cpuset-enabled children.
->>> [...]
->>>
->>>> +	/*
->>>> +	 * On default hierachy, a load balance flag change is only allowed
->>>> +	 * in a scheduling domain with no child cpuset.
->>>> +	 */
->>>> +	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) && balance_flag_changed &&
->>>> +	   (!is_sched_domain(cs) || css_has_online_children(&cs->css))) {
->>>> +		err = -EINVAL;
->>>> +		goto out;
->>>> +	}
->>> The rule is actually
->>>
->>>  - no child cpuset
->>>  - and it must be a scheduling domain
->>>
->>> Right?
->> Yes, because it doesn't make sense to have a cpu in one cpuset that has
->> loading balance off while, at the same time, in another cpuset with load
->> balancing turned on. This restriction is there to make sure that the
->> above condition will not happen. I may be wrong if there is a realistic
->> use case where the above condition is desired.
-> Yep, makes sense to me.
->
-> Maybe add the second condition to the comment and documentation.
+On Thu, May 17, 2018 at 04:55:41PM -0400, Waiman Long wrote:
+> A new cpuset.sched.domain boolean flag is added to cpuset v2. This new
+> flag indicates that the CPUs in the current cpuset should be treated
+> as a separate scheduling domain.
 
-Sure. Will do.
+The traditional name for this is a partition.
 
--Longman
+>                                  This new flag is owned by the parent
+> and will cause the CPUs in the cpuset to be removed from the effective
+> CPUs of its parent.
+
+This is a significant departure from existing behaviour, but one I can
+appreciate. I don't immediately see something terribly wrong with it.
+
+> This is implemented internally by adding a new isolated_cpus mask that
+> holds the CPUs belonging to child scheduling domain cpusets so that:
+> 
+> 	isolated_cpus | effective_cpus = cpus_allowed
+> 	isolated_cpus & effective_cpus = 0
+> 
+> This new flag can only be turned on in a cpuset if its parent is either
+> root or a scheduling domain itself with non-empty cpu list. The state
+> of this flag cannot be changed if the cpuset has children.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  Documentation/cgroup-v2.txt |  22 ++++
+>  kernel/cgroup/cpuset.c      | 237 +++++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 256 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
+> index cf7bac6..54d9e22 100644
+> --- a/Documentation/cgroup-v2.txt
+> +++ b/Documentation/cgroup-v2.txt
+> @@ -1514,6 +1514,28 @@ Cpuset Interface Files
+>  	it is a subset of "cpuset.mems".  Its value will be affected
+>  	by memory nodes hotplug events.
+>  
+> +  cpuset.sched.domain
+> +	A read-write single value file which exists on non-root
+> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
+> +	either "0" (off) or a non-zero value (on).
+
+I would be conservative and only allow 0/1.
+
+>                                                  This flag is set
+> +	by the parent and is not delegatable.
+> +
+> +	If set, it indicates that the CPUs in the current cgroup will
+> +	be the root of a scheduling domain.  The root cgroup is always
+> +	a scheduling domain.  There are constraints on where this flag
+> +	can be set.  It can only be set in a cgroup if all the following
+> +	conditions are true.
+> +
+> +	1) The parent cgroup is also a scheduling domain with a non-empty
+> +	   cpu list.
+
+Ah, so initially I was confused by the requirement for root to have it
+always set, but you'll allow child domains to steal _all_ CPUs, such
+that root ends up with an empty effective set?
+
+What about the (kernel) threads that cannot be moved out of the root
+group?
+
+> +	2) The list of CPUs are exclusive, i.e. they are not shared by
+> +	   any of its siblings.
+
+Right.
+
+> +	3) There is no child cgroups with cpuset enabled.
+> +
+> +	Setting this flag will take the CPUs away from the effective
+> +	CPUs of the parent cgroup. Once it is set, this flag cannot be
+> +	cleared if there are any child cgroups with cpuset enabled.
+
+This I'm not clear on. Why?
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
