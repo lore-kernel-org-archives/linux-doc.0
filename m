@@ -1,107 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FB747D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 07:41:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6DCC77D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 08:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935611AbeEXHlT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 03:41:19 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44038 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S935585AbeEXHlS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 May 2018 03:41:18 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id CC1E840BC054;
-        Thu, 24 May 2018 07:41:17 +0000 (UTC)
-Received: from localhost (ovpn-200-23.brq.redhat.com [10.40.200.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 148B21006EB0;
-        Thu, 24 May 2018 07:41:09 +0000 (UTC)
-Date:   Thu, 24 May 2018 09:41:08 +0200
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S935704AbeEXIUu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 04:20:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51879 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S935631AbeEXIUs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 May 2018 04:20:48 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (charybdis-ext.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 58F2CAC6A;
+        Thu, 24 May 2018 08:20:46 +0000 (UTC)
+Date:   Thu, 24 May 2018 10:20:44 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     TSUKADA Koutaro <tsukada@ascade.co.jp>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>,
-        brouer@redhat.com
-Subject: Re: [PATCH bpf-next v2 0/3] bpf: add boot parameters for sysctl
- knobs
-Message-ID: <20180524094108.066d885a@redhat.com>
-In-Reply-To: <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
-References: <20180523121806.GA27675@asgard.redhat.com>
-        <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        David Rientjes <rientjes@google.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
+        Punit Agrawal <punit.agrawal@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, cgroups@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
+ charge to memcg
+Message-ID: <20180524082044.GW20441@dhcp22.suse.cz>
+References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
+ <240f1b14-ed7d-4983-6c52-be4899d4caa5@oracle.com>
+ <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
+ <20180522185407.GC20441@dhcp22.suse.cz>
+ <455b1a07-d7e3-102b-65e7-3892947b7675@ascade.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 24 May 2018 07:41:17 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 24 May 2018 07:41:17 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <455b1a07-d7e3-102b-65e7-3892947b7675@ascade.co.jp>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 23 May 2018 15:02:45 -0700
-Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
+On Thu 24-05-18 13:39:59, TSUKADA Koutaro wrote:
+> On 2018/05/23 3:54, Michal Hocko wrote:
+[...]
+> > I am also quite confused why you keep distinguishing surplus hugetlb
+> > pages from regular preallocated ones. Being a surplus page is an
+> > implementation detail that we use for an internal accounting rather than
+> > something to exhibit to the userspace even more than we do currently.
+> 
+> I apologize for having confused.
+> 
+> The hugetlb pages obtained from the pool do not waste the buddy pool.
 
-> On Wed, May 23, 2018 at 02:18:19PM +0200, Eugene Syromiatnikov wrote:
-> > Some BPF sysctl knobs affect the loading of BPF programs, and during
-> > system boot/init stages these sysctls are not yet configured.
-> > A concrete example is systemd, that has implemented loading of BPF
-> > programs.
+Because they have already allocated from the buddy allocator so the end
+result is very same.
+
+> On
+> the other hand, surplus hugetlb pages waste the buddy pool. Due to this
+> difference in property, I thought it could be distinguished.
+
+But this is simply not correct. Surplus pages are fluid. If you increase
+the hugetlb size they will become regular persistent hugetlb pages.
+ 
+> Although my memcg knowledge is extremely limited, memcg is accounting for
+> various kinds of pages obtained from the buddy pool by the task belonging
+> to it. I would like to argue that surplus hugepage has specificity in
+> terms of obtaining from the buddy pool, and that it is specially permitted
+> charge requirements for memcg.
+
+Not really. Memcg accounts primarily for reclaimable memory. We do
+account for some non-reclaimable slabs but the life time should be at
+least bound to a process life time. Otherwise the memcg oom killer
+behavior is not guaranteed to unclutter the situation. Hugetlb pages are
+simply persistent. Well, to be completely honest tmpfs pages have a
+similar problem but lacking the swap space for them is kinda
+configuration bug.
+
+> It seems very strange that charge hugetlb page to memcg, but essentially
+> it only charges the usage of the compound page obtained from the buddy pool,
+> and even if that page is used as hugetlb page after that, memcg is not
+> interested in that.
+
+Ohh, it is very much interested. The primary goal of memcg is to enforce
+the limit. How are you going to do that in an absence of the reclaimable
+memory? And quite a lot of it because hugetlb pages usually consume a
+lot of memory.
+
+> I will completely apologize if my way of thinking is wrong. It would be
+> greatly appreciated if you could mention why we can not charge surplus
+> hugepages to memcg.
+> 
+> > Just look at what [sw]hould when you need to adjust accounting - e.g.
+> > due to the pool resize. Are you going to uncharge those surplus pages
+> > ffrom memcg to reflect their persistence?
 > > 
-> > Thus, to allow controlling these setting at early boot, this patch set
-> > adds the ability to change the default setting of these sysctl knobs
-> > as well as option to override them via a boot-time kernel parameter
-> > (in order to avoid rebuilding kernel each time a need of changing these
-> > defaults arises).
-> > 
-> > The sysctl knobs in question are kernel.unprivileged_bpf_disable,
-> > net.core.bpf_jit_harden, and net.core.bpf_jit_kallsyms.  
 > 
-> - systemd is root. today it only uses cgroup-bpf progs which require root,
->   so disabling unpriv during boot time makes no difference to systemd.
->   what is the actual reason to present time?
-> 
-> - say in the future systemd wants to use so_reuseport+bpf for faster
->   networking. With unpriv disable during boot, it will force systemd
->   to do such networking from root, which will lower its security barrier.
->   How that make sense?
-> 
-> - bpf_jit_kallsyms sysctl has immediate effect on loaded programs.
->   Flipping it during the boot or right after or any time after
->   is the same thing. Why add such boot flag then?
-> 
-> - jit_harden can be turned on by systemd. so turning it during the boot
->   will make systemd progs to be constant blinded.
->   Constant blinding protects kernel from unprivileged JIT spraying.
->   Are you worried that systemd will attack the kernel with JIT spraying?
+> I could not understand the intention of this question, sorry. When resize
+> the pool, I think that the number of surplus hugepages in use does not
+> change. Could you explain what you were concerned about?
 
-
-I think you are missing that, we want the ability to change these
-defaults in-order to avoid depending on /etc/sysctl.conf settings, and
-that the these sysctl.conf setting happen too late.
-
-For example with jit_harden, there will be a difference between the
-loaded BPF program that got loaded at boot-time with systemd (no
-constant blinding) and when someone reloads that systemd service after
-/etc/sysctl.conf have been evaluated and setting bpf_jit_harden (now
-slower due to constant blinding).   This is inconsistent behavior.
-
+It does change when ou change the hugetlb pool size, migrate pages
+between per-numa pools (have a look at adjust_pool_surplus).
 -- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+Michal Hocko
+SUSE Labs
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
