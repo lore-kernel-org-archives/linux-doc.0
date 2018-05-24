@@ -1,79 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6E9F07D048
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 06:08:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FB747D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 07:41:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935565AbeEXGIn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 02:08:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S935526AbeEXGIm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 May 2018 02:08:42 -0400
-Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S935611AbeEXHlT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 03:41:19 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44038 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S935585AbeEXHlS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 May 2018 03:41:18 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E328620882;
-        Thu, 24 May 2018 06:08:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1527142121;
-        bh=rw2Vj5wtWVd3PKxSCxbPhlW5pqGRYEAq7NPQxzun65g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s9CfhC7wgiFRThmdU3EuuPLkn/S99bM9UqWWhE89XkTYkuHF+vrHyW7GPX98Jo7c1
-         RXhTHwVdw7PCJxaNcZ60xxZ5Ijm+9+0cVmMWtXybxg+aaBj6WWaibvHVRX8VoQBNJd
-         /vgFlFWIMmyCw+jX46zls15bWQD4xt7hCw33/QR0=
-Date:   Thu, 24 May 2018 08:08:22 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com
-Subject: Re: [PATCH v2 1/5] PCI/AER: Define and allocate aer_stats structure
- for AER capable devices
-Message-ID: <20180524060822.GA3016@kroah.com>
-References: <20180522222805.80314-1-rajatja@google.com>
- <20180523175808.28030-1-rajatja@google.com>
- <20180523175808.28030-2-rajatja@google.com>
+        by mx1.redhat.com (Postfix) with ESMTPS id CC1E840BC054;
+        Thu, 24 May 2018 07:41:17 +0000 (UTC)
+Received: from localhost (ovpn-200-23.brq.redhat.com [10.40.200.23])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 148B21006EB0;
+        Thu, 24 May 2018 07:41:09 +0000 (UTC)
+Date:   Thu, 24 May 2018 09:41:08 +0200
+From:   Jesper Dangaard Brouer <brouer@redhat.com>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Eugene Syromiatnikov <esyr@redhat.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>,
+        brouer@redhat.com
+Subject: Re: [PATCH bpf-next v2 0/3] bpf: add boot parameters for sysctl
+ knobs
+Message-ID: <20180524094108.066d885a@redhat.com>
+In-Reply-To: <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
+References: <20180523121806.GA27675@asgard.redhat.com>
+        <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180523175808.28030-2-rajatja@google.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 24 May 2018 07:41:17 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Thu, 24 May 2018 07:41:17 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 23, 2018 at 10:58:04AM -0700, Rajat Jain wrote:
-> ---
-> v2: Fix the license header as per Greg's suggestions
->     (Since there is disagreement with using "//" vs "/* */" for license
->      I decided to keep the one preferred by Linus, also used by others
->      in this directory)
+On Wed, 23 May 2018 15:02:45 -0700
+Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
 
-The rules are pretty simple for how to do this, and they are documented
-in Documentation/process/license-rules.rst, please just follow that like
-the rest of the kernel has done.
+> On Wed, May 23, 2018 at 02:18:19PM +0200, Eugene Syromiatnikov wrote:
+> > Some BPF sysctl knobs affect the loading of BPF programs, and during
+> > system boot/init stages these sysctls are not yet configured.
+> > A concrete example is systemd, that has implemented loading of BPF
+> > programs.
+> > 
+> > Thus, to allow controlling these setting at early boot, this patch set
+> > adds the ability to change the default setting of these sysctl knobs
+> > as well as option to override them via a boot-time kernel parameter
+> > (in order to avoid rebuilding kernel each time a need of changing these
+> > defaults arises).
+> > 
+> > The sysctl knobs in question are kernel.unprivileged_bpf_disable,
+> > net.core.bpf_jit_harden, and net.core.bpf_jit_kallsyms.  
+> 
+> - systemd is root. today it only uses cgroup-bpf progs which require root,
+>   so disabling unpriv during boot time makes no difference to systemd.
+>   what is the actual reason to present time?
+> 
+> - say in the future systemd wants to use so_reuseport+bpf for faster
+>   networking. With unpriv disable during boot, it will force systemd
+>   to do such networking from root, which will lower its security barrier.
+>   How that make sense?
+> 
+> - bpf_jit_kallsyms sysctl has immediate effect on loaded programs.
+>   Flipping it during the boot or right after or any time after
+>   is the same thing. Why add such boot flag then?
+> 
+> - jit_harden can be turned on by systemd. so turning it during the boot
+>   will make systemd progs to be constant blinded.
+>   Constant blinding protects kernel from unprivileged JIT spraying.
+>   Are you worried that systemd will attack the kernel with JIT spraying?
 
-thanks,
 
-greg k-h
+I think you are missing that, we want the ability to change these
+defaults in-order to avoid depending on /etc/sysctl.conf settings, and
+that the these sysctl.conf setting happen too late.
+
+For example with jit_harden, there will be a difference between the
+loaded BPF program that got loaded at boot-time with systemd (no
+constant blinding) and when someone reloads that systemd service after
+/etc/sysctl.conf have been evaluated and setting bpf_jit_harden (now
+slower due to constant blinding).   This is inconsistent behavior.
+
+-- 
+Best regards,
+  Jesper Dangaard Brouer
+  MSc.CS, Principal Kernel Engineer at Red Hat
+  LinkedIn: http://www.linkedin.com/in/brouer
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
