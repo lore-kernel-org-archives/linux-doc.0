@@ -1,109 +1,233 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4E537DF8B
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 02:25:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66E757D048
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 02:29:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935558AbeEXCXd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 22:23:33 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:46744 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935294AbeEXCX1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 22:23:27 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id B48CF60D81; Thu, 24 May 2018 02:23:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527128606;
-        bh=6Qvifh6Kk6f1hnuOapP/wg/yjBTQdvsVf0yQ4DkncRA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Nr8M1EkvtCt9csRFCMGP4R+IQbSXXaT/QICTJXF9QgfqCDSslnVNpHH9nGTs9iuOO
-         X48mIojwT2SBhPoeHFdCFYxZg9wIqWpt89WutuuBRlGkklO7bxH/7I3IpbSAZUM5HB
-         eFgq/MjURtIL4yedbIye3kWLIOred1nkJt0ODSXM=
-Received: from [10.79.40.88] (blr-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rnayak@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id AB119601E8;
-        Thu, 24 May 2018 02:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527128605;
-        bh=6Qvifh6Kk6f1hnuOapP/wg/yjBTQdvsVf0yQ4DkncRA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=QTFF8P4fBYkokjQ7lTqA40vIJHHmveKuD342C3jnG3ok/3ZZjco5qRrszUMjiPAbb
-         M/mNTFb2zYKJEUN75gNCNASavep9VYcmBoxNXGq8bsJnvSZmv8r8T2GU8mDhWkvXqV
-         RpzzG9+w3imIn8hVs2uBwqJWsx6Wx+dLZiYXtcMA=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AB119601E8
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH v6 4/5] arm64: dts: sdm845: Add serial console support
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Evan Green <evgreen@chromium.org>,
-        acourbot@chromium.org, Stephen Boyd <swboyd@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <1522429700-13083-1-git-send-email-kramasub@codeaurora.org>
- <1522429700-13083-5-git-send-email-kramasub@codeaurora.org>
- <ebe4515d-a26f-a825-0353-666b0b5ad9f5@codeaurora.org>
- <CAD=FV=WwVjMKDoL29fqdzSmi5SRQOxk_mV2=7br8HUK_hUc+XQ@mail.gmail.com>
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <ae894880-33e8-dc12-e69c-218db6d7b251@codeaurora.org>
-Date:   Thu, 24 May 2018 07:53:19 +0530
+        id S935260AbeEXC3V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 May 2018 22:29:21 -0400
+Received: from mail-qk0-f194.google.com ([209.85.220.194]:43068 "EHLO
+        mail-qk0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935126AbeEXC3U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 22:29:20 -0400
+Received: by mail-qk0-f194.google.com with SMTP id h19-v6so78545qkj.10;
+        Wed, 23 May 2018 19:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version;
+        bh=9vRR56N8vgfK9QvoXhJfLvDcAEwDZc3t5k+4UCOVeo0=;
+        b=ctFOUG2XddXTOMcu5pDTwpNwHXk5H9uXClVdhTnE+pLHRCrbfxi6uavYaFbzcmlYiv
+         4nH/PXpvg9jWFYeMCTY72j0f+e8grX00lX4HWm+ZW2wwGnWi4RUi9bh4Xx64VHZQMIxE
+         bz//BhcqVMs5qtG6l8JnDkPUTT1R5beDD0ZQaa8xsDLMV301fokGk8wnAdKaU+O/NOSm
+         ItKvB+9nKzjbJGGWmvvCLtYSnLHWzzr+YIIw42rhkuz/ncQoUJumE5kGxVobbM+7VW6n
+         GFtFLqJVqTq8MYanqmhVMWP7N8mc8NEoDCkmMFZJPWZbarbRvGv5sP6pUhFbVxdQbBJQ
+         rW7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version;
+        bh=9vRR56N8vgfK9QvoXhJfLvDcAEwDZc3t5k+4UCOVeo0=;
+        b=nitgngg3SNEWyKuME8YkaW/fvlGs4J4dxK+g9EdK9If4A3MN/yFrfbTYwuBJ0tFF3u
+         rM9GENISAncCVjlTixvt+dFxffezDBCOuW96fDHWpoHpGRT1JvPrycJMS6pJ7bE/334g
+         Cnih8P+njzrH7l349TA/cnGsepeOHmqlB3/J3EJAypG5bpWczXRfO1ajBWL+b3H7f42Q
+         ArTrZQNHIkxq65W7JwIgEK/6TlRdv8EsPSXTLDOfEmjK7uEkP2iyQ8Y4yeLZMvkC2MpI
+         LBTpuzuZZHy5LVZ5BFNUIeHOLAh/AXDuFvbrnscrvEllGc1CaMrMCjC7SukykpjSXHbD
+         Rd7A==
+X-Gm-Message-State: ALKqPwfS9TxygpqJlKET7mNY0BWc2sSsB1dTeUKv3jRY7bkb70IF4OxL
+        /Q0CVXvjkSqsEdTugKX8oy4=
+X-Google-Smtp-Source: ADUXVKILqYYrcHdTbXVbXjV2lHQfjwP1vmyy5U8/IJ3qJW2FcX3BOzskyRwThEf0qEOFmMTRdaTIxw==
+X-Received: by 2002:a37:1aca:: with SMTP id l71-v6mr3453882qkh.355.1527128959916;
+        Wed, 23 May 2018 19:29:19 -0700 (PDT)
+Received: from [192.168.1.237] (pool-72-66-26-176.washdc.fios.verizon.net. [72.66.26.176])
+        by smtp.googlemail.com with ESMTPSA id o66-v6sm2188143qki.93.2018.05.23.19.29.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 23 May 2018 19:29:19 -0700 (PDT)
+To:     corbet@lwn.net, linux-doc@vger.kernel.org
+Cc:     linux-fsdevel@vger.kernel.org, Al Viro <viro@ZenIV.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jeff Layton <jlayton@redhat.com>
+From:   Sean Anderson <seanga2@gmail.com>
+Subject: [PATCH RESEND] Documentation: filesystems: update filesystem locking
+ documentation
+Message-ID: <e4262947-a2c3-c932-caef-67d96fa59cb1@gmail.com>
+Date:   Wed, 23 May 2018 22:29:10 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=WwVjMKDoL29fqdzSmi5SRQOxk_mV2=7br8HUK_hUc+XQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT
+Content-Type: multipart/mixed; boundary="C0dUBgQp3Dhd45b44hB7XhVUbCxfDpTXf";
+ protected-headers="v1"
+From: Sean Anderson <seanga2@gmail.com>
+To: corbet@lwn.net, linux-doc@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, Al Viro <viro@ZenIV.linux.org.uk>,
+ Matthew Wilcox <willy@infradead.org>, Jeff Layton <jlayton@redhat.com>
+Message-ID: <e4262947-a2c3-c932-caef-67d96fa59cb1@gmail.com>
+Subject: [PATCH RESEND] Documentation: filesystems: update filesystem locking
+ documentation
 
-On 05/23/2018 08:43 PM, Doug Anderson wrote:
-> Rajendra,
-> 
-> On Tue, May 22, 2018 at 11:30 PM, Rajendra Nayak <rnayak@codeaurora.org> wrote:
->>
->>
->> On 03/30/2018 10:38 PM, Karthikeyan Ramasubramanian wrote:
->>> From: Rajendra Nayak <rnayak@codeaurora.org>
->>>
->>> Add the qup uart node and geni se instance needed to
->>> support the serial console on the MTP.
->>>
->>> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
->>> Signed-off-by: Karthikeyan Ramasubramanian <kramasub@codeaurora.org>
->>> ---
->>
->> Andy, is it possible to pull this one in for 4.18?
->> Sorry, I only realized we somehow missed this after looking at your pull request.
->>
->> This is the only patch that prevents linux-next from booting up my sdm845 MTP
->> to a minimal console shell.
-> 
-> It was in Andy's tree but then got dropped.  Unfortunately the clock
-> bindings didn't land early enough so it's a bit difficult to land any
-> device tree changes that use the clock bindings until the next kernel
-> revision...
+--C0dUBgQp3Dhd45b44hB7XhVUbCxfDpTXf
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-ah, okay, did not realize that. Thanks for clarifying.
+Documentation/filesystems/Locking no longer reflects current locking
+semantics. i_mutex is no longer used for locking, and has been superseded=
 
--- 
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-hosted by The Linux Foundation
+by i_rwsem. Additionally, ->iterate_shared() was not documented.
+
+Signed-off-by: Sean Anderson <seanga2@gmail.com>
+Reviewed-by: Jeff Layton <jlayton@redhat.com>
+---
+ Documentation/filesystems/Locking | 43 +++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/filesystems/Locking b/Documentation/filesystem=
+s/Locking
+index 75d2d57e2c44..15853d522941 100644
+--- a/Documentation/filesystems/Locking
++++ b/Documentation/filesystems/Locking
+@@ -69,31 +69,31 @@ prototypes:
+=20
+ locking rules:
+ 	all may block
+-		i_mutex(inode)
+-lookup:		yes
+-create:		yes
+-link:		yes (both)
+-mknod:		yes
+-symlink:	yes
+-mkdir:		yes
+-unlink:		yes (both)
+-rmdir:		yes (both)	(see below)
+-rename:	yes (all)	(see below)
++		i_rwsem(inode)
++lookup:		shared
++create:		exclusive
++link:		exclusive (both)
++mknod:		exclusive
++symlink:	exclusive
++mkdir:		exclusive
++unlink:		exclusive (both)
++rmdir:		exclusive (both)(see below)
++rename:		exclusive (all)	(see below)
+ readlink:	no
+ get_link:	no
+-setattr:	yes
++setattr:	exclusive
+ permission:	no (may not block if called in rcu-walk mode)
+ get_acl:	no
+ getattr:	no
+ listxattr:	no
+ fiemap:		no
+ update_time:	no
+-atomic_open:	yes
++atomic_open:	exclusive
+ tmpfile:	no
+=20
+=20
+-	Additionally, ->rmdir(), ->unlink() and ->rename() have ->i_mutex on
+-victim.
++	Additionally, ->rmdir(), ->unlink() and ->rename() have ->i_rwsem
++	exclusive on victim.
+ 	cross-directory ->rename() has (per-superblock) ->s_vfs_rename_sem.
+=20
+ See Documentation/filesystems/directory-locking for more detailed discus=
+sion
+@@ -111,10 +111,10 @@ prototypes:
+=20
+ locking rules:
+ 	all may block
+-		i_mutex(inode)
++		i_rwsem(inode)
+ list:		no
+ get:		no
+-set:		yes
++set:		exclusive
+=20
+ --------------------------- super_operations ---------------------------=
+
+ prototypes:
+@@ -217,14 +217,14 @@ prototypes:
+ locking rules:
+ 	All except set_page_dirty and freepage may block
+=20
+-			PageLocked(page)	i_mutex
++			PageLocked(page)	i_rwsem
+ writepage:		yes, unlocks (see below)
+ readpage:		yes, unlocks
+ writepages:
+ set_page_dirty		no
+ readpages:
+-write_begin:		locks the page		yes
+-write_end:		yes, unlocks		yes
++write_begin:		locks the page		exclusive
++write_end:		yes, unlocks		exclusive
+ bmap:
+ invalidatepage:		yes
+ releasepage:		yes
+@@ -439,6 +439,7 @@ prototypes:
+ 	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
+ 	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
+ 	int (*iterate) (struct file *, struct dir_context *);
++	int (*iterate_shared) (struct file *, struct dir_context *);
+ 	unsigned int (*poll) (struct file *, struct poll_table_struct *);
+ 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+ 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+@@ -480,6 +481,10 @@ mutex or just to use i_size_read() instead.
+ Note: this does not protect the file->f_pos against concurrent modificat=
+ions
+ since this is something the userspace has to take care about.
+=20
++->iterate() is called with i_rwsem exclusive.
++
++->iterate_shared() is called with i_rwsem at least shared.
++
+ ->fasync() is responsible for maintaining the FASYNC bit in filp->f_flag=
+s.
+ Most instances call fasync_helper(), which does that maintenance, so it'=
+s
+ not normally something one needs to worry about.  Return values > 0 will=
+ be
+--=20
+2.17.0
+
+
+--C0dUBgQp3Dhd45b44hB7XhVUbCxfDpTXf--
+
+--aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGTBAEBCgB9FiEEkGEdW86NSNID6GAoPuiP7LShEG4FAlsGI35fFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldDkw
+NjExRDVCQ0U4RDQ4RDIwM0U4NjAyODNFRTg4RkVDQjRBMTEwNkUACgkQPuiP7LSh
+EG7bMwf6Ax50H6Ouf9HWESG6kx7M3Jbw+2LV+9kz6GocOXWYsg3O9tQyk6HwBcTJ
+Cxq7QW+gmQR5nU9M7PZ4SReLtWpQAEJzcYh5phnCHxEB1rvw7PXlIgkrJGutbx4W
+wHaObqx//u98X3AgTVnipxcp7MCWakxuxT1bIkI6Ti6FgKONE6EpqRxpP1fpqHcx
+X1IIavDhbSnEc9sG5qKGqUzW1eIgGOnW/W2cSA8+PiMHcDNGBPgaN4hDVP+rG9fA
+tbudNTqyRffxdWvskosg7lR8NbuT9YOdbcSAyb7G43BGToUN2m1o2i2FKmq85Q4N
+yj73ugpKXTtYkIdMp6VwIJa1uEtFXA==
+=6mdz
+-----END PGP SIGNATURE-----
+
+--aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
