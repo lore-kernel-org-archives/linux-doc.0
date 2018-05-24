@@ -1,126 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 319D27D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 17:05:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5133A7D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 17:47:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1034056AbeEXRFF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 13:05:05 -0400
-Received: from mail-pf0-f194.google.com ([209.85.192.194]:36968 "EHLO
-        mail-pf0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1034048AbeEXRFC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 13:05:02 -0400
-Received: by mail-pf0-f194.google.com with SMTP id e9-v6so1191704pfi.4
-        for <linux-doc@vger.kernel.org>; Thu, 24 May 2018 10:05:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LArVAzVseIGt4b+lLJjjs5IEfvhZsZ0Y3+384LsJsxE=;
-        b=e1eJer9UPTvYDIgTP8d+Sj/2BIKgBkcSWYBQFhND2HnF4AFg8aoue64LM0e2WdIxUF
-         DgbPhccopMD4OE/CuB8CRAWvn2umfgXoMHImmYDsOfMDdJ+6H1cxHU24y5UaYHT6pQvJ
-         5earlw1t8hoTm6YCV6nFVqILXdlK81NItYO7h1ax++RXLZkzTNqt4APOpjg3PYJ9WCym
-         TAvKDheUlZLkqg1CIVR2y9h+PQGqyj21ZCm0lVldV+Nu4tBI81NZ6wF0lByKaUN/yKm3
-         xG3+fgNuFTYBRXH59cYliG751hqWnMcbGZRijFqGwXLeMajpumyF8DtTwAMFcflYzzqh
-         sD3Q==
-X-Gm-Message-State: ALKqPweYyJ492ujAcocq2n4K6Lxg+g+UEhojX66n/0V9NdiQdMf9ZtHm
-        dGvS7yCuhHXCdzsEEl+Ijz2ofQ==
-X-Google-Smtp-Source: AB8JxZogCWkoMNVBuxxi260p4SgDe8Ln0jBCK1TZpgGqSuo+rft+ZQ8RxULB89OJQyLpk/vyUKRoGA==
-X-Received: by 2002:a62:2218:: with SMTP id i24-v6mr8102621pfi.53.1527181501704;
-        Thu, 24 May 2018 10:05:01 -0700 (PDT)
-Received: from localhost ([207.114.172.147])
-        by smtp.gmail.com with ESMTPSA id c6-v6sm41294237pfj.91.2018.05.24.10.05.00
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 24 May 2018 10:05:00 -0700 (PDT)
-Date:   Thu, 24 May 2018 10:04:59 -0700
-From:   Moritz Fischer <mdf@kernel.org>
-To:     richard.gong@linux.intel.com
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com, dinguyen@kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, atull@kernel.org,
-        mdf@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
-        corbet@lwn.net, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        yves.vandervennet@linux.intel.com, richard.gong@intel.com
-Subject: Re: [PATCHv5 2/8] arm64: dts: stratix10: add stratix10 service
- driver binding to base dtsi
-Message-ID: <20180524170459.GB4051@archbook>
-References: <1527179600-26441-1-git-send-email-richard.gong@linux.intel.com>
- <1527179600-26441-3-git-send-email-richard.gong@linux.intel.com>
+        id S1030653AbeEXRqA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 13:46:00 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:55442 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1030394AbeEXRp6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 13:45:58 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w4OHemAU109478;
+        Thu, 24 May 2018 17:45:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2017-10-26;
+ bh=tbB8TuG50cOSrOOKadBn/EKD46tSR/PLI+KmYDnlKXA=;
+ b=CcfmnPGv+CGIabUI0lJTEAoQ4ZzBNhQzFsf/KnzMUI8BN9fRPRoB3zpiYGbHuzHoTdKD
+ iUiJ7b1f1g9//6lbsEjNnl6fjgRjcnCNSC8iMNCgWMNmYawDMNGT6dOld4a2k1NW6qMS
+ rMD06RcY7CIiUFDcbS4+2tOgx6i5/NH0Amw9NfiVyXiT8XlLSr9Q3jvP34T3ww2WAz4t
+ d94ErM+wtw5Ceuj+AKCG5XD+1LGN58llt68N9g/N+Jn4wUaHwoZM1fKN7lQ/V/kL9KLq
+ kILy0rOW32QFXHfWm/puj5L/0WxpFsl5F1nzUNdZomgmK6tb4JX2pAR1B4BvXJNX4c6b Ew== 
+Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
+        by aserp2130.oracle.com with ESMTP id 2j4nh7hjfy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 24 May 2018 17:45:15 +0000
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id w4OHjC2l006477
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 24 May 2018 17:45:12 GMT
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w4OHjA3U008450;
+        Thu, 24 May 2018 17:45:10 GMT
+Received: from [192.168.1.164] (/50.38.38.67)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 24 May 2018 10:45:10 -0700
+Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
+ charge to memcg
+To:     TSUKADA Koutaro <tsukada@ascade.co.jp>,
+        Michal Hocko <mhocko@kernel.org>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        David Rientjes <rientjes@google.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
+        Punit Agrawal <punit.agrawal@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, cgroups@vger.kernel.org
+References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
+ <20180522135148.GA20441@dhcp22.suse.cz>
+ <af1a3050-7365-428a-dfb1-2f3da37dc9ff@ascade.co.jp>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <4078bc2d-4aaf-cd1b-0145-5915e382852f@oracle.com>
+Date:   Thu, 24 May 2018 10:45:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1527179600-26441-3-git-send-email-richard.gong@linux.intel.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <af1a3050-7365-428a-dfb1-2f3da37dc9ff@ascade.co.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8902 signatures=668700
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=919
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1711220000 definitions=main-1805240201
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Richard,
+On 05/23/2018 09:26 PM, TSUKADA Koutaro wrote:
+> 
+> I do not know if it is really a strong use case, but I will explain my
+> motive in detail. English is not my native language, so please pardon
+> my poor English.
+> 
+> I am one of the developers for software that managing the resource used
+> from user job at HPC-Cluster with Linux. The resource is memory mainly.
+> The HPC-Cluster may be shared by multiple people and used. Therefore, the
+> memory used by each user must be strictly controlled, otherwise the
+> user's job will runaway, not only will it hamper the other users, it will
+> crash the entire system in OOM.
+> 
+> Some users of HPC are very nervous about performance. Jobs are executed
+> while synchronizing with MPI communication using multiple compute nodes.
+> Since CPU wait time will occur when synchronizing, they want to minimize
+> the variation in execution time at each node to reduce waiting times as
+> much as possible. We call this variation a noise.
+> 
+> THP does not guarantee to use the Huge Page, but may use the normal page.
 
-On Thu, May 24, 2018 at 11:33:14AM -0500, richard.gong@linux.intel.com wrote:
-> From: Richard Gong <richard.gong@intel.com>
+Note.  You do not want to use THP because "THP does not guarantee".
+
+> This mechanism is one cause of variation(noise).
 > 
-> Add Intel Stratix10 service layer to the device tree
+> The users who know this mechanism will be hesitant to use THP. However,
+> the users also know the benefits of the Huge Page's TLB hit rate
+> performance, and the Huge Page seems to be attractive. It seems natural
+> that these users are interested in HugeTLBfs, I do not know at all
+> whether it is the right approach or not.
 > 
-> Signed-off-by: Richard Gong <richard.gong@intel.com>
-> Signed-off-by: Alan Tull <atull@kernel.org>
-Acked-by: Moritz Fischer <mdf@kernel.org>
-> ---
-> v2: Change to put service layer driver node under the firmware node
->     Change compatible to "intel, stratix10-svc"
-> v3: No change
-> v4: s/service driver/stratix10 service driver/ in subject line
-> v5: No change
-> ---
->  arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+> At the very least, our HPC system is pursuing high versatility and we
+> have to consider whether we can provide it if users want to use HugeTLBfs.
 > 
-> diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
-> index d8c94d5..c257287 100644
-> --- a/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
-> +++ b/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
-> @@ -24,6 +24,19 @@
->  	#address-cells = <2>;
->  	#size-cells = <2>;
->  
-> +	reserved-memory {
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
-> +
-> +		service_reserved: svcbuffer@0 {
-> +			compatible = "shared-dma-pool";
-> +			reg = <0x0 0x0 0x0 0x1000000>;
-> +			alignment = <0x1000>;
-> +			no-map;
-> +		};
-> +	};
-> +
->  	cpus {
->  		#address-cells = <1>;
->  		#size-cells = <0>;
-> @@ -487,5 +500,13 @@
->  
->  			status = "disabled";
->  		};
-> +
-> +		firmware {
-> +			svc {
-> +				compatible = "intel,stratix10-svc";
-> +				method = "smc";
-> +				memory-region = <&service_reserved>;
-> +			};
-> +		};
->  	};
->  };
-> -- 
-> 2.7.4
+> In order to use HugeTLBfs we need to create a persistent pool, but in
+> our use case sharing nodes, it would be impossible to create, delete or
+> resize the pool.
 > 
+> One of the answers I have reached is to use HugeTLBfs by overcommitting
+> without creating a pool(this is the surplus hugepage).
+
+Using hugetlbfs overcommit also does not provide a guarantee.  Without
+doing much research, I would say the failure rate for obtaining a huge
+page via THP and hugetlbfs overcommit is about the same.  The most
+difficult issue in both cases will be obtaining a "huge page" number of
+pages from the buddy allocator.
+
+I really do not think hugetlbfs overcommit will provide any benefit over
+THP for your use case.  Also, new user space code is required to "fall back"
+to normal pages in the case of hugetlbfs page allocation failure.  This
+is not needed in the THP case.
+-- 
+Mike Kravetz
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
