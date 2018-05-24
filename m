@@ -1,150 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 832F77D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 14:29:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C83DE7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 14:36:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1033325AbeEXO24 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 10:28:56 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39315 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1033260AbeEXO2y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 May 2018 10:28:54 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 9E9A5AF41;
-        Thu, 24 May 2018 14:28:51 +0000 (UTC)
-Date:   Thu, 24 May 2018 15:24:14 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     TSUKADA Koutaro <tsukada@ascade.co.jp>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        id S935755AbeEXOgU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 10:36:20 -0400
+Received: from mail-wr0-f194.google.com ([209.85.128.194]:45499 "EHLO
+        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935668AbeEXOgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 10:36:18 -0400
+Received: by mail-wr0-f194.google.com with SMTP id w3-v6so3541827wrl.12
+        for <linux-doc@vger.kernel.org>; Thu, 24 May 2018 07:36:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IItUpvtsthIeeHOULK4ul0pCR18QTGGFSuZU81iIBwg=;
+        b=EuoXFan1+0bFtsSHbUVNQf14WErhBEyauHlruuaMYu5NC5ZioWjV2nw1PvgA6QJItu
+         zdhiDZ3/i7Y/jI6uNc7JYd1I4I3mE/O2tEZGaSXBeK+fq7USOUkZmASQlGbXewiNnk3i
+         GpyJMzfmuKuCe19+KOysUnDg7JkZUAMXt1cIQtaYCgaadtxGoUeDl5edUrof3WZ6yZi5
+         T6vmEfSaEWjbCKdt3HkBsfQhV8IauqLWpOTH/OxHMcMEoyy/RkRoPuyKptXS2aRmTCU6
+         gZrE5yicrPzkfO1EuAZyqn6ef5s6XAGexxKm1Wba02VmR1kjWsgXzAEkV7Vlo5WXsjge
+         y4BA==
+X-Gm-Message-State: ALKqPwdG15HDiEQAGKp1+6/znJuX85JV5C61dZPz9sILShyhxxsD3Jt+
+        PIcSZYHGR/Yw4VNfH7R8qqSLVA==
+X-Google-Smtp-Source: AB8JxZocuL2cj/De8RI67z/b/ygQ/rdq2yiCxjHy46pJBXwkwqNkC4JUm2ROIglt2zScOtifZWyH6Q==
+X-Received: by 2002:adf:c709:: with SMTP id k9-v6mr7093817wrg.65.1527172577622;
+        Thu, 24 May 2018 07:36:17 -0700 (PDT)
+Received: from localhost.localdomain ([151.15.207.242])
+        by smtp.gmail.com with ESMTPSA id o9-v6sm23658585wrn.74.2018.05.24.07.36.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 24 May 2018 07:36:16 -0700 (PDT)
+Date:   Thu, 24 May 2018 16:36:14 +0200
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        David Rientjes <rientjes@google.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
-        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
-        Punit Agrawal <punit.agrawal@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
- charge to memcg
-Message-ID: <20180524132414.GI20441@dhcp22.suse.cz>
-References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
- <240f1b14-ed7d-4983-6c52-be4899d4caa5@oracle.com>
- <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
- <20180522185407.GC20441@dhcp22.suse.cz>
- <455b1a07-d7e3-102b-65e7-3892947b7675@ascade.co.jp>
- <20180524082044.GW20441@dhcp22.suse.cz>
- <b2afbff6-b59f-7105-3808-64d41bd4a3a8@ascade.co.jp>
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH v8 3/6] cpuset: Add cpuset.sched.load_balance flag to v2
+Message-ID: <20180524143614.GC3948@localhost.localdomain>
+References: <1526590545-3350-1-git-send-email-longman@redhat.com>
+ <1526590545-3350-4-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b2afbff6-b59f-7105-3808-64d41bd4a3a8@ascade.co.jp>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+In-Reply-To: <1526590545-3350-4-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 24-05-18 21:58:49, TSUKADA Koutaro wrote:
-> On 2018/05/24 17:20, Michal Hocko wrote:
-> > On Thu 24-05-18 13:39:59, TSUKADA Koutaro wrote:
-> >> On 2018/05/23 3:54, Michal Hocko wrote:
-> > [...]
-> >>> I am also quite confused why you keep distinguishing surplus hugetlb
-> >>> pages from regular preallocated ones. Being a surplus page is an
-> >>> implementation detail that we use for an internal accounting rather than
-> >>> something to exhibit to the userspace even more than we do currently.
-> >>
-> >> I apologize for having confused.
-> >>
-> >> The hugetlb pages obtained from the pool do not waste the buddy pool.
-> > 
-> > Because they have already allocated from the buddy allocator so the end
-> > result is very same.
-> > 
-> >> On
-> >> the other hand, surplus hugetlb pages waste the buddy pool. Due to this
-> >> difference in property, I thought it could be distinguished.
-> > 
-> > But this is simply not correct. Surplus pages are fluid. If you increase
-> > the hugetlb size they will become regular persistent hugetlb pages.
-> 
-> I really can not understand what's wrong with this. That page is obviously
-> released before being added to the persistent pool, and at that time it is
-> uncharged from memcg to which the task belongs(This assumes my patch-set).
-> After that, the same page obtained from the pool is not surplus hugepage
-> so it will not be charged to memcg again.
+On 17/05/18 16:55, Waiman Long wrote:
 
-I do not see anything like that. adjust_pool_surplus is simply and
-accounting thing. At least the last time I've checked. Maybe your
-patchset handles that?
- 
-> >> Although my memcg knowledge is extremely limited, memcg is accounting for
-> >> various kinds of pages obtained from the buddy pool by the task belonging
-> >> to it. I would like to argue that surplus hugepage has specificity in
-> >> terms of obtaining from the buddy pool, and that it is specially permitted
-> >> charge requirements for memcg.
-> > 
-> > Not really. Memcg accounts primarily for reclaimable memory. We do
-> > account for some non-reclaimable slabs but the life time should be at
-> > least bound to a process life time. Otherwise the memcg oom killer
-> > behavior is not guaranteed to unclutter the situation. Hugetlb pages are
-> > simply persistent. Well, to be completely honest tmpfs pages have a
-> > similar problem but lacking the swap space for them is kinda
-> > configuration bug.
-> 
-> Absolutely you are saying the right thing, but, for example, can mlock(2)ed
-> pages be swapped out by reclaim?(What is the difference between mlock(2)ed
-> pages and hugetlb page?)
+[...]
 
-No mlocked pages cannot be reclaimed and that is why we restrict them to
-a relatively small amount.
- 
-> >> It seems very strange that charge hugetlb page to memcg, but essentially
-> >> it only charges the usage of the compound page obtained from the buddy pool,
-> >> and even if that page is used as hugetlb page after that, memcg is not
-> >> interested in that.
-> > 
-> > Ohh, it is very much interested. The primary goal of memcg is to enforce
-> > the limit. How are you going to do that in an absence of the reclaimable
-> > memory? And quite a lot of it because hugetlb pages usually consume a
-> > lot of memory.
-> 
-> Simply kill any of the tasks belonging to that memcg. Maybe, no one wants
-> reclaim at the time of account of with surplus hugepages.
+> +	A parent cgroup cannot distribute all its CPUs to child
+> +	scheduling domain cgroups unless its load balancing flag is
+> +	turned off.
+> +
+> +  cpuset.sched.load_balance
+> +	A read-write single value file which exists on non-root
+> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
+> +	either "0" (off) or a non-zero value (on).  This flag is set
+> +	by the parent and is not delegatable.
+> +
+> +	When it is on, tasks within this cpuset will be load-balanced
+> +	by the kernel scheduler.  Tasks will be moved from CPUs with
+> +	high load to other CPUs within the same cpuset with less load
+> +	periodically.
+> +
+> +	When it is off, there will be no load balancing among CPUs on
+> +	this cgroup.  Tasks will stay in the CPUs they are running on
+> +	and will not be moved to other CPUs.
+> +
+> +	The initial value of this flag is "1".	This flag is then
+> +	inherited by child cgroups with cpuset enabled.  Its state
+> +	can only be changed on a scheduling domain cgroup with no
+> +	cpuset-enabled children.
 
-But that will not release the hugetlb memory, does it?
- 
-> [...]
-> >> I could not understand the intention of this question, sorry. When resize
-> >> the pool, I think that the number of surplus hugepages in use does not
-> >> change. Could you explain what you were concerned about?
-> > 
-> > It does change when you change the hugetlb pool size, migrate pages
-> > between per-numa pools (have a look at adjust_pool_surplus).
-> 
-> As I looked at, what kind of fatal problem is caused by charging surplus
-> hugepages to memcg by just manipulating counter of statistical information?
+[...]
 
-Fatal? Not sure. It simply tries to add an alien memory to the memcg
-concept so I would pressume an unexpected behavior (e.g. not being able
-to reclaim memcg or, over reclaim, trashing etc.).
--- 
-Michal Hocko
-SUSE Labs
+> +	/*
+> +	 * On default hierachy, a load balance flag change is only allowed
+> +	 * in a scheduling domain with no child cpuset.
+> +	 */
+> +	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) && balance_flag_changed &&
+> +	   (!is_sched_domain(cs) || css_has_online_children(&cs->css))) {
+> +		err = -EINVAL;
+> +		goto out;
+> +	}
+
+The rule is actually
+
+ - no child cpuset
+ - and it must be a scheduling domain
+
+Right?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
