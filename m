@@ -2,113 +2,308 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 886F97D08C
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 18:55:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E532B7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 21:48:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1032970AbeEXSz3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 14:55:29 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:52290 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1032744AbeEXSz2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 May 2018 14:55:28 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 35AA64022407;
-        Thu, 24 May 2018 18:55:28 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5CD8E10FFE6C;
-        Thu, 24 May 2018 18:55:25 +0000 (UTC)
-Subject: Re: [PATCH v8 3/6] cpuset: Add cpuset.sched.load_balance flag to v2
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-4-git-send-email-longman@redhat.com>
- <20180524154341.GJ12198@hirez.programming.kicks-ass.net>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <9f547771-54e8-118e-80f7-48f99c7b0a12@redhat.com>
-Date:   Thu, 24 May 2018 14:55:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180524154341.GJ12198@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 24 May 2018 18:55:28 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Thu, 24 May 2018 18:55:28 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        id S969499AbeEXVsu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 17:48:50 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:39900 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S969433AbeEXVss (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 24 May 2018 17:48:48 -0400
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fLy6F-0005xc-No; Thu, 24 May 2018 15:48:45 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fLy6B-0003mP-Ua; Thu, 24 May 2018 15:48:39 -0600
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Christoffer Dall <cdall@linaro.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Thu, 24 May 2018 15:48:14 -0600
+Message-Id: <20180524214816.14485-2-logang@deltatee.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180524214816.14485-1-logang@deltatee.com>
+References: <20180524214816.14485-1-logang@deltatee.com>
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, cdall@linaro.org, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH 1/3] PCI: Make specifying PCI devices in kernel parameters reusable
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/24/2018 11:43 AM, Peter Zijlstra wrote:
-> On Thu, May 17, 2018 at 04:55:42PM -0400, Waiman Long wrote:
->> The sched.load_balance flag is needed to enable CPU isolation similar to
->> what can be done with the "isolcpus" kernel boot parameter. Its value
->> can only be changed in a scheduling domain with no child cpusets. On
->> a non-scheduling domain cpuset, the value of sched.load_balance is
->> inherited from its parent.
->>
->> This flag is set by the parent and is not delegatable.
->>
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->>  Documentation/cgroup-v2.txt | 24 ++++++++++++++++++++
->>  kernel/cgroup/cpuset.c      | 53 +++++++++++++++++++++++++++++++++++++++++----
->>  2 files changed, 73 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
->> index 54d9e22..071b634d 100644
->> --- a/Documentation/cgroup-v2.txt
->> +++ b/Documentation/cgroup-v2.txt
->> @@ -1536,6 +1536,30 @@ Cpuset Interface Files
->>  	CPUs of the parent cgroup. Once it is set, this flag cannot be
->>  	cleared if there are any child cgroups with cpuset enabled.
->>  
->> +	A parent cgroup cannot distribute all its CPUs to child
->> +	scheduling domain cgroups unless its load balancing flag is
->> +	turned off.
->> +
->> +  cpuset.sched.load_balance
->> +	A read-write single value file which exists on non-root
->> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
->> +	either "0" (off) or a non-zero value (on).  This flag is set
->> +	by the parent and is not delegatable.
->> +
->> +	When it is on, tasks within this cpuset will be load-balanced
->> +	by the kernel scheduler.  Tasks will be moved from CPUs with
->> +	high load to other CPUs within the same cpuset with less load
->> +	periodically.
->> +
->> +	When it is off, there will be no load balancing among CPUs on
->> +	this cgroup.  Tasks will stay in the CPUs they are running on
->> +	and will not be moved to other CPUs.
->> +
->> +	The initial value of this flag is "1".	This flag is then
->> +	inherited by child cgroups with cpuset enabled.  Its state
->> +	can only be changed on a scheduling domain cgroup with no
->> +	cpuset-enabled children.
-> I'm confused... why exactly do we have both domain and load_balance ?
+Separate out the code to match a PCI device with a string (typically
+originating from a kernel parameter) from the
+pci_specified_resource_alignment() function into its own helper
+function.
 
-The domain is for partitioning the CPUs only. It doesn't change the load
-balancing state. So the load_balance flag is still need to turn on and
-off load balancing.
+While we are at it, this change fixes the kernel style of the function
+(fixing a number of long lines and extra parentheses).
 
-Cheers,
-Longman
+Additionally, make the analogous change to the kernel parameter
+documentation: Separating the description of how to specify a PCI device
+into it's own section at the head of the pci= parameter.
+
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Stephen Bates <sbates@raithlin.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  26 +++-
+ drivers/pci/pci.c                               | 153 +++++++++++++++---------
+ 2 files changed, 120 insertions(+), 59 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 11fc28ecdb6d..894aa516ceab 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2982,7 +2982,24 @@
+ 			See header of drivers/block/paride/pcd.c.
+ 			See also Documentation/blockdev/paride.txt.
+ 
+-	pci=option[,option...]	[PCI] various PCI subsystem options:
++	pci=option[,option...]	[PCI] various PCI subsystem options.
++
++				Some options herein operate on a specific device
++				or a set of devices (<pci_dev>). These are
++				specified in one of two formats:
++
++				[<domain>:]<bus>:<slot>.<func>
++				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
++
++				Note: the first format specifies a PCI
++				bus/slot/function address which may change
++				if new hardware is inserted, if motherboard
++				firmware changes, or due to changes caused
++				by other kernel parameters. The second format
++				selects devices using IDs from the
++				configuration space which may match multiple
++				devices in the system.
++
+ 		earlydump	[X86] dump PCI config space before the kernel
+ 			        changes anything
+ 		off		[X86] don't probe for the PCI bus
+@@ -3111,11 +3128,10 @@
+ 				window. The default value is 64 megabytes.
+ 		resource_alignment=
+ 				Format:
+-				[<order of align>@][<domain>:]<bus>:<slot>.<func>[; ...]
+-				[<order of align>@]pci:<vendor>:<device>\
+-						[:<subvendor>:<subdevice>][; ...]
++				[<order of align>@]<pci_dev>[; ...]
+ 				Specifies alignment and device to reassign
+-				aligned memory resources.
++				aligned memory resources. How to
++				specify the device is described above.
+ 				If <order of align> is not specified,
+ 				PAGE_SIZE is used as alignment.
+ 				PCI-PCI bridge can be specified, if resource
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index dbfe7c4f3776..85fec5e2640b 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -183,6 +183,88 @@ void __iomem *pci_ioremap_wc_bar(struct pci_dev *pdev, int bar)
+ EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
+ #endif
+ 
++/**
++ * pci_dev_str_match - test if a string matches a device
++ * @dev:    the PCI device to test
++ * @p:      string to match the device against
++ * @endptr: pointer to the string after the match
++ *
++ * Test if a string (typically from a kernel parameter) matches a
++ * specified. The string may be of one of two forms formats:
++ *
++ *   [<domain>:]<bus>:<slot>.<func>
++ *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
++ *
++ * The first format specifies a PCI bus/slot/function address which
++ * may change if new hardware is inserted, if motherboard firmware changes,
++ * or due to changes caused in kernel parameters.
++ *
++ * The second format matches devices using IDs in the configuration
++ * space which may match multiple devices in the system. A value of 0
++ * for any field will match all devices.
++ *
++ * Returns 1 if the string matches the device, 0 if it does not and
++ * a negative error code if the string cannot be parsed.
++ */
++static int pci_dev_str_match(struct pci_dev *dev, const char *p,
++			     const char **endptr)
++{
++	int ret;
++	int seg, bus, slot, func, count;
++	unsigned short vendor, device, subsystem_vendor, subsystem_device;
++
++	if (strncmp(p, "pci:", 4) == 0) {
++		/* PCI vendor/device (subvendor/subdevice) ids are specified */
++		p += 4;
++		ret = sscanf(p, "%hx:%hx:%hx:%hx%n", &vendor, &device,
++			     &subsystem_vendor, &subsystem_device, &count);
++		if (ret != 4) {
++			ret = sscanf(p, "%hx:%hx%n", &vendor, &device, &count);
++			if (ret != 2)
++				return -EINVAL;
++
++			subsystem_vendor = 0;
++			subsystem_device = 0;
++		}
++
++		p += count;
++
++		if ((!vendor || vendor == dev->vendor) &&
++		    (!device || device == dev->device) &&
++		    (!subsystem_vendor ||
++			    subsystem_vendor == dev->subsystem_vendor) &&
++		    (!subsystem_device ||
++			    subsystem_device == dev->subsystem_device))
++			goto found;
++
++	} else {
++		/* PCI Bus,Slot,Function ids are specified */
++		ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
++			     &func, &count);
++		if (ret != 4) {
++			seg = 0;
++			ret = sscanf(p, "%x:%x.%x%n", &bus, &slot,
++				     &func, &count);
++			if (ret != 3)
++				return -EINVAL;
++		}
++
++		p += count;
++
++		if (seg == pci_domain_nr(dev->bus) &&
++		    bus == dev->bus->number &&
++		    slot == PCI_SLOT(dev->devfn) &&
++		    func == PCI_FUNC(dev->devfn))
++			goto found;
++	}
++
++	*endptr = p;
++	return 0;
++
++found:
++	*endptr = p;
++	return 1;
++}
+ 
+ static int __pci_find_next_cap_ttl(struct pci_bus *bus, unsigned int devfn,
+ 				   u8 pos, int cap, int *ttl)
+@@ -5462,10 +5544,10 @@ static DEFINE_SPINLOCK(resource_alignment_lock);
+ static resource_size_t pci_specified_resource_alignment(struct pci_dev *dev,
+ 							bool *resize)
+ {
+-	int seg, bus, slot, func, align_order, count;
+-	unsigned short vendor, device, subsystem_vendor, subsystem_device;
++	int align_order, count;
+ 	resource_size_t align = pcibios_default_alignment();
+-	char *p;
++	const char *p;
++	int ret;
+ 
+ 	spin_lock(&resource_alignment_lock);
+ 	p = resource_alignment_param;
+@@ -5485,58 +5567,21 @@ static resource_size_t pci_specified_resource_alignment(struct pci_dev *dev,
+ 		} else {
+ 			align_order = -1;
+ 		}
+-		if (strncmp(p, "pci:", 4) == 0) {
+-			/* PCI vendor/device (subvendor/subdevice) ids are specified */
+-			p += 4;
+-			if (sscanf(p, "%hx:%hx:%hx:%hx%n",
+-				&vendor, &device, &subsystem_vendor, &subsystem_device, &count) != 4) {
+-				if (sscanf(p, "%hx:%hx%n", &vendor, &device, &count) != 2) {
+-					printk(KERN_ERR "PCI: Can't parse resource_alignment parameter: pci:%s\n",
+-						p);
+-					break;
+-				}
+-				subsystem_vendor = subsystem_device = 0;
+-			}
+-			p += count;
+-			if ((!vendor || (vendor == dev->vendor)) &&
+-				(!device || (device == dev->device)) &&
+-				(!subsystem_vendor || (subsystem_vendor == dev->subsystem_vendor)) &&
+-				(!subsystem_device || (subsystem_device == dev->subsystem_device))) {
+-				*resize = true;
+-				if (align_order == -1)
+-					align = PAGE_SIZE;
+-				else
+-					align = 1 << align_order;
+-				/* Found */
+-				break;
+-			}
+-		}
+-		else {
+-			if (sscanf(p, "%x:%x:%x.%x%n",
+-				&seg, &bus, &slot, &func, &count) != 4) {
+-				seg = 0;
+-				if (sscanf(p, "%x:%x.%x%n",
+-						&bus, &slot, &func, &count) != 3) {
+-					/* Invalid format */
+-					printk(KERN_ERR "PCI: Can't parse resource_alignment parameter: %s\n",
+-						p);
+-					break;
+-				}
+-			}
+-			p += count;
+-			if (seg == pci_domain_nr(dev->bus) &&
+-				bus == dev->bus->number &&
+-				slot == PCI_SLOT(dev->devfn) &&
+-				func == PCI_FUNC(dev->devfn)) {
+-				*resize = true;
+-				if (align_order == -1)
+-					align = PAGE_SIZE;
+-				else
+-					align = 1 << align_order;
+-				/* Found */
+-				break;
+-			}
++
++		ret = pci_dev_str_match(dev, p, &p);
++		if (ret == 1) {
++			*resize = true;
++			if (align_order == -1)
++				align = PAGE_SIZE;
++			else
++				align = 1 << align_order;
++			break;
++		} else if (ret < 0) {
++			pr_info("PCI: Can't parse resource_alignment parameter: pci:%s\n",
++				p);
++			break;
+ 		}
++
+ 		if (*p != ';' && *p != ',') {
+ 			/* End of param or invalid format */
+ 			break;
+-- 
+2.11.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
