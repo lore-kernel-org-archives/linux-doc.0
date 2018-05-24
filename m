@@ -1,233 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66E757D048
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 02:29:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7826F7D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 04:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935260AbeEXC3V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 May 2018 22:29:21 -0400
-Received: from mail-qk0-f194.google.com ([209.85.220.194]:43068 "EHLO
-        mail-qk0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935126AbeEXC3U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 May 2018 22:29:20 -0400
-Received: by mail-qk0-f194.google.com with SMTP id h19-v6so78545qkj.10;
-        Wed, 23 May 2018 19:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version;
-        bh=9vRR56N8vgfK9QvoXhJfLvDcAEwDZc3t5k+4UCOVeo0=;
-        b=ctFOUG2XddXTOMcu5pDTwpNwHXk5H9uXClVdhTnE+pLHRCrbfxi6uavYaFbzcmlYiv
-         4nH/PXpvg9jWFYeMCTY72j0f+e8grX00lX4HWm+ZW2wwGnWi4RUi9bh4Xx64VHZQMIxE
-         bz//BhcqVMs5qtG6l8JnDkPUTT1R5beDD0ZQaa8xsDLMV301fokGk8wnAdKaU+O/NOSm
-         ItKvB+9nKzjbJGGWmvvCLtYSnLHWzzr+YIIw42rhkuz/ncQoUJumE5kGxVobbM+7VW6n
-         GFtFLqJVqTq8MYanqmhVMWP7N8mc8NEoDCkmMFZJPWZbarbRvGv5sP6pUhFbVxdQbBJQ
-         rW7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version;
-        bh=9vRR56N8vgfK9QvoXhJfLvDcAEwDZc3t5k+4UCOVeo0=;
-        b=nitgngg3SNEWyKuME8YkaW/fvlGs4J4dxK+g9EdK9If4A3MN/yFrfbTYwuBJ0tFF3u
-         rM9GENISAncCVjlTixvt+dFxffezDBCOuW96fDHWpoHpGRT1JvPrycJMS6pJ7bE/334g
-         Cnih8P+njzrH7l349TA/cnGsepeOHmqlB3/J3EJAypG5bpWczXRfO1ajBWL+b3H7f42Q
-         ArTrZQNHIkxq65W7JwIgEK/6TlRdv8EsPSXTLDOfEmjK7uEkP2iyQ8Y4yeLZMvkC2MpI
-         LBTpuzuZZHy5LVZ5BFNUIeHOLAh/AXDuFvbrnscrvEllGc1CaMrMCjC7SukykpjSXHbD
-         Rd7A==
-X-Gm-Message-State: ALKqPwfS9TxygpqJlKET7mNY0BWc2sSsB1dTeUKv3jRY7bkb70IF4OxL
-        /Q0CVXvjkSqsEdTugKX8oy4=
-X-Google-Smtp-Source: ADUXVKILqYYrcHdTbXVbXjV2lHQfjwP1vmyy5U8/IJ3qJW2FcX3BOzskyRwThEf0qEOFmMTRdaTIxw==
-X-Received: by 2002:a37:1aca:: with SMTP id l71-v6mr3453882qkh.355.1527128959916;
-        Wed, 23 May 2018 19:29:19 -0700 (PDT)
-Received: from [192.168.1.237] (pool-72-66-26-176.washdc.fios.verizon.net. [72.66.26.176])
-        by smtp.googlemail.com with ESMTPSA id o66-v6sm2188143qki.93.2018.05.23.19.29.19
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 May 2018 19:29:19 -0700 (PDT)
-To:     corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     linux-fsdevel@vger.kernel.org, Al Viro <viro@ZenIV.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jeff Layton <jlayton@redhat.com>
-From:   Sean Anderson <seanga2@gmail.com>
-Subject: [PATCH RESEND] Documentation: filesystems: update filesystem locking
- documentation
-Message-ID: <e4262947-a2c3-c932-caef-67d96fa59cb1@gmail.com>
-Date:   Wed, 23 May 2018 22:29:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1750831AbeEXE0d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 00:26:33 -0400
+Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:63232 "EHLO
+        ns.ascade.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750796AbeEXE0c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 00:26:32 -0400
+Received: from server0001.ascade.co.jp (server0001.ascade.co.jp [10.1.1.63])
+        by ns.ascade.co.jp (Postfix) with ESMTP id B3338993BD;
+        Thu, 24 May 2018 13:26:29 +0900 (JST)
+Received: from [IPv6:::1] (server0001.ascade.co.jp [10.1.1.63])
+        by server0001.ascade.co.jp (Postfix) with ESMTP id 77F3810050E;
+        Thu, 24 May 2018 13:26:28 +0900 (JST)
+Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
+ charge to memcg
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        David Rientjes <rientjes@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
+        Punit Agrawal <punit.agrawal@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, cgroups@vger.kernel.org
+References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
+ <20180522135148.GA20441@dhcp22.suse.cz>
+From:   TSUKADA Koutaro <tsukada@ascade.co.jp>
+Message-ID: <af1a3050-7365-428a-dfb1-2f3da37dc9ff@ascade.co.jp>
+Date:   Thu, 24 May 2018 13:26:12 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature";
- boundary="aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT"
+In-Reply-To: <20180522135148.GA20441@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT
-Content-Type: multipart/mixed; boundary="C0dUBgQp3Dhd45b44hB7XhVUbCxfDpTXf";
- protected-headers="v1"
-From: Sean Anderson <seanga2@gmail.com>
-To: corbet@lwn.net, linux-doc@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, Al Viro <viro@ZenIV.linux.org.uk>,
- Matthew Wilcox <willy@infradead.org>, Jeff Layton <jlayton@redhat.com>
-Message-ID: <e4262947-a2c3-c932-caef-67d96fa59cb1@gmail.com>
-Subject: [PATCH RESEND] Documentation: filesystems: update filesystem locking
- documentation
+On 2018/05/22 22:51, Michal Hocko wrote:
+> On Fri 18-05-18 13:27:27, TSUKADA Koutaro wrote:
+>> The purpose of this patch-set is to make it possible to control whether or
+>> not to charge surplus hugetlb pages obtained by overcommitting to memory
+>> cgroup. In the future, I am trying to accomplish limiting the memory usage
+>> of applications that use both normal pages and hugetlb pages by the memory
+>> cgroup(not use the hugetlb cgroup).
+> 
+> There was a deliberate decision to keep hugetlb and "normal" memory
+> cgroup controllers separate. Mostly because hugetlb memory is an
+> artificial memory subsystem on its own and it doesn't fit into the rest
+> of memcg accounted memory very well. I believe we want to keep that
+> status quo.
+> 
+>> Applications that use shared libraries like libhugetlbfs.so use both normal
+>> pages and hugetlb pages, but we do not know how much to use each. Please
+>> suppose you want to manage the memory usage of such applications by cgroup
+>> How do you set the memory cgroup and hugetlb cgroup limit when you want to
+>> limit memory usage to 10GB?
+> 
+> Well such a usecase requires an explicit configuration already. Either
+> by using special wrappers or modifying the code. So I would argue that
+> you have quite a good knowlege of the setup. If you need a greater
+> flexibility then just do not use hugetlb at all and rely on THP.
+> [...]
+> 
+>> In this patch-set, introduce the charge_surplus_huge_pages(boolean) to
+>> struct hstate. If it is true, it charges to the memory cgroup to which the
+>> task that obtained surplus hugepages belongs. If it is false, do nothing as
+>> before, and the default value is false. The charge_surplus_huge_pages can
+>> be controlled procfs or sysfs interfaces.
+> 
+> I do not really think this is a good idea. We really do not want to make
+> the current hugetlb code more complex than it is already. The current
+> hugetlb cgroup controller is simple and works at least somehow. I would
+> not add more on top unless there is a _really_ strong usecase behind.
+> Please make sure to describe such a usecase in details before we even
+> start considering the code.
 
---C0dUBgQp3Dhd45b44hB7XhVUbCxfDpTXf
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Thank you for your time.
 
-Documentation/filesystems/Locking no longer reflects current locking
-semantics. i_mutex is no longer used for locking, and has been superseded=
+I do not know if it is really a strong use case, but I will explain my
+motive in detail. English is not my native language, so please pardon
+my poor English.
 
-by i_rwsem. Additionally, ->iterate_shared() was not documented.
+I am one of the developers for software that managing the resource used
+from user job at HPC-Cluster with Linux. The resource is memory mainly.
+The HPC-Cluster may be shared by multiple people and used. Therefore, the
+memory used by each user must be strictly controlled, otherwise the
+user's job will runaway, not only will it hamper the other users, it will
+crash the entire system in OOM.
 
-Signed-off-by: Sean Anderson <seanga2@gmail.com>
-Reviewed-by: Jeff Layton <jlayton@redhat.com>
----
- Documentation/filesystems/Locking | 43 +++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+Some users of HPC are very nervous about performance. Jobs are executed
+while synchronizing with MPI communication using multiple compute nodes.
+Since CPU wait time will occur when synchronizing, they want to minimize
+the variation in execution time at each node to reduce waiting times as
+much as possible. We call this variation a noise.
 
-diff --git a/Documentation/filesystems/Locking b/Documentation/filesystem=
-s/Locking
-index 75d2d57e2c44..15853d522941 100644
---- a/Documentation/filesystems/Locking
-+++ b/Documentation/filesystems/Locking
-@@ -69,31 +69,31 @@ prototypes:
-=20
- locking rules:
- 	all may block
--		i_mutex(inode)
--lookup:		yes
--create:		yes
--link:		yes (both)
--mknod:		yes
--symlink:	yes
--mkdir:		yes
--unlink:		yes (both)
--rmdir:		yes (both)	(see below)
--rename:	yes (all)	(see below)
-+		i_rwsem(inode)
-+lookup:		shared
-+create:		exclusive
-+link:		exclusive (both)
-+mknod:		exclusive
-+symlink:	exclusive
-+mkdir:		exclusive
-+unlink:		exclusive (both)
-+rmdir:		exclusive (both)(see below)
-+rename:		exclusive (all)	(see below)
- readlink:	no
- get_link:	no
--setattr:	yes
-+setattr:	exclusive
- permission:	no (may not block if called in rcu-walk mode)
- get_acl:	no
- getattr:	no
- listxattr:	no
- fiemap:		no
- update_time:	no
--atomic_open:	yes
-+atomic_open:	exclusive
- tmpfile:	no
-=20
-=20
--	Additionally, ->rmdir(), ->unlink() and ->rename() have ->i_mutex on
--victim.
-+	Additionally, ->rmdir(), ->unlink() and ->rename() have ->i_rwsem
-+	exclusive on victim.
- 	cross-directory ->rename() has (per-superblock) ->s_vfs_rename_sem.
-=20
- See Documentation/filesystems/directory-locking for more detailed discus=
-sion
-@@ -111,10 +111,10 @@ prototypes:
-=20
- locking rules:
- 	all may block
--		i_mutex(inode)
-+		i_rwsem(inode)
- list:		no
- get:		no
--set:		yes
-+set:		exclusive
-=20
- --------------------------- super_operations ---------------------------=
+THP does not guarantee to use the Huge Page, but may use the normal page.
+This mechanism is one cause of variation(noise).
 
- prototypes:
-@@ -217,14 +217,14 @@ prototypes:
- locking rules:
- 	All except set_page_dirty and freepage may block
-=20
--			PageLocked(page)	i_mutex
-+			PageLocked(page)	i_rwsem
- writepage:		yes, unlocks (see below)
- readpage:		yes, unlocks
- writepages:
- set_page_dirty		no
- readpages:
--write_begin:		locks the page		yes
--write_end:		yes, unlocks		yes
-+write_begin:		locks the page		exclusive
-+write_end:		yes, unlocks		exclusive
- bmap:
- invalidatepage:		yes
- releasepage:		yes
-@@ -439,6 +439,7 @@ prototypes:
- 	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
- 	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
- 	int (*iterate) (struct file *, struct dir_context *);
-+	int (*iterate_shared) (struct file *, struct dir_context *);
- 	unsigned int (*poll) (struct file *, struct poll_table_struct *);
- 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
- 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
-@@ -480,6 +481,10 @@ mutex or just to use i_size_read() instead.
- Note: this does not protect the file->f_pos against concurrent modificat=
-ions
- since this is something the userspace has to take care about.
-=20
-+->iterate() is called with i_rwsem exclusive.
-+
-+->iterate_shared() is called with i_rwsem at least shared.
-+
- ->fasync() is responsible for maintaining the FASYNC bit in filp->f_flag=
-s.
- Most instances call fasync_helper(), which does that maintenance, so it'=
-s
- not normally something one needs to worry about.  Return values > 0 will=
- be
---=20
-2.17.0
+The users who know this mechanism will be hesitant to use THP. However,
+the users also know the benefits of the Huge Page's TLB hit rate
+performance, and the Huge Page seems to be attractive. It seems natural
+that these users are interested in HugeTLBfs, I do not know at all
+whether it is the right approach or not.
 
+At the very least, our HPC system is pursuing high versatility and we
+have to consider whether we can provide it if users want to use HugeTLBfs.
 
---C0dUBgQp3Dhd45b44hB7XhVUbCxfDpTXf--
+In order to use HugeTLBfs we need to create a persistent pool, but in
+our use case sharing nodes, it would be impossible to create, delete or
+resize the pool.
 
---aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+One of the answers I have reached is to use HugeTLBfs by overcommitting
+without creating a pool(this is the surplus hugepage).
 
------BEGIN PGP SIGNATURE-----
+Surplus hugepages is hugetlb page, but I think at least that consuming
+buddy pool is a decisive difference from hugetlb page of persistent pool.
+If nr_overcommit_hugepages is assumed to be infinite, allocating pages for
+surplus hugepages from buddy pool is all unlimited even if being limited
+by memcg. In extreme cases, overcommitment will allow users to exhaust
+the entire memory of the system. Of course, this can be prevented by the
+hugetlb cgroup, but even if we set the limit for memcg and hugetlb cgroup
+respectively, as I asked in the first mail(set limit to 10GB), the
+control will not work.
 
-iQGTBAEBCgB9FiEEkGEdW86NSNID6GAoPuiP7LShEG4FAlsGI35fFIAAAAAALgAo
-aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldDkw
-NjExRDVCQ0U4RDQ4RDIwM0U4NjAyODNFRTg4RkVDQjRBMTEwNkUACgkQPuiP7LSh
-EG7bMwf6Ax50H6Ouf9HWESG6kx7M3Jbw+2LV+9kz6GocOXWYsg3O9tQyk6HwBcTJ
-Cxq7QW+gmQR5nU9M7PZ4SReLtWpQAEJzcYh5phnCHxEB1rvw7PXlIgkrJGutbx4W
-wHaObqx//u98X3AgTVnipxcp7MCWakxuxT1bIkI6Ti6FgKONE6EpqRxpP1fpqHcx
-X1IIavDhbSnEc9sG5qKGqUzW1eIgGOnW/W2cSA8+PiMHcDNGBPgaN4hDVP+rG9fA
-tbudNTqyRffxdWvskosg7lR8NbuT9YOdbcSAyb7G43BGToUN2m1o2i2FKmq85Q4N
-yj73ugpKXTtYkIdMp6VwIJa1uEtFXA==
-=6mdz
------END PGP SIGNATURE-----
+I thought I could charge surplus hugepages to memcg, but maybe I did not
+have enough knowledge about memcg. I would like to reply to another mail
+for details.
 
---aS3VDlDxg6F3C6UjJ1TCTUkST2M7956IT--
+>> Since THP is very effective in environments with kernel page size of 4KB,
+>> such as x86, there is no reason to positively use HugeTLBfs, so I think
+>> that there is no situation to enable charge_surplus_huge_pages. However, in
+>> some distributions such as arm64, the page size of the kernel is 64KB, and
+>> the size of THP is too huge as 512MB, making it difficult to use. HugeTLBfs
+>> may support multiple huge page sizes, and in such a special environment
+>> there is a desire to use HugeTLBfs.
+> 
+> Well, then I would argue that you shouldn't use 64kB pages for your
+> setup or allow THP for smaller sizes. Really hugetlb pages are by no
+> means a substitute here.
+> 
+
+Actually, I am opposed to the 64KB page, but the proposal to change the
+page size is expected to be dismissed as a problem.
+
+-- 
+Thanks,
+Tsukada
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
