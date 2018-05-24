@@ -2,26 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 43F5C7DF8F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 09:04:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 23D837DF90
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 10:29:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965661AbeEXJEh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 05:04:37 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:38686 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965526AbeEXJEf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 24 May 2018 05:04:35 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 825E31435;
-        Thu, 24 May 2018 02:04:35 -0700 (PDT)
-Received: from e110439-lin (e110439-lin.cambridge.arm.com [10.1.210.68])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC0053F589;
-        Thu, 24 May 2018 02:04:32 -0700 (PDT)
-Date:   Thu, 24 May 2018 10:04:30 +0100
-From:   Patrick Bellasi <patrick.bellasi@arm.com>
+        id S1032089AbeEXK2s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 06:28:48 -0400
+Received: from mail-wr0-f195.google.com ([209.85.128.195]:34787 "EHLO
+        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1030942AbeEXK2l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 06:28:41 -0400
+Received: by mail-wr0-f195.google.com with SMTP id j1-v6so2140571wrm.1
+        for <linux-doc@vger.kernel.org>; Thu, 24 May 2018 03:28:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rbHeWcjZ0RP4euHIjW6n/saLL/sz1+W1MAdGO3CG4Ns=;
+        b=hEB04R2z79PgKDrRWKPs0D75ArWhi8OmBt85TgcwqliAbQigP/3kqeRNNzOek9Q7q/
+         EV/CYhBpmpNJWSGW22jspxrNN6oGm/Qsj1v7+QIfXTqS2X2l/RFIQSZFZsc7kumyxJWT
+         n3O1VfYrVjtj0WCGCG13p6bt7bUnsfIWM+INEP/d9IRRETcjo3kjb0hGZDoySYLZR++d
+         XQRCGXAAeQSbljAwEeuzYpOuIRt6IZXU3MViwGq/qsOG3IRsnSw/VxGDIFdm/xTjgAJ0
+         o4Wj++uAlMxU+WCQ0qLmF1MHoIBQe5mknN3TWa7GrpnSoM9wyg2kgOvoZVSWrLJrlHrv
+         WPIQ==
+X-Gm-Message-State: ALKqPwcjNY7kdnCRI39/zMya6UrWz29WhGV9cDj6p2S73LS9nTH2gSn4
+        XG3ahJ41u80pr1f8aIlaELFOFQ==
+X-Google-Smtp-Source: AB8JxZrkkrFAl9zq9QZ6rtqHUuDFKQaJ+xSnP13cMzNEs6n/F/Q7Q85toXOh2GUT2y1TKf3XOuJ0Pw==
+X-Received: by 2002:adf:b89b:: with SMTP id i27-v6mr4146693wrf.163.1527157720588;
+        Thu, 24 May 2018 03:28:40 -0700 (PDT)
+Received: from localhost.localdomain ([151.15.207.242])
+        by smtp.gmail.com with ESMTPSA id 141-v6sm9281735wmf.35.2018.05.24.03.28.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 24 May 2018 03:28:39 -0700 (PDT)
+Date:   Thu, 24 May 2018 12:28:37 +0200
+From:   Juri Lelli <juri.lelli@redhat.com>
 To:     Waiman Long <longman@redhat.com>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -30,181 +46,41 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
         Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
+        Roman Gushchin <guro@fb.com>
 Subject: Re: [PATCH v8 4/6] cpuset: Make generate_sched_domains() recognize
  isolated_cpus
-Message-ID: <20180524090430.GZ30654@e110439-lin>
+Message-ID: <20180524102837.GA3948@localhost.localdomain>
 References: <1526590545-3350-1-git-send-email-longman@redhat.com>
  <1526590545-3350-5-git-send-email-longman@redhat.com>
- <20180523173453.GY30654@e110439-lin>
- <bf4cb72b-9ff3-eb8b-ca2c-f6c4fee5c123@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bf4cb72b-9ff3-eb8b-ca2c-f6c4fee5c123@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <1526590545-3350-5-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23-May 16:18, Waiman Long wrote:
-> On 05/23/2018 01:34 PM, Patrick Bellasi wrote:
-> > Hi Waiman,
-> >
-> > On 17-May 16:55, Waiman Long wrote:
-> >
-> > [...]
-> >
-> >> @@ -672,13 +672,14 @@ static int generate_sched_domains(cpumask_var_t **domains,
-> >>  	int ndoms = 0;		/* number of sched domains in result */
-> >>  	int nslot;		/* next empty doms[] struct cpumask slot */
-> >>  	struct cgroup_subsys_state *pos_css;
-> >> +	bool root_load_balance = is_sched_load_balance(&top_cpuset);
-> >>  
-> >>  	doms = NULL;
-> >>  	dattr = NULL;
-> >>  	csa = NULL;
-> >>  
-> >>  	/* Special case for the 99% of systems with one, full, sched domain */
-> >> -	if (is_sched_load_balance(&top_cpuset)) {
-> >> +	if (root_load_balance && !top_cpuset.isolation_count) {
-> > Perhaps I'm missing something but, it seems to me that, when the two
-> > conditions above are true, then we are going to destroy and rebuild
-> > the exact same scheduling domains.
-> >
-> > IOW, on 99% of systems where:
-> >
-> >    is_sched_load_balance(&top_cpuset)
-> >    top_cpuset.isolation_count = 0
-> >
-> > since boot time and forever, then every time we update a value for
-> > cpuset.cpus we keep rebuilding the same SDs.
-> >
-> > It's not strictly related to this patch, the same already happens in
-> > mainline based just on the first condition, but since you are extending
-> > that optimization, perhaps you can tell me where I'm possibly wrong or
-> > which cases I'm not considering.
-> >
-> > I'm interested mainly because on Android systems those conditions
-> > are always true and we see SDs rebuilds every time we write
-> > something in cpuset.cpus, which ultimately accounts for almost all the
-> > 6-7[ms] time required for the write to return, depending on the CPU
-> > frequency.
-> >
-> > Cheers Patrick
-> >
-> Yes, that is true. I will look into how to further optimize this. Thanks
-> for the suggestion.
+On 17/05/18 16:55, Waiman Long wrote:
 
-FWIW, following is my take on top of your series.
+[...]
 
-With the following patch applied I see a reduction of the average
-execution time for a rebuild_sched_domains_locked() from 1.4[ms] to
-40[us] while running 60 /tg1/cpuset.cpus switches in a loop on an
-JunoR2 Arm board using the performance cpufreq governor.
+> @@ -849,7 +860,12 @@ static void rebuild_sched_domains_locked(void)
+>  	 * passing doms with offlined cpu to partition_sched_domains().
+>  	 * Anyways, hotplug work item will rebuild sched domains.
+>  	 */
+> -	if (!cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
+> +	if (!top_cpuset.isolation_count &&
+> +	    !cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
+> +		goto out;
+> +
+> +	if (top_cpuset.isolation_count &&
+> +	   !cpumask_subset(top_cpuset.effective_cpus, cpu_active_mask))
+>  		goto out;
 
----8<---
-From 84bb8137ce79f74849d97e30871cf67d06d8d682 Mon Sep 17 00:00:00 2001
-From: Patrick Bellasi <patrick.bellasi@arm.com>
-Date: Wed, 23 May 2018 16:33:06 +0100
-Subject: [PATCH 1/1] cgroup/cpuset: disable sched domain rebuild when not
- required
-
-The generate_sched_domains() already addresses the "special case for 99%
-of systems" which require a single full sched domain at the root,
-spanning all the CPUs. However, the current support is based on an
-expensive sequence of operations which destroy and recreate the exact
-same scheduling domain configuration.
-
-If we notice that:
-
- 1) CPUs in "cpuset.isolcpus" are excluded from load balancing by the
-    isolcpus= kernel boot option, and will never be load balanced
-    regardless of the value of "cpuset.sched_load_balance" in any
-    cpuset.
-
- 2) the root cpuset has load_balance enabled by default at boot and
-    it's the only parameter which userspace can change at run-time.
-
-we know that, by default, every system comes up with a complete and
-properly configured set of scheduling domains covering all the CPUs.
-
-Thus, on every system, unless the user explicitly disables load balance
-for the top_cpuset, the scheduling domains already configured at boot
-time by the scheduler/topology code and updated in consequence of
-hotplug events, are already properly configured for cpuset too.
-
-This configuration is the default one for 99% of the systems,
-and it's also the one used by most of the Android devices which never
-disable load balance from the top_cpuset.
-
-Thus, while load balance is enabled for the top_cpuset,
-destroying/rebuilding the scheduling domains at every cpuset.cpus
-reconfiguration is a useless operation which will always produce the
-same result.
-
-Let's anticipate the "special" optimization within:
-
-   rebuild_sched_domains_locked()
-
-thus completely skipping the expensive:
-
-   generate_sched_domains()
-   partition_sched_domains()
-
-for all the cases we know that the scheduling domains already defined
-will not be affected by whatsoever value of cpuset.cpus.
-
-The proposed solution is the minimal variation to optimize the case for
-systems with load balance enabled at the root level and without isolated
-CPUs. As soon as one of these conditions is not more valid, we fall back
-to the original behavior.
-
-Signed-off-by: Patrick Bellasi <patrick.bellasi@arm.com>
-Cc: Li Zefan <lizefan@huawei.com>
-Cc: Tejun Heo <tj@kernel.org>,
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Frederic Weisbecker <frederic@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Mike Galbraith <efault@gmx.de>
-Cc: Paul Turner <pjt@google.com>
-Cc: Waiman Long <longman@redhat.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: kernel-team@fb.com
-Cc: cgroups@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- kernel/cgroup/cpuset.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 8f586e8bdc98..cff14be94678 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -874,6 +874,11 @@ static void rebuild_sched_domains_locked(void)
- 	   !cpumask_subset(top_cpuset.effective_cpus, cpu_active_mask))
- 		goto out;
- 
-+	/* Special case for the 99% of systems with one, full, sched domain */
-+	if (!top_cpuset.isolation_count &&
-+	    is_sched_load_balance(&top_cpuset))
-+		goto out;
-+
- 	/* Generate domain masks and attrs */
- 	ndoms = generate_sched_domains(&doms, &attr);
- 
--- 
-2.15.1
----8<---
-
-
--- 
-#include <best/regards.h>
-
-Patrick Bellasi
+Do we cover the case in which hotplug removed one of the isolated cpus
+from cpu_active_mask?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
