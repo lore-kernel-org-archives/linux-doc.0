@@ -1,103 +1,257 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F36C7D062
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 07:16:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E11E97DF87
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 08:29:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935134AbeEYHPu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 May 2018 03:15:50 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:36994 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934393AbeEYHPt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 May 2018 03:15:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=ccSGORzi1kauMm9VoF/P9IEFnX4OPSySDEXnF3jN2C8=; b=wKVe4SZEc9Gn53UoLaWFvXM8h
-        E9xZ1B4TcXPwXv0ZruOHpmFClM4UD1u4HcDRaX/NlrfByFFPoQczdrBpMuVCUu3hWkBKbljfhAmR0
-        EQnGuj5AiirNCjgF1S+DxoUB8rjZKHN8wkXs4VcE1fWz3WiJnb4oQ9c03qlbOkUHDJE1HuRHcND94
-        fpDQS4ErE1peJC8+XyVLysOobjgD9Xpug2sLZkdh2V5G8yk02SizUa4aTtA2ej2wbPjvaM3aBcD9/
-        kb634XPIHGd1zbOfxK+ngkeaTHDcyKzG11jESQpkmcv1AFzDqPtgYZxxdhsoemurT/0Pk9hMjkSXJ
-        cwqI+hAnQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fM6wh-000505-LD; Fri, 25 May 2018 07:15:28 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 6483F2029F1CB; Fri, 25 May 2018 09:15:24 +0200 (CEST)
-Date:   Fri, 25 May 2018 09:15:24 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
-Subject: Re: [PATCH v8 2/6] cpuset: Add new v2 cpuset.sched.domain flag
-Message-ID: <20180525071524.GQ12198@hirez.programming.kicks-ass.net>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-3-git-send-email-longman@redhat.com>
- <20180524154156.GI12198@hirez.programming.kicks-ass.net>
- <675f0f38-9154-4e73-1679-179eefdb7c9f@redhat.com>
+        id S935988AbeEYI2h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 May 2018 04:28:37 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41542 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S935987AbeEYI2g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 May 2018 04:28:36 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4P8JFx8029412
+        for <linux-doc@vger.kernel.org>; Fri, 25 May 2018 04:28:36 -0400
+Received: from e06smtp15.uk.ibm.com (e06smtp15.uk.ibm.com [195.75.94.111])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2j6e5s2fn5-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 25 May 2018 04:28:35 -0400
+Received: from localhost
+        by e06smtp15.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Fri, 25 May 2018 09:28:32 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp15.uk.ibm.com (192.168.101.145) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 25 May 2018 09:28:27 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4P8SQ0j65667304
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 25 May 2018 08:28:26 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C7FE44C040;
+        Fri, 25 May 2018 09:20:03 +0100 (BST)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B326E4C044;
+        Fri, 25 May 2018 09:19:56 +0100 (BST)
+Received: from [9.109.219.149] (unknown [9.109.219.149])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 25 May 2018 09:19:56 +0100 (BST)
+Subject: Re: [PATCH v3 6/9] trace_uprobe: Support SDT markers having reference
+ count (semaphore)
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     mhiramat@kernel.org, peterz@infradead.org,
+        srikar@linux.vnet.ibm.com, rostedt@goodmis.org, acme@kernel.org,
+        ananth@linux.vnet.ibm.com, akpm@linux-foundation.org,
+        alexander.shishkin@linux.intel.com, alexis.berlemont@gmail.com,
+        corbet@lwn.net, dan.j.williams@intel.com, jolsa@redhat.com,
+        kan.liang@intel.com, kjlx@templeofstupid.com,
+        kstewart@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        milian.wolff@kdab.com, mingo@redhat.com, namhyung@kernel.org,
+        naveen.n.rao@linux.vnet.ibm.com, pc@us.ibm.com, tglx@linutronix.de,
+        yao.jin@linux.intel.com, fengguang.wu@intel.com,
+        jglisse@redhat.com, Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180417043244.7501-1-ravi.bangoria@linux.vnet.ibm.com>
+ <20180417043244.7501-7-ravi.bangoria@linux.vnet.ibm.com>
+ <20180524162608.GA27082@redhat.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Fri, 25 May 2018 13:58:18 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <675f0f38-9154-4e73-1679-179eefdb7c9f@redhat.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+In-Reply-To: <20180524162608.GA27082@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18052508-0020-0000-0000-000004211FEA
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18052508-0021-0000-0000-000042B66706
+Message-Id: <db01028c-3bbf-00da-47a4-6f6c1f5229b3@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-25_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1805250102
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 24, 2018 at 02:53:31PM -0400, Waiman Long wrote:
-> On 05/24/2018 11:41 AM, Peter Zijlstra wrote:
-> > On Thu, May 17, 2018 at 04:55:41PM -0400, Waiman Long wrote:
-> >> A new cpuset.sched.domain boolean flag is added to cpuset v2. This new
-> >> flag indicates that the CPUs in the current cpuset should be treated
-> >> as a separate scheduling domain.
-> > The traditional name for this is a partition.
+Thanks Oleg for the review,
+
+On 05/24/2018 09:56 PM, Oleg Nesterov wrote:
+> On 04/17, Ravi Bangoria wrote:
+>>
+>> @@ -941,6 +1091,9 @@ typedef bool (*filter_func_t)(struct uprobe_consumer *self,
+>>  	if (ret)
+>>  		goto err_buffer;
+>>  
+>> +	if (tu->ref_ctr_offset)
+>> +		sdt_increment_ref_ctr(tu);
+>> +
 > 
-> Do you want to call it cpuset.sched.partition? That name sounds strange
-> to me.
-
-Let me explore the whole domain x load-balance space first. I'm thinking
-the two parameters are mostly redundant, but I might be overlooking
-something (trivial or otherwise).
-
-> >> +  cpuset.sched.domain
-> >> +	A read-write single value file which exists on non-root
-> >> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
-> >> +	either "0" (off) or a non-zero value (on).
-> > I would be conservative and only allow 0/1.
+> iiuc, this is probe_event_enable()...
 > 
-> I stated that because echoing other integer value like 2 into the flag
-> file won't return any error. I will modify it to say just 0 and 1.
+> Looks racy, but afaics the race with uprobe_mmap() will be closed by the next
+> change. However, it seems that probe_event_disable() can race with trace_uprobe_mmap()
+> too and the next 7/9 patch won't help,
+> 
+>> +	if (tu->ref_ctr_offset)
+>> +		sdt_decrement_ref_ctr(tu);
+>> +
+>>  	uprobe_unregister(tu->inode, tu->offset, &tu->consumer);
+>>  	tu->tp.flags &= file ? ~TP_FLAG_TRACE : ~TP_FLAG_PROFILE;
+> 
+> so what if trace_uprobe_mmap() comes right after uprobe_unregister() ?
+> Note that trace_probe_is_enabled() is T until we update tp.flags.
 
-Ah, I would make the file error on >1.
+Sure, I'll look at your comments.
 
-Because then you can always extend the meaning afterwards because you
-know it won't be written to with the new value.
+Apart from these, I've also found a deadlock between uprobe_lock and
+mm->mmap_sem. trace_uprobe_mmap() takes these locks in
 
-> >> +	3) There is no child cgroups with cpuset enabled.
-> >> +
-> >> +	Setting this flag will take the CPUs away from the effective
-> >> +	CPUs of the parent cgroup. Once it is set, this flag cannot be
-> >> +	cleared if there are any child cgroups with cpuset enabled.
-> > This I'm not clear on. Why?
-> >
-> That is for pragmatic reason as it is easier to code this way. We could
-> remove this restriction but that will make the code more complex.
+   mm->mmap_sem
+      uprobe_lock
 
-Best to mention that I think.
+order but some other code path is taking these locks in reverse order. I've
+mentioned sample lockdep warning at the end. The issue is, mm->mmap_sem is
+not in control of trace_uprobe_mmap() and we have to take uprobe_lock to
+loop over all trace_uprobes.
+
+Any idea how this can be resolved?
+
+
+Sample lockdep warning:
+
+[  499.258006] ======================================================
+[  499.258205] WARNING: possible circular locking dependency detected
+[  499.258409] 4.17.0-rc3+ #76 Not tainted
+[  499.258528] ------------------------------------------------------
+[  499.258731] perf/6744 is trying to acquire lock:
+[  499.258895] 00000000e4895f49 (uprobe_lock){+.+.}, at: trace_uprobe_mmap+0x78/0x130
+[  499.259147]
+[  499.259147] but task is already holding lock:
+[  499.259349] 000000009ec93a76 (&mm->mmap_sem){++++}, at: vm_mmap_pgoff+0xe0/0x160
+[  499.259597]
+[  499.259597] which lock already depends on the new lock.
+[  499.259597]
+[  499.259848]
+[  499.259848] the existing dependency chain (in reverse order) is:
+[  499.260086]
+[  499.260086] -> #4 (&mm->mmap_sem){++++}:
+[  499.260277]        __lock_acquire+0x53c/0x910
+[  499.260442]        lock_acquire+0xf4/0x2f0
+[  499.260595]        down_write_killable+0x6c/0x150
+[  499.260764]        copy_process.isra.34.part.35+0x1594/0x1be0
+[  499.260967]        _do_fork+0xf8/0x910
+[  499.261090]        ppc_clone+0x8/0xc
+[  499.261209]
+[  499.261209] -> #3 (&dup_mmap_sem){++++}:
+[  499.261378]        __lock_acquire+0x53c/0x910
+[  499.261540]        lock_acquire+0xf4/0x2f0
+[  499.261669]        down_write+0x6c/0x110
+[  499.261793]        percpu_down_write+0x48/0x140
+[  499.261954]        register_for_each_vma+0x6c/0x2a0
+[  499.262116]        uprobe_register+0x230/0x320
+[  499.262277]        probe_event_enable+0x1cc/0x540
+[  499.262435]        perf_trace_event_init+0x1e0/0x350
+[  499.262587]        perf_trace_init+0xb0/0x110
+[  499.262750]        perf_tp_event_init+0x38/0x90
+[  499.262910]        perf_try_init_event+0x10c/0x150
+[  499.263075]        perf_event_alloc+0xbb0/0xf10
+[  499.263235]        sys_perf_event_open+0x2a8/0xdd0
+[  499.263396]        system_call+0x58/0x6c
+[  499.263516]
+[  499.263516] -> #2 (&uprobe->register_rwsem){++++}:
+[  499.263723]        __lock_acquire+0x53c/0x910
+[  499.263884]        lock_acquire+0xf4/0x2f0
+[  499.264002]        down_write+0x6c/0x110
+[  499.264118]        uprobe_register+0x1ec/0x320
+[  499.264283]        probe_event_enable+0x1cc/0x540
+[  499.264442]        perf_trace_event_init+0x1e0/0x350
+[  499.264603]        perf_trace_init+0xb0/0x110
+[  499.264766]        perf_tp_event_init+0x38/0x90
+[  499.264930]        perf_try_init_event+0x10c/0x150
+[  499.265092]        perf_event_alloc+0xbb0/0xf10
+[  499.265261]        sys_perf_event_open+0x2a8/0xdd0
+[  499.265424]        system_call+0x58/0x6c
+[  499.265542]
+[  499.265542] -> #1 (event_mutex){+.+.}:
+[  499.265738]        __lock_acquire+0x53c/0x910
+[  499.265896]        lock_acquire+0xf4/0x2f0
+[  499.266019]        __mutex_lock+0xa0/0xab0
+[  499.266142]        trace_add_event_call+0x44/0x100
+[  499.266310]        create_trace_uprobe+0x4a0/0x8b0
+[  499.266474]        trace_run_command+0xa4/0xc0
+[  499.266631]        trace_parse_run_command+0xe4/0x200
+[  499.266799]        probes_write+0x20/0x40
+[  499.266922]        __vfs_write+0x6c/0x240
+[  499.267041]        vfs_write+0xd0/0x240
+[  499.267166]        ksys_write+0x6c/0x110
+[  499.267295]        system_call+0x58/0x6c
+[  499.267413]
+[  499.267413] -> #0 (uprobe_lock){+.+.}:
+[  499.267591]        validate_chain.isra.34+0xbd0/0x1000
+[  499.267747]        __lock_acquire+0x53c/0x910
+[  499.267917]        lock_acquire+0xf4/0x2f0
+[  499.268048]        __mutex_lock+0xa0/0xab0
+[  499.268170]        trace_uprobe_mmap+0x78/0x130
+[  499.268335]        uprobe_mmap+0x80/0x3b0
+[  499.268464]        mmap_region+0x290/0x660
+[  499.268590]        do_mmap+0x40c/0x500
+[  499.268718]        vm_mmap_pgoff+0x114/0x160
+[  499.268870]        ksys_mmap_pgoff+0xe8/0x2e0
+[  499.269034]        sys_mmap+0x84/0xf0
+[  499.269161]        system_call+0x58/0x6c
+[  499.269279]
+[  499.269279] other info that might help us debug this:
+[  499.269279]
+[  499.269524] Chain exists of:
+[  499.269524]   uprobe_lock --> &dup_mmap_sem --> &mm->mmap_sem
+[  499.269524]
+[  499.269856]  Possible unsafe locking scenario:
+[  499.269856]
+[  499.270058]        CPU0                    CPU1
+[  499.270223]        ----                    ----
+[  499.270384]   lock(&mm->mmap_sem);
+[  499.270514]                                lock(&dup_mmap_sem);
+[  499.270711]                                lock(&mm->mmap_sem);
+[  499.270923]   lock(uprobe_lock);
+[  499.271046]
+[  499.271046]  *** DEADLOCK ***
+[  499.271046]
+[  499.271256] 1 lock held by perf/6744:
+[  499.271377]  #0: 000000009ec93a76 (&mm->mmap_sem){++++}, at: vm_mmap_pgoff+0xe0/0x160
+[  499.271628]
+[  499.271628] stack backtrace:
+[  499.271797] CPU: 25 PID: 6744 Comm: perf Not tainted 4.17.0-rc3+ #76
+[  499.272003] Call Trace:
+[  499.272094] [c0000000e32d74a0] [c000000000b00174] dump_stack+0xe8/0x164 (unreliable)
+[  499.272349] [c0000000e32d74f0] [c0000000001a905c] print_circular_bug.isra.30+0x354/0x388
+[  499.272590] [c0000000e32d7590] [c0000000001a3050] check_prev_add.constprop.38+0x8f0/0x910
+[  499.272828] [c0000000e32d7690] [c0000000001a3c40] validate_chain.isra.34+0xbd0/0x1000
+[  499.273070] [c0000000e32d7780] [c0000000001a57cc] __lock_acquire+0x53c/0x910
+[  499.273311] [c0000000e32d7860] [c0000000001a65b4] lock_acquire+0xf4/0x2f0
+[  499.273510] [c0000000e32d7930] [c000000000b1d1f0] __mutex_lock+0xa0/0xab0
+[  499.273717] [c0000000e32d7a40] [c0000000002b01b8] trace_uprobe_mmap+0x78/0x130
+[  499.273952] [c0000000e32d7a90] [c0000000002d7070] uprobe_mmap+0x80/0x3b0
+[  499.274153] [c0000000e32d7b20] [c0000000003550a0] mmap_region+0x290/0x660
+[  499.274353] [c0000000e32d7c00] [c00000000035587c] do_mmap+0x40c/0x500
+[  499.274560] [c0000000e32d7c80] [c00000000031ebc4] vm_mmap_pgoff+0x114/0x160
+[  499.274763] [c0000000e32d7d60] [c000000000352818] ksys_mmap_pgoff+0xe8/0x2e0
+[  499.275013] [c0000000e32d7de0] [c000000000016864] sys_mmap+0x84/0xf0
+[  499.275207] [c0000000e32d7e30] [c00000000000b404] system_call+0x58/0x6c
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
