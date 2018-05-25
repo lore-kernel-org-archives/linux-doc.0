@@ -2,188 +2,317 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 591BB7DF8C
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 12:52:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE3567DF86
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 13:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935608AbeEYMwX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 May 2018 08:52:23 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:35965 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935558AbeEYMwV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 May 2018 08:52:21 -0400
-Received: by mail-wr0-f194.google.com with SMTP id k5-v6so9061130wrn.3
-        for <linux-doc@vger.kernel.org>; Fri, 25 May 2018 05:52:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=x2OaAnR9vFi78ajLWSn0SvP1a901iNOVGov4vZp7PqM=;
-        b=YtesxsVqegNWHgHbydH6/ajc9lkYCQ+gxUe4kWQSH8aoi5Ja2+D57uzJ37I85qrwYP
-         /AJT6umPo4qrnyqUyOUsvuEDg+28e4w3Tn0Jk3siiai3ZijBlR04vNPryCIz6KzeQVJa
-         gxRWWeBBukYJz743eZsy63WK/XjQUveERF3pCbrkyGpZDNhMtpjtrccHvjIHbBcTta21
-         BFgHW7kaW8QdX+IgeEAppDWqXv08Y+eCLAXtUzGDeb8TiJ5aXbO/ydi/rx2UkX0JgYdZ
-         CHGCp/D9t6VCM1D1eHmxvQRF5BM16VF94bKK9XKTJUwVHvzPLMLtKukK2mYaDOwLe90+
-         11AQ==
-X-Gm-Message-State: ALKqPwc5aDX5bcESE4o5DKP4PrcZodV652ZvoPCbx4iPZAJMorJYGBf/
-        LeUeBJHGV+4bUzqIHXj60ZohAA==
-X-Google-Smtp-Source: AB8JxZqpVSKEIcA82Ckrqo9mjp7cn2ugShwiPhi03imy9z2K6f09k4hvV3ruh6Ksea4FTnlNbzqsCQ==
-X-Received: by 2002:adf:80d0:: with SMTP id 74-v6mr2289792wrl.273.1527252739988;
-        Fri, 25 May 2018 05:52:19 -0700 (PDT)
-Received: from localhost.localdomain ([151.15.207.242])
-        by smtp.gmail.com with ESMTPSA id d83-v6sm10188627wmh.16.2018.05.25.05.52.18
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 25 May 2018 05:52:19 -0700 (PDT)
-Date:   Fri, 25 May 2018 14:52:17 +0200
-From:   Juri Lelli <juri.lelli@redhat.com>
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        id S936000AbeEYN4s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 May 2018 09:56:48 -0400
+Received: from foss.arm.com ([217.140.101.70]:34048 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S934496AbeEYN4r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 May 2018 09:56:47 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F28D80D;
+        Fri, 25 May 2018 06:56:47 -0700 (PDT)
+Received: from [10.0.2.15] (unknown [10.37.12.89])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A6BB3F557;
+        Fri, 25 May 2018 06:56:44 -0700 (PDT)
+Subject: Re: [RFT v2 1/4] perf cs-etm: Generate sample for missed packets
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>
-Subject: Re: [PATCH v8 4/6] cpuset: Make generate_sched_domains() recognize
- isolated_cpus
-Message-ID: <20180525125217.GC678@localhost.localdomain>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-5-git-send-email-longman@redhat.com>
- <20180523173453.GY30654@e110439-lin>
- <bf4cb72b-9ff3-eb8b-ca2c-f6c4fee5c123@redhat.com>
- <20180524090430.GZ30654@e110439-lin>
- <20180524103938.GB3948@localhost.localdomain>
- <20180525103147.GC30654@e110439-lin>
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tor Jeremiassen <tor@ti.com>,
+        mike.leach@linaro.org, kim.phillips@arm.com,
+        coresight@lists.linaro.org, Mike Leach <mike.leach@arm.com>
+References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
+ <1526892748-326-2-git-send-email-leo.yan@linaro.org>
+ <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
+ <20180522083920.GD31075@leoy-ThinkPad-X240s>
+ <20180522095249.GE31075@leoy-ThinkPad-X240s>
+ <3c9cdb5c-e1e0-f76d-5367-02aaf668b232@arm.com>
+ <20180523132203.GA30299@leoy-ThinkPad-X240s>
+From:   Robert Walker <robert.walker@arm.com>
+Message-ID: <78ccb81d-3055-ae2a-a058-a6cfe7fa1ce4@arm.com>
+Date:   Fri, 25 May 2018 14:56:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180525103147.GC30654@e110439-lin>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20180523132203.GA30299@leoy-ThinkPad-X240s>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/05/18 11:31, Patrick Bellasi wrote:
+Hi Leo,
 
-[...]
 
-> Right, so the problem seems to be that we "need" to call
-> arch_update_cpu_topology() and we do that by calling
-> partition_sched_domains() which was initially introduced by:
-> 
->    029190c515f1 ("cpuset sched_load_balance flag")
-> 
-> back in 2007, where it's also quite well explained the reasons behind
-> the sched_load_balance flag and the idea to have "partitioned" SDs.
-> 
-> I also (hopefully) understood that there are at least two actors involved:
-> 
->  - A) arch code
->    which creates SDs and SGs, usually to group CPUs depending on the
->    memory hierarchy, to support different time granularity of load
->    balancing operations
-> 
->    Special case here are HP and hibernation which, by on-/off-lining
->    CPUs they directly affect the SDs/SGs definitions.
-> 
->  - B) cpusets
->    which expose to userspace the possibility to define,
->    _if possible_, a finer granularity set of SGs to further restrict the
->    scope of load balancing operations
-> 
-> Since B is a "possible finer granularity" refinement of A, then we
-> trigger A's reconfigurations based on B's constraints.
-> 
-> That's why, for example, in consequence of an HP online event,
-> we have:
-> 
->    --- core.c -------------------
->     HP[sched:active]
->      | sched_cpu_activate()
->        | cpuset_cpu_active()
->    --- cpuset.c -----------------
->          | cpuset_update_active_cpus()
->            | schedule_work(&cpuset_hotplug_work)
->             \.. System Kworker \
->                 | cpuset_hotplug_workfn()
->                   if (cpus_updated || force_rebuild)
->                     | rebuild_sched_domains()
->                       | rebuild_sched_domains_locked()
->                         | generate_sched_domains()
->    --- topology.c ---------------
->                         | partition_sched_domains()
->                           | arch_update_cpu_topology()
-> 
-> 
-> IOW, we need to pass via cpusets to rebuild the SDs whenever we
-> there are HP events or we "need" to do an arch_update_cpu_topology()
-> via the arch topology driver (drivers/base/arch_topology.c).
+On 23/05/18 14:22, Leo Yan wrote:
+> Hi Rob,
+>
+> On Wed, May 23, 2018 at 12:21:18PM +0100, Robert Walker wrote:
+>> Hi Leo,
+>>
+>> On 22/05/18 10:52, Leo Yan wrote:
+>>> On Tue, May 22, 2018 at 04:39:20PM +0800, Leo Yan wrote:
+>>>
+>>> [...]
+>>>
+>>> Rather than the patch I posted in my previous email, I think below new
+>>> patch is more reasonable for me.
+>>>
+>>> In the below change, 'etmq->prev_packet' is only used to store the
+>>> previous CS_ETM_RANGE packet, we don't need to save CS_ETM_TRACE_ON
+>>> packet into 'etmq->prev_packet'.
+>>>
+>>> On the other hand, cs_etm__flush() can use 'etmq->period_instructions'
+>>> to indicate if need to generate instruction sample or not.  If it's
+>>> non-zero, then generate instruction sample and
+>>> 'etmq->period_instructions' will be cleared; so next time if there
+>>> have more tracing CS_ETM_TRACE_ON packet, it can skip to generate
+>>> instruction sample due 'etmq->period_instructions' is zero.
+>>>
+>>> How about you think for this?
+>>>
+>>> Thanks,
+>>> Leo Yan
+>>>
+>> I don't think this covers the cases where CS_ETM_TRACE_ON is used to
+>> indicate a discontinuity in the trace.  For example, there is work in
+>> progress to configure the ETM so that it only traces a few thousand cycles
+>> with a gap of many thousands of cycles between each chunk of trace - this
+>> can be used to sample program execution in the form of instruction events
+>> with branch stacks for feedback directed optimization (AutoFDO).
+>>
+>> In this case, the raw trace is something like:
+>>
+>>      ...
+>>      I_ADDR_L_64IS0 : Address, Long, 64 bit, IS0.; Addr=0x0000007E7B886908;
+>>      I_ATOM_F3 : Atom format 3.; EEN
+>>      I_ATOM_F1 : Atom format 1.; E
+>> # Trace stops here
+>>
+>> # Some time passes, and then trace is turned on again
+>>      I_TRACE_ON : Trace On.
+>>      I_ADDR_CTXT_L_64IS0 : Address & Context, Long, 64 bit, IS0.;
+>> Addr=0x00000057224322F4; Ctxt: AArch64,EL0, NS;
+>>      I_ATOM_F3 : Atom format 3.; ENN
+>>      I_ATOM_F5 : Atom format 5.; ENENE
+>>      ...
+>>
+>> This results in the following packets from the decoder:
+>>
+>> CS_ETM_RANGE: [0x7e7b886908-0x7e7b886930] br
+>> CS_ETM_RANGE: [0x7e7b88699c-0x7e7b8869a4] br
+>> CS_ETM_RANGE: [0x7e7b8869d8-0x7e7b8869f0]
+>> CS_ETM_RANGE: [0x7e7b8869f0-0x7e7b8869fc] br
+>> CS_ETM_TRACE_ON
+>> CS_ETM_RANGE: [0x57224322f4-0x5722432304] br
+>> CS_ETM_RANGE: [0x57224320e8-0x57224320ec]
+>> CS_ETM_RANGE: [0x57224320ec-0x57224320f8]
+>> CS_ETM_RANGE: [0x57224320f8-0x572243212c] br
+>> CS_ETM_RANGE: [0x5722439b80-0x5722439bec]
+>> CS_ETM_RANGE: [0x5722439bec-0x5722439c14] br
+>> CS_ETM_RANGE: [0x5722437c30-0x5722437c6c]
+>> CS_ETM_RANGE: [0x5722437c6c-0x5722437c7c] br
+>>
+>> Without handling the CS_ETM_TRACE_ON, this would be interpreted as a branch
+>> from 0x7e7b8869f8 to 0x57224322f4, when there is actually a gap of many
+>> thousand instructions between these.
+>>
+>> I think this patch will break the branch stacks - by removing the
+>> prev_packet swap from cs_etm__flush(), the next time a CS_ETM_RANGE packet
+>> is handled, cs_etm__sample() will see prev_packet contains the last
+>> CS_ETM_RANGE from the previous block of trace, causing an erroneous call to
+>> cs_etm__update_last_branch_rb().  In the example above, the branch stack
+>> will contain an erroneous branch from 0x7e7b8869f8 to 0x57224322f4.
+>>
+>> I think what you need to do is add a check for the previous packet being a
+>> CS_ETM_TRACE_ON when determining the generate_sample value.
+> I still can see there have hole for packets handling with your
+> suggestion, let's focus on below three packets:
+>
+> CS_ETM_RANGE:    [0x7e7b8869f0-0x7e7b8869fc] br
+> CS_ETM_TRACE_ON: [0xdeadbeefdeadbeef-0xdeadbeefdeadbeef]
+> CS_ETM_RANGE:    [0x57224322f4-0x5722432304] br
+>
+> When the CS_ETM_TRACE_ON packet is coming, cs_etm__flush() doesn't
+> handle for 'etmq->prev_packet' to generate branch sample, this results
+> in we miss the info for 0x7e7b8869fc, and with packet swapping
+> 'etmq->prev_packet' is assigned to CS_ETM_TRACE_ON packet.
+>
+> When the last CS_ETM_RANGE packet is coming, cs_etm__sample() will
+> combine the values from CS_ETM_TRACE_ON packet and the last
+> CS_ETM_RANGE packet to generate branch sample packet; at the end
+> we get below sample packets:
+>
+>    packet(n):   sample::addr=0x7e7b8869f0
+>    packet(n+1): sample::ip=0xdeadbeefdeadbeeb sample::addr=0x57224322f4
+>
+> So I think we also need to generate branch sample, and we can get
+> below results:
+>
+>    packet(n):   sample::addr=0x7e7b8869f0
+>    packet(n+1): sample::ip=0x7e7b8869f8 sample::addr=0xdeadbeefdeadbeef
+>    packet(n+2): sample::ip=0xdeadbeefdeadbeeb sample::addr=0x57224322f4
+>
+> So we also can rely on this to get to know there have one address
+> range is [0xdeadbeefdeadbeef..0xdeadbeefdeadbeeb] to indicate there
+> have a discontinuity in the trace.
+Yes, I agree you need the extra branch sample from cs_etm__flush().
 
-I don't think the arch topology driver is always involved in this (e.g.,
-arch/x86/kernel/itmt::sched_itmt_update_handler()).
+With a discontinuity in trace, I get output from perf script like this:
 
-Still we need to check if topology changed, as you say.
+branches:u:        59ee6e2e08 sqlite3VdbeExec (speedtest1) =>       
+59ee6e2e64 sqlite3VdbeExec (spe
+branches:u:        59ee6e2e7c sqlite3VdbeExec (speedtest1) =>       
+59ee6e2eec sqlite3VdbeExec (spe
+branches:u:        59ee6e2efc sqlite3VdbeExec (speedtest1) =>       
+59ee6e2f14 sqlite3VdbeExec (spe
+branches:u:        59ee6e2f3c sqlite3VdbeExec (speedtest1) => 
+deadbeefdeadbeef [unknown] ([unknown])
+branches:u:  deadbeefdeadbeeb [unknown] ([unknown]) => 769949daa0 memcpy 
+(/system/lib64/libc.so)
+branches:u:        769949dacc memcpy (/system/lib64/libc.so) =>       
+59ee6f0664 insertCell (speedtest1)
+branches:u:        59ee6f0664 insertCell (speedtest1) => 59ee6f0684 
+insertCell (speedtest1)
+branches:u:        59ee6f06a4 insertCell (speedtest1) => 59ee6a4d50 
+memmove@plt (speedtest1)
+branches:u:        59ee6a4d5c memmove@plt (speedtest1) => 769949ebf8 
+memmove (/system/lib64/libc.so)
 
-> This last bit is also interesting, whenever we detect arch topology
-> information that required an SD rebuild, we need to force a
-> partition_sched_domains(). But, for that, in:
-> 
->    commit 50e76632339d ("sched/cpuset/pm: Fix cpuset vs. suspend-resume bugs")
-> 
-> we just introduced the support for the "force_rebuild" flag to be set.
-> 
-> Thus, potentially we can just extend the check I've proposed to consider the
-> force rebuild flag, to be something like:
-> 
-> ---8<---
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 8f586e8bdc98..1f051fafaa3a 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -874,11 +874,19 @@ static void rebuild_sched_domains_locked(void)
->            !cpumask_subset(top_cpuset.effective_cpus, cpu_active_mask))
->                 goto out;
->  
-> +       /* Special case for the 99% of systems with one, full, sched domain */
-> +       if (!force_rebuild &&
-> +           !top_cpuset.isolation_count &&
-> +           is_sched_load_balance(&top_cpuset))
-> +               goto out;
-> +       force_rebuild = false;
-> +
->         /* Generate domain masks and attrs */
->         ndoms = generate_sched_domains(&doms, &attr);
->  
->         /* Have scheduler rebuild the domains */
->         partition_sched_domains(ndoms, doms, attr);
->  out:
->         put_online_cpus();
-> ---8<---
-> 
-> 
-> Which would still allow to use something like:
-> 
->    cpuset_force_rebuild()
->    rebuild_sched_domains()
-> 
-> to actually rebuild SD in consequence of arch topology changes.
+Showing there is a break in trace between 59ee6e2f3c and 769949daa0.  
+The deadbeefdeadbeef addresses are a bit ugly - these are just dummy 
+values emitted in the decoder layer - maybe these should be changed to 
+0.  Or you could add a new sample type (i.e. not branch) to indicate the 
+start / end of trace, with only the valid address.
 
-That might work.
+With this change, it becomes the same as the patch from your previous mail.
 
-> 
-> > 
-> > Maybe we could move the check you are proposing in update_cpumasks_
-> > hier() ?
-> 
-> Yes, that's another option... although there we are outside of
-> get_online_cpus(). Could be a problem?
+Regards
 
-Mmm, using force_rebuild flag seems safer indeed.
+Rob
+
+>> Regards
+>>
+>> Rob
+>>
+>>> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+>>> index 822ba91..dd354ad 100644
+>>> --- a/tools/perf/util/cs-etm.c
+>>> +++ b/tools/perf/util/cs-etm.c
+>>> @@ -495,6 +495,13 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
+>>>   static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
+>>>   {
+>>>   	/*
+>>> +	 * The packet is the start tracing packet if the end_addr is zero,
+>>> +	 * returns 0 for this case.
+>>> +	 */
+>>> +	if (!packet->end_addr)
+>>> +		return 0;
+>>> +
+>>> +	/*
+>>>   	 * The packet records the execution range with an exclusive end address
+>>>   	 *
+>>>   	 * A64 instructions are constant size, so the last executed
+>>> @@ -897,13 +904,27 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+>>>   		etmq->period_instructions = instrs_over;
+>>>   	}
+>>> -	if (etm->sample_branches &&
+>>> -	    etmq->prev_packet &&
+>>> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+>>> -	    etmq->prev_packet->last_instr_taken_branch) {
+>>> -		ret = cs_etm__synth_branch_sample(etmq);
+>>> -		if (ret)
+>>> -			return ret;
+>>> +	if (etm->sample_branches && etmq->prev_packet) {
+>>> +		bool generate_sample = false;
+>>> +
+>>> +		/* Generate sample for start tracing packet */
+>>> +		if (etmq->prev_packet->sample_type == 0)
+>>> +			generate_sample = true;
+>> Also check for etmq->prev_packet->sample_type == CS_ETM_TRACE_ON here and
+>> set generate_sample = true.
+> Agree, will add this.
+>
+>>> +
+>>> +		/* Generate sample for exception packet */
+>>> +		if (etmq->prev_packet->exc == true)
+>>> +			generate_sample = true;
+>>> +
+>>> +		/* Generate sample for normal branch packet */
+>>> +		if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+>>> +		    etmq->prev_packet->last_instr_taken_branch)
+>>> +			generate_sample = true;
+>>> +
+>>> +		if (generate_sample) {
+>>> +			ret = cs_etm__synth_branch_sample(etmq);
+>>> +			if (ret)
+>>> +				return ret;
+>>> +		}
+>>>   	}
+>>>   	if (etm->sample_branches || etm->synth_opts.last_branch) {
+>>> @@ -922,11 +943,12 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+>>>   static int cs_etm__flush(struct cs_etm_queue *etmq)
+>>>   {
+>>>   	int err = 0;
+>>> -	struct cs_etm_packet *tmp;
+>>>   	if (etmq->etm->synth_opts.last_branch &&
+>>>   	    etmq->prev_packet &&
+>>> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE) {
+>>> +	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+>>> +	    etmq->period_instructions) {
+>>> +
+>> I don't think this is needed.
+> Okay, I will keep this.
+>
+>>>   		/*
+>>>   		 * Generate a last branch event for the branches left in the
+>>>   		 * circular buffer at the end of the trace.
+>>> @@ -940,14 +962,6 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
+>>>   			etmq, addr,
+>>>   			etmq->period_instructions);
+>>>   		etmq->period_instructions = 0;
+>>> -
+>>> -		/*
+>>> -		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+>>> -		 * the next incoming packet.
+>>> -		 */
+>>> -		tmp = etmq->packet;
+>>> -		etmq->packet = etmq->prev_packet;
+>>> -		etmq->prev_packet = tmp;
+>> This should not be changed as discussed above.
+> Okay, will keep this.  But I suggest we add some change like below:
+>
+> +    if (etm->sample_branches) {
+> +        err = cs_etm__synth_branch_sample(etmq);
+> +        if (err)
+> +            return err;
+> +    }
+>
+> If so, could you review my posted another patch for this?
+> http://archive.armlinux.org.uk/lurker/message/20180522.083920.184f1f78.en.html
+WIll do - with these changes, it is the same as your original patch.
+> Thanks,
+> Leo Yan
+>
+>>>   	}
+>>>   	return err;
+>>>
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
