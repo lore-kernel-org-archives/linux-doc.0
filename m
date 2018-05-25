@@ -1,138 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20A8B7D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 May 2018 23:39:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6276E7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 01:54:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966239AbeEXXez (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 May 2018 19:34:55 -0400
-Received: from mail-pf0-f196.google.com ([209.85.192.196]:38544 "EHLO
-        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S965649AbeEXXey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 19:34:54 -0400
-Received: by mail-pf0-f196.google.com with SMTP id o76-v6so1631080pfi.5;
-        Thu, 24 May 2018 16:34:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3u+UAXW39kUTomzKNkZAYLf7I5dPbH+DW2XY0+4ug24=;
-        b=gVAnTOFxm3WSRDgGDyyQqtfbcMb7Ebmcj1WYAoCi3DhIy3qe51bsHzq24W1kCriodM
-         Mjr9dAys2R28TYU1uqqeiyGUg9XHFMY3P6I9wO/6FG4YI9ftWECrPkxha5+H5qf9iocW
-         NIZ2wTPPft13IhEJ1E9anm7cCTMP3pWo2t/JGbx7cw0myJ/YBi4mXNZEjlrch07JEncP
-         uvTIb49RCtdtlTiC7mVAzd3pAFPOy/V0GoaaJDjcISfih7F4TeIcPPi0VKHIYJ8nasCG
-         stPqmg7T7UmYFRi2yQs/vVL9bliOI2pG6xnoAo+1P/YxIIlYicqpz53ku6aQWmQdzC/N
-         8QUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3u+UAXW39kUTomzKNkZAYLf7I5dPbH+DW2XY0+4ug24=;
-        b=PzbJZux8FaEKZzQqaFVsTTdrorFG4VI1+irKAO6OFGwOKEmoefzeCq/EmyKCKEVzBK
-         guV8EhdJ28JvPUhFnzFgP2G/2xHFzNfxlJx+x0t4Rdo08jpXGGOL7QGdCdnsHNM23N9N
-         YgVga5qXChxKjVEbEtxMEFEFSQMMu1/rS5JE5F48Yw1Yr6DLhv4DiL3qUZbwmxODMPou
-         R3QJonaV4tTPxUdWSDtPIDa5BhhyoLG65/2LNTrpMyIB5Y+T12gr8V7e0fBz/jiF3zHb
-         kcwSr9GUp9M3zUgirDJeTLaBQWP6QSUXL8KHWufOKEoO9M/2r5YOVe3SwQ4WUQlrymCV
-         68JA==
-X-Gm-Message-State: ALKqPwd4eVt3U6Gdb0AtvyYCRaV6/SlG7Sp4pnbp6GhPWbEEPySJB/Cg
-        wGiGWawLoxZfhU1vWR6ijHeMwZgF
-X-Google-Smtp-Source: AB8JxZoHTDq9hxxcfqEeHdDrTWRMhPxbGoa9t8zSJDqQjUnoaZPfzulBq+OzagsCcz0ZcDY3uJZ6yw==
-X-Received: by 2002:a63:a807:: with SMTP id o7-v6mr33417pgf.83.1527204893725;
-        Thu, 24 May 2018 16:34:53 -0700 (PDT)
-Received: from ast-mbp ([2620:10d:c090:180::1:18be])
-        by smtp.gmail.com with ESMTPSA id f78-v6sm43499964pfk.138.2018.05.24.16.34.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 24 May 2018 16:34:52 -0700 (PDT)
-Date:   Thu, 24 May 2018 16:34:51 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Jesper Dangaard Brouer <brouer@redhat.com>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S965335AbeEYBwN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 May 2018 21:52:13 -0400
+Received: from ext-host0001.ascade.co.jp ([218.224.228.194]:63519 "EHLO
+        ns.ascade.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935594AbeEYBwL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 May 2018 21:52:11 -0400
+Received: from server0001.ascade.co.jp (server0001.ascade.co.jp [10.1.1.63])
+        by ns.ascade.co.jp (Postfix) with ESMTP id 8563EA0021;
+        Fri, 25 May 2018 10:52:09 +0900 (JST)
+Received: from [IPv6:::1] (server0001.ascade.co.jp [10.1.1.63])
+        by server0001.ascade.co.jp (Postfix) with ESMTP id 1DD10100512;
+        Fri, 25 May 2018 10:52:08 +0900 (JST)
+Subject: Re: [PATCH v2 0/7] mm: pages for hugetlb's overcommit may be able to
+ charge to memcg
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>
-Subject: Re: [PATCH bpf-next v2 0/3] bpf: add boot parameters for sysctl knobs
-Message-ID: <20180524233449.ga664pzexrkzepfv@ast-mbp>
-References: <20180523121806.GA27675@asgard.redhat.com>
- <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
- <20180524094108.066d885a@redhat.com>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        David Rientjes <rientjes@google.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Anshuman Khandual <khandual@linux.vnet.ibm.com>,
+        Marc-Andre Lureau <marcandre.lureau@redhat.com>,
+        Punit Agrawal <punit.agrawal@arm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, cgroups@vger.kernel.org
+References: <e863529b-7ce5-4fbe-8cff-581b5789a5f9@ascade.co.jp>
+ <240f1b14-ed7d-4983-6c52-be4899d4caa5@oracle.com>
+ <8711fed5-fc35-a11a-3a17-740a9dca1f2a@ascade.co.jp>
+ <20180522185407.GC20441@dhcp22.suse.cz>
+ <455b1a07-d7e3-102b-65e7-3892947b7675@ascade.co.jp>
+ <20180524082044.GW20441@dhcp22.suse.cz>
+ <b2afbff6-b59f-7105-3808-64d41bd4a3a8@ascade.co.jp>
+ <20180524132414.GI20441@dhcp22.suse.cz>
+From:   TSUKADA Koutaro <tsukada@ascade.co.jp>
+Message-ID: <504b1ca0-9030-29be-4657-9cc18575eacb@ascade.co.jp>
+Date:   Fri, 25 May 2018 10:51:50 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180524094108.066d885a@redhat.com>
-User-Agent: NeoMutt/20180223
+In-Reply-To: <20180524132414.GI20441@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 24, 2018 at 09:41:08AM +0200, Jesper Dangaard Brouer wrote:
-> On Wed, 23 May 2018 15:02:45 -0700
-> Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
-> 
-> > On Wed, May 23, 2018 at 02:18:19PM +0200, Eugene Syromiatnikov wrote:
-> > > Some BPF sysctl knobs affect the loading of BPF programs, and during
-> > > system boot/init stages these sysctls are not yet configured.
-> > > A concrete example is systemd, that has implemented loading of BPF
-> > > programs.
-> > > 
-> > > Thus, to allow controlling these setting at early boot, this patch set
-> > > adds the ability to change the default setting of these sysctl knobs
-> > > as well as option to override them via a boot-time kernel parameter
-> > > (in order to avoid rebuilding kernel each time a need of changing these
-> > > defaults arises).
-> > > 
-> > > The sysctl knobs in question are kernel.unprivileged_bpf_disable,
-> > > net.core.bpf_jit_harden, and net.core.bpf_jit_kallsyms.  
-> > 
-> > - systemd is root. today it only uses cgroup-bpf progs which require root,
-> >   so disabling unpriv during boot time makes no difference to systemd.
-> >   what is the actual reason to present time?
-> > 
-> > - say in the future systemd wants to use so_reuseport+bpf for faster
-> >   networking. With unpriv disable during boot, it will force systemd
-> >   to do such networking from root, which will lower its security barrier.
-> >   How that make sense?
-> > 
-> > - bpf_jit_kallsyms sysctl has immediate effect on loaded programs.
-> >   Flipping it during the boot or right after or any time after
-> >   is the same thing. Why add such boot flag then?
-> > 
-> > - jit_harden can be turned on by systemd. so turning it during the boot
-> >   will make systemd progs to be constant blinded.
-> >   Constant blinding protects kernel from unprivileged JIT spraying.
-> >   Are you worried that systemd will attack the kernel with JIT spraying?
-> 
-> 
-> I think you are missing that, we want the ability to change these
-> defaults in-order to avoid depending on /etc/sysctl.conf settings, and
-> that the these sysctl.conf setting happen too late.
+On 2018/05/24 22:24, Michal Hocko wrote
+[...]> I do not see anything like that. adjust_pool_surplus is simply and
+> accounting thing. At least the last time I've checked. Maybe your
+> patchset handles that?
 
-What does it mean 'happens too late' ?
-Too late for what?
-sysctl.conf has plenty of system critical knobs like
-kernel.perf_event_paranoid, kernel.core_pattern, etc
-The behavior of the host is drastically different after sysctl config
-is applied.
+As you said, my patch did not consider handling when manipulating the
+pool. And even if that handling is done well, it will not be a valid
+reason to charge surplus hugepage to memcg.
 
-> For example with jit_harden, there will be a difference between the
-> loaded BPF program that got loaded at boot-time with systemd (no
-> constant blinding) and when someone reloads that systemd service after
-> /etc/sysctl.conf have been evaluated and setting bpf_jit_harden (now
-> slower due to constant blinding).   This is inconsistent behavior.
+[...]
+>> Absolutely you are saying the right thing, but, for example, can mlock(2)ed
+>> pages be swapped out by reclaim?(What is the difference between mlock(2)ed
+>> pages and hugetlb page?)
+> 
+> No mlocked pages cannot be reclaimed and that is why we restrict them to
+> a relatively small amount.
 
-net.core.bpf_jit_harden can be flipped back and forth at run-time,
-so bpf progs before and after will be either blinded or not.
-I don't see any inconsistency.
-In general I think bootparams should be used only for things
-like kpti=on/off that cannot be set by sysctl.
+I understood the concept of memcg.
+
+[...]
+> Fatal? Not sure. It simply tries to add an alien memory to the memcg
+> concept so I would pressume an unexpected behavior (e.g. not being able
+> to reclaim memcg or, over reclaim, trashing etc.).
+
+As you said, it must be an alien. Thanks to the interaction up to here,
+I understood that my solution is inappropriate. I will look for another
+way.
+
+Thank you for your kind explanation.
+
+-- 
+Thanks,
+Tsukada
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
