@@ -1,124 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2B55F7DF8F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 15:55:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C8DB97D08C
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 16:49:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965666AbeEYPyd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 May 2018 11:54:33 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:40335 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S966735AbeEYPya (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 May 2018 11:54:30 -0400
-Received: by mail-wr0-f194.google.com with SMTP id l41-v6so10066577wre.7
-        for <linux-doc@vger.kernel.org>; Fri, 25 May 2018 08:54:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jnmSUnLH4bKCNQyK1odKZz35zKGoqJvTGKFhXilRZNc=;
-        b=fIiVR97SvdxOAMcf7eV05QfR9Csn6mOH0jbcIBvzjfbz/wBkspZuYvAxaxhm2UQ/Cb
-         S/4WZnbE9dnecUUuxyGNiwEuKsQXRC6u7f2hMLky077X3pjTT3dQjS933tSwlMjYxWt0
-         jnyxx9pM3q4mcYucKO5hV5Fy8guOMM4eHRI84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jnmSUnLH4bKCNQyK1odKZz35zKGoqJvTGKFhXilRZNc=;
-        b=dytfTbe7RdOa/7Ms7yMlxr9oynyYTHruQ//CwdCnNJ3pWrihybSMHWbkUuTncnmIUN
-         4zSngEcXrKyVNUC+nq+GTQc3L345ifZyObc+4j+3V0Oj7PLMgr7mhp0wFOopeDPQeQWF
-         hRW9cRnw1bFzeyGDTlO3efM1phHvdRpUN7QJgqOUdV3LrYBrU60aiV5YNzRfZxmUbUg6
-         K9xvN6yzWRVQDVXpiYQxL6mTQxSGEpDyE1VKit7pHo6oxoEyFb4Tn8FXBwLI3utSSUpW
-         nBK12tSq+hd9UzdL6/+f26K3kWsqbnSjyFFoVgPuntv8wYrNf7B6Y4sC1ZxUR6tOVIVz
-         hmaQ==
-X-Gm-Message-State: ALKqPwck5zyRfcfOli6NDd1FEpA3EaIUZJhdxKCW+8tSz8PjA1WmJzQX
-        8R605oHg/E3S0ifgN0pkkCQ3VQ==
-X-Google-Smtp-Source: AB8JxZoyeF+nDbIYqmEXJsoioBcDugTN4/KjfHfrVs+gVADjiZWNf1nsyIEJ/QcC9NU9rRKtHL0qRQ==
-X-Received: by 2002:adf:e8c3:: with SMTP id k3-v6mr2422222wrn.182.1527263669737;
-        Fri, 25 May 2018 08:54:29 -0700 (PDT)
-Received: from leoy-ThinkPad-X240s ([45.76.138.171])
-        by smtp.gmail.com with ESMTPSA id o2-v6sm6576162wmo.24.2018.05.25.08.54.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 May 2018 08:54:28 -0700 (PDT)
-Date:   Fri, 25 May 2018 23:54:18 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc:     Robert Walker <robert.walker@arm.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tor Jeremiassen <tor@ti.com>,
-        mike.leach@linaro.org, kim.phillips@arm.com,
-        coresight@lists.linaro.org, Mike Leach <mike.leach@arm.com>
-Subject: Re: [RFT v2 1/4] perf cs-etm: Generate sample for missed packets
-Message-ID: <20180525155418.GA27273@leoy-ThinkPad-X240s>
-References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
- <1526892748-326-2-git-send-email-leo.yan@linaro.org>
- <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
- <20180522083920.GD31075@leoy-ThinkPad-X240s>
- <03a53a72-8af5-02de-21a8-fd02a0974ed6@arm.com>
- <20180525152713.GD4091@kernel.org>
+        id S967242AbeEYQtV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 May 2018 12:49:21 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34996 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S967219AbeEYQtU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 May 2018 12:49:20 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id F0C4F4187E24;
+        Fri, 25 May 2018 16:49:19 +0000 (UTC)
+Received: from asgard.redhat.com (ovpn-200-43.brq.redhat.com [10.40.200.43])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id AD20D2022EF2;
+        Fri, 25 May 2018 16:49:16 +0000 (UTC)
+Date:   Fri, 25 May 2018 18:50:09 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Jesper Dangaard Brouer <brouer@redhat.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>
+Subject: Re: [PATCH bpf-next v2 0/3] bpf: add boot parameters for sysctl knobs
+Message-ID: <20180525165009.GA20952@asgard.redhat.com>
+References: <20180523121806.GA27675@asgard.redhat.com>
+ <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
+ <20180524094108.066d885a@redhat.com>
+ <20180524233449.ga664pzexrkzepfv@ast-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180525152713.GD4091@kernel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20180524233449.ga664pzexrkzepfv@ast-mbp>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 25 May 2018 16:49:20 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 25 May 2018 16:49:20 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'esyr@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arnaldo, Rob,
-
-On Fri, May 25, 2018 at 12:27:13PM -0300, Arnaldo Carvalho de Melo wrote:
-> Em Fri, May 25, 2018 at 03:03:47PM +0100, Robert Walker escreveu:
-> > Hi Leo,
+On Thu, May 24, 2018 at 04:34:51PM -0700, Alexei Starovoitov wrote:
+> On Thu, May 24, 2018 at 09:41:08AM +0200, Jesper Dangaard Brouer wrote:
+> > On Wed, 23 May 2018 15:02:45 -0700
+> > Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
 > > 
-> > Following the discussions from your reply to this with a simplified patch,
-> > this version of the patch works better as you also need to emit a branch
-> > sample when handling a CS_ETM_TRACE_ON packet to indicate the end of a block
-> > of trace.
+> > > On Wed, May 23, 2018 at 02:18:19PM +0200, Eugene Syromiatnikov wrote:
+> > > > Some BPF sysctl knobs affect the loading of BPF programs, and during
+> > > > system boot/init stages these sysctls are not yet configured.
+> > > > A concrete example is systemd, that has implemented loading of BPF
+> > > > programs.
+> > > > 
+> > > > Thus, to allow controlling these setting at early boot, this patch set
+> > > > adds the ability to change the default setting of these sysctl knobs
+> > > > as well as option to override them via a boot-time kernel parameter
+> > > > (in order to avoid rebuilding kernel each time a need of changing these
+> > > > defaults arises).
+> > > > 
+> > > > The sysctl knobs in question are kernel.unprivileged_bpf_disable,
+> > > > net.core.bpf_jit_harden, and net.core.bpf_jit_kallsyms.  
+> > > 
+> > > - systemd is root. today it only uses cgroup-bpf progs which require root,
+> > >   so disabling unpriv during boot time makes no difference to systemd.
+> > >   what is the actual reason to present time?
+systemd also runs a lot of code, some of which is unprivileged.
 
-I also will follow the suggestion as Rob mentioned in another email:
-"The deadbeefdeadbeef addresses are a bit ugly - these are just dummy
-values emitted in the decoder layer - maybe these should be changed
-to 0."
+> > > - say in the future systemd wants to use so_reuseport+bpf for faster
+> > >   networking. With unpriv disable during boot, it will force systemd
+> > >   to do such networking from root, which will lower its security barrier.
+No, it will force systemd not to use SO_REUSEPORT BPF.
 
-> > This patch does not break the output from perf inject to generate
-> > instruction samples for AutoFDO, so I am happy with that.
+> > > - bpf_jit_kallsyms sysctl has immediate effect on loaded programs.
+> > >   Flipping it during the boot or right after or any time after
+> > >   is the same thing. Why add such boot flag then?
+Well, that one was for completeness.
 
-Thanks for confirmation.
+> > > - jit_harden can be turned on by systemd. so turning it during the boot
+> > >   will make systemd progs to be constant blinded.
+> > >   Constant blinding protects kernel from unprivileged JIT spraying.
+> > >   Are you worried that systemd will attack the kernel with JIT spraying?
+I'm worried that systemd can be exploited for a JIT spraying attack.
 
-> > Regards
-> > 
-> > Rob
-> > 
-> > Reviewed-by: Robert Walker <robert.walker@arm.com>
+Another thing I'm concerned with is that the generated code is different,
+which introduces additional complication during debugging.
+
+> > I think you are missing that, we want the ability to change these
+> > defaults in-order to avoid depending on /etc/sysctl.conf settings, and
+> > that the these sysctl.conf setting happen too late.
 > 
-> So, Leo, can you please resubmit, bumping the v2 to v3 (or the latest
-> one, I haven't fully reread this thread) add this "Reviewed-by: Robert"
-> tag and any other that people may have provided, so that I can merge it?
+> What does it mean 'happens too late' ?
+> Too late for what?
+> sysctl.conf has plenty of system critical knobs like
+> kernel.perf_event_paranoid, kernel.core_pattern, etc
+> The behavior of the host is drastically different after sysctl config
+> is applied.
+> 
+> > For example with jit_harden, there will be a difference between the
+> > loaded BPF program that got loaded at boot-time with systemd (no
+> > constant blinding) and when someone reloads that systemd service after
+> > /etc/sysctl.conf have been evaluated and setting bpf_jit_harden (now
+> > slower due to constant blinding).   This is inconsistent behavior.
+> 
+> net.core.bpf_jit_harden can be flipped back and forth at run-time,
+> so bpf progs before and after will be either blinded or not.
+> I don't see any inconsistency.
 
-Sure!  I will respin the v3 patch series by following up Rob's
-suggestion and add Rob's review tag.
-
-BTW, I'd like to get ack from Mathieu as well.  Mathieu is working on
-CPU wide tracing, so I talked with Mathieu he will review the patch
-series if has conflict with CPU wide tracing.
-
-[...]
-
-Thanks,
-Leo Yan
+That can't be the reason to maintain that inconsistency.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
