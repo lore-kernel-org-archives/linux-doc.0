@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4B48D7DF8A
+	by archive.lwn.net (Postfix) with ESMTP id C23887DF8F
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 17:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S967614AbeEYRV2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 May 2018 13:21:28 -0400
-Received: from mail-wr0-f196.google.com ([209.85.128.196]:34822 "EHLO
-        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S967402AbeEYRVX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 May 2018 13:21:23 -0400
-Received: by mail-wr0-f196.google.com with SMTP id i14-v6so10446458wre.2
-        for <linux-doc@vger.kernel.org>; Fri, 25 May 2018 10:21:23 -0700 (PDT)
+        id S936185AbeEYRVo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 May 2018 13:21:44 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:36378 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S967628AbeEYRV3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 May 2018 13:21:29 -0400
+Received: by mail-wm0-f66.google.com with SMTP id n10-v6so16450673wmc.1
+        for <linux-doc@vger.kernel.org>; Fri, 25 May 2018 10:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ZDgTBkc7SgtSMHD63ovogp2w1o0H2E+utv6QzLdbKbE=;
-        b=CWX2KrxtOpOGEhzQyMghOdwHK2k6aPH3o7eD3rNp8WSLhYe0UdTc042AN8ik/cwOWc
-         x9hQeNVDL8PxiCrCBp0iDPKGYbfjmv5iUZZG/ReZsXe5eO0oSnrMIYju+BlmlnHvvI2s
-         vFwmZ6WoxDfmFQSS0yXGCfEnWDW5AWfooh19S+g5u3Zef/0344xDlJ34NPWtnDZDQwea
-         /htXuR2NK85coCDPG7azc5VoiRrW6gus1MfAmaNZRtx+zvQuvwgjT7SAiSJjYj8Ixsye
-         XpA73/ICdqmO2ybICF4N9DRstkCLBjufVzOA4sS/u8Z5Ykhwub2ec3A2+OUUzAiLVDX2
-         E5/w==
+        bh=lUjckscRelX9WqN/6FUbYAqpLfBHLKlTJUaLXI/81Ro=;
+        b=D7wi0tvjGH19GsmXvbUDFetH80WmiT4sVJkuo+6TlZIwGVZF+aeiQcRS/zVmd8hsoX
+         4M3pb80fq+hrweG1H8PrClMPr0hbj9DeVne7liNqjwdm1xO7kVtHU0nQdAP7Xgve6OTz
+         xZFS2mXfuYsHhxMX8ju2+atPxjD8N4oyk82Sqixng6MM03/1agy4pcjqY3JKOspVMF/R
+         htHGVfzb1Jw7DL/BhVN9GlqBWuH5Z1XUHAf2OyyrFroQLSm31Vc7+wfISANc/L32WF66
+         VrBD4kL+p7jsiTrPilKzWRPii3adIgj/29FCdh1mhNf1eqQIOp9IMFnJyOutowNb5SYh
+         wpQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=ZDgTBkc7SgtSMHD63ovogp2w1o0H2E+utv6QzLdbKbE=;
-        b=Gz4bd/SreklMHnEbkJdG8Sj4bPTT9hReko8GrTasBHmSCl86jey8fViSorXHbl/CtD
-         18BqJ2C5j5VX/yrs5Ubeop8XONGqVlDEj4+c7A/f4OijSvuuJwnTPlS308+ZeQ4KxP3u
-         SbNC8uaFBcyWL9DLOx+mmhTScNAbpesmcy2od6qcI4D3HtgB2XUKGEHPlBTJfmWToV5e
-         bAgxP39ROHFU3BolPWESUJiKCKf6IqnGnjLPdDSnVWi5HBTpQRaKXkH6u6Y6483G5w7N
-         ECq/+Lt+hz8evZkNeWJjD8H7cPuzG2m4+uly+qJ/FhT/0vm2GR3nenTkhIfJGeoAb893
-         Cf6Q==
-X-Gm-Message-State: ALKqPwfPPu9R2f/GzQ27TdNy7kGcvvRpPHt67pyU/in5iYxBh7x/0mWU
-        jcHJ9PZcMvsyhV1LOEAeTReXnA==
-X-Google-Smtp-Source: AB8JxZqdncVPgboUx+muPIF6UZylHBYvo3cLcj9D5apljZ+baBrO3bD8dYoz6bx4+7Zz/q2kAv0kFg==
-X-Received: by 2002:adf:80ad:: with SMTP id 42-v6mr3255242wrl.211.1527268882429;
-        Fri, 25 May 2018 10:21:22 -0700 (PDT)
+        bh=lUjckscRelX9WqN/6FUbYAqpLfBHLKlTJUaLXI/81Ro=;
+        b=V1zEPfmgIn4XVM9tdLaZ5t4dRMdSjQbyzp7/AI5kcR+yvDjN14kH+d1uL6zV0yUiNd
+         LfwS+je/VSKFfNB/a8N9A46DAJs5QLhJ+3yd4RCTFYKcWxK7YVPsrLYNQIugEzoqw5ya
+         mHA+tPdYHaw0/RaK2miHeIkkVzOaXcpPBypG0NhIBfdimJqZ/mfJ0Pfx4bV7Mz+a98E6
+         4dhT+Yba/++7Wv4IiipJOajLaLKP+ocKVgLXhrsOxVZUfX+J9yMhGpjJzMUNhdE+CplN
+         n69yu8iLK4JGhDEoImihDNar3K8P8YFsqqsdMXx7aufug+yEhp6U+FpCwHk2oL6JZqqd
+         PFJg==
+X-Gm-Message-State: ALKqPwd6kfQqvKIkKLQ4MEaSYKNl55aJ+7PJGCJuB6tgOaGF+XUw2k/T
+        InmgoyUC79k4GnQkxZyvz06pgQ==
+X-Google-Smtp-Source: ADUXVKIm/vYg/sw9XUuIzvcDV9itQGOEJwWKLZCdqZ3j8/6iqc1AzAIteFMZ2ogZuXnxueZDrFqurQ==
+X-Received: by 2002:a1c:9249:: with SMTP id u70-v6mr2252097wmd.128.1527268888271;
+        Fri, 25 May 2018 10:21:28 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id s5-v6sm26579964wra.48.2018.05.25.10.21.21
+        by smtp.gmail.com with ESMTPSA id s5-v6sm26579964wra.48.2018.05.25.10.21.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 May 2018 10:21:21 -0700 (PDT)
+        Fri, 25 May 2018 10:21:27 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -70,9 +70,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v3 2/6] uaccess: add untagged_addr definition for other arches
-Date:   Fri, 25 May 2018 19:21:12 +0200
-Message-Id: <8213858e15e7ad5f27cccb442a62db141269c973.1527268727.git.andreyknvl@google.com>
+Subject: [PATCH v3 6/6] arm64: update Documentation/arm64/tagged-pointers.txt
+Date:   Fri, 25 May 2018 19:21:16 +0200
+Message-Id: <e5c51f30f639adeacd4168d925048329b4d6fd32.1527268727.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.17.0.921.gf22659ad46-goog
 In-Reply-To: <cover.1527268727.git.andreyknvl@google.com>
 References: <cover.1527268727.git.andreyknvl@google.com>
@@ -81,33 +81,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To allow arm64 syscalls accept tagged pointers from userspace, we must
-untag them when they are passed to the kernel. Since untagging is done in
-generic parts of the kernel (like the mm subsystem), the untagged_addr
-macro should be defined for all architectures.
-
-Define it as a noop for other architectures besides arm64.
+Add a note that work on passing tagged user pointers to the kernel via
+syscalls has started, but might not be complete yet.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/uaccess.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/arm64/tagged-pointers.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index efe79c1cdd47..c045b4eff95e 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -13,6 +13,10 @@
+diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.txt
+index a25a99e82bb1..361481283f00 100644
+--- a/Documentation/arm64/tagged-pointers.txt
++++ b/Documentation/arm64/tagged-pointers.txt
+@@ -35,8 +35,9 @@ Using non-zero address tags in any of these locations may result in an
+ error code being returned, a (fatal) signal being raised, or other modes
+ of failure.
  
- #include <asm/uaccess.h>
+-For these reasons, passing non-zero address tags to the kernel via
+-system calls is forbidden, and using a non-zero address tag for sp is
++Some initial work for supporting non-zero address tags passed to the
++kernel via system calls has been done, but the kernel doesn't provide
++any guarantees at this point. Using a non-zero address tag for sp is
+ strongly discouraged.
  
-+#ifndef untagged_addr
-+#define untagged_addr(addr) addr
-+#endif
-+
- /*
-  * Architectures should provide two primitives (raw_copy_{to,from}_user())
-  * and get rid of their private instances of copy_{to,from}_user() and
+ Programs maintaining a frame pointer and frame records that use non-zero
 -- 
 2.17.0.921.gf22659ad46-goog
 
