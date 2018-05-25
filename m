@@ -1,122 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8DB97D08C
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 16:49:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4B48D7DF8A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 17:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S967242AbeEYQtV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 May 2018 12:49:21 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34996 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S967219AbeEYQtU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 May 2018 12:49:20 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id F0C4F4187E24;
-        Fri, 25 May 2018 16:49:19 +0000 (UTC)
-Received: from asgard.redhat.com (ovpn-200-43.brq.redhat.com [10.40.200.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AD20D2022EF2;
-        Fri, 25 May 2018 16:49:16 +0000 (UTC)
-Date:   Fri, 25 May 2018 18:50:09 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Jesper Dangaard Brouer <brouer@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S967614AbeEYRV2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 May 2018 13:21:28 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:34822 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S967402AbeEYRVX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 May 2018 13:21:23 -0400
+Received: by mail-wr0-f196.google.com with SMTP id i14-v6so10446458wre.2
+        for <linux-doc@vger.kernel.org>; Fri, 25 May 2018 10:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=ZDgTBkc7SgtSMHD63ovogp2w1o0H2E+utv6QzLdbKbE=;
+        b=CWX2KrxtOpOGEhzQyMghOdwHK2k6aPH3o7eD3rNp8WSLhYe0UdTc042AN8ik/cwOWc
+         x9hQeNVDL8PxiCrCBp0iDPKGYbfjmv5iUZZG/ReZsXe5eO0oSnrMIYju+BlmlnHvvI2s
+         vFwmZ6WoxDfmFQSS0yXGCfEnWDW5AWfooh19S+g5u3Zef/0344xDlJ34NPWtnDZDQwea
+         /htXuR2NK85coCDPG7azc5VoiRrW6gus1MfAmaNZRtx+zvQuvwgjT7SAiSJjYj8Ixsye
+         XpA73/ICdqmO2ybICF4N9DRstkCLBjufVzOA4sS/u8Z5Ykhwub2ec3A2+OUUzAiLVDX2
+         E5/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=ZDgTBkc7SgtSMHD63ovogp2w1o0H2E+utv6QzLdbKbE=;
+        b=Gz4bd/SreklMHnEbkJdG8Sj4bPTT9hReko8GrTasBHmSCl86jey8fViSorXHbl/CtD
+         18BqJ2C5j5VX/yrs5Ubeop8XONGqVlDEj4+c7A/f4OijSvuuJwnTPlS308+ZeQ4KxP3u
+         SbNC8uaFBcyWL9DLOx+mmhTScNAbpesmcy2od6qcI4D3HtgB2XUKGEHPlBTJfmWToV5e
+         bAgxP39ROHFU3BolPWESUJiKCKf6IqnGnjLPdDSnVWi5HBTpQRaKXkH6u6Y6483G5w7N
+         ECq/+Lt+hz8evZkNeWJjD8H7cPuzG2m4+uly+qJ/FhT/0vm2GR3nenTkhIfJGeoAb893
+         Cf6Q==
+X-Gm-Message-State: ALKqPwfPPu9R2f/GzQ27TdNy7kGcvvRpPHt67pyU/in5iYxBh7x/0mWU
+        jcHJ9PZcMvsyhV1LOEAeTReXnA==
+X-Google-Smtp-Source: AB8JxZqdncVPgboUx+muPIF6UZylHBYvo3cLcj9D5apljZ+baBrO3bD8dYoz6bx4+7Zz/q2kAv0kFg==
+X-Received: by 2002:adf:80ad:: with SMTP id 42-v6mr3255242wrl.211.1527268882429;
+        Fri, 25 May 2018 10:21:22 -0700 (PDT)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
+        by smtp.gmail.com with ESMTPSA id s5-v6sm26579964wra.48.2018.05.25.10.21.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 25 May 2018 10:21:21 -0700 (PDT)
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrey Konovalov <andreyknvl@google.com>,
         Kees Cook <keescook@chromium.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>
-Subject: Re: [PATCH bpf-next v2 0/3] bpf: add boot parameters for sysctl knobs
-Message-ID: <20180525165009.GA20952@asgard.redhat.com>
-References: <20180523121806.GA27675@asgard.redhat.com>
- <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
- <20180524094108.066d885a@redhat.com>
- <20180524233449.ga664pzexrkzepfv@ast-mbp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180524233449.ga664pzexrkzepfv@ast-mbp>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 25 May 2018 16:49:20 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 25 May 2018 16:49:20 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'esyr@redhat.com' RCPT:''
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>
+Subject: [PATCH v3 2/6] uaccess: add untagged_addr definition for other arches
+Date:   Fri, 25 May 2018 19:21:12 +0200
+Message-Id: <8213858e15e7ad5f27cccb442a62db141269c973.1527268727.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.17.0.921.gf22659ad46-goog
+In-Reply-To: <cover.1527268727.git.andreyknvl@google.com>
+References: <cover.1527268727.git.andreyknvl@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 24, 2018 at 04:34:51PM -0700, Alexei Starovoitov wrote:
-> On Thu, May 24, 2018 at 09:41:08AM +0200, Jesper Dangaard Brouer wrote:
-> > On Wed, 23 May 2018 15:02:45 -0700
-> > Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
-> > 
-> > > On Wed, May 23, 2018 at 02:18:19PM +0200, Eugene Syromiatnikov wrote:
-> > > > Some BPF sysctl knobs affect the loading of BPF programs, and during
-> > > > system boot/init stages these sysctls are not yet configured.
-> > > > A concrete example is systemd, that has implemented loading of BPF
-> > > > programs.
-> > > > 
-> > > > Thus, to allow controlling these setting at early boot, this patch set
-> > > > adds the ability to change the default setting of these sysctl knobs
-> > > > as well as option to override them via a boot-time kernel parameter
-> > > > (in order to avoid rebuilding kernel each time a need of changing these
-> > > > defaults arises).
-> > > > 
-> > > > The sysctl knobs in question are kernel.unprivileged_bpf_disable,
-> > > > net.core.bpf_jit_harden, and net.core.bpf_jit_kallsyms.  
-> > > 
-> > > - systemd is root. today it only uses cgroup-bpf progs which require root,
-> > >   so disabling unpriv during boot time makes no difference to systemd.
-> > >   what is the actual reason to present time?
-systemd also runs a lot of code, some of which is unprivileged.
+To allow arm64 syscalls accept tagged pointers from userspace, we must
+untag them when they are passed to the kernel. Since untagging is done in
+generic parts of the kernel (like the mm subsystem), the untagged_addr
+macro should be defined for all architectures.
 
-> > > - say in the future systemd wants to use so_reuseport+bpf for faster
-> > >   networking. With unpriv disable during boot, it will force systemd
-> > >   to do such networking from root, which will lower its security barrier.
-No, it will force systemd not to use SO_REUSEPORT BPF.
+Define it as a noop for other architectures besides arm64.
 
-> > > - bpf_jit_kallsyms sysctl has immediate effect on loaded programs.
-> > >   Flipping it during the boot or right after or any time after
-> > >   is the same thing. Why add such boot flag then?
-Well, that one was for completeness.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ include/linux/uaccess.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> > > - jit_harden can be turned on by systemd. so turning it during the boot
-> > >   will make systemd progs to be constant blinded.
-> > >   Constant blinding protects kernel from unprivileged JIT spraying.
-> > >   Are you worried that systemd will attack the kernel with JIT spraying?
-I'm worried that systemd can be exploited for a JIT spraying attack.
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index efe79c1cdd47..c045b4eff95e 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -13,6 +13,10 @@
+ 
+ #include <asm/uaccess.h>
+ 
++#ifndef untagged_addr
++#define untagged_addr(addr) addr
++#endif
++
+ /*
+  * Architectures should provide two primitives (raw_copy_{to,from}_user())
+  * and get rid of their private instances of copy_{to,from}_user() and
+-- 
+2.17.0.921.gf22659ad46-goog
 
-Another thing I'm concerned with is that the generated code is different,
-which introduces additional complication during debugging.
-
-> > I think you are missing that, we want the ability to change these
-> > defaults in-order to avoid depending on /etc/sysctl.conf settings, and
-> > that the these sysctl.conf setting happen too late.
-> 
-> What does it mean 'happens too late' ?
-> Too late for what?
-> sysctl.conf has plenty of system critical knobs like
-> kernel.perf_event_paranoid, kernel.core_pattern, etc
-> The behavior of the host is drastically different after sysctl config
-> is applied.
-> 
-> > For example with jit_harden, there will be a difference between the
-> > loaded BPF program that got loaded at boot-time with systemd (no
-> > constant blinding) and when someone reloads that systemd service after
-> > /etc/sysctl.conf have been evaluated and setting bpf_jit_harden (now
-> > slower due to constant blinding).   This is inconsistent behavior.
-> 
-> net.core.bpf_jit_harden can be flipped back and forth at run-time,
-> so bpf progs before and after will be either blinded or not.
-> I don't see any inconsistency.
-
-That can't be the reason to maintain that inconsistency.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
