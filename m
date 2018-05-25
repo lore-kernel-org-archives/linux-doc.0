@@ -5,21 +5,21 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE3567DF86
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 13:58:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6712B7DF86
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 14:03:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936000AbeEYN4s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 May 2018 09:56:48 -0400
-Received: from foss.arm.com ([217.140.101.70]:34048 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934496AbeEYN4r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 May 2018 09:56:47 -0400
+        id S935826AbeEYODx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 May 2018 10:03:53 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:34246 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S935792AbeEYODx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 May 2018 10:03:53 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F28D80D;
-        Fri, 25 May 2018 06:56:47 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 731CA80D;
+        Fri, 25 May 2018 07:03:52 -0700 (PDT)
 Received: from [10.0.2.15] (unknown [10.37.12.89])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A6BB3F557;
-        Fri, 25 May 2018 06:56:44 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 285243F557;
+        Fri, 25 May 2018 07:03:48 -0700 (PDT)
 Subject: Re: [RFT v2 1/4] perf cs-etm: Generate sample for missed packets
 To:     Leo Yan <leo.yan@linaro.org>
 Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
@@ -38,18 +38,15 @@ References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
  <1526892748-326-2-git-send-email-leo.yan@linaro.org>
  <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
  <20180522083920.GD31075@leoy-ThinkPad-X240s>
- <20180522095249.GE31075@leoy-ThinkPad-X240s>
- <3c9cdb5c-e1e0-f76d-5367-02aaf668b232@arm.com>
- <20180523132203.GA30299@leoy-ThinkPad-X240s>
 From:   Robert Walker <robert.walker@arm.com>
-Message-ID: <78ccb81d-3055-ae2a-a058-a6cfe7fa1ce4@arm.com>
-Date:   Fri, 25 May 2018 14:56:42 +0100
+Message-ID: <03a53a72-8af5-02de-21a8-fd02a0974ed6@arm.com>
+Date:   Fri, 25 May 2018 15:03:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180523132203.GA30299@leoy-ThinkPad-X240s>
+In-Reply-To: <20180522083920.GD31075@leoy-ThinkPad-X240s>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -58,260 +55,234 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Leo,
 
+Following the discussions from your reply to this with a simplified 
+patch, this version of the patch works better as you also need to emit a 
+branch sample when handling a CS_ETM_TRACE_ON packet to indicate the end 
+of a block of trace.
 
-On 23/05/18 14:22, Leo Yan wrote:
-> Hi Rob,
->
-> On Wed, May 23, 2018 at 12:21:18PM +0100, Robert Walker wrote:
->> Hi Leo,
->>
->> On 22/05/18 10:52, Leo Yan wrote:
->>> On Tue, May 22, 2018 at 04:39:20PM +0800, Leo Yan wrote:
->>>
->>> [...]
->>>
->>> Rather than the patch I posted in my previous email, I think below new
->>> patch is more reasonable for me.
->>>
->>> In the below change, 'etmq->prev_packet' is only used to store the
->>> previous CS_ETM_RANGE packet, we don't need to save CS_ETM_TRACE_ON
->>> packet into 'etmq->prev_packet'.
->>>
->>> On the other hand, cs_etm__flush() can use 'etmq->period_instructions'
->>> to indicate if need to generate instruction sample or not.  If it's
->>> non-zero, then generate instruction sample and
->>> 'etmq->period_instructions' will be cleared; so next time if there
->>> have more tracing CS_ETM_TRACE_ON packet, it can skip to generate
->>> instruction sample due 'etmq->period_instructions' is zero.
->>>
->>> How about you think for this?
->>>
->>> Thanks,
->>> Leo Yan
->>>
->> I don't think this covers the cases where CS_ETM_TRACE_ON is used to
->> indicate a discontinuity in the trace.  For example, there is work in
->> progress to configure the ETM so that it only traces a few thousand cycles
->> with a gap of many thousands of cycles between each chunk of trace - this
->> can be used to sample program execution in the form of instruction events
->> with branch stacks for feedback directed optimization (AutoFDO).
->>
->> In this case, the raw trace is something like:
->>
->>      ...
->>      I_ADDR_L_64IS0 : Address, Long, 64 bit, IS0.; Addr=0x0000007E7B886908;
->>      I_ATOM_F3 : Atom format 3.; EEN
->>      I_ATOM_F1 : Atom format 1.; E
->> # Trace stops here
->>
->> # Some time passes, and then trace is turned on again
->>      I_TRACE_ON : Trace On.
->>      I_ADDR_CTXT_L_64IS0 : Address & Context, Long, 64 bit, IS0.;
->> Addr=0x00000057224322F4; Ctxt: AArch64,EL0, NS;
->>      I_ATOM_F3 : Atom format 3.; ENN
->>      I_ATOM_F5 : Atom format 5.; ENENE
->>      ...
->>
->> This results in the following packets from the decoder:
->>
->> CS_ETM_RANGE: [0x7e7b886908-0x7e7b886930] br
->> CS_ETM_RANGE: [0x7e7b88699c-0x7e7b8869a4] br
->> CS_ETM_RANGE: [0x7e7b8869d8-0x7e7b8869f0]
->> CS_ETM_RANGE: [0x7e7b8869f0-0x7e7b8869fc] br
->> CS_ETM_TRACE_ON
->> CS_ETM_RANGE: [0x57224322f4-0x5722432304] br
->> CS_ETM_RANGE: [0x57224320e8-0x57224320ec]
->> CS_ETM_RANGE: [0x57224320ec-0x57224320f8]
->> CS_ETM_RANGE: [0x57224320f8-0x572243212c] br
->> CS_ETM_RANGE: [0x5722439b80-0x5722439bec]
->> CS_ETM_RANGE: [0x5722439bec-0x5722439c14] br
->> CS_ETM_RANGE: [0x5722437c30-0x5722437c6c]
->> CS_ETM_RANGE: [0x5722437c6c-0x5722437c7c] br
->>
->> Without handling the CS_ETM_TRACE_ON, this would be interpreted as a branch
->> from 0x7e7b8869f8 to 0x57224322f4, when there is actually a gap of many
->> thousand instructions between these.
->>
->> I think this patch will break the branch stacks - by removing the
->> prev_packet swap from cs_etm__flush(), the next time a CS_ETM_RANGE packet
->> is handled, cs_etm__sample() will see prev_packet contains the last
->> CS_ETM_RANGE from the previous block of trace, causing an erroneous call to
->> cs_etm__update_last_branch_rb().  In the example above, the branch stack
->> will contain an erroneous branch from 0x7e7b8869f8 to 0x57224322f4.
->>
->> I think what you need to do is add a check for the previous packet being a
->> CS_ETM_TRACE_ON when determining the generate_sample value.
-> I still can see there have hole for packets handling with your
-> suggestion, let's focus on below three packets:
->
-> CS_ETM_RANGE:    [0x7e7b8869f0-0x7e7b8869fc] br
-> CS_ETM_TRACE_ON: [0xdeadbeefdeadbeef-0xdeadbeefdeadbeef]
-> CS_ETM_RANGE:    [0x57224322f4-0x5722432304] br
->
-> When the CS_ETM_TRACE_ON packet is coming, cs_etm__flush() doesn't
-> handle for 'etmq->prev_packet' to generate branch sample, this results
-> in we miss the info for 0x7e7b8869fc, and with packet swapping
-> 'etmq->prev_packet' is assigned to CS_ETM_TRACE_ON packet.
->
-> When the last CS_ETM_RANGE packet is coming, cs_etm__sample() will
-> combine the values from CS_ETM_TRACE_ON packet and the last
-> CS_ETM_RANGE packet to generate branch sample packet; at the end
-> we get below sample packets:
->
->    packet(n):   sample::addr=0x7e7b8869f0
->    packet(n+1): sample::ip=0xdeadbeefdeadbeeb sample::addr=0x57224322f4
->
-> So I think we also need to generate branch sample, and we can get
-> below results:
->
->    packet(n):   sample::addr=0x7e7b8869f0
->    packet(n+1): sample::ip=0x7e7b8869f8 sample::addr=0xdeadbeefdeadbeef
->    packet(n+2): sample::ip=0xdeadbeefdeadbeeb sample::addr=0x57224322f4
->
-> So we also can rely on this to get to know there have one address
-> range is [0xdeadbeefdeadbeef..0xdeadbeefdeadbeeb] to indicate there
-> have a discontinuity in the trace.
-Yes, I agree you need the extra branch sample from cs_etm__flush().
-
-With a discontinuity in trace, I get output from perf script like this:
-
-branches:u:        59ee6e2e08 sqlite3VdbeExec (speedtest1) =>       
-59ee6e2e64 sqlite3VdbeExec (spe
-branches:u:        59ee6e2e7c sqlite3VdbeExec (speedtest1) =>       
-59ee6e2eec sqlite3VdbeExec (spe
-branches:u:        59ee6e2efc sqlite3VdbeExec (speedtest1) =>       
-59ee6e2f14 sqlite3VdbeExec (spe
-branches:u:        59ee6e2f3c sqlite3VdbeExec (speedtest1) => 
-deadbeefdeadbeef [unknown] ([unknown])
-branches:u:  deadbeefdeadbeeb [unknown] ([unknown]) => 769949daa0 memcpy 
-(/system/lib64/libc.so)
-branches:u:        769949dacc memcpy (/system/lib64/libc.so) =>       
-59ee6f0664 insertCell (speedtest1)
-branches:u:        59ee6f0664 insertCell (speedtest1) => 59ee6f0684 
-insertCell (speedtest1)
-branches:u:        59ee6f06a4 insertCell (speedtest1) => 59ee6a4d50 
-memmove@plt (speedtest1)
-branches:u:        59ee6a4d5c memmove@plt (speedtest1) => 769949ebf8 
-memmove (/system/lib64/libc.so)
-
-Showing there is a break in trace between 59ee6e2f3c and 769949daa0.  
-The deadbeefdeadbeef addresses are a bit ugly - these are just dummy 
-values emitted in the decoder layer - maybe these should be changed to 
-0.  Or you could add a new sample type (i.e. not branch) to indicate the 
-start / end of trace, with only the valid address.
-
-With this change, it becomes the same as the patch from your previous mail.
+This patch does not break the output from perf inject to generate 
+instruction samples for AutoFDO, so I am happy with that.
 
 Regards
 
 Rob
 
->> Regards
+Reviewed-by: Robert Walker <robert.walker@arm.com>
+
+
+On 22/05/18 09:39, Leo Yan wrote:
+> Hi Rob,
+>
+> On Mon, May 21, 2018 at 12:27:42PM +0100, Robert Walker wrote:
+>> Hi Leo,
 >>
->> Rob
->>
->>> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
->>> index 822ba91..dd354ad 100644
->>> --- a/tools/perf/util/cs-etm.c
->>> +++ b/tools/perf/util/cs-etm.c
->>> @@ -495,6 +495,13 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
->>>   static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
->>>   {
->>>   	/*
->>> +	 * The packet is the start tracing packet if the end_addr is zero,
->>> +	 * returns 0 for this case.
->>> +	 */
->>> +	if (!packet->end_addr)
->>> +		return 0;
->>> +
->>> +	/*
->>>   	 * The packet records the execution range with an exclusive end address
->>>   	 *
->>>   	 * A64 instructions are constant size, so the last executed
->>> @@ -897,13 +904,27 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
->>>   		etmq->period_instructions = instrs_over;
->>>   	}
->>> -	if (etm->sample_branches &&
->>> -	    etmq->prev_packet &&
->>> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
->>> -	    etmq->prev_packet->last_instr_taken_branch) {
->>> -		ret = cs_etm__synth_branch_sample(etmq);
->>> -		if (ret)
->>> -			return ret;
->>> +	if (etm->sample_branches && etmq->prev_packet) {
->>> +		bool generate_sample = false;
->>> +
->>> +		/* Generate sample for start tracing packet */
->>> +		if (etmq->prev_packet->sample_type == 0)
->>> +			generate_sample = true;
->> Also check for etmq->prev_packet->sample_type == CS_ETM_TRACE_ON here and
->> set generate_sample = true.
-> Agree, will add this.
->
->>> +
->>> +		/* Generate sample for exception packet */
->>> +		if (etmq->prev_packet->exc == true)
->>> +			generate_sample = true;
->>> +
->>> +		/* Generate sample for normal branch packet */
->>> +		if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
->>> +		    etmq->prev_packet->last_instr_taken_branch)
->>> +			generate_sample = true;
->>> +
->>> +		if (generate_sample) {
->>> +			ret = cs_etm__synth_branch_sample(etmq);
->>> +			if (ret)
->>> +				return ret;
->>> +		}
->>>   	}
->>>   	if (etm->sample_branches || etm->synth_opts.last_branch) {
->>> @@ -922,11 +943,12 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
->>>   static int cs_etm__flush(struct cs_etm_queue *etmq)
->>>   {
->>>   	int err = 0;
->>> -	struct cs_etm_packet *tmp;
->>>   	if (etmq->etm->synth_opts.last_branch &&
->>>   	    etmq->prev_packet &&
->>> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE) {
->>> +	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
->>> +	    etmq->period_instructions) {
->>> +
->> I don't think this is needed.
-> Okay, I will keep this.
->
->>>   		/*
->>>   		 * Generate a last branch event for the branches left in the
->>>   		 * circular buffer at the end of the trace.
->>> @@ -940,14 +962,6 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
->>>   			etmq, addr,
->>>   			etmq->period_instructions);
->>>   		etmq->period_instructions = 0;
->>> -
->>> -		/*
->>> -		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
->>> -		 * the next incoming packet.
->>> -		 */
->>> -		tmp = etmq->packet;
->>> -		etmq->packet = etmq->prev_packet;
->>> -		etmq->prev_packet = tmp;
->> This should not be changed as discussed above.
-> Okay, will keep this.  But I suggest we add some change like below:
->
-> +    if (etm->sample_branches) {
-> +        err = cs_etm__synth_branch_sample(etmq);
-> +        if (err)
-> +            return err;
-> +    }
->
-> If so, could you review my posted another patch for this?
-> http://archive.armlinux.org.uk/lurker/message/20180522.083920.184f1f78.en.html
-WIll do - with these changes, it is the same as your original patch.
-> Thanks,
-> Leo Yan
->
->>>   	}
->>>   	return err;
+>> On 21/05/18 09:52, Leo Yan wrote:
+>>> Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
+>>> traces") reworks the samples generation flow from CoreSight trace to
+>>> match the correct format so Perf report tool can display the samples
+>>> properly.  But the change has side effect for packet handling, it only
+>>> generate samples when 'prev_packet->last_instr_taken_branch' is true,
+>>> this results in the start tracing packet and exception packets are
+>>> dropped.
 >>>
+>>> This patch checks extra two conditions for complete samples:
+>>>
+>>> - If 'prev_packet->sample_type' is zero we can use this condition to
+>>>    get to know this is the start tracing packet; for this case, the start
+>>>    packet's end_addr is zero as well so we need to handle it in the
+>>>    function cs_etm__last_executed_instr();
+>>>
+>> I think you also need to add something in to handle discontinuities in
+>> trace - for example it is possible to configure the ETM to only trace
+>> execution in specific code regions or to trace a few cycles every so
+>> often. In these cases, prev_packet->sample_type will not be zero, but
+>> whatever the previous packet was.  You will get a CS_ETM_TRACE_ON packet in
+>> such cases, generated by an I_TRACE_ON element in the trace stream.
+>> You also get this on exception return.
+>>
+>> However, you should also keep the test for prev_packet->sample_type == 0
+>> as you may not see a CS_ETM_TRACE_ON when decoding a buffer that has
+>> wrapped.
+> Thanks for reviewing.  Let's dig more detailed into this issue,
+> especially for handling packet CS_ETM_TRACE_ON, I'd like divide into two
+> sub cases.
+>
+> - The first case is for using python script:
+>
+>    I use python script to analyze packets with below command:
+>    ./perf script --itrace=ril128 -s arm-cs-trace-disasm.py -F cpu,event,ip,addr,sym -- -v -d objdump -k ./vmlinux
+>
+>    What I observe is after we pass python script with parameter '-s
+>    arm-cs-trace-disasm.py', then instruction tracing options
+>    '--itrace=ril128' isn't really used;  the perf tool creates another
+>    new process for launch python script and re-enter cmd_script()
+>    function, but at the second time when invoke cmd_script() for python
+>    script execution the option '--itrace=ril128' is dropped and all
+>    parameters are only valid defined by the python script.
+>
+>    As result, I can the variable 'etmq->etm->synth_opts.last_branch' is
+>    always FALSE for running python script.  So all CS_ETM_TRACE_ON
+>    packets will be ignored in the function cs_etm__flush().
+>
+>    Even the CS_ETM_TRACE_ON packets are missed to handle, the program
+>    flow still can work well.  The reason is without the interference by
+>    CS_ETM_TRACE_ON, the CS_ETM_RANGE packets can smoothly create
+>    instruction range by ignore the middle CS_ETM_TRACE_ON packet.
+>
+>    Please see below example, in this example there have 3 packets, the
+>    first one packet is CS_ETM_RANGE packet which is labelled with
+>    'PACKET_1', the first one packet can properly generate branch sample
+>    data with previous packet as expected;  the second packet is
+>    PACKET_2 which is CS_ETM_TRACE_ON, but
+>    'etmq->etm->synth_opts.last_branch' is false so function
+>    cs_etm__flush() doesn't handle it and skip the swap operation
+>    "etmq->prev_packet = tmp"; the third packet is PACKET_3, which is
+>    CS_ETM_RANGE packet and we can see it's smoontly to create
+>    continous instruction range between PACKET_1 and PACKET_3.
+>
+>    cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f79c end_addr=0xffff000008a5f7bc last_instr_taken_branch=1
+>    PACKET_1: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+>    cs_etm__synth_branch_sample: ip=0xffff000008a5f7b8 addr=0xffff000008a5f858 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=1 flags=0 cpumode=2
+>
+>    cs_etm__flush: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+>    PACKET_2: cs_etm__flush: packet: sample_type=2 exc=0 exc_ret=0 cpu=2 start_addr=0xdeadbeefdeadbeef end_addr=0xdeadbeefdeadbeef last_instr_taken_branch=1
+>
+>    cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+>    PACKET_3: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=2 start_addr=0xffff000008be7528 end_addr=0xffff000008be7538 last_instr_taken_branch=1
+>    cs_etm__synth_branch_sample: ip=0xffff000008a5f860 addr=0xffff000008be7528 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=2 flags=0 cpumode=2
+>
+>    So seems to me, the CS_ETM_TRACE_ON packet doesn't introduce trouble
+>    for the program flow analysis if we can handle all CS_ETM_RANGE
+>    packets and without handling CS_ETM_TRACE_ON packet for branch
+>    samples.
+>
+> - The second case is for --itrace option without python script:
+>    ./perf script --itrace=ril -F cpu,event,ip,addr,sym -k ./vmlinux
+>
+>    In this case, the flag 'etmq->etm->synth_opts.last_branch' is true
+>    so CS_ETM_TRACE_ON packet will be handled; but I can observe the
+>    CS_ETM_RANGE packet in etmq->prev_packet isn't handled in the
+>    function cs_etm__flush() for branch sample, so actually we miss some
+>    branch sample for this case.
+>
+>    So I think we also need handle CS_ETM_RANGE packet in function
+>    cs_etm__flush() to generate branch samples.  But this has side
+>    effect, we introduce the extra track for CS_ETM_TRACE_ON packet for
+>    branch samples, so we will see one branch range like:
+>    [ 0xdeadbeefdeadbeef .. 0xdeadbeefdeadbeef ].
+>
+> Please reivew below change is okay for you?  Thanks a lot for
+> suggestions.
+>
+> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+> index 822ba91..37d3722 100644
+> --- a/tools/perf/util/cs-etm.c
+> +++ b/tools/perf/util/cs-etm.c
+> @@ -495,6 +495,13 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
+>   static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
+>   {
+>   	/*
+> +	 * The packet is the start tracing packet if the end_addr is zero,
+> +	 * returns 0 for this case.
+> +	 */
+> +	if (!packet->end_addr)
+> +		return 0;
+> +
+> +	/*
+>   	 * The packet records the execution range with an exclusive end address
+>   	 *
+>   	 * A64 instructions are constant size, so the last executed
+> @@ -897,13 +904,28 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+>   		etmq->period_instructions = instrs_over;
+>   	}
+>   
+> -	if (etm->sample_branches &&
+> -	    etmq->prev_packet &&
+> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+> -	    etmq->prev_packet->last_instr_taken_branch) {
+> -		ret = cs_etm__synth_branch_sample(etmq);
+> -		if (ret)
+> -			return ret;
+> +	if (etm->sample_branches && etmq->prev_packet) {
+> +		bool generate_sample = false;
+> +
+> +		/* Generate sample for start tracing packet */
+> +		if (etmq->prev_packet->sample_type == 0 ||
+> +		    etmq->prev_packet->sample_type == CS_ETM_TRACE_ON)
+> +			generate_sample = true;
+> +
+> +		/* Generate sample for exception packet */
+> +		if (etmq->prev_packet->exc == true)
+> +			generate_sample = true;
+> +
+> +		/* Generate sample for normal branch packet */
+> +		if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+> +		    etmq->prev_packet->last_instr_taken_branch)
+> +			generate_sample = true;
+> +
+> +		if (generate_sample) {
+> +			ret = cs_etm__synth_branch_sample(etmq);
+> +			if (ret)
+> +				return ret;
+> +		}
+>   	}
+>   
+>   	if (etm->sample_branches || etm->synth_opts.last_branch) {
+> @@ -921,12 +943,17 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+>   
+>   static int cs_etm__flush(struct cs_etm_queue *etmq)
+>   {
+> +	struct cs_etm_auxtrace *etm = etmq->etm;
+>   	int err = 0;
+>   	struct cs_etm_packet *tmp;
+>   
+> -	if (etmq->etm->synth_opts.last_branch &&
+> -	    etmq->prev_packet &&
+> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE) {
+> +	if (!etmq->prev_packet)
+> +		return 0;
+> +
+> +	if (etmq->prev_packet->sample_type != CS_ETM_RANGE)
+> +		return 0;
+> +
+> +	if (etmq->etm->synth_opts.last_branch) {
+>   		/*
+>   		 * Generate a last branch event for the branches left in the
+>   		 * circular buffer at the end of the trace.
+> @@ -939,18 +966,25 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
+>   		err = cs_etm__synth_instruction_sample(
+>   			etmq, addr,
+>   			etmq->period_instructions);
+> +		if (err)
+> +			return err;
+>   		etmq->period_instructions = 0;
+> +	}
+>   
+> -		/*
+> -		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+> -		 * the next incoming packet.
+> -		 */
+> -		tmp = etmq->packet;
+> -		etmq->packet = etmq->prev_packet;
+> -		etmq->prev_packet = tmp;
+> +	if (etm->sample_branches) {
+> +		err = cs_etm__synth_branch_sample(etmq);
+> +		if (err)
+> +			return err;
+>   	}
+>   
+> -	return err;
+> +	/*
+> +	 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+> +	 * the next incoming packet.
+> +	 */
+> +	tmp = etmq->packet;
+> +	etmq->packet = etmq->prev_packet;
+> +	etmq->prev_packet = tmp;
+> +	return 0;
+>   }
+>   
+>   static int cs_etm__run_decoder(struct cs_etm_queue *etmq)
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
