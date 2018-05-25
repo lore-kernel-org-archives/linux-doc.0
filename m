@@ -1,129 +1,298 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E0747D08C
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 14:46:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9854B7DF8C
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 May 2018 15:27:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936216AbeEYOpV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 May 2018 10:45:21 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:35790 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S936185AbeEYOpU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 May 2018 10:45:20 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S966735AbeEYP1T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 May 2018 11:27:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44052 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S965570AbeEYP1Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 May 2018 11:27:16 -0400
+Received: from jouet.infradead.org (unknown [179.97.41.186])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 6A00488843;
-        Fri, 25 May 2018 14:45:19 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C049F1102E30;
-        Fri, 25 May 2018 14:45:14 +0000 (UTC)
-Subject: Re: [PATCH v8 3/6] cpuset: Add cpuset.sched.load_balance flag to v2
-To:     Patrick Bellasi <patrick.bellasi@arm.com>
-Cc:     Juri Lelli <juri.lelli@redhat.com>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 83AF720883;
+        Fri, 25 May 2018 15:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1527262035;
+        bh=MPb8XSh/TM9mWudYz0jOSxrVJWuIVRsqVVDeWsOpJn4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=x7wJwqHdcYzpkhcAQQux6IQx2oQ9Sy5KXo23vDEGWTl4XfAwx11uL+BRzTbjSs3h8
+         TNGpdhdfYeE3Qv7mzi2Uw1tFYXWmpHrQUMyl1ra0P+X5kuTUc6J9uvh6Xu34N+SA3E
+         Jy8xrjVieiaA3AX81KnYd2B/FsVirHthLoEgjILE=
+Received: by jouet.infradead.org (Postfix, from userid 1000)
+        id 7232C1468A6; Fri, 25 May 2018 12:27:13 -0300 (-03)
+Date:   Fri, 25 May 2018 12:27:13 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Robert Walker <robert.walker@arm.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-4-git-send-email-longman@redhat.com>
- <20180524143614.GC3948@localhost.localdomain>
- <4bd31510-4f73-e263-8dc1-5edb0fe63b59@redhat.com>
- <20180524151656.GD3948@localhost.localdomain>
- <5f409ed7-3850-f1ea-58cf-4326605d1570@redhat.com>
- <20180525094050.GB30654@e110439-lin>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <dc9c8ae5-d3fa-2c0a-a77a-bf79afa34134@redhat.com>
-Date:   Fri, 25 May 2018 10:45:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tor Jeremiassen <tor@ti.com>,
+        mike.leach@linaro.org, kim.phillips@arm.com,
+        coresight@lists.linaro.org, Mike Leach <mike.leach@arm.com>
+Subject: Re: [RFT v2 1/4] perf cs-etm: Generate sample for missed packets
+Message-ID: <20180525152713.GD4091@kernel.org>
+References: <1526892748-326-1-git-send-email-leo.yan@linaro.org>
+ <1526892748-326-2-git-send-email-leo.yan@linaro.org>
+ <bc320d6d-a21d-b5a4-e30d-511bb69aba32@arm.com>
+ <20180522083920.GD31075@leoy-ThinkPad-X240s>
+ <03a53a72-8af5-02de-21a8-fd02a0974ed6@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20180525094050.GB30654@e110439-lin>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 25 May 2018 14:45:19 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Fri, 25 May 2018 14:45:19 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <03a53a72-8af5-02de-21a8-fd02a0974ed6@arm.com>
+X-Url:  http://acmel.wordpress.com
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/25/2018 05:40 AM, Patrick Bellasi wrote:
-> On 24-May 11:22, Waiman Long wrote:
->> On 05/24/2018 11:16 AM, Juri Lelli wrote:
->>> On 24/05/18 11:09, Waiman Long wrote:
->>>> On 05/24/2018 10:36 AM, Juri Lelli wrote:
->>>>> On 17/05/18 16:55, Waiman Long wrote:
->>>>>
->>>>> [...]
->>>>>
->>>>>> +	A parent cgroup cannot distribute all its CPUs to child
->>>>>> +	scheduling domain cgroups unless its load balancing flag is
->>>>>> +	turned off.
->>>>>> +
->>>>>> +  cpuset.sched.load_balance
->>>>>> +	A read-write single value file which exists on non-root
->>>>>> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
->>>>>> +	either "0" (off) or a non-zero value (on).  This flag is set
->>>>>> +	by the parent and is not delegatable.
->>>>>> +
->>>>>> +	When it is on, tasks within this cpuset will be load-balanced
->>>>>> +	by the kernel scheduler.  Tasks will be moved from CPUs with
->>>>>> +	high load to other CPUs within the same cpuset with less load
->>>>>> +	periodically.
->>>>>> +
->>>>>> +	When it is off, there will be no load balancing among CPUs on
->>>>>> +	this cgroup.  Tasks will stay in the CPUs they are running on
->>>>>> +	and will not be moved to other CPUs.
->>>>>> +
->>>>>> +	The initial value of this flag is "1".	This flag is then
->>>>>> +	inherited by child cgroups with cpuset enabled.  Its state
->>>>>> +	can only be changed on a scheduling domain cgroup with no
->>>>>> +	cpuset-enabled children.
->>>>> [...]
->>>>>
->>>>>> +	/*
->>>>>> +	 * On default hierachy, a load balance flag change is only allowed
->>>>>> +	 * in a scheduling domain with no child cpuset.
->>>>>> +	 */
->>>>>> +	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) && balance_flag_changed &&
->>>>>> +	   (!is_sched_domain(cs) || css_has_online_children(&cs->css))) {
->>>>>> +		err = -EINVAL;
->>>>>> +		goto out;
->>>>>> +	}
->>>>> The rule is actually
->>>>>
->>>>>  - no child cpuset
->>>>>  - and it must be a scheduling domain
-> I always a bit confused by the usage of "scheduling domain", which
-> overlaps with the SD concept from the scheduler standpoint.
+Em Fri, May 25, 2018 at 03:03:47PM +0100, Robert Walker escreveu:
+> Hi Leo,
+> 
+> Following the discussions from your reply to this with a simplified patch,
+> this version of the patch works better as you also need to emit a branch
+> sample when handling a CS_ETM_TRACE_ON packet to indicate the end of a block
+> of trace.
+> 
+> This patch does not break the output from perf inject to generate
+> instruction samples for AutoFDO, so I am happy with that.
+> 
+> Regards
+> 
+> Rob
+> 
+> Reviewed-by: Robert Walker <robert.walker@arm.com>
 
-It is supposed to mimic SD concept of scheduler.
+So, Leo, can you please resubmit, bumping the v2 to v3 (or the latest
+one, I haven't fully reread this thread) add this "Reviewed-by: Robert"
+tag and any other that people may have provided, so that I can merge it?
 
->
-> AFAIU a cpuset sched domain is not granted to be turned into an
-> actual scheduler SD, am I wrong?
->
-> If that's the case, why not better disambiguate these two concept by
-> calling the cpuset one a "cpus partition" or eventually "cpuset domain"?
+Thanks,
 
-Good point. Peter has similar comment. I will probably change the name
-and clarifying it better in the documentation.
-
-Cheers,
-Longman
-
+- Arnaldo
+ 
+> 
+> On 22/05/18 09:39, Leo Yan wrote:
+> > Hi Rob,
+> > 
+> > On Mon, May 21, 2018 at 12:27:42PM +0100, Robert Walker wrote:
+> > > Hi Leo,
+> > > 
+> > > On 21/05/18 09:52, Leo Yan wrote:
+> > > > Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
+> > > > traces") reworks the samples generation flow from CoreSight trace to
+> > > > match the correct format so Perf report tool can display the samples
+> > > > properly.  But the change has side effect for packet handling, it only
+> > > > generate samples when 'prev_packet->last_instr_taken_branch' is true,
+> > > > this results in the start tracing packet and exception packets are
+> > > > dropped.
+> > > > 
+> > > > This patch checks extra two conditions for complete samples:
+> > > > 
+> > > > - If 'prev_packet->sample_type' is zero we can use this condition to
+> > > >    get to know this is the start tracing packet; for this case, the start
+> > > >    packet's end_addr is zero as well so we need to handle it in the
+> > > >    function cs_etm__last_executed_instr();
+> > > > 
+> > > I think you also need to add something in to handle discontinuities in
+> > > trace - for example it is possible to configure the ETM to only trace
+> > > execution in specific code regions or to trace a few cycles every so
+> > > often. In these cases, prev_packet->sample_type will not be zero, but
+> > > whatever the previous packet was.  You will get a CS_ETM_TRACE_ON packet in
+> > > such cases, generated by an I_TRACE_ON element in the trace stream.
+> > > You also get this on exception return.
+> > > 
+> > > However, you should also keep the test for prev_packet->sample_type == 0
+> > > as you may not see a CS_ETM_TRACE_ON when decoding a buffer that has
+> > > wrapped.
+> > Thanks for reviewing.  Let's dig more detailed into this issue,
+> > especially for handling packet CS_ETM_TRACE_ON, I'd like divide into two
+> > sub cases.
+> > 
+> > - The first case is for using python script:
+> > 
+> >    I use python script to analyze packets with below command:
+> >    ./perf script --itrace=ril128 -s arm-cs-trace-disasm.py -F cpu,event,ip,addr,sym -- -v -d objdump -k ./vmlinux
+> > 
+> >    What I observe is after we pass python script with parameter '-s
+> >    arm-cs-trace-disasm.py', then instruction tracing options
+> >    '--itrace=ril128' isn't really used;  the perf tool creates another
+> >    new process for launch python script and re-enter cmd_script()
+> >    function, but at the second time when invoke cmd_script() for python
+> >    script execution the option '--itrace=ril128' is dropped and all
+> >    parameters are only valid defined by the python script.
+> > 
+> >    As result, I can the variable 'etmq->etm->synth_opts.last_branch' is
+> >    always FALSE for running python script.  So all CS_ETM_TRACE_ON
+> >    packets will be ignored in the function cs_etm__flush().
+> > 
+> >    Even the CS_ETM_TRACE_ON packets are missed to handle, the program
+> >    flow still can work well.  The reason is without the interference by
+> >    CS_ETM_TRACE_ON, the CS_ETM_RANGE packets can smoothly create
+> >    instruction range by ignore the middle CS_ETM_TRACE_ON packet.
+> > 
+> >    Please see below example, in this example there have 3 packets, the
+> >    first one packet is CS_ETM_RANGE packet which is labelled with
+> >    'PACKET_1', the first one packet can properly generate branch sample
+> >    data with previous packet as expected;  the second packet is
+> >    PACKET_2 which is CS_ETM_TRACE_ON, but
+> >    'etmq->etm->synth_opts.last_branch' is false so function
+> >    cs_etm__flush() doesn't handle it and skip the swap operation
+> >    "etmq->prev_packet = tmp"; the third packet is PACKET_3, which is
+> >    CS_ETM_RANGE packet and we can see it's smoontly to create
+> >    continous instruction range between PACKET_1 and PACKET_3.
+> > 
+> >    cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f79c end_addr=0xffff000008a5f7bc last_instr_taken_branch=1
+> >    PACKET_1: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+> >    cs_etm__synth_branch_sample: ip=0xffff000008a5f7b8 addr=0xffff000008a5f858 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=1 flags=0 cpumode=2
+> > 
+> >    cs_etm__flush: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+> >    PACKET_2: cs_etm__flush: packet: sample_type=2 exc=0 exc_ret=0 cpu=2 start_addr=0xdeadbeefdeadbeef end_addr=0xdeadbeefdeadbeef last_instr_taken_branch=1
+> > 
+> >    cs_etm__sample: prev_packet: sample_type=1 exc=0 exc_ret=0 cpu=1 start_addr=0xffff000008a5f858 end_addr=0xffff000008a5f864 last_instr_taken_branch=1
+> >    PACKET_3: cs_etm__sample: packet: sample_type=1 exc=0 exc_ret=0 cpu=2 start_addr=0xffff000008be7528 end_addr=0xffff000008be7538 last_instr_taken_branch=1
+> >    cs_etm__synth_branch_sample: ip=0xffff000008a5f860 addr=0xffff000008be7528 pid=2290 tid=2290 id=1000000021 stream_id=1000000021 period=1 cpu=2 flags=0 cpumode=2
+> > 
+> >    So seems to me, the CS_ETM_TRACE_ON packet doesn't introduce trouble
+> >    for the program flow analysis if we can handle all CS_ETM_RANGE
+> >    packets and without handling CS_ETM_TRACE_ON packet for branch
+> >    samples.
+> > 
+> > - The second case is for --itrace option without python script:
+> >    ./perf script --itrace=ril -F cpu,event,ip,addr,sym -k ./vmlinux
+> > 
+> >    In this case, the flag 'etmq->etm->synth_opts.last_branch' is true
+> >    so CS_ETM_TRACE_ON packet will be handled; but I can observe the
+> >    CS_ETM_RANGE packet in etmq->prev_packet isn't handled in the
+> >    function cs_etm__flush() for branch sample, so actually we miss some
+> >    branch sample for this case.
+> > 
+> >    So I think we also need handle CS_ETM_RANGE packet in function
+> >    cs_etm__flush() to generate branch samples.  But this has side
+> >    effect, we introduce the extra track for CS_ETM_TRACE_ON packet for
+> >    branch samples, so we will see one branch range like:
+> >    [ 0xdeadbeefdeadbeef .. 0xdeadbeefdeadbeef ].
+> > 
+> > Please reivew below change is okay for you?  Thanks a lot for
+> > suggestions.
+> > 
+> > diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+> > index 822ba91..37d3722 100644
+> > --- a/tools/perf/util/cs-etm.c
+> > +++ b/tools/perf/util/cs-etm.c
+> > @@ -495,6 +495,13 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
+> >   static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
+> >   {
+> >   	/*
+> > +	 * The packet is the start tracing packet if the end_addr is zero,
+> > +	 * returns 0 for this case.
+> > +	 */
+> > +	if (!packet->end_addr)
+> > +		return 0;
+> > +
+> > +	/*
+> >   	 * The packet records the execution range with an exclusive end address
+> >   	 *
+> >   	 * A64 instructions are constant size, so the last executed
+> > @@ -897,13 +904,28 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+> >   		etmq->period_instructions = instrs_over;
+> >   	}
+> > -	if (etm->sample_branches &&
+> > -	    etmq->prev_packet &&
+> > -	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+> > -	    etmq->prev_packet->last_instr_taken_branch) {
+> > -		ret = cs_etm__synth_branch_sample(etmq);
+> > -		if (ret)
+> > -			return ret;
+> > +	if (etm->sample_branches && etmq->prev_packet) {
+> > +		bool generate_sample = false;
+> > +
+> > +		/* Generate sample for start tracing packet */
+> > +		if (etmq->prev_packet->sample_type == 0 ||
+> > +		    etmq->prev_packet->sample_type == CS_ETM_TRACE_ON)
+> > +			generate_sample = true;
+> > +
+> > +		/* Generate sample for exception packet */
+> > +		if (etmq->prev_packet->exc == true)
+> > +			generate_sample = true;
+> > +
+> > +		/* Generate sample for normal branch packet */
+> > +		if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+> > +		    etmq->prev_packet->last_instr_taken_branch)
+> > +			generate_sample = true;
+> > +
+> > +		if (generate_sample) {
+> > +			ret = cs_etm__synth_branch_sample(etmq);
+> > +			if (ret)
+> > +				return ret;
+> > +		}
+> >   	}
+> >   	if (etm->sample_branches || etm->synth_opts.last_branch) {
+> > @@ -921,12 +943,17 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+> >   static int cs_etm__flush(struct cs_etm_queue *etmq)
+> >   {
+> > +	struct cs_etm_auxtrace *etm = etmq->etm;
+> >   	int err = 0;
+> >   	struct cs_etm_packet *tmp;
+> > -	if (etmq->etm->synth_opts.last_branch &&
+> > -	    etmq->prev_packet &&
+> > -	    etmq->prev_packet->sample_type == CS_ETM_RANGE) {
+> > +	if (!etmq->prev_packet)
+> > +		return 0;
+> > +
+> > +	if (etmq->prev_packet->sample_type != CS_ETM_RANGE)
+> > +		return 0;
+> > +
+> > +	if (etmq->etm->synth_opts.last_branch) {
+> >   		/*
+> >   		 * Generate a last branch event for the branches left in the
+> >   		 * circular buffer at the end of the trace.
+> > @@ -939,18 +966,25 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
+> >   		err = cs_etm__synth_instruction_sample(
+> >   			etmq, addr,
+> >   			etmq->period_instructions);
+> > +		if (err)
+> > +			return err;
+> >   		etmq->period_instructions = 0;
+> > +	}
+> > -		/*
+> > -		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+> > -		 * the next incoming packet.
+> > -		 */
+> > -		tmp = etmq->packet;
+> > -		etmq->packet = etmq->prev_packet;
+> > -		etmq->prev_packet = tmp;
+> > +	if (etm->sample_branches) {
+> > +		err = cs_etm__synth_branch_sample(etmq);
+> > +		if (err)
+> > +			return err;
+> >   	}
+> > -	return err;
+> > +	/*
+> > +	 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+> > +	 * the next incoming packet.
+> > +	 */
+> > +	tmp = etmq->packet;
+> > +	etmq->packet = etmq->prev_packet;
+> > +	etmq->prev_packet = tmp;
+> > +	return 0;
+> >   }
+> >   static int cs_etm__run_decoder(struct cs_etm_queue *etmq)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
