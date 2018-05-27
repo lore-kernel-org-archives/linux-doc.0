@@ -5,77 +5,70 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 33FC57D048
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 May 2018 06:40:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 440477D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 May 2018 14:56:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933904AbeE0GkJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 27 May 2018 02:40:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41718 "EHLO mail.kernel.org"
+        id S965484AbeE0O4b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 27 May 2018 10:56:31 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:21872 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933685AbeE0GkI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 27 May 2018 02:40:08 -0400
-Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1DBA52086D;
-        Sun, 27 May 2018 06:40:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1527403207;
-        bh=5wQhv6S+rg9IUga3eOGdFw7prpOMowyd99FG6nOjyCA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cOPNqm0mwjT7jW3x96B5uO1YGL0ugKU8XplPnH7DboMH5037bmUsLL2kGlXbQBeK2
-         q1gt1rI4GB+qhI34w/Dkkrz8QhPWY2FZ2A/Ku8BQ2hcZypYq1NyJ92J++dbGrIlA2L
-         FBe/NVcOdMqC1IuLFTMDv3lxQvhkI34bVSf1qUak=
-Date:   Sun, 27 May 2018 08:39:46 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Felipe Balbi <balbi@kernel.org>,
-        davem@davemloft.net,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] usb: gadget: ccid: add support for USB CCID Gadget
- Device
-Message-ID: <20180527063946.GA1232@kroah.com>
-References: <20180526203401.16586-1-marcus.folkesson@gmail.com>
- <20180526205652.GA25534@kroah.com>
- <20180527054847.GB22105@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180527054847.GB22105@gmail.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+        id S965011AbeE0O4a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 27 May 2018 10:56:30 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id EB11E403BB;
+        Sun, 27 May 2018 16:56:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:date:date:subject:subject:from:from:received:received
+        :received; s=dkim20160331; t=1527432988; x=1529247389; bh=YyVYqL
+        SvHeGhFMvffYbsfixWoiWhDuNi8ADutAmgpdY=; b=d9LH8Dpy05s5g5sH/kdySO
+        +US7ZqzLn2Whw6PLEMaAciFqB5vsOm9o2E6X5gP+62pEDqfCg348ILt6pdTvtlhS
+        prpZ9/XpG596TqN0/idBu2E3awijZj/kjIgkfFvAQk8/e9MctBOsuar/6vq/kRj7
+        who2PcXAiVs8dyxiuClDItRYbsAv+f4vMPzlqXdl7qvCZXgiXSUKF8k6wVoZGn1E
+        b7pAoK2h9nQimXTj9Z6pscq923TulKpJEV8gWaR9QrDYm/k+/ZJiGhboGrOxcUks
+        bP0EzF3LTjzOzj049NDrQ2SkeZn3CiAfM0TPKkoTXeWYT5nhVmu2i87KkutsyGaB
+        5mdUg1YNmNBsBplJZwcXEaLOyIqH+rpU+x9aCDwmmpJlFozqCpEJ0RsCO0zfeTV3
+        tnLVbvD+9+rbQY4mcf10IsyuZ2o/mzcdV1A5ISC3zOmUPJiyLsltjP6KQwUsj7aI
+        gGLZrNFRhZKXhipkZ5BpelVaG0qQeHrdYm7iQ2Xe2JobYj2/5QoCJGSZs4rbz2Gl
+        5Jbg8Rj6IUFPkylH+u/L0OXJQUK+7jZw9LWpIdVgLIma0uGZDdi4AC7+ZWVyPSDr
+        GFt4KJh3EOBYxvmdlC5UGRQ49yq3qwdoEeT7T4a6AOvooi6noD6enU3HMXR2V5VU
+        mKyASozulXP7hFA3MhKpw=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id sCdZGsOZ2RkC; Sun, 27 May 2018 16:56:28 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 456D940106;
+        Sun, 27 May 2018 16:56:28 +0200 (CEST)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id E9CAA2A3;
+        Sun, 27 May 2018 16:56:27 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alessia Mantegazza <amantegazza@vaga.pv.it>
+Subject: doc: Italian translation
+Date:   Sun, 27 May 2018 16:55:55 +0200
+Message-Id: <20180527145559.16411-1-federico.vaga@vaga.pv.it>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, May 27, 2018 at 07:48:47AM +0200, Marcus Folkesson wrote:
-> On Sat, May 26, 2018 at 10:56:52PM +0200, Greg Kroah-Hartman wrote:
-> > On Sat, May 26, 2018 at 10:33:59PM +0200, Marcus Folkesson wrote:
-> > > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > 
-> > I can't take patches without any changelog text.  And why would you
-> > submit a patch over 1000 lines without any?
-> 
-> I'm sorry, obviously not much went well for me yesterday.
-> The changlelog was "fixup:ed" away and now I noticed that my
-> patch version history did not follow for v2.
-> 
-> Is it better to send a v3 with updated version history or wait for more
-> comments?
+Ciao Jonathan,
 
-Nah, that's fine, but I'll let Felipe decide as he is the one that has
-to review this, not me.
+here the doc-guide translated in Italian. This set of patches includes
+some minor changes to the main one. The idea of this first set of patches
+is also to adjust the structure and our expectations.
 
-thanks,
+We tried to translate everything in **Italian**; which means that we avoided
+imported English words wherever there is the possibility to use the Italian
+ones. Of course, this is not always possible, or worst doing the translation
+make it less clear, for example the word "file".
 
-greg k-h
+Another point. I noticed that the disclaimer for other translations is
+in English, so I did the same. But actually shouldn't be in Italian, since
+that page will be read by Italian speakers?
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
