@@ -3,1226 +3,202 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9D467D043
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 May 2018 14:57:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C30767D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 May 2018 23:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966919AbeE0O50 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 27 May 2018 10:57:26 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:44820 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965011AbeE0O5X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 27 May 2018 10:57:23 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id C189D526;
-        Sun, 27 May 2018 16:57:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1527433038; x=1529247439; bh=p92kNp0WNM3lDSLlC25asi+O6mzbJctca7a
-        LGH2TW1Q=; b=BIX1tywZ0Si67eyjiDURYvdAu3Y6E65W4xeYy1yiggSVlElQizx
-        tobyqbjsmzOk3HkdcUnawfHiTAMDCd3JcuTnzWFibNBepbYKH7Nh/TvdAzcQC2BS
-        +VkW21tSGejMn1Nt+Wa4Gh5Ei5SVGJuUdppvI3KjvJ+YZm9aC1/A9GEgmme6D3Ml
-        447bsDJ3wtPPnjPFF9SbCrQAiYezVq91b2Mzl0Z13zmLKLVZTSre8eNN/gUK5uBG
-        Skk9uWtAB/YIxQZDOvKBdpZnP/nfkyWTyFJiOtvk3vzfNtwSWPfbI7KYDSWDusFv
-        +JRPQ9qexwz2Mw3au3nZPrHC2xerYqzeqmh0WsI9WS6tZIqRRn4SjAhYSdjHJVja
-        EiqehSzJqrPOv6c1qB80h+xtsTEgFDBJDVIcHiaOfv1WvDxZXfpLBrUkhun4+FTG
-        kHZJmqPTRsPuzMYktmOjMBLvOOs6QI2UmB+6k1GqbuuKZioqNISyjICbDURSk+Cx
-        CMgUhTTvCB6cUvxdx/WfZt11qqmaAWEptduBUwx4lA9AqYTLyNWX1j+WQP/WLycI
-        WPjoE2M+rrYeBDpQ8+8J9Rf+yihXxs6KNxF386BWi9y7XB2M4HrJm/9YU0DErj1Q
-        gsGadGBmi/zaCaDOp4dnFAnH62G1a3QV6GBTGmqTWc6wAmFHvWYnXd1U=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id FcFI4ziN_ibI; Sun, 27 May 2018 16:57:18 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 947C23BD;
-        Sun, 27 May 2018 16:57:18 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 3FE452A3;
-        Sun, 27 May 2018 16:57:18 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH 4/5] doc:it_IT: add doc-guide translation
-Date:   Sun, 27 May 2018 16:55:59 +0200
-Message-Id: <20180527145559.16411-5-federico.vaga@vaga.pv.it>
-In-Reply-To: <20180527145559.16411-1-federico.vaga@vaga.pv.it>
-References: <20180527145559.16411-1-federico.vaga@vaga.pv.it>
+        id S1752665AbeE0Xgn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 27 May 2018 19:36:43 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:35400 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752466AbeE0Xgm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 May 2018 19:36:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=v9ZBS005NHgOXT2HwBtFQbF8218/v7mPSXJ6zGyvY5E=; b=2VJUB8Y7R9ii+9hKEKxen1pWuH
+        nhNY1vpd1CsuXH8ylaWJ009DGTeEyMXgFRV8aStGTcutA9Ww1un79/XA6kQVd5Ndlnatj3/VCI1Bv
+        MU71AVuvaiWBpM6DXEr1SwboO0cKV8ZrKLO7YZhE0zF+9stdGiBjqNN+Rkq9W6YZibIclDY05pvQ2
+        LwquHoL3f1OHUc7DFroEEqDo0H6isUOlfvQ8Qe3arcscVmxLOE8QmmkC9XCRqEMMNGR1bCBsv9YfS
+        LDQqIJSi5bPvc0t6cnFnqWOYFyXKJgs3C6IdB/WFDfP/Zd76Itmstrk68+TFOnZ/qxFn/AXU9OFRy
+        eBKalGLQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fN5DH-0003pa-3s; Sun, 27 May 2018 23:36:35 +0000
+Subject: Re: [PATCH v2 2/3] Documentation: usb: add documentation for USB CCID
+ Gadget Device
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Felipe Balbi <balbi@kernel.org>, davem@davemloft.net,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20180526211940.25474-1-marcus.folkesson@gmail.com>
+ <20180526211940.25474-2-marcus.folkesson@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <2225254e-a8f1-570e-8b1c-f68168376784@infradead.org>
+Date:   Sun, 27 May 2018 16:36:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180526211940.25474-2-marcus.folkesson@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
----
- .../translations/it_IT/doc-guide/hello.dot         |   3 +
- .../translations/it_IT/doc-guide/index.rst         |  24 ++
- .../translations/it_IT/doc-guide/kernel-doc.rst    | 402 ++++++++++++++++++
- .../translations/it_IT/doc-guide/parse-headers.rst | 196 +++++++++
- .../translations/it_IT/doc-guide/sphinx.rst        | 455 +++++++++++++++++++++
- .../translations/it_IT/doc-guide/svg_image.svg     |   1 +
- Documentation/translations/it_IT/index.rst         |   8 +
- 7 files changed, 1089 insertions(+)
- create mode 100644 Documentation/translations/it_IT/doc-guide/hello.dot
- create mode 100644 Documentation/translations/it_IT/doc-guide/index.rst
- create mode 100644 Documentation/translations/it_IT/doc-guide/kernel-doc.rst
- create mode 100644 Documentation/translations/it_IT/doc-guide/parse-headers.rst
- create mode 100644 Documentation/translations/it_IT/doc-guide/sphinx.rst
- create mode 120000 Documentation/translations/it_IT/doc-guide/svg_image.svg
+Hi,
 
-diff --git a/Documentation/translations/it_IT/doc-guide/hello.dot b/Documentation/translations/it_IT/doc-guide/hello.dot
-new file mode 100644
-index 000000000000..eee1e5864b3e
---- /dev/null
-+++ b/Documentation/translations/it_IT/doc-guide/hello.dot
-@@ -0,0 +1,3 @@
-+graph G {
-+      Ciao -- Mondo
-+}
-diff --git a/Documentation/translations/it_IT/doc-guide/index.rst b/Documentation/translations/it_IT/doc-guide/index.rst
-new file mode 100644
-index 000000000000..7a6562b547ee
---- /dev/null
-+++ b/Documentation/translations/it_IT/doc-guide/index.rst
-@@ -0,0 +1,24 @@
-+.. include:: ../disclaimer-ita.rst
-+
-+.. note:: Per leggere la documentazione originale in inglese:
-+	  :ref:`Documentation/doc-guide/index.rst <doc_guide>`
-+
-+.. _it_doc_guide:
-+
-+==========================================
-+Come scrivere la documentazione del kernel
-+==========================================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   sphinx.rst
-+   kernel-doc.rst
-+   parse-headers.rst
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-new file mode 100644
-index 000000000000..77f6ec7aa38d
---- /dev/null
-+++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-@@ -0,0 +1,402 @@
-+﻿.. include:: ../disclaimer-ita.rst
-+
-+.. note:: Per leggere la documentazione originale in inglese:
-+	  :ref:`Documentation/doc-guide/index.rst <doc_guide>`
-+
-+Includere i commenti di tipo kernel-doc
-+=======================================
-+
-+I sorgenti del kernel Linux possono contenere commenti strutturati per
-+la documentazione, oppure commenti di tipo kernel-doc che descrivono
-+le funzioni, i tipi e la struttura del codice. I commenti di documentazione
-+possono essere aggiunti ad un qualsiasi documento reStructuredtext
-+utilizzando l'apposita estensione Sphinx per le direttive kernel-doc.
-+
-+Le direttive kernel-doc sono nel formato::
-+
-+  .. kernel-doc:: source
-+     :option:
-+
-+Il campo *source* è il percorso ad un file sorgente, relativo alla cartella
-+principale dei sorgenti del kernel. La direttiva supporta le seguenti opzioni:
-+
-+
-+export: *[source-pattern ...]*
-+  Include la documentazione per tutte le funzioni presenti nel file sorgente
-+  (*source*) che sono state esportate utilizzando ``EXPORT_SYMBOL`` o
-+  ``EXPORT_SYMBOL_GPL`` in *source* o in qualsiasi altro *source-pattern*
-+  specificato.
-+
-+  Il campo *source-patter* è utile quando i commenti kernel-doc sono stati
-+  scritti nei file d'intestazione, mentre ``EXPORT_SYMBOL`` e
-+  ``EXPORT_SYMBOL_GPL`` si trovano vicino alla definizione delle funzioni.
-+
-+  Esempi::
-+
-+    .. kernel-doc:: lib/bitmap.c
-+       :export:
-+
-+    .. kernel-doc:: include/net/mac80211.h
-+       :export: net/mac80211/*.c
-+
-+internal: *[source-pattern ...]*
-+  Include la documentazione per tutte le funzioni ed i tipi presenti nel file
-+  sorgente (*source*) che **non** sono stati esportati utilizzando
-+  ``EXPORT_SYMBOL`` o ``EXPORT_SYMBOL_GPL`` né in *source* né in qualsiasi
-+  altro *source-pattern* specificato.
-+
-+  Esempio::
-+
-+    .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
-+       :internal:
-+
-+doc: *title*
-+  Include la documentazione per il paragrafo ``DOC:`` identificato dal titolo
-+  (*title*) all'interno del file sorgente (*source*). Gli spazi in *title* sono
-+  permessi; non virgolettate *title*. Il campo *title* è utilizzato per
-+  identificare un paragrafo e per questo non viene incluso nella documentazione
-+  finale. Verificate d'avere l'intestazione appropriata nei documenti
-+  reStructuredText.
-+
-+  Esempio::
-+
-+    .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
-+       :doc: High Definition Audio over HDMI and Display Port
-+
-+functions: *function* *[...]*
-+  Dal file sorgente (*source*) include la documentazione per le funzioni elencate
-+  (*function*).
-+
-+  Esempio::
-+
-+    .. kernel-doc:: lib/bitmap.c
-+       :functions: bitmap_parselist bitmap_parselist_user
-+
-+Senza alcuna opzione, la direttiva kernel-doc include tutti i commenti di
-+documentazione presenti nel file sorgente (*source*).
-+
-+L'estensione kernel-doc fa parte dei sorgenti del kernel, la si può trovare
-+in ``Documentation/sphinx/kerneldoc.py``. Internamente, viene utilizzato
-+lo script ``scripts/kernel-doc`` per estrarre i commenti di documentazione
-+dai file sorgenti.
-+
-+.. _it_kernel_doc:
-+
-+Scrivere i commenti in kernel-doc
-+=================================
-+
-+Al fine di fornire una documentazione integrata, orientata al C, facile da
-+mantenere, ma al contempo consistente e frazionabile, per le funzioni
-+ed i tipi, il kernel Linux mantiene uno stile consistente per i commenti
-+di documentazione. Il formato per questa documentazione è chiamato kernel-doc,
-+ed è descritto di seguito. Questo stile incorpora la documentazione
-+all'interno dei file sorgenti; esso utilizza poche e semplici convenzioni
-+per l'aggiunta di paragrafi di documentazione e per documentare le funzioni
-+ed i loro parametri, le strutture e le unioni coi loro membri, le enumerazioni,
-+ed i tipi di dato.
-+
-+.. note:: Il formato kernel-doc può sembrare simile a gtk-doc o Doxygen ma
-+   in realtà è molto differente per ragioni storiche. I sorgenti del kernel
-+   contengono decine di migliaia di commenti kernel-doc. Siete pregati
-+   d'attenervi allo stile qui descritto.
-+
-+Durante la generazione della documentazione nei vari formati HTML, PDF,
-+od altri, l'estensione kernel-doc per Sphinx utilizza lo script
-+``scripts/kernel-doc`` per l'estrazione della documentazione dai sorgenti.
-+
-+Allo scopo d'avere una buona documentazione delle funzioni e delle strutture dati
-+del kernel, siete pregati di formattare i vostri commenti kernel-doc nei sorgenti
-+del kernel Linux secondo le seguenti convenzioni
-+
-+Formato dei commenti in kernel-doc
-+----------------------------------
-+
-+L'utilizzo di ``/**``come inizio di un commento è riservato unicamente ai
-+commenti kernel-doc. Solo i commenti così indicati verranno presi in
-+considerazione dal programma ``kernel-doc``. Utilizzate questa forma solo
-+per i blocchi di commenti formattati nel formato kernel-doc. Il tipico
-+``*/`` dovrebbe essere utilizzato per chiudere il blocco di commenti.
-+Tutte le linee comprese fra questi due marcatori dovrebbero avere come
-+prefisso ``_*_`` (spazio asterisco spazio).
-+
-+Si suggerisce di posizionare i commenti kernel-doc appena prima della
-+funzione o del tipo di dato che descrivono. I commenti generici di tipo
-+kernel-doc possono essere posizionati liberamente.
-+
-+Esempio di un commento kernel-doc per una funzione::
-+
-+  /**
-+   * foobar() - Brief description of foobar.
-+   * @arg: Description of argument of foobar.
-+   *
-+   * Longer description of foobar.
-+   *
-+   * Return: Description of return value of foobar.
-+   */
-+  int foobar(int arg)
-+
-+Il formato è simile anche per la documentazione di strutture dati, enumerati,
-+paragrafi, eccetera. Consultate la sezione successiva per maggiori dettagli.
-+
-+La struttura kernel-doc è estratta a partire dai commenti; da questi viene
-+generato il `dominio Sphinx per il C`_ con un'adeguata descrizione per le funzioni
-+e i tipi di dato con i loro relativi collegamenti.
-+
-+.. _`dominio Sphinx per il C`: http://www.sphinx-doc.org/en/stable/domains.html
-+
-+Evidenziare codice e riferimenti
-+--------------------------------
-+
-+All'interno dei commenti di tipo kernel-doc vengono riconosciuti i seguenti
-+*pattern* che vengono convertiti in marcatori reStructuredText ed in riferimenti
-+del `dominio Sphinx per il C`_.
-+
-+.. attention:: Questi sono riconosciuti **solo** all'interno di commenti
-+               kernel-doc, e **non** all'interno di documenti reStructuredText.
-+
-+``funcname()``
-+  Riferimento ad una funzione.
-+
-+``@parameter``
-+  Nome di un parametro di una funzione (nessun riferimento, solo formattazione).
-+
-+``%CONST``
-+  Il nome di una costante (nessun riferimento, solo formattazione)
-+
-+````literal````
-+  Un blocco di testo che deve essere riportato così com'è. La rappresentazione
-+  finale utilizzerà caratteri a ``spaziatura fissa``.
-+
-+  Questo è utile se dovete utilizzare caratteri speciali che altrimenti
-+  potrebbero assumere un significato diverso in kernel-doc o in reStructuredText
-+
-+  Questo è particolarmente utile se dovete scrivere qualcosa come ``%ph``
-+  all'interno della descrizione di una funzione.
-+
-+``$ENVVAR``
-+  Il nome di una variabile d'ambiente (nessun riferimento, solo formattazione).
-+
-+``&struct name``
-+  Riferimento ad una struttura.
-+
-+``&enum name``
-+  Riferimento ad un'enumerazione.
-+
-+``&typedef name``
-+  Riferimento ad un tipo di dato.
-+
-+``&struct_name->member`` or ``&struct_name.member``
-+  Riferimento ad un membro di una struttura o di un'unione. Il riferimento sarà
-+  la struttura o l'unione, non il memembro.
-+
-+``&name``
-+  Un generico riferimento ad un tipo. Usate, preferibilmente, il riferimento
-+  completo come descritto sopra. Questo è dedicato ai commenti obsoleti.
-+
-+Riferimenti usando reStructuredText
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Per fare riferimento a funzioni e tipi di dato definiti nei commenti kernel-doc
-+all'interno dei documenti reStructuredText, utilizzate i riferimenti dal
-+`dominio Sphinx per il C`_. Per esempio::
-+
-+  See function :c:func:`foo` and struct/union/enum/typedef :c:type:`bar`.
-+
-+Nonostante il riferimento ai tipi di dato funzioni col solo nome,
-+ovvero senza specificare struct/union/enum/typedef, potreste preferire il
-+seguente::
-+
-+  See :c:type:`struct foo <foo>`.
-+  See :c:type:`union bar <bar>`.
-+  See :c:type:`enum baz <baz>`.
-+  See :c:type:`typedef meh <meh>`.
-+
-+Questo produce dei collegamenti migliori, ed è in linea con il modo in cui
-+kernel-doc gestisce i riferimenti.
-+
-+Per maggiori informazioni, siete pregati di consultare la documentazione
-+del `dominio Sphinx per il C`_.
-+
-+Documentare le funzioni
-+------------------------
-+
-+Generalmente il formato di un commento kernel-doc per funzioni e
-+macro simil-funzioni è il seguente::
-+
-+  /**
-+   * function_name() - Brief description of function.
-+   * @arg1: Describe the first argument.
-+   * @arg2: Describe the second argument.
-+   *        One can provide multiple line descriptions
-+   *        for arguments.
-+   *
-+   * A longer description, with more discussion of the function function_name()
-+   * that might be useful to those using or modifying it. Begins with an
-+   * empty comment line, and may include additional embedded empty
-+   * comment lines.
-+   *
-+   * The longer description may have multiple paragraphs.
-+   *
-+   * Return: Describe the return value of foobar.
-+   *
-+   * The return value description can also have multiple paragraphs, and should
-+   * be placed at the end of the comment block.
-+   */
-+
-+La breve descrizione (*brief description*) che segue il nome della funzione può
-+continuare su righe successive; essa termina con la descrizione di un argomento
-+``@argument:``, una linea di commento vuota, oppure la fine del blocco di
-+commenti.
-+
-+Un commento kernel-doc per una funzione descrive ogni suo parametro, in ordine,
-+utilizzando i descrittori ``@argument:``. I descrittori
-+``@argument:`` devono iniziare immediatamente dopo la breve descrizione
-+iniziale, senza lasciare alcuna riga vuota. I descrittori ``@argument:``
-+possono estendersi su linee successive. La continuazione su d'una riga
-+successiva può essere indentata. Se il parametro di una funzione dovesse essere
-+``...`` (varargs), devete utilizzare la notazione kernel-doc ``@...:``.
-+
-+Il valore di ritorno, se presente, dev'essere descritto in una sezione dedicata
-+situata alla fine del commenti e che inizia con "Return:"
-+
-+Documentare strutture, unioni ed enumerazioni
-+---------------------------------------------
-+Generalmente il formato di un commento kernel-doc per struct, union ed enum è::
-+
-+  /**
-+   * struct struct_name - Brief description.
-+   * @member_name: Description of member member_name.
-+   *
-+   * Description of the structure.
-+   */
-+
-+Successivamente, "struct" verrà utilizzato per indicare strutture, unioni ed
-+enumerazioni, mentre "member" verrà utilizzato per indicare i membri di
-+strutture ed unioni così come i valori di un'enumerazione.
-+
-+La breve descrizione che segue il nome della struttura può estendersi su righe
-+successive, e terminare con ``@member:``, una riga vuota, o la fine del blocco
-+di commento.
-+
-+Un commento kernel-doc per una struttura dati descrive ogni suo membro, in ordine,
-+utilizzando ``@member:``. Le descrizioni ``@member:`` devono iniziare
-+immediatamente dopo la breve descrizione della struttura, senza lasciare alcuna
-+riga vuota. Le descrizioni ``@member:`` possono estendersi su righe successive.
-+La continuazione delle righe può essere indentata.
-+
-+Documentare i campi con commenti in-linea
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+I membri di una struttura possono essere documentati utilizzando commenti
-+all'interno della definizione stessa. Ci sono due stili, un commento su d'una
-+singola riga iniziato con ``/**`` e chiuso con ``*/`` sulla stessa riga,
-+oppure commenti su più righe, come ogni altro commento kernel-doc::
-+
-+  /**
-+   * struct foo - Brief description.
-+   * @foo: The Foo member.
-+   */
-+  struct foo {
-+        int foo;
-+        /**
-+         * @bar: The Bar member.
-+         */
-+        int bar;
-+        /**
-+         * @baz: The Baz member.
-+         *
-+         * Here, the member description may contain several paragraphs.
-+         */
-+        int baz;
-+        /** @foobar: Single line description. */
-+        int foobar;
-+  }
-+
-+Documentare i campi privati
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+All'interno della descrizione d'una struttura, potete usare le etichette
-+"private:" e "public:". I campi d'una struttura che si trovano all'interno
-+di un'area privata "private:" non verranno inclusi nella documentazione finale.
-+Le etichette "private:" e "public:" devono trovarsi immediatamente dopo
-+il marcatore d'inizio commento ``/*``. Facoltativamente, si possono includere
-+commenti fra ``:`` e il marcatore di fine commento ``*/``
-+
-+Esempio::
-+
-+  /**
-+   * struct my_struct - short description
-+   * @a: first member
-+   * @b: second member
-+   *
-+   * Longer description
-+   */
-+  struct my_struct {
-+      int a;
-+      int b;
-+  /* private: internal use only */
-+      int c;
-+  };
-+
-+
-+Documentazione dei tipi di dato
-+-------------------------------
-+Generalmente il formato di un commento kernel-doc per typedef è
-+il seguente::
-+
-+  /**
-+   * typedef type_name - Brief description.
-+   *
-+   * Description of the type.
-+   */
-+
-+Commenti per una documentazione generale
-+----------------------------------------
-+
-+Al fine d'avere il codice ed i commenti nello stesso file, potete includere
-+dei blocchi di documentazione kernel-doc con un formato libero invece
-+che nel formato specifico per funzioni, strutture, unioni, enumerati o tipi
-+di dato.
-+
-+Per esempio, questo tipo di commento potrebbe essere usato per la spiegazione
-+delle operazioni di un driver o di una libreria
-+
-+Questo s'ottiene utilizzando la parola chiave ``DOC:`` a cui viene associato
-+un titolo.
-+
-+Generalmente il formato di un commento generico o di visione d'insieme è
-+il seguente::
-+
-+  /**
-+   * DOC: Theory of Operation
-+   *
-+   * The whizbang foobar is a dilly of a gizmo. It can do whatever you
-+   * want it to do, at any time. It reads your mind. Here's how it works.
-+   *
-+   * foo bar splat
-+   *
-+   * The only drawback to this gizmo is that is can sometimes damage
-+   * hardware, software, or its subject(s).
-+   */
-+
-+Il titolo che segue ``DOC:`` funziona da intestazione all'interno del file
-+sorgente, ma anche come identificatore per l'estrazione di questi commenti di
-+documentazione. Quindi, il titolo dev'essere unico all'interno del file.
-+
-+Raccomandazioni
-+---------------
-+
-+Sicuramente la documentazione formattata con kernel-doc è necessaria per
-+le funzioni che sono esportate verso i moduli esterni utilizzando
-+``EXPORT_SYMBOL`` o ``EXPORT_SYMBOL_GPL``.
-+
-+Cerchiamo anche di fornire una documentazione formattata secondo kernel-doc
-+per le funzioni che sono visibili da altri file del kernel (ovvero, che non
-+siano dichiarate utilizzando "static")
-+
-+Raccomandiamo, inoltre, di fornire una documentazione formattata con kernel-doc
-+anche per procedure private (ovvero, dichiarate "static") al fine di fornire
-+una struttura consistente dei sorgenti. Questa raccomandazione ha una priorità
-+più bassa ed è a discrezione dal manutentore (MAINTAINER) del file sorgente.
-+
-+Le strutture dati visibili nei file di intestazione dovrebbero essere anch'esse
-+documentate utilizzando commenti formattati con kernel-doc.
-diff --git a/Documentation/translations/it_IT/doc-guide/parse-headers.rst b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-new file mode 100644
-index 000000000000..dfe6dc8d2c6c
---- /dev/null
-+++ b/Documentation/translations/it_IT/doc-guide/parse-headers.rst
-@@ -0,0 +1,196 @@
-+﻿.. include:: ../disclaimer-ita.rst
-+
-+.. note:: Per leggere la documentazione originale in inglese:
-+	  :ref:`Documentation/doc-guide/index.rst <doc_guide>`
-+
-+=========================================
-+Includere gli i file di intestazione uAPI
-+=========================================
-+
-+Qualche volta è utile includere dei file di intestazione e degli esempi di codice C
-+al fine di descrivere l'API per lo spazio utente e per generare dei riferimenti
-+fra il codice e la documentazione. Aggiungere i riferimenti ai file dell'API
-+dello spazio utente ha ulteriori vantaggi: Sphinx genererà dei messaggi
-+d'avviso se un simbolo non viene trovato nella documentazione. Questo permette
-+di mantenere allineate la documentazione della uAPI (API spazio utente)
-+con le modifiche del kernel.
-+Il programma :ref:`parse_headers.pl <it_parse_headers>` genera questi riferimenti.
-+Esso dev'essere invocato attraverso un Makefile, mentre si genera la
-+documentazione. Per avere un esempio su come utilizzarlo all'interno del kernel
-+consultate ``Documentation/media/Makefile``.
-+
-+.. _it_parse_headers:
-+
-+parse_headers.pl
-+^^^^^^^^^^^^^^^^
-+
-+NOME
-+****
-+
-+
-+parse_headers.pl - analizza i file C al fine di identificare funzioni,
-+strutture, enumerati e definizioni, e creare riferimenti per Sphinx
-+
-+SINTASSI
-+********
-+
-+
-+\ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-+
-+Dove <options> può essere: --debug, --usage o --help.
-+
-+
-+OPZIONI
-+*******
-+
-+
-+
-+\ **--debug**\
-+
-+ Lo script viene messo in modalità verbosa, utile per il debugging.
-+
-+
-+\ **--usage**\
-+
-+ Mostra un messaggio d'aiuto breve e termina.
-+
-+
-+\ **--help**\
-+
-+ Mostra un messaggio d'aiuto dettagliato e termina.
-+
-+
-+DESCRIZIONE
-+***********
-+
-+Converte un file d'intestazione o un file sorgente C (C_FILE) in un testo
-+ReStructuredText incluso mediante il blocco ..parsed-literal
-+con riferimenti alla documentazione che descrive l'API. Opzionalmente,
-+il programma accetta anche un altro file (EXCEPTIONS_FILE) che
-+descrive quali elementi debbano essere ignorati o il cui riferimento
-+deve puntare ad elemento diverso dal predefinito.
-+
-+Il file generato sarà disponibile in (OUT_FILE).
-+
-+Il programma è capace di identificare *define*, funzioni, strutture,
-+tipi di dato, enumerati e valori di enumerati, e di creare i riferimenti
-+per ognuno di loro. Inoltre, esso è capace di distinguere le #define
-+utilizzate per specificare i comandi ioctl di Linux.
-+
-+Il file EXCEPTIONS_FILE contiene due tipi di dichiarazioni:
-+\ **ignore**\  o \ **replace**\ .
-+
-+La sintassi per ignore è:
-+
-+ignore \ **tipo**\  \ **nome**\
-+
-+La dichiarazione \ **ignore**\  significa che non verrà generato alcun
-+riferimento per il simbolo \ **name**\  di tipo \ **tipo**\ .
-+
-+
-+La sintassi per replace è:
-+
-+replace \ **tipo**\  \ **nome**\  \ **nuovo_valore**\
-+
-+La dichiarazione \ **replace**\  significa che verrà generato un
-+riferimento per il simbolo \ **name**\ di tipo \ **tipo**\ , ma, invece
-+di utilizzare il valore predefinito, verrà utilizzato il valore
-+\ **nuovo_valore**\ .
-+
-+Per entrambe le dichiarazioni, il \ **tipo**\  può essere uno dei seguenti:
-+
-+
-+\ **ioctl**\
-+
-+ La dichiarazione ignore o replace verrà applicata su definizioni di ioctl
-+ come la seguente:
-+
-+ #define	VIDIOC_DBG_S_REGISTER 	 _IOW('V', 79, struct v4l2_dbg_register)
-+
-+
-+
-+\ **define**\
-+
-+ La dichiarazione ignore o replace verrà applicata su una qualsiasi #define
-+ trovata in C_FILE.
-+
-+
-+
-+\ **typedef**\
-+
-+ La dichiarazione ignore o replace verrà applicata ad una dichiarazione typedef
-+ in C_FILE.
-+
-+
-+
-+\ **struct**\
-+
-+ La dichiarazione ignore o replace verrà applicata ai nomi di strutture
-+ in C_FILE.
-+
-+
-+
-+\ **enum**\
-+
-+ La dichiarazione ignore o replace verrà applicata ai nomi di enumerati
-+ in C_FILE.
-+
-+
-+
-+\ **symbol**\
-+
-+ La dichiarazione ignore o replace verrà applicata ai nomi di valori di
-+ enumerati in C_FILE.
-+
-+ Per le dichiarazioni di tipo replace, il campo \ **new_value**\  utilizzerà
-+ automaticamente i riferimenti :c:type: per \ **typedef**\ , \ **enum**\  e
-+ \ **struct**\. Invece, utilizzerà :ref: per \ **ioctl**\ , \ **define**\  e
-+ \ **symbol**\. Il tipo di riferimento può essere definito esplicitamente
-+ nella dichiarazione stessa.
-+
-+
-+ESEMPI
-+******
-+
-+
-+ignore define _VIDEODEV2_H
-+
-+
-+Ignora una definizione #define _VIDEODEV2_H nel file C_FILE.
-+
-+ignore symbol PRIVATE
-+
-+
-+In un enumerato come il seguente:
-+
-+enum foo { BAR1, BAR2, PRIVATE };
-+
-+Non genererà alcun riferimento per \ **PRIVATE**\ .
-+
-+replace symbol BAR1 :c:type:\`foo\`
-+replace symbol BAR2 :c:type:\`foo\`
-+
-+
-+In un enumerato come il seguente:
-+
-+enum foo { BAR1, BAR2, PRIVATE };
-+
-+Genererà un riferimento ai valori BAR1 e BAR2 dal simbolo foo nel dominio C.
-+
-+
-+BUGS
-+****
-+
-+Riferire ogni malfunzionamento a Mauro Carvalho Chehab <mchehab@s-opensource.com>
-+
-+
-+COPYRIGHT
-+*********
-+
-+
-+Copyright (c) 2016 by Mauro Carvalho Chehab <mchehab@s-opensource.com>.
-+
-+License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
-+
-+This is free software: you are free to change and redistribute it.
-+There is NO WARRANTY, to the extent permitted by law.
-diff --git a/Documentation/translations/it_IT/doc-guide/sphinx.rst b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-new file mode 100644
-index 000000000000..94de4b244405
---- /dev/null
-+++ b/Documentation/translations/it_IT/doc-guide/sphinx.rst
-@@ -0,0 +1,455 @@
-+﻿.. include:: ../disclaimer-ita.rst
-+
-+.. note:: Per leggere la documentazione originale in inglese:
-+	  :ref:`Documentation/doc-guide/index.rst <doc_guide>`
-+
-+Introduzione
-+============
-+
-+Il kernel Linux usa `Sphinx`_ per la generazione della documentazione a partire
-+dai file `reStructuredText`_ che si trovano nella cartella ``Documentation``.
-+Per generare la documentazione in HTML o PDF, usate comandi ``make htmldocs`` o
-+``make pdfdocs``. La documentazione così generata sarà disponibile nella
-+cartella ``Documentation/output``.
-+
-+.. _Sphinx: http://www.sphinx-doc.org/
-+.. _reStructuredText: http://docutils.sourceforge.net/rst.html
-+
-+I file reStructuredText possono contenere delle direttive che permettono di
-+includere i commenti di documentazione, o di tipo kernel-doc, dai file sorgenti.
-+Solitamente questi commenti sono utilizzati per descrivere le funzioni, i tipi
-+e l'architettura del codice. I commenti di tipo kernel-doc hanno una struttura
-+e formato speciale, ma a parte questo vengono processati come reStructuredText.
-+
-+Inoltre, ci sono migliaia di altri documenti in formato testo sparsi nella
-+cartella ``Documentation``. Alcuni di questi verranno probabilmente convertiti,
-+nel tempo, in formato reStructuredText, ma la maggior parte di questi rimarranno
-+in formato testo.
-+
-+.. _it_sphinx_install:
-+
-+Installazione Sphinx
-+====================
-+
-+I marcatori ReST utilizzati nei file in Documentation/ sono pensati per essere
-+processati da ``Sphinx`` nella versione 1.3 o superiore. Se desiderate produrre
-+un documento PDF è raccomandato l'utilizzo di una versione superiore alle 1.4.6.
-+
-+Esiste uno script che verifica i requisiti Sphinx. Per ulteriori dettagli
-+consultate :ref:`it_sphinx-pre-install`.
-+
-+La maggior parte delle distribuzioni Linux forniscono Sphinx, ma l'insieme dei
-+programmi e librerie è fragile e non è raro che dopo un aggiornamento di
-+Sphinx, o qualche altro pacchetto Python, la documentazione non venga più
-+generata correttamente.
-+
-+Un modo per evitare questo genere di problemi è quello di utilizzare una
-+versione diversa da quella fornita dalla vostra distribuzione. Per fare questo,
-+vi raccomandiamo di installare Sphinx dentro ad un ambiente virtuale usando
-+``virtualenv-3`` o ``virtualenv`` a seconda di come Python 3 è stato
-+pacchettizzato dalla vostra distribuzione.
-+
-+.. note::
-+
-+   #) Le versioni di Sphinx inferiori alla 1.5 non funzionano bene
-+      con il pacchetto Python docutils versione 0.13.1 o superiore.
-+      Se volete usare queste versioni, allora dovere eseguire
-+      ``pip install 'docutils==0.12'``.
-+
-+   #) Viene raccomandato l'uso del tema RTD per la documentazione in HTML.
-+      A seconda della versione di Sphinx, potrebbe essere necessaria
-+      l'installazione tramite il comando ``pip install sphinx_rtd_theme``.
-+
-+   #) Alcune pagine ReST contengono delle formule matematiche. A causa del
-+      modo in cui Sphinx funziona, queste espressioni sono scritte
-+      utilizzando LaTeX. Per una corretta interpretazione, è necessario aver
-+      installato texlive con i pacchetti amdfonts e amsmath.
-+
-+Riassumendo, se volete installare la versione 1.4.9 di Sphinx dovete eseguire::
-+
-+       $ virtualenv sphinx_1.4
-+       $ . sphinx_1.4/bin/activate
-+       (sphinx_1.4) $ pip install -r Documentation/sphinx/requirements.txt
-+
-+Dopo aver eseguito ``. sphinx_1.4/bin/activate``, il prompt cambierà per
-+indicare che state usando il nuovo ambiente. Se aprite un nuova sessione,
-+prima di generare la documentazione, dovrete rieseguire questo comando per
-+rientrare nell'ambiente virtuale.
-+
-+Generazione d'immagini
-+----------------------
-+
-+Il meccanismo che genera la documentazione del kernel contiene un'estensione
-+capace di gestire immagini in formato Graphviz e SVG (per maggior informazioni
-+vedere :ref:`it_sphinx_kfigure`).
-+
-+Per far si che questo funzioni, dovete installare entrambe i pacchetti
-+Graphviz e ImageMagick. Il sistema di generazione della documentazione è in
-+grado di procedere anche se questi pacchetti non sono installati, ma il
-+risultato, ovviamente, non includerà le immagini.
-+
-+Generazione in PDF e LaTeX
-+--------------------------
-+
-+Al momento, la generazione di questi documenti è supportata solo dalle
-+versioni di Sphinx superiori alla 1.4.
-+
-+Per la generazione di PDF e LaTeX, avrete bisogno anche del pacchetto
-+``XeLaTeX`` nella versione 3.14159265
-+
-+Per alcune distribuzioni Linux potrebbe essere necessario installare
-+anche una serie di pacchetti ``texlive`` in modo da fornire il supporto
-+minimo per il funzionamento di ``XeLaTeX``.
-+
-+.. _it_sphinx-pre-install:
-+
-+Verificare le dipendenze Sphinx
-+-------------------------------
-+
-+Esiste uno script che permette di verificare automaticamente le dipendenze di
-+Sphinx. Se lo script riesce a riconoscere la vostra distribuzione, allora
-+sarà in grado di darvi dei suggerimenti su come procedere per completare
-+l'installazione::
-+
-+	$ ./scripts/sphinx-pre-install
-+	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
-+	Warning: better to also install "texlive-luatex85".
-+	You should run:
-+
-+		sudo dnf install -y texlive-luatex85
-+		/usr/bin/virtualenv sphinx_1.4
-+		. sphinx_1.4/bin/activate
-+		pip install -r Documentation/sphinx/requirements.txt
-+
-+	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
-+
-+L'impostazione predefinita prevede il controllo dei requisiti per la generazione
-+di documenti html e PDF, includendo anche il supporto per le immagini, le
-+espressioni matematiche e LaTeX; inoltre, presume che venga utilizzato un
-+ambiente virtuale per Python. I requisiti per generare i documenti html
-+sono considerati obbligatori, gli altri sono opzionali.
-+
-+Questo script ha i seguenti parametri:
-+
-+``--no-pdf``
-+	Disabilita i controlli per la generazione di PDF;
-+
-+``--no-virtualenv``
-+	Utilizza l'ambiente predefinito dal sistema operativo invece che
-+	l'ambiente virtuale per Python;
-+
-+
-+Generazione della documentazione Sphinx
-+=======================================
-+
-+Per generare la documentazione in formato HTML o PDF si eseguono i rispettivi
-+comandi ``make htmldocs`` o ``make pdfdocs``. Esistono anche altri formati
-+in cui è possibile generare la documentazione; per maggiori informazioni
-+potere eseguire il comando ``make help``.
-+La documentazione così generata sarà disponibile nella sottocartella
-+``Documentation/output``.
-+
-+Ovviamente, per generare la documentazione, Sphinx (``sphinx-build``)
-+dev'essere installato. Se disponibile, il tema *Read the Docs* per Sphinx
-+verrà utilizzato per ottenere una documentazione HTML più gradevole.
-+Per la documentazione in formato PDF, invece, avrete bisogno di ``XeLaTeX`
-+e di ``convert(1)`` disponibile in ImageMagick (https://www.imagemagick.org).
-+Tipicamente, tutti questi pacchetti sono disponibili e pacchettizzati nelle
-+distribuzioni Linux.
-+
-+Per poter passare ulteriori opzioni a Sphinx potete utilizzare la variabile
-+make ``SPHINXOPTS``. Per esempio, se volete che Sphinx sia più verboso durante
-+la generazione potete usare il seguente comando ``make SPHINXOPTS=-v htmldocs``.
-+
-+Potete eliminare la documentazione generata tramite il comando ``make cleandocs``.
-+
-+Scrivere la documentazione
-+==========================
-+
-+Aggiungere nuova documentazione è semplice:
-+
-+1. aggiungete un file ``.rst`` nella sottocartella ``Documentation``
-+2. aggiungete un riferimento ad esso nell'indice (`TOC tree`_) in
-+   ``Documentation/index.rst``.
-+
-+.. _TOC tree: http://www.sphinx-doc.org/en/stable/markup/toctree.html
-+
-+Questo, di solito, è sufficiente per la documentazione più semplice (come
-+quella che state leggendo ora), ma per una documentazione più elaborata è
-+consigliato creare una sottocartella dedicata (o, quando possibile, utilizzarne
-+una già esistente). Per esempio, il sottosistema grafico è documentato nella
-+sottocartella ``Documentation/gpu``; questa documentazione è divisa in
-+diversi file ``.rst`` ed un indice ``index.rst`` (con un ``toctree``
-+dedicato) a cui si fa riferimento nell'indice principale.
-+
-+Consultate la documentazione di `Sphinx`_ e `reStructuredText`_ per maggiori
-+informazione circa le loro potenzialità. In particolare, il
-+`manuale introduttivo a reStructuredText`_ di Sphinx è un buon punto da
-+cui cominciare. Esistono, inoltre, anche alcuni
-+`costruttori specifici per Sphinx`_.
-+
-+.. _`manuale introduttivo a reStructuredText`: http://www.sphinx-doc.org/en/stable/rest.html
-+.. _`costruttori specifici per Sphinx`: http://www.sphinx-doc.org/en/stable/markup/index.html
-+
-+Guide linea per la documentazione del kernel
-+--------------------------------------------
-+
-+In questa sezione troverete alcune linee guida specifiche per la documentazione
-+del kernel:
-+
-+* Non esagerate con i costrutti di reStructuredText. Mantenete la
-+  documentazione semplice. La maggior parte della documentazione dovrebbe
-+  essere testo semplice con una strutturazione minima che permetta la
-+  conversione in diversi formati.
-+
-+* Mantenete la strutturazione il più fedele possibile all'originale quando
-+  convertite un documento in formato reStructuredText.
-+
-+* Aggiornate i contenuti quando convertite della documentazione, non limitatevi
-+  solo alla formattazione.
-+
-+* Mantenete la decorazione dei livelli di intestazione come segue:
-+
-+  1. ``=`` con una linea superiore per il titolo del documento::
-+
-+       ======
-+       Titolo
-+       ======
-+
-+  2. ``=`` per i capitoli::
-+
-+       Capitoli
-+       ========
-+
-+  3. ``-`` per le sezioni::
-+
-+       Sezioni
-+       -------
-+
-+  4. ``~`` per le sottosezioni::
-+
-+       Sottosezioni
-+       ~~~~~~~~~~~~
-+
-+  Sebbene RST non forzi alcun ordine specifico (*Piuttosto che imporre
-+  un numero ed un ordine fisso di decorazioni, l'ordine utilizzato sarà
-+  quello incontrato*), avere uniformità dei livelli principali rende più
-+  semplice la lettura dei documenti.
-+
-+* Per inserire blocchi di testo con caratteri a dimensione fissa (codici di
-+  esempio, casi d'uso, eccetera): utilizzate ``::`` quando non è necessario
-+  evidenziare la sintassi, specialmente per piccoli frammenti; invece,
-+  utilizzate ``.. code-block:: <language>`` per blocchi di più lunghi che
-+  potranno beneficiare dell'avere la sintassi evidenziata.
-+
-+
-+Il dominio C
-+------------
-+
-+Il **Dominio Sphinx C** (denominato c) è adatto alla documentazione delle API C.
-+Per esempio, un prototipo di una funzione:
-+
-+.. code-block:: rst
-+
-+    .. c:function:: int ioctl( int fd, int request )
-+
-+Il dominio C per kernel-doc ha delle funzionalità aggiuntive. Per esempio,
-+potete assegnare un nuovo nome di riferimento ad una funzione con un nome
-+molto comune come ``open`` o ``ioctl``:
-+
-+.. code-block:: rst
-+
-+     .. c:function:: int ioctl( int fd, int request )
-+        :name: VIDIOC_LOG_STATUS
-+
-+Il nome della funzione (per esempio ioctl) rimane nel testo ma il nome del suo
-+riferimento cambia da ``ioctl`` a ``VIDIOC_LOG_STATUS``. Anche la voce nell'indice
-+cambia in ``VIDIOC_LOG_STATUS`` e si potrà quindi fare riferimento a questa
-+funzione scrivendo:
-+
-+.. code-block:: rst
-+
-+     :c:func:`VIDIOC_LOG_STATUS`
-+
-+
-+Tabelle a liste
-+---------------
-+
-+Raccomandiamo l'uso delle tabelle in formato lista (*list table*). Le tabelle
-+in formato lista sono liste di liste. In confronto all'ASCII-art potrebbero
-+non apparire di facile lettura nei file in formato testo. Il loro vantaggio è
-+che sono facili da creare o modificare e che la differenza di una modifica è
-+molto più significativa perché limitata alle modifiche del contenuto.
-+
-+La ``flat-table`` è anch'essa una lista di liste simile alle ``list-table``
-+ma con delle funzionalità aggiuntive:
-+
-+* column-span: col ruolo ``cspan`` una cella può essere estesa attraverso
-+  colonne successive
-+
-+* raw-span: col ruolo ``rspan`` una cella può essere estesa attraverso
-+  righe successive
-+
-+* auto-span: la cella più a destra viene estesa verso destra per compensare
-+  la mancanza di celle. Con l'opzione ``:fill-cells:`` questo comportamento
-+  può essere cambiato da *auto-span* ad *auto-fill*, il quale inserisce
-+  automaticamente celle (vuote) invece che estendere l'ultima.
-+
-+opzioni:
-+
-+* ``:header-rows:``   [int] conta le righe di intestazione
-+* ``:stub-columns:``  [int] conta le colonne di stub
-+* ``:widths:``        [[int] [int] ... ] larghezza delle colonne
-+* ``:fill-cells:``    invece di estendere automaticamente una cella su quelle
-+  mancanti, ne crea di vuote.
-+
-+ruoli:
-+
-+* ``:cspan:`` [int] colonne successive (*morecols*)
-+* ``:rspan:`` [int] righe successive (*morerows*)
-+
-+L'esempio successivo mostra come usare questo marcatore. Il primo livello della
-+nostra lista di liste è la *riga*. In una *riga* è possibile inserire solamente
-+la lista di celle che compongono la *riga* stessa. Fanno eccezione i *commenti*
-+( ``..`` ) ed i *collegamenti* (per esempio, un riferimento a
-+``:ref:`last row <last row>``` / :ref:`last row <it last row>`)
-+
-+.. code-block:: rst
-+
-+   .. flat-table:: table title
-+      :widths: 2 1 1 3
-+
-+      * - head col 1
-+        - head col 2
-+        - head col 3
-+        - head col 4
-+
-+      * - column 1
-+        - field 1.1
-+        - field 1.2 with autospan
-+
-+      * - column 2
-+        - field 2.1
-+        - :rspan:`1` :cspan:`1` field 2.2 - 3.3
-+
-+      * .. _`it last row`:
-+
-+        - column 3
-+
-+Che verrà rappresentata nel seguente modo:
-+
-+   .. flat-table:: table title
-+      :widths: 2 1 1 3
-+
-+      * - head col 1
-+        - head col 2
-+        - head col 3
-+        - head col 4
-+
-+      * - column 1
-+        - field 1.1
-+        - field 1.2 with autospan
-+
-+      * - column 2
-+        - field 2.1
-+        - :rspan:`1` :cspan:`1` field 2.2 - 3.3
-+
-+      * .. _`it last row`:
-+
-+        - column 3
-+
-+.. _it_sphinx_kfigure:
-+
-+Figure ed immagini
-+==================
-+
-+Se volete aggiungere un'immagine, utilizzate le direttive ``kernel-figure``
-+e ``kernel-image``. Per esempio, per inserire una figura di un'immagine in
-+formato SVG::
-+
-+    .. kernel-figure::  svg_image.svg
-+       :alt:    semplice immagine SVG
-+
-+       Semplice immagine SVG
-+
-+.. _it_svg_image_example:
-+
-+.. kernel-figure::  svg_image.svg
-+   :alt:    semplice immagine SVG
-+
-+   Semplice immagine SVG
-+
-+Le direttive del kernel per figure ed immagini supportano il formato **DOT**,
-+per maggiori informazioni
-+
-+* DOT: http://graphviz.org/pdf/dotguide.pdf
-+* Graphviz: http://www.graphviz.org/content/dot-language
-+
-+Un piccolo esempio (:ref:`it_hello_dot_file`)::
-+
-+  .. kernel-figure::  hello.dot
-+     :alt:    ciao mondo
-+
-+     Esempio DOT
-+
-+.. _it_hello_dot_file:
-+
-+.. kernel-figure::  hello.dot
-+   :alt:    ciao mondo
-+
-+   Esempio DOT
-+
-+Tramite la direttiva ``kernel-render`` è possibile aggiungere codice specifico;
-+ad esempio nel formato **DOT** di Graphviz.::
-+
-+  .. kernel-render:: DOT
-+     :alt: foobar digraph
-+     :caption: Codice **DOT** (Graphviz) integrato
-+
-+     digraph foo {
-+      "bar" -> "baz";
-+     }
-+
-+La rappresentazione dipenderà dei programmi installati. Se avete Graphviz
-+installato, vedrete un'immagine vettoriale. In caso contrario, il codice grezzo
-+verrà rappresentato come *blocco testuale* (:ref:`it_hello_dot_render`).
-+
-+.. _it_hello_dot_render:
-+
-+.. kernel-render:: DOT
-+   :alt: foobar digraph
-+   :caption: Codice **DOT** (Graphviz) integrato
-+
-+   digraph foo {
-+      "bar" -> "baz";
-+   }
-+
-+La direttiva *render* ha tutte le opzioni della direttiva *figure*, con
-+l'aggiunta dell'opzione ``caption``. Se ``caption`` ha un valore allora
-+un nodo *figure* viene aggiunto. Altrimenti verrà aggiunto un nodo *image*.
-+L'opzione ``caption`` è necessaria in caso si vogliano aggiungere dei
-+riferimenti (:ref:`it_hello_svg_render`).
-+
-+Per la scrittura di codice **SVG**::
-+
-+  .. kernel-render:: SVG
-+     :caption: Integrare codice **SVG**
-+     :alt: so-nw-arrow
-+
-+     <?xml version="1.0" encoding="UTF-8"?>
-+     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" ...>
-+        ...
-+     </svg>
-+
-+.. _it_hello_svg_render:
-+
-+.. kernel-render:: SVG
-+   :caption: Integrare codice **SVG**
-+   :alt: so-nw-arrow
-+
-+   <?xml version="1.0" encoding="UTF-8"?>
-+   <svg xmlns="http://www.w3.org/2000/svg"
-+     version="1.1" baseProfile="full" width="70px" height="40px" viewBox="0 0 700 400">
-+   <line x1="180" y1="370" x2="500" y2="50" stroke="black" stroke-width="15px"/>
-+   <polygon points="585 0 525 25 585 50" transform="rotate(135 525 25)"/>
-+   </svg>
-diff --git a/Documentation/translations/it_IT/doc-guide/svg_image.svg b/Documentation/translations/it_IT/doc-guide/svg_image.svg
-new file mode 120000
-index 000000000000..4b1c287bb16f
---- /dev/null
-+++ b/Documentation/translations/it_IT/doc-guide/svg_image.svg
-@@ -0,0 +1 @@
-+../../../doc-guide/svg_image.svg
-\ No newline at end of file
-diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
-index e688c06fd9a4..61f9fdb2bb72 100644
---- a/Documentation/translations/it_IT/index.rst
-+++ b/Documentation/translations/it_IT/index.rst
-@@ -72,9 +72,17 @@ sviluppatori che contribuiscono ogni anno. Come in ogni grande comunità,
- sapere come le cose vengono fatte renderà il processo di integrazione delle
- vostre modifiche molto più semplice
- 
-+.. toctree::
-+   :maxdepth: 2
-+
-+   doc-guide/index
-+
- .. warning::
- 
-     TODO ancora da tradurre
-+    - process/index
-+    - dev-tools/index
-+    - kernel-hacking/index
- 
- Documentazione della API del kernel
- -----------------------------------
+I have a few documentation comments below...
+
+On 05/26/2018 02:19 PM, Marcus Folkesson wrote:
+> Add documentation to give a brief description on how to use the
+> CCID Gadget Device.
+> This includes a description for all attributes followed by an example on
+> how to setup the device with ConfigFS.
+> 
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+>  Documentation/usb/gadget_ccid.rst | 267 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 267 insertions(+)
+>  create mode 100644 Documentation/usb/gadget_ccid.rst
+> 
+> diff --git a/Documentation/usb/gadget_ccid.rst b/Documentation/usb/gadget_ccid.rst
+> new file mode 100644
+> index 000000000000..5ac806b14604
+> --- /dev/null
+> +++ b/Documentation/usb/gadget_ccid.rst
+> @@ -0,0 +1,267 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============
+> +CCID Gadget
+> +============
+> +
+> +:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
+> +
+> +Introduction
+> +============
+> +
+> +The CCID Gadget will present itself as a CCID device to the host system.
+> +The device supports two endpoints for now; BULK IN and BULK OUT.
+> +These endpoints is exposed to userspace via /dev/ccidg*.
+
+                   are exposed
+
+> +
+> +All CCID commands are sent on the BULK-OUT endpoint. Each command sent to the CCID
+> +has an associated ending response. Some commands can also have intermediate
+> +responses. The response is sent on the BULK-IN endpoint.
+> +See Figure 3-3 in the CCID Specification [1]_ for more details.
+> +
+> +The CCID commands must be handled in userspace since the driver is only working
+> +as a transport layer for the TPDUs.
+> +
+> +
+> +CCID Commands
+> +--------------
+> +
+> +All CCID commands begins with a 10 bytes header followed by an optional
+
+                            with a 10-byte header
+(or maybe that's a locale difference)
+
+> +data field depending on message type.
+> +
+> ++--------+--------------+-------+----------------------------------+
+> +| Offset | Field        | Size  | Description                      |
+> ++========+==============+=======+==================================+
+> +| 0      | bMessageType | 1     | Type of message                  |
+> ++--------+--------------+-------+----------------------------------+
+> +| 1      | dwLength     | 4     | Message specific data length     |
+> +|        |              |       |                                  |
+> ++--------+--------------+-------+----------------------------------+
+> +| 5      | bSlot        | 1     | Identifies the slot number       |
+> +|        |              |       | for this command                 |
+> ++--------+--------------+-------+----------------------------------+
+> +| 6      | bSeq         | 1     | Sequence number for command      |
+> ++--------+--------------+-------+----------------------------------+
+> +| 7      | ...          | 3     | Fields depends on message type   |
+> ++--------+--------------+-------+----------------------------------+
+> +| 10     | abData       | array | Message specific data (OPTIONAL) |
+> ++--------+--------------+-------+----------------------------------+
+> +
+> +
+> +Multiple CCID gadgets
+> +----------------------
+> +
+> +It is possible to create multiple instances of the CCID gadget, however,
+> +a much more flexible way is to create one gadget and set the `nslots` attribute
+> +to the number of desired CCID devices.
+> +
+> +All CCID commands specifies which slot that is the receiver in the `bSlot` field
+
+                     specify which slot is the receiver
+
+> +of the CCID header.
+> +
+> +Usage
+> +=====
+> +
+> +Access from userspace
+> +----------------------
+> +All communication is by read(2) and write(2) to the corresponding /dev/ccidg* device.
+> +Only one filedescriptor is allowed to be open to the device at a time.
+
+            file descriptor
+
+> +
+> +The buffer size provided to read(2) **must be at least** 522 (10 bytes header + 512 bytes payload)
+> +bytes as we are working with whole commands.
+> +
+> +The buffer size provided to write(2) **may not exceed** 522 (10 bytes header + 512 bytes payload)
+> +bytes as we are working with whole commands.
+> +
+> +
+> +Configuration with configfs
+> +----------------------------
+> +
+> +ConfigFS is used to create and configure the CCID gadget.
+> +In order to get a device to work as intended, a few attributes must
+> +be considered.
+> +
+> +The attributes is described below followed by an example.
+
+                  are
+
+> +
+> +features
+> +~~~~~~~~~
+> +
+> +The `feature` attribute writes to the dwFeatures field in the class descriptor.
+> +See Table 5.1-1 Smart Card Device Descriptors in the CCID Specification [1]_.
+> +
+> +The value indicates what intelligent features the CCID has.
+> +These values are available to user application as defines in ccid.h [2]_.
+
+                                                  as defined
+
+> +The default value is 0x00000000.
+
+
+[snip]
+
+HTH.
 -- 
-2.14.3
-
-
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
