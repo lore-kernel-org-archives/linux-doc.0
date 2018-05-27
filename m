@@ -5,89 +5,215 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1C5177D043
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 May 2018 14:57:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD3F97D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 May 2018 14:57:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1032590AbeE0O5F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 27 May 2018 10:57:05 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:42292 "EHLO mx.kolabnow.com"
+        id S966768AbeE0O5P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 27 May 2018 10:57:15 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:21904 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965011AbeE0O5E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 27 May 2018 10:57:04 -0400
+        id S965011AbeE0O5O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 27 May 2018 10:57:14 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 5634E37D;
-        Sun, 27 May 2018 16:57:03 +0200 (CEST)
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 939D740106;
+        Sun, 27 May 2018 16:57:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        references:in-reply-to:message-id:date:date:subject:subject:from
-        :from:received:received:received; s=dkim20160331; t=1527433022;
-         x=1529247423; bh=f6uSySHfj+D9dF6eTFsN26jOz8uDDk7iDx4aGxT/VrM=; b=
-        2fUgD3bB7bMMNWLo4TU3LCNsw/P0q4Cm7Pc6GnMp0oMKqtJm09+869W7GAncUCuE
-        ClH2mRRdTxvfPlWseSgxWRR6qzgWUa9wdkddFov004m3T9X0NV2ovmPBwznwQZ+P
-        uMilNBGSJv8gJz4LfMwVhXXht+JRh+rFxjHyTsila+oFCZBGdkf5ii+BapxXxONM
-        DpHOccvbuGogm/iT4eESQSn+BtBjtTZn627r4rZaQ44L30XWgllK6gT2Q1W5jAne
-        NhWJ5DUF6ILOhKfarVLVnJneoOiAE5hxLILYiIW3z7+AJ9dDoMdY+HC+n/lnQ9rz
-        83mGHt4xMQkjYQwWEChHHPmDtRCkcxfOg8T75T2p9phCR8ievzmV0780qs+Mpo5R
-        P1TFkKnle6HMhxc46Z5+BgL/QwSydHDueKvzC5OyPqn66sLgZzjedVIGbJSkC+4l
-        AwaUoatdqkShzTJj5uah1NUGeI/bPaN+DtduJbdp5ozUvL8WhKjET95a+dgm3nXp
-        rJ+Z0DJB/iY+yuR1UF2I3Joiqf+rQKIrP+MTn1C1yjho5nUGX2jmIBz4TEJJnUv9
-        J/PUhY7qTZAiQf6oSPSnQzt2NYRg0aj/ABijmhdvUENvFiCu7U+7YK6rZ0GMuCvq
-        0rR2dcB60ZEL2UlQ2usMssfgmeLnNPicGp9MqBuHgZ4=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1527433031; x=1529247432; bh=8xRR88zhCtiWNn2pXudpgdbOwOeCj8/ruJp
+        Evaw71+k=; b=Ce8sqslG/jo4e7M1fNK3vVGUx5lMt52IzB2elcu9ZWflDncRI5p
+        i53WEtjvneWOU5ydgj47aVkTGk+3ayXN8S5htarNbTTieZldxoQ+ZPE64sJX3Xmb
+        qPTHFdAASMiMgN0EPbEqxkTYIXO3rtXFra5Si+3wqgCEQwlU+ncfy2iZyvfA49r3
+        ubO/xZw9B3bM8MJAyhdQUwOoI5F2r6cwk+FPxPnZDqoi+X2a0Rc9+5FqGjBxmiiX
+        S0aZh4E/U+2C4vjLvLaHZdRt3MPP7PlvPQ7GHQf+7iLjuk+ltWkLU2pbRB3Eq/5R
+        pneJQnKRiV1r9wIEqlVZI/dkP71Wrc3MFU+9bQADcmE/2PK+Py3bb8Ynn/Bq8U8M
+        0TxeY7nF/jbeWcOhprJckz/EdQEgQrRTkD0L6b2+vXfkg6jCo7EGKfcni2pOcKqU
+        h40aSVDRFHVBT0qmnOno8WyHuHk5d0NfgnBsjs+WuDogizeMz8Yb3hL0fep7h4mU
+        yG968N12PIYdnOatwmQVUEzgtyHxyAPMk2vaHnllVtTFD8nmT2HvRTUd4kAcPl7b
+        hi2UzKDMN29eNGzB7ew1QdZZ13lR8tmsir0vNCUQZA8reNdRGScX+/GAUQdBAyOM
+        MKdy1UMKbp1bJlcab8v2SWN/jET5z4v0v+3J+2vp7QW4YMMbNF3eKQxc=
 X-Virus-Scanned: amavisd-new at mykolab.com
 Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id x_HgaEoBbhV4; Sun, 27 May 2018 16:57:02 +0200 (CEST)
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ukGZ9f8Og8xI; Sun, 27 May 2018 16:57:11 +0200 (CEST)
 Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 4B5A8247;
-        Sun, 27 May 2018 16:57:02 +0200 (CEST)
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id D02EC40102;
+        Sun, 27 May 2018 16:57:11 +0200 (CEST)
 Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id E546125CA;
-        Sun, 27 May 2018 16:57:01 +0200 (CEST)
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 90A8625CA;
+        Sun, 27 May 2018 16:57:11 +0200 (CEST)
 From:   Federico Vaga <federico.vaga@vaga.pv.it>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alessia Mantegazza <amantegazza@vaga.pv.it>,
         Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH 2/5] doc: add chapter labels
-Date:   Sun, 27 May 2018 16:55:57 +0200
-Message-Id: <20180527145559.16411-3-federico.vaga@vaga.pv.it>
+Subject: [PATCH 3/5] doc: add Italian translation skeleton
+Date:   Sun, 27 May 2018 16:55:58 +0200
+Message-Id: <20180527145559.16411-4-federico.vaga@vaga.pv.it>
 In-Reply-To: <20180527145559.16411-1-federico.vaga@vaga.pv.it>
 References: <20180527145559.16411-1-federico.vaga@vaga.pv.it>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The idea is to make it easier to create references (doc-guide does the same).
-
 Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
 ---
- Documentation/index.rst                | 2 ++
- Documentation/kernel-hacking/index.rst | 2 ++
- 2 files changed, 4 insertions(+)
+ Documentation/index.rst                            |   8 ++
+ .../translations/it_IT/disclaimer-ita.rst          |  11 +++
+ Documentation/translations/it_IT/index.rst         | 101 +++++++++++++++++++++
+ 3 files changed, 120 insertions(+)
+ create mode 100644 Documentation/translations/it_IT/disclaimer-ita.rst
+ create mode 100644 Documentation/translations/it_IT/index.rst
 
 diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 331da87c82c8..8f11fccb9744 100644
+index 8f11fccb9744..e6075bdacbbd 100644
 --- a/Documentation/index.rst
 +++ b/Documentation/index.rst
-@@ -3,6 +3,8 @@
-    You can adapt this file completely to your liking, but it should at least
-    contain the root `toctree` directive.
+@@ -113,6 +113,14 @@ Japanese translations
  
-+.. _linux_doc:
-+
- The Linux Kernel documentation
- ==============================
+    translations/ja_JP/index
  
-diff --git a/Documentation/kernel-hacking/index.rst b/Documentation/kernel-hacking/index.rst
-index fcb0eda3cca3..f53027652290 100644
---- a/Documentation/kernel-hacking/index.rst
-+++ b/Documentation/kernel-hacking/index.rst
-@@ -1,3 +1,5 @@
-+.. _kernel_hacking:
++Italian translations
++---------------------
 +
- =====================
- Kernel Hacking Guides
- =====================
++.. toctree::
++   :maxdepth: 1
++
++   translations/it_IT/index
++
+ Indices and tables
+ ==================
+ 
+diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst b/Documentation/translations/it_IT/disclaimer-ita.rst
+new file mode 100644
+index 000000000000..0c439117ed7f
+--- /dev/null
++++ b/Documentation/translations/it_IT/disclaimer-ita.rst
+@@ -0,0 +1,11 @@
++:orphan:
++
++.. note::
++   This document is maintained by Federico Vaga <federico.vaga@vaga.pv.it>.
++   If you find any difference between this document and the original file or a
++   problem with the translation, please contact the maintainer of this file.
++
++.. warning::
++   The purpose of this file is to be easier to read and understand for Italian
++   speakers and is not intended as a fork. So, if you have any comments or
++   updates for this file please try to update the original English file first.
+diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
+new file mode 100644
+index 000000000000..e688c06fd9a4
+--- /dev/null
++++ b/Documentation/translations/it_IT/index.rst
+@@ -0,0 +1,101 @@
++﻿.. _it_linux_doc:
++
++===================
++Traduzione italiana
++===================
++
++L'obiettivo di questa traduzione è di rendere più facile la lettura e
++la comprensione per chi preferisce leggere in lingua italiana.
++Tenete presente che la documentazione di riferimento rimane comunque
++quella in lingua inglese: :ref:`linux_doc`
++
++Questa traduzione cerca di essere il più fedele possibile all'originale ma
++è ovvio che alcune frasi vadano trasformate: non aspettatevi una traduzione
++letterale. Quando possibile, si eviteranno gli inglesismi ed al loro posto
++verranno utilizzate le corrispettive parole italiane.
++
++Se notate che la traduzione non è più aggiornata potete contattare
++direttamente il manutentore della traduzione italiana.
++
++Se notate che la documentazione contiene errori o dimenticanze, allora
++verificate la documentazione di riferimento in lingua inglese. Se il problema
++è presente anche nella documentazione di riferimento, contattate il suo
++manutentore. Se avete problemi a scrivere in inglese, potete comunque
++riportare il problema al manutentore della traduzione italiana.
++
++Manutentore della traduzione italiana: Federico Vaga <federico.vaga@vaga.pv.it>
++
++La documentazione del kernel Linux
++==================================
++
++Questo è il livello principale della documentazione del kernel in
++lingua italiana. La traduzione è incompleta, noterete degli avvisi
++che vi segnaleranno la mancanza di una traduzione o di un gruppo di
++traduzioni.
++
++Più in generale, la documentazione, come il kernel stesso, sono in
++costante sviluppo; particolarmente vero in quanto stiamo lavorando
++alla riorganizzazione della documentazione in modo più coerente.
++I miglioramenti alla documentazione sono sempre i benvenuti; per cui,
++se vuoi aiutare, iscriviti alla lista di discussione linux-doc presso
++vger.kernel.org.
++
++Documentazione per gli utenti
++-----------------------------
++
++I seguenti manuali sono scritti per gli *utenti* del kernel - ovvero,
++coloro che cercano di farlo funzionare in modo ottimale su un dato sistema
++
++.. warning::
++
++    TODO ancora da tradurre
++
++Documentazione per gli sviluppatori di applicazioni
++---------------------------------------------------
++
++Il manuale delle API verso lo spazio utente è una collezione di documenti
++che descrivono le interfacce del kernel viste dagli sviluppatori
++di applicazioni.
++
++.. warning::
++
++    TODO ancora da tradurre
++
++
++Introduzione allo sviluppo del kernel
++-------------------------------------
++
++Questi manuali contengono informazioni su come contribuire allo sviluppo
++del kernel.
++Attorno al kernel Linux gira una comunità molto grande con migliaia di
++sviluppatori che contribuiscono ogni anno. Come in ogni grande comunità,
++sapere come le cose vengono fatte renderà il processo di integrazione delle
++vostre modifiche molto più semplice
++
++.. warning::
++
++    TODO ancora da tradurre
++
++Documentazione della API del kernel
++-----------------------------------
++
++Questi manuali forniscono dettagli su come funzionano i sottosistemi del
++kernel dal punto di vista degli sviluppatori del kernel. Molte delle
++informazioni contenute in questi manuali sono prese direttamente dai
++file sorgenti, informazioni aggiuntive vengono aggiunte solo se necessarie
++(o almeno ci proviamo — probabilmente *non* tutto quello che è davvero
++necessario).
++
++.. warning::
++
++    TODO ancora da tradurre
++
++Documentazione specifica per architettura
++-----------------------------------------
++
++Questi manuali forniscono dettagli di programmazione per le diverse
++implementazioni d'architettura.
++
++.. warning::
++
++    TODO ancora da tradurre
 -- 
 2.14.3
 
