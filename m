@@ -1,141 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D27907D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 08:38:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C92E7DF8C
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 08:47:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754069AbeE1Iiq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 May 2018 04:38:46 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:53264 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753986AbeE1Iil (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 May 2018 04:38:41 -0400
-Received: by mail-wm0-f68.google.com with SMTP id a67-v6so29892130wmf.3;
-        Mon, 28 May 2018 01:38:40 -0700 (PDT)
+        id S1754111AbeE1Iph (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 May 2018 04:45:37 -0400
+Received: from mail-wm0-f52.google.com ([74.125.82.52]:38724 "EHLO
+        mail-wm0-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754095AbeE1Ipg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 May 2018 04:45:36 -0400
+Received: by mail-wm0-f52.google.com with SMTP id m129-v6so29902124wmb.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 May 2018 01:45:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=PelMXdusff+/pzS8PyzODwGurV+w+77Lgxs/Est17S8=;
-        b=UO3sVKyKZnSt+B3TRyW24cRnHeqgtM7N2canD4AEKZnRlczTHN0oMcm4IXHNaGemux
-         kaELG14V1rBzh5w8UpW6SQMhNgw6zaAVrWvExGCxkVqUurdPNRZ2htIhBCEu8Q802Kdw
-         GrJAw3xH+XSPyyrESK13k89NPxLOQBzpSLj+ns38B65C6+wkzrf9pmxzkbTRhlu5co5a
-         Yd8xjYT7s/BqEaAfKYv2kOPFduuzJbB9zrHWEq8sspIf7TnCmVTJ3PaoSJ5/RwVCEPGV
-         q05k4CjKdzpPzY6xO/zCsNGWanv+ZMIqeDjEUoU7Slh5AQ6OgLUFrBamPAkQ6yUwpuHt
-         mFEA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=Jcv36zqK5z4CBDKrfpSmhF6yClhbmwK2Wy9b+M/nBZ0=;
+        b=b3M4Z/995/1LcmA+1WeaiC+zvqd3mTSrG8Nv8VC7dHn6iyS98er1K3MfBilu1guj7M
+         bJO7/I/UtEoB3TzRo31YhWLLQqDJ77nUQFGgsf6VEPJ3nzogsreHE+E/vpfByQdMqKhx
+         my1AtWYe0UgXoe/vm5vFf1ijjF8IGsZmBFmqI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=PelMXdusff+/pzS8PyzODwGurV+w+77Lgxs/Est17S8=;
-        b=Gql8RBvrMy81MX1eMqXRt+nsM8Hu7k6Y3pO4X5WcKXOKgZupqT6fN7CwTmOCgzycJB
-         i901AkQj+cP/M0gMXLA0bWbx40ZGUqH3pEsEhmidga+Zsn44Kbd3bnF4x3+9a1ObUXzI
-         iHOOX0jw56cZeQjI12GxqyeTPCPDy2wIlMxpvUOyNbUtl6sYy6gTx6Rkp5vo/nVWXHqa
-         bSioho61lFel9ga41c7xBCtUQIp7NkDVSqHztvjg/49myTUnzKmNS0vum8VXLRm9FWyN
-         cOPDhmiV9p2aMDfHZY4aIc6aprT3XqXpnDTzfY91RcU9GZA1IAufSEfNR+uHX7HcE8Rb
-         5vJg==
-X-Gm-Message-State: ALKqPweEB1NgVzVnaBYj6DoH33/+tuMHwd5DEvgQXfN8kfv5vpe1KRyp
-        gcAcXXrz3vSdkWwQEpaXcl8=
-X-Google-Smtp-Source: AB8JxZqICmGTz5BovShF0ap0wWgIeAA0DgHavJs6BGl9z6mt0lx1OYLKbK5N+Er7KKp3BGJUDv1Rvw==
-X-Received: by 2002:a2e:7c02:: with SMTP id x2-v6mr7883089ljc.96.1527496720076;
-        Mon, 28 May 2018 01:38:40 -0700 (PDT)
-Received: from gmail.com (c-5eea3441-74736162.cust.telenor.se. [94.234.52.65])
-        by smtp.gmail.com with ESMTPSA id r15-v6sm5814071ljh.6.2018.05.28.01.38.38
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 28 May 2018 01:38:39 -0700 (PDT)
-Date:   Mon, 28 May 2018 10:38:34 +0200
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Andrzej Pietrasiewicz <andrzej.p@samsung.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Jcv36zqK5z4CBDKrfpSmhF6yClhbmwK2Wy9b+M/nBZ0=;
+        b=fPrCWFohlsxSqxdaGQDoPnDA0CruvxRSBMrL6Cq+4Pxq2WTNwsTdzeQtL7eB7qloJe
+         nMZkXfoQHZKV9Ro3VtMlg04uhzc2Ux25b5PwXz1BOvj5FNJxG8Cu6ic3nptjPTONUyt0
+         3NZjUG9jVfHHFvw/GxNWRx/RWPKITQvQi1r5BSoX20JBMLH6Fhx8IobzB0i3qadLciUF
+         rE6vIJd5JPb+AXwKLHV3ZQZzaHibDB4AOFKx0u8bM4e4Bd/HLJ1xAj3QfKVZI6j9WFRY
+         BhBGZd7s9Ys20pEz9lMlLyuvIqZmlFOY4ajUu967BjhhBwn4ZkEMxhJJWzjBiaBZIp1K
+         +F6w==
+X-Gm-Message-State: ALKqPwczpTiJRUyJxHt8S7H9qzaaVdhyif47byTW3ptORjX7BjLPsLUZ
+        JeQm2O7srRSsHPmcxvsofCkpBQ==
+X-Google-Smtp-Source: ADUXVKKJKeCP0NVDBuNK3Q8dDfkiCnp4ck7XPSIkjpqFQ2mUW8/RmwD5O/TqLdE0OJUGvDIrWSyFlA==
+X-Received: by 2002:a1c:b109:: with SMTP id a9-v6mr7096006wmf.18.1527497134835;
+        Mon, 28 May 2018 01:45:34 -0700 (PDT)
+Received: from localhost.localdomain ([45.76.138.171])
+        by smtp.gmail.com with ESMTPSA id 123-v6sm21783013wmt.19.2018.05.28.01.45.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 28 May 2018 01:45:33 -0700 (PDT)
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Felipe Balbi <balbi@kernel.org>, davem@davemloft.net,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] usb: gadget: ccid: add support for USB CCID
- Gadget Device
-Message-ID: <20180528083834.GB4651@gmail.com>
-References: <CGME20180526212048epcas2p1510fd6c92f20e8f6d0059742ab5fb3f7@epcas2p1.samsung.com>
- <20180526211940.25474-1-marcus.folkesson@gmail.com>
- <20180528070453eucas1p294be19abd2cab7d112404d15710edfde~yvQ5mevbz2769227692eucas1p2k@eucas1p2.samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180528070453eucas1p294be19abd2cab7d112404d15710edfde~yvQ5mevbz2769227692eucas1p2k@eucas1p2.samsung.com>
-User-Agent: Mutt/1.9.3 (2018-01-21)
+        Robert Walker <Robert.Walker@arm.com>, mike.leach@linaro.org,
+        kim.phillips@arm.co, Tor Jeremiassen <tor@ti.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+        Leo Yan <leo.yan@linaro.org>
+Subject: [RFT v3 0/4] Perf script: Add python script for CoreSight trace disassembler
+Date:   Mon, 28 May 2018 16:44:59 +0800
+Message-Id: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andrzej,
+This patch series is to support for using 'perf script' for CoreSight
+trace disassembler, for this purpose this patch series adds a new
+python script to parse CoreSight tracing event and use command 'objdump'
+for disassembled lines, finally this can generate readable program
+execution flow for reviewing tracing data.
 
-On Mon, May 28, 2018 at 09:04:51AM +0200, Andrzej Pietrasiewicz wrote:
-> Mi Marcus,
-> 
-> W dniu 26.05.2018 o 23:19, Marcus Folkesson pisze:
-> > Chip Card Interface Device (CCID) protocol is a USB protocol that
-> > allows a smartcard device to be connected to a computer via a card
-> > reader using a standard USB interface, without the need for each manufacturer
-> > of smartcards to provide its own reader or protocol.
-> > 
-> > This gadget driver makes Linux show up as a CCID device to the host and let a
-> > userspace daemon act as the smartcard.
-> > 
-> > This is useful when the Linux gadget itself should act as a cryptographic
-> > device or forward APDUs to an embedded smartcard device.
-> > 
-> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > ---
-> 
-> >   
-> > +config USB_CONFIGFS_CCID
-> > +	bool "Chip Card Interface Device (CCID)"
-> > +	depends on USB_CONFIGFS
-> > +	select USB_F_CCID
-> > +	help
-> > +	  The CCID function driver provides generic emulation of a
-> > +	  Chip Card Interface Device (CCID).
-> > +
-> > +	  You will need a user space server talking to /dev/ccidg*,
-> > +	  since the kernel itself does not implement CCID/TPDU/APDU
-> > +	  protocol.
-> 
-> Your function needs a userspace daemon to work.
-> It seems you want to use FunctionFS for such a purpose
-> instead of creating a new function.
-> 
-> Andrzej
+Patch 0001 is one fixing patch to generate samples for the start packet
+and exception packets.
 
-> > +	  since the kernel itself does not implement CCID/TPDU/APDU
-Oops, the driver does handle CCID.
+Patch 0002 is the prerequisite to add addr into sample dict, so this
+value can be used by python script to analyze instruction range.
 
-Well, yes, It needs an application that perform the "smartcard operations", such as
-generate keys or sign data, as this depends on how it should be used.
+Patch 0003 is to add python script for trace disassembler.
 
-The actual smartcard operations could for example be in software,
-use a crypto engine in SoC or external HSM (Hardware Security Module).
+Patch 0004 is to add doc to explain python script usage and give
+example for it.
 
-Without the application, the gadget shows up as a smart card reader
-with an unconnected smartcard.
+This patch series has been rebased on acme git tree [1] with the commit
+19422a9f2a3b ("perf tools: Fix kernel_start for PTI on x86") and tested
+on Hikey (ARM64 octa CA53 cores).
 
-I guess it could be accomplished with FunctionFS as well.
+In this version the script has no dependency on ARM64 platform and is
+expected to support ARM32 platform, but I am lacking ARM32 platform for
+testing on it, so firstly upstream to support ARM64 platform.
 
-Best regards
-Marcus Folkesson
+This patch series is firstly to support 'per-thread' recording tracing
+data, but we also need to verify the script can dump trace disassembler
+CPU wide tracing and kernel panic kdump tracing data.  I also verified
+this patch series which can work with kernel panic kdump tracing data,
+because Mathieu is working on CPU wide tracing related work, so after
+this we need to retest for CPU wide tracing and kdump tracing to ensure
+the python script can handle well for all cases.
+
+You are very welcome to test the script in this patch series, your
+testing result and suggestion are very valuable to perfect this script
+to cover more cases.
+
+Changes from v2:
+* Synced with Rob for handling CS_ETM_TRACE_ON packet, so refined 0001
+  patch according to dicussion;
+* Minor cleanup and fixes in 0003 patch for python script: remove 'svc'
+  checking.
+
+Changes from v1:
+* According to Mike and Rob suggestion, add the fixing to generate samples
+  for the start packet and exception packets.
+* Simplify the python script to remove the exception prediction algorithm,
+  we can rely on the sane exception packets for disassembler.
+
+
+Leo Yan (4):
+  perf cs-etm: Generate branch sample for missed packets
+  perf script python: Add addr into perf sample dict
+  perf script python: Add script for CoreSight trace disassembler
+  coresight: Document for CoreSight trace disassembler
+
+ Documentation/trace/coresight.txt                  |  52 +++++
+ tools/perf/scripts/python/arm-cs-trace-disasm.py   | 235 +++++++++++++++++++++
+ tools/perf/util/cs-etm.c                           |  93 ++++++--
+ .../util/scripting-engines/trace-event-python.c    |   2 +
+ 4 files changed, 362 insertions(+), 20 deletions(-)
+ create mode 100644 tools/perf/scripts/python/arm-cs-trace-disasm.py
+
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
