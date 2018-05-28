@@ -1,155 +1,231 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=5.0 tests=DKIM_SIGNED,
-	FORGED_MUA_MOZILLA,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-1.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDDE37D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 07:06:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2485E7D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 07:43:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753667AbeE1HFE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 May 2018 03:05:04 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:42295 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753641AbeE1HE6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 May 2018 03:04:58 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20180528070456euoutp0227cb44b2439efdcd8a59d2cc5a082e02~yvQ8gHvEC2873728737euoutp028
-        for <linux-doc@vger.kernel.org>; Mon, 28 May 2018 07:04:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20180528070456euoutp0227cb44b2439efdcd8a59d2cc5a082e02~yvQ8gHvEC2873728737euoutp028
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1527491096;
-        bh=xunWBq7oKY2xJ/B63qCsJz8sQ8wHOM8iXnvJ0n4z+O8=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=qxiQjYPIjIAQQnJMCKSyQv+tgGpQmUjVShJzDSU4+7T8OMrGfbumDDCn+fGK6c1jt
-         sh1J5YmzzO/wTv/M/i5L6xpRXlFuQ3FDVhX7pTdxAnE3bO0AMxtOiMCD+b2HgLc7/S
-         mcDKfKyC1CISv8s3DDTMAHXCBQtiFu8TMK9i5rKc=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20180528070454eucas1p1f8a407a53394c06c2792d621abaa1327~yvQ6vfD5N2263822638eucas1p1N;
-        Mon, 28 May 2018 07:04:54 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id C2.DA.17380.51AAB0B5; Mon, 28
-        May 2018 08:04:53 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20180528070453eucas1p294be19abd2cab7d112404d15710edfde~yvQ5mevbz2769227692eucas1p2k;
-        Mon, 28 May 2018 07:04:53 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20180528070452eusmtrp1b22d20e577d1eea12a18c33c7c9a48f2~yvQ5SlEjM1265812658eusmtrp1g;
-        Mon, 28 May 2018 07:04:52 +0000 (GMT)
-X-AuditID: cbfec7f4-6f9ff700000043e4-b8-5b0baa1563a6
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id CA.39.04178.41AAB0B5; Mon, 28
-        May 2018 08:04:52 +0100 (BST)
-Received: from [106.116.147.122] (unknown [106.116.147.122]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20180528070452eusmtip23a4ffdb610c322c1b56c904cc6d97bc6~yvQ4wgUf_0461204612eusmtip2A;
-        Mon, 28 May 2018 07:04:52 +0000 (GMT)
-Subject: Re: [PATCH v2 1/3] usb: gadget: ccid: add support for USB CCID
- Gadget Device
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1753656AbeE1Hn1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 May 2018 03:43:27 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:38305 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753612AbeE1HnZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 May 2018 03:43:25 -0400
+Received: by mail-wm0-f66.google.com with SMTP id m129-v6so29442644wmb.3;
+        Mon, 28 May 2018 00:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=uwa2u8Xvz3KKzbGKINR6/pq7h9BnWHdDXPkUiTB9Z3U=;
+        b=izfXzdqDdpiiEGRsdpigzckAVkedFKc/iCINRsQPd1JSLDRI+elWTwydQ6CvaKhPAe
+         GuBdUNT0JNOZhVt60hgXzbTOQ38fAwgT6JXhV4Gja7wfIxqJnI5nfBtNMRuGoJwANzF8
+         5bmw7FkGbLTNIJRgzemS1eume/Sy3OcEN7wOBX5XMbFSgMbKVDQE1+VXg2RDPn2GHF7R
+         c+0jAkhvXSOInqFjqKSgxu4pg5wv1DNgLHsGCimK97wvxTH9qZg1dbinPx+o2J4GoOLy
+         PTSwamw1Ua7GIz9dDJlHVjaqtaxMrIm4Zp+RSydU7aW+fUQDzwwpo3wDkiyOhRcX7NzQ
+         QiAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uwa2u8Xvz3KKzbGKINR6/pq7h9BnWHdDXPkUiTB9Z3U=;
+        b=SVtybAQs935L1YofmfB0TWwOexWonoZy4PuUC1ytV7zdi6F6DDjyeq8J53oqDmJPQx
+         oRBigLwfr9uar3ulym+1/l0ptMPoY3W2QQgosuCV8O8Stv6J4SAqp1kftS3xCl03ydNG
+         jWYBSTHdn/vgi112mWH/lHcFg3u0VulH2sJf4V1SBijbU4hFUDa9g9J8fWlQ/etjyyh8
+         l0uxx1yKt1uqbQXVsoCfdqDs+QkXkFLvlK5SnbXq2jOB2kakf6XeBxgPmoVr19v9slUH
+         K4rVrGN93uaHW2jwsUPIh9OtUAKHJXYEW7kP/zwB3RE+RG9CP+0vxCjejQ5PO2izqpG6
+         4/cw==
+X-Gm-Message-State: ALKqPwegIpYSV60V7uqwn2aB5BeT2oIn9eM1RdAqI93tL1+nBGxj6wE8
+        OkHAZjJ66TE5FwVhba5fGeUm1X8M+jM=
+X-Google-Smtp-Source: AB8JxZqiM1MKldCxZZg9jAYfxqK4qrDBayHr3HmpQCEDiZiuZOF4ACKRVcEYfix7FcNJa709WX6UNQ==
+X-Received: by 2002:a2e:804c:: with SMTP id p12-v6mr7548066ljg.129.1527493404238;
+        Mon, 28 May 2018 00:43:24 -0700 (PDT)
+Received: from gmail.com (c-5eea3441-74736162.cust.telenor.se. [94.234.52.65])
+        by smtp.gmail.com with ESMTPSA id t19-v6sm5742192ljj.46.2018.05.28.00.43.21
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 28 May 2018 00:43:23 -0700 (PDT)
+Date:   Mon, 28 May 2018 09:42:58 +0200
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Felipe Balbi <balbi@kernel.org>, davem@davemloft.net,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Ruslan Bilovol <ruslan.bilovol@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-From:   Andrzej Pietrasiewicz <andrzej.p@samsung.com>
-Date:   Mon, 28 May 2018 09:04:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-        Thunderbird/52.7.0
+Subject: Re: [PATCH v2 2/3] Documentation: usb: add documentation for USB
+ CCID Gadget Device
+Message-ID: <20180528074258.GA4651@gmail.com>
+References: <20180526211940.25474-1-marcus.folkesson@gmail.com>
+ <20180526211940.25474-2-marcus.folkesson@gmail.com>
+ <2225254e-a8f1-570e-8b1c-f68168376784@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20180526211940.25474-1-marcus.folkesson@gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrAKsWRmVeSWpSXmKPExsWy7djP87qiq7ijDfrmWlvMWb+GzeJY2xN2
-        iycH2hkt5pxvYbFoXryezaJnThOjxcK2JSwWl3fNYbNYtKyV2WLi+nusFu8/dTJZvL0zncWi
-        Z+cJRovNm6YyO/B5bFl5k8lj56y77B6bV2h5bFrVyebx7tw5do8TM36zeOyfu4bdY3HfZFaP
-        z5vkAjijuGxSUnMyy1KL9O0SuDK+3pjGWnCHs6J5ZVoD40X2LkZODgkBE4nXP6YzdTFycQgJ
-        rGCU+Dn7NyuE84VRonnrchaQKiGBz4wSe9dHwHRcOTOTHaJoOaPE8RWtzBDORyDnD8gsTg5h
-        gXCJhhPbGEESIgInmSUmNq1lBkkwC0RInPhykBHEZhMwlth7sAPMZhFQlZh89z2YLQpU0/T8
-        J9iBvAKCEidnPgE7g1PAQWLemiuMEHPEJW49mc8EYcsDnTob7AoJgb/sEh+2fYNqLpNYMqeZ
-        BeJuF4lvN3awQtjCEq+Ob4GGgIzE6ck9UDXlElM3X2ODGNTDKLH8w1uoBmuJw8cvAtkcQNs0
-        Jdbv0ocIO0rc6HjKDhKWEOCTuPFWEOIePolJ26YzQ4R5JTrahCCqlSW2fD3FDGFLSrS+WcY4
-        gVFpFpIvZyH5bBaSz2Yh7F3AyLKKUTy1tDg3PbXYKC+1XK84Mbe4NC9dLzk/dxMjMN2d/nf8
-        yw7GXX+SDjEKcDAq8fA2/OaKFmJNLCuuzD3EKMHBrCTCy6ULFOJNSaysSi3Kjy8qzUktPsQo
-        zcGiJM4bp1EXJSSQnliSmp2aWpBaBJNl4uCUamBk2mw6W9hV4O7DOssypsYp8lcSHNtPOGfY
-        ZTcv16nkXM7y5qp3CFfWg5Bb4bJTtsssYjMvjo+UPccwS7Kwiv+jLWPUIfeZkzQDd5iaLBKv
-        e3WBw2DLau7WfUYSRZarepjvX69x8H4SkS2YatKcWL5mX/hGM7H35m0533veP77rEJR6adlb
-        ByWW4oxEQy3mouJEACG4nCNzAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCIsWRmVeSWpSXmKPExsVy+t/xe7oiq7ijDSa+MrSYs34Nm8Wxtifs
-        Fk8OtDNazDnfwmLRvHg9m0XPnCZGi4VtS1gsLu+aw2axaFkrs8XE9fdYLd5/6mSyeHtnOotF
-        z84TjBabN01lduDz2LLyJpPHzll32T02r9Dy2LSqk83j3blz7B4nZvxm8dg/dw27x+K+yawe
-        nzfJBXBG6dkU5ZeWpCpk5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl
-        6GV8vTGNteAOZ0XzyrQGxovsXYycHBICJhJXzswEsrk4hASWMkqsWPGbGSIhKdH78ABUkbDE
-        n2tdbBBF7xkljt2fBlYkLBAu8WHTH2aQhIjAWWaJ/wsvgiWYBSIk1n6+xALRMZlRYuvzjawg
-        CTYBY4m9BzsYQWxeATuJx4f/gsVZBFQlJt99DxYXBWq+d/4TG0SNoMTJmU9YQGxOAQeJeWuu
-        MEIsMJOYt/kh1DJxiVtP5jNB2PISzVtnM09gFJqFpH0WkpZZSFpmIWlZwMiyilEktbQ4Nz23
-        2FCvODG3uDQvXS85P3cTIzDGtx37uXkH46WNwYcYBTgYlXh4G35zRQuxJpYVV+YeYpTgYFYS
-        4eXSBQrxpiRWVqUW5ccXleakFh9iNAV6biKzlGhyPjD95JXEG5oamltYGpobmxubWSiJ8543
-        qIwSEkhPLEnNTk0tSC2C6WPi4JRqYHRKmvPx7kqDPflyi/5YqRxqK/mpENGe3u05973Y0jd8
-        n/ybVSWPp798UrIqXdevdc2FupOhlyL2fExN2ieVozHnZ0+LwpQ/Z6Ifuj6Oy94/y69dXkvj
-        2IIHWjM9a5b/cttjXvCgJ+jduSVaC+02TC99FsZUNbf/9u5QSYHyE6H/1OQ2Lb/yvU2JpTgj
-        0VCLuag4EQBmmTaqBwMAAA==
-Message-Id: <20180528070453eucas1p294be19abd2cab7d112404d15710edfde~yvQ5mevbz2769227692eucas1p2k@eucas1p2.samsung.com>
-X-CMS-MailID: 20180528070453eucas1p294be19abd2cab7d112404d15710edfde
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20180526212048epcas2p1510fd6c92f20e8f6d0059742ab5fb3f7
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20180526212048epcas2p1510fd6c92f20e8f6d0059742ab5fb3f7
-References: <CGME20180526212048epcas2p1510fd6c92f20e8f6d0059742ab5fb3f7@epcas2p1.samsung.com>
-        <20180526211940.25474-1-marcus.folkesson@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2225254e-a8f1-570e-8b1c-f68168376784@infradead.org>
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mi Marcus,
+Hi Randy,
 
-W dniu 26.05.2018 o 23:19, Marcus Folkesson pisze:
-> Chip Card Interface Device (CCID) protocol is a USB protocol that
-> allows a smartcard device to be connected to a computer via a card
-> reader using a standard USB interface, without the need for each manufacturer
-> of smartcards to provide its own reader or protocol.
+On Sun, May 27, 2018 at 04:36:24PM -0700, Randy Dunlap wrote:
+> Hi,
 > 
-> This gadget driver makes Linux show up as a CCID device to the host and let a
-> userspace daemon act as the smartcard.
+> I have a few documentation comments below...
 > 
-> This is useful when the Linux gadget itself should act as a cryptographic
-> device or forward APDUs to an embedded smartcard device.
+> On 05/26/2018 02:19 PM, Marcus Folkesson wrote:
+> > Add documentation to give a brief description on how to use the
+> > CCID Gadget Device.
+> > This includes a description for all attributes followed by an example on
+> > how to setup the device with ConfigFS.
+> > 
+> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > ---
+> >  Documentation/usb/gadget_ccid.rst | 267 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 267 insertions(+)
+> >  create mode 100644 Documentation/usb/gadget_ccid.rst
+> > 
+> > diff --git a/Documentation/usb/gadget_ccid.rst b/Documentation/usb/gadget_ccid.rst
+> > new file mode 100644
+> > index 000000000000..5ac806b14604
+> > --- /dev/null
+> > +++ b/Documentation/usb/gadget_ccid.rst
+> > @@ -0,0 +1,267 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +============
+> > +CCID Gadget
+> > +============
+> > +
+> > +:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > +
+> > +Introduction
+> > +============
+> > +
+> > +The CCID Gadget will present itself as a CCID device to the host system.
+> > +The device supports two endpoints for now; BULK IN and BULK OUT.
+> > +These endpoints is exposed to userspace via /dev/ccidg*.
 > 
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> ---
+>                    are exposed
+> 
+> > +
+> > +All CCID commands are sent on the BULK-OUT endpoint. Each command sent to the CCID
+> > +has an associated ending response. Some commands can also have intermediate
+> > +responses. The response is sent on the BULK-IN endpoint.
+> > +See Figure 3-3 in the CCID Specification [1]_ for more details.
+> > +
+> > +The CCID commands must be handled in userspace since the driver is only working
+> > +as a transport layer for the TPDUs.
+> > +
+> > +
+> > +CCID Commands
+> > +--------------
+> > +
+> > +All CCID commands begins with a 10 bytes header followed by an optional
+> 
+>                             with a 10-byte header
+> (or maybe that's a locale difference)
+> 
+> > +data field depending on message type.
+> > +
+> > ++--------+--------------+-------+----------------------------------+
+> > +| Offset | Field        | Size  | Description                      |
+> > ++========+==============+=======+==================================+
+> > +| 0      | bMessageType | 1     | Type of message                  |
+> > ++--------+--------------+-------+----------------------------------+
+> > +| 1      | dwLength     | 4     | Message specific data length     |
+> > +|        |              |       |                                  |
+> > ++--------+--------------+-------+----------------------------------+
+> > +| 5      | bSlot        | 1     | Identifies the slot number       |
+> > +|        |              |       | for this command                 |
+> > ++--------+--------------+-------+----------------------------------+
+> > +| 6      | bSeq         | 1     | Sequence number for command      |
+> > ++--------+--------------+-------+----------------------------------+
+> > +| 7      | ...          | 3     | Fields depends on message type   |
+> > ++--------+--------------+-------+----------------------------------+
+> > +| 10     | abData       | array | Message specific data (OPTIONAL) |
+> > ++--------+--------------+-------+----------------------------------+
+> > +
+> > +
+> > +Multiple CCID gadgets
+> > +----------------------
+> > +
+> > +It is possible to create multiple instances of the CCID gadget, however,
+> > +a much more flexible way is to create one gadget and set the `nslots` attribute
+> > +to the number of desired CCID devices.
+> > +
+> > +All CCID commands specifies which slot that is the receiver in the `bSlot` field
+> 
+>                      specify which slot is the receiver
+> 
+> > +of the CCID header.
+> > +
+> > +Usage
+> > +=====
+> > +
+> > +Access from userspace
+> > +----------------------
+> > +All communication is by read(2) and write(2) to the corresponding /dev/ccidg* device.
+> > +Only one filedescriptor is allowed to be open to the device at a time.
+> 
+>             file descriptor
+> 
+> > +
+> > +The buffer size provided to read(2) **must be at least** 522 (10 bytes header + 512 bytes payload)
+> > +bytes as we are working with whole commands.
+> > +
+> > +The buffer size provided to write(2) **may not exceed** 522 (10 bytes header + 512 bytes payload)
+> > +bytes as we are working with whole commands.
+> > +
+> > +
+> > +Configuration with configfs
+> > +----------------------------
+> > +
+> > +ConfigFS is used to create and configure the CCID gadget.
+> > +In order to get a device to work as intended, a few attributes must
+> > +be considered.
+> > +
+> > +The attributes is described below followed by an example.
+> 
+>                   are
+> 
+> > +
+> > +features
+> > +~~~~~~~~~
+> > +
+> > +The `feature` attribute writes to the dwFeatures field in the class descriptor.
+> > +See Table 5.1-1 Smart Card Device Descriptors in the CCID Specification [1]_.
+> > +
+> > +The value indicates what intelligent features the CCID has.
+> > +These values are available to user application as defines in ccid.h [2]_.
+> 
+>                                                   as defined
+> 
+> > +The default value is 0x00000000.
+> 
+> 
+> [snip]
+> 
+> HTH.
+> -- 
+> ~Randy
 
->   
-> +config USB_CONFIGFS_CCID
-> +	bool "Chip Card Interface Device (CCID)"
-> +	depends on USB_CONFIGFS
-> +	select USB_F_CCID
-> +	help
-> +	  The CCID function driver provides generic emulation of a
-> +	  Chip Card Interface Device (CCID).
-> +
-> +	  You will need a user space server talking to /dev/ccidg*,
-> +	  since the kernel itself does not implement CCID/TPDU/APDU
-> +	  protocol.
+Thank you for your comments, I will take it with me for v3.
 
-Your function needs a userspace daemon to work.
-It seems you want to use FunctionFS for such a purpose
-instead of creating a new function.
+Best regards
+Marcus Folkesson
 
-Andrzej
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
