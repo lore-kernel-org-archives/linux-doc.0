@@ -3,128 +3,346 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID,UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 49AC77DF8C
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 13:23:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4044A7D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 17:33:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1165337AbeE1NWH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 May 2018 09:22:07 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:1982 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1165311AbeE1NWG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 May 2018 09:22:06 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 5B7181B0F;
-        Mon, 28 May 2018 15:22:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1527513721; x=1529328122; bh=TXfz/SW/qhq1DkOvuPw3L3+OKz8uyXb/nbR
-        KZvUuzw0=; b=mGQEnvanhvfdx3kAQlBz3wOlOnIhiLF4wcSwVumQETlpNDhRIVT
-        DvyFORk8slMKULILyMnPjiMgf1Jt1hPr2ZmGOSL7Kpdjd9XnJr5zpaz6emCC1+R5
-        MlMq5Me7T4XDtSWCQ6gRehT+k8S4mv5bwD4iMGZzV9c8jTKnpEtm9B1Id10b++o5
-        y3wbDi8R9wEiB1YWZ0IJ6juduTjXzfYub+nUpXi8ot3ITxgIfDQXCNW4o1Eu4yeu
-        UIcq8fETKsVdD7dwY1IoicyhCEE7Mv7jtAc7E0Lbivu0SnfiMIEI9oyRwsJHdj8E
-        6WPzD6zUY/B64Ve6UoXtXB26C9zykK79aWDglBxnSSYsKFozgwkHmfXISBR4ALbl
-        4VXFsU9gaRm7KFj0n/Z/b9FzreiIzznOcC+DvZub+a9h4voo8xk2i4TWJ5HNS9OF
-        PqbkhVk4ayW93Mof2fDHp75V5OiumUWgknMStWw8SY1XGAgsnpIDOZQgO0iLJXHY
-        TyHi+g/ZURljf+FGWN86sJGbSvzNzrMn7ZpierGdAFMNf10ZaBahpAyEdb3pimbU
-        gLtXsdJZyuLGPTRfFsIFn9Aj7PeKVJHxm3VBycEhEt/tQpscOlcZWxvaC80LfDRp
-        EWaElaIQ1B55ddmRThOYZ+8v7WxM6E4MsF5YPCky9xwUSaz05XMAH7ZI=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 4edI4l8vJ08m; Mon, 28 May 2018 15:22:01 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id DCC20D01;
-        Mon, 28 May 2018 15:22:01 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 7DAE51C71;
-        Mon, 28 May 2018 15:22:01 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>
-Subject: Re: doc: Italian translation
-Date:   Mon, 28 May 2018 15:22:00 +0200
-Message-ID: <4469233.YSvUztRfSp@pcbe13614>
-In-Reply-To: <20180528070828.3a3c7287@lwn.net>
-References: <20180527145559.16411-1-federico.vaga@vaga.pv.it> <20180528070828.3a3c7287@lwn.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1754573AbeE1RdL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 May 2018 13:33:11 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:41736 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754443AbeE1RdK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 May 2018 13:33:10 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w4SHRD9s159361;
+        Mon, 28 May 2018 17:32:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2017-10-26;
+ bh=iiMsIFm3ZPSTyyOdP9rYqR9tlFGKjF2/ypNBLXlNVco=;
+ b=fhV2qXR+PA0WsZ75NlwcHaJ52U5EgC0vYtX4WxclPCMQRz1rAmlgSRP2IZInHxj+1VRG
+ N/txlf1RaxOvW7Cof6CERlFP9zF6srzMK6SwC2c9UHLkazLRXejY8kMBFaeXE+vaOIKN
+ RBD3te3AI1IhS+83SRdvGgS2U44iLZW4bCd2ER0kjCW16fYEC8XoIvbnQnUKB34ilLIo
+ YsSaNVAvX/ctf1cSHH1gg0IZa8Flklk/aHHijMM+jsozVcjptZ3x3svnqLLVZwggZ87z
+ 9DUy7Why1p3Q4gKAMxVGF0d/fB3ODghZskSpOPr+lJcjuOA31M9PuwgMnALSZEnRGnXg NQ== 
+Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
+        by aserp2120.oracle.com with ESMTP id 2j6yjbe03q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 28 May 2018 17:32:34 +0000
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w4SHWXIx018086
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 28 May 2018 17:32:33 GMT
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id w4SHWV5J019769;
+        Mon, 28 May 2018 17:32:31 GMT
+Received: from paddy.uk.oracle.com (/10.175.209.41)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 28 May 2018 10:32:30 -0700
+From:   Joao Martins <joao.m.martins@oracle.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v2] x86/xen: Combine PV features to be disabled in xen_nopv
+Date:   Mon, 28 May 2018 18:32:11 +0100
+Message-Id: <20180528173211.16876-1-joao.m.martins@oracle.com>
+X-Mailer: git-send-email 2.11.0
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8907 signatures=668702
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1711220000 definitions=main-1805280210
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, 28 May 2018 15:08:28 CEST Jonathan Corbet wrote:
-> On Sun, 27 May 2018 16:55:55 +0200
-> 
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > here the doc-guide translated in Italian. This set of patches
-> > includes some minor changes to the main one. The idea of this
-> > first set of patches is also to adjust the structure and our
-> > expectations.
-> 
-> I've only done a quick scan so far.  It looks reasonable, but I have
-> a couple of requests:
-> 
->  - Please include a proper changelog with each patch describing what
-> the patch does and why.  Otherwise I'll have to fill them in, and
-> that makes me grumpy...:)
+From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 
-Ok
+Extend 'xen_nopv' parameter to disable individual features in
+the following format:
 
->  - You might as well add a MAINTAINERS entry.  The other
-> translations don't have them, but they should.
+xen_nopv={ [spin,][ipi] | all }
 
-Ok
+'spin' to disable PV spinlocks
+'ipi' to disable PV IPI
+'all' to disable all of the above and PV drivers
 
->  - For extra credit: it's time to move the translations out of the
->    top-level index into an index.rst in the translations directory. 
-> Then the top-level file can have a single pointer to the
-> translations.
+'all' ideally would be the set of features that can be disabled with
+xen_nopv. Albeit it is disabling PV features and drivers because it has
+been the behaviour of all past kernels. Thus users should not see a
+difference when specifying no value. Also, deprecate 'xen_nopvspin' as
+we are making it part of 'xen_nopv'.
 
-I completely agree on this point. I can prepare a patch that does it.
+Signed-off-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+---
+Changes since RFC:
+ (https://lists.xenproject.org/archives/html/xen-devel/2015-10/msg00898.html
+  Comments from Boris, and new changes)
+ - Improve subject and commit message
+ - Fix Documentation format and deprecate 'xen_nopvspin' instead of removing it
+ - Make existing 'xen_nopvspin' command line use the same masking
+ helpers as xen_nopv
+ - Use xen_nopv_ipi() accordingly
+ - Do not create unused irqs when disabling PV IPI
+---
+ Documentation/admin-guide/kernel-parameters.txt | 13 ++++--
+ arch/x86/xen/enlighten_hvm.c                    | 55 ++++++++++++++++++++++---
+ arch/x86/xen/smp.c                              | 21 ++++++----
+ arch/x86/xen/smp_hvm.c                          | 14 +++++--
+ arch/x86/xen/spinlock.c                         |  9 ++--
+ arch/x86/xen/xen-ops.h                          |  9 ++++
+ 6 files changed, 96 insertions(+), 25 deletions(-)
 
-> > We tried to translate everything in **Italian**; which means that
-> > we avoided imported English words wherever there is the
-> > possibility to use the Italian ones. Of course, this is not
-> > always possible, or worst doing the translation make it less
-> > clear, for example the word "file".
-> 
-> "We"?  Is there somebody else's work represented here too?  If so,
-> they should appear in the signoff chain (or as a Co-developed-by
-> credit).
-
-I did, in patch 3/5 and 4/5 there is Alessia as "signed-off" (in CC 
-here).
-
-> > Another point. I noticed that the disclaimer for other
-> > translations is in English, so I did the same. But actually
-> > shouldn't be in Italian, since that page will be read by Italian
-> > speakers?
-> 
-> Perhaps, though part of the idea is to give the English speakers,
-> too, some vague clue of what they're looking at.
-
-Make sense. I will keep it like this then.
-
-Thanks
-
-> 
-> Thanks,
-> 
-> jon
-
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f2040d46f095..3f29ee4741bb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4807,12 +4807,19 @@
+ 			never -- do not unplug even if version check succeeds
+ 
+ 	xen_nopvspin	[X86,XEN]
++			[Deprecated - use xen_nopv=spin]
+ 			Disables the ticketlock slowpath using Xen PV
+ 			optimizations.
+ 
+-	xen_nopv	[X86]
+-			Disables the PV optimizations forcing the HVM guest to
+-			run as generic HVM guest with no PV drivers.
++	xen_nopv=	[X86,XEN]
++			Disables various (or all) PV optimizations forcing the
++			HVM (or PV) guest to run without them. No value
++			specified defaults to 'all'.
++			Format: { [spin,][ipi,] | all }
++			all -- every PV feature on HVM, including PV drivers.
++			spin -- Disables the ticketlock slowpath using Xen PV
++			         optimizations (PV and HVM).
++			ipi -- Disable PV IPIs (on HVM).
+ 
+ 	xirc2ps_cs=	[NET,PCMCIA]
+ 			Format:
+diff --git a/arch/x86/xen/enlighten_hvm.c b/arch/x86/xen/enlighten_hvm.c
+index 19c1ff542387..c396671dadd5 100644
+--- a/arch/x86/xen/enlighten_hvm.c
++++ b/arch/x86/xen/enlighten_hvm.c
+@@ -208,17 +208,62 @@ static void __init xen_hvm_guest_init(void)
+ #endif
+ }
+ 
+-static bool xen_nopv;
++static unsigned int xen_nopv_feat;
++
++static bool xen_nopv(void)
++{
++	return xen_nopv_feat == XEN_NOPV_ALL;
++}
++
++bool xen_nopv_ipi(void)
++{
++	return xen_nopv_feat & XEN_NOPV_IPI;
++}
++
++bool xen_nopv_spin(void)
++{
++	return xen_nopv_feat & XEN_NOPV_SPIN;
++}
++
++void xen_set_nopv(unsigned int mask)
++{
++	xen_nopv_feat |= mask;
++}
++
+ static __init int xen_parse_nopv(char *arg)
+ {
+-       xen_nopv = true;
+-       return 0;
++	char *p, *q;
++	int l;
++
++	xen_nopv_feat = arg ? 0 : XEN_NOPV_ALL;
++
++	for (p = arg; p; p = q) {
++		q = strchr(p, ',');
++		if (q) {
++			l = q - p;
++			q++;
++		} else {
++			l = strlen(p);
++		}
++		if (!strncmp(p, "spin", l))
++			xen_nopv_feat |= XEN_NOPV_SPIN;
++		else if (!strncmp(p, "ipi", l))
++			xen_nopv_feat |= XEN_NOPV_IPI;
++		else if (!strncmp(p, "all", l))
++			xen_nopv_feat = XEN_NOPV_ALL;
++		else
++			pr_warn("unrecognised option '%s' for 'xen_nopv'\n", p);
++	}
++
++	pr_debug("xen_nopv_feat = 0x%x\n", xen_nopv_feat);
++
++	return 0;
+ }
+ early_param("xen_nopv", xen_parse_nopv);
+ 
+ bool xen_hvm_need_lapic(void)
+ {
+-	if (xen_nopv)
++	if (xen_nopv())
+ 		return false;
+ 	if (xen_pv_domain())
+ 		return false;
+@@ -232,7 +277,7 @@ EXPORT_SYMBOL_GPL(xen_hvm_need_lapic);
+ 
+ static uint32_t __init xen_platform_hvm(void)
+ {
+-	if (xen_pv_domain() || xen_nopv)
++	if (xen_pv_domain() || xen_nopv())
+ 		return 0;
+ 
+ 	return xen_cpuid_base();
+diff --git a/arch/x86/xen/smp.c b/arch/x86/xen/smp.c
+index 7a43b2ae19f1..e67a941cd20f 100644
+--- a/arch/x86/xen/smp.c
++++ b/arch/x86/xen/smp.c
+@@ -64,6 +64,18 @@ int xen_smp_intr_init(unsigned int cpu)
+ 	int rc;
+ 	char *resched_name, *callfunc_name, *debug_name;
+ 
++	debug_name = kasprintf(GFP_KERNEL, "debug%d", cpu);
++	rc = bind_virq_to_irqhandler(VIRQ_DEBUG, cpu, xen_debug_interrupt,
++				     IRQF_PERCPU | IRQF_NOBALANCING,
++				     debug_name, NULL);
++	if (rc < 0)
++		goto fail;
++	per_cpu(xen_debug_irq, cpu).irq = rc;
++	per_cpu(xen_debug_irq, cpu).name = debug_name;
++
++	if (xen_hvm_domain() && xen_nopv_ipi())
++		return 0;
++
+ 	resched_name = kasprintf(GFP_KERNEL, "resched%d", cpu);
+ 	rc = bind_ipi_to_irqhandler(XEN_RESCHEDULE_VECTOR,
+ 				    cpu,
+@@ -88,15 +100,6 @@ int xen_smp_intr_init(unsigned int cpu)
+ 	per_cpu(xen_callfunc_irq, cpu).irq = rc;
+ 	per_cpu(xen_callfunc_irq, cpu).name = callfunc_name;
+ 
+-	debug_name = kasprintf(GFP_KERNEL, "debug%d", cpu);
+-	rc = bind_virq_to_irqhandler(VIRQ_DEBUG, cpu, xen_debug_interrupt,
+-				     IRQF_PERCPU | IRQF_NOBALANCING,
+-				     debug_name, NULL);
+-	if (rc < 0)
+-		goto fail;
+-	per_cpu(xen_debug_irq, cpu).irq = rc;
+-	per_cpu(xen_debug_irq, cpu).name = debug_name;
+-
+ 	callfunc_name = kasprintf(GFP_KERNEL, "callfuncsingle%d", cpu);
+ 	rc = bind_ipi_to_irqhandler(XEN_CALL_FUNCTION_SINGLE_VECTOR,
+ 				    cpu,
+diff --git a/arch/x86/xen/smp_hvm.c b/arch/x86/xen/smp_hvm.c
+index f8d39440b292..fb550b4cd273 100644
+--- a/arch/x86/xen/smp_hvm.c
++++ b/arch/x86/xen/smp_hvm.c
+@@ -66,11 +66,19 @@ void __init xen_hvm_smp_init(void)
+ 	if (!xen_have_vector_callback)
+ 		return;
+ 
++	smp_ops.smp_cpus_done = xen_smp_cpus_done;
++	smp_ops.smp_prepare_boot_cpu = xen_hvm_smp_prepare_boot_cpu;
+ 	smp_ops.smp_prepare_cpus = xen_hvm_smp_prepare_cpus;
+-	smp_ops.smp_send_reschedule = xen_smp_send_reschedule;
+ 	smp_ops.cpu_die = xen_hvm_cpu_die;
++
++	if (xen_nopv_ipi()) {
++		pr_debug("xen: PV IPI disabled\n");
++		return;
++	}
++
++	pr_debug("xen: PV IPI enabled\n");
++
++	smp_ops.smp_send_reschedule = xen_smp_send_reschedule;
+ 	smp_ops.send_call_func_ipi = xen_smp_send_call_function_ipi;
+ 	smp_ops.send_call_func_single_ipi = xen_smp_send_call_function_single_ipi;
+-	smp_ops.smp_prepare_boot_cpu = xen_hvm_smp_prepare_boot_cpu;
+-	smp_ops.smp_cpus_done = xen_smp_cpus_done;
+ }
+diff --git a/arch/x86/xen/spinlock.c b/arch/x86/xen/spinlock.c
+index cd97a62394e7..72499a5ef06c 100644
+--- a/arch/x86/xen/spinlock.c
++++ b/arch/x86/xen/spinlock.c
+@@ -21,7 +21,6 @@
+ 
+ static DEFINE_PER_CPU(int, lock_kicker_irq) = -1;
+ static DEFINE_PER_CPU(char *, irq_name);
+-static bool xen_pvspin = true;
+ 
+ static void xen_qlock_kick(int cpu)
+ {
+@@ -80,7 +79,7 @@ void xen_init_lock_cpu(int cpu)
+ 	int irq;
+ 	char *name;
+ 
+-	if (!xen_pvspin) {
++	if (xen_nopv_spin()) {
+ 		if (cpu == 0)
+ 			static_branch_disable(&virt_spin_lock_key);
+ 		return;
+@@ -108,7 +107,7 @@ void xen_init_lock_cpu(int cpu)
+ 
+ void xen_uninit_lock_cpu(int cpu)
+ {
+-	if (!xen_pvspin)
++	if (xen_nopv_spin())
+ 		return;
+ 
+ 	unbind_from_irqhandler(per_cpu(lock_kicker_irq, cpu), NULL);
+@@ -130,7 +129,7 @@ PV_CALLEE_SAVE_REGS_THUNK(xen_vcpu_stolen);
+ void __init xen_init_spinlocks(void)
+ {
+ 
+-	if (!xen_pvspin) {
++	if (xen_nopv_spin()) {
+ 		printk(KERN_DEBUG "xen: PV spinlocks disabled\n");
+ 		return;
+ 	}
+@@ -146,7 +145,7 @@ void __init xen_init_spinlocks(void)
+ 
+ static __init int xen_parse_nopvspin(char *arg)
+ {
+-	xen_pvspin = false;
++	xen_set_nopv(XEN_NOPV_SPIN);
+ 	return 0;
+ }
+ early_param("xen_nopvspin", xen_parse_nopvspin);
+diff --git a/arch/x86/xen/xen-ops.h b/arch/x86/xen/xen-ops.h
+index 3b34745d0a52..d212cf034541 100644
+--- a/arch/x86/xen/xen-ops.h
++++ b/arch/x86/xen/xen-ops.h
+@@ -164,4 +164,13 @@ void xen_hvm_post_suspend(int suspend_cancelled);
+ static inline void xen_hvm_post_suspend(int suspend_cancelled) {}
+ #endif
+ 
++#define XEN_NOPV_PLATFORM (1<<0)
++#define XEN_NOPV_SPIN     (1<<1)
++#define XEN_NOPV_IPI      (1<<2)
++#define XEN_NOPV_ALL      (XEN_NOPV_PLATFORM | XEN_NOPV_SPIN | XEN_NOPV_IPI)
++
++void xen_set_nopv(unsigned int mask);
++bool xen_nopv_spin(void);
++bool xen_nopv_ipi(void);
++
+ #endif /* XEN_OPS_H */
 -- 
-Federico Vaga
-http://www.federicovaga.it/
-
+2.11.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
