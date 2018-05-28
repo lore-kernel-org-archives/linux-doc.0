@@ -1,186 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AB5E7D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 18:32:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A34117D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 May 2018 20:03:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933343AbeE1Sbw convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 May 2018 14:31:52 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:46722 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S933255AbeE1Sbv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 May 2018 14:31:51 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S933766AbeE1UD3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 May 2018 16:03:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46248 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S933699AbeE1UD3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 May 2018 16:03:29 -0400
+Received: from jouet.infradead.org (unknown [190.15.121.82])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 35F958163AD2;
-        Mon, 28 May 2018 18:31:51 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-121-110.rdu2.redhat.com [10.10.121.110])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 638A1111E410;
-        Mon, 28 May 2018 18:31:47 +0000 (UTC)
-Subject: Re: [PATCH v8 3/6] cpuset: Add cpuset.sched.load_balance flag to v2
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-4-git-send-email-longman@redhat.com>
- <20180524154341.GJ12198@hirez.programming.kicks-ass.net>
- <9f547771-54e8-118e-80f7-48f99c7b0a12@redhat.com>
- <20180528124508.GE3452@worktop.programming.kicks-ass.net>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <5487d08f-322c-15d3-06e2-f3d3408141d6@redhat.com>
-Date:   Mon, 28 May 2018 14:31:48 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        by mail.kernel.org (Postfix) with ESMTPSA id 7820B20845;
+        Mon, 28 May 2018 20:03:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1527537808;
+        bh=3F55CR9AjPS6jCIr6vzfCX5elpvN6zQ7fVDlAvgqmrM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BG66xgILO/9K/r9QeZ/08idAIQG90TFZSLg6K6TF42a/Ye5xz4BRmZ/Qb0BRYtrIM
+         XkyJfS2e+cv4fGJbq79wVbD3SY2MRFLb631ho+O7JBkZfBqSD+noiVgMlkoP/JhhZ/
+         scL1t7iXCGvYf8vdyqU2dYrC/gBLM0061zs0C6y8=
+Received: by jouet.infradead.org (Postfix, from userid 1000)
+        id 414591468D9; Mon, 28 May 2018 17:03:26 -0300 (-03)
+Date:   Mon, 28 May 2018 17:03:26 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Robert Walker <Robert.Walker@arm.com>, mike.leach@linaro.org,
+        kim.phillips@arm.co, Tor Jeremiassen <tor@ti.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, coresight@lists.linaro.org
+Subject: Re: [RFT v3 0/4] Perf script: Add python script for CoreSight trace
+ disassembler
+Message-ID: <20180528200326.GJ25467@kernel.org>
+References: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20180528124508.GE3452@worktop.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Mon, 28 May 2018 18:31:51 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Mon, 28 May 2018 18:31:51 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
+X-Url:  http://acmel.wordpress.com
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/28/2018 08:45 AM, Peter Zijlstra wrote:
-> On Thu, May 24, 2018 at 02:55:25PM -0400, Waiman Long wrote:
->> On 05/24/2018 11:43 AM, Peter Zijlstra wrote:
->>> I'm confused... why exactly do we have both domain and load_balance ?
->> The domain is for partitioning the CPUs only. It doesn't change the load
->> balancing state. So the load_balance flag is still need to turn on and
->> off load balancing.
-> OK, so we have to two boolean flags, giving 4 possible states. Lets just
-> go through them one by on:
->
-> A) domain:0 load_balance:0 -- we have no exclusive domain, but have
->    load-balancing disabled across them. AFAICT this should be an invalid
->    state.
->
-> B) domain:0 load_balance:1 -- we have no exclusive domain, but have
->    load-balancing enabled. AFAICT this is the default state and is a
->    no-op.
->
-> C) domain:1 load_balance:0 -- we have an exclusive domain, and have
->    load-balancing disabled across it. This is, AFAICT, identical to
->    having a bunch of sub/sibling groups each with a single CPU domain.
->
-> D) domain:1 load_balance:1 -- we have an exclusive domain, and have
->    load-balancing enabled. This is a partition.
->
-> Now, I think I've overlooked the fact that load_balance==1 only really
-> means something when the parent's load_balance==0, but I'm not sure that
-> really changes anything.
->
-> So, afaict, the above only have two useful states: B and D. Which again
-> raises the question, why two knobs? What useful configurations does it
-> allow?
+Em Mon, May 28, 2018 at 04:44:59PM +0800, Leo Yan escreveu:
+> This patch series is to support for using 'perf script' for CoreSight
+> trace disassembler, for this purpose this patch series adds a new
+> python script to parse CoreSight tracing event and use command 'objdump'
+> for disassembled lines, finally this can generate readable program
+> execution flow for reviewing tracing data.
+> 
+> Patch 0001 is one fixing patch to generate samples for the start packet
+> and exception packets.
+> 
+> Patch 0002 is the prerequisite to add addr into sample dict, so this
+> value can be used by python script to analyze instruction range.
+> 
+> Patch 0003 is to add python script for trace disassembler.
+> 
+> Patch 0004 is to add doc to explain python script usage and give
+> example for it.
+> 
+> This patch series has been rebased on acme git tree [1] with the commit
+> 19422a9f2a3b ("perf tools: Fix kernel_start for PTI on x86") and tested
+> on Hikey (ARM64 octa CA53 cores).
 
-I am working on the v9 patch, and below is the current draft of the
-documentation. Hopefully that will clarify some of the concepts that we
-are discussing here.
+Thanks, applied to perf/core.
 
-  cpuset.sched.domain_root
-        A read-write single value file which exists on non-root
-        cpuset-enabled cgroups.  It is a binary value flag that accepts
-        either "0" (off) or "1" (on).  This flag is set by the parent
-        and is not delegatable.
-
-        If set, it indicates that the current cgroup is the root of a
-        new scheduling domain or partition that comprises itself and
-        all its descendants except those that are scheduling domain
-        roots themselves and their descendants.  The root cgroup is
-        always a scheduling domain root.
-
-        There are constraints on where this flag can be set.  It can
-        only be set in a cgroup if all the following conditions are true.
-
-        1) The "cpuset.cpus" is not empty and the list of CPUs are
-           exclusive, i.e. they are not shared by any of its siblings.
-        2) The parent cgroup is also a scheduling domain root.
-        3) There is no child cgroups with cpuset enabled.  This is
-           for eliminating corner cases that have to be handled if such
-           a condition is allowed.
-
-        Setting this flag will take the CPUs away from the effective
-        CPUs of the parent cgroup.  Once it is set, this flag cannot
-        be cleared if there are any child cgroups with cpuset enabled.
-        Further changes made to "cpuset.cpus" is allowed as long as
-        the first condition above is still true.
-
-        A parent scheduling domain root cgroup cannot distribute all
-        its CPUs to its child scheduling domain root cgroups unless
-        its load balancing flag is turned off.
-
-  cpuset.sched.load_balance
-        A read-write single value file which exists on non-root
-        cpuset-enabled cgroups.  It is a binary value flag that accepts
-        either "0" (off) or "1" (on).  This flag is set by the parent
-        and is not delegatable.  It is on by default in the root cgroup.
-
-        When it is on, tasks within this cpuset will be load-balanced
-        by the kernel scheduler.  Tasks will be moved from CPUs with
-        high load to other CPUs within the same cpuset with less load
-        periodically.
-
-        When it is off, there will be no load balancing among CPUs on
-        this cgroup.  Tasks will stay in the CPUs they are running on
-        and will not be moved to other CPUs.
-
-        The load balancing state of a cgroup can only be changed on a
-        scheduling domain root cgroup with no cpuset-enabled children.
-        All cgroups within a scheduling domain or partition must have
-        the same load balancing state.  As descendant cgroups of a
-        scheduling domain root are created, they inherit the same load
-        balancing state of their root.
-
-The main purpose of using a new domain_root flag is to enable user to
-create new partitions without the trick of disabling load_balance in the
-parent and enabling it in the child. Now, we can create as many
-partitions as we want without ever turning off load balancing in any of
-the cpusets. I find it to be more straight forward and easier to
-understand than using the load_balance trick.
-
-Of course, turning off load balancing is still useful in some use cases,
-so it is supported. To simplify thing, it is mandated that all the
-cpusets within a partition must have the same load balancing state. This
-is to ensure that we can't use the load_balance trick to create
-additional partition underneath it. The domain_root flag is the only way
-to create partition.
-
-A) domain_root: 0, load_balance: 0 -- a non-domain root cpuset within a
-no load balancing partition.
-
-B) domain_root: 0, load_balance: 1 -- a non-domain root cpuset within a
-load balancing partition.
-
-C) domain_root: 1, load_balance: 0 -- a domain root cpuset of a no load
-balancing partition.
-
-D) domain_root: 1, load_balance: 1 -- a domain root cpuset of a load
-balancing partition.
-
-Hope this help.
-
-Cheers,
-Longman
-
-
-
+- Arnaldo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
