@@ -5,148 +5,109 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 242F27DF87
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 08:39:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0964D7DF86
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 10:14:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932449AbeE2IiQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 May 2018 04:38:16 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:50728 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S932270AbeE2IiK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 May 2018 04:38:10 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E2A848D6EF;
-        Tue, 29 May 2018 08:38:09 +0000 (UTC)
-Received: from localhost (ovpn-200-23.brq.redhat.com [10.40.200.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8005110F1C11;
-        Tue, 29 May 2018 08:38:01 +0000 (UTC)
-Date:   Tue, 29 May 2018 10:37:59 +0200
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Olsa <jolsa@kernel.org>,
-        brouer@redhat.com
-Subject: Re: [PATCH bpf-next v2 0/3] bpf: add boot parameters for sysctl
- knobs
-Message-ID: <20180529103759.7ab88bb0@redhat.com>
-In-Reply-To: <20180525194359.qckwj3tnsbufyapz@ast-mbp>
-References: <20180523121806.GA27675@asgard.redhat.com>
-        <20180523220244.a4u25kapqbjnmpr4@ast-mbp>
-        <20180524094108.066d885a@redhat.com>
-        <20180524233449.ga664pzexrkzepfv@ast-mbp>
-        <20180525165009.GA20952@asgard.redhat.com>
-        <20180525194359.qckwj3tnsbufyapz@ast-mbp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Tue, 29 May 2018 08:38:09 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Tue, 29 May 2018 08:38:09 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'brouer@redhat.com' RCPT:''
+        id S932855AbeE2KN5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 May 2018 06:13:57 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55808 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S932819AbeE2KN4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 06:13:56 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w4TADrYg130912
+        for <linux-doc@vger.kernel.org>; Tue, 29 May 2018 06:13:55 -0400
+Received: from e06smtp12.uk.ibm.com (e06smtp12.uk.ibm.com [195.75.94.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2j92htpcmv-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 29 May 2018 06:13:54 -0400
+Received: from localhost
+        by e06smtp12.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Tue, 29 May 2018 11:13:45 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp12.uk.ibm.com (192.168.101.142) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 29 May 2018 11:13:42 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w4TADgKr24641782
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 29 May 2018 10:13:42 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5989311C04C;
+        Tue, 29 May 2018 11:04:39 +0100 (BST)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0255F11C050;
+        Tue, 29 May 2018 11:04:38 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.198])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 29 May 2018 11:04:37 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Tue, 29 May 2018 13:13:39 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH] docs/vm: move ksm and transhuge from "user" to "internals" section.
+Date:   Tue, 29 May 2018 13:13:38 +0300
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18052910-0008-0000-0000-000004FC22D0
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18052910-0009-0000-0000-00001E903F53
+Message-Id: <1527588818-7031-1-git-send-email-rppt@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-05-29_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1709140000
+ definitions=main-1805290118
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 May 2018 12:44:01 -0700
-Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
+After the userspace interface description for KSM and THP was split to
+Documentation/admin-guide/mm, the remaining parts belong to the section
+describing MM internals.
 
-> On Fri, May 25, 2018 at 06:50:09PM +0200, Eugene Syromiatnikov wrote:
-> > On Thu, May 24, 2018 at 04:34:51PM -0700, Alexei Starovoitov wrote:  
-> > > On Thu, May 24, 2018 at 09:41:08AM +0200, Jesper Dangaard Brouer wrote:  
-> > > > On Wed, 23 May 2018 15:02:45 -0700
-> > > > Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
-> > > >   
-> > > > > On Wed, May 23, 2018 at 02:18:19PM +0200, Eugene Syromiatnikov wrote:  
-> > > > > > Some BPF sysctl knobs affect the loading of BPF programs, and during
-> > > > > > system boot/init stages these sysctls are not yet configured.
-> > > > > > A concrete example is systemd, that has implemented loading of BPF
-> > > > > > programs.
-> > > > > > 
-> > > > > > Thus, to allow controlling these setting at early boot, this patch set
-> > > > > > adds the ability to change the default setting of these sysctl knobs
-> > > > > > as well as option to override them via a boot-time kernel parameter
-> > > > > > (in order to avoid rebuilding kernel each time a need of changing these
-> > > > > > defaults arises).
-> > > > > > 
-> > > > > > The sysctl knobs in question are kernel.unprivileged_bpf_disable,
-> > > > > > net.core.bpf_jit_harden, and net.core.bpf_jit_kallsyms.    
-> > > > > 
-> > > > > - systemd is root. today it only uses cgroup-bpf progs which require root,
-> > > > >   so disabling unpriv during boot time makes no difference to systemd.
-> > > > >   what is the actual reason to present time?  
-> > systemd also runs a lot of code, some of which is unprivileged.  
-> 
-> systemd processes sysctl configs first. It's essential for system
-> security to do so. If you have concerns in how systemd does that
-> please bring it up with systemd folks.
-> 
-> > > > > - say in the future systemd wants to use so_reuseport+bpf for faster
-> > > > >   networking. With unpriv disable during boot, it will force systemd
-> > > > >   to do such networking from root, which will lower its security barrier.  
-> > No, it will force systemd not to use SO_REUSEPORT BPF.  
-> 
-> sorry this argument makes no sense to me.
-> 
-> > > > > - bpf_jit_kallsyms sysctl has immediate effect on loaded programs.
-> > > > >   Flipping it during the boot or right after or any time after
-> > > > >   is the same thing. Why add such boot flag then?  
-> > Well, that one was for completeness.  
-> 
-> Should we convert all sysctls to bootparams for 'completeness' ?
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+---
+ Documentation/vm/index.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The bpf_jit_kallsyms option is not there for 'completeness', it is
-there because I know Daniel talked about changing the default, and this
-would provide an easy option for allowing changing this default (to on)
-in different distros before flipping it on in some kernel release.
-
-
-> > > > > - jit_harden can be turned on by systemd. so turning it during the boot
-> > > > >   will make systemd progs to be constant blinded.
-> > > > >   Constant blinding protects kernel from unprivileged JIT spraying.
-> > > > >   Are you worried that systemd will attack the kernel with JIT spraying?  
-> > I'm worried that systemd can be exploited for a JIT spraying attack.  
-> 
-> I'm afraid we're not on the same page with definition of 'JIT spraying attack'.
-> 
-> > Another thing I'm concerned with is that the generated code is different,
-> > which introduces additional complication during debugging.  
-> 
-> specifically what kind of complication?
-> 
-
-I think kernel.unprivileged_bpf_disable is the best example, why we
-need this facility.  Once kernel.unprivileged_bpf_disable is set to 1,
-it cannot be turned back to 0.
-
-It is a policy decision that I want unprivileged_bpf_disable=1.
-Setting this policy in the sysctl step is too late, because as you
-write above, you expect that e.g. systemd or other boot-scripts
-want/can load bpf-progs in unpriv mode.  Thus, they can violate my
-policy choice.
-
-This also leads to the before mentioned inconsistency issue. The
-init-script/systemd-service will during boot successfully load unpriv
-bpf-prog, but when I afterwards when I reload (or stop/start) the
-service, it will fail as it no longer can load the unpriv bpf program.
-
-If a distribution makes this policy choice, then users cannot change it
-back to unprivileged_bpf_disable=0 via sysctl.  Thus, we need a boot
-param to allow users to change this policy.  If the disto didn't change
-this default, then we still need the boot-param, to allow users to
-enforce this policy choice towards init-scripts (as explained above).
-
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index 8e1cc66..c4ded22 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -13,8 +13,6 @@ various features of the Linux memory management
+ .. toctree::
+    :maxdepth: 1
+ 
+-   ksm
+-   transhuge
+    swap_numa
+    zswap
+ 
+@@ -36,6 +34,7 @@ descriptions of data structures and algorithms.
+    hmm
+    hwpoison
+    hugetlbfs_reserv
++   ksm
+    mmu_notifier
+    numa
+    overcommit-accounting
+@@ -45,6 +44,7 @@ descriptions of data structures and algorithms.
+    remap_file_pages
+    slub
+    split_page_table_lock
++   transhuge
+    unevictable-lru
+    z3fold
+    zsmalloc
 -- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
