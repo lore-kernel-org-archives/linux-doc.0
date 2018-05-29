@@ -1,220 +1,433 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 308007DF87
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 13:45:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 00F4B7D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 16:05:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934078AbeE2Nnp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 May 2018 09:43:45 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:54510 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S934316AbeE2NmN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 May 2018 09:42:13 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E6B7D401EF09;
-        Tue, 29 May 2018 13:42:12 +0000 (UTC)
-Received: from llong.com (dhcp-17-81.bos.redhat.com [10.18.17.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1FC986466D;
-        Tue, 29 May 2018 13:42:12 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        id S936504AbeE2QE5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 May 2018 12:04:57 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:56044 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935733AbeE2QEv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 12:04:51 -0400
+Received: by mail-wm0-f68.google.com with SMTP id a8-v6so42112730wmg.5
+        for <linux-doc@vger.kernel.org>; Tue, 29 May 2018 09:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=eJYtM3WnEG3s+lijTh5C1GQJo+elcRGMsqzXVp2eZLE=;
+        b=ZkP826Or8aNUhvANATVBK+9HoobJbI9Chg4McjMGslYRlpLj1KKEnbRkbfDtuWcwPR
+         nH9pdEglZr4L87QAb8Zj9xn7fj+65pECyNGxxna4kprVMVpp2x3RgIcNcAxST1itRZqD
+         weUGo0HsgITObOoo5UBcvUwYCGe6Gq6Oe4n8c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=eJYtM3WnEG3s+lijTh5C1GQJo+elcRGMsqzXVp2eZLE=;
+        b=ATUSgMTqCpWOfgShqbS+IbBKoHrOuyjFNh6LBBfut6EW2lm41rI7DtJdktd95WlXBA
+         QBUbTYnf4cnDU47vpKxVyt+M28CLy0pGYzuqGNQlPXB8IJRvjnRy1OU/AKgzoLVQ/8pb
+         PMDco2oGwkmB0D8t3OTHeK9xcFQnCED+8osJveaRtRj4VOXKi2jaR5QRh0woM10OXRpU
+         LMQxzce2mjTtLRS8LlAcPqIC8G1sD4YpKPQRdL22VUYp/Ziwyk/VeS9miJAG2KoqFWKr
+         puuxuilhcK2arZxubOfRTTmHVDlihUC6f5ydOD8s3hdnDYiLjPHg793SNBmcPmUmgBcx
+         Lcxw==
+X-Gm-Message-State: ALKqPwe7vNCJJEol1t+F1mDLPNqVcWY+5HgrFMMy7Zpv1zlyHE37eqkg
+        N7eK2D/ayrGMJdJW4xoU6TM0b6GDxkX/4eggtqR15Q==
+X-Google-Smtp-Source: AB8JxZoFs9tUUj4ZoBkjMBQQvRloArjrgAwUTNuEIpn1+ilKXMe4s1Lf5x/Ws+WW1n9agK6lG47tbDn7uYRGYnGnYpI=
+X-Received: by 2002:a50:d2d7:: with SMTP id q23-v6mr20203848edg.12.1527609889985;
+ Tue, 29 May 2018 09:04:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a50:a4a1:0:0:0:0:0 with HTTP; Tue, 29 May 2018 09:04:49
+ -0700 (PDT)
+In-Reply-To: <20180529002538.GA11317@leoy-ThinkPad-X240s>
+References: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
+ <1527497103-3593-2-git-send-email-leo.yan@linaro.org> <20180528221347.GA4109@xps15>
+ <20180529002538.GA11317@leoy-ThinkPad-X240s>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Tue, 29 May 2018 10:04:49 -0600
+Message-ID: <CANLsYkzEU90aVtPMRqf=YHzee8DHq8JZttRuxjLKGz-gRYiBuw@mail.gmail.com>
+Subject: Re: [RFT v3 1/4] perf cs-etm: Generate branch sample for missed packets
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Robert Walker <Robert.Walker@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Kim Phillips <kim.phillips@arm.co>,
+        Tor Jeremiassen <tor@ti.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v9 3/7] cpuset: Add cpuset.sched.load_balance flag to v2
-Date:   Tue, 29 May 2018 09:41:30 -0400
-Message-Id: <1527601294-3444-4-git-send-email-longman@redhat.com>
-In-Reply-To: <1527601294-3444-1-git-send-email-longman@redhat.com>
-References: <1527601294-3444-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 29 May 2018 13:42:13 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 29 May 2018 13:42:13 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        coresight@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The sched.load_balance flag is needed to enable CPU isolation similar to
-what can be done with the "isolcpus" kernel boot parameter. Its value
-can only be changed in a scheduling domain with no child cpusets. On
-a non-scheduling domain cpuset, the value of sched.load_balance is
-inherited from its parent. This is to make sure that all the cpusets
-within the same scheduling domain or partition has the same load
-balancing state.
+On 28 May 2018 at 18:25, Leo Yan <leo.yan@linaro.org> wrote:
+> Hi Mathieu,
+>
+> On Mon, May 28, 2018 at 04:13:47PM -0600, Mathieu Poirier wrote:
+>> Leo and/or Robert,
+>>
+>> On Mon, May 28, 2018 at 04:45:00PM +0800, Leo Yan wrote:
+>> > Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
+>> > traces") reworks the samples generation flow from CoreSight trace to
+>> > match the correct format so Perf report tool can display the samples
+>> > properly.
+>> >
+>> > But the change has side effect for branch packet handling, it only
+>> > generate branch samples by checking previous packet flag
+>> > 'last_instr_taken_branch' is true, this results in below three kinds
+>> > packets are missed to generate branch samples:
+>> >
+>> > - The start tracing packet at the beginning of tracing data;
+>> > - The exception handling packet;
+>> > - If one CS_ETM_TRACE_ON packet is inserted, we also miss to handle it
+>> >   for branch samples.  CS_ETM_TRACE_ON packet itself can give the info
+>> >   that there have a discontinuity in the trace, on the other hand we
+>> >   also miss to generate proper branch sample for packets before and
+>> >   after CS_ETM_TRACE_ON packet.
+>> >
+>> > This patch is to add branch sample handling for up three kinds packets:
+>> >
+>> > - In function cs_etm__sample(), check if 'prev_packet->sample_type' is
+>> >   zero and in this case it generates branch sample for the start tracing
+>> >   packet; furthermore, we also need to handle the condition for
+>> >   prev_packet::end_addr is zero in the cs_etm__last_executed_instr();
+>> >
+>> > - In function cs_etm__sample(), check if 'prev_packet->exc' is true and
+>> >   generate branch sample for exception handling packet;
+>> >
+>> > - If there has one CS_ETM_TRACE_ON packet is coming, we firstly generate
+>> >   branch sample in the function cs_etm__flush(), this can save complete
+>> >   info for the previous CS_ETM_RANGE packet just before CS_ETM_TRACE_ON
+>> >   packet.  We also generate branch sample for the new CS_ETM_RANGE
+>> >   packet after CS_ETM_TRACE_ON packet, this have two purposes, the
+>> >   first one purpose is to save the info for the new CS_ETM_RANGE packet,
+>> >   the second purpose is to save CS_ETM_TRACE_ON packet info so we can
+>> >   have hint for a discontinuity in the trace.
+>> >
+>> >   For CS_ETM_TRACE_ON packet, its fields 'packet->start_addr' and
+>> >   'packet->end_addr' equal to 0xdeadbeefdeadbeefUL which are emitted in
+>> >   the decoder layer as dummy value.  This patch is to convert these
+>> >   values to zeros for more readable; this is accomplished by functions
+>> >   cs_etm__last_executed_instr() and cs_etm__first_executed_instr().  The
+>> >   later one is a new function introduced by this patch.
+>> >
+>> > Reviewed-by: Robert Walker <robert.walker@arm.com>
+>> > Fixes: e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight traces")
+>> > Signed-off-by: Leo Yan <leo.yan@linaro.org>
+>> > ---
+>> >  tools/perf/util/cs-etm.c | 93 +++++++++++++++++++++++++++++++++++++-----------
+>> >  1 file changed, 73 insertions(+), 20 deletions(-)
+>> >
+>> > diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
+>> > index 822ba91..8418173 100644
+>> > --- a/tools/perf/util/cs-etm.c
+>> > +++ b/tools/perf/util/cs-etm.c
+>> > @@ -495,6 +495,20 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
+>> >  static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
+>> >  {
+>> >     /*
+>> > +    * The packet is the start tracing packet if the end_addr is zero,
+>> > +    * returns 0 for this case.
+>> > +    */
+>> > +   if (!packet->end_addr)
+>> > +           return 0;
+>>
+>> What is considered to be the "start tracing packet"?  Right now the only two
+>> kind of packets inserted in the decoder packet buffer queue are INST_RANGE and
+>> TRACE_ON.  How can we hit a condition where packet->end-addr == 0?
+>
+> When the first CS_ETM_RANGE packet is coming, etmq->prev_packet is
+> initialized by the function cs_etm__alloc_queue(), so
+> etmq->prev_packet->end_addr is zero:
+>
+>     etmq->prev_packet = zalloc(szp);
+>
+> As you mentioned, we should only have two kind of packets for
+> CS_ETM_RANGE and CS_ETM_TRACE_ON.  Currently we skip to handle the
+> first CS_ETM_TRACE_ON packet in function cs_etm__flush(), we also can
+> refine the function cs_etm__flush() to handle the first coming
+> CS_ETM_TRACE_ON packet, after that all packets will be CS_ETM_RANGE
+> and CS_ETM_TRACE_ON and have no chance to hit 'packet->end_addr = 0'.
+>
+> Does this make sense for you?
 
-This flag is set by the parent and is not delegatable.
+That is the right way to handle this condition and it gives us a
+reliable state machine.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/cgroup-v2.txt | 26 +++++++++++++++++++++
- kernel/cgroup/cpuset.c      | 55 +++++++++++++++++++++++++++++++++++++++++----
- 2 files changed, 77 insertions(+), 4 deletions(-)
+>
+> --- Packet dumping when first packet coming ---
+> cs_etm__flush: prev_packet: sample_type=0 exc=0 exc_ret=0 cpu=0 start_addr=0x0 end_addr=0x0 last_instr_taken_branch=0
+> cs_etm__flush: packet: sample_type=2 exc=0 exc_ret=0 cpu=1 start_addr=0xdeadbeefdeadbeef end_addr=0xdeadbeefdeadbeef last_instr_taken_branch=0
+>
+>> > +
+>> > +   /*
+>> > +    * The packet is the CS_ETM_TRACE_ON packet if the end_addr is
+>> > +    * magic number 0xdeadbeefdeadbeefUL, returns 0 for this case.
+>> > +    */
+>> > +   if (packet->end_addr == 0xdeadbeefdeadbeefUL)
+>> > +           return 0;
+>>
+>> As it is with the above, I find triggering on addresses to be brittle and hard
+>> to maintain on the long run.  Packets all have a sample_type field that should
+>> be used in cases like this one.  That way we know exactly the condition that is
+>> targeted.
+>
+> Will do this.
+>
+>> While working on this set, please spin-off another patch that defines
+>> CS_ETM_INVAL_ADDR 0xdeadbeefdeadbeefUL and replace all the cases where the
+>> numeral is used.  That way we stop using the hard coded value.
+>
+> Will do this.
 
-diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
-index e7534c5..681a809 100644
---- a/Documentation/cgroup-v2.txt
-+++ b/Documentation/cgroup-v2.txt
-@@ -1542,6 +1542,32 @@ Cpuset Interface Files
- 	Further changes made to "cpuset.cpus" is allowed as long as
- 	the first condition above is still true.
- 
-+	A parent scheduling domain root cgroup cannot distribute all
-+	its CPUs to its child scheduling domain root cgroups unless
-+	its load balancing flag is turned off.
-+
-+  cpuset.sched.load_balance
-+	A read-write single value file which exists on non-root
-+	cpuset-enabled cgroups.  It is a binary value flag that accepts
-+	either "0" (off) or "1" (on).  This flag is set by the parent
-+	and is not delegatable.  It is on by default in the root cgroup.
-+
-+	When it is on, tasks within this cpuset will be load-balanced
-+	by the kernel scheduler.  Tasks will be moved from CPUs with
-+	high load to other CPUs within the same cpuset with less load
-+	periodically.
-+
-+	When it is off, there will be no load balancing among CPUs on
-+	this cgroup.  Tasks will stay in the CPUs they are running on
-+	and will not be moved to other CPUs.
-+
-+	The load balancing state of a cgroup can only be changed on a
-+	scheduling domain root cgroup with no cpuset-enabled children.
-+	All cgroups within a scheduling domain or partition must have
-+	the same load balancing state.	As descendant cgroups of a
-+	scheduling domain root are created, they inherit the same load
-+	balancing state of their root.
-+
- 
- Device controller
- -----------------
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 405b072..b94d4a0 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -510,7 +510,7 @@ static int validate_change(struct cpuset *cur, struct cpuset *trial)
- 
- 	par = parent_cs(cur);
- 
--	/* On legacy hiearchy, we must be a subset of our parent cpuset. */
-+	/* On legacy hierarchy, we must be a subset of our parent cpuset. */
- 	ret = -EACCES;
- 	if (!is_in_v2_mode() && !is_cpuset_subset(trial, par))
- 		goto out;
-@@ -1063,6 +1063,14 @@ static int update_isolated_cpumask(struct cpuset *cpuset,
- 		goto out;
- 
- 	/*
-+	 * A parent can't distribute all its CPUs to child scheduling
-+	 * domain root cpusets unless load balancing is off.
-+	 */
-+	if (adding & !deleting && is_sched_load_balance(parent) &&
-+	    cpumask_equal(addmask, parent->effective_cpus))
-+		goto out;
-+
-+	/*
- 	 * Check if any CPUs in addmask or delmask are in a sibling cpuset.
- 	 * An empty sibling cpus_allowed means it is the same as parent's
- 	 * effective_cpus. This checking is skipped if the cpuset is dying.
-@@ -1540,6 +1548,18 @@ static int update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
- 	domain_flag_changed = (is_sched_domain_root(cs) !=
- 			       is_sched_domain_root(trialcs));
- 
-+	/*
-+	 * On default hierachy, a load balance flag change is only allowed
-+	 * in a scheduling domain root with no child cpuset as all the
-+	 * cpusets within the same scheduling domain/partition must have the
-+	 * same load balancing state.
-+	 */
-+	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) && balance_flag_changed &&
-+	   (!is_sched_domain_root(cs) || css_has_online_children(&cs->css))) {
-+		err = -EINVAL;
-+		goto out;
-+	}
-+
- 	if (domain_flag_changed) {
- 		err = turning_on
- 		    ? update_isolated_cpumask(cs, NULL, cs->cpus_allowed)
-@@ -2196,6 +2216,14 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 		.flags = CFTYPE_NOT_ON_ROOT,
- 	},
- 
-+	{
-+		.name = "sched.load_balance",
-+		.read_u64 = cpuset_read_u64,
-+		.write_u64 = cpuset_write_u64,
-+		.private = FILE_SCHED_LOAD_BALANCE,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
- 	{ }	/* terminate */
- };
- 
-@@ -2209,19 +2237,38 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- cpuset_css_alloc(struct cgroup_subsys_state *parent_css)
- {
- 	struct cpuset *cs;
-+	struct cgroup_subsys_state *errptr = ERR_PTR(-ENOMEM);
- 
- 	if (!parent_css)
- 		return &top_cpuset.css;
- 
- 	cs = kzalloc(sizeof(*cs), GFP_KERNEL);
- 	if (!cs)
--		return ERR_PTR(-ENOMEM);
-+		return errptr;
- 	if (!alloc_cpumask_var(&cs->cpus_allowed, GFP_KERNEL))
- 		goto free_cs;
- 	if (!alloc_cpumask_var(&cs->effective_cpus, GFP_KERNEL))
- 		goto free_cpus;
- 
--	set_bit(CS_SCHED_LOAD_BALANCE, &cs->flags);
-+	/*
-+	 * On default hierarchy, inherit parent's CS_SCHED_LOAD_BALANCE flag.
-+	 * Creating new cpuset is also not allowed if the effective_cpus of
-+	 * its parent is empty.
-+	 */
-+	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys)) {
-+		struct cpuset *parent = css_cs(parent_css);
-+
-+		if (test_bit(CS_SCHED_LOAD_BALANCE, &parent->flags))
-+			set_bit(CS_SCHED_LOAD_BALANCE, &cs->flags);
-+
-+		if (cpumask_empty(parent->effective_cpus)) {
-+			errptr = ERR_PTR(-EINVAL);
-+			goto free_cpus;
-+		}
-+	} else {
-+		set_bit(CS_SCHED_LOAD_BALANCE, &cs->flags);
-+	}
-+
- 	cpumask_clear(cs->cpus_allowed);
- 	nodes_clear(cs->mems_allowed);
- 	cpumask_clear(cs->effective_cpus);
-@@ -2235,7 +2282,7 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 	free_cpumask_var(cs->cpus_allowed);
- free_cs:
- 	kfree(cs);
--	return ERR_PTR(-ENOMEM);
-+	return errptr;
- }
- 
- static int cpuset_css_online(struct cgroup_subsys_state *css)
--- 
-1.8.3.1
+Much appreciated.
 
+>
+> As now this patch is big with more complex logic, so I consider to
+> split it into small patches:
+>
+> - Define CS_ETM_INVAL_ADDR;
+> - Fix for CS_ETM_TRACE_ON packet;
+> - Fix for exception packet;
+>
+> Does this make sense for you?  I have concern that this patch is a
+> fixing patch, so not sure after spliting patches will introduce
+> trouble for applying them for other stable kernels ...
+
+Reverse the order:
+
+- Fix for CS_ETM_TRACE_ON packet;
+- Fix for exception packet;
+- Define CS_ETM_INVAL_ADDR;
+
+But you may not need to - see next comment.
+
+>
+>> > +
+>> > +   /*
+>> >      * The packet records the execution range with an exclusive end address
+>> >      *
+>> >      * A64 instructions are constant size, so the last executed
+>> > @@ -505,6 +519,18 @@ static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
+>> >     return packet->end_addr - A64_INSTR_SIZE;
+>> >  }
+>> >
+>> > +static inline u64 cs_etm__first_executed_instr(struct cs_etm_packet *packet)
+>> > +{
+>> > +   /*
+>> > +    * The packet is the CS_ETM_TRACE_ON packet if the start_addr is
+>> > +    * magic number 0xdeadbeefdeadbeefUL, returns 0 for this case.
+>> > +    */
+>> > +   if (packet->start_addr == 0xdeadbeefdeadbeefUL)
+>> > +           return 0;
+>>
+>> Same comment as above.
+>
+> Will do this.
+>
+>> > +
+>> > +   return packet->start_addr;
+>> > +}
+>> > +
+>> >  static inline u64 cs_etm__instr_count(const struct cs_etm_packet *packet)
+>> >  {
+>> >     /*
+>> > @@ -546,7 +572,7 @@ static void cs_etm__update_last_branch_rb(struct cs_etm_queue *etmq)
+>> >
+>> >     be       = &bs->entries[etmq->last_branch_pos];
+>> >     be->from = cs_etm__last_executed_instr(etmq->prev_packet);
+>> > -   be->to   = etmq->packet->start_addr;
+>> > +   be->to   = cs_etm__first_executed_instr(etmq->packet);
+>> >     /* No support for mispredict */
+>> >     be->flags.mispred = 0;
+>> >     be->flags.predicted = 1;
+>> > @@ -701,7 +727,7 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq)
+>> >     sample.ip = cs_etm__last_executed_instr(etmq->prev_packet);
+>> >     sample.pid = etmq->pid;
+>> >     sample.tid = etmq->tid;
+>> > -   sample.addr = etmq->packet->start_addr;
+>> > +   sample.addr = cs_etm__first_executed_instr(etmq->packet);
+>> >     sample.id = etmq->etm->branches_id;
+>> >     sample.stream_id = etmq->etm->branches_id;
+>> >     sample.period = 1;
+>> > @@ -897,13 +923,28 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+>> >             etmq->period_instructions = instrs_over;
+>> >     }
+>> >
+>> > -   if (etm->sample_branches &&
+>> > -       etmq->prev_packet &&
+>> > -       etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+>> > -       etmq->prev_packet->last_instr_taken_branch) {
+>> > -           ret = cs_etm__synth_branch_sample(etmq);
+>> > -           if (ret)
+>> > -                   return ret;
+>> > +   if (etm->sample_branches && etmq->prev_packet) {
+>> > +           bool generate_sample = false;
+>> > +
+>> > +           /* Generate sample for start tracing packet */
+>> > +           if (etmq->prev_packet->sample_type == 0 ||
+>>
+>> What kind of packet is sample_type == 0 ?
+>
+> Just as explained above, sample_type == 0 is the packet which
+> initialized in the function cs_etm__alloc_queue().
+>
+>> > +               etmq->prev_packet->sample_type == CS_ETM_TRACE_ON)
+>> > +                   generate_sample = true;
+>> > +
+>> > +           /* Generate sample for exception packet */
+>> > +           if (etmq->prev_packet->exc == true)
+>> > +                   generate_sample = true;
+>>
+>> Please don't do that.  Exception packets have a type of their own and can be
+>> added to the decoder packet queue the same way INST_RANGE and TRACE_ON packets
+>> are.  Moreover exception packet containt an address that, if I'm reading the
+>> documenation properly, can be used to keep track of instructions that were
+>> executed between the last address of the previous range packet and the address
+>> executed just before the exception occurred.  Mike and Rob will have to confirm
+>> this as the decoder may be doing all that hard work for us.
+>
+> Sure, will wait for Rob and Mike to confirm for this.
+>
+> At my side, I dump the packet, the exception packet isn't passed to
+> cs-etm.c layer, the decoder layer only sets the flag
+> 'packet->exc = true' when exception packet is coming [1].
+
+That's because we didn't need the information.  Now that we do a
+function that will insert a packet in the decoder packet queue and
+deal with the new packet type in the main decoder loop [2].  At that
+point your work may not be eligible for stable anymore and I think it
+is fine.  Robert's work was an enhancement over mine and yours is an
+enhancement over his.
+
+[2]. https://elixir.bootlin.com/linux/v4.17-rc7/source/tools/perf/util/cs-etm.c#L999
+
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c#n364
+>
+>> > +
+>> > +           /* Generate sample for normal branch packet */
+>> > +           if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
+>> > +               etmq->prev_packet->last_instr_taken_branch)
+>> > +                   generate_sample = true;
+>> > +
+>> > +           if (generate_sample) {
+>> > +                   ret = cs_etm__synth_branch_sample(etmq);
+>> > +                   if (ret)
+>> > +                           return ret;
+>> > +           }
+>> >     }
+>> >
+>> >     if (etm->sample_branches || etm->synth_opts.last_branch) {
+>> > @@ -922,11 +963,16 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
+>> >  static int cs_etm__flush(struct cs_etm_queue *etmq)
+>> >  {
+>> >     int err = 0;
+>> > +   struct cs_etm_auxtrace *etm = etmq->etm;
+>> >     struct cs_etm_packet *tmp;
+>> >
+>> > -   if (etmq->etm->synth_opts.last_branch &&
+>> > -       etmq->prev_packet &&
+>> > -       etmq->prev_packet->sample_type == CS_ETM_RANGE) {
+>> > +   if (!etmq->prev_packet)
+>> > +           return 0;
+>> > +
+>> > +   if (etmq->prev_packet->sample_type != CS_ETM_RANGE)
+>> > +           return 0;
+>> > +
+>> > +   if (etmq->etm->synth_opts.last_branch) {
+>>
+>> If you add:
+>>
+>>         if (!etmq->etm->synth_opts.last_branch)
+>>                 return 0;
+>>
+>> You can avoid indenting the whole block.
+>
+> No, here we cannot do like this.  Except we need to handle the
+> condition for 'etmq->etm->synth_opts.last_branch', we also need to
+> handle 'etm->sample_branches'.  These two conditions are saperate and
+> decide by different command parameters from 'perf script'.
+
+Pardon me - I didn't see the addition of the new '}' just below.
+
+>
+>> >             /*
+>> >              * Generate a last branch event for the branches left in the
+>> >              * circular buffer at the end of the trace.
+>> > @@ -939,18 +985,25 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
+>> >             err = cs_etm__synth_instruction_sample(
+>> >                     etmq, addr,
+>> >                     etmq->period_instructions);
+>> > +           if (err)
+>> > +                   return err;
+>> >             etmq->period_instructions = 0;
+>> > +   }
+>> >
+>> > -           /*
+>> > -            * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+>> > -            * the next incoming packet.
+>> > -            */
+>> > -           tmp = etmq->packet;
+>> > -           etmq->packet = etmq->prev_packet;
+>> > -           etmq->prev_packet = tmp;
+>> > +   if (etm->sample_branches) {
+>> > +           err = cs_etm__synth_branch_sample(etmq);
+>> > +           if (err)
+>> > +                   return err;
+>> >     }
+>> >
+>> > -   return err;
+>> > +   /*
+>> > +    * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
+>> > +    * the next incoming packet.
+>> > +    */
+>> > +   tmp = etmq->packet;
+>> > +   etmq->packet = etmq->prev_packet;
+>> > +   etmq->prev_packet = tmp;
+>>
+>> Robert, I remember noticing that when you first submitted the code but forgot to
+>> go back to it.  What is the point of swapping the packets?  I understand
+>>
+>> etmq->prev_packet = etmq->packet;
+>>
+>> But not
+>>
+>> etmq->packet = tmp;
+>>
+>> After all etmq->packet will be clobbered as soon as cs_etm_decoder__get_packet()
+>> is called, which is alwasy right after either cs_etm__sample() or
+>> cs_etm__flush().
+>
+> Yeah, I have the same question for this :)
+>
+> Thanks for suggestions and reviewing.
+>
+>> Thanks,
+>> Mathieu
+>>
+>>
+>>
+>> > +   return 0;
+>> >  }
+>> >
+>> >  static int cs_etm__run_decoder(struct cs_etm_queue *etmq)
+>> > --
+>> > 2.7.4
+>> >
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
