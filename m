@@ -1,112 +1,168 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD8597DF8B
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 18:51:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 961847D09D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 20:27:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966171AbeE2Suy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 May 2018 14:50:54 -0400
-Received: from mail-lf0-f65.google.com ([209.85.215.65]:40556 "EHLO
-        mail-lf0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S966058AbeE2Suq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 14:50:46 -0400
-Received: by mail-lf0-f65.google.com with SMTP id q11-v6so347563lfc.7;
-        Tue, 29 May 2018 11:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=rr5lBUide6LuhtoQwUnJcPWKnREEvDM3+fpQ/ZzS7jc=;
-        b=RIGwDIit/WuPR9u0quSc79szF6NkcYV9LtajQrEF2samoBgTyrJwERydAEnTjNV30B
-         IQafHDe3Q7a56wJ9qLbWAgGGqrpwxmyXIaf3KSmYfS+yRv1ju3zq4K4lHxEpBCoM3vvX
-         8TCkuzJQdGawO60bZzSNxRK6bqvJROm47x2qhsy3UX4QJfiaZiKHRWGsYe7SDlLRfT1g
-         DsuKwDi9ZcqpTte6k5kWA7U+jcmFPzKNMWZd+9ZoxGXM6Y/QHPs8O5hiMI3n9rfcFJNg
-         +MoJXlzEMfMr8uA6tP5H6OwQYsz3M87xwP3vM45WzGndGu8XhnPaKRdPpi/7WSRctPMk
-         gKYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=rr5lBUide6LuhtoQwUnJcPWKnREEvDM3+fpQ/ZzS7jc=;
-        b=bwSqUMMWmK+bsC4pHxWW5aEQ6GiDXd8KgC+2itHEw5aVz7p9/N1LVvx9TDJsUCdzCe
-         MgQAE/9irN30o7jDN5NC/HbaNfzBQ4gxKzVgkoojIPN1b59N0xVOWSf41tHY5OOxgE66
-         xzIAWiFCcIM3CckeR3rU7uFLiq2EAuhPs9bi+kHo+Ai7GPeQkMXgZCOB2JaIivIWhauT
-         ACKkyifog8xIsfS4aEpziiuVei30xiQj6ggmSX8ujOIzDZ9x4zYdxdvY6D8mJOEqrxeW
-         eyX+nWbqx+WIscKw3ma3sULa//uDzePvbwAG9tT+9GSD8b/prDhsklW1Iyucm987rNPG
-         8TzQ==
-X-Gm-Message-State: ALKqPwfLP+32+3MFnyz39NzqYXpTdvDzvc5e1vivdAJvotXdE4x0anUr
-        eiW3Zfs+kVEVxlM+1KNEYao=
-X-Google-Smtp-Source: AB8JxZoGXOpccjglz156adc+h0HamElAReE5+qxmSb41T57ZLiyUGy+DJvNhfbcq6WrPFuLxGYT+pQ==
-X-Received: by 2002:a2e:6e10:: with SMTP id j16-v6mr11942817ljc.61.1527619845306;
-        Tue, 29 May 2018 11:50:45 -0700 (PDT)
-Received: from localhost.localdomain (c-2ec2d783-74736162.cust.telenor.se. [46.194.215.131])
-        by smtp.gmail.com with ESMTPSA id i29-v6sm7488306lfb.89.2018.05.29.11.50.42
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 29 May 2018 11:50:44 -0700 (PDT)
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S966399AbeE2U1b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 May 2018 16:27:31 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:58428 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S966179AbeE2U1b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 16:27:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=2KYEBSM6qOsYCmNf42arNAtuCNETJJQkkw9V3zTjkTo=; b=hfw3IxA/oqOiQiYlLBeZP6U0Bh
+        Kja3izgJ1pn/oVM0uaf0IgkSSHmzF8Abj6+VuSgU/9FFbPOiqI/xsOwDc2ypItYTXXxXwOI8sxMz+
+        9u4Sp13o4mLbG7mgRUoKJYtvPAIVDOhFqONbHUBUqBFuMl8T9ps0p4p3rEb3+orhYbsyHhb7MLAV+
+        OPF/Q4Mh09q+ng7lhfDQi3W1BMTvyAgTAnhbPdFCJaB9TUZUx2WudYorRTvUe7eIVPj2qFUsnECc+
+        FXS3y5AMR5/bVrQhmmATDUfxNRlNvmtLyLBnjZ+m5BioUEMTMLLwcJkzaMoYC/OgB34MC9F63wasz
+        A5BirXbQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fNlDJ-0000wZ-VX; Tue, 29 May 2018 20:27:26 +0000
+Subject: Re: [PATCH v3 2/3] Documentation: usb: add documentation for USB CCID
+ Gadget Device
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Felipe Balbi <balbi@kernel.org>, davem@davemloft.net,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Ruslan Bilovol <ruslan.bilovol@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Kate Stewart <kstewart@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: [PATCH v3 3/3] MAINTAINERS: add USB CCID Gadget Device
-Date:   Tue, 29 May 2018 20:50:21 +0200
-Message-Id: <20180529185021.13738-3-marcus.folkesson@gmail.com>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20180529185021.13738-1-marcus.folkesson@gmail.com>
+        linux-kernel@vger.kernel.org
 References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
+ <20180529185021.13738-2-marcus.folkesson@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f4cdc62c-8bbe-28f9-0e7a-b4943d6f6a4f@infradead.org>
+Date:   Tue, 29 May 2018 13:27:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180529185021.13738-2-marcus.folkesson@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MAINTAINERS entry for USB CCID Gadget Device
+On 05/29/2018 11:50 AM, Marcus Folkesson wrote:
+> Add documentation to give a brief description on how to use the
+> CCID Gadget Device.
+> This includes a description for all attributes followed by an example on
+> how to setup the device with ConfigFS.
+> 
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+> 
+> Notes:
+>     v3:
+>     	- correct the grammer (thanks Randy)
+>     v2:
+>     	- add the missing changelog text
+> 
+>  Documentation/usb/gadget_ccid.rst | 267 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 267 insertions(+)
+>  create mode 100644 Documentation/usb/gadget_ccid.rst
+> 
+> diff --git a/Documentation/usb/gadget_ccid.rst b/Documentation/usb/gadget_ccid.rst
+> new file mode 100644
+> index 000000000000..524fe9e6ac19
+> --- /dev/null
+> +++ b/Documentation/usb/gadget_ccid.rst
+> @@ -0,0 +1,267 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============
+> +CCID Gadget
+> +============
+> +
+> +:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
+> +
+> +Introduction
+> +============
+> +
+> +The CCID Gadget will present itself as a CCID device to the host system.
+> +The device supports two endpoints for now; BULK IN and BULK OUT.
+> +These endpoints are exposed to userspace via /dev/ccidg*.
+> +
+> +All CCID commands are sent on the BULK-OUT endpoint. Each command sent to the CCID
+> +has an associated ending response. Some commands can also have intermediate
+> +responses. The response is sent on the BULK-IN endpoint.
+> +See Figure 3-3 in the CCID Specification [1]_ for more details.
+> +
+> +The CCID commands must be handled in userspace since the driver is only working
+> +as a transport layer for the TPDUs.
 
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
+I think that it would be helpful to tell us what the naming of the /dev/ccidg*
+endpoints looks like.  Also, how to distinguish the BULK-IN from the BULK-OUT
+endpoint.
 
-Notes:
-    v3:
-    	- No changes
-    v2:
-    	- No changes
+> +
+> +
+> +CCID Commands
+> +--------------
+> +
+> +All CCID commands begins with a 10-byte header followed by an optional
+> +data field depending on message type.
+> +
+> ++--------+--------------+-------+----------------------------------+
+> +| Offset | Field        | Size  | Description                      |
+> ++========+==============+=======+==================================+
+> +| 0      | bMessageType | 1     | Type of message                  |
+> ++--------+--------------+-------+----------------------------------+
+> +| 1      | dwLength     | 4     | Message specific data length     |
+> +|        |              |       |                                  |
+> ++--------+--------------+-------+----------------------------------+
+> +| 5      | bSlot        | 1     | Identifies the slot number       |
+> +|        |              |       | for this command                 |
+> ++--------+--------------+-------+----------------------------------+
+> +| 6      | bSeq         | 1     | Sequence number for command      |
+> ++--------+--------------+-------+----------------------------------+
+> +| 7      | ...          | 3     | Fields depends on message type   |
+> ++--------+--------------+-------+----------------------------------+
+> +| 10     | abData       | array | Message specific data (OPTIONAL) |
+> ++--------+--------------+-------+----------------------------------+
+> +
+> +
+> +Multiple CCID gadgets
+> +----------------------
+> +
+> +It is possible to create multiple instances of the CCID gadget, however,
+> +a much more flexible way is to create one gadget and set the `nslots` attribute
+> +to the number of desired CCID devices.
+> +
+> +All CCID commands specify which slot is the receiver in the `bSlot` field
+> +of the CCID header.
+> +
+> +Usage
+> +=====
+> +
+> +Access from userspace
+> +----------------------
+> +All communication is by read(2) and write(2) to the corresponding /dev/ccidg* device.
+> +Only one file descriptor is allowed to be open to the device at a time.
 
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 078fd80f664f..e77c3d2bec89 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14541,6 +14541,14 @@ L:	linux-scsi@vger.kernel.org
- S:	Maintained
- F:	drivers/usb/storage/uas.c
- 
-+USB CCID GADGET
-+M:	Marcus Folkesson <marcus.folkesson@gmail.com>
-+L:	linux-usb@vger.kernel.org
-+S:	Maintained
-+F:	drivers/usb/gadget/function/f_ccid.*
-+F:	include/uapi/linux/usb/ccid.h
-+F:	Documentation/usb/gadget_ccid.rst
-+
- USB CDC ETHERNET DRIVER
- M:	Oliver Neukum <oliver@neukum.org>
- L:	linux-usb@vger.kernel.org
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+thanks,
 -- 
-2.16.2
-
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
