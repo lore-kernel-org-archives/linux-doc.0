@@ -2,29 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B94C57D08C
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 01:04:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 289617DF8C
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 01:14:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755885AbeE2BE1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 May 2018 21:04:27 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:42282 "EHLO mx1.redhat.com"
+        id S935224AbeE2BM7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 May 2018 21:12:59 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34588 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1755808AbeE2BE0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 May 2018 21:04:26 -0400
+        id S935196AbeE2BM6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 May 2018 21:12:58 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4F1BC40214E2;
-        Tue, 29 May 2018 01:04:25 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id EEF807D839;
+        Tue, 29 May 2018 01:12:57 +0000 (UTC)
 Received: from llong.remote.csb (ovpn-121-110.rdu2.redhat.com [10.10.121.110])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1422F1116701;
-        Tue, 29 May 2018 01:04:22 +0000 (UTC)
-Subject: Re: [PATCH v8 6/6] cpuset: Allow reporting of sched domain generation
- info
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4AD671116701;
+        Tue, 29 May 2018 01:12:54 +0000 (UTC)
+Subject: Re: [PATCH v8 4/6] cpuset: Make generate_sched_domains() recognize
+ isolated_cpus
 To:     Juri Lelli <juri.lelli@redhat.com>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -35,199 +34,49 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
         Roman Gushchin <guro@fb.com>
 References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-7-git-send-email-longman@redhat.com>
- <20180522135349.GB31040@localhost.localdomain>
+ <1526590545-3350-5-git-send-email-longman@redhat.com>
+ <20180524102837.GA3948@localhost.localdomain>
 From:   Waiman Long <longman@redhat.com>
 Organization: Red Hat
-Message-ID: <9c1c3698-4eca-55ea-2796-7842ce5afeaf@redhat.com>
-Date:   Mon, 28 May 2018 21:04:22 -0400
+Message-ID: <45d70c88-e9f5-716a-ee9a-33dc111159cc@redhat.com>
+Date:   Mon, 28 May 2018 21:12:55 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.0
 MIME-Version: 1.0
-In-Reply-To: <20180522135349.GB31040@localhost.localdomain>
+In-Reply-To: <20180524102837.GA3948@localhost.localdomain>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 29 May 2018 01:04:25 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 29 May 2018 01:04:25 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Tue, 29 May 2018 01:12:58 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Tue, 29 May 2018 01:12:58 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/22/2018 09:53 AM, Juri Lelli wrote:
-> Hi,
->
+On 05/24/2018 06:28 AM, Juri Lelli wrote:
 > On 17/05/18 16:55, Waiman Long wrote:
->> This patch enables us to report sched domain generation information.
->>
->> If DYNAMIC_DEBUG is enabled, issuing the following command
->>
->>   echo "file cpuset.c +p" > /sys/kernel/debug/dynamic_debug/control
->>
->> and setting loglevel to 8 will allow the kernel to show what scheduling
->> domain changes are being made.
->>
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->>  kernel/cgroup/cpuset.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
->> index fb8aa82b..8f586e8 100644
->> --- a/kernel/cgroup/cpuset.c
->> +++ b/kernel/cgroup/cpuset.c
->> @@ -820,6 +820,12 @@ static int generate_sched_domains(cpumask_var_t **domains,
->>  	}
->>  	BUG_ON(nslot != ndoms);
->>  
->> +#ifdef CONFIG_DEBUG_KERNEL
->> +	for (i = 0; i < ndoms; i++)
->> +		pr_debug("generate_sched_domains dom %d: %*pbl\n", i,
->> +			 cpumask_pr_args(doms[i]));
->> +#endif
+>
+> [...]
+>
+>> @@ -849,7 +860,12 @@ static void rebuild_sched_domains_locked(void)
+>>  	 * passing doms with offlined cpu to partition_sched_domains().
+>>  	 * Anyways, hotplug work item will rebuild sched domains.
+>>  	 */
+>> -	if (!cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
+>> +	if (!top_cpuset.isolation_count &&
+>> +	    !cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
+>> +		goto out;
 >> +
-> While I'm always in favor of adding debug output, in this case I'm not
-> sure it's adding much to what we already print when booting with
-> sched_debug kernel command-line param, e.g.
->
-> --->8---
->  Kernel command line: BOOT_IMAGE=/vmlinuz-4.17.0-rc5+ ... sched_debug
->
-> [...]
->
->  smp: Bringing up secondary CPUs ...
->  x86: Booting SMP configuration:
->  .... node  #0, CPUs:        #1  #2  #3  #4  #5
->  .... node  #1, CPUs:    #6  #7  #8  #9 #10 #11
->  smp: Brought up 2 nodes, 12 CPUs
->  smpboot: Max logical packages: 2
->  smpboot: Total of 12 processors activated (45636.50 BogoMIPS)
->  CPU0 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }
->    domain-1: span=0-11 level=NUMA
->     groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
->  CPU1 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }
->    domain-1: span=0-11 level=NUMA
->     groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
->  CPU2 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }
->    domain-1: span=0-11 level=NUMA
->     groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
->  CPU3 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 3:{ span=3 cap=1023 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }
->    domain-1: span=0-11 level=NUMA
->     groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
->  CPU4 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }
->    domain-1: span=0-11 level=NUMA
->     groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
->  CPU5 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 5:{ span=5 }, 0:{ span=0 cap=1016 }, 1:{ span=1 cap=1011 }, 2:{ span=2 }, 3:{ span=3 cap=1023 }, 4:{ span=4 }
->    domain-1: span=0-11 level=NUMA
->     groups: 0:{ span=0-5 cap=6122 }, 6:{ span=6-11 cap=6141 }
->  CPU6 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }
->    domain-1: span=0-11 level=NUMA
->     groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
->  CPU7 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }
->    domain-1: span=0-11 level=NUMA
->     groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
->  CPU8 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }
->    domain-1: span=0-11 level=NUMA
->     groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
->  CPU9 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }
->    domain-1: span=0-11 level=NUMA
->     groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
->  CPU10 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }
->    domain-1: span=0-11 level=NUMA
->     groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
->  CPU11 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 cap=1021 }, 9:{ span=9 }, 10:{ span=10 }
->    domain-1: span=0-11 level=NUMA
->     groups: 6:{ span=6-11 cap=6141 }, 0:{ span=0-5 cap=6122 }
->  span: 0-11 (max cpu_capacity = 1024)
->
-> [...]
->
->  generate_sched_domains dom 0: 6-11 <-- this and the one below is what
->  generate_sched_domains dom 1: 0-5      you are adding
->  CPU0 attaching NULL sched-domain.
->  CPU1 attaching NULL sched-domain.
->  CPU2 attaching NULL sched-domain.
->  CPU3 attaching NULL sched-domain.
->  CPU4 attaching NULL sched-domain.
->  CPU5 attaching NULL sched-domain.
->  CPU6 attaching NULL sched-domain.
->  CPU7 attaching NULL sched-domain.
->  CPU8 attaching NULL sched-domain.
->  CPU9 attaching NULL sched-domain.
->  CPU10 attaching NULL sched-domain.
->  CPU11 attaching NULL sched-domain.
->  CPU6 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }
->  CPU7 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }
->  CPU8 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }
->  CPU9 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 9:{ span=9 }, 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }
->  CPU10 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 10:{ span=10 }, 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }
->  CPU11 attaching sched-domain(s):
->   domain-0: span=6-11 level=MC
->    groups: 11:{ span=11 }, 6:{ span=6 }, 7:{ span=7 }, 8:{ span=8 }, 9:{ span=9 }, 10:{ span=10 }
->  span: 6-11 (max cpu_capacity = 1024)
->  CPU0 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }
->  CPU1 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }
->  CPU2 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }
->  CPU3 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 3:{ span=3 }, 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }
->  CPU4 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 4:{ span=4 }, 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }
->  CPU5 attaching sched-domain(s):
->   domain-0: span=0-5 level=MC
->    groups: 5:{ span=5 }, 0:{ span=0 }, 1:{ span=1 }, 2:{ span=2 }, 3:{ span=3 }, 4:{ span=4 }
->  span: 0-5 (max cpu_capacity = 1024)
->  --->8---
->
->  Do you think there is still a benefit in printing out what
->  generate_sched_domains does?
+>> +	if (top_cpuset.isolation_count &&
+>> +	   !cpumask_subset(top_cpuset.effective_cpus, cpu_active_mask))
+>>  		goto out;
+> Do we cover the case in which hotplug removed one of the isolated cpus
+> from cpu_active_mask?
 
-For testing purpose the debug messages from generate_sched_domains() is
-more concise. The sched_debug message is too verbose from my point of
-view. So I think it is still useful.
+Yes, you are right. That is the remnant of my original patch that allows
+only one isolated_cpus at root. Thanks for spotting that.
 
 Cheers,
 Longman
