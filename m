@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A51097DF91
+	by archive.lwn.net (Postfix) with ESMTP id E42407DF94
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 13:45:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934101AbeE2NnS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 May 2018 09:43:18 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:54530 "EHLO mx1.redhat.com"
+        id S934747AbeE2NnU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 May 2018 09:43:20 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36360 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S934355AbeE2NmP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 May 2018 09:42:15 -0400
+        id S934334AbeE2NmO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 May 2018 09:42:14 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BDB6A401EF13;
-        Tue, 29 May 2018 13:42:14 +0000 (UTC)
-Received: from llong.com (dhcp-17-81.bos.redhat.com [10.18.17.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EA2EA64663;
+        by mx1.redhat.com (Postfix) with ESMTPS id D98B0406E97E;
         Tue, 29 May 2018 13:42:13 +0000 (UTC)
+Received: from llong.com (dhcp-17-81.bos.redhat.com [10.18.17.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 043EB64020;
+        Tue, 29 May 2018 13:42:12 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -34,75 +34,123 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v9 5/7] cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
-Date:   Tue, 29 May 2018 09:41:32 -0400
-Message-Id: <1527601294-3444-6-git-send-email-longman@redhat.com>
+Subject: [PATCH v9 4/7] cpuset: Make generate_sched_domains() recognize isolated_cpus
+Date:   Tue, 29 May 2018 09:41:31 -0400
+Message-Id: <1527601294-3444-5-git-send-email-longman@redhat.com>
 In-Reply-To: <1527601294-3444-1-git-send-email-longman@redhat.com>
 References: <1527601294-3444-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 29 May 2018 13:42:14 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Tue, 29 May 2018 13:42:14 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 29 May 2018 13:42:13 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 29 May 2018 13:42:13 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because of the fact that setting the "cpuset.sched.domain_root" in
-a direct child of root can remove CPUs from the root's effective CPU
-list, it makes sense to know what CPUs are left in the root cgroup for
-scheduling purpose. So the "cpuset.cpus.effective" control file is now
-exposed in the v2 cgroup root.
-
-For consistency, the "cpuset.mems.effective" control file is exposed
-as well.
+The generate_sched_domains() function and the hotplug code are modified
+to make them use the newly introduced isolated_cpus mask for schedule
+domains generation.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/cgroup-v2.txt | 4 ++--
- kernel/cgroup/cpuset.c      | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ kernel/cgroup/cpuset.c | 33 +++++++++++++++++++++++++++++----
+ 1 file changed, 29 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/cgroup-v2.txt b/Documentation/cgroup-v2.txt
-index 681a809..b97f211 100644
---- a/Documentation/cgroup-v2.txt
-+++ b/Documentation/cgroup-v2.txt
-@@ -1474,7 +1474,7 @@ Cpuset Interface Files
- 	and won't be affected by any CPU hotplug events.
- 
-   cpuset.cpus.effective
--	A read-only multiple values file which exists on non-root
-+	A read-only multiple values file which exists on all
- 	cpuset-enabled cgroups.
- 
- 	It lists the onlined CPUs that are actually allowed to be
-@@ -1504,7 +1504,7 @@ Cpuset Interface Files
- 	and won't be affected by any memory nodes hotplug events.
- 
-   cpuset.mems.effective
--	A read-only multiple values file which exists on non-root
-+	A read-only multiple values file which exists on all
- 	cpuset-enabled cgroups.
- 
- 	It lists the onlined memory nodes that are actually allowed to
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 71cd920..f6ae483 100644
+index b94d4a0..71cd920 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -2214,14 +2214,12 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 		.name = "cpus.effective",
- 		.seq_show = cpuset_common_seq_show,
- 		.private = FILE_EFFECTIVE_CPULIST,
--		.flags = CFTYPE_NOT_ON_ROOT,
- 	},
+@@ -672,13 +672,14 @@ static int generate_sched_domains(cpumask_var_t **domains,
+ 	int ndoms = 0;		/* number of sched domains in result */
+ 	int nslot;		/* next empty doms[] struct cpumask slot */
+ 	struct cgroup_subsys_state *pos_css;
++	bool root_load_balance = is_sched_load_balance(&top_cpuset);
  
- 	{
- 		.name = "mems.effective",
- 		.seq_show = cpuset_common_seq_show,
- 		.private = FILE_EFFECTIVE_MEMLIST,
--		.flags = CFTYPE_NOT_ON_ROOT,
- 	},
+ 	doms = NULL;
+ 	dattr = NULL;
+ 	csa = NULL;
  
- 	{
+ 	/* Special case for the 99% of systems with one, full, sched domain */
+-	if (is_sched_load_balance(&top_cpuset)) {
++	if (root_load_balance && !top_cpuset.isolation_count) {
+ 		ndoms = 1;
+ 		doms = alloc_sched_domains(ndoms);
+ 		if (!doms)
+@@ -701,6 +702,8 @@ static int generate_sched_domains(cpumask_var_t **domains,
+ 	csn = 0;
+ 
+ 	rcu_read_lock();
++	if (root_load_balance)
++		csa[csn++] = &top_cpuset;
+ 	cpuset_for_each_descendant_pre(cp, pos_css, &top_cpuset) {
+ 		if (cp == &top_cpuset)
+ 			continue;
+@@ -711,6 +714,9 @@ static int generate_sched_domains(cpumask_var_t **domains,
+ 		 * parent's cpus, so just skip them, and then we call
+ 		 * update_domain_attr_tree() to calc relax_domain_level of
+ 		 * the corresponding sched domain.
++		 *
++		 * If root is load-balancing, we can skip @cp if it
++		 * is a subset of the root's effective_cpus.
+ 		 */
+ 		if (!cpumask_empty(cp->cpus_allowed) &&
+ 		    !(is_sched_load_balance(cp) &&
+@@ -718,11 +724,16 @@ static int generate_sched_domains(cpumask_var_t **domains,
+ 					 housekeeping_cpumask(HK_FLAG_DOMAIN))))
+ 			continue;
+ 
++		if (root_load_balance &&
++		    cpumask_subset(cp->cpus_allowed, top_cpuset.effective_cpus))
++			continue;
++
+ 		if (is_sched_load_balance(cp))
+ 			csa[csn++] = cp;
+ 
+-		/* skip @cp's subtree */
+-		pos_css = css_rightmost_descendant(pos_css);
++		/* skip @cp's subtree if not a scheduling domain root */
++		if (!is_sched_domain_root(cp))
++			pos_css = css_rightmost_descendant(pos_css);
+ 	}
+ 	rcu_read_unlock();
+ 
+@@ -849,7 +860,12 @@ static void rebuild_sched_domains_locked(void)
+ 	 * passing doms with offlined cpu to partition_sched_domains().
+ 	 * Anyways, hotplug work item will rebuild sched domains.
+ 	 */
+-	if (!cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
++	if (!top_cpuset.isolation_count &&
++	    !cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
++		goto out;
++
++	if (top_cpuset.isolation_count &&
++	   !cpumask_subset(top_cpuset.effective_cpus, cpu_active_mask))
+ 		goto out;
+ 
+ 	/* Generate domain masks and attrs */
+@@ -2635,6 +2651,11 @@ static void cpuset_hotplug_workfn(struct work_struct *work)
+ 	cpumask_copy(&new_cpus, cpu_active_mask);
+ 	new_mems = node_states[N_MEMORY];
+ 
++	/*
++	 * If isolated_cpus is populated, it is likely that the check below
++	 * will produce a false positive on cpus_updated when the cpu list
++	 * isn't changed. It is extra work, but it is better to be safe.
++	 */
+ 	cpus_updated = !cpumask_equal(top_cpuset.effective_cpus, &new_cpus);
+ 	mems_updated = !nodes_equal(top_cpuset.effective_mems, new_mems);
+ 
+@@ -2643,6 +2664,10 @@ static void cpuset_hotplug_workfn(struct work_struct *work)
+ 		spin_lock_irq(&callback_lock);
+ 		if (!on_dfl)
+ 			cpumask_copy(top_cpuset.cpus_allowed, &new_cpus);
++
++		if (top_cpuset.isolation_count)
++			cpumask_andnot(&new_cpus, &new_cpus,
++					top_cpuset.isolated_cpus);
+ 		cpumask_copy(top_cpuset.effective_cpus, &new_cpus);
+ 		spin_unlock_irq(&callback_lock);
+ 		/* we don't mess with cpumasks of tasks in top_cpuset */
 -- 
 1.8.3.1
 
