@@ -1,433 +1,1348 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 00F4B7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 16:05:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 855047D09D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 18:50:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936504AbeE2QE5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 May 2018 12:04:57 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:56044 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935733AbeE2QEv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 12:04:51 -0400
-Received: by mail-wm0-f68.google.com with SMTP id a8-v6so42112730wmg.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 May 2018 09:04:50 -0700 (PDT)
+        id S965311AbeE2Suk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 May 2018 14:50:40 -0400
+Received: from mail-lf0-f68.google.com ([209.85.215.68]:39417 "EHLO
+        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S964830AbeE2Sui (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 14:50:38 -0400
+Received: by mail-lf0-f68.google.com with SMTP id t134-v6so347090lff.6;
+        Tue, 29 May 2018 11:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=eJYtM3WnEG3s+lijTh5C1GQJo+elcRGMsqzXVp2eZLE=;
-        b=ZkP826Or8aNUhvANATVBK+9HoobJbI9Chg4McjMGslYRlpLj1KKEnbRkbfDtuWcwPR
-         nH9pdEglZr4L87QAb8Zj9xn7fj+65pECyNGxxna4kprVMVpp2x3RgIcNcAxST1itRZqD
-         weUGo0HsgITObOoo5UBcvUwYCGe6Gq6Oe4n8c=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=7eWPmSEyvVL2KT8S0pv6ppDCoDVl9dtdqpleNTAtOTk=;
+        b=uytV5XGvqDyrGqJTOtz53H3TgDMGvDZjRhoh6/xKE4kI4YbeH7/7PyNuW6CEUFVGNi
+         ioKz2djNNxceKryD7JC9VeA7iG3jEEduVloEAVKtKnnuUw3CE9T+JxMn6rOqoDx+ygqJ
+         ihhOc2cFOgD4gIHnHqg9LzL4vM3X8dTKujKdCpvc9+D/5CBwrHi1IvS1ZZpbgyrK8W1a
+         F0GhhuZg7FpSLwTINrjfw73zZ+hHEWcppavIMO0r9FkPQHtPDIfX5r2aOSd74QJgPXOL
+         jXXiv3ZRdlwD2i/8C9uk7LGenLrT5+NiGjq2Dju7criwznPYvpghZ6QKTKqH/CKUmbr4
+         cTgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=eJYtM3WnEG3s+lijTh5C1GQJo+elcRGMsqzXVp2eZLE=;
-        b=ATUSgMTqCpWOfgShqbS+IbBKoHrOuyjFNh6LBBfut6EW2lm41rI7DtJdktd95WlXBA
-         QBUbTYnf4cnDU47vpKxVyt+M28CLy0pGYzuqGNQlPXB8IJRvjnRy1OU/AKgzoLVQ/8pb
-         PMDco2oGwkmB0D8t3OTHeK9xcFQnCED+8osJveaRtRj4VOXKi2jaR5QRh0woM10OXRpU
-         LMQxzce2mjTtLRS8LlAcPqIC8G1sD4YpKPQRdL22VUYp/Ziwyk/VeS9miJAG2KoqFWKr
-         puuxuilhcK2arZxubOfRTTmHVDlihUC6f5ydOD8s3hdnDYiLjPHg793SNBmcPmUmgBcx
-         Lcxw==
-X-Gm-Message-State: ALKqPwe7vNCJJEol1t+F1mDLPNqVcWY+5HgrFMMy7Zpv1zlyHE37eqkg
-        N7eK2D/ayrGMJdJW4xoU6TM0b6GDxkX/4eggtqR15Q==
-X-Google-Smtp-Source: AB8JxZoFs9tUUj4ZoBkjMBQQvRloArjrgAwUTNuEIpn1+ilKXMe4s1Lf5x/Ws+WW1n9agK6lG47tbDn7uYRGYnGnYpI=
-X-Received: by 2002:a50:d2d7:: with SMTP id q23-v6mr20203848edg.12.1527609889985;
- Tue, 29 May 2018 09:04:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a50:a4a1:0:0:0:0:0 with HTTP; Tue, 29 May 2018 09:04:49
- -0700 (PDT)
-In-Reply-To: <20180529002538.GA11317@leoy-ThinkPad-X240s>
-References: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
- <1527497103-3593-2-git-send-email-leo.yan@linaro.org> <20180528221347.GA4109@xps15>
- <20180529002538.GA11317@leoy-ThinkPad-X240s>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Tue, 29 May 2018 10:04:49 -0600
-Message-ID: <CANLsYkzEU90aVtPMRqf=YHzee8DHq8JZttRuxjLKGz-gRYiBuw@mail.gmail.com>
-Subject: Re: [RFT v3 1/4] perf cs-etm: Generate branch sample for missed packets
-To:     Leo Yan <leo.yan@linaro.org>
-Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=7eWPmSEyvVL2KT8S0pv6ppDCoDVl9dtdqpleNTAtOTk=;
+        b=gw6H9qsjqiNLX5SkL+SjH3NMEqB5ewMcTng91aNDCgk35Tpo4DgTev62+JvyaTXrX1
+         fjBVNdFymT5+CSR4a8zw1ayKC21POcpxkogpNMBXQ9/ZKLxWJ6cQE4TgK2A7AfbRddgs
+         Gf0saEyxRucHYslWXK1EQNgBYft0lTBI/7ulT0erOAwGrk6q5YskPYchWbvsTSolkmaG
+         QFPFYBfm2J+SsoMhGCEpcnU0iXt/JAuy+Sd8iGImjeFLvQf3/LpyR8fbvThGUewMGUjk
+         +lZD/zdm+yOJoyKzoiYjs/qWvjpnNwBXOoEzP+at0PffNImIqq6JzJFlI/1UbGrEqZdE
+         uwcg==
+X-Gm-Message-State: ALKqPwcCPjvdSqTKrWNcXV/0cUgA5++HyC08oHOykYVX5EVRUa5V1rq7
+        8wi9Du7xvvykk17EIVKJwIA=
+X-Google-Smtp-Source: ADUXVKKrFtCmnPbK4AOcWhx/VF3/qlIQ48sLg3yoL0+GkMCGuJPVjTVPn/o8puC6RR3YfM0bjHoqBg==
+X-Received: by 2002:a2e:29cf:: with SMTP id p76-v6mr7689314ljp.12.1527619835841;
+        Tue, 29 May 2018 11:50:35 -0700 (PDT)
+Received: from localhost.localdomain (c-2ec2d783-74736162.cust.telenor.se. [46.194.215.131])
+        by smtp.gmail.com with ESMTPSA id i29-v6sm7488306lfb.89.2018.05.29.11.50.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 29 May 2018 11:50:34 -0700 (PDT)
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Robert Walker <Robert.Walker@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Kim Phillips <kim.phillips@arm.co>,
-        Tor Jeremiassen <tor@ti.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        coresight@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+        Felipe Balbi <balbi@kernel.org>, davem@davemloft.net,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID Gadget Device
+Date:   Tue, 29 May 2018 20:50:19 +0200
+Message-Id: <20180529185021.13738-1-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.16.2
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28 May 2018 at 18:25, Leo Yan <leo.yan@linaro.org> wrote:
-> Hi Mathieu,
->
-> On Mon, May 28, 2018 at 04:13:47PM -0600, Mathieu Poirier wrote:
->> Leo and/or Robert,
->>
->> On Mon, May 28, 2018 at 04:45:00PM +0800, Leo Yan wrote:
->> > Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
->> > traces") reworks the samples generation flow from CoreSight trace to
->> > match the correct format so Perf report tool can display the samples
->> > properly.
->> >
->> > But the change has side effect for branch packet handling, it only
->> > generate branch samples by checking previous packet flag
->> > 'last_instr_taken_branch' is true, this results in below three kinds
->> > packets are missed to generate branch samples:
->> >
->> > - The start tracing packet at the beginning of tracing data;
->> > - The exception handling packet;
->> > - If one CS_ETM_TRACE_ON packet is inserted, we also miss to handle it
->> >   for branch samples.  CS_ETM_TRACE_ON packet itself can give the info
->> >   that there have a discontinuity in the trace, on the other hand we
->> >   also miss to generate proper branch sample for packets before and
->> >   after CS_ETM_TRACE_ON packet.
->> >
->> > This patch is to add branch sample handling for up three kinds packets:
->> >
->> > - In function cs_etm__sample(), check if 'prev_packet->sample_type' is
->> >   zero and in this case it generates branch sample for the start tracing
->> >   packet; furthermore, we also need to handle the condition for
->> >   prev_packet::end_addr is zero in the cs_etm__last_executed_instr();
->> >
->> > - In function cs_etm__sample(), check if 'prev_packet->exc' is true and
->> >   generate branch sample for exception handling packet;
->> >
->> > - If there has one CS_ETM_TRACE_ON packet is coming, we firstly generate
->> >   branch sample in the function cs_etm__flush(), this can save complete
->> >   info for the previous CS_ETM_RANGE packet just before CS_ETM_TRACE_ON
->> >   packet.  We also generate branch sample for the new CS_ETM_RANGE
->> >   packet after CS_ETM_TRACE_ON packet, this have two purposes, the
->> >   first one purpose is to save the info for the new CS_ETM_RANGE packet,
->> >   the second purpose is to save CS_ETM_TRACE_ON packet info so we can
->> >   have hint for a discontinuity in the trace.
->> >
->> >   For CS_ETM_TRACE_ON packet, its fields 'packet->start_addr' and
->> >   'packet->end_addr' equal to 0xdeadbeefdeadbeefUL which are emitted in
->> >   the decoder layer as dummy value.  This patch is to convert these
->> >   values to zeros for more readable; this is accomplished by functions
->> >   cs_etm__last_executed_instr() and cs_etm__first_executed_instr().  The
->> >   later one is a new function introduced by this patch.
->> >
->> > Reviewed-by: Robert Walker <robert.walker@arm.com>
->> > Fixes: e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight traces")
->> > Signed-off-by: Leo Yan <leo.yan@linaro.org>
->> > ---
->> >  tools/perf/util/cs-etm.c | 93 +++++++++++++++++++++++++++++++++++++-----------
->> >  1 file changed, 73 insertions(+), 20 deletions(-)
->> >
->> > diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
->> > index 822ba91..8418173 100644
->> > --- a/tools/perf/util/cs-etm.c
->> > +++ b/tools/perf/util/cs-etm.c
->> > @@ -495,6 +495,20 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
->> >  static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
->> >  {
->> >     /*
->> > +    * The packet is the start tracing packet if the end_addr is zero,
->> > +    * returns 0 for this case.
->> > +    */
->> > +   if (!packet->end_addr)
->> > +           return 0;
->>
->> What is considered to be the "start tracing packet"?  Right now the only two
->> kind of packets inserted in the decoder packet buffer queue are INST_RANGE and
->> TRACE_ON.  How can we hit a condition where packet->end-addr == 0?
->
-> When the first CS_ETM_RANGE packet is coming, etmq->prev_packet is
-> initialized by the function cs_etm__alloc_queue(), so
-> etmq->prev_packet->end_addr is zero:
->
->     etmq->prev_packet = zalloc(szp);
->
-> As you mentioned, we should only have two kind of packets for
-> CS_ETM_RANGE and CS_ETM_TRACE_ON.  Currently we skip to handle the
-> first CS_ETM_TRACE_ON packet in function cs_etm__flush(), we also can
-> refine the function cs_etm__flush() to handle the first coming
-> CS_ETM_TRACE_ON packet, after that all packets will be CS_ETM_RANGE
-> and CS_ETM_TRACE_ON and have no chance to hit 'packet->end_addr = 0'.
->
-> Does this make sense for you?
+Chip Card Interface Device (CCID) protocol is a USB protocol that
+allows a smartcard device to be connected to a computer via a card
+reader using a standard USB interface, without the need for each manufacturer
+of smartcards to provide its own reader or protocol.
 
-That is the right way to handle this condition and it gives us a
-reliable state machine.
+This gadget driver makes Linux show up as a CCID device to the host and let a
+userspace daemon act as the smartcard.
 
->
-> --- Packet dumping when first packet coming ---
-> cs_etm__flush: prev_packet: sample_type=0 exc=0 exc_ret=0 cpu=0 start_addr=0x0 end_addr=0x0 last_instr_taken_branch=0
-> cs_etm__flush: packet: sample_type=2 exc=0 exc_ret=0 cpu=1 start_addr=0xdeadbeefdeadbeef end_addr=0xdeadbeefdeadbeef last_instr_taken_branch=0
->
->> > +
->> > +   /*
->> > +    * The packet is the CS_ETM_TRACE_ON packet if the end_addr is
->> > +    * magic number 0xdeadbeefdeadbeefUL, returns 0 for this case.
->> > +    */
->> > +   if (packet->end_addr == 0xdeadbeefdeadbeefUL)
->> > +           return 0;
->>
->> As it is with the above, I find triggering on addresses to be brittle and hard
->> to maintain on the long run.  Packets all have a sample_type field that should
->> be used in cases like this one.  That way we know exactly the condition that is
->> targeted.
->
-> Will do this.
->
->> While working on this set, please spin-off another patch that defines
->> CS_ETM_INVAL_ADDR 0xdeadbeefdeadbeefUL and replace all the cases where the
->> numeral is used.  That way we stop using the hard coded value.
->
-> Will do this.
+This is useful when the Linux gadget itself should act as a cryptographic
+device or forward APDUs to an embedded smartcard device.
 
-Much appreciated.
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
 
->
-> As now this patch is big with more complex logic, so I consider to
-> split it into small patches:
->
-> - Define CS_ETM_INVAL_ADDR;
-> - Fix for CS_ETM_TRACE_ON packet;
-> - Fix for exception packet;
->
-> Does this make sense for you?  I have concern that this patch is a
-> fixing patch, so not sure after spliting patches will introduce
-> trouble for applying them for other stable kernels ...
+Notes:
+    v3:
+    	- fix sparse warnings reported by kbuild test robot
+    v2:
+    	- add the missing changelog text
 
-Reverse the order:
+ drivers/usb/gadget/Kconfig           |  17 +
+ drivers/usb/gadget/function/Makefile |   1 +
+ drivers/usb/gadget/function/f_ccid.c | 993 +++++++++++++++++++++++++++++++++++
+ drivers/usb/gadget/function/f_ccid.h |  91 ++++
+ include/uapi/linux/usb/ccid.h        |  93 ++++
+ 5 files changed, 1195 insertions(+)
+ create mode 100644 drivers/usb/gadget/function/f_ccid.c
+ create mode 100644 drivers/usb/gadget/function/f_ccid.h
+ create mode 100644 include/uapi/linux/usb/ccid.h
 
-- Fix for CS_ETM_TRACE_ON packet;
-- Fix for exception packet;
-- Define CS_ETM_INVAL_ADDR;
+diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
+index 31cce7805eb2..bdebdf1ffa2b 100644
+--- a/drivers/usb/gadget/Kconfig
++++ b/drivers/usb/gadget/Kconfig
+@@ -149,6 +149,9 @@ config USB_LIBCOMPOSITE
+ config USB_F_ACM
+ 	tristate
+ 
++config USB_F_CCID
++	tristate
++
+ config USB_F_SS_LB
+ 	tristate
+ 
+@@ -248,6 +251,20 @@ config USB_CONFIGFS_ACM
+ 	  ACM serial link.  This function can be used to interoperate with
+ 	  MS-Windows hosts or with the Linux-USB "cdc-acm" driver.
+ 
++config USB_CONFIGFS_CCID
++	bool "Chip Card Interface Device (CCID)"
++	depends on USB_CONFIGFS
++	select USB_F_CCID
++	help
++	  The CCID function driver provides generic emulation of a
++	  Chip Card Interface Device (CCID).
++
++	  You will need a user space server talking to /dev/ccidg*,
++	  since the kernel itself does not implement CCID/TPDU/APDU
++	  protocol.
++
++	  For more information, see Documentation/usb/gadget_ccid.rst.
++
+ config USB_CONFIGFS_OBEX
+ 	bool "Object Exchange Model (CDC OBEX)"
+ 	depends on USB_CONFIGFS
+diff --git a/drivers/usb/gadget/function/Makefile b/drivers/usb/gadget/function/Makefile
+index 5d3a6cf02218..629851009e1a 100644
+--- a/drivers/usb/gadget/function/Makefile
++++ b/drivers/usb/gadget/function/Makefile
+@@ -9,6 +9,7 @@ ccflags-y			+= -I$(srctree)/drivers/usb/gadget/udc/
+ # USB Functions
+ usb_f_acm-y			:= f_acm.o
+ obj-$(CONFIG_USB_F_ACM)		+= usb_f_acm.o
++obj-$(CONFIG_USB_F_CCID)	+= f_ccid.o
+ usb_f_ss_lb-y			:= f_loopback.o f_sourcesink.o
+ obj-$(CONFIG_USB_F_SS_LB)	+= usb_f_ss_lb.o
+ obj-$(CONFIG_USB_U_SERIAL)	+= u_serial.o
+diff --git a/drivers/usb/gadget/function/f_ccid.c b/drivers/usb/gadget/function/f_ccid.c
+new file mode 100644
+index 000000000000..47fb229a06db
+--- /dev/null
++++ b/drivers/usb/gadget/function/f_ccid.c
+@@ -0,0 +1,993 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * f_ccid.c -- Chip Card Interface Device (CCID) function Driver
++ *
++ * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
++ *
++ */
++#include <linux/cdev.h>
++#include <linux/device.h>
++#include <linux/fs.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/poll.h>
++#include <linux/slab.h>
++#include <linux/uaccess.h>
++#include <linux/usb/composite.h>
++#include <uapi/linux/usb/ccid.h>
++
++#include "f_ccid.h"
++#include "u_f.h"
++
++/* Number of tx requests to allocate */
++#define N_TX_REQS 4
++
++/* Maximum number of devices */
++#define CCID_MINORS 4
++
++struct ccidg_bulk_dev {
++	atomic_t is_open;
++	atomic_t rx_req_busy;
++	wait_queue_head_t read_wq;
++	wait_queue_head_t write_wq;
++	struct usb_request *rx_req;
++	atomic_t rx_done;
++	struct list_head tx_idle;
++};
++
++struct f_ccidg {
++	struct usb_function_instance	func_inst;
++	struct usb_function function;
++	spinlock_t lock;
++	atomic_t online;
++
++	/* Character device */
++	struct cdev cdev;
++	int minor;
++
++	/* Dynamic attributes */
++	u32 features;
++	u32 protocols;
++	u8 pinsupport;
++	u8 nslots;
++	u8 lcdlayout;
++
++	/* Endpoints */
++	struct usb_ep *in;
++	struct usb_ep *out;
++	struct ccidg_bulk_dev bulk_dev;
++};
++
++/* Interface Descriptor: */
++static struct usb_interface_descriptor ccid_interface_desc = {
++	.bLength =		USB_DT_INTERFACE_SIZE,
++	.bDescriptorType =	USB_DT_INTERFACE,
++	.bNumEndpoints =	2,
++	.bInterfaceClass =	USB_CLASS_CSCID,
++	.bInterfaceSubClass =	0,
++	.bInterfaceProtocol =	0,
++};
++
++/* CCID Class Descriptor */
++static struct ccid_class_descriptor ccid_class_desc = {
++	.bLength =		sizeof(ccid_class_desc),
++	.bDescriptorType =	CCID_DECRIPTOR_TYPE,
++	.bcdCCID =		cpu_to_le16(CCID1_10),
++	/* .bMaxSlotIndex =	DYNAMIC */
++	.bVoltageSupport =	CCID_VOLTS_3_0,
++	/* .dwProtocols =	DYNAMIC */
++	.dwDefaultClock =	cpu_to_le32(3580),
++	.dwMaximumClock =	cpu_to_le32(3580),
++	.bNumClockSupported =	0,
++	.dwDataRate =		cpu_to_le32(9600),
++	.dwMaxDataRate =	cpu_to_le32(9600),
++	.bNumDataRatesSupported = 0,
++	.dwMaxIFSD =		0,
++	.dwSynchProtocols =	0,
++	.dwMechanical =		0,
++	/* .dwFeatures =	DYNAMIC */
++
++	/* extended APDU level Message Length */
++	.dwMaxCCIDMessageLength = cpu_to_le32(0x200),
++	.bClassGetResponse =	0x0,
++	.bClassEnvelope =	0x0,
++	/* .wLcdLayout =	DYNAMIC */
++	/* .bPINSupport =	DYNAMIC */
++	.bMaxCCIDBusySlots =	1
++};
++
++/* Full speed support: */
++static struct usb_endpoint_descriptor ccid_fs_in_desc = {
++	.bLength =		USB_DT_ENDPOINT_SIZE,
++	.bDescriptorType =	USB_DT_ENDPOINT,
++	.bEndpointAddress =	USB_DIR_IN,
++	.bmAttributes =		USB_ENDPOINT_XFER_BULK,
++	.wMaxPacketSize   =	cpu_to_le16(64),
++};
++
++static struct usb_endpoint_descriptor ccid_fs_out_desc = {
++	.bLength =		USB_DT_ENDPOINT_SIZE,
++	.bDescriptorType =	USB_DT_ENDPOINT,
++	.bEndpointAddress =	USB_DIR_OUT,
++	.bmAttributes =		USB_ENDPOINT_XFER_BULK,
++	.wMaxPacketSize   =	 cpu_to_le16(64),
++};
++
++static struct usb_descriptor_header *ccid_fs_descs[] = {
++	(struct usb_descriptor_header *) &ccid_interface_desc,
++	(struct usb_descriptor_header *) &ccid_class_desc,
++	(struct usb_descriptor_header *) &ccid_fs_in_desc,
++	(struct usb_descriptor_header *) &ccid_fs_out_desc,
++	NULL,
++};
++
++/* High speed support: */
++static struct usb_endpoint_descriptor ccid_hs_in_desc = {
++	.bLength =		USB_DT_ENDPOINT_SIZE,
++	.bDescriptorType =	USB_DT_ENDPOINT,
++	.bEndpointAddress =	USB_DIR_IN,
++	.bmAttributes =		USB_ENDPOINT_XFER_BULK,
++	.wMaxPacketSize =	cpu_to_le16(512),
++};
++
++static struct usb_endpoint_descriptor ccid_hs_out_desc = {
++	.bLength =		USB_DT_ENDPOINT_SIZE,
++	.bDescriptorType =	USB_DT_ENDPOINT,
++	.bEndpointAddress =	USB_DIR_OUT,
++	.bmAttributes =		USB_ENDPOINT_XFER_BULK,
++	.wMaxPacketSize =	cpu_to_le16(512),
++};
++
++static struct usb_descriptor_header *ccid_hs_descs[] = {
++	(struct usb_descriptor_header *) &ccid_interface_desc,
++	(struct usb_descriptor_header *) &ccid_class_desc,
++	(struct usb_descriptor_header *) &ccid_hs_in_desc,
++	(struct usb_descriptor_header *) &ccid_hs_out_desc,
++	NULL,
++};
++
++static DEFINE_IDA(ccidg_ida);
++static int major;
++static DEFINE_MUTEX(ccidg_ida_lock); /* protects access to ccidg_ida */
++static struct class *ccidg_class;
++
++static inline struct f_ccidg_opts *to_f_ccidg_opts(struct config_item *item)
++{
++	return container_of(to_config_group(item), struct f_ccidg_opts,
++			    func_inst.group);
++}
++
++static inline struct f_ccidg *func_to_ccidg(struct usb_function *f)
++{
++	return container_of(f, struct f_ccidg, function);
++}
++
++static inline int ccidg_get_minor(void)
++{
++	int ret;
++
++	ret = ida_simple_get(&ccidg_ida, 0, 0, GFP_KERNEL);
++	if (ret >= CCID_MINORS) {
++		ida_simple_remove(&ccidg_ida, ret);
++		ret = -ENODEV;
++	}
++
++	return ret;
++}
++
++static inline void ccidg_put_minor(int minor)
++{
++	ida_simple_remove(&ccidg_ida, minor);
++}
++
++static int ccidg_setup(void)
++{
++	int ret;
++	dev_t dev;
++
++	ccidg_class = class_create(THIS_MODULE, "ccidg");
++	if (IS_ERR(ccidg_class)) {
++		ccidg_class = NULL;
++		return PTR_ERR(ccidg_class);
++	}
++
++	ret = alloc_chrdev_region(&dev, 0, CCID_MINORS, "ccidg");
++	if (ret) {
++		class_destroy(ccidg_class);
++		ccidg_class = NULL;
++		return ret;
++	}
++
++	major = MAJOR(dev);
++
++	return 0;
++}
++
++static void ccidg_cleanup(void)
++{
++	if (major) {
++		unregister_chrdev_region(MKDEV(major, 0), CCID_MINORS);
++		major = 0;
++	}
++
++	class_destroy(ccidg_class);
++	ccidg_class = NULL;
++}
++
++static void ccidg_attr_release(struct config_item *item)
++{
++	struct f_ccidg_opts *opts = to_f_ccidg_opts(item);
++
++	usb_put_function_instance(&opts->func_inst);
++}
++
++static struct configfs_item_operations ccidg_item_ops = {
++	.release	= ccidg_attr_release,
++};
++
++#define F_CCIDG_OPT(name, prec, limit)					\
++static ssize_t f_ccidg_opts_##name##_show(struct config_item *item, char *page)\
++{									\
++	struct f_ccidg_opts *opts = to_f_ccidg_opts(item);		\
++	int result;							\
++									\
++	mutex_lock(&opts->lock);					\
++	result = sprintf(page, "%x\n", opts->name);			\
++	mutex_unlock(&opts->lock);					\
++									\
++	return result;							\
++}									\
++									\
++static ssize_t f_ccidg_opts_##name##_store(struct config_item *item,	\
++					 const char *page, size_t len)	\
++{									\
++	struct f_ccidg_opts *opts = to_f_ccidg_opts(item);		\
++	int ret;							\
++	u##prec num;							\
++									\
++	mutex_lock(&opts->lock);					\
++	if (opts->refcnt) {						\
++		ret = -EBUSY;						\
++		goto end;						\
++	}								\
++									\
++	ret = kstrtou##prec(page, 0, &num);				\
++	if (ret)							\
++		goto end;						\
++									\
++	if (num > limit) {						\
++		ret = -EINVAL;						\
++		goto end;						\
++	}								\
++	opts->name = num;						\
++	ret = len;							\
++									\
++end:									\
++	mutex_unlock(&opts->lock);					\
++	return ret;							\
++}									\
++									\
++CONFIGFS_ATTR(f_ccidg_opts_, name)
++
++F_CCIDG_OPT(features, 32, 0xffffffff);
++F_CCIDG_OPT(protocols, 32, 0x03);
++F_CCIDG_OPT(pinsupport, 8, 0x03);
++F_CCIDG_OPT(lcdlayout, 16, 0xffff);
++F_CCIDG_OPT(nslots, 8, 0xff);
++
++static struct configfs_attribute *ccidg_attrs[] = {
++	&f_ccidg_opts_attr_features,
++	&f_ccidg_opts_attr_protocols,
++	&f_ccidg_opts_attr_pinsupport,
++	&f_ccidg_opts_attr_lcdlayout,
++	&f_ccidg_opts_attr_nslots,
++	NULL,
++};
++
++static struct config_item_type ccidg_func_type = {
++	.ct_item_ops	= &ccidg_item_ops,
++	.ct_attrs	= ccidg_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++static void ccidg_req_put(struct f_ccidg *ccidg, struct list_head *head,
++		struct usb_request *req)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&ccidg->lock, flags);
++	list_add_tail(&req->list, head);
++	spin_unlock_irqrestore(&ccidg->lock, flags);
++}
++
++static struct usb_request *ccidg_req_get(struct f_ccidg *ccidg,
++					struct list_head *head)
++{
++	unsigned long flags;
++	struct usb_request *req = NULL;
++
++	spin_lock_irqsave(&ccidg->lock, flags);
++	if (!list_empty(head)) {
++		req = list_first_entry(head, struct usb_request, list);
++		list_del(&req->list);
++	}
++	spin_unlock_irqrestore(&ccidg->lock, flags);
++
++	return req;
++}
++
++static void ccidg_bulk_complete_tx(struct usb_ep *ep, struct usb_request *req)
++{
++	struct f_ccidg *ccidg = (struct f_ccidg *)ep->driver_data;
++	struct ccidg_bulk_dev *bulk_dev = &ccidg->bulk_dev;
++	struct usb_composite_dev *cdev	= ccidg->function.config->cdev;
++
++	switch (req->status) {
++	default:
++		VDBG(cdev, "ccid: tx err %d\n", req->status);
++		/* FALLTHROUGH */
++	case -ECONNRESET:		/* unlink */
++	case -ESHUTDOWN:		/* disconnect etc */
++		break;
++	case 0:
++		break;
++	}
++
++	ccidg_req_put(ccidg, &bulk_dev->tx_idle, req);
++	wake_up(&bulk_dev->write_wq);
++}
++
++static void ccidg_bulk_complete_rx(struct usb_ep *ep, struct usb_request *req)
++{
++	struct f_ccidg *ccidg = (struct f_ccidg *)ep->driver_data;
++	struct ccidg_bulk_dev *bulk_dev = &ccidg->bulk_dev;
++	struct usb_composite_dev *cdev	= ccidg->function.config->cdev;
++
++	switch (req->status) {
++
++	/* normal completion */
++	case 0:
++		/* We only cares about packets with nonzero length */
++		if (req->actual > 0)
++			atomic_set(&bulk_dev->rx_done, 1);
++		break;
++
++	/* software-driven interface shutdown */
++	case -ECONNRESET:		/* unlink */
++	case -ESHUTDOWN:		/* disconnect etc */
++		VDBG(cdev, "ccid: rx shutdown, code %d\n", req->status);
++		break;
++
++	/* for hardware automagic (such as pxa) */
++	case -ECONNABORTED:		/* endpoint reset */
++		DBG(cdev, "ccid: rx %s reset\n", ep->name);
++		break;
++
++	/* data overrun */
++	case -EOVERFLOW:
++		/* FALLTHROUGH */
++	default:
++		DBG(cdev, "ccid: rx status %d\n", req->status);
++		break;
++	}
++
++	wake_up(&bulk_dev->read_wq);
++}
++
++static struct usb_request *
++ccidg_request_alloc(struct usb_ep *ep, unsigned int len)
++{
++	struct usb_request *req;
++
++	req = usb_ep_alloc_request(ep, GFP_ATOMIC);
++	if (!req)
++		return ERR_PTR(-ENOMEM);
++
++	req->length = len;
++	req->buf = kmalloc(len, GFP_ATOMIC);
++	if (req->buf == NULL) {
++		usb_ep_free_request(ep, req);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	return req;
++}
++
++static void ccidg_request_free(struct usb_request *req, struct usb_ep *ep)
++{
++	if (req) {
++		kfree(req->buf);
++		usb_ep_free_request(ep, req);
++	}
++}
++
++static int ccidg_function_setup(struct usb_function *f,
++		const struct usb_ctrlrequest *ctrl)
++{
++	struct f_ccidg *ccidg = container_of(f, struct f_ccidg, function);
++	struct usb_composite_dev *cdev	= f->config->cdev;
++	struct usb_request *req		= cdev->req;
++	int ret				= -EOPNOTSUPP;
++	u16 w_index			= le16_to_cpu(ctrl->wIndex);
++	u16 w_value			= le16_to_cpu(ctrl->wValue);
++	u16 w_length			= le16_to_cpu(ctrl->wLength);
++
++	if (!atomic_read(&ccidg->online))
++		return -ENOTCONN;
++
++	switch (ctrl->bRequestType & USB_TYPE_MASK) {
++	case USB_TYPE_CLASS:
++		{
++		switch (ctrl->bRequest) {
++		case CCIDGENERICREQ_GET_CLOCK_FREQUENCIES:
++			if (w_length > sizeof(ccid_class_desc.dwDefaultClock))
++				break;
++
++			*(__le32 *) req->buf = ccid_class_desc.dwDefaultClock;
++			ret = sizeof(ccid_class_desc.dwDefaultClock);
++			break;
++
++		case CCIDGENERICREQ_GET_DATA_RATES:
++			if (w_length > sizeof(ccid_class_desc.dwDataRate))
++				break;
++
++			*(__le32 *) req->buf = ccid_class_desc.dwDataRate;
++			ret = sizeof(ccid_class_desc.dwDataRate);
++			break;
++
++		default:
++			VDBG(f->config->cdev,
++				"ccid: invalid control req%02x.%02x v%04x i%04x l%d\n",
++				ctrl->bRequestType, ctrl->bRequest,
++				w_value, w_index, w_length);
++		}
++		}
++	}
++
++	/* responded with data transfer or status phase? */
++	if (ret >= 0) {
++		VDBG(f->config->cdev, "ccid: req%02x.%02x v%04x i%04x l%d\n",
++			ctrl->bRequestType, ctrl->bRequest,
++			w_value, w_index, w_length);
++
++		req->length = ret;
++		ret = usb_ep_queue(cdev->gadget->ep0, req, GFP_ATOMIC);
++		if (ret < 0)
++			ERROR(f->config->cdev,
++				"ccid: ep0 enqueue err %d\n", ret);
++	}
++
++	return ret;
++}
++
++static void ccidg_function_disable(struct usb_function *f)
++{
++	struct f_ccidg *ccidg = func_to_ccidg(f);
++	struct ccidg_bulk_dev *bulk_dev = &ccidg->bulk_dev;
++	struct usb_request *req;
++
++	/* Disable endpoints */
++	usb_ep_disable(ccidg->in);
++	usb_ep_disable(ccidg->out);
++
++	/* Free endpoint related requests */
++	if (!atomic_read(&bulk_dev->rx_req_busy))
++		ccidg_request_free(bulk_dev->rx_req, ccidg->out);
++	while ((req = ccidg_req_get(ccidg, &bulk_dev->tx_idle)))
++		ccidg_request_free(req, ccidg->in);
++
++	atomic_set(&ccidg->online, 0);
++
++	/* Wake up threads */
++	wake_up(&bulk_dev->write_wq);
++	wake_up(&bulk_dev->read_wq);
++}
++
++static int ccidg_start_ep(struct f_ccidg *ccidg, struct usb_function *f,
++			struct usb_ep *ep)
++{
++	struct usb_composite_dev *cdev = f->config->cdev;
++	int ret;
++
++	usb_ep_disable(ep);
++
++	ret = config_ep_by_speed(cdev->gadget, f, ep);
++	if (ret) {
++		ERROR(cdev, "ccid: can't configure %s: %d\n", ep->name, ret);
++		return ret;
++	}
++
++	ret = usb_ep_enable(ep);
++	if (ret) {
++		ERROR(cdev, "ccid: can't start %s: %d\n", ep->name, ret);
++		return ret;
++	}
++
++	ep->driver_data = ccidg;
++
++	return ret;
++}
++
++static int ccidg_function_set_alt(struct usb_function *f,
++		unsigned int intf, unsigned int alt)
++{
++	struct f_ccidg *ccidg		= func_to_ccidg(f);
++	struct usb_composite_dev *cdev	= f->config->cdev;
++	struct ccidg_bulk_dev *bulk_dev	= &ccidg->bulk_dev;
++	struct usb_request *req;
++	int ret;
++	int i;
++
++	/* Allocate requests for our endpoints */
++	req = ccidg_request_alloc(ccidg->out,
++			sizeof(struct ccidg_bulk_out_header));
++	if (IS_ERR(req)) {
++		ERROR(cdev, "ccid: uname to allocate memory for out req\n");
++		return PTR_ERR(req);
++	}
++	req->complete = ccidg_bulk_complete_rx;
++	req->context = ccidg;
++	bulk_dev->rx_req = req;
++
++	/* Allocate bunch of in requests */
++	for (i = 0; i < N_TX_REQS; i++) {
++		req = ccidg_request_alloc(ccidg->in,
++				sizeof(struct ccidg_bulk_in_header));
++
++		if (IS_ERR(req)) {
++			ret = PTR_ERR(req);
++			ERROR(cdev,
++				"ccid: uname to allocate memory for in req\n");
++			goto free_bulk_out;
++		}
++		req->complete = ccidg_bulk_complete_tx;
++		req->context = ccidg;
++		ccidg_req_put(ccidg, &bulk_dev->tx_idle, req);
++	}
++
++	/* choose the descriptors and enable endpoints */
++	ret = ccidg_start_ep(ccidg, f, ccidg->in);
++	if (ret)
++		goto free_bulk_in;
++
++	ret = ccidg_start_ep(ccidg, f, ccidg->out);
++	if (ret)
++		goto disable_ep_in;
++
++	atomic_set(&ccidg->online, 1);
++	return ret;
++
++disable_ep_in:
++	usb_ep_disable(ccidg->in);
++free_bulk_in:
++	while ((req = ccidg_req_get(ccidg, &bulk_dev->tx_idle)))
++		ccidg_request_free(req, ccidg->in);
++free_bulk_out:
++	ccidg_request_free(bulk_dev->rx_req, ccidg->out);
++	return ret;
++}
++
++static int ccidg_bulk_open(struct inode *inode, struct file *file)
++{
++	struct f_ccidg *ccidg;
++	struct ccidg_bulk_dev *bulk_dev;
++
++	ccidg = container_of(inode->i_cdev, struct f_ccidg, cdev);
++	bulk_dev = &ccidg->bulk_dev;
++
++	if (!atomic_read(&ccidg->online)) {
++		DBG(ccidg->function.config->cdev, "ccid: device not online\n");
++		return -ENODEV;
++	}
++
++	if (atomic_read(&bulk_dev->is_open)) {
++		DBG(ccidg->function.config->cdev,
++				"ccid: device already opened\n");
++		return -EBUSY;
++	}
++
++	atomic_set(&bulk_dev->is_open, 1);
++
++	file->private_data = ccidg;
++
++	return 0;
++}
++
++static int ccidg_bulk_release(struct inode *inode, struct file *file)
++{
++	struct f_ccidg *ccidg =  file->private_data;
++	struct ccidg_bulk_dev *bulk_dev = &ccidg->bulk_dev;
++
++	atomic_set(&bulk_dev->is_open, 0);
++	return 0;
++}
++
++static ssize_t ccidg_bulk_read(struct file *file, char __user *buf,
++				size_t count, loff_t *pos)
++{
++	struct f_ccidg *ccidg =  file->private_data;
++	struct ccidg_bulk_dev *bulk_dev = &ccidg->bulk_dev;
++	struct usb_request *req;
++	int r = count, xfer;
++	int ret;
++
++	/* Make sure we have enough space for a whole package */
++	if (count < sizeof(struct ccidg_bulk_out_header)) {
++		DBG(ccidg->function.config->cdev,
++				"ccid: too small buffer size. %zu provided, need at least %zu\n",
++				count, sizeof(struct ccidg_bulk_out_header));
++		return -ENOMEM;
++	}
++
++	if (!atomic_read(&ccidg->online))
++		return -ENODEV;
++
++	/* queue a request */
++	req = bulk_dev->rx_req;
++	req->length = count;
++	atomic_set(&bulk_dev->rx_done, 0);
++
++	ret = usb_ep_queue(ccidg->out, req, GFP_KERNEL);
++	if (ret < 0) {
++		ERROR(ccidg->function.config->cdev,
++				"ccid: usb ep queue failed\n");
++		return -EIO;
++	}
++
++	if (!atomic_read(&bulk_dev->rx_done) &&
++			file->f_flags & (O_NONBLOCK | O_NDELAY))
++		return -EAGAIN;
++
++	/* wait for a request to complete */
++	ret = wait_event_interruptible(bulk_dev->read_wq,
++			atomic_read(&bulk_dev->rx_done) ||
++			!atomic_read(&ccidg->online));
++	if (ret < 0) {
++		usb_ep_dequeue(ccidg->out, req);
++		return -ERESTARTSYS;
++	}
++
++	/* Still online? */
++	if (!atomic_read(&ccidg->online))
++		return -ENODEV;
++
++	atomic_set(&bulk_dev->rx_req_busy, 1);
++	xfer = (req->actual < count) ? req->actual : count;
++
++	if (copy_to_user(buf, req->buf, xfer))
++		r = -EFAULT;
++
++	atomic_set(&bulk_dev->rx_req_busy, 0);
++	if (!atomic_read(&ccidg->online)) {
++		ccidg_request_free(bulk_dev->rx_req, ccidg->out);
++		return -ENODEV;
++	}
++
++	return xfer;
++}
++
++static ssize_t ccidg_bulk_write(struct file *file, const char __user *buf,
++				 size_t count, loff_t *pos)
++{
++	struct f_ccidg *ccidg =  file->private_data;
++	struct ccidg_bulk_dev *bulk_dev = &ccidg->bulk_dev;
++	struct usb_request *req = NULL;
++	int ret;
++
++	/* Are we online? */
++	if (!atomic_read(&ccidg->online))
++		return -ENODEV;
++
++	/* Avoid Zero Length Packets (ZLP) */
++	if (!count)
++		return 0;
++
++	/* Make sure we have enough space for a whole package */
++	if (count > sizeof(struct ccidg_bulk_out_header)) {
++		DBG(ccidg->function.config->cdev,
++				"ccid: too much data. %zu provided, but we can only handle %zu\n",
++				count, sizeof(struct ccidg_bulk_out_header));
++		return -ENOMEM;
++	}
++
++	if (list_empty(&bulk_dev->tx_idle) &&
++			file->f_flags & (O_NONBLOCK | O_NDELAY))
++		return -EAGAIN;
++
++	/* get an idle tx request to use */
++	ret = wait_event_interruptible(bulk_dev->write_wq,
++		((req = ccidg_req_get(ccidg, &bulk_dev->tx_idle))));
++
++	if (ret < 0)
++		return -ERESTARTSYS;
++
++	if (copy_from_user(req->buf, buf, count)) {
++		if (!atomic_read(&ccidg->online)) {
++			ccidg_request_free(req, ccidg->in);
++			return -ENODEV;
++		} else {
++			ccidg_req_put(ccidg, &bulk_dev->tx_idle, req);
++			return -EFAULT;
++		}
++	}
++
++	req->length = count;
++	ret = usb_ep_queue(ccidg->in, req, GFP_KERNEL);
++	if (ret < 0) {
++		ccidg_req_put(ccidg, &bulk_dev->tx_idle, req);
++
++		if (!atomic_read(&ccidg->online)) {
++			/* Free up all requests if we are not online */
++			while ((req = ccidg_req_get(ccidg, &bulk_dev->tx_idle)))
++				ccidg_request_free(req, ccidg->in);
++
++			return -ENODEV;
++		}
++		return -EIO;
++	}
++
++	return count;
++}
++
++static __poll_t ccidg_bulk_poll(struct file *file, poll_table * wait)
++{
++	struct f_ccidg *ccidg =  file->private_data;
++	struct ccidg_bulk_dev *bulk_dev = &ccidg->bulk_dev;
++	__poll_t	ret = 0;
++
++	poll_wait(file, &bulk_dev->read_wq, wait);
++	poll_wait(file, &bulk_dev->write_wq, wait);
++
++	if (list_empty(&bulk_dev->tx_idle))
++		ret |= EPOLLOUT | EPOLLWRNORM;
++
++	if (atomic_read(&bulk_dev->rx_done))
++		ret |= EPOLLIN | EPOLLRDNORM;
++
++	return ret;
++}
++
++static const struct file_operations f_ccidg_fops = {
++	.owner = THIS_MODULE,
++	.read = ccidg_bulk_read,
++	.write = ccidg_bulk_write,
++	.open = ccidg_bulk_open,
++	.poll = ccidg_bulk_poll,
++	.release = ccidg_bulk_release,
++};
++
++static int ccidg_bulk_device_init(struct f_ccidg *dev)
++{
++	struct ccidg_bulk_dev *bulk_dev = &dev->bulk_dev;
++
++	init_waitqueue_head(&bulk_dev->read_wq);
++	init_waitqueue_head(&bulk_dev->write_wq);
++	INIT_LIST_HEAD(&bulk_dev->tx_idle);
++
++	return 0;
++}
++
++static void ccidg_function_free(struct usb_function *f)
++{
++	struct f_ccidg *ccidg;
++	struct f_ccidg_opts *opts;
++
++	ccidg = func_to_ccidg(f);
++	opts = container_of(f->fi, struct f_ccidg_opts, func_inst);
++
++	kfree(ccidg);
++	mutex_lock(&opts->lock);
++	--opts->refcnt;
++	mutex_unlock(&opts->lock);
++}
++
++static void ccidg_function_unbind(struct usb_configuration *c,
++					struct usb_function *f)
++{
++	struct f_ccidg *ccidg = func_to_ccidg(f);
++
++	device_destroy(ccidg_class, MKDEV(major, ccidg->minor));
++	cdev_del(&ccidg->cdev);
++
++	/* disable/free request and end point */
++	usb_free_all_descriptors(f);
++}
++
++static int ccidg_function_bind(struct usb_configuration *c,
++					struct usb_function *f)
++{
++	struct f_ccidg *ccidg = func_to_ccidg(f);
++	struct usb_ep *ep;
++	struct usb_composite_dev *cdev = c->cdev;
++	struct device *device;
++	dev_t dev;
++	int ifc_id;
++	int ret;
++
++	/* allocate instance-specific interface IDs, and patch descriptors */
++	ifc_id = usb_interface_id(c, f);
++	if (ifc_id < 0) {
++		ERROR(cdev, "ccid: unable to allocate ifc id, err:%d\n",
++				ifc_id);
++		return ifc_id;
++	}
++	ccid_interface_desc.bInterfaceNumber = ifc_id;
++
++	/* allocate instance-specific endpoints */
++	ep = usb_ep_autoconfig(cdev->gadget, &ccid_fs_in_desc);
++	if (!ep) {
++		ERROR(cdev, "ccid: usb epin autoconfig failed\n");
++		ret = -ENODEV;
++		goto ep_auto_in_fail;
++	}
++	ccidg->in = ep;
++	ep->driver_data = ccidg;
++
++	ep = usb_ep_autoconfig(cdev->gadget, &ccid_fs_out_desc);
++	if (!ep) {
++		ERROR(cdev, "ccid: usb epout autoconfig failed\n");
++		ret = -ENODEV;
++		goto ep_auto_out_fail;
++	}
++	ccidg->out = ep;
++	ep->driver_data = ccidg;
++
++	/* set descriptor dynamic values */
++	ccid_class_desc.dwFeatures	= cpu_to_le32(ccidg->features);
++	ccid_class_desc.bPINSupport	= ccidg->pinsupport;
++	ccid_class_desc.wLcdLayout	= cpu_to_le16(ccidg->lcdlayout);
++	ccid_class_desc.bMaxSlotIndex	= ccidg->nslots;
++	ccid_class_desc.dwProtocols	= cpu_to_le32(ccidg->protocols);
++
++	if (ccidg->protocols == CCID_PROTOCOL_NOT_SEL) {
++		ccidg->protocols = CCID_PROTOCOL_T0 | CCID_PROTOCOL_T1;
++		INFO(ccidg->function.config->cdev,
++			"ccid: No protocol selected. Support both T0 and T1.\n");
++	}
++
++
++	ccid_hs_in_desc.bEndpointAddress =
++			ccid_fs_in_desc.bEndpointAddress;
++	ccid_hs_out_desc.bEndpointAddress =
++			ccid_fs_out_desc.bEndpointAddress;
++
++	ret  = usb_assign_descriptors(f, ccid_fs_descs,
++			ccid_hs_descs, NULL, NULL);
++	if (ret)
++		goto ep_auto_out_fail;
++
++	/* create char device */
++	cdev_init(&ccidg->cdev, &f_ccidg_fops);
++	dev = MKDEV(major, ccidg->minor);
++	ret = cdev_add(&ccidg->cdev, dev, 1);
++	if (ret)
++		goto fail_free_descs;
++
++	device = device_create(ccidg_class, NULL, dev, NULL,
++			       "%s%d", "ccidg", ccidg->minor);
++	if (IS_ERR(device)) {
++		ret = PTR_ERR(device);
++		goto del;
++	}
++
++	return 0;
++
++del:
++	cdev_del(&ccidg->cdev);
++fail_free_descs:
++	usb_free_all_descriptors(f);
++ep_auto_out_fail:
++	ccidg->out->driver_data = NULL;
++	ccidg->out = NULL;
++ep_auto_in_fail:
++	ccidg->in->driver_data = NULL;
++	ccidg->in = NULL;
++	ERROR(f->config->cdev, "ccidg_bind FAILED\n");
++
++	return ret;
++}
++
++static struct usb_function *ccidg_alloc(struct usb_function_instance *fi)
++{
++	struct f_ccidg *ccidg;
++	struct f_ccidg_opts *opts;
++	int ret;
++
++	ccidg = kzalloc(sizeof(*ccidg), GFP_KERNEL);
++	if (!ccidg)
++		return ERR_PTR(-ENOMEM);
++
++	spin_lock_init(&ccidg->lock);
++
++	ret = ccidg_bulk_device_init(ccidg);
++	if (ret) {
++		kfree(ccidg);
++		return ERR_PTR(ret);
++	}
++
++	opts = container_of(fi, struct f_ccidg_opts, func_inst);
++
++	mutex_lock(&opts->lock);
++	++opts->refcnt;
++
++	ccidg->minor = opts->minor;
++	ccidg->features = opts->features;
++	ccidg->protocols = opts->protocols;
++	ccidg->pinsupport = opts->pinsupport;
++	ccidg->nslots = opts->nslots;
++	mutex_unlock(&opts->lock);
++
++	ccidg->function.name	= "ccid";
++	ccidg->function.bind	= ccidg_function_bind;
++	ccidg->function.unbind	= ccidg_function_unbind;
++	ccidg->function.set_alt	= ccidg_function_set_alt;
++	ccidg->function.disable	= ccidg_function_disable;
++	ccidg->function.setup	= ccidg_function_setup;
++	ccidg->function.free_func = ccidg_function_free;
++
++	return &ccidg->function;
++}
++
++static void ccidg_free_inst(struct usb_function_instance *f)
++{
++	struct f_ccidg_opts *opts;
++
++	opts = container_of(f, struct f_ccidg_opts, func_inst);
++	mutex_lock(&ccidg_ida_lock);
++
++	ccidg_put_minor(opts->minor);
++	if (ida_is_empty(&ccidg_ida))
++		ccidg_cleanup();
++
++	mutex_unlock(&ccidg_ida_lock);
++
++	kfree(opts);
++}
++
++static struct usb_function_instance *ccidg_alloc_inst(void)
++{
++	struct f_ccidg_opts *opts;
++	struct usb_function_instance *ret;
++	int status = 0;
++
++	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
++	if (!opts)
++		return ERR_PTR(-ENOMEM);
++
++	mutex_init(&opts->lock);
++	opts->func_inst.free_func_inst = ccidg_free_inst;
++	ret = &opts->func_inst;
++
++	mutex_lock(&ccidg_ida_lock);
++
++	if (ida_is_empty(&ccidg_ida)) {
++		status = ccidg_setup();
++		if (status)  {
++			ret = ERR_PTR(status);
++			kfree(opts);
++			goto unlock;
++		}
++	}
++
++	opts->minor = ccidg_get_minor();
++	if (opts->minor < 0) {
++		ret = ERR_PTR(opts->minor);
++		kfree(opts);
++		if (ida_is_empty(&ccidg_ida))
++			ccidg_cleanup();
++		goto unlock;
++	}
++
++	config_group_init_type_name(&opts->func_inst.group,
++			"", &ccidg_func_type);
++
++unlock:
++	mutex_unlock(&ccidg_ida_lock);
++	return ret;
++}
++
++DECLARE_USB_FUNCTION_INIT(ccid, ccidg_alloc_inst, ccidg_alloc);
++
++MODULE_DESCRIPTION("USB CCID Gadget driver");
++MODULE_AUTHOR("Marcus Folkesson <marcus.folkesson@gmail.com>");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/usb/gadget/function/f_ccid.h b/drivers/usb/gadget/function/f_ccid.h
+new file mode 100644
+index 000000000000..f1053ec5c4d9
+--- /dev/null
++++ b/drivers/usb/gadget/function/f_ccid.h
+@@ -0,0 +1,91 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
++ */
++
++#ifndef F_CCID_H
++#define F_CCID_H
++
++#define CCID1_10                0x0110
++#define CCID_DECRIPTOR_TYPE     0x21
++#define ABDATA_SIZE		512
++#define SMART_CARD_DEVICE_CLASS	0x0B
++
++/* CCID Class Specific Request */
++#define CCIDGENERICREQ_ABORT                    0x01
++#define CCIDGENERICREQ_GET_CLOCK_FREQUENCIES    0x02
++#define CCIDGENERICREQ_GET_DATA_RATES           0x03
++
++/* Supported voltages */
++#define CCID_VOLTS_AUTO                             0x00
++#define CCID_VOLTS_5_0                              0x01
++#define CCID_VOLTS_3_0                              0x02
++#define CCID_VOLTS_1_8                              0x03
++
++struct f_ccidg_opts {
++	struct usb_function_instance func_inst;
++	int	minor;
++	__u32	features;
++	__u32	protocols;
++	__u8	pinsupport;
++	__u8	nslots;
++	__u8	lcdlayout;
++
++	/*
++	 * Protect the data form concurrent access by read/write
++	 * and create symlink/remove symlink.
++	 */
++	struct mutex	lock;
++	int		refcnt;
++};
++
++struct ccidg_bulk_in_header {
++	__u8	bMessageType;
++	__le32	wLength;
++	__u8	bSlot;
++	__u8	bSeq;
++	__u8	bStatus;
++	__u8	bError;
++	__u8	bSpecific;
++	__u8	abData[ABDATA_SIZE];
++	__u8	bSizeToSend;
++} __packed;
++
++struct ccidg_bulk_out_header {
++	__u8	 bMessageType;
++	__le32	 wLength;
++	__u8	 bSlot;
++	__u8	 bSeq;
++	__u8	 bSpecific_0;
++	__u8	 bSpecific_1;
++	__u8	 bSpecific_2;
++	__u8	 APDU[ABDATA_SIZE];
++} __packed;
++
++struct ccid_class_descriptor {
++	__u8	bLength;
++	__u8	bDescriptorType;
++	__le16	bcdCCID;
++	__u8	bMaxSlotIndex;
++	__u8	bVoltageSupport;
++	__le32	dwProtocols;
++	__le32	dwDefaultClock;
++	__le32	dwMaximumClock;
++	__u8	bNumClockSupported;
++	__le32	dwDataRate;
++	__le32	dwMaxDataRate;
++	__u8	bNumDataRatesSupported;
++	__le32	dwMaxIFSD;
++	__le32	dwSynchProtocols;
++	__le32	dwMechanical;
++	__le32	dwFeatures;
++	__le32	dwMaxCCIDMessageLength;
++	__u8	bClassGetResponse;
++	__u8	bClassEnvelope;
++	__le16	wLcdLayout;
++	__u8	bPINSupport;
++	__u8	bMaxCCIDBusySlots;
++} __packed;
++
++
++#endif
+diff --git a/include/uapi/linux/usb/ccid.h b/include/uapi/linux/usb/ccid.h
+new file mode 100644
+index 000000000000..517897201563
+--- /dev/null
++++ b/include/uapi/linux/usb/ccid.h
+@@ -0,0 +1,93 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
++ *
++ * This file holds USB constants defined by the CCID Specification.
++ */
++
++#ifndef CCID_H
++#define CCID_H
++
++/* Slot error register when bmCommandStatus = 1 */
++#define CCID_CMD_ABORTED                            0xFF
++#define CCID_ICC_MUTE                               0xFE
++#define CCID_XFR_PARITY_ERROR                       0xFD
++#define CCID_XFR_OVERRUN                            0xFC
++#define CCID_HW_ERROR                               0xFB
++#define CCID_BAD_ATR_TS                             0xF8
++#define CCID_BAD_ATR_TCK                            0xF7
++#define CCID_ICC_PROTOCOL_NOT_SUPPORTED             0xF6
++#define CCID_ICC_CLASS_NOT_SUPPORTED                0xF5
++#define CCID_PROCEDURE_BYTE_CONFLICT                0xF4
++#define CCID_DEACTIVATED_PROTOCOL                   0xF3
++#define CCID_BUSY_WITH_AUTO_SEQUENCE                0xF2
++#define CCID_PIN_TIMEOUT                            0xF0
++#define CCID_PIN_CANCELLED                          0xEF
++#define CCID_CMD_SLOT_BUSY                          0xE0
++
++/* PC to RDR messages (bulk out) */
++#define CCID_PC_TO_RDR_ICCPOWERON                   0x62
++#define CCID_PC_TO_RDR_ICCPOWEROFF                  0x63
++#define CCID_PC_TO_RDR_GETSLOTSTATUS                0x65
++#define CCID_PC_TO_RDR_XFRBLOCK                     0x6F
++#define CCID_PC_TO_RDR_GETPARAMETERS                0x6C
++#define CCID_PC_TO_RDR_RESETPARAMETERS              0x6D
++#define CCID_PC_TO_RDR_SETPARAMETERS                0x61
++#define CCID_PC_TO_RDR_ESCAPE                       0x6B
++#define CCID_PC_TO_RDR_ICCCLOCK                     0x6E
++#define CCID_PC_TO_RDR_T0APDU                       0x6A
++#define CCID_PC_TO_RDR_SECURE                       0x69
++#define CCID_PC_TO_RDR_MECHANICAL                   0x71
++#define CCID_PC_TO_RDR_ABORT                        0x72
++#define CCID_PC_TO_RDR_SETDATARATEANDCLOCKFREQUENCY 0x73
++
++/* RDR to PC messages (bulk in) */
++#define CCID_RDR_TO_PC_DATABLOCK                    0x80
++#define CCID_RDR_TO_PC_SLOTSTATUS                   0x81
++#define CCID_RDR_TO_PC_PARAMETERS                   0x82
++#define CCID_RDR_TO_PC_ESCAPE                       0x83
++#define CCID_RDR_TO_PC_DATARATEANDCLOCKFREQUENCY    0x84
++
++/* Class Features */
++
++/* No special characteristics */
++#define CCID_FEATURES_NADA       0x00000000
++/* Automatic parameter configuration based on ATR data */
++#define CCID_FEATURES_AUTO_PCONF 0x00000002
++/* Automatic activation of ICC on inserting */
++#define CCID_FEATURES_AUTO_ACTIV 0x00000004
++/* Automatic ICC voltage selection */
++#define CCID_FEATURES_AUTO_VOLT  0x00000008
++/* Automatic ICC clock frequency change */
++#define CCID_FEATURES_AUTO_CLOCK 0x00000010
++/* Automatic baud rate change */
++#define CCID_FEATURES_AUTO_BAUD  0x00000020
++/*Automatic parameters negotiation made by the CCID */
++#define CCID_FEATURES_AUTO_PNEGO 0x00000040
++/* Automatic PPS made by the CCID according to the active parameters */
++#define CCID_FEATURES_AUTO_PPS   0x00000080
++/* CCID can set ICC in clock stop mode */
++#define CCID_FEATURES_ICCSTOP    0x00000100
++/* NAD value other than 00 accepted (T=1 protocol in use) */
++#define CCID_FEATURES_NAD        0x00000200
++/* Automatic IFSD exchange as first exchange (T=1 protocol in use) */
++#define CCID_FEATURES_AUTO_IFSD  0x00000400
++/* TPDU level exchanges with CCID */
++#define CCID_FEATURES_EXC_TPDU   0x00010000
++/* Short APDU level exchange with CCID */
++#define CCID_FEATURES_EXC_SAPDU  0x00020000
++/* Short and Extended APDU level exchange with CCID */
++#define CCID_FEATURES_EXC_APDU   0x00040000
++/* USB Wake up signaling supported on card insertion and removal */
++#define CCID_FEATURES_WAKEUP	0x00100000
++
++/* Supported protocols */
++#define CCID_PROTOCOL_NOT_SEL	0x00
++#define CCID_PROTOCOL_T0	0x01
++#define CCID_PROTOCOL_T1	0x02
++
++#define CCID_PINSUPOORT_NONE		0x00
++#define CCID_PINSUPOORT_VERIFICATION	(1 << 1)
++#define CCID_PINSUPOORT_MODIFICATION	(1 << 2)
++
++#endif
+-- 
+2.16.2
 
-But you may not need to - see next comment.
-
->
->> > +
->> > +   /*
->> >      * The packet records the execution range with an exclusive end address
->> >      *
->> >      * A64 instructions are constant size, so the last executed
->> > @@ -505,6 +519,18 @@ static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
->> >     return packet->end_addr - A64_INSTR_SIZE;
->> >  }
->> >
->> > +static inline u64 cs_etm__first_executed_instr(struct cs_etm_packet *packet)
->> > +{
->> > +   /*
->> > +    * The packet is the CS_ETM_TRACE_ON packet if the start_addr is
->> > +    * magic number 0xdeadbeefdeadbeefUL, returns 0 for this case.
->> > +    */
->> > +   if (packet->start_addr == 0xdeadbeefdeadbeefUL)
->> > +           return 0;
->>
->> Same comment as above.
->
-> Will do this.
->
->> > +
->> > +   return packet->start_addr;
->> > +}
->> > +
->> >  static inline u64 cs_etm__instr_count(const struct cs_etm_packet *packet)
->> >  {
->> >     /*
->> > @@ -546,7 +572,7 @@ static void cs_etm__update_last_branch_rb(struct cs_etm_queue *etmq)
->> >
->> >     be       = &bs->entries[etmq->last_branch_pos];
->> >     be->from = cs_etm__last_executed_instr(etmq->prev_packet);
->> > -   be->to   = etmq->packet->start_addr;
->> > +   be->to   = cs_etm__first_executed_instr(etmq->packet);
->> >     /* No support for mispredict */
->> >     be->flags.mispred = 0;
->> >     be->flags.predicted = 1;
->> > @@ -701,7 +727,7 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq)
->> >     sample.ip = cs_etm__last_executed_instr(etmq->prev_packet);
->> >     sample.pid = etmq->pid;
->> >     sample.tid = etmq->tid;
->> > -   sample.addr = etmq->packet->start_addr;
->> > +   sample.addr = cs_etm__first_executed_instr(etmq->packet);
->> >     sample.id = etmq->etm->branches_id;
->> >     sample.stream_id = etmq->etm->branches_id;
->> >     sample.period = 1;
->> > @@ -897,13 +923,28 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
->> >             etmq->period_instructions = instrs_over;
->> >     }
->> >
->> > -   if (etm->sample_branches &&
->> > -       etmq->prev_packet &&
->> > -       etmq->prev_packet->sample_type == CS_ETM_RANGE &&
->> > -       etmq->prev_packet->last_instr_taken_branch) {
->> > -           ret = cs_etm__synth_branch_sample(etmq);
->> > -           if (ret)
->> > -                   return ret;
->> > +   if (etm->sample_branches && etmq->prev_packet) {
->> > +           bool generate_sample = false;
->> > +
->> > +           /* Generate sample for start tracing packet */
->> > +           if (etmq->prev_packet->sample_type == 0 ||
->>
->> What kind of packet is sample_type == 0 ?
->
-> Just as explained above, sample_type == 0 is the packet which
-> initialized in the function cs_etm__alloc_queue().
->
->> > +               etmq->prev_packet->sample_type == CS_ETM_TRACE_ON)
->> > +                   generate_sample = true;
->> > +
->> > +           /* Generate sample for exception packet */
->> > +           if (etmq->prev_packet->exc == true)
->> > +                   generate_sample = true;
->>
->> Please don't do that.  Exception packets have a type of their own and can be
->> added to the decoder packet queue the same way INST_RANGE and TRACE_ON packets
->> are.  Moreover exception packet containt an address that, if I'm reading the
->> documenation properly, can be used to keep track of instructions that were
->> executed between the last address of the previous range packet and the address
->> executed just before the exception occurred.  Mike and Rob will have to confirm
->> this as the decoder may be doing all that hard work for us.
->
-> Sure, will wait for Rob and Mike to confirm for this.
->
-> At my side, I dump the packet, the exception packet isn't passed to
-> cs-etm.c layer, the decoder layer only sets the flag
-> 'packet->exc = true' when exception packet is coming [1].
-
-That's because we didn't need the information.  Now that we do a
-function that will insert a packet in the decoder packet queue and
-deal with the new packet type in the main decoder loop [2].  At that
-point your work may not be eligible for stable anymore and I think it
-is fine.  Robert's work was an enhancement over mine and yours is an
-enhancement over his.
-
-[2]. https://elixir.bootlin.com/linux/v4.17-rc7/source/tools/perf/util/cs-etm.c#L999
-
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c#n364
->
->> > +
->> > +           /* Generate sample for normal branch packet */
->> > +           if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
->> > +               etmq->prev_packet->last_instr_taken_branch)
->> > +                   generate_sample = true;
->> > +
->> > +           if (generate_sample) {
->> > +                   ret = cs_etm__synth_branch_sample(etmq);
->> > +                   if (ret)
->> > +                           return ret;
->> > +           }
->> >     }
->> >
->> >     if (etm->sample_branches || etm->synth_opts.last_branch) {
->> > @@ -922,11 +963,16 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
->> >  static int cs_etm__flush(struct cs_etm_queue *etmq)
->> >  {
->> >     int err = 0;
->> > +   struct cs_etm_auxtrace *etm = etmq->etm;
->> >     struct cs_etm_packet *tmp;
->> >
->> > -   if (etmq->etm->synth_opts.last_branch &&
->> > -       etmq->prev_packet &&
->> > -       etmq->prev_packet->sample_type == CS_ETM_RANGE) {
->> > +   if (!etmq->prev_packet)
->> > +           return 0;
->> > +
->> > +   if (etmq->prev_packet->sample_type != CS_ETM_RANGE)
->> > +           return 0;
->> > +
->> > +   if (etmq->etm->synth_opts.last_branch) {
->>
->> If you add:
->>
->>         if (!etmq->etm->synth_opts.last_branch)
->>                 return 0;
->>
->> You can avoid indenting the whole block.
->
-> No, here we cannot do like this.  Except we need to handle the
-> condition for 'etmq->etm->synth_opts.last_branch', we also need to
-> handle 'etm->sample_branches'.  These two conditions are saperate and
-> decide by different command parameters from 'perf script'.
-
-Pardon me - I didn't see the addition of the new '}' just below.
-
->
->> >             /*
->> >              * Generate a last branch event for the branches left in the
->> >              * circular buffer at the end of the trace.
->> > @@ -939,18 +985,25 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
->> >             err = cs_etm__synth_instruction_sample(
->> >                     etmq, addr,
->> >                     etmq->period_instructions);
->> > +           if (err)
->> > +                   return err;
->> >             etmq->period_instructions = 0;
->> > +   }
->> >
->> > -           /*
->> > -            * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
->> > -            * the next incoming packet.
->> > -            */
->> > -           tmp = etmq->packet;
->> > -           etmq->packet = etmq->prev_packet;
->> > -           etmq->prev_packet = tmp;
->> > +   if (etm->sample_branches) {
->> > +           err = cs_etm__synth_branch_sample(etmq);
->> > +           if (err)
->> > +                   return err;
->> >     }
->> >
->> > -   return err;
->> > +   /*
->> > +    * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
->> > +    * the next incoming packet.
->> > +    */
->> > +   tmp = etmq->packet;
->> > +   etmq->packet = etmq->prev_packet;
->> > +   etmq->prev_packet = tmp;
->>
->> Robert, I remember noticing that when you first submitted the code but forgot to
->> go back to it.  What is the point of swapping the packets?  I understand
->>
->> etmq->prev_packet = etmq->packet;
->>
->> But not
->>
->> etmq->packet = tmp;
->>
->> After all etmq->packet will be clobbered as soon as cs_etm_decoder__get_packet()
->> is called, which is alwasy right after either cs_etm__sample() or
->> cs_etm__flush().
->
-> Yeah, I have the same question for this :)
->
-> Thanks for suggestions and reviewing.
->
->> Thanks,
->> Mathieu
->>
->>
->>
->> > +   return 0;
->> >  }
->> >
->> >  static int cs_etm__run_decoder(struct cs_etm_queue *etmq)
->> > --
->> > 2.7.4
->> >
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
