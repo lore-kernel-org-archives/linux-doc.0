@@ -1,120 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 225167DF87
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 13:13:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D6797D09D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 May 2018 13:34:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934423AbeE2NMq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 May 2018 09:12:46 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:38418 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934273AbeE2NMm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 09:12:42 -0400
-Received: by mail-wr0-f193.google.com with SMTP id 94-v6so25427417wrf.5
-        for <linux-doc@vger.kernel.org>; Tue, 29 May 2018 06:12:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zG2NSpx09U68xnW+SLou28hA+SbbAmjOpxwlt42kit4=;
-        b=JXnQmgK0ul8W+/h0T6cKObmOa5kBAc2QiSpcd/DvER1TXnVHpVzb8p7xRIkl52aeFj
-         HWyW4lonFDF4ydDGOrd+BbowIOOokmH5DZxVSpHshepQn/9dCeTJnqTUP/pAxzFHkHK2
-         ADomPqqXwhJt5b6KsAc0TfZniyUxfp+3k7vQ1n2UJLVyTnhGOR5+C25izXuCFP5R2RqB
-         S4C1lKpf/MGp2YdoheS8dy7+iuJ7PvnxFaaiPrSDOq8z/5GhCH6BJbl2wsQ2uE0serGj
-         KNWxHBLOf9Ar7952QETdV5XJFh+XX8VjmRu/C+VLAqQe9FWMPeRfnqOR78wDsOwBI/kh
-         6mQw==
-X-Gm-Message-State: ALKqPwfnI+9TXLLF0R00zQTb1xrDHI9kmztMy/rQCoRTSqymzn5QFnVY
-        4dP/E8MxWL7h3WKWGgyLrgbsCg==
-X-Google-Smtp-Source: AB8JxZoDwwlNL/7JM27UXX3ngVzYYpGVmSYhDsaDLqd7S46UUffrCfMFnU6K7wnmdudZmZRj5ia7eA==
-X-Received: by 2002:adf:f74c:: with SMTP id z12-v6mr14729705wrp.165.1527599561303;
-        Tue, 29 May 2018 06:12:41 -0700 (PDT)
-Received: from localhost.localdomain ([151.15.207.242])
-        by smtp.gmail.com with ESMTPSA id y68-v6sm63857132wrb.91.2018.05.29.06.12.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 29 May 2018 06:12:40 -0700 (PDT)
-Date:   Tue, 29 May 2018 15:12:38 +0200
-From:   Juri Lelli <juri.lelli@redhat.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        id S933548AbeE2Nc3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 May 2018 09:32:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55462 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S933444AbeE2Nc2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 May 2018 09:32:28 -0400
+Received: from jouet.infradead.org (unknown [179.97.41.186])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE1A62086D;
+        Tue, 29 May 2018 13:32:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1527600748;
+        bh=Vap7I5mWaw1/QfnbGDNWQRpr76t836565DTbXinNMYQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kIXS9FQ+aMzXmxpL1QVKwKvE6nBOTxBQLrj4GlXrWbcnqsYlzre+ekGU9tpSDC65b
+         mBNN5ohtHmwaUYYrPQqHYA0+SPmUHD/dS6Kvayctxfm8KPKWN2+7owbINVSvn9IQB/
+         +/19kQyC1RduDUxn+dgFHIBGx/TOq0BVbjVHWU8M=
+Received: by jouet.infradead.org (Postfix, from userid 1000)
+        id AFD0A1468D9; Tue, 29 May 2018 10:32:24 -0300 (-03)
+Date:   Tue, 29 May 2018 10:32:24 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        Robert Walker <Robert.Walker@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Kim Phillips <kim.phillips@arm.co>,
+        Tor Jeremiassen <tor@ti.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>
-Subject: Re: [PATCH v8 4/6] cpuset: Make generate_sched_domains() recognize
- isolated_cpus
-Message-ID: <20180529131238.GE8985@localhost.localdomain>
-References: <1526590545-3350-1-git-send-email-longman@redhat.com>
- <1526590545-3350-5-git-send-email-longman@redhat.com>
- <20180524102837.GA3948@localhost.localdomain>
- <45d70c88-e9f5-716a-ee9a-33dc111159cc@redhat.com>
- <8e610b98-970c-a309-5821-fc8e6aca892f@redhat.com>
- <20180529062703.GA8985@localhost.localdomain>
- <8164a41b-3218-c618-64a6-52747344c4db@redhat.com>
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        coresight@lists.linaro.org
+Subject: Re: [RFT v3 0/4] Perf script: Add python script for CoreSight trace
+ disassembler
+Message-ID: <20180529133224.GA20886@kernel.org>
+References: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
+ <20180528200326.GJ25467@kernel.org>
+ <CANLsYkzn5qyzjxMiCPQ1GxyNjhHJp-2H6Lds11HP9rG5xug0FA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8164a41b-3218-c618-64a6-52747344c4db@redhat.com>
+In-Reply-To: <CANLsYkzn5qyzjxMiCPQ1GxyNjhHJp-2H6Lds11HP9rG5xug0FA@mail.gmail.com>
+X-Url:  http://acmel.wordpress.com
 User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/05/18 08:40, Waiman Long wrote:
-> On 05/29/2018 02:27 AM, Juri Lelli wrote:
-> > On 28/05/18 21:24, Waiman Long wrote:
-> >> On 05/28/2018 09:12 PM, Waiman Long wrote:
-> >>> On 05/24/2018 06:28 AM, Juri Lelli wrote:
-> >>>> On 17/05/18 16:55, Waiman Long wrote:
-> >>>>
-> >>>> [...]
-> >>>>
-> >>>>> @@ -849,7 +860,12 @@ static void rebuild_sched_domains_locked(void)
-> >>>>>  	 * passing doms with offlined cpu to partition_sched_domains().
-> >>>>>  	 * Anyways, hotplug work item will rebuild sched domains.
-> >>>>>  	 */
-> >>>>> -	if (!cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
-> >>>>> +	if (!top_cpuset.isolation_count &&
-> >>>>> +	    !cpumask_equal(top_cpuset.effective_cpus, cpu_active_mask))
-> >>>>> +		goto out;
-> >>>>> +
-> >>>>> +	if (top_cpuset.isolation_count &&
-> >>>>> +	   !cpumask_subset(top_cpuset.effective_cpus, cpu_active_mask))
-> >>>>>  		goto out;
-> >>>> Do we cover the case in which hotplug removed one of the isolated cpus
-> >>>> from cpu_active_mask?
-> >>> Yes, you are right. That is the remnant of my original patch that allows
-> >>> only one isolated_cpus at root. Thanks for spotting that.
-> >> I am sorry. I would like to take it back my previous comment. The code
-> >> above looks for inconsistency in the state of the effective_cpus mask to
-> >> find out if it is racing with a hotplug event. If it is, we can skip the
-> >> domain generation as the hotplug event will do that too. The checks are
-> >> still valid with the current patchset. So I don't think we need to make
-> >> any change here.
-> > Yes, these checks are valid, but don't we also need to check for hotplug
-> > races w.r.t. isolated CPUs (of some other sub domain)?
+Em Mon, May 28, 2018 at 03:53:42PM -0600, Mathieu Poirier escreveu:
+> On 28 May 2018 at 14:03, Arnaldo Carvalho de Melo <acme@kernel.org> wrote:
+> > Em Mon, May 28, 2018 at 04:44:59PM +0800, Leo Yan escreveu:
+> >> This patch series is to support for using 'perf script' for CoreSight
+> >> trace disassembler, for this purpose this patch series adds a new
+> >> python script to parse CoreSight tracing event and use command 'objdump'
+> >> for disassembled lines, finally this can generate readable program
+> >> execution flow for reviewing tracing data.
+> >>
+> >> Patch 0001 is one fixing patch to generate samples for the start packet
+> >> and exception packets.
+> >>
+> >> Patch 0002 is the prerequisite to add addr into sample dict, so this
+> >> value can be used by python script to analyze instruction range.
+> >>
+> >> Patch 0003 is to add python script for trace disassembler.
+> >>
+> >> Patch 0004 is to add doc to explain python script usage and give
+> >> example for it.
+> >>
+> >> This patch series has been rebased on acme git tree [1] with the commit
+> >> 19422a9f2a3b ("perf tools: Fix kernel_start for PTI on x86") and tested
+> >> on Hikey (ARM64 octa CA53 cores).
+> >
+> > Thanks, applied to perf/core.
 > 
-> It is not actually a race. Both the hotplug event and any changes to cpu
-> lists or flags are serialized by the cpuset_mutex. It is just that we
-> may be doing the same work twice that we are wasting cpu cycles. So we
-> are doing a quick check to avoid this. The check isn't exhaustive and we
-> can certainly miss some cases. Doing a more throughout check may need as
-> much time as doing the sched domain generation itself and so you are
-> actually wasting more CPU cycles on average as the chance of a hotplug
-> event is very low.
+> Please hold off on that Arnaldo - I'm currently reviewing the set and
+> I think some things can be improved.
 
-Fair enough.
+Ok, I dropped all but the one adding sample->addr to the python
+dictionary, that is ok to cherry pick.
 
-Thanks,
-
-- Juri
+- Arnaldo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
