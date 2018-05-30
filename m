@@ -2,28 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF3B87D08C
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 13:47:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E1BE57D08C
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 13:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753302AbeE3Nrr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 09:47:47 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:52314 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752675AbeE3Nrq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 May 2018 09:47:46 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9673A40BC04F;
-        Wed, 30 May 2018 13:47:45 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 91E4B10F1C1B;
-        Wed, 30 May 2018 13:47:42 +0000 (UTC)
-Subject: Re: [PATCH v9 0/7] Enable cpuset controller in default hierarchy
-To:     Juri Lelli <juri.lelli@redhat.com>
+        id S1752726AbeE3Nw4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 09:52:56 -0400
+Received: from mail-wr0-f180.google.com ([209.85.128.180]:42826 "EHLO
+        mail-wr0-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752121AbeE3Nwz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 09:52:55 -0400
+Received: by mail-wr0-f180.google.com with SMTP id w10-v6so29641510wrk.9
+        for <linux-doc@vger.kernel.org>; Wed, 30 May 2018 06:52:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rlyptmL1E/0fi7yivFx7XfPWaZrhYRjsEjqVJuH1lCA=;
+        b=bQdXCQ8o2NZJ40b+6YD33R8PJBnydiNWokh6wu2rGEBKttDIWh0ISC5PgAxTdCculX
+         KL932BGhPjAg+86eNj6XmbKyzs7ayoGLolK1yjqGGUJQFyev+7i9DjooCYVrWGIRoq5Q
+         4q5pn53vjcIFn/cxVjz0zI9FcDrfmBwRymMRpgP24dtfrVEZvD5i35d2/oNWlGC+XVbf
+         15FAy4DnpgGMfPA6nJUY18V8OqGdfVXi6V6C0fM8Rmq4is5y+5r6SDD2IBp1Wdq9HyEq
+         Q7mV1Fk5nOMr6M1mY5D2T2BOecmkSNTMFpGdZpGbhUFtt3+zcDsXQH3CfgqQrscCZ1br
+         abkA==
+X-Gm-Message-State: ALKqPwfdGEk6lpvBpwvSlO/wA/7Slt1qNv6OiJk7v9/7BE2ap10vScmG
+        dcQWhKz+cbAEvKe+kqZQ1nKc1Q==
+X-Google-Smtp-Source: ADUXVKLkhqB77iQa7qXR/eXgEx/9pVG34S9zGi4WlfkvwGN30JeUZjZLLymDNKUheyop925JMFuruQ==
+X-Received: by 2002:adf:be09:: with SMTP id n9-v6mr2330768wrh.267.1527688374281;
+        Wed, 30 May 2018 06:52:54 -0700 (PDT)
+Received: from localhost.localdomain ([151.15.207.242])
+        by smtp.gmail.com with ESMTPSA id x17-v6sm51180320wmd.46.2018.05.30.06.52.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 30 May 2018 06:52:53 -0700 (PDT)
+Date:   Wed, 30 May 2018 15:52:51 +0200
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Waiman Long <longman@redhat.com>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -33,118 +48,30 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
         Roman Gushchin <guro@fb.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v9 0/7] Enable cpuset controller in default hierarchy
+Message-ID: <20180530135251.GE3320@localhost.localdomain>
 References: <1527601294-3444-1-git-send-email-longman@redhat.com>
  <20180530101317.GB3320@localhost.localdomain>
  <d74c67ea-43c9-cabb-4303-ecff008412df@redhat.com>
  <20180530130555.GD3320@localhost.localdomain>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <e42f910a-83b7-0fd2-2c77-05d069441c2f@redhat.com>
-Date:   Wed, 30 May 2018 09:47:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+ <e42f910a-83b7-0fd2-2c77-05d069441c2f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20180530130555.GD3320@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 30 May 2018 13:47:45 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 30 May 2018 13:47:45 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e42f910a-83b7-0fd2-2c77-05d069441c2f@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/30/2018 09:05 AM, Juri Lelli wrote:
-> On 30/05/18 08:56, Waiman Long wrote:
->> On 05/30/2018 06:13 AM, Juri Lelli wrote:
->>> Hi,
->>>
->>> On 29/05/18 09:41, Waiman Long wrote:
->>>> v9:
->>>>  - Rename cpuset.sched.domain to cpuset.sched.domain_root to better
->>>>    identify its purpose as the root of a new scheduling domain or
->>>>    partition.
->>>>  - Clarify in the document about the purpose of domain_root and
->>>>    load_balance. Using domain_root is th only way to create new
->>>>    partition.
->>>>  - Fix a lockdep warning in update_isolated_cpumask() function.
->>>>  - Add a new patch to eliminate call to generate_sched_domains() for
->>>>    v2 when a change in cpu list does not touch a domain_root.
->>> I was playing with this and ended up with the situation below:
->>>
->>>  g1/cgroup.controllers:cpuset
->>>  g1/cgroup.events:populated 0
->>>  g1/cgroup.max.depth:max
->>>  g1/cgroup.max.descendants:max
->>>  g1/cgroup.stat:nr_descendants 1
->>>  g1/cgroup.stat:nr_dying_descendants 0
->>>  g1/cgroup.subtree_control:cpuset
->>>  g1/cgroup.type:domain
->>>  g1/cpuset.cpus:0-5                   <---
->>>  g1/cpuset.cpus.effective:0-5
->>>  g1/cpuset.mems.effective:0-1
->>>  g1/cpuset.sched.domain_root:1        <---
->>>  g1/cpuset.sched.load_balance:1
->>>  g1/cpu.stat:usage_usec 0
->>>  g1/cpu.stat:user_usec 0
->>>  g1/cpu.stat:system_usec 0
->>>  g1/g11/cgroup.events:populated 0
->>>  g1/g11/cgroup.max.descendants:max
->>>  g1/g11/cpu.stat:usage_usec 0
->>>  g1/g11/cpu.stat:user_usec 0
->>>  g1/g11/cpu.stat:system_usec 0
->>>  g1/g11/cgroup.type:domain
->>>  g1/g11/cgroup.stat:nr_descendants 0
->>>  g1/g11/cgroup.stat:nr_dying_descendants 0
->>>  g1/g11/cpuset.cpus.effective:0-5
->>>  g1/g11/cgroup.controllers:cpuset
->>>  g1/g11/cpuset.sched.load_balance:1
->>>  g1/g11/cpuset.mems.effective:0-1
->>>  g1/g11/cpuset.cpus:6-11              <---
->>>  g1/g11/cgroup.max.depth:max
->>>  g1/g11/cpuset.sched.domain_root:0
->>>
->>> Should this be allowed? I was expecting subgroup g11 should be
->>> restricted to a subset of g1's cpus.
->>>
->>> Best,
->>>
->>> - Juri
->> That shouldn't be allowed.The code is probably missing some checks that
->> should have been done. What was the sequence of commands leading to the
->> above configuration?
-> This is a E5-2609 v3 (12 cores) Fedora Server box (with systemd, so
-> first command is needed to be able to use cpuset controller with v2,
-> IIUC):
->
-> # umount /sys/fs/cgroup/cpuset 
-> # cd /sys/fs/cgroup/unified/
-> # echo "+cpuset" >cgroup.subtree_control 
-> # mkdir g1
-> # echo 0-5 >g1/cpuset.cpus
-> # echo 6-11 >init.scope/cpuset.cpus
-> # echo 6-11 >machine.slice/cpuset.cpus
-> # echo 6-11 >system.slice/cpuset.cpus
-> # echo 6-11 >user.slice/cpuset.cpus
-> # echo 1 >g1/cpuset.sched.domain_root 
-> # mkdir g1/g11
-> # echo "+cpuset" > g1/cgroup.subtree_control 
-> # echo 6-11 >g1/g11/cpuset.cpus
-> # grep -R . g1/*
->
-> That should be it. Am I doing something wrong?
->
-> Thanks,
->
-> - Juri
+On 30/05/18 09:47, Waiman Long wrote:
 
+[...]
 
-Yes, it is a bug in the existing code. I have sent out a patch to fix that.
+> Yes, it is a bug in the existing code. I have sent out a patch to fix that.
 
--Longman
-
+Cool, thanks. I'll have a look.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
