@@ -1,240 +1,189 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4C8B47D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 00:56:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 22FCB7D09E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 03:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S967404AbeE3Azl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 May 2018 20:55:41 -0400
-Received: from mail-qt0-f194.google.com ([209.85.216.194]:38521 "EHLO
-        mail-qt0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S964788AbeE3Azk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 20:55:40 -0400
-Received: by mail-qt0-f194.google.com with SMTP id x34-v6so7883318qtk.5;
-        Tue, 29 May 2018 17:55:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=NS2c3W/a1uNk27jowILMKyJBiQfsnB5rOW/kXzr4hU4=;
-        b=HfHIrHNDn9PmET/30y6jcmwg0I7DSyzYpvp0BxId3PLsAP05oCxZa2o9Q+GRqwJhgy
-         ZrqivB9zXPtz24RQuWCp9MwFtZ4aoHHYQSFWMb6JmrnsDn8lph+FCs1ZnX2QcL/US17q
-         y89giIweuZjzFjvP6TpIlPXnBNHgm1r0gCAtJDGXICyxXUtZ44A3gzLohwtFAabQBsfC
-         AKc45ubJDtj0w2sIVHzSt1dOVUW5oaDNKZqohAueuenB63Is6qMY2PuhHeo+W1iFwxlh
-         a/oU8u0Rl+3KU5Fd0z3O5fnR0sPID0LE5Q4cJeH+FlUq7yMbUTFHouI4O0lFlJxYuxAB
-         mFfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=NS2c3W/a1uNk27jowILMKyJBiQfsnB5rOW/kXzr4hU4=;
-        b=TyCuMYPbnvq/RaNKtW44uKH2eMJHxb1cEJ50UnD+NsvSznnTA9eSBPU/jZlDNBcY0V
-         IRQYWLvu80zq4du0AdryQe2YTJ+xOVPt5hfXf/fLHoakqy687pUM80Q70z9CiciovhIh
-         6ni/+8aOd5Sv5dhIXvxh7g94U00UyxJofqBjTHK7VOT2RzEH5KoSZCeg5I9LRd6UJcjK
-         y7MVU6izRS66vEovmouDV8wupWiaFZJH+Tlo6buqOitHRa/g4k8M1I8Ty+GDbAdGj01q
-         eyethUbHaf4E5ibyOib4ypp7sumiLJ+78SWuoddVvXj3Upied3gIAgNypvT2qufsWkiI
-         lEng==
-X-Gm-Message-State: APt69E3rP4V7lVOHV5sxzGRAEh+zQi8ku0Bf8rAC0ylanbYZVJbL7B47
-        PjQq3sHhkwR12o/Jt843TebeAd3Zk0cDx7Drzxc=
-X-Google-Smtp-Source: ADUXVKLPV+A2DKAANyiDdPhpgArNQrLENza8XSRuOSBxnMJopjUcvXySVcJy96JYgJaWBYkmzeOBSKh+BVJHJalUUA4=
-X-Received: by 2002:a0c:8992:: with SMTP id 18-v6mr616447qvr.61.1527641739590;
- Tue, 29 May 2018 17:55:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a0c:9896:0:0:0:0:0 with HTTP; Tue, 29 May 2018 17:55:39
- -0700 (PDT)
-In-Reply-To: <20180529185021.13738-1-marcus.folkesson@gmail.com>
-References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 May 2018 03:55:39 +0300
-Message-ID: <CAHp75VeSbC3QBswCxZpoVpT4cL4pXC5eouCc9YtvBtXG3YddTg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID Gadget Device
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S935517AbeE3DUD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 May 2018 23:20:03 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:54496 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935420AbeE3DUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 May 2018 23:20:01 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id D3BBD60708; Wed, 30 May 2018 03:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527650400;
+        bh=WHrbPoV80t2S9FvOyOnH0c9jo1eUPSwqCm/13BOIp7Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ngfJBkypfZ1OAslviMx+O1+S9fRIJkfK1NEK9tzgI/GmzA8nML+f0zZwUWknWvsyo
+         +ATBGBxwVbl8VKoFxrVFIU3F+6VYKm8NxanyXHaHELYIL0V3CoUPd63ptOHmUSxgCJ
+         D1DDKc/SeAVsZpd5QDWah3qiBMzv80KXp8W8Nqqw=
+Received: from drakthul.qualcomm.com (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: okaya@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 87AD360261;
+        Wed, 30 May 2018 03:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527650398;
+        bh=WHrbPoV80t2S9FvOyOnH0c9jo1eUPSwqCm/13BOIp7Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PytGFCFiGsKg0Hf2cb/wyBH3kY36WX2HoJXRRuMyco+Za2rvhFhYAOf42qkV3tH+B
+         njDXwJwrXBK+C7M+faRPnUoQK1SbIdVsV8Kbd3jzYsB1mBB3GL/qhHpSXKgAmdPfkY
+         IAljWE4esNjNgmKOGw5CyOyuS3AwObvF+pGaOy0c=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 87AD360261
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
+From:   Sinan Kaya <okaya@codeaurora.org>
+To:     linux-pci@vger.kernel.org, timur@codeaurora.org
+Cc:     linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Sinan Kaya <okaya@codeaurora.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Felipe Balbi <balbi@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        USB <linux-usb@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Ingo Molnar <mingo@kernel.org>,
+        Christoffer Dall <cdall@linaro.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Rientjes <rientjes@google.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Keith Busch <keith.busch@intel.com>,
+        Dongdong Liu <liudongdong3@huawei.com>,
+        Frederick Lawler <fred@fredlawl.com>,
+        Oza Pawandeep <poza@codeaurora.org>,
+        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] PCI: Add pci=safemode option
+Date:   Tue, 29 May 2018 23:19:41 -0400
+Message-Id: <1527650389-31575-1-git-send-email-okaya@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 29, 2018 at 9:50 PM, Marcus Folkesson
-<marcus.folkesson@gmail.com> wrote:
-> Chip Card Interface Device (CCID) protocol is a USB protocol that
-> allows a smartcard device to be connected to a computer via a card
-> reader using a standard USB interface, without the need for each manufacturer
-> of smartcards to provide its own reader or protocol.
->
-> This gadget driver makes Linux show up as a CCID device to the host and let a
-> userspace daemon act as the smartcard.
->
-> This is useful when the Linux gadget itself should act as a cryptographic
-> device or forward APDUs to an embedded smartcard device.
+Adding pci=safemode kernel command line parameter to turn off all PCI
+Express service driver as well as all optional PCIe features such as LTR,
+Extended tags, Relaxed Ordering etc.
 
-> + * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
+Also setting MPS configuration to PCIE_BUS_SAFE so that MPS and MRRS can be
+reconfigured with by the kernel in case BIOS hands off a broken
+configuration.
 
-> + *
+Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 ++
+ drivers/pci/pci.c                               | 7 +++++++
+ drivers/pci/pci.h                               | 2 ++
+ drivers/pci/pcie/portdrv_core.c                 | 2 +-
+ drivers/pci/probe.c                             | 6 ++++++
+ 5 files changed, 18 insertions(+), 1 deletion(-)
 
-Redundant line
-
-> +static DEFINE_IDA(ccidg_ida);
-
-Where is it destroyed?
-
-> +               ccidg_class = NULL;
-> +               return PTR_ERR(ccidg_class);
-
-Are you sure?
-
-> +       if (!list_empty(head)) {
-> +               req = list_first_entry(head, struct usb_request, list);
-
-list_first_entry_or_null()
-
-> +       req->length = len;
-
-Perhaps assign this obly if malloc successedeed ?
-
-> +       req->buf = kmalloc(len, GFP_ATOMIC);
-
-> +       if (req->buf == NULL) {
-
-if (!req->buf) ?
-
-> +               usb_ep_free_request(ep, req);
-> +               return ERR_PTR(-ENOMEM);
-> +       }
-
-> +static void ccidg_request_free(struct usb_request *req, struct usb_ep *ep)
-> +{
-
-> +       if (req) {
-
-Is it even possible?
-
-What about
-
-if (!req)
- return;
-
-?
-
-> +               kfree(req->buf);
-> +               usb_ep_free_request(ep, req);
-> +       }
-> +}
-
-> +                       *(__le32 *) req->buf = ccid_class_desc.dwDefaultClock;
-
-Hmm... put_unaligned()? cpu_to_le32()? cpu_to_le32p()?
-
-> +                       *(__le32 *) req->buf = ccid_class_desc.dwDataRate;
-
-Ditto.
-
-> +               }
-> +               }
-
-Indentation.
-
-> +       /* responded with data transfer or status phase? */
-> +       if (ret >= 0) {
-
-Why not
-
-if (ret < 0)
- return ret;
-
-?
-
-> +       }
-> +
-> +       return ret;
-> +}
-
-> +       atomic_set(&ccidg->online, 1);
-> +       return ret;
-
-return 0; ?
-
-> +       struct f_ccidg *ccidg;
-
-> +       ccidg = container_of(inode->i_cdev, struct f_ccidg, cdev);
-
-One line ?
-
-> +       xfer = (req->actual < count) ? req->actual : count;
-
-min_t()
-
-> +       ret = wait_event_interruptible(bulk_dev->write_wq,
-> +               ((req = ccidg_req_get(ccidg, &bulk_dev->tx_idle))));
-> +
-> +       if (ret < 0)
-> +               return -ERESTARTSYS;
-
-Redundant blank line above.
-
-> +static void ccidg_function_free(struct usb_function *f)
-> +{
-
-> +       struct f_ccidg_opts *opts;
-
-> +       opts = container_of(f->fi, struct f_ccidg_opts, func_inst);
-
-One line.
-
-
-> +       mutex_lock(&opts->lock);
-> +       --opts->refcnt;
-
--- will work
-
-> +       mutex_unlock(&opts->lock);
-> +}
-
-> +       struct f_ccidg_opts *opts;
-
-> +       opts = container_of(fi, struct f_ccidg_opts, func_inst);
-
-Perhaps one line ?
-> +       ++opts->refcnt;
-X++ would work as well.
-> +       struct f_ccidg_opts *opts;
-> +
-> +       opts = container_of(f, struct f_ccidg_opts, func_inst);
-
-Perhaps one line?
-
-> +#define CCID_PINSUPOORT_NONE           0x00
-
-(0 << 0)
-
- ?
-
-for sake of consistency
-
-> +#define CCID_PINSUPOORT_VERIFICATION   (1 << 1)
-> +#define CCID_PINSUPOORT_MODIFICATION   (1 << 2)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 641ec9c..247adbb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3153,6 +3153,8 @@
+ 		noari		do not use PCIe ARI.
+ 		noats		[PCIE, Intel-IOMMU, AMD-IOMMU]
+ 				do not use PCIe ATS (and IOMMU device IOTLB).
++		safemode	turns of all optinal PCI features. Useful
++				for bringup/troubleshooting.
+ 		pcie_scan_all	Scan all possible PCIe devices.  Otherwise we
+ 				only look for one device below a PCIe downstream
+ 				port.
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index d27f771..11f0282 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -115,6 +115,9 @@ static bool pcie_ari_disabled;
+ /* If set, the PCIe ATS capability will not be used. */
+ static bool pcie_ats_disabled;
+ 
++/* If set, disables most of the optional PCI features */
++bool pci_safe_mode;
++
+ bool pci_ats_disabled(void)
+ {
+ 	return pcie_ats_disabled;
+@@ -5845,6 +5848,10 @@ static int __init pci_setup(char *str)
+ 		if (*str && (str = pcibios_setup(str)) && *str) {
+ 			if (!strcmp(str, "nomsi")) {
+ 				pci_no_msi();
++			} else if (!strncmp(str, "safemode", 8)) {
++				pr_info("PCI: safe mode with minimum features\n");
++				pci_safe_mode = true;
++				pcie_bus_config = PCIE_BUS_SAFE;
+ 			} else if (!strncmp(str, "noats", 5)) {
+ 				pr_info("PCIe: ATS is disabled\n");
+ 				pcie_ats_disabled = true;
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index c358e7a0..4517bcd 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -8,6 +8,8 @@
+ 
+ extern const unsigned char pcie_link_speed[];
+ 
++extern bool pci_safe_mode;
++
+ bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
+ 
+ /* Functions internal to the PCI core code */
+diff --git a/drivers/pci/pcie/portdrv_core.c b/drivers/pci/pcie/portdrv_core.c
+index a5b3b3a..9fe4ed6 100644
+--- a/drivers/pci/pcie/portdrv_core.c
++++ b/drivers/pci/pcie/portdrv_core.c
+@@ -311,7 +311,7 @@ int pcie_port_device_register(struct pci_dev *dev)
+ 
+ 	/* Get and check PCI Express port services */
+ 	capabilities = get_port_device_capability(dev);
+-	if (!capabilities)
++	if (!capabilities || pci_safe_mode)
+ 		return 0;
+ 
+ 	pci_set_master(dev);
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 3840207..295b79c 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -2047,6 +2047,9 @@ static void pci_configure_device(struct pci_dev *dev)
+ 	struct hotplug_params hpp;
+ 	int ret;
+ 
++	if (pci_safe_mode)
++		return;
++
+ 	pci_configure_mps(dev);
+ 	pci_configure_extended_tags(dev, NULL);
+ 	pci_configure_relaxed_ordering(dev);
+@@ -2213,6 +2216,9 @@ static void pci_init_capabilities(struct pci_dev *dev)
+ 	/* Setup MSI caps & disable MSI/MSI-X interrupts */
+ 	pci_msi_setup_pci_dev(dev);
+ 
++	if (pci_safe_mode)
++		return;
++
+ 	/* Buffers for saving PCIe and PCI-X capabilities */
+ 	pci_allocate_cap_save_buffers(dev);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
