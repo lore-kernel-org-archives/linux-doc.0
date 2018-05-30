@@ -5,341 +5,116 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F78A7D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 09:46:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67E247D085
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 10:13:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965367AbeE3JqA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 05:46:00 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:53190 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965213AbeE3Jp7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 May 2018 05:45:59 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFD341435;
-        Wed, 30 May 2018 02:45:58 -0700 (PDT)
-Received: from [10.33.0.150] (e111474-lin.blackburn.arm.com [10.33.0.150])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 40B823F53D;
-        Wed, 30 May 2018 02:45:56 -0700 (PDT)
-Subject: Re: [RFT v3 1/4] perf cs-etm: Generate branch sample for missed
- packets
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>
-Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, mike.leach@linaro.org,
-        kim.phillips@arm.co, Tor Jeremiassen <tor@ti.com>,
+        id S1751767AbeE3KNY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 06:13:24 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:50419 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751311AbeE3KNV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 06:13:21 -0400
+Received: by mail-wm0-f66.google.com with SMTP id t11-v6so46837467wmt.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 May 2018 03:13:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mqcRbUrhn+rQzXos0FXzsNpb9d0KMqZFiUIE0Bm3pFY=;
+        b=W+PB2XU4q7R2lY5qevJoA7pyDnkd8xrIHnQoVcAcDOWKFYsVj1fTW6RKmvzYgXp2pr
+         s6AaJCkvMaOGGUT6wwpT0nEpKN/WCYmfC6HcZH3T742QQvKdeRnhH3O/ydNuZ0I7XJhs
+         EjqqHpPNawrnhaeG2Clp9LUsNIIuAbG0UAOsUvFnt68dPmG3XJ3X59JX+pBxvulzxIu4
+         gdwsRhGKyjMsYXmRzjaAVvVF2xqGwCFBOG6t5fb/K1m5JrkOBRElsA1nyBTq9UzGcNtI
+         vR31KUDaA5ViARrDHTq+m6aRqHM+GspSyCmXSzjW9sJ0UR+SEokFOlgI8rjwkTZs0Js/
+         1paQ==
+X-Gm-Message-State: ALKqPwe4OXK3iD6M088SLClTSOJQvnocN2rXUDOk+oelRBIZM0aGaxGW
+        FALOvOirQ2WEm28plH272nm8jA==
+X-Google-Smtp-Source: ADUXVKKdMT4fh4NwEWe/ixqoRVokcCyMDmzs/kzISk5Pz7gzvHVPXxyVI3BM72WHEatrdT0T6sCEIw==
+X-Received: by 2002:a1c:c006:: with SMTP id q6-v6mr866434wmf.107.1527675200676;
+        Wed, 30 May 2018 03:13:20 -0700 (PDT)
+Received: from localhost.localdomain ([151.15.207.242])
+        by smtp.gmail.com with ESMTPSA id 131-v6sm24369445wms.34.2018.05.30.03.13.19
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 30 May 2018 03:13:19 -0700 (PDT)
+Date:   Wed, 30 May 2018 12:13:17 +0200
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, coresight@lists.linaro.org
-References: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
- <1527497103-3593-2-git-send-email-leo.yan@linaro.org>
- <20180528221347.GA4109@xps15>
-From:   Robert Walker <robert.walker@arm.com>
-Message-ID: <5efe804f-364b-6ae1-3fca-ec7f6d8a383d@arm.com>
-Date:   Wed, 30 May 2018 10:45:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v9 0/7] Enable cpuset controller in default hierarchy
+Message-ID: <20180530101317.GB3320@localhost.localdomain>
+References: <1527601294-3444-1-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20180528221347.GA4109@xps15>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1527601294-3444-1-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
+On 29/05/18 09:41, Waiman Long wrote:
+> v9:
+>  - Rename cpuset.sched.domain to cpuset.sched.domain_root to better
+>    identify its purpose as the root of a new scheduling domain or
+>    partition.
+>  - Clarify in the document about the purpose of domain_root and
+>    load_balance. Using domain_root is th only way to create new
+>    partition.
+>  - Fix a lockdep warning in update_isolated_cpumask() function.
+>  - Add a new patch to eliminate call to generate_sched_domains() for
+>    v2 when a change in cpu list does not touch a domain_root.
 
-On 28/05/18 23:13, Mathieu Poirier wrote:
-> Leo and/or Robert,
-> 
-> On Mon, May 28, 2018 at 04:45:00PM +0800, Leo Yan wrote:
->> Commit e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight
->> traces") reworks the samples generation flow from CoreSight trace to
->> match the correct format so Perf report tool can display the samples
->> properly.
->>
->> But the change has side effect for branch packet handling, it only
->> generate branch samples by checking previous packet flag
->> 'last_instr_taken_branch' is true, this results in below three kinds
->> packets are missed to generate branch samples:
->>
->> - The start tracing packet at the beginning of tracing data;
->> - The exception handling packet;
->> - If one CS_ETM_TRACE_ON packet is inserted, we also miss to handle it
->>    for branch samples.  CS_ETM_TRACE_ON packet itself can give the info
->>    that there have a discontinuity in the trace, on the other hand we
->>    also miss to generate proper branch sample for packets before and
->>    after CS_ETM_TRACE_ON packet.
->>
->> This patch is to add branch sample handling for up three kinds packets:
->>
->> - In function cs_etm__sample(), check if 'prev_packet->sample_type' is
->>    zero and in this case it generates branch sample for the start tracing
->>    packet; furthermore, we also need to handle the condition for
->>    prev_packet::end_addr is zero in the cs_etm__last_executed_instr();
->>
->> - In function cs_etm__sample(), check if 'prev_packet->exc' is true and
->>    generate branch sample for exception handling packet;
->>
->> - If there has one CS_ETM_TRACE_ON packet is coming, we firstly generate
->>    branch sample in the function cs_etm__flush(), this can save complete
->>    info for the previous CS_ETM_RANGE packet just before CS_ETM_TRACE_ON
->>    packet.  We also generate branch sample for the new CS_ETM_RANGE
->>    packet after CS_ETM_TRACE_ON packet, this have two purposes, the
->>    first one purpose is to save the info for the new CS_ETM_RANGE packet,
->>    the second purpose is to save CS_ETM_TRACE_ON packet info so we can
->>    have hint for a discontinuity in the trace.
->>
->>    For CS_ETM_TRACE_ON packet, its fields 'packet->start_addr' and
->>    'packet->end_addr' equal to 0xdeadbeefdeadbeefUL which are emitted in
->>    the decoder layer as dummy value.  This patch is to convert these
->>    values to zeros for more readable; this is accomplished by functions
->>    cs_etm__last_executed_instr() and cs_etm__first_executed_instr().  The
->>    later one is a new function introduced by this patch.
->>
->> Reviewed-by: Robert Walker <robert.walker@arm.com>
->> Fixes: e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight traces")
->> Signed-off-by: Leo Yan <leo.yan@linaro.org>
->> ---
->>   tools/perf/util/cs-etm.c | 93 +++++++++++++++++++++++++++++++++++++-----------
->>   1 file changed, 73 insertions(+), 20 deletions(-)
->>
->> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
->> index 822ba91..8418173 100644
->> --- a/tools/perf/util/cs-etm.c
->> +++ b/tools/perf/util/cs-etm.c
->> @@ -495,6 +495,20 @@ static inline void cs_etm__reset_last_branch_rb(struct cs_etm_queue *etmq)
->>   static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
->>   {
->>   	/*
->> +	 * The packet is the start tracing packet if the end_addr is zero,
->> +	 * returns 0 for this case.
->> +	 */
->> +	if (!packet->end_addr)
->> +		return 0;
-> 
-> What is considered to be the "start tracing packet"?  Right now the only two
-> kind of packets inserted in the decoder packet buffer queue are INST_RANGE and
-> TRACE_ON.  How can we hit a condition where packet->end-addr == 0?
-> 
-> 
->> +
->> +	/*
->> +	 * The packet is the CS_ETM_TRACE_ON packet if the end_addr is
->> +	 * magic number 0xdeadbeefdeadbeefUL, returns 0 for this case.
->> +	 */
->> +	if (packet->end_addr == 0xdeadbeefdeadbeefUL)
->> +		return 0;
-> 
-> As it is with the above, I find triggering on addresses to be brittle and hard
-> to maintain on the long run.  Packets all have a sample_type field that should
-> be used in cases like this one.  That way we know exactly the condition that is
-> targeted.
-> 
-> While working on this set, please spin-off another patch that defines
-> CS_ETM_INVAL_ADDR 0xdeadbeefdeadbeefUL and replace all the cases where the
-> numeral is used.  That way we stop using the hard coded value.
-> 
->> +
->> +	/*
->>   	 * The packet records the execution range with an exclusive end address
->>   	 *
->>   	 * A64 instructions are constant size, so the last executed
->> @@ -505,6 +519,18 @@ static inline u64 cs_etm__last_executed_instr(struct cs_etm_packet *packet)
->>   	return packet->end_addr - A64_INSTR_SIZE;
->>   }
->>   
->> +static inline u64 cs_etm__first_executed_instr(struct cs_etm_packet *packet)
->> +{
->> +	/*
->> +	 * The packet is the CS_ETM_TRACE_ON packet if the start_addr is
->> +	 * magic number 0xdeadbeefdeadbeefUL, returns 0 for this case.
->> +	 */
->> +	if (packet->start_addr == 0xdeadbeefdeadbeefUL)
->> +		return 0;
-> 
-> Same comment as above.
-> 
->> +
->> +	return packet->start_addr;
->> +}
->> +
->>   static inline u64 cs_etm__instr_count(const struct cs_etm_packet *packet)
->>   {
->>   	/*
->> @@ -546,7 +572,7 @@ static void cs_etm__update_last_branch_rb(struct cs_etm_queue *etmq)
->>   
->>   	be       = &bs->entries[etmq->last_branch_pos];
->>   	be->from = cs_etm__last_executed_instr(etmq->prev_packet);
->> -	be->to	 = etmq->packet->start_addr;
->> +	be->to	 = cs_etm__first_executed_instr(etmq->packet);
->>   	/* No support for mispredict */
->>   	be->flags.mispred = 0;
->>   	be->flags.predicted = 1;
->> @@ -701,7 +727,7 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq)
->>   	sample.ip = cs_etm__last_executed_instr(etmq->prev_packet);
->>   	sample.pid = etmq->pid;
->>   	sample.tid = etmq->tid;
->> -	sample.addr = etmq->packet->start_addr;
->> +	sample.addr = cs_etm__first_executed_instr(etmq->packet);
->>   	sample.id = etmq->etm->branches_id;
->>   	sample.stream_id = etmq->etm->branches_id;
->>   	sample.period = 1;
->> @@ -897,13 +923,28 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
->>   		etmq->period_instructions = instrs_over;
->>   	}
->>   
->> -	if (etm->sample_branches &&
->> -	    etmq->prev_packet &&
->> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE &&
->> -	    etmq->prev_packet->last_instr_taken_branch) {
->> -		ret = cs_etm__synth_branch_sample(etmq);
->> -		if (ret)
->> -			return ret;
->> +	if (etm->sample_branches && etmq->prev_packet) {
->> +		bool generate_sample = false;
->> +
->> +		/* Generate sample for start tracing packet */
->> +		if (etmq->prev_packet->sample_type == 0 ||
-> 
-> What kind of packet is sample_type == 0 ?
-> 
->> +		    etmq->prev_packet->sample_type == CS_ETM_TRACE_ON)
->> +			generate_sample = true;
->> +
->> +		/* Generate sample for exception packet */
->> +		if (etmq->prev_packet->exc == true)
->> +			generate_sample = true;
-> 
-> Please don't do that.  Exception packets have a type of their own and can be
-> added to the decoder packet queue the same way INST_RANGE and TRACE_ON packets
-> are.  Moreover exception packet containt an address that, if I'm reading the
-> documenation properly, can be used to keep track of instructions that were
-> executed between the last address of the previous range packet and the address
-> executed just before the exception occurred.  Mike and Rob will have to confirm
-> this as the decoder may be doing all that hard work for us.
-> 
->> +
->> +		/* Generate sample for normal branch packet */
->> +		if (etmq->prev_packet->sample_type == CS_ETM_RANGE &&
->> +		    etmq->prev_packet->last_instr_taken_branch)
->> +			generate_sample = true;
->> +
->> +		if (generate_sample) {
->> +			ret = cs_etm__synth_branch_sample(etmq);
->> +			if (ret)
->> +				return ret;
->> +		}
->>   	}
->>   
->>   	if (etm->sample_branches || etm->synth_opts.last_branch) {
->> @@ -922,11 +963,16 @@ static int cs_etm__sample(struct cs_etm_queue *etmq)
->>   static int cs_etm__flush(struct cs_etm_queue *etmq)
->>   {
->>   	int err = 0;
->> +	struct cs_etm_auxtrace *etm = etmq->etm;
->>   	struct cs_etm_packet *tmp;
->>   
->> -	if (etmq->etm->synth_opts.last_branch &&
->> -	    etmq->prev_packet &&
->> -	    etmq->prev_packet->sample_type == CS_ETM_RANGE) {
->> +	if (!etmq->prev_packet)
->> +		return 0;
->> +
->> +	if (etmq->prev_packet->sample_type != CS_ETM_RANGE)
->> +		return 0;
->> +
->> +	if (etmq->etm->synth_opts.last_branch) {
-> 
-> If you add:
-> 
->          if (!etmq->etm->synth_opts.last_branch)
->                  return 0;
-> 
-> You can avoid indenting the whole block.
-> 
->>   		/*
->>   		 * Generate a last branch event for the branches left in the
->>   		 * circular buffer at the end of the trace.
->> @@ -939,18 +985,25 @@ static int cs_etm__flush(struct cs_etm_queue *etmq)
->>   		err = cs_etm__synth_instruction_sample(
->>   			etmq, addr,
->>   			etmq->period_instructions);
->> +		if (err)
->> +			return err;
->>   		etmq->period_instructions = 0;
->> +	}
->>   
->> -		/*
->> -		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
->> -		 * the next incoming packet.
->> -		 */
->> -		tmp = etmq->packet;
->> -		etmq->packet = etmq->prev_packet;
->> -		etmq->prev_packet = tmp;
->> +	if (etm->sample_branches) {
->> +		err = cs_etm__synth_branch_sample(etmq);
->> +		if (err)
->> +			return err;
->>   	}
->>   
->> -	return err;
->> +	/*
->> +	 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
->> +	 * the next incoming packet.
->> +	 */
->> +	tmp = etmq->packet;
->> +	etmq->packet = etmq->prev_packet;
->> +	etmq->prev_packet = tmp;
-> 
-> Robert, I remember noticing that when you first submitted the code but forgot to
-> go back to it.  What is the point of swapping the packets?  I understand
-> 
-> etmq->prev_packet = etmq->packet;
-> 
-> But not
-> 
-> etmq->packet = tmp;
-> 
-> After all etmq->packet will be clobbered as soon as cs_etm_decoder__get_packet()
-> is called, which is alwasy right after either cs_etm__sample() or
-> cs_etm__flush().
->
+I was playing with this and ended up with the situation below:
 
-This is code I inherited from the original versions of these patches, 
-but it works because:
-- etmq->packet and etmq->prev_packet are pointers to struct 
-cs_etm_packet allocated by zalloc() in cs_etm__alloc_queue()
-- cs_etm_decoder__get_packet() takes a pointer to struct cs_etm_packet 
-and copies the contents of the first packet from the queue into the 
-passed location with:
-    *packet = decoder->packet_buffer[decoder->head]
+ g1/cgroup.controllers:cpuset
+ g1/cgroup.events:populated 0
+ g1/cgroup.max.depth:max
+ g1/cgroup.max.descendants:max
+ g1/cgroup.stat:nr_descendants 1
+ g1/cgroup.stat:nr_dying_descendants 0
+ g1/cgroup.subtree_control:cpuset
+ g1/cgroup.type:domain
+ g1/cpuset.cpus:0-5                   <---
+ g1/cpuset.cpus.effective:0-5
+ g1/cpuset.mems.effective:0-1
+ g1/cpuset.sched.domain_root:1        <---
+ g1/cpuset.sched.load_balance:1
+ g1/cpu.stat:usage_usec 0
+ g1/cpu.stat:user_usec 0
+ g1/cpu.stat:system_usec 0
+ g1/g11/cgroup.events:populated 0
+ g1/g11/cgroup.max.descendants:max
+ g1/g11/cpu.stat:usage_usec 0
+ g1/g11/cpu.stat:user_usec 0
+ g1/g11/cpu.stat:system_usec 0
+ g1/g11/cgroup.type:domain
+ g1/g11/cgroup.stat:nr_descendants 0
+ g1/g11/cgroup.stat:nr_dying_descendants 0
+ g1/g11/cpuset.cpus.effective:0-5
+ g1/g11/cgroup.controllers:cpuset
+ g1/g11/cpuset.sched.load_balance:1
+ g1/g11/cpuset.mems.effective:0-1
+ g1/g11/cpuset.cpus:6-11              <---
+ g1/g11/cgroup.max.depth:max
+ g1/g11/cpuset.sched.domain_root:0
 
-So the swap code is only swapping the pointers over, not the contents of 
-the packets.
+Should this be allowed? I was expecting subgroup g11 should be
+restricted to a subset of g1's cpus.
 
-Regards
+Best,
 
-Rob
-
-
-> Thanks,
-> Mathieu
->
-> 
-> 
->> +	return 0;
->>   }
->>   
->>   static int cs_etm__run_decoder(struct cs_etm_queue *etmq)
->> -- 
->> 2.7.4
->>
+- Juri
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
