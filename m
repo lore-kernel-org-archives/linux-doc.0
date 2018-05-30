@@ -1,221 +1,280 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A87017D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 15:50:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E94137D085
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 16:23:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932113AbeE3Ptr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 11:49:47 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:37219 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932110AbeE3Ptm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 11:49:42 -0400
-Received: by mail-wr0-f193.google.com with SMTP id i12-v6so30065113wrc.4
-        for <linux-doc@vger.kernel.org>; Wed, 30 May 2018 08:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=BL9FDjS/lmGf0iw6TOwNx7sOazTEHLXdlKIjaLqtkg8=;
-        b=ZsdcXLeIRKmjORiLwkQXhZ3cpVbtVuFumXWCiAU3mlMxMq1qT9ZSp703BNwKa3Qac3
-         eDanLdjTWBkuJBwe2AR1LSgmi8CUGSTXB3TpD3VTOm6C2lEf2/dx0BIhARXSmgZFBAv8
-         U0Qfn62XaVuW6Tn7KcYiNI7J5epv1fH0E8Cvc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BL9FDjS/lmGf0iw6TOwNx7sOazTEHLXdlKIjaLqtkg8=;
-        b=qUUdgumJ9RrxUtNxdgLY9XAb+DHd58wRpQOkw/lhczXI79Xardmk98n5IaeFP9Acf9
-         4EIhLLF1vtRkAY25Vbyj1k4pjva+zAlts1XnkbnFnjJuUACULM+2N9EuJOkE3xuXI52Y
-         PnDJsBWoEtMuhVBKWXkc6DXB3VEDzq+OKD+NBPQp4YR4pICXAZl39aoIxoo5/vy+MS6+
-         TqDlm1ZHR21nLY7TVS9wj4XAJlczGR8E7wI+FDlUB/gD7lAs9/8mY699ThArKdoOOWWP
-         GpL1T2zIunlh9Tr2HypcdIpC7O2RyF7Brz6qWFsXTI/+bv+rixJpYTa5YzW3Rx4GCVuf
-         M/XA==
-X-Gm-Message-State: ALKqPweQOX4vTjXQyNwA/XnMlbY9NLxoFzYPAWnWqETo0nbj8YBntU+M
-        MI1zOheGKLMjqmdgVNu5q7Rsuw==
-X-Google-Smtp-Source: ADUXVKKpTO71YlXZMQDs0Pkp54VZZaKzJjeKgpJYeQ94LPSo7O51KTqeau/DwpXJpfgrU6c1zKj/qQ==
-X-Received: by 2002:adf:9e8c:: with SMTP id a12-v6mr2349669wrf.170.1527695380815;
-        Wed, 30 May 2018 08:49:40 -0700 (PDT)
-Received: from leoy-ThinkPad-X240s ([45.76.138.171])
-        by smtp.gmail.com with ESMTPSA id e7-v6sm35160586wrn.88.2018.05.30.08.49.34
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 30 May 2018 08:49:39 -0700 (PDT)
-Date:   Wed, 30 May 2018 23:49:29 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     Robert Walker <robert.walker@arm.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        id S1752995AbeE3QXg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 12:23:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:9441 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751833AbeE3QXf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 May 2018 12:23:35 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 891841B3441;
+        Wed, 30 May 2018 16:23:34 +0000 (UTC)
+Received: from w520.home (ovpn-116-135.phx2.redhat.com [10.3.116.135])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AEB5B5C20C;
+        Wed, 30 May 2018 16:23:30 +0000 (UTC)
+Date:   Wed, 30 May 2018 10:23:29 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kim Phillips <kim.phillips@arm.co>,
-        Tor Jeremiassen <tor@ti.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, coresight@lists.linaro.org
-Subject: Re: [RFT v3 1/4] perf cs-etm: Generate branch sample for missed
- packets
-Message-ID: <20180530154929.GB10925@leoy-ThinkPad-X240s>
-References: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
- <1527497103-3593-2-git-send-email-leo.yan@linaro.org>
- <20180528221347.GA4109@xps15>
- <5efe804f-364b-6ae1-3fca-ec7f6d8a383d@arm.com>
- <CAJ9a7VhC7EHJ1DtTEH1uERGiBpCJgseboaH0cqgpsU3ZMcgjgQ@mail.gmail.com>
- <20180530153900.GA10925@leoy-ThinkPad-X240s>
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Christoffer Dall <cdall@linaro.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 2/3] PCI: Allow specifying devices using a base bus and
+ path of devfns
+Message-ID: <20180530102329.7423dc57@w520.home>
+In-Reply-To: <20180524214816.14485-3-logang@deltatee.com>
+References: <20180524214816.14485-1-logang@deltatee.com>
+        <20180524214816.14485-3-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180530153900.GA10925@leoy-ThinkPad-X240s>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Wed, 30 May 2018 16:23:34 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 30, 2018 at 11:39:00PM +0800, Leo Yan wrote:
-> Hi Mike,
-> 
-> On Wed, May 30, 2018 at 04:04:34PM +0100, Mike Leach wrote:
-> 
-> [...]
-> 
-> > >>> +               /* Generate sample for exception packet */
-> > >>> +               if (etmq->prev_packet->exc == true)
-> > >>> +                       generate_sample = true;
-> > >>
-> > >>
-> > >> Please don't do that.  Exception packets have a type of their own and can
-> > >> be
-> > >> added to the decoder packet queue the same way INST_RANGE and TRACE_ON
-> > >> packets
-> > >> are.  Moreover exception packet containt an address that, if I'm reading
-> > >> the
-> > >> documenation properly, can be used to keep track of instructions that were
-> > >> executed between the last address of the previous range packet and the
-> > >> address
-> > >> executed just before the exception occurred.  Mike and Rob will have to
-> > >> confirm
-> > >> this as the decoder may be doing all that hard work for us.
-> > >>
-> > 
-> > clarification on the exception packets....
-> > 
-> > The Opencsd output exception packet gives you the exception number,
-> > and optionally the preferred return address. If this address is
-> > present does depend a lot on the underlying protocol - will normally
-> > be there with ETMv4.
-> > Exceptions are marked differently in the underlying protocol - the
-> > OCSD packets abstract away these differences.
-> > 
-> > consider the code:
-> > 
-> > 0x1000: <some instructions>
-> > 0x1100: BR 0x2000
-> > ....
-> > 0x2000: <some instructions>
-> > 0x2020  BZ r4
-> > 
-> > Without an exception this would result in the packets
-> > 
-> > OCSD_RANGE(0x1000,0x1104, Last instr type=Br, taken)   // recall that
-> > range packets have start addr inclusive, end addr exclusive.
-> > OCSD_RANGE(0x2000,0x2024, Last instr type=Br, <taken / not taken -
-> > depends on condition>
-> > 
-> > Now consider an exception occurring before the BR 0x2000
-> > 
-> > this will result in:-
-> > OCSD_RANGE(0x1000, 0x1100, Last instr type=Other)
-> > OCSD_EXECEPTION(IRQ, ret-addr 0x1100)
-> > OCSD_RANGE(IRQ_START, IRQ_END+4, Last instr type = BR, taken)    //
-> > this is more likely to have multiple ranges / branches before any
-> > return, but simplified here.
-> > OCSD_EXCEPTION_RETURN()  // present if exception returns are
-> > explicitly marked in underlying trace - may not always be depending on
-> > circumstances.
-> > OCSD_RANGE(0x1100,0x1104, Last=BR, taken) // continue on with short
-> > range - just the branch
-> > OCSD_RANGE(0x2000,0x2024, Last instr type=Br, <taken / not taken -
-> > depends on condition>
-> > 
-> > Now consider the exception occurring after the BR, but before any
-> > other instructions are executed.
-> > 
-> > OCSD_RANGE(0x1000,0x1104, Last instr type=Br, taken)   // recall that
-> > range packets have start addr inclusive, end addr exclusive.
-> > OCSD_EXECEPTION(IRQ, ret-addr 0x2000)     // here the preferred return
-> > address is actually the target of the branch.
-> > OCSD_RANGE(IRQ_START, IRQ_END+4, Last instr type = BR, taken)    //
-> > this is more likely to have multiple ranges / branches before any
-> > return, but simplified here.
-> > OCSD_RANGE(0x2000,0x2024, Last instr type=Br, <taken / not taken -
-> > depends on condition>
-> > 
-> > So in general it is possible to arrive in the IRQ_START range with the
-> > previous packet having been either a taken branch, a not taken branch,
-> > or not a branch.
-> > Care must be taken - whether AutoFDO or normal trace disassembly not
-> > to assume that having the last range packet as a taken branch means
-> > that the next range packet is the target, if there is an intervening
-> > exception packet.
-> 
-> Thanks a lot for detailed explaination.
-> 
-> IIUC, AutoFDO will not have such issue due every range packet will be
-> handled for it.  On the other hand, as you remind, the branch samples
-> (and its consumer trace disassembler) is very dependent on the flag
-> 'last_instr_taken_branch'.
-> 
-> According to your explaination, I think we consider the branch is
-> taken for below situations:
-> 
-> - The new coming packet is exception packet (both for exception entry
->   and exit packets);
-> - The previous packet is expcetion packet;
-> - The previous packet is normal range packet with
->   'last_instr_taken_branch' = true;
-> 
-> So I'd like to use below function to demonstrate my understanding for
-> exception packets handling.  I also will send out one new patch for
-> support exception packet for reviewing.
-> 
-> If you have concern or I miss anything, please let me know.
-> 
-> static bool cs_etm__is_taken_branch(struct cs_etm_packet *prev_packet,
->                                     struct cs_etm_packet *packet,)
-> {
->         /* The branch is taken for normal range packet with taken branch flag */
->         if (prev_packet->sample_type == CS_ETM_RANGE &&
->             prev_packet->last_instr_taken_branch)
->                 return true;
-> 
->         /* The branch is taken if previous packet is exception packet */
->         if (prev_packet->sample_type == CS_ETM_EXCEPTION ||
->             prev_packet->sample_type == CS_ETM_EXCEPTION_RET)
->                 return true;
-> 
->         /* The branch is taken for an intervening exception packet */
->         if (packet->sample_type == CS_ETM_EXCEPTION ||
->             packet->sample_type == CS_ETM_EXCEPTION_RET)
->                 return true;
-> 
->         return false;
-> }
+On Thu, 24 May 2018 15:48:15 -0600
+Logan Gunthorpe <logang@deltatee.com> wrote:
 
-Just clarify, I missed to mention I introduce two extra sample types:
-CS_ETM_EXCEPTION and CS_ETM_EXCEPTION_RET, one is for exception
-entry packet and another is for exception exit packet.   If this is
-hard for understanding, you could hold on for reveiwing new patch.
+> When specifying PCI devices on the kernel command line using a
+> BDF, the bus numbers can change when adding or replacing a device,
+> changing motherboard firmware, or applying kernel parameters like
+> pci=assign-buses. When this happens, it is usually undesirable to
+> apply whatever command line tweak to the wrong device.
+> 
+> Therefore, it is useful to be able to specify devices with a base
+> bus number and the path of devfns needed to get to it. (Similar to
+> the "device scope" structure in the Intel VT-d spec, Section 8.3.1.)
+> 
+> Thus, we add an option to specify devices in the following format:
+> 
+> path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+> 
+> The path can be any segment within the PCI hierarchy of any length and
+> determined through the use of 'lspci -t'. When specified this way, it is
+> less likely that a renumbered bus will result in a valid device specification
+> and the tweak won't be applied to the wrong device.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Stephen Bates <sbates@raithlin.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  12 ++-
+>  drivers/pci/pci.c                               | 106 +++++++++++++++++++++++-
+>  2 files changed, 112 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 894aa516ceab..519ab95bb418 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2986,9 +2986,10 @@
+>  
+>  				Some options herein operate on a specific device
+>  				or a set of devices (<pci_dev>). These are
+> -				specified in one of two formats:
+> +				specified in one of three formats:
+>  
+>  				[<domain>:]<bus>:<slot>.<func>
+> +				path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+>  				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
+>  
+>  				Note: the first format specifies a PCI
+> @@ -2996,9 +2997,12 @@
+>  				if new hardware is inserted, if motherboard
+>  				firmware changes, or due to changes caused
+>  				by other kernel parameters. The second format
+> -				selects devices using IDs from the
+> -				configuration space which may match multiple
+> -				devices in the system.
+> +				specifies a path from a device through
+> +				a path of multiple slot/function addresses
+> +				(this is more robust against renumbering
+> +				issues). The third format selects devices using
+> +				IDs from the configuration space which may match
+> +				multiple devices in the system.
+>  
+>  		earlydump	[X86] dump PCI config space before the kernel
+>  			        changes anything
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 85fec5e2640b..53ea0d7b02ce 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -184,22 +184,116 @@ EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
+>  #endif
+>  
+>  /**
+> + * pci_dev_str_match_path - test if a path string matches a device
+> + * @dev:    the PCI device to test
+> + * @p:      string to match the device against
+> + * @endptr: pointer to the string after the match
+> + *
+> + * Test if a string (typically from a kernel parameter) formated as a
+> + * path of slot/function addresses matches a PCI device. The string must
+> + * be of the form:
+> + *
+> + *   [<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+> + *
+> + * A path for a device can be obtained using 'lspci -t'. Using a path
+> + * is more robust against renumbering of devices than using only
+> + * a single bus, slot and function address.
+> + *
+> + * Returns 1 if the string matches the device, 0 if it does not and
+> + * a negative error code if it fails to parse the string.
+> + */
+> +static int pci_dev_str_match_path(struct pci_dev *dev, const char *p,
+> +				  const char **endptr)
+> +{
+> +	int ret;
+> +	int seg, bus, slot, func, count;
+> +	u8 *devfn_path;
+> +	int num_devfn = 0;
+> +	struct pci_dev *tmp;
+> +
+> +	ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
+> +		     &func, &count);
+> +	if (ret != 4) {
+> +		seg = 0;
+> +		ret = sscanf(p, "%x:%x.%x%n", &bus, &slot,
+> +			     &func, &count);
+> +		if (ret != 3)
+> +			return -EINVAL;
+> +	}
+> +
+> +	p += count;
+> +
+> +	devfn_path = kmalloc(PAGE_SIZE, GFP_KERNEL);
+> +	devfn_path[num_devfn++] = PCI_DEVFN(slot, func);
+> +
+> +	while (*p && *p != ',' && *p != ';') {
+> +		ret = sscanf(p, "/%x.%x%n", &slot, &func, &count);
+> +		if (ret != 2) {
+> +			ret = -EINVAL;
+> +			goto free_and_exit;
+> +		}
+> +
+> +		p += count;
+> +		devfn_path[num_devfn++] = PCI_DEVFN(slot, func);
+> +		if (num_devfn >= PAGE_SIZE) {
+> +			ret = -EINVAL;
+> +			goto free_and_exit;
+> +		}
+> +	}
+> +
+> +	*endptr = p;
+> +	ret = 0;
+> +
+> +	if (seg != pci_domain_nr(dev->bus))
+> +		goto free_and_exit;
+> +
+> +	pci_dev_get(dev);
+> +	while (num_devfn > 0 && dev) {
+> +		num_devfn--;
+> +
+> +		if (devfn_path[num_devfn] != dev->devfn)
+> +			goto put_and_exit;
+> +
+> +		if (num_devfn == 0 && bus == dev->bus->number) {
+> +			ret = 1;
+> +			goto put_and_exit;
+> +		}
+> +
+> +		tmp = pci_dev_get(pci_upstream_bridge(dev));
+> +		pci_dev_put(dev);
+> +		dev = tmp;
+> +	}
+> +
+> +put_and_exit:
+> +	pci_dev_put(dev);
+> +free_and_exit:
+> +	kfree(devfn_path);
+> +	return ret;
+> +}
 
-Thanks,
-Leo Yan
+I like the idea, but can't we improve the implementation?  It seems
+that we shouldn't need to allocate more than a working copy of the
+original path string.  We can use strrchr() to find the last path
+divider ('/'), match the slot.fn after that to the current devfn, set
+that path divider to null, step to the next upstream device and
+repeat.  Also, since we're working from a downstream device up, I
+suspect we don't need to get and put references at each step, the
+downstream device probably already holds a reference to the upstream
+device for each step along the way.  It would be interesting to adapt
+this to allow specifying a driver_override for a specific device as
+well, I can think of a bunch of vfio users that would prefer that to
+initrd scripts, but I know how much Bjorn loves more commandline
+bloat ;)  Thanks,
+
+Alex
+
+> +
+> +/**
+>   * pci_dev_str_match - test if a string matches a device
+>   * @dev:    the PCI device to test
+>   * @p:      string to match the device against
+>   * @endptr: pointer to the string after the match
+>   *
+>   * Test if a string (typically from a kernel parameter) matches a
+> - * specified. The string may be of one of two forms formats:
+> + * specified. The string may be of one of three formats:
+>   *
+>   *   [<domain>:]<bus>:<slot>.<func>
+> + *   path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+>   *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
+>   *
+>   * The first format specifies a PCI bus/slot/function address which
+>   * may change if new hardware is inserted, if motherboard firmware changes,
+>   * or due to changes caused in kernel parameters.
+>   *
+> - * The second format matches devices using IDs in the configuration
+> + * The second format specifies a PCI bus/slot/function root address and
+> + * a path of slot/function addresses to the specific device from the root.
+> + * The path for a device can be determined through the use of 'lspci -t'.
+> + * This format is more robust against renumbering issues than the first format.
+> +
+> + * The third format matches devices using IDs in the configuration
+>   * space which may match multiple devices in the system. A value of 0
+>   * for any field will match all devices.
+>   *
+> @@ -236,7 +330,15 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
+>  		    (!subsystem_device ||
+>  			    subsystem_device == dev->subsystem_device))
+>  			goto found;
+> +	} else if (strncmp(p, "path:", 5) == 0) {
+> +		/* PCI Root Bus and a path of Slot,Function IDs */
+> +		p += 5;
+>  
+> +		ret = pci_dev_str_match_path(dev, p, &p);
+> +		if (ret < 0)
+> +			return ret;
+> +		else if (ret)
+> +			goto found;
+>  	} else {
+>  		/* PCI Bus,Slot,Function ids are specified */
+>  		ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
