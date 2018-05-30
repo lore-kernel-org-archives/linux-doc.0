@@ -3,33 +3,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA4187D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 04:57:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BB2D97D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 07:37:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933591AbeE3E4V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 00:56:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58792 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932618AbeE3E4T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 May 2018 00:56:19 -0400
-Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 205E820876;
-        Wed, 30 May 2018 04:56:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1527656179;
-        bh=FslhwGVVFMAx2J3IrBcvy4gFLM0mA4FWKLNlBGTg1dE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LVzoHonyGtF326FIsYtjit4ZkjhN9cWv3qS0nQHWwT4rephWU+HZUY//L84myDyyI
-         79ow+yPvcwka6r3LVZZ2qDz9nTxsjjvCn5ySXtZpirSUek35o4IvpMNcKy29TZ5rNZ
-         eSLCSMTL+nOIdreJe6Tb0d9x0DQ4WoZzikFSDNcI=
-Date:   Wed, 30 May 2018 06:55:57 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S935827AbeE3Hhk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 03:37:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59096 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752800AbeE3Hhj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 03:37:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Jck5CPFGVx2BNO1cLwOeEpbgR5XmeSdC6vW9p8yFGr4=; b=Xe2FLlMz8VuCYek2nXYhgwELX
+        MSXhKtXV9bO+LJcTbIpVP/t25dJMC3y7KibnOPSRzdI0IeIg7LSLMSMngI28Rl8zbAn1etFHljGgW
+        OYJCKmxJM4GP5HvUcpuQ2139DFAVqY/z8+Xxhmwz7ivtyQun1OWz/iQjqSk8oebNs/PnOkrupSNdC
+        k3SJt/e0aCQkIBk3yzx1kOF767EopGm86wuN+JmA35Ln6+83Rr9W/lWk9I8Ur0GDm7vgLhc2dq32H
+        JpUdGlJqwymFdyDD2zLSSmAEXMKwVfOtkcmY1cwMfhJSuZNsCP9bc1BlH/5Uj1VlvNO7HUvBzBK8B
+        w9XdoiDNg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fNvfr-000159-N6; Wed, 30 May 2018 07:37:35 +0000
+Date:   Wed, 30 May 2018 00:37:35 -0700
+From:   Christoph Hellwig <hch@infradead.org>
 To:     Sinan Kaya <okaya@codeaurora.org>
-Cc:     linux-pci@vger.kernel.org, timur@codeaurora.org,
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-pci@vger.kernel.org, timur@codeaurora.org,
         linux-arm-msm@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
@@ -53,7 +56,7 @@ Cc:     linux-pci@vger.kernel.org, timur@codeaurora.org,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] PCI: Add pci=safemode option
-Message-ID: <20180530045557.GA26682@kroah.com>
+Message-ID: <20180530073735.GA28793@infradead.org>
 References: <1527650389-31575-1-git-send-email-okaya@codeaurora.org>
  <20180530043103.GA19734@kroah.com>
  <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
@@ -61,81 +64,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, May 29, 2018 at 09:41:33PM -0700, Sinan Kaya wrote:
-> On 5/29/2018 9:31 PM, Greg Kroah-Hartman wrote:
-> > On Tue, May 29, 2018 at 11:19:41PM -0400, Sinan Kaya wrote:
-> >> Adding pci=safemode kernel command line parameter to turn off all PCI
-> >> Express service driver as well as all optional PCIe features such as LTR,
-> >> Extended tags, Relaxed Ordering etc.
-> >>
-> >> Also setting MPS configuration to PCIE_BUS_SAFE so that MPS and MRRS can be
-> >> reconfigured with by the kernel in case BIOS hands off a broken
-> >> configuration.
-> > 
-> > Why not fix the BIOS?  That's what sane platforms do :)
-> > 
-> >>
-> >> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
-> >> ---
-> >>  Documentation/admin-guide/kernel-parameters.txt | 2 ++
-> >>  drivers/pci/pci.c                               | 7 +++++++
-> >>  drivers/pci/pci.h                               | 2 ++
-> >>  drivers/pci/pcie/portdrv_core.c                 | 2 +-
-> >>  drivers/pci/probe.c                             | 6 ++++++
-> >>  5 files changed, 18 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> >> index 641ec9c..247adbb 100644
-> >> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >> @@ -3153,6 +3153,8 @@
-> >>  		noari		do not use PCIe ARI.
-> >>  		noats		[PCIE, Intel-IOMMU, AMD-IOMMU]
-> >>  				do not use PCIe ATS (and IOMMU device IOTLB).
-> >> +		safemode	turns of all optinal PCI features. Useful
-> >> +				for bringup/troubleshooting.
-> > 
-> > s/optinal/optional/ ?
-> 
-> sure.
-> 
-> > 
-> > And you should explain what exactly in PCI is "optional".  Who defines
-> > this and where is that list and what can go wrong if those options are
-> > not enabled?
-> 
 > Bjorn and I discussed the need for such a "safe" mode feature when you
 > want to bring up PCI for a platform. You want to turn off everything as
 > a starter and just stick to bare minimum.
-> 
-> I can add a few words describing them. The goal of this option is to keep
-> base PCI features with MSI only. Things like PME, AER, ASPM, Extended
-> Tags, LTR, Relaxed Ordering, SRIOV are all considered optional. safemode
-> is certainly not intended for production environments. 
 
-Ok, then you should say that here, or somewhere, so that people know
-this.  Otherwise people will see that "hey this lets my hardware boot!"
-and then never change it :(
-
-> I can taint the kernel as a suggestion.
-
-I would not worry about that.
-
-> I defined minimum as just booting a device and to be able to do DMA traffic
-> only with 0 optimization
-
-Ok, again, just document this really well, so that people do not have
-questions and start wondering why their devices barely seem to work.
-
-thanks,
-
-greg k-h
+Can we please make it a config option the instead of adding code
+to every kernel?  Also maybe the bringup should be in the name
+to make this more clear?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
