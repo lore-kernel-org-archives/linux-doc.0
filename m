@@ -5,32 +5,41 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB2D97D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 07:37:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4DDA37D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 07:44:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935827AbeE3Hhk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 03:37:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59096 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752800AbeE3Hhj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 03:37:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Jck5CPFGVx2BNO1cLwOeEpbgR5XmeSdC6vW9p8yFGr4=; b=Xe2FLlMz8VuCYek2nXYhgwELX
-        MSXhKtXV9bO+LJcTbIpVP/t25dJMC3y7KibnOPSRzdI0IeIg7LSLMSMngI28Rl8zbAn1etFHljGgW
-        OYJCKmxJM4GP5HvUcpuQ2139DFAVqY/z8+Xxhmwz7ivtyQun1OWz/iQjqSk8oebNs/PnOkrupSNdC
-        k3SJt/e0aCQkIBk3yzx1kOF767EopGm86wuN+JmA35Ln6+83Rr9W/lWk9I8Ur0GDm7vgLhc2dq32H
-        JpUdGlJqwymFdyDD2zLSSmAEXMKwVfOtkcmY1cwMfhJSuZNsCP9bc1BlH/5Uj1VlvNO7HUvBzBK8B
-        w9XdoiDNg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fNvfr-000159-N6; Wed, 30 May 2018 07:37:35 +0000
-Date:   Wed, 30 May 2018 00:37:35 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Sinan Kaya <okaya@codeaurora.org>
+        id S934903AbeE3Hoc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 03:44:32 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:34378 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752842AbeE3Hob (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 03:44:31 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 7C38A6078C; Wed, 30 May 2018 07:44:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527666270;
+        bh=53nMOEcDiP2M6s+LI/UjbonlWA/YKM/+Ox16DlcVSB8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Yvj8nc70+G3+qaPNLW85zU6t4ehykqUCxRePcFyhGP/zQXbZ5s3OBuyjIKNkqrSaJ
+         oVNJIy6mn3ltd1Kgh2tEyuypnMmzVPuN7KuxfMkKiZiNGTnyB9hJo4ndNMnb3LZQRn
+         eR0cpfTbyB6TDD8Nu6DkjlEmQmFYCIwEqN/nJF40=
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by smtp.codeaurora.org (Postfix) with ESMTP id 3F8826060A;
+        Wed, 30 May 2018 07:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527666269;
+        bh=53nMOEcDiP2M6s+LI/UjbonlWA/YKM/+Ox16DlcVSB8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MSSI6znKfDeB+PusbRvOYWtNwOUUYE9GbBWB7yMxPUDWiV52IWM5vX2wvrKIPnxFo
+         eGCxAEUxTnwaL5GqYSh7QricftXCcUao1Zbigjf1AggBEIhoLAmnfh8NXTq5Tmi2fT
+         adfw2xje1jy7fBcCABoiE19sVwIDTazLxKj/U6+U=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 30 May 2018 00:44:29 -0700
+From:   okaya@codeaurora.org
+To:     Christoph Hellwig <hch@infradead.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-pci@vger.kernel.org, timur@codeaurora.org,
         linux-arm-msm@vger.kernel.org,
@@ -56,29 +65,43 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] PCI: Add pci=safemode option
-Message-ID: <20180530073735.GA28793@infradead.org>
+In-Reply-To: <20180530073735.GA28793@infradead.org>
 References: <1527650389-31575-1-git-send-email-okaya@codeaurora.org>
  <20180530043103.GA19734@kroah.com>
  <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+ <20180530073735.GA28793@infradead.org>
+Message-ID: <6dfe2db8f974d94c9867f30ec83d9333@codeaurora.org>
+X-Sender: okaya@codeaurora.org
+User-Agent: Roundcube Webmail/1.2.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 29, 2018 at 09:41:33PM -0700, Sinan Kaya wrote:
-> Bjorn and I discussed the need for such a "safe" mode feature when you
-> want to bring up PCI for a platform. You want to turn off everything as
-> a starter and just stick to bare minimum.
+On 2018-05-30 00:37, Christoph Hellwig wrote:
+> On Tue, May 29, 2018 at 09:41:33PM -0700, Sinan Kaya wrote:
+>> Bjorn and I discussed the need for such a "safe" mode feature when you
+>> want to bring up PCI for a platform. You want to turn off everything 
+>> as
+>> a starter and just stick to bare minimum.
+> 
+> Can we please make it a config option the instead of adding code
+> to every kernel?  Also maybe the bringup should be in the name
+> to make this more clear?
 
-Can we please make it a config option the instead of adding code
-to every kernel?  Also maybe the bringup should be in the name
-to make this more clear?
+One other requirement was to have a runtime option rather than compile 
+time option.
+
+When someone reported a problem, we wanted to be able to say "use this 
+option and see if system boots" without doing any bisects or 
+recompilation.
+
+This would be the first step in troubleshooting a system to see if 
+fundamental features are working.
+
+I don't mind changing the name
+Bjorn mentioned safe option. I made it safemode. I am looking at Bjorn 
+for suggestions at this moment.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
