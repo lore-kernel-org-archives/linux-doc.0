@@ -1,114 +1,158 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 80DE27D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 14:56:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B8D97D085
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 14:58:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751369AbeE3O4x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 10:56:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33986 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751289AbeE3O4w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 May 2018 10:56:52 -0400
-Received: from localhost (unknown [104.133.8.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1753481AbeE3O5t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 10:57:49 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:44974 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751630AbeE3O5s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 May 2018 10:57:48 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 847E32077B;
-        Wed, 30 May 2018 14:56:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1527692211;
-        bh=yYfxLkDCyuD0noMTskT+mB+YYzn5otXf/JLRbtUXrBQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lvlgvM9VnSSEyrzzhiYlT6lYLmM8mobqIuzjrOC2Tw9gYWFYuO00Bf5TqkK80B1jj
-         Ab8eg1RL6jkmh++tBAMSKo9x7gLCKz4FHiJBBJPde6UNDlg9+1kfmD8iICeKaWCmd2
-         LkGjHUz6d/QDzKUvaaMMJz9KPabir/pkrnMhbmPc=
-Date:   Wed, 30 May 2018 09:56:50 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     okaya@codeaurora.org
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-pci@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Christoffer Dall <cdall@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, timur@codeaurora.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Dongdong Liu <liudongdong3@huawei.com>,
-        David Rientjes <rientjes@google.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        linux-arm-msm@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] PCI: Add pci=safemode option
-Message-ID: <20180530145650.GA39853@bhelgaas-glaptop.roam.corp.google.com>
-References: <1527650389-31575-1-git-send-email-okaya@codeaurora.org>
- <20180530043103.GA19734@kroah.com>
- <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
- <20180530073735.GA28793@infradead.org>
- <6dfe2db8f974d94c9867f30ec83d9333@codeaurora.org>
+        by mx1.redhat.com (Postfix) with ESMTPS id E4636401EF11;
+        Wed, 30 May 2018 14:57:47 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 85B4C20357CA;
+        Wed, 30 May 2018 14:57:46 +0000 (UTC)
+Subject: Re: [PATCH v9 2/7] cpuset: Add new v2 cpuset.sched.domain_root flag
+To:     Juri Lelli <juri.lelli@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <1527601294-3444-1-git-send-email-longman@redhat.com>
+ <1527601294-3444-3-git-send-email-longman@redhat.com>
+ <20180530141804.GG3320@localhost.localdomain>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <044bbb35-fda6-de23-90a3-6b53d4326b5d@redhat.com>
+Date:   Wed, 30 May 2018 10:57:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6dfe2db8f974d94c9867f30ec83d9333@codeaurora.org>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20180530141804.GG3320@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Wed, 30 May 2018 14:57:48 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Wed, 30 May 2018 14:57:48 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 30, 2018 at 12:44:29AM -0700, okaya@codeaurora.org wrote:
-> On 2018-05-30 00:37, Christoph Hellwig wrote:
-> > On Tue, May 29, 2018 at 09:41:33PM -0700, Sinan Kaya wrote:
-> > > Bjorn and I discussed the need for such a "safe" mode feature when you
-> > > want to bring up PCI for a platform. You want to turn off everything
-> > > as
-> > > a starter and just stick to bare minimum.
-> > 
-> > Can we please make it a config option the instead of adding code
-> > to every kernel?  Also maybe the bringup should be in the name
-> > to make this more clear?
-> 
-> One other requirement was to have a runtime option rather than compile time
-> option.
-> 
-> When someone reported a problem, we wanted to be able to say "use this
-> option and see if system boots" without doing any bisects or recompilation.
-> 
-> This would be the first step in troubleshooting a system to see if
-> fundamental features are working.
-> 
-> I don't mind changing the name
-> Bjorn mentioned safe option. I made it safemode. I am looking at Bjorn for
-> suggestions at this moment.
+On 05/30/2018 10:18 AM, Juri Lelli wrote:
+> Hi,
+>
+> On 29/05/18 09:41, Waiman Long wrote:
+>
+> [...]
+>
+>> +  cpuset.sched.domain_root
+>> +	A read-write single value file which exists on non-root
+>> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
+>> +	either "0" (off) or "1" (on).  This flag is set by the parent
+>> +	and is not delegatable.
+>> +
+>> +	If set, it indicates that the current cgroup is the root of a
+>> +	new scheduling domain or partition that comprises itself and
+>> +	all its descendants except those that are scheduling domain
+>> +	roots themselves and their descendants.  The root cgroup is
+>> +	always a scheduling domain root.
+>> +
+>> +	There are constraints on where this flag can be set.  It can
+>> +	only be set in a cgroup if all the following conditions are true.
+>> +
+>> +	1) The "cpuset.cpus" is not empty and the list of CPUs are
+>> +	   exclusive, i.e. they are not shared by any of its siblings.
+>> +	2) The parent cgroup is also a scheduling domain root.
+>> +	3) There is no child cgroups with cpuset enabled.  This is
+>> +	   for eliminating corner cases that have to be handled if such
+>> +	   a condition is allowed.
+>> +
+>> +	Setting this flag will take the CPUs away from the effective
+>> +	CPUs of the parent cgroup.  Once it is set, this flag cannot
+>> +	be cleared if there are any child cgroups with cpuset enabled.
+>> +	Further changes made to "cpuset.cpus" is allowed as long as
+>> +	the first condition above is still true.
+> IIUC, with the configuration below
+>
+>  cpuset.cpus.effective:6-11
+>  cgroup.controllers:cpuset
+>  cpuset.mems.effective:0-1
+>  cgroup.subtree_control:cpuset
+>  g1/cpuset.cpus.effective:0-5
+>  g1/cgroup.controllers:cpuset
+>  g1/cpuset.sched.load_balance:1
+>  g1/cpuset.mems.effective:0-1
+>  g1/cpuset.cpus:0-5
+>  g1/cpuset.sched.domain_root:1
+>  user.slice/cpuset.cpus.effective:6-11
+>  user.slice/cgroup.controllers:cpuset
+>  user.slice/cpuset.sched.load_balance:1
+>  user.slice/cpuset.mems.effective:0-1
+>  user.slice/cpuset.cpus:6-11
+>  user.slice/cpuset.sched.domain_root:0
+>  init.scope/cpuset.cpus.effective:6-11
+>  init.scope/cgroup.controllers:cpuset
+>  init.scope/cpuset.sched.load_balance:1
+>  init.scope/cpuset.mems.effective:0-1
+>  init.scope/cpuset.cpus:6-11
+>  init.scope/cpuset.sched.domain_root:0
+>  system.slice/cpuset.cpus.effective:6-11
+>  system.slice/cgroup.controllers:cpuset
+>  system.slice/cpuset.sched.load_balance:1
+>  system.slice/cpuset.mems.effective:0-1
+>  system.slice/cpuset.cpus:6-11
+>  system.slice/cpuset.sched.domain_root:0
+>  machine.slice/cpuset.cpus.effective:6-11
+>  machine.slice/cgroup.controllers:cpuset
+>  machine.slice/cpuset.sched.load_balance:1
+>  machine.slice/cpuset.mems.effective:0-1
+>  machine.slice/cpuset.cpus:6-11
+>  machine.slice/cpuset.sched.domain_root:0
+>
+> I should be able to
+>
+>  # echo 0-4 >g1/cpuset.cpus
+>
+> ?
+>
+> It doesn't let me.
 
-This *was* my idea, but I'm starting to think it was a bad idea.
+It should allow that. I will fix this issue.
 
-I don't want people to use pci= parameters as the normal way to get a
-system to boot.  That would be a huge support hassle (putting things
-in release notes, diagnosing problems when people forget it, etc).
+>
+> I'm not sure we actually want to allow that, but that's what would I
+> expect as per your text above.
+>
+> Thanks,
+>
+> - Juri
+>
+> BTW: thanks a lot for your prompt feedback and hope it's OK if I keep
+> playing and asking questions. :)
 
-But the parameters *are* useful for debugging.  If we had a
-"pci=safemode" and it avoided some problem, the next step would be to
-narrow it down by using the more specific flags (pci=nomsi, pci=noari,
-pci=no_ext_tags, etc).  So I think 95% of the value is in the specific
-flags, and a "pci=safemode" might add a little bit of value but at the
-cost of a small but nagging maintenance concern and code clutter.
+Of course. I appreciate your help in looking for issue in the patch that
+I might have overlooked.
 
-Bjorn
+Thanks,
+Longman
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
