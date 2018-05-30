@@ -5,108 +5,212 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C67127D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 15:28:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 342987D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 15:39:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753722AbeE3P2t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 11:28:49 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:52440 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753293AbeE3P2r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 11:28:47 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id D05366063F; Wed, 30 May 2018 15:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527694126;
-        bh=RkVT45p+OiOLLtk2DfC8yR0tNkvQ+jZddxKGv7G3Ju4=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=a+Di5js8EFfpXgs271OwSZhF+pxZ8dFH4SPFRX+Aqk8fjzda204e4rG98kqGPum9Q
-         H4RTcUWRcuZXQDu2ThGwwq89p8gnqZk42ngubgfdHlSbId3xswpwgPDpv2KeAQ3LY/
-         Np2W/aBywG8nJS3PYcOUZcuQlMYsrDZEyI6jCabQ=
-Received: from [10.235.228.150] (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: okaya@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E9A5660452;
-        Wed, 30 May 2018 15:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527694125;
-        bh=RkVT45p+OiOLLtk2DfC8yR0tNkvQ+jZddxKGv7G3Ju4=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=bntbCM05Dy+R0MUx34nosHPtXd3Qa4jDktwXwEOMM3JTxtGdLNPM3caJpaxoh5Z/g
-         VWTMfqm7PGivWD74BT/grdG65h2njf9s2OMjphk29WYmY1aar/fN1Z+FknTtNR+2XD
-         xVWJAFRO0L4bdu8oy77PDYsT2Y8j0klMKoTUtbzw=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E9A5660452
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
-Subject: Re: [PATCH] PCI: Add pci=safemode option
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-pci@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Christoffer Dall <cdall@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, timur@codeaurora.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Dongdong Liu <liudongdong3@huawei.com>,
-        David Rientjes <rientjes@google.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        linux-arm-msm@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <1527650389-31575-1-git-send-email-okaya@codeaurora.org>
- <20180530043103.GA19734@kroah.com>
- <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
- <20180530073735.GA28793@infradead.org>
- <6dfe2db8f974d94c9867f30ec83d9333@codeaurora.org>
- <20180530145650.GA39853@bhelgaas-glaptop.roam.corp.google.com>
-From:   Sinan Kaya <okaya@codeaurora.org>
-Message-ID: <2a5281cd-a0c7-1449-5b72-133660667fa6@codeaurora.org>
-Date:   Wed, 30 May 2018 11:28:42 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1751548AbeE3PjN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 11:39:13 -0400
+Received: from mail-wr0-f195.google.com ([209.85.128.195]:38034 "EHLO
+        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751191AbeE3PjM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 11:39:12 -0400
+Received: by mail-wr0-f195.google.com with SMTP id 94-v6so29983130wrf.5
+        for <linux-doc@vger.kernel.org>; Wed, 30 May 2018 08:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=83SF39gN8SLb60HWUO+0v3CUhEplNZcl8u4wJQYYmGQ=;
+        b=bCo9hfqiCiOau0IDzHCTXNNKNp8Jx1X/WETAWysXPF3Py4qmdqB+a5jcLjpaXFfd+E
+         zLmV+uhkusFFUAti2AxWXRL1RTfvj+7VfPfM3wdHnEHwz3ndZBE16KOnb/bVYvOEV6vq
+         y1HcHcMmaOOo/glLvfXHYEiJjo2otuMvLh34w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=83SF39gN8SLb60HWUO+0v3CUhEplNZcl8u4wJQYYmGQ=;
+        b=d77Fttq4V63Gy7UNUlqlmeEpab6zaA0dYHPhGDtB0oyScJ1L0VZT0RtiANvU5eGoaG
+         QxtUbfDa0o5jG4pqURiGUlKY7MFLI26J+AESSb3EO0ynWf3cc8GVePofPJspnMFLpxph
+         Yo76rCgGqEXfDuvh1FohAOSN5JDDnx94koOKK1EMl+9+SK5oCZ0AzgfTTFCS7BNN5Un+
+         o5LUGKqkk7dHnGEhYnkgbXkEqK0jy51PawkvmCdXYAVKUr4/vl4Fp0nXfrxZbl+x3AnF
+         wjbRJEX9NlS678Mm+zlzZNPI+wu1UFNAoCIcdZPkzhFu2mgWW4M6wBZYcw0i2H0ieHsN
+         +Tiw==
+X-Gm-Message-State: ALKqPwekSQfAGI43rWBuVianEQcsGXL03GMinzJ1K48gAU/btY5remcU
+        +Y14Z7k0cWrf5qkquHxujdr8RA==
+X-Google-Smtp-Source: ADUXVKKi5z43brymsUzHwGVm0pnixYV8O22mejDuwd6OWRhOyKC5C+2wxz5zQnCKyhpFAO9Z//LHUg==
+X-Received: by 2002:adf:9246:: with SMTP id 64-v6mr2732375wrj.90.1527694751261;
+        Wed, 30 May 2018 08:39:11 -0700 (PDT)
+Received: from leoy-ThinkPad-X240s ([45.76.138.171])
+        by smtp.gmail.com with ESMTPSA id h81-v6sm34113458wmd.0.2018.05.30.08.39.04
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 May 2018 08:39:09 -0700 (PDT)
+Date:   Wed, 30 May 2018 23:39:00 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     Robert Walker <robert.walker@arm.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kim Phillips <kim.phillips@arm.co>,
+        Tor Jeremiassen <tor@ti.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, coresight@lists.linaro.org
+Subject: Re: [RFT v3 1/4] perf cs-etm: Generate branch sample for missed
+ packets
+Message-ID: <20180530153900.GA10925@leoy-ThinkPad-X240s>
+References: <1527497103-3593-1-git-send-email-leo.yan@linaro.org>
+ <1527497103-3593-2-git-send-email-leo.yan@linaro.org>
+ <20180528221347.GA4109@xps15>
+ <5efe804f-364b-6ae1-3fca-ec7f6d8a383d@arm.com>
+ <CAJ9a7VhC7EHJ1DtTEH1uERGiBpCJgseboaH0cqgpsU3ZMcgjgQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20180530145650.GA39853@bhelgaas-glaptop.roam.corp.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ9a7VhC7EHJ1DtTEH1uERGiBpCJgseboaH0cqgpsU3ZMcgjgQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/30/2018 10:56 AM, Bjorn Helgaas wrote:
-> This *was* my idea, but I'm starting to think it was a bad idea.
-> 
-> I don't want people to use pci= parameters as the normal way to get a
-> system to boot.  That would be a huge support hassle (putting things
-> in release notes, diagnosing problems when people forget it, etc).
-> 
-> But the parameters *are* useful for debugging.  If we had a
-> "pci=safemode" and it avoided some problem, the next step would be to
-> narrow it down by using the more specific flags (pci=nomsi, pci=noari,
-> pci=no_ext_tags, etc).  So I think 95% of the value is in the specific
-> flags, and a "pci=safemode" might add a little bit of value but at the
-> cost of a small but nagging maintenance concern and code clutter.
+Hi Mike,
 
-OK. Let's try noXYZ feature. Can you enumerate the XYZ features that you
-want to see?
+On Wed, May 30, 2018 at 04:04:34PM +0100, Mike Leach wrote:
 
--- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+[...]
+
+> >>> +               /* Generate sample for exception packet */
+> >>> +               if (etmq->prev_packet->exc == true)
+> >>> +                       generate_sample = true;
+> >>
+> >>
+> >> Please don't do that.  Exception packets have a type of their own and can
+> >> be
+> >> added to the decoder packet queue the same way INST_RANGE and TRACE_ON
+> >> packets
+> >> are.  Moreover exception packet containt an address that, if I'm reading
+> >> the
+> >> documenation properly, can be used to keep track of instructions that were
+> >> executed between the last address of the previous range packet and the
+> >> address
+> >> executed just before the exception occurred.  Mike and Rob will have to
+> >> confirm
+> >> this as the decoder may be doing all that hard work for us.
+> >>
+> 
+> clarification on the exception packets....
+> 
+> The Opencsd output exception packet gives you the exception number,
+> and optionally the preferred return address. If this address is
+> present does depend a lot on the underlying protocol - will normally
+> be there with ETMv4.
+> Exceptions are marked differently in the underlying protocol - the
+> OCSD packets abstract away these differences.
+> 
+> consider the code:
+> 
+> 0x1000: <some instructions>
+> 0x1100: BR 0x2000
+> ....
+> 0x2000: <some instructions>
+> 0x2020  BZ r4
+> 
+> Without an exception this would result in the packets
+> 
+> OCSD_RANGE(0x1000,0x1104, Last instr type=Br, taken)   // recall that
+> range packets have start addr inclusive, end addr exclusive.
+> OCSD_RANGE(0x2000,0x2024, Last instr type=Br, <taken / not taken -
+> depends on condition>
+> 
+> Now consider an exception occurring before the BR 0x2000
+> 
+> this will result in:-
+> OCSD_RANGE(0x1000, 0x1100, Last instr type=Other)
+> OCSD_EXECEPTION(IRQ, ret-addr 0x1100)
+> OCSD_RANGE(IRQ_START, IRQ_END+4, Last instr type = BR, taken)    //
+> this is more likely to have multiple ranges / branches before any
+> return, but simplified here.
+> OCSD_EXCEPTION_RETURN()  // present if exception returns are
+> explicitly marked in underlying trace - may not always be depending on
+> circumstances.
+> OCSD_RANGE(0x1100,0x1104, Last=BR, taken) // continue on with short
+> range - just the branch
+> OCSD_RANGE(0x2000,0x2024, Last instr type=Br, <taken / not taken -
+> depends on condition>
+> 
+> Now consider the exception occurring after the BR, but before any
+> other instructions are executed.
+> 
+> OCSD_RANGE(0x1000,0x1104, Last instr type=Br, taken)   // recall that
+> range packets have start addr inclusive, end addr exclusive.
+> OCSD_EXECEPTION(IRQ, ret-addr 0x2000)     // here the preferred return
+> address is actually the target of the branch.
+> OCSD_RANGE(IRQ_START, IRQ_END+4, Last instr type = BR, taken)    //
+> this is more likely to have multiple ranges / branches before any
+> return, but simplified here.
+> OCSD_RANGE(0x2000,0x2024, Last instr type=Br, <taken / not taken -
+> depends on condition>
+> 
+> So in general it is possible to arrive in the IRQ_START range with the
+> previous packet having been either a taken branch, a not taken branch,
+> or not a branch.
+> Care must be taken - whether AutoFDO or normal trace disassembly not
+> to assume that having the last range packet as a taken branch means
+> that the next range packet is the target, if there is an intervening
+> exception packet.
+
+Thanks a lot for detailed explaination.
+
+IIUC, AutoFDO will not have such issue due every range packet will be
+handled for it.  On the other hand, as you remind, the branch samples
+(and its consumer trace disassembler) is very dependent on the flag
+'last_instr_taken_branch'.
+
+According to your explaination, I think we consider the branch is
+taken for below situations:
+
+- The new coming packet is exception packet (both for exception entry
+  and exit packets);
+- The previous packet is expcetion packet;
+- The previous packet is normal range packet with
+  'last_instr_taken_branch' = true;
+
+So I'd like to use below function to demonstrate my understanding for
+exception packets handling.  I also will send out one new patch for
+support exception packet for reviewing.
+
+If you have concern or I miss anything, please let me know.
+
+static bool cs_etm__is_taken_branch(struct cs_etm_packet *prev_packet,
+                                    struct cs_etm_packet *packet,)
+{
+        /* The branch is taken for normal range packet with taken branch flag */
+        if (prev_packet->sample_type == CS_ETM_RANGE &&
+            prev_packet->last_instr_taken_branch)
+                return true;
+
+        /* The branch is taken if previous packet is exception packet */
+        if (prev_packet->sample_type == CS_ETM_EXCEPTION ||
+            prev_packet->sample_type == CS_ETM_EXCEPTION_RET)
+                return true;
+
+        /* The branch is taken for an intervening exception packet */
+        if (packet->sample_type == CS_ETM_EXCEPTION ||
+            packet->sample_type == CS_ETM_EXCEPTION_RET)
+                return true;
+
+        return false;
+}
+
+[...]
+
+Thanks,
+Leo Yan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
