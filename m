@@ -5,38 +5,38 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E1BE57D08C
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 13:52:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7790A7D08C
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 14:00:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752726AbeE3Nw4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 09:52:56 -0400
-Received: from mail-wr0-f180.google.com ([209.85.128.180]:42826 "EHLO
-        mail-wr0-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752121AbeE3Nwz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 09:52:55 -0400
-Received: by mail-wr0-f180.google.com with SMTP id w10-v6so29641510wrk.9
-        for <linux-doc@vger.kernel.org>; Wed, 30 May 2018 06:52:54 -0700 (PDT)
+        id S1753330AbeE3OAc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 10:00:32 -0400
+Received: from mail-wr0-f194.google.com ([209.85.128.194]:45711 "EHLO
+        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752784AbeE3OAa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 10:00:30 -0400
+Received: by mail-wr0-f194.google.com with SMTP id w3-v6so29636264wrl.12
+        for <linux-doc@vger.kernel.org>; Wed, 30 May 2018 07:00:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rlyptmL1E/0fi7yivFx7XfPWaZrhYRjsEjqVJuH1lCA=;
-        b=bQdXCQ8o2NZJ40b+6YD33R8PJBnydiNWokh6wu2rGEBKttDIWh0ISC5PgAxTdCculX
-         KL932BGhPjAg+86eNj6XmbKyzs7ayoGLolK1yjqGGUJQFyev+7i9DjooCYVrWGIRoq5Q
-         4q5pn53vjcIFn/cxVjz0zI9FcDrfmBwRymMRpgP24dtfrVEZvD5i35d2/oNWlGC+XVbf
-         15FAy4DnpgGMfPA6nJUY18V8OqGdfVXi6V6C0fM8Rmq4is5y+5r6SDD2IBp1Wdq9HyEq
-         Q7mV1Fk5nOMr6M1mY5D2T2BOecmkSNTMFpGdZpGbhUFtt3+zcDsXQH3CfgqQrscCZ1br
-         abkA==
-X-Gm-Message-State: ALKqPwfdGEk6lpvBpwvSlO/wA/7Slt1qNv6OiJk7v9/7BE2ap10vScmG
-        dcQWhKz+cbAEvKe+kqZQ1nKc1Q==
-X-Google-Smtp-Source: ADUXVKLkhqB77iQa7qXR/eXgEx/9pVG34S9zGi4WlfkvwGN30JeUZjZLLymDNKUheyop925JMFuruQ==
-X-Received: by 2002:adf:be09:: with SMTP id n9-v6mr2330768wrh.267.1527688374281;
-        Wed, 30 May 2018 06:52:54 -0700 (PDT)
+        bh=6o4B/aKiSCT++xp+skqVtpMW8FA3FCDUvV6yv1CbUd0=;
+        b=IsBGpRHDxbkcCKYak1gL3ehCKJKAJ4julnRESlR6nDwtJ7GwB9EA0pzfx2CD8Kn2Ps
+         DoxOgVURcqr3o2e7jX7PlWUnobfiVdP9RvMLdTONBDP/C/JEZaxwO7P2t7JJA+3T0Qbu
+         DQieE9capYthZMDYjaShpJ11AQN07QUJhr8KnduTxomJsoiT0DwFM7rz5MnSitsGXvYF
+         OZK4MkUL5BMzgg+4hZwxcvJBEOmbNDzc4yVfLueQEg6bMyS7nn+pTutlzmU/p5kOiFTb
+         MbzE4NPLZtk0LTVuYDAh+dTDL0wHeihBL+V6yahsJ/GMpBePald56WTrAjaNyLAdUd7w
+         rJmg==
+X-Gm-Message-State: ALKqPwf3jnoFtHFOQ/9gKigL3R4VdH/MajG5L1x+qUEtdH0XLzQWQ8wF
+        eDjTrJJ2xbaTlW9iiedDwxJPIg==
+X-Google-Smtp-Source: ADUXVKIniajK8YWwnRZ4dgIXKWk7pG0eH7DhSUUCmOPt2Bv+bJ++Dee1w1wWYGBhiVH5eb097ue6uA==
+X-Received: by 2002:adf:e20b:: with SMTP id j11-v6mr2273032wri.205.1527688829638;
+        Wed, 30 May 2018 07:00:29 -0700 (PDT)
 Received: from localhost.localdomain ([151.15.207.242])
-        by smtp.gmail.com with ESMTPSA id x17-v6sm51180320wmd.46.2018.05.30.06.52.52
+        by smtp.gmail.com with ESMTPSA id a14-v6sm48953214wra.84.2018.05.30.07.00.28
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 30 May 2018 06:52:53 -0700 (PDT)
-Date:   Wed, 30 May 2018 15:52:51 +0200
+        Wed, 30 May 2018 07:00:29 -0700 (PDT)
+Date:   Wed, 30 May 2018 16:00:21 +0200
 From:   Juri Lelli <juri.lelli@redhat.com>
 To:     Waiman Long <longman@redhat.com>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
@@ -48,30 +48,54 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
         Roman Gushchin <guro@fb.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v9 0/7] Enable cpuset controller in default hierarchy
-Message-ID: <20180530135251.GE3320@localhost.localdomain>
-References: <1527601294-3444-1-git-send-email-longman@redhat.com>
- <20180530101317.GB3320@localhost.localdomain>
- <d74c67ea-43c9-cabb-4303-ecff008412df@redhat.com>
- <20180530130555.GD3320@localhost.localdomain>
- <e42f910a-83b7-0fd2-2c77-05d069441c2f@redhat.com>
+Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
+ the parent
+Message-ID: <20180530140021.GF3320@localhost.localdomain>
+References: <1527687991-1431-1-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e42f910a-83b7-0fd2-2c77-05d069441c2f@redhat.com>
+In-Reply-To: <1527687991-1431-1-git-send-email-longman@redhat.com>
 User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30/05/18 09:47, Waiman Long wrote:
+Hi,
 
-[...]
+On 30/05/18 09:46, Waiman Long wrote:
+> It was found that the cpuset.cpus could contain CPUs that are not listed
+> in their parent's cpu list as shown by the command sequence below:
+> 
+>   # echo "+cpuset" >cgroup.subtree_control
+>   # mkdir g1
+>   # echo 0-5 >g1/cpuset.cpus
+>   # mkdir g1/g11
+>   # echo "+cpuset" > g1/cgroup.subtree_control
+>   # echo 6-11 >g1/g11/cpuset.cpus
+>   # grep -R . g1 | grep "\.cpus"
+>   g1/cpuset.cpus:0-5
+>   g1/cpuset.cpus.effective:0-5
+>   g1/g11/cpuset.cpus:6-11
+>   g1/g11/cpuset.cpus.effective:0-5
+> 
+> As the intersection of g11's cpus and that of g1 is empty, the effective
+> cpus of g11 is just that of g1. The check in update_cpumask() is now
+> corrected to make sure that cpus in a child cpus must be a subset of
+> its parent's cpus. The error "write error: Invalid argument" will now
+> be reported in the above case.
+> 
+> Reported-by: Juri Lelli <juri.lelli@redhat.com>
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-> Yes, it is a bug in the existing code. I have sent out a patch to fix that.
+Looks like it fixes the bug.
 
-Cool, thanks. I'll have a look.
+Reviewed-and-Tested-by: Juri Lelli <juri.lelli@redhat.com>
+
+Thanks,
+
+- Juri
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
