@@ -1,120 +1,347 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-1.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67E247D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 10:13:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 342CE7DF87
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 11:25:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751767AbeE3KNY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 06:13:24 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:50419 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751311AbeE3KNV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 06:13:21 -0400
-Received: by mail-wm0-f66.google.com with SMTP id t11-v6so46837467wmt.0
-        for <linux-doc@vger.kernel.org>; Wed, 30 May 2018 03:13:21 -0700 (PDT)
+        id S1753306AbeE3LZJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 07:25:09 -0400
+Received: from mail-lf0-f67.google.com ([209.85.215.67]:34777 "EHLO
+        mail-lf0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753014AbeE3LZE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 07:25:04 -0400
+Received: by mail-lf0-f67.google.com with SMTP id o9-v6so3699877lfk.1;
+        Wed, 30 May 2018 04:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ALuiFv0PsEleyozOUiMAA5+MPdEUWnJzMx4iw1EbhwM=;
+        b=lML1GNmDfQqjsVHy4rKon5KjC7DMTxIzhlIvaZUWsVq76Qj4Zkc1tvEroaKHwjYf5b
+         GJcJjOtPzc75/ASjE9SsnssFMfrPKQXu4gkxA3M8qEjYlo8nPt1OVlyR8AvjFEucXHxK
+         MLpTNxRHCnt4v1Tj2MS+mPieY4YR+yduyMT1ishH8VXEl/YZHpqFDOOP3+rSGD0Qm6WG
+         z5ZwIypBInyIjUP7mzRCoeH0LF0tms196eWWtXrwRhTVPhsoM4ZocPmCQil36fL+e6Hx
+         bjW7k967jX1FFuoo8Dhb/0x8KbkURLlAFy4hh84Wcf2OvTkANHNZ+Yz6YSQl0OrdTLcf
+         ZomA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mqcRbUrhn+rQzXos0FXzsNpb9d0KMqZFiUIE0Bm3pFY=;
-        b=W+PB2XU4q7R2lY5qevJoA7pyDnkd8xrIHnQoVcAcDOWKFYsVj1fTW6RKmvzYgXp2pr
-         s6AaJCkvMaOGGUT6wwpT0nEpKN/WCYmfC6HcZH3T742QQvKdeRnhH3O/ydNuZ0I7XJhs
-         EjqqHpPNawrnhaeG2Clp9LUsNIIuAbG0UAOsUvFnt68dPmG3XJ3X59JX+pBxvulzxIu4
-         gdwsRhGKyjMsYXmRzjaAVvVF2xqGwCFBOG6t5fb/K1m5JrkOBRElsA1nyBTq9UzGcNtI
-         vR31KUDaA5ViARrDHTq+m6aRqHM+GspSyCmXSzjW9sJ0UR+SEokFOlgI8rjwkTZs0Js/
-         1paQ==
-X-Gm-Message-State: ALKqPwe4OXK3iD6M088SLClTSOJQvnocN2rXUDOk+oelRBIZM0aGaxGW
-        FALOvOirQ2WEm28plH272nm8jA==
-X-Google-Smtp-Source: ADUXVKKdMT4fh4NwEWe/ixqoRVokcCyMDmzs/kzISk5Pz7gzvHVPXxyVI3BM72WHEatrdT0T6sCEIw==
-X-Received: by 2002:a1c:c006:: with SMTP id q6-v6mr866434wmf.107.1527675200676;
-        Wed, 30 May 2018 03:13:20 -0700 (PDT)
-Received: from localhost.localdomain ([151.15.207.242])
-        by smtp.gmail.com with ESMTPSA id 131-v6sm24369445wms.34.2018.05.30.03.13.19
+        bh=ALuiFv0PsEleyozOUiMAA5+MPdEUWnJzMx4iw1EbhwM=;
+        b=JHk2MSwtyPFx9T0jNBY2ajJ+R8B8R66IOohBkYWe2n6gpkP1EFK39gPKfijxMiGhBV
+         zJkCD115IpJHrmn/jn4PGNnLFRGeFCRDBKX3mgqU9DRgpW8n7XNHAfxfcoHO13GCY2Pp
+         CwszCVJ9VjSZZ+ii7ZjpwdTvQXidVXk1xHQy9tr81SD00ZWISCT7Fk4QH2mXwAJwqzij
+         B581T1hmaclEwTQ0tcsVUrAEkJqqNtW3HlqKP8ETZnzN6lyT0XW972jNIHQ4LULFl8XQ
+         /PhFmYRUewSLP1QIXXtee7+T8SfJjhGoI2LBrqiY1MxE4+vrk4WR+n+oTbdueiHSXNKP
+         WngA==
+X-Gm-Message-State: ALKqPweHcSONzvSBFawaR0EwyrH11rssGmk80XOjkO3qmlNnmmDKRNW0
+        t/gbbqvZg4Lwl61PW2M7aKA=
+X-Google-Smtp-Source: ADUXVKK2MQzEEVrLWskicm0p9gWgH04HUO/GUzOX776pzXQJ7QjKAnhuxkcqrHo7yq1qO6aBkHU2ew==
+X-Received: by 2002:a2e:9a06:: with SMTP id o6-v6mr1828008lji.17.1527679502044;
+        Wed, 30 May 2018 04:25:02 -0700 (PDT)
+Received: from gmail.com ([81.236.84.183])
+        by smtp.gmail.com with ESMTPSA id d8-v6sm4046873lfe.95.2018.05.30.04.25.00
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 30 May 2018 03:13:19 -0700 (PDT)
-Date:   Wed, 30 May 2018 12:13:17 +0200
-From:   Juri Lelli <juri.lelli@redhat.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v9 0/7] Enable cpuset controller in default hierarchy
-Message-ID: <20180530101317.GB3320@localhost.localdomain>
-References: <1527601294-3444-1-git-send-email-longman@redhat.com>
+        Wed, 30 May 2018 04:25:01 -0700 (PDT)
+Date:   Wed, 30 May 2018 13:24:59 +0200
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Felipe Balbi <balbi@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        USB <linux-usb@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID
+ Gadget Device
+Message-ID: <20180530112459.GB2939@gmail.com>
+References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
+ <CAHp75VeSbC3QBswCxZpoVpT4cL4pXC5eouCc9YtvBtXG3YddTg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1527601294-3444-1-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <CAHp75VeSbC3QBswCxZpoVpT4cL4pXC5eouCc9YtvBtXG3YddTg@mail.gmail.com>
+User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Andy,
 
-On 29/05/18 09:41, Waiman Long wrote:
-> v9:
->  - Rename cpuset.sched.domain to cpuset.sched.domain_root to better
->    identify its purpose as the root of a new scheduling domain or
->    partition.
->  - Clarify in the document about the purpose of domain_root and
->    load_balance. Using domain_root is th only way to create new
->    partition.
->  - Fix a lockdep warning in update_isolated_cpumask() function.
->  - Add a new patch to eliminate call to generate_sched_domains() for
->    v2 when a change in cpu list does not touch a domain_root.
+Thank you for your comments!
+Many good catches here!
 
-I was playing with this and ended up with the situation below:
+On Wed, May 30, 2018 at 03:55:39AM +0300, Andy Shevchenko wrote:
+> On Tue, May 29, 2018 at 9:50 PM, Marcus Folkesson
+> <marcus.folkesson@gmail.com> wrote:
+> > Chip Card Interface Device (CCID) protocol is a USB protocol that
+> > allows a smartcard device to be connected to a computer via a card
+> > reader using a standard USB interface, without the need for each manufacturer
+> > of smartcards to provide its own reader or protocol.
+> >
+> > This gadget driver makes Linux show up as a CCID device to the host and let a
+> > userspace daemon act as the smartcard.
+> >
+> > This is useful when the Linux gadget itself should act as a cryptographic
+> > device or forward APDUs to an embedded smartcard device.
+> 
+> > + * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
+> 
+> > + *
+> 
+> Redundant line
+> 
 
- g1/cgroup.controllers:cpuset
- g1/cgroup.events:populated 0
- g1/cgroup.max.depth:max
- g1/cgroup.max.descendants:max
- g1/cgroup.stat:nr_descendants 1
- g1/cgroup.stat:nr_dying_descendants 0
- g1/cgroup.subtree_control:cpuset
- g1/cgroup.type:domain
- g1/cpuset.cpus:0-5                   <---
- g1/cpuset.cpus.effective:0-5
- g1/cpuset.mems.effective:0-1
- g1/cpuset.sched.domain_root:1        <---
- g1/cpuset.sched.load_balance:1
- g1/cpu.stat:usage_usec 0
- g1/cpu.stat:user_usec 0
- g1/cpu.stat:system_usec 0
- g1/g11/cgroup.events:populated 0
- g1/g11/cgroup.max.descendants:max
- g1/g11/cpu.stat:usage_usec 0
- g1/g11/cpu.stat:user_usec 0
- g1/g11/cpu.stat:system_usec 0
- g1/g11/cgroup.type:domain
- g1/g11/cgroup.stat:nr_descendants 0
- g1/g11/cgroup.stat:nr_dying_descendants 0
- g1/g11/cpuset.cpus.effective:0-5
- g1/g11/cgroup.controllers:cpuset
- g1/g11/cpuset.sched.load_balance:1
- g1/g11/cpuset.mems.effective:0-1
- g1/g11/cpuset.cpus:6-11              <---
- g1/g11/cgroup.max.depth:max
- g1/g11/cpuset.sched.domain_root:0
+Yep
 
-Should this be allowed? I was expecting subgroup g11 should be
-restricted to a subset of g1's cpus.
+> > +static DEFINE_IDA(ccidg_ida);
+> 
+> Where is it destroyed?
 
-Best,
+Hm, I'm not sure it needs to be destroyed. From lib/idr.c:
 
-- Juri
+ * You can also use ida_get_new_above() if you need an ID to be allocated
+ * above a particular number.  ida_destroy() can be used to dispose of an
+ * IDA without needing to free the individual IDs in it.  You can use
+ * ida_is_empty() to find out whether the IDA has any IDs currently allocated.
+
+
+An empty ccidg_ida is the indication that we should clean up our
+mess:
+
+static void ccidg_free_inst(struct usb_function_instance *f)
+...
+	if (ida_is_empty(&ccidg_ida))
+		ccidg_cleanup();
+
+If the IDA is empty, should I call ida_destroy() anyway?
+Other similiar drivers does not seems to do that.
+
+I must say that I'm not very familiar with the IDA API.
+
+> 
+> > +               ccidg_class = NULL;
+> > +               return PTR_ERR(ccidg_class);
+> 
+> Are you sure?
+
+Heh, :-)
+
+> 
+> > +       if (!list_empty(head)) {
+> > +               req = list_first_entry(head, struct usb_request, list);
+> 
+> list_first_entry_or_null()
+
+Will do, thanks.
+
+> 
+> > +       req->length = len;
+> 
+> Perhaps assign this obly if malloc successedeed ?
+
+Will do.
+
+> 
+> > +       req->buf = kmalloc(len, GFP_ATOMIC);
+> 
+> > +       if (req->buf == NULL) {
+> 
+> if (!req->buf) ?
+
+Will do
+
+> 
+> > +               usb_ep_free_request(ep, req);
+> > +               return ERR_PTR(-ENOMEM);
+> > +       }
+> 
+> > +static void ccidg_request_free(struct usb_request *req, struct usb_ep *ep)
+> > +{
+> 
+> > +       if (req) {
+> 
+> Is it even possible?
+> 
+> What about
+> 
+> if (!req)
+>  return;
+> 
+> ?
+
+Hmm, maybe it is not.
+I think I remove this check.
+
+> 
+> > +               kfree(req->buf);
+> > +               usb_ep_free_request(ep, req);
+> > +       }
+> > +}
+> 
+> > +                       *(__le32 *) req->buf = ccid_class_desc.dwDefaultClock;
+> 
+> Hmm... put_unaligned()? cpu_to_le32()? cpu_to_le32p()?
+> 
+
+Hmm, dwDefaultClock is already represented in little endian format. If I
+use any of those functions, would not the byte order be swaped on a big
+endian system?
+
+dwDefaultClock is set as:
+	.dwDefaultClock =	cpu_to_le32(3580),
+
+I'm not sure what the best practice is here.
+
+> > +                       *(__le32 *) req->buf = ccid_class_desc.dwDataRate;
+> 
+> Ditto.
+> 
+> > +               }
+> > +               }
+> 
+> Indentation.
+
+I remove the extra brackets from the case instead.
+> 
+> > +       /* responded with data transfer or status phase? */
+> > +       if (ret >= 0) {
+> 
+> Why not
+> 
+> if (ret < 0)
+>  return ret;
+> 
+> ?
+> 
+
+Will do
+
+> > +       }
+> > +
+> > +       return ret;
+> > +}
+> 
+> > +       atomic_set(&ccidg->online, 1);
+> > +       return ret;
+> 
+> return 0; ?
+
+Will do
+
+> 
+> > +       struct f_ccidg *ccidg;
+> 
+> > +       ccidg = container_of(inode->i_cdev, struct f_ccidg, cdev);
+> 
+> One line ?
+
+The line exceeds 80 characters then, but I will put it like this:
+
+	struct f_ccidg *ccidg = container_of(inode->i_cdev,
+								struct f_ccidg, cdev);
+
+> 
+> > +       xfer = (req->actual < count) ? req->actual : count;
+> 
+> min_t()
+> 
+
+Thanks, will do
+
+> > +       ret = wait_event_interruptible(bulk_dev->write_wq,
+> > +               ((req = ccidg_req_get(ccidg, &bulk_dev->tx_idle))));
+> > +
+> > +       if (ret < 0)
+> > +               return -ERESTARTSYS;
+> 
+> Redundant blank line above.
+> 
+
+I remove the extra blank line
+
+
+> > +static void ccidg_function_free(struct usb_function *f)
+> > +{
+> 
+> > +       struct f_ccidg_opts *opts;
+> 
+> > +       opts = container_of(f->fi, struct f_ccidg_opts, func_inst);
+> 
+> One line.
+
+See above
+
+> 
+> 
+> > +       mutex_lock(&opts->lock);
+> > +       --opts->refcnt;
+> 
+> -- will work
+
+Will do
+
+> 
+> > +       mutex_unlock(&opts->lock);
+> > +}
+> 
+> > +       struct f_ccidg_opts *opts;
+> 
+> > +       opts = container_of(fi, struct f_ccidg_opts, func_inst);
+> 
+> Perhaps one line ?
+
+See above
+
+
+> > +       ++opts->refcnt;
+> X++ would work as well.
+
+Will do
+
+> > +       struct f_ccidg_opts *opts;
+> > +
+> > +       opts = container_of(f, struct f_ccidg_opts, func_inst);
+> 
+> Perhaps one line?
+> 
+
+See above
+
+
+> > +#define CCID_PINSUPOORT_NONE           0x00
+> 
+> (0 << 0)
+> 
+>  ?
+> 
+> for sake of consistency
+
+Yep, will change
+
+> 
+> > +#define CCID_PINSUPOORT_VERIFICATION   (1 << 1)
+> > +#define CCID_PINSUPOORT_MODIFICATION   (1 << 2)
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+
+Best regards,
+Marcus Folkesson
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
