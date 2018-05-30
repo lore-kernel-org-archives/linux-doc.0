@@ -1,90 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E92E37D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 17:36:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3FD9C7D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 19:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753556AbeE3Rgm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 13:36:42 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:48476 "EHLO ale.deltatee.com"
+        id S1753666AbeE3TWB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 15:22:01 -0400
+Received: from anholt.net ([50.246.234.109]:46624 "EHLO anholt.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751833AbeE3Rgl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 May 2018 13:36:41 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1fO517-0000Uk-Ay; Wed, 30 May 2018 11:36:10 -0600
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Christoffer Dall <cdall@linaro.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20180524214816.14485-1-logang@deltatee.com>
- <20180524214816.14485-3-logang@deltatee.com>
- <20180530102329.7423dc57@w520.home>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <d3a139c0-53d4-56cf-fa7e-8db5fb527136@deltatee.com>
-Date:   Wed, 30 May 2018 11:36:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1753686AbeE3TWA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 May 2018 15:22:00 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by anholt.net (Postfix) with ESMTP id 66B0910A17E3;
+        Wed, 30 May 2018 12:21:59 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+        by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id H9W929dVA8os; Wed, 30 May 2018 12:21:56 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+        by anholt.net (Postfix) with ESMTP id 1982210A0D70;
+        Wed, 30 May 2018 12:21:56 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+        id AD7F42FE2D89; Wed, 30 May 2018 12:21:55 -0700 (PDT)
+From:   Eric Anholt <eric@anholt.net>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Stefan Wahren <stefan.wahren@i2se.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Phil Elwell <phil@raspberrypi.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH V3 2/6] hwmon: Add support for RPi voltage sensor
+In-Reply-To: <20180525193717.GA24967@roeck-us.net>
+References: <1527276279-23876-1-git-send-email-stefan.wahren@i2se.com> <1527276279-23876-3-git-send-email-stefan.wahren@i2se.com> <20180525193717.GA24967@roeck-us.net>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/25.2.2 (x86_64-pc-linux-gnu)
+Date:   Wed, 30 May 2018 12:21:55 -0700
+Message-ID: <87lgc1ne3w.fsf@anholt.net>
 MIME-Version: 1.0
-In-Reply-To: <20180530102329.7423dc57@w520.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: christian.koenig@amd.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, cdall@linaro.org, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, alex.williamson@redhat.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH 2/3] PCI: Allow specifying devices using a base bus and
- path of devfns
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Guenter Roeck <linux@roeck-us.net> writes:
 
-On 30/05/18 10:23 AM, Alex Williamson wrote:
-> I like the idea, but can't we improve the implementation?  It seems
-> that we shouldn't need to allocate more than a working copy of the
-> original path string.  We can use strrchr() to find the last path
-> divider ('/'), match the slot.fn after that to the current devfn, set
-> that path divider to null, step to the next upstream device and
-> repeat.  
+> On Fri, May 25, 2018 at 09:24:35PM +0200, Stefan Wahren wrote:
+>> Currently there is no easy way to detect undervoltage conditions on a
+>> remote Raspberry Pi. This hwmon driver retrieves the state of the
+>> undervoltage sensor via mailbox interface. The handling based on
+>> Noralf's modifications to the downstream firmware driver. In case of
+>> an undervoltage condition only an entry is written to the kernel log.
+>>=20
+>> CC: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
+>> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+>
+> ... assuming this will go through some arm tree.
 
-Ok, I'll give it a shot. I thought this would be a bit more tricky, but
-perhaps not.
+That's fine with me, I can pull this whole set for 4.19.  Thanks!
 
-> Also, since we're working from a downstream device up, I
-> suspect we don't need to get and put references at each step, the
-> downstream device probably already holds a reference to the upstream
-> device for each step along the way.  
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-That makes sense to me. I think it's something I added in similar p2pdma
-code from somebody's review. But sounds like I can probably strip it out
-there too and just put a comment noting this.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-
-Logan
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAlsO+dMACgkQtdYpNtH8
+nug3oxAAlBRyVsZ6QhTzWCVsN0WIhFcdikUzDJB2NACRXaE6EnCIWHuomXpssLjD
+VwD5lJzew2X7yl8uT6DZhp3K+eaCBtKkeNfB/etzSLEgF6Zy1JMlou/CU4APQjt8
+jEv1tHxs7RzmnEx7WltRuzqYQQknVo9YEy4CGQddNxCuePIuXVDpocDy//6Hb4pk
+Z5xa7GpYhMduCYqMKACA14B3lCdVTt4aVZOGdinKjzQ6seMecmchF+bR7EpPBVFR
+CTTriV5qFv/shc95J/F6aGKQDtHyz7Dx2vuQ4JgyIcI+fATRXYPuTqjb7MnTrxXY
+OVfOFVPldTtGXWBe2fK861uIeuu2/3SM2ajAsm5G/h7kzsQrxsSfrOdgsU1h1cK3
+LNBFc0hODEdZGrkUuBT1gM/xVU2+wlTVQBbFSjU2f+9OHpGMJZBq7BOlqDSxCON5
+OKkz77wnsZjg3Hoi+1z5PpdzQ97o03QwDxM7x6sSzuBrr6ghhtXBEHjyShOX/PQA
+lbHit7S/rfJCc5/1zWIeDramgOZw5hUGhf7GOJZmsf8HGYVngEKgeuHZsHi9Soct
+Y1T0XNTmw+lPp6SdjgqtdHAbKPJe6h23z/EFrr0zVyW2bc+ZJK9irkM3oGj4UPUC
+jeI6538+6ny86V0GKEbhFdWL/ceUnwOtUQnKQftPDSSB4xz7WD0=
+=xEf9
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
