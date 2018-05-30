@@ -1,144 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C6307D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 12:20:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 747B47D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 12:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752162AbeE3MUl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 08:20:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53218 "EHLO mail.kernel.org"
+        id S1753077AbeE3Ma3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 08:30:29 -0400
+Received: from mga07.intel.com ([134.134.136.100]:12038 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750999AbeE3MUk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 May 2018 08:20:40 -0400
-Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 857E420880;
-        Wed, 30 May 2018 12:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1527682840;
-        bh=eZ3kFNL1isF7gxVaZDtfToDVdvovD/IDr5sisrDa0xw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Pqg6RiU7x/gyHjKjiga6b9UQHoBb6eBQHIosq2VAn9WEnnDY6hFnztU7VTX+IsRKL
-         +JRsZOEZH2U6v65AtoHhNEUvbY+pYgDqJhZuE0YrObo1/aldYAIH4Db6l1xqCNBj9J
-         esvQmQbeQD7oWz3h8EqJL0UFjTLRCklWeCMCfPYE=
-Date:   Wed, 30 May 2018 14:20:19 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Felipe Balbi <balbi@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
+        id S1752724AbeE3Ma3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 May 2018 08:30:29 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 May 2018 05:30:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,460,1520924400"; 
+   d="asc'?scan'208";a="43331528"
+Received: from pipin.fi.intel.com (HELO localhost) ([10.237.68.37])
+  by fmsmga007.fm.intel.com with ESMTP; 30 May 2018 05:30:12 -0700
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, davem@davemloft.net,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         Ruslan Bilovol <ruslan.bilovol@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        USB <linux-usb@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID
- Gadget Device
-Message-ID: <20180530122019.GA28045@kroah.com>
+        Kate Stewart <kstewart@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID Gadget Device
+In-Reply-To: <20180529185021.13738-1-marcus.folkesson@gmail.com>
 References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
- <CAHp75VeSbC3QBswCxZpoVpT4cL4pXC5eouCc9YtvBtXG3YddTg@mail.gmail.com>
- <20180530112459.GB2939@gmail.com>
- <20180530113026.GA20775@kroah.com>
- <20180530121357.GD2939@gmail.com>
+Date:   Wed, 30 May 2018 15:28:18 +0300
+Message-ID: <87r2ltcopp.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180530121357.GD2939@gmail.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 30, 2018 at 02:13:57PM +0200, Marcus Folkesson wrote:
-> Hi Greg,
-> 
-> On Wed, May 30, 2018 at 01:30:26PM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, May 30, 2018 at 01:24:59PM +0200, Marcus Folkesson wrote:
-> > > Hi Andy,
-> > > 
-> > > Thank you for your comments!
-> > > Many good catches here!
-> > > 
-> > > On Wed, May 30, 2018 at 03:55:39AM +0300, Andy Shevchenko wrote:
-> > > > On Tue, May 29, 2018 at 9:50 PM, Marcus Folkesson
-> > > > <marcus.folkesson@gmail.com> wrote:
-> > > > > Chip Card Interface Device (CCID) protocol is a USB protocol that
-> > > > > allows a smartcard device to be connected to a computer via a card
-> > > > > reader using a standard USB interface, without the need for each manufacturer
-> > > > > of smartcards to provide its own reader or protocol.
-> > > > >
-> > > > > This gadget driver makes Linux show up as a CCID device to the host and let a
-> > > > > userspace daemon act as the smartcard.
-> > > > >
-> > > > > This is useful when the Linux gadget itself should act as a cryptographic
-> > > > > device or forward APDUs to an embedded smartcard device.
-> > > > 
-> > > > > + * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
-> > > > 
-> > > > > + *
-> > > > 
-> > > > Redundant line
-> > > > 
-> > > 
-> > > Yep
-> > > 
-> > > > > +static DEFINE_IDA(ccidg_ida);
-> > > > 
-> > > > Where is it destroyed?
-> > > 
-> > > Hm, I'm not sure it needs to be destroyed. From lib/idr.c:
-> > > 
-> > >  * You can also use ida_get_new_above() if you need an ID to be allocated
-> > >  * above a particular number.  ida_destroy() can be used to dispose of an
-> > >  * IDA without needing to free the individual IDs in it.  You can use
-> > >  * ida_is_empty() to find out whether the IDA has any IDs currently allocated.
-> > > 
-> > > 
-> > > An empty ccidg_ida is the indication that we should clean up our
-> > > mess:
-> > > 
-> > > static void ccidg_free_inst(struct usb_function_instance *f)
-> > > ...
-> > > 	if (ida_is_empty(&ccidg_ida))
-> > > 		ccidg_cleanup();
-> > > 
-> > > If the IDA is empty, should I call ida_destroy() anyway?
-> > > Other similiar drivers does not seems to do that.
-> > > 
-> > > I must say that I'm not very familiar with the IDA API.
-> > 
-> > When your module is removed, you need to clean up any remaining memory
-> > that the ida used.  It's not obvious at all, and is a pain as you would
-> > think that if you statically allocate one, like you have here, it would
-> > not be needed.  You need to just call:
-> > 	ida_destroy(&ccidg_ida);
-> > in your module exit function.
-> > 
-> > Hope this helps,
-> 
-> Thank you for making it clear.
-> 
-> Maybe I should use
-> #define DECLARE_USB_FUNCTION(_name, _inst_alloc, _func_alloc)		\
-> 
-> instead of 
-> #define DECLARE_USB_FUNCTION_INIT(_name, _inst_alloc, _func_alloc)	\
-> 
-> and provide my own module_init/module_exit functions then?
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Probably, yes.
+Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
+> Chip Card Interface Device (CCID) protocol is a USB protocol that
+> allows a smartcard device to be connected to a computer via a card
+> reader using a standard USB interface, without the need for each manufact=
+urer
+> of smartcards to provide its own reader or protocol.
+>
+> This gadget driver makes Linux show up as a CCID device to the host and l=
+et a
+> userspace daemon act as the smartcard.
+>
+> This is useful when the Linux gadget itself should act as a cryptographic
+> device or forward APDUs to an embedded smartcard device.
+>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+
+this could be done entirely in userspace with functionfs, why do we need
+this part in the kernel? It does very little.
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlsOmOIACgkQzL64meEa
+mQbOzg//Zjt5SPpolplikLJu91nAO8HLYQCcjL+61fYqAp1DfPfZ1TuJ6XXazcks
+9ND9QpHsuTvEhjoyI/1p7tefFdQYcUAh98N2Jflp5biK6MjpzjYCenxpBhvtj8kk
+r/Kr1ecKGk6+22CzcMgHGEWNzz1pNiL5FFXFE2M014RDJ49lOxS8CVydDBUCY161
+6VbM10KMKoJNCzx97QhVamxprysuCDK9HQKvduvcD+x6483SlYcGUvICGhhYBJ12
+i7/Z/6u4jdkpRpYTCZFQ/rKnaYTJUbTTatWiXNiyNgFQeXr1OUlzc8q6iVdbv4vy
+Qsk42U/5Er2sqG05lkk99+p6jr+kw6FnFkD8DU23m10u3h72/vNzyt+TEB9qkXb4
+v3Y4TgezcQd4wezP+ggqt8tkA4sGz+R7QHUrwQ3PvjdsKJqY0IQtJAKMNE02En8F
+yXYSjpu9Jm0j8+drqICEfDggB5iyzTks1BfK5f6WIUSd3rDit1my5LQmUj+bBXA1
+//X4SEpezxgV5STJJHReceVtP5mvjS9mG5AUjhfTu++qRWze7HFReC9aGobXDt0P
+gufwqbq2x5q1bkooWOFJJVjvYBo30sXNP1BJ9KxQgvMEOUhwJM8AQRpE+W3z+nnd
+ABB+Uj1ARbAy/RIRhvTKoqSb61sInG1hOB/vqIHW4jYnrDsj8VA=
+=0rMg
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
