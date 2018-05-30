@@ -3,53 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 69F0E7D09E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 04:36:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 015667D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 04:42:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934418AbeE3EgV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 00:36:21 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:49516 "EHLO
+        id S1750793AbeE3Eli (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 00:41:38 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:53152 "EHLO
         smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750737AbeE3EgT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 00:36:19 -0400
+        with ESMTP id S1750762AbeE3Elg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 00:41:36 -0400
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id E01C66084F; Wed, 30 May 2018 04:36:18 +0000 (UTC)
+        id 44A8560795; Wed, 30 May 2018 04:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527654978;
-        bh=pxgy8JhEY8s/dkhK+dyqiRUApwriUPbUB5KeaR4bL+o=;
+        s=default; t=1527655296;
+        bh=BqgO614aPnTfmcB6MxUvQXgCgiFuNd20/gnglnN2lng=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=QWuvf4JbKXT3ZQFlrSrNb85orqdc7uJQFEWJE9daZ2ixJw1WyjH2nXtj1rOxGU5wL
-         sZTUn3XLTHQjNZH6k0u8wKQclylkvKN4tYa4VR3YsxjSk5CPyPUzb7xdgwEJod2lw6
-         bpwldBI46ZHACn4FFT7ZZnfBcv/AbyqrfuquEoe8=
+        b=oECLOxp+80J6t4B3//m+By8Ok49QuIwh2Z1P1PGtrJBXXgVTxWqMeILlsbEk6IRit
+         xVciI/CNS/paueqy2FEAB3rovCCCwzD5acM0jORpLWb0FRc/kWetXcaWoW+h1CRRk2
+         TYLZ1zuufGKbnNwLUdjxeM95UVsLEwFuk/mqFOaE=
 Received: from [10.47.50.40] (unknown [156.39.10.47])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: okaya@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1087960452;
-        Wed, 30 May 2018 04:36:16 +0000 (UTC)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0554A6028C;
+        Wed, 30 May 2018 04:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527654977;
-        bh=pxgy8JhEY8s/dkhK+dyqiRUApwriUPbUB5KeaR4bL+o=;
+        s=default; t=1527655294;
+        bh=BqgO614aPnTfmcB6MxUvQXgCgiFuNd20/gnglnN2lng=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=l+v5dhI6sCoPxXHzPlyAkRLHWWbPRC0KhaP/xbqW1VyYb8yV7gNXODstEfAUY7QYj
-         4ZA17EioL2JQeaxVjqTiF5x9ZkG+oj2qwX2eTXmQSZDboO95dvGzTVGS1+daOQvWgk
-         uXfU+u0lzTV2cMeap6JNSELCyjcrguPq7kGGe6qc=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1087960452
+        b=B2bQdG2CavjJvJxNca7eklLWKwim7+gpphaVhFd1JpX0+1TciPyGkiMA99bRvYimx
+         /eGG4M8s3qOpz6IdtrOT+E43qhkqYIiGSS1/5WFIpU9yYxYDm5hLC1mw8T3hg/dnJD
+         nHhbQeWOXCMfuMzkb3sI1bHvf8nBghTjnonUcNNY=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0554A6028C
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
-Subject: Re: [PATCH] PCI: move early dump functionality from x86 arch into the
- common code
-To:     linux-pci@vger.kernel.org, timur@codeaurora.org
-Cc:     linux-arm-msm@vger.kernel.org,
+Subject: Re: [PATCH] PCI: Add pci=safemode option
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-pci@vger.kernel.org, timur@codeaurora.org,
+        linux-arm-msm@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
         Christoffer Dall <cdall@linaro.org>,
         "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
         Marc Zyngier <marc.zyngier@arm.com>,
@@ -57,28 +55,24 @@ Cc:     linux-arm-msm@vger.kernel.org,
         Thymo van Beers <thymovanbeers@gmail.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         David Rientjes <rientjes@google.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>, Borislav Petkov <bp@suse.de>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Petr Tesarik <ptesarik@suse.cz>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dou Liyang <douly.fnst@cn.fujitsu.com>,
-        Ram Pai <linuxram@us.ibm.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Keith Busch <keith.busch@intel.com>,
+        Dongdong Liu <liudongdong3@huawei.com>,
+        Frederick Lawler <fred@fredlawl.com>,
+        Oza Pawandeep <poza@codeaurora.org>,
+        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-References: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
+References: <1527650389-31575-1-git-send-email-okaya@codeaurora.org>
+ <20180530043103.GA19734@kroah.com>
 From:   Sinan Kaya <okaya@codeaurora.org>
-Message-ID: <dc9133a4-7085-e663-172a-87601ee8775d@codeaurora.org>
-Date:   Tue, 29 May 2018 21:36:15 -0700
+Message-ID: <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
+Date:   Tue, 29 May 2018 21:41:33 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
+In-Reply-To: <20180530043103.GA19734@kroah.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -87,15 +81,72 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/29/2018 9:34 PM, Sinan Kaya wrote:
-> -int early_pci_allowed(void)
-> -{
-> -	return (pci_probe & (PCI_PROBE_CONF1|PCI_PROBE_NOEARLY)) ==
-> -			PCI_PROBE_CONF1;
-> -}
+On 5/29/2018 9:31 PM, Greg Kroah-Hartman wrote:
+> On Tue, May 29, 2018 at 11:19:41PM -0400, Sinan Kaya wrote:
+>> Adding pci=safemode kernel command line parameter to turn off all PCI
+>> Express service driver as well as all optional PCIe features such as LTR,
+>> Extended tags, Relaxed Ordering etc.
+>>
+>> Also setting MPS configuration to PCIE_BUS_SAFE so that MPS and MRRS can be
+>> reconfigured with by the kernel in case BIOS hands off a broken
+>> configuration.
+> 
+> Why not fix the BIOS?  That's what sane platforms do :)
+> 
+>>
+>> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt | 2 ++
+>>  drivers/pci/pci.c                               | 7 +++++++
+>>  drivers/pci/pci.h                               | 2 ++
+>>  drivers/pci/pcie/portdrv_core.c                 | 2 +-
+>>  drivers/pci/probe.c                             | 6 ++++++
+>>  5 files changed, 18 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 641ec9c..247adbb 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -3153,6 +3153,8 @@
+>>  		noari		do not use PCIe ARI.
+>>  		noats		[PCIE, Intel-IOMMU, AMD-IOMMU]
+>>  				do not use PCIe ATS (and IOMMU device IOTLB).
+>> +		safemode	turns of all optinal PCI features. Useful
+>> +				for bringup/troubleshooting.
+> 
+> s/optinal/optional/ ?
 
-I should have kept this. I'll wait for more feedback before posting the
-next rev. 
+sure.
+
+> 
+> And you should explain what exactly in PCI is "optional".  Who defines
+> this and where is that list and what can go wrong if those options are
+> not enabled?
+
+Bjorn and I discussed the need for such a "safe" mode feature when you
+want to bring up PCI for a platform. You want to turn off everything as
+a starter and just stick to bare minimum.
+
+I can add a few words describing them. The goal of this option is to keep
+base PCI features with MSI only. Things like PME, AER, ASPM, Extended
+Tags, LTR, Relaxed Ordering, SRIOV are all considered optional. safemode
+is certainly not intended for production environments. 
+
+I can taint the kernel as a suggestion.
+
+I defined minimum as just booting a device and to be able to do DMA traffic
+only with 0 optimization
+
+> 
+> In looking at your patch, I can't determine that at all, so there's no
+> way that someone just looking at this sentence will be able to
+> understand.
+> 
+> thanks,
+> 
+> greg k-h
+> 
+
 
 -- 
 Sinan Kaya
