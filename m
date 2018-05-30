@@ -5,42 +5,30 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 015667D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 04:42:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA4187D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 04:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750793AbeE3Eli (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 00:41:38 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:53152 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750762AbeE3Elg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 00:41:36 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 44A8560795; Wed, 30 May 2018 04:41:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527655296;
-        bh=BqgO614aPnTfmcB6MxUvQXgCgiFuNd20/gnglnN2lng=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=oECLOxp+80J6t4B3//m+By8Ok49QuIwh2Z1P1PGtrJBXXgVTxWqMeILlsbEk6IRit
-         xVciI/CNS/paueqy2FEAB3rovCCCwzD5acM0jORpLWb0FRc/kWetXcaWoW+h1CRRk2
-         TYLZ1zuufGKbnNwLUdjxeM95UVsLEwFuk/mqFOaE=
-Received: from [10.47.50.40] (unknown [156.39.10.47])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S933591AbeE3E4V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 00:56:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58792 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932618AbeE3E4T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 May 2018 00:56:19 -0400
+Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: okaya@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0554A6028C;
-        Wed, 30 May 2018 04:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527655294;
-        bh=BqgO614aPnTfmcB6MxUvQXgCgiFuNd20/gnglnN2lng=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=B2bQdG2CavjJvJxNca7eklLWKwim7+gpphaVhFd1JpX0+1TciPyGkiMA99bRvYimx
-         /eGG4M8s3qOpz6IdtrOT+E43qhkqYIiGSS1/5WFIpU9yYxYDm5hLC1mw8T3hg/dnJD
-         nHhbQeWOXCMfuMzkb3sI1bHvf8nBghTjnonUcNNY=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0554A6028C
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
-Subject: Re: [PATCH] PCI: Add pci=safemode option
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        by mail.kernel.org (Postfix) with ESMTPSA id 205E820876;
+        Wed, 30 May 2018 04:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1527656179;
+        bh=FslhwGVVFMAx2J3IrBcvy4gFLM0mA4FWKLNlBGTg1dE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LVzoHonyGtF326FIsYtjit4ZkjhN9cWv3qS0nQHWwT4rephWU+HZUY//L84myDyyI
+         79ow+yPvcwka6r3LVZZ2qDz9nTxsjjvCn5ySXtZpirSUek35o4IvpMNcKy29TZ5rNZ
+         eSLCSMTL+nOIdreJe6Tb0d9x0DQ4WoZzikFSDNcI=
+Date:   Wed, 30 May 2018 06:55:57 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sinan Kaya <okaya@codeaurora.org>
 Cc:     linux-pci@vger.kernel.org, timur@codeaurora.org,
         linux-arm-msm@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
@@ -64,94 +52,90 @@ Cc:     linux-pci@vger.kernel.org, timur@codeaurora.org,
         Gabriele Paoloni <gabriele.paoloni@huawei.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] PCI: Add pci=safemode option
+Message-ID: <20180530045557.GA26682@kroah.com>
 References: <1527650389-31575-1-git-send-email-okaya@codeaurora.org>
  <20180530043103.GA19734@kroah.com>
-From:   Sinan Kaya <okaya@codeaurora.org>
-Message-ID: <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
-Date:   Tue, 29 May 2018 21:41:33 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+ <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20180530043103.GA19734@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6c317ed8-cca3-8862-5f3b-12cf14e4d53b@codeaurora.org>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/29/2018 9:31 PM, Greg Kroah-Hartman wrote:
-> On Tue, May 29, 2018 at 11:19:41PM -0400, Sinan Kaya wrote:
->> Adding pci=safemode kernel command line parameter to turn off all PCI
->> Express service driver as well as all optional PCIe features such as LTR,
->> Extended tags, Relaxed Ordering etc.
->>
->> Also setting MPS configuration to PCIE_BUS_SAFE so that MPS and MRRS can be
->> reconfigured with by the kernel in case BIOS hands off a broken
->> configuration.
+On Tue, May 29, 2018 at 09:41:33PM -0700, Sinan Kaya wrote:
+> On 5/29/2018 9:31 PM, Greg Kroah-Hartman wrote:
+> > On Tue, May 29, 2018 at 11:19:41PM -0400, Sinan Kaya wrote:
+> >> Adding pci=safemode kernel command line parameter to turn off all PCI
+> >> Express service driver as well as all optional PCIe features such as LTR,
+> >> Extended tags, Relaxed Ordering etc.
+> >>
+> >> Also setting MPS configuration to PCIE_BUS_SAFE so that MPS and MRRS can be
+> >> reconfigured with by the kernel in case BIOS hands off a broken
+> >> configuration.
+> > 
+> > Why not fix the BIOS?  That's what sane platforms do :)
+> > 
+> >>
+> >> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
+> >> ---
+> >>  Documentation/admin-guide/kernel-parameters.txt | 2 ++
+> >>  drivers/pci/pci.c                               | 7 +++++++
+> >>  drivers/pci/pci.h                               | 2 ++
+> >>  drivers/pci/pcie/portdrv_core.c                 | 2 +-
+> >>  drivers/pci/probe.c                             | 6 ++++++
+> >>  5 files changed, 18 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> >> index 641ec9c..247adbb 100644
+> >> --- a/Documentation/admin-guide/kernel-parameters.txt
+> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> >> @@ -3153,6 +3153,8 @@
+> >>  		noari		do not use PCIe ARI.
+> >>  		noats		[PCIE, Intel-IOMMU, AMD-IOMMU]
+> >>  				do not use PCIe ATS (and IOMMU device IOTLB).
+> >> +		safemode	turns of all optinal PCI features. Useful
+> >> +				for bringup/troubleshooting.
+> > 
+> > s/optinal/optional/ ?
 > 
-> Why not fix the BIOS?  That's what sane platforms do :)
+> sure.
 > 
->>
->> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt | 2 ++
->>  drivers/pci/pci.c                               | 7 +++++++
->>  drivers/pci/pci.h                               | 2 ++
->>  drivers/pci/pcie/portdrv_core.c                 | 2 +-
->>  drivers/pci/probe.c                             | 6 ++++++
->>  5 files changed, 18 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 641ec9c..247adbb 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -3153,6 +3153,8 @@
->>  		noari		do not use PCIe ARI.
->>  		noats		[PCIE, Intel-IOMMU, AMD-IOMMU]
->>  				do not use PCIe ATS (and IOMMU device IOTLB).
->> +		safemode	turns of all optinal PCI features. Useful
->> +				for bringup/troubleshooting.
+> > 
+> > And you should explain what exactly in PCI is "optional".  Who defines
+> > this and where is that list and what can go wrong if those options are
+> > not enabled?
 > 
-> s/optinal/optional/ ?
-
-sure.
-
+> Bjorn and I discussed the need for such a "safe" mode feature when you
+> want to bring up PCI for a platform. You want to turn off everything as
+> a starter and just stick to bare minimum.
 > 
-> And you should explain what exactly in PCI is "optional".  Who defines
-> this and where is that list and what can go wrong if those options are
-> not enabled?
+> I can add a few words describing them. The goal of this option is to keep
+> base PCI features with MSI only. Things like PME, AER, ASPM, Extended
+> Tags, LTR, Relaxed Ordering, SRIOV are all considered optional. safemode
+> is certainly not intended for production environments. 
 
-Bjorn and I discussed the need for such a "safe" mode feature when you
-want to bring up PCI for a platform. You want to turn off everything as
-a starter and just stick to bare minimum.
+Ok, then you should say that here, or somewhere, so that people know
+this.  Otherwise people will see that "hey this lets my hardware boot!"
+and then never change it :(
 
-I can add a few words describing them. The goal of this option is to keep
-base PCI features with MSI only. Things like PME, AER, ASPM, Extended
-Tags, LTR, Relaxed Ordering, SRIOV are all considered optional. safemode
-is certainly not intended for production environments. 
+> I can taint the kernel as a suggestion.
 
-I can taint the kernel as a suggestion.
+I would not worry about that.
 
-I defined minimum as just booting a device and to be able to do DMA traffic
-only with 0 optimization
+> I defined minimum as just booting a device and to be able to do DMA traffic
+> only with 0 optimization
 
-> 
-> In looking at your patch, I can't determine that at all, so there's no
-> way that someone just looking at this sentence will be able to
-> understand.
-> 
-> thanks,
-> 
-> greg k-h
-> 
+Ok, again, just document this really well, so that people do not have
+questions and start wondering why their devices barely seem to work.
 
+thanks,
 
--- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+greg k-h
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
