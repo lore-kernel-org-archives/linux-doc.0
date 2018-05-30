@@ -1,100 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 747B47D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 12:30:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B19F7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 12:56:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753077AbeE3Ma3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 08:30:29 -0400
-Received: from mga07.intel.com ([134.134.136.100]:12038 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752724AbeE3Ma3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 May 2018 08:30:29 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 May 2018 05:30:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,460,1520924400"; 
-   d="asc'?scan'208";a="43331528"
-Received: from pipin.fi.intel.com (HELO localhost) ([10.237.68.37])
-  by fmsmga007.fm.intel.com with ESMTP; 30 May 2018 05:30:12 -0700
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, davem@davemloft.net,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID Gadget Device
-In-Reply-To: <20180529185021.13738-1-marcus.folkesson@gmail.com>
-References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
-Date:   Wed, 30 May 2018 15:28:18 +0300
-Message-ID: <87r2ltcopp.fsf@linux.intel.com>
+        id S1753141AbeE3M4O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 08:56:14 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:39428 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1753129AbeE3M4N (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 May 2018 08:56:13 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 6AE3C401EF0E;
+        Wed, 30 May 2018 12:56:12 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BEDFD217B409;
+        Wed, 30 May 2018 12:56:10 +0000 (UTC)
+Subject: Re: [PATCH v9 0/7] Enable cpuset controller in default hierarchy
+To:     Juri Lelli <juri.lelli@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <1527601294-3444-1-git-send-email-longman@redhat.com>
+ <20180530101317.GB3320@localhost.localdomain>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <d74c67ea-43c9-cabb-4303-ecff008412df@redhat.com>
+Date:   Wed, 30 May 2018 08:56:10 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
+In-Reply-To: <20180530101317.GB3320@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Wed, 30 May 2018 12:56:12 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Wed, 30 May 2018 12:56:12 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
-
-> Chip Card Interface Device (CCID) protocol is a USB protocol that
-> allows a smartcard device to be connected to a computer via a card
-> reader using a standard USB interface, without the need for each manufact=
-urer
-> of smartcards to provide its own reader or protocol.
+On 05/30/2018 06:13 AM, Juri Lelli wrote:
+> Hi,
 >
-> This gadget driver makes Linux show up as a CCID device to the host and l=
-et a
-> userspace daemon act as the smartcard.
+> On 29/05/18 09:41, Waiman Long wrote:
+>> v9:
+>>  - Rename cpuset.sched.domain to cpuset.sched.domain_root to better
+>>    identify its purpose as the root of a new scheduling domain or
+>>    partition.
+>>  - Clarify in the document about the purpose of domain_root and
+>>    load_balance. Using domain_root is th only way to create new
+>>    partition.
+>>  - Fix a lockdep warning in update_isolated_cpumask() function.
+>>  - Add a new patch to eliminate call to generate_sched_domains() for
+>>    v2 when a change in cpu list does not touch a domain_root.
+> I was playing with this and ended up with the situation below:
 >
-> This is useful when the Linux gadget itself should act as a cryptographic
-> device or forward APDUs to an embedded smartcard device.
+>  g1/cgroup.controllers:cpuset
+>  g1/cgroup.events:populated 0
+>  g1/cgroup.max.depth:max
+>  g1/cgroup.max.descendants:max
+>  g1/cgroup.stat:nr_descendants 1
+>  g1/cgroup.stat:nr_dying_descendants 0
+>  g1/cgroup.subtree_control:cpuset
+>  g1/cgroup.type:domain
+>  g1/cpuset.cpus:0-5                   <---
+>  g1/cpuset.cpus.effective:0-5
+>  g1/cpuset.mems.effective:0-1
+>  g1/cpuset.sched.domain_root:1        <---
+>  g1/cpuset.sched.load_balance:1
+>  g1/cpu.stat:usage_usec 0
+>  g1/cpu.stat:user_usec 0
+>  g1/cpu.stat:system_usec 0
+>  g1/g11/cgroup.events:populated 0
+>  g1/g11/cgroup.max.descendants:max
+>  g1/g11/cpu.stat:usage_usec 0
+>  g1/g11/cpu.stat:user_usec 0
+>  g1/g11/cpu.stat:system_usec 0
+>  g1/g11/cgroup.type:domain
+>  g1/g11/cgroup.stat:nr_descendants 0
+>  g1/g11/cgroup.stat:nr_dying_descendants 0
+>  g1/g11/cpuset.cpus.effective:0-5
+>  g1/g11/cgroup.controllers:cpuset
+>  g1/g11/cpuset.sched.load_balance:1
+>  g1/g11/cpuset.mems.effective:0-1
+>  g1/g11/cpuset.cpus:6-11              <---
+>  g1/g11/cgroup.max.depth:max
+>  g1/g11/cpuset.sched.domain_root:0
 >
-> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> Should this be allowed? I was expecting subgroup g11 should be
+> restricted to a subset of g1's cpus.
+>
+> Best,
+>
+> - Juri
 
-this could be done entirely in userspace with functionfs, why do we need
-this part in the kernel? It does very little.
+That shouldn't be allowed.The code is probably missing some checks that
+should have been done. What was the sequence of commands leading to the
+above configuration?
 
-=2D-=20
-balbi
+Cheers,
+Longman
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlsOmOIACgkQzL64meEa
-mQbOzg//Zjt5SPpolplikLJu91nAO8HLYQCcjL+61fYqAp1DfPfZ1TuJ6XXazcks
-9ND9QpHsuTvEhjoyI/1p7tefFdQYcUAh98N2Jflp5biK6MjpzjYCenxpBhvtj8kk
-r/Kr1ecKGk6+22CzcMgHGEWNzz1pNiL5FFXFE2M014RDJ49lOxS8CVydDBUCY161
-6VbM10KMKoJNCzx97QhVamxprysuCDK9HQKvduvcD+x6483SlYcGUvICGhhYBJ12
-i7/Z/6u4jdkpRpYTCZFQ/rKnaYTJUbTTatWiXNiyNgFQeXr1OUlzc8q6iVdbv4vy
-Qsk42U/5Er2sqG05lkk99+p6jr+kw6FnFkD8DU23m10u3h72/vNzyt+TEB9qkXb4
-v3Y4TgezcQd4wezP+ggqt8tkA4sGz+R7QHUrwQ3PvjdsKJqY0IQtJAKMNE02En8F
-yXYSjpu9Jm0j8+drqICEfDggB5iyzTks1BfK5f6WIUSd3rDit1my5LQmUj+bBXA1
-//X4SEpezxgV5STJJHReceVtP5mvjS9mG5AUjhfTu++qRWze7HFReC9aGobXDt0P
-gufwqbq2x5q1bkooWOFJJVjvYBo30sXNP1BJ9KxQgvMEOUhwJM8AQRpE+W3z+nnd
-ABB+Uj1ARbAy/RIRhvTKoqSb61sInG1hOB/vqIHW4jYnrDsj8VA=
-=0rMg
------END PGP SIGNATURE-----
---=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
