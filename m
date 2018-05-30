@@ -1,57 +1,35 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 342CE7DF87
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 11:25:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D7C9F7D09E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 May 2018 11:31:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753306AbeE3LZJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 May 2018 07:25:09 -0400
-Received: from mail-lf0-f67.google.com ([209.85.215.67]:34777 "EHLO
-        mail-lf0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753014AbeE3LZE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 May 2018 07:25:04 -0400
-Received: by mail-lf0-f67.google.com with SMTP id o9-v6so3699877lfk.1;
-        Wed, 30 May 2018 04:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ALuiFv0PsEleyozOUiMAA5+MPdEUWnJzMx4iw1EbhwM=;
-        b=lML1GNmDfQqjsVHy4rKon5KjC7DMTxIzhlIvaZUWsVq76Qj4Zkc1tvEroaKHwjYf5b
-         GJcJjOtPzc75/ASjE9SsnssFMfrPKQXu4gkxA3M8qEjYlo8nPt1OVlyR8AvjFEucXHxK
-         MLpTNxRHCnt4v1Tj2MS+mPieY4YR+yduyMT1ishH8VXEl/YZHpqFDOOP3+rSGD0Qm6WG
-         z5ZwIypBInyIjUP7mzRCoeH0LF0tms196eWWtXrwRhTVPhsoM4ZocPmCQil36fL+e6Hx
-         bjW7k967jX1FFuoo8Dhb/0x8KbkURLlAFy4hh84Wcf2OvTkANHNZ+Yz6YSQl0OrdTLcf
-         ZomA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ALuiFv0PsEleyozOUiMAA5+MPdEUWnJzMx4iw1EbhwM=;
-        b=JHk2MSwtyPFx9T0jNBY2ajJ+R8B8R66IOohBkYWe2n6gpkP1EFK39gPKfijxMiGhBV
-         zJkCD115IpJHrmn/jn4PGNnLFRGeFCRDBKX3mgqU9DRgpW8n7XNHAfxfcoHO13GCY2Pp
-         CwszCVJ9VjSZZ+ii7ZjpwdTvQXidVXk1xHQy9tr81SD00ZWISCT7Fk4QH2mXwAJwqzij
-         B581T1hmaclEwTQ0tcsVUrAEkJqqNtW3HlqKP8ETZnzN6lyT0XW972jNIHQ4LULFl8XQ
-         /PhFmYRUewSLP1QIXXtee7+T8SfJjhGoI2LBrqiY1MxE4+vrk4WR+n+oTbdueiHSXNKP
-         WngA==
-X-Gm-Message-State: ALKqPweHcSONzvSBFawaR0EwyrH11rssGmk80XOjkO3qmlNnmmDKRNW0
-        t/gbbqvZg4Lwl61PW2M7aKA=
-X-Google-Smtp-Source: ADUXVKK2MQzEEVrLWskicm0p9gWgH04HUO/GUzOX776pzXQJ7QjKAnhuxkcqrHo7yq1qO6aBkHU2ew==
-X-Received: by 2002:a2e:9a06:: with SMTP id o6-v6mr1828008lji.17.1527679502044;
-        Wed, 30 May 2018 04:25:02 -0700 (PDT)
-Received: from gmail.com ([81.236.84.183])
-        by smtp.gmail.com with ESMTPSA id d8-v6sm4046873lfe.95.2018.05.30.04.25.00
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 30 May 2018 04:25:01 -0700 (PDT)
-Date:   Wed, 30 May 2018 13:24:59 +0200
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1751672AbeE3Lau (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 May 2018 07:30:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45746 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751547AbeE3Lar (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 May 2018 07:30:47 -0400
+Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 79C7B20851;
+        Wed, 30 May 2018 11:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1527679847;
+        bh=2KKvMPReIb2P8qOgPif5jlrH5v8UmrPYk21BY6RKcb0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lqLXMZbIRAj0cEqBNfjcRvfcLSzq11YaMktCy05tksrPSKwYSTN9CYWf3MJRZnGaQ
+         8v1yzB7JkQlfNX/UWbXzLKvsgU/bc/a3KO1j7Af+QOUMX30PCzB8NknT5k7irgFKFt
+         yiNJgZZ/WTP1FrQBpNyJvjw88vXL+MlaJ6CGjfX0=
+Date:   Wed, 30 May 2018 13:30:26 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Felipe Balbi <balbi@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -66,282 +44,84 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID
  Gadget Device
-Message-ID: <20180530112459.GB2939@gmail.com>
+Message-ID: <20180530113026.GA20775@kroah.com>
 References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
  <CAHp75VeSbC3QBswCxZpoVpT4cL4pXC5eouCc9YtvBtXG3YddTg@mail.gmail.com>
+ <20180530112459.GB2939@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHp75VeSbC3QBswCxZpoVpT4cL4pXC5eouCc9YtvBtXG3YddTg@mail.gmail.com>
-User-Agent: Mutt/1.9.3 (2018-01-21)
+In-Reply-To: <20180530112459.GB2939@gmail.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andy,
+On Wed, May 30, 2018 at 01:24:59PM +0200, Marcus Folkesson wrote:
+> Hi Andy,
+> 
+> Thank you for your comments!
+> Many good catches here!
+> 
+> On Wed, May 30, 2018 at 03:55:39AM +0300, Andy Shevchenko wrote:
+> > On Tue, May 29, 2018 at 9:50 PM, Marcus Folkesson
+> > <marcus.folkesson@gmail.com> wrote:
+> > > Chip Card Interface Device (CCID) protocol is a USB protocol that
+> > > allows a smartcard device to be connected to a computer via a card
+> > > reader using a standard USB interface, without the need for each manufacturer
+> > > of smartcards to provide its own reader or protocol.
+> > >
+> > > This gadget driver makes Linux show up as a CCID device to the host and let a
+> > > userspace daemon act as the smartcard.
+> > >
+> > > This is useful when the Linux gadget itself should act as a cryptographic
+> > > device or forward APDUs to an embedded smartcard device.
+> > 
+> > > + * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
+> > 
+> > > + *
+> > 
+> > Redundant line
+> > 
+> 
+> Yep
+> 
+> > > +static DEFINE_IDA(ccidg_ida);
+> > 
+> > Where is it destroyed?
+> 
+> Hm, I'm not sure it needs to be destroyed. From lib/idr.c:
+> 
+>  * You can also use ida_get_new_above() if you need an ID to be allocated
+>  * above a particular number.  ida_destroy() can be used to dispose of an
+>  * IDA without needing to free the individual IDs in it.  You can use
+>  * ida_is_empty() to find out whether the IDA has any IDs currently allocated.
+> 
+> 
+> An empty ccidg_ida is the indication that we should clean up our
+> mess:
+> 
+> static void ccidg_free_inst(struct usb_function_instance *f)
+> ...
+> 	if (ida_is_empty(&ccidg_ida))
+> 		ccidg_cleanup();
+> 
+> If the IDA is empty, should I call ida_destroy() anyway?
+> Other similiar drivers does not seems to do that.
+> 
+> I must say that I'm not very familiar with the IDA API.
 
-Thank you for your comments!
-Many good catches here!
+When your module is removed, you need to clean up any remaining memory
+that the ida used.  It's not obvious at all, and is a pain as you would
+think that if you statically allocate one, like you have here, it would
+not be needed.  You need to just call:
+	ida_destroy(&ccidg_ida);
+in your module exit function.
 
-On Wed, May 30, 2018 at 03:55:39AM +0300, Andy Shevchenko wrote:
-> On Tue, May 29, 2018 at 9:50 PM, Marcus Folkesson
-> <marcus.folkesson@gmail.com> wrote:
-> > Chip Card Interface Device (CCID) protocol is a USB protocol that
-> > allows a smartcard device to be connected to a computer via a card
-> > reader using a standard USB interface, without the need for each manufacturer
-> > of smartcards to provide its own reader or protocol.
-> >
-> > This gadget driver makes Linux show up as a CCID device to the host and let a
-> > userspace daemon act as the smartcard.
-> >
-> > This is useful when the Linux gadget itself should act as a cryptographic
-> > device or forward APDUs to an embedded smartcard device.
-> 
-> > + * Copyright (C) 2018 Marcus Folkesson <marcus.folkesson@gmail.com>
-> 
-> > + *
-> 
-> Redundant line
-> 
+Hope this helps,
 
-Yep
-
-> > +static DEFINE_IDA(ccidg_ida);
-> 
-> Where is it destroyed?
-
-Hm, I'm not sure it needs to be destroyed. From lib/idr.c:
-
- * You can also use ida_get_new_above() if you need an ID to be allocated
- * above a particular number.  ida_destroy() can be used to dispose of an
- * IDA without needing to free the individual IDs in it.  You can use
- * ida_is_empty() to find out whether the IDA has any IDs currently allocated.
-
-
-An empty ccidg_ida is the indication that we should clean up our
-mess:
-
-static void ccidg_free_inst(struct usb_function_instance *f)
-...
-	if (ida_is_empty(&ccidg_ida))
-		ccidg_cleanup();
-
-If the IDA is empty, should I call ida_destroy() anyway?
-Other similiar drivers does not seems to do that.
-
-I must say that I'm not very familiar with the IDA API.
-
-> 
-> > +               ccidg_class = NULL;
-> > +               return PTR_ERR(ccidg_class);
-> 
-> Are you sure?
-
-Heh, :-)
-
-> 
-> > +       if (!list_empty(head)) {
-> > +               req = list_first_entry(head, struct usb_request, list);
-> 
-> list_first_entry_or_null()
-
-Will do, thanks.
-
-> 
-> > +       req->length = len;
-> 
-> Perhaps assign this obly if malloc successedeed ?
-
-Will do.
-
-> 
-> > +       req->buf = kmalloc(len, GFP_ATOMIC);
-> 
-> > +       if (req->buf == NULL) {
-> 
-> if (!req->buf) ?
-
-Will do
-
-> 
-> > +               usb_ep_free_request(ep, req);
-> > +               return ERR_PTR(-ENOMEM);
-> > +       }
-> 
-> > +static void ccidg_request_free(struct usb_request *req, struct usb_ep *ep)
-> > +{
-> 
-> > +       if (req) {
-> 
-> Is it even possible?
-> 
-> What about
-> 
-> if (!req)
->  return;
-> 
-> ?
-
-Hmm, maybe it is not.
-I think I remove this check.
-
-> 
-> > +               kfree(req->buf);
-> > +               usb_ep_free_request(ep, req);
-> > +       }
-> > +}
-> 
-> > +                       *(__le32 *) req->buf = ccid_class_desc.dwDefaultClock;
-> 
-> Hmm... put_unaligned()? cpu_to_le32()? cpu_to_le32p()?
-> 
-
-Hmm, dwDefaultClock is already represented in little endian format. If I
-use any of those functions, would not the byte order be swaped on a big
-endian system?
-
-dwDefaultClock is set as:
-	.dwDefaultClock =	cpu_to_le32(3580),
-
-I'm not sure what the best practice is here.
-
-> > +                       *(__le32 *) req->buf = ccid_class_desc.dwDataRate;
-> 
-> Ditto.
-> 
-> > +               }
-> > +               }
-> 
-> Indentation.
-
-I remove the extra brackets from the case instead.
-> 
-> > +       /* responded with data transfer or status phase? */
-> > +       if (ret >= 0) {
-> 
-> Why not
-> 
-> if (ret < 0)
->  return ret;
-> 
-> ?
-> 
-
-Will do
-
-> > +       }
-> > +
-> > +       return ret;
-> > +}
-> 
-> > +       atomic_set(&ccidg->online, 1);
-> > +       return ret;
-> 
-> return 0; ?
-
-Will do
-
-> 
-> > +       struct f_ccidg *ccidg;
-> 
-> > +       ccidg = container_of(inode->i_cdev, struct f_ccidg, cdev);
-> 
-> One line ?
-
-The line exceeds 80 characters then, but I will put it like this:
-
-	struct f_ccidg *ccidg = container_of(inode->i_cdev,
-								struct f_ccidg, cdev);
-
-> 
-> > +       xfer = (req->actual < count) ? req->actual : count;
-> 
-> min_t()
-> 
-
-Thanks, will do
-
-> > +       ret = wait_event_interruptible(bulk_dev->write_wq,
-> > +               ((req = ccidg_req_get(ccidg, &bulk_dev->tx_idle))));
-> > +
-> > +       if (ret < 0)
-> > +               return -ERESTARTSYS;
-> 
-> Redundant blank line above.
-> 
-
-I remove the extra blank line
-
-
-> > +static void ccidg_function_free(struct usb_function *f)
-> > +{
-> 
-> > +       struct f_ccidg_opts *opts;
-> 
-> > +       opts = container_of(f->fi, struct f_ccidg_opts, func_inst);
-> 
-> One line.
-
-See above
-
-> 
-> 
-> > +       mutex_lock(&opts->lock);
-> > +       --opts->refcnt;
-> 
-> -- will work
-
-Will do
-
-> 
-> > +       mutex_unlock(&opts->lock);
-> > +}
-> 
-> > +       struct f_ccidg_opts *opts;
-> 
-> > +       opts = container_of(fi, struct f_ccidg_opts, func_inst);
-> 
-> Perhaps one line ?
-
-See above
-
-
-> > +       ++opts->refcnt;
-> X++ would work as well.
-
-Will do
-
-> > +       struct f_ccidg_opts *opts;
-> > +
-> > +       opts = container_of(f, struct f_ccidg_opts, func_inst);
-> 
-> Perhaps one line?
-> 
-
-See above
-
-
-> > +#define CCID_PINSUPOORT_NONE           0x00
-> 
-> (0 << 0)
-> 
->  ?
-> 
-> for sake of consistency
-
-Yep, will change
-
-> 
-> > +#define CCID_PINSUPOORT_VERIFICATION   (1 << 1)
-> > +#define CCID_PINSUPOORT_MODIFICATION   (1 << 2)
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-
-Best regards,
-Marcus Folkesson
+greg k-h
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
