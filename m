@@ -5,147 +5,79 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4BC987D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 16:21:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 56BBC7DF86
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 16:22:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755507AbeEaQVM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 May 2018 12:21:12 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:43244 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1755456AbeEaQVL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 May 2018 12:21:11 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A4001596;
-        Thu, 31 May 2018 09:21:11 -0700 (PDT)
-Received: from dupont (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 121453F53D;
-        Thu, 31 May 2018 09:21:11 -0700 (PDT)
-Date:   Thu, 31 May 2018 11:21:10 -0500
-From:   Kim Phillips <kim.phillips@arm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4] coresight: documentation: update sysfs section
-Message-Id: <20180531112110.5769511ef6e379df24820158@arm.com>
-In-Reply-To: <20180516152458.d392b0d1e09393da30e2aeb6@arm.com>
-References: <20180507172915.c032cd71c07b1849bf419a5f@arm.com>
-        <CANLsYkyQLan3XajOz2uuoOF8OQchGfeu2ZkZJ9H1Xm9q==aXTw@mail.gmail.com>
-        <20180514121959.a9a3d2fb3d3d270849ffbc39@arm.com>
-        <20180516131823.4b1a3ecb@lwn.net>
-        <20180516152458.d392b0d1e09393da30e2aeb6@arm.com>
-Organization: Arm
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1755619AbeEaQWg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 May 2018 12:22:36 -0400
+Received: from mail.netline.ch ([148.251.143.178]:37521 "EHLO
+        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755678AbeEaQWe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 12:22:34 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by netline-mail3.netline.ch (Postfix) with ESMTP id 2C1222A6046;
+        Thu, 31 May 2018 18:17:10 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id hbr2M-B-5l7U; Thu, 31 May 2018 18:17:10 +0200 (CEST)
+Received: from kaveri (252.228.127.176.dynamic.wline.res.cust.swisscom.ch [176.127.228.252])
+        by netline-mail3.netline.ch (Postfix) with ESMTPSA id 4AEB92A6048;
+        Thu, 31 May 2018 18:17:09 +0200 (CEST)
+Received: from daenzer by kaveri with local (Exim 4.91)
+        (envelope-from <michel@daenzer.net>)
+        id 1fOQGC-0001Xt-F8; Thu, 31 May 2018 18:17:08 +0200
+From:   =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
+To:     amd-gfx@lists.freedesktop.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] drm/doc: Add initial amdgpu driver documentation
+Date:   Thu, 31 May 2018 18:17:07 +0200
+Message-Id: <20180531161708.5894-2-michel@daenzer.net>
+X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20180531161708.5894-1-michel@daenzer.net>
+References: <20180531161708.5894-1-michel@daenzer.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- Align and show updated ls devices output from the TC2, based on
-  current driver
+From: Michel Dänzer <michel.daenzer@amd.com>
 
-- Provide an example from an ETMv4 based system (Juno)
-
-- Reflect changes to the way the RAM write pointer is accessed since
-  it got changed in commit 7d83d17795ef ("coresight: tmc: adding sysFS
-  management entries").
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Acked-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Kim Phillips <kim.phillips@arm.com>
+Signed-off-by: Michel Dänzer <michel.daenzer@amd.com>
 ---
-v4: v3 + Randy and Mathieu's acked-bys, for Jonathan to apply.
-v3: address Randy Dunlap's showns->shown,  corrected - and + line merging
-v2: address Mathieu's comment about clarifying the sinks on the Juno
-    vs. TC2 platforms.
+ Documentation/gpu/amdgpu.rst  | 6 ++++++
+ Documentation/gpu/drivers.rst | 1 +
+ 2 files changed, 7 insertions(+)
+ create mode 100644 Documentation/gpu/amdgpu.rst
 
- Documentation/trace/coresight.txt | 43 +++++++++++++++++++------------
- 1 file changed, 26 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/trace/coresight.txt b/Documentation/trace/coresight.txt
-index 6f0120c3a4f1..15d2a0f1e1b8 100644
---- a/Documentation/trace/coresight.txt
-+++ b/Documentation/trace/coresight.txt
-@@ -141,13 +141,25 @@ register the device with the core framework.  The unregister function takes
- a reference to a "struct coresight_device", obtained at registration time.
- 
- If everything goes well during the registration process the new devices will
--show up under /sys/bus/coresight/devices, as showns here for a TC2 platform:
-+show up under /sys/bus/coresight/devices, as shown here for a TC2 platform:
- 
- root:~# ls /sys/bus/coresight/devices/
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm  replicator
-+20030000.tpiu  2201c000.ptm	2203c000.etm  2203e000.etm
- root:~#
- 
-+and here for a Juno platform:
+diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu.rst
+new file mode 100644
+index 000000000000..41a14e4aa4ac
+--- /dev/null
++++ b/Documentation/gpu/amdgpu.rst
+@@ -0,0 +1,6 @@
++=========================
++ drm/amdgpu AMDgpu driver
++=========================
 +
-+root@juno:~# ls /sys/bus/coresight/devices/
-+20010000.etf	 20120000.replicator  22040000.etm     230c0000.funnel
-+20030000.tpiu	 20130000.funnel      220c0000.funnel  23140000.etm
-+20040000.funnel  20140000.etf	      22140000.etm     23240000.etm
-+20070000.etr	 20150000.funnel      23040000.etm     23340000.etm
-+root@juno:~# 
-+
-+Note that on Juno users can select the ETF, ETR and TPIU as a sink target while
-+on TC2, the ETB and TPIU can be selected.
-+
- The functions take a "struct coresight_device", which looks like this:
++The drm/amdgpu driver supports all AMD Radeon GPUs based on the Graphics Core
++Next (GCN) architecture.
+diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+index e8c84419a2a1..604b6d6975af 100644
+--- a/Documentation/gpu/drivers.rst
++++ b/Documentation/gpu/drivers.rst
+@@ -4,6 +4,7 @@ GPU Driver Documentation
  
- struct coresight_desc {
-@@ -193,16 +205,16 @@ the information carried in "THIS_MODULE".
- How to use the tracer modules
- -----------------------------
+ .. toctree::
  
--Before trace collection can start, a coresight sink needs to be identify.
-+Before trace collection can start, a coresight sink needs to be identified.
- There is no limit on the amount of sinks (nor sources) that can be enabled at
- any given moment.  As a generic operation, all device pertaining to the sink
- class will have an "active" entry in sysfs:
- 
- root:/sys/bus/coresight/devices# ls
--replicator  20030000.tpiu    2201c000.ptm  2203c000.etm  2203e000.etm
--20010000.etb         20040000.funnel  2201d000.ptm  2203d000.etm
-+20010000.etb   20040000.funnel	2201d000.ptm  2203d000.etm  replicator
-+20030000.tpiu  2201c000.ptm	2203c000.etm  2203e000.etm
- root:/sys/bus/coresight/devices# ls 20010000.etb
--enable_sink  status  trigger_cntr
-+enable_sink  mgmt  power  subsystem  trigger_cntr  uevent
- root:/sys/bus/coresight/devices# echo 1 > 20010000.etb/enable_sink
- root:/sys/bus/coresight/devices# cat 20010000.etb/enable_sink
- 1
-@@ -216,16 +228,13 @@ trigger a trace capture:
- root:/sys/bus/coresight/devices# echo 1 > 2201c000.ptm/enable_source
- root:/sys/bus/coresight/devices# cat 2201c000.ptm/enable_source
- 1
--root:/sys/bus/coresight/devices# cat 20010000.etb/status
--Depth:          0x2000
--Status:         0x1
--RAM read ptr:   0x0
--RAM wrt ptr:    0x19d3   <----- The write pointer is moving
--Trigger cnt:    0x0
--Control:        0x1
--Flush status:   0x0
--Flush ctrl:     0x2001
--root:/sys/bus/coresight/devices#
-+
-+Observe the write pointer moving:
-+
-+root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
-+0x1a8
-+root:/sys/bus/coresight/devices# cat 20010000.etb/mgmt/rwp
-+0x19a6
- 
- Trace collection is stopped the same way:
- 
++   amdgpu
+    i915
+    meson
+    pl111
 -- 
 2.17.0
 
