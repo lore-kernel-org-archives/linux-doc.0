@@ -5,69 +5,115 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 219DE7D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 16:22:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ABC2F7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 16:28:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755685AbeEaQWi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 May 2018 12:22:38 -0400
-Received: from mail.netline.ch ([148.251.143.178]:37520 "EHLO
-        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755673AbeEaQWd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 12:22:33 -0400
-X-Greylist: delayed 322 seconds by postgrey-1.27 at vger.kernel.org; Thu, 31 May 2018 12:22:33 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by netline-mail3.netline.ch (Postfix) with ESMTP id EF5952A6049;
-        Thu, 31 May 2018 18:17:09 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
-        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id Kn8f05rIZ4Vt; Thu, 31 May 2018 18:17:09 +0200 (CEST)
-Received: from kaveri (252.228.127.176.dynamic.wline.res.cust.swisscom.ch [176.127.228.252])
-        by netline-mail3.netline.ch (Postfix) with ESMTPSA id 3DD992A6046;
-        Thu, 31 May 2018 18:17:09 +0200 (CEST)
-Received: from daenzer by kaveri with local (Exim 4.91)
-        (envelope-from <michel@daenzer.net>)
-        id 1fOQGC-0001Xq-DP; Thu, 31 May 2018 18:17:08 +0200
-From:   =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
-To:     amd-gfx@lists.freedesktop.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] drm/doc: Add a label for the PRIME Buffer Sharing chapter
-Date:   Thu, 31 May 2018 18:17:06 +0200
-Message-Id: <20180531161708.5894-1-michel@daenzer.net>
-X-Mailer: git-send-email 2.17.0
+        id S1755646AbeEaQ2t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 May 2018 12:28:49 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:58740 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1755589AbeEaQ2s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 31 May 2018 12:28:48 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id F1B4F76F91;
+        Thu, 31 May 2018 16:28:47 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E6070210C6CE;
+        Thu, 31 May 2018 16:28:45 +0000 (UTC)
+Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
+ the parent
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Zefan Li <lizefan@huawei.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <1527687991-1431-1-git-send-email-longman@redhat.com>
+ <5B0F4F09.9050100@huawei.com> <5B0FAE72.1090204@huawei.com>
+ <20180531082613.GF12180@hirez.programming.kicks-ass.net>
+ <5B0FB58C.9030705@huawei.com>
+ <4dc718bc-4bd5-4998-853b-9c6ba67b89a0@redhat.com>
+ <20180531155807.GU1351649@devbig577.frc2.facebook.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <9f4ac270-9c56-d616-445d-7021210893f3@redhat.com>
+Date:   Thu, 31 May 2018 12:28:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180531155807.GU1351649@devbig577.frc2.facebook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 31 May 2018 16:28:48 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 31 May 2018 16:28:48 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Michel Dänzer <michel.daenzer@amd.com>
+On 05/31/2018 11:58 AM, Tejun Heo wrote:
+> Hello,
+>
+> On Thu, May 31, 2018 at 09:22:23AM -0400, Waiman Long wrote:
+>>>>>>> As the intersection of g11's cpus and that of g1 is empty, the effective
+>>>>>>> cpus of g11 is just that of g1. The check in update_cpumask() is now
+>>>>>>> corrected to make sure that cpus in a child cpus must be a subset of
+>>>>>>> its parent's cpus. The error "write error: Invalid argument" will now
+>>>>>>> be reported in the above case.
+>>>>>>>
+>>>>>> We made the distinction between user-configured CPUs and effective CPUs
+>>>>>> in commit 7e88291beefbb758, so actually it's not a bug.
+>>>>>>
+>>>>> I remember the original reason is to support restoration of the original
+>>>>> cpu after cpu offline->online. We use user-configured CPUs to remember
+>>>>> if the cpu should be restored in the cpuset after it's onlined.
+>>>> AFAICT you can do that and still have the child a subset of the parent,
+>>>> no?
+>>>> .
+>>> Sure. IIRC this was suggested by Tejun as he had done something similar to devcgroup.
+>>>
+>> OK, let wait until Tejun has time to chime in. For me, it just look
+>> weird to be able to do that.
+>>
+>> Another corner case that is not handled is when cpus_allowed is empty.
+>> In this case, it falls back to the parent's effective cpus. On the other
+>> hand, it can also be argued that an empty cpus_allowed is a transient
+>> state and a cpuset shouldn't have cpus undefined while creating children.
+> Tying together what's configured and what's applied may feel
+> attractive on the surface but it's a long term headache.
+>
+> * It's inconsistent with what other controllers are doing.  All the
+>   limit resource configs declare the upper bound the specific cgroup
+>   can consume regardless of what's actually available to it.  They
+>   limit but don't guarantee access.
+>
+> * Which decouples a given cgroup's configurations from its ancestors',
+>   which allows an ancestor to take away resources that it granted
+>   before and then also giving it back later.  No matter what you do,
+>   if you couple configs of cgroup hierarchy, you end up restricting
+>   what an ancestor can do to its sub-hierarchy, which can quickly
+>   become a difficult operational headache.
+>
+> So, let's please stay away from it even if that means a bit of
+> overhead in terms of interface.
+>
+> Thanks.
+>
+I am fine with that argument. I will update the patch documentation to
+include this information as I think it is important for the users to be
+aware of that.
 
-So that it can be referenced from e.g. DOC comments.
-
-Signed-off-by: Michel Dänzer <michel.daenzer@amd.com>
----
- Documentation/gpu/drm-mm.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 96ebcc2a7b41..21b6b72a9ba8 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -395,6 +395,8 @@ VMA Offset Manager
- .. kernel-doc:: drivers/gpu/drm/drm_vma_manager.c
-    :export:
- 
-+.. _prime_buffer_sharing:
-+
- PRIME Buffer Sharing
- ====================
- 
--- 
-2.17.0
+Cheers,
+Longman
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
