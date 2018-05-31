@@ -1,57 +1,40 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 088567D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 15:58:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6645F7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 16:09:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755507AbeEaP6M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 May 2018 11:58:12 -0400
-Received: from mail-yb0-f195.google.com ([209.85.213.195]:46357 "EHLO
-        mail-yb0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755482AbeEaP6L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 11:58:11 -0400
-Received: by mail-yb0-f195.google.com with SMTP id p22-v6so7743822yba.13;
-        Thu, 31 May 2018 08:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PeHIUM/NvwMmnt5Vl7G4HiWmr/MfhgxiD46i1pzuC0s=;
-        b=h3bXsE/EpbqVMBY3OJ61srzo3zWOM6kIw/fyCt6EKGaGyqMhif69oPLYN1HV/a2L0+
-         IkescC+VZ03nPVa93+BXZ4pBsjxDfmi0ONxw01nDbhcJcZfjo/Ah3yYS18CjK4cRdIaR
-         MmE3yZX4ipykdwB96v1089WJHJQ7RCmp2lk6vflPjASkAZVJ7mYj7Lt0D8gEetuYy0UZ
-         4BYEoVzdpd40n1q00YdlsOvDu6D6zYR2+FzVjCXf6dL8AofbMnHx9Kfkr58/UkPaaxuM
-         Pj1mTmkdhYUi2BXMLyHd9AyOxukMZYajNz5qX/dT6kW5tJhxlsDbi0pkxaP4bp0/dLN8
-         WJcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PeHIUM/NvwMmnt5Vl7G4HiWmr/MfhgxiD46i1pzuC0s=;
-        b=uhzNV1cgAMSLdbcy4FZhyAZu84vnFswHJnZRdK9LRlFywySGzr4ICk0YO1ItWs5yY9
-         +v6EmHnmBJMkfq0Sfz25IGOzLHqpJYY64AHceWAzsqtXa3MIEA5vMXdNJimsaoIBoZ+w
-         TjM0E7Dc+fon2Zu/1PBBr2VIz/BfvVTFDDRMkTOv3h3j0XyaWyAb8mA5gJAQD2B90c0p
-         ySANru+BolI1JHdhI2JTmKEG0LyeRrqmcUgYGqgNO+iPOH6kDeh5AG2/9Vz68C1SpQIC
-         rrJPegpu5zDyPrNxVfYueKi15FzAWTIEycEdATGPzvovTB309AAA6P4dYJk+kimS0obI
-         8aJQ==
-X-Gm-Message-State: ALKqPwdcZDCbXeupivCFmrZBMaJGLCwDjTjweBonkR5sF7aSyPraRdPF
-        JNNl4TzwiCiVEvINnUkTeU8=
-X-Google-Smtp-Source: ADUXVKL1YNC5cZ9o8cDVjAPgtN22pTU3n/4dusHsZvUaSWl2/rj2l8VJHYAuc0NSS7TRoVKrj7mTmg==
-X-Received: by 2002:a25:3108:: with SMTP id x8-v6mr4291067ybx.519.1527782290239;
-        Thu, 31 May 2018 08:58:10 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:200::3:bd3d])
-        by smtp.gmail.com with ESMTPSA id h5-v6sm8250832ywe.28.2018.05.31.08.58.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 31 May 2018 08:58:08 -0700 (PDT)
-Date:   Thu, 31 May 2018 08:58:07 -0700
-From:   Tejun Heo <tj@kernel.org>
+        id S1755507AbeEaQJR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 May 2018 12:09:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52824 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755456AbeEaQJQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 12:09:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=0QOwRxESCMF6JuqJd8MdrY+MklytCyX6FiA0QLhgpuU=; b=qhi9ZUpfAFvnNM7TWasYDXvTY
+        939AR6tEQvAfNSdLlLuQUzj9RhzihpYly3e1Jm6Z7fI6li14v+FWXD+TMTGbxrF6JDD2IjD8tvQsd
+        M+0pEJKwxxMeWejNgrc+86VPKbL1u01mPLnpv+vUN2aZ5wtOd7Ge1VMChpxaJah5ZEFf4Pm7Vjy1Z
+        GN8biTHLclCFdfgmjfbZax1Mr1unjSJRN02EfhexWPkh4hmOD75XzSXhlHA8Hg5jZXYJrvfFB65tk
+        LjiuVOFmKmGfLuSRLb4w65g6mdv3g9DNz90LYWptZUigCl3BWDFG/j7gNEbc786uz6RFJcmaJN3Pe
+        qLejiDMSA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fOQ8J-0000xQ-2c; Thu, 31 May 2018 16:08:59 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 4790E20298BA7; Thu, 31 May 2018 18:08:57 +0200 (CEST)
+Date:   Thu, 31 May 2018 18:08:57 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Waiman Long <longman@redhat.com>
-Cc:     Zefan Li <lizefan@huawei.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -59,76 +42,60 @@ Cc:     Zefan Li <lizefan@huawei.com>,
         Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
         Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
- the parent
-Message-ID: <20180531155807.GU1351649@devbig577.frc2.facebook.com>
-References: <1527687991-1431-1-git-send-email-longman@redhat.com>
- <5B0F4F09.9050100@huawei.com>
- <5B0FAE72.1090204@huawei.com>
- <20180531082613.GF12180@hirez.programming.kicks-ass.net>
- <5B0FB58C.9030705@huawei.com>
- <4dc718bc-4bd5-4998-853b-9c6ba67b89a0@redhat.com>
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v9 3/7] cpuset: Add cpuset.sched.load_balance flag to v2
+Message-ID: <20180531160857.GM12180@hirez.programming.kicks-ass.net>
+References: <1527601294-3444-1-git-send-email-longman@redhat.com>
+ <1527601294-3444-4-git-send-email-longman@redhat.com>
+ <20180531122638.GJ12180@hirez.programming.kicks-ass.net>
+ <42cc1f44-2355-1c0c-b575-49c863303c42@redhat.com>
+ <20180531152050.GK12180@hirez.programming.kicks-ass.net>
+ <ebe7f0c1-b2dc-57ad-e5cb-7edf0fee4626@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4dc718bc-4bd5-4998-853b-9c6ba67b89a0@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <ebe7f0c1-b2dc-57ad-e5cb-7edf0fee4626@redhat.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-
-On Thu, May 31, 2018 at 09:22:23AM -0400, Waiman Long wrote:
-> >>>>> As the intersection of g11's cpus and that of g1 is empty, the effective
-> >>>>> cpus of g11 is just that of g1. The check in update_cpumask() is now
-> >>>>> corrected to make sure that cpus in a child cpus must be a subset of
-> >>>>> its parent's cpus. The error "write error: Invalid argument" will now
-> >>>>> be reported in the above case.
-> >>>>>
-> >>>> We made the distinction between user-configured CPUs and effective CPUs
-> >>>> in commit 7e88291beefbb758, so actually it's not a bug.
-> >>>>
-> >>> I remember the original reason is to support restoration of the original
-> >>> cpu after cpu offline->online. We use user-configured CPUs to remember
-> >>> if the cpu should be restored in the cpuset after it's onlined.
-> >> AFAICT you can do that and still have the child a subset of the parent,
-> >> no?
-> >> .
-> > Sure. IIRC this was suggested by Tejun as he had done something similar to devcgroup.
-> >
-> OK, let wait until Tejun has time to chime in. For me, it just look
-> weird to be able to do that.
+On Thu, May 31, 2018 at 11:36:39AM -0400, Waiman Long wrote:
+> > I'm on the fence myself; the only thing I'm fairly sure of is that tying
+> > this particular behaviour to the load-balance knob seems off.
 > 
-> Another corner case that is not handled is when cpus_allowed is empty.
-> In this case, it falls back to the parent's effective cpus. On the other
-> hand, it can also be argued that an empty cpus_allowed is a transient
-> state and a cpuset shouldn't have cpus undefined while creating children.
+> The main reason for doing it this way is that I don't want to have
+> load-balanced partition with no cpu in it. How about we just don't allow
+> consume-all at all. Each partition must have at least 1 cpu.
 
-Tying together what's configured and what's applied may feel
-attractive on the surface but it's a long term headache.
+I suspect that might be sufficient. It certainly is for the use-cases
+I'm aware of. You always want a system/control set which runs the
+regular busy work of running a system.
 
-* It's inconsistent with what other controllers are doing.  All the
-  limit resource configs declare the upper bound the specific cgroup
-  can consume regardless of what's actually available to it.  They
-  limit but don't guarantee access.
+Then you have one (or more) partitions to run your 'important' work.
 
-* Which decouples a given cgroup's configurations from its ancestors',
-  which allows an ancestor to take away resources that it granted
-  before and then also giving it back later.  No matter what you do,
-  if you couple configs of cgroup hierarchy, you end up restricting
-  what an ancestor can do to its sub-hierarchy, which can quickly
-  become a difficult operational headache.
+> > I also think we should not mix the 'consume all' thing with the
+> > 'fully-partitioned' thing, as they are otherwise unrelated.
+>
+> The "consume all" and "fully-partitioned" look the same to me. Are you
+> talking about allocating all the CPUs in a partition to sub-partitions
+> so that there is no CPU left in the parent partition?
 
-So, let's please stay away from it even if that means a bit of
-overhead in terms of interface.
+Not sure what you're asking. "consume all" is allowing sub-partitions to
+allocate all CPUs of the parent, such that there are none left.
 
-Thanks.
+"fully-partitioned" is N cpus but no load-balancing, also equivalent to
+N 1 CPU parititions.
 
--- 
-tejun
+They are distinct things. Disabling load-balancing should not affect how
+many CPUs can be allocated to sub-partitions, the moment you hit 1 CPU
+the load balancing is effectively off already. Going down to 0 CPUs
+isn't a problem for the load-balancer, it wasn't doing anything anyway.
+
+So the question is if someone really needs the one partition without
+balancing over N separate paritions.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
