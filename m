@@ -1,98 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 947947D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 08:43:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D14E7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 09:50:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754072AbeEaInG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 May 2018 04:43:06 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:42762 "EHLO huawei.com"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1754023AbeEaInF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 May 2018 04:43:05 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 367384F07F3BD;
-        Thu, 31 May 2018 16:43:01 +0800 (CST)
-Received: from [10.177.19.236] (10.177.19.236) by smtp.huawei.com
- (10.3.19.209) with Microsoft SMTP Server (TLS) id 14.3.382.0; Thu, 31 May
- 2018 16:42:59 +0800
-Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
- the parent
-To:     Peter Zijlstra <peterz@infradead.org>
-References: <1527687991-1431-1-git-send-email-longman@redhat.com>
- <5B0F4F09.9050100@huawei.com> <5B0FAE72.1090204@huawei.com>
- <20180531082613.GF12180@hirez.programming.kicks-ass.net>
-CC:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-        "Johannes Weiner" <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, <cgroups@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <kernel-team@fb.com>, <pjt@google.com>, <luto@amacapital.net>,
-        Mike Galbraith <efault@gmx.de>,
-        <torvalds@linux-foundation.org>, Roman Gushchin <guro@fb.com>,
+        id S1754188AbeEaJuA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 May 2018 05:50:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42468 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754092AbeEaJt7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 05:49:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=YPwuIStifaMAixrdlInWE8+yShLKNE+jvdZoydpcXf8=; b=P5dkN8xMIoYtv0LtfaI7tr+6n
+        C58w1+5p+UByAfY0aTkMuOjUMDhdqeQ1JP2k9/0aoaBTTOx6+rSYVGzjm9FPPE+KZucUSePbLUNrD
+        wSVrOLdXwQG6z7+iCRrZZzU88GlFLxu642Quoax5W5lgzH6L0gJB6UBjdwStfTcqudAta6OYKVDMr
+        38hSxYsEdndUDC+uyzI++KXFYD9Tzsc/X4WWIUhcYT2CkHqClxQlSIrRcNwEev/YpdDrwbEFv0OXb
+        s1cDaWCKN+CyuYnHFqu85qvlWW1tvq1Cd+9Uzmjh0cjKX1x8BcYKWaJkESTbFxcMrVQ3AxNxd48sB
+        C78Qu6p7Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fOKDJ-00054x-Qn; Thu, 31 May 2018 09:49:46 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6450A202ACE62; Thu, 31 May 2018 11:49:43 +0200 (CEST)
+Date:   Thu, 31 May 2018 11:49:43 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
-From:   Zefan Li <lizefan@huawei.com>
-Message-ID: <5B0FB58C.9030705@huawei.com>
-Date:   Thu, 31 May 2018 16:42:52 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
- Thunderbird/38.5.1
+Subject: Re: [PATCH v9 2/7] cpuset: Add new v2 cpuset.sched.domain_root flag
+Message-ID: <20180531094943.GG12180@hirez.programming.kicks-ass.net>
+References: <1527601294-3444-1-git-send-email-longman@redhat.com>
+ <1527601294-3444-3-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20180531082613.GF12180@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.19.236]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1527601294-3444-3-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2018/5/31 16:26, Peter Zijlstra wrote:
-> On Thu, May 31, 2018 at 04:12:34PM +0800, Zefan Li wrote:
->> On 2018/5/31 9:25, Zefan Li wrote:
->>> Hi Waiman,
->>>
->>> On 2018/5/30 21:46, Waiman Long wrote:
->>>> It was found that the cpuset.cpus could contain CPUs that are not listed
->>>> in their parent's cpu list as shown by the command sequence below:
->>>>
->>>>   # echo "+cpuset" >cgroup.subtree_control
->>>>   # mkdir g1
->>>>   # echo 0-5 >g1/cpuset.cpus
->>>>   # mkdir g1/g11
->>>>   # echo "+cpuset" > g1/cgroup.subtree_control
->>>>   # echo 6-11 >g1/g11/cpuset.cpus
->>>>   # grep -R . g1 | grep "\.cpus"
->>>>   g1/cpuset.cpus:0-5
->>>>   g1/cpuset.cpus.effective:0-5
->>>>   g1/g11/cpuset.cpus:6-11
->>>>   g1/g11/cpuset.cpus.effective:0-5
->>>>
->>>> As the intersection of g11's cpus and that of g1 is empty, the effective
->>>> cpus of g11 is just that of g1. The check in update_cpumask() is now
->>>> corrected to make sure that cpus in a child cpus must be a subset of
->>>> its parent's cpus. The error "write error: Invalid argument" will now
->>>> be reported in the above case.
->>>>
->>>
->>> We made the distinction between user-configured CPUs and effective CPUs
->>> in commit 7e88291beefbb758, so actually it's not a bug.
->>>
->>
->> I remember the original reason is to support restoration of the original
->> cpu after cpu offline->online. We use user-configured CPUs to remember
->> if the cpu should be restored in the cpuset after it's onlined.
-> 
-> AFAICT you can do that and still have the child a subset of the parent,
-> no?
-> .
+On Tue, May 29, 2018 at 09:41:29AM -0400, Waiman Long wrote:
+> +  cpuset.sched.domain_root
+> +	A read-write single value file which exists on non-root
+> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
+> +	either "0" (off) or "1" (on).  This flag is set by the parent
+> +	and is not delegatable.
 
-Sure. IIRC this was suggested by Tejun as he had done something similar to devcgroup.
+What does "is not delegatable" mean?
 
+I think you used to say "is owned by the parent", which is took to mean
+file ownership is that of the parent directory (..) and not of the
+current (,), which is slightly odd but works.
+
+So if you chown a cgroup to a user, that user will not be able to change
+the file of it's 'root' (will actually be the root in case of
+container), but it _can_ change this file for any sub-cgroups it
+creates, right?
+
+So in that respect the feature is delegatable, a container can create
+sub-partitions. It just cannot change it's 'root' partition, which is
+consistent with a real root.
+
+The only inconsistently left is then that the real root does not have
+the file at all, vs a container root having it, but not accessible.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
