@@ -1,32 +1,40 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABC2F7D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 16:28:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4A1C7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 16:38:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755646AbeEaQ2t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 May 2018 12:28:49 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:58740 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1755589AbeEaQ2s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 May 2018 12:28:48 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id F1B4F76F91;
-        Thu, 31 May 2018 16:28:47 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-81.bos.redhat.com [10.18.17.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E6070210C6CE;
-        Thu, 31 May 2018 16:28:45 +0000 (UTC)
-Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
- the parent
+        id S1755594AbeEaQij (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 May 2018 12:38:39 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52284 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755562AbeEaQii (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 12:38:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=4rK4IzXCiPVSROPJKAT+5rH4BeY0bOW4blMqoXnQbuc=; b=nMuWzVE4wnl5a6kjxd2/7Duzj
+        QWnd8TCfhKaVdIxkGeykVz12bVapDyM17O4Bm13UjK5meBFEy/I3sbEhxDnOdfBx+XrmKBfDIaJbG
+        zYdcFOwLfi49C5cr86FwBbM0yEyaq4EtjXjTSnDhTCt56zcmjlfNVuCzBBd+VBE8rbHQHua9D27XZ
+        k3hLSjsOyl8aHeaOhu/eqT1lV4FsP90JNbL0z+ivGrEtGzcBSiQcKVaXh03iEUhcLbgJpaOa5A3Ws
+        xE7A3a46mEwqk7RdrCqQz3pY/S5lOenjFwdMaAW4kVW5akLpRoO67YZ864j5w+6xX8lsZh3B1wGhg
+        nDZnDAEGQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fOQap-0007Zv-UD; Thu, 31 May 2018 16:38:28 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 44484201EA7A0; Thu, 31 May 2018 18:38:26 +0200 (CEST)
+Date:   Thu, 31 May 2018 18:38:26 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Tejun Heo <tj@kernel.org>
-Cc:     Zefan Li <lizefan@huawei.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+Cc:     Waiman Long <longman@redhat.com>, Zefan Li <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -35,86 +43,66 @@ Cc:     Zefan Li <lizefan@huawei.com>,
         Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
+ the parent
+Message-ID: <20180531163826.GO12180@hirez.programming.kicks-ass.net>
 References: <1527687991-1431-1-git-send-email-longman@redhat.com>
- <5B0F4F09.9050100@huawei.com> <5B0FAE72.1090204@huawei.com>
+ <5B0F4F09.9050100@huawei.com>
+ <5B0FAE72.1090204@huawei.com>
  <20180531082613.GF12180@hirez.programming.kicks-ass.net>
  <5B0FB58C.9030705@huawei.com>
  <4dc718bc-4bd5-4998-853b-9c6ba67b89a0@redhat.com>
  <20180531155807.GU1351649@devbig577.frc2.facebook.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <9f4ac270-9c56-d616-445d-7021210893f3@redhat.com>
-Date:   Thu, 31 May 2018 12:28:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+ <20180531161645.GN12180@hirez.programming.kicks-ass.net>
+ <20180531161942.GW1351649@devbig577.frc2.facebook.com>
 MIME-Version: 1.0
-In-Reply-To: <20180531155807.GU1351649@devbig577.frc2.facebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 31 May 2018 16:28:48 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Thu, 31 May 2018 16:28:48 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180531161942.GW1351649@devbig577.frc2.facebook.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/31/2018 11:58 AM, Tejun Heo wrote:
+On Thu, May 31, 2018 at 09:19:42AM -0700, Tejun Heo wrote:
 > Hello,
->
-> On Thu, May 31, 2018 at 09:22:23AM -0400, Waiman Long wrote:
->>>>>>> As the intersection of g11's cpus and that of g1 is empty, the effective
->>>>>>> cpus of g11 is just that of g1. The check in update_cpumask() is now
->>>>>>> corrected to make sure that cpus in a child cpus must be a subset of
->>>>>>> its parent's cpus. The error "write error: Invalid argument" will now
->>>>>>> be reported in the above case.
->>>>>>>
->>>>>> We made the distinction between user-configured CPUs and effective CPUs
->>>>>> in commit 7e88291beefbb758, so actually it's not a bug.
->>>>>>
->>>>> I remember the original reason is to support restoration of the original
->>>>> cpu after cpu offline->online. We use user-configured CPUs to remember
->>>>> if the cpu should be restored in the cpuset after it's onlined.
->>>> AFAICT you can do that and still have the child a subset of the parent,
->>>> no?
->>>> .
->>> Sure. IIRC this was suggested by Tejun as he had done something similar to devcgroup.
->>>
->> OK, let wait until Tejun has time to chime in. For me, it just look
->> weird to be able to do that.
->>
->> Another corner case that is not handled is when cpus_allowed is empty.
->> In this case, it falls back to the parent's effective cpus. On the other
->> hand, it can also be argued that an empty cpus_allowed is a transient
->> state and a cpuset shouldn't have cpus undefined while creating children.
-> Tying together what's configured and what's applied may feel
-> attractive on the surface but it's a long term headache.
->
-> * It's inconsistent with what other controllers are doing.  All the
->   limit resource configs declare the upper bound the specific cgroup
->   can consume regardless of what's actually available to it.  They
->   limit but don't guarantee access.
->
-> * Which decouples a given cgroup's configurations from its ancestors',
->   which allows an ancestor to take away resources that it granted
->   before and then also giving it back later.  No matter what you do,
->   if you couple configs of cgroup hierarchy, you end up restricting
->   what an ancestor can do to its sub-hierarchy, which can quickly
->   become a difficult operational headache.
->
-> So, let's please stay away from it even if that means a bit of
-> overhead in terms of interface.
->
-> Thanks.
->
-I am fine with that argument. I will update the patch documentation to
-include this information as I think it is important for the users to be
-aware of that.
+> 
+> On Thu, May 31, 2018 at 06:16:45PM +0200, Peter Zijlstra wrote:
+> > > So, let's please stay away from it even if that means a bit of
+> > > overhead in terms of interface.
+> > 
+> > Urgh, that again :/
+> 
+> Yeah, well, it's pretty important.
+> 
+> > I'm still not convinced by your arguments though. The root container can
+> > access all the sub-groups anyway and can grub around in them to take
+> > away resources if it really wants to.
+> 
+> That's really messy and if you delegated away a subtree, you can't
+> walk the subtree in a race free way, not easily anyway.
 
-Cheers,
-Longman
+Messy perhaps, but taking away resources you gave out earlier isn't
+particularly nice either way around.
 
+Not sure the races matter, if you win, the delegate can't undo it, if
+you loose, you try again until you win.
+
+It's not like cgroup stuff gets changed often, so a conflict causing you
+to loose should be very rare indeed.
+
+> > For cpuset in particular randomly restricting on the ancestor level can
+> > create an unrecoverable trainwreck inside a container. Affinities are
+> > not recoverable. Once a runnable task ends up with an empty set, its
+> > affinities are reset and the smaller (empty) set is lost.
+> 
+> Yeah, for cpuset, it's messier, but it isn't different from hotunplug
+> scenario, right?  I think the best we can do there is putting ancestor
+> operation on an equal footing as hotplug ops.
+
+Right, but hotplug is exceedingly rare, while I get the impression you
+think it is perfectly fine to recind on your resource grants.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
