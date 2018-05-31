@@ -5,78 +5,86 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D1DF7D048
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 10:51:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5C9BE7D048
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 10:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754532AbeEaKvQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 May 2018 06:51:16 -0400
-Received: from fllnx209.ext.ti.com ([198.47.19.16]:16243 "EHLO
-        fllnx209.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754346AbeEaKvP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 06:51:15 -0400
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-        by fllnx209.ext.ti.com (8.15.1/8.15.1) with ESMTP id w4VAp6M3026261;
-        Thu, 31 May 2018 05:51:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1527763866;
-        bh=SxVBorSZqsYwUcvAq4Rt7FvBp+ArlTmS8EEy3KVynKg=;
-        h=Subject:To:References:CC:From:Date:In-Reply-To;
-        b=qEGGjn7k9f1xnKvrjRSXBJe6luR58vHtI4UqFuaDyT21TOJmA0J/hMm+vz0JcwP4R
-         HFHhFQe0I8Wkddef/xOeEuaPLlP4LYDu09pmubuFmofjNWJV8It+a+LE7WEDFHqEoU
-         urWwwCsEdjgRPj3+uHFEW823nsWhPjcZTDspRD3s=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w4VAp670015500;
-        Thu, 31 May 2018 05:51:06 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Thu, 31
- May 2018 05:51:06 -0500
-Received: from dlep33.itg.ti.com (157.170.170.75) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
- Thu, 31 May 2018 05:51:06 -0500
-Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dlep33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w4VAp2at011065;
-        Thu, 31 May 2018 05:51:02 -0500
-Subject: Re: [PATCH v2 3/7] PCI: cadence: Update cdns_pcie_ep_raise_irq
- function signature
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
-        <adouglas@cadence.com>, <jesper.nilsson@axis.com>
-References: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
- <4994f263efbf6a2cb952d3d9839fb3b1737efde9.1526576613.git.gustavo.pimentel@synopsys.com>
-CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <aa86d9b7-d715-2a21-6a94-be927e55b51b@ti.com>
-Date:   Thu, 31 May 2018 16:21:01 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1754311AbeEaKy3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 May 2018 06:54:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60784 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754346AbeEaKy2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 May 2018 06:54:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=wK3gd8V16jU2PtUbyVoCdyUhgml9RJnpgQY+XVdFtWM=; b=VpQjVAYxsuWXgZhRWPlbQHNcL
+        0yP5jZQwsIbD8KUhXKXT6GyiXpEGorCaa7LhJ5YBgCWbkgiDeG8lTEZy7fp9/DBYL8pKB4mlTDMQt
+        pPn7tktKg3zAGgN76RL+g95GlHqeOlFdW4KtiT7w9er10M9sIm4p5Og8AOqMrUtPk2IPVVt42SntG
+        /jxE5UFN83ASlV2/FrPfiMrlZBh4521lItKDkRTygnKp4aaXaaDZ54sbtH6h9LWgsEibgTEdTX2FD
+        XXxhnoB7M2GqqbfMoUrcFfZbEhhzUODw4RyTu8EuAGEt+9qsVgV7XP7Vi0ghDJ+K20jNShst5/lcX
+        OoeTQr+nQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fOLDm-0000h9-G1; Thu, 31 May 2018 10:54:18 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 70D9A202ACE62; Thu, 31 May 2018 12:54:16 +0200 (CEST)
+Date:   Thu, 31 May 2018 12:54:16 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v9 3/7] cpuset: Add cpuset.sched.load_balance flag to v2
+Message-ID: <20180531105416.GI12180@hirez.programming.kicks-ass.net>
+References: <1527601294-3444-1-git-send-email-longman@redhat.com>
+ <1527601294-3444-4-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <4994f263efbf6a2cb952d3d9839fb3b1737efde9.1526576613.git.gustavo.pimentel@synopsys.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1527601294-3444-4-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alan,
+On Tue, May 29, 2018 at 09:41:30AM -0400, Waiman Long wrote:
 
-On Thursday 17 May 2018 10:39 PM, Gustavo Pimentel wrote:
-> Change cdns_pcie_ep_raise_irq() signature, namely the interrupt_num
-> variable type from u8 to u16 to accommodate 2048 maximum MSI-X
-> interrupts.
-> 
-> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> Acked-by: Alan Douglas <adouglas@cadence.com>
+> +  cpuset.sched.load_balance
+> +	A read-write single value file which exists on non-root
+> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
+> +	either "0" (off) or "1" (on).  This flag is set by the parent
+> +	and is not delegatable.  It is on by default in the root cgroup.
+> +
+> +	When it is on, tasks within this cpuset will be load-balanced
+> +	by the kernel scheduler.  Tasks will be moved from CPUs with
+> +	high load to other CPUs within the same cpuset with less load
+> +	periodically.
+> +
+> +	When it is off, there will be no load balancing among CPUs on
+> +	this cgroup.  Tasks will stay in the CPUs they are running on
+> +	and will not be moved to other CPUs.
 
-Do you want to add MSI-X support to cadence PCIe?
+That is not entirely accurate I'm afraid (unless the patch makes it so,
+I've yet to check). When you disable load-balancing on a cgroup you'll
+get whatever balancing is left for the partition you happen to end up
+in.
 
-Thanks
-Kishon
+Take for instance workqueue thingies, they use kthread_bind_mask()
+(IIRC) and thus end up with PF_NO_SETAFFINITY so cpusets (or any other
+cgroups really) do not have effect on them (long standing complaint).
+
+So take for instance the unbound numa enabled workqueue threads, those
+will land in whatever partition and get balanced there.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
