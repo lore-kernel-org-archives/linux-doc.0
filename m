@@ -1,49 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 157747DF8B
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 14:49:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7F5E7DF92
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 15:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752996AbeFAOqL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 10:46:11 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:53868 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752983AbeFAOqE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 10:46:04 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 1069C607BB; Fri,  1 Jun 2018 14:46:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527864364;
-        bh=Kh+HdeKtdTQsNKLEK1rMXPyaTftEfWcazLL2beBhMeQ=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=oB1DBUqwIpqh5K9a8zAsQzKwsRZVshoqy+F6y2XAZOHqp/PQujX+cLWGOA9U+YbEV
-         RQV1a9ZpoeIi0VPnncfvYKUqPpjJy6dDETf2DGN7YjbGkOOPf8rcQqntCF7Vm290X+
-         G51ifguScVNYJN3YilMkGWnF5VIGNIoHYHHs0Jfc=
-Received: from [10.235.228.150] (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: okaya@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0766B60224;
-        Fri,  1 Jun 2018 14:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527864361;
-        bh=Kh+HdeKtdTQsNKLEK1rMXPyaTftEfWcazLL2beBhMeQ=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=RkWx1H7jrOzhhLTf4UmGNqCdCQ8tSNW0dKRZiPUI3SC/5AgB1AA3WzXGOs9hA/ReD
-         IcW1ijy/evEw4BG057HOflmaVgcV4S6zoJ/etOk+c6jCwHQFa2tezEoBt8cRck4+bL
-         AlqCy8fF200o0fKxkIRssMuJDI+vgORPCk44+jgg=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0766B60224
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
+        id S1752233AbeFAPCh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 11:02:37 -0400
+Received: from mail-qk0-f193.google.com ([209.85.220.193]:40894 "EHLO
+        mail-qk0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751378AbeFAPCd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 11:02:33 -0400
+Received: by mail-qk0-f193.google.com with SMTP id r66-v6so20098586qkr.7;
+        Fri, 01 Jun 2018 08:02:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=9wV/O7huWoA3B1tCLmxVuYeniucPKX479RK3dRyYUm0=;
+        b=nsCBMHDquTD8IeFUWsd8EOLt5IeKRL/RuW0LLlw5OTwbMrGkuxc6U+pN9WkdTQTQ/4
+         /mAhiUv5Bu4yUjus6dkmzUbDVFPATHjtGrIFOn8C+cm2ErOaQndmKxjiqCslreuYNbS6
+         CRbHtZUArCKFQgLhid9tMdxE+5imSPGHSzKUa3BN4i33qNttC+J+vXkK1JHX56lBiQqD
+         Ac2ziIqUq5eCuDbF3El1W40/pzgKB76CjWKjvZY91n/zhg5sQnGLvOPxkcTFHTNWytkb
+         TI8tf9jqw+ga9NpeD/PaDJdqsNlV4NhO+1LaKcyUnuYXHnFTflzd1JhBTfdWFemMQlJC
+         BjZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=9wV/O7huWoA3B1tCLmxVuYeniucPKX479RK3dRyYUm0=;
+        b=cNasvlQNbdj0RS5izTzS+gPbnS8hB1P3AZC/eTv1o73ikapk8zSB/Ai0pv9L6z5JeZ
+         ZzjnbvH/YTM9hT8AzTHkBjPNf2hyMVf6H3Ksa7QMmIFu35bNBE095M45ElYb9kWtqc5V
+         Rb67hlyujWOc3z4huUVQJx/YkK2ubsUrHTSKtIzVQwI3HOZUTVfLcXjDQ9wZDBr/nzTM
+         lVGx/jSoT6IkGkj1FSBwOCbpbu/kd/xCnZUbk7gP9ItfibkorPXxt5KvIaGF/wwTS2g8
+         AdGOzr00X5kyF8QegPuPgc7xfZCnZKJp2HgGEDBlSt08CXkQezReZn81JecprdygODXr
+         t7BA==
+X-Gm-Message-State: APt69E1h735aaLfnV1QqKyuovvmpiew9tjk0lQzfPbxCxACJW7iHCYfH
+        4v0a+d7NgiC6+I6PAMqoj1HimGqgoNEuimtZ8F0=
+X-Google-Smtp-Source: ADUXVKItIccv1yBaX17o6WySdYk7MvUi970Y+dIwemviUCOIAo5o0d35prXJCdG/vbicdiCXaF1BDFJ2Mb9ZhNnguFI=
+X-Received: by 2002:a37:7742:: with SMTP id s63-v6mr10009045qkc.97.1527865352322;
+ Fri, 01 Jun 2018 08:02:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a0c:98f9:0:0:0:0:0 with HTTP; Fri, 1 Jun 2018 08:02:31 -0700 (PDT)
+In-Reply-To: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
+References: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 1 Jun 2018 18:02:31 +0300
+Message-ID: <CAHp75Vc3YKAR1P_F0fwD+ueGub4gVUjP0=wv4Egf_fTSVkSUjw@mail.gmail.com>
 Subject: Re: [PATCH] PCI: move early dump functionality from x86 arch into the
  common code
-To:     linux-pci@vger.kernel.org, timur@codeaurora.org
-Cc:     linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+To:     Sinan Kaya <okaya@codeaurora.org>
+Cc:     linux-pci@vger.kernel.org, Timur Tabi <timur@codeaurora.org>,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -71,46 +84,58 @@ Cc:     linux-arm-msm@vger.kernel.org,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-References: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
-From:   Sinan Kaya <okaya@codeaurora.org>
-Message-ID: <82d0852b-7c34-3fc2-85d8-c21b33aa8cf4@codeaurora.org>
-Date:   Fri, 1 Jun 2018 10:45:58 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/30/2018 12:34 AM, Sinan Kaya wrote:
+On Wed, May 30, 2018 at 7:34 AM, Sinan Kaya <okaya@codeaurora.org> wrote:
 > Move early dump functionality into common code so that it is available for
 > all archtiectures. No need to carry arch specific reads around as the read
 > hooks are already initialized by the time pci_setup_device() is getting
 > called during scan.
-> 
-> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  2 +-
->  arch/x86/include/asm/pci-direct.h               |  5 ---
->  arch/x86/kernel/setup.c                         |  5 ---
->  arch/x86/pci/common.c                           |  4 --
->  arch/x86/pci/early.c                            | 50 -------------------------
->  drivers/pci/pci.c                               |  4 ++
->  drivers/pci/pci.h                               |  2 +-
->  drivers/pci/probe.c                             | 19 ++++++++++
->  8 files changed, 25 insertions(+), 66 deletions(-)
 
-Any feedback on the direction?
+>  /* If set, the PCIe ATS capability will not be used. */
+>  static bool pcie_ats_disabled;
+>
+> +bool pci_early_dump;
+> +
+
+I didn't check above these, but maybe a good idea to add one line
+comment what is this about?
+
+
+>  extern const unsigned char pcie_link_speed[];
+> -
+> +extern bool pci_early_dump;
+>  bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
+>
+
+Hmm... I would rather not attach this line to some function declarations.
+
+> +static void early_dump_pci_device(struct pci_dev *pdev)
+> +{
+> +       u32 value[256 / 4];
+> +       int i;
+> +
+> +       dev_info(&pdev->dev, "pci 0000:%02x:%02x.%d config space:\n",
+> +                pdev->bus->number, PCI_SLOT(pdev->devfn),
+> +                PCI_FUNC(pdev->devfn));
+
+Shouldn't be this changed to pci_info() ?
+
+> +
+> +       for (i = 0; i < 256; i += 4)
+> +               pci_read_config_dword(pdev, i, &value[i / 4]);
+> +
+> +       print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value,
+> +                      256, false);
+> +}
 
 -- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+With Best Regards,
+Andy Shevchenko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
