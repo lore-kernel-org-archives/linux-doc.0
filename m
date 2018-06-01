@@ -1,155 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 86EB37DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 15:08:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36D5C7DF8D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 15:19:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752706AbeFAPHO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 11:07:14 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:41868 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752203AbeFAPHC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 11:07:02 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id D0CB2607B4; Fri,  1 Jun 2018 15:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527865621;
-        bh=JXu0kmUHl6d5+PGD3kDHQPyAK3FEcyKjZNG5e6HC/+E=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=cs7o8VCNECi78n2eFjU0ab4FCtE0+8rQSsWvuf3LKz0Ga865c1L3zgpnmeFohJSKS
-         3p+c9d0sFkBuDlhYURBZWNWI4q1hpZFG0+M4JNE5M8KSLwoOsjx4GNK6ZPe3YE9TU9
-         hvVojQfPybz7benFgK1/fgvEwU7lQEKPwA5mXNdU=
-Received: from [10.235.228.150] (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: okaya@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1C3A1606DD;
-        Fri,  1 Jun 2018 15:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527865617;
-        bh=JXu0kmUHl6d5+PGD3kDHQPyAK3FEcyKjZNG5e6HC/+E=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Tq4VMOmGV2553WTnBeESMvdBJ54sboBFxywQZ0PdTmBGPhAjsgCznXR/f32LXuFA6
-         JgPrtogS4jqoxzc6PHsdbhToWSJYa0ADPA8GIU9GXcT2jFY8GfJ5zsWN8zkr61p7z5
-         k5EZQuv1/9pGt5RvzyAjciAJd/PaHrCVkHflzPkM=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1C3A1606DD
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
-Subject: Re: [PATCH] PCI: move early dump functionality from x86 arch into the
- common code
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-pci@vger.kernel.org, Timur Tabi <timur@codeaurora.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Christoffer Dall <cdall@linaro.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        id S1753054AbeFAPTM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 11:19:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49933 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1753048AbeFAPTK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Jun 2018 11:19:10 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 630FFAE76;
+        Fri,  1 Jun 2018 15:19:08 +0000 (UTC)
+Date:   Fri, 1 Jun 2018 17:19:05 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        baijiaju1990@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>, sboyd@kernel.org,
+        Zhang Rui <rui.zhang@intel.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Eric Anholt <eric@anholt.net>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Juergen Gross <jgross@suse.com>, Borislav Petkov <bp@suse.de>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Petr Tesarik <ptesarik@suse.cz>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dou Liyang <douly.fnst@cn.fujitsu.com>,
-        Ram Pai <linuxram@us.ibm.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
- <CAHp75Vc3YKAR1P_F0fwD+ueGub4gVUjP0=wv4Egf_fTSVkSUjw@mail.gmail.com>
-From:   Sinan Kaya <okaya@codeaurora.org>
-Message-ID: <53e4d6c3-ee19-fd04-4ba3-862d04558689@codeaurora.org>
-Date:   Fri, 1 Jun 2018 11:06:53 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        linux-clk@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH 0/4] lib/vsprintf: Remove atomic-unsafe support for
+ printk format %pCr
+Message-ID: <20180601151905.yilldc6vbachfw4k@pathway.suse.cz>
+References: <1527845302-12159-1-git-send-email-geert+renesas@glider.be>
+ <CA+55aFxHHSRnDbbNGq6SwNAwEt0EhX15n_pNqon3MzGYJgMJmA@mail.gmail.com>
+ <20180601114738.kdoggkha2yosjgbv@pathway.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vc3YKAR1P_F0fwD+ueGub4gVUjP0=wv4Egf_fTSVkSUjw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180601114738.kdoggkha2yosjgbv@pathway.suse.cz>
+User-Agent: NeoMutt/20170421 (1.8.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/1/2018 11:02 AM, Andy Shevchenko wrote:
-> On Wed, May 30, 2018 at 7:34 AM, Sinan Kaya <okaya@codeaurora.org> wrote:
->> Move early dump functionality into common code so that it is available for
->> all archtiectures. No need to carry arch specific reads around as the read
->> hooks are already initialized by the time pci_setup_device() is getting
->> called during scan.
+On Fri 2018-06-01 13:47:38, Petr Mladek wrote:
+> On Fri 2018-06-01 06:00:47, Linus Torvalds wrote:
+> > On Fri, Jun 1, 2018 at 4:29 AM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > >
+> > > This patch series:
+> > >   - Changes all existing users of "%pCr" to print the result of
+> > >     clk_get_rate() directly, which is safe as they all do this in task
+> > >     context only,
+> > >   - Removes support for the "%pCr" printk format.
+> > 
+> > Looks good to me.
+> > 
+> > What tree will this go through? The normal printk one? Just checking
+> > that this doesn't end up falling through the cracks because nobody
+> > knows who would take it...
 > 
->>  /* If set, the PCIe ATS capability will not be used. */
->>  static bool pcie_ats_disabled;
->>
->> +bool pci_early_dump;
->> +
-> 
-> I didn't check above these, but maybe a good idea to add one line
-> comment what is this about?
+> I will take it via printk.git. There already is bunch of vsprintf
+> changes for-4.18.
 
-This was discussed here: 
+It is in printk.git, branch for-4.18-vsprintf-pcr-removal now.
 
-https://www.spinics.net/lists/linux-pci/msg72859.html
+Also I have added Cc: stable@vger.kernel.org into the commit messages.
 
-> 
-> 
->>  extern const unsigned char pcie_link_speed[];
->> -
->> +extern bool pci_early_dump;
->>  bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
->>
-> 
-> Hmm... I would rather not attach this line to some function declarations.
-
-Sure
-
-> 
->> +static void early_dump_pci_device(struct pci_dev *pdev)
->> +{
->> +       u32 value[256 / 4];
->> +       int i;
->> +
->> +       dev_info(&pdev->dev, "pci 0000:%02x:%02x.%d config space:\n",
->> +                pdev->bus->number, PCI_SLOT(pdev->devfn),
->> +                PCI_FUNC(pdev->devfn));
-> 
-> Shouldn't be this changed to pci_info() ?
-
-Yeah, I need to get used to pci_info().
-
-> 
->> +
->> +       for (i = 0; i < 256; i += 4)
->> +               pci_read_config_dword(pdev, i, &value[i / 4]);
->> +
->> +       print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value,
->> +                      256, false);
->> +}
-> 
-
-
--- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+Best Regards,
+Petr
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
