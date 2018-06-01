@@ -1,277 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81F557D085
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 14:31:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 157747DF8B
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 14:49:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751501AbeFAOaH convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 10:30:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55988 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751465AbeFAOaG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Jun 2018 10:30:06 -0400
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.phx2.redhat.com [10.5.11.24])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1752996AbeFAOqL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 10:46:11 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:53868 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752983AbeFAOqE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 10:46:04 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 1069C607BB; Fri,  1 Jun 2018 14:46:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527864364;
+        bh=Kh+HdeKtdTQsNKLEK1rMXPyaTftEfWcazLL2beBhMeQ=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=oB1DBUqwIpqh5K9a8zAsQzKwsRZVshoqy+F6y2XAZOHqp/PQujX+cLWGOA9U+YbEV
+         RQV1a9ZpoeIi0VPnncfvYKUqPpjJy6dDETf2DGN7YjbGkOOPf8rcQqntCF7Vm290X+
+         G51ifguScVNYJN3YilMkGWnF5VIGNIoHYHHs0Jfc=
+Received: from [10.235.228.150] (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 14CE230C40D0;
-        Fri,  1 Jun 2018 14:30:06 +0000 (UTC)
-Received: from t450s.home (ovpn-116-135.phx2.redhat.com [10.3.116.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2B64D308BDA6;
-        Fri,  1 Jun 2018 14:30:02 +0000 (UTC)
-Date:   Fri, 1 Jun 2018 08:30:00 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Logan Gunthorpe <logang@deltatee.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        (Authenticated sender: okaya@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0766B60224;
+        Fri,  1 Jun 2018 14:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527864361;
+        bh=Kh+HdeKtdTQsNKLEK1rMXPyaTftEfWcazLL2beBhMeQ=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=RkWx1H7jrOzhhLTf4UmGNqCdCQ8tSNW0dKRZiPUI3SC/5AgB1AA3WzXGOs9hA/ReD
+         IcW1ijy/evEw4BG057HOflmaVgcV4S6zoJ/etOk+c6jCwHQFa2tezEoBt8cRck4+bL
+         AlqCy8fF200o0fKxkIRssMuJDI+vgORPCk44+jgg=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0766B60224
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
+Subject: Re: [PATCH] PCI: move early dump functionality from x86 arch into the
+ common code
+To:     linux-pci@vger.kernel.org, timur@codeaurora.org
+Cc:     linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Christoffer Dall <cdall@linaro.org>,
         "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
         Marc Zyngier <marc.zyngier@arm.com>,
         Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
         Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v2 2/3] PCI: Allow specifying devices using a base bus
- and path of devfns
-Message-ID: <20180601083000.62d10d14@t450s.home>
-In-Reply-To: <20180531235010.5279-3-logang@deltatee.com>
-References: <20180531235010.5279-1-logang@deltatee.com>
-        <20180531235010.5279-3-logang@deltatee.com>
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Juergen Gross <jgross@suse.com>, Borislav Petkov <bp@suse.de>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Petr Tesarik <ptesarik@suse.cz>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dou Liyang <douly.fnst@cn.fujitsu.com>,
+        Ram Pai <linuxram@us.ibm.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
+From:   Sinan Kaya <okaya@codeaurora.org>
+Message-ID: <82d0852b-7c34-3fc2-85d8-c21b33aa8cf4@codeaurora.org>
+Date:   Fri, 1 Jun 2018 10:45:58 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.24
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Fri, 01 Jun 2018 14:30:06 +0000 (UTC)
+In-Reply-To: <1527654876-26716-1-git-send-email-okaya@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 31 May 2018 17:50:09 -0600
-Logan Gunthorpe <logang@deltatee.com> wrote:
-
-> When specifying PCI devices on the kernel command line using a
-> BDF, the bus numbers can change when adding or replacing a device,
-> changing motherboard firmware, or applying kernel parameters like
-> pci=assign-buses. When this happens, it is usually undesirable to
-> apply whatever command line tweak to the wrong device.
+On 5/30/2018 12:34 AM, Sinan Kaya wrote:
+> Move early dump functionality into common code so that it is available for
+> all archtiectures. No need to carry arch specific reads around as the read
+> hooks are already initialized by the time pci_setup_device() is getting
+> called during scan.
 > 
-> Therefore, it is useful to be able to specify devices with a base
-> bus number and the path of devfns needed to get to it. (Similar to
-> the "device scope" structure in the Intel VT-d spec, Section 8.3.1.)
-> 
-> Thus, we add an option to specify devices in the following format:
-> 
-> path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
-> 
-> The path can be any segment within the PCI hierarchy of any length and
-> determined through the use of 'lspci -t'. When specified this way, it is
-> less likely that a renumbered bus will result in a valid device specification
-> and the tweak won't be applied to the wrong device.
-> 
-> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-> Reviewed-by: Stephen Bates <sbates@raithlin.com>
-> Acked-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt |  12 ++-
->  drivers/pci/pci.c                               | 101 +++++++++++++++++++++++-
->  2 files changed, 107 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index e58cc671ff92..bc51b316f485 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2989,9 +2989,10 @@
->  
->  				Some options herein operate on a specific device
->  				or a set of devices (<pci_dev>). These are
-> -				specified in one of two formats:
-> +				specified in one of three formats:
->  
->  				[<domain>:]<bus>:<slot>.<func>
-> +				path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
->  				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
->  
->  				Note: the first format specifies a PCI
-> @@ -2999,9 +3000,12 @@
->  				if new hardware is inserted, if motherboard
->  				firmware changes, or due to changes caused
->  				by other kernel parameters. The second format
-> -				selects devices using IDs from the
-> -				configuration space which may match multiple
-> -				devices in the system.
-> +				specifies a path from a device through
-> +				a path of multiple slot/function addresses
-> +				(this is more robust against renumbering
-> +				issues). The third format selects devices using
-> +				IDs from the configuration space which may match
-> +				multiple devices in the system.
->  
->  		earlydump	[X86] dump PCI config space before the kernel
->  			        changes anything
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 85fec5e2640b..39f11bd0ee03 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -184,22 +184,111 @@ EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
->  #endif
->  
->  /**
-> + * pci_dev_str_match_path - test if a path string matches a device
-> + * @dev:    the PCI device to test
-> + * @p:      string to match the device against
-> + * @endptr: pointer to the string after the match
-> + *
-> + * Test if a string (typically from a kernel parameter) formated as a
-> + * path of slot/function addresses matches a PCI device. The string must
-> + * be of the form:
-> + *
-> + *   [<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
-> + *
-> + * A path for a device can be obtained using 'lspci -t'. Using a path
-> + * is more robust against renumbering of devices than using only
-> + * a single bus, slot and function address.
-> + *
-> + * Returns 1 if the string matches the device, 0 if it does not and
-> + * a negative error code if it fails to parse the string.
-> + */
-> +static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
-> +				  const char **endptr)
-> +{
-> +	int ret;
-> +	int seg, bus, slot, func;
-> +	char *wpath, *p;
-> +	char end;
-> +
-> +	*endptr = strchrnul(path, ';');
-> +
-> +	wpath = kmemdup_nul(path, *endptr - path, GFP_KERNEL);
-> +	if (!wpath)
-> +		return -ENOMEM;
-> +
-> +	while (1) {
-> +		p = strrchr(wpath, '/');
-> +		if (!p)
-> +			break;
-> +		ret = sscanf(p, "/%x.%x%c", &slot, &func, &end);
-> +		if (ret != 2) {
-> +			ret = -EINVAL;
-> +			goto free_and_exit;
-> +		}
-> +
-> +		if (dev->devfn != PCI_DEVFN(slot, func)) {
-> +			ret = 0;
-> +			goto free_and_exit;
-> +		}
-> +
-> +		/*
-> +		 * Note: we don't need to get a reference to the upstream
-> +		 * bridge because we hold a reference to the top level
-> +		 * device which should hold a reference to the bridge,
-> +		 * and so on.
-> +		 */
-> +		dev = pci_upstream_bridge(dev);
-> +		if (!dev) {
-> +			ret = 0;
-> +			goto free_and_exit;
-> +		}
-> +
-> +		*p = 0;
-> +	}
-> +
-> +	ret = sscanf(wpath, "%x:%x:%x.%x%c", &seg, &bus, &slot,
-> +		     &func, &end);
-> +	if (ret != 4) {
-> +		seg = 0;
-> +		ret = sscanf(wpath, "%x:%x.%x%c", &bus, &slot, &func, &end);
-> +		if (ret != 3) {
-> +			ret = -EINVAL;
-> +			goto free_and_exit;
-> +		}
-> +	}
-> +
-> +	ret = (seg == pci_domain_nr(dev->bus) &&
-> +	       bus == dev->bus->number &&
-> +	       dev->devfn == PCI_DEVFN(slot, func));
-> +
-> +free_and_exit:
-> +	kfree(wpath);
-> +	return ret;
-> +}
+>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
+>  arch/x86/include/asm/pci-direct.h               |  5 ---
+>  arch/x86/kernel/setup.c                         |  5 ---
+>  arch/x86/pci/common.c                           |  4 --
+>  arch/x86/pci/early.c                            | 50 -------------------------
+>  drivers/pci/pci.c                               |  4 ++
+>  drivers/pci/pci.h                               |  2 +-
+>  drivers/pci/probe.c                             | 19 ++++++++++
+>  8 files changed, 25 insertions(+), 66 deletions(-)
 
-Cool, I'm glad this worked.  I note though that there's really not much
-difference between:
+Any feedback on the direction?
 
-[domain:]bus:slot.fn
-
-and
-
-[domain:]bus:slot.fn[/slot.fn[/slot.fn[/...]]]
-
-IOW, what's defined here as the "path:" specification doesn't require
-that we start at a root bus device, it can really specify a path
-starting anywhere, including the target device directly.  So can we
-simply extend domain:bus:slot.fn to support paths without a separate
-identifier?  Thanks,
-
-Alex
-
-> +
-> +/**
->   * pci_dev_str_match - test if a string matches a device
->   * @dev:    the PCI device to test
->   * @p:      string to match the device against
->   * @endptr: pointer to the string after the match
->   *
->   * Test if a string (typically from a kernel parameter) matches a
-> - * specified. The string may be of one of two forms formats:
-> + * specified. The string may be of one of three formats:
->   *
->   *   [<domain>:]<bus>:<slot>.<func>
-> + *   path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
->   *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
->   *
->   * The first format specifies a PCI bus/slot/function address which
->   * may change if new hardware is inserted, if motherboard firmware changes,
->   * or due to changes caused in kernel parameters.
->   *
-> - * The second format matches devices using IDs in the configuration
-> + * The second format specifies a PCI bus/slot/function root address and
-> + * a path of slot/function addresses to the specific device from the root.
-> + * The path for a device can be determined through the use of 'lspci -t'.
-> + * This format is more robust against renumbering issues than the first format.
-> +
-> + * The third format matches devices using IDs in the configuration
->   * space which may match multiple devices in the system. A value of 0
->   * for any field will match all devices.
->   *
-> @@ -236,7 +325,15 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
->  		    (!subsystem_device ||
->  			    subsystem_device == dev->subsystem_device))
->  			goto found;
-> +	} else if (strncmp(p, "path:", 5) == 0) {
-> +		/* PCI Root Bus and a path of Slot,Function IDs */
-> +		p += 5;
->  
-> +		ret = pci_dev_str_match_path(dev, p, &p);
-> +		if (ret < 0)
-> +			return ret;
-> +		else if (ret)
-> +			goto found;
->  	} else {
->  		/* PCI Bus,Slot,Function ids are specified */
->  		ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
-
+-- 
+Sinan Kaya
+Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
+Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
