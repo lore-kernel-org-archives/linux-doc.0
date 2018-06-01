@@ -1,118 +1,277 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07E8E7DF90
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 14:30:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 81F557D085
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 14:31:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752233AbeFAO3j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 10:29:39 -0400
-Received: from mail-wr0-f196.google.com ([209.85.128.196]:46358 "EHLO
-        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751598AbeFAO3j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 10:29:39 -0400
-Received: by mail-wr0-f196.google.com with SMTP id v13-v6so24862385wrp.13;
-        Fri, 01 Jun 2018 07:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4UktN3NH2pBPYZoryYZ5VOcRLY46S694/1kkbT8gqcA=;
-        b=NF2MybQC7EyPAO0Fx7lxSlLVijTZxYWvWT8P3uCWzwQCyLGzTjNlyPanUzl+qmZA6l
-         /c/DvOZMSK3+f51R2IcnD7VM7FOQEosyASI/LMOu+HJyIcYM70Pu8ZwqggjHBxj68/It
-         ielJNsH13Mhj4gwq0eM1JA0KY44IYM8fjRCzjGOv0WJKCukRZMjZLYZlRIfX8oOZb7+L
-         QYNVo8sWkNgBBH2sMOQi72MOMirlLCTVkPqRz1SNoPYKp90xb1zDSjekadS8mtKhUU40
-         izogHY815kKA/kymFhXLNYi+jAyDAXSxT6GGDYVaNdS3NbU0vtLez7jaMzpM1+KKQtDl
-         nSrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4UktN3NH2pBPYZoryYZ5VOcRLY46S694/1kkbT8gqcA=;
-        b=qx60YF0bjE3OItseDPhKqUlMR++bSnKhY7rE9cvjo90TbEPMJZ69wMyC2wulYPBYKT
-         peA2o5TGT47EMKIJr/01BZpFywdHXHmvm7Kw6gYql5xe+6TeJwQABNG7/aoYzmly6PMK
-         sY9WtcUYQ1AYWVAlYRbgXfv/RO+QuCPgdanrsLN8JDpy4/1f4DzXNmHS4NXW/xpxyppt
-         XXepG2gqqCERDCHAtfrBGJakQ2p3fQYiNSZPOpcwkeVLPwsCAdwVphzbI+yhKjqjyvkP
-         dfq2/RS1RUJgqdDpvpLM2lLZvyPdti/YEmD2HAEk0ISda2UE8/tquAkBqbRiQV0hXvkJ
-         xmNA==
-X-Gm-Message-State: ALKqPwcnq5WpQtdvVPX/13MDkEotK9Rvell3UxxxDAQJ4ze/1Tn/KCR2
-        hwHib1r77VDZj3OB75iUJ7O5k6DSJj7j1s2D13s=
-X-Google-Smtp-Source: ADUXVKJ7tFPFXNPrRL7xURHuxFCyurzo7glfUbbAyMbmv4sSjZ9CAvL/ZWLWqs/8oL9bD/eQRGpLm3P/rOAykqWdx0A=
-X-Received: by 2002:adf:90a3:: with SMTP id i32-v6mr8672224wri.78.1527863377761;
- Fri, 01 Jun 2018 07:29:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:adf:dd4f:0:0:0:0:0 with HTTP; Fri, 1 Jun 2018 07:29:37 -0700 (PDT)
-In-Reply-To: <494c2768-4ac8-7282-80dd-122add15b2bb@daenzer.net>
-References: <20180531161708.5894-1-michel@daenzer.net> <20180531161708.5894-3-michel@daenzer.net>
- <CADnq5_O5-m_=xqszq41eOAVaLTytHUHmtDaSc1MeEorZML6T5g@mail.gmail.com>
- <b458561f-b4e5-58bb-eee0-e3451312ae41@daenzer.net> <CADnq5_M-kS58ScgOBVQG7Mxxepae9b9gqUdMdFgaPaaxQ4NkjQ@mail.gmail.com>
- <494c2768-4ac8-7282-80dd-122add15b2bb@daenzer.net>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Fri, 1 Jun 2018 10:29:37 -0400
-Message-ID: <CADnq5_McUDsTS3DkHWT-xriEm9AZ=zkfZKZ3r0Uxu64bCU1m=Q@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/amdgpu: Add documentation for PRIME related code
-To:     =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Cc:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+        id S1751501AbeFAOaH convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 10:30:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55988 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751465AbeFAOaG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Jun 2018 10:30:06 -0400
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.phx2.redhat.com [10.5.11.24])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 14CE230C40D0;
+        Fri,  1 Jun 2018 14:30:06 +0000 (UTC)
+Received: from t450s.home (ovpn-116-135.phx2.redhat.com [10.3.116.135])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2B64D308BDA6;
+        Fri,  1 Jun 2018 14:30:02 +0000 (UTC)
+Date:   Fri, 1 Jun 2018 08:30:00 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v2 2/3] PCI: Allow specifying devices using a base bus
+ and path of devfns
+Message-ID: <20180601083000.62d10d14@t450s.home>
+In-Reply-To: <20180531235010.5279-3-logang@deltatee.com>
+References: <20180531235010.5279-1-logang@deltatee.com>
+        <20180531235010.5279-3-logang@deltatee.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.24
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Fri, 01 Jun 2018 14:30:06 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 1, 2018 at 9:56 AM, Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
-> On 2018-06-01 03:44 PM, Alex Deucher wrote:
->> On Fri, Jun 1, 2018 at 9:40 AM, Michel D=C3=A4nzer <michel@daenzer.net> =
-wrote:
->>> On 2018-06-01 02:58 PM, Alex Deucher wrote:
->>>> On Thu, May 31, 2018 at 12:17 PM, Michel D=C3=A4nzer <michel@daenzer.n=
-et> wrote:
->>>>> From: Michel D=C3=A4nzer <michel.daenzer@amd.com>
->>>>>
->>>>> Signed-off-by: Michel D=C3=A4nzer <michel.daenzer@amd.com>
->>>>
->>>> Series is:
->>>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->>>
->>> Thanks. Is it okay to merge all of these via the amdgpu tree, or should
->>> I wait for an ack from Jon and/or core DRM maintainers for that?
->>
->> GPU documentation usually goes through the drm trees.  You might want
->> to push patch 1 (drm_mm.rst fix) via drm_misc, but the rest are can go
->> in via the amdgpu tree since they are amdgpu specific.
->
-> I'd prefer merging all three patches together, since without patch 1,
-> patch 3 generates the warning below while generating documentation, and
-> the reference to the PRIME Buffer Sharing section doesn't work.
->
-> .../linux/Documentation/gpu/amdgpu.rst:2: WARNING: undefined label:
-> prime_buffer_sharing (if the link has no caption the label must precede
-> a section header)
+On Thu, 31 May 2018 17:50:09 -0600
+Logan Gunthorpe <logang@deltatee.com> wrote:
 
+> When specifying PCI devices on the kernel command line using a
+> BDF, the bus numbers can change when adding or replacing a device,
+> changing motherboard firmware, or applying kernel parameters like
+> pci=assign-buses. When this happens, it is usually undesirable to
+> apply whatever command line tweak to the wrong device.
+> 
+> Therefore, it is useful to be able to specify devices with a base
+> bus number and the path of devfns needed to get to it. (Similar to
+> the "device scope" structure in the Intel VT-d spec, Section 8.3.1.)
+> 
+> Thus, we add an option to specify devices in the following format:
+> 
+> path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+> 
+> The path can be any segment within the PCI hierarchy of any length and
+> determined through the use of 'lspci -t'. When specified this way, it is
+> less likely that a renumbered bus will result in a valid device specification
+> and the tweak won't be applied to the wrong device.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Stephen Bates <sbates@raithlin.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  12 ++-
+>  drivers/pci/pci.c                               | 101 +++++++++++++++++++++++-
+>  2 files changed, 107 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index e58cc671ff92..bc51b316f485 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2989,9 +2989,10 @@
+>  
+>  				Some options herein operate on a specific device
+>  				or a set of devices (<pci_dev>). These are
+> -				specified in one of two formats:
+> +				specified in one of three formats:
+>  
+>  				[<domain>:]<bus>:<slot>.<func>
+> +				path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+>  				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
+>  
+>  				Note: the first format specifies a PCI
+> @@ -2999,9 +3000,12 @@
+>  				if new hardware is inserted, if motherboard
+>  				firmware changes, or due to changes caused
+>  				by other kernel parameters. The second format
+> -				selects devices using IDs from the
+> -				configuration space which may match multiple
+> -				devices in the system.
+> +				specifies a path from a device through
+> +				a path of multiple slot/function addresses
+> +				(this is more robust against renumbering
+> +				issues). The third format selects devices using
+> +				IDs from the configuration space which may match
+> +				multiple devices in the system.
+>  
+>  		earlydump	[X86] dump PCI config space before the kernel
+>  			        changes anything
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 85fec5e2640b..39f11bd0ee03 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -184,22 +184,111 @@ EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
+>  #endif
+>  
+>  /**
+> + * pci_dev_str_match_path - test if a path string matches a device
+> + * @dev:    the PCI device to test
+> + * @p:      string to match the device against
+> + * @endptr: pointer to the string after the match
+> + *
+> + * Test if a string (typically from a kernel parameter) formated as a
+> + * path of slot/function addresses matches a PCI device. The string must
+> + * be of the form:
+> + *
+> + *   [<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+> + *
+> + * A path for a device can be obtained using 'lspci -t'. Using a path
+> + * is more robust against renumbering of devices than using only
+> + * a single bus, slot and function address.
+> + *
+> + * Returns 1 if the string matches the device, 0 if it does not and
+> + * a negative error code if it fails to parse the string.
+> + */
+> +static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
+> +				  const char **endptr)
+> +{
+> +	int ret;
+> +	int seg, bus, slot, func;
+> +	char *wpath, *p;
+> +	char end;
+> +
+> +	*endptr = strchrnul(path, ';');
+> +
+> +	wpath = kmemdup_nul(path, *endptr - path, GFP_KERNEL);
+> +	if (!wpath)
+> +		return -ENOMEM;
+> +
+> +	while (1) {
+> +		p = strrchr(wpath, '/');
+> +		if (!p)
+> +			break;
+> +		ret = sscanf(p, "/%x.%x%c", &slot, &func, &end);
+> +		if (ret != 2) {
+> +			ret = -EINVAL;
+> +			goto free_and_exit;
+> +		}
+> +
+> +		if (dev->devfn != PCI_DEVFN(slot, func)) {
+> +			ret = 0;
+> +			goto free_and_exit;
+> +		}
+> +
+> +		/*
+> +		 * Note: we don't need to get a reference to the upstream
+> +		 * bridge because we hold a reference to the top level
+> +		 * device which should hold a reference to the bridge,
+> +		 * and so on.
+> +		 */
+> +		dev = pci_upstream_bridge(dev);
+> +		if (!dev) {
+> +			ret = 0;
+> +			goto free_and_exit;
+> +		}
+> +
+> +		*p = 0;
+> +	}
+> +
+> +	ret = sscanf(wpath, "%x:%x:%x.%x%c", &seg, &bus, &slot,
+> +		     &func, &end);
+> +	if (ret != 4) {
+> +		seg = 0;
+> +		ret = sscanf(wpath, "%x:%x.%x%c", &bus, &slot, &func, &end);
+> +		if (ret != 3) {
+> +			ret = -EINVAL;
+> +			goto free_and_exit;
+> +		}
+> +	}
+> +
+> +	ret = (seg == pci_domain_nr(dev->bus) &&
+> +	       bus == dev->bus->number &&
+> +	       dev->devfn == PCI_DEVFN(slot, func));
+> +
+> +free_and_exit:
+> +	kfree(wpath);
+> +	return ret;
+> +}
 
-That's fine.  I'll take them all through the amdgpu tree.
+Cool, I'm glad this worked.  I note though that there's really not much
+difference between:
+
+[domain:]bus:slot.fn
+
+and
+
+[domain:]bus:slot.fn[/slot.fn[/slot.fn[/...]]]
+
+IOW, what's defined here as the "path:" specification doesn't require
+that we start at a root bus device, it can really specify a path
+starting anywhere, including the target device directly.  So can we
+simply extend domain:bus:slot.fn to support paths without a separate
+identifier?  Thanks,
 
 Alex
 
->
->
-> --
-> Earthling Michel D=C3=A4nzer               |               http://www.amd=
-.com
-> Libre software enthusiast             |             Mesa and X developer
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> +
+> +/**
+>   * pci_dev_str_match - test if a string matches a device
+>   * @dev:    the PCI device to test
+>   * @p:      string to match the device against
+>   * @endptr: pointer to the string after the match
+>   *
+>   * Test if a string (typically from a kernel parameter) matches a
+> - * specified. The string may be of one of two forms formats:
+> + * specified. The string may be of one of three formats:
+>   *
+>   *   [<domain>:]<bus>:<slot>.<func>
+> + *   path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+>   *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
+>   *
+>   * The first format specifies a PCI bus/slot/function address which
+>   * may change if new hardware is inserted, if motherboard firmware changes,
+>   * or due to changes caused in kernel parameters.
+>   *
+> - * The second format matches devices using IDs in the configuration
+> + * The second format specifies a PCI bus/slot/function root address and
+> + * a path of slot/function addresses to the specific device from the root.
+> + * The path for a device can be determined through the use of 'lspci -t'.
+> + * This format is more robust against renumbering issues than the first format.
+> +
+> + * The third format matches devices using IDs in the configuration
+>   * space which may match multiple devices in the system. A value of 0
+>   * for any field will match all devices.
+>   *
+> @@ -236,7 +325,15 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
+>  		    (!subsystem_device ||
+>  			    subsystem_device == dev->subsystem_device))
+>  			goto found;
+> +	} else if (strncmp(p, "path:", 5) == 0) {
+> +		/* PCI Root Bus and a path of Slot,Function IDs */
+> +		p += 5;
+>  
+> +		ret = pci_dev_str_match_path(dev, p, &p);
+> +		if (ret < 0)
+> +			return ret;
+> +		else if (ret)
+> +			goto found;
+>  	} else {
+>  		/* PCI Bus,Slot,Function ids are specified */
+>  		ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
