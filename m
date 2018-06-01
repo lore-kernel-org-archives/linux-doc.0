@@ -5,309 +5,411 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E96F27DF8B
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 May 2018 23:50:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 947337D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 09:17:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750770AbeEaXua (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 May 2018 19:50:30 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:59082 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750738AbeEaXu2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 May 2018 19:50:28 -0400
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
-        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1fOXKp-00075D-F7; Thu, 31 May 2018 17:50:25 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1fOXKf-0001Nv-0q; Thu, 31 May 2018 17:50:13 -0600
-From:   Logan Gunthorpe <logang@deltatee.com>
-To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Logan Gunthorpe <logang@deltatee.com>
-Date:   Thu, 31 May 2018 17:50:08 -0600
-Message-Id: <20180531235010.5279-2-logang@deltatee.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180531235010.5279-1-logang@deltatee.com>
-References: <20180531235010.5279-1-logang@deltatee.com>
+        id S1750816AbeFAJRc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 05:17:32 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:48808 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750760AbeFAJRa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Jun 2018 05:17:30 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EAB6815AD;
+        Fri,  1 Jun 2018 02:17:29 -0700 (PDT)
+Received: from [10.1.206.75] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACCDA3F25D;
+        Fri,  1 Jun 2018 02:17:27 -0700 (PDT)
+Subject: Re: [PATCH v1 2/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
+To:     Dongjiu Geng <gengdongjiu@huawei.com>, rkrcmar@redhat.com,
+        corbet@lwn.net, christoffer.dall@arm.com, linux@armlinux.org.uk,
+        catalin.marinas@arm.com, will.deacon@arm.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, james.morse@arm.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+References: <1527772139-19665-1-git-send-email-gengdongjiu@huawei.com>
+ <1527772139-19665-3-git-send-email-gengdongjiu@huawei.com>
+From:   Marc Zyngier <marc.zyngier@arm.com>
+Organization: ARM Ltd
+Message-ID: <1bf8c082-7442-6963-a960-a89bee550411@arm.com>
+Date:   Fri, 1 Jun 2018 10:17:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v2 1/3] PCI: Make specifying PCI devices in kernel parameters reusable
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+In-Reply-To: <1527772139-19665-3-git-send-email-gengdongjiu@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Separate out the code to match a PCI device with a string (typically
-originating from a kernel parameter) from the
-pci_specified_resource_alignment() function into its own helper
-function.
+On 31/05/18 14:08, Dongjiu Geng wrote:
+> For the migrating VMs, user space may need to know the exception
+> state. For example, in the machine A, KVM make an SError pending,
+> when migrate to B, KVM also needs to pend an SError.
+> 
+> This new IOCTL exports user-invisible states related to SError.
+> Together with appropriate user space changes, user space can get/set
+> the SError exception state to do migrate/snapshot/suspend.
+> 
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> --
+> this series patch is separated from https://www.spinics.net/lists/kvm/msg168917.html
+> change since V12:
+> 1. change (vcpu->arch.hcr_el2 & HCR_VSE) to !!(vcpu->arch.hcr_el2 & HCR_VSE) in kvm_arm_vcpu_get_events()
+> 
+> Change since V11:
+> Address James's comments, thanks James
+> 1. Align the struct of kvm_vcpu_events to 64 bytes
+> 2. Avoid exposing the stale ESR value in the kvm_arm_vcpu_get_events()
+> 3. Change variables 'injected' name to 'serror_pending' in the kvm_arm_vcpu_set_events()
+> 4. Change to sizeof(events) from sizeof(struct kvm_vcpu_events) in kvm_arch_vcpu_ioctl()
+> 
+> Change since V10:
+> Address James's comments, thanks James
+> 1. Merge the helper function with the user.
+> 2. Move the ISS_MASK into pend_guest_serror() to clear top bits
+> 3. Make kvm_vcpu_events struct align to 4 bytes
+> 4. Add something check in the kvm_arm_vcpu_set_events()
+> 5. Check kvm_arm_vcpu_get/set_events()'s return value.
+> 6. Initialise kvm_vcpu_events to 0 so that padding transferred to user-space doesn't
+>    contain kernel stack.
+> ---
+>  Documentation/virtual/kvm/api.txt    | 31 ++++++++++++++++++++++++++++---
+>  arch/arm/include/asm/kvm_host.h      |  6 ++++++
+>  arch/arm/kvm/guest.c                 | 12 ++++++++++++
+>  arch/arm64/include/asm/kvm_emulate.h |  5 +++++
+>  arch/arm64/include/asm/kvm_host.h    |  7 +++++++
+>  arch/arm64/include/uapi/asm/kvm.h    | 13 +++++++++++++
+>  arch/arm64/kvm/guest.c               | 36 ++++++++++++++++++++++++++++++++++++
+>  arch/arm64/kvm/inject_fault.c        |  7 ++++++-
+>  arch/arm64/kvm/reset.c               |  1 +
+>  virt/kvm/arm/arm.c                   | 21 +++++++++++++++++++++
+>  10 files changed, 135 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+> index fdac969..8896737 100644
+> --- a/Documentation/virtual/kvm/api.txt
+> +++ b/Documentation/virtual/kvm/api.txt
+> @@ -835,11 +835,13 @@ struct kvm_clock_data {
+>  
+>  Capability: KVM_CAP_VCPU_EVENTS
+>  Extended by: KVM_CAP_INTR_SHADOW
+> -Architectures: x86
+> +Architectures: x86, arm, arm64
+>  Type: vm ioctl
+>  Parameters: struct kvm_vcpu_event (out)
+>  Returns: 0 on success, -1 on error
+>  
+> +X86:
+> +
+>  Gets currently pending exceptions, interrupts, and NMIs as well as related
+>  states of the vcpu.
+>  
+> @@ -881,15 +883,32 @@ Only two fields are defined in the flags field:
+>  - KVM_VCPUEVENT_VALID_SMM may be set in the flags field to signal that
+>    smi contains a valid state.
+>  
+> +ARM, ARM64:
+> +
+> +Gets currently pending SError exceptions as well as related states of the vcpu.
+> +
+> +struct kvm_vcpu_events {
+> +	struct {
+> +		__u8 serror_pending;
+> +		__u8 serror_has_esr;
+> +		/* Align it to 8 bytes */
+> +		__u8 pad[6];
+> +		__u64 serror_esr;
+> +	} exception;
+> +	__u32 reserved[12];
+> +};
+> +
+>  4.32 KVM_SET_VCPU_EVENTS
+>  
+> -Capability: KVM_CAP_VCPU_EVENTS
+> +Capebility: KVM_CAP_VCPU_EVENTS
+>  Extended by: KVM_CAP_INTR_SHADOW
+> -Architectures: x86
+> +Architectures: x86, arm, arm64
+>  Type: vm ioctl
+>  Parameters: struct kvm_vcpu_event (in)
+>  Returns: 0 on success, -1 on error
+>  
+> +X86:
+> +
+>  Set pending exceptions, interrupts, and NMIs as well as related states of the
+>  vcpu.
+>  
+> @@ -910,6 +929,12 @@ shall be written into the VCPU.
+>  
+>  KVM_VCPUEVENT_VALID_SMM can only be set if KVM_CAP_X86_SMM is available.
+>  
+> +ARM, ARM64:
+> +
+> +Set pending SError exceptions as well as related states of the vcpu.
+> +
+> +See KVM_GET_VCPU_EVENTS for the data structure.
+> +
+>  
+>  4.33 KVM_GET_DEBUGREGS
+>  
+> diff --git a/arch/arm/include/asm/kvm_host.h b/arch/arm/include/asm/kvm_host.h
+> index c7c28c8..39f9901 100644
+> --- a/arch/arm/include/asm/kvm_host.h
+> +++ b/arch/arm/include/asm/kvm_host.h
+> @@ -213,6 +213,12 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
+>  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
+>  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+>  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events);
+> +
+> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events);
+> +
+>  unsigned long kvm_call_hyp(void *hypfn, ...);
+>  void force_vm_exit(const cpumask_t *mask);
+>  
+> diff --git a/arch/arm/kvm/guest.c b/arch/arm/kvm/guest.c
+> index a18f33e..c685f0e 100644
+> --- a/arch/arm/kvm/guest.c
+> +++ b/arch/arm/kvm/guest.c
+> @@ -261,6 +261,18 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
+>  	return -EINVAL;
+>  }
+>  
+> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+>  int __attribute_const__ kvm_target_cpu(void)
+>  {
+>  	switch (read_cpuid_part()) {
+> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+> index 1dab3a9..18f61ff 100644
+> --- a/arch/arm64/include/asm/kvm_emulate.h
+> +++ b/arch/arm64/include/asm/kvm_emulate.h
+> @@ -81,6 +81,11 @@ static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+>  	return (unsigned long *)&vcpu->arch.hcr_el2;
+>  }
+>  
+> +static inline unsigned long vcpu_get_vsesr(struct kvm_vcpu *vcpu)
+> +{
+> +	return vcpu->arch.vsesr_el2;
+> +}
+> +
+>  static inline void vcpu_set_vsesr(struct kvm_vcpu *vcpu, u64 vsesr)
+>  {
+>  	vcpu->arch.vsesr_el2 = vsesr;
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 469de8a..357304a 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -335,6 +335,11 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
+>  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
+>  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+>  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events);
+> +
+> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events);
+>  
+>  #define KVM_ARCH_WANT_MMU_NOTIFIER
+>  int kvm_unmap_hva(struct kvm *kvm, unsigned long hva);
+> @@ -363,6 +368,8 @@ void handle_exit_early(struct kvm_vcpu *vcpu, struct kvm_run *run,
+>  int kvm_perf_init(void);
+>  int kvm_perf_teardown(void);
+>  
+> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
+> +
+>  struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
+>  
+>  void __kvm_set_tpidr_el2(u64 tpidr_el2);
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 04b3256..df4faee 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -39,6 +39,7 @@
+>  #define __KVM_HAVE_GUEST_DEBUG
+>  #define __KVM_HAVE_IRQ_LINE
+>  #define __KVM_HAVE_READONLY_MEM
+> +#define __KVM_HAVE_VCPU_EVENTS
+>  
+>  #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
+>  
+> @@ -153,6 +154,18 @@ struct kvm_sync_regs {
+>  struct kvm_arch_memory_slot {
+>  };
+>  
+> +/* for KVM_GET/SET_VCPU_EVENTS */
+> +struct kvm_vcpu_events {
+> +	struct {
+> +		__u8 serror_pending;
+> +		__u8 serror_has_esr;
+> +		/* Align it to 8 bytes */
+> +		__u8 pad[6];
+> +		__u64 serror_esr;
+> +	} exception;
+> +	__u32 reserved[12];
+> +};
+> +
+>  /* If you need to interpret the index values, here is the key: */
+>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>  #define KVM_REG_ARM_COPROC_SHIFT	16
+> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+> index 56a0260..71d3841 100644
+> --- a/arch/arm64/kvm/guest.c
+> +++ b/arch/arm64/kvm/guest.c
+> @@ -289,6 +289,42 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
+>  	return -EINVAL;
+>  }
+>  
+> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events)
+> +{
+> +	events->exception.serror_pending = !!(vcpu->arch.hcr_el2 & HCR_VSE);
+> +	events->exception.serror_has_esr =
+> +			cpus_have_const_cap(ARM64_HAS_RAS_EXTN) &&
+> +					(!!vcpu_get_vsesr(vcpu));
 
-While we are at it, this change fixes the kernel style of the function
-(fixing a number of long lines and extra parentheses).
+This is odd. Isn't VSESR==0 a valid value? And isn't
+serror_has_esr always true when ARM64_HAS_RAS_EXTN is set?
 
-Additionally, make the analogous change to the kernel parameter
-documentation: Separating the description of how to specify a PCI device
-into it's own section at the head of the pci= parameter.
+> +
+> +	if (events->exception.serror_pending &&
+> +		events->exception.serror_has_esr)
+> +		events->exception.serror_esr = vcpu_get_vsesr(vcpu);
+> +	else
+> +		events->exception.serror_esr = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+> +			struct kvm_vcpu_events *events)
+> +{
+> +	bool serror_pending = events->exception.serror_pending;
+> +	bool has_esr = events->exception.serror_has_esr;
+> +
+> +	if (serror_pending && has_esr) {
+> +		if (!cpus_have_const_cap(ARM64_HAS_RAS_EXTN))
+> +			return -EINVAL;
+> +
+> +		kvm_set_sei_esr(vcpu, events->exception.serror_esr);
+> +
 
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Stephen Bates <sbates@raithlin.com>
-Acked-by: Christian König <christian.koenig@amd.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  26 +++-
- drivers/pci/pci.c                               | 153 +++++++++++++++---------
- 2 files changed, 120 insertions(+), 59 deletions(-)
+Spurious blank line
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f2040d46f095..e58cc671ff92 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2985,7 +2985,24 @@
- 			See header of drivers/block/paride/pcd.c.
- 			See also Documentation/blockdev/paride.txt.
- 
--	pci=option[,option...]	[PCI] various PCI subsystem options:
-+	pci=option[,option...]	[PCI] various PCI subsystem options.
-+
-+				Some options herein operate on a specific device
-+				or a set of devices (<pci_dev>). These are
-+				specified in one of two formats:
-+
-+				[<domain>:]<bus>:<slot>.<func>
-+				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-+
-+				Note: the first format specifies a PCI
-+				bus/slot/function address which may change
-+				if new hardware is inserted, if motherboard
-+				firmware changes, or due to changes caused
-+				by other kernel parameters. The second format
-+				selects devices using IDs from the
-+				configuration space which may match multiple
-+				devices in the system.
-+
- 		earlydump	[X86] dump PCI config space before the kernel
- 			        changes anything
- 		off		[X86] don't probe for the PCI bus
-@@ -3114,11 +3131,10 @@
- 				window. The default value is 64 megabytes.
- 		resource_alignment=
- 				Format:
--				[<order of align>@][<domain>:]<bus>:<slot>.<func>[; ...]
--				[<order of align>@]pci:<vendor>:<device>\
--						[:<subvendor>:<subdevice>][; ...]
-+				[<order of align>@]<pci_dev>[; ...]
- 				Specifies alignment and device to reassign
--				aligned memory resources.
-+				aligned memory resources. How to
-+				specify the device is described above.
- 				If <order of align> is not specified,
- 				PAGE_SIZE is used as alignment.
- 				PCI-PCI bridge can be specified, if resource
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index dbfe7c4f3776..85fec5e2640b 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -183,6 +183,88 @@ void __iomem *pci_ioremap_wc_bar(struct pci_dev *pdev, int bar)
- EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
- #endif
- 
-+/**
-+ * pci_dev_str_match - test if a string matches a device
-+ * @dev:    the PCI device to test
-+ * @p:      string to match the device against
-+ * @endptr: pointer to the string after the match
-+ *
-+ * Test if a string (typically from a kernel parameter) matches a
-+ * specified. The string may be of one of two forms formats:
-+ *
-+ *   [<domain>:]<bus>:<slot>.<func>
-+ *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-+ *
-+ * The first format specifies a PCI bus/slot/function address which
-+ * may change if new hardware is inserted, if motherboard firmware changes,
-+ * or due to changes caused in kernel parameters.
-+ *
-+ * The second format matches devices using IDs in the configuration
-+ * space which may match multiple devices in the system. A value of 0
-+ * for any field will match all devices.
-+ *
-+ * Returns 1 if the string matches the device, 0 if it does not and
-+ * a negative error code if the string cannot be parsed.
-+ */
-+static int pci_dev_str_match(struct pci_dev *dev, const char *p,
-+			     const char **endptr)
-+{
-+	int ret;
-+	int seg, bus, slot, func, count;
-+	unsigned short vendor, device, subsystem_vendor, subsystem_device;
-+
-+	if (strncmp(p, "pci:", 4) == 0) {
-+		/* PCI vendor/device (subvendor/subdevice) ids are specified */
-+		p += 4;
-+		ret = sscanf(p, "%hx:%hx:%hx:%hx%n", &vendor, &device,
-+			     &subsystem_vendor, &subsystem_device, &count);
-+		if (ret != 4) {
-+			ret = sscanf(p, "%hx:%hx%n", &vendor, &device, &count);
-+			if (ret != 2)
-+				return -EINVAL;
-+
-+			subsystem_vendor = 0;
-+			subsystem_device = 0;
-+		}
-+
-+		p += count;
-+
-+		if ((!vendor || vendor == dev->vendor) &&
-+		    (!device || device == dev->device) &&
-+		    (!subsystem_vendor ||
-+			    subsystem_vendor == dev->subsystem_vendor) &&
-+		    (!subsystem_device ||
-+			    subsystem_device == dev->subsystem_device))
-+			goto found;
-+
-+	} else {
-+		/* PCI Bus,Slot,Function ids are specified */
-+		ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
-+			     &func, &count);
-+		if (ret != 4) {
-+			seg = 0;
-+			ret = sscanf(p, "%x:%x.%x%n", &bus, &slot,
-+				     &func, &count);
-+			if (ret != 3)
-+				return -EINVAL;
-+		}
-+
-+		p += count;
-+
-+		if (seg == pci_domain_nr(dev->bus) &&
-+		    bus == dev->bus->number &&
-+		    slot == PCI_SLOT(dev->devfn) &&
-+		    func == PCI_FUNC(dev->devfn))
-+			goto found;
-+	}
-+
-+	*endptr = p;
-+	return 0;
-+
-+found:
-+	*endptr = p;
-+	return 1;
-+}
- 
- static int __pci_find_next_cap_ttl(struct pci_bus *bus, unsigned int devfn,
- 				   u8 pos, int cap, int *ttl)
-@@ -5462,10 +5544,10 @@ static DEFINE_SPINLOCK(resource_alignment_lock);
- static resource_size_t pci_specified_resource_alignment(struct pci_dev *dev,
- 							bool *resize)
- {
--	int seg, bus, slot, func, align_order, count;
--	unsigned short vendor, device, subsystem_vendor, subsystem_device;
-+	int align_order, count;
- 	resource_size_t align = pcibios_default_alignment();
--	char *p;
-+	const char *p;
-+	int ret;
- 
- 	spin_lock(&resource_alignment_lock);
- 	p = resource_alignment_param;
-@@ -5485,58 +5567,21 @@ static resource_size_t pci_specified_resource_alignment(struct pci_dev *dev,
- 		} else {
- 			align_order = -1;
- 		}
--		if (strncmp(p, "pci:", 4) == 0) {
--			/* PCI vendor/device (subvendor/subdevice) ids are specified */
--			p += 4;
--			if (sscanf(p, "%hx:%hx:%hx:%hx%n",
--				&vendor, &device, &subsystem_vendor, &subsystem_device, &count) != 4) {
--				if (sscanf(p, "%hx:%hx%n", &vendor, &device, &count) != 2) {
--					printk(KERN_ERR "PCI: Can't parse resource_alignment parameter: pci:%s\n",
--						p);
--					break;
--				}
--				subsystem_vendor = subsystem_device = 0;
--			}
--			p += count;
--			if ((!vendor || (vendor == dev->vendor)) &&
--				(!device || (device == dev->device)) &&
--				(!subsystem_vendor || (subsystem_vendor == dev->subsystem_vendor)) &&
--				(!subsystem_device || (subsystem_device == dev->subsystem_device))) {
--				*resize = true;
--				if (align_order == -1)
--					align = PAGE_SIZE;
--				else
--					align = 1 << align_order;
--				/* Found */
--				break;
--			}
--		}
--		else {
--			if (sscanf(p, "%x:%x:%x.%x%n",
--				&seg, &bus, &slot, &func, &count) != 4) {
--				seg = 0;
--				if (sscanf(p, "%x:%x.%x%n",
--						&bus, &slot, &func, &count) != 3) {
--					/* Invalid format */
--					printk(KERN_ERR "PCI: Can't parse resource_alignment parameter: %s\n",
--						p);
--					break;
--				}
--			}
--			p += count;
--			if (seg == pci_domain_nr(dev->bus) &&
--				bus == dev->bus->number &&
--				slot == PCI_SLOT(dev->devfn) &&
--				func == PCI_FUNC(dev->devfn)) {
--				*resize = true;
--				if (align_order == -1)
--					align = PAGE_SIZE;
--				else
--					align = 1 << align_order;
--				/* Found */
--				break;
--			}
-+
-+		ret = pci_dev_str_match(dev, p, &p);
-+		if (ret == 1) {
-+			*resize = true;
-+			if (align_order == -1)
-+				align = PAGE_SIZE;
-+			else
-+				align = 1 << align_order;
-+			break;
-+		} else if (ret < 0) {
-+			pr_info("PCI: Can't parse resource_alignment parameter: pci:%s\n",
-+				p);
-+			break;
- 		}
-+
- 		if (*p != ';' && *p != ',') {
- 			/* End of param or invalid format */
- 			break;
+> +	} else if (serror_pending) {
+> +		kvm_inject_vabt(vcpu);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int __attribute_const__ kvm_target_cpu(void)
+>  {
+>  	unsigned long implementor = read_cpuid_implementor();
+> diff --git a/arch/arm64/kvm/inject_fault.c b/arch/arm64/kvm/inject_fault.c
+> index d8e7165..9e0ca56 100644
+> --- a/arch/arm64/kvm/inject_fault.c
+> +++ b/arch/arm64/kvm/inject_fault.c
+> @@ -166,7 +166,7 @@ void kvm_inject_undefined(struct kvm_vcpu *vcpu)
+>  
+>  static void pend_guest_serror(struct kvm_vcpu *vcpu, u64 esr)
+>  {
+> -	vcpu_set_vsesr(vcpu, esr);
+> +	vcpu_set_vsesr(vcpu, esr & ESR_ELx_ISS_MASK);
+>  	*vcpu_hcr(vcpu) |= HCR_VSE;
+>  }
+>  
+> @@ -186,3 +186,8 @@ void kvm_inject_vabt(struct kvm_vcpu *vcpu)
+>  {
+>  	pend_guest_serror(vcpu, ESR_ELx_ISV);
+>  }
+> +
+> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome)
+> +{
+> +	pend_guest_serror(vcpu, syndrome);
+> +}
+
+I think it'd make more sense to rename pend_guest_serror to
+kvm_set_sei_esr and be done with it.
+
+> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+> index 38c8a64..20e919a 100644
+> --- a/arch/arm64/kvm/reset.c
+> +++ b/arch/arm64/kvm/reset.c
+> @@ -82,6 +82,7 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
+>  		break;
+>  	case KVM_CAP_SET_GUEST_DEBUG:
+>  	case KVM_CAP_VCPU_ATTRIBUTES:
+> +	case KVM_CAP_VCPU_EVENTS:
+>  		r = 1;
+>  		break;
+>  	default:
+> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+> index a4c1b76..8b43968 100644
+> --- a/virt/kvm/arm/arm.c
+> +++ b/virt/kvm/arm/arm.c
+> @@ -1107,6 +1107,27 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>  		r = kvm_arm_vcpu_has_attr(vcpu, &attr);
+>  		break;
+>  	}
+> +	case KVM_GET_VCPU_EVENTS: {
+> +		struct kvm_vcpu_events events;
+> +
+> +		memset(&events, 0, sizeof(events));
+
+You could write this as
+
+		struct kvm_cpu_events events = { };
+
+but it'd make more sense if kvm_arm_vcpu_get_events() did all the work
+rather than having this split responsibility.
+
+> +		if (kvm_arm_vcpu_get_events(vcpu, &events))
+> +			return -EINVAL;
+> +
+> +		if (copy_to_user(argp, &events, sizeof(events)))
+> +			return -EFAULT;
+> +
+> +		return 0;
+> +	}
+> +	case KVM_SET_VCPU_EVENTS: {
+> +		struct kvm_vcpu_events events;
+> +
+> +		if (copy_from_user(&events, argp,
+> +				sizeof(struct kvm_vcpu_events)))
+
+Prefer using sizeof(events) instead.
+
+> +			return -EFAULT;
+> +
+> +		return kvm_arm_vcpu_set_events(vcpu, &events);
+> +	}
+>  	default:
+>  		r = -EINVAL;
+>  	}
+> 
+
+Thanks,
+
+	M.
 -- 
-2.11.0
-
+Jazz is not dead. It just smells funny...
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
