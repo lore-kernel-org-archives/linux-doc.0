@@ -1,203 +1,297 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38E907DF90
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 18:24:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C9B07DF90
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 18:48:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753197AbeFASWs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 14:22:48 -0400
-Received: from mga12.intel.com ([192.55.52.136]:8650 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753305AbeFASWq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Jun 2018 14:22:46 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Jun 2018 11:22:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,467,1520924400"; 
-   d="scan'208";a="59626183"
-Received: from maru.jf.intel.com ([10.54.51.80])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Jun 2018 11:22:45 -0700
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-Cc:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH linux-next v5 10/13] Documentation: hwmon: Add documents for PECI hwmon client drivers
-Date:   Fri,  1 Jun 2018 11:22:44 -0700
-Message-Id: <20180601182244.24028-1-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.17.0
+        id S1752333AbeFASrx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 14:47:53 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:56302 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752572AbeFASrp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 14:47:45 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 0D1D0607F1; Fri,  1 Jun 2018 18:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527878865;
+        bh=ydJjCm157PPdDKnhhyGtz+jw0XEYLsw3f1rXLGx24Pg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gge/3ROj0afokqTkVF4UApPumOwv70QoykX4smW4pFrCRRmpkTmewDdvapT6Po6Q/
+         rcmnGGQkgr2qvsvXGH7IwwgM45PyKy2XC1cxTSfPYw7dzkJSUUrXlCFcKVUMJVmaNw
+         X8op6zqjxLjIJhG/jwb2fc4O1WJqE2impznM4iho=
+Received: from drakthul.qualcomm.com (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: okaya@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 74C1D60251;
+        Fri,  1 Jun 2018 18:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1527878862;
+        bh=ydJjCm157PPdDKnhhyGtz+jw0XEYLsw3f1rXLGx24Pg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FQb8FqhHq4YrKziRNVh3m8yVm+TiZF2AF34HvOncWSJAXnznGIBD1uWQOhdaHrjjO
+         53Y2sHat7pgQ2l9dxUVQ61TelXC6o/apIycKXxX7qevrzAwJkmNKjf66Cahl5sQZ3N
+         FfPiDtK+0qlBVJUYPYRKJLeBQyaDjO8coaX+Z/yo=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 74C1D60251
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
+From:   Sinan Kaya <okaya@codeaurora.org>
+To:     linux-pci@vger.kernel.org, timur@codeaurora.org
+Cc:     linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Sinan Kaya <okaya@codeaurora.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Christoffer Dall <cdall@linaro.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Petr Tesarik <ptesarik@suse.cz>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dou Liyang <douly.fnst@cn.fujitsu.com>,
+        Ram Pai <linuxram@us.ibm.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH V2] PCI: move early dump functionality from x86 arch into the common code
+Date:   Fri,  1 Jun 2018 14:47:28 -0400
+Message-Id: <1527878854-21419-1-git-send-email-okaya@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds hwmon documents for PECI cputemp and dimmtemp drivers.
+Move early dump functionality into common code so that it is available for
+all archtiectures. No need to carry arch specific reads around as the read
+hooks are already initialized by the time pci_setup_device() is getting
+called during scan.
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
-Reviewed-by: James Feist <james.feist@linux.intel.com>
-Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
-Cc: Jason M Biils <jason.m.bills@linux.intel.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
 ---
- Documentation/hwmon/peci-cputemp  | 78 +++++++++++++++++++++++++++++++
- Documentation/hwmon/peci-dimmtemp | 50 ++++++++++++++++++++
- 2 files changed, 128 insertions(+)
- create mode 100644 Documentation/hwmon/peci-cputemp
- create mode 100644 Documentation/hwmon/peci-dimmtemp
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ arch/x86/include/asm/pci-direct.h               |  5 ---
+ arch/x86/kernel/setup.c                         |  5 ---
+ arch/x86/pci/common.c                           |  4 ---
+ arch/x86/pci/early.c                            | 44 -------------------------
+ drivers/pci/pci.c                               |  5 +++
+ drivers/pci/pci.h                               |  1 +
+ drivers/pci/probe.c                             | 21 ++++++++++++
+ 8 files changed, 28 insertions(+), 59 deletions(-)
 
-diff --git a/Documentation/hwmon/peci-cputemp b/Documentation/hwmon/peci-cputemp
-new file mode 100644
-index 000000000000..821a9258f2e6
---- /dev/null
-+++ b/Documentation/hwmon/peci-cputemp
-@@ -0,0 +1,78 @@
-+Kernel driver peci-cputemp
-+==========================
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e490902..e64f1d8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2995,7 +2995,7 @@
+ 			See also Documentation/blockdev/paride.txt.
+ 
+ 	pci=option[,option...]	[PCI] various PCI subsystem options:
+-		earlydump	[X86] dump PCI config space before the kernel
++		earlydump	dump PCI config space before the kernel
+ 				changes anything
+ 		off		[X86] don't probe for the PCI bus
+ 		bios		[X86-32] force use of PCI BIOS, don't access
+diff --git a/arch/x86/include/asm/pci-direct.h b/arch/x86/include/asm/pci-direct.h
+index e1084f7..e5e2129 100644
+--- a/arch/x86/include/asm/pci-direct.h
++++ b/arch/x86/include/asm/pci-direct.h
+@@ -14,9 +14,4 @@ extern void write_pci_config(u8 bus, u8 slot, u8 func, u8 offset, u32 val);
+ extern void write_pci_config_byte(u8 bus, u8 slot, u8 func, u8 offset, u8 val);
+ extern void write_pci_config_16(u8 bus, u8 slot, u8 func, u8 offset, u16 val);
+ 
+-extern int early_pci_allowed(void);
+-
+-extern unsigned int pci_early_dump_regs;
+-extern void early_dump_pci_device(u8 bus, u8 slot, u8 func);
+-extern void early_dump_pci_devices(void);
+ #endif /* _ASM_X86_PCI_DIRECT_H */
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 2f86d88..480f250 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -991,11 +991,6 @@ void __init setup_arch(char **cmdline_p)
+ 		setup_clear_cpu_cap(X86_FEATURE_APIC);
+ 	}
+ 
+-#ifdef CONFIG_PCI
+-	if (pci_early_dump_regs)
+-		early_dump_pci_devices();
+-#endif
+-
+ 	e820__reserve_setup_data();
+ 	e820__finish_early_params();
+ 
+diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
+index 563049c..d4ec117 100644
+--- a/arch/x86/pci/common.c
++++ b/arch/x86/pci/common.c
+@@ -22,7 +22,6 @@
+ unsigned int pci_probe = PCI_PROBE_BIOS | PCI_PROBE_CONF1 | PCI_PROBE_CONF2 |
+ 				PCI_PROBE_MMCONF;
+ 
+-unsigned int pci_early_dump_regs;
+ static int pci_bf_sort;
+ int pci_routeirq;
+ int noioapicquirk;
+@@ -599,9 +598,6 @@ char *__init pcibios_setup(char *str)
+ 		pci_probe |= PCI_BIG_ROOT_WINDOW;
+ 		return NULL;
+ #endif
+-	} else if (!strcmp(str, "earlydump")) {
+-		pci_early_dump_regs = 1;
+-		return NULL;
+ 	} else if (!strcmp(str, "routeirq")) {
+ 		pci_routeirq = 1;
+ 		return NULL;
+diff --git a/arch/x86/pci/early.c b/arch/x86/pci/early.c
+index e5f753c..f5fc953 100644
+--- a/arch/x86/pci/early.c
++++ b/arch/x86/pci/early.c
+@@ -57,47 +57,3 @@ int early_pci_allowed(void)
+ 			PCI_PROBE_CONF1;
+ }
+ 
+-void early_dump_pci_device(u8 bus, u8 slot, u8 func)
+-{
+-	u32 value[256 / 4];
+-	int i;
+-
+-	pr_info("pci 0000:%02x:%02x.%d config space:\n", bus, slot, func);
+-
+-	for (i = 0; i < 256; i += 4)
+-		value[i / 4] = read_pci_config(bus, slot, func, i);
+-
+-	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value, 256, false);
+-}
+-
+-void early_dump_pci_devices(void)
+-{
+-	unsigned bus, slot, func;
+-
+-	if (!early_pci_allowed())
+-		return;
+-
+-	for (bus = 0; bus < 256; bus++) {
+-		for (slot = 0; slot < 32; slot++) {
+-			for (func = 0; func < 8; func++) {
+-				u32 class;
+-				u8 type;
+-
+-				class = read_pci_config(bus, slot, func,
+-							PCI_CLASS_REVISION);
+-				if (class == 0xffffffff)
+-					continue;
+-
+-				early_dump_pci_device(bus, slot, func);
+-
+-				if (func == 0) {
+-					type = read_pci_config_byte(bus, slot,
+-								    func,
+-							       PCI_HEADER_TYPE);
+-					if (!(type & 0x80))
+-						break;
+-				}
+-			}
+-		}
+-	}
+-}
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 97acba7..04052dc 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -115,6 +115,9 @@ static bool pcie_ari_disabled;
+ /* If set, the PCIe ATS capability will not be used. */
+ static bool pcie_ats_disabled;
+ 
++/* If set, the PCI config space of each device is printed during boot. */
++bool pci_early_dump;
 +
-+Supported chips:
-+	One of Intel server CPUs listed below which is connected to a PECI bus.
-+		* Intel Xeon E5/E7 v3 server processors
-+			Intel Xeon E5-14xx v3 family
-+			Intel Xeon E5-24xx v3 family
-+			Intel Xeon E5-16xx v3 family
-+			Intel Xeon E5-26xx v3 family
-+			Intel Xeon E5-46xx v3 family
-+			Intel Xeon E7-48xx v3 family
-+			Intel Xeon E7-88xx v3 family
-+		* Intel Xeon E5/E7 v4 server processors
-+			Intel Xeon E5-16xx v4 family
-+			Intel Xeon E5-26xx v4 family
-+			Intel Xeon E5-46xx v4 family
-+			Intel Xeon E7-48xx v4 family
-+			Intel Xeon E7-88xx v4 family
-+		* Intel Xeon Scalable server processors
-+			Intel Xeon Bronze family
-+			Intel Xeon Silver family
-+			Intel Xeon Gold family
-+			Intel Xeon Platinum family
-+	Addresses scanned: PECI client address 0x30 - 0x37
-+	Datasheet: Available from http://www.intel.com/design/literature.htm
+ bool pci_ats_disabled(void)
+ {
+ 	return pcie_ats_disabled;
+@@ -5805,6 +5808,8 @@ static int __init pci_setup(char *str)
+ 				pcie_ats_disabled = true;
+ 			} else if (!strcmp(str, "noaer")) {
+ 				pci_no_aer();
++			} else if (!strcmp(str, "earlydump")) {
++				pci_early_dump = true;
+ 			} else if (!strncmp(str, "realloc=", 8)) {
+ 				pci_realloc_get_opt(str + 8);
+ 			} else if (!strncmp(str, "realloc", 7)) {
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index c358e7a0..c33265e 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -7,6 +7,7 @@
+ #define PCI_VSEC_ID_INTEL_TBT	0x1234	/* Thunderbolt */
+ 
+ extern const unsigned char pcie_link_speed[];
++extern bool pci_early_dump;
+ 
+ bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
+ 
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 56771f3..7490f78fa 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1545,6 +1545,25 @@ static int pci_intx_mask_broken(struct pci_dev *dev)
+ 	return 0;
+ }
+ 
++static void early_dump_pci_device(struct pci_dev *pdev)
++{
++	u32 value[256 / 4];
++	int i;
 +
-+Author:
-+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
++	if (!pci_early_dump)
++		return;
 +
-+Description
-+-----------
++	pci_info(pdev, "pci 0000:%02x:%02x.%d config space:\n",
++		 pdev->bus->number, PCI_SLOT(pdev->devfn),
++		 PCI_FUNC(pdev->devfn));
 +
-+This driver implements a generic PECI hwmon feature which provides Digital
-+Thermal Sensor (DTS) thermal readings of the CPU package and CPU cores that are
-+accessible using the PECI Client Command Suite via the processor PECI client.
++	for (i = 0; i < 256; i += 4)
++		pci_read_config_dword(pdev, i, &value[i / 4]);
 +
-+All temperature values are given in millidegree Celsius and will be measurable
-+only when the target CPU is powered on.
++	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value,
++		       256, false);
++}
 +
-+sysfs attributes
-+----------------
+ /**
+  * pci_setup_device - Fill in class and map information of a device
+  * @dev: the device structure to fill
+@@ -1594,6 +1613,8 @@ int pci_setup_device(struct pci_dev *dev)
+ 	pci_printk(KERN_DEBUG, dev, "[%04x:%04x] type %02x class %#08x\n",
+ 		   dev->vendor, dev->device, dev->hdr_type, dev->class);
+ 
++	early_dump_pci_device(dev);
 +
-+temp1_label		"Die"
-+temp1_input		Provides current die temperature of the CPU package.
-+temp1_max		Provides thermal control temperature of the CPU package
-+			which is also known as Tcontrol.
-+temp1_crit		Provides shutdown temperature of the CPU package which
-+			is also known as the maximum processor junction
-+			temperature, Tjmax or Tprochot.
-+temp1_crit_hyst		Provides the hysteresis value from Tcontrol to Tjmax of
-+			the CPU package.
-+
-+temp2_label		"Tcontrol"
-+temp2_input		Provides current Tcontrol temperature of the CPU
-+			package which is also known as Fan Temperature target.
-+			Indicates the relative value from thermal monitor trip
-+			temperature at which fans should be engaged.
-+temp2_crit		Provides Tcontrol critical value of the CPU package
-+			which is same to Tjmax.
-+
-+temp3_label		"Tthrottle"
-+temp3_input		Provides current Tthrottle temperature of the CPU
-+			package. Used for throttling temperature. If this value
-+			is allowed and lower than Tjmax - the throttle will
-+			occur and reported at lower than Tjmax.
-+
-+temp4_label		"Tjmax"
-+temp4_input		Provides the maximum junction temperature, Tjmax of the
-+			CPU package.
-+
-+temp[5-*]_label		Provides string "Core X", where X is resolved core
-+			number.
-+temp[5-*]_input		Provides current temperature of each core.
-+temp[5-*]_max		Provides thermal control temperature of the core.
-+temp[5-*]_crit		Provides shutdown temperature of the core.
-+temp[5-*]_crit_hyst	Provides the hysteresis value from Tcontrol to Tjmax of
-+			the core.
-diff --git a/Documentation/hwmon/peci-dimmtemp b/Documentation/hwmon/peci-dimmtemp
-new file mode 100644
-index 000000000000..c54f2526188c
---- /dev/null
-+++ b/Documentation/hwmon/peci-dimmtemp
-@@ -0,0 +1,50 @@
-+Kernel driver peci-dimmtemp
-+===========================
-+
-+Supported chips:
-+	One of Intel server CPUs listed below which is connected to a PECI bus.
-+		* Intel Xeon E5/E7 v3 server processors
-+			Intel Xeon E5-14xx v3 family
-+			Intel Xeon E5-24xx v3 family
-+			Intel Xeon E5-16xx v3 family
-+			Intel Xeon E5-26xx v3 family
-+			Intel Xeon E5-46xx v3 family
-+			Intel Xeon E7-48xx v3 family
-+			Intel Xeon E7-88xx v3 family
-+		* Intel Xeon E5/E7 v4 server processors
-+			Intel Xeon E5-16xx v4 family
-+			Intel Xeon E5-26xx v4 family
-+			Intel Xeon E5-46xx v4 family
-+			Intel Xeon E7-48xx v4 family
-+			Intel Xeon E7-88xx v4 family
-+		* Intel Xeon Scalable server processors
-+			Intel Xeon Bronze family
-+			Intel Xeon Silver family
-+			Intel Xeon Gold family
-+			Intel Xeon Platinum family
-+	Addresses scanned: PECI client address 0x30 - 0x37
-+	Datasheet: Available from http://www.intel.com/design/literature.htm
-+
-+Author:
-+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-+
-+Description
-+-----------
-+
-+This driver implements a generic PECI hwmon feature which provides Digital
-+Thermal Sensor (DTS) thermal readings of DIMM components that are accessible
-+using the PECI Client Command Suite via the processor PECI client.
-+
-+All temperature values are given in millidegree Celsius and will be measurable
-+only when the target CPU is powered on.
-+
-+sysfs attributes
-+----------------
-+
-+temp[N]_label		Provides string "DIMM CI", where C is DIMM channel and
-+			I is DIMM index of the populated DIMM.
-+temp[N]_input		Provides current temperature of the populated DIMM.
-+
-+Note:
-+	DIMM temperature attributes will appear when the client CPU's BIOS
-+	completes memory training and testing.
+ 	/* Need to have dev->class ready */
+ 	dev->cfg_size = pci_cfg_space_size(dev);
+ 
 -- 
-2.17.0
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
