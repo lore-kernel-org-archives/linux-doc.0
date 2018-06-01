@@ -3,112 +3,292 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D462B7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 18:58:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67F747D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 19:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752653AbeFAS64 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 14:58:56 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:33226 "EHLO
+        id S1752105AbeFATAb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 15:00:31 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:35092 "EHLO
         smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752572AbeFAS6y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 14:58:54 -0400
+        with ESMTP id S1751801AbeFATAa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 15:00:30 -0400
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id EFF036084F; Fri,  1 Jun 2018 18:58:53 +0000 (UTC)
+        id 998616084F; Fri,  1 Jun 2018 19:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527879534;
-        bh=CCwyDOlSErjJ7611TezrgPLxKM7+jIvWTIzqOaRHDcI=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=IqRMarItyJFd6Z5Jv9lS5tvfPywZTYsXW0CB8iamaT9d9guhWmD8R1WJXB55moWo9
-         aTftfrZldIiessVWoQU0ZVvNIu/F3OSJEvgOou7vcv/TMkE21LaYyA1k9Xv03CYefm
-         8NjSk87xKzkCOQJ4tns/+1Yemb7fj2ue69m5EZac=
-Received: from [10.235.228.150] (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        s=default; t=1527879629;
+        bh=WQJ7da7E+kSC7SYWAP0xHFztQ4rF+lnM1lgX17FQap0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gQc7k2oXJGE+AnJXTUUps+E3REN3sS1xN5W8LJneJ+Py84g4QqTIzv1nldBCsVGLs
+         OaeV+V8dnUKVX9/246PrxoLWU7OVN5vfaL1PPZDhZGaeTxXIFKDEiNaizY09heLD5j
+         efHNPakiWYxbCE68z0c1fNAR2APiGQrppKK/gUt4=
+Received: from drakthul.qualcomm.com (global_nat1_iad_fw.qualcomm.com [129.46.232.65])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: okaya@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1FFB960251;
-        Fri,  1 Jun 2018 18:58:49 +0000 (UTC)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5EB0560646;
+        Fri,  1 Jun 2018 19:00:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1527879532;
-        bh=CCwyDOlSErjJ7611TezrgPLxKM7+jIvWTIzqOaRHDcI=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=E8cSWKmOpzvm/8OmYEUr3aOi0KtO0i8Ajl0ikM6l8SvM1UNVrhcMwbZ842RFWRkIn
-         50S8FY1MHj5pJ01GuNuJSd85iWQ/OwPVeWauDkqcwHgzcpSVqoVaIscNbcugDyC+gH
-         ctcVOYWmD785TEw861KMJHtlfNQPNNIYxospGNF4=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1FFB960251
+        s=default; t=1527879627;
+        bh=WQJ7da7E+kSC7SYWAP0xHFztQ4rF+lnM1lgX17FQap0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ov5Qaxe3+Bmayp7JFcxY8Bk6PC1sFeqgqqFBPcwV9ier4xg77o3oVK8rTRMw/dv57
+         FRXCSgeRatITlcpgnlTHSZRjjiRb7p65PEf9XQFYY0Iut3Z3J+3URsAvFYcA1pFjvE
+         Wh/cn/Z+dZtkCu8PulCNQetRs5Mj7wHrkmxvVXls=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5EB0560646
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=okaya@codeaurora.org
-Subject: Re: [PATCH V2] PCI: move early dump functionality from x86 arch into
- the common code
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     linux-pci@vger.kernel.org, timur@codeaurora.org,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Petr Tesarik <ptesarik@suse.cz>, Ram Pai <linuxram@us.ibm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Christoffer Dall <cdall@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "maintainer:X86 ARCHITECTURE 32-BIT AND 64-BIT" <x86@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Borislav Petkov <bp@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        linux-arm-msm@vger.kernel.org,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Juergen Gross <jgross@suse.com>,
-        Dou Liyang <douly.fnst@cn.fujitsu.com>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>
-References: <1527878854-21419-1-git-send-email-okaya@codeaurora.org>
- <20180601185310.GA175802@bhelgaas-glaptop.roam.corp.google.com>
 From:   Sinan Kaya <okaya@codeaurora.org>
-Message-ID: <dac3d600-86c4-456a-046b-f2229a8c19d7@codeaurora.org>
-Date:   Fri, 1 Jun 2018 14:58:48 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+To:     linux-pci@vger.kernel.org, timur@codeaurora.org
+Cc:     linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Sinan Kaya <okaya@codeaurora.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Christoffer Dall <cdall@linaro.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Juergen Gross <jgross@suse.com>, Borislav Petkov <bp@suse.de>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Petr Tesarik <ptesarik@suse.cz>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dou Liyang <douly.fnst@cn.fujitsu.com>,
+        Ram Pai <linuxram@us.ibm.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH V3] PCI: move early dump functionality from x86 arch into the common code
+Date:   Fri,  1 Jun 2018 15:00:15 -0400
+Message-Id: <1527879620-22720-1-git-send-email-okaya@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20180601185310.GA175802@bhelgaas-glaptop.roam.corp.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/1/2018 2:53 PM, Bjorn Helgaas wrote:
->> +	pci_info(pdev, "pci 0000:%02x:%02x.%d config space:\n",
->> +		 pdev->bus->number, PCI_SLOT(pdev->devfn),
->> +		 PCI_FUNC(pdev->devfn));
-> I'm still missing something -- why go to the trouble of pdev->bus->number,
-> PCI_SLOT(), etc?  Isn't the output going to look like this?
-> 
->   pci 0000:00:00.0: pci 0000:00:00.0 config space:
-> 
-> In other words, wouldn't the following be enough?
-> 
->   pci_info(pdev, "config space:\n");
-> 
+Move early dump functionality into common code so that it is available for
+all archtiectures. No need to carry arch specific reads around as the read
+hooks are already initialized by the time pci_setup_device() is getting
+called during scan.
 
-You are right. The origin print function was pr_info. We don't need that
-stuff anymore. 
+Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ arch/x86/include/asm/pci-direct.h               |  5 ---
+ arch/x86/kernel/setup.c                         |  5 ---
+ arch/x86/pci/common.c                           |  4 ---
+ arch/x86/pci/early.c                            | 44 -------------------------
+ drivers/pci/pci.c                               |  5 +++
+ drivers/pci/pci.h                               |  1 +
+ drivers/pci/probe.c                             | 19 +++++++++++
+ 8 files changed, 26 insertions(+), 59 deletions(-)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e490902..e64f1d8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2995,7 +2995,7 @@
+ 			See also Documentation/blockdev/paride.txt.
+ 
+ 	pci=option[,option...]	[PCI] various PCI subsystem options:
+-		earlydump	[X86] dump PCI config space before the kernel
++		earlydump	dump PCI config space before the kernel
+ 				changes anything
+ 		off		[X86] don't probe for the PCI bus
+ 		bios		[X86-32] force use of PCI BIOS, don't access
+diff --git a/arch/x86/include/asm/pci-direct.h b/arch/x86/include/asm/pci-direct.h
+index e1084f7..e5e2129 100644
+--- a/arch/x86/include/asm/pci-direct.h
++++ b/arch/x86/include/asm/pci-direct.h
+@@ -14,9 +14,4 @@ extern void write_pci_config(u8 bus, u8 slot, u8 func, u8 offset, u32 val);
+ extern void write_pci_config_byte(u8 bus, u8 slot, u8 func, u8 offset, u8 val);
+ extern void write_pci_config_16(u8 bus, u8 slot, u8 func, u8 offset, u16 val);
+ 
+-extern int early_pci_allowed(void);
+-
+-extern unsigned int pci_early_dump_regs;
+-extern void early_dump_pci_device(u8 bus, u8 slot, u8 func);
+-extern void early_dump_pci_devices(void);
+ #endif /* _ASM_X86_PCI_DIRECT_H */
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 2f86d88..480f250 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -991,11 +991,6 @@ void __init setup_arch(char **cmdline_p)
+ 		setup_clear_cpu_cap(X86_FEATURE_APIC);
+ 	}
+ 
+-#ifdef CONFIG_PCI
+-	if (pci_early_dump_regs)
+-		early_dump_pci_devices();
+-#endif
+-
+ 	e820__reserve_setup_data();
+ 	e820__finish_early_params();
+ 
+diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
+index 563049c..d4ec117 100644
+--- a/arch/x86/pci/common.c
++++ b/arch/x86/pci/common.c
+@@ -22,7 +22,6 @@
+ unsigned int pci_probe = PCI_PROBE_BIOS | PCI_PROBE_CONF1 | PCI_PROBE_CONF2 |
+ 				PCI_PROBE_MMCONF;
+ 
+-unsigned int pci_early_dump_regs;
+ static int pci_bf_sort;
+ int pci_routeirq;
+ int noioapicquirk;
+@@ -599,9 +598,6 @@ char *__init pcibios_setup(char *str)
+ 		pci_probe |= PCI_BIG_ROOT_WINDOW;
+ 		return NULL;
+ #endif
+-	} else if (!strcmp(str, "earlydump")) {
+-		pci_early_dump_regs = 1;
+-		return NULL;
+ 	} else if (!strcmp(str, "routeirq")) {
+ 		pci_routeirq = 1;
+ 		return NULL;
+diff --git a/arch/x86/pci/early.c b/arch/x86/pci/early.c
+index e5f753c..f5fc953 100644
+--- a/arch/x86/pci/early.c
++++ b/arch/x86/pci/early.c
+@@ -57,47 +57,3 @@ int early_pci_allowed(void)
+ 			PCI_PROBE_CONF1;
+ }
+ 
+-void early_dump_pci_device(u8 bus, u8 slot, u8 func)
+-{
+-	u32 value[256 / 4];
+-	int i;
+-
+-	pr_info("pci 0000:%02x:%02x.%d config space:\n", bus, slot, func);
+-
+-	for (i = 0; i < 256; i += 4)
+-		value[i / 4] = read_pci_config(bus, slot, func, i);
+-
+-	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value, 256, false);
+-}
+-
+-void early_dump_pci_devices(void)
+-{
+-	unsigned bus, slot, func;
+-
+-	if (!early_pci_allowed())
+-		return;
+-
+-	for (bus = 0; bus < 256; bus++) {
+-		for (slot = 0; slot < 32; slot++) {
+-			for (func = 0; func < 8; func++) {
+-				u32 class;
+-				u8 type;
+-
+-				class = read_pci_config(bus, slot, func,
+-							PCI_CLASS_REVISION);
+-				if (class == 0xffffffff)
+-					continue;
+-
+-				early_dump_pci_device(bus, slot, func);
+-
+-				if (func == 0) {
+-					type = read_pci_config_byte(bus, slot,
+-								    func,
+-							       PCI_HEADER_TYPE);
+-					if (!(type & 0x80))
+-						break;
+-				}
+-			}
+-		}
+-	}
+-}
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 97acba7..04052dc 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -115,6 +115,9 @@ static bool pcie_ari_disabled;
+ /* If set, the PCIe ATS capability will not be used. */
+ static bool pcie_ats_disabled;
+ 
++/* If set, the PCI config space of each device is printed during boot. */
++bool pci_early_dump;
++
+ bool pci_ats_disabled(void)
+ {
+ 	return pcie_ats_disabled;
+@@ -5805,6 +5808,8 @@ static int __init pci_setup(char *str)
+ 				pcie_ats_disabled = true;
+ 			} else if (!strcmp(str, "noaer")) {
+ 				pci_no_aer();
++			} else if (!strcmp(str, "earlydump")) {
++				pci_early_dump = true;
+ 			} else if (!strncmp(str, "realloc=", 8)) {
+ 				pci_realloc_get_opt(str + 8);
+ 			} else if (!strncmp(str, "realloc", 7)) {
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index c358e7a0..c33265e 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -7,6 +7,7 @@
+ #define PCI_VSEC_ID_INTEL_TBT	0x1234	/* Thunderbolt */
+ 
+ extern const unsigned char pcie_link_speed[];
++extern bool pci_early_dump;
+ 
+ bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
+ 
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 56771f3..3678f0a 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1545,6 +1545,23 @@ static int pci_intx_mask_broken(struct pci_dev *dev)
+ 	return 0;
+ }
+ 
++static void early_dump_pci_device(struct pci_dev *pdev)
++{
++	u32 value[256 / 4];
++	int i;
++
++	if (!pci_early_dump)
++		return;
++
++	pci_info(pdev, "config space:\n");
++
++	for (i = 0; i < 256; i += 4)
++		pci_read_config_dword(pdev, i, &value[i / 4]);
++
++	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value,
++		       256, false);
++}
++
+ /**
+  * pci_setup_device - Fill in class and map information of a device
+  * @dev: the device structure to fill
+@@ -1594,6 +1611,8 @@ int pci_setup_device(struct pci_dev *dev)
+ 	pci_printk(KERN_DEBUG, dev, "[%04x:%04x] type %02x class %#08x\n",
+ 		   dev->vendor, dev->device, dev->hdr_type, dev->class);
+ 
++	early_dump_pci_device(dev);
++
+ 	/* Need to have dev->class ready */
+ 	dev->cfg_size = pci_cfg_space_size(dev);
+ 
 -- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
