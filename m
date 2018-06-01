@@ -1,180 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3893A7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 11:07:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 409AF7D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 11:47:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751842AbeFALHa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 07:07:30 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:41884 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751417AbeFALHZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 07:07:25 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 603761E05E0;
-        Fri,  1 Jun 2018 13:07:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1527851243; bh=z4/bRj3Jp2xuBXiGzy3sQX+8y6MzJnTkg+XfGEmwQBk=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=bHQ6l4Jvj7M6VQvL+FmD4DH6cJjwwreW5iVtnZwAD/yJVtuF+GKEsrLK8/Axcv7+F
-         W5KT43cj72e5BCW8fj6Isp8UQsx7bzMKRfz4iTkvX0Vy5WGVz8Iu0sqWC13v+ewIAh
-         HhAai7sSiZo1/rBhMnWqeCEfo/PVB7FWGWYQHMtaojAQ2uxMgNqhl1ahbKE7iWoQ9Z
-         7K2u+1uKK1auzHXLVNWbrqbzqYHFhtsvwD9YFEqb/srqAlt2tuUBAENGXkpGzb3UaB
-         WONVWv7ckwJqwHP/l6JQ9eI1F9LyosrMzL9UM6QTl+EMeX47G1YNQUbNMyCH94SclQ
-         Sb+QviZDNYFbA==
-Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 818CD5E0E;
-        Fri,  1 Jun 2018 04:07:22 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Fri, 1 Jun 2018 04:07:22 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Fri, 1 Jun 2018 13:07:20 +0200
-Received: from [10.107.25.102] (10.107.25.102) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Fri, 1 Jun 2018 13:07:19 +0200
-Subject: Re: [PATCH v2 4/7] PCI: dwc: Rework MSI callbacks handler
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
- <9558d4fcd6f888599e3b70133f1f242c7a6664ee.1526576613.git.gustavo.pimentel@synopsys.com>
- <ba3df388-9ec1-fe87-e575-0eddc5a565b7@ti.com>
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Message-ID: <8e4a3cf2-51e2-58b8-3745-06dde8f8f7c1@synopsys.com>
-Date:   Fri, 1 Jun 2018 12:05:35 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1751422AbeFALrn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 07:47:43 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58364 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751012AbeFALrm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Jun 2018 07:47:42 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id C9955AE54;
+        Fri,  1 Jun 2018 11:47:39 +0000 (UTC)
+Date:   Fri, 1 Jun 2018 13:47:38 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        baijiaju1990@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>, sboyd@kernel.org,
+        Zhang Rui <rui.zhang@intel.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Eric Anholt <eric@anholt.net>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-clk@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/4] lib/vsprintf: Remove atomic-unsafe support for
+ printk format %pCr
+Message-ID: <20180601114738.kdoggkha2yosjgbv@pathway.suse.cz>
+References: <1527845302-12159-1-git-send-email-geert+renesas@glider.be>
+ <CA+55aFxHHSRnDbbNGq6SwNAwEt0EhX15n_pNqon3MzGYJgMJmA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ba3df388-9ec1-fe87-e575-0eddc5a565b7@ti.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.107.25.102]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+55aFxHHSRnDbbNGq6SwNAwEt0EhX15n_pNqon3MzGYJgMJmA@mail.gmail.com>
+User-Agent: NeoMutt/20170421 (1.8.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31/05/2018 11:54, Kishon Vijay Abraham I wrote:
-> Hi,
+On Fri 2018-06-01 06:00:47, Linus Torvalds wrote:
+> On Fri, Jun 1, 2018 at 4:29 AM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> >
+> > This patch series:
+> >   - Changes all existing users of "%pCr" to print the result of
+> >     clk_get_rate() directly, which is safe as they all do this in task
+> >     context only,
+> >   - Removes support for the "%pCr" printk format.
 > 
-> On Thursday 17 May 2018 10:39 PM, Gustavo Pimentel wrote:
->> Remove duplicate defines located on pcie-designware.h file already
->> available on /include/uapi/linux/pci-regs.h file.
->>
->> Add pci_epc_set_msi() maximum 32 interrupts validation.
->>
->> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->> ---
->> Change v1->v2:
->>  - Nothing changed, just to follow the patch set version.
->>
->>  drivers/pci/dwc/pcie-designware-ep.c | 49 ++++++++++++++++++++++++------------
->>  drivers/pci/dwc/pcie-designware.h    | 11 --------
->>  drivers/pci/endpoint/pci-epc-core.c  |  3 ++-
->>  3 files changed, 35 insertions(+), 28 deletions(-)
->>
->> diff --git a/drivers/pci/dwc/pcie-designware-ep.c b/drivers/pci/dwc/pcie-designware-ep.c
->> index e5f2377..a4baa0d 100644
->> --- a/drivers/pci/dwc/pcie-designware-ep.c
->> +++ b/drivers/pci/dwc/pcie-designware-ep.c
->> @@ -246,29 +246,38 @@ static int dw_pcie_ep_map_addr(struct pci_epc *epc, u8 func_no,
->>  
->>  static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no)
->>  {
->> -	int val;
->>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	u32 val, reg;
->> +
->> +	if (!ep->msi_cap)
+> Looks good to me.
 > 
-> Ah, msi_cap is used here.
->> +		return 0;
-> 
-> return -EINVAL.
+> What tree will this go through? The normal printk one? Just checking
+> that this doesn't end up falling through the cracks because nobody
+> knows who would take it...
 
-Another copy & paste issue :)
+I will take it via printk.git. There already is bunch of vsprintf
+changes for-4.18.
 
->>  
->> -	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
->> -	if (!(val & MSI_CAP_MSI_EN_MASK))
->> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
->> +	val = dw_pcie_readw_dbi(pci, reg);
->> +	if (!(val & PCI_MSI_FLAGS_ENABLE))
->>  		return -EINVAL;
->>  
->> -	val = (val & MSI_CAP_MME_MASK) >> MSI_CAP_MME_SHIFT;
->> +	val = (val & PCI_MSI_FLAGS_QSIZE) >> 4;
->> +
->>  	return val;
->>  }
->>  
->> -static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
->> +static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
->>  {
->> -	int val;
->>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	u32 val, reg;
->>  
->> -	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
->> -	val &= ~MSI_CAP_MMC_MASK;
->> -	val |= (encode_int << MSI_CAP_MMC_SHIFT) & MSI_CAP_MMC_MASK;
->> +	if (!ep->msi_cap)
->> +		return 0;
-> 
-> return -EINVAL.
-
-Another copy & paste issue :)
-
->> +
->> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
->> +	val = dw_pcie_readw_dbi(pci, reg);
->> +	val &= ~PCI_MSI_FLAGS_QMASK;
->> +	val |= (interrupts << 1) & PCI_MSI_FLAGS_QMASK;
->>  	dw_pcie_dbi_ro_wr_en(pci);
->> -	dw_pcie_writew_dbi(pci, MSI_MESSAGE_CONTROL, val);
->> +	dw_pcie_writew_dbi(pci, reg, val);
->>  	dw_pcie_dbi_ro_wr_dis(pci);
->>  
->>  	return 0;
->> @@ -367,21 +376,29 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>  	struct pci_epc *epc = ep->epc;
->>  	u16 msg_ctrl, msg_data;
->> -	u32 msg_addr_lower, msg_addr_upper;
->> +	u32 msg_addr_lower, msg_addr_upper, reg;
->>  	u64 msg_addr;
->>  	bool has_upper;
->>  	int ret;
->>  
->> +	if (!ep->msi_cap)
->> +		return 0;
-> 
-> return -EINVAL.
-
-Another copy & paste issue :)
-
-> 
-> Thanks
-> Kishon
-> 
-
+Best Regards,
+Petr
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
