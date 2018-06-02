@@ -1,416 +1,375 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A2C2D7D062
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Jun 2018 21:22:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B6BAA7D062
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Jun 2018 00:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751238AbeFAVWX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Jun 2018 17:22:23 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:40658 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751211AbeFAVWT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 17:22:19 -0400
-Received: by mail-wm0-f67.google.com with SMTP id x2-v6so4693777wmh.5
-        for <linux-doc@vger.kernel.org>; Fri, 01 Jun 2018 14:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4NyOywuh1lrCiTdBB+Sj5YSY4JgqhXywLDuFZJtNQ7g=;
-        b=JQ61BZ9ltUgRJPrWfx8tbdGUaCeAtrlJQ7lTLBmc6Ut/ZHFtTOIJUfbMMW/6DrT/GS
-         5mgjyKZh6UEalbCjyzWM32g7fOFlRuTWJFYfZQ/XN0KdfFdouFf8KwepZLwtRgibIoW/
-         6R3XUEHvBG4es5HrLsDUBih1mq8qLloSfguMvnYFN/vErZ4/IrMNgJsbH8aStkjYnkuv
-         ZiZ4kmA66q7MREU0x0WlUYiuaM+vwx3t8jo7FM5ClyO+881rU+Hy/ogzfprAu5HKNE76
-         JwqW8p7DBj3LccL2ZPkrZKpImSWAw/pUdu6N1tntHr3KYFMWsZxbRBXS26+YD+fC7U23
-         W5xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4NyOywuh1lrCiTdBB+Sj5YSY4JgqhXywLDuFZJtNQ7g=;
-        b=oUTlZKejNEvRkUu6M+b1qTRI5wXsqG9qYxfS4x6EGZRO/EoLbx1BEIC3kSylyObqam
-         paEVcIJ0VigwE9efEN3SZUUeWQPKjkeQ7Z6xjZiWQrL+w01LEtuc+880m4HwDtdKlyVb
-         6RGrxzystlXFdx4GFC3akanqWNPhpGSrwqNuCMle951CcHj9hWmscCOlENjJDihB6ale
-         Tms4OHBe8NtoSlX27XznYvw1rzspqoq/BUHkro9zmB8tLiLgANusWkcHCYXxBgwgesg2
-         sAZq9anjGoY0LaNSgxqnziTly/t1+6fJ7sl5AyxfgqR0pvidiGk2Y7jtuA8ch+aypvge
-         b6Gg==
-X-Gm-Message-State: ALKqPwdtRnmoBmjtLg1wOWXUPxlhQGEeKV4aM9UmsVafSjHv2VK3try4
-        Kly0S15zfBVPNYfTqSG1G4m4ywkcjJ0U2YbZcF+znQ==
-X-Google-Smtp-Source: ADUXVKLLx4SRKcdwQu8sfePAVg0+G3OGv9Lio315udKmJbWCBqO9ZNpbO6Iyu9dm6Kca5A4boSAJ1IBQe9ZZHiw+anM=
-X-Received: by 2002:a1c:5b02:: with SMTP id p2-v6mr3669923wmb.20.1527888137833;
- Fri, 01 Jun 2018 14:22:17 -0700 (PDT)
+        id S1750991AbeFBAJn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Jun 2018 20:09:43 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:45168 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750974AbeFBAJm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jun 2018 20:09:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=rqRze6K0OHIUEK2GYV+p7sNQrEFVT19buZbcdXeWnQc=; b=fDcUKbr30ynSzDetuywd9W5BG7
+        HeCn/IY7wsaP13Iml1d0gH7hdogZ2uz+HzAfW11PCSj6inC+uJwSnidVFJdPBFNECCPNzN2Z+D9Jp
+        8KQ6EQ6hZw2oOPlTSWv7WDUfV2n/gcnBfIGhyPn7g3lPVMrLexdbKtjcAIp00RShISm+WTdLramUL
+        JEv5AieY3WF2y7iWNJb4AEx9f2Wx3qBwI/9MoisKcEDnig2rFJ8tcYjvTiB/YpmHtbSFczkyCEgkK
+        OlN0IoDAfu1Gf9zCyGYoboYWWUvP4Lh7m7phggp+pm5tSelZgXYfWQfLOxnZr6H4uEhr5zpQsaVhI
+        ZyiZobjw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fOu72-0000mI-7o; Sat, 02 Jun 2018 00:09:40 +0000
+Subject: Re: [PATCH] docs/admin-guide/mm: add high level concepts overview
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <20180529113725.GB13092@rapoport-lnx>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <285dd950-0b25-dba3-60b6-ceac6075fb48@infradead.org>
+Date:   Fri, 1 Jun 2018 17:09:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <1527772139-19665-1-git-send-email-gengdongjiu@huawei.com> <1527772139-19665-3-git-send-email-gengdongjiu@huawei.com>
-In-Reply-To: <1527772139-19665-3-git-send-email-gengdongjiu@huawei.com>
-From:   Eric Northup <digitaleric@google.com>
-Date:   Fri, 1 Jun 2018 14:22:05 -0700
-Message-ID: <CAG7+5M08R5MDHbR-oYK+un1jgGta2UfuaLaVG5Hf9qT7usHKfg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
-To:     gengdongjiu@huawei.com
-Cc:     rkrcmar@redhat.com, corbet@lwn.net, christoffer.dall@arm.com,
-        Marc Zyngier <marc.zyngier@arm.com>, linux@armlinux.org.uk,
-        Catalin Marinas <catalin.marinas@arm.com>, will.deacon@arm.com,
-        KVM <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        james.morse@arm.com, linux-arm-kernel@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180529113725.GB13092@rapoport-lnx>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 30, 2018 at 10:04 PM Dongjiu Geng <gengdongjiu@huawei.com> wrote:
->
-> For the migrating VMs, user space may need to know the exception
-> state. For example, in the machine A, KVM make an SError pending,
-> when migrate to B, KVM also needs to pend an SError.
->
-> This new IOCTL exports user-invisible states related to SError.
-> Together with appropriate user space changes, user space can get/set
-> the SError exception state to do migrate/snapshot/suspend.
->
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> --
-> this series patch is separated from https://www.spinics.net/lists/kvm/msg168917.html
-> change since V12:
-> 1. change (vcpu->arch.hcr_el2 & HCR_VSE) to !!(vcpu->arch.hcr_el2 & HCR_VSE) in kvm_arm_vcpu_get_events()
->
-> Change since V11:
-> Address James's comments, thanks James
-> 1. Align the struct of kvm_vcpu_events to 64 bytes
-> 2. Avoid exposing the stale ESR value in the kvm_arm_vcpu_get_events()
-> 3. Change variables 'injected' name to 'serror_pending' in the kvm_arm_vcpu_set_events()
-> 4. Change to sizeof(events) from sizeof(struct kvm_vcpu_events) in kvm_arch_vcpu_ioctl()
->
-> Change since V10:
-> Address James's comments, thanks James
-> 1. Merge the helper function with the user.
-> 2. Move the ISS_MASK into pend_guest_serror() to clear top bits
-> 3. Make kvm_vcpu_events struct align to 4 bytes
-> 4. Add something check in the kvm_arm_vcpu_set_events()
-> 5. Check kvm_arm_vcpu_get/set_events()'s return value.
-> 6. Initialise kvm_vcpu_events to 0 so that padding transferred to user-space doesn't
->    contain kernel stack.
+On 05/29/2018 04:37 AM, Mike Rapoport wrote:
+> Hi,
+> 
+> From 2d3ec7ea101a66b1535d5bec4acfc1e0f737fd53 Mon Sep 17 00:00:00 2001
+> From: Mike Rapoport <rppt@linux.vnet.ibm.com>
+> Date: Tue, 29 May 2018 14:12:39 +0300
+> Subject: [PATCH] docs/admin-guide/mm: add high level concepts overview
+> 
+> The are terms that seem obvious to the mm developers, but may be somewhat
+
+  There are [or: These are]
+
+> obscure for, say, less involved readers.
+> 
+> The concepts overview can be seen as an "extended glossary" that introduces
+> such terms to the readers of the kernel documentation.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 > ---
->  Documentation/virtual/kvm/api.txt    | 31 ++++++++++++++++++++++++++++---
->  arch/arm/include/asm/kvm_host.h      |  6 ++++++
->  arch/arm/kvm/guest.c                 | 12 ++++++++++++
->  arch/arm64/include/asm/kvm_emulate.h |  5 +++++
->  arch/arm64/include/asm/kvm_host.h    |  7 +++++++
->  arch/arm64/include/uapi/asm/kvm.h    | 13 +++++++++++++
->  arch/arm64/kvm/guest.c               | 36 ++++++++++++++++++++++++++++++++++++
->  arch/arm64/kvm/inject_fault.c        |  7 ++++++-
->  arch/arm64/kvm/reset.c               |  1 +
->  virt/kvm/arm/arm.c                   | 21 +++++++++++++++++++++
->  10 files changed, 135 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-> index fdac969..8896737 100644
-> --- a/Documentation/virtual/kvm/api.txt
-> +++ b/Documentation/virtual/kvm/api.txt
-> @@ -835,11 +835,13 @@ struct kvm_clock_data {
->
->  Capability: KVM_CAP_VCPU_EVENTS
->  Extended by: KVM_CAP_INTR_SHADOW
-> -Architectures: x86
-> +Architectures: x86, arm, arm64
->  Type: vm ioctl
->  Parameters: struct kvm_vcpu_event (out)
->  Returns: 0 on success, -1 on error
->
-> +X86:
+>  Documentation/admin-guide/mm/concepts.rst | 222 ++++++++++++++++++++++++++++++
+>  Documentation/admin-guide/mm/index.rst    |   5 +
+>  2 files changed, 227 insertions(+)
+>  create mode 100644 Documentation/admin-guide/mm/concepts.rst
+> 
+> diff --git a/Documentation/admin-guide/mm/concepts.rst b/Documentation/admin-guide/mm/concepts.rst
+> new file mode 100644
+> index 0000000..291699c
+> --- /dev/null
+> +++ b/Documentation/admin-guide/mm/concepts.rst
+> @@ -0,0 +1,222 @@
+> +.. _mm_concepts:
 > +
->  Gets currently pending exceptions, interrupts, and NMIs as well as related
->  states of the vcpu.
->
-> @@ -881,15 +883,32 @@ Only two fields are defined in the flags field:
->  - KVM_VCPUEVENT_VALID_SMM may be set in the flags field to signal that
->    smi contains a valid state.
->
-> +ARM, ARM64:
+> +=================
+> +Concepts overview
+> +=================
 > +
-> +Gets currently pending SError exceptions as well as related states of the vcpu.
-> +
-> +struct kvm_vcpu_events {
-> +       struct {
-> +               __u8 serror_pending;
-> +               __u8 serror_has_esr;
-> +               /* Align it to 8 bytes */
-> +               __u8 pad[6];
-> +               __u64 serror_esr;
-> +       } exception;
-> +       __u32 reserved[12];
->
-> +};
-> +
->  4.32 KVM_SET_VCPU_EVENTS
->
-> -Capability: KVM_CAP_VCPU_EVENTS
-> +Capebility: KVM_CAP_VCPU_EVENTS
->  Extended by: KVM_CAP_INTR_SHADOW
-> -Architectures: x86
-> +Architectures: x86, arm, arm64
->  Type: vm ioctl
->  Parameters: struct kvm_vcpu_event (in)
->  Returns: 0 on success, -1 on error
->
-> +X86:
-> +
->  Set pending exceptions, interrupts, and NMIs as well as related states of the
->  vcpu.
->
-> @@ -910,6 +929,12 @@ shall be written into the VCPU.
->
->  KVM_VCPUEVENT_VALID_SMM can only be set if KVM_CAP_X86_SMM is available.
->
-> +ARM, ARM64:
-> +
-> +Set pending SError exceptions as well as related states of the vcpu.
-> +
-> +See KVM_GET_VCPU_EVENTS for the data structure.
-> +
->
->  4.33 KVM_GET_DEBUGREGS
->
-> diff --git a/arch/arm/include/asm/kvm_host.h b/arch/arm/include/asm/kvm_host.h
-> index c7c28c8..39f9901 100644
-> --- a/arch/arm/include/asm/kvm_host.h
-> +++ b/arch/arm/include/asm/kvm_host.h
-> @@ -213,6 +213,12 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
->  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
->  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
->  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
-> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events);
-> +
-> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events);
-> +
->  unsigned long kvm_call_hyp(void *hypfn, ...);
->  void force_vm_exit(const cpumask_t *mask);
->
-> diff --git a/arch/arm/kvm/guest.c b/arch/arm/kvm/guest.c
-> index a18f33e..c685f0e 100644
-> --- a/arch/arm/kvm/guest.c
-> +++ b/arch/arm/kvm/guest.c
-> @@ -261,6 +261,18 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
->         return -EINVAL;
->  }
->
-> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events)
-> +{
-> +       return -EINVAL;
-> +}
-> +
-> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events)
-> +{
-> +       return -EINVAL;
-> +}
-> +
->  int __attribute_const__ kvm_target_cpu(void)
->  {
->         switch (read_cpuid_part()) {
-> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
-> index 1dab3a9..18f61ff 100644
-> --- a/arch/arm64/include/asm/kvm_emulate.h
-> +++ b/arch/arm64/include/asm/kvm_emulate.h
-> @@ -81,6 +81,11 @@ static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
->         return (unsigned long *)&vcpu->arch.hcr_el2;
->  }
->
-> +static inline unsigned long vcpu_get_vsesr(struct kvm_vcpu *vcpu)
-> +{
-> +       return vcpu->arch.vsesr_el2;
-> +}
-> +
->  static inline void vcpu_set_vsesr(struct kvm_vcpu *vcpu, u64 vsesr)
->  {
->         vcpu->arch.vsesr_el2 = vsesr;
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 469de8a..357304a 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -335,6 +335,11 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
->  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
->  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
->  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
-> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events);
-> +
-> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events);
->
->  #define KVM_ARCH_WANT_MMU_NOTIFIER
->  int kvm_unmap_hva(struct kvm *kvm, unsigned long hva);
-> @@ -363,6 +368,8 @@ void handle_exit_early(struct kvm_vcpu *vcpu, struct kvm_run *run,
->  int kvm_perf_init(void);
->  int kvm_perf_teardown(void);
->
-> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
-> +
->  struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
->
->  void __kvm_set_tpidr_el2(u64 tpidr_el2);
-> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-> index 04b3256..df4faee 100644
-> --- a/arch/arm64/include/uapi/asm/kvm.h
-> +++ b/arch/arm64/include/uapi/asm/kvm.h
-> @@ -39,6 +39,7 @@
->  #define __KVM_HAVE_GUEST_DEBUG
->  #define __KVM_HAVE_IRQ_LINE
->  #define __KVM_HAVE_READONLY_MEM
-> +#define __KVM_HAVE_VCPU_EVENTS
->
->  #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
->
-> @@ -153,6 +154,18 @@ struct kvm_sync_regs {
->  struct kvm_arch_memory_slot {
->  };
->
-> +/* for KVM_GET/SET_VCPU_EVENTS */
-> +struct kvm_vcpu_events {
-> +       struct {
-> +               __u8 serror_pending;
-> +               __u8 serror_has_esr;
-> +               /* Align it to 8 bytes */
-> +               __u8 pad[6];
-> +               __u64 serror_esr;
-> +       } exception;
-> +       __u32 reserved[12];
+> +The memory management in Linux is complex system that evolved over the
 
-It will be easier to re-purpose this in the future if the field is
-reserved and is checked that it must be zero.  SET_VCPU_EVENTS would
-return EINVAL if reserved fields get used until a later meaning is
-defined for them.
+                                  is a complex
 
-> +};
+> +years and included more and more functionality to support variety of
+
+                                                     support a variety of
+
+> +systems from MMU-less microcontrollers to supercomputers. The memory
+> +management for systems without MMU is called ``nommu`` and it
+
+                          without an MMU
+
+> +definitely deserves a dedicated document, which hopefully will be
+> +eventually written. Yet, although some of the concepts are the same,
+> +here we assume that MMU is available and CPU can translate a virtual
+
+                  that an MMU           and a CPU
+
+> +address to a physical address.
 > +
->  /* If you need to interpret the index values, here is the key: */
->  #define KVM_REG_ARM_COPROC_MASK                0x000000000FFF0000
->  #define KVM_REG_ARM_COPROC_SHIFT       16
-> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
-> index 56a0260..71d3841 100644
-> --- a/arch/arm64/kvm/guest.c
-> +++ b/arch/arm64/kvm/guest.c
-> @@ -289,6 +289,42 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
->         return -EINVAL;
->  }
->
-> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events)
-> +{
-> +       events->exception.serror_pending = !!(vcpu->arch.hcr_el2 & HCR_VSE);
-> +       events->exception.serror_has_esr =
-> +                       cpus_have_const_cap(ARM64_HAS_RAS_EXTN) &&
-> +                                       (!!vcpu_get_vsesr(vcpu));
+> +.. contents:: :local:
 > +
-> +       if (events->exception.serror_pending &&
-> +               events->exception.serror_has_esr)
-> +               events->exception.serror_esr = vcpu_get_vsesr(vcpu);
-> +       else
-> +               events->exception.serror_esr = 0;
+> +Virtual Memory Primer
+> +=====================
 > +
-> +       return 0;
-> +}
+> +The physical memory in a computer system is a limited resource and
+> +even for systems that support memory hotplug there is a hard limit on
+> +the amount of memory that can be installed. The physical memory is not
+> +necessary contiguous, it might be accessible as a set of distinct
+
+Change comma to semi-colon or period (and if latter, s/it/It/).
+
+> +address ranges. Besides, different CPU architectures, and even
+> +different implementations of the same architecture have different view
+
+                                                                     views of
+
+> +how these address ranges defined.
 > +
-> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
-> +                       struct kvm_vcpu_events *events)
-> +{
-> +       bool serror_pending = events->exception.serror_pending;
-> +       bool has_esr = events->exception.serror_has_esr;
+> +All this makes dealing directly with physical memory quite complex and
+> +to avoid this complexity a concept of virtual memory was developed.
 > +
-> +       if (serror_pending && has_esr) {
-> +               if (!cpus_have_const_cap(ARM64_HAS_RAS_EXTN))
-> +                       return -EINVAL;
+> +The virtual memory abstracts the details of physical memory from the
+
+       virtual memory {system, implementation} abstracts
+
+> +application software, allows to keep only needed information in the
+
+               software, allowing the VM to keep only needed information in the
+
+> +physical memory (demand paging) and provides a mechanism for the
+> +protection and controlled sharing of data between processes.
 > +
-> +               kvm_set_sei_esr(vcpu, events->exception.serror_esr);
+> +With virtual memory, each and every memory access uses a virtual
+> +address. When the CPU decodes the an instruction that reads (or
+> +writes) from (or to) the system memory, it translates the `virtual`
+> +address encoded in that instruction to a `physical` address that the
+> +memory controller can understand.
 > +
-> +       } else if (serror_pending) {
-> +               kvm_inject_vabt(vcpu);
-> +       }
+> +The physical system memory is divided into page frames, or pages. The
+> +size of each page is architecture specific. Some architectures allow
+> +selection of the page size from several supported values; this
+> +selection is performed at the kernel build time by setting an
+> +appropriate kernel configuration option.
 > +
-> +       return 0;
-> +}
+> +Each physical memory page can be mapped as one or more virtual
+> +pages. These mappings are described by page tables that allow
+> +translation from virtual address used by programs to real address in
+
+               from a virtual address                to {a, the} real address in
+
+> +the physical memory. The page tables organized hierarchically.
+
+                                 tables are organized
+
 > +
->  int __attribute_const__ kvm_target_cpu(void)
->  {
->         unsigned long implementor = read_cpuid_implementor();
-> diff --git a/arch/arm64/kvm/inject_fault.c b/arch/arm64/kvm/inject_fault.c
-> index d8e7165..9e0ca56 100644
-> --- a/arch/arm64/kvm/inject_fault.c
-> +++ b/arch/arm64/kvm/inject_fault.c
-> @@ -166,7 +166,7 @@ void kvm_inject_undefined(struct kvm_vcpu *vcpu)
->
->  static void pend_guest_serror(struct kvm_vcpu *vcpu, u64 esr)
->  {
-> -       vcpu_set_vsesr(vcpu, esr);
-> +       vcpu_set_vsesr(vcpu, esr & ESR_ELx_ISS_MASK);
->         *vcpu_hcr(vcpu) |= HCR_VSE;
->  }
->
-> @@ -186,3 +186,8 @@ void kvm_inject_vabt(struct kvm_vcpu *vcpu)
->  {
->         pend_guest_serror(vcpu, ESR_ELx_ISV);
->  }
+> +The tables at the lowest level of the hierarchy contain physical
+> +addresses of actual pages used by the software. The tables at higher
+> +levels contain physical addresses of the pages belonging to the lower
+> +levels. The pointer to the top level page table resides in a
+> +register. When the CPU performs the address translation, it uses this
+> +register to access the top level page table. The high bits of the
+> +virtual address are used to index an entry in the top level page
+> +table. That entry is then used to access the next level in the
+> +hierarchy with the next bits of the virtual address as the index to
+> +that level page table. The lowest bits in the virtual address define
+> +the offset inside the actual page.
 > +
-> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome)
-> +{
-> +       pend_guest_serror(vcpu, syndrome);
-> +}
-> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-> index 38c8a64..20e919a 100644
-> --- a/arch/arm64/kvm/reset.c
-> +++ b/arch/arm64/kvm/reset.c
-> @@ -82,6 +82,7 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
->                 break;
->         case KVM_CAP_SET_GUEST_DEBUG:
->         case KVM_CAP_VCPU_ATTRIBUTES:
-> +       case KVM_CAP_VCPU_EVENTS:
->                 r = 1;
->                 break;
->         default:
-> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
-> index a4c1b76..8b43968 100644
-> --- a/virt/kvm/arm/arm.c
-> +++ b/virt/kvm/arm/arm.c
-> @@ -1107,6 +1107,27 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->                 r = kvm_arm_vcpu_has_attr(vcpu, &attr);
->                 break;
->         }
-> +       case KVM_GET_VCPU_EVENTS: {
-> +               struct kvm_vcpu_events events;
+> +Huge Pages
+> +==========
 > +
-> +               memset(&events, 0, sizeof(events));
-> +               if (kvm_arm_vcpu_get_events(vcpu, &events))
-> +                       return -EINVAL;
+> +The address translation requires several memory accesses and memory
+> +accesses are slow relatively to CPU speed. To avoid spending precious
+> +processor cycles on the address translation, CPUs maintain a cache of
+> +such translations called Translation Lookaside Buffer (or
+> +TLB). Usually TLB is pretty scarce resource and applications with
+> +large memory working set will experience performance hit because of
+> +TLB misses.
 > +
-> +               if (copy_to_user(argp, &events, sizeof(events)))
-> +                       return -EFAULT;
+> +Many modern CPU architectures allow mapping of the memory pages
+> +directly by the higher levels in the page table. For instance, on x86,
+> +it is possible to map 2M and even 1G pages using entries in the second
+> +and the third level page tables. In Linux such pages are called
+> +`huge`. Usage of huge pages significantly reduces pressure on TLB,
+> +improves TLB hit-rate and thus improves overall system performance.
 > +
-> +               return 0;
-> +       }
-> +       case KVM_SET_VCPU_EVENTS: {
-> +               struct kvm_vcpu_events events;
+> +There are two mechanisms in Linux that enable mapping of the physical
+> +memory with the huge pages. The first one is `HugeTLB filesystem`, or
+> +hugetlbfs. It is a pseudo filesystem that uses RAM as its backing
+> +store. For the files created in this filesystem the data resides in
+> +the memory and mapped using huge pages. The hugetlbfs is described at
+> +:ref:`Documentation/admin-guide/mm/hugetlbpage.rst <hugetlbpage>`.
 > +
-> +               if (copy_from_user(&events, argp,
-> +                               sizeof(struct kvm_vcpu_events)))
-> +                       return -EFAULT;
+> +Another, more recent, mechanism that enables use of the huge pages is
+> +called `Transparent HugePages`, or THP. Unlike the hugetlbfs that
+> +requires users and/or system administrators to configure what parts of
+> +the system memory should and can be mapped by the huge pages, THP
+> +manages such mappings transparently to the user and hence the
+> +name. See
+> +:ref:`Documentation/admin-guide/mm/transhuge.rst <admin_guide_transhuge>`
+> +for more details about THP.
 > +
-> +               return kvm_arm_vcpu_set_events(vcpu, &events);
-> +       }
->         default:
->                 r = -EINVAL;
->         }
-> --
-> 2.7.4
->
+> +Zones
+> +=====
+> +
+> +Often hardware poses restrictions on how different physical memory
+> +ranges can be accessed. In some cases, devices cannot perform DMA to
+> +all the addressable memory. In other cases, the size of the physical
+> +memory exceeds the maximal addressable size of virtual memory and
+> +special actions are required to access portions of the memory. Linux
+> +groups memory pages into `zones` according to their possible
+> +usage. For example, ZONE_DMA will contain memory that can be used by
+> +devices for DMA, ZONE_HIGHMEM will contain memory that is not
+> +permanently mapped into kernel's address space and ZONE_NORMAL will
+> +contain normally addressed pages.
+> +
+> +The actual layout of the memory zones is hardware dependent as not all
+> +architectures define all zones, and requirements for DMA are different
+> +for different platforms.
+> +
+> +Nodes
+> +=====
+> +
+> +Many multi-processor machines are NUMA - Non-Uniform Memory Access -
+> +systems. In such systems the memory is arranged into banks that have
+> +different access latency depending on the "distance" from the
+> +processor. Each bank is referred as `node` and for each node Linux
+
+                        is referred to as a `node`
+
+> +constructs an independent memory management subsystem. A node has it's
+
+                                                                     its
+
+> +own set of zones, lists of free and used pages and various statistics
+> +counters. You can find more details about NUMA in
+> +:ref:`Documentation/vm/numa.rst <numa>` and in
+> +:ref:`Documentation/admin-guide/mm/numa_memory_policy.rst <numa_memory_policy>`.
+> +
+> +Page cache
+> +==========
+> +
+> +The physical memory is volatile and the common case for getting data
+> +into the memory is to read it from files. Whenever a file is read, the
+> +data is put into the `page cache` to avoid expensive disk access on
+> +the subsequent reads. Similarly, when one writes to a file, the data
+> +is placed in the page cache and eventually gets into the backing
+> +storage device. The written pages are marked as `dirty` and when Linux
+> +decides to reuse them for other purposes, it makes sure to synchronize
+> +the file contents on the device with the updated data.
+> +
+> +Anonymous Memory
+> +================
+> +
+> +The `anonymous memory` or `anonymous mappings` represent memory that
+> +is not backed by a filesystem. Such mappings are implicitly created
+> +for program's stack and heap or by explicit calls to mmap(2) system
+> +call. Usually, the anonymous mappings only define virtual memory areas
+> +that the program is allowed to access. The read accesses will result
+> +in creation of a page table entry that references a special physical
+> +page filled with zeroes. When the program performs a write, regular
+
+                                                        write, a regular
+
+> +physical page will be allocated to hold the written data. The page
+> +will be marked dirty and if the kernel will decide to repurpose it,
+> +the dirty page will be swapped out.
+> +
+> +Reclaim
+> +=======
+> +
+> +Throughout the system lifetime, a physical page can be used for storing
+> +different types of data. It can be kernel internal data structures,
+> +DMA'able buffers for device drivers use, data read from a filesystem,
+> +memory allocated by user space processes etc.
+> +
+> +Depending on the page usage it is treated differently by the Linux
+> +memory management. The pages that can be freed at any time, either
+> +because they cache the data available elsewhere, for instance, on a
+> +hard disk, or because they can be swapped out, again, to the hard
+> +disk, are called `reclaimable`. The most notable categories of the
+> +reclaimable pages are page cache and anonymous memory.
+> +
+> +In most cases, the pages holding internal kernel data and used as DMA
+> +buffers cannot be repurposed, and they remain pinned until freed by
+> +their user. Such pages are called `unreclaimable`. However, in certain
+> +circumstances, even pages occupied with kernel data structures can be
+> +reclaimed. For instance, in-memory caches of filesystem metadata can
+> +be re-read from the storage device and therefore it is possible to
+> +discard them from the main memory when system is under memory
+> +pressure.
+> +
+> +The process of freeing the reclaimable physical memory pages and
+> +repurposing them is called (surprise!) `reclaim`. Linux can reclaim
+> +pages either asynchronously or synchronously, depending on the state
+> +of the system. When system is not loaded, most of the memory is free
+
+                  When {the, a} system
+
+> +and allocation request will be satisfied immediately from the free
+
+                  requests
+or
+   and an allocation request
+
+> +pages supply. As the load increases, the amount of the free pages goes
+> +down and when it reaches a certain threshold (high watermark), an
+> +allocation request will awaken the ``kswapd`` daemon. It will
+> +asynchronously scan memory pages and either just free them if the data
+> +they contain is available elsewhere, or evict to the backing storage
+> +device (remember those dirty pages?). As memory usage increases even
+> +more and reaches another threshold - min watermark - an allocation
+> +will trigger the `direct reclaim`. In this case allocation is stalled
+
+s/the//
+
+> +until enough memory pages are reclaimed to satisfy the request.
+> +
+> +Compaction
+> +==========
+> +
+> +As the system runs, tasks allocate and free the memory and it becomes
+> +fragmented. Although with virtual memory it is possible to present
+> +scattered physical pages as virtually contiguous range, sometimes it is
+> +necessary to allocate large physically contiguous memory areas. Such
+> +need may arise, for instance, when a device driver requires large
+
+                                                      requires a large
+
+> +buffer for DMA, or when THP allocates a huge page. Memory `compaction`
+> +addresses the fragmentation issue. This mechanism moves occupied pages
+> +from the lower part of a memory zone to free pages in the upper part
+> +of the zone. When a compaction scan is finished free pages are grouped
+> +together at the beginning of the zone and allocations of large
+> +physically contiguous areas become possible.
+> +
+> +Like reclaim, the compaction may happen asynchronously in ``kcompactd``
+
+                                                          in the
+
+> +daemon or synchronously as a result of memory allocation request.
+
+                                       of a memory allocation request.
+
+> +
+> +OOM killer
+> +==========
+> +
+> +It may happen, that on a loaded machine memory will be exhausted. When
+
+no comma.
+
+> +the kernel detects that the system runs out of memory (OOM) it invokes
+> +`OOM killer`. Its mission is simple: all it has to do is to select a
+> +task to sacrifice for the sake of the overall system health. The
+> +selected task is killed in a hope that after it exits enough memory
+> +will be freed to continue normal operation.
+
+
+thanks for doing this overview.
+
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
