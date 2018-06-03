@@ -5,55 +5,57 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 713DE7D048
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Jun 2018 18:16:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AAEF7D048
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Jun 2018 18:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750996AbeFCSQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Jun 2018 14:16:52 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:24524 "EHLO mx2.mailbox.org"
+        id S1750996AbeFCSRn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Jun 2018 14:17:43 -0400
+Received: from mx1.mailbox.org ([80.241.60.212]:38598 "EHLO mx1.mailbox.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750952AbeFCSQw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 Jun 2018 14:16:52 -0400
+        id S1750952AbeFCSRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 3 Jun 2018 14:17:42 -0400
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 2D11E40FD6;
-        Sun,  3 Jun 2018 20:16:50 +0200 (CEST)
+        by mx1.mailbox.org (Postfix) with ESMTPS id 63EF744442;
+        Sun,  3 Jun 2018 20:17:41 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
-        with ESMTP id 1xhDm8XKWeRd; Sun,  3 Jun 2018 20:16:48 +0200 (CEST)
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id b4SWPCNwNmqf; Sun,  3 Jun 2018 20:17:40 +0200 (CEST)
 From:   Michael Rodin <michael-git@rodin.online>
 To:     corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michael Rodin <michael-git@rodin.online>
-Subject: [PATCH] Documentation/admin-guide/README.rst: add a label for cross-referencing
-Date:   Sun,  3 Jun 2018 20:16:09 +0200
-Message-Id: <20180603181609.7015-1-michael-git@rodin.online>
+Subject: [PATCH] Documentation/process/howto.rst: add a missing cross-reference
+Date:   Sun,  3 Jun 2018 20:17:33 +0200
+Message-Id: <20180603181733.7093-1-michael-git@rodin.online>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a label to the top of the file to allow cross-referencing.
-Currently it's not possible to cross-reference this file from
-Documentation/process/howto.rst because of the missing label.
+Add a missing cross-reference from Documentation/process/howto.rst
+to Documentation/admin-guide/README.rst.
 
 Signed-off-by: Michael Rodin <michael-git@rodin.online>
 ---
- Documentation/admin-guide/README.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/process/howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index 02caa7efd5ef..15ea785b2dfa 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -1,3 +1,5 @@
-+.. _readme:
-+
- Linux kernel release 4.x <http://kernel.org/>
- =============================================
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 3df55811b916..130bf0f48875 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -85,7 +85,7 @@ linux-api@vger.kernel.org.
+ Here is a list of files that are in the kernel source tree that are
+ required reading:
  
+-  README
++  :ref:`Documentation/admin-guide/README.rst <readme>`
+     This file gives a short background on the Linux kernel and describes
+     what is necessary to do to configure and build the kernel.  People
+     who are new to the kernel should start here.
 -- 
 2.14.1
 
