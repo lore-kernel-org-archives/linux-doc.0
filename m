@@ -1,112 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B60E47D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 15:08:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD53E7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 15:38:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753568AbeFDPIH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Jun 2018 11:08:07 -0400
-Received: from mail-dm3nam03on0071.outbound.protection.outlook.com ([104.47.41.71]:27456
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751784AbeFDPIG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Jun 2018 11:08:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DQR6LB6kMvlXRI4thRs6Bu/BFwKFYawI6pD/Pmw3JSc=;
- b=kiqsm9k2DCijjPL9n1bAM6UF3mYvuOiF6uEwY3jd0r3Byt12FZijFsoYT++TrXzcqG4QaX20m/sUb42gQ2jqkgHNfc1co8iSj418EccVu8oANsuCH3lloc+55k2uNUcSWvv+ERTCK8zn9D3xcsZBSWYmgZ4EZ5TBdlQoBGqyoeQ=
-Received: from SN6PR07MB4512.namprd07.prod.outlook.com (52.135.94.11) by
- SN6PR07MB4767.namprd07.prod.outlook.com (52.135.77.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.820.11; Mon, 4 Jun 2018 15:08:03 +0000
-Received: from SN6PR07MB4512.namprd07.prod.outlook.com
- ([fe80::15c7:d982:4724:a81c]) by SN6PR07MB4512.namprd07.prod.outlook.com
- ([fe80::15c7:d982:4724:a81c%4]) with mapi id 15.20.0820.015; Mon, 4 Jun 2018
- 15:08:02 +0000
-From:   Alan Douglas <adouglas@cadence.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 3/7] PCI: cadence: Update cdns_pcie_ep_raise_irq
- function signature
-Thread-Topic: [PATCH v2 3/7] PCI: cadence: Update cdns_pcie_ep_raise_irq
- function signature
-Thread-Index: AQHT7gHUWMmgp3Yy2UqjmD3C3fTJA6RJvoOAgAYk1wA=
-Date:   Mon, 4 Jun 2018 15:08:02 +0000
-Message-ID: <SN6PR07MB4512F3B395D731FF14EBDB8ED8670@SN6PR07MB4512.namprd07.prod.outlook.com>
-References: <cover.1526576613.git.gustavo.pimentel@synopsys.com>
- <4994f263efbf6a2cb952d3d9839fb3b1737efde9.1526576613.git.gustavo.pimentel@synopsys.com>
- <aa86d9b7-d715-2a21-6a94-be927e55b51b@ti.com>
-In-Reply-To: <aa86d9b7-d715-2a21-6a94-be927e55b51b@ti.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWRvdWdsYXNcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0xOGY5ZTJjNy02ODA5LTExZTgtODZlNi1hNDRjYzhlYzVlY2RcYW1lLXRlc3RcMThmOWUyYzgtNjgwOS0xMWU4LTg2ZTYtYTQ0Y2M4ZWM1ZWNkYm9keS50eHQiIHN6PSI3MzIiIHQ9IjEzMTcyNTk4NDkyODI0OTYzMCIgaD0ia0FwM0pOVnRneVVFdGdVcnpLYjgyZ1VVa25zPSIgaWQ9IiIgYmw9IjAiIGJvPSIxIi8+PC9tZXRhPg==
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=adouglas@cadence.com; 
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;SN6PR07MB4767;7:z4Oisq4dzOlMvSOgY0+v2/ah1+m5ro8sna6MZe1t9jKKaW305mMbqEyhrz47dXnSvWYZIc6gBzbJHFsYCr82VTZPb6siymC5oI01Uj/alfnG80InLU0rRyk10k/vq0yaTcx2NL5Wzza5jxCNl46idzuyuGc1i0k2GeZqLvnuodULlMKMMMLSilfaVdV4tzPltzZw0nKKrkSqV5QCNy7QlwZkwi5T1k9AYGwtsMRbL1TF4Zi/xP1eXP84vL+n+edt;20:49/JsYyA+Q5GKsoAKEHe3UsILJljE6Zt5E4/CQLN9BEDNmr+1QixXF5oU14EvwbSXHFcnI1aaUxBlNQJQLsoEB7XtC3bgCn5lYcDVOLS6aJwlLpVTDj8JMVY8PKzDYMxJHspI8lYWDAilAM+WTwPiyuuelxr22DB7wYzxo497nXQQr2K9sj613cgc+vsWtDEnWfVIiucnxS7nYNXjmRf434qkH7bKnZliJsSb7SY/9kpKVPusaSnclJCtsAtseZ1
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR07MB4767;
-x-ms-traffictypediagnostic: SN6PR07MB4767:
-x-microsoft-antispam-prvs: <SN6PR07MB476727507F544F46B14D7EB0D8670@SN6PR07MB4767.namprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(72806322054110);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(93006095)(93001095)(3231254)(944501410)(52105095)(149027)(150027)(6041310)(20161123562045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123560045)(6072148)(201708071742011)(7699016);SRVR:SN6PR07MB4767;BCL:0;PCL:0;RULEID:;SRVR:SN6PR07MB4767;
-x-forefront-prvs: 069373DFB6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39380400002)(366004)(396003)(39850400004)(376002)(346002)(36092001)(189003)(199004)(54906003)(4326008)(81156014)(81166006)(229853002)(2201001)(97736004)(25786009)(8936002)(478600001)(14454004)(2501003)(86362001)(7416002)(74316002)(5660300001)(105586002)(2906002)(53936002)(5250100002)(8676002)(53546011)(6506007)(76176011)(9686003)(26005)(486006)(2900100001)(68736007)(39060400002)(6116002)(3846002)(99286004)(305945005)(6436002)(7696005)(106356001)(33656002)(55016002)(446003)(11346002)(7736002)(476003)(110136005)(102836004)(316002)(3280700002)(186003)(66066001)(3660700001)(6246003);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR07MB4767;H:SN6PR07MB4512.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: cadence.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: Q6IHPC4XbUM/9L/gkiEbBn3DJcGzM4zibBjS2Go6Qy3kl/0lsFU1PYrC2Bw4LyQuDCevX6bOOnzEWNcWY2LvBeP1b9yYtAKPJYadr+zCPI2FGoZlbfYSsSGalFViQxeb+QFbJoivJqY6IWqZu/7+3ZuP20iI1LBAUoykZvI/5j+SGD/8LDiNaIxA4mTl3Z8iSwux2YfPSdDA2HC5GtVkiQ==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1750815AbeFDPi1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Jun 2018 11:38:27 -0400
+Received: from mail-it0-f65.google.com ([209.85.214.65]:51509 "EHLO
+        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750759AbeFDPi0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jun 2018 11:38:26 -0400
+Received: by mail-it0-f65.google.com with SMTP id n7-v6so856783itn.1;
+        Mon, 04 Jun 2018 08:38:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=y+WA7yYotvPjMxuA2Q/OiRZ3U0EtZFw7lmLXKgkBsSM=;
+        b=QZjlJpzKAl8EzJqKc5XafHFL/6GiSwwwNt2XFyQwz46Y83uJhpAGfonJLPuQZLKihe
+         ckoMg22qtFQAD0zWPfOc0qjwDoorINtDloIfarEALl9faE5yC9B6r/Fz/lInV+RXaPnV
+         7ZZgMeOsEjqAR5nuoO7PP5XLvi2n/GZrYGi7PltMxXNdylyTfLj08ax8qOpD4vpjXHDD
+         FsB33WRpdffqxnxghqx9HQg8zifqLP71WjDBoXWZi4eWnX4GoGBQPJ2LvvJDGbIDsQON
+         4GHOyKJ5LnR8/YOqGt4TtU+lBPMOg6yAjB5CPTSfsiWP+3VhSO1PTsrONfTl/Miw53gV
+         ZSlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=y+WA7yYotvPjMxuA2Q/OiRZ3U0EtZFw7lmLXKgkBsSM=;
+        b=ZCkWYhlGjnFZELgifyGkjSLNcurLMNa+oHB9OAy3LM5fWrFQMGcCgCAAAAgMTTIpm/
+         QCQpahH8nThGLVsrJINScw+6UUCMzk8tH8XFMNS0tXisU3MfD1zudHM4ugxUuQvKKzIO
+         lmuoE/X+jjSAPvdZaos1g04rJHF6MfOM1pBvnJpWqzgDFP9y8QVFznqMzBGUKVSN0fSI
+         3Ld2Xjvyl/lAtBCJ2U45/Zmzr0Fzw1mFob/ERUYqZM4pnNztgzRjE7wPdq60a6Xo4TT1
+         RD+w190sGlmWXxy6UwSu7GZLJZGJWRiHOWCPQ946CIqL+t2wZ0hu1qv7SImbWmaHwhiX
+         aSFw==
+X-Gm-Message-State: APt69E0SMTYqQEyfMS76gKT/EjAUWWLkB2pyEGOAcvSU+owX7UedGcK/
+        O7/PUUMMZpx4xyAegV0nt51g6F1NyCtuQ19BoLE=
+X-Google-Smtp-Source: ADUXVKIGXnUHqr6T2EoR0bDKvPw0PEXtlz5ivVt4zqNlGKxkaQQCJM99ZrzXk6uWIIh5I3W/hLIy6ShAKbgre4nWLs4=
+X-Received: by 2002:a24:5649:: with SMTP id o70-v6mr14565256itb.56.1528126705832;
+ Mon, 04 Jun 2018 08:38:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 780ab0d5-59a3-4093-3423-08d5ca2cf7f0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 780ab0d5-59a3-4093-3423-08d5ca2cf7f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2018 15:08:02.8941
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB4767
+Received: by 2002:a02:b4ac:0:0:0:0:0 with HTTP; Mon, 4 Jun 2018 08:38:25 -0700 (PDT)
+In-Reply-To: <20180604121005.24471-1-cgxu519@gmx.com>
+References: <20180604121005.24471-1-cgxu519@gmx.com>
+From:   Ilya Dryomov <idryomov@gmail.com>
+Date:   Mon, 4 Jun 2018 17:38:25 +0200
+Message-ID: <CAOi1vP852=pO2+djO9OZBYiMkgqEZA5zekZNHJMqMVGsYaNr6A@mail.gmail.com>
+Subject: Re: [PATCH] doc: update description of ceph mount option
+To:     Chengguang Xu <cgxu519@gmx.com>
+Cc:     Ceph Development <ceph-devel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, "Yan, Zheng" <zyan@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31 May 2018 11:51, Kishon Vijay Abraham I  wrote:
-> Hi Alan,
->=20
-> On Thursday 17 May 2018 10:39 PM, Gustavo Pimentel wrote:
-> > Change cdns_pcie_ep_raise_irq() signature, namely the interrupt_num
-> > variable type from u8 to u16 to accommodate 2048 maximum MSI-X
-> > interrupts.
-> >
-> > Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > Acked-by: Alan Douglas <adouglas@cadence.com>
->=20
-> Do you want to add MSI-X support to cadence PCIe?
->=20
-I do want to add MSI-X support, in fact I have done some tests with a
-modified cadence driver with this set, so plan to submit a patch later.
+On Mon, Jun 4, 2018 at 2:10 PM, Chengguang Xu <cgxu519@gmx.com> wrote:
+> Based on code, default value of rsize/wsize is 16 MB.
+>
+> Signed-off-by: Chengguang Xu <cgxu519@gmx.com>
+> ---
+>  Documentation/filesystems/ceph.txt | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/filesystems/ceph.txt b/Documentation/filesystems/ceph.txt
+> index d7f011ddc150..8bf62240e10d 100644
+> --- a/Documentation/filesystems/ceph.txt
+> +++ b/Documentation/filesystems/ceph.txt
+> @@ -105,15 +105,13 @@ Mount Options
+>         address its connection to the monitor originates from.
+>
+>    wsize=X
+> -       Specify the maximum write size in bytes.  By default there is no
+> -       maximum.  Ceph will normally size writes based on the file stripe
+> -       size.
+> +       Specify the maximum write size in bytes.  Default: 16 MB.
+>
+>    rsize=X
+> -       Specify the maximum read size in bytes.  Default: 64 MB.
+> +       Specify the maximum read size in bytes.  Default: 16 MB.
+>
+>    rasize=X
+> -       Specify the maximum readahead.  Default: 8 MB.
+> +       Specify the maximum readahead size in bytes.  Default: 8 MB.
+>
+>    mount_timeout=X
+>         Specify the timeout value for mount (in seconds), in the case
 
+Applied.
+
+Thanks,
+
+                Ilya
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
