@@ -1,110 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DATE_IN_FUTURE_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2002F7DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 11:41:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DEFAC7DF87
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 12:11:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752559AbeFDLlK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Jun 2018 07:41:10 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:8688 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751482AbeFDLki (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Jun 2018 07:40:38 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id A0A605E75BDA0;
-        Mon,  4 Jun 2018 19:40:23 +0800 (CST)
-Received: from localhost.localdomain (10.143.28.90) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.382.0; Mon, 4 Jun 2018 19:40:17 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <james.morse@arm.com>, <gengdongjiu@huawei.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
-Subject: [PATCH v2 1/2] arm64: KVM: export the capability to set guest SError syndrome
-Date:   Tue, 5 Jun 2018 03:45:41 +0800
-Message-ID: <1528141542-44048-2-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1528141542-44048-1-git-send-email-gengdongjiu@huawei.com>
-References: <1528141542-44048-1-git-send-email-gengdongjiu@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.90]
-X-CFilter-Loop: Reflected
+        id S1751784AbeFDMKj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Jun 2018 08:10:39 -0400
+Received: from mout.gmx.net ([212.227.15.19]:56751 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751473AbeFDMKi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Jun 2018 08:10:38 -0400
+Received: from localhost.localdomain ([122.224.77.194]) by mail.gmx.com
+ (mrgmx003 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 0MfEZG-1ffq621n6g-00OsP3; Mon, 04 Jun 2018 14:10:29 +0200
+From:   Chengguang Xu <cgxu519@gmx.com>
+To:     ceph-devel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     zyan@redhat.com, idryomov@gmail.com, corbet@lwn.net,
+        Chengguang Xu <cgxu519@gmx.com>
+Subject: [PATCH] doc: update description of ceph mount option
+Date:   Mon,  4 Jun 2018 20:10:05 +0800
+Message-Id: <20180604121005.24471-1-cgxu519@gmx.com>
+X-Mailer: git-send-email 2.17.1
+X-Provags-ID: V03:K1:nbMRJmjZ+RpZrcI1h2Ezo84sc4OfcbJaXvJ14O6aFnJ742WvbcW
+ dBfrfYuW4AstcHjfvc5OLeXN9vg6GAn+dxjOHCTseoGZCCm1cbBGigOwBpOUnj3ezzke78N
+ NOd94A3lC7H92T71eZy+wE2UMkj5C/RM5EMWACOI6if1waYp2JTqZnycLNIKQqdPw58Mjdv
+ kdOpq08RZZPzV/ftnF3hg==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:9QAink2Zcbc=:3B//Pkld2dAH9oFqH+LZST
+ ugoOZoOzhnx758D+kD7JQxVp6vcFqjpmWAoh4pUoZaaXHyf5JAI246l8DwZRQJYVmEQ7l6B+4
+ ehbyHIKO9aoFuL2aBoTcfUKTa2zbIC2tZtWCg2f+s4NFFlHNM1J0kXii4hCXHxSWtvYMb/JeL
+ 6A86ODWnjqrCqZUPcxvqCStULoImLA5cScc+LvKAigcAAbr4KGWMvlmlt5pwoUaFGbk2NuXx+
+ j7UpG/pIPCr2IlV2Fl3L3K/UHpkoyb83K3NE4N/eBXB+73aVy4wlnmik5p8XHTBBh2lcYr0xg
+ FK/VUUv4yxqp8K1GWTXF41ypwq+Pr8HxKecA8yt7KKme0Wh/9QpfoPiee9AlKGQSw6yyOoD4S
+ +bj1TtqxCcak1+IaQO0Pm1E/hNOSaAuCi6DFNRx/wax4EMwNV65v92ibS39cVB4RdsOUVjYA/
+ 7a0hYcl5VRdYq3fJ48h+bFtmRVLR7MpJiLxL3tqMYyqlq3kBqcFuqAAxtqJpJnmjjd5+f2Mjb
+ /2K4C9FhZgt9N1u8nfCPUPLu6HuwGe7Yx/aSp/1/eyiVQQrctAfMxMbRG4tE1BoDwBsiHKkVu
+ 4Cg7aEA3fbXEMOFvyPslvmmQ11NeWryQzJQu33nPzdVamYgZXyAxDzgDNpnAd2D+sB578tG4B
+ kQWh7Xso1f1uVIlIrJemwV2sbaXYMyv0iO1m2yidO5GjD6ul0NVpyMzp2Pr1rqjqWhZOaDonj
+ pebVqRg8TGD1LgySzV6ODbQrFbaAF8BxR2LadgFC74ROxCIWe2o3IoXeS0Q=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For the arm64 RAS Extension, user space can inject a virtual-SError
-with specified ESR. So user space needs to know whether KVM support
-to inject such SError, this interface adds this query for this capability.
+Based on code, default value of rsize/wsize is 16 MB.
 
-KVM will check whether system support RAS Extension, if supported, KVM
-returns true to user space, otherwise returns false.
-
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-Reviewed-by: James Morse <james.morse@arm.com>
+Signed-off-by: Chengguang Xu <cgxu519@gmx.com>
 ---
- Documentation/virtual/kvm/api.txt | 11 +++++++++++
- arch/arm64/kvm/reset.c            |  3 +++
- include/uapi/linux/kvm.h          |  1 +
- 3 files changed, 15 insertions(+)
+ Documentation/filesystems/ceph.txt | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-index 758bf40..fdac969 100644
---- a/Documentation/virtual/kvm/api.txt
-+++ b/Documentation/virtual/kvm/api.txt
-@@ -4603,3 +4603,14 @@ Architectures: s390
- This capability indicates that kvm will implement the interfaces to handle
- reset, migration and nested KVM for branch prediction blocking. The stfle
- facility 82 should not be provided to the guest without this capability.
-+
-+8.14 KVM_CAP_ARM_SET_SERROR_ESR
-+
-+Architectures: arm, arm64
-+
-+This capability indicates that userspace can specify the syndrome value reported
-+to the guest OS when guest takes a virtual SError interrupt exception.
-+If KVM has this capability, userspace can only specify the ISS field for the ESR
-+syndrome, it can not specify the EC field which is not under control by KVM.
-+If this virtual SError is taken to EL1 using AArch64, this value will be reported
-+in ISS filed of ESR_EL1.
-diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-index 3256b92..38c8a64 100644
---- a/arch/arm64/kvm/reset.c
-+++ b/arch/arm64/kvm/reset.c
-@@ -77,6 +77,9 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_ARM_PMU_V3:
- 		r = kvm_arm_support_pmu_v3();
- 		break;
-+	case KVM_CAP_ARM_INJECT_SERROR_ESR:
-+		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
-+		break;
- 	case KVM_CAP_SET_GUEST_DEBUG:
- 	case KVM_CAP_VCPU_ATTRIBUTES:
- 		r = 1;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index b02c41e..e88f976 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -948,6 +948,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_S390_BPB 152
- #define KVM_CAP_GET_MSR_FEATURES 153
- #define KVM_CAP_HYPERV_EVENTFD 154
-+#define KVM_CAP_ARM_INJECT_SERROR_ESR 155
+diff --git a/Documentation/filesystems/ceph.txt b/Documentation/filesystems/ceph.txt
+index d7f011ddc150..8bf62240e10d 100644
+--- a/Documentation/filesystems/ceph.txt
++++ b/Documentation/filesystems/ceph.txt
+@@ -105,15 +105,13 @@ Mount Options
+ 	address its connection to the monitor originates from.
  
- #ifdef KVM_CAP_IRQ_ROUTING
+   wsize=X
+-	Specify the maximum write size in bytes.  By default there is no
+-	maximum.  Ceph will normally size writes based on the file stripe
+-	size.
++	Specify the maximum write size in bytes.  Default: 16 MB.
  
+   rsize=X
+-	Specify the maximum read size in bytes.  Default: 64 MB.
++	Specify the maximum read size in bytes.  Default: 16 MB.
+ 
+   rasize=X
+-	Specify the maximum readahead.  Default: 8 MB.
++	Specify the maximum readahead size in bytes.  Default: 8 MB.
+ 
+   mount_timeout=X
+ 	Specify the timeout value for mount (in seconds), in the case
 -- 
-2.7.4
+2.17.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
