@@ -5,29 +5,28 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E1DCB7D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 19:06:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08FF77D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 20:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751099AbeFDTFo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Jun 2018 15:05:44 -0400
-Received: from mga01.intel.com ([192.55.52.88]:30014 "EHLO mga01.intel.com"
+        id S1751013AbeFDUCv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Jun 2018 16:02:51 -0400
+Received: from mga09.intel.com ([134.134.136.24]:36328 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751042AbeFDTFn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Jun 2018 15:05:43 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+        id S1750779AbeFDUCu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Jun 2018 16:02:50 -0400
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2018 12:05:42 -0700
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2018 13:02:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,476,1520924400"; 
-   d="gz'50?scan'50,208,50";a="47225561"
+   d="gz'50?scan'50,208,50";a="234319389"
 Received: from bee.sh.intel.com (HELO bee) ([10.239.97.14])
-  by orsmga006.jf.intel.com with ESMTP; 04 Jun 2018 12:05:39 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 04 Jun 2018 13:02:45 -0700
 Received: from kbuild by bee with local (Exim 4.84_2)
         (envelope-from <fengguang.wu@intel.com>)
-        id 1fPunS-000Hgm-EF; Tue, 05 Jun 2018 03:05:38 +0800
-Date:   Tue, 5 Jun 2018 03:06:03 +0800
+        id 1fPvgj-0001AU-7x; Tue, 05 Jun 2018 04:02:45 +0800
+Date:   Tue, 5 Jun 2018 04:03:09 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Dongjiu Geng <gengdongjiu@huawei.com>
 Cc:     kbuild-all@01.org, rkrcmar@redhat.com, corbet@lwn.net,
@@ -38,10 +37,10 @@ Cc:     kbuild-all@01.org, rkrcmar@redhat.com, corbet@lwn.net,
         gengdongjiu@huawei.com, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
 Subject: Re: [PATCH v1 2/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
-Message-ID: <201806050356.CUEc4QFL%fengguang.wu@intel.com>
+Message-ID: <201806050348.zuDr8Gzx%fengguang.wu@intel.com>
 References: <1527772139-19665-3-git-send-email-gengdongjiu@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="tKW2IUtsqtDRztdT"
+Content-Type: multipart/mixed; boundary="Kj7319i9nmIyA2yE"
 Content-Disposition: inline
 In-Reply-To: <1527772139-19665-3-git-send-email-gengdongjiu@huawei.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
@@ -54,16 +53,16 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---tKW2IUtsqtDRztdT
+--Kj7319i9nmIyA2yE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi Dongjiu,
 
-Thank you for the patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on v4.17 next-20180601]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on v4.17 next-20180601]
 [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
 url:    https://github.com/0day-ci/linux/commits/Dongjiu-Geng/arm64-KVM-export-the-capability-to-set-guest-SError-syndrome/20180602-175846
@@ -76,39 +75,181 @@ reproduce:
         # save the attached .config to linux build tree
         make.cross ARCH=arm 
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
    In file included from include/linux/kvm_host.h:37:0,
-                    from arch/arm/kernel/asm-offsets.c:18:
->> arch/arm/include/asm/kvm_host.h:217:11: warning: 'struct kvm_vcpu_events' declared inside parameter list will not be visible outside of this definition or declaration
+                    from arch/arm/kvm/guest.c:21:
+   arch/arm/include/asm/kvm_host.h:217:11: warning: 'struct kvm_vcpu_events' declared inside parameter list will not be visible outside of this definition or declaration
        struct kvm_vcpu_events *events);
               ^~~~~~~~~~~~~~~
    arch/arm/include/asm/kvm_host.h:220:11: warning: 'struct kvm_vcpu_events' declared inside parameter list will not be visible outside of this definition or declaration
        struct kvm_vcpu_events *events);
               ^~~~~~~~~~~~~~~
+>> arch/arm/kvm/guest.c:265:11: warning: 'struct kvm_vcpu_events' declared inside parameter list will not be visible outside of this definition or declaration
+       struct kvm_vcpu_events *events)
+              ^~~~~~~~~~~~~~~
+>> arch/arm/kvm/guest.c:264:5: error: conflicting types for 'kvm_arm_vcpu_get_events'
+    int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+        ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kvm_host.h:37:0,
+                    from arch/arm/kvm/guest.c:21:
+   arch/arm/include/asm/kvm_host.h:216:5: note: previous declaration of 'kvm_arm_vcpu_get_events' was here
+    int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+        ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kvm/guest.c:271:11: warning: 'struct kvm_vcpu_events' declared inside parameter list will not be visible outside of this definition or declaration
+       struct kvm_vcpu_events *events)
+              ^~~~~~~~~~~~~~~
+>> arch/arm/kvm/guest.c:270:5: error: conflicting types for 'kvm_arm_vcpu_set_events'
+    int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+        ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kvm_host.h:37:0,
+                    from arch/arm/kvm/guest.c:21:
+   arch/arm/include/asm/kvm_host.h:219:5: note: previous declaration of 'kvm_arm_vcpu_set_events' was here
+    int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+        ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/kvm_host.h:37:0,
+                    from arch/arm/kvm/../../../virt/kvm/arm/arm.c:22:
+   arch/arm/include/asm/kvm_host.h:217:11: warning: 'struct kvm_vcpu_events' declared inside parameter list will not be visible outside of this definition or declaration
+       struct kvm_vcpu_events *events);
+              ^~~~~~~~~~~~~~~
+   arch/arm/include/asm/kvm_host.h:220:11: warning: 'struct kvm_vcpu_events' declared inside parameter list will not be visible outside of this definition or declaration
+       struct kvm_vcpu_events *events);
+              ^~~~~~~~~~~~~~~
+   In file included from include/asm-generic/ioctl.h:5:0,
+                    from ./arch/arm/include/generated/uapi/asm/ioctl.h:1,
+                    from include/uapi/linux/ioctl.h:5,
+                    from include/uapi/linux/fs.h:14,
+                    from include/linux/fs.h:41,
+                    from include/linux/huge_mm.h:7,
+                    from include/linux/mm.h:472,
+                    from include/linux/kvm_host.h:17,
+                    from arch/arm/kvm/../../../virt/kvm/arm/arm.c:22:
+   arch/arm/kvm/../../../virt/kvm/arm/arm.c: In function 'kvm_arch_vcpu_ioctl':
+>> include/uapi/linux/kvm.h:1339:54: error: invalid application of 'sizeof' to incomplete type 'struct kvm_vcpu_events'
+    #define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)
+                                                         ^
+   include/uapi/asm-generic/ioctl.h:73:5: note: in definition of macro '_IOC'
+      ((size) << _IOC_SIZESHIFT))
+        ^~~~
+>> include/uapi/asm-generic/ioctl.h:86:56: note: in expansion of macro '_IOC_TYPECHECK'
+    #define _IOR(type,nr,size) _IOC(_IOC_READ,(type),(nr),(_IOC_TYPECHECK(size)))
+                                                           ^~~~~~~~~~~~~~
+>> include/uapi/linux/kvm.h:1339:35: note: in expansion of macro '_IOR'
+    #define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)
+                                      ^~~~
+>> arch/arm/kvm/../../../virt/kvm/arm/arm.c:1110:7: note: in expansion of macro 'KVM_GET_VCPU_EVENTS'
+     case KVM_GET_VCPU_EVENTS: {
+          ^~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/ioctl.h:13:25: error: array type has incomplete element type 'struct kvm_vcpu_events'
+     ((sizeof(t) == sizeof(t[1]) && \
+                            ^
+   include/uapi/asm-generic/ioctl.h:73:5: note: in definition of macro '_IOC'
+      ((size) << _IOC_SIZESHIFT))
+        ^~~~
+>> include/uapi/asm-generic/ioctl.h:86:56: note: in expansion of macro '_IOC_TYPECHECK'
+    #define _IOR(type,nr,size) _IOC(_IOC_READ,(type),(nr),(_IOC_TYPECHECK(size)))
+                                                           ^~~~~~~~~~~~~~
+>> include/uapi/linux/kvm.h:1339:35: note: in expansion of macro '_IOR'
+    #define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)
+                                      ^~~~
+>> arch/arm/kvm/../../../virt/kvm/arm/arm.c:1110:7: note: in expansion of macro 'KVM_GET_VCPU_EVENTS'
+     case KVM_GET_VCPU_EVENTS: {
+          ^~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/kvm.h:1339:54: error: invalid application of 'sizeof' to incomplete type 'struct kvm_vcpu_events'
+    #define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)
+                                                         ^
+   include/uapi/asm-generic/ioctl.h:73:5: note: in definition of macro '_IOC'
+      ((size) << _IOC_SIZESHIFT))
+        ^~~~
+>> include/uapi/asm-generic/ioctl.h:86:56: note: in expansion of macro '_IOC_TYPECHECK'
+    #define _IOR(type,nr,size) _IOC(_IOC_READ,(type),(nr),(_IOC_TYPECHECK(size)))
+                                                           ^~~~~~~~~~~~~~
+>> include/uapi/linux/kvm.h:1339:35: note: in expansion of macro '_IOR'
+    #define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)
+                                      ^~~~
+>> arch/arm/kvm/../../../virt/kvm/arm/arm.c:1110:7: note: in expansion of macro 'KVM_GET_VCPU_EVENTS'
+     case KVM_GET_VCPU_EVENTS: {
+          ^~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/kvm.h:1339:54: error: invalid application of 'sizeof' to incomplete type 'struct kvm_vcpu_events'
+    #define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)
+                                                         ^
+   include/uapi/asm-generic/ioctl.h:73:5: note: in definition of macro '_IOC'
+      ((size) << _IOC_SIZESHIFT))
+        ^~~~
+>> include/uapi/asm-generic/ioctl.h:86:56: note: in expansion of macro '_IOC_TYPECHECK'
+    #define _IOR(type,nr,size) _IOC(_IOC_READ,(type),(nr),(_IOC_TYPECHECK(size)))
+                                                           ^~~~~~~~~~~~~~
+>> include/uapi/linux/kvm.h:1339:35: note: in expansion of macro '_IOR'
+    #define KVM_GET_VCPU_EVENTS       _IOR(KVMIO,  0x9f, struct kvm_vcpu_events)
+                                      ^~~~
+>> arch/arm/kvm/../../../virt/kvm/arm/arm.c:1110:7: note: in expansion of macro 'KVM_GET_VCPU_EVENTS'
+     case KVM_GET_VCPU_EVENTS: {
+          ^~~~~~~~~~~~~~~~~~~
+>> arch/arm/kvm/../../../virt/kvm/arm/arm.c:1111:26: error: storage size of 'events' isn't known
+      struct kvm_vcpu_events events;
+                             ^~~~~~
+   arch/arm/kvm/../../../virt/kvm/arm/arm.c:1111:26: warning: unused variable 'events' [-Wunused-variable]
+   In file included from include/asm-generic/ioctl.h:5:0,
+                    from ./arch/arm/include/generated/uapi/asm/ioctl.h:1,
+                    from include/uapi/linux/ioctl.h:5,
+                    from include/uapi/linux/fs.h:14,
+                    from include/linux/fs.h:41,
+                    from include/linux/huge_mm.h:7,
+                    from include/linux/mm.h:472,
+                    from include/linux/kvm_host.h:17,
+                    from arch/arm/kvm/../../../virt/kvm/arm/arm.c:22:
+   include/uapi/linux/kvm.h:1340:54: error: invalid application of 'sizeof' to incomplete type 'struct kvm_vcpu_events'
+    #define KVM_SET_VCPU_EVENTS       _IOW(KVMIO,  0xa0, struct kvm_vcpu_events)
+                                                         ^
+   include/uapi/asm-generic/ioctl.h:73:5: note: in definition of macro '_IOC'
+      ((size) << _IOC_SIZESHIFT))
+        ^~~~
+   include/uapi/asm-generic/ioctl.h:87:57: note: in expansion of macro '_IOC_TYPECHECK'
+    #define _IOW(type,nr,size) _IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
+                                                            ^~~~~~~~~~~~~~
+>> include/uapi/linux/kvm.h:1340:35: note: in expansion of macro '_IOW'
+    #define KVM_SET_VCPU_EVENTS       _IOW(KVMIO,  0xa0, struct kvm_vcpu_events)
+                                      ^~~~
+>> arch/arm/kvm/../../../virt/kvm/arm/arm.c:1122:7: note: in expansion of macro 'KVM_SET_VCPU_EVENTS'
+     case KVM_SET_VCPU_EVENTS: {
+          ^~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/ioctl.h:13:25: error: array type has incomplete element type 'struct kvm_vcpu_events'
+     ((sizeof(t) == sizeof(t[1]) && \
+                            ^
+   include/uapi/asm-generic/ioctl.h:73:5: note: in definition of macro '_IOC'
+      ((size) << _IOC_SIZESHIFT))
+        ^~~~
+   include/uapi/asm-generic/ioctl.h:87:57: note: in expansion of macro '_IOC_TYPECHECK'
+    #define _IOW(type,nr,size) _IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
+                                                            ^~~~~~~~~~~~~~
 
-vim +217 arch/arm/include/asm/kvm_host.h
+vim +/kvm_arm_vcpu_get_events +264 arch/arm/kvm/guest.c
 
-   210	
-   211	int kvm_vcpu_preferred_target(struct kvm_vcpu_init *init);
-   212	unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
-   213	int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
-   214	int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
-   215	int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
-   216	int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
- > 217				struct kvm_vcpu_events *events);
-   218	
+   263	
+ > 264	int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+ > 265				struct kvm_vcpu_events *events)
+   266	{
+   267		return -EINVAL;
+   268	}
+   269	
+ > 270	int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+   271				struct kvm_vcpu_events *events)
+   272	{
+   273		return -EINVAL;
+   274	}
+   275	
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---tKW2IUtsqtDRztdT
+--Kj7319i9nmIyA2yE
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICOqKFVsAAy5jb25maWcAjDxbc9s2s+/9FZr05ZyHr7EkX+I54weQBCVUJIEAoCT7haM6
+H4sICOeWFVsAAy5jb25maWcAjDxbc9s2s+/9FZr05ZyHr7EkX+I54weQBCVUJIEAoCT7haM6
 SuqpY/uz7Lb592cXICWABNh2Mk24u7jvHQv9/NPPE/L+9vx99/Zwv3t8/DH5tn/av+7e9l8m
 Xx8e9/83yfik4npCM6Z/AeLi4en974+71++T81+mV7+c/ef1/nyy2r8+7R8n6fPT14dv79D6
 4fnpp59/SnmVs0VDZHnzw/lolkQ1atGkS8KqE6Zki6UG3Jo2ImUnuLoF6loILrVqiCgbWtYF
@@ -477,7 +618,7 @@ jW08h2s8/9gJDfKyyNw0EDpmZl8tKnhbFU1tRKH2WK6M8lovB0AzSUxPm7EEgQouiVKykrdu
 NCprs7bFDK1N5pdJg3aWNiwG3jOLdUsg5JuH17SQLoMirN14etHop8xcdUcq56lk3b0ucq/f
 /Bio+rgw86EvAAAqFGVEiYU3LZhKBq8CVXTq/wCTNMSdnUUBAA==
 
---tKW2IUtsqtDRztdT--
+--Kj7319i9nmIyA2yE--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
