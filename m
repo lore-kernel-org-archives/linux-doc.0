@@ -5,92 +5,159 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4180E7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 09:54:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B14A7D072
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Jun 2018 11:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752216AbeFDJxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Jun 2018 05:53:50 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:58055 "EHLO huawei.com"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751930AbeFDJxt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Jun 2018 05:53:49 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 01ECD6C361E90;
-        Mon,  4 Jun 2018 17:53:45 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.382.0; Mon, 4 Jun 2018
- 17:53:44 +0800
-Subject: Re: [PATCH v1 2/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
-To:     Eric Northup <digitaleric@google.com>
-CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        "Marc Zyngier" <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <will.deacon@arm.com>, KVM <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <james.morse@arm.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        <linux-acpi@vger.kernel.org>
-References: <1527772139-19665-1-git-send-email-gengdongjiu@huawei.com>
- <1527772139-19665-3-git-send-email-gengdongjiu@huawei.com>
- <CAG7+5M08R5MDHbR-oYK+un1jgGta2UfuaLaVG5Hf9qT7usHKfg@mail.gmail.com>
-From:   gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <2d6fda7c-653a-4a36-62fb-4e0fc25767b3@huawei.com>
-Date:   Mon, 4 Jun 2018 17:53:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1751814AbeFDLYm convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Jun 2018 07:24:42 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:46120 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751168AbeFDLYk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Jun 2018 07:24:40 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id A0EE820750; Mon,  4 Jun 2018 13:24:38 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-125-111.w90-88.abo.wanadoo.fr [90.88.63.111])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 06AAF2079F;
+        Mon,  4 Jun 2018 13:24:28 +0200 (CEST)
+Date:   Mon, 4 Jun 2018 13:24:27 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Przemyslaw Gaj <pgaj@cadence.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
+Message-ID: <20180604132427.14193577@bbrezillon>
+In-Reply-To: <EFF070CA-9C6C-4E9C-9CEF-45AAD02745BB@cadence.com>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+        <20180330074751.25987-2-boris.brezillon@bootlin.com>
+        <EFF070CA-9C6C-4E9C-9CEF-45AAD02745BB@cadence.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAG7+5M08R5MDHbR-oYK+un1jgGta2UfuaLaVG5Hf9qT7usHKfg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 4 Jun 2018 09:11:25 +0000
+Przemyslaw Gaj <pgaj@cadence.com> wrote:
 
-On 2018/6/2 5:22, Eric Northup wrote:
-> On Wed, May 30, 2018 at 10:04 PM Dongjiu Geng <gengdongjiu@huawei.com> wrote:
->>
->> For the migrating VMs, user space may need to know the exception
-
-[...]
-
->> +               __u8 pad[6];
->> +               __u64 serror_esr;
->> +       } exception;
->> +       __u32 reserved[12];
+> Hi Boris
 > 
-> It will be easier to re-purpose this in the future if the field is
-> reserved and is checked that it must be zero.  SET_VCPU_EVENTS would
-> return EINVAL if reserved fields get used until a later meaning is
-> defined for them.
-Ok, thanks. I will check the reserved fields when calling SET_VCPU_EVENTS.
+> It looks great, just one comment to DEFSLVS command:
+> 
+> ﻿On 6/4/18, 9:32 AM, "Boris Brezillon" <boris.brezillon@bootlin.com> wrote:
+> 
+>     +int i3c_master_defslvs_locked(struct i3c_master_controller *master)
+>     +{
+>     +	struct i3c_ccc_cmd_dest dest = {
+>     +		.addr = I3C_BROADCAST_ADDR,
+>     +	};
+>     +	struct i3c_ccc_cmd cmd = {
+>     +		.id = I3C_CCC_DEFSLVS,
+>     +		.dests = &dest,
+>     +		.ndests = 1,
+>     +	};
+>     +	struct i3c_ccc_defslvs *defslvs;
+>     +	struct i3c_ccc_dev_desc *desc;
+>     +	struct i3c_device *i3cdev;
+>     +	struct i2c_device *i2cdev;
+>     +	struct i3c_bus *bus;
+>     +	bool send = false;
+>     +	int ndevs = 0, ret;
+>     +
+>     +	if (!master)
+>     +		return -EINVAL;
+>     +
+>     +	bus = i3c_master_get_bus(master);
+>     +	i3c_bus_for_each_i3cdev(bus, i3cdev) {
+>     +		ndevs++;
+>     +		if (I3C_BCR_DEVICE_ROLE(i3cdev->info.bcr) == I3C_BCR_I3C_MASTER)
+>     +			send = true;
+>     +	}
+>     +
+>     +	/* No other master on the bus, skip DEFSLVS. */
+>     +	if (!send)
+>     +		return 0;
+>     +
+>     +	i3c_bus_for_each_i2cdev(bus, i2cdev)
+>     +		ndevs++;
+>     +
+>     +	dest.payload.len = sizeof(*defslvs) +
+>     +			   ((ndevs - 1) * sizeof(struct i3c_ccc_dev_desc));
+>     +	defslvs = kzalloc(dest.payload.len, GFP_KERNEL);
+>     +	if (!defslvs)
+>     +		return -ENOMEM;
+>     +
+>     +	dest.payload.data = defslvs;
+>     +
+>     +	defslvs->count = ndevs;
+>     +	defslvs->master.bcr = master->this->info.bcr;
+>     +	defslvs->master.dcr = master->this->info.dcr;
+>     +	defslvs->master.dyn_addr = master->this->info.dyn_addr;
+>     +	defslvs->master.static_addr = I3C_BROADCAST_ADDR;
+>     +
+>     +	desc = defslvs->slaves;
+>     +	i3c_bus_for_each_i2cdev(bus, i2cdev) {
+>     +		desc->lvr = i2cdev->lvr;
+>     +		desc->static_addr = i2cdev->info.addr;
+>     +		desc++;
+>     +	}
+>     +
+>     +	i3c_bus_for_each_i3cdev(bus, i3cdev) {
+>     +		/* Skip the I3C dev representing this master. */
+>     +		if (i3cdev == master->this)
+>     +			continue;
+>     +
+>     +		desc->bcr = i3cdev->info.bcr;
+>     +		desc->dcr = i3cdev->info.dcr;
+>     +		desc->dyn_addr = i3cdev->info.dyn_addr;
+>     +		desc->static_addr = i3cdev->info.static_addr;
+>     +		desc++;
+>     +	}
+>     +
+>     +	ret = i3c_master_send_ccc_cmd_locked(master, &cmd);
+>     +	kfree(defslvs);
+>     +
+>     +	return ret;
+>     +}
+> 
+> You should shift all the addresses (dynamic and static) one bit left. 
+> Addresses are stored on bits [7:1], this is described in MIPI spec, 
+> section 5.1.9.3.7 Define List of Slaves (DEFSLVS)
 
-> 
->> +};
->> +
->>  /* If you need to interpret the index values, here is the key: */
->>  #define KVM_REG_ARM_COPROC_MASK                0x000000000FFF0000
->>  #define KVM_REG_ARM_COPROC_SHIFT       16
->> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
->> index 56a0260..71d3841 100644
->> --- a/arch/arm64/kvm/guest.c
->> +++ b/arch/arm64/kvm/guest.c
->> @@ -289,6 +289,42 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
->>         return -EINVAL;
->>  }
->>
-[...]
->> --
->> 2.7.4
->>
-> 
-> .
-> 
+Oops, indeed. I will fix that.
 
+Thanks,
+
+Boris
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
