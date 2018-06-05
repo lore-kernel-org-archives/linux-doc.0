@@ -1,318 +1,324 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F1DC7D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 06:37:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 260627D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 09:13:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751498AbeFEGhG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 02:37:06 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8637 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751453AbeFEGfw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 02:35:52 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 85EF35BAC26AD;
-        Tue,  5 Jun 2018 14:35:35 +0800 (CST)
-Received: from linux.site (10.67.187.223) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.382.0; Tue, 5 Jun 2018
- 14:35:28 +0800
-From:   Abbott Liu <liuwenliang@huawei.com>
-To:     <aryabinin@virtuozzo.com>, <glider@google.com>,
-        <dvyukov@google.com>, <corbet@lwn.net>, <linux@armlinux.org.uk>,
-        <christoffer.dall@arm.com>, <marc.zyngier@arm.com>,
-        <arnd@arndb.de>, <nicolas.pitre@linaro.org>,
-        <vladimir.murzin@arm.com>, <keescook@chromium.org>,
-        <jinb.park7@gmail.com>, <alexandre.belloni@bootlin.com>,
-        <ard.biesheuvel@linaro.org>, <daniel.lezcano@linaro.org>,
-        <pombredanne@nexb.com>, <kstewart@linuxfoundation.org>,
-        <liuwenliang@huawei.com>, <rob@landley.net>,
-        <gregkh@linuxfoundation.org>, <f.fainelli@gmail.com>,
-        <mawilcox@microsoft.com>, <akpm@linux-foundation.org>,
-        <mark.rutland@arm.com>, <catalin.marinas@arm.com>,
-        <yamada.masahiro@socionext.com>, <alexander.levin@verizon.com>,
-        <tglx@linutronix.de>, <thgarnie@google.com>, <dhowells@redhat.com>,
-        <geert@linux-m68k.org>, <andre.przywara@arm.com>,
-        <julien.thierry@arm.com>, <drjones@redhat.com>,
-        <philip@cog.systems>, <opendmb@gmail.com>, <mhocko@suse.com>,
-        <kirill.shutemov@linux.intel.com>, <kasan-dev@googlegroups.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>
-CC:     <a.ryabinin@samsung.com>, <ryabinin.a.a@gmail.com>
-Subject: [PATCH v5 4/6] Define the virtual space of KASan's shadow region
-Date:   Tue, 5 Jun 2018 14:14:14 +0800
-Message-ID: <20180605061416.18690-5-liuwenliang@huawei.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <20180605061416.18690-1-liuwenliang@huawei.com>
-References: <20180605061416.18690-1-liuwenliang@huawei.com>
+        id S1751554AbeFEJMk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 05:12:40 -0400
+Received: from mail-qt0-f196.google.com ([209.85.216.196]:37397 "EHLO
+        mail-qt0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751497AbeFEJMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jun 2018 05:12:38 -0400
+Received: by mail-qt0-f196.google.com with SMTP id q13-v6so1611089qtp.4;
+        Tue, 05 Jun 2018 02:12:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=nzrGF4NTx0ZWH8OD+AOtRWzYbyApi7NVEm15TT/AW5k=;
+        b=vIgQFUUaUuSiaqlTjlWaokn1L29rvI8/NAj9UnGUsQk1cWQ61f7Ldxpuf3NeOJf7CC
+         KkBDGoE7vtMjZC6rYL83DS/LM3vUKMN7YoM21nToeZiLw1Sdo9rtkEsSmykp5MiHs6Zg
+         PYoU6qdb2mB4NzaDyAgYRdL/hKTSzX3gYQAN1lgK8LOh1tCLImW6Ng/UaH9o+GSJGv+3
+         3ZNIPFCF+NujMPkGv7QWLV3tCj1aRbaGolnUaAFRI0pK6uxMGR4EOSFiASoQE+Hpm6kY
+         bjnq6erQYFEiATb9xDg5fVnX06fc8wcs0hT8tHya1gytxfmE85lkR6C91bRB6nyY0y6W
+         KBUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=nzrGF4NTx0ZWH8OD+AOtRWzYbyApi7NVEm15TT/AW5k=;
+        b=X9yM6UFE4Qfc2nNzhAJh1+v0NdURfokmIBLkI/M5n2J8cnnqxB2Tot2vF54CWDYjDP
+         +AdqFyJR9Ki6BPs83qJLts/W/kHGm1xq3clNMZW4lKDOgKUMS3XBOyI/jnn2Fo6KvHQw
+         2IbgbohHg41bQy6QIIkSqUU4d7DOze2SOBRAnytPO4/aMVbSUSm43MasnfLPNXO1s0io
+         QQ7ZcxZFNOTZI2uqqWDw3BMRdxCHnSlHtSYZ9KquFCwaITQYYXLbNm1TsJwxo7N+hLTm
+         LrPKjB6zp416BBgVaCur7cxJX7v29SO6U6LeqWhr3BIl6nCKvQZnL7UDXm+YJbgrg9zH
+         4d2A==
+X-Gm-Message-State: APt69E1I/5p3Gqm6yC6ZVRVusVHRPolfVi9I1EWSwxYdV2bZtNLW5GMs
+        A4oLt4n8GBBMdHqXvd/PDNHxNZwdgj/IwrkeJXI=
+X-Google-Smtp-Source: ADUXVKKlbPdgb6MsZqI+8Cay8fpqjTBRzzCYpiR9BS8k1OXqJe1aWW5JVsOAGIzj1be0Zw28RS4+aqmADBCc444wfFU=
+X-Received: by 2002:aed:3ce8:: with SMTP id e37-v6mr23965806qtf.295.1528189957748;
+ Tue, 05 Jun 2018 02:12:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.187.223]
-X-CFilter-Loop: Reflected
+Received: by 2002:a0c:98f9:0:0:0:0:0 with HTTP; Tue, 5 Jun 2018 02:12:37 -0700 (PDT)
+In-Reply-To: <1528164985-14099-1-git-send-email-okaya@codeaurora.org>
+References: <1528164985-14099-1-git-send-email-okaya@codeaurora.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 5 Jun 2018 12:12:37 +0300
+Message-ID: <CAHp75VdD0Ds6dFdYWF8YpY04hiKY-LmfOU7+dPs7PkTOjbRKbw@mail.gmail.com>
+Subject: Re: [PATCH V4] PCI: move early dump functionality from x86 arch into
+ the common code
+To:     Sinan Kaya <okaya@codeaurora.org>
+Cc:     linux-pci@vger.kernel.org, Timur Tabi <timur@codeaurora.org>,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Christoffer Dall <cdall@linaro.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Petr Tesarik <ptesarik@suse.cz>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dou Liyang <douly.fnst@cn.fujitsu.com>,
+        Ram Pai <linuxram@us.ibm.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Define KASAN_SHADOW_OFFSET,KASAN_SHADOW_START and KASAN_SHADOW_END for arm
-kernel address sanitizer.
+On Tue, Jun 5, 2018 at 5:16 AM, Sinan Kaya <okaya@codeaurora.org> wrote:
+> Move early dump functionality into common code so that it is available for
+> all archtiectures. No need to carry arch specific reads around as the read
+> hooks are already initialized by the time pci_setup_device() is getting
+> called during scan.
+>
 
-     +----+ 0xffffffff
-     |    |
-     |    |
-     |    |
-     +----+ CONFIG_PAGE_OFFSET
-     |    |     |    | |->  module virtual address space area.
-     |    |/
-     +----+ MODULE_VADDR = KASAN_SHADOW_END
-     |    |     |    | |-> the shadow area of kernel virtual address.
-     |    |/
-     +----+ TASK_SIZE(start of kernel space) = KASAN_SHADOW_START  the
-     |    |\  shadow address of MODULE_VADDR
-     |    | ---------------------+
-     |    |                      |
-     +    + KASAN_SHADOW_OFFSET  |-> the user space area. Kernel address
-     |    |                      |    sanitizer do not use this space.
-     |    | ---------------------+
-     |    |/
-     ------ 0
+Makes sense.
 
-1)KASAN_SHADOW_OFFSET:
-  This value is used to map an address to the corresponding shadow
-address by the following formula:
-shadow_addr = (address >> 3) + KASAN_SHADOW_OFFSET;
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-2)KASAN_SHADOW_START
-  This value is the MODULE_VADDR's shadow address. It is the start
-of kernel virtual space.
+One style comment below, though.
 
-3)KASAN_SHADOW_END
-  This value is the 0x100000000's shadow address. It is the end of
-kernel addresssanitizer's shadow area. It is also the start of the
-module area.
+If you wait a bit, I perhaps would be able to test on x86.
 
-When enable kasan, the definition of TASK_SIZE is not an an 8-bit
-rotated constant, so we need to modify the TASK_SIZE access code
-in the *.s file.
+> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
+>  arch/x86/include/asm/pci-direct.h               |  4 ---
+>  arch/x86/kernel/setup.c                         |  5 ---
+>  arch/x86/pci/common.c                           |  4 ---
+>  arch/x86/pci/early.c                            | 44 -------------------------
+>  drivers/pci/pci.c                               |  5 +++
+>  drivers/pci/pci.h                               |  1 +
+>  drivers/pci/probe.c                             | 19 +++++++++++
+>  8 files changed, 26 insertions(+), 58 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index e490902..e64f1d8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2995,7 +2995,7 @@
+>                         See also Documentation/blockdev/paride.txt.
+>
+>         pci=option[,option...]  [PCI] various PCI subsystem options:
+> -               earlydump       [X86] dump PCI config space before the kernel
+> +               earlydump       dump PCI config space before the kernel
+>                                 changes anything
+>                 off             [X86] don't probe for the PCI bus
+>                 bios            [X86-32] force use of PCI BIOS, don't access
+> diff --git a/arch/x86/include/asm/pci-direct.h b/arch/x86/include/asm/pci-direct.h
+> index e1084f7..94597a3 100644
+> --- a/arch/x86/include/asm/pci-direct.h
+> +++ b/arch/x86/include/asm/pci-direct.h
+> @@ -15,8 +15,4 @@ extern void write_pci_config_byte(u8 bus, u8 slot, u8 func, u8 offset, u8 val);
+>  extern void write_pci_config_16(u8 bus, u8 slot, u8 func, u8 offset, u16 val);
+>
+>  extern int early_pci_allowed(void);
+> -
+> -extern unsigned int pci_early_dump_regs;
+> -extern void early_dump_pci_device(u8 bus, u8 slot, u8 func);
+> -extern void early_dump_pci_devices(void);
+>  #endif /* _ASM_X86_PCI_DIRECT_H */
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 2f86d88..480f250 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -991,11 +991,6 @@ void __init setup_arch(char **cmdline_p)
+>                 setup_clear_cpu_cap(X86_FEATURE_APIC);
+>         }
+>
+> -#ifdef CONFIG_PCI
+> -       if (pci_early_dump_regs)
+> -               early_dump_pci_devices();
+> -#endif
+> -
+>         e820__reserve_setup_data();
+>         e820__finish_early_params();
+>
+> diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
+> index 563049c..d4ec117 100644
+> --- a/arch/x86/pci/common.c
+> +++ b/arch/x86/pci/common.c
+> @@ -22,7 +22,6 @@
+>  unsigned int pci_probe = PCI_PROBE_BIOS | PCI_PROBE_CONF1 | PCI_PROBE_CONF2 |
+>                                 PCI_PROBE_MMCONF;
+>
+> -unsigned int pci_early_dump_regs;
+>  static int pci_bf_sort;
+>  int pci_routeirq;
+>  int noioapicquirk;
+> @@ -599,9 +598,6 @@ char *__init pcibios_setup(char *str)
+>                 pci_probe |= PCI_BIG_ROOT_WINDOW;
+>                 return NULL;
+>  #endif
+> -       } else if (!strcmp(str, "earlydump")) {
+> -               pci_early_dump_regs = 1;
+> -               return NULL;
+>         } else if (!strcmp(str, "routeirq")) {
+>                 pci_routeirq = 1;
+>                 return NULL;
+> diff --git a/arch/x86/pci/early.c b/arch/x86/pci/early.c
+> index e5f753c..f5fc953 100644
+> --- a/arch/x86/pci/early.c
+> +++ b/arch/x86/pci/early.c
+> @@ -57,47 +57,3 @@ int early_pci_allowed(void)
+>                         PCI_PROBE_CONF1;
+>  }
+>
+> -void early_dump_pci_device(u8 bus, u8 slot, u8 func)
+> -{
+> -       u32 value[256 / 4];
+> -       int i;
+> -
+> -       pr_info("pci 0000:%02x:%02x.%d config space:\n", bus, slot, func);
+> -
+> -       for (i = 0; i < 256; i += 4)
+> -               value[i / 4] = read_pci_config(bus, slot, func, i);
+> -
+> -       print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value, 256, false);
+> -}
+> -
+> -void early_dump_pci_devices(void)
+> -{
+> -       unsigned bus, slot, func;
+> -
+> -       if (!early_pci_allowed())
+> -               return;
+> -
+> -       for (bus = 0; bus < 256; bus++) {
+> -               for (slot = 0; slot < 32; slot++) {
+> -                       for (func = 0; func < 8; func++) {
+> -                               u32 class;
+> -                               u8 type;
+> -
+> -                               class = read_pci_config(bus, slot, func,
+> -                                                       PCI_CLASS_REVISION);
+> -                               if (class == 0xffffffff)
+> -                                       continue;
+> -
+> -                               early_dump_pci_device(bus, slot, func);
+> -
+> -                               if (func == 0) {
+> -                                       type = read_pci_config_byte(bus, slot,
+> -                                                                   func,
+> -                                                              PCI_HEADER_TYPE);
+> -                                       if (!(type & 0x80))
+> -                                               break;
+> -                               }
+> -                       }
+> -               }
+> -       }
+> -}
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 97acba7..04052dc 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -115,6 +115,9 @@ static bool pcie_ari_disabled;
+>  /* If set, the PCIe ATS capability will not be used. */
+>  static bool pcie_ats_disabled;
+>
+> +/* If set, the PCI config space of each device is printed during boot. */
+> +bool pci_early_dump;
+> +
+>  bool pci_ats_disabled(void)
+>  {
+>         return pcie_ats_disabled;
+> @@ -5805,6 +5808,8 @@ static int __init pci_setup(char *str)
+>                                 pcie_ats_disabled = true;
+>                         } else if (!strcmp(str, "noaer")) {
+>                                 pci_no_aer();
+> +                       } else if (!strcmp(str, "earlydump")) {
+> +                               pci_early_dump = true;
+>                         } else if (!strncmp(str, "realloc=", 8)) {
+>                                 pci_realloc_get_opt(str + 8);
+>                         } else if (!strncmp(str, "realloc", 7)) {
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index c358e7a0..c33265e 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -7,6 +7,7 @@
+>  #define PCI_VSEC_ID_INTEL_TBT  0x1234  /* Thunderbolt */
+>
+>  extern const unsigned char pcie_link_speed[];
+> +extern bool pci_early_dump;
+>
+>  bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
+>
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 56771f3..3678f0a 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -1545,6 +1545,23 @@ static int pci_intx_mask_broken(struct pci_dev *dev)
+>         return 0;
+>  }
+>
+> +static void early_dump_pci_device(struct pci_dev *pdev)
+> +{
+> +       u32 value[256 / 4];
+> +       int i;
+> +
+> +       if (!pci_early_dump)
+> +               return;
+> +
+> +       pci_info(pdev, "config space:\n");
+> +
+> +       for (i = 0; i < 256; i += 4)
+> +               pci_read_config_dword(pdev, i, &value[i / 4]);
+> +
 
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Reported-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Tested-by: Joel Stanley <joel@jms.id.au>
-Tested-by: Florian Fainelli <f.fainelli@gmail.com>
-Tested-by: Abbott Liu <liuwenliang@huawei.com>
-Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
----
- arch/arm/include/asm/kasan_def.h | 64 ++++++++++++++++++++++++++++++++++++++++
- arch/arm/include/asm/memory.h    |  5 ++++
- arch/arm/kernel/entry-armv.S     |  5 ++--
- arch/arm/kernel/entry-common.S   |  9 ++++--
- arch/arm/mm/init.c               |  6 ++++
- arch/arm/mm/mmu.c                |  7 ++++-
- 6 files changed, 90 insertions(+), 6 deletions(-)
- create mode 100644 arch/arm/include/asm/kasan_def.h
+> +       print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, value,
+> +                      256, false);
 
-diff --git a/arch/arm/include/asm/kasan_def.h b/arch/arm/include/asm/kasan_def.h
-new file mode 100644
-index 0000000..7b7f424
---- /dev/null
-+++ b/arch/arm/include/asm/kasan_def.h
-@@ -0,0 +1,64 @@
-+/*
-+ *  arch/arm/include/asm/kasan_def.h
-+ *
-+ *  Copyright (c) 2018 Huawei Technologies Co., Ltd.
-+ *
-+ *  Author: Abbott Liu <liuwenliang@huawei.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#ifndef __ASM_KASAN_DEF_H
-+#define __ASM_KASAN_DEF_H
-+
-+#ifdef CONFIG_KASAN
-+
-+/*
-+ *    +----+ 0xffffffff
-+ *    |    |
-+ *    |    |
-+ *    |    |
-+ *    +----+ CONFIG_PAGE_OFFSET
-+ *    |    |\
-+ *    |    | |->  module virtual address space area.
-+ *    |    |/
-+ *    +----+ MODULE_VADDR = KASAN_SHADOW_END
-+ *    |    |\
-+ *    |    | |-> the shadow area of kernel virtual address.
-+ *    |    |/
-+ *    +----+ TASK_SIZE(start of kernel space) = KASAN_SHADOW_START  the
-+ *    |    |\  shadow address of MODULE_VADDR
-+ *    |    | ---------------------+
-+ *    |    |                      |
-+ *    +    + KASAN_SHADOW_OFFSET  |-> the user space area. Kernel address
-+ *    |    |                      |    sanitizer do not use this space.
-+ *    |    | ---------------------+
-+ *    |    |/
-+ *    ------ 0
-+ *
-+ *1)KASAN_SHADOW_OFFSET:
-+ *    This value is used to map an address to the corresponding shadow
-+ * address by the following formula:
-+ * shadow_addr = (address >> 3) + KASAN_SHADOW_OFFSET;
-+ *
-+ * 2)KASAN_SHADOW_START
-+ *     This value is the MODULE_VADDR's shadow address. It is the start
-+ * of kernel virtual space.
-+ *
-+ * 3) KASAN_SHADOW_END
-+ *   This value is the 0x100000000's shadow address. It is the end of
-+ * kernel addresssanitizer's shadow area. It is also the start of the
-+ * module area.
-+ *
-+ */
-+
-+#define KASAN_SHADOW_OFFSET     (KASAN_SHADOW_END - (1<<29))
-+
-+#define KASAN_SHADOW_START      ((KASAN_SHADOW_END >> 3) + KASAN_SHADOW_OFFSET)
-+
-+#define KASAN_SHADOW_END        (UL(CONFIG_PAGE_OFFSET) - UL(SZ_16M))
-+
-+#endif
-+#endif
-diff --git a/arch/arm/include/asm/memory.h b/arch/arm/include/asm/memory.h
-index ed8fd0d..6e099a5 100644
---- a/arch/arm/include/asm/memory.h
-+++ b/arch/arm/include/asm/memory.h
-@@ -21,6 +21,7 @@
- #ifdef CONFIG_NEED_MACH_MEMORY_H
- #include <mach/memory.h>
- #endif
-+#include <asm/kasan_def.h>
- 
- /* PAGE_OFFSET - the virtual address of the start of the kernel image */
- #define PAGE_OFFSET		UL(CONFIG_PAGE_OFFSET)
-@@ -31,7 +32,11 @@
-  * TASK_SIZE - the maximum size of a user space task.
-  * TASK_UNMAPPED_BASE - the lower boundary of the mmap VM area
-  */
-+#ifndef CONFIG_KASAN
- #define TASK_SIZE		(UL(CONFIG_PAGE_OFFSET) - UL(SZ_16M))
-+#else
-+#define TASK_SIZE		(KASAN_SHADOW_START)
-+#endif
- #define TASK_UNMAPPED_BASE	ALIGN(TASK_SIZE / 3, SZ_16M)
- 
- /*
-diff --git a/arch/arm/kernel/entry-armv.S b/arch/arm/kernel/entry-armv.S
-index 1752033..b4de9e4 100644
---- a/arch/arm/kernel/entry-armv.S
-+++ b/arch/arm/kernel/entry-armv.S
-@@ -183,7 +183,7 @@ ENDPROC(__und_invalid)
- 
- 	get_thread_info tsk
- 	ldr	r0, [tsk, #TI_ADDR_LIMIT]
--	mov	r1, #TASK_SIZE
-+	ldr	r1, =TASK_SIZE
- 	str	r1, [tsk, #TI_ADDR_LIMIT]
- 	str	r0, [sp, #SVC_ADDR_LIMIT]
- 
-@@ -437,7 +437,8 @@ ENDPROC(__fiq_abt)
- 	@ if it was interrupted in a critical region.  Here we
- 	@ perform a quick test inline since it should be false
- 	@ 99.9999% of the time.  The rest is done out of line.
--	cmp	r4, #TASK_SIZE
-+	ldr	r0, =TASK_SIZE
-+	cmp	r4, r0
- 	blhs	kuser_cmpxchg64_fixup
- #endif
- #endif
-diff --git a/arch/arm/kernel/entry-common.S b/arch/arm/kernel/entry-common.S
-index 3c4f887..78046de 100644
---- a/arch/arm/kernel/entry-common.S
-+++ b/arch/arm/kernel/entry-common.S
-@@ -51,7 +51,8 @@ ret_fast_syscall:
-  UNWIND(.cantunwind	)
- 	disable_irq_notrace			@ disable interrupts
- 	ldr	r2, [tsk, #TI_ADDR_LIMIT]
--	cmp	r2, #TASK_SIZE
-+	ldr	r1, =TASK_SIZE
-+	cmp	r2, r1
- 	blne	addr_limit_check_failed
- 	ldr	r1, [tsk, #TI_FLAGS]		@ re-check for syscall tracing
- 	tst	r1, #_TIF_SYSCALL_WORK | _TIF_WORK_MASK
-@@ -81,7 +82,8 @@ ret_fast_syscall:
- 	str	r0, [sp, #S_R0 + S_OFF]!	@ save returned r0
- 	disable_irq_notrace			@ disable interrupts
- 	ldr	r2, [tsk, #TI_ADDR_LIMIT]
--	cmp	r2, #TASK_SIZE
-+	ldr     r1, =TASK_SIZE
-+	cmp     r2, r1
- 	blne	addr_limit_check_failed
- 	ldr	r1, [tsk, #TI_FLAGS]		@ re-check for syscall tracing
- 	tst	r1, #_TIF_SYSCALL_WORK | _TIF_WORK_MASK
-@@ -116,7 +118,8 @@ ret_slow_syscall:
- 	disable_irq_notrace			@ disable interrupts
- ENTRY(ret_to_user_from_irq)
- 	ldr	r2, [tsk, #TI_ADDR_LIMIT]
--	cmp	r2, #TASK_SIZE
-+	ldr     r1, =TASK_SIZE
-+	cmp	r2, r1
- 	blne	addr_limit_check_failed
- 	ldr	r1, [tsk, #TI_FLAGS]
- 	tst	r1, #_TIF_WORK_MASK
-diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
-index c186474..9320cf5 100644
---- a/arch/arm/mm/init.c
-+++ b/arch/arm/mm/init.c
-@@ -538,6 +538,9 @@ void __init mem_init(void)
- #ifdef CONFIG_MODULES
- 			"    modules : 0x%08lx - 0x%08lx   (%4ld MB)\n"
- #endif
-+#ifdef CONFIG_KASAN
-+			"    kasan   : 0x%08lx - 0x%08lx   (%4ld MB)\n"
-+#endif
- 			"      .text : 0x%p" " - 0x%p" "   (%4td kB)\n"
- 			"      .init : 0x%p" " - 0x%p" "   (%4td kB)\n"
- 			"      .data : 0x%p" " - 0x%p" "   (%4td kB)\n"
-@@ -558,6 +561,9 @@ void __init mem_init(void)
- #ifdef CONFIG_MODULES
- 			MLM(MODULES_VADDR, MODULES_END),
- #endif
-+#ifdef CONFIG_KASAN
-+			MLM(KASAN_SHADOW_START, KASAN_SHADOW_END),
-+#endif
- 
- 			MLK_ROUNDUP(_text, _etext),
- 			MLK_ROUNDUP(__init_begin, __init_end),
-diff --git a/arch/arm/mm/mmu.c b/arch/arm/mm/mmu.c
-index e46a6a4..f5aa1de 100644
---- a/arch/arm/mm/mmu.c
-+++ b/arch/arm/mm/mmu.c
-@@ -1251,9 +1251,14 @@ static inline void prepare_page_table(void)
- 	/*
- 	 * Clear out all the mappings below the kernel image.
- 	 */
--	for (addr = 0; addr < MODULES_VADDR; addr += PMD_SIZE)
-+	for (addr = 0; addr < TASK_SIZE; addr += PMD_SIZE)
- 		pmd_clear(pmd_off_k(addr));
- 
-+#ifdef CONFIG_KASAN
-+	/*TASK_SIZE ~ MODULES_VADDR is the KASAN's shadow area -- skip over it*/
-+	addr = MODULES_VADDR;
-+#endif
-+
- #ifdef CONFIG_XIP_KERNEL
- 	/* The XIP kernel is mapped in the module area -- skip over it */
- 	addr = ((unsigned long)_exiprom + PMD_SIZE - 1) & PMD_MASK;
+Logically better either to move value to second line, or move 256 on
+the first line.
+
+> +}
+> +
+>  /**
+>   * pci_setup_device - Fill in class and map information of a device
+>   * @dev: the device structure to fill
+> @@ -1594,6 +1611,8 @@ int pci_setup_device(struct pci_dev *dev)
+>         pci_printk(KERN_DEBUG, dev, "[%04x:%04x] type %02x class %#08x\n",
+>                    dev->vendor, dev->device, dev->hdr_type, dev->class);
+>
+> +       early_dump_pci_device(dev);
+> +
+>         /* Need to have dev->class ready */
+>         dev->cfg_size = pci_cfg_space_size(dev);
+>
+> --
+> 2.7.4
+>
+
+
+
 -- 
-2.9.0
-
+With Best Regards,
+Andy Shevchenko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
