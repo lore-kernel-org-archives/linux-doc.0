@@ -1,341 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2F8C7D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 11:58:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74F5D7D085
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 12:14:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751791AbeFEL6P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 07:58:15 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:39886 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751664AbeFEL6N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jun 2018 07:58:13 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id A6F62601D9; Tue,  5 Jun 2018 11:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1528199892;
-        bh=RpQm7fubcsg1K3MyluE2rKDVVoP4yU9uzAM5K0JN9PM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=fQnQiEUHXXmEiSPwkiG3Ye5CLFVgexEauVWVjZkzPrfVVDKy8p/ABGDzNJ0u8EhK2
-         3ZR6mqRKoDYVmD6yoLG11URgzFXrGmgPcKFKa3ThFut/KJhY19fIBwv8o0PPgTQdcr
-         BP5IKo07cUFB2l3u6x41XTzjtRThoLg2Yl5rHxQc=
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.codeaurora.org (Postfix) with ESMTP id 72E1E605BD;
-        Tue,  5 Jun 2018 11:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1528199889;
-        bh=RpQm7fubcsg1K3MyluE2rKDVVoP4yU9uzAM5K0JN9PM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VourSqLT6e+OhnOXvDu+Da/55klz3JaF7C3/O87tT/YfSQNa8drZ2I2dilyb5DMeT
-         id6QJUM9yImK6S8/oVcH/OyWnSbXE4Y36b16yYTwSV5u8/7HmM06Q6da830yRyKEit
-         77UipWREYHVkXjGZX8gJj32e8TSNjOoOqIlqDESs=
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 05 Jun 2018 07:58:09 -0400
-From:   okaya@codeaurora.org
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-pci@vger.kernel.org, Timur Tabi <timur@codeaurora.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Christoffer Dall <cdall@linaro.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1751747AbeFEMNw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 08:13:52 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37885 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751904AbeFEMNv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 08:13:51 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 46518ABD9;
+        Tue,  5 Jun 2018 12:13:50 +0000 (UTC)
+Date:   Tue, 5 Jun 2018 14:13:48 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Roman Gushchin <guro@fb.com>
+Cc:     linux-mm@vger.kernel.org,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
         David Rientjes <rientjes@google.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Borislav Petkov <bp@suse.de>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Petr Tesarik <ptesarik@suse.cz>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dou Liyang <douly.fnst@cn.fujitsu.com>,
-        Ram Pai <linuxram@us.ibm.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V4] PCI: move early dump functionality from x86 arch into
- the common code
-In-Reply-To: <CAHp75VdD0Ds6dFdYWF8YpY04hiKY-LmfOU7+dPs7PkTOjbRKbw@mail.gmail.com>
-References: <1528164985-14099-1-git-send-email-okaya@codeaurora.org>
- <CAHp75VdD0Ds6dFdYWF8YpY04hiKY-LmfOU7+dPs7PkTOjbRKbw@mail.gmail.com>
-Message-ID: <78bfd7951abae5cd5043c2c6f513a224@codeaurora.org>
-X-Sender: okaya@codeaurora.org
-User-Agent: Roundcube Webmail/1.2.5
+        Andrew Morton <akpm@linux-foundation.org>,
+        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
+Message-ID: <20180605121348.GD19202@dhcp22.suse.cz>
+References: <20171130152824.1591-1-guro@fb.com>
+ <20180605114729.GB19202@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180605114729.GB19202@dhcp22.suse.cz>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2018-06-05 05:12, Andy Shevchenko wrote:
-> On Tue, Jun 5, 2018 at 5:16 AM, Sinan Kaya <okaya@codeaurora.org> 
-> wrote:
->> Move early dump functionality into common code so that it is available 
->> for
->> all archtiectures. No need to carry arch specific reads around as the 
->> read
->> hooks are already initialized by the time pci_setup_device() is 
->> getting
->> called during scan.
->> 
-> 
-> Makes sense.
-> 
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> 
-> One style comment below, though.
-> 
-> If you wait a bit, I perhaps would be able to test on x86.
+On Tue 05-06-18 13:47:29, Michal Hocko wrote:
+> It seems that this is still in limbo mostly because of David's concerns.
+> So let me reiterate them and provide my POV once more (and the last
+> time) just to help Andrew make a decision:
 
-Sure, no rush. This is a nice to have feature with no urgency.
+Sorry, I forgot to add reference to the email with the full David's
+reasoning. Here it is http://lkml.kernel.org/r/alpine.DEB.2.10.1801091556490.173445@chino.kir.corp.google.com
+ 
+> 1) comparision root with tail memcgs during the OOM killer is not fair
+> because we are comparing tasks with memcgs.
+> 
+> This is true, but I do not think this matters much for workloads which
+> are going to use the feature. Why? Because the main consumers of the new
+> feature seem to be containers which really need some fairness when
+> comparing _workloads_ rather than processes. Those are unlikely to
+> contain any significant memory consumers in the root memcg. That would
+> be mostly common infrastructure.
+> 
+> Is this is fixable? Yes, we would need to account in the root memcgs.
+> Why are we not doing that now? Because it has some negligible
+> performance overhead. Are there other ways? Yes we can approximate root
+> memcg memory consumption but I would rather wait for somebody seeing
+> that as a real problem rather than add hacks now without a strong
+> reason.
+> 
+> 
+> 2) Evading the oom killer by attaching processes to child cgroups which
+> basically means that a task can split up the workload into smaller
+> memcgs to hide their real memory consumption.
+> 
+> Again true but not really anything new. Processes can already fork and
+> split up the memory consumption. Moreover it doesn't even require any
+> special privileges to do so unlike creating a sub memcg. Is this
+> fixable? Yes, untrusted workloads can setup group oom evaluation at the
+> delegation layer so all subgroups would be considered together.
+> 
+> 3) Userspace has zero control over oom kill selection in leaf mem
+> cgroups.
+> 
+> Again true but this is something that needs a good evaluation to not end
+> up in the fiasko we have seen with oom_score*. Current users demanding
+> this feature can live without any prioritization so blocking the whole
+> feature seems unreasonable.
+> 
+> 4) Future extensibility to be backward compatible.
+> 
+> David is wrong here IMHO. Any prioritization or oom selection policy
+> controls added in future are orthogonal to the oom_group concept added
+> by this patchset. Allowing memcg to be an oom entity is something that
+> we really want longterm. Global CGRP_GROUP_OOM is the most restrictive
+> semantic and softening it will be possible by a adding a new knob to
+> tell whether a memcg/hierarchy is a workload or a set of tasks.
+> -- 
+> Michal Hocko
+> SUSE Labs
 
-> 
->> Signed-off-by: Sinan Kaya <okaya@codeaurora.org>
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
->>  arch/x86/include/asm/pci-direct.h               |  4 ---
->>  arch/x86/kernel/setup.c                         |  5 ---
->>  arch/x86/pci/common.c                           |  4 ---
->>  arch/x86/pci/early.c                            | 44 
->> -------------------------
->>  drivers/pci/pci.c                               |  5 +++
->>  drivers/pci/pci.h                               |  1 +
->>  drivers/pci/probe.c                             | 19 +++++++++++
->>  8 files changed, 26 insertions(+), 58 deletions(-)
->> 
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt 
->> b/Documentation/admin-guide/kernel-parameters.txt
->> index e490902..e64f1d8 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -2995,7 +2995,7 @@
->>                         See also Documentation/blockdev/paride.txt.
->> 
->>         pci=option[,option...]  [PCI] various PCI subsystem options:
->> -               earlydump       [X86] dump PCI config space before the 
->> kernel
->> +               earlydump       dump PCI config space before the 
->> kernel
->>                                 changes anything
->>                 off             [X86] don't probe for the PCI bus
->>                 bios            [X86-32] force use of PCI BIOS, don't 
->> access
->> diff --git a/arch/x86/include/asm/pci-direct.h 
->> b/arch/x86/include/asm/pci-direct.h
->> index e1084f7..94597a3 100644
->> --- a/arch/x86/include/asm/pci-direct.h
->> +++ b/arch/x86/include/asm/pci-direct.h
->> @@ -15,8 +15,4 @@ extern void write_pci_config_byte(u8 bus, u8 slot, 
->> u8 func, u8 offset, u8 val);
->>  extern void write_pci_config_16(u8 bus, u8 slot, u8 func, u8 offset, 
->> u16 val);
->> 
->>  extern int early_pci_allowed(void);
->> -
->> -extern unsigned int pci_early_dump_regs;
->> -extern void early_dump_pci_device(u8 bus, u8 slot, u8 func);
->> -extern void early_dump_pci_devices(void);
->>  #endif /* _ASM_X86_PCI_DIRECT_H */
->> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
->> index 2f86d88..480f250 100644
->> --- a/arch/x86/kernel/setup.c
->> +++ b/arch/x86/kernel/setup.c
->> @@ -991,11 +991,6 @@ void __init setup_arch(char **cmdline_p)
->>                 setup_clear_cpu_cap(X86_FEATURE_APIC);
->>         }
->> 
->> -#ifdef CONFIG_PCI
->> -       if (pci_early_dump_regs)
->> -               early_dump_pci_devices();
->> -#endif
->> -
->>         e820__reserve_setup_data();
->>         e820__finish_early_params();
->> 
->> diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
->> index 563049c..d4ec117 100644
->> --- a/arch/x86/pci/common.c
->> +++ b/arch/x86/pci/common.c
->> @@ -22,7 +22,6 @@
->>  unsigned int pci_probe = PCI_PROBE_BIOS | PCI_PROBE_CONF1 | 
->> PCI_PROBE_CONF2 |
->>                                 PCI_PROBE_MMCONF;
->> 
->> -unsigned int pci_early_dump_regs;
->>  static int pci_bf_sort;
->>  int pci_routeirq;
->>  int noioapicquirk;
->> @@ -599,9 +598,6 @@ char *__init pcibios_setup(char *str)
->>                 pci_probe |= PCI_BIG_ROOT_WINDOW;
->>                 return NULL;
->>  #endif
->> -       } else if (!strcmp(str, "earlydump")) {
->> -               pci_early_dump_regs = 1;
->> -               return NULL;
->>         } else if (!strcmp(str, "routeirq")) {
->>                 pci_routeirq = 1;
->>                 return NULL;
->> diff --git a/arch/x86/pci/early.c b/arch/x86/pci/early.c
->> index e5f753c..f5fc953 100644
->> --- a/arch/x86/pci/early.c
->> +++ b/arch/x86/pci/early.c
->> @@ -57,47 +57,3 @@ int early_pci_allowed(void)
->>                         PCI_PROBE_CONF1;
->>  }
->> 
->> -void early_dump_pci_device(u8 bus, u8 slot, u8 func)
->> -{
->> -       u32 value[256 / 4];
->> -       int i;
->> -
->> -       pr_info("pci 0000:%02x:%02x.%d config space:\n", bus, slot, 
->> func);
->> -
->> -       for (i = 0; i < 256; i += 4)
->> -               value[i / 4] = read_pci_config(bus, slot, func, i);
->> -
->> -       print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, 
->> value, 256, false);
->> -}
->> -
->> -void early_dump_pci_devices(void)
->> -{
->> -       unsigned bus, slot, func;
->> -
->> -       if (!early_pci_allowed())
->> -               return;
->> -
->> -       for (bus = 0; bus < 256; bus++) {
->> -               for (slot = 0; slot < 32; slot++) {
->> -                       for (func = 0; func < 8; func++) {
->> -                               u32 class;
->> -                               u8 type;
->> -
->> -                               class = read_pci_config(bus, slot, 
->> func,
->> -                                                       
->> PCI_CLASS_REVISION);
->> -                               if (class == 0xffffffff)
->> -                                       continue;
->> -
->> -                               early_dump_pci_device(bus, slot, 
->> func);
->> -
->> -                               if (func == 0) {
->> -                                       type = 
->> read_pci_config_byte(bus, slot,
->> -                                                                   
->> func,
->> -                                                              
->> PCI_HEADER_TYPE);
->> -                                       if (!(type & 0x80))
->> -                                               break;
->> -                               }
->> -                       }
->> -               }
->> -       }
->> -}
->> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
->> index 97acba7..04052dc 100644
->> --- a/drivers/pci/pci.c
->> +++ b/drivers/pci/pci.c
->> @@ -115,6 +115,9 @@ static bool pcie_ari_disabled;
->>  /* If set, the PCIe ATS capability will not be used. */
->>  static bool pcie_ats_disabled;
->> 
->> +/* If set, the PCI config space of each device is printed during 
->> boot. */
->> +bool pci_early_dump;
->> +
->>  bool pci_ats_disabled(void)
->>  {
->>         return pcie_ats_disabled;
->> @@ -5805,6 +5808,8 @@ static int __init pci_setup(char *str)
->>                                 pcie_ats_disabled = true;
->>                         } else if (!strcmp(str, "noaer")) {
->>                                 pci_no_aer();
->> +                       } else if (!strcmp(str, "earlydump")) {
->> +                               pci_early_dump = true;
->>                         } else if (!strncmp(str, "realloc=", 8)) {
->>                                 pci_realloc_get_opt(str + 8);
->>                         } else if (!strncmp(str, "realloc", 7)) {
->> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
->> index c358e7a0..c33265e 100644
->> --- a/drivers/pci/pci.h
->> +++ b/drivers/pci/pci.h
->> @@ -7,6 +7,7 @@
->>  #define PCI_VSEC_ID_INTEL_TBT  0x1234  /* Thunderbolt */
->> 
->>  extern const unsigned char pcie_link_speed[];
->> +extern bool pci_early_dump;
->> 
->>  bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
->> 
->> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
->> index 56771f3..3678f0a 100644
->> --- a/drivers/pci/probe.c
->> +++ b/drivers/pci/probe.c
->> @@ -1545,6 +1545,23 @@ static int pci_intx_mask_broken(struct pci_dev 
->> *dev)
->>         return 0;
->>  }
->> 
->> +static void early_dump_pci_device(struct pci_dev *pdev)
->> +{
->> +       u32 value[256 / 4];
->> +       int i;
->> +
->> +       if (!pci_early_dump)
->> +               return;
->> +
->> +       pci_info(pdev, "config space:\n");
->> +
->> +       for (i = 0; i < 256; i += 4)
->> +               pci_read_config_dword(pdev, i, &value[i / 4]);
->> +
-> 
->> +       print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1, 
->> value,
->> +                      256, false);
-> 
-> Logically better either to move value to second line, or move 256 on
-> the first line.
-> 
->> +}
->> +
->>  /**
->>   * pci_setup_device - Fill in class and map information of a device
->>   * @dev: the device structure to fill
->> @@ -1594,6 +1611,8 @@ int pci_setup_device(struct pci_dev *dev)
->>         pci_printk(KERN_DEBUG, dev, "[%04x:%04x] type %02x class 
->> %#08x\n",
->>                    dev->vendor, dev->device, dev->hdr_type, 
->> dev->class);
->> 
->> +       early_dump_pci_device(dev);
->> +
->>         /* Need to have dev->class ready */
->>         dev->cfg_size = pci_cfg_space_size(dev);
->> 
->> --
->> 2.7.4
->> 
+-- 
+Michal Hocko
+SUSE Labs
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
