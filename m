@@ -3,127 +3,239 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D53FB7DF87
+	by archive.lwn.net (Postfix) with ESMTP id EA50E7DF8B
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 22:51:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932104AbeFEWuD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 18:50:03 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:34848 "EHLO mx.kolabnow.com"
+        id S932125AbeFEWuK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 18:50:10 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:60842 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752365AbeFEWuB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 18:50:01 -0400
+        id S1752365AbeFEWuH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 18:50:07 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id AB82C594;
-        Wed,  6 Jun 2018 00:49:59 +0200 (CEST)
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id B24FD346;
+        Wed,  6 Jun 2018 00:50:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        references:in-reply-to:message-id:date:date:subject:subject:from
-        :from:received:received:received; s=dkim20160331; t=1528238998;
-         x=1530053399; bh=LmahrYowJJV+SzJp7O+/eKvW7/kglsYSaC0ZrT7BPAk=; b=
-        mIu34e4NRilj5Gp+Me0PYBEQPVDnnsrE7IbSH3VczfiItJrKhPa874VwMp72bLU/
-        avKZvYsNEl/ALhOBMh18ahv8KoEiKdC7o1cpDEsT5sBleRu1sf3D+G6KLvQcnMtl
-        3b9yVRl/YC1r0uZujwD2rgCCTrV6Jf0ZCCGmtI8C/7Jit0/J3TUSBpWgGicYb/5o
-        6JcyMqLae3htiWekLrz1mYoNYKSJx+wdwqhc/Ou+p9Ueka9tUqCC0/fE25T+81x6
-        mrolFpWDUNfd2gQA5VLJ7hHJx95qAJZ0ZgBNTtth7Q/oxvgiW0j2Xkwy9YSKsOu2
-        n1kAN4CoSbKaRchJbOpcThPmP8dObz1gFWXVwbZagpb6o0sh9isqbYslObboSckW
-        u0k1/Vh4ggCiYg2179hlN0whmk9dQQggRyT7d0iojTAU5Yey/SxKHF63Dv9y1fC0
-        Bcta/kLNxP3deVwAEA7YewYffjPb0TvzaNL/8j0pQWVTX4jIm7pV+CxXtghRqKjj
-        bXfYrmXWhB4eazXe3yYLpYgYqsSFKPxudkZP8CPeHgz0BULMxnzrorjWHskHQlhh
-        qrO0WdiLlB7iZkLb4KX3gABJBSnijB0/kgjtlVZ8fO7GMLehqPddo+hBhfIA0Y1y
-        vGtROiRbnMsaDkiI46n8KBN/tAKR0cx0NmgGsOoZJrs=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1528239003; x=1530053404; bh=hmUMMbQ1YuiQpQUggtyg64W/+bVSoeGfs7f
+        S+ZRDb9I=; b=R1wXYjWn4BXhfHZ/yKbkJagweSYGlpat4xQvmMa+nOkZ2xZ6dOQ
+        mCN7uHYoFRi10gY2JXOWw2WHhlNrmFMWD9z6RN7pOsa6aNaCQkY9dI02sV2dztFF
+        8E+S3DOebWRbUaFXSumvAlmVltmnzDkALzvTe3zvjNdwy1p3B8fpddVZti6fCMiB
+        KGNZ6xfQJR89QZiY0SlRzllE20pU6DX6QbnGqgTSZt/NtMTLmKKBmMInbAmcb6b/
+        8fWvPhwM7oHeNpM9wjL46+GeRgHdJID5U6j+UhNCom4CvEPsAsBoTeOJ5ZAgRVd9
+        dUUUEQoPZ87zLc38pAdnwX2zaN8+spJYq+QBwRM0TLfJJQNbK2EFQd1FWt87AIBL
+        5IquTPkVck4P7vOOcgWS1NsSBGlqSp2t73f86JmNs2mZFylPyc7Lh9AE+TGp9jiw
+        6AEvR58dOqS8GdwhFB3UXNI3rJSqMIVxc0+YKmpDGh7qWlVUL7yuXiwnhrB0y//w
+        Zl6v+1VdGfAJv4Nwr+UkcpcUbSHe7pMaf/5A0+Jh1mhhjgeCoPkY6UcPzTuqc4Xp
+        ez2k0yBp2NCC0QhMJf3UK41S2UYwNz5FNWOLyahWwdLMEBroXjp0qG/5CFU4CecK
+        AMD2TrC3B3xqjQrM07qjck0KhCmcQxMPZwxwNomofDniSL5vTDOhwMRY=
 X-Virus-Scanned: amavisd-new at mykolab.com
 Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id UrW9vw0mfe8V; Wed,  6 Jun 2018 00:49:58 +0200 (CEST)
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id zDTvYG6Hqjgs; Wed,  6 Jun 2018 00:50:03 +0200 (CEST)
 Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 9B482463;
-        Wed,  6 Jun 2018 00:49:58 +0200 (CEST)
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 85AC71A0;
+        Wed,  6 Jun 2018 00:50:03 +0200 (CEST)
 Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 553222C3F;
-        Wed,  6 Jun 2018 00:49:58 +0200 (CEST)
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 51DDA2C3F;
+        Wed,  6 Jun 2018 00:50:03 +0200 (CEST)
 From:   Federico Vaga <federico.vaga@vaga.pv.it>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alessia Mantegazza <amantegazza@vaga.pv.it>,
         Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH 3/6] doc: move away translations from top-level index
-Date:   Wed,  6 Jun 2018 00:49:00 +0200
-Message-Id: <20180605224903.9483-4-federico.vaga@vaga.pv.it>
+Subject: [PATCH 5/6] doc: add Italian language skeleton
+Date:   Wed,  6 Jun 2018 00:49:02 +0200
+Message-Id: <20180605224903.9483-6-federico.vaga@vaga.pv.it>
 In-Reply-To: <20180605224903.9483-1-federico.vaga@vaga.pv.it>
 References: <20180605224903.9483-1-federico.vaga@vaga.pv.it>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In translations/ we have now a dedicated index.rst where we add/remove
-references to translations. Translations are in English alphabetical
-order.
-
 Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
- Documentation/index.rst              | 24 ++++--------------------
- Documentation/translations/index.rst | 12 ++++++++++++
- 2 files changed, 16 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/translations/index.rst
+ Documentation/translations/index.rst               |   1 +
+ .../translations/it_IT/disclaimer-ita.rst          |  13 +++
+ Documentation/translations/it_IT/index.rst         | 112 +++++++++++++++++++++
+ MAINTAINERS                                        |   6 ++
+ 4 files changed, 132 insertions(+)
+ create mode 100644 Documentation/translations/it_IT/disclaimer-ita.rst
+ create mode 100644 Documentation/translations/it_IT/index.rst
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 3b99ab931d41..f7ab4d6a281e 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -101,29 +101,13 @@ implementation.
- 
-    sh/index
- 
--Korean translations
---------------------
-+Translations
-+------------
- 
- .. toctree::
--   :maxdepth: 1
--
--   translations/ko_KR/index
--
--Chinese translations
----------------------
--
--.. toctree::
--   :maxdepth: 1
--
--   translations/zh_CN/index
--
--Japanese translations
-----------------------
--
--.. toctree::
--   :maxdepth: 1
-+   :maxdepth: 2
- 
--   translations/ja_JP/index
-+   translations/index
- 
- Indices and tables
- ==================
 diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
-new file mode 100644
-index 000000000000..4969c58920ef
---- /dev/null
+index 4969c58920ef..7f77c52d33aa 100644
+--- a/Documentation/translations/index.rst
 +++ b/Documentation/translations/index.rst
-@@ -0,0 +1,12 @@
-+.. _translations:
+@@ -8,5 +8,6 @@ Translations
+    :maxdepth: 1
+ 
+    zh_CN/index
++   it_IT/index
+    ko_KR/index
+    ja_JP/index
+diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst b/Documentation/translations/it_IT/disclaimer-ita.rst
+new file mode 100644
+index 000000000000..d68e52de6a5d
+--- /dev/null
++++ b/Documentation/translations/it_IT/disclaimer-ita.rst
+@@ -0,0 +1,13 @@
++:orphan:
 +
-+============
-+Translations
-+============
++.. note::
++   This document is maintained by Federico Vaga <federico.vaga@vaga.pv.it>.
++   If you find any difference between this document and the original file or a
++   problem with the translation, please contact the maintainer of this file.
++   Following people helped to translate or review:
++   Alessia Mantegazza <amantegazza@vaga.pv.it>
 +
-+.. toctree::
-+   :maxdepth: 1
++.. warning::
++   The purpose of this file is to be easier to read and understand for Italian
++   speakers and is not intended as a fork. So, if you have any comments or
++   updates for this file please try to update the original English file first.
+diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
+new file mode 100644
+index 000000000000..7613a9f9e6f9
+--- /dev/null
++++ b/Documentation/translations/it_IT/index.rst
+@@ -0,0 +1,112 @@
++.. _it_linux_doc:
 +
-+   zh_CN/index
-+   ko_KR/index
-+   ja_JP/index
++===================
++Traduzione italiana
++===================
++
++L'obiettivo di questa traduzione è di rendere più facile la lettura e
++la comprensione per chi preferisce leggere in lingua italiana.
++Tenete presente che la documentazione di riferimento rimane comunque
++quella in lingua inglese: :ref:`linux_doc`
++
++Questa traduzione cerca di essere il più fedele possibile all'originale ma
++è ovvio che alcune frasi vadano trasformate: non aspettatevi una traduzione
++letterale. Quando possibile, si eviteranno gli inglesismi ed al loro posto
++verranno utilizzate le corrispettive parole italiane.
++
++Se notate che la traduzione non è più aggiornata potete contattare
++direttamente il manutentore della traduzione italiana.
++
++Se notate che la documentazione contiene errori o dimenticanze, allora
++verificate la documentazione di riferimento in lingua inglese. Se il problema
++è presente anche nella documentazione di riferimento, contattate il suo
++manutentore. Se avete problemi a scrivere in inglese, potete comunque
++riportare il problema al manutentore della traduzione italiana.
++
++Manutentore della traduzione italiana: Federico Vaga <federico.vaga@vaga.pv.it>
++
++La documentazione del kernel Linux
++==================================
++
++Questo è il livello principale della documentazione del kernel in
++lingua italiana. La traduzione è incompleta, noterete degli avvisi
++che vi segnaleranno la mancanza di una traduzione o di un gruppo di
++traduzioni.
++
++Più in generale, la documentazione, come il kernel stesso, sono in
++costante sviluppo; particolarmente vero in quanto stiamo lavorando
++alla riorganizzazione della documentazione in modo più coerente.
++I miglioramenti alla documentazione sono sempre i benvenuti; per cui,
++se vuoi aiutare, iscriviti alla lista di discussione linux-doc presso
++vger.kernel.org.
++
++Documentazione sulla licenza dei sorgenti
++-----------------------------------------
++
++I seguenti documenti descrivono la licenza usata nei sorgenti del kernel Linux
++(GPLv2), come licenziare i singoli file; inoltre troverete i riferimenti al
++testo integrale della licenza.
++
++.. warning::
++
++    TODO ancora da tradurre
++
++Documentazione per gli utenti
++-----------------------------
++
++I seguenti manuali sono scritti per gli *utenti* del kernel - ovvero,
++coloro che cercano di farlo funzionare in modo ottimale su un dato sistema
++
++.. warning::
++
++    TODO ancora da tradurre
++
++Documentazione per gli sviluppatori di applicazioni
++---------------------------------------------------
++
++Il manuale delle API verso lo spazio utente è una collezione di documenti
++che descrivono le interfacce del kernel viste dagli sviluppatori
++di applicazioni.
++
++.. warning::
++
++    TODO ancora da tradurre
++
++
++Introduzione allo sviluppo del kernel
++-------------------------------------
++
++Questi manuali contengono informazioni su come contribuire allo sviluppo
++del kernel.
++Attorno al kernel Linux gira una comunità molto grande con migliaia di
++sviluppatori che contribuiscono ogni anno. Come in ogni grande comunità,
++sapere come le cose vengono fatte renderà il processo di integrazione delle
++vostre modifiche molto più semplice
++
++.. warning::
++
++    TODO ancora da tradurre
++
++Documentazione della API del kernel
++-----------------------------------
++
++Questi manuali forniscono dettagli su come funzionano i sottosistemi del
++kernel dal punto di vista degli sviluppatori del kernel. Molte delle
++informazioni contenute in questi manuali sono prese direttamente dai
++file sorgenti, informazioni aggiuntive vengono aggiunte solo se necessarie
++(o almeno ci proviamo — probabilmente *non* tutto quello che è davvero
++necessario).
++
++.. warning::
++
++    TODO ancora da tradurre
++
++Documentazione specifica per architettura
++-----------------------------------------
++
++Questi manuali forniscono dettagli di programmazione per le diverse
++implementazioni d'architettura.
++
++.. warning::
++
++    TODO ancora da tradurre
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ca4afd68530c..0ee4ba5b4ca1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4367,6 +4367,12 @@ X:	Documentation/spi
+ X:	Documentation/media
+ T:	git git://git.lwn.net/linux.git docs-next
+ 
++DOCUMENTATION/ITALIAN
++M:	Federico Vaga <federico.vaga@vaga.pv.it>
++L:	linux-doc@vger.kernel.org
++S:	Maintained
++F:	Documentation/translations/it_IT
++
+ DONGWOON DW9714 LENS VOICE COIL DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
 -- 
 2.14.4
 
