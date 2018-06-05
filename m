@@ -1,74 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DATE_IN_FUTURE_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 126B27D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 12:42:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B1D897D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:43:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751871AbeFEMlL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 08:41:11 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:51320 "EHLO huawei.com"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751774AbeFEMlJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 08:41:09 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id EAA99D92043E2;
-        Tue,  5 Jun 2018 20:41:03 +0800 (CST)
-Received: from localhost.localdomain (10.143.28.90) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.382.0; Tue, 5 Jun 2018 20:40:58 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <james.morse@arm.com>, <gengdongjiu@huawei.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
-Subject: [PATCH v3 0/2] support to set VSESR_EL2 by user space
-Date:   Wed, 6 Jun 2018 04:46:20 +0800
-Message-ID: <1528231582-19370-1-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.90]
-X-CFilter-Loop: Reflected
+        id S1751906AbeFEQnq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 12:43:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46799 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751748AbeFEQnq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 12:43:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 40A70AD49;
+        Tue,  5 Jun 2018 16:43:44 +0000 (UTC)
+From:   Michal Suchanek <msuchanek@suse.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, Aaron Wu <Aaron.Wu@analog.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Steven Rostedt," <rostedt@goodmis.org>,
+        Laura Abbott <lauraa@codeaurora.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
+        Baoquan He <bhe@redhat.com>,
+        Ilya Matveychikov <matvejchikov@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v10 0/5] Kernel parameter parser cleanup/enhancement
+Date:   Tue,  5 Jun 2018 18:43:07 +0200
+Message-Id: <cover.1528215659.git.msuchanek@suse.de>
+X-Mailer: git-send-email 2.13.6
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series patch is separated from https://www.spinics.net/lists/kvm/msg168917.html
+Hello,
 
-1. Detect whether KVM can set set guest SError syndrome
-2. Support to Set VSESR_EL2 and inject SError by user space.
-3. Support live migration to keep SError pending state and VSESR_EL2 value
+due to work on the fadump_extra_args I looked at the kernel parameter parser
+and found its grammar rather curious.
 
-The user space patch is here: https://lists.gnu.org/archive/html/qemu-devel/2018-05/msg06965.html
+It supports double quotes but not any other quoting characters so double quotes
+cannot be quoted. What's more, the quotes can be anywhere in the parameter
+name or value and are interpteted but are removed only from start and end of
+the parameter value.
 
-Dongjiu Geng (2):
-  arm64: KVM: export the capability to set guest SError syndrome
-  arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
+These are the patches not specific to fadump which somewhat straighten the
+qouting grammar to make it on par with common shell interpreters.
 
- Documentation/virtual/kvm/api.txt    | 42 +++++++++++++++++++++++++++++++++---
- arch/arm/include/asm/kvm_host.h      |  6 ++++++
- arch/arm/include/uapi/asm/kvm.h      | 12 +++++++++++
- arch/arm/kvm/guest.c                 | 12 +++++++++++
- arch/arm64/include/asm/kvm_emulate.h |  5 +++++
- arch/arm64/include/asm/kvm_host.h    |  7 ++++++
- arch/arm64/include/uapi/asm/kvm.h    | 13 +++++++++++
- arch/arm64/kvm/guest.c               | 36 +++++++++++++++++++++++++++++++
- arch/arm64/kvm/inject_fault.c        |  6 +++---
- arch/arm64/kvm/reset.c               |  4 ++++
- include/uapi/linux/kvm.h             |  1 +
- virt/kvm/arm/arm.c                   | 19 ++++++++++++++++
- 12 files changed, 157 insertions(+), 6 deletions(-)
+Specifically double and single quotes can be used for quoting as well as
+backslashes with the usual shell semantic. All quoting characters are removed
+while the parameters are parsed.
+
+Previous versions (including the fadump part) can be found here:
+
+https://www.mail-archive.com/linuxppc-dev@lists.ozlabs.org/msg126148.html
+https://www.mail-archive.com/linuxppc-dev@lists.ozlabs.org/msg123639.html
+
+Thanks
+
+Michal
+
+Michal Suchanek (5):
+  lib/cmdline.c: Add backslash support to kernel commandline parsing.
+  Documentation/admin-guide: backslash support in kernel arguments.
+  init/main.c: simplify repair_env_string.
+  lib/cmdline.c: Implement single quotes in commandline argument
+    parsing.
+  Documentation/admin-guide: single quotes in kernel arguments.
+
+ Documentation/admin-guide/kernel-parameters.rst |  5 +-
+ init/main.c                                     | 13 ++---
+ lib/cmdline.c                                   | 63 +++++++++++++++----------
+ 3 files changed, 46 insertions(+), 35 deletions(-)
 
 -- 
-2.7.4
+2.13.6
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
