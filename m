@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 19C8B7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:45:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E1BD7D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751748AbeFEQns (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 12:43:48 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46843 "EHLO mx2.suse.de"
+        id S1752396AbeFEQpE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 12:45:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46866 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751877AbeFEQnr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 12:43:47 -0400
+        id S1751950AbeFEQns (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 12:43:48 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id D145AAD69;
-        Tue,  5 Jun 2018 16:43:45 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 95D16AD7C;
+        Tue,  5 Jun 2018 16:43:46 +0000 (UTC)
 From:   Michal Suchanek <msuchanek@suse.de>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Michal Suchanek <msuchanek@suse.de>,
@@ -37,9 +37,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         Baoquan He <bhe@redhat.com>,
         Ilya Matveychikov <matvejchikov@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 2/5] Documentation/admin-guide: backslash support in kernel arguments.
-Date:   Tue,  5 Jun 2018 18:43:09 +0200
-Message-Id: <8ea00d3036146fc52ef8c582f2f4d5d674712be5.1528215659.git.msuchanek@suse.de>
+Subject: [PATCH v10 3/5] init/main.c: simplify repair_env_string.
+Date:   Tue,  5 Jun 2018 18:43:10 +0200
+Message-Id: <f0d9664cf6e10cd89c8fa551885b91a75619b267.1528215659.git.msuchanek@suse.de>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1528215659.git.msuchanek@suse.de>
 References: <cover.1528215659.git.msuchanek@suse.de>
@@ -50,27 +50,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Quoting characters are now removed from the parameter so value always
+follows directly after the NUL terminating parameter name.
+
 Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 ---
- Documentation/admin-guide/kernel-parameters.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ init/main.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index b8d0bc07ed0a..327e76ebe37d 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -35,9 +35,9 @@ can also be entered as::
- 
- 	log-buf-len=1M print_fatal_signals=1
- 
--Double-quotes can be used to protect spaces in values, e.g.::
-+Double-quotes and backslashes can be used to protect spaces in values, e.g.::
- 
--	param="spaces in here"
-+	param="spaces in here" param2=spaces\ in\ here
- 
- cpu lists:
- ----------
+diff --git a/init/main.c b/init/main.c
+index 4bc2819d97ad..d0f4a7a0f010 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -251,15 +251,10 @@ static int __init repair_env_string(char *param, char *val,
+ 				    const char *unused, void *arg)
+ {
+ 	if (val) {
+-		/* param=val or param="val"? */
+-		if (val == param+strlen(param)+1)
+-			val[-1] = '=';
+-		else if (val == param+strlen(param)+2) {
+-			val[-2] = '=';
+-			memmove(val-1, val, strlen(val)+1);
+-			val--;
+-		} else
+-			BUG();
++		int parm_len = strlen(param);
++
++		param[parm_len] = '=';
++		BUG_ON(val != param + parm_len + 1);
+ 	}
+ 	return 0;
+ }
 -- 
 2.13.6
 
