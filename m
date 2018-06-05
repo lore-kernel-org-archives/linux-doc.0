@@ -2,23 +2,23 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 572977D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:44:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A37F7D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751852AbeFEQoD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 12:44:03 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46866 "EHLO mx2.suse.de"
+        id S1751832AbeFEQor (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 12:44:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46880 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751819AbeFEQnt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1752025AbeFEQnt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 5 Jun 2018 12:43:49 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 5ECE4ADE7;
-        Tue,  5 Jun 2018 16:43:48 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 5BC70ADA1;
+        Tue,  5 Jun 2018 16:43:47 +0000 (UTC)
 From:   Michal Suchanek <msuchanek@suse.de>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Michal Suchanek <msuchanek@suse.de>,
@@ -37,9 +37,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         Baoquan He <bhe@redhat.com>,
         Ilya Matveychikov <matvejchikov@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 5/5] Documentation/admin-guide: single quotes in kernel arguments.
-Date:   Tue,  5 Jun 2018 18:43:12 +0200
-Message-Id: <c918b9d9901503148c74c31662999712c732dae2.1528215659.git.msuchanek@suse.de>
+Subject: [PATCH v10 4/5] lib/cmdline.c: Implement single quotes in commandline argument parsing.
+Date:   Tue,  5 Jun 2018 18:43:11 +0200
+Message-Id: <dc3f432b92d9f0679813df24de61c37f49343bdb.1528215659.git.msuchanek@suse.de>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1528215659.git.msuchanek@suse.de>
 References: <cover.1528215659.git.msuchanek@suse.de>
@@ -50,30 +50,84 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This brings the kernel parser about on par with bourne shell, grub, and
+other tools that chew the arguments before kernel does.
+
+This should make it easier to deal with multiple levels of
+nesting/quoting. With same quoting grammar on each level there is less
+room for confusion.
+
 Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 ---
-- fix typo
+- optimize end quote removal
 ---
- Documentation/admin-guide/kernel-parameters.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ lib/cmdline.c | 31 ++++++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 327e76ebe37d..cc81ad7cab0c 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -35,9 +35,10 @@ can also be entered as::
+diff --git a/lib/cmdline.c b/lib/cmdline.c
+index aa0086dbb082..e699ed5aac8a 100644
+--- a/lib/cmdline.c
++++ b/lib/cmdline.c
+@@ -192,19 +192,26 @@ bool parse_option_str(const char *str, const char *option)
+ }
  
- 	log-buf-len=1M print_fatal_signals=1
+ #define break_arg_end(i) { \
+-	if (isspace(args[i]) && !in_quote && !backslash) \
++	if (isspace(args[i]) && !in_quote && !backslash && !in_single) \
+ 		break; \
+ 	}
  
--Double-quotes and backslashes can be used to protect spaces in values, e.g.::
-+Double-quotes, single-quotes and backslashes can be used to protect spaces
-+in values, e.g.::
++#define squash_char { \
++	break_arg_end(i + 1); \
++	memmove(args + 1, args, i); \
++	args++; \
++	i--; \
++}
++
+ /*
+  * Parse a string to get a param value pair.
+- * You can use " around spaces, and you can escape with \
++ * You can use " or ' around spaces, and you can escape with \
+  * Hyphens and underscores equivalent in parameter names.
+  */
+ char *next_arg(char *args, char **param, char **val, int *state_flags)
+ {
+ 	unsigned int i, equals = 0;
+-	int in_quote = 0, backslash = 0;
++	int in_quote = 0, backslash = 0, in_single = 0;
+ 	char *next;
  
--	param="spaces in here" param2=spaces\ in\ here
-+	param="spaces in here" param2=spaces\ in\ here param3='@%# !\'
+ 	for (i = 0; args[i]; i++) {
+@@ -213,17 +220,23 @@ char *next_arg(char *args, char **param, char **val, int *state_flags)
+ 		if ((equals == 0) && (args[i] == '='))
+ 			equals = i;
  
- cpu lists:
- ----------
+-		if (!backslash) {
+-			if ((args[i] == '"') || (args[i] == '\\')) {
++		if (in_single) {
++			if (args[i] == '\'') {
++				in_single = 0;
++
++				squash_char;
++			}
++		} else if (!backslash) {
++			if ((args[i] == '"') || (args[i] == '\\') ||
++					(args[i] == '\'')) {
+ 				if (args[i] == '"')
+ 					in_quote = !in_quote;
+ 				if (args[i] == '\\')
+ 					backslash = 1;
++				if (args[i] == '\'')
++					in_single = 1;
+ 
+-				break_arg_end(i + 1);
+-				memmove(args + 1, args, i);
+-				args++;
+-				i--;
++				squash_char;
+ 			}
+ 		} else {
+ 			backslash = 0;
 -- 
 2.13.6
 
