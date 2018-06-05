@@ -5,51 +5,51 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C02627D048
+	by archive.lwn.net (Postfix) with ESMTP id D53FB7DF87
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 22:51:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932072AbeFEWt6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 18:49:58 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:60834 "EHLO mx.kolabnow.com"
+        id S932104AbeFEWuD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 18:50:03 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:34848 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752365AbeFEWt5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 18:49:57 -0400
+        id S1752365AbeFEWuB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 18:50:01 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 2DC80346;
-        Wed,  6 Jun 2018 00:49:56 +0200 (CEST)
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id AB82C594;
+        Wed,  6 Jun 2018 00:49:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
         references:in-reply-to:message-id:date:date:subject:subject:from
-        :from:received:received:received; s=dkim20160331; t=1528238995;
-         x=1530053396; bh=0pvbK6fIgJKt+9jLnEEYKRBmstfOF0sLp8dy7Z2QrvE=; b=
-        Z6dn9U7coqj4fUQxPsUUOXiTofeuJLCpgZsz+Nr+rY+H4v4dICj1mbAChtngXF8u
-        YihZ699Gq4wErORYjNA8QdwRx4jW69qQQxz1iruRIwA+QWasEnk/wnWYnsTvkncQ
-        zx/aZHOSXDXn/NgPv6id6cKX9S+1VEWdrOAvNmrIEzSAjDCcm6E234TZ02k4GZPs
-        CURgaPVOPkK6e3kbwS4v7Y7R3Fr75Guo/W/5jPFfLBq9gv8RUdECnCr0b6OVRGY6
-        ApGGgyc/XVgZybpx0BFbjtbTAEc03EYzB/njEvP0RhMqIkYWnzrSzQ4C51zoptxH
-        hxwyU0MOfDBuOe1q8veztIXpRdP48SjUND0lsWlseTW+dI6KBVSLXE50mVGhwEer
-        8JTM16FsQEkE6qnBLErerQ2DBrHr3j792DFCVNTX9w6AYn157/LGIXxO0mNxf3H3
-        Snq78BtGvi953YJlRCFW3XYPeXV2oNGU1NzriZa9z9WhyQiFNhC/XwW5BFMjT7vr
-        HHoqChYIhCWOoc9fcgwlKE7yE+Tdllg9WELZabdpbWjxezOW/cPPARgaiKz4007Z
-        GWYQX05r7hmjPVyot3xvTxkSwESA2Efhw6ivYKU4cqUFS6K3VFNtCusKl5vbh60F
-        woZ3bUAnezDlqKFxUBfS/9xw/j0llY1i4g+rx+GoCgU=
+        :from:received:received:received; s=dkim20160331; t=1528238998;
+         x=1530053399; bh=LmahrYowJJV+SzJp7O+/eKvW7/kglsYSaC0ZrT7BPAk=; b=
+        mIu34e4NRilj5Gp+Me0PYBEQPVDnnsrE7IbSH3VczfiItJrKhPa874VwMp72bLU/
+        avKZvYsNEl/ALhOBMh18ahv8KoEiKdC7o1cpDEsT5sBleRu1sf3D+G6KLvQcnMtl
+        3b9yVRl/YC1r0uZujwD2rgCCTrV6Jf0ZCCGmtI8C/7Jit0/J3TUSBpWgGicYb/5o
+        6JcyMqLae3htiWekLrz1mYoNYKSJx+wdwqhc/Ou+p9Ueka9tUqCC0/fE25T+81x6
+        mrolFpWDUNfd2gQA5VLJ7hHJx95qAJZ0ZgBNTtth7Q/oxvgiW0j2Xkwy9YSKsOu2
+        n1kAN4CoSbKaRchJbOpcThPmP8dObz1gFWXVwbZagpb6o0sh9isqbYslObboSckW
+        u0k1/Vh4ggCiYg2179hlN0whmk9dQQggRyT7d0iojTAU5Yey/SxKHF63Dv9y1fC0
+        Bcta/kLNxP3deVwAEA7YewYffjPb0TvzaNL/8j0pQWVTX4jIm7pV+CxXtghRqKjj
+        bXfYrmXWhB4eazXe3yYLpYgYqsSFKPxudkZP8CPeHgz0BULMxnzrorjWHskHQlhh
+        qrO0WdiLlB7iZkLb4KX3gABJBSnijB0/kgjtlVZ8fO7GMLehqPddo+hBhfIA0Y1y
+        vGtROiRbnMsaDkiI46n8KBN/tAKR0cx0NmgGsOoZJrs=
 X-Virus-Scanned: amavisd-new at mykolab.com
 Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id AE_R7BRfqcLe; Wed,  6 Jun 2018 00:49:55 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 27D7D1A0;
-        Wed,  6 Jun 2018 00:49:55 +0200 (CEST)
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id UrW9vw0mfe8V; Wed,  6 Jun 2018 00:49:58 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 9B482463;
+        Wed,  6 Jun 2018 00:49:58 +0200 (CEST)
 Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id E2270163;
-        Wed,  6 Jun 2018 00:49:54 +0200 (CEST)
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 553222C3F;
+        Wed,  6 Jun 2018 00:49:58 +0200 (CEST)
 From:   Federico Vaga <federico.vaga@vaga.pv.it>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alessia Mantegazza <amantegazza@vaga.pv.it>,
         Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH 2/6] doc:sphinx: fix parse-header description
-Date:   Wed,  6 Jun 2018 00:48:59 +0200
-Message-Id: <20180605224903.9483-3-federico.vaga@vaga.pv.it>
+Subject: [PATCH 3/6] doc: move away translations from top-level index
+Date:   Wed,  6 Jun 2018 00:49:00 +0200
+Message-Id: <20180605224903.9483-4-federico.vaga@vaga.pv.it>
 In-Reply-To: <20180605224903.9483-1-federico.vaga@vaga.pv.it>
 References: <20180605224903.9483-1-federico.vaga@vaga.pv.it>
 Sender: linux-doc-owner@vger.kernel.org
@@ -57,48 +57,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The description speaks about the option ``--man`` but it
-does not exist. Instead, there is the option ``--usage``
-
-    $ ./Documentation/sphinx/parse-headers.pl --man
-    Unknown option: man
-    Usage:
-        parse_headers.pl [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
-
-        Where <options> can be: --debug, --help or --man.
+In translations/ we have now a dedicated index.rst where we add/remove
+references to translations. Translations are in English alphabetical
+order.
 
 Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
- Documentation/doc-guide/parse-headers.rst | 2 +-
- Documentation/sphinx/parse-headers.pl     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/index.rst              | 24 ++++--------------------
+ Documentation/translations/index.rst | 12 ++++++++++++
+ 2 files changed, 16 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/translations/index.rst
 
-diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
-index 684490c68acb..24cfaa15dd81 100644
---- a/Documentation/doc-guide/parse-headers.rst
-+++ b/Documentation/doc-guide/parse-headers.rst
-@@ -32,7 +32,7 @@ SYNOPSIS
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 3b99ab931d41..f7ab4d6a281e 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -101,29 +101,13 @@ implementation.
  
- \ **parse_headers.pl**\  [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
+    sh/index
  
--Where <options> can be: --debug, --help or --man.
-+Where <options> can be: --debug, --help or --usage.
+-Korean translations
+--------------------
++Translations
++------------
  
+ .. toctree::
+-   :maxdepth: 1
+-
+-   translations/ko_KR/index
+-
+-Chinese translations
+---------------------
+-
+-.. toctree::
+-   :maxdepth: 1
+-
+-   translations/zh_CN/index
+-
+-Japanese translations
+----------------------
+-
+-.. toctree::
+-   :maxdepth: 1
++   :maxdepth: 2
  
- OPTIONS
-diff --git a/Documentation/sphinx/parse-headers.pl b/Documentation/sphinx/parse-headers.pl
-index d410f47567e9..c518050ffc3f 100755
---- a/Documentation/sphinx/parse-headers.pl
-+++ b/Documentation/sphinx/parse-headers.pl
-@@ -344,7 +344,7 @@ enums and defines and create cross-references to a Sphinx book.
+-   translations/ja_JP/index
++   translations/index
  
- B<parse_headers.pl> [<options>] <C_FILE> <OUT_FILE> [<EXCEPTIONS_FILE>]
- 
--Where <options> can be: --debug, --help or --man.
-+Where <options> can be: --debug, --help or --usage.
- 
- =head1 OPTIONS
- 
+ Indices and tables
+ ==================
+diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+new file mode 100644
+index 000000000000..4969c58920ef
+--- /dev/null
++++ b/Documentation/translations/index.rst
+@@ -0,0 +1,12 @@
++.. _translations:
++
++============
++Translations
++============
++
++.. toctree::
++   :maxdepth: 1
++
++   zh_CN/index
++   ko_KR/index
++   ja_JP/index
 -- 
 2.14.4
 
