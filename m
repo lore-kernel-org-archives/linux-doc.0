@@ -5,19 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B1D897D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:43:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 572977D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:44:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751906AbeFEQnq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 12:43:46 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46799 "EHLO mx2.suse.de"
+        id S1751852AbeFEQoD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 12:44:03 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46866 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751748AbeFEQnq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 12:43:46 -0400
+        id S1751819AbeFEQnt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 12:43:49 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 40A70AD49;
-        Tue,  5 Jun 2018 16:43:44 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 5ECE4ADE7;
+        Tue,  5 Jun 2018 16:43:48 +0000 (UTC)
 From:   Michal Suchanek <msuchanek@suse.de>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Michal Suchanek <msuchanek@suse.de>,
@@ -36,54 +37,43 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         Baoquan He <bhe@redhat.com>,
         Ilya Matveychikov <matvejchikov@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 0/5] Kernel parameter parser cleanup/enhancement
-Date:   Tue,  5 Jun 2018 18:43:07 +0200
-Message-Id: <cover.1528215659.git.msuchanek@suse.de>
+Subject: [PATCH v10 5/5] Documentation/admin-guide: single quotes in kernel arguments.
+Date:   Tue,  5 Jun 2018 18:43:12 +0200
+Message-Id: <c918b9d9901503148c74c31662999712c732dae2.1528215659.git.msuchanek@suse.de>
 X-Mailer: git-send-email 2.13.6
+In-Reply-To: <cover.1528215659.git.msuchanek@suse.de>
+References: <cover.1528215659.git.msuchanek@suse.de>
+In-Reply-To: <cover.1528215659.git.msuchanek@suse.de>
+References: <cover.1528215659.git.msuchanek@suse.de>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+---
+- fix typo
+---
+ Documentation/admin-guide/kernel-parameters.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-due to work on the fadump_extra_args I looked at the kernel parameter parser
-and found its grammar rather curious.
-
-It supports double quotes but not any other quoting characters so double quotes
-cannot be quoted. What's more, the quotes can be anywhere in the parameter
-name or value and are interpteted but are removed only from start and end of
-the parameter value.
-
-These are the patches not specific to fadump which somewhat straighten the
-qouting grammar to make it on par with common shell interpreters.
-
-Specifically double and single quotes can be used for quoting as well as
-backslashes with the usual shell semantic. All quoting characters are removed
-while the parameters are parsed.
-
-Previous versions (including the fadump part) can be found here:
-
-https://www.mail-archive.com/linuxppc-dev@lists.ozlabs.org/msg126148.html
-https://www.mail-archive.com/linuxppc-dev@lists.ozlabs.org/msg123639.html
-
-Thanks
-
-Michal
-
-Michal Suchanek (5):
-  lib/cmdline.c: Add backslash support to kernel commandline parsing.
-  Documentation/admin-guide: backslash support in kernel arguments.
-  init/main.c: simplify repair_env_string.
-  lib/cmdline.c: Implement single quotes in commandline argument
-    parsing.
-  Documentation/admin-guide: single quotes in kernel arguments.
-
- Documentation/admin-guide/kernel-parameters.rst |  5 +-
- init/main.c                                     | 13 ++---
- lib/cmdline.c                                   | 63 +++++++++++++++----------
- 3 files changed, 46 insertions(+), 35 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+index 327e76ebe37d..cc81ad7cab0c 100644
+--- a/Documentation/admin-guide/kernel-parameters.rst
++++ b/Documentation/admin-guide/kernel-parameters.rst
+@@ -35,9 +35,10 @@ can also be entered as::
+ 
+ 	log-buf-len=1M print_fatal_signals=1
+ 
+-Double-quotes and backslashes can be used to protect spaces in values, e.g.::
++Double-quotes, single-quotes and backslashes can be used to protect spaces
++in values, e.g.::
+ 
+-	param="spaces in here" param2=spaces\ in\ here
++	param="spaces in here" param2=spaces\ in\ here param3='@%# !\'
+ 
+ cpu lists:
+ ----------
 -- 
 2.13.6
 
