@@ -1,107 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DATE_IN_FUTURE_06_12,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 74F5D7D085
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 12:14:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B31817D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 12:41:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751747AbeFEMNw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 08:13:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37885 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751904AbeFEMNv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 08:13:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 46518ABD9;
-        Tue,  5 Jun 2018 12:13:50 +0000 (UTC)
-Date:   Tue, 5 Jun 2018 14:13:48 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Roman Gushchin <guro@fb.com>
-Cc:     linux-mm@vger.kernel.org,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        David Rientjes <rientjes@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, kernel-team@fb.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v13 0/7] cgroup-aware OOM killer
-Message-ID: <20180605121348.GD19202@dhcp22.suse.cz>
-References: <20171130152824.1591-1-guro@fb.com>
- <20180605114729.GB19202@dhcp22.suse.cz>
+        id S1751836AbeFEMlL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 08:41:11 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:51319 "EHLO huawei.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751756AbeFEMlK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 08:41:10 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id D8296ACEAFED2;
+        Tue,  5 Jun 2018 20:41:03 +0800 (CST)
+Received: from localhost.localdomain (10.143.28.90) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.382.0; Tue, 5 Jun 2018 20:40:59 +0800
+From:   Dongjiu Geng <gengdongjiu@huawei.com>
+To:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
+        <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
+        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <james.morse@arm.com>, <gengdongjiu@huawei.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
+Subject: [PATCH v3 1/2] arm64: KVM: export the capability to set guest SError syndrome
+Date:   Wed, 6 Jun 2018 04:46:21 +0800
+Message-ID: <1528231582-19370-2-git-send-email-gengdongjiu@huawei.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1528231582-19370-1-git-send-email-gengdongjiu@huawei.com>
+References: <1528231582-19370-1-git-send-email-gengdongjiu@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180605114729.GB19202@dhcp22.suse.cz>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+Content-Type: text/plain
+X-Originating-IP: [10.143.28.90]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 05-06-18 13:47:29, Michal Hocko wrote:
-> It seems that this is still in limbo mostly because of David's concerns.
-> So let me reiterate them and provide my POV once more (and the last
-> time) just to help Andrew make a decision:
+For the arm64 RAS Extension, user space can inject a virtual-SError
+with specified ESR. So user space needs to know whether KVM support
+to inject such SError, this interface adds this query for this capability.
 
-Sorry, I forgot to add reference to the email with the full David's
-reasoning. Here it is http://lkml.kernel.org/r/alpine.DEB.2.10.1801091556490.173445@chino.kir.corp.google.com
+KVM will check whether system support RAS Extension, if supported, KVM
+returns true to user space, otherwise returns false.
+
+Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+Reviewed-by: James Morse <james.morse@arm.com>
+---
+ Documentation/virtual/kvm/api.txt | 11 +++++++++++
+ arch/arm64/kvm/reset.c            |  3 +++
+ include/uapi/linux/kvm.h          |  1 +
+ 3 files changed, 15 insertions(+)
+
+diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+index 758bf40..fdac969 100644
+--- a/Documentation/virtual/kvm/api.txt
++++ b/Documentation/virtual/kvm/api.txt
+@@ -4603,3 +4603,14 @@ Architectures: s390
+ This capability indicates that kvm will implement the interfaces to handle
+ reset, migration and nested KVM for branch prediction blocking. The stfle
+ facility 82 should not be provided to the guest without this capability.
++
++8.14 KVM_CAP_ARM_SET_SERROR_ESR
++
++Architectures: arm, arm64
++
++This capability indicates that userspace can specify the syndrome value reported
++to the guest OS when guest takes a virtual SError interrupt exception.
++If KVM has this capability, userspace can only specify the ISS field for the ESR
++syndrome, it can not specify the EC field which is not under control by KVM.
++If this virtual SError is taken to EL1 using AArch64, this value will be reported
++in ISS filed of ESR_EL1.
+diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+index 3256b92..38c8a64 100644
+--- a/arch/arm64/kvm/reset.c
++++ b/arch/arm64/kvm/reset.c
+@@ -77,6 +77,9 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_ARM_PMU_V3:
+ 		r = kvm_arm_support_pmu_v3();
+ 		break;
++	case KVM_CAP_ARM_INJECT_SERROR_ESR:
++		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
++		break;
+ 	case KVM_CAP_SET_GUEST_DEBUG:
+ 	case KVM_CAP_VCPU_ATTRIBUTES:
+ 		r = 1;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index b02c41e..e88f976 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -948,6 +948,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_S390_BPB 152
+ #define KVM_CAP_GET_MSR_FEATURES 153
+ #define KVM_CAP_HYPERV_EVENTFD 154
++#define KVM_CAP_ARM_INJECT_SERROR_ESR 155
  
-> 1) comparision root with tail memcgs during the OOM killer is not fair
-> because we are comparing tasks with memcgs.
-> 
-> This is true, but I do not think this matters much for workloads which
-> are going to use the feature. Why? Because the main consumers of the new
-> feature seem to be containers which really need some fairness when
-> comparing _workloads_ rather than processes. Those are unlikely to
-> contain any significant memory consumers in the root memcg. That would
-> be mostly common infrastructure.
-> 
-> Is this is fixable? Yes, we would need to account in the root memcgs.
-> Why are we not doing that now? Because it has some negligible
-> performance overhead. Are there other ways? Yes we can approximate root
-> memcg memory consumption but I would rather wait for somebody seeing
-> that as a real problem rather than add hacks now without a strong
-> reason.
-> 
-> 
-> 2) Evading the oom killer by attaching processes to child cgroups which
-> basically means that a task can split up the workload into smaller
-> memcgs to hide their real memory consumption.
-> 
-> Again true but not really anything new. Processes can already fork and
-> split up the memory consumption. Moreover it doesn't even require any
-> special privileges to do so unlike creating a sub memcg. Is this
-> fixable? Yes, untrusted workloads can setup group oom evaluation at the
-> delegation layer so all subgroups would be considered together.
-> 
-> 3) Userspace has zero control over oom kill selection in leaf mem
-> cgroups.
-> 
-> Again true but this is something that needs a good evaluation to not end
-> up in the fiasko we have seen with oom_score*. Current users demanding
-> this feature can live without any prioritization so blocking the whole
-> feature seems unreasonable.
-> 
-> 4) Future extensibility to be backward compatible.
-> 
-> David is wrong here IMHO. Any prioritization or oom selection policy
-> controls added in future are orthogonal to the oom_group concept added
-> by this patchset. Allowing memcg to be an oom entity is something that
-> we really want longterm. Global CGRP_GROUP_OOM is the most restrictive
-> semantic and softening it will be possible by a adding a new knob to
-> tell whether a memcg/hierarchy is a workload or a set of tasks.
-> -- 
-> Michal Hocko
-> SUSE Labs
-
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
-Michal Hocko
-SUSE Labs
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
