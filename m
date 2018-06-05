@@ -2,23 +2,23 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E1BD7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:45:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F365B7D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Jun 2018 16:45:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752396AbeFEQpE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Jun 2018 12:45:04 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46866 "EHLO mx2.suse.de"
+        id S1751968AbeFEQnr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Jun 2018 12:43:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46825 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751950AbeFEQns (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jun 2018 12:43:48 -0400
+        id S1751791AbeFEQnq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jun 2018 12:43:46 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 95D16AD7C;
-        Tue,  5 Jun 2018 16:43:46 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 2397DAD02;
+        Tue,  5 Jun 2018 16:43:45 +0000 (UTC)
 From:   Michal Suchanek <msuchanek@suse.de>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Michal Suchanek <msuchanek@suse.de>,
@@ -37,9 +37,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         Baoquan He <bhe@redhat.com>,
         Ilya Matveychikov <matvejchikov@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 3/5] init/main.c: simplify repair_env_string.
-Date:   Tue,  5 Jun 2018 18:43:10 +0200
-Message-Id: <f0d9664cf6e10cd89c8fa551885b91a75619b267.1528215659.git.msuchanek@suse.de>
+Subject: [PATCH v10 1/5] lib/cmdline.c: Add backslash support to kernel commandline parsing.
+Date:   Tue,  5 Jun 2018 18:43:08 +0200
+Message-Id: <0005cec6acaf7ef629a64a1a72b09f68f84aae4c.1528215659.git.msuchanek@suse.de>
 X-Mailer: git-send-email 2.13.6
 In-Reply-To: <cover.1528215659.git.msuchanek@suse.de>
 References: <cover.1528215659.git.msuchanek@suse.de>
@@ -50,38 +50,104 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting characters are now removed from the parameter so value always
-follows directly after the NUL terminating parameter name.
+ - add \ as quoting character in kernel parameters
+ - generalize quoting character removal to be able to remove quoting
+ character at any position in kernel parameter rather than start and end
+ only
+
+This allows passing quotes in kernel arguments.
+
+It is also useful to have quoting grammar more similar to shells and
+bootloaders.
 
 Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 ---
- init/main.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+- more verbose commit message
+- optimize final quote removal
+---
+ lib/cmdline.c | 50 ++++++++++++++++++++++++++------------------------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
 
-diff --git a/init/main.c b/init/main.c
-index 4bc2819d97ad..d0f4a7a0f010 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -251,15 +251,10 @@ static int __init repair_env_string(char *param, char *val,
- 				    const char *unused, void *arg)
- {
- 	if (val) {
--		/* param=val or param="val"? */
--		if (val == param+strlen(param)+1)
--			val[-1] = '=';
--		else if (val == param+strlen(param)+2) {
--			val[-2] = '=';
--			memmove(val-1, val, strlen(val)+1);
--			val--;
--		} else
--			BUG();
-+		int parm_len = strlen(param);
-+
-+		param[parm_len] = '=';
-+		BUG_ON(val != param + parm_len + 1);
- 	}
- 	return 0;
+diff --git a/lib/cmdline.c b/lib/cmdline.c
+index 192848d880ea..aa0086dbb082 100644
+--- a/lib/cmdline.c
++++ b/lib/cmdline.c
+@@ -191,32 +191,43 @@ bool parse_option_str(const char *str, const char *option)
+ 	return false;
  }
+ 
++#define break_arg_end(i) { \
++	if (isspace(args[i]) && !in_quote && !backslash) \
++		break; \
++	}
++
+ /*
+  * Parse a string to get a param value pair.
+- * You can use " around spaces, but can't escape ".
++ * You can use " around spaces, and you can escape with \
+  * Hyphens and underscores equivalent in parameter names.
+  */
+ char *next_arg(char *args, char **param, char **val, int *state_flags)
+ {
+ 	unsigned int i, equals = 0;
+-	int in_quote = 0, quoted = 0;
++	int in_quote = 0, backslash = 0;
+ 	char *next;
+ 
+-	if (*args == '"') {
+-		args++;
+-		in_quote = 1;
+-		quoted = 1;
+-	}
+-
+ 	for (i = 0; args[i]; i++) {
+-		if (isspace(args[i]) && !in_quote)
+-			break;
+-		if (equals == 0) {
+-			if (args[i] == '=')
+-				equals = i;
++		break_arg_end(i);
++
++		if ((equals == 0) && (args[i] == '='))
++			equals = i;
++
++		if (!backslash) {
++			if ((args[i] == '"') || (args[i] == '\\')) {
++				if (args[i] == '"')
++					in_quote = !in_quote;
++				if (args[i] == '\\')
++					backslash = 1;
++
++				break_arg_end(i + 1);
++				memmove(args + 1, args, i);
++				args++;
++				i--;
++			}
++		} else {
++			backslash = 0;
+ 		}
+-		if (args[i] == '"')
+-			in_quote = !in_quote;
+ 	}
+ 
+ 	if (state_flags)
+@@ -231,16 +242,7 @@ char *next_arg(char *args, char **param, char **val, int *state_flags)
+ 	else {
+ 		args[equals] = '\0';
+ 		*val = args + equals + 1;
+-
+-		/* Don't include quotes in value. */
+-		if (**val == '"') {
+-			(*val)++;
+-			if (args[i-1] == '"')
+-				args[i-1] = '\0';
+-		}
+ 	}
+-	if (quoted && args[i-1] == '"')
+-		args[i-1] = '\0';
+ 
+ 	if (args[i]) {
+ 		args[i] = '\0';
 -- 
 2.13.6
 
