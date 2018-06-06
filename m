@@ -1,96 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B1D97D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Jun 2018 16:31:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFA827D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Jun 2018 20:56:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932330AbeFFQbM convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Jun 2018 12:31:12 -0400
-Received: from smtp1-3.goneo.de ([85.220.129.32]:56826 "EHLO smtp1-3.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932152AbeFFQbM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Jun 2018 12:31:12 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp1.goneo.de (Postfix) with ESMTP id 72EE623F6D8;
-        Wed,  6 Jun 2018 18:31:09 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp1.goneo.de ([127.0.0.1])
-        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EIv-5ulzjF3y; Wed,  6 Jun 2018 18:31:08 +0200 (CEST)
-Received: from [192.168.1.112] (host-091-097-255-197.ewe-ip-backbone.de [91.97.255.197])
-        by smtp1.goneo.de (Postfix) with ESMTPSA id 0BBF723F77D;
-        Wed,  6 Jun 2018 18:31:06 +0200 (CEST)
+        id S1752215AbeFFU4k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Jun 2018 16:56:40 -0400
+Received: from mail-yw0-f195.google.com ([209.85.161.195]:44092 "EHLO
+        mail-yw0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751885AbeFFU4i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jun 2018 16:56:38 -0400
+Received: by mail-yw0-f195.google.com with SMTP id p14-v6so2327833ywm.11;
+        Wed, 06 Jun 2018 13:56:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=oEq8RfKwJYuD+6COTlowiE5qVzPl8iEYjnmxgan8HMs=;
+        b=bt3lmGMx2YHf5xMnHKL7hZivSOnPbNPPFFO1DnI5xOtjZqFQPJv2ha3VnWwu1Scew9
+         Nn2vGjpB7GVKOMqtk/TtVaWCp9tSwh+QJVGcJreo479iM/lYEuDf6+Cw+L2FYDruia/A
+         LjcXiSpTq05dTABV/IBBDYVoVKuaCMmK3vLwenjkGAl1bDj2WtpOiaVPvL25mUDggr/s
+         A6h9FEnmVT9gQXeBkI/5OG1rdyUj8zsWZqKNOc8hoXjkEmKvtW0XraAoJM4IX3jmIRkr
+         piT0IPuYP9FccblRJKKe+/QJVhL58zKtVO1odXG8dlOU6LeoT2BDJOE7WqKEw7OyCKZE
+         60RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oEq8RfKwJYuD+6COTlowiE5qVzPl8iEYjnmxgan8HMs=;
+        b=OrR28pw6y6Lnm5+ubtbIUaMf3vT9JGP4/I0jgdY2DyNlkCLOLPsbpXnGi1rl6Ai0T+
+         SRDBfRM010cAGeeybK2XNbAhlOPDnvAEivsfxUivk8SV8yIZE4K4fubBDurAWL49sEgq
+         1EW1o6xABoRJ6YjrSKBMAArgG7oupa91/5SYL40XE9auJn02uJu0pCe2bmFz5ds+yyc6
+         pzvmUkD1Yy3i2uTVkRDEH0D3yY3AbrQEY6zQ0KfssbdG0Ms4iLR4zePeQd5CvI4imMEw
+         SKaETpHRJ8JknTi1Wa6vMFR1yF7XLcjvhhmqopVbErbboAhohNCwN0t8xr2a4BJHwrK/
+         sikw==
+X-Gm-Message-State: APt69E0OmxTHxMBRv+bjfE2R/hoDXJ5RXghpQgX0c2yOXDq2Ueffi//Z
+        2a9sORo3Uiq3POoJ456amN8=
+X-Google-Smtp-Source: ADUXVKJTN28TqIHc8oGfgoLEabx5SJbHqjMhlFJ9bV9eEiS9wybEHlOqoiJLGcxwBJxZ7RyuawgiFg==
+X-Received: by 2002:a0d:d757:: with SMTP id z84-v6mr2140065ywd.284.1528318597867;
+        Wed, 06 Jun 2018 13:56:37 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::d0a1])
+        by smtp.gmail.com with ESMTPSA id x125-v6sm22877720ywf.106.2018.06.06.13.56.36
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 Jun 2018 13:56:36 -0700 (PDT)
+Date:   Wed, 6 Jun 2018 13:56:35 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Waiman Long <longman@redhat.com>, Zefan Li <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
+ the parent
+Message-ID: <20180606205635.GP1351649@devbig577.frc2.facebook.com>
+References: <1527687991-1431-1-git-send-email-longman@redhat.com>
+ <5B0F4F09.9050100@huawei.com>
+ <5B0FAE72.1090204@huawei.com>
+ <20180531082613.GF12180@hirez.programming.kicks-ass.net>
+ <5B0FB58C.9030705@huawei.com>
+ <4dc718bc-4bd5-4998-853b-9c6ba67b89a0@redhat.com>
+ <20180531155807.GU1351649@devbig577.frc2.facebook.com>
+ <20180531161645.GN12180@hirez.programming.kicks-ass.net>
+ <20180531161942.GW1351649@devbig577.frc2.facebook.com>
+ <20180531163826.GO12180@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH v2 53/53] kernel-doc: describe the ``literal`` syntax
-From:   Markus Heiser <markus.heiser@darmarit.de>
-In-Reply-To: <5d47c31b59f6c2c7ddce0fcb1be0f85ad39a56fe.1494935649.git.mchehab@s-opensource.com>
-Date:   Wed, 6 Jun 2018 18:31:05 +0200
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Boris Brezillon <boris.brezillon@free-electrons.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Cyrille Pitchen <cyrille.pitchen@atmel.com>,
-        linux-mtd@lists.infradead.org, Jani Nikula <jani.nikula@intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <EF34D78D-738B-47F4-B188-9777440B7E70@darmarit.de>
-References: <cover.1494935649.git.mchehab@s-opensource.com>
- <cover.1494935649.git.mchehab@s-opensource.com>
- <5d47c31b59f6c2c7ddce0fcb1be0f85ad39a56fe.1494935649.git.mchehab@s-opensource.com>
-To:     Mauro Carvalho Chehab <mchehab@s-opensource.com>
-X-Mailer: Apple Mail (2.3273)
+Content-Disposition: inline
+In-Reply-To: <20180531163826.GO12180@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+Hello, Peter.
 
-> Am 16.05.2017 um 14:16 schrieb Mauro Carvalho Chehab <mchehab@s-opensource.com>:
+Sorry about late reply.
+
+On Thu, May 31, 2018 at 06:38:26PM +0200, Peter Zijlstra wrote:
+> > Yeah, for cpuset, it's messier, but it isn't different from hotunplug
+> > scenario, right?  I think the best we can do there is putting ancestor
+> > operation on an equal footing as hotplug ops.
 > 
-> changeset b97f193abf83 ("scripts/kernel-doc: fix parser
-> for apostrophes") added support for ``literal`` inside
-> kernel-doc, in order to allow using the "%" symbol inside
-> a literal block, as this is used at printk() description.
-> 
-> Document it.
-> 
-> Fixes: b97f193abf83 ("scripts/kernel-doc: fix parser for apostrophes")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-> ---
-> Documentation/doc-guide/kernel-doc.rst | 10 ++++++++++
-> 1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index b32e4813ff6f..b24854b5d6be 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -149,6 +149,16 @@ Domain`_ references.
-> ``%CONST``
->   Name of a constant. (No cross-referencing, just formatting.)
-> 
-> +````literal````
-> +  A literal block that should be handled as-is. The output will use a
-> +  ``monospaced font``.
+> Right, but hotplug is exceedingly rare, while I get the impression you
+> think it is perfectly fine to recind on your resource grants.
 
-just nitpicking; this is not literal block, this is called an inline literal [1]
+Well, yeah, for a trivial example, imagine dynamic workload management
+where you wanna restrict what a side-loaded batch workload can do on
+and off peak hours.  All other controllers can do that.  It'd be a
+really odd design trade-off if we make that really clumsy for cpuset
+especially given that we wouldn't be gaining any actual
+functionalities.
 
-To be complete: "blocks" are allways indented.
+Thanks.
 
-[1] http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#inline-literals
-
---- Markus --
-
+-- 
+tejun
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
