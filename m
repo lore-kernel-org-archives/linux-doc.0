@@ -1,89 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E21017DF8D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Jun 2018 08:36:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 738527D08C
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Jun 2018 08:54:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932457AbeFFIfn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Jun 2018 04:35:43 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49978 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S932378AbeFFIfk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jun 2018 04:35:40 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w568Ydmn160493
-        for <linux-doc@vger.kernel.org>; Wed, 6 Jun 2018 04:35:39 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2je96j7f4x-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jun 2018 04:35:39 -0400
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Wed, 6 Jun 2018 09:35:38 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 6 Jun 2018 09:35:34 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w568ZXuv33554600
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 6 Jun 2018 08:35:33 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 424BE5204C;
-        Wed,  6 Jun 2018 08:25:12 +0100 (BST)
-Received: from [9.124.31.17] (unknown [9.124.31.17])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 745465204B;
-        Wed,  6 Jun 2018 08:25:09 +0100 (BST)
-Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
- (semaphore)
-To:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Wed, 6 Jun 2018 14:05:29 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S932343AbeFFIx4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Jun 2018 04:53:56 -0400
+Received: from mail-lf0-f68.google.com ([209.85.215.68]:42323 "EHLO
+        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932290AbeFFIxy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jun 2018 04:53:54 -0400
+Received: by mail-lf0-f68.google.com with SMTP id v135-v6so7869047lfa.9
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jun 2018 01:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KFCZqKw1JCkf/KAOJsnTNttqWEk37rnMum1mVmWTp5g=;
+        b=AcyiikX8+71R3oKn1h1nkChUCekT6PEw5uiOe3Jn87/gB2x4nmnoPuNF2DxE5S+9y5
+         6zbVv0HvG5Jzq3sD8/U5QL4FKskBDWeAc1FP4dSa0bezVaTRm4nRERB6B8WMosmV0wl3
+         asOSmHNVfEZNi4e5PGZlQw2/bngEm55nMGL6E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=KFCZqKw1JCkf/KAOJsnTNttqWEk37rnMum1mVmWTp5g=;
+        b=P/8mI7qb7vXVqPi3SwN3hR1wY7oLg25eQ9nixgPvQ6KiUluB8HKLa2EGqAfRSwk5c7
+         FmIe0tFQhNGQQQW7pCzqIIbFfRuyb4CBNlG4ZvCq7texoAbfHY/wxICwzyd6NoejPDK4
+         FKCY8lE/gHJJoHqDf9zMH3vvHFrpHlfk1XJ3svbgNCdeEIvDPSEbQo2k+rQx0LrlRMIU
+         D224lnQYTTypn6r+5T24tjeogFSVOX13BYUXE+PCsN0bhycjgDtRTFPHsB5NvyYJ3BkW
+         hyKZbcXirtrz0Dtd7CmjLzKGmUW8cl9Pe0zKrmiqV0/BJ1+XIW+Gyt7H5XVGbwdq1TOh
+         7LOQ==
+X-Gm-Message-State: APt69E3NwhU3gGMcfrxrPqA/qKKs/mZ2hjEZlPPgPUTv1hGKnyY7ig0r
+        sGtR69LkiZhyvjtiTo7MEOql0n+dSRA=
+X-Google-Smtp-Source: ADUXVKIcregdNZj2hWX0XliozQ1h3FaL4Pa1tB9FE6OA/wJ+l2oQjS/RzvAyu2mWfWceCCb2moeo2Q==
+X-Received: by 2002:a19:d898:: with SMTP id r24-v6mr1148254lfi.7.1528275233397;
+        Wed, 06 Jun 2018 01:53:53 -0700 (PDT)
+Received: from khorivan (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
+        by smtp.gmail.com with ESMTPSA id t15-v6sm4679124lfd.79.2018.06.06.01.53.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 06 Jun 2018 01:53:52 -0700 (PDT)
+Date:   Wed, 6 Jun 2018 11:53:50 +0300
+From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+To:     Vinicius Costa Gomes <vinicius.gomes@intel.com>
+Cc:     grygorii.strashko@ti.com, davem@davemloft.net, corbet@lwn.net,
+        akpm@linux-foundation.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-omap@vger.kernel.org, henrik@austad.us,
+        jesus.sanchez-palencia@intel.com
+Subject: Re: [RFC PATCH 0/6] net: ethernet: ti: cpsw: add MQPRIO and CBS
+ Qdisc offload
+Message-ID: <20180606085348.GB5346@khorivan>
+Mail-Followup-To: Vinicius Costa Gomes <vinicius.gomes@intel.com>,
+        grygorii.strashko@ti.com, davem@davemloft.net, corbet@lwn.net,
+        akpm@linux-foundation.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-omap@vger.kernel.org, henrik@austad.us,
+        jesus.sanchez-palencia@intel.com
+References: <20180518211510.13341-1-ivan.khoronzhuk@linaro.org>
+ <87602y1n4j.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18060608-0012-0000-0000-0000027BA8FB
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18060608-0013-0000-0000-000020ACB225
-Message-Id: <7caf554c-b611-6aef-e119-528f9e6719ad@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-06_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=728 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1805220000 definitions=main-1806060099
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <87602y1n4j.fsf@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jun 04, 2018 at 02:23:56PM -0300, Vinicius Costa Gomes wrote:
+>Hi Ivan,
+>
+>Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org> writes:
+>
+>> This series adds MQPRIO and CBS Qdisc offload for TI cpsw driver.
+>> It potentially can be used in audio video bridging (AVB) and time
+>> sensitive networking (TSN).
+>>
+>> Patchset was tested on AM572x EVM and BBB boards. Last patch from this
+>> series adds detailed description of configuration with examples. For
+>> consistency reasons, in role of talker and listener, tools from
+>> patchset "TSN: Add qdisc based config interface for CBS" were used and
+>> can be seen here: https://www.spinics.net/lists/netdev/msg460869.html
+>>
+>> Based on net-next/master
+>>
+>
+>I didn't test this, but it looks fine from my side.
+>
+>I agree with Grygorii, that if no comments, this should be re-sent as a
+>patch series next.
+Thanks, I'll do it on this week.
 
+>
+>
+>> Ivan Khoronzhuk (6):
+>>   net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
+>>   net: ethernet: ti: cpdma: fit rated channels in backward order
+>>   net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
+>>   net: ethernet: ti: cpsw: add CBS Qdisc offload
+>>   net: ethernet: ti: cpsw: restore shaper configuration while down/up
+>>   Documentation: networking: cpsw: add MQPRIO & CBS offload examples
+>>
+>>  Documentation/networking/cpsw.txt       | 540 ++++++++++++++++++++++++
+>>  drivers/net/ethernet/ti/cpsw.c          | 364 +++++++++++++++-
+>>  drivers/net/ethernet/ti/davinci_cpdma.c |  31 +-
+>>  3 files changed, 913 insertions(+), 22 deletions(-)
+>>  create mode 100644 Documentation/networking/cpsw.txt
+>>
+>> --
+>> 2.17.0
+>
+>
+>Cheers,
+>--
+>Vinicius
 
-On 06/06/2018 02:03 PM, Ravi Bangoria wrote:
-> Why RFC again:
-> 
-
-Please consider this as [RFC]. I just forgot to tag it in the subject.
-
+-- 
+Regards,
+Ivan Khoronzhuk
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
