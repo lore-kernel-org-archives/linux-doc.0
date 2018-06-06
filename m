@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 465657DF88
+	by archive.lwn.net (Postfix) with ESMTP id 704A97DF8D
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Jun 2018 08:35:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932589AbeFFIeR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Jun 2018 04:34:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33806 "EHLO
+        id S932520AbeFFIeV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Jun 2018 04:34:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40558 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S932581AbeFFIeO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jun 2018 04:34:14 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w568SpND120524
-        for <linux-doc@vger.kernel.org>; Wed, 6 Jun 2018 04:34:13 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jec37rcny-1
+        by vger.kernel.org with ESMTP id S932599AbeFFIeU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jun 2018 04:34:20 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w568TbTQ142061
+        for <linux-doc@vger.kernel.org>; Wed, 6 Jun 2018 04:34:19 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2je96j7dgn-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jun 2018 04:34:13 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jun 2018 04:34:19 -0400
 Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Wed, 6 Jun 2018 09:34:10 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 6 Jun 2018 09:34:17 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 6 Jun 2018 09:34:06 +0100
+        Wed, 6 Jun 2018 09:34:14 +0100
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w568Y5cr25952330
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w568YD4O33161348
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 6 Jun 2018 08:34:05 GMT
+        Wed, 6 Jun 2018 08:34:13 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 50955A4040;
-        Wed,  6 Jun 2018 09:25:07 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 7337BA4051;
+        Wed,  6 Jun 2018 09:25:15 +0100 (BST)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5BF47A4055;
-        Wed,  6 Jun 2018 09:25:04 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id ACAC8A4040;
+        Wed,  6 Jun 2018 09:25:12 +0100 (BST)
 Received: from bangoria.in.ibm.com (unknown [9.124.31.17])
         by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  6 Jun 2018 09:25:04 +0100 (BST)
+        Wed,  6 Jun 2018 09:25:12 +0100 (BST)
 From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
 To:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
         mhiramat@kernel.org
@@ -51,20 +51,20 @@ Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
         linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
         alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
         Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Subject: [PATCH 3/7] Uprobes/sdt: Fix multiple update of same reference counter
-Date:   Wed,  6 Jun 2018 14:03:40 +0530
+Subject: [PATCH 5/7] Uprobes/sdt: Prevent multiple reference counter for same uprobe
+Date:   Wed,  6 Jun 2018 14:03:42 +0530
 X-Mailer: git-send-email 2.14.4
 In-Reply-To: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
 References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18060608-0016-0000-0000-000001D8A5CF
+x-cbid: 18060608-0012-0000-0000-0000027BA8CB
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18060608-0017-0000-0000-0000322BB0D2
-Message-Id: <20180606083344.31320-4-ravi.bangoria@linux.ibm.com>
+x-cbparentid: 18060608-0013-0000-0000-000020ACB1F9
+Message-Id: <20180606083344.31320-6-ravi.bangoria@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-06_03:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1805220000 definitions=main-1806060098
@@ -73,398 +73,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When virtual memory map for binary/library is being prepared, there is
-no direct one to one mapping between mmap() and virtual memory area. Ex,
-when loader loads the library, it first calls mmap(size = total_size),
-where total_size is addition of size of all elf sections that are going
-to be mapped. Then it splits individual vmas with new mmap()/mprotect()
-calls. Loader does this to ensure it gets continuous address range for
-a library. load_elf_binary() also uses similar tricks while preparing
-mappings of binary.
+Even if we don't allow to create same uprobe with different reference
+counter offset via trace_uprobe, user can still create such uprobes
+by creating one uprobe using trace_uprobe and other by directly
+calling uprobe_register() from kernel module. Prevent such scenarios.
 
-Ex for pyhton library,
-
-  # strace python
-    mmap(NULL, 2738968, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fff92460000
-    mmap(0x7fff926a0000, 327680, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x230000) = 0x7fff926a0000
-    mprotect(0x7fff926a0000, 65536, PROT_READ) = 0
-
-Here, the first mmap() maps the whole library into one region. Second
-mmap() and third mprotect() split out the whole region into smaller
-vmas and sets appropriate protection flags.
-
-Now, in this case, uprobe_mmap() updates the reference counter twice
--- by second mmap() call and by third mprotect() call -- because both
-regions contain reference counter.
-
-But while de-registration, reference counter will get decremented only
-once leaving reference counter > 0 even if no one is tracing on that
-marker.
-
-Example with python library before patch:
-
-    # readelf -n /lib64/libpython2.7.so.1.0 | grep -A1 function__entry
-      Name: function__entry
-      ... Semaphore: 0x00000000002899d8
-
-  Probe on a marker:
-    # echo "p:sdt_python/function__entry /usr/lib64/libpython2.7.so.1.0:0x16a4d4(0x2799d8)" > uprobe_events
-
-  Start tracing:
-    # perf record -e sdt_python:function__entry -a
-
-  Run python workload:
-    # python
-    # cat /proc/`pgrep python`/maps | grep libpython
-      7fffadb00000-7fffadd40000 r-xp 00000000 08:05 403934  /usr/lib64/libpython2.7.so.1.0
-      7fffadd40000-7fffadd50000 r--p 00230000 08:05 403934  /usr/lib64/libpython2.7.so.1.0
-      7fffadd50000-7fffadd90000 rw-p 00240000 08:05 403934  /usr/lib64/libpython2.7.so.1.0
-
-  Reference counter value has been incremented twice:
-    # dd if=/proc/`pgrep python`/mem bs=1 count=1 skip=$(( 0x7fffadd899d8 )) 2>/dev/null | xxd
-      0000000: 02                                       .
-
-  Kill perf:
-    #
-      ^C[ perf record: Woken up 1 times to write data ]
-      [ perf record: Captured and wrote 0.322 MB perf.data (1273 samples) ]
-
-  Reference conter is still 1 even when no one is tracing on it:
-    # dd if=/proc/`pgrep python`/mem bs=1 count=1 skip=$(( 0x7fffadd899d8 )) 2>/dev/null | xxd
-      0000000: 01                                       .
-
-Ensure increment and decrement happens in sync by keeping list of
-{consumer, mm} tuple in struct uprobe. Check presence of it in the list
-before incrementing the reference counter. I.e. for each {consumer, mm}
-tuple, reference counter must be incremented only by one. Note that we
-don't check the presence of mm in the list at decrement time.
-
-We consider only two cases while _incrementing_ the reference counter:
-  1. Target binary is already running when we start tracing. In this
-     case, find all mm which maps region of target binary containing
-     reference counter. Loop over all mms and increment the counter if
-     {consumer, mm} is not already present in the list.
-  2. Tracer is already tracing before target binary starts execution. In
-     this case, update reference counter only if {consumer, vma->vm_mm}
-     is not already present in the list.
-
-  There is also a third case which we don't consider, a fork() case.
-  When process with markers forks itself, we don't explicitly increment
-  the reference counter in child process because it should be taken care
-  by dup_mmap(). We also don't add the child mm in the list. This is
-  fine because we don't check presence of mm in the list at decrement
-  time.
-
-After patch:
-
-  Start perf record and then run python...
-  Reference counter value has been incremented only once:
-    # dd if=/proc/`pgrep python`/mem bs=1 count=1 skip=$(( 0x7fff9cbf99d8 )) 2>/dev/null | xxd
-      0000000: 01                                       .
-
-  Kill perf:
-    #
-      ^C[ perf record: Woken up 1 times to write data ]
-      [ perf record: Captured and wrote 0.364 MB perf.data (1427 samples) ]
-
-  Reference conter is reset to 0:
-    # dd if=/proc/`pgrep python`/mem bs=1 count=1 skip=$(( 0x7fff9cbb99d8 )) 2>/dev/null | xxd
-      0000000: 00                                       .
+Note that, we are restricting user to not use both ways (trace_uprobe
+and kernel module) simultaneously. Ex, User can not trace single uprobe
+(with reference counter) simultaneously with Systemtap and perf at the
+same time.
 
 Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
 ---
- kernel/events/uprobes.c | 156 ++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 150 insertions(+), 6 deletions(-)
+ kernel/events/uprobes.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-index ed3c588..279c8fc 100644
+index 279c8fc..5e07f99 100644
 --- a/kernel/events/uprobes.c
 +++ b/kernel/events/uprobes.c
-@@ -69,6 +69,20 @@ enum {
- 	REF_CTR_OFFSET
- };
- 
-+/*
-+ * List of {consumer, mm} tupple. Unlike uprobe->consumers,
-+ * uc is not a list here. It's just a single consumer. Ex,
-+ * if there are 2 consumers and 3 target mms for a uprobe,
-+ * total number of elements in uprobe->sml = 2 * 3 = 6. This
-+ * list is used to ensure reference counter increment and
-+ * decrement happen in sync.
-+ */
-+struct sdt_mm_list {
-+	struct list_head list;
-+	struct uprobe_consumer *uc;
-+	struct mm_struct *mm;
-+};
-+
- struct uprobe {
- 	struct rb_node		rb_node;	/* node in the rb tree */
- 	atomic_t		ref;
-@@ -79,6 +93,8 @@ struct uprobe {
- 	struct inode		*inode;		/* Also hold a ref to inode */
- 	loff_t			offset;
- 	loff_t			ref_ctr_offset;
-+	struct sdt_mm_list	sml;
-+	struct mutex		sml_lock;
- 	unsigned long		flags;
- 
- 	/*
-@@ -503,6 +519,8 @@ static struct uprobe *alloc_uprobe(struct inode *inode, loff_t offset,
- 	uprobe->ref_ctr_offset = ref_ctr_offset;
- 	init_rwsem(&uprobe->register_rwsem);
- 	init_rwsem(&uprobe->consumer_rwsem);
-+	mutex_init(&uprobe->sml_lock);
-+	INIT_LIST_HEAD(&(uprobe->sml.list));
- 
- 	/* add to uprobes_tree, sorted on inode:offset */
+@@ -526,6 +526,12 @@ static struct uprobe *alloc_uprobe(struct inode *inode, loff_t offset,
  	cur_uprobe = insert_uprobe(uprobe);
-@@ -848,6 +866,49 @@ static inline struct map_info *free_map_info(struct map_info *info)
- 	return err;
- }
- 
-+static bool sdt_check_mm_list(struct uprobe *uprobe, struct mm_struct *mm,
-+			      struct uprobe_consumer *uc)
-+{
-+	struct sdt_mm_list *sml;
-+
-+	list_for_each_entry(sml, &(uprobe->sml.list), list)
-+		if (sml->mm == mm && sml->uc == uc)
-+			return true;
-+
-+	return false;
-+}
-+
-+static int sdt_add_mm_list(struct uprobe *uprobe, struct mm_struct *mm,
-+			   struct uprobe_consumer *uc)
-+{
-+	struct sdt_mm_list *sml  = kzalloc(sizeof(*sml), GFP_KERNEL);
-+
-+	if (!sml) {
-+		pr_info("Failed to add mm into list.\n");
-+		return -ENOMEM;
-+	}
-+
-+	sml->mm = mm;
-+	sml->uc = uc;
-+	list_add(&(sml->list), &(uprobe->sml.list));
-+	return 0;
-+}
-+
-+static void sdt_del_mm_list(struct uprobe *uprobe, struct mm_struct *mm,
-+			    struct uprobe_consumer *uc)
-+{
-+	struct list_head *pos, *q;
-+	struct sdt_mm_list *sml;
-+
-+	list_for_each_safe(pos, q, &(uprobe->sml.list)) {
-+		sml = list_entry(pos, struct sdt_mm_list, list);
-+		if (sml->mm == mm && sml->uc == uc) {
-+			list_del(pos);
-+			kfree(sml);
+ 	/* a uprobe exists for this inode:offset combination */
+ 	if (cur_uprobe) {
++		if (cur_uprobe->ref_ctr_offset != uprobe->ref_ctr_offset) {
++			pr_warn("Err: Reference counter mismatch.\n");
++			put_uprobe(cur_uprobe);
++			kfree(uprobe);
++			return ERR_PTR(-EINVAL);
 +		}
-+	}
-+}
-+
- static bool sdt_valid_vma(struct uprobe *uprobe,
- 			  struct vm_area_struct *vma,
- 			  unsigned long vaddr)
-@@ -917,7 +978,8 @@ static struct vm_area_struct *sdt_find_vma(struct uprobe *uprobe,
- 	return ret;
- }
- 
--static int sdt_increment_ref_ctr(struct uprobe *uprobe)
-+static int
-+sdt_increment_ref_ctr(struct uprobe *uprobe, struct uprobe_consumer *uc)
- {
- 	struct map_info *info, *first = NULL;
- 	int ctr = 0, ret = 0, tmp = 0;
-@@ -934,16 +996,35 @@ static int sdt_increment_ref_ctr(struct uprobe *uprobe)
- 	first = info;
- 	while (info) {
- 		down_write(&info->mm->mmap_sem);
-+		mutex_lock(&uprobe->sml_lock);
-+
-+		if (sdt_check_mm_list(uprobe, info->mm, uc)) {
-+			mutex_unlock(&uprobe->sml_lock);
-+			up_write(&info->mm->mmap_sem);
-+			info = info->next;
-+			continue;
-+		}
-+
- 		if (sdt_find_vma(uprobe, info->mm, info->vaddr)) {
- 			ret = sdt_update_ref_ctr(info->mm, info->vaddr, 1);
- 			if (unlikely(ret)) {
-+				mutex_unlock(&uprobe->sml_lock);
-+				up_write(&info->mm->mmap_sem);
-+				goto rollback;
-+			}
-+
-+			ctr++;
-+
-+			ret = sdt_add_mm_list(uprobe, info->mm, uc);
-+			if (unlikely(ret)) {
-+				mutex_unlock(&uprobe->sml_lock);
- 				up_write(&info->mm->mmap_sem);
- 				goto rollback;
- 			}
- 		}
-+		mutex_unlock(&uprobe->sml_lock);
- 		up_write(&info->mm->mmap_sem);
- 		info = info->next;
--		ctr++;
+ 		kfree(uprobe);
+ 		uprobe = cur_uprobe;
  	}
- 	ret = 0;
- 	goto out;
-@@ -956,11 +1037,15 @@ static int sdt_increment_ref_ctr(struct uprobe *uprobe)
- 	info = first;
- 	while (ctr) {
- 		down_write(&info->mm->mmap_sem);
-+		mutex_lock(&uprobe->sml_lock);
- 		if (sdt_find_vma(uprobe, info->mm, info->vaddr)) {
- 			tmp = sdt_update_ref_ctr(info->mm, info->vaddr, -1);
- 			if (unlikely(tmp))
- 				pr_warn("ref_ctr rollback failed. (%d)\n", tmp);
+@@ -1184,6 +1190,9 @@ static int __uprobe_register(struct inode *inode, loff_t offset,
+ 	uprobe = alloc_uprobe(inode, offset, ref_ctr_offset);
+ 	if (!uprobe)
+ 		return -ENOMEM;
++	if (IS_ERR(uprobe))
++		return PTR_ERR(uprobe);
 +
-+			sdt_del_mm_list(uprobe, info->mm, uc);
- 		}
-+		mutex_unlock(&uprobe->sml_lock);
- 		up_write(&info->mm->mmap_sem);
- 		info = info->next;
- 		ctr--;
-@@ -977,7 +1062,12 @@ static int sdt_increment_ref_ctr(struct uprobe *uprobe)
- 	return ret;
- }
- 
--static int sdt_decrement_ref_ctr(struct uprobe *uprobe)
-+/*
-+ * We don't check presence of {uc,mm} in sml here. We just decrement
-+ * the reference counter if we find vma holding the reference counter.
-+ */
-+static int
-+sdt_decrement_ref_ctr(struct uprobe *uprobe, struct uprobe_consumer *uc)
- {
- 	struct map_info *info;
- 	int ret = 0, err = 0;
-@@ -990,6 +1080,7 @@ static int sdt_decrement_ref_ctr(struct uprobe *uprobe)
- 
- 	while (info) {
- 		down_write(&info->mm->mmap_sem);
-+		mutex_lock(&uprobe->sml_lock);
- 
- 		if (sdt_find_vma(uprobe, info->mm, info->vaddr)) {
- 			ret = sdt_update_ref_ctr(info->mm, info->vaddr, -1);
-@@ -997,6 +1088,8 @@ static int sdt_decrement_ref_ctr(struct uprobe *uprobe)
- 			err = !err && ret ? ret : err;
- 		}
- 
-+		sdt_del_mm_list(uprobe, info->mm, uc);
-+		mutex_unlock(&uprobe->sml_lock);
- 		up_write(&info->mm->mmap_sem);
- 		mmput(info->mm);
- 		info = free_map_info(info);
-@@ -1014,7 +1107,7 @@ static void __uprobe_unregister(struct uprobe *uprobe,
- 	int err;
- 
- 	if (ref_ctr_dec && uprobe->ref_ctr_offset)
--		sdt_decrement_ref_ctr(uprobe);
-+		sdt_decrement_ref_ctr(uprobe, uc);
- 
- 	if (WARN_ON(!consumer_del(uprobe, uc)))
- 		return;
-@@ -1102,7 +1195,7 @@ static int __uprobe_register(struct inode *inode, loff_t offset,
- 
- 		ret = register_for_each_vma(uprobe, uc);
- 		if (!ret && ref_ctr_offset)
--			ret = sdt_increment_ref_ctr(uprobe);
-+			ret = sdt_increment_ref_ctr(uprobe, uc);
- 
- 		if (ret)
- 			__uprobe_unregister(uprobe, uc, false);
-@@ -1258,6 +1351,26 @@ static void build_probe_list(struct inode *inode, int off_type,
- 	spin_unlock(&uprobes_treelock);
- }
- 
-+static int __sdt_uprobe_mmap(struct uprobe *uprobe, struct mm_struct *mm,
-+			     unsigned long vaddr, struct uprobe_consumer *uc)
-+{
-+	int ret;
-+
-+	if (sdt_check_mm_list(uprobe, mm, uc))
-+		return 0;
-+
-+	ret = sdt_update_ref_ctr(mm, vaddr, 1);
-+	if (unlikely(ret))
-+		return ret;
-+
-+	ret = sdt_add_mm_list(uprobe, mm, uc);
-+	if (likely(!ret))
-+		return ret;
-+
-+	/* Failed to add mm into the list. Rollback ref_ctr update */
-+	return sdt_update_ref_ctr(mm, vaddr, -1);
-+}
-+
- /* Called with down_write(&vma->vm_mm->mmap_sem) */
- static int sdt_uprobe_mmap(struct vm_area_struct *vma, struct inode *inode)
- {
-@@ -1280,10 +1393,14 @@ static int sdt_uprobe_mmap(struct vm_area_struct *vma, struct inode *inode)
- 
- 		/* Increment reference counter for each consumer. */
- 		down_read(&uprobe->consumer_rwsem);
-+		mutex_lock(&uprobe->sml_lock);
-+
- 		for (uc = uprobe->consumers; uc; uc = uc->next) {
--			ret = sdt_update_ref_ctr(vma->vm_mm, vaddr, 1);
-+			ret = __sdt_uprobe_mmap(uprobe, vma->vm_mm, vaddr, uc);
- 			err = !err && ret ? ret : err;
- 		}
-+
-+		mutex_unlock(&uprobe->sml_lock);
- 		up_read(&uprobe->consumer_rwsem);
- 		put_uprobe(uprobe);
- 	}
-@@ -1477,6 +1594,29 @@ static struct xol_area *get_xol_area(void)
- 	return area;
- }
- 
-+static void sdt_mm_release(struct rb_node *n, struct mm_struct *mm)
-+{
-+	struct uprobe *uprobe;
-+	struct uprobe_consumer *uc;
-+
-+	if (!n)
-+		return;
-+
-+	uprobe = rb_entry(n, struct uprobe, rb_node);
-+
-+	down_read(&uprobe->consumer_rwsem);
-+	mutex_lock(&uprobe->sml_lock);
-+
-+	for (uc = uprobe->consumers; uc; uc = uc->next)
-+		sdt_del_mm_list(uprobe, mm, uc);
-+
-+	mutex_unlock(&uprobe->sml_lock);
-+	up_read(&uprobe->consumer_rwsem);
-+
-+	sdt_mm_release(n->rb_left, mm);
-+	sdt_mm_release(n->rb_right, mm);
-+}
-+
- /*
-  * uprobe_clear_state - Free the area allocated for slots.
-  */
-@@ -1484,6 +1624,10 @@ void uprobe_clear_state(struct mm_struct *mm)
- {
- 	struct xol_area *area = mm->uprobes_state.xol_area;
- 
-+	spin_lock(&uprobes_treelock);
-+	sdt_mm_release(uprobes_tree.rb_node, mm);
-+	spin_unlock(&uprobes_treelock);
-+
- 	if (!area)
- 		return;
- 
+ 	/*
+ 	 * We can race with uprobe_unregister()->delete_uprobe().
+ 	 * Check uprobe_is_active() and retry if it is false.
 -- 
 1.8.3.1
 
