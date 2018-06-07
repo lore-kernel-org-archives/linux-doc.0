@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9394A7D08C
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:43:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9F427D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933987AbeFGPnk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 11:43:40 -0400
-Received: from mga09.intel.com ([134.134.136.24]:36344 "EHLO mga09.intel.com"
+        id S934529AbeFGOkn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 10:40:43 -0400
+Received: from mga09.intel.com ([134.134.136.24]:36283 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934259AbeFGOl3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 10:41:29 -0400
+        id S934513AbeFGOkk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 10:40:40 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:41:28 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:40:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,486,1520924400"; 
-   d="scan'208";a="62632615"
+   d="scan'208";a="47542315"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by orsmga001.jf.intel.com with ESMTP; 07 Jun 2018 07:41:28 -0700
+  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2018 07:40:34 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
@@ -38,79 +38,92 @@ To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         Mike Kravetz <mike.kravetz@oracle.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH 00/10] Control Flow Enforcement - Part (3)
-Date:   Thu,  7 Jun 2018 07:37:57 -0700
-Message-Id: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+Subject: [PATCH 9/9] x86/cet: Handle THP/HugeTLB shadow stack page copying
+Date:   Thu,  7 Jun 2018 07:37:05 -0700
+Message-Id: <20180607143705.3531-10-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.15.1
+In-Reply-To: <20180607143705.3531-1-yu-cheng.yu@intel.com>
+References: <20180607143705.3531-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series introduces CET - Shadow stack
+This patch implements THP shadow stack memory copying in the same
+way as the previous patch for regular PTE.
 
-At the high level, shadow stack is:
+In copy_huge_pmd(), we clear the dirty bit from the PMD.  On the
+next shadow stack access to the PMD, a page fault occurs.  At
+that time, the page is copied/re-used and the PMD is fixed.
 
-	Allocated from a task's address space with vm_flags VM_SHSTK;
-	Its PTEs must be read-only and dirty;
-	Fixed sized, but the default size can be changed by sys admin.
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+ mm/huge_memory.c | 10 +++++++++-
+ mm/hugetlb.c     |  2 +-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-For a forked child, the shadow stack is duplicated when the next
-shadow stack access takes place.
-
-For a pthread child, a new shadow stack is allocated.
-
-The signal handler uses the same shadow stack as the main program.
-
-Yu-cheng Yu (10):
-  x86/cet: User-mode shadow stack support
-  x86/cet: Introduce WRUSS instruction
-  x86/cet: Signal handling for shadow stack
-  x86/cet: Handle thread shadow stack
-  x86/cet: ELF header parsing of Control Flow Enforcement
-  x86/cet: Add arch_prctl functions for shadow stack
-  mm: Prevent mprotect from changing shadow stack
-  mm: Prevent mremap of shadow stack
-  mm: Prevent madvise from changing shadow stack
-  mm: Prevent munmap and remap_file_pages of shadow stack
-
- arch/x86/Kconfig                              |   4 +
- arch/x86/ia32/ia32_signal.c                   |   5 +
- arch/x86/include/asm/cet.h                    |  48 ++++++
- arch/x86/include/asm/disabled-features.h      |   8 +-
- arch/x86/include/asm/elf.h                    |   5 +
- arch/x86/include/asm/mmu_context.h            |   3 +
- arch/x86/include/asm/msr-index.h              |  14 ++
- arch/x86/include/asm/processor.h              |   5 +
- arch/x86/include/asm/special_insns.h          |  44 +++++
- arch/x86/include/uapi/asm/elf_property.h      |  16 ++
- arch/x86/include/uapi/asm/prctl.h             |  15 ++
- arch/x86/include/uapi/asm/sigcontext.h        |   4 +
- arch/x86/kernel/Makefile                      |   4 +
- arch/x86/kernel/cet.c                         | 224 ++++++++++++++++++++++++
- arch/x86/kernel/cet_prctl.c                   | 203 ++++++++++++++++++++++
- arch/x86/kernel/cpu/common.c                  |  24 +++
- arch/x86/kernel/elf.c                         | 236 ++++++++++++++++++++++++++
- arch/x86/kernel/process.c                     |  10 ++
- arch/x86/kernel/process_64.c                  |   7 +
- arch/x86/kernel/signal.c                      |  11 ++
- arch/x86/lib/x86-opcode-map.txt               |   2 +-
- arch/x86/mm/fault.c                           |  13 +-
- fs/binfmt_elf.c                               |  16 ++
- fs/proc/task_mmu.c                            |   3 +
- include/uapi/linux/elf.h                      |   1 +
- mm/madvise.c                                  |   9 +
- mm/mmap.c                                     |  13 ++
- mm/mprotect.c                                 |   9 +
- mm/mremap.c                                   |   5 +-
- tools/objtool/arch/x86/lib/x86-opcode-map.txt |   2 +-
- 30 files changed, 958 insertions(+), 5 deletions(-)
- create mode 100644 arch/x86/include/asm/cet.h
- create mode 100644 arch/x86/include/uapi/asm/elf_property.h
- create mode 100644 arch/x86/kernel/cet.c
- create mode 100644 arch/x86/kernel/cet_prctl.c
- create mode 100644 arch/x86/kernel/elf.c
-
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index a3a1815f8e11..c6e72ccc4274 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -600,6 +600,8 @@ static int __do_huge_pmd_anonymous_page(struct vm_fault *vmf, struct page *page,
+ 
+ 		entry = mk_huge_pmd(page, vma->vm_page_prot);
+ 		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
++		if (is_shstk_mapping(vma->vm_flags))
++			entry = pmd_mkdirty_shstk(entry);
+ 		page_add_new_anon_rmap(page, vma, haddr, true);
+ 		mem_cgroup_commit_charge(page, memcg, false, true);
+ 		lru_cache_add_active_or_unevictable(page, vma);
+@@ -976,7 +978,7 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+ 	mm_inc_nr_ptes(dst_mm);
+ 	pgtable_trans_huge_deposit(dst_mm, dst_pmd, pgtable);
+ 
+-	pmdp_set_wrprotect(src_mm, addr, src_pmd);
++	pmdp_set_wrprotect_flush(vma, addr, src_pmd);
+ 	pmd = pmd_mkold(pmd_wrprotect(pmd));
+ 	set_pmd_at(dst_mm, addr, dst_pmd, pmd);
+ 
+@@ -1196,6 +1198,8 @@ static int do_huge_pmd_wp_page_fallback(struct vm_fault *vmf, pmd_t orig_pmd,
+ 		pte_t entry;
+ 		entry = mk_pte(pages[i], vma->vm_page_prot);
+ 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
++		if (is_shstk_mapping(vma->vm_flags))
++			entry = pte_mkdirty_shstk(entry);
+ 		memcg = (void *)page_private(pages[i]);
+ 		set_page_private(pages[i], 0);
+ 		page_add_new_anon_rmap(pages[i], vmf->vma, haddr, false);
+@@ -1280,6 +1284,8 @@ int do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
+ 		pmd_t entry;
+ 		entry = pmd_mkyoung(orig_pmd);
+ 		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
++		if (is_shstk_mapping(vma->vm_flags))
++			entry = pmd_mkdirty_shstk(entry);
+ 		if (pmdp_set_access_flags(vma, haddr, vmf->pmd, entry,  1))
+ 			update_mmu_cache_pmd(vma, vmf->address, vmf->pmd);
+ 		ret |= VM_FAULT_WRITE;
+@@ -1350,6 +1356,8 @@ int do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
+ 		pmd_t entry;
+ 		entry = mk_huge_pmd(new_page, vma->vm_page_prot);
+ 		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
++		if (is_shstk_mapping(vma->vm_flags))
++			entry = pmd_mkdirty_shstk(entry);
+ 		pmdp_huge_clear_flush_notify(vma, haddr, vmf->pmd);
+ 		page_add_new_anon_rmap(new_page, vma, haddr, true);
+ 		mem_cgroup_commit_charge(new_page, memcg, false, true);
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 218679138255..d694cfab9f90 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3293,7 +3293,7 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
+ 				 *
+ 				 * See Documentation/vm/mmu_notifier.txt
+ 				 */
+-				huge_ptep_set_wrprotect(src, addr, src_pte);
++				huge_ptep_set_wrprotect_flush(vma, addr, src_pte);
+ 			}
+ 			entry = huge_ptep_get(src_pte);
+ 			ptepage = pte_page(entry);
 -- 
 2.15.1
 
