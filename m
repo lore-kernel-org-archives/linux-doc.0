@@ -2,27 +2,27 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C9F427D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:44:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4B4587D08C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934529AbeFGOkn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 10:40:43 -0400
-Received: from mga09.intel.com ([134.134.136.24]:36283 "EHLO mga09.intel.com"
+        id S933114AbeFGPo4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 11:44:56 -0400
+Received: from mga09.intel.com ([134.134.136.24]:36280 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934513AbeFGOkk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 10:40:40 -0400
+        id S934511AbeFGOkj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 10:40:39 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:40:35 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:40:34 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,486,1520924400"; 
-   d="scan'208";a="47542315"
+   d="scan'208";a="47542305"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2018 07:40:34 -0700
+  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2018 07:40:33 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
@@ -38,9 +38,9 @@ To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         Mike Kravetz <mike.kravetz@oracle.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH 9/9] x86/cet: Handle THP/HugeTLB shadow stack page copying
-Date:   Thu,  7 Jun 2018 07:37:05 -0700
-Message-Id: <20180607143705.3531-10-yu-cheng.yu@intel.com>
+Subject: [PATCH 7/9] x86/mm: Shadow stack page fault error checking
+Date:   Thu,  7 Jun 2018 07:37:03 -0700
+Message-Id: <20180607143705.3531-8-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180607143705.3531-1-yu-cheng.yu@intel.com>
 References: <20180607143705.3531-1-yu-cheng.yu@intel.com>
@@ -49,81 +49,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch implements THP shadow stack memory copying in the same
-way as the previous patch for regular PTE.
+If a page fault is triggered by a shadow stack access (e.g.
+call/ret) or shadow stack management instructions (e.g.
+wrussq), then bit[6] of the page fault error code is set.
 
-In copy_huge_pmd(), we clear the dirty bit from the PMD.  On the
-next shadow stack access to the PMD, a page fault occurs.  At
-that time, the page is copied/re-used and the PMD is fixed.
+In access_error(), we check if a shadow stack page fault
+is within a shadow stack memory area.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- mm/huge_memory.c | 10 +++++++++-
- mm/hugetlb.c     |  2 +-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ arch/x86/include/asm/traps.h |  2 ++
+ arch/x86/mm/fault.c          | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index a3a1815f8e11..c6e72ccc4274 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -600,6 +600,8 @@ static int __do_huge_pmd_anonymous_page(struct vm_fault *vmf, struct page *page,
+diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
+index 5196050ff3d5..58ea2f5722e9 100644
+--- a/arch/x86/include/asm/traps.h
++++ b/arch/x86/include/asm/traps.h
+@@ -157,6 +157,7 @@ enum {
+  *   bit 3 ==				1: use of reserved bit detected
+  *   bit 4 ==				1: fault was an instruction fetch
+  *   bit 5 ==				1: protection keys block access
++ *   bit 6 ==				1: shadow stack access fault
+  */
+ enum x86_pf_error_code {
+ 	X86_PF_PROT	=		1 << 0,
+@@ -165,5 +166,6 @@ enum x86_pf_error_code {
+ 	X86_PF_RSVD	=		1 << 3,
+ 	X86_PF_INSTR	=		1 << 4,
+ 	X86_PF_PK	=		1 << 5,
++	X86_PF_SHSTK	=		1 << 6,
+ };
+ #endif /* _ASM_X86_TRAPS_H */
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index 73bd8c95ac71..2b3b9170109c 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -1166,6 +1166,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
+ 				       (error_code & X86_PF_INSTR), foreign))
+ 		return 1;
  
- 		entry = mk_huge_pmd(page, vma->vm_page_prot);
- 		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
-+		if (is_shstk_mapping(vma->vm_flags))
-+			entry = pmd_mkdirty_shstk(entry);
- 		page_add_new_anon_rmap(page, vma, haddr, true);
- 		mem_cgroup_commit_charge(page, memcg, false, true);
- 		lru_cache_add_active_or_unevictable(page, vma);
-@@ -976,7 +978,7 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 	mm_inc_nr_ptes(dst_mm);
- 	pgtable_trans_huge_deposit(dst_mm, dst_pmd, pgtable);
- 
--	pmdp_set_wrprotect(src_mm, addr, src_pmd);
-+	pmdp_set_wrprotect_flush(vma, addr, src_pmd);
- 	pmd = pmd_mkold(pmd_wrprotect(pmd));
- 	set_pmd_at(dst_mm, addr, dst_pmd, pmd);
- 
-@@ -1196,6 +1198,8 @@ static int do_huge_pmd_wp_page_fallback(struct vm_fault *vmf, pmd_t orig_pmd,
- 		pte_t entry;
- 		entry = mk_pte(pages[i], vma->vm_page_prot);
- 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-+		if (is_shstk_mapping(vma->vm_flags))
-+			entry = pte_mkdirty_shstk(entry);
- 		memcg = (void *)page_private(pages[i]);
- 		set_page_private(pages[i], 0);
- 		page_add_new_anon_rmap(pages[i], vmf->vma, haddr, false);
-@@ -1280,6 +1284,8 @@ int do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
- 		pmd_t entry;
- 		entry = pmd_mkyoung(orig_pmd);
- 		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
-+		if (is_shstk_mapping(vma->vm_flags))
-+			entry = pmd_mkdirty_shstk(entry);
- 		if (pmdp_set_access_flags(vma, haddr, vmf->pmd, entry,  1))
- 			update_mmu_cache_pmd(vma, vmf->address, vmf->pmd);
- 		ret |= VM_FAULT_WRITE;
-@@ -1350,6 +1356,8 @@ int do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
- 		pmd_t entry;
- 		entry = mk_huge_pmd(new_page, vma->vm_page_prot);
- 		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
-+		if (is_shstk_mapping(vma->vm_flags))
-+			entry = pmd_mkdirty_shstk(entry);
- 		pmdp_huge_clear_flush_notify(vma, haddr, vmf->pmd);
- 		page_add_new_anon_rmap(new_page, vma, haddr, true);
- 		mem_cgroup_commit_charge(new_page, memcg, false, true);
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 218679138255..d694cfab9f90 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3293,7 +3293,7 @@ int copy_hugetlb_page_range(struct mm_struct *dst, struct mm_struct *src,
- 				 *
- 				 * See Documentation/vm/mmu_notifier.txt
- 				 */
--				huge_ptep_set_wrprotect(src, addr, src_pte);
-+				huge_ptep_set_wrprotect_flush(vma, addr, src_pte);
- 			}
- 			entry = huge_ptep_get(src_pte);
- 			ptepage = pte_page(entry);
++	/*
++	 * Verify X86_PF_SHSTK is within a shadow stack VMA.
++	 * It is always an error if there is a shadow stack
++	 * fault outside a shadow stack VMA.
++	 */
++	if (error_code & X86_PF_SHSTK) {
++		if (!(vma->vm_flags & VM_SHSTK))
++			return 1;
++		return 0;
++	}
++
+ 	if (error_code & X86_PF_WRITE) {
+ 		/* write, present and write, not present: */
+ 		if (unlikely(!(vma->vm_flags & VM_WRITE)))
 -- 
 2.15.1
 
