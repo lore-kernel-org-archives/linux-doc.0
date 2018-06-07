@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D3ED7DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:47:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 467E97D08C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933426AbeFGPq6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 11:46:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47398 "EHLO mail.kernel.org"
+        id S934317AbeFGPrn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 11:47:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47768 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933675AbeFGPq4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 11:46:56 -0400
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com [209.85.214.53])
+        id S933959AbeFGPrl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 11:47:41 -0400
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com [209.85.214.46])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1FBC3208A6
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 15:46:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D7CE52088F
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 15:47:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528386416;
-        bh=Jix8cnifTw1QBx5OWB32i+eNmI/ZBGogTdTY3BfSSz0=;
+        s=default; t=1528386461;
+        bh=mDTXmyladVBd3eh/mjrYcjmTj9XAgNFR2n7J1EwIYXw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JoF544QluiQE0gJ2Abd9j3b+MjrLwJCuBrBx70nOvouctmfJRs+zI8xDxrcWO0niE
-         q66Lt1kJfhSJCh0uyZr9K4Ra5iOog7bLx+zHvGwsrLPM7fSZLeEk8uyhfL6QDt79wM
-         vuf6KnRxUud0FVOrSO7l8aZIvH8tfN1u/q/NBBa8=
-Received: by mail-it0-f53.google.com with SMTP id a195-v6so13454853itd.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 08:46:56 -0700 (PDT)
-X-Gm-Message-State: APt69E0oLDUvWqAla360GMgIrlxL5rh8XCqlrZZ0qgJmRN32k3gHeEIO
-        pakEPjLqqsXrRMZob2+7eUB2pOwOWGEI6qIkjVfsqQ==
-X-Google-Smtp-Source: ADUXVKLLi4fZMel7xRkDxcl0xgcGzLc0HvNmXtNR7eDgKATnBbq9HAcpT1k0bkjzXJslJ7+6PYN0FdX3KkGgyPn1Jzo=
-X-Received: by 2002:a24:e9c6:: with SMTP id f189-v6mr2529336ith.12.1528386415392;
- Thu, 07 Jun 2018 08:46:55 -0700 (PDT)
+        b=t4b22XPhi1V8EcA81pcTXxuOrm3Dp/1GNdaGWLiZCnbLwCbzNu5aoN1wEFh8lASMj
+         NscDMbnHFJCYLGG5LY5YGGhh2b5CzjB48YjIigLUttiwAkcImaTKsEVDf/Y6+A0K2U
+         f+b6RUuXSz9JAgJpoxWdjskNN+6i/NNHf2l2l574=
+Received: by mail-it0-f46.google.com with SMTP id a3-v6so13260269itd.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 08:47:40 -0700 (PDT)
+X-Gm-Message-State: APt69E1HBm52dCj52+w5x5AdtXZfpacIkHAZ092RcAkyObndpPXu3bN9
+        5gfilSTu+20xprV7CeqfgJlOOfJMYrEdRNTZrC1G0A==
+X-Google-Smtp-Source: ADUXVKLQn7MAttUV/AWjvOdW64m/ElOISsEQbeEIlXfdTTn5GiAqrfNx++kIR2/1Hr6to1wRwcFfoUHLlgdMZr5e6hM=
+X-Received: by 2002:a24:d050:: with SMTP id m77-v6mr2392521itg.147.1528386460335;
+ Thu, 07 Jun 2018 08:47:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180607143705.3531-1-yu-cheng.yu@intel.com> <20180607143705.3531-2-yu-cheng.yu@intel.com>
-In-Reply-To: <20180607143705.3531-2-yu-cheng.yu@intel.com>
+References: <20180607143705.3531-1-yu-cheng.yu@intel.com> <20180607143705.3531-3-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143705.3531-3-yu-cheng.yu@intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 08:46:43 -0700
-X-Gmail-Original-Message-ID: <CALCETrVbQDyvgf5XE+a0UrTVMuhb2X=bSbp1BjGp2FAvbpSm-Q@mail.gmail.com>
-Message-ID: <CALCETrVbQDyvgf5XE+a0UrTVMuhb2X=bSbp1BjGp2FAvbpSm-Q@mail.gmail.com>
-Subject: Re: [PATCH 1/9] x86/cet: Control protection exception handler
+Date:   Thu, 7 Jun 2018 08:47:28 -0700
+X-Gmail-Original-Message-ID: <CALCETrWwGCZ+Fbk+O8T6S48teHj60bQQiHQ49=SsKUOpm8VLBA@mail.gmail.com>
+Message-ID: <CALCETrWwGCZ+Fbk+O8T6S48teHj60bQQiHQ49=SsKUOpm8VLBA@mail.gmail.com>
+Subject: Re: [PATCH 2/9] x86/cet: Add Kconfig option for user-mode shadow stack
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
@@ -63,130 +63,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Jun 7, 2018 at 7:40 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> A control protection exception is triggered when a control flow transfer
-> attempt violated shadow stack or indirect branch tracking constraints.
-> For example, the return address for a RET instruction differs from the
-> safe copy on the shadow stack; or a JMP instruction arrives at a non-
-> ENDBR instruction.
+> Introduce Kconfig option X86_INTEL_SHADOW_STACK_USER.
 >
-> The control protection exception handler works in a similar way as the
-> general protection fault handler.
+> An application has shadow stack protection when all the following are
+> true:
 >
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/entry/entry_32.S    |  5 ++++
->  arch/x86/entry/entry_64.S    |  2 +-
->  arch/x86/include/asm/traps.h |  3 +++
->  arch/x86/kernel/idt.c        |  1 +
->  arch/x86/kernel/traps.c      | 61 ++++++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 71 insertions(+), 1 deletion(-)
+>   (1) The kernel has X86_INTEL_SHADOW_STACK_USER enabled,
+>   (2) The running processor supports the shadow stack,
+>   (3) The application is built with shadow stack enabled tools & libs
+>       and, and at runtime, all dependent shared libs can support shadow
+>       stack.
 >
-> diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
-> index bef8e2b202a8..14b63ef0d7d8 100644
-> --- a/arch/x86/entry/entry_32.S
-> +++ b/arch/x86/entry/entry_32.S
-> @@ -1070,6 +1070,11 @@ ENTRY(general_protection)
->         jmp     common_exception
->  END(general_protection)
+> If this kernel config option is enabled, but (2) or (3) above is not
+> true, the application runs without the shadow stack protection.
+> Existing legacy applications will continue to work without the shadow
+> stack protection.
 >
-> +ENTRY(control_protection)
-> +       pushl   $do_control_protection
-> +       jmp     common_exception
-> +END(control_protection)
+> The user-mode shadow stack protection is only implemented for the
+> 64-bit kernel.  Thirty-two bit applications are supported under the
+> compatibility mode.
+>
 
-Ugh, you're seriously supporting this on 32-bit?  Please test double
-fault handling very carefully -- the CET interaction with task
-switches is so gross that I didn't even bother reading the spec except
-to let the architects know that they were a but nuts to support it at
-all.
-
-> +
->  #ifdef CONFIG_KVM_GUEST
->  ENTRY(async_page_fault)
->         ASM_CLAC
-> diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-> index 3166b9674429..5230f705d229 100644
-> --- a/arch/x86/entry/entry_64.S
-> +++ b/arch/x86/entry/entry_64.S
-> @@ -999,7 +999,7 @@ idtentry spurious_interrupt_bug             do_spurious_interrupt_bug       has_error_code=0
->  idtentry coprocessor_error             do_coprocessor_error            has_error_code=0
->  idtentry alignment_check               do_alignment_check              has_error_code=1
->  idtentry simd_coprocessor_error                do_simd_coprocessor_error       has_error_code=0
-> -
-> +idtentry control_protection            do_control_protection           has_error_code=1
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 03f3d7695dac..4e8769a19aaf 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-
-> +/*
-> + * When a control protection exception occurs, send a signal
-> + * to the responsible application.  Currently, control
-> + * protection is only enabled for the user mode.  This
-> + * exception should not come from the kernel mode.
-> + */
-> +dotraplinkage void
-> +do_control_protection(struct pt_regs *regs, long error_code)
-> +{
-> +       struct task_struct *tsk;
-> +
-> +       RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-> +       cond_local_irq_enable(regs);
-> +
-> +       tsk = current;
-> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
-> +           !cpu_feature_enabled(X86_FEATURE_IBT)) {
-
-static_cpu_has(), please.  But your handling here is odd -- I think
-that we should at least warn if we get #CP with CET disable.
-
-> +               goto exit;
-> +       }
-> +
-> +       if (!user_mode(regs)) {
-> +               tsk->thread.error_code = error_code;
-> +               tsk->thread.trap_nr = X86_TRAP_CP;
-
-I realize you copied this from elsewhere in the file, but please
-either delete these assignments to error_code and trap_nr or at least
-hoist them out of the if block.
-
-> +               if (notify_die(DIE_TRAP, "control protection fault", regs,
-> +                              error_code, X86_TRAP_CP, SIGSEGV) != NOTIFY_STOP)
-
-Does this notify_die() check serve any purpose at all?  Removing all
-the old ones would be a project, but let's try not to add new callers.
-
-> +                       die("control protection fault", regs, error_code);
-> +               return;
-> +       }
-> +
-> +       tsk->thread.error_code = error_code;
-> +       tsk->thread.trap_nr = X86_TRAP_CP;
-> +
-> +       if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-> +           printk_ratelimit()) {
-> +               unsigned int max_idx, err_idx;
-> +
-> +               max_idx = ARRAY_SIZE(control_protection_err) - 1;
-> +               err_idx = min((unsigned int)error_code - 1, max_idx);
-
-What if error_code == 0?  Is that also invalid?
-
-> +               pr_info("%s[%d] control protection ip:%lx sp:%lx error:%lx(%s)",
-> +                       tsk->comm, task_pid_nr(tsk),
-> +                       regs->ip, regs->sp, error_code,
-> +                       control_protection_err[err_idx]);
-> +               print_vma_addr(" in ", regs->ip);
-> +               pr_cont("\n");
-> +       }
-> +
-> +exit:
-> +       force_sig_info(SIGSEGV, SEND_SIG_PRIV, tsk);
-
-This is definitely wrong for the feature-disabled, !user_mode case.
-
-Also, are you planning on enabling CET for kernel code too?
+The 64-bit only part seems entirely reasonable.  So please make the
+code 64-bit only :)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
