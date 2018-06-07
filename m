@@ -5,46 +5,46 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89D537DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 18:23:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 117597D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 18:25:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936238AbeFGSXd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 14:23:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60796 "EHLO mail.kernel.org"
+        id S933926AbeFGSZA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 14:25:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33022 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S936237AbeFGSXb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 14:23:31 -0400
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+        id S933155AbeFGSY7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 14:24:59 -0400
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1640F20896
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 18:23:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BFE26208AE
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 18:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528395811;
-        bh=DGas0yYUuBo/5SrdIsEdP/gAywZcnq69Xrqlg0GVx6w=;
+        s=default; t=1528395899;
+        bh=WRClLQ/CzMKv0aNLsYddJj10Q8PypBI24A8hteB5ZfU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LXvoUXqcKFc4wkPjVuPKCOr/TI4C4scO5Im/yFQh5NAueRmiV1wM6tNyz1N7qo/zo
-         vANLnZcaxJuDwdnu6H6zZex+8iCgSJrwDqdX3ZF2NtNwvqLh4JbtFRuTrNBfeUyWJN
-         +/1WJ6scCD8fqKPoUMnyWrWKJHuisAyCiHfmQajo=
-Received: by mail-wm0-f47.google.com with SMTP id r125-v6so20914703wmg.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 11:23:31 -0700 (PDT)
-X-Gm-Message-State: APt69E1edyEnxbPztrL4ePOYYa70g3QHFgOTtbK5V1Z2HBknlYLj8huV
-        OhMcV25dIDDq33TZ0qZJGH0b+4OUH3LYCJKS5xOHhw==
-X-Google-Smtp-Source: ADUXVKJHpM882L3Q+Vlp7ccJIZHQl5pyTEVjKKBZThX7P6LpV6vD6pAXi9Ss8Cg+Obr4PB58vabINokxGjwRh5gtzrM=
-X-Received: by 2002:a1c:34c9:: with SMTP id b192-v6mr2481696wma.21.1528395809621;
- Thu, 07 Jun 2018 11:23:29 -0700 (PDT)
+        b=PfJcLuQnKqF1zfDv1vBVT8maAhByBX+oTvyAVuZDb1Vb7WeZjjcZOE+V9gSldb2zQ
+         DVZ15WwMFf946Y3BN48T73jIu1qHB6yg0mz7fF1jdYfI2juoToGtuF4J8j3CLD37fD
+         IfLe4b9CWPxlgpb6W4+j3VsVpP8IFyPGyEUeG9qg=
+Received: by mail-wm0-f53.google.com with SMTP id z6-v6so4212125wma.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 11:24:58 -0700 (PDT)
+X-Gm-Message-State: APt69E0HXvmMdzDM0AJZ1ncKTIdmIknKDJJa6vTbJHY8SVgdsFk1vPKk
+        XHi/cUF5Vg6G3PwLe57cC4Vl3HslDM5jWr99RRZdtA==
+X-Google-Smtp-Source: ADUXVKIp8NgObFVpdQALYaSeAzfWvWN2wbmt5fDT3YnLDMh5r/oc+8BoPz9/U2pf7ElwxLhA9VbeRDeKALeVVB2H3Gg=
+X-Received: by 2002:a1c:4a9d:: with SMTP id n29-v6mr2204961wmi.46.1528395897272;
+ Thu, 07 Jun 2018 11:24:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-2-yu-cheng.yu@intel.com>
- <CALCETrX4ALKbphJiZs4MXWtRFvQYD905bNAMTogbOeLh0Pp6xw@mail.gmail.com> <1528393611.4636.70.camel@2b52.sc.intel.com>
-In-Reply-To: <1528393611.4636.70.camel@2b52.sc.intel.com>
+References: <20180607143705.3531-1-yu-cheng.yu@intel.com> <20180607143705.3531-7-yu-cheng.yu@intel.com>
+ <CALCETrVa8MtxP9iqYkZLnetaQiN4UaWb=jGz1+rLsCuETHKydg@mail.gmail.com> <d9939c23-bb8b-1fbc-ac65-8bf1d7cbf650@linux.intel.com>
+In-Reply-To: <d9939c23-bb8b-1fbc-ac65-8bf1d7cbf650@linux.intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 11:23:18 -0700
-X-Gmail-Original-Message-ID: <CALCETrU0gXZOZ90vUSMV_csop2O4TpKW_8D17no-wp-X3nutxA@mail.gmail.com>
-Message-ID: <CALCETrU0gXZOZ90vUSMV_csop2O4TpKW_8D17no-wp-X3nutxA@mail.gmail.com>
-Subject: Re: [PATCH 01/10] x86/cet: User-mode shadow stack support
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Florian Weimer <fweimer@redhat.com>
-Cc:     Andrew Lutomirski <luto@kernel.org>,
+Date:   Thu, 7 Jun 2018 11:24:45 -0700
+X-Gmail-Original-Message-ID: <CALCETrU=_zFvSqc4UWQ1ySgn1MAU=z9JFJbPpeK6gTQwbZGonQ@mail.gmail.com>
+Message-ID: <CALCETrU=_zFvSqc4UWQ1ySgn1MAU=z9JFJbPpeK6gTQwbZGonQ@mail.gmail.com>
+Subject: Re: [PATCH 6/9] x86/mm: Introduce ptep_set_wrprotect_flush and
+ related functions
+To:     Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
@@ -54,7 +54,6 @@ Cc:     Andrew Lutomirski <luto@kernel.org>,
         "H. J. Lu" <hjl.tools@gmail.com>,
         "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
@@ -64,42 +63,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 10:50 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+On Thu, Jun 7, 2018 at 11:23 AM Dave Hansen <dave.hansen@linux.intel.com> wrote:
 >
-> On Thu, 2018-06-07 at 09:37 -0700, Andy Lutomirski wrote:
-> > On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > >
-> > > This patch adds basic shadow stack enabling/disabling routines.
-> > > A task's shadow stack is allocated from memory with VM_SHSTK
-> > > flag set and read-only protection.  The shadow stack is
-> > > allocated to a fixed size and that can be changed by the system
-> > > admin.
-> >
-> > How do threads work?  Can a user program mremap() its shadow stack to
-> > make it bigger?
+> On 06/07/2018 09:24 AM, Andy Lutomirski wrote:
+> >> +static inline void ptep_set_wrprotect_flush(struct vm_area_struct *vma,
+> >> +                                           unsigned long addr, pte_t *ptep)
+> >> +{
+> >> +       bool rw;
+> >> +
+> >> +       rw = test_and_clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
+> >> +       if (IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER)) {
+> >> +               struct mm_struct *mm = vma->vm_mm;
+> >> +               pte_t pte;
+> >> +
+> >> +               if (rw && (atomic_read(&mm->mm_users) > 1))
+> >> +                       pte = ptep_clear_flush(vma, addr, ptep);
+> > Why are you clearing the pte?
 >
-> A pthread's shadow stack is allocated/freed by the kernel.  This patch
-> has the supporting routines that handle both non-pthread and pthread.
+> I think I insisted on this being in there.
 >
-> In [PATCH 04/10] "Handle thread shadow stack", we allocate pthread
-> shadow stack in copy_thread_tls(), and free it in deactivate_mm().
+> First of all, we need to flush the TLB eventually because we need the
+> shadowstack PTE permissions to be in effect.
 >
-> If clone of a pthread fails, shadow stack is freed in
-> cet_disable_free_shstk() below (I will add more comments):
+> But, generally, we can't clear a dirty bit in a "live" PTE without
+> flushing.  The processor can keep writing until we flush, and even keep
+> setting it whenever _it_ allows a write, which it can do based on stale
+> TLB contents.  Practically, I think a walk to set the dirty bit is
+> mostly the same as a TLB miss, but that's certainly not guaranteed forever.
 >
-> If (Current thread existing)
->         Disable and free shadow stack
->
-> If (Clone of a pthread fails)
->         Free the pthread shadow stack
->
-> We block mremap, mprotect, madvise, and munmap on a vma that has
-> VM_SHSTK (in separate patches).
+> That's even ignoring all the fun errata we have.
 
-Why?  mremap() seems like a sensible way to enlarge a shadow stack.
-munmap() seems like a good way to get rid of one, and mmap() seems
-like a nice way to create a new shadow stack if one were needed (for
-green threads or similar).
+Maybe make it a separate patch, then?  It seems like this patch is
+doing two almost entirely separate things: adding some flushes and
+adding the magic hwdirty -> swdirty transition.  As it stands, it's
+quite difficult to read the patch and figure out what it does.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
