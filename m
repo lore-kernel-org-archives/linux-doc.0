@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D6927D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 14:40:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 529357D09D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 14:41:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932559AbeFGOkl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 10:40:41 -0400
-Received: from mga09.intel.com ([134.134.136.24]:36283 "EHLO mga09.intel.com"
+        id S934607AbeFGOlh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 10:41:37 -0400
+Received: from mga09.intel.com ([134.134.136.24]:36344 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932912AbeFGOki (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 10:40:38 -0400
+        id S933756AbeFGOle (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 10:41:34 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:40:33 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:41:32 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,486,1520924400"; 
-   d="scan'208";a="47542302"
+   d="scan'208";a="62632635"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2018 07:40:33 -0700
+  by orsmga001.jf.intel.com with ESMTP; 07 Jun 2018 07:41:31 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
@@ -38,166 +38,369 @@ To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         Mike Kravetz <mike.kravetz@oracle.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH 6/9] x86/mm: Introduce ptep_set_wrprotect_flush and related functions
-Date:   Thu,  7 Jun 2018 07:37:02 -0700
-Message-Id: <20180607143705.3531-7-yu-cheng.yu@intel.com>
+Subject: [PATCH 05/10] x86/cet: ELF header parsing of Control Flow Enforcement
+Date:   Thu,  7 Jun 2018 07:38:02 -0700
+Message-Id: <20180607143807.3611-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.15.1
-In-Reply-To: <20180607143705.3531-1-yu-cheng.yu@intel.com>
-References: <20180607143705.3531-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The function ptep_set_wrprotect()/huge_ptep_set_wrprotect() is
-used by copy_page_range()/copy_hugetlb_page_range() to copy
-PTEs.
+Look in .note.gnu.property of an ELF file and check if shadow stack needs
+to be enabled for the task.
 
-On x86, when the shadow stack is enabled, only a shadow stack
-PTE has the read-only and _PAGE_DIRTY_HW combination.  Upon
-making a dirty PTE read-only, we move its _PAGE_DIRTY_HW to
-_PAGE_DIRTY_SW.
-
-When ptep_set_wrprotect() moves _PAGE_DIRTY_HW to _PAGE_DIRTY_SW,
-if the PTE is writable and the mm is shared, another task could
-race to set _PAGE_DIRTY_HW again.
-
-Introduce ptep_set_wrprotect_flush(), pmdp_set_wrprotect_flush(),
-and huge_ptep_set_wrprotect_flush() to make sure this does not
-happen.
-
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/pgtable.h | 56 +++++++++++++++++++++++++++++++++++-------
- include/asm-generic/pgtable.h  | 26 ++++++++++++++++++++
- 2 files changed, 73 insertions(+), 9 deletions(-)
+ arch/x86/Kconfig                         |   4 +
+ arch/x86/include/asm/elf.h               |   5 +
+ arch/x86/include/uapi/asm/elf_property.h |  16 +++
+ arch/x86/kernel/Makefile                 |   2 +
+ arch/x86/kernel/elf.c                    | 220 +++++++++++++++++++++++++++++++
+ fs/binfmt_elf.c                          |  16 +++
+ include/uapi/linux/elf.h                 |   1 +
+ 7 files changed, 264 insertions(+)
+ create mode 100644 arch/x86/include/uapi/asm/elf_property.h
+ create mode 100644 arch/x86/kernel/elf.c
 
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 0996f8a6979a..1053b940b35c 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -1148,11 +1148,27 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
- 	return pte;
- }
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index dd580d4910fc..24339a5299da 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1931,12 +1931,16 @@ config X86_INTEL_CET
+ config ARCH_HAS_SHSTK
+ 	def_bool n
  
--#define __HAVE_ARCH_PTEP_SET_WRPROTECT
--static inline void ptep_set_wrprotect(struct mm_struct *mm,
--				      unsigned long addr, pte_t *ptep)
--{
--	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
-+#define __HAVE_ARCH_PTEP_SET_WRPROTECT_FLUSH
-+extern pte_t ptep_clear_flush(struct vm_area_struct *vma,
-+			      unsigned long address,
-+			      pte_t *ptep);
-+static inline void ptep_set_wrprotect_flush(struct vm_area_struct *vma,
-+					    unsigned long addr, pte_t *ptep)
++config ARCH_HAS_PROGRAM_PROPERTIES
++	def_bool n
++
+ config X86_INTEL_SHADOW_STACK_USER
+ 	prompt "Intel Shadow Stack for user-mode"
+ 	def_bool n
+ 	depends on CPU_SUP_INTEL && X86_64
+ 	select X86_INTEL_CET
+ 	select ARCH_HAS_SHSTK
++	select ARCH_HAS_PROGRAM_PROPERTIES
+ 	---help---
+ 	  Shadow stack provides hardware protection against program stack
+ 	  corruption.  Only when all the following are true will an application
+diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+index 0d157d2a1e2a..5b5f169c5c07 100644
+--- a/arch/x86/include/asm/elf.h
++++ b/arch/x86/include/asm/elf.h
+@@ -382,4 +382,9 @@ struct va_alignment {
+ 
+ extern struct va_alignment va_align;
+ extern unsigned long align_vdso_addr(unsigned long);
++
++#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
++extern int arch_setup_features(void *ehdr, void *phdr, struct file *file,
++			       bool interp);
++#endif
+ #endif /* _ASM_X86_ELF_H */
+diff --git a/arch/x86/include/uapi/asm/elf_property.h b/arch/x86/include/uapi/asm/elf_property.h
+new file mode 100644
+index 000000000000..343a871b8fc1
+--- /dev/null
++++ b/arch/x86/include/uapi/asm/elf_property.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _UAPI_ASM_X86_ELF_PROPERTY_H
++#define _UAPI_ASM_X86_ELF_PROPERTY_H
++
++/*
++ * pr_type
++ */
++#define GNU_PROPERTY_X86_FEATURE_1_AND (0xc0000002)
++
++/*
++ * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
++ */
++#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
++#define GNU_PROPERTY_X86_FEATURE_1_IBT		(0x00000001)
++
++#endif /* _UAPI_ASM_X86_ELF_PROPERTY_H */
+diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+index 7ea5e099d558..cbf983f44b61 100644
+--- a/arch/x86/kernel/Makefile
++++ b/arch/x86/kernel/Makefile
+@@ -140,6 +140,8 @@ obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
+ 
+ obj-$(CONFIG_X86_INTEL_CET)		+= cet.o
+ 
++obj-$(CONFIG_ARCH_HAS_PROGRAM_PROPERTIES) += elf.o
++
+ ###
+ # 64 bit specific files
+ ifeq ($(CONFIG_X86_64),y)
+diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
+new file mode 100644
+index 000000000000..8e2719d8dc86
+--- /dev/null
++++ b/arch/x86/kernel/elf.c
+@@ -0,0 +1,220 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Look at an ELF file's .note.gnu.property and determine if the file
++ * supports shadow stack and/or indirect branch tracking.
++ * The path from the ELF header to the note section is the following:
++ * elfhdr->elf_phdr->elf_note->x86_note_gnu_property[].
++ */
++
++#include <asm/cet.h>
++#include <asm/elf_property.h>
++#include <uapi/linux/elf-em.h>
++#include <linux/binfmts.h>
++#include <linux/elf.h>
++#include <linux/slab.h>
++#include <linux/fs.h>
++#include <linux/uaccess.h>
++#include <linux/string.h>
++
++#define ELF_NOTE_DESC_OFFSET(n, align) \
++	round_up(sizeof(*n) + n->n_namesz, (align))
++
++#define ELF_NOTE_NEXT_OFFSET(n, align) \
++	round_up(ELF_NOTE_DESC_OFFSET(n, align) + n->n_descsz, (align))
++
++static int find_cet(u8 *buf, u32 size, u32 align, int *shstk, int *ibt)
 +{
-+	bool rw;
++	unsigned long start = (unsigned long)buf;
++	struct elf_note *note = (struct elf_note *)buf;
 +
-+	rw = test_and_clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
-+	if (IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER)) {
-+		struct mm_struct *mm = vma->vm_mm;
-+		pte_t pte;
++	*shstk = 0;
++	*ibt = 0;
 +
-+		if (rw && (atomic_read(&mm->mm_users) > 1))
-+			pte = ptep_clear_flush(vma, addr, ptep);
-+		else
-+			pte = *ptep;
-+		pte = pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
-+		set_pte_at(mm, addr, ptep, pte);
++	/*
++	 * Go through the x86_note_gnu_property array pointed by
++	 * buf and look for shadow stack and indirect branch
++	 * tracking features.
++	 * The GNU_PROPERTY_X86_FEATURE_1_AND entry contains only
++	 * one u32 as data.  Do not go beyond buf_size.
++	 */
++
++	while ((unsigned long) (note + 1) - start < size) {
++		/* Find the NT_GNU_PROPERTY_TYPE_0 note. */
++		if (note->n_namesz == 4 &&
++		    note->n_type == NT_GNU_PROPERTY_TYPE_0 &&
++		    memcmp(note + 1, "GNU", 4) == 0) {
++			u8 *ptr, *ptr_end;
++
++			/* Check for invalid property. */
++			if (note->n_descsz < 8 ||
++			   (note->n_descsz % align) != 0)
++				return 0;
++
++			/* Start and end of property array. */
++			ptr = (u8 *)(note + 1) + 4;
++			ptr_end = ptr + note->n_descsz;
++
++			while (1) {
++				u32 type = *(u32 *)ptr;
++				u32 datasz = *(u32 *)(ptr + 4);
++
++				ptr += 8;
++				if ((ptr + datasz) > ptr_end)
++					break;
++
++				if (type == GNU_PROPERTY_X86_FEATURE_1_AND &&
++				    datasz == 4) {
++					u32 p = *(u32 *)ptr;
++
++					if (p & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
++						*shstk = 1;
++					if (p & GNU_PROPERTY_X86_FEATURE_1_IBT)
++						*ibt = 1;
++					return 1;
++				}
++			}
++		}
++
++		/*
++		 * Note sections like .note.ABI-tag and .note.gnu.build-id
++		 * are aligned to 4 bytes in 64-bit ELF objects.
++		 */
++		note = (void *)note + ELF_NOTE_NEXT_OFFSET(note, align);
 +	}
- }
- 
- #define flush_tlb_fix_spurious_fault(vma, address) do { } while (0)
-@@ -1198,11 +1214,33 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
- 	return native_pudp_get_and_clear(pudp);
- }
- 
--#define __HAVE_ARCH_PMDP_SET_WRPROTECT
--static inline void pmdp_set_wrprotect(struct mm_struct *mm,
--				      unsigned long addr, pmd_t *pmdp)
-+#define __HAVE_ARCH_HUGE_PTEP_SET_WRPROTECT_FLUSH
-+static inline void huge_ptep_set_wrprotect_flush(struct vm_area_struct *vma,
-+						 unsigned long addr, pte_t *ptep)
- {
--	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
-+	ptep_set_wrprotect_flush(vma, addr, ptep);
++
++	return 0;
 +}
 +
-+#define __HAVE_ARCH_PMDP_SET_WRPROTECT_FLUSH
-+extern pmd_t pmdp_huge_clear_flush(struct vm_area_struct *vma,
-+				   unsigned long address,
-+				   pmd_t *pmdp);
-+static inline void pmdp_set_wrprotect_flush(struct vm_area_struct *vma,
-+					    unsigned long addr, pmd_t *pmdp)
-+{	bool rw;
++static int check_pt_note_segment(struct file *file,
++				 unsigned long note_size, loff_t *pos,
++				 u32 align, int *shstk, int *ibt)
++{
++	int retval;
++	char *note_buf;
 +
-+	rw = test_and_clear_bit(_PAGE_BIT_RW, (unsigned long *)&pmdp);
-+	if (IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER)) {
-+		struct mm_struct *mm = vma->vm_mm;
-+		pmd_t pmd;
-+
-+		if (rw && (atomic_read(&mm->mm_users) > 1))
-+			pmd = pmdp_huge_clear_flush(vma, addr, pmdp);
-+		else
-+			pmd = *pmdp;
-+		pmd = pmd_move_flags(pmd, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
-+		set_pmd_at(mm, addr, pmdp, pmd);
++	/*
++	 * Try to read in the whole PT_NOTE segment.
++	 */
++	note_buf = kmalloc(note_size, GFP_KERNEL);
++	if (!note_buf)
++		return -ENOMEM;
++	retval = kernel_read(file, note_buf, note_size, pos);
++	if (retval != note_size) {
++		kfree(note_buf);
++		return (retval < 0) ? retval : -EIO;
 +	}
- }
- 
- #define pud_write pud_write
-diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
-index 3f6f998509f0..9bcfdfc045bb 100644
---- a/include/asm-generic/pgtable.h
-+++ b/include/asm-generic/pgtable.h
-@@ -121,6 +121,15 @@ static inline int pmdp_clear_flush_young(struct vm_area_struct *vma,
- #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
- #endif
- 
-+#ifndef __HAVE_ARCH_HUGE_PTEP_SET_WRPROTECT_FLUSH
-+static inline void huge_ptep_set_wrorptect_flush(struct vm_area_struct *vma,
-+						 unsigned long addr,
-+						 pte_t *ptep)
++
++	retval = find_cet(note_buf, note_size, align, shstk, ibt);
++	kfree(note_buf);
++	return retval;
++}
++
++#ifdef CONFIG_COMPAT
++static int check_pt_note_32(struct file *file, struct elf32_phdr *phdr,
++			    int phnum, int *shstk, int *ibt)
 +{
-+	huge_ptep_set_wrprotect(vma->vm_mm, addr, ptep);
++	int i;
++	int found = 0;
++
++	/*
++	 * Go through all PT_NOTE segments and find NT_GNU_PROPERTY_TYPE_0.
++	 */
++	for (i = 0; i < phnum; i++, phdr++) {
++		loff_t pos;
++
++		/*
++		 * NT_GNU_PROPERTY_TYPE_0 note is aligned to 4 bytes
++		 * in 32-bit binaries.
++		 */
++		if ((phdr->p_type != PT_NOTE) || (phdr->p_align != 4))
++			continue;
++
++		pos = phdr->p_offset;
++		found = check_pt_note_segment(file, phdr->p_filesz,
++					      &pos, phdr->p_align,
++					      shstk, ibt);
++		if (found)
++			break;
++	}
++	return found;
 +}
 +#endif
 +
- #ifndef __HAVE_ARCH_PTEP_GET_AND_CLEAR
- static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
- 				       unsigned long address,
-@@ -226,6 +235,15 @@ static inline void ptep_set_wrprotect(struct mm_struct *mm, unsigned long addres
- }
- #endif
- 
-+#ifndef __HAVE_ARCH_PTEP_SET_WRPROTECT_FLUSH
-+static inline void ptep_set_wrprotect_flush(struct vm_area_struct *vma,
-+					    unsigned long address,
-+					    pte_t *ptep)
++#ifdef CONFIG_X86_64
++static int check_pt_note_64(struct file *file, struct elf64_phdr *phdr,
++			    int phnum, int *shstk, int *ibt)
 +{
-+	ptep_set_wrprotect(vma->vm_mm, address, ptep);
++	int found = 0;
++
++	/*
++	 * Go through all PT_NOTE segments and find NT_GNU_PROPERTY_TYPE_0.
++	 */
++	for (; phnum > 0; phnum--, phdr++) {
++		loff_t pos;
++
++		/*
++		 * NT_GNU_PROPERTY_TYPE_0 note is aligned to 8 bytes
++		 * in 64-bit binaries.
++		 */
++		if ((phdr->p_type != PT_NOTE) || (phdr->p_align != 8))
++			continue;
++
++		pos = phdr->p_offset;
++		found = check_pt_note_segment(file, phdr->p_filesz,
++					      &pos, phdr->p_align,
++					      shstk, ibt);
++
++		if (found)
++			break;
++	}
++	return found;
 +}
 +#endif
 +
- #ifndef pte_savedwrite
- #define pte_savedwrite pte_write
- #endif
-@@ -266,6 +284,14 @@ static inline void pmdp_set_wrprotect(struct mm_struct *mm,
- }
- #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
- #endif
-+#ifndef __HAVE_ARCH_PMDP_SET_WRPROTECT_FLUSH
-+static inline void pmdp_set_wrprotect_flush(struct vm_area_struct *vma,
-+					    unsigned long address,
-+					    pmd_t *pmdp)
++int arch_setup_features(void *ehdr_p, void *phdr_p,
++			struct file *file, bool interp)
 +{
-+	pmdp_set_wrprotect(vma->vm_mm, address, pmdp);
-+}
++	int err = 0;
++	int shstk = 0;
++	int ibt = 0;
++
++	struct elf64_hdr *ehdr64 = ehdr_p;
++
++	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
++		return 0;
++
++	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
++		struct elf64_phdr *phdr64 = phdr_p;
++
++		err = check_pt_note_64(file, phdr64, ehdr64->e_phnum,
++				       &shstk, &ibt);
++		if (err < 0)
++			goto out;
++	} else {
++#ifdef CONFIG_COMPAT
++		struct elf32_hdr *ehdr32 = ehdr_p;
++
++		if (ehdr32->e_ident[EI_CLASS] == ELFCLASS32) {
++			struct elf32_phdr *phdr32 = phdr_p;
++
++			err = check_pt_note_32(file, phdr32, ehdr32->e_phnum,
++					       &shstk, &ibt);
++			if (err < 0)
++				goto out;
++		}
 +#endif
- #ifndef __HAVE_ARCH_PUDP_SET_WRPROTECT
- #ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
- static inline void pudp_set_wrprotect(struct mm_struct *mm,
++	}
++
++	current->thread.cet.shstk_enabled = 0;
++	current->thread.cet.shstk_base = 0;
++	current->thread.cet.shstk_size = 0;
++	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
++		if (shstk) {
++			err = cet_setup_shstk();
++			if (err < 0)
++				goto out;
++		}
++	}
++out:
++	return err;
++}
+diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+index 4ad6f669fe34..9ddc6d01e779 100644
+--- a/fs/binfmt_elf.c
++++ b/fs/binfmt_elf.c
+@@ -1081,6 +1081,22 @@ static int load_elf_binary(struct linux_binprm *bprm)
+ 		goto out_free_dentry;
+ 	}
+ 
++#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
++
++	if (interpreter) {
++		retval = arch_setup_features(&loc->interp_elf_ex,
++					     interp_elf_phdata,
++					     interpreter, true);
++	} else {
++		retval = arch_setup_features(&loc->elf_ex,
++					     elf_phdata,
++					     bprm->file, false);
++	}
++
++	if (retval < 0)
++		goto out_free_dentry;
++#endif
++
+ 	if (elf_interpreter) {
+ 		unsigned long interp_map_addr = 0;
+ 
+diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
+index e2535d6dcec7..f69ed8702271 100644
+--- a/include/uapi/linux/elf.h
++++ b/include/uapi/linux/elf.h
+@@ -372,6 +372,7 @@ typedef struct elf64_shdr {
+ #define NT_PRFPREG	2
+ #define NT_PRPSINFO	3
+ #define NT_TASKSTRUCT	4
++#define NT_GNU_PROPERTY_TYPE_0 5
+ #define NT_AUXV		6
+ /*
+  * Note to userspace developers: size of NT_SIGINFO note may increase
 -- 
 2.15.1
 
