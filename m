@@ -2,46 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A36497D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 16:37:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D06B7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 16:40:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753662AbeFGQhV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 12:37:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35250 "EHLO mail.kernel.org"
+        id S932746AbeFGQkR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 12:40:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36044 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753299AbeFGQhT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 12:37:19 -0400
-Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com [209.85.128.171])
+        id S932676AbeFGQkQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 12:40:16 -0400
+Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com [209.85.128.182])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1DD90208A1
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 16:37:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9CFED208A6
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 16:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528389439;
-        bh=fdVR+4rJC4gKyN1jQx/rSzO0HzVa88L2KIlxxF0hcOk=;
+        s=default; t=1528389615;
+        bh=drcfHoT0egLAsCFZxplf4VYYKdit0d4+fyK+eSd0/ek=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=AWzbqC393uwVdpZFqYineoiXTgoyD5fLcBFCfRZaXCOiBrIHR3yiNgT0zQWdSNQ+V
-         +l3gqDy99krnXThgL05/BizNJiU43hgMZy6yF4Bmo9ou7h+l8NhLC6LD8nzW1DBooE
-         GwHcqnIkb4ZynrMfdYQUNs/Y3UyFRk6RZE/XOmg4=
-Received: by mail-wr0-f171.google.com with SMTP id f16-v6so10536501wrm.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 09:37:19 -0700 (PDT)
-X-Gm-Message-State: APt69E1OwB0CtmBXVVRnbe5Lr+NUucmSCyXarKl3RAQPYtd8AiB9ZDQb
-        uRZo+qtPS6OQsahyHE0uVeldCD9kTP20tlbJt1D2VA==
-X-Google-Smtp-Source: ADUXVKLT6HInAxnan2ACKvUgY/Uh2+NGJonJ0h8M7Ol8d0QHeD5MrafG+wNz/4B4AduLU9aAXLiHmP3Om3nbrf1PA6M=
-X-Received: by 2002:adf:b1ca:: with SMTP id r10-v6mr2180958wra.221.1528389437545;
- Thu, 07 Jun 2018 09:37:17 -0700 (PDT)
+        b=aN/yMzMuCSrKCr9SojSxe+JC6PtFolX5p01nnx6VxxX142VKx0aslG9+kv+ONHG1G
+         z093ls3Mfz5gTMZyw4xt7Zqpl6iw518VcLF39gZS/B0Xl5uS8nfHC+x4WVN7z3nugr
+         x/z81m9IT/VBEJL4Kz+V9n599PG1CWJFugNl0ddQ=
+Received: by mail-wr0-f182.google.com with SMTP id x4-v6so2384849wro.11
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 09:40:15 -0700 (PDT)
+X-Gm-Message-State: APt69E0X4HowzB2x5/sqkQVmRdXl7dcxfCsWYI+i7xVaUhaROzE/y86M
+        qwC9O29EG/KRzs0+Y2xLlmAxoBjukIvdgda+4KhwwA==
+X-Google-Smtp-Source: ADUXVKK+qO26sPPM8ayRtTzIx2ntTiQKbiH8eSk+9/rdlqjqeukrCaiMBq+cup4FhmRCppSj/rSnHulaUnwBhHxzoVU=
+X-Received: by 2002:adf:fe4c:: with SMTP id m12-v6mr2231970wrs.171.1528389614029;
+ Thu, 07 Jun 2018 09:40:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-2-yu-cheng.yu@intel.com>
-In-Reply-To: <20180607143807.3611-2-yu-cheng.yu@intel.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-3-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143807.3611-3-yu-cheng.yu@intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 09:37:05 -0700
-X-Gmail-Original-Message-ID: <CALCETrX4ALKbphJiZs4MXWtRFvQYD905bNAMTogbOeLh0Pp6xw@mail.gmail.com>
-Message-ID: <CALCETrX4ALKbphJiZs4MXWtRFvQYD905bNAMTogbOeLh0Pp6xw@mail.gmail.com>
-Subject: Re: [PATCH 01/10] x86/cet: User-mode shadow stack support
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Date:   Thu, 7 Jun 2018 09:40:02 -0700
+X-Gmail-Original-Message-ID: <CALCETrU45Cuzvfz3c1+-+7=9KS2N33Bpp1JqBtaGxhPo8U+Fqg@mail.gmail.com>
+Message-ID: <CALCETrU45Cuzvfz3c1+-+7=9KS2N33Bpp1JqBtaGxhPo8U+Fqg@mail.gmail.com>
+Subject: Re: [PATCH 02/10] x86/cet: Introduce WRUSS instruction
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
@@ -63,123 +64,91 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> This patch adds basic shadow stack enabling/disabling routines.
-> A task's shadow stack is allocated from memory with VM_SHSTK
-> flag set and read-only protection.  The shadow stack is
-> allocated to a fixed size and that can be changed by the system
-> admin.
-
-How do threads work?  Can a user program mremap() its shadow stack to
-make it bigger?
-
-Also, did you add all the needed checks to make get_user_pages(),
-access_process_vm(), etc fail when called on the shadow stack?  (Or at
-least fail if they're requesting write access and the FORCE bit isn't
-set.)
-
-> +#define SHSTK_SIZE (0x8000 * (test_thread_flag(TIF_IA32) ? 4 : 8))
-
-Please don't add more mode-dependent #defines.  Also, please try to
-avoid adding any new code that looks at TIF_IA32 or similar.  Uses of
-that bit are generally bugs, and the bit itself should get removed
-some day.  If you need to make a guess, use in_compat_syscall() or
-similar if appropriate.
-
+> WRUSS is a new kernel-mode instruction but writes directly
+> to user shadow stack memory.  This is used to construct
+> a return address on the shadow stack for the signal
+> handler.
+>
+> This instruction can fault if the user shadow stack is
+> invalid shadow stack memory.  In that case, the kernel does
+> fixup.
+>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/special_insns.h          | 44 +++++++++++++++++++++++++++
+>  arch/x86/lib/x86-opcode-map.txt               |  2 +-
+>  arch/x86/mm/fault.c                           | 13 +++++++-
+>  tools/objtool/arch/x86/lib/x86-opcode-map.txt |  2 +-
+>  4 files changed, 58 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+> index 317fc59b512c..8ce532fcc171 100644
+> --- a/arch/x86/include/asm/special_insns.h
+> +++ b/arch/x86/include/asm/special_insns.h
+> @@ -237,6 +237,50 @@ static inline void clwb(volatile void *__p)
+>                 : [pax] "a" (p));
+>  }
+>
+> +#ifdef CONFIG_X86_INTEL_CET
 > +
-> +static inline int cet_set_shstk_ptr(unsigned long addr)
+> +#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
+> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
 > +{
-> +       u64 r;
+> +       int err;
 > +
-> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +               return -1;
-> +
-> +       if ((addr >= TASK_SIZE) || (!IS_ALIGNED(addr, 4)))
-> +               return -1;'
 
-TASK_SIZE_MAX, please.  TASK_SIZE is weird and is usually the wrong
-thing to use.
+Please add a comment indicating what exact opcode this is.
 
-> +static unsigned long shstk_mmap(unsigned long addr, unsigned long len)
+Peterz, isn't there some fancy better way we're supposed to handle the
+error return these days?
+
+> +       asm volatile("1:.byte 0x66, 0x0f, 0x38, 0xf5, 0x37\n"
+> +                    "xor %[err],%[err]\n"
+> +                    "2:\n"
+> +                    ".section .fixup,\"ax\"\n"
+> +                    "3: mov $-1,%[err]; jmp 2b\n"
+> +                    ".previous\n"
+> +                    _ASM_EXTABLE(1b, 3b)
+> +               : [err] "=a" (err)
+> +               : [val] "S" (val), [addr] "D" (addr)
+> +               : "memory");
+> +       return err;
+> +}
+> +#else
+> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
 > +{
-> +       struct mm_struct *mm = current->mm;
-> +       unsigned long populate;
-> +
-> +       down_write(&mm->mmap_sem);
-> +       addr = do_mmap(NULL, addr, len, PROT_READ,
-> +                      MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK,
-> +                      0, &populate, NULL);
-> +       up_write(&mm->mmap_sem);
-> +
-> +       if (populate)
-> +               mm_populate(addr, populate);
-
-Please don't populate if do_mmap() failed.
-
-> +int cet_setup_shstk(void)
-> +{
-> +       unsigned long addr, size;
-> +
-> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +               return -EOPNOTSUPP;
-> +
-> +       size = SHSTK_SIZE;
-> +       addr = shstk_mmap(0, size);
-> +
-> +       if (addr >= TASK_SIZE)
-> +               return -ENOMEM;
-
-Please check the actual value that do_mmap() would return on error.
-(IS_ERR, 0, MAP_FAILED -- I don't remember.)
-
-> +
-> +       cet_set_shstk_ptr(addr + size - sizeof(void *));
-> +       current->thread.cet.shstk_base = addr;
-> +       current->thread.cet.shstk_size = size;
-> +       current->thread.cet.shstk_enabled = 1;
 > +       return 0;
+
+BUG()?  Or just omit the ifdef?  It seems unhelpful to have a stub
+function that does nothing.
+
 > +}
+> +#endif
 > +
-> +void cet_disable_shstk(void)
+> +static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
 > +{
-> +       u64 r;
+> +       int err;
 > +
-> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +               return;
-> +
-> +       rdmsrl(MSR_IA32_U_CET, r);
-> +       r &= ~(MSR_IA32_CET_SHSTK_EN);
-> +       wrmsrl(MSR_IA32_U_CET, r);
-> +       wrmsrl(MSR_IA32_PL3_SSP, 0);
-> +       current->thread.cet.shstk_enabled = 0;
+
+Comment here too, please.
+
+> +       asm volatile("1:.byte 0x66, 0x48, 0x0f, 0x38, 0xf5, 0x37\n"
+> +                    "xor %[err],%[err]\n"
+> +                    "2:\n"
+> +                    ".section .fixup,\"ax\"\n"
+> +                    "3: mov $-1,%[err]; jmp 2b\n"
+> +                    ".previous\n"
+> +                    _ASM_EXTABLE(1b, 3b)
+> +               : [err] "=a" (err)
+> +               : [val] "S" (val), [addr] "D" (addr)
+> +               : "memory");
+> +       return err;
 > +}
+> +#endif /* CONFIG_X86_INTEL_CET */
 > +
-> +void cet_disable_free_shstk(struct task_struct *tsk)
-> +{
-> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
-> +           !tsk->thread.cet.shstk_enabled)
-> +               return;
-> +
-> +       if (tsk == current)
-> +               cet_disable_shstk();
-
-if tsk != current, then this will malfunction, right?  What is it
-intended to do?
-
-> +
-> +       /*
-> +        * Free only when tsk is current or shares mm
-> +        * with current but has its own shstk.
-> +        */
-> +       if (tsk->mm && (tsk->mm == current->mm) &&
-> +           (tsk->thread.cet.shstk_base)) {
-> +               vm_munmap(tsk->thread.cet.shstk_base,
-> +                         tsk->thread.cet.shstk_size);
-> +               tsk->thread.cet.shstk_base = 0;
-> +               tsk->thread.cet.shstk_size = 0;
-> +       }
-
-I'm having trouble imagining why the kernel would ever want to
-automatically free the shadow stack vma.  What is this for?
+>  #define nop() asm volatile ("nop")
+>
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
