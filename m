@@ -2,33 +2,34 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 734C17D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 16:54:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 11B547DF87
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 16:58:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934027AbeFGQyh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 12:54:37 -0400
-Received: from mga11.intel.com ([192.55.52.93]:15917 "EHLO mga11.intel.com"
+        id S1753729AbeFGQ6B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 12:58:01 -0400
+Received: from mga04.intel.com ([192.55.52.120]:3591 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933743AbeFGQyf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 12:54:35 -0400
+        id S1753088AbeFGQ57 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 12:57:59 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 09:54:25 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 09:57:59 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,487,1520924400"; 
-   d="scan'208";a="206180057"
-Received: from 2b52.sc.intel.com (HELO [143.183.136.51]) ([143.183.136.51])
-  by orsmga004.jf.intel.com with ESMTP; 07 Jun 2018 09:54:24 -0700
-Message-ID: <1528390273.4636.28.camel@2b52.sc.intel.com>
-Subject: Re: [PATCH 02/10] x86/cet: Introduce WRUSS instruction
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+   d="scan'208";a="54873449"
+Received: from ray.jf.intel.com (HELO [10.24.8.194]) ([10.24.8.194])
+  by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2018 09:57:57 -0700
+Subject: Re: [PATCH 7/9] x86/mm: Shadow stack page fault error checking
+To:     Andy Lutomirski <luto@kernel.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+References: <20180607143705.3531-1-yu-cheng.yu@intel.com>
+ <20180607143705.3531-8-yu-cheng.yu@intel.com>
+ <CALCETrXA--XrVNvPM4-Cv6-E6OFd=TZ5Gw_MWePt7MtqCBBqRg@mail.gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -37,123 +38,89 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         "H. J. Lu" <hjl.tools@gmail.com>,
         "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
-Date:   Thu, 07 Jun 2018 09:51:13 -0700
-In-Reply-To: <CALCETrU45Cuzvfz3c1+-+7=9KS2N33Bpp1JqBtaGxhPo8U+Fqg@mail.gmail.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-         <20180607143807.3611-3-yu-cheng.yu@intel.com>
-         <CALCETrU45Cuzvfz3c1+-+7=9KS2N33Bpp1JqBtaGxhPo8U+Fqg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From:   Dave Hansen <dave.hansen@linux.intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <5764865a-1dd2-ec5b-c67c-1ea322aea203@linux.intel.com>
+Date:   Thu, 7 Jun 2018 09:56:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CALCETrXA--XrVNvPM4-Cv6-E6OFd=TZ5Gw_MWePt7MtqCBBqRg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-06-07 at 09:40 -0700, Andy Lutomirski wrote:
-> On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> >
-> > WRUSS is a new kernel-mode instruction but writes directly
-> > to user shadow stack memory.  This is used to construct
-> > a return address on the shadow stack for the signal
-> > handler.
-> >
-> > This instruction can fault if the user shadow stack is
-> > invalid shadow stack memory.  In that case, the kernel does
-> > fixup.
-> >
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> >  arch/x86/include/asm/special_insns.h          | 44 +++++++++++++++++++++++++++
-> >  arch/x86/lib/x86-opcode-map.txt               |  2 +-
-> >  arch/x86/mm/fault.c                           | 13 +++++++-
-> >  tools/objtool/arch/x86/lib/x86-opcode-map.txt |  2 +-
-> >  4 files changed, 58 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
-> > index 317fc59b512c..8ce532fcc171 100644
-> > --- a/arch/x86/include/asm/special_insns.h
-> > +++ b/arch/x86/include/asm/special_insns.h
-> > @@ -237,6 +237,50 @@ static inline void clwb(volatile void *__p)
-> >                 : [pax] "a" (p));
-> >  }
-> >
-> > +#ifdef CONFIG_X86_INTEL_CET
-> > +
-> > +#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
-> > +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
-> > +{
-> > +       int err;
-> > +
-> 
-> Please add a comment indicating what exact opcode this is.
+On 06/07/2018 09:26 AM, Andy Lutomirski wrote:
+>>
+>> +       /*
+>> +        * Verify X86_PF_SHSTK is within a shadow stack VMA.
+>> +        * It is always an error if there is a shadow stack
+>> +        * fault outside a shadow stack VMA.
+>> +        */
+>> +       if (error_code & X86_PF_SHSTK) {
+>> +               if (!(vma->vm_flags & VM_SHSTK))
+>> +                       return 1;
+>> +               return 0;
+>> +       }
+>> +
+> What, if anything, would go wrong without this change?  It seems like
+> it might be purely an optimization.  If so, can you mention that in
+> the comment?
 
-I will fix it.
+This is a fine exercise.  I'm curious what it does, too.
 
-> 
-> Peterz, isn't there some fancy better way we're supposed to handle the
-> error return these days?
-> 
-> > +       asm volatile("1:.byte 0x66, 0x0f, 0x38, 0xf5, 0x37\n"
-> > +                    "xor %[err],%[err]\n"
-> > +                    "2:\n"
-> > +                    ".section .fixup,\"ax\"\n"
-> > +                    "3: mov $-1,%[err]; jmp 2b\n"
-> > +                    ".previous\n"
-> > +                    _ASM_EXTABLE(1b, 3b)
-> > +               : [err] "=a" (err)
-> > +               : [val] "S" (val), [addr] "D" (addr)
-> > +               : "memory");
-> > +       return err;
-> > +}
-> > +#else
-> > +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
-> > +{
-> > +       return 0;
-> 
-> BUG()?  Or just omit the ifdef?  It seems unhelpful to have a stub
-> function that does nothing.
-
-I will fix it.
-
-> 
-> > +}
-> > +#endif
-> > +
-> > +static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
-> > +{
-> > +       int err;
-> > +
-> 
-> Comment here too, please.
-
-OK.
-
-> 
-> > +       asm volatile("1:.byte 0x66, 0x48, 0x0f, 0x38, 0xf5, 0x37\n"
-> > +                    "xor %[err],%[err]\n"
-> > +                    "2:\n"
-> > +                    ".section .fixup,\"ax\"\n"
-> > +                    "3: mov $-1,%[err]; jmp 2b\n"
-> > +                    ".previous\n"
-> > +                    _ASM_EXTABLE(1b, 3b)
-> > +               : [err] "=a" (err)
-> > +               : [val] "S" (val), [addr] "D" (addr)
-> > +               : "memory");
-> > +       return err;
-> > +}
-> > +#endif /* CONFIG_X86_INTEL_CET */
-> > +
-> >  #define nop() asm volatile ("nop")
-> >
-> >
-
-
+But, I really like it being explicit in the end.  If we depend on
+implicit behavior, I really worry that someone breaks it accidentally.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
