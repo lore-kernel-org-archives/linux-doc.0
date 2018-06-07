@@ -2,49 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1144A7D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 16:28:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A36497D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 16:37:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753334AbeFGQ2U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 12:28:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33044 "EHLO mail.kernel.org"
+        id S1753662AbeFGQhV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 12:37:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35250 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753094AbeFGQ2T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 12:28:19 -0400
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com [209.85.128.176])
+        id S1753299AbeFGQhT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 12:37:19 -0400
+Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com [209.85.128.171])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9DEE520896
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 16:28:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1DD90208A1
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 16:37:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528388898;
-        bh=38Rz2dZgQXagFKQ3f+bPO04YOpSlZ2JS+BqQIL6xGgE=;
+        s=default; t=1528389439;
+        bh=fdVR+4rJC4gKyN1jQx/rSzO0HzVa88L2KIlxxF0hcOk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Cywthi7bEMC8sfl2A1bTc31jpIyxNyFF1TCt2S9q2oQUyjTk2AfjMwB9SxOgncX1y
-         t9OD39opUGq3YGL7lzhsfnDHIeI52+r15K5reNXG+/BAKfWPOypR4XlF1MQBlu2bgo
-         fj1PXpzQOmJ3SXMKAOdGenj5SgqXFYrzivrBCk0Y=
-Received: by mail-wr0-f176.google.com with SMTP id h10-v6so10484766wrq.8
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 09:28:18 -0700 (PDT)
-X-Gm-Message-State: APt69E1cd56kAlfRQyVMKX2xVlH1mJgHoY+Xz9lcK3JIiStlPmaIvxpC
-        idmxIN8YjtCwDGmUX8giBki9UijRK73YHEvdZtiDLg==
-X-Google-Smtp-Source: ADUXVKKmxuaxVyOv0EyBqtymYnlqmOj/ufhYIQBB85Q6WVdDk3RUP6GF9Xvdl7E6prJPG3qBSWDGj/WEIRfIVNQrP/w=
-X-Received: by 2002:adf:85ec:: with SMTP id 41-v6mr2313210wru.120.1528388897175;
- Thu, 07 Jun 2018 09:28:17 -0700 (PDT)
+        b=AWzbqC393uwVdpZFqYineoiXTgoyD5fLcBFCfRZaXCOiBrIHR3yiNgT0zQWdSNQ+V
+         +l3gqDy99krnXThgL05/BizNJiU43hgMZy6yF4Bmo9ou7h+l8NhLC6LD8nzW1DBooE
+         GwHcqnIkb4ZynrMfdYQUNs/Y3UyFRk6RZE/XOmg4=
+Received: by mail-wr0-f171.google.com with SMTP id f16-v6so10536501wrm.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 09:37:19 -0700 (PDT)
+X-Gm-Message-State: APt69E1OwB0CtmBXVVRnbe5Lr+NUucmSCyXarKl3RAQPYtd8AiB9ZDQb
+        uRZo+qtPS6OQsahyHE0uVeldCD9kTP20tlbJt1D2VA==
+X-Google-Smtp-Source: ADUXVKLT6HInAxnan2ACKvUgY/Uh2+NGJonJ0h8M7Ol8d0QHeD5MrafG+wNz/4B4AduLU9aAXLiHmP3Om3nbrf1PA6M=
+X-Received: by 2002:adf:b1ca:: with SMTP id r10-v6mr2180958wra.221.1528389437545;
+ Thu, 07 Jun 2018 09:37:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180607143705.3531-1-yu-cheng.yu@intel.com> <20180607143705.3531-3-yu-cheng.yu@intel.com>
- <CALCETrWwGCZ+Fbk+O8T6S48teHj60bQQiHQ49=SsKUOpm8VLBA@mail.gmail.com> <1528387137.4636.6.camel@2b52.sc.intel.com>
-In-Reply-To: <1528387137.4636.6.camel@2b52.sc.intel.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-2-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143807.3611-2-yu-cheng.yu@intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 09:28:05 -0700
-X-Gmail-Original-Message-ID: <CALCETrWEeBbhGgJ2rVMAQGOK3BUuRSCWzuhmpO=WrmwO85Tnaw@mail.gmail.com>
-Message-ID: <CALCETrWEeBbhGgJ2rVMAQGOK3BUuRSCWzuhmpO=WrmwO85Tnaw@mail.gmail.com>
-Subject: Re: [PATCH 2/9] x86/cet: Add Kconfig option for user-mode shadow stack
+Date:   Thu, 7 Jun 2018 09:37:05 -0700
+X-Gmail-Original-Message-ID: <CALCETrX4ALKbphJiZs4MXWtRFvQYD905bNAMTogbOeLh0Pp6xw@mail.gmail.com>
+Message-ID: <CALCETrX4ALKbphJiZs4MXWtRFvQYD905bNAMTogbOeLh0Pp6xw@mail.gmail.com>
+Subject: Re: [PATCH 01/10] x86/cet: User-mode shadow stack support
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Andrew Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -63,43 +61,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 9:02 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> On Thu, 2018-06-07 at 08:47 -0700, Andy Lutomirski wrote:
-> > On Thu, Jun 7, 2018 at 7:40 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > >
-> > > Introduce Kconfig option X86_INTEL_SHADOW_STACK_USER.
-> > >
-> > > An application has shadow stack protection when all the following are
-> > > true:
-> > >
-> > >   (1) The kernel has X86_INTEL_SHADOW_STACK_USER enabled,
-> > >   (2) The running processor supports the shadow stack,
-> > >   (3) The application is built with shadow stack enabled tools & libs
-> > >       and, and at runtime, all dependent shared libs can support shadow
-> > >       stack.
-> > >
-> > > If this kernel config option is enabled, but (2) or (3) above is not
-> > > true, the application runs without the shadow stack protection.
-> > > Existing legacy applications will continue to work without the shadow
-> > > stack protection.
-> > >
-> > > The user-mode shadow stack protection is only implemented for the
-> > > 64-bit kernel.  Thirty-two bit applications are supported under the
-> > > compatibility mode.
-> > >
-> >
-> > The 64-bit only part seems entirely reasonable.  So please make the
-> > code 64-bit only :)
->
-> Yes, I will remove changes in "arch/x86/entry/entry32.S".
-> We still want to support x32/ia32 in the 64-bit kernel, right?
->
+> This patch adds basic shadow stack enabling/disabling routines.
+> A task's shadow stack is allocated from memory with VM_SHSTK
+> flag set and read-only protection.  The shadow stack is
+> allocated to a fixed size and that can be changed by the system
+> admin.
 
-Yes, I think.  But that's not in entry_32.S
+How do threads work?  Can a user program mremap() its shadow stack to
+make it bigger?
 
+Also, did you add all the needed checks to make get_user_pages(),
+access_process_vm(), etc fail when called on the shadow stack?  (Or at
+least fail if they're requesting write access and the FORCE bit isn't
+set.)
 
->
+> +#define SHSTK_SIZE (0x8000 * (test_thread_flag(TIF_IA32) ? 4 : 8))
+
+Please don't add more mode-dependent #defines.  Also, please try to
+avoid adding any new code that looks at TIF_IA32 or similar.  Uses of
+that bit are generally bugs, and the bit itself should get removed
+some day.  If you need to make a guess, use in_compat_syscall() or
+similar if appropriate.
+
+> +
+> +static inline int cet_set_shstk_ptr(unsigned long addr)
+> +{
+> +       u64 r;
+> +
+> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +               return -1;
+> +
+> +       if ((addr >= TASK_SIZE) || (!IS_ALIGNED(addr, 4)))
+> +               return -1;'
+
+TASK_SIZE_MAX, please.  TASK_SIZE is weird and is usually the wrong
+thing to use.
+
+> +static unsigned long shstk_mmap(unsigned long addr, unsigned long len)
+> +{
+> +       struct mm_struct *mm = current->mm;
+> +       unsigned long populate;
+> +
+> +       down_write(&mm->mmap_sem);
+> +       addr = do_mmap(NULL, addr, len, PROT_READ,
+> +                      MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK,
+> +                      0, &populate, NULL);
+> +       up_write(&mm->mmap_sem);
+> +
+> +       if (populate)
+> +               mm_populate(addr, populate);
+
+Please don't populate if do_mmap() failed.
+
+> +int cet_setup_shstk(void)
+> +{
+> +       unsigned long addr, size;
+> +
+> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +               return -EOPNOTSUPP;
+> +
+> +       size = SHSTK_SIZE;
+> +       addr = shstk_mmap(0, size);
+> +
+> +       if (addr >= TASK_SIZE)
+> +               return -ENOMEM;
+
+Please check the actual value that do_mmap() would return on error.
+(IS_ERR, 0, MAP_FAILED -- I don't remember.)
+
+> +
+> +       cet_set_shstk_ptr(addr + size - sizeof(void *));
+> +       current->thread.cet.shstk_base = addr;
+> +       current->thread.cet.shstk_size = size;
+> +       current->thread.cet.shstk_enabled = 1;
+> +       return 0;
+> +}
+> +
+> +void cet_disable_shstk(void)
+> +{
+> +       u64 r;
+> +
+> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +               return;
+> +
+> +       rdmsrl(MSR_IA32_U_CET, r);
+> +       r &= ~(MSR_IA32_CET_SHSTK_EN);
+> +       wrmsrl(MSR_IA32_U_CET, r);
+> +       wrmsrl(MSR_IA32_PL3_SSP, 0);
+> +       current->thread.cet.shstk_enabled = 0;
+> +}
+> +
+> +void cet_disable_free_shstk(struct task_struct *tsk)
+> +{
+> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
+> +           !tsk->thread.cet.shstk_enabled)
+> +               return;
+> +
+> +       if (tsk == current)
+> +               cet_disable_shstk();
+
+if tsk != current, then this will malfunction, right?  What is it
+intended to do?
+
+> +
+> +       /*
+> +        * Free only when tsk is current or shares mm
+> +        * with current but has its own shstk.
+> +        */
+> +       if (tsk->mm && (tsk->mm == current->mm) &&
+> +           (tsk->thread.cet.shstk_base)) {
+> +               vm_munmap(tsk->thread.cet.shstk_base,
+> +                         tsk->thread.cet.shstk_size);
+> +               tsk->thread.cet.shstk_base = 0;
+> +               tsk->thread.cet.shstk_size = 0;
+> +       }
+
+I'm having trouble imagining why the kernel would ever want to
+automatically free the shadow stack vma.  What is this for?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
