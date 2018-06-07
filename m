@@ -6,54 +6,53 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B8CB7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 22:02:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FDBC7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 22:04:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752081AbeFGWCr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 18:02:47 -0400
-Received: from mail-oi0-f66.google.com ([209.85.218.66]:44536 "EHLO
-        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751740AbeFGWCq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jun 2018 18:02:46 -0400
-Received: by mail-oi0-f66.google.com with SMTP id c128-v6so10047717oig.11;
-        Thu, 07 Jun 2018 15:02:46 -0700 (PDT)
+        id S1751752AbeFGWD7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 18:03:59 -0400
+Received: from mail-ot0-f196.google.com ([74.125.82.196]:35938 "EHLO
+        mail-ot0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751631AbeFGWD6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jun 2018 18:03:58 -0400
+Received: by mail-ot0-f196.google.com with SMTP id c15-v6so3538532otl.3;
+        Thu, 07 Jun 2018 15:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=Rh2DrL7/iybtwDD7R4LHC12nHuu0f69L9bT7WFN7Wac=;
-        b=MOxoPNkADt+HbKPjvu1A+TJ353gUJ4TOXYxO6DXRky+dO+xjc0WUvsKuWuc5lyrpnq
-         qOMf3qwF637AbrpxzFn6VdIRhNBms5z8LvjYFwLRTFthMToMhV2hj5ji5Pf3plReVi6T
-         SobBU45q0WGo90vdRMYUpJws45Sjxi0rrCwzTWLPe9t94Y14eHNAyfNyKste57vU4zLB
-         z1OheWLb2G6QYyWEBWSLYpMgFzWzmscFaB3rBAswcz95y8zRdZWKF4OMAECVo+j7cmPc
-         U7XnBEqA7HsJ1USFXbfEUc0hgAQmKSob6pwgBmokevo3jEOXrqwK7/htiF8W1kKsHp3J
-         p8hw==
+        bh=LHwiXGTDOH7nVeZGDgYlZpmSyJin1x2ftVwUJU2VzVg=;
+        b=q3XFwavHeM6SJYSXvPL3UHVuY97vTLNFEMRNEV0sXVs6ENomnjGxEHgYOgWltnmqbK
+         dC/pxq/OVUu9Q9wTei3ywAxVeODQE0Pt9a22e3Jr4LpRnpd2bcfdV8uxrdlsXrzVYKcR
+         7q3+KiRQu3cQSFhdK6OJvQE/MEN3RJw85prAE9x7MSautljg0iYpaQuc0oSokSvRT1f4
+         1IqAkxGBm7iiAsfZvUTUWRvTrIs2mDUGzyP/8WfszIy3MY8zkheLqeCb8hUznq9KtAiz
+         y+3uHg9E/qltXf0OwdNVEf031a6levHt19ESImzJCA4/U9xrWmvuJD/o1xXhwohhBShi
+         RcTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=Rh2DrL7/iybtwDD7R4LHC12nHuu0f69L9bT7WFN7Wac=;
-        b=dDJ48UKrAncgKN/yuMCCqtqFR28pc8E3LMTqS36wEeUOlf4RvKj+WtFKxsfq578j1D
-         Wg+4CaoyDFPWDYQCMGzx4mj4QcUjxAB9Se0lUPNjYNOSmBf9WBvQT6VC0PfwoMjoByyi
-         SkVkmtwZWZxnH/zRhKwaK4bADvzVGNdDNdrfAEYXJ84o+qbjbDzcBkkzT6IgxPaRfXcn
-         x99kH8XEI4Km07sx+ms8WsKpQx8EW+yeZK7g8YlgzzQR9kvlKhdrNskjF0Z0gdut1fPS
-         2unZVolU0XYTIwdM+MH2j73nSRsY+g7Npmtsc5WClFokHMQDvox8CKsxm2w+PLG6T22F
-         ZxxA==
-X-Gm-Message-State: APt69E1GQb7jeqKxRDyMwbbhpAF2ITdLr0X6eKL4Es6v0KNGBIHkSBHS
-        lu0y581hdIwTaDxu1g5OqZz5IdpsHadmAvtTZ1M=
-X-Google-Smtp-Source: ADUXVKK8r0tMUi4YXiafpB5fK7QRRRPIf9U5HugKhNgjXxO4yLRfNtcCRmizz26Gn72xoDHnrMDr9+qAFtFiDDNrK9Y=
-X-Received: by 2002:aca:b857:: with SMTP id i84-v6mr1830849oif.279.1528408965830;
- Thu, 07 Jun 2018 15:02:45 -0700 (PDT)
+        bh=LHwiXGTDOH7nVeZGDgYlZpmSyJin1x2ftVwUJU2VzVg=;
+        b=BAx3wzmio49/CfrnNvB0TeCZteIX1S0CqzmG/9V+b6QUwn7cALiUKsmcF945b7yqoU
+         J6hjHd6XGjastEXnc2nFYc8qhuCFMnXp9wpTr9zMLreN0HV6hQYJC36R7xeGvNY7hEw7
+         jGLnkwUej8WL/7k9MCaIf1Ls41nHmk3e4J8jWuoZnZ3oiq3lbiWk6QxlXI/S5jXxyoOm
+         IB0Jqpx4qoUqFyVpfXOOF2ixgtm9tjmkFXlRZTyhuogxzL0pQBpqSLurqy5C/OqV8R2C
+         3oIZr7lLNbEzWSgAXVMQg9lWjFHwVuWtlHD59MqyDcEhowb7lvAC7Yp92CejG8G5xjIE
+         XIiQ==
+X-Gm-Message-State: APt69E1fwe2tM/dKuz9bem9P1dVm1RZ5tSPnL24+9c2/tY1TcYrRRBr+
+        +7Yy/ZF//52w3ySq4VMM/ajfcTyQVa1jvAcAG/k=
+X-Google-Smtp-Source: ADUXVKJfeU5EuGLm/7AfID5ohBIuBJWshdSAf43jy7EKKHvmZsmEOuUHlAU8Q8Zp231QnH3YZ1GrKrb/15Xn4ycBJYM=
+X-Received: by 2002:a9d:322f:: with SMTP id t47-v6mr2314232otc.7.1528409037712;
+ Thu, 07 Jun 2018 15:03:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:7019:0:0:0:0:0 with HTTP; Thu, 7 Jun 2018 15:02:44 -0700 (PDT)
-In-Reply-To: <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
- <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
- <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+Received: by 2002:a4a:7019:0:0:0:0:0 with HTTP; Thu, 7 Jun 2018 15:03:56 -0700 (PDT)
+In-Reply-To: <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com>
+References: <20180607143855.3681-1-yu-cheng.yu@intel.com> <20180607143855.3681-6-yu-cheng.yu@intel.com>
+ <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com>
 From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Thu, 7 Jun 2018 15:02:44 -0700
-Message-ID: <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
-Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+Date:   Thu, 7 Jun 2018 15:03:56 -0700
+Message-ID: <CAMe9rOp9YtNnTzsDPFXukK6ps7VNa2MU6o0GwnoES5Ma_AC65A@mail.gmail.com>
+Subject: Re: [PATCH 5/7] x86: Insert endbr32/endbr64 to vDSO
 To:     Andy Lutomirski <luto@kernel.org>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
@@ -74,79 +73,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 2:01 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> On Thu, Jun 7, 2018 at 1:33 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+On Thu, Jun 7, 2018 at 1:50 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> On Thu, Jun 7, 2018 at 7:42 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >>
->> On Thu, 2018-06-07 at 11:48 -0700, Andy Lutomirski wrote:
->> > On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->> > >
->> > > The following operations are provided.
->> > >
->> > > ARCH_CET_STATUS:
->> > >         return the current CET status
->> > >
->> > > ARCH_CET_DISABLE:
->> > >         disable CET features
->> > >
->> > > ARCH_CET_LOCK:
->> > >         lock out CET features
->> > >
->> > > ARCH_CET_EXEC:
->> > >         set CET features for exec()
->> > >
->> > > ARCH_CET_ALLOC_SHSTK:
->> > >         allocate a new shadow stack
->> > >
->> > > ARCH_CET_PUSH_SHSTK:
->> > >         put a return address on shadow stack
->> > >
->> > > ARCH_CET_ALLOC_SHSTK and ARCH_CET_PUSH_SHSTK are intended only for
->> > > the implementation of GLIBC ucontext related APIs.
->> >
->> > Please document exactly what these all do and why.  I don't understand
->> > what purpose ARCH_CET_LOCK and ARCH_CET_EXEC serve.  CET is opt in for
->> > each ELF program, so I think there should be no need for a magic
->> > override.
+>> From: "H.J. Lu" <hjl.tools@gmail.com>
 >>
->> CET is initially enabled if the loader has CET capability.  Then the
->> loader decides if the application can run with CET.  If the application
->> cannot run with CET (e.g. a dependent library does not have CET), then
->> the loader turns off CET before passing to the application.  When the
->> loader is done, it locks out CET and the feature cannot be turned off
->> anymore until the next exec() call.
+>> When Intel indirect branch tracking is enabled, functions in vDSO which
+>> may be called indirectly should have endbr32 or endbr64 as the first
+>> instruction.  We try to compile vDSO with -fcf-protection=branch -mibt
+>> if possible.  Otherwise, we insert endbr32 or endbr64 by hand to assembly
+>> codes generated by the compiler.
 >
-> Why is the lockout necessary?  If user code enables CET and tries to
-> run code that doesn't support CET, it will crash.  I don't see why we
-> need special code in the kernel to prevent a user program from calling
-> arch_prctl() and crashing itself.  There are already plenty of ways to
-> do that :)
-
-On CET enabled machine, not all programs nor shared libraries are
-CET enabled.  But since ld.so is CET enabled, all programs start
-as CET enabled.  ld.so will disable CET if a program or any of its shared
-libraries aren't CET enabled.  ld.so will lock up CET once it is done CET
-checking so that CET can't no longer be disabled afterwards.
-
->> When the next exec() is called, CET
->> feature is turned on/off based on the values set by ARCH_CET_EXEC.
->
-> And why do we need ARCH_CET_EXEC?
->
-> For background, I really really dislike adding new state that persists
-> across exec().  It's nice to get as close to a clean slate as possible
-> after exec() so that programs can run in a predictable environment.
-> exec() is also a security boundary, and anything a task can do to
-> affect itself after exec() needs to have its security implications
-> considered very carefully.  (As a trivial example, you should not be
-> able to use cetcmd ... sudo [malicious options here] to cause sudo to
-> run with CET off and then try to exploit it via the malicious options.
->
-> If a shutoff is needed for testing, how about teaching ld.so to parse
-> LD_CET=no or similar and protect it the same way as LD_PRELOAD is
-> protected.  Or just do LD_PRELOAD=/lib/libdoesntsupportcet.so.
+> Wow, that's... a genuine abomination.  Do we really need to support
+> CET on kernels built with old toolchains?
 >
 
-I will take a look.
+Yes.  GCC 7 should be able to build CET kernel.
 
 
 -- 
