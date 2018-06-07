@@ -2,50 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 240FD7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 20:53:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E82FA7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 20:54:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932254AbeFGUx5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 16:53:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40928 "EHLO mail.kernel.org"
+        id S932568AbeFGUyb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 16:54:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41228 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750914AbeFGUx4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 16:53:56 -0400
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com [209.85.128.177])
+        id S932512AbeFGUya (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 16:54:30 -0400
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B6142089B
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 20:53:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8CC8A208A6
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 20:54:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528404835;
-        bh=kIDoHe33oqzBtjUlSVvhJ4ihMwGu5pSiq6i65T1FsKg=;
+        s=default; t=1528404869;
+        bh=gZqvDyTiIXVTFOWHjmKSy3cvdqggFCpFqWhSS5zfKGk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cP6MLTonwjWllFuTqgglaTDFopBrXji1V36oapxPoHSZnnQzU9agXTdPOVkUDalOq
-         FBrn+VzNCBHds2T4Pk8UWxptDIhj3KyP8/ibsQhGRBLRYKcswxVQde8C8tLuA6wkWP
-         nzBd7LPhd5geDvpmTwJZ4V3gzEH5+GZ5YJBcag/A=
-Received: by mail-wr0-f177.google.com with SMTP id f16-v6so11209522wrm.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 13:53:55 -0700 (PDT)
-X-Gm-Message-State: APt69E2nFtEZrVmd2pj+sMZzsI+K1aTa/LRWIhdPrZxPEkACn53Z3cC3
-        /XJJROA/9EUgacOReRRITR+KmSN+B5BwUi0KubtUSA==
-X-Google-Smtp-Source: ADUXVKLb27aOdI3cXj/aiBarJeE7VxabjGgMyFbwvVO2fXh+uCsbeFGBHedIKvyNC98F8bMWLI1bgFvofpIZOP0KTWI=
-X-Received: by 2002:adf:b445:: with SMTP id v5-v6mr2780352wrd.67.1528404833918;
- Thu, 07 Jun 2018 13:53:53 -0700 (PDT)
+        b=g0FKEzr9SXgKkm8aOaTmcEU8w+QVKODvIIS6eQx9qVbmyd6jq84GTBiK+Po+gtiMh
+         Qa05Tnd2vJ6t4H3Hp9bst1lhcvPS0uUODZEduFRw1OAoKGq83Vsak/FIHtnueddpkK
+         FF9/A2aFMVysHqh5+u2IM5vISOF/iiWNOUFfm+ZE=
+Received: by mail-wm0-f54.google.com with SMTP id j15-v6so21923055wme.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 13:54:29 -0700 (PDT)
+X-Gm-Message-State: APt69E0Zi7r0N1Gdx1iwMaETZDwbxcKr7k6FV+SpGBLMJ1f0Qkc0h4fB
+        9awu90DGXCh6TsH8nADF+GJv1IR9J/VNeZtjW/H0cQ==
+X-Google-Smtp-Source: ADUXVKK29Zb7ztvSpMtp1mxhqVazOzUoVdE9DJQD1mXwtjA6pVLzfnCniIup3+uxsR2OIeITDX7rcbLt9NJQOMbjWCI=
+X-Received: by 2002:a1c:b947:: with SMTP id j68-v6mr2479649wmf.144.1528404868084;
+ Thu, 07 Jun 2018 13:54:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-5-yu-cheng.yu@intel.com>
- <CALCETrUqXvh2FDXe6bveP10TFpzptEyQe2=mdfZFGKU0T+NXsA@mail.gmail.com> <3c1bdf85-0c52-39ed-a799-e26ac0e52391@redhat.com>
-In-Reply-To: <3c1bdf85-0c52-39ed-a799-e26ac0e52391@redhat.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-10-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143807.3611-10-yu-cheng.yu@intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 13:53:41 -0700
-X-Gmail-Original-Message-ID: <CALCETrWPDXpbVcuFK_1M5DtaCOW_LSf-XHFAD0vpc735oFWLPg@mail.gmail.com>
-Message-ID: <CALCETrWPDXpbVcuFK_1M5DtaCOW_LSf-XHFAD0vpc735oFWLPg@mail.gmail.com>
-Subject: Re: [PATCH 04/10] x86/cet: Handle thread shadow stack
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Andrew Lutomirski <luto@kernel.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+Date:   Thu, 7 Jun 2018 13:54:16 -0700
+X-Gmail-Original-Message-ID: <CALCETrU8fK1j=H_9xpJrrCSUTcadb8dfjJX-YZwiWDZZFmLxRQ@mail.gmail.com>
+Message-ID: <CALCETrU8fK1j=H_9xpJrrCSUTcadb8dfjJX-YZwiWDZZFmLxRQ@mail.gmail.com>
+Subject: Re: [PATCH 09/10] mm: Prevent madvise from changing shadow stack
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -59,79 +56,16 @@ Cc:     Andrew Lutomirski <luto@kernel.org>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 12:47 PM Florian Weimer <fweimer@redhat.com> wrote:
+On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> On 06/07/2018 08:21 PM, Andy Lutomirski wrote:
-> > On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrot=
-e:
-> >>
-> >> When fork() specifies CLONE_VM but not CLONE_VFORK, the child
-> >> needs a separate program stack and a separate shadow stack.
-> >> This patch handles allocation and freeing of the thread shadow
-> >> stack.
-> >
-> > Aha -- you're trying to make this automatic.  I'm not convinced this
-> > is a good idea.  The Linux kernel has a long and storied history of
-> > enabling new hardware features in ways that are almost entirely
-> > useless for userspace.
-> >
-> > Florian, do you have any thoughts on how the user/kernel interaction
-> > for the shadow stack should work?
->
-> I have not looked at this in detail, have not played with the emulator,
-> and have not been privy to any discussions before these patches have
-> been posted, however =E2=80=A6
->
-> I believe that we want as little code in userspace for shadow stack
-> management as possible.  One concern I have is that even with the code
-> we arguably need for various kinds of stack unwinding, we might have
-> unwittingly built a generic trampoline that leads to full CET bypass.
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-I was imagining an API like "allocate a shadow stack for the current
-thread, fail if the current thread already has one, and turn on the
-shadow stack".  glibc would call clone and then call this ABI pretty
-much immediately (i.e. before making any calls from which it expects
-to return).
-
-We definitely want strong enough user control that tools like CRIU can
-continue to work.  I haven't looked at the SDM recently enough to
-remember for sure, but I'm reasonably confident that user code can
-learn the address of its own shadow stack.  If nothing else, CRIU
-needs to be able to restore from a context where there's a signal on
-the stack and the signal frame contains a shadow stack pointer.
-
-
->
-> I also expect that we'd only have donor mappings in userspace anyway,
-> and that the memory is not actually accessible from userspace if it is
-> used for a shadow stack.
->
-> > My intuition would be that all
-> > shadow stack management should be entirely controlled by userspace --
-> > newly cloned threads (with CLONE_VM) should have no shadow stack
-> > initially, and newly started processes should have no shadow stack
-> > until they ask for one.
->
-> If the new thread doesn't have a shadow stack, we need to disable
-> signals around clone, and we are very likely forced to rewrite the early
-> thread setup in assembler, to avoid spurious calls (including calls to
-> thunks to get EIP on i386).  I wouldn't want to do this If we can avoid
-> it.  Just using C and hoping to get away with it doesn't sound greater,
-> either.  And obviously there is the matter that the initial thread setup
-> code ends up being that universal trampoline.
->
-
-Only if the trampoline works if the shadow stack is already enabled.
-
-I could very easily be convinced that automatic shadow stack setup is
-a good idea, but I still think we need manual control for CRIU and
-such.
+Seems reasonable to me.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
