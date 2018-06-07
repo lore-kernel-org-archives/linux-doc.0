@@ -1,60 +1,50 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FDBC7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 22:04:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08E2E7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 23:00:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751752AbeFGWD7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 18:03:59 -0400
-Received: from mail-ot0-f196.google.com ([74.125.82.196]:35938 "EHLO
-        mail-ot0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751631AbeFGWD6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jun 2018 18:03:58 -0400
-Received: by mail-ot0-f196.google.com with SMTP id c15-v6so3538532otl.3;
-        Thu, 07 Jun 2018 15:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=LHwiXGTDOH7nVeZGDgYlZpmSyJin1x2ftVwUJU2VzVg=;
-        b=q3XFwavHeM6SJYSXvPL3UHVuY97vTLNFEMRNEV0sXVs6ENomnjGxEHgYOgWltnmqbK
-         dC/pxq/OVUu9Q9wTei3ywAxVeODQE0Pt9a22e3Jr4LpRnpd2bcfdV8uxrdlsXrzVYKcR
-         7q3+KiRQu3cQSFhdK6OJvQE/MEN3RJw85prAE9x7MSautljg0iYpaQuc0oSokSvRT1f4
-         1IqAkxGBm7iiAsfZvUTUWRvTrIs2mDUGzyP/8WfszIy3MY8zkheLqeCb8hUznq9KtAiz
-         y+3uHg9E/qltXf0OwdNVEf031a6levHt19ESImzJCA4/U9xrWmvuJD/o1xXhwohhBShi
-         RcTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=LHwiXGTDOH7nVeZGDgYlZpmSyJin1x2ftVwUJU2VzVg=;
-        b=BAx3wzmio49/CfrnNvB0TeCZteIX1S0CqzmG/9V+b6QUwn7cALiUKsmcF945b7yqoU
-         J6hjHd6XGjastEXnc2nFYc8qhuCFMnXp9wpTr9zMLreN0HV6hQYJC36R7xeGvNY7hEw7
-         jGLnkwUej8WL/7k9MCaIf1Ls41nHmk3e4J8jWuoZnZ3oiq3lbiWk6QxlXI/S5jXxyoOm
-         IB0Jqpx4qoUqFyVpfXOOF2ixgtm9tjmkFXlRZTyhuogxzL0pQBpqSLurqy5C/OqV8R2C
-         3oIZr7lLNbEzWSgAXVMQg9lWjFHwVuWtlHD59MqyDcEhowb7lvAC7Yp92CejG8G5xjIE
-         XIiQ==
-X-Gm-Message-State: APt69E1fwe2tM/dKuz9bem9P1dVm1RZ5tSPnL24+9c2/tY1TcYrRRBr+
-        +7Yy/ZF//52w3ySq4VMM/ajfcTyQVa1jvAcAG/k=
-X-Google-Smtp-Source: ADUXVKJfeU5EuGLm/7AfID5ohBIuBJWshdSAf43jy7EKKHvmZsmEOuUHlAU8Q8Zp231QnH3YZ1GrKrb/15Xn4ycBJYM=
-X-Received: by 2002:a9d:322f:: with SMTP id t47-v6mr2314232otc.7.1528409037712;
- Thu, 07 Jun 2018 15:03:57 -0700 (PDT)
+        id S1752187AbeFGXAX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 19:00:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751740AbeFGXAW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 19:00:22 -0400
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81A61208B1
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 23:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1528412421;
+        bh=X9mB3BMubu2rf2zG4I+wWVzfEh9NkrUASkflKEe3eKU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HSs3FBvNPF8CtlsxPgd+HfgcG/kLdlJZ8lis1FZstS+gJ6h4IEGNLIfSgV81kIRQu
+         QJTOMP9XO/ErKvA/nDKyQ6c5HESs37ResONQ+/F+mYOvhtytGGd0GHah1PBl0ryQWQ
+         /GM9UFK7PkU2SLPZ6viu5hz/k1tfg4fFo+dMZeug=
+Received: by mail-wm0-f51.google.com with SMTP id o13-v6so113384wmf.4
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 16:00:21 -0700 (PDT)
+X-Gm-Message-State: APt69E0NIlzR6vzEleNrq/SF/6oeRBWo8+tkz9F9SFGp4ZaCNnSD21cb
+        u3WzMW7f8tzuYQdPzggH08ZFhyTrXTVTXfsUg4qHdg==
+X-Google-Smtp-Source: ADUXVKLLWPi/uSpRUwLLVmW7ArZjjYHamstqTRxKmJlntsyDhJ7TidKvm5NMG6KcVVSxV/pX9K9eoSGSPEFvsP/rxRM=
+X-Received: by 2002:a1c:dca:: with SMTP id 193-v6mr2713781wmn.36.1528412419860;
+ Thu, 07 Jun 2018 16:00:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:7019:0:0:0:0:0 with HTTP; Thu, 7 Jun 2018 15:03:56 -0700 (PDT)
-In-Reply-To: <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com>
 References: <20180607143855.3681-1-yu-cheng.yu@intel.com> <20180607143855.3681-6-yu-cheng.yu@intel.com>
- <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Thu, 7 Jun 2018 15:03:56 -0700
-Message-ID: <CAMe9rOp9YtNnTzsDPFXukK6ps7VNa2MU6o0GwnoES5Ma_AC65A@mail.gmail.com>
+ <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com> <CAMe9rOp9YtNnTzsDPFXukK6ps7VNa2MU6o0GwnoES5Ma_AC65A@mail.gmail.com>
+In-Reply-To: <CAMe9rOp9YtNnTzsDPFXukK6ps7VNa2MU6o0GwnoES5Ma_AC65A@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 7 Jun 2018 16:00:08 -0700
+X-Gmail-Original-Message-ID: <CALCETrXOc3-2QLks3iaTTvEE=4+2Oi3PORa8HPbYiDTtKV6CLQ@mail.gmail.com>
+Message-ID: <CALCETrXOc3-2QLks3iaTTvEE=4+2Oi3PORa8HPbYiDTtKV6CLQ@mail.gmail.com>
 Subject: Re: [PATCH 5/7] x86: Insert endbr32/endbr64 to vDSO
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+To:     "H. J. Lu" <hjl.tools@gmail.com>
+Cc:     Andrew Lutomirski <luto@kernel.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
@@ -73,26 +63,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 1:50 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> On Thu, Jun 7, 2018 at 7:42 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> From: "H.J. Lu" <hjl.tools@gmail.com>
->>
->> When Intel indirect branch tracking is enabled, functions in vDSO which
->> may be called indirectly should have endbr32 or endbr64 as the first
->> instruction.  We try to compile vDSO with -fcf-protection=branch -mibt
->> if possible.  Otherwise, we insert endbr32 or endbr64 by hand to assembly
->> codes generated by the compiler.
+On Thu, Jun 7, 2018 at 3:03 PM H.J. Lu <hjl.tools@gmail.com> wrote:
 >
-> Wow, that's... a genuine abomination.  Do we really need to support
-> CET on kernels built with old toolchains?
+> On Thu, Jun 7, 2018 at 1:50 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> > On Thu, Jun 7, 2018 at 7:42 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> >>
+> >> From: "H.J. Lu" <hjl.tools@gmail.com>
+> >>
+> >> When Intel indirect branch tracking is enabled, functions in vDSO which
+> >> may be called indirectly should have endbr32 or endbr64 as the first
+> >> instruction.  We try to compile vDSO with -fcf-protection=branch -mibt
+> >> if possible.  Otherwise, we insert endbr32 or endbr64 by hand to assembly
+> >> codes generated by the compiler.
+> >
+> > Wow, that's... a genuine abomination.  Do we really need to support
+> > CET on kernels built with old toolchains?
+> >
+>
+> Yes.  GCC 7 should be able to build CET kernel.
 >
 
-Yes.  GCC 7 should be able to build CET kernel.
+Why?  Presumably people running distros that use CET are going to have
+kernels build with a CET-supporting compiler.
 
-
--- 
-H.J.
+If we really really need this patch, then I want some kind of
+assurance that selftests will catch the failure if something breaks it
+or a new vDSO entry point is added.  But my inclination is to NAK this
+patch and let the distros carry it if they really really want it.  As
+it stands, this sucks for maintainability.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
