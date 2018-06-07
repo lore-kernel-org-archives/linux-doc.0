@@ -5,26 +5,27 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A8DF7D08C
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:53:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7AB2C7DF8A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 16:02:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933205AbeFGPwe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 11:52:34 -0400
-Received: from mga07.intel.com ([134.134.136.100]:24263 "EHLO mga07.intel.com"
+        id S933239AbeFGQCX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 12:02:23 -0400
+Received: from mga18.intel.com ([134.134.136.126]:15647 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932903AbeFGPwc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 11:52:32 -0400
+        id S932903AbeFGQCI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 12:02:08 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 08:52:31 -0700
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 09:02:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,486,1520924400"; 
-   d="scan'208";a="61250027"
+   d="scan'208";a="235254820"
 Received: from 2b52.sc.intel.com (HELO [143.183.136.51]) ([143.183.136.51])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Jun 2018 08:52:31 -0700
-Message-ID: <1528386560.4636.2.camel@2b52.sc.intel.com>
-Subject: Re: [PATCH 5/5] Documentation/x86: Add CET description
+  by fmsmga005.fm.intel.com with ESMTP; 07 Jun 2018 09:02:07 -0700
+Message-ID: <1528387137.4636.6.camel@2b52.sc.intel.com>
+Subject: Re: [PATCH 2/9] x86/cet: Add Kconfig option for user-mode shadow
+ stack
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     Andy Lutomirski <luto@kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
@@ -40,11 +41,11 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
-Date:   Thu, 07 Jun 2018 08:49:20 -0700
-In-Reply-To: <CALCETrWVZfWUSOy6wRyVBfP2b2TzZuPt8bCe6q0Pa5r7onO+VA@mail.gmail.com>
-References: <20180607143544.3477-1-yu-cheng.yu@intel.com>
-         <20180607143544.3477-6-yu-cheng.yu@intel.com>
-         <CALCETrWVZfWUSOy6wRyVBfP2b2TzZuPt8bCe6q0Pa5r7onO+VA@mail.gmail.com>
+Date:   Thu, 07 Jun 2018 08:58:57 -0700
+In-Reply-To: <CALCETrWwGCZ+Fbk+O8T6S48teHj60bQQiHQ49=SsKUOpm8VLBA@mail.gmail.com>
+References: <20180607143705.3531-1-yu-cheng.yu@intel.com>
+         <20180607143705.3531-3-yu-cheng.yu@intel.com>
+         <CALCETrWwGCZ+Fbk+O8T6S48teHj60bQQiHQ49=SsKUOpm8VLBA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
@@ -54,20 +55,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-06-07 at 08:39 -0700, Andy Lutomirski wrote:
+On Thu, 2018-06-07 at 08:47 -0700, Andy Lutomirski wrote:
 > On Thu, Jun 7, 2018 at 7:40 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> 
-> Fix the subject line, please.  This is more than just docs.
-> 
 > >
-> > Explain how CET works and the noshstk/noibt kernel parameters.
+> > Introduce Kconfig option X86_INTEL_SHADOW_STACK_USER.
+> >
+> > An application has shadow stack protection when all the following are
+> > true:
+> >
+> >   (1) The kernel has X86_INTEL_SHADOW_STACK_USER enabled,
+> >   (2) The running processor supports the shadow stack,
+> >   (3) The application is built with shadow stack enabled tools & libs
+> >       and, and at runtime, all dependent shared libs can support shadow
+> >       stack.
+> >
+> > If this kernel config option is enabled, but (2) or (3) above is not
+> > true, the application runs without the shadow stack protection.
+> > Existing legacy applications will continue to work without the shadow
+> > stack protection.
+> >
+> > The user-mode shadow stack protection is only implemented for the
+> > 64-bit kernel.  Thirty-two bit applications are supported under the
+> > compatibility mode.
+> >
 > 
-> Maybe no_cet_shstk and no_cet_ibt?  noshstk sounds like gibberish and
-> people might need a reminder.
+> The 64-bit only part seems entirely reasonable.  So please make the
+> code 64-bit only :)
 
-I will change that.
+Yes, I will remove changes in "arch/x86/entry/entry32.S".
+We still want to support x32/ia32 in the 64-bit kernel, right?
 
-Yu-cheng
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
