@@ -1,48 +1,41 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EFF1A7D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 18:39:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 83F977D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 18:42:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934639AbeFGSj2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 14:39:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35510 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933893AbeFGSj1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 14:39:27 -0400
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6557E2089C
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 18:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528396766;
-        bh=6LEe5GSpD2TEtbiZj63Ls647kqPk+eeU1iAj9CzQjbY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b7UAeK2K9xzAJFf4bhIXufPou9uTWnE2h4VgA45mCGWrRscseNKP7AteoOwPek9UF
-         7Gi0NpV6RRkTm9Qtj6R+qoGNo7iCoerA2e0MYN0DtotT4gWK+sw8LofkocZQr/y2k2
-         K5iEyId7q1seMJSmsJ7TQ/ZguxtoS8Qv0wAkGAC0=
-Received: by mail-wm0-f50.google.com with SMTP id 69-v6so8052230wmf.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 11:39:26 -0700 (PDT)
-X-Gm-Message-State: APt69E3vvkTOtzWc6MhvvYx4nYh6IbxbRys688ntagJILlQSneTbGie1
-        bWPZFSZzPg2r48AV5ASf934+4PiLMgMn6pSvwn9O4A==
-X-Google-Smtp-Source: ADUXVKLUNcEsPilIv05EfKfRozFCb1vzAVIFojdaYIYFkzyID+eH/btrxAUEs3RqFVGFRHG5f/oN69xtA8nsDLSnuo4=
-X-Received: by 2002:a1c:4a9d:: with SMTP id n29-v6mr2231916wmi.46.1528396764938;
- Thu, 07 Jun 2018 11:39:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180607143855.3681-1-yu-cheng.yu@intel.com> <20180607143855.3681-4-yu-cheng.yu@intel.com>
-In-Reply-To: <20180607143855.3681-4-yu-cheng.yu@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 11:39:12 -0700
-X-Gmail-Original-Message-ID: <CALCETrWNaA4rg3Q6-OShAt7Yp9VmyvyFOQtn6cAbrKMHiggGzg@mail.gmail.com>
-Message-ID: <CALCETrWNaA4rg3Q6-OShAt7Yp9VmyvyFOQtn6cAbrKMHiggGzg@mail.gmail.com>
-Subject: Re: [PATCH 3/7] mm/mmap: Add IBT bitmap size to address space limit check
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        id S935074AbeFGSmP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 14:42:15 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:57142 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933108AbeFGSmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jun 2018 14:42:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=tqO+u91eIAN7O0P+p3RNq5RoYe1I0GwQgXsBlPtmveA=; b=g6CrDUvFfhZ/VuXlixaVxnEAC
+        eyVDuQ80xpnTKFhHjJh4KS/RkzD7lT0p0ZQ+P1YwXdFLOTOhxwSGz7OSAUCEPUB6iFfvD5OAYAOAC
+        L8B8mLqTV6mba8ZusOwC3/UrdbDT2gCfm5RwkGfadIYxPGeWT4IOhiG96qfiosy49ATLPzQ0ROyDe
+        NjmkZKG9qrDulSk42RkfKy8VapOrH5VYaANwlRMH/R/NZrNmXcZ8eTRccWHXpiPbXWsgDHCbNKJUD
+        FncVAPXXEyGuh1uWQigp4NuYH38guMyzliuLwM4QDoBkxjiHGv9xIENMYuu7Evdtekl/emiWC6WAz
+        iJHDqx0cw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fQzqz-0002KT-2f; Thu, 07 Jun 2018 18:41:45 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 5A71D201EA7A5; Thu,  7 Jun 2018 20:41:42 +0200 (CEST)
+Date:   Thu, 7 Jun 2018 20:41:42 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -55,67 +48,31 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 02/10] x86/cet: Introduce WRUSS instruction
+Message-ID: <20180607184142.GJ12217@hirez.programming.kicks-ass.net>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+ <20180607143807.3611-3-yu-cheng.yu@intel.com>
+ <CALCETrU45Cuzvfz3c1+-+7=9KS2N33Bpp1JqBtaGxhPo8U+Fqg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrU45Cuzvfz3c1+-+7=9KS2N33Bpp1JqBtaGxhPo8U+Fqg@mail.gmail.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 7:42 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> The indirect branch tracking legacy bitmap takes a large address
-> space.  This causes may_expand_vm() failure on the address limit
-> check.  For a IBT-enabled task, add the bitmap size to the
-> address limit.
->
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/uapi/asm/resource.h | 5 +++++
->  include/uapi/asm-generic/resource.h  | 3 +++
->  mm/mmap.c                            | 8 +++++++-
->  3 files changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/x86/include/uapi/asm/resource.h b/arch/x86/include/uapi/asm/resource.h
-> index 04bc4db8921b..0741b2a6101a 100644
-> --- a/arch/x86/include/uapi/asm/resource.h
-> +++ b/arch/x86/include/uapi/asm/resource.h
-> @@ -1 +1,6 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
-> +#ifdef CONFIG_X86_INTEL_CET
-> +#define rlimit_as_extra() current->thread.cet.ibt_bitmap_size
-> +#endif
-> +
->  #include <asm-generic/resource.h>
-> diff --git a/include/uapi/asm-generic/resource.h b/include/uapi/asm-generic/resource.h
-> index f12db7a0da64..8a7608a09700 100644
-> --- a/include/uapi/asm-generic/resource.h
-> +++ b/include/uapi/asm-generic/resource.h
-> @@ -58,5 +58,8 @@
->  # define RLIM_INFINITY         (~0UL)
->  #endif
->
-> +#ifndef rlimit_as_extra
-> +#define rlimit_as_extra() 0
-> +#endif
->
->  #endif /* _UAPI_ASM_GENERIC_RESOURCE_H */
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index e7d1fcb7ec58..5c07f052bed7 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -3255,7 +3255,13 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
->   */
->  bool may_expand_vm(struct mm_struct *mm, vm_flags_t flags, unsigned long npages)
->  {
-> -       if (mm->total_vm + npages > rlimit(RLIMIT_AS) >> PAGE_SHIFT)
-> +       unsigned long as_limit = rlimit(RLIMIT_AS);
-> +       unsigned long as_limit_plus = as_limit + rlimit_as_extra();
-> +
-> +       if (as_limit_plus > as_limit)
-> +               as_limit = as_limit_plus;
-> +
+On Thu, Jun 07, 2018 at 09:40:02AM -0700, Andy Lutomirski wrote:
+> Peterz, isn't there some fancy better way we're supposed to handle the
+> error return these days?
 
-What happens if as_limit_plus overflows?  I guess it's probably okay here.
+Don't think so. I played with a few things but that never really went
+anywhere.
+
+Also, both asm things look suspicously similar, it might make sense to
+share. Also, maybe do the instruction .byte sequence in a #define INSN
+or something.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
