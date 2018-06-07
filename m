@@ -1,61 +1,35 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E6EA7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 20:07:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 86C207D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 20:15:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752861AbeFGUHT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 16:07:19 -0400
-Received: from mail-lf0-f67.google.com ([209.85.215.67]:45998 "EHLO
-        mail-lf0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751231AbeFGUHS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jun 2018 16:07:18 -0400
-Received: by mail-lf0-f67.google.com with SMTP id n3-v6so16549478lfe.12;
-        Thu, 07 Jun 2018 13:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3BIH7lPFp+6QroKGLk7eaxnK9eE4jn8FIROuu/RCTus=;
-        b=Z4Otfbu6Oc/Qgo69/+BEhvZ61KYhsTlFY22DDf/s4cbk3I0zqIHYaXXrcXRjJJpKGr
-         x/AXc5OeThBSYxAkhAnxMMcpyVc2Ld8Kpqo26UaW8+g8VRiNuUBLydB+YixyUa31c0y/
-         X77wq20Q3KFqtpGLQlhfAViXv/3PDfDAxAZgHaCVUSUPJIIcLMJtTb3eemepfAjcujYJ
-         Bhir32HLc6oEfhcEn0Nk3uLQBAyZ3VHSe+scG4Liw09DyFZJNd/DgQJO1aEHXQ48nxuJ
-         LjKCHF+l+ZW48aEvnYHVlEcz2TrryBnjG9w4Y4agr0aloNlOVCRZPPbZ3LiU9okuRzGy
-         nCpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3BIH7lPFp+6QroKGLk7eaxnK9eE4jn8FIROuu/RCTus=;
-        b=MRGV/cv6ezNb/XKSyYe1BgjgY7cZAyVIvSVSNImRleVvh/kz7wLxCHvQs9gmyN/Mfv
-         2xMxQCvFj+zcL8n3RV1/BWXZIgHiBZ7fV3y4IJjI2OPUSUV8cmAdA5VfQKs2vafgpcFr
-         fQP4KEQLALbUWDskgcnV2tAF4kehVeg44QW9LVLIkK10zohIrelBtpc/bG68oFLlg2y1
-         ocRxfvzqrSRWnwBP9fDgbDLu4i7oCf5BgVUY2UM+nrvFBTTyknNDPlFv5jPSBmhvdVTy
-         bSTwYRZYutGaQp9z6hNg8twMXGdiYpTX3dAqRz/h6A9kQNsFAzXL9RV7vCDfZcU8gYuI
-         IM2Q==
-X-Gm-Message-State: APt69E0O2WGN+F4qo/GV4LS4OS4UdfyXrfM5JX4dI7kfIj17ayRhfHI1
-        hgnetzDCxHK4D/GacXyP85A=
-X-Google-Smtp-Source: ADUXVKI5ztFP6OQmEZMsj7lcHFqwBawP2/T+IepydCZlxN3ZUGlUK8tJo7Fu8+spH3vdM/NbOMkb6w==
-X-Received: by 2002:a2e:29cf:: with SMTP id p76-v6mr2628699ljp.12.1528402036423;
-        Thu, 07 Jun 2018 13:07:16 -0700 (PDT)
-Received: from uranus.localdomain ([5.18.103.226])
-        by smtp.gmail.com with ESMTPSA id y89-v6sm5799311lje.74.2018.06.07.13.07.15
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 07 Jun 2018 13:07:15 -0700 (PDT)
-Received: by uranus.localdomain (Postfix, from userid 1000)
-        id E80DD460756; Thu,  7 Jun 2018 23:07:14 +0300 (MSK)
-Date:   Thu, 7 Jun 2018 23:07:14 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
+        id S1753057AbeFGUPn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 16:15:43 -0400
+Received: from mga02.intel.com ([134.134.136.20]:14891 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752602AbeFGUPn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 16:15:43 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 13:15:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,487,1520924400"; 
+   d="scan'208";a="235596131"
+Received: from 2b52.sc.intel.com (HELO [143.183.136.51]) ([143.183.136.51])
+  by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2018 13:15:41 -0700
+Message-ID: <1528402350.5265.21.camel@2b52.sc.intel.com>
+Subject: Re: [PATCH 03/10] x86/cet: Signal handling for shadow stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
+Cc:     Florian Weimer <fweimer@redhat.com>,
         Dmitry Safonov <dsafonov@virtuozzo.com>,
+        Cyrill Gorcunov <gorcunov@openvz.org>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
@@ -69,22 +43,21 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
-Subject: Re: [PATCH 03/10] x86/cet: Signal handling for shadow stack
-Message-ID: <20180607200714.GA2525@uranus>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
- <20180607143807.3611-4-yu-cheng.yu@intel.com>
- <CALCETrWo77RS_wOzskw5OG-LdC1S-b_NY=uPWUmPbQEnNwANgQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date:   Thu, 07 Jun 2018 13:12:30 -0700
 In-Reply-To: <CALCETrWo77RS_wOzskw5OG-LdC1S-b_NY=uPWUmPbQEnNwANgQ@mail.gmail.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+         <20180607143807.3611-4-yu-cheng.yu@intel.com>
+         <CALCETrWo77RS_wOzskw5OG-LdC1S-b_NY=uPWUmPbQEnNwANgQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 07, 2018 at 11:30:34AM -0700, Andy Lutomirski wrote:
+On Thu, 2018-06-07 at 11:30 -0700, Andy Lutomirski wrote:
 > On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 > >
 > > Set and restore shadow stack pointer for signals.
@@ -93,6 +66,11 @@ On Thu, Jun 07, 2018 at 11:30:34AM -0700, Andy Lutomirski wrote:
 > 
 > This patch makes me extremely nervous due to the possibility of ABI
 > issues and CRIU breakage.
+
+Longjmp/Siglongjmp is handled in GLIBC and basically the shadow stack
+pointer is unwound.  There could be some unexpected conditions.
+However, we run all GLIBC tests.
+
 > 
 > > diff --git a/arch/x86/include/uapi/asm/sigcontext.h b/arch/x86/include/uapi/asm/sigcontext.h
 > > index 844d60eb1882..6c8997a0156a 100644
@@ -123,17 +101,32 @@ On Thu, Jun 07, 2018 at 11:30:34AM -0700, Andy Lutomirski wrote:
 > Is it actually okay to modify these structures like this?  They're
 > part of the user ABI, and I don't know whether any user code relies on
 > the size being constant.
+> 
+> > +int cet_push_shstk(int ia32, unsigned long ssp, unsigned long val)
+> > +{
+> > +       if (val >= TASK_SIZE)
+> > +               return -EINVAL;
+> 
+> TASK_SIZE_MAX.  But I'm a bit unsure why you need this check at all.
 
-For sure it might cause problems for CRIU since we have
-similar definitions for this structure inside our code.
-That said if kernel is about to modify the structures it
-should keep backward compatibility at least if a user
-passes previous version of a structure @ssp should be
-set to something safe by the kernel itself.
+If an invalid address is put on the shadow stack, the task will get a
+control protection fault.  I will change it to TASK_SIZE_MAX.
 
-I didn't read the whole series of patches in details
-yet, hopefully will be able tomorrow. Thanks Andy for
-CC'ing!
+> 
+> > +int cet_restore_signal(unsigned long ssp)
+> > +{
+> > +       if (!current->thread.cet.shstk_enabled)
+> > +               return 0;
+> > +       return cet_set_shstk_ptr(ssp);
+> > +}
+> 
+> This will blow up if the shadow stack enabled state changes in a
+> signal handler.  Maybe we don't care.
+
+Yes, the task will get a control protection fault.
+
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
