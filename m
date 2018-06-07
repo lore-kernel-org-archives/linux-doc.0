@@ -1,33 +1,47 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E82357D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 20:43:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 698FB7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 20:50:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932346AbeFGUn3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 16:43:29 -0400
-Received: from mga09.intel.com ([134.134.136.24]:55802 "EHLO mga09.intel.com"
+        id S932755AbeFGUuo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 16:50:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39644 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750892AbeFGUn2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 16:43:28 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 13:43:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,488,1520924400"; 
-   d="scan'208";a="47626651"
-Received: from 2b52.sc.intel.com (HELO [143.183.136.51]) ([143.183.136.51])
-  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2018 13:43:27 -0700
-Message-ID: <1528404016.5646.0.camel@2b52.sc.intel.com>
-Subject: Re: [PATCH 05/10] x86/cet: ELF header parsing of Control Flow
- Enforcement
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
+        id S932721AbeFGUul (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 16:50:41 -0400
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com [209.85.128.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 71E0E208B0
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 20:50:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1528404640;
+        bh=6tfRoYycs67EisAlcuI8sCcT2bMn1JKNnSB8Zvrv6b4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=2Za5nIcr/MI4vpCBvH7TApfhZcaRq7Vw7gZzUJebas9J1wqdw+pBi52TfQxXWr0uG
+         7SmLG/SjGvJdywwdYy7jW8bA3JrODNJAk6Xk6pJ2uYFA5hDlHIhsUQVxn+YFAo2fzR
+         51U7kNa+8JKKM6Pf6Iks5zW3D+wQAGY/2Cs4d5U8=
+Received: by mail-wr0-f178.google.com with SMTP id a12-v6so11204001wro.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 13:50:40 -0700 (PDT)
+X-Gm-Message-State: APt69E3qLup6iGhAUQg6wVABAzVPOLawM4pMOWtKUQdHG2L3zA0n6EGi
+        IxhbeodwMzlGVO1w/8dsYn8mt4va2ojdU18nUypmzA==
+X-Google-Smtp-Source: ADUXVKJVKbSywxKqAttGo+EflbXdzMf2TcAzJowwWokLc4SPtC9qxr0sfszaScMQt0B98yhrNdB/l24ZJKetixHEOsg=
+X-Received: by 2002:adf:b445:: with SMTP id v5-v6mr2775019wrd.67.1528404638864;
+ Thu, 07 Jun 2018 13:50:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180607143855.3681-1-yu-cheng.yu@intel.com> <20180607143855.3681-6-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143855.3681-6-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 7 Jun 2018 13:50:26 -0700
+X-Gmail-Original-Message-ID: <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com>
+Message-ID: <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com>
+Subject: Re: [PATCH 5/7] x86: Insert endbr32/endbr64 to vDSO
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
@@ -41,119 +55,26 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
-Date:   Thu, 07 Jun 2018 13:40:16 -0700
-In-Reply-To: <CALCETrVyGdWnU1B5vZK4QP2TGVjTCg5wsPX8iAQRGzpcGNGr5g@mail.gmail.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-         <20180607143807.3611-6-yu-cheng.yu@intel.com>
-         <CALCETrVyGdWnU1B5vZK4QP2TGVjTCg5wsPX8iAQRGzpcGNGr5g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-06-07 at 11:38 -0700, Andy Lutomirski wrote:
-> On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> >
-> > Look in .note.gnu.property of an ELF file and check if shadow stack needs
-> > to be enabled for the task.
-> 
-> Nice!  But please structure it so it's one function that parses out
-> all the ELF notes and some other code (a table or a switch statement)
-> that handles them.  We will probably want to add more kernel-parsed
-> ELF notes some day, so let's structure the code to make it easier.
-> 
-> > +static int find_cet(u8 *buf, u32 size, u32 align, int *shstk, int *ibt)
-> > +{
-> > +       unsigned long start = (unsigned long)buf;
-> > +       struct elf_note *note = (struct elf_note *)buf;
-> > +
-> > +       *shstk = 0;
-> > +       *ibt = 0;
-> > +
-> > +       /*
-> > +        * Go through the x86_note_gnu_property array pointed by
-> > +        * buf and look for shadow stack and indirect branch
-> > +        * tracking features.
-> > +        * The GNU_PROPERTY_X86_FEATURE_1_AND entry contains only
-> > +        * one u32 as data.  Do not go beyond buf_size.
-> > +        */
-> > +
-> > +       while ((unsigned long) (note + 1) - start < size) {
-> > +               /* Find the NT_GNU_PROPERTY_TYPE_0 note. */
-> > +               if (note->n_namesz == 4 &&
-> > +                   note->n_type == NT_GNU_PROPERTY_TYPE_0 &&
-> > +                   memcmp(note + 1, "GNU", 4) == 0) {
-> > +                       u8 *ptr, *ptr_end;
-> > +
-> > +                       /* Check for invalid property. */
-> > +                       if (note->n_descsz < 8 ||
-> > +                          (note->n_descsz % align) != 0)
-> > +                               return 0;
-> > +
-> > +                       /* Start and end of property array. */
-> > +                       ptr = (u8 *)(note + 1) + 4;
-> > +                       ptr_end = ptr + note->n_descsz;
-> 
-> Exploitable bug here?  You haven't checked that ptr is in bounds or
-> that ptr + ptr_end is in bounds (or that ptr_end > ptr, for that
-> matter).
-> 
-> > +
-> > +                       while (1) {
-> > +                               u32 type = *(u32 *)ptr;
-> > +                               u32 datasz = *(u32 *)(ptr + 4);
-> > +
-> > +                               ptr += 8;
-> > +                               if ((ptr + datasz) > ptr_end)
-> > +                                       break;
-> > +
-> > +                               if (type == GNU_PROPERTY_X86_FEATURE_1_AND &&
-> > +                                   datasz == 4) {
-> > +                                       u32 p = *(u32 *)ptr;
-> > +
-> > +                                       if (p & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
-> > +                                               *shstk = 1;
-> > +                                       if (p & GNU_PROPERTY_X86_FEATURE_1_IBT)
-> > +                                               *ibt = 1;
-> > +                                       return 1;
-> > +                               }
-> > +                       }
-> > +               }
-> > +
-> > +               /*
-> > +                * Note sections like .note.ABI-tag and .note.gnu.build-id
-> > +                * are aligned to 4 bytes in 64-bit ELF objects.
-> > +                */
-> > +               note = (void *)note + ELF_NOTE_NEXT_OFFSET(note, align);
-> 
-> A malicious value here will probably just break out of the while
-> statement, but it's still scary.
-> 
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int check_pt_note_segment(struct file *file,
-> > +                                unsigned long note_size, loff_t *pos,
-> > +                                u32 align, int *shstk, int *ibt)
-> > +{
-> > +       int retval;
-> > +       char *note_buf;
-> > +
-> > +       /*
-> > +        * Try to read in the whole PT_NOTE segment.
-> > +        */
-> > +       note_buf = kmalloc(note_size, GFP_KERNEL);
-> 
-> kmalloc() with fully user-controlled, unchecked size is not a good idea.
+On Thu, Jun 7, 2018 at 7:42 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> From: "H.J. Lu" <hjl.tools@gmail.com>
+>
+> When Intel indirect branch tracking is enabled, functions in vDSO which
+> may be called indirectly should have endbr32 or endbr64 as the first
+> instruction.  We try to compile vDSO with -fcf-protection=branch -mibt
+> if possible.  Otherwise, we insert endbr32 or endbr64 by hand to assembly
+> codes generated by the compiler.
 
-I will fix these problems.  Thanks!
+Wow, that's... a genuine abomination.  Do we really need to support
+CET on kernels built with old toolchains?
 
+--Andy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
