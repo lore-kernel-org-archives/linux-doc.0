@@ -1,110 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFA827D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Jun 2018 20:56:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72C117D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 10:02:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752215AbeFFU4k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Jun 2018 16:56:40 -0400
-Received: from mail-yw0-f195.google.com ([209.85.161.195]:44092 "EHLO
-        mail-yw0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751885AbeFFU4i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jun 2018 16:56:38 -0400
-Received: by mail-yw0-f195.google.com with SMTP id p14-v6so2327833ywm.11;
-        Wed, 06 Jun 2018 13:56:38 -0700 (PDT)
+        id S1753409AbeFGKCQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 06:02:16 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:51616 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753047AbeFGKCP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jun 2018 06:02:15 -0400
+Received: by mail-wm0-f65.google.com with SMTP id r15-v6so16721613wmc.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 03:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=oEq8RfKwJYuD+6COTlowiE5qVzPl8iEYjnmxgan8HMs=;
-        b=bt3lmGMx2YHf5xMnHKL7hZivSOnPbNPPFFO1DnI5xOtjZqFQPJv2ha3VnWwu1Scew9
-         Nn2vGjpB7GVKOMqtk/TtVaWCp9tSwh+QJVGcJreo479iM/lYEuDf6+Cw+L2FYDruia/A
-         LjcXiSpTq05dTABV/IBBDYVoVKuaCMmK3vLwenjkGAl1bDj2WtpOiaVPvL25mUDggr/s
-         A6h9FEnmVT9gQXeBkI/5OG1rdyUj8zsWZqKNOc8hoXjkEmKvtW0XraAoJM4IX3jmIRkr
-         piT0IPuYP9FccblRJKKe+/QJVhL58zKtVO1odXG8dlOU6LeoT2BDJOE7WqKEw7OyCKZE
-         60RA==
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=X16pk0Ml23pL4XoS0LJ114RDqw7fQNqIijYPiOAf2eg=;
+        b=hlHO9gtRedmyvuH6CHklUNngEGgzS2QkGqbiGXI82d4nL48dsB7wviNWQOtdG6cjz9
+         4xbwietGMWJ3/eWXy0yrLSQroMXzyax5YpTdn4O0FE1Qc6w81AY5jGUsUWYRGXHv1Tz/
+         vc3JtPJDkOyLf/lwFqYCEek+y81V8AfJnsh3w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oEq8RfKwJYuD+6COTlowiE5qVzPl8iEYjnmxgan8HMs=;
-        b=OrR28pw6y6Lnm5+ubtbIUaMf3vT9JGP4/I0jgdY2DyNlkCLOLPsbpXnGi1rl6Ai0T+
-         SRDBfRM010cAGeeybK2XNbAhlOPDnvAEivsfxUivk8SV8yIZE4K4fubBDurAWL49sEgq
-         1EW1o6xABoRJ6YjrSKBMAArgG7oupa91/5SYL40XE9auJn02uJu0pCe2bmFz5ds+yyc6
-         pzvmUkD1Yy3i2uTVkRDEH0D3yY3AbrQEY6zQ0KfssbdG0Ms4iLR4zePeQd5CvI4imMEw
-         SKaETpHRJ8JknTi1Wa6vMFR1yF7XLcjvhhmqopVbErbboAhohNCwN0t8xr2a4BJHwrK/
-         sikw==
-X-Gm-Message-State: APt69E0OmxTHxMBRv+bjfE2R/hoDXJ5RXghpQgX0c2yOXDq2Ueffi//Z
-        2a9sORo3Uiq3POoJ456amN8=
-X-Google-Smtp-Source: ADUXVKJTN28TqIHc8oGfgoLEabx5SJbHqjMhlFJ9bV9eEiS9wybEHlOqoiJLGcxwBJxZ7RyuawgiFg==
-X-Received: by 2002:a0d:d757:: with SMTP id z84-v6mr2140065ywd.284.1528318597867;
-        Wed, 06 Jun 2018 13:56:37 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:200::d0a1])
-        by smtp.gmail.com with ESMTPSA id x125-v6sm22877720ywf.106.2018.06.06.13.56.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 06 Jun 2018 13:56:36 -0700 (PDT)
-Date:   Wed, 6 Jun 2018 13:56:35 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Waiman Long <longman@redhat.com>, Zefan Li <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH] cpuset: Enforce that a child's cpus must be a subset of
- the parent
-Message-ID: <20180606205635.GP1351649@devbig577.frc2.facebook.com>
-References: <1527687991-1431-1-git-send-email-longman@redhat.com>
- <5B0F4F09.9050100@huawei.com>
- <5B0FAE72.1090204@huawei.com>
- <20180531082613.GF12180@hirez.programming.kicks-ass.net>
- <5B0FB58C.9030705@huawei.com>
- <4dc718bc-4bd5-4998-853b-9c6ba67b89a0@redhat.com>
- <20180531155807.GU1351649@devbig577.frc2.facebook.com>
- <20180531161645.GN12180@hirez.programming.kicks-ass.net>
- <20180531161942.GW1351649@devbig577.frc2.facebook.com>
- <20180531163826.GO12180@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180531163826.GO12180@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=X16pk0Ml23pL4XoS0LJ114RDqw7fQNqIijYPiOAf2eg=;
+        b=irC+jR7zs7VrAa179OdactFvd2qewFDP89U3s+SppCrjWW+jjNxmEzfxIlDg/hKwbM
+         BzK4cfVNSMHWJ+DnOswuLiFRgZii952WvK/jWvdFgXkpeB7Jx98c9NLWrlsXJFpIY/Ct
+         50uZc+ezhL6ThD9WH1WMy7FHDMv1TqLeIMZwPXVSlivm8v0FErrA8FgDqNuzxiBEQY7Q
+         eC5FxZ7OWpjxTytZiu6okziI+HpfzGF9JfX2inQuv4Yr2lieLO3Qd1g7zbr0KYBO2DxA
+         S1iBehspArlLP6RakGVegkGmaXvzrwWUNLptDdWSC7VMffRxIc42SyY1oZlsNb3T4IUq
+         DGXw==
+X-Gm-Message-State: APt69E0z1puXpRTH251vRYKe7Au/I5VJlt//vhZVElgFdbJtpiwFgp/7
+        jDdQ+LzqQ+ap73lHPbwwXHZADw==
+X-Google-Smtp-Source: ADUXVKJ4HVVXtY0zhwY8YjydA2gEIp+RlChA7vgSrcszRIwVtJl7tX006Wl/V/itwFTjtQs10M/FkA==
+X-Received: by 2002:a1c:581:: with SMTP id 123-v6mr1177187wmf.58.1528365733231;
+        Thu, 07 Jun 2018 03:02:13 -0700 (PDT)
+Received: from andrea.amarulasolutions.com (85.100.broadband17.iol.cz. [109.80.100.85])
+        by smtp.gmail.com with ESMTPSA id b80-v6sm2161583wmf.2.2018.06.07.03.02.11
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 07 Jun 2018 03:02:12 -0700 (PDT)
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] doc: Update synchronize_rcu() definition in whatisRCU.txt
+Date:   Thu,  7 Jun 2018 12:01:57 +0200
+Message-Id: <1528365717-7213-1-git-send-email-andrea.parri@amarulasolutions.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, Peter.
+The synchronize_rcu() definition based on RW-locks in whatisRCU.txt
+does not meet the "Memory-Barrier Guarantees" in Requirements.html;
+for example, the following SB-like test:
 
-Sorry about late reply.
+    P0:                      P1:
 
-On Thu, May 31, 2018 at 06:38:26PM +0200, Peter Zijlstra wrote:
-> > Yeah, for cpuset, it's messier, but it isn't different from hotunplug
-> > scenario, right?  I think the best we can do there is putting ancestor
-> > operation on an equal footing as hotplug ops.
-> 
-> Right, but hotplug is exceedingly rare, while I get the impression you
-> think it is perfectly fine to recind on your resource grants.
+    WRITE_ONCE(x, 1);        WRITE_ONCE(y, 1);
+    synchronize_rcu();       smp_mb();
+    r0 = READ_ONCE(y);       r1 = READ_ONCE(x);
 
-Well, yeah, for a trivial example, imagine dynamic workload management
-where you wanna restrict what a side-loaded batch workload can do on
-and off peak hours.  All other controllers can do that.  It'd be a
-really odd design trade-off if we make that really clumsy for cpuset
-especially given that we wouldn't be gaining any actual
-functionalities.
+should not be allowed to reach the state "r0 = 0 AND r1 = 0", but
+the current write_lock()+write_unlock() definition can not ensure
+this. Remedies this by inserting an smp_mb__after_spinlock().
 
-Thanks.
+Suggested-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/RCU/whatisRCU.txt | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
+diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.txt
+index a27fbfb0efb82..86a54ff911fc2 100644
+--- a/Documentation/RCU/whatisRCU.txt
++++ b/Documentation/RCU/whatisRCU.txt
+@@ -586,6 +586,7 @@ It is extremely simple:
+ 	void synchronize_rcu(void)
+ 	{
+ 		write_lock(&rcu_gp_mutex);
++		smp_mb__after_spinlock();
+ 		write_unlock(&rcu_gp_mutex);
+ 	}
+ 
+@@ -607,12 +608,15 @@ don't forget about them when submitting patches making use of RCU!]
+ 
+ The rcu_read_lock() and rcu_read_unlock() primitive read-acquire
+ and release a global reader-writer lock.  The synchronize_rcu()
+-primitive write-acquires this same lock, then immediately releases
+-it.  This means that once synchronize_rcu() exits, all RCU read-side
+-critical sections that were in progress before synchronize_rcu() was
+-called are guaranteed to have completed -- there is no way that
+-synchronize_rcu() would have been able to write-acquire the lock
+-otherwise.
++primitive write-acquires this same lock, then releases it.  This means
++that once synchronize_rcu() exits, all RCU read-side critical sections
++that were in progress before synchronize_rcu() was called are guaranteed
++to have completed -- there is no way that synchronize_rcu() would have
++been able to write-acquire the lock otherwise.  The smp_mb__after_spinlock()
++promotes synchronize_rcu() to a full memory barrier in compliance with
++the "Memory-Barrier Guarantees" listed in:
++
++	Documentation/RCU/Design/Requirements/Requirements.html.
+ 
+ It is possible to nest rcu_read_lock(), since reader-writer locks may
+ be recursively acquired.  Note also that rcu_read_lock() is immune
 -- 
-tejun
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
