@@ -1,167 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7442F7DF8B
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:37:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C1517DF8D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933177AbeFGPhR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 11:37:17 -0400
-Received: from mga17.intel.com ([192.55.52.151]:61234 "EHLO mga17.intel.com"
+        id S934084AbeFGPjE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 11:39:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45162 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933818AbeFGOmb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 10:42:31 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:42:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,486,1520924400"; 
-   d="scan'208";a="235505951"
-Received: from 2b52.sc.intel.com ([143.183.136.51])
-  by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2018 07:42:30 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
+        id S935005AbeFGPjA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 11:39:00 -0400
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com [209.85.223.172])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1EB0B208A3
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jun 2018 15:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1528385940;
+        bh=/Z+yN54nwBtnO1YsmpoDAvuKNDr6RvNMby9iLJrueyc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=l0sa3y39UIhDuhJ4KYUwVh/2cC8qc0EcuTQlgt19RM1EVb/xzMxPvdFnRnnxNkAGw
+         eLiai/jgZ1xQYls0P8RzvbWJQ+SKPy2WiM42fh4PqZNVa5/7c+XnC04Kp8LzzXRcpM
+         ceeDOVRYppdv4batiKDqD9/juuzQQWIZ6iD/EdBM=
+Received: by mail-io0-f172.google.com with SMTP id d73-v6so12331303iog.3
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 08:39:00 -0700 (PDT)
+X-Gm-Message-State: APt69E2AdcFdWvrl3CFTHybxuJxE9Ls+pZnJLF2O09r1CBZRkywxAf72
+        spwFYz8NOV643CdwDRtkxUemrBiUKTPSaGtOBGoX6Q==
+X-Google-Smtp-Source: ADUXVKI5YR8BZLeEZcTjR14Vei0NXRwH3vL4H/MYpZNEsIZx8o0BunmVBc9/yI0n4U7DSV5kr8R6IL+bsfS4w57N+3w=
+X-Received: by 2002:a6b:ef02:: with SMTP id k2-v6mr1968977ioh.136.1528385939471;
+ Thu, 07 Jun 2018 08:38:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180607143544.3477-1-yu-cheng.yu@intel.com> <20180607143544.3477-3-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143544.3477-3-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 7 Jun 2018 08:38:47 -0700
+X-Gmail-Original-Message-ID: <CALCETrXAx4vBUxf3VaePNm3HHLZkdTFAR9TV0T+A-jb2QL7Uag@mail.gmail.com>
+Message-ID: <CALCETrXAx4vBUxf3VaePNm3HHLZkdTFAR9TV0T+A-jb2QL7Uag@mail.gmail.com>
+Subject: Re: [PATCH 2/5] x86/fpu/xstate: Change some names to separate XSAVES
+ system and user states
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@amacapital.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Subject: [PATCH 5/7] x86: Insert endbr32/endbr64 to vDSO
-Date:   Thu,  7 Jun 2018 07:38:53 -0700
-Message-Id: <20180607143855.3681-6-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.15.1
-In-Reply-To: <20180607143855.3681-1-yu-cheng.yu@intel.com>
-References: <20180607143855.3681-1-yu-cheng.yu@intel.com>
+        mike.kravetz@oracle.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+On Thu, Jun 7, 2018 at 7:40 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> To support XSAVES system states, change some names to distinguish
+> user and system states.
+>
+> Change:
+>   supervisor to system
+>   copy_init_fpstate_to_fpregs() to copy_init_fpstate_user_settings_to_fpregs()
+>   xfeatures_mask to xfeatures_mask_user
+>   XCNTXT_MASK to SUPPORTED_XFEATURES_MASK (states supported)
 
-When Intel indirect branch tracking is enabled, functions in vDSO which
-may be called indirectly should have endbr32 or endbr64 as the first
-instruction.  We try to compile vDSO with -fcf-protection=branch -mibt
-if possible.  Otherwise, we insert endbr32 or endbr64 by hand to assembly
-codes generated by the compiler.
+How about copy_init_user_fpstate_to_fpregs()?  It's shorter and more
+to the point.
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
----
- arch/x86/entry/vdso/.gitignore |  4 ++++
- arch/x86/entry/vdso/Makefile   | 34 ++++++++++++++++++++++++++++++++++
- arch/x86/entry/vdso/endbr.sh   | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 70 insertions(+)
- create mode 100644 arch/x86/entry/vdso/endbr.sh
-
-diff --git a/arch/x86/entry/vdso/.gitignore b/arch/x86/entry/vdso/.gitignore
-index aae8ffdd5880..552941fdfae0 100644
---- a/arch/x86/entry/vdso/.gitignore
-+++ b/arch/x86/entry/vdso/.gitignore
-@@ -5,3 +5,7 @@ vdso32-sysenter-syms.lds
- vdso32-int80-syms.lds
- vdso-image-*.c
- vdso2c
-+vclock_gettime.S
-+vgetcpu.S
-+vclock_gettime.asm
-+vgetcpu.asm
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index d998a487c9b1..cccafc36a831 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -118,6 +118,40 @@ $(obj)/%-x32.o: $(obj)/%.o FORCE
- 
- targets += vdsox32.lds $(vobjx32s-y)
- 
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+  ifeq ($(call cc-option-yn, -fcf-protection=branch -mibt), y)
-+    $(obj)/vclock_gettime.o $(obj)/vgetcpu.o $(obj)/vdso32/vclock_gettime.o: KBUILD_CFLAGS += -fcf-protection=branch -mibt
-+  else
-+    endbr := $(srctree)/$(src)/endbr.sh
-+    quiet_cmd_endbr = ENDBR $@
-+	  cmd_endbr = $(CONFIG_SHELL) '$(endbr)' $< $@
-+
-+    quiet_cmd_cc_asm_c = CC $(quiet_modtag) $@
-+	  cmd_cc_asm_c = $(CC) $(c_flags) $(DISABLE_LTO) -S -o $@ $<
-+
-+$(obj)/%.asm: $(src)/%.c
-+	$(call if_changed_dep,cc_asm_c)
-+
-+$(obj)/vclock_gettime.S: $(obj)/vclock_gettime.asm
-+	$(call if_changed,endbr)
-+
-+$(obj)/vgetcpu.S: $(obj)/vgetcpu.asm
-+	$(call if_changed,endbr)
-+
-+$(obj)/vclock_gettime.o: $(obj)/vclock_gettime.S
-+	 $(call if_changed_rule,as_o_S)
-+
-+$(obj)/vgetcpu.o: $(obj)/vgetcpu.S
-+	 $(call if_changed_rule,as_o_S)
-+
-+$(obj)/vdso32/vclock_gettime.S: $(obj)/vdso32/vclock_gettime.asm
-+	$(call if_changed,endbr)
-+
-+$(obj)/vdso32/vclock_gettime.o: $(obj)/vdso32/vclock_gettime.S
-+	 $(call if_changed_rule,as_o_S)
-+  endif
-+endif
-+
- $(obj)/%.so: OBJCOPYFLAGS := -S
- $(obj)/%.so: $(obj)/%.so.dbg
- 	$(call if_changed,objcopy)
-diff --git a/arch/x86/entry/vdso/endbr.sh b/arch/x86/entry/vdso/endbr.sh
-new file mode 100644
-index 000000000000..983dbec182f2
---- /dev/null
-+++ b/arch/x86/entry/vdso/endbr.sh
-@@ -0,0 +1,32 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+in="$1"
-+out="$2"
-+
-+case "$in" in
-+*/vdso32/*)
-+    endbr=".byte 0xf3,0x0f,0x1e,0xfb"
-+    ;;
-+*)
-+    endbr=".byte 0xf3,0x0f,0x1e,0xfa"
-+    ;;
-+esac
-+
-+need_endbr=no
-+while IFS= read line ; do
-+   case "$line" in
-+   __vdso_clock_gettime:|__vdso_getcpu:|__vdso_gettimeofday:|__vdso_time:)
-+	need_endbr=yes
-+	;;
-+   "	."*)
-+	;;
-+   "	"*)
-+	if [ "$need_endbr" = "yes" ]; then
-+	    need_endbr=no
-+	    echo "	$endbr"
-+	fi
-+	;;
-+   esac
-+   echo "$line"
-+done < "$in" > "$out"
--- 
-2.15.1
-
+--Andy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
