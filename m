@@ -2,17 +2,17 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 92A377D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:36:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21AB27D08C
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Jun 2018 15:36:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934732AbeFGOmf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 10:42:35 -0400
-Received: from mga17.intel.com ([192.55.52.151]:61237 "EHLO mga17.intel.com"
+        id S933255AbeFGOme (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 10:42:34 -0400
+Received: from mga17.intel.com ([192.55.52.151]:61234 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933716AbeFGOmb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S933581AbeFGOmb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 7 Jun 2018 10:42:31 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -20,7 +20,7 @@ Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 07:42:30 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.49,486,1520924400"; 
-   d="scan'208";a="235505947"
+   d="scan'208";a="235505944"
 Received: from 2b52.sc.intel.com ([143.183.136.51])
   by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2018 07:42:30 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -38,9 +38,9 @@ To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         Mike Kravetz <mike.kravetz@oracle.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH 4/7] x86/cet: add arcp_prctl functions for indirect branch tracking
-Date:   Thu,  7 Jun 2018 07:38:52 -0700
-Message-Id: <20180607143855.3681-5-yu-cheng.yu@intel.com>
+Subject: [PATCH 3/7] mm/mmap: Add IBT bitmap size to address space limit check
+Date:   Thu,  7 Jun 2018 07:38:51 -0700
+Message-Id: <20180607143855.3681-4-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.15.1
 In-Reply-To: <20180607143855.3681-1-yu-cheng.yu@intel.com>
 References: <20180607143855.3681-1-yu-cheng.yu@intel.com>
@@ -49,181 +49,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+The indirect branch tracking legacy bitmap takes a large address
+space.  This causes may_expand_vm() failure on the address limit
+check.  For a IBT-enabled task, add the bitmap size to the
+address limit.
+
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/cet.h        |  1 +
- arch/x86/include/uapi/asm/prctl.h |  1 +
- arch/x86/kernel/cet_prctl.c       | 54 ++++++++++++++++++++++++++++++++++++---
- arch/x86/kernel/elf.c             | 12 ++++++---
- arch/x86/kernel/process.c         |  1 +
- 5 files changed, 62 insertions(+), 7 deletions(-)
+ arch/x86/include/uapi/asm/resource.h | 5 +++++
+ include/uapi/asm-generic/resource.h  | 3 +++
+ mm/mmap.c                            | 8 +++++++-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
-index d07bdeb27db4..5b71a2b44eb1 100644
---- a/arch/x86/include/asm/cet.h
-+++ b/arch/x86/include/asm/cet.h
-@@ -19,6 +19,7 @@ struct cet_stat {
- 	unsigned int	ibt_enabled:1;
- 	unsigned int	locked:1;
- 	unsigned int	exec_shstk:2;
-+	unsigned int	exec_ibt:2;
- };
+diff --git a/arch/x86/include/uapi/asm/resource.h b/arch/x86/include/uapi/asm/resource.h
+index 04bc4db8921b..0741b2a6101a 100644
+--- a/arch/x86/include/uapi/asm/resource.h
++++ b/arch/x86/include/uapi/asm/resource.h
+@@ -1 +1,6 @@
++/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
++#ifdef CONFIG_X86_INTEL_CET
++#define rlimit_as_extra() current->thread.cet.ibt_bitmap_size
++#endif
++
+ #include <asm-generic/resource.h>
+diff --git a/include/uapi/asm-generic/resource.h b/include/uapi/asm-generic/resource.h
+index f12db7a0da64..8a7608a09700 100644
+--- a/include/uapi/asm-generic/resource.h
++++ b/include/uapi/asm-generic/resource.h
+@@ -58,5 +58,8 @@
+ # define RLIM_INFINITY		(~0UL)
+ #endif
  
- #ifdef CONFIG_X86_INTEL_CET
-diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
-index f9965403b655..fef476d2d2f6 100644
---- a/arch/x86/include/uapi/asm/prctl.h
-+++ b/arch/x86/include/uapi/asm/prctl.h
-@@ -20,6 +20,7 @@
- #define ARCH_CET_EXEC		0x3004
- #define ARCH_CET_ALLOC_SHSTK	0x3005
- #define ARCH_CET_PUSH_SHSTK	0x3006
-+#define ARCH_CET_LEGACY_BITMAP	0x3007
++#ifndef rlimit_as_extra
++#define rlimit_as_extra() 0
++#endif
  
- /*
-  * Settings for ARCH_CET_EXEC
-diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
-index 326996e2ea80..948f7ba98dc2 100644
---- a/arch/x86/kernel/cet_prctl.c
-+++ b/arch/x86/kernel/cet_prctl.c
-@@ -19,6 +19,7 @@
-  * ARCH_CET_EXEC: set default features for exec()
-  * ARCH_CET_ALLOC_SHSTK: allocate shadow stack
-  * ARCH_CET_PUSH_SHSTK: put a return address on shadow stack
-+ * ARCH_CET_LEGACY_BITMAP: allocate legacy bitmap
+ #endif /* _UAPI_ASM_GENERIC_RESOURCE_H */
+diff --git a/mm/mmap.c b/mm/mmap.c
+index e7d1fcb7ec58..5c07f052bed7 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -3255,7 +3255,13 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
   */
- 
- static int handle_get_status(unsigned long arg2)
-@@ -28,8 +29,12 @@ static int handle_get_status(unsigned long arg2)
- 
- 	if (current->thread.cet.shstk_enabled)
- 		features |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
-+	if (current->thread.cet.ibt_enabled)
-+		features |= GNU_PROPERTY_X86_FEATURE_1_IBT;
- 	if (current->thread.cet.exec_shstk == CET_EXEC_ALWAYS_ON)
- 		cet_exec |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
-+	if (current->thread.cet.exec_ibt == CET_EXEC_ALWAYS_ON)
-+		cet_exec |= GNU_PROPERTY_X86_FEATURE_1_IBT;
- 	shstk_size = current->thread.cet.exec_shstk_size;
- 
- 	if (in_compat_syscall()) {
-@@ -94,9 +99,18 @@ static int handle_set_exec(unsigned long arg2)
- 			return -EPERM;
- 	}
- 
-+	if (features & GNU_PROPERTY_X86_FEATURE_1_IBT) {
-+		if (!cpu_feature_enabled(X86_FEATURE_IBT))
-+			return -EINVAL;
-+		if ((current->thread.cet.exec_ibt == CET_EXEC_ALWAYS_ON) &&
-+		    (cet_exec != CET_EXEC_ALWAYS_ON))
-+			return -EPERM;
-+	}
-+
- 	if (features & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
- 		current->thread.cet.exec_shstk = cet_exec;
--
-+	if (features & GNU_PROPERTY_X86_FEATURE_1_IBT)
-+		current->thread.cet.exec_ibt = cet_exec;
- 	current->thread.cet.exec_shstk_size = shstk_size;
- 	return 0;
- }
-@@ -167,9 +181,36 @@ static int handle_alloc_shstk(unsigned long arg2)
- 	return 0;
- }
- 
-+static int handle_bitmap(unsigned long arg2)
-+{
-+	unsigned long addr, size;
-+
-+	if (current->thread.cet.ibt_enabled) {
-+		if (!current->thread.cet.ibt_bitmap_addr)
-+			cet_setup_ibt_bitmap();
-+		addr = current->thread.cet.ibt_bitmap_addr;
-+		size = current->thread.cet.ibt_bitmap_size;
-+	} else {
-+		addr = 0;
-+		size = 0;
-+	}
-+
-+	if (in_compat_syscall()) {
-+		if (put_user(addr, (unsigned int __user *)arg2) ||
-+		    put_user(size, (unsigned int __user *)arg2 + 1))
-+			return -EFAULT;
-+	} else {
-+		if (put_user(addr, (unsigned long __user *)arg2) ||
-+		    put_user(size, (unsigned long __user *)arg2 + 1))
-+		return -EFAULT;
-+	}
-+	return 0;
-+}
-+
- int prctl_cet(int option, unsigned long arg2)
+ bool may_expand_vm(struct mm_struct *mm, vm_flags_t flags, unsigned long npages)
  {
--	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
-+	    !cpu_feature_enabled(X86_FEATURE_IBT))
- 		return -EINVAL;
- 
- 	switch (option) {
-@@ -181,7 +222,8 @@ int prctl_cet(int option, unsigned long arg2)
- 			return -EPERM;
- 		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
- 			cet_disable_free_shstk(current);
--
-+		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_IBT)
-+			cet_disable_ibt();
- 		return 0;
- 
- 	case ARCH_CET_LOCK:
-@@ -197,6 +239,12 @@ int prctl_cet(int option, unsigned long arg2)
- 	case ARCH_CET_PUSH_SHSTK:
- 		return handle_push_shstk(arg2);
- 
-+	/*
-+	 * Allocate legacy bitmap and return address & size to user.
-+	 */
-+	case ARCH_CET_LEGACY_BITMAP:
-+		return handle_bitmap(arg2);
+-	if (mm->total_vm + npages > rlimit(RLIMIT_AS) >> PAGE_SHIFT)
++	unsigned long as_limit = rlimit(RLIMIT_AS);
++	unsigned long as_limit_plus = as_limit + rlimit_as_extra();
 +
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
-index a3995c8c2fc2..c2a89f3c7186 100644
---- a/arch/x86/kernel/elf.c
-+++ b/arch/x86/kernel/elf.c
-@@ -230,10 +230,14 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
- 	}
- 
- 	if (cpu_feature_enabled(X86_FEATURE_IBT)) {
--		if (ibt) {
--			err = cet_setup_ibt();
--			if (err < 0)
--				goto out;
-+		int exec = current->thread.cet.exec_ibt;
++	if (as_limit_plus > as_limit)
++		as_limit = as_limit_plus;
 +
-+		if (exec != CET_EXEC_ALWAYS_OFF) {
-+			if (ibt || (exec == CET_EXEC_ALWAYS_ON)) {
-+				err = cet_setup_ibt();
-+				if (err < 0)
-+					goto out;
-+			}
- 		}
- 	}
++	if (mm->total_vm + npages > as_limit >> PAGE_SHIFT)
+ 		return false;
  
-diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index 9bec164e7958..c69576b4abd1 100644
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -801,6 +801,7 @@ long do_arch_prctl_common(struct task_struct *task, int option,
- 	case ARCH_CET_EXEC:
- 	case ARCH_CET_ALLOC_SHSTK:
- 	case ARCH_CET_PUSH_SHSTK:
-+	case ARCH_CET_LEGACY_BITMAP:
- 		return prctl_cet(option, cpuid_enabled);
- 	}
- 
+ 	if (is_data_mapping(flags) &&
 -- 
 2.15.1
 
