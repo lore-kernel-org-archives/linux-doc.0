@@ -5,57 +5,55 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C9697DF87
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 00:47:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DE58D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 00:59:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752633AbeFHAra (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 20:47:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47226 "EHLO mail.kernel.org"
+        id S1752156AbeFHA7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 20:59:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49694 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752411AbeFHAr2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 20:47:28 -0400
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com [209.85.128.181])
+        id S1751752AbeFHA7w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 20:59:52 -0400
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 024E7208B6
-        for <linux-doc@vger.kernel.org>; Fri,  8 Jun 2018 00:47:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6D5EE208B4
+        for <linux-doc@vger.kernel.org>; Fri,  8 Jun 2018 00:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528418848;
-        bh=BFYsEP3KIs/UJ/g3xa53oBl8SbvI8q5sY2hMyWdX8vI=;
+        s=default; t=1528419591;
+        bh=54cyx0txs+H+Cvzvz58YOSX9iyPM5ukTrpI28aaQMaU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zRDyYmqCFzoNu6H7TySb+PdmEKBktdpN96vW4VmOJcJtP/r2qt6Y6XSfHXM+vg+R0
-         Y6GhZNTXeEoxjGfvUg710d4Iw7tW8EWCIudM02/KmJ8uQo0C6vdj542DFqCqHWkxJg
-         Vj7a8mebaTHttNeUQkYlVrk9jCuMj6Fb28KEJDPw=
-Received: by mail-wr0-f181.google.com with SMTP id a12-v6so11628686wro.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 17:47:27 -0700 (PDT)
-X-Gm-Message-State: APt69E2eqP1JmmBDtcinqKtLpHS/0DZ8jk1s7Crbt7Z7rWhU52cbZqmy
-        AvpuilgKh3QpCS5vYx8wYs4gXZiymTbRieB8gD/ZQg==
-X-Google-Smtp-Source: ADUXVKJJN3IXZo3A86Qpw/Nn7z3qMfNzseImDVz+ZokOLUy5hmeJg3zAn5Ykq9qAPQgzbEP8Be83tAJeGkYrP8TEiQs=
-X-Received: by 2002:adf:b1ca:: with SMTP id r10-v6mr3085508wra.221.1528418846307;
- Thu, 07 Jun 2018 17:47:26 -0700 (PDT)
+        b=Kj2RhG9LwmQ50T349iZnpRg8TOjFQ5tXEy9rRAXlp/HXw4lC+kjv0WloHD8w/s7ni
+         3uv+09lKSQ2qnQdHdTn63Ggm2NPygIf6HswoHmN2zkYom6m+ymEDeSCKzp/sLnl82C
+         7fpXRt45yzc2wGmbp1hq7sAbWl44PS/EfJSyDgPc=
+Received: by mail-wm0-f41.google.com with SMTP id n5-v6so444040wmc.5
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 17:59:51 -0700 (PDT)
+X-Gm-Message-State: APt69E0gCLZJ5pQ29tb6+y8yiTNvsZJ/JdTeDeyS7se4DND/7nc7ChJc
+        CWB0d7hL4hj5CO8u21KE/R4GPGkJHwzlWoXwzM7beA==
+X-Google-Smtp-Source: ADUXVKJD5GXnJVN58JWvgSWotfmX6RjeZ5OhWrvmWU6+BTmP3Ztbc1Bg79waP62cjK3+b0MR03SgRIkJ9tCVpEOmYYc=
+X-Received: by 2002:a1c:4a9d:: with SMTP id n29-v6mr26925wmi.46.1528419589754;
+ Thu, 07 Jun 2018 17:59:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180607143855.3681-1-yu-cheng.yu@intel.com> <20180607143855.3681-6-yu-cheng.yu@intel.com>
- <CALCETrVRH8LeYoo7V1VBPqg4WS0Enxtizt=T7dPvgoeWfJrdzA@mail.gmail.com>
- <CAMe9rOp9YtNnTzsDPFXukK6ps7VNa2MU6o0GwnoES5Ma_AC65A@mail.gmail.com>
- <CALCETrXOc3-2QLks3iaTTvEE=4+2Oi3PORa8HPbYiDTtKV6CLQ@mail.gmail.com> <CAMe9rOphRmP4aEGGwmM=d+D7GyZWrC_hMTWaiy1tEtBd0PLdxA@mail.gmail.com>
-In-Reply-To: <CAMe9rOphRmP4aEGGwmM=d+D7GyZWrC_hMTWaiy1tEtBd0PLdxA@mail.gmail.com>
+References: <20180607143705.3531-1-yu-cheng.yu@intel.com> <20180607143705.3531-7-yu-cheng.yu@intel.com>
+ <CALCETrVa8MtxP9iqYkZLnetaQiN4UaWb=jGz1+rLsCuETHKydg@mail.gmail.com> <5c39caf1-2198-3c2b-b590-8c38a525747f@linux.intel.com>
+In-Reply-To: <5c39caf1-2198-3c2b-b590-8c38a525747f@linux.intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 17:47:14 -0700
-X-Gmail-Original-Message-ID: <CALCETrXZjcTs6y8u5SvdUw_9itpb6EhLbMWpVJTAXVNkkvas_Q@mail.gmail.com>
-Message-ID: <CALCETrXZjcTs6y8u5SvdUw_9itpb6EhLbMWpVJTAXVNkkvas_Q@mail.gmail.com>
-Subject: Re: [PATCH 5/7] x86: Insert endbr32/endbr64 to vDSO
-To:     "H. J. Lu" <hjl.tools@gmail.com>
-Cc:     Andrew Lutomirski <luto@kernel.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+Date:   Thu, 7 Jun 2018 17:59:37 -0700
+X-Gmail-Original-Message-ID: <CALCETrU7uNpSp8DWKnpH28wHE3JOeXkmp-H97n2nWHJEu4pDEA@mail.gmail.com>
+Message-ID: <CALCETrU7uNpSp8DWKnpH28wHE3JOeXkmp-H97n2nWHJEu4pDEA@mail.gmail.com>
+Subject: Re: [PATCH 6/9] x86/mm: Introduce ptep_set_wrprotect_flush and
+ related functions
+To:     Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
         "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
         mike.kravetz@oracle.com
@@ -65,39 +63,88 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 5:31 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+On Thu, Jun 7, 2018 at 1:30 PM Dave Hansen <dave.hansen@linux.intel.com> wrote:
 >
-> On Thu, Jun 7, 2018 at 4:00 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> > On Thu, Jun 7, 2018 at 3:03 PM H.J. Lu <hjl.tools@gmail.com> wrote:
-> >>
-> >> On Thu, Jun 7, 2018 at 1:50 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> >> > On Thu, Jun 7, 2018 at 7:42 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> >> >>
-> >> >> From: "H.J. Lu" <hjl.tools@gmail.com>
-> >> >>
-> >> >> When Intel indirect branch tracking is enabled, functions in vDSO which
-> >> >> may be called indirectly should have endbr32 or endbr64 as the first
-> >> >> instruction.  We try to compile vDSO with -fcf-protection=branch -mibt
-> >> >> if possible.  Otherwise, we insert endbr32 or endbr64 by hand to assembly
-> >> >> codes generated by the compiler.
-> >> >
-> >> > Wow, that's... a genuine abomination.  Do we really need to support
-> >> > CET on kernels built with old toolchains?
-> >> >
-> >>
-> >> Yes.  GCC 7 should be able to build CET kernel.
-> >>
-> >
-> > Why?  Presumably people running distros that use CET are going to have
-> > kernels build with a CET-supporting compiler.
-> >
+> On 06/07/2018 09:24 AM, Andy Lutomirski wrote:
 >
-> Good point.  It was needed before GCC 8 was released.   We can drop
-> arch/x86/entry/vdso/endbr.sh now.
+> >> +static inline void ptep_set_wrprotect_flush(struct vm_area_struct *vma,
+> >> +                                           unsigned long addr, pte_t *ptep)
+> >> +{
+> >> +       bool rw;
+> >> +
+> >> +       rw = test_and_clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
+> >> +       if (IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER)) {
+> >> +               struct mm_struct *mm = vma->vm_mm;
+> >> +               pte_t pte;
+> >> +
+> >> +               if (rw && (atomic_read(&mm->mm_users) > 1))
+> >> +                       pte = ptep_clear_flush(vma, addr, ptep);
+> > Why are you clearing the pte?
+>
+> I found my notes on the subject. :)
+>
+> Here's the sequence that causes the problem.  This could happen any time
+> we try to take a PTE from read-write to read-only.  P==Present, W=Write,
+> D=Dirty:
+>
+> CPU0 does a write, sees PTE with P=1,W=1,D=0
+> CPU0 decides to set D=1
+> CPU1 comes in and sets W=0
+> CPU0 does locked operation to set D=1
+>         CPU0 sees P=1,W=0,D=0
+>         CPU0 sets back P=1,W=0,D=1
+> CPU0 loads P=1,W=0,D=1 into the TLB
+> CPU0 attempts to continue the write, but sees W=0 in the TLB and a #PF
+> is generated because of the write fault.
+>
+> The problem with this is that we end up with a shadowstack-PTE
+> (Write=0,Dirty=1) where we didn't want one.  This, unfortunately,
+> imposes extra TLB flushing overhead on the R/W->R/O transitions that
+> does not exist before shadowstack enabling.
 >
 
-Phew!  We'll still need a patch to prevent configuring CET on a
-compiler that can't support it.
+So what exactly do the architects want the OS to do?  AFAICS the only
+valid ways to clear the dirty bit are:
+
+--- Choice 1 ---
+a) Set P=0.
+b) Flush using an IPI
+c) Read D (so we know if the page was actually dirty)
+d) Set P=1,W=0,D=0
+
+and we need to handle spurious faults that happen between steps (a)
+and (c).  This isn't so easy because the straightforward "is the fault
+spurious" check is going to think it's *not* spurious.
+
+--- Choice 2 ---
+a) Set W=0
+b) flush
+c) Test and clear D
+
+and we need to handle the spurious fault between b and c.  At least
+this particular spurious fault is easier to handle since we can check
+the error code.
+
+But surely the right solution is to get the architecture team to see
+if they can fix the dirty-bit-setting algorithm or, even better, to
+look and see if the dirty-bit-setting algorithm is *already* better
+and just document it.  If the cpu does a locked set-bit on D in your
+example, the CPU is just being silly.  The CPU should make the whole
+operation fully atomic: when trying to write to a page that's D=0 in
+the TLB, it should re-walk the page tables and, atomically, load the
+PTE and, if it's W=1,D=0, set D=1.  I'd honestly be a bit surprised if
+modern CPUs don't already do this.
+
+(Hmm.  If the CPUs were that smart, then we wouldn't need a flush at
+all in some cases.  If we lock cmpxchg to change W=1,D=0 to W=0,D=0,
+then we know that no other CPU can subsequently write the page without
+re-walking, and we don't need to flush.)
+
+Can you ask the architecture folks to clarify the situation?  And, if
+your notes are indeed correct, don't we need code to handle spurious
+faults?
+
+--Andy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
