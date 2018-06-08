@@ -5,149 +5,68 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6EA507D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 15:53:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FB4D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 16:36:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751614AbeFHPxy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Jun 2018 11:53:54 -0400
-Received: from mga07.intel.com ([134.134.136.100]:24105 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751134AbeFHPxx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Jun 2018 11:53:53 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jun 2018 08:53:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,490,1520924400"; 
-   d="scan'208";a="57644959"
-Received: from 2b52.sc.intel.com (HELO [143.183.136.147]) ([143.183.136.147])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jun 2018 08:53:52 -0700
-Message-ID: <1528473039.8058.11.camel@2b52.sc.intel.com>
-Subject: Re: [PATCH 04/10] x86/cet: Handle thread shadow stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com
-Date:   Fri, 08 Jun 2018 08:50:39 -0700
-In-Reply-To: <CALCETrV_V68nVhCpUSGXrwUKCu4utbdp01snmG=G=+_xAo0KJA@mail.gmail.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-         <20180607143807.3611-5-yu-cheng.yu@intel.com>
-         <CALCETrUqXvh2FDXe6bveP10TFpzptEyQe2=mdfZFGKU0T+NXsA@mail.gmail.com>
-         <3c1bdf85-0c52-39ed-a799-e26ac0e52391@redhat.com>
-         <CALCETrWPDXpbVcuFK_1M5DtaCOW_LSf-XHFAD0vpc735oFWLPg@mail.gmail.com>
-         <6ee29e8b-4a0a-3459-a1ee-03923ba4e15d@redhat.com>
-         <CALCETrV_V68nVhCpUSGXrwUKCu4utbdp01snmG=G=+_xAo0KJA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1751614AbeFHQgF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Jun 2018 12:36:05 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:45914 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1751244AbeFHQgF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Jun 2018 12:36:05 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5AC204187E3E;
+        Fri,  8 Jun 2018 16:36:04 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 0F9861C679;
+        Fri,  8 Jun 2018 16:36:01 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Fri,  8 Jun 2018 18:36:04 +0200 (CEST)
+Date:   Fri, 8 Jun 2018 18:36:01 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com
+Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
+ (semaphore)
+Message-ID: <20180608163600.GA9030@redhat.com>
+References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 08 Jun 2018 16:36:04 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 08 Jun 2018 16:36:04 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2018-06-08 at 08:01 -0700, Andy Lutomirski wrote:
-> On Fri, Jun 8, 2018 at 7:53 AM Florian Weimer <fweimer@redhat.com> wrote:
-> >
-> > On 06/07/2018 10:53 PM, Andy Lutomirski wrote:
-> > > On Thu, Jun 7, 2018 at 12:47 PM Florian Weimer <fweimer@redhat.com> wrote:
-> > >>
-> > >> On 06/07/2018 08:21 PM, Andy Lutomirski wrote:
-> > >>> On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > >>>>
-> > >>>> When fork() specifies CLONE_VM but not CLONE_VFORK, the child
-> > >>>> needs a separate program stack and a separate shadow stack.
-> > >>>> This patch handles allocation and freeing of the thread shadow
-> > >>>> stack.
-> > >>>
-> > >>> Aha -- you're trying to make this automatic.  I'm not convinced this
-> > >>> is a good idea.  The Linux kernel has a long and storied history of
-> > >>> enabling new hardware features in ways that are almost entirely
-> > >>> useless for userspace.
-> > >>>
-> > >>> Florian, do you have any thoughts on how the user/kernel interaction
-> > >>> for the shadow stack should work?
-> > >>
-> > >> I have not looked at this in detail, have not played with the emulator,
-> > >> and have not been privy to any discussions before these patches have
-> > >> been posted, however …
-> > >>
-> > >> I believe that we want as little code in userspace for shadow stack
-> > >> management as possible.  One concern I have is that even with the code
-> > >> we arguably need for various kinds of stack unwinding, we might have
-> > >> unwittingly built a generic trampoline that leads to full CET bypass.
-> > >
-> > > I was imagining an API like "allocate a shadow stack for the current
-> > > thread, fail if the current thread already has one, and turn on the
-> > > shadow stack".  glibc would call clone and then call this ABI pretty
-> > > much immediately (i.e. before making any calls from which it expects
-> > > to return).
-> >
-> > Ahh.  So you propose not to enable shadow stack enforcement on the new
-> > thread even if it is enabled for the current thread?  For the cases
-> > where CLONE_VM is involved?
-> >
-> > It will still need a new assembler wrapper which sets up the shadow
-> > stack, and it's probably required to disable signals.
-> >
-> > I think it should be reasonable safe and actually implementable.  But
-> > the benefits are not immediately obvious to me.
-> 
-> Doing it this way would have been my first incliniation.  It would
-> avoid all the oddities of the kernel magically creating a VMA when
-> clone() is called, guessing the shadow stack size, etc.  But I'm okay
-> with having the kernel do it automatically, too.
+Hello,
 
-HJ wanted to add a arch_prctl that allocates a new shadow stack and
-switches to it.  That was mainly for swapcontext.  Perhaps we can also
-use that for threads?  HJ, can you comment on this?
+I am travelling till the end of the next week, can't read this version
+until I return. Just one question,
 
-> I think it would be
-> very nice to have a way for user code to find out the size of the
-> shadow stack and change it, though.  (And relocate it, but maybe
-> that's impossible.  The CET documentation doesn't have a clear
-> description of the shadow stack layout.)
+On 06/06, Ravi Bangoria wrote:
+>
+>  1. One of the major reason was the deadlock between uprobe_lock and
+>  mm->mmap inside trace_uprobe_mmap(). That deadlock was not easy to fix
 
-The shadow stack is vm_mmap'ed from memory and does not have any special
-layout.  We can add a arch_prctl to find out shadow stack's address and
-size.
+Could you remind what exactly was wrong?
 
-> >
-> > > We definitely want strong enough user control that tools like CRIU can
-> > > continue to work.  I haven't looked at the SDM recently enough to
-> > > remember for sure, but I'm reasonably confident that user code can
-> > > learn the address of its own shadow stack.  If nothing else, CRIU
-> > > needs to be able to restore from a context where there's a signal on
-> > > the stack and the signal frame contains a shadow stack pointer.
-> >
-> > CRIU also needs the shadow stack *contents*, which shouldn't be directly
-> > available to the process.  So it needs very special interfaces anyway.
-> 
-> True.  I proposed in a different email that ptrace() have full control
-> of the shadow stack (read, write, lock, unlock, etc).
+I can't find your previous email about this problem, but iirc you didn't
+explain the deadlock in details, just copied some traces from lockdep...
 
-PTRACE can do PTRACE_POKEDATA on shadow stack.  We can add lock/unlock.
-
-> >
-> > Does CRIU implement MPX support?
-> 
-> Dunno.  But given that MPX seems to be dying, I'm not sure it matters.
-> 
-> --Andy
-
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
