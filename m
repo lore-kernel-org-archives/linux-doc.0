@@ -6,55 +6,56 @@ X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 27F5F7D09D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 12:17:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 03C777D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 12:24:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751127AbeFHMRl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Jun 2018 08:17:41 -0400
-Received: from mail-ot0-f196.google.com ([74.125.82.196]:45875 "EHLO
-        mail-ot0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751019AbeFHMRj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jun 2018 08:17:39 -0400
-Received: by mail-ot0-f196.google.com with SMTP id a5-v6so15397677otf.12;
-        Fri, 08 Jun 2018 05:17:39 -0700 (PDT)
+        id S1752728AbeFHMYZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Jun 2018 08:24:25 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:44173 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752716AbeFHMYX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jun 2018 08:24:23 -0400
+Received: by mail-oi0-f66.google.com with SMTP id c128-v6so11634138oig.11;
+        Fri, 08 Jun 2018 05:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=X0YZgJR9shrJ358aexkdlVVyiXBZAoU28ywamvZJBFg=;
-        b=MWRVwNVZ956DdqzxUiZ8fqgHKiGM7XBvi594/VVE2lqlkNU+L0H9er3HHXmY8wFQli
-         gN3FLhDvEhJ4vTy+7mVcex6pOgfbYmOsInETC1aS6C3go4t8EXyQXJP8nkhgoZU8tn5L
-         uNcnsfdtJdSHTmgBCeDt8s2h7B0pL92x6QVl5Drz0mc2FMgnCRCqMBP9tG/AcdnkqSDa
-         F8amopPk2ztKy+XRgo2uTK7FA3A65o3pCbB4DOlV2lyFOBLCKQAFUf1Ofm97UwGF1B9j
-         9A5P+2++OiJTKTjhT/BgsChKvQ1VhBPySvyvhQmkqAHUGJXqeMm/ux4GLyg2GA3oocTb
-         kq6g==
+        bh=ajJh5hC8xjR+vPCDtRGJ9VXF3fv4AWtR1rDlQgq5FPA=;
+        b=iI3O1YiApt2CtctdrpOwGfen6soXB7XAAWm7n7EEQh4nTw8GODMxcetd8cKojhfjUM
+         xMyA3UElIBFm+LUYkrI6nGV/xQa57185GtIR/8VY9Gicw31oQiRA4SFqHRf4immxfngt
+         yJvVUFFelyzlUNTzigitXipiDo3jtgw9ObwWPbf+G7ahvOF/iHK2ySgr6vuQ36u+PBTx
+         /L1d8E9WZGWikQrchLG+3IXewNiOCQOupK9kFlmAIHYE3HTCl7/c31XmLjmeMR5kqrYE
+         t7xl8IWIMEb5zWkdUNNRIS7J66vnEeso0Dy4u8hU2vvlUAKuTHM0ynzsHJO+w+o+gabG
+         Lvog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=X0YZgJR9shrJ358aexkdlVVyiXBZAoU28ywamvZJBFg=;
-        b=blHL8uCfKvvt7lC9Yyqfe6oYT0O1Y6bFREebGG5bTD+9ZXsNUpBbNfM9T7Rplyzav+
-         V1m/6VVtHyt4ifpvrFcfw6puekAyHfGo6TAi/Hx+foglUAlIVnR4EsVAE9Gtsiwo5+/J
-         PLPeGzsoKyvdzE7pSsHsH2B2eRYhnnEv+NfsNsIbuWLsk9Zy732/kYGy1JRB87nE54gv
-         FI1S95UYrGQWwhmYda3eScwDDr3cW73rt32VFwztEuFwDaotfVSab5Iynopx4UOfaJdl
-         De0T+KNTnGh4fDFwabqIabO1rWF4zq/+5/IqWeKAb5fhkU/SBSlcpqYp0c/UfvpYHvdU
-         VAVg==
-X-Gm-Message-State: APt69E1JYQRMw4JcXktU9Nq2G74XqahFGLld92hZxD8rxpKRCA32jPhj
-        qVyNPpiVo4dn2nP0fq8AfJauRHBO70BpOT23Txc=
-X-Google-Smtp-Source: ADUXVKJfuBD07DPMMCRvQJzsZUkeX5MPpq7E/SIHVhAbdyRVjmBM4BOABSR0tsJB/X1Z8DqisDWvQs28+LqvKhI7Ad8=
-X-Received: by 2002:a9d:2ed3:: with SMTP id w77-v6mr3702318ota.123.1528460259078;
- Fri, 08 Jun 2018 05:17:39 -0700 (PDT)
+        bh=ajJh5hC8xjR+vPCDtRGJ9VXF3fv4AWtR1rDlQgq5FPA=;
+        b=IfN9gDVWRst3wVnQYRfzwiQsCd2FH2bsM0UlBqUzOkQevLyo1pjNeMWt4j5/ZCUvnG
+         7HkWXYqDlYJjslxMYeN5TqaW7QO/sBusyGGJ1IUVMCuGG787WmTN0g+dmhxFfyKA16yz
+         nCyy6gzUyLopRx3BogdSqYBF/P303GraOvsOopGloOK6gh96kFvrUllh1qE/5uxKKsHl
+         tth1bQndDC1Rm/UbrSeczP991L5NwDNCIK6vaFJ7XVl51muH7MHNGsqYDsq3KwAmYy3k
+         dvSqP2dcKfTO1x3RqlKFY2xIx7QTpCza8zq4HvMpsAvNTe+3zUqxyiTK0VUbPQWCL08i
+         IMFQ==
+X-Gm-Message-State: APt69E2YXuVjn+mxCpd3B/B/2B91Z/E8ZadCNqb3WC8iziWO4PF9ERkS
+        vh2na/U+DgoJV4Nyppi5+EV7im1l7ezPu9mXQ0Rvvw==
+X-Google-Smtp-Source: ADUXVKLdsqeRnKp+/GTMweySHdv+t8IaffoMtnJpNe4NlHHj6WmpUh9VhjfPY+JBKdOE2IQgu2QX5rG1WnBC6//BumE=
+X-Received: by 2002:aca:df54:: with SMTP id w81-v6mr3218451oig.104.1528460662841;
+ Fri, 08 Jun 2018 05:24:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:7019:0:0:0:0:0 with HTTP; Fri, 8 Jun 2018 05:17:38 -0700 (PDT)
-In-Reply-To: <CALCETrWd+1iNmt36EFiLxMv8bQ-GodU=XygPRGb4h+xanhHHLQ@mail.gmail.com>
+Received: by 2002:a4a:7019:0:0:0:0:0 with HTTP; Fri, 8 Jun 2018 05:24:22 -0700 (PDT)
+In-Reply-To: <CALCETrWhMmqGWKx-yw55YKHMJwGyLZio5f8Pskh8X69zfQMy7A@mail.gmail.com>
 References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
  <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
  <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
  <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
- <CAMe9rOphjpPd3HnKAdU-RmG0RGj6c2oAbnq+C2Jd1srsqTA7=w@mail.gmail.com> <CALCETrWd+1iNmt36EFiLxMv8bQ-GodU=XygPRGb4h+xanhHHLQ@mail.gmail.com>
+ <CALCETrV1GG5rq_kwxkS-o3x8Ldr72ThdYgkJKQ9cx9Q63SxgTQ@mail.gmail.com>
+ <CAMe9rOpeDrkwi-AG0vsiZy4NwkmavhB5Empv58FSHxtr3rpapw@mail.gmail.com> <CALCETrWhMmqGWKx-yw55YKHMJwGyLZio5f8Pskh8X69zfQMy7A@mail.gmail.com>
 From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Fri, 8 Jun 2018 05:17:38 -0700
-Message-ID: <CAMe9rOrrh70RKcpiOas9JVm0bc_xg+cTN+N9o4krOJxdXObpDw@mail.gmail.com>
+Date:   Fri, 8 Jun 2018 05:24:22 -0700
+Message-ID: <CAMe9rOpLDzWk=xdZqN1QJVnP-c_dti5Fy=C_GqbeQpS_a=0ewA@mail.gmail.com>
 Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
 To:     Andy Lutomirski <luto@kernel.org>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
@@ -76,70 +77,97 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 9:35 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> On Thu, Jun 7, 2018 at 9:22 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+On Thu, Jun 7, 2018 at 9:38 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> On Thu, Jun 7, 2018 at 9:10 PM H.J. Lu <hjl.tools@gmail.com> wrote:
 >>
->> On Thu, Jun 7, 2018 at 3:02 PM, H.J. Lu <hjl.tools@gmail.com> wrote:
->> > On Thu, Jun 7, 2018 at 2:01 PM, Andy Lutomirski <luto@kernel.org> wrote:
->> >> On Thu, Jun 7, 2018 at 1:33 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->> >>>
->> >>> On Thu, 2018-06-07 at 11:48 -0700, Andy Lutomirski wrote:
->> >>> > On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->> >>> > >
->> >>> > > The following operations are provided.
->> >>> > >
->> >>> > > ARCH_CET_STATUS:
->> >>> > >         return the current CET status
->> >>> > >
->> >>> > > ARCH_CET_DISABLE:
->> >>> > >         disable CET features
->> >>> > >
->> >>> > > ARCH_CET_LOCK:
->> >>> > >         lock out CET features
->> >>> > >
->> >>> > > ARCH_CET_EXEC:
->> >>> > >         set CET features for exec()
->> >>> > >
->> >>> > > ARCH_CET_ALLOC_SHSTK:
->> >>> > >         allocate a new shadow stack
->> >>> > >
->> >>> > > ARCH_CET_PUSH_SHSTK:
->> >>> > >         put a return address on shadow stack
->> >>> > >
->>
->> >> And why do we need ARCH_CET_EXEC?
+>> On Thu, Jun 7, 2018 at 4:01 PM, Andy Lutomirski <luto@kernel.org> wrote:
+>> > On Thu, Jun 7, 2018 at 3:02 PM H.J. Lu <hjl.tools@gmail.com> wrote:
 >> >>
->> >> For background, I really really dislike adding new state that persists
->> >> across exec().  It's nice to get as close to a clean slate as possible
->> >> after exec() so that programs can run in a predictable environment.
->> >> exec() is also a security boundary, and anything a task can do to
->> >> affect itself after exec() needs to have its security implications
->> >> considered very carefully.  (As a trivial example, you should not be
->> >> able to use cetcmd ... sudo [malicious options here] to cause sudo to
->> >> run with CET off and then try to exploit it via the malicious options.
+>> >> On Thu, Jun 7, 2018 at 2:01 PM, Andy Lutomirski <luto@kernel.org> wrote:
+>> >> > On Thu, Jun 7, 2018 at 1:33 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>> >> >>
+>> >> >> On Thu, 2018-06-07 at 11:48 -0700, Andy Lutomirski wrote:
+>> >> >> > On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>> >> >> > >
+>> >> >> > > The following operations are provided.
+>> >> >> > >
+>> >> >> > > ARCH_CET_STATUS:
+>> >> >> > >         return the current CET status
+>> >> >> > >
+>> >> >> > > ARCH_CET_DISABLE:
+>> >> >> > >         disable CET features
+>> >> >> > >
+>> >> >> > > ARCH_CET_LOCK:
+>> >> >> > >         lock out CET features
+>> >> >> > >
+>> >> >> > > ARCH_CET_EXEC:
+>> >> >> > >         set CET features for exec()
+>> >> >> > >
+>> >> >> > > ARCH_CET_ALLOC_SHSTK:
+>> >> >> > >         allocate a new shadow stack
+>> >> >> > >
+>> >> >> > > ARCH_CET_PUSH_SHSTK:
+>> >> >> > >         put a return address on shadow stack
+>> >> >> > >
+>> >> >> > > ARCH_CET_ALLOC_SHSTK and ARCH_CET_PUSH_SHSTK are intended only for
+>> >> >> > > the implementation of GLIBC ucontext related APIs.
+>> >> >> >
+>> >> >> > Please document exactly what these all do and why.  I don't understand
+>> >> >> > what purpose ARCH_CET_LOCK and ARCH_CET_EXEC serve.  CET is opt in for
+>> >> >> > each ELF program, so I think there should be no need for a magic
+>> >> >> > override.
+>> >> >>
+>> >> >> CET is initially enabled if the loader has CET capability.  Then the
+>> >> >> loader decides if the application can run with CET.  If the application
+>> >> >> cannot run with CET (e.g. a dependent library does not have CET), then
+>> >> >> the loader turns off CET before passing to the application.  When the
+>> >> >> loader is done, it locks out CET and the feature cannot be turned off
+>> >> >> anymore until the next exec() call.
+>> >> >
+>> >> > Why is the lockout necessary?  If user code enables CET and tries to
+>> >> > run code that doesn't support CET, it will crash.  I don't see why we
+>> >> > need special code in the kernel to prevent a user program from calling
+>> >> > arch_prctl() and crashing itself.  There are already plenty of ways to
+>> >> > do that :)
 >> >>
->> >> If a shutoff is needed for testing, how about teaching ld.so to parse
->> >> LD_CET=no or similar and protect it the same way as LD_PRELOAD is
->> >> protected.  Or just do LD_PRELOAD=/lib/libdoesntsupportcet.so.
->> >>
+>> >> On CET enabled machine, not all programs nor shared libraries are
+>> >> CET enabled.  But since ld.so is CET enabled, all programs start
+>> >> as CET enabled.  ld.so will disable CET if a program or any of its shared
+>> >> libraries aren't CET enabled.  ld.so will lock up CET once it is done CET
+>> >> checking so that CET can't no longer be disabled afterwards.
 >> >
->> > I will take a look.
+>> > Yeah, I got that.  No one has explained *why*.
 >>
->> We can use LD_CET to turn off CET.   Since most of legacy binaries
->> are compatible with shadow stack,  ARCH_CET_EXEC can be used
->> to turn on shadow stack on legacy binaries:
+>> It is to prevent malicious code from disabling CET.
+>>
 >
-> Is there any reason you can't use LD_CET=force to do it for
-> dynamically linked binaries?
+> By the time malicious code issue its own syscalls, you've already lost
+> the battle.  I could probably be convinced that a lock-CET-on feature
+> that applies *only* to the calling thread and is not inherited by
+> clone() is a decent idea, but I'd want to see someone who understands
+> the state of the art in exploit design justify it.  You're also going
+> to need to figure out how to make CRIU work if you allow locking CET
+> on.
+>
+> A priori, I think we should just not provide a lock mechanism.
 
-We need to enable shadow stack from the start.  Otherwise function
-return will fail when returning from callee with shadow stack to caller
-without shadow stack.
+We need a door for CET.  But it is a very bad idea to leave it open
+all the time.  I don't know much about CRIU,  If it is Checkpoint/Restore
+In Userspace.  Can you free any application with AVX512 on AVX512
+machine and restore it on non-AVX512 machine?
 
-> I find it quite hard to believe that forcibly CET-ifying a legacy
-> statically linked binary is a good idea.
+>> > (Also, shouldn't the vDSO itself be marked as supporting CET?)
+>>
+>> No. vDSO is loaded by kernel.  vDSO in CET kernel is CET
+>> compatible.
+>>
+>
+> I think the vDSO should do its best to act like a real DSO.  That
+> means that, if the vDSO supports CET, it should advertise support for
+> CET using the Linux ABI.  Since you're going to require GCC 8 anyway,
+> this should be a single line of code in the Makefile.
 
-We'd like to provide protection as much as we can.
+Sure.  A couple lines.
 
 -- 
 H.J.
