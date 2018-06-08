@@ -5,146 +5,209 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE58D7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 00:59:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 685687D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 01:10:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752156AbeFHA7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 20:59:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49694 "EHLO mail.kernel.org"
+        id S1752202AbeFHBK2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 21:10:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55906 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751752AbeFHA7w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 20:59:52 -0400
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1752139AbeFHBK2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jun 2018 21:10:28 -0400
+Received: from devnote (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6D5EE208B4
-        for <linux-doc@vger.kernel.org>; Fri,  8 Jun 2018 00:59:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 596F420895;
+        Fri,  8 Jun 2018 01:10:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528419591;
-        bh=54cyx0txs+H+Cvzvz58YOSX9iyPM5ukTrpI28aaQMaU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Kj2RhG9LwmQ50T349iZnpRg8TOjFQ5tXEy9rRAXlp/HXw4lC+kjv0WloHD8w/s7ni
-         3uv+09lKSQ2qnQdHdTn63Ggm2NPygIf6HswoHmN2zkYom6m+ymEDeSCKzp/sLnl82C
-         7fpXRt45yzc2wGmbp1hq7sAbWl44PS/EfJSyDgPc=
-Received: by mail-wm0-f41.google.com with SMTP id n5-v6so444040wmc.5
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 17:59:51 -0700 (PDT)
-X-Gm-Message-State: APt69E0gCLZJ5pQ29tb6+y8yiTNvsZJ/JdTeDeyS7se4DND/7nc7ChJc
-        CWB0d7hL4hj5CO8u21KE/R4GPGkJHwzlWoXwzM7beA==
-X-Google-Smtp-Source: ADUXVKJD5GXnJVN58JWvgSWotfmX6RjeZ5OhWrvmWU6+BTmP3Ztbc1Bg79waP62cjK3+b0MR03SgRIkJ9tCVpEOmYYc=
-X-Received: by 2002:a1c:4a9d:: with SMTP id n29-v6mr26925wmi.46.1528419589754;
- Thu, 07 Jun 2018 17:59:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180607143705.3531-1-yu-cheng.yu@intel.com> <20180607143705.3531-7-yu-cheng.yu@intel.com>
- <CALCETrVa8MtxP9iqYkZLnetaQiN4UaWb=jGz1+rLsCuETHKydg@mail.gmail.com> <5c39caf1-2198-3c2b-b590-8c38a525747f@linux.intel.com>
-In-Reply-To: <5c39caf1-2198-3c2b-b590-8c38a525747f@linux.intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 7 Jun 2018 17:59:37 -0700
-X-Gmail-Original-Message-ID: <CALCETrU7uNpSp8DWKnpH28wHE3JOeXkmp-H97n2nWHJEu4pDEA@mail.gmail.com>
-Message-ID: <CALCETrU7uNpSp8DWKnpH28wHE3JOeXkmp-H97n2nWHJEu4pDEA@mail.gmail.com>
-Subject: Re: [PATCH 6/9] x86/mm: Introduce ptep_set_wrprotect_flush and
- related functions
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com
-Content-Type: text/plain; charset="UTF-8"
+        s=default; t=1528420227;
+        bh=8uiuNxSr2FQJftHn494Y0eFJNxexsV+atg0XWpmfUno=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ygqh9NbMxFLotrBVnfxTaLnbDbKfe8I3rvRoEFzm+owndXQ45pLlqaCyShWT3RyDJ
+         uidgw5m8pZ4gju+aomJAyE1pcSwWvfP9m6kk1yhyGN5cfofQl9qdVY2+ijxhtYPGwV
+         yMon2FjUPhBEbeSMmbil90/6nm3tBOh82trtf9Fo=
+Date:   Fri, 8 Jun 2018 10:10:23 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com
+Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
+ (semaphore)
+Message-Id: <20180608101023.cbf20db485026213d490cb7c@kernel.org>
+In-Reply-To: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
+References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
+X-Mailer: Sylpheed 3.5.0 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 7, 2018 at 1:30 PM Dave Hansen <dave.hansen@linux.intel.com> wrote:
->
-> On 06/07/2018 09:24 AM, Andy Lutomirski wrote:
->
-> >> +static inline void ptep_set_wrprotect_flush(struct vm_area_struct *vma,
-> >> +                                           unsigned long addr, pte_t *ptep)
-> >> +{
-> >> +       bool rw;
-> >> +
-> >> +       rw = test_and_clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
-> >> +       if (IS_ENABLED(CONFIG_X86_INTEL_SHADOW_STACK_USER)) {
-> >> +               struct mm_struct *mm = vma->vm_mm;
-> >> +               pte_t pte;
-> >> +
-> >> +               if (rw && (atomic_read(&mm->mm_users) > 1))
-> >> +                       pte = ptep_clear_flush(vma, addr, ptep);
-> > Why are you clearing the pte?
->
-> I found my notes on the subject. :)
->
-> Here's the sequence that causes the problem.  This could happen any time
-> we try to take a PTE from read-write to read-only.  P==Present, W=Write,
-> D=Dirty:
->
-> CPU0 does a write, sees PTE with P=1,W=1,D=0
-> CPU0 decides to set D=1
-> CPU1 comes in and sets W=0
-> CPU0 does locked operation to set D=1
->         CPU0 sees P=1,W=0,D=0
->         CPU0 sets back P=1,W=0,D=1
-> CPU0 loads P=1,W=0,D=1 into the TLB
-> CPU0 attempts to continue the write, but sees W=0 in the TLB and a #PF
-> is generated because of the write fault.
->
-> The problem with this is that we end up with a shadowstack-PTE
-> (Write=0,Dirty=1) where we didn't want one.  This, unfortunately,
-> imposes extra TLB flushing overhead on the R/W->R/O transitions that
-> does not exist before shadowstack enabling.
->
+On Wed,  6 Jun 2018 14:03:37 +0530
+Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
 
-So what exactly do the architects want the OS to do?  AFAICS the only
-valid ways to clear the dirty bit are:
+> Why RFC again:
+> 
+> This series is different from earlier versions[1]. Earlier series
+> implemented this feature in trace_uprobe while this has implemented
+> the logic in core uprobe. Few reasons for this:
+>  1. One of the major reason was the deadlock between uprobe_lock and
+>  mm->mmap inside trace_uprobe_mmap(). That deadlock was not easy to fix
+>  because mm->mmap is not in control of trace_uprobe_mmap() and it has
+>  to take uprobe_lock to loop over trace_uprobe list. More details can
+>  be found at[2]. With this new approach, there are no deadlocks found
+>  so far.
+>  2. Many of the core uprobe function and data-structures needs to be
+>  exported to make earlier implementation simple. With this new approach,
+>  reference counter logic is been implemented in core uprobe and thus
+>  no need to export anything.
 
---- Choice 1 ---
-a) Set P=0.
-b) Flush using an IPI
-c) Read D (so we know if the page was actually dirty)
-d) Set P=1,W=0,D=0
+I agree with you. Moreover, since uprobe_register/unregister() are
+exported to modules, this enablement would better be implemented
+inside uprobe so that all uprobe users benefit from this.
 
-and we need to handle spurious faults that happen between steps (a)
-and (c).  This isn't so easy because the straightforward "is the fault
-spurious" check is going to think it's *not* spurious.
+> 
+> Description:
+> 
+> Userspace Statically Defined Tracepoints[3] are dtrace style markers
+> inside userspace applications. Applications like PostgreSQL, MySQL,
+> Pthread, Perl, Python, Java, Ruby, Node.js, libvirt, QEMU, glib etc
+> have these markers embedded in them. These markers are added by developer
+> at important places in the code. Each marker source expands to a single
+> nop instruction in the compiled code but there may be additional
+> overhead for computing the marker arguments which expands to couple of
+> instructions. In case the overhead is more, execution of it can be
+> omitted by runtime if() condition when no one is tracing on the marker:
+> 
+>     if (reference_counter > 0) {
+>         Execute marker instructions;
+>     }
+> 
+> Default value of reference counter is 0. Tracer has to increment the 
+> reference counter before tracing on a marker and decrement it when
+> done with the tracing.
+> 
+> Currently, perf tool has limited supports for SDT markers. I.e. it
+> can not trace markers surrounded by reference counter. Also, it's
+> not easy to add reference counter logic in userspace tool like perf,
+> so basic idea for this patchset is to add reference counter logic in
+> the trace_uprobe infrastructure. Ex,[4]
+> 
+>   # cat tick.c
+>     ... 
+>     for (i = 0; i < 100; i++) {
+> 	DTRACE_PROBE1(tick, loop1, i);
+>         if (TICK_LOOP2_ENABLED()) {
+>             DTRACE_PROBE1(tick, loop2, i); 
+>         }
+>         printf("hi: %d\n", i); 
+>         sleep(1);
+>     }   
+>     ... 
+> 
+> Here tick:loop1 is marker without reference counter where as tick:loop2
+> is surrounded by reference counter condition.
+> 
+>   # perf buildid-cache --add /tmp/tick
+>   # perf probe sdt_tick:loop1
+>   # perf probe sdt_tick:loop2
+> 
+>   # perf stat -e sdt_tick:loop1,sdt_tick:loop2 -- /tmp/tick
+>   hi: 0
+>   hi: 1
+>   hi: 2
+>   ^C
+>   Performance counter stats for '/tmp/tick':
+>              3      sdt_tick:loop1
+>              0      sdt_tick:loop2
+>      2.747086086 seconds time elapsed
+> 
+> Perf failed to record data for tick:loop2. Same experiment with this
+> patch series:
+> 
+>   # ./perf buildid-cache --add /tmp/tick
+>   # ./perf probe sdt_tick:loop2
+>   # ./perf stat -e sdt_tick:loop2 /tmp/tick
+>     hi: 0
+>     hi: 1
+>     hi: 2
+>     ^C  
+>      Performance counter stats for '/tmp/tick':
+>                  3      sdt_tick:loop2
+>        2.561851452 seconds time elapsed
+> 
+> 
+> Note:
+>  - 'reference counter' is called as 'semaphore' in original Dtrace
+>    (or Systemtap, bcc and even in ELF) documentation and code. But the 
+>    term 'semaphore' is misleading in this context. This is just a counter
+>    used to hold number of tracers tracing on a marker. This is not haeally
+>    used for any synchronization. So we are referring it as 'reference
+>    counter' in kernel / perf code.
 
---- Choice 2 ---
-a) Set W=0
-b) flush
-c) Test and clear D
++1. I like this "reference counter" term :)
 
-and we need to handle the spurious fault between b and c.  At least
-this particular spurious fault is easier to handle since we can check
-the error code.
+>  - This patches still has one issue. If there are multiple instances of
+>    same application running and user wants to trace any particular
+>    instance, trace_uprobe is updating reference counter in all instances.
+>    This is not a problem on user side because instruction is not replaced
+>    with trap/int3 and thus user will only see samples from his interested
+>    process. But still this is more of a correctness issue. I'm working on
+>    a fix for this.
 
-But surely the right solution is to get the architecture team to see
-if they can fix the dirty-bit-setting algorithm or, even better, to
-look and see if the dirty-bit-setting algorithm is *already* better
-and just document it.  If the cpu does a locked set-bit on D in your
-example, the CPU is just being silly.  The CPU should make the whole
-operation fully atomic: when trying to write to a page that's D=0 in
-the TLB, it should re-walk the page tables and, atomically, load the
-PTE and, if it's W=1,D=0, set D=1.  I'd honestly be a bit surprised if
-modern CPUs don't already do this.
+Hmm, it sounds like not a correctness issue, but there maybe a performace
+tradeoff. Tracing one particulear instance, other instances also will get
+a performance loss (Only if the parameter preparation block is heavy,
+because the heaviest part of probing - trap/int3 and recording data - isn't
+executed.)
 
-(Hmm.  If the CPUs were that smart, then we wouldn't need a flush at
-all in some cases.  If we lock cmpxchg to change W=1,D=0 to W=0,D=0,
-then we know that no other CPU can subsequently write the page without
-re-walking, and we don't need to flush.)
+BTW, why this happens? I thought the refcounter part is just a data which
+is not shared among processes...
 
-Can you ask the architecture folks to clarify the situation?  And, if
-your notes are indeed correct, don't we need code to handle spurious
-faults?
+Thank you,
 
---Andy
+
+> 
+> [1] https://lkml.org/lkml/2018/4/17/23
+> [2] https://lkml.org/lkml/2018/5/25/111
+> [3] https://sourceware.org/systemtap/wiki/UserSpaceProbeImplementation
+> [4] https://github.com/iovisor/bcc/issues/327#issuecomment-200576506
+> 
+> Ravi Bangoria (7):
+>   Uprobes: Simplify uprobe_register() body
+>   Uprobes: Support SDT markers having reference count (semaphore)
+>   Uprobes/sdt: Fix multiple update of same reference counter
+>   trace_uprobe/sdt: Prevent multiple reference counter for same uprobe
+>   Uprobes/sdt: Prevent multiple reference counter for same uprobe
+>   Uprobes/sdt: Document about reference counter
+>   perf probe: Support SDT markers having reference counter (semaphore)
+> 
+>  Documentation/trace/uprobetracer.rst |  16 +-
+>  include/linux/uprobes.h              |   5 +
+>  kernel/events/uprobes.c              | 502 +++++++++++++++++++++++++++++++----
+>  kernel/trace/trace.c                 |   2 +-
+>  kernel/trace/trace_uprobe.c          |  74 +++++-
+>  tools/perf/util/probe-event.c        |  39 ++-
+>  tools/perf/util/probe-event.h        |   1 +
+>  tools/perf/util/probe-file.c         |  34 ++-
+>  tools/perf/util/probe-file.h         |   1 +
+>  tools/perf/util/symbol-elf.c         |  46 +++-
+>  tools/perf/util/symbol.h             |   7 +
+>  11 files changed, 643 insertions(+), 84 deletions(-)
+> 
+> -- 
+> 1.8.3.1
+> 
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
