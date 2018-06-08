@@ -1,141 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 27D707D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 15:45:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74DE17D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 15:52:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752364AbeFHPpz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Jun 2018 11:45:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59598 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752253AbeFHPpy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Jun 2018 11:45:54 -0400
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1CB41206B7;
-        Fri,  8 Jun 2018 15:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528472754;
-        bh=n110tSqAwn+pK27UjSskUGnplidWClQcVRLni8sJcXE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=1nqrKwz7rOfVawa208VntQaO2GwtO/IVZeSlp1x/W/uBRIcbauPkCz5XKdVzdqd7i
-         R36Zz5kzz0eUpiGJe6YW03jbyXrvvOj3l6Ep2Nl7caNsTNah2v6SKyf0NbsB9djPSr
-         2ne3ueddE5cfBPWYFjZehmkJNWwAvp+VfTJRekgI=
-Date:   Sat, 9 Jun 2018 00:45:49 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com
-Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
- (semaphore)
-Message-Id: <20180609004549.ea7b1854772217598bb1cdfd@kernel.org>
-In-Reply-To: <71f19b63-a641-1705-f087-a39b8b81c4be@linux.ibm.com>
-References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
-        <20180608101023.cbf20db485026213d490cb7c@kernel.org>
-        <0d487b32-3141-ec30-6cca-eba7159d70b0@linux.ibm.com>
-        <20180608141431.c0196a2c80a8d4701bc9db58@kernel.org>
-        <71f19b63-a641-1705-f087-a39b8b81c4be@linux.ibm.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1752411AbeFHPw3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Jun 2018 11:52:29 -0400
+Received: from mail-lf0-f68.google.com ([209.85.215.68]:46705 "EHLO
+        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751719AbeFHPw2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jun 2018 11:52:28 -0400
+Received: by mail-lf0-f68.google.com with SMTP id j13-v6so20776284lfb.13;
+        Fri, 08 Jun 2018 08:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vvWSbYkDe2lVue95quDAA1y7dzReA+azzvIC43o54Io=;
+        b=teNO+Ve4gHSMlRozuEuseRTDb6j8eL+iw/8Wh3vY2YF8JXbQB62V+qMQYJxo0//ptm
+         bzpnGRf44GhG0nC3iNiaLMEElvgg/QZkUZg3ZZ2MTzjyyXFHKtJZsN5M0iLUGSWL5IM6
+         ll1179L5xCNrCdyvc041UVIOCE7BlShFFD+H7wjZ5Q8vYf0TqrBXSWCdyLFn84ElvGKe
+         MXn2DXsVEwgAKU2M1HFBu9Kl6wbnnki3zm2BEBfB8UyouZh/ThrwifRtbqpjy5EA9AHG
+         ZPD347SEZclP2BVNA89pDasG1vhCGVzsNm46D9RHc5uCFkUrEybt39X5sE69wwKLDCKX
+         fqHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vvWSbYkDe2lVue95quDAA1y7dzReA+azzvIC43o54Io=;
+        b=VnvHgYWClNYqe8LtYXoiU9t0Us3O38kIEdLoVLwqi0aXvA3cUa0DSRPPspQlUCCcgt
+         eDxblQx3LhxlLQrSLSAycly2Cy78xDrXmduW8oJYppdcxc/JtzVcoM7R8JbqucS2+/40
+         jK7LPCHc8wAEyQplI4q/gO9Ixu+CKFTK+y152jCOOXDgi/7yAodziDZ5JMpd1Z6HHzLd
+         oJnChPEL6VTPYZyiReg9MTuouiTqaRopRCSO8VeH1HmeZMGjJAD/RIKfxyQn5hzvAmdY
+         53IwHDwSeGVLikmpYq3bSpuecczYfcp/RCOYGGs5qo5WYOpV3zZrXuDLo/duuv+1fBeb
+         YHFQ==
+X-Gm-Message-State: APt69E1fIZpH+ky1tSyeeHtQwJ1/Tr7JQexegaRD0L7mKciB7LaUVULB
+        RpB9mcjknZ0Mi2w/7ENwEsg=
+X-Google-Smtp-Source: ADUXVKK6DpNnkb7RI81FyacFaQuMOyl1OLSRdbkKSbQsm2jgcZFCO5/huavAffgFEarqp6kz93Z/mA==
+X-Received: by 2002:a2e:8605:: with SMTP id a5-v6mr3002011lji.43.1528473146844;
+        Fri, 08 Jun 2018 08:52:26 -0700 (PDT)
+Received: from uranus.localdomain ([5.18.103.226])
+        by smtp.gmail.com with ESMTPSA id o82-v6sm3037554lfi.50.2018.06.08.08.52.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 08 Jun 2018 08:52:25 -0700 (PDT)
+Received: by uranus.localdomain (Postfix, from userid 1000)
+        id 544C2460756; Fri,  8 Jun 2018 18:52:25 +0300 (MSK)
+Date:   Fri, 8 Jun 2018 18:52:25 +0300
+From:   Cyrill Gorcunov <gorcunov@gmail.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "H. J. Lu" <hjl.tools@gmail.com>,
+        Dmitry Safonov <dsafonov@virtuozzo.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+Message-ID: <20180608155225.GC2525@uranus>
+References: <20180607143807.3611-7-yu-cheng.yu@intel.com>
+ <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
+ <1528403417.5265.35.camel@2b52.sc.intel.com>
+ <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+ <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
+ <CALCETrV1GG5rq_kwxkS-o3x8Ldr72ThdYgkJKQ9cx9Q63SxgTQ@mail.gmail.com>
+ <CAMe9rOpeDrkwi-AG0vsiZy4NwkmavhB5Empv58FSHxtr3rpapw@mail.gmail.com>
+ <CALCETrWhMmqGWKx-yw55YKHMJwGyLZio5f8Pskh8X69zfQMy7A@mail.gmail.com>
+ <CAMe9rOpLDzWk=xdZqN1QJVnP-c_dti5Fy=C_GqbeQpS_a=0ewA@mail.gmail.com>
+ <CALCETrUyapFiiXrHH23NW8XbqEkfKdGGU2wMUZ2DU=A+GWGqvw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrUyapFiiXrHH23NW8XbqEkfKdGGU2wMUZ2DU=A+GWGqvw@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 8 Jun 2018 12:04:25 +0530
-Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
-
-> Hi Masami,
+On Fri, Jun 08, 2018 at 07:57:22AM -0700, Andy Lutomirski wrote:
+> On Fri, Jun 8, 2018 at 5:24 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+> >
+> > On Thu, Jun 7, 2018 at 9:38 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> > > On Thu, Jun 7, 2018 at 9:10 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+> > >>
+> > >> On Thu, Jun 7, 2018 at 4:01 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> > >>
+> > >
+> > > By the time malicious code issue its own syscalls, you've already lost
+> > > the battle.  I could probably be convinced that a lock-CET-on feature
+> > > that applies *only* to the calling thread and is not inherited by
+> > > clone() is a decent idea, but I'd want to see someone who understands
+> > > the state of the art in exploit design justify it.  You're also going
+> > > to need to figure out how to make CRIU work if you allow locking CET
+> > > on.
+> > >
+> > > A priori, I think we should just not provide a lock mechanism.
+> >
+> > We need a door for CET.  But it is a very bad idea to leave it open
+> > all the time.  I don't know much about CRIU,  If it is Checkpoint/Restore
+> > In Userspace.  Can you free any application with AVX512 on AVX512
+> > machine and restore it on non-AVX512 machine?
 > 
-> >> So for kernel modules,
-> >>
-> >> is it fine to change current ABI from
-> >>     uprobe_register(inode, offset, consumer)
-> >> to
-> >>     uprobe_register(inode, offset, ref_ctr_offset, consumer)
-> >>
-> >> Or I should introduce new function for this:
-> >>     uprobe_register_refctr(inode, offset, ref_ctr_offset, consumer)
-> >> and export it to kernel module?
-> >>
-> >> What's your suggestion?
-> > 
-> > Latter is fine to me. Since the refctr is introduced totally in userspace
-> > (for SDT) and free-address userspace probing doesn't need refctr, maybe
-> > we should keep those separated.
-> 
-> Sure.
-> 
-> > 
-> >> [...]
-> >>
-> >>>>
-> >>>>  - This patches still has one issue. If there are multiple instances of
-> >>>>    same application running and user wants to trace any particular
-> >>>>    instance, trace_uprobe is updating reference counter in all instances.
-> >>>>    This is not a problem on user side because instruction is not replaced
-> >>>>    with trap/int3 and thus user will only see samples from his interested
-> >>>>    process. But still this is more of a correctness issue. I'm working on
-> >>>>    a fix for this.
-> >>>
-> >>> Hmm, it sounds like not a correctness issue, but there maybe a performace
-> >>> tradeoff. Tracing one particulear instance, other instances also will get
-> >>> a performance loss
-> >>
-> >>
-> >> Right, but it's temporary. I mean, putting everything in to this series was making
-> >> it complex. So this is the initial one and I'll send followup patches which will
-> >> optimize the reference counter update.
-> > 
-> > Ah, OK. If you have prepared the followup patches, could you also send it
-> > with this series? Perhups it will help us to understand the issue clearer.
-> 
-> Not ready as such.. it's making the code bit complicated. I'm working on it
-> and will send the next series with those patches included.
+> Presumably not -- if the program uses AVX512 and AVX512 goes away,
+> then the program won't be happy.
 
-OK, thanks!
+Yes. In most scenarios we require the fpu capability to be the same
+on both machines (in case of migration) or/and not being changed
+between c/r cycles.
+...
+> As an aside, where are the latest CET docs?  I've found the "CET
+> technology preview 2.0", but it doesn't seem to be very clear or
+> entirely complete.
 
-> >>> (Only if the parameter preparation block is heavy,
-> >>> because the heaviest part of probing - trap/int3 and recording data - isn't
-> >>> executed.)
-> >>>> BTW, why this happens? I thought the refcounter part is just a data which
-> >>> is not shared among processes...
-> >>>
-> >>
-> >> This happens because we are not calling consumer_filter function. consumer_filter
-> >> is the one who decides whether to change the instruction to trap or not in a given
-> >> mm. We also need to call it before updating reference counter.
-> > 
-> > Hmm, it sounds simple... maybe we can increment refctr in install_breakpoint/
-> > remove_breakpoint?
-> 
-> Not really, it would be simpler if I can put it inside install_breakpoint().
-> Consider an mmap() case. Probed instruction resides in the text section whereas
-> reference counter resides in the data section. These sections gets mapped using
-> separate mmap() calls. So, when process mmaps the text section we will change the
-> instruction, but section holding the reference counter may not have been mapped
-> yet in the virtual memory. If so, we will fail to update the reference counter.
-
-Got it. 
-In such case, maybe we can hook the target page mmapped and do install_breakpoint()
-at that point. Since the instruction is protected by a refctr, unless mmap the
-page on where the refctr is, the program doesn't reach the tracepoint. Is that right?
-
-Thank you,
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
++1
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
