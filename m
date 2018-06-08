@@ -5,116 +5,166 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A1F637D085
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 01:20:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C35877D062
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 02:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752270AbeFHBUj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Jun 2018 21:20:39 -0400
-Received: from mga04.intel.com ([192.55.52.120]:25751 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752139AbeFHBUi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jun 2018 21:20:38 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2018 18:20:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,488,1520924400"; 
-   d="scan'208";a="62275006"
-Received: from mhartlow-mobl1.amr.corp.intel.com (HELO [10.252.206.89]) ([10.252.206.89])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Jun 2018 18:20:34 -0700
-Subject: Re: [PATCH 6/9] x86/mm: Introduce ptep_set_wrprotect_flush and
- related functions
-To:     Andy Lutomirski <luto@kernel.org>
-References: <20180607143705.3531-1-yu-cheng.yu@intel.com>
- <20180607143705.3531-7-yu-cheng.yu@intel.com>
- <CALCETrVa8MtxP9iqYkZLnetaQiN4UaWb=jGz1+rLsCuETHKydg@mail.gmail.com>
- <5c39caf1-2198-3c2b-b590-8c38a525747f@linux.intel.com>
- <CALCETrU7uNpSp8DWKnpH28wHE3JOeXkmp-H97n2nWHJEu4pDEA@mail.gmail.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <ace8e8c2-3e0e-70fc-69f2-2aa22c5e4aa9@linux.intel.com>
-Date:   Thu, 7 Jun 2018 18:20:36 -0700
+        id S1752428AbeFHC3y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Jun 2018 22:29:54 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36616 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752385AbeFHC3x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jun 2018 22:29:53 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w582TGCV043465
+        for <linux-doc@vger.kernel.org>; Thu, 7 Jun 2018 22:29:52 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jfdje6tde-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jun 2018 22:29:52 -0400
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Fri, 8 Jun 2018 03:29:50 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 8 Jun 2018 03:29:45 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w582TiE323855238
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 8 Jun 2018 02:29:44 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CAF3CA4051;
+        Fri,  8 Jun 2018 03:20:43 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0350EA4040;
+        Fri,  8 Jun 2018 03:20:39 +0100 (BST)
+Received: from [9.195.45.85] (unknown [9.195.45.85])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri,  8 Jun 2018 03:20:38 +0100 (BST)
+Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
+ (semaphore)
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
+ <20180608101023.cbf20db485026213d490cb7c@kernel.org>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Fri, 8 Jun 2018 07:59:38 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CALCETrU7uNpSp8DWKnpH28wHE3JOeXkmp-H97n2nWHJEu4pDEA@mail.gmail.com>
+In-Reply-To: <20180608101023.cbf20db485026213d490cb7c@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18060802-0016-0000-0000-000001D95E1F
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18060802-0017-0000-0000-0000322C76DE
+Message-Id: <0d487b32-3141-ec30-6cca-eba7159d70b0@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-07_12:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1805220000 definitions=main-1806080024
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/07/2018 05:59 PM, Andy Lutomirski wrote:
-> Can you ask the architecture folks to clarify the situation?  And, if
-> your notes are indeed correct, don't we need code to handle spurious
-> faults?
+Hi Masami,
 
-I'll double check that I didn't misunderstand the situation and that it
-has not changed on processors with shadow stacks.
+On 06/08/2018 06:40 AM, Masami Hiramatsu wrote:
+> On Wed,  6 Jun 2018 14:03:37 +0530
+> Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
+> 
+>> Why RFC again:
+>>
+>> This series is different from earlier versions[1]. Earlier series
+>> implemented this feature in trace_uprobe while this has implemented
+>> the logic in core uprobe. Few reasons for this:
+>>  1. One of the major reason was the deadlock between uprobe_lock and
+>>  mm->mmap inside trace_uprobe_mmap(). That deadlock was not easy to fix
+>>  because mm->mmap is not in control of trace_uprobe_mmap() and it has
+>>  to take uprobe_lock to loop over trace_uprobe list. More details can
+>>  be found at[2]. With this new approach, there are no deadlocks found
+>>  so far.
+>>  2. Many of the core uprobe function and data-structures needs to be
+>>  exported to make earlier implementation simple. With this new approach,
+>>  reference counter logic is been implemented in core uprobe and thus
+>>  no need to export anything.
+> 
+> I agree with you. Moreover, since uprobe_register/unregister() are
+> exported to modules, this enablement would better be implemented
+> inside uprobe so that all uprobe users benefit from this.
 
-But, as far as spurious faults, wouldn't it just be a fault because
-we've transiently gone to Present=0?  We already do that when clearing
-the Dirty bit, so I'm not sure that's new.  We surely already handle
-that one.
+
+Sorry, I think you got me wrong. I meant, I don't need to expose all core
+uprobe _static_ functions to tarce_uprobe.
+
+Now, about kernel modules, basically uprobe_register() takes three parameters:
+    inode, offset and consumer.
+There is no scope for the reference counter there. So I've created one more
+function: uprobe_register_refctr(). But this function is not exported as ABI
+to kernel module. i.e. kernel modules still does not have a way to create
+uprobe with reference counter. So for kernel modules,
+
+is it fine to change current ABI from
+    uprobe_register(inode, offset, consumer)
+to
+    uprobe_register(inode, offset, ref_ctr_offset, consumer)
+
+Or I should introduce new function for this:
+    uprobe_register_refctr(inode, offset, ref_ctr_offset, consumer)
+and export it to kernel module?
+
+What's your suggestion?
+
+[...]
+
+>> 
+>>  - This patches still has one issue. If there are multiple instances of
+>>    same application running and user wants to trace any particular
+>>    instance, trace_uprobe is updating reference counter in all instances.
+>>    This is not a problem on user side because instruction is not replaced
+>>    with trap/int3 and thus user will only see samples from his interested
+>>    process. But still this is more of a correctness issue. I'm working on
+>>    a fix for this.
+> 
+> Hmm, it sounds like not a correctness issue, but there maybe a performace
+> tradeoff. Tracing one particulear instance, other instances also will get
+> a performance loss
+
+
+Right, but it's temporary. I mean, putting everything in to this series was making
+it complex. So this is the initial one and I'll send followup patches which will
+optimize the reference counter update.
+
+
+> (Only if the parameter preparation block is heavy,
+> because the heaviest part of probing - trap/int3 and recording data - isn't
+> executed.)
+>> BTW, why this happens? I thought the refcounter part is just a data which
+> is not shared among processes...
+> 
+
+This happens because we are not calling consumer_filter function. consumer_filter
+is the one who decides whether to change the instruction to trap or not in a given
+mm. We also need to call it before updating reference counter.
+
+Let me know your thoughts.
+
+Thanks,
+Ravi
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
