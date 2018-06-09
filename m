@@ -5,115 +5,117 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5CF8B7D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Jun 2018 22:34:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4824D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  9 Jun 2018 00:10:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753150AbeFHWd4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Jun 2018 18:33:56 -0400
-Received: from mail-pf0-f196.google.com ([209.85.192.196]:36439 "EHLO
-        mail-pf0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753126AbeFHWdw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jun 2018 18:33:52 -0400
-Received: by mail-pf0-f196.google.com with SMTP id a12-v6so7311566pfi.3
-        for <linux-doc@vger.kernel.org>; Fri, 08 Jun 2018 15:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VpGdfL/yVNmPGPalESPmJER/HpMk9feRIIX49+mVX68=;
-        b=QvN2/Fwk0Vj44AAFiOordN8yMJkvc9sSN04j0aR2is1K7Oo3NICVNo0sunhP9OD5iC
-         /9scNaSqkLX0zES3zw5ds4DdNj+z7rV5jELJfoWzjzfjtN5+1Z4WvAbMiFjsTzKu4bXD
-         7Bo5/s0TGkRepGsSgU9xFkERfJzEqOJMWu3bjzN69goJRkt2jrKxIJmmQnP08b84Yp+H
-         M0dhK/GbaDBAlhkJa4eW75vypDD42YmCXpvoiFZroi+hKuZsgegLa1b6ikVx4KyiYQs2
-         0L3SO7XOleS9EGFcrhJbsccEVFC4SKkCanXZyh32S3MbMJr0ZW1055TBrcThBzm8cfr8
-         touw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=VpGdfL/yVNmPGPalESPmJER/HpMk9feRIIX49+mVX68=;
-        b=WTMCF8UnHY7PxPVgsJ6VwoVQ/21plY3yW/XkvEierKBVbj9a5PcgfxPmLZDohCM6UX
-         C2DnLEKsCmevtJK/tfntM138D7gZ32TSR2AJGhM1f3O9hw5a7JEhg1dN08ety+yQNsMX
-         eqP0kkD6z6dnYnCzkEiS5TsuMt1W67BDT2TcDBLsc8bwI/Wa8UzYrpGDFZxAJUWVRuln
-         0yZ7CqoLbF+ZwYjdDzeEexn81cZ1x3LFq4Pvh0eMICRYOuAYOHiZp7iIjNTY3XsiSsWQ
-         nbgfTHgCwnY08Mia4HAoc515FNNjgzDhHReeDWVPYOsjGnpUkJi7/GoFR/gOanOYgPpy
-         AMfw==
-X-Gm-Message-State: APt69E0wlPkD7lFGPTJuIHnFJMFsxKjA+Y3ovP6n69Tyi7UKAdk6Yj8t
-        rJ3r7uFwPAMiZdvKGJm/cFBswCgV9isDOw==
-X-Google-Smtp-Source: ADUXVKIWSGMDlZ1/KpO4nw8tXxcBmR1BZMDHgavhutySZ0oKPDTFHCYaUs9B9O7ts4KpaAXLGzN6bw==
-X-Received: by 2002:a62:d388:: with SMTP id z8-v6mr7849437pfk.8.1528497232329;
-        Fri, 08 Jun 2018 15:33:52 -0700 (PDT)
-Received: from localhost ([73.93.152.77])
-        by smtp.gmail.com with ESMTPSA id z82-v6sm40348662pfk.30.2018.06.08.15.33.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 08 Jun 2018 15:33:51 -0700 (PDT)
-Date:   Fri, 08 Jun 2018 15:33:51 -0700 (PDT)
-X-Google-Original-Date: Fri, 08 Jun 2018 13:22:15 PDT (-0700)
-Subject:     Re: [PATCH 04/24] 32-bit userspace ABI: introduce ARCH_32BIT_OFF_T config option
-In-Reply-To: <20180608173207.nwoi25jee52gpdwy@armageddon.cambridge.arm.com>
-CC:     ynorov@caviumnetworks.com, Arnd Bergmann <arnd@arndb.de>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, szabolcs.nagy@arm.com,
-        heiko.carstens@de.ibm.com, philipp.tomsich@theobroma-systems.com,
-        joseph@codesourcery.com, sellcey@caviumnetworks.com,
-        Prasun.Kapoor@caviumnetworks.com, schwab@suse.de, agraf@suse.de,
-        bamv2005@gmail.com, geert@linux-m68k.org, Dave.Martin@arm.com,
-        kilobyte@angband.pl, manuel.montezelo@gmail.com,
-        james.hogan@imgtec.com, cmetcalf@mellanox.com, pinskia@gmail.com,
-        linyongting@huawei.com, klimov.linux@gmail.com, broonie@kernel.org,
-        maxim.kuvyrkov@linaro.org, fweimer@redhat.com,
-        Nathan_Lynch@mentor.com, james.morse@arm.com,
-        ramana.gcc@googlemail.com, schwidefsky@de.ibm.com,
-        davem@davemloft.net, christoph.muellner@theobroma-systems.com
-From:   Palmer Dabbelt <palmer@sifive.com>
-To:     catalin.marinas@arm.com
-Message-ID: <mhng-e1922456-a05b-46f9-8644-d45ad70a55e5@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        id S1753227AbeFIAKn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Jun 2018 20:10:43 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:41602 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753039AbeFIAKm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jun 2018 20:10:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=nB8hSxv0O1j7Dg4ADjfxQSWfIKeFH39X9kWYSmhDa7E=; b=P5ben5uHoX9hFH+31mqthGbFNR
+        OuUEXzj8LWQDQhS55FJ5wwbkDLyA9kQ23bPzWX4tva/qjQ+RhFKj4vJLBNytOKBYlgOczEzVnyKTD
+        VBcUwUZZDLHsznDAOR4uUcND5EvRZQF/0n0x0OajUOrq9Kd+fo+2aNzRx9Nvf7HcCijVpDCCAq3Uq
+        IAHqI+s7mxRJmfj9lhJrKlBt4BXiWwZZ3DcXmOgTbS9R+YkTTGT2NoKszOO8bbSVsB8U/lu1YTOEr
+        KeW5YDsxpmQFI8mPwCEJn2kF18JLvtBru6TUcnyXuaVUnGqTTJOawM3urJsGuGe+ip42Fk4VcEy3Z
+        RXyE8XvA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fRRSU-0001Sm-GM; Sat, 09 Jun 2018 00:10:18 +0000
+Subject: Re: [PATCH 5/5] Documentation/x86: Add CET description
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+References: <20180607143544.3477-1-yu-cheng.yu@intel.com>
+ <20180607143544.3477-6-yu-cheng.yu@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <0c91f979-85e1-6deb-9570-9749c8eaf15b@infradead.org>
+Date:   Fri, 8 Jun 2018 17:10:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180607143544.3477-6-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 08 Jun 2018 10:32:07 PDT (-0700), catalin.marinas@arm.com wrote:
-> On Wed, May 16, 2018 at 11:18:49AM +0300, Yury Norov wrote:
->> diff --git a/arch/Kconfig b/arch/Kconfig
->> index 76c0b54443b1..ee079244dc3c 100644
->> --- a/arch/Kconfig
->> +++ b/arch/Kconfig
->> @@ -264,6 +264,21 @@ config ARCH_THREAD_STACK_ALLOCATOR
->>  config ARCH_WANTS_DYNAMIC_TASK_STRUCT
->>  	bool
->>
->> +config ARCH_32BIT_OFF_T
->> +	bool
->> +	depends on !64BIT
->> +	help
->> +	  All new 32-bit architectures should have 64-bit off_t type on
->> +	  userspace side which corresponds to the loff_t kernel type. This
->> +	  is the requirement for modern ABIs. Some existing architectures
->> +	  already have 32-bit off_t. This option is enabled for all such
->> +	  architectures explicitly. Namely: arc, arm, blackfin, cris, frv,
->> +	  h8300, hexagon, m32r, m68k, metag, microblaze, mips32, mn10300,
->> +	  nios2, openrisc, parisc32, powerpc32, score, sh, sparc, tile32,
->> +	  unicore32, x86_32 and xtensa. This is the complete list. Any
->> +	  new 32-bit architecture should declare 64-bit off_t type on user
->> +	  side and so should not enable this option.
->
-> Do you know if this is the case for riscv and nds32, merged in the
-> meantime? If not, I suggest you drop this patch altogether and just
-> define force_o_largefile() for arm64/ilp32 as we don't seem to stick to
-> "all new 32-bit architectures should have 64-bit off_t".
+On 06/07/2018 07:35 AM, Yu-cheng Yu wrote:
+> Explain how CET works and the noshstk/noibt kernel parameters.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |   6 +
+>  Documentation/x86/intel_cet.txt                 | 161 ++++++++++++++++++++++++
+>  2 files changed, 167 insertions(+)
+>  create mode 100644 Documentation/x86/intel_cet.txt
+> 
 
-We (RISC-V) don't have support for rv32i in glibc yet, so there really isn't a 
-fixed ABI there yet.  From my understanding the rv32i port as it currently 
-stands has a 32-bit off_t (via __kernel_off_t being defined as long), so this 
-change would technically be a kernel ABI break.
+> diff --git a/Documentation/x86/intel_cet.txt b/Documentation/x86/intel_cet.txt
+> new file mode 100644
+> index 000000000000..1b902a6c49f4
+> --- /dev/null
+> +++ b/Documentation/x86/intel_cet.txt
+> @@ -0,0 +1,161 @@
+> +-----------------------------------------
+> +Control Flow Enforcement Technology (CET)
+> +-----------------------------------------
+> +
+> +[1] Overview
+> +
+> +Control Flow Enforcement Technology (CET) provides protection against
+> +return/jump-oriented programing (ROP) attacks.  It can be implemented to
 
-Since we don't have rv32i glibc yet I'm not fundamentally opposed to an ABI 
-break.  Is there a concrete advantage to this?
+                        programming
+
+> +protect both the kernel and applications.  In the first phase, only the
+> +user-mode protection is implemented for the 64-bit kernel.  Thirty-two bit
+> +applications are supported under the compatibility mode.
+> +
+> +CET includes shadow stack (SHSTK) and indirect branch tracking (IBT) and
+> +they are enabled from two kernel configuration options:
+> +
+> +  INTEL_X86_SHADOW_STACK_USER, and
+
+no comma.
+
+> +  INTEL_X86_BRANCH_TRACKING_USER.
+> +
+> +There are two command-line options for disabling CET features:
+> +
+> +  noshstk - disables shadow stack, and
+> +  noibt - disables indirect branch tracking.
+> +
+> +At run time, /proc/cpuinfo shows the availability of SHSTK and IBT.
+> +
+
+[snip]
+
+
+thanks,
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
