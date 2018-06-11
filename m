@@ -1,115 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D7737D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Jun 2018 04:32:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C13A7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Jun 2018 07:48:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753801AbeFKEcJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Jun 2018 00:32:09 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38164 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1751383AbeFKEcI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jun 2018 00:32:08 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5B4TqJO105768
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jun 2018 00:32:08 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jhcf40eyy-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jun 2018 00:32:08 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Mon, 11 Jun 2018 05:32:06 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 11 Jun 2018 05:32:02 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5B4W1rm30277788
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 11 Jun 2018 04:32:01 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 813C0A4040;
-        Mon, 11 Jun 2018 05:22:56 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9A778A404D;
-        Mon, 11 Jun 2018 05:22:53 +0100 (BST)
-Received: from [9.124.31.215] (unknown [9.124.31.215])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 11 Jun 2018 05:22:53 +0100 (BST)
-Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
- (semaphore)
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
- <20180608101023.cbf20db485026213d490cb7c@kernel.org>
- <0d487b32-3141-ec30-6cca-eba7159d70b0@linux.ibm.com>
- <20180608141431.c0196a2c80a8d4701bc9db58@kernel.org>
- <71f19b63-a641-1705-f087-a39b8b81c4be@linux.ibm.com>
- <20180609004549.ea7b1854772217598bb1cdfd@kernel.org>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Mon, 11 Jun 2018 10:01:58 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1754020AbeFKHsH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Jun 2018 03:48:07 -0400
+Received: from mail-lf0-f65.google.com ([209.85.215.65]:43595 "EHLO
+        mail-lf0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754006AbeFKHsG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jun 2018 03:48:06 -0400
+Received: by mail-lf0-f65.google.com with SMTP id n15-v6so29020263lfn.10;
+        Mon, 11 Jun 2018 00:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=Rzp1dSYL8ni2PE4y20+h5RWuQuksPR8PB20WytsYboE=;
+        b=JhU8qF4OEnrQpV08f3OGPvZ0VAMiDgcLkLvSLzkfl1HIMFJ+0Hm9STO4bMvPTvGX76
+         kB2neGoCTFPIb/ecaSFCkCZwN0CFLu2kq9CfOrZAvhviy4Ot0YSpZkv0E39rz65ZWj2t
+         YHWOgHZwswQYQZbhCchplaFjrVXHGdFgsPZz8gkCSCK9GiMm1fVmFBe5xfZ7okNNkGmg
+         y1imjZwYixaB9SoyZQ9bQ/LgvghB9wwtGUvHZj9VqJBDNcPXP2cFxnCCfhllcdqt4OHG
+         DHeYdNm9o+AOI0Eoeu6ZeeA35jEPQvbECWAcu75jkaMHEWMo/G7R3gvQX1Rpeh5hTtPQ
+         5dlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=Rzp1dSYL8ni2PE4y20+h5RWuQuksPR8PB20WytsYboE=;
+        b=GMWB3PRrVQgSWjeK86UcNGH3KhInMXZhh0QBFhEH4mzylDLe0uV+TCz21StTulyMOy
+         M9iulv8IGdSw7a6FicAOXurGq1tA7N9vS80++k7u7MNcEz+MFWE4DPeu+yTkE43SuvRu
+         kLZ0TRJLuelmMYjVc7I78WVG6qllb00XrKhvp85PVAkQ6ry8HWx6IgRLYN43uexAUqNp
+         nQJNqMeE8XQnQ2F18GF4Q8VBziv6QVDqUXayf4HewqCuq+e9UehtQDw8+m5EDuwfjJvH
+         6qfqYRRSdixX/y5tTa2yGJE6dSSteU8Q8LGE/WvbNMC+/kcIPCCVnQuAVK7UWd63bhoC
+         UUFA==
+X-Gm-Message-State: APt69E2RNjHEYJlo6bV65lbXOIHYXqwkGKfna+n8GGie2Mvo0EnhKb8H
+        1LHGPSwfnAOxHGmuYy+wgZMXQb9JyBcJpNzKl0w=
+X-Google-Smtp-Source: ADUXVKIwx5xKJ019sp+KYBsSWOu0xc1vY65s1XFdDMg/+TZJGMZrPuu89EimIu8nL3zEO+1r3WnAnxJFBHDfm+ek3Ws=
+X-Received: by 2002:a2e:5453:: with SMTP id y19-v6mr10302309ljd.11.1528703283779;
+ Mon, 11 Jun 2018 00:48:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180609004549.ea7b1854772217598bb1cdfd@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18061104-4275-0000-0000-0000028C4520
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061104-4276-0000-0000-0000379361FB
-Message-Id: <6225481e-fa00-a242-2b57-223559e3c488@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-11_01:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=739 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1805220000 definitions=main-1806110054
+Received: by 2002:a2e:56c8:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 00:48:02
+ -0700 (PDT)
+In-Reply-To: <20180609074227.GA6810@yury-thinkpad>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+ <20180516081910.10067-5-ynorov@caviumnetworks.com> <20180608173207.nwoi25jee52gpdwy@armageddon.cambridge.arm.com>
+ <20180609074227.GA6810@yury-thinkpad>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 11 Jun 2018 09:48:02 +0200
+X-Google-Sender-Auth: xuQjuSuRPXF2lPaqecQszCuPNVA
+Message-ID: <CAK8P3a16ByPtCwKbdLQRDRni3qV9DXLNYZ9QJUH6uHaZYHr34g@mail.gmail.com>
+Subject: Re: [PATCH 04/24] 32-bit userspace ABI: introduce ARCH_32BIT_OFF_T
+ config option
+To:     Yury Norov <ynorov@caviumnetworks.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Alexander Graf <agraf@suse.de>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        James Morse <james.morse@arm.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Masami,
-
->>> Hmm, it sounds simple... maybe we can increment refctr in install_breakpoint/
->>> remove_breakpoint?
+On Sat, Jun 9, 2018 at 9:42 AM, Yury Norov <ynorov@caviumnetworks.com> wrote:
+> On Fri, Jun 08, 2018 at 06:32:07PM +0100, Catalin Marinas wrote:
+>> On Wed, May 16, 2018 at 11:18:49AM +0300, Yury Norov wrote:
+>> > diff --git a/arch/Kconfig b/arch/Kconfig
+>> > index 76c0b54443b1..ee079244dc3c 100644
+>> > --- a/arch/Kconfig
+>> > +++ b/arch/Kconfig
+>> > @@ -264,6 +264,21 @@ config ARCH_THREAD_STACK_ALLOCATOR
+>> >  config ARCH_WANTS_DYNAMIC_TASK_STRUCT
+>> >     bool
+>> >
+>> > +config ARCH_32BIT_OFF_T
+>> > +   bool
+>> > +   depends on !64BIT
+>> > +   help
+>> > +     All new 32-bit architectures should have 64-bit off_t type on
+>> > +     userspace side which corresponds to the loff_t kernel type. This
+>> > +     is the requirement for modern ABIs. Some existing architectures
+>> > +     already have 32-bit off_t. This option is enabled for all such
+>> > +     architectures explicitly. Namely: arc, arm, blackfin, cris, frv,
+>> > +     h8300, hexagon, m32r, m68k, metag, microblaze, mips32, mn10300,
+>> > +     nios2, openrisc, parisc32, powerpc32, score, sh, sparc, tile32,
+>> > +     unicore32, x86_32 and xtensa. This is the complete list. Any
+>> > +     new 32-bit architecture should declare 64-bit off_t type on user
+>> > +     side and so should not enable this option.
 >>
->> Not really, it would be simpler if I can put it inside install_breakpoint().
->> Consider an mmap() case. Probed instruction resides in the text section whereas
->> reference counter resides in the data section. These sections gets mapped using
->> separate mmap() calls. So, when process mmaps the text section we will change the
->> instruction, but section holding the reference counter may not have been mapped
->> yet in the virtual memory. If so, we will fail to update the reference counter.
-> 
-> Got it. 
-> In such case, maybe we can hook the target page mmapped and do install_breakpoint()
-> at that point. Since the instruction is protected by a refctr, unless mmap the
-> page on where the refctr is, the program doesn't reach the tracepoint. Is that right?
-> 
+>> Do you know if this is the case for riscv and nds32, merged in the
+>> meantime? If not, I suggest you drop this patch altogether and just
+>> define force_o_largefile() for arm64/ilp32 as we don't seem to stick to
+>> "all new 32-bit architectures should have 64-bit off_t".
+>
+> I wrote this patch at request of Arnd Bergmann. This is actually his
+> words that all new 32-bit architectures should have 64-bit off_t. So
+> I was surprized when riscv was merged with 32-bit off_t (and I didn't
+> follow nds32).
+>
+> If this rule is still in force, we'd better add new exceptions to this
+> patch. Otherwise, we can drop it.
+>
+> Arnd, could you please comment it?
 
-You mean, when mmap(text) happens, save the target page somewhere and when
-mmap(data) happens, update both instruction and ref_ctr?
+I completely forgot about it and had assumed that it was merged long
+ago, sorry about that.
 
-This sounds feasible. Let me think on it.
-
-Thanks for suggestion,
-Ravi
-
+        Arnd
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
