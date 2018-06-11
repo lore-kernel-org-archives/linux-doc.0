@@ -1,90 +1,247 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 465E97D048
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 10 Jun 2018 14:37:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8FA57D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Jun 2018 04:14:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752131AbeFJOhu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 10 Jun 2018 10:37:50 -0400
-Received: from mail-pl0-f47.google.com ([209.85.160.47]:37493 "EHLO
-        mail-pl0-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751845AbeFJOht (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Jun 2018 10:37:49 -0400
-Received: by mail-pl0-f47.google.com with SMTP id 31-v6so10851313plc.4;
-        Sun, 10 Jun 2018 07:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=djTtPuvzHaNMeZhp+RqeOusWEYZrLNs/CFDa0Axjdb0=;
-        b=cduXCgeaB/qqoWFcE7u5cAAbBpcbdtUlVMkwsX8tqZp9jFKUatmIr5MmBKskPNMl3o
-         TaGp3xl2PpEJ1o8stpUE5vr4gU6hEIJfF0w7PpAc0VGlHWb/eUa5V+hhi0/BxpWNdLoJ
-         Yh7+SX5RG/v5yKHcgl4vUXmxxwNt04Rtfn3QrrpGECe1Qc6JG+JVZHQIzcOB6LpIpP0v
-         Z8ZgmewWqvGRyEE57NbtKd6q1wsghsHS82uUFtblE6Hz6n697Nk/P76mGQNl8qGxupMy
-         hG2PEdLZDpuKEGAkAtO2c0JjEYfPZS/94Falzjnbjc5p5FW7XV66VxmwuIY5Ti1EucSF
-         qjWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=djTtPuvzHaNMeZhp+RqeOusWEYZrLNs/CFDa0Axjdb0=;
-        b=tPlyOtEqdEb9rrI9lnvUOKM3YqCiLS8l0mDuJK2ihVmgbeCasmpy9qWR/NldKS2KA9
-         b8OQ34/2hqo6RgFOJHKRrouZpLlgGjhOHnnPJ5v25Umj+mMcb5GPFjjJUpcv/6iy1UVR
-         ymZ2x+KWXvklt6l839MB4dZFdn6dVIltpmRTfMc9K5LD9pZL9aT2Fcpu6uIec7n/PVyb
-         Qex+OdP0QwW++pcCWWLOD3x0brKrFCjFZq73u7ZagLKH7DFcN5093Nam1D9N58/iaPiu
-         XyrSv7zBs/pizavoz2g5rwhGmSpiSKB5cd74TZ7G/pliR09yAd8Ge4P5CkCyvpKlisN3
-         BR8Q==
-X-Gm-Message-State: APt69E27Omp/xq1Vxf7nbxE4AcPiH11iAscNbvsT2h4aiv3z+JDFFWZX
-        dzPQu8gXmNcW0HhdGEEztJ4pFQyLnUnzCYQIIsbLqQ==
-X-Google-Smtp-Source: ADUXVKJ/2qcgMO5sQnc3O/vu+GznQbB1xE9cdFd4aDA1e6wdUPV1T8F+cSjuq6hIycJ8DPeCs61uggkXvKl6U0you4Q=
-X-Received: by 2002:a17:902:6bc7:: with SMTP id m7-v6mr14690085plt.162.1528641468776;
- Sun, 10 Jun 2018 07:37:48 -0700 (PDT)
+        id S1751383AbeFKEN7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Jun 2018 00:13:59 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45936 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1751358AbeFKEN7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jun 2018 00:13:59 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5B48sID067007
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jun 2018 00:13:58 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jhbd5sue0-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jun 2018 00:13:58 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Mon, 11 Jun 2018 05:13:55 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 11 Jun 2018 05:13:50 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5B4Dnqs27394180
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 11 Jun 2018 04:13:49 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5E29CA404D;
+        Mon, 11 Jun 2018 05:04:44 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 50AEEA4040;
+        Mon, 11 Jun 2018 05:04:41 +0100 (BST)
+Received: from [9.124.31.215] (unknown [9.124.31.215])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 11 Jun 2018 05:04:41 +0100 (BST)
+Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
+ (semaphore)
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
+ <20180608163600.GA9030@redhat.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Mon, 11 Jun 2018 09:43:45 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Received: by 2002:a17:90a:a081:0:0:0:0 with HTTP; Sun, 10 Jun 2018 07:37:48
- -0700 (PDT)
-From:   Masanari Iida <standby24x7@gmail.com>
-Date:   Sun, 10 Jun 2018 23:37:48 +0900
-Message-ID: <CALLJCT2K9Tkj1d-xq6-zmNhOwLjQiStnMaE7PJCTDDT+Pi=L1w@mail.gmail.com>
-Subject: [BUG] make htmldocs failed with error after add converted RST file.
-To:     linux-kernel@vger.kernel.org, jeffrey.t.kirsher@intel.com,
-        netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        intel-wired-lan@lists.osuosl.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20180608163600.GA9030@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18061104-0028-0000-0000-000002CF5AA2
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18061104-0029-0000-0000-000023866E59
+Message-Id: <456ae8b8-8c5b-022c-0d53-c59627bda753@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-11_01:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1805220000 definitions=main-1806110050
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After merger a patch,  make htmldocs  and make xmldocs
-failed with error.
+Hi Oleg,
 
-reST markup error:
-/home/iida/Repo/linux-2.6/Documentation/networking/e100.rst:90:
-(SEVERE/4) Unexpected section title.
+On 06/08/2018 10:06 PM, Oleg Nesterov wrote:
+> Hello,
+> 
+> I am travelling till the end of the next week, can't read this version
+> until I return. Just one question,
+> 
+> On 06/06, Ravi Bangoria wrote:
+>>
+>>  1. One of the major reason was the deadlock between uprobe_lock and
+>>  mm->mmap inside trace_uprobe_mmap(). That deadlock was not easy to fix
+> 
+> Could you remind what exactly was wrong?
+> 
+> I can't find your previous email about this problem, but iirc you didn't
+> explain the deadlock in details, just copied some traces from lockdep...
 
-Configuring the Driver on Different Distributions
--------------------------------------------------
-Documentation/Makefile:68: recipe for target 'htmldocs' failed
-make[1]: *** [htmldocs] Error 1
-Makefile:1542: recipe for target 'htmldocs' failed
-make: *** [htmldocs] Error 2
+The deadlock is between mm->mmap_sem and uprobe_lock.
+
+Some existing code path is taking these locks in following order:
+	uprobe_lock
+	  event_mutex
+	    uprobe->register_rwsem
+	      dup_mmap_sem
+		mm->mmap_sem
+
+I've introduced new function trace_uprobe_mmap() which gets called
+from mmap_region() / vma_adjust() with mm->mmap_sem already acquired.
+And it has to take uprobe_lock to loop over all trace_uprobes. i.e.
+the sequence is:
+	mm->mmap_sem
+	  uprobe_lock
+
+Why it's difficult to resolve is because trace_uprobe_mmap() does
+not have control over mm->mmap_sem.
+
+Detailed trace from lockdep:
+
+[  499.258006] ======================================================
+[  499.258205] WARNING: possible circular locking dependency detected
+[  499.258409] 4.17.0-rc3+ #76 Not tainted
+[  499.258528] ------------------------------------------------------
+[  499.258731] perf/6744 is trying to acquire lock:
+[  499.258895] 00000000e4895f49 (uprobe_lock){+.+.}, at: trace_uprobe_mmap+0x78/0x130
+[  499.259147]
+[  499.259147] but task is already holding lock:
+[  499.259349] 000000009ec93a76 (&mm->mmap_sem){++++}, at: vm_mmap_pgoff+0xe0/0x160
+[  499.259597]
+[  499.259597] which lock already depends on the new lock.
+[  499.259597]
+[  499.259848]
+[  499.259848] the existing dependency chain (in reverse order) is:
+[  499.260086]
+[  499.260086] -> #4 (&mm->mmap_sem){++++}:
+[  499.260277]        __lock_acquire+0x53c/0x910
+[  499.260442]        lock_acquire+0xf4/0x2f0
+[  499.260595]        down_write_killable+0x6c/0x150
+[  499.260764]        copy_process.isra.34.part.35+0x1594/0x1be0
+[  499.260967]        _do_fork+0xf8/0x910
+[  499.261090]        ppc_clone+0x8/0xc
+[  499.261209]
+[  499.261209] -> #3 (&dup_mmap_sem){++++}:
+[  499.261378]        __lock_acquire+0x53c/0x910
+[  499.261540]        lock_acquire+0xf4/0x2f0
+[  499.261669]        down_write+0x6c/0x110
+[  499.261793]        percpu_down_write+0x48/0x140
+[  499.261954]        register_for_each_vma+0x6c/0x2a0
+[  499.262116]        uprobe_register+0x230/0x320
+[  499.262277]        probe_event_enable+0x1cc/0x540
+[  499.262435]        perf_trace_event_init+0x1e0/0x350
+[  499.262587]        perf_trace_init+0xb0/0x110
+[  499.262750]        perf_tp_event_init+0x38/0x90
+[  499.262910]        perf_try_init_event+0x10c/0x150
+[  499.263075]        perf_event_alloc+0xbb0/0xf10
+[  499.263235]        sys_perf_event_open+0x2a8/0xdd0
+[  499.263396]        system_call+0x58/0x6c
+[  499.263516]
+[  499.263516] -> #2 (&uprobe->register_rwsem){++++}:
+[  499.263723]        __lock_acquire+0x53c/0x910
+[  499.263884]        lock_acquire+0xf4/0x2f0
+[  499.264002]        down_write+0x6c/0x110
+[  499.264118]        uprobe_register+0x1ec/0x320
+[  499.264283]        probe_event_enable+0x1cc/0x540
+[  499.264442]        perf_trace_event_init+0x1e0/0x350
+[  499.264603]        perf_trace_init+0xb0/0x110
+[  499.264766]        perf_tp_event_init+0x38/0x90
+[  499.264930]        perf_try_init_event+0x10c/0x150
+[  499.265092]        perf_event_alloc+0xbb0/0xf10
+[  499.265261]        sys_perf_event_open+0x2a8/0xdd0
+[  499.265424]        system_call+0x58/0x6c
+[  499.265542]
+[  499.265542] -> #1 (event_mutex){+.+.}:
+[  499.265738]        __lock_acquire+0x53c/0x910
+[  499.265896]        lock_acquire+0xf4/0x2f0
+[  499.266019]        __mutex_lock+0xa0/0xab0
+[  499.266142]        trace_add_event_call+0x44/0x100
+[  499.266310]        create_trace_uprobe+0x4a0/0x8b0
+[  499.266474]        trace_run_command+0xa4/0xc0
+[  499.266631]        trace_parse_run_command+0xe4/0x200
+[  499.266799]        probes_write+0x20/0x40
+[  499.266922]        __vfs_write+0x6c/0x240
+[  499.267041]        vfs_write+0xd0/0x240
+[  499.267166]        ksys_write+0x6c/0x110
+[  499.267295]        system_call+0x58/0x6c
+[  499.267413]
+[  499.267413] -> #0 (uprobe_lock){+.+.}:
+[  499.267591]        validate_chain.isra.34+0xbd0/0x1000
+[  499.267747]        __lock_acquire+0x53c/0x910
+[  499.267917]        lock_acquire+0xf4/0x2f0
+[  499.268048]        __mutex_lock+0xa0/0xab0
+[  499.268170]        trace_uprobe_mmap+0x78/0x130
+[  499.268335]        uprobe_mmap+0x80/0x3b0
+[  499.268464]        mmap_region+0x290/0x660
+[  499.268590]        do_mmap+0x40c/0x500
+[  499.268718]        vm_mmap_pgoff+0x114/0x160
+[  499.268870]        ksys_mmap_pgoff+0xe8/0x2e0
+[  499.269034]        sys_mmap+0x84/0xf0
+[  499.269161]        system_call+0x58/0x6c
+[  499.269279]
+[  499.269279] other info that might help us debug this:
+[  499.269279]
+[  499.269524] Chain exists of:
+[  499.269524]   uprobe_lock --> &dup_mmap_sem --> &mm->mmap_sem
+[  499.269524]
+[  499.269856]  Possible unsafe locking scenario:
+[  499.269856]
+[  499.270058]        CPU0                    CPU1
+[  499.270223]        ----                    ----
+[  499.270384]   lock(&mm->mmap_sem);
+[  499.270514]                                lock(&dup_mmap_sem);
+[  499.270711]                                lock(&mm->mmap_sem);
+[  499.270923]   lock(uprobe_lock);
+[  499.271046]
+[  499.271046]  *** DEADLOCK ***
+[  499.271046]
+[  499.271256] 1 lock held by perf/6744:
+[  499.271377]  #0: 000000009ec93a76 (&mm->mmap_sem){++++}, at: vm_mmap_pgoff+0xe0/0x160
+[  499.271628]
+[  499.271628] stack backtrace:
+[  499.271797] CPU: 25 PID: 6744 Comm: perf Not tainted 4.17.0-rc3+ #76
+[  499.272003] Call Trace:
+[  499.272094] [c0000000e32d74a0] [c000000000b00174] dump_stack+0xe8/0x164 (unreliable)
+[  499.272349] [c0000000e32d74f0] [c0000000001a905c] print_circular_bug.isra.30+0x354/0x388
+[  499.272590] [c0000000e32d7590] [c0000000001a3050] check_prev_add.constprop.38+0x8f0/0x910
+[  499.272828] [c0000000e32d7690] [c0000000001a3c40] validate_chain.isra.34+0xbd0/0x1000
+[  499.273070] [c0000000e32d7780] [c0000000001a57cc] __lock_acquire+0x53c/0x910
+[  499.273311] [c0000000e32d7860] [c0000000001a65b4] lock_acquire+0xf4/0x2f0
+[  499.273510] [c0000000e32d7930] [c000000000b1d1f0] __mutex_lock+0xa0/0xab0
+[  499.273717] [c0000000e32d7a40] [c0000000002b01b8] trace_uprobe_mmap+0x78/0x130
+[  499.273952] [c0000000e32d7a90] [c0000000002d7070] uprobe_mmap+0x80/0x3b0
+[  499.274153] [c0000000e32d7b20] [c0000000003550a0] mmap_region+0x290/0x660
+[  499.274353] [c0000000e32d7c00] [c00000000035587c] do_mmap+0x40c/0x500
+[  499.274560] [c0000000e32d7c80] [c00000000031ebc4] vm_mmap_pgoff+0x114/0x160
+[  499.274763] [c0000000e32d7d60] [c000000000352818] ksys_mmap_pgoff+0xe8/0x2e0
+[  499.275013] [c0000000e32d7de0] [c000000000016864] sys_mmap+0x84/0xf0
+[  499.275207] [c0000000e32d7e30] [c00000000000b404] system_call+0x58/0x6c
 
 
-85d63445f41125dafeddda74e5b13b7eefac9407 is the first bad commit
-commit 85d63445f41125dafeddda74e5b13b7eefac9407
-Author: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Date:   Thu May 10 12:20:13 2018 -0700
+( Reference: https://lkml.org/lkml/2018/5/25/111 )
 
-    Documentation: e100: Update the Intel 10/100 driver doc
-
-
-Reported-by: Masanari Iida <standby24x7@gmail.com>
-
-Masanari Iida
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
