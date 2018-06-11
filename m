@@ -5,45 +5,44 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38C5C7D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Jun 2018 13:33:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED80C7DF86
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Jun 2018 13:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933388AbeFKNc1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Jun 2018 09:32:27 -0400
-Received: from mail-lf0-f67.google.com ([209.85.215.67]:44079 "EHLO
-        mail-lf0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754014AbeFKNbC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jun 2018 09:31:02 -0400
-Received: by mail-lf0-f67.google.com with SMTP id 36-v6so30534814lfr.11
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jun 2018 06:31:01 -0700 (PDT)
+        id S933325AbeFKNcr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Jun 2018 09:32:47 -0400
+Received: from mail-lf0-f65.google.com ([209.85.215.65]:41175 "EHLO
+        mail-lf0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754100AbeFKNa7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jun 2018 09:30:59 -0400
+Received: by mail-lf0-f65.google.com with SMTP id d24-v6so30532135lfa.8
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jun 2018 06:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=30HpfX3MSgIitu/iEBIIx9v0BD6QgrKlorDvbuJTrxs=;
-        b=fdv0XIebAEYNjegTF9IOxzBvv2QsAONAPC1wUXtFvOGxXdjAwBGGqMNZZYswgaRG3R
-         wU3NKN5x60rw8zDgtFP0asa20mz8VQYZAuQwt1kdfg4wka1rKTyDw4ElgH+JANvblluN
-         g24f832NpCTe4bTSi0t78p/Q5IDVEUDvMXuFQ=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=j3jIepUwDw2xc+pgExVeFYswjqlQIgEI3e1Xbicq7EM=;
+        b=SzHgkSmVMJtI82iO9LMiqiAuLA6XITGgA8fh0lVhSWMYL8V886MllHH8ZcjJoiB2iK
+         eAd4isGTHWYMpM8MICe6nt4KaUegmO53HsOAYXo5AAkcdGZMKBuOwnU8dW1+7tCT3O3e
+         KctIVuoJ8+GekxHKsDz9To7kezqZ41xDoKDxA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=30HpfX3MSgIitu/iEBIIx9v0BD6QgrKlorDvbuJTrxs=;
-        b=I605FmOnu18YYz7Zmpwz94PCT5MM3PxBmegVb+648evJItntG1MWF2nokyYpPwS1/E
-         t/YTy6yU+gLkQblsX95Ssy8k7eoIz/DjsH+1e/0TXBWMOLqiL7ueXvFOvQujAq0VEz+B
-         dxBiwRIpaLOvJGEICR9F3aEhxH8J+9PqYVMF6O4hswGjGd6+D6AImRcB+4xsXjWHyo6L
-         mIqz22z7FOr6oayMmJEs0x2Ju1wwC+X2kbLTJlWwuaP0nEvpwcgHM2uFx4q9wsJBRZ1z
-         NicOBcbV3zv3UWEndSJurzCGoch2ovXMyIxOEcFRuJ4fr9MoMvd8NsBHMYKoUA0Umrn7
-         MPLQ==
-X-Gm-Message-State: APt69E23igN8qYcP2G5zJ3j1OyoCzgnCfCmU+07fbJsJyLA3OTCHs6i+
-        u2QokE49UENIyUdO44BBNgrWIw==
-X-Google-Smtp-Source: ADUXVKLuIieRtE8ZBknu9jRVcIxo1A6rNKKe57XfpxKf4hSURqEIrmB3qU6YWMkEPzlh+P6XWmyKYg==
-X-Received: by 2002:a2e:889a:: with SMTP id k26-v6mr11489579lji.54.1528723861042;
-        Mon, 11 Jun 2018 06:31:01 -0700 (PDT)
+         :references;
+        bh=j3jIepUwDw2xc+pgExVeFYswjqlQIgEI3e1Xbicq7EM=;
+        b=mp7sqn7Zv/uSF1GqxxAgZ2+6IspVANhaH8HOWwkA+4h1pbaDIcM7wvdXpfhPhC//au
+         SXUmDeWRqjYHnCt6zD5ozMPM2KLr71E966OkMtEJ+rscAGJPCiHk0AXme84h4PhTpCkM
+         l+gp5/R0ZzAUXiNzzRavtYPSyYkdvQDx4sW3uu1kUWNt/ZIy8uCNqDmEw0WWXvEPQLCF
+         RAU58amx+AWvVcEe/SK8DJs1M5lWASNqltu/o4wrI5lnrwiwepI/fLHrnIb9tKiaiZn+
+         lB/PA8t8Ia5BYzmc7zKUxZ+KJjSLyt5Qr5a+0gikpf4FrHgq5v3uJ1b7RFiRCaECKA2A
+         Mqpw==
+X-Gm-Message-State: APt69E0tEg0yCmYRGEyBI5LN4Prwv7KAuFJlKIKm8TYPRJYKCbhclU5Y
+        TNTZaN5ZOgEvTSUogzbZH1PoPQ==
+X-Google-Smtp-Source: ADUXVKIrrTFqS29ZZ+IAjFoW7ldj+cRtH7fvspJEIhywlzL+Cik8jXxjHMpVatuwSGCrw93w3cSDHg==
+X-Received: by 2002:a2e:163:: with SMTP id 96-v6mr12307996ljb.8.1528723857965;
+        Mon, 11 Jun 2018 06:30:57 -0700 (PDT)
 Received: from localhost.localdomain (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
-        by smtp.gmail.com with ESMTPSA id u24-v6sm2617712ljj.96.2018.06.11.06.30.59
+        by smtp.gmail.com with ESMTPSA id u24-v6sm2617712ljj.96.2018.06.11.06.30.56
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 11 Jun 2018 06:31:00 -0700 (PDT)
+        Mon, 11 Jun 2018 06:30:57 -0700 (PDT)
 From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
 To:     grygorii.strashko@ti.com, davem@davemloft.net
 Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
@@ -53,179 +52,87 @@ Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
         ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
         francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
         Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Subject: [PATCH net-next 3/6] net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
-Date:   Mon, 11 Jun 2018 16:30:44 +0300
-Message-Id: <20180611133047.4818-4-ivan.khoronzhuk@linaro.org>
+Subject: [PATCH net-next 1/6] net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
+Date:   Mon, 11 Jun 2018 16:30:42 +0300
+Message-Id: <20180611133047.4818-2-ivan.khoronzhuk@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180611133047.4818-1-ivan.khoronzhuk@linaro.org>
 References: <20180611133047.4818-1-ivan.khoronzhuk@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-That's possible to offload vlan to tc priority mapping with
-assumption sk_prio == L2 prio.
+The cpdma channel highest priority is from hi to lo number.
+The driver has limited number of descriptors that are shared between
+number of cpdma channels. Number of queues can be tuned with ethtool,
+that allows to not spend descriptors on not needed cpdma channels.
+In AVB usually only 2 tx queues can be enough with rate limitation.
+The rate limitation can be used only for hi priority queues. Thus, to
+use only 2 queues the 8 has to be created. It's wasteful.
 
-Example:
-$ ethtool -L eth0 rx 1 tx 4
-
-$ qdisc replace dev eth0 handle 100: parent root mqprio num_tc 3 \
-map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@0 1@1 2@2 hw 1
-
-$ tc -g class show dev eth0
-+---(100:ffe2) mqprio
-|    +---(100:3) mqprio
-|    +---(100:4) mqprio
-|    
-+---(100:ffe1) mqprio
-|    +---(100:2) mqprio
-|    
-+---(100:ffe0) mqprio
-     +---(100:1) mqprio
-
-Here, 100:1 is txq0, 100:2 is txq1, 100:3 is txq2, 100:4 is txq3
-txq0 belongs to tc0, txq1 to tc1, txq2 and txq3 to tc2
-The offload part only maps L2 prio to classes of traffic, but not
-to transmit queues, so to direct traffic to traffic class vlan has
-to be created with appropriate egress map.
+So, in order to allow using only needed number of rate limited
+tx queues, save resources, and be able to set rate limitation for
+them, let assign tx cpdma channels in backward order to queues.
 
 Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
 ---
- drivers/net/ethernet/ti/cpsw.c | 82 ++++++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+ drivers/net/ethernet/ti/cpsw.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
-index 406537d74ec1..fd967d2bce5d 100644
+index 534596ce00d3..406537d74ec1 100644
 --- a/drivers/net/ethernet/ti/cpsw.c
 +++ b/drivers/net/ethernet/ti/cpsw.c
-@@ -39,6 +39,7 @@
- #include <linux/sys_soc.h>
+@@ -967,8 +967,8 @@ static int cpsw_tx_mq_poll(struct napi_struct *napi_tx, int budget)
  
- #include <linux/pinctrl/consumer.h>
-+#include <net/pkt_cls.h>
+ 	/* process every unprocessed channel */
+ 	ch_map = cpdma_ctrl_txchs_state(cpsw->dma);
+-	for (ch = 0, num_tx = 0; ch_map; ch_map >>= 1, ch++) {
+-		if (!(ch_map & 0x01))
++	for (ch = 0, num_tx = 0; ch_map & 0xff; ch_map <<= 1, ch++) {
++		if (!(ch_map & 0x80))
+ 			continue;
  
- #include "cpsw.h"
- #include "cpsw_ale.h"
-@@ -153,6 +154,8 @@ do {								\
- #define IRQ_NUM			2
- #define CPSW_MAX_QUEUES		8
- #define CPSW_CPDMA_DESCS_POOL_SIZE_DEFAULT 256
-+#define CPSW_TC_NUM			4
-+#define CPSW_FIFO_SHAPERS_NUM		(CPSW_TC_NUM - 1)
+ 		txv = &cpsw->txv[ch];
+@@ -2431,7 +2431,7 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
+ 	void (*handler)(void *, int, int);
+ 	struct netdev_queue *queue;
+ 	struct cpsw_vector *vec;
+-	int ret, *ch;
++	int ret, *ch, vch;
  
- #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_SHIFT	29
- #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_MSK		GENMASK(2, 0)
-@@ -453,6 +456,7 @@ struct cpsw_priv {
- 	u8				mac_addr[ETH_ALEN];
- 	bool				rx_pause;
- 	bool				tx_pause;
-+	bool				mqprio_hw;
- 	u32 emac_port;
- 	struct cpsw_common *cpsw;
- };
-@@ -1577,6 +1581,14 @@ static void cpsw_slave_stop(struct cpsw_slave *slave, struct cpsw_common *cpsw)
- 	soft_reset_slave(slave);
- }
+ 	if (rx) {
+ 		ch = &cpsw->rx_ch_num;
+@@ -2444,7 +2444,8 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
+ 	}
  
-+static int cpsw_tc_to_fifo(int tc, int num_tc)
-+{
-+	if (tc == num_tc - 1)
-+		return 0;
-+
-+	return CPSW_FIFO_SHAPERS_NUM - tc;
-+}
-+
- static int cpsw_ndo_open(struct net_device *ndev)
- {
- 	struct cpsw_priv *priv = netdev_priv(ndev);
-@@ -2190,6 +2202,75 @@ static int cpsw_ndo_set_tx_maxrate(struct net_device *ndev, int queue, u32 rate)
- 	return ret;
- }
+ 	while (*ch < ch_num) {
+-		vec[*ch].ch = cpdma_chan_create(cpsw->dma, *ch, handler, rx);
++		vch = rx ? *ch : 7 - *ch;
++		vec[*ch].ch = cpdma_chan_create(cpsw->dma, vch, handler, rx);
+ 		queue = netdev_get_tx_queue(priv->ndev, *ch);
+ 		queue->tx_maxrate = 0;
  
-+static int cpsw_set_tc(struct net_device *ndev, void *type_data)
-+{
-+	struct tc_mqprio_qopt_offload *mqprio = type_data;
-+	struct cpsw_priv *priv = netdev_priv(ndev);
-+	struct cpsw_common *cpsw = priv->cpsw;
-+	int fifo, num_tc, count, offset;
-+	struct cpsw_slave *slave;
-+	u32 tx_prio_map = 0;
-+	int i, tc, ret;
-+
-+	num_tc = mqprio->qopt.num_tc;
-+	if (num_tc > CPSW_TC_NUM)
-+		return -EINVAL;
-+
-+	if (mqprio->mode != TC_MQPRIO_MODE_DCB)
-+		return -EINVAL;
-+
-+	ret = pm_runtime_get_sync(cpsw->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(cpsw->dev);
-+		return ret;
-+	}
-+
-+	if (num_tc) {
-+		for (i = 0; i < 8; i++) {
-+			tc = mqprio->qopt.prio_tc_map[i];
-+			fifo = cpsw_tc_to_fifo(tc, num_tc);
-+			tx_prio_map |= fifo << (4 * i);
-+		}
-+
-+		netdev_set_num_tc(ndev, num_tc);
-+		for (i = 0; i < num_tc; i++) {
-+			count = mqprio->qopt.count[i];
-+			offset = mqprio->qopt.offset[i];
-+			netdev_set_tc_queue(ndev, i, count, offset);
-+		}
-+	}
-+
-+	if (!mqprio->qopt.hw) {
-+		/* restore default configuration */
-+		netdev_reset_tc(ndev);
-+		tx_prio_map = TX_PRIORITY_MAPPING;
-+	}
-+
-+	priv->mqprio_hw = mqprio->qopt.hw;
-+
-+	offset = cpsw->version == CPSW_VERSION_1 ?
-+		 CPSW1_TX_PRI_MAP : CPSW2_TX_PRI_MAP;
-+
-+	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
-+	slave_write(slave, tx_prio_map, offset);
-+
-+	pm_runtime_put_sync(cpsw->dev);
-+
-+	return 0;
-+}
-+
-+static int cpsw_ndo_setup_tc(struct net_device *ndev, enum tc_setup_type type,
-+			     void *type_data)
-+{
-+	switch (type) {
-+	case TC_SETUP_QDISC_MQPRIO:
-+		return cpsw_set_tc(ndev, type_data);
-+
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
- static const struct net_device_ops cpsw_netdev_ops = {
- 	.ndo_open		= cpsw_ndo_open,
- 	.ndo_stop		= cpsw_ndo_stop,
-@@ -2205,6 +2286,7 @@ static const struct net_device_ops cpsw_netdev_ops = {
- #endif
- 	.ndo_vlan_rx_add_vid	= cpsw_ndo_vlan_rx_add_vid,
- 	.ndo_vlan_rx_kill_vid	= cpsw_ndo_vlan_rx_kill_vid,
-+	.ndo_setup_tc           = cpsw_ndo_setup_tc,
- };
+@@ -2980,7 +2981,7 @@ static int cpsw_probe(struct platform_device *pdev)
+ 	u32 slave_offset, sliver_offset, slave_size;
+ 	const struct soc_device_attribute *soc;
+ 	struct cpsw_common		*cpsw;
+-	int ret = 0, i;
++	int ret = 0, i, ch;
+ 	int irq;
  
- static int cpsw_get_regs_len(struct net_device *ndev)
+ 	cpsw = devm_kzalloc(&pdev->dev, sizeof(struct cpsw_common), GFP_KERNEL);
+@@ -3155,7 +3156,8 @@ static int cpsw_probe(struct platform_device *pdev)
+ 	if (soc)
+ 		cpsw->quirk_irq = 1;
+ 
+-	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, 0, cpsw_tx_handler, 0);
++	ch = cpsw->quirk_irq ? 0 : 7;
++	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, ch, cpsw_tx_handler, 0);
+ 	if (IS_ERR(cpsw->txv[0].ch)) {
+ 		dev_err(priv->dev, "error initializing tx dma channel\n");
+ 		ret = PTR_ERR(cpsw->txv[0].ch);
 -- 
 2.17.1
 
