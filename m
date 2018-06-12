@@ -1,105 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A955E7D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 19:55:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F013D7D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 20:19:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932817AbeFLTz0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Jun 2018 15:55:26 -0400
-Received: from lelnx193.ext.ti.com ([198.47.27.77]:42666 "EHLO
-        lelnx193.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932533AbeFLTzY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jun 2018 15:55:24 -0400
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-        by lelnx193.ext.ti.com (8.15.1/8.15.1) with ESMTP id w5CJtJar006622;
-        Tue, 12 Jun 2018 14:55:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1528833319;
-        bh=RR5TU+DjZ31MgsdqVBQiIGOpXQs9KKJ77HxVQxWwgrQ=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=V3kKimGRxAkw/yOs32vcidjox4ISPO6MiJc8lEsuUmMitmm1sOroQ5OQOvEdLWqqc
-         X5X+jOH43+KD/ImKAtzODZQO7Cw7N9OehXxWmmtRUx+TWv+HuS4wVPKaJoqhIpUr0D
-         A+FKkUTifK50Dc3KhIRNmFih/grBlmm0hWUa4BGY=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5CJtJeA027813;
-        Tue, 12 Jun 2018 14:55:19 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Tue, 12
- Jun 2018 14:55:18 -0500
-Received: from dflp32.itg.ti.com (10.64.6.15) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
- Tue, 12 Jun 2018 14:55:18 -0500
-Received: from [128.247.59.147] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5CJtI2U027844;
-        Tue, 12 Jun 2018 14:55:18 -0500
-Subject: Re: [PATCH net-next 6/6] Documentation: networking: cpsw: add MQPRIO
- & CBS offload examples
-To:     Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>, <davem@davemloft.net>
-CC:     <corbet@lwn.net>, <akpm@linux-foundation.org>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        <vinicius.gomes@intel.com>, <henrik@austad.us>,
-        <jesus.sanchez-palencia@intel.com>, <ilias.apalodimas@linaro.org>,
-        <p-varis@ti.com>, <spatton@ti.com>, <francois.ozog@linaro.org>,
-        <yogeshs@ti.com>, <nsekhar@ti.com>
-References: <20180611133047.4818-1-ivan.khoronzhuk@linaro.org>
- <20180611133047.4818-7-ivan.khoronzhuk@linaro.org>
-From:   Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <16c97ea6-9f28-1dd6-136a-2473423bf94a@ti.com>
-Date:   Tue, 12 Jun 2018 14:55:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <20180611133047.4818-7-ivan.khoronzhuk@linaro.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+        id S933355AbeFLUSs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Jun 2018 16:18:48 -0400
+Received: from mga18.intel.com ([134.134.136.126]:40916 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932823AbeFLUSr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Jun 2018 16:18:47 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jun 2018 13:18:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,216,1526367600"; 
+   d="scan'208";a="236601496"
+Received: from 2b52.sc.intel.com (HELO [143.183.136.147]) ([143.183.136.147])
+  by fmsmga005.fm.intel.com with ESMTP; 12 Jun 2018 13:18:46 -0700
+Message-ID: <1528834538.9849.13.camel@2b52.sc.intel.com>
+Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     bsingharora@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com
+Date:   Tue, 12 Jun 2018 13:15:38 -0700
+In-Reply-To: <1528824280.9447.30.camel@2b52.sc.intel.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+         <bbfde1b3-5e1b-80e3-30e8-fd1e46a2ceb1@gmail.com>
+         <1528815820.8271.16.camel@2b52.sc.intel.com>
+         <CALCETrXK6hypCb5sXwxWRKr=J6_7XtS6s5GB1WPBiqi79q8-8g@mail.gmail.com>
+         <1528820489.9324.14.camel@2b52.sc.intel.com>
+         <CALCETrVOyZz72RuoRB=z_EjFTqqctSLfX30GM+MSEVtbcd=PeQ@mail.gmail.com>
+         <1528824280.9447.30.camel@2b52.sc.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 06/11/2018 08:30 AM, Ivan Khoronzhuk wrote:
-> This document describes MQPRIO and CBS Qdisc offload configuration
-> for cpsw driver based on examples. It potentially can be used in
-> audio video bridging (AVB) and time sensitive networking (TSN).
+On Tue, 2018-06-12 at 10:24 -0700, Yu-cheng Yu wrote:
+> On Tue, 2018-06-12 at 09:31 -0700, Andy Lutomirski wrote:
+> > On Tue, Jun 12, 2018 at 9:24 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > >
+> > > On Tue, 2018-06-12 at 09:00 -0700, Andy Lutomirski wrote:
+> > > > On Tue, Jun 12, 2018 at 8:06 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > > > >
+> > > > > On Tue, 2018-06-12 at 20:56 +1000, Balbir Singh wrote:
+> > > > > >
+> > > > > > On 08/06/18 00:37, Yu-cheng Yu wrote:
+> > > > > > > This series introduces CET - Shadow stack
+> > > > > > >
+> > > > > > > At the high level, shadow stack is:
+> > > > > > >
+> > > > > > >     Allocated from a task's address space with vm_flags VM_SHSTK;
+> > > > > > >     Its PTEs must be read-only and dirty;
+> > > > > > >     Fixed sized, but the default size can be changed by sys admin.
+> > > > > > >
+> > > > > > > For a forked child, the shadow stack is duplicated when the next
+> > > > > > > shadow stack access takes place.
+> > > > > > >
+> > > > > > > For a pthread child, a new shadow stack is allocated.
+> > > > > > >
+> > > > > > > The signal handler uses the same shadow stack as the main program.
+> > > > > > >
+> > > > > >
+> > > > > > Even with sigaltstack()?
+> > > > > >
+> > > > > >
+> > > > > > Balbir Singh.
+> > > > >
+> > > > > Yes.
+> > > > >
+> > > >
+> > > > I think we're going to need some provision to add an alternate signal
+> > > > stack to handle the case where the shadow stack overflows.
+> > >
+> > > The shadow stack stores only return addresses; its consumption will not
+> > > exceed a percentage of (program stack size + sigaltstack size) before
+> > > those overflow.  When that happens, there is usually very little we can
+> > > do.  So we set a default shadow stack size that supports certain nested
+> > > calls and allow sys admin to adjust it.
+> > >
+> > 
+> > Of course there's something you can do: add a sigaltstack-like stack
+> > switching mechanism.  Have a reserve shadow stack and, when a signal
+> > is delivered (possibly guarded by other conditions like "did the
+> > shadow stack overflow"), switch to a new shadow stack and maybe write
+> > a special token to the new shadow stack that says "signal delivery
+> > jumped here and will restore to the previous shadow stack and
+> > such-and-such address on return".
 > 
-> Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-> ---
->   Documentation/networking/cpsw.txt | 540 ++++++++++++++++++++++++++++++
->   1 file changed, 540 insertions(+)
->   create mode 100644 Documentation/networking/cpsw.txt
+> If (shstk size == (stack size + sigaltstack size)), then shstk will not
+> overflow before program stack overflows and sigaltstack also overflows.
 > 
-> diff --git a/Documentation/networking/cpsw.txt b/Documentation/networking/cpsw.txt
-> new file mode 100644
-> index 000000000000..f5d58f502e52
-> --- /dev/null
-> +++ b/Documentation/networking/cpsw.txt
+> Let me think about this.
 
-Could you name it with "ti" prefix, pls?
+The reserve shadow stack will help only when the shstk overflows but
+signal stack/sigaltstack still has room and we can deliver a signal.  If
+the shstk is large enough to cover any nested calls that will overflow
+both the program stack and sigaltstack then we don't need a reserve
+shstk.
 
-Like "ti-cpsw.txt" or "ti,cpsw.txt"
+We can estimate how big the shstk needs to be; in the worst case it
+should not be greater than (program stack size + sigaltstack size).  The
+default shstk size we choose pass all signal tests in GLIBC.  In case
+there is a need to increase it for a very large RLIMIT_STACK or very
+large sigaltstack, the sys admin can increase the default shstk size.
 
-> @@ -0,0 +1,540 @@
-> +* Texas Instruments CPSW ethernet driver
-> +
-> +Multiqueue & CBS & MQPRIO
-> +=====================================================================
-> +=====================================================================
-[...]
+Yu-cheng
 
--- 
-regards,
--grygorii
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
