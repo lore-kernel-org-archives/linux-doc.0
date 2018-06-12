@@ -2,125 +2,248 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E30F57D09D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 14:57:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B8677DF88
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 15:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933419AbeFLO4L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Jun 2018 10:56:11 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8666 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S933338AbeFLO4K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Jun 2018 10:56:10 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id DC261DDC87C21;
-        Tue, 12 Jun 2018 22:55:51 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.382.0; Tue, 12 Jun 2018
- 22:55:51 +0800
-Subject: Re: [PATCH RESEND v4 2/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
-To:     James Morse <james.morse@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>
-CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <linux@armlinux.org.uk>, <catalin.marinas@arm.com>,
-        <will.deacon@arm.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
-References: <1528487320-2873-1-git-send-email-gengdongjiu@huawei.com>
- <1528487320-2873-3-git-send-email-gengdongjiu@huawei.com>
- <86zi04875t.wl-marc.zyngier@arm.com>
- <af93e4b1-80d5-33be-d5ed-312c3ea1d715@arm.com>
-From:   gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <0c604169-573c-126c-7715-d75bf2a1c319@huawei.com>
-Date:   Tue, 12 Jun 2018 22:53:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <af93e4b1-80d5-33be-d5ed-312c3ea1d715@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+        id S932803AbeFLPGM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Jun 2018 11:06:12 -0400
+Received: from mga06.intel.com ([134.134.136.31]:10586 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932905AbeFLPGL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Jun 2018 11:06:11 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jun 2018 08:06:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,215,1526367600"; 
+   d="scan'208";a="58608801"
+Received: from 2b52.sc.intel.com (HELO [143.183.136.147]) ([143.183.136.147])
+  by orsmga003.jf.intel.com with ESMTP; 12 Jun 2018 08:06:09 -0700
+Message-ID: <1528815781.8271.15.camel@2b52.sc.intel.com>
+Subject: Re: [PATCH 01/10] x86/cet: User-mode shadow stack support
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Balbir Singh <bsingharora@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Date:   Tue, 12 Jun 2018 08:03:01 -0700
+In-Reply-To: <0e80c181-83b2-457f-a419-01e79f94ca1c@gmail.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+         <20180607143807.3611-2-yu-cheng.yu@intel.com>
+         <0e80c181-83b2-457f-a419-01e79f94ca1c@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 2018-06-12 at 21:56 +1000, Balbir Singh wrote:
+> 
+> On 08/06/18 00:37, Yu-cheng Yu wrote:
+> > This patch adds basic shadow stack enabling/disabling routines.
+> > A task's shadow stack is allocated from memory with VM_SHSTK
+> > flag set and read-only protection.  The shadow stack is
+> > allocated to a fixed size and that can be changed by the system
+> > admin.
+> > 
+> 
+> I presume a read-only permission on the kernel side, but it
+> can be written by hardware?
 
+Yes, the shadow stack is written by the processor when a call
+instruction is executed.
 
-On 2018/6/11 21:36, James Morse wrote:
-> Hi Dongjiu Geng,
+...
+
+> > 
+> > diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+> > new file mode 100644
+> > index 000000000000..9d5bc1efc9b7
+> > --- /dev/null
+> > +++ b/arch/x86/include/asm/cet.h
+> > @@ -0,0 +1,32 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef _ASM_X86_CET_H
+> > +#define _ASM_X86_CET_H
+> > +
+> > +#ifndef __ASSEMBLY__
+> > +#include <linux/types.h>
+> > +
+> > +struct task_struct;
+> > +/*
+> > + * Per-thread CET status
+> > + */
+> > +struct cet_stat {
 > 
-> On 09/06/18 13:40, Marc Zyngier wrote:
->> On Fri, 08 Jun 2018 20:48:40 +0100, Dongjiu Geng wrote:
->>> For the migrating VMs, user space may need to know the exception
->>> state. For example, in the machine A, KVM make an SError pending,
->>> when migrate to B, KVM also needs to pend an SError.
->>>
->>> This new IOCTL exports user-invisible states related to SError.
->>> Together with appropriate user space changes, user space can get/set
->>> the SError exception state to do migrate/snapshot/suspend.
+> stat sounds like statistics, just expand out to status please
+
+I will make it 'cet_status'.
+
+> > +	unsigned long	shstk_base;
+> > +	unsigned long	shstk_size;
+> > +	unsigned int	shstk_enabled:1;
+> > +};
+> > +
+> > +#ifdef CONFIG_X86_INTEL_CET
+> > +unsigned long cet_get_shstk_ptr(void);
 > 
->>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
->>> index 04b3256..df4faee 100644
->>> --- a/arch/arm64/include/uapi/asm/kvm.h
->>> +++ b/arch/arm64/include/uapi/asm/kvm.h
->>> @@ -153,6 +154,18 @@ struct kvm_sync_regs {
->>>  struct kvm_arch_memory_slot {
->>>  };
->>>  
->>> +/* for KVM_GET/SET_VCPU_EVENTS */
->>> +struct kvm_vcpu_events {
->>> +	struct {
->>> +		__u8 serror_pending;
->>> +		__u8 serror_has_esr;
->>> +		/* Align it to 8 bytes */
->>> +		__u8 pad[6];
->>> +		__u64 serror_esr;
->>> +	} exception;
->>> +	__u32 reserved[12];
->>> +};
+> For the current task? Why does _ptr routine return an unsigned long?
+
+What about cet_get_shstk_addr()?
+
+...
+
+> > diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> > index fda2114197b3..428d13828ba9 100644
+> > --- a/arch/x86/include/asm/msr-index.h
+> > +++ b/arch/x86/include/asm/msr-index.h
+> > @@ -770,4 +770,18 @@
+> >  #define MSR_VM_IGNNE                    0xc0010115
+> >  #define MSR_VM_HSAVE_PA                 0xc0010117
+> >  
+> > +/* Control-flow Enforcement Technology MSRs */
+> > +#define MSR_IA32_U_CET		0x6a0
+> > +#define MSR_IA32_S_CET		0x6a2
+> > +#define MSR_IA32_PL0_SSP	0x6a4
+> > +#define MSR_IA32_PL3_SSP	0x6a7
+> > +#define MSR_IA32_INT_SSP_TAB	0x6a8
 > 
->>> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
->>> index 56a0260..4426915 100644
->>> --- a/arch/arm64/kvm/guest.c
->>> +++ b/arch/arm64/kvm/guest.c
-> 
->>> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
->>> +			struct kvm_vcpu_events *events)
->>> +{
->>> +	bool serror_pending = events->exception.serror_pending;
->>> +	bool has_esr = events->exception.serror_has_esr;
->>> +
->>> +	if (serror_pending && has_esr) {
->>> +		if (!cpus_have_const_cap(ARM64_HAS_RAS_EXTN))
->>> +			return -EINVAL;
->>> +
->>> +		kvm_set_sei_esr(vcpu, events->exception.serror_esr);
->>> +	} else if (serror_pending) {
->>> +		kvm_inject_vabt(vcpu);
->>> +	}
->>> +
->>> +	return 0;
->>
->> There was an earlier request to check that all the padding is set to
->> zero. I still think this makes sense.
-> 
-> I agree, not just the exception.padding[], but reserved[] too.
-  Ok, thanks for the reminder again.
+> some comments on the purpose of the MSR would be nice
+
+Sure.
+
+...
 
 > 
+> I think there was a comment about this being TASK_SIZE_MAX
 > 
-> Thanks,
+> > +
+> > +	rdmsrl(MSR_IA32_U_CET, r);
+> > +	wrmsrl(MSR_IA32_U_CET, r | MSR_IA32_CET_SHSTK_EN);
+> > +	wrmsrl(MSR_IA32_PL3_SSP, addr);
 > 
-> James
+> Should the enable happen before setting addr? I would expect to do this in the opposite order.
+
+I will check.
+
+> > +	return 0;
+> > +}
+> > +
+> > +unsigned long cet_get_shstk_ptr(void)
+> > +{
+> > +	unsigned long ptr;
+> > +
+> > +	if (!current->thread.cet.shstk_enabled)
+> > +		return 0;
+> > +
+> > +	rdmsrl(MSR_IA32_PL3_SSP, ptr);
+> > +	return ptr;
+> > +}
+> > +
+> > +static unsigned long shstk_mmap(unsigned long addr, unsigned long len)
+> > +{
+> > +	struct mm_struct *mm = current->mm;
+> > +	unsigned long populate;
+> > +
+> > +	down_write(&mm->mmap_sem);
+> > +	addr = do_mmap(NULL, addr, len, PROT_READ,
+> > +		       MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK,
+> > +		       0, &populate, NULL);
+> > +	up_write(&mm->mmap_sem);
 > 
-> .
+> What happens if the mmap fails for any reason? I presume the caller disables shadow stack on this process?
+
+This is from exec(), and that fails.
+
+> > +
+> > +	if (populate)
+> > +		mm_populate(addr, populate);
+> > +
+> > +	return addr;
+> > +}
+> > +
+> > +int cet_setup_shstk(void)
+> > +{
+> > +	unsigned long addr, size;
+> > +
+> > +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	size = SHSTK_SIZE;
+> > +	addr = shstk_mmap(0, size);
+> > +
+> > +	if (addr >= TASK_SIZE)
+> > +		return -ENOMEM;
+> > +
 > 
+> TASK_SIZE_MAX?
+
+Yes.
+
+> 
+> > +	cet_set_shstk_ptr(addr + size - sizeof(void *));
+> > +	current->thread.cet.shstk_base = addr;
+> > +	current->thread.cet.shstk_size = size;
+> > +	current->thread.cet.shstk_enabled = 1;
+> > +	return 0;
+> > +}
+> > +
+> > +void cet_disable_shstk(void)
+> > +{
+> > +	u64 r;
+> > +
+> > +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> > +		return;
+> > +
+> > +	rdmsrl(MSR_IA32_U_CET, r);
+> > +	r &= ~(MSR_IA32_CET_SHSTK_EN);
+> > +	wrmsrl(MSR_IA32_U_CET, r);
+> > +	wrmsrl(MSR_IA32_PL3_SSP, 0);
+> 
+> Again, I'd expect the order to be the reverse
+> 
+> > +	current->thread.cet.shstk_enabled = 0;
+> > +}
+> > +
+> > +void cet_disable_free_shstk(struct task_struct *tsk)
+> > +{
+> > +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
+> > +	    !tsk->thread.cet.shstk_enabled)
+> > +		return;
+> > +
+> > +	if (tsk == current)
+> > +		cet_disable_shstk();
+> > +
+> > +	/*
+> > +	 * Free only when tsk is current or shares mm
+> > +	 * with current but has its own shstk.
+> > +	 */
+> > +	if (tsk->mm && (tsk->mm == current->mm) &&
+> > +	    (tsk->thread.cet.shstk_base)) {
+> 
+> Does the caller hold a reference to tsk->mm?
+
+If (tsk->mm == current->mm), i.e. it is current or it is a pthread of
+current, then yes.
+
+Yu-cheng
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
