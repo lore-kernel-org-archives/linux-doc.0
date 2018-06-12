@@ -1,475 +1,463 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D93ED7D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 11:56:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AABC37D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 12:45:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932433AbeFLL4w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Jun 2018 07:56:52 -0400
-Received: from mail-pg0-f65.google.com ([74.125.83.65]:39814 "EHLO
-        mail-pg0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932373AbeFLL4u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jun 2018 07:56:50 -0400
-Received: by mail-pg0-f65.google.com with SMTP id w12-v6so11361121pgc.6;
-        Tue, 12 Jun 2018 04:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=qsMuMkk5TF7yTHm2GDImu1yji8mfNUmM0tTAsfHMuIk=;
-        b=aPElvHGMedOY8CvGQiF2MLsmKu+dA1ftxH7owWiygN6qNQQF90zdShlXmE96XQ7Efk
-         vGsbhamkXc3yAycWNan9N0qITKyGfqRiv2ITBkM7Kk7DvJscgB+cEH9z+AE+i1VGBGCJ
-         3oMsY5D65OCL4naOP5L/qJylW3+W7SesGL3hQWaSgS8GdNQx6pY1Ey3cQUvX7oeu3+rR
-         5rzIZKJBXkWaZU494AC3GuF00EWQTUnciaoS7/EcE9yf0m5Ub5fZYKQ+BfQ92ltlI1Gq
-         J6kR2+neTSpoG5ueBaJ1U9CsVqx4cWwgsFFE2Je5wGgyYsx+7MN+R57VaZkYx4hxii2a
-         4Llg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qsMuMkk5TF7yTHm2GDImu1yji8mfNUmM0tTAsfHMuIk=;
-        b=cbGjxg568KnQPpV2BsbTJEleXoZVFzsNIk0RT5T95wfQEfIWM17wP//oRhZGrkhL+6
-         +xhhHCBeAt+DLjIEab6zQVzG7hvhupXIKTgwHF5Fe+olhLjykqbjsV2U1rkPOtu7MdAJ
-         Tu5fMlss8Oekm13a8AGfS8Uks0Q7qlvR7UEVDR8wRR/H+xiHco5prkj359adiq6zicyv
-         W6dGT8gmhxk6sYSVA94gHZTrx7kUc9Ix1jdAGoYaOGOcEwoQ62HBuqg4Ugrt8REylqq2
-         e6oJ45Czff91uKb2DOd0JJl/tFOZQd/aV+elymLU0YcNBCjQxseWEtX6YDbArsTqgu3+
-         tsXw==
-X-Gm-Message-State: APt69E39Mu7kbl6Dq4YyllCuUaet788Zm9foI9TZjJrNkAFXnIEgKih5
-        B19c0kdjQMv8/jz8COG66KQ=
-X-Google-Smtp-Source: ADUXVKKV2SUT0YSR/NEeThnP5xMkkLbUWFo8LfWR7+HltBfBXVEbnNelpHoDRlScRmOpC93Zs2KlnQ==
-X-Received: by 2002:a63:70a:: with SMTP id 10-v6mr48369pgh.216.1528804609524;
-        Tue, 12 Jun 2018 04:56:49 -0700 (PDT)
-Received: from [192.168.1.11] (14-202-194-140.static.tpgi.com.au. [14.202.194.140])
-        by smtp.gmail.com with ESMTPSA id a81-v6sm3351464pfl.167.2018.06.12.04.56.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 12 Jun 2018 04:56:48 -0700 (PDT)
-Subject: Re: [PATCH 01/10] x86/cet: User-mode shadow stack support
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
- <20180607143807.3611-2-yu-cheng.yu@intel.com>
-From:   Balbir Singh <bsingharora@gmail.com>
-Message-ID: <0e80c181-83b2-457f-a419-01e79f94ca1c@gmail.com>
-Date:   Tue, 12 Jun 2018 21:56:37 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S933443AbeFLMot (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Jun 2018 08:44:49 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:52213 "EHLO huawei.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S933183AbeFLMoq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Jun 2018 08:44:46 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id E6355EBDB670;
+        Tue, 12 Jun 2018 20:44:40 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.382.0; Tue, 12 Jun 2018
+ 20:44:37 +0800
+Subject: Re: [PATCH RESEND v4 2/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
+To:     Christoffer Dall <christoffer.dall@arm.com>
+CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <marc.zyngier@arm.com>,
+        <linux@armlinux.org.uk>, <catalin.marinas@arm.com>,
+        <will.deacon@arm.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <james.morse@arm.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
+References: <1528487320-2873-1-git-send-email-gengdongjiu@huawei.com>
+ <1528487320-2873-3-git-send-email-gengdongjiu@huawei.com>
+ <20180609111745.GJ5097@C02W217FHV2R.local>
+From:   gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <2d44eee4-b79b-cc7c-8ae9-fbac00c8b6a2@huawei.com>
+Date:   Tue, 12 Jun 2018 20:42:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <20180607143807.3611-2-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20180609111745.GJ5097@C02W217FHV2R.local>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Christoffer,
+   Thanks for the review.
 
+On 2018/6/9 19:17, Christoffer Dall wrote:
+> On Sat, Jun 09, 2018 at 03:48:40AM +0800, Dongjiu Geng wrote:
+>> For the migrating VMs, user space may need to know the exception
+>> state. For example, in the machine A, KVM make an SError pending,
+>> when migrate to B, KVM also needs to pend an SError.
+>>
+>> This new IOCTL exports user-invisible states related to SError.
+>> Together with appropriate user space changes, user space can get/set
+>> the SError exception state to do migrate/snapshot/suspend.
+>>
+>> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+>> ---
+>> change since v3:
+>> 1. Fix the memset() issue in the kvm_arm_vcpu_get_events()
+>>
+>> change since v2:
+>> 1. Add kvm_vcpu_events structure definition for arm platform to avoid the build errors.
+>>
+>> change since v1:
+>> Address Marc's comments, thanks Marc's review
+>> 1. serror_has_esr always true when ARM64_HAS_RAS_EXTN is set
+>> 2. remove Spurious blank line in kvm_arm_vcpu_set_events()
+>> 3. rename pend_guest_serror() to kvm_set_sei_esr()
+>> 4. Make kvm_arm_vcpu_get_events() did all the work rather than having this split responsibility.
+>> 5.  using sizeof(events) instead of sizeof(struct kvm_vcpu_events)
+>>
+>> this series patch is separated from https://www.spinics.net/lists/kvm/msg168917.html
+>> The user space patch is here: https://lists.gnu.org/archive/html/qemu-devel/2018-05/msg06965.html
+>>
+>> change since V12:
+>> 1. change (vcpu->arch.hcr_el2 & HCR_VSE) to !!(vcpu->arch.hcr_el2 & HCR_VSE) in kvm_arm_vcpu_get_events()
+>>
+>> Change since V11:
+>> Address James's comments, thanks James
+>> 1. Align the struct of kvm_vcpu_events to 64 bytes
+>> 2. Avoid exposing the stale ESR value in the kvm_arm_vcpu_get_events()
+>> 3. Change variables 'injected' name to 'serror_pending' in the kvm_arm_vcpu_set_events()
+>> 4. Change to sizeof(events) from sizeof(struct kvm_vcpu_events) in kvm_arch_vcpu_ioctl()
+>>
+>> Change since V10:
+>> Address James's comments, thanks James
+>> 1. Merge the helper function with the user.
+>> 2. Move the ISS_MASK into pend_guest_serror() to clear top bits
+>> 3. Make kvm_vcpu_events struct align to 4 bytes
+>> 4. Add something check in the kvm_arm_vcpu_set_events()
+>> 5. Check kvm_arm_vcpu_get/set_events()'s return value.
+>> 6. Initialise kvm_vcpu_events to 0 so that padding transferred to user-space doesn't
+>>    contain kernel stack.
+>> ---
+>>  Documentation/virtual/kvm/api.txt    | 31 ++++++++++++++++++++++++++++---
+>>  arch/arm/include/asm/kvm_host.h      |  6 ++++++
+>>  arch/arm/include/uapi/asm/kvm.h      | 12 ++++++++++++
+>>  arch/arm/kvm/guest.c                 | 12 ++++++++++++
+>>  arch/arm64/include/asm/kvm_emulate.h |  5 +++++
+>>  arch/arm64/include/asm/kvm_host.h    |  7 +++++++
+>>  arch/arm64/include/uapi/asm/kvm.h    | 13 +++++++++++++
+>>  arch/arm64/kvm/guest.c               | 36 ++++++++++++++++++++++++++++++++++++
+>>  arch/arm64/kvm/inject_fault.c        |  6 +++---
+>>  arch/arm64/kvm/reset.c               |  1 +
+>>  virt/kvm/arm/arm.c                   | 19 +++++++++++++++++++
+>>  11 files changed, 142 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+>> index fdac969..8896737 100644
+>> --- a/Documentation/virtual/kvm/api.txt
+>> +++ b/Documentation/virtual/kvm/api.txt
+>> @@ -835,11 +835,13 @@ struct kvm_clock_data {
+>>  
+>>  Capability: KVM_CAP_VCPU_EVENTS
+>>  Extended by: KVM_CAP_INTR_SHADOW
+>> -Architectures: x86
+>> +Architectures: x86, arm, arm64
+>>  Type: vm ioctl
+>>  Parameters: struct kvm_vcpu_event (out)
+>>  Returns: 0 on success, -1 on error
+>>  
+>> +X86:
+>> +
+>>  Gets currently pending exceptions, interrupts, and NMIs as well as related
+>>  states of the vcpu.
+>>  
+>> @@ -881,15 +883,32 @@ Only two fields are defined in the flags field:
+>>  - KVM_VCPUEVENT_VALID_SMM may be set in the flags field to signal that
+>>    smi contains a valid state.
+>>  
+>> +ARM, ARM64:
+>> +
+>> +Gets currently pending SError exceptions as well as related states of the vcpu.
+>> +
+>> +struct kvm_vcpu_events {
+>> +	struct {
+>> +		__u8 serror_pending;
+>> +		__u8 serror_has_esr;
+>> +		/* Align it to 8 bytes */
+>> +		__u8 pad[6];
+>> +		__u64 serror_esr;
+>> +	} exception;
+>> +	__u32 reserved[12];
+>> +};
+>> +
+>>  4.32 KVM_SET_VCPU_EVENTS
+>>  
+>> -Capability: KVM_CAP_VCPU_EVENTS
+>> +Capebility: KVM_CAP_VCPU_EVENTS
+> 
+> nit: unintended change?
+> 
+>>  Extended by: KVM_CAP_INTR_SHADOW
+>> -Architectures: x86
+>> +Architectures: x86, arm, arm64
+>>  Type: vm ioctl
+>>  Parameters: struct kvm_vcpu_event (in)
+>>  Returns: 0 on success, -1 on error
+>>  
+>> +X86:
+>> +
+>>  Set pending exceptions, interrupts, and NMIs as well as related states of the
+>>  vcpu.
+>>  
+>> @@ -910,6 +929,12 @@ shall be written into the VCPU.
+>>  
+>>  KVM_VCPUEVENT_VALID_SMM can only be set if KVM_CAP_X86_SMM is available.
+>>  
+>> +ARM, ARM64:
+>> +
+>> +Set pending SError exceptions as well as related states of the vcpu.
+>> +
+>> +See KVM_GET_VCPU_EVENTS for the data structure.
+>> +
+>>  
+>>  4.33 KVM_GET_DEBUGREGS
+>>  
+>> diff --git a/arch/arm/include/asm/kvm_host.h b/arch/arm/include/asm/kvm_host.h
+>> index c7c28c8..39f9901 100644
+>> --- a/arch/arm/include/asm/kvm_host.h
+>> +++ b/arch/arm/include/asm/kvm_host.h
+>> @@ -213,6 +213,12 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
+>>  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
+>>  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+>>  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+>> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events);
+>> +
+>> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events);
+>> +
+>>  unsigned long kvm_call_hyp(void *hypfn, ...);
+>>  void force_vm_exit(const cpumask_t *mask);
+>>  
+>> diff --git a/arch/arm/include/uapi/asm/kvm.h b/arch/arm/include/uapi/asm/kvm.h
+>> index caae484..c3e6975 100644
+>> --- a/arch/arm/include/uapi/asm/kvm.h
+>> +++ b/arch/arm/include/uapi/asm/kvm.h
+>> @@ -124,6 +124,18 @@ struct kvm_sync_regs {
+>>  struct kvm_arch_memory_slot {
+>>  };
+>>  
+>> +/* for KVM_GET/SET_VCPU_EVENTS */
+>> +struct kvm_vcpu_events {
+>> +	struct {
+>> +		__u8 serror_pending;
+>> +		__u8 serror_has_esr;
+>> +		/* Align it to 8 bytes */
+>> +		__u8 pad[6];
+>> +		__u64 serror_esr;
+>> +	} exception;
+>> +	__u32 reserved[12];
+>> +};
+>> +
+>>  /* If you need to interpret the index values, here is the key: */
+>>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>>  #define KVM_REG_ARM_COPROC_SHIFT	16
+>> diff --git a/arch/arm/kvm/guest.c b/arch/arm/kvm/guest.c
+>> index a18f33e..c685f0e 100644
+>> --- a/arch/arm/kvm/guest.c
+>> +++ b/arch/arm/kvm/guest.c
+>> @@ -261,6 +261,18 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
+>>  	return -EINVAL;
+>>  }
+>>  
+>> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events)
+>> +{
+>> +	return -EINVAL;
+>> +}
+>> +
+>> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events)
+>> +{
+>> +	return -EINVAL;
+>> +}
+>> +
+>>  int __attribute_const__ kvm_target_cpu(void)
+>>  {
+>>  	switch (read_cpuid_part()) {
+>> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+>> index 1dab3a9..18f61ff 100644
+>> --- a/arch/arm64/include/asm/kvm_emulate.h
+>> +++ b/arch/arm64/include/asm/kvm_emulate.h
+>> @@ -81,6 +81,11 @@ static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+>>  	return (unsigned long *)&vcpu->arch.hcr_el2;
+>>  }
+>>  
+>> +static inline unsigned long vcpu_get_vsesr(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return vcpu->arch.vsesr_el2;
+>> +}
+>> +
+>>  static inline void vcpu_set_vsesr(struct kvm_vcpu *vcpu, u64 vsesr)
+>>  {
+>>  	vcpu->arch.vsesr_el2 = vsesr;
+>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+>> index 469de8a..357304a 100644
+>> --- a/arch/arm64/include/asm/kvm_host.h
+>> +++ b/arch/arm64/include/asm/kvm_host.h
+>> @@ -335,6 +335,11 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
+>>  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
+>>  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+>>  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
+>> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events);
+>> +
+>> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events);
+>>  
+>>  #define KVM_ARCH_WANT_MMU_NOTIFIER
+>>  int kvm_unmap_hva(struct kvm *kvm, unsigned long hva);
+>> @@ -363,6 +368,8 @@ void handle_exit_early(struct kvm_vcpu *vcpu, struct kvm_run *run,
+>>  int kvm_perf_init(void);
+>>  int kvm_perf_teardown(void);
+>>  
+>> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 syndrome);
+>> +
+>>  struct kvm_vcpu *kvm_mpidr_to_vcpu(struct kvm *kvm, unsigned long mpidr);
+>>  
+>>  void __kvm_set_tpidr_el2(u64 tpidr_el2);
+>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+>> index 04b3256..df4faee 100644
+>> --- a/arch/arm64/include/uapi/asm/kvm.h
+>> +++ b/arch/arm64/include/uapi/asm/kvm.h
+>> @@ -39,6 +39,7 @@
+>>  #define __KVM_HAVE_GUEST_DEBUG
+>>  #define __KVM_HAVE_IRQ_LINE
+>>  #define __KVM_HAVE_READONLY_MEM
+>> +#define __KVM_HAVE_VCPU_EVENTS
+>>  
+>>  #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
+>>  
+>> @@ -153,6 +154,18 @@ struct kvm_sync_regs {
+>>  struct kvm_arch_memory_slot {
+>>  };
+>>  
+>> +/* for KVM_GET/SET_VCPU_EVENTS */
+>> +struct kvm_vcpu_events {
+>> +	struct {
+>> +		__u8 serror_pending;
+>> +		__u8 serror_has_esr;
+>> +		/* Align it to 8 bytes */
+>> +		__u8 pad[6];
+>> +		__u64 serror_esr;
+>> +	} exception;
+>> +	__u32 reserved[12];
+>> +};
+>> +
+>>  /* If you need to interpret the index values, here is the key: */
+>>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>>  #define KVM_REG_ARM_COPROC_SHIFT	16
+>> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+>> index 56a0260..4426915 100644
+>> --- a/arch/arm64/kvm/guest.c
+>> +++ b/arch/arm64/kvm/guest.c
+>> @@ -289,6 +289,42 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
+>>  	return -EINVAL;
+>>  }
+>>  
+>> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events)
+>> +{
+>> +	memset(events, 0, sizeof(*events));
+>> +
+>> +	events->exception.serror_pending = !!(vcpu->arch.hcr_el2 & HCR_VSE);
+>> +	events->exception.serror_has_esr =
+>> +					cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
+> 
+> nit: no need to wrap this line so strangely, just keep it on a single
+> line (regardless of going slightly over the 80 chars limit).
+  Ok, will fix it.
+> 
+>> +
+>> +	if (events->exception.serror_pending &&
+>> +		events->exception.serror_has_esr)
+> 
+> same here
+   OK, will fix it.
+> 
+>> +		events->exception.serror_esr = vcpu_get_vsesr(vcpu);
+>> +	else
+>> +		events->exception.serror_esr = 0;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
+>> +			struct kvm_vcpu_events *events)
+>> +{
+>> +	bool serror_pending = events->exception.serror_pending;
+>> +	bool has_esr = events->exception.serror_has_esr;
+>> +
+>> +	if (serror_pending && has_esr) {
+>> +		if (!cpus_have_const_cap(ARM64_HAS_RAS_EXTN))
+>> +			return -EINVAL;
+>> +
+>> +		kvm_set_sei_esr(vcpu, events->exception.serror_esr);
+>> +	} else if (serror_pending) {
+>> +		kvm_inject_vabt(vcpu);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  int __attribute_const__ kvm_target_cpu(void)
+>>  {
+>>  	unsigned long implementor = read_cpuid_implementor();
+>> diff --git a/arch/arm64/kvm/inject_fault.c b/arch/arm64/kvm/inject_fault.c
+>> index d8e7165..a55e91d 100644
+>> --- a/arch/arm64/kvm/inject_fault.c
+>> +++ b/arch/arm64/kvm/inject_fault.c
+>> @@ -164,9 +164,9 @@ void kvm_inject_undefined(struct kvm_vcpu *vcpu)
+>>  		inject_undef64(vcpu);
+>>  }
+>>  
+>> -static void pend_guest_serror(struct kvm_vcpu *vcpu, u64 esr)
+>> +void kvm_set_sei_esr(struct kvm_vcpu *vcpu, u64 esr)
+>>  {
+>> -	vcpu_set_vsesr(vcpu, esr);
+>> +	vcpu_set_vsesr(vcpu, esr & ESR_ELx_ISS_MASK);
+>>  	*vcpu_hcr(vcpu) |= HCR_VSE;
+>>  }
+>>  
+>> @@ -184,5 +184,5 @@ static void pend_guest_serror(struct kvm_vcpu *vcpu, u64 esr)
+>>   */
+>>  void kvm_inject_vabt(struct kvm_vcpu *vcpu)
+>>  {
+>> -	pend_guest_serror(vcpu, ESR_ELx_ISV);
+>> +	kvm_set_sei_esr(vcpu, ESR_ELx_ISV);
+>>  }
+>> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+>> index 38c8a64..20e919a 100644
+>> --- a/arch/arm64/kvm/reset.c
+>> +++ b/arch/arm64/kvm/reset.c
+>> @@ -82,6 +82,7 @@ int kvm_arch_dev_ioctl_check_extension(struct kvm *kvm, long ext)
+>>  		break;
+>>  	case KVM_CAP_SET_GUEST_DEBUG:
+>>  	case KVM_CAP_VCPU_ATTRIBUTES:
+>> +	case KVM_CAP_VCPU_EVENTS:
+>>  		r = 1;
+>>  		break;
+>>  	default:
+>> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
+>> index a4c1b76..79ecba9 100644
+>> --- a/virt/kvm/arm/arm.c
+>> +++ b/virt/kvm/arm/arm.c
+>> @@ -1107,6 +1107,25 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>>  		r = kvm_arm_vcpu_has_attr(vcpu, &attr);
+>>  		break;
+>>  	}
+>> +	case KVM_GET_VCPU_EVENTS: {
+>> +		struct kvm_vcpu_events events;
+>> +
+>> +		if (kvm_arm_vcpu_get_events(vcpu, &events))
+>> +			return -EINVAL;
+>> +
+>> +		if (copy_to_user(argp, &events, sizeof(events)))
+>> +			return -EFAULT;
+>> +
+>> +		return 0;
+>> +	}
+>> +	case KVM_SET_VCPU_EVENTS: {
+>> +		struct kvm_vcpu_events events;
+>> +
+>> +		if (copy_from_user(&events, argp, sizeof(events)))
+>> +			return -EFAULT;
+>> +
+>> +		return kvm_arm_vcpu_set_events(vcpu, &events);
+>> +	}
+>>  	default:
+>>  		r = -EINVAL;
+>>  	}
+>> -- 
+>> 2.7.4
+>>
+> 
+> I'll leave it to James to comment on the specifics of the RAS
+> interaction, but I think the two patches should be re-ordered, so that
+> the capability patch comes last, after the functionality has been
+> introduced.
+ok, I will reorder them in the next version.
 
-On 08/06/18 00:37, Yu-cheng Yu wrote:
-> This patch adds basic shadow stack enabling/disabling routines.
-> A task's shadow stack is allocated from memory with VM_SHSTK
-> flag set and read-only protection.  The shadow stack is
-> allocated to a fixed size and that can be changed by the system
-> admin.
+> 
+> Otherwise this looks reasonable enough.
+> 
+> Thanks,
+> -Christoffer
+> 
+> .
 > 
 
-I presume a read-only permission on the kernel side, but it
-can be written by hardware?
-
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/cet.h               |  32 ++++++++
->  arch/x86/include/asm/disabled-features.h |   8 +-
->  arch/x86/include/asm/msr-index.h         |  14 ++++
->  arch/x86/include/asm/processor.h         |   5 ++
->  arch/x86/kernel/Makefile                 |   2 +
->  arch/x86/kernel/cet.c                    | 123 +++++++++++++++++++++++++++++++
->  arch/x86/kernel/cpu/common.c             |  24 ++++++
->  arch/x86/kernel/process.c                |   2 +
->  fs/proc/task_mmu.c                       |   3 +
->  9 files changed, 212 insertions(+), 1 deletion(-)
->  create mode 100644 arch/x86/include/asm/cet.h
->  create mode 100644 arch/x86/kernel/cet.c
-> 
-> diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
-> new file mode 100644
-> index 000000000000..9d5bc1efc9b7
-> --- /dev/null
-> +++ b/arch/x86/include/asm/cet.h
-> @@ -0,0 +1,32 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_X86_CET_H
-> +#define _ASM_X86_CET_H
-> +
-> +#ifndef __ASSEMBLY__
-> +#include <linux/types.h>
-> +
-> +struct task_struct;
-> +/*
-> + * Per-thread CET status
-> + */
-> +struct cet_stat {
-
-stat sounds like statistics, just expand out to status please
-
-> +	unsigned long	shstk_base;
-> +	unsigned long	shstk_size;
-> +	unsigned int	shstk_enabled:1;
-> +};
-> +
-> +#ifdef CONFIG_X86_INTEL_CET
-> +unsigned long cet_get_shstk_ptr(void);
-
-For the current task? Why does _ptr routine return an unsigned long?
-
-> +int cet_setup_shstk(void);
-> +void cet_disable_shstk(void);
-> +void cet_disable_free_shstk(struct task_struct *p);
-> +#else
-> +static inline unsigned long cet_get_shstk_ptr(void) { return 0; }
-> +static inline int cet_setup_shstk(void) { return 0; }
-> +static inline void cet_disable_shstk(void) {}
-> +static inline void cet_disable_free_shstk(struct task_struct *p) {}
-> +#endif
-> +
-> +#endif /* __ASSEMBLY__ */
-> +
-> +#endif /* _ASM_X86_CET_H */
-> diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-> index 33833d1909af..3624a11e5ba6 100644
-> --- a/arch/x86/include/asm/disabled-features.h
-> +++ b/arch/x86/include/asm/disabled-features.h
-> @@ -56,6 +56,12 @@
->  # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
->  #endif
->  
-> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-> +#define DISABLE_SHSTK	0
-> +#else
-> +#define DISABLE_SHSTK	(1<<(X86_FEATURE_SHSTK & 31))
-> +#endif
-> +
->  /*
->   * Make sure to add features to the correct mask
->   */
-> @@ -75,7 +81,7 @@
->  #define DISABLED_MASK13	0
->  #define DISABLED_MASK14	0
->  #define DISABLED_MASK15	0
-> -#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP)
-> +#define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP|DISABLE_SHSTK)
->  #define DISABLED_MASK17	0
->  #define DISABLED_MASK18	0
->  #define DISABLED_MASK_CHECK BUILD_BUG_ON_ZERO(NCAPINTS != 19)
-> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-> index fda2114197b3..428d13828ba9 100644
-> --- a/arch/x86/include/asm/msr-index.h
-> +++ b/arch/x86/include/asm/msr-index.h
-> @@ -770,4 +770,18 @@
->  #define MSR_VM_IGNNE                    0xc0010115
->  #define MSR_VM_HSAVE_PA                 0xc0010117
->  
-> +/* Control-flow Enforcement Technology MSRs */
-> +#define MSR_IA32_U_CET		0x6a0
-> +#define MSR_IA32_S_CET		0x6a2
-> +#define MSR_IA32_PL0_SSP	0x6a4
-> +#define MSR_IA32_PL3_SSP	0x6a7
-> +#define MSR_IA32_INT_SSP_TAB	0x6a8
-
-some comments on the purpose of the MSR would be nice
-
-> +
-> +/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
-> +#define MSR_IA32_CET_SHSTK_EN		0x0000000000000001
-> +#define MSR_IA32_CET_WRSS_EN		0x0000000000000002
-> +#define MSR_IA32_CET_ENDBR_EN		0x0000000000000004
-> +#define MSR_IA32_CET_LEG_IW_EN		0x0000000000000008
-> +#define MSR_IA32_CET_NO_TRACK_EN	0x0000000000000010
-> +
-
-Same as above
-
->  #endif /* _ASM_X86_MSR_INDEX_H */
-> diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-> index 21a114914ba4..e632dd7adaac 100644
-> --- a/arch/x86/include/asm/processor.h
-> +++ b/arch/x86/include/asm/processor.h
-> @@ -24,6 +24,7 @@ struct vm86;
->  #include <asm/special_insns.h>
->  #include <asm/fpu/types.h>
->  #include <asm/unwind_hints.h>
-> +#include <asm/cet.h>
->  
->  #include <linux/personality.h>
->  #include <linux/cache.h>
-> @@ -507,6 +508,10 @@ struct thread_struct {
->  	unsigned int		sig_on_uaccess_err:1;
->  	unsigned int		uaccess_err:1;	/* uaccess failed */
->  
-> +#ifdef CONFIG_X86_INTEL_CET
-> +	struct cet_stat		cet;
-> +#endif
-> +
->  	/* Floating point and extended processor state */
->  	struct fpu		fpu;
->  	/*
-> diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-> index 02d6f5cf4e70..7ea5e099d558 100644
-> --- a/arch/x86/kernel/Makefile
-> +++ b/arch/x86/kernel/Makefile
-> @@ -138,6 +138,8 @@ obj-$(CONFIG_UNWINDER_ORC)		+= unwind_orc.o
->  obj-$(CONFIG_UNWINDER_FRAME_POINTER)	+= unwind_frame.o
->  obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
->  
-> +obj-$(CONFIG_X86_INTEL_CET)		+= cet.o
-> +
->  ###
->  # 64 bit specific files
->  ifeq ($(CONFIG_X86_64),y)
-> diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
-> new file mode 100644
-> index 000000000000..8abbfd44322a
-> --- /dev/null
-> +++ b/arch/x86/kernel/cet.c
-> @@ -0,0 +1,123 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * cet.c - Control Flow Enforcement (CET)
-> + *
-> + * Copyright (c) 2018, Intel Corporation.
-> + * Yu-cheng Yu <yu-cheng.yu@intel.com>
-> + */
-> +
-> +#include <linux/types.h>
-> +#include <linux/mm.h>
-> +#include <linux/mman.h>
-> +#include <linux/slab.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/sched/signal.h>
-> +#include <asm/msr.h>
-> +#include <asm/user.h>
-> +#include <asm/fpu/xstate.h>
-> +#include <asm/fpu/types.h>
-> +#include <asm/cet.h>
-> +
-> +#define SHSTK_SIZE (0x8000 * (test_thread_flag(TIF_IA32) ? 4 : 8))
-> +
-> +static inline int cet_set_shstk_ptr(unsigned long addr)
-> +{
-> +	u64 r;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return -1;
-> +
-> +	if ((addr >= TASK_SIZE) || (!IS_ALIGNED(addr, 4)))
-> +		return -1;
-
-I think there was a comment about this being TASK_SIZE_MAX
-
-> +
-> +	rdmsrl(MSR_IA32_U_CET, r);
-> +	wrmsrl(MSR_IA32_U_CET, r | MSR_IA32_CET_SHSTK_EN);
-> +	wrmsrl(MSR_IA32_PL3_SSP, addr);
-
-Should the enable happen before setting addr? I would expect to do this in the opposite order.
-
-> +	return 0;
-> +}
-> +
-> +unsigned long cet_get_shstk_ptr(void)
-> +{
-> +	unsigned long ptr;
-> +
-> +	if (!current->thread.cet.shstk_enabled)
-> +		return 0;
-> +
-> +	rdmsrl(MSR_IA32_PL3_SSP, ptr);
-> +	return ptr;
-> +}
-> +
-> +static unsigned long shstk_mmap(unsigned long addr, unsigned long len)
-> +{
-> +	struct mm_struct *mm = current->mm;
-> +	unsigned long populate;
-> +
-> +	down_write(&mm->mmap_sem);
-> +	addr = do_mmap(NULL, addr, len, PROT_READ,
-> +		       MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK,
-> +		       0, &populate, NULL);
-> +	up_write(&mm->mmap_sem);
-
-What happens if the mmap fails for any reason? I presume the caller disables shadow stack on this process?
-
-> +
-> +	if (populate)
-> +		mm_populate(addr, populate);
-> +
-> +	return addr;
-> +}
-> +
-> +int cet_setup_shstk(void)
-> +{
-> +	unsigned long addr, size;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return -EOPNOTSUPP;
-> +
-> +	size = SHSTK_SIZE;
-> +	addr = shstk_mmap(0, size);
-> +
-> +	if (addr >= TASK_SIZE)
-> +		return -ENOMEM;
-> +
-
-TASK_SIZE_MAX?
-
-> +	cet_set_shstk_ptr(addr + size - sizeof(void *));
-> +	current->thread.cet.shstk_base = addr;
-> +	current->thread.cet.shstk_size = size;
-> +	current->thread.cet.shstk_enabled = 1;
-> +	return 0;
-> +}
-> +
-> +void cet_disable_shstk(void)
-> +{
-> +	u64 r;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		return;
-> +
-> +	rdmsrl(MSR_IA32_U_CET, r);
-> +	r &= ~(MSR_IA32_CET_SHSTK_EN);
-> +	wrmsrl(MSR_IA32_U_CET, r);
-> +	wrmsrl(MSR_IA32_PL3_SSP, 0);
-
-Again, I'd expect the order to be the reverse
-
-> +	current->thread.cet.shstk_enabled = 0;
-> +}
-> +
-> +void cet_disable_free_shstk(struct task_struct *tsk)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
-> +	    !tsk->thread.cet.shstk_enabled)
-> +		return;
-> +
-> +	if (tsk == current)
-> +		cet_disable_shstk();
-> +
-> +	/*
-> +	 * Free only when tsk is current or shares mm
-> +	 * with current but has its own shstk.
-> +	 */
-> +	if (tsk->mm && (tsk->mm == current->mm) &&
-> +	    (tsk->thread.cet.shstk_base)) {
-
-Does the caller hold a reference to tsk->mm?
-
-> +		vm_munmap(tsk->thread.cet.shstk_base,
-> +			  tsk->thread.cet.shstk_size);
-> +		tsk->thread.cet.shstk_base = 0;
-> +		tsk->thread.cet.shstk_size = 0;
-> +	}
-> +
-> +	tsk->thread.cet.shstk_enabled = 0;
-> +}
-> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-> index 38276f58d3bf..f54fabdaef60 100644
-> --- a/arch/x86/kernel/cpu/common.c
-> +++ b/arch/x86/kernel/cpu/common.c
-> @@ -401,6 +401,29 @@ static __init int setup_disable_pku(char *arg)
->  __setup("nopku", setup_disable_pku);
->  #endif /* CONFIG_X86_64 */
->  
-> +static __always_inline void setup_cet(struct cpuinfo_x86 *c)
-> +{
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +		cr4_set_bits(X86_CR4_CET);
-> +}
-> +
-> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-> +static __init int setup_disable_shstk(char *s)
-> +{
-> +	/* require an exact match without trailing characters */
-> +	if (strlen(s))
-> +		return 0;
-> +
-> +	if (!boot_cpu_has(X86_FEATURE_SHSTK))
-> +		return 1;
-> +
-> +	setup_clear_cpu_cap(X86_FEATURE_SHSTK);
-> +	pr_info("x86: 'noshstk' specified, disabling Shadow Stack\n");
-> +	return 1;
-> +}
-> +__setup("noshstk", setup_disable_shstk);
-> +#endif
-> +
->  /*
->   * Some CPU features depend on higher CPUID levels, which may not always
->   * be available due to CPUID level capping or broken virtualization
-> @@ -1313,6 +1336,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
->  	x86_init_rdrand(c);
->  	x86_init_cache_qos(c);
->  	setup_pku(c);
-> +	setup_cet(c);
->  
->  	/*
->  	 * Clear/Set all flags overridden by options, need do it
-> diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-> index 30ca2d1a9231..b3b0b482983a 100644
-> --- a/arch/x86/kernel/process.c
-> +++ b/arch/x86/kernel/process.c
-> @@ -39,6 +39,7 @@
->  #include <asm/desc.h>
->  #include <asm/prctl.h>
->  #include <asm/spec-ctrl.h>
-> +#include <asm/cet.h>
->  
->  /*
->   * per-CPU TSS segments. Threads are completely 'soft' on Linux,
-> @@ -136,6 +137,7 @@ void flush_thread(void)
->  	flush_ptrace_hw_breakpoint(tsk);
->  	memset(tsk->thread.tls_array, 0, sizeof(tsk->thread.tls_array));
->  
-> +	cet_disable_shstk();
->  	fpu__clear(&tsk->thread.fpu);
->  }
->  
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index c486ad4b43f0..6aca93ecec0e 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -679,6 +679,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->  		[ilog2(VM_PKEY_BIT1)]	= "",
->  		[ilog2(VM_PKEY_BIT2)]	= "",
->  		[ilog2(VM_PKEY_BIT3)]	= "",
-> +#endif
-> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-> +		[ilog2(VM_SHSTK)]	= "ss"
->  #endif
->  	};
->  	size_t i;
-> 
-
-Balbir Singh.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
