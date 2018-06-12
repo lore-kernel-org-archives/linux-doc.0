@@ -1,110 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3BC167D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 10:50:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4304D7D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 10:57:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754102AbeFLKuR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Jun 2018 06:50:17 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:52782 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753906AbeFLKuP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jun 2018 06:50:15 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 670C380525; Tue, 12 Jun 2018 12:50:12 +0200 (CEST)
-Date:   Tue, 12 Jun 2018 12:50:12 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
-        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
-        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        id S933279AbeFLK4z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Jun 2018 06:56:55 -0400
+Received: from mail-pl0-f68.google.com ([209.85.160.68]:47051 "EHLO
+        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932556AbeFLK4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jun 2018 06:56:53 -0400
+Received: by mail-pl0-f68.google.com with SMTP id 30-v6so14135378pld.13;
+        Tue, 12 Jun 2018 03:56:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=bAQmhiG0d/rA242iDtDBG3ksrc7d9+O2dlTHEQiuaJs=;
+        b=jLfoVfovpk0mKFMtvaEYc2nNPgyC/i9xM9U7ZZlDJ7OwOSqv4YSc6ot8hsz5+ZOHjO
+         iJw3j3BMDt1djoBmhM2HQYLW2Ef1DpXR1svrSlVhQM/eY1cfbuwFQR1FrvS4e6CXT+WH
+         +xDr1Pj+PywQzX2HhXENoUnf4cMWV1oPcHWwEpFOk4+5sVmze3bAanL4SgSdvLcRvicB
+         uCLk8CouCDycIql4jS4nMGjNR2BXbIE6KABbzyPYiYlO2V0G5pGHmvbNEUHyiBAaWM2r
+         21tFUs8ca9T1hOoRmyw+fItgSRnVgXrvJ1+9h4lpFTRZMa+1x6X2dOie8p4qxzxmNxm0
+         AuKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bAQmhiG0d/rA242iDtDBG3ksrc7d9+O2dlTHEQiuaJs=;
+        b=H//ESv8xoe/8SZgFGyF2zFDU9cUkCLPP1G0+NlnCM9++TwRqg1H4mkTB8Dlkn564yg
+         VaMWIY1aBTToueQY3Tvn1jjR1uxiHRdoPrk07nkOB+XuwM7O4z2gVM4Hlce3hGMoFPja
+         Jp7ByfzHMhIYkAigXsHdeKQ5kcvOkXpOUGa4uWTcWmqvw12hHd8UW3axfaCJD1pEd8ED
+         DbnBajmQby2F95OxpkA4NnEnIAfi0fSPl9NzVjN6C4bu39Pl7yb65WBmktzABjxcx3W6
+         o9oAY+Pa+wp/r5vFuItQt2MdMMY4/TLHfgQDaFSn54/goQ5HmOnVKmaGH0eByUCjFt1P
+         Zgew==
+X-Gm-Message-State: APt69E2pPN/Qgf5VXEkbIOPzrvEoQ3OXIGx5GR068sLW7AIPcTtWzLC9
+        vt3nDZ+zD1F9RnmJ9c1jjZU=
+X-Google-Smtp-Source: ADUXVKIsoP7pe/v/LuLKBO/LWOx9/x3R+oH4JuPu1SoR+AS+xe2Wuh1yjXZdNbBKjFKJHLMDht22PQ==
+X-Received: by 2002:a17:902:3081:: with SMTP id v1-v6mr3626488plb.266.1528801012619;
+        Tue, 12 Jun 2018 03:56:52 -0700 (PDT)
+Received: from [192.168.1.11] (14-202-194-140.static.tpgi.com.au. [14.202.194.140])
+        by smtp.gmail.com with ESMTPSA id e68-v6sm3170674pfl.65.2018.06.12.03.56.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 12 Jun 2018 03:56:51 -0700 (PDT)
+Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Vikas Shivappa <vikas.shivappa@linux.intel.com>
-Subject: Re: [PATCH v11 00/13] Intel SGX1 support
-Message-ID: <20180612105011.GA26931@amd>
-References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
+        Ingo Molnar <mingo@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+From:   Balbir Singh <bsingharora@gmail.com>
+Message-ID: <bbfde1b3-5e1b-80e3-30e8-fd1e46a2ceb1@gmail.com>
+Date:   Tue, 12 Jun 2018 20:56:30 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
-Content-Disposition: inline
-In-Reply-To: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---vtzGhvizbBRQ85DL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri 2018-06-08 19:09:35, Jarkko Sakkinen wrote:
-> Intel(R) SGX is a set of CPU instructions that can be used by applications
-> to set aside private regions of code and data. The code outside the encla=
-ve
-> is disallowed to access the memory inside the enclave by the CPU access
-> control.  In a way you can think that SGX provides inverted sandbox. It
-> protects the application from a malicious host.
+On 08/06/18 00:37, Yu-cheng Yu wrote:
+> This series introduces CET - Shadow stack
+> 
+> At the high level, shadow stack is:
+> 
+> 	Allocated from a task's address space with vm_flags VM_SHSTK;
+> 	Its PTEs must be read-only and dirty;
+> 	Fixed sized, but the default size can be changed by sys admin.
+> 
+> For a forked child, the shadow stack is duplicated when the next
+> shadow stack access takes place.
+> 
+> For a pthread child, a new shadow stack is allocated.
+> 
+> The signal handler uses the same shadow stack as the main program.
+> 
 
-Do you intend to allow non-root applications to use SGX?
+Even with sigaltstack()?
 
-What are non-evil uses for SGX?
 
-=2E..because it is quite useful for some kinds of evil:
-
-https://taesoo.kim/pubs/2017/jang:sgx-bomb.pdf
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---vtzGhvizbBRQ85DL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlsfpWMACgkQMOfwapXb+vJyjACgptNd44vgyUMl4V5k7rJbDQxK
-JbEAnjeMHh5kaf/23CfmT5S/0/qhg2Co
-=U4Bc
------END PGP SIGNATURE-----
-
---vtzGhvizbBRQ85DL--
+Balbir Singh.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
