@@ -2,56 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 918A57D09D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 16:31:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C2B57D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 16:34:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934632AbeFLQbn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Jun 2018 12:31:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51600 "EHLO mail.kernel.org"
+        id S934579AbeFLQeg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Jun 2018 12:34:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53134 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934589AbeFLQbl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Jun 2018 12:31:41 -0400
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+        id S933751AbeFLQef (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Jun 2018 12:34:35 -0400
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7FFF1208C1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jun 2018 16:31:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E2A3208B5
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jun 2018 16:34:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528821100;
-        bh=XEIlOvbbDQXqm/v1NOApDSTHjmyoqmcoPR8PlYxjRUU=;
+        s=default; t=1528821275;
+        bh=EzzfG0a8cu2r/pCtb2ro4nWK49y1X5ywdX3P6HHd85Y=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sG8YSDcyBVhPHJkW8zk+n/AC15dWjLRY96+mYlXCw5weX3oYZ5ANjes8dTZXQlwWU
-         w1Hobd7W7X10laXcC5CQv/jrTn+fpsah7jNDGEK6AFLMOvhrRTNrH3td0lUxHkrV2y
-         jTMaj90bOPL4JllpHrZboyei7504ltK0SiLjoStw=
-Received: by mail-wm0-f52.google.com with SMTP id v16-v6so103786wmh.5
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jun 2018 09:31:40 -0700 (PDT)
-X-Gm-Message-State: APt69E1cIJnPI+7IGgTtWURZkZHszdKegDLhdhRPi6YXQnxyu0M4Dw43
-        +s8KsfcrCJmQigWo4FVJkZlm6utGch+1zaGwMkQq4Q==
-X-Google-Smtp-Source: ADUXVKI8ec2tDpifrvISSRkqauNfSV/MW6HtnKXHi2vfRWZjTiXay2apWw98YBrT/hxTPRRjNdk7hyEyVKw8jIscvK4=
-X-Received: by 2002:a1c:f902:: with SMTP id x2-v6mr702631wmh.116.1528821098859;
- Tue, 12 Jun 2018 09:31:38 -0700 (PDT)
+        b=EXURu2tjqcluA73MwGSzhl3UGrN0Qh3K+9N9V3OMxPO0Jo7gEI5iYWIfkaHt6CLNW
+         /R+gP9okergUCM3dxXCvqX2E0XR5nMQGitjNLUvKdnVj5LPpH1InXqLFQ36+5jzfl8
+         I6yi63J+T6TlUf2nsQ0Frz2JhfaTRyWgju0J1RaI=
+Received: by mail-wm0-f42.google.com with SMTP id r125-v6so171493wmg.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jun 2018 09:34:34 -0700 (PDT)
+X-Gm-Message-State: APt69E3C6ZyqHTnbZAIfFW7ZcjEyfjYtVnsVxMJBdyQvmv0/svJExOjj
+        w8JBoQzXkztM3+Ua2fZp25flB5GIIS23P2mu2149tw==
+X-Google-Smtp-Source: ADUXVKL98ubFXu0LpnRR7ZjC7wwdY0MyzBWVwTr3dYL+lGHZUzp2U6DqUD8BN9BI1wRrQRbARyKYZQq+Ob306zb8Zjg=
+X-Received: by 2002:a1c:f902:: with SMTP id x2-v6mr709578wmh.116.1528821273566;
+ Tue, 12 Jun 2018 09:34:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <bbfde1b3-5e1b-80e3-30e8-fd1e46a2ceb1@gmail.com>
- <1528815820.8271.16.camel@2b52.sc.intel.com> <CALCETrXK6hypCb5sXwxWRKr=J6_7XtS6s5GB1WPBiqi79q8-8g@mail.gmail.com>
- <1528820489.9324.14.camel@2b52.sc.intel.com>
-In-Reply-To: <1528820489.9324.14.camel@2b52.sc.intel.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
+ <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
+ <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+ <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
+ <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
+ <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
+ <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com> <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
+In-Reply-To: <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 12 Jun 2018 09:31:26 -0700
-X-Gmail-Original-Message-ID: <CALCETrVOyZz72RuoRB=z_EjFTqqctSLfX30GM+MSEVtbcd=PeQ@mail.gmail.com>
-Message-ID: <CALCETrVOyZz72RuoRB=z_EjFTqqctSLfX30GM+MSEVtbcd=PeQ@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Andrew Lutomirski <luto@kernel.org>, bsingharora@gmail.com,
+Date:   Tue, 12 Jun 2018 09:34:21 -0700
+X-Gmail-Original-Message-ID: <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+Message-ID: <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+To:     "H. J. Lu" <hjl.tools@gmail.com>
+Cc:     Andrew Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
         Linux-MM <linux-mm@kvack.org>,
         linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -64,77 +67,64 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 12, 2018 at 9:24 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+On Tue, Jun 12, 2018 at 9:05 AM H.J. Lu <hjl.tools@gmail.com> wrote:
 >
-> On Tue, 2018-06-12 at 09:00 -0700, Andy Lutomirski wrote:
-> > On Tue, Jun 12, 2018 at 8:06 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > >
-> > > On Tue, 2018-06-12 at 20:56 +1000, Balbir Singh wrote:
-> > > >
-> > > > On 08/06/18 00:37, Yu-cheng Yu wrote:
-> > > > > This series introduces CET - Shadow stack
-> > > > >
-> > > > > At the high level, shadow stack is:
-> > > > >
-> > > > >     Allocated from a task's address space with vm_flags VM_SHSTK;
-> > > > >     Its PTEs must be read-only and dirty;
-> > > > >     Fixed sized, but the default size can be changed by sys admin.
-> > > > >
-> > > > > For a forked child, the shadow stack is duplicated when the next
-> > > > > shadow stack access takes place.
-> > > > >
-> > > > > For a pthread child, a new shadow stack is allocated.
-> > > > >
-> > > > > The signal handler uses the same shadow stack as the main program.
-> > > > >
-> > > >
-> > > > Even with sigaltstack()?
-> > > >
-> > > >
-> > > > Balbir Singh.
-> > >
-> > > Yes.
-> > >
+> On Tue, Jun 12, 2018 at 9:01 AM, Andy Lutomirski <luto@kernel.org> wrote:
+> > On Tue, Jun 12, 2018 at 4:43 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+> >>
+> >> On Tue, Jun 12, 2018 at 3:03 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+> >> > On Thu, 7 Jun 2018, H.J. Lu wrote:
+> >> >> On Thu, Jun 7, 2018 at 2:01 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> >> >> > Why is the lockout necessary?  If user code enables CET and tries to
+> >> >> > run code that doesn't support CET, it will crash.  I don't see why we
+> >> >> > need special code in the kernel to prevent a user program from calling
+> >> >> > arch_prctl() and crashing itself.  There are already plenty of ways to
+> >> >> > do that :)
+> >> >>
+> >> >> On CET enabled machine, not all programs nor shared libraries are
+> >> >> CET enabled.  But since ld.so is CET enabled, all programs start
+> >> >> as CET enabled.  ld.so will disable CET if a program or any of its shared
+> >> >> libraries aren't CET enabled.  ld.so will lock up CET once it is done CET
+> >> >> checking so that CET can't no longer be disabled afterwards.
+> >> >
+> >> > That works for stuff which loads all libraries at start time, but what
+> >> > happens if the program uses dlopen() later on? If CET is force locked and
+> >> > the library is not CET enabled, it will fail.
+> >>
+> >> That is to prevent disabling CET by dlopening a legacy shared library.
+> >>
+> >> > I don't see the point of trying to support CET by magic. It adds complexity
+> >> > and you'll never be able to handle all corner cases correctly. dlopen() is
+> >> > not even a corner case.
+> >>
+> >> That is a price we pay for security.  To enable CET, especially shadow
+> >> shack, the program and all of shared libraries it uses should be CET
+> >> enabled.  Most of programs can be enabled with CET by compiling them
+> >> with -fcf-protection.
 > >
-> > I think we're going to need some provision to add an alternate signal
-> > stack to handle the case where the shadow stack overflows.
+> > If you charge too high a price for security, people may turn it off.
+> > I think we're going to need a mode where a program says "I want to use
+> > the CET, but turn it off if I dlopen an unsupported library".  There
+> > are programs that load binary-only plugins.
 >
-> The shadow stack stores only return addresses; its consumption will not
-> exceed a percentage of (program stack size + sigaltstack size) before
-> those overflow.  When that happens, there is usually very little we can
-> do.  So we set a default shadow stack size that supports certain nested
-> calls and allow sys admin to adjust it.
+> You can do
+>
+> # export GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK
+>
+> which turns off shadow stack.
 >
 
-Of course there's something you can do: add a sigaltstack-like stack
-switching mechanism.  Have a reserve shadow stack and, when a signal
-is delivered (possibly guarded by other conditions like "did the
-shadow stack overflow"), switch to a new shadow stack and maybe write
-a special token to the new shadow stack that says "signal delivery
-jumped here and will restore to the previous shadow stack and
-such-and-such address on return".
+Which exactly illustrates my point.  By making your security story too
+absolute, you'll force people to turn it off when they don't need to.
+If I'm using a fully CET-ified distro and I'm using a CET-aware
+program that loads binary plugins, and I may or may not have an old
+(binary-only, perhaps) plugin that doesn't support CET, then the
+behavior I want is for CET to be on until I dlopen() a program that
+doesn't support it.  Unless there's some ABI reason why that can't be
+done, but I don't think there is.
 
-Also, I have a couple of other questions after reading the
-documentation some more:
-
-1. Why on Earth does INCSSP only take an 8-bit number of frames to
-skip?  It seems to me that code that calls setjmp() and then calls
-longjmp() while nested more than 256 function call levels will crash.
-
-2. The mnemonic RSTORSSP makes no sense to me.  RSTORSSP is a stack
-*switch* operation not a stack *restore* operation, unless I'm
-seriously misunderstanding.
-
-3. Is there anything resembling clear documentation of the format of
-the shadow stack?  That is, what types of values might be found on the
-shadow stack and what do they all mean?
-
-4. Usually Intel doesn't submit upstream Linux patches for ISA
-extensions until the ISA is documented for real.  CET does not appear
-to be documented for real.  Could Intel kindly release something that
-at least claims to be authoritative documentation?
-
---Andy
+I'm concerned that the entire concept of locking CET is there to solve
+a security problem that doesn't actually exist.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
