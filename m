@@ -1,156 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7BD27D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 16:37:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F25077DF8B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Jun 2018 16:53:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933744AbeFLQhJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Jun 2018 12:37:09 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:59788 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933638AbeFLQhI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Jun 2018 12:37:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch; s=20171124;
-        h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date; bh=NAGGVcBPMvS05EZ2nRe1likAnCLqpWac5M+NiRMJlss=;
-        b=IIipsKui9p7Ntkn98tlnwuc3vd8+DrKofCuxjwKp6ipZYyIXccpmf7LhWP4NvkpWJU68hjTIdB/EkaGr5JVdTr2MztPhZxqIsnE78qnQjRZsPL3XkKx/RxB6Y1ITqV5CcE8KfZXM8DACyUuDtmxl2WGQ4n27K97gewavRcClg3Q=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.84_2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1fSmHz-0003YT-05; Tue, 12 Jun 2018 18:36:59 +0200
-Date:   Tue, 12 Jun 2018 18:36:58 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Cc:     grygorii.strashko@ti.com, davem@davemloft.net, corbet@lwn.net,
-        akpm@linux-foundation.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
-        henrik@austad.us, jesus.sanchez-palencia@intel.com,
-        ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
-        francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com
-Subject: Re: [PATCH net-next 3/6] net: ethernet: ti: cpsw: add MQPRIO Qdisc
- offload
-Message-ID: <20180612163658.GC12251@lunn.ch>
-References: <20180611133047.4818-1-ivan.khoronzhuk@linaro.org>
- <20180611133047.4818-4-ivan.khoronzhuk@linaro.org>
+        id S934176AbeFLQwB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Jun 2018 12:52:01 -0400
+Received: from mail-ot0-f194.google.com ([74.125.82.194]:39530 "EHLO
+        mail-ot0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933983AbeFLQv5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jun 2018 12:51:57 -0400
+Received: by mail-ot0-f194.google.com with SMTP id l15-v6so27855330oth.6;
+        Tue, 12 Jun 2018 09:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=7VMNrzAjKDc64qlsbblULFGY6ZOX0+yF8AB/zjQjF4w=;
+        b=r5bcPoKqPybYyuookIFv6aza1+MAA4exq0fYyNwIhHUsx0VaRHYEm4u4AlKY12TbS+
+         owXlm3jUJ8Y7pG6plClGnNwR00nJhNFAq/AnmJADQKTLqXzMItF8FgEuqg9Jgt2X5DQF
+         iZye0UtRPC1g4sYlTQlz/Lv8ppoEDMF5kkEisjSjV5YGI/wzaWcBRlBTGa6K8SrbhXWk
+         MplZAE57lkCnvTEq6J+6mWzcnAzKcUhZiOBDm69EnDwOxObZKxjReRq6VItpycx2So5p
+         LqSgjcwq8m7cJCoQ1PfV6ZjNBgRT9RllgOaWLh/f9mptCsb5gGgGjGO0ayb0EjlQBg1f
+         TmdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=7VMNrzAjKDc64qlsbblULFGY6ZOX0+yF8AB/zjQjF4w=;
+        b=fxBjZ6614lVCnYjRlGfX3FLiXB1m12RWX8WlB5g5yeTKgY2OIMeuI43WFag/LAxDNm
+         9U+bxwJSY/D68/dZPK33WCLCgWCb0tF6CNE962X7xbMX0hEdOj+4VeovObY7jqMh9aku
+         aR2y4kZeZ9j8RQ3JrlH9txL///j2+GeL06SNaosYN667030glEm9ZCjnSIth9K5uFVSs
+         i1VS/QiF/N9qnhGVDhTSN+d9vSQGDzyc4ksmIDHSX7QHZkxaQQZazBi1+rP5ES2AaqAz
+         iOzLKce3uEzZ92crwusROk+9o1cbE7NggmhU0Ju/qMvasOCAgkeIjOfGuei/+RTwzWxe
+         Obfg==
+X-Gm-Message-State: APt69E3td/MIWWoc0rt2aLmP4AFOPvcPJW7uBEh1+yOleRs1DJNDfi6w
+        3az3hEqF9uWakRdcUcbETqvQvohjD7WWSdR7iEc=
+X-Google-Smtp-Source: ADUXVKIDeyZXgBOrS3sx2HFO6pnfdGJj2UPcGssp7ImPhgTz9UJtPOz2LffjPJTJ9H7asFtHGk67gx8sKXsybCqHkUg=
+X-Received: by 2002:a9d:2ed3:: with SMTP id w77-v6mr858645ota.123.1528822316023;
+ Tue, 12 Jun 2018 09:51:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180611133047.4818-4-ivan.khoronzhuk@linaro.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Received: by 2002:a4a:7019:0:0:0:0:0 with HTTP; Tue, 12 Jun 2018 09:51:55
+ -0700 (PDT)
+In-Reply-To: <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
+ <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
+ <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+ <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
+ <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
+ <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
+ <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
+ <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com> <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Tue, 12 Jun 2018 09:51:55 -0700
+Message-ID: <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 11, 2018 at 04:30:44PM +0300, Ivan Khoronzhuk wrote:
-> That's possible to offload vlan to tc priority mapping with
-> assumption sk_prio == L2 prio.
-> 
-> Example:
-> $ ethtool -L eth0 rx 1 tx 4
-> 
-> $ qdisc replace dev eth0 handle 100: parent root mqprio num_tc 3 \
-> map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@0 1@1 2@2 hw 1
-> 
-> $ tc -g class show dev eth0
-> +---(100:ffe2) mqprio
-> |    +---(100:3) mqprio
-> |    +---(100:4) mqprio
-> |    
-> +---(100:ffe1) mqprio
-> |    +---(100:2) mqprio
-> |    
-> +---(100:ffe0) mqprio
->      +---(100:1) mqprio
-> 
-> Here, 100:1 is txq0, 100:2 is txq1, 100:3 is txq2, 100:4 is txq3
-> txq0 belongs to tc0, txq1 to tc1, txq2 and txq3 to tc2
-> The offload part only maps L2 prio to classes of traffic, but not
-> to transmit queues, so to direct traffic to traffic class vlan has
-> to be created with appropriate egress map.
-> 
-> Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-> ---
->  drivers/net/ethernet/ti/cpsw.c | 82 ++++++++++++++++++++++++++++++++++
->  1 file changed, 82 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
-> index 406537d74ec1..fd967d2bce5d 100644
-> --- a/drivers/net/ethernet/ti/cpsw.c
-> +++ b/drivers/net/ethernet/ti/cpsw.c
-> @@ -39,6 +39,7 @@
->  #include <linux/sys_soc.h>
->  
->  #include <linux/pinctrl/consumer.h>
-> +#include <net/pkt_cls.h>
->  
->  #include "cpsw.h"
->  #include "cpsw_ale.h"
-> @@ -153,6 +154,8 @@ do {								\
->  #define IRQ_NUM			2
->  #define CPSW_MAX_QUEUES		8
->  #define CPSW_CPDMA_DESCS_POOL_SIZE_DEFAULT 256
-> +#define CPSW_TC_NUM			4
-> +#define CPSW_FIFO_SHAPERS_NUM		(CPSW_TC_NUM - 1)
->  
->  #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_SHIFT	29
->  #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_MSK		GENMASK(2, 0)
-> @@ -453,6 +456,7 @@ struct cpsw_priv {
->  	u8				mac_addr[ETH_ALEN];
->  	bool				rx_pause;
->  	bool				tx_pause;
-> +	bool				mqprio_hw;
->  	u32 emac_port;
->  	struct cpsw_common *cpsw;
->  };
-> @@ -1577,6 +1581,14 @@ static void cpsw_slave_stop(struct cpsw_slave *slave, struct cpsw_common *cpsw)
->  	soft_reset_slave(slave);
->  }
->  
-> +static int cpsw_tc_to_fifo(int tc, int num_tc)
-> +{
-> +	if (tc == num_tc - 1)
-> +		return 0;
-> +
-> +	return CPSW_FIFO_SHAPERS_NUM - tc;
-> +}
-> +
->  static int cpsw_ndo_open(struct net_device *ndev)
->  {
->  	struct cpsw_priv *priv = netdev_priv(ndev);
-> @@ -2190,6 +2202,75 @@ static int cpsw_ndo_set_tx_maxrate(struct net_device *ndev, int queue, u32 rate)
->  	return ret;
->  }
->  
-> +static int cpsw_set_tc(struct net_device *ndev, void *type_data)
-> +{
+On Tue, Jun 12, 2018 at 9:34 AM, Andy Lutomirski <luto@kernel.org> wrote:
+> On Tue, Jun 12, 2018 at 9:05 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+>>
+>> On Tue, Jun 12, 2018 at 9:01 AM, Andy Lutomirski <luto@kernel.org> wrote:
+>> > On Tue, Jun 12, 2018 at 4:43 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+>> >>
+>> >> On Tue, Jun 12, 2018 at 3:03 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+>> >> > On Thu, 7 Jun 2018, H.J. Lu wrote:
+>> >> >> On Thu, Jun 7, 2018 at 2:01 PM, Andy Lutomirski <luto@kernel.org> wrote:
+>> >> >> > Why is the lockout necessary?  If user code enables CET and tries to
+>> >> >> > run code that doesn't support CET, it will crash.  I don't see why we
+>> >> >> > need special code in the kernel to prevent a user program from calling
+>> >> >> > arch_prctl() and crashing itself.  There are already plenty of ways to
+>> >> >> > do that :)
+>> >> >>
+>> >> >> On CET enabled machine, not all programs nor shared libraries are
+>> >> >> CET enabled.  But since ld.so is CET enabled, all programs start
+>> >> >> as CET enabled.  ld.so will disable CET if a program or any of its shared
+>> >> >> libraries aren't CET enabled.  ld.so will lock up CET once it is done CET
+>> >> >> checking so that CET can't no longer be disabled afterwards.
+>> >> >
+>> >> > That works for stuff which loads all libraries at start time, but what
+>> >> > happens if the program uses dlopen() later on? If CET is force locked and
+>> >> > the library is not CET enabled, it will fail.
+>> >>
+>> >> That is to prevent disabling CET by dlopening a legacy shared library.
+>> >>
+>> >> > I don't see the point of trying to support CET by magic. It adds complexity
+>> >> > and you'll never be able to handle all corner cases correctly. dlopen() is
+>> >> > not even a corner case.
+>> >>
+>> >> That is a price we pay for security.  To enable CET, especially shadow
+>> >> shack, the program and all of shared libraries it uses should be CET
+>> >> enabled.  Most of programs can be enabled with CET by compiling them
+>> >> with -fcf-protection.
+>> >
+>> > If you charge too high a price for security, people may turn it off.
+>> > I think we're going to need a mode where a program says "I want to use
+>> > the CET, but turn it off if I dlopen an unsupported library".  There
+>> > are programs that load binary-only plugins.
+>>
+>> You can do
+>>
+>> # export GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK
+>>
+>> which turns off shadow stack.
+>>
+>
+> Which exactly illustrates my point.  By making your security story too
+> absolute, you'll force people to turn it off when they don't need to.
+> If I'm using a fully CET-ified distro and I'm using a CET-aware
+> program that loads binary plugins, and I may or may not have an old
+> (binary-only, perhaps) plugin that doesn't support CET, then the
+> behavior I want is for CET to be on until I dlopen() a program that
+> doesn't support it.  Unless there's some ABI reason why that can't be
+> done, but I don't think there is.
 
-Hi Ivan
+We can make it opt-in via GLIBC_TUNABLES.  But by default, the legacy
+shared object is disallowed when CET is enabled.
 
-Maybe this is not the best of names. What if you add support for
-another TC qdisc? So you have another case in the switch statement
-below?
+> I'm concerned that the entire concept of locking CET is there to solve
+> a security problem that doesn't actually exist.
 
-Maybe call it cpsw_set_mqprio?
+We don't know that.
 
-> +static int cpsw_ndo_setup_tc(struct net_device *ndev, enum tc_setup_type type,
-> +			     void *type_data)
-> +{
-> +	switch (type) {
-> +	case TC_SETUP_QDISC_MQPRIO:
-> +		return cpsw_set_tc(ndev, type_data);
-> +
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
 
-  Andrew
-  
+-- 
+H.J.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
