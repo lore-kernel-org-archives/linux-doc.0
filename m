@@ -5,36 +5,32 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D9087D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 10:52:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 995AA7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 11:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754879AbeFNKwI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 06:52:08 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:41874 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754810AbeFNKwH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jun 2018 06:52:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Tw1pmoJ/nnPGw3VXUuz7iI9GCem1zf7EwBGL9Y/W92w=; b=sFMOebMIvbDCGgPrND07fuZ1a
-        n1xxHOqFTQLxasp32YyZk3689b24ovKGBdwpa9mxJwd9OgBig0Y17vCjg2a/TExi3/6xxhC5kzAfI
-        tqHquLlNWlY628HQM3bAwgiA+9YUxd+uyL2e2RP9T39PPCmZBHrvJPkpR2XR9oKb4sb5DVNdNpPoA
-        6YxXpe5EiZI1GLx0mN4GCDGhAZKFUtfPQSe1OHMQke902wXIwWZIdmH3pvAue/oUrcIoKdalNAa/i
-        s1NVxFb8lQTMgwjVJmSjS2CL5NSL46zN5xtLMepbofqh9yhHUVEsFO6yWX5YZ1oRqPIewLM3tWoM0
-        9I9K4+rKQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fTPr7-0005R9-KU; Thu, 14 Jun 2018 10:51:53 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2E87A202989CD; Thu, 14 Jun 2018 12:51:51 +0200 (CEST)
-Date:   Thu, 14 Jun 2018 12:51:51 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Hellstrom <thellstrom@vmware.com>
+        id S1754809AbeFNLKb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 07:10:31 -0400
+Received: from mail-cys01nam02on0042.outbound.protection.outlook.com ([104.47.37.42]:43648
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1754782AbeFNLK3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 07:10:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YYmgGoVdaQUrqNdWjm2m7zK+vQw7whWxfKqqy21N81w=;
+ b=SPULXB/KIkUcdGy4mAmaouOXqsofUSEdTm2kTI8P/rYoiPQ8RJ0RjJ5deo6CKnl8ikcS77Q4FJU9idKXj/RRAbitOAYHy68CzwtjOYT1tGy8nr+lPZnHq8G+yatjdEKlgl6lZrRrQrfX9te1BWUYVX9sd9NZyKuSx2SLgJRGq8M=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=thellstrom@vmware.com; 
+Received: from localhost.localdomain (155.4.205.56) by
+ DM6PR05MB4586.namprd05.prod.outlook.com (2603:10b6:5:9f::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.884.12; Thu, 14 Jun 2018 11:10:20 +0000
+Subject: Re: [PATCH v2 1/2] locking: Implement an algorithm choice for
+ Wound-Wait mutexes
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Gustavo Padovan <gustavo@padovan.org>,
@@ -50,290 +46,411 @@ Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 1/2] locking: Implement an algorithm choice for
- Wound-Wait mutexes
-Message-ID: <20180614105151.GY12198@hirez.programming.kicks-ass.net>
-References: <20180613074745.14750-1-thellstrom@vmware.com>
- <20180613074745.14750-2-thellstrom@vmware.com>
- <20180613095012.GW12198@hirez.programming.kicks-ass.net>
- <69f3dee9-4782-bc90-3ee2-813ac6835c4a@vmware.com>
- <20180613131000.GX12198@hirez.programming.kicks-ass.net>
- <9afd482d-7082-fa17-5e34-179a652376e5@vmware.com>
+References: <20180614072922.8114-1-thellstrom@vmware.com>
+ <20180614072922.8114-2-thellstrom@vmware.com> <20180614103852.GA18216@andrea>
+From:   Thomas Hellstrom <thellstrom@vmware.com>
+Message-ID: <b84a5ef9-6cd1-7dc9-a51d-cb195cdea83c@vmware.com>
+Date:   Thu, 14 Jun 2018 13:10:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9afd482d-7082-fa17-5e34-179a652376e5@vmware.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+In-Reply-To: <20180614103852.GA18216@andrea>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [155.4.205.56]
+X-ClientProxiedBy: HE1PR0102CA0033.eurprd01.prod.exchangelabs.com
+ (2603:10a6:7:14::46) To DM6PR05MB4586.namprd05.prod.outlook.com
+ (2603:10b6:5:9f::23)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6a49d8c5-7e77-46cd-2746-08d5d1e76d56
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:DM6PR05MB4586;
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4586;3:AdT/di1vqUIjlteXCJTrMLA/PcxjRBf1TTP1ELTb8MLWApM5K8orTO4QC5YZ6s6ck5fmOKR/s3LnM4eVeFv8OEDJaCbO08ftVX0jDGS8P9Z4ZKGw2wywr5gbmwY4d5+AyPccIL6/Xryvsc5P3mla8bnHROMHmA2hya0n2XNdHtlkBvcXN/oGz2jkP1QMvtbl7DJLviaiK/heODvaDh0EedSgsSpJhMH+u87Tj5XBPpqTJJPkio1gn3EFg/x9fRYk;25:fMCv714SMKN9sjlnwPV4HVEJVlCiNemd5kowR9oMzajiryIJzVbrM5nZUMUG8J9wLtkMRPEhM7d7ZhLBV2uUCMh+j+RXzBQsaXuPzWK/bZigAIVXzIJJ7KhzQRu7KJbrjPHF04e9EFwMc0zTUEqlCBkW3w2OB/pUqydCi77nbKk5jTSovCdz1zQ4qEWCgUsPcwlRPSoWW30PiQht8rFqE6gRaIuGvDXzMXDNgf3bDfSpOufCBNVzath9Darioy8/6labxME6v61SHhfONrnZaMHbc0w+7/icElwO/g64ge8KAF/IoGYvF8LS1HeUzw5SBgBKch7kRTEbiDB0Lq+BCw==;31:K1sIABUbaZi18oOw548C1+VrTMcdTugDwNdEwpyEl7+AAZ0BG7xN7UpxAenK1+8oau0TUu3VPxOo0VMN7f5tpVlIX4nxnE1wVcmto8QIXzF52CShmqiodpKvhdh40nBYRCO3BSSOnyhpu6z4u1fqdg3/a9xicWuOShl1tCYC+g/6BgYBgI01TLiSfJYzjbEI+a8gmpkYdVKnuN4HcLjqgn9+7XYMqOK+a4qB3UPeJLo=
+X-MS-TrafficTypeDiagnostic: DM6PR05MB4586:
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4586;20:A/hQyCa8P/qWYvmnYoAmIIwIzy6DFSMZE7COfZdJ1z/5bufIQAX+rkOohrsRRCzYx34VfuP2RmrCBRRQtN+DLZ9OgHQ5Kix9hwBbd+DZXz8FR8XlMyMJw30+HfqjsZF4/buRn9usFf/0aknKHhg5diQONQNBAxJSxhsK1kFmgKep+MRIxEUUupar/S4xzxn8LLneC5VhsF67mbVupTfB8cYDeAI1DmJolkvraoKfUgesBXXAxBB6j0hSTclUc2F8hJBkVGemnXS+3RWUdVth9DBZ6IHUDKqqbjJmnoWo0QlwGrrUbCtPm/VD5gNlw6Zn0gFdVIJ4n4l+zM4lhMdreM0td5TuweNlTymxZkouRKVR9T5pnh+QwxJs7M8QlkrT02mpgrKVCyZ1MFUBLjk+G+l8W3mZtpb7d94dbWANlxM8dWKHKaPig6QH+MOqxbrlUobuIqk4Kp4ZoVbsRX0+16wVyUtjfr9q0mXzNmIQuOUSFEx6YAW4pDRJKHU6SYLU
+X-Microsoft-Antispam-PRVS: <DM6PR05MB4586DD7A92F82AF030B8FAEDA17D0@DM6PR05MB4586.namprd05.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(61668805478150)(9452136761055)(1553240931313)(104084551191319)(228905959029699);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231254)(944501410)(52105095)(10201501046)(3002001)(149027)(150027)(6041310)(20161123558120)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123564045)(6072148)(201708071742011)(7699016);SRVR:DM6PR05MB4586;BCL:0;PCL:0;RULEID:;SRVR:DM6PR05MB4586;
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4586;4:V0TAsHc+SSoaV4nULHupp3Mq3Pzor7xoIOwPMEffBrFB1JWEAd0ZXtVP/94nLir0RlYiCWLbk8H8TXSwi+yzwdQCczKnQPl1B6AlqMZcHHAflQ6gs5OgAU0yAYvX6J78cn4nWbE+Af3edvtPeiQR/cWxXIziwtG+blJ6ZS1DYD9e73lqQF7Y53hMMAnsO2AsRACPQlZ45wid3fx4o+bOkSXnOueT6ovoMB5ogEAFKCKFzDefcO8qjI8e5dgZ7iUxM9JENhp2QzFbAjOeQ0xXOqJpcf5hSYwW2wVDhXO2m1CI4p5Yl3WsY02gKZcM+mv3g7dUeFLEDTw6mv0CGmfkeihilNP5nNCZvNKwGfYnxdEVrQSuCamtPej+hhMqVHMVWHaozLO+DQUvN1043cDDYLOLl3SOXBb3NZq1CzsA55cPSU9EEqb60oouQxe7UxjR
+X-Forefront-PRVS: 0703B549E4
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(39860400002)(366004)(39380400002)(396003)(346002)(376002)(199004)(189003)(3846002)(6486002)(64126003)(7736002)(305945005)(68736007)(551934003)(16526019)(50466002)(7416002)(186003)(230700001)(58126008)(316002)(54906003)(6116002)(8936002)(81166006)(478600001)(8676002)(81156014)(67846002)(2906002)(6506007)(386003)(59450400001)(97736004)(26005)(4326008)(25786009)(76176011)(86362001)(6246003)(575784001)(2486003)(52116002)(23676004)(6512007)(52146003)(65806001)(65826007)(229853002)(47776003)(31696002)(53936002)(105586002)(11346002)(956004)(106356001)(2616005)(66066001)(476003)(36756003)(446003)(6666003)(31686004)(6916009)(5660300001)(486006)(53546011)(65956001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR05MB4586;H:localhost.localdomain;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: vmware.com does not designate
+ permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtETTZQUjA1TUI0NTg2OzIzOllVdS9QVGM1Y2JoM2dHRXQ4dFY1MUw2VGM2?=
+ =?utf-8?B?YXNDQnorMzVIQkIwcmdxL1pMNmdUTWdmdmdrVm8xcFZMa3NiUkJ0TEp1VHU3?=
+ =?utf-8?B?aXNKQSswTnBLY1JDZS9RSjE5dmt4Q3hnMmVoMHJyc2VRVHdoSzFWU1MyeHIw?=
+ =?utf-8?B?Q0U4bTVhNElISEFPa2VHcFd1WVEwcU5DbU84cm9JK0YwR0hLUG1KZ09Nckdq?=
+ =?utf-8?B?NUJtZEs3a09GOUcyK2RIRXVtNHdOVlpvK1MwZXJ4Ti9VaHBhMXhGNkNsRXho?=
+ =?utf-8?B?SUhXc21uWWpza2o4ZXdiTk1QUTVWSlNrUk85VWxjL056UmR1SDk1cHhwdEhi?=
+ =?utf-8?B?OElENy9GTjY0MGNRWnM4a2ltT0Jid1ZoUXhBZjRjOC9hSUZjL0I3Tkx4emE3?=
+ =?utf-8?B?SE44clRoYjZoMWJsNjl6RjVJbTNUN0dCTzU2aTU3aVQyQWF4VGIxREY5dlRl?=
+ =?utf-8?B?QXlOV0pkTjZxQmtVMGhITnU2a3FCaDMrSnlHYXc3RjFObGxjZFhYVlA0NjlJ?=
+ =?utf-8?B?Wlp0M0UxSGRvcHlhVjI2ZnE1U0ZoZkJMR3JOS1BYcGpjajFrakZnNWZFRDdO?=
+ =?utf-8?B?S1gxSE8vSjlmRElIQ0w1ck5QMCt5TzZXMUZMazgxTjdFMUsxMDhjQnlmT013?=
+ =?utf-8?B?MVRzVjFnTTdzZmNIMXRmd0h3RlMxU2hpcFBPVE5yNCtkNW15S3lFY0VmNHNQ?=
+ =?utf-8?B?MkpqQXEwYnErWlRFZ0t1OGtIcDdUZFlJaEtMemtzZ3VONmd4UzRJTDBrOFJB?=
+ =?utf-8?B?bDIzeGxSM1IrWlc3SWhuZ1VTTXptajJGTDlaTCtzWklNN2FpTWdsREgya2Fv?=
+ =?utf-8?B?ZUNjY3JMdXd1UFlwWFgxNlVsM2ZuVzVIQ3dia21uc0NSSVNKbnBhMUI3S1FU?=
+ =?utf-8?B?V3Vxd3hzUmJhZ1Z2QUo2NTFyMWNsSmxtQ0RyTFRxY3BPRDNGTFd4ZXozWEhp?=
+ =?utf-8?B?enorS3VuUlFNcjAxbG9kTkxua1dqVG1oQytzdU14bytnNHJldkM3WWJjWFJ3?=
+ =?utf-8?B?NjlVc2pMaXVZcHpDdU9xa2tNMFA5WUk3ak9oTDdaNStjTXVUeWxYSlVjeHM5?=
+ =?utf-8?B?MXVkeWJKOHFwdTJUYzZSL1I1VFpoRFViS2xBUmRVcFNDS2IxNkw5V294SUJJ?=
+ =?utf-8?B?NWdBa21XMGVZa2RNWEVzc3A5ZHQ5TGN6STlwQmRESVBpMnZNVUhLTmgrL3NW?=
+ =?utf-8?B?TGlubmdsRE1JeGhjLzU5amUzVU5FL3h0RXNkR3FWVkFrU3RmRWp1SE16N1p0?=
+ =?utf-8?B?YWVXdURRQlNKWUhVOUdtbGo4WkJrMElvb2wrUG42aHd3K2JPL0pWS0NvcVR2?=
+ =?utf-8?B?N21OMmRPczRFb1BrTDVQUVNQU0tZSFdQZ0YxYVhqK3NyZ0c0cVQxeVNuZ2Ew?=
+ =?utf-8?B?c0hrN1gyMCtmN3pRVUdWS3FRN2tNRkJPdjlRLzEzOHl4TWRCdlFFMGw0WnRN?=
+ =?utf-8?B?emVJYTE3Z0tqYkVqaE1GOHE5L0xQYTFnZjVybDVrY1V2SUZxOEJBYy83eTEx?=
+ =?utf-8?B?RWVoWUNmaFkrbXJOTVFJTUl3c3Uwa0FabWFKUWQya2M3YzFNS2Fxb0dnZ24w?=
+ =?utf-8?B?UmRZcHFwR0d0bUlXZHBrY0Ztc1FIVmhVY0dIV0JIM3lhSDhpMXJYcmdlY1p1?=
+ =?utf-8?B?NVpMeHRrU3FzV0xZQUtnbTFYY3dXdk9zZzcvMzB0T0NkNGtzcXFHdC9lSFdH?=
+ =?utf-8?B?OWIwczJJWVhwS25vdWNKMG00djlCelptUWF0cFVSam51amdPOXhWUFpUbmE1?=
+ =?utf-8?B?cFRhckwwalFVSkN1dml3dHJHdm9hTjRHdGE4ZWp2VUg2eThURHpNdisyKzEy?=
+ =?utf-8?B?bzUwN0RMeGswdUtRbmE5N3YwSk9BcUJjejdVeFJtVW1rRDY2dzhZdkZOcElM?=
+ =?utf-8?B?YWdVK3hYZDUxbnFuRFhhTEcrVXEyZVpvanlGbjhXaTZnVUNMQXdNN3ZOV2NF?=
+ =?utf-8?B?T015Y1RrMDhZUmw0M2Z1QW0zdnhtbnRXb3Fna01IS3M5T1U1aFE4aHZxNnRV?=
+ =?utf-8?B?Z2VQQ2pXOEJvN2tRREJKMkpDcmZGSWFtWGphaUlUK0lyTDlNdlp5K054dkZU?=
+ =?utf-8?B?Y1I3bHNPUVk3NExPQnQrejVvMlRnSmVXdkRDRlh4SUhMMnovMVMzc0w3bVYr?=
+ =?utf-8?B?UEE9PQ==?=
+X-Microsoft-Antispam-Message-Info: EMg/wqp/XUetPJU4iwFRMmrI6Vv8jX+MeCMQanz3/EYFxaybpQ9skAgfAoJ44pstNBsNU95qMNgsUdbB4UmlnCmx78/GOpcOrAE1mVIQB9hKJULAmTOueYNo3nI5n4szcQgh1zqNNGUcEoFxFd3rKDOl1Km5B+AHBUrRl4BizZSrQcZff0nuIha8shiEfBms
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4586;6:N5EegBuAo0mjVdmyVZTKIQKqk8i/bm4CSyNUeEyoCuWgNaRIEHBqYPx8ctSTyfKGpt6kvGlaoYXMCQwXFjXBusrupayhDfax6mjXBE2VYExZrmmcZum+FpqUE4TbJkQDzKfSMNpB/B3PMeicZ8+2bJccNAWdWRyBtsFSu95IOGiWwjvFN7ixIlXFwXtAN0V7a3bMJp3Y03xwG5WgRVEd39Klyst3dbUEXGWVexR6yhKcqBIktaGpFWU/+SU9b0Liu2AsoSFfbM2FzV5Jfo7F0TYqwLB8Kjq78HKkwO4zUcU+O1oZfUzlFvzZKS3Ps6VgyEE/lVOYVaNo0Qm4eCmUMLfweuv33UQc0QSj/5ouviM7xsZMV/jEdvxj4EGPWvk5n3HyBckthPnhhI5wIIC6K8wkidzIFyxFdjThTI1KkcQl3Su4vo+7YfLQrGYQM5i5073Qn2/v3aDDch7wt3xxQw==;5:2JXQuD4gIY2wdwFHeDqPzA2oUWr4Rl0WpKpCbjXul7wl7o5Q3L0mTsUaVLDix7m98KRmDs4C9gVdCVXC9JyK0GX1m5cH6/iurxRr7kLQWwmrBw2LB2nejQqWdob1A+1lQvCT4YXzv+0bYYDyoZti0Xzr+fjxn5xu9STdKgIg7jw=;24:MeqtsKQtzjGbbXmnjxjxJkWvM2O4qUEU/0ZcGjeR+djycoSPsXdbpYDcmT8JWnW4mdM2hrAjhXVyXIGeAdjOcXcYTMgls7yEMvwHjkc0VPM=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4586;7:8x2xr6GeQVCZ5IhAH+RuFsVy7xqJhQ/mOmTHT/VTfdDN3RNlcFFUnydRRal1Vo7L/S24Gx3/7tGnJeBdc8Ld4kWoVwcb4wtp2dpbKWMDXhrAr4yl3WbaSQlaO27cCKsRt1JILtJFpPY+Hd66kwPR4MRAk7IEtp3qoxdVPQTcKoQOFiDn7zoHgdisH96hclPCXaAMHTwZTxVAml316o0tDfAHs1z4KfRmE/gTDPTdXIfOViJ68Kr9VEWveVCiCJWe;20:g7icrOoibeLnxBldjqj+MaYq9ogHOtDlwNEo9Bl2xVznHgyxO4XFhhVAu2lEefg7WgQmNXuKRWOQTCNAVE2mdB8e41mm726l/KhF6BYaQLePsKsdmI0y9Hm0lqUBOjINQ9Bi458XniQf7F55pH3r4n3cex02lIapN3jaBrvkRLw=
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2018 11:10:20.6690 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a49d8c5-7e77-46cd-2746-08d5d1e76d56
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR05MB4586
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 13, 2018 at 04:05:43PM +0200, Thomas Hellstrom wrote:
-> In short, with Wait-Die (before the patch) it's the process _taking_ the
-> contended lock that backs off if necessary. No preemption required. With
-> Wound-Wait, it's the process _holding_ the contended lock that gets wounded
-> (preempted), and it needs to back off at its own discretion but no later
-> than when it's going to sleep on another ww mutex. That point is where we
-> intercept the preemption request. We're preempting the transaction rather
-> than the process.
+On 06/14/2018 12:38 PM, Andrea Parri wrote:
+> Hi Thomas,
+>
+> On Thu, Jun 14, 2018 at 09:29:21AM +0200, Thomas Hellstrom wrote:
+>> The current Wound-Wait mutex algorithm is actually not Wound-Wait but
+>> Wait-Die. Implement also Wound-Wait as a per-ww-class choice. Wound-Wait
+>> is, contrary to Wait-Die a preemptive algorithm and is known to generate
+>> fewer backoffs. Testing reveals that this is true if the
+>> number of simultaneous contending transactions is small.
+>> As the number of simultaneous contending threads increases, Wait-Wound
+>> becomes inferior to Wait-Die in terms of elapsed time.
+>> Possibly due to the larger number of held locks of sleeping transactions.
+>>
+>> Update documentation and callers.
+>>
+>> Timings using git://people.freedesktop.org/~thomash/ww_mutex_test
+>> tag patch-18-06-14
+>>
+>> Each thread runs 100000 batches of lock / unlock 800 ww mutexes randomly
+>> chosen out of 100000. Four core Intel x86_64:
+>>
+>> Algorithm    #threads       Rollbacks  time
+>> Wound-Wait   4              ~100       ~17s.
+>> Wait-Die     4              ~150000    ~19s.
+>> Wound-Wait   16             ~360000    ~109s.
+>> Wait-Die     16             ~450000    ~82s.
+>>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
+>> Cc: Ingo Molnar <mingo@redhat.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Gustavo Padovan <gustavo@padovan.org>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Sean Paul <seanpaul@chromium.org>
+>> Cc: David Airlie <airlied@linux.ie>
+>> Cc: Davidlohr Bueso <dave@stgolabs.net>
+>> Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+>> Cc: Josh Triplett <josh@joshtriplett.org>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: Kate Stewart <kstewart@linuxfoundation.org>
+>> Cc: Philippe Ombredanne <pombredanne@nexb.com>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-media@vger.kernel.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+>>
+>> ---
+>> v2:
+>> * Update API according to review comment by Greg Kroah-Hartman.
+>> * Address review comments by Peter Zijlstra:
+>>    - Avoid _Bool in composites
+>>    - Fix typo
+>>    - Use __mutex_owner() where applicable
+>>    - Rely on built-in barriers for the main loop exit condition,
+>>      struct ww_acquire_ctx::wounded. Update code comments.
+>>    - Explain unlocked use of list_empty().
+>> ---
+>>   Documentation/locking/ww-mutex-design.txt |  54 ++++++++++++----
+>>   drivers/dma-buf/reservation.c             |   2 +-
+>>   drivers/gpu/drm/drm_modeset_lock.c        |   2 +-
+>>   include/linux/ww_mutex.h                  |  19 ++++--
+>>   kernel/locking/locktorture.c              |   2 +-
+>>   kernel/locking/mutex.c                    | 103 +++++++++++++++++++++++++++---
+>>   kernel/locking/test-ww_mutex.c            |   2 +-
+>>   lib/locking-selftest.c                    |   2 +-
+>>   8 files changed, 156 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/Documentation/locking/ww-mutex-design.txt b/Documentation/locking/ww-mutex-design.txt
+>> index 34c3a1b50b9a..b9597def9581 100644
+>> --- a/Documentation/locking/ww-mutex-design.txt
+>> +++ b/Documentation/locking/ww-mutex-design.txt
+>> @@ -1,4 +1,4 @@
+>> -Wait/Wound Deadlock-Proof Mutex Design
+>> +Wound/Wait Deadlock-Proof Mutex Design
+>>   ======================================
+>>   
+>>   Please read mutex-design.txt first, as it applies to wait/wound mutexes too.
+>> @@ -32,10 +32,23 @@ the oldest task) wins, and the one with the higher reservation id (i.e. the
+>>   younger task) unlocks all of the buffers that it has already locked, and then
+>>   tries again.
+>>   
+>> -In the RDBMS literature this deadlock handling approach is called wait/wound:
+>> -The older tasks waits until it can acquire the contended lock. The younger tasks
+>> -needs to back off and drop all the locks it is currently holding, i.e. the
+>> -younger task is wounded.
+>> +In the RDBMS literature, a reservation ticket is associated with a transaction.
+>> +and the deadlock handling approach is called Wait-Die. The name is based on
+>> +the actions of a locking thread when it encounters an already locked mutex.
+>> +If the transaction holding the lock is younger, the locking transaction waits.
+>> +If the transaction holding the lock is older, the locking transaction backs off
+>> +and dies. Hence Wait-Die.
+>> +There is also another algorithm called Wound-Wait:
+>> +If the transaction holding the lock is younger, the locking transaction
+>> +preempts the transaction holding the lock, requiring it to back off. It
+>> +Wounds the other transaction.
+>> +If the transaction holding the lock is older, it waits for the other
+>> +transaction. Hence Wound-Wait.
+>> +The two algorithms are both fair in that a transaction will eventually succeed.
+>> +However, the Wound-Wait algorithm is typically stated to generate fewer backoffs
+>> +compared to Wait-Die, but is, on the other hand, associated with more work than
+>> +Wait-Die when recovering from a backoff. Wound-Wait is also a preemptive
+>> +algorithm which requires a reliable way to preempt another transaction.
+>>   
+>>   Concepts
+>>   --------
+>> @@ -47,10 +60,12 @@ Acquire context: To ensure eventual forward progress it is important the a task
+>>   trying to acquire locks doesn't grab a new reservation id, but keeps the one it
+>>   acquired when starting the lock acquisition. This ticket is stored in the
+>>   acquire context. Furthermore the acquire context keeps track of debugging state
+>> -to catch w/w mutex interface abuse.
+>> +to catch w/w mutex interface abuse. An acquire context is representing a
+>> +transaction.
+>>   
+>>   W/w class: In contrast to normal mutexes the lock class needs to be explicit for
+>> -w/w mutexes, since it is required to initialize the acquire context.
+>> +w/w mutexes, since it is required to initialize the acquire context. The lock
+>> +class also specifies what algorithm to use, Wound-Wait or Wait-Die.
+>>   
+>>   Furthermore there are three different class of w/w lock acquire functions:
+>>   
+>> @@ -90,6 +105,12 @@ provided.
+>>   Usage
+>>   -----
+>>   
+>> +The algorithm (Wait-Die vs Wound-Wait) is chosen by using either
+>> +DEFINE_WW_CLASS_WDIE() for Wait-Die or DEFINE_WW_CLASS() for Wound-Wait.
+>> +As a rough rule of thumb, use Wound-Wait iff you typically expect the number
+>> +of simultaneous competing transactions to be small, and the rollback cost can
+>> +be substantial.
+>> +
+>>   Three different ways to acquire locks within the same w/w class. Common
+>>   definitions for methods #1 and #2:
+>>   
+>> @@ -312,12 +333,23 @@ Design:
+>>     We maintain the following invariants for the wait list:
+>>     (1) Waiters with an acquire context are sorted by stamp order; waiters
+>>         without an acquire context are interspersed in FIFO order.
+>> -  (2) Among waiters with contexts, only the first one can have other locks
+>> -      acquired already (ctx->acquired > 0). Note that this waiter may come
+>> -      after other waiters without contexts in the list.
+>> +  (2) For Wait-Die, among waiters with contexts, only the first one can have
+>> +      other locks acquired already (ctx->acquired > 0). Note that this waiter
+>> +      may come after other waiters without contexts in the list.
+>> +
+>> +  The Wound-Wait preemption is implemented with a lazy-preemption scheme:
+>> +  The wounded status of the transaction is checked only when there is
+>> +  contention for a new lock and hence a true chance of deadlock. In that
+>> +  situation, if the transaction is wounded, it backs off, clears the
+>> +  wounded status and retries. A great benefit of implementing preemption in
+>> +  this way is that the wounded transaction can identify a contending lock to
+>> +  wait for before restarting the transaction. Just blindly restarting the
+>> +  transaction would likely make the transaction end up in a situation where
+>> +  it would have to back off again.
+>>   
+>>     In general, not much contention is expected. The locks are typically used to
+>> -  serialize access to resources for devices.
+>> +  serialize access to resources for devices, and optimization focus should
+>> +  therefore be directed towards the uncontended cases.
+>>   
+>>   Lockdep:
+>>     Special care has been taken to warn for as many cases of api abuse
+>> diff --git a/drivers/dma-buf/reservation.c b/drivers/dma-buf/reservation.c
+>> index 314eb1071cce..b94a4bab2ecd 100644
+>> --- a/drivers/dma-buf/reservation.c
+>> +++ b/drivers/dma-buf/reservation.c
+>> @@ -46,7 +46,7 @@
+>>    * write-side updates.
+>>    */
+>>   
+>> -DEFINE_WW_CLASS(reservation_ww_class);
+>> +DEFINE_WW_CLASS_WDIE(reservation_ww_class);
+>>   EXPORT_SYMBOL(reservation_ww_class);
+>>   
+>>   struct lock_class_key reservation_seqcount_class;
+>> diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+>> index 8a5100685875..ff00a814f617 100644
+>> --- a/drivers/gpu/drm/drm_modeset_lock.c
+>> +++ b/drivers/gpu/drm/drm_modeset_lock.c
+>> @@ -70,7 +70,7 @@
+>>    * lists and lookup data structures.
+>>    */
+>>   
+>> -static DEFINE_WW_CLASS(crtc_ww_class);
+>> +static DEFINE_WW_CLASS_WDIE(crtc_ww_class);
+>>   
+>>   /**
+>>    * drm_modeset_lock_all - take all modeset locks
+>> diff --git a/include/linux/ww_mutex.h b/include/linux/ww_mutex.h
+>> index 39fda195bf78..3880813b7db5 100644
+>> --- a/include/linux/ww_mutex.h
+>> +++ b/include/linux/ww_mutex.h
+>> @@ -8,6 +8,8 @@
+>>    *
+>>    * Wound/wait implementation:
+>>    *  Copyright (C) 2013 Canonical Ltd.
+>> + * Choice of algorithm:
+>> + *  Copyright (C) 2018 WMWare Inc.
+>>    *
+>>    * This file contains the main data structure and API definitions.
+>>    */
+>> @@ -23,15 +25,17 @@ struct ww_class {
+>>   	struct lock_class_key mutex_key;
+>>   	const char *acquire_name;
+>>   	const char *mutex_name;
+>> +	unsigned int is_wait_die;
+>>   };
+>>   
+>>   struct ww_acquire_ctx {
+>>   	struct task_struct *task;
+>>   	unsigned long stamp;
+>>   	unsigned acquired;
+>> +	unsigned int wounded;
+>> +	struct ww_class *ww_class;
+>>   #ifdef CONFIG_DEBUG_MUTEXES
+>>   	unsigned done_acquire;
+>> -	struct ww_class *ww_class;
+>>   	struct ww_mutex *contending_lock;
+>>   #endif
+>>   #ifdef CONFIG_DEBUG_LOCK_ALLOC
+>> @@ -58,17 +62,21 @@ struct ww_mutex {
+>>   # define __WW_CLASS_MUTEX_INITIALIZER(lockname, class)
+>>   #endif
+>>   
+>> -#define __WW_CLASS_INITIALIZER(ww_class) \
+>> +#define __WW_CLASS_INITIALIZER(ww_class, _is_wait_die)	    \
+>>   		{ .stamp = ATOMIC_LONG_INIT(0) \
+>>   		, .acquire_name = #ww_class "_acquire" \
+>> -		, .mutex_name = #ww_class "_mutex" }
+>> +		, .mutex_name = #ww_class "_mutex" \
+>> +		, .is_wait_die = _is_wait_die }
+>>   
+>>   #define __WW_MUTEX_INITIALIZER(lockname, class) \
+>>   		{ .base =  __MUTEX_INITIALIZER(lockname.base) \
+>>   		__WW_CLASS_MUTEX_INITIALIZER(lockname, class) }
+>>   
+>>   #define DEFINE_WW_CLASS(classname) \
+>> -	struct ww_class classname = __WW_CLASS_INITIALIZER(classname)
+>> +	struct ww_class classname = __WW_CLASS_INITIALIZER(classname, 0)
+>> +
+>> +#define DEFINE_WW_CLASS_WDIE(classname)	\
+>> +	struct ww_class classname = __WW_CLASS_INITIALIZER(classname, 1)
+>>   
+>>   #define DEFINE_WW_MUTEX(mutexname, ww_class) \
+>>   	struct ww_mutex mutexname = __WW_MUTEX_INITIALIZER(mutexname, ww_class)
+>> @@ -123,8 +131,9 @@ static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+>>   	ctx->task = current;
+>>   	ctx->stamp = atomic_long_inc_return_relaxed(&ww_class->stamp);
+>>   	ctx->acquired = 0;
+>> -#ifdef CONFIG_DEBUG_MUTEXES
+>>   	ctx->ww_class = ww_class;
+>> +	ctx->wounded = false;
+>> +#ifdef CONFIG_DEBUG_MUTEXES
+>>   	ctx->done_acquire = 0;
+>>   	ctx->contending_lock = NULL;
+>>   #endif
+>> diff --git a/kernel/locking/locktorture.c b/kernel/locking/locktorture.c
+>> index 6850ffd69125..e861c1bf0e1e 100644
+>> --- a/kernel/locking/locktorture.c
+>> +++ b/kernel/locking/locktorture.c
+>> @@ -365,7 +365,7 @@ static struct lock_torture_ops mutex_lock_ops = {
+>>   };
+>>   
+>>   #include <linux/ww_mutex.h>
+>> -static DEFINE_WW_CLASS(torture_ww_class);
+>> +static DEFINE_WW_CLASS_WDIE(torture_ww_class);
+>>   static DEFINE_WW_MUTEX(torture_ww_mutex_0, &torture_ww_class);
+>>   static DEFINE_WW_MUTEX(torture_ww_mutex_1, &torture_ww_class);
+>>   static DEFINE_WW_MUTEX(torture_ww_mutex_2, &torture_ww_class);
+>> diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+>> index 2048359f33d2..ffa00b5aaf03 100644
+>> --- a/kernel/locking/mutex.c
+>> +++ b/kernel/locking/mutex.c
+>> @@ -290,12 +290,49 @@ __ww_ctx_stamp_after(struct ww_acquire_ctx *a, struct ww_acquire_ctx *b)
+>>   	       (a->stamp != b->stamp || a > b);
+>>   }
+>>   
+>> +/*
+>> + * Wound the lock holder transaction if it's younger than the contending
+>> + * transaction, and there is a possibility of a deadlock.
+>> + * Also if the lock holder transaction isn't the current transaction,
+>> + * make sure it's woken up in case it's sleeping on another ww mutex.
+>> + */
+>> +static bool __ww_mutex_wound(struct mutex *lock,
+>> +			     struct ww_acquire_ctx *ww_ctx,
+>> +			     struct ww_acquire_ctx *hold_ctx)
+>> +{
+>> +	struct task_struct *owner = __mutex_owner(lock);
+>> +
+>> +	lockdep_assert_held(&lock->wait_lock);
+>> +
+>> +	if (owner && hold_ctx && __ww_ctx_stamp_after(hold_ctx, ww_ctx) &&
+>> +	    ww_ctx->acquired > 0) {
+>> +		hold_ctx->wounded = 1;
+>> +
+>> +		/*
+>> +		 * wake_up_process() paired with set_current_state() inserts
+>> +		 * sufficient barriers to make sure @owner either sees it's
+>> +		 * wounded or has a wakeup pending to re-read the wounded
+>> +		 * state.
+> IIUC, "sufficient barriers" = full memory barriers (here).  (You may
+> want to be more specific.)
 
-This:
+Thanks for reviewing!
+OK. What about if someone relaxes that in the future? I mean, what we 
+care about in this code is just that we have sufficient barriers for 
+that statement to be true, regardless what type of barriers those really 
+are?
+>
+>> +		 *
+>> +		 * The value of hold_ctx->wounded in
+>> +		 * __ww_mutex_lock_check_stamp();
+> Missing parts/incomplete sentence?
 
-  Wait-die:
-    The newer transactions are killed when:
-      It (= the newer transaction) makes a reqeust for a lock being held
-      by an older transactions
+Oops. I'll fix in next version.
 
-  Wound-wait:
-    The newer transactions are killed when:
-      An older transaction makes a request for a lock being held by the
-      newer transactions
 
-Would make for an excellent comment somewhere. No talking about
-preemption, although I think I know what you mean with it, that is not
-how preemption is normally used.
+>
+>    Andrea
+Thanks,
+Thomas
 
-In scheduling speak preemption is when we pick a runnable (but !running)
-task to run instead of the current running task.  In this case however,
-our T2 is blocked on a lock acquisition (one owned by our T1) and T1 is
-the only runnable task. Only when T1's progress is inhibited by T2 (T1
-wants a lock held by T2) do we wound/wake T2.
 
-In any case, I had a little look at the current ww_mutex code and ended
-up with the below patch that hopefully clarifies things a little.
-
----
-diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
-index f44f658ae629..a20c04619b2a 100644
---- a/kernel/locking/mutex.c
-+++ b/kernel/locking/mutex.c
-@@ -244,6 +244,10 @@ void __sched mutex_lock(struct mutex *lock)
- EXPORT_SYMBOL(mutex_lock);
- #endif
- 
-+/*
-+ * Associate the ww_mutex @ww with the context @ww_ctx under which we acquired
-+ * it.
-+ */
- static __always_inline void
- ww_mutex_lock_acquired(struct ww_mutex *ww, struct ww_acquire_ctx *ww_ctx)
- {
-@@ -282,26 +286,36 @@ ww_mutex_lock_acquired(struct ww_mutex *ww, struct ww_acquire_ctx *ww_ctx)
- 	DEBUG_LOCKS_WARN_ON(ww_ctx->ww_class != ww->ww_class);
- #endif
- 	ww_ctx->acquired++;
-+	lock->ctx = ctx;
- }
- 
-+/*
-+ * Determine if context @a is 'after' context @b. IOW, @a should be wounded in
-+ * favour of @b.
-+ */
- static inline bool __sched
- __ww_ctx_stamp_after(struct ww_acquire_ctx *a, struct ww_acquire_ctx *b)
- {
--	return a->stamp - b->stamp <= LONG_MAX &&
--	       (a->stamp != b->stamp || a > b);
-+
-+	return (signed long)(a->stamp - b->stamp) > 0;
- }
- 
- /*
-- * Wake up any waiters that may have to back off when the lock is held by the
-- * given context.
-+ * We just acquired @lock under @ww_ctx, if there are later contexts waiting
-+ * behind us on the wait-list, wake them up so they can wound themselves.
-  *
-- * Due to the invariants on the wait list, this can only affect the first
-- * waiter with a context.
-+ * See __ww_mutex_add_waiter() for the list-order construction; basically the
-+ * list is ordered by stamp smallest (oldest) first, so if there is a later
-+ * (younger) stamp on the list behind us, wake it so it can wound itself.
-+ *
-+ * Because __ww_mutex_add_waiter() and __ww_mutex_check_stamp() wake any
-+ * but the earliest context, this can only affect the first waiter (with a
-+ * context).
-  *
-  * The current task must not be on the wait list.
-  */
- static void __sched
--__ww_mutex_wakeup_for_backoff(struct mutex *lock, struct ww_acquire_ctx *ww_ctx)
-+__ww_mutex_wakeup_for_wound(struct mutex *lock, struct ww_acquire_ctx *ww_ctx)
- {
- 	struct mutex_waiter *cur;
- 
-@@ -322,16 +336,14 @@ __ww_mutex_wakeup_for_backoff(struct mutex *lock, struct ww_acquire_ctx *ww_ctx)
- }
- 
- /*
-- * After acquiring lock with fastpath or when we lost out in contested
-- * slowpath, set ctx and wake up any waiters so they can recheck.
-+ * After acquiring lock with fastpath, where we do not hold wait_lock, set ctx
-+ * and wake up any waiters so they can recheck.
-  */
- static __always_inline void
- ww_mutex_set_context_fastpath(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
- {
- 	ww_mutex_lock_acquired(lock, ctx);
- 
--	lock->ctx = ctx;
--
- 	/*
- 	 * The lock->ctx update should be visible on all cores before
- 	 * the atomic read is done, otherwise contended waiters might be
-@@ -352,25 +364,10 @@ ww_mutex_set_context_fastpath(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
- 	 * so they can see the new lock->ctx.
- 	 */
- 	spin_lock(&lock->base.wait_lock);
--	__ww_mutex_wakeup_for_backoff(&lock->base, ctx);
-+	__ww_mutex_wakeup_for_wound(&lock->base, ctx);
- 	spin_unlock(&lock->base.wait_lock);
- }
- 
--/*
-- * After acquiring lock in the slowpath set ctx.
-- *
-- * Unlike for the fast path, the caller ensures that waiters are woken up where
-- * necessary.
-- *
-- * Callers must hold the mutex wait_lock.
-- */
--static __always_inline void
--ww_mutex_set_context_slowpath(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
--{
--	ww_mutex_lock_acquired(lock, ctx);
--	lock->ctx = ctx;
--}
--
- #ifdef CONFIG_MUTEX_SPIN_ON_OWNER
- 
- static inline
-@@ -646,20 +643,30 @@ void __sched ww_mutex_unlock(struct ww_mutex *lock)
- }
- EXPORT_SYMBOL(ww_mutex_unlock);
- 
-+/*
-+ * Check the wound condition for the current lock acquire.  If we're trying to
-+ * acquire a lock already held by an older context, wound ourselves.
-+ *
-+ * Since __ww_mutex_add_waiter() orders the wait-list on stamp, we only have to
-+ * look at waiters before us in the wait-list.
-+ */
- static inline int __sched
--__ww_mutex_lock_check_stamp(struct mutex *lock, struct mutex_waiter *waiter,
-+__ww_mutex_check_stamp(struct mutex *lock, struct mutex_waiter *waiter,
- 			    struct ww_acquire_ctx *ctx)
- {
- 	struct ww_mutex *ww = container_of(lock, struct ww_mutex, base);
- 	struct ww_acquire_ctx *hold_ctx = READ_ONCE(ww->ctx);
- 	struct mutex_waiter *cur;
- 
-+	if (ctx->acquired == 0)
-+		return 0;
-+
- 	if (hold_ctx && __ww_ctx_stamp_after(ctx, hold_ctx))
- 		goto deadlock;
- 
- 	/*
- 	 * If there is a waiter in front of us that has a context, then its
--	 * stamp is earlier than ours and we must back off.
-+	 * stamp is earlier than ours and we must wound ourself.
- 	 */
- 	cur = waiter;
- 	list_for_each_entry_continue_reverse(cur, &lock->wait_list, list) {
-@@ -677,6 +684,14 @@ __ww_mutex_lock_check_stamp(struct mutex *lock, struct mutex_waiter *waiter,
- 	return -EDEADLK;
- }
- 
-+/*
-+ * Add @waiter to the wait-list, keep the wait-list ordered by stamp, smallest
-+ * first. Such that older contexts are preferred to acquire the lock over
-+ * younger contexts.
-+ *
-+ * Furthermore, wound ourself immediately when possible (there are older
-+ * contexts already waiting) to avoid unnecessary waiting.
-+ */
- static inline int __sched
- __ww_mutex_add_waiter(struct mutex_waiter *waiter,
- 		      struct mutex *lock,
-@@ -700,8 +715,12 @@ __ww_mutex_add_waiter(struct mutex_waiter *waiter,
- 		if (!cur->ww_ctx)
- 			continue;
- 
-+		/*
-+		 * If we find an older context waiting, there is no point in
-+		 * queueing behind it, as we'd have to wound ourselves the
-+		 * moment it would acquire the lock.
-+		 */
- 		if (__ww_ctx_stamp_after(ww_ctx, cur->ww_ctx)) {
--			/* Back off immediately if necessary. */
- 			if (ww_ctx->acquired > 0) {
- #ifdef CONFIG_DEBUG_MUTEXES
- 				struct ww_mutex *ww;
-@@ -719,8 +738,9 @@ __ww_mutex_add_waiter(struct mutex_waiter *waiter,
- 		pos = &cur->list;
- 
- 		/*
--		 * Wake up the waiter so that it gets a chance to back
--		 * off.
-+		 * When we enqueued an older context, wake all younger
-+		 * contexts such that they can wound themselves, see
-+		 * __ww_mutex_check_stamp().
- 		 */
- 		if (cur->ww_ctx->acquired > 0) {
- 			debug_mutex_wake_waiter(lock, cur);
-@@ -772,7 +792,7 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
- 	 */
- 	if (__mutex_trylock(lock)) {
- 		if (use_ww_ctx && ww_ctx)
--			__ww_mutex_wakeup_for_backoff(lock, ww_ctx);
-+			__ww_mutex_wakeup_for_wound(lock, ww_ctx);
- 
- 		goto skip_wait;
- 	}
-@@ -790,10 +810,10 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
- 		waiter.ww_ctx = MUTEX_POISON_WW_CTX;
- #endif
- 	} else {
--		/* Add in stamp order, waking up waiters that must back off. */
-+		/* Add in stamp order, waking up waiters that must wound themselves. */
- 		ret = __ww_mutex_add_waiter(&waiter, lock, ww_ctx);
- 		if (ret)
--			goto err_early_backoff;
-+			goto err_early_wound;
- 
- 		waiter.ww_ctx = ww_ctx;
- 	}
-@@ -824,8 +844,8 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
- 			goto err;
- 		}
- 
--		if (use_ww_ctx && ww_ctx && ww_ctx->acquired > 0) {
--			ret = __ww_mutex_lock_check_stamp(lock, &waiter, ww_ctx);
-+		if (use_ww_ctx && ww_ctx) {
-+			ret = __ww_mutex_check_stamp(lock, &waiter, ww_ctx);
- 			if (ret)
- 				goto err;
- 		}
-@@ -870,7 +890,7 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
- 	lock_acquired(&lock->dep_map, ip);
- 
- 	if (use_ww_ctx && ww_ctx)
--		ww_mutex_set_context_slowpath(ww, ww_ctx);
-+		ww_mutex_lock_acquired(ww, ww_ctx);
- 
- 	spin_unlock(&lock->wait_lock);
- 	preempt_enable();
-@@ -879,7 +899,7 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
- err:
- 	__set_current_state(TASK_RUNNING);
- 	mutex_remove_waiter(lock, &waiter, current);
--err_early_backoff:
-+err_early_wound:
- 	spin_unlock(&lock->wait_lock);
- 	debug_mutex_free_waiter(&waiter);
- 	mutex_release(&lock->dep_map, 1, ip);
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
