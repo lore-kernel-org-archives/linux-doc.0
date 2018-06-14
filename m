@@ -1,221 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 296237D085
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 01:30:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A0537D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 04:20:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935796AbeFNBaW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Jun 2018 21:30:22 -0400
-Received: from mail-pl0-f68.google.com ([209.85.160.68]:45123 "EHLO
-        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935530AbeFNBaU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jun 2018 21:30:20 -0400
-Received: by mail-pl0-f68.google.com with SMTP id c23-v6so2529203plz.12;
-        Wed, 13 Jun 2018 18:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=204OgiM34a3LToksRZdcsiAMvYA+vrxdM5yNzbjrgEM=;
-        b=L0tAN/P5ZYyaDVnLuRlOY2DQSgtD4mw8ECGC+HSDMn4+XzPO32uwhd1Ih/6NMWd9BI
-         52A7TY//vRABJkuU2QQ/jvdhnuJFLEZDLpTTbeik1mwyY+9oXCWTXxkm9xDzfcaq6rwb
-         RC6TOfsrxEIFAhgiVNWBgjztdGyZRc0ksOtf/QG2BQI7e3E2drZXkJ1mZ+RLcQkqD2uk
-         N40sG2Lu7KKOy0ynCgYqIY8JumF7OTwg3nKYoLM9S3OPKVaygLMVhaf1vLSWTsEzHj19
-         GcxrafotjYAIIW/vfVTS2efGzmFmauiGJoZohP+2TtpMu0RJlT0QPaTZ0iu3pkM4YPJw
-         r1NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=204OgiM34a3LToksRZdcsiAMvYA+vrxdM5yNzbjrgEM=;
-        b=buNZiNGkZDrh6jzjwReZdIu8BLwMOQ8hsDK9RTqIbPbIHJpYpwuQo7i0tuo5OjO3hs
-         yipVQglfRliN515l1/dzpTcJoSLumE5ad1o1LnpbqDggBl2KWOXx2DHM0lEcXLfhcB+i
-         9+BWKNKQCDRxItbokwNcvCc3laLIlxKS7hsAWAlVj6ONjiExOESA5d4F6jRQ8i/pbETg
-         UZhkp2QGktb97zO3vlW83jV7ggetZJ1ES1upAcSYjd/i+7iWxQcKWavAza2Zm+vzJzfn
-         lx0ibuH/KQwgwugIM4hes7VW7EOnhX5NJ/aFiWnpADdz+bMn0EsOq+eXcRA0SAqHyobS
-         5W7w==
-X-Gm-Message-State: APt69E3wkDMPObVLaNlGBVND8gVbJ0545gR4g7DUsSFzL8QOe8CwWFZ4
-        HmHcZmwAoDrffJmXP4rPv5w=
-X-Google-Smtp-Source: ADUXVKLAE3MwDt+/qnMklX6ArKKB++ZmbaeHzRSjtmwuokUp+nznsx0ThdhYGyVeiw1EX1ptTSaRww==
-X-Received: by 2002:a17:902:48c8:: with SMTP id u8-v6mr621926plh.152.1528939819396;
-        Wed, 13 Jun 2018 18:30:19 -0700 (PDT)
-Received: from 350D (14-202-194-140.static.tpgi.com.au. [14.202.194.140])
-        by smtp.googlemail.com with ESMTPSA id v5-v6sm8973458pfd.1.2018.06.13.18.30.11
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 13 Jun 2018 18:30:18 -0700 (PDT)
-Message-ID: <fb30195ed6f5ab17920938192cf0b7ef8d1d4037.camel@gmail.com>
-Subject: Re: [PATCH 02/10] x86/cet: Introduce WRUSS instruction
-From:   Balbir Singh <bsingharora@gmail.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Date:   Thu, 14 Jun 2018 11:30:07 +1000
-In-Reply-To: <20180607143807.3611-3-yu-cheng.yu@intel.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-         <20180607143807.3611-3-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1751421AbeFNETt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 00:19:49 -0400
+Received: from sauhun.de ([88.99.104.3]:48956 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751287AbeFNETs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 00:19:48 -0400
+Received: from localhost (softbank126012118084.bbtec.net [126.12.118.84])
+        by pokefinder.org (Postfix) with ESMTPSA id 4591954006A;
+        Thu, 14 Jun 2018 06:19:45 +0200 (CEST)
+Date:   Thu, 14 Jun 2018 13:19:42 +0900
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
+Message-ID: <20180614041941.4i2cadzoevujmzha@ninjato>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+ <20180330074751.25987-2-boris.brezillon@bootlin.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="st33g2u2nspyzp4d"
+Content-Disposition: inline
+In-Reply-To: <20180330074751.25987-2-boris.brezillon@bootlin.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-06-07 at 07:37 -0700, Yu-cheng Yu wrote:
-> WRUSS is a new kernel-mode instruction but writes directly
-> to user shadow stack memory.  This is used to construct
-> a return address on the shadow stack for the signal
-> handler.
-> 
-> This instruction can fault if the user shadow stack is
-> invalid shadow stack memory.  In that case, the kernel does
-> fixup.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/special_insns.h          | 44 +++++++++++++++++++++++++++
->  arch/x86/lib/x86-opcode-map.txt               |  2 +-
->  arch/x86/mm/fault.c                           | 13 +++++++-
->  tools/objtool/arch/x86/lib/x86-opcode-map.txt |  2 +-
->  4 files changed, 58 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
-> index 317fc59b512c..8ce532fcc171 100644
-> --- a/arch/x86/include/asm/special_insns.h
-> +++ b/arch/x86/include/asm/special_insns.h
-> @@ -237,6 +237,50 @@ static inline void clwb(volatile void *__p)
->  		: [pax] "a" (p));
->  }
->  
-> +#ifdef CONFIG_X86_INTEL_CET
-> +
-> +#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
-> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
-> +{
-> +	int err;
-> +
-> +	asm volatile("1:.byte 0x66, 0x0f, 0x38, 0xf5, 0x37\n"
 
-It would nice to use something like ASM_WRUSS/Q like ASM_CLAC/ASM_STAC.
-Is the 0x37 spurious? I don't see addr/val being used in the instructions
-either.
+--st33g2u2nspyzp4d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +		     "xor %[err],%[err]\n"
-> +		     "2:\n"
-> +		     ".section .fixup,\"ax\"\n"
-> +		     "3: mov $-1,%[err]; jmp 2b\n"
-> +		     ".previous\n"
-> +		     _ASM_EXTABLE(1b, 3b)
-> +		: [err] "=a" (err)
-> +		: [val] "S" (val), [addr] "D" (addr)
-> +		: "memory");
-> +	return err;
-> +}
-> +#else
-> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
-> +{
-> +	return 0;
-> +}
-> +#endif
-> +
-> +static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
-> +{
-> +	int err;
-> +
-> +	asm volatile("1:.byte 0x66, 0x48, 0x0f, 0x38, 0xf5, 0x37\n"
-> +		     "xor %[err],%[err]\n"
-> +		     "2:\n"
-> +		     ".section .fixup,\"ax\"\n"
-> +		     "3: mov $-1,%[err]; jmp 2b\n"
-> +		     ".previous\n"
-> +		     _ASM_EXTABLE(1b, 3b)
-> +		: [err] "=a" (err)
-> +		: [val] "S" (val), [addr] "D" (addr)
-> +		: "memory");
-> +	return err;
-> +}
-> +#endif /* CONFIG_X86_INTEL_CET */
-> +
->  #define nop() asm volatile ("nop")
->  
->  
-> diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
-> index e0b85930dd77..72bb7c48a7df 100644
-> --- a/arch/x86/lib/x86-opcode-map.txt
-> +++ b/arch/x86/lib/x86-opcode-map.txt
-> @@ -789,7 +789,7 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
->  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
->  f2: ANDN Gy,By,Ey (v)
->  f3: Grp17 (1A)
-> -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
-> +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
->  f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
->  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
->  EndTable
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index 2b3b9170109c..f157338862f8 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -640,6 +640,17 @@ static int is_f00f_bug(struct pt_regs *regs, unsigned long address)
->  	return 0;
->  }
->  
-> +/*
-> + * WRUSS is a kernel instrcution and but writes to user
-> + * shadow stack memory.  When a fault occurs, both
-> + * X86_PF_USER and X86_PF_SHSTK are set.
+Hi Boris,
+
+> +/**
+> + * struct i3c_priv_xfer - I3C SDR private transfer
+> + * @rnw: encodes the transfer direction. true for a read, false for a write
+> + * @len: transfer length in bytes of the transfer
+> + * @data: input/output buffer
 > + */
-> +static int is_wruss(struct pt_regs *regs, unsigned long error_code)
-> +{
-> +	return (((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
-> +		(X86_PF_USER | X86_PF_SHSTK)) && !user_mode(regs));
-> +}
-> +
->  static const char nx_warning[] = KERN_CRIT
->  "kernel tried to execute NX-protected page - exploit attempt? (uid: %d)\n";
->  static const char smep_warning[] = KERN_CRIT
-> @@ -851,7 +862,7 @@ __bad_area_nosemaphore(struct pt_regs *regs, unsigned long error_code,
->  	struct task_struct *tsk = current;
->  
->  	/* User mode accesses just cause a SIGSEGV */
-> -	if (error_code & X86_PF_USER) {
-> +	if ((error_code & X86_PF_USER) && !is_wruss(regs, error_code)) {
->  		/*
->  		 * It's possible to have interrupts off here:
->  		 */
-> diff --git a/tools/objtool/arch/x86/lib/x86-opcode-map.txt b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-> index e0b85930dd77..72bb7c48a7df 100644
-> --- a/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-> +++ b/tools/objtool/arch/x86/lib/x86-opcode-map.txt
-> @@ -789,7 +789,7 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32 Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
->  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
->  f2: ANDN Gy,By,Ey (v)
->  f3: Grp17 (1A)
-> -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v)
-> +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSS Pq,Qq (66),REX.W
->  f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
->  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
->  EndTable
+> +struct i3c_priv_xfer {
+> +	bool rnw;
+> +	u16 len;
+> +	union {
+> +		void *in;
+> +		const void *out;
+> +	} data;
 
-Balbir Singh.
+So, this is probably where most payloads end up?
 
+I didn't notice any sign of DMA in these patches, but given my
+experiences, DMA will come sooner or later. And in I2C, this was
+problematic because then a lot of drivers were in the wild getting their
+buffers from everywhere (stack!). We now have an opt-in approach to mark
+buffers as DMA-safe.
+
+I don't know if typical I3C transfers will be similar to I2C with
+usually small payloads where DMA usually makes not much sense. Yet, I
+think, that it might be a good idea to think about how this shall be
+handled with I3C right away. Maybe simply enforcing buffers to be
+DMA-safe. Or whatever.
+
+A clear rule on that might save you hazzle later.
+
+Regards,
+
+   Wolfram
+
+
+--st33g2u2nspyzp4d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlsh7NkACgkQFA3kzBSg
+KbYaJQ//WvuZkJrJ/IluxoHlKtN048uYvkfLNZCpddYE5p7JfxrreeOyn/EMQYUX
+ftikOAIWzo93LpPAgeKqHTD6FCMgfUDfB7RWZFJeRuMLZ/cOdDbsTA0Y/1S76SEl
+LEXebvQYhHd3YJsqDDGmyhCoXGtf/1n7tEJ4ax4NdJVMx0QGXUWuAlQAs2QAzNYk
+BzDfHEIbKc9469T5naQrQIVoaJLUqLCXs2RBzRnMDr8hl7wRtMckq64U28CiTNuz
+Hu/yh7axdg0EIqy/famCHzsbfg8Z5GXig8PNEBG5fCf0vL4aMap+56siQHsP4UgV
+bQgcIPSxqWcYBy2YVU4aiaLUdSYsAs/qympVnrWwRa6Lfy1z/JxPIs+7bI6TSER4
+OlMhrTNEiyiZbP5uj4LF+JlmFwYthzxwM9/j8ae6ZMsry6nQ5VFTYyUjOSUis4bQ
+05xrq8eZ1LDI6Kex4S9kY9OaN0bDo2u8xZv5yVqvbJaJ8dsD7uul94oGJPlO2jGm
+rUErZxjH8Q3u3QeQIyyZWRZlX1dIv+feeLbjRXlPqcdQfPcjbrv98T6FsuYqttzs
+FpA6wa1kbUZCchsuaxCvZu+5ja3OkYieYJ4keQlvO3EVzGnl3b0rcrOoSktr4ONs
+yBoV6WvF7+a/c+2ldQvi3/qaVu350CbdLowLWvX5yIFWtCOSkGM=
+=ojn/
+-----END PGP SIGNATURE-----
+
+--st33g2u2nspyzp4d--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
