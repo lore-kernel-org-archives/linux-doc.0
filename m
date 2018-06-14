@@ -1,135 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1A497D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 18:10:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2BB7B7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 18:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754741AbeFNSKV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 14:10:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48638 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754644AbeFNSKU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jun 2018 14:10:20 -0400
-Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com [209.85.161.180])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 99688208DD;
-        Thu, 14 Jun 2018 18:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528999819;
-        bh=XBif4TbwIsJxm86AsUQeKIhOXkYyXbdPDInZ/8aLJzw=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=UeRi6/2y4e9cYTfVLCvmqaGmnSJKsPT435Xrjvx0PCrgRV38/tTISGyFb/ZlrKUCC
-         EW8rxaEhRfDS+5dVVeAI9U9rQbDRsa54yPhhl1i8Xks+GIaDqMUBc6/4pmCLU7LVGH
-         Kng0NUEkRvDe8zGjfYNPfPOIUKHl8ZOV9ML+klHM=
-Received: by mail-yw0-f180.google.com with SMTP id v197-v6so2448985ywc.13;
-        Thu, 14 Jun 2018 11:10:19 -0700 (PDT)
-X-Gm-Message-State: APt69E1kSKWotka+scWM8V85o5qEV9jtA0HyK4B9wLnxkI6yJsvivNbB
-        j7QXunVAHpBkuHgaAJWSgO6LKt0j9VeIbOuA5wg=
-X-Google-Smtp-Source: ADUXVKKXTw4MC5SSlrq0u4FxnjsiITOoRPDDoTHegpZZtGUmOaRJgmzJH8UTRy69DW0kokhOvApsDoGi7DRa5Off5pI=
-X-Received: by 2002:a81:3c0d:: with SMTP id j13-v6mr1955319ywa.16.1528999818809;
- Thu, 14 Jun 2018 11:10:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a5b:b87:0:0:0:0:0 with HTTP; Thu, 14 Jun 2018 11:09:38 -0700 (PDT)
-In-Reply-To: <20180614135254.75cfc17d@coco.lan>
-References: <cover.1528990947.git.mchehab+samsung@kernel.org>
- <948d6c0304eecaf916d21af5cfb0be21df80ed42.1528990947.git.mchehab+samsung@kernel.org>
- <CANk1AXRnnYketpdvrsvN11hL6G9=WinzWHVM4k9VrGJZJ99pLQ@mail.gmail.com> <20180614135254.75cfc17d@coco.lan>
-From:   Alan Tull <atull@kernel.org>
-Date:   Thu, 14 Jun 2018 13:09:38 -0500
-X-Gmail-Original-Message-ID: <CANk1AXQwRpqR6LUTVRovcT7te=1q_2PQearZ1XMghhQUzLhxtA@mail.gmail.com>
-Message-ID: <CANk1AXQwRpqR6LUTVRovcT7te=1q_2PQearZ1XMghhQUzLhxtA@mail.gmail.com>
-Subject: Re: [PATCH v3 21/27] MAINTAINERS: get rid of non-existing Documentation/fpga
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+        id S1754780AbeFNSv4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 14:51:56 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33238 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754695AbeFNSvz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jun 2018 14:51:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=LE/VGaunhsekPrrqBfkf0dq8d5PiPsqYKvyNVff7HSA=; b=dmFbMJRChSCBmGYO4lXTzs68Z
+        rNH9OWvoPVlyc/cduzKULLh5HnDowhINMAkOtkKmCV1FEzyej8YyvI1UwenRF4LOXm4S5CyTMAPKL
+        VPRqwYr8TINd0zu59JRaC4HONlUpsZA5BW7SKgwIV8MCp3/XlJeYTYUbls3WEgUR5BmSOLUzs0Hj5
+        CBZJ/MQmW39A0wP6XBmpX4VDgB7OVwKadfsQwfjZnvzbDuB5VrcPKZDkCJ1tmcFED4RbFQXYekdCj
+        NpaqriOYYfOCOuXeLuIh8nCGCYFybBn6x6lgWknT2hYk4qYDGos++tEFiAMhqsXFirlYwyDfoxYSx
+        x218Axwqw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fTXLR-00065G-NZ; Thu, 14 Jun 2018 18:51:43 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 86EB720268300; Thu, 14 Jun 2018 20:51:39 +0200 (CEST)
+Date:   Thu, 14 Jun 2018 20:51:39 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Hellstrom <thellstrom@vmware.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Gustavo Padovan <gustavo@padovan.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        David Airlie <airlied@linux.ie>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 1/2] locking: Implement an algorithm choice for
+ Wound-Wait mutexes
+Message-ID: <20180614185139.GG12198@hirez.programming.kicks-ass.net>
+References: <20180613074745.14750-1-thellstrom@vmware.com>
+ <20180613074745.14750-2-thellstrom@vmware.com>
+ <20180613095012.GW12198@hirez.programming.kicks-ass.net>
+ <69f3dee9-4782-bc90-3ee2-813ac6835c4a@vmware.com>
+ <20180613131000.GX12198@hirez.programming.kicks-ass.net>
+ <9afd482d-7082-fa17-5e34-179a652376e5@vmware.com>
+ <20180614105151.GY12198@hirez.programming.kicks-ass.net>
+ <dd0c5e50-ac14-912c-d31c-c2341fdd2864@vmware.com>
+ <20180614144254.GB12198@hirez.programming.kicks-ass.net>
+ <5a1076ad-3c26-d78a-5542-9e767d81c4a6@vmware.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5a1076ad-3c26-d78a-5542-9e767d81c4a6@vmware.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 14, 2018 at 11:52 AM, Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
-> Em Thu, 14 Jun 2018 11:39:20 -0500
-> Alan Tull <atull@kernel.org> escreveu:
->
->> On Thu, Jun 14, 2018 at 11:09 AM, Mauro Carvalho Chehab
->> <mchehab+samsung@kernel.org> wrote:
->> > This directory seems to have moved to a new place
->> > (Documentation/driver-api/fpga/), with is already at MAINTAINERS.
->> >
->> > So, get rid of the old location.
->>
->> Wow, you caught that fast!
->
-> Just a coincidence :-) I had to rebase a pending patch series close to
-> the end of the merge window.
->
-> When I ran the check tool:
->         ./scripts/documentation-file-ref-check
->
-> It detected this.
-
-Nice tool.  Thanks for the explanation, it's always good to learn
-about another one.
-
->
->> There's other documentation coming to this
->> directory soon.  IMO we might as well leave it.  We don't need to keep
->> adding and deleting this line from MAINTAINERS.
->
-> Yeah, sure. I'll drop this hunk for v4.
->
+On Thu, Jun 14, 2018 at 06:43:40PM +0200, Thomas Hellstrom wrote:
+> Overall, I think this looks fine. I'll just fix up the FLAG_WAITERS setting
+> and affected comments and do some torture testing on it.
 
 Thanks!
 
->>
->> Also, why didn't you cc linux-fpga mailing list on this?  I guess you
->> ran get_maintainer.pl after adding this patch? :)
->
-> Yeah, that was the case. I also had to sanitize the c/c for this
-> specific patch as get_maintainers.pl isn't good enough to check for
-> MAINTAINERS access... it usually just get some random noise...
->
->>
->> Alan
->>
->> >
->> > Cc: Alan Tull <atull@kernel.org>
->> > Cc: Moritz Fischer <mdf@kernel.org>
->> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
->> > ---
->> >  MAINTAINERS | 1 -
->> >  1 file changed, 1 deletion(-)
->> >
->> > diff --git a/MAINTAINERS b/MAINTAINERS
->> > index 783ce44b3e7a..67641f5bb373 100644
->> > --- a/MAINTAINERS
->> > +++ b/MAINTAINERS
->> > @@ -5632,7 +5632,6 @@ L:        linux-fpga@vger.kernel.org
->> >  S:     Maintained
->> >  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/atull/linux-fpga.git
->> >  Q:     http://patchwork.kernel.org/project/linux-fpga/list/
->> > -F:     Documentation/fpga/
->> >  F:     Documentation/driver-api/fpga/
->> >  F:     Documentation/devicetree/bindings/fpga/
->> >  F:     drivers/fpga/
->> > --
->> > 2.17.1
->> >
->
->
->
-> Thanks,
-> Mauro
+> Are you OK with adding the new feature and the cleanup in the same patch?
+
+I suppose so, trying to untangle that will be a bit of a pain. But if
+you feel so inclined I'm not going to stop you :-)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
