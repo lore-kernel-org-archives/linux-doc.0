@@ -5,137 +5,452 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A65307DF86
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 07:40:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA3927D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 08:09:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754821AbeFNHki (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 03:40:38 -0400
-Received: from mail-lf0-f68.google.com ([209.85.215.68]:43146 "EHLO
-        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754609AbeFNHhL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jun 2018 03:37:11 -0400
-Received: by mail-lf0-f68.google.com with SMTP id n15-v6so7817564lfn.10
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jun 2018 00:37:11 -0700 (PDT)
+        id S1754596AbeFNIJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 04:09:38 -0400
+Received: from mail-wr0-f195.google.com ([209.85.128.195]:45018 "EHLO
+        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752929AbeFNIJI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jun 2018 04:09:08 -0400
+Received: by mail-wr0-f195.google.com with SMTP id x4-v6so5346588wro.11
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jun 2018 01:09:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=j3jIepUwDw2xc+pgExVeFYswjqlQIgEI3e1Xbicq7EM=;
-        b=WCY8GY/OeAWDmjl+LuTZek/xIP13o7zPX81zm3bgC5AYZ3I/7nM0a2nrxcl9T8oqpd
-         SpWgH9GFCPF+Li4ff1Eofz2FSAuD4/iCEU6U0/HvQEK9VxSgLbEIU89SdazFhRLYLCwx
-         GESwzpJOwLqjY2vklT2asaX7MZe5eY88F1snA=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=PAgv24aXR2FV0sL7UMLQhUX29wSzcBLsr4/muIepMRA=;
+        b=bFPFp3EJs+M0x1FE7nK5YUxRbvqDwAxxAjHQGWKobR/NqMPi6QOw4VAnw93QDD4QXP
+         CkTnIACPixt5ydQ2ReWpJKhKvv7XjQh+ytDmVzAx2S/G9t0jz72cF+6myax42R7ejcMz
+         LFkzMm4h+TO7/LzuMwOBzOuM/aEf9jtJk2Nes=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=j3jIepUwDw2xc+pgExVeFYswjqlQIgEI3e1Xbicq7EM=;
-        b=BGU2Gf/Gx9BEt1pESwpF6YzdBNWLIC3gXmsZcbCTpveSlYRGXx1hU+zPP0DXL3Jz8r
-         O8xdBQZ7MGOObStthmkP7GV2PXUwL7frie0vpoDAvTHl+EIjIKf5CcQ+UoAax+DTWlRS
-         xnh/bO3s1J/WU1kej/aYw8lP2muJup8LfVUieFSvnVeVPCRMxr01Pd80lNjIqKiCqMuT
-         9NmsH3I9SSa7iUjo8vaqY/TPh0q8SmWpNCsudAVKM2pqs0OyMPP79oRjMgWM2VsQ1QGq
-         seYvyJOQqeiDfhMONBgMdrmj6P6+7KoCWvFFmLyoASZDyNLT+YaulNMm1iMg1EIa/kgf
-         u+mA==
-X-Gm-Message-State: APt69E3vdvWJukzcoF/rAo1LTmsbYK+R3M9T104hcYkomj0JDESLkijK
-        VAhp69nmhro6G0TO3pFArmoa+w==
-X-Google-Smtp-Source: ADUXVKJS3p9VpZ010k0nPf6+3Py3xlJ8+KgcQq19U/StnRWL65362nD+qU93utuZAIsu+eOBjSy4uw==
-X-Received: by 2002:a2e:5047:: with SMTP id v7-v6mr963704ljd.122.1528961830002;
-        Thu, 14 Jun 2018 00:37:10 -0700 (PDT)
-Received: from localhost.localdomain (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
-        by smtp.gmail.com with ESMTPSA id a195-v6sm957597lfe.44.2018.06.14.00.37.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=PAgv24aXR2FV0sL7UMLQhUX29wSzcBLsr4/muIepMRA=;
+        b=Fg9falMi1lnar8tN9r4Uw0jcIanhJL5wGkvKnqRy3uRuoEQFq2Sv1HmGFn3t52I+2A
+         DcmDicQ9cqRPbeSDxOQ6map43gZ0VNeA8W85eEaEl7rL2dEZc0cVtqyvKWarx0S1oum1
+         kve/6Y71XehlkX/+t06WLAHEXvaCnONqOzgmSyzlIb9eRQVbG/rKvZRcOJGuu94qYvls
+         /9MubEXD9IeutAl2lhYLV/AuXXRNw9LFwQvj6QJwYGvkMWPr5tCgLBV7ai5WpVQZP15b
+         6aJDMXtyGvRVNsERvOd/7CuNaCWymFwaA07l8vwatbM5ZvbULZXzqFxsQ7IM6mo4byoD
+         rVeA==
+X-Gm-Message-State: APt69E0cLbIz1ArVjCqa9X3UC1se66eyHTXYWy4Ny63ecsKpDmCNv6gv
+        BKJ9TJyWvyDUMvxZVIIgTvzuKS1CGeY=
+X-Google-Smtp-Source: ADUXVKLZj5N5VSiysq9u7AJfMhTuUva04fgV/qYjqkDO9R/0LVWVlIK6E3ZKD/ngJZvv8QITW392EQ==
+X-Received: by 2002:adf:e311:: with SMTP id b17-v6mr1317430wrj.158.1528963746506;
+        Thu, 14 Jun 2018 01:09:06 -0700 (PDT)
+Received: from apalos ([2a02:587:4609:4e00:6c01:5076:e5d5:7a4c])
+        by smtp.gmail.com with ESMTPSA id b74-v6sm6321714wmi.13.2018.06.14.01.09.04
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 Jun 2018 00:37:09 -0700 (PDT)
-From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-To:     grygorii.strashko@ti.com, davem@davemloft.net
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
+        Thu, 14 Jun 2018 01:09:05 -0700 (PDT)
+Date:   Thu, 14 Jun 2018 11:09:02 +0300
+From:   Ilias Apalodimas <ilias.apalodimas@linaro.org>
+To:     Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+Cc:     grygorii.strashko@ti.com, davem@davemloft.net, corbet@lwn.net,
+        akpm@linux-foundation.org, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
-        henrik@austad.us, jesus.sanchez-palencia@intel.com,
-        ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
-        francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
-        andrew@lunn.ch, Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Subject: [PATCH v2 net-next 1/6] net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
-Date:   Thu, 14 Jun 2018 10:36:45 +0300
-Message-Id: <20180614073650.29659-2-ivan.khoronzhuk@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180614073650.29659-1-ivan.khoronzhuk@linaro.org>
+        henrik@austad.us, jesus.sanchez-palencia@intel.com, p-varis@ti.com,
+        spatton@ti.com, francois.ozog@linaro.org, yogeshs@ti.com,
+        nsekhar@ti.com, andrew@lunn.ch
+Subject: Re: [PATCH v2 net-next 4/6] net: ethernet: ti: cpsw: add CBS Qdisc
+ offload
+Message-ID: <20180614080902.GA8377@apalos>
 References: <20180614073650.29659-1-ivan.khoronzhuk@linaro.org>
+ <20180614073650.29659-5-ivan.khoronzhuk@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180614073650.29659-5-ivan.khoronzhuk@linaro.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The cpdma channel highest priority is from hi to lo number.
-The driver has limited number of descriptors that are shared between
-number of cpdma channels. Number of queues can be tuned with ethtool,
-that allows to not spend descriptors on not needed cpdma channels.
-In AVB usually only 2 tx queues can be enough with rate limitation.
-The rate limitation can be used only for hi priority queues. Thus, to
-use only 2 queues the 8 has to be created. It's wasteful.
-
-So, in order to allow using only needed number of rate limited
-tx queues, save resources, and be able to set rate limitation for
-them, let assign tx cpdma channels in backward order to queues.
-
-Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
----
- drivers/net/ethernet/ti/cpsw.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
-index 534596ce00d3..406537d74ec1 100644
---- a/drivers/net/ethernet/ti/cpsw.c
-+++ b/drivers/net/ethernet/ti/cpsw.c
-@@ -967,8 +967,8 @@ static int cpsw_tx_mq_poll(struct napi_struct *napi_tx, int budget)
- 
- 	/* process every unprocessed channel */
- 	ch_map = cpdma_ctrl_txchs_state(cpsw->dma);
--	for (ch = 0, num_tx = 0; ch_map; ch_map >>= 1, ch++) {
--		if (!(ch_map & 0x01))
-+	for (ch = 0, num_tx = 0; ch_map & 0xff; ch_map <<= 1, ch++) {
-+		if (!(ch_map & 0x80))
- 			continue;
- 
- 		txv = &cpsw->txv[ch];
-@@ -2431,7 +2431,7 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
- 	void (*handler)(void *, int, int);
- 	struct netdev_queue *queue;
- 	struct cpsw_vector *vec;
--	int ret, *ch;
-+	int ret, *ch, vch;
- 
- 	if (rx) {
- 		ch = &cpsw->rx_ch_num;
-@@ -2444,7 +2444,8 @@ static int cpsw_update_channels_res(struct cpsw_priv *priv, int ch_num, int rx)
- 	}
- 
- 	while (*ch < ch_num) {
--		vec[*ch].ch = cpdma_chan_create(cpsw->dma, *ch, handler, rx);
-+		vch = rx ? *ch : 7 - *ch;
-+		vec[*ch].ch = cpdma_chan_create(cpsw->dma, vch, handler, rx);
- 		queue = netdev_get_tx_queue(priv->ndev, *ch);
- 		queue->tx_maxrate = 0;
- 
-@@ -2980,7 +2981,7 @@ static int cpsw_probe(struct platform_device *pdev)
- 	u32 slave_offset, sliver_offset, slave_size;
- 	const struct soc_device_attribute *soc;
- 	struct cpsw_common		*cpsw;
--	int ret = 0, i;
-+	int ret = 0, i, ch;
- 	int irq;
- 
- 	cpsw = devm_kzalloc(&pdev->dev, sizeof(struct cpsw_common), GFP_KERNEL);
-@@ -3155,7 +3156,8 @@ static int cpsw_probe(struct platform_device *pdev)
- 	if (soc)
- 		cpsw->quirk_irq = 1;
- 
--	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, 0, cpsw_tx_handler, 0);
-+	ch = cpsw->quirk_irq ? 0 : 7;
-+	cpsw->txv[0].ch = cpdma_chan_create(cpsw->dma, ch, cpsw_tx_handler, 0);
- 	if (IS_ERR(cpsw->txv[0].ch)) {
- 		dev_err(priv->dev, "error initializing tx dma channel\n");
- 		ret = PTR_ERR(cpsw->txv[0].ch);
--- 
-2.17.1
-
+On Thu, Jun 14, 2018 at 10:36:48AM +0300, Ivan Khoronzhuk wrote:
+> The cpsw has up to 4 FIFOs per port and upper 3 FIFOs can feed rate
+> limited queue with shaping. In order to set and enable shaping for
+> those 3 FIFOs queues the network device with CBS qdisc attached is
+> needed. The CBS configuration is added for dual-emac/single port mode
+> only, but potentially can be used in switch mode also, based on
+> switchdev for instance.
+> 
+> Despite the FIFO shapers can work w/o cpdma level shapers the base
+> usage must be in combine with cpdma level shapers as described in TRM,
+> that are set as maximum rates for interface queues with sysfs.
+> 
+> One of the possible configuration with txq shapers and CBS shapers:
+> 
+>                       Configured with echo RATE >
+>                   /sys/class/net/eth0/queues/tx-0/tx_maxrate
+>              /---------------------------------------------------
+>             /
+>            /            cpdma level shapers
+>         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+>         | c7 | | c6 | | c5 | | c4 | | c3 | | c2 | | c1 | | c0 |
+>         \    / \    / \    / \    / \    / \    / \    / \    /
+>          \  /   \  /   \  /   \  /   \  /   \  /   \  /   \  /
+>           \/     \/     \/     \/     \/     \/     \/     \/
+> +---------|------|------|------|-------------------------------------+
+> |    +----+      |      |  +---+                                     |
+> |    |      +----+      |  |                                         |
+> |    v      v           v  v                                         |
+> | +----+ +----+ +----+ +----+ p        p+----+ +----+ +----+ +----+  |
+> | |    | |    | |    | |    | o        o|    | |    | |    | |    |  |
+> | | f3 | | f2 | | f1 | | f0 | r  CPSW  r| f3 | | f2 | | f1 | | f0 |  |
+> | |    | |    | |    | |    | t        t|    | |    | |    | |    |  |
+> | \    / \    / \    / \    / 0        1\    / \    / \    / \    /  |
+> |  \  X   \  /   \  /   \  /             \  /   \  /   \  /   \  /   |
+> |   \/ \   \/     \/     \/               \/     \/     \/     \/    |
+> +-------\------------------------------------------------------------+
+>          \
+>           \ FIFO shaper, set with CBS offload added in this patch,
+>            \ FIFO0 cannot be rate limited
+>             ------------------------------------------------------
+> 
+> CBS shaper configuration is supposed to be used with root MQPRIO Qdisc
+> offload allowing to add sk_prio->tc->txq maps that direct traffic to
+> appropriate tx queue and maps L2 priority to FIFO shaper.
+> 
+> The CBS shaper is intended to be used for AVB where L2 priority
+> (pcp field) is used to differentiate class of traffic. So additionally
+> vlan needs to be created with appropriate egress sk_prio->l2 prio map.
+> 
+> If CBS has several tx queues assigned to it, the sum of their
+> bandwidth has not overlap bandwidth set for CBS. It's recomended the
+> CBS bandwidth to be a little bit more.
+> 
+> The CBS shaper is configured with CBS qdisc offload interface using tc
+> tool from iproute2 packet.
+> 
+> For instance:
+> 
+> $ tc qdisc replace dev eth0 handle 100: parent root mqprio num_tc 3 \
+> map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@0 1@1 2@2 hw 1
+> 
+> $ tc -g class show dev eth0
+> +---(100:ffe2) mqprio
+> |    +---(100:3) mqprio
+> |    +---(100:4) mqprio
+> |    
+> +---(100:ffe1) mqprio
+> |    +---(100:2) mqprio
+> |    
+> +---(100:ffe0) mqprio
+>      +---(100:1) mqprio
+> 
+> $ tc qdisc add dev eth0 parent 100:1 cbs locredit -1440 \
+> hicredit 60 sendslope -960000 idleslope 40000 offload 1
+> 
+> $ tc qdisc add dev eth0 parent 100:2 cbs locredit -1470 \
+> hicredit 62 sendslope -980000 idleslope 20000 offload 1
+> 
+> The above code set CBS shapers for tc0 and tc1, for that txq0 and
+> txq1 is used. Pay attention, the real set bandwidth can differ a bit
+> due to discreteness of configuration parameters.
+> 
+> Here parameters like locredit, hicredit and sendslope are ignored
+> internally and are supposed to be set with assumption that maximum
+> frame size for frame - 1500.
+> 
+> It's supposed that interface speed is not changed while reconnection,
+> not always is true, so inform user in case speed of interface was
+> changed, as it can impact on dependent shapers configuration.
+> 
+> For more examples see Documentation.
+> 
+> Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+> ---
+>  drivers/net/ethernet/ti/cpsw.c | 221 +++++++++++++++++++++++++++++++++
+>  1 file changed, 221 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
+> index edd14def98df..3623c2994ddf 100644
+> --- a/drivers/net/ethernet/ti/cpsw.c
+> +++ b/drivers/net/ethernet/ti/cpsw.c
+> @@ -46,6 +46,8 @@
+>  #include "cpts.h"
+>  #include "davinci_cpdma.h"
+>  
+> +#include <net/pkt_sched.h>
+> +
+>  #define CPSW_DEBUG	(NETIF_MSG_HW		| NETIF_MSG_WOL		| \
+>  			 NETIF_MSG_DRV		| NETIF_MSG_LINK	| \
+>  			 NETIF_MSG_IFUP		| NETIF_MSG_INTR	| \
+> @@ -154,8 +156,12 @@ do {								\
+>  #define IRQ_NUM			2
+>  #define CPSW_MAX_QUEUES		8
+>  #define CPSW_CPDMA_DESCS_POOL_SIZE_DEFAULT 256
+> +#define CPSW_FIFO_QUEUE_TYPE_SHIFT	16
+> +#define CPSW_FIFO_SHAPE_EN_SHIFT	16
+> +#define CPSW_FIFO_RATE_EN_SHIFT		20
+>  #define CPSW_TC_NUM			4
+>  #define CPSW_FIFO_SHAPERS_NUM		(CPSW_TC_NUM - 1)
+> +#define CPSW_PCT_MASK			0x7f
+>  
+>  #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_SHIFT	29
+>  #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_MSK		GENMASK(2, 0)
+> @@ -457,6 +463,8 @@ struct cpsw_priv {
+>  	bool				rx_pause;
+>  	bool				tx_pause;
+>  	bool				mqprio_hw;
+> +	int				fifo_bw[CPSW_TC_NUM];
+> +	int				shp_cfg_speed;
+>  	u32 emac_port;
+>  	struct cpsw_common *cpsw;
+>  };
+> @@ -1081,6 +1089,38 @@ static void cpsw_set_slave_mac(struct cpsw_slave *slave,
+>  	slave_write(slave, mac_lo(priv->mac_addr), SA_LO);
+>  }
+>  
+> +static bool cpsw_shp_is_off(struct cpsw_priv *priv)
+> +{
+> +	struct cpsw_common *cpsw = priv->cpsw;
+> +	struct cpsw_slave *slave;
+> +	u32 shift, mask, val;
+> +
+> +	val = readl_relaxed(&cpsw->regs->ptype);
+> +
+> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
+> +	shift = CPSW_FIFO_SHAPE_EN_SHIFT + 3 * slave->slave_num;
+> +	mask = 7 << shift;
+> +	val = val & mask;
+> +
+> +	return !val;
+> +}
+> +
+> +static void cpsw_fifo_shp_on(struct cpsw_priv *priv, int fifo, int on)
+> +{
+> +	struct cpsw_common *cpsw = priv->cpsw;
+> +	struct cpsw_slave *slave;
+> +	u32 shift, mask, val;
+> +
+> +	val = readl_relaxed(&cpsw->regs->ptype);
+> +
+> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
+> +	shift = CPSW_FIFO_SHAPE_EN_SHIFT + 3 * slave->slave_num;
+> +	mask = (1 << --fifo) << shift;
+> +	val = on ? val | mask : val & ~mask;
+> +
+> +	writel_relaxed(val, &cpsw->regs->ptype);
+> +}
+> +
+>  static void _cpsw_adjust_link(struct cpsw_slave *slave,
+>  			      struct cpsw_priv *priv, bool *link)
+>  {
+> @@ -1120,6 +1160,12 @@ static void _cpsw_adjust_link(struct cpsw_slave *slave,
+>  			mac_control |= BIT(4);
+>  
+>  		*link = true;
+> +
+> +		if (priv->shp_cfg_speed &&
+> +		    priv->shp_cfg_speed != slave->phy->speed &&
+> +		    !cpsw_shp_is_off(priv))
+> +			dev_warn(priv->dev,
+> +				 "Speed was changed, CBS sahper speeds are changed!");
+typo here, should be shaper
+>  	} else {
+>  		mac_control = 0;
+>  		/* disable forwarding */
+> @@ -1589,6 +1635,178 @@ static int cpsw_tc_to_fifo(int tc, int num_tc)
+>  	return CPSW_FIFO_SHAPERS_NUM - tc;
+>  }
+>  
+> +static int cpsw_set_fifo_bw(struct cpsw_priv *priv, int fifo, int bw)
+> +{
+> +	struct cpsw_common *cpsw = priv->cpsw;
+> +	u32 val = 0, send_pct, shift;
+> +	struct cpsw_slave *slave;
+> +	int pct = 0, i;
+> +
+> +	if (bw > priv->shp_cfg_speed * 1000)
+> +		goto err;
+> +
+> +	/* shaping has to stay enabled for highest fifos linearly
+> +	 * and fifo bw no more then interface can allow
+> +	 */
+> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
+> +	send_pct = slave_read(slave, SEND_PERCENT);
+> +	for (i = CPSW_FIFO_SHAPERS_NUM; i > 0; i--) {
+> +		if (!bw) {
+> +			if (i >= fifo || !priv->fifo_bw[i])
+> +				continue;
+> +
+> +			dev_warn(priv->dev, "Prev FIFO%d is shaped", i);
+> +			continue;
+> +		}
+> +
+> +		if (!priv->fifo_bw[i] && i > fifo) {
+> +			dev_err(priv->dev, "Upper FIFO%d is not shaped", i);
+> +			return -EINVAL;
+> +		}
+> +
+> +		shift = (i - 1) * 8;
+> +		if (i == fifo) {
+> +			send_pct &= ~(CPSW_PCT_MASK << shift);
+> +			val = DIV_ROUND_UP(bw, priv->shp_cfg_speed * 10);
+> +			if (!val)
+> +				val = 1;
+> +
+> +			send_pct |= val << shift;
+> +			pct += val;
+> +			continue;
+> +		}
+> +
+> +		if (priv->fifo_bw[i])
+> +			pct += (send_pct >> shift) & CPSW_PCT_MASK;
+> +	}
+> +
+> +	if (pct >= 100)
+> +		goto err;
+> +
+> +	slave_write(slave, send_pct, SEND_PERCENT);
+> +	priv->fifo_bw[fifo] = bw;
+> +
+> +	dev_warn(priv->dev, "set FIFO%d bw = %d\n", fifo,
+> +		 DIV_ROUND_CLOSEST(val * priv->shp_cfg_speed, 100));
+> +
+> +	return 0;
+> +err:
+> +	dev_err(priv->dev, "Bandwidth doesn't fit in tc configuration");
+> +	return -EINVAL;
+> +}
+> +
+> +static int cpsw_set_fifo_rlimit(struct cpsw_priv *priv, int fifo, int bw)
+> +{
+> +	struct cpsw_common *cpsw = priv->cpsw;
+> +	struct cpsw_slave *slave;
+> +	u32 tx_in_ctl_rg, val;
+> +	int ret;
+> +
+> +	ret = cpsw_set_fifo_bw(priv, fifo, bw);
+> +	if (ret)
+> +		return ret;
+> +
+> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
+> +	tx_in_ctl_rg = cpsw->version == CPSW_VERSION_1 ?
+> +		       CPSW1_TX_IN_CTL : CPSW2_TX_IN_CTL;
+> +
+> +	if (!bw)
+> +		cpsw_fifo_shp_on(priv, fifo, bw);
+> +
+> +	val = slave_read(slave, tx_in_ctl_rg);
+> +	if (cpsw_shp_is_off(priv)) {
+> +		/* disable FIFOs rate limited queues */
+> +		val &= ~(0xf << CPSW_FIFO_RATE_EN_SHIFT);
+> +
+> +		/* set type of FIFO queues to normal priority mode */
+> +		val &= ~(3 << CPSW_FIFO_QUEUE_TYPE_SHIFT);
+> +
+> +		/* set type of FIFO queues to be rate limited */
+> +		if (bw)
+> +			val |= 2 << CPSW_FIFO_QUEUE_TYPE_SHIFT;
+> +		else
+> +			priv->shp_cfg_speed = 0;
+> +	}
+> +
+> +	/* toggle a FIFO rate limited queue */
+> +	if (bw)
+> +		val |= BIT(fifo + CPSW_FIFO_RATE_EN_SHIFT);
+> +	else
+> +		val &= ~BIT(fifo + CPSW_FIFO_RATE_EN_SHIFT);
+> +	slave_write(slave, val, tx_in_ctl_rg);
+> +
+> +	/* FIFO transmit shape enable */
+> +	cpsw_fifo_shp_on(priv, fifo, bw);
+> +	return 0;
+> +}
+> +
+> +/* Defaults:
+> + * class A - prio 3
+> + * class B - prio 2
+> + * shaping for class A should be set first
+> + */
+> +static int cpsw_set_cbs(struct net_device *ndev,
+> +			struct tc_cbs_qopt_offload *qopt)
+> +{
+> +	struct cpsw_priv *priv = netdev_priv(ndev);
+> +	struct cpsw_common *cpsw = priv->cpsw;
+> +	struct cpsw_slave *slave;
+> +	int prev_speed = 0;
+> +	int tc, ret, fifo;
+> +	u32 bw = 0;
+> +
+> +	tc = netdev_txq_to_tc(priv->ndev, qopt->queue);
+> +
+> +	/* enable channels in backward order, as highest FIFOs must be rate
+> +	 * limited first and for compliance with CPDMA rate limited channels
+> +	 * that also used in bacward order. FIFO0 cannot be rate limited.
+> +	 */
+> +	fifo = cpsw_tc_to_fifo(tc, ndev->num_tc);
+> +	if (!fifo) {
+> +		dev_err(priv->dev, "Last tc%d can't be rate limited", tc);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* do nothing, it's disabled anyway */
+> +	if (!qopt->enable && !priv->fifo_bw[fifo])
+> +		return 0;
+> +
+> +	/* shapers can be set if link speed is known */
+> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
+> +	if (slave->phy && slave->phy->link) {
+> +		if (priv->shp_cfg_speed &&
+> +		    priv->shp_cfg_speed != slave->phy->speed)
+> +			prev_speed = priv->shp_cfg_speed;
+> +
+> +		priv->shp_cfg_speed = slave->phy->speed;
+> +	}
+> +
+> +	if (!priv->shp_cfg_speed) {
+> +		dev_err(priv->dev, "Link speed is not known");
+> +		return -1;
+> +	}
+> +
+> +	ret = pm_runtime_get_sync(cpsw->dev);
+> +	if (ret < 0) {
+> +		pm_runtime_put_noidle(cpsw->dev);
+> +		return ret;
+> +	}
+> +
+> +	bw = qopt->enable ? qopt->idleslope : 0;
+> +	ret = cpsw_set_fifo_rlimit(priv, fifo, bw);
+> +	if (ret) {
+> +		priv->shp_cfg_speed = prev_speed;
+> +		prev_speed = 0;
+> +	}
+> +
+> +	if (bw && prev_speed)
+> +		dev_warn(priv->dev,
+> +			 "Speed was changed, CBS sahper speeds are changed!");
+same c/p typo
+> +
+> +	pm_runtime_put_sync(cpsw->dev);
+> +	return ret;
+> +}
+> +
+>  static int cpsw_ndo_open(struct net_device *ndev)
+>  {
+>  	struct cpsw_priv *priv = netdev_priv(ndev);
+> @@ -2263,6 +2481,9 @@ static int cpsw_ndo_setup_tc(struct net_device *ndev, enum tc_setup_type type,
+>  			     void *type_data)
+>  {
+>  	switch (type) {
+> +	case TC_SETUP_QDISC_CBS:
+> +		return cpsw_set_cbs(ndev, type_data);
+> +
+>  	case TC_SETUP_QDISC_MQPRIO:
+>  		return cpsw_set_mqprio(ndev, type_data);
+>  
+> -- 
+> 2.17.1
+> 
+Other than that looks good 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
