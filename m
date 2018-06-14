@@ -1,164 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D25C87D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 15:01:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8B247D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 16:09:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755227AbeFNPBQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 11:01:16 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:35240 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755194AbeFNPBP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jun 2018 11:01:15 -0400
-Received: by mail-wm0-f66.google.com with SMTP id j15-v6so12695611wme.0;
-        Thu, 14 Jun 2018 08:01:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NQol1Gie/v8EU3+VU/rb1yTkjnRSY0Dnj6C9MPXATbc=;
-        b=b9rKJEeAAaMA+xdZJitM9LP1YBIO/1ZwF2sGpdgJLJj062N3vRccCFfA7R28YZkmb5
-         o930FnLZrcO7iYxA2azA3NtilwumKNUFmLEFxIUdcd3+nN+mxKnNbWhMmUK52VB6D+OI
-         pJxW0Nrr63Eh4ie5DJ1xEKkZ1lvE4iH1AxxYU1e76Ez1k3eaXrJcy5+7iEof+p0xrdCX
-         zq4Zt7kW/jpIotPFcKO67j2PVyRuDLT6j13trxA7Ig9Zd1kGAx8mH5m5YBLa2Dhu8xMn
-         6WBZ8irpTwwY2EvTx012mcfZ8Vkg76IZMDkD2MgVXBy1rtU9JwYVtQKm7fiRRBLWnXN5
-         dizg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=NQol1Gie/v8EU3+VU/rb1yTkjnRSY0Dnj6C9MPXATbc=;
-        b=D+i3b/tqjJ3yK6vP3ZNRohbMzR3ZUTJe0xP4iFPAcSE001sQ1QDptTss64IgX6Yc9O
-         uS1/O6vsg/lwpY/nbC/E4QQZrDOeRh4U0KlPctIIzcLvwL4pSgmWHOdMwoYnWfIqjaG8
-         e8UKD+cZfPKsVNzXp9QtcrN9nWqt0h9GogVt381QGS3iC5M9V/jQCnHWAYnjOv9fn9AS
-         1chD/oBBLszJvCL+U0VjVTzgmec8wDdtlPJO18P6FHa7rBeHCr09JE9SOUR5AQRInSOX
-         mMCC9UWuF2OApVfARJv8wHem04WV188WJl6w+/NNe6rF62Eu7BHKPB+kkWdRluwIRSNP
-         3ydQ==
-X-Gm-Message-State: APt69E3eJoh3gaihhQT3FltgEcsLb5Dndtk87lZDYdd2/vQDRIBf0YSp
-        8Bfz3YG9JVJrnltfgdJ7osSINA==
-X-Google-Smtp-Source: ADUXVKLBKIrRDf45WaTPEI6cGwW68eH+3M093WQngp6PckZiAdYTsfyQA6jzqw3NMD2xl7jRUPHzpA==
-X-Received: by 2002:a1c:7ce:: with SMTP id 197-v6mr2146545wmh.134.1528988473025;
-        Thu, 14 Jun 2018 08:01:13 -0700 (PDT)
-Received: from andrea (85.100.broadband17.iol.cz. [109.80.100.85])
-        by smtp.gmail.com with ESMTPSA id b14-v6sm5854749wrn.57.2018.06.14.08.01.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 Jun 2018 08:01:12 -0700 (PDT)
-Date:   Thu, 14 Jun 2018 17:01:07 +0200
-From:   Andrea Parri <parri.andrea@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1755448AbeFNQJV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 12:09:21 -0400
+Received: from osg.samsung.com ([64.30.133.232]:57216 "EHLO osg.samsung.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1755238AbeFNQJT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 12:09:19 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by osg.samsung.com (Postfix) with ESMTP id 1519120EE0;
+        Thu, 14 Jun 2018 09:09:19 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from osg.samsung.com ([127.0.0.1])
+        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id eh7bdJdZOnPF; Thu, 14 Jun 2018 09:09:17 -0700 (PDT)
+Received: from smtp.s-opensource.com (177.41.114.220.dynamic.adsl.gvt.net.br [177.41.114.220])
+        by osg.samsung.com (Postfix) with ESMTPSA id 6EDBA20E9C;
+        Thu, 14 Jun 2018 09:09:16 -0700 (PDT)
+Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
+        (envelope-from <mchehab@smtp.s-opensource.com>)
+        id 1fTUoE-0005Sf-2v; Thu, 14 Jun 2018 13:09:14 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 09/11] docs: Fix some broken references
-Message-ID: <20180614150107.GA21191@andrea>
-References: <20180509152045.722f0c51@vento.lan>
- <Pine.LNX.4.44L0.1805091509100.1391-100000@iolanthe.rowland.org>
- <20180614112343.61bb84d7@coco.lan>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180614112343.61bb84d7@coco.lan>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>
+Subject: [PATCH v3 09/27] media: max2175: fix location of driver's companion documentation
+Date:   Thu, 14 Jun 2018 13:08:54 -0300
+Message-Id: <033ba35d6f1dd7fdc184b9bce62b74a6acf807ed.1528990947.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1528990947.git.mchehab+samsung@kernel.org>
+References: <cover.1528990947.git.mchehab+samsung@kernel.org>
+In-Reply-To: <cover.1528990947.git.mchehab+samsung@kernel.org>
+References: <cover.1528990947.git.mchehab+samsung@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 14, 2018 at 11:23:43AM -0300, Mauro Carvalho Chehab wrote:
-> Em Wed, 9 May 2018 15:11:07 -0400 (EDT)
-> Alan Stern <stern@rowland.harvard.edu> escreveu:
-> 
-> > On Wed, 9 May 2018, Mauro Carvalho Chehab wrote:
-> > 
-> > > Em Wed, 9 May 2018 19:15:01 +0200
-> > > Andrea Parri <parri.andrea@gmail.com> escreveu:  
-> > 
-> > > > >  tools/memory-model/README                     | 10 +++++-----    
-> > > > 
-> > > > As mentioned in the previous thread, I am for keeping the current
-> > > > references: the REAMDE is listing the doc files, as well as other
-> > > > files in tools/memory-model/, relatively to that directory.  
-> > > 
-> > > Yeah, at least this hunk deserves some rework, as now some
-> > > references are Documentation/.../foo, while others are just
-> > > bar.
-> > > 
-> > > As on (almost) all other places (except for tools/memory-model/README),
-> > > the references are always from the main directory, I would make all
-> > > patches there also relative to main dir. If you're afraid of
-> > > not being too clearer, we could prefix all of them with something
-> > > like:
-> > > 
-> > > 	${LINUX}/tools/memory-model/...
-> > > 
-> > > just like some DT binding files do:
-> > > 
-> > > 	Documentation/devicetree/bindings/sound/audio-graph-card.txt:see ${LINUX}/Documentation/devicetree/bindings/graph.txt
-> > > 
-> > > A bonus of doing that is that the broken reference detect script can
-> > > keep parsing it without changes (well, it wouldn't be hard to make
-> > > it also accept a relative file, but doing that just due to 
-> > > tools/memory-model/README seems overkill).
-> > > 
-> > > Another advantage is that it would allow to easily add references
-> > > there from the main kernel Documentation, if needed in the future,
-> > > without messing with local x non-local relative namespace.  
-> > 
-> > How about changing the relative references so that something like
-> > Documentation/recipes.txt becomes ./Documentation/recipes.txt?
-> 
-> Thanks,
-> Mauro
-> 
-> After thinking a little bit about that, it should be easy to fix the
-> tool to consider references relative to tools/.*/Documentation.
-> 
-> I intend to send a new patch series with the changes to 
-> tools/memory-model/README removed from this patch and with the enclosed
-> patch on it.
+There's a missing ".rst" at the doc's file name.
 
-LGTM,  thanks!
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/media/i2c/max2175.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-  Andrea
+diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
+index 87cba15b2977..008a082cb8ad 100644
+--- a/drivers/media/i2c/max2175.c
++++ b/drivers/media/i2c/max2175.c
+@@ -1202,7 +1202,7 @@ static const struct v4l2_ctrl_ops max2175_ctrl_ops = {
+ 
+ /*
+  * I2S output enable/disable configuration. This is a private control.
+- * Refer to Documentation/media/v4l-drivers/max2175 for more details.
++ * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
+  */
+ static const struct v4l2_ctrl_config max2175_i2s_en = {
+ 	.ops = &max2175_ctrl_ops,
+@@ -1218,7 +1218,7 @@ static const struct v4l2_ctrl_config max2175_i2s_en = {
+ 
+ /*
+  * HSLS value control LO freq adjacent location configuration.
+- * Refer to Documentation/media/v4l-drivers/max2175 for more details.
++ * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
+  */
+ static const struct v4l2_ctrl_config max2175_hsls = {
+ 	.ops = &max2175_ctrl_ops,
+@@ -1234,7 +1234,7 @@ static const struct v4l2_ctrl_config max2175_hsls = {
+ /*
+  * Rx modes below are a set of preset configurations that decides the tuner's
+  * sck and sample rate of transmission. They are separate for EU & NA regions.
+- * Refer to Documentation/media/v4l-drivers/max2175 for more details.
++ * Refer to Documentation/media/v4l-drivers/max2175.rst for more details.
+  */
+ static const char * const max2175_ctrl_eu_rx_modes[] = {
+ 	[MAX2175_EU_FM_1_2]	= "EU FM 1.2",
+-- 
+2.17.1
 
-
-> 
-> Regards,
-> Mauro
-> 
-> [PATCH] scripts/documentation-file-ref-check: check
->  tools/*/Documentation
-> 
-> Some files, like tools/memory-model/README has references to
-> a Documentation file that is locale to it. Handle references
-> that are relative to them too.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> 
-> diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-> index 047f463cdf4b..078999a3fdff 100755
-> --- a/scripts/documentation-file-ref-check
-> +++ b/scripts/documentation-file-ref-check
-> @@ -78,6 +78,13 @@ while (<IN>) {
->  		# Check if exists, evaluating wildcards
->  		next if (grep -e, glob("$ref $fulref"));
->  
-> +		# Accept relative Documentation patches for tools/
-> +		if ($f =~ m/tools/) {
-> +			my $path = $f;
-> +			$path =~ s,(.*)/.*,$1,;
-> +			next if (grep -e, glob("$path/$ref $path/$fulref"));
-> +		}
-> +
->  		if ($fix) {
->  			if (!($ref =~ m/(scripts|Kconfig|Kbuild)/)) {
->  				$broken_ref{$ref}++;
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
