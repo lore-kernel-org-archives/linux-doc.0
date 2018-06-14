@@ -4,37 +4,42 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B52437DF88
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 16:11:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72F7D7D09E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 16:12:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755288AbeFNQJy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 12:09:54 -0400
-Received: from osg.samsung.com ([64.30.133.232]:44726 "EHLO osg.samsung.com"
+        id S936004AbeFNQL7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 12:11:59 -0400
+Received: from osg.samsung.com ([64.30.133.232]:57072 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S936081AbeFNQJo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jun 2018 12:09:44 -0400
+        id S935116AbeFNQJl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 12:09:41 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id CDDD720FA4;
-        Thu, 14 Jun 2018 09:09:43 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id EDA2320F85;
+        Thu, 14 Jun 2018 09:09:40 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id VmwXmfR0hY_m; Thu, 14 Jun 2018 09:09:43 -0700 (PDT)
+        with ESMTP id zZ0G9hPcawCQ; Thu, 14 Jun 2018 09:09:40 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.114.220.dynamic.adsl.gvt.net.br [177.41.114.220])
-        by osg.samsung.com (Postfix) with ESMTPSA id CD69E20EBF;
+        by osg.samsung.com (Postfix) with ESMTPSA id B4EC320EB8;
         Thu, 14 Jun 2018 09:09:16 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fTUoE-0005TV-Cd; Thu, 14 Jun 2018 13:09:14 -0300
+        id 1fTUoE-0005Tf-FD; Thu, 14 Jun 2018 13:09:14 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 18/27] kernel-parameters.txt: fix pointers to sound parameters
-Date:   Thu, 14 Jun 2018 13:09:03 -0300
-Message-Id: <814adb106aeabfd356254a373b62c8e2dc86abd3.1528990947.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>
+Subject: [PATCH v3 20/27] MAINTAINERS: fix location of DT npcm files
+Date:   Thu, 14 Jun 2018 13:09:05 -0300
+Message-Id: <69aaf98a253e93d02763c55e2d8b4472bc090bc1.1528990947.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1528990947.git.mchehab+samsung@kernel.org>
 References: <cover.1528990947.git.mchehab+samsung@kernel.org>
@@ -45,41 +50,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The alsa parameters file was renamed to alsa-configuration.rst.
+The specified locations are not right. Fix the wildcard logic
+to point to the correct directories.
 
-With regards to OSS, it got retired as a hole by  at changeset
-727dede0ba8a ("sound: Retire OSS"). So, it doesn't make sense
-to keep mentioning it at kernel-parameters.txt.
+Without that, get-maintainer won't get things right:
 
-Fixes: 727dede0ba8a ("sound: Retire OSS")
+	$ ./scripts/get_maintainer.pl --no-git-fallback --no-r --no-n --no-l -f Documentation/devicetree/bindings/arm/cpu-enable-method/nuvoton,npcm750-smp
+	robh+dt@kernel.org (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+	mark.rutland@arm.com (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+
+After the patch, it will properly point to NPCM arch maintainers:
+	$ ./scripts/get_maintainer.pl --no-git-fallback --no-r --no-n --no-l -f Documentation/devicetree/bindings/arm/cpu-enable-method/nuvoton,npcm750-smp
+	avifishman70@gmail.com (supporter:ARM/NUVOTON NPCM ARCHITECTURE)
+	tmaimon77@gmail.com (supporter:ARM/NUVOTON NPCM ARCHITECTURE)
+	robh+dt@kernel.org (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+	mark.rutland@arm.com (maintainer:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+
+Cc: Avi Fishman <avifishman70@gmail.com>
+Cc: Tomer Maimon <tmaimon77@gmail.com>
+Cc: Patrick Venture <venture@google.com>
+Cc: Nancy Yuen <yuenn@google.com>
+Cc: Brendan Higgins <brendanhiggins@google.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ MAINTAINERS | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6fa3f31ed2a5..efc7aa7a0670 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -256,7 +256,7 @@
- 				(may crash computer or cause data corruption)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 43eee2fb8798..783ce44b3e7a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1732,7 +1732,8 @@ F:	arch/arm/mach-npcm/
+ F:	arch/arm/boot/dts/nuvoton-npcm*
+ F:	include/dt-bindings/clock/nuvoton,npcm7xx-clks.h
+ F:	drivers/*/*npcm*
+-F:	Documentation/*/*npcm*
++F:	Documentation/devicetree/bindings/*/*npcm*
++F:	Documentation/devicetree/bindings/*/*/*npcm*
  
- 	ALSA		[HW,ALSA]
--			See Documentation/sound/alsa/alsa-parameters.txt
-+			See Documentation/sound/alsa-configuration.rst
- 
- 	alignment=	[KNL,ARM]
- 			Allow the default userspace alignment fault handler
-@@ -2926,9 +2926,6 @@
- 			This will also cause panics on machine check exceptions.
- 			Useful together with panic=30 to trigger a reboot.
- 
--	OSS		[HW,OSS]
--			See Documentation/sound/oss/oss-parameters.txt
--
- 	page_owner=	[KNL] Boot-time page_owner enabling option.
- 			Storage of the information about who allocated
- 			each page is disabled in default. With this switch,
+ ARM/NUVOTON W90X900 ARM ARCHITECTURE
+ M:	Wan ZongShun <mcuos.com@gmail.com>
 -- 
 2.17.1
 
