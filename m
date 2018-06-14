@@ -1,125 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 809F47D048
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 14:50:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0127C7DF8A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 15:00:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965025AbeFNOH2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 10:07:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47636 "EHLO mail.kernel.org"
+        id S1755305AbeFNO7b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 10:59:31 -0400
+Received: from mga02.intel.com ([134.134.136.20]:58592 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965022AbeFNOHZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jun 2018 10:07:25 -0400
-Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 78B65208CB;
-        Thu, 14 Jun 2018 14:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528985245;
-        bh=ojLdjWVjm0iY+cwJz/08T0owIB+Z4gqrkCx9fMRjgzY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qsKkjduo2aRzM7PyXNsqwLp6QKAGhpRYxJVP4Hyvnx1iNOkIoFzpAxpYjUMmZGM+G
-         AWZ5pRDQ2RH347FYyJwB9iIDdp4MbVUQSqLLIyVFFbzbc83xa2fN0BPmsRfMEjYEV6
-         t2vmurA9sexyk6mjUEJRh+bPGpIACY5Q5LS/1Ajg=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
+        id S1754907AbeFNO73 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 10:59:29 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jun 2018 07:59:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,222,1526367600"; 
+   d="scan'208";a="57362096"
+Received: from 2b52.sc.intel.com (HELO [143.183.136.147]) ([143.183.136.147])
+  by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2018 07:59:27 -0700
+Message-ID: <1528988176.13101.15.camel@2b52.sc.intel.com>
+Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Balbir Singh <bsingharora@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Eric Anholt <eric@anholt.net>,
-        Stefan Wahren <stefan.wahren@i2se.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4.17 25/45] serial: sh-sci: Stop using printk format %pCr
-Date:   Thu, 14 Jun 2018 16:04:16 +0200
-Message-Id: <20180614132128.135775884@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180614132126.797006529@linuxfoundation.org>
-References: <20180614132126.797006529@linuxfoundation.org>
-User-Agent: quilt/0.65
-X-stable: review
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Date:   Thu, 14 Jun 2018 07:56:16 -0700
+In-Reply-To: <814fc15e80908d8630ff665be690ccbe6e69be88.camel@gmail.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+         <bbfde1b3-5e1b-80e3-30e8-fd1e46a2ceb1@gmail.com>
+         <1528815820.8271.16.camel@2b52.sc.intel.com>
+         <814fc15e80908d8630ff665be690ccbe6e69be88.camel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-4.17-stable review patch.  If anyone has any objections, please let me know.
+On Thu, 2018-06-14 at 11:07 +1000, Balbir Singh wrote:
+> On Tue, 2018-06-12 at 08:03 -0700, Yu-cheng Yu wrote:
+> > On Tue, 2018-06-12 at 20:56 +1000, Balbir Singh wrote:
+> > > 
+> > > On 08/06/18 00:37, Yu-cheng Yu wrote:
+> > > > This series introduces CET - Shadow stack
+> > > > 
+> > > > At the high level, shadow stack is:
+> > > > 
+> > > > 	Allocated from a task's address space with vm_flags VM_SHSTK;
+> > > > 	Its PTEs must be read-only and dirty;
+> > > > 	Fixed sized, but the default size can be changed by sys admin.
+> > > > 
+> > > > For a forked child, the shadow stack is duplicated when the next
+> > > > shadow stack access takes place.
+> > > > 
+> > > > For a pthread child, a new shadow stack is allocated.
+> > > > 
+> > > > The signal handler uses the same shadow stack as the main program.
+> > > > 
+> > > 
+> > > Even with sigaltstack()?
+> > > 
+> > Yes.
+> 
+> I am not convinced that it would work, as we switch stacks, oveflow might
+> be an issue. I also forgot to bring up setcontext(2), I presume those
+> will get new shadow stacks
 
-------------------
+Do you mean signal stack/sigaltstack overflow or swapcontext in a signal
+handler?
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-
-commit d63c16f8e1ab761775275adcf54f4bef7c330295 upstream.
-
-Printk format "%pCr" will be removed soon, as clk_get_rate() must not be
-called in atomic context.
-
-Replace it by open-coding the operation.  This is safe here, as the code
-runs in task context.
-
-Link: http://lkml.kernel.org/r/1527845302-12159-4-git-send-email-geert+renesas@glider.be
-To: Jia-Ju Bai <baijiaju1990@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Michael Turquette <mturquette@baylibre.com>
-To: Stephen Boyd <sboyd@kernel.org>
-To: Zhang Rui <rui.zhang@intel.com>
-To: Eduardo Valentin <edubezval@gmail.com>
-To: Eric Anholt <eric@anholt.net>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
-Cc: linux-serial@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: stable@vger.kernel.org # 4.5+
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Petr Mladek <pmladek@suse.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
----
- drivers/tty/serial/sh-sci.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -2704,8 +2704,8 @@ found:
- 			dev_dbg(dev, "failed to get %s (%ld)\n", clk_names[i],
- 				PTR_ERR(clk));
- 		else
--			dev_dbg(dev, "clk %s is %pC rate %pCr\n", clk_names[i],
--				clk, clk);
-+			dev_dbg(dev, "clk %s is %pC rate %lu\n", clk_names[i],
-+				clk, clk_get_rate(clk));
- 		sci_port->clks[i] = IS_ERR(clk) ? NULL : clk;
- 	}
- 	return 0;
-
+Yu-cheng
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
