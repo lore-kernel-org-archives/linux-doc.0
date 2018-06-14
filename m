@@ -5,31 +5,30 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7DB07D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 11:54:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1507E7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 12:04:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754860AbeFNLyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 07:54:41 -0400
-Received: from mail-co1nam03on0048.outbound.protection.outlook.com ([104.47.40.48]:58392
-        "EHLO NAM03-CO1-obe.outbound.protection.outlook.com"
+        id S1754990AbeFNMEs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 08:04:48 -0400
+Received: from mail-eopbgr710067.outbound.protection.outlook.com ([40.107.71.67]:44049
+        "EHLO NAM05-BY2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752767AbeFNLyj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jun 2018 07:54:39 -0400
+        id S1754966AbeFNMEq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 08:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aMx69qs7fnIRDoPCFSiFG0gYG9n/bgxa62urC+hNl0Y=;
- b=ZFPF+N0VgnIoyD+XMX1WvZZ9yUj0K5y+MdZFC3S5xZCWiuNhHBzYyxvOzTfUMtojRAsbwuXRSFlgMaKQy82CKNZJMMCpFplo8FF6vj3uGRgcG5z7J7PvHNSAs35NWxmDyzUdDkMigVh84G67jgcevjLhLehb57KfYQdx9ylhaf0=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=thellstrom@vmware.com; 
+ bh=1/NenRArB12fyWuSAu1HjcC/RxGhxRFNIWX4LdEX41A=;
+ b=SewKX6IqyeZDCA1wWYiLYrMAG3cI0l34QHCBCscEn2pvSzkVimJ9lf1szeB3XWr/B0ZDswGNx+uCVnZyVU9UWL8wxCeBCKM5NUhZ2mcpcUOAnBCN6qQzen+sj7hUeFps1G6nP41zJJlAAyErrSOih4IKSWqlZXBw9KRyeq3laPE=
 Received: from localhost.localdomain (155.4.205.56) by
- SN6PR05MB4591.namprd05.prod.outlook.com (2603:10b6:805:38::25) with Microsoft
+ DM6PR05MB4588.namprd05.prod.outlook.com (2603:10b6:5:9f::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.863.16; Thu, 14 Jun 2018 11:54:32 +0000
+ 15.20.884.12; Thu, 14 Jun 2018 12:04:39 +0000
 Subject: Re: [PATCH v2 1/2] locking: Implement an algorithm choice for
  Wound-Wait mutexes
-To:     Peter Zijlstra <peterz@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Gustavo Padovan <gustavo@padovan.org>,
@@ -46,167 +45,144 @@ Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
 References: <20180614072922.8114-1-thellstrom@vmware.com>
- <20180614072922.8114-2-thellstrom@vmware.com>
- <20180614113604.GZ12198@hirez.programming.kicks-ass.net>
+ <20180614072922.8114-2-thellstrom@vmware.com> <20180614103852.GA18216@andrea>
+ <b84a5ef9-6cd1-7dc9-a51d-cb195cdea83c@vmware.com>
+ <20180614114944.GA18651@andrea>
 From:   Thomas Hellstrom <thellstrom@vmware.com>
-Message-ID: <7eb10c22-57b3-1472-0a77-7f787f612217@vmware.com>
-Date:   Thu, 14 Jun 2018 13:54:15 +0200
+Message-ID: <d01185f5-8d27-96e7-0875-275beecc21e4@vmware.com>
+Date:   Thu, 14 Jun 2018 14:04:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <20180614113604.GZ12198@hirez.programming.kicks-ass.net>
+In-Reply-To: <20180614114944.GA18651@andrea>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-Originating-IP: [155.4.205.56]
-X-ClientProxiedBy: HE1PR05CA0381.eurprd05.prod.outlook.com
- (2603:10a6:7:94::40) To SN6PR05MB4591.namprd05.prod.outlook.com
- (2603:10b6:805:38::25)
+X-ClientProxiedBy: HE1PR0502CA0015.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::25) To DM6PR05MB4588.namprd05.prod.outlook.com
+ (2603:10b6:5:9f::25)
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9ae77aea-ad34-4c7c-a3b8-08d5d1ed99f6
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:SN6PR05MB4591;
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR05MB4591;3:An6NS6JQUmqwlf1L8iIP3aQd2J76J3aL9gDoil0HAcKaTwI6wvrTDEs1yJwJnK6/OLzajgevCwk8WNON/gEvzWuXMsspsJ0w9yM7MsegouZPtmSkPiAa2xqBzkdn4t4x8lHVTO059qrdl/koC/UsKNeBRPohffAqgjR7J/Tv33RZ9QamLC/GSJ3jrZHtq0Z2iwpx3SFIUa6cqS+fyVRVPe7e/bUTF9lYKOAV/ZY+Npvj82ry82S8x/l5AOMw2u9n;25:TM1vtGt0Sz3GZC9Sn3v8ZRTytvPX9ROyfVrnLXou2GZ1sPqMEMZdLtgh3YIWP++fOactiB8pMEzQRjjtBGHDlajfepPtkJvIIu/Z4KPGVWLrBfWaiQoWO1v7X9YxhdUqpLomSHZMq4a7dsMAIctQs9jU3jVmSkRvEOetsbAVrK9BOBe2N9vCMEM59RW9FHNgUWbI0F9LLhyeT6YJz2mONKk5zW5hc+nPiJDnOKjLnyrK+ZCFWBzac3nyMW37tWgPpve/LXymUF2TKy6JN4j+icA1vr/GdYBSKmHScIfZrjRFt45BzhRqolLMZ0vAkIVyZJvHTgBTcyz3Ni49JqJK1w==;31:poP5eVwxfE/2IcD2x7g3nwccfUVZQTawdB/hGmANPkAU2soPUb3t2dCj/vtZhp/HG5ARzY+yu+fbm+MvU+Zd/DpMFcThDfWBCe73TknRVsYERsjgmqGFPsCnj95TzhALC+ma80wyszIzC4ggbdLpDkOVufdt6fvLrP6XGhNC+NymrIwIwkBX+K9iemKQmCOnEVGKA75oI9eLcGyEofMivsiMACWP9SXKBzECMq2+f1c=
-X-MS-TrafficTypeDiagnostic: SN6PR05MB4591:
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR05MB4591;20:0+zfuVRtSBPOr0E8SKpp4EhX484M+SRu7/1dqOcKF6mPnYHluRlMesIOknwIN8HQMQuoI+EoRBpMRfSS6ASeCVbULHnT5aZMxDmVo5p/bqiMtbRCZkdAj7YB1brC3TapyEHCvccmMiR5lXJIpPGMjg5Nb80fkLW9HYyLWrm1F7mmmEhJV0WXi2CG/akjlK8/ju6rmCf+wNUYXaHgU2RAZmP8yhWMcWDi/yfpEpbNhL6E4fun+x3pTwHU84otMBVFSuKCyk8JnTJlOzg9MWEjwMrzczjVB8TQW4rVtiB5Pab3B9wX6vWkglErs/xC3J1gUazG1LfFnypkgFRS5+/OTdPUTSnz4oGntnz61Ov2uwGTHIIEMiqvDeN0J1jaCnySVXpzJwr2wZ/exHuVv1pHZQ9UgrhcdaPlCbvF+9RymzXlWOhrEmeP35KX3NLf4vRWdLc+Vu3IuUkrUD+qj8tfPpP8SNxFpBdG+s13nY28eRVeifbLWiEdPDQXByxJ6xQv;4:A2UE9auDBhLuDPYv9lfeTNl2E17IOzrlsPGDvDX/r28ZJEB2kv4SevhB85b0hXa98jJ9P+sUFSZfVdV8k0/bEr0Jvar76/QCk+/fI8AbdQsbeLVm0coXS3nQeufMq5rtuHNqnGlAQvltXPUdcd8vhLayN/cbH7zhtvDpT485IH+k+BhnzbY/TGGhQKjrARd+JYekLVG8VFLfQB9tAcigHWLakUThh/4DIYKjdJ+hazqwVUVOJTFPGgFw2NuKKx7EXCSvz+WCXjTSnNaLBSYH4Q==
-X-Microsoft-Antispam-PRVS: <SN6PR05MB459164A29BD21DF93D063E6BA17D0@SN6PR05MB4591.namprd05.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: c69360f3-98d0-4bf7-ac36-08d5d1ef03a6
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(5600026)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);SRVR:DM6PR05MB4588;
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4588;3:JrBjEawpQtywHdn20W0997UglVZ+GstdIld+jFM4AEsddAiaOVmnuejnebSSUtLC3slfeo/i3ysJxL3IChhuVs1RN249GHpsO+IhegXVPJi4oP8XAfY5fcSfoOP1cx8/lO93N3SAvAQL+rdqYT+4AcvmfiGA77mWTZ1S5nuV12klTRckOGvtUdO6apbYrW5Zhb8BC6g7kDp4dnqYevpoYCLDE/HB6/lE4hJY0kFZCT9+62HSazpBI8+FIoBPd+k4;25:sdDmdPSVJPOM7bFYvvh+whEDzTU1m1LEAKptNQiW/WrLZtGm2eN1NzF8m7dK/N8hcggiS9drWK3XGzQXEzUzMSABe45cXmZGQkv03A46P/oJ8hnJNT+Opyx3RrmxTEKDBCsXImYdlTvDEuHJpdav4bxjaW26zaO5RhHQ3pYADv3iahdwqBmdjKp7oqJQt428aPdPUCTwlyJeby/2QDNSAsIgxMva/hJLuaJsH11zMr/caeI+2lMlqaFqt+WQnWTA7iWu+7lAr2JpM2sfiMXocP9gS8umSJU2/6OdEz6v2Mb5RvLkT3n8pVQE9NoilAngIbIwSbCBuvEifXkLU+w2cg==;31:58yQ7UlJWBVS7d1fsTuHWOrcEKIneqx5ojCoEtotJbdZEcem+iZes2+CqhN7/56tp9sQ3lfeRzEbCxqXzIughlLwJzyLq0QONYzJ6ZOZi5S8lMeeHhtuUGtbD/UtFdMZXf/RxvaAFOteTR86aKrdAqCzo43S2cXhQ1NcJHhJMIt796KGBkSMfdR0RBGrAa0bwDoPSf7d7tg0GofheJhXPoBMe0uHbntjqFSvo9TZKRs=
+X-MS-TrafficTypeDiagnostic: DM6PR05MB4588:
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=thellstrom@vmware.com; 
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4588;20:Q6sxW/d3ZfZNPIiAj6lq3IgQuG0Q0NyZ877qCY+NSpatecQ3ZCbWaztTPmBZWG6/X7Wl0DKx9YYGV6eAo/bF0Av9krJYnemZAJJRfE47jInpvy/Wcl09jYkPMHTd9zQQ6OBAtr7ZZ9odQs9T9o0AE7TjhRC5bHw4Dqp2XtL+8cMU/34UIBKwm6zlcmcOOApmJc+UwpeXgsFcLKB1s9cWPwGkkDiedbB9TDlljHJ+KgBNeAyKs1hnOXw7ePo9HrbLTucnKI6Ahwbh4ihhtRp6EG0GkKnffxd2bTMJPtbLPtHULyhnfsexrj1SdZ3P8CYOekEdvN3KGBmMqDm0vvkw/ihnDtHoIE1HGJIjeHNCCU7WkNmrwoCosPBaUZYHOvxblHY8BZ1UvXj53WJ0LPYKp8A7PaX+jPgl36B7kbDsrw/6QMUG6Jj7Og7vV/cwAjVO+2wIT3BBkXkbNl/sAGPuEPdMpTgnm0+t4MxAD2lOgsvDNNdug1SLvJeYaAV3C6yZ;4:8w5hqigf7pXPe2LsqyGl99Pihpzzdjubg0kpK12tbc9f1hTpXpRBI/LyPVKUQAnAM2wqEny3yOzzzaT8GeKZPAVjzFVsJ3zAPtR2weUoLN9wPt7D7xbHFFG4znvsizpBRvY8pEeRPsFrjhvNj6/tRgxLOaCts4+ffqlV5WYEYCK2ALkPN3wG2GjNwkZiPzBgorFwFL2oV/WICdt1XpuNSUX5+9KvzG2b2C+bIJd+dB1X8WKrMYgfxP9TLTXGhpxoeh/uTHhbVPiSZr0Rqx7npQ==
+X-Microsoft-Antispam-PRVS: <DM6PR05MB4588010E951059898AE0A9D6A17D0@DM6PR05MB4588.namprd05.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(3231254)(944501410)(52105095)(93006095)(93001095)(10201501046)(149027)(150027)(6041310)(20161123562045)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(6072148)(201708071742011)(7699016);SRVR:SN6PR05MB4591;BCL:0;PCL:0;RULEID:;SRVR:SN6PR05MB4591;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(93006095)(93001095)(10201501046)(3231254)(944501410)(52105095)(149027)(150027)(6041310)(20161123562045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(6072148)(201708071742011)(7699016);SRVR:DM6PR05MB4588;BCL:0;PCL:0;RULEID:;SRVR:DM6PR05MB4588;
 X-Forefront-PRVS: 0703B549E4
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(396003)(376002)(346002)(39860400002)(366004)(39380400002)(189003)(199004)(52116002)(66066001)(316002)(4326008)(65956001)(25786009)(6506007)(53546011)(386003)(59450400001)(106356001)(76176011)(230700001)(86362001)(2486003)(53936002)(6246003)(97736004)(58126008)(54906003)(31696002)(52146003)(105586002)(68736007)(6116002)(47776003)(3846002)(65806001)(36756003)(81156014)(67846002)(50466002)(8936002)(7736002)(81166006)(8676002)(6486002)(5660300001)(26005)(7416002)(64126003)(6512007)(229853002)(551934003)(65826007)(6916009)(2906002)(16526019)(476003)(186003)(956004)(6666003)(2616005)(11346002)(23676004)(305945005)(486006)(478600001)(31686004)(446003);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR05MB4591;H:localhost.localdomain;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(39860400002)(396003)(39380400002)(376002)(366004)(346002)(189003)(199004)(6486002)(6916009)(54906003)(6666003)(478600001)(36756003)(93886005)(86362001)(64126003)(31696002)(316002)(50466002)(8676002)(58126008)(7736002)(97736004)(2906002)(31686004)(305945005)(106356001)(105586002)(65826007)(229853002)(7416002)(5660300001)(956004)(2616005)(476003)(446003)(486006)(11346002)(65806001)(16526019)(59450400001)(6506007)(53546011)(386003)(25786009)(6246003)(26005)(4326008)(81166006)(186003)(81156014)(3846002)(230700001)(6116002)(8936002)(68736007)(23676004)(2486003)(67846002)(53936002)(65956001)(52146003)(52116002)(6512007)(66066001)(76176011)(47776003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR05MB4588;H:localhost.localdomain;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: vmware.com does not designate
  permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtTTjZQUjA1TUI0NTkxOzIzOmdGeFhuZStlWmJGUm1SVWNDbCsvZy8wN1Bm?=
- =?utf-8?B?SmU0SnNrVEZGVnRjUmRjOVllWnNsQmFjU2FMYkx5Smxqd3BzNVJxWENoSllW?=
- =?utf-8?B?NGtmN0U5YTBpc1Q2Vm4xVTROWXJKNUhoLzhscWp3dmt5bFZySjZpSnpTQ1Z2?=
- =?utf-8?B?a01kb3RQZSsrMmluVkc2Y056eVpkL2hLQWV3a2VCSkNFc0ZrVmtybGE1UnNk?=
- =?utf-8?B?bWJ6REc3ZmxrUURjUnMyaXVMSEFNTGZTRWNLSldyMEMwTFF3UXcwSDVoZCtM?=
- =?utf-8?B?YUFXbC9sdnUyUmRMdTE3bXZFQ1o1eWRpcndTYlhQSHVISXl5ZWVHYm01OE9k?=
- =?utf-8?B?eCtDMytDQjZlOHJuUGt2STIrVHo5YTgxNThVMTJCaHBDWWdrMEJvRDBzM0Z1?=
- =?utf-8?B?NG9TM1JPK2JSWmxmOWNiMS94bnRkVDdLcVNacUVSQm5yOXhYVUZpS0kzMlJD?=
- =?utf-8?B?SzU4QjJkeDJVQmtOTFdmVzU3S3kyV1laSnVVNjZMK2pZTDU5eHUxQ3F3b1RQ?=
- =?utf-8?B?ZFh2a2tyUWZFNnR3WDV2N3QyTGIvdHplLytFS293bWU5ZE40R1dScFdJb09P?=
- =?utf-8?B?NGw3b2VDYmtnRkh5N1BEYVpyeFM5ZmdrbFBOY3oyaTBrbVNmdTI2R1Q0SVR4?=
- =?utf-8?B?eWZ0WTFPWTM1WElGSGFuaCtKNHQ1ZmdlT0N6ME9PVUpZNmpjMVVBalJ6WDhn?=
- =?utf-8?B?OWxEQU83cUpRZ1NmR3F3bFJBbVNjK1Y3dU1CQ1VKUXdybHRxSHNZZFhVWGFl?=
- =?utf-8?B?bW11bXhXUmRPTnlZcUpZNEpVaUtTd25XTUVzck1yV0I4YVQ5THdQTllmSDND?=
- =?utf-8?B?bjRNbjZWTWdaUGZ3bHlNbkMyQjJxWkJQT2RxQk8xWStoWS9xenRYSG5SdklD?=
- =?utf-8?B?V3AvVkdyT3BwblBxcnRoRjYvN1pKMFEvaXNrQ3lTVTZxWWMrTTdWaHQwNUNT?=
- =?utf-8?B?NURPMFlOaDhydTNZRW1aQkhpeFg1Y1IzdWZNanlKMjZFTXBiT0xVd2JlTmND?=
- =?utf-8?B?WG1CRHF3SnRnL0ZyRlFiTVBwcWdmeFZpUDJzRjhvTW84WFJQcDFUNWdYd3F5?=
- =?utf-8?B?VVdXNWRZZk1DazJrVVI2amhoaTN5ODJtOTc2WUNYZlRkNDl0aXFjRkNHL3Ns?=
- =?utf-8?B?ZHJHcDhNbWlwc1pvSThqTWM4cWZqOVVlK1VyTDNBbVhLdis0UEhONXArcnhP?=
- =?utf-8?B?YlRnUVFLTVd6NEJxRDU1MUh5RWcyanpWTHRGdS9icHlDb0dhelFKZ0plenhv?=
- =?utf-8?B?N2V5YlM2ZWdRcHRSUWs3VEhVK201c3JBN3ZwbU00SU9rK2VFRzQ2MXBNRnhx?=
- =?utf-8?B?Q2V2TlU2UXBzRm83UXZJK1UzM1hySUpDSkQ4eThtSkNOMWFsb3hXMkxoVVpt?=
- =?utf-8?B?b2R2djIySHBWWE84SkVsWU5ZY3dqZ01UdlBsNEk5UFNwYTh4QnVXR0F4bjE2?=
- =?utf-8?B?dUs0UFlCMmhWcm0xRDJmeUlnNEoyQm1iOXQ3czdLRXlsNit0L1JvdTg0V0s4?=
- =?utf-8?B?WUpuTlBVamNZNmxoVW1xd3BZMGF1eFJrOVAxdlBjVlZMOFdsUUljSG9CSVJv?=
- =?utf-8?B?Rk0rR1VtT25xeHo2UERlRHB5Um5rV3crYjU2SStvZFZQb0U2bCthL1lBa2Ux?=
- =?utf-8?B?M1EydjcrZ0ZPS0dQd3cwa1RCeklNdFlodGkxcDY2eC9ZZ3NXWU9YTUxhMjJ6?=
- =?utf-8?B?UUVmY1hjRzRoWWdzanhLR0t6OE5PSXF2cDBWRUw3S2p6OVdZVE9aWkpsaldK?=
- =?utf-8?B?VmdKY2wyZFlNMmxpTTNCTzRtM25lR0V4QnVvVjV6cE9wRm9TbHUwRjIrdzFB?=
- =?utf-8?B?eUxpOExwMFBTOGxjWTZtcWJ2VUZXNkFyVW1WWDZ0d2xQM1Y1Z2lvQVBXWFF6?=
- =?utf-8?B?MXJERzZUYldGU0ZJN1Y0VzBNTHVMRWg5N09XRmhxV1dodkh5aDZmSmdjNita?=
- =?utf-8?B?cVZRUE9vSU0xa25tdzlyVjdNSkw2bTRucEc2RW1QdXh1VWdmRWZDNjJhLytZ?=
- =?utf-8?B?bVh2eVJhaHFoOUZOLzlta0lwZUxCMlBPUDl2cDBFMU1RT2ppR1lpOWcyTXFM?=
- =?utf-8?Q?H81Pw9D6RxWDSrWtrxgYw//D8?=
-X-Microsoft-Antispam-Message-Info: 8xiSCuqnOJ96xoOKhswa3BJs7srM0m7bhNTDXPDprjJPE9GMiNVM3ZLCgYsiQ32DKpxKxcl6WDdMgM6njyujokuoMDvjdwrimaLVo3zvkBX6s4xPOcFf7lr6RD/P9zip2s12jMxHNymuFoS+6zy2e03mlkM2Q7jeFXNiAEu1wTGpCempVY8uEXmMv7q7U1oW
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR05MB4591;6:5LMDLZd7kBKhlfhsKEkqnsS0OZS29lnXCnYcxE4nsU9/EAS5U5WOO7LYYzgDcbgEs0hmKILHEs4sEd399QCQQwTzTiGUp3MBM5KGjIG5fpVyRm2CUru90gFtJc6xdagao9RWs6D5zeVuz/ixEaqFPjsRHBshKx10QcP604czjnVvs4P2hbUsRqrtKEEgBu5CCPTt+6QXpIL0xwqHCnpuSLbjZeILr7cOZ3ZrF1PMcybGqVxOJYJHFn0zATJ7IPt0u89BjViAVCLLZBQMewp4mL88PtA8RYDt3aDKWUxJWJV8R218cCjkPOZiBPlNzwoPLdrtggoGAHJmrxPGZmsSx6uslH8H8gOHFHk9rQ0SPQBu/XjvxpsTyO/TRthssmXoIVhYFbjhG8qS4P26eIkSVOtSc/QqSjgZbVF5Ybu+NR2ecWKUv5yOmLRSSvtR1fHRGLWYigHdWntEw1ex0iOeAw==;5:sqVAq3vs0dNWo1VxFofyVJRk0rWJFt+85WjtY6+8D7xhKTmSnNVtuD15bB99XQg6ztmqLBCowP1FSlqZbmdVM6Yio5gT2CrQ/U3vLrvAlH88GQzRm/DQDCdYmYu+f+PeKRwrubZPZl8faWnN9NnQABGXFoHiH7nd1kkNId7G2uQ=;24:7O5G8+ZGCUSFpqvvh6/96G1JLbqnEhiC1O2LM2fr/ttom8pw7Hvh2WQA5SA0Flg1efQQrqRzjAp9HEUq1A0qGb3ehpUUr4ZlddfH9EL7pEs=
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtETTZQUjA1TUI0NTg4OzIzOkQzV0NGSW1pYWJ1aVNWeG55aUhIZUZQdE9Z?=
+ =?utf-8?B?V1BjbEtGOWRvTjFkQXRBNWNzQnU2eHpndGFId2ZJWEJ2aE44ak5RWEMweU9Y?=
+ =?utf-8?B?TzByMHYvVEhXbVZvb1NvSVk3Z1hod2ZRKzlwSDVYSnhDajdFNHRQVS9veVF6?=
+ =?utf-8?B?MW1PTXI3OEJ4VmdBVnpSeWtSR0VHM28wbDc5NytIbld6eG40Z00zbUlzUGlq?=
+ =?utf-8?B?cU5qNTdDQ3ZaeXJVcEVrTUN6a1pJd04wUjBTZC9LREt5QnNvRkFTVFZCMzlo?=
+ =?utf-8?B?QkN1bzZPQU53MjVXSjd4SXh3Z05rT3JYVVBIL1YxMzJJTUdIUjFxNVNjL3dr?=
+ =?utf-8?B?VVZKQ1VoTzQ2cVRuQlZKTTRWcFVYelhqQU8zb0d4VzNaSWpwYUUwOFpLUk5L?=
+ =?utf-8?B?QTh2NWtYRkN3bmhPK0piWVFvRDlBd3BaM1ZoUXlzY2dqTnBQeFdQb3VpWnNa?=
+ =?utf-8?B?eWdpVURHOWhDdTRJSHVtTzFqOUpFRkFwQlNiS0x0S3BrTytvSjhzL3NpcU9K?=
+ =?utf-8?B?aDhOWEt5ZitJUllRdVpzM2k5TWFPMEs5bm5OWWdBRGk3TDExZ1ZibXA4c3ZO?=
+ =?utf-8?B?TXU0bmRlc2pxbEgwc013eU54OURtZ1d5c1FValVITDE0SFJhWkFvQS9DWTRI?=
+ =?utf-8?B?SERscTBnaHUvemNCaGN2Y2pudFpvSWVNZjN1R1JaSmZWbTF3Mk9oekc3SjdB?=
+ =?utf-8?B?aVo2U080SDZRdTJLVnhBaXZZRXdmMTkwcVB3NUZKWDQvRjB5amQ0Vzl4anFa?=
+ =?utf-8?B?TXdZa0x1YmgxRWhodVVwcmduREhIaUFlUnlYampMMlByblZHU056VGV4QlNy?=
+ =?utf-8?B?MEpUbDR5UzJ2UEdUaE9NRzcxdFpDa2gwbk5xWmtiR09la3NUejdLS0dTK0Vz?=
+ =?utf-8?B?ZGJQZEpnTVd2d1V4WFVxMHhRN0ZKd3ZSQm4yMitOVCtVbFRqR0tSREoxQTRT?=
+ =?utf-8?B?alhuaUFDendQTTIzR3A4Z1BwR3FuaCt0dzRnditZYU5OK2Q4TnozTS9JYzN1?=
+ =?utf-8?B?dmtoVWZkdGdzNS9ESllMVGNTeXMzNk5sTTJmS054MmQxVG5UaXpvb1FrNkpG?=
+ =?utf-8?B?OC9PSEhvaU92emp4c21od2g5Y0RzaXNZOGVrK3d6UnY5aVJIS1R2aW5WTUk2?=
+ =?utf-8?B?eTI1S2IyVFQ4OXprbVp1ZU9jK3I4YmpjUUxoM2dublJoS0R6WkZrbnFvcmdj?=
+ =?utf-8?B?R1psYTRaZ3doSlg4eGFPVEl0Q1JHZnlyQ1RBdjZrbm5KSkF3VWZQaUNSRW1H?=
+ =?utf-8?B?elp5d0pPdGFWYy8wN1I0U20rcFJwT3p2bHZmZy9NbFF3TmlxWEtYbno0YWpE?=
+ =?utf-8?B?Q0pIeWE4QjIrM0p1SXJQRWpsTXRNNWhXTFlzMCt3VGxtNGJIQzJGQThSdldF?=
+ =?utf-8?B?SkxYSmZieXRQZGpLUk5UZHhnVy9RZ0lsTXk3QWhWeVEzM1FpcFlFbFA1dFZH?=
+ =?utf-8?B?UVlXOEIwZzNiRW9hNmZhNHQ0dVVuY0kzTXZBZi9TSS9sZEdMY1UvaXo2YWpu?=
+ =?utf-8?B?YU5IY3pDam1RMlo0V3hoZTg2UFIzcmU5QmRKMUZ1amhqOXhiZ3ZPQ0o3K3py?=
+ =?utf-8?B?NU44YzBlc0dXVHVJcUpIcFcrZVVKZDRmUCtiN3lGb1ErNWozOUg2UCt3UFE2?=
+ =?utf-8?B?Y0QzbHAyM0IxaUhlQjBWeHAraEJtODlCL2RyeFNaTlRaeThHeTB4SXFIUHhi?=
+ =?utf-8?B?Uk5tM2E1VkZudWRrSUhvK25UZ2pTYWJtT3FOMXJBL2NrbTNRU0E2eTZScS9R?=
+ =?utf-8?B?Y2lVRm9UWWtQbnBFeG5lZXJ0MjRHa1crV1ZlZisyM2VDTnFRaXF4dEJDM3Bm?=
+ =?utf-8?B?cnIrYzhRS1hXV1h2VWZ3WmZ6UXM1cXJ4L29JQmY3cWhZYlRSeVdqV2RwbUNJ?=
+ =?utf-8?B?VWorWGhYb0pLT0tBQ3dhU3lNcHBwMkV1alJEdzd1UWFtWXNnUXFDWEdUWEdR?=
+ =?utf-8?B?M2kvRTFvVlV5cXh0Tjg0WEY4a051MFRyTUZnOXVaQkhmNkE5S2RjaFlBcFR5?=
+ =?utf-8?B?VHRaVFRYb2hyaWxLSVk1TVBEUkdMeXN4MW9tYittUlg4YW1VV1E3NHZNUEJW?=
+ =?utf-8?Q?jvFsDljSvzF0pvo7pwohKGfg5?=
+X-Microsoft-Antispam-Message-Info: TsQWtFJnru2RG3RS+1UC4XVaecjGB1CRnGqUnxUjO7YfmHOrTMMMCdGjFsP1WfLWdITpblu4b/GtbcZjymGCMoi/y7/u2H+dwhcdL+PM+UW31owJgiLnQd6DsWSyQaBH+AYuvITw7LUrQHQBWQF+uxdC99hSYEBhP/C62T4yAV9YGsGfoO3vzPhD2F4kiVPa
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4588;6:A3zSfVtFxebDs5ZSoxu6b9rrLF5oMbMsx3Aq4+NrEp8enu/Co6NGuwYY3qVChRd7eyw5QcjKCvIT6/0ezjyEPqmO+dh1yaIc2jaBDRyqCDf3tFE7w6eBaT+lvkLGNHUjJp7geCRk/0CWJB0T9PXDmk77sRbAZOG8wrHl2NTkYySxlKKfaPF4CO8CmN++H5Z2EwIPIzwgNvb/vAYcA2YhPjw3Gk//z5TdCr4Oqp6ghmLf3dl6eRcd963PaDNGSDpLhI4GiVfLuzMDs3jWkokLZRKtNq96yZuBEZYynyUAneW1Iuv90pmSBULjAyL3eETXsgRf1EV/NBJn+mV3xGA6jBDFTuQA9IsPHjuJHEPjgl/0305H2yJP2JUcpQ7wH6+UCP4i6aoMsPRYGEfbOp+tMmZsoHJhelsxMqJcBr0jEPyd96b1pXzhe4y6ZBb7LfzPwZEXZ+Lkv0x+6KXcERhE6w==;5:8EpsroyUxezDxzXBcxhwQ0ayQPGkQFRXrY7ehjWC7dI3eUvYzoZJcv7zdqgt9X3I0NdWm4vzPxVtaj895MVulkL0vy0J9bBDiBvwb33vjkgRut4Oyyr8rH99Be8dTXHIW1pgWAYPCyXGU00AfmbKBfQlqHRkpDOb5YwmwD7jk5k=;24:Ek7oTW1YnqucPup3wmNBOM08Q7TL6K9/ZOBotBxLNoBpmqhjg5dhicgE01GVb1ilJV0Ma6rG5nUW+Xfvztjq8yBgrgTsHsvUOx8yTvskkRI=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;SN6PR05MB4591;7:P4ej4RkgFLjzU2F81vufUzh+r/n45wu0OOliKh8scdhlEX06pxWshGTnCEaE3Gm+sSM7tSC+UHEnPniA6iPp4AF5KgpXFe0+XPSk6oNAh6E/0fGkTqi6T6LDdPUn7hUgFA5CZf5kmlZD0KUMp5vu0lrhNy2n4c+QIxscPLQODjJU5aTdsW7s4iDsACavy5IjDQX5AD+38rQiZlpLwEqzdwLWZLezuCjwUSukm+RQmBOGTv3sML5LQI+lmSxmLeAb;20:UJ890v9GEw2rM3qiWqIc4uqev8NU+mL56r3nRM6tRhAtFzvHIt2RLiR5TWBC7XH/WsD+H3/ymyGdJ/YkeoNMfCQXwiWVrw9wiVKdHlC7Z5WKpohaYXESWaip4yCzv0QWag+y08rK7JNbZBgZLTU15iFrPNOqWHuzqgqArSJbqqM=
+X-Microsoft-Exchange-Diagnostics: 1;DM6PR05MB4588;7:nj/ugMmdjU+pz+Hlz4iahlYGD5FDNZa7/vKsexyYu9r0XrNk88rghbt9N9Q7IA8NQ4tWQeeItPfHcMAYgl0fhLGu1B+UdGjYezEt/G4xu26DZt8HgM3zdleXQYAKi4EkdyKTbBMgvuHNlUje+3v9Zhs/GpELKl7Mc9rWScXSsTlLJzdRa5DBBJs6M7KSUSGcAcvSu6cQWg3rqRRFWpKUcF5LFC4u1BD9w07801cUny/VtVl1V9eqYMaUeDsfSJlt;20:EbOEfH3vSBMsAFt5FGXXyhH2Ipf5XRU/dB8rUCIeZQqZkYd1KSHEpKrWEID6wYPBh901fzEtIDpSC4R7xzfoLZxgBVc33OJ2Lgcgzhfyt36Zb/BQTVUKmTs6FKvNnNG3GrF76LMq1dJ/hr/UK70u5O/fu33zHUdkzBuepzxSjfk=
 X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2018 11:54:32.5043 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ae77aea-ad34-4c7c-a3b8-08d5d1ed99f6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2018 12:04:39.4630 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c69360f3-98d0-4bf7-ac36-08d5d1ef03a6
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR05MB4591
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR05MB4588
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/14/2018 01:36 PM, Peter Zijlstra wrote:
-> On Thu, Jun 14, 2018 at 09:29:21AM +0200, Thomas Hellstrom wrote:
+On 06/14/2018 01:49 PM, Andrea Parri wrote:
+> [...]
 >
->>   __ww_mutex_wakeup_for_backoff(struct mutex *lock, struct ww_acquire_ctx *ww_ctx)
->>   {
->>   	struct mutex_waiter *cur;
->> +	unsigned int is_wait_die = ww_ctx->ww_class->is_wait_die;
->>   
->>   	lockdep_assert_held(&lock->wait_lock);
->>   
->> @@ -310,13 +348,14 @@ __ww_mutex_wakeup_for_backoff(struct mutex *lock, struct ww_acquire_ctx *ww_ctx)
->>   		if (!cur->ww_ctx)
->>   			continue;
->>   
->> -		if (cur->ww_ctx->acquired > 0 &&
->> +		if (is_wait_die && cur->ww_ctx->acquired > 0 &&
->>   		    __ww_ctx_stamp_after(cur->ww_ctx, ww_ctx)) {
->>   			debug_mutex_wake_waiter(lock, cur);
->>   			wake_up_process(cur->task);
->>   		}
->>   
->> -		break;
->> +		if (is_wait_die || __ww_mutex_wound(lock, cur->ww_ctx, ww_ctx))
->> +			break;
->>   	}
->>   }
-> I ended up with:
+>>>> +		/*
+>>>> +		 * wake_up_process() paired with set_current_state() inserts
+>>>> +		 * sufficient barriers to make sure @owner either sees it's
+>>>> +		 * wounded or has a wakeup pending to re-read the wounded
+>>>> +		 * state.
+>>> IIUC, "sufficient barriers" = full memory barriers (here).  (You may
+>>> want to be more specific.)
+>> Thanks for reviewing!
+>> OK. What about if someone relaxes that in the future?
+> This is actually one of my main concerns ;-)  as, IIUC, those barriers are
+> not only sufficient but also necessary: anything "less than a full barrier"
+> (in either wake_up_process() or set_current_state()) would _not_ guarantee
+> the "condition" above unless I'm misunderstanding it.
 >
+> But am I misunderstanding it?  Which barriers/guarantee do you _need_ from
+> the above mentioned pairing? (hence my comment...)
 >
-> static void __sched
-> __ww_mutex_check_waiters(struct mutex *lock, struct ww_acquire_ctx *ww_ctx)
-> {
-> 	bool is_wait_die = ww_ctx->ww_class->is_wait_die;
-> 	struct mutex_waiter *cur;
->
-> 	lockdep_assert_held(&lock->wait_lock);
->
-> 	list_for_each_entry(cur, &lock->wait_list, list) {
-> 		if (!cur->ww_ctx)
-> 			continue;
->
-> 		if (is_wait_die) {
-> 			/*
-> 			 * Because __ww_mutex_add_waiter() and
-> 			 * __ww_mutex_check_stamp() wake any but the earliest
-> 			 * context, this can only affect the first waiter (with
-> 			 * a context).
-> 			 */
-> 			if (cur->ww_ctx->acquired > 0 &&
-> 			    __ww_ctx_stamp_after(cur->ww_ctx, ww_ctx)) {
-> 				debug_mutex_wake_waiter(lock, cur);
-> 				wake_up_process(cur->task);
-> 			}
->
-> 			break;
-> 		}
->
-> 		if (__ww_mutex_wound(lock, cur->ww_ctx, ww_ctx))
-> 			break;
-> 	}
-> }
+>    Andrea
 
-Looks OK to me.
+No you are probably not misunderstanding me at all. My comment 
+originated from the reading of the kerneldoc of set_current_state()
 
->
-> Currently you don't allow mixing WD and WW contexts (which is not
-> immediately obvious from the above code), and the above hard relies on
-> that. Are there sensible use cases for mixing them? IOW will your
-> current restriction stand without hassle?
-
-Contexts _must_ agree on the algorithm used to resolve deadlocks. With 
-Wait-Die, for example, older transactions will wait if a lock is held by 
-a younger transaction and with Wound-Wait, younger transactions will 
-wait if a lock is held by an older transaction so there is no way of 
-mixing them.
-
-Thanks,
-
-/Thomas
-
+* set_current_state() includes a barrier so that the write of current->state
+* is correctly serialised wrt the caller's subsequent test of whether to
+* actually sleep:
+*
+* for (;;) {
+* set_current_state(TASK_UNINTERRUPTIBLE);
+* if (!need_sleep)
+* break;
+*
+* schedule();
+* }
+* __set_current_state(TASK_RUNNING);
+*
+* If the caller does not need such serialisation (because, for instance, the
+* condition test and condition change and wakeup are under the same 
+lock) then
+* use __set_current_state().
+*
+* The above is typically ordered against the wakeup, which does:
+*
+* need_sleep = false;
+* wake_up_state(p, TASK_UNINTERRUPTIBLE);
+*
+* Where wake_up_state() (and all other wakeup primitives) imply enough
+* barriers to order the store of the variable against wakeup. And with 
+ctx->wounded := !need_sleep this exactly matches what's happening in my 
+code. So what I was trying to say in the comment was that this above 
+contract is sufficient to guarantee the "condition" above, whitout me 
+actually knowing exactly what barriers are required. Thanks, Thomas
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
