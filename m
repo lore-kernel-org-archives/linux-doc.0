@@ -5,27 +5,27 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 260DD7DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 14:28:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E9227D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 14:35:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965946AbeFNOMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 10:12:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53088 "EHLO mail.kernel.org"
+        id S965579AbeFNOKP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 10:10:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51182 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965943AbeFNOL5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jun 2018 10:11:57 -0400
+        id S965515AbeFNOKL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 10:10:11 -0400
 Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5C719208DD;
-        Thu, 14 Jun 2018 14:11:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E256208CB;
+        Thu, 14 Jun 2018 14:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1528985517;
-        bh=wQbynlZR8AoIjbp8VRLRuIv3qA2f/aTStozb5Fm+OTs=;
+        s=default; t=1528985410;
+        bh=wKdccIh7iBlESvveQ5j54QxNTxPtU/er3TII84UPeCU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jgvHLXrFPAV3EO25odO+nanREVjyuDdNvRH8w3aA0e2gbBqq+YsCcUmKk53k/Y4uQ
-         Zd1dGV94dgB6vEZZx6ndVYsC6f2ay1u3iY184lw/gdBnd/Gi0bzR8hP0VVkL1h4ur9
-         bZxXC/InlJv50MIZQIPwak3cs9aFhzXkaS68PKYA=
+        b=wKhyrwbKMKRlACgHtpRdfj+mwVUMO2CXrU3lKHZHplgWJv8uLMjp6NKLtj3RVhGnA
+         L6cmsgQ/e1ljCthlS91YfMaJMD73zSeH4rBrEPlOrIynZaV4YvrgHeJO18+rsptCZR
+         tZD7Qn89nWD+0iOexqJZbsKcp2lG2dj5RXkKpbmg=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -46,12 +46,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4.9 19/30] serial: sh-sci: Stop using printk format %pCr
-Date:   Thu, 14 Jun 2018 16:05:00 +0200
-Message-Id: <20180614132601.051398668@linuxfoundation.org>
+Subject: [PATCH 4.14 18/36] serial: sh-sci: Stop using printk format %pCr
+Date:   Thu, 14 Jun 2018 16:04:41 +0200
+Message-Id: <20180614132158.085822615@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180614132600.255515394@linuxfoundation.org>
-References: <20180614132600.255515394@linuxfoundation.org>
+In-Reply-To: <20180614132157.333004166@linuxfoundation.org>
+References: <20180614132157.333004166@linuxfoundation.org>
 User-Agent: quilt/0.65
 X-stable: review
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-4.9-stable review patch.  If anyone has any objections, please let me know.
+4.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -108,7 +108,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/tty/serial/sh-sci.c
 +++ b/drivers/tty/serial/sh-sci.c
-@@ -2626,8 +2626,8 @@ found:
+@@ -2669,8 +2669,8 @@ found:
  			dev_dbg(dev, "failed to get %s (%ld)\n", clk_names[i],
  				PTR_ERR(clk));
  		else
