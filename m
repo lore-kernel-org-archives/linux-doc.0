@@ -5,82 +5,122 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1DE57D048
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 14:47:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 809F47D048
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 14:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755392AbeFNOrb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 10:47:31 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:40494 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755390AbeFNOr2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jun 2018 10:47:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=bzsp9R/0/TnIKNRQwr3DEN7SceKsbqc5Ixm+pnWo0j8=; b=x6uEGeiWXHW+jBzjcMWRLT4ON
-        OZPE2wxzoANWTR+a0lT1QGPvFczh/uuAvUBsJJRdZ5DW2wCBhvx/TF4Dr7XSiVDUFuzhiFlIYwrvx
-        hC7sgtngA7REYdmF95ycXplBM4qn457vqjooHb+lEuHdcXphNBX6ezislsxYAbbRa8S9AVhYk9O8S
-        6CSp5+9XrKKYVR/dTSkHqs0xxB/GSKt23wsodJf2plhAD7NrTmq4imGfvhkyz0+zbMdjgyK0cyc5X
-        moptAka5BKeXifA8IGsU8OGYCDaBUejYkGUyP6KR0lxbzmIRtikUL2B+U4gCS63pweTGxaNISxRWq
-        rbJc3Dxbw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fTTWh-0005GI-08; Thu, 14 Jun 2018 14:47:03 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id A1D79201EA7C8; Thu, 14 Jun 2018 16:46:59 +0200 (CEST)
-Date:   Thu, 14 Jun 2018 16:46:59 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Hellstrom <thellstrom@vmware.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
+        id S965025AbeFNOH2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 10:07:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47636 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S965022AbeFNOHZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 10:07:25 -0400
+Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 78B65208CB;
+        Thu, 14 Jun 2018 14:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1528985245;
+        bh=ojLdjWVjm0iY+cwJz/08T0owIB+Z4gqrkCx9fMRjgzY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=qsKkjduo2aRzM7PyXNsqwLp6QKAGhpRYxJVP4Hyvnx1iNOkIoFzpAxpYjUMmZGM+G
+         AWZ5pRDQ2RH347FYyJwB9iIDdp4MbVUQSqLLIyVFFbzbc83xa2fN0BPmsRfMEjYEV6
+         t2vmurA9sexyk6mjUEJRh+bPGpIACY5Q5LS/1Ajg=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 1/2] locking: Implement an algorithm choice for
- Wound-Wait mutexes
-Message-ID: <20180614144659.GC12198@hirez.programming.kicks-ass.net>
-References: <20180614072922.8114-1-thellstrom@vmware.com>
- <20180614072922.8114-2-thellstrom@vmware.com>
- <20180614113604.GZ12198@hirez.programming.kicks-ass.net>
- <7eb10c22-57b3-1472-0a77-7f787f612217@vmware.com>
- <20180614132905.GA7841@bombadil.infradead.org>
- <425f4d5b-d414-de46-f388-55f1e6821ba6@vmware.com>
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Eric Anholt <eric@anholt.net>,
+        Stefan Wahren <stefan.wahren@i2se.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 4.17 25/45] serial: sh-sci: Stop using printk format %pCr
+Date:   Thu, 14 Jun 2018 16:04:16 +0200
+Message-Id: <20180614132128.135775884@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180614132126.797006529@linuxfoundation.org>
+References: <20180614132126.797006529@linuxfoundation.org>
+User-Agent: quilt/0.65
+X-stable: review
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <425f4d5b-d414-de46-f388-55f1e6821ba6@vmware.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
+Content-Type: text/plain; charset=UTF-8
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 14, 2018 at 03:43:04PM +0200, Thomas Hellstrom wrote:
-> It's intended to be enforced by storing the algorithm choice in the
-> WW_MUTEX_CLASS which must be common for an acquire context and the
-> ww_mutexes it acquires. However, I don't think there is a check that that
-> holds. I guess we could add it as a DEBUG_MUTEX test in ww_mutex_lock().
+4.17-stable review patch.  If anyone has any objections, please let me know.
 
-There is ww_mutex_lock_acquired():
+------------------
 
-	DEBUG_LOCKS_WARN_ON(ww_ctx->ww_class != ww->ww_class)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-which should trigger if you try and be clever.
+commit d63c16f8e1ab761775275adcf54f4bef7c330295 upstream.
+
+Printk format "%pCr" will be removed soon, as clk_get_rate() must not be
+called in atomic context.
+
+Replace it by open-coding the operation.  This is safe here, as the code
+runs in task context.
+
+Link: http://lkml.kernel.org/r/1527845302-12159-4-git-send-email-geert+renesas@glider.be
+To: Jia-Ju Bai <baijiaju1990@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Michael Turquette <mturquette@baylibre.com>
+To: Stephen Boyd <sboyd@kernel.org>
+To: Zhang Rui <rui.zhang@intel.com>
+To: Eduardo Valentin <edubezval@gmail.com>
+To: Eric Anholt <eric@anholt.net>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-serial@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: stable@vger.kernel.org # 4.5+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Petr Mladek <pmladek@suse.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ drivers/tty/serial/sh-sci.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -2704,8 +2704,8 @@ found:
+ 			dev_dbg(dev, "failed to get %s (%ld)\n", clk_names[i],
+ 				PTR_ERR(clk));
+ 		else
+-			dev_dbg(dev, "clk %s is %pC rate %pCr\n", clk_names[i],
+-				clk, clk);
++			dev_dbg(dev, "clk %s is %pC rate %lu\n", clk_names[i],
++				clk, clk_get_rate(clk));
+ 		sci_port->clks[i] = IS_ERR(clk) ? NULL : clk;
+ 	}
+ 	return 0;
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
