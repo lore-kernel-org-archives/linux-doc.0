@@ -2,47 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2943A7D09E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 16:13:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58EF67D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Jun 2018 16:13:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936190AbeFNQMj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Jun 2018 12:12:39 -0400
-Received: from osg.samsung.com ([64.30.133.232]:41517 "EHLO osg.samsung.com"
+        id S1755558AbeFNQJk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Jun 2018 12:09:40 -0400
+Received: from osg.samsung.com ([64.30.133.232]:62828 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1755553AbeFNQJl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jun 2018 12:09:41 -0400
+        id S1755506AbeFNQJh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jun 2018 12:09:37 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 0C42B20F6E;
-        Thu, 14 Jun 2018 09:09:40 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 8960520F5C;
+        Thu, 14 Jun 2018 09:09:36 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id OJCcTawxtMdg; Thu, 14 Jun 2018 09:09:25 -0700 (PDT)
+        with ESMTP id lomz9anNSsX4; Thu, 14 Jun 2018 09:09:35 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.114.220.dynamic.adsl.gvt.net.br [177.41.114.220])
-        by osg.samsung.com (Postfix) with ESMTPSA id 93BBF20EA7;
+        by osg.samsung.com (Postfix) with ESMTPSA id A783F20EB6;
         Thu, 14 Jun 2018 09:09:16 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fTUoE-0005Ta-EC; Thu, 14 Jun 2018 13:09:14 -0300
+        id 1fTUoD-0005SH-Q5; Thu, 14 Jun 2018 13:09:13 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        David Lechner <david@lechnology.com>,
-        Peter Senna Tschudin <peter.senna@collabora.com>,
-        Martin Donnelly <martin.donnelly@ge.com>,
-        Martyn Welch <martyn.welch@collabora.co.uk>,
-        Stefan Agner <stefan@agner.ch>,
-        Alison Wang <alison.wang@nxp.com>,
-        Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 19/27] MAINTAINERS: fix location of some display DT bindings
-Date:   Thu, 14 Jun 2018 13:09:04 -0300
-Message-Id: <d7ccd55c208bc8b9733496314e37d2855f6e34f4.1528990947.git.mchehab+samsung@kernel.org>
+        Russell King <linux@armlinux.org.uk>,
+        "James E.J. Bottomley" <jejb@parisc-linux.org>,
+        Helge Deller <deller@gmx.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org
+Subject: [PATCH v3 03/27] arch/*: Kconfig: fix documentation for NMI watchdog
+Date:   Thu, 14 Jun 2018 13:08:48 -0300
+Message-Id: <564367865a45eb5509b23c295259e74387b874ad.1528990947.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1528990947.git.mchehab+samsung@kernel.org>
 References: <cover.1528990947.git.mchehab+samsung@kernel.org>
@@ -53,55 +53,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those files got a manufacturer's name prepended and were moved around.
-Adjust their references accordingly.
+Changeset 9919cba7ff71 ("watchdog: Update documentation") updated
+the documentation, removing the old nmi_watchdog.txt and adding
+a file with a new content.
 
-Also, due those movements, Documentation/devicetree/bindings/video
-doesn't exist anymore.
+Update Kconfig files accordingly.
 
-Cc: David Airlie <airlied@linux.ie>
-Cc: David Lechner <david@lechnology.com>
-Cc: Peter Senna Tschudin <peter.senna@collabora.com>
-Cc: Martin Donnelly <martin.donnelly@ge.com>
-Cc: Martyn Welch <martyn.welch@collabora.co.uk>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Alison Wang <alison.wang@nxp.com>
-Cc: Eric Anholt <eric@anholt.net>
+Fixes: 9919cba7ff71 ("watchdog: Update documentation")
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- MAINTAINERS | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ arch/arm/Kconfig    | 2 +-
+ arch/parisc/Kconfig | 2 +-
+ arch/sh/Kconfig     | 2 +-
+ arch/sparc/Kconfig  | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5871dd5060f6..43eee2fb8798 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4638,7 +4638,6 @@ F:	drivers/gpu/drm/
- F:	drivers/gpu/vga/
- F:	Documentation/devicetree/bindings/display/
- F:	Documentation/devicetree/bindings/gpu/
--F:	Documentation/devicetree/bindings/video/
- F:	Documentation/gpu/
- F:	include/drm/
- F:	include/uapi/drm/
-@@ -4683,7 +4682,7 @@ M:	Boris Brezillon <boris.brezillon@bootlin.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- F:	drivers/gpu/drm/atmel-hlcdc/
--F:	Documentation/devicetree/bindings/drm/atmel/
-+F:	Documentation/devicetree/bindings/display/atmel/
- T:	git git://anongit.freedesktop.org/drm/drm-misc
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 2a78bdef9a24..fc3330807b09 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1301,7 +1301,7 @@ config SMP
+ 	  will run faster if you say N here.
  
- DRM DRIVERS FOR BRIDGE CHIPS
-@@ -4714,7 +4713,7 @@ S:	Supported
- F:	drivers/gpu/drm/fsl-dcu/
- F:	Documentation/devicetree/bindings/display/fsl,dcu.txt
- F:	Documentation/devicetree/bindings/display/fsl,tcon.txt
--F:	Documentation/devicetree/bindings/display/panel/nec,nl4827hc19_05b.txt
-+F:	Documentation/devicetree/bindings/display/panel/nec,nl4827hc19-05b.txt
+ 	  See also <file:Documentation/x86/i386/IO-APIC.txt>,
+-	  <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO available at
++	  <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO available at
+ 	  <http://tldp.org/HOWTO/SMP-HOWTO.html>.
  
- DRM DRIVERS FOR FREESCALE IMX
- M:	Philipp Zabel <p.zabel@pengutronix.de>
+ 	  If you don't know what to do here, say N.
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index 4d8f64d48597..c480770fabcd 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -275,7 +275,7 @@ config SMP
+ 	  machines, but will use only one CPU of a multiprocessor machine.
+ 	  On a uniprocessor machine, the kernel will run faster if you say N.
+ 
+-	  See also <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO
++	  See also <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO
+ 	  available at <http://www.tldp.org/docs.html#howto>.
+ 
+ 	  If you don't know what to do here, say N.
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index 4d61a085982b..ac1829353139 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -687,7 +687,7 @@ config SMP
+ 	  People using multiprocessor machines who say Y here should also say
+ 	  Y to "Enhanced Real Time Clock Support", below.
+ 
+-	  See also <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO
++	  See also <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO
+ 	  available at <http://www.tldp.org/docs.html#howto>.
+ 
+ 	  If you don't know what to do here, say N.
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index 9a2b8877f174..0f535debf802 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -178,7 +178,7 @@ config SMP
+ 	  Y to "Enhanced Real Time Clock Support", below. The "Advanced Power
+ 	  Management" code will be disabled if you say Y here.
+ 
+-	  See also <file:Documentation/nmi_watchdog.txt> and the SMP-HOWTO
++	  See also <file:Documentation/lockup-watchdogs.txt> and the SMP-HOWTO
+ 	  available at <http://www.tldp.org/docs.html#howto>.
+ 
+ 	  If you don't know what to do here, say N.
 -- 
 2.17.1
 
