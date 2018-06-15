@@ -5,108 +5,101 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE5F77D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 16:47:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B7B47D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 18:13:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966059AbeFOQrP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Jun 2018 12:47:15 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:58162 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S964992AbeFOQqm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jun 2018 12:46:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=FPSy7COcdrgPAfZ+GqYL8a9DLfasAs7wcZsItPaiPc8=; b=P1ae/JU4VIJZOQy4gOIQNKLdq
-        eR0rNLCBxjNiIfZte3e1aoMf4SFBEUaCAF6psy/u85gunsTjtiIaG0Ygms3pxJBXcZuxolJqlc0dC
-        RdujZZLqMMdTC3tSzYj81wjmMXjSJYpAAfSqAKqChDT+0IfhxJImPxtPfg/nqqQjgHoNC6yZlqBW+
-        lc5LZQ1e/LcnOSgbEjlFwaz7rxGBSaTWXxqbLx/WzMafQIQ13N2yecazVIwE2lWXO5/o3aY7TSPEl
-        qbYlrdcCJd1jj95IRqFzppAECV0pU+cuegZl5VWwg7oAFXSDuA0VufizewPuZZwSpECjJ6dfdjoV+
-        FtToVXrZQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fTrrT-0006W3-QD; Fri, 15 Jun 2018 16:46:08 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D5A352029FA0D; Fri, 15 Jun 2018 18:46:04 +0200 (CEST)
-Date:   Fri, 15 Jun 2018 18:46:04 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Hellstrom <thellstrom@vmware.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, stern@rowland.harvard.edu
-Subject: Re: [PATCH v3 2/2] locking: Implement an algorithm choice for
- Wound-Wait mutexes
-Message-ID: <20180615164604.GD2458@hirez.programming.kicks-ass.net>
-References: <20180615120827.3989-1-thellstrom@vmware.com>
- <20180615120827.3989-2-thellstrom@vmware.com>
+        id S1756279AbeFOSNQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Jun 2018 14:13:16 -0400
+Received: from mail-lf0-f66.google.com ([209.85.215.66]:43236 "EHLO
+        mail-lf0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753696AbeFOSNQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jun 2018 14:13:16 -0400
+Received: by mail-lf0-f66.google.com with SMTP id x13-v6so457065lff.10
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jun 2018 11:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=INkN5fVtTut2zEu33+1uKA5DpWw6RvcT/ID+grvF9Zw=;
+        b=EIJeVI6SXWlVyDT7LMlZkH4oqckcpy0Ud7a6JScRlgjP1AIkAbfwjixyIXRQPl92pQ
+         Z55C0rF1hrWsXlHYoCVaumKJdRipUAOZtgTrhw5glDnfPoVX+Kde3TfNpWjmURzVUZI6
+         uOpZRnzCDyhWrA0K3IqIZO1S0pT0A3KgNNbEA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=INkN5fVtTut2zEu33+1uKA5DpWw6RvcT/ID+grvF9Zw=;
+        b=qyv/vTZjFP1VwvBBijCDBiX6AK++gmNX0ixmD1wF83B6MYuU7J5EgFGY9w0FKmHp95
+         qlIuIZcxZYeBcUyi6MAelaqVBh0sIetfEKYLlmQqvAr31Nzq8wbtSrsAU5AigCcOlpc7
+         PxRLVk0qxfG7Vf4OjeSp5+5UjcQeOuLb9nIWPNoM9UdeFgvrmuwcqBgV9mUFYEoFt95o
+         LEYI0yeB7q3JAYmpwTC9qoUdIheBLmkcL8VbxbgEP+d1q8FZbANBdxlmkJ39Wg0kI8fm
+         cwhvAQrePiLfpohgQmh9qL4I9dv23q97ndiaiGvpi5n15TagjZW4sf7/mutRnTa/Y/X6
+         8muQ==
+X-Gm-Message-State: APt69E3hKAp4ynCHP8HSGlWXTkRTZoKReCoHDtIml0QAFjnrLfOZ/fDs
+        Oj/KJUOM/34/kBLoOG5HVA0XZw==
+X-Google-Smtp-Source: ADUXVKJsVkIYfTyEvXNeaJGxrT1t8pXqEeCiIHkwAsPlRDEc8dH4QBWHuJcwawDI5K9AoJ6Brt6Fqw==
+X-Received: by 2002:a19:a892:: with SMTP id r140-v6mr1777222lfe.39.1529086394564;
+        Fri, 15 Jun 2018 11:13:14 -0700 (PDT)
+Received: from localhost.localdomain (59-201-94-178.pool.ukrtel.net. [178.94.201.59])
+        by smtp.gmail.com with ESMTPSA id h4-v6sm1543260ljc.8.2018.06.15.11.13.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 15 Jun 2018 11:13:13 -0700 (PDT)
+From:   Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+To:     grygorii.strashko@ti.com, davem@davemloft.net
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
+        henrik@austad.us, jesus.sanchez-palencia@intel.com,
+        ilias.apalodimas@linaro.org, p-varis@ti.com, spatton@ti.com,
+        francois.ozog@linaro.org, yogeshs@ti.com, nsekhar@ti.com,
+        andrew@lunn.ch, Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+Subject: [PATCH v3 net-next 0/6] net: ethernet: ti: cpsw: add MQPRIO and CBS Qdisc offload
+Date:   Fri, 15 Jun 2018 21:13:04 +0300
+Message-Id: <20180615181310.10437-1-ivan.khoronzhuk@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180615120827.3989-2-thellstrom@vmware.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 15, 2018 at 02:08:27PM +0200, Thomas Hellstrom wrote:
+This series adds MQPRIO and CBS Qdisc offload for TI cpsw driver.
+It potentially can be used in audio video bridging (AVB) and time
+sensitive networking (TSN).
 
-> @@ -772,6 +856,25 @@ __ww_mutex_add_waiter(struct mutex_waiter *waiter,
->  	}
->  
->  	list_add_tail(&waiter->list, pos);
-> +	if (__mutex_waiter_is_first(lock, waiter))
-> +		__mutex_set_flag(lock, MUTEX_FLAG_WAITERS);
-> +
-> +	/*
-> +	 * Wound-Wait: if we're blocking on a mutex owned by a younger context,
-> +	 * wound that such that we might proceed.
-> +	 */
-> +	if (!is_wait_die) {
-> +		struct ww_mutex *ww = container_of(lock, struct ww_mutex, base);
-> +
-> +		/*
-> +		 * See ww_mutex_set_context_fastpath(). Orders setting
-> +		 * MUTEX_FLAG_WAITERS (atomic operation) vs the ww->ctx load,
-> +		 * such that either we or the fastpath will wound @ww->ctx.
-> +		 */
-> +		smp_mb__after_atomic();
-> +
-> +		__ww_mutex_wound(lock, ww_ctx, ww->ctx);
-> +	}
+Patchset was tested on AM572x EVM and BBB boards. Last patch from this
+series adds detailed description of configuration with examples. For
+consistency reasons, in role of talker and listener, tools from
+patchset "TSN: Add qdisc based config interface for CBS" were used and
+can be seen here: https://www.spinics.net/lists/netdev/msg460869.html
 
-I think we want the smp_mb__after_atomic() in the same branch as
-__mutex_set_flag(). So something like:
+Based on net-next/master
 
-	if (__mutex_waiter_is_first()) {
-		__mutex_set_flag();
-		if (!is_wait_die)
-			smp_mb__after_atomic();
-	}
+v3..v2:
+ - corrected typo of "shaper" word, any functional changes
 
-Or possibly even without the !is_wait_die. The rules for
-smp_mb__*_atomic() are such that we want it unconditional after an
-atomic, otherwise the semantics get too fuzzy.
+v2..v1:
+ - changed name cpsw.txt on ti-cpsw.txt
+ - changed name cpsw_set_tc() on cpsw_set_mqprio()
 
-Alan (rightfully) complained about that a while ago when he was auditing
-users.
+Ivan Khoronzhuk (6):
+  net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
+  net: ethernet: ti: cpdma: fit rated channels in backward order
+  net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
+  net: ethernet: ti: cpsw: add CBS Qdisc offload
+  net: ethernet: ti: cpsw: restore shaper configuration while down/up
+  Documentation: networking: cpsw: add MQPRIO & CBS offload examples
 
+ Documentation/networking/ti-cpsw.txt    | 540 ++++++++++++++++++++++++
+ drivers/net/ethernet/ti/cpsw.c          | 364 +++++++++++++++-
+ drivers/net/ethernet/ti/davinci_cpdma.c |  31 +-
+ 3 files changed, 913 insertions(+), 22 deletions(-)
+ create mode 100644 Documentation/networking/ti-cpsw.txt
+
+-- 
+2.17.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
