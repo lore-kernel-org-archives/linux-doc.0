@@ -1,77 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 210AA7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 21:43:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 918937D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 23:38:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756625AbeFOVmv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Jun 2018 17:42:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42194 "EHLO mail.kernel.org"
+        id S1756776AbeFOXi1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Jun 2018 19:38:27 -0400
+Received: from anholt.net ([50.246.234.109]:41972 "EHLO anholt.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753688AbeFOVms (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jun 2018 17:42:48 -0400
-Received: from localhost (unknown [104.132.1.75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2D934208DA;
-        Fri, 15 Jun 2018 21:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1529098967;
-        bh=DrpuUCEpIqHyI4gV02/UY9bfkHBrBSaVi0pXOGOqw20=;
-        h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
-        b=hRm5OMER/6C0o/WmTdIZkyqsLlx8Dmj6AqWrD0yR6HZV946jHbwiGMtWeqkF8Hr8I
-         oywXOYSZySARLAAxWr0zTSZCyaXFQnq0Bq4JvsHgs3zCeMazKJ+jh+IKyUPNWEpHE/
-         Xyga44T5jTynm7T2hzw7E3uJd43woD9VOiQqUsh0=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-From:   Stephen Boyd <sboyd@kernel.org>
-In-Reply-To: <e1bf52a721005b2017434acc54ec5ddc152d6fe4.1528990947.git.mchehab+samsung@kernel.org>
+        id S1753761AbeFOXi1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jun 2018 19:38:27 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by anholt.net (Postfix) with ESMTP id 7CFFF10A1793;
+        Fri, 15 Jun 2018 16:38:26 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+        by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id EIxB4uYq_I3X; Fri, 15 Jun 2018 16:38:25 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+        by anholt.net (Postfix) with ESMTP id 0FC7510A01FA;
+        Fri, 15 Jun 2018 16:38:25 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+        id 77E7D2FE462E; Fri, 15 Jun 2018 16:38:24 -0700 (PDT)
+From:   Eric Anholt <eric@anholt.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-hwmon@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        alsa-devel@alsa-project.org, linux-fsdevel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <cover.1528990947.git.mchehab+samsung@kernel.org>
- <e1bf52a721005b2017434acc54ec5ddc152d6fe4.1528990947.git.mchehab+samsung@kernel.org>
-Message-ID: <152909896651.16708.13481357388390831455@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v3 16/27] docs: Fix more broken references
-Date:   Fri, 15 Jun 2018 14:42:46 -0700
+        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        David Lechner <david@lechnology.com>,
+        Martin Donnelly <martin.donnelly@ge.com>,
+        Martyn Welch <martyn.welch@collabora.co.uk>,
+        Stefan Agner <stefan@agner.ch>,
+        Alison Wang <alison.wang@nxp.com>,
+        Peter Senna Tschudin <peter.senna@collabora.com>
+Subject: Re: [PATCH v4 19/26] MAINTAINERS: fix location of some display DT bindings
+In-Reply-To: <5fd5928906086e37cdf8740296ee9766c85ee78f.1529079120.git.mchehab+samsung@kernel.org>
+References: <cover.1529079119.git.mchehab+samsung@kernel.org> <5fd5928906086e37cdf8740296ee9766c85ee78f.1529079120.git.mchehab+samsung@kernel.org>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/25.2.2 (x86_64-pc-linux-gnu)
+Date:   Fri, 15 Jun 2018 16:38:24 -0700
+Message-ID: <87vaajk4cv.fsf@anholt.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Mauro Carvalho Chehab (2018-06-14 09:09:01)
-> As we move stuff around, some doc references are broken. Fix some of
-> them via this script:
->         ./scripts/documentation-file-ref-check --fix
-> =
+--=-=-=
+Content-Type: text/plain
 
-> Manually checked that produced results are valid.
-> =
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> writes:
 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  .../devicetree/bindings/clock/st/st,clkgen.txt |  8 ++++----
->  .../devicetree/bindings/clock/ti/gate.txt      |  2 +-
->  .../devicetree/bindings/clock/ti/interface.txt |  2 +-
+> Those files got a manufacturer's name prepended and were moved around.
+> Adjust their references accordingly.
+>
+> Also, due those movements, Documentation/devicetree/bindings/video
+> doesn't exist anymore.
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+Reviewed-by: Eric Anholt <eric@anholt.net>
 
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAlskTfAACgkQtdYpNtH8
+nuhjoBAAqfjOg9SWl8EaVyho9Ektv+qc3imIyD5GVUyfMaXF9BTe7DEDj+g0QwVS
+EppokorBJ2sAKatBuKmJ2kJtk6YjsOPI2BZwCNi7n1mfYAuZml9z1oSc5ByhkBBb
+pcP9eb1VWfNYx00E4zSmeyOF/2TSxDMVGgKlNZb1QG2tapkx14u+DS0XRZ2hmZoc
+SPYPDKup/wR6qEvyFJnjmJ+dXCty20/LvKjceV8dQtI9Uywrfd5rV8YYo3AuYDjL
+C2pmL7nbHzZkQ22t4Tzg0HLPtGxKtCEoPYwyBhWxWRNgaK+zJCNxcamgI/AkEARm
+p310FeTE6JEJ0Bd0uqngXS218UVDTDKVFcXRcBmAnUWlQE2ha4zX36MFCF2jelAQ
+qJ0ELS11Wl/dbg8VQUkTsicFdjB6t/+Huuq8b+aOxrQ+GJClBllFAQCcnp+FJf0q
+3zwSosP94OSaIQD2X1Ertwg07MGVj/NIvcJtlcil9y+xdQXGkXwd1B/htBEwekf2
+q1DtvNFsS6vCSBM4ZlyAjOAULaVNiRE4XEzxTi1s9pLwpm33bepczPPi22T3E+vu
+rEJjqXiE3yQNxslR0hnod7h95ug8I8sWY9m2hBblIV+gi+TfV6PQd5t7Ft/4hOOC
+JLKUyH+jRhj1wFCgfHKQk5N16zEVGIG0j9U6A3kRydrQy29SMS8=
+=q69g
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
