@@ -5,59 +5,66 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E33247D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 19:09:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E973E7D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 19:15:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966063AbeFOTJz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Jun 2018 15:09:55 -0400
-Received: from ms.lwn.net ([45.79.88.28]:52808 "EHLO ms.lwn.net"
+        id S936308AbeFOTPI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Jun 2018 15:15:08 -0400
+Received: from mga18.intel.com ([134.134.136.126]:23522 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965052AbeFOTJy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jun 2018 15:09:54 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9C6E62D3;
-        Fri, 15 Jun 2018 19:09:53 +0000 (UTC)
-Date:   Fri, 15 Jun 2018 13:09:51 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v4 00/26] Fix some doc build warnings/errors and broken
- links
-Message-ID: <20180615130951.303a3ebb@lwn.net>
-In-Reply-To: <cover.1529079119.git.mchehab+samsung@kernel.org>
-References: <cover.1529079119.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S936269AbeFOTPI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jun 2018 15:15:08 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Jun 2018 12:15:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,228,1526367600"; 
+   d="scan'208";a="57674614"
+Received: from tzanussi-mobl2.amr.corp.intel.com (HELO [10.252.130.32]) ([10.252.130.32])
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2018 12:15:05 -0700
+Subject: Re: [PATCH] tracing: Fix some errors in histogram documentation
+To:     Joel Fernandes <joelaf@google.com>, linux-kernel@vger.kernel.org
+Cc:     kernel-team@android.com,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Changbin Du <changbin.du@intel.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>, bigeasy@linutronix.de,
+        mhiramat@kernel.org, tglx@linutronix.de, namhyung@kernel.org,
+        vedang.patel@intel.com, mathieu.desnoyers@efficios.com,
+        julia@ni.com, linux-rt-users@vger.kernel.org
+References: <20180614224859.55864-1-joel@joelfernandes.org>
+From:   Tom Zanussi <tom.zanussi@linux.intel.com>
+Message-ID: <3a84d411-a786-46c2-5192-cf21bc012879@linux.intel.com>
+Date:   Fri, 15 Jun 2018 14:15:04 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180614224859.55864-1-joel@joelfernandes.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Jun 2018 13:30:28 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Hi Joel,
 
-> As discussed during the review of v2, your plans were to merge
-> things with potential to conflict with merges by the end of the
-> merge window. So, I'm resubmitting it in order to help you with
-> that.
+On 6/14/2018 5:48 PM, Joel Fernandes wrote:
+> From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+> 
+> Fix typos, inconsistencies in using quotes, incorrect section number,
+> etc. in the trace histogram documentation.
+> 
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Is there any chance you could send them directly Linusward with my ack?
-I'm fighting a few real-world complications at the moment, and barely
-have time to breathe...
+These all look good to me - thanks for fixing them up.
 
-Thanks,
+Tom
 
-jon
+Acked-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
