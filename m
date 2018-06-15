@@ -4,38 +4,38 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A44D77D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 16:36:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D94C07D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 16:37:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966019AbeFOQgW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Jun 2018 12:36:22 -0400
-Received: from osg.samsung.com ([64.30.133.232]:55718 "EHLO osg.samsung.com"
+        id S966036AbeFOQgi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Jun 2018 12:36:38 -0400
+Received: from osg.samsung.com ([64.30.133.232]:63439 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965947AbeFOQbI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jun 2018 12:31:08 -0400
+        id S966097AbeFOQbH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jun 2018 12:31:07 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 62FE222BDB;
-        Fri, 15 Jun 2018 09:31:08 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 925C222BD3;
+        Fri, 15 Jun 2018 09:31:07 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id VdbcdVqFeU5L; Fri, 15 Jun 2018 09:31:07 -0700 (PDT)
+        with ESMTP id JWQ8Nhi9Amks; Fri, 15 Jun 2018 09:31:06 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.114.220.dynamic.adsl.gvt.net.br [177.41.114.220])
-        by osg.samsung.com (Postfix) with ESMTPSA id AB48A22B54;
+        by osg.samsung.com (Postfix) with ESMTPSA id A715822B4F;
         Fri, 15 Jun 2018 09:30:58 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fTrcm-00084M-GD; Fri, 15 Jun 2018 13:30:56 -0300
+        id 1fTrcm-00083x-BT; Fri, 15 Jun 2018 13:30:56 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 18/26] kernel-parameters.txt: fix pointers to sound parameters
-Date:   Fri, 15 Jun 2018 13:30:46 -0300
-Message-Id: <dbaad50b8fb1c6cd8f9d3b07fa3b7fcb21e27769.1529079120.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v4 13/26] scripts/documentation-file-ref-check: hint: dash or underline
+Date:   Fri, 15 Jun 2018 13:30:41 -0300
+Message-Id: <a62951d6c4d30ed37a563c9e1642156413858b6e.1529079120.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1529079119.git.mchehab+samsung@kernel.org>
 References: <cover.1529079119.git.mchehab+samsung@kernel.org>
@@ -46,41 +46,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The alsa parameters file was renamed to alsa-configuration.rst.
+Sometimes, people use dash instead of underline or vice-versa.
+Try to autocorrect it.
 
-With regards to OSS, it got retired as a hole by  at changeset
-727dede0ba8a ("sound: Retire OSS"). So, it doesn't make sense
-to keep mentioning it at kernel-parameters.txt.
-
-Fixes: 727dede0ba8a ("sound: Retire OSS")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ scripts/documentation-file-ref-check | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6fa3f31ed2a5..efc7aa7a0670 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -256,7 +256,7 @@
- 				(may crash computer or cause data corruption)
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index c8bc1c1c1d6e..d132f756d31d 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -104,6 +104,12 @@ foreach my $ref (keys %broken_ref) {
+ 		$f=qx(find . -iname $new) if ($new);
+ 	}
  
- 	ALSA		[HW,ALSA]
--			See Documentation/sound/alsa/alsa-parameters.txt
-+			See Documentation/sound/alsa-configuration.rst
- 
- 	alignment=	[KNL,ARM]
- 			Allow the default userspace alignment fault handler
-@@ -2926,9 +2926,6 @@
- 			This will also cause panics on machine check exceptions.
- 			Useful together with panic=30 to trigger a reboot.
- 
--	OSS		[HW,OSS]
--			See Documentation/sound/oss/oss-parameters.txt
--
- 	page_owner=	[KNL] Boot-time page_owner enabling option.
- 			Storage of the information about who allocated
- 			each page is disabled in default. With this switch,
++	# usual reason for breakage: use dash or underline
++	if (!$f) {
++		$new =~ s/[-_]/[-_]/g;
++		$f=qx(find . -iname $new) if ($new);
++	}
++
+ 	# Wild guess: seek for the same name on another place
+ 	if (!$f) {
+ 		$f = qx(find . -iname $new) if ($new);
 -- 
 2.17.1
 
