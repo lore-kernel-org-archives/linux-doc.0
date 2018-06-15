@@ -5,71 +5,104 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D46847D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 14:26:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 88FB27D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 15:57:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756137AbeFOO0A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Jun 2018 10:26:00 -0400
-Received: from mga12.intel.com ([192.55.52.136]:18727 "EHLO mga12.intel.com"
+        id S965935AbeFOP5y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Jun 2018 11:57:54 -0400
+Received: from foss.arm.com ([217.140.101.70]:43846 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1755816AbeFOOZ7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jun 2018 10:25:59 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Jun 2018 07:25:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,227,1526367600"; 
-   d="scan'208";a="48036081"
-Received: from 2b52.sc.intel.com (HELO [143.183.136.147]) ([143.183.136.147])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Jun 2018 07:25:58 -0700
-Message-ID: <1529072566.17958.4.camel@2b52.sc.intel.com>
-Subject: Re: [PATCH 5/5] Documentation/x86: Add CET description
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Date:   Fri, 15 Jun 2018 07:22:46 -0700
-In-Reply-To: <20180615111424.GA4473@amd>
-References: <20180607143544.3477-1-yu-cheng.yu@intel.com>
-         <20180607143544.3477-6-yu-cheng.yu@intel.com> <20180615111424.GA4473@amd>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
+        id S965593AbeFOP5x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jun 2018 11:57:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4AB271529;
+        Fri, 15 Jun 2018 08:57:53 -0700 (PDT)
+Received: from [10.1.206.34] (melchizedek.cambridge.arm.com [10.1.206.34])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADBE43F557;
+        Fri, 15 Jun 2018 08:57:50 -0700 (PDT)
+Subject: Re: [PATCH RESEND v4 2/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
+To:     gengdongjiu <gengdongjiu@huawei.com>
+Cc:     rkrcmar@redhat.com, corbet@lwn.net, christoffer.dall@arm.com,
+        marc.zyngier@arm.com, linux@armlinux.org.uk,
+        catalin.marinas@arm.com, will.deacon@arm.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+References: <1528487320-2873-1-git-send-email-gengdongjiu@huawei.com>
+ <1528487320-2873-3-git-send-email-gengdongjiu@huawei.com>
+ <45e94aae-ed9f-1fb7-f10e-d95c2f969ddd@arm.com>
+ <f7f59176-16a1-3b24-5acc-87bf1b4c1490@huawei.com>
+ <6887237f-d252-5b9e-02cb-5a44fef27080@arm.com>
+ <2455dc33-ae8d-79e6-e915-4181050e1e65@huawei.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <9e5be3fe-e6df-ca56-5eab-9ab7e18d9a99@arm.com>
+Date:   Fri, 15 Jun 2018 16:57:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <2455dc33-ae8d-79e6-e915-4181050e1e65@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2018-06-15 at 13:14 +0200, Pavel Machek wrote:
-> On Thu 2018-06-07 07:35:44, Yu-cheng Yu wrote:
-> > Explain how CET works and the noshstk/noibt kernel parameters.
-> > 
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt |   6 +
-> >  Documentation/x86/intel_cet.txt                 | 161 ++++++++++++++++++++++++
-> 
-> Should new files be .rst formatted or something like that?
-> 									Pavel
+Hi gengdongjiu,
 
-I will fix kernel-parameters.rst.  But currently there is no .rst in
-Documentation/x86?
+On 12/06/18 16:48, gengdongjiu wrote:
+> On 2018/6/12 23:29, James Morse wrote:
+>> On 12/06/18 15:50, gengdongjiu wrote:
+>>> On 2018/6/11 21:36, James Morse wrote:
+>>>> On 08/06/18 20:48, Dongjiu Geng wrote:
+>>>>> diff --git a/arch/arm/include/uapi/asm/kvm.h b/arch/arm/include/uapi/asm/kvm.h
+>>>>> index caae484..c3e6975 100644
+>>>>> --- a/arch/arm/include/uapi/asm/kvm.h
+>>>>> +++ b/arch/arm/include/uapi/asm/kvm.h
+>>>>> @@ -124,6 +124,18 @@ struct kvm_sync_regs {
+>>>>>  struct kvm_arch_memory_slot {
+>>>>>  };
+>>>>>  
+>>>>> +/* for KVM_GET/SET_VCPU_EVENTS */
+>>>>> +struct kvm_vcpu_events {
+>>>>> +	struct {
+>>>>> +		__u8 serror_pending;
+>>>>> +		__u8 serror_has_esr;
+>>>>> +		/* Align it to 8 bytes */
+>>>>> +		__u8 pad[6];
+>>>>> +		__u64 serror_esr;
+>>>>> +	} exception;
+>>>>> +	__u32 reserved[12];
+>>>>> +};
+>>>>> +
+>>>>
+>>>> You haven't defined __KVM_HAVE_VCPU_EVENTS for 32bit, so presumably this struct
+>>>> will never be used. Why is it here?
+>>
+>>>   if not add it for 32 bits. the 32 arm platform will build Fail, whether you have good
+>>>    idea to avoid this Failure if not add this struct for the 32 bit?
+>>
+>> How does this 32bit code build without this patch?
+>> If do you provide the struct, how will that code build with older headers?
+>>
+>> As far as I can see, this is what the __KVM_HAVE_VCPU_EVENTS define is for.
+>>
+>> This should be both, or neither. Having just the struct is useless.
+> It because the caller of kvm_arm_vcpu_get/set_events() is in "virt/kvm/arm/arm.c".
+> the virt/kvm/arm/arm.c will used by both arm64 and arm.
+> so It needs to add kvm_arm_vcpu_get/set_events() for the 32 bits, however, kvm_arm_vcpu_get/set_events() will directly return,
 
-Yu-cheng
+So you are adding a uapi struct that user-space can't actually use, to avoid a
+kernel build-error. Fine, it just looks really strange.
 
+32bit user-space shouldn't try to call this as check-extension reports it as not
+present. If it does, it gets -EINVAL back, which is also the default for
+kvm_arch_vcpu_ioctl().
+
+
+Thanks,
+
+James
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
