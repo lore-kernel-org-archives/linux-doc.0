@@ -4,38 +4,38 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F1727D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 16:36:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A44D77D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Jun 2018 16:36:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965988AbeFOQfh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Jun 2018 12:35:37 -0400
-Received: from osg.samsung.com ([64.30.133.232]:51148 "EHLO osg.samsung.com"
+        id S966019AbeFOQgW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Jun 2018 12:36:22 -0400
+Received: from osg.samsung.com ([64.30.133.232]:55718 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S966126AbeFOQbL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jun 2018 12:31:11 -0400
+        id S965947AbeFOQbI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jun 2018 12:31:08 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 0465122BF1;
-        Fri, 15 Jun 2018 09:31:11 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 62FE222BDB;
+        Fri, 15 Jun 2018 09:31:08 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 6Gxlm-LYGIWT; Fri, 15 Jun 2018 09:31:10 -0700 (PDT)
+        with ESMTP id VdbcdVqFeU5L; Fri, 15 Jun 2018 09:31:07 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.114.220.dynamic.adsl.gvt.net.br [177.41.114.220])
-        by osg.samsung.com (Postfix) with ESMTPSA id B204622B59;
+        by osg.samsung.com (Postfix) with ESMTPSA id AB48A22B54;
         Fri, 15 Jun 2018 09:30:58 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fTrcm-000842-CN; Fri, 15 Jun 2018 13:30:56 -0300
+        id 1fTrcm-00084M-GD; Fri, 15 Jun 2018 13:30:56 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 14/26] scripts/documentation-file-ref-check: get rid of false-positives
-Date:   Fri, 15 Jun 2018 13:30:42 -0300
-Message-Id: <bf9a11a7bf9290ca6bbe74c9d8b2a403a6bd59b1.1529079120.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v4 18/26] kernel-parameters.txt: fix pointers to sound parameters
+Date:   Fri, 15 Jun 2018 13:30:46 -0300
+Message-Id: <dbaad50b8fb1c6cd8f9d3b07fa3b7fcb21e27769.1529079120.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1529079119.git.mchehab+samsung@kernel.org>
 References: <cover.1529079119.git.mchehab+samsung@kernel.org>
@@ -46,53 +46,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that the number of broken refs are smaller, improve the logic
-that gets rid of false-positives.
+The alsa parameters file was renamed to alsa-configuration.rst.
 
+With regards to OSS, it got retired as a hole by  at changeset
+727dede0ba8a ("sound: Retire OSS"). So, it doesn't make sense
+to keep mentioning it at kernel-parameters.txt.
+
+Fixes: 727dede0ba8a ("sound: Retire OSS")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/documentation-file-ref-check | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index d132f756d31d..047f463cdf4b 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -38,16 +38,31 @@ while (<IN>) {
- 	my $f = $1;
- 	my $ln = $2;
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6fa3f31ed2a5..efc7aa7a0670 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -256,7 +256,7 @@
+ 				(may crash computer or cause data corruption)
  
--	# Makefiles contain nasty expressions to parse docs
--	next if ($f =~ m/Makefile/);
-+	# Makefiles and scripts contain nasty expressions to parse docs
-+	next if ($f =~ m/Makefile/ || $f =~ m/\.sh$/);
-+
- 	# Skip this script
- 	next if ($f eq $scriptname);
+ 	ALSA		[HW,ALSA]
+-			See Documentation/sound/alsa/alsa-parameters.txt
++			See Documentation/sound/alsa-configuration.rst
  
--	if ($ln =~ m,\b(\S*)(Documentation/[A-Za-z0-9\_\.\,\~/\*\[\]\?+-]*),) {
-+	if ($ln =~ m,\b(\S*)(Documentation/[A-Za-z0-9\_\.\,\~/\*\[\]\?+-]*)(.*),) {
- 		my $prefix = $1;
- 		my $ref = $2;
- 		my $base = $2;
-+		my $extra = $3;
+ 	alignment=	[KNL,ARM]
+ 			Allow the default userspace alignment fault handler
+@@ -2926,9 +2926,6 @@
+ 			This will also cause panics on machine check exceptions.
+ 			Useful together with panic=30 to trigger a reboot.
  
-+		# some file references are like:
-+		# /usr/src/linux/Documentation/DMA-{API,mapping}.txt
-+		# For now, ignore them
-+		next if ($extra =~ m/^{/);
-+
-+		# Remove footnotes at the end like:
-+		# Documentation/devicetree/dt-object-internal.txt[1]
-+		$ref =~ s/(txt|rst)\[\d+]$/$1/;
-+
-+		# Remove ending ']' without any '['
-+		$ref =~ s/\].*// if (!($ref =~ m/\[/));
-+
-+		# Remove puntuation marks at the end
- 		$ref =~ s/[\,\.]+$//;
- 
- 		my $fulref = "$prefix$ref";
+-	OSS		[HW,OSS]
+-			See Documentation/sound/oss/oss-parameters.txt
+-
+ 	page_owner=	[KNL] Boot-time page_owner enabling option.
+ 			Storage of the information about who allocated
+ 			each page is disabled in default. With this switch,
 -- 
 2.17.1
 
