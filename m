@@ -1,212 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46FF07D09D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Jun 2018 15:52:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA5877D048
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Jun 2018 23:55:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756845AbeFPPwd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Jun 2018 11:52:33 -0400
-Received: from mail-ot0-f196.google.com ([74.125.82.196]:43142 "EHLO
-        mail-ot0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754201AbeFPPwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jun 2018 11:52:30 -0400
-Received: by mail-ot0-f196.google.com with SMTP id i19-v6so14172874otk.10;
-        Sat, 16 Jun 2018 08:52:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=YDO4vdgLSxBiJM8N5ohdi/1VH3OLIR4x97zll5GqT50=;
-        b=Ja7ikoLiKVumhlX8eaGM4sxIfOAehhUGJGuoKiERowqkq9hKM8MylFEzB5kQ3xRnSW
-         5qBmDeRkXxpQQG4wQDmbGA5TDq/udVLxMzTRzzgO8IcRC+7B0AsF392oPDHH9OdALuLd
-         nUTWnpznt8uFTFYGk4f3rUnRl2Dcg7pGSRRSxHNUEgKGHyNwMs7PiBqpZ63KcQded0pt
-         97dzy/DeWqc+NHCBqx2WfbxLoiA0TzeYp2XUJmklkuCN2Za3x+Qe5x0OU/ZPtZMaezcf
-         IEkZZY4ZtCm5EkA3+Gpulkc/8pCQQfPcJbIzUgyqFC5mF2thEf5+iVmT6H2gNVi+dsQ/
-         aOQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=YDO4vdgLSxBiJM8N5ohdi/1VH3OLIR4x97zll5GqT50=;
-        b=oK2ut2zpe4lNuOAR7o8ajKt8kqNPEs7rBSdo38D1v9im2D8e8gPcIHOLnR0tHZ2VZV
-         PeLBMDQY7vl3+VX3ofGgdyXJqCOYfKx/x0M2+HMuTSqKfzY/SF0NngcmYRSZ2aDEjHDk
-         bG6SwRt5puNoK18twJRGED6nkkTG7AHqsXhCDi0NgUyu+bv6xrKZV6w6MwArdFDhQFpJ
-         qU9PCQ8MxVVCRm4v2jb7AXRFmfWpJg4E5Hxb2oof9hBNMMdfF2LKPMncPFMpDPuvJbei
-         J70Rx80bqPrM6lqZRFkW+R4bszTZAGMXw93mKE71U+KSPgqrgsjXZwXp3XoPdN3osgQO
-         JVaQ==
-X-Gm-Message-State: APt69E15DyyxfEoQnkVCF8vdEXWutbaTSvKfvSeWhxH4TFSc8W/YxT9v
-        gry+d5lJzbSK24NL+V5H/oqOp4TSmbU0MLVMl8g=
-X-Google-Smtp-Source: ADUXVKIUktA10eenpVtT9YE8b89/030xRoIo9hjHCUc+T/u2vSGOzycJuwC7p5ST1+zGL5inr2RVrLhOjTC59u1Zx4Y=
-X-Received: by 2002:a9d:55d7:: with SMTP id z23-v6mr3943162oti.271.1529164349982;
- Sat, 16 Jun 2018 08:52:29 -0700 (PDT)
+        id S1756928AbeFPXzm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 16 Jun 2018 19:55:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:54874 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1756924AbeFPXzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jun 2018 19:55:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=j9rIWq3rg7vYeb46Vui1y2XyWkUDLMM4qE5kSki24xs=; b=Uneo1jW1SEBn7PZMq72R0kbNK
+        ue1C63RqHdr8XkfM7tTilhSEP9lBre3WCYLmmr+hLDmhvoWtS0cGUhcSasW6KRaV2iI42gLop1O3c
+        YXPEkrWaFy2/IUKWEPpP+qcO3wlgjYXZiio30AHgPV1EwUfWllG7WHv8iIosyD8jBLR859eLjdkh6
+        8veUNwIMP/uJmLABNU1veGjioAAW+K5gIeI+HENUN5dmpGZNQWvixlKrqRwpjQJhuW1yUgW9/4eud
+        Q57xw2MxPqr5YeEAa+2OWrdZkbsDawNlx3iXIeuu6FOk0qbdNWZVOpYY471kG3SgJho75BNSMV3qQ
+        LvGW0a3rw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fUL2g-0001OC-Nw; Sat, 16 Jun 2018 23:55:38 +0000
+Subject: Re: [PATCH v2 0/5] FireWire: clean up kernel-doc, add Documentation
+ chapter
+To:     Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        Randy Dunlap <rd.dunlab@gmail.com>,
+        linux1394-devel@lists.sourceforge.net
+Cc:     Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux-doc@vger.kernel.org
+References: <20180414012722.17420-1-rd.dunlab@gmail.com>
+ <52b34674-f1bd-311f-8bc4-9eb0ceb88c97@sakamocchi.jp>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ed4b0f15-a875-4273-696a-65006c5f0364@infradead.org>
+Date:   Sat, 16 Jun 2018 16:55:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Received: by 2002:a9d:1429:0:0:0:0:0 with HTTP; Sat, 16 Jun 2018 08:52:29
- -0700 (PDT)
-In-Reply-To: <041e7a803fc0e5c5dfc1fb8b2f761074ca0baa2c.1529079120.git.mchehab+samsung@kernel.org>
-References: <cover.1529079119.git.mchehab+samsung@kernel.org> <041e7a803fc0e5c5dfc1fb8b2f761074ca0baa2c.1529079120.git.mchehab+samsung@kernel.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Sat, 16 Jun 2018 17:52:29 +0200
-X-Google-Sender-Auth: cZ0-985e1RM50MFNeUnKMiqDD_c
-Message-ID: <CAJZ5v0gVBxDZnNXG4Kf9M0wMwR1R97kg6uNmAYi5Rf-5kPBNQQ@mail.gmail.com>
-Subject: Re: [PATCH v4 26/26] fix a series of Documentation/ broken file name references
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Luis de Bethencourt <luisbg@kernel.org>,
-        Salah Triki <salah.triki@gmail.com>,
-        Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        linux-kernel@zh-kernel.org, dmaengine <dmaengine@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        sparclinux@vger.kernel.org, devel@lists.orangefs.org,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <52b34674-f1bd-311f-8bc4-9eb0ceb88c97@sakamocchi.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 15, 2018 at 6:30 PM, Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
-> As files move around, their previous links break. Fix the
-> references for them.
->
-> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/translations/zh_CN/io_ordering.txt | 2 +-
->  drivers/dma/dmaengine.c                          | 2 +-
->  drivers/platform/x86/Kconfig                     | 2 +-
->  drivers/sbus/char/oradax.c                       | 2 +-
->  fs/befs/ChangeLog                                | 2 +-
->  fs/orangefs/orangefs-sysfs.c                     | 2 +-
->  include/linux/platform_data/sc18is602.h          | 2 +-
->  kernel/power/main.c                              | 5 +++--
->  8 files changed, 10 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/io_ordering.txt b/Documentation/translations/zh_CN/io_ordering.txt
-> index e592daf4e014..1f8127bdd415 100644
-> --- a/Documentation/translations/zh_CN/io_ordering.txt
-> +++ b/Documentation/translations/zh_CN/io_ordering.txt
-> @@ -1,4 +1,4 @@
-> -Chinese translated version of Documentation/io_orderings.txt
-> +Chinese translated version of Documentation/io_ordering.txt
->
->  If you have any comment or update to the content, please contact the
->  original document maintainer directly.  However, if you have a problem
-> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-> index b451354735d3..08ba8473a284 100644
-> --- a/drivers/dma/dmaengine.c
-> +++ b/drivers/dma/dmaengine.c
-> @@ -38,7 +38,7 @@
->   * Each device has a channels list, which runs unlocked but is never modified
->   * once the device is registered, it's just setup by the driver.
->   *
-> - * See Documentation/dmaengine.txt for more details
-> + * See Documentation/driver-api/dmaengine for more details
->   */
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index f27cb186437d..ac4d48830415 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -1052,7 +1052,7 @@ config SAMSUNG_LAPTOP
->           function keys, wireless LED, LCD backlight level.
->
->           It may also provide some sysfs files described in
-> -         <file:Documentation/ABI/testing/sysfs-platform-samsung-laptop>
-> +         <file:Documentation/ABI/testing/sysfs-driver-samsung-laptop>
->
->           To compile this driver as a module, choose M here: the module
->           will be called samsung-laptop.
-> diff --git a/drivers/sbus/char/oradax.c b/drivers/sbus/char/oradax.c
-> index 1754f55e2fac..524f9ea62e52 100644
-> --- a/drivers/sbus/char/oradax.c
-> +++ b/drivers/sbus/char/oradax.c
-> @@ -30,7 +30,7 @@
->   * the recommended way for applications to use the coprocessor, and
->   * the driver interface is not intended for general use.
->   *
-> - * See Documentation/sparc/oradax/oracle_dax.txt for more details.
-> + * See Documentation/sparc/oradax/oracle-dax.txt for more details.
->   */
->
->  #include <linux/uaccess.h>
-> diff --git a/fs/befs/ChangeLog b/fs/befs/ChangeLog
-> index 16f2dfe8c2f7..aff7eec8f327 100644
-> --- a/fs/befs/ChangeLog
-> +++ b/fs/befs/ChangeLog
-> @@ -389,7 +389,7 @@ Version 0.4 (2001-10-28)
->         (fs/nls/Config.in)
->
->  * Added Configure.help entries for CONFIG_BEFS_FS and CONFIG_DEBUG_BEFS
-> -       (Documentation/Configure.help)
-> +       (currently at fs/befs/Kconfig)
->
->  2001-08-??
->  ==========
-> diff --git a/fs/orangefs/orangefs-sysfs.c b/fs/orangefs/orangefs-sysfs.c
-> index 079a465796f3..dd28079f518c 100644
-> --- a/fs/orangefs/orangefs-sysfs.c
-> +++ b/fs/orangefs/orangefs-sysfs.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * Documentation/ABI/stable/orangefs-sysfs:
-> + * Documentation/ABI/stable/sysfs-fs-orangefs:
->   *
->   * What:               /sys/fs/orangefs/perf_counter_reset
->   * Date:               June 2015
-> diff --git a/include/linux/platform_data/sc18is602.h b/include/linux/platform_data/sc18is602.h
-> index 997b06634152..18602cab7799 100644
-> --- a/include/linux/platform_data/sc18is602.h
-> +++ b/include/linux/platform_data/sc18is602.h
-> @@ -7,7 +7,7 @@
->   * it under the terms of the GNU General Public License version 2 as
->   * published by the Free Software Foundation.
->   *
-> - * For further information, see the Documentation/spi/sc18is602 file.
-> + * For further information, see the Documentation/spi/spi-sc18is602 file.
->   */
->
->  /**
-> diff --git a/kernel/power/main.c b/kernel/power/main.c
-> index 705c2366dafe..d9706da10930 100644
-> --- a/kernel/power/main.c
-> +++ b/kernel/power/main.c
-> @@ -455,8 +455,9 @@ struct kobject *power_kobj;
->   * state - control system sleep states.
->   *
->   * show() returns available sleep state labels, which may be "mem", "standby",
-> - * "freeze" and "disk" (hibernation).  See Documentation/power/states.txt for a
-> - * description of what they mean.
-> + * "freeze" and "disk" (hibernation).
-> + * See Documentation/admin-guide/pm/sleep-states.rst for a description of
-> + * what they mean.
+On 04/15/2018 07:10 PM, Takashi Sakamoto wrote:
+> Hi,
+> 
+> On Apr 14 2018 10:27, Randy Dunlap wrote:
+>> This patch series cleans up kernel-doc warnings in several
+>> FireWire source files and then adds a Documentation driver-api
+>> chapter for FireWire.
+>>
+>> [PATCH v3 1/5] FireWire: clean up firewire-cdev.h kernel-doc
+>> [PATCH v3 2/5] FireWire: clean up core-iso.c kernel-doc
+>> [PATCH v3 3/5] FireWire: clean up core-transaction.c kernel-doc
+>> [PATCH v3 4/5] FireWire: add a Documentation driver-api chapter
+>> [PATCH v3 5/5] FireWire: add driver-api Introduction section
+>>
+>>   Documentation/driver-api/firewire.rst |   50 +++++++++++++++++++++++-
+>>   Documentation/driver-api/index.rst    |    1
+>>   drivers/firewire/core-iso.c           |    7 +++
+>>   drivers/firewire/core-transaction.c   |   10 ++++
+>>   include/uapi/linux/firewire-cdev.h    |   22 ++++++----
+>>   5 files changed, 81 insertions(+), 9 deletions(-)
+> 
+> I reviewed all of the five patches.
+> 
+> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> 
+> We're on development cycle for v4.18. Your patchset will be merged into
+> mainline in next merge window by pull request from Stefan.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Stefan, are you around?
 
-for the PM part above.
+The merge window for v4.18 just closed today.
 
->   *
->   * store() accepts one of those strings, translates it into the proper
->   * enumerated value, and initiates a suspend transition.
-> --
+thanks,
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
