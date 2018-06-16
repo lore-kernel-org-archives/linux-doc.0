@@ -1,138 +1,212 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAE1C7D043
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Jun 2018 15:07:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 46FF07D09D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 16 Jun 2018 15:52:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754086AbeFPPHk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Jun 2018 11:07:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45008 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1754005AbeFPPHj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jun 2018 11:07:39 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5GF4MZG009209
-        for <linux-doc@vger.kernel.org>; Sat, 16 Jun 2018 11:07:38 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jmxjbhknh-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 16 Jun 2018 11:07:38 -0400
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Sat, 16 Jun 2018 16:07:37 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 16 Jun 2018 16:07:32 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5GF7Vfs28967014
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 16 Jun 2018 15:07:31 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 748D911C04C;
-        Sat, 16 Jun 2018 15:58:01 +0100 (BST)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E5BEA11C050;
-        Sat, 16 Jun 2018 15:57:55 +0100 (BST)
-Received: from [9.78.192.161] (unknown [9.78.192.161])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Sat, 16 Jun 2018 15:57:55 +0100 (BST)
-Subject: Re: [PATCH 0/7] Uprobes: Support SDT markers having reference count
- (semaphore)
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180606083344.31320-1-ravi.bangoria@linux.ibm.com>
- <20180608101023.cbf20db485026213d490cb7c@kernel.org>
- <0d487b32-3141-ec30-6cca-eba7159d70b0@linux.ibm.com>
- <20180608141431.c0196a2c80a8d4701bc9db58@kernel.org>
- <71f19b63-a641-1705-f087-a39b8b81c4be@linux.ibm.com>
- <20180609004549.ea7b1854772217598bb1cdfd@kernel.org>
- <6225481e-fa00-a242-2b57-223559e3c488@linux.ibm.com>
- <20180616225032.3fc9a027dca76926ff198ff8@kernel.org>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Sat, 16 Jun 2018 20:37:24 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1756845AbeFPPwd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 16 Jun 2018 11:52:33 -0400
+Received: from mail-ot0-f196.google.com ([74.125.82.196]:43142 "EHLO
+        mail-ot0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754201AbeFPPwa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jun 2018 11:52:30 -0400
+Received: by mail-ot0-f196.google.com with SMTP id i19-v6so14172874otk.10;
+        Sat, 16 Jun 2018 08:52:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=YDO4vdgLSxBiJM8N5ohdi/1VH3OLIR4x97zll5GqT50=;
+        b=Ja7ikoLiKVumhlX8eaGM4sxIfOAehhUGJGuoKiERowqkq9hKM8MylFEzB5kQ3xRnSW
+         5qBmDeRkXxpQQG4wQDmbGA5TDq/udVLxMzTRzzgO8IcRC+7B0AsF392oPDHH9OdALuLd
+         nUTWnpznt8uFTFYGk4f3rUnRl2Dcg7pGSRRSxHNUEgKGHyNwMs7PiBqpZ63KcQded0pt
+         97dzy/DeWqc+NHCBqx2WfbxLoiA0TzeYp2XUJmklkuCN2Za3x+Qe5x0OU/ZPtZMaezcf
+         IEkZZY4ZtCm5EkA3+Gpulkc/8pCQQfPcJbIzUgyqFC5mF2thEf5+iVmT6H2gNVi+dsQ/
+         aOQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=YDO4vdgLSxBiJM8N5ohdi/1VH3OLIR4x97zll5GqT50=;
+        b=oK2ut2zpe4lNuOAR7o8ajKt8kqNPEs7rBSdo38D1v9im2D8e8gPcIHOLnR0tHZ2VZV
+         PeLBMDQY7vl3+VX3ofGgdyXJqCOYfKx/x0M2+HMuTSqKfzY/SF0NngcmYRSZ2aDEjHDk
+         bG6SwRt5puNoK18twJRGED6nkkTG7AHqsXhCDi0NgUyu+bv6xrKZV6w6MwArdFDhQFpJ
+         qU9PCQ8MxVVCRm4v2jb7AXRFmfWpJg4E5Hxb2oof9hBNMMdfF2LKPMncPFMpDPuvJbei
+         J70Rx80bqPrM6lqZRFkW+R4bszTZAGMXw93mKE71U+KSPgqrgsjXZwXp3XoPdN3osgQO
+         JVaQ==
+X-Gm-Message-State: APt69E15DyyxfEoQnkVCF8vdEXWutbaTSvKfvSeWhxH4TFSc8W/YxT9v
+        gry+d5lJzbSK24NL+V5H/oqOp4TSmbU0MLVMl8g=
+X-Google-Smtp-Source: ADUXVKIUktA10eenpVtT9YE8b89/030xRoIo9hjHCUc+T/u2vSGOzycJuwC7p5ST1+zGL5inr2RVrLhOjTC59u1Zx4Y=
+X-Received: by 2002:a9d:55d7:: with SMTP id z23-v6mr3943162oti.271.1529164349982;
+ Sat, 16 Jun 2018 08:52:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180616225032.3fc9a027dca76926ff198ff8@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18061615-0012-0000-0000-000002801ED1
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061615-0013-0000-0000-000020B14BAE
-Message-Id: <fa2a2578-1f39-8858-afa0-d8076aa5bc15@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-16_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=887 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1805220000 definitions=main-1806160183
+Received: by 2002:a9d:1429:0:0:0:0:0 with HTTP; Sat, 16 Jun 2018 08:52:29
+ -0700 (PDT)
+In-Reply-To: <041e7a803fc0e5c5dfc1fb8b2f761074ca0baa2c.1529079120.git.mchehab+samsung@kernel.org>
+References: <cover.1529079119.git.mchehab+samsung@kernel.org> <041e7a803fc0e5c5dfc1fb8b2f761074ca0baa2c.1529079120.git.mchehab+samsung@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sat, 16 Jun 2018 17:52:29 +0200
+X-Google-Sender-Auth: cZ0-985e1RM50MFNeUnKMiqDD_c
+Message-ID: <CAJZ5v0gVBxDZnNXG4Kf9M0wMwR1R97kg6uNmAYi5Rf-5kPBNQQ@mail.gmail.com>
+Subject: Re: [PATCH v4 26/26] fix a series of Documentation/ broken file name references
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Luis de Bethencourt <luisbg@kernel.org>,
+        Salah Triki <salah.triki@gmail.com>,
+        Mike Marshall <hubcap@omnibond.com>,
+        Martin Brandenburg <martin@omnibond.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+        linux-kernel@zh-kernel.org, dmaengine <dmaengine@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        sparclinux@vger.kernel.org, devel@lists.orangefs.org,
+        Linux PM <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Masami,
+On Fri, Jun 15, 2018 at 6:30 PM, Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+> As files move around, their previous links break. Fix the
+> references for them.
+>
+> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/translations/zh_CN/io_ordering.txt | 2 +-
+>  drivers/dma/dmaengine.c                          | 2 +-
+>  drivers/platform/x86/Kconfig                     | 2 +-
+>  drivers/sbus/char/oradax.c                       | 2 +-
+>  fs/befs/ChangeLog                                | 2 +-
+>  fs/orangefs/orangefs-sysfs.c                     | 2 +-
+>  include/linux/platform_data/sc18is602.h          | 2 +-
+>  kernel/power/main.c                              | 5 +++--
+>  8 files changed, 10 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/io_ordering.txt b/Documentation/translations/zh_CN/io_ordering.txt
+> index e592daf4e014..1f8127bdd415 100644
+> --- a/Documentation/translations/zh_CN/io_ordering.txt
+> +++ b/Documentation/translations/zh_CN/io_ordering.txt
+> @@ -1,4 +1,4 @@
+> -Chinese translated version of Documentation/io_orderings.txt
+> +Chinese translated version of Documentation/io_ordering.txt
+>
+>  If you have any comment or update to the content, please contact the
+>  original document maintainer directly.  However, if you have a problem
+> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
+> index b451354735d3..08ba8473a284 100644
+> --- a/drivers/dma/dmaengine.c
+> +++ b/drivers/dma/dmaengine.c
+> @@ -38,7 +38,7 @@
+>   * Each device has a channels list, which runs unlocked but is never modified
+>   * once the device is registered, it's just setup by the driver.
+>   *
+> - * See Documentation/dmaengine.txt for more details
+> + * See Documentation/driver-api/dmaengine for more details
+>   */
+>
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index f27cb186437d..ac4d48830415 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -1052,7 +1052,7 @@ config SAMSUNG_LAPTOP
+>           function keys, wireless LED, LCD backlight level.
+>
+>           It may also provide some sysfs files described in
+> -         <file:Documentation/ABI/testing/sysfs-platform-samsung-laptop>
+> +         <file:Documentation/ABI/testing/sysfs-driver-samsung-laptop>
+>
+>           To compile this driver as a module, choose M here: the module
+>           will be called samsung-laptop.
+> diff --git a/drivers/sbus/char/oradax.c b/drivers/sbus/char/oradax.c
+> index 1754f55e2fac..524f9ea62e52 100644
+> --- a/drivers/sbus/char/oradax.c
+> +++ b/drivers/sbus/char/oradax.c
+> @@ -30,7 +30,7 @@
+>   * the recommended way for applications to use the coprocessor, and
+>   * the driver interface is not intended for general use.
+>   *
+> - * See Documentation/sparc/oradax/oracle_dax.txt for more details.
+> + * See Documentation/sparc/oradax/oracle-dax.txt for more details.
+>   */
+>
+>  #include <linux/uaccess.h>
+> diff --git a/fs/befs/ChangeLog b/fs/befs/ChangeLog
+> index 16f2dfe8c2f7..aff7eec8f327 100644
+> --- a/fs/befs/ChangeLog
+> +++ b/fs/befs/ChangeLog
+> @@ -389,7 +389,7 @@ Version 0.4 (2001-10-28)
+>         (fs/nls/Config.in)
+>
+>  * Added Configure.help entries for CONFIG_BEFS_FS and CONFIG_DEBUG_BEFS
+> -       (Documentation/Configure.help)
+> +       (currently at fs/befs/Kconfig)
+>
+>  2001-08-??
+>  ==========
+> diff --git a/fs/orangefs/orangefs-sysfs.c b/fs/orangefs/orangefs-sysfs.c
+> index 079a465796f3..dd28079f518c 100644
+> --- a/fs/orangefs/orangefs-sysfs.c
+> +++ b/fs/orangefs/orangefs-sysfs.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * Documentation/ABI/stable/orangefs-sysfs:
+> + * Documentation/ABI/stable/sysfs-fs-orangefs:
+>   *
+>   * What:               /sys/fs/orangefs/perf_counter_reset
+>   * Date:               June 2015
+> diff --git a/include/linux/platform_data/sc18is602.h b/include/linux/platform_data/sc18is602.h
+> index 997b06634152..18602cab7799 100644
+> --- a/include/linux/platform_data/sc18is602.h
+> +++ b/include/linux/platform_data/sc18is602.h
+> @@ -7,7 +7,7 @@
+>   * it under the terms of the GNU General Public License version 2 as
+>   * published by the Free Software Foundation.
+>   *
+> - * For further information, see the Documentation/spi/sc18is602 file.
+> + * For further information, see the Documentation/spi/spi-sc18is602 file.
+>   */
+>
+>  /**
+> diff --git a/kernel/power/main.c b/kernel/power/main.c
+> index 705c2366dafe..d9706da10930 100644
+> --- a/kernel/power/main.c
+> +++ b/kernel/power/main.c
+> @@ -455,8 +455,9 @@ struct kobject *power_kobj;
+>   * state - control system sleep states.
+>   *
+>   * show() returns available sleep state labels, which may be "mem", "standby",
+> - * "freeze" and "disk" (hibernation).  See Documentation/power/states.txt for a
+> - * description of what they mean.
+> + * "freeze" and "disk" (hibernation).
+> + * See Documentation/admin-guide/pm/sleep-states.rst for a description of
+> + * what they mean.
 
-On 06/16/2018 07:20 PM, Masami Hiramatsu wrote:
-> Hi Ravi,
-> 
-> Sorry for replying later.
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-No issues :)
+for the PM part above.
 
-> 
-> On Mon, 11 Jun 2018 10:01:58 +0530
-> Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
-> 
->> Hi Masami,
->>
->>>>> Hmm, it sounds simple... maybe we can increment refctr in install_breakpoint/
->>>>> remove_breakpoint?
->>>>
->>>> Not really, it would be simpler if I can put it inside install_breakpoint().
->>>> Consider an mmap() case. Probed instruction resides in the text section whereas
->>>> reference counter resides in the data section. These sections gets mapped using
->>>> separate mmap() calls. So, when process mmaps the text section we will change the
->>>> instruction, but section holding the reference counter may not have been mapped
->>>> yet in the virtual memory. If so, we will fail to update the reference counter.
->>>
->>> Got it. 
->>> In such case, maybe we can hook the target page mmapped and do install_breakpoint()
->>> at that point. Since the instruction is protected by a refctr, unless mmap the
->>> page on where the refctr is, the program doesn't reach the tracepoint. Is that right?
->>>
->>
->> You mean, when mmap(text) happens, save the target page somewhere and when
->> mmap(data) happens, update both instruction and ref_ctr?
-> 
-> Yes. I think you can just clone the target(text) page but not install
-> breakpoint, and if mmap(data) happens, update both.
-
-I'm preparing a prototype according to this. The only difference in my approach is,
-I'm not delaying instruction update. I.e. let instruction update happen as it is,
-just mark that uprobe as delayed. Whenever vma holding reference counter gets mapped, 
-update the reference counter.
-
-Will post the series soon.
-
-Thanks for the reply,
-Ravi
-
+>   *
+>   * store() accepts one of those strings, translates it into the proper
+>   * enumerated value, and initiates a suspend transition.
+> --
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
