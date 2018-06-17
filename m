@@ -1,104 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F98B7D048
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Jun 2018 02:37:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E899B7DF87
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Jun 2018 03:16:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932598AbeFQChU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 16 Jun 2018 22:37:20 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:5939 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1756946AbeFQChT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 16 Jun 2018 22:37:19 -0400
-Received: from DGGEMA402-HUB.china.huawei.com (unknown [172.30.72.53])
-        by Forcepoint Email with ESMTP id 758D7A4E07838;
-        Sun, 17 Jun 2018 10:37:15 +0800 (CST)
-Received: from DGGEMA503-MBX.china.huawei.com ([169.254.1.111]) by
- DGGEMA402-HUB.china.huawei.com ([10.3.20.43]) with mapi id 14.03.0382.000;
- Sun, 17 Jun 2018 10:37:13 +0800
-From:   gengdongjiu <gengdongjiu@huawei.com>
-To:     James Morse <james.morse@arm.com>
-CC:     "rkrcmar@redhat.com" <rkrcmar@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "christoffer.dall@arm.com" <christoffer.dall@arm.com>,
-        "marc.zyngier@arm.com" <marc.zyngier@arm.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will.deacon@arm.com" <will.deacon@arm.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH RESEND v4 2/2] arm/arm64: KVM: Add
- KVM_GET/SET_VCPU_EVENTS
-Thread-Topic: [PATCH RESEND v4 2/2] arm/arm64: KVM: Add
- KVM_GET/SET_VCPU_EVENTS
-Thread-Index: AdQF2PP8MBanP2tNQqWU0qZjd6ZgSwACoHwQ
-Date:   Sun, 17 Jun 2018 02:37:12 +0000
-Message-ID: <0184EA26B2509940AA629AE1405DD7F201CE36DC@DGGEMA503-MBX.china.huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.45.50.98]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+        id S1756972AbeFQDQQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 16 Jun 2018 23:16:16 -0400
+Received: from mail-pg0-f68.google.com ([74.125.83.68]:42636 "EHLO
+        mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1756947AbeFQDQP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jun 2018 23:16:15 -0400
+Received: by mail-pg0-f68.google.com with SMTP id c10-v6so6045432pgu.9;
+        Sat, 16 Jun 2018 20:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VgGvq1Ghpdbl0lx7ogVWe4EyLgY6e7eZ+le7qeBQgMY=;
+        b=k0Zz4eqT0z+0Vi8fb1BxjgrKkCVmwvJJNsLFiZl1oCK2NXYhiaHuVguQobKRFi7gt7
+         1i9DFTiYToZr8bU93OswlrzcHB8XjU3VWwyHqwtT8ley3tL5YzhX6+X3LQX4cX8fi1yf
+         IJqEnGk5WH58hzQ24mRbfvAav2rt3b5j1yTOxBZz3hn6gXEqnl9qdYsNAaX95QB8CvXt
+         oDUj001vQMt8BVpjhut31DzPGhQQZ1ts/ZARkWdif3vt/09fI8r+fKrsp8B2htYrZWLG
+         jYzdsBlJYmICJqq7K/dexdu3STMlbtusiuh9jeawv/9psOeLl5UhcRd/lvWncu1OpWp5
+         6OVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VgGvq1Ghpdbl0lx7ogVWe4EyLgY6e7eZ+le7qeBQgMY=;
+        b=GWvhW+q7XDH4bqWwpyy3Fd3zZtAZzNnnzI90PNWMU9O11u0JmVFb0vKv+sjdcJsCS7
+         BvNuIAiJ2fNOX25U/E2HDd0Aj6xVLAGBZLujeKYEWqqZqBJ/jRgmBwt78ksfGy7GYg6z
+         0gg8MkE3k8S7/PZUjroohDJPknH5w/MTdGQutjkyUf4LMMGTG21/O5C91COhI4lona2w
+         tFiQGeA3dX3wN+jRfR09v668OaNt2alCX99IxeiWVxF/1bRq3M+hyv0JR0ZcvNSddhh6
+         hPP86MEx12p2WWZUDWboptRLqF0wLy55gw515wMRRcqJcMMb8L4xX3fI7ZbhrH7BEYhO
+         i2eg==
+X-Gm-Message-State: APt69E0Lcr251Kyg5cCL86LHde443/2eFu1WFya6aoET5bK9HX8k8FXB
+        yd61JP48VFNOlQVzMUgvku0=
+X-Google-Smtp-Source: ADUXVKJ4rLUMdWJ1/zgIiFe1G1uYTHUr8CYRpMl7L9Q3AAVTc9994PmPUR5OlYwjFQe/gJo5O06mUg==
+X-Received: by 2002:a62:5911:: with SMTP id n17-v6mr8236211pfb.162.1529205374547;
+        Sat, 16 Jun 2018 20:16:14 -0700 (PDT)
+Received: from 350D (14-202-194-140.static.tpgi.com.au. [14.202.194.140])
+        by smtp.googlemail.com with ESMTPSA id k84-v6sm31686508pfh.110.2018.06.16.20.16.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 16 Jun 2018 20:16:13 -0700 (PDT)
+Message-ID: <2b77abb17dfaf58b7c23fac9d8603482e1887337.camel@gmail.com>
+Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
+From:   Balbir Singh <bsingharora@gmail.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Date:   Sun, 17 Jun 2018 13:16:02 +1000
+In-Reply-To: <1528988176.13101.15.camel@2b52.sc.intel.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+         <bbfde1b3-5e1b-80e3-30e8-fd1e46a2ceb1@gmail.com>
+         <1528815820.8271.16.camel@2b52.sc.intel.com>
+         <814fc15e80908d8630ff665be690ccbe6e69be88.camel@gmail.com>
+         <1528988176.13101.15.camel@2b52.sc.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiANCj4gPiA+Pj4+PiAtLS0gYS9hcmNoL2FybS9pbmNsdWRlL3VhcGkvYXNtL2t2bS5oDQo+ID4g
-Pj4+Pj4gKysrIGIvYXJjaC9hcm0vaW5jbHVkZS91YXBpL2FzbS9rdm0uaA0KPiA+ID4+Pj4+IEBA
-IC0xMjQsNiArMTI0LDE4IEBAIHN0cnVjdCBrdm1fc3luY19yZWdzIHsgIHN0cnVjdA0KPiA+ID4+
-Pj4+IGt2bV9hcmNoX21lbW9yeV9zbG90IHsgIH07DQo+ID4gPj4+Pj4NCj4gPiA+Pj4+PiArLyog
-Zm9yIEtWTV9HRVQvU0VUX1ZDUFVfRVZFTlRTICovIHN0cnVjdCBrdm1fdmNwdV9ldmVudHMgew0K
-PiA+ID4+Pj4+ICsJc3RydWN0IHsNCj4gPiA+Pj4+PiArCQlfX3U4IHNlcnJvcl9wZW5kaW5nOw0K
-PiA+ID4+Pj4+ICsJCV9fdTggc2Vycm9yX2hhc19lc3I7DQo+ID4gPj4+Pj4gKwkJLyogQWxpZ24g
-aXQgdG8gOCBieXRlcyAqLw0KPiA+ID4+Pj4+ICsJCV9fdTggcGFkWzZdOw0KPiA+ID4+Pj4+ICsJ
-CV9fdTY0IHNlcnJvcl9lc3I7DQo+ID4gPj4+Pj4gKwl9IGV4Y2VwdGlvbjsNCj4gPiA+Pj4+PiAr
-CV9fdTMyIHJlc2VydmVkWzEyXTsNCj4gPiA+Pj4+PiArfTsNCj4gPiA+Pj4+PiArDQo+ID4gPj4+
-Pg0KPiA+ID4+Pj4gWW91IGhhdmVuJ3QgZGVmaW5lZCBfX0tWTV9IQVZFX1ZDUFVfRVZFTlRTIGZv
-ciAzMmJpdCwgc28NCj4gPiA+Pj4+IHByZXN1bWFibHkgdGhpcyBzdHJ1Y3Qgd2lsbCBuZXZlciBi
-ZSB1c2VkLiBXaHkgaXMgaXQgaGVyZT8NCj4gPiA+Pg0KPiA+ID4+PiAgIGlmIG5vdCBhZGQgaXQg
-Zm9yIDMyIGJpdHMuIHRoZSAzMiBhcm0gcGxhdGZvcm0gd2lsbCBidWlsZCBGYWlsLCB3aGV0aGVy
-IHlvdSBoYXZlIGdvb2QNCj4gPiA+Pj4gICAgaWRlYSB0byBhdm9pZCB0aGlzIEZhaWx1cmUgaWYg
-bm90IGFkZCB0aGlzIHN0cnVjdCBmb3IgdGhlIDMyIGJpdD8NCj4gPiA+Pg0KPiA+ID4+IEhvdyBk
-b2VzIHRoaXMgMzJiaXQgY29kZSBidWlsZCB3aXRob3V0IHRoaXMgcGF0Y2g/DQo+ID4gPj4gSWYg
-ZG8geW91IHByb3ZpZGUgdGhlIHN0cnVjdCwgaG93IHdpbGwgdGhhdCBjb2RlIGJ1aWxkIHdpdGgg
-b2xkZXIgaGVhZGVycz8NCj4gPiA+Pg0KPiA+ID4+IEFzIGZhciBhcyBJIGNhbiBzZWUsIHRoaXMg
-aXMgd2hhdCB0aGUgX19LVk1fSEFWRV9WQ1BVX0VWRU5UUyBkZWZpbmUgaXMgZm9yLg0KPiA+ID4+
-DQo+ID4gPj4gVGhpcyBzaG91bGQgYmUgYm90aCwgb3IgbmVpdGhlci4gSGF2aW5nIGp1c3QgdGhl
-IHN0cnVjdCBpcyB1c2VsZXNzLg0KPiA+ID4gSXQgYmVjYXVzZSB0aGUgY2FsbGVyIG9mIGt2bV9h
-cm1fdmNwdV9nZXQvc2V0X2V2ZW50cygpIGlzIGluICJ2aXJ0L2t2bS9hcm0vYXJtLmMiLg0KPiA+
-ID4gdGhlIHZpcnQva3ZtL2FybS9hcm0uYyB3aWxsIHVzZWQgYnkgYm90aCBhcm02NCBhbmQgYXJt
-Lg0KPiA+ID4gc28gSXQgbmVlZHMgdG8gYWRkIGt2bV9hcm1fdmNwdV9nZXQvc2V0X2V2ZW50cygp
-IGZvciB0aGUgMzIgYml0cywNCj4gPiA+IGhvd2V2ZXIsIGt2bV9hcm1fdmNwdV9nZXQvc2V0X2V2
-ZW50cygpIHdpbGwgZGlyZWN0bHkgcmV0dXJuLA0KPiA+DQo+ID4gU28geW91IGFyZSBhZGRpbmcg
-YSB1YXBpIHN0cnVjdCB0aGF0IHVzZXItc3BhY2UgY2FuJ3QgYWN0dWFsbHkgdXNlLCB0byBhdm9p
-ZCBhIGtlcm5lbCBidWlsZC1lcnJvci4gRmluZSwgaXQganVzdCBsb29rcyByZWFsbHkgc3RyYW5n
-ZS4NCj4gPg0KPiA+IDMyYml0IHVzZXItc3BhY2Ugc2hvdWxkbid0IHRyeSB0byBjYWxsIHRoaXMg
-YXMgY2hlY2stZXh0ZW5zaW9uIHJlcG9ydHMNCj4gPiBpdCBhcyBub3QgcHJlc2VudC4gSWYgaXQg
-ZG9lcywgaXQgZ2V0cyAtRUlOVkFMIGJhY2ssIHdoaWNoIGlzIGFsc28gdGhlIGRlZmF1bHQgZm9y
-IGt2bV9hcmNoX3ZjcHVfaW9jdGwoKS4NCg0KSnVzdCB0aGluayBvdXQgYSBtZXRob2QgdG8gYXZv
-aWQgYWRkaW5nIHRoZSBzdHJ1Y3R1cmUgZm9yIHRoZSBhcm0zMi4NCg0KVXNpbmcgYmVsb3cgbWV0
-aG9kczoNCg0KI0lmZGVmIF9fS1ZNX0hBVkVfVkNQVV9FVkVOVFMNCgl4eHh4eHh4eHh4eHh4eHh4
-eHh4eHgNCiNlbHNlDQoJWHh4eHh4eHh4eHh4eHh4eA0KI2VuZGlmDQoNCj4gDQo+IEl0IGluZGVl
-ZCBsb29rcyBzdHJhbmdlLiBCZWNhdXNlICJ2aXJ0L2t2bS9hcm0vYXJtLmMiIGlzIHNoYXJlZCBi
-eSBhcm02NCBhbmQgYXJtMzIsIGlmIG5vdCBhZGRpbmcsIGl0IHdpbGwgYnVpbGQtZXJyb3IuIERv
-IHlvdSBoYXZlIGEgYmV0dGVyDQo+IGlkZWEgdG8gYXZvaWQgYWRkaW5nIGluIGFybTMyPw0KPiBJ
-IHN0aWxsIG5vdCB0aGluayBvdXQgYSBnb29kIG1ldGhvZC4gMzIgdXNlci1zcGFjZSB3aWxsIG5v
-dCBjYWxsIHRoaXMgS1ZNX0dFVC9TRVRfVkNQVV9FVkVOVFMgSU9DVEwgYXMgY2hlY2stZXh0ZW5z
-aW9uIHJlcG9ydHMgaXQgYXMgbm90DQo+IHByZXNlbnQuDQo+IA0KPiA+DQo+ID4NCj4gPiBUaGFu
-a3MsDQo+ID4NCj4gPiBKYW1lcw0K
+On Thu, 2018-06-14 at 07:56 -0700, Yu-cheng Yu wrote:
+> On Thu, 2018-06-14 at 11:07 +1000, Balbir Singh wrote:
+> > On Tue, 2018-06-12 at 08:03 -0700, Yu-cheng Yu wrote:
+> > > On Tue, 2018-06-12 at 20:56 +1000, Balbir Singh wrote:
+> > > > 
+> > > > On 08/06/18 00:37, Yu-cheng Yu wrote:
+> > > > > This series introduces CET - Shadow stack
+> > > > > 
+> > > > > At the high level, shadow stack is:
+> > > > > 
+> > > > > 	Allocated from a task's address space with vm_flags VM_SHSTK;
+> > > > > 	Its PTEs must be read-only and dirty;
+> > > > > 	Fixed sized, but the default size can be changed by sys admin.
+> > > > > 
+> > > > > For a forked child, the shadow stack is duplicated when the next
+> > > > > shadow stack access takes place.
+> > > > > 
+> > > > > For a pthread child, a new shadow stack is allocated.
+> > > > > 
+> > > > > The signal handler uses the same shadow stack as the main program.
+> > > > > 
+> > > > 
+> > > > Even with sigaltstack()?
+> > > > 
+> > > 
+> > > Yes.
+> > 
+> > I am not convinced that it would work, as we switch stacks, oveflow might
+> > be an issue. I also forgot to bring up setcontext(2), I presume those
+> > will get new shadow stacks
+> 
+> Do you mean signal stack/sigaltstack overflow or swapcontext in a signal
+> handler?
+>
+
+I meant any combination of that. If there is a user space threads implementation that uses sigaltstack for switching threads
+
+Balbir Singh.
+ 
+> Yu-cheng
+> 
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
