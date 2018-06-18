@@ -1,26 +1,66 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 359397D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 22:25:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A6AC7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 23:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935341AbeFRWZv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 18:25:51 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:44946 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S935073AbeFRWZu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 18:25:50 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1fV2ag-0003PY-2n; Mon, 18 Jun 2018 16:25:38 -0600
+        id S1755329AbeFRXGi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 19:06:38 -0400
+Received: from mail-ua0-f196.google.com ([209.85.217.196]:38129 "EHLO
+        mail-ua0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755344AbeFRXGh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 19:06:37 -0400
+Received: by mail-ua0-f196.google.com with SMTP id 59-v6so11836401uas.5;
+        Mon, 18 Jun 2018 16:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=dboFUCsRjY4HUtCafVSbJvDAvEuo64xakQ4GD34SN8U=;
+        b=kxJcdxlsnfbdY9RTVKiwpoJKA/mFWVHw9zqXCjEdnYjg2sjVuW912RmyPRXy9fQGBp
+         E6SjIV4cJvStueKrWrVc4GLpaWxNcS/J9JhLIO14HAfYhCCe6IhnPVlslcQ4uTSJQcua
+         0bK63ejM9cqZQrODEOKBmyFZUCFJ3hjgSLvGEyBTp/oiNqEvSMCKIEWavDyyWgErTwgq
+         ryRiR5iQy1Z43/OFxs5qTYjk3iznVHqeWHAhUn0C3hirA3P7BEXRpzRNduMgeuF2+ePX
+         ph3mgQGkNG5691yKOVEMB8yrZBFqsHvoxbfHtKm/7BrfxyOPA4ctCFnGH5g9/px05enD
+         zXvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=dboFUCsRjY4HUtCafVSbJvDAvEuo64xakQ4GD34SN8U=;
+        b=TUQYSyfLxX2ecSMOj8bz7Lcglhyr6iTHMagGO9DUJebkw1Wbmx87X9sdeL66x9NDVR
+         ZlAPdcmmewrxtspI8H1bDL7audyPykCtMu+4IrtWSRZyp9+owL0Gi8Ral4fEOn+q+lwk
+         j8kxsYikT8kM3UpGnnpt6aR2YT1PWrj/3YFtxS67uZsNOf9S1t63+Fj0OBqTTVcES+if
+         KXrJEXSZpg8WsMn8onhTUtAYMXFXtGnRDkxQxukPjeNDNP7mAyHimv0ivVgS2sFv1aJY
+         7cdSruFV2VcFG1A4Y+FKsYoKn+3lztgN7Cei1pHyYt7yTp6WuYjbjZO8+O5A+oZMEa/W
+         2EKw==
+X-Gm-Message-State: APt69E3oMv8b6AfQtxn/srFzqz3YNSrDEPSpUQjwxwz74pOvV0Zp7RCK
+        WxA5+JwL/aYnXk+9YSK/sbSGRRgvV3Qg1RzELWA=
+X-Google-Smtp-Source: ADUXVKLbjW2ZtjhnpXwmUDL3vFVhKuvX7z8zzElFfh0g3NTyuFGj0K+tu3I4pukofW9MeRWQ/8QuiSHbd1cfzNXLfEE=
+X-Received: by 2002:ab0:1b9b:: with SMTP id k27-v6mr9032964uai.122.1529363196789;
+ Mon, 18 Jun 2018 16:06:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a67:8b02:0:0:0:0:0 with HTTP; Mon, 18 Jun 2018 16:06:36
+ -0700 (PDT)
+In-Reply-To: <20180618154430.1af3d42f@t450s.home>
+References: <20180618193636.16210-1-logang@deltatee.com> <20180618193636.16210-2-logang@deltatee.com>
+ <20180618154430.1af3d42f@t450s.home>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 19 Jun 2018 02:06:36 +0300
+Message-ID: <CAHp75VefSEvpUvsdi=W6rEiOX01zaJeMtxQMDqmSthPJP3uJFA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] PCI: Make specifying PCI devices in kernel
+ parameters reusable
 To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+Cc:     Logan Gunthorpe <logang@deltatee.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Stephen Bates <sbates@raithlin.com>,
         Christoph Hellwig <hch@lst.de>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -33,45 +73,48 @@ Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         Dan Williams <dan.j.williams@intel.com>,
         =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20180618193636.16210-1-logang@deltatee.com>
- <20180618193636.16210-4-logang@deltatee.com>
- <20180618162100.3619575e@t450s.home>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <aa50bbcf-73ad-271f-c926-09d9e0369665@deltatee.com>
-Date:   Mon, 18 Jun 2018 16:25:31 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <20180618162100.3619575e@t450s.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: christian.koenig@amd.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, alex.williamson@redhat.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3 3/3] PCI: Introduce the disable_acs_redir parameter
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jun 19, 2018 at 12:44 AM, Alex Williamson
+<alex.williamson@redhat.com> wrote:
+> On Mon, 18 Jun 2018 13:36:34 -0600
+> Logan Gunthorpe <logang@deltatee.com> wrote:
 
+> I realize this is not a change in behavior, but since we're spelling it
+> out in a proper comment rather than burying it in the implementation,
+> using 0 as a wildcard is rather questionable behavior.  It always
+> surprises me when I read this because pci_match_one_device() uses
+> PCI_ANY_ID (~0) as a wildcard and as a result of struct pci_device_id
+> using __u32 for these fields, we actually need to specify ffffffff on
+> the commandline to get a wildcard match for dynamic ids.  The latter is
+> tedious to use, but I think it's more correct, and the use of a __u32 is
+> probably attributed to the fact that 0xffff is only reserved for vendor
+> ID, the spec doesn't seem to reserve any entries from the vendor's
+> device ID range.
+>
+> There's probably really no path to resolve these, but acknowledging the
+> difference in this comment block might be helpful in the future.
 
-On 18/06/18 04:21 PM, Alex Williamson wrote:
-> Seems that too much is taken from the dynamic resource alignment that
-> doesn't necessarily apply to a read-only, commandline-only, device
-> discovery-only option.  I don't think we need locking, I don't think we
-> need a massive static buffer, ideally perhaps even no buffer, just a
-> pointer to commandline.  Thanks,
+...or introduce a parser part to allow user supply "any" instead of
+numeric value.
 
-Yeah, fair points. I'll take another look and see what I can strip out.
+>> +                     pr_info("PCI: Can't parse resource_alignment parameter: pci:%s\n",
 
-Thanks,
+> The "pci:" prefix on %s doesn't make sense now, it was used above when
+> the pointer was already advanced past this token, now I believe it would
+> lead to "pci:pci:xxxx:yyyy" or "pci:xx:yy.z".  Thanks,
 
-Logan
+I'm just wondering if we can use pci_info() here, Or it makes no sense?
+Also, the original loglevel was an "error".
+
+-- 
+With Best Regards,
+Andy Shevchenko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
