@@ -1,85 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 999BE7D085
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 19:32:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 70AA27D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 19:32:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936504AbeFRTcR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 15:32:17 -0400
-Received: from mail-pl0-f49.google.com ([209.85.160.49]:36278 "EHLO
-        mail-pl0-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S936494AbeFRTcP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 15:32:15 -0400
-Received: by mail-pl0-f49.google.com with SMTP id a7-v6so9569574plp.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 12:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=2zB7LTy44gbYcid4s3hV1Z4a8cFskU97j0PFZjMKnu4=;
-        b=lBdPgCbrI+xQ7f44hTdEfPgcFQ9J+eb+PsP+5BTWr+Sd68Ho49FNFyMrWey4Fi81U5
-         y/fuxZJwYwGCy2ZxyoJEsfuh4ajN5YYOWIqdAkEf080i3aO/XSM88AzZsqNeHLPM5L4v
-         b21jGlYj5B1pcCvs+CeZlc8SQNLMAwZGkG8xzSPezwqcgfHEG8PdVFkvm1JKQo+mrj3G
-         UCIuyLX3ZYEMWZM3oq5Au0STcwC7mB2UFeq4Mka+nFCfyObIucT04PS7X+0LawkcAurx
-         fmSzrKMnfEkS0Cg5hSeepi+sxi+XCVuVQ1uzNSWS5kek6c3P1+u+M1C4EUnAYFN7ecWy
-         QDQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=2zB7LTy44gbYcid4s3hV1Z4a8cFskU97j0PFZjMKnu4=;
-        b=jGvpU8UsRdFoHjkxyoeaebrPIlisHpmm771OkwUH2yUY0ALJK+NUEeXsbLbkOaU7bT
-         ql2aCJe7bXqE9hi8+AS6uHJnwW0FCK9J455Rt+a2dxWUQP+Ek2zBNLhczteRsSfr1KGa
-         rCq+vqfOSIygVw+7a/g5XCkRV6d+euogB/UFdB9nXD9V1neBGgPQ+BGht5qP+RtZZZIS
-         q5IWDHdEUxvhG5hRIo1y1xMRXF4Vy/YVBdJ6E+MzA4ehmAlXuc3paBzfp3eIssoJ0zTi
-         73gJoULWpROhgAnpWUf1t+fQgxBoXutdd0auDPHAE8iYA+xhgUtMzWVr/7A9jzkESrdf
-         R4+A==
-X-Gm-Message-State: APt69E1JYYjws7kXgyAXlJ3W32JLJVVmFVMzhRvIaq+2CqZhHTEdonuB
-        J9svcdQNOUu+4MWJMlyCqkGBkJsg0vI=
-X-Google-Smtp-Source: ADUXVKLyFA0A8fmFh1HW6jB8XR+ofVT0rpHfOKLOzoWX91kxoSM2xvxzWuejhAqqPRQA3IpWu2UV8g==
-X-Received: by 2002:a17:902:a610:: with SMTP id u16-v6mr15429748plq.195.1529350334799;
-        Mon, 18 Jun 2018 12:32:14 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
-        by smtp.googlemail.com with ESMTPSA id i4-v6sm24023667pfk.133.2018.06.18.12.32.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Jun 2018 12:32:14 -0700 (PDT)
-Subject: Re: [PATCH v2] overlayfs: caller_credentials option bypass
- creator_cred
-To:     linux-kernel@vger.kernel.org
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>, linux-unionfs@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20180618192726.67981-1-salyzyn@android.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <afbcabfc-2e25-d2fc-107a-5418b5e0806f@android.com>
-Date:   Mon, 18 Jun 2018 12:32:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S936748AbeFRTch (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 15:32:37 -0400
+Received: from mga18.intel.com ([134.134.136.126]:51361 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S936401AbeFRTcg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Jun 2018 15:32:36 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jun 2018 12:32:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,240,1526367600"; 
+   d="scan'208";a="238512533"
+Received: from bee.sh.intel.com (HELO bee) ([10.239.97.14])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Jun 2018 12:32:30 -0700
+Received: from kbuild by bee with local (Exim 4.84_2)
+        (envelope-from <lkp@intel.com>)
+        id 1fUzt7-00024x-TI; Tue, 19 Jun 2018 03:32:29 +0800
+Date:   Tue, 19 Jun 2018 03:31:41 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Cc:     kbuild-all@01.org, bhelgaas@google.com, lorenzo.pieralisi@arm.com,
+        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
+        adouglas@cadence.com, jesper.nilsson@axis.com,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Subject: Re: [PATCH v4 03/10] PCI: Update xxx_pcie_ep_raise_irq() and
+ pci_epc_raise_irq() signatures
+Message-ID: <201806190312.UKq0zYJ1%fengguang.wu@intel.com>
+References: <5bfa0cf053878e0e859a8b97227ca03ea4d50e92.1529329262.git.gustavo.pimentel@synopsys.com>
 MIME-Version: 1.0
-In-Reply-To: <20180618192726.67981-1-salyzyn@android.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5bfa0cf053878e0e859a8b97227ca03ea4d50e92.1529329262.git.gustavo.pimentel@synopsys.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: lkp@intel.com
+X-SA-Exim-Scanned: No (on bee); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/18/2018 12:27 PM, Mark Salyzyn wrote:
-> All accesses to the lower filesystems reference the creator (mount)
-> context.  This is a security issue as the user context does not
-> overlay the creator context.
-<sigh> been typing overlay far too many times, muscle memory struck!
+Hi Gustavo,
 
-"overlap the creator context."
+Thank you for the patch! Perhaps something to improve:
 
--- Mark
+[auto build test WARNING on pci/next]
+[also build test WARNING on v4.18-rc1 next-20180618]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Gustavo-Pimentel/Add-MSI-X-support-on-pcitest-tool/20180619-004625
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+reproduce:
+        # apt-get install sparse
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF=-D__CHECK_ENDIAN__
+
+
+sparse warnings: (new ones prefixed by >>)
+
+   drivers/pci/controller/pcie-rockchip-ep.c:173:14: sparse: expression using sizeof(void)
+>> drivers/pci/controller/pcie-rockchip-ep.c:516:27: sparse: incorrect type in initializer (incompatible argument 4 (different type sizes)) @@    expected int ( *raise_irq )( ... ) @@    got int ( *raise_irq )( ... ) @@
+   drivers/pci/controller/pcie-rockchip-ep.c:516:27:    expected int ( *raise_irq )( ... )
+   drivers/pci/controller/pcie-rockchip-ep.c:516:27:    got int ( *<noident> )( ... )
+   drivers/pci/controller/pcie-rockchip-ep.c:516:15: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+     .raise_irq = rockchip_pcie_ep_raise_irq,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:516:15: note: (near initialization for 'rockchip_pcie_epc_ops.raise_irq')
+   cc1: some warnings being treated as errors
+
+vim +516 drivers/pci/controller/pcie-rockchip-ep.c
+
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  507  
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  508  static const struct pci_epc_ops rockchip_pcie_epc_ops = {
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  509  	.write_header	= rockchip_pcie_ep_write_header,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  510  	.set_bar	= rockchip_pcie_ep_set_bar,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  511  	.clear_bar	= rockchip_pcie_ep_clear_bar,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  512  	.map_addr	= rockchip_pcie_ep_map_addr,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  513  	.unmap_addr	= rockchip_pcie_ep_unmap_addr,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  514  	.set_msi	= rockchip_pcie_ep_set_msi,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  515  	.get_msi	= rockchip_pcie_ep_get_msi,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09 @516  	.raise_irq	= rockchip_pcie_ep_raise_irq,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  517  	.start		= rockchip_pcie_ep_start,
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  518  };
+cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  519  
+
+:::::: The code at line 516 was first introduced by commit
+:::::: cf590b07839133146842d2d3d9a68f804c2edc4b PCI: rockchip: Add EP driver for Rockchip PCIe controller
+
+:::::: TO: Shawn Lin <shawn.lin@rock-chips.com>
+:::::: CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
