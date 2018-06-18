@@ -1,159 +1,458 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 469157D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 22:04:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 890567D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 22:06:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755408AbeFRWEE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 18:04:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43260 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1755344AbeFRWEC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 18:04:02 -0400
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA2F5208B7
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 22:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1529359442;
-        bh=EgMUHLSiJ4/XpvIZGrIqYv8hCWRH6gxKr0Dd3LaUnx4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=xviTRG/o+1lvnwrUfjTKvdXhaIibw+YBMMPZT7dGST20FCItAhfxPUHgznhp6YvPf
-         zRtqfTAp0RsEP+KhQ4nUhsnbnlS7p4AM74tWSF3zq9R/57geVTgHXVGv6NerF+ggi9
-         H0E+hHl9E9MzI6iTZOKaRX8oqNdleEAzOZGtX3ZQ=
-Received: by mail-wm0-f41.google.com with SMTP id 69-v6so18342315wmf.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 15:04:01 -0700 (PDT)
-X-Gm-Message-State: APt69E2SezL0xY1tRUkDZs7M2k4PVHYG0G/x1OB4epQw4jW5z8cAn3mq
-        p7F9KCRW5k/yvNpJZ93jqnXU5avZ1dDajO06Hfyyng==
-X-Google-Smtp-Source: ADUXVKJE5TBUk6GBto2ujStmxmBQTLmkrI2HejpsnH4zvQphIX7MFVYLIYx5krYDUNHV4/g1mGBWX/ejSuauKL+yOyg=
-X-Received: by 2002:a1c:34c9:: with SMTP id b192-v6mr10383654wma.21.1529359439972;
- Mon, 18 Jun 2018 15:03:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
- <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
- <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
- <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
- <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
- <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
- <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
- <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
- <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
- <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
- <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de> <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
-In-Reply-To: <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 18 Jun 2018 15:03:48 -0700
-X-Gmail-Original-Message-ID: <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
-Message-ID: <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
-Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
-To:     "H. J. Lu" <hjl.tools@gmail.com>, Kees Cook <keescook@chromium.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Lutomirski <luto@kernel.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S935926AbeFRWGW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 18:06:22 -0400
+Received: from out03.mta.xmission.com ([166.70.13.233]:37095 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S934857AbeFRWGU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 18:06:20 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1fV2Hz-0001HV-PN; Mon, 18 Jun 2018 16:06:19 -0600
+Received: from 97-119-124-205.omah.qwest.net ([97.119.124.205] helo=x220.xmission.com)
+        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1fV2Hk-0006RA-46; Mon, 18 Jun 2018 16:06:19 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com
-Content-Type: text/plain; charset="UTF-8"
+        Vivek Goyal <vgoyal@redhat.com>, linux-unionfs@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20180618192726.67981-1-salyzyn@android.com>
+Date:   Mon, 18 Jun 2018 17:05:47 -0500
+In-Reply-To: <20180618192726.67981-1-salyzyn@android.com> (Mark Salyzyn's
+        message of "Mon, 18 Jun 2018 12:27:19 -0700")
+Message-ID: <87in6fagxw.fsf@xmission.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1fV2Hk-0006RA-46;;;mid=<87in6fagxw.fsf@xmission.com>;;;hst=in02.mta.xmission.com;;;ip=97.119.124.205;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/A5voe/IdRTsL2qlad3tIZISzUGc5n+ag=
+X-SA-Exim-Connect-IP: 97.119.124.205
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH v2] overlayfs: caller_credentials option bypass creator_cred
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 12, 2018 at 12:34 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+Mark Salyzyn <salyzyn@android.com> writes:
+
+> All accesses to the lower filesystems reference the creator (mount)
+> context.  This is a security issue as the user context does not
+> overlay the creator context.
+
+Sigh.  You gave Vivek a reasonable description of what is going on
+and then you did not repeat it here.  Your patch description
+very much needs to be fixed.
+
+As I read your patch there you are removing an override in credentials.
+Presumably that override is needed for the fileystem to function.
+
+If that override is needed to function your patch is incorrect
+because it breaks things for no reason.
+
+If that override is not needed it should be safe to explain why
+and simply remove it from overlayfs.
+
+I don't see any real explanations in this change description.
+So this appears to be an incompletely thought out change.
+
+
+Mostly this looks like someone tried to use the principle of least
+privilege in your Android implementation and got it wrong.  Having given
+the mounter of overlayfs too few privileges this appears to be an
+attempt to get overlayfs to pay the cost of an implementation mistake in
+the Android security model.
+
+That seems like a very unreasonable thing to do.
+
+> A module bool parameter and mount option caller_credentials is added
+> to set the default, and to act as a presence check for this "feature".
+> The module parameter is used to change the default behavior, But
+> since I can not break user API, I have to preserve the original
+> behavior as default.
+
+Changes to the user API are allowed if no one cares.  Who cares?
+Why is your change viable at all?
+
+> On MAC security model expect to set the caller_credentials to Y as
+> part of early initialization to preserve security model when the
+> option of iether caller_credentials or creator_credentials is not
+> explicitly specified in the mount.
+
+Not an any random MAC security model.  On a strange Android MAC security
+model.
+
+
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
 >
-> On Tue, Jun 12, 2018 at 11:59 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
-> > On Tue, 12 Jun 2018, H.J. Lu wrote:
-> >> On Tue, Jun 12, 2018 at 9:34 AM, Andy Lutomirski <luto@kernel.org> wrote:
-> >> > On Tue, Jun 12, 2018 at 9:05 AM H.J. Lu <hjl.tools@gmail.com> wrote:
-> >> >> On Tue, Jun 12, 2018 at 9:01 AM, Andy Lutomirski <luto@kernel.org> wrote:
-> >> >> > On Tue, Jun 12, 2018 at 4:43 AM H.J. Lu <hjl.tools@gmail.com> wrote:
-> >> >> >> On Tue, Jun 12, 2018 at 3:03 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
-> >> >> >> > That works for stuff which loads all libraries at start time, but what
-> >> >> >> > happens if the program uses dlopen() later on? If CET is force locked and
-> >> >> >> > the library is not CET enabled, it will fail.
-> >> >> >>
-> >> >> >> That is to prevent disabling CET by dlopening a legacy shared library.
-> >> >> >>
-> >> >> >> > I don't see the point of trying to support CET by magic. It adds complexity
-> >> >> >> > and you'll never be able to handle all corner cases correctly. dlopen() is
-> >> >> >> > not even a corner case.
-> >> >> >>
-> >> >> >> That is a price we pay for security.  To enable CET, especially shadow
-> >> >> >> shack, the program and all of shared libraries it uses should be CET
-> >> >> >> enabled.  Most of programs can be enabled with CET by compiling them
-> >> >> >> with -fcf-protection.
-> >> >> >
-> >> >> > If you charge too high a price for security, people may turn it off.
-> >> >> > I think we're going to need a mode where a program says "I want to use
-> >> >> > the CET, but turn it off if I dlopen an unsupported library".  There
-> >> >> > are programs that load binary-only plugins.
-> >> >>
-> >> >> You can do
-> >> >>
-> >> >> # export GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK
-> >> >>
-> >> >> which turns off shadow stack.
-> >> >>
-> >> >
-> >> > Which exactly illustrates my point.  By making your security story too
-> >> > absolute, you'll force people to turn it off when they don't need to.
-> >> > If I'm using a fully CET-ified distro and I'm using a CET-aware
-> >> > program that loads binary plugins, and I may or may not have an old
-> >> > (binary-only, perhaps) plugin that doesn't support CET, then the
-> >> > behavior I want is for CET to be on until I dlopen() a program that
-> >> > doesn't support it.  Unless there's some ABI reason why that can't be
-> >> > done, but I don't think there is.
-> >>
-> >> We can make it opt-in via GLIBC_TUNABLES.  But by default, the legacy
-> >> shared object is disallowed when CET is enabled.
-> >
-> > That's a bad idea. Stuff has launchers which people might not be able to
-> > change. So they will simply turn of CET completely or it makes them hack
-> > horrible crap into init, e.g. the above export.
-> >
-> > Give them sane kernel options:
-> >
-> >      cet = off, relaxed, forced
-> >
-> > where relaxed allows to run binary plugins. Then let dlopen() call into the
-> > kernel with the filepath of the library to check for CET and that will tell
-> > you whether its ok or or not and do the necessary magic in the kernel when
-> > CET has to be disabled due to a !CET library/application.
-> >
-> > That's also making the whole thing independent of magic glibc environment
-> > options and allows it to be used all over the place in the same way.
+> v2:
+> - forward port changed attr to stat, resulting in a build error
+> - wording in commit message was too adversarial and needed correction
+> ---
+>  Documentation/filesystems/overlayfs.txt |  7 +++++++
+>  fs/overlayfs/copy_up.c                  |  3 ++-
+>  fs/overlayfs/dir.c                      | 12 ++++++++----
+>  fs/overlayfs/inode.c                    | 24 ++++++++++++++++--------
+>  fs/overlayfs/namei.c                    |  9 ++++++---
+>  fs/overlayfs/ovl_entry.h                |  1 +
+>  fs/overlayfs/readdir.c                  |  6 ++++--
+>  fs/overlayfs/super.c                    | 22 ++++++++++++++++++++++
+>  fs/overlayfs/util.c                     |  8 ++++++--
+>  9 files changed, 72 insertions(+), 20 deletions(-)
 >
-> This is very similar to our ARCH_CET_EXEC proposal which controls how
-> CET should be enforced.   But Andy thinks it is a bad idea.
->
-
-I do think it's a bad idea to have a new piece of state that survives
-across exec().  It's going to have nasty usability problems and nasty
-security problems.
-
-We may need a mode by which glibc can turn CET *back off* even after a
-program had it on if it dlopens() an old binary.  Or maybe there won't
-be demand.  I can certainly understand why the CET_LOCK feature is
-there, although I think we need a way to override it using something
-like ptrace().  I'm not convinced that CET_LOCK is really needed, but
-someone who understand the thread model should chime in.
-
-Kees, do you know anyone who has a good enough understanding of
-usermode exploits and how they'll interact with CET?
-
---Andy
+> diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
+> index 72615a2c0752..4328be5cdaa9 100644
+> --- a/Documentation/filesystems/overlayfs.txt
+> +++ b/Documentation/filesystems/overlayfs.txt
+> @@ -106,6 +106,13 @@ Only the lists of names from directories are merged.  Other content
+>  such as metadata and extended attributes are reported for the upper
+>  directory only.  These attributes of the lower directory are hidden.
+>  
+> +credentials
+> +-----------
+> +
+> +All access to the upper, lower and work directories is the creator's
+> +credentials.  If caller_credentials is set, then the access caller's
+> +instance credentials will be used.
+> +
+>  whiteouts and opaque directories
+>  --------------------------------
+>  
+> diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
+> index ddaddb4ce4c3..abc21844f712 100644
+> --- a/fs/overlayfs/copy_up.c
+> +++ b/fs/overlayfs/copy_up.c
+> @@ -790,7 +790,8 @@ int ovl_copy_up_flags(struct dentry *dentry, int flags)
+>  		dput(parent);
+>  		dput(next);
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return err;
+>  }
+> diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+> index f480b1a2cd2e..8b75e0899ee1 100644
+> --- a/fs/overlayfs/dir.c
+> +++ b/fs/overlayfs/dir.c
+> @@ -561,7 +561,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+>  		override_cred->fsgid = inode->i_gid;
+>  		if (!attr->hardlink) {
+>  			err = security_dentry_create_files_as(dentry,
+> -					attr->mode, &dentry->d_name, old_cred,
+> +					attr->mode, &dentry->d_name,
+> +					old_cred ? old_cred : current_cred(),
+>  					override_cred);
+>  			if (err) {
+>  				put_cred(override_cred);
+> @@ -577,7 +578,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+>  			err = ovl_create_over_whiteout(dentry, inode, attr);
+>  	}
+>  out_revert_creds:
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return err;
+>  }
+>  
+> @@ -824,7 +826,8 @@ static int ovl_do_remove(struct dentry *dentry, bool is_dir)
+>  		err = ovl_remove_upper(dentry, is_dir, &list);
+>  	else
+>  		err = ovl_remove_and_whiteout(dentry, &list);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	if (!err) {
+>  		if (is_dir)
+>  			clear_nlink(dentry->d_inode);
+> @@ -1150,7 +1153,8 @@ static int ovl_rename(struct inode *olddir, struct dentry *old,
+>  out_unlock:
+>  	unlock_rename(new_upperdir, old_upperdir);
+>  out_revert_creds:
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	ovl_nlink_end(new, locked);
+>  out_drop_write:
+>  	ovl_drop_write(old);
+> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+> index ed16a898caeb..222678b6e67e 100644
+> --- a/fs/overlayfs/inode.c
+> +++ b/fs/overlayfs/inode.c
+> @@ -49,7 +49,8 @@ int ovl_setattr(struct dentry *dentry, struct iattr *attr)
+>  		inode_lock(upperdentry->d_inode);
+>  		old_cred = ovl_override_creds(dentry->d_sb);
+>  		err = notify_change(upperdentry, attr, NULL);
+> -		revert_creds(old_cred);
+> +		if (old_cred)
+> +			revert_creds(old_cred);
+>  		if (!err)
+>  			ovl_copyattr(upperdentry->d_inode, dentry->d_inode);
+>  		inode_unlock(upperdentry->d_inode);
+> @@ -208,7 +209,8 @@ int ovl_getattr(const struct path *path, struct kstat *stat,
+>  		stat->nlink = dentry->d_inode->i_nlink;
+>  
+>  out:
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return err;
+>  }
+> @@ -242,7 +244,8 @@ int ovl_permission(struct inode *inode, int mask)
+>  		mask |= MAY_READ;
+>  	}
+>  	err = inode_permission(realinode, mask);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return err;
+>  }
+> @@ -259,7 +262,8 @@ static const char *ovl_get_link(struct dentry *dentry,
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	p = vfs_get_link(ovl_dentry_real(dentry), done);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return p;
+>  }
+>  
+> @@ -302,7 +306,8 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
+>  		WARN_ON(flags != XATTR_REPLACE);
+>  		err = vfs_removexattr(realdentry, name);
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  out_drop_write:
+>  	ovl_drop_write(dentry);
+> @@ -320,7 +325,8 @@ int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	res = vfs_getxattr(realdentry, name, value, size);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return res;
+>  }
+>  
+> @@ -344,7 +350,8 @@ ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	res = vfs_listxattr(realdentry, list, size);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	if (res <= 0 || size == 0)
+>  		return res;
+>  
+> @@ -379,7 +386,8 @@ struct posix_acl *ovl_get_acl(struct inode *inode, int type)
+>  
+>  	old_cred = ovl_override_creds(inode->i_sb);
+>  	acl = get_acl(realinode, type);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return acl;
+>  }
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index c993dd8db739..c8b84d262ec2 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -1024,7 +1024,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+>  		OVL_I(inode)->redirect = upperredirect;
+>  	}
+>  
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	dput(index);
+>  	kfree(stack);
+>  	kfree(d.redirect);
+> @@ -1043,7 +1044,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+>  	kfree(upperredirect);
+>  out:
+>  	kfree(d.redirect);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return ERR_PTR(err);
+>  }
+>  
+> @@ -1097,7 +1099,8 @@ bool ovl_lower_positive(struct dentry *dentry)
+>  			dput(this);
+>  		}
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return positive;
+>  }
+> diff --git a/fs/overlayfs/ovl_entry.h b/fs/overlayfs/ovl_entry.h
+> index 41655a7d6894..7e17db561a04 100644
+> --- a/fs/overlayfs/ovl_entry.h
+> +++ b/fs/overlayfs/ovl_entry.h
+> @@ -18,6 +18,7 @@ struct ovl_config {
+>  	const char *redirect_mode;
+>  	bool index;
+>  	bool nfs_export;
+> +	bool caller_credentials;
+>  	int xino;
+>  };
+>  
+> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+> index ef1fe42ff7bb..af3874d589ad 100644
+> --- a/fs/overlayfs/readdir.c
+> +++ b/fs/overlayfs/readdir.c
+> @@ -289,7 +289,8 @@ static int ovl_check_whiteouts(struct dentry *dir, struct ovl_readdir_data *rdd)
+>  		}
+>  		inode_unlock(dir->d_inode);
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return err;
+>  }
+> @@ -906,7 +907,8 @@ int ovl_check_empty_dir(struct dentry *dentry, struct list_head *list)
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	err = ovl_dir_read_merged(dentry, list, &root);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	if (err)
+>  		return err;
+>  
+> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+> index 704b37311467..184688ab35cb 100644
+> --- a/fs/overlayfs/super.c
+> +++ b/fs/overlayfs/super.c
+> @@ -56,6 +56,11 @@ module_param_named(xino_auto, ovl_xino_auto_def, bool, 0644);
+>  MODULE_PARM_DESC(ovl_xino_auto_def,
+>  		 "Auto enable xino feature");
+>  
+> +static bool __read_mostly ovl_caller_credentials;
+> +module_param_named(caller_credentials, ovl_caller_credentials, bool, 0644);
+> +MODULE_PARM_DESC(ovl_caller_credentials,
+> +		 "Use caller credentials rather than creator credentials for accesses");
+> +
+>  static void ovl_entry_stack_free(struct ovl_entry *oe)
+>  {
+>  	unsigned int i;
+> @@ -376,6 +381,10 @@ static int ovl_show_options(struct seq_file *m, struct dentry *dentry)
+>  						"on" : "off");
+>  	if (ofs->config.xino != ovl_xino_def())
+>  		seq_printf(m, ",xino=%s", ovl_xino_str[ofs->config.xino]);
+> +	if (ofs->config.caller_credentials)
+> +		seq_puts(m, ",caller_credentials");
+> +	else
+> +		seq_puts(m, ",creator_credentials");
+>  	return 0;
+>  }
+>  
+> @@ -413,6 +422,8 @@ enum {
+>  	OPT_XINO_ON,
+>  	OPT_XINO_OFF,
+>  	OPT_XINO_AUTO,
+> +	OPT_CREATOR_CREDENTIALS,
+> +	OPT_CALLER_CREDENTIALS,
+>  	OPT_ERR,
+>  };
+>  
+> @@ -429,6 +440,8 @@ static const match_table_t ovl_tokens = {
+>  	{OPT_XINO_ON,			"xino=on"},
+>  	{OPT_XINO_OFF,			"xino=off"},
+>  	{OPT_XINO_AUTO,			"xino=auto"},
+> +	{OPT_CREATOR_CREDENTIALS,	"creator_credentials"},
+> +	{OPT_CALLER_CREDENTIALS,	"caller_credentials"},
+>  	{OPT_ERR,			NULL}
+>  };
+>  
+> @@ -486,6 +499,7 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+>  	if (!config->redirect_mode)
+>  		return -ENOMEM;
+>  
+> +	config->caller_credentials = ovl_caller_credentials;
+>  	while ((p = ovl_next_opt(&opt)) != NULL) {
+>  		int token;
+>  		substring_t args[MAX_OPT_ARGS];
+> @@ -555,6 +569,14 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+>  			config->xino = OVL_XINO_AUTO;
+>  			break;
+>  
+> +		case OPT_CREATOR_CREDENTIALS:
+> +			config->caller_credentials = false;
+> +			break;
+> +
+> +		case OPT_CALLER_CREDENTIALS:
+> +			config->caller_credentials = true;
+> +			break;
+> +
+>  		default:
+>  			pr_err("overlayfs: unrecognized mount option \"%s\" or missing value\n", p);
+>  			return -EINVAL;
+> diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+> index 6f1078028c66..538802289511 100644
+> --- a/fs/overlayfs/util.c
+> +++ b/fs/overlayfs/util.c
+> @@ -40,6 +40,8 @@ const struct cred *ovl_override_creds(struct super_block *sb)
+>  {
+>  	struct ovl_fs *ofs = sb->s_fs_info;
+>  
+> +	if (ofs->config.caller_credentials)
+> +		return NULL;
+>  	return override_creds(ofs->creator_cred);
+>  }
+>  
+> @@ -630,7 +632,8 @@ int ovl_nlink_start(struct dentry *dentry, bool *locked)
+>  	 * value relative to the upper inode nlink in an upper inode xattr.
+>  	 */
+>  	err = ovl_set_nlink_upper(dentry);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  out:
+>  	if (err)
+> @@ -650,7 +653,8 @@ void ovl_nlink_end(struct dentry *dentry, bool locked)
+>  
+>  			old_cred = ovl_override_creds(dentry->d_sb);
+>  			ovl_cleanup_index(dentry);
+> -			revert_creds(old_cred);
+> +			if (old_cred)
+> +				revert_creds(old_cred);
+>  		}
+>  
+>  		mutex_unlock(&OVL_I(d_inode(dentry))->lock);
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
