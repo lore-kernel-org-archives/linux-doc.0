@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E47C7DF86
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:02:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 023037D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934215AbeFRRCE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 13:02:04 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60780 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S935326AbeFRRAW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:00:22 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IGwsCm077061
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:22 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jpence11v-1
+        id S933189AbeFRRCi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 13:02:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40948 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S935249AbeFRRAO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:00:14 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IGwrjY021267
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:13 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jpfyv9yaa-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:19 -0400
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:13 -0400
 Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Mon, 18 Jun 2018 18:00:17 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Mon, 18 Jun 2018 18:00:11 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 18 Jun 2018 18:00:14 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IH0DKG31457328
+        Mon, 18 Jun 2018 18:00:08 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IH07re23920656
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 18 Jun 2018 17:00:13 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 31C4AA404D;
-        Mon, 18 Jun 2018 17:50:57 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BA26EA4040;
-        Mon, 18 Jun 2018 17:50:55 +0100 (BST)
+        Mon, 18 Jun 2018 17:00:07 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9CE3DAE04D;
+        Mon, 18 Jun 2018 17:48:51 +0100 (BST)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 29204AE045;
+        Mon, 18 Jun 2018 17:48:50 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.8.74])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 18 Jun 2018 17:50:55 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 18 Jun 2018 20:00:11 +0300
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon, 18 Jun 2018 17:48:50 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 18 Jun 2018 20:00:05 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -50,20 +50,20 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 05/11] docs/mm: bootmem: add overview documentation
-Date:   Mon, 18 Jun 2018 19:59:53 +0300
+Subject: [PATCH 02/11] docs/mm: nobootmem: fixup kernel-doc comments
+Date:   Mon, 18 Jun 2018 19:59:50 +0300
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18061817-0016-0000-0000-000001DD5BF5
+x-cbid: 18061817-0020-0000-0000-0000029C3559
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061817-0017-0000-0000-000032316261
-Message-Id: <1529341199-17682-6-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18061817-0021-0000-0000-000020E87C0B
+Message-Id: <1529341199-17682-3-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-18_07:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1805220000 definitions=main-1806180197
@@ -72,69 +72,100 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+* add kernel-doc marking to free_bootmem_late() description
+* add return value descriptions
+* mention that address parameter of free_bootmem{_node} is a physical address
+
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- mm/bootmem.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ mm/nobootmem.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/mm/bootmem.c b/mm/bootmem.c
-index 76fc17e..423cb5f 100644
---- a/mm/bootmem.c
-+++ b/mm/bootmem.c
-@@ -21,6 +21,53 @@
+diff --git a/mm/nobootmem.c b/mm/nobootmem.c
+index 9b02fda..c2cfa04 100644
+--- a/mm/nobootmem.c
++++ b/mm/nobootmem.c
+@@ -72,7 +72,7 @@ static void * __init __alloc_memory_core_early(int nid, u64 size, u64 align,
+ 	return ptr;
+ }
  
- #include "internal.h"
- 
+-/*
 +/**
-+ * DOC: bootmem overview
+  * free_bootmem_late - free bootmem pages directly to page allocator
+  * @addr: starting address of the range
+  * @size: size of the range in bytes
+@@ -176,7 +176,7 @@ void __init reset_all_zones_managed_pages(void)
+ /**
+  * free_all_bootmem - release free pages to the buddy allocator
+  *
+- * Returns the number of pages actually released.
++ * Return: the number of pages actually released.
+  */
+ unsigned long __init free_all_bootmem(void)
+ {
+@@ -193,7 +193,7 @@ unsigned long __init free_all_bootmem(void)
+ /**
+  * free_bootmem_node - mark a page range as usable
+  * @pgdat: node the range resides on
+- * @physaddr: starting address of the range
++ * @physaddr: starting physical address of the range
+  * @size: size of the range in bytes
+  *
+  * Partial pages will be considered reserved and left as they are.
+@@ -208,7 +208,7 @@ void __init free_bootmem_node(pg_data_t *pgdat, unsigned long physaddr,
+ 
+ /**
+  * free_bootmem - mark a page range as usable
+- * @addr: starting address of the range
++ * @addr: starting physical address of the range
+  * @size: size of the range in bytes
+  *
+  * Partial pages will be considered reserved and left as they are.
+@@ -256,7 +256,7 @@ static void * __init ___alloc_bootmem_nopanic(unsigned long size,
+  *
+  * Allocation may happen on any node in the system.
+  *
+- * Returns NULL on failure.
++ * Return: address of the allocated region or %NULL on failure.
+  */
+ void * __init __alloc_bootmem_nopanic(unsigned long size, unsigned long align,
+ 					unsigned long goal)
+@@ -293,6 +293,8 @@ static void * __init ___alloc_bootmem(unsigned long size, unsigned long align,
+  * Allocation may happen on any node in the system.
+  *
+  * The function panics if the request can not be satisfied.
 + *
-+ * Bootmem is a boot-time physical memory allocator and configurator.
++ * Return: address of the allocated region.
+  */
+ void * __init __alloc_bootmem(unsigned long size, unsigned long align,
+ 			      unsigned long goal)
+@@ -367,6 +369,8 @@ static void * __init ___alloc_bootmem_node(pg_data_t *pgdat, unsigned long size,
+  * can not hold the requested memory.
+  *
+  * The function panics if the request can not be satisfied.
 + *
-+ * It is used early in the boot process before the page allocator is
-+ * set up.
++ * Return: address of the allocated region.
+  */
+ void * __init __alloc_bootmem_node(pg_data_t *pgdat, unsigned long size,
+ 				   unsigned long align, unsigned long goal)
+@@ -396,6 +400,8 @@ void * __init __alloc_bootmem_node_high(pg_data_t *pgdat, unsigned long size,
+  * Allocation may happen on any node in the system.
+  *
+  * The function panics if the request can not be satisfied.
 + *
-+ * The bootmem is based on the most basic of allocators, a First Fit
-+ * allocator which uses a bitmap to represent memory. If a bit is 1,
-+ * the page is allocated and 0 if unallocated. To satisfy allocations
-+ * of sizes smaller than a page, the allocator records the Page Frame
-+ * Number (PFN) of the last allocation and the offset the allocation
-+ * ended at. Subsequent small allocations are merged together and
-+ * stored on the same page.
++ * Return: address of the allocated region.
+  */
+ void * __init __alloc_bootmem_low(unsigned long size, unsigned long align,
+ 				  unsigned long goal)
+@@ -425,6 +431,8 @@ void * __init __alloc_bootmem_low_nopanic(unsigned long size,
+  * can not hold the requested memory.
+  *
+  * The function panics if the request can not be satisfied.
 + *
-+ * The information used by the bootmem allocator is represented by
-+ * :c:type:`struct bootmem_data`. An array to hold up to %MAX_NUMNODES
-+ * such structures is statically allocated and then it is discarded
-+ * when the system initialization completes. Each entry in this array
-+ * corresponds to a node with memory. For UMA systems only entry 0 is
-+ * used.
-+ *
-+ * The bootmem allocator is initialized during early architecture
-+ * specific setup. Each architecture is required to supply a
-+ * :c:func:`setup_arch` function which, among other tasks, is
-+ * responsible for acquiring the necessary parameters to initialise
-+ * the boot memory allocator. These parameters define limits of usable
-+ * physical memory:
-+ *
-+ * * @min_low_pfn - the lowest PFN that is available in the system
-+ * * @max_low_pfn - the highest PFN that may be addressed by low
-+ *   memory (%ZONE_NORMAL)
-+ * * @max_pfn - the last PFN available to the system.
-+ *
-+ * After those limits are determined, the :c:func:`init_bootmem` or
-+ * :c:func:`init_bootmem_node` function should be called to initialize
-+ * the bootmem allocator. The UMA case should use the `init_bootmem`
-+ * function. It will initialize ``contig_page_data`` structure that
-+ * represents the only memory node in the system. In the NUMA case the
-+ * `init_bootmem_node` function should be called to initialize the
-+ * bootmem allocator for each node.
-+ *
-+ * Once the allocator is set up, it is possible to use either single
-+ * node or NUMA variant of the allocation APIs.
-+ */
-+
- #ifndef CONFIG_NEED_MULTIPLE_NODES
- struct pglist_data __refdata contig_page_data = {
- 	.bdata = &bootmem_node_data[0]
++ * Return: address of the allocated region.
+  */
+ void * __init __alloc_bootmem_low_node(pg_data_t *pgdat, unsigned long size,
+ 				       unsigned long align, unsigned long goal)
 -- 
 2.7.4
 
