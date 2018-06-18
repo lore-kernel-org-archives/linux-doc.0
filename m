@@ -1,93 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60FB77D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 21:55:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4406F7D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 21:59:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755357AbeFRVzH convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 17:55:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56110 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754628AbeFRVzG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 17:55:06 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4E2643082A2E;
-        Mon, 18 Jun 2018 21:55:06 +0000 (UTC)
-Received: from t450s.home (ovpn-116-135.phx2.redhat.com [10.3.116.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F176F4507;
-        Mon, 18 Jun 2018 21:55:04 +0000 (UTC)
-Date:   Mon, 18 Jun 2018 15:55:04 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Logan Gunthorpe <logang@deltatee.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        id S1755435AbeFRV7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 17:59:53 -0400
+Received: from mail-pg0-f48.google.com ([74.125.83.48]:39385 "EHLO
+        mail-pg0-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754256AbeFRV7w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 17:59:52 -0400
+Received: by mail-pg0-f48.google.com with SMTP id w12-v6so8147066pgc.6
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 14:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=79n1tUuaYmM9U6OjAavQWDOuLnRp4swwEURkasBbUV4=;
+        b=LIKVx/m42SCmiCgayRNZj2ILTsJwjfegbSjFM9rr6BKbCcg29rRDpjskHXKW0kSE5h
+         ifSL/pxZhx0twdbFf6Jb2inHHJk0AqUmzG0vwNhI7wfGkM9s2Z3JCFmM0iV7HBIu7Qk6
+         EPFddb4rQXyLUjzGBWrZdz1470P6kRfOsW2wismxqu1EuXWkdxBWFJxTIlQcOVguW4kX
+         jqFaOiRfdBZeu8bfH0gpRPG5PMP6VRtb2nBe4gHIjDCuzQSvp6Th7y6fGjK/J+KXilRU
+         yQafbZnLKK8eZ+KC0pIFuLZTRZ51MFOz7LbKc5hcw0A4rkyCZ4CaZED6R+ItjuxmcGiN
+         Zz7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=79n1tUuaYmM9U6OjAavQWDOuLnRp4swwEURkasBbUV4=;
+        b=GyyaqLsZ7xJl86HDtMmLKovoWuWAIZFzVF/t6SiniWUfH6OuTfvjm8qmh/r+1aFuTN
+         YydO5Cw2hdguYNV227+NGk6YuZUSYPjFZtqKzJudk8m8nYc3hNC+vQNJcPR/ByTVuj1Z
+         Ze4sMBMoVgfWLTlegk09dfpbNQ0rudymx4vYtY85sNzbGVomr+eLYQiRQ3ey6aSVxKn1
+         Gh0NyhSnDdusVuCVYR0a7SAc1/vwu+M+xn89fcx88Yq/GqRZdC+jyEsGY8YAJyb6pvIW
+         VhGOVqjq/B0gfl3RdOxiaUJ92+7+QH+k2xWScWnjTCGT+WkEhpntqYQZvR23JHPTbu7J
+         tsVQ==
+X-Gm-Message-State: APt69E04QQ8zPvju2W6RnUYBccyyJ36A0hWuwSL12S/hIcfX4pkua/Oc
+        QlSsgd+2p0sb2qAA4PkKJhS8sA==
+X-Google-Smtp-Source: ADUXVKJRgAw2UtR/xzQD8g/jUS5r/TDfolV655oIxLXqjydUebdcft5x+V2Xp8CIqYUkeJWztbZ8pw==
+X-Received: by 2002:a63:780b:: with SMTP id t11-v6mr12371680pgc.91.1529359191600;
+        Mon, 18 Jun 2018 14:59:51 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
+        by smtp.googlemail.com with ESMTPSA id y10-v6sm22234771pgr.44.2018.06.18.14.59.50
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Jun 2018 14:59:50 -0700 (PDT)
+Subject: Re: overlayfs: caller_credentials option bypass creator_cred
+To:     Vivek Goyal <vgoyal@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v3 2/3] PCI: Allow specifying devices using a base bus
- and path of devfns
-Message-ID: <20180618155504.68e56358@t450s.home>
-In-Reply-To: <20180618193636.16210-3-logang@deltatee.com>
-References: <20180618193636.16210-1-logang@deltatee.com>
-        <20180618193636.16210-3-logang@deltatee.com>
+        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        Daniel Walsh <dwalsh@redhat.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>
+References: <20180618154222.19279-1-salyzyn@android.com>
+ <20180618185448.GA8749@redhat.com>
+ <f141f883-0dbd-10ea-83b9-a1b38119b0c5@android.com>
+ <20180618194345.GA15973@redhat.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <aecdeaca-74cf-54b1-3ea9-4751972074f5@android.com>
+Date:   Mon, 18 Jun 2018 14:59:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 18 Jun 2018 21:55:06 +0000 (UTC)
+In-Reply-To: <20180618194345.GA15973@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 18 Jun 2018 13:36:35 -0600
-Logan Gunthorpe <logang@deltatee.com> wrote:
+On 06/18/2018 12:43 PM, Vivek Goyal wrote:
+> Will it be acceptable to write security policies in such a way so that
+> mounter has access as well.
+Unfortunately No. Policy of minimizing attack surface for a contained 
+root service (init in this case). Just because it can mount, does not 
+mean it can modify critical content; an attacker could use this to open 
+a hole.
 
-> When specifying PCI devices on the kernel command line using a
-> BDF, the bus numbers can change when adding or replacing a device,
-> changing motherboard firmware, or applying kernel parameters like
-> pci=assign-buses. When this happens, it is usually undesirable to
-> apply whatever command line tweak to the wrong device.
-> 
-> Therefore, it is useful to be able to specify devices with a base
-> bus number and the path of devfns needed to get to it. (Similar to
-> the "device scope" structure in the Intel VT-d spec, Section 8.3.1.)
-> 
-> Thus, we add an option to specify devices in the following format:
-> 
-> [<domain>:]<bus>:<slot>.<func>[/<slot>.<func>][/ ...]
-> 
-> The path can be any segment within the PCI hierarchy of any length and
-> determined through the use of 'lspci -t'. When specified this way, it is
-> less likely that a renumbered bus will result in a valid device specification
-> and the tweak won't be applied to the wrong device.
-> 
-> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-> Reviewed-by: Stephen Bates <sbates@raithlin.com>
-> Acked-by: Christian König <christian.koenig@amd.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |   8 +-
->  drivers/pci/pci.c                               | 120 ++++++++++++++++++++----
->  2 files changed, 106 insertions(+), 22 deletions(-)
+> Current model does assume that mounter has privileges on underlying files.
 
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+Only ones it appears to need is the workdir AFAIK, had to add ability to 
+create in the <wordir> xattr in order to enable r/w mounts later. 
+Although not all corners were tested, I did not see any copy_up issues 
+b/c the caller had the privs in the Android security model when mounted 
+with this new flag.
+
+-- Mark
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
