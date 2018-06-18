@@ -5,32 +5,32 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07F967D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:25:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 776C67D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:32:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935323AbeFRRZ2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 13:25:28 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58100 "EHLO
+        id S1755305AbeFRRc5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 13:32:57 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59422 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934963AbeFRRZ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:25:27 -0400
+        with ESMTP id S1755035AbeFRRc4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:32:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
         Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=M87h/tftk1QAZelX0jtKbsPMx6CqKhWupzXoNkS25R0=; b=KCEdLaNDKGyh1TSxPJ5LIveRo
-        Je0C3PjRLavv+AyCSpfjOlMUUAW4GWcHaFHpur2CPqaDJUOYhnyL3f/50bK6BQCcwGlkU4eAst+Fv
-        1jObsA955/KnR5Yu0RXW7rVSFQ8VKIHsImzTVvlrmibrZPDG8iyrX6nPX9FYaLUbtyHs7jy5CQYki
-        txfPFZJbi3UNrjU3ARIgSkPN+/qjftAlWdCTtb7SYTd/E4eIRno5gm4eRDZa0iPInhMwSkjBPtzQU
-        PJV0lI2BAruAdpPq3dcJdNfylyVkuMNrVFZLIR2ASKhSEfThDrWmXkGNcMUexRgqKXnpDmtz7vbgb
-        snOoLiHhg==;
+         bh=Ho0gJWy2VGgxHH6mYV3NUrZdpqN7Q6wqf6v0EGTdqQs=; b=kSwqLodMxyZdgT1fqTsNlabo2
+        ZuFDS79ShSgqFOHojU//AJjPOFFibu2vjnQvXxOp2xW5Un5/0e+tlDpD/eFr/X5XU+mKGCo0PL4OR
+        croTvhtLtVdteBVqkPSbEOkgAp2FupkMoGLyMblC9a4pEZs6B7zaBiOmyrodeoFOpVRD6zFbtIJQr
+        0JUTuFCE9D98yh5mQfSVj65gak+MGPZ1x5nAkoTyxyDagZADGoER57wv5q430T4azS+4XJ21sKcJw
+        MGkOWPOULLGIqxGBKPDHKUg8fId8IV+2Mzqi1VqABSlANYqVVt6PbtXwFZA+jWT33m+UlMwZh8O3u
+        6UIH9nalQ==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fUxuB-00045s-Jn; Mon, 18 Jun 2018 17:25:27 +0000
-Subject: Re: [PATCH 04/11] docs/mm: bootmem: add kernel-doc description of
- 'struct bootmem_data'
+        id 1fUy1O-00065M-Ur; Mon, 18 Jun 2018 17:32:56 +0000
+Subject: Re: [PATCH 11/11] docs/mm: add description of boot time memory
+ management
 To:     Mike Rapoport <rppt@linux.vnet.ibm.com>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -38,14 +38,14 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>
 References: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1529341199-17682-5-git-send-email-rppt@linux.vnet.ibm.com>
+ <1529341199-17682-12-git-send-email-rppt@linux.vnet.ibm.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f276789a-f6c0-6a98-5e21-3c3c15112e80@infradead.org>
-Date:   Mon, 18 Jun 2018 10:25:21 -0700
+Message-ID: <3d0f5f7f-7444-4559-c993-f85e7198eb38@infradead.org>
+Date:   Mon, 18 Jun 2018 10:32:46 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <1529341199-17682-5-git-send-email-rppt@linux.vnet.ibm.com>
+In-Reply-To: <1529341199-17682-12-git-send-email-rppt@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -55,42 +55,145 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 06/18/2018 09:59 AM, Mike Rapoport wrote:
+> Both bootmem and memblock are have pretty good internal documentation
+> coverage. With addition of some overview we get a nice description of the
+> early memory management.
+> 
 > Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 > ---
->  include/linux/bootmem.h | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
+>  Documentation/core-api/boot-time-mm.rst | 92 +++++++++++++++++++++++++++++++++
+>  Documentation/core-api/index.rst        |  1 +
+>  2 files changed, 93 insertions(+)
+>  create mode 100644 Documentation/core-api/boot-time-mm.rst
 > 
-> diff --git a/include/linux/bootmem.h b/include/linux/bootmem.h
-> index 7942a96..1526ba1 100644
-> --- a/include/linux/bootmem.h
-> +++ b/include/linux/bootmem.h
-> @@ -27,9 +27,20 @@ extern unsigned long max_pfn;
->  extern unsigned long long max_possible_pfn;
+> diff --git a/Documentation/core-api/boot-time-mm.rst b/Documentation/core-api/boot-time-mm.rst
+> new file mode 100644
+> index 0000000..379e5a3
+> --- /dev/null
+> +++ b/Documentation/core-api/boot-time-mm.rst
+> @@ -0,0 +1,92 @@
+> +===========================
+> +Boot time memory management
+> +===========================
+> +
+> +Early system initialization cannot use "normal" memory management
+> +simply because it is not set up yet. But there is still need to
+> +allocate memory for various data structures, for instance for the
+> +physical page allocator. To address this, a specialized allocator
+> +called the :ref:`Boot Memory Allocator <bootmem>`, or bootmem, was
+> +introduced. Several years later PowerPC developers added a "Logical
+> +Memory Blocks" which was later adopted by other architectures and
+
+   Memory Blocks" allocator, which was later ...
+
+> +renamed to :ref:`memblock <memblock>`. There is also a compatibility
+> +layer called `nobootmem` that translates bootmem allocation interfaces
+> +to memblock calls.
+> +
+> +The selection of the early alocator is done using
+
+                              allocator
+
+> +``CONFIG_NO_BOOTMEM`` and ``CONFIG_HAVE_MEMBLOCK`` kernel
+> +configuration options. These options are enabled or disabled
+> +statically by the architectures' Kconfig files.
+> +
+> +* Architectures that rely only on bootmem select ``CONFIG_NO_BOOTMEM=n
+> +  && CONFIG_HAVE_MEMBLOCK=n``.
+> +* The users of memblock with the nobootmem compatibility layer set
+> +  ``CONFIG_NO_BOOTMEM=y && CONFIG_HAVE_MEMBLOCK=y``.
+> +* And for those that use both memblock and bootmem the configuration
+> +  includes ``CONFIG_NO_BOOTMEM=n && CONFIG_HAVE_MEMBLOCK=y
+
+             fix ending:                                   =y``.
+
+> +
+> +Whichever allocator is used, it is the responsibility of the
+> +architecture specific initialization to set it up in
+> +:c:func:`setup_arch` and tear it down in :c:func:`mem_init` functions.
+> +
+> +Once the early memory manegement is available it offers variety of
+
+                         management                 offers a variety of
+
+> +functions and macros for memory allocations. The allocation request
+> +may be directed to the first (and probably the only) node or to a
+> +particular node in a NUMA system. There are API variants that panic
+> +when an allocation fails and those that don't. And more recent and
+> +advanced memblock even allows controlling its own behaviour.
+> +
+> +.. _bootmem:
+> +
+> +Bootmem
+> +=======
+> +
+> +(mostly stolen from Mel Gorman's "Understanding the Linux Virtual
+> +Memory Manager" `book`_)
+> +
+> +.. _book: https://www.kernel.org/doc/gorman/
+> +
+> +.. kernel-doc:: mm/bootmem.c
+> +   :doc: bootmem overview
+> +
+> +.. _memblock:
+> +
+> +Memblock
+> +========
+> +
+> +.. kernel-doc:: mm/memblock.c
+> +   :doc: memblock overview
+> +
+> +
+> +Functions and structures
+> +========================
+> +
+> +Common API
+> +----------
+> +
+> +The functions that are described in this section are available
+> +regardless of what early memory manager is enabled.
+> +
+> +.. kernel-doc:: mm/nobootmem.c
+> +
+> +Bootmem specific API
+> +--------------------
+> +
+> +The interfaces available only with bootmem, i.e when ``CONFIG_NO_BOOTMEM=n``
+
+                                               i.e.
+How about:
+
+  These interfaces are available only with bootmem, i.e. when ``CONFIG_NO_BOOTMEM=n``.
+
+> +
+> +.. kernel-doc:: include/linux/bootmem.h
+> +.. kernel-doc:: mm/bootmem.c
+> +   :nodocs:
+> +
+> +Memblock specific API
+> +---------------------
+> +
+> +Here is the description of memblock data structures, functions and
+> +macros. Some of them are actually internal, but since they are
+> +documented it would be silly to omit them. Besides, reading the
+> +descriptions for the internal functions can help to understand what
+> +really happens under the hood.
+> +
+> +.. kernel-doc:: include/linux/memblock.h
+> +.. kernel-doc:: mm/memblock.c
+> +   :nodocs:
+> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+> index f5a66b7..93d5a46 100644
+> --- a/Documentation/core-api/index.rst
+> +++ b/Documentation/core-api/index.rst
+> @@ -28,6 +28,7 @@ Core utilities
+>     printk-formats
+>     circular-buffers
+>     gfp_mask-from-fs-io
+> +   boot-time-mm
 >  
->  #ifndef CONFIG_NO_BOOTMEM
-> -/*
-> - * node_bootmem_map is a map pointer - the bits represent all physical 
-> - * memory pages (including holes) on the node.
-> +/**
-> + * struct bootmem_data - per-node information used by the bootmem allocator
-> + * @node_min_pfn: the starting physical address of the node's memory
-> + * @node_low_pfn: the end physical address of the directly addressable memory
-> + * @node_bootmem_map: is a bitmap pointer - the bits represent all physical
-> + *		     memory pages (including holes) on the node.
-> + * @last_end_off: the offset within the page of the end of the last allocation;
-> + *                if 0, the page used is full
-> + * @hint_idx: the the PFN of the page used with the last allocation;
-
-            drop one "the" above.
-
-> + *	       together with using this with the @last_end_offset field,
-> + *	       a test can be made to see if allocations can be merged
-> + *	       with the page used for the last allocation rather than
-> + *	       using up a full new page.
-> + * @list: list entry in the linked list ordered by the memory addresses
->   */
->  typedef struct bootmem_data {
->  	unsigned long node_min_pfn;
+>  Interfaces for kernel debugging
+>  ===============================
 > 
 
 
