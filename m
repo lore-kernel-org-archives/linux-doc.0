@@ -1,287 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 87A497D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 04:17:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D9707D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 05:48:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752914AbeFREOs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 00:14:48 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:32792 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752890AbeFREOq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 00:14:46 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D10B683207;
-        Mon, 18 Jun 2018 04:14:45 +0000 (UTC)
-Received: from llong.com (ovpn-121-11.rdu2.redhat.com [10.10.121.11])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CCB0E201E288;
-        Mon, 18 Jun 2018 04:14:40 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-team@fb.com, pjt@google.com,
-        luto@amacapital.net, Mike Galbraith <efault@gmx.de>,
-        torvalds@linux-foundation.org, Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v10 1/9] cpuset: Enable cpuset controller in default hierarchy
-Date:   Mon, 18 Jun 2018 12:14:00 +0800
-Message-Id: <1529295249-5207-2-git-send-email-longman@redhat.com>
-In-Reply-To: <1529295249-5207-1-git-send-email-longman@redhat.com>
-References: <1529295249-5207-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 18 Jun 2018 04:14:45 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Mon, 18 Jun 2018 04:14:45 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+        id S1754715AbeFRFsV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 01:48:21 -0400
+Received: from mail-wr0-f195.google.com ([209.85.128.195]:39089 "EHLO
+        mail-wr0-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754013AbeFRFsR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 01:48:17 -0400
+Received: by mail-wr0-f195.google.com with SMTP id w7-v6so15373115wrn.6
+        for <linux-doc@vger.kernel.org>; Sun, 17 Jun 2018 22:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=WtYdziSqrC+D16a75PaSD2xxmYWgF/xPtyOXU+148n8=;
+        b=Of8VHgPyBu/KE3zUVWsIn5xzIabHeXWyDQeGXlqWLWYkhcnvKzluw85gfDPYzAfIuc
+         4twh0PvOLAaTxi5AIUjHSCkTZlZOf5xP+l3ImV67rtS5h4VGu2nIAb7wNxysENXkadmf
+         NxvwjVgI8mhkKNvFp9H2eN3t8bEdF4jy/NGvo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=WtYdziSqrC+D16a75PaSD2xxmYWgF/xPtyOXU+148n8=;
+        b=acHLNyHlHesgbqR4wE7dEEaGG0U7AT2abWkXsoa3tCQCOfOZOql5k+FUlVku4NhnAf
+         98a9D901A98B6uA2MMCZW1VRVP6uEoGXJEN1na72dwsfPJWOF6YMnqkyM0bvgGz99kz0
+         zQvYHZEohgnWEenFdosCC8/wB59D3ry+J+5Fe6+QK+gl5vr7zzoMsS1CqXILy140dMWP
+         ChZXYDt3Lakqx+Aj8ncaZfGeL44H693kQVYW0fJCgGH/+7Bzyr1lsJlikjimCqrS33DX
+         iW4NlQGeu6GfbN0egsatyTSafrjY8vQ/zlWBWleSI/fq8tWuQ9btkiS0Ppu4TvC5eNJn
+         0XpA==
+X-Gm-Message-State: APt69E07i3m+tVGJaX4qzEO5FQFmsLx6owqrwasJpISwRIkMGJjHLXBb
+        uh6GDvffs/WxC8XT8o7SDFhSIA==
+X-Google-Smtp-Source: ADUXVKKVMAHGJ0enc6ET3CloRSPLv3GCxwF7Nf6dWX6IB2KKg3A6gmHws6Riqd+engEwxWa9WVTx+Q==
+X-Received: by 2002:adf:ad2f:: with SMTP id p44-v6mr9290595wrc.164.1529300896274;
+        Sun, 17 Jun 2018 22:48:16 -0700 (PDT)
+Received: from dell ([95.149.160.78])
+        by smtp.gmail.com with ESMTPSA id p38-v6sm32515687wrc.11.2018.06.17.22.48.15
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 17 Jun 2018 22:48:15 -0700 (PDT)
+Date:   Mon, 18 Jun 2018 06:48:13 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH v4 22/26] devicetree: fix name of pinctrl-bindings.txt
+Message-ID: <20180618054813.GA31141@dell>
+References: <cover.1529079119.git.mchehab+samsung@kernel.org>
+ <1832904c012f823958663464ac4fb249f77978b5.1529079120.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1832904c012f823958663464ac4fb249f77978b5.1529079120.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Given the fact that thread mode had been merged into 4.14, it is now
-time to enable cpuset to be used in the default hierarchy (cgroup v2)
-as it is clearly threaded.
+On Fri, 15 Jun 2018, Mauro Carvalho Chehab wrote:
 
-The cpuset controller had experienced feature creep since its
-introduction more than a decade ago. Besides the core cpus and mems
-control files to limit cpus and memory nodes, there are a bunch of
-additional features that can be controlled from the userspace. Some of
-the features are of doubtful usefulness and may not be actively used.
+> Rename:
+> 	pinctrl-binding.txt -> pinctrl-bindings.txt
+> 
+> In order to match the current name of this file.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/media/stih407-c8sectpfe.txt | 2 +-
 
-This patch enables cpuset controller in the default hierarchy with
-a minimal set of features, namely just the cpus and mems and their
-effective_* counterparts.  We can certainly add more features to the
-default hierarchy in the future if there is a real user need for them
-later on.
+>  Documentation/devicetree/bindings/mfd/as3722.txt              | 2 +-
 
-Alternatively, with the unified hiearachy, it may make more sense
-to move some of those additional cpuset features, if desired, to
-memory controller or may be to the cpu controller instead of staying
-with cpuset.
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 109 ++++++++++++++++++++++++++++++--
- kernel/cgroup/cpuset.c                  |  48 +++++++++++++-
- 2 files changed, 149 insertions(+), 8 deletions(-)
+>  .../devicetree/bindings/mmc/microchip,sdhci-pic32.txt         | 2 +-
+>  Documentation/devicetree/bindings/mmc/sdhci-st.txt            | 2 +-
+>  .../devicetree/bindings/pinctrl/pinctrl-max77620.txt          | 4 ++--
+>  .../devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt          | 4 ++--
+>  Documentation/devicetree/bindings/pinctrl/pinctrl-rk805.txt   | 4 ++--
+>  .../devicetree/bindings/serial/microchip,pic32-uart.txt       | 2 +-
+>  Documentation/devicetree/bindings/spi/spi-st-ssc.txt          | 2 +-
+>  9 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 8a2c52d..fbc30b6 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -53,11 +53,13 @@ v1 is available under Documentation/cgroup-v1/.
-        5-3-2. Writeback
-      5-4. PID
-        5-4-1. PID Interface Files
--     5-5. Device
--     5-6. RDMA
--       5-6-1. RDMA Interface Files
--     5-7. Misc
--       5-7-1. perf_event
-+     5-5. Cpuset
-+       5.5-1. Cpuset Interface Files
-+     5-6. Device
-+     5-7. RDMA
-+       5-7-1. RDMA Interface Files
-+     5-8. Misc
-+       5-8-1. perf_event
-      5-N. Non-normative information
-        5-N-1. CPU controller root cgroup process behaviour
-        5-N-2. IO controller root cgroup process behaviour
-@@ -1486,6 +1488,103 @@ through fork() or clone(). These will return -EAGAIN if the creation
- of a new process would cause a cgroup policy to be violated.
- 
- 
-+Cpuset
-+------
-+
-+The "cpuset" controller provides a mechanism for constraining
-+the CPU and memory node placement of tasks to only the resources
-+specified in the cpuset interface files in a task's current cgroup.
-+This is especially valuable on large NUMA systems where placing jobs
-+on properly sized subsets of the systems with careful processor and
-+memory placement to reduce cross-node memory access and contention
-+can improve overall system performance.
-+
-+The "cpuset" controller is hierarchical.  That means the controller
-+cannot use CPUs or memory nodes not allowed in its parent.
-+
-+
-+Cpuset Interface Files
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+  cpuset.cpus
-+	A read-write multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the requested CPUs to be used by tasks within this
-+	cgroup.  The actual list of CPUs to be granted, however, is
-+	subjected to constraints imposed by its parent and can differ
-+	from the requested CPUs.
-+
-+	The CPU numbers are comma-separated numbers or ranges.
-+	For example:
-+
-+	  # cat cpuset.cpus
-+	  0-4,6,8-10
-+
-+	An empty value indicates that the cgroup is using the same
-+	setting as the nearest cgroup ancestor with a non-empty
-+	"cpuset.cpus" or all the available CPUs if none is found.
-+
-+	The value of "cpuset.cpus" stays constant until the next update
-+	and won't be affected by any CPU hotplug events.
-+
-+  cpuset.cpus.effective
-+	A read-only multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the onlined CPUs that are actually granted to this
-+	cgroup by its parent.  These CPUs are allowed to be used by
-+	tasks within the current cgroup.
-+
-+	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
-+	all the CPUs from the parent cgroup that can be available to
-+	be used by this cgroup.  Otherwise, it should be a subset of
-+	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
-+	can be granted.  In this case, it will be treated just like an
-+	empty "cpuset.cpus".
-+
-+	Its value will be affected by CPU hotplug events.
-+
-+  cpuset.mems
-+	A read-write multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the requested memory nodes to be used by tasks within
-+	this cgroup.  The actual list of memory nodes granted, however,
-+	is subjected to constraints imposed by its parent and can differ
-+	from the requested memory nodes.
-+
-+	The memory node numbers are comma-separated numbers or ranges.
-+	For example:
-+
-+	  # cat cpuset.mems
-+	  0-1,3
-+
-+	An empty value indicates that the cgroup is using the same
-+	setting as the nearest cgroup ancestor with a non-empty
-+	"cpuset.mems" or all the available memory nodes if none
-+	is found.
-+
-+	The value of "cpuset.mems" stays constant until the next update
-+	and won't be affected by any memory nodes hotplug events.
-+
-+  cpuset.mems.effective
-+	A read-only multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
-+
-+	It lists the onlined memory nodes that are actually granted to
-+	this cgroup by its parent. These memory nodes are allowed to
-+	be used by tasks within the current cgroup.
-+
-+	If "cpuset.mems" is empty, it shows all the memory nodes from the
-+	parent cgroup that will be available to be used by this cgroup.
-+	Otherwise, it should be a subset of "cpuset.mems" unless none of
-+	the memory nodes listed in "cpuset.mems" can be granted.  In this
-+	case, it will be treated just like an empty "cpuset.mems".
-+
-+	Its value will be affected by memory nodes hotplug events.
-+
-+
- Device controller
- -----------------
- 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 266f10c..2b5c447 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1824,12 +1824,11 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 	return 0;
- }
- 
--
- /*
-  * for the common functions, 'private' gives the type of file
-  */
- 
--static struct cftype files[] = {
-+static struct cftype legacy_files[] = {
- 	{
- 		.name = "cpus",
- 		.seq_show = cpuset_common_seq_show,
-@@ -1932,6 +1931,47 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- };
- 
- /*
-+ * This is currently a minimal set for the default hierarchy. It can be
-+ * expanded later on by migrating more features and control files from v1.
-+ */
-+static struct cftype dfl_files[] = {
-+	{
-+		.name = "cpus",
-+		.seq_show = cpuset_common_seq_show,
-+		.write = cpuset_write_resmask,
-+		.max_write_len = (100U + 6 * NR_CPUS),
-+		.private = FILE_CPULIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{
-+		.name = "mems",
-+		.seq_show = cpuset_common_seq_show,
-+		.write = cpuset_write_resmask,
-+		.max_write_len = (100U + 6 * MAX_NUMNODES),
-+		.private = FILE_MEMLIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{
-+		.name = "cpus.effective",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_EFFECTIVE_CPULIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{
-+		.name = "mems.effective",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_EFFECTIVE_MEMLIST,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
-+
-+	{ }	/* terminate */
-+};
-+
-+
-+/*
-  *	cpuset_css_alloc - allocate a cpuset css
-  *	cgrp:	control group that the new cpuset will be part of
-  */
-@@ -2105,8 +2145,10 @@ struct cgroup_subsys cpuset_cgrp_subsys = {
- 	.post_attach	= cpuset_post_attach,
- 	.bind		= cpuset_bind,
- 	.fork		= cpuset_fork,
--	.legacy_cftypes	= files,
-+	.legacy_cftypes	= legacy_files,
-+	.dfl_cftypes	= dfl_files,
- 	.early_init	= true,
-+	.threaded	= true,
- };
- 
- /**
 -- 
-1.8.3.1
-
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
