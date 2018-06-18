@@ -1,107 +1,432 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC1817DF8B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 15:14:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 15A397DF87
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 15:43:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965144AbeFRPH2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 11:07:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49330 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S964942AbeFRPHZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 11:07:25 -0400
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.phx2.redhat.com [10.5.11.24])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 35A3130820CA;
-        Mon, 18 Jun 2018 15:07:25 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-117-25.phx2.redhat.com [10.3.117.25])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A69F6308BDA2;
-        Mon, 18 Jun 2018 15:07:17 +0000 (UTC)
-Subject: Re: [PATCH v10 0/9] cpuset: Enable cpuset controller in default
- hierarchy
-To:     Juri Lelli <juri.lelli@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <1529295249-5207-1-git-send-email-longman@redhat.com>
- <20180618142036.GA13097@localhost.localdomain>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <dc91e2ad-239d-3144-0814-c5da181f4ac6@redhat.com>
-Date:   Mon, 18 Jun 2018 23:07:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180618142036.GA13097@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.24
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Mon, 18 Jun 2018 15:07:25 +0000 (UTC)
+        id S1754722AbeFRPmj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 11:42:39 -0400
+Received: from mail-pl0-f68.google.com ([209.85.160.68]:38585 "EHLO
+        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754662AbeFRPmh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 11:42:37 -0400
+Received: by mail-pl0-f68.google.com with SMTP id b14-v6so9245735pls.5
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 08:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=PIfJiFM3psq3ofAyLe1plK5luTpo0Om8fMGZOHVN+3Y=;
+        b=ivPmYzAUImCkS/QSJfXYccd7hq4FA8+b4LhEd8A8CtetONMlUgYZHM7K5qLLLNXhf8
+         ENlPJNA/di9G4KAVQQjk4Vd/ksZzI9cmZLLcXRPanp4IxLrVk+JaLhQnuB6TgJsJ66Hg
+         gVljXWuE+iRIrVI+rFxgL4lCPs9AqmmJAzIShbPhicb911gSRlPr6TDqjh7lhfKibHsr
+         zFC4ZwoxAmT6c2dKbSXbcdAAli+dFhSgYVmo4G5sLQJ0Yy66ZNae2IkMLhX3cH6DPRB+
+         O3FFRdvRKmb1lzIrD7mHvI5Gp4YBTGPePGcIBA1oS0y5ee8X4+wtDibBC5tNJrUfCkRh
+         bL7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=PIfJiFM3psq3ofAyLe1plK5luTpo0Om8fMGZOHVN+3Y=;
+        b=cchHzCTZJRYjaQV0MoS/PgCOUPHq8d0U12TXE4Rdo8JYox49wQCISujshXMGVdiE7P
+         yhINEM7HLt1upFK9UTk05v8jxzlWekEts7J4HVHoq+yYwHCL40RS7jxBZLH/M6hNSH5T
+         bZWAiD7B/uVfw7GZK5tu8crMBBnVJZ932mHTs1Ek1ggqPfvPOWnqn4w2Vz86puZhtE4g
+         reAtHJ+b+kmKtxU1u0hB6H4VMKMSgK+5eNYGq0G2mF/OazmnE6ayAb21RqiOMEJdgqPX
+         m/6n2N0dLq4liF8IEruhQbiJsfVAn2LsUd7W+PW+xz5JZW7L8MAsVzJNOWiCI75zVIPZ
+         NZQQ==
+X-Gm-Message-State: APt69E299HcJ2pAhqXWuGPXqCNLmh7dvolrI/JV25EyxaHKUU8respY9
+        O9hL1CFpf9bxGYVxG4MJ09jiiw==
+X-Google-Smtp-Source: ADUXVKLeOpE+k/m5ghAnUqEjejxaYa1aS38eKHXJnp6QbB31dZ3HMMh4kJDPJjsRdE8Cgp3lJYZWSA==
+X-Received: by 2002:a17:902:6b09:: with SMTP id o9-v6mr14445873plk.256.1529336556419;
+        Mon, 18 Jun 2018 08:42:36 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
+        by smtp.gmail.com with ESMTPSA id s28-v6sm30623707pfg.89.2018.06.18.08.42.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Jun 2018 08:42:35 -0700 (PDT)
+From:   Mark Salyzyn <salyzyn@android.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Mark Salyzyn <salyzyn@android.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: overlayfs: caller_credentials option bypass creator_cred
+Date:   Mon, 18 Jun 2018 08:42:15 -0700
+Message-Id: <20180618154222.19279-1-salyzyn@android.com>
+X-Mailer: git-send-email 2.18.0.rc1.244.gcf134e6275-goog
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/18/2018 10:20 PM, Juri Lelli wrote:
-> Hi,
->
-> On 18/06/18 12:13, Waiman Long wrote:
->> v10:
->>  - Remove the cpuset.sched.load_balance patch for now as it may not
->>    be that useful.
->>  - Break the large patch 2 into smaller patches to make them a bit
->>    easier to review.
->>  - Test and fix issues related to changing "cpuset.cpus" and cpu
->>    online/offline in a domain root.
->>  - Rename isolated_cpus to reserved_cpus as this cpumask holds CPUs
->>    reserved for child sched domains.
->>  - Rework the scheduling domain debug printing code in the last patch.
->>  - Document update to the newly moved
->>    Documentation/admin-guide/cgroup-v2.rst.
-> There seem to be two (similar but different) 6/9 in the set. Something
-> went wrong?
+All accesses to the lower filesystems reference the creator (mount)
+and not the source context.  This is a security issue.
 
-The isolated_cpus patch is old, I forgot to remove it before sending out
-the patch.
+A module bool parameter and mount option caller_credentials is added
+to set the default, and to act as a presence check for this feature.
+The module parameter is used to change the default behavior because
+the 'normal' behavior of overlayfs is a _security_ violation
+providing the privileges of the creator to the user when accessing
+the files in the filesystems.  But since I can not break user API,
+I have to preserve the original behavior as default.
 
+On MAC security model expect to set the caller_credentials to Y as
+part of early initialization to preserve security model when the
+option of iether caller_credentials or creator_credentials is not
+explicitly specified in the mount.
 
-> Also I can't seem to be able to create a subgroup with an isolated
-> domain root. I think that, when doing the following
->
->  # mount -t cgroup2 none /sys/fs/cgroup
->  # echo "+cpuset" >/sys/fs/cgroup/cgroup.subtree_control 
->  # mkdir /sys/fs/cgroup/g1
->  # echo 0-1 >/sys/fs/cgroup/g1/cpuset.cpus
->  # echo 1 >/sys/fs/cgroup/g1/cpuset.sched.domain_root
->
-> rebuild_sched_domains_locked exits early, since
-> top_cpuset.effective_cpus != cpu_active_mask. (effective_cpus being 2-3
-> at this point since I'm testing this on a 0-3 system)
->
-> In your v9 this [1] was adding a special condition to make rebuilding of
-> domains happen. Was the change intentional?
+Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-unionfs@vger.kernel.org 
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/filesystems/overlayfs.txt |  7 +++++++
+ fs/overlayfs/copy_up.c                  |  3 ++-
+ fs/overlayfs/dir.c                      | 12 ++++++++----
+ fs/overlayfs/inode.c                    | 24 ++++++++++++++++--------
+ fs/overlayfs/namei.c                    |  9 ++++++---
+ fs/overlayfs/ovl_entry.h                |  1 +
+ fs/overlayfs/readdir.c                  |  6 ++++--
+ fs/overlayfs/super.c                    | 22 ++++++++++++++++++++++
+ fs/overlayfs/util.c                     |  8 ++++++--
+ 9 files changed, 72 insertions(+), 20 deletions(-)
 
-Can you reply to the relevant patch to pinpoint what condition are you
-talking about? I do try to eliminate domain rebuild as much as possible,
-but I am just not sure which condition you have question about.
-
-Cheers,
-Longman
-
-
+diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
+index 72615a2c0752..4328be5cdaa9 100644
+--- a/Documentation/filesystems/overlayfs.txt
++++ b/Documentation/filesystems/overlayfs.txt
+@@ -106,6 +106,13 @@ Only the lists of names from directories are merged.  Other content
+ such as metadata and extended attributes are reported for the upper
+ directory only.  These attributes of the lower directory are hidden.
+ 
++credentials
++-----------
++
++All access to the upper, lower and work directories is the creator's
++credentials.  If caller_credentials is set, then the access caller's
++instance credentials will be used.
++
+ whiteouts and opaque directories
+ --------------------------------
+ 
+diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
+index ddaddb4ce4c3..abc21844f712 100644
+--- a/fs/overlayfs/copy_up.c
++++ b/fs/overlayfs/copy_up.c
+@@ -790,7 +790,8 @@ int ovl_copy_up_flags(struct dentry *dentry, int flags)
+ 		dput(parent);
+ 		dput(next);
+ 	}
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ 	return err;
+ }
+diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+index f480b1a2cd2e..97473bb2ee60 100644
+--- a/fs/overlayfs/dir.c
++++ b/fs/overlayfs/dir.c
+@@ -561,7 +561,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+ 		override_cred->fsgid = inode->i_gid;
+ 		if (!attr->hardlink) {
+ 			err = security_dentry_create_files_as(dentry,
+-					attr->mode, &dentry->d_name, old_cred,
++					stat->mode, &dentry->d_name,
++					old_cred ? old_cred : current_cred(),
+ 					override_cred);
+ 			if (err) {
+ 				put_cred(override_cred);
+@@ -577,7 +578,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+ 			err = ovl_create_over_whiteout(dentry, inode, attr);
+ 	}
+ out_revert_creds:
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	return err;
+ }
+ 
+@@ -824,7 +826,8 @@ static int ovl_do_remove(struct dentry *dentry, bool is_dir)
+ 		err = ovl_remove_upper(dentry, is_dir, &list);
+ 	else
+ 		err = ovl_remove_and_whiteout(dentry, &list);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	if (!err) {
+ 		if (is_dir)
+ 			clear_nlink(dentry->d_inode);
+@@ -1150,7 +1153,8 @@ static int ovl_rename(struct inode *olddir, struct dentry *old,
+ out_unlock:
+ 	unlock_rename(new_upperdir, old_upperdir);
+ out_revert_creds:
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	ovl_nlink_end(new, locked);
+ out_drop_write:
+ 	ovl_drop_write(old);
+diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+index ed16a898caeb..222678b6e67e 100644
+--- a/fs/overlayfs/inode.c
++++ b/fs/overlayfs/inode.c
+@@ -49,7 +49,8 @@ int ovl_setattr(struct dentry *dentry, struct iattr *attr)
+ 		inode_lock(upperdentry->d_inode);
+ 		old_cred = ovl_override_creds(dentry->d_sb);
+ 		err = notify_change(upperdentry, attr, NULL);
+-		revert_creds(old_cred);
++		if (old_cred)
++			revert_creds(old_cred);
+ 		if (!err)
+ 			ovl_copyattr(upperdentry->d_inode, dentry->d_inode);
+ 		inode_unlock(upperdentry->d_inode);
+@@ -208,7 +209,8 @@ int ovl_getattr(const struct path *path, struct kstat *stat,
+ 		stat->nlink = dentry->d_inode->i_nlink;
+ 
+ out:
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ 	return err;
+ }
+@@ -242,7 +244,8 @@ int ovl_permission(struct inode *inode, int mask)
+ 		mask |= MAY_READ;
+ 	}
+ 	err = inode_permission(realinode, mask);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ 	return err;
+ }
+@@ -259,7 +262,8 @@ static const char *ovl_get_link(struct dentry *dentry,
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	p = vfs_get_link(ovl_dentry_real(dentry), done);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	return p;
+ }
+ 
+@@ -302,7 +306,8 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
+ 		WARN_ON(flags != XATTR_REPLACE);
+ 		err = vfs_removexattr(realdentry, name);
+ 	}
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ out_drop_write:
+ 	ovl_drop_write(dentry);
+@@ -320,7 +325,8 @@ int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	res = vfs_getxattr(realdentry, name, value, size);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	return res;
+ }
+ 
+@@ -344,7 +350,8 @@ ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	res = vfs_listxattr(realdentry, list, size);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	if (res <= 0 || size == 0)
+ 		return res;
+ 
+@@ -379,7 +386,8 @@ struct posix_acl *ovl_get_acl(struct inode *inode, int type)
+ 
+ 	old_cred = ovl_override_creds(inode->i_sb);
+ 	acl = get_acl(realinode, type);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ 	return acl;
+ }
+diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+index c993dd8db739..c8b84d262ec2 100644
+--- a/fs/overlayfs/namei.c
++++ b/fs/overlayfs/namei.c
+@@ -1024,7 +1024,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+ 		OVL_I(inode)->redirect = upperredirect;
+ 	}
+ 
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	dput(index);
+ 	kfree(stack);
+ 	kfree(d.redirect);
+@@ -1043,7 +1044,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+ 	kfree(upperredirect);
+ out:
+ 	kfree(d.redirect);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	return ERR_PTR(err);
+ }
+ 
+@@ -1097,7 +1099,8 @@ bool ovl_lower_positive(struct dentry *dentry)
+ 			dput(this);
+ 		}
+ 	}
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ 	return positive;
+ }
+diff --git a/fs/overlayfs/ovl_entry.h b/fs/overlayfs/ovl_entry.h
+index 41655a7d6894..7e17db561a04 100644
+--- a/fs/overlayfs/ovl_entry.h
++++ b/fs/overlayfs/ovl_entry.h
+@@ -18,6 +18,7 @@ struct ovl_config {
+ 	const char *redirect_mode;
+ 	bool index;
+ 	bool nfs_export;
++	bool caller_credentials;
+ 	int xino;
+ };
+ 
+diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+index ef1fe42ff7bb..af3874d589ad 100644
+--- a/fs/overlayfs/readdir.c
++++ b/fs/overlayfs/readdir.c
+@@ -289,7 +289,8 @@ static int ovl_check_whiteouts(struct dentry *dir, struct ovl_readdir_data *rdd)
+ 		}
+ 		inode_unlock(dir->d_inode);
+ 	}
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ 	return err;
+ }
+@@ -906,7 +907,8 @@ int ovl_check_empty_dir(struct dentry *dentry, struct list_head *list)
+ 
+ 	old_cred = ovl_override_creds(dentry->d_sb);
+ 	err = ovl_dir_read_merged(dentry, list, &root);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 	if (err)
+ 		return err;
+ 
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index 704b37311467..184688ab35cb 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -56,6 +56,11 @@ module_param_named(xino_auto, ovl_xino_auto_def, bool, 0644);
+ MODULE_PARM_DESC(ovl_xino_auto_def,
+ 		 "Auto enable xino feature");
+ 
++static bool __read_mostly ovl_caller_credentials;
++module_param_named(caller_credentials, ovl_caller_credentials, bool, 0644);
++MODULE_PARM_DESC(ovl_caller_credentials,
++		 "Use caller credentials rather than creator credentials for accesses");
++
+ static void ovl_entry_stack_free(struct ovl_entry *oe)
+ {
+ 	unsigned int i;
+@@ -376,6 +381,10 @@ static int ovl_show_options(struct seq_file *m, struct dentry *dentry)
+ 						"on" : "off");
+ 	if (ofs->config.xino != ovl_xino_def())
+ 		seq_printf(m, ",xino=%s", ovl_xino_str[ofs->config.xino]);
++	if (ofs->config.caller_credentials)
++		seq_puts(m, ",caller_credentials");
++	else
++		seq_puts(m, ",creator_credentials");
+ 	return 0;
+ }
+ 
+@@ -413,6 +422,8 @@ enum {
+ 	OPT_XINO_ON,
+ 	OPT_XINO_OFF,
+ 	OPT_XINO_AUTO,
++	OPT_CREATOR_CREDENTIALS,
++	OPT_CALLER_CREDENTIALS,
+ 	OPT_ERR,
+ };
+ 
+@@ -429,6 +440,8 @@ static const match_table_t ovl_tokens = {
+ 	{OPT_XINO_ON,			"xino=on"},
+ 	{OPT_XINO_OFF,			"xino=off"},
+ 	{OPT_XINO_AUTO,			"xino=auto"},
++	{OPT_CREATOR_CREDENTIALS,	"creator_credentials"},
++	{OPT_CALLER_CREDENTIALS,	"caller_credentials"},
+ 	{OPT_ERR,			NULL}
+ };
+ 
+@@ -486,6 +499,7 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+ 	if (!config->redirect_mode)
+ 		return -ENOMEM;
+ 
++	config->caller_credentials = ovl_caller_credentials;
+ 	while ((p = ovl_next_opt(&opt)) != NULL) {
+ 		int token;
+ 		substring_t args[MAX_OPT_ARGS];
+@@ -555,6 +569,14 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+ 			config->xino = OVL_XINO_AUTO;
+ 			break;
+ 
++		case OPT_CREATOR_CREDENTIALS:
++			config->caller_credentials = false;
++			break;
++
++		case OPT_CALLER_CREDENTIALS:
++			config->caller_credentials = true;
++			break;
++
+ 		default:
+ 			pr_err("overlayfs: unrecognized mount option \"%s\" or missing value\n", p);
+ 			return -EINVAL;
+diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+index 6f1078028c66..538802289511 100644
+--- a/fs/overlayfs/util.c
++++ b/fs/overlayfs/util.c
+@@ -40,6 +40,8 @@ const struct cred *ovl_override_creds(struct super_block *sb)
+ {
+ 	struct ovl_fs *ofs = sb->s_fs_info;
+ 
++	if (ofs->config.caller_credentials)
++		return NULL;
+ 	return override_creds(ofs->creator_cred);
+ }
+ 
+@@ -630,7 +632,8 @@ int ovl_nlink_start(struct dentry *dentry, bool *locked)
+ 	 * value relative to the upper inode nlink in an upper inode xattr.
+ 	 */
+ 	err = ovl_set_nlink_upper(dentry);
+-	revert_creds(old_cred);
++	if (old_cred)
++		revert_creds(old_cred);
+ 
+ out:
+ 	if (err)
+@@ -650,7 +653,8 @@ void ovl_nlink_end(struct dentry *dentry, bool locked)
+ 
+ 			old_cred = ovl_override_creds(dentry->d_sb);
+ 			ovl_cleanup_index(dentry);
+-			revert_creds(old_cred);
++			if (old_cred)
++				revert_creds(old_cred);
+ 		}
+ 
+ 		mutex_unlock(&OVL_I(d_inode(dentry))->lock);
+-- 
+2.18.0.rc1.244.gcf134e6275-goog
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
