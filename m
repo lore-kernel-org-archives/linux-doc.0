@@ -1,390 +1,260 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 426597D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 06:46:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 98E2B7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 07:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754908AbeFRGqQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 02:46:16 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43837 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754904AbeFRGqP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 02:46:15 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 774E0AF7B;
-        Mon, 18 Jun 2018 06:46:13 +0000 (UTC)
-From:   NeilBrown <neilb@suse.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 18 Jun 2018 16:46:04 +1000
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH resend*3] VFS: simplify seq_file iteration code and interface
-In-Reply-To: <874lintqa6.fsf@notabene.neil.brown.name>
-References: <87vacsrt0r.fsf@notabene.neil.brown.name> <87fu3dihtf.fsf@notabene.neil.brown.name> <874lintqa6.fsf@notabene.neil.brown.name>
-Message-ID: <87y3fcegnn.fsf@notabene.neil.brown.name>
+        id S932887AbeFRH6l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 03:58:41 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:11914 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S932612AbeFRH6i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 03:58:38 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id w5I7sDaA011198;
+        Mon, 18 Jun 2018 09:57:36 +0200
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2jn0cj93h6-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Mon, 18 Jun 2018 09:57:36 +0200
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B80F538;
+        Mon, 18 Jun 2018 07:57:31 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 585BC5751;
+        Mon, 18 Jun 2018 07:57:31 +0000 (GMT)
+Received: from [10.201.21.58] (10.75.127.51) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 18 Jun
+ 2018 09:57:29 +0200
+Subject: Re: [PATCH v3 24/27] devicetree: fix a series of wrong file
+ references
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+CC:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Xiaowei Song <songxiaowei@hisilicon.com>,
+        Binghui Wang <wangbinghui@hisilicon.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-pci@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <cover.1528990947.git.mchehab+samsung@kernel.org>
+ <bce1b59268ac2d659fd7cb37f89285ef2acc8316.1528990947.git.mchehab+samsung@kernel.org>
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <93406d06-69c3-01b9-71d3-06f3db8d0370@st.com>
+Date:   Mon, 18 Jun 2018 09:57:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <bce1b59268ac2d659fd7cb37f89285ef2acc8316.1528990947.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG3NODE2.st.com (10.75.127.8) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-18_02:,,
+ signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
 
-The documentation for seq_file suggests that it is necessary to be
-able to move the iterator to a given offset, however that is not the
-case.  If the iterator is stored in the private data and is stable
-from one read() syscall to the next, it is only necessary to support
-first/next interactions.  Implementing this in a client is a little
-clumsy.
-=2D if ->start() is given a pos of zero, it should go to start of
-  sequence.
-=2D if ->start() is given the name pos that was given to the most recent
-  next() or start(), it should restore the iterator to state just
-  before that last call
-=2D if ->start is given another number, it should set the iterator one
-  beyond the start just before the last ->start or ->next call.
+On 06/14/2018 06:09 PM, Mauro Carvalho Chehab wrote:
+> As files got renamed, their references broke.
+> 
+> Manually fix a series of broken refs at the DT bindings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+
+For stm32 part:
+
+Acked-by: Alexandre TORGUE <alexandre.torgue@st.com>
+
+Thanks
+Alex
 
 
-Also, the documentation says that the implementation can interpret the
-pos however it likes (other than zero meaning start), but seq_file
-increments the pos sometimes which does impose on the implementation.
-
-This patch simplifies the interface for first/next iteration and
-simplifies the code, while maintaining complete backward
-compatability.  Now:
-
-=2D if ->start() is given a pos of zero, it should return an iterator
-  placed at the start of the sequence
-=2D if ->start() is given a non-zero pos, it should return the iterator
-  in the same state it was after the last ->start or ->next.
-
-This is particularly useful for interators which walk the multiple
-chains in a hash table, e.g. using rhashtable_walk*. See
-fs/gfs2/glock.c and drivers/staging/lustre/lustre/llite/vvp_dev.c
-
-A large part of achieving this is to *always* call ->next after ->show
-has successfully stored all of an entry in the buffer.  Never just
-increment the index instead.
-Also:
- - always pass &m->index to ->start() and ->next(), never a temp
-   variable
- - don't clear ->from when ->count is zero, as ->from is dead when
-    ->count is zero.
-
-
-Some ->next functions do not increment *pos when they return NULL.
-To maintain compatability with this, we still need to increment
-m->index in one place, if ->next didn't increment it.
-Note that such ->next functions are buggy and should be fixed.
-A simple demonstration is
-   dd if=3D/proc/swaps bs=3D1000 skip=3D1
-Choose any block size larger than the size of /proc/swaps.
-This will always show the whole last line of /proc/swaps.
-
-This patch doesn't work around buggy next() functions for this case.
-
-Acked-by: Jonathan Corbet <corbet@lwn.net> (For the docs part)
-Signed-off-by: NeilBrown <neilb@suse.com>
-=2D--
-
-Still hoping someone might apply this, or at least review it,
-or maybe just tell me how insane it is - anything but silence :-(
-
-NeilBrown
-
-
- Documentation/filesystems/seq_file.txt | 63 ++++++++++++++++++++++--------=
-----
- fs/seq_file.c                          | 53 +++++++++++-----------------
- 2 files changed, 62 insertions(+), 54 deletions(-)
-
-diff --git a/Documentation/filesystems/seq_file.txt b/Documentation/filesys=
-tems/seq_file.txt
-index 9de4303201e1..d412b236a9d6 100644
-=2D-- a/Documentation/filesystems/seq_file.txt
-+++ b/Documentation/filesystems/seq_file.txt
-@@ -66,23 +66,39 @@ kernel 3.10. Current versions require the following upd=
-ate
-=20
- The iterator interface
-=20
-=2DModules implementing a virtual file with seq_file must implement a simple
-=2Diterator object that allows stepping through the data of interest.
-=2DIterators must be able to move to a specific position - like the file th=
-ey
-=2Dimplement - but the interpretation of that position is up to the iterator
-=2Ditself. A seq_file implementation that is formatting firewall rules, for
-=2Dexample, could interpret position N as the Nth rule in the chain.
-=2DPositioning can thus be done in whatever way makes the most sense for the
-=2Dgenerator of the data, which need not be aware of how a position transla=
-tes
-=2Dto an offset in the virtual file. The one obvious exception is that a
-=2Dposition of zero should indicate the beginning of the file.
-+Modules implementing a virtual file with seq_file must implement an
-+iterator object that allows stepping through the data of interest
-+during a "session" (roughly one read() system call).  If the iterator
-+is able to move to a specific position - like the file they implement,
-+though with freedom to map the position number to a sequence location
-+in whatever way is convenient - the iterator need only exist
-+transiently during a session.  If the iterator cannot easily find a
-+numerical position but works well with a first/next interface, the
-+iterator can be stored in the private data area and continue from one
-+session to the next.
-+
-+A seq_file implementation that is formatting firewall rules from a
-+table, for example, could provide a simple iterator that interprets
-+position N as the Nth rule in the chain.  A seq_file implementation
-+that presents the content of a, potentially volatile, linked list
-+might record a pointer into that list, providing that can be done
-+without risk of the current location being removed.
-+
-+Positioning can thus be done in whatever way makes the most sense for
-+the generator of the data, which need not be aware of how a position
-+translates to an offset in the virtual file. The one obvious exception
-+is that a position of zero should indicate the beginning of the file.
-=20
- The /proc/sequence iterator just uses the count of the next number it
- will output as its position.
-=20
-=2DFour functions must be implemented to make the iterator work. The first,
-=2Dcalled start() takes a position as an argument and returns an iterator
-=2Dwhich will start reading at that position. For our simple sequence examp=
-le,
-+Four functions must be implemented to make the iterator work. The
-+first, called start(), starts a session and takes a position as an
-+argument, returning an iterator which will start reading at that
-+position.  The pos passed to start() will always be either zero, or
-+the most recent pos used in the previous session.
-+
-+For our simple sequence example,
- the start() function looks like:
-=20
- 	static void *ct_seq_start(struct seq_file *s, loff_t *pos)
-@@ -101,11 +117,12 @@ implementations; in most cases the start() function s=
-hould check for a
- "past end of file" condition and return NULL if need be.
-=20
- For more complicated applications, the private field of the seq_file
-=2Dstructure can be used. There is also a special value which can be return=
-ed
-=2Dby the start() function called SEQ_START_TOKEN; it can be used if you wi=
-sh
-=2Dto instruct your show() function (described below) to print a header at =
-the
-=2Dtop of the output. SEQ_START_TOKEN should only be used if the offset is
-=2Dzero, however.
-+structure can be used to hold state from session to session.  There is
-+also a special value which can be returned by the start() function
-+called SEQ_START_TOKEN; it can be used if you wish to instruct your
-+show() function (described below) to print a header at the top of the
-+output. SEQ_START_TOKEN should only be used if the offset is zero,
-+however.
-=20
- The next function to implement is called, amazingly, next(); its job is to
- move the iterator forward to the next position in the sequence.  The
-@@ -121,9 +138,13 @@ complete. Here's the example version:
- 	        return spos;
- 	}
-=20
-=2DThe stop() function is called when iteration is complete; its job, of
-=2Dcourse, is to clean up. If dynamic memory is allocated for the iterator,
-=2Dstop() is the place to free it.
-+The stop() function closes a session; its job, of course, is to clean
-+up. If dynamic memory is allocated for the iterator, stop() is the
-+place to free it; if a lock was taken by start(), stop() must release
-+that lock.  The value that *pos was set to by the last next() call
-+before stop() is remembered, and used for the first start() call of
-+the next session unless lseek() has been called on the file; in that
-+case next start() will be asked to start at position zero.
-=20
- 	static void ct_seq_stop(struct seq_file *s, void *v)
- 	{
-diff --git a/fs/seq_file.c b/fs/seq_file.c
-index 4cc090b50cc5..fd82585ab50f 100644
-=2D-- a/fs/seq_file.c
-+++ b/fs/seq_file.c
-@@ -90,23 +90,22 @@ EXPORT_SYMBOL(seq_open);
-=20
- static int traverse(struct seq_file *m, loff_t offset)
- {
-=2D	loff_t pos =3D 0, index;
-+	loff_t pos =3D 0;
- 	int error =3D 0;
- 	void *p;
-=20
- 	m->version =3D 0;
-=2D	index =3D 0;
-+	m->index =3D 0;
- 	m->count =3D m->from =3D 0;
-=2D	if (!offset) {
-=2D		m->index =3D index;
-+	if (!offset)
- 		return 0;
-=2D	}
-+
- 	if (!m->buf) {
- 		m->buf =3D seq_buf_alloc(m->size =3D PAGE_SIZE);
- 		if (!m->buf)
- 			return -ENOMEM;
- 	}
-=2D	p =3D m->op->start(m, &index);
-+	p =3D m->op->start(m, &m->index);
- 	while (p) {
- 		error =3D PTR_ERR(p);
- 		if (IS_ERR(p))
-@@ -123,20 +122,15 @@ static int traverse(struct seq_file *m, loff_t offset)
- 		if (pos + m->count > offset) {
- 			m->from =3D offset - pos;
- 			m->count -=3D m->from;
-=2D			m->index =3D index;
- 			break;
- 		}
- 		pos +=3D m->count;
- 		m->count =3D 0;
-=2D		if (pos =3D=3D offset) {
-=2D			index++;
-=2D			m->index =3D index;
-+		p =3D m->op->next(m, p, &m->index);
-+		if (pos =3D=3D offset)
- 			break;
-=2D		}
-=2D		p =3D m->op->next(m, p, &index);
- 	}
- 	m->op->stop(m, p);
-=2D	m->index =3D index;
- 	return error;
-=20
- Eoverflow:
-@@ -160,7 +154,6 @@ ssize_t seq_read(struct file *file, char __user *buf, s=
-ize_t size, loff_t *ppos)
- {
- 	struct seq_file *m =3D file->private_data;
- 	size_t copied =3D 0;
-=2D	loff_t pos;
- 	size_t n;
- 	void *p;
- 	int err =3D 0;
-@@ -223,16 +216,11 @@ ssize_t seq_read(struct file *file, char __user *buf,=
- size_t size, loff_t *ppos)
- 		size -=3D n;
- 		buf +=3D n;
- 		copied +=3D n;
-=2D		if (!m->count) {
-=2D			m->from =3D 0;
-=2D			m->index++;
-=2D		}
- 		if (!size)
- 			goto Done;
- 	}
- 	/* we need at least one record in buffer */
-=2D	pos =3D m->index;
-=2D	p =3D m->op->start(m, &pos);
-+	p =3D m->op->start(m, &m->index);
- 	while (1) {
- 		err =3D PTR_ERR(p);
- 		if (!p || IS_ERR(p))
-@@ -243,8 +231,7 @@ ssize_t seq_read(struct file *file, char __user *buf, s=
-ize_t size, loff_t *ppos)
- 		if (unlikely(err))
- 			m->count =3D 0;
- 		if (unlikely(!m->count)) {
-=2D			p =3D m->op->next(m, p, &pos);
-=2D			m->index =3D pos;
-+			p =3D m->op->next(m, p, &m->index);
- 			continue;
- 		}
- 		if (m->count < m->size)
-@@ -256,29 +243,33 @@ ssize_t seq_read(struct file *file, char __user *buf,=
- size_t size, loff_t *ppos)
- 		if (!m->buf)
- 			goto Enomem;
- 		m->version =3D 0;
-=2D		pos =3D m->index;
-=2D		p =3D m->op->start(m, &pos);
-+		p =3D m->op->start(m, &m->index);
- 	}
- 	m->op->stop(m, p);
- 	m->count =3D 0;
- 	goto Done;
- Fill:
- 	/* they want more? let's try to get some more */
-=2D	while (m->count < size) {
-+	while (1) {
- 		size_t offs =3D m->count;
-=2D		loff_t next =3D pos;
-=2D		p =3D m->op->next(m, p, &next);
-+		loff_t pos =3D m->index;
-+
-+		p =3D m->op->next(m, p, &m->index);
-+		if (pos =3D=3D m->index)
-+			/* Buggy ->next function */
-+			m->index++;
- 		if (!p || IS_ERR(p)) {
- 			err =3D PTR_ERR(p);
- 			break;
- 		}
-+		if (m->count >=3D size)
-+			break;
- 		err =3D m->op->show(m, p);
- 		if (seq_has_overflowed(m) || err) {
- 			m->count =3D offs;
- 			if (likely(err <=3D 0))
- 				break;
- 		}
-=2D		pos =3D next;
- 	}
- 	m->op->stop(m, p);
- 	n =3D min(m->count, size);
-@@ -287,11 +278,7 @@ ssize_t seq_read(struct file *file, char __user *buf, =
-size_t size, loff_t *ppos)
- 		goto Efault;
- 	copied +=3D n;
- 	m->count -=3D n;
-=2D	if (m->count)
-=2D		m->from =3D n;
-=2D	else
-=2D		pos++;
-=2D	m->index =3D pos;
-+	m->from =3D n;
- Done:
- 	if (!copied)
- 		copied =3D err;
-=2D-=20
-2.14.0.rc0.dirty
-
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlsnVSwACgkQOeye3VZi
-gblhvQ//VA7o7gc58OfB/fQmINAlSInLUQbkSDo5lSTNBkyJJGwFNAko3daSATpA
-Qn8n7scLFOyyOhBv5+4/J4RNcXv9aPkRRlyo5i7/tRRKBGHgwZWDi1l3iJf7jucv
-/RycDYOmzfAy6162mrqmELR9AiljiBJdSTGvxg5csYgD73N3KuoOOkW9IlXbaU85
-e5iS0THMAd2rNRozWKOVk7RkDx5VEtTBDj9q8qfcAnW/RoKGkri5GBFdlGfo3EeO
-NRV/jKHH0VSlRu93v7GOZh5aCZ66xyWF2tHvB13i7dL61T6ggExUoTzWBrc9nJRE
-lNgpsNLZs7AZfegMmS5efey6V5dIxzTt47Nb1XLEpThHTsdkwCsvSkx0O+8/Casz
-XVds8PdVlQRw4tuTndd/xuVxBsSCkIy7CMfZVDaMIfr4InFE6fmny7AvzNZYNDsu
-zR589VwJiotZlJqOPt6th3s2VAJVI8q22V5uM3+lDdClyMr9MGsmyJU9oULpHif6
-jCQ/lf8oNJnOLrGu6aO/2abJKlnPG1I/rL0Arv+KWfp+vpQ1OX7XXiZL3q/iS+ob
-tHzffulerolVjIMyg37R+nWLmoiPjxEKNWcy+ypC31ni7HKTHUVgsOviMJ4+Ybcc
-deCg2aot2I1IafjZLDUSTdqgFfjUiCkK6OkzdnnZC6KZR1yadpI=
-=GqP+
------END PGP SIGNATURE-----
---=-=-=--
+>   .../devicetree/bindings/input/rmi4/rmi_2d_sensor.txt |  2 +-
+>   Documentation/devicetree/bindings/mfd/sun6i-prcm.txt |  2 +-
+>   .../devicetree/bindings/pci/hisilicon-pcie.txt       |  2 +-
+>   Documentation/devicetree/bindings/pci/kirin-pcie.txt |  2 +-
+>   .../devicetree/bindings/pci/pci-keystone.txt         |  4 ++--
+>   .../devicetree/bindings/sound/st,stm32-i2s.txt       |  2 +-
+>   .../devicetree/bindings/sound/st,stm32-sai.txt       |  2 +-
+>   MAINTAINERS                                          | 12 ++++++------
+>   8 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt b/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
+> index f2c30c8b725d..9afffbdf6e28 100644
+> --- a/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
+> +++ b/Documentation/devicetree/bindings/input/rmi4/rmi_2d_sensor.txt
+> @@ -12,7 +12,7 @@ Additional documentation for F11 can be found at:
+>   http://www.synaptics.com/sites/default/files/511-000136-01-Rev-E-RMI4-Interfacing-Guide.pdf
+>   
+>   Optional Touch Properties:
+> -Description in Documentation/devicetree/bindings/input/touch
+> +Description in Documentation/devicetree/bindings/input/touchscreen
+>   - touchscreen-inverted-x
+>   - touchscreen-inverted-y
+>   - touchscreen-swapped-x-y
+> diff --git a/Documentation/devicetree/bindings/mfd/sun6i-prcm.txt b/Documentation/devicetree/bindings/mfd/sun6i-prcm.txt
+> index 4d21ffdb0fc1..daa091c2e67b 100644
+> --- a/Documentation/devicetree/bindings/mfd/sun6i-prcm.txt
+> +++ b/Documentation/devicetree/bindings/mfd/sun6i-prcm.txt
+> @@ -8,7 +8,7 @@ Required properties:
+>    - reg: The PRCM registers range
+>   
+>   The prcm node may contain several subdevices definitions:
+> - - see Documentation/devicetree/clk/sunxi.txt for clock devices
+> + - see Documentation/devicetree/bindings/clock/sunxi.txt for clock devices
+>    - see Documentation/devicetree/bindings/reset/allwinner,sunxi-clock-reset.txt for reset
+>      controller devices
+>   
+> diff --git a/Documentation/devicetree/bindings/pci/hisilicon-pcie.txt b/Documentation/devicetree/bindings/pci/hisilicon-pcie.txt
+> index 7bf9df047a1e..0dcb87d6554f 100644
+> --- a/Documentation/devicetree/bindings/pci/hisilicon-pcie.txt
+> +++ b/Documentation/devicetree/bindings/pci/hisilicon-pcie.txt
+> @@ -3,7 +3,7 @@ HiSilicon Hip05 and Hip06 PCIe host bridge DT description
+>   HiSilicon PCIe host controller is based on the Synopsys DesignWare PCI core.
+>   It shares common functions with the PCIe DesignWare core driver and inherits
+>   common properties defined in
+> -Documentation/devicetree/bindings/pci/designware-pci.txt.
+> +Documentation/devicetree/bindings/pci/designware-pcie.txt.
+>   
+>   Additional properties are described here:
+>   
+> diff --git a/Documentation/devicetree/bindings/pci/kirin-pcie.txt b/Documentation/devicetree/bindings/pci/kirin-pcie.txt
+> index 6e217c63123d..6bbe43818ad5 100644
+> --- a/Documentation/devicetree/bindings/pci/kirin-pcie.txt
+> +++ b/Documentation/devicetree/bindings/pci/kirin-pcie.txt
+> @@ -3,7 +3,7 @@ HiSilicon Kirin SoCs PCIe host DT description
+>   Kirin PCIe host controller is based on the Synopsys DesignWare PCI core.
+>   It shares common functions with the PCIe DesignWare core driver and
+>   inherits common properties defined in
+> -Documentation/devicetree/bindings/pci/designware-pci.txt.
+> +Documentation/devicetree/bindings/pci/designware-pcie.txt.
+>   
+>   Additional properties are described here:
+>   
+> diff --git a/Documentation/devicetree/bindings/pci/pci-keystone.txt b/Documentation/devicetree/bindings/pci/pci-keystone.txt
+> index 7e05487544ed..3d4a209b0fd0 100644
+> --- a/Documentation/devicetree/bindings/pci/pci-keystone.txt
+> +++ b/Documentation/devicetree/bindings/pci/pci-keystone.txt
+> @@ -3,9 +3,9 @@ TI Keystone PCIe interface
+>   Keystone PCI host Controller is based on the Synopsys DesignWare PCI
+>   hardware version 3.65.  It shares common functions with the PCIe DesignWare
+>   core driver and inherits common properties defined in
+> -Documentation/devicetree/bindings/pci/designware-pci.txt
+> +Documentation/devicetree/bindings/pci/designware-pcie.txt
+>   
+> -Please refer to Documentation/devicetree/bindings/pci/designware-pci.txt
+> +Please refer to Documentation/devicetree/bindings/pci/designware-pcie.txt
+>   for the details of DesignWare DT bindings.  Additional properties are
+>   described here as well as properties that are not applicable.
+>   
+> diff --git a/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt b/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt
+> index 4bda52042402..58c341300552 100644
+> --- a/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt
+> +++ b/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt
+> @@ -18,7 +18,7 @@ Required properties:
+>       See Documentation/devicetree/bindings/dma/stm32-dma.txt.
+>     - dma-names: Identifier for each DMA request line. Must be "tx" and "rx".
+>     - pinctrl-names: should contain only value "default"
+> -  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/pinctrl-stm32.txt
+> +  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.txt
+>   
+>   Optional properties:
+>     - resets: Reference to a reset controller asserting the reset controller
+> diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.txt b/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
+> index f301cdf0b7e6..3a3fc506e43a 100644
+> --- a/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
+> +++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
+> @@ -37,7 +37,7 @@ SAI subnodes required properties:
+>   	"tx": if sai sub-block is configured as playback DAI
+>   	"rx": if sai sub-block is configured as capture DAI
+>     - pinctrl-names: should contain only value "default"
+> -  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/pinctrl-stm32.txt
+> +  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.txt
+>   
+>   SAI subnodes Optional properties:
+>     - st,sync: specify synchronization mode.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 67641f5bb373..69c9e9924902 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6965,7 +6965,7 @@ IIO MULTIPLEXER
+>   M:	Peter Rosin <peda@axentia.se>
+>   L:	linux-iio@vger.kernel.org
+>   S:	Maintained
+> -F:	Documentation/devicetree/bindings/iio/multiplexer/iio-mux.txt
+> +F:	Documentation/devicetree/bindings/iio/multiplexer/io-channel-mux.txt
+>   F:	drivers/iio/multiplexer/iio-mux.c
+>   
+>   IIO SUBSYSTEM AND DRIVERS
+> @@ -9695,7 +9695,7 @@ MXSFB DRM DRIVER
+>   M:	Marek Vasut <marex@denx.de>
+>   S:	Supported
+>   F:	drivers/gpu/drm/mxsfb/
+> -F:	Documentation/devicetree/bindings/display/mxsfb-drm.txt
+> +F:	Documentation/devicetree/bindings/display/mxsfb.txt
+>   
+>   MYRICOM MYRI-10G 10GbE DRIVER (MYRI10GE)
+>   M:	Chris Lee <christopher.lee@cspi.com>
+> @@ -10884,7 +10884,7 @@ M:	Will Deacon <will.deacon@arm.com>
+>   L:	linux-pci@vger.kernel.org
+>   L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>   S:	Maintained
+> -F:	Documentation/devicetree/bindings/pci/controller-generic-pci.txt
+> +F:	Documentation/devicetree/bindings/pci/host-generic-pci.txt
+>   F:	drivers/pci/controller/pci-host-common.c
+>   F:	drivers/pci/controller/pci-host-generic.c
+>   
+> @@ -11065,7 +11065,7 @@ M:	Xiaowei Song <songxiaowei@hisilicon.com>
+>   M:	Binghui Wang <wangbinghui@hisilicon.com>
+>   L:	linux-pci@vger.kernel.org
+>   S:	Maintained
+> -F:	Documentation/devicetree/bindings/pci/pcie-kirin.txt
+> +F:	Documentation/devicetree/bindings/pci/kirin-pcie.txt
+>   F:	drivers/pci/controller/dwc/pcie-kirin.c
+>   
+>   PCIE DRIVER FOR HISILICON STB
+> @@ -12456,7 +12456,7 @@ L:	linux-crypto@vger.kernel.org
+>   L:	linux-samsung-soc@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/crypto/exynos-rng.c
+> -F:	Documentation/devicetree/bindings/crypto/samsung,exynos-rng4.txt
+> +F:	Documentation/devicetree/bindings/rng/samsung,exynos4-rng.txt
+>   
+>   SAMSUNG EXYNOS TRUE RANDOM NUMBER GENERATOR (TRNG) DRIVER
+>   M:	Łukasz Stelmach <l.stelmach@samsung.com>
+> @@ -13570,7 +13570,7 @@ F:	drivers/*/stm32-*timer*
+>   F:	drivers/pwm/pwm-stm32*
+>   F:	include/linux/*/stm32-*tim*
+>   F:	Documentation/ABI/testing/*timer-stm32
+> -F:	Documentation/devicetree/bindings/*/stm32-*timer
+> +F:	Documentation/devicetree/bindings/*/stm32-*timer*
+>   F:	Documentation/devicetree/bindings/pwm/pwm-stm32*
+>   
+>   STMMAC ETHERNET DRIVER
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
