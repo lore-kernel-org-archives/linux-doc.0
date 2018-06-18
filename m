@@ -5,92 +5,103 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8980D7D062
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 13:36:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FF2E7DF8A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 14:20:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934176AbeFRNgw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 09:36:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57094 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S933818AbeFRNgv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 09:36:51 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IDTCpZ077647
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 09:36:51 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jpam8fr9m-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 09:36:50 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Mon, 18 Jun 2018 14:36:48 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 18 Jun 2018 14:36:46 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IDajn035389634
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 18 Jun 2018 13:36:45 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 840F14C04E;
-        Mon, 18 Jun 2018 14:27:47 +0100 (BST)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1C9444C046;
-        Mon, 18 Jun 2018 14:27:46 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.74])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 18 Jun 2018 14:27:46 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 18 Jun 2018 16:36:43 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Matthew Wilcox <mawilcox@microsoft.com>,
-        Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 2/2] docs/idr: use "nodocs" directive
-Date:   Mon, 18 Jun 2018 16:36:36 +0300
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
-References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18061813-0020-0000-0000-0000029C234A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061813-0021-0000-0000-000020E868F0
-Message-Id: <1529328996-16247-3-git-send-email-rppt@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-18_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=638 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1805220000 definitions=main-1806180162
+        id S934269AbeFROUm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 10:20:42 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:40429 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S934438AbeFROUk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 10:20:40 -0400
+Received: by mail-wm0-f66.google.com with SMTP id n5-v6so15912709wmc.5
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 07:20:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=udMFiR+A6fu0YVugLCc1lt47GsnICt8roV0x8/yYyy0=;
+        b=isFhugX2cGdJYR4vkkfMPIY4ijrkM8tkxDp4+cd3fvUT2+3hVdstlVCXEtP0MfL7DH
+         jOM6ccP/yRf2uAHePaOQDr+IZbmIvrcLw9qcsZafbzS7aANeP6vNDd6yuWZQhoothbWB
+         /TFRrwpv5t8/PB1m+ndCoykXzZ5bDwfurYObBMx3DnpBvYeBUrn0ssESu2AWZVb2DHJ6
+         HHrdH64QopdKpaSQt1Z/zzl2rWCvmuSl+BJzkj6TGjMkMYe+HdSiZ0AuoVK9QV73Wvc2
+         /+7z5wrynwoaBjrE+J2IJPAYpx2dZfgyQArdezdByc116seBIEuoLVDYrympV4pMAtVh
+         k7fw==
+X-Gm-Message-State: APt69E1MX5oOuh8UHO6g+wCCOe4/g7fHp/6OBRXb8QqzImOaLuQfQELO
+        FRneAz6zAF0rgv01ORZgRHvVGA==
+X-Google-Smtp-Source: ADUXVKI3czwOzX+EAeazELMIYomwIeKl+T6MRz2746CxsijB6m0xBZRQNLKYrzE1mZ2mIyrH4G70Yw==
+X-Received: by 2002:a1c:110a:: with SMTP id 10-v6mr8049986wmr.130.1529331639589;
+        Mon, 18 Jun 2018 07:20:39 -0700 (PDT)
+Received: from localhost.localdomain ([151.15.207.242])
+        by smtp.gmail.com with ESMTPSA id z83-v6sm9209058wmb.8.2018.06.18.07.20.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 18 Jun 2018 07:20:38 -0700 (PDT)
+Date:   Mon, 18 Jun 2018 16:20:36 +0200
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v10 0/9] cpuset: Enable cpuset controller in default
+ hierarchy
+Message-ID: <20180618142036.GA13097@localhost.localdomain>
+References: <1529295249-5207-1-git-send-email-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1529295249-5207-1-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to avoid duplication of DOC: sections in the middle of the API reference.
+Hi,
 
-Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
----
- Documentation/core-api/idr.rst | 2 ++
- 1 file changed, 2 insertions(+)
+On 18/06/18 12:13, Waiman Long wrote:
+> v10:
+>  - Remove the cpuset.sched.load_balance patch for now as it may not
+>    be that useful.
+>  - Break the large patch 2 into smaller patches to make them a bit
+>    easier to review.
+>  - Test and fix issues related to changing "cpuset.cpus" and cpu
+>    online/offline in a domain root.
+>  - Rename isolated_cpus to reserved_cpus as this cpumask holds CPUs
+>    reserved for child sched domains.
+>  - Rework the scheduling domain debug printing code in the last patch.
+>  - Document update to the newly moved
+>    Documentation/admin-guide/cgroup-v2.rst.
 
-diff --git a/Documentation/core-api/idr.rst b/Documentation/core-api/idr.rst
-index 9078a5c..15eadf8 100644
---- a/Documentation/core-api/idr.rst
-+++ b/Documentation/core-api/idr.rst
-@@ -76,4 +76,6 @@ Functions and structures
- ========================
- 
- .. kernel-doc:: include/linux/idr.h
-+   :nodocs:
- .. kernel-doc:: lib/idr.c
-+   :nodocs:
--- 
-2.7.4
+There seem to be two (similar but different) 6/9 in the set. Something
+went wrong?
 
+Also I can't seem to be able to create a subgroup with an isolated
+domain root. I think that, when doing the following
+
+ # mount -t cgroup2 none /sys/fs/cgroup
+ # echo "+cpuset" >/sys/fs/cgroup/cgroup.subtree_control 
+ # mkdir /sys/fs/cgroup/g1
+ # echo 0-1 >/sys/fs/cgroup/g1/cpuset.cpus
+ # echo 1 >/sys/fs/cgroup/g1/cpuset.sched.domain_root
+
+rebuild_sched_domains_locked exits early, since
+top_cpuset.effective_cpus != cpu_active_mask. (effective_cpus being 2-3
+at this point since I'm testing this on a 0-3 system)
+
+In your v9 this [1] was adding a special condition to make rebuilding of
+domains happen. Was the change intentional?
+
+Thanks,
+
+- Juri
+
+[1] https://marc.info/?l=linux-kernel&m=152760142531222&w=2
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
