@@ -5,41 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 025407DF86
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:00:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 561C17DF8B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935323AbeFRRAS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 13:00:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58047 "EHLO
+        id S935319AbeFRRAd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 13:00:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3011 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S935319AbeFRRAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:00:16 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IGx4x1086251
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:15 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jpg6xsbcs-1
+        by vger.kernel.org with ESMTP id S935449AbeFRRAa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:00:30 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IGwrhx124589
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:29 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jpfw329k8-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:14 -0400
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:29 -0400
 Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Mon, 18 Jun 2018 18:00:13 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Mon, 18 Jun 2018 18:00:27 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 18 Jun 2018 18:00:10 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IH09E831260904
+        Mon, 18 Jun 2018 18:00:25 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IH0OV634472094
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 18 Jun 2018 17:00:09 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8789A5204D;
-        Mon, 18 Jun 2018 16:49:29 +0100 (BST)
+        Mon, 18 Jun 2018 17:00:24 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C5F0FA4051;
+        Mon, 18 Jun 2018 17:51:07 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 510FAA405B;
+        Mon, 18 Jun 2018 17:51:06 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.8.74])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 1412052041;
-        Mon, 18 Jun 2018 16:49:28 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 18 Jun 2018 20:00:07 +0300
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon, 18 Jun 2018 17:51:06 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 18 Jun 2018 20:00:22 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -47,85 +50,99 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 03/11] docs/mm: bootmem: fix kernel-doc warnings
-Date:   Mon, 18 Jun 2018 19:59:51 +0300
+Subject: [PATCH 10/11] docs/mm: memblock: add overview documentation
+Date:   Mon, 18 Jun 2018 19:59:58 +0300
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18061817-4275-0000-0000-0000028F1EDD
+x-cbid: 18061817-0008-0000-0000-0000024916A4
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061817-4276-0000-0000-000037965E4E
-Message-Id: <1529341199-17682-4-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18061817-0009-0000-0000-000021AF5E9F
+Message-Id: <1529341199-17682-11-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-18_07:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=969 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1805220000 definitions=main-1806180197
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add descriptions of the return value where they were missing and fixup the
-syntax for present ones.
-
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- mm/bootmem.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ mm/memblock.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
-diff --git a/mm/bootmem.c b/mm/bootmem.c
-index 42ab0da..76fc17e 100644
---- a/mm/bootmem.c
-+++ b/mm/bootmem.c
-@@ -62,6 +62,8 @@ static unsigned long __init bootmap_bytes(unsigned long pages)
- /**
-  * bootmem_bootmap_pages - calculate bitmap size in pages
-  * @pages: number of pages the bitmap has to represent
+diff --git a/mm/memblock.c b/mm/memblock.c
+index c4838a9..8bfeb82 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -26,6 +26,61 @@
+ 
+ #include "internal.h"
+ 
++/**
++ * DOC: memblock overview
 + *
-+ * Return: the number of pages needed to hold the bitmap.
-  */
- unsigned long __init bootmem_bootmap_pages(unsigned long pages)
- {
-@@ -121,7 +123,7 @@ static unsigned long __init init_bootmem_core(bootmem_data_t *bdata,
-  * @startpfn: first pfn on the node
-  * @endpfn: first pfn after the node
-  *
-- * Returns the number of bytes needed to hold the bitmap for this node.
-+ * Return: the number of bytes needed to hold the bitmap for this node.
-  */
- unsigned long __init init_bootmem_node(pg_data_t *pgdat, unsigned long freepfn,
- 				unsigned long startpfn, unsigned long endpfn)
-@@ -134,7 +136,7 @@ unsigned long __init init_bootmem_node(pg_data_t *pgdat, unsigned long freepfn,
-  * @start: pfn where the bitmap is to be placed
-  * @pages: number of available physical pages
-  *
-- * Returns the number of bytes needed to hold the bitmap.
-+ * Return: the number of bytes needed to hold the bitmap.
-  */
- unsigned long __init init_bootmem(unsigned long start, unsigned long pages)
- {
-@@ -406,6 +408,8 @@ void __init free_bootmem(unsigned long physaddr, unsigned long size)
-  * Partial pages will be reserved.
-  *
-  * The range must reside completely on the specified node.
++ * Memblock is a method of managing memory regions during the early
++ * boot period when the usual kernel memory allocators are not up and
++ * running.
 + *
-+ * Return: 0 on success, -errno on failure.
-  */
- int __init reserve_bootmem_node(pg_data_t *pgdat, unsigned long physaddr,
- 				 unsigned long size, int flags)
-@@ -427,6 +431,8 @@ int __init reserve_bootmem_node(pg_data_t *pgdat, unsigned long physaddr,
-  * Partial pages will be reserved.
-  *
-  * The range must be contiguous but may span node boundaries.
++ * Memblock views the system memory as collections of contiguous
++ * regions. There are several types of these collections:
 + *
-+ * Return: 0 on success, -errno on failure.
-  */
- int __init reserve_bootmem(unsigned long addr, unsigned long size,
- 			    int flags)
++ * * ``memory`` - describes the physical memory available to the
++ *   kernel; this may differ from the actual physical memory installed
++ *   in the system, for instance when the memory is restricted with
++ *   ``mem=`` command line parameter
++ * * ``reserved`` - describes the regions that were allocated
++ * * ``physmap`` - describes the actual physical memory regardless of
++ *   the possible restrictions; the ``physmap`` type is only available
++ *   on some architectures.
++ *
++ * Each region is represented by :c:type:`struct memblock_region` that
++ * defines the region extents, its attributes and NUMA node id on NUMA
++ * systems. Every memory type is described by the :c:type:`struct
++ * memblock_type` which contains an array of memory regions along with
++ * the allocator metadata. The memory types are nicely wrapped with
++ * :c:type:`struct memblock`. This structure is statically initialzed
++ * at build time. The region arrays for the "memory" and "reserved"
++ * types are initially sized to %INIT_MEMBLOCK_REGIONS and for the
++ * "physmap" type to %INIT_PHYSMEM_REGIONS.
++ * The :c:func:`memblock_allow_resize` enables automatic resizing of
++ * the region arrays during addition of new regions. This feature
++ * should be used with care so that memory allocated for the region
++ * array will not overlap with areas that should be reserved, for
++ * example initrd.
++ *
++ * The early architecture setup should tell memblock what is the
++ * physical memory layout using :c:func:`memblock_add` or
++ * :c:func:`memblock_add_node` functions. The first function does not
++ * assign the region to a NUMA node and it is approptiate for UMA
++ * systems. Yet, it is possible to use it on NUMA systems as well and
++ * assign the region to a NUMA node later in the setup process using
++ * :c:func:`memblock_set_node`. The :c:func:`memblock_add_node`
++ * performs such an assignment directly.
++ *
++ * Once memblock is setup the memory can be allocated using either
++ * memblock or bootmem APIs.
++ *
++ * As the system boot progresses, the architecture specific
++ * :c:func:`mem_init` function frees all the memory to the buddy page
++ * allocator.
++ *
++ * If an architecure enables %CONFIG_ARCH_DISCARD_MEMBLOCK, the
++ * memblock data structures will be discarded after the system
++ * intialization compltes
++ */
++
+ static struct memblock_region memblock_memory_init_regions[INIT_MEMBLOCK_REGIONS] __initdata_memblock;
+ static struct memblock_region memblock_reserved_init_regions[INIT_MEMBLOCK_REGIONS] __initdata_memblock;
+ #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
 -- 
 2.7.4
 
