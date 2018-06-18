@@ -2,140 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8663D7DF88
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 09:53:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 439B27D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 10:28:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935702AbeFRJwi convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 05:52:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56012 "EHLO mx1.redhat.com"
+        id S933762AbeFRK2s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 06:28:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56366 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933380AbeFRJwg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 05:52:36 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        id S933600AbeFRK2r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Jun 2018 06:28:47 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0F6E513AA1;
-        Mon, 18 Jun 2018 09:52:36 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-116-106.phx2.redhat.com [10.3.116.106])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1B6AA5D9D1;
-        Mon, 18 Jun 2018 09:52:28 +0000 (UTC)
-Subject: Re: [PATCH v7 1/4] ipc: IPCMNI limit check for msgmni and shmmni
-To:     "Luis R. Rodriguez" <mcgrof@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-References: <1525726752-29281-1-git-send-email-longman@redhat.com>
- <1525726752-29281-2-git-send-email-longman@redhat.com>
- <20180507223910.GW27853@wotan.suse.de>
- <edcc0a97-fbec-f511-36d2-fea0e123b4ee@redhat.com>
- <20180509193200.GU27853@wotan.suse.de>
+        by mx1.redhat.com (Postfix) with ESMTPS id 472813086252;
+        Mon, 18 Jun 2018 10:28:47 +0000 (UTC)
+Received: from llong.com (ovpn-116-106.phx2.redhat.com [10.3.116.106])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 108D25C257;
+        Mon, 18 Jun 2018 10:28:40 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <11228787-d9df-5c6e-3495-ad5ba2a16d18@redhat.com>
-Date:   Mon, 18 Jun 2018 17:52:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180509193200.GU27853@wotan.suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Mon, 18 Jun 2018 09:52:36 +0000 (UTC)
+To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v8 0/5] ipc: IPCMNI limit check for *mni & increase that limit
+Date:   Mon, 18 Jun 2018 18:28:13 +0800
+Message-Id: <1529317698-16575-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Mon, 18 Jun 2018 10:28:47 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/10/2018 03:32 AM, Luis R. Rodriguez wrote:
-> On Mon, May 07, 2018 at 07:57:12PM -0400, Waiman Long wrote:
->> On 05/07/2018 06:39 PM, Luis R. Rodriguez wrote:
->>> On Mon, May 07, 2018 at 04:59:09PM -0400, Waiman Long wrote:
->>>> A user can write arbitrary integer values to msgmni and shmmni sysctl
->>>> parameters without getting error, but the actual limit is really
->>>> IPCMNI (32k). This can mislead users as they think they can get a
->>>> value that is not real.
->>>>
->>>> The right limits are now set for msgmni and shmmni so that the users
->>>> will become aware if they set a value outside of the acceptable range.
->>>>
->>>> Signed-off-by: Waiman Long <longman@redhat.com>
->>>> ---
->>>>  ipc/ipc_sysctl.c | 7 +++++--
->>>>  1 file changed, 5 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
->>>> index 8ad93c2..f87cb29 100644
->>>> --- a/ipc/ipc_sysctl.c
->>>> +++ b/ipc/ipc_sysctl.c
->>>> @@ -99,6 +99,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
->>>>  static int zero;
->>>>  static int one = 1;
->>>>  static int int_max = INT_MAX;
->>>> +static int ipc_mni = IPCMNI;
->>>>  
->>>>  static struct ctl_table ipc_kern_table[] = {
->>>>  	{
->>>> @@ -120,7 +121,9 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
->>>>  		.data		= &init_ipc_ns.shm_ctlmni,
->>>>  		.maxlen		= sizeof(init_ipc_ns.shm_ctlmni),
->>>>  		.mode		= 0644,
->>>> -		.proc_handler	= proc_ipc_dointvec,
->>>> +		.proc_handler	= proc_ipc_dointvec_minmax,
->>>> +		.extra1		= &zero,
->>>> +		.extra2		= &ipc_mni,
->>>>  	},
->>>>  	{
->>>>  		.procname	= "shm_rmid_forced",
->>>> @@ -147,7 +150,7 @@ static int proc_ipc_auto_msgmni(struct ctl_table *table, int write,
->>>>  		.mode		= 0644,
->>>>  		.proc_handler	= proc_ipc_dointvec_minmax,
->>>>  		.extra1		= &zero,
->>>> -		.extra2		= &int_max,
->>>> +		.extra2		= &ipc_mni,
->>>>  	},
->>>>  	{
->>>>  		.procname	= "auto_msgmni",
->>>> -- 
->>>> 1.8.3.1
->>> It seems negative values are not allowed, if true then having
->>> a caller to use proc_douintvec_Fminmax() would help with ensuring
->>> no invalid negative input values are used as well.
->>>
->>>   Luis
->> Negative value doesn't mean sense here. So it is true that we can use
->> proc_douintvec_minmax() instead. However, the data types themselves are
->> defined as "int". So I think it is better to keep using
->> proc_dointvec_minmax() to be consistent with the data type.
-> Huh, no... If you *know* the valid values *are* only positive, the right
-> thing to do is to then *change* the data type. Tons of odd bugs can creep
-> up because of these stupid things.
->
->   Luis
+v7->v8:
+ - Remove the __read_mostly tag for ipc_mni and related variables as their
+   accesses are not really in performance critical path.
+ - Add a new ipcmni_compat sysctl parameter that can be set to restore old
+   range check behavior if desired.
 
-Sorry for the late reply.
+v6->v7:
+ - Drop the range clamping code and just return error instead for now
+   until there is user request for clamping support.
+ - Fix compilation error when CONFIG_SYSVIPC_SYSCTL isn't defined.
 
-First of all, negative value will not be accepted because of the zero
-lower limit check. The type of msgmni, shmmni and semmni are defined as
-int in the uapi/linux/msg.h and uapi/linux/shm.h and uapi/linux/sem.h.
-They are exposed to the userspace and changing them to "unsigned int"
-may cause some undesirable consequence. Again this is a case of
-introducing risk without any noticeable benefit.
+v5->v6:
+ - Consolidate the 3 ctl_table flags into 2.
+ - Make similar changes to proc_doulongvec_minmax() and its associates
+   to complete the clamping change.
+ - Remove the sysctl registration failure test patch for now for later
+   consideration.
+ - Add extra braces to patch 1 to reduce code diff in a later patch.
 
-I understand your desire of cleaning thing up. However, I am hesitant to
-take this risk without seeing any real benefit in this case.
+v4->v5:
+ - Revert the flags back to 16-bit so that there will be no change to
+   the size of ctl_table.
+ - Enhance the sysctl_check_flags() as requested by Luis to perform more
+   checks to spot incorrect ctl_table entries.
+ - Change the sysctl selftest to use dummy sysctls instead of production
+   ones & enhance it to do more checks.
+ - Add one more sysctl selftest for registration failure.
+ - Add 2 ipc patches to add an extended mode to increase IPCMNI from
+   32k to 2M.
+ - Miscellaneous change to incorporate feedback comments from
+   reviewers.
 
-Cheers,
-Longman
+v3->v4:
+ - Remove v3 patches 1 & 2 as they have been merged into the mm tree.
+ - Change flags from uint16_t to unsigned int.
+ - Remove CTL_FLAGS_OOR_WARNED and use pr_warn_ratelimited() instead.
+ - Simplify the warning message code.
+ - Add a new patch to fail the ctl_table registration with invalid flag.
+ - Add a test case for range clamping in sysctl selftest.
 
+v2->v3:
+ - Fix kdoc comment errors.
+ - Incorporate comments and suggestions from Luis R. Rodriguez.
+ - Add a patch to fix a typo error in fs/proc/proc_sysctl.c.
+
+v1->v2:
+ - Add kdoc comments to the do_proc_do{u}intvec_minmax_conv_param
+   structures.
+ - Add a new flags field to the ctl_table structure for specifying
+   whether range clamping should be activated instead of adding new
+   sysctl parameter handlers.
+ - Clamp the semmni value embedded in the multi-values sem parameter.
+
+v5 patch: https://lkml.org/lkml/2018/3/16/1106
+v6 patch: https://lkml.org/lkml/2018/4/27/1094
+v7 patch: https://lkml.org/lkml/2018/5/7/666
+
+The sysctl parameters msgmni, shmmni and semmni have an inherent limit
+of IPC_MNI (32k). However, users may not be aware of that because they
+can write a value much higher than that without getting any error or
+notification. Reading the parameters back will show the newly written
+values which are not real.
+
+The real IPCMNI limit is now enforced to make sure that users won't
+put in an unrealistic value. The first 2 patches enforce the limits.
+
+There are also users out there requesting increase in the IPCMNI value.
+The last 2 patches attempt to do that by using a boot kernel parameter
+"ipcmni_extend" to increase the IPCMNI limit from 32k to 2M if the users
+really want the extended value.
+
+Enforcing the range limit check may cause some existing applications to break
+if they unwittingly set a value higher than 32k. To allow system administrators
+to work around this issue, a new ipcmni_compat sysctl parameter can now be set
+to restore the old behavior. This compatibility mode can only be set if the
+ipcmni_extend boot parameter is not specified. Patch 5 implements this new
+sysctl parameter.
+
+Waiman Long (5):
+  ipc: IPCMNI limit check for msgmni and shmmni
+  ipc: IPCMNI limit check for semmni
+  ipc: Allow boot time extension of IPCMNI from 32k to 2M
+  ipc: Conserve sequence numbers in extended IPCMNI mode
+  ipc: Add a new ipcmni_compat sysctl to fall back to old behavior
+
+ Documentation/admin-guide/kernel-parameters.txt |  3 +
+ Documentation/sysctl/kernel.txt                 | 15 +++++
+ include/linux/ipc_namespace.h                   |  1 +
+ ipc/ipc_sysctl.c                                | 78 ++++++++++++++++++++++++-
+ ipc/util.c                                      | 41 ++++++++-----
+ ipc/util.h                                      | 50 +++++++++++++---
+ 6 files changed, 164 insertions(+), 24 deletions(-)
+
+-- 
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
