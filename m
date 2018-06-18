@@ -5,62 +5,94 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A1BA7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:10:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F36A97D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:15:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935299AbeFRRKb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 13:10:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55814 "EHLO
+        id S934215AbeFRRPO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 13:15:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57862 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934880AbeFRRKb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:10:31 -0400
+        with ESMTP id S933501AbeFRRPN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:15:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5SvbcXCqgcJTbD0GY5Xiu6naEacwXIrsAUNSzDPTVzQ=; b=jUeYCaOcegicr/VoQ/nh6fBtU
-        qwJItgfOvCEO6cKXaon8YY7X8b98fM37KCLSbo0RdRaLRA1+S8GAzMKULGKikEx1ALKIU/6x1PV6r
-        ddiEifXHoCeAMwKyoghSn9sG89xN7ZkkUPFsSHMz3rhh9NLpdsYjg9OeNXB2EB8x1M4iM6/viRR3T
-        x747I/kEspZMfF+SDtdoNb/ohHaeHk4cSO0Hiyv5HMoij9fgoJ+Ff4vw1/H+Bu5z9A6Hzzya6xguX
-        UZn3tCZyyj5j4dajExlghIKBLUr2Uw/R41k7ojKkn8fk2v0nPQQ41j8nQYociu4ia3n/KEvCvu5jZ
-        4Cd6Oy/JA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fUxfg-00056s-LC; Mon, 18 Jun 2018 17:10:28 +0000
-Date:   Mon, 18 Jun 2018 10:10:28 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <mawilcox@microsoft.com>,
-        Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] Documentation/sphinx: add "nodocs" directive
-Message-ID: <20180618171028.GD28748@bombadil.infradead.org>
-References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
+         bh=+GzKGK88Q7ih6jr8ch0HGQCCsnGq9gxgHzNl/seHBFI=; b=sDx2/PGZdXOJwe9zZeP2nUQcb
+        ApxJCiHh99HHwxEA2/4ePGeNNtg9/bOdd8K4YvNheQj4rJUQVQ9Yf8HoutKEgsY48dmGBCMSEXTxK
+        23McgauTvUGtZfotdsJH+Xgc1yDsVT60PLUCdq60wxpxn57EhJt/XF8YXADypZwTZO8LoVtPw6DEg
+        1UzhtrHGCBLcCXoYcuUAaGcblnEidCI7BJlNIiz5yE0EguHFmvYD+0DQ46M9/TT49Ip1Tin5hHWHt
+        eQWQ+kdXKHoPjXuNX8Wphmvza7a/iusK0LYtpgTfXsr7mMyfJml/pndosaAQbS21RNs68D99TACD1
+        CQysWhtMA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fUxkH-0006Qr-81; Mon, 18 Jun 2018 17:15:13 +0000
+Subject: Re: [PATCH 05/11] docs/mm: bootmem: add overview documentation
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1529341199-17682-6-git-send-email-rppt@linux.vnet.ibm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <fb7be5ca-1c39-0ba1-cf17-92dabee947ad@infradead.org>
+Date:   Mon, 18 Jun 2018 10:15:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <1529341199-17682-6-git-send-email-rppt@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 18, 2018 at 04:36:34PM +0300, Mike Rapoport wrote:
-> Hi,
-> 
-> These patches allow passing "-no-doc-sections" option to scripts/kernel-doc
-> from the sphinx generator.
-> 
-> This allows to avoid duplicated DOC: sections when "kernel-doc:" directive
-> is used without explicit selection of functions or function types. For
-> instance, [1] has "IDA description" and "idr synchronization" twice.
+Hi,
 
-Hah, I just found an abandoned patch for this in a disused git tree.
-I was wondering whether I needed to resurrect it.  Enthusiastically,
+On 06/18/2018 09:59 AM, Mike Rapoport wrote:
+> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+> ---
+>  mm/bootmem.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+> 
+> diff --git a/mm/bootmem.c b/mm/bootmem.c
+> index 76fc17e..423cb5f 100644
+> --- a/mm/bootmem.c
+> +++ b/mm/bootmem.c
+> @@ -21,6 +21,53 @@
+>  
+>  #include "internal.h"
+>  
+> +/**
+> + * DOC: bootmem overview
+> + *
+> + * Bootmem is a boot-time physical memory allocator and configurator.
+> + *
+> + * It is used early in the boot process before the page allocator is
+> + * set up.
+> + *
+> + * The bootmem is based on the most basic of allocators, a First Fit
 
-Acked-by: Matthew Wilcox <willy@infradead.org>
+    * Bootmem is based on
+or
+    * The bootmem allocator is based on
+
+> + * allocator which uses a bitmap to represent memory. If a bit is 1,
+> + * the page is allocated and 0 if unallocated. To satisfy allocations
+> + * of sizes smaller than a page, the allocator records the Page Frame
+> + * Number (PFN) of the last allocation and the offset the allocation
+> + * ended at. Subsequent small allocations are merged together and
+> + * stored on the same page.
+
+
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
