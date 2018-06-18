@@ -2,280 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5EEEF7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 19:38:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6728D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 19:42:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936402AbeFRThM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 15:37:12 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:43768 "EHLO ale.deltatee.com"
+        id S936135AbeFRTmj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 15:42:39 -0400
+Received: from mga12.intel.com ([192.55.52.136]:7005 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S935923AbeFRThJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 15:37:09 -0400
-Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
-        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1fUzxX-0001Ha-NM; Mon, 18 Jun 2018 13:37:08 -0600
-Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
-        (envelope-from <gunthorp@deltatee.com>)
-        id 1fUzxS-0004EH-2v; Mon, 18 Jun 2018 13:36:58 -0600
-From:   Logan Gunthorpe <logang@deltatee.com>
-To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Logan Gunthorpe <logang@deltatee.com>
-Date:   Mon, 18 Jun 2018 13:36:35 -0600
-Message-Id: <20180618193636.16210-3-logang@deltatee.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180618193636.16210-1-logang@deltatee.com>
-References: <20180618193636.16210-1-logang@deltatee.com>
+        id S936040AbeFRTmi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Jun 2018 15:42:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jun 2018 12:42:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,240,1526367600"; 
+   d="scan'208";a="238196997"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+  by fmsmga005.fm.intel.com with ESMTP; 18 Jun 2018 12:42:38 -0700
+Received: from orsmsx157.amr.corp.intel.com (10.22.240.23) by
+ ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server (TLS)
+ id 14.3.319.2; Mon, 18 Jun 2018 12:42:37 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.86]) by
+ ORSMSX157.amr.corp.intel.com ([169.254.9.202]) with mapi id 14.03.0319.002;
+ Mon, 18 Jun 2018 12:42:37 -0700
+From:   "Brown, Aaron F" <aaron.f.brown@intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        David Miller <davem@davemloft.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+CC:     LKML <linux-kernel@vger.kernel.org>,
+        "Kirsher, Jeffrey T" <jeffrey.t.kirsher@intel.com>
+Subject: RE: [PATCH] net: fix e1000.rst Documentation build errors
+Thread-Topic: [PATCH] net: fix e1000.rst Documentation build errors
+Thread-Index: AQHUBdM6BFinoldVPkiQ7g5DONoKBqRmadGQ
+Date:   Mon, 18 Jun 2018 19:42:37 +0000
+Message-ID: <309B89C4C689E141A5FF6A0C5FB2118B96503FDC@ORSMSX101.amr.corp.intel.com>
+References: <4e7a8aa5-cd19-3f57-cc60-6e6224d02a69@infradead.org>
+In-Reply-To: <4e7a8aa5-cd19-3f57-cc60-6e6224d02a69@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.200.100
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 172.16.1.31
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, logang@deltatee.com
-X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [PATCH v3 2/3] PCI: Allow specifying devices using a base bus and path of devfns
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When specifying PCI devices on the kernel command line using a
-BDF, the bus numbers can change when adding or replacing a device,
-changing motherboard firmware, or applying kernel parameters like
-pci=assign-buses. When this happens, it is usually undesirable to
-apply whatever command line tweak to the wrong device.
-
-Therefore, it is useful to be able to specify devices with a base
-bus number and the path of devfns needed to get to it. (Similar to
-the "device scope" structure in the Intel VT-d spec, Section 8.3.1.)
-
-Thus, we add an option to specify devices in the following format:
-
-[<domain>:]<bus>:<slot>.<func>[/<slot>.<func>][/ ...]
-
-The path can be any segment within the PCI hierarchy of any length and
-determined through the use of 'lspci -t'. When specified this way, it is
-less likely that a renumbered bus will result in a valid device specification
-and the tweak won't be applied to the wrong device.
-
-Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Reviewed-by: Stephen Bates <sbates@raithlin.com>
-Acked-by: Christian König <christian.koenig@amd.com>
----
- Documentation/admin-guide/kernel-parameters.txt |   8 +-
- drivers/pci/pci.c                               | 120 ++++++++++++++++++++----
- 2 files changed, 106 insertions(+), 22 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 760fb2b0b349..d45285e1ab6a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3000,14 +3000,18 @@
- 				or a set of devices (<pci_dev>). These are
- 				specified in one of the following formats:
- 
--				[<domain>:]<bus>:<slot>.<func>
-+				[<domain>:]<bus>:<slot>.<func>[/<slot>.<func>][/ ...]
- 				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
- 
- 				Note: the first format specifies a PCI
- 				bus/slot/function address which may change
- 				if new hardware is inserted, if motherboard
- 				firmware changes, or due to changes caused
--				by other kernel parameters. The second format
-+				by other kernel parameters. Optionally
-+				a path from a device through multiple
-+				slot/function addresses can be specified
-+				after the base address (this is more robust
-+				against renumbering issues). The second format
- 				selects devices using IDs from the
- 				configuration space which may match multiple
- 				devices in the system.
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index bec1bef6f326..6fbad0492461 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -192,22 +192,111 @@ EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
- #endif
- 
- /**
-+ * pci_dev_str_match_path - test if a path string matches a device
-+ * @dev:    the PCI device to test
-+ * @p:      string to match the device against
-+ * @endptr: pointer to the string after the match
-+ *
-+ * Test if a string (typically from a kernel parameter) formated as a
-+ * path of slot/function addresses matches a PCI device. The string must
-+ * be of the form:
-+ *
-+ *   [<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
-+ *
-+ * A path for a device can be obtained using 'lspci -t'. Using a path
-+ * is more robust against renumbering of devices than using only
-+ * a single bus, slot and function address.
-+ *
-+ * Returns 1 if the string matches the device, 0 if it does not and
-+ * a negative error code if it fails to parse the string.
-+ */
-+static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
-+				  const char **endptr)
-+{
-+	int ret;
-+	int seg, bus, slot, func;
-+	char *wpath, *p;
-+	char end;
-+
-+	*endptr = strchrnul(path, ';');
-+
-+	wpath = kmemdup_nul(path, *endptr - path, GFP_KERNEL);
-+	if (!wpath)
-+		return -ENOMEM;
-+
-+	while (1) {
-+		p = strrchr(wpath, '/');
-+		if (!p)
-+			break;
-+		ret = sscanf(p, "/%x.%x%c", &slot, &func, &end);
-+		if (ret != 2) {
-+			ret = -EINVAL;
-+			goto free_and_exit;
-+		}
-+
-+		if (dev->devfn != PCI_DEVFN(slot, func)) {
-+			ret = 0;
-+			goto free_and_exit;
-+		}
-+
-+		/*
-+		 * Note: we don't need to get a reference to the upstream
-+		 * bridge because we hold a reference to the top level
-+		 * device which should hold a reference to the bridge,
-+		 * and so on.
-+		 */
-+		dev = pci_upstream_bridge(dev);
-+		if (!dev) {
-+			ret = 0;
-+			goto free_and_exit;
-+		}
-+
-+		*p = 0;
-+	}
-+
-+	ret = sscanf(wpath, "%x:%x:%x.%x%c", &seg, &bus, &slot,
-+		     &func, &end);
-+	if (ret != 4) {
-+		seg = 0;
-+		ret = sscanf(wpath, "%x:%x.%x%c", &bus, &slot, &func, &end);
-+		if (ret != 3) {
-+			ret = -EINVAL;
-+			goto free_and_exit;
-+		}
-+	}
-+
-+	ret = (seg == pci_domain_nr(dev->bus) &&
-+	       bus == dev->bus->number &&
-+	       dev->devfn == PCI_DEVFN(slot, func));
-+
-+free_and_exit:
-+	kfree(wpath);
-+	return ret;
-+}
-+
-+/**
-  * pci_dev_str_match - test if a string matches a device
-  * @dev:    the PCI device to test
-  * @p:      string to match the device against
-  * @endptr: pointer to the string after the match
-  *
-  * Test if a string (typically from a kernel parameter) matches a
-- * specified. The string may be of one of two forms formats:
-+ * specified. The string may be of one of three formats:
-  *
-  *   [<domain>:]<bus>:<slot>.<func>
-+ *   path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
-  *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-  *
-  * The first format specifies a PCI bus/slot/function address which
-  * may change if new hardware is inserted, if motherboard firmware changes,
-  * or due to changes caused in kernel parameters.
-  *
-- * The second format matches devices using IDs in the configuration
-+ * The second format specifies a PCI bus/slot/function root address and
-+ * a path of slot/function addresses to the specific device from the root.
-+ * The path for a device can be determined through the use of 'lspci -t'.
-+ * This format is more robust against renumbering issues than the first format.
-+
-+ * The third format matches devices using IDs in the configuration
-  * space which may match multiple devices in the system. A value of 0
-  * for any field will match all devices.
-  *
-@@ -218,7 +307,7 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
- 			     const char **endptr)
- {
- 	int ret;
--	int seg, bus, slot, func, count;
-+	int count;
- 	unsigned short vendor, device, subsystem_vendor, subsystem_device;
- 
- 	if (strncmp(p, "pci:", 4) == 0) {
-@@ -244,25 +333,16 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
- 		    (!subsystem_device ||
- 			    subsystem_device == dev->subsystem_device))
- 			goto found;
--
- 	} else {
--		/* PCI Bus,Slot,Function ids are specified */
--		ret = sscanf(p, "%x:%x:%x.%x%n", &seg, &bus, &slot,
--			     &func, &count);
--		if (ret != 4) {
--			seg = 0;
--			ret = sscanf(p, "%x:%x.%x%n", &bus, &slot,
--				     &func, &count);
--			if (ret != 3)
--				return -EINVAL;
--		}
--
--		p += count;
-+		/*
-+		 * PCI Bus,Slot,Function ids are specified
-+		 *  (optionally, may include a path of devfns following it)
-+		 */
- 
--		if (seg == pci_domain_nr(dev->bus) &&
--		    bus == dev->bus->number &&
--		    slot == PCI_SLOT(dev->devfn) &&
--		    func == PCI_FUNC(dev->devfn))
-+		ret = pci_dev_str_match_path(dev, p, &p);
-+		if (ret < 0)
-+			return ret;
-+		else if (ret)
- 			goto found;
- 	}
- 
--- 
-2.11.0
-
+PiBGcm9tOiBSYW5keSBEdW5sYXAgW21haWx0bzpyZHVubGFwQGluZnJhZGVhZC5vcmddDQo+IFNl
+bnQ6IFNhdHVyZGF5LCBKdW5lIDE2LCAyMDE4IDU6MzYgUE0NCj4gVG86IG5ldGRldkB2Z2VyLmtl
+cm5lbC5vcmc7IERhdmlkIE1pbGxlciA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD47IGxpbnV4LQ0KPiBk
+b2NAdmdlci5rZXJuZWwub3JnDQo+IENjOiBMS01MIDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwu
+b3JnPjsgS2lyc2hlciwgSmVmZnJleSBUDQo+IDxqZWZmcmV5LnQua2lyc2hlckBpbnRlbC5jb20+
+OyBCcm93biwgQWFyb24gRiA8YWFyb24uZi5icm93bkBpbnRlbC5jb20+DQo+IFN1YmplY3Q6IFtQ
+QVRDSF0gbmV0OiBmaXggZTEwMDAucnN0IERvY3VtZW50YXRpb24gYnVpbGQgZXJyb3JzDQo+IA0K
+PiBGcm9tOiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4NCj4gDQo+IEZpeCBE
+b2N1bWVudGF0aW9uIGJ1aWxkIGVycm9ycyBpbiBlMTAwMC5yc3QuICBTZXZlcmFsIHNlY3Rpb24g
+dGl0bGVzIGFuZA0KPiB0aGVpciB1bmRlcmxpbmVzIHNob3VsZCBub3QgYmUgaW5kZW50ZWQuDQo+
+IA0KPiBEb2N1bWVudGF0aW9uL25ldHdvcmtpbmcvZTEwMDAucnN0OjM1ODogKFNFVkVSRS80KSBV
+bmV4cGVjdGVkIHNlY3Rpb24NCj4gdGl0bGUuDQo+IA0KPiBGaXhlczogMjI4MDQ2ZTc2MTg5ICgi
+RG9jdW1lbnRhdGlvbjogZTEwMDA6IFVwZGF0ZSBrZXJuZWwNCj4gZG9jdW1lbnRhdGlvbiIpDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4N
+Cj4gQ2M6IEplZmYgS2lyc2hlciA8amVmZnJleS50LmtpcnNoZXJAaW50ZWwuY29tPg0KPiBDYzog
+QWFyb24gQnJvd24gPGFhcm9uLmYuYnJvd25AaW50ZWwuY29tPg0KPiAtLS0NCj4gSXMgdGhlcmUg
+YSBTcGhpbnggdmVyc2lvbiBwcm9ibGVtIGhlcmU/ICBUZXN0ZWQtYnk6IHNob3VsZCBpbmRpY2F0
+ZQ0KPiB0aGF0IHRoZXJlIHdhcyBubyBlcnJvciBsaWtlIEkgYW0gc2VlaW5nLiANCg0KVGhlICJU
+ZXN0ZWQtYnk6IiBmb3IgdGhpcyAoYW5kIHRoZSBlMTAwIHZhcmlhbnQpIHdhcyBlbnRpcmVseSBm
+b2N1c2VkIG9uIGNvcnJlY3RuZXNzIG9mIHRoZSBkb2N1bWVudGF0aW9uIHRleHQsIHBhcmFtZXRl
+cnMgbWF0Y2ggdGhlIGRyaXZlciwgVVJMcyB3ZXJlIGNvcnJlY3QsIGV0Yy4uLiAgSW4gcmV0cm9z
+cGVjdCAiVGVzdGVkLWJ5OiIgaXMgbm90IGV4YWN0bHkgYWNjdXJhdGUgYW5kIEkgcHJvYmFibHkg
+c2hvdWxkIGhhdmUgbGVmdCBpdCBhdCBhIHNpbXBsZXIgYWNrLg0KDQo+IA0KPiAgRG9jdW1lbnRh
+dGlvbi9uZXR3b3JraW5nL2UxMDAwLnJzdCB8ICAgMTIgKysrKysrLS0tLS0tDQo+ICAxIGZpbGUg
+Y2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0KPiANCj4gLS0tIGxueC00
+MTgtcmMxLm9yaWcvRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nL2UxMDAwLnJzdA0KPiArKysgbG54
+LTQxOC1yYzEvRG9jdW1lbnRhdGlvbi9uZXR3b3JraW5nL2UxMDAwLnJzdA0KPiBAQCAtMzU0LDgg
+KzM1NCw4IEBAIHByZXZpb3VzbHkgbWVudGlvbmVkIHRvIGZvcmNlIHRoZSBhZGFwdGUNCj4gIEFk
+ZGl0aW9uYWwgQ29uZmlndXJhdGlvbnMNCj4gID09PT09PT09PT09PT09PT09PT09PT09PT0NCj4g
+DQo+IC0gIEp1bWJvIEZyYW1lcw0KPiAtICAtLS0tLS0tLS0tLS0NCj4gK0p1bWJvIEZyYW1lcw0K
+PiArLS0tLS0tLS0tLS0tDQo+ICAgIEp1bWJvIEZyYW1lcyBzdXBwb3J0IGlzIGVuYWJsZWQgYnkg
+Y2hhbmdpbmcgdGhlIE1UVSB0byBhIHZhbHVlIGxhcmdlcg0KPiB0aGFuDQo+ICAgIHRoZSBkZWZh
+dWx0IG9mIDE1MDAuICBVc2UgdGhlIGlmY29uZmlnIGNvbW1hbmQgdG8gaW5jcmVhc2UgdGhlIE1U
+VSBzaXplLg0KPiAgICBGb3IgZXhhbXBsZTo6DQo+IEBAIC0zODksOCArMzg5LDggQEAgQWRkaXRp
+b25hbCBDb25maWd1cmF0aW9ucw0KPiAgICAgICBJbnRlbChSKSBQUk8vMTAwMCBHaWdhYml0IFNl
+cnZlciBBZGFwdGVyDQo+ICAgICAgIEludGVsKFIpIFBSTy8xMDAwIFBNIE5ldHdvcmsgQ29ubmVj
+dGlvbg0KPiANCj4gLSAgZXRodG9vbA0KPiAtICAtLS0tLS0tDQo+ICtldGh0b29sDQo+ICstLS0t
+LS0tDQo+ICAgIFRoZSBkcml2ZXIgdXRpbGl6ZXMgdGhlIGV0aHRvb2wgaW50ZXJmYWNlIGZvciBk
+cml2ZXIgY29uZmlndXJhdGlvbiBhbmQNCj4gICAgZGlhZ25vc3RpY3MsIGFzIHdlbGwgYXMgZGlz
+cGxheWluZyBzdGF0aXN0aWNhbCBpbmZvcm1hdGlvbi4gIFRoZSBldGh0b29sDQo+ICAgIHZlcnNp
+b24gMS42IG9yIGxhdGVyIGlzIHJlcXVpcmVkIGZvciB0aGlzIGZ1bmN0aW9uYWxpdHkuDQo+IEBA
+IC0zOTgsOCArMzk4LDggQEAgQWRkaXRpb25hbCBDb25maWd1cmF0aW9ucw0KPiAgICBUaGUgbGF0
+ZXN0IHJlbGVhc2Ugb2YgZXRodG9vbCBjYW4gYmUgZm91bmQgZnJvbQ0KPiAgICBodHRwczovL3d3
+dy5rZXJuZWwub3JnL3B1Yi9zb2Z0d2FyZS9uZXR3b3JrL2V0aHRvb2wvDQo+IA0KPiAtICBFbmFi
+bGluZyBXYWtlIG9uIExBTiogKFdvTCkNCj4gLSAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+DQo+ICtFbmFibGluZyBXYWtlIG9uIExBTiogKFdvTCkNCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQ0KPiAgICBXb0wgaXMgY29uZmlndXJlZCB0aHJvdWdoIHRoZSBldGh0b29sKiB1dGls
+aXR5Lg0KPiANCj4gICAgV29MIHdpbGwgYmUgZW5hYmxlZCBvbiB0aGUgc3lzdGVtIGR1cmluZyB0
+aGUgbmV4dCBzaHV0IGRvd24gb3IgcmVib290Lg0KPiANCg0K
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
