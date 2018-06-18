@@ -1,432 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 15A397DF87
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 15:43:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C1177DF86
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 15:54:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754722AbeFRPmj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 11:42:39 -0400
-Received: from mail-pl0-f68.google.com ([209.85.160.68]:38585 "EHLO
-        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754662AbeFRPmh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 11:42:37 -0400
-Received: by mail-pl0-f68.google.com with SMTP id b14-v6so9245735pls.5
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 08:42:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=PIfJiFM3psq3ofAyLe1plK5luTpo0Om8fMGZOHVN+3Y=;
-        b=ivPmYzAUImCkS/QSJfXYccd7hq4FA8+b4LhEd8A8CtetONMlUgYZHM7K5qLLLNXhf8
-         ENlPJNA/di9G4KAVQQjk4Vd/ksZzI9cmZLLcXRPanp4IxLrVk+JaLhQnuB6TgJsJ66Hg
-         gVljXWuE+iRIrVI+rFxgL4lCPs9AqmmJAzIShbPhicb911gSRlPr6TDqjh7lhfKibHsr
-         zFC4ZwoxAmT6c2dKbSXbcdAAli+dFhSgYVmo4G5sLQJ0Yy66ZNae2IkMLhX3cH6DPRB+
-         O3FFRdvRKmb1lzIrD7mHvI5Gp4YBTGPePGcIBA1oS0y5ee8X4+wtDibBC5tNJrUfCkRh
-         bL7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=PIfJiFM3psq3ofAyLe1plK5luTpo0Om8fMGZOHVN+3Y=;
-        b=cchHzCTZJRYjaQV0MoS/PgCOUPHq8d0U12TXE4Rdo8JYox49wQCISujshXMGVdiE7P
-         yhINEM7HLt1upFK9UTk05v8jxzlWekEts7J4HVHoq+yYwHCL40RS7jxBZLH/M6hNSH5T
-         bZWAiD7B/uVfw7GZK5tu8crMBBnVJZ932mHTs1Ek1ggqPfvPOWnqn4w2Vz86puZhtE4g
-         reAtHJ+b+kmKtxU1u0hB6H4VMKMSgK+5eNYGq0G2mF/OazmnE6ayAb21RqiOMEJdgqPX
-         m/6n2N0dLq4liF8IEruhQbiJsfVAn2LsUd7W+PW+xz5JZW7L8MAsVzJNOWiCI75zVIPZ
-         NZQQ==
-X-Gm-Message-State: APt69E299HcJ2pAhqXWuGPXqCNLmh7dvolrI/JV25EyxaHKUU8respY9
-        O9hL1CFpf9bxGYVxG4MJ09jiiw==
-X-Google-Smtp-Source: ADUXVKLeOpE+k/m5ghAnUqEjejxaYa1aS38eKHXJnp6QbB31dZ3HMMh4kJDPJjsRdE8Cgp3lJYZWSA==
-X-Received: by 2002:a17:902:6b09:: with SMTP id o9-v6mr14445873plk.256.1529336556419;
-        Mon, 18 Jun 2018 08:42:36 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
-        by smtp.gmail.com with ESMTPSA id s28-v6sm30623707pfg.89.2018.06.18.08.42.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Jun 2018 08:42:35 -0700 (PDT)
-From:   Mark Salyzyn <salyzyn@android.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Mark Salyzyn <salyzyn@android.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: overlayfs: caller_credentials option bypass creator_cred
-Date:   Mon, 18 Jun 2018 08:42:15 -0700
-Message-Id: <20180618154222.19279-1-salyzyn@android.com>
-X-Mailer: git-send-email 2.18.0.rc1.244.gcf134e6275-goog
+        id S932442AbeFRPyx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 11:54:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46828 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1754832AbeFRPyj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 11:54:39 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IFsE48052848
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 11:54:38 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jpcc61ffs-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 11:54:37 -0400
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Mon, 18 Jun 2018 11:54:36 -0400
+Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 18 Jun 2018 11:54:35 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IFsY7J7274782
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 18 Jun 2018 15:54:34 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DEE0AB205F;
+        Mon, 18 Jun 2018 11:54:24 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C083CB2065;
+        Mon, 18 Jun 2018 11:54:24 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.159])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 18 Jun 2018 11:54:24 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 9988916C6B0A; Mon, 18 Jun 2018 08:56:33 -0700 (PDT)
+Date:   Mon, 18 Jun 2018 08:56:33 -0700
+From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
+ translation to fix broken DMA vs. MMIO ordering example
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <20180617051608.2128-1-sj38.park@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180617051608.2128-1-sj38.park@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18061815-2213-0000-0000-000002BBAE22
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009214; HX=3.00000241; KW=3.00000007;
+ PH=3.00000004; SC=3.00000265; SDB=6.01048819; UDB=6.00537358; IPR=6.00827793;
+ MB=3.00021721; MTD=3.00000008; XFM=3.00000015; UTC=2018-06-18 15:54:36
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18061815-2214-0000-0000-00005A864675
+Message-Id: <20180618155633.GW3593@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-18_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1805220000 definitions=main-1806180185
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All accesses to the lower filesystems reference the creator (mount)
-and not the source context.  This is a security issue.
+On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
+> Translate this commit to Korean:
+> 
+>   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+> 
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
 
-A module bool parameter and mount option caller_credentials is added
-to set the default, and to act as a presence check for this feature.
-The module parameter is used to change the default behavior because
-the 'normal' behavior of overlayfs is a _security_ violation
-providing the privileges of the creator to the user when accessing
-the files in the filesystems.  But since I can not break user API,
-I have to preserve the original behavior as default.
+Queued for review.  It would be good to get an ack from someone who
+understood Korean, which is not me.  ;-)
 
-On MAC security model expect to set the caller_credentials to Y as
-part of early initialization to preserve security model when the
-option of iether caller_credentials or creator_credentials is not
-explicitly specified in the mount.
+							Thanx, Paul
 
-Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-unionfs@vger.kernel.org 
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- Documentation/filesystems/overlayfs.txt |  7 +++++++
- fs/overlayfs/copy_up.c                  |  3 ++-
- fs/overlayfs/dir.c                      | 12 ++++++++----
- fs/overlayfs/inode.c                    | 24 ++++++++++++++++--------
- fs/overlayfs/namei.c                    |  9 ++++++---
- fs/overlayfs/ovl_entry.h                |  1 +
- fs/overlayfs/readdir.c                  |  6 ++++--
- fs/overlayfs/super.c                    | 22 ++++++++++++++++++++++
- fs/overlayfs/util.c                     |  8 ++++++--
- 9 files changed, 72 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
-index 72615a2c0752..4328be5cdaa9 100644
---- a/Documentation/filesystems/overlayfs.txt
-+++ b/Documentation/filesystems/overlayfs.txt
-@@ -106,6 +106,13 @@ Only the lists of names from directories are merged.  Other content
- such as metadata and extended attributes are reported for the upper
- directory only.  These attributes of the lower directory are hidden.
- 
-+credentials
-+-----------
-+
-+All access to the upper, lower and work directories is the creator's
-+credentials.  If caller_credentials is set, then the access caller's
-+instance credentials will be used.
-+
- whiteouts and opaque directories
- --------------------------------
- 
-diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-index ddaddb4ce4c3..abc21844f712 100644
---- a/fs/overlayfs/copy_up.c
-+++ b/fs/overlayfs/copy_up.c
-@@ -790,7 +790,8 @@ int ovl_copy_up_flags(struct dentry *dentry, int flags)
- 		dput(parent);
- 		dput(next);
- 	}
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- 	return err;
- }
-diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
-index f480b1a2cd2e..97473bb2ee60 100644
---- a/fs/overlayfs/dir.c
-+++ b/fs/overlayfs/dir.c
-@@ -561,7 +561,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
- 		override_cred->fsgid = inode->i_gid;
- 		if (!attr->hardlink) {
- 			err = security_dentry_create_files_as(dentry,
--					attr->mode, &dentry->d_name, old_cred,
-+					stat->mode, &dentry->d_name,
-+					old_cred ? old_cred : current_cred(),
- 					override_cred);
- 			if (err) {
- 				put_cred(override_cred);
-@@ -577,7 +578,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
- 			err = ovl_create_over_whiteout(dentry, inode, attr);
- 	}
- out_revert_creds:
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	return err;
- }
- 
-@@ -824,7 +826,8 @@ static int ovl_do_remove(struct dentry *dentry, bool is_dir)
- 		err = ovl_remove_upper(dentry, is_dir, &list);
- 	else
- 		err = ovl_remove_and_whiteout(dentry, &list);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	if (!err) {
- 		if (is_dir)
- 			clear_nlink(dentry->d_inode);
-@@ -1150,7 +1153,8 @@ static int ovl_rename(struct inode *olddir, struct dentry *old,
- out_unlock:
- 	unlock_rename(new_upperdir, old_upperdir);
- out_revert_creds:
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	ovl_nlink_end(new, locked);
- out_drop_write:
- 	ovl_drop_write(old);
-diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
-index ed16a898caeb..222678b6e67e 100644
---- a/fs/overlayfs/inode.c
-+++ b/fs/overlayfs/inode.c
-@@ -49,7 +49,8 @@ int ovl_setattr(struct dentry *dentry, struct iattr *attr)
- 		inode_lock(upperdentry->d_inode);
- 		old_cred = ovl_override_creds(dentry->d_sb);
- 		err = notify_change(upperdentry, attr, NULL);
--		revert_creds(old_cred);
-+		if (old_cred)
-+			revert_creds(old_cred);
- 		if (!err)
- 			ovl_copyattr(upperdentry->d_inode, dentry->d_inode);
- 		inode_unlock(upperdentry->d_inode);
-@@ -208,7 +209,8 @@ int ovl_getattr(const struct path *path, struct kstat *stat,
- 		stat->nlink = dentry->d_inode->i_nlink;
- 
- out:
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- 	return err;
- }
-@@ -242,7 +244,8 @@ int ovl_permission(struct inode *inode, int mask)
- 		mask |= MAY_READ;
- 	}
- 	err = inode_permission(realinode, mask);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- 	return err;
- }
-@@ -259,7 +262,8 @@ static const char *ovl_get_link(struct dentry *dentry,
- 
- 	old_cred = ovl_override_creds(dentry->d_sb);
- 	p = vfs_get_link(ovl_dentry_real(dentry), done);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	return p;
- }
- 
-@@ -302,7 +306,8 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
- 		WARN_ON(flags != XATTR_REPLACE);
- 		err = vfs_removexattr(realdentry, name);
- 	}
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- out_drop_write:
- 	ovl_drop_write(dentry);
-@@ -320,7 +325,8 @@ int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
- 
- 	old_cred = ovl_override_creds(dentry->d_sb);
- 	res = vfs_getxattr(realdentry, name, value, size);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	return res;
- }
- 
-@@ -344,7 +350,8 @@ ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
- 
- 	old_cred = ovl_override_creds(dentry->d_sb);
- 	res = vfs_listxattr(realdentry, list, size);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	if (res <= 0 || size == 0)
- 		return res;
- 
-@@ -379,7 +386,8 @@ struct posix_acl *ovl_get_acl(struct inode *inode, int type)
- 
- 	old_cred = ovl_override_creds(inode->i_sb);
- 	acl = get_acl(realinode, type);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- 	return acl;
- }
-diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-index c993dd8db739..c8b84d262ec2 100644
---- a/fs/overlayfs/namei.c
-+++ b/fs/overlayfs/namei.c
-@@ -1024,7 +1024,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
- 		OVL_I(inode)->redirect = upperredirect;
- 	}
- 
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	dput(index);
- 	kfree(stack);
- 	kfree(d.redirect);
-@@ -1043,7 +1044,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
- 	kfree(upperredirect);
- out:
- 	kfree(d.redirect);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	return ERR_PTR(err);
- }
- 
-@@ -1097,7 +1099,8 @@ bool ovl_lower_positive(struct dentry *dentry)
- 			dput(this);
- 		}
- 	}
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- 	return positive;
- }
-diff --git a/fs/overlayfs/ovl_entry.h b/fs/overlayfs/ovl_entry.h
-index 41655a7d6894..7e17db561a04 100644
---- a/fs/overlayfs/ovl_entry.h
-+++ b/fs/overlayfs/ovl_entry.h
-@@ -18,6 +18,7 @@ struct ovl_config {
- 	const char *redirect_mode;
- 	bool index;
- 	bool nfs_export;
-+	bool caller_credentials;
- 	int xino;
- };
- 
-diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-index ef1fe42ff7bb..af3874d589ad 100644
---- a/fs/overlayfs/readdir.c
-+++ b/fs/overlayfs/readdir.c
-@@ -289,7 +289,8 @@ static int ovl_check_whiteouts(struct dentry *dir, struct ovl_readdir_data *rdd)
- 		}
- 		inode_unlock(dir->d_inode);
- 	}
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- 	return err;
- }
-@@ -906,7 +907,8 @@ int ovl_check_empty_dir(struct dentry *dentry, struct list_head *list)
- 
- 	old_cred = ovl_override_creds(dentry->d_sb);
- 	err = ovl_dir_read_merged(dentry, list, &root);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 	if (err)
- 		return err;
- 
-diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index 704b37311467..184688ab35cb 100644
---- a/fs/overlayfs/super.c
-+++ b/fs/overlayfs/super.c
-@@ -56,6 +56,11 @@ module_param_named(xino_auto, ovl_xino_auto_def, bool, 0644);
- MODULE_PARM_DESC(ovl_xino_auto_def,
- 		 "Auto enable xino feature");
- 
-+static bool __read_mostly ovl_caller_credentials;
-+module_param_named(caller_credentials, ovl_caller_credentials, bool, 0644);
-+MODULE_PARM_DESC(ovl_caller_credentials,
-+		 "Use caller credentials rather than creator credentials for accesses");
-+
- static void ovl_entry_stack_free(struct ovl_entry *oe)
- {
- 	unsigned int i;
-@@ -376,6 +381,10 @@ static int ovl_show_options(struct seq_file *m, struct dentry *dentry)
- 						"on" : "off");
- 	if (ofs->config.xino != ovl_xino_def())
- 		seq_printf(m, ",xino=%s", ovl_xino_str[ofs->config.xino]);
-+	if (ofs->config.caller_credentials)
-+		seq_puts(m, ",caller_credentials");
-+	else
-+		seq_puts(m, ",creator_credentials");
- 	return 0;
- }
- 
-@@ -413,6 +422,8 @@ enum {
- 	OPT_XINO_ON,
- 	OPT_XINO_OFF,
- 	OPT_XINO_AUTO,
-+	OPT_CREATOR_CREDENTIALS,
-+	OPT_CALLER_CREDENTIALS,
- 	OPT_ERR,
- };
- 
-@@ -429,6 +440,8 @@ static const match_table_t ovl_tokens = {
- 	{OPT_XINO_ON,			"xino=on"},
- 	{OPT_XINO_OFF,			"xino=off"},
- 	{OPT_XINO_AUTO,			"xino=auto"},
-+	{OPT_CREATOR_CREDENTIALS,	"creator_credentials"},
-+	{OPT_CALLER_CREDENTIALS,	"caller_credentials"},
- 	{OPT_ERR,			NULL}
- };
- 
-@@ -486,6 +499,7 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
- 	if (!config->redirect_mode)
- 		return -ENOMEM;
- 
-+	config->caller_credentials = ovl_caller_credentials;
- 	while ((p = ovl_next_opt(&opt)) != NULL) {
- 		int token;
- 		substring_t args[MAX_OPT_ARGS];
-@@ -555,6 +569,14 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
- 			config->xino = OVL_XINO_AUTO;
- 			break;
- 
-+		case OPT_CREATOR_CREDENTIALS:
-+			config->caller_credentials = false;
-+			break;
-+
-+		case OPT_CALLER_CREDENTIALS:
-+			config->caller_credentials = true;
-+			break;
-+
- 		default:
- 			pr_err("overlayfs: unrecognized mount option \"%s\" or missing value\n", p);
- 			return -EINVAL;
-diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
-index 6f1078028c66..538802289511 100644
---- a/fs/overlayfs/util.c
-+++ b/fs/overlayfs/util.c
-@@ -40,6 +40,8 @@ const struct cred *ovl_override_creds(struct super_block *sb)
- {
- 	struct ovl_fs *ofs = sb->s_fs_info;
- 
-+	if (ofs->config.caller_credentials)
-+		return NULL;
- 	return override_creds(ofs->creator_cred);
- }
- 
-@@ -630,7 +632,8 @@ int ovl_nlink_start(struct dentry *dentry, bool *locked)
- 	 * value relative to the upper inode nlink in an upper inode xattr.
- 	 */
- 	err = ovl_set_nlink_upper(dentry);
--	revert_creds(old_cred);
-+	if (old_cred)
-+		revert_creds(old_cred);
- 
- out:
- 	if (err)
-@@ -650,7 +653,8 @@ void ovl_nlink_end(struct dentry *dentry, bool locked)
- 
- 			old_cred = ovl_override_creds(dentry->d_sb);
- 			ovl_cleanup_index(dentry);
--			revert_creds(old_cred);
-+			if (old_cred)
-+				revert_creds(old_cred);
- 		}
- 
- 		mutex_unlock(&OVL_I(d_inode(dentry))->lock);
--- 
-2.18.0.rc1.244.gcf134e6275-goog
+> ---
+>  Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+> index 921739d00f69..ada0a709cce1 100644
+> --- a/Documentation/translations/ko_KR/memory-barriers.txt
+> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
+> @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
+>  		/* 소유권을 수정 */
+>  		desc->status = DEVICE_OWN;
+> 
+> -		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
+> -		wmb();
+> -
+>  		/* 업데이트된 디스크립터의 디바이스에 공지 */
+>  		writel(DESC_NOTIFY, doorbell);
+>  	}
+> 
+>       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
+> -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
+> -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
+> -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
+> -     보장해주기 위해 필요합니다.
+> +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
+> +     을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 MMIO
+> +     영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에 wmb() 를
+> +     실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이 저렴한
+> +     writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지 않아야
+> +     합니다.
+> 
+>       consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
+>       문서를 참고하세요.
+> -- 
+> 2.13.0
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
