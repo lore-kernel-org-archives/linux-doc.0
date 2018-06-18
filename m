@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 023037D043
+	by archive.lwn.net (Postfix) with ESMTP id 142967DF86
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 17:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933189AbeFRRCi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 13:02:38 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40948 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S935249AbeFRRAO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:00:14 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IGwrjY021267
+        id S933476AbeFRRCj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 13:02:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50950 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S935243AbeFRRAN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 13:00:13 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5IGws9H104717
         for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:13 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jpfyv9yaa-1
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jpe85759t-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:13 -0400
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 13:00:11 -0400
 Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Mon, 18 Jun 2018 18:00:11 +0100
+        Mon, 18 Jun 2018 18:00:09 +0100
 Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 18 Jun 2018 18:00:08 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IH07re23920656
+        Mon, 18 Jun 2018 18:00:06 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5IH05xQ28180530
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 18 Jun 2018 17:00:07 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9CE3DAE04D;
-        Mon, 18 Jun 2018 17:48:51 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 29204AE045;
-        Mon, 18 Jun 2018 17:48:50 +0100 (BST)
+        Mon, 18 Jun 2018 17:00:05 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5CBE211C05C;
+        Mon, 18 Jun 2018 17:50:32 +0100 (BST)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DB16C11C04A;
+        Mon, 18 Jun 2018 17:50:30 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.8.74])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 18 Jun 2018 17:48:50 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 18 Jun 2018 20:00:05 +0300
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon, 18 Jun 2018 17:50:30 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 18 Jun 2018 20:00:03 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -50,16 +50,16 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 02/11] docs/mm: nobootmem: fixup kernel-doc comments
-Date:   Mon, 18 Jun 2018 19:59:50 +0300
+Subject: [PATCH 01/11] mm/bootmem: drop duplicated kernel-doc comments
+Date:   Mon, 18 Jun 2018 19:59:49 +0300
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1529341199-17682-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18061817-0020-0000-0000-0000029C3559
+x-cbid: 18061817-0012-0000-0000-00000280C696
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061817-0021-0000-0000-000020E87C0B
-Message-Id: <1529341199-17682-3-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18061817-0013-0000-0000-000020B1FB72
+Message-Id: <1529341199-17682-2-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-18_07:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -72,100 +72,184 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* add kernel-doc marking to free_bootmem_late() description
-* add return value descriptions
-* mention that address parameter of free_bootmem{_node} is a physical address
+Parts of the bootmem interfaces are duplicated in nobootmem.c along with
+the kernel-doc comments. There is no point to keep two copies of the
+comments, so let's drop the bootmem.c copy.
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- mm/nobootmem.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ mm/bootmem.c | 102 -----------------------------------------------------------
+ 1 file changed, 102 deletions(-)
 
-diff --git a/mm/nobootmem.c b/mm/nobootmem.c
-index 9b02fda..c2cfa04 100644
---- a/mm/nobootmem.c
-+++ b/mm/nobootmem.c
-@@ -72,7 +72,7 @@ static void * __init __alloc_memory_core_early(int nid, u64 size, u64 align,
- 	return ptr;
+diff --git a/mm/bootmem.c b/mm/bootmem.c
+index 9e19798..42ab0da 100644
+--- a/mm/bootmem.c
++++ b/mm/bootmem.c
+@@ -143,15 +143,6 @@ unsigned long __init init_bootmem(unsigned long start, unsigned long pages)
+ 	return init_bootmem_core(NODE_DATA(0)->bdata, start, 0, pages);
  }
  
 -/*
-+/**
-  * free_bootmem_late - free bootmem pages directly to page allocator
-  * @addr: starting address of the range
-  * @size: size of the range in bytes
-@@ -176,7 +176,7 @@ void __init reset_all_zones_managed_pages(void)
- /**
-  * free_all_bootmem - release free pages to the buddy allocator
-  *
+- * free_bootmem_late - free bootmem pages directly to page allocator
+- * @addr: starting physical address of the range
+- * @size: size of the range in bytes
+- *
+- * This is only useful when the bootmem allocator has already been torn
+- * down, but we are still initializing the system.  Pages are given directly
+- * to the page allocator, no bootmem metadata is updated because it is gone.
+- */
+ void __init free_bootmem_late(unsigned long physaddr, unsigned long size)
+ {
+ 	unsigned long cursor, end;
+@@ -264,11 +255,6 @@ void __init reset_all_zones_managed_pages(void)
+ 	reset_managed_pages_done = 1;
+ }
+ 
+-/**
+- * free_all_bootmem - release free pages to the buddy allocator
+- *
 - * Returns the number of pages actually released.
-+ * Return: the number of pages actually released.
-  */
+- */
  unsigned long __init free_all_bootmem(void)
  {
-@@ -193,7 +193,7 @@ unsigned long __init free_all_bootmem(void)
- /**
-  * free_bootmem_node - mark a page range as usable
-  * @pgdat: node the range resides on
-- * @physaddr: starting address of the range
-+ * @physaddr: starting physical address of the range
-  * @size: size of the range in bytes
-  *
-  * Partial pages will be considered reserved and left as they are.
-@@ -208,7 +208,7 @@ void __init free_bootmem_node(pg_data_t *pgdat, unsigned long physaddr,
+ 	unsigned long total_pages = 0;
+@@ -385,16 +371,6 @@ static int __init mark_bootmem(unsigned long start, unsigned long end,
+ 	BUG();
+ }
  
- /**
-  * free_bootmem - mark a page range as usable
-- * @addr: starting address of the range
-+ * @addr: starting physical address of the range
-  * @size: size of the range in bytes
-  *
-  * Partial pages will be considered reserved and left as they are.
-@@ -256,7 +256,7 @@ static void * __init ___alloc_bootmem_nopanic(unsigned long size,
-  *
-  * Allocation may happen on any node in the system.
-  *
+-/**
+- * free_bootmem_node - mark a page range as usable
+- * @pgdat: node the range resides on
+- * @physaddr: starting address of the range
+- * @size: size of the range in bytes
+- *
+- * Partial pages will be considered reserved and left as they are.
+- *
+- * The range must reside completely on the specified node.
+- */
+ void __init free_bootmem_node(pg_data_t *pgdat, unsigned long physaddr,
+ 			      unsigned long size)
+ {
+@@ -408,15 +384,6 @@ void __init free_bootmem_node(pg_data_t *pgdat, unsigned long physaddr,
+ 	mark_bootmem_node(pgdat->bdata, start, end, 0, 0);
+ }
+ 
+-/**
+- * free_bootmem - mark a page range as usable
+- * @physaddr: starting physical address of the range
+- * @size: size of the range in bytes
+- *
+- * Partial pages will be considered reserved and left as they are.
+- *
+- * The range must be contiguous but may span node boundaries.
+- */
+ void __init free_bootmem(unsigned long physaddr, unsigned long size)
+ {
+ 	unsigned long start, end;
+@@ -646,19 +613,6 @@ static void * __init ___alloc_bootmem_nopanic(unsigned long size,
+ 	return NULL;
+ }
+ 
+-/**
+- * __alloc_bootmem_nopanic - allocate boot memory without panicking
+- * @size: size of the request in bytes
+- * @align: alignment of the region
+- * @goal: preferred starting address of the region
+- *
+- * The goal is dropped if it can not be satisfied and the allocation will
+- * fall back to memory below @goal.
+- *
+- * Allocation may happen on any node in the system.
+- *
 - * Returns NULL on failure.
-+ * Return: address of the allocated region or %NULL on failure.
-  */
+- */
  void * __init __alloc_bootmem_nopanic(unsigned long size, unsigned long align,
  					unsigned long goal)
-@@ -293,6 +293,8 @@ static void * __init ___alloc_bootmem(unsigned long size, unsigned long align,
-  * Allocation may happen on any node in the system.
-  *
-  * The function panics if the request can not be satisfied.
-+ *
-+ * Return: address of the allocated region.
-  */
+ {
+@@ -682,19 +636,6 @@ static void * __init ___alloc_bootmem(unsigned long size, unsigned long align,
+ 	return NULL;
+ }
+ 
+-/**
+- * __alloc_bootmem - allocate boot memory
+- * @size: size of the request in bytes
+- * @align: alignment of the region
+- * @goal: preferred starting address of the region
+- *
+- * The goal is dropped if it can not be satisfied and the allocation will
+- * fall back to memory below @goal.
+- *
+- * Allocation may happen on any node in the system.
+- *
+- * The function panics if the request can not be satisfied.
+- */
  void * __init __alloc_bootmem(unsigned long size, unsigned long align,
  			      unsigned long goal)
-@@ -367,6 +369,8 @@ static void * __init ___alloc_bootmem_node(pg_data_t *pgdat, unsigned long size,
-  * can not hold the requested memory.
-  *
-  * The function panics if the request can not be satisfied.
-+ *
-+ * Return: address of the allocated region.
-  */
+ {
+@@ -754,21 +695,6 @@ void * __init ___alloc_bootmem_node(pg_data_t *pgdat, unsigned long size,
+ 	return NULL;
+ }
+ 
+-/**
+- * __alloc_bootmem_node - allocate boot memory from a specific node
+- * @pgdat: node to allocate from
+- * @size: size of the request in bytes
+- * @align: alignment of the region
+- * @goal: preferred starting address of the region
+- *
+- * The goal is dropped if it can not be satisfied and the allocation will
+- * fall back to memory below @goal.
+- *
+- * Allocation may fall back to any node in the system if the specified node
+- * can not hold the requested memory.
+- *
+- * The function panics if the request can not be satisfied.
+- */
  void * __init __alloc_bootmem_node(pg_data_t *pgdat, unsigned long size,
  				   unsigned long align, unsigned long goal)
-@@ -396,6 +400,8 @@ void * __init __alloc_bootmem_node_high(pg_data_t *pgdat, unsigned long size,
-  * Allocation may happen on any node in the system.
-  *
-  * The function panics if the request can not be satisfied.
-+ *
-+ * Return: address of the allocated region.
-  */
+ {
+@@ -807,19 +733,6 @@ void * __init __alloc_bootmem_node_high(pg_data_t *pgdat, unsigned long size,
+ 
+ }
+ 
+-/**
+- * __alloc_bootmem_low - allocate low boot memory
+- * @size: size of the request in bytes
+- * @align: alignment of the region
+- * @goal: preferred starting address of the region
+- *
+- * The goal is dropped if it can not be satisfied and the allocation will
+- * fall back to memory below @goal.
+- *
+- * Allocation may happen on any node in the system.
+- *
+- * The function panics if the request can not be satisfied.
+- */
  void * __init __alloc_bootmem_low(unsigned long size, unsigned long align,
  				  unsigned long goal)
-@@ -425,6 +431,8 @@ void * __init __alloc_bootmem_low_nopanic(unsigned long size,
-  * can not hold the requested memory.
-  *
-  * The function panics if the request can not be satisfied.
-+ *
-+ * Return: address of the allocated region.
-  */
+ {
+@@ -834,21 +747,6 @@ void * __init __alloc_bootmem_low_nopanic(unsigned long size,
+ 					ARCH_LOW_ADDRESS_LIMIT);
+ }
+ 
+-/**
+- * __alloc_bootmem_low_node - allocate low boot memory from a specific node
+- * @pgdat: node to allocate from
+- * @size: size of the request in bytes
+- * @align: alignment of the region
+- * @goal: preferred starting address of the region
+- *
+- * The goal is dropped if it can not be satisfied and the allocation will
+- * fall back to memory below @goal.
+- *
+- * Allocation may fall back to any node in the system if the specified node
+- * can not hold the requested memory.
+- *
+- * The function panics if the request can not be satisfied.
+- */
  void * __init __alloc_bootmem_low_node(pg_data_t *pgdat, unsigned long size,
  				       unsigned long align, unsigned long goal)
+ {
 -- 
 2.7.4
 
