@@ -1,96 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4406F7D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 21:59:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 469157D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 22:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755435AbeFRV7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 17:59:53 -0400
-Received: from mail-pg0-f48.google.com ([74.125.83.48]:39385 "EHLO
-        mail-pg0-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754256AbeFRV7w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 17:59:52 -0400
-Received: by mail-pg0-f48.google.com with SMTP id w12-v6so8147066pgc.6
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 14:59:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=79n1tUuaYmM9U6OjAavQWDOuLnRp4swwEURkasBbUV4=;
-        b=LIKVx/m42SCmiCgayRNZj2ILTsJwjfegbSjFM9rr6BKbCcg29rRDpjskHXKW0kSE5h
-         ifSL/pxZhx0twdbFf6Jb2inHHJk0AqUmzG0vwNhI7wfGkM9s2Z3JCFmM0iV7HBIu7Qk6
-         EPFddb4rQXyLUjzGBWrZdz1470P6kRfOsW2wismxqu1EuXWkdxBWFJxTIlQcOVguW4kX
-         jqFaOiRfdBZeu8bfH0gpRPG5PMP6VRtb2nBe4gHIjDCuzQSvp6Th7y6fGjK/J+KXilRU
-         yQafbZnLKK8eZ+KC0pIFuLZTRZ51MFOz7LbKc5hcw0A4rkyCZ4CaZED6R+ItjuxmcGiN
-         Zz7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=79n1tUuaYmM9U6OjAavQWDOuLnRp4swwEURkasBbUV4=;
-        b=GyyaqLsZ7xJl86HDtMmLKovoWuWAIZFzVF/t6SiniWUfH6OuTfvjm8qmh/r+1aFuTN
-         YydO5Cw2hdguYNV227+NGk6YuZUSYPjFZtqKzJudk8m8nYc3hNC+vQNJcPR/ByTVuj1Z
-         Ze4sMBMoVgfWLTlegk09dfpbNQ0rudymx4vYtY85sNzbGVomr+eLYQiRQ3ey6aSVxKn1
-         Gh0NyhSnDdusVuCVYR0a7SAc1/vwu+M+xn89fcx88Yq/GqRZdC+jyEsGY8YAJyb6pvIW
-         VhGOVqjq/B0gfl3RdOxiaUJ92+7+QH+k2xWScWnjTCGT+WkEhpntqYQZvR23JHPTbu7J
-         tsVQ==
-X-Gm-Message-State: APt69E04QQ8zPvju2W6RnUYBccyyJ36A0hWuwSL12S/hIcfX4pkua/Oc
-        QlSsgd+2p0sb2qAA4PkKJhS8sA==
-X-Google-Smtp-Source: ADUXVKJRgAw2UtR/xzQD8g/jUS5r/TDfolV655oIxLXqjydUebdcft5x+V2Xp8CIqYUkeJWztbZ8pw==
-X-Received: by 2002:a63:780b:: with SMTP id t11-v6mr12371680pgc.91.1529359191600;
-        Mon, 18 Jun 2018 14:59:51 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
-        by smtp.googlemail.com with ESMTPSA id y10-v6sm22234771pgr.44.2018.06.18.14.59.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Jun 2018 14:59:50 -0700 (PDT)
-Subject: Re: overlayfs: caller_credentials option bypass creator_cred
-To:     Vivek Goyal <vgoyal@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        Daniel Walsh <dwalsh@redhat.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>
-References: <20180618154222.19279-1-salyzyn@android.com>
- <20180618185448.GA8749@redhat.com>
- <f141f883-0dbd-10ea-83b9-a1b38119b0c5@android.com>
- <20180618194345.GA15973@redhat.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <aecdeaca-74cf-54b1-3ea9-4751972074f5@android.com>
-Date:   Mon, 18 Jun 2018 14:59:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1755408AbeFRWEE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 18:04:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43260 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1755344AbeFRWEC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Jun 2018 18:04:02 -0400
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AA2F5208B7
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 22:04:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1529359442;
+        bh=EgMUHLSiJ4/XpvIZGrIqYv8hCWRH6gxKr0Dd3LaUnx4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xviTRG/o+1lvnwrUfjTKvdXhaIibw+YBMMPZT7dGST20FCItAhfxPUHgznhp6YvPf
+         zRtqfTAp0RsEP+KhQ4nUhsnbnlS7p4AM74tWSF3zq9R/57geVTgHXVGv6NerF+ggi9
+         H0E+hHl9E9MzI6iTZOKaRX8oqNdleEAzOZGtX3ZQ=
+Received: by mail-wm0-f41.google.com with SMTP id 69-v6so18342315wmf.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 15:04:01 -0700 (PDT)
+X-Gm-Message-State: APt69E2SezL0xY1tRUkDZs7M2k4PVHYG0G/x1OB4epQw4jW5z8cAn3mq
+        p7F9KCRW5k/yvNpJZ93jqnXU5avZ1dDajO06Hfyyng==
+X-Google-Smtp-Source: ADUXVKJE5TBUk6GBto2ujStmxmBQTLmkrI2HejpsnH4zvQphIX7MFVYLIYx5krYDUNHV4/g1mGBWX/ejSuauKL+yOyg=
+X-Received: by 2002:a1c:34c9:: with SMTP id b192-v6mr10383654wma.21.1529359439972;
+ Mon, 18 Jun 2018 15:03:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180618194345.GA15973@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
+ <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
+ <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+ <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
+ <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
+ <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
+ <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
+ <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
+ <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+ <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
+ <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de> <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
+In-Reply-To: <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 18 Jun 2018 15:03:48 -0700
+X-Gmail-Original-Message-ID: <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
+Message-ID: <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+To:     "H. J. Lu" <hjl.tools@gmail.com>, Kees Cook <keescook@chromium.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Lutomirski <luto@kernel.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/18/2018 12:43 PM, Vivek Goyal wrote:
-> Will it be acceptable to write security policies in such a way so that
-> mounter has access as well.
-Unfortunately No. Policy of minimizing attack surface for a contained 
-root service (init in this case). Just because it can mount, does not 
-mean it can modify critical content; an attacker could use this to open 
-a hole.
+On Tue, Jun 12, 2018 at 12:34 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+>
+> On Tue, Jun 12, 2018 at 11:59 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+> > On Tue, 12 Jun 2018, H.J. Lu wrote:
+> >> On Tue, Jun 12, 2018 at 9:34 AM, Andy Lutomirski <luto@kernel.org> wrote:
+> >> > On Tue, Jun 12, 2018 at 9:05 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+> >> >> On Tue, Jun 12, 2018 at 9:01 AM, Andy Lutomirski <luto@kernel.org> wrote:
+> >> >> > On Tue, Jun 12, 2018 at 4:43 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+> >> >> >> On Tue, Jun 12, 2018 at 3:03 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+> >> >> >> > That works for stuff which loads all libraries at start time, but what
+> >> >> >> > happens if the program uses dlopen() later on? If CET is force locked and
+> >> >> >> > the library is not CET enabled, it will fail.
+> >> >> >>
+> >> >> >> That is to prevent disabling CET by dlopening a legacy shared library.
+> >> >> >>
+> >> >> >> > I don't see the point of trying to support CET by magic. It adds complexity
+> >> >> >> > and you'll never be able to handle all corner cases correctly. dlopen() is
+> >> >> >> > not even a corner case.
+> >> >> >>
+> >> >> >> That is a price we pay for security.  To enable CET, especially shadow
+> >> >> >> shack, the program and all of shared libraries it uses should be CET
+> >> >> >> enabled.  Most of programs can be enabled with CET by compiling them
+> >> >> >> with -fcf-protection.
+> >> >> >
+> >> >> > If you charge too high a price for security, people may turn it off.
+> >> >> > I think we're going to need a mode where a program says "I want to use
+> >> >> > the CET, but turn it off if I dlopen an unsupported library".  There
+> >> >> > are programs that load binary-only plugins.
+> >> >>
+> >> >> You can do
+> >> >>
+> >> >> # export GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK
+> >> >>
+> >> >> which turns off shadow stack.
+> >> >>
+> >> >
+> >> > Which exactly illustrates my point.  By making your security story too
+> >> > absolute, you'll force people to turn it off when they don't need to.
+> >> > If I'm using a fully CET-ified distro and I'm using a CET-aware
+> >> > program that loads binary plugins, and I may or may not have an old
+> >> > (binary-only, perhaps) plugin that doesn't support CET, then the
+> >> > behavior I want is for CET to be on until I dlopen() a program that
+> >> > doesn't support it.  Unless there's some ABI reason why that can't be
+> >> > done, but I don't think there is.
+> >>
+> >> We can make it opt-in via GLIBC_TUNABLES.  But by default, the legacy
+> >> shared object is disallowed when CET is enabled.
+> >
+> > That's a bad idea. Stuff has launchers which people might not be able to
+> > change. So they will simply turn of CET completely or it makes them hack
+> > horrible crap into init, e.g. the above export.
+> >
+> > Give them sane kernel options:
+> >
+> >      cet = off, relaxed, forced
+> >
+> > where relaxed allows to run binary plugins. Then let dlopen() call into the
+> > kernel with the filepath of the library to check for CET and that will tell
+> > you whether its ok or or not and do the necessary magic in the kernel when
+> > CET has to be disabled due to a !CET library/application.
+> >
+> > That's also making the whole thing independent of magic glibc environment
+> > options and allows it to be used all over the place in the same way.
+>
+> This is very similar to our ARCH_CET_EXEC proposal which controls how
+> CET should be enforced.   But Andy thinks it is a bad idea.
+>
 
-> Current model does assume that mounter has privileges on underlying files.
+I do think it's a bad idea to have a new piece of state that survives
+across exec().  It's going to have nasty usability problems and nasty
+security problems.
 
-Only ones it appears to need is the workdir AFAIK, had to add ability to 
-create in the <wordir> xattr in order to enable r/w mounts later. 
-Although not all corners were tested, I did not see any copy_up issues 
-b/c the caller had the privs in the Android security model when mounted 
-with this new flag.
+We may need a mode by which glibc can turn CET *back off* even after a
+program had it on if it dlopens() an old binary.  Or maybe there won't
+be demand.  I can certainly understand why the CET_LOCK feature is
+there, although I think we need a way to override it using something
+like ptrace().  I'm not convinced that CET_LOCK is really needed, but
+someone who understand the thread model should chime in.
 
--- Mark
+Kees, do you know anyone who has a good enough understanding of
+usermode exploits and how they'll interact with CET?
+
+--Andy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
