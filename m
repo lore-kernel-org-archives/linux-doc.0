@@ -5,21 +5,27 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D7F127D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 21:50:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60FB77D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Jun 2018 21:55:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934880AbeFRVuK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 17:50:10 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:44692 "EHLO ale.deltatee.com"
+        id S1755357AbeFRVzH convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 17:55:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56110 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933073AbeFRVuJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jun 2018 17:50:09 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1fV224-0002q1-Kt; Mon, 18 Jun 2018 15:49:53 -0600
-To:     Alex Williamson <alex.williamson@redhat.com>
+        id S1754628AbeFRVzG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Jun 2018 17:55:06 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4E2643082A2E;
+        Mon, 18 Jun 2018 21:55:06 +0000 (UTC)
+Received: from t450s.home (ovpn-116-135.phx2.redhat.com [10.3.116.135])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F176F4507;
+        Mon, 18 Jun 2018 21:55:04 +0000 (UTC)
+Date:   Mon, 18 Jun 2018 15:55:04 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Logan Gunthorpe <logang@deltatee.com>
 Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
         Christoph Hellwig <hch@lst.de>,
@@ -32,75 +38,56 @@ Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         Kai-Heng Feng <kai.heng.feng@canonical.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v3 2/3] PCI: Allow specifying devices using a base bus
+ and path of devfns
+Message-ID: <20180618155504.68e56358@t450s.home>
+In-Reply-To: <20180618193636.16210-3-logang@deltatee.com>
 References: <20180618193636.16210-1-logang@deltatee.com>
- <20180618193636.16210-2-logang@deltatee.com>
- <20180618154430.1af3d42f@t450s.home>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <c2053508-0880-5b7b-fd2f-260d260f33f9@deltatee.com>
-Date:   Mon, 18 Jun 2018 15:49:49 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        <20180618193636.16210-3-logang@deltatee.com>
 MIME-Version: 1.0
-In-Reply-To: <20180618154430.1af3d42f@t450s.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: christian.koenig@amd.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, alex.williamson@redhat.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v3 1/3] PCI: Make specifying PCI devices in kernel
- parameters reusable
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 18 Jun 2018 21:55:06 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/18/2018 3:44 PM, Alex Williamson wrote:
->> + *
->> + * The second format matches devices using IDs in the configuration
->> + * space which may match multiple devices in the system. A value of 0
->> + * for any field will match all devices.
-> 
-> I realize this is not a change in behavior, but since we're spelling it
-> out in a proper comment rather than burying it in the implementation,
-> using 0 as a wildcard is rather questionable behavior.  It always
-> surprises me when I read this because pci_match_one_device() uses
-> PCI_ANY_ID (~0) as a wildcard and as a result of struct pci_device_id
-> using __u32 for these fields, we actually need to specify ffffffff on
-> the commandline to get a wildcard match for dynamic ids.  The latter is
-> tedious to use, but I think it's more correct, and the use of a __u32 is
-> probably attributed to the fact that 0xffff is only reserved for vendor
-> ID, the spec doesn't seem to reserve any entries from the vendor's
-> device ID range.
-> 
-> There's probably really no path to resolve these, but acknowledging the
-> difference in this comment block might be helpful in the future.
+On Mon, 18 Jun 2018 13:36:35 -0600
+Logan Gunthorpe <logang@deltatee.com> wrote:
 
-Ok, I'll add a note in the comment.
->> +		ret = pci_dev_str_match(dev, p, &p);
->> +		if (ret == 1) {
->> +			*resize = true;
->> +			if (align_order == -1)
->> +				align = PAGE_SIZE;
->> +			else
->> +				align = 1 << align_order;
->> +			break;
->> +		} else if (ret < 0) {
->> +			pr_info("PCI: Can't parse resource_alignment parameter: pci:%s\n",
+> When specifying PCI devices on the kernel command line using a
+> BDF, the bus numbers can change when adding or replacing a device,
+> changing motherboard firmware, or applying kernel parameters like
+> pci=assign-buses. When this happens, it is usually undesirable to
+> apply whatever command line tweak to the wrong device.
 > 
+> Therefore, it is useful to be able to specify devices with a base
+> bus number and the path of devfns needed to get to it. (Similar to
+> the "device scope" structure in the Intel VT-d spec, Section 8.3.1.)
 > 
-> The "pci:" prefix on %s doesn't make sense now, it was used above when
-> the pointer was already advanced past this token, now I believe it would
-> lead to "pci:pci:xxxx:yyyy" or "pci:xx:yy.z".  Thanks,
+> Thus, we add an option to specify devices in the following format:
+> 
+> [<domain>:]<bus>:<slot>.<func>[/<slot>.<func>][/ ...]
+> 
+> The path can be any segment within the PCI hierarchy of any length and
+> determined through the use of 'lspci -t'. When specified this way, it is
+> less likely that a renumbered bus will result in a valid device specification
+> and the tweak won't be applied to the wrong device.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: Stephen Bates <sbates@raithlin.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |   8 +-
+>  drivers/pci/pci.c                               | 120 ++++++++++++++++++++----
+>  2 files changed, 106 insertions(+), 22 deletions(-)
 
-Yup, nice catch. I'll fix it for v4.
-
-Logan
+Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
