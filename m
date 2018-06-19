@@ -1,339 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6E9F07D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 13:32:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1991F7D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 14:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1757311AbeFSNbi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 09:31:38 -0400
-Received: from mga01.intel.com ([192.55.52.88]:40604 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753145AbeFSNbf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jun 2018 09:31:35 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jun 2018 06:31:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,243,1526367600"; 
-   d="scan'208";a="48237339"
-Received: from aluisell-mobl2.ger.corp.intel.com (HELO localhost) ([10.249.254.128])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Jun 2018 06:31:28 -0700
-Date:   Tue, 19 Jun 2018 16:31:26 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v11 12/13] intel_sgx: driver documentation
-Message-ID: <20180619133126.GH5609@linux.intel.com>
-References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
- <20180608171216.26521-13-jarkko.sakkinen@linux.intel.com>
- <d88234f6-d9f9-561e-b1ab-4bfaddc3dd72@infradead.org>
+        id S937238AbeFSOMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 10:12:01 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46680 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S965783AbeFSOL7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 10:11:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=iVVJl7dqFUDMwlL/z7zZ5Mgd6nkF+94CaeTuiIf/BrA=; b=ny6kIxV+vWWC957EcT80nwodZ
+        6tKhzId4NGkInNp0cZ7WH3P+sOKj8pmLwkBySf52ArAt4K0s3R6Q7o1ymCXi9iXvggnrCnP4uOl+y
+        RcFPC64Ri6oXfmcJkeTF9RHdjr/vkSMZ1j994PYCQcjLpO0HOax5FIsiwnAzFxm2prdlbq0PNrPr4
+        Epf0YOpWwMfWAChDPzRYl0ALtYAqsbgswSzLyjt+GwR8ck4tjuS15uEUaYBbIoHfOc7MyMAJQs65+
+        DjVFQTFZp6S9f00YOJEX9TQBpJPtFhDd/GlnMner+iRSuTakRttmecNSH1BicCg1KDmdPfk6d4PI1
+        TBQt6I2IQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fVHMS-0007ft-Q5; Tue, 19 Jun 2018 14:11:56 +0000
+Date:   Tue, 19 Jun 2018 07:11:56 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <mawilcox@microsoft.com>,
+        Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/2] Documentation/sphinx: add "nodocs" directive
+Message-ID: <20180619141156.GC1438@bombadil.infradead.org>
+References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <20180618171028.GD28748@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d88234f6-d9f9-561e-b1ab-4bfaddc3dd72@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20180618171028.GD28748@bombadil.infradead.org>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 08, 2018 at 02:41:07PM -0700, Randy Dunlap wrote:
-> On 06/08/2018 10:09 AM, Jarkko Sakkinen wrote:
-> > Documentation of the features of the  Software Guard eXtensions usable
-> > for the Linux kernel and how the driver internals uses these features.
-> > In addition, contains documentation for the ioctl API.
+On Mon, Jun 18, 2018 at 10:10:28AM -0700, Matthew Wilcox wrote:
+> On Mon, Jun 18, 2018 at 04:36:34PM +0300, Mike Rapoport wrote:
+> > Hi,
 > > 
-> > Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> 
-> Hi,
-> 
-> I have a few corrections below...
-> 
-> 
-> > ---
-> >  Documentation/index.rst         |   1 +
-> >  Documentation/x86/intel_sgx.rst | 195 ++++++++++++++++++++++++++++++++
-> >  2 files changed, 196 insertions(+)
-> >  create mode 100644 Documentation/x86/intel_sgx.rst
+> > These patches allow passing "-no-doc-sections" option to scripts/kernel-doc
+> > from the sphinx generator.
 > > 
-> > diff --git a/Documentation/index.rst b/Documentation/index.rst
-> > index 3b99ab931d41..b9fb92928e8c 100644
-> > --- a/Documentation/index.rst
-> > +++ b/Documentation/index.rst
-> > @@ -100,6 +100,7 @@ implementation.
-> >     :maxdepth: 2
-> >  
-> >     sh/index
-> > +   x86/index
-> >  
-> >  Korean translations
-> >  -------------------
-> > diff --git a/Documentation/x86/intel_sgx.rst b/Documentation/x86/intel_sgx.rst
-> > new file mode 100644
-> > index 000000000000..ecbe544eb2cb
-> > --- /dev/null
-> > +++ b/Documentation/x86/intel_sgx.rst
-> > @@ -0,0 +1,195 @@
-> > +===================
-> > +Intel(R) SGX driver
-> > +===================
-> > +
-> > +Introduction
-> > +============
-> > +
-> > +Intel(R) SGX is a set of CPU instructions that can be used by applications to
-> > +set aside private regions of code and data. The code outside the enclave is
-> > +disallowed to access the memory inside the enclave by the CPU access control.
-> > +In a way you can think that SGX provides inverted sandbox. It protects the
-> > +application from a malicious host.
-> > +
-> > +You can tell if your CPU supports SGX by looking into ``/proc/cpuinfo``:
-> > +
-> > +	``cat /proc/cpuinfo  | grep sgx``
-> > +
-> > +Overview of SGX
-> > +===============
-> > +
-> > +SGX has a set of data structures to maintain information about the enclaves and
-> > +their security properties. BIOS reserves a fixed size region of physical memory
-> > +for these structures by setting Processor Reserved Memory Range Registers
-> > +(PRMRR).
-> > +
-> > +This memory range is protected from outside access by the CPU and all the data
-> > +coming in and out of the CPU package is encrypted by a key that is generated for
-> > +each boot cycle.
-> > +
-> > +Enclaves execute in ring-3 in a special enclave submode using pages from the
-> > +reserved memory range. A fixed logical address range for the enclave is reserved
-> > +by ENCLS(ECREATE), a leaf instruction used to create enclaves. It is referred in
-> > +the documentation commonly as the ELRANGE.
-> > +
-> > +Every memory access to the ELRANGE is asserted by the CPU. If the CPU is not
-> > +executing in the enclave mode inside the enclave, #GP is raised. On the other
-> > +hand enclave code can make memory accesses both inside and outside of the
-> > +ELRANGE.
-> > +
-> > +Enclave can only execute code inside the ELRANGE. Instructions that may cause
-> > +VMEXIT, IO instructions and instructions that require a privilege change are
-> > +prohibited inside the enclave. Interrupts and exceptions always cause enclave
-> > +to exit and jump to an address outside the enclave given when the enclave is
-> > +entered by using the leaf instruction ENCLS(EENTER).
-> > +
-> > +Data types
-> > +----------
-> > +
-> > +The protected memory range contains the following data:
-> > +
-> > +* **Enclave Page Cache (EPC):** protected pages
-> > +* **Enclave Page Cache Map (EPCM):** a database that describes the state of the
-> > +  pages and link them to an enclave.
-> > +
-> > +EPC has a number of different types of pages:
-> > +
-> > +* **SGX Enclave Control Structure (SECS)**: describes the global
-> > +  properties of an enclave.
-> > +* **Regular (REG):** code and data pages in the ELRANGE.
-> > +* **Thread Control Structure (TCS):** pages that define entry points inside an
-> > +  enclave. The enclave can only be entered through these entry points and each
-> > +  can host a single hardware thread at a time.
-> > +* **Version Array (VA)**: 64-bit version numbers for pages that have been
-> > +  swapped outside the enclave. Each page contains 512 version numbers.
-> > +
-> > +Launch control
-> > +--------------
-> > +
-> > +To launch an enclave, two structures must be provided for ENCLS(EINIT):
-> > +
-> > +1. **SIGSTRUCT:** signed measurement of the enclave binary.
-> > +2. **EINITTOKEN:** a cryptographic token CMAC-signed with a AES256-key called
-> > +   *launch key*, which is re-generated for each boot cycle.
-> > +
-> > +The CPU holds a SHA256 hash of a 3072-bit RSA public key inside
-> > +IA32_SGXLEPUBKEYHASHn MSRs. Enclaves with a SIGSTRUCT that is signed with this
-> > +key do not require a valid EINITTOKEN and can be authorized with special
-> > +privileges. One of those privileges is ability to acquire the launch key with
-> > +ENCLS(EGETKEY).
-> > +
-> > +**IA32_FEATURE_CONTROL[17]** is used by to BIOS configure whether
+> > This allows to avoid duplicated DOC: sections when "kernel-doc:" directive
+> > is used without explicit selection of functions or function types. For
+> > instance, [1] has "IDA description" and "idr synchronization" twice.
 > 
->                                         by the BIOS to configure whether
+> Hah, I just found an abandoned patch for this in a disused git tree.
+> I was wondering whether I needed to resurrect it.  Enthusiastically,
 > 
-> > +IA32_SGXLEPUBKEYHASH MSRs are read-only or read-write before locking the
-> > +feature control register and handing over control to the operating system.
-> > +
-> > +Enclave construction
-> > +--------------------
-> > +
-> > +The construction is started by filling out the SECS that contains enclave
-> > +address range, privileged attributes and measurement of TCS and REG pages (pages
-> > +that will be mapped to the address range) among the other things. This structure
-> > +is passed out to the ENCLS(ECREATE) together with a physical address of a page
-> > +in EPC that will hold the SECS.
-> > +
-> > +Then pages are added with ENCLS(EADD) and measured with ENCLS(EEXTEND).  Finally
-> 
-> "measured"?  what does that mean?
-> 
-> > +enclave is initialized with ENCLS(EINIT). ENCLS(INIT) checks that the SIGSTRUCT
-> > +is signed with the contained public key and that the supplied EINITTOKEN is
-> > +valid (CMAC'd with the launch key). If these hold, the enclave is successfully
-> > +initialized.
-> > +
-> > +Swapping pages
-> > +--------------
-> > +
-> > +Enclave pages can be swapped out with ENCLS(EWB) to the unprotected memory. In
-> > +addition to the EPC page, ENCLS(EWB) takes in a VA page and address for PCMD
-> > +structure (Page Crypto MetaData) as input. The VA page will seal a version
-> > +number for the page. PCMD is 128 byte structure that contains tracking
-> > +information for the page, most importantly its MAC. With these structures the
-> > +enclave is sealed and rollback protected while it resides in the unprotected
-> > +memory.
-> > +
-> > +Before the page can be swapped out it must not have any active TLB references.
-> > +By using ENCLS(EBLOCK) instructions no new TLB entries can be created to it.
-> > +After this the a counter called *epoch* associated hardware threads inside the
-> 
-> huh?
-> 
-> > +enclave is increased with ENCLS(ETRACK). After all the threads from the previous
-> > +epoch have exited the page can be safely swapped out.
-> > +
-> > +An enclave memory access to a swapped out pages will cause #PF. #PF handler can
-> > +fault the page back by using ENCLS(ELDU).
-> > +
-> > +Kernel internals
-> > +================
-> > +
-> > +Requirements
-> > +------------
-> > +
-> > +Because SGX has an ever evolving and expanding feature set, it's possible for
-> > +a BIOS or VMM to configure a system in such a way that not all cpus are equal,
-> 
->                                                                   CPUs
-> 
-> > +e.g. where Launch Control is only enabled on a subset of cpus.  Linux does
-> 
->                                                             CPUs.
-> 
-> > +*not* support such a heterogenous system configuration, nor does it even
-> 
->                         heterogeneous
-> 
-> > +attempt to play nice in the face of a misconfigured system.  With the exception
-> > +of Launch Control's hash MSRs, which can vary per cpu, Linux assumes that all
-> 
->                                                      CPU,
-> 
-> > +cpus have a configuration that is identical to the boot cpu.
-> 
->    CPUs                                                    CPU.
-> 
-> > +
-> > +
-> > +Roles and responsibilities
-> > +--------------------------
-> > +
-> > +SGX introduces system resources, e.g. EPC memory, that must be accessible to
-> > +multiple entities, e.g. the native kernel driver (to expose SGX to userspace)
-> > +and KVM (to expose SGX to VMs), ideally without introducing any dependencies
-> > +between each SGX entity.  To that end, the kernel owns and manages the shared
-> > +system resources, i.e. the EPC and Launch Control MSRs, and defines functions
-> > +that provide appropriate access to the shared resources.  SGX support for
-> > +userpace and VMs is left to the SGX platform driver and KVM respectively.
-> 
->    userspace
-> 
-> > +
-> > +Launching enclaves
-> > +------------------
-> > +
-> > +For privileged enclaves the launch is performed simply by submitting the
-> > +SIGSTRUCT for that enclave to ENCLS(EINIT). For unprivileged enclaves the
-> > +driver hosts a process in ring-3 that hosts a launch enclave signed with a key
-> > +supplied for kbuild.
-> > +
-> > +The current implementation of the launch enclave generates a token for any
-> > +enclave. In the future it could be potentially extended to have ways to
-> > +configure policy what can be lauched.
-> 
->                                 launched.
-> 
-> > +
-> > +The driver will fail to initialize if it cannot start its own launch enclave.
-> > +A user space application can submit a SIGSTRUCT instance through the ioctl API.
-> > +The kernel will take care of the rest.
-> > +
-> > +This design assures that the Linux kernel has always full control, which
-> > +enclaves get to launch and which do not, even if the public key MSRs are
-> > +read-only. Having launch intrinsics inside the kernel also enables easy
-> > +development of enclaves without necessarily needing any heavy weight SDK.
-> > +Having a low-barrier to implement enclaves could make sense for example for
-> 
->             low barrier
-> 
-> > +system daemons where amount of dependecies ought to be minimized.
-> 
->                                   dependencies
-> 
-> > +
-> > +EPC management
-> > +--------------
-> > +
-> > +Due to the unique requirements for swapping EPC pages, and because EPC pages
-> > +(currently) do not have associated page structures, management of the EPC is
-> > +not handled by the standard Linux swapper.  SGX directly handles swapping
-> > +of EPC pages, including a kthread to initiate reclaim and a rudimentary LRU
-> > +mechanism.  Consumsers of EPC pages, e.g. the SGX driver, are required to
-> 
->                Consumers
-> 
-> > +implement function callbacks that can be invoked by the kernel to age,
-> > +swap, and/or forcefully reclaim a target EPC page.  In effect, the kernel
-> > +controls what happens and when, while the consumers (driver, KVM, etc..) do
-> > +the actual work.
-> > +
-> > +SGX uapi
-> > +========
-> > +
-> > +.. kernel-doc:: drivers/platform/x86/intel_sgx/sgx_ioctl.c
-> > +   :functions: sgx_ioc_enclave_create
-> > +               sgx_ioc_enclave_add_page
-> > +               sgx_ioc_enclave_init
-> > +
-> > +.. kernel-doc:: arch/x86/include/uapi/asm/sgx.h
-> > +
-> > +References
-> > +==========
-> > +
-> > +* System Programming Manual: 39.1.4 Intel® SGX Launch Control Configuration
-> > 
-> 
-> 
-> -- 
-> ~Randy
+> Acked-by: Matthew Wilcox <willy@infradead.org>
 
-Thank you, I'll refine the parts that you pointed out for the next
-version.
+Here's the patch I found (I couldn't refind it at the time):
 
-/Jarkko
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index d15e07f36881..d86d88da1d75 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -47,6 +47,7 @@ class KernelDocDirective(Directive):
+     optional_arguments = 4
+     option_spec = {
+         'doc': directives.unchanged_required,
++        'nodoc': directives.unchanged,
+         'functions': directives.unchanged_required,
+         'export': directives.unchanged,
+         'internal': directives.unchanged,
+@@ -74,6 +75,8 @@ class KernelDocDirective(Directive):
+             export_file_patterns = str(self.options.get('internal')).split()
+         elif 'doc' in self.options:
+             cmd += ['-function', str(self.options.get('doc'))]
++        elif 'nodoc' in self.options:
++            cmd += ['-no-doc-sections']
+         elif 'functions' in self.options:
+             for f in str(self.options.get('functions')).split():
+                 cmd += ['-function', f]
+
+I did it while I was trying to create good radix tree documentation,
+which led to me realising that was a Herculean task (specifically: the
+stables).
+
+I ended up doing this instead:
+
++The Public API
++==============
++
++The public API can be found in ``<linux/radix-tree.h>``.  To use a
++radix tree in your data structure, embed a :c:type:`struct radix_tree_root`
++in it, and initialise it using ``INIT_RADIX_TREE``.  You can also use
++a file-local or global radix tree by defining a :c:type:`RADIX_TREE` as you
++would a :c:type:`LIST_HEAD`.
++
++.. Not actually "internal", but I need to exclude the 'doc' paragraph, and
++   this is the best way to do it.
++.. kernel-doc:: include/linux/radix-tree.h
++   :internal:
++
++.. kernel-doc:: lib/radix-tree.c
++   :export:
+
+I'm not sure if I agree with me-of-January-2017 that this is the "best"
+way to do it, but maybe that'll point to another way of achieving the
+same thing.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
