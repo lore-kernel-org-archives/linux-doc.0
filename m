@@ -1,113 +1,214 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E582C7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 11:02:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A0D97D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 13:09:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S937624AbeFSLCf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 07:02:35 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:38722 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S937591AbeFSLCe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 07:02:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=t6lg73DyadxcLf5Sae6k0+ma+WH8+i6QvtVXh6xrJHY=; b=CHkA1qSsYvEQxcOjvebUsL1nn
-        B8j0MsYy5W9hX25hsiT39OlYH2LILR5FEgRsSJTm6lNpIzgNYTZwgCuXgcDZeAPwCovZsvKf0xAL9
-        zeGXPQ0dSRg+939lXLryc0QsHc/Q7waex7DDhka5ynvXcKrW42Vo/DcQWiuWEm1gQa+sYI1UmkMVo
-        7qVvSljz+WWCWkxLMbQptOFWdTxgnLk7Ifzb/YdP/BR/KruBDpi+zRAIuhz7MVG4Yd/mNpeXxA6Fb
-        AzwWx0UbfYW7P1s1gRcyZ1twUBsWx88CfyJZtcphhV/IoKVg4MaKgGyDaZ3uPO8jgKq6wZGUvhNMY
-        /AVwce6cw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fVEOm-0007nY-Mn; Tue, 19 Jun 2018 11:02:09 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 9071020298BAC; Tue, 19 Jun 2018 13:02:05 +0200 (CEST)
-Date:   Tue, 19 Jun 2018 13:02:05 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Hellstrom <thellstrom@vmware.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        David Airlie <airlied@linux.ie>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 1/3] locking: WW mutex cleanup
-Message-ID: <20180619110205.GE2476@hirez.programming.kicks-ass.net>
-References: <20180619082445.11062-1-thellstrom@vmware.com>
- <20180619082445.11062-2-thellstrom@vmware.com>
- <20180619094409.GK2458@hirez.programming.kicks-ass.net>
- <8ea67e74-5ed4-2157-8e51-43f15047b3e4@vmware.com>
+        id S966314AbeFSNJN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 09:09:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37116 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S965720AbeFSNJM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 09:09:12 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5JD8JJM065779
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 09:09:11 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jq1sjj1pu-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 09:09:10 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Tue, 19 Jun 2018 14:09:07 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 19 Jun 2018 14:09:04 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5JD93m025100296
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 19 Jun 2018 13:09:03 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5BF07A4057;
+        Tue, 19 Jun 2018 13:59:45 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E9AB8A4059;
+        Tue, 19 Jun 2018 13:59:44 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.8.236])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 19 Jun 2018 13:59:44 +0100 (BST)
+Date:   Tue, 19 Jun 2018 16:09:01 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation/sphinx: add "nodocs" directive
+References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1529328996-16247-2-git-send-email-rppt@linux.vnet.ibm.com>
+ <87h8lzyicj.fsf@intel.com>
+ <20180619050349.GA19099@rapoport-lnx>
+ <87602fxmi7.fsf@intel.com>
+ <20180619075017.GB19099@rapoport-lnx>
+ <871sd3xkmx.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8ea67e74-5ed4-2157-8e51-43f15047b3e4@vmware.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <871sd3xkmx.fsf@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18061913-4275-0000-0000-0000028F72AD
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18061913-4276-0000-0000-00003796B64E
+Message-Id: <20180619130900.GC19099@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-19_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1805220000 definitions=main-1806190148
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 19, 2018 at 12:44:52PM +0200, Thomas Hellstrom wrote:
-> On 06/19/2018 11:44 AM, Peter Zijlstra wrote:
-> > On Tue, Jun 19, 2018 at 10:24:43AM +0200, Thomas Hellstrom wrote:
-> > > From: Peter Ziljstra <peterz@infradead.org>
-> > > 
-> > > Make the WW mutex code more readable by adding comments, splitting up
-> > > functions and pointing out that we're actually using the Wait-Die
-> > > algorithm.
-> > > 
-> > > Cc: Ingo Molnar <mingo@redhat.com>
-> > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > Cc: Gustavo Padovan <gustavo@padovan.org>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Sean Paul <seanpaul@chromium.org>
-> > > Cc: David Airlie <airlied@linux.ie>
-> > > Cc: Davidlohr Bueso <dave@stgolabs.net>
-> > > Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-> > > Cc: Josh Triplett <josh@joshtriplett.org>
-> > > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > > Cc: Kate Stewart <kstewart@linuxfoundation.org>
-> > > Cc: Philippe Ombredanne <pombredanne@nexb.com>
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Cc: linux-doc@vger.kernel.org
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linaro-mm-sig@lists.linaro.org
-> > > Co-authored-by: Thomas Hellstrom <thellstrom@vmware.com>
-> > > Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
-> > > ---
-> > >   Documentation/locking/ww-mutex-design.txt |  12 +-
-> > >   include/linux/ww_mutex.h                  |  28 ++---
-> > >   kernel/locking/mutex.c                    | 202 ++++++++++++++++++------------
-> > >   3 files changed, 145 insertions(+), 97 deletions(-)
-> > Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+On Tue, Jun 19, 2018 at 11:09:42AM +0300, Jani Nikula wrote:
+> On Tue, 19 Jun 2018, Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+> > On Tue, Jun 19, 2018 at 10:29:20AM +0300, Jani Nikula wrote:
+> >> On Tue, 19 Jun 2018, Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+> >> > On Mon, Jun 18, 2018 at 11:01:32PM +0300, Jani Nikula wrote:
+> >> >> On Mon, 18 Jun 2018, Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+> >> >> > When kernel-doc:: specified in .rst document without explicit directives,
+> >> >> > it outputs both comment and DOC: sections. If a DOC: section was explictly
+> >> >> > included in the same document it will be duplicated. For example, the
+> >> >> > output generated for Documentation/core-api/idr.rst [1] has "IDA
+> >> >> > description" in the "IDA usage" section and in the middle of the API
+> >> >> > reference.
+> >> >> >
+> >> >> > Addition of "nodocs" directive prevents the duplication without the need to
+> >> >> > explicitly define what functions should be include in the API reference.
+> >> >> >
+> >> >> > [1] https://www.kernel.org/doc/html/v4.17/core-api/idr.html
+> >> >> >
+> >> >> > Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+> >> >> > ---
+> >> >> >  Documentation/sphinx/kerneldoc.py | 3 +++
+> >> >> >  1 file changed, 3 insertions(+)
+> >> >> >
+> >> >> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+> >> >> > index fbedcc3..bc5dd05 100644
+> >> >> > --- a/Documentation/sphinx/kerneldoc.py
+> >> >> > +++ b/Documentation/sphinx/kerneldoc.py
+> >> >> > @@ -50,6 +50,7 @@ class KernelDocDirective(Directive):
+> >> >> >          'functions': directives.unchanged_required,
+> >> >> >          'export': directives.unchanged,
+> >> >> >          'internal': directives.unchanged,
+> >> >> > +        'nodocs': directives.unchanged,
+> >> >> 
+> >> >> I'm not convinved this is the prettiest way to achieve what you
+> >> >> want. 'nodocs' seems kind of clunky.
+> >> >> 
+> >> >> I'd suggest supporting 'functions' without option arguments, and turning
+> >> >> that into kernel-doc -no-doc-sections.
+> >> >
+> >> > Do you mean something like this:
+> >> 
+> >> Yes.
+> >> 
+> >> >
+> >> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+> >> > index fbedcc3..9d0a7f0 100644
+> >> > --- a/Documentation/sphinx/kerneldoc.py
+> >> > +++ b/Documentation/sphinx/kerneldoc.py
+> >> > @@ -47,7 +47,7 @@ class KernelDocDirective(Directive):
+> >> >      optional_arguments = 4
+> >> >      option_spec = {
+> >> >          'doc': directives.unchanged_required,
+> >> > -        'functions': directives.unchanged_required,
+> >> > +        'functions': directives.unchanged,
+> >> >          'export': directives.unchanged,
+> >> >          'internal': directives.unchanged,
+> >> >      }
+> >> > @@ -75,8 +75,12 @@ class KernelDocDirective(Directive):
+> >> >          elif 'doc' in self.options:
+> >> >              cmd += ['-function', str(self.options.get('doc'))]
+> >> >          elif 'functions' in self.options:
+> >> > -            for f in str(self.options.get('functions')).split():
+> >> > -                cmd += ['-function', f]
+> >> > +            functions = self.options.get('functions').split()
+> >> 
+> >> Does .split() get upset if there's no argument? Or do you get an empty
+> >> string if there are no options? I forget.
+> >
+> > "".split() gives an empty list.
 > 
-> Hi Peter,
+> I tried to say, does self.options.get('functions') return an empty
+> string or None if there are no options?
+
+It returns an empty string.
+ 
+> BR,
+> Jani.
 > 
-> Do you want to add a SOB, since you're the main author?
+> 
+> >  
+> >> BR,
+> >> Jani.
+> >> 
+> >> > +            if functions:
+> >> > +                for f in functions:
+> >> > +                    cmd += ['-function', f]
+> >> > +            else:
+> >> > +                cmd += ['-no-doc-sections']
+> >> >  
+> >> >          for pattern in export_file_patterns:
+> >> >              for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
+> >> >
+> >> >> The usage in patch 2/2 would turn into:
+> >> >> 
+> >> >> .. kernel-doc:: include/linux/idr.h
+> >> >>    :functions:
+> >> >> 
+> >> >> which I think is much better overall in the rst source, complementing
+> >> >> the places where you use :doc:.
+> >> >> 
+> >> >> BR,
+> >> >> Jani.
+> >> >> 
+> >> >> >      }
+> >> >> >      has_content = False
+> >> >> >  
+> >> >> > @@ -77,6 +78,8 @@ class KernelDocDirective(Directive):
+> >> >> >          elif 'functions' in self.options:
+> >> >> >              for f in str(self.options.get('functions')).split():
+> >> >> >                  cmd += ['-function', f]
+> >> >> > +        elif 'nodocs' in self.options:
+> >> >> > +            cmd += ['-no-doc-sections']
+> >> >> >  
+> >> >> >          for pattern in export_file_patterns:
+> >> >> >              for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
+> >> >> 
+> >> >> -- 
+> >> >> Jani Nikula, Intel Open Source Graphics Center
+> >> >> 
+> >> 
+> >> -- 
+> >> Jani Nikula, Intel Open Source Graphics Center
+> >> 
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
+> 
 
-Sure, here goes:
+-- 
+Sincerely yours,
+Mike.
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
