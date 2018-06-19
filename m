@@ -1,168 +1,250 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1B4E27D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 14:49:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 41A657D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 14:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965504AbeFSOtN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 10:49:13 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38726 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S964999AbeFSOtM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 10:49:12 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5JEcrZS056953
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 10:49:12 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jq3fksbcm-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 10:49:11 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Tue, 19 Jun 2018 15:49:09 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 19 Jun 2018 15:49:07 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5JEn6i335717162
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 19 Jun 2018 14:49:06 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A105E42049;
-        Tue, 19 Jun 2018 15:39:07 +0100 (BST)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2AA9842041;
-        Tue, 19 Jun 2018 15:39:07 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.236])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Tue, 19 Jun 2018 15:39:07 +0100 (BST)
-Date:   Tue, 19 Jun 2018 17:49:04 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <mawilcox@microsoft.com>,
-        Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] Documentation/sphinx: add "nodocs" directive
-References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20180618171028.GD28748@bombadil.infradead.org>
- <20180619141156.GC1438@bombadil.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180619141156.GC1438@bombadil.infradead.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18061914-0008-0000-0000-00000249745C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061914-0009-0000-0000-000021AFC162
-Message-Id: <20180619144903.GE19099@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-19_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1805220000 definitions=main-1806190165
+        id S966366AbeFSOut (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 10:50:49 -0400
+Received: from mail-pl0-f68.google.com ([209.85.160.68]:40239 "EHLO
+        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S965731AbeFSOur (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 10:50:47 -0400
+Received: by mail-pl0-f68.google.com with SMTP id t12-v6so11084085plo.7
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 07:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=lf19E8nnSI1FTM5pLlVNkItdBq7YEfccMGTXXhi1QBE=;
+        b=l+x1fghWbk88x5ZOrthXJA5gXOGRn4NcuWnDrmuqQQR9kTzcosXzWZztuS1RWkjswR
+         MB/742ul/3KFoumEhHuhi7LzSevs+0o6Fhl08q3CHR/9BxzA+k6YUoGvWqp5ZIYnsZ3A
+         nOKf8prEN4t0vFeOXhPS6SWn+yU033P+Tqri7JJZS87WN5TbraK2a5nIfq9m/D1hm5Mj
+         GeErfiwzyVd5WMIPTtpDyqMxYWwX5idN4XTUeh9iRHg/bwa85WEp/ixg3pEy5tcm3vw+
+         mUYdlOFT041MHXWb91eKcmLJBEIxyGu6Umx7STh7bNGt2wbITWWi+nSd2InLA6GaUel5
+         vJTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=lf19E8nnSI1FTM5pLlVNkItdBq7YEfccMGTXXhi1QBE=;
+        b=N4iEJpyo3I/H8SVePCaFkkllDWCyL6bVNBfMXF9nDXwZ77QDBR0/mxtyjF2aj/CRKC
+         UsqCKyjCzrTYITR1D4GReqGQXIal7Sa8yFAi1wPn9zKEdvWWOlPBN1uFtkMb5WFxAW5A
+         PrDa8g8D0ZBk++4InVVVIk/gZ91ZSmTIgVc66+4e9SkgPQjQIHn34hWYE0DdBkL90JkB
+         l49gMuSVdRQaZVfz22FtSA72EPmhD69N8e5RGS62p3Bx4tXy0lJEx+2NObTPrR1wNi8R
+         Nl22zVzyoHuIcI8GlWxsk0lYBNjmR83TPM1LEBBJuAybead+IP8SrkQARUvU/k57McB0
+         vgag==
+X-Gm-Message-State: APt69E08SyUhSTUo5WoSl8cV6qx2lN0coP4WgqX61u8OJkeoZipVWXHO
+        7OBRzXVUzmQ879bXMAo4c+CMJA==
+X-Google-Smtp-Source: ADUXVKJEDS60Q1Em+bLtONwdtQRNHE29pH9WpJMJBDnHUVwEj8+eOaiy8f1TmHlI79smY8yxk2tnHQ==
+X-Received: by 2002:a17:902:bd8f:: with SMTP id q15-v6mr19531864pls.161.1529419846763;
+        Tue, 19 Jun 2018 07:50:46 -0700 (PDT)
+Received: from ?IPv6:2600:1010:b023:c12a:9165:dc8d:85a7:914? ([2600:1010:b023:c12a:9165:dc8d:85a7:914])
+        by smtp.gmail.com with ESMTPSA id a20-v6sm25585909pfo.55.2018.06.19.07.50.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Jun 2018 07:50:44 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (15F79)
+In-Reply-To: <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
+Date:   Tue, 19 Jun 2018 07:50:43 -0700
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <569B4719-6283-4575-A16E-D0A78D280F4E@amacapital.net>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
+ <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
+ <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+ <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
+ <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
+ <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
+ <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
+ <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
+ <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+ <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
+ <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de>
+ <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
+ <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com> <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
+To:     Kees Cook <keescook@chromium.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 19, 2018 at 07:11:56AM -0700, Matthew Wilcox wrote:
-> On Mon, Jun 18, 2018 at 10:10:28AM -0700, Matthew Wilcox wrote:
-> > On Mon, Jun 18, 2018 at 04:36:34PM +0300, Mike Rapoport wrote:
-> > > Hi,
-> > > 
-> > > These patches allow passing "-no-doc-sections" option to scripts/kernel-doc
-> > > from the sphinx generator.
-> > > 
-> > > This allows to avoid duplicated DOC: sections when "kernel-doc:" directive
-> > > is used without explicit selection of functions or function types. For
-> > > instance, [1] has "IDA description" and "idr synchronization" twice.
-> > 
-> > Hah, I just found an abandoned patch for this in a disused git tree.
-> > I was wondering whether I needed to resurrect it.  Enthusiastically,
-> > 
-> > Acked-by: Matthew Wilcox <willy@infradead.org>
-> 
-> Here's the patch I found (I couldn't refind it at the time):
-> 
-> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-> index d15e07f36881..d86d88da1d75 100644
-> --- a/Documentation/sphinx/kerneldoc.py
-> +++ b/Documentation/sphinx/kerneldoc.py
-> @@ -47,6 +47,7 @@ class KernelDocDirective(Directive):
->      optional_arguments = 4
->      option_spec = {
->          'doc': directives.unchanged_required,
-> +        'nodoc': directives.unchanged,
->          'functions': directives.unchanged_required,
->          'export': directives.unchanged,
->          'internal': directives.unchanged,
-> @@ -74,6 +75,8 @@ class KernelDocDirective(Directive):
->              export_file_patterns = str(self.options.get('internal')).split()
->          elif 'doc' in self.options:
->              cmd += ['-function', str(self.options.get('doc'))]
-> +        elif 'nodoc' in self.options:
-> +            cmd += ['-no-doc-sections']
->          elif 'functions' in self.options:
->              for f in str(self.options.get('functions')).split():
->                  cmd += ['-function', f]
-> 
-> I did it while I was trying to create good radix tree documentation,
-> which led to me realising that was a Herculean task (specifically: the
-> stables).
-> 
-> I ended up doing this instead:
-> 
-> +The Public API
-> +==============
-> +
-> +The public API can be found in ``<linux/radix-tree.h>``.  To use a
-> +radix tree in your data structure, embed a :c:type:`struct radix_tree_root`
-> +in it, and initialise it using ``INIT_RADIX_TREE``.  You can also use
-> +a file-local or global radix tree by defining a :c:type:`RADIX_TREE` as you
-> +would a :c:type:`LIST_HEAD`.
-> +
-> +.. Not actually "internal", but I need to exclude the 'doc' paragraph, and
-> +   this is the best way to do it.
-> +.. kernel-doc:: include/linux/radix-tree.h
-> +   :internal:
-> +
-> +.. kernel-doc:: lib/radix-tree.c
-> +   :export:
-> 
-> I'm not sure if I agree with me-of-January-2017 that this is the "best"
-> way to do it, but maybe that'll point to another way of achieving the
-> same thing.
-> 
 
-Actually, in the IDR case the same trick would work.
 
-In more general case it's even possible to use
+> On Jun 18, 2018, at 5:52 PM, Kees Cook <keescook@chromium.org> wrote:
+>=20
+>> On Mon, Jun 18, 2018 at 3:03 PM, Andy Lutomirski <luto@kernel.org> wrote:=
 
-.. kernel-doc:: path/to/file.c
-   :export:
+>>> On Tue, Jun 12, 2018 at 12:34 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+>>>=20
+>>>> On Tue, Jun 12, 2018 at 11:59 AM, Thomas Gleixner <tglx@linutronix.de> w=
+rote:
+>>>>> On Tue, 12 Jun 2018, H.J. Lu wrote:
+>>>>>> On Tue, Jun 12, 2018 at 9:34 AM, Andy Lutomirski <luto@kernel.org> wr=
+ote:
+>>>>>>> On Tue, Jun 12, 2018 at 9:05 AM H.J. Lu <hjl.tools@gmail.com> wrote:=
 
-.. kernel-doc: path/to/file.c
-   :internal:
+>>>>>>>> On Tue, Jun 12, 2018 at 9:01 AM, Andy Lutomirski <luto@kernel.org> w=
+rote:
+>>>>>>>>> On Tue, Jun 12, 2018 at 4:43 AM H.J. Lu <hjl.tools@gmail.com> wrot=
+e:
+>>>>>>>>>> On Tue, Jun 12, 2018 at 3:03 AM, Thomas Gleixner <tglx@linutronix=
+.de> wrote:
+>>>>>>>>>> That works for stuff which loads all libraries at start time, but=
+ what
+>>>>>>>>>> happens if the program uses dlopen() later on? If CET is force lo=
+cked and
+>>>>>>>>>> the library is not CET enabled, it will fail.
+>>>>>>>>>=20
+>>>>>>>>> That is to prevent disabling CET by dlopening a legacy shared libr=
+ary.
+>>>>>>>>>=20
+>>>>>>>>>> I don't see the point of trying to support CET by magic. It adds c=
+omplexity
+>>>>>>>>>> and you'll never be able to handle all corner cases correctly. dl=
+open() is
+>>>>>>>>>> not even a corner case.
+>>>>>>>>>=20
+>>>>>>>>> That is a price we pay for security.  To enable CET, especially sh=
+adow
+>>>>>>>>> shack, the program and all of shared libraries it uses should be C=
+ET
+>>>>>>>>> enabled.  Most of programs can be enabled with CET by compiling th=
+em
+>>>>>>>>> with -fcf-protection.
+>>>>>>>>=20
+>>>>>>>> If you charge too high a price for security, people may turn it off=
+.
+>>>>>>>> I think we're going to need a mode where a program says "I want to u=
+se
+>>>>>>>> the CET, but turn it off if I dlopen an unsupported library".  Ther=
+e
+>>>>>>>> are programs that load binary-only plugins.
+>>>>>>>=20
+>>>>>>> You can do
+>>>>>>>=20
+>>>>>>> # export GLIBC_TUNABLES=3Dglibc.tune.hwcaps=3D-SHSTK
+>>>>>>>=20
+>>>>>>> which turns off shadow stack.
+>>>>>>>=20
+>>>>>>=20
+>>>>>> Which exactly illustrates my point.  By making your security story to=
+o
+>>>>>> absolute, you'll force people to turn it off when they don't need to.=
 
-and get all the functions without the docs sections :)
+>>>>>> If I'm using a fully CET-ified distro and I'm using a CET-aware
+>>>>>> program that loads binary plugins, and I may or may not have an old
+>>>>>> (binary-only, perhaps) plugin that doesn't support CET, then the
+>>>>>> behavior I want is for CET to be on until I dlopen() a program that
+>>>>>> doesn't support it.  Unless there's some ABI reason why that can't be=
 
-But IMHO having a directive for this would be nicer. If there are no
-objections to Jani's  suggestion to use empty :functions: instead of
-:nodoc: I'm going to send v2.
+>>>>>> done, but I don't think there is.
+>>>>>=20
+>>>>> We can make it opt-in via GLIBC_TUNABLES.  But by default, the legacy
+>>>>> shared object is disallowed when CET is enabled.
+>>>>=20
+>>>> That's a bad idea. Stuff has launchers which people might not be able t=
+o
+>>>> change. So they will simply turn of CET completely or it makes them hac=
+k
+>>>> horrible crap into init, e.g. the above export.
+>>>>=20
+>>>> Give them sane kernel options:
+>>>>=20
+>>>>     cet =3D off, relaxed, forced
+>>>>=20
+>>>> where relaxed allows to run binary plugins. Then let dlopen() call into=
+ the
+>>>> kernel with the filepath of the library to check for CET and that will t=
+ell
+>>>> you whether its ok or or not and do the necessary magic in the kernel w=
+hen
+>>>> CET has to be disabled due to a !CET library/application.
+>>>>=20
+>>>> That's also making the whole thing independent of magic glibc environme=
+nt
+>>>> options and allows it to be used all over the place in the same way.
+>>>=20
+>>> This is very similar to our ARCH_CET_EXEC proposal which controls how
+>>> CET should be enforced.   But Andy thinks it is a bad idea.
+>>=20
+>> I do think it's a bad idea to have a new piece of state that survives
+>> across exec().  It's going to have nasty usability problems and nasty
+>> security problems.
+>>=20
+>> We may need a mode by which glibc can turn CET *back off* even after a
+>> program had it on if it dlopens() an old binary.  Or maybe there won't
+>> be demand.  I can certainly understand why the CET_LOCK feature is
+>> there, although I think we need a way to override it using something
+>> like ptrace().  I'm not convinced that CET_LOCK is really needed, but
+>> someone who understand the thread model should chime in.
+>>=20
+>> Kees, do you know anyone who has a good enough understanding of
+>> usermode exploits and how they'll interact with CET?
+>=20
+> Adding Florian to CC, but if something gets CET enabled, it really
+> shouldn't have a way to turn it off. If there's a way to turn it off,
+> all the ROP research will suddenly turn to exactly one gadget before
+> doing the rest of the ROP: turning off CET. Right now ROP is: use
+> stack-pivot gadget, do everything else. Allowed CET to turn off will
+> just add one step: use CET-off gadget, use stack-pivot gadget, do
+> everything else. :P
 
--- 
-Sincerely yours,
-Mike.
+Fair enough=20
 
+>=20
+> Following Linus's request for "slow introduction" of new security
+> features, likely the best approach is to default to "relaxed" (with a
+> warning about down-grades), and allow distros/end-users to pick
+> "forced" if they know their libraries are all CET-enabled.
+
+I still don=E2=80=99t get what =E2=80=9Crelaxed=E2=80=9D is for.  I think th=
+e right design is:
+
+Processes start with CET on or off depending on the ELF note, but they start=
+ with CET unlocked no matter what. They can freely switch CET on and off (su=
+bject to being clever enough not to crash if they turn it on and then return=
+ right off the end of the shadow stack) until they call ARCH_CET_LOCK.
+
+Ptrace gets new APIs to turn CET on and off and to lock and unlock it.  If a=
+n attacker finds a =E2=80=9Cptrace me and turn off CET=E2=80=9D gadget, then=
+ they might as well just do =E2=80=9Cptrace me and write shell code=E2=80=9D=
+ instead. It=E2=80=99s basically the same gadget. Keep in mind that the actu=
+al sequence of syscalls to do this is incredibly complicated.
+
+It=E2=80=99s unclear to me that forcing CET on belongs in the kernel at all.=
+  By the time an attacker can find a non-CET ELF binary and can exec it in a=
+ context where it does their bidding, the attacker is far beyond what CET ca=
+n even try to help. At this point we=E2=80=99re talking about an attacker wh=
+o can effectively invoke system(3) with arbitrary parameters, and attackers w=
+ith *that* power don=E2=80=99t need ROP and the like.
+
+There is a new feature I=E2=80=99d like to see, though: add an ELF note to b=
+less a binary as being an ELF interpreter. And add an LSM callback to valida=
+te an ELF interpreter.  Let=E2=80=99s minimize the shenanigans that people w=
+ho control containers can get up to. (Obviously the ELF note part would need=
+ to be opt-in.)=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
