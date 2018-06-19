@@ -1,188 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B4DE57D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 17:20:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AEE987D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 17:22:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966483AbeFSRUI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 13:20:08 -0400
-Received: from mail-pl0-f65.google.com ([209.85.160.65]:33275 "EHLO
-        mail-pl0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S966502AbeFSRUG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 13:20:06 -0400
-Received: by mail-pl0-f65.google.com with SMTP id 6-v6so206237plb.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 10:20:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=GlGVxOfc/4SeVv8qRH9Agv8rkOuTFAZd92nwAvRCJ0o=;
-        b=BsU5QsUe/wEkagMPkV3NWNGu5UvVOEH0svlXrWMWZZogelDZExqbv/fS58UFJ+d0Gr
-         wKfGy92cexSNL5Nw/2LOhGvgygJBEgrdoFUn0OE9O8MT0bP1j6ri30X5Vm6a802Y8MxM
-         GSInF+Cd77bswYK0gKxvN/YSbdXggNF7pzrr0VYF9GiAoQIYvk7ZsYeuRYICt8+enC7B
-         Zj7ziwYBd3J2RYffTmllgkC7JZP9mQQpSFlRMIP7zzFt/JmD2yCbNof1EMt7SGpTHq15
-         n2VfLe18o06akOZuu5od5fhLGW+utr3kCUD53fZDQwnVvs2Xpx8D3Rlc6b87P/pwwc40
-         gKtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=GlGVxOfc/4SeVv8qRH9Agv8rkOuTFAZd92nwAvRCJ0o=;
-        b=NPb4JBFUmHaurS6YYqHieItcmL+GgMF6t+UeNU+yIbJgtbj6Q5eNRxI+fqjn/fFI5P
-         D+ogpNGWOqb4b6y8ggUBKAuwmi0mP3BI3lfCZSbTTfQXYLnwzUMhsJBVJQk4bnXzZQsm
-         E25vvJtT80iN3l2lv1r1J067dq9NFxC6yyWcL+ycYguJW3mO30OTOr59tfDSBby0wqqZ
-         TB1ZWOYqu/z8+LkAmcfKtYD0xJ2Lmvq61UY9nja9rPZf3o15YeEU/etInSoC/Hl9R4AQ
-         KatDg8bg9v/yXgr+AyQPbnG9rruXQVlPoXFQVhAK+U9H2suQnx7yG8QbL8vqA5E5WGp5
-         P7WQ==
-X-Gm-Message-State: APt69E0fCKhpir8PXpJ/pxdyRdi7xzB7QJZKd0zea6cL3dx/zRUc4pjM
-        YwNy/rHv0s977NAeYPm4y8r1Yg==
-X-Google-Smtp-Source: ADUXVKLES6jUj9+q4BWj7fEguqe7zRm2LzEpO9yeKW1Zl/AGjlh+uXWgTFke7cNUyHvAxytW3X21Xg==
-X-Received: by 2002:a17:902:bd8f:: with SMTP id q15-v6mr20125996pls.161.1529428806064;
-        Tue, 19 Jun 2018 10:20:06 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b023:c12a:9165:dc8d:85a7:914? ([2600:1010:b023:c12a:9165:dc8d:85a7:914])
-        by smtp.gmail.com with ESMTPSA id e16-v6sm236813pfn.46.2018.06.19.10.20.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Jun 2018 10:20:04 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (15F79)
-In-Reply-To: <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
-Date:   Tue, 19 Jun 2018 10:20:03 -0700
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S966551AbeFSRWe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 13:22:34 -0400
+Received: from hurricane.elijah.cs.cmu.edu ([128.2.209.191]:55466 "EHLO
+        hurricane.elijah.cs.cmu.edu" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S966502AbeFSRWe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 13:22:34 -0400
+X-Greylist: delayed 1549 seconds by postgrey-1.27 at vger.kernel.org; Tue, 19 Jun 2018 13:22:33 EDT
+Received: from [127.0.0.1] (helo=cs.cmu.edu)
+        by hurricane.elijah.cs.cmu.edu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.91)
+        (envelope-from <jaharkes@cs.cmu.edu>)
+        id 1fVJvt-0004HT-3S; Tue, 19 Jun 2018 12:56:41 -0400
+Date:   Tue, 19 Jun 2018 12:56:33 -0400
+From:   Jan Harkes <jaharkes@cs.cmu.edu>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     y2038@lists.linaro.org, Jonathan Corbet <corbet@lwn.net>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] coda: stop using 'struct timespec' in user API
+Message-ID: <20180619165633.acyxrweiedyhvre7@cs.cmu.edu>
+Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>, y2038@lists.linaro.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0AF8B71E-B6CC-42DE-B95C-93896196C3D7@amacapital.net>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
- <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
- <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
- <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
- <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
- <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
- <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
- <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
- <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
- <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
- <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de>
- <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
- <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
- <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
- <569B4719-6283-4575-A16E-D0A78D280F4E@amacapital.net> <CAGXu5jJNgu4bW_Zthqjfpe9gLxK0zxG8QFEqqK+pJNebz6tUaw@mail.gmail.com>
- <1529427588.23068.7.camel@intel.com> <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
-To:     Kees Cook <keescook@chromium.org>
+        Deepa Dinamani <deepa.kernel@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20180619153822.3638475-1-arnd@arndb.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180619153822.3638475-1-arnd@arndb.de>
+User-Agent: NeoMutt/20180512
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jun 19, 2018 at 05:37:35PM +0200, Arnd Bergmann wrote:
+> Unfortunately, this breaks the layout of the coda_vattr structure, so
+> we need to redefine that in terms of something that does not change.
+> I'm introducing a new 'struct vtimespec' structure here that keeps
+> the existing layout, and the same change has to be done in the coda
+> user space copy of linux/coda.h before anyone can use that on a 32-bit
+> architecture with 64-bit time_t.
 
+This looks good to me.
 
-> On Jun 19, 2018, at 10:07 AM, Kees Cook <keescook@chromium.org> wrote:
->=20
->> On Tue, Jun 19, 2018 at 9:59 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrot=
-e:
->>> On Tue, 2018-06-19 at 09:44 -0700, Kees Cook wrote:
->>> On Tue, Jun 19, 2018 at 7:50 AM, Andy Lutomirski <luto@amacapital.net
->>>> wrote:
->>>>=20
->>>>>=20
->>>>> On Jun 18, 2018, at 5:52 PM, Kees Cook <keescook@chromium.org>
->>>>> wrote:
->>>>> Following Linus's request for "slow introduction" of new security
->>>>> features, likely the best approach is to default to "relaxed"
->>>>> (with a
->>>>> warning about down-grades), and allow distros/end-users to pick
->>>>> "forced" if they know their libraries are all CET-enabled.
->>>> I still don=E2=80=99t get what =E2=80=9Crelaxed=E2=80=9D is for.  I thi=
-nk the right design
->>>> is:
->>>>=20
->>>> Processes start with CET on or off depending on the ELF note, but
->>>> they start with CET unlocked no matter what. They can freely switch
->>>> CET on and off (subject to being clever enough not to crash if they
->>>> turn it on and then return right off the end of the shadow stack)
->>>> until they call ARCH_CET_LOCK.
->>> I'm fine with this. I'd expect modern loaders to just turn on CET and
->>> ARCH_CET_LOCK immediately and be done with it. :P
->>=20
->> This is the current implementation.  If the loader has CET in its ELF
->> header, it is executed with CET on.  The loader will turn off CET if
->> the application being loaded does not support it (in the ELF header).
->> The loader calls ARCH_CET_LOCK before passing to the application.  But
->> how do we handle dlopen?
->=20
-> I thought CET_LOCK would not get set in "relaxed" mode, due to dlopen
-> usage, and that would be the WARN case. People without dlopen concerns
-> can boot with "enforced" mode? If a system builder knows there are no
-> legacy dlopens they build with enforced enabled, etc.
+> An open question is what should happen to actual times past y2038,
+> as they are now truncated to the last valid date when sent to user
 
-I think we=E2=80=99re getting ahead of ourselves. dlopen() of a non-CET-awar=
-e library in a CET process is distinctly non-trivial, especially in a multit=
-hreaded process. I think getting it right will require *userspace* support. =
- It certainly needs ld.so to issue to arch_prctl at a bare minimum. So I see=
- no point to a kernel-supplied =E2=80=9Crelaxed=E2=80=9D mode. I think there=
- may be demand for a ld.so relaxed mode, but it will have nothing to do with=
- boot options.
+That is definitely quite a hard problem because this propagates all the
+way back to the Coda file servers and how they store metadata.
+In fact the existing client-server protocol only uses 32-bit time in
+seconds, so we already lose the nanosecond resolution and 64-bit systems
+don't actually benefit from having the extra bits in their struct timespec.
 
-It=E2=80=99s potentially helpful to add an arch_prctl that turns CET off for=
- all threads, but only if unlocked. It would obviously be one hell of a gadg=
-et.
+Not exposing an internal kernel datatype is definitely an improvement,
+so this is an ACK for me.
 
->=20
->>>> Ptrace gets new APIs to turn CET on and off and to lock and unlock
->>>> it.  If an attacker finds a =E2=80=9Cptrace me and turn off CET=E2=80=9D=
- gadget,
->>>> then they might as well just do =E2=80=9Cptrace me and write shell code=
-=E2=80=9D
->>>> instead. It=E2=80=99s basically the same gadget. Keep in mind that the
->>>> actual sequence of syscalls to do this is incredibly complicated.
->>> Right -- if an attacker can control ptrace of the target, we're way
->>> past CET. The only concern I have, though, is taking advantage of
->>> expected ptracing. For example: browsers tend to have crash handlers
->>> that launch a ptracer. If ptracing disabled CET for all threads, this
->>> won't by safe: an attacker just gains control in two threads, crashes
->>> one to get the ptracer to attach, which disables CET in the other
->>> thread and the attacker continues ROP as normal. As long as the
->>> ptrace
->>> disabling is thread-specific, I think this will be okay.
->>=20
->> If ptrace can turn CET on/off and it is thread-specific, do we still
->> need ptrace lock/unlock?
+Jan
 
-Let me clarify. I don=E2=80=99t think ptrace() should have any automatic eff=
-ect on CET. I think there should be an explicit way to ask ptrace to twiddle=
- CET, and it should probably apply per thread.
-
->=20
-> Does it provide anything beyond what PR_DUMPABLE does?
-
-What do you mean?
-
-
->=20
-> -Kees
->=20
-> --=20
-> Kees Cook
-> Pixel Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
