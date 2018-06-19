@@ -1,176 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9037C7D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 05:04:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 55A447D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 05:39:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752308AbeFSFEH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 01:04:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45952 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751777AbeFSFEG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 01:04:06 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5J543Pa102809
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 01:04:06 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jptjrsms3-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 01:04:05 -0400
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Tue, 19 Jun 2018 06:03:56 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 19 Jun 2018 06:03:53 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5J53qJC34996370
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 19 Jun 2018 05:03:52 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 00F7E42047;
-        Tue, 19 Jun 2018 05:53:54 +0100 (BST)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8FFBB42041;
-        Tue, 19 Jun 2018 05:53:53 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.236])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Tue, 19 Jun 2018 05:53:53 +0100 (BST)
-Date:   Tue, 19 Jun 2018 08:03:50 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] Documentation/sphinx: add "nodocs" directive
-References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1529328996-16247-2-git-send-email-rppt@linux.vnet.ibm.com>
- <87h8lzyicj.fsf@intel.com>
+        id S1755943AbeFSFjL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 01:39:11 -0400
+Received: from mail-yw0-f194.google.com ([209.85.161.194]:44036 "EHLO
+        mail-yw0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755840AbeFSFjK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 01:39:10 -0400
+Received: by mail-yw0-f194.google.com with SMTP id k18-v6so5919861ywm.11;
+        Mon, 18 Jun 2018 22:39:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=jRmR9Ir7Hxv5BEAB9O55qM501tg9AC56/e8gCFTlL5Q=;
+        b=r6YkbgiSr4Y4r+cexYf0i3G61id72X8ZJAoHbS9YFPg6jfWKLeSXg+35yFhZHKvysE
+         rge/w7hEPJUClhwY3cECuugEFz4/6J/lvDJj4oLSFXUX50jQjFOiNcGkTjvaeZiSYjI3
+         2TA3rROxABmPZE+qaILiUJceJbg1EZn7BdMpCtT0x3laSypWtadnK4Rvnz4AtfMjjgMy
+         oXNFpdcB897XkwSLoOkevJT4aEoJPPObnB9st+dCDnouoPB/4pFtApcs1ccfYqp6MBgY
+         7qxiOIVdxD2QazZWDZq+hoT7yoS/j7bWpVOO52SDjMesK7/7vdDahNP0xaKbD9at/3IS
+         qQ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=jRmR9Ir7Hxv5BEAB9O55qM501tg9AC56/e8gCFTlL5Q=;
+        b=Hy3plJJxuUrmCBqhH04vIK3DqrQk9iTUfE01j+glsAP/riZhOaVFQffQ8eH5aoTpZ2
+         pgBkEXvHq5ks7KW0brcgEWfjtKhfILnXkJYxCT61+/o8TI/nbvi90FKPfevXapsycmt/
+         i0rVmr8yc5MXFyFa82aFf5UNFMiVzs8Ylijzqr+U9SHCdOoYxOP1XyvISoPvWIR+BiXk
+         dWgDskHMZoM8YQ/mIQggGLjazjnEa8P5OPLXtLu2Lak1/wROwiSlSSA3cYEXafDDnO5Z
+         FAvPd2C3nkAGCbgFXVl1T4BqUATTSMlLmbiOwbuIrY6YrSry/1+3b9iodPciN2vF0F1b
+         HWTg==
+X-Gm-Message-State: APt69E31ZHSbvgfJKhza9QyQvmtnrbedc8/4qYRcVxXA9Y47jvB8+j8P
+        9w1hw9dR4vynNH5o/9vFwKidRGTHBy5OuFzuxZE=
+X-Google-Smtp-Source: ADUXVKINlblthn20A38UfvkX9aamIqfqfwN7Tu4XkLkWOltOpsbh61F0gpb995G9X6ELGdzQqIKigCphjGQEomMKq6Q=
+X-Received: by 2002:a81:3050:: with SMTP id w77-v6mr7146341yww.88.1529386749151;
+ Mon, 18 Jun 2018 22:39:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87h8lzyicj.fsf@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18061905-0028-0000-0000-000002D2588F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18061905-0029-0000-0000-000023899506
-Message-Id: <20180619050349.GA19099@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-19_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1805220000 definitions=main-1806190058
+Received: by 2002:a81:79cf:0:0:0:0:0 with HTTP; Mon, 18 Jun 2018 22:39:08
+ -0700 (PDT)
+In-Reply-To: <87in6fagxw.fsf@xmission.com>
+References: <20180618192726.67981-1-salyzyn@android.com> <87in6fagxw.fsf@xmission.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 19 Jun 2018 08:39:08 +0300
+Message-ID: <CAOQ4uxjepYO+UqED2is-Qcxs=nYypOtY6LhvRxrJeKiLxduU0g@mail.gmail.com>
+Subject: Re: [PATCH v2] overlayfs: caller_credentials option bypass creator_cred
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Mark Salyzyn <salyzyn@android.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 18, 2018 at 11:01:32PM +0300, Jani Nikula wrote:
-> On Mon, 18 Jun 2018, Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-> > When kernel-doc:: specified in .rst document without explicit directives,
-> > it outputs both comment and DOC: sections. If a DOC: section was explictly
-> > included in the same document it will be duplicated. For example, the
-> > output generated for Documentation/core-api/idr.rst [1] has "IDA
-> > description" in the "IDA usage" section and in the middle of the API
-> > reference.
-> >
-> > Addition of "nodocs" directive prevents the duplication without the need to
-> > explicitly define what functions should be include in the API reference.
-> >
-> > [1] https://www.kernel.org/doc/html/v4.17/core-api/idr.html
-> >
-> > Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> > ---
-> >  Documentation/sphinx/kerneldoc.py | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-> > index fbedcc3..bc5dd05 100644
-> > --- a/Documentation/sphinx/kerneldoc.py
-> > +++ b/Documentation/sphinx/kerneldoc.py
-> > @@ -50,6 +50,7 @@ class KernelDocDirective(Directive):
-> >          'functions': directives.unchanged_required,
-> >          'export': directives.unchanged,
-> >          'internal': directives.unchanged,
-> > +        'nodocs': directives.unchanged,
-> 
-> I'm not convinved this is the prettiest way to achieve what you
-> want. 'nodocs' seems kind of clunky.
-> 
-> I'd suggest supporting 'functions' without option arguments, and turning
-> that into kernel-doc -no-doc-sections.
+On Tue, Jun 19, 2018 at 1:05 AM, Eric W. Biederman
+<ebiederm@xmission.com> wrote:
+> Mark Salyzyn <salyzyn@android.com> writes:
+>
+>> All accesses to the lower filesystems reference the creator (mount)
+>> context.  This is a security issue as the user context does not
+>> overlay the creator context.
+>
+> Sigh.  You gave Vivek a reasonable description of what is going on
+> and then you did not repeat it here.  Your patch description
+> very much needs to be fixed.
+>
+> As I read your patch there you are removing an override in credentials.
+> Presumably that override is needed for the fileystem to function.
+>
+> If that override is needed to function your patch is incorrect
+> because it breaks things for no reason.
+>
+> If that override is not needed it should be safe to explain why
+> and simply remove it from overlayfs.
+>
 
-Do you mean something like this:
+Eric is correct about override being needed for filesystem to function
+because overlayfs calls mknod and sets trusted xattr.
 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index fbedcc3..9d0a7f0 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -47,7 +47,7 @@ class KernelDocDirective(Directive):
-     optional_arguments = 4
-     option_spec = {
-         'doc': directives.unchanged_required,
--        'functions': directives.unchanged_required,
-+        'functions': directives.unchanged,
-         'export': directives.unchanged,
-         'internal': directives.unchanged,
-     }
-@@ -75,8 +75,12 @@ class KernelDocDirective(Directive):
-         elif 'doc' in self.options:
-             cmd += ['-function', str(self.options.get('doc'))]
-         elif 'functions' in self.options:
--            for f in str(self.options.get('functions')).split():
--                cmd += ['-function', f]
-+            functions = self.options.get('functions').split()
-+            if functions:
-+                for f in functions:
-+                    cmd += ['-function', f]
-+            else:
-+                cmd += ['-no-doc-sections']
- 
-         for pattern in export_file_patterns:
-             for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
+Alas, overlayfs makes an assumption that if mounter has credentials
+to mount, it also has credentials for those other things, which so far,
+nobody complained about AFAIK.
 
-> The usage in patch 2/2 would turn into:
-> 
-> .. kernel-doc:: include/linux/idr.h
->    :functions:
-> 
-> which I think is much better overall in the rst source, complementing
-> the places where you use :doc:.
-> 
-> BR,
-> Jani.
-> 
-> >      }
-> >      has_content = False
-> >  
-> > @@ -77,6 +78,8 @@ class KernelDocDirective(Directive):
-> >          elif 'functions' in self.options:
-> >              for f in str(self.options.get('functions')).split():
-> >                  cmd += ['-function', f]
-> > +        elif 'nodocs' in self.options:
-> > +            cmd += ['-no-doc-sections']
-> >  
-> >          for pattern in export_file_patterns:
-> >              for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-> 
+There was one complain though about abusing SYS_CAP_RESOURCE
+of mounter to exceed underlying ext4 quotas, so that capability has been
+recently revoked unconditionally from the override creds - that makes a user
+with SYS_CAP_RESOURCE also incapable of exceeding underlying ext4
+quotas (a good thing IMO, but that is arguable).
 
--- 
-Sincerely yours,
-Mike.
+Ideally, the correct solution would be to "merge" the mounter creds and
+caller creds and use different combinations of the two in different cases,
+but that would complicate the code and the test matrix considerably.
 
+> I don't see any real explanations in this change description.
+> So this appears to be an incompletely thought out change.
+>
+>
+> Mostly this looks like someone tried to use the principle of least
+> privilege in your Android implementation and got it wrong.  Having given
+> the mounter of overlayfs too few privileges this appears to be an
+> attempt to get overlayfs to pay the cost of an implementation mistake in
+> the Android security model.
+>
+> That seems like a very unreasonable thing to do.
+>
+
+To the best of my knowledge, the Android sepolicy rules for init have been
+like that for a very long time. I am not sure why Eric claims the unreasonable
+claim. Not sure who the users of overlayfs are going to be though and if
+it is possible to guaranty that they have capabilities to mknod and set trusted
+xattr (needed for removing dirs among other things).
+
+As it is, the patch is simple enough and only makes an existing functionality
+optional, so if it *really* solves the Android use case, and there is
+*really* no
+other "reasonable" way to configure Android sepolicy, I rather have this patch
+than the more "correct" implementation.
+
+Two comments about the patch in case we are going forward with it:
+
+1. I would use the same convention for Kconfig/module param/mount option
+as used for other overlayfs defaults, i.e. override_creds=on/off and Kconfig
+default which defaults to the legacy behavior.
+
+2. with override_creds=off, all the checks being done during mount become
+irrelevant (e.g. mounter can set trusted xattr), so either skip them and issue
+a warning saying that we really hope mounter knows what it is doing, or
+I don't know what.
+
+Thanks,
+Amir.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
