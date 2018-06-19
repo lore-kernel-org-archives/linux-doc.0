@@ -1,40 +1,40 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BODY_URI_ONLY,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B87AD7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 20:25:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D8B57D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 20:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S967224AbeFSUZK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 16:25:10 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:58212 "EHLO
+        id S1755415AbeFSUhO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 16:37:14 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:60346 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1757263AbeFSUYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 16:24:10 -0400
+        with ESMTP id S1754833AbeFSUhN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 16:37:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=iPfuRF8/lB1y9WixdTQfIf+ZaHyxQoHHsRa1eKKlV6w=; b=tJc5uYWgi69iMOvVgFBOm1dbq
-        MzjQJwB49at68n+oZYWbuTpuuRE1qn5YGoFH27dnQDEDiRv3WkGK/kJd97qhty//tHXLS4iONV0lm
-        oddT+DeYXbInJwnAOLgUux5wx+uKotHpKnQENLPBjYgxVIlgZlPqGW8/TunOTJDeGz2ULPpfJdJOV
-        EwJQ0sNc9znMlqnfO6jVxUS0TpxzOsVQrOdQyWnayp8K26y8chI44dJshtjjvmtI65qzIktDWhZuj
-        lS3HCYKX3kG2f6hVE/wlSYb8fghJ1cvgVIKmJ7YkvsMxFGCFOoQB7htsLqtw26XVt/zP/zAbUFv4t
-        9/2jtR0EA==;
+         bh=QjXU9IOxBSRq8l8t7Gq3E1JCR+JKlsFvlmuYEzsC/98=; b=BoEe/frRRVmmby48pdpM7PShN
+        RGyAiBvg6adIx8xltI4SYbWnO1pkko7SqAGKMQBk51w3rSU+OMZ/N8cJ3CH3Uv3E+EIOhihYg3lMO
+        iQ3FictP8ACYHWsOd3OLNSzLidMpaRI0uXZOCGYkiLLQ521hZUH7mvq+NpgjHme2zeMzvMwdCFFV4
+        AJLopko6kYrqzVhCF0SpnQZy1YoLG8qlxqDI72ji0mIZb2r6JN7M7kf9x7aAmBcMS28hEDtgBDh57
+        oUdaPnUfGfl2+7++FBqH/3Bf7cB6M3mtuoXt6R3t7nVFS/1vtz4uXRGf7S34qEIyE+4w6ht3f8r00
+        eq8PcsITQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fVNAB-0008No-E7; Tue, 19 Jun 2018 20:23:39 +0000
+        id 1fVNMw-0000jc-Hw; Tue, 19 Jun 2018 20:36:50 +0000
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7E16F20298BAC; Tue, 19 Jun 2018 22:23:36 +0200 (CEST)
-Date:   Tue, 19 Jun 2018 22:23:36 +0200
+        id 513562026ACCD; Tue, 19 Jun 2018 22:36:49 +0200 (CEST)
+Date:   Tue, 19 Jun 2018 22:36:49 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, x86@kernel.org,
         platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
         sean.j.christopherson@intel.com, nhorman@redhat.com,
         npmccallum@redhat.com, Alexei Starovoitov <ast@kernel.org>,
@@ -65,25 +65,22 @@ Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
         Tom Lendacky <thomas.lendacky@amd.com>,
         Vikas Shivappa <vikas.shivappa@linux.intel.com>
 Subject: Re: [PATCH v11 00/13] Intel SGX1 support
-Message-ID: <20180619202336.GU2458@hirez.programming.kicks-ass.net>
+Message-ID: <20180619203649.GI2476@hirez.programming.kicks-ass.net>
 References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
  <20180612105011.GA26931@amd>
  <20180619145943.GC8034@linux.intel.com>
- <20180619200414.GA3143@amd>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180619200414.GA3143@amd>
+In-Reply-To: <20180619145943.GC8034@linux.intel.com>
 User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 19, 2018 at 10:04:15PM +0200, Pavel Machek wrote:
-> What are some non-evil uses for SGX?
 
-Soft-TPM is one that was proposed at some time.
+*sigh*, could you not cross-post with closed/moderated lists, that's rude.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
