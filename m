@@ -1,322 +1,197 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B44B67D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 00:32:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 979C87D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 00:52:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S937095AbeFSAcU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Jun 2018 20:32:20 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:44863 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S937066AbeFSAcS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 20:32:18 -0400
-Received: by mail-ua0-f193.google.com with SMTP id f30-v6so11929866uab.11;
-        Mon, 18 Jun 2018 17:32:17 -0700 (PDT)
+        id S937117AbeFSAwd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Jun 2018 20:52:33 -0400
+Received: from mail-yb0-f196.google.com ([209.85.213.196]:35791 "EHLO
+        mail-yb0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S937110AbeFSAwb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jun 2018 20:52:31 -0400
+Received: by mail-yb0-f196.google.com with SMTP id a16-v6so3831085ybm.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jun 2018 17:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
+        d=google.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
          :subject:to:cc;
-        bh=GFd7jA8yU6feOsR4M5Aru73EUraUje/YrmOlMlYp1b8=;
-        b=E4+7PgFoWwlaHwFQoD45LgT1o8CE/dGLLL4w6eNUzGOAmm0wQh330j9B4I1xVhJOSK
-         /sYyN2I9e3SBkImhq+YUURdD33PQ+y7KFtR9pgkicUBTkspiYwtUDcuaWBa1Xr0g8+ye
-         A4TP67z5YVXvwoeAtk9QWfYp4mWMJSYxZJUJ0/agblynTz/ZcDabA0UJobFO5lrWIDEC
-         ZIJcqXTlt71i3Vh+mQOwS+Ju6yqk41zbisjds/6GKKcpBIfwwWg0Ea8z7BrkJmk1jhBR
-         w4En+7t+Gjf+IxTe9JAUnkqlzjcRqZnN4+eUDQGy4zwfxG6gwW2dfXDipknbMVU7xK7d
-         wSXw==
+        bh=H/DiTEMRqdssEpzUJiBr2tdwek6sh/YMggOPpeO9quQ=;
+        b=AbfwXImOalCbEkZeRgEoEbzggiSQv5iPwZN1hIRqGfd93s/jLgVkXz3V/fIq91QUFR
+         t8TOffKl/Iglde9H5kTQ6Rbe3IkBLpRDw30KNtFVYVkfc29eD0gMOeTqCkzKf3XiY3dY
+         UBeqsWIuNJtNg48sMjDkV3EnN+hsie5o2z4lPrRBfwZ56SOytk22qg98XT07NDXDfr3u
+         vkwgeW91X+Y4JwmhDYkuL+m6ZkMW1WWBSiTuLNl+Aegv9ta+y1nJRnbgFuG9GiwWEDBr
+         JSsin/VWmcgAq2z4rBt+//4v79hMuAMjZhvgRsuDrFmVESeKw8DGUEf4B0q+RaCTzoX1
+         QP6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=H/DiTEMRqdssEpzUJiBr2tdwek6sh/YMggOPpeO9quQ=;
+        b=mZk7F++ZgH3eK0HuVqXwHbBiprN6ofWPLknwlqifYEgsC4aUC2jl9Xe6y//qp1b+Ot
+         Up2R2J0YVWNsyAeZQwpfomsVkXa5oyZ+Tk+DganTxcgEkrgiEsm9/Cy9bEdLezQK0j3i
+         GflP+cqDjc9YVWlf5mX8hRxFEO0aojDMjxZWI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
-         :from:date:message-id:subject:to:cc;
-        bh=GFd7jA8yU6feOsR4M5Aru73EUraUje/YrmOlMlYp1b8=;
-        b=q5dIA/gFRdiRbAERx7ds4ryFCbHnrAGlq1kVFLTFT8ne0zvMRZl/o4tt0SXdMl3OQR
-         S+zUKfQqxUgyOUXOsY2iNVnqKcgJ9IRiCi7d2U6aCoY4emFC9hAqb24na9un05IJSdmW
-         G2AK8H3jzSgBe1By89DIxflwy036aYVUzghdKJoCMQQ1yqilmChNzjmakYB6ZxsMloe0
-         MsrNMbEU/UO862YMIiQbuu2ty7kL+emNNEHut0obdMTyqI4kbKFbCuDNeHu4jJn2UysR
-         ubme1BkTsJbNWD4gUzJJwDQWbAJ/rnkxX9mQpFfhY3dW7A+woLgVvApFOpwpO0N28awe
-         szlg==
-X-Gm-Message-State: APt69E3eLrzi9HZvmFqDxBKkGpeOj9alOKWtaxlm/YidMn9mK73xK5dc
-        wJk/NYeudjuXVx8Z+seZDoCKNcxzflCL/Ty4cw4=
-X-Google-Smtp-Source: ADUXVKJd9pxylBBlB2XnefHA3VcGd8GB5hvr4erIDTZZQR/25/1kKlpKRQ4kgTFyWMfI7Bxy7zmgIIz2kDg6HGcuc0M=
-X-Received: by 2002:ab0:1571:: with SMTP id p46-v6mr8507126uae.129.1529368336971;
- Mon, 18 Jun 2018 17:32:16 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=H/DiTEMRqdssEpzUJiBr2tdwek6sh/YMggOPpeO9quQ=;
+        b=pHHaP3EFAoQgRjgmboKDEp+RdnhcIT2Douh1RSCqDb8/p+SpcyX5ed/Y7jYW5GFH7v
+         ugxI7oQtGO/lF6bUN96XLxZ2JIz3tQysJbAX900QFUiqYyocFbnm5+Iqd7/7QxaqPP1e
+         OZoPxUSyzPYykH15+mfPSma66hyfuNKWvjOh0PRiTYKtELHA7z+TR+nXOIbmN/SzXaPw
+         2ugGM+y1zbO0A7IZmDlrVtdYZKPiz3ZhxSUjeZz3jngFYE3DHdM8Ms73caVU3FBhDK3k
+         gcqR3lhu1M8NSava+/ihcQwwJ2P4DSnnrKhKlobILydtwL9IV22dIsq/IsKW9P9VDojm
+         pT/g==
+X-Gm-Message-State: APt69E1r0ghx4/VpZjI7B0aIFcJ4+Bs/ghxX2Xag5GniC1mt9yL7uam2
+        SbTvUFXsYss35VH9LnlH+ZclKBDj+cuYR22l+fxKBg==
+X-Google-Smtp-Source: ADUXVKLM9alKiGq19CM8SBRivA7UsHjqbzHydD3AewZ3Y98zMM6DVJMRdDeTxkLHrlpGsIGquE8CohxKqnye3UPvdrY=
+X-Received: by 2002:a25:be41:: with SMTP id d1-v6mr7383677ybm.309.1529369550987;
+ Mon, 18 Jun 2018 17:52:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a67:3593:0:0:0:0:0 with HTTP; Mon, 18 Jun 2018 17:32:16
+Received: by 2002:a25:d6c5:0:0:0:0:0 with HTTP; Mon, 18 Jun 2018 17:52:29
  -0700 (PDT)
-Reply-To: rajatxjain@gmail.com
-In-Reply-To: <CACK8Z6EHDv0d5zwgKj2N+DyxKEj9dVkSoN2Y_HTOKv8L9p-OAg@mail.gmail.com>
-References: <20180522222805.80314-1-rajatja@google.com> <20180523175808.28030-1-rajatja@google.com>
- <20180523175808.28030-6-rajatja@google.com> <c27290dd401bb2954db4959559c39a00@codeaurora.org>
- <CACK8Z6EHDv0d5zwgKj2N+DyxKEj9dVkSoN2Y_HTOKv8L9p-OAg@mail.gmail.com>
-From:   Rajat Jain <rajatxjain@gmail.com>
-Date:   Mon, 18 Jun 2018 17:32:16 -0700
-Message-ID: <CAA93t1qv6T+-cF=oDY572RDSGTaSCaCpD3NoJuL8u2ZzvR_8yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] Documentation/ABI: Add details of PCI AER statistics
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Oza Pawandeep <poza@codeaurora.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+In-Reply-To: <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
+ <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
+ <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+ <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
+ <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
+ <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
+ <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
+ <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
+ <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+ <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
+ <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de>
+ <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com> <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Mon, 18 Jun 2018 17:52:29 -0700
+X-Google-Sender-Auth: W3E9QM-W4iYEUT9vp0oMZ-XjsmE
+Message-ID: <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "H. J. Lu" <hjl.tools@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        "Busch, Keith" <keith.busch@intel.com>,
-        Gabriele Paoloni <gabriele.paoloni@huawei.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jes Sorensen <jsorensen@fb.com>, Kyle McMartin <jkkm@fb.com>
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry, correction needed in my statement below:
+On Mon, Jun 18, 2018 at 3:03 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> On Tue, Jun 12, 2018 at 12:34 PM H.J. Lu <hjl.tools@gmail.com> wrote:
+>>
+>> On Tue, Jun 12, 2018 at 11:59 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+>> > On Tue, 12 Jun 2018, H.J. Lu wrote:
+>> >> On Tue, Jun 12, 2018 at 9:34 AM, Andy Lutomirski <luto@kernel.org> wrote:
+>> >> > On Tue, Jun 12, 2018 at 9:05 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+>> >> >> On Tue, Jun 12, 2018 at 9:01 AM, Andy Lutomirski <luto@kernel.org> wrote:
+>> >> >> > On Tue, Jun 12, 2018 at 4:43 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+>> >> >> >> On Tue, Jun 12, 2018 at 3:03 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+>> >> >> >> > That works for stuff which loads all libraries at start time, but what
+>> >> >> >> > happens if the program uses dlopen() later on? If CET is force locked and
+>> >> >> >> > the library is not CET enabled, it will fail.
+>> >> >> >>
+>> >> >> >> That is to prevent disabling CET by dlopening a legacy shared library.
+>> >> >> >>
+>> >> >> >> > I don't see the point of trying to support CET by magic. It adds complexity
+>> >> >> >> > and you'll never be able to handle all corner cases correctly. dlopen() is
+>> >> >> >> > not even a corner case.
+>> >> >> >>
+>> >> >> >> That is a price we pay for security.  To enable CET, especially shadow
+>> >> >> >> shack, the program and all of shared libraries it uses should be CET
+>> >> >> >> enabled.  Most of programs can be enabled with CET by compiling them
+>> >> >> >> with -fcf-protection.
+>> >> >> >
+>> >> >> > If you charge too high a price for security, people may turn it off.
+>> >> >> > I think we're going to need a mode where a program says "I want to use
+>> >> >> > the CET, but turn it off if I dlopen an unsupported library".  There
+>> >> >> > are programs that load binary-only plugins.
+>> >> >>
+>> >> >> You can do
+>> >> >>
+>> >> >> # export GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK
+>> >> >>
+>> >> >> which turns off shadow stack.
+>> >> >>
+>> >> >
+>> >> > Which exactly illustrates my point.  By making your security story too
+>> >> > absolute, you'll force people to turn it off when they don't need to.
+>> >> > If I'm using a fully CET-ified distro and I'm using a CET-aware
+>> >> > program that loads binary plugins, and I may or may not have an old
+>> >> > (binary-only, perhaps) plugin that doesn't support CET, then the
+>> >> > behavior I want is for CET to be on until I dlopen() a program that
+>> >> > doesn't support it.  Unless there's some ABI reason why that can't be
+>> >> > done, but I don't think there is.
+>> >>
+>> >> We can make it opt-in via GLIBC_TUNABLES.  But by default, the legacy
+>> >> shared object is disallowed when CET is enabled.
+>> >
+>> > That's a bad idea. Stuff has launchers which people might not be able to
+>> > change. So they will simply turn of CET completely or it makes them hack
+>> > horrible crap into init, e.g. the above export.
+>> >
+>> > Give them sane kernel options:
+>> >
+>> >      cet = off, relaxed, forced
+>> >
+>> > where relaxed allows to run binary plugins. Then let dlopen() call into the
+>> > kernel with the filepath of the library to check for CET and that will tell
+>> > you whether its ok or or not and do the necessary magic in the kernel when
+>> > CET has to be disabled due to a !CET library/application.
+>> >
+>> > That's also making the whole thing independent of magic glibc environment
+>> > options and allows it to be used all over the place in the same way.
+>>
+>> This is very similar to our ARCH_CET_EXEC proposal which controls how
+>> CET should be enforced.   But Andy thinks it is a bad idea.
+>
+> I do think it's a bad idea to have a new piece of state that survives
+> across exec().  It's going to have nasty usability problems and nasty
+> security problems.
+>
+> We may need a mode by which glibc can turn CET *back off* even after a
+> program had it on if it dlopens() an old binary.  Or maybe there won't
+> be demand.  I can certainly understand why the CET_LOCK feature is
+> there, although I think we need a way to override it using something
+> like ptrace().  I'm not convinced that CET_LOCK is really needed, but
+> someone who understand the thread model should chime in.
+>
+> Kees, do you know anyone who has a good enough understanding of
+> usermode exploits and how they'll interact with CET?
 
-On Mon, Jun 18, 2018 at 5:11 PM, Rajat Jain <rajatja@google.com> wrote:
-> Hello,
->
-> On Sat, Jun 16, 2018 at 10:24 PM <poza@codeaurora.org> wrote:
->>
->> On 2018-05-23 23:28, Rajat Jain wrote:
->> > Add the PCI AER statistics details to
->> > Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
->> > and provide a pointer to it in
->> > Documentation/PCI/pcieaer-howto.txt
->> >
->> > Signed-off-by: Rajat Jain <rajatja@google.com>
->> > ---
->> > v2: Move the documentation to Documentation/ABI/
->> >
->> >  .../testing/sysfs-bus-pci-devices-aer_stats   | 103 ++++++++++++++++++
->> >  Documentation/PCI/pcieaer-howto.txt           |   5 +
->> >  2 files changed, 108 insertions(+)
->> >  create mode 100644
->> > Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
->> >
->> > diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
->> > b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
->> > new file mode 100644
->> > index 000000000000..f55c389290ac
->> > --- /dev/null
->> > +++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
->> > @@ -0,0 +1,103 @@
->> > +==========================
->> > +PCIe Device AER statistics
->> > +==========================
->> > +These attributes show up under all the devices that are AER capable.
->> > These
->> > +statistical counters indicate the errors "as seen/reported by the
->> > device".
->> > +Note that this may mean that if an end point is causing problems, the
->> > AER
->> > +counters may increment at its link partner (e.g. root port) because
->> > the
->> > +errors will be "seen" / reported by the link partner and not the the
->> > +problematic end point itself (which may report all counters as 0 as it
->> > never
->> > +saw any problems).
->> > +
->> > +Where:               /sys/bus/pci/devices/<dev>/aer_stats/dev_total_cor_errs
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Total number of correctable errors seen and reported by
->> > this
->> > +             PCI device using ERR_COR.
->> > +
->> > +Where:               /sys/bus/pci/devices/<dev>/aer_stats/dev_total_fatal_errs
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Total number of uncorrectable fatal errors seen and
->> > reported
->> > +             by this PCI device using ERR_FATAL.
->> > +
->> > +Where:               /sys/bus/pci/devices/<dev>/aer_stats/dev_total_nonfatal_errs
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Total number of uncorrectable non-fatal errors seen and
->> > reported
->> > +             by this PCI device using ERR_NONFATAL.
->> > +
->> > +Where:               /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_correctable
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Breakdown of of correctable errors seen and reported by
->> > this
->> > +             PCI device using ERR_COR. A sample result looks like this:
->> > +-----------------------------------------
->> > +Receiver Error = 0x174
->> > +Bad TLP = 0x19
->> > +Bad DLLP = 0x3
->> > +RELAY_NUM Rollover = 0x0
->> > +Replay Timer Timeout = 0x1
->> > +Advisory Non-Fatal = 0x0
->> > +Corrected Internal Error = 0x0
->> > +Header Log Overflow = 0x0
->> > +-----------------------------------------
->> why hex display ? decimal is easy to read as these are counters.
->
-> Have no particular preference. Since these can be potentially large
-> numbers, just had a random thought that hex might make it more
-> concise. I can change to decimal if that is preferable.
->
->> > +
->> > +Where:               /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_uncorrectable
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Breakdown of of correctable errors seen and reported by
->> > this
->> > +             PCI device using ERR_FATAL or ERR_NONFATAL. A sample result
->> > +             looks like this:
->> > +-----------------------------------------
->> > +Undefined = 0x0
->> > +Data Link Protocol = 0x0
->> > +Surprise Down Error = 0x0
->> > +Poisoned TLP = 0x0
->> > +Flow Control Protocol = 0x0
->> > +Completion Timeout = 0x0
->> > +Completer Abort = 0x0
->> > +Unexpected Completion = 0x0
->> > +Receiver Overflow = 0x0
->> > +Malformed TLP = 0x0
->> > +ECRC = 0x0
->> > +Unsupported Request = 0x0
->> > +ACS Violation = 0x0
->> > +Uncorrectable Internal Error = 0x0
->> > +MC Blocked TLP = 0x0
->> > +AtomicOp Egress Blocked = 0x0
->> > +TLP Prefix Blocked Error = 0x0
->> > +-----------------------------------------
->> > +
->> > +============================
->> > +PCIe Rootport AER statistics
->> > +============================
->> > +These attributes showup under only the rootports that are AER capable.
->> > These
->> > +indicate the number of error messages as "reported to" the rootport.
->> > Please note
->> > +that the rootports also transmit (internally) the ERR_* messages for
->> > errors seen
->> > +by the internal rootport PCI device, so these counters includes them
->> > and are
->> > +thus cumulative of all the error messages on the PCI hierarchy
->> > originating
->> > +at that root port.
->>
->> what about switches and bridges ?
->
-> What about them? AIUI, the switches forward the ERR_ messages from
-> downstream devices to the rootport, like they do with standard
-> messages. They can potentially generate their own ERR_ message and
-> that would be reported no different than other end point devices.
->
->> Also Can you give some idea as e.g what is the difference between
->> dev_total_fatal_errs and rootport_total_fatal_errs  (assuming that both
->> are same pci_dev.
->
-> For a pci_dev representing the rootport:
->
-> dev_total_fatal_errors = how many times this PCI device *experienced*
-> a fatal problem on its own (i.e. either link issues while talking to
-> its link partner, or some internal errors).
->
-> rootport_total_fatal_errors = how many times this rootport was
-> *informed* about a problem (via ERR_* messages) in the PCI hierarchy
+Adding Florian to CC, but if something gets CET enabled, it really
+shouldn't have a way to turn it off. If there's a way to turn it off,
+all the ROP research will suddenly turn to exactly one gadget before
+doing the rest of the ROP: turning off CET. Right now ROP is: use
+stack-pivot gadget, do everything else. Allowed CET to turn off will
+just add one step: use CET-off gadget, use stack-pivot gadget, do
+everything else. :P
 
-Read the above sentence as:
-" rootport_total_fatal_errors = how many times this rootport was
- *informed* about a FATAL problem (via ERR_FATAL messages) in the PCI hierarchy"
+Following Linus's request for "slow introduction" of new security
+features, likely the best approach is to default to "relaxed" (with a
+warning about down-grades), and allow distros/end-users to pick
+"forced" if they know their libraries are all CET-enabled.
 
+-Kees
 
-> that originates at it (can be any link further downstream). This
-> includes the dev_total_fatal_errors also, because any errors detected
-> by the rootport are also "informed" to itself via ERR_* messages. In
-> reality, this is just the total number of ERR_FATAL messages received
-> at the rootport. This sysfs attribute will only exist for root ports.
->
->>
->> rootport_total_fatal_errs gives me an idea that how many times things
->> have been failed under this pci_dev ?
->
-> Yes, as above.
->
->> which means num of downstream link problems. but I am still trying to
->> make sense as how it could be used,
->> since we dont have BDF information associated with the number of errors
->> anywhere (except these AER print messages)
->>
->
-> Agree. That is a limitation. The challenges being more record keeping,
-> more complicated sysfs representation, and given that PCI devices may
-> come and go, how do we know it is the same device before we collate
-> their stats etc.
->
->>
->> and dev_total_fatal_errs as you mentioned above that problematic EP,
->> then say root-port will report it and increment
->> dev_total_fatal_errs ++
->> does it also increment root-port_total_fatal_errs ++ in above scenario ?
->
-> Yes, as above, it will also root-port_total_fatal_errs++ for the root
-> port of that hierarchy.
->
-> Thanks,
->
-> Rajat
->
->>
->> > +
->> > +Where:               /sys/bus/pci/devices/<dev>/aer_stats/rootport_total_cor_errs
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Total number of ERR_COR messages reported to rootport.
->> > +
->> > +Where:               /sys/bus/pci/devices/<dev>/aer_stats/rootport_total_fatal_errs
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Total number of ERR_FATAL messages reported to rootport.
->> > +
->> > +Where:
->> > /sys/bus/pci/devices/<dev>/aer_stats/rootport_total_nonfatal_errs
->> > +Date:                May 2018
->> > +Kernel Version: 4.17.0
->> > +Contact:     linux-pci@vger.kernel.org, rajatja@google.com
->> > +Description: Total number of ERR_NONFATAL messages reported to
->> > rootport.
->> > diff --git a/Documentation/PCI/pcieaer-howto.txt
->> > b/Documentation/PCI/pcieaer-howto.txt
->> > index acd0dddd6bb8..91b6e677cb8c 100644
->> > --- a/Documentation/PCI/pcieaer-howto.txt
->> > +++ b/Documentation/PCI/pcieaer-howto.txt
->> > @@ -73,6 +73,11 @@ In the example, 'Requester ID' means the ID of the
->> > device who sends
->> >  the error message to root port. Pls. refer to pci express specs for
->> >  other fields.
->> >
->> > +2.4 AER Statistics / Counters
->> > +
->> > +When PCIe AER errors are captured, the counters / statistics are also
->> > exposed
->> > +in form of sysfs attributes which are documented at
->> > +Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
->> >
->> >  3. Developer Guide
+-- 
+Kees Cook
+Pixel Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
