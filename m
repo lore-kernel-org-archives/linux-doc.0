@@ -1,119 +1,451 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1991F7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 14:12:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC3747D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 14:16:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S937238AbeFSOMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 10:12:01 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46680 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S965783AbeFSOL7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 10:11:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=iVVJl7dqFUDMwlL/z7zZ5Mgd6nkF+94CaeTuiIf/BrA=; b=ny6kIxV+vWWC957EcT80nwodZ
-        6tKhzId4NGkInNp0cZ7WH3P+sOKj8pmLwkBySf52ArAt4K0s3R6Q7o1ymCXi9iXvggnrCnP4uOl+y
-        RcFPC64Ri6oXfmcJkeTF9RHdjr/vkSMZ1j994PYCQcjLpO0HOax5FIsiwnAzFxm2prdlbq0PNrPr4
-        Epf0YOpWwMfWAChDPzRYl0ALtYAqsbgswSzLyjt+GwR8ck4tjuS15uEUaYBbIoHfOc7MyMAJQs65+
-        DjVFQTFZp6S9f00YOJEX9TQBpJPtFhDd/GlnMner+iRSuTakRttmecNSH1BicCg1KDmdPfk6d4PI1
-        TBQt6I2IQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fVHMS-0007ft-Q5; Tue, 19 Jun 2018 14:11:56 +0000
-Date:   Tue, 19 Jun 2018 07:11:56 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <mawilcox@microsoft.com>,
-        Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] Documentation/sphinx: add "nodocs" directive
-Message-ID: <20180619141156.GC1438@bombadil.infradead.org>
-References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20180618171028.GD28748@bombadil.infradead.org>
+        id S1755376AbeFSOQu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 10:16:50 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:50554 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1755203AbeFSOQu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Jun 2018 10:16:50 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5EE4487A4B;
+        Tue, 19 Jun 2018 14:16:49 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.18.25.234])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 318302156880;
+        Tue, 19 Jun 2018 14:16:49 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+        id F09642209E8; Tue, 19 Jun 2018 10:16:48 -0400 (EDT)
+Date:   Tue, 19 Jun 2018 10:16:48 -0400
+From:   Vivek Goyal <vgoyal@redhat.com>
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] overlayfs: caller_credentials option bypass
+ creator_cred
+Message-ID: <20180619141648.GB22657@redhat.com>
+References: <20180618192726.67981-1-salyzyn@android.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180618171028.GD28748@bombadil.infradead.org>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20180618192726.67981-1-salyzyn@android.com>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 19 Jun 2018 14:16:49 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 19 Jun 2018 14:16:49 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'vgoyal@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 18, 2018 at 10:10:28AM -0700, Matthew Wilcox wrote:
-> On Mon, Jun 18, 2018 at 04:36:34PM +0300, Mike Rapoport wrote:
-> > Hi,
-> > 
-> > These patches allow passing "-no-doc-sections" option to scripts/kernel-doc
-> > from the sphinx generator.
-> > 
-> > This allows to avoid duplicated DOC: sections when "kernel-doc:" directive
-> > is used without explicit selection of functions or function types. For
-> > instance, [1] has "IDA description" and "idr synchronization" twice.
+On Mon, Jun 18, 2018 at 12:27:19PM -0700, Mark Salyzyn wrote:
+> All accesses to the lower filesystems reference the creator (mount)
+> context.  This is a security issue as the user context does not
+> overlay the creator context.
 > 
-> Hah, I just found an abandoned patch for this in a disused git tree.
-> I was wondering whether I needed to resurrect it.  Enthusiastically,
+> A module bool parameter and mount option caller_credentials is added
+> to set the default, and to act as a presence check for this "feature".
+> The module parameter is used to change the default behavior, But
+> since I can not break user API, I have to preserve the original
+> behavior as default.
 > 
-> Acked-by: Matthew Wilcox <willy@infradead.org>
+> On MAC security model expect to set the caller_credentials to Y as
+> part of early initialization to preserve security model when the
+> option of iether caller_credentials or creator_credentials is not
+> explicitly specified in the mount.
+> 
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> 
+> v2:
+> - forward port changed attr to stat, resulting in a build error
+> - wording in commit message was too adversarial and needed correction
+> ---
+>  Documentation/filesystems/overlayfs.txt |  7 +++++++
+>  fs/overlayfs/copy_up.c                  |  3 ++-
+>  fs/overlayfs/dir.c                      | 12 ++++++++----
+>  fs/overlayfs/inode.c                    | 24 ++++++++++++++++--------
+>  fs/overlayfs/namei.c                    |  9 ++++++---
+>  fs/overlayfs/ovl_entry.h                |  1 +
+>  fs/overlayfs/readdir.c                  |  6 ++++--
+>  fs/overlayfs/super.c                    | 22 ++++++++++++++++++++++
+>  fs/overlayfs/util.c                     |  8 ++++++--
+>  9 files changed, 72 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
+> index 72615a2c0752..4328be5cdaa9 100644
+> --- a/Documentation/filesystems/overlayfs.txt
+> +++ b/Documentation/filesystems/overlayfs.txt
+> @@ -106,6 +106,13 @@ Only the lists of names from directories are merged.  Other content
+>  such as metadata and extended attributes are reported for the upper
+>  directory only.  These attributes of the lower directory are hidden.
+>  
+> +credentials
+> +-----------
+> +
+> +All access to the upper, lower and work directories is the creator's
+> +credentials.
 
-Here's the patch I found (I couldn't refind it at the time):
+Can we call it "mounter's credentials" instead of "creator's credential"
+everywhere in the patch. It just feels more intuitive and that's how
+we have been referrring to it.
 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index d15e07f36881..d86d88da1d75 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -47,6 +47,7 @@ class KernelDocDirective(Directive):
-     optional_arguments = 4
-     option_spec = {
-         'doc': directives.unchanged_required,
-+        'nodoc': directives.unchanged,
-         'functions': directives.unchanged_required,
-         'export': directives.unchanged,
-         'internal': directives.unchanged,
-@@ -74,6 +75,8 @@ class KernelDocDirective(Directive):
-             export_file_patterns = str(self.options.get('internal')).split()
-         elif 'doc' in self.options:
-             cmd += ['-function', str(self.options.get('doc'))]
-+        elif 'nodoc' in self.options:
-+            cmd += ['-no-doc-sections']
-         elif 'functions' in self.options:
-             for f in str(self.options.get('functions')).split():
-                 cmd += ['-function', f]
+> If caller_credentials is set, then the access caller's
+> +instance credentials will be used.
+> +
+>  whiteouts and opaque directories
+>  --------------------------------
+>  
+> diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
+> index ddaddb4ce4c3..abc21844f712 100644
+> --- a/fs/overlayfs/copy_up.c
+> +++ b/fs/overlayfs/copy_up.c
+> @@ -790,7 +790,8 @@ int ovl_copy_up_flags(struct dentry *dentry, int flags)
+>  		dput(parent);
+>  		dput(next);
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
 
-I did it while I was trying to create good radix tree documentation,
-which led to me realising that was a Herculean task (specifically: the
-stables).
+How about defining ovl_revert_creds(old_cred) helper and do nothing if old_cred
+is null. This will be similar to ovl_override_creds() helper which does
+not switch creds based on a mount option.
 
-I ended up doing this instead:
+>  
+>  	return err;
+>  }
+> diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+> index f480b1a2cd2e..8b75e0899ee1 100644
+> --- a/fs/overlayfs/dir.c
+> +++ b/fs/overlayfs/dir.c
+> @@ -561,7 +561,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+>  		override_cred->fsgid = inode->i_gid;
+>  		if (!attr->hardlink) {
+>  			err = security_dentry_create_files_as(dentry,
+> -					attr->mode, &dentry->d_name, old_cred,
+> +					attr->mode, &dentry->d_name,
+> +					old_cred ? old_cred : current_cred(),
+>  					override_cred);
 
-+The Public API
-+==============
-+
-+The public API can be found in ``<linux/radix-tree.h>``.  To use a
-+radix tree in your data structure, embed a :c:type:`struct radix_tree_root`
-+in it, and initialise it using ``INIT_RADIX_TREE``.  You can also use
-+a file-local or global radix tree by defining a :c:type:`RADIX_TREE` as you
-+would a :c:type:`LIST_HEAD`.
-+
-+.. Not actually "internal", but I need to exclude the 'doc' paragraph, and
-+   this is the best way to do it.
-+.. kernel-doc:: include/linux/radix-tree.h
-+   :internal:
-+
-+.. kernel-doc:: lib/radix-tree.c
-+   :export:
+Calling this security hook should be unnecessary if actual file creation
+is happening in the context of caller's creds. This hook was needed when
+new file creation was happening with mounter's creds. 
 
-I'm not sure if I agree with me-of-January-2017 that this is the "best"
-way to do it, but maybe that'll point to another way of achieving the
-same thing.
+We probably will have to define another helper to organize this code
+better. For now, it probably is fine, and not a big deal.
+
+>  			if (err) {
+>  				put_cred(override_cred);
+> @@ -577,7 +578,8 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
+>  			err = ovl_create_over_whiteout(dentry, inode, attr);
+>  	}
+>  out_revert_creds:
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return err;
+>  }
+>  
+> @@ -824,7 +826,8 @@ static int ovl_do_remove(struct dentry *dentry, bool is_dir)
+>  		err = ovl_remove_upper(dentry, is_dir, &list);
+>  	else
+>  		err = ovl_remove_and_whiteout(dentry, &list);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	if (!err) {
+>  		if (is_dir)
+>  			clear_nlink(dentry->d_inode);
+> @@ -1150,7 +1153,8 @@ static int ovl_rename(struct inode *olddir, struct dentry *old,
+>  out_unlock:
+>  	unlock_rename(new_upperdir, old_upperdir);
+>  out_revert_creds:
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	ovl_nlink_end(new, locked);
+>  out_drop_write:
+>  	ovl_drop_write(old);
+> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+> index ed16a898caeb..222678b6e67e 100644
+> --- a/fs/overlayfs/inode.c
+> +++ b/fs/overlayfs/inode.c
+> @@ -49,7 +49,8 @@ int ovl_setattr(struct dentry *dentry, struct iattr *attr)
+>  		inode_lock(upperdentry->d_inode);
+>  		old_cred = ovl_override_creds(dentry->d_sb);
+>  		err = notify_change(upperdentry, attr, NULL);
+> -		revert_creds(old_cred);
+> +		if (old_cred)
+> +			revert_creds(old_cred);
+>  		if (!err)
+>  			ovl_copyattr(upperdentry->d_inode, dentry->d_inode);
+>  		inode_unlock(upperdentry->d_inode);
+> @@ -208,7 +209,8 @@ int ovl_getattr(const struct path *path, struct kstat *stat,
+>  		stat->nlink = dentry->d_inode->i_nlink;
+>  
+>  out:
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return err;
+>  }
+> @@ -242,7 +244,8 @@ int ovl_permission(struct inode *inode, int mask)
+>  		mask |= MAY_READ;
+>  	}
+>  	err = inode_permission(realinode, mask);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return err;
+>  }
+> @@ -259,7 +262,8 @@ static const char *ovl_get_link(struct dentry *dentry,
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	p = vfs_get_link(ovl_dentry_real(dentry), done);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return p;
+>  }
+>  
+> @@ -302,7 +306,8 @@ int ovl_xattr_set(struct dentry *dentry, struct inode *inode, const char *name,
+>  		WARN_ON(flags != XATTR_REPLACE);
+>  		err = vfs_removexattr(realdentry, name);
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  out_drop_write:
+>  	ovl_drop_write(dentry);
+> @@ -320,7 +325,8 @@ int ovl_xattr_get(struct dentry *dentry, struct inode *inode, const char *name,
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	res = vfs_getxattr(realdentry, name, value, size);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return res;
+>  }
+>  
+> @@ -344,7 +350,8 @@ ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	res = vfs_listxattr(realdentry, list, size);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	if (res <= 0 || size == 0)
+>  		return res;
+>  
+> @@ -379,7 +386,8 @@ struct posix_acl *ovl_get_acl(struct inode *inode, int type)
+>  
+>  	old_cred = ovl_override_creds(inode->i_sb);
+>  	acl = get_acl(realinode, type);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return acl;
+>  }
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index c993dd8db739..c8b84d262ec2 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -1024,7 +1024,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+>  		OVL_I(inode)->redirect = upperredirect;
+>  	}
+>  
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	dput(index);
+>  	kfree(stack);
+>  	kfree(d.redirect);
+> @@ -1043,7 +1044,8 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
+>  	kfree(upperredirect);
+>  out:
+>  	kfree(d.redirect);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	return ERR_PTR(err);
+>  }
+>  
+> @@ -1097,7 +1099,8 @@ bool ovl_lower_positive(struct dentry *dentry)
+>  			dput(this);
+>  		}
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return positive;
+>  }
+> diff --git a/fs/overlayfs/ovl_entry.h b/fs/overlayfs/ovl_entry.h
+> index 41655a7d6894..7e17db561a04 100644
+> --- a/fs/overlayfs/ovl_entry.h
+> +++ b/fs/overlayfs/ovl_entry.h
+> @@ -18,6 +18,7 @@ struct ovl_config {
+>  	const char *redirect_mode;
+>  	bool index;
+>  	bool nfs_export;
+> +	bool caller_credentials;
+>  	int xino;
+>  };
+>  
+> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+> index ef1fe42ff7bb..af3874d589ad 100644
+> --- a/fs/overlayfs/readdir.c
+> +++ b/fs/overlayfs/readdir.c
+> @@ -289,7 +289,8 @@ static int ovl_check_whiteouts(struct dentry *dir, struct ovl_readdir_data *rdd)
+>  		}
+>  		inode_unlock(dir->d_inode);
+>  	}
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  	return err;
+>  }
+> @@ -906,7 +907,8 @@ int ovl_check_empty_dir(struct dentry *dentry, struct list_head *list)
+>  
+>  	old_cred = ovl_override_creds(dentry->d_sb);
+>  	err = ovl_dir_read_merged(dentry, list, &root);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  	if (err)
+>  		return err;
+>  
+> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+> index 704b37311467..184688ab35cb 100644
+> --- a/fs/overlayfs/super.c
+> +++ b/fs/overlayfs/super.c
+> @@ -56,6 +56,11 @@ module_param_named(xino_auto, ovl_xino_auto_def, bool, 0644);
+>  MODULE_PARM_DESC(ovl_xino_auto_def,
+>  		 "Auto enable xino feature");
+>  
+> +static bool __read_mostly ovl_caller_credentials;
+> +module_param_named(caller_credentials, ovl_caller_credentials, bool, 0644);
+> +MODULE_PARM_DESC(ovl_caller_credentials,
+> +		 "Use caller credentials rather than creator credentials for accesses");
+> +
+>  static void ovl_entry_stack_free(struct ovl_entry *oe)
+>  {
+>  	unsigned int i;
+> @@ -376,6 +381,10 @@ static int ovl_show_options(struct seq_file *m, struct dentry *dentry)
+>  						"on" : "off");
+>  	if (ofs->config.xino != ovl_xino_def())
+>  		seq_printf(m, ",xino=%s", ovl_xino_str[ofs->config.xino]);
+> +	if (ofs->config.caller_credentials)
+> +		seq_puts(m, ",caller_credentials");
+> +	else
+> +		seq_puts(m, ",creator_credentials");
+>  	return 0;
+>  }
+>  
+> @@ -413,6 +422,8 @@ enum {
+>  	OPT_XINO_ON,
+>  	OPT_XINO_OFF,
+>  	OPT_XINO_AUTO,
+> +	OPT_CREATOR_CREDENTIALS,
+> +	OPT_CALLER_CREDENTIALS,
+>  	OPT_ERR,
+>  };
+>  
+> @@ -429,6 +440,8 @@ static const match_table_t ovl_tokens = {
+>  	{OPT_XINO_ON,			"xino=on"},
+>  	{OPT_XINO_OFF,			"xino=off"},
+>  	{OPT_XINO_AUTO,			"xino=auto"},
+> +	{OPT_CREATOR_CREDENTIALS,	"creator_credentials"},
+> +	{OPT_CALLER_CREDENTIALS,	"caller_credentials"},
+
+I like Amir's suggestion of using override_creds=on/off, with
+override_creds=on being default.
+
+Thanks
+Vivek
+
+>  	{OPT_ERR,			NULL}
+>  };
+>  
+> @@ -486,6 +499,7 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+>  	if (!config->redirect_mode)
+>  		return -ENOMEM;
+>  
+> +	config->caller_credentials = ovl_caller_credentials;
+>  	while ((p = ovl_next_opt(&opt)) != NULL) {
+>  		int token;
+>  		substring_t args[MAX_OPT_ARGS];
+> @@ -555,6 +569,14 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
+>  			config->xino = OVL_XINO_AUTO;
+>  			break;
+>  
+> +		case OPT_CREATOR_CREDENTIALS:
+> +			config->caller_credentials = false;
+> +			break;
+> +
+> +		case OPT_CALLER_CREDENTIALS:
+> +			config->caller_credentials = true;
+> +			break;
+> +
+>  		default:
+>  			pr_err("overlayfs: unrecognized mount option \"%s\" or missing value\n", p);
+>  			return -EINVAL;
+> diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+> index 6f1078028c66..538802289511 100644
+> --- a/fs/overlayfs/util.c
+> +++ b/fs/overlayfs/util.c
+> @@ -40,6 +40,8 @@ const struct cred *ovl_override_creds(struct super_block *sb)
+>  {
+>  	struct ovl_fs *ofs = sb->s_fs_info;
+>  
+> +	if (ofs->config.caller_credentials)
+> +		return NULL;
+>  	return override_creds(ofs->creator_cred);
+>  }
+>  
+> @@ -630,7 +632,8 @@ int ovl_nlink_start(struct dentry *dentry, bool *locked)
+>  	 * value relative to the upper inode nlink in an upper inode xattr.
+>  	 */
+>  	err = ovl_set_nlink_upper(dentry);
+> -	revert_creds(old_cred);
+> +	if (old_cred)
+> +		revert_creds(old_cred);
+>  
+>  out:
+>  	if (err)
+> @@ -650,7 +653,8 @@ void ovl_nlink_end(struct dentry *dentry, bool locked)
+>  
+>  			old_cred = ovl_override_creds(dentry->d_sb);
+>  			ovl_cleanup_index(dentry);
+> -			revert_creds(old_cred);
+> +			if (old_cred)
+> +				revert_creds(old_cred);
+>  		}
+>  
+>  		mutex_unlock(&OVL_I(d_inode(dentry))->lock);
+> -- 
+> 2.18.0.rc1.244.gcf134e6275-goog
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
