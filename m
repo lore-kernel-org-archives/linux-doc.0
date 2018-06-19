@@ -1,144 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A54C07D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 08:53:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35BFB7D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 09:44:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S937448AbeFSIwq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 04:52:46 -0400
-Received: from mail-pl0-f66.google.com ([209.85.160.66]:35690 "EHLO
-        mail-pl0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S937229AbeFSIwm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 04:52:42 -0400
-Received: by mail-pl0-f66.google.com with SMTP id k1-v6so10601388plt.2;
-        Tue, 19 Jun 2018 01:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rtazQiwLSgkFa69iCUvG49Km/B3ufAdAvUNZHxblZTg=;
-        b=ogTKtZF0fTIN1awwZubRrEQ8QhtERyol9ZKaIyGc8ScPdYtToSaAC5eGSqt0MuADP3
-         q84B1OTM7dxKANj1fHZyl5mZoqU3CFbCSW4lUxhFUQJHw5eu7/jE4VxUKmpmhqNR+LfE
-         7WWgvwu6+16JLtidGAtRzj2DKhBwOijL5ull3hzNu4qGP7kmXGbyxjPR78/U0XKWvu/q
-         vsOmIkndm1ZxrJQneldqSm1D70g3VHGbqO92uXKmk7eovjrHIlYjaJKrDJGCHU72e5g7
-         faLAUtdIVJs1/3kp0XPP5s6Ey+FyrkTOaqZTlZvdPzciB6VbuODBJYHy/CLFQdhwsXVW
-         CGvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rtazQiwLSgkFa69iCUvG49Km/B3ufAdAvUNZHxblZTg=;
-        b=caVdZlidbuGKFd2J1VM8JlNsHADtFvQMRtMWqWdi8dDD3gBNJZWsCBpe1mK65v9QRo
-         7uGPc8eTZJLD327P2HhIUh+lna14O66XdIiQ36RVQOcFAZwqrskIEgjOrFlmAAjLQzwC
-         SVJ4um6KRkJaptGZD1amTNaYLJ99AxZEiBNterLN4cDZGxAgR39ba/RlLbl8U28nRmNX
-         IR+3yduHyxUObr9Oppui99u/kXA0n/mipPVqsahkE1vrMr7wKxPeZh1eBdLs/k3q/kNp
-         aHEg/fydZbv50DLw0ihRWueBKxZHpGHZGN4y0zjnraGEGF1y+zXyYRatuC1JJdVdvESg
-         FL8A==
-X-Gm-Message-State: APt69E3b9E7ICzaiynh96wrWYtGVeCRJ7yjobv64dBDvP0g6pxw/qUrL
-        YYoQUgG7aW8oq7kQT4vrRQU=
-X-Google-Smtp-Source: ADUXVKLYIFimQmF+H/oS98+oo/TGGK2YYS6iRoiJIa9qQASDLdQWTwq0QbNwRWshPSC4BT0P+i0ULw==
-X-Received: by 2002:a17:902:9a8a:: with SMTP id w10-v6mr17843070plp.333.1529398361273;
-        Tue, 19 Jun 2018 01:52:41 -0700 (PDT)
-Received: from 350D (14-202-194-140.static.tpgi.com.au. [14.202.194.140])
-        by smtp.googlemail.com with ESMTPSA id l71-v6sm25500965pge.8.2018.06.19.01.52.32
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 19 Jun 2018 01:52:40 -0700 (PDT)
-Message-ID: <09b7cc16ee5275d4ef3dffb11942e3f2ba44aedd.camel@gmail.com>
-Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
-From:   Balbir Singh <bsingharora@gmail.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S1750861AbeFSJov (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 05:44:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56026 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755270AbeFSJou (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 05:44:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ZnYOCbje+sb3JV62wl4oKJPwf2rfgXuLiPbr8Ir4ucI=; b=uOggwq1QLbIYfYuvuJUg8WorP
+        VQqhqRplVg730FZkjNykO+/AKG9Z71mzfT3t1tngszW4p0onwCgMWrdUen4hWouVotqG/wkzkuGZa
+        yDlyh0slbYQsNRal9yd/nOxwuEZQ/giRebtN9ZsFYAmEM9uQL+xzHhkpb3zeBBkW8qRFMiOIj+F4a
+        rhiizRFU/EJXbT1ld9CpKsFpJQi2Xb+Lhxvp/Z6sf3RsmW6MxuOUdK4CLQHEFpBYFk4qPUHsCTenp
+        PmotjmlDgIsDCjVXe9kiARH0ZMTqhgvcsuyfe02kcNL2eMO/hGqhkLah0JePIhtf7IzMhJyXm+GAc
+        msqtw5INg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fVDBL-0001hc-Fm; Tue, 19 Jun 2018 09:44:11 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 80CA620268507; Tue, 19 Jun 2018 11:44:09 +0200 (CEST)
+Date:   Tue, 19 Jun 2018 11:44:09 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Hellstrom <thellstrom@vmware.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
         Ingo Molnar <mingo@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com
-Date:   Tue, 19 Jun 2018 18:52:29 +1000
-In-Reply-To: <CALCETrWCEjuM56J8dqXPR==MevJTYKan5dnAMFJaXzFMYr8Q_A@mail.gmail.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-         <bbfde1b3-5e1b-80e3-30e8-fd1e46a2ceb1@gmail.com>
-         <1528815820.8271.16.camel@2b52.sc.intel.com>
-         <814fc15e80908d8630ff665be690ccbe6e69be88.camel@gmail.com>
-         <1528988176.13101.15.camel@2b52.sc.intel.com>
-         <2b77abb17dfaf58b7c23fac9d8603482e1887337.camel@gmail.com>
-         <CALCETrWCEjuM56J8dqXPR==MevJTYKan5dnAMFJaXzFMYr8Q_A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Gustavo Padovan <gustavo@padovan.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        David Airlie <airlied@linux.ie>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 1/3] locking: WW mutex cleanup
+Message-ID: <20180619094409.GK2458@hirez.programming.kicks-ass.net>
+References: <20180619082445.11062-1-thellstrom@vmware.com>
+ <20180619082445.11062-2-thellstrom@vmware.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180619082445.11062-2-thellstrom@vmware.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-06-18 at 14:44 -0700, Andy Lutomirski wrote:
-> On Sat, Jun 16, 2018 at 8:16 PM Balbir Singh <bsingharora@gmail.com> wrote:
-> > 
-> > On Thu, 2018-06-14 at 07:56 -0700, Yu-cheng Yu wrote:
-> > > On Thu, 2018-06-14 at 11:07 +1000, Balbir Singh wrote:
-> > > > On Tue, 2018-06-12 at 08:03 -0700, Yu-cheng Yu wrote:
-> > > > > On Tue, 2018-06-12 at 20:56 +1000, Balbir Singh wrote:
-> > > > > > 
-> > > > > > On 08/06/18 00:37, Yu-cheng Yu wrote:
-> > > > > > > This series introduces CET - Shadow stack
-> > > > > > > 
-> > > > > > > At the high level, shadow stack is:
-> > > > > > > 
-> > > > > > >       Allocated from a task's address space with vm_flags VM_SHSTK;
-> > > > > > >       Its PTEs must be read-only and dirty;
-> > > > > > >       Fixed sized, but the default size can be changed by sys admin.
-> > > > > > > 
-> > > > > > > For a forked child, the shadow stack is duplicated when the next
-> > > > > > > shadow stack access takes place.
-> > > > > > > 
-> > > > > > > For a pthread child, a new shadow stack is allocated.
-> > > > > > > 
-> > > > > > > The signal handler uses the same shadow stack as the main program.
-> > > > > > > 
-> > > > > > 
-> > > > > > Even with sigaltstack()?
-> > > > > > 
-> > > > > 
-> > > > > Yes.
-> > > > 
-> > > > I am not convinced that it would work, as we switch stacks, oveflow might
-> > > > be an issue. I also forgot to bring up setcontext(2), I presume those
-> > > > will get new shadow stacks
-> > > 
-> > > Do you mean signal stack/sigaltstack overflow or swapcontext in a signal
-> > > handler?
-> > > 
-> > 
-> > I meant any combination of that. If there is a user space threads implementation that uses sigaltstack for switching threads
-> > 
+On Tue, Jun 19, 2018 at 10:24:43AM +0200, Thomas Hellstrom wrote:
+> From: Peter Ziljstra <peterz@infradead.org>
 > 
-> Anyone who does that is nuts.  The whole point of user space threads
-> is speed, and signals are very slow.  For userspace threads to work,
-> we need an API to allocate new shadow stacks, and we need to use the
-> extremely awkwardly defined RSTORSSP stuff to switch.  (I assume this
-> is possible on an ISA level.  The docs are bad, and the mnemonics for
-> the relevant instructions are nonsensical.)
+> Make the WW mutex code more readable by adding comments, splitting up
+> functions and pointing out that we're actually using the Wait-Die
+> algorithm.
+> 
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Gustavo Padovan <gustavo@padovan.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Davidlohr Bueso <dave@stgolabs.net>
+> Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+> Cc: Josh Triplett <josh@joshtriplett.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Kate Stewart <kstewart@linuxfoundation.org>
+> Cc: Philippe Ombredanne <pombredanne@nexb.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Co-authored-by: Thomas Hellstrom <thellstrom@vmware.com>
+> Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+> ---
+>  Documentation/locking/ww-mutex-design.txt |  12 +-
+>  include/linux/ww_mutex.h                  |  28 ++---
+>  kernel/locking/mutex.c                    | 202 ++++++++++++++++++------------
+>  3 files changed, 145 insertions(+), 97 deletions(-)
 
-The whole point was to ensure we don't break applications/code that work
-today. I think as long as there is a shadow stack allocated corresponding
-to the user space stack and we can Restore SSP as we switch things should be
-fine.
-
-Balbir Singh.
-
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
