@@ -5,100 +5,148 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E074C7DF86
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 06:41:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E61887D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 07:29:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755559AbeFSGlD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 02:41:03 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:46980 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1750816AbeFSGlC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jun 2018 02:41:02 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1AA3281A4E99;
-        Tue, 19 Jun 2018 06:41:01 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-116-135.ams2.redhat.com [10.36.116.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 567847C37;
-        Tue, 19 Jun 2018 06:40:55 +0000 (UTC)
-Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
-To:     Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     "H. J. Lu" <hjl.tools@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
- <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
- <1528403417.5265.35.camel@2b52.sc.intel.com>
- <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
- <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
- <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
- <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
- <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
- <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
- <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
- <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
- <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de>
- <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
- <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
- <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
-From:   Florian Weimer <fweimer@redhat.com>
-Message-ID: <e152e1a7-e3b1-c3c4-ce1a-874e97300b37@redhat.com>
-Date:   Tue, 19 Jun 2018 08:40:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1756194AbeFSH3e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 03:29:34 -0400
+Received: from mga02.intel.com ([134.134.136.20]:23544 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1756386AbeFSH3c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Jun 2018 03:29:32 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jun 2018 00:29:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,242,1526367600"; 
+   d="scan'208";a="65321413"
+Received: from jnikula-mobl2.fi.intel.com (HELO localhost) ([10.237.72.62])
+  by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2018 00:29:28 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation/sphinx: add "nodocs" directive
+In-Reply-To: <20180619050349.GA19099@rapoport-lnx>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <1529328996-16247-1-git-send-email-rppt@linux.vnet.ibm.com> <1529328996-16247-2-git-send-email-rppt@linux.vnet.ibm.com> <87h8lzyicj.fsf@intel.com> <20180619050349.GA19099@rapoport-lnx>
+Date:   Tue, 19 Jun 2018 10:29:20 +0300
+Message-ID: <87602fxmi7.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 19 Jun 2018 06:41:01 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 19 Jun 2018 06:41:01 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'fweimer@redhat.com' RCPT:''
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/19/2018 02:52 AM, Kees Cook wrote:
-> Adding Florian to CC, but if something gets CET enabled, it really
-> shouldn't have a way to turn it off. If there's a way to turn it off,
-> all the ROP research will suddenly turn to exactly one gadget before
-> doing the rest of the ROP: turning off CET. Right now ROP is: use
-> stack-pivot gadget, do everything else. Allowed CET to turn off will
-> just add one step: use CET-off gadget, use stack-pivot gadget, do
-> everything else. :P
-> 
-> Following Linus's request for "slow introduction" of new security
-> features, likely the best approach is to default to "relaxed" (with a
-> warning about down-grades), and allow distros/end-users to pick
-> "forced" if they know their libraries are all CET-enabled.
+On Tue, 19 Jun 2018, Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+> On Mon, Jun 18, 2018 at 11:01:32PM +0300, Jani Nikula wrote:
+>> On Mon, 18 Jun 2018, Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
+>> > When kernel-doc:: specified in .rst document without explicit directives,
+>> > it outputs both comment and DOC: sections. If a DOC: section was explictly
+>> > included in the same document it will be duplicated. For example, the
+>> > output generated for Documentation/core-api/idr.rst [1] has "IDA
+>> > description" in the "IDA usage" section and in the middle of the API
+>> > reference.
+>> >
+>> > Addition of "nodocs" directive prevents the duplication without the need to
+>> > explicitly define what functions should be include in the API reference.
+>> >
+>> > [1] https://www.kernel.org/doc/html/v4.17/core-api/idr.html
+>> >
+>> > Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+>> > ---
+>> >  Documentation/sphinx/kerneldoc.py | 3 +++
+>> >  1 file changed, 3 insertions(+)
+>> >
+>> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+>> > index fbedcc3..bc5dd05 100644
+>> > --- a/Documentation/sphinx/kerneldoc.py
+>> > +++ b/Documentation/sphinx/kerneldoc.py
+>> > @@ -50,6 +50,7 @@ class KernelDocDirective(Directive):
+>> >          'functions': directives.unchanged_required,
+>> >          'export': directives.unchanged,
+>> >          'internal': directives.unchanged,
+>> > +        'nodocs': directives.unchanged,
+>> 
+>> I'm not convinved this is the prettiest way to achieve what you
+>> want. 'nodocs' seems kind of clunky.
+>> 
+>> I'd suggest supporting 'functions' without option arguments, and turning
+>> that into kernel-doc -no-doc-sections.
+>
+> Do you mean something like this:
 
-The dynamic linker can tell beforehand (before executing any user code) 
-whether a process image supports CET.  So there doesn't have to be 
-anything gradual about it per se to preserve backwards compatibility.
+Yes.
 
-The idea to turn off CET probably comes from the desire to support 
-dlopen.  I'm not sure if this is really necessary because the complexity 
-is rather nasty.  (We currently do something similar for executable 
-stacks.)  I'd rather have a switch to turn off the feature upon process 
-start.  Things like NSS and PAM modules need to be recompiled early.  (I 
-hope that everything that goes directly to the network via custom 
-protocols or hardware such as smartcards is proxied via daemons these days.)
+>
+> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+> index fbedcc3..9d0a7f0 100644
+> --- a/Documentation/sphinx/kerneldoc.py
+> +++ b/Documentation/sphinx/kerneldoc.py
+> @@ -47,7 +47,7 @@ class KernelDocDirective(Directive):
+>      optional_arguments = 4
+>      option_spec = {
+>          'doc': directives.unchanged_required,
+> -        'functions': directives.unchanged_required,
+> +        'functions': directives.unchanged,
+>          'export': directives.unchanged,
+>          'internal': directives.unchanged,
+>      }
+> @@ -75,8 +75,12 @@ class KernelDocDirective(Directive):
+>          elif 'doc' in self.options:
+>              cmd += ['-function', str(self.options.get('doc'))]
+>          elif 'functions' in self.options:
+> -            for f in str(self.options.get('functions')).split():
+> -                cmd += ['-function', f]
+> +            functions = self.options.get('functions').split()
 
-Thanks,
-Florian
+Does .split() get upset if there's no argument? Or do you get an empty
+string if there are no options? I forget.
+
+BR,
+Jani.
+
+> +            if functions:
+> +                for f in functions:
+> +                    cmd += ['-function', f]
+> +            else:
+> +                cmd += ['-no-doc-sections']
+>  
+>          for pattern in export_file_patterns:
+>              for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
+>
+>> The usage in patch 2/2 would turn into:
+>> 
+>> .. kernel-doc:: include/linux/idr.h
+>>    :functions:
+>> 
+>> which I think is much better overall in the rst source, complementing
+>> the places where you use :doc:.
+>> 
+>> BR,
+>> Jani.
+>> 
+>> >      }
+>> >      has_content = False
+>> >  
+>> > @@ -77,6 +78,8 @@ class KernelDocDirective(Directive):
+>> >          elif 'functions' in self.options:
+>> >              for f in str(self.options.get('functions')).split():
+>> >                  cmd += ['-function', f]
+>> > +        elif 'nodocs' in self.options:
+>> > +            cmd += ['-no-doc-sections']
+>> >  
+>> >          for pattern in export_file_patterns:
+>> >              for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
+>> 
+>> -- 
+>> Jani Nikula, Intel Open Source Graphics Center
+>> 
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
