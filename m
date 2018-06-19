@@ -5,56 +5,72 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B04397D09E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 17:07:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4DE57D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Jun 2018 17:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966793AbeFSRHc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 13:07:32 -0400
-Received: from mail-yb0-f194.google.com ([209.85.213.194]:35008 "EHLO
-        mail-yb0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S966483AbeFSRHa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 13:07:30 -0400
-Received: by mail-yb0-f194.google.com with SMTP id a16-v6so169098ybm.2
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 10:07:30 -0700 (PDT)
+        id S966483AbeFSRUI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 13:20:08 -0400
+Received: from mail-pl0-f65.google.com ([209.85.160.65]:33275 "EHLO
+        mail-pl0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S966502AbeFSRUG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 13:20:06 -0400
+Received: by mail-pl0-f65.google.com with SMTP id 6-v6so206237plb.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 10:20:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=wOZlw3enDXhMGSm4qy9n+t2r0dJDmmdM7dMCIDKuAJ8=;
-        b=ajIs6duIO99rlY5OnQNeepNv6MyamcMXpOU+rdn3xI5ypiC/AAFJWD+3V7Yz87RgP+
-         zDY65CUwB1W8whDvJwmGaijw48AkU4BML5p/X/V2Fh9SEzs3EQw9gxuZ+skPMi8q/33M
-         /utjrm4GHtrIuv5WnxUGy0VzNQrITe9wbgUEPSeAZ6ShKCkNCKgxOXi3VPNoWe/sibPl
-         bo2XZhX8dPHdVbl1DaOWTD9F35tQw7lxcqQrSBPOwLQ1D/K6/oUDYxkpKZn1n5QD4deb
-         IStJDpaNvyzdL84xI7u0YsQaUEFYA8slNSmuEZZnq+6zyHXA7VzOaB/px+XZ/HC6xlmj
-         QxXg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=wOZlw3enDXhMGSm4qy9n+t2r0dJDmmdM7dMCIDKuAJ8=;
-        b=fhq/uFnl/xlKwKJihpWmLkAdHXesyt85TA+iM9gLU6+qa04S6QicBibzBxVXovzxmG
-         yBSEfq6hQaJaT7rMXY+UQh4fIQyKWCjzEu29Ko1f0eYyzfE0cNUsrTHif3pR1nGI8KJ7
-         K/V3b2fbNy+5cItlZa0T7qSC3SjvlObGm+Cpo=
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=GlGVxOfc/4SeVv8qRH9Agv8rkOuTFAZd92nwAvRCJ0o=;
+        b=BsU5QsUe/wEkagMPkV3NWNGu5UvVOEH0svlXrWMWZZogelDZExqbv/fS58UFJ+d0Gr
+         wKfGy92cexSNL5Nw/2LOhGvgygJBEgrdoFUn0OE9O8MT0bP1j6ri30X5Vm6a802Y8MxM
+         GSInF+Cd77bswYK0gKxvN/YSbdXggNF7pzrr0VYF9GiAoQIYvk7ZsYeuRYICt8+enC7B
+         Zj7ziwYBd3J2RYffTmllgkC7JZP9mQQpSFlRMIP7zzFt/JmD2yCbNof1EMt7SGpTHq15
+         n2VfLe18o06akOZuu5od5fhLGW+utr3kCUD53fZDQwnVvs2Xpx8D3Rlc6b87P/pwwc40
+         gKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=wOZlw3enDXhMGSm4qy9n+t2r0dJDmmdM7dMCIDKuAJ8=;
-        b=qPX8bP5JIj3doEuYI6grHwBNOCC0ClRhduyue9Dl2JAXSjPyPh4dqCQj3EcC4lxEdT
-         FuayMRF2Jz5AV+QYYR+G7xelVuyoN/EgZuZyHqpI0aE39XqgdKdFeA3Zd9+XUrjN51DB
-         bNgCMzwBgzI6iNyjSXnAHnKX+cdCY2TYx0MV08cwEEwHDS7BQYxL03sfeVcfyZcIMrph
-         iJ81D85fhvLZ9qbtrj9fp7P6aP57N1YYghvPc7cDBi+EmxN5cFBpQshGtQ0x6O3eDkRz
-         U227Zo14znWJmsBm0rUShNAFe0tPK8ay2fFUmVipwJdWmMtRa6fg5W33P52aIDi9uxTF
-         p6+Q==
-X-Gm-Message-State: APt69E0W6z1/Xlj8rxr0lxxFnCc7gfl8I7v7GWt3Pn2o8DWKn6/eVDua
-        wXVHQ9odK9S9/wVshP1W6TFc4GJNEl3qOSMkzcm9Mg==
-X-Google-Smtp-Source: ADUXVKLeRtkzxLeSYyNm2mAM03+1xYSdS+KxgASqMyKclnH0q243RpVCs9IAC1qdoulvgo+B+9G5XTGFCriJyjWaqZQ=
-X-Received: by 2002:a25:8b05:: with SMTP id i5-v6mr9113328ybl.484.1529428049750;
- Tue, 19 Jun 2018 10:07:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:d6c5:0:0:0:0:0 with HTTP; Tue, 19 Jun 2018 10:07:28
- -0700 (PDT)
-In-Reply-To: <1529427588.23068.7.camel@intel.com>
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=GlGVxOfc/4SeVv8qRH9Agv8rkOuTFAZd92nwAvRCJ0o=;
+        b=NPb4JBFUmHaurS6YYqHieItcmL+GgMF6t+UeNU+yIbJgtbj6Q5eNRxI+fqjn/fFI5P
+         D+ogpNGWOqb4b6y8ggUBKAuwmi0mP3BI3lfCZSbTTfQXYLnwzUMhsJBVJQk4bnXzZQsm
+         E25vvJtT80iN3l2lv1r1J067dq9NFxC6yyWcL+ycYguJW3mO30OTOr59tfDSBby0wqqZ
+         TB1ZWOYqu/z8+LkAmcfKtYD0xJ2Lmvq61UY9nja9rPZf3o15YeEU/etInSoC/Hl9R4AQ
+         KatDg8bg9v/yXgr+AyQPbnG9rruXQVlPoXFQVhAK+U9H2suQnx7yG8QbL8vqA5E5WGp5
+         P7WQ==
+X-Gm-Message-State: APt69E0fCKhpir8PXpJ/pxdyRdi7xzB7QJZKd0zea6cL3dx/zRUc4pjM
+        YwNy/rHv0s977NAeYPm4y8r1Yg==
+X-Google-Smtp-Source: ADUXVKLES6jUj9+q4BWj7fEguqe7zRm2LzEpO9yeKW1Zl/AGjlh+uXWgTFke7cNUyHvAxytW3X21Xg==
+X-Received: by 2002:a17:902:bd8f:: with SMTP id q15-v6mr20125996pls.161.1529428806064;
+        Tue, 19 Jun 2018 10:20:06 -0700 (PDT)
+Received: from ?IPv6:2600:1010:b023:c12a:9165:dc8d:85a7:914? ([2600:1010:b023:c12a:9165:dc8d:85a7:914])
+        by smtp.gmail.com with ESMTPSA id e16-v6sm236813pfn.46.2018.06.19.10.20.04
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Jun 2018 10:20:04 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (15F79)
+In-Reply-To: <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
+Date:   Tue, 19 Jun 2018 10:20:03 -0700
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0AF8B71E-B6CC-42DE-B95C-93896196C3D7@amacapital.net>
 References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
  <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
  <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
@@ -70,97 +86,103 @@ References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7
  <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
  <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
  <569B4719-6283-4575-A16E-D0A78D280F4E@amacapital.net> <CAGXu5jJNgu4bW_Zthqjfpe9gLxK0zxG8QFEqqK+pJNebz6tUaw@mail.gmail.com>
- <1529427588.23068.7.camel@intel.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Tue, 19 Jun 2018 10:07:28 -0700
-X-Google-Sender-Auth: 6QIE2ED6Et36C34WIKxh_Z4y_V8
-Message-ID: <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
-Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <1529427588.23068.7.camel@intel.com> <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
+To:     Kees Cook <keescook@chromium.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 19, 2018 at 9:59 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> On Tue, 2018-06-19 at 09:44 -0700, Kees Cook wrote:
->> On Tue, Jun 19, 2018 at 7:50 AM, Andy Lutomirski <luto@amacapital.net
->> > wrote:
->> >
->> > >
->> > > On Jun 18, 2018, at 5:52 PM, Kees Cook <keescook@chromium.org>
->> > > wrote:
->> > > Following Linus's request for "slow introduction" of new security
->> > > features, likely the best approach is to default to "relaxed"
->> > > (with a
->> > > warning about down-grades), and allow distros/end-users to pick
->> > > "forced" if they know their libraries are all CET-enabled.
->> > I still don=E2=80=99t get what =E2=80=9Crelaxed=E2=80=9D is for.  I th=
-ink the right design
->> > is:
->> >
->> > Processes start with CET on or off depending on the ELF note, but
->> > they start with CET unlocked no matter what. They can freely switch
->> > CET on and off (subject to being clever enough not to crash if they
->> > turn it on and then return right off the end of the shadow stack)
->> > until they call ARCH_CET_LOCK.
->> I'm fine with this. I'd expect modern loaders to just turn on CET and
->> ARCH_CET_LOCK immediately and be done with it. :P
->
-> This is the current implementation.  If the loader has CET in its ELF
-> header, it is executed with CET on.  The loader will turn off CET if
-> the application being loaded does not support it (in the ELF header).
->  The loader calls ARCH_CET_LOCK before passing to the application.  But
-> how do we handle dlopen?
 
-I thought CET_LOCK would not get set in "relaxed" mode, due to dlopen
-usage, and that would be the WARN case. People without dlopen concerns
-can boot with "enforced" mode? If a system builder knows there are no
-legacy dlopens they build with enforced enabled, etc.
 
->> > Ptrace gets new APIs to turn CET on and off and to lock and unlock
->> > it.  If an attacker finds a =E2=80=9Cptrace me and turn off CET=E2=80=
-=9D gadget,
->> > then they might as well just do =E2=80=9Cptrace me and write shell cod=
-e=E2=80=9D
->> > instead. It=E2=80=99s basically the same gadget. Keep in mind that the
->> > actual sequence of syscalls to do this is incredibly complicated.
->> Right -- if an attacker can control ptrace of the target, we're way
->> past CET. The only concern I have, though, is taking advantage of
->> expected ptracing. For example: browsers tend to have crash handlers
->> that launch a ptracer. If ptracing disabled CET for all threads, this
->> won't by safe: an attacker just gains control in two threads, crashes
->> one to get the ptracer to attach, which disables CET in the other
->> thread and the attacker continues ROP as normal. As long as the
->> ptrace
->> disabling is thread-specific, I think this will be okay.
->
-> If ptrace can turn CET on/off and it is thread-specific, do we still
-> need ptrace lock/unlock?
+> On Jun 19, 2018, at 10:07 AM, Kees Cook <keescook@chromium.org> wrote:
+>=20
+>> On Tue, Jun 19, 2018 at 9:59 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrot=
+e:
+>>> On Tue, 2018-06-19 at 09:44 -0700, Kees Cook wrote:
+>>> On Tue, Jun 19, 2018 at 7:50 AM, Andy Lutomirski <luto@amacapital.net
+>>>> wrote:
+>>>>=20
+>>>>>=20
+>>>>> On Jun 18, 2018, at 5:52 PM, Kees Cook <keescook@chromium.org>
+>>>>> wrote:
+>>>>> Following Linus's request for "slow introduction" of new security
+>>>>> features, likely the best approach is to default to "relaxed"
+>>>>> (with a
+>>>>> warning about down-grades), and allow distros/end-users to pick
+>>>>> "forced" if they know their libraries are all CET-enabled.
+>>>> I still don=E2=80=99t get what =E2=80=9Crelaxed=E2=80=9D is for.  I thi=
+nk the right design
+>>>> is:
+>>>>=20
+>>>> Processes start with CET on or off depending on the ELF note, but
+>>>> they start with CET unlocked no matter what. They can freely switch
+>>>> CET on and off (subject to being clever enough not to crash if they
+>>>> turn it on and then return right off the end of the shadow stack)
+>>>> until they call ARCH_CET_LOCK.
+>>> I'm fine with this. I'd expect modern loaders to just turn on CET and
+>>> ARCH_CET_LOCK immediately and be done with it. :P
+>>=20
+>> This is the current implementation.  If the loader has CET in its ELF
+>> header, it is executed with CET on.  The loader will turn off CET if
+>> the application being loaded does not support it (in the ELF header).
+>> The loader calls ARCH_CET_LOCK before passing to the application.  But
+>> how do we handle dlopen?
+>=20
+> I thought CET_LOCK would not get set in "relaxed" mode, due to dlopen
+> usage, and that would be the WARN case. People without dlopen concerns
+> can boot with "enforced" mode? If a system builder knows there are no
+> legacy dlopens they build with enforced enabled, etc.
 
-Does it provide anything beyond what PR_DUMPABLE does?
+I think we=E2=80=99re getting ahead of ourselves. dlopen() of a non-CET-awar=
+e library in a CET process is distinctly non-trivial, especially in a multit=
+hreaded process. I think getting it right will require *userspace* support. =
+ It certainly needs ld.so to issue to arch_prctl at a bare minimum. So I see=
+ no point to a kernel-supplied =E2=80=9Crelaxed=E2=80=9D mode. I think there=
+ may be demand for a ld.so relaxed mode, but it will have nothing to do with=
+ boot options.
 
--Kees
+It=E2=80=99s potentially helpful to add an arch_prctl that turns CET off for=
+ all threads, but only if unlocked. It would obviously be one hell of a gadg=
+et.
 
---=20
-Kees Cook
-Pixel Security
+>=20
+>>>> Ptrace gets new APIs to turn CET on and off and to lock and unlock
+>>>> it.  If an attacker finds a =E2=80=9Cptrace me and turn off CET=E2=80=9D=
+ gadget,
+>>>> then they might as well just do =E2=80=9Cptrace me and write shell code=
+=E2=80=9D
+>>>> instead. It=E2=80=99s basically the same gadget. Keep in mind that the
+>>>> actual sequence of syscalls to do this is incredibly complicated.
+>>> Right -- if an attacker can control ptrace of the target, we're way
+>>> past CET. The only concern I have, though, is taking advantage of
+>>> expected ptracing. For example: browsers tend to have crash handlers
+>>> that launch a ptracer. If ptracing disabled CET for all threads, this
+>>> won't by safe: an attacker just gains control in two threads, crashes
+>>> one to get the ptracer to attach, which disables CET in the other
+>>> thread and the attacker continues ROP as normal. As long as the
+>>> ptrace
+>>> disabling is thread-specific, I think this will be okay.
+>>=20
+>> If ptrace can turn CET on/off and it is thread-specific, do we still
+>> need ptrace lock/unlock?
+
+Let me clarify. I don=E2=80=99t think ptrace() should have any automatic eff=
+ect on CET. I think there should be an explicit way to ask ptrace to twiddle=
+ CET, and it should probably apply per thread.
+
+>=20
+> Does it provide anything beyond what PR_DUMPABLE does?
+
+What do you mean?
+
+
+>=20
+> -Kees
+>=20
+> --=20
+> Kees Cook
+> Pixel Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
