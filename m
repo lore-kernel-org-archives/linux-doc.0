@@ -1,159 +1,227 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 659CD7D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 00:50:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1EEC7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 01:12:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754072AbeFTAuy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 20:50:54 -0400
-Received: from mail-pg0-f68.google.com ([74.125.83.68]:43322 "EHLO
-        mail-pg0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753879AbeFTAuw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 20:50:52 -0400
-Received: by mail-pg0-f68.google.com with SMTP id a14-v6so636125pgw.10
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 17:50:52 -0700 (PDT)
+        id S1752892AbeFTBMQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 21:12:16 -0400
+Received: from mail-qt0-f202.google.com ([209.85.216.202]:33764 "EHLO
+        mail-qt0-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752171AbeFTBMP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 21:12:15 -0400
+Received: by mail-qt0-f202.google.com with SMTP id o68-v6so1407577qte.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 18:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=xMmIINNOshv7J1JN/QMQSaEjdcTPZZ/1wcz0rcuD+K0=;
-        b=v4yCpz/VUn+yx7MyGG4hudE1EssIKpZconmmvSjYY6AWX6G5U3+7BZY6klsgX98JoZ
-         cx1cYr02PMqSvTLPDdN0p5H8QMKNd9TUpaOy+GaKPRgnDTgPGN5d5QjlsDf+MrlC94YI
-         1u3qEGJyy28Eh2v8uYWSlfsFsmy15b01aez69P2DXJMBZowqTM4zvK8T4QvW52JhIlxe
-         qiKdC5u8p3fnU/BqgkKu0A1jfPKqzDExKQXbJijde4rUbjdGJ3vKtuu2cajVsc0/nB/k
-         A9Pmf1h5iFLw8jfkx/yj+oGlrq37GIVOl2KI2DfhC4DyF3nCEK6afW4D9jGhzxfiSBlF
-         GJEg==
+        d=google.com; s=20161025;
+        h=mime-version:date:in-reply-to:message-id:references:subject:from:to
+         :cc;
+        bh=yMylWXdP5ayrVOQ6gauwzPUGocJd8etjj9E8ShmP7+E=;
+        b=LmEPEG48n+g+29/Cm1cTZ29jmfcE8FI13suq+222qM75K24rzRFUTAbCNIZZi5XFWW
+         oZR0jzdA5T5uK0ppg4RqyjVgThMUnfl42qDsnWAJ98kwK5RAktYB/ByAzFMXlpx6jRi0
+         /o6xYxVqnyADF1CtyI9GFSoMp4t30r8P1bOawtFyBTRVs1/LrKP7kL/HKTO9DXYdBH4k
+         vWhRE+g/PJyhTCn5plO/rNCZMLFU8z6a65T5DVothWQgJ2gMoqqJWTUFarym+A2gQefc
+         nanONgmmMts1Qe64PVpWh0IoJJSiaBm2imsDBPE9LGFxuF6udP1/HE6AnS5Lfk8hT+zD
+         H25Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=xMmIINNOshv7J1JN/QMQSaEjdcTPZZ/1wcz0rcuD+K0=;
-        b=bGkHvLOgwzLuODbD1/bLJ3qCW0/ACU3MTgRt8kKxQO4g0oq79vNqWIDBHrJbso547j
-         H4XB5A2E5Xu/ipriv6QxEoDoK+44Vc4elVxjVukmcWSQ2X23ahxwJOYXc/w2JHdcHfih
-         3RkncSjEery3oVgc7bEbOHN31md23fNYcCn/vn4QVeeRqLWWCKgwwf7Bzg0EFRfESNSJ
-         kiemMLMMrDIug42+tR5AlAvAIV7PFAET2oPkUbUhI53hE6htk3kh/HlyWjVBl3yRCkUD
-         JJv3pi+gmysnxufWLBObPtYvfeg/Vh4JxmskVdDiIom2qdbHRDF9LtYsP/8u55m+kelU
-         YKiA==
-X-Gm-Message-State: APt69E0XYSximTd85m+0YXIJmdzmT+BLzl2lmDoHUcopVARsjawXPwcm
-        e9EKHxNv7KOE0exDLqTX719T4Q==
-X-Google-Smtp-Source: ADUXVKLmdMPEJr3PDMbAN+5PvhB6/PQNo73dmi22NUQcac9U6q1PcD0hCTb8GM0UyMgl7gAM9XixPQ==
-X-Received: by 2002:a62:444c:: with SMTP id r73-v6mr20358832pfa.255.1529455852061;
-        Tue, 19 Jun 2018 17:50:52 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b023:c12a:9165:dc8d:85a7:914? ([2600:1010:b023:c12a:9165:dc8d:85a7:914])
-        by smtp.gmail.com with ESMTPSA id 76-v6sm1196348pfr.172.2018.06.19.17.50.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Jun 2018 17:50:50 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (15F79)
-In-Reply-To: <1529447937.27370.33.camel@intel.com>
-Date:   Tue, 19 Jun 2018 17:50:49 -0700
-Cc:     Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id
+         :references:subject:from:to:cc;
+        bh=yMylWXdP5ayrVOQ6gauwzPUGocJd8etjj9E8ShmP7+E=;
+        b=PjL0w2cA/tsi7+tSnyQKGxnUpY5xAEQogoM8vNTTBVBy767QWAnQ+7THnWp61CGpl7
+         Udpxsr/LQsojgQNbD7Cc6fIxmABpXHpVezeSndfTmHJMmV5g47tT4mii7gk703oIzJtz
+         LhYQ42ydINNxWW+zh0STgbYmAmK+0wrUP324nj6BoGZvD6dpSNmyYOOVCS5k4J3zmcUF
+         bDiyXQqQL78NnKaOelidb9aVuIu5yI4bGPMnmw/t9FvQNb9w6QwzldoxzJqD6Rvypl7N
+         fhGilYkoEi8xgctkci6juPh3MTaaIkSXAPdCIzgF2NB9subRR3fSETagCvT7ir5NbfeL
+         v1Fw==
+X-Gm-Message-State: APt69E2EHyIEGIgScvw7s9ABWiymKss3OdTKbRPnPcL80VBm3lpBZy4r
+        MCw8xHDh8L9x99SQI2xzo3Dk2tRboC1k
+X-Google-Smtp-Source: ADUXVKIeumELY4BuspW1OCoZeJqkG+FMVoPe9vNxVmT3/48sTIWRVuD1lxnNAT0Lbgjzzdk6ypIQSvfzCa9m
+MIME-Version: 1.0
+X-Received: by 2002:a0c:c384:: with SMTP id o4-v6mr10545750qvi.51.1529457134692;
+ Tue, 19 Jun 2018 18:12:14 -0700 (PDT)
+Date:   Tue, 19 Jun 2018 18:12:06 -0700
+In-Reply-To: <20180619221651.GH33049@bhelgaas-glaptop.roam.corp.google.com>
+Message-Id: <20180620011210.254601-1-rajatja@google.com>
+References: <20180619221651.GH33049@bhelgaas-glaptop.roam.corp.google.com>
+X-Mailer: git-send-email 2.18.0.rc1.244.gcf134e6275-goog
+Subject: [PATCH v3 1/5] PCI/AER: Define and allocate aer_stats structure for
+ AER capable devices
+From:   Rajat Jain <rajatja@google.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <13E3C29A-3295-4A7F-90EC-A84CF34F3E1A@amacapital.net>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com> <20180607143807.3611-7-yu-cheng.yu@intel.com>
- <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
- <1528403417.5265.35.camel@2b52.sc.intel.com> <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
- <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
- <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
- <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
- <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
- <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
- <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
- <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
- <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de>
- <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
- <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
- <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
- <569B4719-6283-4575-A16E-D0A78D280F4E@amacapital.net> <CAGXu5jJNgu4bW_Zthqjfpe9gLxK0zxG8QFEqqK+pJNebz6tUaw@mail.gmail.com>
- <1529427588.23068.7.camel@intel.com> <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
- <0AF8B71E-B6CC-42DE-B95C-93896196C3D7@amacapital.net> <CAGXu5jLEMy_T_5OtXLT+pUCt=Nk53nBbuRvrUgJBhq-4RZ=yCA@mail.gmail.com>
- <446EB18D-EF06-4A04-AF62-E72C68D96A84@amacapital.net> <1529447937.27370.33.camel@intel.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Frederick Lawler <fred@fredlawl.com>,
+        Oza Pawandeep <poza@codeaurora.org>,
+        Keith Busch <keith.busch@intel.com>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
+        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
+        helgaas@kernel.org
+Cc:     Rajat Jain <rajatja@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Define a structure to hold the AER statistics. There are 2 groups
+of statistics: dev_* counters that are to be collected for all AER
+capable devices and rootport_* counters that are collected for all
+(AER capable) rootports only. Allocate and free this structure when
+device is added or released (thus counters survive the lifetime of the
+device).
 
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+v3: Merge everything in aer.c
 
-> On Jun 19, 2018, at 3:38 PM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->=20
-> On Tue, 2018-06-19 at 13:47 -0700, Andy Lutomirski wrote:
->>>=20
->>> On Jun 19, 2018, at 1:12 PM, Kees Cook <keescook@chromium.org>
->>> wrote:
->>>=20
->>>>=20
->>>> On Tue, Jun 19, 2018 at 10:20 AM, Andy Lutomirski <luto@amacapita
->>>> l.net> wrote:
->>>>=20
->>>>>=20
->>>>> On Jun 19, 2018, at 10:07 AM, Kees Cook <keescook@chromium.org>
->>>>> wrote:
->>>>>=20
->>>>> Does it provide anything beyond what PR_DUMPABLE does?
->>>> What do you mean?
->>> I was just going by the name of it. I wasn't sure what "ptrace CET
->>> lock" meant, so I was trying to understand if it was another "you
->>> can't ptrace me" toggle, and if so, wouldn't it be redundant with
->>> PR_SET_DUMPABLE =3D 0, etc.
->>>=20
->> No, other way around. The valid CET states are on/unlocked,
->> off/unlocked, on/locked, off/locked. arch_prctl can freely the state
->> unless locked. ptrace can change it no matter what.  The lock is to
->> prevent the existence of a gadget to disable CET (unless the gadget
->> involves ptrace, but I don=E2=80=99t think that=E2=80=99s a real concern)=
-.
->=20
-> We have the arch_prctl now and only need to add ptrace lock/unlock.
->=20
-> Back to the dlopen() "relaxed" mode. Would the following work?
->=20
-> If the lib being loaded does not use setjmp/getcontext families (the
-> loader knows?), then the loader leaves shstk on. =20
+ drivers/pci/pcie/aer.c | 60 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/pci/probe.c    |  1 +
+ include/linux/pci.h    |  3 +++
+ 3 files changed, 64 insertions(+)
 
-Will that actually work?  Are there libs that do something like longjmp with=
-out actually using the glibc longjmp routine?  What about compilers that sta=
-tically match a throw to a catch and try to return through several frames at=
- once?
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index a2e88386af28..f9fa994b6c33 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -33,6 +33,9 @@
+ #define AER_ERROR_SOURCES_MAX		100
+ #define AER_MAX_MULTI_ERR_DEVICES	5	/* Not likely to have more */
+ 
++#define AER_MAX_TYPEOF_CORRECTABLE_ERRS 16	/* as per PCI_ERR_COR_STATUS */
++#define AER_MAX_TYPEOF_UNCORRECTABLE_ERRS 26	/* as per PCI_ERR_UNCOR_STATUS*/
++
+ struct aer_err_info {
+ 	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
+ 	int error_dev_num;
+@@ -76,6 +79,40 @@ struct aer_rpc {
+ 					 */
+ };
+ 
++/* AER stats for the device */
++struct aer_stats {
++
++	/*
++	 * Fields for all AER capable devices. They indicate the errors
++	 * "as seen by this device". Note that this may mean that if an
++	 * end point is causing problems, the AER counters may increment
++	 * at its link partner (e.g. root port) because the errors will be
++	 * "seen" by the link partner and not the the problematic end point
++	 * itself (which may report all counters as 0 as it never saw any
++	 * problems).
++	 */
++	/* Individual counters for different type of correctable errors */
++	u64 dev_cor_errs[AER_MAX_TYPEOF_CORRECTABLE_ERRS];
++	/* Individual counters for different type of uncorrectable errors */
++	u64 dev_uncor_errs[AER_MAX_TYPEOF_UNCORRECTABLE_ERRS];
++	/* Total number of correctable errors seen by this device */
++	u64 dev_total_cor_errs;
++	/* Total number of fatal uncorrectable errors seen by this device */
++	u64 dev_total_fatal_errs;
++	/* Total number of fatal uncorrectable errors seen by this device */
++	u64 dev_total_nonfatal_errs;
++
++	/*
++	 * Fields for Root ports only, these indicate the total number of
++	 * ERR_COR, ERR_FATAL, and ERR_NONFATAL messages received by the
++	 * rootport, INCLUDING the ones that are generated internally (by
++	 * the rootport itself)
++	 */
++	u64 rootport_total_cor_errs;
++	u64 rootport_total_fatal_errs;
++	u64 rootport_total_nonfatal_errs;
++};
++
+ #define AER_LOG_TLP_MASKS		(PCI_ERR_UNC_POISON_TLP|	\
+ 					PCI_ERR_UNC_ECRC|		\
+ 					PCI_ERR_UNC_UNSUP|		\
+@@ -402,12 +439,35 @@ int pci_cleanup_aer_error_status_regs(struct pci_dev *dev)
+ 	return 0;
+ }
+ 
++static int pci_aer_stats_init(struct pci_dev *pdev)
++{
++	pdev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
++	if (!pdev->aer_stats) {
++		dev_err(&pdev->dev, "No memory for aer_stats\n");
++		return -ENOMEM;
++	}
++	return 0;
++}
++
++static void pci_aer_stats_exit(struct pci_dev *pdev)
++{
++	kfree(pdev->aer_stats);
++	pdev->aer_stats = NULL;
++}
++
+ int pci_aer_init(struct pci_dev *dev)
+ {
+ 	dev->aer_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
++	if (!dev->aer_cap || pci_aer_stats_init(dev))
++		return -EIO;
+ 	return pci_cleanup_aer_error_status_regs(dev);
+ }
+ 
++void pci_aer_exit(struct pci_dev *dev)
++{
++	pci_aer_stats_exit(dev);
++}
++
+ #define AER_AGENT_RECEIVER		0
+ #define AER_AGENT_REQUESTER		1
+ #define AER_AGENT_COMPLETER		2
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index ac876e32de4b..48edd0c9e4bc 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -2064,6 +2064,7 @@ static void pci_configure_device(struct pci_dev *dev)
+ 
+ static void pci_release_capabilities(struct pci_dev *dev)
+ {
++	pci_aer_exit(dev);
+ 	pci_vpd_release(dev);
+ 	pci_iov_release(dev);
+ 	pci_free_cap_save_buffers(dev);
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 340029b2fb38..8d59c6c19a19 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -299,6 +299,7 @@ struct pci_dev {
+ 	u8		hdr_type;	/* PCI header type (`multi' flag masked out) */
+ #ifdef CONFIG_PCIEAER
+ 	u16		aer_cap;	/* AER capability offset */
++	struct aer_stats *aer_stats;	/* AER stats for this device */
+ #endif
+ 	u8		pcie_cap;	/* PCIe capability offset */
+ 	u8		msi_cap;	/* MSI capability offset */
+@@ -1471,10 +1472,12 @@ static inline bool pcie_aspm_support_enabled(void) { return false; }
+ void pci_no_aer(void);
+ bool pci_aer_available(void);
+ int pci_aer_init(struct pci_dev *dev);
++void pci_aer_exit(struct pci_dev *dev);
+ #else
+ static inline void pci_no_aer(void) { }
+ static inline bool pci_aer_available(void) { return false; }
+ static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
++static inline void pci_aer_exit(struct pci_dev *d) { }
+ #endif
+ 
+ #ifdef CONFIG_PCIE_ECRC
+-- 
+2.18.0.rc1.244.gcf134e6275-goog
 
-
-> Otherwise, if the
-> system-wide setting is "relaxed", the loader turns off shstk and issues
-> a warning.  In addition, if (dlopen =3D=3D relaxed), then cet is not locke=
-d
-> in any time.
->=20
-> The system-wide setting (somewhere in /etc?) can be:
->=20
->    dlopen=3Dforce|relaxed /* controls dlopen of non-cet libs */
->    exec=3Dforce|relaxed /* controls exec of non-cet apps */
->=20
->=20
-
-Why do we need a whole new mechanism here?  Can=E2=80=99t all this use regul=
-ar glibc tunables?=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
