@@ -5,450 +5,361 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 25DC17D09D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 06:31:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 40B377D09D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 06:45:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751337AbeFTGbo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 02:31:44 -0400
-Received: from mail-wm0-f66.google.com ([74.125.82.66]:33420 "EHLO
-        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750940AbeFTGbm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 02:31:42 -0400
-Received: by mail-wm0-f66.google.com with SMTP id z6-v6so21469328wma.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 23:31:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=6JG2affcH0gpDLnmVLp+ILE46j3X6tmO+guNyiQvoms=;
-        b=NpGY8X7U0948TouhA5wgkQC6T0K7AHaeXSC+CY6D9LOAbGArlXUwXyjLf1P9d5CPR8
-         KLxbudUxRNAFJ9cHPG5iuoudqc+msGyYrfeHaDQpGt6XYd9FvqRxORaRJjwOvOLfyFU2
-         U9IURpqICgma23rOCuUkTqOjW3PSEed3XBmq0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=6JG2affcH0gpDLnmVLp+ILE46j3X6tmO+guNyiQvoms=;
-        b=L+WRzh1nTD3D9e+nPPewOm37878DRuIdUZM7NSnJx20U7cdEGDpDcelTEagzZomkX3
-         cLH8WP1q+tqwPjIR4E7T2EWc7zOHi9mj9X66rMNq6+plBJgoVFlyrEhzCMDyfgL/jU4L
-         fMW6hUuPhq/D+guUF2Hq+28Ga6VmfYFvwPwIUqs6FxoBZBDjuntxcRCNFYfpI7T8z3Yu
-         BaZY1nW7SPv/Cppus4kMj0baCKHHdvspWiIVhvzGuyzpERy2luyAVP0bPYp3QFgPB1P6
-         HfICZD+ihjvnuTT5jXuRUzSdfnypWYap2uElVw2ZittasfbbKNiJwON+QzHyxxZV9cYR
-         Nw3w==
-X-Gm-Message-State: APt69E0LxKOGRoKADsrMifDTSKorAi3t621zaDSBwRjlH0m5sUG9hnrK
-        tFjKdwHUv0/OxAI4RtJSbhNR5A==
-X-Google-Smtp-Source: ADUXVKJSxAenptSRhMMgbA814jdSIEnhDKQrrqfVVFGJvltwtD7n4VgE26SErSJoybdDgyMJKxe3aA==
-X-Received: by 2002:a1c:4a06:: with SMTP id x6-v6mr637676wma.89.1529476300942;
-        Tue, 19 Jun 2018 23:31:40 -0700 (PDT)
-Received: from apalos ([2a02:587:4609:4e00:11f7:ee02:412e:d0d])
-        by smtp.gmail.com with ESMTPSA id v31-v6sm3034419wrc.80.2018.06.19.23.31.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Jun 2018 23:31:40 -0700 (PDT)
-Date:   Wed, 20 Jun 2018 09:31:36 +0300
-From:   Ilias Apalodimas <ilias.apalodimas@linaro.org>
-To:     Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
-Cc:     grygorii.strashko@ti.com, davem@davemloft.net, corbet@lwn.net,
-        akpm@linux-foundation.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, vinicius.gomes@intel.com,
-        henrik@austad.us, jesus.sanchez-palencia@intel.com, p-varis@ti.com,
-        spatton@ti.com, francois.ozog@linaro.org, yogeshs@ti.com,
-        nsekhar@ti.com, andrew@lunn.ch
-Subject: Re: [PATCH v3 net-next 4/6] net: ethernet: ti: cpsw: add CBS Qdisc
- offload
-Message-ID: <20180620063136.GA24591@apalos>
-References: <20180615181310.10437-1-ivan.khoronzhuk@linaro.org>
- <20180615181310.10437-5-ivan.khoronzhuk@linaro.org>
+        id S1752914AbeFTGpI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 02:45:08 -0400
+Received: from fllnx209.ext.ti.com ([198.47.19.16]:22182 "EHLO
+        fllnx209.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751092AbeFTGpH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 02:45:07 -0400
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by fllnx209.ext.ti.com (8.15.1/8.15.1) with ESMTP id w5K6it79021824;
+        Wed, 20 Jun 2018 01:44:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1529477095;
+        bh=MdbbGkzqNB7wkdfM1KGe8mdQw1RTwF1opvtmBEpe+Pc=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=tgywpmd+Fmf0Z4ctcd4cZ9NNs0baQIxTK46Wx45KALjd0TsNxuVwM0WLAENgkj/fE
+         58UT2axXboIbMZ+CFyIDdLyIkj9isI5B3ngtZKZEqyy+me4zzuFgZGk+5pnno0LKbl
+         C+s2uxZWYNYdZyRIyNjgQST6slVU0DGADjdNBWP8=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K6itRQ028619;
+        Wed, 20 Jun 2018 01:44:55 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Wed, 20
+ Jun 2018 01:44:55 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Wed, 20 Jun 2018 01:44:55 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K6inNL029397;
+        Wed, 20 Jun 2018 01:44:51 -0500
+Subject: Re: [PATCH v4 02/10] PCI: dwc: Add MSI-X callbacks handler
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <jesper.nilsson@axis.com>
+References: <cover.1529329262.git.gustavo.pimentel@synopsys.com>
+ <5beae521c5ee475b1c0e04f5eec07d0120b0fa2b.1529329262.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <88d14571-694e-db83-11df-0e647f7bf3db@ti.com>
+Date:   Wed, 20 Jun 2018 12:14:49 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180615181310.10437-5-ivan.khoronzhuk@linaro.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <5beae521c5ee475b1c0e04f5eec07d0120b0fa2b.1529329262.git.gustavo.pimentel@synopsys.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 15, 2018 at 09:13:08PM +0300, Ivan Khoronzhuk wrote:
-> The cpsw has up to 4 FIFOs per port and upper 3 FIFOs can feed rate
-> limited queue with shaping. In order to set and enable shaping for
-> those 3 FIFOs queues the network device with CBS qdisc attached is
-> needed. The CBS configuration is added for dual-emac/single port mode
-> only, but potentially can be used in switch mode also, based on
-> switchdev for instance.
+Hi,
+
+On Monday 18 June 2018 08:30 PM, Gustavo Pimentel wrote:
+> Add PCIe config space capability search function.
 > 
-> Despite the FIFO shapers can work w/o cpdma level shapers the base
-> usage must be in combine with cpdma level shapers as described in TRM,
-> that are set as maximum rates for interface queues with sysfs.
+> Add sysfs set/get interface to allow the change of EP MSI-X maximum number.
 > 
-> One of the possible configuration with txq shapers and CBS shapers:
+> Add EP MSI-X callback for triggering interruptions.
 > 
->                       Configured with echo RATE >
->                   /sys/class/net/eth0/queues/tx-0/tx_maxrate
->              /---------------------------------------------------
->             /
->            /            cpdma level shapers
->         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
->         | c7 | | c6 | | c5 | | c4 | | c3 | | c2 | | c1 | | c0 |
->         \    / \    / \    / \    / \    / \    / \    / \    /
->          \  /   \  /   \  /   \  /   \  /   \  /   \  /   \  /
->           \/     \/     \/     \/     \/     \/     \/     \/
-> +---------|------|------|------|-------------------------------------+
-> |    +----+      |      |  +---+                                     |
-> |    |      +----+      |  |                                         |
-> |    v      v           v  v                                         |
-> | +----+ +----+ +----+ +----+ p        p+----+ +----+ +----+ +----+  |
-> | |    | |    | |    | |    | o        o|    | |    | |    | |    |  |
-> | | f3 | | f2 | | f1 | | f0 | r  CPSW  r| f3 | | f2 | | f1 | | f0 |  |
-> | |    | |    | |    | |    | t        t|    | |    | |    | |    |  |
-> | \    / \    / \    / \    / 0        1\    / \    / \    / \    /  |
-> |  \  X   \  /   \  /   \  /             \  /   \  /   \  /   \  /   |
-> |   \/ \   \/     \/     \/               \/     \/     \/     \/    |
-> +-------\------------------------------------------------------------+
->          \
->           \ FIFO shaper, set with CBS offload added in this patch,
->            \ FIFO0 cannot be rate limited
->             ------------------------------------------------------
-> 
-> CBS shaper configuration is supposed to be used with root MQPRIO Qdisc
-> offload allowing to add sk_prio->tc->txq maps that direct traffic to
-> appropriate tx queue and maps L2 priority to FIFO shaper.
-> 
-> The CBS shaper is intended to be used for AVB where L2 priority
-> (pcp field) is used to differentiate class of traffic. So additionally
-> vlan needs to be created with appropriate egress sk_prio->l2 prio map.
-> 
-> If CBS has several tx queues assigned to it, the sum of their
-> bandwidth has not overlap bandwidth set for CBS. It's recomended the
-> CBS bandwidth to be a little bit more.
-> 
-> The CBS shaper is configured with CBS qdisc offload interface using tc
-> tool from iproute2 packet.
-> 
-> For instance:
-> 
-> $ tc qdisc replace dev eth0 handle 100: parent root mqprio num_tc 3 \
-> map 2 2 1 0 2 2 2 2 2 2 2 2 2 2 2 2 queues 1@0 1@1 2@2 hw 1
-> 
-> $ tc -g class show dev eth0
-> +---(100:ffe2) mqprio
-> |    +---(100:3) mqprio
-> |    +---(100:4) mqprio
-> |    
-> +---(100:ffe1) mqprio
-> |    +---(100:2) mqprio
-> |    
-> +---(100:ffe0) mqprio
->      +---(100:1) mqprio
-> 
-> $ tc qdisc add dev eth0 parent 100:1 cbs locredit -1440 \
-> hicredit 60 sendslope -960000 idleslope 40000 offload 1
-> 
-> $ tc qdisc add dev eth0 parent 100:2 cbs locredit -1470 \
-> hicredit 62 sendslope -980000 idleslope 20000 offload 1
-> 
-> The above code set CBS shapers for tc0 and tc1, for that txq0 and
-> txq1 is used. Pay attention, the real set bandwidth can differ a bit
-> due to discreteness of configuration parameters.
-> 
-> Here parameters like locredit, hicredit and sendslope are ignored
-> internally and are supposed to be set with assumption that maximum
-> frame size for frame - 1500.
-> 
-> It's supposed that interface speed is not changed while reconnection,
-> not always is true, so inform user in case speed of interface was
-> changed, as it can impact on dependent shapers configuration.
-> 
-> For more examples see Documentation.
-> 
-> Signed-off-by: Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 > ---
->  drivers/net/ethernet/ti/cpsw.c | 221 +++++++++++++++++++++++++++++++++
->  1 file changed, 221 insertions(+)
+> Change v1->v2:
+>  - Nothing changed, just to follow the patch set version.
+> Change v2->v3:
+>  - Moved dra7xx_pcie_raise_irq() signature change to patch file #3.
+>  - Moved artpec6_pcie_raise_irq() signature change to patch file #3.
+>  - Replaced wrong return value 0 to -EINVAL.
+>  - Removed an else if by code refactoring.
+>  - Reduced the size of ioremap_nocache mapping from ep->addr_size to
+> PCI_MSIX_ENTRY_SIZE.
+>  - Fixed a small bug. If the MSI-X vector bit has been set, the function
+> would return without executing the proper unmap.
+> Change v3->v4:
+>  - Rebased to Lorenzo's master branch v4.18-rc1.
+>  - Added static prefix to __dw_pcie_ep_find_next_cap function.
 > 
-> diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
-> index edd14def98df..19573627a9bb 100644
-> --- a/drivers/net/ethernet/ti/cpsw.c
-> +++ b/drivers/net/ethernet/ti/cpsw.c
-> @@ -46,6 +46,8 @@
->  #include "cpts.h"
->  #include "davinci_cpdma.h"
->  
-> +#include <net/pkt_sched.h>
-> +
->  #define CPSW_DEBUG	(NETIF_MSG_HW		| NETIF_MSG_WOL		| \
->  			 NETIF_MSG_DRV		| NETIF_MSG_LINK	| \
->  			 NETIF_MSG_IFUP		| NETIF_MSG_INTR	| \
-> @@ -154,8 +156,12 @@ do {								\
->  #define IRQ_NUM			2
->  #define CPSW_MAX_QUEUES		8
->  #define CPSW_CPDMA_DESCS_POOL_SIZE_DEFAULT 256
-> +#define CPSW_FIFO_QUEUE_TYPE_SHIFT	16
-> +#define CPSW_FIFO_SHAPE_EN_SHIFT	16
-> +#define CPSW_FIFO_RATE_EN_SHIFT		20
->  #define CPSW_TC_NUM			4
->  #define CPSW_FIFO_SHAPERS_NUM		(CPSW_TC_NUM - 1)
-> +#define CPSW_PCT_MASK			0x7f
->  
->  #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_SHIFT	29
->  #define CPSW_RX_VLAN_ENCAP_HDR_PRIO_MSK		GENMASK(2, 0)
-> @@ -457,6 +463,8 @@ struct cpsw_priv {
->  	bool				rx_pause;
->  	bool				tx_pause;
->  	bool				mqprio_hw;
-> +	int				fifo_bw[CPSW_TC_NUM];
-> +	int				shp_cfg_speed;
->  	u32 emac_port;
->  	struct cpsw_common *cpsw;
->  };
-> @@ -1081,6 +1089,38 @@ static void cpsw_set_slave_mac(struct cpsw_slave *slave,
->  	slave_write(slave, mac_lo(priv->mac_addr), SA_LO);
+>  drivers/pci/controller/dwc/pcie-designware-ep.c   | 146 +++++++++++++++++++++-
+>  drivers/pci/controller/dwc/pcie-designware-plat.c |   4 +-
+>  drivers/pci/controller/dwc/pcie-designware.h      |  14 ++-
+>  3 files changed, 161 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 8650416..ad25654 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -40,6 +40,39 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+>  	__dw_pcie_ep_reset_bar(pci, bar, 0);
 >  }
 >  
-> +static bool cpsw_shp_is_off(struct cpsw_priv *priv)
+> +static u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
+> +			      u8 cap)
 > +{
-> +	struct cpsw_common *cpsw = priv->cpsw;
-> +	struct cpsw_slave *slave;
-> +	u32 shift, mask, val;
+> +	u8 cap_id, next_cap_ptr;
+> +	u16 reg;
 > +
-> +	val = readl_relaxed(&cpsw->regs->ptype);
+> +	reg = dw_pcie_readw_dbi(pci, cap_ptr);
+> +	next_cap_ptr = (reg & 0xff00) >> 8;
+> +	cap_id = (reg & 0x00ff);
 > +
-> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
-> +	shift = CPSW_FIFO_SHAPE_EN_SHIFT + 3 * slave->slave_num;
-> +	mask = 7 << shift;
-> +	val = val & mask;
+> +	if (!next_cap_ptr || cap_id > PCI_CAP_ID_MAX)
+> +		return 0;
 > +
-> +	return !val;
+> +	if (cap_id == cap)
+> +		return cap_ptr;
+> +
+> +	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
 > +}
 > +
-> +static void cpsw_fifo_shp_on(struct cpsw_priv *priv, int fifo, int on)
+> +u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
+
+This should be static?
+
+Thanks
+Kishon
 > +{
-> +	struct cpsw_common *cpsw = priv->cpsw;
-> +	struct cpsw_slave *slave;
-> +	u32 shift, mask, val;
+> +	u8 next_cap_ptr;
+> +	u16 reg;
 > +
-> +	val = readl_relaxed(&cpsw->regs->ptype);
+> +	reg = dw_pcie_readw_dbi(pci, PCI_CAPABILITY_LIST);
+> +	next_cap_ptr = (reg & 0x00ff);
 > +
-> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
-> +	shift = CPSW_FIFO_SHAPE_EN_SHIFT + 3 * slave->slave_num;
-> +	mask = (1 << --fifo) << shift;
-> +	val = on ? val | mask : val & ~mask;
+> +	if (!next_cap_ptr)
+> +		return 0;
 > +
-> +	writel_relaxed(val, &cpsw->regs->ptype);
+> +	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
 > +}
 > +
->  static void _cpsw_adjust_link(struct cpsw_slave *slave,
->  			      struct cpsw_priv *priv, bool *link)
+>  static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no,
+>  				   struct pci_epf_header *hdr)
 >  {
-> @@ -1120,6 +1160,12 @@ static void _cpsw_adjust_link(struct cpsw_slave *slave,
->  			mac_control |= BIT(4);
->  
->  		*link = true;
-> +
-> +		if (priv->shp_cfg_speed &&
-> +		    priv->shp_cfg_speed != slave->phy->speed &&
-> +		    !cpsw_shp_is_off(priv))
-> +			dev_warn(priv->dev,
-> +				 "Speed was changed, CBS shaper speeds are changed!");
->  	} else {
->  		mac_control = 0;
->  		/* disable forwarding */
-> @@ -1589,6 +1635,178 @@ static int cpsw_tc_to_fifo(int tc, int num_tc)
->  	return CPSW_FIFO_SHAPERS_NUM - tc;
+> @@ -241,8 +274,47 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
+>  	return 0;
 >  }
 >  
-> +static int cpsw_set_fifo_bw(struct cpsw_priv *priv, int fifo, int bw)
+> +static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no)
 > +{
-> +	struct cpsw_common *cpsw = priv->cpsw;
-> +	u32 val = 0, send_pct, shift;
-> +	struct cpsw_slave *slave;
-> +	int pct = 0, i;
+> +	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	u32 val, reg;
 > +
-> +	if (bw > priv->shp_cfg_speed * 1000)
-> +		goto err;
+> +	if (!ep->msix_cap)
+> +		return -EINVAL;
 > +
-> +	/* shaping has to stay enabled for highest fifos linearly
-> +	 * and fifo bw no more then interface can allow
-> +	 */
-> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
-> +	send_pct = slave_read(slave, SEND_PERCENT);
-> +	for (i = CPSW_FIFO_SHAPERS_NUM; i > 0; i--) {
-> +		if (!bw) {
-> +			if (i >= fifo || !priv->fifo_bw[i])
-> +				continue;
+> +	reg = ep->msix_cap + PCI_MSIX_FLAGS;
+> +	val = dw_pcie_readw_dbi(pci, reg);
+> +	if (!(val & PCI_MSIX_FLAGS_ENABLE))
+> +		return -EINVAL;
 > +
-> +			dev_warn(priv->dev, "Prev FIFO%d is shaped", i);
-> +			continue;
-> +		}
+> +	val &= PCI_MSIX_FLAGS_QSIZE;
 > +
-> +		if (!priv->fifo_bw[i] && i > fifo) {
-> +			dev_err(priv->dev, "Upper FIFO%d is not shaped", i);
-> +			return -EINVAL;
-> +		}
+> +	return val;
+> +}
 > +
-> +		shift = (i - 1) * 8;
-> +		if (i == fifo) {
-> +			send_pct &= ~(CPSW_PCT_MASK << shift);
-> +			val = DIV_ROUND_UP(bw, priv->shp_cfg_speed * 10);
-> +			if (!val)
-> +				val = 1;
+> +static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u16 interrupts)
+> +{
+> +	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	u32 val, reg;
 > +
-> +			send_pct |= val << shift;
-> +			pct += val;
-> +			continue;
-> +		}
+> +	if (!ep->msix_cap)
+> +		return -EINVAL;
 > +
-> +		if (priv->fifo_bw[i])
-> +			pct += (send_pct >> shift) & CPSW_PCT_MASK;
-> +	}
-> +
-> +	if (pct >= 100)
-> +		goto err;
-> +
-> +	slave_write(slave, send_pct, SEND_PERCENT);
-> +	priv->fifo_bw[fifo] = bw;
-> +
-> +	dev_warn(priv->dev, "set FIFO%d bw = %d\n", fifo,
-> +		 DIV_ROUND_CLOSEST(val * priv->shp_cfg_speed, 100));
+> +	reg = ep->msix_cap + PCI_MSIX_FLAGS;
+> +	val = dw_pcie_readw_dbi(pci, reg);
+> +	val &= ~PCI_MSIX_FLAGS_QSIZE;
+> +	val |= interrupts;
+> +	dw_pcie_dbi_ro_wr_en(pci);
+> +	dw_pcie_writew_dbi(pci, reg, val);
+> +	dw_pcie_dbi_ro_wr_dis(pci);
 > +
 > +	return 0;
-> +err:
-> +	dev_err(priv->dev, "Bandwidth doesn't fit in tc configuration");
-> +	return -EINVAL;
 > +}
 > +
-> +static int cpsw_set_fifo_rlimit(struct cpsw_priv *priv, int fifo, int bw)
+>  static int dw_pcie_ep_raise_irq(struct pci_epc *epc, u8 func_no,
+> -				enum pci_epc_irq_type type, u8 interrupt_num)
+> +				enum pci_epc_irq_type type, u16 interrupt_num)
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  
+> @@ -282,6 +354,8 @@ static const struct pci_epc_ops epc_ops = {
+>  	.unmap_addr		= dw_pcie_ep_unmap_addr,
+>  	.set_msi		= dw_pcie_ep_set_msi,
+>  	.get_msi		= dw_pcie_ep_get_msi,
+> +	.set_msix		= dw_pcie_ep_set_msix,
+> +	.get_msix		= dw_pcie_ep_get_msix,
+>  	.raise_irq		= dw_pcie_ep_raise_irq,
+>  	.start			= dw_pcie_ep_start,
+>  	.stop			= dw_pcie_ep_stop,
+> @@ -322,6 +396,64 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	return 0;
+>  }
+>  
+> +int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+> +			     u16 interrupt_num)
 > +{
-> +	struct cpsw_common *cpsw = priv->cpsw;
-> +	struct cpsw_slave *slave;
-> +	u32 tx_in_ctl_rg, val;
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	struct pci_epc *epc = ep->epc;
+> +	u16 tbl_offset, bir;
+> +	u32 bar_addr_upper, bar_addr_lower;
+> +	u32 msg_addr_upper, msg_addr_lower;
+> +	u32 reg, msg_data, vec_ctrl;
+> +	u64 tbl_addr, msg_addr, reg_u64;
+> +	void __iomem *msix_tbl;
 > +	int ret;
 > +
-> +	ret = cpsw_set_fifo_bw(priv, fifo, bw);
+> +	reg = ep->msix_cap + PCI_MSIX_TABLE;
+> +	tbl_offset = dw_pcie_readl_dbi(pci, reg);
+> +	bir = (tbl_offset & PCI_MSIX_TABLE_BIR);
+> +	tbl_offset &= PCI_MSIX_TABLE_OFFSET;
+> +	tbl_offset >>= 3;
+> +
+> +	reg = PCI_BASE_ADDRESS_0 + (4 * bir);
+> +	bar_addr_upper = 0;
+> +	bar_addr_lower = dw_pcie_readl_dbi(pci, reg);
+> +	reg_u64 = (bar_addr_lower & PCI_BASE_ADDRESS_MEM_TYPE_MASK);
+> +	if (reg_u64 == PCI_BASE_ADDRESS_MEM_TYPE_64)
+> +		bar_addr_upper = dw_pcie_readl_dbi(pci, reg + 4);
+> +
+> +	tbl_addr = ((u64) bar_addr_upper) << 32 | bar_addr_lower;
+> +	tbl_addr += (tbl_offset + ((interrupt_num - 1) * PCI_MSIX_ENTRY_SIZE));
+> +	tbl_addr &= PCI_BASE_ADDRESS_MEM_MASK;
+> +
+> +	msix_tbl = ioremap_nocache(ep->phys_base + tbl_addr,
+> +				   PCI_MSIX_ENTRY_SIZE);
+> +	if (!msix_tbl)
+> +		return -EINVAL;
+> +
+> +	msg_addr_lower = readl(msix_tbl + PCI_MSIX_ENTRY_LOWER_ADDR);
+> +	msg_addr_upper = readl(msix_tbl + PCI_MSIX_ENTRY_UPPER_ADDR);
+> +	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
+> +	msg_data = readl(msix_tbl + PCI_MSIX_ENTRY_DATA);
+> +	vec_ctrl = readl(msix_tbl + PCI_MSIX_ENTRY_VECTOR_CTRL);
+> +
+> +	iounmap(msix_tbl);
+> +
+> +	if (vec_ctrl & PCI_MSIX_ENTRY_CTRL_MASKBIT)
+> +		return -EPERM;
+> +
+> +	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msix_mem_phys, msg_addr,
+> +				  epc->mem->page_size);
 > +	if (ret)
 > +		return ret;
 > +
-> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
-> +	tx_in_ctl_rg = cpsw->version == CPSW_VERSION_1 ?
-> +		       CPSW1_TX_IN_CTL : CPSW2_TX_IN_CTL;
+> +	writel(msg_data, ep->msix_mem);
 > +
-> +	if (!bw)
-> +		cpsw_fifo_shp_on(priv, fifo, bw);
+> +	dw_pcie_ep_unmap_addr(epc, func_no, ep->msix_mem_phys);
 > +
-> +	val = slave_read(slave, tx_in_ctl_rg);
-> +	if (cpsw_shp_is_off(priv)) {
-> +		/* disable FIFOs rate limited queues */
-> +		val &= ~(0xf << CPSW_FIFO_RATE_EN_SHIFT);
-> +
-> +		/* set type of FIFO queues to normal priority mode */
-> +		val &= ~(3 << CPSW_FIFO_QUEUE_TYPE_SHIFT);
-> +
-> +		/* set type of FIFO queues to be rate limited */
-> +		if (bw)
-> +			val |= 2 << CPSW_FIFO_QUEUE_TYPE_SHIFT;
-> +		else
-> +			priv->shp_cfg_speed = 0;
-> +	}
-> +
-> +	/* toggle a FIFO rate limited queue */
-> +	if (bw)
-> +		val |= BIT(fifo + CPSW_FIFO_RATE_EN_SHIFT);
-> +	else
-> +		val &= ~BIT(fifo + CPSW_FIFO_RATE_EN_SHIFT);
-> +	slave_write(slave, val, tx_in_ctl_rg);
-> +
-> +	/* FIFO transmit shape enable */
-> +	cpsw_fifo_shp_on(priv, fifo, bw);
 > +	return 0;
 > +}
 > +
-> +/* Defaults:
-> + * class A - prio 3
-> + * class B - prio 2
-> + * shaping for class A should be set first
-> + */
-> +static int cpsw_set_cbs(struct net_device *ndev,
-> +			struct tc_cbs_qopt_offload *qopt)
+>  void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+>  {
+>  	struct pci_epc *epc = ep->epc;
+> @@ -329,6 +461,9 @@ void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+>  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
+>  			      epc->mem->page_size);
+>  
+> +	pci_epc_mem_free_addr(epc, ep->msix_mem_phys, ep->msix_mem,
+> +			      epc->mem->page_size);
+> +
+>  	pci_epc_mem_exit(epc);
+>  }
+>  
+> @@ -412,6 +547,15 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  		dev_err(dev, "Failed to reserve memory for MSI\n");
+>  		return -ENOMEM;
+>  	}
+> +	ep->msi_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSI);
+> +
+> +	ep->msix_mem = pci_epc_mem_alloc_addr(epc, &ep->msix_mem_phys,
+> +					     epc->mem->page_size);
+> +	if (!ep->msix_mem) {
+> +		dev_err(dev, "Failed to reserve memory for MSI-X\n");
+> +		return -ENOMEM;
+> +	}
+> +	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
+>  
+>  	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
+>  	EPC_FEATURE_SET_BAR(epc->features, BAR_0);
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> index 5937fed..654dcb5 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-plat.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
+> @@ -78,7 +78,7 @@ static void dw_plat_pcie_ep_init(struct dw_pcie_ep *ep)
+>  
+>  static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  				     enum pci_epc_irq_type type,
+> -				     u8 interrupt_num)
+> +				     u16 interrupt_num)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+>  
+> @@ -88,6 +88,8 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  		return -EINVAL;
+>  	case PCI_EPC_IRQ_MSI:
+>  		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+> +	case PCI_EPC_IRQ_MSIX:
+> +		return dw_pcie_ep_raise_msix_irq(ep, func_no, interrupt_num);
+>  	default:
+>  		dev_err(pci->dev, "UNKNOWN IRQ type\n");
+>  	}
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index bee4e25..b22c5bb 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -191,7 +191,7 @@ enum dw_pcie_as_type {
+>  struct dw_pcie_ep_ops {
+>  	void	(*ep_init)(struct dw_pcie_ep *ep);
+>  	int	(*raise_irq)(struct dw_pcie_ep *ep, u8 func_no,
+> -			     enum pci_epc_irq_type type, u8 interrupt_num);
+> +			     enum pci_epc_irq_type type, u16 interrupt_num);
+>  };
+>  
+>  struct dw_pcie_ep {
+> @@ -208,6 +208,10 @@ struct dw_pcie_ep {
+>  	u32			num_ob_windows;
+>  	void __iomem		*msi_mem;
+>  	phys_addr_t		msi_mem_phys;
+> +	void __iomem		*msix_mem;
+> +	phys_addr_t		msix_mem_phys;
+> +	u8			msi_cap;	/* MSI capability offset */
+> +	u8			msix_cap;	/* MSI-X capability offset */
+>  };
+>  
+>  struct dw_pcie_ops {
+> @@ -359,6 +363,8 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+>  void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
+>  int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  			     u8 interrupt_num);
+> +int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+> +			     u16 interrupt_num);
+>  void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar);
+>  #else
+>  static inline void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+> @@ -380,6 +386,12 @@ static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	return 0;
+>  }
+>  
+> +static inline int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+> +					   u16 interrupt_num)
 > +{
-> +	struct cpsw_priv *priv = netdev_priv(ndev);
-> +	struct cpsw_common *cpsw = priv->cpsw;
-> +	struct cpsw_slave *slave;
-> +	int prev_speed = 0;
-> +	int tc, ret, fifo;
-> +	u32 bw = 0;
-> +
-> +	tc = netdev_txq_to_tc(priv->ndev, qopt->queue);
-> +
-> +	/* enable channels in backward order, as highest FIFOs must be rate
-> +	 * limited first and for compliance with CPDMA rate limited channels
-> +	 * that also used in bacward order. FIFO0 cannot be rate limited.
-> +	 */
-> +	fifo = cpsw_tc_to_fifo(tc, ndev->num_tc);
-> +	if (!fifo) {
-> +		dev_err(priv->dev, "Last tc%d can't be rate limited", tc);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* do nothing, it's disabled anyway */
-> +	if (!qopt->enable && !priv->fifo_bw[fifo])
-> +		return 0;
-> +
-> +	/* shapers can be set if link speed is known */
-> +	slave = &cpsw->slaves[cpsw_slave_index(cpsw, priv)];
-> +	if (slave->phy && slave->phy->link) {
-> +		if (priv->shp_cfg_speed &&
-> +		    priv->shp_cfg_speed != slave->phy->speed)
-> +			prev_speed = priv->shp_cfg_speed;
-> +
-> +		priv->shp_cfg_speed = slave->phy->speed;
-> +	}
-> +
-> +	if (!priv->shp_cfg_speed) {
-> +		dev_err(priv->dev, "Link speed is not known");
-> +		return -1;
-> +	}
-> +
-> +	ret = pm_runtime_get_sync(cpsw->dev);
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(cpsw->dev);
-> +		return ret;
-> +	}
-> +
-> +	bw = qopt->enable ? qopt->idleslope : 0;
-> +	ret = cpsw_set_fifo_rlimit(priv, fifo, bw);
-> +	if (ret) {
-> +		priv->shp_cfg_speed = prev_speed;
-> +		prev_speed = 0;
-> +	}
-> +
-> +	if (bw && prev_speed)
-> +		dev_warn(priv->dev,
-> +			 "Speed was changed, CBS shaper speeds are changed!");
-> +
-> +	pm_runtime_put_sync(cpsw->dev);
-> +	return ret;
+> +	return 0;
 > +}
 > +
->  static int cpsw_ndo_open(struct net_device *ndev)
+>  static inline void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
 >  {
->  	struct cpsw_priv *priv = netdev_priv(ndev);
-> @@ -2263,6 +2481,9 @@ static int cpsw_ndo_setup_tc(struct net_device *ndev, enum tc_setup_type type,
->  			     void *type_data)
->  {
->  	switch (type) {
-> +	case TC_SETUP_QDISC_CBS:
-> +		return cpsw_set_cbs(ndev, type_data);
-> +
->  	case TC_SETUP_QDISC_MQPRIO:
->  		return cpsw_set_mqprio(ndev, type_data);
->  
-> -- 
-> 2.17.1
+>  }
 > 
-Reviewed-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
