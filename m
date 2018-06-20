@@ -3,50 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF1E27DF88
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 15:24:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E618F7DF88
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 15:24:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754122AbeFTPYd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 11:24:33 -0400
-Received: from mail-wr0-f193.google.com ([209.85.128.193]:37546 "EHLO
-        mail-wr0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752901AbeFTPYb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 11:24:31 -0400
-Received: by mail-wr0-f193.google.com with SMTP id k6-v6so915828wrp.4
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 08:24:31 -0700 (PDT)
+        id S932427AbeFTPYl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 11:24:41 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:37257 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932231AbeFTPYj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 11:24:39 -0400
+Received: by mail-wm0-f67.google.com with SMTP id r125-v6so228436wmg.2
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 08:24:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=okiTSK1tdrD6CxI+XnDS0dRhQiJPuer6SaivSONRTCE=;
-        b=wAkXY1rjeaSfKbTo0Fum9wsLODSwsEgrk0pDhSDejSI5AsqkzbqODUJgbynZFECj1h
-         jRPDhd8j95hcADElXXMWCDwu9o9cZ8oymkItZbSXeoN638cCxyuhlnJ17JUo0iJa8uwG
-         fI2Xde95xX8XXVl1dQMu0N/jI0F3Kym89rOFv69I3gGu1nY3L7veIPDCxDtlErufvzbN
-         vr2ffmx/chvGAaBjRbBdQCEo6BBQn9pjVhWEtnEk5TflJo4IyUbKJccSCRqw25cfQqzO
-         Zb3QA/pmbkeNum7VPxh19o6M8E8uMUbXe0vFafFfg8ndf2O9LDQ669AOFl9HgjuEWW9Z
-         60lQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=bcED8CkiPVSBRc7qI0iNRMFkXBn8RO25/zBGmIuPiVM=;
+        b=u0WfB6NHI0Vfw7EUk1hYoNDh4hKDvHY5AQ1L20Ifpw+DC9bnAndbsAlNeEdQnwoNmh
+         6DBLsQtVWl4D2QlrBsjOWU+CQ88q0QBpIFSovLwoUVVj2Oo+TRuWS+jep3kcbjoHF18h
+         g1SSSxxpROYeNG4T89d/1j8RGHCjcwzUHxHDamDEa6mJ0bcDEsQai35SxKS2qNkwqWNV
+         VlnjcjgB5lWq9Qtaa/Agqo0s93y929vNRTENIu+a1EFHO94YDA39tUYN8IfaZvaEcGNh
+         jHTFif6pvTIQDoJwTGXZLDTxD8rXt6+ccCKoI1BsYITIWQPkDqYzpFDVCxXEEwcLjWEC
+         khvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=okiTSK1tdrD6CxI+XnDS0dRhQiJPuer6SaivSONRTCE=;
-        b=ULiGlxZjR0hbQte5RAFKYK7fsEeDavYdHq+FnVXU5BFwghcgIr4DyG2VU57L7Zczx9
-         UhoVWkVn/uTFcNi8VQI4uKufXY/rnV4OC7dd35V6ltbWNc38W7BlxEZO+AUcdMcNbGMU
-         pLYaJ/Oku3kIVCKXfngV5TGFwdvklQWCtJyTi94p9mlYkESIbusdmPBdMDcdAg0JZX2r
-         LYW5o9Ybx2332H5hxDtDx1+VnqiLA7UjydY9n4YlksTIXR5k1TMDmkqW2y9W2JW6EGYw
-         PYTX9UKZ42Iz4fMe1In1DtpxT7nmd2ADbpEjTERcg/g9ZEG3TRj5mEadLsCJfs/RKofO
-         yaCQ==
-X-Gm-Message-State: APt69E2F1a1DzdfkimWZ2rXzpgo4Bs8wLRNg1OvbIa1zY7CisWXsHCbK
-        lHA2s3qeFS2ELlzJBUgNu+dBBw==
-X-Google-Smtp-Source: ADUXVKJEau/gfjiIEOl3/Ebp+0kZaJllVFcjuDsnKCcg3WW93hqn/jPNBrY2lLHfHWDppOl84MSryA==
-X-Received: by 2002:adf:ebc3:: with SMTP id v3-v6mr18085294wrn.33.1529508270029;
-        Wed, 20 Jun 2018 08:24:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=bcED8CkiPVSBRc7qI0iNRMFkXBn8RO25/zBGmIuPiVM=;
+        b=iGB5UMkLoj7B3L1I281ojzqTAhdGgRYlzhvriUfT54QHC44m8BfVqwgRf1A/sB/J3f
+         YxoXL2zZaW/hKoeU/Mo+xG5onZ13H+Ylf0tsRVuXRmmivypyo0dAGkrJmssYxRBUDowR
+         rqStXEGX/IU2T5EF+LyUm5y0JFKnjO4bAudX1MeHXhh/Be4MYX6AzAGsBLYzhAfxXcVv
+         Jg1vwcPdGz8iiS6Tt6/J/eUtKMW8tzJKioJoETYm32EgE8bgRHA+56VJVsp7EzO7xOZU
+         T5Q8jiF5Uko7AyudIi2yJw1JQnBJi3Gh35Lfvjel8SaBUwiVkogpaUoTjbr0Hx+8yPxd
+         Orzw==
+X-Gm-Message-State: APt69E1YHXa+WY4uPprnDFy6XLMidDkZPzTNd6dVWThYDE0rSMW0OFqw
+        M7hUouXvBFYfx9qp0Lv5nbdnWg==
+X-Google-Smtp-Source: ADUXVKJIWiVncHhLaq0gFfeTZGXtQPrH564Sy27fJti3VUKRpFj/LKkRGrTK/X22BIXNVbMclEsO2Q==
+X-Received: by 2002:a1c:ae8b:: with SMTP id x133-v6mr2238049wme.125.1529508277688;
+        Wed, 20 Jun 2018 08:24:37 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id c11-v6sm3959244wrm.65.2018.06.20.08.24.28
+        by smtp.gmail.com with ESMTPSA id c11-v6sm3959244wrm.65.2018.06.20.08.24.36
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 Jun 2018 08:24:29 -0700 (PDT)
+        Wed, 20 Jun 2018 08:24:36 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -72,83 +71,55 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-Date:   Wed, 20 Jun 2018 17:24:19 +0200
-Message-Id: <cover.1529507994.git.andreyknvl@google.com>
+Subject: [PATCH v4 5/7] lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
+Date:   Wed, 20 Jun 2018 17:24:24 +0200
+Message-Id: <8ccd13e2d13dea7143bd8b5be44b733c03aa3c02.1529507994.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.18.0.rc1.244.gcf134e6275-goog
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1529507994.git.andreyknvl@google.com>
+References: <cover.1529507994.git.andreyknvl@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-tags into the top byte of each pointer. Userspace programs (such as
-HWASan, a memory debugging tool [1]) might use this feature and pass
-tagged user pointers to the kernel through syscalls or other interfaces.
+strncpy_from_user and strnlen_user accept user addresses as arguments, and
+do not go through the same path as copy_from_user and others, so here we
+need to handle the case of tagged user addresses separately.
 
-This patch makes a few of the kernel interfaces accept tagged user
-pointers. The kernel is already able to handle user faults with tagged
-pointers and has the untagged_addr macro, which this patchset reuses.
+Untag user pointers passed to these functions.
 
-We're not trying to cover all possible ways the kernel accepts user
-pointers in one patchset, so this one should be considered as a start.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ lib/strncpy_from_user.c | 2 ++
+ lib/strnlen_user.c      | 2 ++
+ 2 files changed, 4 insertions(+)
 
-Thanks!
-
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-Changes in v4:
-- Added a selftest for checking that passing tagged pointers to the 
-  kernel succeeds.
-- Rebased onto 81e97f013 (4.18-rc1+).
-
-Changes in v3:
-- Rebased onto e5c51f30 (4.17-rc6+).
-- Added linux-arch@ to the list of recipients.
-
-Changes in v2:
-- Rebased onto 2d618bdf (4.17-rc3+).
-- Removed excessive untagging in gup.c.
-- Removed untagging pointers returned from __uaccess_mask_ptr.
-
-Changes in v1:
-- Rebased onto 4.17-rc1.
-
-Changes in RFC v2:
-- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
-  defining it for each arch individually.
-- Updated Documentation/arm64/tagged-pointers.txt.
-- Dropped “mm, arm64: untag user addresses in memory syscalls”.
-- Rebased onto 3eb2ce82 (4.16-rc7).
-
-Andrey Konovalov (7):
-  arm64: add type casts to untagged_addr macro
-  uaccess: add untagged_addr definition for other arches
-  arm64: untag user addresses in access_ok and __uaccess_mask_ptr
-  mm, arm64: untag user addresses in mm/gup.c
-  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-  arm64: update Documentation/arm64/tagged-pointers.txt
-  selftests, arm64: add a selftest for passing tagged pointers to kernel
-
- Documentation/arm64/tagged-pointers.txt       |  5 +++--
- arch/arm64/include/asm/uaccess.h              | 14 +++++++++-----
- include/linux/uaccess.h                       |  4 ++++
- lib/strncpy_from_user.c                       |  2 ++
- lib/strnlen_user.c                            |  2 ++
- mm/gup.c                                      |  4 ++++
- tools/testing/selftests/arm64/.gitignore      |  1 +
- tools/testing/selftests/arm64/Makefile        | 11 +++++++++++
- .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++++++
- tools/testing/selftests/arm64/tags_test.c     | 19 +++++++++++++++++++
- 10 files changed, 67 insertions(+), 7 deletions(-)
- create mode 100644 tools/testing/selftests/arm64/.gitignore
- create mode 100644 tools/testing/selftests/arm64/Makefile
- create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
- create mode 100644 tools/testing/selftests/arm64/tags_test.c
-
+diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
+index b53e1b5d80f4..97467cd2bc59 100644
+--- a/lib/strncpy_from_user.c
++++ b/lib/strncpy_from_user.c
+@@ -106,6 +106,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
+ 
++	src = untagged_addr(src);
++
+ 	max_addr = user_addr_max();
+ 	src_addr = (unsigned long)src;
+ 	if (likely(src_addr < max_addr)) {
+diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
+index 60d0bbda8f5e..8b5f56466e00 100644
+--- a/lib/strnlen_user.c
++++ b/lib/strnlen_user.c
+@@ -108,6 +108,8 @@ long strnlen_user(const char __user *str, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
+ 
++	str = untagged_addr(str);
++
+ 	max_addr = user_addr_max();
+ 	src_addr = (unsigned long)str;
+ 	if (likely(src_addr < max_addr)) {
 -- 
 2.18.0.rc1.244.gcf134e6275-goog
 
