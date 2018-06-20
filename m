@@ -1,60 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D0DAD7D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 19:42:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5CD9E7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 19:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932764AbeFTTl6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 15:41:58 -0400
-Received: from mail-io0-f193.google.com ([209.85.223.193]:32899 "EHLO
-        mail-io0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932600AbeFTTls (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 15:41:48 -0400
-Received: by mail-io0-f193.google.com with SMTP id d185-v6so840900ioe.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 12:41:48 -0700 (PDT)
+        id S932365AbeFTToC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 15:44:02 -0400
+Received: from mail-ot0-f194.google.com ([74.125.82.194]:44189 "EHLO
+        mail-ot0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932184AbeFTToA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 15:44:00 -0400
+Received: by mail-ot0-f194.google.com with SMTP id w13-v6so831022ote.11;
+        Wed, 20 Jun 2018 12:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=zFkkPYA2JYdxQPsfsZNZmw2WT34MpHd7e3Y+OlnJD+I=;
-        b=XVKRNa1aWKuAKlVuqCsgcsiqs0EOs3vtm8A7qpsUaSNSlnU5as5A69xg3vF/qhlBhZ
-         XZOUic0dYPRJs/Zvod0191xnXi9iBRpt6cW1WNsIhHVtS7xLa3HiHSashG/RRJ9+CZ7+
-         qLdUIoPwY/U1L7ZwfDSkvvpeQGVsKjwfJIymte370lOBoipZEquS/+ixghcuWWsFdqXz
-         AWf5sqrmaAkpWxD7vWJjyYfTjIj04i64AElDWejIQasz7QOKn/VzPGmxng9PhlvLUqsC
-         9EZzsGRzHSVi7bjsZb3R5kyMdpa+97RF8UkLPWFZsKa9KHxqa8Xi+OY8KUrgdCDYHTmm
-         +t8w==
+        bh=hPaFNaAU0f1Q8sJS7QvbcQiE/jem/9DSyL6aa8ys5/E=;
+        b=WdUAoQUirNrJnocQq7MvB4pffin70di2JjYUDJuD4d9dVsZZZVLMQzN1qEubLrkXm/
+         JP8YUGGg7k9ovyLOR0LF+h+Cbn24GzRDLo0DgzEIwK2v2pY0OlleVMzW6/LeLKE0yP7Q
+         xYIlQHd6m0wVMmhllEyYEpMEIXQWeQYKz5tI6hS4gdiR2PgvFv/YIi+efOOkaIAI6AhZ
+         5QvVj5P/ypWn2lznVO5V5PsUxcJ7I7I49VafEyoFXSwrCgWk8xmtTT+DfHNV0Mb5a4Dv
+         omz/JUlEy7JYKiHBEoOyv13F8IyFLmXvXorXOQ6cjkVbAgW88wdP1YsI3iTlxNWQmZ5K
+         j8pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=zFkkPYA2JYdxQPsfsZNZmw2WT34MpHd7e3Y+OlnJD+I=;
-        b=n7LVV6MkLTUyCidBGoga1wOmRV+3x/fGOrpad0S4xAQfwxqz1W2dZum4+/Kwth3PCy
-         pg0MjLYPNVX12H0DlAYtcUEzNS21RYtdel1prLVie0riHznijcY0UjmI+yHqmiLH+af3
-         /AGrZ8dyVPB6sB/oXIybZzG6qryDIjkKJFy39E8X5Jdc+pcg8/Y2NuwKzZCN0p7YeF2w
-         ztnCFPbI8LlSWw3JTMjaBVBfYvpfPFILNeh4V+0oJp0swshNpsgcZ1+HVe4GAAOzoOWM
-         6WU2ptKheugBxxdzA3z93SI/uMgks8bnMN3K6ZmLcvRALDOi//2s2QB7yUJ44q3bUITc
-         hlEQ==
-X-Gm-Message-State: APt69E2L6cMfwu+5fEL2Sy/2BYVxmggzntWn2UFGZ03HpmXkayq+g8XV
-        PKA/kp15IhGNroHfpSLq0AFgQmtMfWkrSd0FREj44w==
-X-Google-Smtp-Source: ADUXVKJB++igNKKy4kMzyYt/RPBMBzF9BKhOMkmz1fT9H2LFrUm0uS4YVbTAqkN50QRQ9Kti7Ob/zr54prsiL3UMvoQ=
-X-Received: by 2002:a6b:84e1:: with SMTP id o94-v6mr17990721ioi.119.1529523707600;
- Wed, 20 Jun 2018 12:41:47 -0700 (PDT)
+        bh=hPaFNaAU0f1Q8sJS7QvbcQiE/jem/9DSyL6aa8ys5/E=;
+        b=DIx9BNQqDXocjb2t0qDJHZJS93rLBiGoUkkFkGHo18ruPAx97I54L7zpzs8ouklZ03
+         ZzGRPkh2sviJC5aZBCuFGSXyr07rmf73ZCbKDyEJrsS4+dEIsbs28fbNXjSrAlMgwNaE
+         RLFcClmNqq2GP4c8l2rg68p5U/neDy++lCDRkrlXw8U98UBCKqxF55dRqShFQqekGDh7
+         9TnLcQv5jBDySUybSGmlIsRs/z+p4l/l2bSXZMXt4Iu5BGIh8KyeZFMP1cphcAd3Q4/H
+         yXwJPNQi1ae1EyQuXyyEvI+b7JT0JKrmh7hAaD2r9Ak2jdzXHNxzokieDimPBNbp26dV
+         fWqA==
+X-Gm-Message-State: APt69E0ZbGVLKzvkZoC8qhdeue0oNABfuEmYhBLLQWOOKOGJLl+sSWdg
+        PPTFFMGEudK+cO+dgJka83q2P539X0VVLgeEQlE=
+X-Google-Smtp-Source: ADUXVKIetrnSkCpBo2OAStc0GCNtMSOSyIU4heZhgxD3q4OGY3dyHB7TmFSsFuPC+CY0l5JgVL8+GvzvTFlzlcFLzHk=
+X-Received: by 2002:a9d:62d3:: with SMTP id z19-v6mr12690190otk.159.1529523839678;
+ Wed, 20 Jun 2018 12:43:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Wed, 20 Jun 2018 12:41:46
+Received: by 2002:a9d:1049:0:0:0:0:0 with HTTP; Wed, 20 Jun 2018 12:43:59
  -0700 (PDT)
-In-Reply-To: <CAOMZO5BgPaMsmx_3AJvMTKCFjhusfH=kH26U_PQCSD5TcUDA+w@mail.gmail.com>
+In-Reply-To: <CAAeHK+zJgSAxiHHfzhrm7N7iey7CbW42WfWvUN+FnZMPP3FXrA@mail.gmail.com>
 References: <cover.1529515183.git.andreyknvl@google.com> <f76d3070776e0038eda3cd76d471d1bfeae18480.1529515183.git.andreyknvl@google.com>
- <CAOMZO5BgPaMsmx_3AJvMTKCFjhusfH=kH26U_PQCSD5TcUDA+w@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 20 Jun 2018 21:41:46 +0200
-Message-ID: <CAAeHK+zJgSAxiHHfzhrm7N7iey7CbW42WfWvUN+FnZMPP3FXrA@mail.gmail.com>
+ <CAOMZO5BgPaMsmx_3AJvMTKCFjhusfH=kH26U_PQCSD5TcUDA+w@mail.gmail.com> <CAAeHK+zJgSAxiHHfzhrm7N7iey7CbW42WfWvUN+FnZMPP3FXrA@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 20 Jun 2018 16:43:59 -0300
+Message-ID: <CAOMZO5APF=cYOia8dn7dHa3h-Tm6sFMsJZwie--T6N-1-X-TYg@mail.gmail.com>
 Subject: Re: [PATCH v3 17/17] kasan: add SPDX-License-Identifier mark to
  source files
-To:     Fabio Estevam <festevam@gmail.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
@@ -99,21 +100,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 20, 2018 at 9:15 PM, Fabio Estevam <festevam@gmail.com> wrote:
-> On Wed, Jun 20, 2018 at 2:40 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
->
->> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
->> index 6f4f2ebf5f57..3feacd889e24 100644
->> --- a/mm/kasan/kasan.h
->> +++ b/mm/kasan/kasan.h
->> @@ -1,4 +1,4 @@
->> -/* SPDX-License-Identifier: GPL-2.0 */
->> +// SPDX-License-Identifier: GPL-2.0
->
-> The original notation is correct: /* */ style is used for header files.
+On Wed, Jun 20, 2018 at 4:41 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
-I used mm/slub.c as a reference, which uses //. Bu I can change it to
-/* */ in the next version, no problem.
+> I used mm/slub.c as a reference, which uses //. Bu I can change it to
+> /* */ in the next version, no problem.
+
+C source files should use //. C header files should use /* */
+
+This is documented at Documentation/process/license-rules.rst
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
