@@ -5,65 +5,59 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F1F0E7D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 10:22:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17D217D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 10:38:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751553AbeFTKW5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 06:22:57 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:51102 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751031AbeFTKWz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 06:22:55 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id CBAD71E04A3;
-        Wed, 20 Jun 2018 12:22:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1529490174; bh=FNL0H/UIeqLYABgt8Q0ZxMHoxO+uO46TonevBa3rx74=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=KwOfrPrpmJ5/a/FMpzWYBgaQUjOWcchTCaL4hbom7c0qQs8Y4pDd1JioW9d24E6JA
-         6r2GqMNbZsyJaG6IaRCUH590dK1JdBj913fPgjyv8Douafnn/ns5RKVPGfSxLd9clE
-         pVIAuBVA/v2IPb57w/x5qAFUErv9d9eVTusQxB21IUN5ezXGicZfUfXmS1TIVhuLXC
-         wmHTFHHT9rFesVLue02JV9GYniNU+8D1F2PoMrN/f3yW77K0Dlt8U2ODh/1KBfpK7M
-         UKGRmnLhDRWGpmNqoHPzi4vHtkHq3E7btbs/nQVXmR4AfHOocavhVwhnmSzypabKZR
-         SJI4a65VGMS+w==
-Received: from us01wehtc1.internal.synopsys.com (us01wehtc1.internal.synopsys.com [10.12.239.235])
-        by mailhost.synopsys.com (Postfix) with ESMTP id CDC2C5B36;
-        Wed, 20 Jun 2018 03:22:52 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 20 Jun 2018 03:22:30 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 20 Jun 2018 12:22:28 +0200
-Received: from [10.107.25.102] (10.107.25.102) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 20 Jun 2018 12:22:28 +0200
-Subject: Re: [PATCH v4 04/10] PCI: dwc: Rework MSI callbacks handler
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        id S1752308AbeFTKiX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 06:38:23 -0400
+Received: from fllnx210.ext.ti.com ([198.47.19.17]:54912 "EHLO
+        fllnx210.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752855AbeFTKiT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 06:38:19 -0400
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+        by fllnx210.ext.ti.com (8.15.1/8.15.1) with ESMTP id w5K7s4ZQ014509;
+        Wed, 20 Jun 2018 02:54:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1529481244;
+        bh=cuV0VxwoPm/YYzCp9V9lz0HOxMnHjizrx1IWDtvSZsM=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=e1+pZD6dUM4N8Ql6NoFpkwKxGK1ycCpUxzlFqHUuazKrBpH/AECegUT1Edjv4931t
+         M5v2uYxL22qGEcekZYZzpvVdiR2Ys18UUf9CJmHP22HJt66VeLnyjbmr519d82goSL
+         VFtXVX0nQyXWoeCrk1Hue7twbrseN5YekI+FdLms=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K7s30I022804;
+        Wed, 20 Jun 2018 02:54:03 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Wed, 20
+ Jun 2018 02:54:03 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Wed, 20 Jun 2018 02:54:03 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K7rxi9007994;
+        Wed, 20 Jun 2018 02:54:00 -0500
+Subject: Re: [PATCH v4 06/10] pci-epf-test/pci_endpoint_test: Cleanup
+ PCI_ENDPOINT_TEST memspace
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <jesper.nilsson@axis.com>
 References: <cover.1529329262.git.gustavo.pimentel@synopsys.com>
- <c6320411aa93d76e3e861f6275cebb1caf6cf893.1529329262.git.gustavo.pimentel@synopsys.com>
- <ef846300-1606-397e-c790-45ddee6b2417@ti.com>
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Message-ID: <f2b5e607-6e9d-69f0-087d-3dd1cd6736c5@synopsys.com>
-Date:   Wed, 20 Jun 2018 11:20:27 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+ <13077810f3630c01835041e41b338dd85fa91953.1529329262.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <eea616bd-a5dd-f8bb-22b3-319401c70cc6@ti.com>
+Date:   Wed, 20 Jun 2018 13:23:59 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <ef846300-1606-397e-c790-45ddee6b2417@ti.com>
+In-Reply-To: <13077810f3630c01835041e41b338dd85fa91953.1529329262.git.gustavo.pimentel@synopsys.com>
 Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.107.25.102]
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -71,164 +65,125 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi,
 
-On 20/06/2018 07:49, Kishon Vijay Abraham I wrote:
-> Hi,
+On Monday 18 June 2018 08:30 PM, Gustavo Pimentel wrote:
+> Cleanup PCI_ENDPOINT_TEST memspace (by moving the interrupt number away
+> from command section).
 > 
-> On Monday 18 June 2018 08:30 PM, Gustavo Pimentel wrote:
->> Remove duplicate defines located on pcie-designware.h file already
->> available on /include/uapi/linux/pci-regs.h file.
->>
->> Add pci_epc_set_msi() maximum 32 interrupts validation.
->>
->> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->> ---
->> Change v1->v2:
->>  - Nothing changed, just to follow the patch set version.
->> Change v2->v3:
->>  - Replaced wrong return value 0 to -EINVAL.
->> Change v3->v4:
->>  - Rebased to Lorenzo's master branch v4.18-rc1.
->>
->>  drivers/pci/controller/dwc/pcie-designware-ep.c | 49 +++++++++++++++++--------
->>  drivers/pci/controller/dwc/pcie-designware.h    | 11 ------
->>  drivers/pci/endpoint/pci-epc-core.c             |  3 +-
->>  3 files changed, 35 insertions(+), 28 deletions(-)
->>
->> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
->> index ad25654..89d9e52 100644
->> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
->> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
->> @@ -246,29 +246,38 @@ static int dw_pcie_ep_map_addr(struct pci_epc *epc, u8 func_no,
->>  
->>  static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no)
->>  {
->> -	int val;
->>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	u32 val, reg;
->> +
->> +	if (!ep->msi_cap)
->> +		return -EINVAL;
->>  
->> -	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
->> -	if (!(val & MSI_CAP_MSI_EN_MASK))
->> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
->> +	val = dw_pcie_readw_dbi(pci, reg);
->> +	if (!(val & PCI_MSI_FLAGS_ENABLE))
->>  		return -EINVAL;
->>  
->> -	val = (val & MSI_CAP_MME_MASK) >> MSI_CAP_MME_SHIFT;
->> +	val = (val & PCI_MSI_FLAGS_QSIZE) >> 4;
->> +
->>  	return val;
->>  }
->>  
->> -static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
->> +static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
->>  {
->> -	int val;
->>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->> +	u32 val, reg;
->>  
->> -	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
->> -	val &= ~MSI_CAP_MMC_MASK;
->> -	val |= (encode_int << MSI_CAP_MMC_SHIFT) & MSI_CAP_MMC_MASK;
->> +	if (!ep->msi_cap)
->> +		return -EINVAL;
->> +
->> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
->> +	val = dw_pcie_readw_dbi(pci, reg);
->> +	val &= ~PCI_MSI_FLAGS_QMASK;
->> +	val |= (interrupts << 1) & PCI_MSI_FLAGS_QMASK;
->>  	dw_pcie_dbi_ro_wr_en(pci);
->> -	dw_pcie_writew_dbi(pci, MSI_MESSAGE_CONTROL, val);
->> +	dw_pcie_writew_dbi(pci, reg, val);
->>  	dw_pcie_dbi_ro_wr_dis(pci);
->>  
->>  	return 0;
->> @@ -367,21 +376,29 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
->>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
->>  	struct pci_epc *epc = ep->epc;
->>  	u16 msg_ctrl, msg_data;
->> -	u32 msg_addr_lower, msg_addr_upper;
->> +	u32 msg_addr_lower, msg_addr_upper, reg;
->>  	u64 msg_addr;
->>  	bool has_upper;
->>  	int ret;
->>  
->> +	if (!ep->msi_cap)
->> +		return -EINVAL;
->> +
->>  	/* Raise MSI per the PCI Local Bus Specification Revision 3.0, 6.8.1. */
->> -	msg_ctrl = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
->> +	reg = ep->msi_cap + PCI_MSI_FLAGS;
->> +	msg_ctrl = dw_pcie_readw_dbi(pci, reg);
->>  	has_upper = !!(msg_ctrl & PCI_MSI_FLAGS_64BIT);
->> -	msg_addr_lower = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_L32);
->> +	reg = ep->msi_cap + PCI_MSI_ADDRESS_LO;
->> +	msg_addr_lower = dw_pcie_readl_dbi(pci, reg);
->>  	if (has_upper) {
->> -		msg_addr_upper = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_U32);
->> -		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_64);
->> +		reg = ep->msi_cap + PCI_MSI_ADDRESS_HI;
->> +		msg_addr_upper = dw_pcie_readl_dbi(pci, reg);
->> +		reg = ep->msi_cap + PCI_MSI_DATA_64;
->> +		msg_data = dw_pcie_readw_dbi(pci, reg);
->>  	} else {
->>  		msg_addr_upper = 0;
->> -		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_32);
->> +		reg = ep->msi_cap + PCI_MSI_DATA_32;
->> +		msg_data = dw_pcie_readw_dbi(pci, reg);
->>  	}
->>  	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
->>  	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msi_mem_phys, msg_addr,
->> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
->> index b22c5bb..a0ab12f 100644
->> --- a/drivers/pci/controller/dwc/pcie-designware.h
->> +++ b/drivers/pci/controller/dwc/pcie-designware.h
->> @@ -96,17 +96,6 @@
->>  #define PCIE_GET_ATU_INB_UNR_REG_OFFSET(region)				\
->>  			((0x3 << 20) | ((region) << 9) | (0x1 << 8))
->>  
->> -#define MSI_MESSAGE_CONTROL		0x52
->> -#define MSI_CAP_MMC_SHIFT		1
->> -#define MSI_CAP_MMC_MASK		(7 << MSI_CAP_MMC_SHIFT)
->> -#define MSI_CAP_MME_SHIFT		4
->> -#define MSI_CAP_MSI_EN_MASK		0x1
->> -#define MSI_CAP_MME_MASK		(7 << MSI_CAP_MME_SHIFT)
->> -#define MSI_MESSAGE_ADDR_L32		0x54
->> -#define MSI_MESSAGE_ADDR_U32		0x58
->> -#define MSI_MESSAGE_DATA_32		0x58
->> -#define MSI_MESSAGE_DATA_64		0x5C
->> -
->>  #define MAX_MSI_IRQS			256
->>  #define MAX_MSI_IRQS_PER_CTRL		32
->>  #define MAX_MSI_CTRLS			(MAX_MSI_IRQS / MAX_MSI_IRQS_PER_CTRL)
->> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
->> index c72e656..094dcc3 100644
->> --- a/drivers/pci/endpoint/pci-epc-core.c
->> +++ b/drivers/pci/endpoint/pci-epc-core.c
->> @@ -201,7 +201,8 @@ int pci_epc_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
->>  	u8 encode_int;
->>  	unsigned long flags;
->>  
->> -	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
->> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions ||
->> +	    interrupts > 32)
->>  		return -EINVAL;
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> ---
+> Change v2->v3:
+>  - New patch file created base on the previous patch
+> "misc: pci_endpoint_test: Add MSI-X support" patch file following
+> Kishon's suggestion.
+> Change v3->v4:
+>  - Rebased to Lorenzo's master branch v4.18-rc1.
 > 
-> This is not related to $patch->subject
+>  drivers/misc/pci_endpoint_test.c              | 84 ++++++++++++++++-----------
+>  drivers/pci/endpoint/functions/pci-epf-test.c | 60 ++++++++++++-------
+>  2 files changed, 91 insertions(+), 53 deletions(-)
+> 
+> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+> index 7b37046..56be808 100644
+> --- a/drivers/misc/pci_endpoint_test.c
+> +++ b/drivers/misc/pci_endpoint_test.c
+> @@ -35,38 +35,42 @@
+>  
+>  #include <uapi/linux/pcitest.h>
+>  
+> -#define DRV_MODULE_NAME			"pci-endpoint-test"
+> -
+> -#define PCI_ENDPOINT_TEST_MAGIC		0x0
+> -
+> -#define PCI_ENDPOINT_TEST_COMMAND	0x4
+> -#define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
+> -#define COMMAND_RAISE_MSI_IRQ		BIT(1)
+> -#define MSI_NUMBER_SHIFT		2
+> -/* 6 bits for MSI number */
+> -#define COMMAND_READ                    BIT(8)
+> -#define COMMAND_WRITE                   BIT(9)
+> -#define COMMAND_COPY                    BIT(10)
+> -
+> -#define PCI_ENDPOINT_TEST_STATUS	0x8
+> -#define STATUS_READ_SUCCESS             BIT(0)
+> -#define STATUS_READ_FAIL                BIT(1)
+> -#define STATUS_WRITE_SUCCESS            BIT(2)
+> -#define STATUS_WRITE_FAIL               BIT(3)
+> -#define STATUS_COPY_SUCCESS             BIT(4)
+> -#define STATUS_COPY_FAIL                BIT(5)
+> -#define STATUS_IRQ_RAISED               BIT(6)
+> -#define STATUS_SRC_ADDR_INVALID         BIT(7)
+> -#define STATUS_DST_ADDR_INVALID         BIT(8)
+> -
+> -#define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0xc
+> +#define DRV_MODULE_NAME				"pci-endpoint-test"
+> +
+> +#define IRQ_TYPE_LEGACY				0
+> +#define IRQ_TYPE_MSI				1
+> +
+> +#define PCI_ENDPOINT_TEST_MAGIC			0x0
+> +
+> +#define PCI_ENDPOINT_TEST_COMMAND		0x4
+> +#define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
+> +#define COMMAND_RAISE_MSI_IRQ			BIT(1)
 
-A new patch file will be created for this.
-Thanks,
-Gustavo
+Maybe you can add a comment here that BIT(2) is reserved for MSIX support
+> +#define COMMAND_READ				BIT(3)
+> +#define COMMAND_WRITE				BIT(4)
+> +#define COMMAND_COPY				BIT(5)
+> +
+> +#define PCI_ENDPOINT_TEST_STATUS		0x8
+> +#define STATUS_READ_SUCCESS			BIT(0)
+> +#define STATUS_READ_FAIL			BIT(1)
+> +#define STATUS_WRITE_SUCCESS			BIT(2)
+> +#define STATUS_WRITE_FAIL			BIT(3)
+> +#define STATUS_COPY_SUCCESS			BIT(4)
+> +#define STATUS_COPY_FAIL			BIT(5)
+> +#define STATUS_IRQ_RAISED			BIT(6)
+> +#define STATUS_SRC_ADDR_INVALID			BIT(7)
+> +#define STATUS_DST_ADDR_INVALID			BIT(8)
+> +
+> +#define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0x0c
+>  #define PCI_ENDPOINT_TEST_UPPER_SRC_ADDR	0x10
+>  
+>  #define PCI_ENDPOINT_TEST_LOWER_DST_ADDR	0x14
+>  #define PCI_ENDPOINT_TEST_UPPER_DST_ADDR	0x18
+>  
+> -#define PCI_ENDPOINT_TEST_SIZE		0x1c
+> -#define PCI_ENDPOINT_TEST_CHECKSUM	0x20
+> +#define PCI_ENDPOINT_TEST_SIZE			0x1c
+> +#define PCI_ENDPOINT_TEST_CHECKSUM		0x20
+> +
+> +#define PCI_ENDPOINT_TEST_IRQ_TYPE		0x24
 
-> 
-> Thanks
-> Kishon
-> 
+Is this not redundant? COMMAND_RAISE_LEGACY_IRQ, COMMAND_RAISE_MSI_IRQ already
+indicates the irq type to be used.
+> +#define PCI_ENDPOINT_TEST_IRQ_NUMBER		0x28
+>  
+>  static DEFINE_IDA(pci_endpoint_test_ida);
+>  
+> @@ -179,6 +183,9 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
+>  {
+>  	u32 val;
+>  
+> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
+> +				 IRQ_TYPE_LEGACY);
+> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, 0);
 
+Not sure if the above writes are really required.
+>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
+>  				 COMMAND_RAISE_LEGACY_IRQ);
+>  	val = wait_for_completion_timeout(&test->irq_raised,
+> @@ -190,20 +197,22 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
+>  }
+>  
+>  static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
+> -				      u8 msi_num)
+> +				      u8 irq_num)
+
+why do you want to rename this?
+
+Thanks
+Kishon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
