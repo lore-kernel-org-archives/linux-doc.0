@@ -1,108 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 674AE7D062
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 18:12:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2891F7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 19:17:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754410AbeFTSMR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 14:12:17 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:40908 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754226AbeFTSMQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 14:12:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=tuNxlu4AVaVOl+OHzSCoPZBBkIh/xEbBSLvvd30Cl6c=; b=byLS1uPMM3b9rCD3MTN3dlTyMn
-        RL0JZy3Kf9t8BdPCInjRe/Iyry/JbCk9vOmt+HXF50FCD2eHWNUeT+uxL6bzp0Z60KB1ckAwu9Tcm
-        DnbH+emnnOgDypgRJm8gAr0ZtaP2n4DnNT7rEAdFrRpt/hS2Sz98sGYfTNavLGMtaw5yex/EsJTM9
-        2kNolcWaKpn5ZPhQ6U2llRNqtomaXEuYH6oQeQzwba9W/x7AtW4la++8xVGEPczzfWoQGvtUBlpnm
-        Mazw9x715FEZm04DrPU6dMCI1gsZU4q6L2BqgpmoSFt1DhxlCTJBLz3b1ffmFuOB92NkuEnZS3fYM
-        FDO8UCeQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fVhaU-0001ja-D8; Wed, 20 Jun 2018 18:12:11 +0000
-Subject: Re: [PATCH v5 09/11] pci_endpoint_test: Add 2 ioctl commands
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        bhelgaas@google.com, lorenzo.pieralisi@arm.com,
-        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
-        adouglas@cadence.com, jesper.nilsson@axis.com, sboyd@codeaurora.org
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1529507416.git.gustavo.pimentel@synopsys.com>
- <8695864db0191b2e85ed81e97a8990baea3468fa.1529507416.git.gustavo.pimentel@synopsys.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <dd75ced1-e4c3-8c94-3bab-200e2ecdd8b8@infradead.org>
-Date:   Wed, 20 Jun 2018 11:12:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1754681AbeFTTPW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 15:15:22 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:40709 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754245AbeFTTPU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 15:15:20 -0400
+Received: by mail-oi0-f67.google.com with SMTP id f79-v6so621371oib.7;
+        Wed, 20 Jun 2018 12:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=or7JVfRMbp9Ae8VFQMQJh1TDsOrY1QlGUNeCx4j0kEI=;
+        b=S/3Oq9WTxEujbAC6K8bZwAOigCVWIS1UcN/KbFXbC0VonU+MOPzNgVtrbT7EYWqma+
+         bAuQJFyxJ6lS8+FsIrnwa8khf8R1C0jyJU/lH6Zbe+N1oIq9bQ8aFxoOss7TKdfO+nbI
+         clJ1DE6/Lst5GaiyNu4wXH+4di2sMMc6VfPVw1iOPBM5u/8d99DDaosGce8bGqkoAos1
+         jgSdizDMAHKe/gENdUbpAZC1xKgLyaokZHpyVar1FBemqdMf89Ee5HihsQxWSIuDfby3
+         T9m81i3V3bPu9f761VfeFKgtUpU+auv6maR5nHyMsPQcN0NAUbCeLexrs80W2VBvNR8U
+         LK3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=or7JVfRMbp9Ae8VFQMQJh1TDsOrY1QlGUNeCx4j0kEI=;
+        b=g+T1sbx4C82s86CKFTK/OGRQvvXdwjDO+rY+794IomOZKGm2bidqWzmG4HIwTCl7yj
+         ZfDLOXoejUd5Xnm8HgALlhKLQfGTk2Hl9ny3ckpSBCSohngGKtJOfaST95tyyofV9Ybz
+         UIR1c1eGyk0VJeIqJmBmaSP0RzOn2DfoK0kYH72EXnJTtuA1QZmazAc0MCA0LVTHujXP
+         ti9ZHr2lOWcJTqipPYRdGj0x7iLZojlYmYrYqaIHQRouvAiFHpoIKjlhY6Icop+Kajvo
+         lWVx1VX6Sv6qiYuC8GL6Zcpfx7ezp/V7+J/LD9FBZUpEH90LhI1dcU+FkxNjmWgY0J0b
+         X8Yg==
+X-Gm-Message-State: APt69E2KD4CG6XMfCXrtRCiZnIV0HD0O0xjRtcEYA1xFkfghIOYWCAjq
+        OgNrS1uihmhf20KegBXg83Vgmq5EyIr7+2CxHOY=
+X-Google-Smtp-Source: ADUXVKIS3Cns5SAtNcFf6Vyyzkk5J21KiWfUYNY6t/ncDKw6PBtAhU2zi9Nz9k+W+hEDh/vMnFtnmHDi9S/TnUSu9as=
+X-Received: by 2002:aca:400b:: with SMTP id n11-v6mr13308204oia.44.1529522118807;
+ Wed, 20 Jun 2018 12:15:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8695864db0191b2e85ed81e97a8990baea3468fa.1529507416.git.gustavo.pimentel@synopsys.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a9d:1049:0:0:0:0:0 with HTTP; Wed, 20 Jun 2018 12:15:18
+ -0700 (PDT)
+In-Reply-To: <f76d3070776e0038eda3cd76d471d1bfeae18480.1529515183.git.andreyknvl@google.com>
+References: <cover.1529515183.git.andreyknvl@google.com> <f76d3070776e0038eda3cd76d471d1bfeae18480.1529515183.git.andreyknvl@google.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 20 Jun 2018 16:15:18 -0300
+Message-ID: <CAOMZO5BgPaMsmx_3AJvMTKCFjhusfH=kH26U_PQCSD5TcUDA+w@mail.gmail.com>
+Subject: Re: [PATCH v3 17/17] kasan: add SPDX-License-Identifier mark to
+ source files
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/20/2018 09:28 AM, Gustavo Pimentel wrote:
-> Add MSI-X support and update driver documentation accordingly.
-> 
-> Add 2 new IOCTL commands:
->  - Allow to reconfigure driver IRQ type in runtime.
->  - Allow to retrieve current driver IRQ type configured.
-> 
-> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> ---
-> Change v2->v3:                                                                              |  --------------------------------------------------------------------------------------------
->  - New patch file created base on the previous patch                                        |  --------------------------------------------------------------------------------------------
-> "misc: pci_endpoint_test: Add MSI-X support" patch file following                           |  --------------------------------------------------------------------------------------------
-> Kishon's suggestion.                                                                        |  --------------------------------------------------------------------------------------------
-> Change v3->v4:                                                                              |  --------------------------------------------------------------------------------------------
->  - Rebased to Lorenzo's master branch v4.18-rc1.
-> Change v4->v5:
->  - Nothing changed, just to follow the patch set version.
-> 
->  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->  drivers/misc/pci_endpoint_test.c                 | 177 +++++++++++++++++------
->  2 files changed, 132 insertions(+), 48 deletions(-)
-> 
-> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
-> index fdfa0f6..58ccca4 100644
-> --- a/Documentation/misc-devices/pci-endpoint-test.txt
-> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
-> @@ -28,6 +28,9 @@ ioctl
->  	      to be tested should be passed as argument.
->   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->  	      to be tested should be passed as argument.
-> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
-> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
->   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->  		as argument.
->   PCITEST_READ: Perform read tests. The size of the buffer should be passed
-> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-> index 2b58887..82fa0c2 100644
-> --- a/drivers/misc/pci_endpoint_test.c
-> +++ b/drivers/misc/pci_endpoint_test.c
+On Wed, Jun 20, 2018 at 2:40 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
 
-Hi,
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 6f4f2ebf5f57..3feacd889e24 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -1,4 +1,4 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> +// SPDX-License-Identifier: GPL-2.0
 
-The ioctl "type" (as "type" is used in <uapi/asm-generic/ioctl.h>),
-value of 'P' in this case, should be documented in
-Documentation/ioctl/ioctl-number.txt.
-
-thanks,
--- 
-~Randy
+The original notation is correct: /* */ style is used for header files.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
