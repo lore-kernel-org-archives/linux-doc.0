@@ -1,117 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9331F7DF88
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 15:26:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 451957DF88
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 15:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754162AbeFTP0y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 11:26:54 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:37552 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754089AbeFTPYe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 11:24:34 -0400
-Received: by mail-wr0-f194.google.com with SMTP id k6-v6so915988wrp.4
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 08:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=XKjQm946wgqBcvKf36FFRVltlqNjqNquoHht/aDg6nU=;
-        b=lEJigrz2OiWBxMqQ2GbgTMNaf8HM5o4WfSODpVX11gR3uVG3NYEkX6OOAxhXBkO2VM
-         jomcNT4FHr5zvHDoAr14vO7x6jbK/mhwcwrRvRYcV3f14W3VEREc3BgU5Uu4PLBrMPvd
-         AxlLMDnVf6PytDxds14J7F6wIztQmBZ8ZVXxk0wQd7oBiM5FB87jNG8Z8VbYARGtapY0
-         Jqj71BFYcO6Arm4MqZyQEoxU7h9jidia7mGzCLpPPKekORuZtnizCR4o1aemqWBVwI7r
-         m/qrma4RcAX2hw+LUNMM9RiOQUTiUZer0boGMlOxJt1C6TjzUg1yXvyarAOiHl0ijDnv
-         X7Uw==
+        id S1754295AbeFTP06 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 11:26:58 -0400
+Received: from mail-yw0-f196.google.com ([209.85.161.196]:40491 "EHLO
+        mail-yw0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754089AbeFTP0z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 11:26:55 -0400
+Received: by mail-yw0-f196.google.com with SMTP id p129-v6so1302732ywg.7;
+        Wed, 20 Jun 2018 08:26:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=XKjQm946wgqBcvKf36FFRVltlqNjqNquoHht/aDg6nU=;
-        b=oEWDuoFOXayibPHCP7gQrgEhdzoqqvJyxjmv/Gn0nYtNHuUefGJHyBb6bQEDZcgT08
-         kkRniOl+lH21aH+lQnO5BKEa7Y4LdyOIDiN4xV9UV+uRTc8lxmV5jMgWCKa8Xd/Jh/aL
-         ihl3FzUxs1a3KyecNrcnMbg+U+SBkQVULpyA+fLPOdq4pyeNk/i5nilKpW0PbdHdGXqR
-         IuT4PlQqWoUlX3nmUmPvAn8ZJMA5q7bEo97M7942fb8k7nZMJvOzXRBuKue0Cp8tJew4
-         w+ST/Qt+6TDjCAHuNHyLYyUJSXc2Za9WH1X8msY9TLebMHSvOkkdz1A3D/k1KEwvU+ME
-         kk9g==
-X-Gm-Message-State: APt69E2ELeREOSBCmW+ovNlz4Ui+LpGy56CUCskeifpyvGcW5s4yJHT6
-        zhWhW6Nxf22Wc5PUus4+atnIow==
-X-Google-Smtp-Source: ADUXVKKaG9tLMBQSmpdBkcvCAygtoJeNPH5U1f8+dJ0VYDreDtubosvrhkERRf+42VqZN8GkOQZ0gA==
-X-Received: by 2002:adf:a706:: with SMTP id c6-v6mr19077169wrd.61.1529508272731;
-        Wed, 20 Jun 2018 08:24:32 -0700 (PDT)
-Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id c11-v6sm3959244wrm.65.2018.06.20.08.24.31
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 Jun 2018 08:24:32 -0700 (PDT)
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=M0ncQKFGoHNU/4u0aooKD+miPaB+SeSD+pn1p18Jaxg=;
+        b=hnlS1qVyoeGZMKV70vmTuUc51sB2h62WWEMbZFj9IHADmuDwt9W3qYOZrB4idQVTIY
+         O++ET8BD7M0K6g3sAu5EKp6Y/kWnUdXEtgm0jAeBVum2cyQViwhnRMJnvNngV1BFUbQl
+         +fcZdbzpu6KA/oTj9oVKqjomwh2k7F+Wtg0p3C2G7LVuAPKKxhBhq7RTon3Uzw9zC2lJ
+         XHs9MlGUmnF1TXkAg/OClEgft0vOHMJko+5YKIu1E9rlmZSTiuroINsoNaEkaN/fR2Fp
+         lgt60R7rl2UcI2usw2gXyikGV/di4q9LAQMomSTAUI91YgqcbWzOJlp+Kg+PmiatWgQ6
+         h3Qg==
+X-Gm-Message-State: APt69E2T1KH25Uy+YRjs8i6JWS6w6j05XmKLFb8SewMayA5Yzw1l0+g8
+        VYCUKCiPI6Nqpq2SB303yA==
+X-Google-Smtp-Source: ADUXVKKB0JvUuJ9N98N9PcK/5hOmWzO3DrjuvocJgZfnO9+e8hOOPjGGq0MEsBn8IhxNzU2dncyTGw==
+X-Received: by 2002:a0d:f0c2:: with SMTP id z185-v6mr10765267ywe.28.1529508414499;
+        Wed, 20 Jun 2018 08:26:54 -0700 (PDT)
+Received: from localhost (24-223-123-72.static.usa-companies.net. [24.223.123.72])
+        by smtp.gmail.com with ESMTPSA id j207-v6sm994761ywj.19.2018.06.20.08.26.53
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 20 Jun 2018 08:26:53 -0700 (PDT)
+Date:   Wed, 20 Jun 2018 09:26:52 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
         Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Roy Pledge <Roy.Pledge@nxp.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: [PATCH v4 2/7] uaccess: add untagged_addr definition for other arches
-Date:   Wed, 20 Jun 2018 17:24:21 +0200
-Message-Id: <a937551f03c4617aa400fb75130627df7ed09506.1529507994.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.18.0.rc1.244.gcf134e6275-goog
-In-Reply-To: <cover.1529507994.git.andreyknvl@google.com>
-References: <cover.1529507994.git.andreyknvl@google.com>
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-gpio@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@zh-kernel.org, linux-usb@vger.kernel.org,
+        linux-input@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-fbdev@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v4 04/26] docs: fix broken references with multiple hints
+Message-ID: <20180620152652.GA12591@rob-hp-laptop>
+References: <cover.1529079119.git.mchehab+samsung@kernel.org>
+ <75c14f6d84eef8c10787e85ddc172afebee116d6.1529079119.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75c14f6d84eef8c10787e85ddc172afebee116d6.1529079119.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To allow arm64 syscalls accept tagged pointers from userspace, we must
-untag them when they are passed to the kernel. Since untagging is done in
-generic parts of the kernel (like the mm subsystem), the untagged_addr
-macro should be defined for all architectures.
+On Fri, Jun 15, 2018 at 01:30:32PM -0300, Mauro Carvalho Chehab wrote:
+> The script:
+> 	./scripts/documentation-file-ref-check --fix
+> 
+> Gives multiple hints for broken references on some files.
+> Manually use the one that applies for some files.
+> 
+> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/ABI/obsolete/sysfs-gpio                     | 2 +-
+>  .../devicetree/bindings/display/bridge/tda998x.txt        | 2 +-
 
-Define it as a noop for other architectures besides arm64.
+Acked-by: Rob Herring <robh@kernel.org>
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- include/linux/uaccess.h | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index efe79c1cdd47..c045b4eff95e 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -13,6 +13,10 @@
- 
- #include <asm/uaccess.h>
- 
-+#ifndef untagged_addr
-+#define untagged_addr(addr) addr
-+#endif
-+
- /*
-  * Architectures should provide two primitives (raw_copy_{to,from}_user())
-  * and get rid of their private instances of copy_{to,from}_user() and
--- 
-2.18.0.rc1.244.gcf134e6275-goog
-
+>  Documentation/trace/events.rst                            | 2 +-
+>  Documentation/trace/tracepoint-analysis.rst               | 2 +-
+>  Documentation/translations/zh_CN/SubmittingDrivers        | 2 +-
+>  Documentation/translations/zh_CN/gpio.txt                 | 4 ++--
+>  MAINTAINERS                                               | 2 +-
+>  drivers/hid/usbhid/Kconfig                                | 2 +-
+>  drivers/input/Kconfig                                     | 4 ++--
+>  drivers/input/joystick/Kconfig                            | 4 ++--
+>  drivers/input/joystick/iforce/Kconfig                     | 4 ++--
+>  drivers/input/serio/Kconfig                               | 4 ++--
+>  drivers/staging/fsl-mc/bus/dpio/dpio-driver.txt           | 2 +-
+>  drivers/video/fbdev/skeletonfb.c                          | 8 ++++----
+>  include/linux/tracepoint.h                                | 2 +-
+>  security/device_cgroup.c                                  | 2 +-
+>  16 files changed, 24 insertions(+), 24 deletions(-)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
