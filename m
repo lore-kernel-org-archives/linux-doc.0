@@ -1,189 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=FROM_EXCESS_BASE64,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 17D217D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 10:38:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A2A57D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 10:47:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752308AbeFTKiX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 06:38:23 -0400
-Received: from fllnx210.ext.ti.com ([198.47.19.17]:54912 "EHLO
-        fllnx210.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752855AbeFTKiT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 06:38:19 -0400
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-        by fllnx210.ext.ti.com (8.15.1/8.15.1) with ESMTP id w5K7s4ZQ014509;
-        Wed, 20 Jun 2018 02:54:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1529481244;
-        bh=cuV0VxwoPm/YYzCp9V9lz0HOxMnHjizrx1IWDtvSZsM=;
-        h=Subject:To:References:CC:From:Date:In-Reply-To;
-        b=e1+pZD6dUM4N8Ql6NoFpkwKxGK1ycCpUxzlFqHUuazKrBpH/AECegUT1Edjv4931t
-         M5v2uYxL22qGEcekZYZzpvVdiR2Ys18UUf9CJmHP22HJt66VeLnyjbmr519d82goSL
-         VFtXVX0nQyXWoeCrk1Hue7twbrseN5YekI+FdLms=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K7s30I022804;
-        Wed, 20 Jun 2018 02:54:03 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Wed, 20
- Jun 2018 02:54:03 -0500
-Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
- Wed, 20 Jun 2018 02:54:03 -0500
-Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K7rxi9007994;
-        Wed, 20 Jun 2018 02:54:00 -0500
-Subject: Re: [PATCH v4 06/10] pci-epf-test/pci_endpoint_test: Cleanup
- PCI_ENDPOINT_TEST memspace
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
-        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
-        <adouglas@cadence.com>, <jesper.nilsson@axis.com>
-References: <cover.1529329262.git.gustavo.pimentel@synopsys.com>
- <13077810f3630c01835041e41b338dd85fa91953.1529329262.git.gustavo.pimentel@synopsys.com>
-CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <eea616bd-a5dd-f8bb-22b3-319401c70cc6@ti.com>
-Date:   Wed, 20 Jun 2018 13:23:59 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1752792AbeFTKrW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 06:47:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39663 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1750793AbeFTKrU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Jun 2018 06:47:20 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 7F9C8AC2E;
+        Wed, 20 Jun 2018 10:47:18 +0000 (UTC)
+Date:   Wed, 20 Jun 2018 12:47:15 +0200
+From:   Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, Aaron Wu <Aaron.Wu@analog.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Steven Rostedt," <rostedt@goodmis.org>,
+        Laura Abbott <lauraa@codeaurora.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
+        Baoquan He <bhe@redhat.com>,
+        Ilya Matveychikov <matvejchikov@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 0/5] Kernel parameter parser cleanup/enhancement
+Message-ID: <20180620124715.58680ad5@kitsune.suse.cz>
+In-Reply-To: <20180619163647.23c8a5d7370258c9e43141c3@linux-foundation.org>
+References: <cover.1528215659.git.msuchanek@suse.de>
+        <20180619163647.23c8a5d7370258c9e43141c3@linux-foundation.org>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <13077810f3630c01835041e41b338dd85fa91953.1529329262.git.gustavo.pimentel@synopsys.com>
-Content-Type: text/plain; charset="windows-1252"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, 19 Jun 2018 16:36:47 -0700
+Andrew Morton <akpm@linux-foundation.org> wrote:
 
-On Monday 18 June 2018 08:30 PM, Gustavo Pimentel wrote:
-> Cleanup PCI_ENDPOINT_TEST memspace (by moving the interrupt number away
-> from command section).
+> On Tue,  5 Jun 2018 18:43:07 +0200 Michal Suchanek
+> <msuchanek@suse.de> wrote:
 > 
-> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> ---
-> Change v2->v3:
->  - New patch file created base on the previous patch
-> "misc: pci_endpoint_test: Add MSI-X support" patch file following
-> Kishon's suggestion.
-> Change v3->v4:
->  - Rebased to Lorenzo's master branch v4.18-rc1.
+> > due to work on the fadump_extra_args I looked at the kernel
+> > parameter parser and found its grammar rather curious.
+> > 
+> > It supports double quotes but not any other quoting characters so
+> > double quotes cannot be quoted. What's more, the quotes can be
+> > anywhere in the parameter name or value and are interpteted but are
+> > removed only from start and end of the parameter value.
+> > 
+> > These are the patches not specific to fadump which somewhat
+> > straighten the qouting grammar to make it on par with common shell
+> > interpreters.
+> > 
+> > Specifically double and single quotes can be used for quoting as
+> > well as backslashes with the usual shell semantic. All quoting
+> > characters are removed while the parameters are parsed.  
 > 
->  drivers/misc/pci_endpoint_test.c              | 84 ++++++++++++++++-----------
->  drivers/pci/endpoint/functions/pci-epf-test.c | 60 ++++++++++++-------
->  2 files changed, 91 insertions(+), 53 deletions(-)
-> 
-> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-> index 7b37046..56be808 100644
-> --- a/drivers/misc/pci_endpoint_test.c
-> +++ b/drivers/misc/pci_endpoint_test.c
-> @@ -35,38 +35,42 @@
->  
->  #include <uapi/linux/pcitest.h>
->  
-> -#define DRV_MODULE_NAME			"pci-endpoint-test"
-> -
-> -#define PCI_ENDPOINT_TEST_MAGIC		0x0
-> -
-> -#define PCI_ENDPOINT_TEST_COMMAND	0x4
-> -#define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
-> -#define COMMAND_RAISE_MSI_IRQ		BIT(1)
-> -#define MSI_NUMBER_SHIFT		2
-> -/* 6 bits for MSI number */
-> -#define COMMAND_READ                    BIT(8)
-> -#define COMMAND_WRITE                   BIT(9)
-> -#define COMMAND_COPY                    BIT(10)
-> -
-> -#define PCI_ENDPOINT_TEST_STATUS	0x8
-> -#define STATUS_READ_SUCCESS             BIT(0)
-> -#define STATUS_READ_FAIL                BIT(1)
-> -#define STATUS_WRITE_SUCCESS            BIT(2)
-> -#define STATUS_WRITE_FAIL               BIT(3)
-> -#define STATUS_COPY_SUCCESS             BIT(4)
-> -#define STATUS_COPY_FAIL                BIT(5)
-> -#define STATUS_IRQ_RAISED               BIT(6)
-> -#define STATUS_SRC_ADDR_INVALID         BIT(7)
-> -#define STATUS_DST_ADDR_INVALID         BIT(8)
-> -
-> -#define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0xc
-> +#define DRV_MODULE_NAME				"pci-endpoint-test"
-> +
-> +#define IRQ_TYPE_LEGACY				0
-> +#define IRQ_TYPE_MSI				1
-> +
-> +#define PCI_ENDPOINT_TEST_MAGIC			0x0
-> +
-> +#define PCI_ENDPOINT_TEST_COMMAND		0x4
-> +#define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
-> +#define COMMAND_RAISE_MSI_IRQ			BIT(1)
+> Well.  It's nice.  I guess.  Is there any demand for these
+> capabilities?  I don't recall ever having seen a complaint - kernel
+> parameters tend to be pretty simple things.
 
-Maybe you can add a comment here that BIT(2) is reserved for MSIX support
-> +#define COMMAND_READ				BIT(3)
-> +#define COMMAND_WRITE				BIT(4)
-> +#define COMMAND_COPY				BIT(5)
-> +
-> +#define PCI_ENDPOINT_TEST_STATUS		0x8
-> +#define STATUS_READ_SUCCESS			BIT(0)
-> +#define STATUS_READ_FAIL			BIT(1)
-> +#define STATUS_WRITE_SUCCESS			BIT(2)
-> +#define STATUS_WRITE_FAIL			BIT(3)
-> +#define STATUS_COPY_SUCCESS			BIT(4)
-> +#define STATUS_COPY_FAIL			BIT(5)
-> +#define STATUS_IRQ_RAISED			BIT(6)
-> +#define STATUS_SRC_ADDR_INVALID			BIT(7)
-> +#define STATUS_DST_ADDR_INVALID			BIT(8)
-> +
-> +#define PCI_ENDPOINT_TEST_LOWER_SRC_ADDR	0x0c
->  #define PCI_ENDPOINT_TEST_UPPER_SRC_ADDR	0x10
->  
->  #define PCI_ENDPOINT_TEST_LOWER_DST_ADDR	0x14
->  #define PCI_ENDPOINT_TEST_UPPER_DST_ADDR	0x18
->  
-> -#define PCI_ENDPOINT_TEST_SIZE		0x1c
-> -#define PCI_ENDPOINT_TEST_CHECKSUM	0x20
-> +#define PCI_ENDPOINT_TEST_SIZE			0x1c
-> +#define PCI_ENDPOINT_TEST_CHECKSUM		0x20
-> +
-> +#define PCI_ENDPOINT_TEST_IRQ_TYPE		0x24
+Yes, the complaint came with the nested arguments which are now not
+pursued anymore. The grammar is really not very nice as it is, though.
 
-Is this not redundant? COMMAND_RAISE_LEGACY_IRQ, COMMAND_RAISE_MSI_IRQ already
-indicates the irq type to be used.
-> +#define PCI_ENDPOINT_TEST_IRQ_NUMBER		0x28
->  
->  static DEFINE_IDA(pci_endpoint_test_ida);
->  
-> @@ -179,6 +183,9 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
->  {
->  	u32 val;
->  
-> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
-> +				 IRQ_TYPE_LEGACY);
-> +	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, 0);
+> Also, the break_arg_end() and squash_char() macros make me want to
+> cry. A macro which changes control flow hidden inside another macro!
+> Are they reeeealy necessary?  
 
-Not sure if the above writes are really required.
->  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
->  				 COMMAND_RAISE_LEGACY_IRQ);
->  	val = wait_for_completion_timeout(&test->irq_raised,
-> @@ -190,20 +197,22 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
->  }
->  
->  static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
-> -				      u8 msi_num)
-> +				      u8 irq_num)
+Seems better than repeating the same code 3 times.
 
-why do you want to rename this?
+> Can't be done with some C helpers?
+
+You could not change the control flow then, could you?
+
+Technically you could return something and decide based on that I
+suppose.
+
+> Maybe put inquote, backslash, args, i into a new struct parser_state
+> and pass a pointer to that around the place?  At the very least,
+> those macros should be apologetically documented :(
+
+Yes, some description can be added, too.
 
 Thanks
-Kishon
+
+Michal
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
