@@ -5,90 +5,91 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC0F97D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 04:21:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08E3C7D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 04:21:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751579AbeFTEVV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 00:21:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49522 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1750850AbeFTEVS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 00:21:18 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5K4IYAH046110
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 00:21:17 -0400
+        id S1752787AbeFTEV3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 00:21:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44484 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1750929AbeFTEV0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 00:21:26 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5K4IXlA014801
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 00:21:25 -0400
 Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jqdxpkd4m-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jq8837cfj-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 00:21:17 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 00:21:25 -0400
 Received: from localhost
         by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 20 Jun 2018 05:21:16 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        Wed, 20 Jun 2018 05:21:22 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
         by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 20 Jun 2018 05:21:14 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5K4LDZK29819134
+        Wed, 20 Jun 2018 05:21:20 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5K4LJoM23658740
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 20 Jun 2018 04:21:13 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EC08E4C04A;
-        Wed, 20 Jun 2018 05:12:12 +0100 (BST)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6CFA24C050;
-        Wed, 20 Jun 2018 05:12:11 +0100 (BST)
+        Wed, 20 Jun 2018 04:21:19 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 162D942045;
+        Wed, 20 Jun 2018 05:11:20 +0100 (BST)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5A34F42041;
+        Wed, 20 Jun 2018 05:11:18 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.206.221])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 20 Jun 2018 05:12:11 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 20 Jun 2018 07:21:10 +0300
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 20 Jun 2018 05:11:18 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 20 Jun 2018 07:21:17 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Matthew Wilcox <willy@infradead.org>,
         Jani Nikula <jani.nikula@intel.com>,
         linux-doc <linux-doc@vger.kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH v2 0/2] Documentation/sphinx: add kind of "nodocs" directive
-Date:   Wed, 20 Jun 2018 07:21:07 +0300
+Subject: [PATCH v2 2/2] docs/idr: use empty "functions" directive
+Date:   Wed, 20 Jun 2018 07:21:09 +0300
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1529468469-10088-1-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1529468469-10088-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18062004-0028-0000-0000-000002D2C4D9
+x-cbid: 18062004-0028-0000-0000-000002D2C4DA
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18062004-0029-0000-0000-0000238A0710
-Message-Id: <1529468469-10088-1-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18062004-0029-0000-0000-0000238A0711
+Message-Id: <1529468469-10088-3-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-20_03:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=705 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=638 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1805220000 definitions=main-1806200049
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+to avoid duplication of DOC: sections in the middle of the API reference.
 
-These patches allow passing "-no-doc-sections" option to scripts/kernel-doc
-from the sphinx generator.
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+Acked-by: Matthew Wilcox <willy@infradead.org>
+---
+ Documentation/core-api/idr.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This allows to avoid duplicated DOC: sections when "kernel-doc:" directive
-is used without explicit selection of functions or function types. For
-instance, [1] has "IDA description" and "idr synchronization" twice.
-
-v2 changes:
-* Use empty "functions" directive instead of "nodocs", as per Jani's suggestion
-
-Mike Rapoport (2):
-  Documentation/sphinx: allow "functions" with no parameters
-  docs/idr: use empty "functions" directive
-
- Documentation/core-api/idr.rst    |  2 ++
- Documentation/sphinx/kerneldoc.py | 10 +++++++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
-
+diff --git a/Documentation/core-api/idr.rst b/Documentation/core-api/idr.rst
+index 9078a5c..d351e88 100644
+--- a/Documentation/core-api/idr.rst
++++ b/Documentation/core-api/idr.rst
+@@ -76,4 +76,6 @@ Functions and structures
+ ========================
+ 
+ .. kernel-doc:: include/linux/idr.h
++   :functions:
+ .. kernel-doc:: lib/idr.c
++   :functions:
 -- 
 2.7.4
 
