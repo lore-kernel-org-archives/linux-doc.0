@@ -5,89 +5,214 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F2007D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 03:14:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 662E97D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 03:56:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754178AbeFTDOk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Jun 2018 23:14:40 -0400
-Received: from mga04.intel.com ([192.55.52.120]:28075 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754046AbeFTDOj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jun 2018 23:14:39 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jun 2018 20:14:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,245,1526367600"; 
-   d="scan'208";a="68415224"
-Received: from bee.sh.intel.com (HELO bee) ([10.239.97.14])
-  by orsmga002.jf.intel.com with ESMTP; 19 Jun 2018 20:14:34 -0700
-Received: from kbuild by bee with local (Exim 4.84_2)
-        (envelope-from <lkp@intel.com>)
-        id 1fVTZq-000KJ0-1q; Wed, 20 Jun 2018 11:14:34 +0800
-Date:   Wed, 20 Jun 2018 11:13:40 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Rajat Jain <rajatja@google.com>
-Cc:     kbuild-all@01.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
-        helgaas@kernel.org, Rajat Jain <rajatja@google.com>
-Subject: Re: [PATCH v3 4/5] PCI/AER: Add sysfs attributes for rootport
- cumulative stats
-Message-ID: <201806201004.xjxc8kiz%fengguang.wu@intel.com>
-References: <20180620011210.254601-4-rajatja@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180620011210.254601-4-rajatja@google.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: lkp@intel.com
-X-SA-Exim-Scanned: No (on bee); SAEximRunCond expanded to false
+        id S1754517AbeFTD4m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Jun 2018 23:56:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51258 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1754288AbeFTD4l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jun 2018 23:56:41 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5K3t9OG094795
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 23:56:41 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jqc7s62np-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jun 2018 23:56:41 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Wed, 20 Jun 2018 04:56:39 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 20 Jun 2018 04:56:35 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5K3uYJ530933066
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 20 Jun 2018 03:56:34 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AA788AE056;
+        Wed, 20 Jun 2018 04:45:16 +0100 (BST)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EC7FEAE057;
+        Wed, 20 Jun 2018 04:45:13 +0100 (BST)
+Received: from bangoria.in.ibm.com (unknown [9.124.31.59])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 20 Jun 2018 04:45:13 +0100 (BST)
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+To:     oleg@redhat.com, srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org
+Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Subject: [PATCH v4 0/9] Uprobes: Support SDT markers having reference count (semaphore)
+Date:   Wed, 20 Jun 2018 09:26:20 +0530
+X-Mailer: git-send-email 2.14.4
+X-TM-AS-GCONF: 00
+x-cbid: 18062003-0008-0000-0000-00000249A66C
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18062003-0009-0000-0000-000021AFF533
+Message-Id: <20180620035629.7844-1-ravi.bangoria@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-20_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1805220000 definitions=main-1806200044
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rajat,
+Userspace Statically Defined Tracepoints[1] are dtrace style markers
+inside userspace applications. Applications like PostgreSQL, MySQL,
+Pthread, Perl, Python, Java, Ruby, Node.js, libvirt, QEMU, glib etc
+have these markers embedded in them. These markers are added by developer
+at important places in the code. Each marker source expands to a single
+nop instruction in the compiled code but there may be additional
+overhead for computing the marker arguments which expands to couple of
+instructions. In case the overhead is more, execution of it can be
+omitted by runtime if() condition when no one is tracing on the marker:
 
-Thank you for the patch! Perhaps something to improve:
+    if (reference_counter > 0) {
+        Execute marker instructions;
+    }
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on v4.18-rc1 next-20180619]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+Default value of reference counter is 0. Tracer has to increment the 
+reference counter before tracing on a marker and decrement it when
+done with the tracing.
 
-url:    https://github.com/0day-ci/linux/commits/Rajat-Jain/PCI-AER-Define-and-allocate-aer_stats-structure-for-AER-capable-devices/20180620-091551
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
-reproduce:
-        # apt-get install sparse
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF=-D__CHECK_ENDIAN__
+Currently, perf tool has limited supports for SDT markers. I.e. it
+can not trace markers surrounded by reference counter. Also, it's
+not easy to add reference counter logic in userspace tool like perf,
+so basic idea for this patchset is to add reference counter logic in
+the a uprobe infrastructure. Ex,[2]
+
+  # cat tick.c
+    ... 
+    for (i = 0; i < 100; i++) {
+	DTRACE_PROBE1(tick, loop1, i);
+        if (TICK_LOOP2_ENABLED()) {
+            DTRACE_PROBE1(tick, loop2, i); 
+        }
+        printf("hi: %d\n", i); 
+        sleep(1);
+    }   
+    ... 
+
+Here tick:loop1 is marker without reference counter where as tick:loop2
+is surrounded by reference counter condition.
+
+  # perf buildid-cache --add /tmp/tick
+  # perf probe sdt_tick:loop1
+  # perf probe sdt_tick:loop2
+
+  # perf stat -e sdt_tick:loop1,sdt_tick:loop2 -- /tmp/tick
+  hi: 0
+  hi: 1
+  hi: 2
+  ^C
+  Performance counter stats for '/tmp/tick':
+             3      sdt_tick:loop1
+             0      sdt_tick:loop2
+     2.747086086 seconds time elapsed
+
+Perf failed to record data for tick:loop2. Same experiment with this
+patch series:
+
+  # ./perf buildid-cache --add /tmp/tick
+  # ./perf probe sdt_tick:loop2
+  # ./perf stat -e sdt_tick:loop2 /tmp/tick
+    hi: 0
+    hi: 1
+    hi: 2
+    ^C  
+     Performance counter stats for '/tmp/tick':
+                 3      sdt_tick:loop2
+       2.561851452 seconds time elapsed
 
 
-sparse warnings: (new ones prefixed by >>)
+v4 changes:
+ - Previous version moved the implementation from trace_uprobe to core
+   uprobe. But it had some issues. I've fixed them in this version. To
+   cut a long story short, reference counter increment/decrement is
+   tied to instruction patching. Whenever instruction gets patched, we
+   update the reference counter. Now, what if vma holding reference
+   counter is not present while patching an instruction? To overcome
+   this issue, we will add such uprobe to delayed_uprobe list. Whenever
+   process maps the region holding the reference counter, we increment
+   it and remove the uprobe from delayed_uprobe list.
+ - Until last version, we were incrementing reference counter for each
+   uprobe_consumer. That isn't true now. With this implementation, we
+   increment and decrement the counter only once. This is fine because
+   we increment the counter when we find first valid consumer and we
+   decrement it when last consumer is going away. (For a tiny binary,
+   multiple vmas maps to the same file portion. In such case, we are
+   patching the instruction multiple time and thus we will increment /
+   decrement the reference counter multiple time as well.)
+ - Fortunately, there is no need to maintain sdt_mm_list now, because
+   we are sure that the increment and decrement will always happen in
+   sync. This make the implementation lot more simpler compared to
+   earlier versions.
 
->> drivers/pci/pcie/aer.c:689:6: sparse: symbol 'pci_rootport_aer_stats_incr' was not declared. Should it be static?
 
-Please review and possibly fold the followup patch.
+Previous version can be found at:
+  https://lkml.org/lkml/2018/6/6/129
+  (This was marked as RFC again because of the change in approach.)
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+Older versions:
+v3: https://lkml.org/lkml/2018/4/17/23
+v2: https://lkml.org/lkml/2018/4/4/127
+v1: https://lkml.org/lkml/2018/3/13/432
+
+
+Note:
+ - 'reference counter' is called as 'semaphore' in original Dtrace
+   (or Systemtap, bcc and even in ELF) documentation and code. But the 
+   term 'semaphore' is misleading in this context. This is just a counter
+   used to hold number of tracers tracing on a marker. This is not really
+   used for any synchronization. So we are referring it as 'reference
+   counter' in kernel / perf code.
+
+[1] https://sourceware.org/systemtap/wiki/UserSpaceProbeImplementation
+[2] https://github.com/iovisor/bcc/issues/327#issuecomment-200576506
+
+Ravi Bangoria (9):
+  Uprobes: Simplify uprobe_register() body
+  Uprobe: Change set_swbp definition
+  Uprobe: Change set_orig_insn definition
+  Uprobe: Change uprobe_write_opcode definition
+  Uprobes: Support SDT markers having reference count (semaphore)
+  trace_uprobe/sdt: Prevent multiple reference counter for same uprobe
+  Uprobes/sdt: Prevent multiple reference counter for same uprobe
+  Uprobes/sdt: Document about reference counter
+  perf probe: Support SDT markers having reference counter (semaphore)
+
+ Documentation/trace/uprobetracer.rst |  16 +-
+ arch/arm/probes/uprobes/core.c       |   6 +-
+ arch/mips/kernel/uprobes.c           |   6 +-
+ include/linux/uprobes.h              |  11 +-
+ kernel/events/uprobes.c              | 373 +++++++++++++++++++++++++++++------
+ kernel/trace/trace.c                 |   2 +-
+ kernel/trace/trace_uprobe.c          |  74 ++++++-
+ tools/perf/util/probe-event.c        |  39 +++-
+ tools/perf/util/probe-event.h        |   1 +
+ tools/perf/util/probe-file.c         |  34 +++-
+ tools/perf/util/probe-file.h         |   1 +
+ tools/perf/util/symbol-elf.c         |  46 +++--
+ tools/perf/util/symbol.h             |   7 +
+ 13 files changed, 520 insertions(+), 96 deletions(-)
+
+-- 
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
