@@ -5,100 +5,265 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A473F7D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 14:27:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EF9FB7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 14:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753569AbeFTO17 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 10:27:59 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:58830 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752725AbeFTO16 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 10:27:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=eMGX/vsz54Q4caqt50tNX8W2/XJte3L4ED1D2DYi3DM=; b=NTy23Fnsf7WLUGXDCU7Zw7jvu
-        1M4RHZa6VjWMn91F72ExcFloyGANed3g6cq6XvBzm8yPXCl4S4CBQykPADUjAeyX2odDPvAm0QQz6
-        yfxE7hqrJIbMtIDuYQO4oLeMDbDLHv/vUfqq93ZG9Y8df2nE8U2Ldw4mIGoJc+QAbYPVrMdKgmRiu
-        51JP9eVTIm7Ivyx2WSRrpLyubjbWfUhd1cvrBMQXeSXBz+U1yasuhs80zQY94T1MBG5MgkAtKVHq4
-        R0WtHHtz+UBNsed6zSZFwR2aYtFXi6CnktqZKGvIlj1FPjQNCs2k2jWcRWjE6tt7KUyS37zVp/8ue
-        y3MAHvLCg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fVe5B-00065C-9M; Wed, 20 Jun 2018 14:27:37 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id F322E2029F1D5; Wed, 20 Jun 2018 16:27:35 +0200 (CEST)
-Date:   Wed, 20 Jun 2018 16:27:35 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v10 2/9] cpuset: Add new v2 cpuset.sched.domain_root flag
-Message-ID: <20180620142735.GM2494@hirez.programming.kicks-ass.net>
-References: <1529295249-5207-1-git-send-email-longman@redhat.com>
- <1529295249-5207-3-git-send-email-longman@redhat.com>
+        id S1753541AbeFTOal (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 10:30:41 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:52008 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752838AbeFTOak (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 10:30:40 -0400
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 5F52D1E04FD;
+        Wed, 20 Jun 2018 16:30:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1529505038; bh=B1zDmxHdlXsJVu+bI5ibijsP6NaXydHeyNmgJP5MhiQ=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=U3f9+gUwUhskeeA0PDH/dD8y7FF7uVeSnvTmnL7oHaeZPX4W/siizywfsewe1I3Z0
+         c0N50mdcBs/5tMbNqrxUY59YZSCBQYwgC8fNwp8hnmVBahBdKv9XR5CUM8YCvfmWvD
+         8uy+6h7C4h54urLChW+JLfRGjQ0FMB3rVBB8K7ByxxrqyZ0tf12mVF30BHVwFaHZxQ
+         dChIww+1Hmyh7+wS0yrvTYD5Yzub19dTXgK27wjYJ6ea+95dtfpx7ZA+Z6DPbNswbp
+         UCiWNK9ewJ3FLezzdxuLUe0Uemc4Z2JLl6+jmwGcyN8foWqYhsfg+8Kv/YzuId4v+X
+         aTq8Ywg98v3Rg==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 700FB5F42;
+        Wed, 20 Jun 2018 07:30:37 -0700 (PDT)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 20 Jun 2018 07:30:37 -0700
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 20 Jun 2018 16:30:35 +0200
+Received: from [10.107.25.102] (10.107.25.102) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 20 Jun 2018 16:30:34 +0200
+Subject: Re: [PATCH v4 09/10] pci_endpoint_test: Add 2 ioctl commands
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "adouglas@cadence.com" <adouglas@cadence.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <cover.1529329262.git.gustavo.pimentel@synopsys.com>
+ <b10530671bdcda8b9d2bb25048ad9048f814c608.1529329262.git.gustavo.pimentel@synopsys.com>
+ <327bcbd0-b2a0-d1eb-5471-e6e63169fc8d@ti.com>
+From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Message-ID: <f6335b77-186e-9df9-bcc6-bbc9a31c87b9@synopsys.com>
+Date:   Wed, 20 Jun 2018 15:28:33 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1529295249-5207-3-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <327bcbd0-b2a0-d1eb-5471-e6e63169fc8d@ti.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.107.25.102]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 18, 2018 at 12:14:01PM +0800, Waiman Long wrote:
-> +  cpuset.sched.domain_root
+Hi,
 
-Why are we calling this a domain_root and not a partition?
+On 20/06/2018 08:58, Kishon Vijay Abraham I wrote:
+> Hi,
+> 
+> On Monday 18 June 2018 08:30 PM, Gustavo Pimentel wrote:
+>> Add MSI-X support and update driver documentation accordingly.
+>>
+>> Add 2 new IOCTL commands:
+>>  - Allow to reconfigure driver IRQ type in runtime.
+>>  - Allow to retrieve current driver IRQ type configured.
+>>
+>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+>> ---
+>> Change v2->v3:
+>>  - New patch file created base on the previous patch
+>> "misc: pci_endpoint_test: Add MSI-X support" patch file following
+>> Kishon's suggestion.
+>> Change v3->v4:
+>>  - Rebased to Lorenzo's master branch v4.18-rc1.
+>>
+>>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>>  drivers/misc/pci_endpoint_test.c                 | 177 +++++++++++++++++------
+>>  2 files changed, 132 insertions(+), 48 deletions(-)
+>>
+>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+>> index fdfa0f6..58ccca4 100644
+>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+>> @@ -28,6 +28,9 @@ ioctl
+>>  	      to be tested should be passed as argument.
+>>   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+>>  	      to be tested should be passed as argument.
+>> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
+>> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
+>> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
+>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>>  		as argument.
+>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+>> index 8d15dbe..df2017f 100644
+>> --- a/drivers/misc/pci_endpoint_test.c
+>> +++ b/drivers/misc/pci_endpoint_test.c
+>> @@ -157,6 +157,87 @@ static irqreturn_t pci_endpoint_test_irqhandler(int irq, void *dev_id)
+>>  	return IRQ_HANDLED;
+>>  }
+>>  
+>> +static void pci_endpoint_test_free_irq_vectors(struct pci_endpoint_test *test)
+>> +{
+>> +	int i;
+>> +	struct pci_dev *pdev = test->pdev;
+>> +	struct device *dev = &pdev->dev;
+>> +
+>> +	for (i = 0; i < test->num_irqs; i++)
+>> +		devm_free_irq(dev, pci_irq_vector(pdev, i), test);
+>> +
+>> +	test->num_irqs = 0;
+>> +}
+>> +
+>> +static bool pci_endpoint_test_alloc_irq_vectors(struct pci_endpoint_test *test)
+>> +{
+>> +	int irq = -1;
+>> +	struct pci_dev *pdev = test->pdev;
+>> +	struct device *dev = &pdev->dev;
+>> +	bool res = true;
+>> +
+>> +	switch (irq_type) {
+>> +	case IRQ_TYPE_LEGACY:
+>> +		irq = 0;
+>> +		break;
+>> +	case IRQ_TYPE_MSI:
+>> +		irq = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
+>> +		if (irq < 0)
+>> +			dev_err(dev, "Failed to get MSI interrupts\n");
+>> +		break;
+>> +	case IRQ_TYPE_MSIX:
+>> +		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
+>> +		if (irq < 0)
+>> +			dev_err(dev, "Failed to get MSI-X interrupts\n");
+>> +		break;
+>> +	default:
+>> +		dev_err(dev, "Invalid IRQ type selected\n");
+>> +	}
+>> +
+>> +	if (irq < 0) {
+>> +		irq = 0;
+>> +		res = false;
+>> +	}
+>> +	test->num_irqs = irq;
+>> +
+>> +	return res;
+>> +}
+>> +
+>> +static void pci_endpoint_test_release_irq(struct pci_endpoint_test *test)
+>> +{
+>> +	struct pci_dev *pdev = test->pdev;
+>> +
+>> +	pci_disable_msi(pdev);
+>> +	pci_disable_msix(pdev);
+>> +}
+>> +
+>> +static bool pci_endpoint_test_request_irq(struct pci_endpoint_test *test)
+>> +{
+>> +	int i;
+>> +	int err;
+>> +	struct pci_dev *pdev = test->pdev;
+>> +	struct device *dev = &pdev->dev;
+>> +
+>> +	err = devm_request_irq(dev, pdev->irq, pci_endpoint_test_irqhandler,
+>> +			       IRQF_SHARED, DRV_MODULE_NAME, test);
+>> +	if (err) {
+>> +		dev_err(dev, "Failed to request IRQ %d\n", pdev->irq);
+>> +		return false;
+>> +	}
+>> +
+>> +	for (i = 1; i < test->num_irqs; i++) {
+>> +		err = devm_request_irq(dev, pci_irq_vector(pdev, i),
+>> +				       pci_endpoint_test_irqhandler,
+>> +				       IRQF_SHARED, DRV_MODULE_NAME, test);
+>> +		if (err)
+>> +			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
+>> +				pci_irq_vector(pdev, i),
+>> +				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
+>> +	}
+>> +
+>> +	return true;
+>> +}
+>> +
+>>  static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
+>>  				  enum pci_barno barno)
+>>  {
+>> @@ -440,6 +521,38 @@ static bool pci_endpoint_test_read(struct pci_endpoint_test *test, size_t size)
+>>  	return ret;
+>>  }
+>>  
+>> +static bool pci_endpoint_test_set_irq(struct pci_endpoint_test *test,
+>> +				      int req_irq_type)
+>> +{
+>> +	struct pci_dev *pdev = test->pdev;
+>> +	struct device *dev = &pdev->dev;
+>> +
+>> +	if (req_irq_type < IRQ_TYPE_LEGACY || req_irq_type > IRQ_TYPE_MSIX) {
+>> +		dev_err(dev, "Invalid IRQ type option\n");
+>> +		return false;
+>> +	}
+>> +
+>> +	if (irq_type == req_irq_type)
+>> +		return true;
+>> +
+>> +	irq_type = req_irq_type;
+>> +
+>> +	pci_endpoint_test_free_irq_vectors(test);
+>> +	pci_endpoint_test_release_irq(test);
+>> +
+>> +	if (!pci_endpoint_test_alloc_irq_vectors(test)) {
+>> +		pci_endpoint_test_release_irq(test);
+>> +		return false;
+>> +	}
+>> +
+>> +	if (!pci_endpoint_test_request_irq(test)) {
+>> +		pci_endpoint_test_release_irq(test);
+>> +		return false;
+>> +	}
+>> +
+>> +	return true;
+>> +}
+>> +
+>>  static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
+>>  				    unsigned long arg)
+>>  {
+>> @@ -471,6 +584,12 @@ static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
+>>  	case PCITEST_COPY:
+>>  		ret = pci_endpoint_test_copy(test, arg);
+>>  		break;
+>> +	case PCITEST_SET_IRQTYPE:
+>> +		ret = pci_endpoint_test_set_irq(test, arg);
+>> +		break;
+>> +	case PCITEST_GET_IRQTYPE:
+>> +		ret = irq_type;
+> 
+> Can't the set_irq be done as part of raise irq itself?
 
-> +	A read-write single value file which exists on non-root
-> +	cpuset-enabled cgroups.  It is a binary value flag that accepts
-> +	either "0" (off) or "1" (on).  This flag is set by the parent
-> +	and is not delegatable.
+That could work for the legacy/MSI/MSI-X tests, but not for the Write/Read/Copy
+tests... From what I saw, it was possible to perform Write/Read/Copy tests with
+either legacy or MSI on the previous version. I'm assuming that you don't wanna
+to lose that functionalities, right?
 
-You still haven't answered:
+Regards,
+Gustavo
 
-  https://lkml.kernel.org/r/20180531094943.GG12180@hirez.programming.kicks-ass.net
+> 
+> Thanks
+> Kishon
+> 
 
-the question stands.
-
-> +	If set, it indicates that the current cgroup is the root of a
-> +	new scheduling domain or partition that comprises itself and
-> +	all its descendants except those that are scheduling domain
-> +	roots themselves and their descendants.  The root cgroup is
-> +	always a scheduling domain root.
-> +
-> +	There are constraints on where this flag can be set.  It can
-> +	only be set in a cgroup if all the following conditions are true.
-> +
-> +	1) The "cpuset.cpus" is not empty and the list of CPUs are
-> +	   exclusive, i.e. they are not shared by any of its siblings.
-> +	2) The "cpuset.cpus" is also a proper subset of the parent's
-> +	   "cpuset.cpus.effective".
-> +	3) The parent cgroup is a scheduling domain root.
-> +	4) There is no child cgroups with cpuset enabled.  This is
-> +	   for eliminating corner cases that have to be handled if such
-> +	   a condition is allowed.
-> +
-> +	Setting this flag will take the CPUs away from the effective
-> +	CPUs of the parent cgroup.  Once it is set, this flag cannot be
-> +	cleared if there are any child cgroups with cpuset enabled.
-> +
-> +	A parent scheduling domain root cgroup cannot distribute
-> +	all its CPUs to its child scheduling domain root cgroups.
-> +	There must be at least one cpu left in the parent scheduling
-> +	domain root cgroup.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
