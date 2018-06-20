@@ -1,151 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C54117D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 08:49:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0DFAC7D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 09:15:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932411AbeFTItY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 04:49:24 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33538 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1754575AbeFTItU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 04:49:20 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5K8hpr3023173
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 04:49:19 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jqkc9rw84-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 04:49:19 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Wed, 20 Jun 2018 09:49:17 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 20 Jun 2018 09:49:15 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5K8nEDM36176066
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 20 Jun 2018 08:49:14 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 331CDA405B;
-        Wed, 20 Jun 2018 09:39:55 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C14A4A4053;
-        Wed, 20 Jun 2018 09:39:54 +0100 (BST)
-Received: from rapoport-lnx (unknown [9.148.8.73])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 20 Jun 2018 09:39:54 +0100 (BST)
-Date:   Wed, 20 Jun 2018 11:49:12 +0300
-From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] Documentation/sphinx: allow "functions" with no
- parameters
-References: <1529468469-10088-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1529468469-10088-2-git-send-email-rppt@linux.vnet.ibm.com>
- <878t79x6uv.fsf@intel.com>
+        id S932099AbeFTJPG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 05:15:06 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:50863 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754315AbeFTJPD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 05:15:03 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 6122B1E04A3;
+        Wed, 20 Jun 2018 11:15:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1529486101; bh=fAPM8umxGuItWPS5vJwUiMglPgzdojeg0EkdvTytikU=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=b32WYgZqaVNNUd8OZ3qgDw3GyDaUVXjIBVP087NVGZdk0h75qcBRvQJFwTXHehTkp
+         pkLo1UxqIFJKcsVkn9J9rSpPws/sgldfnewHpd554vl2OdTdMuwV86+5lWiCaml69n
+         IRw+59D4+0P911oL0U5FqXZ889IKaNbO+rbKQsSc2ojbE88I32O/fcis6SGKItJKC+
+         NF9g/f9eQ8DPStJDCMuSTmItI/P1MGKW6Vn1HjEXCDRKr1ATPK5yBqTO8z7cTVCjCI
+         B5JEdTmkmfxnfAEnJOrmuh3FMXQOi/MnTPA5qBjIW2zRxy2Jlb8mIQ8JoLh0XKQ8Gh
+         o9AX5yxxFIgqw==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 590B23DF9;
+        Wed, 20 Jun 2018 02:15:00 -0700 (PDT)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 20 Jun 2018 02:13:22 -0700
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 20 Jun 2018 11:13:21 +0200
+Received: from [10.107.25.102] (10.107.25.102) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Wed, 20 Jun 2018 11:13:20 +0200
+Subject: Re: [PATCH v4 03/10] PCI: Update xxx_pcie_ep_raise_irq() and
+ pci_epc_raise_irq() signatures
+To:     kbuild test robot <lkp@intel.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+CC:     "kbuild-all@01.org" <kbuild-all@01.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "adouglas@cadence.com" <adouglas@cadence.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <5bfa0cf053878e0e859a8b97227ca03ea4d50e92.1529329262.git.gustavo.pimentel@synopsys.com>
+ <201806190312.UKq0zYJ1%fengguang.wu@intel.com>
+From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Message-ID: <e35c08f4-27ac-4979-91b1-2bf26e1e3298@synopsys.com>
+Date:   Wed, 20 Jun 2018 10:11:19 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878t79x6uv.fsf@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18062008-0020-0000-0000-0000029CDC30
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18062008-0021-0000-0000-000020E92D3E
-Message-Id: <20180620084911.GB11493@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-20_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1805220000 definitions=main-1806200100
+In-Reply-To: <201806190312.UKq0zYJ1%fengguang.wu@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.107.25.102]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 20, 2018 at 10:19:36AM +0300, Jani Nikula wrote:
-> On Wed, 20 Jun 2018, Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
-> > When kernel-doc:: specified in .rst document without explicit directives,
-> > it outputs both comment and DOC: sections. If a DOC: section was explicitly
-> > included in the same document it will be duplicated. For example, the
-> > output generated for Documentation/core-api/idr.rst [1] has "IDA
-> > description" in the "IDA usage" section and in the middle of the API
-> > reference.
-> >
-> > This patch enables using "functions" directive without parameters to output
-> > all the documentation excluding DOC: sections.
-> >
-> > [1] https://www.kernel.org/doc/html/v4.17/core-api/idr.html
-> >
-> > Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> > Acked-by: Matthew Wilcox <willy@infradead.org>
-> 
-> Looks good to me. Though I do realize now that I overlooked that this
-> applies to not only functions, but also to other non-DOC documentation
-> comments. I guess up to Jon to decide.
- 
-We can name it "everything-except-doc-sections" ;-)
+Hi,
 
-> Please do give the cobbler's children some shoes, and document this in
-> Documentation/doc-guide/kernel-doc.rst.
+Thanks for the suggestion.
 
-Sure. I'd just wait until there's consensus on the name :)
+Regards,
+Gustavo
 
-> Thanks,
-> Jani.
+On 18/06/2018 20:31, kbuild test robot wrote:
+> Hi Gustavo,
 > 
-> > ---
-> >  Documentation/sphinx/kerneldoc.py | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-> > index fbedcc3..9d0a7f0 100644
-> > --- a/Documentation/sphinx/kerneldoc.py
-> > +++ b/Documentation/sphinx/kerneldoc.py
-> > @@ -47,7 +47,7 @@ class KernelDocDirective(Directive):
-> >      optional_arguments = 4
-> >      option_spec = {
-> >          'doc': directives.unchanged_required,
-> > -        'functions': directives.unchanged_required,
-> > +        'functions': directives.unchanged,
-> >          'export': directives.unchanged,
-> >          'internal': directives.unchanged,
-> >      }
-> > @@ -75,8 +75,12 @@ class KernelDocDirective(Directive):
-> >          elif 'doc' in self.options:
-> >              cmd += ['-function', str(self.options.get('doc'))]
-> >          elif 'functions' in self.options:
-> > -            for f in str(self.options.get('functions')).split():
-> > -                cmd += ['-function', f]
-> > +            functions = self.options.get('functions').split()
-> > +            if functions:
-> > +                for f in functions:
-> > +                    cmd += ['-function', f]
-> > +            else:
-> > +                cmd += ['-no-doc-sections']
-> >  
-> >          for pattern in export_file_patterns:
-> >              for f in glob.glob(env.config.kerneldoc_srctree + '/' + pattern):
+> Thank you for the patch! Perhaps something to improve:
 > 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+> [auto build test WARNING on pci/next]
+> [also build test WARNING on v4.18-rc1 next-20180618]
+> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 > 
-
--- 
-Sincerely yours,
-Mike.
+> url:    https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_0day-2Dci_linux_commits_Gustavo-2DPimentel_Add-2DMSI-2DX-2Dsupport-2Don-2Dpcitest-2Dtool_20180619-2D004625&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=IFx9JKJsE2KvE7siiXs4GRW2a3OkFpE8BFO41SbTjJA&s=vuOhITY-_4Y-jxzyQ1ddb6M8E9-OELpKXzcJZqgWqvE&e=
+> base:   https://urldefense.proofpoint.com/v2/url?u=https-3A__git.kernel.org_pub_scm_linux_kernel_git_helgaas_pci.git&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=IFx9JKJsE2KvE7siiXs4GRW2a3OkFpE8BFO41SbTjJA&s=7xs_oUDvo5HRxpqsZAqdybMJcJDO6K3hooyy-CmXwkM&e= next
+> reproduce:
+>         # apt-get install sparse
+>         make ARCH=x86_64 allmodconfig
+>         make C=1 CF=-D__CHECK_ENDIAN__
+> 
+> 
+> sparse warnings: (new ones prefixed by >>)
+> 
+>    drivers/pci/controller/pcie-rockchip-ep.c:173:14: sparse: expression using sizeof(void)
+>>> drivers/pci/controller/pcie-rockchip-ep.c:516:27: sparse: incorrect type in initializer (incompatible argument 4 (different type sizes)) @@    expected int ( *raise_irq )( ... ) @@    got int ( *raise_irq )( ... ) @@
+>    drivers/pci/controller/pcie-rockchip-ep.c:516:27:    expected int ( *raise_irq )( ... )
+>    drivers/pci/controller/pcie-rockchip-ep.c:516:27:    got int ( *<noident> )( ... )
+>    drivers/pci/controller/pcie-rockchip-ep.c:516:15: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+>      .raise_irq = rockchip_pcie_ep_raise_irq,
+>                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/pci/controller/pcie-rockchip-ep.c:516:15: note: (near initialization for 'rockchip_pcie_epc_ops.raise_irq')
+>    cc1: some warnings being treated as errors
+> 
+> vim +516 drivers/pci/controller/pcie-rockchip-ep.c
+> 
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  507  
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  508  static const struct pci_epc_ops rockchip_pcie_epc_ops = {
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  509  	.write_header	= rockchip_pcie_ep_write_header,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  510  	.set_bar	= rockchip_pcie_ep_set_bar,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  511  	.clear_bar	= rockchip_pcie_ep_clear_bar,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  512  	.map_addr	= rockchip_pcie_ep_map_addr,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  513  	.unmap_addr	= rockchip_pcie_ep_unmap_addr,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  514  	.set_msi	= rockchip_pcie_ep_set_msi,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  515  	.get_msi	= rockchip_pcie_ep_get_msi,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09 @516  	.raise_irq	= rockchip_pcie_ep_raise_irq,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  517  	.start		= rockchip_pcie_ep_start,
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  518  };
+> cf590b07 drivers/pci/host/pcie-rockchip-ep.c Shawn Lin 2018-05-09  519  
+> 
+> :::::: The code at line 516 was first introduced by commit
+> :::::: cf590b07839133146842d2d3d9a68f804c2edc4b PCI: rockchip: Add EP driver for Rockchip PCIe controller
+> 
+> :::::: TO: Shawn Lin <shawn.lin@rock-chips.com>
+> :::::: CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> 
+> ---
+> 0-DAY kernel test infrastructure                Open Source Technology Center
+> https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.01.org_pipermail_kbuild-2Dall&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=bkWxpLoW-f-E3EdiDCCa0_h0PicsViasSlvIpzZvPxs&m=IFx9JKJsE2KvE7siiXs4GRW2a3OkFpE8BFO41SbTjJA&s=Mf1d7cz8MbsSZPkgXFwnxZJY1579nwc7-mpjeQBdweY&e=                   Intel Corporation
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
