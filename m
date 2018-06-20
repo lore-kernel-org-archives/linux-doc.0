@@ -3,68 +3,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD0B77D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 09:26:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 54EF77D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 09:27:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754601AbeFTJ0T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 05:26:19 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:50915 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754583AbeFTJ0R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 05:26:17 -0400
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 6F4401E04A8;
-        Wed, 20 Jun 2018 11:26:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1529486773; bh=uY+Dy5q6blVcJrXqZfq536v1VnKIEF1Bid/BFf1zJnI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=gF9fhWlSjQsqZxWUFZFEuf2BR/MlEa7Sorq04GFmmFKQhCcpATHTz9Y0+yERZAhYA
-         blXdN/XRVYO9WBorsju4b2DqbKEkG1W2IBXgZzC7Uaqtjd770diLq8VbmmpFwyJnbO
-         xVRVQmHLOB8zmAOZZoZR52YUdTDbTqXQIyLqLyZrqh9sm4TlKrMFkqmaKw0u+VlZ76
-         KRLVJ7mYcLzz0K3EIqRIvzxmLk2obRDK59V7dAFDAknPwEhTno6Q3IJvHrUEW6uFNw
-         89RbGJvKeaG7mqUSD5KgU+iuiW86hHztem64tcWIQ/nZLK9HaH1RDDsvtdu+sUb+40
-         BTn1IHxnRAGUQ==
-Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2-vip.internal.synopsys.com [10.12.239.238])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 7CD71334C;
-        Wed, 20 Jun 2018 02:26:12 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 20 Jun 2018 02:25:44 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 20 Jun 2018 11:25:42 +0200
-Received: from [10.107.25.102] (10.107.25.102) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Wed, 20 Jun 2018 11:25:42 +0200
-Subject: Re: [RFC PATCH] PCI: dwc: dw_pcie_ep_find_capability() can be static
-To:     kbuild test robot <fengguang.wu@intel.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-CC:     "kbuild-all@01.org" <kbuild-all@01.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <5beae521c5ee475b1c0e04f5eec07d0120b0fa2b.1529329262.git.gustavo.pimentel@synopsys.com>
- <20180618191207.GA111117@ivb43>
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Message-ID: <23cdc4a8-2d79-826e-8fa3-3877486c2ae1@synopsys.com>
-Date:   Wed, 20 Jun 2018 10:23:41 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1753906AbeFTJ1C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 05:27:02 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:43192 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754529AbeFTJ05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 05:26:57 -0400
+X-Greylist: delayed 9552 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 Jun 2018 05:26:57 EDT
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id w5K7w7Ax114547;
+        Wed, 20 Jun 2018 02:58:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1529481487;
+        bh=Sj9Zron9LpmFSVfEQJp650LzpG1ppzimjHmYGN6MqNw=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=WXxV4yJhs/28Xyub+BIsQtcFiOsc+tPbNI+My5UVrI566z44zlW0cAPAP8iq6akV1
+         I1c2+7sYM8r1TafpytF6p1sArHvYlpqBaPN5AceQeoAU/znMCkN5pAN5pVfHYYzbIO
+         z0TBU/f+zLXrLmVy1n5SpBNX10LrZVmgnzSW86Gc=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K7w7Zb024265;
+        Wed, 20 Jun 2018 02:58:07 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Wed, 20
+ Jun 2018 02:58:07 -0500
+Received: from dlep33.itg.ti.com (157.170.170.75) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Wed, 20 Jun 2018 02:58:06 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dlep33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w5K7w3QO011791;
+        Wed, 20 Jun 2018 02:58:04 -0500
+Subject: Re: [PATCH v4 09/10] pci_endpoint_test: Add 2 ioctl commands
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <jesper.nilsson@axis.com>
+References: <cover.1529329262.git.gustavo.pimentel@synopsys.com>
+ <b10530671bdcda8b9d2bb25048ad9048f814c608.1529329262.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <327bcbd0-b2a0-d1eb-5471-e6e63169fc8d@ti.com>
+Date:   Wed, 20 Jun 2018 13:28:03 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180618191207.GA111117@ivb43>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+In-Reply-To: <b10530671bdcda8b9d2bb25048ad9048f814c608.1529329262.git.gustavo.pimentel@synopsys.com>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.107.25.102]
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -72,34 +65,185 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi,
 
-Thanks for the suggestion.
-
-Regards,
-Gustavo
-
-On 18/06/2018 20:12, kbuild test robot wrote:
+On Monday 18 June 2018 08:30 PM, Gustavo Pimentel wrote:
+> Add MSI-X support and update driver documentation accordingly.
 > 
-> Fixes: 43f8cf4686e0 ("PCI: dwc: Add MSI-X callbacks handler")
-> Signed-off-by: kbuild test robot <fengguang.wu@intel.com>
+> Add 2 new IOCTL commands:
+>  - Allow to reconfigure driver IRQ type in runtime.
+>  - Allow to retrieve current driver IRQ type configured.
+> 
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 > ---
->  pcie-designware-ep.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Change v2->v3:
+>  - New patch file created base on the previous patch
+> "misc: pci_endpoint_test: Add MSI-X support" patch file following
+> Kishon's suggestion.
+> Change v3->v4:
+>  - Rebased to Lorenzo's master branch v4.18-rc1.
 > 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> index beee64e..ffc2065 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> @@ -59,7 +59,7 @@ static u8 __dw_pcie_ep_find_next_cap(struct dw_pcie *pci, u8 cap_ptr,
->  	return __dw_pcie_ep_find_next_cap(pci, next_cap_ptr, cap);
+>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>  drivers/misc/pci_endpoint_test.c                 | 177 +++++++++++++++++------
+>  2 files changed, 132 insertions(+), 48 deletions(-)
+> 
+> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+> index fdfa0f6..58ccca4 100644
+> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+> @@ -28,6 +28,9 @@ ioctl
+>  	      to be tested should be passed as argument.
+>   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+>  	      to be tested should be passed as argument.
+> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
+> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
+> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
+>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>  		as argument.
+>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+> index 8d15dbe..df2017f 100644
+> --- a/drivers/misc/pci_endpoint_test.c
+> +++ b/drivers/misc/pci_endpoint_test.c
+> @@ -157,6 +157,87 @@ static irqreturn_t pci_endpoint_test_irqhandler(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
 >  }
 >  
-> -u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
-> +static u8 dw_pcie_ep_find_capability(struct dw_pcie *pci, u8 cap)
+> +static void pci_endpoint_test_free_irq_vectors(struct pci_endpoint_test *test)
+> +{
+> +	int i;
+> +	struct pci_dev *pdev = test->pdev;
+> +	struct device *dev = &pdev->dev;
+> +
+> +	for (i = 0; i < test->num_irqs; i++)
+> +		devm_free_irq(dev, pci_irq_vector(pdev, i), test);
+> +
+> +	test->num_irqs = 0;
+> +}
+> +
+> +static bool pci_endpoint_test_alloc_irq_vectors(struct pci_endpoint_test *test)
+> +{
+> +	int irq = -1;
+> +	struct pci_dev *pdev = test->pdev;
+> +	struct device *dev = &pdev->dev;
+> +	bool res = true;
+> +
+> +	switch (irq_type) {
+> +	case IRQ_TYPE_LEGACY:
+> +		irq = 0;
+> +		break;
+> +	case IRQ_TYPE_MSI:
+> +		irq = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
+> +		if (irq < 0)
+> +			dev_err(dev, "Failed to get MSI interrupts\n");
+> +		break;
+> +	case IRQ_TYPE_MSIX:
+> +		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
+> +		if (irq < 0)
+> +			dev_err(dev, "Failed to get MSI-X interrupts\n");
+> +		break;
+> +	default:
+> +		dev_err(dev, "Invalid IRQ type selected\n");
+> +	}
+> +
+> +	if (irq < 0) {
+> +		irq = 0;
+> +		res = false;
+> +	}
+> +	test->num_irqs = irq;
+> +
+> +	return res;
+> +}
+> +
+> +static void pci_endpoint_test_release_irq(struct pci_endpoint_test *test)
+> +{
+> +	struct pci_dev *pdev = test->pdev;
+> +
+> +	pci_disable_msi(pdev);
+> +	pci_disable_msix(pdev);
+> +}
+> +
+> +static bool pci_endpoint_test_request_irq(struct pci_endpoint_test *test)
+> +{
+> +	int i;
+> +	int err;
+> +	struct pci_dev *pdev = test->pdev;
+> +	struct device *dev = &pdev->dev;
+> +
+> +	err = devm_request_irq(dev, pdev->irq, pci_endpoint_test_irqhandler,
+> +			       IRQF_SHARED, DRV_MODULE_NAME, test);
+> +	if (err) {
+> +		dev_err(dev, "Failed to request IRQ %d\n", pdev->irq);
+> +		return false;
+> +	}
+> +
+> +	for (i = 1; i < test->num_irqs; i++) {
+> +		err = devm_request_irq(dev, pci_irq_vector(pdev, i),
+> +				       pci_endpoint_test_irqhandler,
+> +				       IRQF_SHARED, DRV_MODULE_NAME, test);
+> +		if (err)
+> +			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
+> +				pci_irq_vector(pdev, i),
+> +				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
+>  				  enum pci_barno barno)
 >  {
->  	u8 next_cap_ptr;
->  	u16 reg;
-> 
+> @@ -440,6 +521,38 @@ static bool pci_endpoint_test_read(struct pci_endpoint_test *test, size_t size)
+>  	return ret;
+>  }
+>  
+> +static bool pci_endpoint_test_set_irq(struct pci_endpoint_test *test,
+> +				      int req_irq_type)
+> +{
+> +	struct pci_dev *pdev = test->pdev;
+> +	struct device *dev = &pdev->dev;
+> +
+> +	if (req_irq_type < IRQ_TYPE_LEGACY || req_irq_type > IRQ_TYPE_MSIX) {
+> +		dev_err(dev, "Invalid IRQ type option\n");
+> +		return false;
+> +	}
+> +
+> +	if (irq_type == req_irq_type)
+> +		return true;
+> +
+> +	irq_type = req_irq_type;
+> +
+> +	pci_endpoint_test_free_irq_vectors(test);
+> +	pci_endpoint_test_release_irq(test);
+> +
+> +	if (!pci_endpoint_test_alloc_irq_vectors(test)) {
+> +		pci_endpoint_test_release_irq(test);
+> +		return false;
+> +	}
+> +
+> +	if (!pci_endpoint_test_request_irq(test)) {
+> +		pci_endpoint_test_release_irq(test);
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
+>  				    unsigned long arg)
+>  {
+> @@ -471,6 +584,12 @@ static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
+>  	case PCITEST_COPY:
+>  		ret = pci_endpoint_test_copy(test, arg);
+>  		break;
+> +	case PCITEST_SET_IRQTYPE:
+> +		ret = pci_endpoint_test_set_irq(test, arg);
+> +		break;
+> +	case PCITEST_GET_IRQTYPE:
+> +		ret = irq_type;
 
+Can't the set_irq be done as part of raise irq itself?
+
+Thanks
+Kishon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
