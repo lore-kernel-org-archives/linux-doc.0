@@ -5,97 +5,100 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9ED117D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 15:28:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4D857D043
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 16:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754175AbeFTP2d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 11:28:33 -0400
-Received: from mail-pf0-f178.google.com ([209.85.192.178]:40923 "EHLO
-        mail-pf0-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754002AbeFTP2c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 11:28:32 -0400
-Received: by mail-pf0-f178.google.com with SMTP id z24-v6so1777753pfe.7
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 08:28:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=n5Evgzf8t1wwiO5Hgy4rsEVNFCUVL4Ttd3lUd8BA1+8=;
-        b=Fko++q+ICkJXY2nFU8WR/+xwTiVrC0K7EbIHwEOIg5KGJvmynuLf2cSizfxGDlrG7w
-         6RpPhSAmUzBGxzOImUmEV+PN/AdJn6cbpp9NpzH/SGNZUntKyYGPKCDfQr5a43kUuvLK
-         9U7mYiiQ6FBaj2pwQzFi1G68rmbbVgiuW0tsFv4jkWTNCVtzMZCJ18lgF4aIzcJ8xKFY
-         DfR5hlhWzEArzophT4a29sIWopD4UkQ0XeJNgMQlEIcAhCJQlSCmHbah/bkAkWvIYSnh
-         Xjmb2lUn2xpAFJLrQD+Iubuv0P5OF5GfKjoERg1rXhuzp0zDdIg22q+Zj/uv8dIQhy4K
-         O0ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=n5Evgzf8t1wwiO5Hgy4rsEVNFCUVL4Ttd3lUd8BA1+8=;
-        b=eoVAOZn6z6rs0VU7zlLcX4N6YyKie2xIz2NSGCRyHjyxejblQZUEhdER2UVEXXVlom
-         SlFQVCdwpGU4IvBjv5LMwS4p5gKaxkNrtT2bPS2nIyVozsXLgiTP+CkJ4Og8HMgKiuFT
-         E84HEePRNfR4AdGgwH6W2oCKxSbDiwvdEFyJLXQD6rPfu3lkyqGAShfUQJcTS2Mipiw3
-         skwOsUHPCdcp2afG4tEc9yAEjZAPy2Ohmm5eKKauEIj9mwSM9SnmU8HQ1vo6yCD38GQI
-         clsqovo6SS/7Hru4JqNpJbFm/Bfk8ONef624osiyvOokWJuXjZDGmgL7ovLziLMrFOKy
-         XkMA==
-X-Gm-Message-State: APt69E30M6FPhQ2Z6YNXJAfZx4O3x0qHLGGTeUPKnRrkm/F/ygXj5UnV
-        0G+sbFTN07pb2KMhZVAQyyWBuQ==
-X-Google-Smtp-Source: ADUXVKLvBZPsOUWPAFRZyUfyK5AvoEjs+OD3h5yfhRJjbpJay2L/vNtIjqvMEnKp50lik9EeZUFmeg==
-X-Received: by 2002:a62:a104:: with SMTP id b4-v6mr23534086pff.159.1529508511359;
-        Wed, 20 Jun 2018 08:28:31 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
-        by smtp.googlemail.com with ESMTPSA id z12-v6sm3406439pgu.57.2018.06.20.08.28.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 Jun 2018 08:28:30 -0700 (PDT)
-Subject: Re: overlayfs: caller_credentials option bypass creator_cred
-To:     Vivek Goyal <vgoyal@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        Daniel Walsh <dwalsh@redhat.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>
-References: <20180618154222.19279-1-salyzyn@android.com>
- <20180618185448.GA8749@redhat.com>
- <f141f883-0dbd-10ea-83b9-a1b38119b0c5@android.com>
- <20180618194345.GA15973@redhat.com>
- <aecdeaca-74cf-54b1-3ea9-4751972074f5@android.com>
- <20180619143617.GC22657@redhat.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <d8e6c8ce-6305-67d8-6213-5460e5d0d88c@android.com>
-Date:   Wed, 20 Jun 2018 08:28:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20180619143617.GC22657@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+        id S932321AbeFTQ2p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 12:28:45 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:52400 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932176AbeFTQ2o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 12:28:44 -0400
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 78E411E04FD;
+        Wed, 20 Jun 2018 18:28:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1529512122; bh=CmRfzodoSV6QT5Kvdv4BAgHns6vj56+y510lYHn1/R8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cOURanrqYdvDfKXQdlS/j2dTY4znAPkg2xkb7GSKVB1QYHQaGqQplHAcqgvDqXnBI
+         wK6Z8hanlCNkLXD/TxB8zMYVfpnWl7UTaAr2sdxMrjjaxPUMA4mI4NGkq6kiO6QxgM
+         Dn2tgDxA5Hxb/N1CFl1/Oo5Fj8uDQVsT8C2lMQ++XyQH77Tr0FpQboLcm6odvLb94M
+         isQoaxaGa14iuwLdn27EeBa8/qk1R3PaHOvgKGUZdkAFIxtPXAWf9YkQsoevD44E36
+         8qRvh14qX7pz/4DFYqCStlYkj0lpj2Rw1yjUI7Xr+OaqXpZgXw3WrXfBu+yNq7rAXt
+         5Oe9fykU2AYsw==
+Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 68E3D378D;
+        Wed, 20 Jun 2018 09:28:41 -0700 (PDT)
+Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
+        by pt02.synopsys.com (Postfix) with ESMTP id BB7A43D4E5;
+        Wed, 20 Jun 2018 17:28:40 +0100 (WEST)
+From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
+        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
+        adouglas@cadence.com, jesper.nilsson@axis.com, sboyd@codeaurora.org
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Subject: [PATCH v5 00/11] Add MSI-X support on pcitest tool
+Date:   Wed, 20 Jun 2018 17:28:22 +0100
+Message-Id: <cover.1529507416.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/19/2018 07:36 AM, Vivek Goyal wrote:
-> On Mon, Jun 18, 2018 at 02:59:50PM -0700, Mark Salyzyn wrote:
-> So in this system all callers are priviliged and have the capability to
-> mknod and set trusted xattrs.
-This is true of the callers that make adjustments (in Android's Case 
-this is an su context provided to the adb tool for sync and push). More 
-importantly the large variety of callers have the passive/read MAC 
-credentials for their domain set of files; where the mounter/creator 
-does not.
->   (Amir mentioned the reason why we switch
-> creds). If not, then file unlink (Should do mknod), lower non-empty directory
-> rename (should set trusted REDIRECT) and bunch of other operations should fail.
+Patch series made against Lorenzo's master branch.
 
-Hmmm, neither was part of my test plan b/c these operations are more 
-esoteric for development ... need to add them and address them.
+Add MSI-X support on pcitest tool.
 
-Thanks all (You, Eric, Amir and private) for your comments, will 
-regroup, test and address concerns!
+Add new callbacks methods and handlers to trigger the MSI-X interrupts
+on the EP DesignWare IP driver.
 
--- Mark
+Allow to set/get MSI-X EP maximum capability number.
+
+Rework on set/get and triggering MSI methods on EP DesignWare IP driver.
+
+Add a new input parameter (msix) to pcitest tool to test MSI-X feature.
+
+Update the pcitest.sh script to support MSI-X feature tests.
+
+Gustavo Pimentel (11):
+  PCI: endpoint: Add MSI-X interfaces
+  PCI: Update xxx_pcie_ep_raise_irq() and pci_epc_raise_irq() signatures
+  PCI: dwc: Add MSI-X callbacks handler
+  PCI: dwc: Rework MSI callbacks handler
+  PCI: dwc: Add legacy interrupt callback handler
+  pci-epf-test/pci_endpoint_test: Cleanup PCI_ENDPOINT_TEST memspace
+  pci-epf-test/pci_endpoint_test: Use irq_type module parameter
+  pci-epf-test/pci_endpoint_test: Add MSI-X support
+  pci_endpoint_test: Add 2 ioctl commands
+  tools: PCI: Add MSI-X support
+  PCI: endpoint: Add MSI set maximum restriction.
+
+ Documentation/misc-devices/pci-endpoint-test.txt  |   6 +
+ drivers/misc/pci_endpoint_test.c                  | 259 ++++++++++++++++------
+ drivers/pci/controller/dwc/pci-dra7xx.c           |   2 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c         |   2 +-
+ drivers/pci/controller/dwc/pcie-designware-ep.c   | 205 +++++++++++++++--
+ drivers/pci/controller/dwc/pcie-designware-plat.c |   7 +-
+ drivers/pci/controller/dwc/pcie-designware.h      |  31 ++-
+ drivers/pci/controller/pcie-cadence-ep.c          |   3 +-
+ drivers/pci/controller/pcie-rockchip-ep.c         |   2 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c     |  81 +++++--
+ drivers/pci/endpoint/pci-ep-cfs.c                 |  24 ++
+ drivers/pci/endpoint/pci-epc-core.c               |  68 +++++-
+ include/linux/pci-epc.h                           |  15 +-
+ include/linux/pci-epf.h                           |   1 +
+ include/uapi/linux/pcitest.h                      |   3 +
+ tools/pci/pcitest.c                               |  51 ++++-
+ tools/pci/pcitest.sh                              |  15 ++
+ 17 files changed, 643 insertions(+), 132 deletions(-)
+
+-- 
+2.7.4
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
