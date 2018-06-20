@@ -3,49 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F011B7DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 17:45:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8DD07DF8A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 17:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754667AbeFTRoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 13:44:55 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:35396 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754698AbeFTRkb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 13:40:31 -0400
-Received: by mail-wm0-f68.google.com with SMTP id j15-v6so1029092wme.0
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 10:40:31 -0700 (PDT)
+        id S932898AbeFTRps (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 13:45:48 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:37030 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754653AbeFTRkY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 13:40:24 -0400
+Received: by mail-wm0-f67.google.com with SMTP id r125-v6so997474wmg.2
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 10:40:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=d2bTqC19vsa63XvPHoNQzGVPuuGO11zOf+oXYC8d6zA=;
-        b=J8GSmHG2otXy9GR1YQdnRkC73dWps4/X6XZJHUYtHxGdwrf0RP+nrwBpWWVoYkD/Ym
-         psgAXSLW1JpjTg9CE7hfKtZ9z1SNUAVBvZnVDOm6LT9oCHibrrBJ7Y/WWvYhTQVgfpS9
-         n5uQ//s6KuyeML3iWRvEHRNd+YhdKJwLeFrRjhwjjM0Dp1+jo/a1+4T/wINZ+7+mfBmL
-         qBEIaYWy58TTZ5WgV1yh4MJuvdsn1BqTu/wFwesEiIvb/wOOARDFv+wvbQ8/DKRD3Dj9
-         ZqZcVJ0/bu9w4BxpYaisxRm3Ap5gYHVP9bY1qtAEmMblo6HNKa7k7jobEwka4LZ8CtxE
-         B5wg==
+        bh=w0KS5wF5BL6rD0Y4f1kcghkQJh+byDC5CHCPIBvVtCQ=;
+        b=oB65+o0jQ6qB2W2699FbtW2XW66vGi/Teqj7sIvX27wm2wTSHZ3YDvMGRf+qxaxnsl
+         dOr8z4/U5995KND4N0UtgUPJa5qqlmqKZjtslOlip+RRCV4rRSig29xMZFtKdKySe6QK
+         idgHT4El7SEtMLxZLiXbVYVFNWkC3yclBl7DF46d5gK/D6YikGiZBxc4hMUrsQ33N9to
+         drAoTWViBkbS5eVZlCFOW43LVfI7eTo2dI+h+lmXLFV93EiqsJq6e/NhtmUBqTg+kSaX
+         Ibcn+BAL2vAM6qg3eKwkM9loUGopvD4Ixi4rrgwOQ5L1l/vxdZHj7rB5HDFnegO/Yj2d
+         ZP/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=d2bTqC19vsa63XvPHoNQzGVPuuGO11zOf+oXYC8d6zA=;
-        b=YQ5a9kJu7vsGfA5P8kUuytdiW3brluYxyTC9Ek4DtI3mOkFmqudk7hGHUTbxMQwBPi
-         gK8UPh5D2y38rlSwbeRr4a/UQWCQ2eWkExSLbZAIoWZUsVd9zFQb3KwsbtB9prZiyWai
-         7TwaNRTRCx1IjD+DSDIDc4ytXd5Zo8Zk5YJDIdZ1hAFABrrQgpXOZiIRfzh1tBPsTHNA
-         qhK++l/o0ODnlpaYkCCfZ4R7hP+TP2hxZ+yKZ/sR33aBNs0wRYomZ/7JaOooVmAzx8dy
-         9I2nRcQkso7XN0IehvtLh+l/rP7DqiKIIRXpQTt/1tO5fG8QynyPxaiy5CDduwAbPs1Q
-         yAHQ==
-X-Gm-Message-State: APt69E1k0KFF+UUOeJ0koQYQm5ICpsbXspbj+m467tzo2mb9PO2ydFhC
-        jOKWKZFwY97PhURYLSe0dYBX0w==
-X-Google-Smtp-Source: ADUXVKJRB2kcQFAuw69CFMK4M7ftlSgIGxQ56RzmEZVOtDJeRSwnMsmdOXyz3MZ5NlLuthQj0awrIw==
-X-Received: by 2002:a1c:150d:: with SMTP id 13-v6mr2687933wmv.100.1529516429834;
-        Wed, 20 Jun 2018 10:40:29 -0700 (PDT)
+        bh=w0KS5wF5BL6rD0Y4f1kcghkQJh+byDC5CHCPIBvVtCQ=;
+        b=laBq2wbDxYB0+SrTZHZPMqVU0SshZnxGGcx/BVCGWQjdZL408ciT02VOBmzazBX/T3
+         SGMNEpQMtxYkuG7JAJhLMnkx6Wl41Yn50bfaZornEq7ZWYFpW12lpw0rKpk3ODRVdbZh
+         qJjC/TfY3wkoj5RJDU+6B9zKGNpenRCz0z5UG0wZqvJXU6p+JWCunmkkeRU5k+Hw1Oed
+         qh3a5oBdHGm0/3XGOn7QTcNiHpvFMFvE6j+FB4lqMtciA6WKObAAdALS+Xe4EBJThfVt
+         AVfYemLbHVrH/BMdFcAP/qR2DeY9pRagRjCJyeAM4aX8aaCd+S+E8tRSXNS96uEep7Ko
+         q/Kw==
+X-Gm-Message-State: APt69E1+EcdijZJxcWLQM9XMtUJqgLCdwy6zIGiswiKrsoyqXKAhJYdR
+        QD2sZv6AqQ7OumfnNY3OnUwCdw==
+X-Google-Smtp-Source: ADUXVKIHy452yLplRLjZDKj8sDFzIOaOQhbaOdQUSN2hzmJutj4WX2Ro1xrWueNxZDkgOiWF/zqi1g==
+X-Received: by 2002:a1c:dcd:: with SMTP id 196-v6mr2542897wmn.131.1529516423292;
+        Wed, 20 Jun 2018 10:40:23 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id f18-v6sm4388598wro.1.2018.06.20.10.40.28
+        by smtp.gmail.com with ESMTPSA id f18-v6sm4388598wro.1.2018.06.20.10.40.21
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 Jun 2018 10:40:29 -0700 (PDT)
+        Wed, 20 Jun 2018 10:40:22 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -82,9 +82,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Mark Brand <markbrand@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v3 14/17] khwasan, arm64: add brk handler for inline instrumentation
-Date:   Wed, 20 Jun 2018 19:40:00 +0200
-Message-Id: <6660ebcd8b5c7b70b91731cb62dff85be5a94684.1529515183.git.andreyknvl@google.com>
+Subject: [PATCH v3 10/17] khwasan, mm: perform untagged pointers comparison in krealloc
+Date:   Wed, 20 Jun 2018 19:39:56 +0200
+Message-Id: <6ab2ac0b6a7d12d2a6616e847732305dde544a99.1529515183.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.18.0.rc1.244.gcf134e6275-goog
 In-Reply-To: <cover.1529515183.git.andreyknvl@google.com>
 References: <cover.1529515183.git.andreyknvl@google.com>
@@ -93,154 +93,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KHWASAN inline instrumentation mode (which embeds checks of shadow memory
-into the generated code, instead of inserting a callback) generates a brk
-instruction when a tag mismatch is detected.
-
-This commit add a KHWASAN brk handler, that decodes the immediate value
-passed to the brk instructions (to extract information about the memory
-access that triggered the mismatch), reads the register values (x0 contains
-the guilty address) and reports the bug.
+The krealloc function checks where the same buffer was reused or a new one
+allocated by comparing kernel pointers. KHWASAN changes memory tag on the
+krealloc'ed chunk of memory and therefore also changes the pointer tag of
+the returned pointer. Therefore we need to perform comparison on untagged
+(with tags reset) pointers to check whether it's the same memory region or
+not.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/include/asm/brk-imm.h |  2 +
- arch/arm64/kernel/traps.c        | 69 +++++++++++++++++++++++++++++++-
- 2 files changed, 69 insertions(+), 2 deletions(-)
+ mm/slab_common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/brk-imm.h b/arch/arm64/include/asm/brk-imm.h
-index ed693c5bcec0..e4a7013321dc 100644
---- a/arch/arm64/include/asm/brk-imm.h
-+++ b/arch/arm64/include/asm/brk-imm.h
-@@ -16,10 +16,12 @@
-  * 0x400: for dynamic BRK instruction
-  * 0x401: for compile time BRK instruction
-  * 0x800: kernel-mode BUG() and WARN() traps
-+ * 0x9xx: KHWASAN trap (allowed values 0x900 - 0x9ff)
-  */
- #define FAULT_BRK_IMM			0x100
- #define KGDB_DYN_DBG_BRK_IMM		0x400
- #define KGDB_COMPILED_DBG_BRK_IMM	0x401
- #define BUG_BRK_IMM			0x800
-+#define KHWASAN_BRK_IMM			0x900
- 
- #endif
-diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-index d399d459397b..95152a4fd202 100644
---- a/arch/arm64/kernel/traps.c
-+++ b/arch/arm64/kernel/traps.c
-@@ -35,6 +35,7 @@
- #include <linux/sizes.h>
- #include <linux/syscalls.h>
- #include <linux/mm_types.h>
-+#include <linux/kasan.h>
- 
- #include <asm/atomic.h>
- #include <asm/bug.h>
-@@ -269,10 +270,14 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
- 	}
- }
- 
--void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-+void __arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
- {
- 	regs->pc += size;
-+}
- 
-+void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-+{
-+	__arm64_skip_faulting_instruction(regs, size);
- 	/*
- 	 * If we were single stepping, we want to get the step exception after
- 	 * we return from the trap.
-@@ -791,7 +796,7 @@ static int bug_handler(struct pt_regs *regs, unsigned int esr)
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index c279b52c7565..7746d2ef5d45 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1509,7 +1509,7 @@ void *krealloc(const void *p, size_t new_size, gfp_t flags)
  	}
  
- 	/* If thread survives, skip over the BUG instruction and continue: */
--	arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-+	__arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
- 	return DBG_HOOK_HANDLED;
- }
+ 	ret = __do_krealloc(p, new_size, flags);
+-	if (ret && p != ret)
++	if (ret && khwasan_reset_tag(p) != khwasan_reset_tag(ret))
+ 		kfree(p);
  
-@@ -801,6 +806,59 @@ static struct break_hook bug_break_hook = {
- 	.fn = bug_handler,
- };
- 
-+#ifdef CONFIG_KASAN_HW
-+
-+#define KHWASAN_ESR_RECOVER	0x20
-+#define KHWASAN_ESR_WRITE	0x10
-+#define KHWASAN_ESR_SIZE_MASK	0x0f
-+#define KHWASAN_ESR_SIZE(esr)	(1 << ((esr) & KHWASAN_ESR_SIZE_MASK))
-+
-+static int khwasan_handler(struct pt_regs *regs, unsigned int esr)
-+{
-+	bool recover = esr & KHWASAN_ESR_RECOVER;
-+	bool write = esr & KHWASAN_ESR_WRITE;
-+	size_t size = KHWASAN_ESR_SIZE(esr);
-+	u64 addr = regs->regs[0];
-+	u64 pc = regs->pc;
-+
-+	if (user_mode(regs))
-+		return DBG_HOOK_ERROR;
-+
-+	kasan_report(addr, size, write, pc);
-+
-+	/*
-+	 * The instrumentation allows to control whether we can proceed after
-+	 * a crash was detected. This is done by passing the -recover flag to
-+	 * the compiler. Disabling recovery allows to generate more compact
-+	 * code.
-+	 *
-+	 * Unfortunately disabling recovery doesn't work for the kernel right
-+	 * now. KHWASAN reporting is disabled in some contexts (for example when
-+	 * the allocator accesses slab object metadata; same is true for KASAN;
-+	 * this is controlled by current->kasan_depth). All these accesses are
-+	 * detected by the tool, even though the reports for them are not
-+	 * printed.
-+	 *
-+	 * This is something that might be fixed at some point in the future.
-+	 */
-+	if (!recover)
-+		die("Oops - KHWASAN", regs, 0);
-+
-+	/* If thread survives, skip over the brk instruction and continue: */
-+	__arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-+	return DBG_HOOK_HANDLED;
-+}
-+
-+#define KHWASAN_ESR_VAL (0xf2000000 | KHWASAN_BRK_IMM)
-+#define KHWASAN_ESR_MASK 0xffffff00
-+
-+static struct break_hook khwasan_break_hook = {
-+	.esr_val = KHWASAN_ESR_VAL,
-+	.esr_mask = KHWASAN_ESR_MASK,
-+	.fn = khwasan_handler,
-+};
-+#endif
-+
- /*
-  * Initial handler for AArch64 BRK exceptions
-  * This handler only used until debug_traps_init().
-@@ -808,6 +866,10 @@ static struct break_hook bug_break_hook = {
- int __init early_brk64(unsigned long addr, unsigned int esr,
- 		struct pt_regs *regs)
- {
-+#ifdef CONFIG_KASAN_HW
-+	if ((esr & KHWASAN_ESR_MASK) == KHWASAN_ESR_VAL)
-+		return khwasan_handler(regs, esr) != DBG_HOOK_HANDLED;
-+#endif
- 	return bug_handler(regs, esr) != DBG_HOOK_HANDLED;
- }
- 
-@@ -815,4 +877,7 @@ int __init early_brk64(unsigned long addr, unsigned int esr,
- void __init trap_init(void)
- {
- 	register_break_hook(&bug_break_hook);
-+#ifdef CONFIG_KASAN_HW
-+	register_break_hook(&khwasan_break_hook);
-+#endif
- }
+ 	return ret;
 -- 
 2.18.0.rc1.244.gcf134e6275-goog
 
