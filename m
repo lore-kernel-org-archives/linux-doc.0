@@ -1,240 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3C9EF7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 13:17:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5CF77D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 16:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933253AbeFUNRn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 09:17:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35184 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932747AbeFUNRl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Jun 2018 09:17:41 -0400
-Received: from localhost (173-25-171-118.client.mchsi.com [173.25.171.118])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 840A520837;
-        Thu, 21 Jun 2018 13:17:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1529587060;
-        bh=Mh5XPnIW9cKjMIa8ddBiqhht/6Shaw5XQ/ldw5ujX28=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cTZcaNOcADla0QVAZF0TLXvynVuIomlmnCBed07v6D/RsvznN6dWaYCOsRBTUz6Ix
-         QC/JAdnNxq7LC0bJIsCrlMOwVoo1p0qz1d42Oi1xxFVLR+xEWE7//P1Uf/9uDOShWw
-         H/DUlJuv2WMCYLiYLc+GnxSY7EFtk9VQXq4iXxNM=
-Date:   Thu, 21 Jun 2018 08:17:34 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com
-Subject: Re: [PATCH v5 1/5] PCI/AER: Define and allocate aer_stats structure
- for AER capable devices
-Message-ID: <20180621131734.GA14136@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180522222805.80314-1-rajatja@google.com>
- <20180620234147.48438-1-rajatja@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180620234147.48438-1-rajatja@google.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        id S933282AbeFUQBs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 12:01:48 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:57282 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932858AbeFUQBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 12:01:47 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id C42F41E04F7;
+        Thu, 21 Jun 2018 18:01:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1529596905; bh=HYLoqtIHuAl62reiHQlIO9OECzwPGAxrH4j24PJKr24=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CTo60bWioszwEFVZeRNiMwDDjahvn1huVoqlzwctDBky4jb8ar2V1FHqB8D+DzbKV
+         WdyfTpy5PSGRxQtc2Jzb0DyGnffLr4HFulfRn3yigK/gIL0mWTTMOByMlkJY7ZLm5n
+         HvMWuLuiSbU2CH0wsE2zGB8XQBRpA4AMoC1TeXSQA6AVXRE/R2R47GOH77jYWVwTnp
+         mFMssm7IkJk6m6Vwstk/M8ERqbg4teZQ3+lsmBT+Tj7+s1cHGC3rApdYHvIjMv2FTm
+         BCwB632CMrlnwlwwCVQiaJbqdc2xkPT/64VhjnCqj36m44WxyT9yzQgLGOXBqShOuH
+         hSIzP0v9mFZjA==
+Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 7C4523ADD;
+        Thu, 21 Jun 2018 09:01:44 -0700 (PDT)
+Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
+        by pt02.synopsys.com (Postfix) with ESMTP id CB1543D116;
+        Thu, 21 Jun 2018 17:01:43 +0100 (WEST)
+From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
+        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
+        adouglas@cadence.com, jesper.nilsson@axis.com,
+        shawn.lin@rock-chips.com
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Subject: [PATCH v6 00/11] Add MSI-X support on pcitest tool
+Date:   Thu, 21 Jun 2018 17:01:25 +0100
+Message-Id: <cover.1529595907.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 20, 2018 at 04:41:43PM -0700, Rajat Jain wrote:
-> Define a structure to hold the AER statistics. There are 2 groups
-> of statistics: dev_* counters that are to be collected for all AER
-> capable devices and rootport_* counters that are collected for all
-> (AER capable) rootports only. Allocate and free this structure when
-> device is added or released (thus counters survive the lifetime of the
-> device).
-> 
-> Signed-off-by: Rajat Jain <rajatja@google.com>
-> ---
-> v5: Same as v4
-> v4: Same as v3
-> v3: Merge everything in aer.c
-> 
->  drivers/pci/pcie/aer.c | 60 ++++++++++++++++++++++++++++++++++++++++++
->  drivers/pci/probe.c    |  1 +
->  include/linux/pci.h    |  3 +++
->  3 files changed, 64 insertions(+)
-> 
-> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-> index a2e88386af28..f9fa994b6c33 100644
-> --- a/drivers/pci/pcie/aer.c
-> +++ b/drivers/pci/pcie/aer.c
-> @@ -33,6 +33,9 @@
->  #define AER_ERROR_SOURCES_MAX		100
->  #define AER_MAX_MULTI_ERR_DEVICES	5	/* Not likely to have more */
->  
-> +#define AER_MAX_TYPEOF_CORRECTABLE_ERRS 16	/* as per PCI_ERR_COR_STATUS */
-> +#define AER_MAX_TYPEOF_UNCORRECTABLE_ERRS 26	/* as per PCI_ERR_UNCOR_STATUS*/
-> +
->  struct aer_err_info {
->  	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
->  	int error_dev_num;
-> @@ -76,6 +79,40 @@ struct aer_rpc {
->  					 */
->  };
->  
-> +/* AER stats for the device */
-> +struct aer_stats {
-> +
-> +	/*
-> +	 * Fields for all AER capable devices. They indicate the errors
-> +	 * "as seen by this device". Note that this may mean that if an
-> +	 * end point is causing problems, the AER counters may increment
-> +	 * at its link partner (e.g. root port) because the errors will be
-> +	 * "seen" by the link partner and not the the problematic end point
-> +	 * itself (which may report all counters as 0 as it never saw any
-> +	 * problems).
-> +	 */
-> +	/* Individual counters for different type of correctable errors */
-> +	u64 dev_cor_errs[AER_MAX_TYPEOF_CORRECTABLE_ERRS];
-> +	/* Individual counters for different type of uncorrectable errors */
-> +	u64 dev_uncor_errs[AER_MAX_TYPEOF_UNCORRECTABLE_ERRS];
-> +	/* Total number of correctable errors seen by this device */
-> +	u64 dev_total_cor_errs;
-> +	/* Total number of fatal uncorrectable errors seen by this device */
-> +	u64 dev_total_fatal_errs;
-> +	/* Total number of fatal uncorrectable errors seen by this device */
-> +	u64 dev_total_nonfatal_errs;
-> +
-> +	/*
-> +	 * Fields for Root ports only, these indicate the total number of
-> +	 * ERR_COR, ERR_FATAL, and ERR_NONFATAL messages received by the
-> +	 * rootport, INCLUDING the ones that are generated internally (by
-> +	 * the rootport itself)
+Patch series made against Lorenzo's master branch.
 
-Strictly speaking, I think these are applicable for both root ports
-and root complex event collectors, right?
+Add MSI-X support on pcitest tool.
 
-> +	 */
-> +	u64 rootport_total_cor_errs;
-> +	u64 rootport_total_fatal_errs;
-> +	u64 rootport_total_nonfatal_errs;
-> +};
-> +
->  #define AER_LOG_TLP_MASKS		(PCI_ERR_UNC_POISON_TLP|	\
->  					PCI_ERR_UNC_ECRC|		\
->  					PCI_ERR_UNC_UNSUP|		\
-> @@ -402,12 +439,35 @@ int pci_cleanup_aer_error_status_regs(struct pci_dev *dev)
->  	return 0;
->  }
->  
-> +static int pci_aer_stats_init(struct pci_dev *pdev)
-> +{
-> +	pdev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
-> +	if (!pdev->aer_stats) {
-> +		dev_err(&pdev->dev, "No memory for aer_stats\n");
+Add new callbacks methods and handlers to trigger the MSI-X interrupts
+on the EP DesignWare IP driver.
 
-pci_err(), if we need the message at all.
+Allow to set/get MSI-X EP maximum capability number.
 
-Based on c7abb2352c29 ("PCI: Remove unnecessary messages for memory
-allocation failures"), I'd be inclined to drop the message completely.
+Rework on set/get and triggering MSI methods on EP DesignWare IP driver.
 
-> +		return -ENOMEM;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static void pci_aer_stats_exit(struct pci_dev *pdev)
-> +{
-> +	kfree(pdev->aer_stats);
-> +	pdev->aer_stats = NULL;
-> +}
-> +
->  int pci_aer_init(struct pci_dev *dev)
->  {
->  	dev->aer_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
-> +	if (!dev->aer_cap || pci_aer_stats_init(dev))
-> +		return -EIO;
+Add a new input parameter (msix) to pcitest tool to test MSI-X feature.
 
-This skips pci_cleanup_aer_error_status_regs() if the kzalloc() fails.
-I think we should still do pci_cleanup_aer_error_status_regs(), even
-if the alloc fails.
+Update the pcitest.sh script to support MSI-X feature tests.
 
-Nobody checks the return value of pci_aer_init(), so I think you can
-simplify this by making these functions void.
+Gustavo Pimentel (11):
+  PCI: endpoint: Add MSI-X interfaces
+  PCI: Update xxx_pcie_ep_raise_irq() and pci_epc_raise_irq() signatures
+  PCI: dwc: Add MSI-X callbacks handler
+  PCI: dwc: Rework MSI callbacks handler
+  PCI: dwc: Add legacy interrupt callback handler
+  pci-epf-test/pci_endpoint_test: Cleanup PCI_ENDPOINT_TEST memspace
+  pci-epf-test/pci_endpoint_test: Use irq_type module parameter
+  pci-epf-test/pci_endpoint_test: Add MSI-X support
+  pci_endpoint_test: Add 2 ioctl commands
+  tools: PCI: Add MSI-X support
+  PCI: endpoint: Add MSI set maximum restriction.
 
-Maybe even squash them together, i.e., do the kzalloc() directly in
-pci_aer_init() and the kfree() directly in pci_aer_exit()?
+ Documentation/ioctl/ioctl-number.txt              |   1 +
+ Documentation/misc-devices/pci-endpoint-test.txt  |   6 +
+ drivers/misc/pci_endpoint_test.c                  | 259 ++++++++++++++++------
+ drivers/pci/controller/dwc/pci-dra7xx.c           |   2 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c         |   2 +-
+ drivers/pci/controller/dwc/pcie-designware-ep.c   | 205 +++++++++++++++--
+ drivers/pci/controller/dwc/pcie-designware-plat.c |   7 +-
+ drivers/pci/controller/dwc/pcie-designware.h      |  31 ++-
+ drivers/pci/controller/pcie-cadence-ep.c          |   3 +-
+ drivers/pci/controller/pcie-rockchip-ep.c         |   2 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c     |  81 +++++--
+ drivers/pci/endpoint/pci-ep-cfs.c                 |  24 ++
+ drivers/pci/endpoint/pci-epc-core.c               |  68 +++++-
+ include/linux/pci-epc.h                           |  15 +-
+ include/linux/pci-epf.h                           |   1 +
+ include/uapi/linux/pcitest.h                      |   3 +
+ tools/pci/pcitest.c                               |  51 ++++-
+ tools/pci/pcitest.sh                              |  15 ++
+ 18 files changed, 644 insertions(+), 132 deletions(-)
 
->  	return pci_cleanup_aer_error_status_regs(dev);
->  }
->  
-> +void pci_aer_exit(struct pci_dev *dev)
-> +{
-> +	pci_aer_stats_exit(dev);
-> +}
-> +
->  #define AER_AGENT_RECEIVER		0
->  #define AER_AGENT_REQUESTER		1
->  #define AER_AGENT_COMPLETER		2
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index ac876e32de4b..48edd0c9e4bc 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -2064,6 +2064,7 @@ static void pci_configure_device(struct pci_dev *dev)
->  
->  static void pci_release_capabilities(struct pci_dev *dev)
->  {
-> +	pci_aer_exit(dev);
->  	pci_vpd_release(dev);
->  	pci_iov_release(dev);
->  	pci_free_cap_save_buffers(dev);
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 340029b2fb38..8d59c6c19a19 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -299,6 +299,7 @@ struct pci_dev {
->  	u8		hdr_type;	/* PCI header type (`multi' flag masked out) */
->  #ifdef CONFIG_PCIEAER
->  	u16		aer_cap;	/* AER capability offset */
-> +	struct aer_stats *aer_stats;	/* AER stats for this device */
->  #endif
->  	u8		pcie_cap;	/* PCIe capability offset */
->  	u8		msi_cap;	/* MSI capability offset */
-> @@ -1471,10 +1472,12 @@ static inline bool pcie_aspm_support_enabled(void) { return false; }
->  void pci_no_aer(void);
->  bool pci_aer_available(void);
->  int pci_aer_init(struct pci_dev *dev);
-> +void pci_aer_exit(struct pci_dev *dev);
+-- 
+2.7.4
 
-With the exception of pci_aer_available(), these are only used inside
-drivers/pci.  This might be a good opportunity to move those private
-things to drivers/pci/pci.h (in a separate patch, of course).
 
->  #else
->  static inline void pci_no_aer(void) { }
->  static inline bool pci_aer_available(void) { return false; }
->  static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
-> +static inline void pci_aer_exit(struct pci_dev *d) { }
->  #endif
->  
->  #ifdef CONFIG_PCIE_ECRC
-> -- 
-> 2.18.0.rc1.244.gcf134e6275-goog
-> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
