@@ -1,125 +1,201 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 637157D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 16:49:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4F5B67D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 18:48:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933447AbeFUQtM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 12:49:12 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51404 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933446AbeFUQtL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 12:49:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=aX4FL6cdsrerOHY+UazX1q6izlxHSE2oPLQvB6Fl9u8=; b=t/NMZBfPcjafI/xOGrqG959g1
-        mK18ErNg4D0Lb/3QGpNxFNIi2q1tSdLTbkK4+xQx26jQCfPCWAInix8TiAe5QWgr8LeMWWd1zJ+yS
-        OjMM5tyoqzD83RP/VOzVwDtCaiDla29Vd2hHP8mdit9WANT9coWs5UnT1QEx3AbH7OCka5MD/fkzc
-        7qPTg6JU/s8NZS2fj4Vf/Ikaktl6vTNLb0Z/L9NEf38ZojD2jZmps2xdRoLuLI50DXYlCKM2bSyJn
-        23CerDomOqxs+vCxHiLxZk1jjECGtHudNbCYeXyfjqH4x4dZSacqOdkmPt9l2HgAaC7on7fpIzk5t
-        bi2Hv9DBQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fW2lf-0006T7-Qx; Thu, 21 Jun 2018 16:49:07 +0000
-Subject: Re: [PATCH v5 09/11] pci_endpoint_test: Add 2 ioctl commands
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "sboyd@codeaurora.org" <sboyd@codeaurora.org>
-Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1529507416.git.gustavo.pimentel@synopsys.com>
- <8695864db0191b2e85ed81e97a8990baea3468fa.1529507416.git.gustavo.pimentel@synopsys.com>
- <dd75ced1-e4c3-8c94-3bab-200e2ecdd8b8@infradead.org>
- <f16f99f4-0749-3273-7c5a-7c38503c27a9@synopsys.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a9e0ae23-ee21-3b0b-d60d-650c31af1895@infradead.org>
-Date:   Thu, 21 Jun 2018 09:49:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S932792AbeFUSs3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 14:48:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46178 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932719AbeFUSs1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Jun 2018 14:48:27 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0D16121A51;
+        Thu, 21 Jun 2018 18:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1529606907;
+        bh=tY1b2QugFkgoNKXGPxDCUljcc2ZJcJ0Oiiexo1gc8eA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ga68bNHO6ffOSDgYu8i48VYyNBWAEhfFzNXpn6WCt6AvUgZgF2A2b0zuEgexFhGaL
+         AkPKZqJR66BgW6a25DzaPSoACDjtkMTAmiHHHPLr738FPAm1G7YDCq5XDBzrPJumEu
+         t/8jk3RPGCEWAx0SODH4PYH/MR5f/DZ+To08HS6c=
+Date:   Thu, 21 Jun 2018 13:48:22 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Frederick Lawler <fred@fredlawl.com>,
+        Oza Pawandeep <poza@codeaurora.org>,
+        Keith Busch <keith.busch@intel.com>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
+        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
+        Tyler Baicar <tbaicar@codeaurora.org>
+Subject: Re: [PATCH v5 3/5] PCI/AER: Add sysfs attributes to provide
+ breakdown of AERs
+Message-ID: <20180621184822.GB14136@bhelgaas-glaptop.roam.corp.google.com>
+References: <20180522222805.80314-1-rajatja@google.com>
+ <20180620234147.48438-1-rajatja@google.com>
+ <20180620234147.48438-3-rajatja@google.com>
 MIME-Version: 1.0
-In-Reply-To: <f16f99f4-0749-3273-7c5a-7c38503c27a9@synopsys.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180620234147.48438-3-rajatja@google.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/21/2018 03:23 AM, Gustavo Pimentel wrote:
-> On 20/06/2018 19:12, Randy Dunlap wrote:
->> On 06/20/2018 09:28 AM, Gustavo Pimentel wrote:
->>> Add MSI-X support and update driver documentation accordingly.
->>>
->>> Add 2 new IOCTL commands:
->>>  - Allow to reconfigure driver IRQ type in runtime.
->>>  - Allow to retrieve current driver IRQ type configured.
->>>
->>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->>> ---
->>> Change v2->v3:                                                                              |  --------------------------------------------------------------------------------------------
->>>  - New patch file created base on the previous patch                                        |  --------------------------------------------------------------------------------------------
->>> "misc: pci_endpoint_test: Add MSI-X support" patch file following                           |  --------------------------------------------------------------------------------------------
->>> Kishon's suggestion.                                                                        |  --------------------------------------------------------------------------------------------
->>> Change v3->v4:                                                                              |  --------------------------------------------------------------------------------------------
->>>  - Rebased to Lorenzo's master branch v4.18-rc1.
->>> Change v4->v5:
->>>  - Nothing changed, just to follow the patch set version.
->>>
->>>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->>>  drivers/misc/pci_endpoint_test.c                 | 177 +++++++++++++++++------
->>>  2 files changed, 132 insertions(+), 48 deletions(-)
->>>
->>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
->>> index fdfa0f6..58ccca4 100644
->>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
->>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
->>> @@ -28,6 +28,9 @@ ioctl
->>>  	      to be tested should be passed as argument.
->>>   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->>>  	      to be tested should be passed as argument.
->>> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
->>> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
->>> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
->>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->>>  		as argument.
->>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
->>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
->>> index 2b58887..82fa0c2 100644
->>> --- a/drivers/misc/pci_endpoint_test.c
->>> +++ b/drivers/misc/pci_endpoint_test.c
->>
->> Hi,
->>
->> The ioctl "type" (as "type" is used in <uapi/asm-generic/ioctl.h>),
->> value of 'P' in this case, should be documented in
->> Documentation/ioctl/ioctl-number.txt.
-> 
-> Hi Randy,
-> 
-> I wasn't aware of this file. Adding the entry bellow would be suitable?
-> 
-> 'P'    01-09   drivers/misc/pci_endpoint_test.c        conflict!
+[+cc Tyler for AER dmesg decoding]
 
-Yes.  Thanks.
+I really like this idea a lot; thanks for putting it together!
 
--- 
-~Randy
+On Wed, Jun 20, 2018 at 04:41:45PM -0700, Rajat Jain wrote:
+> Add sysfs attributes to provide breakdown of the AERs seen,
+> into different type of correctable or uncorrectable errors:
+> 
+> dev_breakdown_correctable
+> dev_breakdown_uncorrectable
+
+- Can you include a more complete sysfs path here in the commit log,
+  as well as a snippet of the contents?  From the doc patch, I think
+  it is currently:
+
+    /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_correctable
+    /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_uncorrectable
+
+- I'm not sure it's worth making a new subdirectory.  What if you
+  simply added these?
+
+    /sys/bus/pci/devices/<dev>/aer_correctable
+    /sys/bus/pci/devices/<dev>/aer_uncorrectable
+
+  or perhaps, since you split the "total" files into
+  cor/nonfatal/fatal, these could match?
+
+    /sys/bus/pci/devices/<dev>/aer_correctable
+    /sys/bus/pci/devices/<dev>/aer_nonfatal
+    /sys/bus/pci/devices/<dev>/aer_fatal
+
+  I think the nonfatal/fatal distinction might be worth exposing
+  because some of those are configurable and the kernel handling is
+  significantly different.  So I think it would make this more
+  approachable if the "remove/re-enumerate" situations that will be
+  obvious in dmesg logs were clearly connected with "aer_fatal"
+  statistics, as opposed to being connected to some subset of what's
+  in "aer_uncorrectable".
+
+- Possibly the totals that you currently have in dev_total_cor_errs
+  could even be added to the bottom of these?  Not sure what direction
+  would be best, and as you say, there's the potential for confusion
+  because the individual items won't add up to the totals.  If they
+  were in the same file, maybe that could be addressed in the label.
+
+- Can you include the related doc update in the same patch?  That way
+  the doc update is more likely to be backported along with the patch.
+
+- I was going to ask whether these should all be in a single file or
+  whether they should be split up so there's a separate file for each
+  type or error, each containing a single number.  But
+  Documentation/filesystems/sysfs.txt says either is OK and
+  /sys/devices/system/node/node0/vmstat is an example of a similar
+  situation in an existing file, so I think what you did is perfect.
+
+> Signed-off-by: Rajat Jain <rajatja@google.com>
+> ---
+> v5: Fix the signature
+> v4: use "%llu" in place of "%llx"
+> v3: Merge everything in aer.c
+> 
+>  drivers/pci/pcie/aer.c | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+> index ce0d675d7bd3..c989bb5bb6f1 100644
+> --- a/drivers/pci/pcie/aer.c
+> +++ b/drivers/pci/pcie/aer.c
+> @@ -587,10 +587,38 @@ aer_stats_aggregate_attr(dev_total_cor_errs);
+>  aer_stats_aggregate_attr(dev_total_fatal_errs);
+>  aer_stats_aggregate_attr(dev_total_nonfatal_errs);
+>  
+> +#define aer_stats_breakdown_attr(field, stats_array, strings_array)	\
+> +	static ssize_t							\
+> +	field##_show(struct device *dev, struct device_attribute *attr,	\
+> +		     char *buf)						\
+> +{									\
+> +	unsigned int i;							\
+> +	char *str = buf;						\
+> +	struct pci_dev *pdev = to_pci_dev(dev);				\
+> +	u64 *stats = pdev->aer_stats->stats_array;			\
+
+Nit: add a blank line here.
+
+> +	for (i = 0; i < ARRAY_SIZE(strings_array); i++) {		\
+> +		if (strings_array[i])					\
+> +			str += sprintf(str, "%s = 0x%llu\n",		\
+> +				       strings_array[i], stats[i]);	\
+> +		else if (stats[i])					\
+> +			str += sprintf(str, #stats_array "bit[%d] = 0x%llu\n",\
+> +				       i, stats[i]);			\
+
+- I like the way this uses the same text as used in dmesg
+  (aer_correctable_error_string[] and
+  aer_uncorrectable_error_string[]).
+
+- I think this incorrectly prints a "0x" prefix for a decimal number
+  (probably an artifact of your v4 change).
+
+- Tyler posted a patch [1] to update those dmesg strings so they match
+  the way lspci decodes them.  I really liked that update, but we
+  never quite finished it.  If we're going to do that, it would be
+  nice to do it first, so we don't publish new sysfs files, then
+  immediately change the labels used in them.
+
+- IIRC, Tyler's patch had the nice property of changing the strings so
+  each error name had no spaces, which would make it a little easier
+  to parse this sysfs file: each line would be a single identifier
+  followed by a single number (I would probably remove the "=" from
+  the middle).
+
+[1] https://lkml.kernel.org/r/1518034285-3543-1-git-send-email-tbaicar@codeaurora.org
+
+> +	}								\
+> +	return str-buf;							\
+> +}									\
+> +static DEVICE_ATTR_RO(field)
+> +
+> +aer_stats_breakdown_attr(dev_breakdown_correctable, dev_cor_errs,
+> +			 aer_correctable_error_string);
+> +aer_stats_breakdown_attr(dev_breakdown_uncorrectable, dev_uncor_errs,
+> +			 aer_uncorrectable_error_string);
+> +
+>  static struct attribute *aer_stats_attrs[] __ro_after_init = {
+>  	&dev_attr_dev_total_cor_errs.attr,
+>  	&dev_attr_dev_total_fatal_errs.attr,
+>  	&dev_attr_dev_total_nonfatal_errs.attr,
+> +	&dev_attr_dev_breakdown_correctable.attr,
+> +	&dev_attr_dev_breakdown_uncorrectable.attr,
+>  	NULL
+>  };
+>  
+> -- 
+> 2.18.0.rc1.244.gcf134e6275-goog
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
