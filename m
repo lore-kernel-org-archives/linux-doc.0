@@ -1,201 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F5B67D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 18:48:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 144577D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 19:22:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932792AbeFUSs3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 14:48:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46178 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932719AbeFUSs1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Jun 2018 14:48:27 -0400
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0D16121A51;
-        Thu, 21 Jun 2018 18:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1529606907;
-        bh=tY1b2QugFkgoNKXGPxDCUljcc2ZJcJ0Oiiexo1gc8eA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ga68bNHO6ffOSDgYu8i48VYyNBWAEhfFzNXpn6WCt6AvUgZgF2A2b0zuEgexFhGaL
-         AkPKZqJR66BgW6a25DzaPSoACDjtkMTAmiHHHPLr738FPAm1G7YDCq5XDBzrPJumEu
-         t/8jk3RPGCEWAx0SODH4PYH/MR5f/DZ+To08HS6c=
-Date:   Thu, 21 Jun 2018 13:48:22 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        id S1754157AbeFUTWZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 15:22:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41236 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754129AbeFUTWY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 15:22:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=EGrbVZB0DlhS1XKIlcWkcwmIHatxL7EHkaNy26JV3JE=; b=sqc0fKPIhb2zWzFOjcr6MHIxH
+        zxRLR7oTXppLTAckqaCnuUj7rQuBnXSuQKPh1176RHf2O7OYKs8pEeKc4HnMTbMcathMdqIwGMCIV
+        JfKiByajXZw7paOk70vTy+AoaPDFImBYyU7WWgofpkEeMUCQzQYzE0NJXUMyJdbz+OEVP25kpYl2Q
+        C5VaT22aQRwE0C8gZjZ1sFjZZQCWHxFbNlq64JtkPa0o4WD/8hBraUoM9ZSSrLJqI0eUvFVTDsQAT
+        UV3UB92Fn8u7/soOAhMz9Cm34gVip5KXec/2MmYaKCu7uM4a4wAxSWe7WsfLC8lXdfvhuMnlXXR9b
+        cJvqgUcew==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fW59x-0004Ea-1a; Thu, 21 Jun 2018 19:22:21 +0000
+Date:   Thu, 21 Jun 2018 12:22:20 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
-        Tyler Baicar <tbaicar@codeaurora.org>
-Subject: Re: [PATCH v5 3/5] PCI/AER: Add sysfs attributes to provide
- breakdown of AERs
-Message-ID: <20180621184822.GB14136@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180522222805.80314-1-rajatja@google.com>
- <20180620234147.48438-1-rajatja@google.com>
- <20180620234147.48438-3-rajatja@google.com>
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v3 2/3] PCI: Allow specifying devices using a base bus
+ and path of devfns
+Message-ID: <20180621192220.GA6635@bombadil.infradead.org>
+References: <20180618193636.16210-1-logang@deltatee.com>
+ <20180618193636.16210-3-logang@deltatee.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180620234147.48438-3-rajatja@google.com>
+In-Reply-To: <20180618193636.16210-3-logang@deltatee.com>
 User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+cc Tyler for AER dmesg decoding]
-
-I really like this idea a lot; thanks for putting it together!
-
-On Wed, Jun 20, 2018 at 04:41:45PM -0700, Rajat Jain wrote:
-> Add sysfs attributes to provide breakdown of the AERs seen,
-> into different type of correctable or uncorrectable errors:
-> 
-> dev_breakdown_correctable
-> dev_breakdown_uncorrectable
-
-- Can you include a more complete sysfs path here in the commit log,
-  as well as a snippet of the contents?  From the doc patch, I think
-  it is currently:
-
-    /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_correctable
-    /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_uncorrectable
-
-- I'm not sure it's worth making a new subdirectory.  What if you
-  simply added these?
-
-    /sys/bus/pci/devices/<dev>/aer_correctable
-    /sys/bus/pci/devices/<dev>/aer_uncorrectable
-
-  or perhaps, since you split the "total" files into
-  cor/nonfatal/fatal, these could match?
-
-    /sys/bus/pci/devices/<dev>/aer_correctable
-    /sys/bus/pci/devices/<dev>/aer_nonfatal
-    /sys/bus/pci/devices/<dev>/aer_fatal
-
-  I think the nonfatal/fatal distinction might be worth exposing
-  because some of those are configurable and the kernel handling is
-  significantly different.  So I think it would make this more
-  approachable if the "remove/re-enumerate" situations that will be
-  obvious in dmesg logs were clearly connected with "aer_fatal"
-  statistics, as opposed to being connected to some subset of what's
-  in "aer_uncorrectable".
-
-- Possibly the totals that you currently have in dev_total_cor_errs
-  could even be added to the bottom of these?  Not sure what direction
-  would be best, and as you say, there's the potential for confusion
-  because the individual items won't add up to the totals.  If they
-  were in the same file, maybe that could be addressed in the label.
-
-- Can you include the related doc update in the same patch?  That way
-  the doc update is more likely to be backported along with the patch.
-
-- I was going to ask whether these should all be in a single file or
-  whether they should be split up so there's a separate file for each
-  type or error, each containing a single number.  But
-  Documentation/filesystems/sysfs.txt says either is OK and
-  /sys/devices/system/node/node0/vmstat is an example of a similar
-  situation in an existing file, so I think what you did is perfect.
-
-> Signed-off-by: Rajat Jain <rajatja@google.com>
-> ---
-> v5: Fix the signature
-> v4: use "%llu" in place of "%llx"
-> v3: Merge everything in aer.c
-> 
->  drivers/pci/pcie/aer.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-> index ce0d675d7bd3..c989bb5bb6f1 100644
-> --- a/drivers/pci/pcie/aer.c
-> +++ b/drivers/pci/pcie/aer.c
-> @@ -587,10 +587,38 @@ aer_stats_aggregate_attr(dev_total_cor_errs);
->  aer_stats_aggregate_attr(dev_total_fatal_errs);
->  aer_stats_aggregate_attr(dev_total_nonfatal_errs);
+On Mon, Jun 18, 2018 at 01:36:35PM -0600, Logan Gunthorpe wrote:
+> @@ -3000,14 +3000,18 @@
+>  				or a set of devices (<pci_dev>). These are
+>  				specified in one of the following formats:
 >  
-> +#define aer_stats_breakdown_attr(field, stats_array, strings_array)	\
-> +	static ssize_t							\
-> +	field##_show(struct device *dev, struct device_attribute *attr,	\
-> +		     char *buf)						\
-> +{									\
-> +	unsigned int i;							\
-> +	char *str = buf;						\
-> +	struct pci_dev *pdev = to_pci_dev(dev);				\
-> +	u64 *stats = pdev->aer_stats->stats_array;			\
+> -				[<domain>:]<bus>:<slot>.<func>
+> +				[<domain>:]<bus>:<slot>.<func>[/<slot>.<func>][/ ...]
 
-Nit: add a blank line here.
+How about:
++				[<domain>:]<bus>:<slot>.<func>[/<slot>.<func>]*
 
-> +	for (i = 0; i < ARRAY_SIZE(strings_array); i++) {		\
-> +		if (strings_array[i])					\
-> +			str += sprintf(str, "%s = 0x%llu\n",		\
-> +				       strings_array[i], stats[i]);	\
-> +		else if (stats[i])					\
-> +			str += sprintf(str, #stats_array "bit[%d] = 0x%llu\n",\
-> +				       i, stats[i]);			\
+> -				by other kernel parameters. The second format
+> +				by other kernel parameters. Optionally
+> +				a path from a device through multiple
 
-- I like the way this uses the same text as used in dmesg
-  (aer_correctable_error_string[] and
-  aer_uncorrectable_error_string[]).
+I think that's "a path to a device", because you'd start by specifying the
+root port, then continuing down the hierarchy, right?
 
-- I think this incorrectly prints a "0x" prefix for a decimal number
-  (probably an artifact of your v4 change).
+> + * Test if a string (typically from a kernel parameter) formated as a
 
-- Tyler posted a patch [1] to update those dmesg strings so they match
-  the way lspci decodes them.  I really liked that update, but we
-  never quite finished it.  If we're going to do that, it would be
-  nice to do it first, so we don't publish new sysfs files, then
-  immediately change the labels used in them.
+formatted
 
-- IIRC, Tyler's patch had the nice property of changing the strings so
-  each error name had no spaces, which would make it a little easier
-  to parse this sysfs file: each line would be a single identifier
-  followed by a single number (I would probably remove the "=" from
-  the middle).
+> + * path of slot/function addresses matches a PCI device. The string must
+> + * be of the form:
+> + *
+> + *   [<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+> + *
+> + * A path for a device can be obtained using 'lspci -t'. Using a path
+> + * is more robust against renumbering of devices than using only
 
-[1] https://lkml.kernel.org/r/1518034285-3543-1-git-send-email-tbaicar@codeaurora.org
+I'd call it bus renumbering rather than device renumbering.  After all,
+if the device got renumbered, this would fail ;-)
 
-> +	}								\
-> +	return str-buf;							\
-> +}									\
-> +static DEVICE_ATTR_RO(field)
+>   * pci_dev_str_match - test if a string matches a device
+>   * @dev:    the PCI device to test
+>   * @p:      string to match the device against
+>   * @endptr: pointer to the string after the match
+>   *
+>   * Test if a string (typically from a kernel parameter) matches a
+> - * specified. The string may be of one of two forms formats:
+> + * specified. The string may be of one of three formats:
+
+Surely just "The string may be in one of three formats"
+
+>   *
+>   *   [<domain>:]<bus>:<slot>.<func>
+> + *   path:[<domain>:]<bus>:<slot>.<func>/<slot>.<func>[/ ...]
+>   *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
+
+I think you're dropped the "path:" prefix from your parser?
+
+>   * The first format specifies a PCI bus/slot/function address which
+>   * may change if new hardware is inserted, if motherboard firmware changes,
+>   * or due to changes caused in kernel parameters.
+>   *
+> - * The second format matches devices using IDs in the configuration
+> + * The second format specifies a PCI bus/slot/function root address and
+> + * a path of slot/function addresses to the specific device from the root.
+> + * The path for a device can be determined through the use of 'lspci -t'.
+> + * This format is more robust against renumbering issues than the first format.
 > +
-> +aer_stats_breakdown_attr(dev_breakdown_correctable, dev_cor_errs,
-> +			 aer_correctable_error_string);
-> +aer_stats_breakdown_attr(dev_breakdown_uncorrectable, dev_uncor_errs,
-> +			 aer_uncorrectable_error_string);
-> +
->  static struct attribute *aer_stats_attrs[] __ro_after_init = {
->  	&dev_attr_dev_total_cor_errs.attr,
->  	&dev_attr_dev_total_fatal_errs.attr,
->  	&dev_attr_dev_total_nonfatal_errs.attr,
-> +	&dev_attr_dev_breakdown_correctable.attr,
-> +	&dev_attr_dev_breakdown_uncorrectable.attr,
->  	NULL
->  };
->  
-> -- 
-> 2.18.0.rc1.244.gcf134e6275-goog
-> 
+> + * The third format matches devices using IDs in the configuration
+>   * space which may match multiple devices in the system. A value of 0
+>   * for any field will match all devices.
+>   *
+
+So you probably want to reword this too.  Two formats, one with optional
+trailing path elements?
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
