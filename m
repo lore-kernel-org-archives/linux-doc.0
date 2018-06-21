@@ -1,182 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CCEF7D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 23:10:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1CA07D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 23:48:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933715AbeFUXKx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 19:10:53 -0400
-Received: from mga02.intel.com ([134.134.136.20]:35440 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933654AbeFUXKw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Jun 2018 19:10:52 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jun 2018 16:10:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,253,1526367600"; 
-   d="scan'208";a="59225642"
-Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Jun 2018 16:10:51 -0700
-Message-ID: <1529622448.30393.22.camel@intel.com>
-Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S933067AbeFUXsf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 19:48:35 -0400
+Received: from mail-oi0-f73.google.com ([209.85.218.73]:35220 "EHLO
+        mail-oi0-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932994AbeFUXse (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 19:48:34 -0400
+Received: by mail-oi0-f73.google.com with SMTP id t133-v6so2778767oih.2
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jun 2018 16:48:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:date:message-id:subject:from:to:cc;
+        bh=y1udrjP1twkh5X8TRWSu0vDRks7gYPJTY6Qaf3t3Lqw=;
+        b=QR6A6ScV+coQOPPsWkWM2/a5m2IFe/UVe0en/irSHJT/2nkKzCfLanPmfLr+B2JgB6
+         nslrYb4G7lC1zGWbumkcAi2FBpfR7J2BcZz6ploXmYm+8d3EAQ5AzgJR0swPsK6EqQUN
+         zht5VKXV1S3eqmdpLnFUo9uH0mei7VjtS+I1rb+UpoAezdVKI7wX8AmQfcohNbLaSbsY
+         yXR73PQcZii1KwZgUgEBYByZ/Y+n/T69SVasIWKbvrshar1zJcJJ3n7rpbiM+IcWsPFO
+         cb9GMpU1WYUJduY1vCELgFNHcIems4HbNYarMS5GRRudjAcgLgKPwLgUVW9STmHmXKFE
+         NzxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to:cc;
+        bh=y1udrjP1twkh5X8TRWSu0vDRks7gYPJTY6Qaf3t3Lqw=;
+        b=twRUjjIPTKnzhAuXjc90L7ptGsUam5RpYQh/DHkou9h+E9sM1BwVoF5zMt6WBjBplq
+         7xdIfbEVmVqIAEetZGRt1aSdUDRGbRT2FdBUxnA+lg3bpIdfye9WF7/QY+yhH+OehlWX
+         TOmsh6pjH22JJqj93L1fLi4N0rfg7IVipg5VGFWsYzIt51AF9zD1VDDTbufNKGKQJjYv
+         t3rptLsHWFNW6pohYIv5pKpZxm6N0zxetzPYIxhCEesfJqBH9rUsP+1jY3wHdg9pE+xF
+         MbzhsDkrIk4NJvWbBoc6j7HXFabxgk2reMUmW/RYsDrnN/huWQ/kv8dvK58ooGfn/1R4
+         Dz8w==
+X-Gm-Message-State: APt69E2uyy/x63dyEirpyjX6eE5BklArAkNfUwY42LGI/+9UXuJp9FA6
+        UNM3aSa2W4GLlLUWuEiIqCZn3up3fV8e
+X-Google-Smtp-Source: ADUXVKK+HL44wPWhOl3Q9jEVMTYR7K3JNxFZ5dVXLQ4FBSWKh1vGaX9BNfGvtcka9j6ajsgOmXpZ6TgTCr7L
+MIME-Version: 1.0
+X-Received: by 2002:a9d:57c1:: with SMTP id q1-v6mr12237109oti.38.1529624913894;
+ Thu, 21 Jun 2018 16:48:33 -0700 (PDT)
+Date:   Thu, 21 Jun 2018 16:48:25 -0700
+Message-Id: <20180621234829.224566-1-rajatja@google.com>
+X-Mailer: git-send-email 2.18.0.rc2.346.g013aa6912e-goog
+Subject: [PATCH 0/4] Expose PCIe AER stats via sysfs
+From:   Rajat Jain <rajatja@google.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
-Date:   Thu, 21 Jun 2018 16:07:28 -0700
-In-Reply-To: <13E3C29A-3295-4A7F-90EC-A84CF34F3E1A@amacapital.net>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-         <20180607143807.3611-7-yu-cheng.yu@intel.com>
-         <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
-         <1528403417.5265.35.camel@2b52.sc.intel.com>
-         <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
-         <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
-         <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
-         <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
-         <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
-         <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
-         <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
-         <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
-         <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de>
-         <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
-         <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
-         <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
-         <569B4719-6283-4575-A16E-D0A78D280F4E@amacapital.net>
-         <CAGXu5jJNgu4bW_Zthqjfpe9gLxK0zxG8QFEqqK+pJNebz6tUaw@mail.gmail.com>
-         <1529427588.23068.7.camel@intel.com>
-         <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
-         <0AF8B71E-B6CC-42DE-B95C-93896196C3D7@amacapital.net>
-         <CAGXu5jLEMy_T_5OtXLT+pUCt=Nk53nBbuRvrUgJBhq-4RZ=yCA@mail.gmail.com>
-         <446EB18D-EF06-4A04-AF62-E72C68D96A84@amacapital.net>
-         <1529447937.27370.33.camel@intel.com>
-         <13E3C29A-3295-4A7F-90EC-A84CF34F3E1A@amacapital.net>
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Frederick Lawler <fred@fredlawl.com>,
+        Oza Pawandeep <poza@codeaurora.org>,
+        Keith Busch <keith.busch@intel.com>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
+        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
+        helgaas@kernel.org
+Cc:     Rajat Jain <rajatja@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2018-06-19 at 17:50 -0700, Andy Lutomirski wrote:
-> 
-> > 
-> > On Jun 19, 2018, at 3:38 PM, Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > wrote:
-> > 
-> > On Tue, 2018-06-19 at 13:47 -0700, Andy Lutomirski wrote:
-> > > 
-> > > > 
-> > > > 
-> > > > On Jun 19, 2018, at 1:12 PM, Kees Cook <keescook@chromium.org>
-> > > > wrote:
-> > > > 
-> > > > > 
-> > > > > 
-> > > > > On Tue, Jun 19, 2018 at 10:20 AM, Andy Lutomirski <luto@amaca
-> > > > > pita
-> > > > > l.net> wrote:
-> > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > > On Jun 19, 2018, at 10:07 AM, Kees Cook <keescook@chromium.
-> > > > > > org>
-> > > > > > wrote:
-> > > > > > 
-> > > > > > Does it provide anything beyond what PR_DUMPABLE does?
-> > > > > What do you mean?
-> > > > I was just going by the name of it. I wasn't sure what "ptrace
-> > > > CET
-> > > > lock" meant, so I was trying to understand if it was another
-> > > > "you
-> > > > can't ptrace me" toggle, and if so, wouldn't it be redundant
-> > > > with
-> > > > PR_SET_DUMPABLE = 0, etc.
-> > > > 
-> > > No, other way around. The valid CET states are on/unlocked,
-> > > off/unlocked, on/locked, off/locked. arch_prctl can freely the
-> > > state
-> > > unless locked. ptrace can change it no matter what.  The lock is
-> > > to
-> > > prevent the existence of a gadget to disable CET (unless the
-> > > gadget
-> > > involves ptrace, but I don’t think that’s a real concern).
-> > We have the arch_prctl now and only need to add ptrace lock/unlock.
-> > 
-> > Back to the dlopen() "relaxed" mode. Would the following work?
-> > 
-> > If the lib being loaded does not use setjmp/getcontext families
-> > (the
-> > loader knows?), then the loader leaves shstk on.  
-> Will that actually work?  Are there libs that do something like
-> longjmp without actually using the glibc longjmp routine?  What about
-> compilers that statically match a throw to a catch and try to return
-> through several frames at once?
-> 
+This is a follow up to:
+https://lkml.org/lkml/2018/5/22/1057
 
-The compiler throw/catch is already handled similarly to how longjmp is
-handled.
+Respinning as a new patchset because the old one has been refactored
+to include new patches (that were not part of original), and dropping
+some patches. The major changes are:
 
-To summarize the dlopen() situation,
+* Provide breakdown of Fatal / non fatal errors separately
+* Include the "total" in the same file
+* do some PCI cleanup before the actual aer_stats stuff
+* Include documentation in the main patch
+* Rename variables / attributes to better match the newer reality.
 
-----
-(1) We don't want to fall back like the following.  One reason is
-turning off SHSTK for threads is tricky.
+Rajat Jain (4):
+  PCI: Move pci_aer_init() and pci_no_aer() declarations to
+    drivers/pci/pci.h
+  PCI/AER: Define and allocate aer_stats structure for AER capable
+    devices
+  PCI/AER: Add sysfs attributes to provide AER stats and breakdown
+  PCI/AER: Add sysfs attributes for rootport cumulative stats
 
-if ((dlopen() a legacy library) && (cet_policy==relaxed)) {
-	/*
-	 * We don't care if the library will actually fault;
-	 * just turn off CET protection now.
-	 */
-	Turn off CET;
-}
+ .../testing/sysfs-bus-pci-devices-aer_stats   | 122 +++++++++++
+ Documentation/PCI/pcieaer-howto.txt           |   5 +
+ drivers/pci/pci-sysfs.c                       |   3 +
+ drivers/pci/pci.h                             |  11 +
+ drivers/pci/pcie/aer.c                        | 198 +++++++++++++++++-
+ drivers/pci/probe.c                           |   1 +
+ include/linux/pci.h                           |   5 +-
+ 7 files changed, 337 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
 
-(2) We cannot predict what version of a library will be dlopen'ed, and
-cannot turn off CET reliably from the beginning of an application.
-----
+-- 
+2.18.0.rc2.346.g013aa6912e-goog
 
-Can we mandate a signal handler (to turn off CET) when ((dlopen is used
-) && (cet_policy==relaxed))?
-
-> > 
-> > Otherwise, if the
-> > system-wide setting is "relaxed", the loader turns off shstk and
-> > issues
-> > a warning.  In addition, if (dlopen == relaxed), then cet is not
-> > locked
-> > in any time.
-> > 
-> > The system-wide setting (somewhere in /etc?) can be:
-> > 
-> >    dlopen=force|relaxed /* controls dlopen of non-cet libs */
-> >    exec=force|relaxed /* controls exec of non-cet apps */
-> > 
-> > 
-> Why do we need a whole new mechanism here?  Can’t all this use
-> regular glibc tunables?
-
-Ok, got it.
-
-Yu-cheng
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
