@@ -1,270 +1,182 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F2FF7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 21:25:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6CCEF7D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 23:10:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933346AbeFUVZK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 17:25:10 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:42478 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933162AbeFUVZJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 17:25:09 -0400
-Received: by mail-ua0-f193.google.com with SMTP id x18-v6so2977556uaj.9;
-        Thu, 21 Jun 2018 14:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=W9XsZeZ5NcVzTmpayYXrlxoOH7VPKi9EgF76265DTYs=;
-        b=lCz5lKsMOM0Jw9KZsyPl9o9QxLhJzKYIBF9BQjZOti9WokfDjddBZxS5RkEyYDv2Gy
-         axR+T4ZV3uegd0yjLmJIFme8olKjLjw24kzdr+oLul94IIaQYs/UzxuztZShZ1Is4zFL
-         CZjVim8A95EWBITCpiOq+9pgeiaFZWUBCDZSmwAI0fsjngqIt+m6Sh3rT78RnNc3Hb2o
-         Td1Mrm66qXeuCE127khR5PmgJAh/N2D3wc4nQ7luhkHXc0H47Qy8g0l8DmgUppzvnx5B
-         ea14s4HlEggVhweVT8qq08Zs8EEXG9nCkT8pKnGinBiHA/Luvy4fgpdRvz5nff3rvTIA
-         wDzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
-         :from:date:message-id:subject:to:cc;
-        bh=W9XsZeZ5NcVzTmpayYXrlxoOH7VPKi9EgF76265DTYs=;
-        b=AhQrIcIXMKYG0WmGTg9wCRhv06Fj4J465cbzcJVH2f3YZukfKuohn9csJortS1eFCP
-         gAIdznUqNzmpcLYuYK6O2Cc3cd6z2E4GNRFSYKxKJE1deKzH9oyseebaSlXcj9PgvRVO
-         ryf4q34vb6/3xYzV53wFExDkeUJiUmZeuB4ksZEoE3+iH/57/OQkXYx3DU4mg3HnXGVR
-         NU5ZlY5F+dvTiVswJRfczYBDy1Ab8Y1ZZ9681AT3fWPmpkRMxZpv6cT8g5rbqCk8KCyY
-         BCU3NOMPq/O80nyEjJ7s/wKVY8xoLPiIymFa6mWK8BeDJMrzeAQ6zLytUYc0ZgplGviS
-         x9bw==
-X-Gm-Message-State: APt69E1zS0RXVyJWLNYBxUoWFugYHSAQg6LohP0lJp1QDrdghW385eag
-        kJyy9u5oXyEZsnsMGkhxEdsGvyPr8I3g/nalWJs=
-X-Google-Smtp-Source: ADUXVKJMMSZkhJ+nl84vetDGeCHnC8fYtfEESlT2zkXg2APbiDFp5tHhCojPEzlafaAS1ndOOQbyFm0/pF7DBDitOmw=
-X-Received: by 2002:ab0:5c6d:: with SMTP id a45-v6mr17292891uag.105.1529616308260;
- Thu, 21 Jun 2018 14:25:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a67:3593:0:0:0:0:0 with HTTP; Thu, 21 Jun 2018 14:25:07
- -0700 (PDT)
-Reply-To: rajatxjain@gmail.com
-In-Reply-To: <20180621184822.GB14136@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180522222805.80314-1-rajatja@google.com> <20180620234147.48438-1-rajatja@google.com>
- <20180620234147.48438-3-rajatja@google.com> <20180621184822.GB14136@bhelgaas-glaptop.roam.corp.google.com>
-From:   Rajat Jain <rajatxjain@gmail.com>
-Date:   Thu, 21 Jun 2018 14:25:07 -0700
-Message-ID: <CAA93t1rz6YGmvvORDB0ehr7Gwp-W+0HDYxEDgjtgYmGm3qMgCw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] PCI/AER: Add sysfs attributes to provide breakdown
- of AERs
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Rajat Jain <rajatja@google.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        id S933715AbeFUXKx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 19:10:53 -0400
+Received: from mga02.intel.com ([134.134.136.20]:35440 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S933654AbeFUXKw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Jun 2018 19:10:52 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jun 2018 16:10:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,253,1526367600"; 
+   d="scan'208";a="59225642"
+Received: from 2b52.sc.intel.com ([143.183.136.147])
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Jun 2018 16:10:51 -0700
+Message-ID: <1529622448.30393.22.camel@intel.com>
+Subject: Re: [PATCH 06/10] x86/cet: Add arch_prctl functions for shadow stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jes Sorensen <jsorensen@fb.com>, Kyle McMartin <jkkm@fb.com>,
-        Tyler Baicar <tbaicar@codeaurora.org>
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        mike.kravetz@oracle.com, Florian Weimer <fweimer@redhat.com>
+Date:   Thu, 21 Jun 2018 16:07:28 -0700
+In-Reply-To: <13E3C29A-3295-4A7F-90EC-A84CF34F3E1A@amacapital.net>
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+         <20180607143807.3611-7-yu-cheng.yu@intel.com>
+         <CALCETrU6axo158CiSCRRkC4GC5hib9hypC98t7LLjA3gDaacsw@mail.gmail.com>
+         <1528403417.5265.35.camel@2b52.sc.intel.com>
+         <CALCETrXz3WWgZwUXJsDTWvmqKUArQFuMH1xJdSLVKFpTysNWxg@mail.gmail.com>
+         <CAMe9rOr49V8rqRa_KVsw61PWd+crkQvPDgPKtvowazjmsfgWWQ@mail.gmail.com>
+         <alpine.DEB.2.21.1806121155450.2157@nanos.tec.linutronix.de>
+         <CAMe9rOoCiXQ4iVD3j_AHGrvEXtoaVVZVs7H7fCuqNEuuR5j+2Q@mail.gmail.com>
+         <CALCETrXO8R+RQPhJFk4oiA4PF77OgSS2Yro_POXQj1zvdLo61A@mail.gmail.com>
+         <CAMe9rOpLxPussn7gKvn0GgbOB4f5W+DKOGipe_8NMam+Afd+RA@mail.gmail.com>
+         <CALCETrWmGRkQvsUgRaj+j0CP4beKys+TT5aDR5+18nuphwr+Cw@mail.gmail.com>
+         <CAMe9rOpzcCdje=bUVs+C1WrY6GuwA-8AUFVLOG325LGz7KHJxw@mail.gmail.com>
+         <alpine.DEB.2.21.1806122046520.1592@nanos.tec.linutronix.de>
+         <CAMe9rOrGjJf0aMnUjAP38MqvOiW3=iXGQjcUT3O=f9pE85hXaw@mail.gmail.com>
+         <CALCETrVsh5t-V1Sm88LsZE_+DS0GE_bMWbcoX3SjD6GnrB08Pw@mail.gmail.com>
+         <CAGXu5jK0gospOXRpN6zYiQPXOZeE=YpVAz2qu4Zc3-32v85+EQ@mail.gmail.com>
+         <569B4719-6283-4575-A16E-D0A78D280F4E@amacapital.net>
+         <CAGXu5jJNgu4bW_Zthqjfpe9gLxK0zxG8QFEqqK+pJNebz6tUaw@mail.gmail.com>
+         <1529427588.23068.7.camel@intel.com>
+         <CAGXu5jJ4ivrvi-kG0iY=4C0mQQXBDXwPdfY36Dk+JqOpX19n0w@mail.gmail.com>
+         <0AF8B71E-B6CC-42DE-B95C-93896196C3D7@amacapital.net>
+         <CAGXu5jLEMy_T_5OtXLT+pUCt=Nk53nBbuRvrUgJBhq-4RZ=yCA@mail.gmail.com>
+         <446EB18D-EF06-4A04-AF62-E72C68D96A84@amacapital.net>
+         <1529447937.27370.33.camel@intel.com>
+         <13E3C29A-3295-4A7F-90EC-A84CF34F3E1A@amacapital.net>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 21, 2018 at 11:48 AM, Bjorn Helgaas <helgaas@kernel.org> wrote:
-> [+cc Tyler for AER dmesg decoding]
->
-> I really like this idea a lot; thanks for putting it together!
->
-> On Wed, Jun 20, 2018 at 04:41:45PM -0700, Rajat Jain wrote:
->> Add sysfs attributes to provide breakdown of the AERs seen,
->> into different type of correctable or uncorrectable errors:
->>
->> dev_breakdown_correctable
->> dev_breakdown_uncorrectable
->
-> - Can you include a more complete sysfs path here in the commit log,
->   as well as a snippet of the contents?  From the doc patch, I think
->   it is currently:
->
->     /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_correctable
->     /sys/bus/pci/devices/<dev>/aer_stats/dev_breakdown_uncorrectable
->
-> - I'm not sure it's worth making a new subdirectory.  What if you
->   simply added these?
+On Tue, 2018-06-19 at 17:50 -0700, Andy Lutomirski wrote:
+> 
+> > 
+> > On Jun 19, 2018, at 3:38 PM, Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > wrote:
+> > 
+> > On Tue, 2018-06-19 at 13:47 -0700, Andy Lutomirski wrote:
+> > > 
+> > > > 
+> > > > 
+> > > > On Jun 19, 2018, at 1:12 PM, Kees Cook <keescook@chromium.org>
+> > > > wrote:
+> > > > 
+> > > > > 
+> > > > > 
+> > > > > On Tue, Jun 19, 2018 at 10:20 AM, Andy Lutomirski <luto@amaca
+> > > > > pita
+> > > > > l.net> wrote:
+> > > > > 
+> > > > > > 
+> > > > > > 
+> > > > > > On Jun 19, 2018, at 10:07 AM, Kees Cook <keescook@chromium.
+> > > > > > org>
+> > > > > > wrote:
+> > > > > > 
+> > > > > > Does it provide anything beyond what PR_DUMPABLE does?
+> > > > > What do you mean?
+> > > > I was just going by the name of it. I wasn't sure what "ptrace
+> > > > CET
+> > > > lock" meant, so I was trying to understand if it was another
+> > > > "you
+> > > > can't ptrace me" toggle, and if so, wouldn't it be redundant
+> > > > with
+> > > > PR_SET_DUMPABLE = 0, etc.
+> > > > 
+> > > No, other way around. The valid CET states are on/unlocked,
+> > > off/unlocked, on/locked, off/locked. arch_prctl can freely the
+> > > state
+> > > unless locked. ptrace can change it no matter what.  The lock is
+> > > to
+> > > prevent the existence of a gadget to disable CET (unless the
+> > > gadget
+> > > involves ptrace, but I don’t think that’s a real concern).
+> > We have the arch_prctl now and only need to add ptrace lock/unlock.
+> > 
+> > Back to the dlopen() "relaxed" mode. Would the following work?
+> > 
+> > If the lib being loaded does not use setjmp/getcontext families
+> > (the
+> > loader knows?), then the loader leaves shstk on.  
+> Will that actually work?  Are there libs that do something like
+> longjmp without actually using the glibc longjmp routine?  What about
+> compilers that statically match a throw to a catch and try to return
+> through several frames at once?
+> 
 
-Its your call. We're going to be creating 6 files for aer_stats (I'll
-be following your suggestion below), and I think it may clutter the
-directory. In my next patch, I'm going to remove the sub directory,
-but we can add that later if you feel so.
+The compiler throw/catch is already handled similarly to how longjmp is
+handled.
 
->
->     /sys/bus/pci/devices/<dev>/aer_correctable
->     /sys/bus/pci/devices/<dev>/aer_uncorrectable
->
->   or perhaps, since you split the "total" files into
->   cor/nonfatal/fatal, these could match?
->
->     /sys/bus/pci/devices/<dev>/aer_correctable
->     /sys/bus/pci/devices/<dev>/aer_nonfatal
->     /sys/bus/pci/devices/<dev>/aer_fatal
+To summarize the dlopen() situation,
 
-This sounds like a better idea.
+----
+(1) We don't want to fall back like the following.  One reason is
+turning off SHSTK for threads is tricky.
 
->
->   I think the nonfatal/fatal distinction might be worth exposing
->   because some of those are configurable and the kernel handling is
->   significantly different.  So I think it would make this more
->   approachable if the "remove/re-enumerate" situations that will be
->   obvious in dmesg logs were clearly connected with "aer_fatal"
->   statistics, as opposed to being connected to some subset of what's
->   in "aer_uncorrectable".
+if ((dlopen() a legacy library) && (cet_policy==relaxed)) {
+	/*
+	 * We don't care if the library will actually fault;
+	 * just turn off CET protection now.
+	 */
+	Turn off CET;
+}
 
-Agree, however note that theoretically, the classification of
-uncorrectable errors into fatal or non fatal can be programmed /
-changed (by who?), so it is possible that some of the same types of
-errors may show up such that some instances in counted in fatal and
-some in non-fatal (depending on whether those bits were set while
-handling ERR_FATAL or ERR_NONFATAL respectively). Not that I think
-there is something wrong with this, just thought I will mention.
+(2) We cannot predict what version of a library will be dlopen'ed, and
+cannot turn off CET reliably from the beginning of an application.
+----
 
->
-> - Possibly the totals that you currently have in dev_total_cor_errs
->   could even be added to the bottom of these?  Not sure what direction
->   would be best, and as you say, there's the potential for confusion
->   because the individual items won't add up to the totals.  If they
->   were in the same file, maybe that could be addressed in the label.
+Can we mandate a signal handler (to turn off CET) when ((dlopen is used
+) && (cet_policy==relaxed))?
 
-Agree, this also sounds good.
+> > 
+> > Otherwise, if the
+> > system-wide setting is "relaxed", the loader turns off shstk and
+> > issues
+> > a warning.  In addition, if (dlopen == relaxed), then cet is not
+> > locked
+> > in any time.
+> > 
+> > The system-wide setting (somewhere in /etc?) can be:
+> > 
+> >    dlopen=force|relaxed /* controls dlopen of non-cet libs */
+> >    exec=force|relaxed /* controls exec of non-cet apps */
+> > 
+> > 
+> Why do we need a whole new mechanism here?  Can’t all this use
+> regular glibc tunables?
 
->
-> - Can you include the related doc update in the same patch?  That way
->   the doc update is more likely to be backported along with the patch.
+Ok, got it.
 
-Will do.
-
->
-> - I was going to ask whether these should all be in a single file or
->   whether they should be split up so there's a separate file for each
->   type or error, each containing a single number.  But
->   Documentation/filesystems/sysfs.txt says either is OK and
->   /sys/devices/system/node/node0/vmstat is an example of a similar
->   situation in an existing file, so I think what you did is perfect.
-
-Thank you, I initially thought of having a different file for each
-error, but then it looked like we're be having much more files - at
-least large enough for the number of files to overwhelm the user
-space.
-
-
-Thanks,
-
-Rajat
-
->
->> Signed-off-by: Rajat Jain <rajatja@google.com>
->> ---
->> v5: Fix the signature
->> v4: use "%llu" in place of "%llx"
->> v3: Merge everything in aer.c
->>
->>  drivers/pci/pcie/aer.c | 28 ++++++++++++++++++++++++++++
->>  1 file changed, 28 insertions(+)
->>
->> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
->> index ce0d675d7bd3..c989bb5bb6f1 100644
->> --- a/drivers/pci/pcie/aer.c
->> +++ b/drivers/pci/pcie/aer.c
->> @@ -587,10 +587,38 @@ aer_stats_aggregate_attr(dev_total_cor_errs);
->>  aer_stats_aggregate_attr(dev_total_fatal_errs);
->>  aer_stats_aggregate_attr(dev_total_nonfatal_errs);
->>
->> +#define aer_stats_breakdown_attr(field, stats_array, strings_array)  \
->> +     static ssize_t                                                  \
->> +     field##_show(struct device *dev, struct device_attribute *attr, \
->> +                  char *buf)                                         \
->> +{                                                                    \
->> +     unsigned int i;                                                 \
->> +     char *str = buf;                                                \
->> +     struct pci_dev *pdev = to_pci_dev(dev);                         \
->> +     u64 *stats = pdev->aer_stats->stats_array;                      \
->
-> Nit: add a blank line here.
-
-Will do.
-
->
->> +     for (i = 0; i < ARRAY_SIZE(strings_array); i++) {               \
->> +             if (strings_array[i])                                   \
->> +                     str += sprintf(str, "%s = 0x%llu\n",            \
->> +                                    strings_array[i], stats[i]);     \
->> +             else if (stats[i])                                      \
->> +                     str += sprintf(str, #stats_array "bit[%d] = 0x%llu\n",\
->> +                                    i, stats[i]);                    \
->
-> - I like the way this uses the same text as used in dmesg
->   (aer_correctable_error_string[] and
->   aer_uncorrectable_error_string[]).
->
-> - I think this incorrectly prints a "0x" prefix for a decimal number
->   (probably an artifact of your v4 change).
-
-Will do.
-
->
-> - Tyler posted a patch [1] to update those dmesg strings so they match
->   the way lspci decodes them.  I really liked that update, but we
->   never quite finished it.  If we're going to do that, it would be
->   nice to do it first, so we don't publish new sysfs files, then
->   immediately change the labels used in them.
-
-Sure, I guess you can push them in the right order.
-
->
-> - IIRC, Tyler's patch had the nice property of changing the strings so
->   each error name had no spaces, which would make it a little easier
->   to parse this sysfs file: each line would be a single identifier
->   followed by a single number (I would probably remove the "=" from
->   the middle).
-
-
-Will do.
-
->
-> [1] https://lkml.kernel.org/r/1518034285-3543-1-git-send-email-tbaicar@codeaurora.org
->
->> +     }                                                               \
->> +     return str-buf;                                                 \
->> +}                                                                    \
->> +static DEVICE_ATTR_RO(field)
->> +
->> +aer_stats_breakdown_attr(dev_breakdown_correctable, dev_cor_errs,
->> +                      aer_correctable_error_string);
->> +aer_stats_breakdown_attr(dev_breakdown_uncorrectable, dev_uncor_errs,
->> +                      aer_uncorrectable_error_string);
->> +
->>  static struct attribute *aer_stats_attrs[] __ro_after_init = {
->>       &dev_attr_dev_total_cor_errs.attr,
->>       &dev_attr_dev_total_fatal_errs.attr,
->>       &dev_attr_dev_total_nonfatal_errs.attr,
->> +     &dev_attr_dev_breakdown_correctable.attr,
->> +     &dev_attr_dev_breakdown_uncorrectable.attr,
->>       NULL
->>  };
->>
->> --
->> 2.18.0.rc1.244.gcf134e6275-goog
->>
+Yu-cheng
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
