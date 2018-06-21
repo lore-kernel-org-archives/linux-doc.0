@@ -1,96 +1,240 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 213557DF87
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 13:05:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C9EF7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 13:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933160AbeFUNFR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 09:05:17 -0400
-Received: from mail-wr0-f176.google.com ([209.85.128.176]:40556 "EHLO
-        mail-wr0-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933110AbeFUNFQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 09:05:16 -0400
-Received: by mail-wr0-f176.google.com with SMTP id g18-v6so3126195wro.7;
-        Thu, 21 Jun 2018 06:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dCh7EFs69hk2qkkTxodU/f6Q+yOHsWaFsQlsaT9Zlp4=;
-        b=bEHLoZeLKw7xx6xeg4/3LeAjNZ5k/JgDdyEMcTDa0Deq3bkoECTZXwJtR1V+6Or1Au
-         bYK7M1ptG3r4e5VXqGr+PpvIeBShRyNovsFlJigCuyxpBZrWHTL6bzILXPPgEVwm+GPZ
-         jJpnu/s8Lu4feQmANQQ0q7EPNM4857UixDPBOig+lHy23yL7o1G89OwQl3Ru8fFaI200
-         kKqGuCpWtPu4qXsf+yuxnPnwuvO9LDdwA02SftBmmL67hHgEtOekridJkkVAb1aOhlc9
-         8zY2WyaG45o5HLHyw6AxC73AsApBO1dyOYm4tQIQVfGSvzCswTdsa1IBQEeo1QTixusH
-         tAFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dCh7EFs69hk2qkkTxodU/f6Q+yOHsWaFsQlsaT9Zlp4=;
-        b=TVSIUVRnLhgXy4E3/fl7dyQEisI/qHPPcLe/EipZbYInaozOsHh917hFAXsOX6oTuu
-         zbZpDR9AQruvXjckUbi+GOrwJO7+CnnQaOEb/3b08+g7stfYShiKu798u1dil8ndouU9
-         UliYtLDdKjwpXS6GBjSH2UvVqoUr4SrXlCrkPtYMgRBNaRAqM/4pU2RuIeS/tBnC7Wkh
-         OR+AzmHXW2bsUqDffCZ5uiXvw5vh+bB256E7rrTEiGhKZGeTXk/ImETYNRjmPzt3udAI
-         0T/pny0TkCgQYcQT3+PR1z52YzboKiE2YbHpIOSUOPuac7WKlhJEcfDUEIc4mvgOP3Vq
-         8cww==
-X-Gm-Message-State: APt69E3sNQyfyrhE5gtN+yaJ+PT971jtl0XhcecOi9lT7KdW/wC5hDPL
-        6vW8prZyc3Xi3ES0kohFcVU=
-X-Google-Smtp-Source: ADUXVKKtZQKM76sBZ0OqzNyyTjjX97/oXYw7daiXaDL2JaJFGSxDMR5fSkcXST4mDV0TwgRwsgi/Ug==
-X-Received: by 2002:adf:a148:: with SMTP id r8-v6mr20985869wrr.104.1529586314719;
-        Thu, 21 Jun 2018 06:05:14 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id l15-v6sm6653063wrs.95.2018.06.21.06.05.13
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 21 Jun 2018 06:05:14 -0700 (PDT)
-Date:   Thu, 21 Jun 2018 15:05:11 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@amacapital.net>,
+        id S933253AbeFUNRn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 09:17:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35184 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932747AbeFUNRl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Jun 2018 09:17:41 -0400
+Received: from localhost (173-25-171-118.client.mchsi.com [173.25.171.118])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 840A520837;
+        Thu, 21 Jun 2018 13:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1529587060;
+        bh=Mh5XPnIW9cKjMIa8ddBiqhht/6Shaw5XQ/ldw5ujX28=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cTZcaNOcADla0QVAZF0TLXvynVuIomlmnCBed07v6D/RsvznN6dWaYCOsRBTUz6Ix
+         QC/JAdnNxq7LC0bJIsCrlMOwVoo1p0qz1d42Oi1xxFVLR+xEWE7//P1Uf/9uDOShWw
+         H/DUlJuv2WMCYLiYLc+GnxSY7EFtk9VQXq4iXxNM=
+Date:   Thu, 21 Jun 2018 08:17:34 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Subject: Re: [PATCH 5/5] Documentation/x86: Add CET description
-Message-ID: <20180621130511.GA7895@gmail.com>
-References: <20180607143544.3477-1-yu-cheng.yu@intel.com>
- <20180607143544.3477-6-yu-cheng.yu@intel.com>
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Frederick Lawler <fred@fredlawl.com>,
+        Oza Pawandeep <poza@codeaurora.org>,
+        Keith Busch <keith.busch@intel.com>,
+        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
+        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com
+Subject: Re: [PATCH v5 1/5] PCI/AER: Define and allocate aer_stats structure
+ for AER capable devices
+Message-ID: <20180621131734.GA14136@bhelgaas-glaptop.roam.corp.google.com>
+References: <20180522222805.80314-1-rajatja@google.com>
+ <20180620234147.48438-1-rajatja@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180607143544.3477-6-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20180620234147.48438-1-rajatja@google.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 20, 2018 at 04:41:43PM -0700, Rajat Jain wrote:
+> Define a structure to hold the AER statistics. There are 2 groups
+> of statistics: dev_* counters that are to be collected for all AER
+> capable devices and rootport_* counters that are collected for all
+> (AER capable) rootports only. Allocate and free this structure when
+> device is added or released (thus counters survive the lifetime of the
+> device).
+> 
+> Signed-off-by: Rajat Jain <rajatja@google.com>
+> ---
+> v5: Same as v4
+> v4: Same as v3
+> v3: Merge everything in aer.c
+> 
+>  drivers/pci/pcie/aer.c | 60 ++++++++++++++++++++++++++++++++++++++++++
+>  drivers/pci/probe.c    |  1 +
+>  include/linux/pci.h    |  3 +++
+>  3 files changed, 64 insertions(+)
+> 
+> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+> index a2e88386af28..f9fa994b6c33 100644
+> --- a/drivers/pci/pcie/aer.c
+> +++ b/drivers/pci/pcie/aer.c
+> @@ -33,6 +33,9 @@
+>  #define AER_ERROR_SOURCES_MAX		100
+>  #define AER_MAX_MULTI_ERR_DEVICES	5	/* Not likely to have more */
+>  
+> +#define AER_MAX_TYPEOF_CORRECTABLE_ERRS 16	/* as per PCI_ERR_COR_STATUS */
+> +#define AER_MAX_TYPEOF_UNCORRECTABLE_ERRS 26	/* as per PCI_ERR_UNCOR_STATUS*/
+> +
+>  struct aer_err_info {
+>  	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
+>  	int error_dev_num;
+> @@ -76,6 +79,40 @@ struct aer_rpc {
+>  					 */
+>  };
+>  
+> +/* AER stats for the device */
+> +struct aer_stats {
+> +
+> +	/*
+> +	 * Fields for all AER capable devices. They indicate the errors
+> +	 * "as seen by this device". Note that this may mean that if an
+> +	 * end point is causing problems, the AER counters may increment
+> +	 * at its link partner (e.g. root port) because the errors will be
+> +	 * "seen" by the link partner and not the the problematic end point
+> +	 * itself (which may report all counters as 0 as it never saw any
+> +	 * problems).
+> +	 */
+> +	/* Individual counters for different type of correctable errors */
+> +	u64 dev_cor_errs[AER_MAX_TYPEOF_CORRECTABLE_ERRS];
+> +	/* Individual counters for different type of uncorrectable errors */
+> +	u64 dev_uncor_errs[AER_MAX_TYPEOF_UNCORRECTABLE_ERRS];
+> +	/* Total number of correctable errors seen by this device */
+> +	u64 dev_total_cor_errs;
+> +	/* Total number of fatal uncorrectable errors seen by this device */
+> +	u64 dev_total_fatal_errs;
+> +	/* Total number of fatal uncorrectable errors seen by this device */
+> +	u64 dev_total_nonfatal_errs;
+> +
+> +	/*
+> +	 * Fields for Root ports only, these indicate the total number of
+> +	 * ERR_COR, ERR_FATAL, and ERR_NONFATAL messages received by the
+> +	 * rootport, INCLUDING the ones that are generated internally (by
+> +	 * the rootport itself)
 
-* Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+Strictly speaking, I think these are applicable for both root ports
+and root complex event collectors, right?
 
-> +Control Flow Enforcement Technology (CET) provides protection against
-> +return/jump-oriented programing (ROP) attacks.
+> +	 */
+> +	u64 rootport_total_cor_errs;
+> +	u64 rootport_total_fatal_errs;
+> +	u64 rootport_total_nonfatal_errs;
+> +};
+> +
+>  #define AER_LOG_TLP_MASKS		(PCI_ERR_UNC_POISON_TLP|	\
+>  					PCI_ERR_UNC_ECRC|		\
+>  					PCI_ERR_UNC_UNSUP|		\
+> @@ -402,12 +439,35 @@ int pci_cleanup_aer_error_status_regs(struct pci_dev *dev)
+>  	return 0;
+>  }
+>  
+> +static int pci_aer_stats_init(struct pci_dev *pdev)
+> +{
+> +	pdev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
+> +	if (!pdev->aer_stats) {
+> +		dev_err(&pdev->dev, "No memory for aer_stats\n");
 
-So the obvious abbreviation would be CFT or CFET.
+pci_err(), if we need the message at all.
 
-Exactly why is 'CET' used, which not only has very little to do with what it's 
-supposed to mean, but is also a well-known timezone, Central European Time?
+Based on c7abb2352c29 ("PCI: Remove unnecessary messages for memory
+allocation failures"), I'd be inclined to drop the message completely.
 
-Thanks,
+> +		return -ENOMEM;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void pci_aer_stats_exit(struct pci_dev *pdev)
+> +{
+> +	kfree(pdev->aer_stats);
+> +	pdev->aer_stats = NULL;
+> +}
+> +
+>  int pci_aer_init(struct pci_dev *dev)
+>  {
+>  	dev->aer_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
+> +	if (!dev->aer_cap || pci_aer_stats_init(dev))
+> +		return -EIO;
 
-	Ingo
+This skips pci_cleanup_aer_error_status_regs() if the kzalloc() fails.
+I think we should still do pci_cleanup_aer_error_status_regs(), even
+if the alloc fails.
+
+Nobody checks the return value of pci_aer_init(), so I think you can
+simplify this by making these functions void.
+
+Maybe even squash them together, i.e., do the kzalloc() directly in
+pci_aer_init() and the kfree() directly in pci_aer_exit()?
+
+>  	return pci_cleanup_aer_error_status_regs(dev);
+>  }
+>  
+> +void pci_aer_exit(struct pci_dev *dev)
+> +{
+> +	pci_aer_stats_exit(dev);
+> +}
+> +
+>  #define AER_AGENT_RECEIVER		0
+>  #define AER_AGENT_REQUESTER		1
+>  #define AER_AGENT_COMPLETER		2
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index ac876e32de4b..48edd0c9e4bc 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2064,6 +2064,7 @@ static void pci_configure_device(struct pci_dev *dev)
+>  
+>  static void pci_release_capabilities(struct pci_dev *dev)
+>  {
+> +	pci_aer_exit(dev);
+>  	pci_vpd_release(dev);
+>  	pci_iov_release(dev);
+>  	pci_free_cap_save_buffers(dev);
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 340029b2fb38..8d59c6c19a19 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -299,6 +299,7 @@ struct pci_dev {
+>  	u8		hdr_type;	/* PCI header type (`multi' flag masked out) */
+>  #ifdef CONFIG_PCIEAER
+>  	u16		aer_cap;	/* AER capability offset */
+> +	struct aer_stats *aer_stats;	/* AER stats for this device */
+>  #endif
+>  	u8		pcie_cap;	/* PCIe capability offset */
+>  	u8		msi_cap;	/* MSI capability offset */
+> @@ -1471,10 +1472,12 @@ static inline bool pcie_aspm_support_enabled(void) { return false; }
+>  void pci_no_aer(void);
+>  bool pci_aer_available(void);
+>  int pci_aer_init(struct pci_dev *dev);
+> +void pci_aer_exit(struct pci_dev *dev);
+
+With the exception of pci_aer_available(), these are only used inside
+drivers/pci.  This might be a good opportunity to move those private
+things to drivers/pci/pci.h (in a separate patch, of course).
+
+>  #else
+>  static inline void pci_no_aer(void) { }
+>  static inline bool pci_aer_available(void) { return false; }
+>  static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
+> +static inline void pci_aer_exit(struct pci_dev *d) { }
+>  #endif
+>  
+>  #ifdef CONFIG_PCIE_ECRC
+> -- 
+> 2.18.0.rc1.244.gcf134e6275-goog
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
