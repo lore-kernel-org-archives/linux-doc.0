@@ -1,228 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30E2C7D043
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Jun 2018 23:43:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 088FC7DF86
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 00:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932947AbeFTXmA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Jun 2018 19:42:00 -0400
-Received: from mail-io0-f201.google.com ([209.85.223.201]:41748 "EHLO
-        mail-io0-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932902AbeFTXl6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 19:41:58 -0400
-Received: by mail-io0-f201.google.com with SMTP id v4-v6so1065327iol.8
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jun 2018 16:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:date:in-reply-to:message-id:references:subject:from:to
-         :cc;
-        bh=HbPphrPgrwZiI0UaiOZxcuo16fa2Czqq94oYMKrxuKw=;
-        b=NlZoJsB59uqg3I6uPfO2ldvT/SEKfrpONu/M+HwEvIbGMByuyjrgGe3ozmPKaGjPxr
-         NxY7D4fh4Ue0dWT8anpTGIA0JivwvDKV0HXR0TnR3cXqXICMdZaj4E3mlO1ankd0VR3b
-         O/qnmJYlX+Hon8sRBxNgaZ71HnxuWZiykvDCCPqpo0MPcqFlQKOlJ/RMeXBx4Y+vHDzA
-         YGS6Mp5/9DGJo4Xiq+whNouzPZtZFkJn7oDv32oj3Ob+RRdaStZUqlcrsYYVd7C0u119
-         UevEIgDJWrSiRzDOlbrMr3McOTlEytBsGuzFKFGarnPaBGzNjBMAPb0k3mP7T5jYs5QP
-         +UGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id
-         :references:subject:from:to:cc;
-        bh=HbPphrPgrwZiI0UaiOZxcuo16fa2Czqq94oYMKrxuKw=;
-        b=BFOfzcN4gd2Rpd5INS28DD1I4BvXXSfKYXG4aGdDqYy6PInQURTWBYkQDNBv3LA2Nh
-         mtlgvrU1qzQ8LfpgisJX2bZhmxabTlj2/um72splybXAQZJIvcp0rYTzfzfafDWDSMf0
-         S6GqrFr/NeJz9zqjpbFAprw/pIQ3F6q5M5rlyVbxqwlhK0PhVTp5gssLqNb+oZs81wU2
-         AVB5W35f0ED/9biKETxB6tdoxs6sI6C6QcujJKGITK42kpSAHe9G6vY27N/RZatdjeel
-         n3xx+pd/TC85mmnhGjSA4EtJBc0AvJ5h7EtFujx/8Z8/1bpt9PTXXmmpZmeZFQDUedwr
-         GjIA==
-X-Gm-Message-State: APt69E3g84MWQtr74y7L91K6IflTxX955PxyvgHJT10EkY1fZyKvkWz3
-        zp3nuh4thba7VsYxYuXIS+hRvV9DmCnT
-X-Google-Smtp-Source: AAOMgpfwdp6+C309qklvbtWLF334AsmRlIQZl4nSlXDwwxJoo8xhzLjWcJtdWfdQeeE3mDKYmRsAVE+LZMm4
+        id S1754448AbeFUAje (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Jun 2018 20:39:34 -0400
+Received: from lucky1.263xmail.com ([211.157.147.131]:37038 "EHLO
+        lucky1.263xmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754443AbeFUAjd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jun 2018 20:39:33 -0400
+Received: from shawn.lin?rock-chips.com (unknown [192.168.167.129])
+        by lucky1.263xmail.com (Postfix) with ESMTP id 8B366967DB;
+        Thu, 21 Jun 2018 08:39:28 +0800 (CST)
+X-263anti-spam: KSV:0;
+X-MAIL-GRAY: 1
+X-MAIL-DELIVERY: 0
+X-KSVirus-check: 0
+X-ABS-CHECKED: 4
+Received: from [172.16.12.8] (localhost [127.0.0.1])
+        by smtp.263.net (Postfix) with ESMTPA id 4E6C5331;
+        Thu, 21 Jun 2018 08:39:26 +0800 (CST)
+X-IP-DOMAINF: 1
+X-RL-SENDER: shawn.lin@rock-chips.com
+X-FST-TO: linux-kernel@vger.kernel.org
+X-SENDER-IP: 58.22.7.114
+X-LOGIN-NAME: shawn.lin@rock-chips.com
+X-UNIQUE-TAG: <7aba6fb4d8ff262df4b0098ffbf36431>
+X-ATTACHMENT-NUM: 0
+X-SENDER: lintao@rock-chips.com
+X-DNS-TYPE: 0
+Received: from [172.16.12.8] (unknown [58.22.7.114])
+        by smtp.263.net (Postfix) whith ESMTP id 22848QO558A;
+        Thu, 21 Jun 2018 08:39:28 +0800 (CST)
+Cc:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
+        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
+        jesper.nilsson@axis.com, sboyd@codeaurora.org,
+        shawn.lin@rock-chips.com, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 02/11] PCI: Update xxx_pcie_ep_raise_irq() and
+ pci_epc_raise_irq() signatures
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        adouglas@cadence.com
+References: <cover.1529507416.git.gustavo.pimentel@synopsys.com>
+ <180c7a9743a67120e77ab198889c1373e91643b9.1529507416.git.gustavo.pimentel@synopsys.com>
+From:   Shawn Lin <shawn.lin@rock-chips.com>
+Message-ID: <8fda923d-b6c3-58aa-c534-f646b134a68b@rock-chips.com>
+Date:   Thu, 21 Jun 2018 08:39:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-X-Received: by 2002:a24:2545:: with SMTP id g66-v6mr1725181itg.19.1529538117815;
- Wed, 20 Jun 2018 16:41:57 -0700 (PDT)
-Date:   Wed, 20 Jun 2018 16:41:43 -0700
-In-Reply-To: <20180522222805.80314-1-rajatja@google.com>
-Message-Id: <20180620234147.48438-1-rajatja@google.com>
-References: <20180522222805.80314-1-rajatja@google.com>
-X-Mailer: git-send-email 2.18.0.rc1.244.gcf134e6275-goog
-Subject: [PATCH v5 1/5] PCI/AER: Define and allocate aer_stats structure for
- AER capable devices
-From:   Rajat Jain <rajatja@google.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
-        helgaas@kernel.org
-Cc:     Rajat Jain <rajatja@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <180c7a9743a67120e77ab198889c1373e91643b9.1529507416.git.gustavo.pimentel@synopsys.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Define a structure to hold the AER statistics. There are 2 groups
-of statistics: dev_* counters that are to be collected for all AER
-capable devices and rootport_* counters that are collected for all
-(AER capable) rootports only. Allocate and free this structure when
-device is added or released (thus counters survive the lifetime of the
-device).
+On 2018/6/21 0:28, Gustavo Pimentel wrote:
 
-Signed-off-by: Rajat Jain <rajatja@google.com>
----
-v5: Same as v4
-v4: Same as v3
-v3: Merge everything in aer.c
+>   drivers/pci/controller/pcie-rockchip-ep.c         | 2 +-
 
- drivers/pci/pcie/aer.c | 60 ++++++++++++++++++++++++++++++++++++++++++
- drivers/pci/probe.c    |  1 +
- include/linux/pci.h    |  3 +++
- 3 files changed, 64 insertions(+)
+Acked-by: Shawn Lin <shawn.lin@rock-chips.com>
 
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index a2e88386af28..f9fa994b6c33 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -33,6 +33,9 @@
- #define AER_ERROR_SOURCES_MAX		100
- #define AER_MAX_MULTI_ERR_DEVICES	5	/* Not likely to have more */
- 
-+#define AER_MAX_TYPEOF_CORRECTABLE_ERRS 16	/* as per PCI_ERR_COR_STATUS */
-+#define AER_MAX_TYPEOF_UNCORRECTABLE_ERRS 26	/* as per PCI_ERR_UNCOR_STATUS*/
-+
- struct aer_err_info {
- 	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
- 	int error_dev_num;
-@@ -76,6 +79,40 @@ struct aer_rpc {
- 					 */
- };
- 
-+/* AER stats for the device */
-+struct aer_stats {
-+
-+	/*
-+	 * Fields for all AER capable devices. They indicate the errors
-+	 * "as seen by this device". Note that this may mean that if an
-+	 * end point is causing problems, the AER counters may increment
-+	 * at its link partner (e.g. root port) because the errors will be
-+	 * "seen" by the link partner and not the the problematic end point
-+	 * itself (which may report all counters as 0 as it never saw any
-+	 * problems).
-+	 */
-+	/* Individual counters for different type of correctable errors */
-+	u64 dev_cor_errs[AER_MAX_TYPEOF_CORRECTABLE_ERRS];
-+	/* Individual counters for different type of uncorrectable errors */
-+	u64 dev_uncor_errs[AER_MAX_TYPEOF_UNCORRECTABLE_ERRS];
-+	/* Total number of correctable errors seen by this device */
-+	u64 dev_total_cor_errs;
-+	/* Total number of fatal uncorrectable errors seen by this device */
-+	u64 dev_total_fatal_errs;
-+	/* Total number of fatal uncorrectable errors seen by this device */
-+	u64 dev_total_nonfatal_errs;
-+
-+	/*
-+	 * Fields for Root ports only, these indicate the total number of
-+	 * ERR_COR, ERR_FATAL, and ERR_NONFATAL messages received by the
-+	 * rootport, INCLUDING the ones that are generated internally (by
-+	 * the rootport itself)
-+	 */
-+	u64 rootport_total_cor_errs;
-+	u64 rootport_total_fatal_errs;
-+	u64 rootport_total_nonfatal_errs;
-+};
-+
- #define AER_LOG_TLP_MASKS		(PCI_ERR_UNC_POISON_TLP|	\
- 					PCI_ERR_UNC_ECRC|		\
- 					PCI_ERR_UNC_UNSUP|		\
-@@ -402,12 +439,35 @@ int pci_cleanup_aer_error_status_regs(struct pci_dev *dev)
- 	return 0;
- }
- 
-+static int pci_aer_stats_init(struct pci_dev *pdev)
-+{
-+	pdev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
-+	if (!pdev->aer_stats) {
-+		dev_err(&pdev->dev, "No memory for aer_stats\n");
-+		return -ENOMEM;
-+	}
-+	return 0;
-+}
-+
-+static void pci_aer_stats_exit(struct pci_dev *pdev)
-+{
-+	kfree(pdev->aer_stats);
-+	pdev->aer_stats = NULL;
-+}
-+
- int pci_aer_init(struct pci_dev *dev)
- {
- 	dev->aer_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
-+	if (!dev->aer_cap || pci_aer_stats_init(dev))
-+		return -EIO;
- 	return pci_cleanup_aer_error_status_regs(dev);
- }
- 
-+void pci_aer_exit(struct pci_dev *dev)
-+{
-+	pci_aer_stats_exit(dev);
-+}
-+
- #define AER_AGENT_RECEIVER		0
- #define AER_AGENT_REQUESTER		1
- #define AER_AGENT_COMPLETER		2
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index ac876e32de4b..48edd0c9e4bc 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2064,6 +2064,7 @@ static void pci_configure_device(struct pci_dev *dev)
- 
- static void pci_release_capabilities(struct pci_dev *dev)
- {
-+	pci_aer_exit(dev);
- 	pci_vpd_release(dev);
- 	pci_iov_release(dev);
- 	pci_free_cap_save_buffers(dev);
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 340029b2fb38..8d59c6c19a19 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -299,6 +299,7 @@ struct pci_dev {
- 	u8		hdr_type;	/* PCI header type (`multi' flag masked out) */
- #ifdef CONFIG_PCIEAER
- 	u16		aer_cap;	/* AER capability offset */
-+	struct aer_stats *aer_stats;	/* AER stats for this device */
- #endif
- 	u8		pcie_cap;	/* PCIe capability offset */
- 	u8		msi_cap;	/* MSI capability offset */
-@@ -1471,10 +1472,12 @@ static inline bool pcie_aspm_support_enabled(void) { return false; }
- void pci_no_aer(void);
- bool pci_aer_available(void);
- int pci_aer_init(struct pci_dev *dev);
-+void pci_aer_exit(struct pci_dev *dev);
- #else
- static inline void pci_no_aer(void) { }
- static inline bool pci_aer_available(void) { return false; }
- static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
-+static inline void pci_aer_exit(struct pci_dev *d) { }
- #endif
- 
- #ifdef CONFIG_PCIE_ECRC
--- 
-2.18.0.rc1.244.gcf134e6275-goog
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
