@@ -5,47 +5,51 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1CA07D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 23:48:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5BC907D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 23:48:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933067AbeFUXsf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 19:48:35 -0400
-Received: from mail-oi0-f73.google.com ([209.85.218.73]:35220 "EHLO
-        mail-oi0-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932994AbeFUXse (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 19:48:34 -0400
-Received: by mail-oi0-f73.google.com with SMTP id t133-v6so2778767oih.2
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jun 2018 16:48:34 -0700 (PDT)
+        id S933787AbeFUXsp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 19:48:45 -0400
+Received: from mail-qk0-f201.google.com ([209.85.220.201]:39858 "EHLO
+        mail-qk0-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933364AbeFUXsl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 19:48:41 -0400
+Received: by mail-qk0-f201.google.com with SMTP id c139-v6so4072658qkg.6
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jun 2018 16:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:date:message-id:subject:from:to:cc;
-        bh=y1udrjP1twkh5X8TRWSu0vDRks7gYPJTY6Qaf3t3Lqw=;
-        b=QR6A6ScV+coQOPPsWkWM2/a5m2IFe/UVe0en/irSHJT/2nkKzCfLanPmfLr+B2JgB6
-         nslrYb4G7lC1zGWbumkcAi2FBpfR7J2BcZz6ploXmYm+8d3EAQ5AzgJR0swPsK6EqQUN
-         zht5VKXV1S3eqmdpLnFUo9uH0mei7VjtS+I1rb+UpoAezdVKI7wX8AmQfcohNbLaSbsY
-         yXR73PQcZii1KwZgUgEBYByZ/Y+n/T69SVasIWKbvrshar1zJcJJ3n7rpbiM+IcWsPFO
-         cb9GMpU1WYUJduY1vCELgFNHcIems4HbNYarMS5GRRudjAcgLgKPwLgUVW9STmHmXKFE
-         NzxA==
+        h=mime-version:date:in-reply-to:message-id:references:subject:from:to
+         :cc;
+        bh=UTo0MP31NcmRnoDiyi7jcuy8B7/IsyEAnIrtr4qanCM=;
+        b=utL5JIwMhgltwmRwSCvuL0drNH1wtImMZ0JlT7W1Fx3KlJ/gZxwE7HAZ0g/TxR6vWa
+         jvC+yBWnKES4RzUd0Zfdvd5j0fqwfiYr6ev5SoXkPYFqkr7zfVflR3IiwZ/JUZsxzhyH
+         7i5+nc9+0nzyhZ7FbvUmnwmZx2/x4UqhUo2KsLk695KGAB5qgVT1sHx5Q72DGIdJFd8b
+         QRTQpA+ebY3iH7ZGCCuyyKySEK2QGQNcthADT6DEo75zDTyPf+wkGebowT2hA4nJgsU/
+         Smmo4B+wYknczc0wpT1kHeed9/Sym8SJsAG8XVT1B7I/icRvGp+JiyzTPa0Ln1I4H4bY
+         1iuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to:cc;
-        bh=y1udrjP1twkh5X8TRWSu0vDRks7gYPJTY6Qaf3t3Lqw=;
-        b=twRUjjIPTKnzhAuXjc90L7ptGsUam5RpYQh/DHkou9h+E9sM1BwVoF5zMt6WBjBplq
-         7xdIfbEVmVqIAEetZGRt1aSdUDRGbRT2FdBUxnA+lg3bpIdfye9WF7/QY+yhH+OehlWX
-         TOmsh6pjH22JJqj93L1fLi4N0rfg7IVipg5VGFWsYzIt51AF9zD1VDDTbufNKGKQJjYv
-         t3rptLsHWFNW6pohYIv5pKpZxm6N0zxetzPYIxhCEesfJqBH9rUsP+1jY3wHdg9pE+xF
-         MbzhsDkrIk4NJvWbBoc6j7HXFabxgk2reMUmW/RYsDrnN/huWQ/kv8dvK58ooGfn/1R4
-         Dz8w==
-X-Gm-Message-State: APt69E2uyy/x63dyEirpyjX6eE5BklArAkNfUwY42LGI/+9UXuJp9FA6
-        UNM3aSa2W4GLlLUWuEiIqCZn3up3fV8e
-X-Google-Smtp-Source: ADUXVKK+HL44wPWhOl3Q9jEVMTYR7K3JNxFZ5dVXLQ4FBSWKh1vGaX9BNfGvtcka9j6ajsgOmXpZ6TgTCr7L
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id
+         :references:subject:from:to:cc;
+        bh=UTo0MP31NcmRnoDiyi7jcuy8B7/IsyEAnIrtr4qanCM=;
+        b=FYDDb0fV+VHCJH3W7q9MPsRmJYbrSOM0W0ZVmvRwDP+I8VJ/eMrE6WJ26eCPOJcO5/
+         qxqtrufOuWVpg7HvPdKXgag9tTHoivx0cwNMjsKExmPkgo0i5feYLpARlFkqkqBKKOKV
+         SbQfxDKf1bwjWC4uuUesYZIyyRCIevufzX7O8/mFzdWc1RXtS4ssaDWQ1/QJ2mI/jVLx
+         mZtlJ7971rZDbvIKFw2Gxc46h4SwlYq8By24tVL75+lRzNlacVH9aRyredc+MXRR8m0O
+         d9pfjMYxe1wuHfENWpW+9efGm9Blc+dTb4xO+vcJCIWpHfJyJCjFjqyqDQYKJ0SDWuI1
+         aafA==
+X-Gm-Message-State: APt69E1m2s78/XusCCgUlnLocAa1aQr4i9Rl4ZRqtyo7mE8Q7mbXggaV
+        fHpa7N62LhV8I0/6XuhR2Avd9/mHiPNt
+X-Google-Smtp-Source: ADUXVKKjFOxzR1X3TPeZTdE91ZXsh6xPQrrbqLJlFXDo7tCdA8VKnWb1ByOookZQnJ8FIBtFLijxtzsjAsV2
 MIME-Version: 1.0
-X-Received: by 2002:a9d:57c1:: with SMTP id q1-v6mr12237109oti.38.1529624913894;
- Thu, 21 Jun 2018 16:48:33 -0700 (PDT)
-Date:   Thu, 21 Jun 2018 16:48:25 -0700
-Message-Id: <20180621234829.224566-1-rajatja@google.com>
+X-Received: by 2002:a0c:8839:: with SMTP id 54-v6mr14593094qvl.24.1529624920464;
+ Thu, 21 Jun 2018 16:48:40 -0700 (PDT)
+Date:   Thu, 21 Jun 2018 16:48:26 -0700
+In-Reply-To: <20180621234829.224566-1-rajatja@google.com>
+Message-Id: <20180621234829.224566-2-rajatja@google.com>
+References: <20180621234829.224566-1-rajatja@google.com>
 X-Mailer: git-send-email 2.18.0.rc2.346.g013aa6912e-goog
-Subject: [PATCH 0/4] Expose PCIe AER stats via sysfs
+Subject: [PATCH 1/4] PCI: Move pci_aer_init() and pci_no_aer() declarations to drivers/pci/pci.h
 From:   Rajat Jain <rajatja@google.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -70,37 +74,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a follow up to:
-https://lkml.org/lkml/2018/5/22/1057
+Since these functions are unsed only internally, move them to the PCI
+internal header file. Also, no one cares about return value of
+pci_aer_init(), so make it void.
 
-Respinning as a new patchset because the old one has been refactored
-to include new patches (that were not part of original), and dropping
-some patches. The major changes are:
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+ drivers/pci/pci.h      | 8 ++++++++
+ drivers/pci/pcie/aer.c | 4 ++--
+ include/linux/pci.h    | 4 ----
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
-* Provide breakdown of Fatal / non fatal errors separately
-* Include the "total" in the same file
-* do some PCI cleanup before the actual aer_stats stuff
-* Include documentation in the main patch
-* Rename variables / attributes to better match the newer reality.
-
-Rajat Jain (4):
-  PCI: Move pci_aer_init() and pci_no_aer() declarations to
-    drivers/pci/pci.h
-  PCI/AER: Define and allocate aer_stats structure for AER capable
-    devices
-  PCI/AER: Add sysfs attributes to provide AER stats and breakdown
-  PCI/AER: Add sysfs attributes for rootport cumulative stats
-
- .../testing/sysfs-bus-pci-devices-aer_stats   | 122 +++++++++++
- Documentation/PCI/pcieaer-howto.txt           |   5 +
- drivers/pci/pci-sysfs.c                       |   3 +
- drivers/pci/pci.h                             |  11 +
- drivers/pci/pcie/aer.c                        | 198 +++++++++++++++++-
- drivers/pci/probe.c                           |   1 +
- include/linux/pci.h                           |   5 +-
- 7 files changed, 337 insertions(+), 8 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
-
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index c358e7a07f3f..9a1af85aca77 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -452,4 +452,12 @@ static inline int devm_of_pci_get_host_bridge_resources(struct device *dev,
+ }
+ #endif
+ 
++#ifdef CONFIG_PCIEAER
++void pci_no_aer(void);
++void pci_aer_init(struct pci_dev *dev);
++#else
++static inline void pci_no_aer(void) { }
++static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
++#endif
++
+ #endif /* DRIVERS_PCI_H */
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index a2e88386af28..11482669b93b 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -402,10 +402,10 @@ int pci_cleanup_aer_error_status_regs(struct pci_dev *dev)
+ 	return 0;
+ }
+ 
+-int pci_aer_init(struct pci_dev *dev)
++void pci_aer_init(struct pci_dev *dev)
+ {
+ 	dev->aer_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
+-	return pci_cleanup_aer_error_status_regs(dev);
++	pci_cleanup_aer_error_status_regs(dev);
+ }
+ 
+ #define AER_AGENT_RECEIVER		0
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 340029b2fb38..b4ffea05c999 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1468,13 +1468,9 @@ static inline bool pcie_aspm_support_enabled(void) { return false; }
+ #endif
+ 
+ #ifdef CONFIG_PCIEAER
+-void pci_no_aer(void);
+ bool pci_aer_available(void);
+-int pci_aer_init(struct pci_dev *dev);
+ #else
+-static inline void pci_no_aer(void) { }
+ static inline bool pci_aer_available(void) { return false; }
+-static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
+ #endif
+ 
+ #ifdef CONFIG_PCIE_ECRC
 -- 
 2.18.0.rc2.346.g013aa6912e-goog
 
