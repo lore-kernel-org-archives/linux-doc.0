@@ -1,137 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=DKIM_SIGNED,FSL_HELO_FAKE,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 279AC7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 10:25:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3A627D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 10:35:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932874AbeFUKZg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 06:25:36 -0400
-Received: from smtprelay.synopsys.com ([198.182.37.59]:56073 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932855AbeFUKZf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 06:25:35 -0400
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id DED351E04F7;
-        Thu, 21 Jun 2018 12:25:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1529576733; bh=driYhRb60RBLIF08Nuc2CNva+bbOxHE0YpT8Z4zsqHk=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=PIqlC+y6ivcGy7jRqitv3hrF33RWBzvAZWrcBWs9ysO0VRdHUfB5l3Pb49zbC510i
-         3QYXk00+JuMG75+QRpIjzLeNEbe+HHE2WSd1mdphf32ijsk7kIjoK6X7DO0KEeZOyd
-         6Tn59C2N2/oRMTBd5n2Y6q3DbeTF9an3FR+qJWh+n+pVaimnNw6PxMNY+V+tHDDMYg
-         cOFZvwX1TS13h80n4YC6hfE2I7Q2Gj6PuPsswZq9Gi+fj4q9SB4b4NmDYE/0jHU3ag
-         I2C4MkvCZqE8urO+Ddn6XhAAha/TgmSsr9e2xWEZU/1NkwXQrATGqiCYOV0PCFEgFY
-         659pyunU+qYeg==
-Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
-        by mailhost.synopsys.com (Postfix) with ESMTP id DD01B5C36;
-        Thu, 21 Jun 2018 03:25:31 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 21 Jun 2018 03:25:31 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 21 Jun 2018 12:25:31 +0200
-Received: from [10.107.25.102] (10.107.25.102) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 21 Jun 2018 12:25:31 +0200
-Subject: Re: [PATCH v5 09/11] pci_endpoint_test: Add 2 ioctl commands
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "sboyd@codeaurora.org" <sboyd@codeaurora.org>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <cover.1529507416.git.gustavo.pimentel@synopsys.com>
- <8695864db0191b2e85ed81e97a8990baea3468fa.1529507416.git.gustavo.pimentel@synopsys.com>
- <dd75ced1-e4c3-8c94-3bab-200e2ecdd8b8@infradead.org>
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Message-ID: <f16f99f4-0749-3273-7c5a-7c38503c27a9@synopsys.com>
-Date:   Thu, 21 Jun 2018 11:23:28 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S932756AbeFUKf6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 06:35:58 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:41644 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933120AbeFUKfu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 06:35:50 -0400
+Received: by mail-wr0-f196.google.com with SMTP id h10-v6so2626059wrq.8;
+        Thu, 21 Jun 2018 03:35:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2k+A32QjIQ1kl3aLWy9LQJpPlbaVB/yt7NEo3Yl+A/4=;
+        b=qzkrMAQKIfRnJCtL6QeBNAPIMgUwP+zLZF6oUWhPYipNiEODrAcanpBIuLW8raI28u
+         CZE74HcnAPNtITsf0isdy9hBH+dv9rCO3BfulT6IANNoPhzOr9yXgdrj3brGBPN48lWK
+         2NTSxhwGY6kMx4GcoiArN3aCtpkwKjmodVCxOGSJmCwJA3aWnTbZtaJsj8zXQcIp8QN1
+         /S6b6+D7+4YNnDEmFjiaUpqmidL8Yc/ldw5iDwPQX2MyqfO5DB0iLghCpOfI2Ljex1tU
+         j5vAzftpfruzYqCZ9hWV1KNVtFwd/s3pqNHN4SDYOfA5Tm7cl+qnk/cugXFLYGUId/mU
+         0IvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2k+A32QjIQ1kl3aLWy9LQJpPlbaVB/yt7NEo3Yl+A/4=;
+        b=bF2ASjTh2P6kJ0qjVKifWkgBUeedSy1YbxnzRCQ48CNxjHxpetavnvVlkhDxPklknf
+         Jf4ypTtvzRHgL0r8eqy1JH8nvcgGxT8RVw1NtUIoKdL4WdHjKZgzGbeu7G+DQo5jYrBk
+         nvhH9Zai/fPwy1tdO2HdSvmlvYFGZNH5eFc40QPczZTM8W+Qne51JVRvbFCaMaC4WMul
+         UDmQagUvfE+2XUhQg/MJ0hYl5/UHZpKcY5ETH8Ectq8zUIBfu03D701YyD0LNjdpBXVB
+         Ur2yWbMO+X1mpsSfyE6Susad5TXUTuBK2jpOnHsihctjUbWxooVxhyU5kytSWcEc634/
+         5kFA==
+X-Gm-Message-State: APt69E3rIM+3y0jna+6x+Oo4QHRVfwVRg5Yq/LfRGX7zd32saHCTQste
+        MNpLPwIPgxwWeccdHPRzey0=
+X-Google-Smtp-Source: ADUXVKIHf/cRManqa7VKxZqH8jK4YKvcuHghuPa/gIlJxe9Np45MyusT3igDZQ+ahvSsn6iPMTTuWA==
+X-Received: by 2002:a5d:4503:: with SMTP id s3-v6mr21379657wrq.191.1529577349441;
+        Thu, 21 Jun 2018 03:35:49 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id v15-v6sm1732918wrq.37.2018.06.21.03.35.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 21 Jun 2018 03:35:48 -0700 (PDT)
+Date:   Thu, 21 Jun 2018 12:35:46 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Ananth N Mavinakayanahalli <ananth@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH -tip v6 26/27] Documentation: kprobes: Add how to change
+ the execution path
+Message-ID: <20180621103546.GA9212@gmail.com>
+References: <152942424698.15209.15245996287444292393.stgit@devbox>
+ <152942500680.15209.12374262914863044775.stgit@devbox>
+ <706832c5-dab4-f806-96d6-2cdc37203d9d@infradead.org>
+ <20180620172637.35916da482442b6ab139c7dc@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <dd75ced1-e4c3-8c94-3bab-200e2ecdd8b8@infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.107.25.102]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180620172637.35916da482442b6ab139c7dc@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20/06/2018 19:12, Randy Dunlap wrote:
-> On 06/20/2018 09:28 AM, Gustavo Pimentel wrote:
->> Add MSI-X support and update driver documentation accordingly.
->>
->> Add 2 new IOCTL commands:
->>  - Allow to reconfigure driver IRQ type in runtime.
->>  - Allow to retrieve current driver IRQ type configured.
->>
->> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->> ---
->> Change v2->v3:                                                                              |  --------------------------------------------------------------------------------------------
->>  - New patch file created base on the previous patch                                        |  --------------------------------------------------------------------------------------------
->> "misc: pci_endpoint_test: Add MSI-X support" patch file following                           |  --------------------------------------------------------------------------------------------
->> Kishon's suggestion.                                                                        |  --------------------------------------------------------------------------------------------
->> Change v3->v4:                                                                              |  --------------------------------------------------------------------------------------------
->>  - Rebased to Lorenzo's master branch v4.18-rc1.
->> Change v4->v5:
->>  - Nothing changed, just to follow the patch set version.
->>
->>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->>  drivers/misc/pci_endpoint_test.c                 | 177 +++++++++++++++++------
->>  2 files changed, 132 insertions(+), 48 deletions(-)
->>
->> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
->> index fdfa0f6..58ccca4 100644
->> --- a/Documentation/misc-devices/pci-endpoint-test.txt
->> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
->> @@ -28,6 +28,9 @@ ioctl
->>  	      to be tested should be passed as argument.
->>   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->>  	      to be tested should be passed as argument.
->> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
->> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
->> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
->>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->>  		as argument.
->>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
->> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
->> index 2b58887..82fa0c2 100644
->> --- a/drivers/misc/pci_endpoint_test.c
->> +++ b/drivers/misc/pci_endpoint_test.c
+
+* Masami Hiramatsu <mhiramat@kernel.org> wrote:
+
+> On Tue, 19 Jun 2018 09:31:49 -0700
+> Randy Dunlap <rdunlap@infradead.org> wrote:
 > 
-> Hi,
+> > On 06/19/2018 09:16 AM, Masami Hiramatsu wrote:
+> > > Add a section that explaining how to change the execution
+> > > path with kprobes and warnings for some arch.
+> > > 
+> > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > Cc: linux-doc@vger.kernel.org
+> > > ---
+> > >  Documentation/kprobes.txt |   20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
+> > > 
+> > > diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
+> > > index 3e9e99ea751b..8a98eed1521b 100644
+> > > --- a/Documentation/kprobes.txt
+> > > +++ b/Documentation/kprobes.txt
+> > > @@ -80,6 +80,26 @@ After the instruction is single-stepped, Kprobes executes the
+> > >  "post_handler," if any, that is associated with the kprobe.
+> > >  Execution then continues with the instruction following the probepoint.
+> > >  
+> > 
+> > Hi,
+> > I have a few small suggestions...
 > 
-> The ioctl "type" (as "type" is used in <uapi/asm-generic/ioctl.h>),
-> value of 'P' in this case, should be documented in
-> Documentation/ioctl/ioctl-number.txt.
-
-Hi Randy,
-
-I wasn't aware of this file. Adding the entry bellow would be suitable?
-
-'P'    01-09   drivers/misc/pci_endpoint_test.c        conflict!
-
-Regards,
-Gustavo
-
+> Hi Randy,
 > 
-> thanks,
-> 
+> Thank you for your suggestions!
+> All of those are good to me. I'll fix it:)
 
+Could you please send a delta patch on top of your v6 series, with Randy credited, 
+etc?
+
+I've applied your series and will push it out once it passes all testing.
+
+Thanks,
+
+	Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
