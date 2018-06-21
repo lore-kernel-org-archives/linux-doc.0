@@ -5,77 +5,133 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 56DAC7D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 09:27:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 279AC7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 10:25:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932636AbeFUJ1n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 05:27:43 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54596 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932534AbeFUJ1m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 05:27:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=JSOZVtQOypHIPrxa8fKJl9JPZDlOm7if4F1KKmt8WwI=; b=HuhiMKTwtH2WKvve7v73eWhCu
-        c3hRhtjagvoQlXzwr7WIIY6/ZwFoj9ulGutKtuQ/uLQ+cjuWlxtvEmETS8eakjotcpcnio/S/pp4e
-        G2NRjB6jh2DhkhqAutO6RMndfH8sDjBbdGM3AekW7HS7S08WcwIkrWHE8C3mdDtokYvdX+8f2tVbg
-        Cy8o9M9gUk9GdxMKRWhbgiuSkZ8yrpB4ubxsk9ay0OR0LwCpbKoUpAIHtE9j7+qNIaDLATUSdva8U
-        5/QyufwXlgftgwDkWWoFKrTzAatdkSCabLAPQAq/akL1IFgblbOiLF0Da1XwKYfazdMwjjaiMyer5
-        KpUSr69FQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fVvsH-0002e6-Rr; Thu, 21 Jun 2018 09:27:30 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2C90C2029F1DB; Thu, 21 Jun 2018 11:27:28 +0200 (CEST)
-Date:   Thu, 21 Jun 2018 11:27:28 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v10 2/9] cpuset: Add new v2 cpuset.sched.domain_root flag
-Message-ID: <20180621092728.GV2494@hirez.programming.kicks-ass.net>
-References: <1529295249-5207-1-git-send-email-longman@redhat.com>
- <1529295249-5207-3-git-send-email-longman@redhat.com>
- <20180620142735.GM2494@hirez.programming.kicks-ass.net>
- <b44b0748-9fec-6bb0-7665-435487e5d8b3@redhat.com>
+        id S932874AbeFUKZg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 06:25:36 -0400
+Received: from smtprelay.synopsys.com ([198.182.37.59]:56073 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932855AbeFUKZf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 06:25:35 -0400
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id DED351E04F7;
+        Thu, 21 Jun 2018 12:25:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1529576733; bh=driYhRb60RBLIF08Nuc2CNva+bbOxHE0YpT8Z4zsqHk=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=PIqlC+y6ivcGy7jRqitv3hrF33RWBzvAZWrcBWs9ysO0VRdHUfB5l3Pb49zbC510i
+         3QYXk00+JuMG75+QRpIjzLeNEbe+HHE2WSd1mdphf32ijsk7kIjoK6X7DO0KEeZOyd
+         6Tn59C2N2/oRMTBd5n2Y6q3DbeTF9an3FR+qJWh+n+pVaimnNw6PxMNY+V+tHDDMYg
+         cOFZvwX1TS13h80n4YC6hfE2I7Q2Gj6PuPsswZq9Gi+fj4q9SB4b4NmDYE/0jHU3ag
+         I2C4MkvCZqE8urO+Ddn6XhAAha/TgmSsr9e2xWEZU/1NkwXQrATGqiCYOV0PCFEgFY
+         659pyunU+qYeg==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
+        by mailhost.synopsys.com (Postfix) with ESMTP id DD01B5C36;
+        Thu, 21 Jun 2018 03:25:31 -0700 (PDT)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Thu, 21 Jun 2018 03:25:31 -0700
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Thu, 21 Jun 2018 12:25:31 +0200
+Received: from [10.107.25.102] (10.107.25.102) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Thu, 21 Jun 2018 12:25:31 +0200
+Subject: Re: [PATCH v5 09/11] pci_endpoint_test: Add 2 ioctl commands
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "kishon@ti.com" <kishon@ti.com>,
+        "adouglas@cadence.com" <adouglas@cadence.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
+        "sboyd@codeaurora.org" <sboyd@codeaurora.org>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <cover.1529507416.git.gustavo.pimentel@synopsys.com>
+ <8695864db0191b2e85ed81e97a8990baea3468fa.1529507416.git.gustavo.pimentel@synopsys.com>
+ <dd75ced1-e4c3-8c94-3bab-200e2ecdd8b8@infradead.org>
+From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Message-ID: <f16f99f4-0749-3273-7c5a-7c38503c27a9@synopsys.com>
+Date:   Thu, 21 Jun 2018 11:23:28 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b44b0748-9fec-6bb0-7665-435487e5d8b3@redhat.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <dd75ced1-e4c3-8c94-3bab-200e2ecdd8b8@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.107.25.102]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 21, 2018 at 03:58:06PM +0800, Waiman Long wrote:
-> On 06/20/2018 10:27 PM, Peter Zijlstra wrote:
-> > On Mon, Jun 18, 2018 at 12:14:01PM +0800, Waiman Long wrote:
-> >> +  cpuset.sched.domain_root
-> > Why are we calling this a domain_root and not a partition?
+On 20/06/2018 19:12, Randy Dunlap wrote:
+> On 06/20/2018 09:28 AM, Gustavo Pimentel wrote:
+>> Add MSI-X support and update driver documentation accordingly.
+>>
+>> Add 2 new IOCTL commands:
+>>  - Allow to reconfigure driver IRQ type in runtime.
+>>  - Allow to retrieve current driver IRQ type configured.
+>>
+>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+>> ---
+>> Change v2->v3:                                                                              |  --------------------------------------------------------------------------------------------
+>>  - New patch file created base on the previous patch                                        |  --------------------------------------------------------------------------------------------
+>> "misc: pci_endpoint_test: Add MSI-X support" patch file following                           |  --------------------------------------------------------------------------------------------
+>> Kishon's suggestion.                                                                        |  --------------------------------------------------------------------------------------------
+>> Change v3->v4:                                                                              |  --------------------------------------------------------------------------------------------
+>>  - Rebased to Lorenzo's master branch v4.18-rc1.
+>> Change v4->v5:
+>>  - Nothing changed, just to follow the patch set version.
+>>
+>>  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
+>>  drivers/misc/pci_endpoint_test.c                 | 177 +++++++++++++++++------
+>>  2 files changed, 132 insertions(+), 48 deletions(-)
+>>
+>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+>> index fdfa0f6..58ccca4 100644
+>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+>> @@ -28,6 +28,9 @@ ioctl
+>>  	      to be tested should be passed as argument.
+>>   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+>>  	      to be tested should be passed as argument.
+>> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ type
+>> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
+>> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
+>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>>  		as argument.
+>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+>> index 2b58887..82fa0c2 100644
+>> --- a/drivers/misc/pci_endpoint_test.c
+>> +++ b/drivers/misc/pci_endpoint_test.c
 > 
-> A partition can consist of several cgroups in a tree structure. That
-> flag should only be set at the root of a partition. I will change the
-> name to partition_root if you think this name is acceptable.
+> Hi,
+> 
+> The ioctl "type" (as "type" is used in <uapi/asm-generic/ioctl.h>),
+> value of 'P' in this case, should be documented in
+> Documentation/ioctl/ioctl-number.txt.
 
-The flag indicates the 'effective_cpus' things of the current group is a
-partition. The fact that it can have sub-partitions doesn't really
-matter does it.
+Hi Randy,
 
-Just call it 'partition', leave out the whole root stuff, all of cgroup
-is hierarchical and you can have sub-groups we don't go around calling
-everything a root.
+I wasn't aware of this file. Adding the entry bellow would be suitable?
+
+'P'    01-09   drivers/misc/pci_endpoint_test.c        conflict!
+
+Regards,
+Gustavo
+
+> 
+> thanks,
+> 
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
