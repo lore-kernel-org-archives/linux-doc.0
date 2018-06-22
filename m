@@ -1,101 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-1.5 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D5607DF8F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 16:47:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 94AFE7DF8F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 16:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933554AbeFVQrZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Jun 2018 12:47:25 -0400
-Received: from mga02.intel.com ([134.134.136.20]:47847 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933354AbeFVQrY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Jun 2018 12:47:24 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jun 2018 09:47:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,257,1526367600"; 
-   d="asc'?scan'208";a="49777093"
-Received: from jtkirshe-nuc.jf.intel.com ([134.134.177.59])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Jun 2018 09:47:23 -0700
-Message-ID: <8ee37afa1023e8a9212ca98bc15311711993d531.camel@intel.com>
-Subject: Re: [PATCH 4/4] Documentation: e1000: Fix docs build error
-From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Reply-To: jeffrey.t.kirsher@intel.com
-To:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>
-Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 22 Jun 2018 09:47:22 -0700
-In-Reply-To: <20180622003708.31848-5-me@tobin.cc>
-References: <20180622003708.31848-1-me@tobin.cc>
-         <20180622003708.31848-5-me@tobin.cc>
-Organization: Intel
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-d3VEJ9yXn7cfpOZaT7Nf"
-X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
-Mime-Version: 1.0
+        id S1754351AbeFVQsa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 12:48:30 -0400
+Received: from mail-lf0-f68.google.com ([209.85.215.68]:39261 "EHLO
+        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754336AbeFVQs2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jun 2018 12:48:28 -0400
+Received: by mail-lf0-f68.google.com with SMTP id t2-v6so9527025lfd.6;
+        Fri, 22 Jun 2018 09:48:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZSgN+PceKA6df1xtbLmUze7vVw38PPqUkZDC0Rqtv3g=;
+        b=phNl8mD9BDIzFIFlQBw0QY6W3o0wkWapR7XLq/3djiYP+wEPPrNQW4fsPvmQaNKmUM
+         LzUZ8K0G+K3v9J8UAKcqiKRi+ydrhOPRSg2xBqnFB21+h2RgcvJ5N6xWEOMWZwhXhM9J
+         9cUsLzmqihucHbu04LSJmSkedFigmv6o/E62tsee/BoKyVP2mbFEoTyDWCCVWu6kRpl4
+         ctpDB1Op3mL7WoqpO3/hvbb5+KS2+HN//T4zfoo0IaAxyzJzBnVuIik+A8SQC9zbqVqs
+         Jq2BBS5fzBMwE2MO7FmnckOet5SLpibQhZJgnGAPSGaJozTOePpScCKqu+nDZKPc7VWG
+         dG/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZSgN+PceKA6df1xtbLmUze7vVw38PPqUkZDC0Rqtv3g=;
+        b=XTuGiNSoYPB5MUTN3aJQymvIcAvSCTE8khGSdcQL/SfHescbkc5WHQJTintLWyed+3
+         2b3kaNs1w4QkSx0zE+a5pFzS+JbyvsRH4GXkl/O5NDuw8sQ4uLwfYliOBhq5cDow71rm
+         ymGedAUstJDhIYsLSZquroxNAlK9Uv1BohgQuyblu3kof3zs9eq6Nc/RSIBmWkCy6kf/
+         HCT9EcqzD7lyXTIwXqyxjbqihzEJcLosBawe4fAEaR6oYGLriJZfviaYzW7AcNpuj9s5
+         OIz/tuGkZZDUwxJjSzkNm2INWCFAMw4gzgwu/b5+ywuLTt8za568zZos5tEdDKUOkfrL
+         2k6Q==
+X-Gm-Message-State: APt69E1FQ39F8NEoTsvmKIXXQ+XKVAKT3+6r1sDrPTa7/GQ6ITf9JR5S
+        IYKcoNjMs8mRlzx/gfRfsWY=
+X-Google-Smtp-Source: ADUXVKJ+dP23u+zB/6NDiW+PIw44iU490Ugt3nsreMmeECr/LmM/py62l8EpC0b7LR9+/UASv1FXVw==
+X-Received: by 2002:a19:8fd4:: with SMTP id s81-v6mr96107lfk.118.1529686107113;
+        Fri, 22 Jun 2018 09:48:27 -0700 (PDT)
+Received: from gmail.com (213-238-244-10.customers.ownit.se. [213.238.244.10])
+        by smtp.gmail.com with ESMTPSA id b204-v6sm1672273lfb.12.2018.06.22.09.48.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 22 Jun 2018 09:48:25 -0700 (PDT)
+Date:   Fri, 22 Jun 2018 18:48:23 +0200
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, davem@davemloft.net,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID
+ Gadget Device
+Message-ID: <20180622164823.GA5351@gmail.com>
+References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
+ <87r2ltcopp.fsf@linux.intel.com>
+ <20180530140415.GE2939@gmail.com>
+ <20180608185443.GB874@gmail.com>
+ <87efh4zeqb.fsf@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87efh4zeqb.fsf@linux.intel.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Filipe,
 
---=-d3VEJ9yXn7cfpOZaT7Nf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jun 18, 2018 at 11:22:04AM +0300, Felipe Balbi wrote:
+> 
+> Hi,
+> 
+> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+> > Hi Felipe,
+> >
+> > Should I send out v4 or what do you think?
+> 
+> sorry for the delay, have been busy with other tasks.
+> 
 
-On Fri, 2018-06-22 at 10:37 +1000, Tobin C. Harding wrote:
-> Recent patch updated e1000 docs to rst format.  Docs build (`make
-> htmldocs`) is currently failing due to this file with error:
->=20
->         (SEVERE/4) Unexpected section title.
->=20
-> This is because a section of the file is indented 2 spaces.  Build
-> error
-> can be cleared by aligning the text with column 0.  While we are
-> changing
-> these lines we can make sure line length does not exceed 72, that
-> newlines following headings are uniform, and that full stops are
-> followed by two spaces.
->=20
-> Align text with column 0, limit line length to 72, ensure two spaces
-> follow all full stops, ensure uniform use of newlines after heading.
->=20
-> Fixes commit (228046e76189 Documentation: e1000: Update kernel
-> documentation)
->=20
-> CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-> Signed-off-by: Tobin C. Harding <me@tobin.cc>
+It is no hurry :-)
 
-Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
---=-d3VEJ9yXn7cfpOZaT7Nf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+> > On Wed, May 30, 2018 at 04:04:15PM +0200, Marcus Folkesson wrote:
+> >> Hi Filipe,
+> >> 
+> >> On Wed, May 30, 2018 at 03:28:18PM +0300, Felipe Balbi wrote:
+> >> > Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+> >> > 
+> >> > > Chip Card Interface Device (CCID) protocol is a USB protocol that
+> >> > > allows a smartcard device to be connected to a computer via a card
+> >> > > reader using a standard USB interface, without the need for each manufacturer
+> >> > > of smartcards to provide its own reader or protocol.
+> >> > >
+> >> > > This gadget driver makes Linux show up as a CCID device to the host and let a
+> >> > > userspace daemon act as the smartcard.
+> >> > >
+> >> > > This is useful when the Linux gadget itself should act as a cryptographic
+> >> > > device or forward APDUs to an embedded smartcard device.
+> >> > >
+> >> > > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> >> > 
+> >> > this could be done entirely in userspace with functionfs, why do we need
+> >> > this part in the kernel? It does very little.
+> >> 
+> >> Andrzej pointed this out, and I actually do not have any good answer
+> >> more than that the userspace application could be kept small and the
+> >> important configuration of the CCID device is done with well (I hope)
+> >> documented configfs attributes.
+> 
+> can we use existing open source applications without modification by
+> accepting this glue layer?
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlstKBoACgkQ5W/vlVpL
-7c5zvQ//VYHxNZxmpRHAHI4jncP9stSpoA0JxpgGA1O5EpqQG6Hr6jfRSuXwF4nI
-amuFhmwI3+j13Teh7Ta6XlJL5F0umB4EhurxboQG16K07TBYmnelsO0n4EZ/HMcP
-6XUnivTReOo4otoVQvFjLEaUzwUVRXcRE6KpcHBklXakq+uALF7rdxTGBlUudQhU
-p+a1wur3qxqnVg3sy+SloRIbIvlJj3ieCNA2Jaz2q53z3Plydf9P2F5QUP/mgply
-T/eirpK/mS1UZJfIoxs0Hb95uLp46X5kjfueXUTX+/MBGUPONJ3kLE01Nd6NN2bb
-ac5A8BF0XuuO/D5jEiMSWpX6DxOTP1cMIIt+1AhQOHU/0ngBUK78B9LzHNeRM6t2
-2Mps6FvzhnKKDodjHMEF2II0gXXiWcR0mtG/1wi7FKgEnPiateEelNQF5CJVEM44
-Jdbd19vLicS8ytQ0YHeiYJCaGr/pBBRj0xlgkDqMVDxsKcuXQ+Ik+8n6lnVyqQgq
-MdLPVDq83cVhT8EdHfBwqOxzhJMexbAKFm+9YZo4zobKh97yq51RJtQc/Dd0bpzB
-ZvsjpYVeHWYXgDfIVUi5Xg+BNzu3rq9b7Z/1IBpF9E5WTLlw0bHpBlO+aVrL0ck4
-abOwf5V3xRhMQTkeuIYunKdBc1EFRUUr9UkboDLYjkmB8dDzdHk=
-=v/ru
------END PGP SIGNATURE-----
+If you mean existing open source application to talk to the "daemon", the answer is
+yes. I have been using PCSC-lite and OpenSC on Linux, and PCSC on
+Windows to communicate with the smartcard.
 
---=-d3VEJ9yXn7cfpOZaT7Nf--
+If you mean existing application as the "daemon", the answer is probably
+no.
+
+> 
+> -- 
+> balbi
+
+Thanks,
+
+Best regards
+Marcus Folkesson
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
