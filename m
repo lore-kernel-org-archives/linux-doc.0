@@ -5,60 +5,43 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 425DC7D08C
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 20:06:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B9F0D7D08C
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 20:22:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754304AbeFVUGV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Jun 2018 16:06:21 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:55456 "EHLO
+        id S1751806AbeFVUWm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 16:22:42 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:55484 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751649AbeFVUGU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jun 2018 16:06:20 -0400
+        with ESMTP id S1751423AbeFVUWm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jun 2018 16:22:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
         In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Es9OVvvOeu8O9jtJ4qHwX/JeykzknG3BGuzRszeX4lI=; b=O8H+WY5ZgyMmDfAErFgOTs4hWJ
-        oU3fBdbxH2NWdzyCQasS901q1sEVQtTTYg+TBaxEgTOfup/Z1SJAs5eEDsjeif1xd7Q2STNpuFQoM
-        ZxfVZQmAnc6qmu5ox11yOT5y//bNpWYmit0kkQ+TVKEhaUN7hEVN6BKEljg/GXn1meFoOd7OCu+aq
-        BuciAQ9yg7u0OkjpJ0Eir6gWiAtjMVjWmuKT0BRkF92kIOJWt0mE9FxYO6dhEY85YCoNmAYP52J6D
-        nMz+Mc2ENyTMIlYVLSyLaFDM4KuIt+txvsMKZuuQAGOFpNh3YXQCjcSOb57/jOD7rLDHnlPAIAL5u
-        Iks/z4Xw==;
+        bh=P/2zcIGvOya58GBqTiymPO95qTaF2o8vN2bi00SLNmY=; b=GmE8Za6PLRh1DB+G4Yysdb8LUc
+        ZufcsGkzPDCNrsSaGJQqKthOScoMuxEPxQCOPfD1c9Fa+vesLYpTXJEZ5es/nrB4U+jhcfkfkm5s2
+        oUr7Lz8QTzAxdL+n64vMr4GxWY/doGQzfD44FUWs/7bhPyEWCqSxp3ycS8RLBI6+4rbi3K4dMR85h
+        NnQdxYOxhVzHfmD8Z48X64B7COC3K9Vz4Rz3wdm5N7Tot3p79VmPd6ZKLfasWWPBjhJ4jRI4HwOGq
+        Y6XuLLw3olxQmm6hN1swzm3DYB6Sd/Ib1dbaogrlY/w9WiLXl2Tfb7QltGBKa4E4oOzAN4TBclREI
+        aGQu9hQw==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fWSJk-0003Ny-Fl; Fri, 22 Jun 2018 20:06:00 +0000
-Subject: Re: [PATCH v4 1/3] PCI: Make specifying PCI devices in kernel
- parameters reusable
-To:     Logan Gunthorpe <logang@deltatee.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>
-References: <20180622194315.10475-1-logang@deltatee.com>
- <20180622194315.10475-2-logang@deltatee.com>
+        id 1fWSZq-0003QZ-Nh; Fri, 22 Jun 2018 20:22:39 +0000
+Subject: Re: [PATCH 0/4] docs: e100[0] fix build errors
+To:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20180622003708.31848-1-me@tobin.cc>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1222da4e-864c-5e27-b735-99fc53d1e367@infradead.org>
-Date:   Fri, 22 Jun 2018 13:05:57 -0700
+Message-ID: <ba768d6c-dd21-3600-5cba-151b5d6185f1@infradead.org>
+Date:   Fri, 22 Jun 2018 13:22:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180622194315.10475-2-logang@deltatee.com>
+In-Reply-To: <20180622003708.31848-1-me@tobin.cc>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -67,56 +50,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Tobin,
 
-On 06/22/2018 12:43 PM, Logan Gunthorpe wrote:
+On 06/21/2018 05:37 PM, Tobin C. Harding wrote:
+> Hi Jonathan,
+> 
+> This patch set fixes current docs build failure on Linus' mainline
+> 
+> commit: (ba4dbdedd3ed Merge tag 'jfs-4.18' of git://github.com/kleikamp/linux-shaggy)
+> 
+> (FYI this is 8 commits after Linux 4.18-rc1).
+> 
+> And also same build errors on today's linux-next
+> 
+> 8439c34f07a3 (tag: next-20180621, linux-next/master, linux-next) Add linux-next specific files for 20180621
+> 
+> 
+> I split the patches in between the two drivers to enable use of the
+> 'Fixes:' tag.
+> 
+> Tobin C. Harding (4):
+>   Documentation: e100: Use correct heading adornment
+>   Documentation: e1000: Use correct heading adornment
+>   Documentation: e100: Fix docs build error
+>   Documentation: e1000: Fix docs build error
+> 
+>  Documentation/networking/e100.rst  | 112 +++++++++++++++--------------
+>  Documentation/networking/e1000.rst |  76 ++++++++++----------
+>  2 files changed, 96 insertions(+), 92 deletions(-)
 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 97acba712e4e..cb999b2a9530 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -191,6 +191,92 @@ void __iomem *pci_ioremap_wc_bar(struct pci_dev *pdev, int bar)
->  EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
->  #endif
->  
-> +/**
-> + * pci_dev_str_match - test if a string matches a device
-> + * @dev:    the PCI device to test
-> + * @p:      string to match the device against
-> + * @endptr: pointer to the string after the match
-> + *
-> + * Test if a string (typically from a kernel parameter) matches a
-> + * specified. The string may be of one of the following formats:
+I am still seeing a few warnings (your 4 patches applied to
+linux-next-20180622):
 
-"matches a specified."  eh?
+linux-next-20180622/Documentation/networking/e100.rst:57: WARNING: Literal block expected; none found.
+linux-next-20180622/Documentation/networking/e100.rst:68: WARNING: Literal block expected; none found.
+linux-next-20180622/Documentation/networking/e100.rst:75: WARNING: Literal block expected; none found.
+linux-next-20180622/Documentation/networking/e100.rst:84: WARNING: Literal block expected; none found.
+linux-next-20180622/Documentation/networking/e100.rst:93: WARNING: Inline emphasis start-string without end-string.
+linux-next-20180622/Documentation/networking/e1000.rst:83: ERROR: Unexpected indentation.
+linux-next-20180622/Documentation/networking/e1000.rst:84: WARNING: Block quote ends without a blank line; unexpected unindent.
+linux-next-20180622/Documentation/networking/e1000.rst:173: WARNING: Definition list ends without a blank line; unexpected unindent.
+linux-next-20180622/Documentation/networking/e1000.rst:236: WARNING: Definition list ends without a blank line; unexpected unindent.
 
-> + *
-> + *   [<domain>:]<bus>:<slot>.<func>
-> + *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-> + *
-> + * The first format specifies a PCI bus/slot/function address which
-> + * may change if new hardware is inserted, if motherboard firmware changes,
-> + * or due to changes caused in kernel parameters. If the domain is
-> + * left unspecified, it is taken to be 0.
-> + *
-> + * The second format matches devices using IDs in the configuration
-> + * space which may match multiple devices in the system. A value of 0
-> + * for any field will match all devices. (Note: this differs from
-> + * in-kernel code that uses PCI_ANY_ID which is ~0; this is for
-> + * legacy reasons and convienence so users don't have to specify
 
-                         convenience
+You didn't get these warnings?  or they weren't important?
+or "perfect" was not your primary goal?   :)   [which is fine]
 
-> + * FFFFFFFFs on the command line.)
-> + *
-> + * Returns 1 if the string matches the device, 0 if it does not and
-> + * a negative error code if the string cannot be parsed.
-> + */
-> +static int pci_dev_str_match(struct pci_dev *dev, const char *p,
-> +			     const char **endptr)
-> +{
+[I see around 50 similar doc formatting warnings/errors in the entire
+Documentation build.]
 
-thanks,
+Anyway, much better than it was.  Thanks.
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
 -- 
 ~Randy
 --
