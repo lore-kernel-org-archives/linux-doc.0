@@ -5,48 +5,67 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 74D2F7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 15:56:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 92CC47D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 16:04:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933860AbeFVP4d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Jun 2018 11:56:33 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56906 "EHLO
+        id S1754290AbeFVQE5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 12:04:57 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35312 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933853AbeFVP4c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jun 2018 11:56:32 -0400
+        with ESMTP id S1751649AbeFVQE4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jun 2018 12:04:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
         Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=J8i8/s4nS+cmoo5zTKg/97iBERlkBMIh1M2i7pwHrQY=; b=UyP4J33YFd484L2HzhuWH6DTS
-        pCGc3+4tNU+J8OACjQm8VvE7/BYsYBhMuES/TMM3Ot/HMrZpgpdMNroIp1+1iNl2eeS5vTEpazAsX
-        mPWZ8S46IoUhdZKVWERPNSoeaqGblmDwzA98YMmh5g3GeUF2fmijPFKThWQgTC6m5f3P3IsB1OdJl
-        x/6w2cXn4vY3tUkw3gpo2uWV/g1KCfEFpSwqsNKNe9zXrvmroXitouPiLNR4YtaEs7iNt8ZsZPKSS
-        HuAsNwIFtY75bkbAs8lvDU8wwUmiQwiOJrDob6LwL/BjKCyLHm07+IOvbaG5QFBC+4ouHBAIix3tI
-        dQ2oamsyg==;
+         bh=y6j0rJydYoqcY3mNyO3GCjxyfkVs9bdlOcCNSKvohmg=; b=FzyiFs/JjQCiez62w51rEpI98
+        XznN4w5MqISdzMd9jJekktYdXvP9lPBm5JxCOvszjgUExXievdJxWcTwG44RHJJIpNTYLikGgKeA5
+        lXqDx7YzTpo7hNwbgzjgtJnUh3L6C45ifXmTEaZEF9Htw3QnVZ/TvToJ6Xt1Hwe889KhwHMbtYZej
+        9xDH1Agm/fLnGzrg6P8eqfk6PQ/EDTKxuC4Axe0Ok7eUG+bRfodYmtm+7nQ2dOO7v4yRpTsIfdiJE
+        gbnG50Cf3I7rY5xl0CrxbmeswVWAjnIF/kT7O8XTkcotYOFkWM/DqzzS4b7zFc15ew6NpPm10D9FE
+        hp0i2DKTQ==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fWOQJ-0001Da-9l; Fri, 22 Jun 2018 15:56:31 +0000
-Subject: Re: [PATCH v3] overlayfs: override_creds=off option bypass
- creator_cred
-To:     Mark Salyzyn <salyzyn@android.com>, linux-kernel@vger.kernel.org
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@android.com
-References: <20180622152056.16877-1-salyzyn@android.com>
+        id 1fWOYM-0004Bo-5K; Fri, 22 Jun 2018 16:04:50 +0000
+Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO expander
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+ <20180622104930.32050-10-boris.brezillon@bootlin.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <56cd58e0-c61f-6580-d388-b0146108fed7@infradead.org>
-Date:   Fri, 22 Jun 2018 08:56:29 -0700
+Message-ID: <27aae5b0-f8eb-bed7-9d14-5c739769977a@infradead.org>
+Date:   Fri, 22 Jun 2018 09:04:47 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180622152056.16877-1-salyzyn@android.com>
+In-Reply-To: <20180622104930.32050-10-boris.brezillon@bootlin.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -55,147 +74,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark,
+Hi,
 
-On 06/22/2018 08:20 AM, Mark Salyzyn wrote:
-> By default, all access to the upper, lower and work directories is the
-> recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> checked against the caller's credentials.
-> 
-> If the principals of least privilege are applied, the mounter's
-
-         principles
-
-> credentials might not overlap the credential of the caller's when
-> accessing the overlayfs filesystem.  For example, a file that a lower
-> DAC privileged caller can execute, is MAC denied to the generally
-> higher DAC privileged mounter, to prevent an attack vector.
-> 
-> We add the option to turn off override_creds in the mount options, all
-> subsequent operations after mount on the filesystem will be only the
-> caller's credentials.  This option default is set in the CONFIG
-> OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
-> 
-> The module bool parameter and mount option override_creds is also
-
-             boolean
-
-> added as a presence check for this "feature" by checking existence of
-> /sys/module/overlay/parameters/overlay_creds.  This will allow user
-> space to determine if the option can be supplied successfully to the
-> mount(2) operation.
-> 
-> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vivek Goyal <vgoyal@redhat.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: linux-unionfs@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: kernel-team@android.com
-> 
-> ---
-> v2:
-> - Forward port changed attr to stat, resulting in a build error.
-> - altered commit message.
-> 
-> v3:
-> - Change name from caller_credentials / creator_credentials to the
->   boolean override_creds.
-> - Changed from creator to mounter credentials.
-> - Updated and fortified the documentation.
-> - Added CONFIG_OVERLAY_FS_OVERRIDE_CREDS
-> 
->  Documentation/filesystems/overlayfs.txt | 17 +++++++++++++++++
->  fs/overlayfs/Kconfig                    | 21 +++++++++++++++++++++
->  fs/overlayfs/copy_up.c                  |  2 +-
->  fs/overlayfs/dir.c                      |  9 +++++----
->  fs/overlayfs/inode.c                    | 16 ++++++++--------
->  fs/overlayfs/namei.c                    |  6 +++---
->  fs/overlayfs/overlayfs.h                |  1 +
->  fs/overlayfs/ovl_entry.h                |  1 +
->  fs/overlayfs/readdir.c                  |  4 ++--
->  fs/overlayfs/super.c                    | 21 +++++++++++++++++++++
->  fs/overlayfs/util.c                     | 12 ++++++++++--
->  11 files changed, 90 insertions(+), 20 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
-> index 72615a2c0752..5c646f993a4b 100644
-> --- a/Documentation/filesystems/overlayfs.txt
-> +++ b/Documentation/filesystems/overlayfs.txt
-> @@ -106,6 +106,23 @@ Only the lists of names from directories are merged.  Other content
->  such as metadata and extended attributes are reported for the upper
->  directory only.  These attributes of the lower directory are hidden.
+On 06/22/2018 03:49 AM, Boris Brezillon wrote:
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index 71c0ab46f216..19ed6006aea1 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -898,6 +898,17 @@ config GPIO_TS4900
 >  
-> +credentials
-> +-----------
-> +
-> +By default, all access to the upper, lower and work directories is the
-> +recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> +checked against the caller's credentials.
-> +
-> +If the principals of least privilege are applied, the mounter's
-
-          principles
-
-> +credentials might not overlap the credential of the caller's when
-
-                                     credentials (?)
-
-> +accessing the overlayfs filesystem.  For example, a file that a lower
-> +DAC privileged caller can execute, is MAC denied to the generally
-> +higher DAC privileged mounter, to prevent an attack vector.  One
-> +option is to turn off override_creds in the mount options, all
-
-                                                     options; all
-
-> +subsequent operations after mount on the filesystem will be only the
-> +caller's credentials.  This option default is set in the CONFIG
-> +OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
-> +
->  whiteouts and opaque directories
->  --------------------------------
+>  endmenu
 >  
-> diff --git a/fs/overlayfs/Kconfig b/fs/overlayfs/Kconfig
-> index 9384164253ac..1ecb910f0300 100644
-> --- a/fs/overlayfs/Kconfig
-> +++ b/fs/overlayfs/Kconfig
-> @@ -103,3 +103,24 @@ config OVERLAY_FS_XINO_AUTO
->  	  For more information, see Documentation/filesystems/overlayfs.txt
->  
->  	  If unsure, say N.
+> +menu "I3C GPIO expanders"
+> +	depends on I3C
 > +
-> +config OVERLAY_FS_OVERRIDE_CREDS
-> +	bool "Overlay filesystem override credentials"
-> +	depends on OVERLAY_FS
-> +	default y
+> +config GPIO_CDNS_I3C
+> +	tristate "Cadence I3C GPIO expander"
+> +	select GPIOLIB_IRQCHIP
 > +	help
-> +	  If set, all access to the upper, lower and work directories is the
-> +	  recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> +	  checked against the caller's credentials.  The check of both access
-> +	  credentials.
+> +	  Say yes here to enabled the driver for Cadence I3C GPIO expander.
 
-	  last "sentence" is incomplete.
+	               to enable the driver
 
 > +
-> +	  If the principals of least privilege are applied, the mounter's
-
-	         principles
-
-> +	  credentials might not overlap the credential of the caller's when
-> +	  accessing the overlayfs filesystem.  The mount option override_creds=n
-
-	                                                        "override_creds=n"
-
-> +	  drops the mounter's credential check, so that all subsequent
-> +	  operations, after mount, on the filesystem will only be the
-> +	  caller's credentials.  This option sets the default for the module
-> +	  option override_creds, and thus the default for all mounts that
-> +	  do not specify this option.
-> +
-> +	  For more information see Documentation/filesystems/overlayfs.txt
+> +endmenu
 
 
 -- 
