@@ -1,233 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C01E17D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Jun 2018 23:49:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 065967D062
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 00:32:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932734AbeFUXs4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 19:48:56 -0400
-Received: from mail-it0-f73.google.com ([209.85.214.73]:51964 "EHLO
-        mail-it0-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933568AbeFUXso (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 19:48:44 -0400
-Received: by mail-it0-f73.google.com with SMTP id o188-v6so328213ith.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jun 2018 16:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:date:in-reply-to:message-id:references:subject:from:to
-         :cc;
-        bh=LuiekMZ5mGYd4fayhOXV0MbkpMytrPkCNiDTREQ8swU=;
-        b=RgYI0vyWgCzvsvk9eHdGNGh8Va1v+P8+h4hbE3tHmCGy6rMa1+i2/ic8XM4VwRfLeS
-         FAAUooxkY6al1S/dPIq5Y7zqc5aHGiIFYFjVL7iix97vtrWCQBaLsK3xHIKhA6bODssx
-         tb6siFtCT/SlYSU1t9UE885VncWrNTmxsuYpK/q+H80SKFI5xqXejR87SeqsoLrmkcuV
-         nXZqhObhczqebhJN905mb/2c1lVGLanoEHdumNxYo3yzjDduZrHCFne6jtnjo5noUY+U
-         P9NnmfNlaX4VFDVrKMZqQj2qR5yVrHtZacyCYOfUwrWkq97lm1ZIYMQ/p8Woftou2f4l
-         LEVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id
-         :references:subject:from:to:cc;
-        bh=LuiekMZ5mGYd4fayhOXV0MbkpMytrPkCNiDTREQ8swU=;
-        b=DQgW16DX1iNqNNnibm7O4XM39hINUYI9WO62CoE0mJsNdgj6inRaxjBJtrElDjmTp8
-         bDaEhuJVPaBVnk/ZZlceRR2Hg0G8EAlEf4KFraQ3ZAZiSXs9By/o+0PPQA++WLGxyQKO
-         UC+Wdfj7ZJPoEVPlLckp/OnMudSLSbjP0qpbzXJcxfPvdO1dd9u5wcDLrX4Me/i6BG3s
-         Ee8nDQqJCCfCGIlzP7iSwNNOdlcsU54CzqkCSsXfOwHxS6n49COa0WARd+lUV35ZZoc1
-         oNjoUpFxJW+/v8zm8eAR43kbG0fIX8/MkwfHDjBTPllvRCcqIVtEwPGp4CZdi6v8/O+0
-         i2vQ==
-X-Gm-Message-State: APt69E00pTWmhH7df+UXN0nk5er2ln2qJrtdQtEcD+oD9cwxpg8cw/uP
-        bmUQDVFHqlbdyvrhE+WB5liJumZratpf
-X-Google-Smtp-Source: ADUXVKLOAQi1Fr2UPyJ/LLqQ2CqpPbdRnjFwatUbQuFim1cynUUc8d7BQTSWqHm76zFtmx+fYYutt3oAWkMw
+        id S934015AbeFVAb7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 20:31:59 -0400
+Received: from anholt.net ([50.246.234.109]:59398 "EHLO anholt.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S933452AbeFVAbw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Jun 2018 20:31:52 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by anholt.net (Postfix) with ESMTP id F33C010A1642;
+        Thu, 21 Jun 2018 17:31:51 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+        by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id FdQTmHLdWtAA; Thu, 21 Jun 2018 17:31:51 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+        by anholt.net (Postfix) with ESMTP id D704910A0D3A;
+        Thu, 21 Jun 2018 17:31:50 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+        id 46E6E2FE21D0; Thu, 21 Jun 2018 17:31:50 -0700 (PDT)
+From:   Eric Anholt <eric@anholt.net>
+To:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Phil Elwell <phil@raspberrypi.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: [PATCH V3 6/6] arm64: defconfig: Enable RPi voltage sensor
+In-Reply-To: <1527276279-23876-7-git-send-email-stefan.wahren@i2se.com>
+References: <1527276279-23876-1-git-send-email-stefan.wahren@i2se.com> <1527276279-23876-7-git-send-email-stefan.wahren@i2se.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/25.2.2 (x86_64-pc-linux-gnu)
+Date:   Thu, 21 Jun 2018 17:31:48 -0700
+Message-ID: <87zhznd5l7.fsf@anholt.net>
 MIME-Version: 1.0
-X-Received: by 2002:a24:b257:: with SMTP id h23-v6mr3507176iti.44.1529624924043;
- Thu, 21 Jun 2018 16:48:44 -0700 (PDT)
-Date:   Thu, 21 Jun 2018 16:48:27 -0700
-In-Reply-To: <20180621234829.224566-1-rajatja@google.com>
-Message-Id: <20180621234829.224566-3-rajatja@google.com>
-References: <20180621234829.224566-1-rajatja@google.com>
-X-Mailer: git-send-email 2.18.0.rc2.346.g013aa6912e-goog
-Subject: [PATCH 2/4] PCI/AER: Define and allocate aer_stats structure for AER
- capable devices
-From:   Rajat Jain <rajatja@google.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com,
-        helgaas@kernel.org
-Cc:     Rajat Jain <rajatja@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Define a structure to hold the AER statistics. There are 2 groups
-of statistics: dev_* counters that are to be collected for all AER
-capable devices and rootport_* counters that are collected for all
-(AER capable) rootports only. Allocate and free this structure when
-device is added or released (thus counters survive the lifetime of the
-device).
+--=-=-=
+Content-Type: text/plain
 
-Signed-off-by: Rajat Jain <rajatja@google.com>
----
- drivers/pci/pci.h      |  2 ++
- drivers/pci/pcie/aer.c | 53 ++++++++++++++++++++++++++++++++++++++++--
- drivers/pci/probe.c    |  1 +
- include/linux/pci.h    |  1 +
- 4 files changed, 55 insertions(+), 2 deletions(-)
+Stefan Wahren <stefan.wahren@i2se.com> writes:
 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 9a1af85aca77..0759a7be9ef2 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -455,9 +455,11 @@ static inline int devm_of_pci_get_host_bridge_resources(struct device *dev,
- #ifdef CONFIG_PCIEAER
- void pci_no_aer(void);
- void pci_aer_init(struct pci_dev *dev);
-+void pci_aer_exit(struct pci_dev *dev);
- #else
- static inline void pci_no_aer(void) { }
- static inline int pci_aer_init(struct pci_dev *d) { return -ENODEV; }
-+static inline void pci_aer_exit(struct pci_dev *d) { }
- #endif
- 
- #endif /* DRIVERS_PCI_H */
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index 11482669b93b..6aa5284d5805 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -33,6 +33,9 @@
- #define AER_ERROR_SOURCES_MAX		100
- #define AER_MAX_MULTI_ERR_DEVICES	5	/* Not likely to have more */
- 
-+#define AER_MAX_TYPEOF_COR_ERRS		16	/* as per PCI_ERR_COR_STATUS */
-+#define AER_MAX_TYPEOF_UNCOR_ERRS	26	/* as per PCI_ERR_UNCOR_STATUS*/
-+
- struct aer_err_info {
- 	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
- 	int error_dev_num;
-@@ -76,6 +79,42 @@ struct aer_rpc {
- 					 */
- };
- 
-+/* AER stats for the device */
-+struct aer_stats {
-+
-+	/*
-+	 * Fields for all AER capable devices. They indicate the errors
-+	 * "as seen by this device". Note that this may mean that if an
-+	 * end point is causing problems, the AER counters may increment
-+	 * at its link partner (e.g. root port) because the errors will be
-+	 * "seen" by the link partner and not the the problematic end point
-+	 * itself (which may report all counters as 0 as it never saw any
-+	 * problems).
-+	 */
-+	/* Counters for different type of correctable errors */
-+	u64 dev_cor_errs[AER_MAX_TYPEOF_COR_ERRS];
-+	/* Counters for different type of fatal uncorrectable errors */
-+	u64 dev_fatal_errs[AER_MAX_TYPEOF_UNCOR_ERRS];
-+	/* Counters for different type of nonfatal uncorrectable errors */
-+	u64 dev_nonfatal_errs[AER_MAX_TYPEOF_UNCOR_ERRS];
-+	/* Total number of ERR_COR sent by this device */
-+	u64 dev_total_cor_errs;
-+	/* Total number of ERR_FATAL sent by this device */
-+	u64 dev_total_fatal_errs;
-+	/* Total number of ERR_NONFATAL sent by this device */
-+	u64 dev_total_nonfatal_errs;
-+
-+	/*
-+	 * Fields for Root ports  & root complex event collectors only, these
-+	 * indicate the total number of ERR_COR, ERR_FATAL, and ERR_NONFATAL
-+	 * messages received by the root port / event collector, INCLUDING the
-+	 * ones that are generated internally (by the rootport itself)
-+	 */
-+	u64 rootport_total_cor_errs;
-+	u64 rootport_total_fatal_errs;
-+	u64 rootport_total_nonfatal_errs;
-+};
-+
- #define AER_LOG_TLP_MASKS		(PCI_ERR_UNC_POISON_TLP|	\
- 					PCI_ERR_UNC_ECRC|		\
- 					PCI_ERR_UNC_UNSUP|		\
-@@ -405,9 +444,19 @@ int pci_cleanup_aer_error_status_regs(struct pci_dev *dev)
- void pci_aer_init(struct pci_dev *dev)
- {
- 	dev->aer_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
-+
-+	if (dev->aer_cap)
-+		dev->aer_stats = kzalloc(sizeof(struct aer_stats), GFP_KERNEL);
-+
- 	pci_cleanup_aer_error_status_regs(dev);
- }
- 
-+void pci_aer_exit(struct pci_dev *dev)
-+{
-+	kfree(dev->aer_stats);
-+	dev->aer_stats = NULL;
-+}
-+
- #define AER_AGENT_RECEIVER		0
- #define AER_AGENT_REQUESTER		1
- #define AER_AGENT_COMPLETER		2
-@@ -458,7 +507,7 @@ static const char *aer_error_layer[] = {
- 	"Transaction Layer"
- };
- 
--static const char *aer_correctable_error_string[] = {
-+static const char *aer_correctable_error_string[AER_MAX_TYPEOF_COR_ERRS] = {
- 	"Receiver Error",		/* Bit Position 0	*/
- 	NULL,
- 	NULL,
-@@ -477,7 +526,7 @@ static const char *aer_correctable_error_string[] = {
- 	"Header Log Overflow",		/* Bit Position 15	*/
- };
- 
--static const char *aer_uncorrectable_error_string[] = {
-+static const char *aer_uncorrectable_error_string[AER_MAX_TYPEOF_UNCOR_ERRS] = {
- 	"Undefined",			/* Bit Position 0	*/
- 	NULL,
- 	NULL,
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index ac876e32de4b..48edd0c9e4bc 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2064,6 +2064,7 @@ static void pci_configure_device(struct pci_dev *dev)
- 
- static void pci_release_capabilities(struct pci_dev *dev)
- {
-+	pci_aer_exit(dev);
- 	pci_vpd_release(dev);
- 	pci_iov_release(dev);
- 	pci_free_cap_save_buffers(dev);
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index b4ffea05c999..6bc0aa0fc33f 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -299,6 +299,7 @@ struct pci_dev {
- 	u8		hdr_type;	/* PCI header type (`multi' flag masked out) */
- #ifdef CONFIG_PCIEAER
- 	u16		aer_cap;	/* AER capability offset */
-+	struct aer_stats *aer_stats;	/* AER stats for this device */
- #endif
- 	u8		pcie_cap;	/* PCIe capability offset */
- 	u8		msi_cap;	/* MSI capability offset */
--- 
-2.18.0.rc2.346.g013aa6912e-goog
+> The patch enables the hwmon driver for the Raspberry Pi.
+>
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 
+I've pulled this series to our -next branches now.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAlssQ3QACgkQtdYpNtH8
+nugaug/+J90SL9l3Qkk843Hn/9Ux0y/nathA6+qAfZpPdujCqx3REU+7VyMfggCL
+U039D3CcxozqyGSiAgUOD2JxP4j3FxdKYavvL2lhw+FaX4BTw9dIrqyq32Q9h4kf
+b31gas0cLC12amKV/kq4ygNOhQ8j1cQMsa08KLV8sp810IZLBg+aAaE0TRli0bQN
+AOZNvUn0JjytUS5jnLOB5pkTLJOZ6rxQJTMP7ErdVwk6JboXsYNUFA2QcZsbES4P
+AoD1PL3yveo8MftC47xfIaxscN/nu9e0hqg6Mii+U6Jc7rkAyxjLzuA5GhL2mF0O
+413gmPPnihohhHpssJrLA6jsCuWVXIQbcRuDEOIprUP9luiryKs5hs9GuUOV2QRn
+QArvnRgA2ljfNifVL8EfPrSqfkYBAZVdQAki4dJ4zs+9/2zGD6CILe4xOUkjlWqf
+0e55FFq98NBu56D+nT7xOtY+fOld3V5JRaIS+MdF4UtsNRf/eWWECaRXIGfSxm+D
+buy0pl4jQm1sdTkA7uhUec8f65TjJ3iPDJijA94FHsGpebfHut6qm/Y9fLg5dqkk
+ZSjRh4hohXv5H0QjCsM/HsqjEw3JIToFhbJdKVvRaFxbzV4YMhssEZkt79nkxFZm
+L1Di5osdM+tMAYkV68fFAh+oFDOJOfL+OGfHZzN/XqC/Sb/WjKY=
+=KY6n
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
