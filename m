@@ -5,58 +5,58 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B83DA7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 00:38:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9DDC67D062
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 00:38:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934068AbeFVAiM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 20:38:12 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:51209 "EHLO
+        id S934098AbeFVAh2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Jun 2018 20:37:28 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:33293 "EHLO
         out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S934094AbeFVAh2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 20:37:28 -0400
+        by vger.kernel.org with ESMTP id S933452AbeFVAhZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jun 2018 20:37:25 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 2122521BD2;
-        Thu, 21 Jun 2018 20:37:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 21 Jun 2018 20:37:28 -0400
+        by mailout.nyi.internal (Postfix) with ESMTP id A219721C49;
+        Thu, 21 Jun 2018 20:37:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 21 Jun 2018 20:37:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
         :date:from:in-reply-to:message-id:references:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZWpDjBEvXW0OcJ/6F
-        Dm9PNrXTE/3OSO9/YP/tmlUtDg=; b=XdyGDCZ6QsWlnqjHpyFYEOr82oY7qO2CJ
-        /kwG9cAqPdizd7Mnsl4buYcfC73XfwuYuX0QGfW6X51C4aEf60sT5skJ39auhazu
-        +XytnKGJTXlm9WIsj3l/X+21UbddkYeyEyhsn8VQo8qRLhRN6G1DBSZn9/I30Fa5
-        6hOzSv0eV9TSqX8971aEFAYGKrU5e8AFTeK8R5d1Oqzm7gC0/oCWMYdo+yyKrOWO
-        rzuyERhJfvFdnWx+WibhuAMNXwH/XH+tGqtOPWPeufEkLGxcwugTjEQEtZXpUf02
-        kuxCmZn3wgAJA/1ov6cWGqWTMlTq6tIHheuAc02GfqLN99T8AdCDg==
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ljT2nPuahOKWGQfXA
+        NK/6VXUifV3Vqdmpa630xZbqMM=; b=DcoR7N1BM8EJmS4RTKMnTzghOlQ+w+1oO
+        3R/c8819MSgMcuKBQ3tiM/SMbj7Lni5ObUuuvY6PCSyyvOqg0MJxlB9joREMAeB5
+        Uwj/3x1Ob/8WksvwZlf7z9tHdJS0ZUkGtlGMSQ39lL0WBn4RS+YYp6jpj2dammNA
+        kFGBVct8AwpJgZ49rJEf0f+WPRD44QQ63PQtbrpzdKNu8SUAov13vqLWhv4EW2xT
+        L8pSJYczt9TSL1ZQ+twlby4yJlRn1CdcIowsQy1j0KypC+FQ2ZU6ivMGky1N6sre
+        5Huvkq1m0z3TsLr0K4NU+kZ7U37gSqHici2V7Rr1Y+xwOTulMmt9Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:date:from:in-reply-to:message-id
         :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=ZWpDjBEvXW0OcJ/6FDm9PNrXTE/3OSO9/YP/tmlUtDg=; b=RvqkGld4
-        x78lfj1cNjwPS3QVODV75uH3aLWPw0Hcn8cE5D04thD8ADqtoGJ9WLRLyv1do0LA
-        Ffk1icLoiQvB5BxbopTpVvy1wI4JQhY7pUZwdJAXk4JMpb/Mk0/LKh2+YTjlD91a
-        MCZ9lMhGIp6KPgfnR7aXYKymZCmR6AIz6FjloLUqLCxzhobnH577OicwuA2zq6j2
-        sKuzMQk2zSMVwvRKxAv4yAVZrnjXBVQ84kjavZ6E3Q8v3FkKSpZ4EO2SdqOk7rVM
-        P2dUN2jzSOAzZsSfg8IjY/31V0Dbaiav+Fsr6r8g9HWIit4rBEGA5j3F3WK/WpeP
-        tIDHbsNmY+/RdA==
-X-ME-Proxy: <xmx:yEQsW90S2zzMopJ5rSlFxvxAJg5UarOiDt2fTlOzAKA_58poEUjRqg>
-    <xmx:yEQsW1UKy3FJeYyu0YQun61HYnmOaPataP0zE36MeqtuwuZ1y5yQmg>
-    <xmx:yEQsW68hKraJ5Tu-yhor1vP2I4_nlZkZ97AhoJElhPT_nggl56LaKA>
-    <xmx:yEQsW92TqwxIvtZ6_2WZhWuSR064u844RBBeC3G9s9WqZfyGzMyAxw>
-    <xmx:yEQsW9cU46WX4MkFev7lai1I0EhAk-vxu4St8oqxHIf449Ee5PTSyw>
-    <xmx:yEQsW93lPiEoUyFvhsEiY6kLTIxQ3om9ks87vpAzIbkh8LXybAPcyQ>
-X-ME-Sender: <xms:yEQsW_1w5zMpk0sjtQv_19dnO1iP588kcQWWqO_VQ2kbSotVxfYrzQ>
+        fm3; bh=ljT2nPuahOKWGQfXANK/6VXUifV3Vqdmpa630xZbqMM=; b=oa/b10oq
+        RlTRA2bqroyJODc6te6N3ULH84e6TNHoJOgNxIx7HWZ5vaVa0OHH11gP8driwbE6
+        kQ5Or/4MElatkQRL9BERiUwEEQwX0OBLlYiwqsFglx4o9qX2bT5IpL/yLSMOl/SG
+        mDGRFOKJpCSqK1u4z+vOQ4wjzD30h7ADw1OM08GyksrNCfXYW/mumQjVesx84Be6
+        O0SjlOuGYtuzAy6raECIfLCtsm8fKZ/iXelxJr4M52hXzoXzHrQXunvCyGeuWJCh
+        7u5zexa55WddCm7c2pB85JoplDGZdgjq6HrIo0a9ptlvlsEHiV0NV1dieuIYmMcK
+        p8BFoQZj2s+keQ==
+X-ME-Proxy: <xmx:xEQsW1UXVkamWFgYJY3dRBAFF0ojDJvGiX_kp53MFanO-WwXarJaCQ>
+    <xmx:xEQsW1xDQ7gbtiACRrDawMH66T51WaXrJvGYHCN9w5oCdc1RxBY27w>
+    <xmx:xEQsWzOf0usEP9dED6OiCSe6Xka7a1ZddpBvaIvG60M9D44bqDOIYA>
+    <xmx:xEQsW24YgIoRqi1aTYwWUt16YBAgyFKsAySGwsB9vvBoYkF4oOhAcw>
+    <xmx:xEQsW0MmfZVD1SfYjeDwzVH-eGw71LjgJQbXsBn7AdjPKYIjFKyfzg>
+    <xmx:xEQsW7Svh3jqKUr9xrlY2piJ7Ut16cfp501n4lYtOS8HQdimgUDmng>
+X-ME-Sender: <xms:xEQsW3AqZ8GPuz_QminVH8CWBmzND6THRax7ePkI9KxklRrMKPOPkA>
 Received: from localhost (124-169-15-204.dyn.iinet.net.au [124.169.15.204])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 56E3910255;
-        Thu, 21 Jun 2018 20:37:27 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id D3373E4448;
+        Thu, 21 Jun 2018 20:37:23 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <me@tobin.cc>,
         Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
         "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] Documentation: e1000: Use correct heading adornment
-Date:   Fri, 22 Jun 2018 10:37:06 +1000
-Message-Id: <20180622003708.31848-3-me@tobin.cc>
+Subject: [PATCH 1/4] Documentation: e100: Use correct heading adornment
+Date:   Fri, 22 Jun 2018 10:37:05 +1000
+Message-Id: <20180622003708.31848-2-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180622003708.31848-1-me@tobin.cc>
 References: <20180622003708.31848-1-me@tobin.cc>
@@ -78,22 +78,22 @@ has the incorrect heading adornment.  From kernel docs:
 
 Add  overline heading adornment to document title.
 
-Fixes commit (228046e76189 Documentation: e1000: Update kernel documentation)
+Fixes commit (85d63445f411 Documentation: e100: Update the Intel 10/100 driver doc)
 
 CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 Signed-off-by: Tobin C. Harding <me@tobin.cc>
 ---
- Documentation/networking/e1000.rst | 1 +
+ Documentation/networking/e100.rst | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/networking/e1000.rst b/Documentation/networking/e1000.rst
-index 616848940e63..55f28e5043b6 100644
---- a/Documentation/networking/e1000.rst
-+++ b/Documentation/networking/e1000.rst
+diff --git a/Documentation/networking/e100.rst b/Documentation/networking/e100.rst
+index d4d837027925..59b80608e27d 100644
+--- a/Documentation/networking/e100.rst
++++ b/Documentation/networking/e100.rst
 @@ -1,3 +1,4 @@
-+===========================================================
- Linux* Base Driver for Intel(R) Ethernet Network Connection
- ===========================================================
++==============================================================
+ Linux* Base Driver for the Intel(R) PRO/100 Family of Adapters
+ ==============================================================
  
 -- 
 2.17.1
