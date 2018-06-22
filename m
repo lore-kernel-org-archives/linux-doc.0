@@ -2,99 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 283FA7D062
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 18:35:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 80AAB7D08C
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 19:43:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934206AbeFVSfc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Jun 2018 14:35:32 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:36133 "EHLO mail.bootlin.com"
+        id S934096AbeFVTn0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 15:43:26 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:46818 "EHLO ale.deltatee.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933820AbeFVSfa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Jun 2018 14:35:30 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 5C5A920787; Fri, 22 Jun 2018 20:35:28 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 9117D2072C;
-        Fri, 22 Jun 2018 20:35:17 +0200 (CEST)
-Date:   Fri, 22 Jun 2018 20:35:17 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>
-Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO
- expander
-Message-ID: <20180622203517.1665030f@bbrezillon>
-In-Reply-To: <27aae5b0-f8eb-bed7-9d14-5c739769977a@infradead.org>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
-        <20180622104930.32050-10-boris.brezillon@bootlin.com>
-        <27aae5b0-f8eb-bed7-9d14-5c739769977a@infradead.org>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S934111AbeFVTnY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Jun 2018 15:43:24 -0400
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fWRxo-0002B0-RV; Fri, 22 Jun 2018 13:43:23 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fWRxl-0002jh-9X; Fri, 22 Jun 2018 13:43:17 -0600
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Fri, 22 Jun 2018 13:43:12 -0600
+Message-Id: <20180622194315.10475-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, willy@infradead.org, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v4 0/3] Add parameter for disabling ACS redirection for P2P
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 Jun 2018 09:04:47 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi,
 
-> Hi,
-> 
-> On 06/22/2018 03:49 AM, Boris Brezillon wrote:
-> > diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-> > index 71c0ab46f216..19ed6006aea1 100644
-> > --- a/drivers/gpio/Kconfig
-> > +++ b/drivers/gpio/Kconfig
-> > @@ -898,6 +898,17 @@ config GPIO_TS4900
-> >  
-> >  endmenu
-> >  
-> > +menu "I3C GPIO expanders"
-> > +	depends on I3C
-> > +
-> > +config GPIO_CDNS_I3C
-> > +	tristate "Cadence I3C GPIO expander"
-> > +	select GPIOLIB_IRQCHIP
-> > +	help
-> > +	  Say yes here to enabled the driver for Cadence I3C GPIO expander.  
-> 
-> 	               to enable the driver
+As discussed in our PCI P2PDMA series, we'd like to add a kernel
+parameter for selectively disabling ACS redirection for select
+bridges. Seeing this turned out to be a small series in itself, we've
+decided to send this separately from the P2P work.
 
-I'll fix this typo
+This series generalizes the code already done for the resource_alignment
+option that already exists. The first patch creates a helper function
+to match PCI devices against strings based on the code that already
+existed in pci_specified_resource_alignment().
+
+The second patch expands the new helper to optionally take a path of
+PCI devfns. This is to address Alex's renumbering concern when using
+simple bus-devfns. The implementation is essentially how he described it and
+similar to the Intel VT-d spec (Section 8.3.1).
+
+The final patch adds the disable_acs_redir kernel parameter which takes
+a list of PCI devices and will disable the ACS P2P Request Redirect,
+ACS P2P Completion Redirect and ACS P2P Egress Control bits for the
+selected devices. This allows P2P traffic between selected bridges and
+seeing it's done at boot, before IOMMU group creating the IOMMU groups
+will be created correctly based on the bits.
 
 Thanks,
 
-Boris
+Logan
 
+--
+
+Changes since v3:
+* Removed some of the cruft that was copied from the resource_alignment
+  paramater (per Alex)
+* A number of docuemntation fixes as noticed by Alex and Willy
+
+Changes since v2:
+* Rebased onto v4.18-rc1 (no conflicts)
+* Minor tweaks to the documentation per Andy
+* Removed the "path:" prefix and use the path parsing code
+  for simple devices (as it works the same). Per a suggestion from Alex
+
+Changes since v1:
+
+* Reworked pci_dev_str_match_path using strrchr as suggested by Alex
+* Collected Christian's Acks
+
+--
+
+Logan Gunthorpe (3):
+  PCI: Make specifying PCI devices in kernel parameters reusable
+  PCI: Allow specifying devices using a base bus and path of devfns
+  PCI: Introduce the disable_acs_redir parameter
+
+ Documentation/admin-guide/kernel-parameters.txt |  41 +++-
+ drivers/pci/pci.c                               | 305 +++++++++++++++++++-----
+ 2 files changed, 285 insertions(+), 61 deletions(-)
+
+--
+2.11.0
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
