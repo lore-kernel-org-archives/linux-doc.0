@@ -1,25 +1,39 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C5EA7D08C
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 20:51:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F1D877D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 21:34:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754533AbeFVUvD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Jun 2018 16:51:03 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:47668 "EHLO ale.deltatee.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1754530AbeFVUvC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Jun 2018 16:51:02 -0400
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-        by ale.deltatee.com with esmtp (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1fWT13-00032T-Q5; Fri, 22 Jun 2018 14:50:46 -0600
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
+        id S1754519AbeFVVeH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 17:34:07 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:55974 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754134AbeFVVeG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jun 2018 17:34:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=nYoyN7z+/+WJooMrgbxAKjwS+KtK+SiQ3FsbsSCRLpI=; b=M9KEqXNV3Wl5ibaA5Q/mo79C2D
+        WY1vZH9OpKJCdJhNRUi1nMu+AdV8X1NJB9Ti0i6p87BDEWW8/iRE7pNQXNQB/IY+LkaXgjglU0WAJ
+        Vq76hXGgrJ/bmaTf8nPkaYlWIqNN8bsWOwEjXJ+pH3EVR6wpytkFIF2dDQHP3lCPh5+g56BZYQrcx
+        g7+SM2ujtsCIi4q35i+EQ6SAfQF15QMgSadqVmnHEB0ednqqeXcKAIDTZEZ1DHv+ktDXiKr6H6xOU
+        ISfU7XJO42ZCgc+YCKrsuBWtSu32XMzd/Nv+LR8845aKMFRaJolejD3+rcN2qZedJFItsJXjNDmPw
+        lSDmszwQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fWTga-0003ea-Bm; Fri, 22 Jun 2018 21:33:40 +0000
+Subject: Re: [PATCH v4 2/3] PCI: Allow specifying devices using a base bus and
+ path of devfns
+To:     Logan Gunthorpe <logang@deltatee.com>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org
 Cc:     Stephen Bates <sbates@raithlin.com>,
         Christoph Hellwig <hch@lst.de>,
         Bjorn Helgaas <bhelgaas@google.com>,
@@ -37,59 +51,46 @@ Cc:     Stephen Bates <sbates@raithlin.com>,
         =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
         Matthew Wilcox <willy@infradead.org>
 References: <20180622194315.10475-1-logang@deltatee.com>
- <20180622194315.10475-2-logang@deltatee.com>
- <1222da4e-864c-5e27-b735-99fc53d1e367@infradead.org>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <baccb879-0ddc-37e0-1d54-747beb47e6a8@deltatee.com>
-Date:   Fri, 22 Jun 2018 14:50:45 -0600
+ <20180622194315.10475-3-logang@deltatee.com>
+ <c1278ab2-63a8-19b6-9c8d-fed0b4f94c11@infradead.org>
+ <7e5b459d-f083-286c-bd6c-87cf62cc7541@deltatee.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f4bbe0f2-1087-c626-7776-a4fb6b5457c8@infradead.org>
+Date:   Fri, 22 Jun 2018 14:33:34 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <1222da4e-864c-5e27-b735-99fc53d1e367@infradead.org>
+In-Reply-To: <7e5b459d-f083-286c-bd6c-87cf62cc7541@deltatee.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: willy@infradead.org, christian.koenig@amd.com, alex.williamson@redhat.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, rdunlap@infradead.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v4 1/3] PCI: Make specifying PCI devices in kernel
- parameters reusable
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 22/06/18 02:05 PM, Randy Dunlap wrote:
-> Hi,
+On 06/22/2018 01:50 PM, Logan Gunthorpe wrote:
 > 
-> On 06/22/2018 12:43 PM, Logan Gunthorpe wrote:
 > 
->> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
->> index 97acba712e4e..cb999b2a9530 100644
->> --- a/drivers/pci/pci.c
->> +++ b/drivers/pci/pci.c
->> @@ -191,6 +191,92 @@ void __iomem *pci_ioremap_wc_bar(struct pci_dev *pdev, int bar)
->>  EXPORT_SYMBOL_GPL(pci_ioremap_wc_bar);
->>  #endif
->>  
->> +/**
->> + * pci_dev_str_match - test if a string matches a device
->> + * @dev:    the PCI device to test
->> + * @p:      string to match the device against
->> + * @endptr: pointer to the string after the match
->> + *
->> + * Test if a string (typically from a kernel parameter) matches a
->> + * specified. The string may be of one of the following formats:
+> On 22/06/18 02:01 PM, Randy Dunlap wrote:
+>>> Thus, we add an option to specify devices in the following format:
+>>>
+>>> [<domain>:]<bus>:<slot>.<func>[/<slot>.<func>]*
+>>
+>> Please explain the trailing '*'.  I looked thru the code and it doesn't
+>> seem to look for it or care.
 > 
-> "matches a specified."  eh?
+> This was Willy's suggestion and I liked it. It's similar to regular
+> expression syntax: the '*' indicating you may have any number of the
+> expression repeated in the square brackets.
 
-Shoot, must have been over edited. Will fix for v5.
+Oh, OK.  I can do that syntax, I just didn't know that this was
+using that notation.
 
-Logan
+Hopefully admins can read it that way.
+
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
