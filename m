@@ -2,42 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=unavailable
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF92A7DF8F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 16:45:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F2EA17D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 16:47:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934461AbeFVQpT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Jun 2018 12:45:19 -0400
-Received: from mga05.intel.com ([192.55.52.43]:20709 "EHLO mga05.intel.com"
+        id S934344AbeFVQrE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 12:47:04 -0400
+Received: from mga02.intel.com ([134.134.136.20]:47763 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934288AbeFVQpS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Jun 2018 12:45:18 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+        id S934495AbeFVQq1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Jun 2018 12:46:27 -0400
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jun 2018 09:45:17 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jun 2018 09:46:27 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,257,1526367600"; 
-   d="asc'?scan'208";a="234767212"
+   d="asc'?scan'208";a="60192481"
 Received: from jtkirshe-nuc.jf.intel.com ([134.134.177.59])
-  by orsmga005.jf.intel.com with ESMTP; 22 Jun 2018 09:45:14 -0700
-Message-ID: <c068cfac6f85eb8e68f7d5a1b3f301c9cbfbb51b.camel@intel.com>
-Subject: Re: [PATCH 2/4] Documentation: e1000: Use correct heading adornment
+  by fmsmga002.fm.intel.com with ESMTP; 22 Jun 2018 09:46:26 -0700
+Message-ID: <7dd4d483199724925d4f380a8908e2546b4d12a2.camel@intel.com>
+Subject: Re: [PATCH 3/4] Documentation: e100: Fix docs build error
 From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 Reply-To: jeffrey.t.kirsher@intel.com
 To:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>
 Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 22 Jun 2018 09:45:13 -0700
-In-Reply-To: <20180622003708.31848-3-me@tobin.cc>
+Date:   Fri, 22 Jun 2018 09:46:25 -0700
+In-Reply-To: <20180622003708.31848-4-me@tobin.cc>
 References: <20180622003708.31848-1-me@tobin.cc>
-         <20180622003708.31848-3-me@tobin.cc>
+         <20180622003708.31848-4-me@tobin.cc>
 Organization: Intel
 Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-wHn9iSjWbXmBcOiz2jDy"
+        protocol="application/pgp-signature"; boundary="=-c3xq0ahnNLQD4DPX5CLA"
 X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
 Mime-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
@@ -46,54 +45,57 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---=-wHn9iSjWbXmBcOiz2jDy
+--=-c3xq0ahnNLQD4DPX5CLA
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, 2018-06-22 at 10:37 +1000, Tobin C. Harding wrote:
-> Recently documentation file was converted to rst.  The document title
-> has the incorrect heading adornment.  From kernel docs:
+> Recent patch updated e100 docs to rst format.  Docs build (`make
+> htmldocs`) is currently failing due to this file with error:
 >=20
->         * Please stick to this order of heading adornments:
+>         (SEVERE/4) Unexpected section title.
 >=20
->           1. ``=3D`` with overline for document title::
+> This is because a section of the file is indented 2 spaces.  Build
+> error
+> can be cleared by aligning the text with column 0.  While we are
+> changing
+> these lines we can make sure line length does not exceed 72, that
+> newlines following headings are uniform, and that full stops are
+> followed by two spaces.
 >=20
->                =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->                Document title
->                =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Align text with column 0, limit line length to 72, ensure two spaces
+> follow all full stops, ensure uniform use of newlines after heading.
 >=20
-> Add  overline heading adornment to document title.
->=20
-> Fixes commit (228046e76189 Documentation: e1000: Update kernel
-> documentation)
+> Fixes commit (85d63445f411 Documentation: e100: Update the Intel
+> 10/100 driver doc)
 >=20
 > CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
 > Signed-off-by: Tobin C. Harding <me@tobin.cc>
 
 Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
---=-wHn9iSjWbXmBcOiz2jDy
+--=-c3xq0ahnNLQD4DPX5CLA
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlstJ5kACgkQ5W/vlVpL
-7c4OQhAAj5szqiidmtknGj60Knwqi67GoQrfowGLy/wIMXwUqKLHgdyIOaLkIrgh
-nYjt0R+FStSKzVpbPf/Nd4XsDbXOfG6xVMUbJ9JVhnPMuk4yb6YsgGlLOlOu/asm
-2NNYhuKc6RiNEKBXGZgGNK/pa9or9KrundeTTePuYrehCiRNqqyFbceT84+r7I5j
-qb3rB8HngzjcEv4icyanb43uidMIPACNz+sjUXFFEJqtDHWRegguHbA6+bwNZXMk
-XUhSNgq4U8P7VbPDCm6Wx7RRyJ+PgLylHMcPtAqGL7Gbt/j9bfrYpafDJk1auukH
-LFjDOdUV8U855obE98V+nef1DD1IKBmmyuxNnTgZyrVO8fHcgrj3bIe4BATh5pz+
-9QkESxwrEYDVWOcAzG39bLCv70feXCdXxXC89IxUuQboj7ks57xeAKU4ilh1eI+q
-yqTAgJgQYJp7LOt/f12TvunrSEWlQLiZffbmxq5fftQNwBUdT4EwmCePGGMr+Ylc
-IW83VK12zrUXt9/M0PeLHmNyDx4zFdvvWEKkFLkAOY3lZ6SU80Y1fMNqePkNNfWu
-MaUHZzdL7lN+rWoa9Xx6621OmAIcKZhvF5J0b0cwbLK3J4wglpsJV1itFCp3FgeS
-0jJ78NWZsifiaZ4BuUuBWmmqbisxT5Ne68MHxIO0hvp5n21bBT8=
-=TOaI
+iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlstJ+EACgkQ5W/vlVpL
+7c6RHQ/9FBlPwHnbLmmHd8IW5LLYBWgAvyyvIAc4nkyRTjyoT9vj08RbIW2mTG6J
+7RFMNKBotpsUB7z0B/GZzssa2ykaznfDmu6jbcswnGrs2KlTSUyMGwxEI/T9lWkS
+WXSj478dSbIO/8mfube6isxyL3L+/4ijyVYG5gt10I7qjtw7EASwk2yGt2gbebHA
+KoICManFWkP6eD8nNEDzXmOw/p/EH/3J6TNTu2XjWXoyz8Y3f1kOJUbiuPl+ECyO
+gucYCDtIFRrDe1HQ5LGkM+nlBuEeoB859gBZb6VfiQu0ZOGXNvD++vU3u/6b1lKq
+Tbo+ccqIrDYBMbUJR0gRgu9kCorCUgMSnr7ialkRmKZoUyUBji04bYLXbC01M0p8
+7fAWTMFD79MYkMPYKKhOik16W6gtxgbkCSfxLN07vjFCeULeDHnphN4b3dZnff8e
+N1Sj0/Zmuk9Rnsfgo9fgzFEK/tjNQEz2EKqsss3iCERF5kDIOGyIuv9M3zQfMLhk
+FxSJrsK3HeCka3HMpQPk7L3P5/0SKLc8ZXzvknRDYHjCsIzJM9Kn9Yq9Vc6Zoqa0
+y/BwhNm1rOvg3s/Tv7tYKVvvTj1vYUyGBxisy41zhki6dP5N8YHVZe4ldxBxoY1d
+sGqoHnQH2rC6zFHX2xMzCzAFZuD5fpU5kWjFPzO+UM4wYS9WWZg=
+=4xPf
 -----END PGP SIGNATURE-----
 
---=-wHn9iSjWbXmBcOiz2jDy--
+--=-c3xq0ahnNLQD4DPX5CLA--
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
