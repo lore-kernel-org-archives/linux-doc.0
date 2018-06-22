@@ -1,98 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA2787D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 03:00:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5125B7D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 06:07:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934295AbeFVDAV convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Jun 2018 23:00:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54206 "EHLO mx1.redhat.com"
+        id S1750866AbeFVGHq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 02:07:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40292 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934107AbeFVDAU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Jun 2018 23:00:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1750779AbeFVGHp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Jun 2018 02:07:45 -0400
+Received: from devnote (s169.156.222.122.fls.vectant.ne.jp [122.222.156.169])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0D75530832C2;
-        Fri, 22 Jun 2018 03:00:20 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-116-153.phx2.redhat.com [10.3.116.153])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7F75F17101;
-        Fri, 22 Jun 2018 03:00:04 +0000 (UTC)
-Subject: Re: [PATCH v10 2/9] cpuset: Add new v2 cpuset.sched.domain_root flag
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <1529295249-5207-1-git-send-email-longman@redhat.com>
- <1529295249-5207-3-git-send-email-longman@redhat.com>
- <20180620142735.GM2494@hirez.programming.kicks-ass.net>
- <b44b0748-9fec-6bb0-7665-435487e5d8b3@redhat.com>
- <20180621092013.GU2494@hirez.programming.kicks-ass.net>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <1eb82b46-aa97-2ada-5196-5d7fc1cda87d@redhat.com>
-Date:   Fri, 22 Jun 2018 11:00:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180621092013.GU2494@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Fri, 22 Jun 2018 03:00:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 60C7B23DA1;
+        Fri, 22 Jun 2018 06:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1529647665;
+        bh=GczzUJzf8qw/ygZyUq4GdyoKIquYQVfXdidfpr+URh8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=0YhCqh/dZKeJj6/2H+WZ8Oz2FwOSVJ0EgNx/OIGZLiIl5L40E8/9YxkFSnEm4nmax
+         8THQ7b1vfKVersqxdTmIN0/1M5OQV5se7phpq0ZS1RmQs4lh0xWl31MMXaAv5jnLka
+         JLElyg28ZTqHS+VxQJUPFLJPIC8Va71aQgALqJoo=
+Date:   Fri, 22 Jun 2018 15:07:40 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Ananth N Mavinakayanahalli <ananth@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-arch@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH -tip v6 26/27] Documentation: kprobes: Add how to change
+ the execution path
+Message-Id: <20180622150740.bd26241032c972d86e23bf73@kernel.org>
+In-Reply-To: <20180621103546.GA9212@gmail.com>
+References: <152942424698.15209.15245996287444292393.stgit@devbox>
+        <152942500680.15209.12374262914863044775.stgit@devbox>
+        <706832c5-dab4-f806-96d6-2cdc37203d9d@infradead.org>
+        <20180620172637.35916da482442b6ab139c7dc@kernel.org>
+        <20180621103546.GA9212@gmail.com>
+X-Mailer: Sylpheed 3.5.0 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/21/2018 05:20 PM, Peter Zijlstra wrote:
-> On Thu, Jun 21, 2018 at 03:58:06PM +0800, Waiman Long wrote:
->
->> As for the inconsistency between the real root and the container root,
->> this is true for almost all the controllers. So it is a generic problem.
->> One possible solution is to create a kind a pseudo root cgroup for the
->> container that looks and feels like a real root. But is there really a
->> need to do that?
-> I don't really know. I thought the idea was to make containers
-> indistinguishable from a real system. Now I know we're really rather far
-> away from that in reality, and I really have no clue how important all
-> that is.
+On Thu, 21 Jun 2018 12:35:46 +0200
+Ingo Molnar <mingo@kernel.org> wrote:
 
-That will certainly be the ideal.
+> 
+> * Masami Hiramatsu <mhiramat@kernel.org> wrote:
+> 
+> > On Tue, 19 Jun 2018 09:31:49 -0700
+> > Randy Dunlap <rdunlap@infradead.org> wrote:
+> > 
+> > > On 06/19/2018 09:16 AM, Masami Hiramatsu wrote:
+> > > > Add a section that explaining how to change the execution
+> > > > path with kprobes and warnings for some arch.
+> > > > 
+> > > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+> > > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > > Cc: linux-doc@vger.kernel.org
+> > > > ---
+> > > >  Documentation/kprobes.txt |   20 ++++++++++++++++++++
+> > > >  1 file changed, 20 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
+> > > > index 3e9e99ea751b..8a98eed1521b 100644
+> > > > --- a/Documentation/kprobes.txt
+> > > > +++ b/Documentation/kprobes.txt
+> > > > @@ -80,6 +80,26 @@ After the instruction is single-stepped, Kprobes executes the
+> > > >  "post_handler," if any, that is associated with the kprobe.
+> > > >  Execution then continues with the instruction following the probepoint.
+> > > >  
+> > > 
+> > > Hi,
+> > > I have a few small suggestions...
+> > 
+> > Hi Randy,
+> > 
+> > Thank you for your suggestions!
+> > All of those are good to me. I'll fix it:)
+> 
+> Could you please send a delta patch on top of your v6 series, with Randy credited, 
+> etc?
 
-> It all depends on how exactly this works; is it like I assumed, that
-> this file is owned by the parent instead of the current directory? And
-> that if you namespace this, you have an effective read-only file?
-
-Yes, that is right.
-
-> Then fixing the inconsistency is trivial; simply provide a read-only
-> file for the actual root cgroup too.
->
-> And if the solution is trivial, I don't see a good reason not to do it.
-
-Do you mean providing a flag like READONLY_AT_ROOT so that it will be
-read-only at the real root? That is an cgroup architectural decision
-that needs input from Tejun. Anyway, this issue is not specific to this
-patchset and I would like to break it out as a separate discussion
-independent of this patchset.
-
-Cheers,
-Longman
+Ok, Here's the delta patch.
 
 
+> 
+> I've applied your series and will push it out once it passes all testing.
+
+Thanks!
+
+
+From 103fc58ece99475b855e065bd48d780697b93bbc Mon Sep 17 00:00:00 2001
+From: Masami Hiramatsu <mhiramat@kernel.org>
+Date: Fri, 22 Jun 2018 15:05:49 +0900
+Subject: [PATCH] Documentation/kprobes: Fix typo in Changing Execution Path
+ section
+
+Fix typo and clean it up according to the
+comment from Randy.
+
+Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+---
+ Documentation/kprobes.txt | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
+index 13d8efd..10f4499 100644
+--- a/Documentation/kprobes.txt
++++ b/Documentation/kprobes.txt
+@@ -83,22 +83,22 @@ Execution then continues with the instruction following the probepoint.
+ Changing Execution Path
+ -----------------------
+ 
+-Since the kprobes can probe into a running kernel code, it can change
+-the register set, including instruction pointer. This operation
+-requires maximum attention, such as keeping the stack frame, recovering
+-execution path etc. Since it is operated on running kernel and need deep
+-knowladge of the archtecture and concurrent computing, you can easily
+-shot your foot.
++Since kprobes can probe into a running kernel code, it can change the
++register set, including instruction pointer. This operation requires
++maximum care, such as keeping the stack frame, recovering the execution
++path etc. Since it operates on a running kernel and needs deep knowledge
++of computer architecture and concurrent computing, you can easily shoot
++your foot.
+ 
+ If you change the instruction pointer (and set up other related
+-registers) in pre_handler, you must return !0 so that the kprobes
+-stops single stepping and just returns to given address.
++registers) in pre_handler, you must return !0 so that kprobes stops
++single stepping and just returns to the given address.
+ This also means post_handler should not be called anymore.
+ 
+-Note that this operation may be harder on some architectures which
+-use TOC (Table of Contents) for function call, since you have to
+-setup new TOC for your function in your module, and recover old
+-one after back from it.
++Note that this operation may be harder on some architectures which use
++TOC (Table of Contents) for function call, since you have to setup a new
++TOC for your function in your module, and recover the old one after
++returning from it.
+ 
+ Return Probes
+ -------------
+-- 
+2.7.4
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
