@@ -1,116 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C0CFF7DF8F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 16:39:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 947527D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Jun 2018 16:44:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934380AbeFVQjC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Jun 2018 12:39:02 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:60912 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934338AbeFVQi5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jun 2018 12:38:57 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 83A0960B18; Fri, 22 Jun 2018 16:38:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1529685536;
-        bh=+wKHmcPBJW8gpltC72ojDI0WvEc1N5mvlcQXpNEWORc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=bvqvx/VmISBRdIyTKdma4qLlk1PsC9SOkvQTpS8VCoEQlRC59EYDex3u0Fp5SYjWB
-         8MyOSTCYiK2gWpR341HqnS9sj2dAq5ir17Wb3pTVicT2X11R1BhaRcIVWxCS2ciR/G
-         yKDEXQBo88StfBoO4xXwF4TIl5hPZkulutJ4kRYM=
-Received: from [192.168.1.8] (cpe-174-109-142-144.nc.res.rr.com [174.109.142.144])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: tbaicar@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id B08FD60275;
-        Fri, 22 Jun 2018 16:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1529685535;
-        bh=+wKHmcPBJW8gpltC72ojDI0WvEc1N5mvlcQXpNEWORc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=jNAYsnCPLHBegtK7SY7Can23fzvg9XCoXbYWfmloM9CD/P9UNhw0X77R2gJ09XgLS
-         02QFbEbgIxncCm4VK/rH2Krastpok/MUC08GXdCyogJVyD5a1nI2/J5vA/4LoWkXUI
-         xM3ZEO0uHSC5My/MbZVEnW6xdLsUHcTzi+oyxDUI=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B08FD60275
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=tbaicar@codeaurora.org
-Subject: Re: [PATCH v5 3/5] PCI/AER: Add sysfs attributes to provide breakdown
- of AERs
-To:     rajatxjain@gmail.com, Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Rajat Jain <rajatja@google.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jes Sorensen <jsorensen@fb.com>, Kyle McMartin <jkkm@fb.com>
-References: <20180522222805.80314-1-rajatja@google.com>
- <20180620234147.48438-1-rajatja@google.com>
- <20180620234147.48438-3-rajatja@google.com>
- <20180621184822.GB14136@bhelgaas-glaptop.roam.corp.google.com>
- <CAA93t1rz6YGmvvORDB0ehr7Gwp-W+0HDYxEDgjtgYmGm3qMgCw@mail.gmail.com>
-From:   Tyler Baicar <tbaicar@codeaurora.org>
-Message-ID: <a16746f0-351f-276e-2a66-3ebf2c267507@codeaurora.org>
-Date:   Fri, 22 Jun 2018 12:38:50 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAA93t1rz6YGmvvORDB0ehr7Gwp-W+0HDYxEDgjtgYmGm3qMgCw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        id S934288AbeFVQoM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Jun 2018 12:44:12 -0400
+Received: from mga11.intel.com ([192.55.52.93]:48514 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S934164AbeFVQoL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Jun 2018 12:44:11 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jun 2018 09:44:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,257,1526367600"; 
+   d="asc'?scan'208";a="239769296"
+Received: from jtkirshe-nuc.jf.intel.com ([134.134.177.59])
+  by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2018 09:44:01 -0700
+Message-ID: <5718d34758dd55090dbc73441c3b12c6c5c02ff8.camel@intel.com>
+Subject: Re: [PATCH 0/4] docs: e100[0] fix build errors
+From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Reply-To: jeffrey.t.kirsher@intel.com
+To:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>
+Cc:     "David S. Miller" <davem@davemloft.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 22 Jun 2018 09:44:00 -0700
+In-Reply-To: <20180622003708.31848-1-me@tobin.cc>
+References: <20180622003708.31848-1-me@tobin.cc>
+Organization: Intel
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-saeb+Ae6JKlcEeHrnlq9"
+X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
+Mime-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/21/2018 5:25 PM, Rajat Jain wrote:
-> On Thu, Jun 21, 2018 at 11:48 AM, Bjorn Helgaas <helgaas@kernel.org> wrote:
->> [+cc Tyler for AER dmesg decoding]
->>
->> - Tyler posted a patch [1] to update those dmesg strings so they match
->>    the way lspci decodes them.  I really liked that update, but we
->>    never quite finished it.  If we're going to do that, it would be
->>    nice to do it first, so we don't publish new sysfs files, then
->>    immediately change the labels used in them.
-> Sure, I guess you can push them in the right order.
-The way the prints are handled has already been unified in 4.18rc1:
 
-https://elixir.bootlin.com/linux/v4.18-rc1/source/drivers/pci/pcie/aer.c#L636
+--=-saeb+Ae6JKlcEeHrnlq9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-So that patch isn't needed anymore in it's entirety.
->> - IIRC, Tyler's patch had the nice property of changing the strings so
->>    each error name had no spaces, which would make it a little easier
->>    to parse this sysfs file: each line would be a single identifier
->>    followed by a single number (I would probably remove the "=" from
->>    the middle).
->
-> Will do.
-Would you like me to send a patch with just the string changes?
+On Fri, 2018-06-22 at 10:37 +1000, Tobin C. Harding wrote:
+> I may be a little confused here, I'm getting docs build failure on
+> Linus' mainline, linux-next, and your docs-next but different errors.
+> There seems to be patches to the first two trees that are not in your
+> docs-next tree?
+>=20
+> Do networking docs typically go through your tree?  Looks like
+> networking has done some conversion to rst that hasn't gone through
+> your
+> tree.  Or else my git skills are failing.
 
-Thanks,
-Tyler
->> [1] https://lkml.kernel.org/r/1518034285-3543-1-git-send-email-tbaicar@codeaurora.org
->>
--- 
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project.
+Networking documentation changes went through David Miller's networking
+tree because he maintains changes under Documentation/networking/
+--=-saeb+Ae6JKlcEeHrnlq9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlstJ1AACgkQ5W/vlVpL
+7c4g3Q//UT7WA9IeTyE07BIZ3JwQk/0uSosowJHOGMXYEyil0K76/q17U7XwHigK
+SO7DPtDtSj0nU9v15OW+pNkZarFCndJ6pUCG/vyHYQnLFV8AMYSho/iGJGpH5WTq
+GHn25uj1oLz7nMu3W+bVDZ17j0p6luMTXb90bRUNufVrmdpVRdGhvW9OKMoT2lIs
+48Un1akbX3OA6w9PZj9fzrlXRzp0XoJiRBiVrck/HkdNGsMdsiXSv7zndYMpkRBb
+Roe4Y9TGdHRIpvqK3Lb+WFjPU2sU9s+kJIb1y5AQd0JPpt7DPffoFPNOuAeSXR77
+GpeEkf8bzERQz7HqDSCOE180owpEbXAaxuu0YN5d6+5mlU1YVYCgQ82zQJmynftB
+OG23bP87dJZL/xh3ZPKsEIGaQgOxzkYNUQT8hXAajd+Ap0yQLvOuhYvvteMSYLhO
+7p1FpDi7tMmq+1yWcMq0joOGLBw9t8kyXi2dXN5oJCKA/l6gyOqLTgrW4Y0OD2bk
+Pcq1CcekRDa2n7xmhR40kCFcPrDxBO69PdVkGiDEonwXi29Qzcjw7ur2sQSKTmzM
+qHTEiowvfomh81LIhzlKZUq5kd8AYWyyn6R2TJA7DYPm1IRgwl7H7qJEb+Ushsxr
+zl/B/f8gd6/pQTnK6VnwTEcZBiD+ZvTwtLNv10NGz9Xedb4Hc6c=
+=cIYU
+-----END PGP SIGNATURE-----
+
+--=-saeb+Ae6JKlcEeHrnlq9--
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
