@@ -1,98 +1,200 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B85737D043
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Jun 2018 04:41:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E49C87D043
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Jun 2018 06:46:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751320AbeFWElK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 23 Jun 2018 00:41:10 -0400
-Received: from mail-pf0-f193.google.com ([209.85.192.193]:44956 "EHLO
-        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751204AbeFWElJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jun 2018 00:41:09 -0400
-Received: by mail-pf0-f193.google.com with SMTP id x23-v6so161442pfn.11
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jun 2018 21:41:08 -0700 (PDT)
+        id S1751399AbeFWGqK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 23 Jun 2018 02:46:10 -0400
+Received: from mail-yw0-f196.google.com ([209.85.161.196]:41108 "EHLO
+        mail-yw0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751300AbeFWGqJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jun 2018 02:46:09 -0400
+Received: by mail-yw0-f196.google.com with SMTP id s201-v6so3146125ywg.8;
+        Fri, 22 Jun 2018 23:46:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=CW3gtRZPbTm2ilrBisLi7BBMmZuYVObAHL2BztC1qpo=;
-        b=ltXJatiYkVpJdvymlwmFmTPK69caCHB3TOU2obwFTltYATeRF3fEKO7FIrige8LRX4
-         5OhiOIDUowHBoGbISrs3DJF7DDhC24RbcQw/IsI0xa/gsNCXI4WDCWsL5YBJZ32cO201
-         n/oHTO8/PHcABos6SWXBzl1CzCLtE/updVIWk=
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=dDyeZ4LA7O7Wd1s6SPWPRsNYk5kQs50BWG+spo+LcmE=;
+        b=gpCrMWX4kgunXgJSNnWl+Ygo8a7EjDzJUcFDnvElrSVZS3a0unHVT+lhC8btbagaH/
+         M7d0aC/NGbvh9XxzzqrgF5UQcpu+Fv4YnimyT+Pc4JV7wWCQ63BvX/SDRU1GwE6dmIKh
+         yFWe6kj6QkXdWYiJ+dCYz2WLp4ZsSxKnLAN47h87En2BfoctQeclxCFH9Gf9/F/MTn/5
+         EKSWRxrbkt03qdSI/WINy13I7yiZNRHyPdx+7+2R4ydRmweL+3C9K4YhkDoGTNjQ/VRu
+         3imdtJxNqtFDgbgVd31EyLBXG0t0OnHvcx2GTvP/rxetoAijHDUp3qbzoIg5+5u2//XS
+         DOxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=CW3gtRZPbTm2ilrBisLi7BBMmZuYVObAHL2BztC1qpo=;
-        b=ihs2m2YSIDwRFv69qYgHt1+MXmMNMXByRMENoSNGEMM/+WS2wIlnLNOOCFOcEITxRZ
-         Gx8H1D88uCzIEN70uoQzcRA9CnLyp+hIqzk9YlXqrnf8zYt7H+x/aucuEYQEMQ5bzItR
-         rLFjzUgWLVc8l6VmSd07pjldg9cn1byGAyV2Qtqu3mhA+aHFlNjZxz10Jzx2l8E0EvSE
-         6FMQPODc3ZhGWGiEengJfu6VTjfY2/wDX/ZlSHXAPxLNXB9n3mzQjB7tXE8R6C77tble
-         JeB9MlRNl/cmWtJ5v1JVDHUoYVFJ7McBBrb39J4SDPt6C/CVGazaDoxHGUDgFPmLtg/s
-         3Ikg==
-X-Gm-Message-State: APt69E32vUVaPKZwurIeIO6zqUl1HljYGpddfndLUnbdVHCXw6r9gHDQ
-        Uwb+0Mv9p63XU1haDM7OiJPtLg==
-X-Google-Smtp-Source: ADUXVKIBW7NiMXp2kpR0mLurErTRLfxmdaJQ/l06LGymlPbhsnpKs+o/eybTRJKzGOOdjSqBJb5ofQ==
-X-Received: by 2002:a65:410d:: with SMTP id w13-v6mr3609456pgp.414.1529728868523;
-        Fri, 22 Jun 2018 21:41:08 -0700 (PDT)
-Received: from joelaf.mtv.corp.google.com ([2620:0:1000:1600:3122:ea9c:d178:eb])
-        by smtp.gmail.com with ESMTPSA id 29-v6sm22695637pfp.24.2018.06.22.21.41.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 22 Jun 2018 21:41:07 -0700 (PDT)
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     kernel-team@android.com,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=dDyeZ4LA7O7Wd1s6SPWPRsNYk5kQs50BWG+spo+LcmE=;
+        b=i+U3BNnOjqn/LIX3YdS609ncbGSjC64IO5tXDS7ZtIbavOc1lEHZYPyJnb10iT+ASm
+         LJZGu0WVbao+Yl/8X+ObkAITaKygv18yKQbq6IjpOhop45FcAs4K6q8DGiyIHEIvgakO
+         /bA/ttMnEKdVNbGa9hQBaghclZ+v5lbp3AouHyAATnp81hOLObdb7MVLIYFqySxw8OLq
+         eLLE8KF8ea1HikVu4LlQUaaeK3curpW2W94hWFma1hCas0Qicg3sA47F9VJ1UgsNWGyX
+         sP7hVQtZAvAk+goTWz/GwD2qwxfwH3i0X3gjhGNx3lDaIkgdgkL0JI4hhlmpXrfGaBXC
+         BJXQ==
+X-Gm-Message-State: APt69E1epIf91jpzNlJTRlVdBgRACl1CPOTBO96nRrot8eot9l4TqDFn
+        Ivs/GVm/TUxiLQFU4FpFDmszcNfDmmZLO6uwseA=
+X-Google-Smtp-Source: ADUXVKKFfqMp38kX7DrZ5nFAr68jp+O6wCZC45f52IHbCSmEao9zddSjgQ/qWQ0IykVqqv+t1U4Dptq2AAnUjRd944U=
+X-Received: by 2002:a0d:d84c:: with SMTP id a73-v6mr2182759ywe.379.1529736368422;
+ Fri, 22 Jun 2018 23:46:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a81:1b04:0:0:0:0:0 with HTTP; Fri, 22 Jun 2018 23:46:07
+ -0700 (PDT)
+In-Reply-To: <20180622171605.52989-1-salyzyn@android.com>
+References: <20180622171605.52989-1-salyzyn@android.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Sat, 23 Jun 2018 09:46:07 +0300
+Message-ID: <CAOQ4uxiUaJHZ5coUNwH1ZYQjVB8dmAo0Y0bDKOmZM81tzCqC8g@mail.gmail.com>
+Subject: Re: [PATCH v4] overlayfs: override_creds=off option bypass creator_cred
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH] Documentation: RCU: Fix broken link to LKML archive
-Date:   Fri, 22 Jun 2018 21:40:55 -0700
-Message-Id: <20180623044055.118383-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.18.0.rc2.346.g013aa6912e-goog
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+On Fri, Jun 22, 2018 at 8:16 PM, Mark Salyzyn <salyzyn@android.com> wrote:
+> By default, all access to the upper, lower and work directories is the
+> recorded mounter's MAC and DAC credentials.  The incoming accesses are
+> checked against the caller's credentials.
+>
+> If the principles of least privilege are applied, the mounter's
+> credentials might not overlap the credentials of the caller's when
+> accessing the overlayfs filesystem.  For example, a file that a lower
+> DAC privileged caller can execute, is MAC denied to the generally
+> higher DAC privileged mounter, to prevent an attack vector.
+>
+> We add the option to turn off override_creds in the mount options; all
+> subsequent operations after mount on the filesystem will be only the
+> caller's credentials.  This option default is set in the CONFIG
+> OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
+>
+> The module boolean parameter and mount option override_creds is also
+> added as a presence check for this "feature" by checking existence of
+> /sys/module/overlay/parameters/overlay_creds.  This will allow user
+> space to determine if the option can be supplied successfully to the
+> mount(2) operation.
+>
+> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Cc: Eric W. Biederman <ebiederm@xmission.com>
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+>
+> ---
+> v2:
+> - Forward port changed attr to stat, resulting in a build error.
+> - altered commit message.
+>
+> v3:
+> - Change name from caller_credentials / creator_credentials to the
+>   boolean override_creds.
+> - Changed from creator to mounter credentials.
+> - Updated and fortified the documentation.
+> - Added CONFIG_OVERLAY_FS_OVERRIDE_CREDS
+>
+> v4:
+> - spelling and grammar errors in text
+>
+>  Documentation/filesystems/overlayfs.txt | 17 +++++++++++++++++
+>  fs/overlayfs/Kconfig                    | 20 ++++++++++++++++++++
+>  fs/overlayfs/copy_up.c                  |  2 +-
+>  fs/overlayfs/dir.c                      |  9 +++++----
+>  fs/overlayfs/inode.c                    | 16 ++++++++--------
+>  fs/overlayfs/namei.c                    |  6 +++---
+>  fs/overlayfs/overlayfs.h                |  1 +
+>  fs/overlayfs/ovl_entry.h                |  1 +
+>  fs/overlayfs/readdir.c                  |  4 ++--
+>  fs/overlayfs/super.c                    | 21 +++++++++++++++++++++
+>  fs/overlayfs/util.c                     | 12 ++++++++++--
+>  11 files changed, 89 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/filesystems/overlayfs.txt b/Documentation/filesystems/overlayfs.txt
+> index 72615a2c0752..18e6d70ea4c9 100644
+> --- a/Documentation/filesystems/overlayfs.txt
+> +++ b/Documentation/filesystems/overlayfs.txt
+> @@ -106,6 +106,23 @@ Only the lists of names from directories are merged.  Other content
+>  such as metadata and extended attributes are reported for the upper
+>  directory only.  These attributes of the lower directory are hidden.
+>
+> +credentials
+> +-----------
+> +
+> +By default, all access to the upper, lower and work directories is the
+> +recorded mounter's MAC and DAC credentials.  The incoming accesses are
+> +checked against the caller's credentials.
+> +
+> +If the principles of least privilege are applied, the mounter's
+> +credentials might not overlap the credentials of the caller's when
+> +accessing the overlayfs filesystem.  For example, a file that a lower
+> +DAC privileged caller can execute, is MAC denied to the generally
+> +higher DAC privileged mounter, to prevent an attack vector.  One
+> +option is to turn off override_creds in the mount options; all
+> +subsequent operations after mount on the filesystem will be only the
+> +caller's credentials.  This option default is set in the CONFIG
+> +OVERLAY_FS_OVERRIDE_CREDS or in the module option override_creds.
+> +
 
-While going through the RCU requirements for interrupts, I noticed that
-one of the LKML links is broken. This patch changes it to use the
-archive from lore.kernel.org which works fine.
+Mark,
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- Documentation/RCU/Design/Requirements/Requirements.html | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks for the properly documented patch, but this documentation it
+missing the caveats of this config option and there are severe caveats
+as was discussed on earlier version of the patch.
 
-diff --git a/Documentation/RCU/Design/Requirements/Requirements.html b/Documentation/RCU/Design/Requirements/Requirements.html
-index 9b808402f8ce..58b6557007a3 100644
---- a/Documentation/RCU/Design/Requirements/Requirements.html
-+++ b/Documentation/RCU/Design/Requirements/Requirements.html
-@@ -2269,10 +2269,10 @@ Thankfully, RCU update-side primitives, including
- The name notwithstanding, some Linux-kernel architectures
- can have nested NMIs, which RCU must handle correctly.
- Andy Lutomirski
--<a href="https://lkml.kernel.org/g/CALCETrXLq1y7e_dKFPgou-FKHB6Pu-r8+t-6Ds+8=va7anBWDA@mail.gmail.com">surprised me</a>
-+<a href="https://lkml.kernel.org/r/CALCETrXLq1y7e_dKFPgou-FKHB6Pu-r8+t-6Ds+8=va7anBWDA@mail.gmail.com">surprised me</a>
- with this requirement;
- he also kindly surprised me with
--<a href="https://lkml.kernel.org/g/CALCETrXSY9JpW3uE6H8WYk81sg56qasA2aqmjMPsq5dOtzso=g@mail.gmail.com">an algorithm</a>
-+<a href="https://lkml.kernel.org/r/CALCETrXSY9JpW3uE6H8WYk81sg56qasA2aqmjMPsq5dOtzso=g@mail.gmail.com">an algorithm</a>
- that meets this requirement.
- 
- <p>
--- 
-2.18.0.rc2.346.g013aa6912e-goog
+You should mention the not so minor detail that this option can result
+in inability to delete files/directories from overlay and there me be other
+side effects. This is one of those features that should be warning
+unconditionally that user should really know what user is doing.
 
+You did not address my concern that the test for setting trusted xattr
+on mount (ovl_make_workdir) should emit a different kind of warning
+when override_creds=off. In fact, I think it should emit a warning
+when override_creds=off unconditionally to indicate that weird things
+can be expected and we "really hope you know what you are doing".
+
+A new security concern I just noticed - overlayfs calls some vfs
+functions directly to perform operations that are typically not
+allowed to unprivileged users without checking credentials.
+In those cases your patch introduces a security vulnerability.
+
+Examples:
+- overlayfs calls exportfs_decode_fh() on underlying
+fs without checking CAP_DAC_READ_SEARCH
+- overlayfs calls vfs_whiteout() which calls underlying fs mknod
+without checking CAP_MKNOD
+
+Those examples could be easily fixed and you may righfully
+claim that they are bugs, but the fact is that those "bugs" are
+harmless until someone creates an irregular security model
+without capabilities to mount, without capability to mknod.
+
+What's worse is that you have to audit the overlayfs code and
+find all these potential bugs and fix them before changing the
+assumptions that were made over the years about mounter
+credentials.
+
+Thanks,
+Amir.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
