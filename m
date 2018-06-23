@@ -5,113 +5,122 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C346F7D062
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Jun 2018 10:17:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 229BD7D043
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Jun 2018 17:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751514AbeFWKRL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 23 Jun 2018 06:17:11 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:43315 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751490AbeFWKRJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 23 Jun 2018 06:17:09 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 42EBA20720; Sat, 23 Jun 2018 12:17:06 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 8001C203B0;
-        Sat, 23 Jun 2018 12:17:05 +0200 (CEST)
-Date:   Sat, 23 Jun 2018 12:17:05 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Peter Rosin <peda@axentia.se>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>
-Subject: Re: [PATCH v5 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180623121705.1d618c5d@bbrezillon>
-In-Reply-To: <ed1add9b-ba21-d3d3-64c4-44d18af3d133@axentia.se>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
-        <20180622104930.32050-2-boris.brezillon@bootlin.com>
-        <ed1add9b-ba21-d3d3-64c4-44d18af3d133@axentia.se>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1751389AbeFWRE0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 23 Jun 2018 13:04:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32788 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1751338AbeFWREZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jun 2018 13:04:25 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5NH3uig068275
+        for <linux-doc@vger.kernel.org>; Sat, 23 Jun 2018 13:04:25 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jsjqjku2b-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 23 Jun 2018 13:04:24 -0400
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sat, 23 Jun 2018 13:04:23 -0400
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 23 Jun 2018 13:04:20 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5NH4KDl4194732
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 23 Jun 2018 17:04:20 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C18DFB2065;
+        Sat, 23 Jun 2018 13:04:17 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9C48DB205F;
+        Sat, 23 Jun 2018 13:04:17 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.148.28])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Sat, 23 Jun 2018 13:04:17 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id D0FB016C69EF; Sat, 23 Jun 2018 10:06:22 -0700 (PDT)
+Date:   Sat, 23 Jun 2018 10:06:22 -0700
+From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] Documentation: RCU: Fix broken link to LKML archive
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <20180623044055.118383-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180623044055.118383-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18062317-2213-0000-0000-000002BF0655
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009247; HX=3.00000241; KW=3.00000007;
+ PH=3.00000004; SC=3.00000265; SDB=6.01051236; UDB=6.00538806; IPR=6.00829908;
+ MB=3.00021826; MTD=3.00000008; XFM=3.00000015; UTC=2018-06-23 17:04:23
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18062317-2214-0000-0000-00005A955C28
+Message-Id: <20180623170622.GC3593@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-22_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1806230204
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Peter,
-
-On Fri, 22 Jun 2018 23:35:34 +0200
-Peter Rosin <peda@axentia.se> wrote:
-
-> On 2018-06-22 12:49, Boris Brezillon wrote:
-> > Add core infrastructure to support I3C in Linux and document it.
-> > 
-> > This infrastructure is not complete yet and will be extended over
-> > time.
-> > 
-> > There are a few design choices that are worth mentioning because they
-> > impact the way I3C device drivers can interact with their devices:
-> > 
-> > - all functions used to send I3C/I2C frames must be called in
-> >   non-atomic context. Mainly done this way to ease implementation, but
-> >   this is still open to discussion. Please let me know if you think
-> >   it's worth considering an asynchronous model here
-> > - the bus element is a separate object and is not implicitly described
-> >   by the master (as done in I2C). The reason is that I want to be able
-> >   to handle multiple master connected to the same bus and visible to
-> >   Linux.
-> >   In this situation, we should only have one instance of the device and
-> >   not one per master, and sharing the bus object would be part of the
-> >   solution to gracefully handle this case.
-> >   I'm not sure we will ever need to deal with multiple masters
-> >   controlling the same bus and exposed under Linux, but separating the
-> >   bus and master concept is pretty easy, hence the decision to do it
-> >   like that.
-> >   The other benefit of separating the bus and master concepts is that
-> >   master devices appear under the bus directory in sysfs.  
+On Fri, Jun 22, 2018 at 09:40:55PM -0700, Joel Fernandes wrote:
+> From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
 > 
-> Are bus multiplexers relevant to I3C?
+> While going through the RCU requirements for interrupts, I noticed that
+> one of the LKML links is broken. This patch changes it to use the
+> archive from lore.kernel.org which works fine.
+> 
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Not yet, but who knows.
+Good catch, queued for further review, thank you!
 
-> The locking needed for handling
-> muxes for I2C is, well, convoluted...
+							Thanx, Paul
 
-Do you remember what was the problem?
+> ---
+>  Documentation/RCU/Design/Requirements/Requirements.html | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/RCU/Design/Requirements/Requirements.html b/Documentation/RCU/Design/Requirements/Requirements.html
+> index 9b808402f8ce..58b6557007a3 100644
+> --- a/Documentation/RCU/Design/Requirements/Requirements.html
+> +++ b/Documentation/RCU/Design/Requirements/Requirements.html
+> @@ -2269,10 +2269,10 @@ Thankfully, RCU update-side primitives, including
+>  The name notwithstanding, some Linux-kernel architectures
+>  can have nested NMIs, which RCU must handle correctly.
+>  Andy Lutomirski
+> -<a href="https://lkml.kernel.org/g/CALCETrXLq1y7e_dKFPgou-FKHB6Pu-r8+t-6Ds+8=va7anBWDA@mail.gmail.com">surprised me</a>
+> +<a href="https://lkml.kernel.org/r/CALCETrXLq1y7e_dKFPgou-FKHB6Pu-r8+t-6Ds+8=va7anBWDA@mail.gmail.com">surprised me</a>
+>  with this requirement;
+>  he also kindly surprised me with
+> -<a href="https://lkml.kernel.org/g/CALCETrXSY9JpW3uE6H8WYk81sg56qasA2aqmjMPsq5dOtzso=g@mail.gmail.com">an algorithm</a>
+> +<a href="https://lkml.kernel.org/r/CALCETrXSY9JpW3uE6H8WYk81sg56qasA2aqmjMPsq5dOtzso=g@mail.gmail.com">an algorithm</a>
+>  that meets this requirement.
+> 
+>  <p>
+> -- 
+> 2.18.0.rc2.346.g013aa6912e-goog
+> 
 
-Anyway, I'd really like to have basic support upstreamed before we
-start considering advanced use cases that do not exist yet. Don't get
-me wrong, I'm not against having the multiplexer/locking discussion,
-but it should not block inclusion of the I3C subsystem.
-
-Regards,
-
-Boris
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
