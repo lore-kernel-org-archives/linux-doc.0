@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE0BA7DF88
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:32:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 027AD7D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:32:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752159AbeFXHcP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 24 Jun 2018 03:32:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50206 "EHLO mx1.redhat.com"
+        id S1752017AbeFXHcC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 24 Jun 2018 03:32:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33078 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752049AbeFXHcM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 24 Jun 2018 03:32:12 -0400
+        id S1750737AbeFXHcA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 24 Jun 2018 03:32:00 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id EC9F44E358;
-        Sun, 24 Jun 2018 07:32:11 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4B83C804E9;
+        Sun, 24 Jun 2018 07:32:00 +0000 (UTC)
 Received: from llong.com (ovpn-116-26.phx2.redhat.com [10.3.116.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4ABAF17796;
-        Sun, 24 Jun 2018 07:32:06 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CE0D117796;
+        Sun, 24 Jun 2018 07:31:50 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -34,68 +34,74 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v11 9/9] cpuset: Allow reporting of sched domain generation info
-Date:   Sun, 24 Jun 2018 15:30:40 +0800
-Message-Id: <1529825440-9574-10-git-send-email-longman@redhat.com>
+Subject: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
+Date:   Sun, 24 Jun 2018 15:30:38 +0800
+Message-Id: <1529825440-9574-8-git-send-email-longman@redhat.com>
 In-Reply-To: <1529825440-9574-1-git-send-email-longman@redhat.com>
 References: <1529825440-9574-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Sun, 24 Jun 2018 07:32:12 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Sun, 24 Jun 2018 07:32:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch enables us to report sched domain generation information.
+Because of the fact that setting the "cpuset.sched.partition" in
+a direct child of root can remove CPUs from the root's effective CPU
+list, it makes sense to know what CPUs are left in the root cgroup for
+scheduling purpose. So the "cpuset.cpus.effective" control file is now
+exposed in the v2 cgroup root.
 
-If DYNAMIC_DEBUG is enabled, issuing the following command
-
-  echo "file cpuset.c +p" > /sys/kernel/debug/dynamic_debug/control
-
-and setting loglevel to 8 will allow the kernel to show what scheduling
-domain changes are being made.
+For consistency, the "cpuset.mems.effective" control file is exposed
+as well.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- kernel/cgroup/cpuset.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ Documentation/admin-guide/cgroup-v2.rst | 4 ++--
+ kernel/cgroup/cpuset.c                  | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index f4efa40..f7cde15 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1529,7 +1529,7 @@ Cpuset Interface Files
+ 	and won't be affected by any CPU hotplug events.
+ 
+   cpuset.cpus.effective
+-	A read-only multiple values file which exists on non-root
++	A read-only multiple values file which exists on all
+ 	cpuset-enabled cgroups.
+ 
+ 	It lists the onlined CPUs that are actually granted to this
+@@ -1569,7 +1569,7 @@ Cpuset Interface Files
+ 	and won't be affected by any memory nodes hotplug events.
+ 
+   cpuset.mems.effective
+-	A read-only multiple values file which exists on non-root
++	A read-only multiple values file which exists on all
+ 	cpuset-enabled cgroups.
+ 
+ 	It lists the onlined memory nodes that are actually granted to
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 07a5575..62b7e61 100644
+index e545848..9097e9d 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -836,6 +836,23 @@ static int generate_sched_domains(cpumask_var_t **domains,
- 	return ndoms;
- }
+@@ -2216,14 +2216,12 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 		.name = "cpus.effective",
+ 		.seq_show = cpuset_common_seq_show,
+ 		.private = FILE_EFFECTIVE_CPULIST,
+-		.flags = CFTYPE_NOT_ON_ROOT,
+ 	},
  
-+#ifdef CONFIG_DEBUG_KERNEL
-+static inline void debug_print_domains(cpumask_var_t *doms, int ndoms)
-+{
-+	int i;
-+	char buf[200];
-+	char *ptr, *end = buf + sizeof(buf) - 1;
-+
-+	for (i = 0, ptr = buf, *end = '\0'; i < ndoms; i++)
-+		ptr += snprintf(ptr, end - ptr, "dom%d=%*pbl ", i,
-+				cpumask_pr_args(doms[i]));
-+
-+	pr_debug("Generated %d domains: %s\n", ndoms, buf);
-+}
-+#else
-+static inline void debug_print_domains(cpumask_var_t *doms, int ndoms) { }
-+#endif
-+
- /*
-  * Rebuild scheduler domains.
-  *
-@@ -871,6 +888,7 @@ static void rebuild_sched_domains_locked(void)
+ 	{
+ 		.name = "mems.effective",
+ 		.seq_show = cpuset_common_seq_show,
+ 		.private = FILE_EFFECTIVE_MEMLIST,
+-		.flags = CFTYPE_NOT_ON_ROOT,
+ 	},
  
- 	/* Generate domain masks and attrs */
- 	ndoms = generate_sched_domains(&doms, &attr);
-+	debug_print_domains(doms, ndoms);
- 
- 	/* Have scheduler rebuild the domains */
- 	partition_sched_domains(ndoms, doms, attr);
+ 	{
 -- 
 1.8.3.1
 
