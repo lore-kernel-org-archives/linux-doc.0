@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBC047D043
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:31:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A39BD7D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751878AbeFXHbf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 24 Jun 2018 03:31:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44000 "EHLO mx1.redhat.com"
+        id S1752118AbeFXHcH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 24 Jun 2018 03:32:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53310 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751770AbeFXHbc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 24 Jun 2018 03:31:32 -0400
+        id S1752049AbeFXHcG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 24 Jun 2018 03:32:06 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E81FE5D5F9;
-        Sun, 24 Jun 2018 07:31:31 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id E73D23082131;
+        Sun, 24 Jun 2018 07:32:05 +0000 (UTC)
 Received: from llong.com (ovpn-116-26.phx2.redhat.com [10.3.116.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F421C17796;
-        Sun, 24 Jun 2018 07:31:27 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A2CC617796;
+        Sun, 24 Jun 2018 07:32:00 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -34,67 +34,58 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v11 3/9] cpuset: Simulate auto-off of sched.partition at cgroup removal
-Date:   Sun, 24 Jun 2018 15:30:34 +0800
-Message-Id: <1529825440-9574-4-git-send-email-longman@redhat.com>
+Subject: [PATCH v11 8/9] cpuset: Don't rebuild sched domains if cpu changes in non-partition root
+Date:   Sun, 24 Jun 2018 15:30:39 +0800
+Message-Id: <1529825440-9574-9-git-send-email-longman@redhat.com>
 In-Reply-To: <1529825440-9574-1-git-send-email-longman@redhat.com>
 References: <1529825440-9574-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Sun, 24 Jun 2018 07:31:32 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Sun, 24 Jun 2018 07:32:06 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Making a cgroup a partition root will reserve cpu resource at its parent.
-So when a partition root cgroup is destroyed, we need to free the
-reserved cpus at its parent. This is now done by doing an auto-off of
-the sched.partition flag in the offlining phase when a partition root
-cgroup is being removed.
+With the cpuset v1, any changes to the list of allowable CPUs in a cpuset
+may cause changes in the sched domain configuration depending on the
+load balancing states and the cpu lists of its parent and its children.
+
+With cpuset v2 (on default hierarchy), there are more restrictions
+on how the load balancing state of a cpuset can change. As a result,
+only changes made in a partition root will cause possible changes to
+the corresponding sched domain. CPU changes to any of the non-partition
+root cpusets will not cause changes in the sched domain configuration.
+As a result, we don't need to call rebuild_sched_domains_locked()
+for changes in a non-partition root cpuset saving precious cpu cycles.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- kernel/cgroup/cpuset.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ kernel/cgroup/cpuset.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 5989bff..e902f54 100644
+index 9097e9d..07a5575 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -2278,7 +2278,12 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
- /*
-  * If the cpuset being removed has its flag 'sched_load_balance'
-  * enabled, then simulate turning sched_load_balance off, which
-- * will call rebuild_sched_domains_locked().
-+ * will call rebuild_sched_domains_locked(). That is not needed
-+ * in the default hierarchy where only changes in partition
-+ * will cause repartitioning.
-+ *
-+ * If the cpuset has the 'sched.partition' flag enabled, simulate
-+ * turning 'sched.partition" off.
-  */
+@@ -986,11 +986,15 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
+ 		update_tasks_cpumask(cp);
  
- static void cpuset_css_offline(struct cgroup_subsys_state *css)
-@@ -2287,7 +2292,18 @@ static void cpuset_css_offline(struct cgroup_subsys_state *css)
+ 		/*
+-		 * If the effective cpumask of any non-empty cpuset is changed,
+-		 * we need to rebuild sched domains.
++		 * On legacy hierarchy, if the effective cpumask of any non-
++		 * empty cpuset is changed, we need to rebuild sched domains.
++		 * On default hierarchy, the cpuset needs to be a partition
++		 * root as well.
+ 		 */
+ 		if (!cpumask_empty(cp->cpus_allowed) &&
+-		    is_sched_load_balance(cp))
++		    is_sched_load_balance(cp) &&
++		   (!cgroup_subsys_on_dfl(cpuset_cgrp_subsys) ||
++		    is_partition_root(cp)))
+ 			need_rebuild_sched_domains = true;
  
- 	mutex_lock(&cpuset_mutex);
- 
--	if (is_sched_load_balance(cs))
-+	/*
-+	 * A WARN_ON_ONCE() check after calling update_flag() to make
-+	 * sure that the operation succceeds without failure.
-+	 */
-+	if (is_partition_root(cs)) {
-+		int ret = update_flag(CS_PARTITION_ROOT, cs, 0);
-+
-+		WARN_ON_ONCE(ret);
-+	}
-+
-+	if (!cgroup_subsys_on_dfl(cpuset_cgrp_subsys) &&
-+	    is_sched_load_balance(cs))
- 		update_flag(CS_SCHED_LOAD_BALANCE, cs, 0);
- 
- 	cpuset_dec();
+ 		rcu_read_lock();
 -- 
 1.8.3.1
 
