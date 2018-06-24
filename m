@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D77E7D043
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:33:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E84D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:34:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751953AbeFXHbt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 24 Jun 2018 03:31:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43172 "EHLO mx1.redhat.com"
+        id S1752224AbeFXHd2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 24 Jun 2018 03:33:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45824 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1750737AbeFXHbq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 24 Jun 2018 03:31:46 -0400
+        id S1751926AbeFXHbm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 24 Jun 2018 03:31:42 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D73843082A43;
-        Sun, 24 Jun 2018 07:31:45 +0000 (UTC)
-Received: from llong.com (ovpn-116-26.phx2.redhat.com [10.3.116.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DF1DF17796;
+        by mx1.redhat.com (Postfix) with ESMTPS id 8E269821CC;
         Sun, 24 Jun 2018 07:31:41 +0000 (UTC)
+Received: from llong.com (ovpn-116-26.phx2.redhat.com [10.3.116.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4AE5C17796;
+        Sun, 24 Jun 2018 07:31:32 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -34,117 +34,241 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v11 5/9] cpuset: Make sure that partition flag work properly with CPU hotplug
-Date:   Sun, 24 Jun 2018 15:30:36 +0800
-Message-Id: <1529825440-9574-6-git-send-email-longman@redhat.com>
+Subject: [PATCH v11 4/9] cpuset: Allow changes to cpus in a partition root
+Date:   Sun, 24 Jun 2018 15:30:35 +0800
+Message-Id: <1529825440-9574-5-git-send-email-longman@redhat.com>
 In-Reply-To: <1529825440-9574-1-git-send-email-longman@redhat.com>
 References: <1529825440-9574-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Sun, 24 Jun 2018 07:31:46 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Sun, 24 Jun 2018 07:31:41 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When there is a cpu hotplug event (CPU online or offline), the partitions
-may need to be reconfigured and regenerated. So code is added to
-the hotplug functions to make them work with new reserved_cpus mask to
-compute the right effective_cpus for each of the affected cpusets.
+The previous patch introduces a new partition flag, but won't allow
+changes made to "cpuset.cpus" once the flag is on. That may be too
+restrictive in some use cases. So this restiction is now relaxed to
+allow changes made to the "cpuset.cpus" file with some constraints:
+
+ 1) The new set of cpus must still be exclusive.
+ 2) Newly added cpus must be a subset of the parent effective_cpus.
+ 3) None of the deleted cpus can be one of those allocated to a child
+    partition roots, if present.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 10 ++++++++++
- kernel/cgroup/cpuset.c                  | 26 ++++++++++++++++++++++++--
- 2 files changed, 34 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst |  9 ++++
+ kernel/cgroup/cpuset.c                  | 80 ++++++++++++++++++++++++++-------
+ 2 files changed, 72 insertions(+), 17 deletions(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 5f3170f..f4efa40 100644
+index 24a7133..5f3170f 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1626,6 +1626,16 @@ Cpuset Interface Files
- 	2) No CPU that has been distributed to child partition roots is
- 	   is deleted.
+@@ -1617,6 +1617,15 @@ Cpuset Interface Files
+         its child partition root cgroups.  There must be at least one cpu
+         left in the parent partition root cgroup.
  
-+	When all the CPUs allocated to a partition are offlined, the
-+	partition will be temporaily gone and all the tasks in it will
-+	be migrated to another one that belongs to the parent of the
-+	partition root.  This is a destructive operation and all the
-+	existing CPU affinity that is narrower than the cpuset itself
-+	will be lost.
++	In a partition root, changes to "cpuset.cpus" is allowed as long
++	as the first condition above as well as the following two
++	additional conditions are true.
 +
-+	When any of those offlined CPUs is onlined again, a new partition
-+	will be re-created and the tasks will be migrated back.
++	1) Any added CPUs must be a proper subset of the parent's
++	   "cpuset.cpus.effective".
++	2) No CPU that has been distributed to child partition roots is
++	   is deleted.
 +
  
  Device controller
  -----------------
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 3a646a9..e118dd8 100644
+index e902f54..3a646a9 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -900,7 +900,8 @@ static void update_tasks_cpumask(struct cpuset *cs)
-  * @parent: the parent cpuset
-  *
-  * If the parent has reserved CPUs, include them in the list of allowable
-- * CPUs in computing the new effective_cpus mask.
-+ * CPUs in computing the new effective_cpus mask. The cpu_active_mask is
-+ * used to mask off cpus that are to be offlined.
-  */
- static void compute_effective_cpumask(struct cpumask *new_cpus,
- 				      struct cpuset *cs, struct cpuset *parent)
-@@ -909,6 +910,7 @@ static void compute_effective_cpumask(struct cpumask *new_cpus,
- 		cpumask_or(new_cpus, parent->effective_cpus,
- 			   parent->reserved_cpus);
- 		cpumask_and(new_cpus, new_cpus, cs->cpus_allowed);
-+		cpumask_and(new_cpus, new_cpus, cpu_active_mask);
- 	} else {
- 		cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
- 	}
-@@ -2562,9 +2564,17 @@ static void cpuset_hotplug_update_tasks(struct cpuset *cs)
- 		goto retry;
- 	}
+@@ -957,6 +957,9 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
  
--	cpumask_and(&new_cpus, cs->cpus_allowed, parent_cs(cs)->effective_cpus);
-+	compute_effective_cpumask(&new_cpus, cs, parent_cs(cs));
- 	nodes_and(new_mems, cs->mems_allowed, parent_cs(cs)->effective_mems);
- 
-+	if (cs->nr_reserved) {
-+		/*
-+		 * Some of the CPUs may have been distributed to child
-+		 * partition roots. So we need skip those when computing the
-+		 * real effective cpus.
-+		 */
-+		cpumask_andnot(&new_cpus, &new_cpus, cs->reserved_cpus);
-+	}
- 	cpus_updated = !cpumask_equal(&new_cpus, cs->effective_cpus);
- 	mems_updated = !nodes_equal(new_mems, cs->effective_mems);
- 
-@@ -2614,6 +2624,11 @@ static void cpuset_hotplug_workfn(struct work_struct *work)
- 	cpumask_copy(&new_cpus, cpu_active_mask);
- 	new_mems = node_states[N_MEMORY];
- 
-+	/*
-+	 * If reserved_cpus is populated, it is likely that the check below
-+	 * will produce a false positive on cpus_updated when the cpu list
-+	 * isn't changed. It is extra work, but it is better to be safe.
-+	 */
- 	cpus_updated = !cpumask_equal(top_cpuset.effective_cpus, &new_cpus);
- 	mems_updated = !nodes_equal(top_cpuset.effective_mems, new_mems);
- 
-@@ -2622,6 +2637,13 @@ static void cpuset_hotplug_workfn(struct work_struct *work)
  		spin_lock_irq(&callback_lock);
- 		if (!on_dfl)
- 			cpumask_copy(top_cpuset.cpus_allowed, &new_cpus);
-+		/*
-+		 * Make sure that the reserved cpus aren't in the
-+		 * effective cpus.
-+		 */
-+		if (top_cpuset.nr_reserved)
-+			cpumask_andnot(&new_cpus, &new_cpus,
-+					top_cpuset.reserved_cpus);
- 		cpumask_copy(top_cpuset.effective_cpus, &new_cpus);
+ 		cpumask_copy(cp->effective_cpus, new_cpus);
++		if (cp->nr_reserved)
++			cpumask_andnot(cp->effective_cpus, cp->effective_cpus,
++				       cp->reserved_cpus);
  		spin_unlock_irq(&callback_lock);
- 		/* we don't mess with cpumasks of tasks in top_cpuset */
+ 
+ 		WARN_ON(!is_in_v2_mode() &&
+@@ -984,23 +987,25 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
+ /**
+  * update_reserved_cpumask - update the reserved_cpus mask of parent cpuset
+  * @cpuset:  The cpuset that requests CPU reservation
+- * @delmask: The old reserved cpumask to be removed from the parent
+- * @addmask: The new reserved cpumask to be added to the parent
++ * @oldmask: The old reserved cpumask to be removed from the parent
++ * @newmask: The new reserved cpumask to be added to the parent
+  * Return: 0 if successful, an error code otherwise
+  *
+  * Changes to the reserved CPUs are not allowed if any of CPUs changing
+  * state are in any of the child cpusets of the parent except the requesting
+  * child.
+  *
+- * If the sched.partition flag changes, either the delmask (0=>1) or the
+- * addmask (1=>0) will be NULL.
++ * If the sched.partition flag changes, either the oldmask (0=>1) or the
++ * newmask (1=>0) will be NULL.
+  *
+  * Called with cpuset_mutex held.
+  */
+ static int update_reserved_cpumask(struct cpuset *cpuset,
+-	struct cpumask *delmask, struct cpumask *addmask)
++	struct cpumask *oldmask, struct cpumask *newmask)
+ {
+ 	int retval;
++	int adding, deleting;
++	cpumask_var_t addmask, delmask;
+ 	struct cpuset *parent = parent_cs(cpuset);
+ 	struct cpuset *sibling;
+ 	struct cgroup_subsys_state *pos_css;
+@@ -1011,15 +1016,15 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
+ 	 * The new cpumask, if present, must not be empty.
+ 	 */
+ 	if (!is_partition_root(parent) ||
+-	   (addmask && cpumask_empty(addmask)))
++	   (newmask && cpumask_empty(newmask)))
+ 		return -EINVAL;
+ 
+ 	/*
+-	 * The delmask, if present, must be a subset of parent's reserved
++	 * The oldmask, if present, must be a subset of parent's reserved
+ 	 * CPUs.
+ 	 */
+-	if (delmask && !cpumask_empty(delmask) && (!parent->nr_reserved ||
+-		       !cpumask_subset(delmask, parent->reserved_cpus))) {
++	if (oldmask && !cpumask_empty(oldmask) && (!parent->nr_reserved ||
++		       !cpumask_subset(oldmask, parent->reserved_cpus))) {
+ 		WARN_ON_ONCE(1);
+ 		return -EINVAL;
+ 	}
+@@ -1028,9 +1033,16 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
+ 	 * A sched.partition state change is not allowed if there are
+ 	 * online children.
+ 	 */
+-	if (css_has_online_children(&cpuset->css))
++	if ((!oldmask || !newmask) && css_has_online_children(&cpuset->css))
+ 		return -EBUSY;
+ 
++	if (!zalloc_cpumask_var(&addmask, GFP_KERNEL))
++		return -ENOMEM;
++	if (!zalloc_cpumask_var(&delmask, GFP_KERNEL)) {
++		free_cpumask_var(addmask);
++		return -ENOMEM;
++	}
++
+ 	if (!old_count) {
+ 		if (!zalloc_cpumask_var(&parent->reserved_cpus, GFP_KERNEL)) {
+ 			retval = -ENOMEM;
+@@ -1040,12 +1052,29 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
+ 	}
+ 
+ 	retval = -EBUSY;
++	adding = deleting = false;
++	/*
++	 * addmask = newmask & ~oldmask
++	 * delmask = oldmask & ~newmask
++	 */
++	if (oldmask && newmask) {
++		adding   = cpumask_andnot(addmask, newmask, oldmask);
++		deleting = cpumask_andnot(delmask, oldmask, newmask);
++		if (!adding && !deleting)
++			goto out_ok;
++	} else if (newmask) {
++		adding = true;
++		cpumask_copy(addmask, newmask);
++	} else if (oldmask) {
++		deleting = true;
++		cpumask_copy(delmask, oldmask);
++	}
+ 
+ 	/*
+ 	 * The cpus to be added must be a proper subset of the parent's
+ 	 * effective_cpus mask but not in the reserved_cpus mask.
+ 	 */
+-	if (addmask) {
++	if (adding) {
+ 		if (!cpumask_subset(addmask, parent->effective_cpus) ||
+ 		     cpumask_equal(addmask, parent->effective_cpus))
+ 			goto out;
+@@ -1055,6 +1084,15 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
+ 	}
+ 
+ 	/*
++	 * For cpu changes in a partition root, cpu deletion isn't allowed
++	 * if any of the deleted CPUs is in reserved_cpus (distributed
++	 * to child partition roots).
++	 */
++	if (oldmask && newmask && cpuset->nr_reserved && deleting &&
++	    cpumask_intersects(delmask, cpuset->reserved_cpus))
++		goto out;
++
++	/*
+ 	 * Check if any CPUs in addmask or delmask are in the effective_cpus
+ 	 * of a sibling cpuset. The implied cpu_exclusive of a partition
+ 	 * root will ensure there are no overlap in cpus_allowed.
+@@ -1063,10 +1101,10 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
+ 	cpuset_for_each_child(sibling, pos_css, parent) {
+ 		if ((sibling == cpuset) || !(sibling->css.flags & CSS_ONLINE))
+ 			continue;
+-		if (addmask &&
++		if (adding &&
+ 		    cpumask_intersects(sibling->effective_cpus, addmask))
+ 			goto out_unlock;
+-		if (delmask &&
++		if (deleting &&
+ 		    cpumask_intersects(sibling->effective_cpus, delmask))
+ 			goto out_unlock;
+ 	}
+@@ -1078,13 +1116,13 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
+ 	 * and newly deleted ones will be added back if they are online.
+ 	 */
+ 	spin_lock_irq(&callback_lock);
+-	if (addmask) {
++	if (adding) {
+ 		cpumask_or(parent->reserved_cpus,
+ 			   parent->reserved_cpus, addmask);
+ 		cpumask_andnot(parent->effective_cpus,
+ 			       parent->effective_cpus, addmask);
+ 	}
+-	if (delmask) {
++	if (deleting) {
+ 		cpumask_andnot(parent->reserved_cpus,
+ 			       parent->reserved_cpus, delmask);
+ 		cpumask_or(parent->effective_cpus,
+@@ -1093,8 +1131,12 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
+ 
+ 	parent->nr_reserved = cpumask_weight(parent->reserved_cpus);
+ 	spin_unlock_irq(&callback_lock);
++
++out_ok:
+ 	retval = 0;
+ out:
++	free_cpumask_var(addmask);
++	free_cpumask_var(delmask);
+ 	if (old_count && !parent->nr_reserved)
+ 		free_cpumask_var(parent->reserved_cpus);
+ 
+@@ -1146,8 +1188,12 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
+ 	if (retval < 0)
+ 		return retval;
+ 
+-	if (is_partition_root(cs))
+-		return -EBUSY;
++	if (is_partition_root(cs)) {
++		retval = update_reserved_cpumask(cs, cs->cpus_allowed,
++						 trialcs->cpus_allowed);
++		if (retval < 0)
++			return retval;
++	}
+ 
+ 	spin_lock_irq(&callback_lock);
+ 	cpumask_copy(cs->cpus_allowed, trialcs->cpus_allowed);
 -- 
 1.8.3.1
 
