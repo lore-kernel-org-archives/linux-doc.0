@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E84D7D043
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:34:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B58297D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Jun 2018 07:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752224AbeFXHd2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 24 Jun 2018 03:33:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45824 "EHLO mx1.redhat.com"
+        id S1751792AbeFXHb2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 24 Jun 2018 03:31:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56852 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751926AbeFXHbm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 24 Jun 2018 03:31:42 -0400
+        id S1751714AbeFXHbX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 24 Jun 2018 03:31:23 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8E269821CC;
-        Sun, 24 Jun 2018 07:31:41 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 574FD30832C8;
+        Sun, 24 Jun 2018 07:31:23 +0000 (UTC)
 Received: from llong.com (ovpn-116-26.phx2.redhat.com [10.3.116.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4AE5C17796;
-        Sun, 24 Jun 2018 07:31:32 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3075F17796;
+        Sun, 24 Jun 2018 07:31:18 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -34,241 +34,250 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v11 4/9] cpuset: Allow changes to cpus in a partition root
-Date:   Sun, 24 Jun 2018 15:30:35 +0800
-Message-Id: <1529825440-9574-5-git-send-email-longman@redhat.com>
+Subject: [PATCH v11 1/9] cpuset: Enable cpuset controller in default hierarchy
+Date:   Sun, 24 Jun 2018 15:30:32 +0800
+Message-Id: <1529825440-9574-2-git-send-email-longman@redhat.com>
 In-Reply-To: <1529825440-9574-1-git-send-email-longman@redhat.com>
 References: <1529825440-9574-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Sun, 24 Jun 2018 07:31:41 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Sun, 24 Jun 2018 07:31:23 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous patch introduces a new partition flag, but won't allow
-changes made to "cpuset.cpus" once the flag is on. That may be too
-restrictive in some use cases. So this restiction is now relaxed to
-allow changes made to the "cpuset.cpus" file with some constraints:
+Given the fact that thread mode had been merged into 4.14, it is now
+time to enable cpuset to be used in the default hierarchy (cgroup v2)
+as it is clearly threaded.
 
- 1) The new set of cpus must still be exclusive.
- 2) Newly added cpus must be a subset of the parent effective_cpus.
- 3) None of the deleted cpus can be one of those allocated to a child
-    partition roots, if present.
+The cpuset controller had experienced feature creep since its
+introduction more than a decade ago. Besides the core cpus and mems
+control files to limit cpus and memory nodes, there are a bunch of
+additional features that can be controlled from the userspace. Some of
+the features are of doubtful usefulness and may not be actively used.
+
+This patch enables cpuset controller in the default hierarchy with
+a minimal set of features, namely just the cpus and mems and their
+effective_* counterparts.  We can certainly add more features to the
+default hierarchy in the future if there is a real user need for them
+later on.
+
+Alternatively, with the unified hiearachy, it may make more sense
+to move some of those additional cpuset features, if desired, to
+memory controller or may be to the cpu controller instead of staying
+with cpuset.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst |  9 ++++
- kernel/cgroup/cpuset.c                  | 80 ++++++++++++++++++++++++++-------
- 2 files changed, 72 insertions(+), 17 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 109 ++++++++++++++++++++++++++++++--
+ kernel/cgroup/cpuset.c                  |  48 +++++++++++++-
+ 2 files changed, 149 insertions(+), 8 deletions(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 24a7133..5f3170f 100644
+index 8a2c52d..fbc30b6 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1617,6 +1617,15 @@ Cpuset Interface Files
-         its child partition root cgroups.  There must be at least one cpu
-         left in the parent partition root cgroup.
+@@ -53,11 +53,13 @@ v1 is available under Documentation/cgroup-v1/.
+        5-3-2. Writeback
+      5-4. PID
+        5-4-1. PID Interface Files
+-     5-5. Device
+-     5-6. RDMA
+-       5-6-1. RDMA Interface Files
+-     5-7. Misc
+-       5-7-1. perf_event
++     5-5. Cpuset
++       5.5-1. Cpuset Interface Files
++     5-6. Device
++     5-7. RDMA
++       5-7-1. RDMA Interface Files
++     5-8. Misc
++       5-8-1. perf_event
+      5-N. Non-normative information
+        5-N-1. CPU controller root cgroup process behaviour
+        5-N-2. IO controller root cgroup process behaviour
+@@ -1486,6 +1488,103 @@ through fork() or clone(). These will return -EAGAIN if the creation
+ of a new process would cause a cgroup policy to be violated.
  
-+	In a partition root, changes to "cpuset.cpus" is allowed as long
-+	as the first condition above as well as the following two
-+	additional conditions are true.
-+
-+	1) Any added CPUs must be a proper subset of the parent's
-+	   "cpuset.cpus.effective".
-+	2) No CPU that has been distributed to child partition roots is
-+	   is deleted.
-+
  
++Cpuset
++------
++
++The "cpuset" controller provides a mechanism for constraining
++the CPU and memory node placement of tasks to only the resources
++specified in the cpuset interface files in a task's current cgroup.
++This is especially valuable on large NUMA systems where placing jobs
++on properly sized subsets of the systems with careful processor and
++memory placement to reduce cross-node memory access and contention
++can improve overall system performance.
++
++The "cpuset" controller is hierarchical.  That means the controller
++cannot use CPUs or memory nodes not allowed in its parent.
++
++
++Cpuset Interface Files
++~~~~~~~~~~~~~~~~~~~~~~
++
++  cpuset.cpus
++	A read-write multiple values file which exists on non-root
++	cpuset-enabled cgroups.
++
++	It lists the requested CPUs to be used by tasks within this
++	cgroup.  The actual list of CPUs to be granted, however, is
++	subjected to constraints imposed by its parent and can differ
++	from the requested CPUs.
++
++	The CPU numbers are comma-separated numbers or ranges.
++	For example:
++
++	  # cat cpuset.cpus
++	  0-4,6,8-10
++
++	An empty value indicates that the cgroup is using the same
++	setting as the nearest cgroup ancestor with a non-empty
++	"cpuset.cpus" or all the available CPUs if none is found.
++
++	The value of "cpuset.cpus" stays constant until the next update
++	and won't be affected by any CPU hotplug events.
++
++  cpuset.cpus.effective
++	A read-only multiple values file which exists on non-root
++	cpuset-enabled cgroups.
++
++	It lists the onlined CPUs that are actually granted to this
++	cgroup by its parent.  These CPUs are allowed to be used by
++	tasks within the current cgroup.
++
++	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
++	all the CPUs from the parent cgroup that can be available to
++	be used by this cgroup.  Otherwise, it should be a subset of
++	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
++	can be granted.  In this case, it will be treated just like an
++	empty "cpuset.cpus".
++
++	Its value will be affected by CPU hotplug events.
++
++  cpuset.mems
++	A read-write multiple values file which exists on non-root
++	cpuset-enabled cgroups.
++
++	It lists the requested memory nodes to be used by tasks within
++	this cgroup.  The actual list of memory nodes granted, however,
++	is subjected to constraints imposed by its parent and can differ
++	from the requested memory nodes.
++
++	The memory node numbers are comma-separated numbers or ranges.
++	For example:
++
++	  # cat cpuset.mems
++	  0-1,3
++
++	An empty value indicates that the cgroup is using the same
++	setting as the nearest cgroup ancestor with a non-empty
++	"cpuset.mems" or all the available memory nodes if none
++	is found.
++
++	The value of "cpuset.mems" stays constant until the next update
++	and won't be affected by any memory nodes hotplug events.
++
++  cpuset.mems.effective
++	A read-only multiple values file which exists on non-root
++	cpuset-enabled cgroups.
++
++	It lists the onlined memory nodes that are actually granted to
++	this cgroup by its parent. These memory nodes are allowed to
++	be used by tasks within the current cgroup.
++
++	If "cpuset.mems" is empty, it shows all the memory nodes from the
++	parent cgroup that will be available to be used by this cgroup.
++	Otherwise, it should be a subset of "cpuset.mems" unless none of
++	the memory nodes listed in "cpuset.mems" can be granted.  In this
++	case, it will be treated just like an empty "cpuset.mems".
++
++	Its value will be affected by memory nodes hotplug events.
++
++
  Device controller
  -----------------
+ 
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index e902f54..3a646a9 100644
+index 266f10c..2b5c447 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -957,6 +957,9 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
+@@ -1824,12 +1824,11 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 	return 0;
+ }
  
- 		spin_lock_irq(&callback_lock);
- 		cpumask_copy(cp->effective_cpus, new_cpus);
-+		if (cp->nr_reserved)
-+			cpumask_andnot(cp->effective_cpus, cp->effective_cpus,
-+				       cp->reserved_cpus);
- 		spin_unlock_irq(&callback_lock);
- 
- 		WARN_ON(!is_in_v2_mode() &&
-@@ -984,23 +987,25 @@ static void update_cpumasks_hier(struct cpuset *cs, struct cpumask *new_cpus)
- /**
-  * update_reserved_cpumask - update the reserved_cpus mask of parent cpuset
-  * @cpuset:  The cpuset that requests CPU reservation
-- * @delmask: The old reserved cpumask to be removed from the parent
-- * @addmask: The new reserved cpumask to be added to the parent
-+ * @oldmask: The old reserved cpumask to be removed from the parent
-+ * @newmask: The new reserved cpumask to be added to the parent
-  * Return: 0 if successful, an error code otherwise
-  *
-  * Changes to the reserved CPUs are not allowed if any of CPUs changing
-  * state are in any of the child cpusets of the parent except the requesting
-  * child.
-  *
-- * If the sched.partition flag changes, either the delmask (0=>1) or the
-- * addmask (1=>0) will be NULL.
-+ * If the sched.partition flag changes, either the oldmask (0=>1) or the
-+ * newmask (1=>0) will be NULL.
-  *
-  * Called with cpuset_mutex held.
+-
+ /*
+  * for the common functions, 'private' gives the type of file
   */
- static int update_reserved_cpumask(struct cpuset *cpuset,
--	struct cpumask *delmask, struct cpumask *addmask)
-+	struct cpumask *oldmask, struct cpumask *newmask)
- {
- 	int retval;
-+	int adding, deleting;
-+	cpumask_var_t addmask, delmask;
- 	struct cpuset *parent = parent_cs(cpuset);
- 	struct cpuset *sibling;
- 	struct cgroup_subsys_state *pos_css;
-@@ -1011,15 +1016,15 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	 * The new cpumask, if present, must not be empty.
- 	 */
- 	if (!is_partition_root(parent) ||
--	   (addmask && cpumask_empty(addmask)))
-+	   (newmask && cpumask_empty(newmask)))
- 		return -EINVAL;
  
- 	/*
--	 * The delmask, if present, must be a subset of parent's reserved
-+	 * The oldmask, if present, must be a subset of parent's reserved
- 	 * CPUs.
- 	 */
--	if (delmask && !cpumask_empty(delmask) && (!parent->nr_reserved ||
--		       !cpumask_subset(delmask, parent->reserved_cpus))) {
-+	if (oldmask && !cpumask_empty(oldmask) && (!parent->nr_reserved ||
-+		       !cpumask_subset(oldmask, parent->reserved_cpus))) {
- 		WARN_ON_ONCE(1);
- 		return -EINVAL;
- 	}
-@@ -1028,9 +1033,16 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	 * A sched.partition state change is not allowed if there are
- 	 * online children.
- 	 */
--	if (css_has_online_children(&cpuset->css))
-+	if ((!oldmask || !newmask) && css_has_online_children(&cpuset->css))
- 		return -EBUSY;
+-static struct cftype files[] = {
++static struct cftype legacy_files[] = {
+ 	{
+ 		.name = "cpus",
+ 		.seq_show = cpuset_common_seq_show,
+@@ -1932,6 +1931,47 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ };
  
-+	if (!zalloc_cpumask_var(&addmask, GFP_KERNEL))
-+		return -ENOMEM;
-+	if (!zalloc_cpumask_var(&delmask, GFP_KERNEL)) {
-+		free_cpumask_var(addmask);
-+		return -ENOMEM;
-+	}
+ /*
++ * This is currently a minimal set for the default hierarchy. It can be
++ * expanded later on by migrating more features and control files from v1.
++ */
++static struct cftype dfl_files[] = {
++	{
++		.name = "cpus",
++		.seq_show = cpuset_common_seq_show,
++		.write = cpuset_write_resmask,
++		.max_write_len = (100U + 6 * NR_CPUS),
++		.private = FILE_CPULIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
 +
- 	if (!old_count) {
- 		if (!zalloc_cpumask_var(&parent->reserved_cpus, GFP_KERNEL)) {
- 			retval = -ENOMEM;
-@@ -1040,12 +1052,29 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	}
- 
- 	retval = -EBUSY;
-+	adding = deleting = false;
-+	/*
-+	 * addmask = newmask & ~oldmask
-+	 * delmask = oldmask & ~newmask
-+	 */
-+	if (oldmask && newmask) {
-+		adding   = cpumask_andnot(addmask, newmask, oldmask);
-+		deleting = cpumask_andnot(delmask, oldmask, newmask);
-+		if (!adding && !deleting)
-+			goto out_ok;
-+	} else if (newmask) {
-+		adding = true;
-+		cpumask_copy(addmask, newmask);
-+	} else if (oldmask) {
-+		deleting = true;
-+		cpumask_copy(delmask, oldmask);
-+	}
- 
- 	/*
- 	 * The cpus to be added must be a proper subset of the parent's
- 	 * effective_cpus mask but not in the reserved_cpus mask.
- 	 */
--	if (addmask) {
-+	if (adding) {
- 		if (!cpumask_subset(addmask, parent->effective_cpus) ||
- 		     cpumask_equal(addmask, parent->effective_cpus))
- 			goto out;
-@@ -1055,6 +1084,15 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	}
- 
- 	/*
-+	 * For cpu changes in a partition root, cpu deletion isn't allowed
-+	 * if any of the deleted CPUs is in reserved_cpus (distributed
-+	 * to child partition roots).
-+	 */
-+	if (oldmask && newmask && cpuset->nr_reserved && deleting &&
-+	    cpumask_intersects(delmask, cpuset->reserved_cpus))
-+		goto out;
++	{
++		.name = "mems",
++		.seq_show = cpuset_common_seq_show,
++		.write = cpuset_write_resmask,
++		.max_write_len = (100U + 6 * MAX_NUMNODES),
++		.private = FILE_MEMLIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
 +
-+	/*
- 	 * Check if any CPUs in addmask or delmask are in the effective_cpus
- 	 * of a sibling cpuset. The implied cpu_exclusive of a partition
- 	 * root will ensure there are no overlap in cpus_allowed.
-@@ -1063,10 +1101,10 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	cpuset_for_each_child(sibling, pos_css, parent) {
- 		if ((sibling == cpuset) || !(sibling->css.flags & CSS_ONLINE))
- 			continue;
--		if (addmask &&
-+		if (adding &&
- 		    cpumask_intersects(sibling->effective_cpus, addmask))
- 			goto out_unlock;
--		if (delmask &&
-+		if (deleting &&
- 		    cpumask_intersects(sibling->effective_cpus, delmask))
- 			goto out_unlock;
- 	}
-@@ -1078,13 +1116,13 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 	 * and newly deleted ones will be added back if they are online.
- 	 */
- 	spin_lock_irq(&callback_lock);
--	if (addmask) {
-+	if (adding) {
- 		cpumask_or(parent->reserved_cpus,
- 			   parent->reserved_cpus, addmask);
- 		cpumask_andnot(parent->effective_cpus,
- 			       parent->effective_cpus, addmask);
- 	}
--	if (delmask) {
-+	if (deleting) {
- 		cpumask_andnot(parent->reserved_cpus,
- 			       parent->reserved_cpus, delmask);
- 		cpumask_or(parent->effective_cpus,
-@@ -1093,8 +1131,12 @@ static int update_reserved_cpumask(struct cpuset *cpuset,
- 
- 	parent->nr_reserved = cpumask_weight(parent->reserved_cpus);
- 	spin_unlock_irq(&callback_lock);
++	{
++		.name = "cpus.effective",
++		.seq_show = cpuset_common_seq_show,
++		.private = FILE_EFFECTIVE_CPULIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
 +
-+out_ok:
- 	retval = 0;
- out:
-+	free_cpumask_var(addmask);
-+	free_cpumask_var(delmask);
- 	if (old_count && !parent->nr_reserved)
- 		free_cpumask_var(parent->reserved_cpus);
++	{
++		.name = "mems.effective",
++		.seq_show = cpuset_common_seq_show,
++		.private = FILE_EFFECTIVE_MEMLIST,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++
++	{ }	/* terminate */
++};
++
++
++/*
+  *	cpuset_css_alloc - allocate a cpuset css
+  *	cgrp:	control group that the new cpuset will be part of
+  */
+@@ -2105,8 +2145,10 @@ struct cgroup_subsys cpuset_cgrp_subsys = {
+ 	.post_attach	= cpuset_post_attach,
+ 	.bind		= cpuset_bind,
+ 	.fork		= cpuset_fork,
+-	.legacy_cftypes	= files,
++	.legacy_cftypes	= legacy_files,
++	.dfl_cftypes	= dfl_files,
+ 	.early_init	= true,
++	.threaded	= true,
+ };
  
-@@ -1146,8 +1188,12 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 	if (retval < 0)
- 		return retval;
- 
--	if (is_partition_root(cs))
--		return -EBUSY;
-+	if (is_partition_root(cs)) {
-+		retval = update_reserved_cpumask(cs, cs->cpus_allowed,
-+						 trialcs->cpus_allowed);
-+		if (retval < 0)
-+			return retval;
-+	}
- 
- 	spin_lock_irq(&callback_lock);
- 	cpumask_copy(cs->cpus_allowed, trialcs->cpus_allowed);
+ /**
 -- 
 1.8.3.1
 
