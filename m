@@ -1,37 +1,53 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 532B87DF87
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 12:12:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9F62D7DF87
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 12:28:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932829AbeFYMMu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 08:12:50 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:42452 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753283AbeFYMMu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jun 2018 08:12:50 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 754104001388;
-        Mon, 25 Jun 2018 12:12:49 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-238.rdu2.redhat.com [10.10.120.238])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 15184111DCED;
-        Mon, 25 Jun 2018 12:12:45 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20180625095031.GX2494@hirez.programming.kicks-ass.net>
-References: <20180625095031.GX2494@hirez.programming.kicks-ass.net> <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     dhowells@redhat.com,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        id S933001AbeFYM26 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 08:28:58 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:52141 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755337AbeFYM25 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 08:28:57 -0400
+Received: by mail-wm0-f66.google.com with SMTP id w137-v6so3734886wmw.1
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jun 2018 05:28:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=dQNcDwnOwnVEUXUmhf9ZvVWo7Vy7a/wJ3xoDGr4k8Ko=;
+        b=EJSjviAfDN2q0grzWsKolvdEiEUwFJxvn5E+WgWubX2I99aUCkz+IKXvhiTdvqnSwS
+         GLw+V9OpdU/RTcgcpK4M822Ky7R6cr66Jn6yhspE3fvPtW1pmVv9m1A71CJqaRiG7Oi8
+         0BfPj+v4yXX10k7fdavybUbF9HiZNVbJzkqEY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=dQNcDwnOwnVEUXUmhf9ZvVWo7Vy7a/wJ3xoDGr4k8Ko=;
+        b=HwUEp+nt1Kk6pTSc48emuefN7hd6wB6MATmPVWaDKh+EtKJg9/dKMwd9E0OCZVskyN
+         p62DnrChjG2NYahCumrXZseEnrYSul8RBKq1o0FYAS1/EpDiTh3DyJUfmOfnRbybLv2y
+         Tvm3eHFUE/5VEsVSiLBsKAUsbD9O561rSJXfkSi4qgHv2/jrtkhu2ZS9K6HphdzrUn+H
+         8a76ZpAYFlviNTPElMlWSY3vxrwMrV6N5+Uxj7SkrRN9XlAbyXSjhhyjtwtHsOvGQVZT
+         Qhhrr2QqEFeOImQigRcT/+zkiVm8oeafX3sZBmF4fAlvu/0r3tZvJQw4yzlSlziNBbEq
+         4Xzw==
+X-Gm-Message-State: APt69E3VjtRXfUkQw4uMvqE2EgfDCFWj8yAPg4oUm4wjSoqW6gu/f9rC
+        FKDmoVSuzm0jDvhTATWizmB+pQ==
+X-Google-Smtp-Source: AAOMgpegZP14RZ5j63a8gc3HEPmEP3qLCl7gvyUa1YarJl4bnMXQtuN0LnLvpluUN8V9kkLqA9wBUQ==
+X-Received: by 2002:a1c:d004:: with SMTP id h4-v6mr842177wmg.151.1529929736757;
+        Mon, 25 Jun 2018 05:28:56 -0700 (PDT)
+Received: from andrea (85.100.broadband17.iol.cz. [109.80.100.85])
+        by smtp.gmail.com with ESMTPSA id z14-v6sm14238801wrm.49.2018.06.25.05.28.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Jun 2018 05:28:56 -0700 (PDT)
+Date:   Mon, 25 Jun 2018 14:28:50 +0200
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Alan Stern <stern@rowland.harvard.edu>,
         Will Deacon <will.deacon@arm.com>,
@@ -46,38 +62,46 @@ Cc:     dhowells@redhat.com,
         Ingo Molnar <mingo@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
+Message-ID: <20180625122850.GA14561@andrea>
+References: <20180625095031.GX2494@hirez.programming.kicks-ass.net>
+ <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <2779.1529928765@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2778.1529928765.1@warthog.procyon.org.uk>
-Date:   Mon, 25 Jun 2018 13:12:45 +0100
-Message-ID: <2779.1529928765@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 25 Jun 2018 12:12:49 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Mon, 25 Jun 2018 12:12:49 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'dhowells@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2779.1529928765@warthog.procyon.org.uk>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Peter Zijlstra <peterz@infradead.org> wrote:
-
-> So yes, I suppose we're entirely suck with the full memory barrier
-> semantics like that. But I still find it easier to think of it like a
-> RELEASE that pairs with the ACQUIRE of waking up, such that the task
-> is guaranteed to observe it's own wake condition.
+On Mon, Jun 25, 2018 at 01:12:45PM +0100, David Howells wrote:
+> Peter Zijlstra <peterz@infradead.org> wrote:
 > 
-> And maybe that is the thing I'm missing here. These comments only state
-> that it does in fact imply a full memory barrier, but do not explain
-> why, should it?
+> > So yes, I suppose we're entirely suck with the full memory barrier
+> > semantics like that. But I still find it easier to think of it like a
+> > RELEASE that pairs with the ACQUIRE of waking up, such that the task
+> > is guaranteed to observe it's own wake condition.
+> > 
+> > And maybe that is the thing I'm missing here. These comments only state
+> > that it does in fact imply a full memory barrier, but do not explain
+> > why, should it?
+> 
+> I think because RELEASE and ACQUIRE concepts didn't really exist in Linux at
+> the time I wrote the doc, so the choices were read/readdep, write or full.
+> 
+> Since this document defines the *minimum* you can expect rather than what the
+> kernel actually gives you, I think it probably makes sense to switch to
+> RELEASE and ACQUIRE here.
 
-I think because RELEASE and ACQUIRE concepts didn't really exist in Linux at
-the time I wrote the doc, so the choices were read/readdep, write or full.
+RELEASE and ACQUIRE are not enough in SB.  Can you elaborate?
 
-Since this document defines the *minimum* you can expect rather than what the
-kernel actually gives you, I think it probably makes sense to switch to
-RELEASE and ACQUIRE here.
+  Andrea
 
-David
+
+> 
+> David
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
