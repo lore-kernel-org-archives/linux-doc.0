@@ -1,126 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BE497DF8F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 15:44:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C24FB7DF86
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 16:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751658AbeFYPoS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 11:44:18 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:1098 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751381AbeFYPoR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 11:44:17 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1, AES128-SHA)
-        id <B5b310db40000>; Mon, 25 Jun 2018 08:43:48 -0700
-Received: from HQMAIL105.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 25 Jun 2018 08:44:16 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 25 Jun 2018 08:44:16 -0700
-Received: from [10.2.161.48] (10.2.161.48) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 25 Jun
- 2018 15:44:15 +0000
-Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
-To:     Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Peter Zijlstra <peterz@infradead.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Will Deacon <will.deacon@arm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
+        id S1755242AbeFYQHG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 12:07:06 -0400
+Received: from mail-pg0-f66.google.com ([74.125.83.66]:37745 "EHLO
+        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755167AbeFYQHE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 12:07:04 -0400
+Received: by mail-pg0-f66.google.com with SMTP id o11-v6so386607pgv.4
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jun 2018 09:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=r1RPv17L4++qu86la0K0F4j7zBMOUnwka3AIC53pU/0=;
+        b=J3piKh3MrlafDPR8KwlmUJH8oUZQL5pEQ0nbhgnVht8gSg3vMUSFhpfYaWIrVkV8qy
+         CHx79E7s9s5BJtpu+dVx2nODIHOLyywFlPgTc/Hn9GLxH6f7t4fXt8h419CluQNwmWez
+         Byt1ElmflrStQw7LeRVoe9cTYwKamZfXx6QH0dFaZMn9VTO+j/rCyyORhhzU41AqxjMQ
+         Smn3lf1eRXZOZ+97VMpBa0CYklB56IIv16GojQQcw2fSmdTX53Mv77CkeakJqk4r6lbr
+         x4V6q8IaRAlBi4WWGw6LVXUG3QbF+l7NPdynhN7YZvI+Q/oMxXrXc5aEOmkrJz8jiSMQ
+         KI5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=r1RPv17L4++qu86la0K0F4j7zBMOUnwka3AIC53pU/0=;
+        b=F7lJaOp4JQMYn6fSOA9IitlCTuwjFTbzlNp3K4Ud2KDRZvdJmBoxPuusMSxhujQyDU
+         TVAUJnvGs1r9nAENAo8G0HAr/lHWAKx2Ns7i3e/f/9WfbHzihxJF8zrIX3Z2rk1tOnPU
+         I+Dj8fQin+R+YLhmIAPWCFROGfc1ZhBY3So3r1nJM5GeO8Et7Cv5G0AdNn9LrML+bS4k
+         R71KRIMNOH6hwTv12Xj2nBJGMuLpereKKg4d7+HhMDaeW6JGrEwTdLuNUTnLaCg2EYfg
+         VPVorsRgrjr8CcFE70Vr/yBjJASdWNvD2GKrUqZ2dHvzSHLHc0H5Z1tqi8DiTMFDavv6
+         nq9g==
+X-Gm-Message-State: APt69E2pk67Kc8pxxher5YSMl/QFQi56TTaZQZMJDB+iOTsCAE4XiqW9
+        aduKkgZAjWzmLStCmanDiPzpmVD3DHs=
+X-Google-Smtp-Source: ADUXVKJbJeddA3qRul0n1EDMaj/Wld+FMprK+Q0IA7c4I8j+eQJYgyYGg819/T7xUr4JJKQRGzH6zw==
+X-Received: by 2002:a62:ab0e:: with SMTP id p14-v6mr13575881pff.211.1529942823720;
+        Mon, 25 Jun 2018 09:07:03 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
+        by smtp.googlemail.com with ESMTPSA id v13-v6sm35066280pfa.131.2018.06.25.09.07.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Jun 2018 09:07:03 -0700 (PDT)
+Subject: Re: [PATCH v4] overlayfs: override_creds=off option bypass
+ creator_cred
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-References: <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
- <20180625095031.GX2494@hirez.programming.kicks-ass.net>
- <20180625105618.GA12676@andrea>
- <20180625123121.GY2494@hirez.programming.kicks-ass.net>
- <20180625131643.GA15126@andrea>
- <20180625141830.GC2494@hirez.programming.kicks-ass.net>
- <20180625145611.GA16333@andrea>
-From:   Daniel Lustig <dlustig@nvidia.com>
-Message-ID: <bad7783b-9510-0049-b10a-a0d7f7273b57@nvidia.com>
-Date:   Mon, 25 Jun 2018 08:44:14 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+References: <20180622171605.52989-1-salyzyn@android.com>
+ <CAOQ4uxiUaJHZ5coUNwH1ZYQjVB8dmAo0Y0bDKOmZM81tzCqC8g@mail.gmail.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <058082af-c3cd-9d0a-8d5c-1999703342d0@android.com>
+Date:   Mon, 25 Jun 2018 09:07:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <20180625145611.GA16333@andrea>
-X-Originating-IP: [10.2.161.48]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL105.nvidia.com (172.20.187.12)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+In-Reply-To: <CAOQ4uxiUaJHZ5coUNwH1ZYQjVB8dmAo0Y0bDKOmZM81tzCqC8g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/25/2018 7:56 AM, Andrea Parri wrote:
-> On Mon, Jun 25, 2018 at 04:18:30PM +0200, Peter Zijlstra wrote:
->> On Mon, Jun 25, 2018 at 03:16:43PM +0200, Andrea Parri wrote:
->>>>> A concrete example being the store-buffering pattern reported in [1].
->>>>
->>>> Well, that example only needs a store->load barrier. It so happens
->>>> smp_mb() is the only one actually doing that, but imagine we had a
->>>> weaker barrier that did just that, one that did not imply the full
->>>> transitivity smp_mb() does.
->>>>
->>>> Then the example from [1] could use that weaker thing.
->>>
->>> Absolutely (and that would be "fence w,r" on RISC-V, IIUC).
->>
->> Ah cute. What is the transitivity model of those "fence" instructions? I
->> see their smp_mb() is "fence rw,rw" and smp_mb() must be RSsc. Otoh
->> their smp_wmb() is "fence w,w" which is only only required to be RCpc.
->>
->> So what does RISC-V do for "w,w" and "w,r" like things?
-> 
-> I'd defer to Daniel (in Cc:) for this ;-)  I simply checked the SB pattern
-> plus w,r fences against the following models:
-> 
->   http://www.cl.cam.ac.uk/~sf502/regressions/rmem/
->   http://moscova.inria.fr/~maranget/cats7/riscv/ 
-> 
+On 06/22/2018 11:46 PM, Amir Goldstein wrote:
+> Mark,
+>
+> Thanks for the properly documented patch, but this documentation it
+> missing the caveats of this config option and there are severe caveats
+> as was discussed on earlier version of the patch.
+>
+> You should mention the not so minor detail that this option can result
+> in inability to delete files/directories from overlay and there me be other
+> side effects. This is one of those features that should be warning
+> unconditionally that user should really know what user is doing
+Agreed, I would like to prevent it becoming a treatise ...
 
-First off, the latest RISC-V spec is here, in case anyone hasn't seen it:
-https://github.com/riscv/riscv-isa-manual.  It's all public now,
-fortunately.  There's a PDF link at the bottom of that page too.  The
-spec now has proposed Linux mappings (not all of which have actually made
-it upstream...) in Appendix A.5 as well.  We'd welcome general feedback
-on those.
+The upperdir tree should match the privileges of the lower tree, and in 
+Android that is enforced by a hard-coded built-in map (fs_config for 
+DAC, restorecon map for MAC) for the caller writers that never causes 
+unexpected adjustments (famous last wurds). The active 
+(writers/creators) callers have _more_ privileges than init 
+(creator/mounter), and are only available on development (userdebug) 
+builds. All else are passive (readers), and although less privileged 
+than init, have demonstrable read MAC privs where init does not.
+> You did not address my concern that the test for setting trusted xattr
+> on mount (ovl_make_workdir) should emit a different kind of warning
+> when override_creds=off. In fact, I think it should emit a warning
+> when override_creds=off unconditionally to indicate that weird things
+> can be expected and we "really hope you know what you are doing".
+>
+> A new security concern I just noticed - overlayfs calls some vfs
+> functions directly to perform operations that are typically not
+> allowed to unprivileged users without checking credentials.
+> In those cases your patch introduces a security vulnerability.
+>
+> Examples:
+> - overlayfs calls exportfs_decode_fh() on underlying
+> fs without checking CAP_DAC_READ_SEARCH
+> - overlayfs calls vfs_whiteout() which calls underlying fs mknod
+> without checking CAP_MKNOD
+>
+> Those examples could be easily fixed and you may righfully
+> claim that they are bugs, but the fact is that those "bugs" are
+> harmless until someone creates an irregular security model
+> without capabilities to mount, without capability to mknod.
+>
+> What's worse is that you have to audit the overlayfs code and
+> find all these potential bugs and fix them before changing the
+> assumptions that were made over the years about mounter
+> credentials.
+Thanks, _this_ is what a good review is all about. I will need a deeper 
+dive (b/c I did not see these) into all the 'command paths' to determine 
+any missed/assumed checks. In Android, all the 'caller' issues I have 
+with the existing checks are passive (read), and I would _hate_ to be 
+providing them (unchecked and assumed) DAC privileges. In Android, it is 
+simpler, they would not pass the first barriers, to the internal assumed 
+points in any case, but multilevel security _requires_ us to recheck. 
+The active (create/write) callers are few and trusted, but _should_ be 
+checked w/o assumption (eg: if 'adb push' is not granted CAP_MKNOD, it 
+should be blocked).
+> Thanks,
+> Amir.
 
-Now to the question above:
+Sincerely -- Mark Salyzyn
 
-RISC-V is (other-)multi-copy-atomic, so I don't think transitivity
-should be an issue here.
 
-We do have a "fence w,r", but we decided to warn against actually using
-it for a few reasons: 1) lack of known common use cases :), 2) IIRC
-there was some corner case discrepancy between the axiomatic and
-operational models if we allowed it, and 3) in practice, it's already
-both expensive enough and obscure enough that many or most
-implementations will simply just treat it as "fence rw,rw" anyway.
-
-So, in theory, "fence w,r" should be enough to prevent SB-like patterns.
-It's just not yet clear that it's a big enough win that it's worth
-creating a new fence macro for it, or pulling the current RISC-V
-recommendation against its use.  What do you all think?
-
-Are there other known use cases where you really do want a "fence w,r"
-that's intentionally not also something stronger?  How common would the
-pattern be?
-
-Dan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
