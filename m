@@ -1,71 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DATE_IN_FUTURE_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 332AE7DF87
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 12:54:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BBBF57D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 13:01:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755390AbeFYMyG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 08:54:06 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:8729 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1755429AbeFYMxe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jun 2018 08:53:34 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 6996A2BF99394;
-        Mon, 25 Jun 2018 20:53:17 +0800 (CST)
-Received: from localhost.localdomain (10.143.28.90) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.382.0; Mon, 25 Jun 2018 20:53:10 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <james.morse@arm.com>, <gengdongjiu@huawei.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
-Subject: [PATCH v5 0/2] support exception state migration and set VSESR_EL2 by user space
-Date:   Tue, 26 Jun 2018 04:58:27 +0800
-Message-ID: <1529960309-2513-1-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 1.9.1
+        id S1755429AbeFYNBO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 09:01:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51768 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755411AbeFYNBN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 09:01:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=vZX8jYOWO3a90wCemC9ahigb6/SmMgNRcEPmtmnRURA=; b=BrIjbdD0n6DazM0FFELolQaJK
+        UaThofzbBDfyhs8G4Y2GcOy0M6UZshi2mResO8ysfJRYnnXHhtJ2uGSROhq0K4irQtyqGg041BH6A
+        ovobXxSSva84nB2yTNmkANVzHlExmg/gYUsY2bW2Nn7lpl7v6CqvaacYcl1e3tq2Cr+I6xdbp5CMD
+        JTScTXz/JZBnOH1IBgY5bIpz2Xe8HLtWJYAbSo87GN9BoYSQCXsu3V+G6rxHOB6vYksjJwsEOStMq
+        MRs0gUWb9j4IBN0VlggU6iY+oKPXeT90eIMI6rKnBLKh2PwRLVFQJQmFH+54NbWUcSmPjxOQL1Ago
+        VTtMwMEgg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fXR6z-0000CJ-6F; Mon, 25 Jun 2018 13:00:53 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id A72F92029F1DB; Mon, 25 Jun 2018 15:00:51 +0200 (CEST)
+Date:   Mon, 25 Jun 2018 15:00:51 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Will Deacon <will.deacon@arm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
+Message-ID: <20180625130051.GA2494@hirez.programming.kicks-ass.net>
+References: <20180625095031.GX2494@hirez.programming.kicks-ass.net>
+ <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <2779.1529928765@warthog.procyon.org.uk>
+ <20180625122850.GA14561@andrea>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.90]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180625122850.GA14561@andrea>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series patch is separated from https://www.spinics.net/lists/kvm/msg168917.html
+On Mon, Jun 25, 2018 at 02:28:50PM +0200, Andrea Parri wrote:
+> On Mon, Jun 25, 2018 at 01:12:45PM +0100, David Howells wrote:
+> > Peter Zijlstra <peterz@infradead.org> wrote:
+> > 
+> > > So yes, I suppose we're entirely suck with the full memory barrier
+> > > semantics like that. But I still find it easier to think of it like a
+> > > RELEASE that pairs with the ACQUIRE of waking up, such that the task
+> > > is guaranteed to observe it's own wake condition.
+> > > 
+> > > And maybe that is the thing I'm missing here. These comments only state
+> > > that it does in fact imply a full memory barrier, but do not explain
+> > > why, should it?
+> > 
+> > I think because RELEASE and ACQUIRE concepts didn't really exist in Linux at
+> > the time I wrote the doc, so the choices were read/readdep, write or full.
+> > 
+> > Since this document defines the *minimum* you can expect rather than what the
+> > kernel actually gives you, I think it probably makes sense to switch to
+> > RELEASE and ACQUIRE here.
+> 
+> RELEASE and ACQUIRE are not enough in SB.  Can you elaborate?
 
-1. Detect whether KVM can set set guest SError syndrome
-2. Support to Set VSESR_EL2 and inject SError by user space.
-3. Support live migration to keep SError pending state and VSESR_EL2 value
+I prefer RELEASE vs wait-condition and treat task->state as an internal
+matter. Also note how the set_current_task() comment is fairly vague on
+what exact barriers are used. It just states 'sufficient'.
 
-The user space patch is here: https://www.mail-archive.com/qemu-devel@nongnu.org/msg539534.html
-
-Dongjiu Geng (2):
-  arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
-  arm64: KVM: export the capability to set guest SError syndrome
-
- Documentation/virtual/kvm/api.txt    | 44 ++++++++++++++++++++++++++++++++----
- arch/arm64/include/asm/kvm_emulate.h |  5 ++++
- arch/arm64/include/asm/kvm_host.h    |  7 ++++++
- arch/arm64/include/uapi/asm/kvm.h    | 13 +++++++++++
- arch/arm64/kvm/guest.c               | 43 +++++++++++++++++++++++++++++++++++
- arch/arm64/kvm/inject_fault.c        |  6 ++---
- arch/arm64/kvm/reset.c               |  4 ++++
- include/uapi/linux/kvm.h             |  1 +
- virt/kvm/arm/arm.c                   | 21 +++++++++++++++++
- 9 files changed, 137 insertions(+), 7 deletions(-)
-
--- 
-2.7.4
+Maybe I should just give up and accept smp_mb(), but strictly speaking
+that is overkill, but it is the only sufficient barrier we currently
+have.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
