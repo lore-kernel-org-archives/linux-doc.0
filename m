@@ -3,50 +3,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C75947DF93
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 13:16:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33C917D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 14:18:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933730AbeFYNQy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 09:16:54 -0400
-Received: from mail-wr0-f196.google.com ([209.85.128.196]:37483 "EHLO
-        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934032AbeFYNQx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 09:16:53 -0400
-Received: by mail-wr0-f196.google.com with SMTP id k6-v6so13652860wrp.4
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jun 2018 06:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EcUAzLkjeygbDnazyFrM5IRX1QUq/Nrh6HgVKfYJ+14=;
-        b=C9t1WE0J1nk5JuyewHqiHleyVlWldqdPxhJVnAUooDLOg6wdl1WYB3nZSQ8cExNSMO
-         nVWxAjAyQRVJHOScfqb+dLzZa4/O0/prPlA7f8F2TGp2IGPyDE4QFWczrMtkMVCBPli7
-         mkjXOQjYPNAYbwsFfbaUKeX42NUk7UZIjXXgU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EcUAzLkjeygbDnazyFrM5IRX1QUq/Nrh6HgVKfYJ+14=;
-        b=lt/6qweP1kS+5mobG0vZdfAXxNpmjdRYYqSlhRCAwfWA2SzGyqahnvbW/Mr4GlDrqg
-         22G0DSXPzFR+jAap74Rwr/qdwx8cTElxMNCgU1mwbJ5VOhB0dPAMzjyAmuTb8/4i6SVt
-         eSCvs9/M+PE//cHehc8G/9veiBgQtSliWeqz8DplBMpKdtAREMLTOy2TGeOBEZdWpUI0
-         OrDLKOoyjpxBIfBumKFBQydNvzhZqv3zFP55A2kI9SUWkyhaJa22N4RvT/itG+w3weNV
-         DjsCRDVfWvxKNcv9jBOMDgtTPmTEcACR6fJdX8NoH1q9twcyScuU2YMYAu6IltqY+nEX
-         TP5w==
-X-Gm-Message-State: APt69E2EocQ+EP5ycFcY3cbWszZ0eCSKRlmYcFishsBbQo5P4xvq0sSK
-        NrM/0NP997comjxJ8vvUhV8UJA==
-X-Google-Smtp-Source: AAOMgpdOaPgFfMeMVZveUoqzBH5WOLlC5E9Z7+V2JDsTgW11uXk6SNOIORmb2tr7t3NeB5UxCfh+Ww==
-X-Received: by 2002:adf:fa07:: with SMTP id m7-v6mr10704383wrr.228.1529932611495;
-        Mon, 25 Jun 2018 06:16:51 -0700 (PDT)
-Received: from andrea (85.100.broadband17.iol.cz. [109.80.100.85])
-        by smtp.gmail.com with ESMTPSA id t1-v6sm9374806wmt.40.2018.06.25.06.16.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Jun 2018 06:16:50 -0700 (PDT)
-Date:   Mon, 25 Jun 2018 15:16:43 +0200
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+        id S934205AbeFYOSu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 10:18:50 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41802 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S934199AbeFYOSt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 10:18:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=fY3pqgWOw40ikgX8NPO8rV+/G7iS80ZFB1Z5AxUVWvQ=; b=MwQ0KeJmYY2K19inoZIw7EojR
+        L02IviEVvIU9udYNNnBM8/Xtun1cpV+oGiOinS1ajS+kKa+XuBk7gB707ZpsLrAnbVeCL8E/ZCZ5b
+        8z15DTQy/8CWcfmysS5YVz3I4TULs0srgzirGqrRz36jwUQhYflUhVkgIBZ/PgeRtQQTu9L33YeTH
+        um+QBBnzkXGYDv0pE7GOrgVu+KMiv7mHzd8pbkVF/TZwONpUbXlrI+XgT12MS4Do3M3ko25pBThhe
+        a24v8y6j+krzFKbLr4BoehLwoc64bE3LS+cAEG3+0La4RWWh1yojT/bvOLzlOB4jOykU4w9Cv7pzv
+        Y0ei053rQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fXSK8-0007fW-NT; Mon, 25 Jun 2018 14:18:33 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 93AA42029F1D9; Mon, 25 Jun 2018 16:18:30 +0200 (CEST)
+Date:   Mon, 25 Jun 2018 16:18:30 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Alan Stern <stern@rowland.harvard.edu>,
         Will Deacon <will.deacon@arm.com>,
@@ -62,135 +49,89 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Ingo Molnar <mingo@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
-Message-ID: <20180625131643.GA15126@andrea>
+Message-ID: <20180625141830.GC2494@hirez.programming.kicks-ass.net>
 References: <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
  <20180625095031.GX2494@hirez.programming.kicks-ass.net>
  <20180625105618.GA12676@andrea>
  <20180625123121.GY2494@hirez.programming.kicks-ass.net>
+ <20180625131643.GA15126@andrea>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180625123121.GY2494@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20180625131643.GA15126@andrea>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > A concrete example being the store-buffering pattern reported in [1].
-> 
-> Well, that example only needs a store->load barrier. It so happens
-> smp_mb() is the only one actually doing that, but imagine we had a
-> weaker barrier that did just that, one that did not imply the full
-> transitivity smp_mb() does.
-> 
-> Then the example from [1] could use that weaker thing.
-
-Absolutely (and that would be "fence w,r" on RISC-V, IIUC).
-
-
-> 
-> > > So yes, I suppose we're entirely suck with the full memory barrier
-> > > semantics like that. But I still find it easier to think of it like a
-> > > RELEASE that pairs with the ACQUIRE of waking up, such that the task
-> > > is guaranteed to observe it's own wake condition.
-> > > 
-> > > And maybe that is the thing I'm missing here. These comments only state
-> > > that it does in fact imply a full memory barrier, but do not explain
-> > > why, should it?
+On Mon, Jun 25, 2018 at 03:16:43PM +0200, Andrea Parri wrote:
+> > > A concrete example being the store-buffering pattern reported in [1].
 > > 
-> > "code (people) is relying on it" is really the only "why" I can think
-> > of.  With this patch, that same/SB pattern is also reported in memory
-> > -barriers.txt.  Other ideas?
+> > Well, that example only needs a store->load barrier. It so happens
+> > smp_mb() is the only one actually doing that, but imagine we had a
+> > weaker barrier that did just that, one that did not imply the full
+> > transitivity smp_mb() does.
+> > 
+> > Then the example from [1] could use that weaker thing.
 > 
-> So I'm not actually sure how many people rely on the RCsc transitive
-> smp_mb() here. People certainly rely on the RELEASE semantics, and the
-> code itself requires the store->load ordering, together that gives us
-> the smp_mb() because that's simply the only barrier we have.
+> Absolutely (and that would be "fence w,r" on RISC-V, IIUC).
+
+Ah cute. What is the transitivity model of those "fence" instructions? I
+see their smp_mb() is "fence rw,rw" and smp_mb() must be RSsc. Otoh
+their smp_wmb() is "fence w,w" which is only only required to be RCpc.
+
+So what does RISC-V do for "w,w" and "w,r" like things?
+
+> > diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> > index a98d54cd5535..8374d01b2820 100644
+> > --- a/kernel/sched/core.c
+> > +++ b/kernel/sched/core.c
+> > @@ -1879,7 +1879,9 @@ static void ttwu_queue(struct task_struct *p, int cpu, int wake_flags)
+> >   *  C) LOCK of the rq(c1)->lock scheduling in task
+> >   *
+> >   * Transitivity guarantees that B happens after A and C after B.
+> > - * Note: we only require RCpc transitivity.
+> > + * Note: we only require RCpc transitivity for these cases,
+> > + *       but see smp_mb__after_spinlock() for why rq->lock is required
+> > + *       to be RCsc.
+> >   * Note: the CPU doing B need not be c0 or c1
 > 
-> And looking at smp_mb__after_spinlock() again, we really only need the
-> RCsc thing for rq->lock, not for the wakeups. The wakeups really only
-> need that RCpc RELEASE + store->load thing (which we don't have).
+> FWIW, we discussed this pattern here:
 > 
-> So yes, smp_mb(), however the below still makes more sense to me, or am
-> I just being obtuse again?
+>   http://lkml.kernel.org/r/20171018010748.GA4017@andrea
+
+That's not the patter from smp_mb__after_spinlock(), right? But the
+other two from this comment.
+
+> > @@ -1966,6 +1969,10 @@ static void ttwu_queue(struct task_struct *p, int cpu, int wake_flags)
+> >   * Atomic against schedule() which would dequeue a task, also see
+> >   * set_current_state().
+> >   *
+> > + * Implies at least a RELEASE such that the waking task is guaranteed to
+> > + * observe the stores to the wait-condition; see set_task_state() and the
+> > + * Program-Order constraints.
 > 
-> ---
->  kernel/sched/core.c | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
+> [s/set_task_task/set_current_state ?]
+
+Yes, we got rid of set_task_state(), someone forgot to tell my fingers
+:-)
+
+> I'd stick to "Implies/Executes at least a full barrier"; this is in fact
+> already documented in the function body:
 > 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index a98d54cd5535..8374d01b2820 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -1879,7 +1879,9 @@ static void ttwu_queue(struct task_struct *p, int cpu, int wake_flags)
->   *  C) LOCK of the rq(c1)->lock scheduling in task
->   *
->   * Transitivity guarantees that B happens after A and C after B.
-> - * Note: we only require RCpc transitivity.
-> + * Note: we only require RCpc transitivity for these cases,
-> + *       but see smp_mb__after_spinlock() for why rq->lock is required
-> + *       to be RCsc.
->   * Note: the CPU doing B need not be c0 or c1
+> 	/*
+> 	 * If we are going to wake up a thread waiting for CONDITION we
+> 	 * need to ensure that CONDITION=1 done by the caller can not be
+> 	 * reordered with p->state check below. This pairs with mb() in
+> 	 * set_current_state() the waiting thread does.
+> 	 */
+> 
+> (this is, again, that "store->load barrier"/SB).
+> 
+> I'll try to integrate these changes in v2, if there is no objection.
 
-FWIW, we discussed this pattern here:
-
-  http://lkml.kernel.org/r/20171018010748.GA4017@andrea
-
-
->   *
->   * Example:
-> @@ -1944,13 +1946,14 @@ static void ttwu_queue(struct task_struct *p, int cpu, int wake_flags)
->   * However; for wakeups there is a second guarantee we must provide, namely we
->   * must observe the state that lead to our wakeup. That is, not only must our
->   * task observe its own prior state, it must also observe the stores prior to
-> - * its wakeup.
-> + * its wakeup, see set_current_state().
->   *
->   * This means that any means of doing remote wakeups must order the CPU doing
-> - * the wakeup against the CPU the task is going to end up running on. This,
-> - * however, is already required for the regular Program-Order guarantee above,
-> - * since the waking CPU is the one issueing the ACQUIRE (smp_cond_load_acquire).
-> - *
-> + * the wakeup against the CPU the task is going to end up running on. This
-> + * means two things: firstly that try_to_wake_up() must (at least) imply a
-> + * RELEASE (smp_mb__after_spinlock()), and secondly, as is already required
-> + * for the regular Program-Order guarantee above, that waking implies an ACQUIRE
-> + * (see smp_cond_load_acquire() above).
->   */
->  
->  /**
-> @@ -1966,6 +1969,10 @@ static void ttwu_queue(struct task_struct *p, int cpu, int wake_flags)
->   * Atomic against schedule() which would dequeue a task, also see
->   * set_current_state().
->   *
-> + * Implies at least a RELEASE such that the waking task is guaranteed to
-> + * observe the stores to the wait-condition; see set_task_state() and the
-> + * Program-Order constraints.
-
-[s/set_task_task/set_current_state ?]
-
-I'd stick to "Implies/Executes at least a full barrier"; this is in fact
-already documented in the function body:
-
-	/*
-	 * If we are going to wake up a thread waiting for CONDITION we
-	 * need to ensure that CONDITION=1 done by the caller can not be
-	 * reordered with p->state check below. This pairs with mb() in
-	 * set_current_state() the waiting thread does.
-	 */
-
-(this is, again, that "store->load barrier"/SB).
-
-I'll try to integrate these changes in v2, if there is no objection.
-
-  Andrea
-
-
-> + *
->   * Return: %true if @p->state changes (an actual wakeup was done),
->   *	   %false otherwise.
->   */
+Thanks!
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
