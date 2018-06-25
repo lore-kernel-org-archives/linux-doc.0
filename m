@@ -5,140 +5,142 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C24FB7DF86
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 16:07:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4B27E7DF89
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 16:37:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755242AbeFYQHG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 12:07:06 -0400
-Received: from mail-pg0-f66.google.com ([74.125.83.66]:37745 "EHLO
-        mail-pg0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755167AbeFYQHE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 12:07:04 -0400
-Received: by mail-pg0-f66.google.com with SMTP id o11-v6so386607pgv.4
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jun 2018 09:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=r1RPv17L4++qu86la0K0F4j7zBMOUnwka3AIC53pU/0=;
-        b=J3piKh3MrlafDPR8KwlmUJH8oUZQL5pEQ0nbhgnVht8gSg3vMUSFhpfYaWIrVkV8qy
-         CHx79E7s9s5BJtpu+dVx2nODIHOLyywFlPgTc/Hn9GLxH6f7t4fXt8h419CluQNwmWez
-         Byt1ElmflrStQw7LeRVoe9cTYwKamZfXx6QH0dFaZMn9VTO+j/rCyyORhhzU41AqxjMQ
-         Smn3lf1eRXZOZ+97VMpBa0CYklB56IIv16GojQQcw2fSmdTX53Mv77CkeakJqk4r6lbr
-         x4V6q8IaRAlBi4WWGw6LVXUG3QbF+l7NPdynhN7YZvI+Q/oMxXrXc5aEOmkrJz8jiSMQ
-         KI5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=r1RPv17L4++qu86la0K0F4j7zBMOUnwka3AIC53pU/0=;
-        b=F7lJaOp4JQMYn6fSOA9IitlCTuwjFTbzlNp3K4Ud2KDRZvdJmBoxPuusMSxhujQyDU
-         TVAUJnvGs1r9nAENAo8G0HAr/lHWAKx2Ns7i3e/f/9WfbHzihxJF8zrIX3Z2rk1tOnPU
-         I+Dj8fQin+R+YLhmIAPWCFROGfc1ZhBY3So3r1nJM5GeO8Et7Cv5G0AdNn9LrML+bS4k
-         R71KRIMNOH6hwTv12Xj2nBJGMuLpereKKg4d7+HhMDaeW6JGrEwTdLuNUTnLaCg2EYfg
-         VPVorsRgrjr8CcFE70Vr/yBjJASdWNvD2GKrUqZ2dHvzSHLHc0H5Z1tqi8DiTMFDavv6
-         nq9g==
-X-Gm-Message-State: APt69E2pk67Kc8pxxher5YSMl/QFQi56TTaZQZMJDB+iOTsCAE4XiqW9
-        aduKkgZAjWzmLStCmanDiPzpmVD3DHs=
-X-Google-Smtp-Source: ADUXVKJbJeddA3qRul0n1EDMaj/Wld+FMprK+Q0IA7c4I8j+eQJYgyYGg819/T7xUr4JJKQRGzH6zw==
-X-Received: by 2002:a62:ab0e:: with SMTP id p14-v6mr13575881pff.211.1529942823720;
-        Mon, 25 Jun 2018 09:07:03 -0700 (PDT)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1611:6077:8eec:bc7e:d0f4])
-        by smtp.googlemail.com with ESMTPSA id v13-v6sm35066280pfa.131.2018.06.25.09.07.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Jun 2018 09:07:03 -0700 (PDT)
-Subject: Re: [PATCH v4] overlayfs: override_creds=off option bypass
- creator_cred
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
+        id S932235AbeFYQhX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 12:37:23 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43674 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932438AbeFYQhW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 12:37:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=eMnUeejIFi+eaZLwGbCxGh0dPP1cnNKWEKY7p6Mk9+8=; b=Qb9TX39SdDViDOEIz548EQ8XH
+        WzdWHUDPlWOI10jdd9jInWpp9yRsp9L1jDzt+oGQsIX3bFBcapmJhfVNXSwyjaK5bXgIooN2S1CyU
+        yHBicuKCTeCJRC9cUKflotSWpX98AteLrRmHAf4o+hgs8dxv+WOiFMlqnyBMBr2apG5KPjN78QdMd
+        gYklW2wIPgoaKnd3hYQNmowxpXVSKmJwJQAGiZs51gnqzqFg6Og4dU/xT3F0XUYcpVCCLGr14jvUQ
+        umVyGabIBX91wxtrwCg/Nb+zCgnianfyvjVERiERzpSTVVY8oX/f8/SQoCA8w4W748C4I5Z53LAPH
+        hN7ASS5hA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fXUUF-0003aq-LI; Mon, 25 Jun 2018 16:37:07 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 621C42029FA0A; Mon, 25 Jun 2018 18:37:05 +0200 (CEST)
+Date:   Mon, 25 Jun 2018 18:37:05 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Will Deacon <will.deacon@arm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20180622171605.52989-1-salyzyn@android.com>
- <CAOQ4uxiUaJHZ5coUNwH1ZYQjVB8dmAo0Y0bDKOmZM81tzCqC8g@mail.gmail.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <058082af-c3cd-9d0a-8d5c-1999703342d0@android.com>
-Date:   Mon, 25 Jun 2018 09:07:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
+Message-ID: <20180625163705.GE2494@hirez.programming.kicks-ass.net>
+References: <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180625095031.GX2494@hirez.programming.kicks-ass.net>
+ <20180625105618.GA12676@andrea>
+ <20180625123121.GY2494@hirez.programming.kicks-ass.net>
+ <20180625131643.GA15126@andrea>
+ <20180625141830.GC2494@hirez.programming.kicks-ass.net>
+ <20180625145611.GA16333@andrea>
 MIME-Version: 1.0
-In-Reply-To: <CAOQ4uxiUaJHZ5coUNwH1ZYQjVB8dmAo0Y0bDKOmZM81tzCqC8g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180625145611.GA16333@andrea>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/22/2018 11:46 PM, Amir Goldstein wrote:
-> Mark,
->
-> Thanks for the properly documented patch, but this documentation it
-> missing the caveats of this config option and there are severe caveats
-> as was discussed on earlier version of the patch.
->
-> You should mention the not so minor detail that this option can result
-> in inability to delete files/directories from overlay and there me be other
-> side effects. This is one of those features that should be warning
-> unconditionally that user should really know what user is doing
-Agreed, I would like to prevent it becoming a treatise ...
+On Mon, Jun 25, 2018 at 04:56:11PM +0200, Andrea Parri wrote:
 
-The upperdir tree should match the privileges of the lower tree, and in 
-Android that is enforced by a hard-coded built-in map (fs_config for 
-DAC, restorecon map for MAC) for the caller writers that never causes 
-unexpected adjustments (famous last wurds). The active 
-(writers/creators) callers have _more_ privileges than init 
-(creator/mounter), and are only available on development (userdebug) 
-builds. All else are passive (readers), and although less privileged 
-than init, have demonstrable read MAC privs where init does not.
-> You did not address my concern that the test for setting trusted xattr
-> on mount (ovl_make_workdir) should emit a different kind of warning
-> when override_creds=off. In fact, I think it should emit a warning
-> when override_creds=off unconditionally to indicate that weird things
-> can be expected and we "really hope you know what you are doing".
->
-> A new security concern I just noticed - overlayfs calls some vfs
-> functions directly to perform operations that are typically not
-> allowed to unprivileged users without checking credentials.
-> In those cases your patch introduces a security vulnerability.
->
-> Examples:
-> - overlayfs calls exportfs_decode_fh() on underlying
-> fs without checking CAP_DAC_READ_SEARCH
-> - overlayfs calls vfs_whiteout() which calls underlying fs mknod
-> without checking CAP_MKNOD
->
-> Those examples could be easily fixed and you may righfully
-> claim that they are bugs, but the fact is that those "bugs" are
-> harmless until someone creates an irregular security model
-> without capabilities to mount, without capability to mknod.
->
-> What's worse is that you have to audit the overlayfs code and
-> find all these potential bugs and fix them before changing the
-> assumptions that were made over the years about mounter
-> credentials.
-Thanks, _this_ is what a good review is all about. I will need a deeper 
-dive (b/c I did not see these) into all the 'command paths' to determine 
-any missed/assumed checks. In Android, all the 'caller' issues I have 
-with the existing checks are passive (read), and I would _hate_ to be 
-providing them (unchecked and assumed) DAC privileges. In Android, it is 
-simpler, they would not pass the first barriers, to the internal assumed 
-points in any case, but multilevel security _requires_ us to recheck. 
-The active (create/write) callers are few and trusted, but _should_ be 
-checked w/o assumption (eg: if 'adb push' is not granted CAP_MKNOD, it 
-should be blocked).
-> Thanks,
-> Amir.
+> Ah, before sending v2, I'd really appreciate some comments on the XXXs
+> I've added to wait_woken() as I'm not sure I understand the pattern in
+> questions.
 
-Sincerely -- Mark Salyzyn
+Oh man, lemme see if I can remember how all that was supposed to work.
+
+So the basic idea was that we cannot rely on the normal task->state
+rules because testing @condition can schedule itself. So instead we add
+more state. But then we need to ensure that if we either don't loose a
+wake or loose the wakeup state.
+
+> For example, the second comment says:
+> 
+>   /*
+>    * The below implies an smp_mb(), it too pairs with the smp_wmb() from
+>    * woken_wake_function() such that we must either observe the wait
+>    * condition being true _OR_ WQ_FLAG_WOKEN such that we will not miss
+>    * an event.
+>    */
+> 
+> From this I understand:
+> 
+>    wq_entry->flags &= ~WQ_FLAG_WOKEN;      condition = true;
+>    smp_mb() // B                           smp_wmb(); // C
+>    [next iteration of the loop]            wq_entry->flags |= WQ_FLAG_WOKEN;
+>    if (condition)
+>       break;
+> 
+>    BUG_ON(!condition && !(wq_entry->flags & WQ_FLAG_WOKEN))
+
+Right, basically if we get a spurious wakeup and our ttwu() 'fails', we
+must either see condition on the next iteration, or ensure the next
+iteration doesn't sleep, so we'll loop around and test condition yet
+again.
+
+> IOW, this is an R-like pattern: if this is the case, the smp_wmb() does
+> _not_ prevent the BUG_ON() from firing; according to LKMM (and powerpc)
+> a full barrier would be needed.
+
+Hmmm, how come? store-store collision? Yes I suppose you're right.
+
+> Same RFC for the first comment:
+> 
+>   /*
+>    * The above implies an smp_mb(), which matches with the smp_wmb() from
+>    * woken_wake_function() such that if we observe WQ_FLAG_WOKEN we must
+>    * also observe all state before the wakeup.
+>    */
+> 
+> What is the corresponding snippet & BUG_ON()?
+
+The comment there suggest:
+
+	if (condition)
+		break;
+
+	set_current_state(UNINTERRUPTIBLE);		condition = true;
+	/* smp_mb() */					smp_wmb();
+							wq_entry->flags |= WQ_FLAG_WOKEN;
+	if (!wq_entry->flags & WQ_FLAG_WOKEN)
+		schedule();
 
 
+	BUG_ON((wq_entry->flags & WQ_FLAG_WOKEN) && !condition);
+
+
+But looking at that now, I think that's wrong. Because the the purpose
+was that, if we don't do the try_to_wake_up(), our task still needs to
+observe the condition store.
+
+But for that we need a barrier between the wq_entry->flags load and the
+second condition test, which would (again) be B, not A.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
