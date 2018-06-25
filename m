@@ -1,201 +1,269 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DE1E7D062
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 06:20:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC3747DF91
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 08:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751938AbeFYGUK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 02:20:10 -0400
-Received: from mail-eopbgr700059.outbound.protection.outlook.com ([40.107.70.59]:43112
-        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1751752AbeFYGUH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jun 2018 02:20:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=asCGtNpw5dQjd2uHtN3iekF6r5dm+YbiVc8mZSUVuNA=;
- b=Ew7cJK6I/hKywCJp1LRCEIF800QkRPOQtgO4g8fODnkj3v+/ozl/0BTvy5HMR6TCbrLWm47m+hLTeAhYV/+qFjWwIrTn4SBdXsLog2Wy+BY3DMgfNoIxrcTq1nto8nbo3JEHklJDr94Xkk/BbAeJnCSIeSDfGyLcbKZ5FWiW1Sk=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Yuri.Norov@cavium.com; 
-Received: from localhost (78.187.48.10) by
- DM6PR07MB4379.namprd07.prod.outlook.com (2603:10b6:5:bf::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.884.21; Mon, 25 Jun 2018 06:20:03 +0000
-Date:   Mon, 25 Jun 2018 09:19:50 +0300
-From:   Yury Norov <ynorov@caviumnetworks.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Alexander Graf <agraf@suse.de>,
+        id S1752553AbeFYID4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 04:03:56 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:36479 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752512AbeFYIDx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Jun 2018 04:03:53 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id EE44920834; Mon, 25 Jun 2018 10:03:50 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-50-153.w90-88.abo.wanadoo.fr [90.88.168.153])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 43C78203D9;
+        Mon, 25 Jun 2018 10:03:50 +0200 (CEST)
+Date:   Mon, 25 Jun 2018 10:03:48 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Peter Rosin <peda@axentia.se>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>
-Subject: Re: [PATCH 04/24] 32-bit userspace ABI: introduce ARCH_32BIT_OFF_T
- config option
-Message-ID: <20180625061950.GB23998@yury-thinkpad>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20180516081910.10067-5-ynorov@caviumnetworks.com>
- <20180608173207.nwoi25jee52gpdwy@armageddon.cambridge.arm.com>
- <20180609074227.GA6810@yury-thinkpad>
- <CAK8P3a16ByPtCwKbdLQRDRni3qV9DXLNYZ9QJUH6uHaZYHr34g@mail.gmail.com>
- <20180611112736.GA19952@yury-thinkpad>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>
+Subject: Re: [PATCH v5 01/10] i3c: Add core I3C infrastructure
+Message-ID: <20180625100348.713be1e7@bbrezillon>
+In-Reply-To: <cc5e03db-e480-f6d5-05ad-6edee52f46a7@axentia.se>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+        <20180622104930.32050-2-boris.brezillon@bootlin.com>
+        <ed1add9b-ba21-d3d3-64c4-44d18af3d133@axentia.se>
+        <20180623121705.1d618c5d@bbrezillon>
+        <d6e37e99-d0d1-bd59-c1be-f462d3086a40@axentia.se>
+        <20180624140210.03416dea@bbrezillon>
+        <cc5e03db-e480-f6d5-05ad-6edee52f46a7@axentia.se>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180611112736.GA19952@yury-thinkpad>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [78.187.48.10]
-X-ClientProxiedBy: VI1PR04CA0087.eurprd04.prod.outlook.com
- (2603:10a6:803:64::22) To DM6PR07MB4379.namprd07.prod.outlook.com
- (2603:10b6:5:bf::21)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 88060487-33d3-417d-eb7e-08d5da63b0cb
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652020)(8989117)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(5600026)(711020)(2017052603328)(7153060)(7193020);SRVR:DM6PR07MB4379;
-X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4379;3:vh21SeuE0k0/g1JLtsl+Bmu4Yo8LMrzwr+MlErWDiV2ccT+gFFqJCy+5XIpaGcBPpsgjJop1JLa3UIVA5+laoowQ21ONIJJCa1a8WYEI3yZ+13vp/A6wzF73cErO8YIIUD+QYshYiaD/e+1lI6zJWAeK6HgdN9fsS7+DN+pINSpJHp8ckEis3BIr+AH5+mA0LJRWfkULU78dt6zzjLqT82z2LDIyZbizT0UJbsloBotqoMkC/RyxhHs5cr6c1QR4;25:T65kbMnFXY+7t0hJfZa4mNqS70i02DcxKATnJy/AI+9IxwR2bkCIqEoaLSi3d9a8JNYjZoX5/5AZzS1TuiX6mRECBj3L4OwkTothaTvt6j5uyp7eDOrrBO2+wtd5lt33J78J4pbMMeAMAvNeY3HGkgk1b/KAxuf9jmby0Ag4WbGKdyFRkBx6Zh+do3IRWyR2I1rz28lva0M8npJWhWI4SMEFG0EOzRjlNREbLjX2xOIwK9WU4HMKo4UjAu0r8Ww2j/K3A4I+NzT06ZcyZu6rUanYcpjl9TsqxEXpgMhbx7HyskN9J1d1OeHsTZXT1Jpii7gkgR3vrFuzcqszlDAgWg==;31:Oa1dqWUn/EXmnE47k8ZKIbL45iZJc+r8EZiJRkMUigZpgjvxG9tCSXbUSN69DcT7P89LcttIDpVrt8K37l0W9y1hAESe8AXd0ZMu5rQe2Y1orkPyc2eHldbiCdTXtj5JpJRwY5pomatsSbowhighCUfE99/EQ3auchaPS4+Wxo4SO2H8GZSuEoVRJOP6edAKjIknKypR9MJ/1ZNFG/osnXr//8S56Tf0PMs6FOUjXnY=
-X-MS-TrafficTypeDiagnostic: DM6PR07MB4379:
-X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4379;20:w7l5+IIVhRl3MRLn12p749Q2X6c3jkkPQ0ctdJuYfeOdD5YUGoJ5hgGRHytGKLTwjCJE0hhiZNdBgtyTOeQGN6VhnWWJCSLPn5hNdz4F3veDUEcATg5dk3HCSZ9ARu3QINyafpKqtiFocHPUN3pHhslGxWaOF300bxaOahj2pxiM5ydWx1RoGfohZUi2US/nlgWdsT+bXjgm0j7/q70cM6qXwiTOVIImUMeoywmjWDcfWR6bYYUOX/iJViro/DXclg7J9Nsiuy4Dx8TmuZE6yuU0LyiVAfQdC9EIqbPjRsdiVsf0EZ9o39lugh018Z6uh4IZiVh0klXudUTH1sjBttEOAAXNQT0IO+3xFdzA2kWqj+aLXKeVIM+8F+wfvzRuPLauJfxqpH8Lp7Co3O19SX8MnzNxenokwn5aUGfJ8x969G9b5iJ1cvWwgrrXLH/oWhy6KV3+PN/9w0nMMNmU3jtQ3N1fPWkpB7WoYTLt93Iitn44isNnN4cC1DVGXl8J0Fs3bLKVx2Cy0N+VXBFbM4HfusOtFZuJASGwx2xjGbJ6pBXjl/UPm6uDqU14kN+TFqKhmBNdI0pd/15KYm4DrAcqcmmwphjQKeAGngL3zMw=;4:Gy/fIiY3S6WPASIBtJxPkMuHI1xF3WejCRL7C8LiRiNfNKh8aLSBap8xxqPf3fHLzJpSmoB1tvTp03KnxaCjbGfqyxxVdRWOl6ve1O13Zs6OEhazah7YNPkOKwaE9snUOEM8Ik1k36puhGYUdeby6leZxA+2pZUkuhAmAw5qd4456yewBo9fOXZD/wTD35wsm6+brrFgyJ1eFnahwtWSSWjAkVegzIBljlH6bi+kVN5BSwxPtWHCJ7gVwsnDgZpfM/oNKQydQbmZ2Fnjoc2Kqg==
-X-Microsoft-Antispam-PRVS: <DM6PR07MB43799DFC43008B42269826ACE34A0@DM6PR07MB4379.namprd07.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(10201501046)(3002001)(3231254)(944501410)(52105095)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123560045)(20161123564045)(20161123558120)(6072148)(201708071742011)(7699016);SRVR:DM6PR07MB4379;BCL:0;PCL:0;RULEID:;SRVR:DM6PR07MB4379;
-X-Forefront-PRVS: 0714841678
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(6069001)(7916004)(396003)(39380400002)(376002)(366004)(346002)(39860400002)(199004)(189003)(58126008)(16586007)(54906003)(53936002)(956004)(486006)(476003)(11346002)(76506005)(446003)(105586002)(106356001)(15760500003)(81166006)(81156014)(8936002)(5660300001)(93886005)(68736007)(575784001)(305945005)(33656002)(7736002)(7406005)(316002)(6916009)(8676002)(4326008)(229853002)(25786009)(66066001)(6246003)(6666003)(39060400002)(42882007)(7416002)(50466002)(478600001)(72206003)(9686003)(33716001)(966005)(6496006)(52116002)(23726003)(2906002)(6116002)(59450400001)(97736004)(3846002)(53546011)(76176011)(1076002)(386003)(33896004)(6306002)(6486002)(26005)(47776003)(16526019)(186003)(18370500001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR07MB4379;H:localhost;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-Received-SPF: None (protection.outlook.com: cavium.com does not designate
- permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;DM6PR07MB4379;23:C6M+GxN0clm7Hoz97OpwkxGqiSRcPjvPwN89fP+w1?=
- =?us-ascii?Q?2d330jIJbyYsZHUjV8m14LOOAQKcJwuhj29b2Jiz2/IAAd1Es8Tc7eYhIUGe?=
- =?us-ascii?Q?qFwpZUNmXdC3TWf6YLG3Z6AJoAUIg2Omf9CTdqpg0Khq/WBERrauR8z+oPR2?=
- =?us-ascii?Q?8aTeQY8em2rWm6+r4T5FHqCttPkbg8OpIcBvCvsFvD3Y+Bw6HSpPTtsDWu2M?=
- =?us-ascii?Q?aQIz+x5gm8sNkSGe/qK13jmRiZvvdZXAQ4Ccq4wHO30XcgJ1JMukk63WcHoL?=
- =?us-ascii?Q?ru2oiQPyDuEf+HaV44W9m5BKwe5BKt5SuwAdeHCsm3tTHKloIx0eDAdV5fNd?=
- =?us-ascii?Q?C5HfqeuAViKbvimtPPzUg+hQHaOdKuVEDHDEwCt+2Q93HWM5vs/m9Pgj0cF7?=
- =?us-ascii?Q?BSU3pJdMeayOv95HpXVS4BFdZdrbP47c1gb17Z2L2RbdHbYStGiDzvWDUAUK?=
- =?us-ascii?Q?a+JzsrmBzjEzomL9JY5ZDMfA6P4lX8OGwoAM3NGOPkYuqvN/n2tbfCXxaxFG?=
- =?us-ascii?Q?Pu9LVBsINlRXYn+NJXefo9d258Xogpk9e+yTjSfvvhOrFMpJnzzheXcU2Tx2?=
- =?us-ascii?Q?yvegvRSJfZez/csMHyUrQcv41Cbgjbmo7ynIgV1clE/ozHqYoOgxk/+Rq7+U?=
- =?us-ascii?Q?qcPXQELrLoHC1eV3T1SJrAiJjirMG7PigFhl+g9twzvjrYpQF988zux/gg9F?=
- =?us-ascii?Q?lKedkjAm9Q5MN1Dndc0m65IIklV4Ir3yi5jA1CqCoUnYb4wrkFtRbdU6FFH7?=
- =?us-ascii?Q?D3uA5BAlRgtrW/1VZWr93K/pyurSpj/MD2LtYKnkmrMKpe2Sto4orirPl0fl?=
- =?us-ascii?Q?KOQ5CW7cd1W7W1y3jEdyqYXYSGYLd+EN/mXCAXpBj+8KkrdM1/U39kxO++2P?=
- =?us-ascii?Q?cU2yKpqckEViemMHla9z0AobePHWY35plQE05UkB2v+cvs5j2ZgJlCFJ+iTE?=
- =?us-ascii?Q?yoH10Oy4UyyPUMht9G0zqvLL3NeaZX2OftYnop0Wgfad7xBpo6c4Q+cn7JIs?=
- =?us-ascii?Q?YOvfzYyNXEpqdbFIUagCe+LOiYmrGV7DNi6l1MDd3I1YQNrcTITFl+c0KufZ?=
- =?us-ascii?Q?jq3yuSl46Ws6wC2rqvxN18YfZXFx88tqwdjB/ZKyNzTY3pUFNjsCUmocHdWn?=
- =?us-ascii?Q?WfeIR8YqkvQZoYBLE8DvzP67uuCPPQnAI7D+Eg3ko9s/suC4QpS9fDn/Bu7+?=
- =?us-ascii?Q?YxF53bHnmPsOAsuL6QW9tiy+Rk0pni+VrzAggHzthK/cBeEMUIXxKwPf99ZK?=
- =?us-ascii?Q?nUGjSz7HKr+626CmSo13boX5xADNUdNKz2AzxGIIl5fq4NkiDUYAuqzuZISB?=
- =?us-ascii?Q?eKzY/FFyQrRRiEFLSZQtR2d9dq3YwIH1QKpb9sKQYdZcaFjwBW6/FzLSZLpr?=
- =?us-ascii?Q?OUjA0mPBh8++FdISOOViN/bZ7X/x1Uice7mJkEREew+JXTpvnBlWuj9g+MbS?=
- =?us-ascii?Q?mOeoU4mjOE5/HIcyhqqxX2xyel77U2JIPs63ixJr2NgFPbXn/d9E/wHJdi58?=
- =?us-ascii?Q?NOgbj4JRazy55AwL7QxJhYmzLrXgIDY288bOkZD3yDKiC3HImm6hj7rA+x/u?=
- =?us-ascii?Q?V9ps8j9l9C0KIujr773ownAHnBt4m//GmZqTHHRmBDtnZqFt3mIJv374Q4O?=
-X-Microsoft-Antispam-Message-Info: xzqf2lMAmiGHP2A7WjD51SCk5HF0eSwa6CfvpuWoghgYJKn/0o3RP/+t8Pbo3rDvyVuqVCpClQdB82EDMnvBchbpgt+Vr5pY1MgcRR0vDzAXJg8iY2XpbjvAux34Dwj3PR6YX2fxqCm9I2AYwMyoTGkheAmQNINZtbgauFKsJrZ+49llCkrPA+l/0WYGJqQ7LEdL64wylw7ff/KLhiUbbvT9MSU3FkX4WYw4673PwbyjuvOkMxqn4kZsBG9RbY9BaKrJ9sv/9PcYwB6YfTOTAcrY65ipx2sVbk+/JzzM7JtWayKvhT3sHPTMqK0d4hRfGdQLlgas+es63wx7kANYb1jR6rM0XHlN3ZyVNqeePIs=
-X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4379;6:1J2YsELdX3suC/UaacI80c70fPFtidcvoD5EFycNuCyFtblJkgQsLtYUE/6Z0t+rM/lIlDzkVr81ckdqEHSMH92fvsnp7/ieB0QKuFj0cKik/IMHKZHfU1lBJBHnpdKnFdqPlKUDwmqt2P3CtXszLfMJ+MCTTsIQDiWX66McJf1fkaYNavAbNZrQEQPWerXphHjI4o5VlcoV3cE2ImgKmJgjW50Zck931opeVtPiokNx3Tv8Xndr9ikI4tflDLX/NidY1wWR/zqQpJk7Df6TRV6T3xgLdiF77TkvyWABptlR934QsMvLbcrhvcdwhhJLhurPCOMcYujRF/3OE39c/JvyS5RsAxiqyh8tb/WiBJWI3nkMiKvcPzNMNGxIL1FPfEVeZIHEMEJ802jCGXViEm3fwG6tPFDkankxwkVeg4LWFv8Sss1eU7nCCXscPg2Qep2uXF7kGlcM+t7bFRUJOw==;5:w6dUX6sO7SHgrZ9g0exeLnBFuRb2IRvgDSJ1MrIiYN4GYqYwOkKkO1p5e8k30qkXwToXDJkUnLAGGHeOWLXr4QBRHTtvxPqg+44nGpFoWhZ637ov3SN6+Sh07CyK/NMBWWFFq8V/3zrWtLp3m+VIpMS5tByJ115oYbur9EfN6Ig=;24:GY/6l9tzJcemQRmzlxnVgkJTRo17F/Qo/IA19odiT7H5PD/TWmof0FMUVi5/4k/mRX4SZHuoxRMtqAl5tema/zrd7voAq+7KR/YVU7V45eg=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1;DM6PR07MB4379;7:k9BpYmjrbNjEwpKQqsEBQyF8uT3WKlHj8VYNw6DBNJtKBOeeODwjJFF/PxjgUS+JC0F/62QsM5Om4WrbQfkfXZXp5sxK2ex8uuc963EmHrX3u7MGPnlh8auU7BcPz8MBFyRmFEG5FDd53cfFELWzP1bpJHwxcV6amAsel2oCn+kNAmTLmY4ZFRO70qF4bBraoriH43jFHyq2Iiz91ELBBSYwwxC1cdqaJblaos5TORxgGOTXfC7bTRAIcNV0ZF1g
-X-OriginatorOrg: caviumnetworks.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2018 06:20:03.9400 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88060487-33d3-417d-eb7e-08d5da63b0cb
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB4379
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 11, 2018 at 02:27:36PM +0300, Yury Norov wrote:
-> On Mon, Jun 11, 2018 at 09:48:02AM +0200, Arnd Bergmann wrote:
-> > On Sat, Jun 9, 2018 at 9:42 AM, Yury Norov <ynorov@caviumnetworks.com> wrote:
-> > > On Fri, Jun 08, 2018 at 06:32:07PM +0100, Catalin Marinas wrote:
-> > >> On Wed, May 16, 2018 at 11:18:49AM +0300, Yury Norov wrote:
-> > >> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > >> > index 76c0b54443b1..ee079244dc3c 100644
-> > >> > --- a/arch/Kconfig
-> > >> > +++ b/arch/Kconfig
-> > >> > @@ -264,6 +264,21 @@ config ARCH_THREAD_STACK_ALLOCATOR
-> > >> >  config ARCH_WANTS_DYNAMIC_TASK_STRUCT
-> > >> >     bool
-> > >> >
-> > >> > +config ARCH_32BIT_OFF_T
-> > >> > +   bool
-> > >> > +   depends on !64BIT
-> > >> > +   help
-> > >> > +     All new 32-bit architectures should have 64-bit off_t type on
-> > >> > +     userspace side which corresponds to the loff_t kernel type. This
-> > >> > +     is the requirement for modern ABIs. Some existing architectures
-> > >> > +     already have 32-bit off_t. This option is enabled for all such
-> > >> > +     architectures explicitly. Namely: arc, arm, blackfin, cris, frv,
-> > >> > +     h8300, hexagon, m32r, m68k, metag, microblaze, mips32, mn10300,
-> > >> > +     nios2, openrisc, parisc32, powerpc32, score, sh, sparc, tile32,
-> > >> > +     unicore32, x86_32 and xtensa. This is the complete list. Any
-> > >> > +     new 32-bit architecture should declare 64-bit off_t type on user
-> > >> > +     side and so should not enable this option.
-> > >>
-> > >> Do you know if this is the case for riscv and nds32, merged in the
-> > >> meantime? If not, I suggest you drop this patch altogether and just
-> > >> define force_o_largefile() for arm64/ilp32 as we don't seem to stick to
-> > >> "all new 32-bit architectures should have 64-bit off_t".
-> > >
-> > > I wrote this patch at request of Arnd Bergmann. This is actually his
-> > > words that all new 32-bit architectures should have 64-bit off_t. So
-> > > I was surprized when riscv was merged with 32-bit off_t (and I didn't
-> > > follow nds32).
-> > >
-> > > If this rule is still in force, we'd better add new exceptions to this
-> > > patch. Otherwise, we can drop it.
-> > >
-> > > Arnd, could you please comment it?
-> > 
-> > I completely forgot about it and had assumed that it was merged long
-> > ago, sorry about that.
-> 
-> Hi Arnd,
-> 
-> There are 3 patches like this in ILP32 series that change ABI for new
-> targets. I've submitted them in separated series:
-> https://lkml.org/lkml/2017/9/25/574
-> 
-> They all seems to be acked by you. If you ready to upstream the
-> series, I can rebase it and add riscv32 and nds32 exceptions.
-> 
-> If Palmer and riscv people will decide to follow new rules, we can
-> easily drop the exception.
+On Sun, 24 Jun 2018 23:55:34 +0200
+Peter Rosin <peda@axentia.se> wrote:
 
-Ping?
+> On 2018-06-24 14:02, Boris Brezillon wrote:
+> > On Sat, 23 Jun 2018 23:40:36 +0200
+> > Peter Rosin <peda@axentia.se> wrote:
+> >   
+> >> On 2018-06-23 12:17, Boris Brezillon wrote:  
+> >>> Hi Peter,
+> >>>
+> >>> On Fri, 22 Jun 2018 23:35:34 +0200
+> >>> Peter Rosin <peda@axentia.se> wrote:
+> >>>     
+> >>>> On 2018-06-22 12:49, Boris Brezillon wrote:    
+> >>>>> Add core infrastructure to support I3C in Linux and document it.
+> >>>>>
+> >>>>> This infrastructure is not complete yet and will be extended over
+> >>>>> time.
+> >>>>>
+> >>>>> There are a few design choices that are worth mentioning because they
+> >>>>> impact the way I3C device drivers can interact with their devices:
+> >>>>>
+> >>>>> - all functions used to send I3C/I2C frames must be called in
+> >>>>>   non-atomic context. Mainly done this way to ease implementation, but
+> >>>>>   this is still open to discussion. Please let me know if you think
+> >>>>>   it's worth considering an asynchronous model here
+> >>>>> - the bus element is a separate object and is not implicitly described
+> >>>>>   by the master (as done in I2C). The reason is that I want to be able
+> >>>>>   to handle multiple master connected to the same bus and visible to
+> >>>>>   Linux.
+> >>>>>   In this situation, we should only have one instance of the device and
+> >>>>>   not one per master, and sharing the bus object would be part of the
+> >>>>>   solution to gracefully handle this case.
+> >>>>>   I'm not sure we will ever need to deal with multiple masters
+> >>>>>   controlling the same bus and exposed under Linux, but separating the
+> >>>>>   bus and master concept is pretty easy, hence the decision to do it
+> >>>>>   like that.
+> >>>>>   The other benefit of separating the bus and master concepts is that
+> >>>>>   master devices appear under the bus directory in sysfs.      
+> >>>>
+> >>>> Are bus multiplexers relevant to I3C?    
+> >>>
+> >>> Not yet, but who knows.
+> >>>     
+> >>>> The locking needed for handling
+> >>>> muxes for I2C is, well, convoluted...    
+> >>>
+> >>> Do you remember what was the problem?
+> >>>
+> >>> Anyway, I'd really like to have basic support upstreamed before we
+> >>> start considering advanced use cases that do not exist yet. Don't get
+> >>> me wrong, I'm not against having the multiplexer/locking discussion,
+> >>> but it should not block inclusion of the I3C subsystem.    
+> >>
+> >> I'm trying to avoid the unfortunate situation in I2C where there
+> >> are two slightly incompatible locking schemes for muxes. There's
+> >> probably nothing to worry about until the first I3C mux is added
+> >> though. But since I2C devices are supposedly compatible with I3C
+> >> that might be the case from day one?  
+> > 
+> > The I²C backward compatibility is implemented in a pretty simple way, so
+> > I don't think you'll have problems coming from the I3C part on this
+> > (unless it needs special hooks in i2c_adapter to work properly). This
+> > being said, if the I2C framework is already not able to properly
+> > handle the cases you describe below, the I3C layer won't solve
+> > that :-P. 
+> >   
+> >>
+> >> ---
+> >>
+> >> If I read your code right, I3C client drivers will typically call
+> >> i3c_device_do_priv_xfer (instead of i2c_transfer/i2c_smbus_xfer)
+> >> and i3c_device_do_prov_xfer will grab the i3c_bus_normaluse_lock
+> >> during the transfer. This seems equivalent to normal use in
+> >> I2C with i2c_transfer/i2c_smbus_xfer.  
+> > 
+> > Note that the bus lock is a read/write lock which is mostly taken in
+> > read mode (AKA normaluse mode). The only situation where it's taken in
+> > write mode (AKA maintenance mode) is when a bus maintenance operation is
+> > done. In this case, we need to block all future transfers, because
+> > maintenance operations might change dynamic device addresses, which
+> > would make future transfers irrelevant if they were queued before the
+> > maintenance operation is finished. 
+> > 
+> > The bus lock does not guarantee proper serialization of bus accesses.
+> > This task is left to the controller drivers, since this is what they
+> > tend to optimize (by queuing transfers at the HW level).  
+> 
+> Oh. Will that design decision (localized serialization) not make it
+> extremely hard to implement muxing (and gating and other stuff that
+> you need, at least for I2C) that is controller independent?
+
+The I²C framework has its own set of locks, and as I said earlier, I'm
+just implementing an i2c_adapter, so every I²C transfer will go through
+the standard I²C stack before being passed to the I3C framework (and
+then the I3C controller driver). I3C transfers going on the bus should
+have no impact here since they don't change the I2C mux state.
+
+Regarding the fact that we might need a lock to get exclusive access on
+the I3C bus, it might become true at some point, but it clearly isn't
+right now. So instead of adding complexity for something we don't need,
+I decided to only add the locking that I knew was required.
+
+Anyway, we're making assumptions on things we're not able to test or
+even validate based on a specification for a potential I3C mux, so I
+really think we should wait for the problem to actually appear instead
+of trying to fix it now.
+
+Also, I have the feeling that I3C muxes will be closer to
+routers/bridges in their approach (the master bus would encapsulate
+frames that it wants to send on the sub-bus and the bridge would
+extract those frames and forward them). Also, dummy muxing is a hard
+thing to do in I3C because of the IBI stuff. If you really mux the bus
+in HW, you'll lose the ability of receiving IBIs on the non-active
+buses.
+Of course, these are just speculations, but I don't see how dummy I3C
+muxes could work.
+
+> 
+> >> When muxes are thrown into the mix, you find yourself needing to
+> >> do more than the "real" transfer with some lock held. In I2C there
+> >> is an unlocked __i2c_transfer, and locking/unlocking is exposed.
+> >> Muxes typically grab the lock, set the mux in the appropriate
+> >> position, do an unlocked __i2c_transfer, optionally sets the mux
+> >> in some default position and then lets go of the lock. See e.g.
+> >> i2c/muxes/i2c-mux-pca954x.c
+> >>
+> >> However, that is the simple case. There are also muxes that are
+> >> controlled with GPIO pins, and that gets hairy if the GPIO pins
+> >> are controlled from the same I2C bus that is muxed. The GPIO
+> >> driver would have to know that some GPIO pins need to use unlocked
+> >> I2C transfers for that to work with the above locking scheme. And
+> >> no GPIO driver does not want to know about that at all. I.e. you
+> >> have two fundamentally different requirement depending on if the
+> >> GPIO pins controlling the mux are controlled using the muxed bus
+> >> or if the pins are controlled in some completely unrelated way.
+> >> The latter case is probably the normal case, with the GPIO mux
+> >> controlled directly from some SoC pins. In the latter case you
+> >> also want to prevent any transfer on the bus while the GPIO pins
+> >> for the mux are changing, i.e. the total opposite of the former
+> >> case. It gets really really hairy if you have multiple levels
+> >> of muxes...
+> >>
+> >> There are a some old drivers (e.g. i2c/busses/i2c-amd756-s4882.c)
+> >> that handles this by simply bypassing the GPIO subsystem, but
+> >> that is not really an option if some pins are used to mux the
+> >> I2C bus while some pins are used for other things.  
+> > 
+> > I see.
+> >   
+> >>
+> >> I don't know if this affects I3C before muxes are added, but I
+> >> suspect muxes will happen sooner rather than later, since the
+> >> spec mentions that the bus only support 11 devices maximum. 11
+> >> don't seem like a lot, and it seems likely that there will be
+> >> a need to have more devices somehow...  
+> > 
+> > I can't tell, and that's the whole problem here. How can you design a
+> > solution for something that does not exist yet? Fixing the I2C muxing
+> > logic, if it needs to be, is something I can understand. But how can you
+> > envision what I3C muxes (if they ever exist) will look like?  
+> 
+> Yeah, you have a point there. One problem is that I don't even see
+> how the situation can be unified for I2C...
+
+That's a problem, indeed. I guess there was discussion with the I²C
+maintainers in the past, what was the outcome?
+
+> 
+> >>
+> >> But just maybe, in order to not run into the above situation, it
+> >> needs to be handled right from the start with preparatory and
+> >> cleanup stages of each transfers, or something?  
+> > 
+> > How about applying this approach to I2C first and see how it flies.
+> > Changing the I3C framework afterwards (when I3C muxes come in)
+> > shouldn't be that complicated.  
+> 
+> That would require more thinking first, and I fear that the overhaul
+> will be bigger than what is called for given the rather fringe cases
+> that cause problems.
+
+Ok.
+
+> 
+> Note that I'm not trying to block I3C, I'm just trying to trigger
+> some thinking before the fact...
+
+Just because the I3C framework is upstreamed doesn't mean everything is
+set in stone. If we need to change the locking-scheme because a new
+use case forces us to rework it, I'll be the first one to push for it,
+but right now, I don't see what we can do given the information we have.
+
+Regards,
+
+Boris
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
