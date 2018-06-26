@@ -2,41 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67F707DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:51:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D33F7DF89
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:52:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933995AbeFZJuv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 05:50:51 -0400
-Received: from osg.samsung.com ([64.30.133.232]:58147 "EHLO osg.samsung.com"
+        id S933478AbeFZJvr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 05:51:47 -0400
+Received: from osg.samsung.com ([64.30.133.232]:50565 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933990AbeFZJtT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 05:49:19 -0400
+        id S933481AbeFZJtS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 05:49:18 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 2394D30BB7;
-        Tue, 26 Jun 2018 02:49:19 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 51C0330BAA;
+        Tue, 26 Jun 2018 02:49:18 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id LT25OUfTFRla; Tue, 26 Jun 2018 02:49:18 -0700 (PDT)
+        with ESMTP id Nxjdd3fLdDuu; Tue, 26 Jun 2018 02:49:17 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.130.70.dynamic.adsl.gvt.net.br [177.41.130.70])
-        by osg.samsung.com (Postfix) with ESMTPSA id 7D26830B8C;
+        by osg.samsung.com (Postfix) with ESMTPSA id 6A58530B87;
         Tue, 26 Jun 2018 02:49:16 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fXkb4-0000m2-82; Tue, 26 Jun 2018 06:49:14 -0300
+        id 1fXkb4-0000m6-9b; Tue, 26 Jun 2018 06:49:14 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org
-Subject: [PATCH 6/9] gpio.h: fix location of gpio legacy documentation
-Date:   Tue, 26 Jun 2018 06:49:08 -0300
-Message-Id: <60e0372bb4d96f7795404e28d776a4600e38efe2.1530005114.git.mchehab+samsung@kernel.org>
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org
+Subject: [PATCH 7/9] networking: e100.rst: Get rid of Sphinx warnings
+Date:   Tue, 26 Jun 2018 06:49:09 -0300
+Message-Id: <48ca5da5770c63ec56e9e9df76e3528c1bcb4414.1530005114.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1530005114.git.mchehab+samsung@kernel.org>
 References: <cover.1530005114.git.mchehab+samsung@kernel.org>
@@ -47,28 +48,98 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The location of this doc file was moved. Change its reference
-accordingly.
+    Documentation/networking/e100.rst:57: WARNING: Literal block expected; none found.
+    Documentation/networking/e100.rst:68: WARNING: Literal block expected; none found.
+    Documentation/networking/e100.rst:75: WARNING: Literal block expected; none found.
+    Documentation/networking/e100.rst:84: WARNING: Literal block expected; none found.
+    Documentation/networking/e100.rst:93: WARNING: Inline emphasis start-string without end-string.
 
-Fixes: 7ee2c13080c9 ("Documentation: gpio: Move legacy documentation to driver-api")
+While here, fix some highlights.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- include/linux/gpio.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/networking/e100.rst | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-index 91ed23468530..39745b8bdd65 100644
---- a/include/linux/gpio.h
-+++ b/include/linux/gpio.h
-@@ -14,7 +14,7 @@
+diff --git a/Documentation/networking/e100.rst b/Documentation/networking/e100.rst
+index 9708f5fa76de..f81111eba9c5 100644
+--- a/Documentation/networking/e100.rst
++++ b/Documentation/networking/e100.rst
+@@ -47,41 +47,45 @@ Driver Configuration Parameters
+ The default value for each parameter is generally the recommended setting,
+ unless otherwise noted.
  
- #include <linux/errno.h>
+-Rx Descriptors: Number of receive descriptors. A receive descriptor is a data
++Rx Descriptors:
++   Number of receive descriptors. A receive descriptor is a data
+    structure that describes a receive buffer and its attributes to the network
+    controller. The data in the descriptor is used by the controller to write
+    data from the controller to host memory. In the 3.x.x driver the valid range
+    for this parameter is 64-256. The default value is 256. This parameter can be
+    changed using the command::
  
--/* see Documentation/gpio/gpio-legacy.txt */
-+/* see Documentation/driver-api/gpio/legacy.rst */
+-   ethtool -G eth? rx n
++     ethtool -G eth? rx n
  
- /* make these flag values available regardless of GPIO kconfig options */
- #define GPIOF_DIR_OUT	(0 << 0)
+    Where n is the number of desired Rx descriptors.
+ 
+-Tx Descriptors: Number of transmit descriptors. A transmit descriptor is a data
++Tx Descriptors:
++   Number of transmit descriptors. A transmit descriptor is a data
+    structure that describes a transmit buffer and its attributes to the network
+    controller. The data in the descriptor is used by the controller to read
+    data from the host memory to the controller. In the 3.x.x driver the valid
+    range for this parameter is 64-256. The default value is 128. This parameter
+    can be changed using the command::
+ 
+-   ethtool -G eth? tx n
++     ethtool -G eth? tx n
+ 
+    Where n is the number of desired Tx descriptors.
+ 
+-Speed/Duplex: The driver auto-negotiates the link speed and duplex settings by
++Speed/Duplex:
++   The driver auto-negotiates the link speed and duplex settings by
+    default. The ethtool utility can be used as follows to force speed/duplex.::
+ 
+-   ethtool -s eth?  autoneg off speed {10|100} duplex {full|half}
++     ethtool -s eth?  autoneg off speed {10|100} duplex {full|half}
+ 
+    NOTE: setting the speed/duplex to incorrect values will cause the link to
+    fail.
+ 
+-Event Log Message Level:  The driver uses the message level flag to log events
++Event Log Message Level:
++   The driver uses the message level flag to log events
+    to syslog. The message level can be set at driver load time. It can also be
+    set using the command::
+ 
+-   ethtool -s eth? msglvl n
++     ethtool -s eth? msglvl n
+ 
+ 
+ Additional Configurations
+@@ -92,7 +96,7 @@ Configuring the Driver on Different Distributions
+ 
+ Configuring a network driver to load properly when the system is started
+ is distribution dependent.  Typically, the configuration process involves
+-adding an alias line to /etc/modprobe.d/*.conf as well as editing other
++adding an alias line to `/etc/modprobe.d/*.conf` as well as editing other
+ system startup scripts and/or configuration files.  Many popular Linux
+ distributions ship with tools to make these changes for you.  To learn
+ the proper way to configure a network device for your system, refer to
+@@ -160,7 +164,10 @@ This results in unbalanced receive traffic.
+ If you have multiple interfaces in a server, either turn on ARP
+ filtering by
+ 
+-(1) entering:: echo 1 > /proc/sys/net/ipv4/conf/all/arp_filter
++(1) entering::
++
++	echo 1 > /proc/sys/net/ipv4/conf/all/arp_filter
++
+     (this only works if your kernel's version is higher than 2.4.5), or
+ 
+ (2) installing the interfaces in separate broadcast domains (either
 -- 
 2.17.1
 
