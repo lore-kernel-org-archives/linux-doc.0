@@ -5,28 +5,34 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA94F7D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 14:42:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D043D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 14:59:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935037AbeFZOmm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 10:42:42 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35238 "EHLO ms.lwn.net"
+        id S1751561AbeFZO7P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 10:59:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35306 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934936AbeFZOmk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 10:42:40 -0400
+        id S1751491AbeFZO7P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 10:59:15 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4A91E2F3;
-        Tue, 26 Jun 2018 14:42:40 +0000 (UTC)
-Date:   Tue, 26 Jun 2018 08:42:39 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 7EE672D5;
+        Tue, 26 Jun 2018 14:59:14 +0000 (UTC)
+Date:   Tue, 26 Jun 2018 08:59:13 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Martin Kepplinger <martink@posteo.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: nommu-map: Fix duplicate word typo
-Message-ID: <20180626084239.27d88f7e@lwn.net>
-In-Reply-To: <20180622073211.8220-1-martink@posteo.de>
-References: <20180622073211.8220-1-martink@posteo.de>
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc:     Jani Nikula <jani.nikula@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] Documentation/sphinx: allow "functions" with no
+ parameters
+Message-ID: <20180626085913.6094bdc6@lwn.net>
+In-Reply-To: <20180620084911.GB11493@rapoport-lnx>
+References: <1529468469-10088-1-git-send-email-rppt@linux.vnet.ibm.com>
+        <1529468469-10088-2-git-send-email-rppt@linux.vnet.ibm.com>
+        <878t79x6uv.fsf@intel.com>
+        <20180620084911.GB11493@rapoport-lnx>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -36,29 +42,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 Jun 2018 09:32:11 +0200
-Martin Kepplinger <martink@posteo.de> wrote:
+On Wed, 20 Jun 2018 11:49:12 +0300
+Mike Rapoport <rppt@linux.vnet.ibm.com> wrote:
 
-> Signed-off-by: Martin Kepplinger <martink@posteo.de>
-> ---
->  Documentation/nommu-mmap.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/nommu-mmap.txt b/Documentation/nommu-mmap.txt
-> index 69556f0d494b..530fed08de2c 100644
-> --- a/Documentation/nommu-mmap.txt
-> +++ b/Documentation/nommu-mmap.txt
-> @@ -47,7 +47,7 @@ and it's also much more restricted in the latter case:
->             appropriate mapping protection capabilities. Ramfs, romfs, cramfs
->             and mtd might all permit this.
+> > Looks good to me. Though I do realize now that I overlooked that this
+> > applies to not only functions, but also to other non-DOC documentation
+> > comments. I guess up to Jon to decide.  
 >  
-> -	 - If the backing device device can't or won't permit direct sharing,
-> +	 - If the backing device can't or won't permit direct sharing,
->             but does have the NOMMU_MAP_COPY capability, then a copy of the
->             appropriate bit of the file will be read into a contiguous bit of
->             memory and any extraneous space beyond the EOF will be cleared
+> We can name it "everything-except-doc-sections" ;-)
 
-Applied, thanks.
+I suppose it could be :code: or :declarations: or some such.  But I think
+I'm inclined to just apply the patches as they are.  The handling of
+structs and such has always been a bit bolted onto the side, this doesn't
+really change anything.
+
+(Sorry for my absence in general - took some much-needed offline time).
 
 jon
 --
