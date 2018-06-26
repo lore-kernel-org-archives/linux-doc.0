@@ -1,198 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DEF897D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 17:19:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 68BF77D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 17:29:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752976AbeFZRTa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 13:19:30 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44712 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752223AbeFZRT3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 13:19:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=a+YJ5U1OsfqH1vIiHa1D5xaMIf4GrfvMlXJ8wJZYya0=; b=aScb+SEC6O7oHMAsZksMzwsxG
-        ap+XsxpNQjifwNAlQp0K8y68/tiEFXnQFQgpgQ5fmvZ5aPH4tFdRClP1zzOgUpwgcwgCJ8/bI7DiO
-        YNaCr6DrZfCfmVinT9nFwfSqpUZ3rT4G6HZOoLkJcJhQBI6DycKC2n5YnBHL8ISNiFmxThxCywzrh
-        9lHIOQJvpsOMyKzed7HOzK40mXPieboYzzOM/jQ/zdc+o89uQqg5zNp3tpiqsCh8WbBAUemsVzAma
-        EVjZ8SooUnlz/8ypDrVeNh3rg4NTXF/ovJ/Z9nLrni1MLyakje8va8Gg3rvVg1VwFCBhdf/u1/XPn
-        lGSEcErBw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fXrcm-00039c-2J; Tue, 26 Jun 2018 17:19:28 +0000
-Subject: Re: [PATCH] Documentation: document ktime_get_*() APIs
-To:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>
-Cc:     y2038@lists.linaro.org, Dave Chinner <david@fromorbit.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Matthew Wilcox <mawilcox@microsoft.com>,
-        Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20180626160442.572358-1-arnd@arndb.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d437aba7-f25f-0a96-e42b-997a3b6cda23@infradead.org>
-Date:   Tue, 26 Jun 2018 10:19:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S932518AbeFZR3J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 13:29:09 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:50082 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932340AbeFZR3I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 13:29:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1D727A9;
+        Tue, 26 Jun 2018 10:29:07 -0700 (PDT)
+Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA7C73F5AD;
+        Tue, 26 Jun 2018 10:29:03 -0700 (PDT)
+Date:   Tue, 26 Jun 2018 18:29:01 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-doc@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
+Message-ID: <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
+References: <cover.1529507994.git.andreyknvl@google.com>
+ <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20180626160442.572358-1-arnd@arndb.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/26/2018 09:03 AM, Arnd Bergmann wrote:
-> As Dave Chinner points out, we don't have a proper documentation for the
-> ktime_get() family of interfaces, making it rather unclear which of the
-> over 30 (!) interfaces one should actually use in a driver or elsewhere
-> in the kernel.
+Hi Andrey,
+
+On Tue, Jun 26, 2018 at 02:47:50PM +0200, Andrey Konovalov wrote:
+> On Wed, Jun 20, 2018 at 5:24 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> > arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+> > tags into the top byte of each pointer. Userspace programs (such as
+> > HWASan, a memory debugging tool [1]) might use this feature and pass
+> > tagged user pointers to the kernel through syscalls or other interfaces.
+> >
+> > This patch makes a few of the kernel interfaces accept tagged user
+> > pointers. The kernel is already able to handle user faults with tagged
+> > pointers and has the untagged_addr macro, which this patchset reuses.
+> >
+> > We're not trying to cover all possible ways the kernel accepts user
+> > pointers in one patchset, so this one should be considered as a start.
+> >
+> > Thanks!
+> >
+> > [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
 > 
-> I wrote up an explanation from how I personally see the interfaces,
-> documenting what each of the functions do and hopefully making it a bit
-> clearer which should be used where.
+> Is there anything I should do to move forward with this?
 > 
-> This is the first time I tried writing .rst format documentation, so
-> in addition to any mistakes in the content, I probably also introduce
-> nonstandard formatting ;-)
-> 
-> I first tried to add an extra section to
-> Documentation/timers/timekeeping.txt, but this is currently not included
-> in the generated API, and it seems useful to have the API docs as part
-> of what gets generated in
-> https://www.kernel.org/doc/html/latest/core-api/index.html#core-utilities
-> instead, so I started a new file there.
-> 
-> I also considered adding the documentation inline in the
-> include/linux/timekeeping.h header, but couldn't figure out how to do
-> that in a way that would result both in helpful inline comments as
-> well as readable html output, so I settled for the latter, with
-> a small note pointing to it from the header.
-> 
-> Cc: Dave Chinner <david@fromorbit.com>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  Documentation/core-api/index.rst       |   1 +
->  Documentation/core-api/timekeeping.rst | 185 +++++++++++++++++++++++++++++++++
->  include/linux/timekeeping.h            |  15 +++
->  3 files changed, 201 insertions(+)
->  create mode 100644 Documentation/core-api/timekeeping.rst
-> 
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index f5a66b72f984..989c97cc232a 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -28,6 +28,7 @@ Core utilities
->     printk-formats
->     circular-buffers
->     gfp_mask-from-fs-io
-> +   timekeeping
->  
->  Interfaces for kernel debugging
->  ===============================
-> diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-api/timekeeping.rst
-> new file mode 100644
-> index 000000000000..97dafa69dddf
-> --- /dev/null
-> +++ b/Documentation/core-api/timekeeping.rst
-> @@ -0,0 +1,185 @@
-> +ktime access
-> +============
+> I've received zero replies to this patch set (v3 and v4) over the last
+> month.
 
-I would prefer "ktime accessors" or "ktime interfaces", but no big deal.
+The patches in this series look fine but my concern is that they are not
+sufficient and we don't have (yet?) a way to identify where such
+annotations are required. You even say in patch 6 that this is "some
+initial work for supporting non-zero address tags passed to the kernel".
+Unfortunately, merging (or relaxing) an ABI without a clear picture is
+not really feasible.
 
-> +
-> +Device drivers can read the current time using ktime_get() and the many
-> +related functions declared in linux/timekeeping.h. As a rule of thumb,
-> +using an accessor with a shorter name is preferred over one with a longer
-> +name if both are equally fit for a particular use case.
-> +
-> +Basic ktime_t based interfaces
-> +------------------------------
-> +
-> +The recommended simplest form returns an opaque ktime_t, with variants
-> +that return time for different clock references:
-> +
-> +
-> +.. c:function:: ktime_t ktime_get( void )
-> +
-> +	CLOCK_MONOTONIC
-> +
-> +	Useful for reliable timestamps and measuring short time intervals
-> +	accurately. Starts at system boot time but stops during suspend.
-> +
-> +.. c:function:: ktime_t ktime_get_boottime( void )
-> +
-> +	CLOCK_BOOTTIME
-> +
-> +	Like ktime_get(), but does not stop when suspended. This can be
-> +	used e.g. for key expiration times that need to be synchronized
-> +	with other machines across a suspend operation.
-> +
-> +.. c:function:: ktime_t ktime_get_real( void )
-> +
-> +	CLOCK_REALTIME
-> +
-> +	Returns the time in relative to the UNIX epoch starting in 1970
-> +	using the Coordinated Universal Time (UTC), same as gettimeofday()
-> +	user space. This is used for all timestamps that need to
-> +	persist across a reboot, like inode times, but should be avoided
-> +	for internal uses, since it can jump backwards due to a leap
-> +	second update, NTP adjustment settimeofday() operation from user
-> +	space.
-> +
-> +.. c:function:: ktime_t ktime_get_clocktai( void )
-> +
-> +	 CLOCK_TAI
-> +
-> +	Like ktime_get_real(), but uses the International Atomic Time (TAI)
-> +	reference instead of UTC to avoid jumping on leap second updates.
-> +	This is rarely useful in the kernel.
-> +
-> +.. c:function:: ktime_t ktime_get_raw( void )
-> +
-> +	CLOCK_MONOTONIC_RAW
-> +
-> +	Like ktime_get(), but runs at the same rate as the hardware
-> +	clocksource without (NTP) adjustments for clock drift. This is
-> +	also rarely needed in the kernel.
-> +
-> +nanosecond, timespec64, and second output
-> +-------------------------------------
+While I support this work, as a maintainer I'd like to understand
+whether we'd be in a continuous chase of ABI breaks with every kernel
+release or we have a better way to identify potential issues. Is there
+any way to statically analyse conversions from __user ptr to long for
+example? Or, could we get the compiler to do this for us?
 
-Documentation/core-api/timekeeping.rst:60: WARNING: Title underline too short.
+Thanks.
 
-nanosecond, timespec64, and second output
--------------------------------------
-
-and that's the only sphinx error or warning that I see.  Nice.
-
-
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks,
 -- 
-~Randy
+Catalin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
