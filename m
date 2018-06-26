@@ -1,27 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE7D37D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 19:56:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE8EF7D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 20:44:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752909AbeFZT4w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 15:56:52 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:48061 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752109AbeFZT4v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 15:56:51 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 05DAD2079D; Tue, 26 Jun 2018 21:56:49 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 3E11D203B0;
-        Tue, 26 Jun 2018 21:56:48 +0200 (CEST)
-Date:   Tue, 26 Jun 2018 21:56:48 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+        id S933968AbeFZUol (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 16:44:41 -0400
+Received: from mail-ua0-f193.google.com ([209.85.217.193]:39170 "EHLO
+        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933191AbeFZUoj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 16:44:39 -0400
+Received: by mail-ua0-f193.google.com with SMTP id n4-v6so11798539uad.6;
+        Tue, 26 Jun 2018 13:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=nfOtQiQHZ+wi2NG1xVzLSk3SFSAgbgKPgSuzz4qK8fo=;
+        b=iuG59Bn6usjcFnFs4CV35JsJ0FRReAKI9QmMgE3PK0iqIO9maDgbclk8R4v3EMBhvY
+         F8Upcehbqn7P9qfFRxa7BPAEbNW2Xx+glh+aHdoOsKWbutXFDhV51j4B6wkZl6G/CfwL
+         VuA/HA6caQhrFrLIlh6Jhm+I0zVuNUIXnbMz5LU4ZskihQ1M2lux09H5s1oseK+Fn3Ru
+         qjpKrlcqwqJuk2F+XWq4Pk8w45OPNmD6wVywZU+tehjOdvLcZclJKgZR7el+uDVxPJuQ
+         GPYemnP+GqFGVvWMbx6bmTYoUFc4nPGy8oPASkvOxlo3Z1vscVh9m6nS0HEa7jbm5M8o
+         8K6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=nfOtQiQHZ+wi2NG1xVzLSk3SFSAgbgKPgSuzz4qK8fo=;
+        b=rMFZVA3MkEQeeHIogM9ixMr5vBwfPW6uM89GT1rOPyLoV/ID0+J5p7HLPMWoLnWvky
+         P660yLzavMnRk956d37CSBdRbqFTR7wzmo2d7cA1MgaSnvSOysvE+xjOl66BUgeR6r2q
+         Oi1mmT0/ZR5jhbQUoqvFUpfHXusbvLQ3eQWiCDoNT+JtNxNkucNsu11MKI/LjDjoqO3E
+         1JoM4BvAFKoBVfGM1bfmjDBOLsh8jgpo4Y8+ZtXSN/l9Yq0FSQ4b6IgtkHoTl/55qtIt
+         +uDkmSb7GWhlH8FM6R8nohJ0YR7lkGhO71LJ4sSmaPH9HwZ4pwEsURgcPu7oYhYWPjBS
+         lrjg==
+X-Gm-Message-State: APt69E3PwVWiRlvquGJc7mIYubw/cNTVs42rhjz6wwUd1ANtTWyrQzCD
+        TV7fkqi9GIHoLUCGNjwQUI7U5APdKLhSybw/Jxo=
+X-Google-Smtp-Source: AAOMgpcyePGt4F6P1c+lxoqDOFkHK+pzDDR2qwKo6khdtmM60soMD4jUK7Hb9va+tSCrLoIyNVnSBkHfn8AIgX8el0M=
+X-Received: by 2002:ab0:70a9:: with SMTP id q9-v6mr1983563ual.141.1530045877911;
+ Tue, 26 Jun 2018 13:44:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a67:8b02:0:0:0:0:0 with HTTP; Tue, 26 Jun 2018 13:44:36
+ -0700 (PDT)
+In-Reply-To: <20180626215648.1472b96e@bbrezillon>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+ <20180622104930.32050-10-boris.brezillon@bootlin.com> <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
+ <20180626215648.1472b96e@bbrezillon>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 26 Jun 2018 23:44:36 +0300
+Message-ID: <CAHp75VcVvOzgOM87rSrwsCxh+WAK-z+zVCJifnY+Xeeu=cPFiA@mail.gmail.com>
+Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO expander
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
 Cc:     Wolfram Sang <wsa@the-dreams.de>,
         linux-i2c <linux-i2c@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -51,140 +85,82 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
-Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO
- expander
-Message-ID: <20180626215648.1472b96e@bbrezillon>
-In-Reply-To: <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
-        <20180622104930.32050-10-boris.brezillon@bootlin.com>
-        <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andy,
+On Tue, Jun 26, 2018 at 10:56 PM, Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
+> On Tue, 26 Jun 2018 22:07:03 +0300
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+>> On Fri, Jun 22, 2018 at 1:49 PM, Boris Brezillon
+>> <boris.brezillon@bootlin.com> wrote:
+>> > Add a driver for Cadence I3C GPIO expander.
+>> >
+>> > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+>>
+>> > +       scratchbuf = kmalloc(sizeof(*scratchbuf) * 2, GFP_KERNEL);
+>>
+>> kmalloc_array() ?
+>>
+>> > +       ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
+>> > +                                      ARRAY_SIZE(xfers));
+>>
+>> One line?
+>>
 
-On Tue, 26 Jun 2018 22:07:03 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+>> You don't change mask here, why do you need a pointer to it?
+>
+> What are you talking about??!!! This is part of the gpio_chip interface
+> that drivers have to implement. You can't decide that mask should not be
+> a pointer. And if you actually look at the code, you'll probably see
+> that the reason we're passed a pointer here is that the GPIO chip might
+> expose more GPIOs than can be represented by an unsigned long, hence
+> the array of unsigned long.
+>
 
-> On Fri, Jun 22, 2018 at 1:49 PM, Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> > Add a driver for Cadence I3C GPIO expander.
-> >
-> > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>  
-> 
-> > +       scratchbuf = kmalloc(sizeof(*scratchbuf) * 2, GFP_KERNEL);  
-> 
-> kmalloc_array() ?
-> 
-> > +       ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
-> > +                                      ARRAY_SIZE(xfers));  
-> 
-> One line?
-> 
-> 
-> > +static void cdns_i3c_gpio_set_multiple(struct gpio_chip *g,
-> > +                                      unsigned long *mask,
-> > +                                      unsigned long *bits)
-> > +{
-> > +       struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
-> > +       u8 newovr;
-> > +       int ret;
-> > +
-> > +       newovr = (gpioc->ovr & ~(*mask)) | (*bits & *mask);
-> > +       if (newovr == gpioc->ovr)
-> > +               return;
-> > +
-> > +       ret = cdns_i3c_gpio_write_reg(gpioc, OVR, newovr);
-> > +       if (!ret)
-> > +               gpioc->ovr = newovr;  
-> 
-> You don't change mask here, why do you need a pointer to it?
+> I'll say it here because this is not the first time I'm pissed off by
+> one of your review.
 
-What are you talking about??!!! This is part of the gpio_chip interface
-that drivers have to implement. You can't decide that mask should not be
-a pointer. And if you actually look at the code, you'll probably see
-that the reason we're passed a pointer here is that the GPIO chip might
-expose more GPIOs than can be represented by an unsigned long, hence
-the array of unsigned long.
+Like 'I like offending people, because I think people who get offended
+should be offended.' ?
+I'm not that guy, relax.
 
-I'll say it here because this is not the first time I'm pissed off by
-one of your review. You seem to review everything that is posted on the
-LKML, and most of the time your reviews are superficial (focused on tiny
-details or coding style issues). Don't you have better things to do?
+>  You seem to review everything that is posted on the LKML,
 
-I mean, I'm fine when I get such comments from people that also do
-useful comments, but yours are most of the time useless and sometime
-even wrong because you didn't time to look at the code in details.
+That's not true.
 
-> 
-> > +}  
-> 
-> > +static int cdns_i3c_gpio_get_multiple(struct gpio_chip *g,
-> > +                                     unsigned long *mask,
-> > +                                     unsigned long *bits)
-> > +{
-> > +       struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
-> > +       int ret;
-> > +       u8 ivr;
-> > +
-> > +       ret = cdns_i3c_gpio_read_reg(gpioc, IVR, &ivr);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       *bits = ivr & *mask & gpioc->dir;
-> > +       *bits |= gpioc->ovr & *mask & ~gpioc->dir;  
-> 
-> Ditto.
-> 
-> > +
-> > +       return 0;
-> > +}  
-> 
-> > +static void cdns_i3c_gpio_ibi_handler(struct i3c_device *i3cdev,
-> > +                                     const struct i3c_ibi_payload *payload)
-> > +{
-> > +       struct cdns_i3c_gpio *gpioc = i3cdev_get_drvdata(i3cdev);  
-> 
-> > +       u8 isr = 0;  
-> 
-> Perhaps you need to check the result of _read_reg() below instead of
-> dummy assignment?
-> 
-> > +       int i;
-> > +
-> > +       cdns_i3c_gpio_read_reg(gpioc, ISR, &isr);  
-> 
-> > +       for (i = 0; i < 8; i++) {
-> > +               unsigned int irq;
-> > +
-> > +               if (!(BIT(i) & isr & gpioc->imr))
-> > +                       continue;  
-> 
-> for_each_set_bit() ?
-> 
-> > +
-> > +               irq = irq_find_mapping(gpioc->gpioc.irq.domain, i);
-> > +               handle_nested_irq(irq);
-> > +       }
-> > +}  
-> 
-> > +static const struct i3c_device_id cdns_i3c_gpio_ids[] = {
-> > +       I3C_DEVICE(0x1c9, 0x0, NULL),  
-> 
-> > +       { /* sentinel */ },  
-> 
-> Slightly better without comma.
-> 
-> > +};
-> > +MODULE_DEVICE_TABLE(i3c, cdns_i3c_gpio_ids);  
-> 
+> and most of the time your reviews are superficial (focused on tiny
+> details or coding style issues). Don't you have better things to do?
 
+If your code is written using ancient style and / or API it's not good
+to start with.
+Isn't it? Otherwise, why we do introduce new internal APIs, for what purpose?
+
+On top of that you might find more interesting reviews where I pointed
+out to a memory leak or other nasty stuff. But of course you prefer
+not to norice that.
+I understand you.
+
+> I mean, I'm fine when I get such comments from people that also do
+> useful comments, but yours are most of the time useless and sometime
+> even wrong because you didn't time to look at the code in details.
+
+Calm down, please.
+You would simple ignore them. Your choice.
+
+But okay, I would try to avoid your stuff to make you happier. Sorry
+for disturbing.
+
+>> Ditto.
+
+In these two comments I'm indeed wrong.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
