@@ -1,114 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA1757D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 19:41:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DE7D37D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 19:56:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752169AbeFZTlK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 15:41:10 -0400
-Received: from mail-wr0-f196.google.com ([209.85.128.196]:35133 "EHLO
-        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751867AbeFZTlI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 15:41:08 -0400
-Received: by mail-wr0-f196.google.com with SMTP id c13-v6so8436149wrq.2;
-        Tue, 26 Jun 2018 12:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=g6CNNrYYUy1FNCufln/AxJM9lQ5M/knzFeJ83RDDU1c=;
-        b=SyaJKjZeS9aAA89wosg+MvwQQRYSjjbqE5OSEDbWjDmM1nFSeVOV776xYBz9kzikDE
-         J/aUhWDfTdhSGqeFC5aAy6kVqlqDwS6TbCP4bVpbz07ShiemYtG3AIL0FSx49ZUhl1im
-         umVYvD4ezP/17PTAetiBVrj3bVWAnUTQO5VkktyF6CxSamgKtS1o94Cs370qzMjmS7lZ
-         MO/m8FYkT+gYQZHU0gwHlpX09C4/fhrqTFn9E+cOZ+WizK1Rmw1O7h9ZAHsAt3ggMz2l
-         SNCRBc31baVmYQS7HUX8OBQJNojA//v8hPaVavJvdRkkcuFxekN8hNF+KRSVzGwswNFH
-         e7bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=g6CNNrYYUy1FNCufln/AxJM9lQ5M/knzFeJ83RDDU1c=;
-        b=lw4J2BeTanEVYhSdfF5HB/ZQ3mubE2+awyHv17rIL2VZ4V1LD7a77p/XNFsXaLVVti
-         FVOZl1CMEOx7Rj9LrUrbXfMvr4dDRSer4CLLD9Z/Yob9hPptZ/PHe7QNW3xXwWBeTQ59
-         8rJuWNkG0FIR+a9PDSEUo0J/vumh80L+oCL7FndK/rVxr/DO/4+70szYTJeHOLgPZfWr
-         njhKpaDz/eZXvNkTqno3JLTvs4vfvxo47paczOjdhvUSEfszTccPGNzEALY7BY8RbZKZ
-         sX0wl1QJ/cxQPEilv3LcILQLQkEZyj0GXaKgFJ9yzoKflmUeYQGc2e8/485tKRAzTSnB
-         cZkw==
-X-Gm-Message-State: APt69E1EUTwKQRw7vKYs8nn5TpX912wWAsip7TYhqEGTKflAfuUHsTT5
-        eYLE6kUgaywbggXoPklBBaGExG8A
-X-Google-Smtp-Source: AAOMgpcX9554i2c1gG4ZV46Qz9kbG43vLotac44uH2sJDICszd2FU91KcddwEiiVx/9SoszDTjAmmQ==
-X-Received: by 2002:adf:92e7:: with SMTP id 94-v6mr2629606wrn.70.1530042066781;
-        Tue, 26 Jun 2018 12:41:06 -0700 (PDT)
-Received: from [192.168.1.18] (dkk4.neoplus.adsl.tpnet.pl. [83.24.14.4])
-        by smtp.gmail.com with ESMTPSA id 72-v6sm3111326wrb.22.2018.06.26.12.41.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Jun 2018 12:41:05 -0700 (PDT)
-Subject: Re: [PATCH 4/9] devicectree: bindings: fix location of leds common
- file
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        id S1752909AbeFZT4w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 15:56:52 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:48061 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752109AbeFZT4v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 15:56:51 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 05DAD2079D; Tue, 26 Jun 2018 21:56:49 +0200 (CEST)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 3E11D203B0;
+        Tue, 26 Jun 2018 21:56:48 +0200 (CEST)
+Date:   Tue, 26 Jun 2018 21:56:48 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-References: <cover.1530005114.git.mchehab+samsung@kernel.org>
- <51f7b37fd560a2cf8a79db5222bf02abef97510b.1530005114.git.mchehab+samsung@kernel.org>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <a47c6716-ef88-464b-bc9c-236ff90b88b1@gmail.com>
-Date:   Tue, 26 Jun 2018 21:41:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
+Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO
+ expander
+Message-ID: <20180626215648.1472b96e@bbrezillon>
+In-Reply-To: <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+        <20180622104930.32050-10-boris.brezillon@bootlin.com>
+        <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <51f7b37fd560a2cf8a79db5222bf02abef97510b.1530005114.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro.
+Hi Andy,
 
-Thank you for the patch.
+On Tue, 26 Jun 2018 22:07:03 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-On 06/26/2018 11:49 AM, Mauro Carvalho Chehab wrote:
-> The leds.txt was moved and renamed. Fix references to
-> it accordingly.
+> On Fri, Jun 22, 2018 at 1:49 PM, Boris Brezillon
+> <boris.brezillon@bootlin.com> wrote:
+> > Add a driver for Cadence I3C GPIO expander.
+> >
+> > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>  
 > 
-> Fixes: f67605394f0b ("devicetree/bindings: Move gpio-leds binding into leds directory")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->   Documentation/devicetree/bindings/leds/common.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> > +       scratchbuf = kmalloc(sizeof(*scratchbuf) * 2, GFP_KERNEL);  
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/common.txt b/Documentation/devicetree/bindings/leds/common.txt
-> index 1d4afe9644b6..aa1399814a2a 100644
-> --- a/Documentation/devicetree/bindings/leds/common.txt
-> +++ b/Documentation/devicetree/bindings/leds/common.txt
-> @@ -31,7 +31,7 @@ Optional properties for child nodes:
->        "backlight" - LED will act as a back-light, controlled by the framebuffer
->   		   system
->        "default-on" - LED will turn on (but for leds-gpio see "default-state"
-> -		    property in Documentation/devicetree/bindings/gpio/led.txt)
-> +		    property in Documentation/devicetree/bindings/leds/leds-gpio.txt)
->        "heartbeat" - LED "double" flashes at a load average based rate
->        "disk-activity" - LED indicates disk activity
->        "ide-disk" - LED indicates IDE disk activity (deprecated),
+> kmalloc_array() ?
+> 
+> > +       ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
+> > +                                      ARRAY_SIZE(xfers));  
+> 
+> One line?
+> 
+> 
+> > +static void cdns_i3c_gpio_set_multiple(struct gpio_chip *g,
+> > +                                      unsigned long *mask,
+> > +                                      unsigned long *bits)
+> > +{
+> > +       struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
+> > +       u8 newovr;
+> > +       int ret;
+> > +
+> > +       newovr = (gpioc->ovr & ~(*mask)) | (*bits & *mask);
+> > +       if (newovr == gpioc->ovr)
+> > +               return;
+> > +
+> > +       ret = cdns_i3c_gpio_write_reg(gpioc, OVR, newovr);
+> > +       if (!ret)
+> > +               gpioc->ovr = newovr;  
+> 
+> You don't change mask here, why do you need a pointer to it?
+
+What are you talking about??!!! This is part of the gpio_chip interface
+that drivers have to implement. You can't decide that mask should not be
+a pointer. And if you actually look at the code, you'll probably see
+that the reason we're passed a pointer here is that the GPIO chip might
+expose more GPIOs than can be represented by an unsigned long, hence
+the array of unsigned long.
+
+I'll say it here because this is not the first time I'm pissed off by
+one of your review. You seem to review everything that is posted on the
+LKML, and most of the time your reviews are superficial (focused on tiny
+details or coding style issues). Don't you have better things to do?
+
+I mean, I'm fine when I get such comments from people that also do
+useful comments, but yours are most of the time useless and sometime
+even wrong because you didn't time to look at the code in details.
+
+> 
+> > +}  
+> 
+> > +static int cdns_i3c_gpio_get_multiple(struct gpio_chip *g,
+> > +                                     unsigned long *mask,
+> > +                                     unsigned long *bits)
+> > +{
+> > +       struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
+> > +       int ret;
+> > +       u8 ivr;
+> > +
+> > +       ret = cdns_i3c_gpio_read_reg(gpioc, IVR, &ivr);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       *bits = ivr & *mask & gpioc->dir;
+> > +       *bits |= gpioc->ovr & *mask & ~gpioc->dir;  
+> 
+> Ditto.
+> 
+> > +
+> > +       return 0;
+> > +}  
+> 
+> > +static void cdns_i3c_gpio_ibi_handler(struct i3c_device *i3cdev,
+> > +                                     const struct i3c_ibi_payload *payload)
+> > +{
+> > +       struct cdns_i3c_gpio *gpioc = i3cdev_get_drvdata(i3cdev);  
+> 
+> > +       u8 isr = 0;  
+> 
+> Perhaps you need to check the result of _read_reg() below instead of
+> dummy assignment?
+> 
+> > +       int i;
+> > +
+> > +       cdns_i3c_gpio_read_reg(gpioc, ISR, &isr);  
+> 
+> > +       for (i = 0; i < 8; i++) {
+> > +               unsigned int irq;
+> > +
+> > +               if (!(BIT(i) & isr & gpioc->imr))
+> > +                       continue;  
+> 
+> for_each_set_bit() ?
+> 
+> > +
+> > +               irq = irq_find_mapping(gpioc->gpioc.irq.domain, i);
+> > +               handle_nested_irq(irq);
+> > +       }
+> > +}  
+> 
+> > +static const struct i3c_device_id cdns_i3c_gpio_ids[] = {
+> > +       I3C_DEVICE(0x1c9, 0x0, NULL),  
+> 
+> > +       { /* sentinel */ },  
+> 
+> Slightly better without comma.
+> 
+> > +};
+> > +MODULE_DEVICE_TABLE(i3c, cdns_i3c_gpio_ids);  
 > 
 
-Applied.
-
--- 
-Best regards,
-Jacek Anaszewski
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
