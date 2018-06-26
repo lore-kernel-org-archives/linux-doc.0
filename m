@@ -1,68 +1,41 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AE8EF7D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 20:44:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36ABE7D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 21:08:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933968AbeFZUol (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 16:44:41 -0400
-Received: from mail-ua0-f193.google.com ([209.85.217.193]:39170 "EHLO
-        mail-ua0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933191AbeFZUoj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 16:44:39 -0400
-Received: by mail-ua0-f193.google.com with SMTP id n4-v6so11798539uad.6;
-        Tue, 26 Jun 2018 13:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=nfOtQiQHZ+wi2NG1xVzLSk3SFSAgbgKPgSuzz4qK8fo=;
-        b=iuG59Bn6usjcFnFs4CV35JsJ0FRReAKI9QmMgE3PK0iqIO9maDgbclk8R4v3EMBhvY
-         F8Upcehbqn7P9qfFRxa7BPAEbNW2Xx+glh+aHdoOsKWbutXFDhV51j4B6wkZl6G/CfwL
-         VuA/HA6caQhrFrLIlh6Jhm+I0zVuNUIXnbMz5LU4ZskihQ1M2lux09H5s1oseK+Fn3Ru
-         qjpKrlcqwqJuk2F+XWq4Pk8w45OPNmD6wVywZU+tehjOdvLcZclJKgZR7el+uDVxPJuQ
-         GPYemnP+GqFGVvWMbx6bmTYoUFc4nPGy8oPASkvOxlo3Z1vscVh9m6nS0HEa7jbm5M8o
-         8K6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=nfOtQiQHZ+wi2NG1xVzLSk3SFSAgbgKPgSuzz4qK8fo=;
-        b=rMFZVA3MkEQeeHIogM9ixMr5vBwfPW6uM89GT1rOPyLoV/ID0+J5p7HLPMWoLnWvky
-         P660yLzavMnRk956d37CSBdRbqFTR7wzmo2d7cA1MgaSnvSOysvE+xjOl66BUgeR6r2q
-         Oi1mmT0/ZR5jhbQUoqvFUpfHXusbvLQ3eQWiCDoNT+JtNxNkucNsu11MKI/LjDjoqO3E
-         1JoM4BvAFKoBVfGM1bfmjDBOLsh8jgpo4Y8+ZtXSN/l9Yq0FSQ4b6IgtkHoTl/55qtIt
-         +uDkmSb7GWhlH8FM6R8nohJ0YR7lkGhO71LJ4sSmaPH9HwZ4pwEsURgcPu7oYhYWPjBS
-         lrjg==
-X-Gm-Message-State: APt69E3PwVWiRlvquGJc7mIYubw/cNTVs42rhjz6wwUd1ANtTWyrQzCD
-        TV7fkqi9GIHoLUCGNjwQUI7U5APdKLhSybw/Jxo=
-X-Google-Smtp-Source: AAOMgpcyePGt4F6P1c+lxoqDOFkHK+pzDDR2qwKo6khdtmM60soMD4jUK7Hb9va+tSCrLoIyNVnSBkHfn8AIgX8el0M=
-X-Received: by 2002:ab0:70a9:: with SMTP id q9-v6mr1983563ual.141.1530045877911;
- Tue, 26 Jun 2018 13:44:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a67:8b02:0:0:0:0:0 with HTTP; Tue, 26 Jun 2018 13:44:36
- -0700 (PDT)
-In-Reply-To: <20180626215648.1472b96e@bbrezillon>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
- <20180622104930.32050-10-boris.brezillon@bootlin.com> <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
- <20180626215648.1472b96e@bbrezillon>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 26 Jun 2018 23:44:36 +0300
-Message-ID: <CAHp75VcVvOzgOM87rSrwsCxh+WAK-z+zVCJifnY+Xeeu=cPFiA@mail.gmail.com>
-Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO expander
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
+        id S1751904AbeFZVIM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 17:08:12 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:55736 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751054AbeFZVIK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 17:08:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=bQJNY//bmRcpqpxK1llaarl+mHBKo0c2rPcfazpAtp4=; b=w2EKMQOAdbA1al3dI0+/aKEtNR
+        upJhw5TZbKe7kVxPWvkQdeL51iTsDald+86iNBWv0K4j32QTmp1DnZgGKQuZDz8NFU0zs8NZjG/58
+        jq+0W16RUio6coxTc++jKpMQdRvzkcnGNgPbotbi1cNWbPqbhp0YzrCDhWXl0n3Ge4ATQtw1M/oiC
+        ZUtxGu5ufBgAsP4dnJD5DoblZiX94NUOG9ufnIWGa6kwdoup1zPwnpxex/td78PnsF3daHWbBzbfl
+        A2QBla9qw21pRjmK7Eti2dX9HRWBwO9l7yoMmXQaGXS3XK+PTuT8h/FauKhasNSUM2Ik5r47ayRYb
+        oJUMianQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fXvBt-0005s6-0A; Tue, 26 Jun 2018 21:07:57 +0000
+Subject: Re: [PATCH v5 02/10] docs: driver-api: Add I3C documentation
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Przemyslaw Sroka <psroka@cadence.com>,
         Arkadiusz Golec <agolec@cadence.com>,
         Alan Douglas <adouglas@cadence.com>,
         Bartosz Folta <bfolta@cadence.com>,
@@ -76,91 +49,307 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>,
         Pawel Moll <pawel.moll@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Vitor Soares <Vitor.Soares@synopsys.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+ <20180622104930.32050-3-boris.brezillon@bootlin.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <4898e391-f954-a399-0bca-7588942280b9@infradead.org>
+Date:   Tue, 26 Jun 2018 14:07:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180622104930.32050-3-boris.brezillon@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 26, 2018 at 10:56 PM, Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> On Tue, 26 Jun 2018 22:07:03 +0300
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
->> On Fri, Jun 22, 2018 at 1:49 PM, Boris Brezillon
->> <boris.brezillon@bootlin.com> wrote:
->> > Add a driver for Cadence I3C GPIO expander.
->> >
->> > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
->>
->> > +       scratchbuf = kmalloc(sizeof(*scratchbuf) * 2, GFP_KERNEL);
->>
->> kmalloc_array() ?
->>
->> > +       ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
->> > +                                      ARRAY_SIZE(xfers));
->>
->> One line?
->>
+Hi,
 
->> You don't change mask here, why do you need a pointer to it?
->
-> What are you talking about??!!! This is part of the gpio_chip interface
-> that drivers have to implement. You can't decide that mask should not be
-> a pointer. And if you actually look at the code, you'll probably see
-> that the reason we're passed a pointer here is that the GPIO chip might
-> expose more GPIOs than can be represented by an unsigned long, hence
-> the array of unsigned long.
->
+On 06/22/2018 03:49 AM, Boris Brezillon wrote:
+> Add the I3C documentation describing the protocol, the master driver API
+> and the device driver API.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+> ---
+> Changes in v5:
+> - Remove useless conf.py file
+> - Add SPDX headers
+> 
+> Changes in v2:
+> - Moved out of patch "i3c: Add core I3C infrastructure"
+> - Add link to the I3C spec
+> - Move rst files in Documentation/driver-api/i3c/
+> ---
+>  Documentation/driver-api/i3c/device-driver-api.rst |   9 +
+>  Documentation/driver-api/i3c/index.rst             |  11 ++
+>  Documentation/driver-api/i3c/master-driver-api.rst |  10 +
+>  Documentation/driver-api/i3c/protocol.rst          | 203 +++++++++++++++++++++
+>  Documentation/driver-api/index.rst                 |   1 +
+>  5 files changed, 234 insertions(+)
+>  create mode 100644 Documentation/driver-api/i3c/device-driver-api.rst
+>  create mode 100644 Documentation/driver-api/i3c/index.rst
+>  create mode 100644 Documentation/driver-api/i3c/master-driver-api.rst
+>  create mode 100644 Documentation/driver-api/i3c/protocol.rst
 
-> I'll say it here because this is not the first time I'm pissed off by
-> one of your review.
 
-Like 'I like offending people, because I think people who get offended
-should be offended.' ?
-I'm not that guy, relax.
+> diff --git a/Documentation/driver-api/i3c/protocol.rst b/Documentation/driver-api/i3c/protocol.rst
+> new file mode 100644
+> index 000000000000..a768afa7f12a
+> --- /dev/null
+> +++ b/Documentation/driver-api/i3c/protocol.rst
+> @@ -0,0 +1,203 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============
+> +I3C protocol
+> +============
+> +
+> +Disclaimer
+> +==========
+> +
+> +This chapter will focus on aspects that matter to software developers. For
+> +everything hardware related (like how things are transmitted on the bus, how
+> +collisions are prevented, ...) please have a look at the I3C specification.
+> +
+> +This document is just a brief introduction to the I3C protocol and the concepts
+> +it brings on the table. If you need more information, please refer to the MIPI
 
->  You seem to review everything that is posted on the LKML,
+      brings to the table.
 
-That's not true.
+> +I3C specification (can be downloaded here
+> +http://resources.mipi.org/mipi-i3c-v1-download).
+> +
+> +Introduction
+> +============
+> +
+> +The I3C (pronounced 'eye-three-see') is a MIPI standardized protocol designed
+> +to overcome I2C limitations (limited speed, external signals needed for
+> +interrupts, no automatic detection of the devices connected to the bus, ...)
+> +while remaining power-efficient.
+> +
+> +I3C Bus
+> +=======
+> +
+> +An I3C bus is made of several I3C devices and possibly some I2C devices as
+> +well, but let's focus on I3C devices for now.
+> +
+> +An I3C device on the I3C bus can have one of the following roles:
+> +
+> +* Master: the device is driving the bus. It's the one in charge of initiating
+> +  transactions or deciding who is allowed to talk on the bus (slave generated
+> +  events are possible in I3C, see below).
+> +* Slave: the device acts as a slave, and is not able to send frames to another
+> +  slave on the bus. The device can still send events to the master on
+> +  its own initiative if the master allowed it.
+> +
+> +I3C is a multi-master protocol, so there might be several masters on a bus,
+> +though only one device can act as a master at a given time. In order to gain
+> +bus ownership, a master has to follow a specific procedure.
+> +
+> +Each device on the I3C bus has to be assigned a dynamic address to be able to
+> +communicate. Until this is done, the device should only respond to a limited
+> +set of commands. If it has a static address (also called legacy I2C address),
+> +the device can reply to I2C transfers.
+> +
+> +In addition to these per-device addresses, the protocol defines a broadcast
+> +address in order to address all devices on the bus.
+> +
+> +Once a dynamic address has been assigned to a device, this address will be used
+> +for any direct communication with the device. Note that even after being
+> +assigned a dynamic address, the device should still process broadcast messages.
+> +
+> +I3C Device discovery
+> +====================
+> +
+> +The I3C protocol defines a mechanism to automatically discover devices present
+> +on the bus, their capabilities and the functionalities they provide. In this
+> +regard I3C is closer to a discoverable bus like USB than it is to I2C or SPI.
+> +
+> +The discovery mechanism is called DAA (Dynamic Address Assignment), because it
+> +not only discovers devices but also assigns them a dynamic address.
+> +
+> +During DAA, each I3C device reports 3 important things:
+> +
+> +* BCR: Bus Characteristic Register. This 8-bit register describes the device bus
+> +  related capabilities
+> +* DCR: Device Characteristic Register. This 8-bit register describes the
+> +  functionalities provided by the device
+> +* Provisional ID: A 48-bit unique identifier. On a given bus there should be no
+> +  Provisional ID collision, otherwise the discovery mechanism may fail.
+> +
+> +I3C slave events
+> +================
+> +
+> +The I3C protocol allows slaves to generate events on their own, and thus allows
+> +them to take temporary control of the bus.
+> +
+> +This mechanism is called IBI for In Band Interrupts, and as stated in the name,
+> +it allows devices to generate interrupts without requiring an external signal.
+> +
+> +During DAA, each device on the bus has been assigned an address, and this
+> +address will serve as a priority identifier to determine who wins if 2 different
+> +devices are generating an interrupt at the same moment on the bus (the lower the
+> +dynamic address the higher the priority).
+> +
+> +Masters are allowed to inhibit interrupts if they want to. This inhibition
+> +request can be broadcasted (applies to all devices) or sent to a specific
 
-> and most of the time your reviews are superficial (focused on tiny
-> details or coding style issues). Don't you have better things to do?
+           can be broadcast
 
-If your code is written using ancient style and / or API it's not good
-to start with.
-Isn't it? Otherwise, why we do introduce new internal APIs, for what purpose?
+> +device.
+> +
+> +I3C Hot-Join
+> +============
+> +
+> +The Hot-Join mechanism is similart to USB hotplug. This mechanism allows
 
-On top of that you might find more interesting reviews where I pointed
-out to a memory leak or other nasty stuff. But of course you prefer
-not to norice that.
-I understand you.
+                             similar
 
-> I mean, I'm fine when I get such comments from people that also do
-> useful comments, but yours are most of the time useless and sometime
-> even wrong because you didn't time to look at the code in details.
+> +slaves to join the bus after it has been initialized by the master.
+> +
+> +This covers the following use cases:
+> +
+> +* the device is not powered when the bus is probed
+> +* the device is hotplugged on the bus through an extension board
+> +
+> +This mechanism is relying on slave events to inform the master that a new
+> +device joined the bus and is waiting for a dynamic address.
+> +
+> +The master is then free to address the request as it wishes: ignore it or
+> +assign a dynamic address to the slave.
+> +
+> +I3C transfer types
+> +==================
+> +
+> +If you omit SMBus (which is just a standardization on how to access registers
+> +exposed by I2C devices), I2C has only one transfer type.
+> +
+> +I3C defines 3 different classes of transfer in addition to I2C transfers which
+> +are here for backward compatibility with I2C devices.
+> +
+> +I3C CCC commands
+> +----------------
+> +
+> +CCC (Common Command Code) commands are meant to be used for anything that is
+> +related to bus management and all features that are common to a set of devices.
+> +
+> +CCC commands contain an 8-bit CCC id describing the command that is executed.
 
-Calm down, please.
-You would simple ignore them. Your choice.
+preferably s/id/ID/
 
-But okay, I would try to avoid your stuff to make you happier. Sorry
-for disturbing.
+> +The MSB of this id specifies whether this is a broadcast command (bit7 = 0) or a
 
->> Ditto.
+ditto, s/id/ID/
 
-In these two comments I'm indeed wrong.
+> +unicast one (bit7 = 1).
+> +
+> +The command ID can be followed by a payload. Depending on the command, this
+> +payload is either sent by the master sending the command (write CCC command),
+> +or sent by the slave receiving the command (read CCC command). Of course, read
+> +accesses only apply to unicast commands.
+> +Note that, when sending a CCC command to a specific device, the device address
+> +is passed in the first byte of the payload.
+> +
+> +The payload length is not explicitly passed on the bus, and should be extracted
+> +from the CCC id.
 
+s/id/ID/
+
+> +
+> +Note that vendors can use a dedicated range of CCC ids for their own commands
+
+                                                      IDs
+
+> +(0x61-0x7f and 0xe0-0xef).
+> +
+> +I3C Private SDR transfers
+> +-------------------------
+> +
+> +Private SDR (Single Data Rate) transfers should be used for anything that is
+> +device specific and does not require high transfer speed.
+> +
+> +It is the equivalent of I2C transfers but in the I3C world. Each transfer is
+> +passed the device address (dynamic address assigned during DAA), a payload
+> +and a direction.
+> +
+> +The only difference with I2C is that the transfer is much faster (typical SCL
+
+what is SCL?  It's not used anywhere else in this doc.
+
+> +frequency is 12.5MHz).
+> +
+> +I3C HDR commands
+> +----------------
+> +
+> +HDR commands should be used for anything that is device specific and requires
+> +high transfer speed.
+> +
+> +The first thing attached to an HDR command is the HDR mode. There are currently
+> +3 different modes defined by the I3C specification (refer to the specification
+> +for more details):
+> +
+> +* HDR-DDR: Double Data Rate mode
+> +* HDR-TSP: Ternary Symbol Pure. Only usable on busses with no I2C devices
+> +* HDR-TSL: Ternary Symbol Legacy. Usable on busses with I2C devices
+> +
+> +When sending an HDR command, the whole bus has to enter HDR mode, which is done
+> +using a broadcast CCC command.
+> +Once the bus has entered a specific HDR mode, the master sends the HDR command.
+> +An HDR command is made of:
+> +
+> +* one 16-bits command word
+> +* N 16-bits data words
+
+I supposed the I3C spec will tell me the byte order of these words on the bus?
+or this doc could tell us here.
+
+> +
+> +Those words may be wrapped with specific preambles/post-ambles which depend on
+> +the chosen HDR mode and are detailed here (see the specification for more
+> +details).
+> +
+> +The 16-bits command word is made of:
+> +
+> +* bit[15]: direction bit, read is 1 write is 0
+
+                             read is 1, write is 0
+
+> +* bit[14:8]: command code. Identifies the command being executed, the amount of
+> +  data words and their meaning
+> +* bit[7:1]: I3C address of the device this command is addressed to
+> +* bit[0]: reserved/parity-bit
+> +
+> +Backward compatibility with I2C devices
+> +=======================================
+> +
+> +The I3C protocol has been designed to be backward compatible with I2C devices.
+> +This backward compatibility allows one to connect a mix of I2C and I3C devices
+> +on the same bus, though, in order to be really efficient, I2C devices should
+> +be equipped with 50 ns spike filters.
+> +
+> +I2C devices can't be discovered like I3C ones and have to be statically
+> +declared. In order to let the master know what these devices are capable of
+> +(both in terms of bus related limitations and functionalities), the software
+> +has to provide some information, which is done through the LVR (Legacy I2C
+> +Virtual Register).
+
+and you can add (if you want to):
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+thanks,
 -- 
-With Best Regards,
-Andy Shevchenko
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
