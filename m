@@ -1,239 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4675C7DF89
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:30:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B73C17DF89
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933714AbeFZJ3z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 05:29:55 -0400
-Received: from osg.samsung.com ([64.30.133.232]:52716 "EHLO osg.samsung.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933920AbeFZJYs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 05:24:48 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 5100730B4B;
-        Tue, 26 Jun 2018 02:24:48 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from osg.samsung.com ([127.0.0.1])
-        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Sxn0r0mTiaoX; Tue, 26 Jun 2018 02:24:47 -0700 (PDT)
-Received: from smtp.s-opensource.com (177.41.130.70.dynamic.adsl.gvt.net.br [177.41.130.70])
-        by osg.samsung.com (Postfix) with ESMTPSA id DD96130B2E;
-        Tue, 26 Jun 2018 02:24:44 -0700 (PDT)
-Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
-        (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fXkDK-0000Xg-2e; Tue, 26 Jun 2018 06:24:42 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Takashi Iwai <tiwai@suse.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S933482AbeFZJeK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 05:34:10 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:33149 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933675AbeFZJeG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 05:34:06 -0400
+Received: by mail-it0-f67.google.com with SMTP id k17-v6so14822789ita.0
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 02:34:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5rPSc8bEh8JJ/gyd8mxuLhMXDecD/m8KQxD9RUIVHHU=;
+        b=UyRQr8kf6obvWWPRwezaBp5y5ovi12ruOnxOcQ7xWTQpvLHrmNnYqgWEF6L+UkLZ3I
+         ibHqyKjjKFvmw0SZDmV/uDjsfe4qCm8ZJM5unJgY4rfOAaL+Cqh018Lp7Vz493UGEFTM
+         dLgQaE30FeYUkARkj8cHIFjNY4ytxrEY5aQrw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5rPSc8bEh8JJ/gyd8mxuLhMXDecD/m8KQxD9RUIVHHU=;
+        b=FJjm/ivqmsTm56TK/9P010I7iN59/Aur3mBiooeJimYGARMKbLqk1L6gpgEwmY/i9o
+         UFgmdW+cyN3lqT5jArECcgwBffhut9Yc8Wd7oJn2AzMxrli7MTnHvSxR1nrccp175sCr
+         YYyHhFz9hkdYpYRVqXglsRgfcgrU1xcAIKb0SrmKzNMJvZciLoVS4R5sv28pxQVwu9tl
+         1+7nztdoBK6QIpzEQxr8HPs7kgaawyCrkgCFv0dvTjfGztK37n/kCBN6KbJQJHHsUYR6
+         b/iwQQVlgcwwUYGc8l4CQItcEfl96NISFcg3Q1n9XEbhfckvJEJexMZlLMFbyJbueI0a
+         k3IA==
+X-Gm-Message-State: APt69E2rs5GJcfBTsPx3TFYrZkKe5nnyyO5Gme3tWzy7oc8ds0XkhpV6
+        JnaoGUBrUX4AjQe//A+TgNinuBxEFA+y3M6e51M/LEzK
+X-Google-Smtp-Source: ADUXVKItDBdKbMcgppfhp2L4s2KfSlNUJrnBZFBZNlH5mMHTXoLNp+1AAqIfz5I/9IAkjpo/85Towk8uK2RZYYbC2lM=
+X-Received: by 2002:a24:42c8:: with SMTP id i191-v6mr775864itb.135.1530005646219;
+ Tue, 26 Jun 2018 02:34:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1528990947.git.mchehab+samsung@kernel.org> <d04d47f9fba035cf9de8589a288964c636324d58.1528990947.git.mchehab+samsung@kernel.org>
+In-Reply-To: <d04d47f9fba035cf9de8589a288964c636324d58.1528990947.git.mchehab+samsung@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 26 Jun 2018 11:33:53 +0200
+Message-ID: <CACRpkda4AVhbeka0V17mJDjFihTFQY3+6M+iUBbPyaX22RTDow@mail.gmail.com>
+Subject: Re: [PATCH v3 23/27] devicetree: fix name of pinctrl-bindings.txt
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-doc@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org
-Subject: [PATCH 3/4] alsa: multisound.sh: update module namespace
-Date:   Tue, 26 Jun 2018 06:24:39 -0300
-Message-Id: <5dbfe342b316515c88650fe7aadb2816e4312d3d.1530004939.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1530004939.git.mchehab+samsung@kernel.org>
-References: <cover.1530004939.git.mchehab+samsung@kernel.org>
-In-Reply-To: <cover.1530004939.git.mchehab+samsung@kernel.org>
-References: <cover.1530004939.git.mchehab+samsung@kernel.org>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-serial@vger.kernel.org, linux-spi <linux-spi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The modules for the cards described here changed their names.
-Update accordingly.
+On Thu, Jun 14, 2018 at 6:09 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/sound/cards/multisound.sh | 72 ++++++++++++-------------
- 1 file changed, 36 insertions(+), 36 deletions(-)
+> Rename:
+>         pinctrl-binding.txt -> pinctrl-bindings.txt
+>
+> In order to match the current name of this file.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-diff --git a/Documentation/sound/cards/multisound.sh b/Documentation/sound/cards/multisound.sh
-index 0e0cb029421b..a915a1affcde 100755
---- a/Documentation/sound/cards/multisound.sh
-+++ b/Documentation/sound/cards/multisound.sh
-@@ -34,12 +34,12 @@
- #  composed of the following modules (these can also operate compiled
- #  into the kernel):
- #
--#  msnd               - MultiSound base (requires soundcore)
-+#  snd-msnd-lib           - MultiSound base (requires snd)
- #
--#  msnd_classic       - Base audio/mixer support for Classic, Monetery and
--#                       Tahiti cards
-+#  snd-msnd-classic       - Base audio/mixer support for Classic, Monetery and
-+#                           Tahiti cards
- #
--#  msnd_pinnacle      - Base audio/mixer support for Pinnacle and Fiji cards
-+#  snd-msnd-pinnacle      - Base audio/mixer support for Pinnacle and Fiji cards
- #
- #
- #  Important Notes - Read Before Using
-@@ -66,7 +66,7 @@
- #
- #  * Classic/Monterey/Tahiti
- #
--#  These cards are configured through the driver msnd_classic.  You must
-+#  These cards are configured through the driver snd-msnd-classic.  You must
- #  know the io port, then the driver will select the irq and memory resources
- #  on the card.  It is up to you to know if these are free locations or now,
- #  a conflict can lock the machine up.
-@@ -81,10 +81,10 @@
- #  can be used to configure the card in non-PnP mode, and in PnP mode
- #  you can use isapnptools.  These are described briefly here.
- #
--#  pinnaclecfg is not required; you can use the msnd_pinnacle module
-+#  pinnaclecfg is not required; you can use the snd-msnd-pinnacle module
- #  to fully configure the card as well.  However, pinnaclecfg can be
- #  used to change the resource values of a particular device after the
--#  msnd_pinnacle module has been loaded.  If you are compiling the
-+#  snd-msnd-pinnacle module has been loaded.  If you are compiling the
- #  driver into the kernel, you must set these values during compile
- #  time, however other peripheral resource values can be changed with
- #  the pinnaclecfg program after the kernel is loaded.
-@@ -96,7 +96,7 @@
- #  to obtain one with the command `pnpdump 1 0x203' -- this may vary
- #  for you (running pnpdump by itself did not work for me).  Then,
- #  edit this file and use isapnp to uncomment and set the card values.
--#  Use these values when inserting the msnd_pinnacle module.  Using
-+#  Use these values when inserting the snd-msnd-pinnacle module.  Using
- #  this method, you can set the resources for the DSP and the Kurzweil
- #  synth (Pinnacle).  Since Linux does not directly support PnP
- #  devices, you may have difficulty when using the card in PnP mode
-@@ -133,16 +133,16 @@
- #  pinnaclecfg program.  Using this program, you can assign the
- #  resource values to the card's devices, or disable the devices.  As
- #  an alternative to using pinnaclecfg, you can specify many of the
--#  configuration values when loading the msnd_pinnacle module (or
-+#  configuration values when loading the snd-msnd-pinnacle module (or
- #  during kernel configuration when compiling the driver into the
- #  kernel).
- #
--#  If you specify cfg=0x250 for the msnd_pinnacle module, it
-+#  If you specify cfg=0x250 for the snd-msnd-pinnacle module, it
- #  automatically configure the card to the given io, irq and memory
- #  values using that config port (the config port is jumper selectable
- #  on the card to 0x250, 0x260 or 0x270).
- #
--#  See the `msnd_pinnacle Additional Options' section below for more
-+#  See the `snd-msnd-pinnacle Additional Options' section below for more
- #  information on these parameters (also, if you compile the driver
- #  directly into the kernel, these extra parameters can be useful
- #  here).
-@@ -157,44 +157,44 @@
- #
- #  * MultiSound Classic/Monterey/Tahiti:
- #
--#  modprobe soundcore
--#  insmod msnd
--#  insmod msnd_classic io=0x290 irq=7 mem=0xd0000
-+#  modprobe snd
-+#  insmod snd-msnd-lib
-+#  insmod snd-msnd-classic io=0x290 irq=7 mem=0xd0000
- #
- #  * MultiSound Pinnacle in PnP mode:
- #
--#  modprobe soundcore
--#  insmod msnd
-+#  modprobe snd
-+#  insmod snd-msnd-lib
- #  isapnp mypinnacle.conf
--#  insmod msnd_pinnacle io=0x210 irq=5 mem=0xd8000 <-- match mypinnacle.conf values
-+#  insmod snd-msnd-pinnacle io=0x210 irq=5 mem=0xd8000 <-- match mypinnacle.conf values
- #
- #  * MultiSound Pinnacle in non-PnP mode (replace 0x250 with your configuration port,
- #    one of 0x250, 0x260 or 0x270):
- #
--#  insmod soundcore
--#  insmod msnd
--#  insmod msnd_pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000
-+#  modprobe snd
-+#  insmod snd-msnd-lib
-+#  insmod snd-msnd-pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000
- #
- # * To use the MPU-compatible Kurzweil synth on the Pinnacle in PnP
- #   mode, add the following (assumes you did `isapnp mypinnacle.conf'):
- #
--#  insmod sound
-+#  insmod snd
- #  insmod mpu401 io=0x330 irq=9                    <-- match mypinnacle.conf values
- #
- # * To use the MPU-compatible Kurzweil synth on the Pinnacle in non-PnP
- #   mode, add the following.  Note how we first configure the peripheral's
- #   resources, _then_ install a Linux driver for it:
- #
--#  insmod sound
-+#  insmod snd
- #  pinnaclecfg 0x250 mpu 0x330 9
- #  insmod mpu401 io=0x330 irq=9
- #
- #  -- OR you can use the following sequence without pinnaclecfg in non-PnP mode:
- #
--#  insmod soundcore
--#  insmod msnd
--#  insmod msnd_pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 mpu_io=0x330 mpu_irq=9
--#  insmod sound
-+#  modprobe snd
-+#  insmod snd-msnd-lib
-+#  insmod snd-msnd-pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 mpu_io=0x330 mpu_irq=9
-+#  insmod snd
- #  insmod mpu401 io=0x330 irq=9
- #
- # * To setup the joystick port on the Pinnacle in non-PnP mode (though
-@@ -203,15 +203,15 @@
- #
- #   pinnaclecfg 0x250 joystick 0x200
- #
--#  -- OR you can configure this using msnd_pinnacle with the following:
-+#  -- OR you can configure this using snd-msnd-pinnacle with the following:
- #
--#  insmod soundcore
--#  insmod msnd
--#  insmod msnd_pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 joystick_io=0x200
-+#  modprobe snd
-+#  insmod snd-msnd-lib
-+#  insmod snd-msnd-pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 joystick_io=0x200
- #
- #
--#  msnd_classic, msnd_pinnacle Required Options
--#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+#  snd-msnd-classic, snd-msnd-pinnacle Required Options
-+#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- #
- #  If the following options are not given, the module will not load.
- #  Examine the kernel message log for informative error messages.
-@@ -223,8 +223,8 @@
- #  mem                  Shared memory area, e.g. mem=0xd8000
- #
- #
--#  msnd_classic, msnd_pinnacle Additional Options
--#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+#  snd-msnd-classic, snd-msnd-pinnacle Additional Options
-+#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- #
- #  fifosize             The digital audio FIFOs, in kilobytes.  If not
- #                       specified, the default will be used.  Increasing
-@@ -244,8 +244,8 @@
- #                       to zero).
- #
- #
--#  msnd_pinnacle Additional Options
--#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+#  snd-msnd-pinnacle Additional Options
-+#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- #
- #  digital              Specify digital=1 to enable the S/PDIF input
- #                       if you have the digital daughterboard
--- 
-2.17.1
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Is this applied in some other tree or something I should
+apply to the pinctrl tree?
 
+Yours,
+Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
