@@ -4,29 +4,29 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6FAF7DF8A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:30:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4675C7DF89
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:30:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934046AbeFZJYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 05:24:51 -0400
-Received: from osg.samsung.com ([64.30.133.232]:43310 "EHLO osg.samsung.com"
+        id S933714AbeFZJ3z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 05:29:55 -0400
+Received: from osg.samsung.com ([64.30.133.232]:52716 "EHLO osg.samsung.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933868AbeFZJYr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 05:24:47 -0400
+        id S933920AbeFZJYs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 05:24:48 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 37AB030B40;
-        Tue, 26 Jun 2018 02:24:47 -0700 (PDT)
+        by osg.samsung.com (Postfix) with ESMTP id 5100730B4B;
+        Tue, 26 Jun 2018 02:24:48 -0700 (PDT)
 X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from osg.samsung.com ([127.0.0.1])
         by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id C-32Gz-CQSbt; Tue, 26 Jun 2018 02:24:46 -0700 (PDT)
+        with ESMTP id Sxn0r0mTiaoX; Tue, 26 Jun 2018 02:24:47 -0700 (PDT)
 Received: from smtp.s-opensource.com (177.41.130.70.dynamic.adsl.gvt.net.br [177.41.130.70])
-        by osg.samsung.com (Postfix) with ESMTPSA id CA1C330B28;
+        by osg.samsung.com (Postfix) with ESMTPSA id DD96130B2E;
         Tue, 26 Jun 2018 02:24:44 -0700 (PDT)
 Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
         (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fXkDK-0000Xc-1B; Tue, 26 Jun 2018 06:24:42 -0300
+        id 1fXkDK-0000Xg-2e; Tue, 26 Jun 2018 06:24:42 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Takashi Iwai <tiwai@suse.com>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -34,9 +34,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org
-Subject: [PATCH 2/4] alsa: multisound.sh: fix script to make it build with modern tools
-Date:   Tue, 26 Jun 2018 06:24:38 -0300
-Message-Id: <23ff79af9b3a8bf1f1a5a19508b735fc620c0a13.1530004939.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 3/4] alsa: multisound.sh: update module namespace
+Date:   Tue, 26 Jun 2018 06:24:39 -0300
+Message-Id: <5dbfe342b316515c88650fe7aadb2816e4312d3d.1530004939.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1530004939.git.mchehab+samsung@kernel.org>
 References: <cover.1530004939.git.mchehab+samsung@kernel.org>
@@ -47,117 +47,190 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The script is old and produce some warnings and errors, because
-it lacks including stdlib.h and io.h is at sys/io.h.
-
-Fix it to run with the tools found on modern Linux distros.
-
-Tested building it on Fedora 28.
+The modules for the cards described here changed their names.
+Update accordingly.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/sound/cards/multisound.sh | 30 +++++++++++++------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ Documentation/sound/cards/multisound.sh | 72 ++++++++++++-------------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
 diff --git a/Documentation/sound/cards/multisound.sh b/Documentation/sound/cards/multisound.sh
-index 7a7a88256dfd..0e0cb029421b 100755
+index 0e0cb029421b..a915a1affcde 100755
 --- a/Documentation/sound/cards/multisound.sh
 +++ b/Documentation/sound/cards/multisound.sh
-@@ -381,11 +381,11 @@
- # This shar contains:
- # length mode       name
- # ------ ---------- ------------------------------------------
--#   2046 -rw-rw-r-- MultiSound.d/setdigital.c
--#  10235 -rw-rw-r-- MultiSound.d/pinnaclecfg.c
-+#   2064 -rw-rw-r-- MultiSound.d/setdigital.c
-+#  10224 -rw-rw-r-- MultiSound.d/pinnaclecfg.c
- #    106 -rw-rw-r-- MultiSound.d/Makefile
--#    141 -rw-rw-r-- MultiSound.d/conv.l
--#   1472 -rw-rw-r-- MultiSound.d/msndreset.c
-+#    146 -rw-rw-r-- MultiSound.d/conv.l
-+#   1491 -rw-rw-r-- MultiSound.d/msndreset.c
+@@ -34,12 +34,12 @@
+ #  composed of the following modules (these can also operate compiled
+ #  into the kernel):
  #
- save_IFS="${IFS}"
- IFS="${IFS}:"
-@@ -471,6 +471,7 @@ X *
- X ********************************************************************/
- X
- #include <stdio.h>
-+#include <stdlib.h>
- #include <unistd.h>
- #include <fcntl.h>
- #include <sys/types.h>
-@@ -538,8 +539,8 @@ e87217fc3e71288102ba41fd81f71ec4  MultiSound.d/setdigital.c
- SHAR_EOF
-   else
-     shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'MultiSound.d/setdigital.c'`"
--    test 2046 -eq "$shar_count" ||
--    $echo 'MultiSound.d/setdigital.c:' 'original size' '2046,' 'current size' "$shar_count!"
-+    test 2064 -eq "$shar_count" ||
-+    $echo 'MultiSound.d/setdigital.c:' 'original size' '2064,' 'current size' "$shar_count!"
-   fi
- fi
- # ============= MultiSound.d/pinnaclecfg.c ==============
-@@ -581,8 +582,8 @@ X
- #include <string.h>
- #include <errno.h>
- #include <unistd.h>
--#include <asm/io.h>
- #include <asm/types.h>
-+#include <sys/io.h>
- X
- #define IREG_LOGDEVICE		0x07
- #define IREG_ACTIVATE		0x30
-@@ -992,8 +993,8 @@ SHAR_EOF
- SHAR_EOF
-   else
-     shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'MultiSound.d/pinnaclecfg.c'`"
--    test 10235 -eq "$shar_count" ||
--    $echo 'MultiSound.d/pinnaclecfg.c:' 'original size' '10235,' 'current size' "$shar_count!"
-+    test 10224 -eq "$shar_count" ||
-+    $echo 'MultiSound.d/pinnaclecfg.c:' 'original size' '10224,' 'current size' "$shar_count!"
-   fi
- fi
- # ============= MultiSound.d/Makefile ==============
-@@ -1039,7 +1040,7 @@ DB
- [0-9A-Fa-f]+H	{ int n; sscanf(yytext, "%xH", &n); printf("%c", n); }
- %%
- int yywrap() { return 1; }
--main() { yylex(); }
-+void main() { yylex(); }
- SHAR_EOF
-   $shar_touch -am 0828231798 'MultiSound.d/conv.l' &&
-   chmod 0664 'MultiSound.d/conv.l' ||
-@@ -1052,8 +1053,8 @@ d2411fc32cd71a00dcdc1f009e858dd2  MultiSound.d/conv.l
- SHAR_EOF
-   else
-     shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'MultiSound.d/conv.l'`"
--    test 141 -eq "$shar_count" ||
--    $echo 'MultiSound.d/conv.l:' 'original size' '141,' 'current size' "$shar_count!"
-+    test 146 -eq "$shar_count" ||
-+    $echo 'MultiSound.d/conv.l:' 'original size' '146,' 'current size' "$shar_count!"
-   fi
- fi
- # ============= MultiSound.d/msndreset.c ==============
-@@ -1085,6 +1086,7 @@ X *
- X ********************************************************************/
- X
- #include <stdio.h>
-+#include <stdlib.h>
- #include <unistd.h>
- #include <fcntl.h>
- #include <sys/types.h>
-@@ -1129,8 +1131,8 @@ c52f876521084e8eb25e12e01dcccb8a  MultiSound.d/msndreset.c
- SHAR_EOF
-   else
-     shar_count="`LC_ALL= LC_CTYPE= LANG= wc -c < 'MultiSound.d/msndreset.c'`"
--    test 1472 -eq "$shar_count" ||
--    $echo 'MultiSound.d/msndreset.c:' 'original size' '1472,' 'current size' "$shar_count!"
-+    test 1491 -eq "$shar_count" ||
-+    $echo 'MultiSound.d/msndreset.c:' 'original size' '1491,' 'current size' "$shar_count!"
-   fi
- fi
- rm -fr _sh01426
+-#  msnd               - MultiSound base (requires soundcore)
++#  snd-msnd-lib           - MultiSound base (requires snd)
+ #
+-#  msnd_classic       - Base audio/mixer support for Classic, Monetery and
+-#                       Tahiti cards
++#  snd-msnd-classic       - Base audio/mixer support for Classic, Monetery and
++#                           Tahiti cards
+ #
+-#  msnd_pinnacle      - Base audio/mixer support for Pinnacle and Fiji cards
++#  snd-msnd-pinnacle      - Base audio/mixer support for Pinnacle and Fiji cards
+ #
+ #
+ #  Important Notes - Read Before Using
+@@ -66,7 +66,7 @@
+ #
+ #  * Classic/Monterey/Tahiti
+ #
+-#  These cards are configured through the driver msnd_classic.  You must
++#  These cards are configured through the driver snd-msnd-classic.  You must
+ #  know the io port, then the driver will select the irq and memory resources
+ #  on the card.  It is up to you to know if these are free locations or now,
+ #  a conflict can lock the machine up.
+@@ -81,10 +81,10 @@
+ #  can be used to configure the card in non-PnP mode, and in PnP mode
+ #  you can use isapnptools.  These are described briefly here.
+ #
+-#  pinnaclecfg is not required; you can use the msnd_pinnacle module
++#  pinnaclecfg is not required; you can use the snd-msnd-pinnacle module
+ #  to fully configure the card as well.  However, pinnaclecfg can be
+ #  used to change the resource values of a particular device after the
+-#  msnd_pinnacle module has been loaded.  If you are compiling the
++#  snd-msnd-pinnacle module has been loaded.  If you are compiling the
+ #  driver into the kernel, you must set these values during compile
+ #  time, however other peripheral resource values can be changed with
+ #  the pinnaclecfg program after the kernel is loaded.
+@@ -96,7 +96,7 @@
+ #  to obtain one with the command `pnpdump 1 0x203' -- this may vary
+ #  for you (running pnpdump by itself did not work for me).  Then,
+ #  edit this file and use isapnp to uncomment and set the card values.
+-#  Use these values when inserting the msnd_pinnacle module.  Using
++#  Use these values when inserting the snd-msnd-pinnacle module.  Using
+ #  this method, you can set the resources for the DSP and the Kurzweil
+ #  synth (Pinnacle).  Since Linux does not directly support PnP
+ #  devices, you may have difficulty when using the card in PnP mode
+@@ -133,16 +133,16 @@
+ #  pinnaclecfg program.  Using this program, you can assign the
+ #  resource values to the card's devices, or disable the devices.  As
+ #  an alternative to using pinnaclecfg, you can specify many of the
+-#  configuration values when loading the msnd_pinnacle module (or
++#  configuration values when loading the snd-msnd-pinnacle module (or
+ #  during kernel configuration when compiling the driver into the
+ #  kernel).
+ #
+-#  If you specify cfg=0x250 for the msnd_pinnacle module, it
++#  If you specify cfg=0x250 for the snd-msnd-pinnacle module, it
+ #  automatically configure the card to the given io, irq and memory
+ #  values using that config port (the config port is jumper selectable
+ #  on the card to 0x250, 0x260 or 0x270).
+ #
+-#  See the `msnd_pinnacle Additional Options' section below for more
++#  See the `snd-msnd-pinnacle Additional Options' section below for more
+ #  information on these parameters (also, if you compile the driver
+ #  directly into the kernel, these extra parameters can be useful
+ #  here).
+@@ -157,44 +157,44 @@
+ #
+ #  * MultiSound Classic/Monterey/Tahiti:
+ #
+-#  modprobe soundcore
+-#  insmod msnd
+-#  insmod msnd_classic io=0x290 irq=7 mem=0xd0000
++#  modprobe snd
++#  insmod snd-msnd-lib
++#  insmod snd-msnd-classic io=0x290 irq=7 mem=0xd0000
+ #
+ #  * MultiSound Pinnacle in PnP mode:
+ #
+-#  modprobe soundcore
+-#  insmod msnd
++#  modprobe snd
++#  insmod snd-msnd-lib
+ #  isapnp mypinnacle.conf
+-#  insmod msnd_pinnacle io=0x210 irq=5 mem=0xd8000 <-- match mypinnacle.conf values
++#  insmod snd-msnd-pinnacle io=0x210 irq=5 mem=0xd8000 <-- match mypinnacle.conf values
+ #
+ #  * MultiSound Pinnacle in non-PnP mode (replace 0x250 with your configuration port,
+ #    one of 0x250, 0x260 or 0x270):
+ #
+-#  insmod soundcore
+-#  insmod msnd
+-#  insmod msnd_pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000
++#  modprobe snd
++#  insmod snd-msnd-lib
++#  insmod snd-msnd-pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000
+ #
+ # * To use the MPU-compatible Kurzweil synth on the Pinnacle in PnP
+ #   mode, add the following (assumes you did `isapnp mypinnacle.conf'):
+ #
+-#  insmod sound
++#  insmod snd
+ #  insmod mpu401 io=0x330 irq=9                    <-- match mypinnacle.conf values
+ #
+ # * To use the MPU-compatible Kurzweil synth on the Pinnacle in non-PnP
+ #   mode, add the following.  Note how we first configure the peripheral's
+ #   resources, _then_ install a Linux driver for it:
+ #
+-#  insmod sound
++#  insmod snd
+ #  pinnaclecfg 0x250 mpu 0x330 9
+ #  insmod mpu401 io=0x330 irq=9
+ #
+ #  -- OR you can use the following sequence without pinnaclecfg in non-PnP mode:
+ #
+-#  insmod soundcore
+-#  insmod msnd
+-#  insmod msnd_pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 mpu_io=0x330 mpu_irq=9
+-#  insmod sound
++#  modprobe snd
++#  insmod snd-msnd-lib
++#  insmod snd-msnd-pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 mpu_io=0x330 mpu_irq=9
++#  insmod snd
+ #  insmod mpu401 io=0x330 irq=9
+ #
+ # * To setup the joystick port on the Pinnacle in non-PnP mode (though
+@@ -203,15 +203,15 @@
+ #
+ #   pinnaclecfg 0x250 joystick 0x200
+ #
+-#  -- OR you can configure this using msnd_pinnacle with the following:
++#  -- OR you can configure this using snd-msnd-pinnacle with the following:
+ #
+-#  insmod soundcore
+-#  insmod msnd
+-#  insmod msnd_pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 joystick_io=0x200
++#  modprobe snd
++#  insmod snd-msnd-lib
++#  insmod snd-msnd-pinnacle cfg=0x250 io=0x290 irq=5 mem=0xd0000 joystick_io=0x200
+ #
+ #
+-#  msnd_classic, msnd_pinnacle Required Options
+-#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++#  snd-msnd-classic, snd-msnd-pinnacle Required Options
++#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ #
+ #  If the following options are not given, the module will not load.
+ #  Examine the kernel message log for informative error messages.
+@@ -223,8 +223,8 @@
+ #  mem                  Shared memory area, e.g. mem=0xd8000
+ #
+ #
+-#  msnd_classic, msnd_pinnacle Additional Options
+-#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++#  snd-msnd-classic, snd-msnd-pinnacle Additional Options
++#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ #
+ #  fifosize             The digital audio FIFOs, in kilobytes.  If not
+ #                       specified, the default will be used.  Increasing
+@@ -244,8 +244,8 @@
+ #                       to zero).
+ #
+ #
+-#  msnd_pinnacle Additional Options
+-#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++#  snd-msnd-pinnacle Additional Options
++#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ #
+ #  digital              Specify digital=1 to enable the S/PDIF input
+ #                       if you have the digital daughterboard
 -- 
 2.17.1
 
