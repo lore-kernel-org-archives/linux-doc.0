@@ -1,112 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 040FC7D08C
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 00:47:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 75AA97D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 02:46:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934074AbeFZArt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 20:47:49 -0400
-Received: from lgeamrelo13.lge.com ([156.147.23.53]:42022 "EHLO
-        lgeamrelo11.lge.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1755570AbeFZArs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 20:47:48 -0400
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-        by 156.147.23.53 with ESMTP; 26 Jun 2018 09:47:46 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.222.33)
-        by 156.147.1.121 with ESMTP; 26 Jun 2018 09:47:46 +0900
-X-Original-SENDERIP: 10.177.222.33
-X-Original-MAILFROM: byungchul.park@lge.com
-Date:   Tue, 26 Jun 2018 09:47:39 +0900
-From:   Byungchul Park <byungchul.park@lge.com>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     paulmck@linux.vnet.ibm.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@lge.com
-Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
- translation to fix broken DMA vs. MMIO ordering example
-Message-ID: <20180626004738.GA20783@X58A-UD3R>
-References: <20180617051608.2128-1-sj38.park@gmail.com>
+        id S1755852AbeFZCqX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 22:46:23 -0400
+Received: from mail-oi0-f68.google.com ([209.85.218.68]:36247 "EHLO
+        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1755846AbeFZCqV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 22:46:21 -0400
+Received: by mail-oi0-f68.google.com with SMTP id 14-v6so14537963oie.3
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jun 2018 19:46:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OzBmhIJfAsVeBzxgrm8gIPWnnYbiLu0ldeO1S5DsT2E=;
+        b=ofZmo0/voErzFZ3IpaK5RMnKcZRmY5BYUFmXeR2F9pDttZGjfViZE4pupYv5oPbi1I
+         1TgK8pM4R9U4aaEr14d1GKOuEz1lnC64/WdCr2jCEnZHt64nLhENiF/ekX1bLxOxO4bb
+         49SLBofHeVK8vAbzArMxl0vwQXdzG5YGmxA3vmoIJ1Bms3FkMGYvnBv4/btAcdq3sceK
+         xA2a2x64p8xuAY7vJi0XCHzQzg2CQyOIFC45tUKHRBgzetBv4nZnaZLLiICK5xuSjHqN
+         6H3yF7I21p5x8JpVeetDViSoy2US5W7AccZdwrHxW1aIT2QZJCFQOyxJytCeetvrkA8m
+         UjSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OzBmhIJfAsVeBzxgrm8gIPWnnYbiLu0ldeO1S5DsT2E=;
+        b=WtLF6/niQ7tOnwZpxsUGuSVfY+PeLLgj341OU4OPLbGDZoP5jFRv5afYp+RJp5uITf
+         KOEy1BPSmRxjRrH5kmZSWoNjK68bcZwu/TzeONhgoZmSz4o1CaoTjWFmvy4s1BdBweCT
+         9bU/iQTVmSW2wI7TFCT2CSwTEsLtgL+xBctzQvllY5jvhgPsrtfZ/jB9+9xCzFcpmAm+
+         3qbBD+MMUeEVwZUXiVMfWrEQwgcD2TmAaEpUysb0OtBIPwcrHqTu7Xnvl+kuzv1WL1p8
+         36oJA0b8b4QL7rlfrKaLN16/OKIutyEBhu2m5rKFmuehF9glOu9DWHwVzIDCn+DTPd26
+         zD0w==
+X-Gm-Message-State: APt69E03Jaqd7rO3KtDSfeuDmLOkSu48qpBpX2tBiK0Rj8HcuPssnzok
+        Wux8qzSs1S+F8uaFWlwlWDbfo/fUInWTEAhWqfTseA==
+X-Google-Smtp-Source: AAOMgpfqIGHEjuEqfBINciovziEyeINMswDeDEVfIHTLHD8vysqSJu+hNFsjb2gEiGmi5cPlDVpD33peLPNQSqbkl2A=
+X-Received: by 2002:aca:5bd5:: with SMTP id p204-v6mr8848946oib.91.1529981180502;
+ Mon, 25 Jun 2018 19:46:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20180617051608.2128-1-sj38.park@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20180607143807.3611-1-yu-cheng.yu@intel.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 26 Jun 2018 04:46:08 +0200
+Message-ID: <CAG48ez2puLWrDDPg=ighCY+yxFoP-nN97MqVseqYabBad+eKmg@mail.gmail.com>
+Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
+To:     yu-cheng.yu@intel.com
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, hjl.tools@gmail.com,
+        vedvyas.shanbhogue@intel.com, ravi.v.shankar@intel.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
-> Translate this commit to Korean:
-> 
->   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+On Tue, Jun 26, 2018 at 4:45 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> This series introduces CET - Shadow stack
+>
+> At the high level, shadow stack is:
+>
+>         Allocated from a task's address space with vm_flags VM_SHSTK;
+>         Its PTEs must be read-only and dirty;
+>         Fixed sized, but the default size can be changed by sys admin.
+>
+> For a forked child, the shadow stack is duplicated when the next
+> shadow stack access takes place.
+>
+> For a pthread child, a new shadow stack is allocated.
+>
+> The signal handler uses the same shadow stack as the main program.
+>
+> Yu-cheng Yu (10):
+>   x86/cet: User-mode shadow stack support
+>   x86/cet: Introduce WRUSS instruction
+>   x86/cet: Signal handling for shadow stack
+>   x86/cet: Handle thread shadow stack
+>   x86/cet: ELF header parsing of Control Flow Enforcement
+>   x86/cet: Add arch_prctl functions for shadow stack
+>   mm: Prevent mprotect from changing shadow stack
+>   mm: Prevent mremap of shadow stack
+>   mm: Prevent madvise from changing shadow stack
+>   mm: Prevent munmap and remap_file_pages of shadow stack
 
-Hi SeongJae,
-
-You keep doing good jobs ;)
-
-I believe it would be better if you consider the little things below
-more. What do you think about it, SeongJae?
-
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> ---
->  Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-> index 921739d00f69..ada0a709cce1 100644
-> --- a/Documentation/translations/ko_KR/memory-barriers.txt
-> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
-> @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
->  		/* 소유권을 수정 */
->  		desc->status = DEVICE_OWN;
->  
-> -		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
-> -		wmb();
-> -
->  		/* 업데이트된 디스크립터의 디바이스에 공지 */
->  		writel(DESC_NOTIFY, doorbell);
->  	}
->  
->       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
-> -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
-> -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
-> -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
-> -     보장해주기 위해 필요합니다.
-> +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
-                                                                        ^
-                                                                     참고로,
-
-> +     을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 MMIO
-> +     영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에 wmb() 를
-> +     실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이 저렴한
-> +     writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지 않아야
-> +     합니다.
->  
->       consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
->       문서를 참고하세요.
-
-     See the subsection "Kernel I/O barrier effects" for more information on
-     relaxed I/O accessors and the Documentation/DMA-API.txt file for more
-     information on consistent memory.
-
-Don't you think the whole sentence need to be translated? If yes, then
-it would be better to do that as well ;)
-
-> -- 
-> 2.13.0
-
---
-Thanks,
-Byungchul
+Shouldn't patches like these be CC'ed to linux-api@vger.kernel.org?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
