@@ -1,105 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID,T_TVD_MIME_EPI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75AA97D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 02:46:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B369E7D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 03:21:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755852AbeFZCqX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 22:46:23 -0400
-Received: from mail-oi0-f68.google.com ([209.85.218.68]:36247 "EHLO
-        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755846AbeFZCqV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 22:46:21 -0400
-Received: by mail-oi0-f68.google.com with SMTP id 14-v6so14537963oie.3
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jun 2018 19:46:21 -0700 (PDT)
+        id S965267AbeFZDVf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 23:21:35 -0400
+Received: from mail-pl0-f68.google.com ([209.85.160.68]:40893 "EHLO
+        mail-pl0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S965262AbeFZDVf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 23:21:35 -0400
+Received: by mail-pl0-f68.google.com with SMTP id t6-v6so2465254plo.7;
+        Mon, 25 Jun 2018 20:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OzBmhIJfAsVeBzxgrm8gIPWnnYbiLu0ldeO1S5DsT2E=;
-        b=ofZmo0/voErzFZ3IpaK5RMnKcZRmY5BYUFmXeR2F9pDttZGjfViZE4pupYv5oPbi1I
-         1TgK8pM4R9U4aaEr14d1GKOuEz1lnC64/WdCr2jCEnZHt64nLhENiF/ekX1bLxOxO4bb
-         49SLBofHeVK8vAbzArMxl0vwQXdzG5YGmxA3vmoIJ1Bms3FkMGYvnBv4/btAcdq3sceK
-         xA2a2x64p8xuAY7vJi0XCHzQzg2CQyOIFC45tUKHRBgzetBv4nZnaZLLiICK5xuSjHqN
-         6H3yF7I21p5x8JpVeetDViSoy2US5W7AccZdwrHxW1aIT2QZJCFQOyxJytCeetvrkA8m
-         UjSA==
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=u6RZ+0kcquAJnVtJsY79u6IIi6jol26oG5vpLiyrB34=;
+        b=vNAj0z9qkOTxbl2mwKJaBRoYuoIszmJ/X8TQfHUpI+7gAEFnDwqbsEhpmuJDOkTyDk
+         NRgIpvCVG1zKg+8O9vIN8/EuwMNhYqblMeE3qLkgSQRQ84PddQO9+UCTTDSzj78dX0fQ
+         AJrkPCHlbccXiC1su0Oe82J4hjWLxMUPp1lTY962LEqrhnjOZQD45ABpeNUg61CawBT6
+         EHXQfnbjCFh/3g5PhmKWWBdPusyNojjjaIv+gKn/63dL0ui0iilO2TozjUKdiy4DpSDu
+         QzzYZS+5jT46LHXluEEg90NfyLGdazIIT2+rmQPBFcd70vJI2hb4rplZ6p+vnVvLWXT/
+         jwtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OzBmhIJfAsVeBzxgrm8gIPWnnYbiLu0ldeO1S5DsT2E=;
-        b=WtLF6/niQ7tOnwZpxsUGuSVfY+PeLLgj341OU4OPLbGDZoP5jFRv5afYp+RJp5uITf
-         KOEy1BPSmRxjRrH5kmZSWoNjK68bcZwu/TzeONhgoZmSz4o1CaoTjWFmvy4s1BdBweCT
-         9bU/iQTVmSW2wI7TFCT2CSwTEsLtgL+xBctzQvllY5jvhgPsrtfZ/jB9+9xCzFcpmAm+
-         3qbBD+MMUeEVwZUXiVMfWrEQwgcD2TmAaEpUysb0OtBIPwcrHqTu7Xnvl+kuzv1WL1p8
-         36oJA0b8b4QL7rlfrKaLN16/OKIutyEBhu2m5rKFmuehF9glOu9DWHwVzIDCn+DTPd26
-         zD0w==
-X-Gm-Message-State: APt69E03Jaqd7rO3KtDSfeuDmLOkSu48qpBpX2tBiK0Rj8HcuPssnzok
-        Wux8qzSs1S+F8uaFWlwlWDbfo/fUInWTEAhWqfTseA==
-X-Google-Smtp-Source: AAOMgpfqIGHEjuEqfBINciovziEyeINMswDeDEVfIHTLHD8vysqSJu+hNFsjb2gEiGmi5cPlDVpD33peLPNQSqbkl2A=
-X-Received: by 2002:aca:5bd5:: with SMTP id p204-v6mr8848946oib.91.1529981180502;
- Mon, 25 Jun 2018 19:46:20 -0700 (PDT)
+        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=u6RZ+0kcquAJnVtJsY79u6IIi6jol26oG5vpLiyrB34=;
+        b=QRHtRVRbHBH/c5aKVz5VLtSmxZ5uHJSsmYd+pbeBuhdVm3j5j84BXHKP/kzAbWrP7p
+         eHXf3XCffVbo/COaQe4EWYUnpMmNgzLgKsWfwFsMiDmJPdcu0qRXZo+YEysjizQE3wzF
+         Yg1L/b8s0QpK31Eth4VD82Q75ac3ZIZ/BUkMcmxNrSvX6wbzuTaKQ01+AE0LCaakFvUx
+         gY4meVzuVl+s430VsXHDZ+uMkwCcPiR7KoApxbZrVtCRVdHxX5Wqk9ohtn2wNZSoBws+
+         EjfTOeOT+k4iKvejbJs/F/XLTIPGJjTkOGwOLSPj8MOxS7Y+pZ2OlE2fQuL/IAR0NwR6
+         eIuA==
+X-Gm-Message-State: APt69E39H3I966Ru8gtCu0hr+srILfhS7KWBi584Ve+z5teFnS9GGPyR
+        G5/RqzNYSCJhSSnNdnaA3yLI4PXb
+X-Google-Smtp-Source: ADUXVKI2jhDt+rcdn2hJOwR8isFtS6Bt2QQIn5lUciaCZlV1UFNBH4NGH1RfNDUe1HjlIGpCy8bxhA==
+X-Received: by 2002:a17:902:9f81:: with SMTP id g1-v6mr14795209plq.304.1529983294516;
+        Mon, 25 Jun 2018 20:21:34 -0700 (PDT)
+Received: from hxeon ([147.46.241.218])
+        by smtp.gmail.com with ESMTPSA id v26-v6sm619377pfn.105.2018.06.25.20.21.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Jun 2018 20:21:33 -0700 (PDT)
+From:   sjpark <sj38.park@gmail.com>
+X-Google-Original-From: sjpark <sjpark@hxeon>
+Date:   Tue, 26 Jun 2018 12:21:23 +0900 (KST)
+To:     Byungchul Park <byungchul.park@lge.com>
+cc:     SeongJae Park <sj38.park@gmail.com>, paulmck@linux.vnet.ibm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@lge.com
+Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean translation
+ to fix broken DMA vs. MMIO ordering example
+In-Reply-To: <20180626004738.GA20783@X58A-UD3R>
+Message-ID: <alpine.DEB.2.20.1806261218490.1528@hxeon>
+References: <20180617051608.2128-1-sj38.park@gmail.com> <20180626004738.GA20783@X58A-UD3R>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-In-Reply-To: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 26 Jun 2018 04:46:08 +0200
-Message-ID: <CAG48ez2puLWrDDPg=ighCY+yxFoP-nN97MqVseqYabBad+eKmg@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
-To:     yu-cheng.yu@intel.com
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, hjl.tools@gmail.com,
-        vedvyas.shanbhogue@intel.com, ravi.v.shankar@intel.com,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; BOUNDARY="781441777-312507392-1529983293=:1528"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 26, 2018 at 4:45 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> This series introduces CET - Shadow stack
->
-> At the high level, shadow stack is:
->
->         Allocated from a task's address space with vm_flags VM_SHSTK;
->         Its PTEs must be read-only and dirty;
->         Fixed sized, but the default size can be changed by sys admin.
->
-> For a forked child, the shadow stack is duplicated when the next
-> shadow stack access takes place.
->
-> For a pthread child, a new shadow stack is allocated.
->
-> The signal handler uses the same shadow stack as the main program.
->
-> Yu-cheng Yu (10):
->   x86/cet: User-mode shadow stack support
->   x86/cet: Introduce WRUSS instruction
->   x86/cet: Signal handling for shadow stack
->   x86/cet: Handle thread shadow stack
->   x86/cet: ELF header parsing of Control Flow Enforcement
->   x86/cet: Add arch_prctl functions for shadow stack
->   mm: Prevent mprotect from changing shadow stack
->   mm: Prevent mremap of shadow stack
->   mm: Prevent madvise from changing shadow stack
->   mm: Prevent munmap and remap_file_pages of shadow stack
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Shouldn't patches like these be CC'ed to linux-api@vger.kernel.org?
+--781441777-312507392-1529983293=:1528
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+
+Hello Byungchul,
+
+
+On Tue, 26 Jun 2018, Byungchul Park wrote:
+
+> On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
+> > Translate this commit to Korean:
+> >
+> >   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+>
+> Hi SeongJae,
+>
+> You keep doing good jobs ;)
+>
+> I believe it would be better if you consider the little things below
+> more. What do you think about it, SeongJae?
+
+Thank you for great comments!
+
+>
+> > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+> > ---
+> >  Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
+> >  1 file changed, 7 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+> > index 921739d00f69..ada0a709cce1 100644
+> > --- a/Documentation/translations/ko_KR/memory-barriers.txt
+> > +++ b/Documentation/translations/ko_KR/memory-barriers.txt
+> > @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
+> >  		/* 소유권을 수정 */
+> >  		desc->status = DEVICE_OWN;
+> >
+> > -		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
+> > -		wmb();
+> > -
+> >  		/* 업데이트된 디스크립터의 디바이스에 공지 */
+> >  		writel(DESC_NOTIFY, doorbell);
+> >  	}
+> >
+> >       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
+> > -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> > -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
+> > -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
+> > -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
+> > -     보장해주기 위해 필요합니다.
+> > +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> > +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
+>                                                                         ^
+>                                                                      참고로,
+
+Nice comment.  This will enhance the readability a lot.
+
+>
+> > +     을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 MMIO
+> > +     영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에 wmb() 를
+> > +     실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이 저렴한
+> > +     writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지 않아야
+> > +     합니다.
+> >
+> >       consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
+> >       문서를 참고하세요.
+>
+>      See the subsection "Kernel I/O barrier effects" for more information on
+>      relaxed I/O accessors and the Documentation/DMA-API.txt file for more
+>      information on consistent memory.
+>
+> Don't you think the whole sentence need to be translated? If yes, then
+> it would be better to do that as well ;)
+
+Oh, my mistake!  It should be.
+
+I applied your comments to the second version.
+
+
+Thanks,
+SeongJae Park
+
+>
+> > --
+> > 2.13.0
+>
+> --
+> Thanks,
+> Byungchul
+>
+--781441777-312507392-1529983293=:1528--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
