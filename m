@@ -5,30 +5,28 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1DAA97D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 14:41:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA94F7D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 14:42:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933794AbeFZOlt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 10:41:49 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35232 "EHLO ms.lwn.net"
+        id S935037AbeFZOmm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 10:42:42 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35238 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933120AbeFZOlt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 10:41:49 -0400
+        id S934936AbeFZOmk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 10:42:40 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9A28B2D5;
-        Tue, 26 Jun 2018 14:41:48 +0000 (UTC)
-Date:   Tue, 26 Jun 2018 08:41:47 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 4A91E2F3;
+        Tue, 26 Jun 2018 14:42:40 +0000 (UTC)
+Date:   Tue, 26 Jun 2018 08:42:39 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Tim Bird <tbird20d@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation/process: fix reST table border error
-Message-ID: <20180626084147.26c0c188@lwn.net>
-In-Reply-To: <727cda41-e8e5-06f5-ae54-3e91571fa6ac@infradead.org>
-References: <727cda41-e8e5-06f5-ae54-3e91571fa6ac@infradead.org>
+To:     Martin Kepplinger <martink@posteo.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: nommu-map: Fix duplicate word typo
+Message-ID: <20180626084239.27d88f7e@lwn.net>
+In-Reply-To: <20180622073211.8220-1-martink@posteo.de>
+References: <20180622073211.8220-1-martink@posteo.de>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,19 +36,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 16 Jun 2018 19:02:03 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Fri, 22 Jun 2018 09:32:11 +0200
+Martin Kepplinger <martink@posteo.de> wrote:
 
-> Fix reST error in Documentation/process/:
+> Signed-off-by: Martin Kepplinger <martink@posteo.de>
+> ---
+>  Documentation/nommu-mmap.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Documentation/process/2.Process.rst:131: ERROR: Malformed table.
-> Bottom/header table border does not match top border.
-> 
-> Fixes: 8962e40c1993 ("docs: update kernel versions and dates in tables")
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Tim Bird <tbird20d@gmail.com>
+> diff --git a/Documentation/nommu-mmap.txt b/Documentation/nommu-mmap.txt
+> index 69556f0d494b..530fed08de2c 100644
+> --- a/Documentation/nommu-mmap.txt
+> +++ b/Documentation/nommu-mmap.txt
+> @@ -47,7 +47,7 @@ and it's also much more restricted in the latter case:
+>             appropriate mapping protection capabilities. Ramfs, romfs, cramfs
+>             and mtd might all permit this.
+>  
+> -	 - If the backing device device can't or won't permit direct sharing,
+> +	 - If the backing device can't or won't permit direct sharing,
+>             but does have the NOMMU_MAP_COPY capability, then a copy of the
+>             appropriate bit of the file will be read into a contiguous bit of
+>             memory and any extraneous space beyond the EOF will be cleared
 
 Applied, thanks.
 
