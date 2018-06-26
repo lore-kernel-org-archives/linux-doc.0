@@ -1,129 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A63727D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 15:30:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EDC797D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 15:46:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751125AbeFZPaj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 11:30:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47930 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751073AbeFZPai (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 11:30:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=4CCX95g5OocRVXIYw8EEcqFqu4FWgLlxdZJrizsnFvs=; b=nN6IzVN4Fw1x6g8XJkUHPxU3C
-        PIs4xKtlQYqCnWQ9lr0vJg7/1A8dvXWAMShldTiBJNgHw2h5LOBfIVWx3ebFWnmB/fY4uTY0qIEof
-        p+RIHHQOOLZfYaJnfmn4s7LHw3Ynw18fIn9ESZvlQKJRlP2Y2DFXKmR2gsL3vxkupIcuwxGP8wK2e
-        M/6bBPC/uj54ZXMW0qBdnAestoUk7IXqYOIZwQa689VZcDi91xy9NEvUmmwNdRAmpja4NlZK16nZX
-        WothseLcTWTx5XO+Bl46PlyAJkwr4Cn/rdDXzz0CUs4hL7QNn7Ep6m5JyzivTKBdx95lQQMcb7JFO
-        zcSUhWsBA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fXpvH-0008Lo-Bd; Tue, 26 Jun 2018 15:30:27 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id CF4C82029F1D7; Tue, 26 Jun 2018 17:30:25 +0200 (CEST)
-Date:   Tue, 26 Jun 2018 17:30:25 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Will Deacon <will.deacon@arm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
-Message-ID: <20180626153025.GD2458@hirez.programming.kicks-ass.net>
-References: <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
- <20180625095031.GX2494@hirez.programming.kicks-ass.net>
- <20180625105618.GA12676@andrea>
- <20180625123121.GY2494@hirez.programming.kicks-ass.net>
- <20180625131643.GA15126@andrea>
- <20180625141830.GC2494@hirez.programming.kicks-ass.net>
- <20180625145611.GA16333@andrea>
- <20180625163705.GE2494@hirez.programming.kicks-ass.net>
- <20180626100942.GA8295@andrea>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180626100942.GA8295@andrea>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+        id S1752381AbeFZPqC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 11:46:02 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55232 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752358AbeFZPqB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 11:46:01 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 2AF47AFB7;
+        Tue, 26 Jun 2018 15:46:00 +0000 (UTC)
+Date:   Tue, 26 Jun 2018 17:45:59 +0200
+Message-ID: <s5hd0wdwnyg.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>
+Cc:     <alsa-devel@alsa-project.org>,
+        "Mauro Carvalho Chehab" <mchehab@infradead.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Jaroslav Kysela" <perex@perex.cz>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/4] Fix a broken/missing documentation at sound
+In-Reply-To: <cover.1530004939.git.mchehab+samsung@kernel.org>
+References: <cover.1530004939.git.mchehab+samsung@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 26, 2018 at 12:09:42PM +0200, Andrea Parri wrote:
-> > > Same RFC for the first comment:
-> > > 
-> > >   /*
-> > >    * The above implies an smp_mb(), which matches with the smp_wmb() from
-> > >    * woken_wake_function() such that if we observe WQ_FLAG_WOKEN we must
-> > >    * also observe all state before the wakeup.
-> > >    */
-> > > 
-> > > What is the corresponding snippet & BUG_ON()?
-> > 
-> > The comment there suggest:
-> > 
-> > 	if (condition)
-> > 		break;
-> > 
-> > 	set_current_state(UNINTERRUPTIBLE);		condition = true;
-> > 	/* smp_mb() */					smp_wmb();
-> > 							wq_entry->flags |= WQ_FLAG_WOKEN;
-> > 	if (!wq_entry->flags & WQ_FLAG_WOKEN)
-> > 		schedule();
-> > 
-> > 
-> > 	BUG_ON((wq_entry->flags & WQ_FLAG_WOKEN) && !condition);
-> > 
-> > 
-> > But looking at that now, I think that's wrong. Because the the purpose
-> > was that, if we don't do the try_to_wake_up(), our task still needs to
-> > observe the condition store.
-> > 
-> > But for that we need a barrier between the wq_entry->flags load and the
-> > second condition test, which would (again) be B, not A.
+On Tue, 26 Jun 2018 11:24:36 +0200,
+Mauro Carvalho Chehab wrote:
 > 
-> Agreed.  Now that I stared at the code a bit more, I think that (A) is
-> still needed for the synchronization on "->state" and "->flags" (an SB
-> pattern seems again to be hidden in the call to try_to_wake_up()):
+> After running ./scripts/documentation-file-ref-check I noticed that it
+> was complaining about the lack of a MultiSound file that used to be
+> inside the old OSS sound system.
 > 
->   p->state = mode;                           wq_entry->flags |= WQ_FLAG_WOKEN;
->   smp_mb(); // A                             try_to_wake_up():
->   if (!(wq_entry->flags & WQ_FLAG_WOKEN))      <full barrier>
->      schedule()                                if (!(p->state & mode))
->                                                  goto out;
+> That's actually a script, with seems to be needed in order to make
+> the multisound driver to work. Also, it contains some instructions
+> about how to use the module.
 > 
->   BUG_ON(!(wq_entry->flags & WQ_FLAG_WOKEN) && !(p->state & mode))
+> Granted, this is old ISA stuff, but, as long as the driver remains in
+> Kernel, it probably makes sense to keep the script somewhere.
 > 
-> So, I think that we should keep (A).
+> So, this patch restores the file from the git log, moving it to an
+> existing directory and updates the module names. 
+> 
+> It also fixes the script, as it has some issues that prevents it to work
+> with modern distributions (basically, include stuff at C files it
+> produces).
+> 
+> -
+> 
+> Please notice that I don't have such hardware to test. So, I have no 
+> means to know if the produced exec file still makes sense.
+> 
+> Mauro Carvalho Chehab (4):
+>   sound: restore MultiSound script
+>   alsa: multisound.sh: fix script to make it build with modern tools
+>   alsa: multisound.sh: update module namespace
+>   alsa: Fix references to Documentation/.*/MultiSound
 
-Yes, very much so. Once we actually get to use ttwu() that barrier is
-required.
+Thanks, applied all four patches now.
 
-> I am planning to send these changes (smp_mb() in woken_wake_function()
-> and fixes to the comments) as a separate patch.
 
-Probably makes sense. Thanks for looking at this, I have vague memories
-of being slightly confused when I wrote all that :-)
+Takashi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
