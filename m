@@ -1,185 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C169D7DF8F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Jun 2018 22:42:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 040FC7D08C
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 00:47:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932279AbeFYWmg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Jun 2018 18:42:36 -0400
-Received: from mail-qk0-f202.google.com ([209.85.220.202]:39713 "EHLO
-        mail-qk0-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1755728AbeFYWmd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 18:42:33 -0400
-Received: by mail-qk0-f202.google.com with SMTP id v137-v6so2820466qka.6
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jun 2018 15:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:date:in-reply-to:message-id:references:subject:from:to
-         :cc;
-        bh=tANS2lc9/Sh68sJhsCX5qG1RCeLj+qbifMvYUS14SXw=;
-        b=MIKPBeNyAUivtuOBErWOT6xMIpCguOjiOwVYN4gEjsxPFnPuaeavwLyyK/Re7lrB6+
-         5hK+yO6gpML8zEC4llnS/H/oJo57vjUg7dWTsN3gV7hsjx0HHkZpXyB1o/+l3iUPk5CR
-         8x4G7ep+t30PwUvZ4EwoMh1gKMAt09aMIx/s2ekUAe2KbUnpX+oxIrNsSZiNgK8K0EFv
-         s/W9mEOHMAxSdj/juei66DO2pnR2wjAzIkiyIqzHcl2xx/PVPbduQ15lAEPIWuSa19s7
-         ZvbsTr2La/cUCVzn8GzwiE86yx7UWCF8idK3MsIL5NDwr4Tk9GdSWX6eFVaZcswxnPzD
-         ktmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id
-         :references:subject:from:to:cc;
-        bh=tANS2lc9/Sh68sJhsCX5qG1RCeLj+qbifMvYUS14SXw=;
-        b=IOD/BzN5QX3gdZVC0cDNTd6gomuP0JquR4kJJSi9TD6nnSwYUcfkp7GQk6D8wITz49
-         j7+skErd9XeQg2dCWi2+ef+ukWeQP7smBo+yKYJrHpJ695S3KfEj8Qa1GtZwv/T5iQkn
-         dXD0wiqO8+EzfY8D1NxWC4Gj+bw0KmrhxI7n1vHF62etJAHIvqUIgGBXImefGu3KBb6c
-         UfOH4ZqZkiPNi4iRaNYMrTL5VViEZdZgIS3bMqZpc4+1BiByD0vWdvTEidbzDFXOL3Kb
-         5+t1giDLb8Qa/doMCMf98B18aHT6JZGlqJkQ8rFcXJqEBYLclBVhyesbb+CZ24UqGd0y
-         XuCg==
-X-Gm-Message-State: APt69E3VtCHZppVpenI2oYkOzJpme6xEFgtjHDGYwDsu8rHbgAY7JLTy
-        qD5/eHDuHaXSQWLM53osjdS7I/BU27JeGA==
-X-Google-Smtp-Source: ADUXVKLOUL2lonFJULrlVFwRLr1xvIP2xywc4GJ+6dsQSMBMsoAwis+Su78h+obQ5704IyyLbYgT0KPBvLLjhA==
+        id S934074AbeFZArt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Jun 2018 20:47:49 -0400
+Received: from lgeamrelo13.lge.com ([156.147.23.53]:42022 "EHLO
+        lgeamrelo11.lge.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1755570AbeFZArs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jun 2018 20:47:48 -0400
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+        by 156.147.23.53 with ESMTP; 26 Jun 2018 09:47:46 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.222.33)
+        by 156.147.1.121 with ESMTP; 26 Jun 2018 09:47:46 +0900
+X-Original-SENDERIP: 10.177.222.33
+X-Original-MAILFROM: byungchul.park@lge.com
+Date:   Tue, 26 Jun 2018 09:47:39 +0900
+From:   Byungchul Park <byungchul.park@lge.com>
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     paulmck@linux.vnet.ibm.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@lge.com
+Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
+ translation to fix broken DMA vs. MMIO ordering example
+Message-ID: <20180626004738.GA20783@X58A-UD3R>
+References: <20180617051608.2128-1-sj38.park@gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:ac8:28dd:: with SMTP id j29-v6mr8141842qtj.31.1529966552405;
- Mon, 25 Jun 2018 15:42:32 -0700 (PDT)
-Date:   Mon, 25 Jun 2018 15:39:10 -0700
-In-Reply-To: <20180625224014.134829-1-thgarnie@google.com>
-Message-Id: <20180625224014.134829-23-thgarnie@google.com>
-References: <20180625224014.134829-1-thgarnie@google.com>
-X-Mailer: git-send-email 2.18.0.rc2.346.g013aa6912e-goog
-Subject: [PATCH v5 22/27] x86/modules: Add option to start module section
- after kernel
-From:   Thomas Garnier <thgarnie@google.com>
-To:     kernel-hardening@lists.openwall.com
-Cc:     Thomas Garnier <thgarnie@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180617051608.2128-1-sj38.park@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an option so the module section is just after the mapped kernel. It
-will ensure position independent modules are always at the right
-distance from the kernel and do not require mcmodule=large. It also
-optimize the available size for modules by getting rid of the empty
-space on kernel randomization range.
+On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
+> Translate this commit to Korean:
+> 
+>   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
 
-Signed-off-by: Thomas Garnier <thgarnie@google.com>
----
- Documentation/x86/x86_64/mm.txt         | 3 +++
- arch/x86/Kconfig                        | 4 ++++
- arch/x86/include/asm/pgtable_64_types.h | 6 ++++++
- arch/x86/kernel/head64.c                | 5 ++++-
- arch/x86/mm/dump_pagetables.c           | 3 ++-
- 5 files changed, 19 insertions(+), 2 deletions(-)
+Hi SeongJae,
 
-diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
-index 5432a96d31ff..334ab458c82d 100644
---- a/Documentation/x86/x86_64/mm.txt
-+++ b/Documentation/x86/x86_64/mm.txt
-@@ -77,3 +77,6 @@ Their order is preserved but their base will be offset early at boot time.
- Be very careful vs. KASLR when changing anything here. The KASLR address
- range must not overlap with anything except the KASAN shadow area, which is
- correct as KASAN disables KASLR.
-+
-+If CONFIG_DYNAMIC_MODULE_BASE is enabled, the module section follows the end of
-+the mapped kernel.
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index f49725df7109..f98a47662023 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -2212,6 +2212,10 @@ config RANDOMIZE_MEMORY_PHYSICAL_PADDING
- 
- 	   If unsure, leave at the default value.
- 
-+# Module section starts just after the end of the kernel module
-+config DYNAMIC_MODULE_BASE
-+	bool
-+
- config X86_GLOBAL_STACKPROTECTOR
- 	bool "Stack cookie using a global variable"
- 	depends on CC_STACKPROTECTOR_AUTO
-diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
-index 054765ab2da2..faaab159ed54 100644
---- a/arch/x86/include/asm/pgtable_64_types.h
-+++ b/arch/x86/include/asm/pgtable_64_types.h
-@@ -7,6 +7,7 @@
- #ifndef __ASSEMBLY__
- #include <linux/types.h>
- #include <asm/kaslr.h>
-+#include <asm/sections.h>
- 
- /*
-  * These are used to make use of C type-checking..
-@@ -137,7 +138,12 @@ extern unsigned int ptrs_per_p4d;
- 
- #define VMALLOC_END		(VMALLOC_START + (VMALLOC_SIZE_TB << 40) - 1)
- 
-+#ifdef CONFIG_DYNAMIC_MODULE_BASE
-+#define MODULES_VADDR		ALIGN(((unsigned long)_end + PAGE_SIZE), PMD_SIZE)
-+#else
- #define MODULES_VADDR		(__START_KERNEL_map + KERNEL_IMAGE_SIZE)
-+#endif
-+
- /* The module sections ends with the start of the fixmap */
- #define MODULES_END		_AC(0xffffffffff000000, UL)
- #define MODULES_LEN		(MODULES_END - MODULES_VADDR)
-diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
-index 49df0386098c..14bbbe592772 100644
---- a/arch/x86/kernel/head64.c
-+++ b/arch/x86/kernel/head64.c
-@@ -393,12 +393,15 @@ asmlinkage __visible void __init x86_64_start_kernel(char * real_mode_data)
- 	 * Build-time sanity checks on the kernel image and module
- 	 * area mappings. (these are purely build-time and produce no code)
- 	 */
-+#ifndef CONFIG_DYNAMIC_MODULE_BASE
- 	BUILD_BUG_ON(MODULES_VADDR < __START_KERNEL_map);
- 	BUILD_BUG_ON(MODULES_VADDR - __START_KERNEL_map < KERNEL_IMAGE_SIZE);
--	BUILD_BUG_ON(MODULES_LEN + KERNEL_IMAGE_SIZE > 2*PUD_SIZE);
-+	BUILD_BUG_ON(!IS_ENABLED(CONFIG_RANDOMIZE_BASE_LARGE) &&
-+		     MODULES_LEN + KERNEL_IMAGE_SIZE > 2*PUD_SIZE);
- 	BUILD_BUG_ON((__START_KERNEL_map & ~PMD_MASK) != 0);
- 	BUILD_BUG_ON((MODULES_VADDR & ~PMD_MASK) != 0);
- 	BUILD_BUG_ON(!(MODULES_VADDR > __START_KERNEL));
-+#endif
- 	MAYBE_BUILD_BUG_ON(!(((MODULES_END - 1) & PGDIR_MASK) ==
- 				(__START_KERNEL & PGDIR_MASK)));
- 	BUILD_BUG_ON(__fix_to_virt(__end_of_fixed_addresses) <= MODULES_END);
-diff --git a/arch/x86/mm/dump_pagetables.c b/arch/x86/mm/dump_pagetables.c
-index 2f3c9196b834..537884e5d092 100644
---- a/arch/x86/mm/dump_pagetables.c
-+++ b/arch/x86/mm/dump_pagetables.c
-@@ -105,7 +105,7 @@ static struct addr_marker address_markers[] = {
- 	[EFI_END_NR]		= { EFI_VA_END,		"EFI Runtime Services" },
- #endif
- 	[HIGH_KERNEL_NR]	= { __START_KERNEL_map,	"High Kernel Mapping" },
--	[MODULES_VADDR_NR]	= { MODULES_VADDR,	"Modules" },
-+	[MODULES_VADDR_NR]	= { 0/*MODULES_VADDR*/,	"Modules" },
- 	[MODULES_END_NR]	= { MODULES_END,	"End Modules" },
- 	[FIXADDR_START_NR]	= { FIXADDR_START,	"Fixmap Area" },
- 	[END_OF_SPACE_NR]	= { -1,			NULL }
-@@ -600,6 +600,7 @@ static int __init pt_dump_init(void)
- 	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
- 	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
- #endif
-+	address_markers[MODULES_VADDR_NR].start_address = MODULES_VADDR;
- #endif
- #ifdef CONFIG_X86_32
- 	address_markers[VMALLOC_START_NR].start_address = VMALLOC_START;
--- 
-2.18.0.rc2.346.g013aa6912e-goog
+You keep doing good jobs ;)
 
+I believe it would be better if you consider the little things below
+more. What do you think about it, SeongJae?
+
+> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+> ---
+>  Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+> index 921739d00f69..ada0a709cce1 100644
+> --- a/Documentation/translations/ko_KR/memory-barriers.txt
+> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
+> @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
+>  		/* 소유권을 수정 */
+>  		desc->status = DEVICE_OWN;
+>  
+> -		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
+> -		wmb();
+> -
+>  		/* 업데이트된 디스크립터의 디바이스에 공지 */
+>  		writel(DESC_NOTIFY, doorbell);
+>  	}
+>  
+>       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
+> -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
+> -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
+> -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
+> -     보장해주기 위해 필요합니다.
+> +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
+                                                                        ^
+                                                                     참고로,
+
+> +     을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 MMIO
+> +     영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에 wmb() 를
+> +     실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이 저렴한
+> +     writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지 않아야
+> +     합니다.
+>  
+>       consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
+>       문서를 참고하세요.
+
+     See the subsection "Kernel I/O barrier effects" for more information on
+     relaxed I/O accessors and the Documentation/DMA-API.txt file for more
+     information on consistent memory.
+
+Don't you think the whole sentence need to be translated? If yes, then
+it would be better to do that as well ;)
+
+> -- 
+> 2.13.0
+
+--
+Thanks,
+Byungchul
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
