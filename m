@@ -1,237 +1,207 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B59C37D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 22:04:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 606FE7D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 22:44:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932587AbeFZWEu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 18:04:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49030 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S932509AbeFZWEt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 18:04:49 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5QLsQd0011961
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 18:04:48 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2juv8nug6s-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 18:04:48 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Tue, 26 Jun 2018 18:04:48 -0400
-Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
-        by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 26 Jun 2018 18:04:45 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5QM4ihw9371950
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 26 Jun 2018 22:04:44 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8DAC5B2068;
-        Tue, 26 Jun 2018 18:04:37 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4E89EB2064;
-        Tue, 26 Jun 2018 18:04:37 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.159])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Tue, 26 Jun 2018 18:04:37 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id AF12416CA20B; Tue, 26 Jun 2018 15:06:49 -0700 (PDT)
-Date:   Tue, 26 Jun 2018 15:06:49 -0700
-From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-To:     SeongJae Park <sj38.park@gmail.com>
+        id S1752063AbeFZWoW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 18:44:22 -0400
+Received: from mail-vk0-f68.google.com ([209.85.213.68]:38370 "EHLO
+        mail-vk0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751958AbeFZWoU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 18:44:20 -0400
+Received: by mail-vk0-f68.google.com with SMTP id b77-v6so39222vkb.5;
+        Tue, 26 Jun 2018 15:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=KcnfhAEDq8Fq7u0t7cuUlX7Y/QOr8EX8EmjQxvpNdWM=;
+        b=tpzFKbzcAZ0WJTH2Ha7ASekkV4wpsOTXijPbJQy1xuuG5rgt8k0QA35ltC0FbmnFO5
+         SkN5SxaZC5OYtdzPqqnpQk8OmtzctBoBohPo+DTPS4ilmW2kxi/uITvXb3oQLB6Pczvg
+         cJSVhsT+68bXG1jEF3RUPpB12KC29m9vU49yZIwwaOLJ9ypBnUA6eGcikE1fxDJrgFss
+         LeBMgog9p4hyUwmNiuRqte0RSGuqLHzZruYpmzUfHLWnSfOfjVH6qwjCCT8iyrAMUY+p
+         YyTVuBwKYh9cfw1J3wcGll6+V/GaQLkrtCaSgLUR/Z690n2mzO3mwLy7EwfB9Y2LerQw
+         639A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KcnfhAEDq8Fq7u0t7cuUlX7Y/QOr8EX8EmjQxvpNdWM=;
+        b=UqbFzeNjMnzSUo4mAiGKj2JAur3r35bT6KajO3TreumVypQvt2nk4PO3L7oJt/s4mS
+         blzZxh5kPQkSGw3+NitGK7G84xSr9qb7Pz/ZsA2BWfaAtcNHr6f+FY8+Vub8EhmBe6Hn
+         ah9xcHBnHWr7AaSQfUMxTZmH6MUAk+Sswj+5IlrBxyvxzbKmfuvtOdxKqBeMESiJCHvT
+         vYp5pF/tTcdt+q+Q+ChTBYGjfxWmgF+mJUoyX/NnAiPqcoC4d0Sf8V4wnbaaZVlRIxLm
+         5qJZ89CWoLWVxbw/7qmZ/6ruG7wlixA3fRbyriozM1Gs50+iZ5Ok1t0P2M/1dQ8yVfuj
+         0ndg==
+X-Gm-Message-State: APt69E3NPErq0smDHvYT5llEe8M0ZMcUqr4YJ2UF3gRz1A6HZmaYflCS
+        uP3VcETJpxvLc3429Qh5+mD7cFZfWQ6Nk4Kqzu0=
+X-Google-Smtp-Source: AAOMgpfNSlCS+nl8NZ5m1KkqFIR7GOrY3t+59LoREZSz6rWADC89Gc5CgxlnmsdYGNktArlcTZ86unUgwyPMxmHdy0I=
+X-Received: by 2002:a1f:4a04:: with SMTP id x4-v6mr2198972vka.88.1530053059772;
+ Tue, 26 Jun 2018 15:44:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180617051608.2128-1-sj38.park@gmail.com> <20180626004738.GA20783@X58A-UD3R>
+ <alpine.DEB.2.20.1806261218490.1528@hxeon> <20180626045609.GB20783@X58A-UD3R>
+ <alpine.DEB.2.20.1806261406220.1528@hxeon> <20180626065827.GC20783@X58A-UD3R>
+ <20180626122242.GX3593@linux.vnet.ibm.com> <CAEjAshpv13xoZ7m6=vX=3o+iUQEG7ExCg8BpPDpOY5ZW3+gxQA@mail.gmail.com>
+ <20180626220649.GN3593@linux.vnet.ibm.com>
+In-Reply-To: <20180626220649.GN3593@linux.vnet.ibm.com>
+From:   SeongJae Park <sj38.park@gmail.com>
+Date:   Wed, 27 Jun 2018 07:43:52 +0900
+Message-ID: <CAEjAshoQedrCzQmSDV-0tnmUPPa8s6QbpYepgMrN7q-SZGLC+g@mail.gmail.com>
+Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
+ translation to fix broken DMA vs. MMIO ordering example
+To:     Paul McKenney <paulmck@linux.vnet.ibm.com>
 Cc:     Byungchul Park <byungchul.park@lge.com>,
         linux-doc <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, kernel-team@lge.com
-Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
- translation to fix broken DMA vs. MMIO ordering example
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <20180617051608.2128-1-sj38.park@gmail.com>
- <20180626004738.GA20783@X58A-UD3R>
- <alpine.DEB.2.20.1806261218490.1528@hxeon>
- <20180626045609.GB20783@X58A-UD3R>
- <alpine.DEB.2.20.1806261406220.1528@hxeon>
- <20180626065827.GC20783@X58A-UD3R>
- <20180626122242.GX3593@linux.vnet.ibm.com>
- <CAEjAshpv13xoZ7m6=vX=3o+iUQEG7ExCg8BpPDpOY5ZW3+gxQA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEjAshpv13xoZ7m6=vX=3o+iUQEG7ExCg8BpPDpOY5ZW3+gxQA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18062622-0052-0000-0000-000003047791
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009260; HX=3.00000241; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01052767; UDB=6.00539728; IPR=6.00830691;
- MB=3.00021870; MTD=3.00000008; XFM=3.00000015; UTC=2018-06-26 22:04:47
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18062622-0053-0000-0000-00005D267BE2
-Message-Id: <20180626220649.GN3593@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-26_09:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1806260241
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 26, 2018 at 09:25:08PM +0900, SeongJae Park wrote:
-> Hello Paul,
-> 
-> On Tue, Jun 26, 2018 at 9:20 PM Paul E. McKenney
-> <paulmck@linux.vnet.ibm.com> wrote:
-> >
-> > On Tue, Jun 26, 2018 at 03:58:27PM +0900, Byungchul Park wrote:
-> > > On Tue, Jun 26, 2018 at 02:10:17PM +0900, SeongJae Park wrote:
-> > > >
-> > > >
-> > > > On Tue, 26 Jun 2018, Byungchul Park wrote:
-> > > >
-> > > > > On Tue, Jun 26, 2018 at 12:21:23PM +0900, sjpark wrote:
-> > > > > > Hello Byungchul,
-> > > > > >
-> > > > > >
-> > > > > > On Tue, 26 Jun 2018, Byungchul Park wrote:
-> > > > > >
-> > > > > > > On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
-> > > > > > > > Translate this commit to Korean:
-> > > > > > > >
-> > > > > > > >   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
-> > > > > > >
-> > > > > > > Hi SeongJae,
-> > > > > > >
-> > > > > > > You keep doing good jobs ;)
-> > > > > > >
-> > > > > > > I believe it would be better if you consider the little things below
-> > > > > > > more. What do you think about it, SeongJae?
-> > > > > >
-> > > > > > Thank you for great comments!
-> > > > > >
-> > > > > > >
-> > > > > > > > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > > > > > > > ---
-> > > > > > > >  Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
-> > > > > > > >  1 file changed, 7 insertions(+), 8 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-> > > > > > > > index 921739d00f69..ada0a709cce1 100644
-> > > > > > > > --- a/Documentation/translations/ko_KR/memory-barriers.txt
-> > > > > > > > +++ b/Documentation/translations/ko_KR/memory-barriers.txt
-> > > > > > > > @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
-> > > > > > > >             /* 소유권을 수정 */
-> > > > > > > >             desc->status = DEVICE_OWN;
-> > > > > > > >
-> > > > > > > > -           /* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
-> > > > > > > > -           wmb();
-> > > > > > > > -
-> > > > > > > >             /* 업데이트된 디스크립터의 디바이스에 공지 */
-> > > > > > > >             writel(DESC_NOTIFY, doorbell);
-> > > > > > > >     }
-> > > > > > > >
-> > > > > > > >       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
-> > > > > > > > -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> > > > > > > > -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
-> > > > > > > > -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
-> > > > > > > > -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
-> > > > > > > > -     보장해주기 위해 필요합니다.
-> > > > > > > > +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> > > > > > > > +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
-> > > > > > >                                                                         ^
-> > > > > > >                                                                      참고로,
-> > > > > >
-> > > > > > Nice comment.  This will enhance the readability a lot.
-> > > > >
-> > > > > Could you add this, too? A quite little thing tho.
-> > > >
-> > > > Oops, I missed that.  Sorry.  Attaching the patch below.
-> > > >
-> > > >
-> > > > Thanks, SeongJae Park
-> > >
-> > > Thanks a lot, SeongJae.
-> > >
-> > > Acked-by: Byungchul Park <byungchul.park@lge.com>
-> >
-> > Thank you both!
-> >
-> > The patch below is the complete patch, so that I should replace
-> > what I have with it, correct?  If not, please help me out here.  ;-)
-> 
-> Yes, correct! :)
-
-Like this, then?
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit 3cb0d7701c4ce6668fb5096c90ec6d5b4bf71638
-Author: SeongJae Park <sj38.park@gmail.com>
-Date:   Sun Jun 17 14:16:08 2018 +0900
-
-    locking/memory-barriers.txt/kokr: Update Korean translation to fix broken DMA vs. MMIO ordering example
-    
-    Translate this commit to Korean:
-    
-      5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
-    
-    Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
-    [ paulmck: Updated based on feedback from Byungchul Park. ]
-    Acked-by: Byungchul Park <byungchul.park@lge.com>
-
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index 921739d00f69..7f01fb1c1084 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -1891,22 +1891,22 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
- 		/* 소유권을 수정 */
- 		desc->status = DEVICE_OWN;
- 
--		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
--		wmb();
--
- 		/* 업데이트된 디스크립터의 디바이스에 공지 */
- 		writel(DESC_NOTIFY, doorbell);
- 	}
- 
-      dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
--     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
--     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
--     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
--     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
--     보장해주기 위해 필요합니다.
--
--     consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
--     문서를 참고하세요.
-+     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-+     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  참고로,
-+     writel() 을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory)
-+     쓰기가 MMIO 영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에
-+     wmb() 를 실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이
-+     저렴한 writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지
-+     않아야 합니다.
-+
-+     writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
-+     "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
-+     위해선 Documentation/DMA-API.txt 문서를 참고하세요.
- 
- 
- MMIO 쓰기 배리어
-
+T24gV2VkLCBKdW4gMjcsIDIwMTggYXQgNzowNCBBTSBQYXVsIEUuIE1jS2VubmV5DQo8cGF1bG1j
+a0BsaW51eC52bmV0LmlibS5jb20+IHdyb3RlOg0KPg0KPiBPbiBUdWUsIEp1biAyNiwgMjAxOCBh
+dCAwOToyNTowOFBNICswOTAwLCBTZW9uZ0phZSBQYXJrIHdyb3RlOg0KPiA+IEhlbGxvIFBhdWws
+DQo+ID4NCj4gPiBPbiBUdWUsIEp1biAyNiwgMjAxOCBhdCA5OjIwIFBNIFBhdWwgRS4gTWNLZW5u
+ZXkNCj4gPiA8cGF1bG1ja0BsaW51eC52bmV0LmlibS5jb20+IHdyb3RlOg0KPiA+ID4NCj4gPiA+
+IE9uIFR1ZSwgSnVuIDI2LCAyMDE4IGF0IDAzOjU4OjI3UE0gKzA5MDAsIEJ5dW5nY2h1bCBQYXJr
+IHdyb3RlOg0KPiA+ID4gPiBPbiBUdWUsIEp1biAyNiwgMjAxOCBhdCAwMjoxMDoxN1BNICswOTAw
+LCBTZW9uZ0phZSBQYXJrIHdyb3RlOg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBP
+biBUdWUsIDI2IEp1biAyMDE4LCBCeXVuZ2NodWwgUGFyayB3cm90ZToNCj4gPiA+ID4gPg0KPiA+
+ID4gPiA+ID4gT24gVHVlLCBKdW4gMjYsIDIwMTggYXQgMTI6MjE6MjNQTSArMDkwMCwgc2pwYXJr
+IHdyb3RlOg0KPiA+ID4gPiA+ID4gPiBIZWxsbyBCeXVuZ2NodWwsDQo+ID4gPiA+ID4gPiA+DQo+
+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+IE9uIFR1ZSwgMjYgSnVuIDIwMTgsIEJ5dW5nY2h1
+bCBQYXJrIHdyb3RlOg0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+IE9uIFN1biwgSnVu
+IDE3LCAyMDE4IGF0IDAyOjE2OjA4UE0gKzA5MDAsIFNlb25nSmFlIFBhcmsgd3JvdGU6DQo+ID4g
+PiA+ID4gPiA+ID4gPiBUcmFuc2xhdGUgdGhpcyBjb21taXQgdG8gS29yZWFuOg0KPiA+ID4gPiA+
+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+ICAgNTg0NjU4MWUzNTYzICgibG9ja2luZy9tZW1v
+cnktYmFycmllcnMudHh0OiBGaXggYnJva2VuIERNQSB2cy4gTU1JTyBvcmRlcmluZyBleGFtcGxl
+IikNCj4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+IEhpIFNlb25nSmFlLA0KPiA+ID4g
+PiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gWW91IGtlZXAgZG9pbmcgZ29vZCBqb2JzIDspDQo+
+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiBJIGJlbGlldmUgaXQgd291bGQgYmUgYmV0
+dGVyIGlmIHlvdSBjb25zaWRlciB0aGUgbGl0dGxlIHRoaW5ncyBiZWxvdw0KPiA+ID4gPiA+ID4g
+PiA+IG1vcmUuIFdoYXQgZG8geW91IHRoaW5rIGFib3V0IGl0LCBTZW9uZ0phZT8NCj4gPiA+ID4g
+PiA+ID4NCj4gPiA+ID4gPiA+ID4gVGhhbmsgeW91IGZvciBncmVhdCBjb21tZW50cyENCj4gPiA+
+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1i
+eTogU2VvbmdKYWUgUGFyayA8c2ozOC5wYXJrQGdtYWlsLmNvbT4NCj4gPiA+ID4gPiA+ID4gPiA+
+IC0tLQ0KPiA+ID4gPiA+ID4gPiA+ID4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2tvX0tS
+L21lbW9yeS1iYXJyaWVycy50eHQgfCAxNSArKysrKysrLS0tLS0tLS0NCj4gPiA+ID4gPiA+ID4g
+PiA+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQ0KPiA+
+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
+aW9uL3RyYW5zbGF0aW9ucy9rb19LUi9tZW1vcnktYmFycmllcnMudHh0IGIvRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMva29fS1IvbWVtb3J5LWJhcnJpZXJzLnR4dA0KPiA+ID4gPiA+ID4gPiA+
+ID4gaW5kZXggOTIxNzM5ZDAwZjY5Li5hZGEwYTcwOWNjZTEgMTAwNjQ0DQo+ID4gPiA+ID4gPiA+
+ID4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9rb19LUi9tZW1vcnktYmFycmll
+cnMudHh0DQo+ID4gPiA+ID4gPiA+ID4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy9rb19LUi9tZW1vcnktYmFycmllcnMudHh0DQo+ID4gPiA+ID4gPiA+ID4gPiBAQCAtMTg5MSwx
+OSArMTg5MSwxOCBAQCBNYW5kYXRvcnkg67Cw66as7Ja065Ok7J2AIFNNUCDsi5zsiqTthZzsl5Ds
+hJzrj4QgVVAg7Iuc7Iqk7YWc7JeQ7ISc64+EIFNNUCDtmqgNCj4gPiA+ID4gPiA+ID4gPiA+ICAg
+ICAgICAgICAgIC8qIOyGjOycoOq2jOydhCDsiJjsoJUgKi8NCj4gPiA+ID4gPiA+ID4gPiA+ICAg
+ICAgICAgICAgIGRlc2MtPnN0YXR1cyA9IERFVklDRV9PV047DQo+ID4gPiA+ID4gPiA+ID4gPg0K
+PiA+ID4gPiA+ID4gPiA+ID4gLSAgICAgICAgICAgLyogTU1JTyDrpbwg7Ya17ZW0IOuUlOuwlOyd
+tOyKpOyXkCDqs7Xsp4Drpbwg7ZWY6riwIOyghOyXkCDrqZTrqqjrpqzrpbwg64+Z6riw7ZmUICov
+DQo+ID4gPiA+ID4gPiA+ID4gPiAtICAgICAgICAgICB3bWIoKTsNCj4gPiA+ID4gPiA+ID4gPiA+
+IC0NCj4gPiA+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgIC8qIOyXheuNsOydtO2KuOuQnCDrlJTs
+iqTtgazrpr3thLDsnZgg65SU67CU7J207Iqk7JeQIOqzteyngCAqLw0KPiA+ID4gPiA+ID4gPiA+
+ID4gICAgICAgICAgICAgd3JpdGVsKERFU0NfTk9USUZZLCBkb29yYmVsbCk7DQo+ID4gPiA+ID4g
+PiA+ID4gPiAgICAgfQ0KPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+ICAgICAg
+IGRtYV9ybWIoKSDripQg65SU7Iqk7YGs66a97YSw66Gc67aA7YSwIOuNsOydtO2EsOulvCDsnb3s
+lrTsmKTquLAg7KCE7JeQIOuUlOuwlOydtOyKpOqwgCDshozsnKDqtozsnYQNCj4gPiA+ID4gPiA+
+ID4gPiA+IC0gICAgIOuCtOuGk+yVmOydjOydhCDrs7TsnqXtlZjqsowg7ZWY6rOgLCBkbWFfd21i
+KCkg64qUIOuUlOuwlOydtOyKpOqwgCDsnpDsi6DsnbQg7IaM7Jyg6raM7J2EIOuLpOyLnA0KPiA+
+ID4gPiA+ID4gPiA+ID4gLSAgICAg6rCA7KGM7J2M7J2EIOuztOq4sCDsoITsl5Ag65SU7Iqk7YGs
+66a97YSw7JeQIOuNsOydtO2EsOqwgCDsk7DsmIDsnYzsnYQg67O07J6l7ZWp64uI64ukLiAgd21i
+KCkg64qUDQo+ID4gPiA+ID4gPiA+ID4gPiAtICAgICDsupDsi5wg7J286rSA7ISx7J20IOyXhuuK
+lCAoY2FjaGUgaW5jb2hlcmVudCkgTU1JTyDsmIHsl63sl5Ag7JOw6riw66W8IOyLnOuPhO2VmOq4
+sCDsoITsl5ANCj4gPiA+ID4gPiA+ID4gPiA+IC0gICAgIOy6kOyLnCDsnbzqtIDshLHsnbQg7J6I
+64qUIOuplOuqqOumrCAoY2FjaGUgY29oZXJlbnQgbWVtb3J5KSDsk7DquLDqsIAg7JmE66OM65CY
+7JeI7J2M7J2EDQo+ID4gPiA+ID4gPiA+ID4gPiAtICAgICDrs7TsnqXtlbTso7zquLAg7JyE7ZW0
+IO2VhOyalO2VqeuLiOuLpC4NCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIOuCtOugpOuGk+yVmOyd
+hCDqsoPsnYQg67O07J6l7ZWY6rOgLCBkbWFfd21iKCkg64qUIOuUlOuwlOydtOyKpOqwgCDsnpDs
+i6DsnbQg7IaM7Jyg6raM7J2EIOuLpOyLnA0KPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAg6rCA7KGM
+7J2M7J2EIOuztOq4sCDsoITsl5Ag65SU7Iqk7YGs66a97YSw7JeQIOuNsOydtO2EsOqwgCDsk7Ds
+mIDsnYQg6rKD7J2EIOuztOyepe2VqeuLiOuLpC4gIHdyaXRlbCgpDQo+ID4gPiA+ID4gPiA+ID4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXg0KPiA+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIOywuOqzoOuhnCwN
+Cj4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gTmljZSBjb21tZW50LiAgVGhpcyB3aWxsIGVu
+aGFuY2UgdGhlIHJlYWRhYmlsaXR5IGEgbG90Lg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IENv
+dWxkIHlvdSBhZGQgdGhpcywgdG9vPyBBIHF1aXRlIGxpdHRsZSB0aGluZyB0aG8uDQo+ID4gPiA+
+ID4NCj4gPiA+ID4gPiBPb3BzLCBJIG1pc3NlZCB0aGF0LiAgU29ycnkuICBBdHRhY2hpbmcgdGhl
+IHBhdGNoIGJlbG93Lg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBUaGFua3MsIFNl
+b25nSmFlIFBhcmsNCj4gPiA+ID4NCj4gPiA+ID4gVGhhbmtzIGEgbG90LCBTZW9uZ0phZS4NCj4g
+PiA+ID4NCj4gPiA+ID4gQWNrZWQtYnk6IEJ5dW5nY2h1bCBQYXJrIDxieXVuZ2NodWwucGFya0Bs
+Z2UuY29tPg0KPiA+ID4NCj4gPiA+IFRoYW5rIHlvdSBib3RoIQ0KPiA+ID4NCj4gPiA+IFRoZSBw
+YXRjaCBiZWxvdyBpcyB0aGUgY29tcGxldGUgcGF0Y2gsIHNvIHRoYXQgSSBzaG91bGQgcmVwbGFj
+ZQ0KPiA+ID4gd2hhdCBJIGhhdmUgd2l0aCBpdCwgY29ycmVjdD8gIElmIG5vdCwgcGxlYXNlIGhl
+bHAgbWUgb3V0IGhlcmUuICA7LSkNCj4gPg0KPiA+IFllcywgY29ycmVjdCEgOikNCj4NCj4gTGlr
+ZSB0aGlzLCB0aGVuPw0KDQpZZXMsIG9mIGNvdXJzZSA7KQ0KDQoNClRoYW5rcywNClNlb25nSmFl
+IFBhcmsNCg0KPg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIFRoYW54LCBQYXVsDQo+DQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPg0KPiBjb21t
+aXQgM2NiMGQ3NzAxYzRjZTY2NjhmYjUwOTZjOTBlYzZkNWI0YmY3MTYzOA0KPiBBdXRob3I6IFNl
+b25nSmFlIFBhcmsgPHNqMzgucGFya0BnbWFpbC5jb20+DQo+IERhdGU6ICAgU3VuIEp1biAxNyAx
+NDoxNjowOCAyMDE4ICswOTAwDQo+DQo+ICAgICBsb2NraW5nL21lbW9yeS1iYXJyaWVycy50eHQv
+a29rcjogVXBkYXRlIEtvcmVhbiB0cmFuc2xhdGlvbiB0byBmaXggYnJva2VuIERNQSB2cy4gTU1J
+TyBvcmRlcmluZyBleGFtcGxlDQo+DQo+ICAgICBUcmFuc2xhdGUgdGhpcyBjb21taXQgdG8gS29y
+ZWFuOg0KPg0KPiAgICAgICA1ODQ2NTgxZTM1NjMgKCJsb2NraW5nL21lbW9yeS1iYXJyaWVycy50
+eHQ6IEZpeCBicm9rZW4gRE1BIHZzLiBNTUlPIG9yZGVyaW5nIGV4YW1wbGUiKQ0KPg0KPiAgICAg
+U2lnbmVkLW9mZi1ieTogU2VvbmdKYWUgUGFyayA8c2ozOC5wYXJrQGdtYWlsLmNvbT4NCj4gICAg
+IFNpZ25lZC1vZmYtYnk6IFBhdWwgRS4gTWNLZW5uZXkgPHBhdWxtY2tAbGludXgudm5ldC5pYm0u
+Y29tPg0KPiAgICAgWyBwYXVsbWNrOiBVcGRhdGVkIGJhc2VkIG9uIGZlZWRiYWNrIGZyb20gQnl1
+bmdjaHVsIFBhcmsuIF0NCj4gICAgIEFja2VkLWJ5OiBCeXVuZ2NodWwgUGFyayA8Ynl1bmdjaHVs
+LnBhcmtAbGdlLmNvbT4NCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
+b25zL2tvX0tSL21lbW9yeS1iYXJyaWVycy50eHQgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy9rb19LUi9tZW1vcnktYmFycmllcnMudHh0DQo+IGluZGV4IDkyMTczOWQwMGY2OS4uN2YwMWZi
+MWMxMDg0IDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9rb19LUi9t
+ZW1vcnktYmFycmllcnMudHh0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2tv
+X0tSL21lbW9yeS1iYXJyaWVycy50eHQNCj4gQEAgLTE4OTEsMjIgKzE4OTEsMjIgQEAgTWFuZGF0
+b3J5IOuwsOumrOyWtOuTpOydgCBTTVAg7Iuc7Iqk7YWc7JeQ7ISc64+EIFVQIOyLnOyKpO2FnOyX
+kOyEnOuPhCBTTVAg7ZqoDQo+ICAgICAgICAgICAgICAgICAvKiDshozsnKDqtozsnYQg7IiY7KCV
+ICovDQo+ICAgICAgICAgICAgICAgICBkZXNjLT5zdGF0dXMgPSBERVZJQ0VfT1dOOw0KPg0KPiAt
+ICAgICAgICAgICAgICAgLyogTU1JTyDrpbwg7Ya17ZW0IOuUlOuwlOydtOyKpOyXkCDqs7Xsp4Dr
+pbwg7ZWY6riwIOyghOyXkCDrqZTrqqjrpqzrpbwg64+Z6riw7ZmUICovDQo+IC0gICAgICAgICAg
+ICAgICB3bWIoKTsNCj4gLQ0KPiAgICAgICAgICAgICAgICAgLyog7JeF642w7J207Yq465CcIOuU
+lOyKpO2BrOumve2EsOydmCDrlJTrsJTsnbTsiqTsl5Ag6rO17KeAICovDQo+ICAgICAgICAgICAg
+ICAgICB3cml0ZWwoREVTQ19OT1RJRlksIGRvb3JiZWxsKTsNCj4gICAgICAgICB9DQo+DQo+ICAg
+ICAgIGRtYV9ybWIoKSDripQg65SU7Iqk7YGs66a97YSw66Gc67aA7YSwIOuNsOydtO2EsOulvCDs
+nb3slrTsmKTquLAg7KCE7JeQIOuUlOuwlOydtOyKpOqwgCDshozsnKDqtozsnYQNCj4gLSAgICAg
+64K064aT7JWY7J2M7J2EIOuztOyepe2VmOqyjCDtlZjqs6AsIGRtYV93bWIoKSDripQg65SU67CU
+7J207Iqk6rCAIOyekOyLoOydtCDshozsnKDqtozsnYQg64uk7IucDQo+IC0gICAgIOqwgOyhjOyd
+jOydhCDrs7TquLAg7KCE7JeQIOuUlOyKpO2BrOumve2EsOyXkCDrjbDsnbTthLDqsIAg7JOw7JiA
+7J2M7J2EIOuztOyepe2VqeuLiOuLpC4gIHdtYigpIOuKlA0KPiAtICAgICDsupDsi5wg7J286rSA
+7ISx7J20IOyXhuuKlCAoY2FjaGUgaW5jb2hlcmVudCkgTU1JTyDsmIHsl63sl5Ag7JOw6riw66W8
+IOyLnOuPhO2VmOq4sCDsoITsl5ANCj4gLSAgICAg7LqQ7IucIOydvOq0gOyEseydtCDsnojripQg
+66mU66qo66asIChjYWNoZSBjb2hlcmVudCBtZW1vcnkpIOyTsOq4sOqwgCDsmYTro4zrkJjsl4js
+nYzsnYQNCj4gLSAgICAg67O07J6l7ZW07KO86riwIOychO2VtCDtlYTsmpTtlanri4jri6QuDQo+
+IC0NCj4gLSAgICAgY29uc2lzdGVudCBtZW1vcnkg7JeQIOuMgO2VnCDsnpDshLjtlZwg64K07Jqp
+7J2EIOychO2VtOyEoCBEb2N1bWVudGF0aW9uL0RNQS1BUEkudHh0DQo+IC0gICAgIOusuOyEnOul
+vCDssLjqs6DtlZjshLjsmpQuDQo+ICsgICAgIOuCtOugpOuGk+yVmOydhCDqsoPsnYQg67O07J6l
+7ZWY6rOgLCBkbWFfd21iKCkg64qUIOuUlOuwlOydtOyKpOqwgCDsnpDsi6DsnbQg7IaM7Jyg6raM
+7J2EIOuLpOyLnA0KPiArICAgICDqsIDsoYzsnYzsnYQg67O06riwIOyghOyXkCDrlJTsiqTtgazr
+pr3thLDsl5Ag642w7J207YSw6rCAIOyTsOyYgOydhCDqsoPsnYQg67O07J6l7ZWp64uI64ukLiAg
+7LC46rOg66GcLA0KPiArICAgICB3cml0ZWwoKSDsnYQg7IKs7Jqp7ZWY66m0IOy6kOyLnCDsnbzq
+tIDshLHsnbQg7J6I64qUIOuplOuqqOumrCAoY2FjaGUgY29oZXJlbnQgbWVtb3J5KQ0KPiArICAg
+ICDsk7DquLDqsIAgTU1JTyDsmIHsl63sl5DsnZgg7JOw6riwIOyghOyXkCDsmYTro4zrkJjsl4js
+nYQg6rKD7J2EIOuztOyepe2VmOuvgOuhnCB3cml0ZWwoKSDslZ7sl5ANCj4gKyAgICAgd21iKCkg
+66W8IOyLpO2Wie2VoCDtlYTsmpTqsIAg7JeG7J2M7J2EIOyVjOyVhOuRkOyLnOq4sCDrsJTrno3r
+i4jri6QuICB3cml0ZWwoKSDrs7Tri6Qg67mE7Jqp7J20DQo+ICsgICAgIOyggOugtO2VnCB3cml0
+ZWxfcmVsYXhlZCgpIOuKlCDsnbTrn7Ag67O07J6l7J2EIOygnOqzte2VmOyngCDslYrsnLzrr4Dr
+oZwg7Jes6riw7ISgIOyCrOyaqeuQmOyngA0KPiArICAgICDslYrslYTslbwg7ZWp64uI64ukLg0K
+PiArDQo+ICsgICAgIHdyaXRlbF9yZWxheGVkKCkg7JmAIOqwmeydgCDsmYTtmZTrkJwgSS9PIOyg
+keq3vOyekOuTpOyXkCDrjIDtlZwg7J6Q7IS47ZWcIOuCtOyaqeydhCDsnITtlbTshJzripQNCj4g
+KyAgICAgIuy7pOuEkCBJL08g67Cw66as7Ja07J2YIO2aqOqzvCIg7IS57IWY7J2ELCBjb25zaXN0
+ZW50IG1lbW9yeSDsl5Ag64yA7ZWcIOyekOyEuO2VnCDrgrTsmqnsnYQNCj4gKyAgICAg7JyE7ZW0
+7ISgIERvY3VtZW50YXRpb24vRE1BLUFQSS50eHQg66y47ISc66W8IOywuOqzoO2VmOyEuOyalC4N
+Cj4NCj4NCj4gIE1NSU8g7JOw6riwIOuwsOumrOyWtA0KPg0K
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
