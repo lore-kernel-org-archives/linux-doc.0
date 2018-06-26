@@ -1,108 +1,192 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68BF77D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 17:29:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 527C17D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 19:07:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932518AbeFZR3J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 13:29:09 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:50082 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932340AbeFZR3I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 13:29:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1D727A9;
-        Tue, 26 Jun 2018 10:29:07 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA7C73F5AD;
-        Tue, 26 Jun 2018 10:29:03 -0700 (PDT)
-Date:   Tue, 26 Jun 2018 18:29:01 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-Message-ID: <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
-References: <cover.1529507994.git.andreyknvl@google.com>
- <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
+        id S1751934AbeFZTHH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 15:07:07 -0400
+Received: from mail-vk0-f67.google.com ([209.85.213.67]:39749 "EHLO
+        mail-vk0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751604AbeFZTHF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 15:07:05 -0400
+Received: by mail-vk0-f67.google.com with SMTP id n81-v6so4625547vke.6;
+        Tue, 26 Jun 2018 12:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=VZKotvrwNPFphUqzlaTMRU8rEO/6NIZksU+asYw3/aM=;
+        b=oN8Y2FS8Wk6z8Ys1Rzu3fG81vUnLiUkXucgm0jtwEgGR667KWWdsld1INYEnLgaIDb
+         nY+DyBRfYxhC8zK8jU5AIbv05EBIVjLBCV9NAwEYu4yT1XsubP6wAmd1wpcZtK9IowuW
+         1G+U299tf1usarrH2LuV4/QEOIVmnfhUceOmPPjR7mktWyZJ/ACQEnncnV1/X6UKRtdt
+         Bw49FlLXgkwzmXklmqZAK45GknuYBy34C21B6GnWYVDmqp8gOy/MmGcrYLrs5sLp5v8K
+         GzxaoXQAIUoUseWDq2z6OTMaqOSY9Ks4v75stkLygJa1qY7IfsNY0QBGl5GUwbF0Pqps
+         anRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=VZKotvrwNPFphUqzlaTMRU8rEO/6NIZksU+asYw3/aM=;
+        b=NaBgicNHUqs77WELHyKeNuadqoWclLKeu8+k7iiQAwHv45JcWreyLHhs6TsvEQoLzg
+         NMlYWRUPzNHto+0pMRiubs8Esn2xYBKeYZPNXkoMn6gpPV5fCyTrhb6O0zwNgG7OzDWo
+         cB0yDUQYE3UVPpI5Ip/1OgC3KKT8mK8hYEAlxbTCvHo8WfFJ5Seux9gD2VteP+kskGLZ
+         KV4yljDLpseZ2MUSPk8LbCIeyViqhTj66ufTIuHUorhyRETDWaXgvHRV1yysD4aHIvay
+         O4NneLwvZY44ERlMEzkTEW6gKq6r3K9yRDWlfYfCNX2q2oM6N5Dn2f8DJuRyEvgdc+Jz
+         91Cw==
+X-Gm-Message-State: APt69E23yZcwpe5VjzvdNbFfp7Iu89URPNE3yVd/TtKC+nRUQJpdt73K
+        Ei2v9VROwARt3AuHiTdcJjrzirYAvQD0rAEmTBU=
+X-Google-Smtp-Source: AAOMgpcwXD+NsWsC/LTG2HMns86EimLpI7f/ruSYdnaEcXWDogmetbE9WODIBN/PEqVvAIgnxtfKhBgvxxpzu+N2VII=
+X-Received: by 2002:a1f:50c:: with SMTP id 12-v6mr1770307vkf.26.1530040024410;
+ Tue, 26 Jun 2018 12:07:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Received: by 2002:a67:8b02:0:0:0:0:0 with HTTP; Tue, 26 Jun 2018 12:07:03
+ -0700 (PDT)
+In-Reply-To: <20180622104930.32050-10-boris.brezillon@bootlin.com>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com> <20180622104930.32050-10-boris.brezillon@bootlin.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 26 Jun 2018 22:07:03 +0300
+Message-ID: <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
+Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO expander
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andrey,
+On Fri, Jun 22, 2018 at 1:49 PM, Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
+> Add a driver for Cadence I3C GPIO expander.
+>
+> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
 
-On Tue, Jun 26, 2018 at 02:47:50PM +0200, Andrey Konovalov wrote:
-> On Wed, Jun 20, 2018 at 5:24 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> > arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-> > tags into the top byte of each pointer. Userspace programs (such as
-> > HWASan, a memory debugging tool [1]) might use this feature and pass
-> > tagged user pointers to the kernel through syscalls or other interfaces.
-> >
-> > This patch makes a few of the kernel interfaces accept tagged user
-> > pointers. The kernel is already able to handle user faults with tagged
-> > pointers and has the untagged_addr macro, which this patchset reuses.
-> >
-> > We're not trying to cover all possible ways the kernel accepts user
-> > pointers in one patchset, so this one should be considered as a start.
-> >
-> > Thanks!
-> >
-> > [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-> 
-> Is there anything I should do to move forward with this?
-> 
-> I've received zero replies to this patch set (v3 and v4) over the last
-> month.
+> +       scratchbuf = kmalloc(sizeof(*scratchbuf) * 2, GFP_KERNEL);
 
-The patches in this series look fine but my concern is that they are not
-sufficient and we don't have (yet?) a way to identify where such
-annotations are required. You even say in patch 6 that this is "some
-initial work for supporting non-zero address tags passed to the kernel".
-Unfortunately, merging (or relaxing) an ABI without a clear picture is
-not really feasible.
+kmalloc_array() ?
 
-While I support this work, as a maintainer I'd like to understand
-whether we'd be in a continuous chase of ABI breaks with every kernel
-release or we have a better way to identify potential issues. Is there
-any way to statically analyse conversions from __user ptr to long for
-example? Or, could we get the compiler to do this for us?
+> +       ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
+> +                                      ARRAY_SIZE(xfers));
 
-Thanks.
+One line?
+
+
+> +static void cdns_i3c_gpio_set_multiple(struct gpio_chip *g,
+> +                                      unsigned long *mask,
+> +                                      unsigned long *bits)
+> +{
+> +       struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
+> +       u8 newovr;
+> +       int ret;
+> +
+> +       newovr = (gpioc->ovr & ~(*mask)) | (*bits & *mask);
+> +       if (newovr == gpioc->ovr)
+> +               return;
+> +
+> +       ret = cdns_i3c_gpio_write_reg(gpioc, OVR, newovr);
+> +       if (!ret)
+> +               gpioc->ovr = newovr;
+
+You don't change mask here, why do you need a pointer to it?
+
+> +}
+
+> +static int cdns_i3c_gpio_get_multiple(struct gpio_chip *g,
+> +                                     unsigned long *mask,
+> +                                     unsigned long *bits)
+> +{
+> +       struct cdns_i3c_gpio *gpioc = gpioc_to_cdns_gpioc(g);
+> +       int ret;
+> +       u8 ivr;
+> +
+> +       ret = cdns_i3c_gpio_read_reg(gpioc, IVR, &ivr);
+> +       if (ret)
+> +               return ret;
+> +
+> +       *bits = ivr & *mask & gpioc->dir;
+> +       *bits |= gpioc->ovr & *mask & ~gpioc->dir;
+
+Ditto.
+
+> +
+> +       return 0;
+> +}
+
+> +static void cdns_i3c_gpio_ibi_handler(struct i3c_device *i3cdev,
+> +                                     const struct i3c_ibi_payload *payload)
+> +{
+> +       struct cdns_i3c_gpio *gpioc = i3cdev_get_drvdata(i3cdev);
+
+> +       u8 isr = 0;
+
+Perhaps you need to check the result of _read_reg() below instead of
+dummy assignment?
+
+> +       int i;
+> +
+> +       cdns_i3c_gpio_read_reg(gpioc, ISR, &isr);
+
+> +       for (i = 0; i < 8; i++) {
+> +               unsigned int irq;
+> +
+> +               if (!(BIT(i) & isr & gpioc->imr))
+> +                       continue;
+
+for_each_set_bit() ?
+
+> +
+> +               irq = irq_find_mapping(gpioc->gpioc.irq.domain, i);
+> +               handle_nested_irq(irq);
+> +       }
+> +}
+
+> +static const struct i3c_device_id cdns_i3c_gpio_ids[] = {
+> +       I3C_DEVICE(0x1c9, 0x0, NULL),
+
+> +       { /* sentinel */ },
+
+Slightly better without comma.
+
+> +};
+> +MODULE_DEVICE_TABLE(i3c, cdns_i3c_gpio_ids);
 
 -- 
-Catalin
+With Best Regards,
+Andy Shevchenko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
