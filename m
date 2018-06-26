@@ -5,81 +5,68 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE8D67D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 15:00:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A38F7DF90
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 15:22:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751827AbeFZPAa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 11:00:30 -0400
-Received: from mga01.intel.com ([192.55.52.88]:38081 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751796AbeFZPA2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 11:00:28 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jun 2018 08:00:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,274,1526367600"; 
-   d="scan'208";a="60298635"
-Received: from 2b52.sc.intel.com ([143.183.136.147])
-  by FMSMGA003.fm.intel.com with ESMTP; 26 Jun 2018 08:00:28 -0700
-Message-ID: <1530025017.27091.1.camel@intel.com>
-Subject: Re: [PATCH 00/10] Control Flow Enforcement - Part (3)
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        Florian Weimer <fweimer@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S1751977AbeFZPWE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 11:22:04 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:47911 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751950AbeFZPWD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 11:22:03 -0400
+Received: from 79.184.255.183.ipv4.supernova.orange.pl (79.184.255.183) (HELO aspire.rjw.lan)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83)
+ id 30a794575fddc1af; Tue, 26 Jun 2018 17:22:00 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        mike.kravetz@oracle.com
-Date:   Tue, 26 Jun 2018 07:56:57 -0700
-In-Reply-To: <CALCETrWYx5nCtwGAqTZBWOB+aw+eEcnQhe6Sn1o+O356g7Km9A@mail.gmail.com>
-References: <20180607143807.3611-1-yu-cheng.yu@intel.com>
-         <CALCETrWYx5nCtwGAqTZBWOB+aw+eEcnQhe6Sn1o+O356g7Km9A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] Documentation: intel_pstate: Describe hwp_dynamic_boost sysfs knob
+Date:   Tue, 26 Jun 2018 17:20:43 +0200
+Message-ID: <306013127.TOMvMKusHN@aspire.rjw.lan>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-06-25 at 22:26 -0700, Andy Lutomirski wrote:
-> On Thu, Jun 7, 2018 at 7:41 AM Yu-cheng Yu <yu-cheng.yu@intel.com>
-> wrote:
-> > 
-> > 
-> > This series introduces CET - Shadow stack
-> I think you should add some mitigation against sigreturn-oriented
-> programming.  How about creating some special token on the shadow
-> stack that indicates the presence of a signal frame at a particular
-> address when delivering a signal and verifying and popping that token
-> in sigreturn?  The token could be literally the address of the signal
-> frame, and you could make this unambiguous by failing sigreturn if
-> CET
-> is on and the signal frame is in executable memory.
-> 
-> IOW, it would be a shame if sigreturn() itself became a convenient
-> CET-bypassing gadget.
-> 
-> --Andy
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-I will look into that.
+Document the recently introduced hwp_dynamic_boost sysfs knob
+allowing user space to tell intel_pstate to use iowait boosting
+in the active mode with HWP enabled (to improve performance).
 
-Thanks,
-Yu-cheng
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ Documentation/admin-guide/pm/intel_pstate.rst |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+Index: linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/intel_pstate.rst
++++ linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
+@@ -378,6 +378,17 @@ argument is passed to the kernel in the
+ 	but it affects the maximum possible value of per-policy P-state	limits
+ 	(see `Interpretation of Policy Attributes`_ below for details).
+ 
++``hwp_dynamic_boost``
++	This attribute is only present if ``intel_pstate`` works in the
++	`active mode with the HWP feature enabled <Active Mode With HWP_>`_ in
++	the processor.  If set (equal to 1), it causes the minimum P-state limit
++	to be increased dynamically for a short time whenever a task previously
++	waiting on I/O is selected to run on a given logical CPU (the purpose
++	of this mechanism is to improve performance).
++
++	This setting has no effect on logical CPUs whose minimum P-state limit
++	is directly set to the highest non-turbo P-state or above it.
++
+ .. _status_attr:
+ 
+ ``status``
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
