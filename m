@@ -1,220 +1,374 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF2B37D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 06:58:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FA407DF8A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 08:14:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751571AbeFZG6i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 02:58:38 -0400
-Received: from lgeamrelo11.lge.com ([156.147.23.51]:34762 "EHLO
-        lgeamrelo11.lge.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751853AbeFZG6h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 02:58:37 -0400
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
-        by 156.147.23.51 with ESMTP; 26 Jun 2018 15:58:35 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.222.33)
-        by 156.147.1.125 with ESMTP; 26 Jun 2018 15:58:35 +0900
-X-Original-SENDERIP: 10.177.222.33
-X-Original-MAILFROM: byungchul.park@lge.com
-Date:   Tue, 26 Jun 2018 15:58:27 +0900
-From:   Byungchul Park <byungchul.park@lge.com>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     paulmck@linux.vnet.ibm.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@lge.com
-Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
- translation to fix broken DMA vs. MMIO ordering example
-Message-ID: <20180626065827.GC20783@X58A-UD3R>
-References: <20180617051608.2128-1-sj38.park@gmail.com>
- <20180626004738.GA20783@X58A-UD3R>
- <alpine.DEB.2.20.1806261218490.1528@hxeon>
- <20180626045609.GB20783@X58A-UD3R>
- <alpine.DEB.2.20.1806261406220.1528@hxeon>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <alpine.DEB.2.20.1806261406220.1528@hxeon>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+        id S1752828AbeFZIOw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 04:14:52 -0400
+Received: from mail-lf0-f68.google.com ([209.85.215.68]:36485 "EHLO
+        mail-lf0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752669AbeFZIOm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 04:14:42 -0400
+Received: by mail-lf0-f68.google.com with SMTP id n24-v6so16671129lfh.3;
+        Tue, 26 Jun 2018 01:14:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=sXg7Ly2hHNzrjG5wNU8iGTxdYK3Jbxx11AygjgUXt8Q=;
+        b=WxONe6fSNL2QHiTFVxgce2YWb1QWVYEZZUH/YAoC0pjPJMicdjdm0w1cGSsbxxG7Xg
+         KCE38hrwUSWFMs6mTf0yegrNzrdLvy2MbLDBxVNjmKbwHefIzBSkxTC56I3ycrvy6Mw9
+         uf7GVw7wZNuJPlnM2XjaAJtipFLRsPQg9naSy210cUt7CxRzmU8ZPLhkikHrBcKyHunb
+         jo8ALOE5WXObqs4T7OZb20PTh0bztgdHN5+IHRSKSVm8wrWil2SHVlaC2SljObms1PdV
+         Ffy8qDqFdct72IsLpvVLIH705dl6AGYDJBSzjgUaBxwOaqlugcC6wg+decrLh/4Zg9qn
+         TJAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=sXg7Ly2hHNzrjG5wNU8iGTxdYK3Jbxx11AygjgUXt8Q=;
+        b=UWZxZFy8nJZy9t9vaBrPniECe4jz/eKo8+19DLNOXNCTFYai604U4ScLH0yC0g3lKW
+         m/K3MhKsxLClVKs2IZQFzuJ1viLV37X9LEe3vrYyH0sXFk8/JlOqoDLs9GmDa+xGyaqI
+         dDqfAXk6d0Bj5hX3/deml5tPXkmtq/0qHXRpfFT7HeLX0bGbux2I6qKPMTpiyGN52q2g
+         dKAjCGyS713mg65M7hDkjCuwHO/y0hVUr2ZXHnfmT/2GE08LW8/KbivRC8TPw8A7FpeH
+         R6uSjPinnDLmWOOyR1SQ2qf6tkrQ/Np+zNoTHXMlHyfdhRwrOaMATP+7IXJn9ah8F8YZ
+         tRSw==
+X-Gm-Message-State: APt69E2a2vExzErV2S/QgwF8qkpxFpkk12zg1gNVe8QH2+ro2YBTiEJ6
+        7aat02JvWREgmD98MpYrReZS4raD
+X-Google-Smtp-Source: AAOMgpecrbBmmf3HU09l+jPeodNEKHWpiK4lt0na4At8d6Fltjz/vyqWDDtin6/5nErhMVa3n06l/g==
+X-Received: by 2002:a19:cb12:: with SMTP id b18-v6mr455907lfg.64.1530000880743;
+        Tue, 26 Jun 2018 01:14:40 -0700 (PDT)
+Received: from localhost.localdomain (c-2ec26030-74736162.cust.telenor.se. [46.194.96.48])
+        by smtp.gmail.com with ESMTPSA id p28-v6sm149783lja.13.2018.06.26.01.14.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Jun 2018 01:14:39 -0700 (PDT)
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Felipe Balbi <balbi@kernel.org>, davem@davemloft.net,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: [PATCH v4 2/3] Documentation: usb: add documentation for USB CCID Gadget Device
+Date:   Tue, 26 Jun 2018 10:14:21 +0200
+Message-Id: <20180626081422.19237-2-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20180626081422.19237-1-marcus.folkesson@gmail.com>
+References: <20180626081422.19237-1-marcus.folkesson@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 26, 2018 at 02:10:17PM +0900, SeongJae Park wrote:
-> 
-> 
-> On Tue, 26 Jun 2018, Byungchul Park wrote:
-> 
-> > On Tue, Jun 26, 2018 at 12:21:23PM +0900, sjpark wrote:
-> > > Hello Byungchul,
-> > >
-> > >
-> > > On Tue, 26 Jun 2018, Byungchul Park wrote:
-> > >
-> > > > On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
-> > > > > Translate this commit to Korean:
-> > > > >
-> > > > >   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
-> > > >
-> > > > Hi SeongJae,
-> > > >
-> > > > You keep doing good jobs ;)
-> > > >
-> > > > I believe it would be better if you consider the little things below
-> > > > more. What do you think about it, SeongJae?
-> > >
-> > > Thank you for great comments!
-> > >
-> > > >
-> > > > > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> > > > > ---
-> > > > >  Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
-> > > > >  1 file changed, 7 insertions(+), 8 deletions(-)
-> > > > >
-> > > > > diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-> > > > > index 921739d00f69..ada0a709cce1 100644
-> > > > > --- a/Documentation/translations/ko_KR/memory-barriers.txt
-> > > > > +++ b/Documentation/translations/ko_KR/memory-barriers.txt
-> > > > > @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
-> > > > >  		/* 소유권을 수정 */
-> > > > >  		desc->status = DEVICE_OWN;
-> > > > >
-> > > > > -		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
-> > > > > -		wmb();
-> > > > > -
-> > > > >  		/* 업데이트된 디스크립터의 디바이스에 공지 */
-> > > > >  		writel(DESC_NOTIFY, doorbell);
-> > > > >  	}
-> > > > >
-> > > > >       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
-> > > > > -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> > > > > -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
-> > > > > -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
-> > > > > -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
-> > > > > -     보장해주기 위해 필요합니다.
-> > > > > +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> > > > > +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
-> > > >                                                                         ^
-> > > >                                                                      참고로,
-> > >
-> > > Nice comment.  This will enhance the readability a lot.
-> >
-> > Could you add this, too? A quite little thing tho.
-> 
-> Oops, I missed that.  Sorry.  Attaching the patch below.
-> 
-> 
-> Thanks, SeongJae Park
+Add documentation to give a brief description on how to use the
+CCID Gadget Device.
+This includes a description for all attributes followed by an example on
+how to setup the device with ConfigFS.
 
-Thanks a lot, SeongJae.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
 
-Acked-by: Byungchul Park <byungchul.park@lge.com>
+Notes:
+    v4:
+    	- clarify how to use /dev/ccidg and BULK endpoind (thanks Randy)
+    v3:
+    	- correct the grammer (thanks Randy)
+    v2:
+    	- add the missing changelog text
 
-> ============================= >8 =====================================
-> 
-> >From bcfb52af5d1f6c6aa171d105bdd7376b4dfabf13 Mon Sep 17 00:00:00 2001
-> From: SeongJae Park <sj38.park@gmail.com>
-> Date: Sun, 17 Jun 2018 14:08:42 +0900
-> Subject: [PATCH v3] locking/memory-barriers.txt/kokr: Update Korean
->  translation to fix broken DMA vs. MMIO ordering example
-> 
-> Translate this commit to Korean:
-> 
->   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
-> 
-> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
-> ---
-> Changes since v1:
->  - Applied comments from Byungchul Park
->  - Rebased on v4.18-rc2
-> 
->  .../translations/ko_KR/memory-barriers.txt         | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-> index 921739d00f69..7f01fb1c1084 100644
-> --- a/Documentation/translations/ko_KR/memory-barriers.txt
-> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
-> @@ -1891,22 +1891,22 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
->  		/* 소유권을 수정 */
->  		desc->status = DEVICE_OWN;
-> 
-> -		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
-> -		wmb();
-> -
->  		/* 업데이트된 디스크립터의 디바이스에 공지 */
->  		writel(DESC_NOTIFY, doorbell);
->  	}
-> 
->       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
-> -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
-> -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
-> -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
-> -     보장해주기 위해 필요합니다.
-> -
-> -     consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
-> -     문서를 참고하세요.
-> +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
-> +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  참고로,
-> +     writel() 을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory)
-> +     쓰기가 MMIO 영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에
-> +     wmb() 를 실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이
-> +     저렴한 writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지
-> +     않아야 합니다.
-> +
-> +     writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
-> +     "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
-> +     위해선 Documentation/DMA-API.txt 문서를 참고하세요.
-> 
-> 
->  MMIO 쓰기 배리어
-> -- 
-> 2.13.0
-> 
-> 
-> >
-> > > > > +     을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 MMIO
-> > > > > +     영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에 wmb() 를
-> > > > > +     실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이 저렴한
-> > > > > +     writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지 않아야
-> > > > > +     합니다.
-> > > > >
-> > > > >       consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
-> > > > >       문서를 참고하세요.
-> > > >
-> > > >      See the subsection "Kernel I/O barrier effects" for more information on
-> > > >      relaxed I/O accessors and the Documentation/DMA-API.txt file for more
-> > > >      information on consistent memory.
-> > > >
-> > > > Don't you think the whole sentence need to be translated? If yes, then
-> > > > it would be better to do that as well ;)
-> > >
-> > > Oh, my mistake!  It should be.
-> > >
-> > > I applied your comments to the second version.
-> >
-> > Thank you SeongJae :)
-> >
-> > > Thanks,
-> > > SeongJae Park
-> > >
-> > > >
-> > > > > --
-> > > > > 2.13.0
-> > > >
-> > > > --
-> > > > Thanks,
-> > > > Byungchul
-> > > >
-> >
-> >
+ Documentation/usb/gadget_ccid.rst | 269 ++++++++++++++++++++++++++++++
+ 1 file changed, 269 insertions(+)
+ create mode 100644 Documentation/usb/gadget_ccid.rst
+
+diff --git a/Documentation/usb/gadget_ccid.rst b/Documentation/usb/gadget_ccid.rst
+new file mode 100644
+index 000000000000..c8f25080c9e7
+--- /dev/null
++++ b/Documentation/usb/gadget_ccid.rst
+@@ -0,0 +1,269 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++CCID Gadget
++============
++
++:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
++
++Introduction
++============
++
++The CCID Gadget will present itself as a CCID device to the host system.
++The device supports two endpoints for now; BULK IN and BULK OUT.
++These endpoints are exposed to userspace via /dev/ccidgX where `X` is
++the device enumeration number.
++Use read(2) and write(3) to operate on BULK_IN and BULK_OUT respectively.
++
++All CCID commands are sent on the BULK-OUT endpoint. Each command sent to the CCID
++has an associated ending response. Some commands can also have intermediate
++responses. The response is sent on the BULK-IN endpoint.
++See Figure 3-3 in the CCID Specification [1]_ for more details.
++
++The CCID commands must be handled in userspace since the driver is only working
++as a transport layer for the TPDUs.
++
++
++CCID Commands
++--------------
++
++All CCID commands begins with a 10-byte header followed by an optional
++data field depending on message type.
++
+++--------+--------------+-------+----------------------------------+
++| Offset | Field        | Size  | Description                      |
+++========+==============+=======+==================================+
++| 0      | bMessageType | 1     | Type of message                  |
+++--------+--------------+-------+----------------------------------+
++| 1      | dwLength     | 4     | Message specific data length     |
++|        |              |       |                                  |
+++--------+--------------+-------+----------------------------------+
++| 5      | bSlot        | 1     | Identifies the slot number       |
++|        |              |       | for this command                 |
+++--------+--------------+-------+----------------------------------+
++| 6      | bSeq         | 1     | Sequence number for command      |
+++--------+--------------+-------+----------------------------------+
++| 7      | ...          | 3     | Fields depends on message type   |
+++--------+--------------+-------+----------------------------------+
++| 10     | abData       | array | Message specific data (OPTIONAL) |
+++--------+--------------+-------+----------------------------------+
++
++
++Multiple CCID gadgets
++----------------------
++
++It is possible to create multiple instances of the CCID gadget, however,
++a much more flexible way is to create one gadget and set the `nslots` attribute
++to the number of desired CCID devices.
++
++All CCID commands specify which slot is the receiver in the `bSlot` field
++of the CCID header.
++
++Usage
++=====
++
++Access from userspace
++----------------------
++All communication is by read(2) and write(2) to the corresponding /dev/ccidg* device.
++Only one file descriptor is allowed to be open to the device at a time.
++
++The buffer size provided to read(2) **must be at least** 522 (10 bytes header + 512 bytes payload)
++bytes as we are working with whole commands.
++
++The buffer size provided to write(2) **may not exceed** 522 (10 bytes header + 512 bytes payload)
++bytes as we are working with whole commands.
++
++
++Configuration with configfs
++----------------------------
++
++ConfigFS is used to create and configure the CCID gadget.
++In order to get a device to work as intended, a few attributes must
++be considered.
++
++The attributes are described below followed by an example.
++
++features
++~~~~~~~~~
++
++The `feature` attribute writes to the dwFeatures field in the class descriptor.
++See Table 5.1-1 Smart Card Device Descriptors in the CCID Specification [1]_.
++
++The value indicates what intelligent features the CCID has.
++These values are available to user application as defined in ccid.h [2]_.
++The default value is 0x00000000.
++
++The value is a bitwise OR operation performed on the following values:
++
+++------------+----------------------------------------------------------------+
++| Value      | Description                                                    |
+++============+================================================================+
++| 0x00000000 | No special characteristics                                     |
+++------------+----------------------------------------------------------------+
++| 0x00000002 | Automatic parameter configuration based on ATR data            |
+++------------+----------------------------------------------------------------+
++| 0x00000004 | Automatic activation of ICC on inserting                       |
+++------------+----------------------------------------------------------------+
++| 0x00000008 | Automatic ICC voltage selection                                |
+++------------+----------------------------------------------------------------+
++| 0x00000010 | Automatic ICC clock frequency change according to active       |
++|            | parameters provided by the Host or self determined             |
+++------------+----------------------------------------------------------------+
++| 0x00000020 | Automatic baud rate change according to active                 |
++|            | parameters provided by the Host or self determined             |
+++------------+----------------------------------------------------------------+
++| 0x00000040 | Automatic parameters negotiation made by the CCID              |
+++------------+----------------------------------------------------------------+
++| 0x00000080 | Automatic PPS made by the CCID according to the                |
++|            | active parameters                                              |
+++------------+----------------------------------------------------------------+
++| 0x00000100 | CCID can set ICC in clock stop mode                            |
+++------------+----------------------------------------------------------------+
++| 0x00000200 | NAD value other than 00 accepted (T=1 protocol in use)         |
+++------------+----------------------------------------------------------------+
++| 0x00000400 | Automatic IFSD exchange as first exchange                      |
+++------------+----------------------------------------------------------------+
++
++
++Only one of the following values may be present to select a level of exchange:
++
+++------------+--------------------------------------------------+
++| Value      | Description                                      |
+++============+==================================================+
++| 0x00010000 | TPDU level exchanges with CCID                   |
+++------------+--------------------------------------------------+
++| 0x00020000 | Short APDU level exchange with CCID              |
+++------------+--------------------------------------------------+
++| 0x00040000 | Short and Extended APDU level exchange with CCID |
+++------------+--------------------------------------------------+
++
++If none of those values is indicated the level of exchange is
++character.
++
++
++protocols
++~~~~~~~~~~
++The `protocols` attribute writes to the dwProtocols field in the class descriptor.
++See Table 5.1-1 Smart Card Device Descriptors in the CCID Specification [1]_.
++
++The value is a bitwise OR operation performed on the following values:
++
+++--------+--------------+
++| Value  | Description  |
+++========+==============+
++| 0x0001 | Protocol T=0 |
+++--------+--------------+
++| 0x0002 | Protocol T=1 |
+++--------+--------------+
++
++If no protocol is selected both T=0 and T=1 will be supported (`protocols` = 0x0003).
++
++nslots
++~~~~~~
++
++The `nslots` attribute writes to the bMaxSlotIndex field in the class descriptor.
++See Table 5.1-1 Smart Card Device Descriptors in the CCID Specification [1]_.
++
++This is the index of the highest available slot on this device. All slots are consecutive starting at 00h.
++i.e. 0Fh = 16 slots on this device numbered 00h to 0Fh.
++
++The default value is 0, which means one slot.
++
++
++pinsupport
++~~~~~~~~~~~~
++
++This value indicates what PIN support features the CCID has.
++
++The `pinsupport` attribute writes to the dwPINSupport field in the class descriptor.
++See Table 5.1-1 Smart Card Device Descriptors in the CCID Specification [1]_.
++
++
++The value is a bitwise OR operation performed on the following values:
++
+++--------+----------------------------+
++| Value  | Description                |
+++========+============================+
++| 0x00   | No PIN support             |
+++--------+----------------------------+
++| 0x01   | PIN Verification supported |
+++--------+----------------------------+
++| 0x02   | PIN Modification supported |
+++--------+----------------------------+
++
++The default value is set to 0x00.
++
++
++lcdlayout
++~~~~~~~~~~
++
++Number of lines and characters for the LCD display used to send messages for PIN entry.
++
++The `lcdLayout` attribute writes to the wLcdLayout field in the class descriptor.
++See Table 5.1-1 Smart Card Device Descriptors in the CCID Specification [1]_.
++
++
++The value is set as follows:
++
+++--------+------------------------------------+
++| Value  | Description                        |
+++========+====================================+
++| 0x0000 | No LCD                             |
+++--------+------------------------------------+
++| 0xXXYY | XX: number of lines                |
++|        | YY: number of characters per line. |
+++--------+------------------------------------+
++
++The default value is set to 0x0000.
++
++
++Example
++-------
++
++Here is an example on how to setup a CCID gadget with configfs ::
++
++    #!/bin/sh
++
++    CONFIGDIR=/sys/kernel/config
++    GADGET=$CONFIGDIR/usb_gadget/g0
++    FUNCTION=$GADGET/functions/ccid.sc0
++
++    VID=YOUR_VENDOR_ID_HERE
++    PID=YOUR_PRODUCT_ID_HERE
++    UDC=YOUR_UDC_HERE
++
++    #Mount filesystem
++    mount none -t configfs $CONFIGDIR
++
++    #Populate ID:s
++    echo $VID > $GADGET/idVendor
++    echo $PID > $GADGET/idProduct
++
++    #Create and configure the gadget
++    mkdir $FUNCTION
++    echo 0x000407B8 > $FUNCTION/features
++    echo 0x02 > $FUNCTION/protocols
++
++    #Create our English strings
++    mkdir  $GADGET/strings/0x409
++    echo 556677 > $GADGET/strings/0x409/serialnumber
++    echo "Hungry Penguins" > $GADGET/strings/0x409/manufacturer
++    echo "Harpoon With Smart Card"  > $GADGET/strings/0x409/product
++
++    #Create configuration
++    mkdir  $GADGET/configs/c.1
++    mkdir  $GADGET/configs/c.1/strings/0x409
++    echo Config1 > $GADGET/configs/c.1/strings/0x409/configuration
++
++    #Use `Config1` for our CCID gadget
++    ln -s $FUNCTION $GADGET/configs/c.1
++
++    #Execute
++    echo $UDC > $GADGET/UDC
++
++
++References
++==========
++
++.. [1] http://www.usb.org/developers/docs/devclass_docs/DWG_Smart-Card_CCID_Rev110.pdf
++.. [2] include/uapi/linux/usb/ccid.h
+-- 
+2.18.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
