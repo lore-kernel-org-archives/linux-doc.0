@@ -1,105 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 088AF7D043
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 19:18:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA1757D043
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 19:41:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753483AbeFZTSC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 15:18:02 -0400
-Received: from mail-lf0-f66.google.com ([209.85.215.66]:37280 "EHLO
-        mail-lf0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751901AbeFZTSB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 15:18:01 -0400
-Received: by mail-lf0-f66.google.com with SMTP id g21-v6so18234262lfb.4;
-        Tue, 26 Jun 2018 12:18:00 -0700 (PDT)
+        id S1752169AbeFZTlK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 15:41:10 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:35133 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751867AbeFZTlI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 15:41:08 -0400
+Received: by mail-wr0-f196.google.com with SMTP id c13-v6so8436149wrq.2;
+        Tue, 26 Jun 2018 12:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=HRnOsWYtAEhbFhgBHU1RV6bWprWz01uyhv9jcYPYjhw=;
-        b=u/z1bRj/2Qi6AOcmZ9gXj/PTmHGOUCFtX8abaGWhlzdnS1nBtHXRDydMyVLv19QAa3
-         TiZYtA+y4E9nN4WvfWokrZaTy19W+GG5Sq7TcVadqPhkKZZzt7FHpynl2K7SaIanCPBS
-         uYF7LZBUvscaa7tDziid/Gsm7xp2Wy43ziROk99KC/V9vmz9mKq/GGM950ywApUqiUMP
-         ao/EKgMzi5080BnWRL6QTTlEzaA6Y0xdDsOCT5q4u8y/ww21ICAESl/eRrPaE0P543Sc
-         oAfnTHggFSqiiFTbh9qiB+1FimeEGVd+BZ1XNVgBPjU0U+EKBectJhIwvVea4LpyJfeR
-         duhg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=g6CNNrYYUy1FNCufln/AxJM9lQ5M/knzFeJ83RDDU1c=;
+        b=SyaJKjZeS9aAA89wosg+MvwQQRYSjjbqE5OSEDbWjDmM1nFSeVOV776xYBz9kzikDE
+         J/aUhWDfTdhSGqeFC5aAy6kVqlqDwS6TbCP4bVpbz07ShiemYtG3AIL0FSx49ZUhl1im
+         umVYvD4ezP/17PTAetiBVrj3bVWAnUTQO5VkktyF6CxSamgKtS1o94Cs370qzMjmS7lZ
+         MO/m8FYkT+gYQZHU0gwHlpX09C4/fhrqTFn9E+cOZ+WizK1Rmw1O7h9ZAHsAt3ggMz2l
+         SNCRBc31baVmYQS7HUX8OBQJNojA//v8hPaVavJvdRkkcuFxekN8hNF+KRSVzGwswNFH
+         e7bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=HRnOsWYtAEhbFhgBHU1RV6bWprWz01uyhv9jcYPYjhw=;
-        b=YMkP3fzgq7IZfGunirfliVR3n9n6JNe25TFpGXXClUpVhdlZn1r/jwdrw6rsiTRllN
-         TKE/UtKH2L3FH0cvosUsI7rh3qBTGEQVYoU9IBpXCii+FEWSb1FiauLmYxOVJsuUuxSC
-         TE9zTGhkdzpGycFgBKcsOYulhT9t9rYSJ49anG4tzzhYBFLeh3lHXhb58PnVln+uBwOl
-         EC5r9/+g4zmVP5d3oj3ir3woTbmpJ1v8YxaN31DmlQKIOLz/+EJtOrn6BxnpGGIXfB8D
-         uCXT4T0V0xB4Ldr0LkvrbUsUOZLLBKQ5d1/8MlPQ5/NSCgkpY3Dsy7QyYS9C8Ji9lvkS
-         nu+Q==
-X-Gm-Message-State: APt69E1xjbeVd5g+dpr+86XpX9vA1gcD+RALKLcoS5jYyTbP6J1DNlM3
-        6MWc8V+hRPP0G+TN1Rg96JtOEFuPIG6XyD8T35U=
-X-Google-Smtp-Source: AAOMgpdhxSNGeDpcPm07TEP0VwA0aWc+xCl66Q1CPGdRmheBT+HjJrlVye16sTafQh/MmtHSsecRR9hZlslWqbYuaGs=
-X-Received: by 2002:a19:c203:: with SMTP id l3-v6mr2229282lfc.55.1530040679819;
- Tue, 26 Jun 2018 12:17:59 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=g6CNNrYYUy1FNCufln/AxJM9lQ5M/knzFeJ83RDDU1c=;
+        b=lw4J2BeTanEVYhSdfF5HB/ZQ3mubE2+awyHv17rIL2VZ4V1LD7a77p/XNFsXaLVVti
+         FVOZl1CMEOx7Rj9LrUrbXfMvr4dDRSer4CLLD9Z/Yob9hPptZ/PHe7QNW3xXwWBeTQ59
+         8rJuWNkG0FIR+a9PDSEUo0J/vumh80L+oCL7FndK/rVxr/DO/4+70szYTJeHOLgPZfWr
+         njhKpaDz/eZXvNkTqno3JLTvs4vfvxo47paczOjdhvUSEfszTccPGNzEALY7BY8RbZKZ
+         sX0wl1QJ/cxQPEilv3LcILQLQkEZyj0GXaKgFJ9yzoKflmUeYQGc2e8/485tKRAzTSnB
+         cZkw==
+X-Gm-Message-State: APt69E1EUTwKQRw7vKYs8nn5TpX912wWAsip7TYhqEGTKflAfuUHsTT5
+        eYLE6kUgaywbggXoPklBBaGExG8A
+X-Google-Smtp-Source: AAOMgpcX9554i2c1gG4ZV46Qz9kbG43vLotac44uH2sJDICszd2FU91KcddwEiiVx/9SoszDTjAmmQ==
+X-Received: by 2002:adf:92e7:: with SMTP id 94-v6mr2629606wrn.70.1530042066781;
+        Tue, 26 Jun 2018 12:41:06 -0700 (PDT)
+Received: from [192.168.1.18] (dkk4.neoplus.adsl.tpnet.pl. [83.24.14.4])
+        by smtp.gmail.com with ESMTPSA id 72-v6sm3111326wrb.22.2018.06.26.12.41.05
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Jun 2018 12:41:05 -0700 (PDT)
+Subject: Re: [PATCH 4/9] devicectree: bindings: fix location of leds common
+ file
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+References: <cover.1530005114.git.mchehab+samsung@kernel.org>
+ <51f7b37fd560a2cf8a79db5222bf02abef97510b.1530005114.git.mchehab+samsung@kernel.org>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <a47c6716-ef88-464b-bc9c-236ff90b88b1@gmail.com>
+Date:   Tue, 26 Jun 2018 21:41:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 2002:a2e:41cf:0:0:0:0:0 with HTTP; Tue, 26 Jun 2018 12:17:59
- -0700 (PDT)
-In-Reply-To: <d437aba7-f25f-0a96-e42b-997a3b6cda23@infradead.org>
-References: <20180626160442.572358-1-arnd@arndb.de> <d437aba7-f25f-0a96-e42b-997a3b6cda23@infradead.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 26 Jun 2018 21:17:59 +0200
-X-Google-Sender-Auth: 2BpAUYHqtnp6LoXehDEObU9a1Kg
-Message-ID: <CAK8P3a2b=mTi1cM_wzzcPyDpxmhHhMx8wFtVqAocordoiMwstw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: document ktime_get_*() APIs
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        Dave Chinner <david@fromorbit.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Matthew Wilcox <mawilcox@microsoft.com>,
-        Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <51f7b37fd560a2cf8a79db5222bf02abef97510b.1530005114.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 26, 2018 at 7:19 PM, Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 06/26/2018 09:03 AM, Arnd Bergmann wrote:
+Hi Mauro.
 
->> diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-api/timekeeping.rst
->> new file mode 100644
->> index 000000000000..97dafa69dddf
->> --- /dev/null
->> +++ b/Documentation/core-api/timekeeping.rst
->> @@ -0,0 +1,185 @@
->> +ktime access
->> +============
->
-> I would prefer "ktime accessors" or "ktime interfaces", but no big deal.
+Thank you for the patch.
 
-Ok, changed to "ktime accessors".
+On 06/26/2018 11:49 AM, Mauro Carvalho Chehab wrote:
+> The leds.txt was moved and renamed. Fix references to
+> it accordingly.
+> 
+> Fixes: f67605394f0b ("devicetree/bindings: Move gpio-leds binding into leds directory")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>   Documentation/devicetree/bindings/leds/common.txt | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/common.txt b/Documentation/devicetree/bindings/leds/common.txt
+> index 1d4afe9644b6..aa1399814a2a 100644
+> --- a/Documentation/devicetree/bindings/leds/common.txt
+> +++ b/Documentation/devicetree/bindings/leds/common.txt
+> @@ -31,7 +31,7 @@ Optional properties for child nodes:
+>        "backlight" - LED will act as a back-light, controlled by the framebuffer
+>   		   system
+>        "default-on" - LED will turn on (but for leds-gpio see "default-state"
+> -		    property in Documentation/devicetree/bindings/gpio/led.txt)
+> +		    property in Documentation/devicetree/bindings/leds/leds-gpio.txt)
+>        "heartbeat" - LED "double" flashes at a load average based rate
+>        "disk-activity" - LED indicates disk activity
+>        "ide-disk" - LED indicates IDE disk activity (deprecated),
+> 
 
->> +nanosecond, timespec64, and second output
->> +-------------------------------------
->
+Applied.
 
-Fixed.
-
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks!
-
-      Arnd
+-- 
+Best regards,
+Jacek Anaszewski
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
