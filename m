@@ -5,47 +5,47 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B19C7D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 13:19:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 779A97D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 13:19:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935546AbeFZNS3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 09:18:29 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:54020 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935477AbeFZNPx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 09:15:53 -0400
-Received: by mail-wm0-f67.google.com with SMTP id x6-v6so1883003wmc.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 06:15:53 -0700 (PDT)
+        id S965265AbeFZNTm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 09:19:42 -0400
+Received: from mail-wm0-f65.google.com ([74.125.82.65]:52986 "EHLO
+        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935493AbeFZNPw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 09:15:52 -0400
+Received: by mail-wm0-f65.google.com with SMTP id p126-v6so1906894wmb.2
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 06:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=yBPRwBaWYUVSArjumBa6fauS/4DSRyKow4zS0UL3/uQ=;
-        b=F5BA1fb9nMc2llPcpCY45+Govd2NK97f8DeANvLf6/pO+8ZmySSwPGT1QB8mjbGwcm
-         +jBy/JwaDlvGaXBjCxqHRVmaDgiCAUY96hiv/hM8YaY32atVyychrCmE+3/BVRMOsNwp
-         Kn6aKoO5sB6cWxGvwtuGwgOI2aVvPPfsY2sj0pFhyoLksQSZPx/tBv8y5N6P6ypfZ1YE
-         SV/LxGr4VV24bnWuBuEtAb4tit0Eq2C6vck2Um3KnGgDCw+f7W46c4Ntra9VSYDZR6Zh
-         tdwZkPQDXYh/YEwXFnAlSQdYMSz6tay2i7Pj/cLpfnfV29yEN7Nd+naOl15nnSAyJlP9
-         Iy3A==
+        bh=VCj9H90+ovXjReBaVfSQH5CvcvzciBxLHdjd+ndYlao=;
+        b=algw/UwANNBO1mP8NOPjPQ7LzR9BXgfrF6JZbe2j23CRiaeC4quc9v2Pm9S+28nZQW
+         Uf1RnrtevSQnDWdy3oME8nUVpfliRZHbflCk1KaJOPBh+s59TQ2rXTVjSXQKYX4xc3rz
+         YZzGV2bP1kDQhyhl4DJjYrVYQ1FAGxZDG+k4fMLnl24PHJYajW8B2l5xnkDzRQ4LmvXb
+         SxsYH1O+NiL3nOvOh1DGsY63j5ex5TO/l1Kr8InZzfDWLgr+XcjnYAvWwyI3RsWLJnyQ
+         E6VXTSe7AJsh27qa/Mziek9jIq97/MtUKUwmCtGqACW66dqg0VgJNVLs6UEfJ3/a0j6H
+         tepg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=yBPRwBaWYUVSArjumBa6fauS/4DSRyKow4zS0UL3/uQ=;
-        b=kctOveZJN+3Fiq5yUP2v0N1MUgFPfgzfuQin7Pl8Dq9Gn27m+CSDrCGB7CZRPW/p1j
-         lp2wJrkSEslmQhLas3D378Pl2M0f77ahHL7j4n3iXEdoLKhThLxS7eP+QaDJfIYlYmlZ
-         0v9zGl37I5EGWU6biRbairECFe6sZudYOwCteiwZvm79Pi8eF0teNAKcFERIYAWm5i2y
-         BFML/tdZZrUdd3osWguaFMagX5hkF/iHpaC9JdDCzBuUvmysHUKb1tLkh/uhNOUV52Bj
-         PVE8EsgAgHysUso67hjgNKXC3F31UOoQa1N0n5Jg2W0Z8ahnHrBgXXXGI+UVK8C24gHX
-         uzqQ==
-X-Gm-Message-State: APt69E1TZWiDYKc512JAs8dkgWh9vQZNm6UxJjfXoytdPIEZ7PKSXpe+
-        uUsaFrRqGRa7qgwPNp+uXfrMCg==
-X-Google-Smtp-Source: AAOMgpcIZGN8/Izw0CfyPMZx5yvgYHVOM/4GCivZrU5323uijnvw+HedN5vD/6BGwQOLFt2SEUXnAg==
-X-Received: by 2002:a1c:3504:: with SMTP id c4-v6mr1531279wma.59.1530018952054;
-        Tue, 26 Jun 2018 06:15:52 -0700 (PDT)
+        bh=VCj9H90+ovXjReBaVfSQH5CvcvzciBxLHdjd+ndYlao=;
+        b=mB+oS7AE/5KJScGwbp7mwWcPW6Kykoz8zpx45l5UtIBNFqM71yzqdGu59xxk9JHeaT
+         /oNoVngflMaoZVRzTytIzn5Ke6tcW+EQnaw9J0qj/Ppyi1M9RxbGw6D4NzpjEkbnHxdW
+         cX7Apbq/thT5YG+t1RYtBvab7eu2MiBfVcEXxGE58bgNZYOafdVUBhK9ukNlGk+xWsxv
+         wbyQ8UzVAq/JYjHGz+6e+m3/n66DXEDQgc6ttYJ+wUKEJeBmo7DD1xMiu5cWyFX3bK5m
+         8FqnTpPoHxEGnIzX68rDmAE+YOdu6TGRThSME9k8VLjH8NvQR3ln0SdcN99BqFRYi0Aw
+         gyjQ==
+X-Gm-Message-State: APt69E2j1jHiuXaRtGNnsYCd8f71MASRCkNRdQd9p85ReoQ1RvwtFpr7
+        6YDrpb8F1Pfex4woFFqW+3tIlw==
+X-Google-Smtp-Source: AAOMgpf2aPNc18qI7NpSf6WnKXLP4rIHGIUXeOMxVhHuHs/y7iMs+6rYMoW3PHAwctKy6CsBoOJ11Q==
+X-Received: by 2002:a1c:5c93:: with SMTP id q141-v6mr1611058wmb.77.1530018950315;
+        Tue, 26 Jun 2018 06:15:50 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id w15-v6sm2162639wrn.25.2018.06.26.06.15.50
+        by smtp.gmail.com with ESMTPSA id w15-v6sm2162639wrn.25.2018.06.26.06.15.48
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Jun 2018 06:15:51 -0700 (PDT)
+        Tue, 26 Jun 2018 06:15:48 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -82,9 +82,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Mark Brand <markbrand@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v4 10/17] khwasan, mm: perform untagged pointers comparison in krealloc
-Date:   Tue, 26 Jun 2018 15:15:20 +0200
-Message-Id: <be2d28030622fa8201844cf438654568ae1808e0.1530018818.git.andreyknvl@google.com>
+Subject: [PATCH v4 09/17] khwasan, arm64: enable top byte ignore for the kernel
+Date:   Tue, 26 Jun 2018 15:15:19 +0200
+Message-Id: <82571a6721547446b789f759f93bf7f3930541be.1530018818.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.18.0.rc2.346.g013aa6912e-goog
 In-Reply-To: <cover.1530018818.git.andreyknvl@google.com>
 References: <cover.1530018818.git.andreyknvl@google.com>
@@ -93,31 +93,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The krealloc function checks where the same buffer was reused or a new one
-allocated by comparing kernel pointers. KHWASAN changes memory tag on the
-krealloc'ed chunk of memory and therefore also changes the pointer tag of
-the returned pointer. Therefore we need to perform comparison on untagged
-(with tags reset) pointers to check whether it's the same memory region or
-not.
+KHWASAN uses the Top Byte Ignore feature of arm64 CPUs to store a pointer
+tag in the top byte of each pointer. This commit enables the TCR_TBI1 bit,
+which enables Top Byte Ignore for the kernel, when KHWASAN is used.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/slab_common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/include/asm/pgtable-hwdef.h | 1 +
+ arch/arm64/mm/proc.S                   | 8 +++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index c279b52c7565..7746d2ef5d45 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -1509,7 +1509,7 @@ void *krealloc(const void *p, size_t new_size, gfp_t flags)
- 	}
+diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
+index fd208eac9f2a..483aceedad76 100644
+--- a/arch/arm64/include/asm/pgtable-hwdef.h
++++ b/arch/arm64/include/asm/pgtable-hwdef.h
+@@ -289,6 +289,7 @@
+ #define TCR_A1			(UL(1) << 22)
+ #define TCR_ASID16		(UL(1) << 36)
+ #define TCR_TBI0		(UL(1) << 37)
++#define TCR_TBI1		(UL(1) << 38)
+ #define TCR_HA			(UL(1) << 39)
+ #define TCR_HD			(UL(1) << 40)
+ #define TCR_NFD1		(UL(1) << 54)
+diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
+index 03646e6a2ef4..c5175e098d02 100644
+--- a/arch/arm64/mm/proc.S
++++ b/arch/arm64/mm/proc.S
+@@ -47,6 +47,12 @@
+ /* PTWs cacheable, inner/outer WBWA */
+ #define TCR_CACHE_FLAGS	TCR_IRGN_WBWA | TCR_ORGN_WBWA
  
- 	ret = __do_krealloc(p, new_size, flags);
--	if (ret && p != ret)
-+	if (ret && khwasan_reset_tag(p) != khwasan_reset_tag(ret))
- 		kfree(p);
++#ifdef CONFIG_KASAN_HW
++#define TCR_KASAN_FLAGS TCR_TBI1
++#else
++#define TCR_KASAN_FLAGS 0
++#endif
++
+ #define MAIR(attr, mt)	((attr) << ((mt) * 8))
  
- 	return ret;
+ /*
+@@ -440,7 +446,7 @@ ENTRY(__cpu_setup)
+ 	 */
+ 	ldr	x10, =TCR_TxSZ(VA_BITS) | TCR_CACHE_FLAGS | TCR_SMP_FLAGS | \
+ 			TCR_TG_FLAGS | TCR_KASLR_FLAGS | TCR_ASID16 | \
+-			TCR_TBI0 | TCR_A1
++			TCR_TBI0 | TCR_A1 | TCR_KASAN_FLAGS
+ 	tcr_set_idmap_t0sz	x10, x9
+ 
+ 	/*
 -- 
 2.18.0.rc2.346.g013aa6912e-goog
 
