@@ -5,169 +5,233 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9E1817D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 21:46:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B59C37D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 22:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751885AbeFZVq4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 17:46:56 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:50363 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751115AbeFZVqz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 17:46:55 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 49A1120875; Tue, 26 Jun 2018 23:46:52 +0200 (CEST)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 7D4EF2079D;
-        Tue, 26 Jun 2018 23:46:41 +0200 (CEST)
-Date:   Tue, 26 Jun 2018 23:46:38 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, Przemyslaw Gaj <pgaj@cadence.com>
-Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO
- expander
-Message-ID: <20180626234638.076fb816@bbrezillon>
-In-Reply-To: <CAHp75VcVvOzgOM87rSrwsCxh+WAK-z+zVCJifnY+Xeeu=cPFiA@mail.gmail.com>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
-        <20180622104930.32050-10-boris.brezillon@bootlin.com>
-        <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
-        <20180626215648.1472b96e@bbrezillon>
-        <CAHp75VcVvOzgOM87rSrwsCxh+WAK-z+zVCJifnY+Xeeu=cPFiA@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S932587AbeFZWEu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 18:04:50 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49030 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S932509AbeFZWEt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 18:04:49 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5QLsQd0011961
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 18:04:48 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2juv8nug6s-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 18:04:48 -0400
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 26 Jun 2018 18:04:48 -0400
+Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
+        by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 26 Jun 2018 18:04:45 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5QM4ihw9371950
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 26 Jun 2018 22:04:44 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8DAC5B2068;
+        Tue, 26 Jun 2018 18:04:37 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4E89EB2064;
+        Tue, 26 Jun 2018 18:04:37 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.159])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 26 Jun 2018 18:04:37 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id AF12416CA20B; Tue, 26 Jun 2018 15:06:49 -0700 (PDT)
+Date:   Tue, 26 Jun 2018 15:06:49 -0700
+From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     Byungchul Park <byungchul.park@lge.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, kernel-team@lge.com
+Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
+ translation to fix broken DMA vs. MMIO ordering example
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <20180617051608.2128-1-sj38.park@gmail.com>
+ <20180626004738.GA20783@X58A-UD3R>
+ <alpine.DEB.2.20.1806261218490.1528@hxeon>
+ <20180626045609.GB20783@X58A-UD3R>
+ <alpine.DEB.2.20.1806261406220.1528@hxeon>
+ <20180626065827.GC20783@X58A-UD3R>
+ <20180626122242.GX3593@linux.vnet.ibm.com>
+ <CAEjAshpv13xoZ7m6=vX=3o+iUQEG7ExCg8BpPDpOY5ZW3+gxQA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEjAshpv13xoZ7m6=vX=3o+iUQEG7ExCg8BpPDpOY5ZW3+gxQA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18062622-0052-0000-0000-000003047791
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009260; HX=3.00000241; KW=3.00000007;
+ PH=3.00000004; SC=3.00000266; SDB=6.01052767; UDB=6.00539728; IPR=6.00830691;
+ MB=3.00021870; MTD=3.00000008; XFM=3.00000015; UTC=2018-06-26 22:04:47
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18062622-0053-0000-0000-00005D267BE2
+Message-Id: <20180626220649.GN3593@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-26_09:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1806260241
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Jun 2018 23:44:36 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-
-> On Tue, Jun 26, 2018 at 10:56 PM, Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> > On Tue, 26 Jun 2018 22:07:03 +0300
-> > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:  
-> >> On Fri, Jun 22, 2018 at 1:49 PM, Boris Brezillon
-> >> <boris.brezillon@bootlin.com> wrote:  
-> >> > Add a driver for Cadence I3C GPIO expander.
-> >> >
-> >> > Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>  
-> >>  
-> >> > +       scratchbuf = kmalloc(sizeof(*scratchbuf) * 2, GFP_KERNEL);  
-> >>
-> >> kmalloc_array() ?
-> >>  
-> >> > +       ret = i3c_device_do_priv_xfers(gpioc->i3cdev, xfers,
-> >> > +                                      ARRAY_SIZE(xfers));  
-> >>
-> >> One line?
-> >>  
+On Tue, Jun 26, 2018 at 09:25:08PM +0900, SeongJae Park wrote:
+> Hello Paul,
 > 
-> >> You don't change mask here, why do you need a pointer to it?  
+> On Tue, Jun 26, 2018 at 9:20 PM Paul E. McKenney
+> <paulmck@linux.vnet.ibm.com> wrote:
 > >
-> > What are you talking about??!!! This is part of the gpio_chip interface
-> > that drivers have to implement. You can't decide that mask should not be
-> > a pointer. And if you actually look at the code, you'll probably see
-> > that the reason we're passed a pointer here is that the GPIO chip might
-> > expose more GPIOs than can be represented by an unsigned long, hence
-> > the array of unsigned long.
-> >  
+> > On Tue, Jun 26, 2018 at 03:58:27PM +0900, Byungchul Park wrote:
+> > > On Tue, Jun 26, 2018 at 02:10:17PM +0900, SeongJae Park wrote:
+> > > >
+> > > >
+> > > > On Tue, 26 Jun 2018, Byungchul Park wrote:
+> > > >
+> > > > > On Tue, Jun 26, 2018 at 12:21:23PM +0900, sjpark wrote:
+> > > > > > Hello Byungchul,
+> > > > > >
+> > > > > >
+> > > > > > On Tue, 26 Jun 2018, Byungchul Park wrote:
+> > > > > >
+> > > > > > > On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
+> > > > > > > > Translate this commit to Korean:
+> > > > > > > >
+> > > > > > > >   5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+> > > > > > >
+> > > > > > > Hi SeongJae,
+> > > > > > >
+> > > > > > > You keep doing good jobs ;)
+> > > > > > >
+> > > > > > > I believe it would be better if you consider the little things below
+> > > > > > > more. What do you think about it, SeongJae?
+> > > > > >
+> > > > > > Thank you for great comments!
+> > > > > >
+> > > > > > >
+> > > > > > > > Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+> > > > > > > > ---
+> > > > > > > >  Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
+> > > > > > > >  1 file changed, 7 insertions(+), 8 deletions(-)
+> > > > > > > >
+> > > > > > > > diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+> > > > > > > > index 921739d00f69..ada0a709cce1 100644
+> > > > > > > > --- a/Documentation/translations/ko_KR/memory-barriers.txt
+> > > > > > > > +++ b/Documentation/translations/ko_KR/memory-barriers.txt
+> > > > > > > > @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
+> > > > > > > >             /* 소유권을 수정 */
+> > > > > > > >             desc->status = DEVICE_OWN;
+> > > > > > > >
+> > > > > > > > -           /* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
+> > > > > > > > -           wmb();
+> > > > > > > > -
+> > > > > > > >             /* 업데이트된 디스크립터의 디바이스에 공지 */
+> > > > > > > >             writel(DESC_NOTIFY, doorbell);
+> > > > > > > >     }
+> > > > > > > >
+> > > > > > > >       dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
+> > > > > > > > -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> > > > > > > > -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
+> > > > > > > > -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
+> > > > > > > > -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
+> > > > > > > > -     보장해주기 위해 필요합니다.
+> > > > > > > > +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+> > > > > > > > +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
+> > > > > > >                                                                         ^
+> > > > > > >                                                                      참고로,
+> > > > > >
+> > > > > > Nice comment.  This will enhance the readability a lot.
+> > > > >
+> > > > > Could you add this, too? A quite little thing tho.
+> > > >
+> > > > Oops, I missed that.  Sorry.  Attaching the patch below.
+> > > >
+> > > >
+> > > > Thanks, SeongJae Park
+> > >
+> > > Thanks a lot, SeongJae.
+> > >
+> > > Acked-by: Byungchul Park <byungchul.park@lge.com>
+> >
+> > Thank you both!
+> >
+> > The patch below is the complete patch, so that I should replace
+> > what I have with it, correct?  If not, please help me out here.  ;-)
 > 
-> > I'll say it here because this is not the first time I'm pissed off by
-> > one of your review.  
-> 
-> Like 'I like offending people, because I think people who get offended
-> should be offended.' ?
-> I'm not that guy, relax.
+> Yes, correct! :)
 
-I'm not offended, just annoyed, and not because I have things to change
-in my patchset (I'm used to that and that's something I comply with
-most of the time), but because the only reviews I had from you were of
-this kind (nitpicking on minor stuff).
+Like this, then?
 
-> 
-> >  You seem to review everything that is posted on the LKML,  
-> 
-> That's not true.
-> 
-> > and most of the time your reviews are superficial (focused on tiny
-> > details or coding style issues). Don't you have better things to do?  
-> 
-> If your code is written using ancient style and / or API it's not good
-> to start with.
-> Isn't it? Otherwise, why we do introduce new internal APIs, for what purpose?
+							Thanx, Paul
 
-Come on!
+------------------------------------------------------------------------
 
-- kzalloc() vs kmalloc_array()
-- for (i = 0; i < n, i++) { if (BIT(x) & var) ... }
-  vs
-  for_each_bit_set() (which is not even applicable here because I'm
-  not manipulating an unsigned long)
+commit 3cb0d7701c4ce6668fb5096c90ec6d5b4bf71638
+Author: SeongJae Park <sj38.park@gmail.com>
+Date:   Sun Jun 17 14:16:08 2018 +0900
 
-Where do you see ancient style APIs here?
+    locking/memory-barriers.txt/kokr: Update Korean translation to fix broken DMA vs. MMIO ordering example
+    
+    Translate this commit to Korean:
+    
+      5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+    
+    Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+    [ paulmck: Updated based on feedback from Byungchul Park. ]
+    Acked-by: Byungchul Park <byungchul.park@lge.com>
 
-And that's not even the problem. I'm okay to fix those things, but you
-only ever do these kind of reviews, and sometime you even act like you
-know better than the developer or the maintainer how the code should be
-organized without even digging enough to have a clue (your comment on
-the fact that mask should not be a pointer is a good example of such
-situations).
+diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+index 921739d00f69..7f01fb1c1084 100644
+--- a/Documentation/translations/ko_KR/memory-barriers.txt
++++ b/Documentation/translations/ko_KR/memory-barriers.txt
+@@ -1891,22 +1891,22 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
+ 		/* 소유권을 수정 */
+ 		desc->status = DEVICE_OWN;
+ 
+-		/* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
+-		wmb();
+-
+ 		/* 업데이트된 디스크립터의 디바이스에 공지 */
+ 		writel(DESC_NOTIFY, doorbell);
+ 	}
+ 
+      dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
+-     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
+-     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
+-     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
+-     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
+-     보장해주기 위해 필요합니다.
+-
+-     consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
+-     문서를 참고하세요.
++     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
++     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  참고로,
++     writel() 을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory)
++     쓰기가 MMIO 영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에
++     wmb() 를 실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이
++     저렴한 writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지
++     않아야 합니다.
++
++     writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
++     "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
++     위해선 Documentation/DMA-API.txt 문서를 참고하세요.
+ 
+ 
+ MMIO 쓰기 배리어
 
-> 
-> On top of that you might find more interesting reviews where I pointed
-> out to a memory leak or other nasty stuff. But of course you prefer
-> not to norice that.
-
-Yes, sometime you have valid point, but it gets lost in all the noise.
-
-> I understand you.
-> 
-> > I mean, I'm fine when I get such comments from people that also do
-> > useful comments, but yours are most of the time useless and sometime
-> > even wrong because you didn't time to look at the code in details.  
-> 
-> Calm down, please.
-
-Why? Because I say you didn't look at the code in details? Isn't it
-true? Did you look at what I3C is, how it works or how the I3C framework
-is architectured? Because that's the kind of reviews I'd love to have on
-this series.
-
-> You would simple ignore them. Your choice.
-
-That's not my point. My point is, maybe you should do less reviews but
-spend more time on each of them so you don't just scratch the surface
-with comments I could get from a tool like checkpatch.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
