@@ -1,90 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B73C17DF89
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:34:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2FB07DF89
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:49:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933482AbeFZJeK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 05:34:10 -0400
-Received: from mail-it0-f67.google.com ([209.85.214.67]:33149 "EHLO
-        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933675AbeFZJeG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 05:34:06 -0400
-Received: by mail-it0-f67.google.com with SMTP id k17-v6so14822789ita.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 02:34:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5rPSc8bEh8JJ/gyd8mxuLhMXDecD/m8KQxD9RUIVHHU=;
-        b=UyRQr8kf6obvWWPRwezaBp5y5ovi12ruOnxOcQ7xWTQpvLHrmNnYqgWEF6L+UkLZ3I
-         ibHqyKjjKFvmw0SZDmV/uDjsfe4qCm8ZJM5unJgY4rfOAaL+Cqh018Lp7Vz493UGEFTM
-         dLgQaE30FeYUkARkj8cHIFjNY4ytxrEY5aQrw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5rPSc8bEh8JJ/gyd8mxuLhMXDecD/m8KQxD9RUIVHHU=;
-        b=FJjm/ivqmsTm56TK/9P010I7iN59/Aur3mBiooeJimYGARMKbLqk1L6gpgEwmY/i9o
-         UFgmdW+cyN3lqT5jArECcgwBffhut9Yc8Wd7oJn2AzMxrli7MTnHvSxR1nrccp175sCr
-         YYyHhFz9hkdYpYRVqXglsRgfcgrU1xcAIKb0SrmKzNMJvZciLoVS4R5sv28pxQVwu9tl
-         1+7nztdoBK6QIpzEQxr8HPs7kgaawyCrkgCFv0dvTjfGztK37n/kCBN6KbJQJHHsUYR6
-         b/iwQQVlgcwwUYGc8l4CQItcEfl96NISFcg3Q1n9XEbhfckvJEJexMZlLMFbyJbueI0a
-         k3IA==
-X-Gm-Message-State: APt69E2rs5GJcfBTsPx3TFYrZkKe5nnyyO5Gme3tWzy7oc8ds0XkhpV6
-        JnaoGUBrUX4AjQe//A+TgNinuBxEFA+y3M6e51M/LEzK
-X-Google-Smtp-Source: ADUXVKItDBdKbMcgppfhp2L4s2KfSlNUJrnBZFBZNlH5mMHTXoLNp+1AAqIfz5I/9IAkjpo/85Towk8uK2RZYYbC2lM=
-X-Received: by 2002:a24:42c8:: with SMTP id i191-v6mr775864itb.135.1530005646219;
- Tue, 26 Jun 2018 02:34:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1528990947.git.mchehab+samsung@kernel.org> <d04d47f9fba035cf9de8589a288964c636324d58.1528990947.git.mchehab+samsung@kernel.org>
-In-Reply-To: <d04d47f9fba035cf9de8589a288964c636324d58.1528990947.git.mchehab+samsung@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 26 Jun 2018 11:33:53 +0200
-Message-ID: <CACRpkda4AVhbeka0V17mJDjFihTFQY3+6M+iUBbPyaX22RTDow@mail.gmail.com>
-Subject: Re: [PATCH v3 23/27] devicetree: fix name of pinctrl-bindings.txt
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     linux-doc@vger.kernel.org,
+        id S933505AbeFZJtS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 05:49:18 -0400
+Received: from osg.samsung.com ([64.30.133.232]:54850 "EHLO osg.samsung.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932629AbeFZJtS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jun 2018 05:49:18 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by osg.samsung.com (Postfix) with ESMTP id 4C24830B9A;
+        Tue, 26 Jun 2018 02:49:17 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from osg.samsung.com ([127.0.0.1])
+        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id uKM6LoYRZXsP; Tue, 26 Jun 2018 02:49:16 -0700 (PDT)
+Received: from smtp.s-opensource.com (177.41.130.70.dynamic.adsl.gvt.net.br [177.41.130.70])
+        by osg.samsung.com (Postfix) with ESMTPSA id 3F49B30B84;
+        Tue, 26 Jun 2018 02:49:16 -0700 (PDT)
+Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
+        (envelope-from <mchehab@smtp.s-opensource.com>)
+        id 1fXkb4-0000lq-3c; Tue, 26 Jun 2018 06:49:14 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-serial@vger.kernel.org, linux-spi <linux-spi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Harry Wei <harryxiyou@gmail.com>, linux-kernel@zh-kernel.org
+Subject: [PATCH 3/9] docs: zh_CN: fix location of oops-tracing.txt
+Date:   Tue, 26 Jun 2018 06:49:05 -0300
+Message-Id: <46a7c7ebc4b1d64f2d73fa3e9d47c0eb40685486.1530005114.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1530005114.git.mchehab+samsung@kernel.org>
+References: <cover.1530005114.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <cover.1530005114.git.mchehab+samsung@kernel.org>
+References: <cover.1530005114.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 14, 2018 at 6:09 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
+This file was merged with bug-hunting. Make the translation
+to point for its new location.
 
-> Rename:
->         pinctrl-binding.txt -> pinctrl-bindings.txt
->
-> In order to match the current name of this file.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Fixes: f226e460875d ("admin-guide: merge oops-tracing with bug-hunting")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/translations/zh_CN/oops-tracing.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Is this applied in some other tree or something I should
-apply to the pinctrl tree?
+diff --git a/Documentation/translations/zh_CN/oops-tracing.txt b/Documentation/translations/zh_CN/oops-tracing.txt
+index 41ab53cc0e83..a893f04dfd5d 100644
+--- a/Documentation/translations/zh_CN/oops-tracing.txt
++++ b/Documentation/translations/zh_CN/oops-tracing.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/admin-guide/oops-tracing.rst
++Chinese translated version of Documentation/admin-guide/bug-hunting.rst
+ 
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -8,7 +8,7 @@ or if there is a problem with the translation.
+ 
+ Chinese maintainer: Dave Young <hidave.darkstar@gmail.com>
+ ---------------------------------------------------------------------
+-Documentation/admin-guide/oops-tracing.rst 的中文翻译
++Documentation/admin-guide/bug-hunting.rst 的中文翻译
+ 
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+-- 
+2.17.1
 
-Yours,
-Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
