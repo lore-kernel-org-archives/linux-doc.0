@@ -1,148 +1,188 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D33F7DF89
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 09:52:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CE597D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 10:10:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933478AbeFZJvr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 05:51:47 -0400
-Received: from osg.samsung.com ([64.30.133.232]:50565 "EHLO osg.samsung.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S933481AbeFZJtS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jun 2018 05:49:18 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by osg.samsung.com (Postfix) with ESMTP id 51C0330BAA;
-        Tue, 26 Jun 2018 02:49:18 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at dev.s-opensource.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from osg.samsung.com ([127.0.0.1])
-        by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Nxjdd3fLdDuu; Tue, 26 Jun 2018 02:49:17 -0700 (PDT)
-Received: from smtp.s-opensource.com (177.41.130.70.dynamic.adsl.gvt.net.br [177.41.130.70])
-        by osg.samsung.com (Postfix) with ESMTPSA id 6A58530B87;
-        Tue, 26 Jun 2018 02:49:16 -0700 (PDT)
-Received: from mchehab by smtp.s-opensource.com with local (Exim 4.91)
-        (envelope-from <mchehab@smtp.s-opensource.com>)
-        id 1fXkb4-0000m6-9b; Tue, 26 Jun 2018 06:49:14 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org
-Subject: [PATCH 7/9] networking: e100.rst: Get rid of Sphinx warnings
-Date:   Tue, 26 Jun 2018 06:49:09 -0300
-Message-Id: <48ca5da5770c63ec56e9e9df76e3528c1bcb4414.1530005114.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1530005114.git.mchehab+samsung@kernel.org>
-References: <cover.1530005114.git.mchehab+samsung@kernel.org>
-In-Reply-To: <cover.1530005114.git.mchehab+samsung@kernel.org>
-References: <cover.1530005114.git.mchehab+samsung@kernel.org>
+        id S933768AbeFZKJv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 06:09:51 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:45684 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933509AbeFZKJu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 06:09:50 -0400
+Received: by mail-wr0-f196.google.com with SMTP id u7-v6so1343555wrn.12
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 03:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=eonnP3gBNaNVgOaf43AXZKv7MQZqC1aYO0BipT40ypI=;
+        b=SCv44MHElc9Sxb9KrKeFmk+NAGHmlIE8oVNq5W9LnVDPx+eimDc5mCim+2pSzGdTxy
+         FY1I0vwJI7PHSGgOB0hGP1sJw0Bl5e4alpdyyN2rSFtDJ5kCaKbIcZunkzQi1QZ7eaeF
+         g+fYowhbYi+P2z3cqKxUUeNlzC0Bp5HVUbR7k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=eonnP3gBNaNVgOaf43AXZKv7MQZqC1aYO0BipT40ypI=;
+        b=Hiay5QFwOo/UiN177xZ7bXazEQWL7YAuNCyVm4WJYzcxBmftJUmUWEp3h/2GRVrBRr
+         FLhQChQiCgRpIjnYdsV/F9uFDPt4dX5pmTzMPjAaVkhJMo4A/7uXps8h2Nt6FAoTpG4X
+         J7m3B6/LOIQwIcq88QB3DmEOaBgub+JIdJB1ONtqyyV5RpsGx9MP9GT83vnJ+Ws5jYfU
+         9iaU/qOd+5gUSfetdmCY50ehbIGBl3WssvQhEboRSidAACI8sJtuFaoBCs3cjxOSMX/3
+         D56xodKyLkWFsP6rHBWHYwUgy5gAUfzHVbBjLNWTzk2VJs/rF8ZhEhPWlGkQ7cRafZLD
+         TJVQ==
+X-Gm-Message-State: APt69E0Jfx8e4GH6Rw8P5KeYM+MIPjZb1SvVFAx4NVMqRXPrg3jEUu0e
+        T0mgVGEvPULL5RCBsTXoJCVB3A==
+X-Google-Smtp-Source: AAOMgpcA9409O0vw0rB6PFkDpiw5ziwOBxlZtaiXSl/CuoiCL06EUZNjvo98vo9JHeZGj1+DAof40Q==
+X-Received: by 2002:adf:aca7:: with SMTP id o36-v6mr922731wrc.258.1530007788859;
+        Tue, 26 Jun 2018 03:09:48 -0700 (PDT)
+Received: from andrea (85.100.broadband17.iol.cz. [109.80.100.85])
+        by smtp.gmail.com with ESMTPSA id f133-v6sm1566789wme.42.2018.06.26.03.09.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Jun 2018 03:09:48 -0700 (PDT)
+Date:   Tue, 26 Jun 2018 12:09:42 +0200
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Will Deacon <will.deacon@arm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
+Message-ID: <20180626100942.GA8295@andrea>
+References: <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180625095031.GX2494@hirez.programming.kicks-ass.net>
+ <20180625105618.GA12676@andrea>
+ <20180625123121.GY2494@hirez.programming.kicks-ass.net>
+ <20180625131643.GA15126@andrea>
+ <20180625141830.GC2494@hirez.programming.kicks-ass.net>
+ <20180625145611.GA16333@andrea>
+ <20180625163705.GE2494@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180625163705.GE2494@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-    Documentation/networking/e100.rst:57: WARNING: Literal block expected; none found.
-    Documentation/networking/e100.rst:68: WARNING: Literal block expected; none found.
-    Documentation/networking/e100.rst:75: WARNING: Literal block expected; none found.
-    Documentation/networking/e100.rst:84: WARNING: Literal block expected; none found.
-    Documentation/networking/e100.rst:93: WARNING: Inline emphasis start-string without end-string.
+> > For example, the second comment says:
+> > 
+> >   /*
+> >    * The below implies an smp_mb(), it too pairs with the smp_wmb() from
+> >    * woken_wake_function() such that we must either observe the wait
+> >    * condition being true _OR_ WQ_FLAG_WOKEN such that we will not miss
+> >    * an event.
+> >    */
+> > 
+> > From this I understand:
+> > 
+> >    wq_entry->flags &= ~WQ_FLAG_WOKEN;      condition = true;
+> >    smp_mb() // B                           smp_wmb(); // C
+> >    [next iteration of the loop]            wq_entry->flags |= WQ_FLAG_WOKEN;
+> >    if (condition)
+> >       break;
+> > 
+> >    BUG_ON(!condition && !(wq_entry->flags & WQ_FLAG_WOKEN))
+> 
+> Right, basically if we get a spurious wakeup and our ttwu() 'fails', we
+> must either see condition on the next iteration, or ensure the next
+> iteration doesn't sleep, so we'll loop around and test condition yet
+> again.
+> 
+> > IOW, this is an R-like pattern: if this is the case, the smp_wmb() does
+> > _not_ prevent the BUG_ON() from firing; according to LKMM (and powerpc)
+> > a full barrier would be needed.
+> 
+> Hmmm, how come? store-store collision? Yes I suppose you're right.
 
-While here, fix some highlights.
+Ehh, the corresponding powerpc test is architecturally allowed; in the
+operational model, the BUG_ON() state can be reached by following the
+following steps:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/networking/e100.rst | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ 1. let the writes all reach the storage subsystem,
 
-diff --git a/Documentation/networking/e100.rst b/Documentation/networking/e100.rst
-index 9708f5fa76de..f81111eba9c5 100644
---- a/Documentation/networking/e100.rst
-+++ b/Documentation/networking/e100.rst
-@@ -47,41 +47,45 @@ Driver Configuration Parameters
- The default value for each parameter is generally the recommended setting,
- unless otherwise noted.
- 
--Rx Descriptors: Number of receive descriptors. A receive descriptor is a data
-+Rx Descriptors:
-+   Number of receive descriptors. A receive descriptor is a data
-    structure that describes a receive buffer and its attributes to the network
-    controller. The data in the descriptor is used by the controller to write
-    data from the controller to host memory. In the 3.x.x driver the valid range
-    for this parameter is 64-256. The default value is 256. This parameter can be
-    changed using the command::
- 
--   ethtool -G eth? rx n
-+     ethtool -G eth? rx n
- 
-    Where n is the number of desired Rx descriptors.
- 
--Tx Descriptors: Number of transmit descriptors. A transmit descriptor is a data
-+Tx Descriptors:
-+   Number of transmit descriptors. A transmit descriptor is a data
-    structure that describes a transmit buffer and its attributes to the network
-    controller. The data in the descriptor is used by the controller to read
-    data from the host memory to the controller. In the 3.x.x driver the valid
-    range for this parameter is 64-256. The default value is 128. This parameter
-    can be changed using the command::
- 
--   ethtool -G eth? tx n
-+     ethtool -G eth? tx n
- 
-    Where n is the number of desired Tx descriptors.
- 
--Speed/Duplex: The driver auto-negotiates the link speed and duplex settings by
-+Speed/Duplex:
-+   The driver auto-negotiates the link speed and duplex settings by
-    default. The ethtool utility can be used as follows to force speed/duplex.::
- 
--   ethtool -s eth?  autoneg off speed {10|100} duplex {full|half}
-+     ethtool -s eth?  autoneg off speed {10|100} duplex {full|half}
- 
-    NOTE: setting the speed/duplex to incorrect values will cause the link to
-    fail.
- 
--Event Log Message Level:  The driver uses the message level flag to log events
-+Event Log Message Level:
-+   The driver uses the message level flag to log events
-    to syslog. The message level can be set at driver load time. It can also be
-    set using the command::
- 
--   ethtool -s eth? msglvl n
-+     ethtool -s eth? msglvl n
- 
- 
- Additional Configurations
-@@ -92,7 +96,7 @@ Configuring the Driver on Different Distributions
- 
- Configuring a network driver to load properly when the system is started
- is distribution dependent.  Typically, the configuration process involves
--adding an alias line to /etc/modprobe.d/*.conf as well as editing other
-+adding an alias line to `/etc/modprobe.d/*.conf` as well as editing other
- system startup scripts and/or configuration files.  Many popular Linux
- distributions ship with tools to make these changes for you.  To learn
- the proper way to configure a network device for your system, refer to
-@@ -160,7 +164,10 @@ This results in unbalanced receive traffic.
- If you have multiple interfaces in a server, either turn on ARP
- filtering by
- 
--(1) entering:: echo 1 > /proc/sys/net/ipv4/conf/all/arp_filter
-+(1) entering::
-+
-+	echo 1 > /proc/sys/net/ipv4/conf/all/arp_filter
-+
-     (this only works if your kernel's version is higher than 2.4.5), or
- 
- (2) installing the interfaces in separate broadcast domains (either
--- 
-2.17.1
+ 2. commit the partial coherence order from "->flags |= WQ_FLAG_WOKEN"
+    to "->flags &= ~WQ_FLAG_WOKEN"
 
+ 3. propagate "->flags &= ~WQ_FLAG_WOKEN" to the other thread
+
+ 4. commit and acknowledge the sync (B)
+
+ 5. satisfy the read
+
+ 6. propagate "condition = true" and the lwsync (C) to the other thread.
+
+AFAICT, this state remains _unobserved_ via litmus7 experiments.
+
+
+> 
+> > Same RFC for the first comment:
+> > 
+> >   /*
+> >    * The above implies an smp_mb(), which matches with the smp_wmb() from
+> >    * woken_wake_function() such that if we observe WQ_FLAG_WOKEN we must
+> >    * also observe all state before the wakeup.
+> >    */
+> > 
+> > What is the corresponding snippet & BUG_ON()?
+> 
+> The comment there suggest:
+> 
+> 	if (condition)
+> 		break;
+> 
+> 	set_current_state(UNINTERRUPTIBLE);		condition = true;
+> 	/* smp_mb() */					smp_wmb();
+> 							wq_entry->flags |= WQ_FLAG_WOKEN;
+> 	if (!wq_entry->flags & WQ_FLAG_WOKEN)
+> 		schedule();
+> 
+> 
+> 	BUG_ON((wq_entry->flags & WQ_FLAG_WOKEN) && !condition);
+> 
+> 
+> But looking at that now, I think that's wrong. Because the the purpose
+> was that, if we don't do the try_to_wake_up(), our task still needs to
+> observe the condition store.
+> 
+> But for that we need a barrier between the wq_entry->flags load and the
+> second condition test, which would (again) be B, not A.
+
+Agreed.  Now that I stared at the code a bit more, I think that (A) is
+still needed for the synchronization on "->state" and "->flags" (an SB
+pattern seems again to be hidden in the call to try_to_wake_up()):
+
+  p->state = mode;                           wq_entry->flags |= WQ_FLAG_WOKEN;
+  smp_mb(); // A                             try_to_wake_up():
+  if (!(wq_entry->flags & WQ_FLAG_WOKEN))      <full barrier>
+     schedule()                                if (!(p->state & mode))
+                                                 goto out;
+
+  BUG_ON(!(wq_entry->flags & WQ_FLAG_WOKEN) && !(p->state & mode))
+
+So, I think that we should keep (A).
+
+I am planning to send these changes (smp_mb() in woken_wake_function()
+and fixes to the comments) as a separate patch.
+
+Thanks,
+  Andrea
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
