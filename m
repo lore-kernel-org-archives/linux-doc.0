@@ -3,50 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0EF47D062
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 13:19:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4460E7D062
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Jun 2018 13:20:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935514AbeFZNPw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 09:15:52 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:39784 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S935477AbeFZNPr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 09:15:47 -0400
-Received: by mail-wr0-f194.google.com with SMTP id b8-v6so11785586wro.6
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 06:15:46 -0700 (PDT)
+        id S933990AbeFZNUD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Jun 2018 09:20:03 -0400
+Received: from mail-wm0-f66.google.com ([74.125.82.66]:35064 "EHLO
+        mail-wm0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935480AbeFZNPt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 09:15:49 -0400
+Received: by mail-wm0-f66.google.com with SMTP id z137-v6so1824467wmc.0
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jun 2018 06:15:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fesVdV6LHBRKNYXBdcmV3hEtSKqlEwR3jkeYNaPRqlo=;
-        b=aUpOkcHC77zwPdvoyCQWtOFI+/au+FXWE52sbYSgk55WFZZJey0GTTHuKlizoKzXeQ
-         aP/dBwRPsy4C/094DdAhIqj0xjNqS00ncYdzLTD9q89aCxs8ifz1U+R7zJRpZJ6QVZuL
-         yBci2MkmwKvNOE4VQKRiG4K98ib3Qb/piWGQzB6OWyTn0fHUl9X+n2tG5HSF4lbmnslB
-         eg/meZ77q//+1bQ22jFd1ecR4XRGxFm5X06IXQdRm2ZlPtUlSLdtHN5mdFibsO2zCGdt
-         pPFG8p1lKJtytCwX6u7AeC7WNInj90vgSHzo8M/97SGtY+9HUDEUE78z7oUmxv88cirE
-         Jl0w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=HVZ6yIjTM13mswNjnQk6+zabyo8SS7fb5UklqkhM58w=;
+        b=K0T/BGtTWmwZIbXc0p7bznJ2J1hlkZXaH4Na6xLHuqk3/fvwfKwCuSFhGdI+We10Qm
+         FBzoOkizeuy6DDOVYS71GGrq3NDkoqMMtkOBWyJAvD+9Dl9j34GnaTto7tqDxuB41zVj
+         14W6fsFQiWjKP0Z5lkERDCdurq1mmgoYrRjEbnX14OmMd1BevlI5zYPzLXzfEgJ7f3Tp
+         iOc5qRaVsBgNxfwQs6IRlIj5ol3KoZGMfvVhTM06DKRaSSTP+Dfm0c52lX+VH5X0BpkY
+         hi801AoIZdfrhkGBjCDv5mkztBDUJfP4Sw5P1JxkNe8kb7ym7PfBTXi4/bc1ke6Ms4oq
+         K5Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fesVdV6LHBRKNYXBdcmV3hEtSKqlEwR3jkeYNaPRqlo=;
-        b=I6SK1Z/0x2fMOJCSENdTVQbGlfi52JU7DXyZV5tIcJHe7s5Ao+0uQZ4qrBvXbLZJJu
-         f5AGOxeaBNEquJ7FEc1P1zWUctl8FIYnFPwOWGZ877YrXmm/V0pTe3wT9zP+tpHUdxmM
-         p61qKoIeIvvj97NoTHOHEQGnwkioABVX6m/aHBgWPJq7Vz6KU5VudPEskgD9Ub0a6Dzg
-         Lpgl6OsC6x5PHoGp17jwfiayOguOfd36DUBv9bwmsmYUpsRUcRDi2nJhgdeFGTqTgkTL
-         6TWbO92zso5esDtBVLwghsDYuEUZaah87EdYRWgFDe2yW9xh64k9WXywpC1dYalocSsS
-         +zNA==
-X-Gm-Message-State: APt69E1RD618hVxC04rjzr9QXwJ2SAj2I5QvxduEbP0U6GdIMr/3treM
-        TCYzNgn40KX8Qtx4wrMri7GvTQ==
-X-Google-Smtp-Source: AAOMgpftwzrXVmZLeNoHXgsYfWg8uDR2FTtM+E+3Y3BKpb9eMVhCZovEfRNDcfa5ONzdpycmM2ScgQ==
-X-Received: by 2002:adf:9063:: with SMTP id h90-v6mr1519403wrh.147.1530018945895;
-        Tue, 26 Jun 2018 06:15:45 -0700 (PDT)
+         :references;
+        bh=HVZ6yIjTM13mswNjnQk6+zabyo8SS7fb5UklqkhM58w=;
+        b=scz/IbTZXJD5160qWZ1szARuYsiKlgoVGL7h/RJij8xjAn4hsHWMmtpJ6Kjv0ckc3y
+         fvLTdlIYwKPgFaoZyeoPAFQwCCWm5nOYEqxQVYgrQ4oxy/mgn3sLAij4Ck1rwR2U4m7F
+         45hDKMxRof1yatyJzSg9D5HD6h0+CBiIr3UY8QLENosdsjV2oqoW2rglyc5obLEoF0+r
+         4300FEyefy4Mq5UlZvwZZUXi+tJgFcM0JE6HFYkkEcr+LV4UabNTBnzsosOklsMIN6ov
+         k9o2ss5envywnQV3Ar45QoV9Q7u2YjsEH5STeqw2erUTN8cRU39m1Pj3STOCSEjnHBfj
+         yqCg==
+X-Gm-Message-State: APt69E3Ab4fgHpVdrgLnmGVmLoMtoA/k5A+tuWT/Fb0u4eImTT/I5l9i
+        PlMepjVfeuKUoc2VI8wNMnFa1g==
+X-Google-Smtp-Source: AAOMgpcuL71s6ITvRElHRCV0fhXpbdNKVTBvRFWyz74HHMzJAqrfEwh7IMXX26xQEeCg/QmJNqgXZA==
+X-Received: by 2002:a1c:d388:: with SMTP id k130-v6mr1588299wmg.66.1530018947902;
+        Tue, 26 Jun 2018 06:15:47 -0700 (PDT)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id w15-v6sm2162639wrn.25.2018.06.26.06.15.43
+        by smtp.gmail.com with ESMTPSA id w15-v6sm2162639wrn.25.2018.06.26.06.15.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Jun 2018 06:15:44 -0700 (PDT)
+        Tue, 26 Jun 2018 06:15:46 -0700 (PDT)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -83,210 +82,47 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Mark Brand <markbrand@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v4 07/17] khwasan: add tag related helper functions
-Date:   Tue, 26 Jun 2018 15:15:17 +0200
-Message-Id: <0aaff2112647cc4b3aaa1a2be127285dcb5af2c5.1530018818.git.andreyknvl@google.com>
+Subject: [PATCH v4 08/17] khwasan, arm64: fix up fault handling logic
+Date:   Tue, 26 Jun 2018 15:15:18 +0200
+Message-Id: <9f3e30f8144682c989bbf9fdac081501258a0b06.1530018818.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.18.0.rc2.346.g013aa6912e-goog
 In-Reply-To: <cover.1530018818.git.andreyknvl@google.com>
 References: <cover.1530018818.git.andreyknvl@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds a few helper functions, that are meant to be used to
-work with tags embedded in the top byte of kernel pointers: to set, to
-get or to reset (set to 0xff) the top byte.
+show_pte in arm64 fault handling relies on the fact that the top byte of
+a kernel pointer is 0xff, which isn't always the case with KHWASAN enabled.
+Reset the top byte.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/mm/kasan_init.c |  2 ++
- include/linux/kasan.h      | 23 ++++++++++++++++
- mm/kasan/kasan.h           | 55 ++++++++++++++++++++++++++++++++++++++
- mm/kasan/khwasan.c         | 47 ++++++++++++++++++++++++++++++++
- 4 files changed, 127 insertions(+)
+ arch/arm64/mm/fault.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-index 7a31e8ccbad2..e7f37c0b7e14 100644
---- a/arch/arm64/mm/kasan_init.c
-+++ b/arch/arm64/mm/kasan_init.c
-@@ -250,6 +250,8 @@ void __init kasan_init(void)
- 	memset(kasan_zero_page, KASAN_SHADOW_INIT, PAGE_SIZE);
- 	cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
+diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+index b8eecc7b9531..b7b152783d54 100644
+--- a/arch/arm64/mm/fault.c
++++ b/arch/arm64/mm/fault.c
+@@ -32,6 +32,7 @@
+ #include <linux/perf_event.h>
+ #include <linux/preempt.h>
+ #include <linux/hugetlb.h>
++#include <linux/kasan.h>
  
-+	khwasan_init();
-+
- 	/* At this point kasan is fully initialized. Enable error messages */
- 	init_task.kasan_depth = 0;
- 	pr_info("KernelAddressSanitizer initialized\n");
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 336385baf926..d7624b879d86 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -155,6 +155,29 @@ static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
+ #include <asm/bug.h>
+ #include <asm/cmpxchg.h>
+@@ -134,6 +135,8 @@ void show_pte(unsigned long addr)
+ 	pgd_t *pgdp;
+ 	pgd_t pgd;
  
- #define KASAN_SHADOW_INIT 0xFF
- 
-+void khwasan_init(void);
++	addr = (unsigned long)khwasan_reset_tag((void *)addr);
 +
-+void *khwasan_set_tag(const void *addr, u8 tag);
-+u8 khwasan_get_tag(const void *addr);
-+void *khwasan_reset_tag(const void *ptr);
-+
-+#else /* CONFIG_KASAN_HW */
-+
-+static inline void khwasan_init(void) { }
-+
-+static inline void *khwasan_set_tag(const void *addr, u8 tag)
-+{
-+	return (void *)addr;
-+}
-+static inline u8 khwasan_get_tag(const void *addr)
-+{
-+	return 0xFF;
-+}
-+static inline void *khwasan_reset_tag(const void *ptr)
-+{
-+	return (void *)ptr;
-+}
-+
- #endif /* CONFIG_KASAN_HW */
- 
- #endif /* LINUX_KASAN_H */
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 19b950eaccff..a7cc27d96608 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -8,6 +8,10 @@
- #define KASAN_SHADOW_SCALE_SIZE (1UL << KASAN_SHADOW_SCALE_SHIFT)
- #define KASAN_SHADOW_MASK       (KASAN_SHADOW_SCALE_SIZE - 1)
- 
-+#define KHWASAN_TAG_KERNEL	0xFF /* native kernel pointers tag */
-+#define KHWASAN_TAG_INVALID	0xFE /* inaccessible memory tag */
-+#define KHWASAN_TAG_MAX		0xFD /* maximum value for random tags */
-+
- #define KASAN_FREE_PAGE         0xFF  /* page was freed */
- #define KASAN_PAGE_REDZONE      0xFE  /* redzone for kmalloc_large allocations */
- #define KASAN_KMALLOC_REDZONE   0xFC  /* redzone inside slub object */
-@@ -126,6 +130,57 @@ static inline void quarantine_reduce(void) { }
- static inline void quarantine_remove_cache(struct kmem_cache *cache) { }
- #endif
- 
-+#ifdef CONFIG_KASAN_HW
-+
-+#define KHWASAN_TAG_SHIFT 56
-+#define KHWASAN_TAG_MASK (0xFFUL << KHWASAN_TAG_SHIFT)
-+
-+u8 random_tag(void);
-+
-+static inline void *set_tag(const void *addr, u8 tag)
-+{
-+	u64 a = (u64)addr;
-+
-+	a &= ~KHWASAN_TAG_MASK;
-+	a |= ((u64)tag << KHWASAN_TAG_SHIFT);
-+
-+	return (void *)a;
-+}
-+
-+static inline u8 get_tag(const void *addr)
-+{
-+	return (u8)((u64)addr >> KHWASAN_TAG_SHIFT);
-+}
-+
-+static inline void *reset_tag(const void *addr)
-+{
-+	return set_tag(addr, KHWASAN_TAG_KERNEL);
-+}
-+
-+#else /* CONFIG_KASAN_HW */
-+
-+static inline u8 random_tag(void)
-+{
-+	return 0;
-+}
-+
-+static inline void *set_tag(const void *addr, u8 tag)
-+{
-+	return (void *)addr;
-+}
-+
-+static inline u8 get_tag(const void *addr)
-+{
-+	return 0;
-+}
-+
-+static inline void *reset_tag(const void *addr)
-+{
-+	return (void *)addr;
-+}
-+
-+#endif /* CONFIG_KASAN_HW */
-+
- /*
-  * Exported functions for interfaces called from assembly or from generated
-  * code. Declarations here to avoid warning about missing declarations.
-diff --git a/mm/kasan/khwasan.c b/mm/kasan/khwasan.c
-index e2c3a7f7fd1f..d34679b8f8c7 100644
---- a/mm/kasan/khwasan.c
-+++ b/mm/kasan/khwasan.c
-@@ -38,6 +38,53 @@
- #include "kasan.h"
- #include "../slab.h"
- 
-+static DEFINE_PER_CPU(u32, prng_state);
-+
-+void khwasan_init(void)
-+{
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu)
-+		per_cpu(prng_state, cpu) = get_random_u32();
-+}
-+
-+/*
-+ * If a preemption happens between this_cpu_read and this_cpu_write, the only
-+ * side effect is that we'll give a few allocated in different contexts objects
-+ * the same tag. Since KHWASAN is meant to be used a probabilistic bug-detection
-+ * debug feature, this doesn’t have significant negative impact.
-+ *
-+ * Ideally the tags use strong randomness to prevent any attempts to predict
-+ * them during explicit exploit attempts. But strong randomness is expensive,
-+ * and we did an intentional trade-off to use a PRNG. This non-atomic RMW
-+ * sequence has in fact positive effect, since interrupts that randomly skew
-+ * PRNG at unpredictable points do only good.
-+ */
-+u8 random_tag(void)
-+{
-+	u32 state = this_cpu_read(prng_state);
-+
-+	state = 1664525 * state + 1013904223;
-+	this_cpu_write(prng_state, state);
-+
-+	return (u8)(state % (KHWASAN_TAG_MAX + 1));
-+}
-+
-+void *khwasan_set_tag(const void *addr, u8 tag)
-+{
-+	return set_tag(addr, tag);
-+}
-+
-+u8 khwasan_get_tag(const void *addr)
-+{
-+	return get_tag(addr);
-+}
-+
-+void *khwasan_reset_tag(const void *addr)
-+{
-+	return reset_tag(addr);
-+}
-+
- void check_memory_region(unsigned long addr, size_t size, bool write,
- 				unsigned long ret_ip)
- {
+ 	if (addr < TASK_SIZE) {
+ 		/* TTBR0 */
+ 		mm = current->active_mm;
 -- 
 2.18.0.rc2.346.g013aa6912e-goog
 
