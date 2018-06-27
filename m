@@ -2,200 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 420147D062
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 01:51:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA0E27D062
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 07:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751679AbeF0BvL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Jun 2018 21:51:11 -0400
-Received: from lgeamrelo11.lge.com ([156.147.23.51]:54820 "EHLO
-        lgeamrelo11.lge.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750986AbeF0BvK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jun 2018 21:51:10 -0400
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
-        by 156.147.23.51 with ESMTP; 27 Jun 2018 10:51:08 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO ?10.177.222.33?) (10.177.222.33)
-        by 156.147.1.151 with ESMTP; 27 Jun 2018 10:51:08 +0900
-X-Original-SENDERIP: 10.177.222.33
-X-Original-MAILFROM: byungchul.park@lge.com
-Subject: Re: [PATCH] locking/memory-barriers.txt/kokr: Update Korean
- translation to fix broken DMA vs. MMIO ordering example
-To:     SeongJae Park <sj38.park@gmail.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>
-Cc:     linux-doc <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, kernel-team@lge.com
-References: <20180617051608.2128-1-sj38.park@gmail.com>
- <20180626004738.GA20783@X58A-UD3R> <alpine.DEB.2.20.1806261218490.1528@hxeon>
- <20180626045609.GB20783@X58A-UD3R> <alpine.DEB.2.20.1806261406220.1528@hxeon>
- <20180626065827.GC20783@X58A-UD3R> <20180626122242.GX3593@linux.vnet.ibm.com>
- <CAEjAshpv13xoZ7m6=vX=3o+iUQEG7ExCg8BpPDpOY5ZW3+gxQA@mail.gmail.com>
- <20180626220649.GN3593@linux.vnet.ibm.com>
- <CAEjAshoQedrCzQmSDV-0tnmUPPa8s6QbpYepgMrN7q-SZGLC+g@mail.gmail.com>
-From:   Byungchul Park <byungchul.park@lge.com>
-Message-ID: <8075c23e-ce8e-4573-a289-e651391745d4@lge.com>
-Date:   Wed, 27 Jun 2018 10:51:00 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S1752680AbeF0HUw convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 03:20:52 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:58542 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752741AbeF0HUu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jun 2018 03:20:50 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id A8BA12079C; Wed, 27 Jun 2018 09:20:47 +0200 (CEST)
+Received: from bbrezillon (AAubervilliers-681-1-87-188.w90-88.abo.wanadoo.fr [90.88.29.188])
+        by mail.bootlin.com (Postfix) with ESMTPSA id E60E8206D8;
+        Wed, 27 Jun 2018 09:20:36 +0200 (CEST)
+Date:   Wed, 27 Jun 2018 09:20:36 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>
+Subject: Re: [PATCH v5 02/10] docs: driver-api: Add I3C documentation
+Message-ID: <20180627092036.605dbf12@bbrezillon>
+In-Reply-To: <4898e391-f954-a399-0bca-7588942280b9@infradead.org>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+        <20180622104930.32050-3-boris.brezillon@bootlin.com>
+        <4898e391-f954-a399-0bca-7588942280b9@infradead.org>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAEjAshoQedrCzQmSDV-0tnmUPPa8s6QbpYepgMrN7q-SZGLC+g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Randy,
+
+On Tue, 26 Jun 2018 14:07:49 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
 
-On 06/27/2018 07:43 AM, SeongJae Park wrote:
-> On Wed, Jun 27, 2018 at 7:04 AM Paul E. McKenney
-> <paulmck@linux.vnet.ibm.com> wrote:
->> On Tue, Jun 26, 2018 at 09:25:08PM +0900, SeongJae Park wrote:
->>> Hello Paul,
->>>
->>> On Tue, Jun 26, 2018 at 9:20 PM Paul E. McKenney
->>> <paulmck@linux.vnet.ibm.com> wrote:
->>>> On Tue, Jun 26, 2018 at 03:58:27PM +0900, Byungchul Park wrote:
->>>>> On Tue, Jun 26, 2018 at 02:10:17PM +0900, SeongJae Park wrote:
->>>>>>
->>>>>> On Tue, 26 Jun 2018, Byungchul Park wrote:
->>>>>>
->>>>>>> On Tue, Jun 26, 2018 at 12:21:23PM +0900, sjpark wrote:
->>>>>>>> Hello Byungchul,
->>>>>>>>
->>>>>>>>
->>>>>>>> On Tue, 26 Jun 2018, Byungchul Park wrote:
->>>>>>>>
->>>>>>>>> On Sun, Jun 17, 2018 at 02:16:08PM +0900, SeongJae Park wrote:
->>>>>>>>>> Translate this commit to Korean:
->>>>>>>>>>
->>>>>>>>>>    5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
->>>>>>>>> Hi SeongJae,
->>>>>>>>>
->>>>>>>>> You keep doing good jobs ;)
->>>>>>>>>
->>>>>>>>> I believe it would be better if you consider the little things below
->>>>>>>>> more. What do you think about it, SeongJae?
->>>>>>>> Thank you for great comments!
->>>>>>>>
->>>>>>>>>> Signed-off-by: SeongJae Park <sj38.park@gmail.com>
->>>>>>>>>> ---
->>>>>>>>>>   Documentation/translations/ko_KR/memory-barriers.txt | 15 +++++++--------
->>>>>>>>>>   1 file changed, 7 insertions(+), 8 deletions(-)
->>>>>>>>>>
->>>>>>>>>> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
->>>>>>>>>> index 921739d00f69..ada0a709cce1 100644
->>>>>>>>>> --- a/Documentation/translations/ko_KR/memory-barriers.txt
->>>>>>>>>> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
->>>>>>>>>> @@ -1891,19 +1891,18 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
->>>>>>>>>>              /* 소유권을 수정 */
->>>>>>>>>>              desc->status = DEVICE_OWN;
->>>>>>>>>>
->>>>>>>>>> -           /* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
->>>>>>>>>> -           wmb();
->>>>>>>>>> -
->>>>>>>>>>              /* 업데이트된 디스크립터의 디바이스에 공지 */
->>>>>>>>>>              writel(DESC_NOTIFY, doorbell);
->>>>>>>>>>      }
->>>>>>>>>>
->>>>>>>>>>        dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
->>>>>>>>>> -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
->>>>>>>>>> -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
->>>>>>>>>> -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
->>>>>>>>>> -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
->>>>>>>>>> -     보장해주기 위해 필요합니다.
->>>>>>>>>> +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
->>>>>>>>>> +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  writel()
->>>>>>>>>                                                                          ^
->>>>>>>>>                                                                       참고로,
->>>>>>>> Nice comment.  This will enhance the readability a lot.
->>>>>>> Could you add this, too? A quite little thing tho.
->>>>>> Oops, I missed that.  Sorry.  Attaching the patch below.
->>>>>>
->>>>>>
->>>>>> Thanks, SeongJae Park
->>>>> Thanks a lot, SeongJae.
->>>>>
->>>>> Acked-by: Byungchul Park <byungchul.park@lge.com>
->>>> Thank you both!
->>>>
->>>> The patch below is the complete patch, so that I should replace
->>>> what I have with it, correct?  If not, please help me out here.  ;-)
->>> Yes, correct! :)
->> Like this, then?
-> Yes, of course ;)
+> > +
+> > +I3C Private SDR transfers
+> > +-------------------------
+> > +
+> > +Private SDR (Single Data Rate) transfers should be used for anything that is
+> > +device specific and does not require high transfer speed.
+> > +
+> > +It is the equivalent of I2C transfers but in the I3C world. Each transfer is
+> > +passed the device address (dynamic address assigned during DAA), a payload
+> > +and a direction.
+> > +
+> > +The only difference with I2C is that the transfer is much faster (typical SCL  
+> 
+> what is SCL?  It's not used anywhere else in this doc.
 
-Yes~
+It's an acronym used by I²C, it means Serial Clock Line. I'll just
+replace that by "typical clock frequency is 12.5MHz".
 
->
->
-> Thanks,
-> SeongJae Park
->
->>                                                          Thanx, Paul
->>
->> ------------------------------------------------------------------------
->>
->> commit 3cb0d7701c4ce6668fb5096c90ec6d5b4bf71638
->> Author: SeongJae Park <sj38.park@gmail.com>
->> Date:   Sun Jun 17 14:16:08 2018 +0900
->>
->>      locking/memory-barriers.txt/kokr: Update Korean translation to fix broken DMA vs. MMIO ordering example
->>
->>      Translate this commit to Korean:
->>
->>        5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
->>
->>      Signed-off-by: SeongJae Park <sj38.park@gmail.com>
->>      Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
->>      [ paulmck: Updated based on feedback from Byungchul Park. ]
->>      Acked-by: Byungchul Park <byungchul.park@lge.com>
->>
->> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
->> index 921739d00f69..7f01fb1c1084 100644
->> --- a/Documentation/translations/ko_KR/memory-barriers.txt
->> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
->> @@ -1891,22 +1891,22 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
->>                  /* 소유권을 수정 */
->>                  desc->status = DEVICE_OWN;
->>
->> -               /* MMIO 를 통해 디바이스에 공지를 하기 전에 메모리를 동기화 */
->> -               wmb();
->> -
->>                  /* 업데이트된 디스크립터의 디바이스에 공지 */
->>                  writel(DESC_NOTIFY, doorbell);
->>          }
->>
->>        dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
->> -     내놓았음을 보장하게 하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
->> -     가졌음을 보기 전에 디스크립터에 데이터가 쓰였음을 보장합니다.  wmb() 는
->> -     캐시 일관성이 없는 (cache incoherent) MMIO 영역에 쓰기를 시도하기 전에
->> -     캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 완료되었음을
->> -     보장해주기 위해 필요합니다.
->> -
->> -     consistent memory 에 대한 자세한 내용을 위해선 Documentation/DMA-API.txt
->> -     문서를 참고하세요.
->> +     내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
->> +     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  참고로,
->> +     writel() 을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory)
->> +     쓰기가 MMIO 영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에
->> +     wmb() 를 실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이
->> +     저렴한 writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지
->> +     않아야 합니다.
->> +
->> +     writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
->> +     "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
->> +     위해선 Documentation/DMA-API.txt 문서를 참고하세요.
->>
->>
->>   MMIO 쓰기 배리어
->>
+> 
+> > +frequency is 12.5MHz).
+> > +
+> > +I3C HDR commands
+> > +----------------
+> > +
+> > +HDR commands should be used for anything that is device specific and requires
+> > +high transfer speed.
+> > +
+> > +The first thing attached to an HDR command is the HDR mode. There are currently
+> > +3 different modes defined by the I3C specification (refer to the specification
+> > +for more details):
+> > +
+> > +* HDR-DDR: Double Data Rate mode
+> > +* HDR-TSP: Ternary Symbol Pure. Only usable on busses with no I2C devices
+> > +* HDR-TSL: Ternary Symbol Legacy. Usable on busses with I2C devices
+> > +
+> > +When sending an HDR command, the whole bus has to enter HDR mode, which is done
+> > +using a broadcast CCC command.
+> > +Once the bus has entered a specific HDR mode, the master sends the HDR command.
+> > +An HDR command is made of:
+> > +
+> > +* one 16-bits command word
+> > +* N 16-bits data words  
+> 
+> I supposed the I3C spec will tell me the byte order of these words on the bus?
+> or this doc could tell us here.
 
+It's big endian. I'll make it clear in this doc.
+
+I'll also fix all the other mistakes you pointed out.
+
+> 
+> and you can add (if you want to):
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+I'll definitely add your R-b. Thanks for the review.
+
+Boris
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
