@@ -5,119 +5,211 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C38737D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 17:18:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D3D847D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 17:47:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965208AbeF0RSH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 13:18:07 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:35084 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965051AbeF0RSF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jun 2018 13:18:05 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39EBB18A;
-        Wed, 27 Jun 2018 10:18:05 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F35983F5C0;
-        Wed, 27 Jun 2018 10:18:00 -0700 (PDT)
-Date:   Wed, 27 Jun 2018 18:17:58 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <Mark.Rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Will Deacon <Will.Deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, nd <nd@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <Robin.Murphy@arm.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-Message-ID: <20180627171757.amucnh5znld45cpc@armageddon.cambridge.arm.com>
-References: <cover.1529507994.git.andreyknvl@google.com>
- <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
- <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
- <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
- <0cef1643-a523-98e7-95e2-9ec595137642@arm.com>
+        id S934614AbeF0RrT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 13:47:19 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:51226 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S934566AbeF0RrO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jun 2018 13:47:14 -0400
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fYEX7-0008My-PB; Wed, 27 Jun 2018 11:47:13 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1fYEWq-00079L-W5; Wed, 27 Jun 2018 11:46:53 -0600
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Wed, 27 Jun 2018 11:46:50 -0600
+Message-Id: <20180627174650.27433-4-logang@deltatee.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180627174650.27433-1-logang@deltatee.com>
+References: <20180627174650.27433-1-logang@deltatee.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0cef1643-a523-98e7-95e2-9ec595137642@arm.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, sbates@raithlin.com, hch@lst.de, bhelgaas@google.com, corbet@lwn.net, tglx@linutronix.de, paulmck@linux.vnet.ibm.com, marc.zyngier@arm.com, kai.heng.feng@canonical.com, mingo@kernel.org, frederic@kernel.org, dan.j.williams@intel.com, benh@kernel.crashing.org, jglisse@redhat.com, alex.williamson@redhat.com, christian.koenig@amd.com, willy@infradead.org, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH v5 3/3] PCI: Introduce the disable_acs_redir parameter
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 27, 2018 at 04:08:09PM +0100, Ramana Radhakrishnan wrote:
-> On 27/06/2018 16:05, Andrey Konovalov wrote:
-> > On Tue, Jun 26, 2018 at 7:29 PM, Catalin Marinas
-> > <catalin.marinas@arm.com> wrote:
-> >> On Tue, Jun 26, 2018 at 02:47:50PM +0200, Andrey Konovalov wrote:
-> >>> On Wed, Jun 20, 2018 at 5:24 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> >>>> arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-> >>>> tags into the top byte of each pointer. Userspace programs (such as
-> >>>> HWASan, a memory debugging tool [1]) might use this feature and pass
-> >>>> tagged user pointers to the kernel through syscalls or other interfaces.
-> >>>>
-> >>>> This patch makes a few of the kernel interfaces accept tagged user
-> >>>> pointers. The kernel is already able to handle user faults with tagged
-> >>>> pointers and has the untagged_addr macro, which this patchset reuses.
-> >>>>
-> >>>> We're not trying to cover all possible ways the kernel accepts user
-> >>>> pointers in one patchset, so this one should be considered as a start.
-> >>>>
-> >>>> Thanks!
-> >>>>
-> >>>> [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-> >>>
-> >>> Is there anything I should do to move forward with this?
-> >>>
-> >>> I've received zero replies to this patch set (v3 and v4) over the last
-> >>> month.
-> >>
-> >> The patches in this series look fine but my concern is that they are not
-> >> sufficient and we don't have (yet?) a way to identify where such
-> >> annotations are required. You even say in patch 6 that this is "some
-> >> initial work for supporting non-zero address tags passed to the kernel".
-> >> Unfortunately, merging (or relaxing) an ABI without a clear picture is
-> >> not really feasible.
-> >>
-> >> While I support this work, as a maintainer I'd like to understand
-> >> whether we'd be in a continuous chase of ABI breaks with every kernel
-> >> release or we have a better way to identify potential issues. Is there
-> >> any way to statically analyse conversions from __user ptr to long for
-> >> example? Or, could we get the compiler to do this for us?
-> > 
-> > OK, got it, I'll try to figure out a way to find these conversions.
-> 
-> This sounds like the kind of thing we should be able to get sparse to do
-> already, no ? It's been many years since I last looked at it but I
-> thought sparse was the tool of choice in the kernel to do this kind of
-> checking.
+In order to support P2P traffic on a segment of the PCI hierarchy,
+we must be able to disable the ACS redirect bits for select
+PCI bridges. The bridges must be selected before the devices are
+discovered by the kernel and the IOMMU groups created. Therefore,
+a kernel command line parameter is created to specify devices
+which must have their ACS bits disabled.
 
-sparse is indeed an option. The current implementation doesn't warn on
-an explicit cast from (void __user *) to (unsigned long) since that's a
-valid thing in the kernel. I couldn't figure out if there's any other
-__attribute__ that could be used to warn of such conversion.
+The new parameter takes a list of devices separated by a semicolon.
+Each device specified will have it's ACS redirect bits disabled.
+This is similar to the existing 'resource_alignment' parameter.
 
+The ACS Request P2P Request Redirect, P2P Completion Redirect and P2P
+Egress Control bits are disabled which is sufficient to always allow
+passing P2P traffic uninterrupted. The bits are set after the kernel
+(optionally) enables the ACS bits itself. It is also done regardless of
+whether the kernel sets the bits or not seeing some BIOS firmware is known
+to set the bits on boot.
+
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+Reviewed-by: Stephen Bates <sbates@raithlin.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  9 ++++
+ drivers/pci/pci.c                               | 71 ++++++++++++++++++++++++-
+ 2 files changed, 78 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a69947d9e14e..02634c4ab181 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3192,6 +3192,15 @@
+ 				Adding the window is slightly risky (it may
+ 				conflict with unreported devices), so this
+ 				taints the kernel.
++		disable_acs_redir=<pci_dev>[; ...]
++				Specify one or more PCI devices (in the format
++				specified above) separated by semicolons.
++				Each device specified will have the PCI ACS
++				redirect capabilities forced off which will
++				allow P2P traffic between devices through
++				bridges without forcing it upstream. Note:
++				this removes isolation between devices and
++				will make the IOMMU groups less granular.
+ 
+ 	pcie_aspm=	[PCIE] Forcibly enable or disable PCIe Active State Power
+ 			Management.
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 59638075b4df..079f7c911e09 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -2983,6 +2983,61 @@ void pci_request_acs(void)
+ 	pci_acs_enable = 1;
+ }
+ 
++static const char *disable_acs_redir_param;
++
++/**
++ * pci_disable_acs_redir - disable ACS redirect capabilities
++ * @dev: the PCI device
++ *
++ * For only devices specified in the disable_acs_redir parameter.
++ */
++static void pci_disable_acs_redir(struct pci_dev *dev)
++{
++	int ret = 0;
++	const char *p;
++	int pos;
++	u16 ctrl;
++
++	if (!disable_acs_redir_param)
++		return;
++
++	p = disable_acs_redir_param;
++	while (*p) {
++		ret = pci_dev_str_match(dev, p, &p);
++		if (ret < 0) {
++			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
++				     disable_acs_redir_param);
++
++			break;
++		} else if (ret == 1) {
++			/* Found a match */
++			break;
++		}
++
++		if (*p != ';' && *p != ',') {
++			/* End of param or invalid format */
++			break;
++		}
++		p++;
++	}
++
++	if (ret != 1)
++		return;
++
++	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
++	if (!pos)
++		return;
++
++	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
++
++	/* P2P Request & Completion Redirect */
++	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
++
++	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
++
++	pci_info(dev, "disabled ACS redirect\n");
++}
++
+ /**
+  * pci_std_enable_acs - enable ACS on devices using standard ACS capabilites
+  * @dev: the PCI device
+@@ -3022,12 +3077,22 @@ static void pci_std_enable_acs(struct pci_dev *dev)
+ void pci_enable_acs(struct pci_dev *dev)
+ {
+ 	if (!pci_acs_enable)
+-		return;
++		goto disable_acs_redir;
+ 
+ 	if (!pci_dev_specific_enable_acs(dev))
+-		return;
++		goto disable_acs_redir;
+ 
+ 	pci_std_enable_acs(dev);
++
++disable_acs_redir:
++	/*
++	 * Note: pci_disable_acs_redir() must be called even if
++	 * ACS is not enabled by the kernel because the firmware
++	 * may have unexpectedly set the flags. So if we are told
++	 * to disable it, we should always disable it after setting
++	 * the kernel's default preferences.
++	 */
++	pci_disable_acs_redir(dev);
+ }
+ 
+ static bool pci_acs_flags_enabled(struct pci_dev *pdev, u16 acs_flags)
+@@ -5967,6 +6032,8 @@ static int __init pci_setup(char *str)
+ 				pcie_bus_config = PCIE_BUS_PEER2PEER;
+ 			} else if (!strncmp(str, "pcie_scan_all", 13)) {
+ 				pci_add_flags(PCI_SCAN_ALL_PCIE_DEVS);
++			} else if (!strncmp(str, "disable_acs_redir=", 18)) {
++				disable_acs_redir_param = str + 18;
+ 			} else {
+ 				printk(KERN_ERR "PCI: Unknown option `%s'\n",
+ 						str);
 -- 
-Catalin
+2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
