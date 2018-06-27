@@ -1,194 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E75D47D062
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 14:19:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A9A1C7D062
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 15:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934003AbeF0OTW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 10:19:22 -0400
-Received: from condef-10.nifty.com ([202.248.20.75]:42287 "EHLO
-        condef-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932579AbeF0OTV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 10:19:21 -0400
-X-Greylist: delayed 416 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Jun 2018 10:19:21 EDT
-Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-10.nifty.com with ESMTP id w5RE8C8s018640;
-        Wed, 27 Jun 2018 23:08:12 +0900
-Received: from mail-ua0-f174.google.com (mail-ua0-f174.google.com [209.85.217.174]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id w5RE82Yf005101;
-        Wed, 27 Jun 2018 23:08:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com w5RE82Yf005101
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1530108484;
-        bh=4tTQ/UAlhdq7BJOGvQ7ghf1e9mWu67LxJ92mf+RgWJM=;
-        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-        b=r8BVh9WEDX5bEYEPy+0py0XdtRLhyZRlFPR1087AQutTRj/uPqlU5hAgHNu7/SwDb
-         ye8oroysgk7n5TeS/gghmKeeiO/SGHtwBLZFoEBpnOc/ClPgLcL5mmwuVEXLEEfSYq
-         NmMYw3AtF+9Glbner/6rYiG7tkhdy9C19ubzanLqMCQI+mwVH7zSq8RYWrGHp7V7ap
-         V6NA+/xLEWaNhRCIkiDJs4m8SMUH+5xvK2SuYakkAyt2Oov4M0kIfjOCIrO19uz7Py
-         g3v9um6sgsZq3jPLX0pTyC/tQww7WcnMLwrMi2CpJg0h5UKi88zWXecsKc1SJPt4uT
-         L7KF6PIwD7dNA==
-X-Nifty-SrcIP: [209.85.217.174]
-Received: by mail-ua0-f174.google.com with SMTP id r10-v6so1349287uao.1;
-        Wed, 27 Jun 2018 07:08:03 -0700 (PDT)
-X-Gm-Message-State: APt69E1GxRIR0ISY5+RCkkJcV3e5s8429tSJnqr5zsoEzahdtAgJ5ZF3
-        tdrYldVhBOoLdirpCEuACV3jkETmPmopV9CZPX0=
-X-Google-Smtp-Source: AAOMgpfxSXVMEQ60gH9rXOhQJqt/g8JnjbKnNNWVv6XNWxRnqTD8NiGxFJ0vSaFqxjXrqn9Ela2o8/0YIDSMshv525w=
-X-Received: by 2002:ab0:5061:: with SMTP id z30-v6mr3831599uaz.82.1530108482484;
- Wed, 27 Jun 2018 07:08:02 -0700 (PDT)
+        id S965492AbeF0PF7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 11:05:59 -0400
+Received: from mail-io0-f194.google.com ([209.85.223.194]:38534 "EHLO
+        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S964839AbeF0PF6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 11:05:58 -0400
+Received: by mail-io0-f194.google.com with SMTP id l19-v6so2211933ioj.5
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jun 2018 08:05:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=TePJl1h2RCmQRgrewmfbWlz5NvEyMQff5xprdx8Rzxc=;
+        b=f4rtUxPUdJTLqH2GN3ZocuEELaGtPnagDEqgWZzZYD7fGEMTtpV3JCjEkiNXT8Sp1u
+         11BRrVbkZqFSb9Rt8LJ7AgBUYHSEpUa/RsmzGZd6BqqmA03Li0dkTxjj4TSM/RGhxbF7
+         guvsQfT3+cYUTrveCPgSfHA+SlZR8LjmWwXbFBFyvdDxa1k1ZS6O/0JdJH/SpBNqj7q6
+         FbMW4SqazCWUkOVDbSSecPbZ9hhBHRrYqrFOoerynwB8s0yw9di0Gf2XCTTTa/aScRt4
+         Kidkn+MZvyuJ2W6VNcBTmN7CXe03doy5Je/dy4jB6Fg0w/GFAq2oDVr5L1gQ1ocTXXl0
+         9F1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=TePJl1h2RCmQRgrewmfbWlz5NvEyMQff5xprdx8Rzxc=;
+        b=ASnWnEpzkrQt9CSlGZUGw3T/OkuZOMfbnCzktvZvih+d/vwDtl/wkanV7LDTeu4fi1
+         KHuS7GDsPJTFV1il92dBxsbLOIpigV02B/K4p8mdqDF025rFh7NvPTTkjW37VLMJnpCW
+         MCiY1p5Bxs8A7h5ZbhhjniCktkN44e91/C0T6DpawQjImZ8BBvc9ASC2sp2bO3dEJ0AO
+         NZ3zAHJBHlXtBePM83MaGCVo1cTQNGC5a4fQIMnI5CRbpyrRkLTS8jjchdGSUjYBPBmk
+         bdCVoAck7pD/id9MooT9fy8Sz+pdJv1CvHiWFTm4gDhqNT0Bw8sT1SPRYJnV3kW8hXT8
+         5yaQ==
+X-Gm-Message-State: APt69E3POYpu1avhWjZUq605q12ebp3fEECFj1VKrEOXheZBuAt03ov6
+        WqOUd1AAe2uOcU5jCsnuI1y1cIST0JwARqvAwRJH+A==
+X-Google-Smtp-Source: AAOMgpe57m9g/EDqEu7Zvf3nws/5yi6cIZiZ8waZ3JnXOdU/6oKdQOh/DFAcHPxhmBfyFY/ZE52M+ax/NDR6w0et1Sc=
+X-Received: by 2002:a6b:8495:: with SMTP id o21-v6mr5159519ioi.119.1530111957761;
+ Wed, 27 Jun 2018 08:05:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:3308:0:0:0:0:0 with HTTP; Wed, 27 Jun 2018 07:07:21
+Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Wed, 27 Jun 2018 08:05:57
  -0700 (PDT)
-In-Reply-To: <20180627143705.5a1fed1c@kitsune.suse.cz>
-References: <20180627143705.5a1fed1c@kitsune.suse.cz>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 27 Jun 2018 23:07:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
-Message-ID: <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
-Subject: Re: due to kconfig changes kernel config file is no longer sufficient
- for configuring the kernel
-To:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Takashi Iwai <tiwai@suse.de>, Andreas Schwab <schwab@suse.de>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+In-Reply-To: <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
+References: <cover.1529507994.git.andreyknvl@google.com> <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
+ <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 27 Jun 2018 17:05:57 +0200
+Message-ID: <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Kees Cook <keescook@chromium.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Jeff Mahoney <jeffm@suse.com>,
-        "Peter Zijlstra," <peterz@infradead.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-um@lists.infradead.org
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-doc@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi.
-
-
-2018-06-27 21:37 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de>:
-> Hello,
+On Tue, Jun 26, 2018 at 7:29 PM, Catalin Marinas
+<catalin.marinas@arm.com> wrote:
+> Hi Andrey,
 >
-> in the x86 Kconfig we have this:
+> On Tue, Jun 26, 2018 at 02:47:50PM +0200, Andrey Konovalov wrote:
+>> On Wed, Jun 20, 2018 at 5:24 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+>> > arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+>> > tags into the top byte of each pointer. Userspace programs (such as
+>> > HWASan, a memory debugging tool [1]) might use this feature and pass
+>> > tagged user pointers to the kernel through syscalls or other interfaces.
+>> >
+>> > This patch makes a few of the kernel interfaces accept tagged user
+>> > pointers. The kernel is already able to handle user faults with tagged
+>> > pointers and has the untagged_addr macro, which this patchset reuses.
+>> >
+>> > We're not trying to cover all possible ways the kernel accepts user
+>> > pointers in one patchset, so this one should be considered as a start.
+>> >
+>> > Thanks!
+>> >
+>> > [1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+>>
+>> Is there anything I should do to move forward with this?
+>>
+>> I've received zero replies to this patch set (v3 and v4) over the last
+>> month.
 >
-> # Select 32 or 64 bit
-> config 64BIT
->         bool "64-bit kernel" if "$(ARCH)" =3D "x86"
->         default "$(ARCH)" !=3D "i386"
->         ---help---
->           Say yes to build a 64-bit kernel - formerly known as x86_64
->           Say no to build a 32-bit kernel - formerly known as i386
+> The patches in this series look fine but my concern is that they are not
+> sufficient and we don't have (yet?) a way to identify where such
+> annotations are required. You even say in patch 6 that this is "some
+> initial work for supporting non-zero address tags passed to the kernel".
+> Unfortunately, merging (or relaxing) an ABI without a clear picture is
+> not really feasible.
 >
-> Since commit 104daea149c4 ("kconfig: reference environment variables
-> directly and remove 'option env=3D'") the value of ARCH is not saved in
-> the kernel config.
-
-I think this commit is unrelated.  It was just a syntax change.
-
-Unless I am missing something,
-we have never saved ARCH in the .config in the past.
+> While I support this work, as a maintainer I'd like to understand
+> whether we'd be in a continuous chase of ABI breaks with every kernel
+> release or we have a better way to identify potential issues. Is there
+> any way to statically analyse conversions from __user ptr to long for
+> example? Or, could we get the compiler to do this for us?
 
 
-> Since commit f467c5640c29 ("kconfig: only write '#
-> CONFIG_FOO is not set' for visible symbols") the value of 64BIT is not
-> saved if the ARCH is set i386 or x86_64 because the symbol is not
-> visible.
+OK, got it, I'll try to figure out a way to find these conversions.
 
-This is correct.
-
-It was discussed a few weeks ago.
-
-https://lkml.org/lkml/2018/6/5/847
-
-
-> There is a number of ways to hack this particular case to work.
->
-> However, there is a more general problem with this. Some config options
-> may depend on the environment, may not be saved, and the environment is
-> not saved either.
-
-Which environment variables in particular are in your mind?
-
-As for ARCH, you need to pass the same ARCH as you used for building the ke=
-rnel.
-(For native building, you do not have to pass ARCH explicitly, though.)
-
-As for CC, HOSTCC, etc.
-yes, these are new 'unsaved' environments.
-
-CONFIG options now depend on the compiler.
-This is the concept suggested by Linus Torvalds.
-
-
-> So in the end all the infrastructure with symlinks
-> from module directory pointing to the kernel source and object
-> directory is useless. To interpret the config stored there you need the
-> environment and that is not saved anywhere. So if you try to build
-> out-of-tree module it might end up reconfiguring your kernel and
-> producing useless modules.
-
-No. out-of-tree module building never ever re-configures the kernel.
-
-out-of-tree modules are built with exactly the same configuration
-as used for the kernel.
-
-
-There is one more assumption here.
-
-Greg-KH said:
-  We don't ever support the system of loading a module built with anything
-  other than the _exact_ same compiler than the kernel was.
-
-(https://lkml.org/lkml/2017/10/4/496)
-
-
-
-Based on that statement,
-CONFIG options depending on 'CC' are valid for out-of-tree modules as well.
-
-
-
-
-> Is there any plan to fix this?
->
-> Thanks
->
-> Michal
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kbuild" i=
-n
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Thanks!
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
