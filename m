@@ -1,56 +1,44 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D6267D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 22:14:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 018737D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 23:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966279AbeF0WOe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 18:14:34 -0400
-Received: from mail-it0-f65.google.com ([209.85.214.65]:34268 "EHLO
-        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S966231AbeF0WOc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 18:14:32 -0400
-Received: by mail-it0-f65.google.com with SMTP id y127-v6so19671647itd.1
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jun 2018 15:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t48og73NKn5S6WkcprbXY6M/vbxx9+9GCvEp/10uwMk=;
-        b=iuCDudpiczVFI+Iv29ghMDABU9t4FDV1YfbP7IUllNGShF3TH+NBvwjQgQ+FNf0Jtj
-         Dsy6QUGoTAIr4/bZaQx6OJzoklsUyyZQJNJyDDu5gB7U+aw64vaSOibwQ5rUAjeq8fCE
-         Jrb2QjrF7vMyXKm2RvDtazNANH3UzB910rQTY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t48og73NKn5S6WkcprbXY6M/vbxx9+9GCvEp/10uwMk=;
-        b=FkJdwKpNVS1l1w9+jqY2gDqjGAbzPyOV++uX7fJ4ttzvcCrVVFqoduYRNUeGCnhc65
-         oXB2xl9Z2DLIadWeajbBf8wn4je64KiV73UTOFyxOU4hxvzAXGJwbYsceyZ9MyDcTtap
-         xgGVQFlSU6GzJ3UMhenzIPKL8lxy9yFEaXOI0prIB0glA8bZDFG0u8wEkfsA9DJ5Mp/z
-         aREwz/Z1nP9Qw8IU7blu/5JYIO1K21iI6TMfeCfufBYnz1m2bKyVSlr3j1da/bnsDQWi
-         Bl3U+BsTFTINc5c0X+itYJX4lqN6jFu2LCy+/boPEBUtKyWE9bqKNVNXgkc6albfmVT/
-         ow7g==
-X-Gm-Message-State: APt69E3oegZhDxALmh2RsMDqO/JGBIIUz2SVGQni3vOEam/GfDSmreCP
-        h3eCmEJg6NZA496Avwzc59aOJ0PY1YZZ8VsDtJYDIA==
-X-Google-Smtp-Source: AAOMgpd98xuZ4lQN/P+TyQBgU5aNfPVP9bPNawwYEEMXNdlXn8cKwI/jgdUdyr5aA7lb8Jzm1xSl3/sgxFPfIYKIrNU=
-X-Received: by 2002:a24:5746:: with SMTP id u67-v6mr6432912ita.38.1530137672129;
- Wed, 27 Jun 2018 15:14:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com> <20180622104930.32050-10-boris.brezillon@bootlin.com>
-In-Reply-To: <20180622104930.32050-10-boris.brezillon@bootlin.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 28 Jun 2018 00:14:20 +0200
-Message-ID: <CACRpkdYmR3+urDk6StG7s=W3=oYHB6eqs7ORdMV=-S31QtOAqQ@mail.gmail.com>
-Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO expander
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>,
+        id S1751980AbeF0XEV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 19:04:21 -0400
+Received: from smtprelay0237.hostedemail.com ([216.40.44.237]:58455 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1751891AbeF0XEV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 19:04:21 -0400
+X-Greylist: delayed 592 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Jun 2018 19:04:20 EDT
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 80809181CBC3A
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jun 2018 22:54:29 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay08.hostedemail.com (Postfix) with ESMTP id E7AD3182CED34;
+        Wed, 27 Jun 2018 22:54:27 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: table68_92b5c436ce36
+X-Filterd-Recvd-Size: 3213
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf07.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 27 Jun 2018 22:54:22 +0000 (UTC)
+Message-ID: <8bf36e4025b6ec5198a668edda6bcbef3b06e97b.camel@perches.com>
+Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO
+ expander
+From:   Joe Perches <joe@perches.com>
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Przemyslaw Sroka <psroka@cadence.com>,
         Arkadiusz Golec <agolec@cadence.com>,
@@ -62,44 +50,58 @@ Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
         Suresh Punnoose <sureshp@cadence.com>,
         Rafal Ciepiela <rafalc@cadence.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        ext Nishanth Menon <nm@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
         Pawel Moll <pawel.moll@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Ian Campbell <ijc+devicetree@hellion.org.uk>,
         Kumar Gala <galak@codeaurora.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Vitor Soares <Vitor.Soares@synopsys.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Xiang Lin <Xiang.Lin@synaptics.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "Nori, Sekhar" <nsekhar@ti.com>, pgaj@cadence.com
-Content-Type: text/plain; charset="UTF-8"
+        Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Marc Zyngier <marc.zyngier@arm.com>
+Date:   Wed, 27 Jun 2018 15:54:21 -0700
+In-Reply-To: <20180627213617.51e10712@bbrezillon>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+         <20180622104930.32050-10-boris.brezillon@bootlin.com>
+         <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
+         <20180626215648.1472b96e@bbrezillon>
+         <CAHp75VcVvOzgOM87rSrwsCxh+WAK-z+zVCJifnY+Xeeu=cPFiA@mail.gmail.com>
+         <20180626234638.076fb816@bbrezillon>
+         <CAHp75VdBXj66Yd6sQHOWz19R9MUtYMSeq4j-+UidLedpfkB6mA@mail.gmail.com>
+         <20180627213617.51e10712@bbrezillon>
+Content-Type: text/plain; charset="ISO-8859-1"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 22, 2018 at 12:49 PM Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
+On Wed, 2018-06-27 at 21:36 +0200, Boris Brezillon wrote:
+> I mean, kzalloc() is not deprecated AFAIK and I don't really see the
+> benefit of using kmalloc_array(), but if that makes you happy, let's go
+> for kmalloc_array().
 
-> Add a driver for Cadence I3C GPIO expander.
->
-> Signed-off-by: Boris Brezillon <boris.brezillon@bootlin.com>
+kcalloc
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> I do run checkpatch --strict and fix most of the thing reported except
+> those hurting readability. I don't remember seeing checkpatch complain
+> about kzalloc() usage, and I guess it's not smart enough to detect that
+> for_each_bit_set() can be used to replace the "for() if (BIT(x) & val)"
+> pattern.
 
-If you need to merge this through the subsystem merge.
+That would not an appropriate conversion suggestion in any case.
+coccinelle could at least look at whether or not x is allocated
+as a bitmap via DECLARE_BITMAP or bitmap_alloc
 
-I see there was some heat in this discussion between you
-and Andy, and it seems to be resolved. Which is good
-because you are both senior contributors that I value
-a lot.
 
-Yours,
-Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
