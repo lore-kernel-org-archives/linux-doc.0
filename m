@@ -5,207 +5,190 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E72867D062
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 14:16:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E75D47D062
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 14:19:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965021AbeF0OPe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 10:15:34 -0400
-Received: from mail-wm0-f67.google.com ([74.125.82.67]:51248 "EHLO
-        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934152AbeF0OPc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 10:15:32 -0400
-Received: by mail-wm0-f67.google.com with SMTP id w137-v6so6050063wmw.1
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jun 2018 07:15:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CUu61x+orOtUos0C63QerdxbPAQ+9zVgePFOVkpbqmc=;
-        b=kJ1i9yNWErgxt0KSP5kHiQ3Ixxg2sdZ7wBSRBpop6/vp+40F+fFxUmyyBZva0kbJDq
-         K+JT1sicsMrJEh7uMeKVtexORIp5QFlstz6SJLFhv9z6N8+veIsKnAbp8V0WiKM8kGAq
-         eMKmbUcpHYHW9btfb7vW+V5hTyzYG9sM0aLCo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CUu61x+orOtUos0C63QerdxbPAQ+9zVgePFOVkpbqmc=;
-        b=Vfg2IQwEX7OnB2PYMwUbI5HP7e1+SvATamKnZNUGdqfVGvvA1F4cuInvPLbJ1UnpPu
-         ItEcQkpTdLpL+pTi/Wr96zPFm17KXOk93QugxGKrWz0ATlfKV39CN698D0VIpe6ku4v4
-         sjmmO/LqnkejvceM5MK0/5/q2mc7cXFpOIYjs4YkuuwK7f6PUbPbYnjcIs7nC/2theUg
-         8NeeATZR2mRvag8CH+CwAqQ3lp0rBxPgH+g4MwgG9b+MzHHBHs6Wbt5WUTvRK4kvzWfz
-         l8878sEcpftZaAeJMHTsWlrpk0i+Ro+4jhccvqqGTQB3jhLH9oaSYis/JOkS8gRHNUU/
-         PMnw==
-X-Gm-Message-State: APt69E0MvKVrcShzdOGFHWzAWQnU2EA/VgqG9e5z/oVDmb00VX3ZT2K4
-        O2uhVm0KJmaGYfxeBmiL9viOmA==
-X-Google-Smtp-Source: AAOMgpecX1lSCTXLqojea2Dpxt8udsxfY3ei6gCgEdDeUyY0f8HjetDcp1a42BZ3qYR9A+T9cb1/pw==
-X-Received: by 2002:a1c:bf0c:: with SMTP id p12-v6mr4944165wmf.120.1530108930722;
-        Wed, 27 Jun 2018 07:15:30 -0700 (PDT)
-Received: from andrea (85.100.broadband17.iol.cz. [109.80.100.85])
-        by smtp.gmail.com with ESMTPSA id p10-v6sm2952277wmc.17.2018.06.27.07.15.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 27 Jun 2018 07:15:29 -0700 (PDT)
-Date:   Wed, 27 Jun 2018 16:15:22 +0200
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Will Deacon <will.deacon@arm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] doc: Update wake_up() & co. memory-barrier guarantees
-Message-ID: <20180627141522.GA10533@andrea>
-References: <1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com>
- <20180625095031.GX2494@hirez.programming.kicks-ass.net>
- <20180625105618.GA12676@andrea>
- <20180625123121.GY2494@hirez.programming.kicks-ass.net>
+        id S934003AbeF0OTW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 10:19:22 -0400
+Received: from condef-10.nifty.com ([202.248.20.75]:42287 "EHLO
+        condef-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932579AbeF0OTV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 10:19:21 -0400
+X-Greylist: delayed 416 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Jun 2018 10:19:21 EDT
+Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-10.nifty.com with ESMTP id w5RE8C8s018640;
+        Wed, 27 Jun 2018 23:08:12 +0900
+Received: from mail-ua0-f174.google.com (mail-ua0-f174.google.com [209.85.217.174]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id w5RE82Yf005101;
+        Wed, 27 Jun 2018 23:08:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com w5RE82Yf005101
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1530108484;
+        bh=4tTQ/UAlhdq7BJOGvQ7ghf1e9mWu67LxJ92mf+RgWJM=;
+        h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+        b=r8BVh9WEDX5bEYEPy+0py0XdtRLhyZRlFPR1087AQutTRj/uPqlU5hAgHNu7/SwDb
+         ye8oroysgk7n5TeS/gghmKeeiO/SGHtwBLZFoEBpnOc/ClPgLcL5mmwuVEXLEEfSYq
+         NmMYw3AtF+9Glbner/6rYiG7tkhdy9C19ubzanLqMCQI+mwVH7zSq8RYWrGHp7V7ap
+         V6NA+/xLEWaNhRCIkiDJs4m8SMUH+5xvK2SuYakkAyt2Oov4M0kIfjOCIrO19uz7Py
+         g3v9um6sgsZq3jPLX0pTyC/tQww7WcnMLwrMi2CpJg0h5UKi88zWXecsKc1SJPt4uT
+         L7KF6PIwD7dNA==
+X-Nifty-SrcIP: [209.85.217.174]
+Received: by mail-ua0-f174.google.com with SMTP id r10-v6so1349287uao.1;
+        Wed, 27 Jun 2018 07:08:03 -0700 (PDT)
+X-Gm-Message-State: APt69E1GxRIR0ISY5+RCkkJcV3e5s8429tSJnqr5zsoEzahdtAgJ5ZF3
+        tdrYldVhBOoLdirpCEuACV3jkETmPmopV9CZPX0=
+X-Google-Smtp-Source: AAOMgpfxSXVMEQ60gH9rXOhQJqt/g8JnjbKnNNWVv6XNWxRnqTD8NiGxFJ0vSaFqxjXrqn9Ela2o8/0YIDSMshv525w=
+X-Received: by 2002:ab0:5061:: with SMTP id z30-v6mr3831599uaz.82.1530108482484;
+ Wed, 27 Jun 2018 07:08:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180625123121.GY2494@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Received: by 2002:ab0:3308:0:0:0:0:0 with HTTP; Wed, 27 Jun 2018 07:07:21
+ -0700 (PDT)
+In-Reply-To: <20180627143705.5a1fed1c@kitsune.suse.cz>
+References: <20180627143705.5a1fed1c@kitsune.suse.cz>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 27 Jun 2018 23:07:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
+Message-ID: <CAK7LNARVPNx_uC5xTrS_p9T4nMRTC79BO51T4Lytv2eU1c-ynw@mail.gmail.com>
+Subject: Re: due to kconfig changes kernel config file is no longer sufficient
+ for configuring the kernel
+To:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Takashi Iwai <tiwai@suse.de>, Andreas Schwab <schwab@suse.de>,
+        Michal Kubecek <mkubecek@suse.cz>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jeff Mahoney <jeffm@suse.com>,
+        "Peter Zijlstra," <peterz@infradead.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> So I'm not actually sure how many people rely on the RCsc transitive
-> smp_mb() here. People certainly rely on the RELEASE semantics, and the
-> code itself requires the store->load ordering, together that gives us
-> the smp_mb() because that's simply the only barrier we have.
-> 
-> And looking at smp_mb__after_spinlock() again, we really only need the
-> RCsc thing for rq->lock, not for the wakeups. The wakeups really only
-> need that RCpc RELEASE + store->load thing (which we don't have).
-> 
-> So yes, smp_mb(), however the below still makes more sense to me, or am
-> I just being obtuse again?
+Hi.
 
-While trying to integrate these remarks into v1 and looking again at the
-comment before smp_mb__after_spinlock(), I remembered a discussion where
-Boqun suggested some improvements for this comment: so I wrote the commit
-reported at the end of this email.
 
-This raises the following two issues:
+2018-06-27 21:37 GMT+09:00 Michal Such=C3=A1nek <msuchanek@suse.de>:
+> Hello,
+>
+> in the x86 Kconfig we have this:
+>
+> # Select 32 or 64 bit
+> config 64BIT
+>         bool "64-bit kernel" if "$(ARCH)" =3D "x86"
+>         default "$(ARCH)" !=3D "i386"
+>         ---help---
+>           Say yes to build a 64-bit kernel - formerly known as x86_64
+>           Say no to build a 32-bit kernel - formerly known as i386
+>
+> Since commit 104daea149c4 ("kconfig: reference environment variables
+> directly and remove 'option env=3D'") the value of ARCH is not saved in
+> the kernel config.
 
- 1) First, the problem of integrating the resulting comment into v1,
-    where I've been talking about _full_ barriers associated to the
-    wakeups fuctions but where these are actually implemented as:
-    
-       spin_lock(s);
-       smp_mb__after_spinlock();
+I think this commit is unrelated.  It was just a syntax change.
 
- 2) Second, the problem of formalizing the requirements described in
-    that comment (remark: informally, the LKMM currently states that
-    the sequence "spin_lock(s); smp_mb__after_spinlock();" generates
-    a full barrier; in particular, this sequence orders
-    
-       {STORE,LOAD} -> {STORE,LOAD}
+Unless I am missing something,
+we have never saved ARCH in the .config in the past.
 
-    according to the current LKMM).
 
-For (1), I could simply replace each occurrence of "executes a full memory
-barrier" with "execute the sequence spin_lock(s); smp_mb__after_spinlock()";
-I haven't really thought about (2) yet, but please notice that something as
-simple as
+> Since commit f467c5640c29 ("kconfig: only write '#
+> CONFIG_FOO is not set' for visible symbols") the value of 64BIT is not
+> saved if the ARCH is set i386 or x86_64 because the symbol is not
+> visible.
 
-   let mb = [...]  |
-            ([W] ; po? ; [LKW] ; fencerel(After-spinlock) ; [R])
+This is correct.
 
-would _not_ guarantee "RCsc transitivity" ...
+It was discussed a few weeks ago.
 
-A different approach (that could solve both problems at once) would be to
-follow the current formalization in LKMM and to modify the comment before
-smp_mb__after_spinlock() accordingly (say, informally, "it's required that
-that spin_lock(); smp_mb__after_spinlock() provides a full barrier").
+https://lkml.org/lkml/2018/6/5/847
 
-Thoughts?
 
-  Andrea
+> There is a number of ways to hack this particular case to work.
+>
+> However, there is a more general problem with this. Some config options
+> may depend on the environment, may not be saved, and the environment is
+> not saved either.
 
-From c3648d5022bedcd356198efa65703e01541cbd3f Mon Sep 17 00:00:00 2001
-From: Andrea Parri <andrea.parri@amarulasolutions.com>
-Date: Wed, 27 Jun 2018 10:53:30 +0200
-Subject: [PATCH 2/3] locking: Fix comment for smp_mb__after_spinlock()
+Which environment variables in particular are in your mind?
 
-Boqun reported that the snippet described in the header comment for
-smp_mb__after_spinlock() can be misleading, because acquire/release
-chains already provide us with the underlying guarantee (due to the
-A-cumulativity of release).
+As for ARCH, you need to pass the same ARCH as you used for building the ke=
+rnel.
+(For native building, you do not have to pass ARCH explicitly, though.)
 
-This commit fixes the comment following Boqun's example in [1].
+As for CC, HOSTCC, etc.
+yes, these are new 'unsaved' environments.
 
-It's worth noting here that LKMM maintainers are currently actively
-debating whether to enforce RCsc transitivity of locking operations
-"by definition" [2]; should the guarantee be enforced in the future,
-the requirement for smp_mb__after_spinlock() could be simplified to
-include only the STORE->LOAD ordering requirement.
+CONFIG options now depend on the compiler.
+This is the concept suggested by Linus Torvalds.
 
-[1] http://lkml.kernel.org/r/20180312085600.aczjkpn73axzs2sb@tardis
-[2] http://lkml.kernel.org/r/Pine.LNX.4.44L0.1711271553490.1424-100000@iolanthe.rowland.org
-    http://lkml.kernel.org/r/Pine.LNX.4.44L0.1806211322160.2381-100000@iolanthe.rowland.org
 
-Reported-and-Suggested-by: Boqun Feng <<boqun.feng@gmail.com>
-Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Will Deacon <will.deacon@arm.com>
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
----
- include/linux/spinlock.h | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+> So in the end all the infrastructure with symlinks
+> from module directory pointing to the kernel source and object
+> directory is useless. To interpret the config stored there you need the
+> environment and that is not saved anywhere. So if you try to build
+> out-of-tree module it might end up reconfiguring your kernel and
+> producing useless modules.
 
-diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
-index 1e8a464358384..c74828fe8d75c 100644
---- a/include/linux/spinlock.h
-+++ b/include/linux/spinlock.h
-@@ -121,22 +121,22 @@ do {								\
-  *
-  *   - it must ensure the critical section is RCsc.
-  *
-- * The latter is important for cases where we observe values written by other
-- * CPUs in spin-loops, without barriers, while being subject to scheduling.
-+ * The latter requirement guarantees that stores from two critical sections
-+ * in different CPUs are ordered even outside the critical sections.  As an
-+ * example illustrating this property, consider the following snippet:
-  *
-- * CPU0			CPU1			CPU2
-+ * CPU0			CPU1				CPU2
-  *
-- *			for (;;) {
-- *			  if (READ_ONCE(X))
-- *			    break;
-- *			}
-- * X=1
-- *			<sched-out>
-- *						<sched-in>
-- *						r = X;
-+ * spin_lock(s);	spin_lock(s);			r2 = READ_ONCE(Y);
-+ * WRITE_ONCE(X, 1);	smp_mb__after_spinlock();	smp_rmb();
-+ * spin_unlock(s);	r1 = READ_ONCE(X);		r3 = READ_ONCE(X);
-+ *			WRITE_ONCE(Y, 1);
-+ *			spin_unlock(s);
-  *
-- * without transitivity it could be that CPU1 observes X!=0 breaks the loop,
-- * we get migrated and CPU2 sees X==0.
-+ * Without RCsc transitivity, it is allowed that CPU0's critical section
-+ * precedes CPU1's critical section (r1=1) and that CPU2 observes CPU1's
-+ * store to Y (r2=1) while it does not observe CPU0's store to X (r3=0),
-+ * despite the presence of the smp_rmb().
-  *
-  * Since most load-store architectures implement ACQUIRE with an smp_mb() after
-  * the LL/SC loop, they need no further barriers. Similarly all our TSO
--- 
-2.7.4
+No. out-of-tree module building never ever re-configures the kernel.
 
+out-of-tree modules are built with exactly the same configuration
+as used for the kernel.
+
+
+There is one more assumption here.
+
+Greg-KH said:
+  We don't ever support the system of loading a module built with anything
+  other than the _exact_ same compiler than the kernel was.
+
+(https://lkml.org/lkml/2017/10/4/496)
+
+
+
+Based on that statement,
+CONFIG options depending on 'CC' are valid for out-of-tree modules as well.
+
+
+
+
+> Is there any plan to fix this?
+>
+> Thanks
+>
+> Michal
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kbuild" i=
+n
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
