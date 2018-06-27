@@ -5,102 +5,113 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 018737D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 23:04:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1DA307D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Jun 2018 23:08:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751980AbeF0XEV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 19:04:21 -0400
-Received: from smtprelay0237.hostedemail.com ([216.40.44.237]:58455 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1751891AbeF0XEV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 19:04:21 -0400
-X-Greylist: delayed 592 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Jun 2018 19:04:20 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 80809181CBC3A
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jun 2018 22:54:29 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id E7AD3182CED34;
-        Wed, 27 Jun 2018 22:54:27 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: table68_92b5c436ce36
-X-Filterd-Recvd-Size: 3213
-Received: from XPS-9350.home (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf07.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 27 Jun 2018 22:54:22 +0000 (UTC)
-Message-ID: <8bf36e4025b6ec5198a668edda6bcbef3b06e97b.camel@perches.com>
-Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO
- expander
-From:   Joe Perches <joe@perches.com>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
+        id S1752113AbeF0XIF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 19:08:05 -0400
+Received: from mail.linuxfoundation.org ([140.211.169.12]:41684 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1751854AbeF0XIE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 19:08:04 -0400
+Received: from localhost.localdomain (c-24-4-125-7.hsd1.ca.comcast.net [24.4.125.7])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 4B74A9F0;
+        Wed, 27 Jun 2018 23:08:02 +0000 (UTC)
+Date:   Wed, 27 Jun 2018 16:08:00 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Marc Zyngier <marc.zyngier@arm.com>
-Date:   Wed, 27 Jun 2018 15:54:21 -0700
-In-Reply-To: <20180627213617.51e10712@bbrezillon>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
-         <20180622104930.32050-10-boris.brezillon@bootlin.com>
-         <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
-         <20180626215648.1472b96e@bbrezillon>
-         <CAHp75VcVvOzgOM87rSrwsCxh+WAK-z+zVCJifnY+Xeeu=cPFiA@mail.gmail.com>
-         <20180626234638.076fb816@bbrezillon>
-         <CAHp75VdBXj66Yd6sQHOWz19R9MUtYMSeq4j-+UidLedpfkB6mA@mail.gmail.com>
-         <20180627213617.51e10712@bbrezillon>
-Content-Type: text/plain; charset="ISO-8859-1"
-X-Mailer: Evolution 3.28.1-2 
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
+ sanitizer
+Message-Id: <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+In-Reply-To: <cover.1530018818.git.andreyknvl@google.com>
+References: <cover.1530018818.git.andreyknvl@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2018-06-27 at 21:36 +0200, Boris Brezillon wrote:
-> I mean, kzalloc() is not deprecated AFAIK and I don't really see the
-> benefit of using kmalloc_array(), but if that makes you happy, let's go
-> for kmalloc_array().
+On Tue, 26 Jun 2018 15:15:10 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
 
-kcalloc
+> This patchset adds a new mode to KASAN [1], which is called KHWASAN
+> (Kernel HardWare assisted Address SANitizer).
+> 
+> The plan is to implement HWASan [2] for the kernel with the incentive,
+> that it's going to have comparable to KASAN performance, but in the same
+> time consume much less memory, trading that off for somewhat imprecise
+> bug detection and being supported only for arm64.
 
-> I do run checkpatch --strict and fix most of the thing reported except
-> those hurting readability. I don't remember seeing checkpatch complain
-> about kzalloc() usage, and I guess it's not smart enough to detect that
-> for_each_bit_set() can be used to replace the "for() if (BIT(x) & val)"
-> pattern.
+Why do we consider this to be a worthwhile change?
 
-That would not an appropriate conversion suggestion in any case.
-coccinelle could at least look at whether or not x is allocated
-as a bitmap via DECLARE_BITMAP or bitmap_alloc
+Is KASAN's memory consumption actually a significant problem?  Some
+data regarding that would be very useful.
 
+If it is a large problem then we still have that problem on x86, so the
+problem remains largely unsolved?
+
+> ====== Benchmarks
+> 
+> The following numbers were collected on Odroid C2 board. Both KASAN and
+> KHWASAN were used in inline instrumentation mode.
+> 
+> Boot time [1]:
+> * ~1.7 sec for clean kernel
+> * ~5.0 sec for KASAN
+> * ~5.0 sec for KHWASAN
+> 
+> Slab memory usage after boot [2]:
+> * ~40 kb for clean kernel
+> * ~105 kb + 1/8th shadow ~= 118 kb for KASAN
+> * ~47 kb + 1/16th shadow ~= 50 kb for KHWASAN
+> 
+> Network performance [3]:
+> * 8.33 Gbits/sec for clean kernel
+> * 3.17 Gbits/sec for KASAN
+> * 2.85 Gbits/sec for KHWASAN
+> 
+> Note, that KHWASAN (compared to KASAN) doesn't require quarantine.
+> 
+> [1] Time before the ext4 driver is initialized.
+> [2] Measured as `cat /proc/meminfo | grep Slab`.
+> [3] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
+
+The above doesn't actually demonstrate the whole point of the
+patchset: to reduce KASAN's very high memory consumption?
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
