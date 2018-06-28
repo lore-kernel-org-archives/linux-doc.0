@@ -1,129 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C8CE7D09D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 17:30:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3A787D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 18:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934931AbeF1Ra4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 13:30:56 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:54889 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933596AbeF1Ray (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 13:30:54 -0400
-Received: by mail-wm0-f68.google.com with SMTP id i139-v6so10546043wmf.4
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 10:30:53 -0700 (PDT)
+        id S967852AbeF1S0n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 14:26:43 -0400
+Received: from mail-io0-f194.google.com ([209.85.223.194]:33540 "EHLO
+        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S966247AbeF1S0l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 14:26:41 -0400
+Received: by mail-io0-f194.google.com with SMTP id d185-v6so6152239ioe.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 11:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=A0QHU8mL+6CDYRZhCz74GYSF4Kf0iPJGJzoqxFNfZlw=;
-        b=BDjiTO1b2tBcu4jRtIm4VSmC817Y24sAlw1sNJYeV6hmm1wMHuS3QAKD2prIayS9VF
-         xfcQn30TnJR8xvCc9eHLZzZ2QaYw/fDH0uXq5S8CPevH1UP1Jlk2d/reV6qt0VwHZGGF
-         Ck3aUnliC6nytjxNDL9MCZJf6/VUHxpPy6EMU=
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=VsLJ6wrLOa63ri0/5rzsT9yRxAaEoRgvfy8CXVui3iI=;
+        b=J1AMGKM7+4CUJ6Yl0FH1lD2y+iHzHzK9YmY2eXX3FOaxVsMZGTcQeJ5r6r9y5ZMjOV
+         yXkrAMer47WguRF8+wFmtTXomPwX6Q21fc6OxICHerAPZ4dCcS/WFfS/fq5NLwgDlqKD
+         0hbc4AE8+QllsxJNOl20OpDJdDYYCJCGjK8YTJUVqR9YrnDVVtU70YeGzDDRSIYj5Gdo
+         pceNWHxtxc6f/Lpo+vCRKkxVREM29jb9Vp0FArBcVd50xhlBS5eAyK35D/labpDK3dxn
+         aFU6OcOJlR1C0C5i5dnnjHsELngw3b3jcBpXKx3+/DkP/q7+CSniH9L006uhLLt460Ex
+         i6aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=A0QHU8mL+6CDYRZhCz74GYSF4Kf0iPJGJzoqxFNfZlw=;
-        b=rDjIouIVLDhFKIwETG8dlui12Leqjn+8GVoTWCPOpIF0Mm7fKzHKu6+HozLlIpIMSO
-         /ppRkH1dltNYtBvT7vU1RxSWqq+twoR3guB7g9pqFT+I14pDhm73AncFmV++aM800Qyt
-         MlfthwEPgooE3Nj1oJiOFrCtyENAslnKKm89eIfodpTJRE7167ggCRqK6A5AGaT7wxJp
-         jTNNbSErGKHP+6JjHgFeN8N0CAqKhQyZOwl8cfHUpeSwHqYif2XDg2aBoiktEW6HLO9Z
-         2vu3yWzavAMHovKEUaTaU4lAzOlGbvovn8e8DNRQJ+6kMIjSSAepS9sB5h+ZmFHIudyE
-         NgrA==
-X-Gm-Message-State: APt69E3MiTKxw13g/jn1xX+wzFHUbPv2EygMZTEX5HHQ9zgkpBd5OTpU
-        vS/KhcII8VbMW+m/pt0kjeS8MQ==
-X-Google-Smtp-Source: AAOMgpc0RiyUfXMmQSBttFY3RRx79fGE5aFCTRShoXgxnxH6gtalxH/jNOk3SZDYBtMGF10gVJ15ig==
-X-Received: by 2002:a7b:c058:: with SMTP id u24-v6mr9036613wmc.136.1530207052957;
-        Thu, 28 Jun 2018 10:30:52 -0700 (PDT)
-Received: from andrea ([94.230.152.15])
-        by smtp.gmail.com with ESMTPSA id h3-v6sm5335306wro.87.2018.06.28.10.30.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Jun 2018 10:30:52 -0700 (PDT)
-Date:   Thu, 28 Jun 2018 19:30:45 +0200
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 2/3] locking: Clarify requirements for
- smp_mb__after_spinlock()
-Message-ID: <20180628173045.GA4975@andrea>
-References: <1530182480-13205-1-git-send-email-andrea.parri@amarulasolutions.com>
- <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
- <20180628150550.GI2494@hirez.programming.kicks-ass.net>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=VsLJ6wrLOa63ri0/5rzsT9yRxAaEoRgvfy8CXVui3iI=;
+        b=PP/ULcIAdB5M6zHyoUY+Ins5sKLHG5A2Y6GyzKby2bpuMwX9NZv871O8YbVjFxKOUG
+         cjm4Oyv8c9DFz5JiYNWejijQ06kfzfaR8CFWjTZA9BetkitHEx1elv4u3q9aHzIbZwiK
+         DDKogOcMK77ObyRXx0l7Sx0CQ3CjrQAis9zy6CwCna9TmnrYOw3oYFmT86m6D6uSU4ne
+         C+B+gZp5bimpmkCMzG3HuSlLHTMIu/LC2V2oeop/GLplJUxALL6Gbq/Z5n+5B3eW7gsf
+         Qnl9Am0roLb+IKAW8ZyK25Qs0lTDne6OGqh/4ZSgLGUjrIPBFd12ouhRZmIkN5zqTELc
+         YxVQ==
+X-Gm-Message-State: APt69E0Nw56XdqC/a9KuPyeUmEjvH++qH6BLVMH+9K/J81INBM/fRRCA
+        HD6MVv5FnMhoWCPUqDL6BLJR/SUqmvN41pE3KwwXaA==
+X-Google-Smtp-Source: AAOMgpeq1bK4ryMCDJ16SKJE3RI918BnRv9JcrdWjUIDbmiqyPE98wf0GLs+I3vohvZWmRU3368WgSOQUWNqTJ8Ab64=
+X-Received: by 2002:a6b:5002:: with SMTP id e2-v6mr9944633iob.31.1530210400677;
+ Thu, 28 Jun 2018 11:26:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180628150550.GI2494@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 11:26:39
+ -0700 (PDT)
+In-Reply-To: <20180627181138.14c9b66e13b8778506205f89@linux-foundation.org>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+ <CAN=P9pivApAo76Kjc0TUDE0kvJn0pET=47xU6e=ioZV2VqO0Rg@mail.gmail.com>
+ <CAEZpscCcP6=O_OCqSwW8Y6u9Ee99SzWN+hRcgpP2tK=OEBFnNw@mail.gmail.com> <20180627181138.14c9b66e13b8778506205f89@linux-foundation.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Thu, 28 Jun 2018 20:26:39 +0200
+Message-ID: <CAAeHK+wg35W6D3Cat7w8kqV+9fB6dKmnCUuUrZP_tz5=vKk+0Q@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Vishwath Mohan <vishwath@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 28, 2018 at 05:05:50PM +0200, Peter Zijlstra wrote:
-> On Thu, Jun 28, 2018 at 12:41:19PM +0200, Andrea Parri wrote:
-> > - * This barrier must provide two things:
-> > - *
-> > - *   - it must guarantee a STORE before the spin_lock() is ordered against a
-> > - *     LOAD after it, see the comments at its two usage sites.
-> > - *
-> > - *   - it must ensure the critical section is RCsc.
-> > - *
-> > - * The latter is important for cases where we observe values written by other
-> > - * CPUs in spin-loops, without barriers, while being subject to scheduling.
-> > - *
-> > - * CPU0			CPU1			CPU2
-> > - *
-> > - *			for (;;) {
-> > - *			  if (READ_ONCE(X))
-> > - *			    break;
-> > - *			}
-> > - * X=1
-> > - *			<sched-out>
-> > - *						<sched-in>
-> > - *						r = X;
-> > - *
-> > - * without transitivity it could be that CPU1 observes X!=0 breaks the loop,
-> > - * we get migrated and CPU2 sees X==0.
-> 
-> Please don't remove that; that explains _why_ we need a full memory
-> barrier here.
+On Thu, Jun 28, 2018 at 3:11 AM, Andrew Morton
+<akpm@linux-foundation.org> wrote:
+> On Wed, 27 Jun 2018 17:59:00 -0700 Vishwath Mohan <vishwath@google.com> wrote:
+>> Yeah, I can confirm that it's an issue. Like Kostya mentioned, I don't have
+>> data on-hand, but anecdotally both ASAN and KASAN have proven problematic
+>> to enable for environments that don't tolerate the increased memory
+>> pressure well. This includes,
+>> (a) Low-memory form factors - Wear, TV, Things, lower-tier phones like Go
+>> (c) Connected components like Pixel's visual core
+>> <https://www.blog.google/products/pixel/pixel-visual-core-image-processing-and-machine-learning-pixel-2/>
+>>
+>>
+>> These are both places I'd love to have a low(er) memory footprint option at
+>> my disposal.
+>
+> Thanks.
+>
+> It really is important that such information be captured in the
+> changelogs.  In as much detail as can be mustered.
 
-Peter:
-
-Both you and Boqun stated that the above snippet is "bad":
-
-  http://lkml.kernel.org/r/20180312085646.GE4064@hirez.programming.kicks-ass.net
-
-and I do agree with your assessment! ;-)
-
-I've no objection to keep that comment (together with the
-"clarification" suggested in this patch) _once_ replaced
-that snippet with something else (say, with the snippet
-Boqun suggested in:
-
-  http://lkml.kernel.org/r/20180312085600.aczjkpn73axzs2sb@tardis ):
-
-is this what you mean?
-
-  Andrea
+I'll add it to the changelog in v5. Thanks!
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
