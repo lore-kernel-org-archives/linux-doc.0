@@ -1,115 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B2937D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 10:51:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 64F1C7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 13:03:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933796AbeF1KvW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 06:51:22 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:45040 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932203AbeF1KvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Jun 2018 06:51:21 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAA7880D;
-        Thu, 28 Jun 2018 03:51:20 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FB073F266;
-        Thu, 28 Jun 2018 03:51:15 -0700 (PDT)
-Date:   Thu, 28 Jun 2018 11:51:06 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        id S934599AbeF1NDC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 09:03:02 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56528 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933090AbeF1NDC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 09:03:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Q7okRLbnM87Hz+NWLiCimxVRQSCMaYUKuGsQ522+NbA=; b=NW6/yfbjrwQ0OkkuWwM5GXseQ
+        K1/VL83Abumfgt9sh+OvrgHUqD4OmrHLkAIF1PM1QCZCi2xlRH24zdPhODAADY60rp8jp8RR/mM6l
+        jvFYuNfd1503woC0waet5gIfWk2QsApWy7sS3Gc3C78J4kDGnNoYrwJ0ERx/2xCVGGuafjKBITLZO
+        CqNMhicDZc9cWThzhD5eLaBZCS2i2E9z8oYoUad3QlnyWrOsDlAn0t+bNf9O6s/61tJny30LTDr1U
+        9DZgCaBF7Mn9p9D5rcBtTugeefN0Tkou692W1d/co7zrfJKYB7bhoA90kv9kW4TFJ8lRii/Ixt2KZ
+        joXlTadjQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fYWZe-00061B-QA; Thu, 28 Jun 2018 13:02:58 +0000
+Date:   Thu, 28 Jun 2018 06:02:58 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-ID: <20180628105057.GA26019@e103592.cambridge.arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com>
+        Alan Stern <stern@rowland.harvard.edu>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 2/3] locking: Clarify requirements for
+ smp_mb__after_spinlock()
+Message-ID: <20180628130258.GF7646@bombadil.infradead.org>
+References: <1530182480-13205-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1530018818.git.andreyknvl@google.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 26, 2018 at 03:15:10PM +0200, Andrey Konovalov wrote:
-> This patchset adds a new mode to KASAN [1], which is called KHWASAN
-> (Kernel HardWare assisted Address SANitizer).
-> 
-> The plan is to implement HWASan [2] for the kernel with the incentive,
-> that it's going to have comparable to KASAN performance, but in the same
-> time consume much less memory, trading that off for somewhat imprecise
-> bug detection and being supported only for arm64.
-> 
-> The overall idea of the approach used by KHWASAN is the following:
-> 
-> 1. By using the Top Byte Ignore arm64 CPU feature, we can store pointer
->    tags in the top byte of each kernel pointer.
+On Thu, Jun 28, 2018 at 12:41:19PM +0200, Andrea Parri wrote:
+> + * smp_mb__after_spinlock() provides a full memory barrier between po-earlier
+> + * lock acquisitions and po-later memory accesses.
 
-[...]
+What does po-earlier mean?  Partial order?
 
-This is a change from the current situation, so the kernel may be
-making implicit assumptions about the top byte of kernel addresses.
-
-Randomising the top bits may cause things like address conversions and
-pointer arithmetic to break.
-
-For example, (q - p) will not produce the expected result if q and p
-have different tags.
-
-Conversions, such as between pointer and pfn, may also go wrong if not
-appropriately masked.
-
-There are also potential pointer comparison and aliasing issues if
-the tag bits are ever stripped or modified.
-
-
-What was your approach to tracking down all the points in the code
-where we have a potential issue?
-
-(I haven't dug through the series in detail yet, so this may be
-answered somewhere already...)
-
-Cheers
----Dave
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
