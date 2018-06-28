@@ -2,98 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 27C3B7D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 19:51:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD0517DF89
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 21:03:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935809AbeF1TvO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 15:51:14 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:39258 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S935793AbeF1TvN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Jun 2018 15:51:13 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C38D6BF573;
-        Thu, 28 Jun 2018 19:51:12 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 21E932026D69;
-        Thu, 28 Jun 2018 19:51:06 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 28 Jun 2018 21:51:12 +0200 (CEST)
-Date:   Thu, 28 Jun 2018 21:51:06 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180628195106.GA3952@redhat.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+        id S1753378AbeF1VCz convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 17:02:55 -0400
+Received: from mail.bootlin.com ([62.4.15.54]:34086 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1753042AbeF1VCx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jun 2018 17:02:53 -0400
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 9517620733; Thu, 28 Jun 2018 23:02:50 +0200 (CEST)
+Received: from bbrezillon (unknown [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id A9CA9206A6;
+        Thu, 28 Jun 2018 23:02:38 +0200 (CEST)
+Date:   Thu, 28 Jun 2018 23:02:37 +0200
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     vitor <Vitor.Soares@synopsys.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>
+Subject: Re: [PATCH v5 01/10] i3c: Add core I3C infrastructure
+Message-ID: <20180628230237.7728a9bf@bbrezillon>
+In-Reply-To: <088dc947-da66-cec9-44a8-0f1097690bfd@synopsys.com>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+        <20180622104930.32050-2-boris.brezillon@bootlin.com>
+        <088dc947-da66-cec9-44a8-0f1097690bfd@synopsys.com>
+X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 28 Jun 2018 19:51:12 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 28 Jun 2018 19:51:12 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I have to admit that after a quick glance I can't understand this patch
-at all... I'll try to read it again tomorrow, but could you at least explain
-how find_node_in_range/build_probe_list can work if off_type==REF_CTR_OFFSET?
+Hi Vitor,
 
-On 06/28, Ravi Bangoria wrote:
->
-> -find_node_in_range(struct inode *inode, loff_t min, loff_t max)
-> +find_node_in_range(struct inode *inode, int off_type, loff_t min, loff_t max)
->  {
->  	struct rb_node *n = uprobes_tree.rb_node;
->  
->  	while (n) {
->  		struct uprobe *u = rb_entry(n, struct uprobe, rb_node);
-> +		loff_t offset = uprobe_get_offset(u, off_type);
->  
->  		if (inode < u->inode) {
->  			n = n->rb_left;
->  		} else if (inode > u->inode) {
->  			n = n->rb_right;
->  		} else {
-> -			if (max < u->offset)
-> +			if (max < offset)
->  				n = n->rb_left;
-> -			else if (min > u->offset)
-> +			else if (min > offset)
->  				n = n->rb_right;
->  			else
->  				break;
+On Thu, 28 Jun 2018 16:38:56 +0100
+vitor <Vitor.Soares@synopsys.com> wrote:
 
-To simplify, lets forget about uprobe->inode (which acts as a key too). So uprobes_tree
-is a binary tree sorted by uprobe->offset key and that is why the binary search works.
+> Hi Boris,
+> 
+> 
+> On 22-06-2018 11:49, Boris Brezillon wrote:
+> > +static int of_i3c_master_add_i3c_dev(struct i3c_master_controller *master,
+> > +				     struct device_node *node, u32 *reg)
+> > +{
+> > +	struct i3c_device_info info = { };
+> > +	enum i3c_addr_slot_status addrstatus;
+> > +	struct i3c_device *i3cdev;
+> > +	u32 init_dyn_addr = 0;
+> > +
+> > +	if (reg[0]) {
+> > +		if (reg[0] > I3C_MAX_ADDR)
+> > +			return -EINVAL;
+> > +
+> > +		addrstatus = i3c_bus_get_addr_slot_status(master->bus, reg[0]);
+> > +		if (addrstatus != I3C_ADDR_SLOT_FREE)
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	info.static_addr = reg[0];
+> > +
+> > +	if (!of_property_read_u32(node, "assigned-address", &init_dyn_addr)) {
+> > +		if (init_dyn_addr > I3C_MAX_ADDR)
+> > +			return -EINVAL;
+> > +
+> > +		addrstatus = i3c_bus_get_addr_slot_status(master->bus,
+> > +							  init_dyn_addr);
+> > +		if (addrstatus != I3C_ADDR_SLOT_FREE)
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	info.pid = ((u64)reg[1] << 32) | reg[2];
+> > +
+> > +	if ((info.pid & GENMASK_ULL(63, 48)) ||
+> > +	    I3C_PID_RND_LOWER_32BITS(info.pid))
+> > +		return -EINVAL;
+> > +
+> > +	i3cdev = i3c_master_alloc_i3c_dev(master, &info, &i3c_device_type);
+> > +	if (IS_ERR(i3cdev))
+> > +		return PTR_ERR(i3cdev);
+> > +
+> > +	i3cdev->init_dyn_addr = init_dyn_addr;
+> > +	i3cdev->dev.of_node = node;
+> > +	list_add_tail(&i3cdev->common.node, &master->bus->devs.i3c);
+> > +
+> > +	return 0;
+> > +}
+> > +  
+> 
+> I'm writing the driver for the Synopsys master and but now I getting an 
+> issue.
+> 
+> I use the "slot" of the device to do all transfers, something like you 
+> use in DAA. I using the master_priv to save the "slot" per device but 
+> the problem is when I call the i3c_master_add_i3c_dev_locked() to 
+> retrieve the info I don't have it yet.
 
-But it is not sorted by uprobe->ref_ctr_offset. So for example n->rb_left can have the
-n->ref_ctr_offset key that is greater than the n's ref_ctr_offset. So how we can use the
-binary search if REF_CTR_OFFSET?
+Hm, I knew that might become a problem at some point. The Cadence IP
+does not need the slot index because it works with addresses and
+figure the device slot out of this address, but it looks like others
+don't go this road. 
 
-I must have missed something, I assume you tested this patch and it works somehow...
+> 
+>  From my analysis this can be solve with:
+>      - send PID, BCR and DCR when I call i3c_master_add_i3c_dev_locked() 
+> or similar function.
 
-Oleg.
+Except these are not the only thing we retrieve before attaching the
+device. Also, if we go this road, that means we don't have the same path
+for devices whose dynamic address is assigned through SETDASA, and those
+that are discovered using DAA.
 
+>      - Pre-allocate an i3c_device -> attach it (slot data goes to 
+> master_priv) -> retrieve info -> if there is already an i3c_device with 
+> same PID destroy the pre-allocated one.
+
+That's the very reason I didn't go this road. It gets messy if we
+already know this device. This being said, among all the options you
+list here, this is the one I prefer. Let's see if we can standardize
+the resource allocation/free process and let ->attach/detach() only
+take care of the device/bus configuration.
+
+>      - Replace the info.dyn_address with a structure with dyn_address 
+> and slot and use it in CCC structure.
+
+I'd really like to keep the device-slot-id a priv information, because
+we don't know how other IPs will deal with I3C device resources.
+
+> 
+> This is something that will need to be supported for I3C HCI spec too. 
+
+I agree.
+
+> Do you have any suggestion?
+
+I'll try to come up with something. Need to think a bit more about it.
+
+Thanks,
+
+Boris
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
