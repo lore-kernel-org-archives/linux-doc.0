@@ -1,96 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FC6E7DF90
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 10:28:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 723CB7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 10:43:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753265AbeF1K1v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 06:27:51 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:44714 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752350AbeF1K1t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Jun 2018 06:27:49 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0420180D;
-        Thu, 28 Jun 2018 03:27:49 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 999D23F266;
-        Thu, 28 Jun 2018 03:27:44 -0700 (PDT)
-Date:   Thu, 28 Jun 2018 11:27:42 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc:     Mark Rutland <Mark.Rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Will Deacon <Will.Deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, nd <nd@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <Robin.Murphy@arm.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-Message-ID: <20180628102741.vk6vphfinlj3lvhv@armageddon.cambridge.arm.com>
-References: <cover.1529507994.git.andreyknvl@google.com>
- <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
- <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
- <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
- <0cef1643-a523-98e7-95e2-9ec595137642@arm.com>
- <20180627171757.amucnh5znld45cpc@armageddon.cambridge.arm.com>
- <20180628061758.j6bytsaj5jk4aocg@ltop.local>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180628061758.j6bytsaj5jk4aocg@ltop.local>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        id S933051AbeF1KnJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 06:43:09 -0400
+Received: from mail-wr0-f196.google.com ([209.85.128.196]:44037 "EHLO
+        mail-wr0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933033AbeF1KnI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 06:43:08 -0400
+Received: by mail-wr0-f196.google.com with SMTP id p12-v6so4993006wrn.11
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 03:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=S53wbi4mGoQLB+yRCebSoL1n+CCuc7cEeP7FibSh9rE=;
+        b=qx3snv8+AxhBL3R84Z5M8Jey7cEWXuESEeYC59Eo+SNECYSHUVNHOUTXObVsSxx3Zt
+         GWGC6PajqpORaoFS2PwWR2IGQ3Tx9X1G4VRzozmyquPHpTDyt+Y3uUACXVDADCUgPNOf
+         HthvH5tQlkv7FIV9Y15AiNxivsosV1cjSFcmY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=S53wbi4mGoQLB+yRCebSoL1n+CCuc7cEeP7FibSh9rE=;
+        b=SFClQvfwV2I2mHZAc4PZXsg86LVeA83LxbhD+LkhqD4eNbaxN49GP4Arjuz1UTmP5Y
+         3QaKJGDwYXwP3l6aenmPcGtlf8Khz+U1cSTW3b+UMd5XfckJhSeJM9CUZ+vgvlBLRmjV
+         1mBX486/mltbvKnkcSkX22E3g4TU19ysinPanEBy1szgnvjfkbGMLqgKOYn23ooFQ5OF
+         We7diI8vzKHmSOvHPb9cfQ8iJ5zagjor/Yza/27Q4cSv0EQsAoHU+oBQ4UMsKgqlIApo
+         1WuUxShoehN4RjWl2JB8kLdWARH0zQDYH+HfxEw8z6iHwyTm6jXp+0y2p1EFTEDIATyZ
+         LJ7g==
+X-Gm-Message-State: APt69E0Zr1GX0rOG9bWpaUMVuxQgFUOSRjHsSWxqlilcoVpAXPlTQuk8
+        Q2Tp0ErjDupWh7o8wqjy1LrHpc52
+X-Google-Smtp-Source: AAOMgpeQEvym5pp2CgUKHnRfTGBKTTY50tRykoyjaMkcvWOCJix3PEXjpTgF/RP1DdqFliay5gh8mA==
+X-Received: by 2002:adf:99ea:: with SMTP id y97-v6mr8105898wrb.215.1530182587452;
+        Thu, 28 Jun 2018 03:43:07 -0700 (PDT)
+Received: from andrea.amarulasolutions.com (85.100.broadband17.iol.cz. [109.80.100.85])
+        by smtp.gmail.com with ESMTPSA id 14-v6sm9257298wmh.8.2018.06.28.03.43.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 28 Jun 2018 03:43:06 -0700 (PDT)
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>
+Subject: [PATCH 0/3] sched/locking/doc: Miscellaneous fixes
+Date:   Thu, 28 Jun 2018 12:41:17 +0200
+Message-Id: <1530182480-13205-1-git-send-email-andrea.parri@amarulasolutions.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 28, 2018 at 08:17:59AM +0200, Luc Van Oostenryck wrote:
-> On Wed, Jun 27, 2018 at 06:17:58PM +0100, Catalin Marinas wrote:
-> > sparse is indeed an option. The current implementation doesn't warn on
-> > an explicit cast from (void __user *) to (unsigned long) since that's a
-> > valid thing in the kernel. I couldn't figure out if there's any other
-> > __attribute__ that could be used to warn of such conversion.
-> 
-> sparse doesn't have such attribute but would an new option that would warn
-> on such cast be a solution for your case?
+Hi,
 
-I can't tell for sure whether such sparse option would be the full
-solution but detecting explicit __user pointer casts to long is a good
-starting point. So far this patchset pretty much relies on detecting
-a syscall failure and trying to figure out why, patching the kernel. It
-doesn't really scale.
+This is a follow-up on the discussion started in [1].
 
-As a side note, we have cases in the user-kernel ABI where the user
-address type is "unsigned long": mmap() and friends. My feedback on an
-early version of this patchset was to always require untagged pointers
-coming from user space on such syscalls, so no need for explicit
-untagging.
+Applies on -rcu/dev.
+
+Cheers,
+  Andrea
+
+[1] http://lkml.kernel.org/r/1529918258-7295-1-git-send-email-andrea.parri@amarulasolutions.com
+
+Andrea Parri (3):
+  sched: Use smp_mb() in wake_woken_function()
+  locking: Clarify requirements for smp_mb__after_spinlock()
+  doc: Update wake_up() & co. memory-barrier guarantees
+
+ Documentation/memory-barriers.txt | 43 ++++++++++++++++++------------
+ include/linux/sched.h             |  4 +--
+ include/linux/spinlock.h          | 25 ++----------------
+ kernel/sched/completion.c         |  8 +++---
+ kernel/sched/core.c               | 30 +++++++++------------
+ kernel/sched/wait.c               | 55 ++++++++++++++++++---------------------
+ 6 files changed, 72 insertions(+), 93 deletions(-)
 
 -- 
-Catalin
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
