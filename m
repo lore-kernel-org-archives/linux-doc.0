@@ -5,101 +5,94 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CF6B77D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 19:40:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 27C3B7D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 19:51:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933995AbeF1Tkn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 15:40:43 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:40836 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934012AbeF1Tkm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 15:40:42 -0400
-Received: from localhost.localdomain (c-24-4-125-7.hsd1.ca.comcast.net [24.4.125.7])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id BE797E21;
-        Thu, 28 Jun 2018 19:40:40 +0000 (UTC)
-Date:   Thu, 28 Jun 2018 12:40:39 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-Id: <20180628124039.8a42ab5e2994fb2876ff4f75@linux-foundation.org>
-In-Reply-To: <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
-References: <cover.1530018818.git.andreyknvl@google.com>
-        <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
-        <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S935809AbeF1TvO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 15:51:14 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:39258 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S935793AbeF1TvN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jun 2018 15:51:13 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id C38D6BF573;
+        Thu, 28 Jun 2018 19:51:12 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 21E932026D69;
+        Thu, 28 Jun 2018 19:51:06 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Thu, 28 Jun 2018 21:51:12 +0200 (CEST)
+Date:   Thu, 28 Jun 2018 21:51:06 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+Message-ID: <20180628195106.GA3952@redhat.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 28 Jun 2018 19:51:12 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Thu, 28 Jun 2018 19:51:12 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 28 Jun 2018 20:29:07 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
+I have to admit that after a quick glance I can't understand this patch
+at all... I'll try to read it again tomorrow, but could you at least explain
+how find_node_in_range/build_probe_list can work if off_type==REF_CTR_OFFSET?
 
-> >> Slab memory usage after boot [2]:
-> >> * ~40 kb for clean kernel
-> >> * ~105 kb + 1/8th shadow ~= 118 kb for KASAN
-> >> * ~47 kb + 1/16th shadow ~= 50 kb for KHWASAN
-> >>
-> >> Network performance [3]:
-> >> * 8.33 Gbits/sec for clean kernel
-> >> * 3.17 Gbits/sec for KASAN
-> >> * 2.85 Gbits/sec for KHWASAN
-> >>
-> >> Note, that KHWASAN (compared to KASAN) doesn't require quarantine.
-> >>
-> >> [1] Time before the ext4 driver is initialized.
-> >> [2] Measured as `cat /proc/meminfo | grep Slab`.
-> >> [3] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
-> >
-> > The above doesn't actually demonstrate the whole point of the
-> > patchset: to reduce KASAN's very high memory consumption?
-> 
-> You mean that memory usage numbers collected after boot don't give a
-> representative picture of actual memory consumption on real workloads?
-> 
-> What kind of memory consumption testing would you like to see?
+On 06/28, Ravi Bangoria wrote:
+>
+> -find_node_in_range(struct inode *inode, loff_t min, loff_t max)
+> +find_node_in_range(struct inode *inode, int off_type, loff_t min, loff_t max)
+>  {
+>  	struct rb_node *n = uprobes_tree.rb_node;
+>  
+>  	while (n) {
+>  		struct uprobe *u = rb_entry(n, struct uprobe, rb_node);
+> +		loff_t offset = uprobe_get_offset(u, off_type);
+>  
+>  		if (inode < u->inode) {
+>  			n = n->rb_left;
+>  		} else if (inode > u->inode) {
+>  			n = n->rb_right;
+>  		} else {
+> -			if (max < u->offset)
+> +			if (max < offset)
+>  				n = n->rb_left;
+> -			else if (min > u->offset)
+> +			else if (min > offset)
+>  				n = n->rb_right;
+>  			else
+>  				break;
 
-Well, 100kb or so is a teeny amount on virtually any machine.  I'm
-assuming the savings are (much) more significant once the machine gets
-loaded up and doing work?
+To simplify, lets forget about uprobe->inode (which acts as a key too). So uprobes_tree
+is a binary tree sorted by uprobe->offset key and that is why the binary search works.
+
+But it is not sorted by uprobe->ref_ctr_offset. So for example n->rb_left can have the
+n->ref_ctr_offset key that is greater than the n's ref_ctr_offset. So how we can use the
+binary search if REF_CTR_OFFSET?
+
+I must have missed something, I assume you tested this patch and it works somehow...
+
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
