@@ -5,59 +5,55 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E3A787D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 18:26:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A6ED17D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 18:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S967852AbeF1S0n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 14:26:43 -0400
-Received: from mail-io0-f194.google.com ([209.85.223.194]:33540 "EHLO
-        mail-io0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S966247AbeF1S0l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 14:26:41 -0400
-Received: by mail-io0-f194.google.com with SMTP id d185-v6so6152239ioe.0
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 11:26:41 -0700 (PDT)
+        id S967884AbeF1S3L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 14:29:11 -0400
+Received: from mail-it0-f68.google.com ([209.85.214.68]:35875 "EHLO
+        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S967810AbeF1S3J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 14:29:09 -0400
+Received: by mail-it0-f68.google.com with SMTP id j135-v6so13971669itj.1
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 11:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=VsLJ6wrLOa63ri0/5rzsT9yRxAaEoRgvfy8CXVui3iI=;
-        b=J1AMGKM7+4CUJ6Yl0FH1lD2y+iHzHzK9YmY2eXX3FOaxVsMZGTcQeJ5r6r9y5ZMjOV
-         yXkrAMer47WguRF8+wFmtTXomPwX6Q21fc6OxICHerAPZ4dCcS/WFfS/fq5NLwgDlqKD
-         0hbc4AE8+QllsxJNOl20OpDJdDYYCJCGjK8YTJUVqR9YrnDVVtU70YeGzDDRSIYj5Gdo
-         pceNWHxtxc6f/Lpo+vCRKkxVREM29jb9Vp0FArBcVd50xhlBS5eAyK35D/labpDK3dxn
-         aFU6OcOJlR1C0C5i5dnnjHsELngw3b3jcBpXKx3+/DkP/q7+CSniH9L006uhLLt460Ex
-         i6aw==
+        bh=TQhutihisTXpuVK+GeZtz9M18UfcHNomSTyGrQh5D3k=;
+        b=JSZ1csOr3Sm14ZQDqMhEU2FZtPA0izBLiOxP7kTlJIKJBlUSOqsi4bUtHeSOnY7Lej
+         K09YeARZuPuy6SF5GiBwk6X1toDdp3b3YB2rixnh8+86UceBRZ5kgzoHDFsITEvgvGd/
+         uahw5P2T69SZ5kfCbr12maADD5tCS/ZEAR8GHZFfuQKA6qgRDyuQiWxpUUJnSBj5agOe
+         zLqTgtTOMjFEi2MuyJE208a+0Jkk+YUxpOaZFyEB17FoYJjbcEjBviVkQBO0WcTnFBbz
+         GD9E+NkwvHmcxRLNTnVB5RbHpaDmR2eMFggQYznfD12PRgxvJnr+9yj8tlOYLUCkpZKa
+         qTYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=VsLJ6wrLOa63ri0/5rzsT9yRxAaEoRgvfy8CXVui3iI=;
-        b=PP/ULcIAdB5M6zHyoUY+Ins5sKLHG5A2Y6GyzKby2bpuMwX9NZv871O8YbVjFxKOUG
-         cjm4Oyv8c9DFz5JiYNWejijQ06kfzfaR8CFWjTZA9BetkitHEx1elv4u3q9aHzIbZwiK
-         DDKogOcMK77ObyRXx0l7Sx0CQ3CjrQAis9zy6CwCna9TmnrYOw3oYFmT86m6D6uSU4ne
-         C+B+gZp5bimpmkCMzG3HuSlLHTMIu/LC2V2oeop/GLplJUxALL6Gbq/Z5n+5B3eW7gsf
-         Qnl9Am0roLb+IKAW8ZyK25Qs0lTDne6OGqh/4ZSgLGUjrIPBFd12ouhRZmIkN5zqTELc
-         YxVQ==
-X-Gm-Message-State: APt69E0Nw56XdqC/a9KuPyeUmEjvH++qH6BLVMH+9K/J81INBM/fRRCA
-        HD6MVv5FnMhoWCPUqDL6BLJR/SUqmvN41pE3KwwXaA==
-X-Google-Smtp-Source: AAOMgpeq1bK4ryMCDJ16SKJE3RI918BnRv9JcrdWjUIDbmiqyPE98wf0GLs+I3vohvZWmRU3368WgSOQUWNqTJ8Ab64=
-X-Received: by 2002:a6b:5002:: with SMTP id e2-v6mr9944633iob.31.1530210400677;
- Thu, 28 Jun 2018 11:26:40 -0700 (PDT)
+        bh=TQhutihisTXpuVK+GeZtz9M18UfcHNomSTyGrQh5D3k=;
+        b=k3hipPcAPJZF1SYj+nhzpnelrbKptbHYfVa7Pre+y9ZEq2bL6v6wjO6kQ+KUXsww/a
+         PsB9hao1hJM+5I3buOk06YLqS/Rba+7q8bfqdVrb7gobmbWSJWZ0T/QKjH+75KUEOHXD
+         j7sBdpd/gMn9ZvMO9b8CzHM/xjA7Sey1ynFTerVUoqbDbjX5Kygr6pxE6WkZYxqDq8K4
+         T1L/SQPR2/bR5PLMYqRiRO5MtVQgzcCcY7diiPeTOSmnKXNLZDNWwJL/Om5wBEwbBjU2
+         rNafrYksjrTPCW9PQM34dNvU9uN8tmvzdP8p/5S3LIbSPuwPAM/GoiNEcrpJyGCFtpvb
+         LIUQ==
+X-Gm-Message-State: APt69E27P1wFyeyKRWhEtFbuMRBUWzr3AnhIT4EGGCTt1eoDGwi1ZpQ3
+        QlsGsVQdwULjaw1cM+jqA7JzmCKyLNVtrihzqN6Piw==
+X-Google-Smtp-Source: AAOMgpdfCxEmrXGN9cYPDwN3cYkZXTvqm5ONB3XHlhMsbqBrB38enIQPq9jbMYnsmumlsBlFJR0maFDxu1GlsCUtjOY=
+X-Received: by 2002:a24:ca43:: with SMTP id k64-v6mr10130862itg.44.1530210548456;
+ Thu, 28 Jun 2018 11:29:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 11:26:39
+Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 11:29:07
  -0700 (PDT)
-In-Reply-To: <20180627181138.14c9b66e13b8778506205f89@linux-foundation.org>
+In-Reply-To: <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
 References: <cover.1530018818.git.andreyknvl@google.com> <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
- <CAN=P9pivApAo76Kjc0TUDE0kvJn0pET=47xU6e=ioZV2VqO0Rg@mail.gmail.com>
- <CAEZpscCcP6=O_OCqSwW8Y6u9Ee99SzWN+hRcgpP2tK=OEBFnNw@mail.gmail.com> <20180627181138.14c9b66e13b8778506205f89@linux-foundation.org>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 28 Jun 2018 20:26:39 +0200
-Message-ID: <CAAeHK+wg35W6D3Cat7w8kqV+9fB6dKmnCUuUrZP_tz5=vKk+0Q@mail.gmail.com>
+Date:   Thu, 28 Jun 2018 20:29:07 +0200
+Message-ID: <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
 Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
 To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Vishwath Mohan <vishwath@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -73,7 +69,7 @@ Cc:     Vishwath Mohan <vishwath@google.com>,
         Paul Lawrence <paullawrence@google.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Kate Stewart <kstewart@linuxfoundation.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
@@ -83,7 +79,8 @@ Cc:     Vishwath Mohan <vishwath@google.com>,
         linux-sparse@vger.kernel.org,
         Linux Memory Management List <linux-mm@kvack.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
         Lee Smith <Lee.Smith@arm.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
@@ -97,27 +94,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 28, 2018 at 3:11 AM, Andrew Morton
+On Thu, Jun 28, 2018 at 1:08 AM, Andrew Morton
 <akpm@linux-foundation.org> wrote:
-> On Wed, 27 Jun 2018 17:59:00 -0700 Vishwath Mohan <vishwath@google.com> wrote:
->> Yeah, I can confirm that it's an issue. Like Kostya mentioned, I don't have
->> data on-hand, but anecdotally both ASAN and KASAN have proven problematic
->> to enable for environments that don't tolerate the increased memory
->> pressure well. This includes,
->> (a) Low-memory form factors - Wear, TV, Things, lower-tier phones like Go
->> (c) Connected components like Pixel's visual core
->> <https://www.blog.google/products/pixel/pixel-visual-core-image-processing-and-machine-learning-pixel-2/>
+> On Tue, 26 Jun 2018 15:15:10 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
+>> ====== Benchmarks
 >>
+>> The following numbers were collected on Odroid C2 board. Both KASAN and
+>> KHWASAN were used in inline instrumentation mode.
 >>
->> These are both places I'd love to have a low(er) memory footprint option at
->> my disposal.
+>> Boot time [1]:
+>> * ~1.7 sec for clean kernel
+>> * ~5.0 sec for KASAN
+>> * ~5.0 sec for KHWASAN
+>>
+>> Slab memory usage after boot [2]:
+>> * ~40 kb for clean kernel
+>> * ~105 kb + 1/8th shadow ~= 118 kb for KASAN
+>> * ~47 kb + 1/16th shadow ~= 50 kb for KHWASAN
+>>
+>> Network performance [3]:
+>> * 8.33 Gbits/sec for clean kernel
+>> * 3.17 Gbits/sec for KASAN
+>> * 2.85 Gbits/sec for KHWASAN
+>>
+>> Note, that KHWASAN (compared to KASAN) doesn't require quarantine.
+>>
+>> [1] Time before the ext4 driver is initialized.
+>> [2] Measured as `cat /proc/meminfo | grep Slab`.
+>> [3] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
 >
-> Thanks.
->
-> It really is important that such information be captured in the
-> changelogs.  In as much detail as can be mustered.
+> The above doesn't actually demonstrate the whole point of the
+> patchset: to reduce KASAN's very high memory consumption?
 
-I'll add it to the changelog in v5. Thanks!
+You mean that memory usage numbers collected after boot don't give a
+representative picture of actual memory consumption on real workloads?
+
+What kind of memory consumption testing would you like to see?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
