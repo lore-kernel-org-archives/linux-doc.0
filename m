@@ -1,108 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 69A277D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 19:30:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF6B77D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 19:40:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933040AbeF1TaT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 15:30:19 -0400
-Received: from mail-it0-f66.google.com ([209.85.214.66]:37007 "EHLO
-        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754336AbeF1TaR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 15:30:17 -0400
-Received: by mail-it0-f66.google.com with SMTP id p17-v6so9266399itc.2
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 12:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=XfV0YwIao1ZThy48M/rzfQwaFP3aXW3fGxtnhPWGtws=;
-        b=V7TnwCZS3G9n5jIXFCypNlSF9O9FsGCezRgOsnjku8hdMyFfrgDneB+KarFl+m+JPE
-         mkWSsPUu2966xHsADYVpkYloYvHn+nKF83yvgexB5XlDv7hPpBYf7/9v2LeAvQRvmGJm
-         FdDOxPgfJzyNP0OZ1VzNihnR1MnQEsnfWuWn0ECeYGPSJV2oYiAa54w0/Xkk1RcLn152
-         b68wFzfOqQ3vq66MBUsR/ECIVz9dBow7jUA6WgFgxskjkpR5y3cqk7I8fx1HWAyAxCXZ
-         vcIE3LOGtcguN0Z7JwtAvLJfP1DoohKd3RwnlibhpLcF9ykLZDM8IL4ZcJh+V2hgz18r
-         tPEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=XfV0YwIao1ZThy48M/rzfQwaFP3aXW3fGxtnhPWGtws=;
-        b=ub8neh9Me/tcqsegZhgfkixlLGuVh8wY5DwpG7zCN2PclqW+mYyAyD/hhMC95qYYzx
-         7RfPo62Wl5061Cm9CQALnt7V03NBEmLGeV/tykxFgeRRNUqtzgIeAf8+eOSfmgKr1yy0
-         9Q7te/s/1HsxdSq/KJG4KEjuhNKJ8Rzeoz0cWeDx2WG3qV3oK/C4gCRl6sBH4xup/cZO
-         2FLGwVPBU0pbSWOCXTgwkENNlCvJfi/gGEqgQc/CB7RST/kTAKxSS5fnw2Bs/ASjWh+J
-         +WhO9+YNDfP3svm8xzckxEpqZFXmQnBpn26EYkrjfik7V1DK6inGhUZ6yuQxPdlG6reP
-         B0uw==
-X-Gm-Message-State: APt69E2eZ0cENJd+HpKB3YAs824UokI11gNmotKBmiQTvJVZJfDgD0cQ
-        GkWd+YpDT8FRvLf8jBzm+Vb+he7ir5MCImKGoMWxSQ==
-X-Google-Smtp-Source: AAOMgpdKcg1s52OL8mN+GAkdGe2OK2W2ILU6cjow8+aqbaqkzkYw3R5ICkk2QHv7MNG7QSxAYMWIrgn50STZiVidOPI=
-X-Received: by 2002:a24:b046:: with SMTP id b6-v6mr10289685itj.48.1530214216643;
- Thu, 28 Jun 2018 12:30:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 12:30:16
- -0700 (PDT)
-In-Reply-To: <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
-References: <cover.1529507994.git.andreyknvl@google.com> <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
- <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com> <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 28 Jun 2018 21:30:16 +0200
-Message-ID: <CAAeHK+wJbbCZd+-X=9oeJgsqQJiq8h+Aagz3SQMPaAzCD+pvFw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
+        id S933995AbeF1Tkn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 15:40:43 -0400
+Received: from mail.linuxfoundation.org ([140.211.169.12]:40836 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S934012AbeF1Tkm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 15:40:42 -0400
+Received: from localhost.localdomain (c-24-4-125-7.hsd1.ca.comcast.net [24.4.125.7])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id BE797E21;
+        Thu, 28 Jun 2018 19:40:40 +0000 (UTC)
+Date:   Thu, 28 Jun 2018 12:40:39 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
         Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-doc@vger.kernel.org,
+        linux-sparse@vger.kernel.org,
         Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
+ sanitizer
+Message-Id: <20180628124039.8a42ab5e2994fb2876ff4f75@linux-foundation.org>
+In-Reply-To: <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
+References: <cover.1530018818.git.andreyknvl@google.com>
+        <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+        <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 27, 2018 at 5:05 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> On Tue, Jun 26, 2018 at 7:29 PM, Catalin Marinas
-> <catalin.marinas@arm.com> wrote:
->> While I support this work, as a maintainer I'd like to understand
->> whether we'd be in a continuous chase of ABI breaks with every kernel
->> release or we have a better way to identify potential issues. Is there
->> any way to statically analyse conversions from __user ptr to long for
->> example? Or, could we get the compiler to do this for us?
->
->
-> OK, got it, I'll try to figure out a way to find these conversions.
+On Thu, 28 Jun 2018 20:29:07 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
 
-I've prototyped a checker on top of clang static analyzer (initially
-looked at sparse, but couldn't find any documentation or examples).
-The results are here [1], search for "warning: user pointer cast".
-Sharing in case anybody wants to take a look, will look at them myself
-tomorrow.
+> >> Slab memory usage after boot [2]:
+> >> * ~40 kb for clean kernel
+> >> * ~105 kb + 1/8th shadow ~= 118 kb for KASAN
+> >> * ~47 kb + 1/16th shadow ~= 50 kb for KHWASAN
+> >>
+> >> Network performance [3]:
+> >> * 8.33 Gbits/sec for clean kernel
+> >> * 3.17 Gbits/sec for KASAN
+> >> * 2.85 Gbits/sec for KHWASAN
+> >>
+> >> Note, that KHWASAN (compared to KASAN) doesn't require quarantine.
+> >>
+> >> [1] Time before the ext4 driver is initialized.
+> >> [2] Measured as `cat /proc/meminfo | grep Slab`.
+> >> [3] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
+> >
+> > The above doesn't actually demonstrate the whole point of the
+> > patchset: to reduce KASAN's very high memory consumption?
+> 
+> You mean that memory usage numbers collected after boot don't give a
+> representative picture of actual memory consumption on real workloads?
+> 
+> What kind of memory consumption testing would you like to see?
 
-[1] https://gist.github.com/xairy/433edd5c86456a64026247cb2fef2115
+Well, 100kb or so is a teeny amount on virtually any machine.  I'm
+assuming the savings are (much) more significant once the machine gets
+loaded up and doing work?
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
