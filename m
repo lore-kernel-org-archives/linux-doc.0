@@ -5,64 +5,64 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6ED17D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 18:29:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C8FC37D062
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 18:57:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S967884AbeF1S3L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 14:29:11 -0400
-Received: from mail-it0-f68.google.com ([209.85.214.68]:35875 "EHLO
-        mail-it0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S967810AbeF1S3J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 14:29:09 -0400
-Received: by mail-it0-f68.google.com with SMTP id j135-v6so13971669itj.1
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 11:29:09 -0700 (PDT)
+        id S935283AbeF1S4q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 14:56:46 -0400
+Received: from mail-it0-f66.google.com ([209.85.214.66]:38360 "EHLO
+        mail-it0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S935137AbeF1S4n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 14:56:43 -0400
+Received: by mail-it0-f66.google.com with SMTP id v83-v6so14066808itc.3
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 11:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=TQhutihisTXpuVK+GeZtz9M18UfcHNomSTyGrQh5D3k=;
-        b=JSZ1csOr3Sm14ZQDqMhEU2FZtPA0izBLiOxP7kTlJIKJBlUSOqsi4bUtHeSOnY7Lej
-         K09YeARZuPuy6SF5GiBwk6X1toDdp3b3YB2rixnh8+86UceBRZ5kgzoHDFsITEvgvGd/
-         uahw5P2T69SZ5kfCbr12maADD5tCS/ZEAR8GHZFfuQKA6qgRDyuQiWxpUUJnSBj5agOe
-         zLqTgtTOMjFEi2MuyJE208a+0Jkk+YUxpOaZFyEB17FoYJjbcEjBviVkQBO0WcTnFBbz
-         GD9E+NkwvHmcxRLNTnVB5RbHpaDmR2eMFggQYznfD12PRgxvJnr+9yj8tlOYLUCkpZKa
-         qTYA==
+        bh=QJLredR/79RWGbFALXpSskfLR/m9zdyp+5Dp0TDoMmQ=;
+        b=rRTk85npRi7cYyKqwob9tgl8hYK1TDhfXTgwv5VWLghPmtm8ukMbpvhG3wbOJX63tM
+         cCX7rWPjhhUdQUVLLkO9YbtGEwsa4sD010Tgdem17PELExPWWCXEcPXdm7IWypHFW4TV
+         hOsa1l52cSFcieTAI8fn5APPmiRmvuqamKpGPMeFR/Zul9gX3ZmjdKjyN2WiWMwamhIF
+         +UmR/KK8NhnTAoxEzr9AWRX2gtEW1LzYzfsU/DoDi6a6+axs7EeNT/sUQtJThv5moP77
+         KqToVIXy7GwItZWdymlOOrdksJs++lOvr5c9slRzuFiokJOJ2/Dmr3IGXYI/rXi5oaXH
+         Ibvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=TQhutihisTXpuVK+GeZtz9M18UfcHNomSTyGrQh5D3k=;
-        b=k3hipPcAPJZF1SYj+nhzpnelrbKptbHYfVa7Pre+y9ZEq2bL6v6wjO6kQ+KUXsww/a
-         PsB9hao1hJM+5I3buOk06YLqS/Rba+7q8bfqdVrb7gobmbWSJWZ0T/QKjH+75KUEOHXD
-         j7sBdpd/gMn9ZvMO9b8CzHM/xjA7Sey1ynFTerVUoqbDbjX5Kygr6pxE6WkZYxqDq8K4
-         T1L/SQPR2/bR5PLMYqRiRO5MtVQgzcCcY7diiPeTOSmnKXNLZDNWwJL/Om5wBEwbBjU2
-         rNafrYksjrTPCW9PQM34dNvU9uN8tmvzdP8p/5S3LIbSPuwPAM/GoiNEcrpJyGCFtpvb
-         LIUQ==
-X-Gm-Message-State: APt69E27P1wFyeyKRWhEtFbuMRBUWzr3AnhIT4EGGCTt1eoDGwi1ZpQ3
-        QlsGsVQdwULjaw1cM+jqA7JzmCKyLNVtrihzqN6Piw==
-X-Google-Smtp-Source: AAOMgpdfCxEmrXGN9cYPDwN3cYkZXTvqm5ONB3XHlhMsbqBrB38enIQPq9jbMYnsmumlsBlFJR0maFDxu1GlsCUtjOY=
-X-Received: by 2002:a24:ca43:: with SMTP id k64-v6mr10130862itg.44.1530210548456;
- Thu, 28 Jun 2018 11:29:08 -0700 (PDT)
+        bh=QJLredR/79RWGbFALXpSskfLR/m9zdyp+5Dp0TDoMmQ=;
+        b=VpmtJ+N3Wm5xVZfHKmbIeHbuob5xOS0HWrH0SVlEV0FIzVAbeHW8eGimuXkFhPav9b
+         VSpcVh0lGJZ47E1MQBwiWc1IR1FXFEl0iJfplxcMG8kjJJmjosSFWLHhdXXDNE8pwkVJ
+         tF3ayS9tN9Qrp3CBV0IgMEr4smzbndF1xfykdMGxv059aR2/yHQ++0gFU0HbMBPei/sx
+         D+3wosmDfgynUj46F8TLjSVswU4u6ZkD2EtffcUVWJ6cJQ89X3EMjWRaKR5ramSeWSaf
+         9uz+7z+QkRL9sVhxhTn3TbSvzWL1aO17Qdg5rD8f2zi3wMpN1B377rhzWK9ABHJr6hN1
+         sSMg==
+X-Gm-Message-State: APt69E1K2f+Wj0frKz+rTJHWVEFCbZZNCBAIC19C6qJ/nh1+/Oj4dCbQ
+        NeNb/f71yu/JXS58fwaTzZ7d5WTkACFwxuIa/ZLBuw==
+X-Google-Smtp-Source: ADUXVKJsATIqXThayEM1uuweUgOhQudlln4DuzwDj24Pe17jXQqcXEFonZB+OsdLuuyrQkOiZ+I7J27LMN1v1tVS/fA=
+X-Received: by 2002:a24:4c6:: with SMTP id 189-v6mr9696835itb.53.1530212202616;
+ Thu, 28 Jun 2018 11:56:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 11:29:07
+Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 11:56:41
  -0700 (PDT)
-In-Reply-To: <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
-References: <cover.1530018818.git.andreyknvl@google.com> <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+In-Reply-To: <20180628105057.GA26019@e103592.cambridge.arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 28 Jun 2018 20:29:07 +0200
-Message-ID: <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
+Date:   Thu, 28 Jun 2018 20:56:41 +0200
+Message-ID: <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
 Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
-To:     Andrew Morton <akpm@linux-foundation.org>
+To:     Dave Martin <Dave.Martin@arm.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
         Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
         Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         "Eric W . Biederman" <ebiederm@xmission.com>,
         Ingo Molnar <mingo@kernel.org>,
@@ -79,57 +79,57 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         linux-sparse@vger.kernel.org,
         Linux Memory Management List <linux-mm@kvack.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
         Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 28, 2018 at 1:08 AM, Andrew Morton
-<akpm@linux-foundation.org> wrote:
-> On Tue, 26 Jun 2018 15:15:10 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
->> ====== Benchmarks
->>
->> The following numbers were collected on Odroid C2 board. Both KASAN and
->> KHWASAN were used in inline instrumentation mode.
->>
->> Boot time [1]:
->> * ~1.7 sec for clean kernel
->> * ~5.0 sec for KASAN
->> * ~5.0 sec for KHWASAN
->>
->> Slab memory usage after boot [2]:
->> * ~40 kb for clean kernel
->> * ~105 kb + 1/8th shadow ~= 118 kb for KASAN
->> * ~47 kb + 1/16th shadow ~= 50 kb for KHWASAN
->>
->> Network performance [3]:
->> * 8.33 Gbits/sec for clean kernel
->> * 3.17 Gbits/sec for KASAN
->> * 2.85 Gbits/sec for KHWASAN
->>
->> Note, that KHWASAN (compared to KASAN) doesn't require quarantine.
->>
->> [1] Time before the ext4 driver is initialized.
->> [2] Measured as `cat /proc/meminfo | grep Slab`.
->> [3] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
+On Thu, Jun 28, 2018 at 12:51 PM, Dave Martin <Dave.Martin@arm.com> wrote:
+> On Tue, Jun 26, 2018 at 03:15:10PM +0200, Andrey Konovalov wrote:
+>> 1. By using the Top Byte Ignore arm64 CPU feature, we can store pointer
+>>    tags in the top byte of each kernel pointer.
 >
-> The above doesn't actually demonstrate the whole point of the
-> patchset: to reduce KASAN's very high memory consumption?
+> [...]
+>
+> This is a change from the current situation, so the kernel may be
+> making implicit assumptions about the top byte of kernel addresses.
+>
+> Randomising the top bits may cause things like address conversions and
+> pointer arithmetic to break.
+>
+> For example, (q - p) will not produce the expected result if q and p
+> have different tags.
 
-You mean that memory usage numbers collected after boot don't give a
-representative picture of actual memory consumption on real workloads?
+If q and p have different tags, that means they come from different
+allocations. I don't think it would make sense to calculate pointer
+difference in this case.
 
-What kind of memory consumption testing would you like to see?
+>
+> Conversions, such as between pointer and pfn, may also go wrong if not
+> appropriately masked.
+>
+> There are also potential pointer comparison and aliasing issues if
+> the tag bits are ever stripped or modified.
+>
+>
+> What was your approach to tracking down all the points in the code
+> where we have a potential issue?
+
+I've been fuzzing the kernel built with KWHASAN with syzkaller. This
+gives a decent coverage and I was able to find some places where
+fixups were required this way. Right now the fuzzer is running without
+issues. It doesn't prove that all such places are fixed, but I don't
+know a better way to test this.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
