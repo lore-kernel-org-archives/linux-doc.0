@@ -1,96 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,URIBL_BLACK autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A3207D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 00:50:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C557D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 01:11:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752608AbeF1Aus (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 20:50:48 -0400
-Received: from smtprelay0196.hostedemail.com ([216.40.44.196]:36835 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752600AbeF1Auq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 20:50:46 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 19824181D3368;
-        Thu, 28 Jun 2018 00:50:45 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: heart28_5d64b2f7ab3d
-X-Filterd-Recvd-Size: 2942
-Received: from XPS-9350.home (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf05.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 28 Jun 2018 00:50:39 +0000 (UTC)
-Message-ID: <f5e65551fea695b533eb275bdbcf43204d515d58.camel@perches.com>
-Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO
- expander
-From:   Joe Perches <joe@perches.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Marc Zyngier <marc.zyngier@arm.com>
-Date:   Wed, 27 Jun 2018 17:50:38 -0700
-In-Reply-To: <CAHp75Vd5ucaeOD4S76ANcOVUA=QrCpGNAmun6+ihnsOTsgtcKg@mail.gmail.com>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
-         <20180622104930.32050-10-boris.brezillon@bootlin.com>
-         <CAHp75Vdxg49q6aQj0dDpzM4q2WnQbGoCECWR1roda7aMR+u4gg@mail.gmail.com>
-         <20180626215648.1472b96e@bbrezillon>
-         <CAHp75VcVvOzgOM87rSrwsCxh+WAK-z+zVCJifnY+Xeeu=cPFiA@mail.gmail.com>
-         <20180626234638.076fb816@bbrezillon>
-         <CAHp75VdBXj66Yd6sQHOWz19R9MUtYMSeq4j-+UidLedpfkB6mA@mail.gmail.com>
-         <20180627213617.51e10712@bbrezillon>
-         <8bf36e4025b6ec5198a668edda6bcbef3b06e97b.camel@perches.com>
-         <CAHp75Vd5ucaeOD4S76ANcOVUA=QrCpGNAmun6+ihnsOTsgtcKg@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-X-Mailer: Evolution 3.28.1-2 
+        id S932127AbeF1BLn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 21:11:43 -0400
+Received: from mail.linuxfoundation.org ([140.211.169.12]:51066 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932090AbeF1BLm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 21:11:42 -0400
+Received: from localhost.localdomain (c-24-4-125-7.hsd1.ca.comcast.net [24.4.125.7])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id BA82CC74;
+        Thu, 28 Jun 2018 01:11:39 +0000 (UTC)
+Date:   Wed, 27 Jun 2018 18:11:38 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Vishwath Mohan <vishwath@google.com>
+Cc:     Kostya Serebryany <kcc@google.com>, andreyknvl@google.com,
+        aryabinin@virtuozzo.com, Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, catalin.marinas@arm.com,
+        will.deacon@arm.com, cl@linux.com, mark.rutland@arm.com,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        marc.zyngier@arm.com, dave.martin@arm.com,
+        ard.biesheuvel@linaro.org, ebiederm@xmission.com, mingo@kernel.org,
+        Paul Lawrence <paullawrence@google.com>, geert@linux-m68k.org,
+        arnd@arndb.de, kirill.shutemov@linux.intel.com,
+        gregkh@linuxfoundation.org, kstewart@linuxfoundation.org,
+        rppt@linux.vnet.ibm.com, kasan-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sparse@vger.kernel.org,
+        linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
+        Evgenii Stepanov <eugenis@google.com>, Lee.Smith@arm.com,
+        Ramana.Radhakrishnan@arm.com, Jacob.Bramley@arm.com,
+        Ruben.Ayrapetyan@arm.com, Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>, cpandya@codeaurora.org
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
+ sanitizer
+Message-Id: <20180627181138.14c9b66e13b8778506205f89@linux-foundation.org>
+In-Reply-To: <CAEZpscCcP6=O_OCqSwW8Y6u9Ee99SzWN+hRcgpP2tK=OEBFnNw@mail.gmail.com>
+References: <cover.1530018818.git.andreyknvl@google.com>
+        <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+        <CAN=P9pivApAo76Kjc0TUDE0kvJn0pET=47xU6e=ioZV2VqO0Rg@mail.gmail.com>
+        <CAEZpscCcP6=O_OCqSwW8Y6u9Ee99SzWN+hRcgpP2tK=OEBFnNw@mail.gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2018-06-28 at 03:00 +0300, Andy Shevchenko wrote:
-> bitmap operations are working against unsigned long *. one long is
-> also a bitmap.
+On Wed, 27 Jun 2018 17:59:00 -0700 Vishwath Mohan <vishwath@google.com> wrote:
 
-Should only be so if declared via DECLARE_BITMAP
+> > > > time consume much less memory, trading that off for somewhat imprecise
+> > > > bug detection and being supported only for arm64.
+> > >
+> > > Why do we consider this to be a worthwhile change?
+> > >
+> > > Is KASAN's memory consumption actually a significant problem?  Some
+> > > data regarding that would be very useful.
+> >
+> > On mobile, ASAN's and KASAN's memory usage is a significant problem.
+> > Not sure if I can find scientific evidence of that.
+> > CC-ing Vishwath Mohan who deals with KASAN on Android to provide
+> > anecdotal evidence.
+> >
+> Yeah, I can confirm that it's an issue. Like Kostya mentioned, I don't have
+> data on-hand, but anecdotally both ASAN and KASAN have proven problematic
+> to enable for environments that don't tolerate the increased memory
+> pressure well. This includes,
+> (a) Low-memory form factors - Wear, TV, Things, lower-tier phones like Go
+> (c) Connected components like Pixel's visual core
+> <https://www.blog.google/products/pixel/pixel-visual-core-image-processing-and-machine-learning-pixel-2/>
+> 
+> 
+> These are both places I'd love to have a low(er) memory footprint option at
+> my disposal.
 
-> So, that coccinelle scripts must be fixed accordingly.
+Thanks.
 
-We disagree about a non-existent script.
+It really is important that such information be captured in the
+changelogs.  In as much detail as can be mustered.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
