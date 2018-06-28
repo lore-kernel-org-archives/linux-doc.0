@@ -1,91 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,URIBL_BLACK autolearn=ham
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C557D7D043
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 01:11:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6886A7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 01:56:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932127AbeF1BLn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 21:11:43 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:51066 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932090AbeF1BLm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jun 2018 21:11:42 -0400
-Received: from localhost.localdomain (c-24-4-125-7.hsd1.ca.comcast.net [24.4.125.7])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id BA82CC74;
-        Thu, 28 Jun 2018 01:11:39 +0000 (UTC)
-Date:   Wed, 27 Jun 2018 18:11:38 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Vishwath Mohan <vishwath@google.com>
-Cc:     Kostya Serebryany <kcc@google.com>, andreyknvl@google.com,
-        aryabinin@virtuozzo.com, Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, catalin.marinas@arm.com,
-        will.deacon@arm.com, cl@linux.com, mark.rutland@arm.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        marc.zyngier@arm.com, dave.martin@arm.com,
-        ard.biesheuvel@linaro.org, ebiederm@xmission.com, mingo@kernel.org,
-        Paul Lawrence <paullawrence@google.com>, geert@linux-m68k.org,
-        arnd@arndb.de, kirill.shutemov@linux.intel.com,
-        gregkh@linuxfoundation.org, kstewart@linuxfoundation.org,
-        rppt@linux.vnet.ibm.com, kasan-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sparse@vger.kernel.org,
-        linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
-        Evgenii Stepanov <eugenis@google.com>, Lee.Smith@arm.com,
-        Ramana.Radhakrishnan@arm.com, Jacob.Bramley@arm.com,
-        Ruben.Ayrapetyan@arm.com, Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>, cpandya@codeaurora.org
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-Id: <20180627181138.14c9b66e13b8778506205f89@linux-foundation.org>
-In-Reply-To: <CAEZpscCcP6=O_OCqSwW8Y6u9Ee99SzWN+hRcgpP2tK=OEBFnNw@mail.gmail.com>
-References: <cover.1530018818.git.andreyknvl@google.com>
-        <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
-        <CAN=P9pivApAo76Kjc0TUDE0kvJn0pET=47xU6e=ioZV2VqO0Rg@mail.gmail.com>
-        <CAEZpscCcP6=O_OCqSwW8Y6u9Ee99SzWN+hRcgpP2tK=OEBFnNw@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1752680AbeF1B4Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Jun 2018 21:56:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44458 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751803AbeF1B4Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jun 2018 21:56:24 -0400
+Received: from localhost.localdomain (user-0ccsrjt.cable.mindspring.com [24.206.110.125])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 89572258A0;
+        Thu, 28 Jun 2018 01:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1530150984;
+        bh=WfHr8Tx4ZYlw18uHR12tPzYvtfrnUjEsxIAZxpy2Opk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hObBr1YyFijg88AveeKpAIvafe8Ub2oWShElTGOOC26z6WRYfkhidy2FwwbP2DHZw
+         2SweH3k9sk8QVrKTzPrR1u9lyah+QHqPhibCQtum2lgBXrHju8KSiEroaWmKUq+mVP
+         aq2xVX5/wiDZjaAqkeoTtbnTF3CpgLNDUzAQsC9M=
+From:   Alan Tull <atull@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Moritz Fischer <mdf@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fpga@vger.kernel.org, Alan Tull <atull@kernel.org>
+Subject: [PATCH 0/2] fpga fixes
+Date:   Wed, 27 Jun 2018 20:56:17 -0500
+Message-Id: <1530150979-5693-1-git-send-email-atull@kernel.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Jun 2018 17:59:00 -0700 Vishwath Mohan <vishwath@google.com> wrote:
+Hi Greg,
 
-> > > > time consume much less memory, trading that off for somewhat imprecise
-> > > > bug detection and being supported only for arm64.
-> > >
-> > > Why do we consider this to be a worthwhile change?
-> > >
-> > > Is KASAN's memory consumption actually a significant problem?  Some
-> > > data regarding that would be very useful.
-> >
-> > On mobile, ASAN's and KASAN's memory usage is a significant problem.
-> > Not sure if I can find scientific evidence of that.
-> > CC-ing Vishwath Mohan who deals with KASAN on Android to provide
-> > anecdotal evidence.
-> >
-> Yeah, I can confirm that it's an issue. Like Kostya mentioned, I don't have
-> data on-hand, but anecdotally both ASAN and KASAN have proven problematic
-> to enable for environments that don't tolerate the increased memory
-> pressure well. This includes,
-> (a) Low-memory form factors - Wear, TV, Things, lower-tier phones like Go
-> (c) Connected components like Pixel's visual core
-> <https://www.blog.google/products/pixel/pixel-visual-core-image-processing-and-machine-learning-pixel-2/>
-> 
-> 
-> These are both places I'd love to have a low(er) memory footprint option at
-> my disposal.
+Please take these two patches of fixes for FPGA.  They apply cleanly on
+current linux-next.  They were reviewed on the mailing list.
 
-Thanks.
+Alan
 
-It really is important that such information be captured in the
-changelogs.  In as much detail as can be mustered.
+Alan Tull (1):
+  Documentation: fpga: cleanup
+
+Christophe Jaillet (1):
+  fpga: altera-cvp: Fix an error handling path in 'altera_cvp_probe()'
+
+ Documentation/driver-api/fpga/fpga-mgr.rst    | 12 ++++++------
+ Documentation/driver-api/fpga/fpga-region.rst | 12 ++++++------
+ Documentation/driver-api/fpga/intro.rst       | 14 +++++++-------
+ drivers/fpga/altera-cvp.c                     |  6 ++++--
+ 4 files changed, 23 insertions(+), 21 deletions(-)
+
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
