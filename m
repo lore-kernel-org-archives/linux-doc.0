@@ -1,214 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28D367DF89
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 05:25:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA69D7D043
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 06:18:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933094AbeF1FYx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 01:24:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57226 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1752629AbeF1FWd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 01:22:33 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5S5JC17003816
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 01:22:33 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jvryg9cfe-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 01:22:33 -0400
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Thu, 28 Jun 2018 06:22:29 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 28 Jun 2018 06:22:24 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5S5MNdP31260740
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 28 Jun 2018 05:22:23 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 22CA042047;
-        Thu, 28 Jun 2018 06:22:14 +0100 (BST)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D564A42045;
-        Thu, 28 Jun 2018 06:22:10 +0100 (BST)
-Received: from bangoria.in.ibm.com (unknown [9.124.31.233])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu, 28 Jun 2018 06:22:10 +0100 (BST)
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-To:     srikar@linux.vnet.ibm.com, oleg@redhat.com, rostedt@goodmis.org,
-        mhiramat@kernel.org
-Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Subject: [PATCH v5 02/10] Uprobes: Simplify uprobe_register() body
-Date:   Thu, 28 Jun 2018 10:52:01 +0530
-X-Mailer: git-send-email 2.14.4
-In-Reply-To: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18062805-0028-0000-0000-000002D5C323
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18062805-0029-0000-0000-0000238D2E4D
-Message-Id: <20180628052209.13056-3-ravi.bangoria@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-28_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1806280059
+        id S1752235AbeF1GSF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 02:18:05 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:36041 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750820AbeF1GSD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 02:18:03 -0400
+Received: by mail-ed1-f67.google.com with SMTP id t3-v6so4437205eds.3;
+        Wed, 27 Jun 2018 23:18:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=SUtMrg8N0KzkoFGndvfU+Uh3gV6eJJBxlHd2ncQ5Mh8=;
+        b=eh7maeiFQWnT4zPf8keKMuse4+qjQW5cadgn+b4VFUjD5UrLHnvan0aYt/eBct90o7
+         eTl9fYEfwFDlqIBalI7S6NUmYhwxLW81+rCx73BHaygrlQLINrhK+FTytUwEyxfiw9ou
+         Dzh9ZKx1PdS9RZ6tZs0qVCbqLnUJ3Gje1zZ7vGPG3wZit2bdk0ZVxerCTNvMyIN8FF+P
+         nJJD+5+0FVndagUXzcynWHRQFlajbOikFID7l6q8qMSeVuNciOfR4lpjmYEbjrGLk2Dz
+         DHtndMLBkQI0nXNQGRffbOdxkFf65J3QAKoCcfaq5nQJa87kJmVKC3zKdqwt2WSKIdeT
+         0BFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SUtMrg8N0KzkoFGndvfU+Uh3gV6eJJBxlHd2ncQ5Mh8=;
+        b=nIO5JvzBSpn1xClSVQAVJTpozoE23Bkc3rhEVKqJ9w2wIIQs3Rx7+4l8zet2QhD4G+
+         oXG4gEJBmazojk6mCqlTjl3tcXw0k091iBk3PPg9JCMw6b3U1fjv4Th/D18KFF7qAdom
+         +iitBEfSwRBJWMQq/psiMlr+XSiZw+/eZwGeg1EfZUJoKNbcmWEdEFIMIrXLAl8tSGgo
+         UV4dlRHyLQbOqE3iOx3rDIRZKZZ9jmi5p5YWLrCu0B1p8WX0JP2Otg9qfwWirNs2Au3m
+         wH2ygO0WRHCINf7S42ukRlIUWD916Fh6MJ1Juj6mJXJFT3z9ghbzn3dbkZGS4+tnglGL
+         3VgA==
+X-Gm-Message-State: APt69E2fCSBRKFhW2cmiOus02PighkDbVlJgoB0mj/qvdVN8J1rgWnc+
+        QxQqG6ekoen6duQ9pQRsMN4=
+X-Google-Smtp-Source: AAOMgpc+TXYAF2+7RMkYqLA7j0IYXbHQYPjnJVKaYHu6IrMoF8NsL3xbO/E4+HvJWaOiYw5yRQQvOQ==
+X-Received: by 2002:a50:8d88:: with SMTP id r8-v6mr7486297edh.86.1530166681681;
+        Wed, 27 Jun 2018 23:18:01 -0700 (PDT)
+Received: from ltop.local ([2a02:a03f:40dc:3d00:cdc6:6da5:5120:7634])
+        by smtp.gmail.com with ESMTPSA id t3-v6sm2564361edq.50.2018.06.27.23.18.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 27 Jun 2018 23:18:00 -0700 (PDT)
+Date:   Thu, 28 Jun 2018 08:17:59 +0200
+From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Mark Rutland <Mark.Rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Will Deacon <Will.Deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>, nd <nd@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <Robin.Murphy@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v4 0/7] arm64: untag user pointers passed to the kernel
+Message-ID: <20180628061758.j6bytsaj5jk4aocg@ltop.local>
+References: <cover.1529507994.git.andreyknvl@google.com>
+ <CAAeHK+zqtyGzd_CZ7qKZKU-uZjZ1Pkmod5h8zzbN0xCV26nSfg@mail.gmail.com>
+ <20180626172900.ufclp2pfrhwkxjco@armageddon.cambridge.arm.com>
+ <CAAeHK+yqWKTdTG+ymZ2-5XKiDANV+fmUjnQkRy-5tpgphuLJRA@mail.gmail.com>
+ <0cef1643-a523-98e7-95e2-9ec595137642@arm.com>
+ <20180627171757.amucnh5znld45cpc@armageddon.cambridge.arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180627171757.amucnh5znld45cpc@armageddon.cambridge.arm.com>
+User-Agent: NeoMutt/20180622
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Simplify uprobe_register() function body and let __uprobe_register()
-handle everything. Also move dependency functions around to fix build
-failures.
+On Wed, Jun 27, 2018 at 06:17:58PM +0100, Catalin Marinas wrote:
+> 
+> sparse is indeed an option. The current implementation doesn't warn on
+> an explicit cast from (void __user *) to (unsigned long) since that's a
+> valid thing in the kernel. I couldn't figure out if there's any other
+> __attribute__ that could be used to warn of such conversion.
 
-Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
----
- kernel/events/uprobes.c | 69 ++++++++++++++++++++++++++-----------------------
- 1 file changed, 36 insertions(+), 33 deletions(-)
+Hi,
 
-diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-index e6e812304b22..26c2d95c55fa 100644
---- a/kernel/events/uprobes.c
-+++ b/kernel/events/uprobes.c
-@@ -816,13 +816,8 @@ register_for_each_vma(struct uprobe *uprobe, struct uprobe_consumer *new)
- 	return err;
- }
- 
--static int __uprobe_register(struct uprobe *uprobe, struct uprobe_consumer *uc)
--{
--	consumer_add(uprobe, uc);
--	return register_for_each_vma(uprobe, uc);
--}
--
--static void __uprobe_unregister(struct uprobe *uprobe, struct uprobe_consumer *uc)
-+static void
-+__uprobe_unregister(struct uprobe *uprobe, struct uprobe_consumer *uc)
- {
- 	int err;
- 
-@@ -836,24 +831,46 @@ static void __uprobe_unregister(struct uprobe *uprobe, struct uprobe_consumer *u
- }
- 
- /*
-- * uprobe_register - register a probe
-+ * uprobe_unregister - unregister a already registered probe.
-+ * @inode: the file in which the probe has to be removed.
-+ * @offset: offset from the start of the file.
-+ * @uc: identify which probe if multiple probes are colocated.
-+ */
-+void uprobe_unregister(struct inode *inode, loff_t offset, struct uprobe_consumer *uc)
-+{
-+	struct uprobe *uprobe;
-+
-+	uprobe = find_uprobe(inode, offset);
-+	if (WARN_ON(!uprobe))
-+		return;
-+
-+	down_write(&uprobe->register_rwsem);
-+	__uprobe_unregister(uprobe, uc);
-+	up_write(&uprobe->register_rwsem);
-+	put_uprobe(uprobe);
-+}
-+EXPORT_SYMBOL_GPL(uprobe_unregister);
-+
-+/*
-+ * __uprobe_register - register a probe
-  * @inode: the file in which the probe has to be placed.
-  * @offset: offset from the start of the file.
-  * @uc: information on howto handle the probe..
-  *
-- * Apart from the access refcount, uprobe_register() takes a creation
-+ * Apart from the access refcount, __uprobe_register() takes a creation
-  * refcount (thro alloc_uprobe) if and only if this @uprobe is getting
-  * inserted into the rbtree (i.e first consumer for a @inode:@offset
-  * tuple).  Creation refcount stops uprobe_unregister from freeing the
-  * @uprobe even before the register operation is complete. Creation
-  * refcount is released when the last @uc for the @uprobe
-- * unregisters. Caller of uprobe_register() is required to keep @inode
-+ * unregisters. Caller of __uprobe_register() is required to keep @inode
-  * (and the containing mount) referenced.
-  *
-  * Return errno if it cannot successully install probes
-  * else return 0 (success)
-  */
--int uprobe_register(struct inode *inode, loff_t offset, struct uprobe_consumer *uc)
-+static int __uprobe_register(struct inode *inode, loff_t offset,
-+			     struct uprobe_consumer *uc)
- {
- 	struct uprobe *uprobe;
- 	int ret;
-@@ -880,7 +897,8 @@ int uprobe_register(struct inode *inode, loff_t offset, struct uprobe_consumer *
- 	down_write(&uprobe->register_rwsem);
- 	ret = -EAGAIN;
- 	if (likely(uprobe_is_active(uprobe))) {
--		ret = __uprobe_register(uprobe, uc);
-+		consumer_add(uprobe, uc);
-+		ret = register_for_each_vma(uprobe, uc);
- 		if (ret)
- 			__uprobe_unregister(uprobe, uc);
- 	}
-@@ -891,6 +909,12 @@ int uprobe_register(struct inode *inode, loff_t offset, struct uprobe_consumer *
- 		goto retry;
- 	return ret;
- }
-+
-+int uprobe_register(struct inode *inode, loff_t offset,
-+		    struct uprobe_consumer *uc)
-+{
-+	return __uprobe_register(inode, offset, uc);
-+}
- EXPORT_SYMBOL_GPL(uprobe_register);
- 
- /*
-@@ -922,27 +946,6 @@ int uprobe_apply(struct inode *inode, loff_t offset,
- 	return ret;
- }
- 
--/*
-- * uprobe_unregister - unregister a already registered probe.
-- * @inode: the file in which the probe has to be removed.
-- * @offset: offset from the start of the file.
-- * @uc: identify which probe if multiple probes are colocated.
-- */
--void uprobe_unregister(struct inode *inode, loff_t offset, struct uprobe_consumer *uc)
--{
--	struct uprobe *uprobe;
--
--	uprobe = find_uprobe(inode, offset);
--	if (WARN_ON(!uprobe))
--		return;
--
--	down_write(&uprobe->register_rwsem);
--	__uprobe_unregister(uprobe, uc);
--	up_write(&uprobe->register_rwsem);
--	put_uprobe(uprobe);
--}
--EXPORT_SYMBOL_GPL(uprobe_unregister);
--
- static int unapply_uprobe(struct uprobe *uprobe, struct mm_struct *mm)
- {
- 	struct vm_area_struct *vma;
--- 
-2.14.4
+sparse doesn't have such attribute but would an new option that would warn
+on such cast be a solution for your case?
 
+-- Luc
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
