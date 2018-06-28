@@ -1,62 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96CAF7D072
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 03:16:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 68BDC7D072
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 04:08:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932992AbeF1DQJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Jun 2018 23:16:09 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58637 "EHLO mx2.suse.de"
+        id S1751874AbeF1EIn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 00:08:43 -0400
+Received: from www.zeus03.de ([194.117.254.33]:60262 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932577AbeF1DQJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jun 2018 23:16:09 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (charybdis-ext-too.suse.de [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 6488BACC6;
-        Thu, 28 Jun 2018 03:16:07 +0000 (UTC)
-Date:   Thu, 28 Jun 2018 05:16:06 +0200
-From:   "Luis R. Rodriguez" <mcgrof@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
-Subject: Re: [PATCH v8 1/5] ipc: IPCMNI limit check for msgmni and shmmni
-Message-ID: <20180628031605.GJ21242@wotan.suse.de>
-References: <1529317698-16575-1-git-send-email-longman@redhat.com>
- <1529317698-16575-2-git-send-email-longman@redhat.com>
+        id S1751414AbeF1EIm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jun 2018 00:08:42 -0400
+Received: (qmail 15353 invoked from network); 28 Jun 2018 06:08:38 +0200
+Received: by mail.zeus03.de with ESMTPSA (ECDHE-RSA-AES256-GCM-SHA384 encrypted, authenticated); 28 Jun 2018 06:08:38 +0200
+X-UD-Smtp-Session: l3s3148p1@BpDD4qtvLJggAwDPW84CAAId4P/+oMhl
+Date:   Thu, 28 Jun 2018 06:08:37 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        linux-i2c@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        ext Nishanth Menon <nm@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "Nori, Sekhar" <nsekhar@ti.com>, pgaj@cadence.com
+Subject: Re: [PATCH v5 09/10] gpio: Add a driver for Cadence I3C GPIO expander
+Message-ID: <20180628040837.25fpjubloxo277ag@katana>
+References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
+ <20180622104930.32050-10-boris.brezillon@bootlin.com>
+ <CACRpkdYmR3+urDk6StG7s=W3=oYHB6eqs7ORdMV=-S31QtOAqQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="a3od6fvxi7bwproo"
 Content-Disposition: inline
-In-Reply-To: <1529317698-16575-2-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+In-Reply-To: <CACRpkdYmR3+urDk6StG7s=W3=oYHB6eqs7ORdMV=-S31QtOAqQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 18, 2018 at 06:28:14PM +0800, Waiman Long wrote:
-> A user can write arbitrary integer values to msgmni and shmmni sysctl
-> parameters without getting error, but the actual limit is really
-> IPCMNI (32k). This can mislead users as they think they can get a
-> value that is not real.
-> 
-> The right limits are now set for msgmni and shmmni so that the users
-> will become aware if they set a value outside of the acceptable range.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
 
-Acked-by: Luis R. Rodriguez <mcgrof@kernel.org>
+--a3od6fvxi7bwproo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  Luis
+
+> I see there was some heat in this discussion between you
+> and Andy, and it seems to be resolved. Which is good
+> because you are both senior contributors that I value
+> a lot.
+
++1
+
+
+--a3od6fvxi7bwproo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAls0X0EACgkQFA3kzBSg
+KbZGuQ/+JXDMJCo6XGuicpcQb6G3cvLv/h/jkSJnR61ElmXs4kSOX8DFsszrMy+Y
+YUV9Br988qAEvJPsfbcEexjBJ5y2K6A3hpTUMJY0un2s23hJECxN9bV0Il0SPInT
+i0WwHnV7fn8aM7qbza/fuYh9N/5CXQRXE1SNJjyj8pVWwHXIayNla8lBaSCnyfgF
+myyd0EmEAxaPze7O2r++K326YhZOFSrcVYT5ScqOIMt/EQd1S4xN91Qx9zTWwMAJ
+27uES5566WnNJEclmuHQFu5hGAMB2X3k3w9HbHzxUInTHgB7g2IQbuHHTjqV8ogT
+qPNXCKFwIJhz6bxYRxo5Lie+Y2a3J9W+Gu6CIIeeZHFgDUfs3svnvSbuog01LZ00
+S+ysTxsSqn0PG2kYYJwNMWPueF6/t2IGsqsCpkB/KK6x0pWkv8c3bQsAtYGDC/Uv
+JIMHJ2cE1JSrWtdUt/gnGn5yysnpim0mdV3mBlkSrwSm7PFsVjThUeEmML8+L1Fm
+Y2VY+zDeJcd639d87ZTp+e8+r9HCqz+41HTC3zE94qXZVX9ZddgcubOm2WTaf6pa
+O3TMQUrNzlLhH3eHnyTiW6PraobNIHCvv8HJ1BmOfWCFVPfa18ZtcA5xN93VYGXg
+28nCx2jumkugOZ9KVoUABGMNaXhtHHhAAbN9DQs4cX4IuJky4C0=
+=buoG
+-----END PGP SIGNATURE-----
+
+--a3od6fvxi7bwproo--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
