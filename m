@@ -3,162 +3,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 399C67D062
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 15:39:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C8CE7D09D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Jun 2018 17:30:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965527AbeF1PjX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 11:39:23 -0400
-Received: from smtprelay.synopsys.com ([198.182.47.9]:51157 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S934364AbeF1PjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 11:39:20 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 855C124E1150;
-        Thu, 28 Jun 2018 08:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1530200360; bh=wO8lm6gnGh5gksVx9oLMnLEtrQdBWOJZb9Oxq00burE=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=MK26VK395HRa6pRt9A0QlCD6PWqh60PziSZMsS9qY+M03r9Ia5wzjfnIaWkCrTkc9
-         pNfDmABtwpLVAaUkUdMtq8v5zVYFGCbTe6o/MUUvhFYBG5hNdwrqOXL58YbiU8RMa+
-         ZK7D2EvHNUK35HdusNRSrJVWYfJUC6847ahyvC3hNM8VkZEXyn5Kxt0eM0W2qt1+Ot
-         GB8y8pusr2FminDyrz2IVxfCbZ0zZQfwFM0suGF4vLAVHIBhr4LojJE6vSP64JVtgf
-         zluD7iAetmreci8JRAbGVe1ym8aZz+XZeXOzGAN2GUcKZOIAznZgzkdtgBBFkLn2E7
-         YVa9Wv6IaNkOw==
-Received: from us01wehtc1.internal.synopsys.com (us01wehtc1.internal.synopsys.com [10.12.239.235])
-        by mailhost.synopsys.com (Postfix) with ESMTP id BEC7C3BE9;
-        Thu, 28 Jun 2018 08:39:16 -0700 (PDT)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- us01wehtc1.internal.synopsys.com (10.12.239.231) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 28 Jun 2018 08:39:16 -0700
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.361.1; Thu, 28 Jun 2018 17:39:14 +0200
-Received: from [10.0.2.15] (10.107.25.57) by DE02WEHTCB.internal.synopsys.com
- (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 28 Jun
- 2018 17:39:14 +0200
-Subject: Re: [PATCH v5 01/10] i3c: Add core I3C infrastructure
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>
-CC:     Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
- <20180622104930.32050-2-boris.brezillon@bootlin.com>
-From:   vitor <Vitor.Soares@synopsys.com>
-Message-ID: <088dc947-da66-cec9-44a8-0f1097690bfd@synopsys.com>
-Date:   Thu, 28 Jun 2018 16:38:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S934931AbeF1Ra4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Jun 2018 13:30:56 -0400
+Received: from mail-wm0-f68.google.com ([74.125.82.68]:54889 "EHLO
+        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933596AbeF1Ray (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 13:30:54 -0400
+Received: by mail-wm0-f68.google.com with SMTP id i139-v6so10546043wmf.4
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 10:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=A0QHU8mL+6CDYRZhCz74GYSF4Kf0iPJGJzoqxFNfZlw=;
+        b=BDjiTO1b2tBcu4jRtIm4VSmC817Y24sAlw1sNJYeV6hmm1wMHuS3QAKD2prIayS9VF
+         xfcQn30TnJR8xvCc9eHLZzZ2QaYw/fDH0uXq5S8CPevH1UP1Jlk2d/reV6qt0VwHZGGF
+         Ck3aUnliC6nytjxNDL9MCZJf6/VUHxpPy6EMU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=A0QHU8mL+6CDYRZhCz74GYSF4Kf0iPJGJzoqxFNfZlw=;
+        b=rDjIouIVLDhFKIwETG8dlui12Leqjn+8GVoTWCPOpIF0Mm7fKzHKu6+HozLlIpIMSO
+         /ppRkH1dltNYtBvT7vU1RxSWqq+twoR3guB7g9pqFT+I14pDhm73AncFmV++aM800Qyt
+         MlfthwEPgooE3Nj1oJiOFrCtyENAslnKKm89eIfodpTJRE7167ggCRqK6A5AGaT7wxJp
+         jTNNbSErGKHP+6JjHgFeN8N0CAqKhQyZOwl8cfHUpeSwHqYif2XDg2aBoiktEW6HLO9Z
+         2vu3yWzavAMHovKEUaTaU4lAzOlGbvovn8e8DNRQJ+6kMIjSSAepS9sB5h+ZmFHIudyE
+         NgrA==
+X-Gm-Message-State: APt69E3MiTKxw13g/jn1xX+wzFHUbPv2EygMZTEX5HHQ9zgkpBd5OTpU
+        vS/KhcII8VbMW+m/pt0kjeS8MQ==
+X-Google-Smtp-Source: AAOMgpc0RiyUfXMmQSBttFY3RRx79fGE5aFCTRShoXgxnxH6gtalxH/jNOk3SZDYBtMGF10gVJ15ig==
+X-Received: by 2002:a7b:c058:: with SMTP id u24-v6mr9036613wmc.136.1530207052957;
+        Thu, 28 Jun 2018 10:30:52 -0700 (PDT)
+Received: from andrea ([94.230.152.15])
+        by smtp.gmail.com with ESMTPSA id h3-v6sm5335306wro.87.2018.06.28.10.30.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 28 Jun 2018 10:30:52 -0700 (PDT)
+Date:   Thu, 28 Jun 2018 19:30:45 +0200
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 2/3] locking: Clarify requirements for
+ smp_mb__after_spinlock()
+Message-ID: <20180628173045.GA4975@andrea>
+References: <1530182480-13205-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180628150550.GI2494@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <20180622104930.32050-2-boris.brezillon@bootlin.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.107.25.57]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180628150550.GI2494@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
+On Thu, Jun 28, 2018 at 05:05:50PM +0200, Peter Zijlstra wrote:
+> On Thu, Jun 28, 2018 at 12:41:19PM +0200, Andrea Parri wrote:
+> > - * This barrier must provide two things:
+> > - *
+> > - *   - it must guarantee a STORE before the spin_lock() is ordered against a
+> > - *     LOAD after it, see the comments at its two usage sites.
+> > - *
+> > - *   - it must ensure the critical section is RCsc.
+> > - *
+> > - * The latter is important for cases where we observe values written by other
+> > - * CPUs in spin-loops, without barriers, while being subject to scheduling.
+> > - *
+> > - * CPU0			CPU1			CPU2
+> > - *
+> > - *			for (;;) {
+> > - *			  if (READ_ONCE(X))
+> > - *			    break;
+> > - *			}
+> > - * X=1
+> > - *			<sched-out>
+> > - *						<sched-in>
+> > - *						r = X;
+> > - *
+> > - * without transitivity it could be that CPU1 observes X!=0 breaks the loop,
+> > - * we get migrated and CPU2 sees X==0.
+> 
+> Please don't remove that; that explains _why_ we need a full memory
+> barrier here.
 
+Peter:
 
-On 22-06-2018 11:49, Boris Brezillon wrote:
-> +static int of_i3c_master_add_i3c_dev(struct i3c_master_controller *master,
-> +				     struct device_node *node, u32 *reg)
-> +{
-> +	struct i3c_device_info info = { };
-> +	enum i3c_addr_slot_status addrstatus;
-> +	struct i3c_device *i3cdev;
-> +	u32 init_dyn_addr = 0;
-> +
-> +	if (reg[0]) {
-> +		if (reg[0] > I3C_MAX_ADDR)
-> +			return -EINVAL;
-> +
-> +		addrstatus = i3c_bus_get_addr_slot_status(master->bus, reg[0]);
-> +		if (addrstatus != I3C_ADDR_SLOT_FREE)
-> +			return -EINVAL;
-> +	}
-> +
-> +	info.static_addr = reg[0];
-> +
-> +	if (!of_property_read_u32(node, "assigned-address", &init_dyn_addr)) {
-> +		if (init_dyn_addr > I3C_MAX_ADDR)
-> +			return -EINVAL;
-> +
-> +		addrstatus = i3c_bus_get_addr_slot_status(master->bus,
-> +							  init_dyn_addr);
-> +		if (addrstatus != I3C_ADDR_SLOT_FREE)
-> +			return -EINVAL;
-> +	}
-> +
-> +	info.pid = ((u64)reg[1] << 32) | reg[2];
-> +
-> +	if ((info.pid & GENMASK_ULL(63, 48)) ||
-> +	    I3C_PID_RND_LOWER_32BITS(info.pid))
-> +		return -EINVAL;
-> +
-> +	i3cdev = i3c_master_alloc_i3c_dev(master, &info, &i3c_device_type);
-> +	if (IS_ERR(i3cdev))
-> +		return PTR_ERR(i3cdev);
-> +
-> +	i3cdev->init_dyn_addr = init_dyn_addr;
-> +	i3cdev->dev.of_node = node;
-> +	list_add_tail(&i3cdev->common.node, &master->bus->devs.i3c);
-> +
-> +	return 0;
-> +}
-> +
+Both you and Boqun stated that the above snippet is "bad":
 
-I'm writing the driver for the Synopsys master and but now I getting an 
-issue.
+  http://lkml.kernel.org/r/20180312085646.GE4064@hirez.programming.kicks-ass.net
 
-I use the "slot" of the device to do all transfers, something like you 
-use in DAA. I using the master_priv to save the "slot" per device but 
-the problem is when I call the i3c_master_add_i3c_dev_locked() to 
-retrieve the info I don't have it yet.
+and I do agree with your assessment! ;-)
 
- From my analysis this can be solve with:
-     - send PID, BCR and DCR when I call i3c_master_add_i3c_dev_locked() 
-or similar function.
-     - Pre-allocate an i3c_device -> attach it (slot data goes to 
-master_priv) -> retrieve info -> if there is already an i3c_device with 
-same PID destroy the pre-allocated one.
-     - Replace the info.dyn_address with a structure with dyn_address 
-and slot and use it in CCC structure.
+I've no objection to keep that comment (together with the
+"clarification" suggested in this patch) _once_ replaced
+that snippet with something else (say, with the snippet
+Boqun suggested in:
 
-This is something that will need to be supported for I3C HCI spec too. 
-Do you have any suggestion?
+  http://lkml.kernel.org/r/20180312085600.aczjkpn73axzs2sb@tardis ):
 
-Best regards,
-Vitor Soares
+is this what you mean?
 
-
+  Andrea
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
