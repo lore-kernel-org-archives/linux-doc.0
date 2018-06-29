@@ -1,133 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C314F7D072
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 13:45:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0DB0F7D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 14:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965939AbeF2NpM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 09:45:12 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:49522 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S965409AbeF2NpK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 09:45:10 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id w5TDcgMA105643;
-        Fri, 29 Jun 2018 13:43:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2017-10-26;
- bh=IYnfXID1scputwOuPyQwoT7N16OKsKGAjw0dZIx9kKk=;
- b=SXjzkGplFiSMl2Deo9Q1oHPovy+vsI2ybWnFVg/S7TaKU9o15C8fepenZ69PW6aBQh8U
- +0HeSaOHgWiteM1ySKp+TFvZ1DReRKhIHrexsvQd1odAWaP9Npu/Z9CLptVgAvWltNl0
- atbTd9Qr3MTPnJEtPQLMg3+Ufus1LW1+cEkPYtEEvoAhZzXf2FW3vNUZ3k67k+GxlKgJ
- wTBHmEowWLvoh8BsFW1RR5yxyZdERpm7u/YMOmoPkbZxt0d4KiGC4f1564jQnN4Sp9JZ
- 8p0F+l79Vvuon2hAicTN4qpZvPRZbP8eKk6EfwLEitKChMJSuZA2MuSKs4m1U6nohSS7 GA== 
-Received: from aserv0022.oracle.com (aserv0022.oracle.com [141.146.126.234])
-        by aserp2130.oracle.com with ESMTP id 2jukmu6n9b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 29 Jun 2018 13:43:27 +0000
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserv0022.oracle.com (8.14.4/8.14.4) with ESMTP id w5TDhQqj013812
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 29 Jun 2018 13:43:26 GMT
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id w5TDhNvV004644;
-        Fri, 29 Jun 2018 13:43:23 GMT
-Received: from mwanda (/197.157.0.49)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 29 Jun 2018 06:43:22 -0700
-Date:   Fri, 29 Jun 2018 16:42:57 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org,
+        id S932131AbeF2OkY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 10:40:24 -0400
+Received: from mail-it0-f65.google.com ([209.85.214.65]:50178 "EHLO
+        mail-it0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S933723AbeF2OkW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 10:40:22 -0400
+Received: by mail-it0-f65.google.com with SMTP id u4-v6so3176029itg.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 07:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=q6EyTGd2x9sRvsPPcqRYANFsVkUOYj+D/qstNYmA4GU=;
+        b=Nfg9fmC5Oc3STiqhNLuCPCsCEV8+sk42j51g0jVJgX43VIf1koqzKghuvb0+CNMR1q
+         yKWoxTDVShV6NQmQ26wU5BwZKCfTH6+h2VCBkUqF7ZCNICFneEHA31+UiQyo/DKbiIdu
+         iTRMQJvkPjzQnpIOD5mQ2vPcg+9+fQYNJzp7AoahMNDInPKzLzoqdlYRvLOh7dUh00dx
+         dtgPPEkhTP4JhDYsAx4OxWXf7lntECdl2KU1U3TYvLTZUKZH04G8vtKmRBwaRmGWop7b
+         9fJP+HAuRHamt1GFufJ9J8Oo2SOL2urTTE6hIk63C+4VKSwlq6TZjMwIv+WVJ2HhX6h0
+         qA7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=q6EyTGd2x9sRvsPPcqRYANFsVkUOYj+D/qstNYmA4GU=;
+        b=GS929vbykHqon0CJNnTLvU5V0FR02xb9MNE9Foj6vRLEFDYEhKOuNucZitogc16NSt
+         rmet/e0E+RgyNcGns74DtsDjjISo0inwuzgfzi4ZuTjgy5PPSoasGbhH5nHAZPlAXHwF
+         pr8EaehrMeULXIZ19hopYpWXbGSHcIq5ZwwkMvBucCxfz8s0Xe5ufL++KDl8w/Li0/Ph
+         aMI6TmWb9bZVMDOjaDYN0KZfSg7kcEcj1qr3+gbiBbIZDNF/tW+9qRJdAvd2exJdARfx
+         9HevLhT0Fk7FI2rc9emCjtkqDVGDH3vKt4BBCL8WDr++cjc46ZpjdH2X6lmZ6BXo5EVf
+         8EPg==
+X-Gm-Message-State: APt69E1SnpgHWX6iRvqlQNB/H3m45eX+xGGvfd+pbY0+ewobPngkXb19
+        QJOiOWjWazoNDqO+NATF8FMUzW28RUzP/NQRw7xt+g==
+X-Google-Smtp-Source: AAOMgpcGZXKwZnt4M0BS0b7ZRrry0cxeASKbEvg6vo/h3QWgismAKyRZpjNHBiydwrjwA4z/EEciMdb41jKWrn/hWXM=
+X-Received: by 2002:a24:b046:: with SMTP id b6-v6mr2142957itj.48.1530283221194;
+ Fri, 29 Jun 2018 07:40:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Fri, 29 Jun 2018 07:40:20
+ -0700 (PDT)
+In-Reply-To: <20180629130155.e7ztz5ikxfl352ff@lakrids.cambridge.arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+ <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
+ <20180628124039.8a42ab5e2994fb2876ff4f75@linux-foundation.org>
+ <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com> <20180629130155.e7ztz5ikxfl352ff@lakrids.cambridge.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 29 Jun 2018 16:40:20 +0200
+Message-ID: <CAAeHK+zwmOMgP=Om6TKz8V5_4qgFhDfQSA01CBMnhbBWmHe9sQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
-        Paul Lawrence <paullawrence@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Alexander Potapenko <glider@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
         Christoph Lameter <cl@linux.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
         Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Jann Horn <jannh@google.com>,
         Mark Brand <markbrand@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-sparse@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        smatch@vger.kernel.org
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-ID: <20180629134257.ci5ninozkh2ni6wd@mwanda>
-References: <cover.1530018818.git.andreyknvl@google.com>
- <20180628105057.GA26019@e103592.cambridge.arm.com>
- <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
- <20180629110419.GC26019@e103592.cambridge.arm.com>
- <20180629112613.7i4xesjyxolc63gu@ltop.local>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180629112613.7i4xesjyxolc63gu@ltop.local>
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=8938 signatures=668703
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=601
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1806210000 definitions=main-1806290147
+        Chintan Pandya <cpandya@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 29, 2018 at 01:26:14PM +0200, Luc Van Oostenryck wrote:
-> On Fri, Jun 29, 2018 at 12:04:22PM +0100, Dave Martin wrote:
-> > 
-> > Can sparse be hacked to identify pointer subtractions where the pointers
-> > are cannot be statically proved to point into the same allocation?
-> 
-> sparse only see the (deatils of) the function it analyses and all
-> visible declarations, nothing more.
-> 
-> It would be more a job for smatch which do global analysis.
-> But to identify such subtractions yu must already have a (good)
-> pointer alias analysis which I don't think smatch do (but I can
-> be wrong, Dan & smatch's ml added in CC).
+On Fri, Jun 29, 2018 at 3:01 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> On Fri, Jun 29, 2018 at 02:45:08PM +0200, Andrey Konovalov wrote:
+>> So with clean kernel after boot we get 40 kb memory usage. With KASAN
+>> it is ~120 kb, which is 200% overhead. With KHWASAN it's 50 kb, which
+>> is 25% overhead. This should approximately scale to any amounts of
+>> used slab memory. For example with 100 mb memory usage we would get
+>> +200 mb for KASAN and +25 mb with KHWASAN. (And KASAN also requires
+>> quarantine for better use-after-free detection). I can explicitly
+>> mention the overhead in %s in the changelog.
+>
+> Could you elaborate on where that SLAB overhead comes from?
+>
+> IIUC that's not for the shadow itself (since it's allocated up-front and
+> not accounted to SLAB), and that doesn't take into account the
+> quarantine, so what's eating that space?
 
-That would be hard to manage.  Maybe in a year from now...
-
-Pointer math errors tend to get caught pretty quick because they're on
-the success path so I don't imagine there are huge numbers of bugs.
-
-regards,
-dan carpenter
-
+Redzones. KHWASAN doesn't need them since the next slab object is
+marked with a different tag (with a high probability) and acts as a
+redzone.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
