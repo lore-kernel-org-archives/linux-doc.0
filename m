@@ -5,131 +5,74 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2BEF57DF89
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 03:24:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 738CC7D09D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 07:26:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932322AbeF2DYH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Jun 2018 23:24:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40848 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S932140AbeF2DYG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jun 2018 23:24:06 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5T3O5nE109854
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 23:24:06 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jw8hjg3df-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jun 2018 23:24:05 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Fri, 29 Jun 2018 04:23:45 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 29 Jun 2018 04:23:41 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5T3NeNa29949958
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 29 Jun 2018 03:23:40 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C68C8AE057;
-        Fri, 29 Jun 2018 04:23:31 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C35BDAE04D;
-        Fri, 29 Jun 2018 04:23:22 +0100 (BST)
-Received: from [9.79.204.50] (unknown [9.79.204.50])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 29 Jun 2018 04:23:22 +0100 (BST)
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180628195106.GA3952@redhat.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Fri, 29 Jun 2018 08:53:28 +0530
+        id S1753155AbeF2H02 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 03:26:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:1675 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751712AbeF2H01 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jun 2018 03:26:27 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 52E90307CF31;
+        Fri, 29 Jun 2018 07:26:27 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-116-112.phx2.redhat.com [10.3.116.112])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5CA8277343;
+        Fri, 29 Jun 2018 07:26:24 +0000 (UTC)
+Subject: Re: [PATCH v8 2/5] ipc: IPCMNI limit check for semmni
+To:     "Luis R. Rodriguez" <mcgrof@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
+References: <1529317698-16575-1-git-send-email-longman@redhat.com>
+ <1529317698-16575-3-git-send-email-longman@redhat.com>
+ <20180628223906.GB331@wotan.suse.de>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <d0596d73-1130-3ee5-a8ee-b8a9e8989d45@redhat.com>
+Date:   Fri, 29 Jun 2018 15:26:23 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-In-Reply-To: <20180628195106.GA3952@redhat.com>
+In-Reply-To: <20180628223906.GB331@wotan.suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18062903-0020-0000-0000-000002A11786
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18062903-0021-0000-0000-000020ED18A0
-Message-Id: <cd95a4cc-4301-0dca-5fdd-53cc016dcfe1@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-28_09:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1806290036
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Fri, 29 Jun 2018 07:26:27 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Oleg,
+On 06/29/2018 06:39 AM, Luis R. Rodriguez wrote:
+> On Mon, Jun 18, 2018 at 06:28:15PM +0800, Waiman Long wrote:
+>> For SysV semaphores, the semmni value is the last part of the 4-element
+>> sem number array. To make semmni behave in a similar way to msgmni and
+>> shmmni, we can't directly use the _minmax handler. Instead, a special
+>> sem specific handler is added to check the last argument to make sure
+>> that it is limited to the [0, IPCMNI] range. An error will be returned
+>> if this is not the case.
+> Sorry my time has run out, and will be on vacation until July 10th. If
+> this can wait until then then great, otherwise hopefully Kees can take
+> a look. It would be wonderful to get Eric's review on this as well.
+>
+>   Luis
 
-On 06/29/2018 01:21 AM, Oleg Nesterov wrote:
-> I have to admit that after a quick glance I can't understand this patch
-> at all... I'll try to read it again tomorrow, but could you at least explain
-> how find_node_in_range/build_probe_list can work if off_type==REF_CTR_OFFSET?
-> 
-> On 06/28, Ravi Bangoria wrote:
->>
->> -find_node_in_range(struct inode *inode, loff_t min, loff_t max)
->> +find_node_in_range(struct inode *inode, int off_type, loff_t min, loff_t max)
->>  {
->>  	struct rb_node *n = uprobes_tree.rb_node;
->>  
->>  	while (n) {
->>  		struct uprobe *u = rb_entry(n, struct uprobe, rb_node);
->> +		loff_t offset = uprobe_get_offset(u, off_type);
->>  
->>  		if (inode < u->inode) {
->>  			n = n->rb_left;
->>  		} else if (inode > u->inode) {
->>  			n = n->rb_right;
->>  		} else {
->> -			if (max < u->offset)
->> +			if (max < offset)
->>  				n = n->rb_left;
->> -			else if (min > u->offset)
->> +			else if (min > offset)
->>  				n = n->rb_right;
->>  			else
->>  				break;
-> 
-> To simplify, lets forget about uprobe->inode (which acts as a key too). So uprobes_tree
-> is a binary tree sorted by uprobe->offset key and that is why the binary search works.
-> 
-> But it is not sorted by uprobe->ref_ctr_offset. So for example n->rb_left can have the
-> n->ref_ctr_offset key that is greater than the n's ref_ctr_offset. So how we can use the
-> binary search if REF_CTR_OFFSET?
-> 
-> I must have missed something, I assume you tested this patch and it works somehow...
-> 
+Thanks for the review. I will try to get other reviewer to chime in.
 
-Right, I've misinterpreted that code. Will check it.
+Kees and Eric, do you have comments on this patchset?
 
-Thanks for explaining,
-Ravi
+Cheers,
+Longman
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
