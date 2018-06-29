@@ -1,91 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 960F87D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 12:52:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 028607D09E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 13:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936356AbeF2MwJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 08:52:09 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44341 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S936351AbeF2MwI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 08:52:08 -0400
-Received: by mail-lj1-f193.google.com with SMTP id t22-v6so7211362ljc.11
-        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 05:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/KbNEDlhggOCmZJcGGsux/1SDbrIGgH3sx7KEuPsNXE=;
-        b=dmYNWNA4C7Bh+hTGNYRc5e4OVT+8hNXSR3bavV0CQ2BcUAg1cKklPoNLZqyyCDhFCe
-         euq/XjypqpRQF2Mz3cPXGAOzmh7NFFf+oXWFIggXAJ/yVA+qg/ObXZ2C4Bm0c7RFHQ2x
-         1qPue8VTZ5BFk1HDZOHAya0EoLtScOulDExus=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=/KbNEDlhggOCmZJcGGsux/1SDbrIGgH3sx7KEuPsNXE=;
-        b=I1ln36dDX3SsBIxyO5TBDpb8SnctXd4dNlHDQ0TPjuoArHa5yez11bA/kSfrnFML4T
-         De5gR2KLvESmIPrO9JDXBqlst6GvqAVgJm15FV9WiyYhittym9J50p1UCdVdh9GAVXeT
-         x87salRNkA5vbWhgZ37HoeeepIz7R2yYEJSwjxQg4nR9deowyb8rVqug/l9xyKRc9FLA
-         SE7nuf413qzZNRI198+b2DLWAFv77WHbvPsAC5qwyuAz9tNBLqwc9mqEYkS9EHwQG72m
-         4cL94XtEx76NvOS8e/KPrjLXN5G1vcBsb3Hn0JcPx0iMeFSTFq3VpOZhyxySTrI69Q7j
-         kj+w==
-X-Gm-Message-State: APt69E0gB4pjXySgfBlCqtHxnITgUEN2RkPFJNnD1nzUziDLM34JNvE/
-        wqcLhN3f751pPkSW7dQWpgj9CGaq1LA=
-X-Google-Smtp-Source: AAOMgpfP/8Os7RtswYECEDD1Ss1su0g4M/LTv6BeNduRCitRgabPXGNbunR4+6qaSi5RLQEgwUaYiA==
-X-Received: by 2002:a2e:1503:: with SMTP id s3-v6mr10420486ljd.65.1530276726782;
-        Fri, 29 Jun 2018 05:52:06 -0700 (PDT)
-Received: from localhost (c-2c3d70d5.07-21-73746f28.bbcust.telenor.se. [213.112.61.44])
-        by smtp.gmail.com with ESMTPSA id x8-v6sm1532529ljj.54.2018.06.29.05.52.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 29 Jun 2018 05:52:06 -0700 (PDT)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     shuah@kernel.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH v2] doc: dev-tools: kselftest.rst: update contributing new tests
-Date:   Fri, 29 Jun 2018 14:52:01 +0200
-Message-Id: <20180629125201.24025-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180629100248.11560-1-anders.roxell@linaro.org>
-References: <20180629100248.11560-1-anders.roxell@linaro.org>
+        id S965662AbeF2NCL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 09:02:11 -0400
+Received: from foss.arm.com ([217.140.101.70]:33972 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S965231AbeF2NCH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jun 2018 09:02:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE50880D;
+        Fri, 29 Jun 2018 06:02:06 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 360DF3F266;
+        Fri, 29 Jun 2018 06:02:01 -0700 (PDT)
+Date:   Fri, 29 Jun 2018 14:01:56 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
+ sanitizer
+Message-ID: <20180629130155.e7ztz5ikxfl352ff@lakrids.cambridge.arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com>
+ <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+ <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
+ <20180628124039.8a42ab5e2994fb2876ff4f75@linux-foundation.org>
+ <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a description that kernel config options should be added into a
-config file that is placed next to the newly added test.
+On Fri, Jun 29, 2018 at 02:45:08PM +0200, Andrey Konovalov wrote:
+> On Thu, Jun 28, 2018 at 9:40 PM, Andrew Morton
+> <akpm@linux-foundation.org> wrote:
+> > On Thu, 28 Jun 2018 20:29:07 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
+> >
+> >> >> Slab memory usage after boot [2]:
+> >> >> * ~40 kb for clean kernel
+> >> >> * ~105 kb + 1/8th shadow ~= 118 kb for KASAN
+> >> >> * ~47 kb + 1/16th shadow ~= 50 kb for KHWASAN
+> >> >>
+> >> >> Network performance [3]:
+> >> >> * 8.33 Gbits/sec for clean kernel
+> >> >> * 3.17 Gbits/sec for KASAN
+> >> >> * 2.85 Gbits/sec for KHWASAN
+> >> >>
+> >> >> Note, that KHWASAN (compared to KASAN) doesn't require quarantine.
+> >> >>
+> >> >> [1] Time before the ext4 driver is initialized.
+> >> >> [2] Measured as `cat /proc/meminfo | grep Slab`.
+> >> >> [3] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
+> >> >
+> >> > The above doesn't actually demonstrate the whole point of the
+> >> > patchset: to reduce KASAN's very high memory consumption?
+> >>
+> >> You mean that memory usage numbers collected after boot don't give a
+> >> representative picture of actual memory consumption on real workloads?
+> >>
+> >> What kind of memory consumption testing would you like to see?
+> >
+> > Well, 100kb or so is a teeny amount on virtually any machine.  I'm
+> > assuming the savings are (much) more significant once the machine gets
+> > loaded up and doing work?
+> 
+> So with clean kernel after boot we get 40 kb memory usage. With KASAN
+> it is ~120 kb, which is 200% overhead. With KHWASAN it's 50 kb, which
+> is 25% overhead. This should approximately scale to any amounts of
+> used slab memory. For example with 100 mb memory usage we would get
+> +200 mb for KASAN and +25 mb with KHWASAN. (And KASAN also requires
+> quarantine for better use-after-free detection). I can explicitly
+> mention the overhead in %s in the changelog.
 
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- Documentation/dev-tools/kselftest.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+Could you elaborate on where that SLAB overhead comes from?
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index 3bf371a938d0..6f653acea248 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -156,6 +156,11 @@ Contributing new tests (details)
-    installed by the distro on the system should be the primary focus to be able
-    to find regressions.
- 
-+ * If a test needs specific kernel config options enabled, add a config file in
-+   the test directory to enable them.
-+
-+   e.g: tools/testing/selftests/android/ion/config
-+
- Test Harness
- ============
- 
--- 
-2.18.0
+IIUC that's not for the shadow itself (since it's allocated up-front and
+not accounted to SLAB), and that doesn't take into account the
+quarantine, so what's eating that space?
 
+Thanks,
+Mark.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
