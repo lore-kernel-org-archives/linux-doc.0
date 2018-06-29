@@ -5,114 +5,77 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6E5817DF89
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 11:07:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A28177DF86
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 11:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S935248AbeF2LHR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 07:07:17 -0400
-Received: from foss.arm.com ([217.140.101.70]:59842 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S932119AbeF2LHP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jun 2018 07:07:15 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2432F18A;
-        Fri, 29 Jun 2018 04:07:15 -0700 (PDT)
-Received: from armageddon.cambridge.arm.com (armageddon.cambridge.arm.com [10.1.206.84])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 72CA03F266;
-        Fri, 29 Jun 2018 04:07:09 -0700 (PDT)
-Date:   Fri, 29 Jun 2018 12:07:06 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
-        Paul Lawrence <paullawrence@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Alexander Potapenko <glider@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Christoph Lameter <cl@linux.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-sparse@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-ID: <20180629110706.37aqq6x4vhnblkb6@armageddon.cambridge.arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com>
- <20180628105057.GA26019@e103592.cambridge.arm.com>
- <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+        id S1752934AbeF2LML (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 07:12:11 -0400
+Received: from bastet.se.axis.com ([195.60.68.11]:57821 "EHLO
+        bastet.se.axis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752451AbeF2LMK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 07:12:10 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bastet.se.axis.com (Postfix) with ESMTP id 1B918186C4;
+        Fri, 29 Jun 2018 13:12:09 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+        by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id JnsnWvdpyATT; Fri, 29 Jun 2018 13:12:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+        by bastet.se.axis.com (Postfix) with ESMTPS id A5BAA186C8;
+        Fri, 29 Jun 2018 13:12:07 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8920C1E092;
+        Fri, 29 Jun 2018 13:12:07 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7B6691E08A;
+        Fri, 29 Jun 2018 13:12:07 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+        by boulder03.se.axis.com (Postfix) with ESMTP;
+        Fri, 29 Jun 2018 13:12:07 +0200 (CEST)
+Received: from lnxjespern3.se.axis.com (lnxjespern3.se.axis.com [10.88.4.8])
+        by seth.se.axis.com (Postfix) with ESMTP id 6DB79223;
+        Fri, 29 Jun 2018 13:12:07 +0200 (CEST)
+Received: by lnxjespern3.se.axis.com (Postfix, from userid 363)
+        id 68CB6800F7; Fri, 29 Jun 2018 13:12:07 +0200 (CEST)
+Date:   Fri, 29 Jun 2018 13:12:07 +0200
+From:   Jesper Nilsson <jesper.nilsson@axis.com>
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Cc:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
+        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
+        adouglas@cadence.com, jespern@axis.com, shawn.lin@rock-chips.com,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 02/11] PCI: Update xxx_pcie_ep_raise_irq() and
+ pci_epc_raise_irq() signatures
+Message-ID: <20180629111207.GD4333@axis.com>
+References: <cover.1529595907.git.gustavo.pimentel@synopsys.com>
+ <90e6f3255f468103d41ab7f6b438ea3a78186e00.1529595907.git.gustavo.pimentel@synopsys.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <90e6f3255f468103d41ab7f6b438ea3a78186e00.1529595907.git.gustavo.pimentel@synopsys.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-TM-AS-GCONF: 00
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 28, 2018 at 08:56:41PM +0200, Andrey Konovalov wrote:
-> On Thu, Jun 28, 2018 at 12:51 PM, Dave Martin <Dave.Martin@arm.com> wrote:
-> > On Tue, Jun 26, 2018 at 03:15:10PM +0200, Andrey Konovalov wrote:
-> >> 1. By using the Top Byte Ignore arm64 CPU feature, we can store pointer
-> >>    tags in the top byte of each kernel pointer.
-> >
-> > [...]
-> >
-> > This is a change from the current situation, so the kernel may be
-> > making implicit assumptions about the top byte of kernel addresses.
-> >
-> > Randomising the top bits may cause things like address conversions and
-> > pointer arithmetic to break.
-> >
-> > For example, (q - p) will not produce the expected result if q and p
-> > have different tags.
+On Thu, Jun 21, 2018 at 05:01:27PM +0100, Gustavo Pimentel wrote:
+> Change {cdns, dra7xx, artpec6, dw, rockchip}_pcie_ep_raise_irq() and
+> pci_epc_raise_irq() signature, namely the interrupt_num variable type
+> from u8 to u16 to accommodate 2048 maximum MSI-X interrupts.
 > 
-> If q and p have different tags, that means they come from different
-> allocations. I don't think it would make sense to calculate pointer
-> difference in this case.
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> Acked-by: Alan Douglas <adouglas@cadence.com>
+> Acked-by: Shawn Lin <shawn.lin@rock-chips.com>
 
-Well, there is a lot of pointer comparison in the kernel which means
-pointer difference. Take is_vmalloc_addr() for example, even if your
-patchset does not cover (IIUC) vmalloc() at the moment, this function
-may be called with slab addresses. Presumably they would all fail the
-check with a non-0xff tag but it's something needs understood. If you
-later add support for vmalloc(), this test would fail (as would the
-rb tree search in find_vmap_area(). Kmemleak would probably break as
-well as it makes heavy use of rb tree.
+Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
 
-Basically you need to be very clear about kernel pointer usage (with an
-associated tag or type) vs address range it refers to and in most cases
-converted to an unsigned long. See the other discussion on sparse, it
-could potentially be useful if we can detect the places where a pointer
-is converted to ulong and maybe hide such conversion behind a macro with
-the arm64 implementation also clearing the tag.
-
+/^JN - Jesper Nilsson
 -- 
-Catalin
+               Jesper Nilsson -- jesper.nilsson@axis.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
