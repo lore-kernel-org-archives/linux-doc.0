@@ -1,111 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 15DDC7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 16:36:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C48CE7DF89
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 21:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S967080AbeF2QgP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 12:36:15 -0400
-Received: from mail-io0-f196.google.com ([209.85.223.196]:38011 "EHLO
-        mail-io0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S967076AbeF2QgM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 12:36:12 -0400
-Received: by mail-io0-f196.google.com with SMTP id l19-v6so8996055ioj.5
-        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 09:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=ukCGltYwtD7YajTlWIOjEevOj1qICTIHzaLGC+IF44g=;
-        b=JeIYMbIX3IAluQh6MhELO7TmAfHyd6W5UTGw3TRp98mmofrXYoYtTUtXjEsX6Ja/lq
-         AzFWQLQA9opUNjazc24TrHLOeQqIUBty+fE+AMmdg8MNi5Vb8PFN6M+zWbl2VQqqz7KG
-         XqUmwT2Po6HofXqvK2C0KMAsyjjp2HvNqI7CqGGTFPAALmXM/GDAZn7Tjw8qiX5v6D05
-         kIFhixws/cWz1KdMi+3IfGVUFdfBUdbfZ3B2vnOmkjv5MiD9YLK21PanXHrDwaRD+IsY
-         FH96sKlVbvIL+Uxlidq2LSVZwjAmrtRyptb5HeFJI/vP8FoN07z1OAYievrniflL+eZu
-         hnmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=ukCGltYwtD7YajTlWIOjEevOj1qICTIHzaLGC+IF44g=;
-        b=OjCv1Uor5N8ROwEv8G5u+53x29f4rWiXABmH35plwXYTf9b464z24r3hJ4JAKJhQuz
-         S+8UCx5n0LGgabwvqarNmAMNu56iel+gnlGAfcY4i8BShU/3WVun4L0GXw9Shoskyo62
-         eKprczVp4vQXptsgzWUA7EUf7he+eICqc9E/OhAtRVM1xcmBIAh6l8AL00sAe4dk3k8T
-         DK6H4Pguwowx0haF2ksSinCGewBNjEMHwzoV7tf408PHJHd3ZPEVKelaBEuxkp+r/HXe
-         odzoGdYAWhNADu3GC/nLxRf7w7isKMp0Ve+mTQKf8h1FGpqLorGbJ5s9h/Ezi8xNmVTe
-         DmIg==
-X-Gm-Message-State: APt69E0kNHN9YFUG8xKeZs56JIFtUNSVoXfWVUWqynszdIJiaXUK+Ctf
-        DgXqN7+HSDm5RMcMoXbODQbIL1C8QvST89YuCjZogw==
-X-Google-Smtp-Source: AAOMgpe1SW9csFvdGv+80VIVjSOgp82ktPCy4rDxxGN2dKxq3LBu2kI150jfQjseKfH6aCeXYeCHu4NmnWZXjuwGnps=
-X-Received: by 2002:a6b:5002:: with SMTP id e2-v6mr13329662iob.31.1530290171709;
- Fri, 29 Jun 2018 09:36:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Fri, 29 Jun 2018 09:36:10
- -0700 (PDT)
-In-Reply-To: <20180629110709.GA17859@arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
- <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com> <20180629110709.GA17859@arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 29 Jun 2018 18:36:10 +0200
-Message-ID: <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S935850AbeF2VF0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 17:05:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34658 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S933238AbeF2VFZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 17:05:25 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5TL3gwR005761
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 17:05:25 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jws2ff7gs-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 17:05:24 -0400
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
+        Fri, 29 Jun 2018 22:05:22 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 29 Jun 2018 22:05:20 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5TL5JZe29360226
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 29 Jun 2018 21:05:19 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DA7D54C040;
+        Fri, 29 Jun 2018 22:05:06 +0100 (BST)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 669524C04A;
+        Fri, 29 Jun 2018 22:05:05 +0100 (BST)
+Received: from rapoport-lnx (unknown [9.148.207.81])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Fri, 29 Jun 2018 22:05:05 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Sat, 30 Jun 2018 00:05:17 +0300
+From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH v3 2/2] docs/idr: use empty "functions" directive
+Date:   Sat, 30 Jun 2018 00:05:11 +0300
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1530306311-10510-1-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1530306311-10510-1-git-send-email-rppt@linux.vnet.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 18062921-0020-0000-0000-000002A16DD4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18062921-0021-0000-0000-000020ED73D4
+Message-Id: <1530306311-10510-3-git-send-email-rppt@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-29_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=628 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1806290223
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 29, 2018 at 1:07 PM, Will Deacon <will.deacon@arm.com> wrote:
-> It might not seen sensible, but we could still be relying on this in the
-> kernel and so this change would introduce a regression. I think we need
-> a way to identify such pointer usage before these patches can seriously be
-> considered for mainline inclusion.
+to avoid duplication of DOC: sections in the middle of the API reference.
 
-Another point that I have here is that KHWASAN is a debugging tool not
-meant to be used in production. We're not trying to change the ABI or
-something like that (referring to the other HWASAN patchset). We can
-fix up the non obvious places where untagging is needed in a case by
-case basis with additional patches when testing reveals it.
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+Acked-by: Matthew Wilcox <willy@infradead.org>
+---
+ Documentation/core-api/idr.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/core-api/idr.rst b/Documentation/core-api/idr.rst
+index 9078a5c..d351e88 100644
+--- a/Documentation/core-api/idr.rst
++++ b/Documentation/core-api/idr.rst
+@@ -76,4 +76,6 @@ Functions and structures
+ ========================
+ 
+ .. kernel-doc:: include/linux/idr.h
++   :functions:
+ .. kernel-doc:: lib/idr.c
++   :functions:
+-- 
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
