@@ -1,88 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 815AE7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 12:10:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91F857D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 12:36:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1755271AbeF2MKG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 08:10:06 -0400
-Received: from mailout.easymail.ca ([64.68.200.34]:51618 "EHLO
-        mailout.easymail.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754720AbeF2MKF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 08:10:05 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mailout.easymail.ca (Postfix) with ESMTP id EEB0520E91;
-        Fri, 29 Jun 2018 12:10:04 +0000 (UTC)
-Received: from mailout.easymail.ca ([127.0.0.1])
-        by localhost (emo02-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Z_m5gVBz6CoW; Fri, 29 Jun 2018 12:10:04 +0000 (UTC)
-Received: from [172.20.4.200] (unknown [50.236.218.230])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailout.easymail.ca (Postfix) with ESMTPSA id 1A95A20E8D;
-        Fri, 29 Jun 2018 12:09:57 +0000 (UTC)
-Subject: Re: [PATCH] doc: dev-tools: kselftest.rst: update contributing new
- tests
-To:     Anders Roxell <anders.roxell@linaro.org>, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>
-References: <20180629100248.11560-1-anders.roxell@linaro.org>
-From:   Shuah Khan <shuah@kernel.org>
-Message-ID: <53d599f2-44a1-c366-4a5c-2ca6cd19b031@kernel.org>
-Date:   Fri, 29 Jun 2018 06:09:45 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S936070AbeF2Mgk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 08:36:40 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:52682 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S934068AbeF2Mgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 08:36:39 -0400
+Received: by mail-it0-f67.google.com with SMTP id p4-v6so2620415itf.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 05:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aBG7mXx2IxpRnogZ1FpdbDkhc+onC7si3N5eMJNpvmY=;
+        b=TFVjrxwwbI+D8PXRgqV710Bc4s4q65h6JYRyq+s4KFmUdD0Tjb7PaqAql8Nn93XO/4
+         GBf4ZiDFxSn/zY1tu5XNDDgai72vuFDS/YpwCE4WUUiFg3nl8x6xKAu8B9kERyzZBh4p
+         qfOq2Ec5EereTMpbnkZm+tS6KyFPPQr+9+Pfs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aBG7mXx2IxpRnogZ1FpdbDkhc+onC7si3N5eMJNpvmY=;
+        b=CDpmSPeZg1EDRiLB3x9xnwmGyh9rca3EN85HCYX8pqYjyo1ktMs9URcT1kkdBVeD5Y
+         2lfMwt4pZtfW3ks0rkjgWOUo5LogOJuta0LOmc8c5gQGxHIORlDyiPxjp35d5UpleLud
+         IxhciRkd0aTRjtQWhBRipMa3Ig0P0+H/JcCasYGddZ7xpbfvZfbsE8zOiyYHzdEpMe/v
+         IHKa0AmCbjssXBp+YmFqMTSAKCdSXGSeMjfUpBPrx7qkk5g/kltQhyhPms5rMkn4/IV/
+         e/HyWmbznYmgjkqfaVwfuii7AeFOpaYK4s2OMxVtIz3UeQvFsRbULo2WYp6A6r8MpHeC
+         pxHw==
+X-Gm-Message-State: APt69E2om1Xn37PhQ9PpHgNySN+1hEtDJEWUd2LphFr/UZAHeHyTaFjv
+        5XamZHluogXfM6+lXsiZfDNPUjq/RpoQA/RZRMGkUA==
+X-Google-Smtp-Source: AAOMgpcLP+7K8pwUSuQVf7CME2zc8KPAPLFcHsBfSCUDCoL6uMkn/GRyW/2c4oTp+MkKg8aZLtI/wv/+90xSPc9Zixg=
+X-Received: by 2002:a02:597:: with SMTP id 23-v6mr11398982jal.112.1530275799017;
+ Fri, 29 Jun 2018 05:36:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180629100248.11560-1-anders.roxell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1530005114.git.mchehab+samsung@kernel.org> <60e0372bb4d96f7795404e28d776a4600e38efe2.1530005114.git.mchehab+samsung@kernel.org>
+In-Reply-To: <60e0372bb4d96f7795404e28d776a4600e38efe2.1530005114.git.mchehab+samsung@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 29 Jun 2018 14:36:28 +0200
+Message-ID: <CACRpkdbiWoZ0HjYw37MyN_23mdijDNEJhdJ=voqVTKAqbgAqXw@mail.gmail.com>
+Subject: Re: [PATCH 6/9] gpio.h: fix location of gpio legacy documentation
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/29/2018 04:02 AM, Anders Roxell wrote:
-> Add a description that kernel config options should be added into a
-> config file that is placed next to the newly added test.
-> 
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  Documentation/dev-tools/kselftest.rst | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index 3bf371a938d0..4c546a35bd58 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -156,6 +156,9 @@ Contributing new tests (details)
->     installed by the distro on the system should be the primary focus to be able
->     to find regressions.
->  
-> + * If a new test needs specific kernel options, they should be enabled in
+On Tue, Jun 26, 2018 at 11:49 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 
-get rid of new
+> The location of this doc file was moved. Change its reference
+> accordingly.
+>
+> Fixes: 7ee2c13080c9 ("Documentation: gpio: Move legacy documentation to driver-api")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-> +   then config file in the same directory where the test is added.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-"the config" instead of "then config"
+Should I apply this to the GPIO tree?
 
-Rephrasing this might be better:
-
-"If a test needs specific kernel config options enabled, add a config file in the
-test directory to enable them.
-
-e.g: tools/testing/selftests/android/ion/config
-
-> +
->  Test Harness
->  ============
->  
-> 
-
+Yours,
+Linus Walleij
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
