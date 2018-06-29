@@ -1,86 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D45BA7D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 10:03:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 940517D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 10:14:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754838AbeF2KDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 06:03:01 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:37778 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752883AbeF2KDA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 06:03:00 -0400
-Received: by mail-lj1-f196.google.com with SMTP id c11-v6so6849078lja.4
-        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 03:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=wgVrrkJBad/iLo8AmZQyV2DAb2LeoFfhBrqh9sChX3c=;
-        b=BdkV+KnLaIHKZoXRMluaxw0L1sbB1xztVw+QDrv3bjV8oJHbTepE+WZPJgCAKVljIg
-         Dzp9cfcrrDViE/Nn36WaXJIT14swOmk4VQLvxFMZKRv+3i9x7IPQiBjWMfXeWDbrDU3a
-         hMaCuys6oon8epHjSqhHQUBBVPJ/t4M41Jo90=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=wgVrrkJBad/iLo8AmZQyV2DAb2LeoFfhBrqh9sChX3c=;
-        b=G5EzqWqVSHkDXUXWSrIWaD5cGeEVhB1VEwVWtgTLFB3oij6hd3NsaczQbVZHZnVJ2u
-         B5C3DC/DHYC+IjW4bDMWnWmQ3xh18Zn8qppe02IFrJbjGXLSUeBC9MI10hZ++iybJgDG
-         kqvDqllJsVVFVf+qSORTwovDlnlYqzS33e5u8yVcxuNyqxktJs8mKqetSEgiDf++95vE
-         q/EJzPAG0W0L3AJO77YOp80RdmW09x9TMEdVDjKahipSHJS1LET3Lya5iM9fQng6uvzt
-         ldUXgj3o4fmDdp0WP3cI3x2AFhuCbSrFkeuN1ZtrXHECsTssxYWkbX9S7mc1swJoTiQG
-         RThA==
-X-Gm-Message-State: APt69E261DKaiZysOmyTjVJpJncIn5K2y9yCIah0VG2QSJBPngynNhRt
-        lf5ZQDbTXzdUdpFu+dhhcfzIyA==
-X-Google-Smtp-Source: ADUXVKLvSVazqGZxZNmEHvFse5jMC+VxZmuWxBZzAUeRV4XG3bTVIlocgXna4vIFqlfp867LhfNKqw==
-X-Received: by 2002:a2e:6d11:: with SMTP id i17-v6mr10148179ljc.116.1530266578594;
-        Fri, 29 Jun 2018 03:02:58 -0700 (PDT)
-Received: from localhost (c-2c3d70d5.07-21-73746f28.bbcust.telenor.se. [213.112.61.44])
-        by smtp.gmail.com with ESMTPSA id s5-v6sm1487387lji.46.2018.06.29.03.02.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 29 Jun 2018 03:02:57 -0700 (PDT)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     shuah@kernel.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH] doc: dev-tools: kselftest.rst: update contributing new tests
-Date:   Fri, 29 Jun 2018 12:02:48 +0200
-Message-Id: <20180629100248.11560-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.18.0
+        id S1752846AbeF2KOp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 06:14:45 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59200 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1751901AbeF2KOo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jun 2018 06:14:44 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD2121529;
+        Fri, 29 Jun 2018 03:14:43 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 145AD3F266;
+        Fri, 29 Jun 2018 03:14:37 -0700 (PDT)
+Date:   Fri, 29 Jun 2018 11:14:35 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
+ sanitizer
+Message-ID: <20180629101435.263hujat2amnm3hi@lakrids.cambridge.arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com>
+ <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a description that kernel config options should be added into a
-config file that is placed next to the newly added test.
+On Thu, Jun 28, 2018 at 08:56:41PM +0200, Andrey Konovalov wrote:
+> On Thu, Jun 28, 2018 at 12:51 PM, Dave Martin <Dave.Martin@arm.com> wrote:
+> > On Tue, Jun 26, 2018 at 03:15:10PM +0200, Andrey Konovalov wrote:
+> >> 1. By using the Top Byte Ignore arm64 CPU feature, we can store pointer
+> >>    tags in the top byte of each kernel pointer.
+> >
+> > [...]
+> >
+> > This is a change from the current situation, so the kernel may be
+> > making implicit assumptions about the top byte of kernel addresses.
 
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- Documentation/dev-tools/kselftest.rst | 3 +++
- 1 file changed, 3 insertions(+)
+[...]
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index 3bf371a938d0..4c546a35bd58 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -156,6 +156,9 @@ Contributing new tests (details)
-    installed by the distro on the system should be the primary focus to be able
-    to find regressions.
- 
-+ * If a new test needs specific kernel options, they should be enabled in
-+   then config file in the same directory where the test is added.
-+
- Test Harness
- ============
- 
--- 
-2.18.0
+> > What was your approach to tracking down all the points in the code
+> > where we have a potential issue?
+> 
+> I've been fuzzing the kernel built with KWHASAN with syzkaller. This
+> gives a decent coverage and I was able to find some places where
+> fixups were required this way. Right now the fuzzer is running without
+> issues. It doesn't prove that all such places are fixed, but I don't
+> know a better way to test this.
 
+While fuzzing shows that the kernel doesn't crash (and this is very
+important), it does not show that it exhibits the expected behaviour,
+and there could be a number of soft failures present.
+
+e.g. certain functions might just return an error code if a pointer has
+a tag other than 0xff (such that it looks like a kernel pointer) or 0x00
+(such that it looks like a user pointer), and this might not result in a
+fatal error even though the behaviour is not what we require.
+
+Perhaps it's possible to compare the behaviour of a kernel making use of
+tags with one which does not, though I'm not sure at which level the
+comparison needs to be performed.
+
+Thanks,
+Mark.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
