@@ -1,78 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 738CC7D09D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 07:26:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D45BA7D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 10:03:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753155AbeF2H02 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 03:26:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:1675 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751712AbeF2H01 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jun 2018 03:26:27 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 52E90307CF31;
-        Fri, 29 Jun 2018 07:26:27 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-116-112.phx2.redhat.com [10.3.116.112])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5CA8277343;
-        Fri, 29 Jun 2018 07:26:24 +0000 (UTC)
-Subject: Re: [PATCH v8 2/5] ipc: IPCMNI limit check for semmni
-To:     "Luis R. Rodriguez" <mcgrof@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
-References: <1529317698-16575-1-git-send-email-longman@redhat.com>
- <1529317698-16575-3-git-send-email-longman@redhat.com>
- <20180628223906.GB331@wotan.suse.de>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <d0596d73-1130-3ee5-a8ee-b8a9e8989d45@redhat.com>
-Date:   Fri, 29 Jun 2018 15:26:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
-MIME-Version: 1.0
-In-Reply-To: <20180628223906.GB331@wotan.suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Fri, 29 Jun 2018 07:26:27 +0000 (UTC)
+        id S1754838AbeF2KDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 06:03:01 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:37778 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752883AbeF2KDA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 06:03:00 -0400
+Received: by mail-lj1-f196.google.com with SMTP id c11-v6so6849078lja.4
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 03:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=wgVrrkJBad/iLo8AmZQyV2DAb2LeoFfhBrqh9sChX3c=;
+        b=BdkV+KnLaIHKZoXRMluaxw0L1sbB1xztVw+QDrv3bjV8oJHbTepE+WZPJgCAKVljIg
+         Dzp9cfcrrDViE/Nn36WaXJIT14swOmk4VQLvxFMZKRv+3i9x7IPQiBjWMfXeWDbrDU3a
+         hMaCuys6oon8epHjSqhHQUBBVPJ/t4M41Jo90=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wgVrrkJBad/iLo8AmZQyV2DAb2LeoFfhBrqh9sChX3c=;
+        b=G5EzqWqVSHkDXUXWSrIWaD5cGeEVhB1VEwVWtgTLFB3oij6hd3NsaczQbVZHZnVJ2u
+         B5C3DC/DHYC+IjW4bDMWnWmQ3xh18Zn8qppe02IFrJbjGXLSUeBC9MI10hZ++iybJgDG
+         kqvDqllJsVVFVf+qSORTwovDlnlYqzS33e5u8yVcxuNyqxktJs8mKqetSEgiDf++95vE
+         q/EJzPAG0W0L3AJO77YOp80RdmW09x9TMEdVDjKahipSHJS1LET3Lya5iM9fQng6uvzt
+         ldUXgj3o4fmDdp0WP3cI3x2AFhuCbSrFkeuN1ZtrXHECsTssxYWkbX9S7mc1swJoTiQG
+         RThA==
+X-Gm-Message-State: APt69E261DKaiZysOmyTjVJpJncIn5K2y9yCIah0VG2QSJBPngynNhRt
+        lf5ZQDbTXzdUdpFu+dhhcfzIyA==
+X-Google-Smtp-Source: ADUXVKLvSVazqGZxZNmEHvFse5jMC+VxZmuWxBZzAUeRV4XG3bTVIlocgXna4vIFqlfp867LhfNKqw==
+X-Received: by 2002:a2e:6d11:: with SMTP id i17-v6mr10148179ljc.116.1530266578594;
+        Fri, 29 Jun 2018 03:02:58 -0700 (PDT)
+Received: from localhost (c-2c3d70d5.07-21-73746f28.bbcust.telenor.se. [213.112.61.44])
+        by smtp.gmail.com with ESMTPSA id s5-v6sm1487387lji.46.2018.06.29.03.02.57
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 29 Jun 2018 03:02:57 -0700 (PDT)
+From:   Anders Roxell <anders.roxell@linaro.org>
+To:     shuah@kernel.org, corbet@lwn.net
+Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Anders Roxell <anders.roxell@linaro.org>
+Subject: [PATCH] doc: dev-tools: kselftest.rst: update contributing new tests
+Date:   Fri, 29 Jun 2018 12:02:48 +0200
+Message-Id: <20180629100248.11560-1-anders.roxell@linaro.org>
+X-Mailer: git-send-email 2.18.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/29/2018 06:39 AM, Luis R. Rodriguez wrote:
-> On Mon, Jun 18, 2018 at 06:28:15PM +0800, Waiman Long wrote:
->> For SysV semaphores, the semmni value is the last part of the 4-element
->> sem number array. To make semmni behave in a similar way to msgmni and
->> shmmni, we can't directly use the _minmax handler. Instead, a special
->> sem specific handler is added to check the last argument to make sure
->> that it is limited to the [0, IPCMNI] range. An error will be returned
->> if this is not the case.
-> Sorry my time has run out, and will be on vacation until July 10th. If
-> this can wait until then then great, otherwise hopefully Kees can take
-> a look. It would be wonderful to get Eric's review on this as well.
->
->   Luis
+Add a description that kernel config options should be added into a
+config file that is placed next to the newly added test.
 
-Thanks for the review. I will try to get other reviewer to chime in.
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ Documentation/dev-tools/kselftest.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Kees and Eric, do you have comments on this patchset?
-
-Cheers,
-Longman
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index 3bf371a938d0..4c546a35bd58 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -156,6 +156,9 @@ Contributing new tests (details)
+    installed by the distro on the system should be the primary focus to be able
+    to find regressions.
+ 
++ * If a new test needs specific kernel options, they should be enabled in
++   then config file in the same directory where the test is added.
++
+ Test Harness
+ ============
+ 
+-- 
+2.18.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
