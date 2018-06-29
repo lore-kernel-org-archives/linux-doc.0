@@ -1,130 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 028607D09E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 13:02:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A7887D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 13:18:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965662AbeF2NCL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 09:02:11 -0400
-Received: from foss.arm.com ([217.140.101.70]:33972 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S965231AbeF2NCH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jun 2018 09:02:07 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE50880D;
-        Fri, 29 Jun 2018 06:02:06 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 360DF3F266;
-        Fri, 29 Jun 2018 06:02:01 -0700 (PDT)
-Date:   Fri, 29 Jun 2018 14:01:56 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S932882AbeF2NSf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 09:18:35 -0400
+Received: from mail-it0-f67.google.com ([209.85.214.67]:35154 "EHLO
+        mail-it0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932577AbeF2NSc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 09:18:32 -0400
+Received: by mail-it0-f67.google.com with SMTP id l16-v6so2834212ita.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 06:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=Kgi3MI2bWN9/Ht24AI/JWU8GN65KuvcgAOpjVIiDLWg=;
+        b=qXViInOsn2ir/S8FtBvNPETGY7AsjG2kQ6PnWq8jyzewToeCSVxdyTksZrvar0rcD1
+         MOB3/HHlg0jRBS1rWzibz4tg75T9V8StM+FUQNTvIWvN+hIiv5HXUIbwcs7ZzJ3JF33h
+         mqNGGn+lkjCb7WQXwJuAoJ1ubi4l+rqRK7cjj4nLN/1II9GfzcXNdAJrB0x8cvvKFNXI
+         NvrBj2b1MdjgGBnvK1M9jHmHR8np1UE23JKuZ0GbT193K8NpOLj2IkxCxM0uBXSo+6ZM
+         fVDVxlwKcv4D/naNSZ6QbErbFnoTPId5AM7txhlIDnXuICiIOJx96yWrkcLpfMECYHTF
+         ML/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=Kgi3MI2bWN9/Ht24AI/JWU8GN65KuvcgAOpjVIiDLWg=;
+        b=CimPo08rxhoI8C5nbZCQx/RNznaRfW0WcNjfkQ6jGqgyz6toVYzFD/wYSw+gnnz5rD
+         UPI5d+o1u3U0nfnLZUtz0H4fc+LUcDthzyBBOPjT7nSuGcJ+viX3xYO8AvuHb7e/w2aw
+         WWQCk3COIGfIaT7xU/SBn6v2SgpDKHohR2IZi7GsZ4r4h2RUjeiqVTz+3SqkTRpf6VeL
+         aLLwT4GpVwxrjXkaitSfRh5jPjbi+z8XFdVSRLxH65nVzC1HmL0RY+yDkwimByg5B7KL
+         X9J0hJPOT6NYTKdRT3aM4r8DYZ/3hh9rS6twyCN2g5fTGiLJff0Cdwnx1XhB4NRpYqqt
+         KX0g==
+X-Gm-Message-State: APt69E3pKSDI3N4xeGcrbY7AfJmQzW8N6LqEHmINo3t73soZlcOEojnV
+        z/7R/SISE6646h1UKsIb+oMg9xw357ckywGPdd2KjA==
+X-Google-Smtp-Source: AAOMgpeXXhJ4EdfP31oWkIMLxBZSuC83E6CAZka/KN+oKbnByIgjS/rMGfOllYyigQhtlBo+WMHI6+gltEQt/hVXszo=
+X-Received: by 2002:a02:9962:: with SMTP id d31-v6mr12065662jak.1.1530278311992;
+ Fri, 29 Jun 2018 06:18:31 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Fri, 29 Jun 2018 06:18:31
+ -0700 (PDT)
+In-Reply-To: <20180629112613.7i4xesjyxolc63gu@ltop.local>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+ <20180629110419.GC26019@e103592.cambridge.arm.com> <20180629112613.7i4xesjyxolc63gu@ltop.local>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 29 Jun 2018 15:18:31 +0200
+Message-ID: <CAAeHK+zXzTEo_DJ5a7KaVDQa06Gx98Oj2O3jMFJo_tNgkq822g@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
         Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
         Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Alexander Potapenko <glider@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Christoph Lameter <cl@linux.com>,
+        Ingo Molnar <mingo@kernel.org>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Jann Horn <jannh@google.com>,
         Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-ID: <20180629130155.e7ztz5ikxfl352ff@lakrids.cambridge.arm.com>
-References: <cover.1530018818.git.andreyknvl@google.com>
- <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
- <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
- <20180628124039.8a42ab5e2994fb2876ff4f75@linux-foundation.org>
- <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-sparse@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        smatch@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 29, 2018 at 02:45:08PM +0200, Andrey Konovalov wrote:
-> On Thu, Jun 28, 2018 at 9:40 PM, Andrew Morton
-> <akpm@linux-foundation.org> wrote:
-> > On Thu, 28 Jun 2018 20:29:07 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
-> >
-> >> >> Slab memory usage after boot [2]:
-> >> >> * ~40 kb for clean kernel
-> >> >> * ~105 kb + 1/8th shadow ~= 118 kb for KASAN
-> >> >> * ~47 kb + 1/16th shadow ~= 50 kb for KHWASAN
-> >> >>
-> >> >> Network performance [3]:
-> >> >> * 8.33 Gbits/sec for clean kernel
-> >> >> * 3.17 Gbits/sec for KASAN
-> >> >> * 2.85 Gbits/sec for KHWASAN
-> >> >>
-> >> >> Note, that KHWASAN (compared to KASAN) doesn't require quarantine.
-> >> >>
-> >> >> [1] Time before the ext4 driver is initialized.
-> >> >> [2] Measured as `cat /proc/meminfo | grep Slab`.
-> >> >> [3] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
-> >> >
-> >> > The above doesn't actually demonstrate the whole point of the
-> >> > patchset: to reduce KASAN's very high memory consumption?
-> >>
-> >> You mean that memory usage numbers collected after boot don't give a
-> >> representative picture of actual memory consumption on real workloads?
-> >>
-> >> What kind of memory consumption testing would you like to see?
-> >
-> > Well, 100kb or so is a teeny amount on virtually any machine.  I'm
-> > assuming the savings are (much) more significant once the machine gets
-> > loaded up and doing work?
-> 
-> So with clean kernel after boot we get 40 kb memory usage. With KASAN
-> it is ~120 kb, which is 200% overhead. With KHWASAN it's 50 kb, which
-> is 25% overhead. This should approximately scale to any amounts of
-> used slab memory. For example with 100 mb memory usage we would get
-> +200 mb for KASAN and +25 mb with KHWASAN. (And KASAN also requires
-> quarantine for better use-after-free detection). I can explicitly
-> mention the overhead in %s in the changelog.
+On Fri, Jun 29, 2018 at 1:26 PM, Luc Van Oostenryck
+<luc.vanoostenryck@gmail.com> wrote:
+> On Fri, Jun 29, 2018 at 12:04:22PM +0100, Dave Martin wrote:
+>>
+>> Can sparse be hacked to identify pointer subtractions where the pointers
+>> are cannot be statically proved to point into the same allocation?
 
-Could you elaborate on where that SLAB overhead comes from?
+Re all the comments about finding all the places where we do pointer
+subtraction/comparison:
 
-IIUC that's not for the shadow itself (since it's allocated up-front and
-not accounted to SLAB), and that doesn't take into account the
-quarantine, so what's eating that space?
+I might be wrong, but I doubt you can easily do that with static analysis.
 
-Thanks,
-Mark.
+What we could do is to try to detect all such subtractions/comparisons
+dynamically. The idea is to instrument all pointer/ulong
+subtraction/comparison instructions and try to detect tags mismatch.
+And then run some workload (e.g. syzkaller) to trigger more kernel
+code. The question is how much false positives we would get, since I
+imagine there would be a number of cases when we compare some random
+ulongs.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
