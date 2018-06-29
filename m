@@ -1,180 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4CC47D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 15:59:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 15DDC7D043
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 16:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S966735AbeF2P7M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 11:59:12 -0400
-Received: from foss.arm.com ([217.140.101.70]:36492 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S966678AbeF2P7L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jun 2018 11:59:11 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 533FE18A;
-        Fri, 29 Jun 2018 08:59:11 -0700 (PDT)
-Received: from [10.1.206.34] (melchizedek.cambridge.arm.com [10.1.206.34])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0D4CE3F5C0;
-        Fri, 29 Jun 2018 08:59:08 -0700 (PDT)
-Subject: Re: [PATCH v5 1/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
-To:     Dongjiu Geng <gengdongjiu@huawei.com>
-References: <1529960309-2513-1-git-send-email-gengdongjiu@huawei.com>
- <1529960309-2513-2-git-send-email-gengdongjiu@huawei.com>
-From:   James Morse <james.morse@arm.com>
-Cc:     rkrcmar@redhat.com, corbet@lwn.net, christoffer.dall@arm.com,
-        marc.zyngier@arm.com, linux@armlinux.org.uk,
-        catalin.marinas@arm.com, will.deacon@arm.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
-Message-ID: <ec201845-fd1e-fd0a-7dfe-bacf23bb44a2@arm.com>
-Date:   Fri, 29 Jun 2018 16:59:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S967080AbeF2QgP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 12:36:15 -0400
+Received: from mail-io0-f196.google.com ([209.85.223.196]:38011 "EHLO
+        mail-io0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S967076AbeF2QgM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 12:36:12 -0400
+Received: by mail-io0-f196.google.com with SMTP id l19-v6so8996055ioj.5
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jun 2018 09:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=ukCGltYwtD7YajTlWIOjEevOj1qICTIHzaLGC+IF44g=;
+        b=JeIYMbIX3IAluQh6MhELO7TmAfHyd6W5UTGw3TRp98mmofrXYoYtTUtXjEsX6Ja/lq
+         AzFWQLQA9opUNjazc24TrHLOeQqIUBty+fE+AMmdg8MNi5Vb8PFN6M+zWbl2VQqqz7KG
+         XqUmwT2Po6HofXqvK2C0KMAsyjjp2HvNqI7CqGGTFPAALmXM/GDAZn7Tjw8qiX5v6D05
+         kIFhixws/cWz1KdMi+3IfGVUFdfBUdbfZ3B2vnOmkjv5MiD9YLK21PanXHrDwaRD+IsY
+         FH96sKlVbvIL+Uxlidq2LSVZwjAmrtRyptb5HeFJI/vP8FoN07z1OAYievrniflL+eZu
+         hnmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=ukCGltYwtD7YajTlWIOjEevOj1qICTIHzaLGC+IF44g=;
+        b=OjCv1Uor5N8ROwEv8G5u+53x29f4rWiXABmH35plwXYTf9b464z24r3hJ4JAKJhQuz
+         S+8UCx5n0LGgabwvqarNmAMNu56iel+gnlGAfcY4i8BShU/3WVun4L0GXw9Shoskyo62
+         eKprczVp4vQXptsgzWUA7EUf7he+eICqc9E/OhAtRVM1xcmBIAh6l8AL00sAe4dk3k8T
+         DK6H4Pguwowx0haF2ksSinCGewBNjEMHwzoV7tf408PHJHd3ZPEVKelaBEuxkp+r/HXe
+         odzoGdYAWhNADu3GC/nLxRf7w7isKMp0Ve+mTQKf8h1FGpqLorGbJ5s9h/Ezi8xNmVTe
+         DmIg==
+X-Gm-Message-State: APt69E0kNHN9YFUG8xKeZs56JIFtUNSVoXfWVUWqynszdIJiaXUK+Ctf
+        DgXqN7+HSDm5RMcMoXbODQbIL1C8QvST89YuCjZogw==
+X-Google-Smtp-Source: AAOMgpe1SW9csFvdGv+80VIVjSOgp82ktPCy4rDxxGN2dKxq3LBu2kI150jfQjseKfH6aCeXYeCHu4NmnWZXjuwGnps=
+X-Received: by 2002:a6b:5002:: with SMTP id e2-v6mr13329662iob.31.1530290171709;
+ Fri, 29 Jun 2018 09:36:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1529960309-2513-2-git-send-email-gengdongjiu@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a02:9082:0:0:0:0:0 with HTTP; Fri, 29 Jun 2018 09:36:10
+ -0700 (PDT)
+In-Reply-To: <20180629110709.GA17859@arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com> <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com> <20180629110709.GA17859@arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 29 Jun 2018 18:36:10 +0200
+Message-ID: <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address sanitizer
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dongjiu Geng,
+On Fri, Jun 29, 2018 at 1:07 PM, Will Deacon <will.deacon@arm.com> wrote:
+> It might not seen sensible, but we could still be relying on this in the
+> kernel and so this change would introduce a regression. I think we need
+> a way to identify such pointer usage before these patches can seriously be
+> considered for mainline inclusion.
 
-On 25/06/18 21:58, Dongjiu Geng wrote:
-> For the migrating VMs, user space may need to know the exception
-> state. For example, in the machine A, KVM make an SError pending,
-> when migrate to B, KVM also needs to pend an SError.
-> 
-> This new IOCTL exports user-invisible states related to SError.
-> Together with appropriate user space changes, user space can get/set
-> the SError exception state to do migrate/snapshot/suspend.
-
-
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 469de8a..357304a 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -335,6 +335,11 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
->  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
->  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
->  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
-> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
-> +			struct kvm_vcpu_events *events);
-> +
-> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
-> +			struct kvm_vcpu_events *events);
->  
-
-(Nit: funny indentation)
-
-
-> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
-> index 56a0260..8be14cc 100644
-> --- a/arch/arm64/kvm/guest.c
-> +++ b/arch/arm64/kvm/guest.c
-> @@ -289,6 +289,49 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
-
-> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
-> +			struct kvm_vcpu_events *events)
-> +{
-> +	int i;
-> +	bool serror_pending = events->exception.serror_pending;
-> +	bool has_esr = events->exception.serror_has_esr;
-> +
-> +	/* check whether the reserved field is zero */
-> +	for (i = 0; i < ARRAY_SIZE(events->reserved); i++)
-> +		if (events->reserved[i])
-> +			return -EINVAL;
-> +
-> +	/* check whether the pad field is zero */
-> +	for (i = 0; i < ARRAY_SIZE(events->exception.pad); i++)
-> +		if (events->exception.pad[i])
-> +			return -EINVAL;
-> +
-> +	if (serror_pending && has_esr) {
-> +		if (!cpus_have_const_cap(ARM64_HAS_RAS_EXTN))
-> +			return -EINVAL;
-> +
-
-> +		kvm_set_sei_esr(vcpu, events->exception.serror_esr);
-
-This silently discards all but the bottom 24 bits of serror_esr.
-
-It makes sense that this field is 64 bit, because the register is 64 bit, and it
-would let us use this API to migrate any new state that appears in the higher
-bits... But those bits will come with an ID/feature field, we shouldn't accept
-an attempt to restore them on a CPU that doesn't support the feature. If that
-happens here, it silently succeeds, but the kernel just threw the extra bits away.
-
-You added documentation that only the bottom 24bits can be set, can we add
-checks to enforce this, so the bits can be used later.
-
-
-> +	} else if (serror_pending) {
-> +		kvm_inject_vabt(vcpu);
-> +	}
-> +
-> +	return 0;
-> +}
-
-> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
-> index a4c1b76..4e6f366 100644
-> --- a/virt/kvm/arm/arm.c
-> +++ b/virt/kvm/arm/arm.c
-> @@ -1107,6 +1107,27 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->  		r = kvm_arm_vcpu_has_attr(vcpu, &attr);
->  		break;
->  	}
-> +#ifdef __KVM_HAVE_VCPU_EVENTS
-
-So its this #ifdef, or a uapi struct for a feature 32bit doesn't support.
-I think the right thing to do is wire this up for 32bit, it also calls
-kvm_inject_vabt() in handle_exit.c, so must have the same migration problems.
-
-I'll post a patch to do this as I've got something I can test it on.
-
-
-> +	case KVM_GET_VCPU_EVENTS: {
-> +		struct kvm_vcpu_events events;
-> +
-> +		if (kvm_arm_vcpu_get_events(vcpu, &events))
-> +			return -EINVAL;
-> +
-> +		if (copy_to_user(argp, &events, sizeof(events)))
-> +			return -EFAULT;
-> +
-> +		return 0;
-> +	}
-> +	case KVM_SET_VCPU_EVENTS: {
-> +		struct kvm_vcpu_events events;
-> +
-> +		if (copy_from_user(&events, argp, sizeof(events)))
-> +			return -EFAULT;
-> +
-> +		return kvm_arm_vcpu_set_events(vcpu, &events);
-> +	}
-> +#endif
-
-(It bugs me that the architecture has some rules about merging multiple
-architected ESR values, that we neither enforce, nor document as user-space's
-problem. It doesn't matter for RAS, but might for any future ESR encodings. But
-I guess user-space wouldn't be aware of them anyway, and it can already put
-bogus values in SPSR/ESR/ELR etc.)
-
-
-With a check against the top bits of ESR:
-Reviewed-by: James Morse <james.morse@arm.com>
-
-
-Thanks,
-
-James
+Another point that I have here is that KHWASAN is a debugging tool not
+meant to be used in production. We're not trying to change the ABI or
+something like that (referring to the other HWASAN patchset). We can
+fix up the non obvious places where untagging is needed in a case by
+case basis with additional patches when testing reveals it.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
