@@ -2,65 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 940517D043
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 10:14:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2CC637D062
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Jun 2018 11:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752846AbeF2KOp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 06:14:45 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59200 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751901AbeF2KOo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jun 2018 06:14:44 -0400
+        id S932263AbeF2LEc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Jun 2018 07:04:32 -0400
+Received: from foss.arm.com ([217.140.101.70]:59654 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932078AbeF2LEb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jun 2018 07:04:31 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD2121529;
-        Fri, 29 Jun 2018 03:14:43 -0700 (PDT)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 145AD3F266;
-        Fri, 29 Jun 2018 03:14:37 -0700 (PDT)
-Date:   Fri, 29 Jun 2018 11:14:35 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9570018A;
+        Fri, 29 Jun 2018 04:04:30 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E02B73F266;
+        Fri, 29 Jun 2018 04:04:24 -0700 (PDT)
+Date:   Fri, 29 Jun 2018 12:04:22 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
 To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
         Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
         Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Alexander Potapenko <glider@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
+        Christoph Lameter <cl@linux.com>,
+        Ingo Molnar <mingo@kernel.org>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Jann Horn <jannh@google.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
         Mark Brand <markbrand@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-sparse@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
  sanitizer
-Message-ID: <20180629101435.263hujat2amnm3hi@lakrids.cambridge.arm.com>
+Message-ID: <20180629110419.GC26019@e103592.cambridge.arm.com>
 References: <cover.1530018818.git.andreyknvl@google.com>
  <20180628105057.GA26019@e103592.cambridge.arm.com>
  <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
@@ -68,7 +69,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -84,9 +85,30 @@ On Thu, Jun 28, 2018 at 08:56:41PM +0200, Andrey Konovalov wrote:
 > >
 > > This is a change from the current situation, so the kernel may be
 > > making implicit assumptions about the top byte of kernel addresses.
+> >
+> > Randomising the top bits may cause things like address conversions and
+> > pointer arithmetic to break.
+> >
+> > For example, (q - p) will not produce the expected result if q and p
+> > have different tags.
+> 
+> If q and p have different tags, that means they come from different
+> allocations. I don't think it would make sense to calculate pointer
+> difference in this case.
 
-[...]
+It's not strictly valid to subtract pointers from different allocations
+in C, but it's hard to prove statically that two pointers are guaranteed
+to point into the same allocation.
 
+It's likely that we're getting away with it in some places today.
+
+> > Conversions, such as between pointer and pfn, may also go wrong if not
+> > appropriately masked.
+> >
+> > There are also potential pointer comparison and aliasing issues if
+> > the tag bits are ever stripped or modified.
+> >
+> >
 > > What was your approach to tracking down all the points in the code
 > > where we have a potential issue?
 > 
@@ -96,21 +118,18 @@ On Thu, Jun 28, 2018 at 08:56:41PM +0200, Andrey Konovalov wrote:
 > issues. It doesn't prove that all such places are fixed, but I don't
 > know a better way to test this.
 
-While fuzzing shows that the kernel doesn't crash (and this is very
-important), it does not show that it exhibits the expected behaviour,
-and there could be a number of soft failures present.
+Can sparse be hacked to identify pointer subtractions where the pointers
+are cannot be statically proved to point into the same allocation?
 
-e.g. certain functions might just return an error code if a pointer has
-a tag other than 0xff (such that it looks like a kernel pointer) or 0x00
-(such that it looks like a user pointer), and this might not result in a
-fatal error even though the behaviour is not what we require.
+Maybe the number of hits for this wouldn't be outrageously high, though
+I expect there would be a fair number.
 
-Perhaps it's possible to compare the behaviour of a kernel making use of
-tags with one which does not, though I'm not sure at which level the
-comparison needs to be performed.
+Tracking pointers that have been cast to integer types is harder.
+Ideally we'd want to do that, to flag up potentially problematic
+masking and other similar hacks.
 
-Thanks,
-Mark.
+Cheers
+---Dave
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
