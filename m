@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1CA577D072
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 14:55:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9677B7D072
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 14:56:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751087AbeF3OzR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Jun 2018 10:55:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57616 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1750948AbeF3OzQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jun 2018 10:55:16 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5UErWdR035274
-        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:16 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jx562u9qc-1
+        id S1751318AbeF3Ozk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Jun 2018 10:55:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41798 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1751469AbeF3Oz0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jun 2018 10:55:26 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5UErYrJ098300
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:25 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jx2t3xst3-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:16 -0400
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:25 -0400
 Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Sat, 30 Jun 2018 15:55:14 +0100
+        Sat, 30 Jun 2018 15:55:24 +0100
 Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 30 Jun 2018 15:55:11 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5UEtATR18677928
+        Sat, 30 Jun 2018 15:55:20 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5UEtKkd37355616
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 30 Jun 2018 14:55:10 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 47C2FAE051;
-        Sat, 30 Jun 2018 15:55:00 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AB5D6AE04D;
-        Sat, 30 Jun 2018 15:54:58 +0100 (BST)
+        Sat, 30 Jun 2018 14:55:20 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DE3BA42041;
+        Sat, 30 Jun 2018 15:55:06 +0100 (BST)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4AC594203F;
+        Sat, 30 Jun 2018 15:55:05 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.205.240])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sat, 30 Jun 2018 15:54:58 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Sat, 30 Jun 2018 17:55:07 +0300
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sat, 30 Jun 2018 15:55:05 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Sat, 30 Jun 2018 17:55:17 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
@@ -50,57 +50,61 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH v2 00/11] docs/mm: add boot time memory management docs
-Date:   Sat, 30 Jun 2018 17:54:55 +0300
+Subject: [PATCH v2 04/11] docs/mm: bootmem: add kernel-doc description of 'struct bootmem_data'
+Date:   Sat, 30 Jun 2018 17:54:59 +0300
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
+References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18063014-0016-0000-0000-000001E1E348
+x-cbid: 18063014-0028-0000-0000-000002D6B5D4
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18063014-0017-0000-0000-0000323632A8
-Message-Id: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18063014-0029-0000-0000-0000238E2AF4
+Message-Id: <1530370506-21751-5-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-30_05:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=778 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1806210000 definitions=main-1806300176
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+---
+ include/linux/bootmem.h | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-Both bootmem and memblock have pretty good documentation coverage. With
-some fixups and additions we get a nice overall description.
-
-v2 changes:
-* address Randy's comments
-
-Mike Rapoport (11):
-  mm/bootmem: drop duplicated kernel-doc comments
-  docs/mm: nobootmem: fixup kernel-doc comments
-  docs/mm: bootmem: fix kernel-doc warnings
-  docs/mm: bootmem: add kernel-doc description of 'struct bootmem_data'
-  docs/mm: bootmem: add overview documentation
-  mm/memblock: add a name for memblock flags enumeration
-  docs/mm: memblock: update kernel-doc comments
-  docs/mm: memblock: add kernel-doc comments for memblock_add[_node]
-  docs/mm: memblock: add kernel-doc description for memblock types
-  docs/mm: memblock: add overview documentation
-  docs/mm: add description of boot time memory management
-
- Documentation/core-api/boot-time-mm.rst |  92 +++++++++++++++
- Documentation/core-api/index.rst        |   1 +
- include/linux/bootmem.h                 |  17 ++-
- include/linux/memblock.h                |  76 ++++++++----
- mm/bootmem.c                            | 159 +++++++++----------------
- mm/memblock.c                           | 203 +++++++++++++++++++++++---------
- mm/nobootmem.c                          |  20 +++-
- 7 files changed, 380 insertions(+), 188 deletions(-)
- create mode 100644 Documentation/core-api/boot-time-mm.rst
-
+diff --git a/include/linux/bootmem.h b/include/linux/bootmem.h
+index 7942a96..4251519 100644
+--- a/include/linux/bootmem.h
++++ b/include/linux/bootmem.h
+@@ -27,9 +27,20 @@ extern unsigned long max_pfn;
+ extern unsigned long long max_possible_pfn;
+ 
+ #ifndef CONFIG_NO_BOOTMEM
+-/*
+- * node_bootmem_map is a map pointer - the bits represent all physical 
+- * memory pages (including holes) on the node.
++/**
++ * struct bootmem_data - per-node information used by the bootmem allocator
++ * @node_min_pfn: the starting physical address of the node's memory
++ * @node_low_pfn: the end physical address of the directly addressable memory
++ * @node_bootmem_map: is a bitmap pointer - the bits represent all physical
++ *		      memory pages (including holes) on the node.
++ * @last_end_off: the offset within the page of the end of the last allocation;
++ *                if 0, the page used is full
++ * @hint_idx: the PFN of the page used with the last allocation;
++ *            together with using this with the @last_end_offset field,
++ *            a test can be made to see if allocations can be merged
++ *            with the page used for the last allocation rather than
++ *            using up a full new page.
++ * @list: list entry in the linked list ordered by the memory addresses
+  */
+ typedef struct bootmem_data {
+ 	unsigned long node_min_pfn;
 -- 
 2.7.4
 
