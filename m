@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E03C07DF88
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 14:57:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ECAE07DF88
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 14:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750948AbeF3O46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Jun 2018 10:56:58 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42238 "EHLO
+        id S1752131AbeF3O5W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Jun 2018 10:57:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41884 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1751469AbeF3Ozm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jun 2018 10:55:42 -0400
+        by vger.kernel.org with ESMTP id S1751503AbeF3Oz3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jun 2018 10:55:29 -0400
 Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5UErVcs098170
-        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:41 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jx2t3xsx3-1
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5UErVdr098183
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:28 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jx2t3xstu-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:41 -0400
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:28 -0400
 Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Sat, 30 Jun 2018 15:55:40 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Sat, 30 Jun 2018 15:55:27 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 30 Jun 2018 15:55:37 +0100
+        Sat, 30 Jun 2018 15:55:23 +0100
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5UEtbWD32309312
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5UEtMDH40698100
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 30 Jun 2018 14:55:37 GMT
+        Sat, 30 Jun 2018 14:55:22 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 90BB411C054;
-        Sat, 30 Jun 2018 15:55:23 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id F214411C052;
+        Sat, 30 Jun 2018 15:55:08 +0100 (BST)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F39F911C050;
-        Sat, 30 Jun 2018 15:55:21 +0100 (BST)
+        by IMSVA (Postfix) with ESMTP id 61B1E11C04C;
+        Sat, 30 Jun 2018 15:55:07 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.205.240])
         by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sat, 30 Jun 2018 15:55:21 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Sat, 30 Jun 2018 17:55:34 +0300
+        Sat, 30 Jun 2018 15:55:07 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Sat, 30 Jun 2018 17:55:20 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
@@ -50,16 +50,16 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH v2 11/11] docs/mm: add description of boot time memory management
-Date:   Sat, 30 Jun 2018 17:55:06 +0300
+Subject: [PATCH v2 05/11] docs/mm: bootmem: add overview documentation
+Date:   Sat, 30 Jun 2018 17:55:00 +0300
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18063014-0008-0000-0000-0000024E31D7
+x-cbid: 18063014-4275-0000-0000-00000293AA14
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18063014-0009-0000-0000-000021B43447
-Message-Id: <1530370506-21751-12-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18063014-4276-0000-0000-0000379B1E27
+Message-Id: <1530370506-21751-6-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-30_05:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -72,127 +72,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Both bootmem and memblock are have pretty good internal documentation
-coverage. With addition of some overview we get a nice description of the
-early memory management.
-
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- Documentation/core-api/boot-time-mm.rst | 92 +++++++++++++++++++++++++++++++++
- Documentation/core-api/index.rst        |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 Documentation/core-api/boot-time-mm.rst
+ mm/bootmem.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/Documentation/core-api/boot-time-mm.rst b/Documentation/core-api/boot-time-mm.rst
-new file mode 100644
-index 0000000..03cb164
---- /dev/null
-+++ b/Documentation/core-api/boot-time-mm.rst
-@@ -0,0 +1,92 @@
-+===========================
-+Boot time memory management
-+===========================
-+
-+Early system initialization cannot use "normal" memory management
-+simply because it is not set up yet. But there is still need to
-+allocate memory for various data structures, for instance for the
-+physical page allocator. To address this, a specialized allocator
-+called the :ref:`Boot Memory Allocator <bootmem>`, or bootmem, was
-+introduced. Several years later PowerPC developers added a "Logical
-+Memory Blocks" allocator, which was later adopted by other
-+architectures and renamed to :ref:`memblock <memblock>`. There is also
-+a compatibility layer called `nobootmem` that translates bootmem
-+allocation interfaces to memblock calls.
-+
-+The selection of the early allocator is done using
-+``CONFIG_NO_BOOTMEM`` and ``CONFIG_HAVE_MEMBLOCK`` kernel
-+configuration options. These options are enabled or disabled
-+statically by the architectures' Kconfig files.
-+
-+* Architectures that rely only on bootmem select
-+  ``CONFIG_NO_BOOTMEM=n && CONFIG_HAVE_MEMBLOCK=n``.
-+* The users of memblock with the nobootmem compatibility layer set
-+  ``CONFIG_NO_BOOTMEM=y && CONFIG_HAVE_MEMBLOCK=y``.
-+* And for those that use both memblock and bootmem the configuration
-+  includes ``CONFIG_NO_BOOTMEM=n && CONFIG_HAVE_MEMBLOCK=y``.
-+
-+Whichever allocator is used, it is the responsibility of the
-+architecture specific initialization to set it up in
-+:c:func:`setup_arch` and tear it down in :c:func:`mem_init` functions.
-+
-+Once the early memory management is available it offers a variety of
-+functions and macros for memory allocations. The allocation request
-+may be directed to the first (and probably the only) node or to a
-+particular node in a NUMA system. There are API variants that panic
-+when an allocation fails and those that don't. And more recent and
-+advanced memblock even allows controlling its own behaviour.
-+
-+.. _bootmem:
-+
-+Bootmem
-+=======
-+
-+(mostly stolen from Mel Gorman's "Understanding the Linux Virtual
-+Memory Manager" `book`_)
-+
-+.. _book: https://www.kernel.org/doc/gorman/
-+
-+.. kernel-doc:: mm/bootmem.c
-+   :doc: bootmem overview
-+
-+.. _memblock:
-+
-+Memblock
-+========
-+
-+.. kernel-doc:: mm/memblock.c
-+   :doc: memblock overview
-+
-+
-+Functions and structures
-+========================
-+
-+Common API
-+----------
-+
-+The functions that are described in this section are available
-+regardless of what early memory manager is enabled.
-+
-+.. kernel-doc:: mm/nobootmem.c
-+
-+Bootmem specific API
-+--------------------
-+
-+These interfaces available only with bootmem, i.e when ``CONFIG_NO_BOOTMEM=n``
-+
-+.. kernel-doc:: include/linux/bootmem.h
-+.. kernel-doc:: mm/bootmem.c
-+   :nodocs:
-+
-+Memblock specific API
-+---------------------
-+
-+Here is the description of memblock data structures, functions and
-+macros. Some of them are actually internal, but since they are
-+documented it would be silly to omit them. Besides, reading the
-+descriptions for the internal functions can help to understand what
-+really happens under the hood.
-+
-+.. kernel-doc:: include/linux/memblock.h
-+.. kernel-doc:: mm/memblock.c
-+   :nodocs:
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index f5a66b7..93d5a46 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -28,6 +28,7 @@ Core utilities
-    printk-formats
-    circular-buffers
-    gfp_mask-from-fs-io
-+   boot-time-mm
+diff --git a/mm/bootmem.c b/mm/bootmem.c
+index 76fc17e..97db0e8 100644
+--- a/mm/bootmem.c
++++ b/mm/bootmem.c
+@@ -21,6 +21,53 @@
  
- Interfaces for kernel debugging
- ===============================
+ #include "internal.h"
+ 
++/**
++ * DOC: bootmem overview
++ *
++ * Bootmem is a boot-time physical memory allocator and configurator.
++ *
++ * It is used early in the boot process before the page allocator is
++ * set up.
++ *
++ * Bootmem is based on the most basic of allocators, a First Fit
++ * allocator which uses a bitmap to represent memory. If a bit is 1,
++ * the page is allocated and 0 if unallocated. To satisfy allocations
++ * of sizes smaller than a page, the allocator records the Page Frame
++ * Number (PFN) of the last allocation and the offset the allocation
++ * ended at. Subsequent small allocations are merged together and
++ * stored on the same page.
++ *
++ * The information used by the bootmem allocator is represented by
++ * :c:type:`struct bootmem_data`. An array to hold up to %MAX_NUMNODES
++ * such structures is statically allocated and then it is discarded
++ * when the system initialization completes. Each entry in this array
++ * corresponds to a node with memory. For UMA systems only entry 0 is
++ * used.
++ *
++ * The bootmem allocator is initialized during early architecture
++ * specific setup. Each architecture is required to supply a
++ * :c:func:`setup_arch` function which, among other tasks, is
++ * responsible for acquiring the necessary parameters to initialise
++ * the boot memory allocator. These parameters define limits of usable
++ * physical memory:
++ *
++ * * @min_low_pfn - the lowest PFN that is available in the system
++ * * @max_low_pfn - the highest PFN that may be addressed by low
++ *   memory (%ZONE_NORMAL)
++ * * @max_pfn - the last PFN available to the system.
++ *
++ * After those limits are determined, the :c:func:`init_bootmem` or
++ * :c:func:`init_bootmem_node` function should be called to initialize
++ * the bootmem allocator. The UMA case should use the `init_bootmem`
++ * function. It will initialize ``contig_page_data`` structure that
++ * represents the only memory node in the system. In the NUMA case the
++ * `init_bootmem_node` function should be called to initialize the
++ * bootmem allocator for each node.
++ *
++ * Once the allocator is set up, it is possible to use either single
++ * node or NUMA variant of the allocation APIs.
++ */
++
+ #ifndef CONFIG_NEED_MULTIPLE_NODES
+ struct pglist_data __refdata contig_page_data = {
+ 	.bdata = &bootmem_node_data[0]
 -- 
 2.7.4
 
