@@ -1,101 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7F5A7D043
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 02:41:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 002D77D072
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 11:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S936540AbeF3ClW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Jun 2018 22:41:22 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:60594 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S936522AbeF3ClU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jun 2018 22:41:20 -0400
-Received: from localhost.localdomain (c-24-4-125-7.hsd1.ca.comcast.net [24.4.125.7])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id D67C6AF3;
-        Sat, 30 Jun 2018 02:41:18 +0000 (UTC)
-Date:   Fri, 29 Jun 2018 19:41:17 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
-Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
- sanitizer
-Message-Id: <20180629194117.01b2d31e805808eee5c97b4d@linux-foundation.org>
-In-Reply-To: <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com>
-References: <cover.1530018818.git.andreyknvl@google.com>
-        <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
-        <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
-        <20180628124039.8a42ab5e2994fb2876ff4f75@linux-foundation.org>
-        <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1755038AbeF3LWD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Jun 2018 07:22:03 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50662 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754852AbeF3LWC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jun 2018 07:22:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=iu4VYaFLzn5qg4OmKjyOucIZnumfbp5gnrMfoa3lJ+w=; b=Lnz2bz+r/KlOpHXYfyk83ctXX
+        Z7/6wfQry0EZstABvEgx9R3cx7IKVf7MecVFuzWzllEsc9uTCIdwlfY7bAmu91aCvIdsAcXZXOLEp
+        /wiGcFtZpHWVR2k8MRAiPqI5RQl5+dOMoEdrf5dqIoxHPrkrHLLSePIjDezTx/4FJ3hc7/wEi9L2G
+        DtOWIcRsEgv1yIN5+CsizPCA/XFuU5NTF4ZdRxb6N1wZO73hEY6oilT1SFvw1WoE19cDRAUneIh2k
+        ApH1fAXObdc12QnAcU9rqSthiGhsYlR2C5mpLN9aK7LDaLlyazvn5F0YthzQZ71SAqNCP0P0LlCuC
+        lIQ474N+g==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fZDwy-00078T-VN; Sat, 30 Jun 2018 11:21:56 +0000
+Date:   Sat, 30 Jun 2018 04:21:56 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@intel.com>,
+        linux-doc <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 1/2] Documentation/sphinx: allow "functions" with no
+ parameters
+Message-ID: <20180630112156.GK7646@bombadil.infradead.org>
+References: <1530306311-10510-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1530306311-10510-2-git-send-email-rppt@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1530306311-10510-2-git-send-email-rppt@linux.vnet.ibm.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 29 Jun 2018 14:45:08 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
+On Sat, Jun 30, 2018 at 12:05:10AM +0300, Mike Rapoport wrote:
+> @@ -488,14 +488,19 @@ doc: *title*
+>      .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
+>         :doc: High Definition Audio over HDMI and Display Port
+>  
+> -functions: *function* *[...]*
+> +functions: *[ function ...]*
+>    Include documentation for each *function* in *source*.
+> +  If no *function* if specified, the documentaion for all functions
 
-> >> What kind of memory consumption testing would you like to see?
-> >
-> > Well, 100kb or so is a teeny amount on virtually any machine.  I'm
-> > assuming the savings are (much) more significant once the machine gets
-> > loaded up and doing work?
-> 
-> So with clean kernel after boot we get 40 kb memory usage. With KASAN
-> it is ~120 kb, which is 200% overhead. With KHWASAN it's 50 kb, which
-> is 25% overhead. This should approximately scale to any amounts of
-> used slab memory. For example with 100 mb memory usage we would get
-> +200 mb for KASAN and +25 mb with KHWASAN. (And KASAN also requires
-> quarantine for better use-after-free detection). I can explicitly
-> mention the overhead in %s in the changelog.
-> 
-> If you think it makes sense, I can also make separate measurements
-> with some workload. What kind of workload should I use?
+"is specified".  "documentation".
 
-Whatever workload people were running when they encountered problems
-with KASAN memory consumption ;)
+> -  Example::
+> +  Examples::
+>  
+>      .. kernel-doc:: lib/bitmap.c
+>         :functions: bitmap_parselist bitmap_parselist_user
+>  
+> +    .. kernel-doc:: lib/idr.c
+> +       :functions:
 
-I dunno, something simple.  `find / > /dev/null'?
+Is this the right syntax?  Should we rather have:
+
+    .. kernel-doc:: lib/idr.c
+       :functions: *
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
