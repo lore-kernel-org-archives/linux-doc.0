@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC1CB7DF88
+	by archive.lwn.net (Postfix) with ESMTP id E9F957DF92
 	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 14:56:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751304AbeF3Ozr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Jun 2018 10:55:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60678 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1751778AbeF3Ozg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jun 2018 10:55:36 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5UErVsF126277
-        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:36 -0400
+        id S1751950AbeF3Ozu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Jun 2018 10:55:50 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38066 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1751298AbeF3Ozi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jun 2018 10:55:38 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w5UErWeC124385
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:37 -0400
 Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jx5xvacut-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jx5v4t9js-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:35 -0400
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jun 2018 10:55:37 -0400
 Received: from localhost
         by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.vnet.ibm.com>;
-        Sat, 30 Jun 2018 15:55:33 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        Sat, 30 Jun 2018 15:55:35 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
         by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 30 Jun 2018 15:55:30 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5UEtT3S34668774
+        Sat, 30 Jun 2018 15:55:33 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w5UEtWYE30343200
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 30 Jun 2018 14:55:29 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A06564C04A;
-        Sat, 30 Jun 2018 15:55:15 +0100 (BST)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0D1B04C040;
-        Sat, 30 Jun 2018 15:55:14 +0100 (BST)
+        Sat, 30 Jun 2018 14:55:32 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 587C6A4053;
+        Sat, 30 Jun 2018 15:55:18 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BBB08A4040;
+        Sat, 30 Jun 2018 15:55:16 +0100 (BST)
 Received: from rapoport-lnx (unknown [9.148.205.240])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sat, 30 Jun 2018 15:55:13 +0100 (BST)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Sat, 30 Jun 2018 17:55:27 +0300
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sat, 30 Jun 2018 15:55:16 +0100 (BST)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Sat, 30 Jun 2018 17:55:29 +0300
 From:   Mike Rapoport <rppt@linux.vnet.ibm.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
@@ -50,22 +50,22 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         linux-mm <linux-mm@kvack.org>,
         lkml <linux-kernel@vger.kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH v2 08/11] docs/mm: memblock: add kernel-doc comments for memblock_add[_node]
-Date:   Sat, 30 Jun 2018 17:55:03 +0300
+Subject: [PATCH v2 09/11] docs/mm: memblock: add kernel-doc description for memblock types
+Date:   Sat, 30 Jun 2018 17:55:04 +0300
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18063014-0008-0000-0000-0000024E31D5
+x-cbid: 18063014-0008-0000-0000-0000024E31D6
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18063014-0009-0000-0000-000021B43444
-Message-Id: <1530370506-21751-9-git-send-email-rppt@linux.vnet.ibm.com>
+x-cbparentid: 18063014-0009-0000-0000-000021B43446
+Message-Id: <1530370506-21751-10-git-send-email-rppt@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-06-30_05:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=974 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1806210000 definitions=main-1806300176
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -74,61 +74,76 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- mm/memblock.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ include/linux/memblock.h | 37 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 8159869..3e6be01 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -595,12 +595,35 @@ int __init_memblock memblock_add_range(struct memblock_type *type,
- 	}
- }
+diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+index 63704c6..5169205 100644
+--- a/include/linux/memblock.h
++++ b/include/linux/memblock.h
+@@ -20,7 +20,13 @@
+ #define INIT_MEMBLOCK_REGIONS	128
+ #define INIT_PHYSMEM_REGIONS	4
  
+-/* Definition of memblock flags. */
 +/**
-+ * memblock_add_node - add new memblock region within a NUMA node
-+ * @base: base address of the new region
-+ * @size: size of the new region
-+ * @nid: nid of the new region
-+ *
-+ * Add new memblock region [@base, @base + @size) to the "memory"
-+ * type. See memblock_add_range() description for mode details
-+ *
-+ * Return:
-+ * 0 on success, -errno on failure.
++ * enum memblock_flags - definition of memory region attributes
++ * @MEMBLOCK_NONE: no special request
++ * @MEMBLOCK_HOTPLUG: hotpluggable region
++ * @MEMBLOCK_MIRROR: mirrored region
++ * @MEMBLOCK_NOMAP: don't add to kernel direct mapping
 + */
- int __init_memblock memblock_add_node(phys_addr_t base, phys_addr_t size,
- 				       int nid)
- {
- 	return memblock_add_range(&memblock.memory, base, size, nid, 0);
- }
+ enum memblock_flags {
+ 	MEMBLOCK_NONE		= 0x0,	/* No special request */
+ 	MEMBLOCK_HOTPLUG	= 0x1,	/* hotpluggable region */
+@@ -28,6 +34,13 @@ enum memblock_flags {
+ 	MEMBLOCK_NOMAP		= 0x4,	/* don't add to kernel direct mapping */
+ };
  
 +/**
-+ * memblock_add - add new memblock region
-+ * @base: base address of the new region
-+ * @size: size of the new region
-+ *
-+ * Add new memblock region [@base, @base + @size) to the "memory"
-+ * type. See memblock_add_range() description for mode details
-+ *
-+ * Return:
-+ * 0 on success, -errno on failure.
++ * struct memblock_region - represents a memory region
++ * @base: physical address of the region
++ * @size: size of the region
++ * @flags: memory region attributes
++ * @nid: NUMA node id
 + */
- int __init_memblock memblock_add(phys_addr_t base, phys_addr_t size)
- {
- 	phys_addr_t end = base + size - 1;
-@@ -1464,9 +1487,9 @@ void __init __memblock_free_early(phys_addr_t base, phys_addr_t size)
- 	memblock_remove_range(&memblock.reserved, base, size);
- }
+ struct memblock_region {
+ 	phys_addr_t base;
+ 	phys_addr_t size;
+@@ -37,14 +50,30 @@ struct memblock_region {
+ #endif
+ };
  
--/*
 +/**
-  * __memblock_free_late - free bootmem block pages directly to buddy allocator
-- * @addr: phys starting address of the  boot memory block
-+ * @base: phys starting address of the  boot memory block
-  * @size: size of the boot memory block in bytes
-  *
-  * This is only useful when the bootmem allocator has already been torn
++ * struct memblock_type - collection of memory regions of certain type
++ * @cnt: number of regions
++ * @max: size of the allocated array
++ * @total_size: size of all regions
++ * @regions: array of regions
++ * @name: the memory type symbolic name
++ */
+ struct memblock_type {
+-	unsigned long cnt;	/* number of regions */
+-	unsigned long max;	/* size of the allocated array */
+-	phys_addr_t total_size;	/* size of all regions */
++	unsigned long cnt;
++	unsigned long max;
++	phys_addr_t total_size;
+ 	struct memblock_region *regions;
+ 	char *name;
+ };
+ 
++/**
++ * struct memblock - memblock allocator metadata
++ * @bottom_up: is bottom up direction?
++ * @current_limit: physical address of the current allocation limit
++ * @memory: usabe memory regions
++ * @reserved: reserved memory regions
++ * @physmem: all physical memory
++ */
+ struct memblock {
+ 	bool bottom_up;  /* is bottom up direction? */
+ 	phys_addr_t current_limit;
 -- 
 2.7.4
 
