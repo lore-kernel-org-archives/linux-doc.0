@@ -1,95 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 465E67D043
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Jun 2018 20:41:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F4487D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 15:26:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751737AbeF3UlD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Jun 2018 16:41:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56910 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1751503AbeF3UlC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 30 Jun 2018 16:41:02 -0400
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E28B22549A;
-        Sat, 30 Jun 2018 20:41:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1530391262;
-        bh=XaWkty2LvxM/KIe16XUrDmVndxzR9bG6ZALL6imLe8E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p/mkcPX3tXLTd+i0/mhJYVChhC6hGFLTRVh1IBNrFPNF9GRaPGT1r7iesNSJE7lMk
-         9NctboND/jRzK1UsAFMjX7RH3Jh1fVyQtw8CsnqRP5Pc25kFDtIyOLw0Xt8bs4zJdH
-         qLjsrlSxKPJHk5qvYmnrfujV0FgE5wJ+2WWXQsn4=
-Date:   Sat, 30 Jun 2018 15:41:00 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Frederick Lawler <fred@fredlawl.com>,
-        Oza Pawandeep <poza@codeaurora.org>,
-        Keith Busch <keith.busch@intel.com>,
-        Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jes Sorensen <jsorensen@fb.com>,
-        Kyle McMartin <jkkm@fb.com>, rajatxjain@gmail.com
-Subject: Re: [PATCH 0/4] Expose PCIe AER stats via sysfs
-Message-ID: <20180630204100.GF9547@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180621234829.224566-1-rajatja@google.com>
+        id S1752239AbeGAP0s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 1 Jul 2018 11:26:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38320 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752217AbeGAP0s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jul 2018 11:26:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=vrUq7ECHxFj5AIDsXDE5vC3E+bI/VeHPJfclAyR3o28=; b=ttudi1rxFsrLK6Gx/35U/4458
+        F3souxWNXp4hqlAOrpIRRu0pwJF4TGTBOPTHQWbBdfn6pTMWDjicWWGiC0erslTPfRjbiit3OsFgZ
+        Wa3hQKgibmsGII6fMstLVtmfqjtPbakSAFQv95iTl2rby+aNg78veHQ8i4i+yCRYYUuedv4C3LLo8
+        SXC2moWESO//q/3IXvmJBkO7ZFWTxoQtbAOrXVVm4gzwGExRhH2VJJbVFCeARuCmjOuPsgfU8ZGxc
+        6fR+jadmICent2M9i4NNTB7ygF/biw5PYHZiPSR5ncKQOXIaTqmFbWqbd+giBWj7HrIbv3upGqj5n
+        iQ3GSdaEw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fZeFT-0001cD-Bw; Sun, 01 Jul 2018 15:26:47 +0000
+Subject: Re: [PATCH v2 00/11] docs/mm: add boot time memory management docs
+To:     Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc <linux-doc@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <6c4dbd5e-a7c9-06de-5c9f-1c311b782244@infradead.org>
+Date:   Sun, 1 Jul 2018 08:26:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180621234829.224566-1-rajatja@google.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 21, 2018 at 04:48:25PM -0700, Rajat Jain wrote:
-> This is a follow up to:
-> https://lkml.org/lkml/2018/5/22/1057
+On 06/30/18 07:54, Mike Rapoport wrote:
+> Hi,
 > 
-> Respinning as a new patchset because the old one has been refactored
-> to include new patches (that were not part of original), and dropping
-> some patches. The major changes are:
+> Both bootmem and memblock have pretty good documentation coverage. With
+> some fixups and additions we get a nice overall description.
 > 
-> * Provide breakdown of Fatal / non fatal errors separately
-> * Include the "total" in the same file
-> * do some PCI cleanup before the actual aer_stats stuff
-> * Include documentation in the main patch
-> * Rename variables / attributes to better match the newer reality.
-> 
-> Rajat Jain (4):
->   PCI: Move pci_aer_init() and pci_no_aer() declarations to
->     drivers/pci/pci.h
->   PCI/AER: Define and allocate aer_stats structure for AER capable
->     devices
->   PCI/AER: Add sysfs attributes to provide AER stats and breakdown
->   PCI/AER: Add sysfs attributes for rootport cumulative stats
-> 
->  .../testing/sysfs-bus-pci-devices-aer_stats   | 122 +++++++++++
->  Documentation/PCI/pcieaer-howto.txt           |   5 +
->  drivers/pci/pci-sysfs.c                       |   3 +
->  drivers/pci/pci.h                             |  11 +
->  drivers/pci/pcie/aer.c                        | 198 +++++++++++++++++-
->  drivers/pci/probe.c                           |   1 +
->  include/linux/pci.h                           |   5 +-
->  7 files changed, 337 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+> v2 changes:
+> * address Randy's comments
 
-Applied to pci/aer for v4.19, thanks!
+For the series:
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+
+> Mike Rapoport (11):
+>   mm/bootmem: drop duplicated kernel-doc comments
+>   docs/mm: nobootmem: fixup kernel-doc comments
+>   docs/mm: bootmem: fix kernel-doc warnings
+>   docs/mm: bootmem: add kernel-doc description of 'struct bootmem_data'
+>   docs/mm: bootmem: add overview documentation
+>   mm/memblock: add a name for memblock flags enumeration
+>   docs/mm: memblock: update kernel-doc comments
+>   docs/mm: memblock: add kernel-doc comments for memblock_add[_node]
+>   docs/mm: memblock: add kernel-doc description for memblock types
+>   docs/mm: memblock: add overview documentation
+>   docs/mm: add description of boot time memory management
+> 
+>  Documentation/core-api/boot-time-mm.rst |  92 +++++++++++++++
+>  Documentation/core-api/index.rst        |   1 +
+>  include/linux/bootmem.h                 |  17 ++-
+>  include/linux/memblock.h                |  76 ++++++++----
+>  mm/bootmem.c                            | 159 +++++++++----------------
+>  mm/memblock.c                           | 203 +++++++++++++++++++++++---------
+>  mm/nobootmem.c                          |  20 +++-
+>  7 files changed, 380 insertions(+), 188 deletions(-)
+>  create mode 100644 Documentation/core-api/boot-time-mm.rst
+> 
+
+
+-- 
+~Randy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
