@@ -2,136 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3EECD7DF91
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 18:25:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 22C4C7D062
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 21:09:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S965237AbeGASZc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 1 Jul 2018 14:25:32 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:33042 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753225AbeGAQSh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jul 2018 12:18:37 -0400
-Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id AF87386A;
-        Sun,  1 Jul 2018 16:18:36 +0000 (UTC)
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Eric Anholt <eric@anholt.net>,
-        Stefan Wahren <stefan.wahren@i2se.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4.4 035/105] lib/vsprintf: Remove atomic-unsafe support for %pCr
-Date:   Sun,  1 Jul 2018 18:01:45 +0200
-Message-Id: <20180701153151.781880637@linuxfoundation.org>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180701153149.382300170@linuxfoundation.org>
-References: <20180701153149.382300170@linuxfoundation.org>
-User-Agent: quilt/0.65
-X-stable: review
+        id S1752504AbeGAVJl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 1 Jul 2018 17:09:41 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48432 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1752407AbeGAVJk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 1 Jul 2018 17:09:40 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id EE99C7788C;
+        Sun,  1 Jul 2018 21:09:39 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 682567C24;
+        Sun,  1 Jul 2018 21:09:36 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Sun,  1 Jul 2018 23:09:39 +0200 (CEST)
+Date:   Sun, 1 Jul 2018 23:09:35 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+Message-ID: <20180701210935.GA14404@redhat.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Sun, 01 Jul 2018 21:09:40 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Sun, 01 Jul 2018 21:09:40 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-4.4-stable review patch.  If anyone has any objections, please let me know.
+On 06/28, Ravi Bangoria wrote:
+>
+> @@ -294,6 +462,15 @@ int uprobe_write_opcode(struct uprobe *uprobe, struct mm_struct *mm,
+>  	if (ret <= 0)
+>  		goto put_old;
+>  
+> +	/* Update the ref_ctr if we are going to replace instruction. */
+> +	if (!ref_ctr_updated) {
+> +		ret = update_ref_ctr(uprobe, mm, is_register);
+> +		if (ret)
+> +			goto put_old;
+> +
+> +		ref_ctr_updated = 1;
+> +	}
 
-------------------
+Why can't this code live in install_breakpoint() and remove_breakpoint() ?
+this way we do not need to export "struct uprobe" and change set_swbp/set_orig_insn,
+and the logic will be more simple.
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+And let me ask again... May be you have already explained this, but I can't
+find the previous discussion.
 
-commit 666902e42fd8344b923c02dc5b0f37948ff4f225 upstream.
+So why do we need a counter but not a boolean? IIRC, because the counter can
+be shared, in particular 2 different uprobes can have the same >ref_ctr_offset,
+right?
 
-"%pCr" formats the current rate of a clock, and calls clk_get_rate().
-The latter obtains a mutex, hence it must not be called from atomic
-context.
+But who else can use this counter and how? Say, can userspace update it too?
+If yes, why this can't race with __update_ref_ctr() ?
 
-Remove support for this rarely-used format, as vsprintf() (and e.g.
-printk()) must be callable from any context.
+And btw, why does __update_ref_ctr() use FOLL_FORCE? This vma should be writeable
+or valid_ref_ctr_vma() should nack it?
 
-Any remaining out-of-tree users will start seeing the clock's name
-printed instead of its rate.
+And shouldn't valid_ref_ctr_vma() check VM_SHARED? IIUC we do not want to write
+to this file?
 
-Reported-by: Jia-Ju Bai <baijiaju1990@gmail.com>
-Fixes: 900cca2944254edd ("lib/vsprintf: add %pC{,n,r} format specifiers for clocks")
-Link: http://lkml.kernel.org/r/1527845302-12159-5-git-send-email-geert+renesas@glider.be
-To: Jia-Ju Bai <baijiaju1990@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Michael Turquette <mturquette@baylibre.com>
-To: Stephen Boyd <sboyd@kernel.org>
-To: Zhang Rui <rui.zhang@intel.com>
-To: Eduardo Valentin <edubezval@gmail.com>
-To: Eric Anholt <eric@anholt.net>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
-Cc: linux-serial@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: stable@vger.kernel.org # 4.1+
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Petr Mladek <pmladek@suse.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
----
- Documentation/printk-formats.txt |    3 +--
- lib/vsprintf.c                   |    3 ---
- 2 files changed, 1 insertion(+), 5 deletions(-)
-
---- a/Documentation/printk-formats.txt
-+++ b/Documentation/printk-formats.txt
-@@ -273,11 +273,10 @@ struct clk:
- 
- 	%pC	pll1
- 	%pCn	pll1
--	%pCr	1560000000
- 
- 	For printing struct clk structures. '%pC' and '%pCn' print the name
- 	(Common Clock Framework) or address (legacy clock framework) of the
--	structure; '%pCr' prints the current clock rate.
-+	structure.
- 
- 	Passed by reference.
- 
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1345,9 +1345,6 @@ char *clock(char *buf, char *end, struct
- 		return string(buf, end, NULL, spec);
- 
- 	switch (fmt[1]) {
--	case 'r':
--		return number(buf, end, clk_get_rate(clk), spec);
--
- 	case 'n':
- 	default:
- #ifdef CONFIG_COMMON_CLK
-
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
