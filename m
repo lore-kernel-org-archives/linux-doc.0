@@ -5,18 +5,18 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C9CD67DF89
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 18:02:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4765B7D043
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 18:22:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1030308AbeGASBd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 1 Jul 2018 14:01:33 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:34648 "EHLO
+        id S964959AbeGAQYi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 1 Jul 2018 12:24:38 -0400
+Received: from mail.linuxfoundation.org ([140.211.169.12]:33494 "EHLO
         mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1030295AbeGAQaA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jul 2018 12:30:00 -0400
+        with ESMTP id S933640AbeGAQYf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jul 2018 12:24:35 -0400
 Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id CD1C4ACD;
-        Sun,  1 Jul 2018 16:29:58 +0000 (UTC)
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 1A606AD8;
+        Sun,  1 Jul 2018 16:24:34 +0000 (UTC)
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -37,12 +37,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4.14 022/157] clk: renesas: cpg-mssr: Stop using printk format %pCr
-Date:   Sun,  1 Jul 2018 18:21:34 +0200
-Message-Id: <20180701160853.368381940@linuxfoundation.org>
+Subject: [PATCH 4.9 015/101] clk: renesas: cpg-mssr: Stop using printk format %pCr
+Date:   Sun,  1 Jul 2018 18:21:01 +0200
+Message-Id: <20180701160757.744559346@linuxfoundation.org>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180701160852.287307684@linuxfoundation.org>
-References: <20180701160852.287307684@linuxfoundation.org>
+In-Reply-To: <20180701160757.138608453@linuxfoundation.org>
+References: <20180701160757.138608453@linuxfoundation.org>
 User-Agent: quilt/0.65
 X-stable: review
 MIME-Version: 1.0
@@ -52,7 +52,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-4.14-stable review patch.  If anyone has any objections, please let me know.
+4.9-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -100,7 +100,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/clk/renesas/renesas-cpg-mssr.c
 +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -248,8 +248,9 @@ struct clk *cpg_mssr_clk_src_twocell_get
+@@ -243,8 +243,9 @@ struct clk *cpg_mssr_clk_src_twocell_get
  		dev_err(dev, "Cannot get %s clock %u: %ld", type, clkidx,
  		       PTR_ERR(clk));
  	else
@@ -112,7 +112,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	return clk;
  }
  
-@@ -314,7 +315,7 @@ static void __init cpg_mssr_register_cor
+@@ -304,7 +305,7 @@ static void __init cpg_mssr_register_cor
  	if (IS_ERR_OR_NULL(clk))
  		goto fail;
  
@@ -121,7 +121,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	priv->clks[id] = clk;
  	return;
  
-@@ -380,7 +381,7 @@ static void __init cpg_mssr_register_mod
+@@ -372,7 +373,7 @@ static void __init cpg_mssr_register_mod
  	if (IS_ERR(clk))
  		goto fail;
  
