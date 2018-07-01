@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5A0367DF94
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 16:38:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8AE87DF8F
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 17:15:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1031508AbeGAQh6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 1 Jul 2018 12:37:58 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:36512 "EHLO
+        id S934055AbeGAROX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 1 Jul 2018 13:14:23 -0400
+Received: from mail.linuxfoundation.org ([140.211.169.12]:37120 "EHLO
         mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1031397AbeGAQhz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jul 2018 12:37:55 -0400
+        with ESMTP id S1031853AbeGAQkI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 1 Jul 2018 12:40:08 -0400
 Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id E0F46A73;
-        Sun,  1 Jul 2018 16:37:53 +0000 (UTC)
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 34669ACD;
+        Sun,  1 Jul 2018 16:40:07 +0000 (UTC)
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4.17 031/220] thermal: bcm2835: Stop using printk format %pCr
-Date:   Sun,  1 Jul 2018 18:20:55 +0200
-Message-Id: <20180701160909.632858221@linuxfoundation.org>
+Subject: [PATCH 4.17 033/220] lib/vsprintf: Remove atomic-unsafe support for %pCr
+Date:   Sun,  1 Jul 2018 18:20:57 +0200
+Message-Id: <20180701160909.718293393@linuxfoundation.org>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180701160908.272447118@linuxfoundation.org>
 References: <20180701160908.272447118@linuxfoundation.org>
@@ -58,16 +58,21 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-commit bd2a07f71a1e2e198f8a30cb551d9defe422d83d upstream.
+commit 666902e42fd8344b923c02dc5b0f37948ff4f225 upstream.
 
-Printk format "%pCr" will be removed soon, as clk_get_rate() must not be
-called in atomic context.
-
-Replace it by printing the variable that already holds the clock rate.
-Note that calling clk_get_rate() is safe here, as the code runs in task
+"%pCr" formats the current rate of a clock, and calls clk_get_rate().
+The latter obtains a mutex, hence it must not be called from atomic
 context.
 
-Link: http://lkml.kernel.org/r/1527845302-12159-3-git-send-email-geert+renesas@glider.be
+Remove support for this rarely-used format, as vsprintf() (and e.g.
+printk()) must be callable from any context.
+
+Any remaining out-of-tree users will start seeing the clock's name
+printed instead of its rate.
+
+Reported-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+Fixes: 900cca2944254edd ("lib/vsprintf: add %pC{,n,r} format specifiers for clocks")
+Link: http://lkml.kernel.org/r/1527845302-12159-5-git-send-email-geert+renesas@glider.be
 To: Jia-Ju Bai <baijiaju1990@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 To: Michael Turquette <mturquette@baylibre.com>
@@ -88,29 +93,44 @@ Cc: linux-serial@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-renesas-soc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org # 4.12+
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: stable@vger.kernel.org # 4.1+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Stefan Wahren <stefan.wahren@i2se.com>
 Signed-off-by: Petr Mladek <pmladek@suse.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
- drivers/thermal/broadcom/bcm2835_thermal.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/core-api/printk-formats.rst |    3 +--
+ lib/vsprintf.c                            |    3 ---
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
---- a/drivers/thermal/broadcom/bcm2835_thermal.c
-+++ b/drivers/thermal/broadcom/bcm2835_thermal.c
-@@ -213,8 +213,8 @@ static int bcm2835_thermal_probe(struct
- 	rate = clk_get_rate(data->clk);
- 	if ((rate < 1920000) || (rate > 5000000))
- 		dev_warn(&pdev->dev,
--			 "Clock %pCn running at %pCr Hz is outside of the recommended range: 1.92 to 5MHz\n",
--			 data->clk, data->clk);
-+			 "Clock %pCn running at %lu Hz is outside of the recommended range: 1.92 to 5MHz\n",
-+			 data->clk, rate);
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -419,11 +419,10 @@ struct clk
  
- 	/* register of thermal sensor and get info from DT */
- 	tz = thermal_zone_of_sensor_register(&pdev->dev, 0, data,
+ 	%pC	pll1
+ 	%pCn	pll1
+-	%pCr	1560000000
+ 
+ For printing struct clk structures. %pC and %pCn print the name
+ (Common Clock Framework) or address (legacy clock framework) of the
+-structure; %pCr prints the current clock rate.
++structure.
+ 
+ Passed by reference.
+ 
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1456,9 +1456,6 @@ char *clock(char *buf, char *end, struct
+ 		return string(buf, end, NULL, spec);
+ 
+ 	switch (fmt[1]) {
+-	case 'r':
+-		return number(buf, end, clk_get_rate(clk), spec);
+-
+ 	case 'n':
+ 	default:
+ #ifdef CONFIG_COMMON_CLK
 
 
 --
