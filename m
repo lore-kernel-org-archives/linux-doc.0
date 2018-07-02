@@ -1,138 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 53A8C7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 20:30:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A48797D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 20:33:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753068AbeGBUa0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 16:30:26 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:33896 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752537AbeGBUaY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 16:30:24 -0400
-Received: from akpm3.svl.corp.google.com (unknown [104.133.9.92])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id B25A8D8B;
-        Mon,  2 Jul 2018 20:30:22 +0000 (UTC)
-Date:   Mon, 2 Jul 2018 13:30:21 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Evgenii Stepanov <eugenis@google.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
+        id S1752630AbeGBUdw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 16:33:52 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34032 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752579AbeGBUdv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 16:33:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=+l+loOYFVRC/LmvQ+sJhqUFloWFSZOBmg40ommuB4BY=; b=fszUa4yOzJyVKK+p/mF9M2TPm
+        8e0XjT8yjy2uXIXG0U502Y7dvO6HmUe086xgIDg63/MGo054ZPec2iSzz0N5TCkIwLtnpC0fOMzah
+        Z4KxaN0fd8Stw3BOIw9Q0LVcjKZc+Llbp62ThZ8nAwJqgTqUJV0oyXT86e7Chm+V7QMJHsY5J636S
+        adzq3NvADLOL8ZvpKJ+ZTd+n0vrHtV4D0/Bc6fEuiPxrm8do004dJ5Kkdr/OaIzcV7CQKqmiilkt6
+        hPLnt/get0qx8xcrdjYw/haCMUbJZae8AQwReONDgSp9apfvVGP/xr4laAYZ7aKjuFOAJjw2sTl6G
+        Rc/kTg5eg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fa5Vh-0003A5-6R; Mon, 02 Jul 2018 20:33:21 +0000
+Date:   Mon, 2 Jul 2018 13:33:21 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Kostya Serebryany <kcc@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        aryabinin@virtuozzo.com, Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>, will.deacon@arm.com,
+        cl@linux.com, mark.rutland@arm.com,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        marc.zyngier@arm.com, dave.martin@arm.com,
+        ard.biesheuvel@linaro.org, ebiederm@xmission.com, mingo@kernel.org,
+        Paul Lawrence <paullawrence@google.com>, geert@linux-m68k.org,
+        arnd@arndb.de, kirill.shutemov@linux.intel.com,
+        Greg KH <gregkh@linuxfoundation.org>,
         Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
+        rppt@linux.vnet.ibm.com, kasan-dev <kasan-dev@googlegroups.com>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-sparse@vger.kernel.org,
+        linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
+        Evgeniy Stepanov <eugenis@google.com>,
         Lee Smith <Lee.Smith@arm.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>
+        Mark Brand <markbrand@google.com>, cpandya@codeaurora.org,
+        Vishwath Mohan <vishwath@google.com>
 Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
  sanitizer
-Message-Id: <20180702133021.3016ad80fbdea8d2e984147c@linux-foundation.org>
-In-Reply-To: <CAFKCwri_W8qEw-qMs+gXGqMGdZO82WpCiVpzcG4kinEyL7+zGg@mail.gmail.com>
+Message-ID: <20180702203321.GA8371@bombadil.infradead.org>
 References: <cover.1530018818.git.andreyknvl@google.com>
-        <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
-        <CAAeHK+xz552VNpZxgWwU-hbTqF5_F6YVDw3fSv=4OT8mNrqPzg@mail.gmail.com>
-        <20180628124039.8a42ab5e2994fb2876ff4f75@linux-foundation.org>
-        <CAAeHK+xsBOKghUp9XhpfXGqU=gjSYuy3G2GH14zWNEmaLPy8_w@mail.gmail.com>
-        <20180629194117.01b2d31e805808eee5c97b4d@linux-foundation.org>
-        <CAFKCwrjxGEa6CLJnjmNy+92d2GSUkoymQ6Sm91CDpMZcJCcWCA@mail.gmail.com>
-        <20180702122112.267261b1e1609cf522753cf3@linux-foundation.org>
-        <CAFKCwri_W8qEw-qMs+gXGqMGdZO82WpCiVpzcG4kinEyL7+zGg@mail.gmail.com>
-X-Mailer: Sylpheed 3.6.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ <20180627160800.3dc7f9ee41c0badbf7342520@linux-foundation.org>
+ <CAN=P9pivApAo76Kjc0TUDE0kvJn0pET=47xU6e=ioZV2VqO0Rg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAN=P9pivApAo76Kjc0TUDE0kvJn0pET=47xU6e=ioZV2VqO0Rg@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2 Jul 2018 13:22:23 -0700 Evgenii Stepanov <eugenis@google.com> wrote:
+On Wed, Jun 27, 2018 at 05:04:28PM -0700, Kostya Serebryany wrote:
+> The problem is more significant on mobile devices than on desktop/server.
+> I'd love to have [K]HWASAN on x86_64 as well, but it's less trivial since x86_64
+> doesn't have an analog of aarch64's top-byte-ignore hardware feature.
 
-> On Mon, Jul 2, 2018 at 12:21 PM, Andrew Morton
-> <akpm@linux-foundation.org> wrote:
-> > On Mon, 2 Jul 2018 12:16:42 -0700 Evgenii Stepanov <eugenis@google.com> wrote:
-> >
-> >> On Fri, Jun 29, 2018 at 7:41 PM, Andrew Morton
-> >> <akpm@linux-foundation.org> wrote:
-> >> > On Fri, 29 Jun 2018 14:45:08 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
-> >> >
-> >> >> >> What kind of memory consumption testing would you like to see?
-> >> >> >
-> >> >> > Well, 100kb or so is a teeny amount on virtually any machine.  I'm
-> >> >> > assuming the savings are (much) more significant once the machine gets
-> >> >> > loaded up and doing work?
-> >> >>
-> >> >> So with clean kernel after boot we get 40 kb memory usage. With KASAN
-> >> >> it is ~120 kb, which is 200% overhead. With KHWASAN it's 50 kb, which
-> >> >> is 25% overhead. This should approximately scale to any amounts of
-> >> >> used slab memory. For example with 100 mb memory usage we would get
-> >> >> +200 mb for KASAN and +25 mb with KHWASAN. (And KASAN also requires
-> >> >> quarantine for better use-after-free detection). I can explicitly
-> >> >> mention the overhead in %s in the changelog.
-> >> >>
-> >> >> If you think it makes sense, I can also make separate measurements
-> >> >> with some workload. What kind of workload should I use?
-> >> >
-> >> > Whatever workload people were running when they encountered problems
-> >> > with KASAN memory consumption ;)
-> >> >
-> >> > I dunno, something simple.  `find / > /dev/null'?
-> >> >
-> >>
-> >> Looking at a live Android device under load, slab (according to
-> >> /proc/meminfo) + kernel stack take 8-10% available RAM (~350MB).
-> >> Kasan's overhead of 2x - 3x on top of it is not insignificant.
-> >>
-> >
-> > (top-posting repaired.  Please don't)
-> >
-> > For a debugging, not-for-production-use feature, that overhead sounds
-> > quite acceptable to me.  What problems is it known to cause?
-> 
-> Not having this overhead enables near-production use - ex. running
-> kasan/khasan kernel on a personal, daily-use device to catch bugs that
-> do not reproduce in test configuration. These are the ones that often
-> cost the most engineering time to track down.
-> 
-> CPU overhead is bad, but generally tolerable. RAM is critical, in our
-> experience. Once it gets low enough, OOM-killer makes your life
-> miserable.
+Well, can we emulate it in software?
 
-OK, anecdotal experience works for me.  But this is all stuff that
-should have been in the changelog from day zero, please.  It describes
-the reason for the patchset's existence!
-
+We've got 48 bits of virtual address space on x86.  If we need all 8
+bits, then that takes us down to 40 bits (39 bits for user and 39 bits
+for kernel).  My laptop only has 34 bits of physical memory, so could
+we come up with a memory layout which works for me?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
