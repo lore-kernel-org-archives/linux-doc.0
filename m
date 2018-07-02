@@ -1,162 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E94B7D062
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 15:38:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E0A17D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 16:02:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752216AbeGBPiD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 11:38:03 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:47984 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752167AbeGBPiD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 11:38:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=WgdSB/pzlU7x3tjbiX8BR3Lqs/IbJ3UHK8OR38voySM=; b=ku5dO+RDE198G5UiU/aBahier
-        6rBeIrsUbBaDLG64NcgTNa3Fm8xpoWOeZDgk+qwdpbKMgTlS1j7XaA5jEheEdD2qzkoS8ZRfMm7m2
-        5gPejhBrMESRKrCQXaIiEGJNCxMjxWtZX1reZgUSugTPJGzAioZblDe5vtEwdAlExy9OpKVkpGaNU
-        ApvwekS2gjzETO3OgBRlYbHquxvIq/Zg29IHGqsmOYnsdkdfGbGyNgb5K+0l68Ltl/6zu9jEkJsvh
-        QlNt/2gDI75QXTV+YBjYp5igC1kdnP6nzOpVTYTEJbmtn6Srqg+GEO31hTlXTSdIkFJFKEeUCNxLb
-        kOkzHCyJA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fa0tV-0000i9-Jo; Mon, 02 Jul 2018 15:37:37 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id A4B452029F1DB; Mon,  2 Jul 2018 17:37:35 +0200 (CEST)
-Date:   Mon, 2 Jul 2018 17:37:35 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2 2/3] locking: Clarify requirements for
- smp_mb__after_spinlock()
-Message-ID: <20180702153735.GQ2494@hirez.programming.kicks-ass.net>
-References: <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
- <1530544315-14614-1-git-send-email-andrea.parri@amarulasolutions.com>
+        id S1752228AbeGBQCO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 12:02:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46772 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752288AbeGBQCM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 12:02:12 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w62G16sg063500
+        for <linux-doc@vger.kernel.org>; Mon, 2 Jul 2018 12:02:12 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2jym8fqsyr-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jul 2018 12:02:11 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <srikar@linux.vnet.ibm.com>;
+        Mon, 2 Jul 2018 17:02:09 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 2 Jul 2018 17:02:03 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w62G22TZ27394104
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 2 Jul 2018 16:02:02 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0BF61A4065;
+        Mon,  2 Jul 2018 17:01:45 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 268A3A404D;
+        Mon,  2 Jul 2018 17:01:42 +0100 (BST)
+Received: from linux.vnet.ibm.com (unknown [9.40.192.68])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Mon,  2 Jul 2018 17:01:41 +0100 (BST)
+Date:   Mon, 2 Jul 2018 09:01:58 -0700
+From:   Srikar Dronamraju <srikar@linux.vnet.ibm.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc:     oleg@redhat.com, rostedt@goodmis.org, mhiramat@kernel.org,
+        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
+        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+Reply-To: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1530544315-14614-1-git-send-email-andrea.parri@amarulasolutions.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18070216-4275-0000-0000-000002945260
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18070216-4276-0000-0000-0000379BCCE4
+Message-Id: <20180702160158.GD65296@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-02_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=996 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807020182
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 02, 2018 at 05:11:55PM +0200, Andrea Parri wrote:
->  /*
-> + * smp_mb__after_spinlock() provides the equivalent of a full memory barrier
-> + * between program-order earlier lock acquisitions and program-order later
-> + * memory accesses.
->   *
-> + * This guarantees that the following two properties hold:
->   *
-> + *   1) Given the snippet:
->   *
-> + *	  { X = 0;  Y = 0; }
->   *
-> + *	  CPU0				CPU1
->   *
-> + *	  WRITE_ONCE(X, 1);		WRITE_ONCE(Y, 1);
-> + *	  spin_lock(S);			smp_mb();
-> + *	  smp_mb__after_spinlock();	r1 = READ_ONCE(X);
-> + *	  r0 = READ_ONCE(Y);
-> + *	  spin_unlock(S);
->   *
-> + *      it is forbidden that CPU0 does not observe CPU1's store to Y (r0 = 0)
-> + *      and CPU1 does not observe CPU0's store to X (r1 = 0); see the comments
-> + *      preceding the call to smp_mb__after_spinlock() in __schedule() and in
-> + *      try_to_wake_up().
-> + *
-> + *   2) Given the snippet:
-> + *
-> + *  { X = 0;  Y = 0; }
-> + *
-> + *  CPU0		CPU1				CPU2
-> + *
-> + *  spin_lock(S);	spin_lock(S);			r1 = READ_ONCE(Y);
-> + *  WRITE_ONCE(X, 1);	smp_mb__after_spinlock();	smp_rmb();
-> + *  spin_unlock(S);	r0 = READ_ONCE(X);		r2 = READ_ONCE(X);
-> + *			WRITE_ONCE(Y, 1);
-> + *			spin_unlock(S);
-> + *
-> + *      it is forbidden that CPU0's critical section executes before CPU1's
-> + *      critical section (r0 = 1), CPU2 observes CPU1's store to Y (r1 = 1)
-> + *      and CPU2 does not observe CPU0's store to X (r2 = 0); see the comments
-> + *      preceding the calls to smp_rmb() in try_to_wake_up() for similar
-> + *      snippets but "projected" onto two CPUs.
+> Implement the reference counter logic in core uprobe. User will be
+> able to use it from trace_uprobe as well as from kernel module. New
+> trace_uprobe definition with reference counter will now be:
+> 
+>     <path>:<offset>[(ref_ctr_offset)]
+> 
+> where ref_ctr_offset is an optional field. For kernel module, new
+> variant of uprobe_register() has been introduced:
+> 
+>     uprobe_register_refctr(inode, offset, ref_ctr_offset, consumer)
+> 
 
-Maybe explicitly note that 2) is the RCsc lock upgrade.
+Sorry for bringing this again, but I would actually think the ref_ctr is
+a consumer property. i.e the ref_ctr_offset should be part of
+uprobe_consumer.
 
+The advantages of doing that would be
+1. Dont need to expose uprobe structure and just update our
+uprobe_consumer which is already an exported structure.
+- Exporting uprobe structure would expose some of our internal
+  implementation details, basically reduce the freedom of changing stuff
+  internally.
+- we came up with uprobe_arch for the parts that we wanted to expose
+  to archs. exposing uprobe and uprobe_arch looks weird.
 
->   * Since most load-store architectures implement ACQUIRE with an smp_mb() after
->   * the LL/SC loop, they need no further barriers. Similarly all our TSO
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index da8f12119a127..ec9ef0aec71ac 100644
-> +++ b/kernel/sched/core.c
-> @@ -1999,21 +1999,20 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
->  	 * be possible to, falsely, observe p->on_rq == 0 and get stuck
->  	 * in smp_cond_load_acquire() below.
->  	 *
-> +	 * sched_ttwu_pending()			try_to_wake_up()
-> +	 *   STORE p->on_rq = 1			  LOAD p->state
-> +	 *   UNLOCK rq->lock
-> +	 *
-> +	 * __schedule() (switch to task 'p')
-> +	 *   LOCK rq->lock			  smp_rmb();
-> +	 *   smp_mb__after_spinlock();
-> +	 *   UNLOCK rq->lock
->  	 *
->  	 * [task p]
-> +	 *   STORE p->state = UNINTERRUPTIBLE	  LOAD p->on_rq
->  	 *
-> +	 * Pairs with the LOCK+smp_mb__after_spinlock() on rq->lock in
-> +	 * __schedule().  See the comment for smp_mb__after_spinlock().
->  	 */
->  	smp_rmb();
->  	if (p->on_rq && ttwu_remote(p, wake_flags))
-> @@ -2027,15 +2026,17 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
->  	 * One must be running (->on_cpu == 1) in order to remove oneself
->  	 * from the runqueue.
->  	 *
-> +	 * __schedule() (switch to task 'p')	try_to_wake_up()
-> +	 *   STORE p->on_cpu = 1		  LOAD p->on_rq
-> +	 *   UNLOCK rq->lock
-> +	 *
-> +	 * __schedule() (put 'p' to sleep)
-> +	 *   LOCK rq->lock			  smp_rmb();
-> +	 *   smp_mb__after_spinlock();
-> +	 *   STORE p->on_rq = 0			  LOAD p->on_cpu
->  	 *
-> +	 * Pairs with the LOCK+smp_mb__after_spinlock() on rq->lock in
-> +	 * __schedule().  See the comment for smp_mb__after_spinlock().
->  	 */
->  	smp_rmb();
+2. ref_ctr_offset is necessarily a consumer property, its not a uprobe
+property at all.
 
-Ah yes, good.
+3. We dont need to change/add new uprobe_register functions.
 
-Ack!
+The way I look at it is.
+
+Based on the ref_ctr_offset field in consumer, we update_ref_ctr()
+around install_breakpoint/remove_breakpoint.
+
+> +static int delayed_uprobe_add(struct uprobe *uprobe, struct mm_struct *mm)
+> +{
+> +	struct delayed_uprobe *du;
+> +
+> +	if (delayed_uprobe_check(uprobe, mm))
+> +		return 0;
+> +
+> +	du  = kzalloc(sizeof(*du), GFP_KERNEL);
+> +	if (!du)
+> +		return -ENOMEM;
+> +
+> +	du->uprobe = uprobe;
+> +	du->mm = mm;
+> +	list_add(&du->list, &delayed_uprobe_list);
+> +	return 0;
+> +}
+> +
+
+If I understood the delayed_uprobe stuff, its when we could insert a
+breakpoint but the vma that has the ref_ctr_offset is not loaded. Is
+that correct?
+
+> 
+> -- 
+> 2.14.4
+> 
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
