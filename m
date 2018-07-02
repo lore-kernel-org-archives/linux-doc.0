@@ -1,209 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 605087D072
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 09:14:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F37657D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 12:50:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754508AbeGBJN5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 05:13:57 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:50983 "EHLO huawei.com"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753281AbeGBJN4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Jul 2018 05:13:56 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 3A120D238697D;
-        Mon,  2 Jul 2018 17:13:51 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.382.0; Mon, 2 Jul 2018
- 17:13:47 +0800
-Subject: Re: [PATCH v5 1/2] arm/arm64: KVM: Add KVM_GET/SET_VCPU_EVENTS
-To:     James Morse <james.morse@arm.com>
-CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
-References: <1529960309-2513-1-git-send-email-gengdongjiu@huawei.com>
- <1529960309-2513-2-git-send-email-gengdongjiu@huawei.com>
- <ec201845-fd1e-fd0a-7dfe-bacf23bb44a2@arm.com>
-From:   gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <606b9734-7f1f-5fc6-69e0-8f2c72f9fc55@huawei.com>
-Date:   Mon, 2 Jul 2018 17:13:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1751416AbeGBMu1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 08:50:27 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41392 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752049AbeGBMu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 08:50:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=BGq8aT8BlmdTdtvkLSydij6UmfiMSQjkCahEZ4njUTg=; b=bYcv/gJNLhdLg8K31m6mEFnwq
+        /IfhkIemQfTqBQ+QG20Pmye8TaGmBBPDA4t1Yb+hDL4yNRnte+7fsOM2JeA5dXG4JEVI279Ckkc5F
+        HTqBPFVt9IrbvZAM9PmMdLqJ8LCUJ1J+d3uXtokkszlll2wxKbmAzOCgpf/e0uSfQepChR+KvPd4M
+        aykQtV3HgmBSGD6mwFIQxRLt2mFvb17ffiZsz73dDU7kTS2Oxmio65ZskYDvRiICDZCFNkw3/RqAB
+        tEzTfKRhJHKLML84TPfkLYbkw5tQeqNfQ3HraQlKA/KbCVJn4hvYp89qYLHR+ekj6MFJ+UmYPmnGd
+        wUXJspSww==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fZyHN-00069F-Gs; Mon, 02 Jul 2018 12:50:05 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id D38A62029F1D9; Mon,  2 Jul 2018 14:50:03 +0200 (CEST)
+Date:   Mon, 2 Jul 2018 14:50:03 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 2/3] locking: Clarify requirements for
+ smp_mb__after_spinlock()
+Message-ID: <20180702125003.GO2494@hirez.programming.kicks-ass.net>
+References: <1530182480-13205-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180628150550.GI2494@hirez.programming.kicks-ass.net>
+ <20180628173045.GA4975@andrea>
 MIME-Version: 1.0
-In-Reply-To: <ec201845-fd1e-fd0a-7dfe-bacf23bb44a2@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180628173045.GA4975@andrea>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
+On Thu, Jun 28, 2018 at 07:30:45PM +0200, Andrea Parri wrote:
+> On Thu, Jun 28, 2018 at 05:05:50PM +0200, Peter Zijlstra wrote:
+> > On Thu, Jun 28, 2018 at 12:41:19PM +0200, Andrea Parri wrote:
+> > > - * This barrier must provide two things:
+> > > - *
+> > > - *   - it must guarantee a STORE before the spin_lock() is ordered against a
+> > > - *     LOAD after it, see the comments at its two usage sites.
+> > > - *
+> > > - *   - it must ensure the critical section is RCsc.
+> > > - *
+> > > - * The latter is important for cases where we observe values written by other
+> > > - * CPUs in spin-loops, without barriers, while being subject to scheduling.
+> > > - *
+> > > - * CPU0			CPU1			CPU2
+> > > - *
+> > > - *			for (;;) {
+> > > - *			  if (READ_ONCE(X))
+> > > - *			    break;
+> > > - *			}
+> > > - * X=1
+> > > - *			<sched-out>
+> > > - *						<sched-in>
+> > > - *						r = X;
+> > > - *
+> > > - * without transitivity it could be that CPU1 observes X!=0 breaks the loop,
+> > > - * we get migrated and CPU2 sees X==0.
+> > 
+> > Please don't remove that; that explains _why_ we need a full memory
+> > barrier here.
+> 
+> Peter:
+> 
+> Both you and Boqun stated that the above snippet is "bad":
+> 
+>   http://lkml.kernel.org/r/20180312085646.GE4064@hirez.programming.kicks-ass.net
+> 
+> and I do agree with your assessment! ;-)
 
-On 2018/6/29 23:59, James Morse wrote:
-> Hi Dongjiu Geng,
-> 
-> On 25/06/18 21:58, Dongjiu Geng wrote:
->> For the migrating VMs, user space may need to know the exception
->> state. For example, in the machine A, KVM make an SError pending,
->> when migrate to B, KVM also needs to pend an SError.
->>
->> This new IOCTL exports user-invisible states related to SError.
->> Together with appropriate user space changes, user space can get/set
->> the SError exception state to do migrate/snapshot/suspend.
-> 
-> 
->> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
->> index 469de8a..357304a 100644
->> --- a/arch/arm64/include/asm/kvm_host.h
->> +++ b/arch/arm64/include/asm/kvm_host.h
->> @@ -335,6 +335,11 @@ unsigned long kvm_arm_num_regs(struct kvm_vcpu *vcpu);
->>  int kvm_arm_copy_reg_indices(struct kvm_vcpu *vcpu, u64 __user *indices);
->>  int kvm_arm_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
->>  int kvm_arm_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg);
->> +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
->> +			struct kvm_vcpu_events *events);
->> +
->> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
->> +			struct kvm_vcpu_events *events);
->>  
-> 
-> (Nit: funny indentation)
+Right..
 
-The indentation is in order to not over 80 characters, I will change it as below to make it more reasonable
+> I've no objection to keep that comment (together with the
+> "clarification" suggested in this patch) _once_ replaced
+> that snippet with something else (say, with the snippet
+> Boqun suggested in:
+> 
+>   http://lkml.kernel.org/r/20180312085600.aczjkpn73axzs2sb@tardis ):
+> 
+> is this what you mean?
 
- +int kvm_arm_vcpu_get_events(struct kvm_vcpu *vcpu,
- +			      struct kvm_vcpu_events *events);
- +
- +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
- +			      struct kvm_vcpu_events *events);
-
-> 
-> 
->> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
->> index 56a0260..8be14cc 100644
->> --- a/arch/arm64/kvm/guest.c
->> +++ b/arch/arm64/kvm/guest.c
->> @@ -289,6 +289,49 @@ int kvm_arch_vcpu_ioctl_set_sregs(struct kvm_vcpu *vcpu,
-> 
->> +int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
->> +			struct kvm_vcpu_events *events)
->> +{
->> +	int i;
->> +	bool serror_pending = events->exception.serror_pending;
->> +	bool has_esr = events->exception.serror_has_esr;
->> +
->> +	/* check whether the reserved field is zero */
->> +	for (i = 0; i < ARRAY_SIZE(events->reserved); i++)
->> +		if (events->reserved[i])
->> +			return -EINVAL;
->> +
->> +	/* check whether the pad field is zero */
->> +	for (i = 0; i < ARRAY_SIZE(events->exception.pad); i++)
->> +		if (events->exception.pad[i])
->> +			return -EINVAL;
->> +
->> +	if (serror_pending && has_esr) {
->> +		if (!cpus_have_const_cap(ARM64_HAS_RAS_EXTN))
->> +			return -EINVAL;
->> +
-> 
->> +		kvm_set_sei_esr(vcpu, events->exception.serror_esr);
-> 
-> This silently discards all but the bottom 24 bits of serror_esr.
-> 
-> It makes sense that this field is 64 bit, because the register is 64 bit, and it
-> would let us use this API to migrate any new state that appears in the higher
-> bits... But those bits will come with an ID/feature field, we shouldn't accept
-> an attempt to restore them on a CPU that doesn't support the feature. If that
-> happens here, it silently succeeds, but the kernel just threw the extra bits away.
-> 
-> You added documentation that only the bottom 24bits can be set, can we add
-> checks to enforce this, so the bits can be used later.
-yes, sure! I will check it. thanks for the suggestion.
-
-
-> 
-> 
->> +	} else if (serror_pending) {
->> +		kvm_inject_vabt(vcpu);
->> +	}
->> +
->> +	return 0;
->> +}
-> 
->> diff --git a/virt/kvm/arm/arm.c b/virt/kvm/arm/arm.c
->> index a4c1b76..4e6f366 100644
->> --- a/virt/kvm/arm/arm.c
->> +++ b/virt/kvm/arm/arm.c
->> @@ -1107,6 +1107,27 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->>  		r = kvm_arm_vcpu_has_attr(vcpu, &attr);
->>  		break;
->>  	}
->> +#ifdef __KVM_HAVE_VCPU_EVENTS
-> 
-> So its this #ifdef, or a uapi struct for a feature 32bit doesn't support.
-> I think the right thing to do is wire this up for 32bit, it also calls
-> kvm_inject_vabt() in handle_exit.c, so must have the same migration problems.
-> 
-> I'll post a patch to do this as I've got something I can test it on.
-Ok, so here I will temporarily use "#ifdef __KVM_HAVE_VCPU_EVENTS" to avoid the 32bit platform build errors,
-when you post a new patch, you can remove the "#ifdef". thanks.
-
-
-> 
-> 
->> +	case KVM_GET_VCPU_EVENTS: {
->> +		struct kvm_vcpu_events events;
->> +
->> +		if (kvm_arm_vcpu_get_events(vcpu, &events))
->> +			return -EINVAL;
->> +
->> +		if (copy_to_user(argp, &events, sizeof(events)))
->> +			return -EFAULT;
->> +
->> +		return 0;
->> +	}
->> +	case KVM_SET_VCPU_EVENTS: {
->> +		struct kvm_vcpu_events events;
->> +
->> +		if (copy_from_user(&events, argp, sizeof(events)))
->> +			return -EFAULT;
->> +
->> +		return kvm_arm_vcpu_set_events(vcpu, &events);
->> +	}
->> +#endif
-> 
-> (It bugs me that the architecture has some rules about merging multiple
-> architected ESR values, that we neither enforce, nor document as user-space's
-> problem. It doesn't matter for RAS, but might for any future ESR encodings. But
-> I guess user-space wouldn't be aware of them anyway, and it can already put
-> bogus values in SPSR/ESR/ELR etc.)
-> 
-> 
-> With a check against the top bits of ESR:
-> Reviewed-by: James Morse <james.morse@arm.com>
-Thanks for this "Reviewed-by", I will check against the top bits of ESR
-
-> 
-> 
-> Thanks,
-> 
-> James
-> 
-> .
-> 
-
+Yes. I much prefer to explain the why for rule than to just state them.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
