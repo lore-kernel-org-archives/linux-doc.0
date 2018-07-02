@@ -1,147 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E0A17D062
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 16:02:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AECFA7D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 16:32:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752228AbeGBQCO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 12:02:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46772 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752288AbeGBQCM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 12:02:12 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w62G16sg063500
-        for <linux-doc@vger.kernel.org>; Mon, 2 Jul 2018 12:02:12 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jym8fqsyr-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 02 Jul 2018 12:02:11 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <srikar@linux.vnet.ibm.com>;
-        Mon, 2 Jul 2018 17:02:09 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 2 Jul 2018 17:02:03 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w62G22TZ27394104
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 2 Jul 2018 16:02:02 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0BF61A4065;
-        Mon,  2 Jul 2018 17:01:45 +0100 (BST)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 268A3A404D;
-        Mon,  2 Jul 2018 17:01:42 +0100 (BST)
-Received: from linux.vnet.ibm.com (unknown [9.40.192.68])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Mon,  2 Jul 2018 17:01:41 +0100 (BST)
-Date:   Mon, 2 Jul 2018 09:01:58 -0700
-From:   Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     oleg@redhat.com, rostedt@goodmis.org, mhiramat@kernel.org,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Reply-To: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+        id S1752342AbeGBQcb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 12:32:31 -0400
+Received: from mail-yb0-f196.google.com ([209.85.213.196]:37462 "EHLO
+        mail-yb0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752554AbeGBQc2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 12:32:28 -0400
+Received: by mail-yb0-f196.google.com with SMTP id r3-v6so5308833ybo.4;
+        Mon, 02 Jul 2018 09:32:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aP337yMUwjNxwESmqz63nB2IfmzYkv0fwTzPmlQUTIQ=;
+        b=drGLuWhUq4aurFCSnVKzj98WS3+4Y6rlKp6TuzYIjbcp08d/nl/udzQ0zkONrVT2ZE
+         yklCdGVYF6ccURz1O/qaaCDVlgMV6T6r8SLOlCmfEfMlusdsbl+A9zFiu3b6rZ6WT4oW
+         M52CJO/0714RDtezb9EIYc85awFBDikA7DYvADC7T8a2KqS1Yoc3mHarv213DeVSUdsw
+         7XNIuzqIM/ohPE80sne39nTIdnqipFchy1v95A+TN9yZnMpOiEiuzCRQOBKdpamhdhei
+         3hEEUGxdn/w76+bifw2/l0lEn6xJ8Nb2mYsAP+hUbc+pphcJW+fzIl2HsDhCUi/2KWd/
+         KcTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aP337yMUwjNxwESmqz63nB2IfmzYkv0fwTzPmlQUTIQ=;
+        b=ps+dltC81HnWgY7zM+5dtlG6Obgw1vOddsiWY8kbD75LNevCEJFHYvm5QfzGlZEmQc
+         TEPhtbEzsfGsZotpkS2HcHX85wjvfH7j9KsIPcqI+pxNVAnuaLn7J0a1oGLCBEP4xwul
+         stOTe+UMCi4UUH+hjm80c98zidNSmrRH9ZWjUCA4HEsT48UeqD6H8G8faoKNPnPqM+LD
+         9jlNNIfwUGetcCe5+B/w2jo2EtT6wBoG2mdmpjkD6W1Myu26VT29DZvZIB0CDSmmafkF
+         44m0DgW+5DXRYqCVqRWo4uwaiXvL3nbC+afrt05nHIrKfj7YnJDm9QriSOhACl/Y15kR
+         1R8w==
+X-Gm-Message-State: APt69E1JjKRJMkmJRSX3sIn++qAo4Pak8lOb9kvlVsvpydAzOuowvnZp
+        sFH5IJTEHTX5mg0DtZAeQfM=
+X-Google-Smtp-Source: ADUXVKJr6wmmISfbOtlG/hJON0AXJTXBQu23ThkFCwFxu4HhqI4lb3NglUjLeOuc3M5hKuIhOj39yg==
+X-Received: by 2002:a25:7ac3:: with SMTP id v186-v6mr13425072ybc.374.1530549147900;
+        Mon, 02 Jul 2018 09:32:27 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::2b6f])
+        by smtp.gmail.com with ESMTPSA id k10-v6sm6482275ywk.101.2018.07.02.09.32.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Jul 2018 09:32:27 -0700 (PDT)
+Date:   Mon, 2 Jul 2018 09:32:25 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [PATCH v10 2/9] cpuset: Add new v2 cpuset.sched.domain_root flag
+Message-ID: <20180702163225.GH533219@devbig577.frc2.facebook.com>
+References: <1529295249-5207-1-git-send-email-longman@redhat.com>
+ <1529295249-5207-3-git-send-email-longman@redhat.com>
+ <20180620142735.GM2494@hirez.programming.kicks-ass.net>
+ <b44b0748-9fec-6bb0-7665-435487e5d8b3@redhat.com>
+ <20180621092013.GU2494@hirez.programming.kicks-ass.net>
+ <1eb82b46-aa97-2ada-5196-5d7fc1cda87d@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18070216-4275-0000-0000-000002945260
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18070216-4276-0000-0000-0000379BCCE4
-Message-Id: <20180702160158.GD65296@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-02_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=996 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807020182
+In-Reply-To: <1eb82b46-aa97-2ada-5196-5d7fc1cda87d@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Implement the reference counter logic in core uprobe. User will be
-> able to use it from trace_uprobe as well as from kernel module. New
-> trace_uprobe definition with reference counter will now be:
+Hello,
+
+On Fri, Jun 22, 2018 at 11:00:03AM +0800, Waiman Long wrote:
+> On 06/21/2018 05:20 PM, Peter Zijlstra wrote:
+> >> As for the inconsistency between the real root and the container root,
+> >> this is true for almost all the controllers. So it is a generic problem.
+> >> One possible solution is to create a kind a pseudo root cgroup for the
+> >> container that looks and feels like a real root. But is there really a
+> >> need to do that?
+> > I don't really know. I thought the idea was to make containers
+> > indistinguishable from a real system. Now I know we're really rather far
+> > away from that in reality, and I really have no clue how important all
+> > that is.
 > 
->     <path>:<offset>[(ref_ctr_offset)]
+> That will certainly be the ideal.
+
+Sure, ideal in theoretical sense; however, the practical cost-benefit
+ratio of trying to make containers indistinguishible from system
+doesn't seem enough to justify the effort.  Not yet anyway.  It'd be
+nice to not paint ourselves into a corner where we can't get the
+equivalence without major interface changes later but I think that's
+about the extent we should go for now.
+
+> > It all depends on how exactly this works; is it like I assumed, that
+> > this file is owned by the parent instead of the current directory? And
+> > that if you namespace this, you have an effective read-only file?
 > 
-> where ref_ctr_offset is an optional field. For kernel module, new
-> variant of uprobe_register() has been introduced:
+> Yes, that is right.
 > 
->     uprobe_register_refctr(inode, offset, ref_ctr_offset, consumer)
+> > Then fixing the inconsistency is trivial; simply provide a read-only
+> > file for the actual root cgroup too.
+> >
+> > And if the solution is trivial, I don't see a good reason not to do it.
 > 
+> Do you mean providing a flag like READONLY_AT_ROOT so that it will be
+> read-only at the real root? That is an cgroup architectural decision
+> that needs input from Tejun. Anyway, this issue is not specific to this
+> patchset and I would like to break it out as a separate discussion
+> independent of this patchset.
 
-Sorry for bringing this again, but I would actually think the ref_ctr is
-a consumer property. i.e the ref_ctr_offset should be part of
-uprobe_consumer.
+Yeah, it's a larger problem than cpuset and different controllers
+trying it in different ways isn't a good idea anyway.  Let's shelve
+this topic for now.
 
-The advantages of doing that would be
-1. Dont need to expose uprobe structure and just update our
-uprobe_consumer which is already an exported structure.
-- Exporting uprobe structure would expose some of our internal
-  implementation details, basically reduce the freedom of changing stuff
-  internally.
-- we came up with uprobe_arch for the parts that we wanted to expose
-  to archs. exposing uprobe and uprobe_arch looks weird.
+Thanks.
 
-2. ref_ctr_offset is necessarily a consumer property, its not a uprobe
-property at all.
-
-3. We dont need to change/add new uprobe_register functions.
-
-The way I look at it is.
-
-Based on the ref_ctr_offset field in consumer, we update_ref_ctr()
-around install_breakpoint/remove_breakpoint.
-
-> +static int delayed_uprobe_add(struct uprobe *uprobe, struct mm_struct *mm)
-> +{
-> +	struct delayed_uprobe *du;
-> +
-> +	if (delayed_uprobe_check(uprobe, mm))
-> +		return 0;
-> +
-> +	du  = kzalloc(sizeof(*du), GFP_KERNEL);
-> +	if (!du)
-> +		return -ENOMEM;
-> +
-> +	du->uprobe = uprobe;
-> +	du->mm = mm;
-> +	list_add(&du->list, &delayed_uprobe_list);
-> +	return 0;
-> +}
-> +
-
-If I understood the delayed_uprobe stuff, its when we could insert a
-breakpoint but the vma that has the ref_ctr_offset is not loaded. Is
-that correct?
-
-> 
-> -- 
-> 2.14.4
-> 
-
+-- 
+tejun
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
