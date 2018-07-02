@@ -5,54 +5,54 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIM_INVALID autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AECFA7D062
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 16:32:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B13B77D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 16:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752342AbeGBQcb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 12:32:31 -0400
-Received: from mail-yb0-f196.google.com ([209.85.213.196]:37462 "EHLO
-        mail-yb0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752554AbeGBQc2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 12:32:28 -0400
-Received: by mail-yb0-f196.google.com with SMTP id r3-v6so5308833ybo.4;
-        Mon, 02 Jul 2018 09:32:28 -0700 (PDT)
+        id S1752960AbeGBQx1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 12:53:27 -0400
+Received: from mail-yb0-f194.google.com ([209.85.213.194]:39474 "EHLO
+        mail-yb0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752863AbeGBQxZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 12:53:25 -0400
+Received: by mail-yb0-f194.google.com with SMTP id k127-v6so5330974ybk.6;
+        Mon, 02 Jul 2018 09:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=aP337yMUwjNxwESmqz63nB2IfmzYkv0fwTzPmlQUTIQ=;
-        b=drGLuWhUq4aurFCSnVKzj98WS3+4Y6rlKp6TuzYIjbcp08d/nl/udzQ0zkONrVT2ZE
-         yklCdGVYF6ccURz1O/qaaCDVlgMV6T6r8SLOlCmfEfMlusdsbl+A9zFiu3b6rZ6WT4oW
-         M52CJO/0714RDtezb9EIYc85awFBDikA7DYvADC7T8a2KqS1Yoc3mHarv213DeVSUdsw
-         7XNIuzqIM/ohPE80sne39nTIdnqipFchy1v95A+TN9yZnMpOiEiuzCRQOBKdpamhdhei
-         3hEEUGxdn/w76+bifw2/l0lEn6xJ8Nb2mYsAP+hUbc+pphcJW+fzIl2HsDhCUi/2KWd/
-         KcTQ==
+        bh=0Jg384EXlL606hr7KDYmXTRZefett+h7ct6FErCR4KM=;
+        b=vTF0KCkjDxod1McirjGM++UnOdf+UcWoBW/8oUucmewwqecKbdt7WSYmldW4vaG5oi
+         6hLyF3FnVo9BLcbHnRpQw5GYkThh6rbYlo9hA6KhL9F1XQ0Qw/eMecwBZiEni1nigOkC
+         2ug5+0NodhNdWJ2y6/0RigvZIqHBEl5AhYTl2XIpwZtapo1w4mCM3QxJT1BwCa4DMhhd
+         Ek2BNz+thz+9AR8ym7mH1felvuD/hUd4qpsgg80RtDQr+Vz/pfQ38Q4JQMeY7OeLghxx
+         thKh03zSSeoiTvHOCMmlUe5GxUjVOIccEIS/nKjDkwME3uIupnfOjAtrORkpMFyYsi4v
+         L02w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=aP337yMUwjNxwESmqz63nB2IfmzYkv0fwTzPmlQUTIQ=;
-        b=ps+dltC81HnWgY7zM+5dtlG6Obgw1vOddsiWY8kbD75LNevCEJFHYvm5QfzGlZEmQc
-         TEPhtbEzsfGsZotpkS2HcHX85wjvfH7j9KsIPcqI+pxNVAnuaLn7J0a1oGLCBEP4xwul
-         stOTe+UMCi4UUH+hjm80c98zidNSmrRH9ZWjUCA4HEsT48UeqD6H8G8faoKNPnPqM+LD
-         9jlNNIfwUGetcCe5+B/w2jo2EtT6wBoG2mdmpjkD6W1Myu26VT29DZvZIB0CDSmmafkF
-         44m0DgW+5DXRYqCVqRWo4uwaiXvL3nbC+afrt05nHIrKfj7YnJDm9QriSOhACl/Y15kR
-         1R8w==
-X-Gm-Message-State: APt69E1JjKRJMkmJRSX3sIn++qAo4Pak8lOb9kvlVsvpydAzOuowvnZp
-        sFH5IJTEHTX5mg0DtZAeQfM=
-X-Google-Smtp-Source: ADUXVKJr6wmmISfbOtlG/hJON0AXJTXBQu23ThkFCwFxu4HhqI4lb3NglUjLeOuc3M5hKuIhOj39yg==
-X-Received: by 2002:a25:7ac3:: with SMTP id v186-v6mr13425072ybc.374.1530549147900;
-        Mon, 02 Jul 2018 09:32:27 -0700 (PDT)
+        bh=0Jg384EXlL606hr7KDYmXTRZefett+h7ct6FErCR4KM=;
+        b=GhoaVDQkRPYBZ48xdSEiZDraYOr4Xs5qkV2/YoVc6cNpOFFjtfsNktJ6uypzMl4ofu
+         899f47sqyiNzZzNmnZjBaaDWfZCULZFGdI6E6+FiRq88gpFApSDqLlyGfVJMIGioQMwz
+         Z4ny/LKcL0cwnUsKH1K3fkSjFsFlO18ojAsJvN6Mmua6IPrcJiLenaYa1sTNUTOndhWh
+         o2AIQxIK7s3/lwSBB7tabniSvOWABvFBKSDqO8GSAuGRlIBCYtt32/fecHg0Hg/aUCV0
+         7z28P8qq8uST3Tx0wGLUKc7YhbEhs9dnZgSa86tZkHOwspzEgutT4ZRfzqXEeRzcXbkg
+         QZng==
+X-Gm-Message-State: APt69E0XmGg/X44XP+ign/d1/PWuv32BaKu66D63j6LeJwqtfjmnySKH
+        6G1XgaVkrZmnQYKtvkpMp1M=
+X-Google-Smtp-Source: ADUXVKJxJIABeAqEZRq7DYC3VEbFtUz1If9+GedVhIoCX7dZ3xJTchOJQxW+BwSXEzWltjE/8fjhGg==
+X-Received: by 2002:a25:f510:: with SMTP id a16-v6mr13787283ybe.36.1530550404910;
+        Mon, 02 Jul 2018 09:53:24 -0700 (PDT)
 Received: from localhost ([2620:10d:c091:200::2b6f])
-        by smtp.gmail.com with ESMTPSA id k10-v6sm6482275ywk.101.2018.07.02.09.32.26
+        by smtp.gmail.com with ESMTPSA id d11-v6sm6576877ywd.1.2018.07.02.09.53.23
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 02 Jul 2018 09:32:27 -0700 (PDT)
-Date:   Mon, 2 Jul 2018 09:32:25 -0700
+        Mon, 02 Jul 2018 09:53:23 -0700 (PDT)
+Date:   Mon, 2 Jul 2018 09:53:22 -0700
 From:   Tejun Heo <tj@kernel.org>
 To:     Waiman Long <longman@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Li Zefan <lizefan@huawei.com>,
+Cc:     Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
@@ -60,67 +60,47 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Roman Gushchin <guro@fb.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>
-Subject: Re: [PATCH v10 2/9] cpuset: Add new v2 cpuset.sched.domain_root flag
-Message-ID: <20180702163225.GH533219@devbig577.frc2.facebook.com>
-References: <1529295249-5207-1-git-send-email-longman@redhat.com>
- <1529295249-5207-3-git-send-email-longman@redhat.com>
- <20180620142735.GM2494@hirez.programming.kicks-ass.net>
- <b44b0748-9fec-6bb0-7665-435487e5d8b3@redhat.com>
- <20180621092013.GU2494@hirez.programming.kicks-ass.net>
- <1eb82b46-aa97-2ada-5196-5d7fc1cda87d@redhat.com>
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+Message-ID: <20180702165322.GI533219@devbig577.frc2.facebook.com>
+References: <1529825440-9574-1-git-send-email-longman@redhat.com>
+ <1529825440-9574-8-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1eb82b46-aa97-2ada-5196-5d7fc1cda87d@redhat.com>
+In-Reply-To: <1529825440-9574-8-git-send-email-longman@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Hello, Waiman.
 
-On Fri, Jun 22, 2018 at 11:00:03AM +0800, Waiman Long wrote:
-> On 06/21/2018 05:20 PM, Peter Zijlstra wrote:
-> >> As for the inconsistency between the real root and the container root,
-> >> this is true for almost all the controllers. So it is a generic problem.
-> >> One possible solution is to create a kind a pseudo root cgroup for the
-> >> container that looks and feels like a real root. But is there really a
-> >> need to do that?
-> > I don't really know. I thought the idea was to make containers
-> > indistinguishable from a real system. Now I know we're really rather far
-> > away from that in reality, and I really have no clue how important all
-> > that is.
-> 
-> That will certainly be the ideal.
+On Sun, Jun 24, 2018 at 03:30:38PM +0800, Waiman Long wrote:
+> Because of the fact that setting the "cpuset.sched.partition" in
+> a direct child of root can remove CPUs from the root's effective CPU
+> list, it makes sense to know what CPUs are left in the root cgroup for
+> scheduling purpose. So the "cpuset.cpus.effective" control file is now
+> exposed in the v2 cgroup root.
 
-Sure, ideal in theoretical sense; however, the practical cost-benefit
-ratio of trying to make containers indistinguishible from system
-doesn't seem enough to justify the effort.  Not yet anyway.  It'd be
-nice to not paint ourselves into a corner where we can't get the
-equivalence without major interface changes later but I think that's
-about the extent we should go for now.
+So, effective changing when enabling partition on a child feels wrong
+to me.  It's supposed to contain what's actually allowed to the cgroup
+from its parent and that shouldn't change regardless of how those
+resources are used.  It's still given to the cgroup from its parent.
 
-> > It all depends on how exactly this works; is it like I assumed, that
-> > this file is owned by the parent instead of the current directory? And
-> > that if you namespace this, you have an effective read-only file?
-> 
-> Yes, that is right.
-> 
-> > Then fixing the inconsistency is trivial; simply provide a read-only
-> > file for the actual root cgroup too.
-> >
-> > And if the solution is trivial, I don't see a good reason not to do it.
-> 
-> Do you mean providing a flag like READONLY_AT_ROOT so that it will be
-> read-only at the real root? That is an cgroup architectural decision
-> that needs input from Tejun. Anyway, this issue is not specific to this
-> patchset and I would like to break it out as a separate discussion
-> independent of this patchset.
+It's a bit different because the way partition behaves is different
+from other resource konbs in that it locks away those cpus so that
+they can't be taken back.
 
-Yeah, it's a larger problem than cpuset and different controllers
-trying it in different ways isn't a good idea anyway.  Let's shelve
-this topic for now.
+What do people think about restricting partition to the first level
+children for now at least?  That way we aren't locked into the special
+semantics and we can figure out how to this down the hierarchy later.
+Given that we ignore the regular cpuset settings when the set goes
+empty (which also is a special condition which only exists for cpuset)
+and inherits the parent's, I think the consistent thing to do is doing
+the same for partition - if it can't be satisfied, ignore it, but
+maybe there is a better way.
 
 Thanks.
 
