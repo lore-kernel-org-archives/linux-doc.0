@@ -5,91 +5,110 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22C4C7D062
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  1 Jul 2018 21:09:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 971687D09D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 04:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752504AbeGAVJl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 1 Jul 2018 17:09:41 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:48432 "EHLO mx1.redhat.com"
+        id S1752420AbeGBETJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 00:19:09 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:9189 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752407AbeGAVJk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 1 Jul 2018 17:09:40 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id EE99C7788C;
-        Sun,  1 Jul 2018 21:09:39 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 682567C24;
-        Sun,  1 Jul 2018 21:09:36 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Sun,  1 Jul 2018 23:09:39 +0200 (CEST)
-Date:   Sun, 1 Jul 2018 23:09:35 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180701210935.GA14404@redhat.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+        id S1752294AbeGBETI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 2 Jul 2018 00:19:08 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id DCF72E9C4A0A7;
+        Mon,  2 Jul 2018 12:18:53 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.382.0; Mon, 2 Jul 2018
+ 12:18:51 +0800
+Subject: Re: [PATCH v5 2/2] arm64: KVM: export the capability to set guest
+ SError syndrome
+To:     James Morse <james.morse@arm.com>
+CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
+        <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
+        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
+        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
+References: <1529960309-2513-1-git-send-email-gengdongjiu@huawei.com>
+ <1529960309-2513-3-git-send-email-gengdongjiu@huawei.com>
+ <bca12032-c465-1d10-f7d4-71fc044ac695@arm.com>
+From:   gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <fd33f8b6-db05-f956-a1fc-ecb4fa3f1b79@huawei.com>
+Date:   Mon, 2 Jul 2018 12:18:02 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Sun, 01 Jul 2018 21:09:40 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Sun, 01 Jul 2018 21:09:40 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+In-Reply-To: <bca12032-c465-1d10-f7d4-71fc044ac695@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/28, Ravi Bangoria wrote:
->
-> @@ -294,6 +462,15 @@ int uprobe_write_opcode(struct uprobe *uprobe, struct mm_struct *mm,
->  	if (ret <= 0)
->  		goto put_old;
->  
-> +	/* Update the ref_ctr if we are going to replace instruction. */
-> +	if (!ref_ctr_updated) {
-> +		ret = update_ref_ctr(uprobe, mm, is_register);
-> +		if (ret)
-> +			goto put_old;
-> +
-> +		ref_ctr_updated = 1;
-> +	}
+Hi James,
 
-Why can't this code live in install_breakpoint() and remove_breakpoint() ?
-this way we do not need to export "struct uprobe" and change set_swbp/set_orig_insn,
-and the logic will be more simple.
+On 2018/6/29 23:58, James Morse wrote:
+> Hi Dongjiu Geng,
+> 
+> This patch doesn't apply on v4.18-rc2.
+> 
+> Documentation/virtual/kvm/api.txt already has a 8.18 section. I guess you based
+> this on v4.17.
 
-And let me ask again... May be you have already explained this, but I can't
-find the previous discussion.
+Yes, indeed I based on v4.17.
 
-So why do we need a counter but not a boolean? IIRC, because the counter can
-be shared, in particular 2 different uprobes can have the same >ref_ctr_offset,
-right?
+> 
+> For posting patches, please use the latest 'rc' from Linus' tree, (or the
+> maintainer's tree listed in MAINTAINERS for the tree you are targeting if the
+> maintainer has started to pick up patches).
+Ok, I will rebase it using the latest 'rc' from Linus' tree. thanks for the reminder.
 
-But who else can use this counter and how? Say, can userspace update it too?
-If yes, why this can't race with __update_ref_ctr() ?
 
-And btw, why does __update_ref_ctr() use FOLL_FORCE? This vma should be writeable
-or valid_ref_ctr_vma() should nack it?
-
-And shouldn't valid_ref_ctr_vma() check VM_SHARED? IIUC we do not want to write
-to this file?
-
-Oleg.
+> 
+> 
+> Thanks,
+> 
+> James
+> 
+> 
+> On 25/06/18 21:58, Dongjiu Geng wrote:
+>> For the arm64 RAS Extension, user space can inject a virtual-SError
+>> with specified ESR. So user space needs to know whether KVM support
+>> to inject such SError, this interface adds this query for this capability.
+>>
+>> KVM will check whether system support RAS Extension, if supported, KVM
+>> returns true to user space, otherwise returns false.
+> 
+> 
+>> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+>> index 3732097..86b3808 100644
+>> --- a/Documentation/virtual/kvm/api.txt
+>> +++ b/Documentation/virtual/kvm/api.txt
+>> @@ -4628,3 +4628,14 @@ Architectures: s390
+>>  This capability indicates that kvm will implement the interfaces to handle
+>>  reset, migration and nested KVM for branch prediction blocking. The stfle
+>>  facility 82 should not be provided to the guest without this capability.
+>> +
+>> +8.14 KVM_CAP_ARM_SET_SERROR_ESR
+>> +
+>> +Architectures: arm, arm64
+>> +
+>> +This capability indicates that userspace can specify the syndrome value reported
+>> +to the guest OS when guest takes a virtual SError interrupt exception.
+>> +If KVM has this capability, userspace can only specify the ISS field for the ESR
+>> +syndrome, it can not specify the EC field which is not under control by KVM.
+>> +If this virtual SError is taken to EL1 using AArch64, this value will be reported
+>> +in ISS filed of ESR_EL1.
+> 
+> 
+> 
+> 
+> .
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
