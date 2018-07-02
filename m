@@ -5,110 +5,166 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 971687D09D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 04:19:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 32F367D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 05:17:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752420AbeGBETJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 00:19:09 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:9189 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1752294AbeGBETI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Jul 2018 00:19:08 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id DCF72E9C4A0A7;
-        Mon,  2 Jul 2018 12:18:53 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.382.0; Mon, 2 Jul 2018
- 12:18:51 +0800
-Subject: Re: [PATCH v5 2/2] arm64: KVM: export the capability to set guest
- SError syndrome
-To:     James Morse <james.morse@arm.com>
-CC:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <marc.zyngier@arm.com>, <linux@armlinux.org.uk>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>
-References: <1529960309-2513-1-git-send-email-gengdongjiu@huawei.com>
- <1529960309-2513-3-git-send-email-gengdongjiu@huawei.com>
- <bca12032-c465-1d10-f7d4-71fc044ac695@arm.com>
-From:   gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <fd33f8b6-db05-f956-a1fc-ecb4fa3f1b79@huawei.com>
-Date:   Mon, 2 Jul 2018 12:18:02 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1753258AbeGBFRJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 01:17:09 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47862 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1753254AbeGBFRI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 01:17:08 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w625DXOd072706
+        for <linux-doc@vger.kernel.org>; Mon, 2 Jul 2018 01:17:08 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jybhuku3b-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jul 2018 01:17:08 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Mon, 2 Jul 2018 06:17:05 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 2 Jul 2018 06:17:00 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w625Gx4e41484532
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 2 Jul 2018 05:16:59 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 56A2CA4055;
+        Mon,  2 Jul 2018 06:16:43 +0100 (BST)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0C187A404D;
+        Mon,  2 Jul 2018 06:16:40 +0100 (BST)
+Received: from [9.124.31.129] (unknown [9.124.31.129])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  2 Jul 2018 06:16:39 +0100 (BST)
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Mon, 2 Jul 2018 10:46:55 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <bca12032-c465-1d10-f7d4-71fc044ac695@arm.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20180701210935.GA14404@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
+X-TM-AS-GCONF: 00
+x-cbid: 18070205-0028-0000-0000-000002D71E42
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18070205-0029-0000-0000-0000238E981B
+Message-Id: <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-02_01:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807020060
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
+Hi Oleg,
 
-On 2018/6/29 23:58, James Morse wrote:
-> Hi Dongjiu Geng,
-> 
-> This patch doesn't apply on v4.18-rc2.
-> 
-> Documentation/virtual/kvm/api.txt already has a 8.18 section. I guess you based
-> this on v4.17.
-
-Yes, indeed I based on v4.17.
-
-> 
-> For posting patches, please use the latest 'rc' from Linus' tree, (or the
-> maintainer's tree listed in MAINTAINERS for the tree you are targeting if the
-> maintainer has started to pick up patches).
-Ok, I will rebase it using the latest 'rc' from Linus' tree. thanks for the reminder.
-
-
-> 
-> 
-> Thanks,
-> 
-> James
-> 
-> 
-> On 25/06/18 21:58, Dongjiu Geng wrote:
->> For the arm64 RAS Extension, user space can inject a virtual-SError
->> with specified ESR. So user space needs to know whether KVM support
->> to inject such SError, this interface adds this query for this capability.
+On 07/02/2018 02:39 AM, Oleg Nesterov wrote:
+> On 06/28, Ravi Bangoria wrote:
 >>
->> KVM will check whether system support RAS Extension, if supported, KVM
->> returns true to user space, otherwise returns false.
-> 
-> 
->> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
->> index 3732097..86b3808 100644
->> --- a/Documentation/virtual/kvm/api.txt
->> +++ b/Documentation/virtual/kvm/api.txt
->> @@ -4628,3 +4628,14 @@ Architectures: s390
->>  This capability indicates that kvm will implement the interfaces to handle
->>  reset, migration and nested KVM for branch prediction blocking. The stfle
->>  facility 82 should not be provided to the guest without this capability.
+>> @@ -294,6 +462,15 @@ int uprobe_write_opcode(struct uprobe *uprobe, struct mm_struct *mm,
+>>  	if (ret <= 0)
+>>  		goto put_old;
+>>  
+>> +	/* Update the ref_ctr if we are going to replace instruction. */
+>> +	if (!ref_ctr_updated) {
+>> +		ret = update_ref_ctr(uprobe, mm, is_register);
+>> +		if (ret)
+>> +			goto put_old;
 >> +
->> +8.14 KVM_CAP_ARM_SET_SERROR_ESR
->> +
->> +Architectures: arm, arm64
->> +
->> +This capability indicates that userspace can specify the syndrome value reported
->> +to the guest OS when guest takes a virtual SError interrupt exception.
->> +If KVM has this capability, userspace can only specify the ISS field for the ESR
->> +syndrome, it can not specify the EC field which is not under control by KVM.
->> +If this virtual SError is taken to EL1 using AArch64, this value will be reported
->> +in ISS filed of ESR_EL1.
+>> +		ref_ctr_updated = 1;
+>> +	}
 > 
+> Why can't this code live in install_breakpoint() and remove_breakpoint() ?
+> this way we do not need to export "struct uprobe" and change set_swbp/set_orig_insn,
+> and the logic will be more simple.
+
+IMO, it's more easier with current approach. Updating reference counter
+inside uprobe_write_opcode() makes it tightly coupled with instruction
+patching. Basically, reference counter gets incremented only when first
+consumer gets activated and will get decremented only when last consumer
+is going away.
+
+Advantage is, we can get rid of sdt_mm_list patch*, because increment and
+decrement are anyway happening in sync. This makes the implementation lot
+more simpler. If I do it inside install_breakpoit()/ remove_breakpoint(),
+I've to reintroduce sdt_mm_list which makes code more complicated and ugly.
+
+* https://lkml.org/lkml/2018/4/17/28
+
+BTW, is there any harm in exporting struct uprobe outside of uprobe.c?
+
 > 
+> And let me ask again... May be you have already explained this, but I can't
+> find the previous discussion.
 > 
+> So why do we need a counter but not a boolean? IIRC, because the counter can
+> be shared, in particular 2 different uprobes can have the same >ref_ctr_offset,
+> right?
+
+Actually, it's by design. This counter keeps track of current tracers
+tracing on a particular SDT marker. So only boolean can't work here.
+Also, yes, multiple markers can share the same reference counter.
+
 > 
-> .
+> But who else can use this counter and how? Say, can userspace update it too?
+
+There are many different ways user can change the reference counter.
+Ex, systemtap and bcc both uses uprobe to probe on a marker but reference
+counter update logic is different in both of them. Systemtap records all
+exec/mmap events and updates the counter when it finds interested process/
+vma. bcc directly hooks into process's memory (/proc/pid/mem).
+
+> If yes, why this can't race with __update_ref_ctr() ?
+
+Right. But there is no synchronization mechanism provided by the SDT
+infrastructure and this is all userspace so there are chances of race.
+At least, this patch still tries to make sure that reference counter
+does not go negative. If so, throw a warning and don't update it.
+
 > 
+> And btw, why does __update_ref_ctr() use FOLL_FORCE? This vma should be writeable
+> or valid_ref_ctr_vma() should nack it?
+
+I don't remember the exact reason but seem its unnecessary. Let me try to
+recall the reason, otherwise will remove it in the next version.
+
+> 
+> And shouldn't valid_ref_ctr_vma() check VM_SHARED? IIUC we do not want to write
+> to this file?
+
+Hmm, I haven't seen reference counter shared across processes. But as this
+is a generic infrastructure, I'll add a check there.
+
+Thanks for the review,
+Ravi
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
