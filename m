@@ -5,80 +5,130 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D05B7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 18:05:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91ECC7D043
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 18:54:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753100AbeGBSFe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 14:05:34 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33780 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753068AbeGBSFe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 2 Jul 2018 14:05:34 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 544DF401EF0D;
-        Mon,  2 Jul 2018 18:05:33 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 5AC762166B5D;
-        Mon,  2 Jul 2018 18:05:30 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon,  2 Jul 2018 20:05:33 +0200 (CEST)
-Date:   Mon, 2 Jul 2018 20:05:29 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-Cc:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180702180529.GB31400@redhat.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180702160158.GD65296@linux.vnet.ibm.com>
+        id S932166AbeGBSxU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 14:53:20 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40550 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1753381AbeGBSxS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 14:53:18 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w62Ihr9E014164
+        for <linux-doc@vger.kernel.org>; Mon, 2 Jul 2018 14:53:17 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jyr5em72s-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jul 2018 14:53:17 -0400
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Mon, 2 Jul 2018 14:53:16 -0400
+Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
+        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 2 Jul 2018 14:53:13 -0400
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w62IrDEi8913366
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 2 Jul 2018 18:53:13 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E5905B2066;
+        Mon,  2 Jul 2018 14:52:57 -0400 (EDT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C7491B2065;
+        Mon,  2 Jul 2018 14:52:57 -0400 (EDT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.159])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon,  2 Jul 2018 14:52:57 -0400 (EDT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 2510D16CA366; Mon,  2 Jul 2018 11:55:26 -0700 (PDT)
+Date:   Mon, 2 Jul 2018 11:55:26 -0700
+From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: atomic_ops: atomic_set is a write (not read)
+ operation
+Reply-To: paulmck@linux.vnet.ibm.com
+References: <20180605194326.23596-1-j.neuschaefer@gmx.net>
+ <20180606080756.GU3593@linux.vnet.ibm.com>
+ <20180629134345.GA10981@andrea>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20180702160158.GD65296@linux.vnet.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 02 Jul 2018 18:05:33 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Mon, 02 Jul 2018 18:05:33 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20180629134345.GA10981@andrea>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18070218-0060-0000-0000-00000285BD72
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009296; HX=3.00000241; KW=3.00000007;
+ PH=3.00000004; SC=3.00000266; SDB=6.01055583; UDB=6.00541417; IPR=6.00833506;
+ MB=3.00021965; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-02 18:53:16
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18070218-0061-0000-0000-000045A71A92
+Message-Id: <20180702185526.GS3593@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-02_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807020210
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/02, Srikar Dronamraju wrote:
->
-> > Implement the reference counter logic in core uprobe. User will be
-> > able to use it from trace_uprobe as well as from kernel module. New
-> > trace_uprobe definition with reference counter will now be:
-> >
-> >     <path>:<offset>[(ref_ctr_offset)]
-> >
-> > where ref_ctr_offset is an optional field. For kernel module, new
-> > variant of uprobe_register() has been introduced:
-> >
-> >     uprobe_register_refctr(inode, offset, ref_ctr_offset, consumer)
-> >
->
-> Sorry for bringing this again, but I would actually think the ref_ctr is
-> a consumer property. i.e the ref_ctr_offset should be part of
-> uprobe_consumer.
+On Fri, Jun 29, 2018 at 03:43:45PM +0200, Andrea Parri wrote:
+> On Wed, Jun 06, 2018 at 01:07:56AM -0700, Paul E. McKenney wrote:
+> > On Tue, Jun 05, 2018 at 09:43:23PM +0200, Jonathan Neuschäfer wrote:
+> > > Describe it as such.
+> > > 
+> > > Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> > 
+> > I have queued this, but if someone else would prefer to take it:
+> > 
+> > Reviewed-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+> 
+> In the commit message of bb7d47b697116c ("docs: atomic_ops: Describe
+> atomic_set as a write operation") from your dev branch,
+> 
+> from "reads" to "writes"
 
-Damn yes ;) I was thinking about this too but decided to discuss this later.
+Good catch, fixed, thank you!
 
-But this probably means more complications, I am not sure about the actual
-implementation.
+							Thanx, Paul
 
-Oleg.
+>   Andrea
+> 
+> 
+> > 
+> > > ---
+> > >  Documentation/core-api/atomic_ops.rst | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/core-api/atomic_ops.rst b/Documentation/core-api/atomic_ops.rst
+> > > index 2e7165f86f55..724583453e1f 100644
+> > > --- a/Documentation/core-api/atomic_ops.rst
+> > > +++ b/Documentation/core-api/atomic_ops.rst
+> > > @@ -29,7 +29,7 @@ updated by one CPU, local_t is probably more appropriate. Please see
+> > >  local_t.
+> > > 
+> > >  The first operations to implement for atomic_t's are the initializers and
+> > > -plain reads. ::
+> > > +plain writes. ::
+> > > 
+> > >  	#define ATOMIC_INIT(i)		{ (i) }
+> > >  	#define atomic_set(v, i)	((v)->counter = (i))
+> > > -- 
+> > > 2.17.1
+> > > 
+> > 
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
