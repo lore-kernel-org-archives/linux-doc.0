@@ -1,109 +1,236 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BDF6E7D043
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 14:57:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2102A7D062
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  2 Jul 2018 15:12:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752183AbeGBO5l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 2 Jul 2018 10:57:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44374 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752033AbeGBO5k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 10:57:40 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w62EsaPD072669
-        for <linux-doc@vger.kernel.org>; Mon, 2 Jul 2018 10:57:39 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2jyp37geh7-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 02 Jul 2018 10:57:39 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <srikar@linux.vnet.ibm.com>;
-        Mon, 2 Jul 2018 15:57:38 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 2 Jul 2018 15:57:31 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w62EvU0138666382
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 2 Jul 2018 14:57:30 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BD28F52050;
-        Mon,  2 Jul 2018 15:57:14 +0100 (BST)
-Received: from linux.vnet.ibm.com (unknown [9.40.192.68])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id BF2E95204E;
-        Mon,  2 Jul 2018 15:57:11 +0100 (BST)
-Date:   Mon, 2 Jul 2018 07:57:27 -0700
-From:   Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     oleg@redhat.com, rostedt@goodmis.org, mhiramat@kernel.org,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 10/10] perf probe: Support SDT markers having
- reference counter (semaphore)
-Reply-To: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-11-ravi.bangoria@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20180628052209.13056-11-ravi.bangoria@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18070214-0016-0000-0000-000001E2826C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18070214-0017-0000-0000-00003236DB0D
-Message-Id: <20180702145727.GC65296@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-02_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807020171
+        id S1752387AbeGBPMT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 2 Jul 2018 11:12:19 -0400
+Received: from mail-wm0-f67.google.com ([74.125.82.67]:54211 "EHLO
+        mail-wm0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752049AbeGBPMS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 2 Jul 2018 11:12:18 -0400
+Received: by mail-wm0-f67.google.com with SMTP id b188-v6so9469787wme.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Jul 2018 08:12:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=ZYatWEuy5Qf3+Cjj8pQwzQqjHGU3v1omyncQYvVH8aY=;
+        b=glwzAslWN7yr5HE7JaZYhryvXhUjZcZM08dhXsELNEg2dfnrNnfOwjAe/Vncf7EzsW
+         chHGpe1Lrl21FVNQu5WJqxopVRW5evLQMMjrn1BIs5v7csP/2qIYRgrtqZeFGWjqtqSN
+         zpF+HWSJC3uBuYXimrURxso3w/ix3iiK1/Ei4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=ZYatWEuy5Qf3+Cjj8pQwzQqjHGU3v1omyncQYvVH8aY=;
+        b=ouCn2xPaPFLAa9aXZDd5EfCWROaFfNs0aPb3iklK2CVLxar05Q2Qk8doBrsBBHBeq7
+         lr5gxBaG0h5mv+w1KA43PdltqTxUXjw3knvkjtLTfv8L8ahTPBJ3ZVgT+xy095W99iH4
+         ZwqQS+kfLsMPrJnSFU2jQjOq287b5hwHUrSANaOJuZQ5Rh0aJlmBr3bKlbGtsbe16b8s
+         CXjMTorlDEqNLj3aDcZoCVzIUrm8WpCntIUQvFUPYuWrU58o38310FGYhJZyjyE6HQQl
+         /CWJm2Rkqv4D19qZfu9TedhPOziPAHs5beS0/iHakxtjTR2QV4Hv+ibCBGJ9edURDMHM
+         j2eA==
+X-Gm-Message-State: APt69E1ZgbtaV0Ww+wj7oP6gLeOxUD0QpGKe9erW/Ub3SouHBwFGqs9h
+        GHwOzzyn4XL6PGcEazp3K5iG8A==
+X-Google-Smtp-Source: AAOMgpeXK8tSIS1p1yFV8NzAvFdxnCHK7QQDxS+azVSOKyqQwou9Y9kMFyPAo7iK91WI1XeO5cXBww==
+X-Received: by 2002:a1c:5d0e:: with SMTP id r14-v6mr8224928wmb.152.1530544336693;
+        Mon, 02 Jul 2018 08:12:16 -0700 (PDT)
+Received: from andrea.amarulasolutions.com (85.100.broadband17.iol.cz. [109.80.100.85])
+        by smtp.gmail.com with ESMTPSA id s184-v6sm8994794wmf.5.2018.07.02.08.12.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 02 Jul 2018 08:12:15 -0700 (PDT)
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>
+Subject: [PATCH v2 2/3] locking: Clarify requirements for smp_mb__after_spinlock()
+Date:   Mon,  2 Jul 2018 17:11:55 +0200
+Message-Id: <1530544315-14614-1-git-send-email-andrea.parri@amarulasolutions.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
+References: <1530182480-13205-3-git-send-email-andrea.parri@amarulasolutions.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Ravi Bangoria <ravi.bangoria@linux.ibm.com> [2018-06-28 10:52:09]:
+There are 11 interpretations of the requirements described in the header
+comment for smp_mb__after_spinlock(): one for each LKMM maintainer, and
+one currently encoded in the Cat file. Stick to the latter (until a more
+satisfactory solution is available).
 
-> With this, perf buildid-cache will save SDT markers with reference
-> counter in probe cache. Perf probe will be able to probe markers
-> having reference counter. Ex,
-> 
->   # readelf -n /tmp/tick | grep -A1 loop2
->     Name: loop2
->     ... Semaphore: 0x0000000010020036
-> 
->   # ./perf buildid-cache --add /tmp/tick
+This also reworks some snippets related to the barrier to illustrate the
+requirements and to link them to the idioms which are relied upon at its
+call sites.
 
-Would this perf buildid-cache work if the executable is stripped of
-symbols?
+Suggested-by: Boqun Feng <boqun.feng@gmail.com>
+Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+---
+Changes since v1:
 
->   # ./perf probe sdt_tick:loop2
->   # ./perf stat -e sdt_tick:loop2 /tmp/tick
->     hi: 0
->     hi: 1
->     hi: 2
->     ^C
->      Performance counter stats for '/tmp/tick':
->                  3      sdt_tick:loop2
->        2.561851452 seconds time elapsed
+  - reworked the snippets (Peter Zijlstra)
+  - style fixes (Alan Stern and Matthew Wilcox)
+  - added Boqun's Suggested-by: tag
 
-Also can we document how to use SDT markers with perf under perf-probe
-or perf-build-cache?
+ include/linux/spinlock.h | 51 ++++++++++++++++++++++++++++++++----------------
+ kernel/sched/core.c      | 41 +++++++++++++++++++-------------------
+ 2 files changed, 55 insertions(+), 37 deletions(-)
+
+diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
+index 1e8a464358384..0b46efca659f9 100644
+--- a/include/linux/spinlock.h
++++ b/include/linux/spinlock.h
+@@ -114,29 +114,46 @@ do {								\
+ #endif /*arch_spin_is_contended*/
+ 
+ /*
+- * This barrier must provide two things:
++ * smp_mb__after_spinlock() provides the equivalent of a full memory barrier
++ * between program-order earlier lock acquisitions and program-order later
++ * memory accesses.
+  *
+- *   - it must guarantee a STORE before the spin_lock() is ordered against a
+- *     LOAD after it, see the comments at its two usage sites.
++ * This guarantees that the following two properties hold:
+  *
+- *   - it must ensure the critical section is RCsc.
++ *   1) Given the snippet:
+  *
+- * The latter is important for cases where we observe values written by other
+- * CPUs in spin-loops, without barriers, while being subject to scheduling.
++ *	  { X = 0;  Y = 0; }
+  *
+- * CPU0			CPU1			CPU2
++ *	  CPU0				CPU1
+  *
+- *			for (;;) {
+- *			  if (READ_ONCE(X))
+- *			    break;
+- *			}
+- * X=1
+- *			<sched-out>
+- *						<sched-in>
+- *						r = X;
++ *	  WRITE_ONCE(X, 1);		WRITE_ONCE(Y, 1);
++ *	  spin_lock(S);			smp_mb();
++ *	  smp_mb__after_spinlock();	r1 = READ_ONCE(X);
++ *	  r0 = READ_ONCE(Y);
++ *	  spin_unlock(S);
+  *
+- * without transitivity it could be that CPU1 observes X!=0 breaks the loop,
+- * we get migrated and CPU2 sees X==0.
++ *      it is forbidden that CPU0 does not observe CPU1's store to Y (r0 = 0)
++ *      and CPU1 does not observe CPU0's store to X (r1 = 0); see the comments
++ *      preceding the call to smp_mb__after_spinlock() in __schedule() and in
++ *      try_to_wake_up().
++ *
++ *   2) Given the snippet:
++ *
++ *  { X = 0;  Y = 0; }
++ *
++ *  CPU0		CPU1				CPU2
++ *
++ *  spin_lock(S);	spin_lock(S);			r1 = READ_ONCE(Y);
++ *  WRITE_ONCE(X, 1);	smp_mb__after_spinlock();	smp_rmb();
++ *  spin_unlock(S);	r0 = READ_ONCE(X);		r2 = READ_ONCE(X);
++ *			WRITE_ONCE(Y, 1);
++ *			spin_unlock(S);
++ *
++ *      it is forbidden that CPU0's critical section executes before CPU1's
++ *      critical section (r0 = 1), CPU2 observes CPU1's store to Y (r1 = 1)
++ *      and CPU2 does not observe CPU0's store to X (r2 = 0); see the comments
++ *      preceding the calls to smp_rmb() in try_to_wake_up() for similar
++ *      snippets but "projected" onto two CPUs.
+  *
+  * Since most load-store architectures implement ACQUIRE with an smp_mb() after
+  * the LL/SC loop, they need no further barriers. Similarly all our TSO
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index da8f12119a127..ec9ef0aec71ac 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -1999,21 +1999,20 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
+ 	 * be possible to, falsely, observe p->on_rq == 0 and get stuck
+ 	 * in smp_cond_load_acquire() below.
+ 	 *
+-	 * sched_ttwu_pending()                 try_to_wake_up()
+-	 *   [S] p->on_rq = 1;                  [L] P->state
+-	 *       UNLOCK rq->lock  -----.
+-	 *                              \
+-	 *				 +---   RMB
+-	 * schedule()                   /
+-	 *       LOCK rq->lock    -----'
+-	 *       UNLOCK rq->lock
++	 * sched_ttwu_pending()			try_to_wake_up()
++	 *   STORE p->on_rq = 1			  LOAD p->state
++	 *   UNLOCK rq->lock
++	 *
++	 * __schedule() (switch to task 'p')
++	 *   LOCK rq->lock			  smp_rmb();
++	 *   smp_mb__after_spinlock();
++	 *   UNLOCK rq->lock
+ 	 *
+ 	 * [task p]
+-	 *   [S] p->state = UNINTERRUPTIBLE     [L] p->on_rq
++	 *   STORE p->state = UNINTERRUPTIBLE	  LOAD p->on_rq
+ 	 *
+-	 * Pairs with the UNLOCK+LOCK on rq->lock from the
+-	 * last wakeup of our task and the schedule that got our task
+-	 * current.
++	 * Pairs with the LOCK+smp_mb__after_spinlock() on rq->lock in
++	 * __schedule().  See the comment for smp_mb__after_spinlock().
+ 	 */
+ 	smp_rmb();
+ 	if (p->on_rq && ttwu_remote(p, wake_flags))
+@@ -2027,15 +2026,17 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
+ 	 * One must be running (->on_cpu == 1) in order to remove oneself
+ 	 * from the runqueue.
+ 	 *
+-	 *  [S] ->on_cpu = 1;	[L] ->on_rq
+-	 *      UNLOCK rq->lock
+-	 *			RMB
+-	 *      LOCK   rq->lock
+-	 *  [S] ->on_rq = 0;    [L] ->on_cpu
++	 * __schedule() (switch to task 'p')	try_to_wake_up()
++	 *   STORE p->on_cpu = 1		  LOAD p->on_rq
++	 *   UNLOCK rq->lock
++	 *
++	 * __schedule() (put 'p' to sleep)
++	 *   LOCK rq->lock			  smp_rmb();
++	 *   smp_mb__after_spinlock();
++	 *   STORE p->on_rq = 0			  LOAD p->on_cpu
+ 	 *
+-	 * Pairs with the full barrier implied in the UNLOCK+LOCK on rq->lock
+-	 * from the consecutive calls to schedule(); the first switching to our
+-	 * task, the second putting it to sleep.
++	 * Pairs with the LOCK+smp_mb__after_spinlock() on rq->lock in
++	 * __schedule().  See the comment for smp_mb__after_spinlock().
+ 	 */
+ 	smp_rmb();
+ 
+-- 
+2.7.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
