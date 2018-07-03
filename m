@@ -2,317 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC2CA7DF93
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 18:21:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5F57F7DF93
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 18:24:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934381AbeGCSVk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 14:21:40 -0400
-Received: from mga17.intel.com ([192.55.52.151]:2591 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S934309AbeGCSVi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Jul 2018 14:21:38 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2018 11:21:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,304,1526367600"; 
-   d="scan'208";a="242707857"
-Received: from cdikicix-mobl.ger.corp.intel.com (HELO localhost) ([10.249.254.69])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Jul 2018 11:21:21 -0700
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     x86@kernel.org, platform-driver-x86@vger.kernel.org
-Cc:     dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com,
-        linux-sgx@vger.kernel.org,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        kvm@vger.kernel.org (open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)),
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Vikas Shivappa <vikas.shivappa@linux.intel.com>
-Subject: [PATCH v12 00/13] Intel SGX1 support
-Date:   Tue,  3 Jul 2018 21:19:45 +0300
-Message-Id: <20180703182118.15024-1-jarkko.sakkinen@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S934468AbeGCSXV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 14:23:21 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59856 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S934440AbeGCSXT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Jul 2018 14:23:19 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4C59CC324;
+        Tue,  3 Jul 2018 18:23:18 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
+        by smtp.corp.redhat.com (Postfix) with SMTP id F2DAB2156880;
+        Tue,  3 Jul 2018 18:23:14 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue,  3 Jul 2018 20:23:18 +0200 (CEST)
+Date:   Tue, 3 Jul 2018 20:23:14 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+Message-ID: <20180703182313.GA26120@redhat.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+ <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+ <20180702180156.GA31400@redhat.com>
+ <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
+ <20180703171255.GB23144@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180703171255.GB23144@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 03 Jul 2018 18:23:18 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 03 Jul 2018 18:23:18 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Intel(R) SGX is a set of CPU instructions that can be used by applications
-to set aside private regions of code and data. The code outside the enclave
-is disallowed to access the memory inside the enclave by the CPU access
-control.  In a way you can think that SGX provides inverted sandbox. It
-protects the application from a malicious host.
+forgot to mention...
 
-There is a new hardware unit in the processor called Memory Encryption
-Engine (MEE) starting from the Skylake microacrhitecture. BIOS can define
-one or many MEE regions that can hold enclave data by configuring them with
-PRMRR registers.
+Of course, I am not sure that UPROBE_KERN_CTR can actually work, there are a lot
+of details. But if it can, then we can also make ->ref_ctr_offset a consumer property.
 
-The MEE automatically encrypts the data leaving the processor package to
-the MEE regions. The data is encrypted using a random key whose life-time
-is exactly one power cycle.
-
-The current implementation requires that the firmware sets
-IA32_SGXLEPUBKEYHASH* MSRs as writable so that ultimately the kernel can
-decide what enclaves it wants run. The implementation does not create
-any bottlenecks to support read-only MSRs later on.
-
-You can tell if your CPU supports SGX by looking into /proc/cpuinfo:
-
-	cat /proc/cpuinfo  | grep sgx
-
-v12:
-* Split to more narrow scoped commits in order to ease the review process and
-  use co-developed-by tag for co-authors of commits instead of listing them in
-  the source files.
-* Removed cruft EXPORT_SYMBOL() declarations and converted to static variables.
-* Removed in-kernel LE i.e. this version of the SGX software stack only
-  supports unlocked IA32_SGXLEPUBKEYHASHx MSRs.
-* Refined documentation on launching enclaves, swapping and enclave
-  construction.
-* Refined sgx_arch.h to include alignment information for every struct that
-  requires it and removed structs that are not needed without an LE.
-* Got rid of SGX_CPUID.
-* SGX detection now prints log messages about firmware configuration issues.
-
-v11:
-* Polished ENCLS wrappers with refined exception handling.
-* ksgxswapd was not stopped (regression in v5) in
-  sgx_page_cache_teardown(), which causes a leaked kthread after driver
-  deinitialization.
-* Shutdown sgx_le_proxy when going to suspend because its EPC pages will be
-  invalidated when resuming, which will cause it not function properly
-  anymore.
-* Set EINITTOKEN.VALID to zero for a token that is passed when
-  SGXLEPUBKEYHASH matches MRSIGNER as alloc_page() does not give a zero
-  page.
-* Fixed the check in sgx_edbgrd() for a TCS page. Allowed to read offsets
-  around the flags field, which causes a #GP. Only flags read is readable.
-* On read access memcpy() call inside sgx_vma_access() had src and dest
-  parameters in wrong order.
-* The build issue with CONFIG_KASAN is now fixed. Added undefined symbols
-  to LE even if “KASAN_SANITIZE := false” was set in the makefile. 
-* Fixed a regression in the #PF handler. If a page has
-  SGX_ENCL_PAGE_RESERVED flag the #PF handler should unconditionally fail.
-  It did not, which caused weird races when trying to change other parts of
-  swapping code.
-* EPC management has been refactored to a flat LRU cache and moved to
-  arch/x86. The swapper thread reads a cluster of EPC pages and swaps all
-  of them. It can now swap from multiple enclaves in the same round.
-* For the sake of consistency with SGX_IOC_ENCLAVE_ADD_PAGE, return -EINVAL
-  when an enclave is already initialized or dead instead of zero.
-
-v10:
-* Cleaned up anon inode based IPC between the ring-0 and ring-3 parts
-  of the driver.
-* Unset the reserved flag from an enclave page if EDBGRD/WR fails
-  (regression in v6).
-* Close the anon inode when LE is stopped (regression in v9).
-* Update the documentation with a more detailed description of SGX.
-
-v9:
-* Replaced kernel-LE IPC based on pipes with an anonymous inode.
-  The driver does not require anymore new exports.
-
-v8:
-* Check that public key MSRs match the LE public key hash in the
-  driver initialization when the MSRs are read-only.
-* Fix the race in VA slot allocation by checking the fullness
-  immediately after succeesful allocation.
-* Fix the race in hash mrsigner calculation between the launch
-  enclave and user enclaves by having a separate lock for hash
-  calculation.
-
-v7:
-* Fixed offset calculation in sgx_edbgr/wr(). Address was masked with PAGE_MASK
-  when it should have been masked with ~PAGE_MASK.
-* Fixed a memory leak in sgx_ioc_enclave_create().
-* Simplified swapping code by using a pointer array for a cluster
-  instead of a linked list.
-* Squeezed struct sgx_encl_page to 32 bytes.
-* Fixed deferencing of an RSA key on OpenSSL 1.1.0.
-* Modified TC's CMAC to use kernel AES-NI. Restructured the code
-  a bit in order to better align with kernel conventions.
-
-v6:
-* Fixed semaphore underrun when accessing /dev/sgx from the launch enclave.
-* In sgx_encl_create() s/IS_ERR(secs)/IS_ERR(encl)/.
-* Removed virtualization chapter from the documentation.
-* Changed the default filename for the signing key as signing_key.pem.
-* Reworked EPC management in a way that instead of a linked list of
-  struct sgx_epc_page instances there is an array of integers that
-  encodes address and bank of an EPC page (the same data as 'pa' field
-  earlier). The locking has been moved to the EPC bank level instead
-  of a global lock.
-* Relaxed locking requirements for EPC management. EPC pages can be
-  released back to the EPC bank concurrently.
-* Cleaned up ptrace() code.
-* Refined commit messages for new architectural constants.
-* Sorted includes in every source file.
-* Sorted local variable declarations according to the line length in
-  every function.
-* Style fixes based on Darren's comments to sgx_le.c.
-
-v5:
-* Described IPC between the Launch Enclave and kernel in the commit messages.
-* Fixed all relevant checkpatch.pl issues that I have forgot fix in earlier
-  versions except those that exist in the imported TinyCrypt code.
-* Fixed spelling mistakes in the documentation.
-* Forgot to check the return value of sgx_drv_subsys_init().
-* Encapsulated properly page cache init and teardown.
-* Collect epc pages to a temp list in sgx_add_epc_bank
-* Removed SGX_ENCLAVE_INIT_ARCH constant.
-
-v4:
-* Tied life-cycle of the sgx_le_proxy process to /dev/sgx.
-* Removed __exit annotation from sgx_drv_subsys_exit().
-* Fixed a leak of a backing page in sgx_process_add_page_req() in the
-  case when vm_insert_pfn() fails.
-* Removed unused symbol exports for sgx_page_cache.c.
-* Updated sgx_alloc_page() to require encl parameter and documented the
-  behavior (Sean Christopherson).
-* Refactored a more lean API for sgx_encl_find() and documented the behavior.
-* Moved #PF handler to sgx_fault.c.
-* Replaced subsys_system_register() with plain bus_register().
-* Retry EINIT 2nd time only if MSRs are not locked.
-
-v3:
-* Check that FEATURE_CONTROL_LOCKED and FEATURE_CONTROL_SGX_ENABLE are set.
-* Return -ERESTARTSYS in __sgx_encl_add_page() when sgx_alloc_page() fails.
-* Use unused bits in epc_page->pa to store the bank number.
-* Removed #ifdef for WQ_NONREENTRANT.
-* If mmu_notifier_register() fails with -EINTR, return -ERESTARTSYS.
-* Added --remove-section=.got.plt to objcopy flags in order to prevent a
-  dummy .got.plt, which will cause an inconsistent size for the LE.
-* Documented sgx_encl_* functions.
-* Added remark about AES implementation used inside the LE.
-* Removed redundant sgx_sys_exit() from le/main.c.
-* Fixed struct sgx_secinfo alignment from 128 to 64 bytes.
-* Validate miscselect in sgx_encl_create().
-* Fixed SSA frame size calculation to take the misc region into account.
-* Implemented consistent exception handling to __encls() and __encls_ret().
-* Implemented a proper device model in order to allow sysfs attributes
-  and in-kernel API.
-* Cleaned up various "find enclave" implementations to the unified
-  sgx_encl_find().
-* Validate that vm_pgoff is zero.
-* Discard backing pages with shmem_truncate_range() after EADD.
-* Added missing EEXTEND operations to LE signing and launch.
-* Fixed SSA size for GPRS region from 168 to 184 bytes.
-* Fixed the checks for TCS flags. Now DBGOPTIN is allowed.
-* Check that TCS addresses are in ELRANGE and not just page aligned.
-* Require kernel to be compiled with X64_64 and CPU_SUP_INTEL.
-* Fixed an incorrect value for SGX_ATTR_DEBUG from 0x01 to 0x02.
-
-v2:
-* get_rand_uint32() changed the value of the pointer instead of value
-  where it is pointing at.
-* Launch enclave incorrectly used sigstruct attributes-field instead of
-  enclave attributes-field.
-* Removed unused struct sgx_add_page_req from sgx_ioctl.c
-* Removed unused sgx_has_sgx2.
-* Updated arch/x86/include/asm/sgx.h so that it provides stub
-  implementations when sgx in not enabled.
-* Removed cruft rdmsr-calls from sgx_set_pubkeyhash_msrs().
-* return -ENOMEM in sgx_alloc_page() when VA pages consume too much space
-* removed unused global sgx_nr_pids
-* moved sgx_encl_release to sgx_encl.c
-* return -ERESTARTSYS instead of -EINTR in sgx_encl_init()
-
-Jarkko Sakkinen (8):
-  x86/sgx: updated MAINTAINERS
-  x86/sgx: architectural structures
-  x86/sgx: data structures for tracking available EPC pages
-  x86/sgx: wrappers for ENCLS opcode leaf functions
-  x86/sgx: EPC page allocation routines
-  platform/x86: Intel SGX driver
-  platform/x86: ptrace() support for the SGX driver
-  x86/sgx: driver documentation
-
-Kai Huang (1):
-  x86/sgx: add SGX definitions to cpufeature
-
-Sean Christopherson (4):
-  x86/sgx: add SGX definitions to msr-index.h
-  x86/cpufeatures: add Intel-defined SGX leaf CPUID_12_EAX
-  x86/sgx: detect Intel SGX
-  x86/sgx: sgx_einit()
-
- Documentation/index.rst                       |    1 +
- Documentation/x86/intel_sgx.rst               |  185 +++
- MAINTAINERS                                   |    7 +
- arch/x86/Kconfig                              |   19 +
- arch/x86/include/asm/cpufeature.h             |    7 +-
- arch/x86/include/asm/cpufeatures.h            |   10 +-
- arch/x86/include/asm/disabled-features.h      |    3 +-
- arch/x86/include/asm/msr-index.h              |    8 +
- arch/x86/include/asm/required-features.h      |    3 +-
- arch/x86/include/asm/sgx.h                    |  246 ++++
- arch/x86/include/asm/sgx_arch.h               |  202 ++++
- arch/x86/include/asm/sgx_pr.h                 |   29 +
- arch/x86/include/uapi/asm/sgx.h               |  138 +++
- arch/x86/kernel/cpu/Makefile                  |    1 +
- arch/x86/kernel/cpu/common.c                  |    7 +
- arch/x86/kernel/cpu/intel_sgx.c               |  460 ++++++++
- arch/x86/kvm/cpuid.h                          |    1 +
- drivers/platform/x86/Kconfig                  |    2 +
- drivers/platform/x86/Makefile                 |    1 +
- drivers/platform/x86/intel_sgx/Kconfig        |   22 +
- drivers/platform/x86/intel_sgx/Makefile       |   13 +
- drivers/platform/x86/intel_sgx/sgx.h          |  157 +++
- drivers/platform/x86/intel_sgx/sgx_encl.c     | 1011 +++++++++++++++++
- .../platform/x86/intel_sgx/sgx_encl_page.c    |  286 +++++
- drivers/platform/x86/intel_sgx/sgx_fault.c    |  151 +++
- drivers/platform/x86/intel_sgx/sgx_ioctl.c    |  231 ++++
- drivers/platform/x86/intel_sgx/sgx_main.c     |  298 +++++
- drivers/platform/x86/intel_sgx/sgx_vma.c      |  174 +++
- 28 files changed, 3668 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/x86/intel_sgx.rst
- create mode 100644 arch/x86/include/asm/sgx.h
- create mode 100644 arch/x86/include/asm/sgx_arch.h
- create mode 100644 arch/x86/include/asm/sgx_pr.h
- create mode 100644 arch/x86/include/uapi/asm/sgx.h
- create mode 100644 arch/x86/kernel/cpu/intel_sgx.c
- create mode 100644 drivers/platform/x86/intel_sgx/Kconfig
- create mode 100644 drivers/platform/x86/intel_sgx/Makefile
- create mode 100644 drivers/platform/x86/intel_sgx/sgx.h
- create mode 100644 drivers/platform/x86/intel_sgx/sgx_encl.c
- create mode 100644 drivers/platform/x86/intel_sgx/sgx_encl_page.c
- create mode 100644 drivers/platform/x86/intel_sgx/sgx_fault.c
- create mode 100644 drivers/platform/x86/intel_sgx/sgx_ioctl.c
- create mode 100644 drivers/platform/x86/intel_sgx/sgx_main.c
- create mode 100644 drivers/platform/x86/intel_sgx/sgx_vma.c
-
--- 
-2.17.1
+On 07/03, Oleg Nesterov wrote:
+>
+> On 07/03, Ravi Bangoria wrote:
+> >
+> > > OK, and how exactly they update the counter? I mean, can we assume that, say,
+> > > bcc or systemtap can only increment or decrement it?
+> >
+> > I don't think we can assume anything here because this is all in user's
+> > control. User can even manually go and update the counter by directly
+> > hooking into the memory.
+>
+> Then how this all can work? I understand that user-space can do anything with
+> this counter, but we do not care if it does something wrong, say nullifies the
+> ctr incremented by kernel.
+>
+> I don't understand this. I think that if a user registers uprobe with
+> ->ref_ctr_offset != 0 we can safely assume that this is a counter, and we do
+> not care if userspace corrupts it.
+>
+> > > If yes, perhaps we can simplify the kernel code...
+> >
+> > Sure, let me know if you have any better idea.
+>
+> Can't we (ab)use the most significant bit in this counter?
+>
+> To simplify, lets suppose for the moment that 2 different uprobes can't have
+> the same ->ref_ctr_offset. Then we can do something like
+>
+> 	#define UPROBE_KERN_CTR		(SHRT_MAX + 1)	// MSB
+>
+> 	install_breakpoint:
+>
+> 		for (each valid_ref_ctr_vma which maps uprobe->ref_ctr_offset)
+> 			*ctr_ptr |= UPROBE_KERN_CTR;
+>
+> 		set_swbp();
+>
+> and
+>
+> 	remove_breakpoint:
+>
+> 		for (each valid_ref_ctr_vma which maps uprobe->ref_ctr_offset)
+> 			*ctr_ptr &= ~UPROBE_KERN_CTR;
+>
+> 		set_orig_insn();
+>
+> IOW, we increment/decrement by UPROBE_KERN_CTR, not by 1. But this way the
+> "increment" is idempotent, we do not care if "|=" or "&=" was applied more than
+> once, we do not need to record the fact that the counter was already incremented,
+> and inc/dec are always balanced.
+>
+>
+> Now, lets recall that multiple uprobes can share the same counter. install_breakpoint()
+> is still fine, and we only need to add the additional code into remove_breakpoint:
+>
+> 		for (each uprobe with the same inode and ref_ctr_offset)
+> 			if (filter_chain(uprobe))
+> 				goto keep_ctr;
+>
+> 		for (each valid_ref_ctr_vma which maps uprobe->ref_ctr_offset)
+> 			*ctr_ptr &= ~UPROBE_KERN_CTR;
+>
+> 	keep_ctr:
+> 		set_orig_insn();
+>
+>
+> Just an idea.
+>
+> What do you think?
+>
+> Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
