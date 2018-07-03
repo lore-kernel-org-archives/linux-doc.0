@@ -5,78 +5,101 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9CCD27DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 17:26:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B9C37DE6E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 17:35:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934320AbeGCRZs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 13:25:48 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:37514 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S933637AbeGCRZr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Jul 2018 13:25:47 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 15C8081ACF31;
-        Tue,  3 Jul 2018 17:25:47 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 2981C178B1;
-        Tue,  3 Jul 2018 17:25:44 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue,  3 Jul 2018 19:25:46 +0200 (CEST)
-Date:   Tue, 3 Jul 2018 19:25:43 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180703172543.GC23144@redhat.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180701210935.GA14404@redhat.com>
- <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
- <20180702180156.GA31400@redhat.com>
- <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
- <20180703163645.GA23144@redhat.com>
+        id S934151AbeGCRfb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 13:35:31 -0400
+Received: from foss.arm.com ([217.140.101.70]:53440 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S934296AbeGCRfa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Jul 2018 13:35:30 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7F5017A9;
+        Tue,  3 Jul 2018 10:35:29 -0700 (PDT)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4F3C13F5BA;
+        Tue,  3 Jul 2018 10:35:29 -0700 (PDT)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id F3C241AE55A7; Tue,  3 Jul 2018 18:36:08 +0100 (BST)
+Date:   Tue, 3 Jul 2018 18:36:08 +0100
+From:   Will Deacon <will.deacon@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Subject: Re: [PATCH v4 00/17] khwasan: kernel hardware assisted address
+ sanitizer
+Message-ID: <20180703173608.GF27243@arm.com>
+References: <cover.1530018818.git.andreyknvl@google.com>
+ <20180628105057.GA26019@e103592.cambridge.arm.com>
+ <CAAeHK+w0T43+h3xqU4a-qutxd-qiEhsvk0eaZpmAn-T0hpaLZQ@mail.gmail.com>
+ <20180629110709.GA17859@arm.com>
+ <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180703163645.GA23144@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 03 Jul 2018 17:25:47 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 03 Jul 2018 17:25:47 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+In-Reply-To: <CAAeHK+wHd8B2nhat-Z2Y2=s4NVobPG7vjr2CynjFhqPTwQRepQ@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/03, Oleg Nesterov wrote:
->
-> In short. There is a 1:1 relationship between uprobe_write_opcode(is_register => 1)
-> and install_breakpoint(), and between uprobe_write_opcode(is_register => 0) and
-> remove_breakpoint(). Whatever uprobe_write_opcode() can do if is_register == 1 can be
-> done in install_breakpoint(), the same for is_register == 0 and remove_breakpont().
->
-> What have I missed?
+On Fri, Jun 29, 2018 at 06:36:10PM +0200, Andrey Konovalov wrote:
+> On Fri, Jun 29, 2018 at 1:07 PM, Will Deacon <will.deacon@arm.com> wrote:
+> > It might not seen sensible, but we could still be relying on this in the
+> > kernel and so this change would introduce a regression. I think we need
+> > a way to identify such pointer usage before these patches can seriously be
+> > considered for mainline inclusion.
+> 
+> Another point that I have here is that KHWASAN is a debugging tool not
+> meant to be used in production. We're not trying to change the ABI or
+> something like that (referring to the other HWASAN patchset). We can
+> fix up the non obvious places where untagging is needed in a case by
+> case basis with additional patches when testing reveals it.
 
-Ah. I missed the fact that uprobe_write_opcode() doesn't do update_ref_ctr() if
-verify_opcode() returns false.
+Hmm, but elsewhere in this thread, Evgenii is motivating the need for this
+patch set precisely because the lower overhead means it's suitable for
+"near-production" use. So I don't think writing this off as a debugging
+feature is the right approach, and we instead need to put effort into
+analysing the impact of address tags on the kernel as a whole. Playing
+whack-a-mole with subtle tag issues sounds like the worst possible outcome
+for the long-term.
 
-Now I understand what did you mean by "for each consumer". So if we move this logic
-into install/remove_breakpoint as I tried to suggest, we will also need another error
-code for the case when verify_opcode() returns false.
-
-Oleg.
-
+Will
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
