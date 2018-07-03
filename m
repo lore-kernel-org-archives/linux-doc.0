@@ -1,75 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A515C7DF93
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 19:26:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE8517DF93
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 19:44:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934466AbeGCT0k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 15:26:40 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33790 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S933196AbeGCT0j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Jul 2018 15:26:39 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1F29DBB43B;
-        Tue,  3 Jul 2018 19:26:39 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id C55FC111CBA2;
-        Tue,  3 Jul 2018 19:26:35 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue,  3 Jul 2018 21:26:38 +0200 (CEST)
-Date:   Tue, 3 Jul 2018 21:26:35 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     Srikar Dronamraju <srikar@linux.vnet.ibm.com>, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180703192634.GA32223@redhat.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180702160158.GD65296@linux.vnet.ibm.com>
- <ac5ab301-7df6-90fb-748b-3dc4624ea3c4@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac5ab301-7df6-90fb-748b-3dc4624ea3c4@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 03 Jul 2018 19:26:39 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 03 Jul 2018 19:26:39 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+        id S1752647AbeGCToB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 15:44:01 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51936 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752435AbeGCToA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 15:44:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Message-Id:Date:Subject:Cc:To:From:
+        Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=T4fq5kb/8/V1GJAHW61w3uaMXpaP/lVhRTUvi2D8ZfE=; b=Y/yPzVTfdpWDYB5JmCGT3Rv2V
+        zPq9EITj/oAatQpw0hiZRbzWLx0PmydkSz7/iVSvtzDMQU1J21/rSiMaAjDZhtc/1Ls1Ptyo0Uesm
+        4uKXKcrrKmj/qNxS6i7Y9TwnH+eayBLiVdzOLdlY5leR2vxOsmJ4pjT9SeH87mJd48yUjk+I8Peln
+        C4zobm8mkTMPzYHHDfjrnavkXCHyhxwpaU0AFVqpYbYkpYinikDIM8OtBoGxCw6sWVOojg9lwc/bb
+        5Ac3vu6uMYi8P8IoeckbXX2Sn+pnNO9ReD7Tv/bdZDrbnOtchuXzrGtQVsO9tGawHdDnjLCEtORlt
+        8mBcjbndA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1faRDS-0005oW-Ux; Tue, 03 Jul 2018 19:43:58 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     linux-doc@vger.kernel.org
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH] reed_solomon: Fix kernel-doc
+Date:   Tue,  3 Jul 2018 12:43:54 -0700
+Message-Id: <20180703194354.21614-1-willy@infradead.org>
+X-Mailer: git-send-email 2.14.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/03, Ravi Bangoria wrote:
->
-> Now about adding ref_ctr_offset into uprobe_consumer. Actually, I
-> didn't want to change the uprobe_consumer definition because it's
-> already exported and tools like systemtap are using it.
+The current doc build warns:
+./lib/reed_solomon/reed_solomon.c:287: WARNING: Unknown target name: "gfp".
 
-So what? Yes, the out-of-tree modules should be updated, but this doesn't
-mean we can add the new features.
+This is because it misinterprets the "GFP_" that is part of the
+description.  Change the description to avoid the problem.
 
-And, speaking of systemtap, it already has to do build-time checks to verify
-that uprobe_consumer->ret_handler member exists. So it will need another
-STAPCONF_INODE_REFCNT and that is all.
+Signed-off-by: Matthew Wilcox <willy@infradead.org>
+---
+ lib/reed_solomon/reed_solomon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Oleg.
+diff --git a/lib/reed_solomon/reed_solomon.c b/lib/reed_solomon/reed_solomon.c
+index d8bb1a1eba72..e5fdc8b9e856 100644
+--- a/lib/reed_solomon/reed_solomon.c
++++ b/lib/reed_solomon/reed_solomon.c
+@@ -283,7 +283,7 @@ static struct rs_control *init_rs_internal(int symsize, int gfpoly,
+  *		in index form
+  *  @prim:	primitive element to generate polynomial roots
+  *  @nroots:	RS code generator polynomial degree (number of roots)
+- *  @gfp:	GFP_ flags for allocations
++ *  @gfp:	Memory allocation flags.
+  */
+ struct rs_control *init_rs_gfp(int symsize, int gfpoly, int fcr, int prim,
+ 			       int nroots, gfp_t gfp)
+-- 
+2.18.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
