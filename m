@@ -2,198 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 038EE7D09E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 06:29:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3AFF57D09E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 06:30:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932734AbeGCG3k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 02:29:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55962 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S932702AbeGCG3j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 02:29:39 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w636T7kN118923
-        for <linux-doc@vger.kernel.org>; Tue, 3 Jul 2018 02:29:39 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2jyxpka6xv-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jul 2018 02:29:39 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Tue, 3 Jul 2018 07:29:37 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 3 Jul 2018 07:29:31 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w636TU2p43516074
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 3 Jul 2018 06:29:31 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DB654AE051;
-        Tue,  3 Jul 2018 09:29:33 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9122BAE045;
-        Tue,  3 Jul 2018 09:29:30 +0100 (BST)
-Received: from [9.124.31.159] (unknown [9.124.31.159])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue,  3 Jul 2018 09:29:30 +0100 (BST)
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-To:     Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-Cc:     oleg@redhat.com, rostedt@goodmis.org, mhiramat@kernel.org,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180702160158.GD65296@linux.vnet.ibm.com>
-Date:   Tue, 3 Jul 2018 11:59:26 +0530
+        id S1754385AbeGCGah convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 02:30:37 -0400
+Received: from seldsegrel01.sonyericsson.com ([37.139.156.29]:9976 "EHLO
+        SELDSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1754123AbeGCGag (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 02:30:36 -0400
+X-Greylist: delayed 1202 seconds by postgrey-1.27 at vger.kernel.org; Tue, 03 Jul 2018 02:30:35 EDT
+Subject: Re: [PATCH] docs: update kernel versions and dates in tables
+To:     Tim Bird <tbird20d@gmail.com>, <corbet@lwn.net>
+CC:     <tim.bird@sony.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1527114014-26240-1-git-send-email-tim.bird@sony.com>
+From:   peter enderborg <peter.enderborg@sony.com>
+Message-ID: <4111a2f2-b03b-5f07-929a-680c86b71771@sony.com>
+Date:   Tue, 3 Jul 2018 08:10:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180702160158.GD65296@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18070306-4275-0000-0000-000002948B95
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18070306-4276-0000-0000-0000379C085D
-Message-Id: <ac5ab301-7df6-90fb-748b-3dc4624ea3c4@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-03_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807030075
+In-Reply-To: <1527114014-26240-1-git-send-email-tim.bird@sony.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Srikar,
+On 05/24/2018 12:20 AM, Tim Bird wrote:
+> Every once in a while, we should update the examples
+> to reflect more recent kernel versions.
+>
+> Update the tables describing kernel releases, the merge window,
+> and current longterm maintained kernel, from 2.6-era kernels
+> to 4.x.
+>
+> Signed-off-by: Tim Bird <tim.bird@sony.com>
+> ---
+>  Documentation/process/2.Process.rst | 72 +++++++++++++++++++------------------
+>  1 file changed, 38 insertions(+), 34 deletions(-)
+>
+> diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+> index ce5561b..a9c46dd 100644
+> --- a/Documentation/process/2.Process.rst
+> +++ b/Documentation/process/2.Process.rst
+> @@ -18,17 +18,17 @@ major kernel release happening every two or three months.  The recent
+>  release history looks like this:
+>  
+>  	======  =================
+> -	2.6.38	March 14, 2011
+> -	2.6.37	January 4, 2011
+> -	2.6.36	October 20, 2010
+> -	2.6.35	August 1, 2010
+> -	2.6.34	May 15, 2010
+> -	2.6.33	February 24, 2010
+> +	4.11	April 30, 2017
+> +	4.12	July 2, 2017
+> +	4.13	September 3, 2017
+> +	4.14	November 12, 2017
+> +	4.15	January 28, 2018
+> +	4.16	April 1, 2018
+>  	======  =================
+>  
+> -Every 2.6.x release is a major kernel release with new features, internal
+> -API changes, and more.  A typical 2.6 release can contain nearly 10,000
+> -changesets with changes to several hundred thousand lines of code.  2.6 is
+> +Every 4.x release is a major kernel release with new features, internal
+> +API changes, and more.  A typical 4.x release contain about 13,000
+> +changesets with changes to several hundred thousand lines of code.  4.x is
+>  thus the leading edge of Linux kernel development; the kernel uses a
+>  rolling development model which is continually integrating major changes.
+>  
+> @@ -70,20 +70,19 @@ will get up to somewhere between -rc6 and -rc9 before the kernel is
+>  considered to be sufficiently stable and the final 2.6.x release is made.
+>  At that point the whole process starts over again.
+>  
+> -As an example, here is how the 2.6.38 development cycle went (all dates in
+> -2011):
+> +As an example, here is how the 4.16 development cycle went (all dates in
+> +2018):
+>  
+>  	==============  ===============================
+> -	January 4	2.6.37 stable release
+> -	January 18	2.6.38-rc1, merge window closes
+> -	January 21	2.6.38-rc2
+> -	February 1	2.6.38-rc3
+> -	February 7	2.6.38-rc4
+> -	February 15	2.6.38-rc5
+> -	February 21	2.6.38-rc6
+> -	March 1		2.6.38-rc7
+> -	March 7		2.6.38-rc8
+> -	March 14	2.6.38 stable release
+> +	January 28	4.15 stable release
+> +	February 11	4.16-rc1, merge window closes
+> +	February 18	4.16-rc2
+> +	February 25	4.16-rc3
+> +	March 4		4.16-rc4
+> +	March 11	4.16-rc5
+> +	March 18	4.16-rc6
+> +	March 25	4.16-rc7
+> +	April 1		4.17 stable release
+>  	==============  ===============================
+>  
+>  How do the developers decide when to close the development cycle and create
+> @@ -99,37 +98,42 @@ release is made.  In the real world, this kind of perfection is hard to
+>  achieve; there are just too many variables in a project of this size.
+>  There comes a point where delaying the final release just makes the problem
+>  worse; the pile of changes waiting for the next merge window will grow
+> -larger, creating even more regressions the next time around.  So most 2.6.x
+> +larger, creating even more regressions the next time around.  So most 4.x
+>  kernels go out with a handful of known regressions though, hopefully, none
+>  of them are serious.
+>  
+>  Once a stable release is made, its ongoing maintenance is passed off to the
+>  "stable team," currently consisting of Greg Kroah-Hartman.  The stable team
+> -will release occasional updates to the stable release using the 2.6.x.y
+> +will release occasional updates to the stable release using the 4.x.y
+>  numbering scheme.  To be considered for an update release, a patch must (1)
+>  fix a significant bug, and (2) already be merged into the mainline for the
+>  next development kernel.  Kernels will typically receive stable updates for
+>  a little more than one development cycle past their initial release.  So,
+> -for example, the 2.6.36 kernel's history looked like:
+> +for example, the 4.13 kernel's history looked like:
+>  
+>  	==============  ===============================
+> -	October 10	2.6.36 stable release
+> -	November 22	2.6.36.1
+> -	December 9	2.6.36.2
+> -	January 7	2.6.36.3
+> -	February 17	2.6.36.4
+> +	September 3 	4.13 stable release
+> +	September 13	4.13.1
+> +	September 20	4.13.2
+> +	September 27	4.13.3
+> +	October 5	4.13.4
+> +	October 12  	4.13.5
+> +	...		...
+> +	November 24	4.13.16
+>  	==============  ===============================
+>  
+> -2.6.36.4 was the final stable update for the 2.6.36 release.
+> +4.13.16 was the final stable update of the 4.13 release.
+>  
+>  Some kernels are designated "long term" kernels; they will receive support
+>  for a longer period.  As of this writing, the current long term kernels
+>  and their maintainers are:
+>  
+> -	======  ======================  ===========================
+> -	2.6.27	Willy Tarreau		(Deep-frozen stable kernel)
+> -	2.6.32	Greg Kroah-Hartman
+> -	2.6.35	Andi Kleen		(Embedded flag kernel)
+> +	======  ======================  ==============================
+> +	3.16	Ben Hutchings		(very long-term stable kernel)
+> +	4.1	Sasha Levin
+> +	4.4	Greg Kroah-Hartman	(very long-term stable kernel)
+> +	4.9	Greg Kroah-Hartman
+> +	4.14	Greg Kroah-Hartman
+>  	======  ======================  ===========================
 
-On 07/02/2018 09:31 PM, Srikar Dronamraju wrote:
->> Implement the reference counter logic in core uprobe. User will be
->> able to use it from trace_uprobe as well as from kernel module. New
->> trace_uprobe definition with reference counter will now be:
->>
->>     <path>:<offset>[(ref_ctr_offset)]
->>
->> where ref_ctr_offset is an optional field. For kernel module, new
->> variant of uprobe_register() has been introduced:
->>
->>     uprobe_register_refctr(inode, offset, ref_ctr_offset, consumer)
->>
-> 
-> Sorry for bringing this again, but I would actually think the ref_ctr is
-> a consumer property. i.e the ref_ctr_offset should be part of
-> uprobe_consumer.
+Is  4.14 not very long-term stable kernel ?
 
+>  
+>  The selection of a kernel for long-term support is purely a matter of a
 
-I agree that reference counter is a consumer property and that was the
-main reason my initial draft was to change trace_uprobe. But there were
-couple of issues with that approach too. I've already mentioned few of
-them here: https://lkml.org/lkml/2018/6/6/129. Apart from these, if I
-do it inside trace_uprobe, kernel module won't have a way to use
-reference counter.
-
-Now about adding ref_ctr_offset into uprobe_consumer. Actually, I
-didn't want to change the uprobe_consumer definition because it's
-already exported and tools like systemtap are using it. And thus, I
-haven't explored how difficult or easy it will be to implement it that
-way.
-
-
-> 
-> The advantages of doing that would be
-> 1. Dont need to expose uprobe structure and just update our
-> uprobe_consumer which is already an exported structure.
-> - Exporting uprobe structure would expose some of our internal
->   implementation details, basically reduce the freedom of changing stuff
->   internally.
-
-
-I agree. We will loose the freedom to change stuff by exporting uprobe.
-
-
-> - we came up with uprobe_arch for the parts that we wanted to expose
->   to archs. exposing uprobe and uprobe_arch looks weird.
-
-
-Hmm, how about this ...
-
-  set_swbp(arch_uprobe, ...) {
-    uprobe_write_opcode(arch_uprobe, ...) {
-      uprobe = container_of(arch_uprobe);
-      ...
-    }
-  }
-
-Let me think on this. If this works, I won't need to export struct uprobe
-outside.
-
-
-> 
-> 2. ref_ctr_offset is necessarily a consumer property, its not a uprobe
-> property at all.
-
-
-I agree.
-
-
-> 
-> 3. We dont need to change/add new uprobe_register functions.
-
-
-Quite possible. I need to explore on that.
-
-
-> 
-> The way I look at it is.
-> 
-> Based on the ref_ctr_offset field in consumer, we update_ref_ctr()
-> around install_breakpoint/remove_breakpoint.
-> 
->> +static int delayed_uprobe_add(struct uprobe *uprobe, struct mm_struct *mm)
->> +{
->> +	struct delayed_uprobe *du;
->> +
->> +	if (delayed_uprobe_check(uprobe, mm))
->> +		return 0;
->> +
->> +	du  = kzalloc(sizeof(*du), GFP_KERNEL);
->> +	if (!du)
->> +		return -ENOMEM;
->> +
->> +	du->uprobe = uprobe;
->> +	du->mm = mm;
->> +	list_add(&du->list, &delayed_uprobe_list);
->> +	return 0;
->> +}
->> +
-> 
-> If I understood the delayed_uprobe stuff, its when we could insert a
-> breakpoint but the vma that has the ref_ctr_offset is not loaded. Is
-> that correct?
-
-
-That's correct.
-
-Thanks,
-Ravi
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
