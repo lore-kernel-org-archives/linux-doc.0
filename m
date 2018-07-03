@@ -1,150 +1,273 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F291D7DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 04:19:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 49B247D09E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 05:31:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753844AbeGCETz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 00:19:55 -0400
-Received: from mail-pf0-f193.google.com ([209.85.192.193]:36003 "EHLO
-        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753840AbeGCETy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 00:19:54 -0400
-Received: by mail-pf0-f193.google.com with SMTP id u16-v6so349892pfh.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Jul 2018 21:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=17s0LQyAKBlnFZaFLFQ0xMfW88C9MusfaAJS5cE7a0M=;
-        b=oe3mBe2egiadk6WxQmC1ib8E+1L3le5XKl34hjEGGRh3lSr342Nqmn212Ohf5l0nIY
-         /pnM89+2wQQbqMuoS4vC2ZsDU13PoZB4H2N+PeFE7QT8VSPljRYuvPlJtH9NxMyYzIKD
-         ih7pyP8M0h+8rU60mMIA0CECkb8yX5hX6/eGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=17s0LQyAKBlnFZaFLFQ0xMfW88C9MusfaAJS5cE7a0M=;
-        b=Go/3Tz2o6BbaQKQ2j7hQQvqyoW4T+ohbFSd7LH05HZSlBnic8DAgcKjFFsJip8ruAY
-         1JtaMessabetkf+454FfwQgyTLpzri+XpISsFmOqfuFz24nfcn5ofbxssu9t0xSNjpD3
-         PSoxLEzvaVzD1RnSX6bPyGRUqiFcILvcQa2JRYVGWhv+KWm1vECwhWeCPnsq4UeCZETH
-         LOS7p5OWrxqXqUU7Cs182cx3AmqTvM94NF9/WLRM6Tyh5MugK+/sfBke0mYqUCZKMiMY
-         4IkwybTtgCAU4hp0keCQUm07HAlvDGnyJiTyul48Jbc8NZAVL2HHUl1qMUen9v7YzawJ
-         AxMA==
-X-Gm-Message-State: APt69E1HdgXG0pm92Hl87qB73s65kWxZ9bhKwqIIe46JQWe414YOePRN
-        uCVaucF+eCUg2ecHiKcq63RbxA==
-X-Google-Smtp-Source: ADUXVKIq6RUO0S8ymddfyA7KYmgXSYsUAH+8oQzoQpzQIse8iyqbTdJYEhf6VG5w2Nafclgd82pCqw==
-X-Received: by 2002:a63:b91c:: with SMTP id z28-v6mr24151081pge.22.1530591594282;
-        Mon, 02 Jul 2018 21:19:54 -0700 (PDT)
-Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id a8-v6sm428287pfe.72.2018.07.02.21.19.52
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 02 Jul 2018 21:19:52 -0700 (PDT)
-Date:   Mon, 2 Jul 2018 21:19:50 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Adam Borowski <kilobyte@angband.pl>,
-        Matthew Wilcox <willy@infradead.org>,
-        Eric Biggers <ebiggers@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] kernel.h: Documentation for roundup() vs round_up()
-Message-ID: <20180703041950.GA43464@beast>
+        id S1753935AbeGCFbN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 01:31:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34564 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1753905AbeGCFbN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 01:31:13 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w635ORDT070112
+        for <linux-doc@vger.kernel.org>; Tue, 3 Jul 2018 01:31:12 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2jyya3pw36-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jul 2018 01:31:12 -0400
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Tue, 3 Jul 2018 06:31:09 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 3 Jul 2018 06:31:03 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w635V2Xx36831322
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Jul 2018 05:31:02 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CBDEA4C04E;
+        Tue,  3 Jul 2018 08:31:27 +0100 (BST)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 755CA4C040;
+        Tue,  3 Jul 2018 08:31:24 +0100 (BST)
+Received: from [9.124.31.159] (unknown [9.124.31.159])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue,  3 Jul 2018 08:31:24 +0100 (BST)
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+ <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+ <20180702180156.GA31400@redhat.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Tue, 3 Jul 2018 11:00:58 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20180702180156.GA31400@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18070305-0020-0000-0000-000002A2743B
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18070305-0021-0000-0000-000020EE891A
+Message-Id: <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-03_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807030062
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Things like commit 3619dec5103d ("dh key: fix rounding up KDF output
-length") expose the lack of explicit documentation for roundup() vs
-round_up(). At least we can try to document it better if anyone goes
-looking.
+Hi Oleg,
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-v3: cut/paste-o fixes (kilobyte)
-v2: whitespace fixes (willy)
----
- include/linux/kernel.h | 35 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 941dc0a5a877..d6aac75b51ba 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -85,7 +85,23 @@
-  * arguments just once each.
-  */
- #define __round_mask(x, y) ((__typeof__(x))((y)-1))
-+/**
-+ * round_up - round up to next specified power of 2
-+ * @x: the value to round
-+ * @y: multiple to round up to (must be a power of 2)
-+ *
-+ * Rounds @x up to next multiple of @y (which must be a power of 2).
-+ * To perform arbitrary rounding up, use roundup() below.
-+ */
- #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
-+/**
-+ * round_down - round down to next specified power of 2
-+ * @x: the value to round
-+ * @y: multiple to round down to (must be a power of 2)
-+ *
-+ * Rounds @x down to next multiple of @y (which must be a power of 2).
-+ * To perform arbitrary rounding down, use rounddown() below.
-+ */
- #define round_down(x, y) ((x) & ~__round_mask(x, y))
- 
- /**
-@@ -110,13 +126,30 @@
- # define DIV_ROUND_UP_SECTOR_T(ll,d) DIV_ROUND_UP(ll,d)
- #endif
- 
--/* The `const' in roundup() prevents gcc-3.3 from calling __divdi3 */
-+/**
-+ * roundup - round up to the next specified multiple
-+ * @x: the value to up
-+ * @y: multiple to round up to
-+ *
-+ * Rounds @x up to next multiple of @y. If @y will always be a power
-+ * of 2, consider using the faster round_up().
-+ *
-+ * The `const' here prevents gcc-3.3 from calling __divdi3
-+ */
- #define roundup(x, y) (					\
- {							\
- 	const typeof(y) __y = y;			\
- 	(((x) + (__y - 1)) / __y) * __y;		\
- }							\
- )
-+/**
-+ * rounddown - round down to next specified multiple
-+ * @x: the value to round
-+ * @y: multiple to round down to
-+ *
-+ * Rounds @x down to next multiple of @y. If @y will always be a power
-+ * of 2, consider using the faster round_down().
-+ */
- #define rounddown(x, y) (				\
- {							\
- 	typeof(x) __x = (x);				\
--- 
-2.17.1
+On 07/02/2018 11:31 PM, Oleg Nesterov wrote:
+> On 07/02, Ravi Bangoria wrote:
+>>
+>> Hi Oleg,
+>>
+>> On 07/02/2018 02:39 AM, Oleg Nesterov wrote:
+>>> On 06/28, Ravi Bangoria wrote:
+>>>>
+>>>> @@ -294,6 +462,15 @@ int uprobe_write_opcode(struct uprobe *uprobe, struct mm_struct *mm,
+>>>>  	if (ret <= 0)
+>>>>  		goto put_old;
+>>>>
+>>>> +	/* Update the ref_ctr if we are going to replace instruction. */
+>>>> +	if (!ref_ctr_updated) {
+>>>> +		ret = update_ref_ctr(uprobe, mm, is_register);
+>>>> +		if (ret)
+>>>> +			goto put_old;
+>>>> +
+>>>> +		ref_ctr_updated = 1;
+>>>> +	}
+>>>
+>>> Why can't this code live in install_breakpoint() and remove_breakpoint() ?
+>>> this way we do not need to export "struct uprobe" and change set_swbp/set_orig_insn,
+>>> and the logic will be more simple.
+>>
+>> IMO, it's more easier with current approach. Updating reference counter
+>> inside uprobe_write_opcode() makes it tightly coupled with instruction
+>> patching. Basically, reference counter gets incremented only when first
+>> consumer gets activated and will get decremented only when last consumer
+>> is going away.
+>>
+>> Advantage is, we can get rid of sdt_mm_list patch*, because increment and
+>> decrement are anyway happening in sync. This makes the implementation lot
+>> more simpler. If I do it inside install_breakpoit()/ remove_breakpoint(),
+>> I've to reintroduce sdt_mm_list which makes code more complicated and ugly.
+> 
+> Why? I do not understand. Afaics you can have the same logic, but the resulting
+> code will be simpler and more clear.
 
 
--- 
-Kees Cook
-Pixel Security
+Ok let me explain the difference.
+
+Current approach:
+
+    ------------
+    register_for_each_vma() / uprobe_mmap()
+      install_breakpoint()
+        uprobe_write_opcode() {
+                if (instruction is not already patched) {
+                        /* Gets called only _once_. */
+                        increment the reference counter;
+                        patch the instruction;
+                }
+        }
+    ------------
+
+Here, reference counter is updated only if we are going to patch the
+instruction. No matter how many consumers are there, no matter how many
+times install_breakpoint() gets called. Same case for decrement as well.
+Reference counter will get decremented only when we are going to reset
+the instruction.
+
+Now, if I put it inside install_breakpoint():
+
+    ------------
+    uprobe_register()
+      register_for_each_vma()
+        install_breakpoint() {
+                /* Called _for each consumer_ */
+                increment the reference counter _once_;
+                uprobe_write_opcode()
+		...
+        }
+
+  OR
+
+    uprobe_mmap()
+      install_breakpoint() {
+                increment the reference counter _for each consumer_;
+                uprobe_write_opcode()
+		...
+      }
+    ------------
+
+By putting it inside install_breaopoint() / remove_breakpoint(), we
+increment and decremnet the counter for each consumer.
+
+Consider this python example:
+
+    ------------
+    # readelf -n /usr/lib64/libpython2.7.so.1.0 | grep -A2 Provider
+      Provider: python
+      Name: function__entry
+      ... Semaphore: 0x00000000002899d8
+
+    # sudo perf probe sdt_python:function__entry
+
+    # strace python
+      mmap(NULL, 2738968, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fff92460000
+      mmap(0x7fff926a0000, 327680, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x230000) = 0x7fff926a0000
+      mprotect(0x7fff926a0000, 65536, PROT_READ) = 0
+    ------------
+
+The first mmap() maps the whole library into one region. Second mmap()
+and third mprotect() split out the whole region into smaller vmas and
+sets appropriate protection flags.
+
+Now, in this case, install_breakpoint() will update reference counter
+twice -- by second mmap() call and by third mprotect() call -- because
+both regions contains the same reference counter. But, remove_brekpoint()
+will decrement the reference counter only once, which will left counter
+greater than 0 even when no one is tracing on that uprobe.
+
+To solve this issue, I have to re-introduced sdt_mm_list, a list of
+{consumer,mm} tuple for each uprobe. This tells us, for X consumer
+we already have incremented the counter in Y mm so that we don't
+increment same counter again. This additional complexity is to make
+sure increment and decrement happen in sync.
+
+Fortunately, we don't need to maintain this list with current approach,
+because we know for sure that, increment and decrement will happen only
+once when we patch/up-patch the instruction.
+
+In short, if I put it inside install_breakpoint()/remove_breakpoint(),
+I'll have to put the same logic there with more complication to
+increment / decrement counter for each consumer. And additionally,
+I've to maintain sdt_mm_list to make sure increment and decrement
+happen in sync. With current approach, this all happens by default :)
+
+
+> 
+>> BTW, is there any harm in exporting struct uprobe outside of uprobe.c?
+> 
+> I think it is always better to avoid the exporting if possible (and avoid
+> changing the arch-dependant set_swbp/set_orig_insn). But once again, I think
+> this only complicates the code for no reason.> 
+>>> So why do we need a counter but not a boolean? IIRC, because the counter can
+>>> be shared, in particular 2 different uprobes can have the same >ref_ctr_offset,
+>>> right?
+>>
+>> Actually, it's by design. This counter keeps track of current tracers
+>> tracing on a particular SDT marker. So only boolean can't work here.
+>> Also, yes, multiple markers can share the same reference counter.
+> 
+> markers or uprobes? OK, I'll assume that multiple uprobes can share the counter.
+
+
+Yes, I meant uprobe.
+
+
+> 
+>>> But who else can use this counter and how? Say, can userspace update it too?
+>>
+>> There are many different ways user can change the reference counter.
+>> Ex, systemtap and bcc both uses uprobe to probe on a marker but reference
+>> counter update logic is different in both of them. Systemtap records all
+>> exec/mmap events and updates the counter when it finds interested process/
+>> vma. bcc directly hooks into process's memory (/proc/pid/mem).
+> 
+> OK, and how exactly they update the counter? I mean, can we assume that, say,
+> bcc or systemtap can only increment or decrement it?
+
+
+I don't think we can assume anything here because this is all in user's
+control. User can even manually go and update the counter by directly
+hooking into the memory. Ex, Brendan Gregg's blog on USDT explains how
+to change counter manually in "Hacking with Ftrace: Is-Enabled" section
+of his blog:
+  http://www.brendangregg.com/blog/2015-07-03/hacking-linux-usdt-ftrace.html
+
+
+> 
+> If yes, perhaps we can simplify the kernel code...
+
+
+Sure, let me know if you have any better idea.
+
+Thanks,
+Ravi
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
