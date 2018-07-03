@@ -5,136 +5,266 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F57F7DF93
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 18:24:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 51A327DF96
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 18:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934468AbeGCSXV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 14:23:21 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:59856 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S934440AbeGCSXT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Jul 2018 14:23:19 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4C59CC324;
-        Tue,  3 Jul 2018 18:23:18 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.34.27.30])
-        by smtp.corp.redhat.com (Postfix) with SMTP id F2DAB2156880;
-        Tue,  3 Jul 2018 18:23:14 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Tue,  3 Jul 2018 20:23:18 +0200 (CEST)
-Date:   Tue, 3 Jul 2018 20:23:14 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     srikar@linux.vnet.ibm.com, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Message-ID: <20180703182313.GA26120@redhat.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180701210935.GA14404@redhat.com>
- <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
- <20180702180156.GA31400@redhat.com>
- <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
- <20180703171255.GB23144@redhat.com>
+        id S934610AbeGCSYo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 14:24:44 -0400
+Received: from mga05.intel.com ([192.55.52.43]:1050 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S934400AbeGCSYm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Jul 2018 14:24:42 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2018 11:24:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,304,1526367600"; 
+   d="scan'208";a="242708467"
+Received: from cdikicix-mobl.ger.corp.intel.com (HELO localhost) ([10.249.254.69])
+  by fmsmga006.fm.intel.com with ESMTP; 03 Jul 2018 11:24:36 -0700
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     x86@kernel.org, platform-driver-x86@vger.kernel.org
+Cc:     dave.hansen@intel.com, sean.j.christopherson@intel.com,
+        nhorman@redhat.com, npmccallum@redhat.com,
+        linux-sgx@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v12 13/13] x86/sgx: driver documentation
+Date:   Tue,  3 Jul 2018 21:19:58 +0300
+Message-Id: <20180703182118.15024-14-jarkko.sakkinen@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180703182118.15024-1-jarkko.sakkinen@linux.intel.com>
+References: <20180703182118.15024-1-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180703171255.GB23144@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 03 Jul 2018 18:23:18 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Tue, 03 Jul 2018 18:23:18 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'oleg@redhat.com' RCPT:''
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-forgot to mention...
+Documentation of the features of the Software Guard eXtensions used
+by the Linux kernel and basic design choices for the core and driver
+and functionality.
 
-Of course, I am not sure that UPROBE_KERN_CTR can actually work, there are a lot
-of details. But if it can, then we can also make ->ref_ctr_offset a consumer property.
+Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+---
+ Documentation/index.rst         |   1 +
+ Documentation/x86/intel_sgx.rst | 185 ++++++++++++++++++++++++++++++++
+ 2 files changed, 186 insertions(+)
+ create mode 100644 Documentation/x86/intel_sgx.rst
 
-On 07/03, Oleg Nesterov wrote:
->
-> On 07/03, Ravi Bangoria wrote:
-> >
-> > > OK, and how exactly they update the counter? I mean, can we assume that, say,
-> > > bcc or systemtap can only increment or decrement it?
-> >
-> > I don't think we can assume anything here because this is all in user's
-> > control. User can even manually go and update the counter by directly
-> > hooking into the memory.
->
-> Then how this all can work? I understand that user-space can do anything with
-> this counter, but we do not care if it does something wrong, say nullifies the
-> ctr incremented by kernel.
->
-> I don't understand this. I think that if a user registers uprobe with
-> ->ref_ctr_offset != 0 we can safely assume that this is a counter, and we do
-> not care if userspace corrupts it.
->
-> > > If yes, perhaps we can simplify the kernel code...
-> >
-> > Sure, let me know if you have any better idea.
->
-> Can't we (ab)use the most significant bit in this counter?
->
-> To simplify, lets suppose for the moment that 2 different uprobes can't have
-> the same ->ref_ctr_offset. Then we can do something like
->
-> 	#define UPROBE_KERN_CTR		(SHRT_MAX + 1)	// MSB
->
-> 	install_breakpoint:
->
-> 		for (each valid_ref_ctr_vma which maps uprobe->ref_ctr_offset)
-> 			*ctr_ptr |= UPROBE_KERN_CTR;
->
-> 		set_swbp();
->
-> and
->
-> 	remove_breakpoint:
->
-> 		for (each valid_ref_ctr_vma which maps uprobe->ref_ctr_offset)
-> 			*ctr_ptr &= ~UPROBE_KERN_CTR;
->
-> 		set_orig_insn();
->
-> IOW, we increment/decrement by UPROBE_KERN_CTR, not by 1. But this way the
-> "increment" is idempotent, we do not care if "|=" or "&=" was applied more than
-> once, we do not need to record the fact that the counter was already incremented,
-> and inc/dec are always balanced.
->
->
-> Now, lets recall that multiple uprobes can share the same counter. install_breakpoint()
-> is still fine, and we only need to add the additional code into remove_breakpoint:
->
-> 		for (each uprobe with the same inode and ref_ctr_offset)
-> 			if (filter_chain(uprobe))
-> 				goto keep_ctr;
->
-> 		for (each valid_ref_ctr_vma which maps uprobe->ref_ctr_offset)
-> 			*ctr_ptr &= ~UPROBE_KERN_CTR;
->
-> 	keep_ctr:
-> 		set_orig_insn();
->
->
-> Just an idea.
->
-> What do you think?
->
-> Oleg.
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 3b99ab931d41..b9fb92928e8c 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -100,6 +100,7 @@ implementation.
+    :maxdepth: 2
+ 
+    sh/index
++   x86/index
+ 
+ Korean translations
+ -------------------
+diff --git a/Documentation/x86/intel_sgx.rst b/Documentation/x86/intel_sgx.rst
+new file mode 100644
+index 000000000000..f6b7979c41f2
+--- /dev/null
++++ b/Documentation/x86/intel_sgx.rst
+@@ -0,0 +1,185 @@
++===================
++Intel(R) SGX driver
++===================
++
++Introduction
++============
++
++Intel(R) SGX is a set of CPU instructions that can be used by applications to
++set aside private regions of code and data. The code outside the enclave is
++disallowed to access the memory inside the enclave by the CPU access control.
++In a way you can think that SGX provides inverted sandbox. It protects the
++application from a malicious host.
++
++You can tell if your CPU supports SGX by looking into ``/proc/cpuinfo``:
++
++	``cat /proc/cpuinfo  | grep sgx``
++
++Overview of SGX
++===============
++
++SGX has a set of data structures to maintain information about the enclaves and
++their security properties. BIOS reserves a fixed size region of physical memory
++for these structures by setting Processor Reserved Memory Range Registers
++(PRMRR).
++
++This memory range is protected from outside access by the CPU and all the data
++coming in and out of the CPU package is encrypted by a key that is generated for
++each boot cycle.
++
++Enclaves execute in ring-3 in a special enclave submode using pages from the
++reserved memory range. A fixed logical address range for the enclave is reserved
++by ENCLS(ECREATE), a leaf instruction used to create enclaves. It is referred in
++the documentation commonly as the ELRANGE.
++
++Every memory access to the ELRANGE is asserted by the CPU. If the CPU is not
++executing in the enclave mode inside the enclave, #GP is raised. On the other
++hand enclave code can make memory accesses both inside and outside of the
++ELRANGE.
++
++Enclave can only execute code inside the ELRANGE. Instructions that may cause
++VMEXIT, IO instructions and instructions that require a privilege change are
++prohibited inside the enclave. Interrupts and exceptions always cause enclave
++to exit and jump to an address outside the enclave given when the enclave is
++entered by using the leaf instruction ENCLS(EENTER).
++
++Data types
++----------
++
++The protected memory range contains the following data:
++
++* **Enclave Page Cache (EPC):** protected pages
++* **Enclave Page Cache Map (EPCM):** a database that describes the state of the
++  pages and link them to an enclave.
++
++EPC has a number of different types of pages:
++
++* **SGX Enclave Control Structure (SECS)**: describes the global
++  properties of an enclave.
++* **Regular (REG):** code and data pages in the ELRANGE.
++* **Thread Control Structure (TCS):** pages that define entry points inside an
++  enclave. The enclave can only be entered through these entry points and each
++  can host a single hardware thread at a time.
++* **Version Array (VA)**: 64-bit version numbers for pages that have been
++  swapped outside the enclave. Each page contains 512 version numbers.
++
++Launch control
++--------------
++
++To launch an enclave, two structures must be provided for ENCLS(EINIT):
++
++1. **SIGSTRUCT:** signed measurement of the enclave binary.
++2. **EINITTOKEN:** a cryptographic token CMAC-signed with a AES256-key called
++   *launch key*, which is re-generated for each boot cycle.
++
++The CPU holds a SHA256 hash of a 3072-bit RSA public key inside
++IA32_SGXLEPUBKEYHASHn MSRs. Enclaves with a SIGSTRUCT that is signed with this
++key do not require a valid EINITTOKEN and can be authorized with special
++privileges. One of those privileges is ability to acquire the launch key with
++ENCLS(EGETKEY).
++
++**IA32_FEATURE_CONTROL[17]** is used by the BIOS configure whether
++IA32_SGXLEPUBKEYHASH MSRs are read-only or read-write before locking the
++feature control register and handing over control to the operating system.
++
++Enclave construction
++--------------------
++
++The construction is started by filling out the SECS that contains enclave
++address range, privileged attributes and measurement of TCS and REG pages (pages
++that will be mapped to the address range) among the other things. This structure
++is passed out to the ENCLS(ECREATE) together with a physical address of a page
++in EPC that will hold the SECS.
++
++The pages are added with ENCLS(EADD) and measured with ENCLS(EEXTEND) i.e.
++SHA256 hash MRENCLAVE residing in the SECS is extended with the page data.
++
++After all of the pages have been added, the enclave is initialized with
++ENCLS(EINIT). ENCLS(INIT) checks that the SIGSTRUCT is signed with the contained
++public key. If the given EINITTOKEN has the valid bit set, the CPU checks that
++the token is valid (CMAC'd with the launch key). If the token is not valid,
++the CPU will check whether the enclave is signed with a key matching to the
++IA32_SGXLEPUBKEYHASHn MSRs.
++
++Swapping pages
++--------------
++
++Enclave pages can be swapped out with ENCLS(EWB) to the unprotected memory. In
++addition to the EPC page, ENCLS(EWB) takes in a VA page and address for PCMD
++structure (Page Crypto MetaData) as input. The VA page will seal a version
++number for the page. PCMD is 128 byte structure that contains tracking
++information for the page, most importantly its MAC. With these structures the
++enclave is sealed and rollback protected while it resides in the unprotected
++memory.
++
++Before the page can be swapped out it must not have any active TLB references.
++ENCLS(EBLOCK) instruction moves a page to the *blocked* state, which means
++that no new TLB entries can be created to it by the hardware threads.
++
++After this a shootdown sequence is started with ENCLS(ETRACK), which sets an
++increased counter value to the entering hardware threads. ENCLS(EWB) will
++return SGX_NOT_TRACKED error while there are still threads with the earlier
++couner value because that means that there might be hardware thread inside
++the enclave with TLB entries to pages that are to be swapped.
++
++Kernel internals
++================
++
++Requirements
++------------
++
++Because SGX has an ever evolving and expanding feature set, it's possible for
++a BIOS or VMM to configure a system in such a way that not all CPUs are equal,
++e.g. where Launch Control is only enabled on a subset of CPUs.  Linux does
++*not* support such a heterogeneous system configuration, nor does it even
++attempt to play nice in the face of a misconfigured system.  With the exception
++of Launch Control's hash MSRs, which can vary per CPU, Linux assumes that all
++CPUs have a configuration that is identical to the boot CPU.
++
++
++Roles and responsibilities
++--------------------------
++
++SGX introduces system resources, e.g. EPC memory, that must be accessible to
++multiple entities, e.g. the native kernel driver (to expose SGX to userspace)
++and KVM (to expose SGX to VMs), ideally without introducing any dependencies
++between each SGX entity.  To that end, the kernel owns and manages the shared
++system resources, i.e. the EPC and Launch Control MSRs, and defines functions
++that provide appropriate access to the shared resources.  SGX support for
++user space and VMs is left to the SGX platform driver and KVM respectively.
++
++Launching enclaves
++------------------
++
++The current kernel implementation supports only unlocked MSRs i.e.
++FEATURE_CONTROL_SGX_LE_WR must be set. The launch is performed by setting the
++MSRs to the hash of the public key modulus of the enclave signer, which is one
++f the fields in the SIGSTRUCT.
++
++EPC management
++--------------
++
++Due to the unique requirements for swapping EPC pages, and because EPC pages
++(currently) do not have associated page structures, management of the EPC is
++not handled by the standard Linux swapper.  SGX directly handles swapping
++of EPC pages, including a kthread to initiate reclaim and a rudimentary LRU
++mechanism. The consumers of EPC pages, e.g. the SGX driver, are required to
++implement function callbacks that can be invoked by the kernel to age,
++swap, and/or forcefully reclaim a target EPC page.  In effect, the kernel
++controls what happens and when, while the consumers (driver, KVM, etc..) do
++the actual work.
++
++SGX uapi
++========
++
++.. kernel-doc:: drivers/platform/x86/intel_sgx/sgx_ioctl.c
++   :functions: sgx_ioc_enclave_create
++               sgx_ioc_enclave_add_page
++               sgx_ioc_enclave_init
++
++.. kernel-doc:: arch/x86/include/uapi/asm/sgx.h
++
++References
++==========
++
++* System Programming Manual: 39.1.4 Intel® SGX Launch Control Configuration
+-- 
+2.17.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
