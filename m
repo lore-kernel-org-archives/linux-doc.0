@@ -5,60 +5,40 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D55177DF93
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 19:52:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 979EA7DF93
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 20:40:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752734AbeGCTwe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 15:52:34 -0400
-Received: from ms.lwn.net ([45.79.88.28]:54066 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1752732AbeGCTwd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Jul 2018 15:52:33 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4166D2DB;
-        Tue,  3 Jul 2018 19:52:33 +0000 (UTC)
-Date:   Tue, 3 Jul 2018 13:52:32 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] reed_solomon: Fix kernel-doc
-Message-ID: <20180703135232.669c9554@lwn.net>
-In-Reply-To: <CAGXu5jKN2HTno=1MfAug+pn0yf82tV-YAWURpx6v_xk7spc4mA@mail.gmail.com>
-References: <20180703194354.21614-1-willy@infradead.org>
-        <CAGXu5jKN2HTno=1MfAug+pn0yf82tV-YAWURpx6v_xk7spc4mA@mail.gmail.com>
-Organization: LWN.net
+        id S1752607AbeGCUkA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 16:40:00 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:43182 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1752237AbeGCUj7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 16:39:59 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.87 #1 (Red Hat Linux))
+        id 1faS5d-0008KW-RX; Tue, 03 Jul 2018 20:39:57 +0000
+Date:   Tue, 3 Jul 2018 21:39:57 +0100
+From:   Al Viro <viro@ZenIV.linux.org.uk>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ross Zwisler <ross.zwisler@linux.intel.com>
+Subject: Re: [PATCH 1/2] fs: Fix attr.c kernel-doc
+Message-ID: <20180703203957.GW30522@ZenIV.linux.org.uk>
+References: <20180703150835.19565-1-willy@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180703150835.19565-1-willy@infradead.org>
+User-Agent: Mutt/1.9.1 (2017-09-22)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 3 Jul 2018 12:47:44 -0700
-Kees Cook <keescook@chromium.org> wrote:
+On Tue, Jul 03, 2018 at 08:08:34AM -0700, Matthew Wilcox wrote:
+> A couple of minor warnings.
 
-> > The current doc build warns:
-> > ./lib/reed_solomon/reed_solomon.c:287: WARNING: Unknown target name: "gfp".
-> >
-> > This is because it misinterprets the "GFP_" that is part of the
-> > description.  Change the description to avoid the problem.
-> >
-> > Signed-off-by: Matthew Wilcox <willy@infradead.org>  
-> 
-> Acked-by: Kees Cook <keescook@chromium.org>
-> 
-> Jon can you take this?
-
-Will do.
-
-Thanks,
-
-jon
+Both patches applied...
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
