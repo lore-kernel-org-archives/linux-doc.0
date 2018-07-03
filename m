@@ -1,115 +1,203 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 04CDF7D09E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 07:35:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36B267D09E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 07:44:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754382AbeGCHee (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 03:34:34 -0400
-Received: from mail-wr0-f194.google.com ([209.85.128.194]:47047 "EHLO
-        mail-wr0-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753596AbeGCHec (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 03:34:32 -0400
-Received: by mail-wr0-f194.google.com with SMTP id s11-v6so824301wra.13
-        for <linux-doc@vger.kernel.org>; Tue, 03 Jul 2018 00:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=N+YihGc9r0k8UxuN8XhBJEKLRRhDTDTb/AwWVtdk7Bg=;
-        b=ISqwK3c14LoA7qpBQFRDFzxE/4e7DgJotJXwzX2faWeapR7BX0tk8Q5f0FUtDIUpAw
-         4EDe8eiE6P9+jujxB1GkfEYeLsBwx9u9tGE6VFwE1GCAeqRYTTuDIpg1udTBZCNHo2ZS
-         EiKxfzJByQZO4zPMNSihENGN0aMhi3QwwLTQI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=N+YihGc9r0k8UxuN8XhBJEKLRRhDTDTb/AwWVtdk7Bg=;
-        b=WyZ/0aMoS/3beaQO4RZwx1jeSsmQ9nqZrx6aTeMYz1iHo1AcPiHUcDkY9sCq47hodC
-         JA3TukVIqstt3fXzmQd4Nui4pf2yjOum45y53TaR0lhj5Z2wPcq4uC1ar1LNachayV46
-         NRA0xkEm9C5eZdU086Zi7tqdkyBTe67G0u88115nMEEh6MUym0/eEM/TNRxK+I575Dah
-         aUcCOHIeqmzroQvtKgXJntGqTu7ddPCMb3YVGjUL7kHBrSkxG7EIF7JU2339jbPGMxa+
-         RzKNamAAJ859EJAP2+1rTQho5reKIwG+L/HzV7201Yol8YJeIycIO+xJK6xM7KsSsfGQ
-         ppiw==
-X-Gm-Message-State: APt69E1kmGN6UKRf1RBK1qS/I8LLZxjjn7VzBgYD0ai8iOK1hirIYNuh
-        lMmlhYycK1XYUEjd+X56+mBelA==
-X-Google-Smtp-Source: AAOMgpe8+4NbHjuufNFaZKBIALJzo2lWjCgQweARbg4Pegeo0IJgXIxIk/AP2E0bvFuC3KsYAsFYyw==
-X-Received: by 2002:adf:c5d2:: with SMTP id v18-v6mr2381544wrg.151.1530603271185;
-        Tue, 03 Jul 2018 00:34:31 -0700 (PDT)
-Received: from dell ([2.27.167.87])
-        by smtp.gmail.com with ESMTPSA id x11-v6sm692830wrm.78.2018.07.03.00.34.29
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 03 Jul 2018 00:34:30 -0700 (PDT)
-Date:   Tue, 3 Jul 2018 08:34:28 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Xiaowei Song <songxiaowei@hisilicon.com>,
-        Binghui Wang <wangbinghui@hisilicon.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 24/27] devicetree: fix a series of wrong file
- references
-Message-ID: <20180703073428.GH20176@dell>
-References: <cover.1528990947.git.mchehab+samsung@kernel.org>
- <bce1b59268ac2d659fd7cb37f89285ef2acc8316.1528990947.git.mchehab+samsung@kernel.org>
+        id S1754509AbeGCHoM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 03:44:12 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45876 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1753663AbeGCHoL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 03:44:11 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w637hpSY067352
+        for <linux-doc@vger.kernel.org>; Tue, 3 Jul 2018 03:44:10 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2k04knryrx-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 03 Jul 2018 03:44:09 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Tue, 3 Jul 2018 08:44:08 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 3 Jul 2018 08:44:03 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w637i2CL22085716
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Jul 2018 07:44:02 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 83884AE053;
+        Tue,  3 Jul 2018 10:44:05 +0100 (BST)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 57CD9AE045;
+        Tue,  3 Jul 2018 10:44:02 +0100 (BST)
+Received: from [9.124.31.159] (unknown [9.124.31.159])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue,  3 Jul 2018 10:44:02 +0100 (BST)
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+To:     Srikar Dronamraju <srikar@linux.vnet.ibm.com>
+Cc:     Oleg Nesterov <oleg@redhat.com>, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+ <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+ <20180702180156.GA31400@redhat.com>
+ <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
+ <20180703061612.GG65296@linux.vnet.ibm.com>
+Date:   Tue, 3 Jul 2018 13:13:58 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
+In-Reply-To: <20180703061612.GG65296@linux.vnet.ibm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bce1b59268ac2d659fd7cb37f89285ef2acc8316.1528990947.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18070307-0028-0000-0000-000002D79B81
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18070307-0029-0000-0000-0000238F1B17
+Message-Id: <c21db380-7dc0-2165-8616-8dcb519aa787@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-03_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807030089
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 Jun 2018, Mauro Carvalho Chehab wrote:
+Hi Srikar,
 
-> As files got renamed, their references broke.
+On 07/03/2018 11:46 AM, Srikar Dronamraju wrote:
+>> Current approach:
+>>
+>>     ------------
+>>     register_for_each_vma() / uprobe_mmap()
+>>       install_breakpoint()
+>>         uprobe_write_opcode() {
+>>                 if (instruction is not already patched) {
+>>                         /* Gets called only _once_. */
+>>                         increment the reference counter;
+>>                         patch the instruction;
+>>                 }
+>>         }
+>>     ------------
+>>
 > 
-> Manually fix a series of broken refs at the DT bindings.
+> Lets say a user just installs a breakpoint which is part of USDT (using
+> either a trace or perf (or some other utility) 
+> Since the semaphore is not updated, it never hits the probe.
+> This is correct.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  .../devicetree/bindings/input/rmi4/rmi_2d_sensor.txt |  2 +-
->  Documentation/devicetree/bindings/mfd/sun6i-prcm.txt |  2 +-
+> Now he toggles the semaphore and places a probe at the same spot using
+> systemtap or bcc.
+> The probes will now be active and we see hits.
+> This is also correct.
+> 
+> If the user toggles the semaphore or deletes the probe using
+> systemtap/bcc. The probes will still be active.
+> Since the reference count is removed on the last consumer deletion. No?
+> This may be wrong because, we may be unnecessarily hitting the probes.
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
 
->  .../devicetree/bindings/pci/hisilicon-pcie.txt       |  2 +-
->  Documentation/devicetree/bindings/pci/kirin-pcie.txt |  2 +-
->  .../devicetree/bindings/pci/pci-keystone.txt         |  4 ++--
->  .../devicetree/bindings/sound/st,stm32-i2s.txt       |  2 +-
->  .../devicetree/bindings/sound/st,stm32-sai.txt       |  2 +-
->  MAINTAINERS                                          | 12 ++++++------
->  8 files changed, 14 insertions(+), 14 deletions(-)
+I'm not sure if I get your concerns but let me try to explain what happens
+in such cases. please let me know if I misunderstood your point.
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+1. Install a probe using perf.
+  # ./perf probe sdt_tick:loop2
+
+  This does not do anything. Just creates an entry in trace_uprobe.
+
+2. Start record using perf:
+  # ./perf record -a -e sdt_tick:loop2
+
+  This will call uprobe_register_refctr(inode, offfset, ref_ctr_offset)
+  and will create an object of struct uprobe.
+
+3. Start target process
+  # ./tick
+
+  When we start 'tick', kernel will load the binary and start creating
+  vmas, which will basically call uprobe_mmap(). First vma will be of
+  text section and thus instruction will be patched. But vma holding
+  reference counter is not present yet and thus the uprobe will be
+  added to delayed_uprobe_list. Now kernel will map the data section
+  holding reference counter and uprobe_mmap() will check for any
+  delayed_uprobe. It will find the uprobe and thus it will increment
+  the reference counter.
+
+  So, Reference counter = 1, instruction is patched with trap.
+
+4. For simplicity, I'm using kernel module instead of systemtap / bcc.
+   User loads a kernel module that registers a probe on the same uprobe
+   by calling uprobe_register_refctr(inode, offset, ref_ctr_offset).
+
+  # insmod test-sdt.ko
+
+  The sequence of function call here will be:
+    uprobe_register_refctr()
+      register_for_each_vma()
+        install_breakpoint()
+          set_swbp()
+            uprobe_write_opcode()
+
+  But uprobe_write_opcode will find instruction is already patched and
+  thus return without doing anything.
+
+  So, Reference counter = 1, instruction is patched.
+
+5. Let's say user kills perf record started in step 2. Function call
+   sequence here will be:
+
+     uprobe_unregister()
+       register_for_each_vma() {
+         if (!filter_chain())
+            remove_breakpoint();
+       }
+
+   Here filter_chain return true because other consumer is active on the
+   same uprobe. so uprobe_unregister() will return without doing anything.
+
+   So, Reference counter = 1, instruction is patched.
+
+6. User unloads the kernel module.
+   # rmmod test-sdt.ko
+
+   Same function sequence as step 5 but this time filter_chain() will
+   return false because there are no consumer left. And thus
+   remove_breakpoint() will get called which will reset instruction and
+   decrement the counter.
+
+  So, Reference counter = 0, instruction is reset.
+
+
+Does this explain your concerns?
+
+Thanks,
+Ravi
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
