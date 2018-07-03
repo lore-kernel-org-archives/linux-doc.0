@@ -1,182 +1,155 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C070A7D09E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 12:23:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F5BF7DE6F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 14:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753048AbeGCMX2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 08:23:28 -0400
-Received: from mx2.suse.de ([195.135.220.15]:35404 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753134AbeGCMX1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 3 Jul 2018 08:23:27 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id BE239AD09;
-        Tue,  3 Jul 2018 12:23:25 +0000 (UTC)
-Date:   Tue, 3 Jul 2018 14:23:24 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 11/11] docs/mm: add description of boot time memory
- management
-Message-ID: <20180703122324.GA23824@dhcp22.suse.cz>
-References: <1530370506-21751-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1530370506-21751-12-git-send-email-rppt@linux.vnet.ibm.com>
+        id S932238AbeGCOng (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 10:43:36 -0400
+Received: from mga04.intel.com ([192.55.52.120]:10704 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932219AbeGCOnf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 3 Jul 2018 10:43:35 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2018 07:43:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,303,1526367600"; 
+   d="scan'208";a="68333030"
+Received: from marshy.an.intel.com ([10.122.105.159])
+  by fmsmga004.fm.intel.com with ESMTP; 03 Jul 2018 07:43:32 -0700
+From:   richard.gong@linux.intel.com
+To:     catalin.marinas@arm.com, will.deacon@arm.com, dinguyen@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, atull@kernel.org,
+        mdf@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+        corbet@lwn.net
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, yves.vandervennet@linux.intel.com,
+        richard.gong@linux.intel.com, richard.gong@intel.com
+Subject: [PATCHv6 0/8] Add Intel Stratix10 FPGA manager and service layer 
+Date:   Tue,  3 Jul 2018 09:46:47 -0500
+Message-Id: <1530629215-26990-1-git-send-email-richard.gong@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1530370506-21751-12-git-send-email-rppt@linux.vnet.ibm.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat 30-06-18 17:55:06, Mike Rapoport wrote:
-> Both bootmem and memblock are have pretty good internal documentation
-> coverage. With addition of some overview we get a nice description of the
-> early memory management.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+From: Richard Gong <richard.gong@intel.com>
 
-Yes this looks reasonable. I would just mention the available debugging
-options and CONFIG_ARCH_DISCARD_MEMBLOCK.
+This is the 6th submission of Intel stratix10 service layer patches. Intel
+Stratix10 FPGA manager, which is 1st Stratix10 service layer client, is
+included in this submission.
 
-Other than that looks goot to get a rough idea. Improvements can be done
-on top of course.
+Stratix10 service layer patches have been reviewed internally by Alan Tull
+and other colleagues at Intel.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
+Some features of the Intel Stratix10 SoC require a level of privilege
+higher than the kernel is granted. Such secure features include
+FPGA programming. In terms of the ARMv8 architecture, the kernel runs
+at Exception Level 1 (EL1), access to the features requires
+Exception Level 3 (EL3).
 
-> ---
->  Documentation/core-api/boot-time-mm.rst | 92 +++++++++++++++++++++++++++++++++
->  Documentation/core-api/index.rst        |  1 +
->  2 files changed, 93 insertions(+)
->  create mode 100644 Documentation/core-api/boot-time-mm.rst
-> 
-> diff --git a/Documentation/core-api/boot-time-mm.rst b/Documentation/core-api/boot-time-mm.rst
-> new file mode 100644
-> index 0000000..03cb164
-> --- /dev/null
-> +++ b/Documentation/core-api/boot-time-mm.rst
-> @@ -0,0 +1,92 @@
-> +===========================
-> +Boot time memory management
-> +===========================
-> +
-> +Early system initialization cannot use "normal" memory management
-> +simply because it is not set up yet. But there is still need to
-> +allocate memory for various data structures, for instance for the
-> +physical page allocator. To address this, a specialized allocator
-> +called the :ref:`Boot Memory Allocator <bootmem>`, or bootmem, was
-> +introduced. Several years later PowerPC developers added a "Logical
-> +Memory Blocks" allocator, which was later adopted by other
-> +architectures and renamed to :ref:`memblock <memblock>`. There is also
-> +a compatibility layer called `nobootmem` that translates bootmem
-> +allocation interfaces to memblock calls.
-> +
-> +The selection of the early allocator is done using
-> +``CONFIG_NO_BOOTMEM`` and ``CONFIG_HAVE_MEMBLOCK`` kernel
-> +configuration options. These options are enabled or disabled
-> +statically by the architectures' Kconfig files.
-> +
-> +* Architectures that rely only on bootmem select
-> +  ``CONFIG_NO_BOOTMEM=n && CONFIG_HAVE_MEMBLOCK=n``.
-> +* The users of memblock with the nobootmem compatibility layer set
-> +  ``CONFIG_NO_BOOTMEM=y && CONFIG_HAVE_MEMBLOCK=y``.
-> +* And for those that use both memblock and bootmem the configuration
-> +  includes ``CONFIG_NO_BOOTMEM=n && CONFIG_HAVE_MEMBLOCK=y``.
-> +
-> +Whichever allocator is used, it is the responsibility of the
-> +architecture specific initialization to set it up in
-> +:c:func:`setup_arch` and tear it down in :c:func:`mem_init` functions.
-> +
-> +Once the early memory management is available it offers a variety of
-> +functions and macros for memory allocations. The allocation request
-> +may be directed to the first (and probably the only) node or to a
-> +particular node in a NUMA system. There are API variants that panic
-> +when an allocation fails and those that don't. And more recent and
-> +advanced memblock even allows controlling its own behaviour.
-> +
-> +.. _bootmem:
-> +
-> +Bootmem
-> +=======
-> +
-> +(mostly stolen from Mel Gorman's "Understanding the Linux Virtual
-> +Memory Manager" `book`_)
-> +
-> +.. _book: https://www.kernel.org/doc/gorman/
-> +
-> +.. kernel-doc:: mm/bootmem.c
-> +   :doc: bootmem overview
-> +
-> +.. _memblock:
-> +
-> +Memblock
-> +========
-> +
-> +.. kernel-doc:: mm/memblock.c
-> +   :doc: memblock overview
-> +
-> +
-> +Functions and structures
-> +========================
-> +
-> +Common API
-> +----------
-> +
-> +The functions that are described in this section are available
-> +regardless of what early memory manager is enabled.
-> +
-> +.. kernel-doc:: mm/nobootmem.c
-> +
-> +Bootmem specific API
-> +--------------------
-> +
-> +These interfaces available only with bootmem, i.e when ``CONFIG_NO_BOOTMEM=n``
-> +
-> +.. kernel-doc:: include/linux/bootmem.h
-> +.. kernel-doc:: mm/bootmem.c
-> +   :nodocs:
-> +
-> +Memblock specific API
-> +---------------------
-> +
-> +Here is the description of memblock data structures, functions and
-> +macros. Some of them are actually internal, but since they are
-> +documented it would be silly to omit them. Besides, reading the
-> +descriptions for the internal functions can help to understand what
-> +really happens under the hood.
-> +
-> +.. kernel-doc:: include/linux/memblock.h
-> +.. kernel-doc:: mm/memblock.c
-> +   :nodocs:
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index f5a66b7..93d5a46 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -28,6 +28,7 @@ Core utilities
->     printk-formats
->     circular-buffers
->     gfp_mask-from-fs-io
-> +   boot-time-mm
->  
->  Interfaces for kernel debugging
->  ===============================
-> -- 
-> 2.7.4
+The Intel Stratix10 service layer provides an in kernel API for drivers to
+request access to the secure features. The requests are queued and
+processed one by one. ARM’s SMCCC is used to pass the execution of the
+requests on to a secure monitor (EL3).
+
+Later the Intel Stratix10 service layer driver will be extended to provide
+services for QSPI, Crypto and warm reset.
+
+v2: add patches for FPGA manager, FPGA manager binding, dts and defconfig
+    remove intel-service subdirectory and intel-service.h, move intel-smc.h
+    and intel-service.c to driver/misc subdirectory
+    remove global variables
+    change service layer driver be 'default n'
+    correct SPDX markers
+    add timeout for do..while() loop
+    add kernel-doc for the functions and structs, correct multiline comments
+    replace kfifo_in/kfifo_out with kfifo_in_spinlocked/kfifo_out_spinlocked
+    rename struct intel_svc_data (at client header) to intel_svc_client_msg
+    rename struct intel_svc_private_mem to intel_svc_data
+    other corrections/changes from Intel internal code reviews
+v3: change all exported functions with "intel_svc_" as the prefix
+    increase timeout values for claiming back submitted buffer(s)
+    rename struct intel_command_reconfig_payload to
+    struct intel_svc_command_reconfig_payload
+    add pr_err() to provide the error return value
+    change to put fpga_mgr node under firmware/svc node
+    change to FPGA manager to align the update of service client APIs, and the
+    update of fpga_mgr device node
+    Other corrections/changes
+v4: s/intel/stratix10/ on some variables, structs, functions, and file names
+    intel-service.c -> stratix10-svc.c
+    intel-smc.h -> stratix10-smc.h
+    intel-service-client.h -> stratix10-svc-client.h
+    remove non-kernel-doc formatting
+    s/fpga-mgr@0/fpga-mgr/ to remove unit_address at fpga_mgr node
+    add Rob's Reviewed-by
+    add Richard's signed-off-by
+v5: add a new API statix10_svc_done() which is called by service client
+    when client request is completed or error occurs during request
+    process. Which allows service layer to free its resources.
+    remove dummy client from service layer client header and service layer
+    source file.
+    add Rob's Reviewed-by
+    add a new file stratix10-svc.rst and add that to driver-api/index.rst
+    kernel-doc fixes
+v6: replace kthread_create_on_cpu() with kthread_create_on_node()
+    extend stratix_svc_send() to support service client which doesn't use
+    memory allocated by service layer
+    add S10_RECONFIG_TIMEOUT
+    rename s/S10_BUF_TIMEOUT/S10_BUFFER_TIMEOUT/
+    fix service layer and FPGA manager Klocwork errors
+
+Alan Tull (3):
+  dt-bindings: fpga: add Stratix10 SoC FPGA manager binding
+  arm64: dts: stratix10: add fpga manager and region
+  fpga: add intel stratix10 soc fpga manager driver
+
+Richard Gong (5):
+  dt-bindings, firmware: add Intel Stratix10 service layer binding
+  arm64: dts: stratix10: add stratix10 service driver binding to base
+    dtsi
+  driver, misc: add Intel Stratix10 service layer driver
+  defconfig: enable fpga and service layer
+  Documentation: driver-api: add stratix10 service layer
+
+ .../bindings/firmware/intel,stratix10-svc.txt      |   57 ++
+ .../bindings/fpga/intel-stratix10-soc-fpga-mgr.txt |   17 +
+ Documentation/driver-api/index.rst                 |    1 +
+ Documentation/driver-api/stratix10-svc.rst         |   32 +
+ arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi  |   48 +
+ arch/arm64/configs/defconfig                       |    6 +
+ drivers/fpga/Kconfig                               |    6 +
+ drivers/fpga/Makefile                              |    1 +
+ drivers/fpga/stratix10-soc.c                       |  553 +++++++++++
+ drivers/misc/Kconfig                               |   12 +
+ drivers/misc/Makefile                              |    1 +
+ drivers/misc/stratix10-smc.h                       |  205 ++++
+ drivers/misc/stratix10-svc.c                       | 1000 ++++++++++++++++++++
+ include/linux/stratix10-svc-client.h               |  201 ++++
+ 14 files changed, 2140 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/firmware/intel,stratix10-svc.txt
+ create mode 100644 Documentation/devicetree/bindings/fpga/intel-stratix10-soc-fpga-mgr.txt
+ create mode 100644 Documentation/driver-api/stratix10-svc.rst
+ create mode 100644 drivers/fpga/stratix10-soc.c
+ create mode 100644 drivers/misc/stratix10-smc.h
+ create mode 100644 drivers/misc/stratix10-svc.c
+ create mode 100644 include/linux/stratix10-svc-client.h
 
 -- 
-Michal Hocko
-SUSE Labs
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
