@@ -1,133 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1E5167DF93
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 09:20:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AA58A7DF93
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 09:24:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933299AbeGDJUB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Jul 2018 05:20:01 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:39681 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932733AbeGDJT6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 05:19:58 -0400
-Received: by mail-ed1-f66.google.com with SMTP id w14-v6so3553361eds.6
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jul 2018 02:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wC/XYKMCmn664Zzpxl06lbQIRYPV3gGjSzahvYp17zQ=;
-        b=Iuox3QpgblJkVbtm9sz1xu8J+xhfhrkU9/DGI37dW8cn+tl3l8J+uy+3kc7Sh3h7Zg
-         67Yi6yBo1U+RYvRPuwTFZ42v4zvruhXSW6+KKoCyOg1dKZhU/8oQaI9dxarhUnAgxq41
-         7c+9e1K9ylu6RXram+0rdnMmWpY9wTwsq9Kjc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=wC/XYKMCmn664Zzpxl06lbQIRYPV3gGjSzahvYp17zQ=;
-        b=PB9++Lv/Jhad1idhpwlaBm1NW3oPWdPLmwsEbib47ABXM0hUmHUxk6G/QZcsbtUkWT
-         24RQJDxXx3U8ldbeXbU4PdKOLlUHp8x+YUHJblIlO1hFiz8KS01hHKAcee1/6/fG8Xu5
-         2jrrzMQJPa1j7P8d3ev7Wp+FQanA+w+m5KUNUeWpETqpFjGTRnGbppI9K5Rfs8zSpw6n
-         1Fg442Ykchaz4MgjcUkSUVe8RZ5cNEX5i+/GNYnKrP5WC7d3/xce5wv3TmvP6TelaWFP
-         g6HvPSbbdSPHDc6jiRjZdcytVnMvnL6h7RfE6OP8Q9rg6TwElYc4xC7y40YuNP+TJO6X
-         MsUw==
-X-Gm-Message-State: APt69E1g/aJ5QN0GwOoUvd2emwjUoDYdqL4Cl9lBnExaPPojFDCveU7w
-        yJl8/bwielPNDkSTX/oy3df0YA==
-X-Google-Smtp-Source: AAOMgpdVMHVNoji8LAiMHJ/XHAhL0fb8vICVOCQaMVN7x9JqATBUlEGUSH/Uq1W/rf+h3iiActUpJQ==
-X-Received: by 2002:a50:8561:: with SMTP id 88-v6mr1896060edr.181.1530695997221;
-        Wed, 04 Jul 2018 02:19:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:5628:0:496f:7dc5:66d7:a057])
-        by smtp.gmail.com with ESMTPSA id m50-v6sm694510edc.94.2018.07.04.02.19.55
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 04 Jul 2018 02:19:56 -0700 (PDT)
-Date:   Wed, 4 Jul 2018 11:19:54 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v6] Add udmabuf misc device
-Message-ID: <20180704091954.GQ3891@phenom.ffwll.local>
-Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
-        dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-References: <20180703075359.30349-1-kraxel@redhat.com>
- <20180703083757.GG7880@phenom.ffwll.local>
- <20180704055338.n3b7oexltaejqmcd@sirius.home.kraxel.org>
- <20180704080807.GH3891@phenom.ffwll.local>
- <20180704085825.nfkv5i7ultaavjve@sirius.home.kraxel.org>
+        id S932536AbeGDJYk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Jul 2018 05:24:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57962 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1752814AbeGDJYh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 05:24:37 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w649J8OA090859
+        for <linux-doc@vger.kernel.org>; Wed, 4 Jul 2018 05:24:37 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2k0uf2r9vm-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 04 Jul 2018 05:24:36 -0400
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
+        Wed, 4 Jul 2018 10:24:35 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 4 Jul 2018 10:24:30 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w649OT0g18677778
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 4 Jul 2018 09:24:29 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 85040AE051;
+        Wed,  4 Jul 2018 12:24:31 +0100 (BST)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3A32CAE04D;
+        Wed,  4 Jul 2018 12:24:28 +0100 (BST)
+Received: from [9.124.31.203] (unknown [9.124.31.203])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed,  4 Jul 2018 12:24:28 +0100 (BST)
+Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
+ count (semaphore)
+To:     Srikar Dronamraju <srikar@linux.vnet.ibm.com>
+Cc:     Oleg Nesterov <oleg@redhat.com>, rostedt@goodmis.org,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        jolsa@redhat.com, namhyung@kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
+        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
+        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
+ <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
+ <20180701210935.GA14404@redhat.com>
+ <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
+ <20180702180156.GA31400@redhat.com>
+ <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
+ <20180703061612.GG65296@linux.vnet.ibm.com>
+ <c21db380-7dc0-2165-8616-8dcb519aa787@linux.ibm.com>
+ <20180704091652.GA21902@linux.vnet.ibm.com>
+From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Date:   Wed, 4 Jul 2018 14:54:25 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180704085825.nfkv5i7ultaavjve@sirius.home.kraxel.org>
-X-Operating-System: Linux phenom 4.16.0-2-amd64 
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <20180704091652.GA21902@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18070409-0012-0000-0000-000002869C5C
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18070409-0013-0000-0000-000020B81DC6
+Message-Id: <bca2cd84-ed4f-7364-687e-b10e3e930b06@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-04_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1806210000 definitions=main-1807040111
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 04, 2018 at 10:58:25AM +0200, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > > Hmm, does MAINTAINERS need an update then?  Maintainer and mailing lists
-> > > listed in the "DMA BUFFER SHARING FRAMEWORK" entry are on Cc.
-> > 
-> > Yeah, maintainers entry with you as maintainer plus dri-devel as mailing
-> > list plus drm-misc as repo would be good. Just grep for drm-misc.git for
-> > tons of examples.
-> 
-> There is an *existing* entry covering drivers/dma-buf/, and I've dropped
-> udmabuf.c into that directory, so I've assumed get_maintainers.pl picks
-> up all relevant dma-buf folks ...
-> 
-> Covering udmabuf.c maintainance is a different issue.  I could just add
-> myself to the existing entry, or create a new one specifically for
-> udmabuf.
+Hi Srikar,
 
-That's what I meant, do a more specific entry to add yourself just for
-udmabuf.
-
-> > > Who should be Cc'ed?
-> > 
-> > dim add-missing-cc ftw :-)
+On 07/04/2018 02:46 PM, Srikar Dronamraju wrote:
+>>
+>> I'm not sure if I get your concerns but let me try to explain what happens
+>> in such cases. please let me know if I misunderstood your point.
+>>
+>> 1. Install a probe using perf.
+>>   # ./perf probe sdt_tick:loop2
+>>
+>>
+>>
+>> Does this explain your concerns?
+>>
 > 
-> That just uses get_maintainer.pl according to the docs, so that wouldn't
-> change things as that is wired up as sendemail.cccmd already.  Except
-> that dim would probably add the list of people to the commit message.
+> 
+> No, this was not my concern.
+> My concern is with two users on the same USDT.
+> 1. First user enables the probe point but doesn't increment the ref_cnt.
+> via uprobe_register
+> 
+> 2. Second user tries to enable the probe point and also increments the
+> ref_cnt via uprobe_register_refctr.
 
-Ah right, I totally missed that you have more on the mail's Cc: than on
-the patch. I never do that, so always miss them :-)
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+Ok got it. uprobe_register_refctr() will return with error because we don't
+allow one uprobe(inode+offset) with multiple reference counter.
+
+i.e. If inode+offset matches for two uprobes, ref_ctr_offset must match as
+well. Patch 8/10 takes care of this.
+
+
+> 
+> 3. If the second user now removes the probe point via uprobe_unregister.
+> 
+> 4. What is the state of the ref_cnt?
+> 
+> --
+> Thanks and Regards
+> Srikar
+> 
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
