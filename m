@@ -1,112 +1,161 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BA8C7DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 06:07:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08AB27DE6E
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 07:16:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932204AbeGDGH1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Jul 2018 02:07:27 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52706 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1753608AbeGDGH0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 02:07:26 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w64648WC059308
-        for <linux-doc@vger.kernel.org>; Wed, 4 Jul 2018 02:07:26 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2k0n3mf2qk-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jul 2018 02:07:26 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Wed, 4 Jul 2018 07:07:23 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 4 Jul 2018 07:07:18 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6467H4839911440
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 4 Jul 2018 06:07:17 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 87105AE058;
-        Wed,  4 Jul 2018 09:07:19 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 21CE4AE05D;
-        Wed,  4 Jul 2018 09:07:16 +0100 (BST)
-Received: from [9.124.31.203] (unknown [9.124.31.203])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  4 Jul 2018 09:07:15 +0100 (BST)
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-To:     Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-Cc:     oleg@redhat.com, rostedt@goodmis.org, mhiramat@kernel.org,
-        peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, jolsa@redhat.com,
-        namhyung@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180702160158.GD65296@linux.vnet.ibm.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Wed, 4 Jul 2018 11:37:13 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+        id S932714AbeGDHQa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Jul 2018 03:16:30 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:57438 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932648AbeGDHQ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 03:16:28 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 26125606AC; Wed,  4 Jul 2018 07:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1530688588;
+        bh=KHE9utq9sTTBxasmMa+SVtzu9aALCwlOe4ym/Sk6ZZo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=HsGRPbe5YoiO8AyDfvMlv/qujrtLPG6t37WrbkGlWMFOUtQy1MCGuY+KQpaf3zzTJ
+         zGIn12kK7F49e+PvdfF+lKkzDQ93d1wVAZMubD0tjgrReeS09mLW6ttacr31cnAdT2
+         bFvUCG/s6Ue+r0je9S8gp+DYeiVjY4Y9q3pa7Lr4=
+Received: from [10.79.40.41] (blr-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: vivek.gautam@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4295F60274;
+        Wed,  4 Jul 2018 07:16:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1530688587;
+        bh=KHE9utq9sTTBxasmMa+SVtzu9aALCwlOe4ym/Sk6ZZo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ey2lpgjP6RfFnIZDHz4pYzTHTCGBmeUeCWnhhFjyXFrBQy2C9/aVt6d2U72yZEhAV
+         rJ7dhxIV+Ptdis27UM5l44LehgWSePcpmPOxAmvUdzcg8PvNAV7AfSHHk2NM4BY6Rb
+         3fb9XcxnxzuE9mqUszdB/f+mjUcyso2pCKAs4pIE=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4295F60274
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=vivek.gautam@codeaurora.org
+Subject: Re: [PATCH 2/2] device core: Add flag to autoremove device link on
+ supplier unbind
+To:     rjw@rjwysocki.net, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20180627125056.12851-1-vivek.gautam@codeaurora.org>
+ <20180627125056.12851-2-vivek.gautam@codeaurora.org>
+From:   Vivek Gautam <vivek.gautam@codeaurora.org>
+Message-ID: <5b2d17e8-2224-512c-e01c-212828ecf74b@codeaurora.org>
+Date:   Wed, 4 Jul 2018 12:46:20 +0530
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180702160158.GD65296@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20180627125056.12851-2-vivek.gautam@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18070406-4275-0000-0000-00000294F36F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18070406-4276-0000-0000-0000379C7529
-Message-Id: <42dbe9a2-9795-0269-1a90-a5a71fcbe970@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-04_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807040073
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Srikar,
+Adding Ulf and Marek.
 
-On 07/02/2018 09:31 PM, Srikar Dronamraju wrote:
+On 6/27/2018 6:20 PM, Vivek Gautam wrote:
+> Add a flag to autoremove the device links on supplier driver
+> unbind. This obviates the need to explicitly delete the link
+> in the remove path.
+> We remove these links only when the supplier's link to its
+> consumers has gone to DL_STATE_SUPPLIER_UNBIND state.
+>
+> Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
+> Suggested-by: Lukas Wunner <lukas@wunner.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-arm-msm@vger.kernel.org
+> ---
 
-> 2. ref_ctr_offset is necessarily a consumer property, its not a uprobe
-> property at all.
+Hi Rafael, et al.
 
+Gentle ping.
+Do you have comments on this series. I would really like to conclude these
+device link additions sooner, and get things moving on the long awaited
+arm-smmu clock/runtime support series.
 
-Sorry to ask this after agreeing :P
+Thanks again for reviewing these patches.
 
-Initially, I thought this point is right. But after thinking more on this,
-it seems wrong to me. Ex a python SDT probe:
-
-    Provider: python
-    Name: function__entry
-    Location: 0x0000000000140de4, Base: 0x00000000001ddfb0, Semaphore: 0x0000000000268320
-
-Here, "Semaphore" field is what we are referring to as reference counter.
-Basically reference counter's job is to gate invocation of uprobe and
-thus ref_ctr_offset becomes a uprobe property, not the consumer property.
-No? Am I missing anything?
-
-Thanks,
-Ravi
+Best regards
+Vivek
+>   Documentation/driver-api/device_link.rst |  4 ++++
+>   drivers/base/core.c                      | 10 ++++++++++
+>   include/linux/device.h                   |  2 ++
+>   3 files changed, 16 insertions(+)
+>
+> diff --git a/Documentation/driver-api/device_link.rst b/Documentation/driver-api/device_link.rst
+> index a005b904a264..d6763272e747 100644
+> --- a/Documentation/driver-api/device_link.rst
+> +++ b/Documentation/driver-api/device_link.rst
+> @@ -86,6 +86,10 @@ automatically purged when the consumer fails to probe or later unbinds.
+>   This obviates the need to explicitly delete the link in the ``->remove``
+>   callback or in the error path of the ``->probe`` callback.
+>   
+> +Similarly, when the device link is added from supplier's ``->probe`` callback,
+> +``DL_FLAG_AUTOREMOVE_SUPPLIER`` causes the device link to be automatically
+> +purged when the supplier fails to probe or later unbinds.
+> +
+>   Limitations
+>   ===========
+>   
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 14c1e3151e08..e721218bf352 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -518,6 +518,16 @@ void device_links_driver_cleanup(struct device *dev)
+>   
+>   		WARN_ON(link->flags & DL_FLAG_AUTOREMOVE_CONSUMER);
+>   		WARN_ON(link->status != DL_STATE_SUPPLIER_UNBIND);
+> +
+> +		/*
+> +		 * autoremove the links between this @dev and its consumer
+> +		 * devices that are not active, i.e. where the link state
+> +		 * has moved to DL_STATE_SUPPLIER_UNBIND.
+> +		 */
+> +		if (link->status == DL_STATE_SUPPLIER_UNBIND &&
+> +		    link->flags & DL_FLAG_AUTOREMOVE_SUPPLIER)
+> +			kref_put(&link->kref, __device_link_del);
+> +
+>   		WRITE_ONCE(link->status, DL_STATE_DORMANT);
+>   	}
+>   
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 3929805cdd59..e80920452b49 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -787,11 +787,13 @@ enum device_link_state {
+>    * AUTOREMOVE_CONSUMER: Remove the link automatically on consumer driver unbind.
+>    * PM_RUNTIME: If set, the runtime PM framework will use this link.
+>    * RPM_ACTIVE: Run pm_runtime_get_sync() on the supplier during link creation.
+> + * AUTOREMOVE_SUPPLIER: Remove the link automatically on supplier driver unbind.
+>    */
+>   #define DL_FLAG_STATELESS		BIT(0)
+>   #define DL_FLAG_AUTOREMOVE_CONSUMER	BIT(1)
+>   #define DL_FLAG_PM_RUNTIME		BIT(2)
+>   #define DL_FLAG_RPM_ACTIVE		BIT(3)
+> +#define DL_FLAG_AUTOREMOVE_SUPPLIER	BIT(4)
+>   
+>   /**
+>    * struct device_link - Device link representation.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
