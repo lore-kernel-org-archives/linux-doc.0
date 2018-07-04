@@ -1,162 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08AB27DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 07:16:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B5C97DE6E
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 07:26:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932714AbeGDHQa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Jul 2018 03:16:30 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:57438 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932648AbeGDHQ2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 03:16:28 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 26125606AC; Wed,  4 Jul 2018 07:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1530688588;
-        bh=KHE9utq9sTTBxasmMa+SVtzu9aALCwlOe4ym/Sk6ZZo=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=HsGRPbe5YoiO8AyDfvMlv/qujrtLPG6t37WrbkGlWMFOUtQy1MCGuY+KQpaf3zzTJ
-         zGIn12kK7F49e+PvdfF+lKkzDQ93d1wVAZMubD0tjgrReeS09mLW6ttacr31cnAdT2
-         bFvUCG/s6Ue+r0je9S8gp+DYeiVjY4Y9q3pa7Lr4=
-Received: from [10.79.40.41] (blr-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: vivek.gautam@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4295F60274;
-        Wed,  4 Jul 2018 07:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1530688587;
-        bh=KHE9utq9sTTBxasmMa+SVtzu9aALCwlOe4ym/Sk6ZZo=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ey2lpgjP6RfFnIZDHz4pYzTHTCGBmeUeCWnhhFjyXFrBQy2C9/aVt6d2U72yZEhAV
-         rJ7dhxIV+Ptdis27UM5l44LehgWSePcpmPOxAmvUdzcg8PvNAV7AfSHHk2NM4BY6Rb
-         3fb9XcxnxzuE9mqUszdB/f+mjUcyso2pCKAs4pIE=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4295F60274
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=vivek.gautam@codeaurora.org
-Subject: Re: [PATCH 2/2] device core: Add flag to autoremove device link on
- supplier unbind
-To:     rjw@rjwysocki.net, linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-References: <20180627125056.12851-1-vivek.gautam@codeaurora.org>
- <20180627125056.12851-2-vivek.gautam@codeaurora.org>
-From:   Vivek Gautam <vivek.gautam@codeaurora.org>
-Message-ID: <5b2d17e8-2224-512c-e01c-212828ecf74b@codeaurora.org>
-Date:   Wed, 4 Jul 2018 12:46:20 +0530
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+        id S1753367AbeGDH0p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Jul 2018 03:26:45 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36264 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753046AbeGDH0o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 03:26:44 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tomeu)
+        with ESMTPSA id 370CC2611BF
+Subject: Re: [PATCH v6] Add udmabuf misc device
+To:     Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+        David Airlie <airlied@linux.ie>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, Zach Reizner <zachr@google.com>,
+        Daniel Stone <daniels@collabora.com>
+References: <20180703075359.30349-1-kraxel@redhat.com>
+ <20180703083757.GG7880@phenom.ffwll.local>
+ <20180704055338.n3b7oexltaejqmcd@sirius.home.kraxel.org>
+From:   Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Message-ID: <9818b301-9c9d-c703-d4fe-7c2d4d43ed66@collabora.com>
+Date:   Wed, 4 Jul 2018 09:26:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180627125056.12851-2-vivek.gautam@codeaurora.org>
+In-Reply-To: <20180704055338.n3b7oexltaejqmcd@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adding Ulf and Marek.
+On 07/04/2018 07:53 AM, Gerd Hoffmann wrote:
+> On Tue, Jul 03, 2018 at 10:37:57AM +0200, Daniel Vetter wrote:
+>> On Tue, Jul 03, 2018 at 09:53:58AM +0200, Gerd Hoffmann wrote:
+>>> A driver to let userspace turn memfd regions into dma-bufs.
+>>>
+>>> Use case:  Allows qemu create dmabufs for the vga framebuffer or
+>>> virtio-gpu ressources.  Then they can be passed around to display
+>>> those guest things on the host.  To spice client for classic full
+>>> framebuffer display, and hopefully some day to wayland server for
+>>> seamless guest window display.
+>>>
+>>> qemu test branch:
+>>>    https://git.kraxel.org/cgit/qemu/log/?h=sirius/udmabuf
+>>>
+>>> Cc: David Airlie <airlied@linux.ie>
+>>> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>>
+>> I think some ack for a 2nd use-case, like virtio-wl or whatever would be
+>> really cool. To give us some assurance that this is generically useful.
+> 
+> Tomeu?  Laurent?
 
-On 6/27/2018 6:20 PM, Vivek Gautam wrote:
-> Add a flag to autoremove the device links on supplier driver
-> unbind. This obviates the need to explicitly delete the link
-> in the remove path.
-> We remove these links only when the supplier's link to its
-> consumers has gone to DL_STATE_SUPPLIER_UNBIND state.
->
-> Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
-> Suggested-by: Lukas Wunner <lukas@wunner.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-arm-msm@vger.kernel.org
-> ---
+Sorry, but I think I will need some help to understand how this could 
+help in the virtio-wl case [adding Zach Reizner to CC].
 
-Hi Rafael, et al.
+Any graphics buffers that are allocated with memfd will be shared with 
+the compositor via wl_shm, without need for dmabufs.
 
-Gentle ping.
-Do you have comments on this series. I would really like to conclude these
-device link additions sooner, and get things moving on the long awaited
-arm-smmu clock/runtime support series.
+Daniel Stone [added to CC] commented though that this could be useful for 
+browsers that composite pages with a nested Wayland compositor, to avoid 
+having to blit each layer so that the EGL platform notifies the 
+compositor of new contents.
 
-Thanks again for reviewing these patches.
+Cheers,
 
-Best regards
-Vivek
->   Documentation/driver-api/device_link.rst |  4 ++++
->   drivers/base/core.c                      | 10 ++++++++++
->   include/linux/device.h                   |  2 ++
->   3 files changed, 16 insertions(+)
->
-> diff --git a/Documentation/driver-api/device_link.rst b/Documentation/driver-api/device_link.rst
-> index a005b904a264..d6763272e747 100644
-> --- a/Documentation/driver-api/device_link.rst
-> +++ b/Documentation/driver-api/device_link.rst
-> @@ -86,6 +86,10 @@ automatically purged when the consumer fails to probe or later unbinds.
->   This obviates the need to explicitly delete the link in the ``->remove``
->   callback or in the error path of the ``->probe`` callback.
->   
-> +Similarly, when the device link is added from supplier's ``->probe`` callback,
-> +``DL_FLAG_AUTOREMOVE_SUPPLIER`` causes the device link to be automatically
-> +purged when the supplier fails to probe or later unbinds.
-> +
->   Limitations
->   ===========
->   
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 14c1e3151e08..e721218bf352 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -518,6 +518,16 @@ void device_links_driver_cleanup(struct device *dev)
->   
->   		WARN_ON(link->flags & DL_FLAG_AUTOREMOVE_CONSUMER);
->   		WARN_ON(link->status != DL_STATE_SUPPLIER_UNBIND);
-> +
-> +		/*
-> +		 * autoremove the links between this @dev and its consumer
-> +		 * devices that are not active, i.e. where the link state
-> +		 * has moved to DL_STATE_SUPPLIER_UNBIND.
-> +		 */
-> +		if (link->status == DL_STATE_SUPPLIER_UNBIND &&
-> +		    link->flags & DL_FLAG_AUTOREMOVE_SUPPLIER)
-> +			kref_put(&link->kref, __device_link_del);
-> +
->   		WRITE_ONCE(link->status, DL_STATE_DORMANT);
->   	}
->   
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 3929805cdd59..e80920452b49 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -787,11 +787,13 @@ enum device_link_state {
->    * AUTOREMOVE_CONSUMER: Remove the link automatically on consumer driver unbind.
->    * PM_RUNTIME: If set, the runtime PM framework will use this link.
->    * RPM_ACTIVE: Run pm_runtime_get_sync() on the supplier during link creation.
-> + * AUTOREMOVE_SUPPLIER: Remove the link automatically on supplier driver unbind.
->    */
->   #define DL_FLAG_STATELESS		BIT(0)
->   #define DL_FLAG_AUTOREMOVE_CONSUMER	BIT(1)
->   #define DL_FLAG_PM_RUNTIME		BIT(2)
->   #define DL_FLAG_RPM_ACTIVE		BIT(3)
-> +#define DL_FLAG_AUTOREMOVE_SUPPLIER	BIT(4)
->   
->   /**
->    * struct device_link - Device link representation.
+Tomeu
 
+>> Plus an ack from dma-buf folks (nag them on irc, you don't have them on Cc
+>> here).
+> 
+> Hmm, does MAINTAINERS need an update then?  Maintainer and mailing lists
+> listed in the "DMA BUFFER SHARING FRAMEWORK" entry are on Cc.
+> 
+> Who should be Cc'ed?
+> 
+>> Then this is imo good to go.
+>>
+>> I assume you'll push it to drm-misc, like all the other dma-buf stuff?
+> 
+> Can do that, sure, after collecting the acks ...
+> 
+> thanks,
+>    Gerd
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
