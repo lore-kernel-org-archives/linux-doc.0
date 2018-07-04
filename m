@@ -5,107 +5,97 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71CE87DF93
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 05:27:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CEA237DF9A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 05:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753529AbeGDF1F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Jul 2018 01:27:05 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37454 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1752975AbeGDF1F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 01:27:05 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w645PpaL117162
-        for <linux-doc@vger.kernel.org>; Wed, 4 Jul 2018 01:27:04 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2k0r36810m-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jul 2018 01:27:04 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ravi.bangoria@linux.ibm.com>;
-        Wed, 4 Jul 2018 06:27:02 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 4 Jul 2018 06:26:47 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w645QkC425952478
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 4 Jul 2018 05:26:46 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3468EAE051;
-        Wed,  4 Jul 2018 08:26:48 +0100 (BST)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E763FAE058;
-        Wed,  4 Jul 2018 08:26:44 +0100 (BST)
-Received: from [9.124.31.203] (unknown [9.124.31.203])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  4 Jul 2018 08:26:44 +0100 (BST)
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     Srikar Dronamraju <srikar@linux.vnet.ibm.com>, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com,
-        Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180702160158.GD65296@linux.vnet.ibm.com>
- <ac5ab301-7df6-90fb-748b-3dc4624ea3c4@linux.ibm.com>
- <20180703192634.GA32223@redhat.com>
-From:   Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Date:   Wed, 4 Jul 2018 10:56:42 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        id S933643AbeGDFxn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Jul 2018 01:53:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48624 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S932978AbeGDFxk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Jul 2018 01:53:40 -0400
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.phx2.redhat.com [10.5.11.24])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3E7A25D5EE;
+        Wed,  4 Jul 2018 05:53:40 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-220.phx2.redhat.com [10.3.116.220])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 80789308BDB2;
+        Wed,  4 Jul 2018 05:53:39 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 184B317442; Wed,  4 Jul 2018 07:53:38 +0200 (CEST)
+Date:   Wed, 4 Jul 2018 07:53:38 +0200
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v6] Add udmabuf misc device
+Message-ID: <20180704055338.n3b7oexltaejqmcd@sirius.home.kraxel.org>
+References: <20180703075359.30349-1-kraxel@redhat.com>
+ <20180703083757.GG7880@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20180703192634.GA32223@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 18070405-4275-0000-0000-00000294F0DF
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18070405-4276-0000-0000-0000379C726F
-Message-Id: <20d12c56-77f6-4d87-8498-d5bc090444e5@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-04_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=845 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807040064
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180703083757.GG7880@phenom.ffwll.local>
+User-Agent: NeoMutt/20180622
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.24
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Wed, 04 Jul 2018 05:53:40 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 07/04/2018 12:56 AM, Oleg Nesterov wrote:
-> On 07/03, Ravi Bangoria wrote:
->>
->> Now about adding ref_ctr_offset into uprobe_consumer. Actually, I
->> didn't want to change the uprobe_consumer definition because it's
->> already exported and tools like systemtap are using it.
+On Tue, Jul 03, 2018 at 10:37:57AM +0200, Daniel Vetter wrote:
+> On Tue, Jul 03, 2018 at 09:53:58AM +0200, Gerd Hoffmann wrote:
+> > A driver to let userspace turn memfd regions into dma-bufs.
+> > 
+> > Use case:  Allows qemu create dmabufs for the vga framebuffer or
+> > virtio-gpu ressources.  Then they can be passed around to display
+> > those guest things on the host.  To spice client for classic full
+> > framebuffer display, and hopefully some day to wayland server for
+> > seamless guest window display.
+> > 
+> > qemu test branch:
+> >   https://git.kraxel.org/cgit/qemu/log/?h=sirius/udmabuf
+> > 
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > 
-> So what? Yes, the out-of-tree modules should be updated, but this doesn't
-> mean we can add the new features.
+> I think some ack for a 2nd use-case, like virtio-wl or whatever would be
+> really cool. To give us some assurance that this is generically useful.
+
+Tomeu?  Laurent?
+
+> Plus an ack from dma-buf folks (nag them on irc, you don't have them on Cc
+> here).
+
+Hmm, does MAINTAINERS need an update then?  Maintainer and mailing lists
+listed in the "DMA BUFFER SHARING FRAMEWORK" entry are on Cc.
+
+Who should be Cc'ed?
+
+> Then this is imo good to go.
 > 
-> And, speaking of systemtap, it already has to do build-time checks to verify
-> that uprobe_consumer->ret_handler member exists. So it will need another
-> STAPCONF_INODE_REFCNT and that is all.
+> I assume you'll push it to drm-misc, like all the other dma-buf stuff?
 
-Ok. let me explore that possibility as well.
+Can do that, sure, after collecting the acks ...
 
-Thanks,
-Ravi
+thanks,
+  Gerd
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
