@@ -1,44 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 979EA7DF93
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  3 Jul 2018 20:40:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9728E7DF93
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 03:57:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752607AbeGCUkA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 3 Jul 2018 16:40:00 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:43182 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752237AbeGCUj7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 16:39:59 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.87 #1 (Red Hat Linux))
-        id 1faS5d-0008KW-RX; Tue, 03 Jul 2018 20:39:57 +0000
-Date:   Tue, 3 Jul 2018 21:39:57 +0100
-From:   Al Viro <viro@ZenIV.linux.org.uk>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ross Zwisler <ross.zwisler@linux.intel.com>
-Subject: Re: [PATCH 1/2] fs: Fix attr.c kernel-doc
-Message-ID: <20180703203957.GW30522@ZenIV.linux.org.uk>
-References: <20180703150835.19565-1-willy@infradead.org>
+        id S932960AbeGDD5Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 3 Jul 2018 23:57:16 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:60668 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932434AbeGDD5P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 3 Jul 2018 23:57:15 -0400
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id w643v0UD008818;
+        Tue, 3 Jul 2018 22:57:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1530676620;
+        bh=XCfJ1q/s8k0/2r67a1QIskpwO6bgnJqfEowKz/dv6+4=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=A/due6mo2ZR2yuYlEextDnZutuK0T+5fLqlsmLYZ4bS1CgYMe10OdFtns0d2iX1y4
+         h3Q+Ab6GwCFpt/5tcJ2G4NuW4GrkIHsAw2mMYtL6lgOyYwQKJk3qKW8pFUx9zDWaUH
+         9PCh+Fac9lvZYZbXJ4Erl8Cj6w0piSM2KRsKeVt8=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w643v0uJ019618;
+        Tue, 3 Jul 2018 22:57:00 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Tue, 3 Jul
+ 2018 22:56:59 -0500
+Received: from dlep33.itg.ti.com (157.170.170.75) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Tue, 3 Jul 2018 22:56:59 -0500
+Received: from [172.22.187.102] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dlep33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w643uxPk019065;
+        Tue, 3 Jul 2018 22:56:59 -0500
+Subject: Re: [PATCH v3 net-next 0/6] net: ethernet: ti: cpsw: add MQPRIO and
+ CBS Qdisc offload
+To:     Ivan Khoronzhuk <ivan.khoronzhuk@linaro.org>, <davem@davemloft.net>
+CC:     <corbet@lwn.net>, <akpm@linux-foundation.org>,
+        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+        <vinicius.gomes@intel.com>, <henrik@austad.us>,
+        <jesus.sanchez-palencia@intel.com>, <ilias.apalodimas@linaro.org>,
+        <p-varis@ti.com>, <spatton@ti.com>, <francois.ozog@linaro.org>,
+        <yogeshs@ti.com>, <nsekhar@ti.com>, <andrew@lunn.ch>
+References: <20180615181310.10437-1-ivan.khoronzhuk@linaro.org>
+From:   "Strashko, Grygorii" <grygorii.strashko@ti.com>
+Message-ID: <82972d3a-c098-b97d-26cf-a9642b858142@ti.com>
+Date:   Tue, 3 Jul 2018 22:56:59 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180703150835.19565-1-willy@infradead.org>
-User-Agent: Mutt/1.9.1 (2017-09-22)
+In-Reply-To: <20180615181310.10437-1-ivan.khoronzhuk@linaro.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 03, 2018 at 08:08:34AM -0700, Matthew Wilcox wrote:
-> A couple of minor warnings.
+Hi Ivan,
 
-Both patches applied...
+On 6/15/2018 1:13 PM, Ivan Khoronzhuk wrote:
+> This series adds MQPRIO and CBS Qdisc offload for TI cpsw driver.
+> It potentially can be used in audio video bridging (AVB) and time
+> sensitive networking (TSN).
+> 
+> Patchset was tested on AM572x EVM and BBB boards. Last patch from this
+> series adds detailed description of configuration with examples. For
+> consistency reasons, in role of talker and listener, tools from
+> patchset "TSN: Add qdisc based config interface for CBS" were used and
+> can be seen here: https://www.spinics.net/lists/netdev/msg460869.html
+> 
+> Based on net-next/master
+> 
+> v3..v2:
+>   - corrected typo of "shaper" word, any functional changes
+> 
+> v2..v1:
+>   - changed name cpsw.txt on ti-cpsw.txt
+>   - changed name cpsw_set_tc() on cpsw_set_mqprio()
+> 
+> Ivan Khoronzhuk (6):
+>    net: ethernet: ti: cpsw: use cpdma channels in backward order for txq
+>    net: ethernet: ti: cpdma: fit rated channels in backward order
+>    net: ethernet: ti: cpsw: add MQPRIO Qdisc offload
+>    net: ethernet: ti: cpsw: add CBS Qdisc offload
+>    net: ethernet: ti: cpsw: restore shaper configuration while down/up
+>    Documentation: networking: cpsw: add MQPRIO & CBS offload examples
+> 
+>   Documentation/networking/ti-cpsw.txt    | 540 ++++++++++++++++++++++++
+>   drivers/net/ethernet/ti/cpsw.c          | 364 +++++++++++++++-
+>   drivers/net/ethernet/ti/davinci_cpdma.c |  31 +-
+>   3 files changed, 913 insertions(+), 22 deletions(-)
+>   create mode 100644 Documentation/networking/ti-cpsw.txt
+
+
+Sry, for the delay
+Reviewed-by: Grygorii Strashko <grygorii.strashko@ti.com>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
