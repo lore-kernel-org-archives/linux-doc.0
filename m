@@ -1,121 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 094097DF93
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 09:17:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1E5167DF93
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 09:20:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934382AbeGDJR2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Jul 2018 05:17:28 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55278 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S934617AbeGDJRF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 05:17:05 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6499Eoe043958
-        for <linux-doc@vger.kernel.org>; Wed, 4 Jul 2018 05:17:04 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2k0qae9y66-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 04 Jul 2018 05:17:04 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <srikar@linux.vnet.ibm.com>;
-        Wed, 4 Jul 2018 10:17:02 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 4 Jul 2018 10:16:57 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w649Guwv36176018
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 4 Jul 2018 09:16:56 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7DF6411C04C;
-        Wed,  4 Jul 2018 12:17:21 +0100 (BST)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 83FC811C054;
-        Wed,  4 Jul 2018 12:17:18 +0100 (BST)
-Received: from linux.vnet.ibm.com (unknown [9.40.192.68])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Wed,  4 Jul 2018 12:17:18 +0100 (BST)
-Date:   Wed, 4 Jul 2018 02:16:52 -0700
-From:   Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-To:     Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Cc:     Oleg Nesterov <oleg@redhat.com>, rostedt@goodmis.org,
-        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@redhat.com, namhyung@kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, ananth@linux.vnet.ibm.com,
-        alexis.berlemont@gmail.com, naveen.n.rao@linux.vnet.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org,
-        linux@armlinux.org.uk, ralf@linux-mips.org, paul.burton@mips.com
-Subject: Re: [PATCH v5 06/10] Uprobes: Support SDT markers having reference
- count (semaphore)
-Reply-To: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-References: <20180628052209.13056-1-ravi.bangoria@linux.ibm.com>
- <20180628052209.13056-7-ravi.bangoria@linux.ibm.com>
- <20180701210935.GA14404@redhat.com>
- <0c543791-f3b7-5a4b-f002-e1c76bb430c0@linux.ibm.com>
- <20180702180156.GA31400@redhat.com>
- <f19e3801-d56a-4e34-0acc-1040a071cf91@linux.ibm.com>
- <20180703061612.GG65296@linux.vnet.ibm.com>
- <c21db380-7dc0-2165-8616-8dcb519aa787@linux.ibm.com>
+        id S933299AbeGDJUB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Jul 2018 05:20:01 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:39681 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932733AbeGDJT6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 05:19:58 -0400
+Received: by mail-ed1-f66.google.com with SMTP id w14-v6so3553361eds.6
+        for <linux-doc@vger.kernel.org>; Wed, 04 Jul 2018 02:19:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wC/XYKMCmn664Zzpxl06lbQIRYPV3gGjSzahvYp17zQ=;
+        b=Iuox3QpgblJkVbtm9sz1xu8J+xhfhrkU9/DGI37dW8cn+tl3l8J+uy+3kc7Sh3h7Zg
+         67Yi6yBo1U+RYvRPuwTFZ42v4zvruhXSW6+KKoCyOg1dKZhU/8oQaI9dxarhUnAgxq41
+         7c+9e1K9ylu6RXram+0rdnMmWpY9wTwsq9Kjc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=wC/XYKMCmn664Zzpxl06lbQIRYPV3gGjSzahvYp17zQ=;
+        b=PB9++Lv/Jhad1idhpwlaBm1NW3oPWdPLmwsEbib47ABXM0hUmHUxk6G/QZcsbtUkWT
+         24RQJDxXx3U8ldbeXbU4PdKOLlUHp8x+YUHJblIlO1hFiz8KS01hHKAcee1/6/fG8Xu5
+         2jrrzMQJPa1j7P8d3ev7Wp+FQanA+w+m5KUNUeWpETqpFjGTRnGbppI9K5Rfs8zSpw6n
+         1Fg442Ykchaz4MgjcUkSUVe8RZ5cNEX5i+/GNYnKrP5WC7d3/xce5wv3TmvP6TelaWFP
+         g6HvPSbbdSPHDc6jiRjZdcytVnMvnL6h7RfE6OP8Q9rg6TwElYc4xC7y40YuNP+TJO6X
+         MsUw==
+X-Gm-Message-State: APt69E1g/aJ5QN0GwOoUvd2emwjUoDYdqL4Cl9lBnExaPPojFDCveU7w
+        yJl8/bwielPNDkSTX/oy3df0YA==
+X-Google-Smtp-Source: AAOMgpdVMHVNoji8LAiMHJ/XHAhL0fb8vICVOCQaMVN7x9JqATBUlEGUSH/Uq1W/rf+h3iiActUpJQ==
+X-Received: by 2002:a50:8561:: with SMTP id 88-v6mr1896060edr.181.1530695997221;
+        Wed, 04 Jul 2018 02:19:57 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:5628:0:496f:7dc5:66d7:a057])
+        by smtp.gmail.com with ESMTPSA id m50-v6sm694510edc.94.2018.07.04.02.19.55
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 04 Jul 2018 02:19:56 -0700 (PDT)
+Date:   Wed, 4 Jul 2018 11:19:54 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v6] Add udmabuf misc device
+Message-ID: <20180704091954.GQ3891@phenom.ffwll.local>
+Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
+        dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+References: <20180703075359.30349-1-kraxel@redhat.com>
+ <20180703083757.GG7880@phenom.ffwll.local>
+ <20180704055338.n3b7oexltaejqmcd@sirius.home.kraxel.org>
+ <20180704080807.GH3891@phenom.ffwll.local>
+ <20180704085825.nfkv5i7ultaavjve@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c21db380-7dc0-2165-8616-8dcb519aa787@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18070409-4275-0000-0000-0000029504A0
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18070409-4276-0000-0000-0000379C87A5
-Message-Id: <20180704091652.GA21902@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-04_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=952 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807040109
+In-Reply-To: <20180704085825.nfkv5i7ultaavjve@sirius.home.kraxel.org>
+X-Operating-System: Linux phenom 4.16.0-2-amd64 
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jul 04, 2018 at 10:58:25AM +0200, Gerd Hoffmann wrote:
+>   Hi,
 > 
-> I'm not sure if I get your concerns but let me try to explain what happens
-> in such cases. please let me know if I misunderstood your point.
+> > > Hmm, does MAINTAINERS need an update then?  Maintainer and mailing lists
+> > > listed in the "DMA BUFFER SHARING FRAMEWORK" entry are on Cc.
+> > 
+> > Yeah, maintainers entry with you as maintainer plus dri-devel as mailing
+> > list plus drm-misc as repo would be good. Just grep for drm-misc.git for
+> > tons of examples.
 > 
-> 1. Install a probe using perf.
->   # ./perf probe sdt_tick:loop2
+> There is an *existing* entry covering drivers/dma-buf/, and I've dropped
+> udmabuf.c into that directory, so I've assumed get_maintainers.pl picks
+> up all relevant dma-buf folks ...
 > 
+> Covering udmabuf.c maintainance is a different issue.  I could just add
+> myself to the existing entry, or create a new one specifically for
+> udmabuf.
+
+That's what I meant, do a more specific entry to add yourself just for
+udmabuf.
+
+> > > Who should be Cc'ed?
+> > 
+> > dim add-missing-cc ftw :-)
 > 
-> 
-> Does this explain your concerns?
-> 
+> That just uses get_maintainer.pl according to the docs, so that wouldn't
+> change things as that is wired up as sendemail.cccmd already.  Except
+> that dim would probably add the list of people to the commit message.
 
-
-No, this was not my concern.
-My concern is with two users on the same USDT.
-1. First user enables the probe point but doesn't increment the ref_cnt.
-via uprobe_register
-
-2. Second user tries to enable the probe point and also increments the
-ref_cnt via uprobe_register_refctr.
-
-3. If the second user now removes the probe point via uprobe_unregister.
-
-4. What is the state of the ref_cnt?
-
---
-Thanks and Regards
-Srikar
-
+Ah right, I totally missed that you have more on the mail's Cc: than on
+the patch. I never do that, so always miss them :-)
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
