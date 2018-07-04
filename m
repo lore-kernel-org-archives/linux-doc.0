@@ -1,129 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 18C1B7DE6E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 18:10:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 77A0C7DF93
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  4 Jul 2018 19:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1752946AbeGDSJ6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 4 Jul 2018 14:09:58 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:41186 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1752755AbeGDSJ5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 4 Jul 2018 14:09:57 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id C7A6160B28; Wed,  4 Jul 2018 18:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1530727796;
-        bh=gssCFuDdKeHtS68DmIUgZnngcflGnQoNZwDy8HHjGw8=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=SvB4h9SNL9kjd8oBuVYSM+La6zZYn5iUC56U0r4fKRvirpFrP4TubpwEZY2LZTvZZ
-         QLgvyNtJ2kSgQQM/gWcotHjwme7oJ/8MYjm/uM9xADbLRMnhNBCjuZi06YqJc0J1jF
-         ABxWs8mVPg9PmCqrVgUSCYxN9KX9vVgec5kBur+I=
-Received: from [192.168.0.4] (unknown [27.7.124.121])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1752567AbeGDTBP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 4 Jul 2018 15:01:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59896 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1752260AbeGDTBP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 4 Jul 2018 15:01:15 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: vivek.gautam@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 608D360251;
-        Wed,  4 Jul 2018 18:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1530727795;
-        bh=gssCFuDdKeHtS68DmIUgZnngcflGnQoNZwDy8HHjGw8=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=nQOIBZtYvjJD7cYvVzQ0pxnWruA9htUdttv2rSP8A0TacG9LP8C/wWFBNOY/S9Q0n
-         PsrPT3/kTYXnMdhylLV8JoE7tI6sAIX0MQDfRVCIkx8n63xE+KjLm7DfYV607hRrvx
-         Mpa93w+Hyjz7BGHX2jVt33UdiyOM1SyAYS/gY4w0=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 608D360251
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=vivek.gautam@codeaurora.org
-Subject: Re: [PATCH 2/2] device core: Add flag to autoremove device link on
- supplier unbind
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-References: <20180627125056.12851-1-vivek.gautam@codeaurora.org>
- <20180627125056.12851-2-vivek.gautam@codeaurora.org>
- <5b2d17e8-2224-512c-e01c-212828ecf74b@codeaurora.org>
- <2991909.NMIP74eIIJ@aspire.rjw.lan>
-From:   Vivek Gautam <vivek.gautam@codeaurora.org>
-Message-ID: <52724c9d-4650-9095-fb68-c4dff21a48f6@codeaurora.org>
-Date:   Wed, 4 Jul 2018 23:39:49 +0530
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
+        by ms.lwn.net (Postfix) with ESMTPSA id B85D2307;
+        Wed,  4 Jul 2018 19:01:14 +0000 (UTC)
+Date:   Wed, 4 Jul 2018 13:01:13 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     peter enderborg <peter.enderborg@sony.com>
+Cc:     Tim Bird <tbird20d@gmail.com>, <tim.bird@sony.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: update kernel versions and dates in tables
+Message-ID: <20180704130113.668ed146@lwn.net>
+In-Reply-To: <4111a2f2-b03b-5f07-929a-680c86b71771@sony.com>
+References: <1527114014-26240-1-git-send-email-tim.bird@sony.com>
+        <4111a2f2-b03b-5f07-929a-680c86b71771@sony.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <2991909.NMIP74eIIJ@aspire.rjw.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 3 Jul 2018 08:10:30 +0200
+peter enderborg <peter.enderborg@sony.com> wrote:
 
+> > +	======  ======================  ==============================
+> > +	3.16	Ben Hutchings		(very long-term stable kernel)
+> > +	4.1	Sasha Levin
+> > +	4.4	Greg Kroah-Hartman	(very long-term stable kernel)
+> > +	4.9	Greg Kroah-Hartman
+> > +	4.14	Greg Kroah-Hartman
+> >  	======  ======================  ===========================  
+> 
+> Is  4.14 not very long-term stable kernel ?
 
-On 7/4/2018 4:14 PM, Rafael J. Wysocki wrote:
-> On Wednesday, July 4, 2018 9:16:20 AM CEST Vivek Gautam wrote:
->> Adding Ulf and Marek.
->>
->> On 6/27/2018 6:20 PM, Vivek Gautam wrote:
->>> Add a flag to autoremove the device links on supplier driver
->>> unbind. This obviates the need to explicitly delete the link
->>> in the remove path.
->>> We remove these links only when the supplier's link to its
->>> consumers has gone to DL_STATE_SUPPLIER_UNBIND state.
->>>
->>> Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
->>> Suggested-by: Lukas Wunner <lukas@wunner.de>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Cc: Robin Murphy <robin.murphy@arm.com>
->>> Cc: linux-doc@vger.kernel.org
->>> Cc: linux-arm-kernel@lists.infradead.org
->>> Cc: linux-pm@vger.kernel.org
->>> Cc: linux-arm-msm@vger.kernel.org
->>> ---
->> Hi Rafael, et al.
->>
->> Gentle ping.
->> Do you have comments on this series. I would really like to conclude these
->> device link additions sooner, and get things moving on the long awaited
->> arm-smmu clock/runtime support series.
->>
->> Thanks again for reviewing these patches.
-> They are fine by me.
->
-> I can queue them up for 4.19 if no one has objections (Greg in
-> particular).
+Nobody has, at this time, agreed to maintain 4.14 for any longer than the
+usual two-year LTS period.  Such things are always subject to change, of
+course, but until such a change happens you can't count on it.
 
-Hi Rafael,
-
-I will resubmit these 2 patches as part of the arm-smmu series, as one
-of the patch in the series depends on addition of 
-DL_FLAG_AUTOREMOVE_SUPPLIER.
-So these 2 patches and arm-smmu series should go together.
-Can you please consider givnig your Ack?
-
-Best regards
-Vivek
-
->
-> Thanks,
-> Rafael
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-arm-msm" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
+jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
