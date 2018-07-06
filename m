@@ -1,362 +1,259 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B04C37D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 15:55:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAE847D072
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 19:34:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933171AbeGFPxb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 11:53:31 -0400
-Received: from smtprelay2.synopsys.com ([198.182.60.111]:40283 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933061AbeGFPvl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 11:51:41 -0400
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 3517D10C10B1;
-        Fri,  6 Jul 2018 08:51:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1530892301; bh=OVtrlr3WoPynzbwN5iWQKh1QJbaWdcKNxTL4F6ThyDQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
-         References:From;
-        b=QAH8KKscq+naMh1PYgaQ400DrJeytcCQ7iipFoXOPcSbq1syEJT464geS2fDdOvHi
-         B4p6njN0kTboOeXshs7T84b6raFM5spTg22HAquIa5xxxi2DGC3oF6ip9iAGmwr2Ug
-         dSu8Pj+gelw0zhopxYcdyeQmL9AdzDtAKUMZRaoe4PcgwRWTCNqxmQVfO8onRyWS1m
-         nHSmmuf9rYhYE8+yOB9teCG0k1EfDmb9PcGcd2sdbu8U0pKX+Yfjg5T0MgDRE6Pn3R
-         shRAEFkoyLhuMf3VShTiZ6r6zEx+cw4kGYnh3c0hurmWSE01wmjf6aTcZvvBGzW8AF
-         2r5vLIyYq0FWA==
-Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id BB9D240CF;
-        Fri,  6 Jul 2018 08:51:40 -0700 (PDT)
-Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id 34BEB3D256;
-        Fri,  6 Jul 2018 16:51:39 +0100 (WEST)
-From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
-        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
-        adouglas@cadence.com, jesper.nilsson@axis.com,
-        shawn.lin@rock-chips.com
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v8 08/11] pci-epf-test/pci_endpoint_test: Add MSI-X support
-Date:   Fri,  6 Jul 2018 16:51:31 +0100
-Message-Id: <bbee5395f02f728be88797bb450b999725ffbbc3.1530891871.git.gustavo.pimentel@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
-References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
-In-Reply-To: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
-References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
+        id S934926AbeGFTee (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 15:34:34 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:43868 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S934913AbeGFTeb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Jul 2018 15:34:31 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id DE679407A9B8;
+        Fri,  6 Jul 2018 19:34:30 +0000 (UTC)
+Received: from llong.com (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6EB0A79DC;
+        Fri,  6 Jul 2018 19:34:30 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v6 6/7] fs/dcache: Allow optional enforcement of negative dentry limit
+Date:   Fri,  6 Jul 2018 15:32:51 -0400
+Message-Id: <1530905572-817-7-git-send-email-longman@redhat.com>
+In-Reply-To: <1530905572-817-1-git-send-email-longman@redhat.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 06 Jul 2018 19:34:31 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 06 Jul 2018 19:34:31 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add MSI-X support and update driver documentation accordingly.
+If a rogue application that generates a large number of negative
+dentries is running, the automatic negative dentries pruning process
+may not be fast enough to clear up the negative dentries in time. In
+this case, it is possible that negative dentries will use up most
+of the available memory in the system when that application is not
+under the control of a memory cgroup that limit kernel memory.
 
-Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+The lack of available memory may significantly impact the operation
+of other applications running in the system. It will slow down system
+performance and may even work as part of a DoS attack on the system.
+
+To allow system administrators the option to prevent this extreme
+situation from happening, a new "neg-dentry-enforce" sysctl parameter
+is now added which can be set to to enforce the negative dentry soft
+limit set in "neg-dentry-pc" so that it becomes a hard limit. When the
+limit is enforced, extra negative dentries that exceed the limit will
+be killed after use instead of leaving them in the LRU.
+
+Signed-off-by: Waiman Long <longman@redhat.com>
 ---
-Change v2->v3:
- - New patch file created base on the previous patch
-"misc: pci_endpoint_test: Add MSI-X support" patch file following
-Kishon's suggestion.
-Change v3->v4:
- - Rebased to Lorenzo's master branch v4.18-rc1.
-Change v4->v5:
- - Nothing changed, just to follow the patch set version.
-Change v5->v6:
- - Moved PCITEST_MSIX ioctl entry from patch #10 to here.
- - Documented ioctl parameter type associated to
-drivers/misc/pci_endpoint_test.c driver.
-Change v6->v7:
- - Updated documentation.
- - Added flag that enables or not the MSI-X on the EP features. 
-Change v7->v8:
- - Re-sending the patch series.
+ Documentation/sysctl/fs.txt | 10 ++++++++++
+ fs/dcache.c                 | 42 +++++++++++++++++++++++++++++++++++-------
+ include/linux/dcache.h      |  2 ++
+ kernel/sysctl.c             |  9 +++++++++
+ 4 files changed, 56 insertions(+), 7 deletions(-)
 
- Documentation/PCI/endpoint/pci-test-function.txt |  2 +-
- Documentation/ioctl/ioctl-number.txt             |  1 +
- Documentation/misc-devices/pci-endpoint-test.txt |  3 +++
- drivers/misc/pci_endpoint_test.c                 | 29 +++++++++++++++++-------
- drivers/pci/controller/dwc/pcie-designware-ep.c  |  1 +
- drivers/pci/endpoint/functions/pci-epf-test.c    | 29 ++++++++++++++++++++++--
- include/linux/pci-epc.h                          |  1 +
- include/uapi/linux/pcitest.h                     |  1 +
- 8 files changed, 56 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/PCI/endpoint/pci-test-function.txt b/Documentation/PCI/endpoint/pci-test-function.txt
-index 7ee2361..b1cbff3 100644
---- a/Documentation/PCI/endpoint/pci-test-function.txt
-+++ b/Documentation/PCI/endpoint/pci-test-function.txt
-@@ -34,7 +34,7 @@ that the endpoint device must perform.
- Bitfield Description:
-   Bit 0		: raise legacy IRQ
-   Bit 1		: raise MSI IRQ
--  Bit 2		: raise MSI-X IRQ (reserved for future implementation)
-+  Bit 2		: raise MSI-X IRQ
-   Bit 3		: read command (read data from RC buffer)
-   Bit 4		: write command (write data to RC buffer)
-   Bit 5		: copy command (copy data from one RC buffer to another
-diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
-index 480c860..65259d4 100644
---- a/Documentation/ioctl/ioctl-number.txt
-+++ b/Documentation/ioctl/ioctl-number.txt
-@@ -166,6 +166,7 @@ Code  Seq#(hex)	Include File		Comments
- 'P'	all	linux/soundcard.h	conflict!
- 'P'	60-6F	sound/sscape_ioctl.h	conflict!
- 'P'	00-0F	drivers/usb/class/usblp.c	conflict!
-+'P'	01-07	drivers/misc/pci_endpoint_test.c	conflict!
- 'Q'	all	linux/soundcard.h
- 'R'	00-1F	linux/random.h		conflict!
- 'R'	01	linux/rfkill.h		conflict!
-diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
-index 4ebc359..fdfa0f6 100644
---- a/Documentation/misc-devices/pci-endpoint-test.txt
-+++ b/Documentation/misc-devices/pci-endpoint-test.txt
-@@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
- 	*) verifying addresses programmed in BAR
- 	*) raise legacy IRQ
- 	*) raise MSI IRQ
-+	*) raise MSI-X IRQ
- 	*) read data
- 	*) write data
- 	*) copy data
-@@ -25,6 +26,8 @@ ioctl
-  PCITEST_LEGACY_IRQ: Tests legacy IRQ
-  PCITEST_MSI: Tests message signalled interrupts. The MSI number
- 	      to be tested should be passed as argument.
-+ PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
-+	      to be tested should be passed as argument.
-  PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
- 		as argument.
-  PCITEST_READ: Perform read tests. The size of the buffer should be passed
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index 349794c..f4fef10 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -39,13 +39,14 @@
+diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
+index 7980ecb..3a3c8fa 100644
+--- a/Documentation/sysctl/fs.txt
++++ b/Documentation/sysctl/fs.txt
+@@ -32,6 +32,7 @@ Currently, these files are in /proc/sys/fs:
+ - nr_open
+ - overflowuid
+ - overflowgid
++- neg-dentry-enforce
+ - neg-dentry-pc
+ - pipe-user-pages-hard
+ - pipe-user-pages-soft
+@@ -169,6 +170,15 @@ The default is 65534.
  
- #define IRQ_TYPE_LEGACY				0
- #define IRQ_TYPE_MSI				1
-+#define IRQ_TYPE_MSIX				2
+ ==============================================================
  
- #define PCI_ENDPOINT_TEST_MAGIC			0x0
++neg-dentry-enforce:
++
++The file neg-dentry-enforce, if present, contains a boolean flag (0 or
++1) indicating if the negative dentries limit set by the "neg_dentry_pc"
++sysctl parameter should be enforced or not.  If enforced, excess negative
++dentries over the limit will be killed immediately after use.
++
++==============================================================
++
+ neg-dentry-pc:
  
- #define PCI_ENDPOINT_TEST_COMMAND		0x4
- #define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
- #define COMMAND_RAISE_MSI_IRQ			BIT(1)
--/* BIT(2) is reserved for raising MSI-X IRQ command */
-+#define COMMAND_RAISE_MSIX_IRQ			BIT(2)
- #define COMMAND_READ				BIT(3)
- #define COMMAND_WRITE				BIT(4)
- #define COMMAND_COPY				BIT(5)
-@@ -84,7 +85,7 @@ MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
+ This integer value specifies a soft limit to the total number of
+diff --git a/fs/dcache.c b/fs/dcache.c
+index ec007ac..43d49d7 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -147,6 +147,8 @@ struct dentry_stat_t dentry_stat = {
+ static int neg_dentry_pc_old;
+ int neg_dentry_pc;
+ EXPORT_SYMBOL_GPL(neg_dentry_pc);
++int neg_dentry_enforce;	/* Enforce the negative dentry limit */
++EXPORT_SYMBOL_GPL(neg_dentry_enforce);
  
- static int irq_type = IRQ_TYPE_MSI;
- module_param(irq_type, int, 0444);
--MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI)");
-+MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI, 2 - MSI-X)");
+ static long neg_dentry_percpu_limit __read_mostly;
+ static long neg_dentry_nfree_init __read_mostly; /* Free pool initial value */
+@@ -161,6 +163,7 @@ struct dentry_stat_t dentry_stat = {
+ } ndblk ____cacheline_aligned_in_smp;
+ proc_handler proc_neg_dentry_pc;
  
- enum pci_barno {
- 	BAR_0,
-@@ -202,16 +203,18 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
- }
++static void d_lru_del(struct dentry *dentry);
+ static void prune_negative_dentry(struct work_struct *work);
+ static DECLARE_DELAYED_WORK(prune_neg_dentry_work, prune_negative_dentry);
  
- static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
--				      u8 msi_num)
-+				       u16 msi_num, bool msix)
+@@ -319,8 +322,12 @@ static long __neg_dentry_nfree_dec(long cnt)
+ 
+ /*
+  * Increment negative dentry count if applicable.
++ *
++ * The retain flag will only be set when calling from
++ * __d_clear_type_and_inode() so as to retain the entry even
++ * if the negative dentry limit has been exceeded.
+  */
+-static void __neg_dentry_inc(struct dentry *dentry)
++static void __neg_dentry_inc(struct dentry *dentry, bool retain)
  {
- 	u32 val;
- 	struct pci_dev *pdev = test->pdev;
+ 	long cnt = 0, *pcnt;
  
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
--				 IRQ_TYPE_MSI);
-+				 msix == false ? IRQ_TYPE_MSI :
-+				 IRQ_TYPE_MSIX);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, msi_num);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
--				 COMMAND_RAISE_MSI_IRQ);
-+				 msix == false ? COMMAND_RAISE_MSI_IRQ :
-+				 COMMAND_RAISE_MSIX_IRQ);
- 	val = wait_for_completion_timeout(&test->irq_raised,
- 					  msecs_to_jiffies(1000));
- 	if (!val)
-@@ -456,7 +459,8 @@ static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
- 		ret = pci_endpoint_test_legacy_irq(test);
- 		break;
- 	case PCITEST_MSI:
--		ret = pci_endpoint_test_msi_irq(test, arg);
-+	case PCITEST_MSIX:
-+		ret = pci_endpoint_test_msi_irq(test, arg, cmd == PCITEST_MSIX);
- 		break;
- 	case PCITEST_WRITE:
- 		ret = pci_endpoint_test_write(test, arg);
-@@ -542,6 +546,12 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 			dev_err(dev, "Failed to get MSI interrupts\n");
- 		test->num_irqs = irq;
- 		break;
-+	case IRQ_TYPE_MSIX:
-+		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
-+		if (irq < 0)
-+			dev_err(dev, "Failed to get MSI-X interrupts\n");
-+		test->num_irqs = irq;
-+		break;
- 	default:
- 		dev_err(dev, "Invalid IRQ type selected\n");
- 	}
-@@ -558,8 +568,9 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 				       pci_endpoint_test_irqhandler,
- 				       IRQF_SHARED, DRV_MODULE_NAME, test);
- 		if (err)
--			dev_err(dev, "failed to request IRQ %d for MSI %d\n",
--				pci_irq_vector(pdev, i), i + 1);
-+			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
-+				pci_irq_vector(pdev, i),
-+				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
- 	}
+@@ -347,10 +354,25 @@ static void __neg_dentry_inc(struct dentry *dentry)
+ 	put_cpu_ptr(&nr_dentry_neg);
  
- 	for (bar = BAR_0; bar <= BAR_5; bar++) {
-@@ -625,6 +636,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+ 	/*
+-	 * Put out a warning if there are too many negative dentries.
++	 * Put out a warning if there are too many negative dentries or
++	 * kill it by removing it from the LRU and set the
++	 * DCACHE_KILL_NEGATIVE flag if the enforce option is on.
+ 	 */
+-	if (!cnt)
++	if (!cnt) {
++		if (neg_dentry_enforce && !retain) {
++			dentry->d_flags |= DCACHE_KILL_NEGATIVE;
++			d_lru_del(dentry);
++			/*
++			 * When the dentry is no longer in LRU, we
++			 * need to keep the reference count to 1 to
++			 * avoid problem when killing it.
++			 */
++			WARN_ON_ONCE(dentry->d_lockref.count);
++			dentry->d_lockref.count = 1;
++			return; /* Kill the dentry now */
++		}
+ 		pr_warn_once("Too many negative dentries.");
++	}
  
- err_disable_msi:
- 	pci_disable_msi(pdev);
-+	pci_disable_msix(pdev);
- 	pci_release_regions(pdev);
- 
- err_disable_pdev:
-@@ -656,6 +668,7 @@ static void pci_endpoint_test_remove(struct pci_dev *pdev)
- 	for (i = 0; i < test->num_irqs; i++)
- 		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i), test);
- 	pci_disable_msi(pdev);
-+	pci_disable_msix(pdev);
- 	pci_release_regions(pdev);
- 	pci_disable_device(pdev);
+ 	/*
+ 	 * Initiate negative dentry pruning if free pool has less than
+@@ -376,7 +398,7 @@ static void __neg_dentry_inc(struct dentry *dentry)
+ static inline void neg_dentry_inc(struct dentry *dentry)
+ {
+ 	if (unlikely(d_is_negative(dentry)))
+-		__neg_dentry_inc(dentry);
++		__neg_dentry_inc(dentry, false);
  }
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index 70d0688..36d83d1 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -585,6 +585,7 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
- 	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
  
- 	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
-+	epc->features |= EPC_FEATURE_MSIX_AVAILABLE;
- 	EPC_FEATURE_SET_BAR(epc->features, BAR_0);
+ /*
+@@ -551,7 +573,7 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
+ 	WRITE_ONCE(dentry->d_flags, flags);
+ 	dentry->d_inode = NULL;
+ 	if (dentry->d_flags & DCACHE_LRU_LIST)
+-		__neg_dentry_inc(dentry);
++		__neg_dentry_inc(dentry, true);	/* Always retain it */
+ }
  
- 	ep->epc = epc;
-diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-index eb9cd00..123f58c 100644
---- a/drivers/pci/endpoint/functions/pci-epf-test.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-@@ -20,10 +20,11 @@
+ static void dentry_free(struct dentry *dentry)
+@@ -871,16 +893,22 @@ static inline bool retain_dentry(struct dentry *dentry)
+ 	if (unlikely(dentry->d_flags & DCACHE_DISCONNECTED))
+ 		return false;
  
- #define IRQ_TYPE_LEGACY			0
- #define IRQ_TYPE_MSI			1
-+#define IRQ_TYPE_MSIX			2
++	if (unlikely(dentry->d_flags & DCACHE_KILL_NEGATIVE))
++		return false;
++
+ 	if (unlikely(dentry->d_flags & DCACHE_OP_DELETE)) {
+ 		if (dentry->d_op->d_delete(dentry))
+ 			return false;
+ 	}
+ 	/* retain; LRU fodder */
+ 	dentry->d_lockref.count--;
+-	if (unlikely(!(dentry->d_flags & DCACHE_LRU_LIST)))
++	if (unlikely(!(dentry->d_flags & DCACHE_LRU_LIST))) {
+ 		d_lru_add(dentry);
+-	else if (unlikely(!(dentry->d_flags & DCACHE_REFERENCED)))
++		if (unlikely(dentry->d_flags & DCACHE_KILL_NEGATIVE))
++			return false;
++	} else if (unlikely(!(dentry->d_flags & DCACHE_REFERENCED))) {
+ 		dentry->d_flags |= DCACHE_REFERENCED;
++	}
+ 	return true;
+ }
  
- #define COMMAND_RAISE_LEGACY_IRQ	BIT(0)
- #define COMMAND_RAISE_MSI_IRQ		BIT(1)
--/* BIT(2) is reserved for raising MSI-X IRQ command */
-+#define COMMAND_RAISE_MSIX_IRQ		BIT(2)
- #define COMMAND_READ			BIT(3)
- #define COMMAND_WRITE			BIT(4)
- #define COMMAND_COPY			BIT(5)
-@@ -47,6 +48,7 @@ struct pci_epf_test {
- 	struct pci_epf		*epf;
- 	enum pci_barno		test_reg_bar;
- 	bool			linkup_notifier;
-+	bool			msix_available;
- 	struct delayed_work	cmd_handler;
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 317e040..71a3315 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -219,6 +219,7 @@ struct dentry_operations {
+ 
+ #define DCACHE_PAR_LOOKUP		0x10000000 /* being looked up (with parent locked shared) */
+ #define DCACHE_DENTRY_CURSOR		0x20000000
++#define DCACHE_KILL_NEGATIVE		0x40000000 /* Kill negative dentry */
+ 
+ extern seqlock_t rename_lock;
+ 
+@@ -615,5 +616,6 @@ struct name_snapshot {
+  * Negative dentry related declarations.
+  */
+ extern int neg_dentry_pc;
++extern int neg_dentry_enforce;
+ 
+ #endif	/* __LINUX_DCACHE_H */
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index b46cb35..8c008ae 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1861,6 +1861,15 @@ static int sysrq_sysctl_handler(struct ctl_table *table, int write,
+ 		.extra1		= &zero,
+ 		.extra2		= &ten,
+ 	},
++	{
++		.procname	= "neg-dentry-enforce",
++		.data		= &neg_dentry_enforce,
++		.maxlen		= sizeof(neg_dentry_enforce),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= &zero,
++		.extra2		= &one,
++	},
+ 	{ }
  };
  
-@@ -266,6 +268,9 @@ static void pci_epf_test_raise_irq(struct pci_epf_test *epf_test, u8 irq_type,
- 	case IRQ_TYPE_MSI:
- 		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSI, irq);
- 		break;
-+	case IRQ_TYPE_MSIX:
-+		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSIX, irq);
-+		break;
- 	default:
- 		dev_err(dev, "Failed to raise IRQ, unknown type\n");
- 		break;
-@@ -292,7 +297,7 @@ static void pci_epf_test_cmd_handler(struct work_struct *work)
- 	reg->command = 0;
- 	reg->status = 0;
- 
--	if (reg->irq_type > IRQ_TYPE_MSI) {
-+	if (reg->irq_type > IRQ_TYPE_MSIX) {
- 		dev_err(dev, "Failed to detect IRQ type\n");
- 		goto reset_handler;
- 	}
-@@ -346,6 +351,16 @@ static void pci_epf_test_cmd_handler(struct work_struct *work)
- 		goto reset_handler;
- 	}
- 
-+	if (command & COMMAND_RAISE_MSIX_IRQ) {
-+		count = pci_epc_get_msix(epc, epf->func_no);
-+		if (reg->irq_number > count || count <= 0)
-+			goto reset_handler;
-+		reg->status = STATUS_IRQ_RAISED;
-+		pci_epc_raise_irq(epc, epf->func_no, PCI_EPC_IRQ_MSIX,
-+				  reg->irq_number);
-+		goto reset_handler;
-+	}
-+
- reset_handler:
- 	queue_delayed_work(kpcitest_workqueue, &epf_test->cmd_handler,
- 			   msecs_to_jiffies(1));
-@@ -459,6 +474,8 @@ static int pci_epf_test_bind(struct pci_epf *epf)
- 	else
- 		epf_test->linkup_notifier = true;
- 
-+	epf_test->msix_available = epc->features & EPC_FEATURE_MSIX_AVAILABLE;
-+
- 	epf_test->test_reg_bar = EPC_FEATURE_GET_BAR(epc->features);
- 
- 	ret = pci_epc_write_header(epc, epf->func_no, header);
-@@ -481,6 +498,14 @@ static int pci_epf_test_bind(struct pci_epf *epf)
- 		return ret;
- 	}
- 
-+	if (epf_test->msix_available) {
-+		ret = pci_epc_set_msix(epc, epf->func_no, epf->msix_interrupts);
-+		if (ret) {
-+			dev_err(dev, "MSI-X configuration failed\n");
-+			return ret;
-+		}
-+	}
-+
- 	if (!epf_test->linkup_notifier)
- 		queue_work(kpcitest_workqueue, &epf_test->cmd_handler.work);
- 
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index bb2395b..37dab81 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -102,6 +102,7 @@ struct pci_epc {
- 
- #define EPC_FEATURE_NO_LINKUP_NOTIFIER		BIT(0)
- #define EPC_FEATURE_BAR_MASK			(BIT(1) | BIT(2) | BIT(3))
-+#define EPC_FEATURE_MSIX_AVAILABLE		BIT(4)
- #define EPC_FEATURE_SET_BAR(features, bar)	\
- 		(features |= (EPC_FEATURE_BAR_MASK & (bar << 1)))
- #define EPC_FEATURE_GET_BAR(features)		\
-diff --git a/include/uapi/linux/pcitest.h b/include/uapi/linux/pcitest.h
-index 953cf03..d746fb1 100644
---- a/include/uapi/linux/pcitest.h
-+++ b/include/uapi/linux/pcitest.h
-@@ -16,5 +16,6 @@
- #define PCITEST_WRITE		_IOW('P', 0x4, unsigned long)
- #define PCITEST_READ		_IOW('P', 0x5, unsigned long)
- #define PCITEST_COPY		_IOW('P', 0x6, unsigned long)
-+#define PCITEST_MSIX		_IOW('P', 0x7, int)
- 
- #endif /* __UAPI_LINUX_PCITEST_H */
 -- 
-2.7.4
-
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
