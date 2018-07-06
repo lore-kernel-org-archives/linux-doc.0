@@ -1,106 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-1.7 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D8127D071
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 20:32:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A97837D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 21:55:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754121AbeGFUca convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 16:32:30 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:45558 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1754125AbeGFUc3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Jul 2018 16:32:29 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D7F99406E9BD;
-        Fri,  6 Jul 2018 20:32:28 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 51145111DD04;
-        Fri,  6 Jul 2018 20:32:25 +0000 (UTC)
-Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
- on cgroup v2 root
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <1529825440-9574-1-git-send-email-longman@redhat.com>
- <1529825440-9574-8-git-send-email-longman@redhat.com>
- <20180702165322.GI533219@devbig577.frc2.facebook.com>
- <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
- <20180703155823.GS533219@devbig577.frc2.facebook.com>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <4cf9924e-7b97-187f-a1f5-853a45165abb@redhat.com>
-Date:   Fri, 6 Jul 2018 16:32:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S1754207AbeGFVyo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 17:54:44 -0400
+Received: from mail-pf0-f193.google.com ([209.85.192.193]:46649 "EHLO
+        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753631AbeGFVyl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 17:54:41 -0400
+Received: by mail-pf0-f193.google.com with SMTP id l123-v6so9403462pfl.13;
+        Fri, 06 Jul 2018 14:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZubZKwa42cdMZZc4gyk5NXOPI4XXCTQ81VX7+8UJ+Uc=;
+        b=dzvo2WWS5CWboTtc/G1ojw+V+csP8H5oV79uEL6ei/80FpcpHR7+19lMQb6Bf3jaFH
+         8unjQjrSDLygT3ihRr/DTbotH0EucuBfaWMqUaDcOL72NQ9ZLZqULp2Y1YzRrMTqXfLW
+         Udh/SDInHirg48YdArpB/MfzzVOwxzzY2FrzpzxNx2XSjUNZfgBSBlK76pGCGTD51LYh
+         EKcbaYxG9VnBQ5Zk0UqhW7wmohwsvnp6AnftmZuVeJy2S06Za7DjnxbT0HCYse05FPld
+         bBYftFgczJhHONq9VcWkTYWMHUbPUwhQgaDEWh/7eSreKAK21uDUvWNBcwHdJbTGKUub
+         ZztA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZubZKwa42cdMZZc4gyk5NXOPI4XXCTQ81VX7+8UJ+Uc=;
+        b=p3Fq2ImgD8k6nPUbG2XvuYA2RgXu3sko737/MVEvNvBdAj3AtKutHqt2GYMn4AZ+LS
+         L+hdPyzktowx6ttMpmu5DG5V83I/5NYiuV006M87fxmFcNFFNRPPdEqljv4pn8PEz8S4
+         OwrcacYq85AV6xd39Q+wCYFiYqojp5Rj48XX6VUe+QZDQoBhvbEPUJrwt/sGkWIexlGM
+         awieQz8le4vXpQEPXjfPy/Unmj2FRAV1UJOAWAHeMsg1OyishpqKNLioGTU8jpPhWW6p
+         ocniqsrqXEh38tFs9fnoFW3qZ5vi8YuoOjVhXRDVGFBr0Xv7kbYfnFatzJbEHtnNlyV1
+         YeEg==
+X-Gm-Message-State: APt69E3Wj7dvd/eZHmFIw6IK9xVzdMOHwryHJ38cSIU8xsqB2SQ6a/6T
+        n1j9Tpml+kS+fDBv6PWc7qY=
+X-Google-Smtp-Source: AAOMgpckBBxGO8qT31VH2cZqVniSdxfNRP2VaRXlNm11dfKIZ3VDUl2E+0I+kXDFZTZF+Xo1WvoBqQ==
+X-Received: by 2002:a65:40cd:: with SMTP id u13-v6mr10975197pgp.334.1530914080279;
+        Fri, 06 Jul 2018 14:54:40 -0700 (PDT)
+Received: from gmail.com ([2620:15c:17:3:dc28:5c82:b905:e8a8])
+        by smtp.gmail.com with ESMTPSA id d9-v6sm14214804pge.68.2018.07.06.14.54.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 06 Jul 2018 14:54:39 -0700 (PDT)
+Date:   Fri, 6 Jul 2018 14:54:37 -0700
+From:   Eric Biggers <ebiggers3@gmail.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+Subject: Re: [PATCH v6 7/7] fs/dcache: Allow deconfiguration of negative
+ dentry code to reduce kernel size
+Message-ID: <20180706215437.GA109361@gmail.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+ <1530905572-817-8-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20180703155823.GS533219@devbig577.frc2.facebook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 06 Jul 2018 20:32:28 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Fri, 06 Jul 2018 20:32:28 +0000 (UTC) for IP:'10.11.54.3' DOMAIN:'int-mx03.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1530905572-817-8-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.10+35 (c786a508) (2018-06-22)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/03/2018 11:58 AM, Tejun Heo wrote:
-> Hello, Waiman.
->
-> On Tue, Jul 03, 2018 at 08:41:31AM +0800, Waiman Long wrote:
->>> So, effective changing when enabling partition on a child feels wrong
->>> to me.  It's supposed to contain what's actually allowed to the cgroup
->>> from its parent and that shouldn't change regardless of how those
->>> resources are used.  It's still given to the cgroup from its parent.
->> Another way to work around this issue is to expose the reserved_cpus in
->> the parent for holding CPUs that can taken by a chid partition. That
->> will require adding one more cpuset file for those cgroups that are
->> partition roots.
-> Yeah, that should work.
->
+On Fri, Jul 06, 2018 at 03:32:52PM -0400, Waiman Long wrote:
+> The tracking and limit of negative dentries in a filesystem is a useful
+> addition. However, for users who want to reduce the kernel size as much
+> as possible, this feature will probably be on the chopping block. To
+> suit those users, a default-y config option DCACHE_LIMIT_NEG_ENTRY is
+> added so that the negative dentry tracking and limiting code can be
+> configured out, if necessary.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  fs/Kconfig             | 10 ++++++++++
+>  fs/dcache.c            | 33 ++++++++++++++++++++++++++++++++-
+>  include/linux/dcache.h |  2 ++
+>  kernel/sysctl.c        |  2 ++
+>  4 files changed, 46 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/Kconfig b/fs/Kconfig
+> index ac474a6..b521941 100644
+> --- a/fs/Kconfig
+> +++ b/fs/Kconfig
+> @@ -113,6 +113,16 @@ source "fs/autofs/Kconfig"
+>  source "fs/fuse/Kconfig"
+>  source "fs/overlayfs/Kconfig"
+>  
+> +#
+> +# Track and limit the number of negative dentries allowed in the system.
+> +#
+> +config DCACHE_LIMIT_NEG_ENTRY
+> +	bool "Track & limit negative dcache entries"
+> +	default y
+> +	help
+> +	  This option enables the tracking and limiting of the total
+> +	  number of negative dcache entries allowable in the filesystem.
+> +
 
-Thinking about it a bit more, that approach will make creating a
-partition a multi-step process:
+If there's going to be a config option for this, it should be documented
+properly.  I.e., why would someone want to turn this on, or turn it off?  What
+are the tradeoffs?  If unsure, should the user say y or n?
 
-1) Reserve the CPUs in reserved_cpus.
-2) enable sched.partition
-3) Write the CPUs list into cpus.
+I think there are way too many config options that were meaningful to the person
+writing the code but aren't meaningful to people configuring the kernel.
 
-There are also more exception cases that need to be handled. The current
-approach, on the other hands, is much simpler and easier to understand
-and use.
-
->> I don't mind restricting that to the first level children for now. That
->> does restrict where we can put the container root if we want a separate
->> partition for a container. Let's hear if others have any objection about
->> that.
-> As currently implemented, partioning locks away the cpus which should
-> be a system level decision, not container level, so it makes sense to
-> me that it is only available to system root.
-
-So my preference is to allow partition only on the first level children
-of the root for the time being. I think it should cover most of the use
-cases. I will update the patchset to reflect that.
-
-Cheers,
-Longman
-
+- Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
