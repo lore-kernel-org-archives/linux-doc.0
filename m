@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F1737D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 19:35:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4A1E57D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 19:35:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934918AbeGFTed (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 15:34:33 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33434 "EHLO mx1.redhat.com"
+        id S934775AbeGFTfE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 15:35:04 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:33410 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S934778AbeGFTec (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Jul 2018 15:34:32 -0400
+        id S934901AbeGFTeb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Jul 2018 15:34:31 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 619F1401DE81;
-        Fri,  6 Jul 2018 19:34:31 +0000 (UTC)
-Received: from llong.com (dhcp-17-175.bos.redhat.com [10.18.17.175])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E519979DE;
+        by mx1.redhat.com (Postfix) with ESMTPS id 68091401DE71;
         Fri,  6 Jul 2018 19:34:30 +0000 (UTC)
+Received: from llong.com (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EABC97C2F;
+        Fri,  6 Jul 2018 19:34:29 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -40,196 +40,185 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v6 7/7] fs/dcache: Allow deconfiguration of negative dentry code to reduce kernel size
-Date:   Fri,  6 Jul 2018 15:32:52 -0400
-Message-Id: <1530905572-817-8-git-send-email-longman@redhat.com>
+Subject: [PATCH v6 5/7] fs/dcache: Add negative dentries to LRU head initially
+Date:   Fri,  6 Jul 2018 15:32:50 -0400
+Message-Id: <1530905572-817-6-git-send-email-longman@redhat.com>
 In-Reply-To: <1530905572-817-1-git-send-email-longman@redhat.com>
 References: <1530905572-817-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 06 Jul 2018 19:34:31 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 06 Jul 2018 19:34:31 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 06 Jul 2018 19:34:30 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.6]); Fri, 06 Jul 2018 19:34:30 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The tracking and limit of negative dentries in a filesystem is a useful
-addition. However, for users who want to reduce the kernel size as much
-as possible, this feature will probably be on the chopping block. To
-suit those users, a default-y config option DCACHE_LIMIT_NEG_ENTRY is
-added so that the negative dentry tracking and limiting code can be
-configured out, if necessary.
+For negative dentries that are accessed once and never reused again,
+there is not much value in putting the dentries at the tail of the LRU
+list and keep it for a long time. So a new DCACHE_LRU_HEAD flag is added
+to a negative dentry when it is initially created. When such a dentry
+is added to the LRU, it will be added to the head so that it will be
+the first to go when a shrinker is running. The flag is then cleared
+after the LRU list addition. So if that dentry is accessed again,
+it will be put back to the tail like the rest of the dentries.
 
+By running a negative dentry generator for a certain period of time
+and let the automatic pruning process to run through its course, the
+number of negative and positive dentries discarded were:
+
+	681 iterations, 43503/60 neg/pos dentries freed.
+	45115 iterations, 2884992/64 neg/pos dentries freed.
+
+So the number of positive dentries discarded is only 124.
+
+Without this patch, the number of negative and positive dentries
+discarded would be:
+
+	20 iterations, 598/483 neg/pos dentries freed.
+	60 iterations, 2977/517 neg/pos dentries freed.
+	31 iterations, 1060/599 neg/pos dentries freed.
+	11 iterations, 447/103 neg/pos dentries freed.
+	17 iterations, 682/304 neg/pos dentries freed.
+	17 iterations, 555/196 neg/pos dentries freed.
+	33008 iterations, 2094860/7624 neg/pos dentries freed.
+
+It can be seen that a lot more positive dentries would have been lost
+as collateral damage in this case.
+
+Suggested-by: Larry Woodman <lwoodman@redhat.com>
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- fs/Kconfig             | 10 ++++++++++
- fs/dcache.c            | 33 ++++++++++++++++++++++++++++++++-
- include/linux/dcache.h |  2 ++
- kernel/sysctl.c        |  2 ++
- 4 files changed, 46 insertions(+), 1 deletion(-)
+ fs/dcache.c              | 18 +++++++++++++++++-
+ include/linux/dcache.h   |  1 +
+ include/linux/list_lru.h | 17 +++++++++++++++++
+ mm/list_lru.c            | 19 +++++++++++++++++--
+ 4 files changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/fs/Kconfig b/fs/Kconfig
-index ac474a6..b521941 100644
---- a/fs/Kconfig
-+++ b/fs/Kconfig
-@@ -113,6 +113,16 @@ source "fs/autofs/Kconfig"
- source "fs/fuse/Kconfig"
- source "fs/overlayfs/Kconfig"
- 
-+#
-+# Track and limit the number of negative dentries allowed in the system.
-+#
-+config DCACHE_LIMIT_NEG_ENTRY
-+	bool "Track & limit negative dcache entries"
-+	default y
-+	help
-+	  This option enables the tracking and limiting of the total
-+	  number of negative dcache entries allowable in the filesystem.
-+
- menu "Caches"
- 
- source "fs/fscache/Kconfig"
 diff --git a/fs/dcache.c b/fs/dcache.c
-index 43d49d7..d00761e 100644
+index 3be9246..ec007ac 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
-@@ -143,6 +143,7 @@ struct dentry_stat_t dentry_stat = {
- #define NEG_IS_SB_UMOUNTING(sb)	\
- 	unlikely(!(sb)->s_root || !((sb)->s_flags & MS_ACTIVE))
- 
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- static struct static_key limit_neg_key = STATIC_KEY_INIT_FALSE;
- static int neg_dentry_pc_old;
- int neg_dentry_pc;
-@@ -166,10 +167,11 @@ struct dentry_stat_t dentry_stat = {
- static void d_lru_del(struct dentry *dentry);
- static void prune_negative_dentry(struct work_struct *work);
- static DECLARE_DELAYED_WORK(prune_neg_dentry_work, prune_negative_dentry);
-+static DEFINE_PER_CPU(long, nr_dentry_neg);
-+#endif /* CONFIG_DCACHE_LIMIT_NEG_ENTRY */
- 
- static DEFINE_PER_CPU(long, nr_dentry);
- static DEFINE_PER_CPU(long, nr_dentry_unused);
--static DEFINE_PER_CPU(long, nr_dentry_neg);
- 
- #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
- 
-@@ -203,6 +205,7 @@ static long get_nr_dentry_unused(void)
- 	return sum < 0 ? 0 : sum;
- }
- 
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- static long get_nr_dentry_neg(void)
+@@ -615,10 +615,23 @@ static void dentry_unlink_inode(struct dentry * dentry)
+ #define D_FLAG_VERIFY(dentry,x) WARN_ON_ONCE(((dentry)->d_flags & (DCACHE_LRU_LIST | DCACHE_SHRINK_LIST)) != (x))
+ static void d_lru_add(struct dentry *dentry)
  {
- 	int i;
-@@ -213,6 +216,9 @@ static long get_nr_dentry_neg(void)
- 	sum += neg_dentry_nfree_init - ndblk.nfree;
- 	return sum < 0 ? 0 : sum;
++	int ret;
++
+ 	D_FLAG_VERIFY(dentry, 0);
+ 	dentry->d_flags |= DCACHE_LRU_LIST;
+ 	this_cpu_inc(nr_dentry_unused);
+-	WARN_ON_ONCE(!list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
++	if (unlikely(dentry->d_flags & DCACHE_LRU_HEAD)) {
++		/*
++		 * Add to the head once, it will be added to the tail
++		 * next time.
++		 */
++		ret = list_lru_add_head(&dentry->d_sb->s_dentry_lru,
++					&dentry->d_lru);
++		dentry->d_flags &= ~DCACHE_LRU_HEAD;
++	} else {
++		ret = list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru);
++	}
++	WARN_ON_ONCE(!ret);
+ 	neg_dentry_inc(dentry);
  }
-+#else
-+static long get_nr_dentry_neg(void)	{ return 0; }
-+#endif
  
- int proc_nr_dentry(struct ctl_table *table, int write, void __user *buffer,
- 		   size_t *lenp, loff_t *ppos)
-@@ -277,6 +283,7 @@ static inline int dentry_string_cmp(const unsigned char *cs, const unsigned char
- 
- #endif
- 
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- /*
-  * Decrement negative dentry count if applicable.
-  */
-@@ -455,6 +462,26 @@ int proc_neg_dentry_pc(struct ctl_table *ctl, int write,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(proc_neg_dentry_pc);
-+#else /* CONFIG_DCACHE_LIMIT_NEG_ENTRY */
-+
-+static inline void __neg_dentry_dec(struct dentry *dentry)
-+{
-+}
-+
-+static inline void neg_dentry_dec(struct dentry *dentry)
-+{
-+}
-+
-+static inline void __neg_dentry_inc(struct dentry *dentry, bool retain)
-+{
-+}
-+
-+static inline void neg_dentry_inc(struct dentry *dentry)
-+{
-+}
-+
-+#endif /* CONFIG_DCACHE_LIMIT_NEG_ENTRY */
-+
- 
- static inline int dentry_cmp(const struct dentry *dentry, const unsigned char *ct, unsigned tcount)
- {
-@@ -1485,6 +1512,7 @@ void shrink_dcache_sb(struct super_block *sb)
- }
- EXPORT_SYMBOL(shrink_dcache_sb);
- 
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- /*
-  * A modified version that attempts to remove a limited number of negative
-  * dentries as well as some other non-negative dentries at the front.
-@@ -1639,6 +1667,7 @@ static void prune_negative_dentry(struct work_struct *work)
- 	deactivate_super(sb);
- 	WRITE_ONCE(ndblk.prune_sb, NULL);
- }
-+#endif /* CONFIG_DCACHE_LIMIT_NEG_ENTRY */
- 
- /**
-  * enum d_walk_ret - action to talke during tree walk
-@@ -3576,7 +3605,9 @@ static void __init dcache_init(void)
- 		SLAB_RECLAIM_ACCOUNT|SLAB_PANIC|SLAB_MEM_SPREAD|SLAB_ACCOUNT,
- 		d_iname);
- 
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- 	raw_spin_lock_init(&ndblk.nfree_lock);
-+#endif
- 
- 	/* Hash may have been set up in dcache_init_early */
- 	if (!hashdist)
+@@ -2988,6 +3001,9 @@ static inline void __d_add(struct dentry *dentry, struct inode *inode)
+ 		__d_set_inode_and_type(dentry, inode, add_flags);
+ 		raw_write_seqcount_end(&dentry->d_seq);
+ 		fsnotify_update_flags(dentry);
++	} else {
++		/* It is a negative dentry, add it to LRU head initially. */
++		dentry->d_flags |= DCACHE_LRU_HEAD;
+ 	}
+ 	__d_rehash(dentry);
+ 	if (dir)
 diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 71a3315..27ffc35 100644
+index 44e19d9..317e040 100644
 --- a/include/linux/dcache.h
 +++ b/include/linux/dcache.h
-@@ -612,10 +612,12 @@ struct name_snapshot {
- void take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
- void release_dentry_name_snapshot(struct name_snapshot *);
+@@ -215,6 +215,7 @@ struct dentry_operations {
+ #define DCACHE_FALLTHRU			0x01000000 /* Fall through to lower layer */
+ #define DCACHE_ENCRYPTED_WITH_KEY	0x02000000 /* dir is encrypted with a valid key */
+ #define DCACHE_OP_REAL			0x04000000
++#define DCACHE_LRU_HEAD 		0x08000000 /* Add to LRU head initially */
  
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- /*
-  * Negative dentry related declarations.
-  */
- extern int neg_dentry_pc;
- extern int neg_dentry_enforce;
-+#endif
+ #define DCACHE_PAR_LOOKUP		0x10000000 /* being looked up (with parent locked shared) */
+ #define DCACHE_DENTRY_CURSOR		0x20000000
+diff --git a/include/linux/list_lru.h b/include/linux/list_lru.h
+index a9598a0..7856435 100644
+--- a/include/linux/list_lru.h
++++ b/include/linux/list_lru.h
+@@ -87,6 +87,23 @@ int __list_lru_init(struct list_lru *lru, bool memcg_aware,
+ bool list_lru_add(struct list_lru *lru, struct list_head *item);
  
- #endif	/* __LINUX_DCACHE_H */
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 8c008ae..875d5ef 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -1852,6 +1852,7 @@ static int sysrq_sysctl_handler(struct ctl_table *table, int write,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= &one,
- 	},
-+#ifdef CONFIG_DCACHE_LIMIT_NEG_ENTRY
- 	{
- 		.procname	= "neg-dentry-pc",
- 		.data		= &neg_dentry_pc,
-@@ -1870,6 +1871,7 @@ static int sysrq_sysctl_handler(struct ctl_table *table, int write,
- 		.extra1		= &zero,
- 		.extra2		= &one,
- 	},
-+#endif
- 	{ }
- };
+ /**
++ * list_lru_add_head: add an element to the lru list's head
++ * @list_lru: the lru pointer
++ * @item: the item to be added.
++ *
++ * This is similar to list_lru_add(). The only difference is the location
++ * where the new item will be added. The list_lru_add() function will add
++ * the new item to the tail as it is the most recently used one. The
++ * list_lru_add_head() will add the new item into the head so that it
++ * will the first to go if a shrinker is running. So this function should
++ * only be used for less important item that can be the first to go if
++ * the system is under memory pressure.
++ *
++ * Return value: true if the list was updated, false otherwise
++ */
++bool list_lru_add_head(struct list_lru *lru, struct list_head *item);
++
++/**
+  * list_lru_del: delete an element to the lru list
+  * @list_lru: the lru pointer
+  * @item: the item to be deleted.
+diff --git a/mm/list_lru.c b/mm/list_lru.c
+index 2ee5d3a..4ea3c1e 100644
+--- a/mm/list_lru.c
++++ b/mm/list_lru.c
+@@ -107,7 +107,8 @@ static inline bool list_lru_memcg_aware(struct list_lru *lru)
+ }
+ #endif /* CONFIG_MEMCG && !CONFIG_SLOB */
  
+-bool list_lru_add(struct list_lru *lru, struct list_head *item)
++static inline bool __list_lru_add(struct list_lru *lru, struct list_head *item,
++				  const bool add_tail)
+ {
+ 	int nid = page_to_nid(virt_to_page(item));
+ 	struct list_lru_node *nlru = &lru->node[nid];
+@@ -116,7 +117,10 @@ bool list_lru_add(struct list_lru *lru, struct list_head *item)
+ 	spin_lock(&nlru->lock);
+ 	if (list_empty(item)) {
+ 		l = list_lru_from_kmem(nlru, item);
+-		list_add_tail(item, &l->list);
++		if (add_tail)
++			list_add_tail(item, &l->list);
++		else
++			list_add(item, &l->list);
+ 		l->nr_items++;
+ 		nlru->nr_items++;
+ 		spin_unlock(&nlru->lock);
+@@ -125,8 +129,19 @@ bool list_lru_add(struct list_lru *lru, struct list_head *item)
+ 	spin_unlock(&nlru->lock);
+ 	return false;
+ }
++
++bool list_lru_add(struct list_lru *lru, struct list_head *item)
++{
++	return __list_lru_add(lru, item, true);
++}
+ EXPORT_SYMBOL_GPL(list_lru_add);
+ 
++bool list_lru_add_head(struct list_lru *lru, struct list_head *item)
++{
++	return __list_lru_add(lru, item, false);
++}
++EXPORT_SYMBOL_GPL(list_lru_add_head);
++
+ bool list_lru_del(struct list_lru *lru, struct list_head *item)
+ {
+ 	int nid = page_to_nid(virt_to_page(item));
 -- 
 1.8.3.1
 
