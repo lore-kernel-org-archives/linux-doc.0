@@ -1,123 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BEB847D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 14:41:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 817847D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 15:51:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932925AbeGFOlP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 10:41:15 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46752 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S932714AbeGFOlN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 10:41:13 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w66Ed5f6111042
-        for <linux-doc@vger.kernel.org>; Fri, 6 Jul 2018 10:41:12 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2k28q7mr3k-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 06 Jul 2018 10:41:12 -0400
-Received: from localhost
-        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Fri, 6 Jul 2018 10:41:12 -0400
-Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
-        by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 6 Jul 2018 10:41:06 -0400
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w66Ef62G62193716
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 6 Jul 2018 14:41:06 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 731B6B2065;
-        Fri,  6 Jul 2018 10:40:45 -0400 (EDT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5C624B2067;
-        Fri,  6 Jul 2018 10:40:45 -0400 (EDT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.159])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri,  6 Jul 2018 10:40:45 -0400 (EDT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 85C9B16CA5DB; Fri,  6 Jul 2018 07:43:21 -0700 (PDT)
-Date:   Fri, 6 Jul 2018 07:43:21 -0700
-From:   "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/3] sched/locking/doc: Miscellaneous fixes
-Reply-To: paulmck@linux.vnet.ibm.com
-References: <1530182480-13205-1-git-send-email-andrea.parri@amarulasolutions.com>
- <20180705222812.GA4582@andrea>
- <20180706103611.GL2494@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180706103611.GL2494@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18070614-0064-0000-0000-00000326351C
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009319; HX=3.00000241; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01057419; UDB=6.00542519; IPR=6.00835339;
- MB=3.00022027; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-06 14:41:10
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18070614-0065-0000-0000-000039D79A4B
-Message-Id: <20180706144321.GE3593@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-06_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807060161
+        id S933503AbeGFPvm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 11:51:42 -0400
+Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:37529 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S932849AbeGFPvk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 11:51:40 -0400
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 19DF424E0162;
+        Fri,  6 Jul 2018 08:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1530892300; bh=1kqQNvYyjmzkzhdzVTb8d8BErnXGx1rR0gSmbHQOL8s=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
+         References:From;
+        b=FznZDnJ+j7Thp6+iNoHlPEApGAqYI+L2mUQjH666UiohayCEEiTyvxwiWpR+f3SYz
+         sNsm3viBDBKQtSOSvMOtQhOBxpYQfIocILbPkcBIpQdrJnvY7E8oV+hindkz22xpy+
+         VmegxpcsoUWdCGv10cM7fC4m1/Rci8l8rSWsHmpBPC5bNry09KAjZoMg3tl57+i3iI
+         2J32m1UXqcpL5e02CvaKH5bx3SCojW3+5m6F8n4LMTjEOTjG4W+jtjC2EV1mQpVKJ0
+         gOOXklGbUCB8GlDOFDTt9tIhCjZPhOa7SDvbJpv8g9uSRM01hBrpoHM6xxJqGB7zhS
+         HtWrPXINV53sA==
+Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 95B6840AE;
+        Fri,  6 Jul 2018 08:51:39 -0700 (PDT)
+Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
+        by pt02.synopsys.com (Postfix) with ESMTP id EEC1D3D248;
+        Fri,  6 Jul 2018 16:51:38 +0100 (WEST)
+From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
+        Joao.Pinto@synopsys.com, jingoohan1@gmail.com, kishon@ti.com,
+        adouglas@cadence.com, jesper.nilsson@axis.com,
+        shawn.lin@rock-chips.com
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Subject: [PATCH v8 04/11] PCI: dwc: Rework MSI callbacks handler
+Date:   Fri,  6 Jul 2018 16:51:27 +0100
+Message-Id: <719ba994afe47af4f600f5fbd8070cc8ff69103a.1530891871.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
+References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
+References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 06, 2018 at 12:36:11PM +0200, Peter Zijlstra wrote:
-> On Fri, Jul 06, 2018 at 12:28:12AM +0200, Andrea Parri wrote:
-> > What is the plan for this series?
-> > 
-> > We are currently discussing locking changes that might affect 2/3, but
-> > I'd still consider this patch and the overall series as an improvement
-> > over the current status (1/3 is a fix to the code) and I'd really like
-> > future changes to be based on this series...
-> > 
-> > I expected this series to go via "-rcu -> tip -> ..."; 2/3 had Peter's
-> > Ack, but 1/3 and 3/3 are missing any comments (or tags): please let me
-> > know if any action on the series is required from me (the series still
-> > applies on the latest "dev" branch of -rcu).
-> 
-> You can add my ack:
-> 
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> 
-> to the others as well, they look like a definite improvement. I'm fine
-> with these going through Paul's tree, Ingo?
+Remove duplicate defines located on pcie-designware.h file already
+available on /include/uapi/linux/pci-regs.h file.
 
-I have pulled them in and will submit them to the upcoming merge window,
-thank you all!  If someone else would prefer to take them, just let
-me know.
+Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+---
+Change v1->v2:
+ - Nothing changed, just to follow the patch set version.
+Change v2->v3:
+ - Replaced wrong return value 0 to -EINVAL.
+Change v3->v4:
+ - Rebased to Lorenzo's master branch v4.18-rc1.
+Change v4->v5:
+ - Moved pci_epc_set_msi maximum interrupts validation into a new patch
+file #11.
+Change v5->v6:
+ - Nothing changed, just to follow the patch set version.
+Change v6->v7:
+ - Nothing changed, just to follow the patch set version.
+Change v7->v8:
+ - Re-sending the patch series.
 
-							Thanx, Paul
+ drivers/pci/controller/dwc/pcie-designware-ep.c | 49 +++++++++++++++++--------
+ drivers/pci/controller/dwc/pcie-designware.h    | 11 ------
+ 2 files changed, 33 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+index bbe75d7..1f98db3 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-ep.c
++++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+@@ -246,29 +246,38 @@ static int dw_pcie_ep_map_addr(struct pci_epc *epc, u8 func_no,
+ 
+ static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no)
+ {
+-	int val;
+ 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	u32 val, reg;
++
++	if (!ep->msi_cap)
++		return -EINVAL;
+ 
+-	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
+-	if (!(val & MSI_CAP_MSI_EN_MASK))
++	reg = ep->msi_cap + PCI_MSI_FLAGS;
++	val = dw_pcie_readw_dbi(pci, reg);
++	if (!(val & PCI_MSI_FLAGS_ENABLE))
+ 		return -EINVAL;
+ 
+-	val = (val & MSI_CAP_MME_MASK) >> MSI_CAP_MME_SHIFT;
++	val = (val & PCI_MSI_FLAGS_QSIZE) >> 4;
++
+ 	return val;
+ }
+ 
+-static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 encode_int)
++static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 interrupts)
+ {
+-	int val;
+ 	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	u32 val, reg;
+ 
+-	val = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
+-	val &= ~MSI_CAP_MMC_MASK;
+-	val |= (encode_int << MSI_CAP_MMC_SHIFT) & MSI_CAP_MMC_MASK;
++	if (!ep->msi_cap)
++		return -EINVAL;
++
++	reg = ep->msi_cap + PCI_MSI_FLAGS;
++	val = dw_pcie_readw_dbi(pci, reg);
++	val &= ~PCI_MSI_FLAGS_QMASK;
++	val |= (interrupts << 1) & PCI_MSI_FLAGS_QMASK;
+ 	dw_pcie_dbi_ro_wr_en(pci);
+-	dw_pcie_writew_dbi(pci, MSI_MESSAGE_CONTROL, val);
++	dw_pcie_writew_dbi(pci, reg, val);
+ 	dw_pcie_dbi_ro_wr_dis(pci);
+ 
+ 	return 0;
+@@ -367,21 +376,29 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+ 	struct pci_epc *epc = ep->epc;
+ 	u16 msg_ctrl, msg_data;
+-	u32 msg_addr_lower, msg_addr_upper;
++	u32 msg_addr_lower, msg_addr_upper, reg;
+ 	u64 msg_addr;
+ 	bool has_upper;
+ 	int ret;
+ 
++	if (!ep->msi_cap)
++		return -EINVAL;
++
+ 	/* Raise MSI per the PCI Local Bus Specification Revision 3.0, 6.8.1. */
+-	msg_ctrl = dw_pcie_readw_dbi(pci, MSI_MESSAGE_CONTROL);
++	reg = ep->msi_cap + PCI_MSI_FLAGS;
++	msg_ctrl = dw_pcie_readw_dbi(pci, reg);
+ 	has_upper = !!(msg_ctrl & PCI_MSI_FLAGS_64BIT);
+-	msg_addr_lower = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_L32);
++	reg = ep->msi_cap + PCI_MSI_ADDRESS_LO;
++	msg_addr_lower = dw_pcie_readl_dbi(pci, reg);
+ 	if (has_upper) {
+-		msg_addr_upper = dw_pcie_readl_dbi(pci, MSI_MESSAGE_ADDR_U32);
+-		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_64);
++		reg = ep->msi_cap + PCI_MSI_ADDRESS_HI;
++		msg_addr_upper = dw_pcie_readl_dbi(pci, reg);
++		reg = ep->msi_cap + PCI_MSI_DATA_64;
++		msg_data = dw_pcie_readw_dbi(pci, reg);
+ 	} else {
+ 		msg_addr_upper = 0;
+-		msg_data = dw_pcie_readw_dbi(pci, MSI_MESSAGE_DATA_32);
++		reg = ep->msi_cap + PCI_MSI_DATA_32;
++		msg_data = dw_pcie_readw_dbi(pci, reg);
+ 	}
+ 	msg_addr = ((u64) msg_addr_upper) << 32 | msg_addr_lower;
+ 	ret = dw_pcie_ep_map_addr(epc, func_no, ep->msi_mem_phys, msg_addr,
+diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+index b22c5bb..a0ab12f 100644
+--- a/drivers/pci/controller/dwc/pcie-designware.h
++++ b/drivers/pci/controller/dwc/pcie-designware.h
+@@ -96,17 +96,6 @@
+ #define PCIE_GET_ATU_INB_UNR_REG_OFFSET(region)				\
+ 			((0x3 << 20) | ((region) << 9) | (0x1 << 8))
+ 
+-#define MSI_MESSAGE_CONTROL		0x52
+-#define MSI_CAP_MMC_SHIFT		1
+-#define MSI_CAP_MMC_MASK		(7 << MSI_CAP_MMC_SHIFT)
+-#define MSI_CAP_MME_SHIFT		4
+-#define MSI_CAP_MSI_EN_MASK		0x1
+-#define MSI_CAP_MME_MASK		(7 << MSI_CAP_MME_SHIFT)
+-#define MSI_MESSAGE_ADDR_L32		0x54
+-#define MSI_MESSAGE_ADDR_U32		0x58
+-#define MSI_MESSAGE_DATA_32		0x58
+-#define MSI_MESSAGE_DATA_64		0x5C
+-
+ #define MAX_MSI_IRQS			256
+ #define MAX_MSI_IRQS_PER_CTRL		32
+ #define MAX_MSI_CTRLS			(MAX_MSI_IRQS / MAX_MSI_IRQS_PER_CTRL)
+-- 
+2.7.4
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
