@@ -1,130 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A97837D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 21:55:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC6687D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 22:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754207AbeGFVyo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 17:54:44 -0400
-Received: from mail-pf0-f193.google.com ([209.85.192.193]:46649 "EHLO
-        mail-pf0-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753631AbeGFVyl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 17:54:41 -0400
-Received: by mail-pf0-f193.google.com with SMTP id l123-v6so9403462pfl.13;
-        Fri, 06 Jul 2018 14:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZubZKwa42cdMZZc4gyk5NXOPI4XXCTQ81VX7+8UJ+Uc=;
-        b=dzvo2WWS5CWboTtc/G1ojw+V+csP8H5oV79uEL6ei/80FpcpHR7+19lMQb6Bf3jaFH
-         8unjQjrSDLygT3ihRr/DTbotH0EucuBfaWMqUaDcOL72NQ9ZLZqULp2Y1YzRrMTqXfLW
-         Udh/SDInHirg48YdArpB/MfzzVOwxzzY2FrzpzxNx2XSjUNZfgBSBlK76pGCGTD51LYh
-         EKcbaYxG9VnBQ5Zk0UqhW7wmohwsvnp6AnftmZuVeJy2S06Za7DjnxbT0HCYse05FPld
-         bBYftFgczJhHONq9VcWkTYWMHUbPUwhQgaDEWh/7eSreKAK21uDUvWNBcwHdJbTGKUub
-         ZztA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZubZKwa42cdMZZc4gyk5NXOPI4XXCTQ81VX7+8UJ+Uc=;
-        b=p3Fq2ImgD8k6nPUbG2XvuYA2RgXu3sko737/MVEvNvBdAj3AtKutHqt2GYMn4AZ+LS
-         L+hdPyzktowx6ttMpmu5DG5V83I/5NYiuV006M87fxmFcNFFNRPPdEqljv4pn8PEz8S4
-         OwrcacYq85AV6xd39Q+wCYFiYqojp5Rj48XX6VUe+QZDQoBhvbEPUJrwt/sGkWIexlGM
-         awieQz8le4vXpQEPXjfPy/Unmj2FRAV1UJOAWAHeMsg1OyishpqKNLioGTU8jpPhWW6p
-         ocniqsrqXEh38tFs9fnoFW3qZ5vi8YuoOjVhXRDVGFBr0Xv7kbYfnFatzJbEHtnNlyV1
-         YeEg==
-X-Gm-Message-State: APt69E3Wj7dvd/eZHmFIw6IK9xVzdMOHwryHJ38cSIU8xsqB2SQ6a/6T
-        n1j9Tpml+kS+fDBv6PWc7qY=
-X-Google-Smtp-Source: AAOMgpckBBxGO8qT31VH2cZqVniSdxfNRP2VaRXlNm11dfKIZ3VDUl2E+0I+kXDFZTZF+Xo1WvoBqQ==
-X-Received: by 2002:a65:40cd:: with SMTP id u13-v6mr10975197pgp.334.1530914080279;
-        Fri, 06 Jul 2018 14:54:40 -0700 (PDT)
-Received: from gmail.com ([2620:15c:17:3:dc28:5c82:b905:e8a8])
-        by smtp.gmail.com with ESMTPSA id d9-v6sm14214804pge.68.2018.07.06.14.54.38
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 06 Jul 2018 14:54:39 -0700 (PDT)
-Date:   Fri, 6 Jul 2018 14:54:37 -0700
-From:   Eric Biggers <ebiggers3@gmail.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 7/7] fs/dcache: Allow deconfiguration of negative
- dentry code to reduce kernel size
-Message-ID: <20180706215437.GA109361@gmail.com>
-References: <1530905572-817-1-git-send-email-longman@redhat.com>
- <1530905572-817-8-git-send-email-longman@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1530905572-817-8-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.10+35 (c786a508) (2018-06-22)
+        id S1753707AbeGFWF6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 18:05:58 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:62222 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1753688AbeGFWF5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Jul 2018 18:05:57 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id D07F55A2;
+        Sat,  7 Jul 2018 00:05:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:date:date:subject:subject:from:from:received:received
+        :received; s=dkim20160331; t=1530914754; x=1532729155; bh=gTQg2l
+        viJDPNEkrU1AqH4Zs52eMXtWXvjmtXrKST9bw=; b=plFz+XmB1eh6+IWAS5r1So
+        7Hvah3Z+BV4Al9pXKqmUBowYivCICiww/sCmBA+U4a9eVLxdrkXg8HeYHU5uLrUK
+        UGOQYraZqtp7y4W8fx26hnixUUb+RjyQdOdfxLNTczRq6iPI/oUjt5Wv+Ox2HqVx
+        IhuONpT2sV85maNEbx2y+7FH0tvLrON4bbwCiPivSe0sI5ElbMpqsdrV85tsETMK
+        zmEZOLNgAEqBVbw19QAyabsag0TPk8C9VqXKCmD1QR27Rg/vOyp3HtSjuuGRY4d1
+        Ostmy0TYt3lxTXNNXdHTMqkxeJCvYbgCrzpT06kpNm6Wrs16O6AuBLCvi9vJCQVl
+        Lw4ELeWlov03qHLtCLiNShvG6v9NxvX8QNzPBZCru1nmd4I+EPfyh5vuiFrDrvVG
+        uNCDsNzeF7HQCyD8AmmOyxV/KnlvN0GmqRB2+cOaAqHBHhKpiHDGU7L5U3LYPzxR
+        qt8NmH83bfj2dTgGKN1G1wTfsCWfDxXudQRh7rJZ+JAh8WngK4B06iRen0UOW4Xw
+        +cSnVDxH4MA4DSz6f93qE5F99KlWzZyfOgGDpGLABhj5Pwikv4gOSyPH82cFGLtc
+        F/K6rB8wlCe9qmFQtHDtPHH2anrVAnmRStR4xYei0iaJVU7bVsdJKz8/XyBNEM+P
+        z2uw6wMsHJg8R3FsSdoV8=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id WkDMEQpGzl5L; Sat,  7 Jul 2018 00:05:54 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id C4778526;
+        Sat,  7 Jul 2018 00:05:54 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 75719254F;
+        Sat,  7 Jul 2018 00:05:54 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alessia Mantegazza <amantegazza@vaga.pv.it>,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: doc:it_IT: kernel-hacking translation
+Date:   Sat,  7 Jul 2018 00:05:15 +0200
+Message-Id: <20180706220517.28623-1-federico.vaga@vaga.pv.it>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 06, 2018 at 03:32:52PM -0400, Waiman Long wrote:
-> The tracking and limit of negative dentries in a filesystem is a useful
-> addition. However, for users who want to reduce the kernel size as much
-> as possible, this feature will probably be on the chopping block. To
-> suit those users, a default-y config option DCACHE_LIMIT_NEG_ENTRY is
-> added so that the negative dentry tracking and limiting code can be
-> configured out, if necessary.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  fs/Kconfig             | 10 ++++++++++
->  fs/dcache.c            | 33 ++++++++++++++++++++++++++++++++-
->  include/linux/dcache.h |  2 ++
->  kernel/sysctl.c        |  2 ++
->  4 files changed, 46 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index ac474a6..b521941 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -113,6 +113,16 @@ source "fs/autofs/Kconfig"
->  source "fs/fuse/Kconfig"
->  source "fs/overlayfs/Kconfig"
->  
-> +#
-> +# Track and limit the number of negative dentries allowed in the system.
-> +#
-> +config DCACHE_LIMIT_NEG_ENTRY
-> +	bool "Track & limit negative dcache entries"
-> +	default y
-> +	help
-> +	  This option enables the tracking and limiting of the total
-> +	  number of negative dcache entries allowable in the filesystem.
-> +
+Ciao Jon,
 
-If there's going to be a config option for this, it should be documented
-properly.  I.e., why would someone want to turn this on, or turn it off?  What
-are the tradeoffs?  If unsure, should the user say y or n?
+This small set of patches introduces the kernel-hacking translation in Italian
+and fix the locking.rst internal links. I do not know if this is a problem
+with **my** Sphinx environment but these links were not working.
 
-I think there are way too many config options that were meaningful to the person
-writing the code but aren't meaningful to people configuring the kernel.
 
-- Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
