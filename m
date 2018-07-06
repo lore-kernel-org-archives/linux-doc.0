@@ -5,133 +5,82 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4A997D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 09:32:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4EED87D048
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 10:36:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753457AbeGFJcn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 05:32:43 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:51944 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1753632AbeGFJcm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 05:32:42 -0400
-Received: from dlelxv90.itg.ti.com ([172.17.2.17])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id w669WTKn119725;
-        Fri, 6 Jul 2018 04:32:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1530869549;
-        bh=raLBUv7vYW8Dg0sYSCkpm+RAK1ktfcCsSKMI6dj8DYQ=;
-        h=Subject:To:References:CC:From:Date:In-Reply-To;
-        b=XJzV0t3jSJ1Usc9KWtx+OXTpj71B1hSxjRBtMnZKdFLMRyjZT0Tg5SLPU96QUGm63
-         huzgSEGfRBq/Osi4XU/AxYfh+JKMMTp7pwRRYcziSkAn/vKeHbjh2Kv3ROkdWcGlFf
-         wYrieHeWM/Oib0yrmEZXEF0JmB9QZ59AB3GF5BAw=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
-        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w669WTa8028637;
-        Fri, 6 Jul 2018 04:32:29 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Fri, 6 Jul
- 2018 04:32:29 -0500
-Received: from dlep33.itg.ti.com (157.170.170.75) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
- Fri, 6 Jul 2018 04:32:29 -0500
-Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dlep33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w669WPXN010842;
-        Fri, 6 Jul 2018 04:32:26 -0500
-Subject: Re: [PATCH v6 00/11] Add MSI-X support on pcitest tool
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "shawn.lin@rock-chips.com" <shawn.lin@rock-chips.com>
-References: <cover.1529595907.git.gustavo.pimentel@synopsys.com>
- <77139978-65cc-b954-bc61-bebf3bcc67ac@synopsys.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <284a6871-4687-e437-6876-3cd1e0329cbb@ti.com>
-Date:   Fri, 6 Jul 2018 15:02:25 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1753550AbeGFKgn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 06:36:43 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:42250 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753535AbeGFKgm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 06:36:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=KZvNoqjquVLUP7YccbzxQzHxtD7orfT9FssMk5yqAXA=; b=rfI8yJFRzbQFM9jTsjO06hw92
+        AilEHTzMQN/u7csnMSWaoc1K2eUjRqiwycyAb+YD6hwYQaH4FoaCIdIBOzeOYgAouEEd8eLW4ZK4b
+        q8Ol9YxnqLahVMmgHfPT67DI06wIWiFeKZ3jPgmCprH8jeXbGkd1GR+QRfnD9/aXw5TZFqh9DOgfX
+        4fEF/IZbRE/IaqK3yLqHvegPSPdM/JCO7iFDCFhB3WmFZWYOciWc5hY9F7lM9ZGtZOaO+S5TvT01P
+        wmpdu9Zg2Ggo78NHVd4NP4MBK729t7HeYJH60OHJRWValdGOVhpii0DjChCA1lEZcwYT05UFZWMeQ
+        FQ3foD3qw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fbO61-00005E-EZ; Fri, 06 Jul 2018 10:36:13 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id C5FE92028932F; Fri,  6 Jul 2018 12:36:11 +0200 (CEST)
+Date:   Fri, 6 Jul 2018 12:36:11 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrea Parri <andrea.parri@amarulasolutions.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/3] sched/locking/doc: Miscellaneous fixes
+Message-ID: <20180706103611.GL2494@hirez.programming.kicks-ass.net>
+References: <1530182480-13205-1-git-send-email-andrea.parri@amarulasolutions.com>
+ <20180705222812.GA4582@andrea>
 MIME-Version: 1.0
-In-Reply-To: <77139978-65cc-b954-bc61-bebf3bcc67ac@synopsys.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180705222812.GA4582@andrea>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On Friday 06 July 2018 02:24 PM, Gustavo Pimentel wrote:
-> Hi,
+On Fri, Jul 06, 2018 at 12:28:12AM +0200, Andrea Parri wrote:
+> What is the plan for this series?
 > 
-> Just a gentle reminder.
-
-sorry for the delay. I've now reviewed the pending patches.
-
-Thanks
-Kishon
-
+> We are currently discussing locking changes that might affect 2/3, but
+> I'd still consider this patch and the overall series as an improvement
+> over the current status (1/3 is a fix to the code) and I'd really like
+> future changes to be based on this series...
 > 
-> Thanks.
-> 
-> On 21/06/2018 17:01, Gustavo Pimentel wrote:
->> Patch series made against Lorenzo's master branch.
->>
->> Add MSI-X support on pcitest tool.
->>
->> Add new callbacks methods and handlers to trigger the MSI-X interrupts
->> on the EP DesignWare IP driver.
->>
->> Allow to set/get MSI-X EP maximum capability number.
->>
->> Rework on set/get and triggering MSI methods on EP DesignWare IP driver.
->>
->> Add a new input parameter (msix) to pcitest tool to test MSI-X feature.
->>
->> Update the pcitest.sh script to support MSI-X feature tests.
->>
->> Gustavo Pimentel (11):
->>   PCI: endpoint: Add MSI-X interfaces
->>   PCI: Update xxx_pcie_ep_raise_irq() and pci_epc_raise_irq() signatures
->>   PCI: dwc: Add MSI-X callbacks handler
->>   PCI: dwc: Rework MSI callbacks handler
->>   PCI: dwc: Add legacy interrupt callback handler
->>   pci-epf-test/pci_endpoint_test: Cleanup PCI_ENDPOINT_TEST memspace
->>   pci-epf-test/pci_endpoint_test: Use irq_type module parameter
->>   pci-epf-test/pci_endpoint_test: Add MSI-X support
->>   pci_endpoint_test: Add 2 ioctl commands
->>   tools: PCI: Add MSI-X support
->>   PCI: endpoint: Add MSI set maximum restriction.
->>
->>  Documentation/ioctl/ioctl-number.txt              |   1 +
->>  Documentation/misc-devices/pci-endpoint-test.txt  |   6 +
->>  drivers/misc/pci_endpoint_test.c                  | 259 ++++++++++++++++------
->>  drivers/pci/controller/dwc/pci-dra7xx.c           |   2 +-
->>  drivers/pci/controller/dwc/pcie-artpec6.c         |   2 +-
->>  drivers/pci/controller/dwc/pcie-designware-ep.c   | 205 +++++++++++++++--
->>  drivers/pci/controller/dwc/pcie-designware-plat.c |   7 +-
->>  drivers/pci/controller/dwc/pcie-designware.h      |  31 ++-
->>  drivers/pci/controller/pcie-cadence-ep.c          |   3 +-
->>  drivers/pci/controller/pcie-rockchip-ep.c         |   2 +-
->>  drivers/pci/endpoint/functions/pci-epf-test.c     |  81 +++++--
->>  drivers/pci/endpoint/pci-ep-cfs.c                 |  24 ++
->>  drivers/pci/endpoint/pci-epc-core.c               |  68 +++++-
->>  include/linux/pci-epc.h                           |  15 +-
->>  include/linux/pci-epf.h                           |   1 +
->>  include/uapi/linux/pcitest.h                      |   3 +
->>  tools/pci/pcitest.c                               |  51 ++++-
->>  tools/pci/pcitest.sh                              |  15 ++
->>  18 files changed, 644 insertions(+), 132 deletions(-)
->>
-> 
+> I expected this series to go via "-rcu -> tip -> ..."; 2/3 had Peter's
+> Ack, but 1/3 and 3/3 are missing any comments (or tags): please let me
+> know if any action on the series is required from me (the series still
+> applies on the latest "dev" branch of -rcu).
+
+You can add my ack:
+
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+to the others as well, they look like a definite improvement. I'm fine
+with these going through Paul's tree, Ingo?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
