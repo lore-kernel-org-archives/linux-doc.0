@@ -1,106 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID,UPPERCASE_50_75 autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C870C7D071
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Jul 2018 03:50:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8827F7D071
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Jul 2018 05:52:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932790AbeGGDu2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 23:50:28 -0400
-Received: from mail-oi0-f65.google.com ([209.85.218.65]:34369 "EHLO
-        mail-oi0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932635AbeGGDu2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 23:50:28 -0400
-Received: by mail-oi0-f65.google.com with SMTP id 13-v6so27018346ois.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Jul 2018 20:50:27 -0700 (PDT)
+        id S1750861AbeGGFwO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 7 Jul 2018 01:52:14 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:43987 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750816AbeGGFwO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 7 Jul 2018 01:52:14 -0400
+Received: by mail-oi0-f66.google.com with SMTP id b15-v6so27234444oib.10;
+        Fri, 06 Jul 2018 22:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=yZFPDMKMC8Eb1D2j6cSBeRYiMdxx9JLVUOuuPUpfaXI=;
-        b=K03KDV41v0XLvp7iD6bJ6nInv/rN8lErCSaUJE3Bz8qSFQr282a0nZF+NS98zg5GKA
-         bY0cNkdqx7Kw7wy19ph8y4Ptqp+aZvQx+drkY1GieJlg4nVNSzES5ZfnW4iB4UJalD9d
-         SroOdMRMvlmqH6JLq+fpcNB4bi5bq5+DxeogEvXKDB9GNE4xMQq2S3TTlnokx4IyrJKI
-         61N1Y0m/3MH8uy4MZ6WRv1WY1dpnk86+oGTORyRROG077UCcJ2CLTLsNiSwjQHEFa1pa
-         xrd3i7VHgy8mLZKND0PF34+EffL75ZZxZCjUnmdW7PMebTi5xChS4cbse6+3QZxT8xte
-         /jAA==
+        bh=ltT1ZmzWjXkWj6cAUCCP+j2oHaRusXPyd/CwjofEUNA=;
+        b=EYOHAjKrHMXRgTd+CPJXj7brrVwp8zUDgc8UxBWozmLt8unXOich4rctlF5AGcePcr
+         Ix83BJ3or1PArnVfYDuR0omOb4ruZqsT7o9s5HqjXY3tjOnPQXvG/ahzQ/PiuPa42Qir
+         U5V2V4umfGwemKhb3zaduVnfF3O/jR3OAxEpDyCyqdvMUaeTS7Pm+66UMnOMvuTYnwnw
+         tbMICQ32F+VJSUQMUJY22ZhgwL4OfYefWpI6WcOh/E5+CsCHyEPimQZzahyGUAYB2DkT
+         zNNRz1EBkXEo/xGbnnO3zMT4wnT8DkzMQxopyY3HgHVXgnq1Uhxj74VAc+JKW9/6clll
+         Fi9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=yZFPDMKMC8Eb1D2j6cSBeRYiMdxx9JLVUOuuPUpfaXI=;
-        b=Hzl2r8zstDO3gSivh065WEYkH6PsbNBMThNZLGwMxikI7hbNnH3sMJ5xo0BZGuHyWT
-         qpUxVywW3ifsTiFULowcB4OJqve5Cxg31oY0bwckN75ocXyqum8yNnMO/oU/d+FeNsVp
-         Qf/Lc5MZ+eaxQU5g75ZNSA+V5ri4b5lTkXdPp10P12E4O2faoLDpa4j6VnxCFJzKvieA
-         1g/QlpHhJGKpwm5cUe0ad+LB7nyoGgAUZzD0LaToy9r18jRn7FFJu6EyOgPekyYbElds
-         jDHp/pHW56smn/31GGFuR4PXJ/oP4AO9CDrAqkmDE1dgxBRFgrL1uYO3EUNZIQV8WDnC
-         Qh1w==
-X-Gm-Message-State: APt69E3Q6T+XukIB8qJJVjw2/Ungdul9p0xISQEHk8FxFPvYygZ1ERzB
-        T1gKm1veTXCPPv8WBZmnJO6B5eocz6rcWSD6vt+rbA==
-X-Google-Smtp-Source: AAOMgpeyuqsxnhJG6KySFifhDweCbuiNWuP1jEn14qdWlSmzGkOBlgLmlwOCT1yfbaQ6Z3nLmYxXRKp84DD1urG3K7Q=
-X-Received: by 2002:aca:d015:: with SMTP id h21-v6mr14971245oig.142.1530935427165;
- Fri, 06 Jul 2018 20:50:27 -0700 (PDT)
+        bh=ltT1ZmzWjXkWj6cAUCCP+j2oHaRusXPyd/CwjofEUNA=;
+        b=igx5g1o78WVJjSEfrUQ2E+eYysnnSBUy0Q5Pg+9281yr+ZPuUiY2aRAzwfnQaW24fV
+         FNPlFZijdN1XEAMmtsRO1JfkDkTgGT+hP9H0o6otWn86W9xqXrPD8HgX6oN03bMNKU2W
+         6uyTSmw/rO7rIqVjfrdI+W6CNInT/7ApkNaD3WGl0F2+AJxv4p9r8bn1X3vpAmjuGBuM
+         BZ20Px3um1tf6byZLEDsevJTEwAGU5utAGA5HBGpBuGHV8ZDJbKTi+IOUZafFp8CCANg
+         n5n+v6tFkfph1AJM6sM4D++kYjgdHAtKk1e7C8Q9iifEUmBNMq3Vs6cnXW6L14fuL4mE
+         BnLg==
+X-Gm-Message-State: APt69E3DSfGN4XkyFgFuFy7AzNlyr/n3zZjKdsn/83w05nhu0bwl6ohp
+        mlYM8WdBDl1XIk1dxwML/nQGhKAijTZoLLgijuA=
+X-Google-Smtp-Source: AAOMgpcBS0nIswQYdPDG9W67LZnKxemyWPBsjkS58CIANLmDkCfzElkrSgGPw6FM64yt5Uj2iIXNLUGpWn25wI0XjKU=
+X-Received: by 2002:aca:3407:: with SMTP id b7-v6mr14046356oia.345.1530942733381;
+ Fri, 06 Jul 2018 22:52:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <87vacsrt0r.fsf@notabene.neil.brown.name> <87fu3dihtf.fsf@notabene.neil.brown.name>
- <874lintqa6.fsf@notabene.neil.brown.name> <87y3fcegnn.fsf@notabene.neil.brown.name>
- <CAG48ez2yTZMye0W3_5R04bV-Qyaz-=zSiVonw_zvRQNH6dcfeg@mail.gmail.com>
- <878t6nybj7.fsf@notabene.neil.brown.name> <87601ryb8a.fsf@notabene.neil.brown.name>
-In-Reply-To: <87601ryb8a.fsf@notabene.neil.brown.name>
-From:   Jann Horn <jannh@google.com>
-Date:   Sat, 7 Jul 2018 05:50:00 +0200
-Message-ID: <CAG48ez1XSV9a-SBob6_p3RNC2vU3FnMnsm9Cd6deChh6QexpzQ@mail.gmail.com>
-Subject: Re: [PATCH mm] VFS: seq_file: ensure ->from is valid.
-To:     neilb@suse.com
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Received: by 2002:a4a:9a35:0:0:0:0:0 with HTTP; Fri, 6 Jul 2018 22:52:12 -0700 (PDT)
+In-Reply-To: <20180621063338.20093-3-ganapatrao.kulkarni@cavium.com>
+References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com> <20180621063338.20093-3-ganapatrao.kulkarni@cavium.com>
+From:   Pranith Kumar <pranith.foss@gmail.com>
+Date:   Fri, 6 Jul 2018 22:52:12 -0700
+Message-ID: <CADYwmhHdTuK-z4GcGCYypYo2dvvPj7udihPcMmTkHTSU2fOWWw@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
+To:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, Will.Deacon@arm.com,
+        mark.rutland@arm.com, jnair@caviumnetworks.com,
+        Robert.Richter@cavium.com, Vadim.Lomovtsev@cavium.com,
+        Jan.Glauber@cavium.com, gklkml16@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 7, 2018 at 5:29 AM NeilBrown <neilb@suse.com> wrote:
-> Previous patch ("VFS: simplify seq_file iteration code and interface")
-> removed code to set ->from to zero when ->count is zero, as ->from is
-> dead at that time.  However it didn't ensure ->from was set properly
-> whenever ->count becomes non-zero.
-> This can only happen when ->show() is called.  Of the three places it
-> is called one already has ->from set to zero.  The other two are
-> fixed by setting from to zero after fully flushing the buffer (at which
-> point ->count will also be zero).
->
-> Reported-by: Jann Horn <jannh@google.com>
-> Signed-off-by: NeilBrown <neilb@suse.com>
+Hi Ganapatrao,
 
-Tested-by: Jann Horn <jannh@google.com>
 
-> ---
->  fs/seq_file.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/fs/seq_file.c b/fs/seq_file.c
-> index fd82585ab50f..1dea7a8a5255 100644
-> --- a/fs/seq_file.c
-> +++ b/fs/seq_file.c
-> @@ -220,6 +220,7 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
->                         goto Done;
->         }
->         /* we need at least one record in buffer */
-> +       m->from = 0;
->         p = m->op->start(m, &m->index);
->         while (1) {
->                 err = PTR_ERR(p);
+On Wed, Jun 20, 2018 at 11:33 PM, Ganapatrao Kulkarni
+<ganapatrao.kulkarni@cavium.com> wrote:
 
-This looks correct to me. I have also tested that with this patch
-applied, my crasher doesn't work anymore.
+> +
+> +enum thunderx2_uncore_l3_events {
+> +       L3_EVENT_NONE,
+> +       L3_EVENT_NBU_CANCEL,
+> +       L3_EVENT_DIB_RETRY,
+> +       L3_EVENT_DOB_RETRY,
+> +       L3_EVENT_DIB_CREDIT_RETRY,
+> +       L3_EVENT_DOB_CREDIT_RETRY,
+> +       L3_EVENT_FORCE_RETRY,
+> +       L3_EVENT_IDX_CONFLICT_RETRY,
+> +       L3_EVENT_EVICT_CONFLICT_RETRY,
+> +       L3_EVENT_BANK_CONFLICT_RETRY,
+> +       L3_EVENT_FILL_ENTRY_RETRY,
+> +       L3_EVENT_EVICT_NOT_READY_RETRY,
+> +       L3_EVENT_L3_RETRY,
+> +       L3_EVENT_READ_REQ,
+> +       L3_EVENT_WRITE_BACK_REQ,
+> +       L3_EVENT_INVALIDATE_NWRITE_REQ,
+> +       L3_EVENT_INV_REQ,
+> +       L3_EVENT_SELF_REQ,
+> +       L3_EVENT_REQ,
+> +       L3_EVENT_EVICT_REQ,
+> +       L3_EVENT_INVALIDATE_NWRITE_HIT,
+> +       L3_EVENT_INVALIDATE_HIT,
+> +       L3_EVENT_SELF_HIT,
+> +       L3_EVENT_READ_HIT,
+> +       L3_EVENT_MAX,
+> +};
+> +
+> +enum thunderx2_uncore_dmc_events {
+> +       DMC_EVENT_NONE,
+> +       DMC_EVENT_COUNT_CYCLES,
+> +       DMC_EVENT_RES2,
+> +       DMC_EVENT_RES3,
+> +       DMC_EVENT_RES4,
+> +       DMC_EVENT_RES5,
+> +       DMC_EVENT_RES6,
+> +       DMC_EVENT_RES7,
+> +       DMC_EVENT_RES8,
+> +       DMC_EVENT_READ_64B_TXNS,
+> +       DMC_EVENT_READ_BELOW_64B_TXNS,
+> +       DMC_EVENT_WRITE_TXNS,
+> +       DMC_EVENT_TXN_CYCLES,
+> +       DMC_EVENT_DATA_TRANSFERS,
+> +       DMC_EVENT_CANCELLED_READ_TXNS,
+> +       DMC_EVENT_CONSUMED_READ_TXNS,
+> +       DMC_EVENT_MAX,
+> +};
+
+Can you please provide a link to where these counters are documented?
+It is not clear what each counter does especially for the L3C events.
+
+Also, what counter do you need to use to get L3 hit/miss ratio? I
+think this is the most useful counter related to L3.
+
+Thanks,
+--
+Pranith
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
