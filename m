@@ -1,95 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB9537D071
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Jul 2018 03:02:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 73A857D072
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Jul 2018 03:23:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932470AbeGGDC0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 23:02:26 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:54736 "EHLO mx1.redhat.com"
+        id S932983AbeGGDXW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 23:23:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39188 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S932463AbeGGDC0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Jul 2018 23:02:26 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 788DE401EF27;
-        Sat,  7 Jul 2018 03:02:25 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-120-141.rdu2.redhat.com [10.10.120.141])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E51A7215688A;
-        Sat,  7 Jul 2018 03:02:23 +0000 (UTC)
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-To:     Al Viro <viro@ZenIV.linux.org.uk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        id S932965AbeGGDXW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Jul 2018 23:23:22 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 5A769AEC6;
+        Sat,  7 Jul 2018 03:23:20 +0000 (UTC)
+From:   NeilBrown <neilb@suse.com>
+To:     Jann Horn <jannh@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
-References: <1530905572-817-1-git-send-email-longman@redhat.com>
- <20180706222814.GE30522@ZenIV.linux.org.uk>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <56b1d7ee-d362-f915-34fb-92173d512cbe@redhat.com>
-Date:   Fri, 6 Jul 2018 23:02:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>
+Date:   Sat, 07 Jul 2018 13:23:08 +1000
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH resend*3] VFS: simplify seq_file iteration code and interface
+In-Reply-To: <CAG48ez2yTZMye0W3_5R04bV-Qyaz-=zSiVonw_zvRQNH6dcfeg@mail.gmail.com>
+References: <87vacsrt0r.fsf@notabene.neil.brown.name> <87fu3dihtf.fsf@notabene.neil.brown.name> <874lintqa6.fsf@notabene.neil.brown.name> <87y3fcegnn.fsf@notabene.neil.brown.name> <CAG48ez2yTZMye0W3_5R04bV-Qyaz-=zSiVonw_zvRQNH6dcfeg@mail.gmail.com>
+Message-ID: <878t6nybj7.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-In-Reply-To: <20180706222814.GE30522@ZenIV.linux.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Sat, 07 Jul 2018 03:02:25 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.5]); Sat, 07 Jul 2018 03:02:25 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/06/2018 06:28 PM, Al Viro wrote:
-> On Fri, Jul 06, 2018 at 03:32:45PM -0400, Waiman Long wrote:
+--=-=-=
+Content-Type: text/plain
+
+On Sat, Jul 07 2018, Jann Horn wrote:
+
+>> @@ -287,11 +278,7 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
+>>                 goto Efault;
+>>         copied += n;
+>>         m->count -= n;
+>> -       if (m->count)
+>> -               m->from = n;
+>> -       else
+>> -               pos++;
+>> -       m->index = pos;
+>> +       m->from = n;
 >
->> With a 4.18 based kernel, the positive & negative dentries lookup rates
->> (lookups per second) after initial boot on a 2-socket 24-core 48-thread
->> 64GB memory system with and without the patch were as follows: `
->>
->>   Metric                    w/o patch  neg_dentry_pc=0  neg_dentry_pc=1
->>   ------                    ---------  ---------------  ---------------
->>   Positive dentry lookup      584299       586749	   582670
->>   Negative dentry lookup     1422204      1439994	  1438440
->>   Negative dentry creation    643535       652194	   641841
->>
->> For the lookup rate, there isn't any signifcant difference with or
->> without the patch or with a zero or non-zero value of neg_dentry_pc.
-> Sigh...  What I *still* don't see (after all the iterations of the patchset)
-> is any performance data on workloads that would be likely to feel the impact.
-> Anything that seriously hits INCLUDE_PATH, for starters...
+> This patch introduces a kernel memory disclosure bug when something
+> like the following sequence of events happens (starting from a freshly
+> opened seq file):
+>
+> 1. read(seq_fd, buf, 2000): sets m->from=2000, m->count=100
+> 2. create a buffer broken_buf which consists of 1000 bytes writable
+> memory followed by unmapped memory
+> 3. read(seq_fd, broken_buf, 3100):
+>         - flushes buffered data to userspace, result: m->from=2100, m->count=0
+>         - accumulates new data, result: m->from=2100, m->count=3050
+>         - tries to copy new data to userspace, but fails ("goto Efault")
+> 4. read(seq_fd, buf, 4096): does copy_to_user(buf, m->buf + m->from, n)
 
-I wrote a simple microbenchmark that does a lot of open() system calls
-to create positive or negative dentries. I was not seeing any noticeable
-performance difference as long as not too many negative dentries were
-created.
+Thanks for testing and for the report.
+I think I see where I went wrong in the patch.
+As I said in the description:
 
-Please enlighten me on how kind of performance benchmark that you would
-like me to run.
+  - don't clear ->from when ->count is zero, as ->from is dead when
+     ->count is zero.
 
-Thanks,
-Longman
+It is true that ->from is dead when ->count is zero, but as soon as
+count becomes non-zero, ->from becomes important again.
+So we either need to clear ->from whenever ->count is changed from zero
+(which would be clumsy and error prone) we we need to clear
+->from somewhere else.
 
+->count is only increased in ->show() calls and there are three ->show()
+calls.
+- in traverse() ->from is set to zero early, and set once more shortly
+  before the function exits, so it is always correct.
+- in "we need at least one record in buffer" ->count starts at zero
+  so ->from needs to be set to zero as well.
+- in "Fill:" ->from is still correct from previous setting.
+
+So I think we just need
+	m->from = 0;
+at "we need at least one record in buffer".  I'm fairly sure that
+will fix the problem you found.  I would appreciate it if you
+would test and confirm.
+I'll send a patch separately.
+
+Thanks again,
+NeilBrown
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAltAMh0ACgkQOeye3VZi
+gbmpKhAAv3Djf+u+1/e2BU6ysWor5WboYkyUauN+YqNy+s5zvx3VAiroc9TCqgLP
+kjA2P9Ye7d2USH3p/3779Ta0iAe5TOFHLk09JuEu6olf+N9flPa/lAOIWivBycz9
+z3Fn2m+P2nvPNSwI6UvK3wTq0GTE9mlMh3qymL+Dt2DyXL9nu9vZ77b+gE9zg8CT
+3+kyD8KIaDrXDpvHKjfmYg6vWHozQY9nBZtTWje8wwz4f2R2Ve2fr+zthMowWSnU
+mBkqAkPvJPrzqG5MEJTyxhCtoy//44+VXegiP38DC2Xm0RsHMYXHQGSyETJI/IBI
+plBmsz43SkZ/psiqLOuOcCHAnDG5E4T0CSO/Y6uazc+wwUbkg6CnBKcSwXFPYpCd
+SXzfAF7oApAbwJNQ0rbqJghqo9Z8bvz2v+JroAV3tbQZd8JMmiRcONnKCOh/NThF
+ynT0uooi1DYz6pvW+rXomTvu2b+YN/rkCM0qZsLveqp5Qb44Rh+oG+otUqtLhLnO
+QlOD47O2Zg0bnR+wm0NbZzUDEBqjmDV2DUbqPVph3Mh21bL9OkwDFnhjQ4OXR4mR
+1T+VXxafJ499K3+PbKg6GAgIoNy0ORV4i1gbvHsYM84FoNSY9PpsCrQqg05YRwu5
+QG5RfrLYZf/9tH4idKKr5c0FzUGa/pudgND/scEJGKmwNSHDHHg=
+=HHdJ
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
