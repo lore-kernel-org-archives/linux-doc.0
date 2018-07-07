@@ -5,33 +5,33 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 73A857D072
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Jul 2018 03:23:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 59DDB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  7 Jul 2018 03:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932983AbeGGDXW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 6 Jul 2018 23:23:22 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39188 "EHLO mx1.suse.de"
+        id S932713AbeGGD3v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 6 Jul 2018 23:29:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40152 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S932965AbeGGDXW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 6 Jul 2018 23:23:22 -0400
+        id S932681AbeGGD3v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 6 Jul 2018 23:29:51 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5A769AEC6;
-        Sat,  7 Jul 2018 03:23:20 +0000 (UTC)
+        by mx1.suse.de (Postfix) with ESMTP id 764C2AD99;
+        Sat,  7 Jul 2018 03:29:49 +0000 (UTC)
 From:   NeilBrown <neilb@suse.com>
 To:     Jann Horn <jannh@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Kees Cook <keescook@chromium.org>
-Date:   Sat, 07 Jul 2018 13:23:08 +1000
+Date:   Sat, 07 Jul 2018 13:29:41 +1000
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         linux-doc@vger.kernel.org,
         kernel list <linux-kernel@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH resend*3] VFS: simplify seq_file iteration code and interface
-In-Reply-To: <CAG48ez2yTZMye0W3_5R04bV-Qyaz-=zSiVonw_zvRQNH6dcfeg@mail.gmail.com>
-References: <87vacsrt0r.fsf@notabene.neil.brown.name> <87fu3dihtf.fsf@notabene.neil.brown.name> <874lintqa6.fsf@notabene.neil.brown.name> <87y3fcegnn.fsf@notabene.neil.brown.name> <CAG48ez2yTZMye0W3_5R04bV-Qyaz-=zSiVonw_zvRQNH6dcfeg@mail.gmail.com>
-Message-ID: <878t6nybj7.fsf@notabene.neil.brown.name>
+Subject: [PATCH mm] VFS: seq_file: ensure ->from is valid.
+In-Reply-To: <878t6nybj7.fsf@notabene.neil.brown.name>
+References: <87vacsrt0r.fsf@notabene.neil.brown.name> <87fu3dihtf.fsf@notabene.neil.brown.name> <874lintqa6.fsf@notabene.neil.brown.name> <87y3fcegnn.fsf@notabene.neil.brown.name> <CAG48ez2yTZMye0W3_5R04bV-Qyaz-=zSiVonw_zvRQNH6dcfeg@mail.gmail.com> <878t6nybj7.fsf@notabene.neil.brown.name>
+Message-ID: <87601ryb8a.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -42,82 +42,59 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 --=-=-=
 Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 07 2018, Jann Horn wrote:
 
->> @@ -287,11 +278,7 @@ ssize_t seq_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
->>                 goto Efault;
->>         copied += n;
->>         m->count -= n;
->> -       if (m->count)
->> -               m->from = n;
->> -       else
->> -               pos++;
->> -       m->index = pos;
->> +       m->from = n;
->
-> This patch introduces a kernel memory disclosure bug when something
-> like the following sequence of events happens (starting from a freshly
-> opened seq file):
->
-> 1. read(seq_fd, buf, 2000): sets m->from=2000, m->count=100
-> 2. create a buffer broken_buf which consists of 1000 bytes writable
-> memory followed by unmapped memory
-> 3. read(seq_fd, broken_buf, 3100):
->         - flushes buffered data to userspace, result: m->from=2100, m->count=0
->         - accumulates new data, result: m->from=2100, m->count=3050
->         - tries to copy new data to userspace, but fails ("goto Efault")
-> 4. read(seq_fd, buf, 4096): does copy_to_user(buf, m->buf + m->from, n)
+Previous patch ("VFS: simplify seq_file iteration code and interface")
+removed code to set ->from to zero when ->count is zero, as ->from is
+dead at that time.  However it didn't ensure ->from was set properly
+whenever ->count becomes non-zero.
+This can only happen when ->show() is called.  Of the three places it
+is called one already has ->from set to zero.  The other two are
+fixed by setting from to zero after fully flushing the buffer (at which
+point ->count will also be zero).
 
-Thanks for testing and for the report.
-I think I see where I went wrong in the patch.
-As I said in the description:
+Reported-by: Jann Horn <jannh@google.com>
+Signed-off-by: NeilBrown <neilb@suse.com>
+=2D--
+ fs/seq_file.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  - don't clear ->from when ->count is zero, as ->from is dead when
-     ->count is zero.
+diff --git a/fs/seq_file.c b/fs/seq_file.c
+index fd82585ab50f..1dea7a8a5255 100644
+=2D-- a/fs/seq_file.c
++++ b/fs/seq_file.c
+@@ -220,6 +220,7 @@ ssize_t seq_read(struct file *file, char __user *buf, s=
+ize_t size, loff_t *ppos)
+ 			goto Done;
+ 	}
+ 	/* we need at least one record in buffer */
++	m->from =3D 0;
+ 	p =3D m->op->start(m, &m->index);
+ 	while (1) {
+ 		err =3D PTR_ERR(p);
+=2D-=20
+2.14.0.rc0.dirty
 
-It is true that ->from is dead when ->count is zero, but as soon as
-count becomes non-zero, ->from becomes important again.
-So we either need to clear ->from whenever ->count is changed from zero
-(which would be clumsy and error prone) we we need to clear
-->from somewhere else.
-
-->count is only increased in ->show() calls and there are three ->show()
-calls.
-- in traverse() ->from is set to zero early, and set once more shortly
-  before the function exits, so it is always correct.
-- in "we need at least one record in buffer" ->count starts at zero
-  so ->from needs to be set to zero as well.
-- in "Fill:" ->from is still correct from previous setting.
-
-So I think we just need
-	m->from = 0;
-at "we need at least one record in buffer".  I'm fairly sure that
-will fix the problem you found.  I would appreciate it if you
-would test and confirm.
-I'll send a patch separately.
-
-Thanks again,
-NeilBrown
 
 --=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAltAMh0ACgkQOeye3VZi
-gbmpKhAAv3Djf+u+1/e2BU6ysWor5WboYkyUauN+YqNy+s5zvx3VAiroc9TCqgLP
-kjA2P9Ye7d2USH3p/3779Ta0iAe5TOFHLk09JuEu6olf+N9flPa/lAOIWivBycz9
-z3Fn2m+P2nvPNSwI6UvK3wTq0GTE9mlMh3qymL+Dt2DyXL9nu9vZ77b+gE9zg8CT
-3+kyD8KIaDrXDpvHKjfmYg6vWHozQY9nBZtTWje8wwz4f2R2Ve2fr+zthMowWSnU
-mBkqAkPvJPrzqG5MEJTyxhCtoy//44+VXegiP38DC2Xm0RsHMYXHQGSyETJI/IBI
-plBmsz43SkZ/psiqLOuOcCHAnDG5E4T0CSO/Y6uazc+wwUbkg6CnBKcSwXFPYpCd
-SXzfAF7oApAbwJNQ0rbqJghqo9Z8bvz2v+JroAV3tbQZd8JMmiRcONnKCOh/NThF
-ynT0uooi1DYz6pvW+rXomTvu2b+YN/rkCM0qZsLveqp5Qb44Rh+oG+otUqtLhLnO
-QlOD47O2Zg0bnR+wm0NbZzUDEBqjmDV2DUbqPVph3Mh21bL9OkwDFnhjQ4OXR4mR
-1T+VXxafJ499K3+PbKg6GAgIoNy0ORV4i1gbvHsYM84FoNSY9PpsCrQqg05YRwu5
-QG5RfrLYZf/9tH4idKKr5c0FzUGa/pudgND/scEJGKmwNSHDHHg=
-=HHdJ
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAltAM6UACgkQOeye3VZi
+gbkCKxAAgsyjkLo3LicXGnA9025tgEQCFIJ/f8AmB84fU9mdwpQVeBcXPj9PQm6T
+0VId2ZWT+X+o52RHje3Fff6X+tEBIddMvancpaY2z4qAws36obFCJYGkpXpbSiEX
+taWdCg0i1Srnooi0pTK5Ksf1IApEOnFi61VRHfHw2E68AUEpGYZLJiiE2GlNKmb6
+0+wxhlS6sv49+gvR0l2PsycE4ZOhfyQULvgMu51fHGcg2Fu8n3djcoU/q+gfI0Lb
+gS9ldvLjW5qH+J09ix3FuHsgfmzRFVouCDXLqWXsqk1i3M/8y8+PRAxU/fhI8xnS
+tjo0+hrXT5+2wRg+5nRzWRPpDoC066QEnIZP9qETdF7RsTeFZ7hHRzJfYItiM1zm
+cKnXZutNnSc6tT1kRvbgAsTz0Zkj6Lwh2/OhU8VXHPdlKb0hKrkuvPRNWUNzTmuL
+SuAgjluI0PeW2/K6Ecn/enNcInZuIthvkCHxq2FF7HTGg/wp4HppYaFmO4VuFR9v
+blST0NHtsLa+V/JtJxnHf5s6/gXo1hdOUA2XyaXUxgACclQOlZYNxdh3OxCCrIDl
+BJ2nsOavLt42gjLxe9kz8ES41uY4j6HMLod0ToOvWcZNrW3tP/84MFFLY3FXoMz/
+glAOb61y1H8+0kJ6Y8Jk8w8E2S7t76cjcF6XfM6P3m9Vm0AlbvQ=
+=Gkkb
 -----END PGP SIGNATURE-----
 --=-=-=--
 --
