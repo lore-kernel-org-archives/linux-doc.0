@@ -1,309 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 06C4B7D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 15:23:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D7D247D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 16:01:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933081AbeGIPXD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Jul 2018 11:23:03 -0400
-Received: from mail-eopbgr700088.outbound.protection.outlook.com ([40.107.70.88]:45056
-        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        id S933199AbeGIQBJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Jul 2018 12:01:09 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:34856 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S932898AbeGIPXB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Jul 2018 11:23:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=abrUFSZKdG0t8BmlElFB/v0XHlLUSX32Dnh7poggEp0=;
- b=JkAkV4G7nW+1KAAkoZBEEx3BmvwdK+IaOlU1tFeBzev6TldVX+XutZG+isxW0jxFbfN87J93e28Zuili9wQBgZp0gIdEzZMKU7FTji0q72JTUnJiG5pKp8EY2ch3O3b83sEWV8YrMlyI+B4fZA24FdDnQLVtQ3rltI3KVIkXOl0=
-Received: from MWHPR07MB3502.namprd07.prod.outlook.com (10.164.192.29) by
- MWHPR07MB2781.namprd07.prod.outlook.com (10.169.237.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.930.19; Mon, 9 Jul 2018 15:22:58 +0000
-Received: from MWHPR07MB3502.namprd07.prod.outlook.com
- ([fe80::bddd:185e:610a:91b5]) by MWHPR07MB3502.namprd07.prod.outlook.com
- ([fe80::bddd:185e:610a:91b5%5]) with mapi id 15.20.0930.022; Mon, 9 Jul 2018
- 15:22:58 +0000
-From:   Alan Douglas <adouglas@cadence.com>
-To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "shawn.lin@rock-chips.com" <shawn.lin@rock-chips.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v8 09/11] pci_endpoint_test: Add 2 ioctl commands
-Thread-Topic: [PATCH v8 09/11] pci_endpoint_test: Add 2 ioctl commands
-Thread-Index: AQHUFUFA1nR2kaYS60m2jKj3Yfc37qSHBCdQ
-Date:   Mon, 9 Jul 2018 15:22:58 +0000
-Message-ID: <MWHPR07MB350246B23FF90D27B60CF0B2D8440@MWHPR07MB3502.namprd07.prod.outlook.com>
-References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
- <93f542ee1ec24d3a24150d8909074614536d6ce9.1530891871.git.gustavo.pimentel@synopsys.com>
-In-Reply-To: <93f542ee1ec24d3a24150d8909074614536d6ce9.1530891871.git.gustavo.pimentel@synopsys.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWRvdWdsYXNcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1mYzkzMzNhYy04MzhiLTExZTgtODZlNy1mNDk2MzQ4NmY0ZWNcYW1lLXRlc3RcZmM5MzMzYWQtODM4Yi0xMWU4LTg2ZTctZjQ5NjM0ODZmNGVjYm9keS50eHQiIHN6PSI3MTMwIiB0PSIxMzE3NTYyMzM5MDYzMzk2ODQiIGg9IkFLWlhlNU1OSWdhN25tVmppczB5Z1VyYkdzVT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=adouglas@cadence.com; 
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;MWHPR07MB2781;7:UY1kPBud+cF71aaVZUjOnOY8e/x4yhX4Hr015K0qvOncV9+KTws9eP8IX/JphoB2Fueyqd7rkrj4ZFZ5K63JbdGQ+6wlq5CS90Oxe8H7WZoeAp3ScvhobpGILEY7GmO35FqKLUz4V/nFI1rs20xR++WMI13l0G6k7g8wy6g7NalY8qLCirMkOxPqioeQm+2Ujp3KLZkem21Ld7cbYgEZ3EUQy6qd1EVf7/5qs5UtGSTLvfWLiN32rut7rmdxfcUJ;20:STSBgGcvrVgoVrT/WBoh/w5159B4/ao5Y/9Z2ASek7HnUMu9fPpJqTY0OK1lmAqClMkEuqlL5prFGJRJ7CAIn87cyjb/PjjbSt3vT5EEyOAQkGvm6PWw7oMBzDTe3+1kBtBBCJAck+IoPJQJzD5SRZLi7egbpXf+PYUw784RkURNQSZDbqpotuTYcg0Cyx/MGe2C0WOGdAPXbjOZOP+otQ+5nuOWJXO1oerTrnxj/xSTOvZabpVe8+BS9864CKU+
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-ms-office365-filtering-correlation-id: e8a8f7b7-3d89-4abf-3e45-08d5e5afda06
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989117)(5600053)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(2017052603328)(7153060)(7193020);SRVR:MWHPR07MB2781;
-x-ms-traffictypediagnostic: MWHPR07MB2781:
-x-microsoft-antispam-prvs: <MWHPR07MB27811D40A10DE5709302D041D8440@MWHPR07MB2781.namprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3002001)(3231311)(944501410)(52105095)(10201501046)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123558120)(20161123562045)(6072148)(201708071742011)(7699016);SRVR:MWHPR07MB2781;BCL:0;PCL:0;RULEID:;SRVR:MWHPR07MB2781;
-x-forefront-prvs: 07283408BE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(136003)(366004)(396003)(346002)(376002)(36092001)(199004)(189003)(97736004)(8936002)(8676002)(5660300001)(25786009)(81166006)(81156014)(106356001)(3846002)(6116002)(316002)(53936002)(74316002)(305945005)(7736002)(6246003)(105586002)(2900100001)(39060400002)(26005)(2906002)(14454004)(66066001)(478600001)(7416002)(4326008)(102836004)(486006)(33656002)(11346002)(446003)(476003)(6506007)(53546011)(76176011)(55016002)(256004)(5250100002)(7696005)(575784001)(54906003)(110136005)(14444005)(2501003)(6436002)(2201001)(229853002)(86362001)(9686003)(99286004)(186003)(68736007);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR07MB2781;H:MWHPR07MB3502.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: cadence.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: HARalAeeVN+LpNK132zauSmPHRhGHCfbcshLA25BmEKRFGULE/Gt9LgadZvfiQ2rTYFQi/c/1FkIcPYNwBvYgeME2RJrPiPvm3nNmEY847b+zxGHR8Vqcma3YWRASvWvfIZWwhIjXmuZxBcpwAP2/QEU42Dxr00uZLwi4vvWWF5DczBNbHOFhZU7XT359otcNkboPv7Kyo34sve8FHLIIDuAUCCKz6QdI2CMKY671II28E0QYwAKMclxWxOIoQ/Cr5llU5qtKS6mC7qYpP3Ctve34mwWwiUSUOJ/+baI/kvLW12RLVDrw0AqMhEnbA8Erpm2LxybAIkJ69W6G6YCAhj2ko4YEHx6BhGT6ZpGZko=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S932795AbeGIQBG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Jul 2018 12:01:06 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id D78CE7D84D;
+        Mon,  9 Jul 2018 16:01:05 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-175.bos.redhat.com [10.18.17.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0708D7C4A;
+        Mon,  9 Jul 2018 16:01:05 +0000 (UTC)
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+ <20180709081920.GD22049@dhcp22.suse.cz>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+Date:   Mon, 9 Jul 2018 12:01:04 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8a8f7b7-3d89-4abf-3e45-08d5e5afda06
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2018 15:22:58.0571
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR07MB2781
+In-Reply-To: <20180709081920.GD22049@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Mon, 09 Jul 2018 16:01:05 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.2]); Mon, 09 Jul 2018 16:01:05 +0000 (UTC) for IP:'10.11.54.5' DOMAIN:'int-mx05.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gustavo,
+On 07/09/2018 04:19 AM, Michal Hocko wrote:
+> On Fri 06-07-18 15:32:45, Waiman Long wrote:
+> [...]
+>> A rogue application can potentially create a large number of negative
+>> dentries in the system consuming most of the memory available if it
+>> is not under the direct control of a memory controller that enforce
+>> kernel memory limit.
+> How does this differ from other untracked allocations for untrusted
+> tasks in general? E.g. nothing really prevents a task to create a long
+> chain of unreclaimable dentries and even go to OOM potentially. Negative
+> dentries should be easily reclaimable on the other hand. So why does the
 
-On  06 July 2018 16:52 Gustavo Pimentel <gustavo.pimentel@synopsys.com> wro=
-te:
-> Add MSI-X support and update driver documentation accordingly.
->=20
-> Add 2 new IOCTL commands:
->  - Allow to reconfigure driver IRQ type in runtime.
->  - Allow to retrieve current driver IRQ type configured.
->=20
-> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> ---
-> Change v2->v3:
->  - New patch file created base on the previous patch
-> "misc: pci_endpoint_test: Add MSI-X support" patch file following
-> Kishon's suggestion.
-> Change v3->v4:
->  - Rebased to Lorenzo's master branch v4.18-rc1.
-> Change v4->v5:
->  - Nothing changed, just to follow the patch set version.
-> Change v5->v6:
->  - Moved PCITEST_SET_IRQTYPE and PCITEST_GET_IRQTYPE ioctl entries
-> from patch #10 to here.
->  - Increased ioctl parameters range associated to
-> drivers/misc/pci_endpoint_test.c driver.
-> Change v6->v7:
->  - irq_type variable update just before returning the function.
-> Change v7->v8:
->  - Re-sending the patch series.
->=20
->  Documentation/ioctl/ioctl-number.txt             |   2 +-
->  Documentation/misc-devices/pci-endpoint-test.txt |   3 +
->  drivers/misc/pci_endpoint_test.c                 | 175 +++++++++++++++++=
-------
->  include/uapi/linux/pcitest.h                     |   2 +
->  4 files changed, 135 insertions(+), 47 deletions(-)
->=20
-> diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/i=
-octl-number.txt
-> index 65259d4..c15c4f3 100644
-> --- a/Documentation/ioctl/ioctl-number.txt
-> +++ b/Documentation/ioctl/ioctl-number.txt
-> @@ -166,7 +166,7 @@ Code  Seq#(hex)	Include File		Comments
->  'P'	all	linux/soundcard.h	conflict!
->  'P'	60-6F	sound/sscape_ioctl.h	conflict!
->  'P'	00-0F	drivers/usb/class/usblp.c	conflict!
-> -'P'	01-07	drivers/misc/pci_endpoint_test.c	conflict!
-> +'P'	01-09	drivers/misc/pci_endpoint_test.c	conflict!
->  'Q'	all	linux/soundcard.h
->  'R'	00-1F	linux/random.h		conflict!
->  'R'	01	linux/rfkill.h		conflict!
-> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documenta=
-tion/misc-devices/pci-endpoint-test.txt
-> index fdfa0f6..58ccca4 100644
-> --- a/Documentation/misc-devices/pci-endpoint-test.txt
-> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
-> @@ -28,6 +28,9 @@ ioctl
->  	      to be tested should be passed as argument.
->   PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->  	      to be tested should be passed as argument.
-> + PCITEST_SET_IRQTYPE: Changes driver IRQ type configuration. The IRQ typ=
-e
-> +	      should be passed as argument (0: Legacy, 1:MSI, 2:MSI-X).
-> + PCITEST_GET_IRQTYPE: Gets driver IRQ type configuration.
->   PCITEST_WRITE: Perform write tests. The size of the buffer should be pa=
-ssed
->  		as argument.
->   PCITEST_READ: Perform read tests. The size of the buffer should be pass=
-ed
-> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint=
-_test.c
-> index f4fef10..97082e3 100644
-> --- a/drivers/misc/pci_endpoint_test.c
-> +++ b/drivers/misc/pci_endpoint_test.c
-> @@ -157,6 +157,87 @@ static irqreturn_t pci_endpoint_test_irqhandler(int =
-irq, void *dev_id)
->  	return IRQ_HANDLED;
->  }
->=20
-> +static void pci_endpoint_test_free_irq_vectors(struct pci_endpoint_test =
-*test)
-> +{
-> +	int i;
-> +	struct pci_dev *pdev =3D test->pdev;
-> +	struct device *dev =3D &pdev->dev;
-> +
-> +	for (i =3D 0; i < test->num_irqs; i++)
-> +		devm_free_irq(dev, pci_irq_vector(pdev, i), test);
-> +
-> +	test->num_irqs =3D 0;
-> +}
-> +
-> +static bool pci_endpoint_test_alloc_irq_vectors(struct pci_endpoint_test=
- *test)
-> +{
-> +	int irq =3D -1;
-> +	struct pci_dev *pdev =3D test->pdev;
-> +	struct device *dev =3D &pdev->dev;
-> +	bool res =3D true;
-> +
-> +	switch (irq_type) {
-> +	case IRQ_TYPE_LEGACY:
-> +		irq =3D 0;
-> +		break;
-> +	case IRQ_TYPE_MSI:
-> +		irq =3D pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
-> +		if (irq < 0)
-> +			dev_err(dev, "Failed to get MSI interrupts\n");
-> +		break;
-> +	case IRQ_TYPE_MSIX:
-> +		irq =3D pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
-> +		if (irq < 0)
-> +			dev_err(dev, "Failed to get MSI-X interrupts\n");
-> +		break;
-> +	default:
-> +		dev_err(dev, "Invalid IRQ type selected\n");
-> +	}
-> +
-> +	if (irq < 0) {
-> +		irq =3D 0;
-> +		res =3D false;
-> +	}
-> +	test->num_irqs =3D irq;
-> +
-> +	return res;
-> +}
-> +
-> +static void pci_endpoint_test_release_irq(struct pci_endpoint_test *test=
-)
-> +{
-> +	struct pci_dev *pdev =3D test->pdev;
-> +
-> +	pci_disable_msi(pdev);
-> +	pci_disable_msix(pdev);
-> +}
-> +
-> +static bool pci_endpoint_test_request_irq(struct pci_endpoint_test *test=
-)
-> +{
-> +	int i;
-> +	int err;
-> +	struct pci_dev *pdev =3D test->pdev;
-> +	struct device *dev =3D &pdev->dev;
-> +
-> +	err =3D devm_request_irq(dev, pdev->irq, pci_endpoint_test_irqhandler,
-> +			       IRQF_SHARED, DRV_MODULE_NAME, test);
-> +	if (err) {
-> +		dev_err(dev, "Failed to request IRQ %d\n", pdev->irq);
-> +		return false;
-> +	}
-> +
-> +	for (i =3D 1; i < test->num_irqs; i++) {
-> +		err =3D devm_request_irq(dev, pci_irq_vector(pdev, i),
-> +				       pci_endpoint_test_irqhandler,
-> +				       IRQF_SHARED, DRV_MODULE_NAME, test);
-> +		if (err)
-> +			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
-> +				pci_irq_vector(pdev, i),
-> +				irq_type =3D=3D IRQ_TYPE_MSIX ? "-X" : "", i + 1);
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
->  				  enum pci_barno barno)
->  {
-> @@ -440,6 +521,38 @@ static bool pci_endpoint_test_read(struct pci_endpoi=
-nt_test *test, size_t size)
->  	return ret;
->  }
->=20
-> +static bool pci_endpoint_test_set_irq(struct pci_endpoint_test *test,
-> +				      int req_irq_type)
-> +{
-> +	struct pci_dev *pdev =3D test->pdev;
-> +	struct device *dev =3D &pdev->dev;
-> +
-> +	if (req_irq_type < IRQ_TYPE_LEGACY || req_irq_type > IRQ_TYPE_MSIX) {
-> +		dev_err(dev, "Invalid IRQ type option\n");
-> +		return false;
-> +	}
-> +
-> +	if (irq_type =3D=3D req_irq_type)
-> +		return true;
-> +
-> +	pci_endpoint_test_free_irq_vectors(test);
-> +	pci_endpoint_test_release_irq(test);
-> +
-> +	if (!pci_endpoint_test_alloc_irq_vectors(test)) {
-> +		pci_endpoint_test_release_irq(test);
-> +		return false;
-> +	}
-I am testing the latest patch set with the cadence driver, and find this st=
-ep is not working correctly.
-pci_endpoint_test_alloc_irq_vectors relies on the value of static irq_type =
-to request the appropriate IRQ.
-However, you don't set this value until a few lines later, so the first att=
-empt to set the IRQ type fails.  (A
-second attempt to set it will succeed however.)  I suggest setting irq_type=
- before the call, or even adding
-a parameter to pci_endpoint_test_alloc_irq_vectors() with the requested IRQ=
- type to avoid having to set it
-back again after a failed call.
-> +
-> +	if (!pci_endpoint_test_request_irq(test)) {
-> +		pci_endpoint_test_release_irq(test);
-> +		return false;
-> +	}
+I think all dentries are reclaimable. Yes, a rogue application or user
+can create million of new files and hence dentries or consuming buffer
+cache. The major difference here is the other attack can be very
+noticeable and traceable. Filesystem limits may also be hit first before
+the system is running out of memory. The negative dentry attack,
+however, is more hidden and not easily traceable. So you won't know the
+system is in trouble until it is almost running out of free memory.
 
-> +
-> +	irq_type =3D req_irq_type;
-> +
-> +	return true;
-> +}
+
+> later needs a special treatment while the first one is ok? There are
+> quite some resources which allow a non privileged user to consume a lot
+> of memory and the memory controller is the only reliable way to mitigate
+> the risk.
+
+Yes, memory controller is the only reliable way to mitigate the risk,
+but not all tasks are under the control of a memory controller with
+kernel memory limit.
+
+>> This patchset introduces changes to the dcache subsystem to track and
+>> optionally limit the number of negative dentries allowed to be created by
+>> background pruning of excess negative dentries or even kill it after use.
+>> This capability will help to limit the amount of memory that can be
+>> consumed by negative dentries.
+> How are you going to balance that between workload? What prevents a
+> rogue application to simply consume the limit and force all others in
+> the system to go slow path?
+
+With the current patchset, it is possible for a rogue application to
+force every one else to go to slow path. One possible solution to this
+is to go to the slowpath only for the newly created neg dentries, not
+for those that have been created previously and reused again. Patch 5 of
+the current series track which negative dentry is newly created and
+handle it differently. I can move this up the series and use that
+information to decide if we should go to the slowpath.
+
+>> Patch 1 tracks the number of negative dentries present in the LRU
+>> lists and reports it in /proc/sys/fs/dentry-state.
+> If anything I _think_ vmstat would benefit from this because behavior of
+> the memory reclaim does depend on the amount of neg. dentries.
+>
+>> Patch 2 adds a "neg-dentry-pc" sysctl parameter that can be used to to
+>> specify a soft limit on the number of negative allowed as a percentage
+>> of total system memory. This parameter is 0 by default which means no
+>> negative dentry limiting will be performed.
+> percentage has turned out to be a really wrong unit for many tunables
+> over time. Even 1% can be just too much on really large machines.
+
+Yes, that is true. Do you have any suggestion of what kind of unit
+should be used? I can scale down the unit to 0.1% of the system memory.
+Alternatively, one unit can be 10k/cpu thread, so a 20-thread system
+corresponds to 200k, etc.
+
+>
+>> Patch 3 enables automatic pruning of least recently used negative
+>> dentries when the total number is close to the preset limit.
+> Please explain why this cannot be done in a standard dcache shrinking
+> way. I strongly suspect that you are developing yet another reclaim with
+> its own sets of tunable and bypassing the existing infrastructure. I
+> haven't read patches yet but the cover letter doesn't really explain
+> design much so I am only guessing.
+
+The standard dcache shrinking happens when the system is almost running
+out of free memory. This new shrinker will be turned on when the number
+of negative dentries is closed to the limit even when there are still
+plenty of free memory left. It will stop when the number of negative
+dentries is lowered to a safe level. The new shrinker is designed to
+impose as little overhead to the currently running tasks. That is not
+true for the standard shrinker which will have a rather significant
+performance impact to the currently running tasks.
+
+I can remove the new shrinker if people really don't want to add a new
+one as long as I can keep the option to kill off newly created negative
+dentries when the limit is exceeded.
+
+Cheers,
+Longman
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
