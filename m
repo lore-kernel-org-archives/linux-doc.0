@@ -1,154 +1,267 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F7A17D072
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  8 Jul 2018 18:19:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 23A647D071
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 04:49:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932184AbeGHSTT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 8 Jul 2018 14:19:19 -0400
-Received: from mail-wm0-f65.google.com ([74.125.82.65]:51543 "EHLO
-        mail-wm0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S932121AbeGHSTS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 8 Jul 2018 14:19:18 -0400
-Received: by mail-wm0-f65.google.com with SMTP id s12-v6so19016293wmc.1
-        for <linux-doc@vger.kernel.org>; Sun, 08 Jul 2018 11:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:from:openpgp:autocrypt:cc:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=EFANwacazJ/wQ8z9tYgpPX4G1vu3jyeTRcPeKCSHaaI=;
-        b=Y/EhGYceJNPe99zy8M9k928fmHsDTr13DkUDZmJCaFcuNWhY2xFBpIN2LUXqmAU/Qp
-         rSIL4c5Tis+XeC3cu6FxgSMXY8wv8H6Q5XoW5/KEX/nh0Y8zGF5/aeR4HGVgEs5LVHIj
-         7D6kjIC3CBiLvGCPvmKPXoGDKhUugGoWcDYXZx/8dcMDgv7Wv7LBNWGuq1x420zHcpnG
-         wNCJB2/3K1XDnKG0OxD7doX6TY+RdRlrb/+m8AdpE9CsmH7sCSSl/e+F709R+0MIWT2A
-         5oWxR8HDItUftBe3g4AqqmXgTgR/+dY8ilCM6sOxYMd4OGmx1LyEgN2BMMF5L3s0+onj
-         ul+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:openpgp:autocrypt:cc:subject:message-id
-         :date:user-agent:mime-version:content-language
-         :content-transfer-encoding;
-        bh=EFANwacazJ/wQ8z9tYgpPX4G1vu3jyeTRcPeKCSHaaI=;
-        b=OrlM6R0OjDH2DYawu1XsC2X5Dr7yaBnKZNa2SQwjlrPEn7j1gyhKaZGt2JBzcnz2Wk
-         aTyQYfbsXaeR9w9YfgkDVvNrLN4D7j/fy1hp4rWk1S0SCHDEUrB0wpp8SLuw5DeuXb4p
-         ea1Ozvdn1xveb0EZa01dNrbMnfo2Z/VSPlMZ/V18QCaDO4i+RVk/jiSesbeBXTWEflfN
-         gu+Hm8XfchRxeCX+7Gkir1P4b8bojH1jiMLiz8q12Bnwyf0ooEgtaShIcl8PGFXH6dWS
-         3yLd7tAMRb44bZi5KPhFuvVFLXu8cUf0JPB9vyRfU/JKytGZC4ZD5klUoKvykqIB6CE+
-         Wsig==
-X-Gm-Message-State: APt69E0LGoKyDhwjOGTml/8W6V1JqLOKgDu9u2/0qrj/kE9A9OtMdTGF
-        Y3X4T9dI26/5fpjs/jrNdUA=
-X-Google-Smtp-Source: AAOMgpevwwE2Urm4rPFjF5XJIWzJErH39Jni108l2iI7AOtH1d84gXx0ZAgQ6oaxN8gYozSf+xiYNw==
-X-Received: by 2002:a1c:1182:: with SMTP id 124-v6mr10399391wmr.75.1531073957036;
-        Sun, 08 Jul 2018 11:19:17 -0700 (PDT)
-Received: from ?IPv6:2001:660:3203:402::a51? ([2001:660:3203:402::a51])
-        by smtp.gmail.com with ESMTPSA id b7-v6sm16343144wme.39.2018.07.08.11.19.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 Jul 2018 11:19:16 -0700 (PDT)
-To:     corbet@lwn.net
-From:   Yohan Pipereau <yohan.pipereau@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=yohan.pipereau@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- UqPUsoY=
-Cc:     linux-doc@vger.kernel.org,
-        Yohan Pipereau <yohan.pipereau@gmail.com>
-Subject: [PATCH] Documentation : Update relay function types
-Message-ID: <d8f47b2d-dd39-ba65-8c4e-149718aea5bf@gmail.com>
-Date:   Sun, 8 Jul 2018 20:19:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.0
+        id S1750996AbeGIEtE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Jul 2018 00:49:04 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:52090 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750847AbeGIEtD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jul 2018 00:49:03 -0400
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id w694mlJc091339;
+        Sun, 8 Jul 2018 23:48:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1531111727;
+        bh=LpWnpSI9k2zZSM1yWKST7dHEBS/spB9M4qcFBtcJEgE=;
+        h=Subject:To:References:CC:From:Date:In-Reply-To;
+        b=ey74DE1ICR+QftQG05tc7+9+WQ+uzlWtRpwtIn+4SGWRfvXXAdJ+HY8tCfJ4yYrCy
+         ImEgsdZqnaeYmSdNd4NsDeFez03S5MXVVLzMvyjEl3sR4p4Fm8ZYiyU7vJJoW7wO3X
+         rRpYaBIAcBApXqNr9Q+VQ5z6q5g35dPVTFnCjehw=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id w694ml26024800;
+        Sun, 8 Jul 2018 23:48:47 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Sun, 8 Jul
+ 2018 23:48:46 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
+ Sun, 8 Jul 2018 23:48:46 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w694mhwK011707;
+        Sun, 8 Jul 2018 23:48:43 -0500
+Subject: Re: [PATCH v8 08/11] pci-epf-test/pci_endpoint_test: Add MSI-X
+ support
+To:     Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        <bhelgaas@google.com>, <lorenzo.pieralisi@arm.com>,
+        <Joao.Pinto@synopsys.com>, <jingoohan1@gmail.com>,
+        <adouglas@cadence.com>, <jesper.nilsson@axis.com>,
+        <shawn.lin@rock-chips.com>
+References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
+ <bbee5395f02f728be88797bb450b999725ffbbc3.1530891871.git.gustavo.pimentel@synopsys.com>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <d670712a-d436-69eb-1daf-c66b717a36e6@ti.com>
+Date:   Mon, 9 Jul 2018 10:18:42 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr-classic
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <bbee5395f02f728be88797bb450b999725ffbbc3.1530891871.git.gustavo.pimentel@synopsys.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch updates two callback functions provided as an example in
-relay API documentation : subbuf_start and create_buf_file_handler.
+Hi,
 
-These functions were using older and incorrect types causing an
-"initialization from incompatible pointer type".
+On Friday 06 July 2018 09:21 PM, Gustavo Pimentel wrote:
+> Add MSI-X support and update driver documentation accordingly.
+> 
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> ---
+> Change v2->v3:
+>  - New patch file created base on the previous patch
+> "misc: pci_endpoint_test: Add MSI-X support" patch file following
+> Kishon's suggestion.
+> Change v3->v4:
+>  - Rebased to Lorenzo's master branch v4.18-rc1.
+> Change v4->v5:
+>  - Nothing changed, just to follow the patch set version.
+> Change v5->v6:
+>  - Moved PCITEST_MSIX ioctl entry from patch #10 to here.
+>  - Documented ioctl parameter type associated to
+> drivers/misc/pci_endpoint_test.c driver.
+> Change v6->v7:
+>  - Updated documentation.
+>  - Added flag that enables or not the MSI-X on the EP features. 
+> Change v7->v8:
+>  - Re-sending the patch series.
+> 
+>  Documentation/PCI/endpoint/pci-test-function.txt |  2 +-
+>  Documentation/ioctl/ioctl-number.txt             |  1 +
+>  Documentation/misc-devices/pci-endpoint-test.txt |  3 +++
+>  drivers/misc/pci_endpoint_test.c                 | 29 +++++++++++++++++-------
+>  drivers/pci/controller/dwc/pcie-designware-ep.c  |  1 +
+>  drivers/pci/endpoint/functions/pci-epf-test.c    | 29 ++++++++++++++++++++++--
+>  include/linux/pci-epc.h                          |  1 +
+>  include/uapi/linux/pcitest.h                     |  1 +
+>  8 files changed, 56 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/PCI/endpoint/pci-test-function.txt b/Documentation/PCI/endpoint/pci-test-function.txt
+> index 7ee2361..b1cbff3 100644
+> --- a/Documentation/PCI/endpoint/pci-test-function.txt
+> +++ b/Documentation/PCI/endpoint/pci-test-function.txt
+> @@ -34,7 +34,7 @@ that the endpoint device must perform.
+>  Bitfield Description:
+>    Bit 0		: raise legacy IRQ
+>    Bit 1		: raise MSI IRQ
+> -  Bit 2		: raise MSI-X IRQ (reserved for future implementation)
+> +  Bit 2		: raise MSI-X IRQ
+>    Bit 3		: read command (read data from RC buffer)
+>    Bit 4		: write command (write data to RC buffer)
+>    Bit 5		: copy command (copy data from one RC buffer to another
+> diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
+> index 480c860..65259d4 100644
+> --- a/Documentation/ioctl/ioctl-number.txt
+> +++ b/Documentation/ioctl/ioctl-number.txt
+> @@ -166,6 +166,7 @@ Code  Seq#(hex)	Include File		Comments
+>  'P'	all	linux/soundcard.h	conflict!
+>  'P'	60-6F	sound/sscape_ioctl.h	conflict!
+>  'P'	00-0F	drivers/usb/class/usblp.c	conflict!
+> +'P'	01-07	drivers/misc/pci_endpoint_test.c	conflict!
+>  'Q'	all	linux/soundcard.h
+>  'R'	00-1F	linux/random.h		conflict!
+>  'R'	01	linux/rfkill.h		conflict!
+> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+> index 4ebc359..fdfa0f6 100644
+> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
+>  	*) verifying addresses programmed in BAR
+>  	*) raise legacy IRQ
+>  	*) raise MSI IRQ
+> +	*) raise MSI-X IRQ
+>  	*) read data
+>  	*) write data
+>  	*) copy data
+> @@ -25,6 +26,8 @@ ioctl
+>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
+>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
+>  	      to be tested should be passed as argument.
+> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+> +	      to be tested should be passed as argument.
+>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>  		as argument.
+>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+> index 349794c..f4fef10 100644
+> --- a/drivers/misc/pci_endpoint_test.c
+> +++ b/drivers/misc/pci_endpoint_test.c
+> @@ -39,13 +39,14 @@
+>  
+>  #define IRQ_TYPE_LEGACY				0
+>  #define IRQ_TYPE_MSI				1
+> +#define IRQ_TYPE_MSIX				2
+>  
+>  #define PCI_ENDPOINT_TEST_MAGIC			0x0
+>  
+>  #define PCI_ENDPOINT_TEST_COMMAND		0x4
+>  #define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
+>  #define COMMAND_RAISE_MSI_IRQ			BIT(1)
+> -/* BIT(2) is reserved for raising MSI-X IRQ command */
+> +#define COMMAND_RAISE_MSIX_IRQ			BIT(2)
+>  #define COMMAND_READ				BIT(3)
+>  #define COMMAND_WRITE				BIT(4)
+>  #define COMMAND_COPY				BIT(5)
+> @@ -84,7 +85,7 @@ MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
+>  
+>  static int irq_type = IRQ_TYPE_MSI;
+>  module_param(irq_type, int, 0444);
+> -MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI)");
+> +MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI, 2 - MSI-X)");
+>  
+>  enum pci_barno {
+>  	BAR_0,
+> @@ -202,16 +203,18 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
+>  }
+>  
+>  static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
+> -				      u8 msi_num)
+> +				       u16 msi_num, bool msix)
+>  {
+>  	u32 val;
+>  	struct pci_dev *pdev = test->pdev;
+>  
+>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
+> -				 IRQ_TYPE_MSI);
+> +				 msix == false ? IRQ_TYPE_MSI :
+> +				 IRQ_TYPE_MSIX);
+>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, msi_num);
+>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
+> -				 COMMAND_RAISE_MSI_IRQ);
+> +				 msix == false ? COMMAND_RAISE_MSI_IRQ :
+> +				 COMMAND_RAISE_MSIX_IRQ);
+>  	val = wait_for_completion_timeout(&test->irq_raised,
+>  					  msecs_to_jiffies(1000));
+>  	if (!val)
+> @@ -456,7 +459,8 @@ static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
+>  		ret = pci_endpoint_test_legacy_irq(test);
+>  		break;
+>  	case PCITEST_MSI:
+> -		ret = pci_endpoint_test_msi_irq(test, arg);
+> +	case PCITEST_MSIX:
+> +		ret = pci_endpoint_test_msi_irq(test, arg, cmd == PCITEST_MSIX);
+>  		break;
+>  	case PCITEST_WRITE:
+>  		ret = pci_endpoint_test_write(test, arg);
+> @@ -542,6 +546,12 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+>  			dev_err(dev, "Failed to get MSI interrupts\n");
+>  		test->num_irqs = irq;
+>  		break;
+> +	case IRQ_TYPE_MSIX:
+> +		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
+> +		if (irq < 0)
+> +			dev_err(dev, "Failed to get MSI-X interrupts\n");
+> +		test->num_irqs = irq;
+> +		break;
+>  	default:
+>  		dev_err(dev, "Invalid IRQ type selected\n");
+>  	}
+> @@ -558,8 +568,9 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+>  				       pci_endpoint_test_irqhandler,
+>  				       IRQF_SHARED, DRV_MODULE_NAME, test);
+>  		if (err)
+> -			dev_err(dev, "failed to request IRQ %d for MSI %d\n",
+> -				pci_irq_vector(pdev, i), i + 1);
+> +			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
+> +				pci_irq_vector(pdev, i),
+> +				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
+>  	}
+>  
+>  	for (bar = BAR_0; bar <= BAR_5; bar++) {
+> @@ -625,6 +636,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+>  
+>  err_disable_msi:
+>  	pci_disable_msi(pdev);
+> +	pci_disable_msix(pdev);
+>  	pci_release_regions(pdev);
+>  
+>  err_disable_pdev:
+> @@ -656,6 +668,7 @@ static void pci_endpoint_test_remove(struct pci_dev *pdev)
+>  	for (i = 0; i < test->num_irqs; i++)
+>  		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i), test);
+>  	pci_disable_msi(pdev);
+> +	pci_disable_msix(pdev);
+>  	pci_release_regions(pdev);
+>  	pci_disable_device(pdev);
+>  }
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 70d0688..36d83d1 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -585,6 +585,7 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
+>  
+>  	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
+> +	epc->features |= EPC_FEATURE_MSIX_AVAILABLE;
 
-diffstat for this patch is:
- relay.txt |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This indicates all vendors of designware has MSIX enabled which is not true.
+We'll need more logic than that.
 
-
-Signed-off-by: Yohan Pipereau <yohan.pipereau@gmail.com>
----
-
-diff --git a/Documentation/filesystems/relay.txt
-b/Documentation/filesystems/relay.txt
-index 33e2f3694733..cd709a94d054 100644
---- a/Documentation/filesystems/relay.txt
-+++ b/Documentation/filesystems/relay.txt
-@@ -222,7 +222,7 @@ using debugfs:
-  */
- static struct dentry *create_buf_file_handler(const char *filename,
-                                               struct dentry *parent,
--                                              int mode,
-+                                              umode_t mode,
-                                               struct rchan_buf *buf,
-                                               int *is_global)
- {
-@@ -375,7 +375,7 @@ would be very similar:
- static int subbuf_start(struct rchan_buf *buf,
-                         void *subbuf,
- 			void *prev_subbuf,
--			unsigned int prev_padding)
-+			size_t prev_padding)
- {
- 	if (prev_subbuf)
- 		*((unsigned *)prev_subbuf) = prev_padding;
+Thanks
+Kishon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
