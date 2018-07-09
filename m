@@ -2,54 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 78EB37D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 22:12:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 437F77D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 22:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754326AbeGIWMu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Jul 2018 18:12:50 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:43626 "EHLO
-        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1751218AbeGIWMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jul 2018 18:12:50 -0400
-Received: from akpm3.svl.corp.google.com (unknown [104.133.9.92])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 73ED8DDE;
-        Mon,  9 Jul 2018 22:12:49 +0000 (UTC)
-Date:   Mon, 9 Jul 2018 15:12:48 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     David Rientjes <rientjes@google.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        id S1754410AbeGIW2Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Jul 2018 18:28:16 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:47944 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1754018AbeGIW2O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Jul 2018 18:28:14 -0400
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+        by ale.deltatee.com with esmtp (Exim 4.89)
+        (envelope-from <logang@deltatee.com>)
+        id 1fcedJ-0001FE-A3; Mon, 09 Jul 2018 16:27:50 -0600
+To:     Alex Williamson <alex.williamson@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, Stephen Bates <sbates@raithlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [patch] docs, debugfs: start explicit debugfs documentation
-Message-Id: <20180709151248.2e124971e8af515fd95b9319@linux-foundation.org>
-In-Reply-To: <alpine.DEB.2.21.1807091459410.118937@chino.kir.corp.google.com>
-References: <alpine.DEB.2.21.1807091459410.118937@chino.kir.corp.google.com>
-X-Mailer: Sylpheed 3.6.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>
+References: <20180627174650.27433-1-logang@deltatee.com>
+ <20180627174650.27433-4-logang@deltatee.com>
+ <20180706165655.62306b6f@t450s.home>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <01dfc5ba-43cb-fbea-93e6-4963c411c750@deltatee.com>
+Date:   Mon, 9 Jul 2018 16:27:40 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180706165655.62306b6f@t450s.home>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: willy@infradead.org, christian.koenig@amd.com, benh@kernel.crashing.org, jglisse@redhat.com, dan.j.williams@intel.com, frederic@kernel.org, kai.heng.feng@canonical.com, marc.zyngier@arm.com, paulmck@linux.vnet.ibm.com, tglx@linutronix.de, mingo@kernel.org, corbet@lwn.net, bhelgaas@google.com, hch@lst.de, sbates@raithlin.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, alex.williamson@redhat.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v5 3/3] PCI: Introduce the disable_acs_redir parameter
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 9 Jul 2018 15:00:17 -0700 (PDT) David Rientjes <rientjes@google.com> wrote:
+Hey Alex,
 
-> There is no canonical location for debugfs docuemntation, so start one.
-> 
-> This is primarily motivated to describe the oom_free_timeout_ms interface
-> but it is extended for all the debugfs files that I am personally
-> interested in.
-> 
-> Hopefully this can be expanded in the future for better insight into how
-> the various interfaces can be used.
+On 06/07/18 04:56 PM, Alex Williamson wrote:
+> Maybe we track if we enabled ACS via a device specific quirk and
+> minimally print an incompatibility error if it's also specified for
+> disable_acs_redir?  Thanks,
 
-(cc Greg)
+Ok, I dug into this a bit and I think tracking if we enabled via a
+device specific quirk does not work. If 'pci_acs_enable' is not set, we
+wouldn't know if we used a device specific quirk and still try to
+disable a quirked device the standard way.
+
+Instead, I've looked at adding a device specific disable_acs_redir
+function next to enable_acs. In this way, the device specific quirks can
+override the operation. See the diff below.
+
+Implementing the Intel SPT PCH version is pretty trivial, so I've done
+that. The Intel PCH variant I've just left as unsupported and printed a
+warning.
+
+If this sounds good to you, I'll fold it into my patchset and resubmit a v6.
+
+Thanks,
+
+Logan
+
+--
+
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 079f7c911e09..54001b307496 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -3028,6 +3028,9 @@ static void pci_disable_acs_redir(struct pci_dev *dev)
+ 	if (!pos)
+ 		return;
+
++	if (!pci_dev_specific_disable_acs_redir(dev))
++		return;
++
+ 	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
+
+ 	/* P2P Request & Completion Redirect */
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index f439de848658..c976a025ae92 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -4526,6 +4526,16 @@ static int pci_quirk_enable_intel_pch_acs(struct
+pci_dev *dev)
+ 	return 0;
+ }
+
++static int pci_quirk_disable_intel_pch_acs_redir(struct pci_dev *dev)
++{
++	if (!pci_quirk_intel_pch_acs_match(dev))
++		return -ENOTTY;
++
++	pci_warn(dev, "Disabling ACS redirect on the Intel PCH root port is
+not supported\n");
++
++	return 0;
++}
++
+ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+ {
+ 	int pos;
+@@ -4553,22 +4563,53 @@ static int
+pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+ 	return 0;
+ }
+
+-static const struct pci_dev_enable_acs {
++static int pci_quirk_disable_intel_spt_pch_acs_redir(struct pci_dev *dev)
++{
++	int pos;
++	u32 cap, ctrl;
++
++	if (!pci_quirk_intel_spt_pch_acs_match(dev))
++		return -ENOTTY;
++
++	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
++	if (!pos)
++		return -ENOTTY;
++
++	pci_read_config_dword(dev, pos + PCI_ACS_CAP, &cap);
++	pci_read_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, &ctrl);
++
++	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
++
++	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
++
++	pci_info(dev, "Intel SPT PCH root port workaround: disabled ACS
+redirect\n");
++
++	return 0;
++}
++
++static const struct pci_dev_acs_ops {
+ 	u16 vendor;
+ 	u16 device;
+ 	int (*enable_acs)(struct pci_dev *dev);
+-} pci_dev_enable_acs[] = {
+-	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID, pci_quirk_enable_intel_pch_acs },
+-	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID, pci_quirk_enable_intel_spt_pch_acs },
++	int (*disable_acs_redir)(struct pci_dev *dev);
++} pci_dev_acs_ops[] = {
++	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID,
++	  .enable_acs = pci_quirk_enable_intel_pch_acs,
++	  .disable_acs_redir = pci_quirk_disable_intel_pch_acs_redir,
++	},
++	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID,
++	  .enable_acs = pci_quirk_enable_intel_spt_pch_acs,
++	  .disable_acs_redir = pci_quirk_disable_intel_spt_pch_acs_redir
++	},
+ 	{ 0 }
+ };
+
+ int pci_dev_specific_enable_acs(struct pci_dev *dev)
+ {
+-	const struct pci_dev_enable_acs *i;
++	const struct pci_dev_acs_ops *i;
+ 	int ret;
+
+-	for (i = pci_dev_enable_acs; i->enable_acs; i++) {
++	for (i = pci_dev_acs_ops; i->enable_acs; i++) {
+ 		if ((i->vendor == dev->vendor ||
+ 		     i->vendor == (u16)PCI_ANY_ID) &&
+ 		    (i->device == dev->device ||
+@@ -4582,6 +4623,25 @@ int pci_dev_specific_enable_acs(struct pci_dev *dev)
+ 	return -ENOTTY;
+ }
+
++int pci_dev_specific_disable_acs_redir(struct pci_dev *dev)
++{
++	const struct pci_dev_acs_ops *i;
++	int ret;
++
++	for (i = pci_dev_acs_ops; i->enable_acs; i++) {
++		if ((i->vendor == dev->vendor ||
++		     i->vendor == (u16)PCI_ANY_ID) &&
++		    (i->device == dev->device ||
++		     i->device == (u16)PCI_ANY_ID)) {
++			ret = i->disable_acs_redir(dev);
++			if (ret >= 0)
++				return ret;
++		}
++	}
++
++	return -ENOTTY;
++}
++
+ /*
+  * The PCI capabilities list for Intel DH895xCC VFs (device ID 0x0443) with
+  * QuickAssist Technology (QAT) is prematurely terminated in hardware.  The
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 340029b2fb38..7ee208aa1a31 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1878,6 +1878,7 @@ enum pci_fixup_pass {
+ void pci_fixup_device(enum pci_fixup_pass pass, struct pci_dev *dev);
+ int pci_dev_specific_acs_enabled(struct pci_dev *dev, u16 acs_flags);
+ int pci_dev_specific_enable_acs(struct pci_dev *dev);
++int pci_dev_specific_disable_acs_redir(struct pci_dev *dev);
+ #else
+ static inline void pci_fixup_device(enum pci_fixup_pass pass,
+ 				    struct pci_dev *dev) { }
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
