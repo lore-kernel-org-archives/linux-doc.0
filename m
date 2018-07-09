@@ -5,33 +5,33 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAB137D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 17:44:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C5EF7D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 17:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934080AbeGIRnw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Jul 2018 13:43:52 -0400
-Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:56711 "EHLO
+        id S933692AbeGIRnv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Jul 2018 13:43:51 -0400
+Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:56715 "EHLO
         smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933806AbeGIRm6 (ORCPT
+        with ESMTP id S933881AbeGIRm6 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jul 2018 13:42:58 -0400
-Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id CAD1110C1B13;
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id C3D2910C1B12;
         Mon,  9 Jul 2018 10:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1531158177; bh=WZ+9Yg4cyJ6z/xB67evZGXWNWTIK4jOqxuCfFybDAUg=;
+        t=1531158177; bh=adpKsON1tUx3wRLdN0pgJT9NJarcjZams7nTigxj8IA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
          References:From;
-        b=VrGPZKSLxcbBbTu/vHrO/ueN7VFvHJmZhtetXm3qqT9SK+h6mLr0X+tSpHTQDcRt1
-         5FPk/ELsJsDJB5lV9SxMIPfKHz+MFVIbzxwF91qUTq/muvlRflL7Wv2NxcJw4149uX
-         8S77X6LeABBf+H8V+NTtxmlavg+eyrCxHomPEsFDeM0TfcjIABsSok+3rhzXrquxQt
-         NkRhVPCUCl8jF39jwT+SuWcTXbLjM2ofzQxLs7GDx1rZ3L0znw27NnHGJfSc9vnpYH
-         pEaxXgLoS8w6mux1CWSkohXbr9N6FT7zDwQ42T+1LYJr/9RMb2caGNhpbPx8AZZnTA
-         yM7gaiJos4JpA==
-Received: from pt02.synopsys.com (pt02.synopsys.com [10.107.23.240])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 3CCAA3723;
+        b=kZNJ77X890vtgthNULad1vZsR1kkcKczRNJpSKgJ+qEl9/ChqbFx3V2HI7msKUN4O
+         sqY8OtH6BIzLAWzcv9SOFE2qC0Oxk+5BuY2SMvuhUucYhYQz6on+e7ys7tyAbIyz/M
+         DCYL4Y/wJSELnh0VgR5VGmzaFizLLcn7SYIEBRidjOkn7UPsyb9iKSV0XeE6cr0vKd
+         Sx7F3TUymHRsVUE6mBoCcofaBkaqMP6yury7AFqgKarOPe8GlPkPyOiN+nM7zUA9oG
+         WNMBU/msOJGVjwDXsv2hPDNXRzt/Gig6jc/r0coneNiUuIRBBrZuT7GoafP9KvxDv+
+         7mPQIMuIsGZXw==
+Received: from pt02.synopsys.com (pt02.internal.synopsys.com [10.107.23.240])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 2F8F65CF4;
         Mon,  9 Jul 2018 10:42:57 -0700 (PDT)
 Received: from UbuntuMate-64Bits.internal.synopsys.com (gustavo-e7480.internal.synopsys.com [10.107.25.102])
-        by pt02.synopsys.com (Postfix) with ESMTP id C7E903EDA2;
+        by pt02.synopsys.com (Postfix) with ESMTP id AD6B43ED9C;
         Mon,  9 Jul 2018 18:42:55 +0100 (WEST)
 From:   Gustavo Pimentel <gustavo.pimentel@synopsys.com>
 To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
@@ -41,9 +41,9 @@ To:     bhelgaas@google.com, lorenzo.pieralisi@arm.com,
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-Subject: [PATCH v9 08/12] pci-epf-test/pci_endpoint_test: Use irq_type module parameter
-Date:   Mon,  9 Jul 2018 18:42:46 +0100
-Message-Id: <1390280769246adf7bd7339d210cf8541b74b9ef.1531155252.git.gustavo.pimentel@synopsys.com>
+Subject: [PATCH v9 06/12] PCI: dwc: Add legacy interrupt callback handler
+Date:   Mon,  9 Jul 2018 18:42:44 +0100
+Message-Id: <143f34045d262b638e9908e09e329850200db5d9.1531155252.git.gustavo.pimentel@synopsys.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531155252.git.gustavo.pimentel@synopsys.com>
 References: <cover.1531155252.git.gustavo.pimentel@synopsys.com>
@@ -54,14 +54,16 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add new driver parameter to allow interruption type selection.
+Add a legacy interrupt callback handler. Currently DesignWare IP don't
+allow trigger legacy interrupts.
 
 Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+Acked-by: Kishon Vijay Abraham I <kishon@ti.com>
 ---
+Change v1->v2:
+ - Nothing changed, just to follow the patch set version.
 Change v2->v3:
- - New patch file created base on the previous patch
-"misc: pci_endpoint_test: Add MSI-X support" patch file following
-Kishon's suggestion.
+ - Nothing changed, just to follow the patch set version.
 Change v3->v4:
  - Rebased to Lorenzo's master branch v4.18-rc1.
 Change v4->v5:
@@ -69,105 +71,74 @@ Change v4->v5:
 Change v5->v6:
  - Nothing changed, just to follow the patch set version.
 Change v6->v7:
- - Removed unnecessary set to zero variable.
- - Removed empty line.
+ - Nothing changed, just to follow the patch set version.
 Change v7->v8:
  - Re-sending the patch series.
-Change v8->v9:
- - Nothing changed, just to follow the patch set version.
 
- drivers/misc/pci_endpoint_test.c | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+ drivers/pci/controller/dwc/pcie-designware-ep.c   | 10 ++++++++++
+ drivers/pci/controller/dwc/pcie-designware-plat.c |  3 +--
+ drivers/pci/controller/dwc/pcie-designware.h      |  6 ++++++
+ 3 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index 35fbfbd..349794c 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -82,6 +82,10 @@ static bool no_msi;
- module_param(no_msi, bool, 0444);
- MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
- 
-+static int irq_type = IRQ_TYPE_MSI;
-+module_param(irq_type, int, 0444);
-+MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI)");
-+
- enum pci_barno {
- 	BAR_0,
- 	BAR_1,
-@@ -108,7 +112,7 @@ struct pci_endpoint_test {
- struct pci_endpoint_test_data {
- 	enum pci_barno test_reg_bar;
- 	size_t alignment;
--	bool no_msi;
-+	int irq_type;
+diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+index afb48b5..9eec21f 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-ep.c
++++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+@@ -370,6 +370,16 @@ static const struct pci_epc_ops epc_ops = {
+ 	.stop			= dw_pcie_ep_stop,
  };
  
- static inline u32 pci_endpoint_test_readl(struct pci_endpoint_test *test,
-@@ -291,8 +295,7 @@ static bool pci_endpoint_test_copy(struct pci_endpoint_test *test, size_t size)
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_SIZE,
- 				 size);
- 
--	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
--				 no_msi ? IRQ_TYPE_LEGACY : IRQ_TYPE_MSI);
-+	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE, irq_type);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, 1);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
- 				 COMMAND_COPY);
-@@ -361,8 +364,7 @@ static bool pci_endpoint_test_write(struct pci_endpoint_test *test, size_t size)
- 
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_SIZE, size);
- 
--	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
--				 no_msi ? IRQ_TYPE_LEGACY : IRQ_TYPE_MSI);
-+	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE, irq_type);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, 1);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
- 				 COMMAND_READ);
-@@ -419,8 +421,7 @@ static bool pci_endpoint_test_read(struct pci_endpoint_test *test, size_t size)
- 
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_SIZE, size);
- 
--	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
--				 no_msi ? IRQ_TYPE_LEGACY : IRQ_TYPE_MSI);
-+	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE, irq_type);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, 1);
- 	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
- 				 COMMAND_WRITE);
-@@ -505,11 +506,14 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
- 	test->alignment = 0;
- 	test->pdev = pdev;
- 
-+	if (no_msi)
-+		irq_type = IRQ_TYPE_LEGACY;
++int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
++{
++	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	struct device *dev = pci->dev;
 +
- 	data = (struct pci_endpoint_test_data *)ent->driver_data;
- 	if (data) {
- 		test_reg_bar = data->test_reg_bar;
- 		test->alignment = data->alignment;
--		no_msi = data->no_msi;
-+		irq_type = data->irq_type;
- 	}
++	dev_err(dev, "EP cannot trigger legacy IRQs\n");
++
++	return -EINVAL;
++}
++
+ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 			     u8 interrupt_num)
+ {
+diff --git a/drivers/pci/controller/dwc/pcie-designware-plat.c b/drivers/pci/controller/dwc/pcie-designware-plat.c
+index 8bb2ecb..160714d 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-plat.c
++++ b/drivers/pci/controller/dwc/pcie-designware-plat.c
+@@ -87,8 +87,7 @@ static int dw_plat_pcie_ep_raise_irq(struct dw_pcie_ep *ep, u8 func_no,
  
- 	init_completion(&test->irq_raised);
-@@ -529,11 +533,17 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+ 	switch (type) {
+ 	case PCI_EPC_IRQ_LEGACY:
+-		dev_err(pci->dev, "EP cannot trigger legacy IRQs\n");
+-		return -EINVAL;
++		return dw_pcie_ep_raise_legacy_irq(ep, func_no);
+ 	case PCI_EPC_IRQ_MSI:
+ 		return dw_pcie_ep_raise_msi_irq(ep, func_no, interrupt_num);
+ 	case PCI_EPC_IRQ_MSIX:
+diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+index a0ab12f..69e6e17 100644
+--- a/drivers/pci/controller/dwc/pcie-designware.h
++++ b/drivers/pci/controller/dwc/pcie-designware.h
+@@ -350,6 +350,7 @@ static inline int dw_pcie_allocate_domains(struct pcie_port *pp)
+ void dw_pcie_ep_linkup(struct dw_pcie_ep *ep);
+ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+ void dw_pcie_ep_exit(struct dw_pcie_ep *ep);
++int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no);
+ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 			     u8 interrupt_num);
+ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+@@ -369,6 +370,11 @@ static inline void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+ {
+ }
  
- 	pci_set_master(pdev);
- 
--	if (!no_msi) {
-+	switch (irq_type) {
-+	case IRQ_TYPE_LEGACY:
-+		break;
-+	case IRQ_TYPE_MSI:
- 		irq = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
- 		if (irq < 0)
- 			dev_err(dev, "Failed to get MSI interrupts\n");
- 		test->num_irqs = irq;
-+		break;
-+	default:
-+		dev_err(dev, "Invalid IRQ type selected\n");
- 	}
- 
- 	err = devm_request_irq(dev, pdev->irq, pci_endpoint_test_irqhandler,
++static inline int dw_pcie_ep_raise_legacy_irq(struct dw_pcie_ep *ep, u8 func_no)
++{
++	return 0;
++}
++
+ static inline int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+ 					   u8 interrupt_num)
+ {
 -- 
 2.7.4
 
