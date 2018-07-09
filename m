@@ -3,299 +3,204 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A50C37D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 10:27:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17F307D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 12:10:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932435AbeGIK1N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Jul 2018 06:27:13 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:55032 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754438AbeGIK1L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jul 2018 06:27:11 -0400
-Received: from dlelxv90.itg.ti.com ([172.17.2.17])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id w69AQvMo002549;
-        Mon, 9 Jul 2018 05:26:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1531132017;
-        bh=gvLVPdCP/jg2sqpKz99pr1oVlpafFLvjJjgm3YviTZI=;
-        h=Subject:To:References:CC:From:Date:In-Reply-To;
-        b=BTinOBgZPhxE0L9Bo88+YKBoveG87c/A6Z3NdWZV0UoMXWfy52DthJFATNJE/kDee
-         6Hy0iEPv5KrqpGHmhgvlAhD6pJz4F4zDZbRgpoh4XvILiLO9+iDkPcwj7lPOCLO5HK
-         rMtOsWtwsaVtZNZWtqguOO3apZaIzh5xY4VZzj88=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id w69AQvfw019247;
-        Mon, 9 Jul 2018 05:26:57 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1466.3; Mon, 9 Jul
- 2018 05:26:56 -0500
-Received: from dlep33.itg.ti.com (157.170.170.75) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_0,
- cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.1.1466.3 via Frontend Transport;
- Mon, 9 Jul 2018 05:26:56 -0500
-Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by dlep33.itg.ti.com (8.14.3/8.13.8) with ESMTP id w69AQrsO023798;
-        Mon, 9 Jul 2018 05:26:53 -0500
-Subject: Re: [PATCH v8 08/11] pci-epf-test/pci_endpoint_test: Add MSI-X
- support
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "adouglas@cadence.com" <adouglas@cadence.com>,
-        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
-        "shawn.lin@rock-chips.com" <shawn.lin@rock-chips.com>
-References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
- <bbee5395f02f728be88797bb450b999725ffbbc3.1530891871.git.gustavo.pimentel@synopsys.com>
- <d670712a-d436-69eb-1daf-c66b717a36e6@ti.com>
- <ec072f79-47e5-0666-7a6e-331364ec5000@synopsys.com>
-CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <7bc01ee7-0645-0dcb-c74d-da3937e7d4a5@ti.com>
-Date:   Mon, 9 Jul 2018 15:56:52 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.8.0
+        id S1754474AbeGIMKo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Jul 2018 08:10:44 -0400
+Received: from mail-eopbgr00078.outbound.protection.outlook.com ([40.107.0.78]:9536
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1754468AbeGIMKm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Jul 2018 08:10:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5xY4AiCOfz3tzLFsib9tIYdQgDc9z11USEsQZM22gFE=;
+ b=UqIWLf89V72pnIVSGPzJXijYeA17IfykU8iGvupGhHdRUg36E4/QrKazl0jQN4/0KuCWqs9mlKj254BpJXF7OqkNH1Se95gqLEToYqifgcS2j+Z9nSccZDFAJwxdn6F03ruCAaBCtE4HhUufU/wMBtEY0s2jdR0Aku5VEi1v4i0=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=petrm@mellanox.com; 
+Received: from t540p (78.45.160.211) by
+ AM6PR05MB4183.eurprd05.prod.outlook.com (2603:10a6:209:40::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.930.20; Mon, 9 Jul 2018 12:10:39 +0000
+From:   Petr Machata <petrm@mellanox.com>
+To:     netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     davem@davemloft.net, corbet@lwn.net, kuznet@ms2.inr.ac.ru,
+        yoshfuji@linux-ipv6.org, nikolay@cumulusnetworks.com,
+        dsahern@gmail.com
+Subject: [PATCH RFC net-next] net: ipv4: Control SKB reprioritization after
+ forwarding
+Message-Id: <7f3e78990fbbae15da1b1269eeb8ca081ee72b4b.1531137972.git.petrm@mellanox.com>
+Date:   Mon, 09 Jul 2018 14:10:35 +0200
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <ec072f79-47e5-0666-7a6e-331364ec5000@synopsys.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain
+X-Originating-IP: [78.45.160.211]
+X-ClientProxiedBy: AM5PR0102CA0021.eurprd01.prod.exchangelabs.com
+ (2603:10a6:206::34) To AM6PR05MB4183.eurprd05.prod.outlook.com
+ (2603:10a6:209:40::28)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 65b43636-231a-4f31-a13f-08d5e594fca9
+X-MS-Office365-Filtering-HT: Tenant
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989117)(5600053)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(48565401081)(2017052603328)(7153060)(7193020);SRVR:AM6PR05MB4183;
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR05MB4183;3:v+4IMuxuEIyphoIqG5rcWiiaJ/AVfAvax3E9CQqF/5HOlYv9SWhCqUVfvp+R7sIBBFk8uAsGF5sufCWD7XQeEy3JSMctsQm8C8MCBVnOzuignfp6CEj2897R+LK9L4fGqdVbehsX8tC9T3RmibgmLmvAcm6hbSg8A4zTSQ23/wONbgvZ/X4trrf+N9kTdIWJGFf631SqwaNSfrgIQe3XhMPgTueNtGUVUZHfngWZ/tGzpXpmjTd6uf/RnCaifE8t;25:8Te2v2op08O6Nsmrs7oC0iBCMWpxbhMxBoO2l89l/NzdmDdNnSh42hbs7pdc9OsK18rll3TABVP3Q615+++JcRTt7ZZ4EORighyiFY9sTn7ni6yLuIyPYSYotn7iUM2Y/I+i+JNsGR+VoNsIzJvqIEiE1aviFhPWWAnzCfAdSU/wtwtKUtUkyT0YxOj7jS4rSwhK5BNQlpsAcDKpVDzWloFVH7F+PLCMg+FR8SJugWesZxI22b7gRVQKVmSFmJT3qAqRGc6EslBu3y/g1MLkLxQPhIfkmBt5deS+OgstQqkXHPgtM7wnNoK7Gj3gvMZNGTE6/VLmvX5as/wI+v6ETg==;31:01yeQ24UYHNBmat6cbsOkyaV+8+UwSfv5DvY5uv+ZKDLUP26Wkn6uTRvDzpDQsOhASap31HhoLvV4MufLtUDd0P0cFKCdD6zMxkotabhbmOLod9iETONU3KZKmAPTJT0esDBL0EKtU9Ew2hdvzQI2w7fSleAzqEmrxXhQuwg/fwlHVZM5o+HyAmZJMSdTDbjOqwXI5W8KarBXrZ0BoOlqVmRzqtxcVYANOfmk3+o05k=
+X-MS-TrafficTypeDiagnostic: AM6PR05MB4183:
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR05MB4183;20:dK1oaqi+7tCi7o/4MMIP636b43ixtXBZzjA7YmItaGn6obMcAs5fHIkDhSMzCglY+VpXxXdgAPSRrIU9XXYPTzEbEezo6oU/fyXbG06UTuPjFJThzpTTOXkPyVXGszQbDSP92OSrOwmyYNY3+wwGeVHOLSLuZ7/zzuVaFBCgToIX91d5CdyQzlxVYMLn1XxZB4v+4xVFvRcw5joGdkWAlSFldSZpd/ouzM1NKJQpbNQbBfz7dN8l5qBBqPv1USAr0ebtPQe+b0hNk+tiG2n96It6BdOCOh+jVamIhyKpfGnW2PmN+zaFkPqZVOeubXQcSkdCpLlv1niBc6YCuTJsmtj3sVhgFVgsdmxXPedMQgpfS8OuMHIGlETtjkiZmoYsW8J5zIyP0ruOYtWkgFpMppEwbSwaqTxTR3EqES2rLcrCXaPi7Dm7EyMh4QkylI9Sh7JlI/rYPIh3lPATgyFQPxv7fk80ObVkBCyMmuMuH152jH+AJ6xWG0lSzJdzlbF8;4:8ctpdNYWu8Hp3PN48YNGjDvO9IGN8sWCj/0dWWxxuMxCrouIqW6xDaorH6WOIVSYv41VMx4PY8QbV4LZ+zS8HYpPzg8vEkxhjPD4q0rKuDzvdOAGOBzmsTFKpuiWd6tiYemILEFXviUL4wd28waN7LpnoSDcf+ZlmJ/RfuHDnnpqRX2W1anr7XbpidPYW0uUTkWltUZHI+5XgknA+RFRYbxAod8ua6YdzHsu5gBBiLisicQ80lXbvxHF4aMraKS9C57xN/BC8PFeJdfYJpbUow==
+X-Microsoft-Antispam-PRVS: <AM6PR05MB41839B951F29672490B3D39FDB440@AM6PR05MB4183.eurprd05.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(93006095)(93001095)(3231311)(944501410)(52105095)(10201501046)(3002001)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(6072148)(201708071742011)(7699016);SRVR:AM6PR05MB4183;BCL:0;PCL:0;RULEID:;SRVR:AM6PR05MB4183;
+X-Forefront-PRVS: 07283408BE
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(39860400002)(366004)(136003)(346002)(396003)(376002)(199004)(189003)(8936002)(118296001)(4326008)(81156014)(81166006)(36756003)(8676002)(2616005)(53936002)(956004)(7736002)(6486002)(86362001)(486006)(476003)(66066001)(39060400002)(51416003)(52116002)(48376002)(478600001)(305945005)(50466002)(106356001)(6496006)(386003)(105586002)(25786009)(68736007)(47776003)(16526019)(186003)(6116002)(6666003)(3846002)(16586007)(5660300001)(316002)(58126008)(26005)(2906002)(14444005)(97736004)(217873001);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR05MB4183;H:t540p;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;AM6PR05MB4183;23:SMkjg15Dsy3RjTLL1vxHIY9mUmks0/uoJILxXJT1K?=
+ =?us-ascii?Q?q+qMPyL31dfggOqPAENeoOE9aGrgTPefKvairkka0MaiOQ6hpiUD1TNPXpQO?=
+ =?us-ascii?Q?ansx+HxS5o9Ow/nlG+x1bW0srbH4LFyT1vcITbdjFkNtVW+WPzceOP+vt3v3?=
+ =?us-ascii?Q?ZAQW5yNtm64w7tcwmNKcsulovZWzdSSdDFJFsLt7qiG6NJR8JAHsHAO76Viw?=
+ =?us-ascii?Q?F5c3JHm67JWwEynaSTp4Lgs3kPo1NEfoHPogm2j4OzTsYabqKIq+kbszeMDY?=
+ =?us-ascii?Q?SmmrtyVfV+DSrw/gImelxWEcJjLVRzfMjgXPd35bj5v1h1hKnrRTCTVuJVt+?=
+ =?us-ascii?Q?+ZP5YiK/hOexun+VTgvtCXATv0BcJNvD9/tb2l/NR2bo+QvvN57Kb6yF4myb?=
+ =?us-ascii?Q?9NKyUAQGEAfavzYX2vZyfHp0107CImK5fPjfkNLwwhb39YnFnQXfaVDvJgmi?=
+ =?us-ascii?Q?bM23GipVKwT0n/EIcjRpF5+8jMGDt3miENpNue9Sp5LsxK3AUKWbhlpjCfVR?=
+ =?us-ascii?Q?iHxZyoytaZJCPNy2lD0tF7ufZHE9sYOZsX1YnXHNvzWNOQbOq+ufvPfBx6nY?=
+ =?us-ascii?Q?gBZQohnL4iAoo4t3VgY2VBMXH2sYT7mlwcXMCD25bVWKaxWPiBfYcwur3GUG?=
+ =?us-ascii?Q?VE57yGmogIj13S02zgt26b9fZ02jr4smnObLZ5q+hrZ/1gQQ8b2TQWbZ/Zev?=
+ =?us-ascii?Q?Z8ckdJ3ErT9pTkBVlZ9KXicomDdewD2SzadRNYYFR3Q+839hpMbGmJz6Umz4?=
+ =?us-ascii?Q?wjt2HLcGOqJaelysJTP7LejRR1Tb+5ueJuTlNlU/k45DoBNIt9It0svX+vkG?=
+ =?us-ascii?Q?k5ynLXCPaQKDSzDU9XBdQj/631EFpFqoHKs/m0NDRqQxA+h4UDIEwBa0q+mg?=
+ =?us-ascii?Q?/twqBITQXTePjGRgiuk4U9WHlimQsq2u5PQBQshou3HIBPTQe2zi+tcq+4YG?=
+ =?us-ascii?Q?KeHflV5iglXbYMZdzjFHw/Dn8NjlrXm7yH2Z+jjsXJA17odmPko32tfC7zhn?=
+ =?us-ascii?Q?l3Lrzw00tcGkV2lcDZrY3gU8lKObDQ6tLcqK8o/5OFiy7mCSY85zhrUf2RAy?=
+ =?us-ascii?Q?Mev2za+JqQJQN6vvUTZ2wM3KFbRrIUz5sBrNSq9Bu1oyO3U3q+7mC593VLQz?=
+ =?us-ascii?Q?2fUuudWsV46bxQBO4MOaN9600yVM0tIVUPKk7wtXXz0VV+NXmgE2g=3D=3D?=
+X-Microsoft-Antispam-Message-Info: vkl7fT3IQBIE230GZQVztWQke4gp5dLiaQxJb0AsqOusJZgmkVnUENbCDNRejpx+iViwgOuycCgM70ZX5ue5W8f3x6pdDI/p3BdErPRmtcQDFb14LMILfeVXzcDhCVZ6GDBqSUTne1R+SQE1YyQPg6gLjelFFsJxFbNg1jVlxH9j+YEcR1qMDIZ3lxn8M6OuJYvdJYBWrlg903Eq+rOevQmSa08L9T0VqWrDdPhjMghAj0Wp8XjkArjazw59t9xuJO6800QftsUMIVNd+k8dT3yGSAXWprQRG8PzPh9HDrcLMQoNfYp3QiVe1Aq93Zt95sfgKfsZB8G3CLQy9U1zs9mViRCp8A0J8jqvTICGV/A=
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR05MB4183;6:SjZLVHWjKp+oNcadl69og3sSUcGMHH9rfAzVnkiCTyI9dMIVnTKfXXzxIAXB825p3JbPS3ljMxSmy9WG0pekGeNFxw6cjO4ltbdaKSsHAS5N0ExVTJwY99RV5iW1awZQIKE9cKexlcKdd2fM4iftFKS+v1jCJcvMNfjg3FdTuU+OPHQtCBiqFvahMzxktqVztxIiptjs4GMdnWogcKcI3//4S8UmsOmp2zNG9j8jAjd1wtfIhCuCW3xbHCPEWMGD/nZelmajUXgMO9urQkgG24FRSEbCyL6a/zUUeG5WVQDRDfYKqLTvNmytlbT2VOn0hJJoHb3HH187H6BX5kB8UpVknDEdAkFLRK6SDoQLzwqQmk6U9ttSaW2/jp87YSJpWV1GnzuIHsXcia5sgBe6wVxB7DyQKNUM6cwXMY1Gj97GsRqEG22X9AED/Eix+QjVgDED6ubFi/M1AfPii1Dq0Q==;5:OX2nKU2TEI5Tm6Fs62bjyeSbgQiCvp4cRaMaH7bQHorviA9iLTI189yTfCAy8m/mEGFY72EqszN9g8W/ldy+5bnWFD1ktsijCuPJ+RQq49GG9go0A9mJWr3wMVd3SWEEnCGi2SG8FTOTqARremJnDU/10J2GLdg9X4VKWEeI0g0=;24:B8kMCk7/mJVhn3vgPGkAiewRApqC9WUgoFusz6ror9DO/VFOUqdsJi+o8EG44teiYeNp0d1Ij0eIbT1ivtqBLJ0v5OILwPRIuevR4UwNUfA=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1;AM6PR05MB4183;7:LZJ47xeaZNDkl2rK5FHf32I3Rdlae7iRXIcVc843wJQ3COB7RtYWdndqUN0Qa2xia0ih+XOEcvLXt2JwWLvfg4+1vZs5fZykBKrIgpN1BqpjrZld8CWPcvJGzb1o1FTiqkq0TD/KuUaJT9hFgOxm6xlL9FBjcVGkkiGNIBLfyQ95xyaxmE45FyypNNfvr+2hsxmspe3qQ5DDnaCLdd8l2FJEs4OBEjs3BTYzDTH8aDt7YjJ+IifciSO7gSmqInib
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2018 12:10:39.5666 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65b43636-231a-4f31-a13f-08d5e594fca9
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4183
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+After IPv4 packets are forwarded, the priority of the corresponding SKB
+is updated according to the TOS field of IPv4 header. This overrides any
+prioritization done earlier by e.g. an skbedit action or ingress-qos-map
+defined at a vlan device.
 
-On Monday 09 July 2018 03:38 PM, Gustavo Pimentel wrote:
-> Hi,
-> 
-> On 09/07/2018 05:48, Kishon Vijay Abraham I wrote:
->> Hi,
->>
->> On Friday 06 July 2018 09:21 PM, Gustavo Pimentel wrote:
->>> Add MSI-X support and update driver documentation accordingly.
->>>
->>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
->>> ---
->>> Change v2->v3:
->>>  - New patch file created base on the previous patch
->>> "misc: pci_endpoint_test: Add MSI-X support" patch file following
->>> Kishon's suggestion.
->>> Change v3->v4:
->>>  - Rebased to Lorenzo's master branch v4.18-rc1.
->>> Change v4->v5:
->>>  - Nothing changed, just to follow the patch set version.
->>> Change v5->v6:
->>>  - Moved PCITEST_MSIX ioctl entry from patch #10 to here.
->>>  - Documented ioctl parameter type associated to
->>> drivers/misc/pci_endpoint_test.c driver.
->>> Change v6->v7:
->>>  - Updated documentation.
->>>  - Added flag that enables or not the MSI-X on the EP features. 
->>> Change v7->v8:
->>>  - Re-sending the patch series.
->>>
->>>  Documentation/PCI/endpoint/pci-test-function.txt |  2 +-
->>>  Documentation/ioctl/ioctl-number.txt             |  1 +
->>>  Documentation/misc-devices/pci-endpoint-test.txt |  3 +++
->>>  drivers/misc/pci_endpoint_test.c                 | 29 +++++++++++++++++-------
->>>  drivers/pci/controller/dwc/pcie-designware-ep.c  |  1 +
->>>  drivers/pci/endpoint/functions/pci-epf-test.c    | 29 ++++++++++++++++++++++--
->>>  include/linux/pci-epc.h                          |  1 +
->>>  include/uapi/linux/pcitest.h                     |  1 +
->>>  8 files changed, 56 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/Documentation/PCI/endpoint/pci-test-function.txt b/Documentation/PCI/endpoint/pci-test-function.txt
->>> index 7ee2361..b1cbff3 100644
->>> --- a/Documentation/PCI/endpoint/pci-test-function.txt
->>> +++ b/Documentation/PCI/endpoint/pci-test-function.txt
->>> @@ -34,7 +34,7 @@ that the endpoint device must perform.
->>>  Bitfield Description:
->>>    Bit 0		: raise legacy IRQ
->>>    Bit 1		: raise MSI IRQ
->>> -  Bit 2		: raise MSI-X IRQ (reserved for future implementation)
->>> +  Bit 2		: raise MSI-X IRQ
->>>    Bit 3		: read command (read data from RC buffer)
->>>    Bit 4		: write command (write data to RC buffer)
->>>    Bit 5		: copy command (copy data from one RC buffer to another
->>> diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
->>> index 480c860..65259d4 100644
->>> --- a/Documentation/ioctl/ioctl-number.txt
->>> +++ b/Documentation/ioctl/ioctl-number.txt
->>> @@ -166,6 +166,7 @@ Code  Seq#(hex)	Include File		Comments
->>>  'P'	all	linux/soundcard.h	conflict!
->>>  'P'	60-6F	sound/sscape_ioctl.h	conflict!
->>>  'P'	00-0F	drivers/usb/class/usblp.c	conflict!
->>> +'P'	01-07	drivers/misc/pci_endpoint_test.c	conflict!
->>>  'Q'	all	linux/soundcard.h
->>>  'R'	00-1F	linux/random.h		conflict!
->>>  'R'	01	linux/rfkill.h		conflict!
->>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
->>> index 4ebc359..fdfa0f6 100644
->>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
->>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
->>> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
->>>  	*) verifying addresses programmed in BAR
->>>  	*) raise legacy IRQ
->>>  	*) raise MSI IRQ
->>> +	*) raise MSI-X IRQ
->>>  	*) read data
->>>  	*) write data
->>>  	*) copy data
->>> @@ -25,6 +26,8 @@ ioctl
->>>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
->>>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
->>>  	      to be tested should be passed as argument.
->>> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
->>> +	      to be tested should be passed as argument.
->>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
->>>  		as argument.
->>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
->>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
->>> index 349794c..f4fef10 100644
->>> --- a/drivers/misc/pci_endpoint_test.c
->>> +++ b/drivers/misc/pci_endpoint_test.c
->>> @@ -39,13 +39,14 @@
->>>  
->>>  #define IRQ_TYPE_LEGACY				0
->>>  #define IRQ_TYPE_MSI				1
->>> +#define IRQ_TYPE_MSIX				2
->>>  
->>>  #define PCI_ENDPOINT_TEST_MAGIC			0x0
->>>  
->>>  #define PCI_ENDPOINT_TEST_COMMAND		0x4
->>>  #define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
->>>  #define COMMAND_RAISE_MSI_IRQ			BIT(1)
->>> -/* BIT(2) is reserved for raising MSI-X IRQ command */
->>> +#define COMMAND_RAISE_MSIX_IRQ			BIT(2)
->>>  #define COMMAND_READ				BIT(3)
->>>  #define COMMAND_WRITE				BIT(4)
->>>  #define COMMAND_COPY				BIT(5)
->>> @@ -84,7 +85,7 @@ MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
->>>  
->>>  static int irq_type = IRQ_TYPE_MSI;
->>>  module_param(irq_type, int, 0444);
->>> -MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI)");
->>> +MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI, 2 - MSI-X)");
->>>  
->>>  enum pci_barno {
->>>  	BAR_0,
->>> @@ -202,16 +203,18 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
->>>  }
->>>  
->>>  static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
->>> -				      u8 msi_num)
->>> +				       u16 msi_num, bool msix)
->>>  {
->>>  	u32 val;
->>>  	struct pci_dev *pdev = test->pdev;
->>>  
->>>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
->>> -				 IRQ_TYPE_MSI);
->>> +				 msix == false ? IRQ_TYPE_MSI :
->>> +				 IRQ_TYPE_MSIX);
->>>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, msi_num);
->>>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
->>> -				 COMMAND_RAISE_MSI_IRQ);
->>> +				 msix == false ? COMMAND_RAISE_MSI_IRQ :
->>> +				 COMMAND_RAISE_MSIX_IRQ);
->>>  	val = wait_for_completion_timeout(&test->irq_raised,
->>>  					  msecs_to_jiffies(1000));
->>>  	if (!val)
->>> @@ -456,7 +459,8 @@ static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
->>>  		ret = pci_endpoint_test_legacy_irq(test);
->>>  		break;
->>>  	case PCITEST_MSI:
->>> -		ret = pci_endpoint_test_msi_irq(test, arg);
->>> +	case PCITEST_MSIX:
->>> +		ret = pci_endpoint_test_msi_irq(test, arg, cmd == PCITEST_MSIX);
->>>  		break;
->>>  	case PCITEST_WRITE:
->>>  		ret = pci_endpoint_test_write(test, arg);
->>> @@ -542,6 +546,12 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
->>>  			dev_err(dev, "Failed to get MSI interrupts\n");
->>>  		test->num_irqs = irq;
->>>  		break;
->>> +	case IRQ_TYPE_MSIX:
->>> +		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
->>> +		if (irq < 0)
->>> +			dev_err(dev, "Failed to get MSI-X interrupts\n");
->>> +		test->num_irqs = irq;
->>> +		break;
->>>  	default:
->>>  		dev_err(dev, "Invalid IRQ type selected\n");
->>>  	}
->>> @@ -558,8 +568,9 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
->>>  				       pci_endpoint_test_irqhandler,
->>>  				       IRQF_SHARED, DRV_MODULE_NAME, test);
->>>  		if (err)
->>> -			dev_err(dev, "failed to request IRQ %d for MSI %d\n",
->>> -				pci_irq_vector(pdev, i), i + 1);
->>> +			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
->>> +				pci_irq_vector(pdev, i),
->>> +				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
->>>  	}
->>>  
->>>  	for (bar = BAR_0; bar <= BAR_5; bar++) {
->>> @@ -625,6 +636,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
->>>  
->>>  err_disable_msi:
->>>  	pci_disable_msi(pdev);
->>> +	pci_disable_msix(pdev);
->>>  	pci_release_regions(pdev);
->>>  
->>>  err_disable_pdev:
->>> @@ -656,6 +668,7 @@ static void pci_endpoint_test_remove(struct pci_dev *pdev)
->>>  	for (i = 0; i < test->num_irqs; i++)
->>>  		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i), test);
->>>  	pci_disable_msi(pdev);
->>> +	pci_disable_msix(pdev);
->>>  	pci_release_regions(pdev);
->>>  	pci_disable_device(pdev);
->>>  }
->>> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
->>> index 70d0688..36d83d1 100644
->>> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
->>> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
->>> @@ -585,6 +585,7 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
->>>  	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
->>>  
->>>  	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
->>> +	epc->features |= EPC_FEATURE_MSIX_AVAILABLE;
->>
->> This indicates all vendors of designware has MSIX enabled which is not true.
->> We'll need more logic than that.
-> 
-> You mentioned and excellent point. Any particularity related to this features
-> should be implemented each specific driver (in this case on
-> pcie-designware-plat.c file).
-> 
-> And by looking at this code now that you mentioned, I think the line code
-> "epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;" was added by mistake, if I
-> remember well by default the linkup notification is expected, right?
+Such overriding may not always be desirable. Even if the packet ends up
+being routed, which implies this is an L3 network node, an administrator
+may wish to preserve whatever prioritization was done earlier on in the
+pipeline.
 
-right, since dra7x was the first platform to have EP support added and it has
-linkup notification mechanism.
-> 
-> If I'm right, I may create an extra patch removing this 2 lines, do you agree?
+Therefore introduce a sysctl that controls this behavior. Keep the
+default value at 1 to maintain backward-compatible behavior.
 
-Agree. I think we should use ->ep_init() present in dw_pcie_ep_ops for
-populating features. ->ep_init() right now is called in dw_pcie_ep_init() which
-is not needed. Stuffs that are right now done in ->ep_init callbacks can be
-done even before invoking dw_pcie_ep_init().
+Signed-off-by: Petr Machata <petrm@mellanox.com>
+---
 
-We might have to add a new API pci_epc_init() to be invoked from function
-driver, which should invoke ->ep_init() callback. The features of a particular
-platform should be populated here.
+Notes:
+    The full (non-RFC) submission would also include a notification chain
+    and mlxsw support for these notifications.
 
-Thanks
-Kishon
+ Documentation/networking/ip-sysctl.txt | 9 +++++++++
+ include/net/netns/ipv4.h               | 1 +
+ net/ipv4/af_inet.c                     | 1 +
+ net/ipv4/ip_forward.c                  | 3 ++-
+ net/ipv4/sysctl_net_ipv4.c             | 9 +++++++++
+ 5 files changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
+index f4c042be0216..d1fdd2c3e060 100644
+--- a/Documentation/networking/ip-sysctl.txt
++++ b/Documentation/networking/ip-sysctl.txt
+@@ -81,6 +81,15 @@ fib_multipath_hash_policy - INTEGER
+ 	0 - Layer 3
+ 	1 - Layer 4
+ 
++fib_update_priority - INTEGER
++	Whether to update SKB priority from "TOS" field in IPv4 header after it
++	is forwarded. The new SKB priority is mapped from TOS field value
++	according to an rt_tos2priority table (see e.g. man tc-prio).
++	Default: 1 (Update priority.)
++	Possible values:
++	0 - Do not update priority.
++	1 - Update priority.
++
+ route/max_size - INTEGER
+ 	Maximum number of routes allowed in the kernel.  Increase
+ 	this when using large numbers of interfaces and/or routes.
+diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
+index 661348f23ea5..e47503b4e4d1 100644
+--- a/include/net/netns/ipv4.h
++++ b/include/net/netns/ipv4.h
+@@ -98,6 +98,7 @@ struct netns_ipv4 {
+ 	int sysctl_ip_default_ttl;
+ 	int sysctl_ip_no_pmtu_disc;
+ 	int sysctl_ip_fwd_use_pmtu;
++	int sysctl_ip_fwd_update_priority;
+ 	int sysctl_ip_nonlocal_bind;
+ 	/* Shall we try to damage output packets if routing dev changes? */
+ 	int sysctl_ip_dynaddr;
+diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
+index 06b218a2870f..6de1da68ae02 100644
+--- a/net/ipv4/af_inet.c
++++ b/net/ipv4/af_inet.c
+@@ -1801,6 +1801,7 @@ static __net_init int inet_init_net(struct net *net)
+ 	 * We set them here, in case sysctl is not compiled.
+ 	 */
+ 	net->ipv4.sysctl_ip_default_ttl = IPDEFTTL;
++	net->ipv4.sysctl_ip_fwd_update_priority = true;
+ 	net->ipv4.sysctl_ip_dynaddr = 0;
+ 	net->ipv4.sysctl_ip_early_demux = 1;
+ 	net->ipv4.sysctl_udp_early_demux = 1;
+diff --git a/net/ipv4/ip_forward.c b/net/ipv4/ip_forward.c
+index b54b948b0596..32662e9e5d21 100644
+--- a/net/ipv4/ip_forward.c
++++ b/net/ipv4/ip_forward.c
+@@ -143,7 +143,8 @@ int ip_forward(struct sk_buff *skb)
+ 	    !skb_sec_path(skb))
+ 		ip_rt_send_redirect(skb);
+ 
+-	skb->priority = rt_tos2priority(iph->tos);
++	if (net->ipv4.sysctl_ip_fwd_update_priority)
++		skb->priority = rt_tos2priority(iph->tos);
+ 
+ 	return NF_HOOK(NFPROTO_IPV4, NF_INET_FORWARD,
+ 		       net, NULL, skb, skb->dev, rt->dst.dev,
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index d06247ba08b2..56277539b919 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -655,6 +655,15 @@ static struct ctl_table ipv4_net_table[] = {
+ 		.proc_handler	= proc_dointvec,
+ 	},
+ 	{
++		.procname	= "ip_forward_update_priority",
++		.data		= &init_net.ipv4.sysctl_ip_fwd_update_priority,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= &zero,
++		.extra2		= &one,
++	},
++	{
+ 		.procname	= "ip_nonlocal_bind",
+ 		.data		= &init_net.ipv4.sysctl_ip_nonlocal_bind,
+ 		.maxlen		= sizeof(int),
+-- 
+2.4.11
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
