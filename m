@@ -1,105 +1,296 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 80F987D048
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 08:19:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 972F17D048
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  9 Jul 2018 10:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S932231AbeGIITZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Jul 2018 04:19:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36850 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1754457AbeGIITY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 9 Jul 2018 04:19:24 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id B15B5ACF5;
-        Mon,  9 Jul 2018 08:19:22 +0000 (UTC)
-Date:   Mon, 9 Jul 2018 10:19:20 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180709081920.GD22049@dhcp22.suse.cz>
-References: <1530905572-817-1-git-send-email-longman@redhat.com>
+        id S932595AbeGIKKY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Jul 2018 06:10:24 -0400
+Received: from smtprelay4.synopsys.com ([198.182.47.9]:43777 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1754317AbeGIKKW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jul 2018 06:10:22 -0400
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 8F86324E248B;
+        Mon,  9 Jul 2018 03:10:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1531131021; bh=7lcepIIDJbRUeKlf6pC/A7XsdSonfTUckm2/u1WxUrY=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=iZWMpgr1E66fBFKv9rPv8cgOU14uoIY576VSTk8umQZOJA5Z0AzyOjsK5jicTWABc
+         e+Dbm3rkV9Fnox71W+YhKFeWs28zUmCUDWwZvVWJ1G3XGMpHDNYuFCWkjXn3bJT5z+
+         jzhg1Smo4Cnqdii5GHUZ4A/l4aVHcTA4oiiJjmVOMLPihSDQokDSuHUacz8/r7oaWC
+         qeJqQV9dI48nboguLXRuy9mmQc0nUFJzFv6O0pjexzAm4fMqEo+GlCWyRRKeTCdFdZ
+         aa/gTGFAXraZ/0/uiG8C+5gvmMKWm9J9WIbbDST6r5SfdGs0hPp+Ml3yswchrrAXTz
+         CKe3ZSflqcVVA==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 11CA33032;
+        Mon,  9 Jul 2018 03:10:21 -0700 (PDT)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 9 Jul 2018 03:10:20 -0700
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 9 Jul 2018 12:10:18 +0200
+Received: from [10.107.25.102] (10.107.25.102) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.80) with Microsoft SMTP Server
+ (TLS) id 14.3.361.1; Mon, 9 Jul 2018 12:10:18 +0200
+Subject: Re: [PATCH v8 08/11] pci-epf-test/pci_endpoint_test: Add MSI-X
+ support
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "adouglas@cadence.com" <adouglas@cadence.com>,
+        "jesper.nilsson@axis.com" <jesper.nilsson@axis.com>,
+        "shawn.lin@rock-chips.com" <shawn.lin@rock-chips.com>
+CC:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <cover.1530891871.git.gustavo.pimentel@synopsys.com>
+ <bbee5395f02f728be88797bb450b999725ffbbc3.1530891871.git.gustavo.pimentel@synopsys.com>
+ <d670712a-d436-69eb-1daf-c66b717a36e6@ti.com>
+From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Message-ID: <ec072f79-47e5-0666-7a6e-331364ec5000@synopsys.com>
+Date:   Mon, 9 Jul 2018 11:08:07 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1530905572-817-1-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <d670712a-d436-69eb-1daf-c66b717a36e6@ti.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.107.25.102]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 06-07-18 15:32:45, Waiman Long wrote:
-[...]
-> A rogue application can potentially create a large number of negative
-> dentries in the system consuming most of the memory available if it
-> is not under the direct control of a memory controller that enforce
-> kernel memory limit.
+Hi,
 
-How does this differ from other untracked allocations for untrusted
-tasks in general? E.g. nothing really prevents a task to create a long
-chain of unreclaimable dentries and even go to OOM potentially. Negative
-dentries should be easily reclaimable on the other hand. So why does the
-later needs a special treatment while the first one is ok? There are
-quite some resources which allow a non privileged user to consume a lot
-of memory and the memory controller is the only reliable way to mitigate
-the risk.
+On 09/07/2018 05:48, Kishon Vijay Abraham I wrote:
+> Hi,
+> 
+> On Friday 06 July 2018 09:21 PM, Gustavo Pimentel wrote:
+>> Add MSI-X support and update driver documentation accordingly.
+>>
+>> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+>> ---
+>> Change v2->v3:
+>>  - New patch file created base on the previous patch
+>> "misc: pci_endpoint_test: Add MSI-X support" patch file following
+>> Kishon's suggestion.
+>> Change v3->v4:
+>>  - Rebased to Lorenzo's master branch v4.18-rc1.
+>> Change v4->v5:
+>>  - Nothing changed, just to follow the patch set version.
+>> Change v5->v6:
+>>  - Moved PCITEST_MSIX ioctl entry from patch #10 to here.
+>>  - Documented ioctl parameter type associated to
+>> drivers/misc/pci_endpoint_test.c driver.
+>> Change v6->v7:
+>>  - Updated documentation.
+>>  - Added flag that enables or not the MSI-X on the EP features. 
+>> Change v7->v8:
+>>  - Re-sending the patch series.
+>>
+>>  Documentation/PCI/endpoint/pci-test-function.txt |  2 +-
+>>  Documentation/ioctl/ioctl-number.txt             |  1 +
+>>  Documentation/misc-devices/pci-endpoint-test.txt |  3 +++
+>>  drivers/misc/pci_endpoint_test.c                 | 29 +++++++++++++++++-------
+>>  drivers/pci/controller/dwc/pcie-designware-ep.c  |  1 +
+>>  drivers/pci/endpoint/functions/pci-epf-test.c    | 29 ++++++++++++++++++++++--
+>>  include/linux/pci-epc.h                          |  1 +
+>>  include/uapi/linux/pcitest.h                     |  1 +
+>>  8 files changed, 56 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/PCI/endpoint/pci-test-function.txt b/Documentation/PCI/endpoint/pci-test-function.txt
+>> index 7ee2361..b1cbff3 100644
+>> --- a/Documentation/PCI/endpoint/pci-test-function.txt
+>> +++ b/Documentation/PCI/endpoint/pci-test-function.txt
+>> @@ -34,7 +34,7 @@ that the endpoint device must perform.
+>>  Bitfield Description:
+>>    Bit 0		: raise legacy IRQ
+>>    Bit 1		: raise MSI IRQ
+>> -  Bit 2		: raise MSI-X IRQ (reserved for future implementation)
+>> +  Bit 2		: raise MSI-X IRQ
+>>    Bit 3		: read command (read data from RC buffer)
+>>    Bit 4		: write command (write data to RC buffer)
+>>    Bit 5		: copy command (copy data from one RC buffer to another
+>> diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
+>> index 480c860..65259d4 100644
+>> --- a/Documentation/ioctl/ioctl-number.txt
+>> +++ b/Documentation/ioctl/ioctl-number.txt
+>> @@ -166,6 +166,7 @@ Code  Seq#(hex)	Include File		Comments
+>>  'P'	all	linux/soundcard.h	conflict!
+>>  'P'	60-6F	sound/sscape_ioctl.h	conflict!
+>>  'P'	00-0F	drivers/usb/class/usblp.c	conflict!
+>> +'P'	01-07	drivers/misc/pci_endpoint_test.c	conflict!
+>>  'Q'	all	linux/soundcard.h
+>>  'R'	00-1F	linux/random.h		conflict!
+>>  'R'	01	linux/rfkill.h		conflict!
+>> diff --git a/Documentation/misc-devices/pci-endpoint-test.txt b/Documentation/misc-devices/pci-endpoint-test.txt
+>> index 4ebc359..fdfa0f6 100644
+>> --- a/Documentation/misc-devices/pci-endpoint-test.txt
+>> +++ b/Documentation/misc-devices/pci-endpoint-test.txt
+>> @@ -10,6 +10,7 @@ The PCI driver for the test device performs the following tests
+>>  	*) verifying addresses programmed in BAR
+>>  	*) raise legacy IRQ
+>>  	*) raise MSI IRQ
+>> +	*) raise MSI-X IRQ
+>>  	*) read data
+>>  	*) write data
+>>  	*) copy data
+>> @@ -25,6 +26,8 @@ ioctl
+>>   PCITEST_LEGACY_IRQ: Tests legacy IRQ
+>>   PCITEST_MSI: Tests message signalled interrupts. The MSI number
+>>  	      to be tested should be passed as argument.
+>> + PCITEST_MSIX: Tests message signalled interrupts. The MSI-X number
+>> +	      to be tested should be passed as argument.
+>>   PCITEST_WRITE: Perform write tests. The size of the buffer should be passed
+>>  		as argument.
+>>   PCITEST_READ: Perform read tests. The size of the buffer should be passed
+>> diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+>> index 349794c..f4fef10 100644
+>> --- a/drivers/misc/pci_endpoint_test.c
+>> +++ b/drivers/misc/pci_endpoint_test.c
+>> @@ -39,13 +39,14 @@
+>>  
+>>  #define IRQ_TYPE_LEGACY				0
+>>  #define IRQ_TYPE_MSI				1
+>> +#define IRQ_TYPE_MSIX				2
+>>  
+>>  #define PCI_ENDPOINT_TEST_MAGIC			0x0
+>>  
+>>  #define PCI_ENDPOINT_TEST_COMMAND		0x4
+>>  #define COMMAND_RAISE_LEGACY_IRQ		BIT(0)
+>>  #define COMMAND_RAISE_MSI_IRQ			BIT(1)
+>> -/* BIT(2) is reserved for raising MSI-X IRQ command */
+>> +#define COMMAND_RAISE_MSIX_IRQ			BIT(2)
+>>  #define COMMAND_READ				BIT(3)
+>>  #define COMMAND_WRITE				BIT(4)
+>>  #define COMMAND_COPY				BIT(5)
+>> @@ -84,7 +85,7 @@ MODULE_PARM_DESC(no_msi, "Disable MSI interrupt in pci_endpoint_test");
+>>  
+>>  static int irq_type = IRQ_TYPE_MSI;
+>>  module_param(irq_type, int, 0444);
+>> -MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI)");
+>> +MODULE_PARM_DESC(irq_type, "IRQ mode selection in pci_endpoint_test (0 - Legacy, 1 - MSI, 2 - MSI-X)");
+>>  
+>>  enum pci_barno {
+>>  	BAR_0,
+>> @@ -202,16 +203,18 @@ static bool pci_endpoint_test_legacy_irq(struct pci_endpoint_test *test)
+>>  }
+>>  
+>>  static bool pci_endpoint_test_msi_irq(struct pci_endpoint_test *test,
+>> -				      u8 msi_num)
+>> +				       u16 msi_num, bool msix)
+>>  {
+>>  	u32 val;
+>>  	struct pci_dev *pdev = test->pdev;
+>>  
+>>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_TYPE,
+>> -				 IRQ_TYPE_MSI);
+>> +				 msix == false ? IRQ_TYPE_MSI :
+>> +				 IRQ_TYPE_MSIX);
+>>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_IRQ_NUMBER, msi_num);
+>>  	pci_endpoint_test_writel(test, PCI_ENDPOINT_TEST_COMMAND,
+>> -				 COMMAND_RAISE_MSI_IRQ);
+>> +				 msix == false ? COMMAND_RAISE_MSI_IRQ :
+>> +				 COMMAND_RAISE_MSIX_IRQ);
+>>  	val = wait_for_completion_timeout(&test->irq_raised,
+>>  					  msecs_to_jiffies(1000));
+>>  	if (!val)
+>> @@ -456,7 +459,8 @@ static long pci_endpoint_test_ioctl(struct file *file, unsigned int cmd,
+>>  		ret = pci_endpoint_test_legacy_irq(test);
+>>  		break;
+>>  	case PCITEST_MSI:
+>> -		ret = pci_endpoint_test_msi_irq(test, arg);
+>> +	case PCITEST_MSIX:
+>> +		ret = pci_endpoint_test_msi_irq(test, arg, cmd == PCITEST_MSIX);
+>>  		break;
+>>  	case PCITEST_WRITE:
+>>  		ret = pci_endpoint_test_write(test, arg);
+>> @@ -542,6 +546,12 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+>>  			dev_err(dev, "Failed to get MSI interrupts\n");
+>>  		test->num_irqs = irq;
+>>  		break;
+>> +	case IRQ_TYPE_MSIX:
+>> +		irq = pci_alloc_irq_vectors(pdev, 1, 2048, PCI_IRQ_MSIX);
+>> +		if (irq < 0)
+>> +			dev_err(dev, "Failed to get MSI-X interrupts\n");
+>> +		test->num_irqs = irq;
+>> +		break;
+>>  	default:
+>>  		dev_err(dev, "Invalid IRQ type selected\n");
+>>  	}
+>> @@ -558,8 +568,9 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+>>  				       pci_endpoint_test_irqhandler,
+>>  				       IRQF_SHARED, DRV_MODULE_NAME, test);
+>>  		if (err)
+>> -			dev_err(dev, "failed to request IRQ %d for MSI %d\n",
+>> -				pci_irq_vector(pdev, i), i + 1);
+>> +			dev_err(dev, "Failed to request IRQ %d for MSI%s %d\n",
+>> +				pci_irq_vector(pdev, i),
+>> +				irq_type == IRQ_TYPE_MSIX ? "-X" : "", i + 1);
+>>  	}
+>>  
+>>  	for (bar = BAR_0; bar <= BAR_5; bar++) {
+>> @@ -625,6 +636,7 @@ static int pci_endpoint_test_probe(struct pci_dev *pdev,
+>>  
+>>  err_disable_msi:
+>>  	pci_disable_msi(pdev);
+>> +	pci_disable_msix(pdev);
+>>  	pci_release_regions(pdev);
+>>  
+>>  err_disable_pdev:
+>> @@ -656,6 +668,7 @@ static void pci_endpoint_test_remove(struct pci_dev *pdev)
+>>  	for (i = 0; i < test->num_irqs; i++)
+>>  		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i), test);
+>>  	pci_disable_msi(pdev);
+>> +	pci_disable_msix(pdev);
+>>  	pci_release_regions(pdev);
+>>  	pci_disable_device(pdev);
+>>  }
+>> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+>> index 70d0688..36d83d1 100644
+>> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+>> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+>> @@ -585,6 +585,7 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>>  	ep->msix_cap = dw_pcie_ep_find_capability(pci, PCI_CAP_ID_MSIX);
+>>  
+>>  	epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
+>> +	epc->features |= EPC_FEATURE_MSIX_AVAILABLE;
+> 
+> This indicates all vendors of designware has MSIX enabled which is not true.
+> We'll need more logic than that.
 
-> This patchset introduces changes to the dcache subsystem to track and
-> optionally limit the number of negative dentries allowed to be created by
-> background pruning of excess negative dentries or even kill it after use.
-> This capability will help to limit the amount of memory that can be
-> consumed by negative dentries.
+You mentioned and excellent point. Any particularity related to this features
+should be implemented each specific driver (in this case on
+pcie-designware-plat.c file).
 
-How are you going to balance that between workload? What prevents a
-rogue application to simply consume the limit and force all others in
-the system to go slow path?
+And by looking at this code now that you mentioned, I think the line code
+"epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;" was added by mistake, if I
+remember well by default the linkup notification is expected, right?
 
-> Patch 1 tracks the number of negative dentries present in the LRU
-> lists and reports it in /proc/sys/fs/dentry-state.
+If I'm right, I may create an extra patch removing this 2 lines, do you agree?
 
-If anything I _think_ vmstat would benefit from this because behavior of
-the memory reclaim does depend on the amount of neg. dentries.
+epc->features = EPC_FEATURE_NO_LINKUP_NOTIFIER;
+EPC_FEATURE_SET_BAR(epc->features, BAR_0);
 
-> Patch 2 adds a "neg-dentry-pc" sysctl parameter that can be used to to
-> specify a soft limit on the number of negative allowed as a percentage
-> of total system memory. This parameter is 0 by default which means no
-> negative dentry limiting will be performed.
+Meanwhile can you please ack the other patch files (#3 and #4)? They have
+remained unchanged for a long time.
 
-percentage has turned out to be a really wrong unit for many tunables
-over time. Even 1% can be just too much on really large machines.
+> 
+> Thanks
+> Kishon
+> 
 
-> Patch 3 enables automatic pruning of least recently used negative
-> dentries when the total number is close to the preset limit.
-
-Please explain why this cannot be done in a standard dcache shrinking
-way. I strongly suspect that you are developing yet another reclaim with
-its own sets of tunable and bypassing the existing infrastructure. I
-haven't read patches yet but the cover letter doesn't really explain
-design much so I am only guessing.
--- 
-Michal Hocko
-SUSE Labs
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
