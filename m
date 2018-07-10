@@ -5,26 +5,26 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81AA67D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:24:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 083297D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:38:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732291AbeGJX0F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 19:26:05 -0400
-Received: from mga18.intel.com ([134.134.136.126]:42266 "EHLO mga18.intel.com"
+        id S1732410AbeGJXjK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 19:39:10 -0400
+Received: from mga09.intel.com ([134.134.136.24]:19415 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732272AbeGJX0E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 19:26:04 -0400
+        id S1732302AbeGJXjK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 19:39:10 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:24:42 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:37:44 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="73784428"
+   d="scan'208";a="73786964"
 Received: from mgcarrol-mobl1.amr.corp.intel.com (HELO [10.252.202.182]) ([10.252.202.182])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:24:41 -0700
-Subject: Re: [RFC PATCH v2 12/27] x86/mm: Shadow stack page fault error
- checking
+  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:37:43 -0700
+Subject: Re: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for
+ shadow stack
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,7 +46,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-13-yu-cheng.yu@intel.com>
+ <20180710222639.8241-17-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@linux.intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
@@ -92,12 +92,12 @@ Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <175662bd-f979-ac5f-b78e-480608bdbf55@linux.intel.com>
-Date:   Tue, 10 Jul 2018 16:24:41 -0700
+Message-ID: <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
+Date:   Tue, 10 Jul 2018 16:37:43 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-13-yu-cheng.yu@intel.com>
+In-Reply-To: <20180710222639.8241-17-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -107,28 +107,37 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> +	/*
-> +	 * Verify X86_PF_SHSTK is within a shadow stack VMA.
-> +	 * It is always an error if there is a shadow stack
-> +	 * fault outside a shadow stack VMA.
-> +	 */
-> +	if (error_code & X86_PF_SHSTK) {
-> +		if (!(vma->vm_flags & VM_SHSTK))
-> +			return 1;
-> +		return 0;
-> +	}
+> There are three possible shadow stack PTE settings:
+> 
+>   Normal SHSTK PTE: (R/O + DIRTY_HW)
+>   SHSTK PTE COW'ed: (R/O + DIRTY_HW)
+>   SHSTK PTE shared as R/O data: (R/O + DIRTY_SW)
+> 
+> Update can_follow_write_pte/pmd for the shadow stack.
 
-It turns out that a X86_PF_SHSTK just means that the processor faulted
-while doing access to something it thinks should be a shadow-stack
-virtual address.
+First of all, thanks for the excellent patch headers.  It's nice to have
+that reference every time even though it's repeated.
 
-But, we *can* have faults on shadow stack accesses for non-shadow-stack
-reasons.
+> -static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
+> +static inline bool can_follow_write_pte(pte_t pte, unsigned int flags,
+> +					bool shstk)
+>  {
+> +	bool pte_cowed = shstk ? is_shstk_pte(pte):pte_dirty(pte);
+> +
+>  	return pte_write(pte) ||
+> -		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
+> +		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_cowed);
+>  }
 
-I think you need to remove the 'return 0' and let it fall through to the
-other access checks that we might be failing.  If it's a shadow stack
-access, it has to be a shadow stack VMA.  But, a shadow-stack access
-fault to a shadow stack VMA isn't _necessarily_ OK.
+Can we just pass the VMA in here?  This use is OK-ish, but I generally
+detest true/false function arguments because you can't tell what they
+are when they show up without a named variable.
+
+But...  Why does this even matter?  Your own example showed that all
+shadowstack PTEs have either DIRTY_HW or DIRTY_SW set, and pte_dirty()
+checks both.
+
+That makes this check seem a bit superfluous.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
