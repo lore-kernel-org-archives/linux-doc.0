@@ -5,28 +5,27 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDD047D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:52:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A0497D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:57:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732376AbeGJXyJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 19:54:09 -0400
-Received: from mga06.intel.com ([134.134.136.31]:16051 "EHLO mga06.intel.com"
+        id S1732264AbeGJX7M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 19:59:12 -0400
+Received: from mga01.intel.com ([192.55.52.88]:6564 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732284AbeGJXyJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 19:54:09 -0400
+        id S1732262AbeGJX7M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 19:59:12 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:52:38 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:57:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,336,1526367600"; 
-   d="scan'208";a="73789667"
+   d="scan'208";a="73790564"
 Received: from mgcarrol-mobl1.amr.corp.intel.com (HELO [10.252.202.182]) ([10.252.202.182])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:52:37 -0700
-Subject: Re: [RFC PATCH v2 11/27] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
-To:     Nadav Amit <nadav.amit@gmail.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:57:39 -0700
+Subject: Re: [RFC PATCH v2 23/27] mm/mmap: Add IBT bitmap size to address
+ space limit check
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -41,14 +40,13 @@ To:     Nadav Amit <nadav.amit@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromiun.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-12-yu-cheng.yu@intel.com>
- <fbf45667-5388-44a6-1f22-07bcc03e1804@linux.intel.com>
- <DDFF4AF4-51D2-44F5-8B63-E8454F712EC6@gmail.com>
+ <20180710222639.8241-24-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@linux.intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
@@ -94,12 +92,12 @@ Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <2dac9ec0-b144-ac9a-ae35-14f9ff5fc834@linux.intel.com>
-Date:   Tue, 10 Jul 2018 16:52:37 -0700
+Message-ID: <7cdadb28-a9aa-550b-9e31-30691b64b504@linux.intel.com>
+Date:   Tue, 10 Jul 2018 16:57:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <DDFF4AF4-51D2-44F5-8B63-E8454F712EC6@gmail.com>
+In-Reply-To: <20180710222639.8241-24-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -108,39 +106,15 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/10/2018 04:23 PM, Nadav Amit wrote:
-> at 6:44 PM, Dave Hansen <dave.hansen@linux.intel.com> wrote:
-> 
->> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
->>> +	/*
->>> +	 * On platforms before CET, other threads could race to
->>> +	 * create a RO and _PAGE_DIRTY_HW PMD again.  However,
->>> +	 * on CET platforms, this is safe without a TLB flush.
->>> +	 */
->>
->> If I didn't work for Intel, I'd wonder what the heck CET is and what the
->> heck it has to do with _PAGE_DIRTY_HW.  I think we need a better comment
->> than this.  How about:
->>
->> 	Some processors can _start_ a write, but end up seeing
->> 	a read-only PTE by the time they get to getting the
->> 	Dirty bit.  In this case, they will set the Dirty bit,
->> 	leaving a read-only, Dirty PTE which looks like a Shadow
->> 	Stack PTE.
->>
->> 	However, this behavior has been improved and will *not* occur on
->> 	processors supporting Shadow Stacks.  Without this guarantee, a
->> 	transition to a non-present PTE and flush the TLB would be
->> 	needed.
-> 
-> Interesting. Does that regard the knights landing bug or something more
-> general?
+On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
+> The indirect branch tracking legacy bitmap takes a large address
+> space.  This causes may_expand_vm() failure on the address limit
+> check.  For a IBT-enabled task, add the bitmap size to the
+> address limit.
 
-It's more general.
-
-> Will the write succeed or trigger a page-fault in this case?
-
-It will trigger a page fault.
+This appears to require that we set up
+current->thread.cet.ibt_bitmap_size _before_ calling may_expand_vm().
+What keeps the ibt_mmap() itself from hitting the address limit?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
