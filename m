@@ -1,88 +1,163 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-1.7 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 15D687DFBE
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 18:46:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 42F537E247
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 18:46:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389766AbeGJSis (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 14:38:48 -0400
-Received: from mail-oi0-f67.google.com ([209.85.218.67]:32795 "EHLO
-        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389765AbeGJSir (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 14:38:47 -0400
-Received: by mail-oi0-f67.google.com with SMTP id c6-v6so44607620oiy.0;
-        Tue, 10 Jul 2018 11:38:33 -0700 (PDT)
+        id S2389062AbeGJSqg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 14:46:36 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:39012 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732278AbeGJSqf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 14:46:35 -0400
+Received: by mail-lj1-f193.google.com with SMTP id t7-v6so17514570ljj.6;
+        Tue, 10 Jul 2018 11:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=WOWcUpbusD5bULjKVAZ9aEL4YhpKiM+cGrbxO6dVvBQ=;
-        b=UpHhklSm5tqknxAqUzoVMfMGt5UZ5KN6MpMKXDj9ybDPCB+1CIWKBpM3RNIPNqwIRG
-         3zvzRV+SncR2BZED3g/7fyhW6QkO9/wdAFdaIH2fHeF26jytatzVSjwikOCpmI4R4SUf
-         lP66IEqeZvFs6Oga4xYzMRuhiQpG9YZix4qswL6Q71lXuf3n723xGGasJNPgUaKnnenT
-         QVGL9g2P9skJjB6VgWMuZ6qWpCydL7l1rduoAAHzAJJHHUjas251GKYBEXJTEtzvHA6x
-         B0CezrTYsrS7Pe486CYJRx/pIsoMZ44+EBznhW8I8VpgjBWEhUWx+aHCcx2ehhz7On/t
-         rP0g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HwMfIp6qq4Py9nW1BBZLqpEEcR/GqgFA7zz3v9IC9Ms=;
+        b=AyFlw8rFv1eJ8/6MsEXor3CHRH2AouMgRG9jwSFcVuO/5b/NmT+6V4wXIPm9MVCwuY
+         iQYQa0+HaJJMyaIdLbBzME2pIv7DSP3kms6xU9k3n1ccosGYEWMDu8fyvc6fkbR2zMD4
+         QBiGKsRAxgb9aXyYJSBgDCxiL2j9NexhmAX8caL0kuopb7k6RZFfeON1Z7s7Tz0Ulz/y
+         1MZEd46yolCw5UbT/Ca/IuMEehgSpZoKgGo8hQWTOoY4yuL8NwFc7gGfaXnZxC2ojekn
+         1IpTc+xJeb+WL9TysKdoIlZDTzvYu3Ge3tWxL6qN+HsPQmMckE9iRN0aTPyRZiPzyNHi
+         eWlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=WOWcUpbusD5bULjKVAZ9aEL4YhpKiM+cGrbxO6dVvBQ=;
-        b=Lum3QP8T11RdHygqojEg2AgBeuqJB/vQ4nDWdNJOS8t8IO0QweQJ/xOKsDi/pJTi6r
-         /eK7BmIa6Jp1s1hERPZwz/sVgFOIbGlZjMzJ0K2cRM7Wm/XigG2O5AvlMLjifwlHApvn
-         f56v0pfl516jt5auvpPLMQZOhL4FWShwDOfSm8NTQzv0bDaU5r6dUN/gmTf7RD4nxDe0
-         HA7xMq72lhlCNghNmFH5sSoQlIQFns7a7/WC1gJvD8sco31pUvd7R+2NLTv00rGLIZsU
-         6RxuiMA9iSHgjAwsn2EXtefgAAXUXgGs9s/H99SGEb6Ka0EJAmFEWY9rmZ0XzSmJsct0
-         Qo2Q==
-X-Gm-Message-State: APt69E1YGBxw95/prhY6cZLE/+VCkYoFBL+sT90Dn88YFpU8W4C8Zs9S
-        ml544JXBAexgtOy8z2LtjNJfYB8hQLw+WkEl4Cc=
-X-Google-Smtp-Source: AAOMgpdFbnZUxIbtFtQH3g0se/A9o/wFzvKaNNiDrTiQ4Q+nEN5xLniWFWt6rwPDr6niStwc42k3vf0OBEh6WFOy/Vs=
-X-Received: by 2002:aca:3407:: with SMTP id b7-v6mr28124753oia.345.1531247912801;
- Tue, 10 Jul 2018 11:38:32 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HwMfIp6qq4Py9nW1BBZLqpEEcR/GqgFA7zz3v9IC9Ms=;
+        b=nmXM375Xk6oJfwp1MgmM1FX4zqgjMoXJcwC03SFpJZxr/Kt8MuCJUsvck32gjoby2b
+         cX77z5Z+Iv77jh8Rto7CeybyF0PKaKqvX45Nryzk6XJaO7Y+ywWOlC0VK5TvXby0hNsg
+         Azq+ATKi8y+CXTHjeHx/L000ej3s80mY0khz1bBhcdj8E557L/DeielDbw/tTX23wwYX
+         FaE+gO6397G/02xVVf1+NX2gM2GAv9q8+k4Ajgnojkihf41BRoKyifqxfr/8NAhPpuOp
+         9FDHx9Xbg8IZT+aTmomn1+iuX9YUIpcp3kzFFLXuk/3ybHwu/VXC7KlWvPLYM3R/XT7R
+         6sVQ==
+X-Gm-Message-State: APt69E0hmdp5qnQCqqeakaesy5A3XBn2NF0UoCHJ5sCmYSuuCVDrPWlR
+        FPUHu4po66ulxFltt8TWNKE=
+X-Google-Smtp-Source: AAOMgpdHd66mKOgpulwxWNbnPUJmJX5voT6/cnvWqY0kRHdt3VvTYszUIAc57EoyhjOQNyjm6AU2xA==
+X-Received: by 2002:a2e:5c4:: with SMTP id 187-v6mr15208999ljf.28.1531248376519;
+        Tue, 10 Jul 2018 11:46:16 -0700 (PDT)
+Received: from gmail.com ([46.194.208.109])
+        by smtp.gmail.com with ESMTPSA id w4-v6sm2797053ljj.58.2018.07.10.11.46.13
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 10 Jul 2018 11:46:15 -0700 (PDT)
+Date:   Tue, 10 Jul 2018 20:46:17 +0200
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, davem@davemloft.net,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] usb: gadget: ccid: add support for USB CCID
+ Gadget Device
+Message-ID: <20180710184617.GA5839@gmail.com>
+References: <20180529185021.13738-1-marcus.folkesson@gmail.com>
+ <87r2ltcopp.fsf@linux.intel.com>
+ <20180530140415.GE2939@gmail.com>
+ <20180608185443.GB874@gmail.com>
+ <87efh4zeqb.fsf@linux.intel.com>
+ <20180622164823.GA5351@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a4a:9a35:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 11:38:32
- -0700 (PDT)
-In-Reply-To: <CAKTKpr7wMiJL3NCHp-BkqNFPTDPAB7BxTvbvJagwYY97JCwqHQ@mail.gmail.com>
-References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com>
- <CAKTKpr5bNdo2oXb=Vsm4QytHN1Aw=n_oP7kJHV6yLHuKL-Udkg@mail.gmail.com> <CAKTKpr7wMiJL3NCHp-BkqNFPTDPAB7BxTvbvJagwYY97JCwqHQ@mail.gmail.com>
-From:   Pranith Kumar <pranith.foss@gmail.com>
-Date:   Tue, 10 Jul 2018 11:38:32 -0700
-Message-ID: <CADYwmhGNtEbDBj8r-WMGfWJMWzkA_2Gc2hU8rsBYNs0OTuD+CA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
-To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
-Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180622164823.GA5351@gmail.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 10, 2018 at 4:56 AM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
-> On Wed, Jul 4, 2018 at 3:44 PM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
->> Hi Mark,
->>
->> can you please review this patch?
->
-> any comments on this patch series?
->
+Hi Filipe,
 
-I had some comments on the second patch here:
-https://www.spinics.net/lists/arm-kernel/msg664025.html
+On Fri, Jun 22, 2018 at 06:48:23PM +0200, Marcus Folkesson wrote:
+> Hi Filipe,
+> 
+> On Mon, Jun 18, 2018 at 11:22:04AM +0300, Felipe Balbi wrote:
+> > 
+> > Hi,
+> > 
+> > Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+> > > Hi Felipe,
+> > >
+> > > Should I send out v4 or what do you think?
+> > 
+> > sorry for the delay, have been busy with other tasks.
+> > 
+> 
+> It is no hurry :-)
+> 
+> > > On Wed, May 30, 2018 at 04:04:15PM +0200, Marcus Folkesson wrote:
+> > >> Hi Filipe,
+> > >> 
+> > >> On Wed, May 30, 2018 at 03:28:18PM +0300, Felipe Balbi wrote:
+> > >> > Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+> > >> > 
+> > >> > > Chip Card Interface Device (CCID) protocol is a USB protocol that
+> > >> > > allows a smartcard device to be connected to a computer via a card
+> > >> > > reader using a standard USB interface, without the need for each manufacturer
+> > >> > > of smartcards to provide its own reader or protocol.
+> > >> > >
+> > >> > > This gadget driver makes Linux show up as a CCID device to the host and let a
+> > >> > > userspace daemon act as the smartcard.
+> > >> > >
+> > >> > > This is useful when the Linux gadget itself should act as a cryptographic
+> > >> > > device or forward APDUs to an embedded smartcard device.
+> > >> > >
+> > >> > > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > >> > 
+> > >> > this could be done entirely in userspace with functionfs, why do we need
+> > >> > this part in the kernel? It does very little.
+> > >> 
+> > >> Andrzej pointed this out, and I actually do not have any good answer
+> > >> more than that the userspace application could be kept small and the
+> > >> important configuration of the CCID device is done with well (I hope)
+> > >> documented configfs attributes.
+> > 
+> > can we use existing open source applications without modification by
+> > accepting this glue layer?
+> 
+> 
+> If you mean existing open source application to talk to the "daemon", the answer is
+> yes. I have been using PCSC-lite and OpenSC on Linux, and PCSC on
+> Windows to communicate with the smartcard.
+> 
+> If you mean existing application as the "daemon", the answer is probably
+> no.
+
+
+Just sending a friendly ping on this one.
+I've sent out v4 as I had it prepared for a long time, just to catch
+comments in the meanwhile, but none so far.
+
+> 
+> > 
+> > -- 
+> > balbi
+> 
+> Thanks,
+> 
+> Best regards
+> Marcus Folkesson
+> 
 
 Thanks,
---
-Pranith
+
+Best regards
+Marcus Folkesson
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
