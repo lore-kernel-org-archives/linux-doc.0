@@ -2,17 +2,17 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35C1F7D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:31:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 07C1A7D085
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:31:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732276AbeGJWcV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1732346AbeGJWcV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Tue, 10 Jul 2018 18:32:21 -0400
 Received: from mga02.intel.com ([134.134.136.20]:63054 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732242AbeGJWcV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1732263AbeGJWcV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 10 Jul 2018 18:32:21 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -20,7 +20,7 @@ Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:10 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="70305356"
+   d="scan'208";a="70305362"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
   by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:10 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -45,141 +45,60 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v2 00/27] Control Flow Enforcement (CET)
-Date:   Tue, 10 Jul 2018 15:26:12 -0700
-Message-Id: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v2 01/27] x86/cpufeatures: Add CPUIDs for Control-flow Enforcement Technology (CET)
+Date:   Tue, 10 Jul 2018 15:26:13 -0700
+Message-Id: <20180710222639.8241-2-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The first version of CET patches were divided into four series.
-They can be found in the following links.
+Add CPUIDs for Control-flow Enforcement Technology (CET).
 
-  https://lkml.org/lkml/2018/6/7/795
-  https://lkml.org/lkml/2018/6/7/782
-  https://lkml.org/lkml/2018/6/7/771
-  https://lkml.org/lkml/2018/6/7/739
+CPUID.(EAX=7,ECX=0):ECX[bit 7] Shadow stack
+CPUID.(EAX=7,ECX=0):EDX[bit 20] Indirect branch tracking
 
-Summary of changes in v2:
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+ arch/x86/include/asm/cpufeatures.h | 2 ++
+ arch/x86/kernel/cpu/scattered.c    | 1 +
+ 2 files changed, 3 insertions(+)
 
-  Small fixes in the XSAVES patches.
-  Improve: Documentation/x86/intel_cet.txt.
-  Remove TLB flushing from ptep/pmdp_set_wrprotect for SHSTK.
-  Use shadow stack restore token for signals; save SHSTK pointer after FPU.
-  Rewrite ELF header parsing.
-  Backward compatibility is now handled from GLIBC tunables.
-  Add a new patch to can_follow_write_pte/pmd, for SHSTK.
-  Remove blocking of mremap/madvice/munmap.
-  Add Makefile checking CET support of assembler/compiler.
-
-H.J. Lu (1):
-  x86: Insert endbr32/endbr64 to vDSO
-
-Yu-cheng Yu (26):
-  x86/cpufeatures: Add CPUIDs for Control-flow Enforcement Technology
-    (CET)
-  x86/fpu/xstate: Change some names to separate XSAVES system and user
-    states
-  x86/fpu/xstate: Enable XSAVES system states
-  x86/fpu/xstate: Add XSAVES system states for shadow stack
-  Documentation/x86: Add CET description
-  x86/cet: Control protection exception handler
-  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
-  mm: Introduce VM_SHSTK for shadow stack memory
-  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
-  x86/mm: Introduce _PAGE_DIRTY_SW
-  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
-    _PAGE_DIRTY_SW
-  x86/mm: Shadow stack page fault error checking
-  mm: Handle shadow stack page fault
-  mm: Handle THP/HugeTLB shadow stack page fault
-  mm/mprotect: Prevent mprotect from changing shadow stack
-  mm: Modify can_follow_write_pte/pmd for shadow stack
-  x86/cet/shstk: User-mode shadow stack support
-  x86/cet/shstk: Introduce WRUSS instruction
-  x86/cet/shstk: Signal handling for shadow stack
-  x86/cet/shstk: ELF header parsing of CET
-  x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
-  x86/cet/ibt: User-mode indirect branch tracking support
-  mm/mmap: Add IBT bitmap size to address space limit check
-  x86/cet: Add PTRACE interface for CET
-  x86/cet/shstk: Handle thread shadow stack
-  x86/cet: Add arch_prctl functions for CET
-
- .../admin-guide/kernel-parameters.txt         |   6 +
- Documentation/x86/intel_cet.txt               | 250 ++++++++++++
- arch/x86/Kconfig                              |  40 ++
- arch/x86/Makefile                             |  14 +
- arch/x86/entry/entry_64.S                     |   2 +-
- arch/x86/entry/vdso/.gitignore                |   4 +
- arch/x86/entry/vdso/Makefile                  |  12 +-
- arch/x86/entry/vdso/vdso-layout.lds.S         |   1 +
- arch/x86/ia32/ia32_signal.c                   |  13 +
- arch/x86/include/asm/cet.h                    |  50 +++
- arch/x86/include/asm/cpufeatures.h            |   2 +
- arch/x86/include/asm/disabled-features.h      |  16 +-
- arch/x86/include/asm/elf.h                    |   5 +
- arch/x86/include/asm/fpu/internal.h           |   6 +-
- arch/x86/include/asm/fpu/regset.h             |   7 +-
- arch/x86/include/asm/fpu/types.h              |  22 +
- arch/x86/include/asm/fpu/xstate.h             |  31 +-
- arch/x86/include/asm/mmu_context.h            |   3 +
- arch/x86/include/asm/msr-index.h              |  14 +
- arch/x86/include/asm/pgtable.h                | 135 ++++++-
- arch/x86/include/asm/pgtable_types.h          |  31 +-
- arch/x86/include/asm/processor.h              |   5 +
- arch/x86/include/asm/sighandling.h            |   5 +
- arch/x86/include/asm/special_insns.h          |  45 +++
- arch/x86/include/asm/traps.h                  |   5 +
- arch/x86/include/uapi/asm/elf_property.h      |  16 +
- arch/x86/include/uapi/asm/prctl.h             |   6 +
- arch/x86/include/uapi/asm/processor-flags.h   |   2 +
- arch/x86/include/uapi/asm/resource.h          |   5 +
- arch/x86/include/uapi/asm/sigcontext.h        |  17 +
- arch/x86/kernel/Makefile                      |   4 +
- arch/x86/kernel/cet.c                         | 375 ++++++++++++++++++
- arch/x86/kernel/cet_prctl.c                   | 141 +++++++
- arch/x86/kernel/cpu/common.c                  |  42 ++
- arch/x86/kernel/cpu/scattered.c               |   1 +
- arch/x86/kernel/elf.c                         | 280 +++++++++++++
- arch/x86/kernel/fpu/core.c                    |  11 +-
- arch/x86/kernel/fpu/init.c                    |  10 -
- arch/x86/kernel/fpu/regset.c                  |  41 ++
- arch/x86/kernel/fpu/signal.c                  |   6 +-
- arch/x86/kernel/fpu/xstate.c                  | 152 ++++---
- arch/x86/kernel/idt.c                         |   4 +
- arch/x86/kernel/process.c                     |  10 +
- arch/x86/kernel/process_64.c                  |   7 +
- arch/x86/kernel/ptrace.c                      |  16 +
- arch/x86/kernel/relocate_kernel_64.S          |   2 +-
- arch/x86/kernel/signal.c                      |  96 +++++
- arch/x86/kernel/traps.c                       |  58 +++
- arch/x86/kvm/vmx.c                            |   2 +-
- arch/x86/lib/x86-opcode-map.txt               |   2 +-
- arch/x86/mm/fault.c                           |  24 +-
- fs/binfmt_elf.c                               |  16 +
- fs/proc/task_mmu.c                            |   3 +
- include/asm-generic/pgtable.h                 |  21 +
- include/linux/mm.h                            |   8 +
- include/uapi/asm-generic/resource.h           |   3 +
- include/uapi/linux/elf.h                      |   2 +
- mm/gup.c                                      |  11 +-
- mm/huge_memory.c                              |  18 +-
- mm/internal.h                                 |   8 +
- mm/memory.c                                   |  38 +-
- mm/mmap.c                                     |  12 +-
- mm/mprotect.c                                 |   9 +
- tools/objtool/arch/x86/lib/x86-opcode-map.txt |   2 +-
- 64 files changed, 2070 insertions(+), 135 deletions(-)
- create mode 100644 Documentation/x86/intel_cet.txt
- create mode 100644 arch/x86/include/asm/cet.h
- create mode 100644 arch/x86/include/uapi/asm/elf_property.h
- create mode 100644 arch/x86/kernel/cet.c
- create mode 100644 arch/x86/kernel/cet_prctl.c
- create mode 100644 arch/x86/kernel/elf.c
-
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 5701f5cecd31..f479345e344b 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -219,6 +219,7 @@
+ #define X86_FEATURE_IBPB		( 7*32+26) /* Indirect Branch Prediction Barrier */
+ #define X86_FEATURE_STIBP		( 7*32+27) /* Single Thread Indirect Branch Predictors */
+ #define X86_FEATURE_ZEN			( 7*32+28) /* "" CPU is AMD family 0x17 (Zen) */
++#define X86_FEATURE_IBT			( 7*32+29) /* Indirect Branch Tracking */
+ 
+ /* Virtualization flags: Linux defined, word 8 */
+ #define X86_FEATURE_TPR_SHADOW		( 8*32+ 0) /* Intel TPR Shadow */
+@@ -319,6 +320,7 @@
+ #define X86_FEATURE_PKU			(16*32+ 3) /* Protection Keys for Userspace */
+ #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
+ #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
++#define X86_FEATURE_SHSTK		(16*32+ 7) /* Shadow Stack */
+ #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
+ #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
+ #define X86_FEATURE_VPCLMULQDQ		(16*32+10) /* Carry-Less Multiplication Double Quadword */
+diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+index 772c219b6889..63cbb4d9938e 100644
+--- a/arch/x86/kernel/cpu/scattered.c
++++ b/arch/x86/kernel/cpu/scattered.c
+@@ -21,6 +21,7 @@ struct cpuid_bit {
+ static const struct cpuid_bit cpuid_bits[] = {
+ 	{ X86_FEATURE_APERFMPERF,       CPUID_ECX,  0, 0x00000006, 0 },
+ 	{ X86_FEATURE_EPB,		CPUID_ECX,  3, 0x00000006, 0 },
++	{ X86_FEATURE_IBT,		CPUID_EDX, 20, 0x00000007, 0},
+ 	{ X86_FEATURE_CAT_L3,		CPUID_EBX,  1, 0x00000010, 0 },
+ 	{ X86_FEATURE_CAT_L2,		CPUID_EBX,  2, 0x00000010, 0 },
+ 	{ X86_FEATURE_CDP_L3,		CPUID_ECX,  2, 0x00000010, 1 },
 -- 
 2.17.1
 
