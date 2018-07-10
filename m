@@ -1,128 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D3EED7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 11:56:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 70DB07D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 14:27:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1754089AbeGJL4k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 07:56:40 -0400
-Received: from mail-oi0-f66.google.com ([209.85.218.66]:37113 "EHLO
-        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1754085AbeGJL4j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 07:56:39 -0400
-Received: by mail-oi0-f66.google.com with SMTP id k81-v6so42019195oib.4;
-        Tue, 10 Jul 2018 04:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=PArMBcmWro098NLATOToBFRIob27r6Dihegrx1snU4c=;
-        b=OlWW9FecM+voON8Ar0nYCA+34FnFQI+as3qqma054Cn3z0eTie9LkdaXqLoOc/MQVJ
-         ymPu6gDwpQ7Qepv/5pT5LJb+1iwUEyDemW+3MIrIQ/f8gvr8ENFilEpBtofqeaZE24Nu
-         LVMQtnGdrx8vo0HproG/OxTcjOWCKsy+jVcKi7feNWQuLKt7nWM1IfsTVBxLEhNZdp3G
-         e63gwqi0dOz2nNggQxuxaf90z/A9/G+YURYoMIVbZbc3d7L4K7gs2PtApHaKITYHRTVi
-         VeE7A5thPcj4n3M9tIeJcSNgNznqo6OsCuOpM4sQvBPb9KGyNVm6hejacAYuFFQqm3Ka
-         QW0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=PArMBcmWro098NLATOToBFRIob27r6Dihegrx1snU4c=;
-        b=V1RlPwHqQQ/7ourmKp7Ia4PpzRNcWFCp+r7F8PT94tLaKaJRBuAX39m+g9GMwj/7Rg
-         R0pLA5pzSsvSMovhACsi3WRe9t1WwjpfCeQ9coR5Z/7CDVDGMq13j7leEfV9VCWFh3XN
-         MEe/p4R5gOJMZXnjBzH6EQNN4EDPJUKVRcSFRw/fGN1vf8nfM5WmW005WkrgpmROsnb7
-         wxSgbfOJU9pXWXYwfCKFwaXovB64YCcdh3uKnpmYv2F5Pp9hGkmuu+uS+vPgTLRfNEJs
-         D7Ah31oS9oVHlGpZmoXCXhFJQH5J7nAfDAtqmdKzTRxM0oAtL3L0lHUeRCqj8m4RKAV6
-         8t6Q==
-X-Gm-Message-State: APt69E1jpj525kqF7dStl8J5O0eL1x78cxJqGNyZpLsxihPcZsvNzyJh
-        gJYbs0AzBaaiV39DAQLwmrEQLH8xTpXIt4io9Qo=
-X-Google-Smtp-Source: AAOMgpfM7gnoTZAvHWPozb3eUp3s4DGoO0HyoMQjLSMaqLY980bhXE3r7E64JeKK4XqZRoiyLk5eaOIKP7L2OaWTHW0=
-X-Received: by 2002:aca:d00d:: with SMTP id h13-v6mr29034605oig.50.1531223798871;
- Tue, 10 Jul 2018 04:56:38 -0700 (PDT)
+        id S933628AbeGJO1p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 10:27:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42036 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S933280AbeGJO1o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 10:27:44 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 533DFADEC;
+        Tue, 10 Jul 2018 14:27:41 +0000 (UTC)
+Date:   Tue, 10 Jul 2018 16:27:40 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>
+Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
+Message-ID: <20180710142740.GQ14284@dhcp22.suse.cz>
+References: <1530905572-817-1-git-send-email-longman@redhat.com>
+ <20180709081920.GD22049@dhcp22.suse.cz>
+ <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:ac9:d37:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 04:56:38 -0700 (PDT)
-In-Reply-To: <CAKTKpr5bNdo2oXb=Vsm4QytHN1Aw=n_oP7kJHV6yLHuKL-Udkg@mail.gmail.com>
-References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com> <CAKTKpr5bNdo2oXb=Vsm4QytHN1Aw=n_oP7kJHV6yLHuKL-Udkg@mail.gmail.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Tue, 10 Jul 2018 17:26:38 +0530
-Message-ID: <CAKTKpr7wMiJL3NCHp-BkqNFPTDPAB7BxTvbvJagwYY97JCwqHQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
-To:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 4, 2018 at 3:44 PM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
-> Hi Mark,
->
-> can you please review this patch?
+On Mon 09-07-18 12:01:04, Waiman Long wrote:
+> On 07/09/2018 04:19 AM, Michal Hocko wrote:
+[...]
+> > later needs a special treatment while the first one is ok? There are
+> > quite some resources which allow a non privileged user to consume a lot
+> > of memory and the memory controller is the only reliable way to mitigate
+> > the risk.
+> 
+> Yes, memory controller is the only reliable way to mitigate the risk,
+> but not all tasks are under the control of a memory controller with
+> kernel memory limit.
 
-any comments on this patch series?
+But those which you do not trust should. So why do we need yet another
+mechanism for the reclaim?
 
->
-> On Thu, Jun 21, 2018 at 12:03 PM, Ganapatrao Kulkarni
-> <ganapatrao.kulkarni@cavium.com> wrote:
->> This patchset adds PMU driver for Cavium's ThunderX2 SoC UNCORE devices.
->> The SoC has PMU support in L3 cache controller (L3C) and in the
->> DDR4 Memory Controller (DMC).
->>
->> v6:
->>         Rebased to 4.18-rc1
->>         Updated with comments from John Garry[3]
->>
->> [3] https://lkml.org/lkml/2018/5/17/408
->>
->> v5:
->>      -Incroporated review comments from Mark Rutland[2]
->> v4:
->>      -Incroporated review comments from Mark Rutland[1]
->>
->> [1] https://www.spinics.net/lists/arm-kernel/msg588563.html
->> [2] https://lkml.org/lkml/2018/4/26/376
->>
->> v3:
->>      - fixed warning reported by kbuild robot
->>
->> v2:
->>      - rebased to 4.12-rc1
->>      - Removed Arch VULCAN dependency.
->>      - update SMC call parameters as per latest firmware.
->>
->> v1:
->>      -Initial patch
->>
->> Ganapatrao Kulkarni (2):
->>   perf: uncore: Adding documentation for ThunderX2 pmu uncore driver
->>   ThunderX2: Add Cavium ThunderX2 SoC UNCORE PMU driver
->>
->>  Documentation/perf/thunderx2-pmu.txt |  66 +++
->>  drivers/perf/Kconfig                 |   8 +
->>  drivers/perf/Makefile                |   1 +
->>  drivers/perf/thunderx2_pmu.c         | 949 +++++++++++++++++++++++++++++++++++
->>  include/linux/cpuhotplug.h           |   1 +
->>  5 files changed, 1025 insertions(+)
->>  create mode 100644 Documentation/perf/thunderx2-pmu.txt
->>  create mode 100644 drivers/perf/thunderx2_pmu.c
->>
->> --
->> 2.9.4
->>
->
-> thanks
-> Ganapat
+[...]
+> >> Patch 1 tracks the number of negative dentries present in the LRU
+> >> lists and reports it in /proc/sys/fs/dentry-state.
+> > If anything I _think_ vmstat would benefit from this because behavior of
+> > the memory reclaim does depend on the amount of neg. dentries.
+> >
+> >> Patch 2 adds a "neg-dentry-pc" sysctl parameter that can be used to to
+> >> specify a soft limit on the number of negative allowed as a percentage
+> >> of total system memory. This parameter is 0 by default which means no
+> >> negative dentry limiting will be performed.
+> > percentage has turned out to be a really wrong unit for many tunables
+> > over time. Even 1% can be just too much on really large machines.
+> 
+> Yes, that is true. Do you have any suggestion of what kind of unit
+> should be used? I can scale down the unit to 0.1% of the system memory.
+> Alternatively, one unit can be 10k/cpu thread, so a 20-thread system
+> corresponds to 200k, etc.
+
+I simply think this is a strange user interface. How much is a
+reasonable number? How can any admin figure that out?
+
+> >> Patch 3 enables automatic pruning of least recently used negative
+> >> dentries when the total number is close to the preset limit.
+> > Please explain why this cannot be done in a standard dcache shrinking
+> > way. I strongly suspect that you are developing yet another reclaim with
+> > its own sets of tunable and bypassing the existing infrastructure. I
+> > haven't read patches yet but the cover letter doesn't really explain
+> > design much so I am only guessing.
+> 
+> The standard dcache shrinking happens when the system is almost running
+> out of free memory.
+
+Well, the standard reclaim happens when somebody needs memory. We are
+usually quite far away from "almost running out of memory". We do
+reclaim fs metadata including dentries so I really do not see why
+negative ones should be any special here.
+
+> This new shrinker will be turned on when the number
+> of negative dentries is closed to the limit even when there are still
+> plenty of free memory left. It will stop when the number of negative
+> dentries is lowered to a safe level. The new shrinker is designed to
+> impose as little overhead to the currently running tasks. That is not
+> true for the standard shrinker which will have a rather significant
+> performance impact to the currently running tasks.
+
+Do you have any numbers to back your claim? The memory reclaim is
+usually quite lightweight. Especially when we have a lot of clean
+fs {meta}data
+
+> I can remove the new shrinker if people really don't want to add a new
+> one as long as I can keep the option to kill off newly created negative
+> dentries when the limit is exceeded.
+
+Please let's not add yet another memory reclaim mechanism. It will just
+backfire sooner or later.
+-- 
+Michal Hocko
+SUSE Labs
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
