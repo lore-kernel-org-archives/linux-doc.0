@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A77BD7D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:45:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3BB2E7DE80
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:52:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732881AbeGJWqD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 18:46:03 -0400
-Received: from mga17.intel.com ([192.55.52.151]:33711 "EHLO mga17.intel.com"
+        id S1732309AbeGJWyN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 18:54:13 -0400
+Received: from mga03.intel.com ([134.134.136.65]:22619 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732411AbeGJWp7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 18:45:59 -0400
+        id S1732340AbeGJWyN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 18:54:13 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:44:45 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:52:56 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="73770910"
+   d="scan'208";a="73773138"
 Received: from mgcarrol-mobl1.amr.corp.intel.com (HELO [10.252.202.182]) ([10.252.202.182])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 15:44:32 -0700
-Subject: Re: [RFC PATCH v2 11/27] x86/mm: Modify ptep_set_wrprotect and
- pmdp_set_wrprotect for _PAGE_DIRTY_SW
+  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 15:52:55 -0700
+Subject: Re: [RFC PATCH v2 12/27] x86/mm: Shadow stack page fault error
+ checking
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,7 +46,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-12-yu-cheng.yu@intel.com>
+ <20180710222639.8241-13-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@linux.intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
@@ -92,12 +92,12 @@ Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <fbf45667-5388-44a6-1f22-07bcc03e1804@linux.intel.com>
-Date:   Tue, 10 Jul 2018 15:44:32 -0700
+Message-ID: <61793360-f37c-ec19-c390-abe3c76a5f5c@linux.intel.com>
+Date:   Tue, 10 Jul 2018 15:52:55 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-12-yu-cheng.yu@intel.com>
+In-Reply-To: <20180710222639.8241-13-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -107,27 +107,19 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> +	/*
-> +	 * On platforms before CET, other threads could race to
-> +	 * create a RO and _PAGE_DIRTY_HW PMD again.  However,
-> +	 * on CET platforms, this is safe without a TLB flush.
-> +	 */
+> +++ b/arch/x86/include/asm/traps.h
+> @@ -157,6 +157,7 @@ enum {
+>   *   bit 3 ==				1: use of reserved bit detected
+>   *   bit 4 ==				1: fault was an instruction fetch
+>   *   bit 5 ==				1: protection keys block access
+> + *   bit 6 ==				1: shadow stack access fault
+>   */
 
-If I didn't work for Intel, I'd wonder what the heck CET is and what the
-heck it has to do with _PAGE_DIRTY_HW.  I think we need a better comment
-than this.  How about:
+Could we document this bit better?
 
-	Some processors can _start_ a write, but end up seeing
-	a read-only PTE by the time they get to getting the
-	Dirty bit.  In this case, they will set the Dirty bit,
-	leaving a read-only, Dirty PTE which looks like a Shadow
-	Stack PTE.
-
-	However, this behavior has been improved and will *not* occur on
-	processors supporting Shadow Stacks.  Without this guarantee, a
-	transition to a non-present PTE and flush the TLB would be
-	needed.
-	
+Is this a fault where the *processor* thought it should be a shadow
+stack fault?  Or is it also set on faults to valid shadow stack PTEs
+that just happen to fault for other reasons, say protection keys?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
