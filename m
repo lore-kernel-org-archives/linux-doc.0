@@ -5,20 +5,20 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85A977D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 06:42:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D6D07D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 06:45:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750999AbeGJGmj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 02:42:39 -0400
-Received: from mail.linuxfoundation.org ([140.211.169.12]:57416 "EHLO
+        id S1751903AbeGJGpL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 02:45:11 -0400
+Received: from mail.linuxfoundation.org ([140.211.169.12]:57476 "EHLO
         mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750913AbeGJGmi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 02:42:38 -0400
+        with ESMTP id S1750953AbeGJGpJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 02:45:09 -0400
 Received: from localhost (LFbn-1-12247-202.w90-92.abo.wanadoo.fr [90.92.61.202])
-        by mail.linuxfoundation.org (Postfix) with ESMTPSA id AF5A9A73;
-        Tue, 10 Jul 2018 06:42:37 +0000 (UTC)
-Date:   Tue, 10 Jul 2018 08:42:34 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 4B9B9C03;
+        Tue, 10 Jul 2018 06:45:08 +0000 (UTC)
+Date:   Tue, 10 Jul 2018 08:45:06 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
 To:     David Rientjes <rientjes@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -26,38 +26,51 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [patch] docs, debugfs: start explicit debugfs documentation
-Message-ID: <20180710064234.GA2053@kroah.com>
+Message-ID: <20180710064506.GA2316@kroah.com>
 References: <alpine.DEB.2.21.1807091459410.118937@chino.kir.corp.google.com>
- <20180709151248.2e124971e8af515fd95b9319@linux-foundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180709151248.2e124971e8af515fd95b9319@linux-foundation.org>
+In-Reply-To: <alpine.DEB.2.21.1807091459410.118937@chino.kir.corp.google.com>
 User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 09, 2018 at 03:12:48PM -0700, Andrew Morton wrote:
-> On Mon, 9 Jul 2018 15:00:17 -0700 (PDT) David Rientjes <rientjes@google.com> wrote:
+On Mon, Jul 09, 2018 at 03:00:17PM -0700, David Rientjes wrote:
+> There is no canonical location for debugfs docuemntation, so start one.
 > 
-> > There is no canonical location for debugfs docuemntation, so start one.
+> This is primarily motivated to describe the oom_free_timeout_ms interface
+> but it is extended for all the debugfs files that I am personally
+> interested in.
+> 
+> Hopefully this can be expanded in the future for better insight into how
+> the various interfaces can be used.
+> 
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: David Rientjes <rientjes@google.com>
+> ---
+>  Documentation/clearing-warn-once.txt       |   7 --
+>  Documentation/debugfs/00-INDEX             |   8 ++
+>  Documentation/debugfs/extfrag.txt          |  46 +++++++
+>  Documentation/debugfs/provoke-crashes.txt  |   8 ++
+>  Documentation/debugfs/root.txt             | 137 +++++++++++++++++++++
+>  Documentation/filesystems/debugfs.txt      |  46 +++++++
+>  Documentation/power/basic-pm-debugging.txt |  25 +---
+>  Documentation/sysctl/vm.txt                |   7 +-
 
-What is wrong with Documenation/filesystems/debugfs.txt?
+This is a mix of a lot of different things all at once.
 
-> > This is primarily motivated to describe the oom_free_timeout_ms interface
-> > but it is extended for all the debugfs files that I am personally
-> > interested in.
-> > 
-> > Hopefully this can be expanded in the future for better insight into how
-> > the various interfaces can be used.
+I'll gladly take the update to the debugfs.txt file for the newer api
+calls as a separate file.
 
-Ah, you are talking about the contents of debugfs files, right?  Just
-use Documenation/ABI/ if you really want to document these things.  But
-really, it's debugfs, so things can, and will, change, you should never
-build tools that rely on the specific information contained in those
-files.
+For the "this is what a specific debugfs file contains", those should go
+into Documenation/ABI/ if you really want to document those types of
+things.
+
+But as it is, this single patch does too many different things all at
+once.
 
 thanks,
 
