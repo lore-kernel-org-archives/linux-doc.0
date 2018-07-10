@@ -5,329 +5,234 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E1367D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 14:48:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8DF1C7D048
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 15:23:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933918AbeGJOsc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 10:48:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:50004 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933374AbeGJOs3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 10:48:29 -0400
-Received: from wuerfel.lan ([46.223.138.35]) by mrelayeu.kundenserver.de
- (mreue001 [212.227.15.129]) with ESMTPA (Nemesis) id
- 0MGJlf-1fprxW1JnL-00FAsR; Tue, 10 Jul 2018 16:48:01 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dave Chinner <david@fromorbit.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] Documentation: document ktime_get_*() APIs
-Date:   Tue, 10 Jul 2018 16:46:41 +0200
-Message-Id: <20180710144737.1136856-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.9.0
-X-Provags-ID: V03:K1:sgtWyMyvf2MpatRMDWbIGFJKsHlC+g8XU2pZLl7xHbz6qxmI/Uk
- XcTmBDx6F83YWCpYb7qvljDxEqBsybrTg1BMy1WvfSKZAF/qqX6zSUMQPhKKvUeoX4uwvkk
- 4ivviQhrmXnAO6lJSyiSJvOypepjKT7g9yHAqQN+csJqQM3ovMqU7AQux+RXXL5/1++losd
- 4YCbfdhJbt6Jx3fb5XU1w==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:mstS1CWmnV4=:7X6IUN7f2SEl0MFNktIrVI
- 61F0SHV1pcoJbnqBtAvdXgoBXQPSCnyjVXUaKtN4gyQEP5TFoWNnxMvmDF5WoSqLBYlvMNTWP
- Q7KyBANvgR92uAV4tQ83DNFMxzCyhao+RNx5LB9vEKhvapTqLufpW82HmnC0sBHtQnYUBF6y0
- N8pLKPext7sqgMCHqTIEekxhtQk5o1+RpqsHEJP7/Qyg2I3XuOeCAWvxJRYfVfxBP8zt4xLl/
- icl2ecPeVYglYypJD55/uTHInupzgzewyry+pF+G671JoztEcKBK+iFv8lRmgncpR9oEzwVAT
- xnA4JJviHmWEttx4G2TmojpIKRiXQb7n2Hl4R/xENeoxkHLHJsSplG99ULhGzfUYb6QITfOU8
- BGwJiDBp9Tmmpxnc23AfxJUcydCz1tqQy4wT5ovz8NZujwRFckMVAAlJBLPfmXjOTPTKldXYf
- ThVHuIiCC6CiAweOwMphT/Z3BON+h4b0L8WipXuWKgWAun8QntVMqQmDHMFb0uu1U7rH69xFz
- YBASO9lJ37j1BXGNiUck5ODtejsr++/BpOgRSfmZ3IWYngWQyVj912jTqNRIsqV5i3rGFEK/w
- 6oC79n2khIAMJLqrXfjnRVQjSvtzvGqgUIgMDms/3QWy/iymwkM7kqbpUrFrNXFiKEuCwlWs2
- jR7G0Z6DhnMe8SgBAHV9fcE5aqVOrN5Uqa1PbU0Ugbsh6mzORGf9Ho0dGBmBh+qhF8pA=
-To:     unlisted-recipients:; (no To-header on input)
+        id S934019AbeGJPXn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 11:23:43 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:36788 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S933359AbeGJPXk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 11:23:40 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4A6D4400138A;
+        Tue, 10 Jul 2018 15:23:39 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-122-125.rdu2.redhat.com [10.10.122.125])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8D0842026D6B;
+        Tue, 10 Jul 2018 15:23:37 +0000 (UTC)
+Subject: Re: [PATCH v11 7/9] cpuset: Expose cpus.effective and mems.effective
+ on cgroup v2 root
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+References: <1529825440-9574-1-git-send-email-longman@redhat.com>
+ <1529825440-9574-8-git-send-email-longman@redhat.com>
+ <20180702165322.GI533219@devbig577.frc2.facebook.com>
+ <bc59aa0a-70fd-583f-452d-9a947757cb69@redhat.com>
+ <20180703155823.GS533219@devbig577.frc2.facebook.com>
+ <4cf9924e-7b97-187f-a1f5-853a45165abb@redhat.com>
+Organization: Red Hat
+Message-ID: <151fc655-7e29-f060-789e-ee6c5c23d132@redhat.com>
+Date:   Tue, 10 Jul 2018 11:23:37 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
+MIME-Version: 1.0
+In-Reply-To: <4cf9924e-7b97-187f-a1f5-853a45165abb@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 10 Jul 2018 15:23:39 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Tue, 10 Jul 2018 15:23:39 +0000 (UTC) for IP:'10.11.54.4' DOMAIN:'int-mx04.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As Dave Chinner points out, we don't have a proper documentation for the
-ktime_get() family of interfaces, making it rather unclear which of the
-over 30 (!) interfaces one should actually use in a driver or elsewhere
-in the kernel.
+On 07/06/2018 04:32 PM, Waiman Long wrote:
+> On 07/03/2018 11:58 AM, Tejun Heo wrote:
+>> Hello, Waiman.
+>>
+>> On Tue, Jul 03, 2018 at 08:41:31AM +0800, Waiman Long wrote:
+>>>> So, effective changing when enabling partition on a child feels wrong
+>>>> to me.  It's supposed to contain what's actually allowed to the cgroup
+>>>> from its parent and that shouldn't change regardless of how those
+>>>> resources are used.  It's still given to the cgroup from its parent.
+>>> Another way to work around this issue is to expose the reserved_cpus in
+>>> the parent for holding CPUs that can taken by a chid partition. That
+>>> will require adding one more cpuset file for those cgroups that are
+>>> partition roots.
+>> Yeah, that should work.
+>>
+> Thinking about it a bit more, that approach will make creating a
+> partition a multi-step process:
+>
+> 1) Reserve the CPUs in reserved_cpus.
+> 2) enable sched.partition
+> 3) Write the CPUs list into cpus.
+>
+> There are also more exception cases that need to be handled. The current
+> approach, on the other hands, is much simpler and easier to understand
+> and use.
+>
+>>> I don't mind restricting that to the first level children for now. That
+>>> does restrict where we can put the container root if we want a separate
+>>> partition for a container. Let's hear if others have any objection about
+>>> that.
+>> As currently implemented, partioning locks away the cpus which should
+>> be a system level decision, not container level, so it makes sense to
+>> me that it is only available to system root.
+> So my preference is to allow partition only on the first level children
+> of the root for the time being. I think it should cover most of the use
+> cases. I will update the patchset to reflect that.
+>
+> Cheers,
+> Longman
+>
+Below is the incremental patch that allow partitioning only on the first
+level children of the root. Please let me know your thourght on that.
 
-I wrote up an explanation from how I personally see the interfaces,
-documenting what each of the functions do and hopefully making it a bit
-clearer which should be used where.
+Thanks,
+Longman
 
-This is the first time I tried writing .rst format documentation, so
-in addition to any mistakes in the content, I probably also introduce
-nonstandard formatting ;-)
+-------------[ Cut here ]-------------------------
 
-I first tried to add an extra section to
-Documentation/timers/timekeeping.txt, but this is currently not included
-in the generated API, and it seems useful to have the API docs as part
-of what gets generated in
-https://www.kernel.org/doc/html/latest/core-api/index.html#core-utilities
-instead, so I started a new file there.
+From 5a41209da94385efff87d79f6523265c710cbea5 Mon Sep 17 00:00:00 2001
+From: Waiman Long <longman@redhat.com>
+Date: Tue, 10 Jul 2018 10:23:16 -0400
+Subject: [PATCH v11 10/10] cpuset: Restrict sched.partition to first level
+ children of root only
 
-I also considered adding the documentation inline in the
-include/linux/timekeeping.h header, but couldn't figure out how to do
-that in a way that would result both in helpful inline comments as
-well as readable html output, so I settled for the latter, with
-a small note pointing to it from the header.
+Enabling partition on a v2 cpuset has the side effect of affecting the
+effective CPUs of its parent which is currently unique to partitioning.
+As we are not sure about the repercussion of enabling that globally,
+we are now restricting the enabling of sched.partition to the first
+level children of the root cgroup in the default hierarchy.
 
-Cc: Dave Chinner <david@fromorbit.com>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+This is done by removing the "cpuset.sched.partition" control file
+on cgroups that are not the first level children of the root. A new
+show_cfile function pointer is added to the cftype structure. If it
+is defined, it will be called to return a boolean value to determine
+if the corresponding control file should show up in the cgroup. It
+provides a more flexible mechanism to determine the visibility of the
+control file than a simple CFTYPE_* flag can do.
+
+Signed-off-by: Waiman Long <longman@redhat.com>
 ---
-v2: minor changes suggested by Randy
----
- Documentation/core-api/index.rst       |   1 +
- Documentation/core-api/timekeeping.rst | 185 +++++++++++++++++++++++++++++++++
- include/linux/timekeeping.h            |  15 +++
- 3 files changed, 201 insertions(+)
- create mode 100644 Documentation/core-api/timekeeping.rst
+ Documentation/admin-guide/cgroup-v2.rst | 10 +++++-----
+ include/linux/cgroup-defs.h             |  9 +++++++++
+ kernel/cgroup/cgroup.c                  |  4 ++++
+ kernel/cgroup/cpuset.c                  | 10 ++++++++++
+ 4 files changed, 28 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index e821cf78be3b..11b54e2bbce2 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -29,6 +29,7 @@ Core utilities
-    printk-formats
-    circular-buffers
-    gfp_mask-from-fs-io
-+   timekeeping
+diff --git a/Documentation/admin-guide/cgroup-v2.rst
+b/Documentation/admin-guide/cgroup-v2.rst
+index f7cde15..cf7cd88 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1585,10 +1585,10 @@ Cpuset Interface Files
+     Its value will be affected by memory nodes hotplug events.
  
- Interfaces for kernel debugging
- ===============================
-diff --git a/Documentation/core-api/timekeeping.rst b/Documentation/core-api/timekeeping.rst
-new file mode 100644
-index 000000000000..93cbeb9daec0
---- /dev/null
-+++ b/Documentation/core-api/timekeeping.rst
-@@ -0,0 +1,185 @@
-+ktime accessors
-+===============
+   cpuset.sched.partition
+-    A read-write single value file which exists on non-root
+-    cpuset-enabled cgroups.  It is a binary value flag that accepts
+-    either "0" (off) or "1" (on).  This flag is set and owned by the
+-        parent cgroup.
++    A read-write single value file which exists on the first level
++    children of the root cgroup.  It is a binary value flag that
++    accepts either "0" (off) or "1" (on).  This flag is set and
++    owned by the parent cgroup.
+ 
+     If set, it indicates that the current cgroup is the root of a
+     new partition or scheduling domain that comprises itself and
+@@ -1603,7 +1603,7 @@ Cpuset Interface Files
+        exclusive, i.e. they are not shared by any of its siblings.
+     2) The "cpuset.cpus" is also a proper subset of the parent's
+        "cpuset.cpus.effective".
+-    3) The parent cgroup is a partition root.
++    3) The parent cgroup is the root cgroup.
+     4) There is no child cgroups with cpuset enabled.  This is for
+        eliminating corner cases that have to be handled if such a
+        condition is allowed.
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index c0e68f9..be79487 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -565,6 +565,15 @@ struct cftype {
+     ssize_t (*write)(struct kernfs_open_file *of,
+              char *buf, size_t nbytes, loff_t off);
+ 
++    /*
++     * show_cfile(), if defined, will return a boolean value to
++     * determine if the control file should show up in the cgroup.
++     * It provides more flexibility in deciding where the control
++     * file should appear than simple criteria like on-root or
++     * not-on-root.
++     */
++    bool (*show_cfile)(struct cgroup_subsys_state *css);
 +
-+Device drivers can read the current time using ktime_get() and the many
-+related functions declared in linux/timekeeping.h. As a rule of thumb,
-+using an accessor with a shorter name is preferred over one with a longer
-+name if both are equally fit for a particular use case.
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+     struct lock_class_key    lockdep_key;
+ #endif
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index 077370b..0afdab8 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3612,6 +3612,10 @@ static int cgroup_addrm_files(struct
+cgroup_subsys_state *css,
+         if ((cft->flags & CFTYPE_ONLY_ON_ROOT) && cgroup_parent(cgrp))
+             continue;
+ 
++        /* Should the control file show up in the cgroup */
++        if (cft->show_cfile && !cft->show_cfile(css))
++            continue;
 +
-+Basic ktime_t based interfaces
-+------------------------------
-+
-+The recommended simplest form returns an opaque ktime_t, with variants
-+that return time for different clock references:
-+
-+
-+.. c:function:: ktime_t ktime_get( void )
-+
-+	CLOCK_MONOTONIC
-+
-+	Useful for reliable timestamps and measuring short time intervals
-+	accurately. Starts at system boot time but stops during suspend.
-+
-+.. c:function:: ktime_t ktime_get_boottime( void )
-+
-+	CLOCK_BOOTTIME
-+
-+	Like ktime_get(), but does not stop when suspended. This can be
-+	used e.g. for key expiration times that need to be synchronized
-+	with other machines across a suspend operation.
-+
-+.. c:function:: ktime_t ktime_get_real( void )
-+
-+	CLOCK_REALTIME
-+
-+	Returns the time in relative to the UNIX epoch starting in 1970
-+	using the Coordinated Universal Time (UTC), same as gettimeofday()
-+	user space. This is used for all timestamps that need to
-+	persist across a reboot, like inode times, but should be avoided
-+	for internal uses, since it can jump backwards due to a leap
-+	second update, NTP adjustment settimeofday() operation from user
-+	space.
-+
-+.. c:function:: ktime_t ktime_get_clocktai( void )
-+
-+	 CLOCK_TAI
-+
-+	Like ktime_get_real(), but uses the International Atomic Time (TAI)
-+	reference instead of UTC to avoid jumping on leap second updates.
-+	This is rarely useful in the kernel.
-+
-+.. c:function:: ktime_t ktime_get_raw( void )
-+
-+	CLOCK_MONOTONIC_RAW
-+
-+	Like ktime_get(), but runs at the same rate as the hardware
-+	clocksource without (NTP) adjustments for clock drift. This is
-+	also rarely needed in the kernel.
-+
-+nanosecond, timespec64, and second output
-+-----------------------------------------
-+
-+For all of the above, there are variants that return the time in a
-+different format depending on what is required by the user:
-+
-+.. c:function:: u64 ktime_get_ns( void )
-+		u64 ktime_get_boottime_ns( void )
-+		u64 ktime_get_real_ns( void )
-+		u64 ktime_get_tai_ns( void )
-+		u64 ktime_get_raw_ns( void )
-+
-+	Same as the plain ktime_get functions, but returning a u64 number
-+	of nanoseconds in the respective time reference, which may be
-+	more convenient for some callers.
-+
-+.. c:function:: void ktime_get_ts64( struct timespec64 * )
-+		void ktime_get_boottime_ts64( struct timespec64 * )
-+		void ktime_get_real_ts64( struct timespec64 * )
-+		void ktime_get_clocktai_ts64( struct timespec64 * )
-+		void ktime_get_raw_ts64( struct timespec64 * )
-+
-+	Same above, but returns the time in a 'struct timespec64', split
-+	into seconds and nanoseconds. This can avoid an extra division
-+	when printing the time, or when passing it into an external
-+	interface that expects a 'timespec' or 'timeval' structure.
-+
-+.. c:function:: time64_t ktime_get_seconds( void )
-+		time64_t ktime_get_boottime_seconds( void )
-+		time64_t ktime_get_real_seconds( void )
-+		time64_t ktime_get_clocktai_seconds( void )
-+		time64_t ktime_get_raw_seconds( void )
-+
-+	Return a coarse-grained version of the time as a scalar
-+	time64_t. This avoids accessing the clock hardware and rounds
-+	down the seconds to the full seconds of the last timer tick
-+	using the respective reference.
-+
-+Coarse and fast_ns access
-+-------------------------
-+
-+Some additional variants exist for more specialized cases:
-+
-+.. c:function:: ktime_t ktime_get_coarse_boottime( void )
-+		ktime_t ktime_get_coarse_real( void )
-+		ktime_t ktime_get_coarse_clocktai( void )
-+		ktime_t ktime_get_coarse_raw( void )
-+
-+.. c:function:: void ktime_get_coarse_ts64( struct timespec64 * )
-+		void ktime_get_coarse_boottime_ts64( struct timespec64 * )
-+		void ktime_get_coarse_real_ts64( struct timespec64 * )
-+		void ktime_get_coarse_clocktai_ts64( struct timespec64 * )
-+		void ktime_get_coarse_raw_ts64( struct timespec64 * )
-+
-+	These are quicker than the non-coarse versions, but less accurate,
-+	corresponding to CLOCK_MONONOTNIC_COARSE and CLOCK_REALTIME_COARSE
-+	in user space, along with the equivalent boottime/tai/raw
-+	timebase not available in user space.
-+
-+	The time returned here corresponds to the last timer tick, which
-+	may be as much as 10ms in the past (for CONFIG_HZ=100), same as
-+	reading the 'jiffies' variable.  These are only useful when called
-+	in a fast path and one still expects better than second accuracy,
-+	but can't easily use 'jiffies', e.g. for inode timestamps.
-+	Skipping the hardware clock access saves around 100 CPU cycles
-+	on most modern machines with a reliable cycle counter, but
-+	up to several microseconds on older hardware with an external
-+	clocksource.
-+
-+.. c:function:: u64 ktime_get_mono_fast_ns( void )
-+		u64 ktime_get_raw_fast_ns( void )
-+		u64 ktime_get_boot_fast_ns( void )
-+		u64 ktime_get_real_fast_ns( void )
-+
-+	These variants are safe to call from any context, including from
-+	a non-maskable interrupt (NMI) during a timekeeper update, and
-+	while we are entering suspend with the clocksource powered down.
-+	This is useful in some tracing or debugging code as well as
-+	machine check reporting, but most drivers should never call them,
-+	since the time is allowed to jump under certain conditions.
-+
-+Deprecated time interfaces
-+--------------------------
-+
-+Older kernels used some other interfaces that are now being phased out
-+but may appear in third-party drivers being ported here. In particular,
-+all interfaces returning a 'struct timeval' or 'struct timespec' have
-+been replaced because the tv_sec member overflows in year 2038 on 32-bit
-+architectures. These are the recommended replacements:
-+
-+.. c:function:: void ktime_get_ts( struct timespec * )
-+
-+	Use ktime_get() or ktime_get_ts64() instead.
-+
-+.. c:function:: struct timeval do_gettimeofday( void )
-+		struct timespec getnstimeofday( void )
-+		struct timespec64 getnstimeofday64( void )
-+		void ktime_get_real_ts( struct timespec * )
-+
-+	ktime_get_real_ts64() is a direct replacement, but consider using
-+	monotonic time (ktime_get_ts64()) and/or a ktime_t based interface
-+	(ktime_get()/ktime_get_real()).
-+
-+.. c:function:: struct timespec current_kernel_time( void )
-+		struct timespec64 current_kernel_time64( void )
-+		struct timespec get_monotonic_coarse( void )
-+		struct timespec64 get_monotonic_coarse64( void )
-+
-+	These are replaced by ktime_get_coarse_real_ts64() and
-+	ktime_get_coarse_ts64(). However, A lot of code that wants
-+	coarse-grained times can use the simple 'jiffies' instead, while
-+	some drivers may actually want the higher resolution accessors
-+	these days.
-+
-+.. c:function:: struct timespec getrawmonotonic( void )
-+		struct timespec64 getrawmonotonic64( void )
-+		struct timespec timekeeping_clocktai( void )
-+		struct timespec64 timekeeping_clocktai64( void )
-+		struct timespec get_monotonic_boottime( void )
-+		struct timespec64 get_monotonic_boottime64( void )
-+
-+	These are replaced by ktime_get_raw()/ktime_get_raw_ts64(),
-+	ktime_get_clocktai()/ktime_get_clocktai_ts64() as well
-+	as ktime_get_boottime()/ktime_get_boottime_ts64().
-+	However, if the particular choice of clock source is not
-+	important for the user, consider converting to
-+	ktime_get()/ktime_get_ts64() instead for consistency.
-diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
-index 86bc2026efce..947b1b8d2d01 100644
---- a/include/linux/timekeeping.h
-+++ b/include/linux/timekeeping.h
-@@ -21,6 +21,21 @@ extern int do_sys_settimeofday64(const struct timespec64 *tv,
- 				 const struct timezone *tz);
+         if (is_add) {
+             ret = cgroup_add_file(css, cgrp, cft);
+             if (ret) {
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 62b7e61..2f85c1e 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -2106,6 +2106,15 @@ static s64 cpuset_read_s64(struct
+cgroup_subsys_state *css, struct cftype *cft)
+ }
  
  /*
-+ * ktime_get() family: read the current time in a multitude of ways,
-+ *
-+ * The default time reference is CLOCK_MONOTONIC, starting at
-+ * boot time but not counting the time spent in suspend.
-+ * For other references, use the functions with "real", "clocktai",
-+ * "boottime" and "raw" suffixes.
-+ *
-+ * To get the time in a different format, use the ones wit
-+ * "ns", "ts64" and "seconds" suffix.
-+ *
-+ * See Documentation/core-api/timekeeping.rst for more details.
++ * The sched.partition control file should only show up in the first
++ * level children of the root cgroup.
 + */
-+
++static bool cpuset_show_partition(struct cgroup_subsys_state *css)
++{
++    return parent_cs(css_cs(css)) == &top_cpuset;
++}
 +
 +/*
-  * timespec64 based interfaces
+  * for the common functions, 'private' gives the type of file
   */
- extern void ktime_get_raw_ts64(struct timespec64 *ts);
+ 
+@@ -2250,6 +2259,7 @@ static s64 cpuset_read_s64(struct
+cgroup_subsys_state *css, struct cftype *cft)
+         .name = "sched.partition",
+         .read_u64 = cpuset_read_u64,
+         .write_u64 = cpuset_write_u64,
++        .show_cfile = cpuset_show_partition,
+         .private = FILE_PARTITION_ROOT,
+         .flags = CFTYPE_NOT_ON_ROOT,
+     },
 -- 
-2.9.0
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
