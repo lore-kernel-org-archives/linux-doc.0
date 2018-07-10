@@ -5,26 +5,25 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3BB2E7DE80
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:52:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A0B247D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:06:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732309AbeGJWyN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 18:54:13 -0400
-Received: from mga03.intel.com ([134.134.136.65]:22619 "EHLO mga03.intel.com"
+        id S1732276AbeGJXHp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 19:07:45 -0400
+Received: from mga09.intel.com ([134.134.136.24]:17991 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732340AbeGJWyN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 18:54:13 -0400
+        id S1732258AbeGJXHp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 19:07:45 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:52:56 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:06:25 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="73773138"
+   d="scan'208";a="73779972"
 Received: from mgcarrol-mobl1.amr.corp.intel.com (HELO [10.252.202.182]) ([10.252.202.182])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 15:52:55 -0700
-Subject: Re: [RFC PATCH v2 12/27] x86/mm: Shadow stack page fault error
- checking
+  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:06:25 -0700
+Subject: Re: [RFC PATCH v2 13/27] mm: Handle shadow stack page fault
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,7 +45,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-13-yu-cheng.yu@intel.com>
+ <20180710222639.8241-14-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@linux.intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
@@ -92,12 +91,12 @@ Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <61793360-f37c-ec19-c390-abe3c76a5f5c@linux.intel.com>
-Date:   Tue, 10 Jul 2018 15:52:55 -0700
+Message-ID: <2f3ff321-c629-3e00-59f6-8bca510650d4@linux.intel.com>
+Date:   Tue, 10 Jul 2018 16:06:25 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-13-yu-cheng.yu@intel.com>
+In-Reply-To: <20180710222639.8241-14-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -107,19 +106,92 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> +++ b/arch/x86/include/asm/traps.h
-> @@ -157,6 +157,7 @@ enum {
->   *   bit 3 ==				1: use of reserved bit detected
->   *   bit 4 ==				1: fault was an instruction fetch
->   *   bit 5 ==				1: protection keys block access
-> + *   bit 6 ==				1: shadow stack access fault
->   */
+> +	if (is_shstk_mapping(vma->vm_flags))
+> +		entry = pte_mkdirty_shstk(entry);
+> +	else
+> +		entry = pte_mkdirty(entry);
+> +
+> +	entry = maybe_mkwrite(entry, vma);
+>  	if (ptep_set_access_flags(vma, vmf->address, vmf->pte, entry, 1))
+>  		update_mmu_cache(vma, vmf->address, vmf->pte);
+>  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> @@ -2526,7 +2532,11 @@ static int wp_page_copy(struct vm_fault *vmf)
+>  		}
+>  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
+>  		entry = mk_pte(new_page, vma->vm_page_prot);
+> -		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+> +		if (is_shstk_mapping(vma->vm_flags))
+> +			entry = pte_mkdirty_shstk(entry);
+> +		else
+> +			entry = pte_mkdirty(entry);
+> +		entry = maybe_mkwrite(entry, vma);
 
-Could we document this bit better?
+Do we want to lift this hunk of code and put it elsewhere?  Maybe:
 
-Is this a fault where the *processor* thought it should be a shadow
-stack fault?  Or is it also set on faults to valid shadow stack PTEs
-that just happen to fault for other reasons, say protection keys?
+	entry = pte_set_vma_features(entry, vma);
+
+and then:
+
+pte_t pte_set_vma_features(pte_t entry, struct vm_area_struct)
+{
+		/*
+		 * Shadow stack PTEs are always dirty and always
+		 * writable.  They have a different encoding for
+		 * this than normal PTEs, though.
+		 */
+		if (is_shstk_mapping(vma->vm_flags))
+			entry = pte_mkdirty_shstk(entry);
+		else
+			entry = pte_mkdirty(entry);
+
+		entry = maybe_mkwrite(entry, vma);
+
+	return entry;
+}
+
+>  		/*
+>  		 * Clear the pte entry and flush it first, before updating the
+>  		 * pte with the new entry. This will avoid a race condition
+> @@ -3201,6 +3211,14 @@ static int do_anonymous_page(struct vm_fault *vmf)
+>  	mem_cgroup_commit_charge(page, memcg, false, false);
+>  	lru_cache_add_active_or_unevictable(page, vma);
+>  setpte:
+> +	/*
+> +	 * If this is within a shadow stack mapping, mark
+> +	 * the PTE dirty.  We don't use pte_mkdirty(),
+> +	 * because the PTE must have _PAGE_DIRTY_HW set.
+> +	 */
+> +	if (is_shstk_mapping(vma->vm_flags))
+> +		entry = pte_mkdirty_shstk(entry);
+> +
+>  	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, entry);
+
+I'm not sure this is the right spot to do this.
+
+The other code does pte_mkdirty_shstk() near where we do the
+pte_mkwrite().  Why not here?  I think you might have picked this
+because it's a common path used by both allocated pages and zero pages.
+But, we can't have the zero pages in shadow stack areas since they can't
+be read-only.  I think you need to move this up.  Can you even
+consolidate it with the other two pte_mkdirt_shstk() call sites?
+
+>  	/* No need to invalidate - it was non-present before */
+> @@ -3983,6 +4001,14 @@ static int handle_pte_fault(struct vm_fault *vmf)
+>  	entry = vmf->orig_pte;
+>  	if (unlikely(!pte_same(*vmf->pte, entry)))
+>  		goto unlock;
+> +
+> +	/*
+> +	 * Shadow stack PTEs are copy-on-access, so do_wp_page()
+> +	 * handling on them no matter if we have write fault or not.
+> +	 */
+
+I'd say this differently:
+
+	Shadow stack PTEs can not be read-only and because of that can
+	not have traditional copy-on-write semantics.  This essentially
+	performs a copy-on-write operation, but on *any* access, not
+	just actual writes.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
