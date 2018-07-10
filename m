@@ -2,27 +2,27 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E94C37DF75
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:32:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B332F7D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:32:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732697AbeGJWdw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 18:33:52 -0400
-Received: from mga12.intel.com ([192.55.52.136]:33775 "EHLO mga12.intel.com"
+        id S1732470AbeGJWcZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 18:32:25 -0400
+Received: from mga12.intel.com ([192.55.52.136]:33776 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732461AbeGJWc0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 18:32:26 -0400
+        id S1732444AbeGJWcZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 18:32:25 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:12 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:14 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="70305403"
+   d="scan'208";a="70305425"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:12 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:14 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -45,9 +45,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v2 11/27] x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for _PAGE_DIRTY_SW
-Date:   Tue, 10 Jul 2018 15:26:23 -0700
-Message-Id: <20180710222639.8241-12-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for shadow stack
+Date:   Tue, 10 Jul 2018 15:26:28 -0700
+Message-Id: <20180710222639.8241-17-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180710222639.8241-1-yu-cheng.yu@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
@@ -56,56 +56,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
-_PAGE_DIRTY_SW.
+There are three possible shadow stack PTE settings:
+
+  Normal SHSTK PTE: (R/O + DIRTY_HW)
+  SHSTK PTE COW'ed: (R/O + DIRTY_HW)
+  SHSTK PTE shared as R/O data: (R/O + DIRTY_SW)
+
+Update can_follow_write_pte/pmd for the shadow stack.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/pgtable.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ mm/gup.c         | 11 ++++++++---
+ mm/huge_memory.c | 10 +++++++---
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index ecbd3539a864..456a864aa605 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -1170,7 +1170,18 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
- static inline void ptep_set_wrprotect(struct mm_struct *mm,
- 				      unsigned long addr, pte_t *ptep)
+diff --git a/mm/gup.c b/mm/gup.c
+index b70d7ba7cc13..00171ee847af 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -64,10 +64,13 @@ static int follow_pfn_pte(struct vm_area_struct *vma, unsigned long address,
+  * FOLL_FORCE can write to even unwritable pte's, but only
+  * after we've gone through a COW cycle and they are dirty.
+  */
+-static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
++static inline bool can_follow_write_pte(pte_t pte, unsigned int flags,
++					bool shstk)
  {
-+	pte_t pte;
++	bool pte_cowed = shstk ? is_shstk_pte(pte):pte_dirty(pte);
 +
- 	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
-+	pte = *ptep;
-+
-+	/*
-+	 * On platforms before CET, other threads could race to
-+	 * create a RO and _PAGE_DIRTY_HW PTE again.  However,
-+	 * on CET platforms, this is safe without a TLB flush.
-+	 */
-+	pte = pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
-+	set_pte_at(mm, addr, ptep, pte);
+ 	return pte_write(pte) ||
+-		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
++		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_cowed);
  }
  
- #define flush_tlb_fix_spurious_fault(vma, address) do { } while (0)
-@@ -1220,7 +1231,18 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
- static inline void pmdp_set_wrprotect(struct mm_struct *mm,
- 				      unsigned long addr, pmd_t *pmdp)
+ static struct page *follow_page_pte(struct vm_area_struct *vma,
+@@ -78,7 +81,9 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+ 	struct page *page;
+ 	spinlock_t *ptl;
+ 	pte_t *ptep, pte;
++	bool shstk;
+ 
++	shstk = is_shstk_mapping(vma->vm_flags);
+ retry:
+ 	if (unlikely(pmd_bad(*pmd)))
+ 		return no_page_table(vma, flags);
+@@ -105,7 +110,7 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+ 	}
+ 	if ((flags & FOLL_NUMA) && pte_protnone(pte))
+ 		goto no_page;
+-	if ((flags & FOLL_WRITE) && !can_follow_write_pte(pte, flags)) {
++	if ((flags & FOLL_WRITE) && !can_follow_write_pte(pte, flags, shstk)) {
+ 		pte_unmap_unlock(ptep, ptl);
+ 		return NULL;
+ 	}
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 7f3e11d3b64a..db4c689a960a 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -1389,10 +1389,13 @@ int do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
+  * FOLL_FORCE can write to even unwritable pmd's, but only
+  * after we've gone through a COW cycle and they are dirty.
+  */
+-static inline bool can_follow_write_pmd(pmd_t pmd, unsigned int flags)
++static inline bool can_follow_write_pmd(pmd_t pmd, unsigned int flags,
++					bool shstk)
  {
-+	pmd_t pmd;
++	bool pmd_cowed = shstk ? is_shstk_pmd(pmd):pmd_dirty(pmd);
 +
- 	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
-+	pmd = *pmdp;
-+
-+	/*
-+	 * On platforms before CET, other threads could race to
-+	 * create a RO and _PAGE_DIRTY_HW PMD again.  However,
-+	 * on CET platforms, this is safe without a TLB flush.
-+	 */
-+	pmd = pmd_move_flags(pmd, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
-+	set_pmd_at(mm, addr, pmdp, pmd);
+ 	return pmd_write(pmd) ||
+-	       ((flags & FOLL_FORCE) && (flags & FOLL_COW) && pmd_dirty(pmd));
++	       ((flags & FOLL_FORCE) && (flags & FOLL_COW) && pmd_cowed);
  }
  
- #define pud_write pud_write
+ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+@@ -1402,10 +1405,11 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+ {
+ 	struct mm_struct *mm = vma->vm_mm;
+ 	struct page *page = NULL;
++	bool shstk = is_shstk_mapping(vma->vm_flags);
+ 
+ 	assert_spin_locked(pmd_lockptr(mm, pmd));
+ 
+-	if (flags & FOLL_WRITE && !can_follow_write_pmd(*pmd, flags))
++	if (flags & FOLL_WRITE && !can_follow_write_pmd(*pmd, flags, shstk))
+ 		goto out;
+ 
+ 	/* Avoid dumping huge zero page */
 -- 
 2.17.1
 
