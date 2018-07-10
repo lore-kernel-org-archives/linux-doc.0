@@ -5,86 +5,83 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4151C7D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 00:47:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9ECDC7D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 02:08:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S933364AbeGJAqR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 9 Jul 2018 20:46:17 -0400
-Received: from mail-qt0-f196.google.com ([209.85.216.196]:35638 "EHLO
-        mail-qt0-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S933308AbeGJAqM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 9 Jul 2018 20:46:12 -0400
-Received: by mail-qt0-f196.google.com with SMTP id a5-v6so2471163qtp.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Jul 2018 17:46:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=rL6yKWn/ghYDtxoPy6kAOb9PjswobXgvOOXINpa0bDM=;
-        b=imxTuaa92PwkwiYV8SFhPW3HuADA9unJLmDWKi1dkVYAyNrrrk84l3DSo4jLUvu3kQ
-         DPxmO6FW0S/p4svudnpf9egOl+SbmJjn6iBTx6RRPBAFXP5D/uOHAVc2z7ltM3Vm17+K
-         fGgz9UlWEVN6nj6W0y1zwUG4a0aNR8ex9Phl7aexA/8YRqSyyy1u/2vtUio5LHLCVcoV
-         4/Z5W5wWKnz2R0/zcgZUKk0u2hwKnYh9qPWrTTQpkiX82Etsg4zecxwibvfKw/niVyl4
-         mCntack9q5qeVkbaXNvpWuKLAD02+8yZb2/Ag7aJzm5SyO9+MENvKGdm9A+zd7BmH/98
-         wSdQ==
-X-Gm-Message-State: APt69E2V2+hRSBC9ATPHI0+S4JhYSp1G2RoLDYLazqNn2baXQ6fqOA5m
-        gD+TwmZA/Hu1itqo8xaXH4FIqg==
-X-Google-Smtp-Source: AAOMgpeydYGyGxb9J6YYTMdwbjfAcbMFx52LkUbiVGaJuFVd21S53Z9o2vfvOU6FKhmcDh2v1RU3Sw==
-X-Received: by 2002:a0c:9208:: with SMTP id a8-v6mr19517967qva.47.1531183572041;
-        Mon, 09 Jul 2018 17:46:12 -0700 (PDT)
-Received: from labbott-redhat.redhat.com ([2601:602:9802:a8dc::1941])
-        by smtp.gmail.com with ESMTPSA id l36-v6sm1816792qtk.12.2018.07.09.17.46.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 09 Jul 2018 17:46:10 -0700 (PDT)
-From:   Laura Abbott <labbott@redhat.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Olsa <jolsa@kernel.org>
-Cc:     Laura Abbott <labbott@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Robin Jarry <robin.jarry@6wind.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCHv2 0/7] HOSTFLAGS and HOSTLDFLAGS from the environment
-Date:   Mon,  9 Jul 2018 17:45:55 -0700
-Message-Id: <20180710004602.21599-1-labbott@redhat.com>
-X-Mailer: git-send-email 2.17.1
+        id S1754551AbeGJCIp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 9 Jul 2018 22:08:45 -0400
+Received: from ozlabs.org ([203.11.71.1]:47775 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1754450AbeGJCIl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 9 Jul 2018 22:08:41 -0400
+Received: by ozlabs.org (Postfix, from userid 1034)
+        id 41Plx34Qfmz9s37; Tue, 10 Jul 2018 12:08:39 +1000 (AEST)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     corbet@lwn.net
+Cc:     keescook@chromium.org, tglx@linutronix.de, konrad.wilk@oracle.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@ozlabs.org
+Subject: [PATCH] Documentation: Add powerpc options for spec_store_bypass_disable
+Date:   Tue, 10 Jul 2018 12:08:36 +1000
+Message-Id: <20180710020836.23571-1-mpe@ellerman.id.au>
+X-Mailer: git-send-email 2.14.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Document the support for spec_store_bypass_disable that was added for
+powerpc in commit a048a07d7f45 ("powerpc/64s: Add support for a store
+forwarding barrier at kernel entry/exit").
 
-Hi,
+Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-This is v2 of the series to set HOSTCFLAGS and HOSTLDFLAGS from the
-environment. The changes are mostly minor fixups requested and also
-include documentation of the new options.
+I tried documenting the differences between the PPC options and X86 ones in one
+section, but it got quite messy, so I went with this instead. Happy to take
+advice on how better to structure it if anyone has opinions.
 
-Laura Abbott (7):
-  tools: build: Fixup host c flags
-  tools: build: Use HOSTLDFLAGS with fixdep
-  treewide: Rename HOSTCFLAGS -> KBUILD_HOSTCFLAGS
-  treewide: Rename HOSTCXXFLAGS to KBUILD_HOSTCXXFLAGS
-  treewide: Rename HOSTLDFLAGS to KBUILD_HOSTLDFLAGS
-  treewide: Rename HOST_LOADLIBES to KBUILD_HOSTLDLIBS
-  Kbuild: Use HOST*FLAGS options from the command line
-
- Documentation/kbuild/kbuild.txt | 16 ++++++++++++++++
- Makefile                        | 17 +++++++++--------
- arch/alpha/boot/Makefile        |  2 +-
- net/bpfilter/Makefile           |  4 ++--
- samples/bpf/Makefile            | 22 +++++++++++-----------
- samples/seccomp/Makefile        |  6 +++---
- scripts/Kbuild.include          |  2 +-
- scripts/Makefile                |  4 ++--
- scripts/Makefile.host           | 24 ++++++++++++------------
- scripts/kconfig/Makefile        | 10 +++++-----
- tools/build/Build.include       |  2 +-
- tools/build/Makefile            |  2 +-
- tools/objtool/Makefile          |  4 ++--
- tools/perf/pmu-events/Build     |  2 +-
- 14 files changed, 67 insertions(+), 50 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index efc7aa7a0670..f320c7168b04 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4060,6 +4060,8 @@
+ 			This parameter controls whether the Speculative Store
+ 			Bypass optimization is used.
+ 
++			On x86 the options are:
++
+ 			on      - Unconditionally disable Speculative Store Bypass
+ 			off     - Unconditionally enable Speculative Store Bypass
+ 			auto    - Kernel detects whether the CPU model contains an
+@@ -4075,12 +4077,20 @@
+ 			seccomp - Same as "prctl" above, but all seccomp threads
+ 				  will disable SSB unless they explicitly opt out.
+ 
+-			Not specifying this option is equivalent to
+-			spec_store_bypass_disable=auto.
+-
+ 			Default mitigations:
+ 			X86:	If CONFIG_SECCOMP=y "seccomp", otherwise "prctl"
+ 
++			On powerpc the options are:
++
++			on,auto - On Power8 and Power9 insert a store-forwarding
++				  barrier on kernel entry and exit. On Power7
++				  perform a software flush on kernel entry and
++				  exit.
++			off	- No action.
++
++			Not specifying this option is equivalent to
++			spec_store_bypass_disable=auto.
++
+ 	spia_io_base=	[HW,MTD]
+ 	spia_fio_base=
+ 	spia_pedr=
 -- 
-2.17.1
+2.14.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
