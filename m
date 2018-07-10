@@ -2,55 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C46CC7D048
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 21:17:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35C1F7D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:31:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732277AbeGJVSu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 17:18:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35486 "EHLO ms.lwn.net"
+        id S1732276AbeGJWcV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 18:32:21 -0400
+Received: from mga02.intel.com ([134.134.136.20]:63054 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732268AbeGJVSu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 17:18:50 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0028C97D;
-        Tue, 10 Jul 2018 21:08:56 +0000 (UTC)
-Date:   Tue, 10 Jul 2018 15:08:54 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Cc:     linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] docs: kernel-parameters.txt: document xhci-hcd.quirks
- parameter
-Message-ID: <20180710150854.3ccb51f6@lwn.net>
-In-Reply-To: <20180705133142.18844-1-laurentiu.tudor@nxp.com>
-References: <20180705133142.18844-1-laurentiu.tudor@nxp.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1732242AbeGJWcV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 18:32:21 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
+   d="scan'208";a="70305356"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:10 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v2 00/27] Control Flow Enforcement (CET)
+Date:   Tue, 10 Jul 2018 15:26:12 -0700
+Message-Id: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  5 Jul 2018 16:31:42 +0300
-Laurentiu Tudor <laurentiu.tudor@nxp.com> wrote:
+The first version of CET patches were divided into four series.
+They can be found in the following links.
 
-> This parameter introduced several years ago in the XHCI host controller
-> driver was somehow left undocumented. Add a few lines in the kernel
-> parameters text.
-> 
-> Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+  https://lkml.org/lkml/2018/6/7/795
+  https://lkml.org/lkml/2018/6/7/782
+  https://lkml.org/lkml/2018/6/7/771
+  https://lkml.org/lkml/2018/6/7/739
 
-Applied, thanks.
+Summary of changes in v2:
 
-jon
+  Small fixes in the XSAVES patches.
+  Improve: Documentation/x86/intel_cet.txt.
+  Remove TLB flushing from ptep/pmdp_set_wrprotect for SHSTK.
+  Use shadow stack restore token for signals; save SHSTK pointer after FPU.
+  Rewrite ELF header parsing.
+  Backward compatibility is now handled from GLIBC tunables.
+  Add a new patch to can_follow_write_pte/pmd, for SHSTK.
+  Remove blocking of mremap/madvice/munmap.
+  Add Makefile checking CET support of assembler/compiler.
+
+H.J. Lu (1):
+  x86: Insert endbr32/endbr64 to vDSO
+
+Yu-cheng Yu (26):
+  x86/cpufeatures: Add CPUIDs for Control-flow Enforcement Technology
+    (CET)
+  x86/fpu/xstate: Change some names to separate XSAVES system and user
+    states
+  x86/fpu/xstate: Enable XSAVES system states
+  x86/fpu/xstate: Add XSAVES system states for shadow stack
+  Documentation/x86: Add CET description
+  x86/cet: Control protection exception handler
+  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
+  mm: Introduce VM_SHSTK for shadow stack memory
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Introduce _PAGE_DIRTY_SW
+  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
+    _PAGE_DIRTY_SW
+  x86/mm: Shadow stack page fault error checking
+  mm: Handle shadow stack page fault
+  mm: Handle THP/HugeTLB shadow stack page fault
+  mm/mprotect: Prevent mprotect from changing shadow stack
+  mm: Modify can_follow_write_pte/pmd for shadow stack
+  x86/cet/shstk: User-mode shadow stack support
+  x86/cet/shstk: Introduce WRUSS instruction
+  x86/cet/shstk: Signal handling for shadow stack
+  x86/cet/shstk: ELF header parsing of CET
+  x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
+  x86/cet/ibt: User-mode indirect branch tracking support
+  mm/mmap: Add IBT bitmap size to address space limit check
+  x86/cet: Add PTRACE interface for CET
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet: Add arch_prctl functions for CET
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/intel_cet.txt               | 250 ++++++++++++
+ arch/x86/Kconfig                              |  40 ++
+ arch/x86/Makefile                             |  14 +
+ arch/x86/entry/entry_64.S                     |   2 +-
+ arch/x86/entry/vdso/.gitignore                |   4 +
+ arch/x86/entry/vdso/Makefile                  |  12 +-
+ arch/x86/entry/vdso/vdso-layout.lds.S         |   1 +
+ arch/x86/ia32/ia32_signal.c                   |  13 +
+ arch/x86/include/asm/cet.h                    |  50 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |  16 +-
+ arch/x86/include/asm/elf.h                    |   5 +
+ arch/x86/include/asm/fpu/internal.h           |   6 +-
+ arch/x86/include/asm/fpu/regset.h             |   7 +-
+ arch/x86/include/asm/fpu/types.h              |  22 +
+ arch/x86/include/asm/fpu/xstate.h             |  31 +-
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  14 +
+ arch/x86/include/asm/pgtable.h                | 135 ++++++-
+ arch/x86/include/asm/pgtable_types.h          |  31 +-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/sighandling.h            |   5 +
+ arch/x86/include/asm/special_insns.h          |  45 +++
+ arch/x86/include/asm/traps.h                  |   5 +
+ arch/x86/include/uapi/asm/elf_property.h      |  16 +
+ arch/x86/include/uapi/asm/prctl.h             |   6 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/resource.h          |   5 +
+ arch/x86/include/uapi/asm/sigcontext.h        |  17 +
+ arch/x86/kernel/Makefile                      |   4 +
+ arch/x86/kernel/cet.c                         | 375 ++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   | 141 +++++++
+ arch/x86/kernel/cpu/common.c                  |  42 ++
+ arch/x86/kernel/cpu/scattered.c               |   1 +
+ arch/x86/kernel/elf.c                         | 280 +++++++++++++
+ arch/x86/kernel/fpu/core.c                    |  11 +-
+ arch/x86/kernel/fpu/init.c                    |  10 -
+ arch/x86/kernel/fpu/regset.c                  |  41 ++
+ arch/x86/kernel/fpu/signal.c                  |   6 +-
+ arch/x86/kernel/fpu/xstate.c                  | 152 ++++---
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  10 +
+ arch/x86/kernel/process_64.c                  |   7 +
+ arch/x86/kernel/ptrace.c                      |  16 +
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  96 +++++
+ arch/x86/kernel/traps.c                       |  58 +++
+ arch/x86/kvm/vmx.c                            |   2 +-
+ arch/x86/lib/x86-opcode-map.txt               |   2 +-
+ arch/x86/mm/fault.c                           |  24 +-
+ fs/binfmt_elf.c                               |  16 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/pgtable.h                 |  21 +
+ include/linux/mm.h                            |   8 +
+ include/uapi/asm-generic/resource.h           |   3 +
+ include/uapi/linux/elf.h                      |   2 +
+ mm/gup.c                                      |  11 +-
+ mm/huge_memory.c                              |  18 +-
+ mm/internal.h                                 |   8 +
+ mm/memory.c                                   |  38 +-
+ mm/mmap.c                                     |  12 +-
+ mm/mprotect.c                                 |   9 +
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt |   2 +-
+ 64 files changed, 2070 insertions(+), 135 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.txt
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/uapi/asm/elf_property.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/elf.c
+
+-- 
+2.17.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
