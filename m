@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 663A97D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:08:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3BBDB7D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:10:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732276AbeGJXJv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 19:09:51 -0400
-Received: from mga18.intel.com ([134.134.136.126]:41498 "EHLO mga18.intel.com"
+        id S1732291AbeGJXLa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 19:11:30 -0400
+Received: from mga14.intel.com ([192.55.52.115]:34085 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732253AbeGJXJv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 19:09:51 -0400
+        id S1732253AbeGJXL3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 19:11:29 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:08:31 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:10:09 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="73780931"
+   d="scan'208";a="73781272"
 Received: from mgcarrol-mobl1.amr.corp.intel.com (HELO [10.252.202.182]) ([10.252.202.182])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:08:31 -0700
-Subject: Re: [RFC PATCH v2 14/27] mm: Handle THP/HugeTLB shadow stack page
- fault
+  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:10:08 -0700
+Subject: Re: [RFC PATCH v2 15/27] mm/mprotect: Prevent mprotect from changing
+ shadow stack
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,7 +46,7 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-15-yu-cheng.yu@intel.com>
+ <20180710222639.8241-16-yu-cheng.yu@intel.com>
 From:   Dave Hansen <dave.hansen@linux.intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
@@ -92,12 +92,12 @@ Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <4ba0410c-eadf-19f7-1931-ee7f9e38fde8@linux.intel.com>
-Date:   Tue, 10 Jul 2018 16:08:30 -0700
+Message-ID: <04800c52-1f86-c485-ba7c-2216d8c4966f@linux.intel.com>
+Date:   Tue, 10 Jul 2018 16:10:08 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-15-yu-cheng.yu@intel.com>
+In-Reply-To: <20180710222639.8241-16-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -107,18 +107,27 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> @@ -1347,6 +1353,8 @@ int do_huge_pmd_wp_page(struct vm_fault *vmf, pmd_t orig_pmd)
->  		pmd_t entry;
->  		entry = mk_huge_pmd(new_page, vma->vm_page_prot);
->  		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
-> +		if (is_shstk_mapping(vma->vm_flags))
-> +			entry = pmd_mkdirty_shstk(entry);
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-This pattern is repeated enough that it makes me wonder if we should
-just be doing the shadowstack PTE creation in mk_huge_pmd() itself.
+This still needs a changelog, even if you think it's simple.
+> --- a/mm/mprotect.c
+> +++ b/mm/mprotect.c
+> @@ -446,6 +446,15 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
+>  	error = -ENOMEM;
+>  	if (!vma)
+>  		goto out;
+> +
+> +	/*
+> +	 * Do not allow changing shadow stack memory.
+> +	 */
+> +	if (vma->vm_flags & VM_SHSTK) {
+> +		error = -EINVAL;
+> +		goto out;
+> +	}
+> +
 
-Or, should we just be setting the shadowstack pte bit combination in
-vma->vm_page_prot so we don't have to go set it explicitly every time?
+I think this is a _bit_ draconian.  Why shouldn't we be able to use
+protection keys with a shadow stack?  Or, set it to PROT_NONE?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
