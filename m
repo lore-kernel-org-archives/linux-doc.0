@@ -1,170 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC5597D071
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 16:09:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 15D687DFBE
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 18:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S934366AbeGJQJW convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 12:09:22 -0400
-Received: from mx3-rdu2.redhat.com ([66.187.233.73]:60720 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S934322AbeGJQJU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 12:09:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id DC8DE814F0A5;
-        Tue, 10 Jul 2018 16:09:19 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-122-125.rdu2.redhat.com [10.10.122.125])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 107882156889;
-        Tue, 10 Jul 2018 16:09:17 +0000 (UTC)
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
-References: <1530905572-817-1-git-send-email-longman@redhat.com>
- <20180709081920.GD22049@dhcp22.suse.cz>
- <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
- <20180710142740.GQ14284@dhcp22.suse.cz>
-From:   Waiman Long <longman@redhat.com>
-Organization: Red Hat
-Message-ID: <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
-Date:   Tue, 10 Jul 2018 12:09:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        id S2389766AbeGJSis (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 14:38:48 -0400
+Received: from mail-oi0-f67.google.com ([209.85.218.67]:32795 "EHLO
+        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389765AbeGJSir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 14:38:47 -0400
+Received: by mail-oi0-f67.google.com with SMTP id c6-v6so44607620oiy.0;
+        Tue, 10 Jul 2018 11:38:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=WOWcUpbusD5bULjKVAZ9aEL4YhpKiM+cGrbxO6dVvBQ=;
+        b=UpHhklSm5tqknxAqUzoVMfMGt5UZ5KN6MpMKXDj9ybDPCB+1CIWKBpM3RNIPNqwIRG
+         3zvzRV+SncR2BZED3g/7fyhW6QkO9/wdAFdaIH2fHeF26jytatzVSjwikOCpmI4R4SUf
+         lP66IEqeZvFs6Oga4xYzMRuhiQpG9YZix4qswL6Q71lXuf3n723xGGasJNPgUaKnnenT
+         QVGL9g2P9skJjB6VgWMuZ6qWpCydL7l1rduoAAHzAJJHHUjas251GKYBEXJTEtzvHA6x
+         B0CezrTYsrS7Pe486CYJRx/pIsoMZ44+EBznhW8I8VpgjBWEhUWx+aHCcx2ehhz7On/t
+         rP0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=WOWcUpbusD5bULjKVAZ9aEL4YhpKiM+cGrbxO6dVvBQ=;
+        b=Lum3QP8T11RdHygqojEg2AgBeuqJB/vQ4nDWdNJOS8t8IO0QweQJ/xOKsDi/pJTi6r
+         /eK7BmIa6Jp1s1hERPZwz/sVgFOIbGlZjMzJ0K2cRM7Wm/XigG2O5AvlMLjifwlHApvn
+         f56v0pfl516jt5auvpPLMQZOhL4FWShwDOfSm8NTQzv0bDaU5r6dUN/gmTf7RD4nxDe0
+         HA7xMq72lhlCNghNmFH5sSoQlIQFns7a7/WC1gJvD8sco31pUvd7R+2NLTv00rGLIZsU
+         6RxuiMA9iSHgjAwsn2EXtefgAAXUXgGs9s/H99SGEb6Ka0EJAmFEWY9rmZ0XzSmJsct0
+         Qo2Q==
+X-Gm-Message-State: APt69E1YGBxw95/prhY6cZLE/+VCkYoFBL+sT90Dn88YFpU8W4C8Zs9S
+        ml544JXBAexgtOy8z2LtjNJfYB8hQLw+WkEl4Cc=
+X-Google-Smtp-Source: AAOMgpdFbnZUxIbtFtQH3g0se/A9o/wFzvKaNNiDrTiQ4Q+nEN5xLniWFWt6rwPDr6niStwc42k3vf0OBEh6WFOy/Vs=
+X-Received: by 2002:aca:3407:: with SMTP id b7-v6mr28124753oia.345.1531247912801;
+ Tue, 10 Jul 2018 11:38:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180710142740.GQ14284@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 10 Jul 2018 16:09:20 +0000 (UTC)
-X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.8]); Tue, 10 Jul 2018 16:09:20 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'longman@redhat.com' RCPT:''
+Received: by 2002:a4a:9a35:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 11:38:32
+ -0700 (PDT)
+In-Reply-To: <CAKTKpr7wMiJL3NCHp-BkqNFPTDPAB7BxTvbvJagwYY97JCwqHQ@mail.gmail.com>
+References: <20180621063338.20093-1-ganapatrao.kulkarni@cavium.com>
+ <CAKTKpr5bNdo2oXb=Vsm4QytHN1Aw=n_oP7kJHV6yLHuKL-Udkg@mail.gmail.com> <CAKTKpr7wMiJL3NCHp-BkqNFPTDPAB7BxTvbvJagwYY97JCwqHQ@mail.gmail.com>
+From:   Pranith Kumar <pranith.foss@gmail.com>
+Date:   Tue, 10 Jul 2018 11:38:32 -0700
+Message-ID: <CADYwmhGNtEbDBj8r-WMGfWJMWzkA_2Gc2hU8rsBYNs0OTuD+CA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
+To:     Ganapatrao Kulkarni <gklkml16@gmail.com>
+Cc:     Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>,
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <Will.Deacon@arm.com>, jnair@caviumnetworks.com,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/10/2018 10:27 AM, Michal Hocko wrote:
-> On Mon 09-07-18 12:01:04, Waiman Long wrote:
->> On 07/09/2018 04:19 AM, Michal Hocko wrote:
-> [...]
->>> later needs a special treatment while the first one is ok? There are
->>> quite some resources which allow a non privileged user to consume a lot
->>> of memory and the memory controller is the only reliable way to mitigate
->>> the risk.
->> Yes, memory controller is the only reliable way to mitigate the risk,
->> but not all tasks are under the control of a memory controller with
->> kernel memory limit.
-> But those which you do not trust should. So why do we need yet another
-> mechanism for the reclaim?
-
-Sometimes it could be a programming error in the code. I had seen a
-customer report about the negative dentries because of a bug in their
-code that generated a lot of negative dentries causing problem. In such
-a controlled environment, they may not want to run their applications
-under a memory cgroup as there is overhead involved in that. So a
-mechanism to highlight and notify the problem is probably good to have.
-
+On Tue, Jul 10, 2018 at 4:56 AM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
+> On Wed, Jul 4, 2018 at 3:44 PM, Ganapatrao Kulkarni <gklkml16@gmail.com> wrote:
+>> Hi Mark,
+>>
+>> can you please review this patch?
 >
-> [...]
->>>> Patch 1 tracks the number of negative dentries present in the LRU
->>>> lists and reports it in /proc/sys/fs/dentry-state.
->>> If anything I _think_ vmstat would benefit from this because behavior of
->>> the memory reclaim does depend on the amount of neg. dentries.
->>>
->>>> Patch 2 adds a "neg-dentry-pc" sysctl parameter that can be used to to
->>>> specify a soft limit on the number of negative allowed as a percentage
->>>> of total system memory. This parameter is 0 by default which means no
->>>> negative dentry limiting will be performed.
->>> percentage has turned out to be a really wrong unit for many tunables
->>> over time. Even 1% can be just too much on really large machines.
->> Yes, that is true. Do you have any suggestion of what kind of unit
->> should be used? I can scale down the unit to 0.1% of the system memory.
->> Alternatively, one unit can be 10k/cpu thread, so a 20-thread system
->> corresponds to 200k, etc.
-> I simply think this is a strange user interface. How much is a
-> reasonable number? How can any admin figure that out?
-
-Without the optional enforcement, the limit is essentially just a
-notification mechanism where the system signals that there is something
-wrong going on and the system administrator need to take a look. So it
-is perfectly OK if the limit is sufficiently high that normally we won't
-need to use that many negative dentries. The goal is to prevent negative
-dentries from consuming a significant portion of the system memory.
-
-I am going to reduce the granularity of each unit to 1/1000 of the total
-system memory so that for large system with TB of memory, a smaller
-amount of memory can be specified.
-
->>>> Patch 3 enables automatic pruning of least recently used negative
->>>> dentries when the total number is close to the preset limit.
->>> Please explain why this cannot be done in a standard dcache shrinking
->>> way. I strongly suspect that you are developing yet another reclaim with
->>> its own sets of tunable and bypassing the existing infrastructure. I
->>> haven't read patches yet but the cover letter doesn't really explain
->>> design much so I am only guessing.
->> The standard dcache shrinking happens when the system is almost running
->> out of free memory.
-> Well, the standard reclaim happens when somebody needs memory. We are
-> usually quite far away from "almost running out of memory". We do
-> reclaim fs metadata including dentries so I really do not see why
-> negative ones should be any special here.
-
-That is fine. I can certainly live without the new reclaim mechanism.
-
+> any comments on this patch series?
 >
->> This new shrinker will be turned on when the number
->> of negative dentries is closed to the limit even when there are still
->> plenty of free memory left. It will stop when the number of negative
->> dentries is lowered to a safe level. The new shrinker is designed to
->> impose as little overhead to the currently running tasks. That is not
->> true for the standard shrinker which will have a rather significant
->> performance impact to the currently running tasks.
-> Do you have any numbers to back your claim? The memory reclaim is
-> usually quite lightweight. Especially when we have a lot of clean
-> fs {meta}data
 
-In the case of dentries, it is the lock hold time of the LRU list that
-can impact the normal filesystem operation. The new shrinker that I add
-purposely limit the lock hold time whereas the standard shrinker can
-hold the LRU for quite a long time if there are a lot of dentries to get
-rid of. I have some performance numbers in the cover letter of this
-patch about this.
+I had some comments on the second patch here:
+https://www.spinics.net/lists/arm-kernel/msg664025.html
 
->> I can remove the new shrinker if people really don't want to add a new
->> one as long as I can keep the option to kill off newly created negative
->> dentries when the limit is exceeded.
-> Please let's not add yet another memory reclaim mechanism. It will just
-> backfire sooner or later.
-
-As said above, I am going to remove the new shrinker in the next version
-of the patch. We can always add it back later on if we feel there is a
-need to do it.
-
-Cheers,
-Longman
-
-
+Thanks,
+--
+Pranith
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
