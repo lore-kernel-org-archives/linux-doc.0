@@ -2,29 +2,31 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD3157D085
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:49:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DDD047D071
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 23:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732287AbeGJXua (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 19:50:30 -0400
-Received: from mga17.intel.com ([192.55.52.151]:6450 "EHLO mga17.intel.com"
+        id S1732376AbeGJXyJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 19:54:09 -0400
+Received: from mga06.intel.com ([134.134.136.31]:16051 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732284AbeGJXuS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 19:50:18 -0400
+        id S1732284AbeGJXyJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 19:54:09 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:48:51 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 16:52:38 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,336,1526367600"; 
-   d="scan'208";a="73788949"
+   d="scan'208";a="73789667"
 Received: from mgcarrol-mobl1.amr.corp.intel.com (HELO [10.252.202.182]) ([10.252.202.182])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:48:50 -0700
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 16:52:37 -0700
+Subject: Re: [RFC PATCH v2 11/27] x86/mm: Modify ptep_set_wrprotect and
+ pmdp_set_wrprotect for _PAGE_DIRTY_SW
+To:     Nadav Amit <nadav.amit@gmail.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -39,13 +41,14 @@ To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromiun.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-19-yu-cheng.yu@intel.com>
+ <20180710222639.8241-12-yu-cheng.yu@intel.com>
+ <fbf45667-5388-44a6-1f22-07bcc03e1804@linux.intel.com>
+ <DDFF4AF4-51D2-44F5-8B63-E8454F712EC6@gmail.com>
 From:   Dave Hansen <dave.hansen@linux.intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
@@ -91,12 +94,12 @@ Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <bbb487cc-ac1c-f734-eee3-2463a0ba7efc@linux.intel.com>
-Date:   Tue, 10 Jul 2018 16:48:50 -0700
+Message-ID: <2dac9ec0-b144-ac9a-ae35-14f9ff5fc834@linux.intel.com>
+Date:   Tue, 10 Jul 2018 16:52:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-19-yu-cheng.yu@intel.com>
+In-Reply-To: <DDFF4AF4-51D2-44F5-8B63-E8454F712EC6@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -105,38 +108,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +/*
-> + * WRUSS is a kernel instrcution and but writes to user
-> + * shadow stack memory.  When a fault occurs, both
-> + * X86_PF_USER and X86_PF_SHSTK are set.
-> + */
-> +static int is_wruss(struct pt_regs *regs, unsigned long error_code)
-> +{
-> +	return (((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
-> +		(X86_PF_USER | X86_PF_SHSTK)) && !user_mode(regs));
-> +}
+On 07/10/2018 04:23 PM, Nadav Amit wrote:
+> at 6:44 PM, Dave Hansen <dave.hansen@linux.intel.com> wrote:
+> 
+>> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
+>>> +	/*
+>>> +	 * On platforms before CET, other threads could race to
+>>> +	 * create a RO and _PAGE_DIRTY_HW PMD again.  However,
+>>> +	 * on CET platforms, this is safe without a TLB flush.
+>>> +	 */
+>>
+>> If I didn't work for Intel, I'd wonder what the heck CET is and what the
+>> heck it has to do with _PAGE_DIRTY_HW.  I think we need a better comment
+>> than this.  How about:
+>>
+>> 	Some processors can _start_ a write, but end up seeing
+>> 	a read-only PTE by the time they get to getting the
+>> 	Dirty bit.  In this case, they will set the Dirty bit,
+>> 	leaving a read-only, Dirty PTE which looks like a Shadow
+>> 	Stack PTE.
+>>
+>> 	However, this behavior has been improved and will *not* occur on
+>> 	processors supporting Shadow Stacks.  Without this guarantee, a
+>> 	transition to a non-present PTE and flush the TLB would be
+>> 	needed.
+> 
+> Interesting. Does that regard the knights landing bug or something more
+> general?
 
-I thought X86_PF_USER was set based on the mode in which the fault
-occurred.  Does this mean that the architecture of this bit is different
-now?
+It's more general.
 
-That seems like something we need to call out if so.  It also means we
-need to update the SDM because some of the text is wrong.
+> Will the write succeed or trigger a page-fault in this case?
 
->  static void
->  show_fault_oops(struct pt_regs *regs, unsigned long error_code,
->  		unsigned long address)
-> @@ -848,7 +859,7 @@ __bad_area_nosemaphore(struct pt_regs *regs, unsigned long error_code,
->  	struct task_struct *tsk = current;
->  
->  	/* User mode accesses just cause a SIGSEGV */
-> -	if (error_code & X86_PF_USER) {
-> +	if ((error_code & X86_PF_USER) && !is_wruss(regs, error_code)) {
->  		/*
->  		 * It's possible to have interrupts off here:
->  		 */
-
-This needs commenting about why is_wruss() is special.
+It will trigger a page fault.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
