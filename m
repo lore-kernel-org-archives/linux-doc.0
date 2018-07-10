@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 032B47D072
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:31:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F23C7D072
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732543AbeGJWcb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 18:32:31 -0400
+        id S1732562AbeGJWc3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 18:32:29 -0400
 Received: from mga11.intel.com ([192.55.52.93]:41888 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732555AbeGJWca (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 18:32:30 -0400
+        id S1732514AbeGJWc2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 10 Jul 2018 18:32:28 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:17 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:16 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="70305462"
+   d="scan'208";a="70305448"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:17 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:16 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -45,9 +45,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v2 26/27] x86/cet/shstk: Handle thread shadow stack
-Date:   Tue, 10 Jul 2018 15:26:38 -0700
-Message-Id: <20180710222639.8241-27-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v2 22/27] x86/cet/ibt: User-mode indirect branch tracking support
+Date:   Tue, 10 Jul 2018 15:26:34 -0700
+Message-Id: <20180710222639.8241-23-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180710222639.8241-1-yu-cheng.yu@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
@@ -56,152 +56,266 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The shadow stack for clone/fork is handled as the following:
+Add user-mode indirect branch tracking enabling/disabling
+and supporting routines.
 
-(1) If ((clone_flags & (CLONE_VFORK | CLONE_VM)) == CLONE_VM),
-    the kernel allocates (and frees on thread exit) a new SHSTK
-    for the child.
-
-    It is possible for the kernel to complete the clone syscall
-    and set the child's SHSTK pointer to NULL and let the child
-    thread allocate a SHSTK for itself.  There are two issues
-    in this approach: It is not compatible with existing code
-    that does inline syscall and it cannot handle signals before
-    the child can successfully allocate a SHSTK.
-
-(2) For (clone_flags & CLONE_VFORK), the child uses the existing
-    SHSTK.
-
-(3) For all other cases, the SHSTK is copied/reused whenever the
-    parent or the child does a call/ret.
-
-This patch handles cases (1) & (2).  Case (3) is handled in
-the SHSTK page fault patches.
-
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/cet.h         |  2 ++
- arch/x86/include/asm/mmu_context.h |  3 +++
- arch/x86/kernel/cet.c              | 33 ++++++++++++++++++++++++++++++
- arch/x86/kernel/process.c          |  1 +
- arch/x86/kernel/process_64.c       |  7 +++++++
- 5 files changed, 46 insertions(+)
+ arch/x86/include/asm/cet.h               |  8 +++
+ arch/x86/include/asm/disabled-features.h |  8 ++-
+ arch/x86/kernel/cet.c                    | 73 ++++++++++++++++++++++++
+ arch/x86/kernel/cpu/common.c             | 20 ++++++-
+ arch/x86/kernel/elf.c                    | 16 +++++-
+ arch/x86/kernel/process.c                |  1 +
+ 6 files changed, 123 insertions(+), 3 deletions(-)
 
 diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
-index 71da2cccba16..d5737f3346f2 100644
+index d9ae3d86cdd7..71da2cccba16 100644
 --- a/arch/x86/include/asm/cet.h
 +++ b/arch/x86/include/asm/cet.h
-@@ -20,6 +20,7 @@ struct cet_status {
+@@ -12,7 +12,10 @@ struct task_struct;
+ struct cet_status {
+ 	unsigned long	shstk_base;
+ 	unsigned long	shstk_size;
++	unsigned long	ibt_bitmap_addr;
++	unsigned long	ibt_bitmap_size;
+ 	unsigned int	shstk_enabled:1;
++	unsigned int	ibt_enabled:1;
+ };
  
  #ifdef CONFIG_X86_INTEL_CET
- int cet_setup_shstk(void);
-+int cet_setup_thread_shstk(struct task_struct *p);
- void cet_disable_shstk(void);
+@@ -21,6 +24,9 @@ void cet_disable_shstk(void);
  void cet_disable_free_shstk(struct task_struct *p);
  int cet_restore_signal(unsigned long ssp);
-@@ -29,6 +30,7 @@ int cet_setup_ibt_bitmap(void);
- void cet_disable_ibt(void);
+ int cet_setup_signal(bool ia32, unsigned long rstor, unsigned long *new_ssp);
++int cet_setup_ibt(void);
++int cet_setup_ibt_bitmap(void);
++void cet_disable_ibt(void);
  #else
  static inline int cet_setup_shstk(void) { return 0; }
-+static inline int cet_setup_thread_shstk(struct task_struct *p) { return 0; }
  static inline void cet_disable_shstk(void) {}
- static inline void cet_disable_free_shstk(struct task_struct *p) {}
+@@ -28,6 +34,8 @@ static inline void cet_disable_free_shstk(struct task_struct *p) {}
  static inline int cet_restore_signal(unsigned long ssp) { return 0; }
-diff --git a/arch/x86/include/asm/mmu_context.h b/arch/x86/include/asm/mmu_context.h
-index bbc796eb0a3b..662755048598 100644
---- a/arch/x86/include/asm/mmu_context.h
-+++ b/arch/x86/include/asm/mmu_context.h
-@@ -13,6 +13,7 @@
- #include <asm/tlbflush.h>
- #include <asm/paravirt.h>
- #include <asm/mpx.h>
-+#include <asm/cet.h>
+ static inline int cet_setup_signal(bool ia32, unsigned long rstor,
+ 				   unsigned long *new_ssp) { return 0; }
++static inline int cet_setup_ibt(void) { return 0; }
++static inline void cet_disable_ibt(void) {}
+ #endif
  
- extern atomic64_t last_mm_ctx_id;
+ #endif /* __ASSEMBLY__ */
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index 3624a11e5ba6..ce5bdaf0f1ff 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -62,6 +62,12 @@
+ #define DISABLE_SHSTK	(1<<(X86_FEATURE_SHSTK & 31))
+ #endif
  
-@@ -228,6 +229,8 @@ do {						\
- #else
- #define deactivate_mm(tsk, mm)			\
- do {						\
-+	if (!tsk->vfork_done)			\
-+		cet_disable_free_shstk(tsk);	\
- 	load_gs_index(0);			\
- 	loadsegment(fs, 0);			\
- } while (0)
++#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++#define DISABLE_IBT	0
++#else
++#define DISABLE_IBT	(1<<(X86_FEATURE_IBT & 31))
++#endif
++
+ /*
+  * Make sure to add features to the correct mask
+  */
+@@ -72,7 +78,7 @@
+ #define DISABLED_MASK4	(DISABLE_PCID)
+ #define DISABLED_MASK5	0
+ #define DISABLED_MASK6	0
+-#define DISABLED_MASK7	(DISABLE_PTI)
++#define DISABLED_MASK7	(DISABLE_PTI|DISABLE_IBT)
+ #define DISABLED_MASK8	0
+ #define DISABLED_MASK9	(DISABLE_MPX)
+ #define DISABLED_MASK10	0
 diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
-index 8bbd63e1a2ba..2a366a5ccf20 100644
+index 4eba7790c4e4..8bbd63e1a2ba 100644
 --- a/arch/x86/kernel/cet.c
 +++ b/arch/x86/kernel/cet.c
-@@ -155,6 +155,39 @@ int cet_setup_shstk(void)
+@@ -12,6 +12,8 @@
+ #include <linux/slab.h>
+ #include <linux/uaccess.h>
+ #include <linux/sched/signal.h>
++#include <linux/vmalloc.h>
++#include <linux/bitops.h>
+ #include <asm/msr.h>
+ #include <asm/user.h>
+ #include <asm/fpu/xstate.h>
+@@ -241,3 +243,74 @@ int cet_setup_signal(bool ia32, unsigned long rstor_addr,
+ 	set_shstk_ptr(ssp);
  	return 0;
  }
- 
-+int cet_setup_thread_shstk(struct task_struct *tsk)
++
++static unsigned long ibt_mmap(unsigned long addr, unsigned long len)
 +{
-+	unsigned long addr, size;
-+	struct cet_user_state *state;
++	struct mm_struct *mm = current->mm;
++	unsigned long populate;
 +
-+	if (!current->thread.cet.shstk_enabled)
-+		return 0;
++	down_write(&mm->mmap_sem);
++	addr = do_mmap(NULL, addr, len, PROT_READ | PROT_WRITE,
++		       MAP_ANONYMOUS | MAP_PRIVATE,
++		       VM_DONTDUMP, 0, &populate, NULL);
++	up_write(&mm->mmap_sem);
 +
-+	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
-+			       XFEATURE_MASK_SHSTK_USER);
++	if (populate)
++		mm_populate(addr, populate);
 +
-+	if (!state)
-+		return -EINVAL;
++	return addr;
++}
 +
-+	size = tsk->thread.cet.shstk_size;
-+	if (size == 0)
-+		size = in_ia32_syscall() ? SHSTK_SIZE_32:SHSTK_SIZE_64;
++int cet_setup_ibt(void)
++{
++	u64 r;
 +
-+	addr = shstk_mmap(0, size);
++	if (!cpu_feature_enabled(X86_FEATURE_IBT))
++		return -EOPNOTSUPP;
 +
-+	if (addr >= TASK_SIZE_MAX) {
-+		tsk->thread.cet.shstk_base = 0;
-+		tsk->thread.cet.shstk_size = 0;
-+		tsk->thread.cet.shstk_enabled = 0;
-+		return -ENOMEM;
-+	}
-+
-+	state->user_ssp = (u64)(addr + size - sizeof(u64));
-+	tsk->thread.cet.shstk_base = addr;
-+	tsk->thread.cet.shstk_size = size;
++	rdmsrl(MSR_IA32_U_CET, r);
++	r |= (MSR_IA32_CET_ENDBR_EN | MSR_IA32_CET_NO_TRACK_EN);
++	wrmsrl(MSR_IA32_U_CET, r);
++	current->thread.cet.ibt_enabled = 1;
 +	return 0;
 +}
 +
- void cet_disable_shstk(void)
++int cet_setup_ibt_bitmap(void)
++{
++	u64 r;
++	unsigned long bitmap;
++	unsigned long size;
++
++	if (!cpu_feature_enabled(X86_FEATURE_IBT))
++		return -EOPNOTSUPP;
++
++	size = TASK_SIZE_MAX / PAGE_SIZE / BITS_PER_BYTE;
++	bitmap = ibt_mmap(0, size);
++
++	if (bitmap >= TASK_SIZE_MAX)
++		return -ENOMEM;
++
++	bitmap &= PAGE_MASK;
++
++	rdmsrl(MSR_IA32_U_CET, r);
++	r |= (MSR_IA32_CET_LEG_IW_EN | bitmap);
++	wrmsrl(MSR_IA32_U_CET, r);
++
++	current->thread.cet.ibt_bitmap_addr = bitmap;
++	current->thread.cet.ibt_bitmap_size = size;
++	return 0;
++}
++
++void cet_disable_ibt(void)
++{
++	u64 r;
++
++	if (!cpu_feature_enabled(X86_FEATURE_IBT))
++		return;
++
++	rdmsrl(MSR_IA32_U_CET, r);
++	r &= ~(MSR_IA32_CET_ENDBR_EN | MSR_IA32_CET_LEG_IW_EN |
++	       MSR_IA32_CET_NO_TRACK_EN);
++	wrmsrl(MSR_IA32_U_CET, r);
++	current->thread.cet.ibt_enabled = 0;
++}
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 705467839ce8..c609c9ce5691 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -413,7 +413,8 @@ __setup("nopku", setup_disable_pku);
+ 
+ static __always_inline void setup_cet(struct cpuinfo_x86 *c)
  {
- 	u64 r;
-diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index 309ebb7f9d8d..43a57d284a22 100644
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -127,6 +127,7 @@ void exit_thread(struct task_struct *tsk)
- 
- 	free_vm86(t);
- 
-+	cet_disable_free_shstk(tsk);
- 	fpu__drop(fpu);
+-	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
++	if (cpu_feature_enabled(X86_FEATURE_SHSTK) ||
++	    cpu_feature_enabled(X86_FEATURE_IBT))
+ 		cr4_set_bits(X86_CR4_CET);
  }
  
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index 12bb445fb98d..6e493b0bcedd 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -317,6 +317,13 @@ int copy_thread_tls(unsigned long clone_flags, unsigned long sp,
- 	if (sp)
- 		childregs->sp = sp;
+@@ -434,6 +435,23 @@ static __init int setup_disable_shstk(char *s)
+ __setup("no_cet_shstk", setup_disable_shstk);
+ #endif
  
-+	/* Allocate a new shadow stack for pthread */
-+	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) == CLONE_VM) {
-+		err = cet_setup_thread_shstk(p);
-+		if (err)
-+			goto out;
++#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++static __init int setup_disable_ibt(char *s)
++{
++	/* require an exact match without trailing characters */
++	if (strlen(s))
++		return 0;
++
++	if (!boot_cpu_has(X86_FEATURE_IBT))
++		return 1;
++
++	setup_clear_cpu_cap(X86_FEATURE_IBT);
++	pr_info("x86: 'no_cet_ibt' specified, disabling Branch Tracking\n");
++	return 1;
++}
++__setup("no_cet_ibt", setup_disable_ibt);
++#endif
++
+ /*
+  * Some CPU features depend on higher CPUID levels, which may not always
+  * be available due to CPUID level capping or broken virtualization
+diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
+index 233f6dad9c1f..42e08d3b573e 100644
+--- a/arch/x86/kernel/elf.c
++++ b/arch/x86/kernel/elf.c
+@@ -15,6 +15,7 @@
+ #include <linux/fs.h>
+ #include <linux/uaccess.h>
+ #include <linux/string.h>
++#include <linux/compat.h>
+ 
+ /*
+  * The .note.gnu.property layout:
+@@ -222,7 +223,8 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
+ 
+ 	struct elf64_hdr *ehdr64 = ehdr_p;
+ 
+-	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
++	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
++	    !cpu_feature_enabled(X86_FEATURE_IBT))
+ 		return 0;
+ 
+ 	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
+@@ -250,6 +252,9 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
+ 	current->thread.cet.shstk_enabled = 0;
+ 	current->thread.cet.shstk_base = 0;
+ 	current->thread.cet.shstk_size = 0;
++	current->thread.cet.ibt_enabled = 0;
++	current->thread.cet.ibt_bitmap_addr = 0;
++	current->thread.cet.ibt_bitmap_size = 0;
+ 	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+ 		if (shstk) {
+ 			err = cet_setup_shstk();
+@@ -257,6 +262,15 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
+ 				goto out;
+ 		}
+ 	}
++
++	if (cpu_feature_enabled(X86_FEATURE_IBT)) {
++		if (ibt) {
++			err = cet_setup_ibt();
++			if (err < 0)
++				goto out;
++		}
 +	}
 +
- 	err = -ENOMEM;
- 	if (unlikely(test_tsk_thread_flag(me, TIF_IO_BITMAP))) {
- 		p->thread.io_bitmap_ptr = kmemdup(me->thread.io_bitmap_ptr,
+ out:
+ 	return err;
+ }
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index b3b0b482983a..309ebb7f9d8d 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -138,6 +138,7 @@ void flush_thread(void)
+ 	memset(tsk->thread.tls_array, 0, sizeof(tsk->thread.tls_array));
+ 
+ 	cet_disable_shstk();
++	cet_disable_ibt();
+ 	fpu__clear(&tsk->thread.fpu);
+ }
+ 
 -- 
 2.17.1
 
