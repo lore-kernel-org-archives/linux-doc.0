@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4D827D085
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:33:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 314807DF75
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 10 Jul 2018 22:34:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732387AbeGJWcX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 18:32:23 -0400
-Received: from mga02.intel.com ([134.134.136.20]:63054 "EHLO mga02.intel.com"
+        id S1732312AbeGJWeu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 18:34:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:33775 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732355AbeGJWcW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1732358AbeGJWcW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 10 Jul 2018 18:32:22 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:11 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 15:31:12 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,335,1526367600"; 
-   d="scan'208";a="70305377"
+   d="scan'208";a="70305399"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:11 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2018 15:31:12 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -45,9 +45,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v2 05/27] Documentation/x86: Add CET description
-Date:   Tue, 10 Jul 2018 15:26:17 -0700
-Message-Id: <20180710222639.8241-6-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v2 10/27] x86/mm: Introduce _PAGE_DIRTY_SW
+Date:   Tue, 10 Jul 2018 15:26:22 -0700
+Message-Id: <20180710222639.8241-11-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180710222639.8241-1-yu-cheng.yu@intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
@@ -56,289 +56,350 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Explain how CET works and the no_cet_shstk/no_cet_ibt kernel
-parameters.
+A RO and dirty PTE exists in the following cases:
+
+(a) A page is modified and then shared with a fork()'ed child;
+(b) A R/O page that has been COW'ed;
+(c) A SHSTK page.
+
+The processor does not read the dirty bit for (a) and (b), but
+checks the dirty bit for (c).  To prevent the use of non-SHSTK
+memory as SHSTK, we introduce a spare bit of the 64-bit PTE as
+_PAGE_BIT_DIRTY_SW and use that for (a) and (b).  This results
+to the following possible PTE settings:
+
+Modified PTE:             (R/W + DIRTY_HW)
+Modified and shared PTE:  (R/O + DIRTY_SW)
+R/O PTE COW'ed:           (R/O + DIRTY_SW)
+SHSTK PTE:                (R/O + DIRTY_HW)
+SHSTK PTE COW'ed:         (R/O + DIRTY_HW)
+SHSTK PTE shared:         (R/O + DIRTY_SW)
+
+Note that _PAGE_BIT_DRITY_SW is only used in R/O PTEs but
+not R/W PTEs.
+
+When this patch is applied, there are six free bits left in
+the 64-bit PTE.  There is no more free bit in the 32-bit
+PTE (except for PAE) and shadow stack is not implemented
+for the 32-bit kernel.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- .../admin-guide/kernel-parameters.txt         |   6 +
- Documentation/x86/intel_cet.txt               | 250 ++++++++++++++++++
- 2 files changed, 256 insertions(+)
- create mode 100644 Documentation/x86/intel_cet.txt
+ arch/x86/include/asm/pgtable.h       | 109 ++++++++++++++++++++++++---
+ arch/x86/include/asm/pgtable_types.h |  14 +++-
+ include/asm-generic/pgtable.h        |  21 ++++++
+ 3 files changed, 132 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index efc7aa7a0670..dc787facdcde 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2661,6 +2661,12 @@
- 			noexec=on: enable non-executable mappings (default)
- 			noexec=off: disable non-executable mappings
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 28806f8f36c3..ecbd3539a864 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -116,9 +116,9 @@ extern pmdval_t early_pmd_flags;
+  * The following only work if pte_present() is true.
+  * Undefined behaviour if not..
+  */
+-static inline int pte_dirty(pte_t pte)
++static inline bool pte_dirty(pte_t pte)
+ {
+-	return pte_flags(pte) & _PAGE_DIRTY;
++	return pte_flags(pte) & _PAGE_DIRTY_BITS;
+ }
  
-+	no_cet_ibt	[X86-64] Disable indirect branch tracking for user-mode
-+			applications
-+
-+	no_cet_shstk	[X86-64] Disable shadow stack support for user-mode
-+			applications
-+
- 	nosmap		[X86]
- 			Disable SMAP (Supervisor Mode Access Prevention)
- 			even if it is supported by processor.
-diff --git a/Documentation/x86/intel_cet.txt b/Documentation/x86/intel_cet.txt
-new file mode 100644
-index 000000000000..974bb8262146
---- /dev/null
-+++ b/Documentation/x86/intel_cet.txt
-@@ -0,0 +1,250 @@
-+=========================================
-+Control Flow Enforcement Technology (CET)
-+=========================================
-+
-+[1] Overview
-+============
-+
-+Control Flow Enforcement Technology (CET) provides protection against
-+return/jump-oriented programing (ROP) attacks.  It can be implemented
-+to protect both the kernel and applications.  In the first phase,
-+only the user-mode protection is implemented for the 64-bit kernel.
-+Thirty-two bit applications are supported under the compatibility
-+mode.
-+
-+CET includes shadow stack (SHSTK) and indirect branch tracking (IBT)
-+and they are enabled from two kernel configuration options:
-+
-+    INTEL_X86_SHADOW_STACK_USER, and
-+    INTEL_X86_BRANCH_TRACKING_USER.
-+
-+To build a CET-enabled kernel, Binutils v2.30 and GCC v8.1 or later
-+are required.  To build a CET-enabled application, GLIBC v2.29 or
-+later is also requried.
-+
-+There are two command-line options for disabling CET features:
-+
-+    no_cet_shstk - disables SHSTK, and
-+    no_cet_ibt - disables IBT.
-+
-+At run time, /proc/cpuinfo shows the availability of SHSTK and IBT.
-+
-+[2] CET assembly instructions
-+=============================
-+
-+RDSSP %r
-+    Read the SHSTK pointer into %r.
-+
-+INCSSP %r
-+    Unwind (increment) the SHSTK pointer (0 ~ 255) steps as indicated
-+    in the operand register.  The GLIBC longjmp uses INCSSP to unwind
-+    the SHSTK until that matches the program stack.  When it is
-+    necessary to unwind beyond 255 steps, longjmp divides and repeats
-+    the process.
-+
-+RSTORSSP (%r)
-+    Switch to the SHSTK indicated in the 'restore token' pointed by
-+    the operand register and replace the 'restore token' with a new
-+    token to be saved (with SAVEPREVSSP) for the outgoing SHSTK.
-+
-+                               Before RSTORSSP
-+
-+             Incoming SHSTK                   Current/Outgoing SHSTK
-+
-+        |----------------------|             |----------------------|
-+ addr=x |                      |       ssp-> |                      |
-+        |----------------------|             |----------------------|
-+ (%r)-> | rstor_token=(x|Lg)   |    addr=y-8 |                      |
-+        |----------------------|             |----------------------|
-+
-+                               After RSTORSSP
-+
-+        |----------------------|             |----------------------|
-+  ssp-> |                      |             |                      |
-+        |----------------------|             |----------------------|
-+        | rstor_token=(y|Bz|Lg)|    addr=y-8 |                      |
-+        |----------------------|             |----------------------|
-+
-+    note:
-+        1. Only valid addresses and restore tokens can be on the
-+           user-mode SHSTK.
-+        2. A token is always of type u64 and must align to u64.
-+        3. The incoming SHSTK pointer in a rstor_token must point to
-+           immediately above the token.
-+        4. 'Lg' is bit[0] of a rstor_token indicating a 64-bit SHSTK.
-+        5. 'Bz' is bit[1] of a rstor_token indicating the token is to
-+           be used only for the next SAVEPREVSSP and invalid for the
-+           RSTORSSP.
-+
-+SAVEPREVSSP
-+    Store the SHSTK 'restore token' pointed by
-+        (current_SHSTK_pointer + 8).
-+
-+                             After SAVEPREVSSP
-+
-+        |----------------------|             |----------------------|
-+  ssp-> |                      |             |                      |
-+        |----------------------|             |----------------------|
-+        | rstor_token=(y|Bz|Lg)|    addr=y-8 | rstor_token(y|Lg)    |
-+        |----------------------|             |----------------------|
-+
-+WRUSS %r0, (%r1)
-+    Write the value in %r0 to the SHSTK address pointed by (%r1).
-+    This is a kernel-mode only instruction.
-+
-+ENDBR
-+    The compiler inserts an ENDBR at all valid branch targets.  Any
-+    CALL/JMP to a target without an ENDBR triggers a control
-+    protection fault.
-+
-+[3] Application Enabling
-+========================
-+
-+An application's CET capability is marked in its ELF header and can
-+be verified from the following command output, in the
-+NT_GNU_PROPERTY_TYPE_0 field:
-+
-+    readelf -n <application>
-+
-+If an application supports CET and is statically linked, it will run
-+with CET protection.  If the application needs any shared libraries,
-+the loader checks all dependencies and enables CET only when all
-+requirements are met.
-+
-+[4] Legacy Libraries
-+====================
-+
-+GLIBC provides a few tunables for backward compatibility.
-+
-+GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
-+    Turn off SHSTK/IBT for the current shell.
-+
-+GLIBC_TUNABLES=glibc.tune.x86_shstk=<on, permissive>
-+    This controls how dlopen() handles SHSTK legacy libraries:
-+        on: continue with SHSTK enabled;
-+        permissive: continue with SHSTK off.
-+
-+[5] CET system calls
-+====================
-+
-+The following arch_prctl() system calls are added for CET:
-+
-+arch_prctl(ARCH_CET_STATUS, unsigned long *addr)
-+    Return CET feature status.
-+
-+    The parameter 'addr' is a pointer to a user buffer.
-+    On returning to the caller, the kernel fills the following
-+    information:
-+
-+    *addr = SHSTK/IBT status
-+    *(addr + 1) = SHSTK base address
-+    *(addr + 2) = SHSTK size
-+
-+arch_prctl(ARCH_CET_DISABLE, unsigned long features)
-+    Disable SHSTK and/or IBT specified in 'features'.  Return -EPERM
-+    if CET is locked out.
-+
-+arch_prctl(ARCH_CET_LOCK)
-+    Lock out CET feature.
-+
-+arch_prctl(ARCH_CET_ALLOC_SHSTK, unsigned long *addr)
-+    Allocate a new SHSTK.
-+
-+    The parameter 'addr' is a pointer to a user buffer and indicates
-+    the desired SHSTK size to allocate.  On returning to the caller
-+    the buffer contains the address of the new SHSTK.
-+
-+arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
-+    Allocate an IBT legacy code bitmap if the current task does not
-+    have one.
-+
-+    The parameter 'addr' is a pointer to a user buffer.
-+    On returning to the caller, the kernel fills the following
-+    information:
-+
-+    *addr = IBT bitmap base address
-+    *(addr + 1) = IBT bitmap size
-+
-+[6] The implementation of the SHSTK
-+===================================
-+
-+SHSTK size
-+----------
-+
-+A task's SHSTK is allocated from memory to a fixed size that can
-+support 32 KB nested function calls; that is 256 KB for a 64-bit
-+application and 128 KB for a 32-bit application.  The system admin
-+can change the default size.
-+
-+Signal
-+------
-+
-+The main program and its signal handlers use the same SHSTK.  Because
-+the SHSTK stores only return addresses, we can estimate a large
-+enough SHSTK to cover the condition that both the program stack and
-+the sigaltstack run out.
-+
-+The kernel creates a restore token at the SHSTK restoring address and
-+verifies that token when restoring from the signal handler.
-+
-+Fork
-+----
-+
-+The SHSTK's vma has VM_SHSTK flag set; its PTEs are required to be
-+read-only and dirty.  When a SHSTK PTE is not present, RO, and dirty,
-+a SHSTK access triggers a page fault with an additional SHSTK bit set
-+in the page fault error code.
-+
-+When a task forks a child, its SHSTK PTEs are copied and both the
-+parent's and the child's SHSTK PTEs are cleared of the dirty bit.
-+Upon the next SHSTK access, the resulting SHSTK page fault is handled
-+by page copy/re-use.
-+
-+When a pthread child is created, the kernel allocates a new SHSTK for
-+the new thread.
-+
-+Setjmp/Longjmp
-+--------------
-+
-+Longjmp unwinds SHSTK until it matches the program stack.
-+
-+Ucontext
-+--------
-+
-+In GLIBC, getcontext/setcontext is implemented in similar way as
-+setjmp/longjmp.
-+
-+When makecontext creates a new ucontext, a new SHSTK is allocated for
-+that context with ARCH_CET_ALLOC_SHSTK the syscall.  The kernel
-+creates a restore token at the top of the new SHSTK and the user-mode
-+code switches to the new SHSTK with the RSTORSSP instruction.
-+
-+[7] The management of read-only & dirty PTEs for SHSTK
-+======================================================
-+
-+A RO and dirty PTE exists in the following cases:
-+
-+(a) A page is modified and then shared with a fork()'ed child;
-+(b) A R/O page that has been COW'ed;
-+(c) A SHSTK page.
-+
-+The processor only checks the dirty bit for (c).  To prevent the use
-+of non-SHSTK memory as SHSTK, we use a spare bit of the 64-bit PTE as
-+DIRTY_SW for (a) and (b) above.  This results to the following PTE
-+settings:
-+
-+Modified PTE:             (R/W + DIRTY_HW)
-+Modified and shared PTE:  (R/O + DIRTY_SW)
-+R/O PTE, COW'ed:          (R/O + DIRTY_SW)
-+SHSTK PTE:                (R/O + DIRTY_HW)
-+SHSTK PTE, COW'ed:        (R/O + DIRTY_HW)
-+SHSTK PTE, shared:        (R/O + DIRTY_SW)
-+
-+Note that DIRTY_SW is only used in R/O PTEs but not R/W PTEs.
-+
-+[8] The implementation of IBT
-+=============================
-+
-+The kernel provides IBT support in mmap() of the legacy code bit map.
-+However, the management of the bitmap is done in the GLIBC or the
-+application.
+ 
+@@ -140,9 +140,9 @@ static inline int pte_young(pte_t pte)
+ 	return pte_flags(pte) & _PAGE_ACCESSED;
+ }
+ 
+-static inline int pmd_dirty(pmd_t pmd)
++static inline bool pmd_dirty(pmd_t pmd)
+ {
+-	return pmd_flags(pmd) & _PAGE_DIRTY;
++	return pmd_flags(pmd) & _PAGE_DIRTY_BITS;
+ }
+ 
+ static inline int pmd_young(pmd_t pmd)
+@@ -150,9 +150,9 @@ static inline int pmd_young(pmd_t pmd)
+ 	return pmd_flags(pmd) & _PAGE_ACCESSED;
+ }
+ 
+-static inline int pud_dirty(pud_t pud)
++static inline bool pud_dirty(pud_t pud)
+ {
+-	return pud_flags(pud) & _PAGE_DIRTY;
++	return pud_flags(pud) & _PAGE_DIRTY_BITS;
+ }
+ 
+ static inline int pud_young(pud_t pud)
+@@ -281,9 +281,23 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
+ 	return native_make_pte(v & ~clear);
+ }
+ 
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
++{
++	if (pte_flags(pte) & from)
++		pte = pte_set_flags(pte_clear_flags(pte, from), to);
++	return pte;
++}
++#else
++static inline pte_t pte_move_flags(pte_t pte, pteval_t from, pteval_t to)
++{
++	return pte;
++}
++#endif
++
+ static inline pte_t pte_mkclean(pte_t pte)
+ {
+-	return pte_clear_flags(pte, _PAGE_DIRTY);
++	return pte_clear_flags(pte, _PAGE_DIRTY_BITS);
+ }
+ 
+ static inline pte_t pte_mkold(pte_t pte)
+@@ -293,6 +307,7 @@ static inline pte_t pte_mkold(pte_t pte)
+ 
+ static inline pte_t pte_wrprotect(pte_t pte)
+ {
++	pte = pte_move_flags(pte, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
+ 	return pte_clear_flags(pte, _PAGE_RW);
+ }
+ 
+@@ -303,9 +318,27 @@ static inline pte_t pte_mkexec(pte_t pte)
+ 
+ static inline pte_t pte_mkdirty(pte_t pte)
+ {
++	pteval_t dirty = (!IS_ENABLED(CONFIG_X86_INTEL_SHSTK_USER) ||
++			   pte_write(pte)) ? _PAGE_DIRTY_HW:_PAGE_DIRTY_SW;
++	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
++}
++
++#ifdef CONFIG_ARCH_HAS_SHSTK
++static inline pte_t pte_mkdirty_shstk(pte_t pte)
++{
++	pte = pte_clear_flags(pte, _PAGE_DIRTY_SW);
+ 	return pte_set_flags(pte, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+ }
+ 
++static inline bool is_shstk_pte(pte_t pte)
++{
++	pteval_t val;
++
++	val = pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY_HW);
++	return (val == _PAGE_DIRTY_HW);
++}
++#endif
++
+ static inline pte_t pte_mkyoung(pte_t pte)
+ {
+ 	return pte_set_flags(pte, _PAGE_ACCESSED);
+@@ -313,6 +346,7 @@ static inline pte_t pte_mkyoung(pte_t pte)
+ 
+ static inline pte_t pte_mkwrite(pte_t pte)
+ {
++	pte = pte_move_flags(pte, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
+ 	return pte_set_flags(pte, _PAGE_RW);
+ }
+ 
+@@ -360,6 +394,20 @@ static inline pmd_t pmd_clear_flags(pmd_t pmd, pmdval_t clear)
+ 	return native_make_pmd(v & ~clear);
+ }
+ 
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++static inline pmd_t pmd_move_flags(pmd_t pmd, pmdval_t from, pmdval_t to)
++{
++	if (pmd_flags(pmd) & from)
++		pmd = pmd_set_flags(pmd_clear_flags(pmd, from), to);
++	return pmd;
++}
++#else
++static inline pmd_t pmd_move_flags(pmd_t pmd, pmdval_t from, pmdval_t to)
++{
++	return pmd;
++}
++#endif
++
+ static inline pmd_t pmd_mkold(pmd_t pmd)
+ {
+ 	return pmd_clear_flags(pmd, _PAGE_ACCESSED);
+@@ -367,19 +415,39 @@ static inline pmd_t pmd_mkold(pmd_t pmd)
+ 
+ static inline pmd_t pmd_mkclean(pmd_t pmd)
+ {
+-	return pmd_clear_flags(pmd, _PAGE_DIRTY);
++	return pmd_clear_flags(pmd, _PAGE_DIRTY_BITS);
+ }
+ 
+ static inline pmd_t pmd_wrprotect(pmd_t pmd)
+ {
++	pmd = pmd_move_flags(pmd, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
+ 	return pmd_clear_flags(pmd, _PAGE_RW);
+ }
+ 
+ static inline pmd_t pmd_mkdirty(pmd_t pmd)
+ {
++	pmdval_t dirty = (!IS_ENABLED(CONFIG_X86_INTEL_SHSTK_USER) ||
++			  (pmd_flags(pmd) & _PAGE_RW)) ?
++			  _PAGE_DIRTY_HW:_PAGE_DIRTY_SW;
++	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
++}
++
++#ifdef CONFIG_ARCH_HAS_SHSTK
++static inline pmd_t pmd_mkdirty_shstk(pmd_t pmd)
++{
++	pmd = pmd_clear_flags(pmd, _PAGE_DIRTY_SW);
+ 	return pmd_set_flags(pmd, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
+ }
+ 
++static inline bool is_shstk_pmd(pmd_t pmd)
++{
++	pmdval_t val;
++
++	val = pmd_flags(pmd) & (_PAGE_RW | _PAGE_DIRTY_HW);
++	return (val == _PAGE_DIRTY_HW);
++}
++#endif
++
+ static inline pmd_t pmd_mkdevmap(pmd_t pmd)
+ {
+ 	return pmd_set_flags(pmd, _PAGE_DEVMAP);
+@@ -397,6 +465,7 @@ static inline pmd_t pmd_mkyoung(pmd_t pmd)
+ 
+ static inline pmd_t pmd_mkwrite(pmd_t pmd)
+ {
++	pmd = pmd_move_flags(pmd, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
+ 	return pmd_set_flags(pmd, _PAGE_RW);
+ }
+ 
+@@ -419,6 +488,20 @@ static inline pud_t pud_clear_flags(pud_t pud, pudval_t clear)
+ 	return native_make_pud(v & ~clear);
+ }
+ 
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++static inline pud_t pud_move_flags(pud_t pud, pudval_t from, pudval_t to)
++{
++	if (pud_flags(pud) & from)
++		pud = pud_set_flags(pud_clear_flags(pud, from), to);
++	return pud;
++}
++#else
++static inline pud_t pud_move_flags(pud_t pud, pudval_t from, pudval_t to)
++{
++	return pud;
++}
++#endif
++
+ static inline pud_t pud_mkold(pud_t pud)
+ {
+ 	return pud_clear_flags(pud, _PAGE_ACCESSED);
+@@ -426,17 +509,22 @@ static inline pud_t pud_mkold(pud_t pud)
+ 
+ static inline pud_t pud_mkclean(pud_t pud)
+ {
+-	return pud_clear_flags(pud, _PAGE_DIRTY);
++	return pud_clear_flags(pud, _PAGE_DIRTY_BITS);
+ }
+ 
+ static inline pud_t pud_wrprotect(pud_t pud)
+ {
++	pud = pud_move_flags(pud, _PAGE_DIRTY_HW, _PAGE_DIRTY_SW);
+ 	return pud_clear_flags(pud, _PAGE_RW);
+ }
+ 
+ static inline pud_t pud_mkdirty(pud_t pud)
+ {
+-	return pud_set_flags(pud, _PAGE_DIRTY_HW | _PAGE_SOFT_DIRTY);
++	pudval_t dirty = (!IS_ENABLED(CONFIG_X86_INTEL_SHSTK_USER) ||
++			  (pud_flags(pud) & _PAGE_RW)) ?
++			  _PAGE_DIRTY_HW:_PAGE_DIRTY_SW;
++
++	return pud_set_flags(pud, dirty | _PAGE_SOFT_DIRTY);
+ }
+ 
+ static inline pud_t pud_mkdevmap(pud_t pud)
+@@ -456,6 +544,7 @@ static inline pud_t pud_mkyoung(pud_t pud)
+ 
+ static inline pud_t pud_mkwrite(pud_t pud)
+ {
++	pud = pud_move_flags(pud, _PAGE_DIRTY_SW, _PAGE_DIRTY_HW);
+ 	return pud_set_flags(pud, _PAGE_RW);
+ }
+ 
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index 806abf530f50..4bad635beaab 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -23,6 +23,7 @@
+ #define _PAGE_BIT_SOFTW2	10	/* " */
+ #define _PAGE_BIT_SOFTW3	11	/* " */
+ #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
++#define _PAGE_BIT_SOFTW5	57	/* available for programmer */
+ #define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+ #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+ #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+@@ -34,6 +35,7 @@
+ #define _PAGE_BIT_CPA_TEST	_PAGE_BIT_SOFTW1
+ #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+ #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
++#define _PAGE_BIT_DIRTY_SW	_PAGE_BIT_SOFTW5 /* was written to */
+ 
+ /* If _PAGE_BIT_PRESENT is clear, we use these: */
+ /* - if the user mapped it with PROT_NONE; pte_present gives true */
+@@ -108,6 +110,14 @@
+ #define _PAGE_DEVMAP	(_AT(pteval_t, 0))
+ #endif
+ 
++#if defined(CONFIG_X86_INTEL_SHADOW_STACK_USER)
++#define _PAGE_DIRTY_SW	(_AT(pteval_t, 1) << _PAGE_BIT_DIRTY_SW)
++#else
++#define _PAGE_DIRTY_SW	(_AT(pteval_t, 0))
++#endif
++
++#define _PAGE_DIRTY_BITS (_PAGE_DIRTY_HW | _PAGE_DIRTY_SW)
++
+ #define _PAGE_PROTNONE	(_AT(pteval_t, 1) << _PAGE_BIT_PROTNONE)
+ 
+ #define _PAGE_TABLE_NOENC	(_PAGE_PRESENT | _PAGE_RW | _PAGE_USER |\
+@@ -121,9 +131,9 @@
+  * instance, and is *not* included in this mask since
+  * pte_modify() does modify it.
+  */
+-#define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |		\
++#define _PAGE_CHG_MASK	(PTE_PFN_MASK | _PAGE_PCD | _PAGE_PWT |			\
+ 			 _PAGE_SPECIAL | _PAGE_ACCESSED | _PAGE_DIRTY_HW |	\
+-			 _PAGE_SOFT_DIRTY)
++			 _PAGE_DIRTY_SW | _PAGE_SOFT_DIRTY)
+ #define _HPAGE_CHG_MASK (_PAGE_CHG_MASK | _PAGE_PSE)
+ 
+ /*
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index f59639afaa39..4ee683c9ac19 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -1097,4 +1097,25 @@ static inline void init_espfix_bsp(void) { }
+ #endif
+ #endif
+ 
++#ifndef CONFIG_ARCH_HAS_SHSTK
++static inline pte_t pte_mkdirty_shstk(pte_t pte)
++{
++	return pte;
++}
++static inline bool is_shstk_pte(pte_t pte)
++{
++	return false;
++}
++
++static inline pmd_t pmd_mkdirty_shstk(pmd_t pmd)
++{
++	return pmd;
++}
++
++static inline bool is_shstk_pmd(pmd_t pmd)
++{
++	return false;
++}
++#endif
++
+ #endif /* _ASM_GENERIC_PGTABLE_H */
 -- 
 2.17.1
 
