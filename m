@@ -3,39 +3,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2BCBC7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 09:07:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ABF297D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 09:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726570AbeGKJKX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 05:10:23 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58432 "EHLO
+        id S1726532AbeGKJNt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 05:13:49 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60880 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbeGKJKX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 05:10:23 -0400
+        with ESMTP id S1726289AbeGKJNt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 05:13:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
         :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=InLvEauMwcKvCxwW7K7Ux/s6fcMp9nd2FM12RUuHvGA=; b=CJHCd0HyEzyV40AQcyX7Uazq+
-        ELRox0LV1q9cona1HliZfS6vQxIeadKugqvOwDqbSVCL71ld31RMKEHsQMQslDRM0DbNnm2/mndOf
-        4mlSN2PXd4MPRWWTok5UjPWfRfCOl4IuSyALUn850hWwLrGPxklddwPezUT1b08r2GU5n2bwTTPds
-        DX8sw9e8p26no3K9YqpcWWzIts41zwq/y+2t9U9eOU4C+zLeyO7fck0bKfnYfI5EBT0Z/AHAGXsA5
-        jhtE4OLU2Z3KgC+OAX5DuzdSrQk+Bgu7/CzxwB58zaVXeLYzoBn7iLFfo4UVmE+tFbY8P4jzRveIz
-        SsK0hiDXw==;
+         bh=axBSON5cvs4xwlba/fqyRyd7rPG8BRp78PXGOPrsffs=; b=eSTn1Zy5c/Aun+4usiHSDLp+M
+        wgUUGJcLaFMiOOg2URSQvlxCY5ynPBHcRD1sSnmB9b7tRvnhXPsrDGtqggLQjBwqHBhOtE+qpa78Z
+        D3xMoaMW6WtqxFPk84rnDXcFhehpXAmMxFg5RxtGXcYnB17IDfrQjbX7AayPZ0/GyReFR5oOtmYwj
+        bYESxGDxIMMU8efDlu9egWY48SH5/olLkjJNdA0B0DlQOeQrmLLYNZIlfZ8r7TZvtEqFU/15fmJZP
+        6UUlbqu0g5FUG3Db+CSM5KTe8gEPTeR29TRI5/X4MeEB34OWmmLpBBLgz4RW6uB1gmSifmtT6k2QV
+        mNAIfkiPQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fdB5N-0002lX-VE; Wed, 11 Jul 2018 09:06:58 +0000
+        id 1fdB8h-0004nw-Q0; Wed, 11 Jul 2018 09:10:23 +0000
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 72D7820291063; Wed, 11 Jul 2018 11:06:56 +0200 (CEST)
-Date:   Wed, 11 Jul 2018 11:06:56 +0200
+        id 4727320291063; Wed, 11 Jul 2018 11:10:22 +0200 (CEST)
+Date:   Wed, 11 Jul 2018 11:10:22 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
@@ -44,6 +43,7 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -53,69 +53,44 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v2 13/27] mm: Handle shadow stack page fault
-Message-ID: <20180711090656.GS2476@hirez.programming.kicks-ass.net>
+Subject: Re: [RFC PATCH v2 14/27] mm: Handle THP/HugeTLB shadow stack page
+ fault
+Message-ID: <20180711091022.GT2476@hirez.programming.kicks-ass.net>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-14-yu-cheng.yu@intel.com>
- <2f3ff321-c629-3e00-59f6-8bca510650d4@linux.intel.com>
+ <20180710222639.8241-15-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2f3ff321-c629-3e00-59f6-8bca510650d4@linux.intel.com>
+In-Reply-To: <20180710222639.8241-15-yu-cheng.yu@intel.com>
 User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 10, 2018 at 04:06:25PM -0700, Dave Hansen wrote:
-> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> > +	if (is_shstk_mapping(vma->vm_flags))
-> > +		entry = pte_mkdirty_shstk(entry);
-> > +	else
-> > +		entry = pte_mkdirty(entry);
-> > +
-> > +	entry = maybe_mkwrite(entry, vma);
-> >  	if (ptep_set_access_flags(vma, vmf->address, vmf->pte, entry, 1))
-> >  		update_mmu_cache(vma, vmf->address, vmf->pte);
-> >  	pte_unmap_unlock(vmf->pte, vmf->ptl);
-> > @@ -2526,7 +2532,11 @@ static int wp_page_copy(struct vm_fault *vmf)
-> >  		}
-> >  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
-> >  		entry = mk_pte(new_page, vma->vm_page_prot);
-> > -		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-> > +		if (is_shstk_mapping(vma->vm_flags))
-> > +			entry = pte_mkdirty_shstk(entry);
-> > +		else
-> > +			entry = pte_mkdirty(entry);
-> > +		entry = maybe_mkwrite(entry, vma);
-> 
-> Do we want to lift this hunk of code and put it elsewhere?  Maybe:
-> 
-> 	entry = pte_set_vma_features(entry, vma);
-> 
-> and then:
-> 
-> pte_t pte_set_vma_features(pte_t entry, struct vm_area_struct)
-> {
-> 		/*
-> 		 * Shadow stack PTEs are always dirty and always
-> 		 * writable.  They have a different encoding for
-> 		 * this than normal PTEs, though.
-> 		 */
-> 		if (is_shstk_mapping(vma->vm_flags))
-> 			entry = pte_mkdirty_shstk(entry);
-> 		else
-> 			entry = pte_mkdirty(entry);
-> 
-> 		entry = maybe_mkwrite(entry, vma);
-> 
-> 	return entry;
-> }
+On Tue, Jul 10, 2018 at 03:26:26PM -0700, Yu-cheng Yu wrote:
+> diff --git a/mm/memory.c b/mm/memory.c
+> index a2695dbc0418..f7c46d61eaea 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4108,7 +4108,13 @@ static int __handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
+>  			if (pmd_protnone(orig_pmd) && vma_is_accessible(vma))
+>  				return do_huge_pmd_numa_page(&vmf, orig_pmd);
+>  
+> -			if (dirty && !pmd_write(orig_pmd)) {
+> +			/*
+> +			 * Shadow stack trans huge PMDs are copy-on-access,
+> +			 * so wp_huge_pmd() on them no mater if we have a
+> +			 * write fault or not.
+> +			 */
+> +			if (is_shstk_mapping(vma->vm_flags) ||
+> +			    (dirty && !pmd_write(orig_pmd))) {
+>  				ret = wp_huge_pmd(&vmf, orig_pmd);
+>  				if (!(ret & VM_FAULT_FALLBACK))
+>  					return ret;
 
-Yes, that wants a helper like that. Not sold on the name, but whatever.
-
-Is there any way we can hide all the shadow stack magic in arch code?
+Can't we do this (and the do_wp_page thing) by setting FAULT_FLAG_WRITE
+in the arch fault handler on shadow stack faults?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
