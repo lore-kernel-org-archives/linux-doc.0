@@ -2,273 +2,321 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAC5C7D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 22:09:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 116217D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 22:13:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387426AbeGKWQE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 18:16:04 -0400
-Received: from mail.bootlin.com ([62.4.15.54]:42927 "EHLO mail.bootlin.com"
+        id S2387779AbeGKWUX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 18:20:23 -0400
+Received: from mga04.intel.com ([192.55.52.120]:26724 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732561AbeGKWQE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 18:16:04 -0400
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 73A74207B4; Thu, 12 Jul 2018 00:09:36 +0200 (CEST)
-Received: from bbrezillon (unknown [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id B33432069C;
-        Thu, 12 Jul 2018 00:09:35 +0200 (CEST)
-Date:   Thu, 12 Jul 2018 00:09:32 +0200
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        id S2387637AbeGKWUX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 18:20:23 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 15:13:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,339,1526367600"; 
+   d="scan'208";a="66187062"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2018 15:13:57 -0700
+Message-ID: <1531347019.15351.89.camel@intel.com>
+Subject: Re: [RFC PATCH v2 22/27] x86/cet/ibt: User-mode indirect branch
+ tracking support
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
-Message-ID: <20180712000932.3b04ee9d@bbrezillon>
-In-Reply-To: <CAK8P3a2djk8c6STaxJC0MCkBddyOafk4WbG2LdfPf0V1EYiqmQ@mail.gmail.com>
-References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
-        <20180330074751.25987-2-boris.brezillon@bootlin.com>
-        <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
-        <20180711164120.3e32fb08@bbrezillon>
-        <CAK8P3a2EZB_tMS_47wv6M2Qpm79ZocxxhG5zLxXsBM_YjZgkyA@mail.gmail.com>
-        <20180711191212.3855bb25@bbrezillon>
-        <CAK8P3a2djk8c6STaxJC0MCkBddyOafk4WbG2LdfPf0V1EYiqmQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.0-dirty (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Wed, 11 Jul 2018 15:10:19 -0700
+In-Reply-To: <3a7e9ce4-03c6-cc28-017b-d00108459e94@linux.intel.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+         <20180710222639.8241-23-yu-cheng.yu@intel.com>
+         <3a7e9ce4-03c6-cc28-017b-d00108459e94@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 11 Jul 2018 22:10:26 +0200
-Arnd Bergmann <arnd@arndb.de> wrote:
+On Tue, 2018-07-10 at 17:11 -0700, Dave Hansen wrote:
+> Is this feature *integral* to shadow stacks?  Or, should it just be
+> in a
+> different series?
 
-> n Wed, Jul 11, 2018 at 7:12 PM, Boris Brezillon
-> <boris.brezillon@bootlin.com> wrote:
-> > On Wed, 11 Jul 2018 17:39:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:  
-> >> On Wed, Jul 11, 2018 at 4:41 PM, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
-> >>
-> >> The problem that I see is that it breaks the tree abstraction that
-> >> we use in the dtb interface, in the driver model and in sysfs.
-> >> If we need to deal with a hardware bus structure like
-> >>
-> >>               cpu
-> >>              /   \
-> >>             /     \
-> >>        platdev   platdev
-> >>            |        |
-> >>      i3c-master   i3c-master
-> >>             \      /
-> >>              \    /
-> >>             i3c-bus
-> >>              /    \
-> >>          device   device
-> >>
-> >> then that abstraction no longer holds. Clearly you could build
-> >> a system like that, and if we have to support it, the i3c infrastructure
-> >> should be prepared for it, since we wouldn't be able to retrofit
-> >> it later.  
-> >
-> > Exactly. For the DT representation I thought we could have the primary
-> > master hold the device nodes, and then have secondary masters reference
-> > the main master with a phandle (i3c-bus = <&main_i3c_master>;). For the
-> > sysfs representation, it would be the same. Only one of the master
-> > would create the i3c_bus object and the other masters would just
-> > reference it.  
-> 
-> Ok.
-> 
-> >> What would be the point of building such a system though?  
-> >
-> > This, I don't know. But as you said, if we go for a "one bus per
-> > master" representation, going back will be difficult.
-> >  
-> >> Is this for performance, failover, or something else?  
-> >
-> > No, I don't think so, especially since the mastership handover
-> > operation is not free. So keeping the same master in control is
-> > probably better in term of perfs.  
-> 
-> Right.
-> 
-> > One case I can think of is when the primary master does not have enough
-> > resources to address all devices on the bus, and let the secondary
-> > master handle all transactions targeting those devices.
-> >  
-> 
-> 
-> I've read the specification a bit more, and from what I found there,
-> it seems extremely unlikely that there was an intended use case where
-> one OS instance would control more than one master on a single bus
-> and flip them between primary and secondary mode.
-> 
-> In particular, the protocol for the handover is defined in a way that
-> intentionally avoids requiring a side channel to communicate data
-> about the slave devices, and instead the secondary master(s) get
-> informed about any changes of the topology as they happen
-> through explicit messages.
-> 
-> The description of the secondary master labels the introduction section
-> of says
-> 
->      "I3C Smart Sensor(s) / Hub(s) / Engine(s)"
-> 
-> which sounds like some microcontroller that can act as a master of
-> some sort, rather than being part of the OS itself.
-> 
-> I can see several use cases for this, e.g.
-> 
-> * A baseboard management controller booting first, reading all
->   the sensors and possibly loading its own OS from an i3c flash
->   before handing off control to the main CPU of a server and
->   no longer being a master
-> 
-> * A fan controller that occasionally wants to read temperature
->   sensors and control fan speed, while normally being a
->   secondary master. It periodically asks the OS to become
->   a master to read the sensors and then immediately hands back
->   control to the host OS as the master
-> 
-> * Two controllers inside of the same SoC, but one of them owned
->   by ARM Trustzone firmware or the Intel equivalent, the other
->   owned by the OS, both accessing the same slaves.
-> 
-> All of these require implementing handover between primary
-> and secondary master, but Linux would still see a hierarchical
-> bus structure, with the secondary masters looking like slave
-> devices that might request being masters during some time.
-> 
-> We may also run into the requirement that a master we probe
-> is currently the secondary master and has to probe the bus
-> by asking the current master for the available devices, and
-> then taking over.
-> 
-> >> IOW, what feature would we lose if we were to declare that
-> >> setup above invalid (and ensure you cannot represent it in DT)?  
-> >
-> > That's exactly the sort of discussion I wanted to trigger. Maybe we
-> > shouldn't care and expose this use case as if it was X different I3C
-> > buses (with all devices present on the bus being exposed X times
-> > to the system).  
-> 
-> That's probably fine for many slave devices (you could read a
-> single sensor multiple times if you iterate through all i2c sensors
-> on all buses) but might not work for others (a slave device sending
-> an interrupt to the current master for a request that was started
-> from the previous master).
-> My impression however is that this is actually a corner case that
-> we can leave to be undefined, and not prepare to handle well,
-> as long as we can deal with the interesting examples above.
-
-Mastership handover/takeover is something I already thought about.
-Actually, that's the reason for the i3c_bus->cur_master field (so that
-the master being asked to do a transfer on the bus can request bus
-ownership it bus->cur_master != master->this->info.pid).
-
-I guess this would be replaced by something simpler if we get rid of
-the i3c_bus object (just a bool i3c_master->owns_bus). 
+The whole CET series is mostly about SHSTK and only a minority for IBT.
+IBT changes cannot be applied by itself without first applying SHSTK
+changes.  Would the titles help, e.g. x86/cet/ibt, x86/cet/shstk, etc.?
 
 > 
-> >> > The devices discovered on the bus are not directly registered to the
-> >> > device model, and I need to store them in a list to do some operations
-> >> > before exposing them. Once everything is ready to be used, I then
-> >> > iterate the list and register all not-yet-registered I3C devs.  
-> >>
-> >> Can you explain what those operations are and why we can't
-> >> register everything directly? This seems rather unconventional,
-> >> so I want to make sure it's done for a good reason.  
-> >
-> > When we start a DAA operation (used to discover all devices on the
-> > bus), we have the bus lock held in maintenance mode (AKA exclusive
-> > mode). During this DAA the controller will add all the devices it has
-> > discovered on the bus and let the core query information about those
-> > devices (PID, DCR, HDR capabilies, SDR speed limitations, ...). It
-> > might also happen that a device that had been discovered previously is
-> > re-discovered because it had lost its dynamic address (i.e. when
-> > the device had been reset but not by Linux). In this case the I3C
-> > framework does not expose a new device but instead updates the dynamic
-> > address of the device already registered to the device model, so that
-> > new transactions initiated by the I3C device driver work correctly.
-> > This is the very reason we hold the lock in exclusive mode (we want all
-> > transactions to be stopped until we have updated dynamic addresses if
-> > needed).
-> >
-> > Now, let's imagine you register the device when the bus lock is held in
-> > exclusive mode, and the ->probe() function of the I3C driver needs to
-> > do an I3C transfer => you end up with a deadlock.
-> >
-> > So what we do instead is add new devices to the i3c bus list, release
-> > the bus lock and then register all new devices.  
+> > 
+> > diff --git a/arch/x86/include/asm/cet.h
+> > b/arch/x86/include/asm/cet.h
+> > index d9ae3d86cdd7..71da2cccba16 100644
+> > --- a/arch/x86/include/asm/cet.h
+> > +++ b/arch/x86/include/asm/cet.h
+> > @@ -12,7 +12,10 @@ struct task_struct;
+> >  struct cet_status {
+> >  	unsigned long	shstk_base;
+> >  	unsigned long	shstk_size;
+> > +	unsigned long	ibt_bitmap_addr;
+> > +	unsigned long	ibt_bitmap_size;
+> >  	unsigned int	shstk_enabled:1;
+> > +	unsigned int	ibt_enabled:1;
+> >  };
+> Is there a reason we're not using pointers here?  This seems like the
+> kind of place that we probably want __user pointers.
+
+Yes, I will change that.
+
 > 
-> Ok, but maybe you could you put the information about those devices
-> on a local list on the stack rather than the controller? I suppose this
-> would not change the logic much, but it would slightly simplify the
-> data structures for the bus and stop others from wondering about
-> them. ;-)
+> 
+> > 
+> > +static unsigned long ibt_mmap(unsigned long addr, unsigned long
+> > len)
+> > +{
+> > +	struct mm_struct *mm = current->mm;
+> > +	unsigned long populate;
+> > +
+> > +	down_write(&mm->mmap_sem);
+> > +	addr = do_mmap(NULL, addr, len, PROT_READ | PROT_WRITE,
+> > +		       MAP_ANONYMOUS | MAP_PRIVATE,
+> > +		       VM_DONTDUMP, 0, &populate, NULL);
+> > +	up_write(&mm->mmap_sem);
+> > +
+> > +	if (populate)
+> > +		mm_populate(addr, populate);
+> > +
+> > +	return addr;
+> > +}
+> We're going to have to start consolidating these at some point.  We
+> have
+> at least three of them now, maybe more.
 
-This has changed a bit in the v6 I'm about to send (probably next week).
-I now have 2 different objects which do not necessarily have the same
-lifetime:
+Maybe we can do the following in linux/mm.h?
 
-* i3c_dev_desc: an I3C device descriptor. This is the representation
-  exposed to I3C master controller drivers which usually reserve one
-  slot in the HW device table per-device on the bus. Since the same
-  device can be re-discovered with a different address, we have a short
-  period in time during which the controller will have 2
-  slots/descriptors used to control the same device, except one would
-  be inactive (any transfer to the old dynamic address would fail) and
-  the other one would be active. The core then takes care of releasing
-  the old descriptor/slot and attaching the new one to the i3c_device
-  object exposed to I3C device drivers
++static inline unsigned long do_mmap_locked(addr, len, prot,
++					    flags, vm_flags)
++{
++	struct mm_struct *mm = current->mm;
++	unsigned long populate;
++
++	down_write(&mm->mmap_sem);
++	addr = do_mmap(NULL, addr, len, prot, flags, vm_flags,
++		       0, &populate, NULL);
++	up_write(&mm->mmap_sem);
++
++	if (populate)
++		mm_populate(addr, populate);
++
++	return addr;
++} 
 
-* i3c_device: this is the object exposed to I3C device drivers. It's
-  lifetime is usually the same as the i3c_dev_desc it's attached to,
-  except when the device lose its dynamic address and get a new one
-  assigned. In this case we keep the same i3c_device object, but
-  dynamically re-attach it to a new i3c_dev_desc before releasing the
-  old dev desc. This way the I3C does not even see that the device
-  address has changed and can keep doing transfers to it.
+> > 
+> > +int cet_setup_ibt_bitmap(void)
+> > +{
+> > +	u64 r;
+> > +	unsigned long bitmap;
+> > +	unsigned long size;
+> > +
+> > +	if (!cpu_feature_enabled(X86_FEATURE_IBT))
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	size = TASK_SIZE_MAX / PAGE_SIZE / BITS_PER_BYTE;
+> Just a note: this table is going to be gigantic on 5-level paging
+> systems, and userspace won't, by default use any of that extra
+> address
+> space.  I think it ends up being a 512GB allocation in a 128TB
+> address
+> space.
+> 
+> Is that a problem?
+>
+> On 5-level paging systems, maybe we should just stick it up in the
+> high
+> part of the address space.
 
-With these 2 distinct representations, the handling on the controller
-side is greatly simplified: the core takes care of the resource
-migration steps, while it was up to the controller to do that my
-previous versions (look at the ->reattach_i3c_dev() hook in the Cadence
-driver, and I think it's even more complicated with other controllers,
-like the HCI one).
+We do not know in advance if dlopen() needs to create the bitmap.  Do
+we always reserve high address or force legacy libs to low address?
 
-> This is a really minor point though, let's work out the problem of the
-> multiple masters first.
+> 
+> > 
+> > +	bitmap = ibt_mmap(0, size);
+> > +
+> > +	if (bitmap >= TASK_SIZE_MAX)
+> > +		return -ENOMEM;
+> > +
+> > +	bitmap &= PAGE_MASK;
+> We're page-aligning the result of an mmap()?  Why?
 
-I agree. This being said, moving to a representation where the bus is
-implicitly represented by the master_controller instance shouldn't be
-too difficult. So, if you think we should try this approach I can do
-the modifications in my v6.
+This may not be necessary.  The lower bits of MSR_IA32_U_CET are
+settings and not part of the bitmap address.  Is this is safer?
+
+> 
+> > 
+> > +	rdmsrl(MSR_IA32_U_CET, r);
+> > +	r |= (MSR_IA32_CET_LEG_IW_EN | bitmap);
+> > +	wrmsrl(MSR_IA32_U_CET, r);
+> Comments, please.  What is this doing, logically?  Also, why are we
+> OR'ing the results into this MSR?  What are we trying to preserve?
+
+I will add comments.
+
+> 
+> > 
+> > +	current->thread.cet.ibt_bitmap_addr = bitmap;
+> > +	current->thread.cet.ibt_bitmap_size = size;
+> > +	return 0;
+> > +}
+> > +
+> > +void cet_disable_ibt(void)
+> > +{
+> > +	u64 r;
+> > +
+> > +	if (!cpu_feature_enabled(X86_FEATURE_IBT))
+> > +		return;
+> Does this need a check for being already disabled?
+
+We need that.  We cannot write to those MSRs if the CPU does not
+support it.
+
+> 
+> > 
+> > +	rdmsrl(MSR_IA32_U_CET, r);
+> > +	r &= ~(MSR_IA32_CET_ENDBR_EN | MSR_IA32_CET_LEG_IW_EN |
+> > +	       MSR_IA32_CET_NO_TRACK_EN);
+> > +	wrmsrl(MSR_IA32_U_CET, r);
+> > +	current->thread.cet.ibt_enabled = 0;
+> > +}
+> What's the locking for current->thread.cet?
+
+Now CET is not locked until the application calls ARCH_CET_LOCK.
+
+> 
+> > 
+> > diff --git a/arch/x86/kernel/cpu/common.c
+> > b/arch/x86/kernel/cpu/common.c
+> > index 705467839ce8..c609c9ce5691 100644
+> > --- a/arch/x86/kernel/cpu/common.c
+> > +++ b/arch/x86/kernel/cpu/common.c
+> > @@ -413,7 +413,8 @@ __setup("nopku", setup_disable_pku);
+> >  
+> >  static __always_inline void setup_cet(struct cpuinfo_x86 *c)
+> >  {
+> > -	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
+> > +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) ||
+> > +	    cpu_feature_enabled(X86_FEATURE_IBT))
+> >  		cr4_set_bits(X86_CR4_CET);
+> >  }
+> >  
+> > @@ -434,6 +435,23 @@ static __init int setup_disable_shstk(char *s)
+> >  __setup("no_cet_shstk", setup_disable_shstk);
+> >  #endif
+> >  
+> > +#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
+> > +static __init int setup_disable_ibt(char *s)
+> > +{
+> > +	/* require an exact match without trailing characters */
+> > +	if (strlen(s))
+> > +		return 0;
+> > +
+> > +	if (!boot_cpu_has(X86_FEATURE_IBT))
+> > +		return 1;
+> > +
+> > +	setup_clear_cpu_cap(X86_FEATURE_IBT);
+> > +	pr_info("x86: 'no_cet_ibt' specified, disabling Branch
+> > Tracking\n");
+> > +	return 1;
+> > +}
+> > +__setup("no_cet_ibt", setup_disable_ibt);
+> > +#endif
+> >  /*
+> >   * Some CPU features depend on higher CPUID levels, which may not
+> > always
+> >   * be available due to CPUID level capping or broken
+> > virtualization
+> > diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
+> > index 233f6dad9c1f..42e08d3b573e 100644
+> > --- a/arch/x86/kernel/elf.c
+> > +++ b/arch/x86/kernel/elf.c
+> > @@ -15,6 +15,7 @@
+> >  #include <linux/fs.h>
+> >  #include <linux/uaccess.h>
+> >  #include <linux/string.h>
+> > +#include <linux/compat.h>
+> >  
+> >  /*
+> >   * The .note.gnu.property layout:
+> > @@ -222,7 +223,8 @@ int arch_setup_features(void *ehdr_p, void
+> > *phdr_p,
+> >  
+> >  	struct elf64_hdr *ehdr64 = ehdr_p;
+> >  
+> > -	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> > +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
+> > +	    !cpu_feature_enabled(X86_FEATURE_IBT))
+> >  		return 0;
+> >  
+> >  	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
+> > @@ -250,6 +252,9 @@ int arch_setup_features(void *ehdr_p, void
+> > *phdr_p,
+> >  	current->thread.cet.shstk_enabled = 0;
+> >  	current->thread.cet.shstk_base = 0;
+> >  	current->thread.cet.shstk_size = 0;
+> > +	current->thread.cet.ibt_enabled = 0;
+> > +	current->thread.cet.ibt_bitmap_addr = 0;
+> > +	current->thread.cet.ibt_bitmap_size = 0;
+> >  	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> >  		if (shstk) {
+> >  			err = cet_setup_shstk();
+> > @@ -257,6 +262,15 @@ int arch_setup_features(void *ehdr_p, void
+> > *phdr_p,
+> >  				goto out;
+> >  		}
+> >  	}
+> > +
+> > +	if (cpu_feature_enabled(X86_FEATURE_IBT)) {
+> > +		if (ibt) {
+> > +			err = cet_setup_ibt();
+> > +			if (err < 0)
+> > +				goto out;
+> > +		}
+> > +	}
+> You introduced 'ibt' before it was used.  Please wait to introduce it
+> until you actually use it to make it easier to review.
+> 
+> Also, what's wrong with:
+> 
+> 	if (cpu_feature_enabled(X86_FEATURE_IBT) && ibt) {
+> 		...
+> 	}
+> 
+> ?
+
+I will fix it.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
