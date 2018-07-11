@@ -2,303 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44B7F7D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 00:11:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66CA37D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 01:00:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732275AbeGKANR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 10 Jul 2018 20:13:17 -0400
-Received: from mga04.intel.com ([192.55.52.120]:42258 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732262AbeGKANR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 10 Jul 2018 20:13:17 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jul 2018 17:11:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,336,1526367600"; 
-   d="scan'208";a="73793923"
-Received: from mgcarrol-mobl1.amr.corp.intel.com (HELO [10.252.202.182]) ([10.252.202.182])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 17:11:43 -0700
-Subject: Re: [RFC PATCH v2 22/27] x86/cet/ibt: User-mode indirect branch
- tracking support
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        id S1732278AbeGKBCe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 10 Jul 2018 21:02:34 -0400
+Received: from mo-csw-fb1516.securemx.jp ([210.130.202.172]:37822 "EHLO
+        mo-csw-fb.securemx.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732263AbeGKBCe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 10 Jul 2018 21:02:34 -0400
+X-Greylist: delayed 490 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Jul 2018 21:02:33 EDT
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1516) id w6B0qkI6023977; Wed, 11 Jul 2018 09:52:46 +0900
+Received: by mo-csw.securemx.jp (mx-mo-csw1515) id w6B0pKZ1014505; Wed, 11 Jul 2018 09:51:21 +0900
+X-Iguazu-Qid: 34tKBBYqqdQC3lc2N6
+X-Iguazu-QSIG: v=1; s=0; t=1531270280; q=34tKBBYqqdQC3lc2N6; m=6GECy/tLec19e/r/4rT9sugbhMRJXakuq0RfmjYyJVs=
+Received: from imx2.toshiba.co.jp (imx2.toshiba.co.jp [106.186.93.51])
+        by relay.securemx.jp (mx-mr1510) id w6B0pFOt002376;
+        Wed, 11 Jul 2018 09:51:16 +0900
+Received: from hop001.toshiba.co.jp ([133.199.164.63])
+        by imx2.toshiba.co.jp  with ESMTP id w6B0pFf9018200;
+        Wed, 11 Jul 2018 09:51:15 +0900 (JST)
+Content-Transfer-Encoding: 7bit
+From:   Daniel Sangorrin <daniel.sangorrin@toshiba.co.jp>
+To:     stable@vger.kernel.org
+Cc:     Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Brian Gerst <brgerst@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Denys Vlasenko <dvlasenk@redhat.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromiun.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-23-yu-cheng.yu@intel.com>
-From:   Dave Hansen <dave.hansen@linux.intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@linux.intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <3a7e9ce4-03c6-cc28-017b-d00108459e94@linux.intel.com>
-Date:   Tue, 10 Jul 2018 17:11:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <20180710222639.8241-23-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Quentin Casasnovas <quentin.casasnovas@oracle.com>,
+        Rik van Riel <riel@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Razvan Ghitulete <rga@amazon.de>,
+        Kees Cook <keescook@chromium.org>,
+        Borislav Petkov <bp@suse.de>, Hugh Dickins <hughd@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 4.4.y 3/3] x86/fpu: Finish excising 'eagerfpu'
+Date:   Wed, 11 Jul 2018 09:48:40 +0900
+X-TSB-HOP: ON
+Message-Id: <1531270120-19068-4-git-send-email-daniel.sangorrin@toshiba.co.jp>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1531270120-19068-1-git-send-email-daniel.sangorrin@toshiba.co.jp>
+References: <1531270120-19068-1-git-send-email-daniel.sangorrin@toshiba.co.jp>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Is this feature *integral* to shadow stacks?  Or, should it just be in a
-different series?
+From: Andy Lutomirski <luto@kernel.org>
 
-> diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
-> index d9ae3d86cdd7..71da2cccba16 100644
-> --- a/arch/x86/include/asm/cet.h
-> +++ b/arch/x86/include/asm/cet.h
-> @@ -12,7 +12,10 @@ struct task_struct;
->  struct cet_status {
->  	unsigned long	shstk_base;
->  	unsigned long	shstk_size;
-> +	unsigned long	ibt_bitmap_addr;
-> +	unsigned long	ibt_bitmap_size;
->  	unsigned int	shstk_enabled:1;
-> +	unsigned int	ibt_enabled:1;
->  };
+commit e63650840e8b053aa09ad934877e87e9941ed135 upstream
 
-Is there a reason we're not using pointers here?  This seems like the
-kind of place that we probably want __user pointers.
+Now that eagerfpu= is gone, remove it from the docs and some
+comments.  Also sync the changes to tools/.
 
+Signed-off-by: Andy Lutomirski <luto@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Brian Gerst <brgerst@gmail.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Denys Vlasenko <dvlasenk@redhat.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: H. Peter Anvin <hpa@zytor.com>
+Cc: Josh Poimboeuf <jpoimboe@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Quentin Casasnovas <quentin.casasnovas@oracle.com>
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Link: http://lkml.kernel.org/r/cf430dd4481d41280e93ac6cf0def1007a67fc8e.1476740397.git.luto@kernel.org
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: Daniel Sangorrin <daniel.sangorrin@toshiba.co.jp>
 
-> +static unsigned long ibt_mmap(unsigned long addr, unsigned long len)
-> +{
-> +	struct mm_struct *mm = current->mm;
-> +	unsigned long populate;
-> +
-> +	down_write(&mm->mmap_sem);
-> +	addr = do_mmap(NULL, addr, len, PROT_READ | PROT_WRITE,
-> +		       MAP_ANONYMOUS | MAP_PRIVATE,
-> +		       VM_DONTDUMP, 0, &populate, NULL);
-> +	up_write(&mm->mmap_sem);
-> +
-> +	if (populate)
-> +		mm_populate(addr, populate);
-> +
-> +	return addr;
-> +}
+Conflicts:
+	Documentation/kernel-parameters.txt
+	arch/x86/include/asm/cpufeatures.h
+	arch/x86/mm/pkeys.c
+	tools/arch/x86/include/asm/cpufeatures.h
+---
+ Documentation/kernel-parameters.txt |  6 ------
+ arch/x86/include/asm/cpufeature.h   |  1 -
+ arch/x86/include/asm/fpu/types.h    | 23 -----------------------
+ 3 files changed, 30 deletions(-)
 
-We're going to have to start consolidating these at some point.  We have
-at least three of them now, maybe more.
+diff --git a/Documentation/kernel-parameters.txt b/Documentation/kernel-parameters.txt
+index 4df6bd7..792945c 100644
+--- a/Documentation/kernel-parameters.txt
++++ b/Documentation/kernel-parameters.txt
+@@ -961,12 +961,6 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
+ 			See Documentation/x86/intel_mpx.txt for more
+ 			information about the feature.
+ 
+-	eagerfpu=	[X86]
+-			on	enable eager fpu restore
+-			off	disable eager fpu restore
+-			auto	selects the default scheme, which automatically
+-				enables eagerfpu restore for xsaveopt.
+-
+ 	module.async_probe [KNL]
+ 			Enable asynchronous probe on this module.
+ 
+diff --git a/arch/x86/include/asm/cpufeature.h b/arch/x86/include/asm/cpufeature.h
+index 232621c..ac4aa86 100644
+--- a/arch/x86/include/asm/cpufeature.h
++++ b/arch/x86/include/asm/cpufeature.h
+@@ -104,7 +104,6 @@
+ #define X86_FEATURE_EXTD_APICID	( 3*32+26) /* has extended APICID (8 bits) */
+ #define X86_FEATURE_AMD_DCM     ( 3*32+27) /* multi-node processor */
+ #define X86_FEATURE_APERFMPERF	( 3*32+28) /* APERFMPERF */
+-/* free, was #define X86_FEATURE_EAGER_FPU	( 3*32+29) * "eagerfpu" Non lazy FPU restore */
+ #define X86_FEATURE_NONSTOP_TSC_S3 ( 3*32+30) /* TSC doesn't stop in S3 state */
+ 
+ /* Intel-defined CPU features, CPUID level 0x00000001 (ecx), word 4 */
+diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
+index dcb85a9..0d81c7d 100644
+--- a/arch/x86/include/asm/fpu/types.h
++++ b/arch/x86/include/asm/fpu/types.h
+@@ -310,29 +310,6 @@ struct fpu {
+ 	 * the registers in the FPU are more recent than this state
+ 	 * copy. If the task context-switches away then they get
+ 	 * saved here and represent the FPU state.
+-	 *
+-	 * After context switches there may be a (short) time period
+-	 * during which the in-FPU hardware registers are unchanged
+-	 * and still perfectly match this state, if the tasks
+-	 * scheduled afterwards are not using the FPU.
+-	 *
+-	 * This is the 'lazy restore' window of optimization, which
+-	 * we track though 'fpu_fpregs_owner_ctx' and 'fpu->last_cpu'.
+-	 *
+-	 * We detect whether a subsequent task uses the FPU via setting
+-	 * CR0::TS to 1, which causes any FPU use to raise a #NM fault.
+-	 *
+-	 * During this window, if the task gets scheduled again, we
+-	 * might be able to skip having to do a restore from this
+-	 * memory buffer to the hardware registers - at the cost of
+-	 * incurring the overhead of #NM fault traps.
+-	 *
+-	 * Note that on modern CPUs that support the XSAVEOPT (or other
+-	 * optimized XSAVE instructions), we don't use #NM traps anymore,
+-	 * as the hardware can track whether FPU registers need saving
+-	 * or not. On such CPUs we activate the non-lazy ('eagerfpu')
+-	 * logic, which unconditionally saves/restores all FPU state
+-	 * across context switches. (if FPU state exists.)
+ 	 */
+ 	union fpregs_state		state;
+ 	/*
+-- 
+2.1.4
 
-> +int cet_setup_ibt_bitmap(void)
-> +{
-> +	u64 r;
-> +	unsigned long bitmap;
-> +	unsigned long size;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_IBT))
-> +		return -EOPNOTSUPP;
-> +
-> +	size = TASK_SIZE_MAX / PAGE_SIZE / BITS_PER_BYTE;
-
-Just a note: this table is going to be gigantic on 5-level paging
-systems, and userspace won't, by default use any of that extra address
-space.  I think it ends up being a 512GB allocation in a 128TB address
-space.
-
-Is that a problem?
-
-On 5-level paging systems, maybe we should just stick it up in the high
-part of the address space.
-
-> +	bitmap = ibt_mmap(0, size);
-> +
-> +	if (bitmap >= TASK_SIZE_MAX)
-> +		return -ENOMEM;
-> +
-> +	bitmap &= PAGE_MASK;
-
-We're page-aligning the result of an mmap()?  Why?
-
-> +	rdmsrl(MSR_IA32_U_CET, r);
-> +	r |= (MSR_IA32_CET_LEG_IW_EN | bitmap);
-> +	wrmsrl(MSR_IA32_U_CET, r);
-
-Comments, please.  What is this doing, logically?  Also, why are we
-OR'ing the results into this MSR?  What are we trying to preserve?
-
-> +	current->thread.cet.ibt_bitmap_addr = bitmap;
-> +	current->thread.cet.ibt_bitmap_size = size;
-> +	return 0;
-> +}
-> +
-> +void cet_disable_ibt(void)
-> +{
-> +	u64 r;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_IBT))
-> +		return;
-
-Does this need a check for being already disabled?
-
-> +	rdmsrl(MSR_IA32_U_CET, r);
-> +	r &= ~(MSR_IA32_CET_ENDBR_EN | MSR_IA32_CET_LEG_IW_EN |
-> +	       MSR_IA32_CET_NO_TRACK_EN);
-> +	wrmsrl(MSR_IA32_U_CET, r);
-> +	current->thread.cet.ibt_enabled = 0;
-> +}
-
-What's the locking for current->thread.cet?
-
-> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-> index 705467839ce8..c609c9ce5691 100644
-> --- a/arch/x86/kernel/cpu/common.c
-> +++ b/arch/x86/kernel/cpu/common.c
-> @@ -413,7 +413,8 @@ __setup("nopku", setup_disable_pku);
->  
->  static __always_inline void setup_cet(struct cpuinfo_x86 *c)
->  {
-> -	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) ||
-> +	    cpu_feature_enabled(X86_FEATURE_IBT))
->  		cr4_set_bits(X86_CR4_CET);
->  }
->  
-> @@ -434,6 +435,23 @@ static __init int setup_disable_shstk(char *s)
->  __setup("no_cet_shstk", setup_disable_shstk);
->  #endif
->  
-> +#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-> +static __init int setup_disable_ibt(char *s)
-> +{
-> +	/* require an exact match without trailing characters */
-> +	if (strlen(s))
-> +		return 0;
-> +
-> +	if (!boot_cpu_has(X86_FEATURE_IBT))
-> +		return 1;
-> +
-> +	setup_clear_cpu_cap(X86_FEATURE_IBT);
-> +	pr_info("x86: 'no_cet_ibt' specified, disabling Branch Tracking\n");
-> +	return 1;
-> +}
-> +__setup("no_cet_ibt", setup_disable_ibt);
-> +#endif
->  /*
->   * Some CPU features depend on higher CPUID levels, which may not always
->   * be available due to CPUID level capping or broken virtualization
-> diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
-> index 233f6dad9c1f..42e08d3b573e 100644
-> --- a/arch/x86/kernel/elf.c
-> +++ b/arch/x86/kernel/elf.c
-> @@ -15,6 +15,7 @@
->  #include <linux/fs.h>
->  #include <linux/uaccess.h>
->  #include <linux/string.h>
-> +#include <linux/compat.h>
->  
->  /*
->   * The .note.gnu.property layout:
-> @@ -222,7 +223,8 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
->  
->  	struct elf64_hdr *ehdr64 = ehdr_p;
->  
-> -	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
-> +	    !cpu_feature_enabled(X86_FEATURE_IBT))
->  		return 0;
->  
->  	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
-> @@ -250,6 +252,9 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
->  	current->thread.cet.shstk_enabled = 0;
->  	current->thread.cet.shstk_base = 0;
->  	current->thread.cet.shstk_size = 0;
-> +	current->thread.cet.ibt_enabled = 0;
-> +	current->thread.cet.ibt_bitmap_addr = 0;
-> +	current->thread.cet.ibt_bitmap_size = 0;
->  	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
->  		if (shstk) {
->  			err = cet_setup_shstk();
-> @@ -257,6 +262,15 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
->  				goto out;
->  		}
->  	}
-> +
-> +	if (cpu_feature_enabled(X86_FEATURE_IBT)) {
-> +		if (ibt) {
-> +			err = cet_setup_ibt();
-> +			if (err < 0)
-> +				goto out;
-> +		}
-> +	}
-
-You introduced 'ibt' before it was used.  Please wait to introduce it
-until you actually use it to make it easier to review.
-
-Also, what's wrong with:
-
-	if (cpu_feature_enabled(X86_FEATURE_IBT) && ibt) {
-		...
-	}
-
-?
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
