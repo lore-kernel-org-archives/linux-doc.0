@@ -1,89 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A86BF7D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 10:21:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1EFE87D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 11:14:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726586AbeGKKZT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 06:25:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43880 "EHLO mx1.suse.de"
+        id S1732502AbeGKLQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 07:16:52 -0400
+Received: from mx3-rdu2.redhat.com ([66.187.233.73]:40474 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726487AbeGKKZT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 06:25:19 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id ABD43ACF5;
-        Wed, 11 Jul 2018 10:21:40 +0000 (UTC)
-Date:   Wed, 11 Jul 2018 12:21:39 +0200
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        id S1732387AbeGKLQw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 07:16:52 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3C46C406DE36;
+        Wed, 11 Jul 2018 11:13:03 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (dhcp-192-212.str.redhat.com [10.33.192.212])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 95E9120389E0;
+        Wed, 11 Jul 2018 11:12:58 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 20/27] x86/cet/shstk: ELF header parsing of CET
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jan Kara <jack@suse.cz>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Larry Woodman <lwoodman@redhat.com>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        "Wangkai (Kevin C)" <wangkai86@huawei.com>
-Subject: Re: [PATCH v6 0/7] fs/dcache: Track & limit # of negative dentries
-Message-ID: <20180711102139.GG20050@dhcp22.suse.cz>
-References: <1530905572-817-1-git-send-email-longman@redhat.com>
- <20180709081920.GD22049@dhcp22.suse.cz>
- <62275711-e01d-7dbe-06f1-bf094b618195@redhat.com>
- <20180710142740.GQ14284@dhcp22.suse.cz>
- <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+ <20180710222639.8241-21-yu-cheng.yu@intel.com>
+From:   Florian Weimer <fweimer@redhat.com>
+Message-ID: <10c224e9-933a-20d8-a286-5065a6cb10f1@redhat.com>
+Date:   Wed, 11 Jul 2018 13:12:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a2794bcc-9193-cbca-3a54-47420a2ab52c@redhat.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <20180710222639.8241-21-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 11 Jul 2018 11:13:03 +0000 (UTC)
+X-Greylist: inspected by milter-greylist-4.5.16 (mx1.redhat.com [10.11.55.7]); Wed, 11 Jul 2018 11:13:03 +0000 (UTC) for IP:'10.11.54.6' DOMAIN:'int-mx06.intmail.prod.int.rdu2.redhat.com' HELO:'smtp.corp.redhat.com' FROM:'fweimer@redhat.com' RCPT:''
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 10-07-18 12:09:17, Waiman Long wrote:
-> On 07/10/2018 10:27 AM, Michal Hocko wrote:
-> > On Mon 09-07-18 12:01:04, Waiman Long wrote:
-> >> On 07/09/2018 04:19 AM, Michal Hocko wrote:
-[...]
-> >>> percentage has turned out to be a really wrong unit for many tunables
-> >>> over time. Even 1% can be just too much on really large machines.
-> >> Yes, that is true. Do you have any suggestion of what kind of unit
-> >> should be used? I can scale down the unit to 0.1% of the system memory.
-> >> Alternatively, one unit can be 10k/cpu thread, so a 20-thread system
-> >> corresponds to 200k, etc.
-> > I simply think this is a strange user interface. How much is a
-> > reasonable number? How can any admin figure that out?
-> 
-> Without the optional enforcement, the limit is essentially just a
-> notification mechanism where the system signals that there is something
-> wrong going on and the system administrator need to take a look. So it
-> is perfectly OK if the limit is sufficiently high that normally we won't
-> need to use that many negative dentries. The goal is to prevent negative
-> dentries from consuming a significant portion of the system memory.
+On 07/11/2018 12:26 AM, Yu-cheng Yu wrote:
+> +	/*
+> +	 * PT_NOTE segment is small.  Read at most
+> +	 * PAGE_SIZE.
+> +	 */
+> +	if (note_size > PAGE_SIZE)
+> +		note_size = PAGE_SIZE;
 
-So again. How do you tell the right number?
+That's not really true.  There are some huge PT_NOTE segments out there.
 
-> I am going to reduce the granularity of each unit to 1/1000 of the total
-> system memory so that for large system with TB of memory, a smaller
-> amount of memory can be specified.
+Why can't you check the notes after the executable has been mapped?
 
-It is just a matter of time for this to be too coarse as well.
--- 
-Michal Hocko
-SUSE Labs
+Thanks,
+Florian
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
