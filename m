@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75A8E7DF7E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:02:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5361B7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:02:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388948AbeGKVIY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 17:08:24 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42328 "EHLO
+        id S2390308AbeGKVII (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 17:08:08 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54532 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2390366AbeGKVIR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:08:17 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6BL0FWN052844
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:02:06 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2k5psre7k2-1
+        by vger.kernel.org with ESMTP id S2390062AbeGKVII (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:08:08 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6BL0Eag086344
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:57 -0400
+Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2k5qy03huy-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:02:05 -0400
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:56 -0400
 Received: from localhost
-        by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Wed, 11 Jul 2018 15:02:05 -0600
-Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
-        by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 11 Jul 2018 15:01:56 -0600
+Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
+        by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 11 Jul 2018 15:02:00 -0600
+        Wed, 11 Jul 2018 15:01:52 -0600
 Received: from b03ledav001.gho.boulder.ibm.com (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6BL1x8Y20185472
+        by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6BL1pjr6357290
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 11 Jul 2018 14:01:59 -0700
+        Wed, 11 Jul 2018 14:01:51 -0700
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C63026E05D;
-        Wed, 11 Jul 2018 15:01:59 -0600 (MDT)
+        by IMSVA (Postfix) with ESMTP id 8F7816E053;
+        Wed, 11 Jul 2018 15:01:51 -0600 (MDT)
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E48F06E050;
-        Wed, 11 Jul 2018 15:01:58 -0600 (MDT)
+        by IMSVA (Postfix) with ESMTP id BE4316E052;
+        Wed, 11 Jul 2018 15:01:50 -0600 (MDT)
 Received: from talon7.ibm.com (unknown [9.41.102.69])
         by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 11 Jul 2018 15:01:58 -0600 (MDT)
+        Wed, 11 Jul 2018 15:01:50 -0600 (MDT)
 From:   Eddie James <eajames@linux.vnet.ibm.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
@@ -49,20 +49,20 @@ Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         benh@kernel.crashing.org, linux@roeck-us.net, jdelvare@suse.com,
         mark.rutland@arm.com, openbmc@lists.ozlabs.org, robh+dt@kernel.org,
         joel@jms.id.au, Eddie James <eajames@linux.vnet.ibm.com>
-Subject: [PATCH v4 9/9] hwmon (occ): Add sysfs attributes for additional OCC data
-Date:   Wed, 11 Jul 2018 16:01:38 -0500
+Subject: [PATCH v4 5/9] hwmon (occ): Add command transport method for P8 and P9
+Date:   Wed, 11 Jul 2018 16:01:34 -0500
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
 References: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18071121-0036-0000-0000-00000A0DD7E3
+x-cbid: 18071121-0016-0000-0000-00000906CFAF
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00009352; HX=3.00000241; KW=3.00000007;
  PH=3.00000004; SC=3.00000266; SDB=6.01059946; UDB=6.00544035; IPR=6.00837866;
- MB=3.00022107; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-11 21:02:04
+ MB=3.00022107; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-11 21:01:55
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071121-0037-0000-0000-0000481101D8
-Message-Id: <1531342898-15790-10-git-send-email-eajames@linux.vnet.ibm.com>
+x-cbparentid: 18071121-0017-0000-0000-00003F98E0E2
+Message-Id: <1531342898-15790-6-git-send-email-eajames@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-11_06:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -75,382 +75,284 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The OCC provides a variety of additional information about the state of
-the host processor, such as throttling, error conditions, and the number
-of OCCs detected in the system. This information is essential to service
-processor applications such as fan control and host management.
-Therefore, export this data in the form of sysfs attributes attached to
-the platform device (to which the hwmon device is also attached).
+For the P8 OCC, add the procedure to send a command to the OCC over I2C
+bus. This involves writing the OCC command registers with serial
+communication operations (SCOMs) interpreted by the I2C slave. For the
+P9 OCC, add a procedure to use the OCC in-kernel API to send a command
+to the OCC through the SBE.
 
 Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
 ---
- drivers/hwmon/occ/Makefile |   2 +-
- drivers/hwmon/occ/common.c |  45 ++++++++++-
- drivers/hwmon/occ/common.h |  17 ++++
- drivers/hwmon/occ/p8_i2c.c |  10 +++
- drivers/hwmon/occ/p9_sbe.c |   1 +
- drivers/hwmon/occ/sysfs.c  | 188 +++++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 259 insertions(+), 4 deletions(-)
- create mode 100644 drivers/hwmon/occ/sysfs.c
+ drivers/hwmon/occ/p8_i2c.c | 185 ++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/hwmon/occ/p9_sbe.c |  38 +++++++++-
+ 2 files changed, 221 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hwmon/occ/Makefile b/drivers/hwmon/occ/Makefile
-index ab5c3e9..46a8636 100644
---- a/drivers/hwmon/occ/Makefile
-+++ b/drivers/hwmon/occ/Makefile
-@@ -1,4 +1,4 @@
--occ-hwmon-objs := common.o
-+occ-hwmon-objs := common.o sysfs.o
+diff --git a/drivers/hwmon/occ/p8_i2c.c b/drivers/hwmon/occ/p8_i2c.c
+index 899294b..9a920db 100644
+--- a/drivers/hwmon/occ/p8_i2c.c
++++ b/drivers/hwmon/occ/p8_i2c.c
+@@ -12,11 +12,29 @@
  
- ifeq ($(CONFIG_SENSORS_OCC_P9_SBE), y)
- occ-hwmon-objs += p9_sbe.o
-diff --git a/drivers/hwmon/occ/common.c b/drivers/hwmon/occ/common.c
-index da55919..7bc52af 100644
---- a/drivers/hwmon/occ/common.c
-+++ b/drivers/hwmon/occ/common.c
-@@ -21,6 +21,11 @@
+ #include <linux/device.h>
+ #include <linux/errno.h>
++#include <linux/fsi-occ.h>
+ #include <linux/i2c.h>
++#include <linux/jiffies.h>
+ #include <linux/module.h>
++#include <linux/sched.h>
++#include <asm/unaligned.h>
  
  #include "common.h"
  
-+#define OCC_ERROR_COUNT_THRESHOLD	2	/* required by OCC spec */
++#define OCC_TIMEOUT_MS			1000
++#define OCC_CMD_IN_PRG_WAIT_MS		50
 +
-+#define OCC_STATE_SAFE			4
-+#define OCC_SAFE_TIMEOUT		msecs_to_jiffies(60000) /* 1 min */
++/* OCB (on-chip control bridge - interface to OCC) registers */
++#define OCB_DATA1			0x6B035
++#define OCB_ADDR			0x6B070
++#define OCB_DATA3			0x6B075
 +
- #define OCC_UPDATE_FREQUENCY		msecs_to_jiffies(1000)
- 
- #define OCC_TEMP_SENSOR_FAULT		0xFF
-@@ -128,8 +133,10 @@ struct extended_sensor {
- 
- static int occ_poll(struct occ *occ)
- {
-+	int rc;
- 	u16 checksum = occ->poll_cmd_data + 1;
- 	u8 cmd[8];
-+	struct occ_poll_response_header *header;
- 
- 	/* big endian */
- 	cmd[0] = 0;			/* sequence number */
-@@ -142,7 +149,35 @@ static int occ_poll(struct occ *occ)
- 	cmd[7] = 0;
- 
- 	/* mutex should already be locked if necessary */
--	return occ->send_cmd(occ, cmd);
-+	rc = occ->send_cmd(occ, cmd);
-+	if (rc) {
-+		if (occ->error_count++ > OCC_ERROR_COUNT_THRESHOLD)
-+			occ->error = rc;
++/* OCC SRAM address space */
++#define OCC_SRAM_ADDR_CMD		0xFFFF6000
++#define OCC_SRAM_ADDR_RESP		0xFFFF7000
 +
-+		goto done;
-+	}
++#define OCC_DATA_ATTN			0x20010000
 +
-+	/* clear error since communication was successful */
-+	occ->error_count = 0;
-+	occ->error = 0;
-+
-+	/* check for safe state */
-+	header = (struct occ_poll_response_header *)occ->resp.data;
-+	if (header->occ_state == OCC_STATE_SAFE) {
-+		if (occ->last_safe) {
-+			if (time_after(jiffies,
-+				       occ->last_safe + OCC_SAFE_TIMEOUT))
-+				occ->error = -EHOSTDOWN;
-+		} else {
-+			occ->last_safe = jiffies;
-+		}
-+	} else {
-+		occ->last_safe = 0;
-+	}
-+
-+done:
-+	occ_sysfs_poll_done(occ);
-+	return rc;
- }
+ struct p8_i2c_occ {
+ 	struct occ occ;
+ 	struct i2c_client *client;
+@@ -24,9 +42,174 @@ struct p8_i2c_occ {
  
- static int occ_set_user_power_cap(struct occ *occ, u16 user_power_cap)
-@@ -174,7 +209,7 @@ static int occ_set_user_power_cap(struct occ *occ, u16 user_power_cap)
- 	return rc;
- }
+ #define to_p8_i2c_occ(x)	container_of((x), struct p8_i2c_occ, occ)
  
--static int occ_update_response(struct occ *occ)
-+int occ_update_response(struct occ *occ)
- {
- 	int rc = mutex_lock_interruptible(&occ->lock);
- 
-@@ -1207,5 +1242,9 @@ int occ_setup(struct occ *occ, const char *name)
- 		return rc;
- 	}
- 
--	return 0;
-+	rc = occ_setup_sysfs(occ);
-+	if (rc)
-+		dev_err(occ->bus_dev, "failed to setup sysfs: %d\n", rc);
-+
-+	return rc;
- }
-diff --git a/drivers/hwmon/occ/common.h b/drivers/hwmon/occ/common.h
-index 2c1c06e..7bacbb6 100644
---- a/drivers/hwmon/occ/common.h
-+++ b/drivers/hwmon/occ/common.h
-@@ -112,8 +112,25 @@ struct occ {
- 	struct occ_attribute *attrs;
- 	struct attribute_group group;
- 	const struct attribute_group *groups[2];
-+
-+	int error;                      /* latest transfer error */
-+	unsigned int error_count;       /* number of xfr errors observed */
-+	unsigned long last_safe;        /* time OCC entered "safe" state */
-+
-+	/*
-+	 * Store the previous state data for comparison in order to notify
-+	 * sysfs readers of state changes.
-+	 */
-+	int prev_error;
-+	u8 prev_stat;
-+	u8 prev_ext_stat;
-+	u8 prev_occs_present;
- };
- 
- int occ_setup(struct occ *occ, const char *name);
-+int occ_setup_sysfs(struct occ *occ);
-+void occ_shutdown(struct occ *occ);
-+void occ_sysfs_poll_done(struct occ *occ);
-+int occ_update_response(struct occ *occ);
- 
- #endif /* OCC_COMMON_H */
-diff --git a/drivers/hwmon/occ/p8_i2c.c b/drivers/hwmon/occ/p8_i2c.c
-index 9a920db..63f3db8 100644
---- a/drivers/hwmon/occ/p8_i2c.c
-+++ b/drivers/hwmon/occ/p8_i2c.c
-@@ -232,6 +232,15 @@ static int p8_i2c_occ_probe(struct i2c_client *client,
- 	return occ_setup(occ, "p8_occ");
- }
- 
-+static int p8_i2c_occ_remove(struct i2c_client *client)
++static int p8_i2c_occ_getscom(struct i2c_client *client, u32 address, u8 *data)
 +{
-+	struct occ *occ = dev_get_drvdata(&client->dev);
++	ssize_t rc;
++	__be64 buf;
++	struct i2c_msg msgs[2];
 +
-+	occ_shutdown(occ);
++	/* p8 i2c slave requires shift */
++	address <<= 1;
++
++	msgs[0].addr = client->addr;
++	msgs[0].flags = client->flags & I2C_M_TEN;
++	msgs[0].len = sizeof(u32);
++	/* address is a scom address; bus-endian */
++	msgs[0].buf = (char *)&address;
++
++	/* data from OCC is big-endian */
++	msgs[1].addr = client->addr;
++	msgs[1].flags = (client->flags & I2C_M_TEN) | I2C_M_RD;
++	msgs[1].len = sizeof(u64);
++	msgs[1].buf = (char *)&buf;
++
++	rc = i2c_transfer(client->adapter, msgs, 2);
++	if (rc < 0)
++		return rc;
++
++	*(u64 *)data = be64_to_cpu(buf);
 +
 +	return 0;
 +}
 +
- static const struct of_device_id p8_i2c_occ_of_match[] = {
- 	{ .compatible = "ibm,p8-occ-hwmon" },
- 	{}
-@@ -245,6 +254,7 @@ static int p8_i2c_occ_probe(struct i2c_client *client,
- 		.of_match_table = p8_i2c_occ_of_match,
- 	},
- 	.probe = p8_i2c_occ_probe,
-+	.remove = p8_i2c_occ_remove,
- };
- 
- module_i2c_driver(p8_i2c_occ_driver);
-diff --git a/drivers/hwmon/occ/p9_sbe.c b/drivers/hwmon/occ/p9_sbe.c
-index fb32788..e379b05 100644
---- a/drivers/hwmon/occ/p9_sbe.c
-+++ b/drivers/hwmon/occ/p9_sbe.c
-@@ -95,6 +95,7 @@ static int p9_sbe_occ_remove(struct platform_device *pdev)
- 	struct p9_sbe_occ *ctx = to_p9_sbe_occ(occ);
- 
- 	ctx->sbe = NULL;
-+	occ_shutdown(occ);
- 
- 	return 0;
- }
-diff --git a/drivers/hwmon/occ/sysfs.c b/drivers/hwmon/occ/sysfs.c
-new file mode 100644
-index 0000000..743b26ec
---- /dev/null
-+++ b/drivers/hwmon/occ/sysfs.c
-@@ -0,0 +1,188 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * OCC hwmon driver sysfs interface
-+ *
-+ * Copyright (C) IBM Corporation 2018
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/device.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/kernel.h>
-+#include <linux/sysfs.h>
-+
-+#include "common.h"
-+
-+/* OCC status register */
-+#define OCC_STAT_MASTER			BIT(7)
-+#define OCC_STAT_ACTIVE			BIT(0)
-+
-+/* OCC extended status register */
-+#define OCC_EXT_STAT_DVFS_OT		BIT(7)
-+#define OCC_EXT_STAT_DVFS_POWER		BIT(6)
-+#define OCC_EXT_STAT_MEM_THROTTLE	BIT(5)
-+#define OCC_EXT_STAT_QUICK_DROP		BIT(4)
-+
-+static ssize_t occ_sysfs_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
++static int p8_i2c_occ_putscom(struct i2c_client *client, u32 address, u8 *data)
 +{
-+	int rc;
-+	int val = 0;
-+	struct occ *occ = dev_get_drvdata(dev);
-+	struct occ_poll_response_header *header;
-+	struct sensor_device_attribute *sattr = to_sensor_dev_attr(attr);
++	u32 buf[3];
++	ssize_t rc;
 +
-+	rc = occ_update_response(occ);
++	/* p8 i2c slave requires shift */
++	address <<= 1;
++
++	/* address is bus-endian; data passed through from user as-is */
++	buf[0] = address;
++	memcpy(&buf[1], &data[4], sizeof(u32));
++	memcpy(&buf[2], data, sizeof(u32));
++
++	rc = i2c_master_send(client, (const char *)buf, sizeof(buf));
++	if (rc < 0)
++		return rc;
++	else if (rc != sizeof(buf))
++		return -EIO;
++
++	return 0;
++}
++
++static int p8_i2c_occ_putscom_u32(struct i2c_client *client, u32 address,
++				  u32 data0, u32 data1)
++{
++	u8 buf[8];
++
++	memcpy(buf, &data0, 4);
++	memcpy(buf + 4, &data1, 4);
++
++	return p8_i2c_occ_putscom(client, address, buf);
++}
++
++static int p8_i2c_occ_putscom_be(struct i2c_client *client, u32 address,
++				 u8 *data)
++{
++	__be32 data0, data1;
++
++	memcpy(&data0, data, 4);
++	memcpy(&data1, data + 4, 4);
++
++	return p8_i2c_occ_putscom_u32(client, address, be32_to_cpu(data0),
++				      be32_to_cpu(data1));
++}
++
+ static int p8_i2c_occ_send_cmd(struct occ *occ, u8 *cmd)
+ {
+-	return -EOPNOTSUPP;
++	int i, rc;
++	unsigned long start;
++	u16 data_length;
++	const unsigned long timeout = msecs_to_jiffies(OCC_TIMEOUT_MS);
++	const long int wait_time = msecs_to_jiffies(OCC_CMD_IN_PRG_WAIT_MS);
++	struct p8_i2c_occ *ctx = to_p8_i2c_occ(occ);
++	struct i2c_client *client = ctx->client;
++	struct occ_response *resp = &occ->resp;
++
++	start = jiffies;
++
++	/* set sram address for command */
++	rc = p8_i2c_occ_putscom_u32(client, OCB_ADDR, OCC_SRAM_ADDR_CMD, 0);
 +	if (rc)
 +		return rc;
 +
-+	header = (struct occ_poll_response_header *)occ->resp.data;
++	/* write command (expected to already be BE), we need bus-endian... */
++	rc = p8_i2c_occ_putscom_be(client, OCB_DATA3, cmd);
++	if (rc)
++		return rc;
 +
-+	switch (sattr->index) {
-+	case 0:
-+		val = !!(header->status & OCC_STAT_MASTER);
++	/* trigger OCC attention */
++	rc = p8_i2c_occ_putscom_u32(client, OCB_DATA1, OCC_DATA_ATTN, 0);
++	if (rc)
++		return rc;
++
++	do {
++		/* set sram address for response */
++		rc = p8_i2c_occ_putscom_u32(client, OCB_ADDR,
++					    OCC_SRAM_ADDR_RESP, 0);
++		if (rc)
++			return rc;
++
++		rc = p8_i2c_occ_getscom(client, OCB_DATA3, (u8 *)resp);
++		if (rc)
++			return rc;
++
++		/* wait for OCC */
++		if (resp->return_status == OCC_RESP_CMD_IN_PRG) {
++			rc = -EALREADY;
++
++			if (time_after(jiffies, start + timeout))
++				break;
++
++			set_current_state(TASK_INTERRUPTIBLE);
++			schedule_timeout(wait_time);
++		}
++	} while (rc);
++
++	/* check the OCC response */
++	switch (resp->return_status) {
++	case OCC_RESP_CMD_IN_PRG:
++		rc = -ETIMEDOUT;
 +		break;
-+	case 1:
-+		val = !!(header->status & OCC_STAT_ACTIVE);
++	case OCC_RESP_SUCCESS:
++		rc = 0;
 +		break;
-+	case 2:
-+		val = !!(header->status & OCC_EXT_STAT_DVFS_OT);
++	case OCC_RESP_CMD_INVAL:
++	case OCC_RESP_CMD_LEN_INVAL:
++	case OCC_RESP_DATA_INVAL:
++	case OCC_RESP_CHKSUM_ERR:
++		rc = -EINVAL;
 +		break;
-+	case 3:
-+		val = !!(header->status & OCC_EXT_STAT_DVFS_POWER);
-+		break;
-+	case 4:
-+		val = !!(header->status & OCC_EXT_STAT_MEM_THROTTLE);
-+		break;
-+	case 5:
-+		val = !!(header->status & OCC_EXT_STAT_QUICK_DROP);
-+		break;
-+	case 6:
-+		val = header->occ_state;
-+		break;
-+	case 7:
-+		if (header->status & OCC_STAT_MASTER)
-+			val = hweight8(header->occs_present);
-+		else
-+			val = 1;
-+		break;
-+	case 8:
-+		val = occ->error;
++	case OCC_RESP_INT_ERR:
++	case OCC_RESP_BAD_STATE:
++	case OCC_RESP_CRIT_EXCEPT:
++	case OCC_RESP_CRIT_INIT:
++	case OCC_RESP_CRIT_WATCHDOG:
++	case OCC_RESP_CRIT_OCB:
++	case OCC_RESP_CRIT_HW:
++		rc = -EREMOTEIO;
 +		break;
 +	default:
-+		return -EINVAL;
++		rc = -EPROTO;
 +	}
 +
-+	return snprintf(buf, PAGE_SIZE - 1, "%d\n", val);
-+}
++	if (rc < 0)
++		return rc;
 +
-+static SENSOR_DEVICE_ATTR(occ_master, 0444, occ_sysfs_show, NULL, 0);
-+static SENSOR_DEVICE_ATTR(occ_active, 0444, occ_sysfs_show, NULL, 1);
-+static SENSOR_DEVICE_ATTR(occ_dvfs_overtemp, 0444, occ_sysfs_show, NULL, 2);
-+static SENSOR_DEVICE_ATTR(occ_dvfs_power, 0444, occ_sysfs_show, NULL, 3);
-+static SENSOR_DEVICE_ATTR(occ_mem_throttle, 0444, occ_sysfs_show, NULL, 4);
-+static SENSOR_DEVICE_ATTR(occ_quick_pwr_drop, 0444, occ_sysfs_show, NULL, 5);
-+static SENSOR_DEVICE_ATTR(occ_state, 0444, occ_sysfs_show, NULL, 6);
-+static SENSOR_DEVICE_ATTR(occs_present, 0444, occ_sysfs_show, NULL, 7);
-+static SENSOR_DEVICE_ATTR(occ_error, 0444, occ_sysfs_show, NULL, 8);
++	data_length = get_unaligned_be16(&resp->data_length);
++	if (data_length > OCC_RESP_DATA_BYTES)
++		return -EMSGSIZE;
 +
-+static struct attribute *occ_attributes[] = {
-+	&sensor_dev_attr_occ_master.dev_attr.attr,
-+	&sensor_dev_attr_occ_active.dev_attr.attr,
-+	&sensor_dev_attr_occ_dvfs_overtemp.dev_attr.attr,
-+	&sensor_dev_attr_occ_dvfs_power.dev_attr.attr,
-+	&sensor_dev_attr_occ_mem_throttle.dev_attr.attr,
-+	&sensor_dev_attr_occ_quick_pwr_drop.dev_attr.attr,
-+	&sensor_dev_attr_occ_state.dev_attr.attr,
-+	&sensor_dev_attr_occs_present.dev_attr.attr,
-+	&sensor_dev_attr_occ_error.dev_attr.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group occ_sysfs = {
-+	.attrs = occ_attributes,
-+};
-+
-+void occ_sysfs_poll_done(struct occ *occ)
-+{
-+	const char *name;
-+	struct occ_poll_response_header *header =
-+		(struct occ_poll_response_header *)occ->resp.data;
-+
-+	/*
-+	 * On the first poll response, we haven't yet created the sysfs
-+	 * attributes, so don't make any notify calls.
-+	 */
-+	if (!occ->hwmon)
-+		goto done;
-+
-+	if ((header->status & OCC_STAT_MASTER) !=
-+	    (occ->prev_stat & OCC_STAT_MASTER)) {
-+		name = sensor_dev_attr_occ_master.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
++	/* fetch the rest of the response data */
++	for (i = 8; i < data_length + 7; i += 8) {
++		rc = p8_i2c_occ_getscom(client, OCB_DATA3, ((u8 *)resp) + i);
++		if (rc)
++			return rc;
 +	}
 +
-+	if ((header->status & OCC_STAT_ACTIVE) !=
-+	    (occ->prev_stat & OCC_STAT_ACTIVE)) {
-+		name = sensor_dev_attr_occ_active.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
++	return 0;
+ }
+ 
+ static int p8_i2c_occ_probe(struct i2c_client *client,
+diff --git a/drivers/hwmon/occ/p9_sbe.c b/drivers/hwmon/occ/p9_sbe.c
+index 7c026a5..fb32788 100644
+--- a/drivers/hwmon/occ/p9_sbe.c
++++ b/drivers/hwmon/occ/p9_sbe.c
+@@ -12,6 +12,7 @@
+ 
+ #include <linux/device.h>
+ #include <linux/errno.h>
++#include <linux/fsi-occ.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ 
+@@ -26,7 +27,42 @@ struct p9_sbe_occ {
+ 
+ static int p9_sbe_occ_send_cmd(struct occ *occ, u8 *cmd)
+ {
+-	return -EOPNOTSUPP;
++	struct occ_response *resp = &occ->resp;
++	struct p9_sbe_occ *ctx = to_p9_sbe_occ(occ);
++	size_t resp_len = sizeof(*resp);
++	int rc;
++
++	rc = fsi_occ_submit(ctx->sbe, cmd, 8, resp, &resp_len);
++	if (rc < 0)
++		return rc;
++
++	switch (resp->return_status) {
++	case OCC_RESP_CMD_IN_PRG:
++		rc = -ETIMEDOUT;
++		break;
++	case OCC_RESP_SUCCESS:
++		rc = 0;
++		break;
++	case OCC_RESP_CMD_INVAL:
++	case OCC_RESP_CMD_LEN_INVAL:
++	case OCC_RESP_DATA_INVAL:
++	case OCC_RESP_CHKSUM_ERR:
++		rc = -EINVAL;
++		break;
++	case OCC_RESP_INT_ERR:
++	case OCC_RESP_BAD_STATE:
++	case OCC_RESP_CRIT_EXCEPT:
++	case OCC_RESP_CRIT_INIT:
++	case OCC_RESP_CRIT_WATCHDOG:
++	case OCC_RESP_CRIT_OCB:
++	case OCC_RESP_CRIT_HW:
++		rc = -EREMOTEIO;
++		break;
++	default:
++		rc = -EPROTO;
 +	}
 +
-+	if ((header->ext_status & OCC_EXT_STAT_DVFS_OT) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_DVFS_OT)) {
-+		name = sensor_dev_attr_occ_dvfs_overtemp.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->ext_status & OCC_EXT_STAT_DVFS_POWER) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_DVFS_POWER)) {
-+		name = sensor_dev_attr_occ_dvfs_power.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->ext_status & OCC_EXT_STAT_MEM_THROTTLE) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_MEM_THROTTLE)) {
-+		name = sensor_dev_attr_occ_mem_throttle.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->ext_status & OCC_EXT_STAT_QUICK_DROP) !=
-+	    (occ->prev_ext_stat & OCC_EXT_STAT_QUICK_DROP)) {
-+		name = sensor_dev_attr_occ_quick_pwr_drop.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if ((header->status & OCC_STAT_MASTER) &&
-+	    header->occs_present != occ->prev_occs_present) {
-+		name = sensor_dev_attr_occs_present.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	if (occ->error && occ->error != occ->prev_error) {
-+		name = sensor_dev_attr_occ_error.dev_attr.attr.name;
-+		sysfs_notify(&occ->bus_dev->kobj, NULL, name);
-+	}
-+
-+	/* no notifications for OCC state; doesn't indicate error condition */
-+
-+done:
-+	occ->prev_error = occ->error;
-+	occ->prev_stat = header->status;
-+	occ->prev_ext_stat = header->ext_status;
-+	occ->prev_occs_present = header->occs_present;
-+}
-+
-+int occ_setup_sysfs(struct occ *occ)
-+{
-+	return sysfs_create_group(&occ->bus_dev->kobj, &occ_sysfs);
-+}
-+
-+void occ_shutdown(struct occ *occ)
-+{
-+	sysfs_remove_group(&occ->bus_dev->kobj, &occ_sysfs);
-+}
++	return rc;
+ }
+ 
+ static int p9_sbe_occ_probe(struct platform_device *pdev)
 -- 
 1.8.3.1
 
