@@ -3,96 +3,227 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E56947D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:50:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C0BE7DE80
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:50:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390559AbeGKV4c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2390557AbeGKV4c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 11 Jul 2018 17:56:32 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:58927 "EHLO
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:50573 "EHLO
         wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387437AbeGKV4c (ORCPT
+        by vger.kernel.org with ESMTP id S1732452AbeGKV4c (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:56:32 -0400
+X-Greylist: delayed 431 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Jul 2018 17:56:31 EDT
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 086CA23F;
-        Wed, 11 Jul 2018 17:43:00 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id 32E61256;
+        Wed, 11 Jul 2018 17:43:08 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 11 Jul 2018 17:43:01 -0400
+  by compute5.internal (MEProxy); Wed, 11 Jul 2018 17:43:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=cc
-        :date:from:message-id:subject:to:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=jxY8z2PTwKLvSWS1W7Absq6jlCIImvnjta+qviwpz
-        qw=; b=p+rMI5F6qokgyySFwI0yrKfKP2kOCz3yX8AlK1DxROwWBohQCHngxCSbO
-        tz4CqlqXJoV8eEvEz1SUINfgqXOifqlj90tDJx0PneNiiX5PBMSz/0pAzaYRP9vR
-        ig7wj2ivgeykmA3CnDp62aIU+S/Yz3k84tOQBK8Z5k5eifaBAQC6uggtt6xNkEgA
-        q54dswS8Y7YVQ6ep54A0+0U7VAjtArDvzMW0BBELLWCWk7+PofHtDeS5DdbnDPQw
-        Fu1dgxfnhNCf2EZjX6GaBlsN5vGLGgnWl4oTbI9nqHlZKUHRYt/y+bMtE0PUrIQ/
-        CDDEqtFaHJyjOBbYtDTv2JvAJW9WQ==
+        :date:from:in-reply-to:message-id:references:subject:to
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LKxdHjvbzHqWCvLMt
+        ysu/h6lmqGxQFVuhZicxaoeRg0=; b=o4n+yYH7UVjF/xHlg5vbd3PUtNYjFyYXp
+        X4a/SroGZDe6ETAjzxdySQ4d9xf6i8mmKCmUJ8Hro4SljKhwEX2DvAFCyzrRVdWp
+        LgOVDMqInf1uOflXXVYC3sZ3BH26V1RF/4Z6bJYmYWDyHqIF5HTeLHaestSR8IHe
+        ruN/BTz30XelZA7acyoa8yvx1x5aUemUGRUibCtBJI40nk7zth9un4AJiEm4xjOa
+        5H9E7/mQwQEWse6JRzAmpCjA6KVMMUGdXgon9FhfODueWok8iAIyVRQhU4enYe22
+        Py9tdm5tshj0uHMyzmwtVrKjV4Ztl8VHifL4Lr2joBfy0sZ+s0KMw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:message-id:subject:to
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=jxY8z2PTwKLvSWS1W
-        7Absq6jlCIImvnjta+qviwpzqw=; b=dWkP89fvPqYJb3omutVd99Kl8KVSo1/VJ
-        zJpGafU1uOMf07Hbr9bo86tqvD5HxUFPPYEm9gQlfViz7rKeFVl0c7vHnOSkYtl9
-        mwyoWvs1xWzOslYS6dW+b1VIrV4NMQr8mB5geSpEAVnfXdkcT7bhflJQ2K59if2w
-        rMlxPK25B9fyIIZsThN1PfxLpnlEgqz2b7W330DuIdZxdvrDReJZv4fLiV7Mq9b7
-        0KP6CwZerZzfcMFK9K/yETKUWGNDn8ZSgkGyMwoH+R/INPbRZUhScF9/UjJ1mdkE
-        WaOVRM+H8SxTiO0ZHiUixagjJ0E02P8y0SGsDtCQD+Yao0bNhAfPQ==
-X-ME-Proxy: <xmx:43lGW8X_6WhXxRWebiTPLzruOj4sIiC6ilWuRytVv9yTXHa5YRwE1g>
-    <xmx:43lGWwzbUbsr0f-O1ko6LorBw7VXxUF1nkMGklbToqMiuzfJcJJRtQ>
-    <xmx:43lGWyNVkcv5UIqQt1LjLYSekQKKeAPSJvTOQHCjlnikw7uHuvhIEw>
-    <xmx:43lGW54vaf97Jb5dHFOU1SAXc-Kf-3VFgII0_4aIuUJjcyl7cKhGXw>
-    <xmx:43lGW7Ml0ceUHjIR-DWuYRDDPaWeRhQIrha8rCEKHZlWS1aXQ5w3zw>
-    <xmx:5HlGW7vTz1XqC2VFsr3PFqP4ODCk4zHElZbinyP9Y9EriGvFqWodzA>
-X-ME-Sender: <xms:43lGW-Br_unG0Hd5wUW7jnIM67hWCFnah7eLDwAeH5OROVpy8UbwMg>
+        messagingengine.com; h=cc:date:from:in-reply-to:message-id
+        :references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=LKxdHjvbzHqWCvLMtysu/h6lmqGxQFVuhZicxaoeRg0=; b=HhlS4TNB
+        Yl+A6pFudD0qZw0Anz6GQmxCdK1l40Spi0J6ed1LeLlNQ2CQYawLQaDpG3NQ4ulM
+        u9tCvQ7bL05nAAJtF04lCQCJhxoamUQ0nRWDjwzHzbUccleloBJn5XN+89/R4Mbw
+        l8Qwd5XY1SJJ7FPBTtPSViD1Htfw9phOic1vqcgwJ0xeWhFU0cBup3lBz9dTubOe
+        XPT9hZtqk0iCeiySd/0zlHTCV+RweRXwxyIVEc/Cg5kYxS4rsoViBtLB7U6DAym8
+        zaVXCeo0xhcB/ViCBLqTm04Cxh3Tv7VZA+J7r9EoowEx5ykud+X3P2IvFISc0hh6
+        RoMvYvyCZBXZqA==
+X-ME-Proxy: <xmx:63lGW_NwWIjlOTXKW6SoxJ5FIJFo6FH6BVJJDSpRxkcPNIgbi4wmMQ>
+    <xmx:63lGW8NOkmGgTM1mo_oH6jfcQp6rBcWq5RZFMxk_RC5BYCXIobIzjg>
+    <xmx:63lGW74ZN6POo-1nnN_BZsRlYiiStlDSM_Faplr6D8eh9tkJrEeuzA>
+    <xmx:63lGWwkYdyBukuGh2iripGx-tAS8zBsSlHTUhqI6WYe1BBVTNPntMw>
+    <xmx:63lGW4YEN7eejuVgGAWSN6H_-EaXE2SGk2PekiCi90t8qMzaw96p9g>
+    <xmx:63lGWwS_QQLo-XrzQYxI4VYYYGQwxAmzw_CstmXz-e5Sdg6Ldm9Iig>
+X-ME-Sender: <xms:63lGW2_JcQWaoZ_Ufp9FD3w-iwI6geEJvYsIW1NZk1aFLoY-NlI_SA>
 Received: from localhost (ppp121-44-208-89.bras1.syd2.internode.on.net [121.44.208.89])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 07BD71026E;
-        Wed, 11 Jul 2018 17:42:58 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id CC1A91026B;
+        Wed, 11 Jul 2018 17:43:06 -0400 (EDT)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     "David S. Miller" <davem@davemloft.net>
 Cc:     "Tobin C. Harding" <me@tobin.cc>,
         Sridhar Samudrala <sridhar.samudrala@intel.com>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 0/2] docs: Fix failover build warnings
-Date:   Thu, 12 Jul 2018 07:42:48 +1000
-Message-Id: <20180711214250.19039-1-me@tobin.cc>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH net-next 2/2] docs: networking: Fix failover build warnings
+Date:   Thu, 12 Jul 2018 07:42:50 +1000
+Message-Id: <20180711214250.19039-3-me@tobin.cc>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180711214250.19039-1-me@tobin.cc>
+References: <20180711214250.19039-1-me@tobin.cc>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dave,
+Currently building the net_failover docs causes a bunch of warnings to
+be emitted.  These warnings are all related to indentation and correctly
+highlight missing '::' (for code sections).  It looks, from other rst
+files in Documentation, that the first column should be indented 2
+spaces.
 
-This is my first patch set to net-next.  Please shout loud and clear if
-I've botched anything.
+Add '::' before code snippets and indent all snippets uniformly starting
+with 2 spaces.
 
-Recently failover and net_failover modules were added to the mainline.
-Documentation was included in rst format but they were not added to the
-toctree in `networking/index.rst`.  Also building docs for net_failover
-is currently emitting a few warnings.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Tobin C. Harding <me@tobin.cc>
+---
 
-Patch 1 adds failover and net_failover to the index toctree
-Patch 2 fixes the build warnings for net_failover
-
-I haven't been super active on netdev list so if there is some reason I
-missed why these files are not in the index please do say so.
-
-Has there been any discussion on preferred order for the toctree index
-list?  I just added them to the bottom of the list.
+Cc'd Jon incase he wants to suggest a preferred level of indentation.
 
 thanks,
 Tobin.
 
-
-Tobin C. Harding (2):
-  docs: networking: Add failover docs to index
-  docs: networking: Fix failover build warnings
-
- Documentation/networking/index.rst        |   2 +
  Documentation/networking/net_failover.rst | 111 +++++++++++-----------
- 2 files changed, 59 insertions(+), 54 deletions(-)
+ 1 file changed, 57 insertions(+), 54 deletions(-)
 
+diff --git a/Documentation/networking/net_failover.rst b/Documentation/networking/net_failover.rst
+index 70ca2f5800c4..06c97dcb57ca 100644
+--- a/Documentation/networking/net_failover.rst
++++ b/Documentation/networking/net_failover.rst
+@@ -36,37 +36,39 @@ feature on the virtio-net interface and assign the same MAC address to both
+ virtio-net and VF interfaces.
+ 
+ Here is an example XML snippet that shows such configuration.
+-
+- <interface type='network'>
+-   <mac address='52:54:00:00:12:53'/>
+-   <source network='enp66s0f0_br'/>
+-   <target dev='tap01'/>
+-   <model type='virtio'/>
+-   <driver name='vhost' queues='4'/>
+-   <link state='down'/>
+-   <address type='pci' domain='0x0000' bus='0x00' slot='0x0a' function='0x0'/>
+- </interface>
+- <interface type='hostdev' managed='yes'>
+-   <mac address='52:54:00:00:12:53'/>
+-   <source>
+-     <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
+-   </source>
+-   <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
+- </interface>
++::
++
++  <interface type='network'>
++    <mac address='52:54:00:00:12:53'/>
++    <source network='enp66s0f0_br'/>
++    <target dev='tap01'/>
++    <model type='virtio'/>
++    <driver name='vhost' queues='4'/>
++    <link state='down'/>
++    <address type='pci' domain='0x0000' bus='0x00' slot='0x0a' function='0x0'/>
++  </interface>
++  <interface type='hostdev' managed='yes'>
++    <mac address='52:54:00:00:12:53'/>
++    <source>
++      <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
++    </source>
++    <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
++  </interface>
+ 
+ Booting a VM with the above configuration will result in the following 3
+ netdevs created in the VM.
+-
+-4: ens10: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+-    link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
+-    inet 192.168.12.53/24 brd 192.168.12.255 scope global dynamic ens10
+-       valid_lft 42482sec preferred_lft 42482sec
+-    inet6 fe80::97d8:db2:8c10:b6d6/64 scope link
+-       valid_lft forever preferred_lft forever
+-5: ens10nsby: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master ens10 state UP group default qlen 1000
+-    link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
+-7: ens11: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq master ens10 state UP group default qlen 1000
+-    link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
++::
++
++  4: ens10: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
++      link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
++      inet 192.168.12.53/24 brd 192.168.12.255 scope global dynamic ens10
++         valid_lft 42482sec preferred_lft 42482sec
++      inet6 fe80::97d8:db2:8c10:b6d6/64 scope link
++         valid_lft forever preferred_lft forever
++  5: ens10nsby: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel master ens10 state UP group default qlen 1000
++      link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
++  7: ens11: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq master ens10 state UP group default qlen 1000
++      link/ether 52:54:00:00:12:53 brd ff:ff:ff:ff:ff:ff
+ 
+ ens10 is the 'failover' master netdev, ens10nsby and ens11 are the slave
+ 'standby' and 'primary' netdevs respectively.
+@@ -80,37 +82,38 @@ the paravirtual datapath when the VF is unplugged.
+ 
+ Here is a sample script that shows the steps to initiate live migration on
+ the source hypervisor.
++::
+ 
+-# cat vf_xml
+-<interface type='hostdev' managed='yes'>
+-  <mac address='52:54:00:00:12:53'/>
+-  <source>
+-    <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
+-  </source>
+-  <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
+-</interface>
++  # cat vf_xml
++  <interface type='hostdev' managed='yes'>
++    <mac address='52:54:00:00:12:53'/>
++    <source>
++      <address type='pci' domain='0x0000' bus='0x42' slot='0x02' function='0x5'/>
++    </source>
++    <address type='pci' domain='0x0000' bus='0x00' slot='0x0b' function='0x0'/>
++  </interface>
+ 
+-# Source Hypervisor
+-#!/bin/bash
++  # Source Hypervisor
++  #!/bin/bash
+ 
+-DOMAIN=fedora27-tap01
+-PF=enp66s0f0
+-VF_NUM=5
+-TAP_IF=tap01
+-VF_XML=
++  DOMAIN=fedora27-tap01
++  PF=enp66s0f0
++  VF_NUM=5
++  TAP_IF=tap01
++  VF_XML=
+ 
+-MAC=52:54:00:00:12:53
+-ZERO_MAC=00:00:00:00:00:00
++  MAC=52:54:00:00:12:53
++  ZERO_MAC=00:00:00:00:00:00
+ 
+-virsh domif-setlink $DOMAIN $TAP_IF up
+-bridge fdb del $MAC dev $PF master
+-virsh detach-device $DOMAIN $VF_XML
+-ip link set $PF vf $VF_NUM mac $ZERO_MAC
++  virsh domif-setlink $DOMAIN $TAP_IF up
++  bridge fdb del $MAC dev $PF master
++  virsh detach-device $DOMAIN $VF_XML
++  ip link set $PF vf $VF_NUM mac $ZERO_MAC
+ 
+-virsh migrate --live $DOMAIN qemu+ssh://$REMOTE_HOST/system
++  virsh migrate --live $DOMAIN qemu+ssh://$REMOTE_HOST/system
+ 
+-# Destination Hypervisor
+-#!/bin/bash
++  # Destination Hypervisor
++  #!/bin/bash
+ 
+-virsh attach-device $DOMAIN $VF_XML
+-virsh domif-setlink $DOMAIN $TAP_IF down
++  virsh attach-device $DOMAIN $VF_XML
++  virsh domif-setlink $DOMAIN $TAP_IF down
 -- 
 2.17.1
 
