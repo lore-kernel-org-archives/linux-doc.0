@@ -1,23 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_TVD_MIME_EPI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4267A7D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 08:27:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 363CF7DE80
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 08:35:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbeGKIaw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 04:30:52 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:51674 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbeGKIaw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 04:30:52 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id E00FA804B7; Wed, 11 Jul 2018 10:27:42 +0200 (CEST)
-Date:   Wed, 11 Jul 2018 10:27:39 +0200
-From:   Pavel Machek <pavel@ucw.cz>
+        id S1726384AbeGKIhz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 04:37:55 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:56646 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726314AbeGKIhy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 04:37:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=BQyLoduk6e6xtiiqj8dSagj8Eb1KqCSMrZcSV1hUnOY=; b=fypWRPdM0kq2F6D846H/NOS4Y
+        eEMMGXD1llRCQfGjnEcJC2uKl6Qzu61p4tgGUgm5k9K99v9kwxoWQVQdpdqAWlcIb1AeqCICkICmI
+        fV+ItBqHSeQXUguHViqRB2Jh8n2WxuKrTlqU39pcHF+6+ZAX/yADWEurvRESUUS1rykNNI4V+udvP
+        ujQYBoMQsdbYkIGljPCA2RiL5vDo2Q/aYjrm6CQqYphwiYCA8+aU63/xnsBVW00YoJEQ8Gl+WXCJ1
+        4OoZ7hXCFK33U7V0zgnQqHSxySYo3BgI8vA2r/bsCchITcx2C6XWOmtUIgAhtvo0XgCpHewWlG6Rz
+        LhtYk831Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fdAZj-0005Iz-7t; Wed, 11 Jul 2018 08:34:15 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 14FCF20291063; Wed, 11 Jul 2018 10:34:12 +0200 (CEST)
+Date:   Wed, 11 Jul 2018 10:34:12 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -35,86 +50,33 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Kees Cook <keescook@chromiun.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v2 05/27] Documentation/x86: Add CET description
-Message-ID: <20180711082739.GA18919@amd>
+Subject: Re: [RFC PATCH v2 08/27] mm: Introduce VM_SHSTK for shadow stack
+ memory
+Message-ID: <20180711083412.GP2476@hirez.programming.kicks-ass.net>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-6-yu-cheng.yu@intel.com>
+ <20180710222639.8241-9-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20180710222639.8241-6-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20180710222639.8241-9-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 10, 2018 at 03:26:20PM -0700, Yu-cheng Yu wrote:
+> VM_SHSTK indicates a shadow stack memory area.
+> 
+> A shadow stack PTE must be read-only and dirty.  For non shadow
+> stack, we use a spare bit of the 64-bit PTE for dirty.  The PTE
+> changes are in the next patch.
 
---IJpNTDwzlM2Ie8A6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue 2018-07-10 15:26:17, Yu-cheng Yu wrote:
-> Explain how CET works and the no_cet_shstk/no_cet_ibt kernel
-> parameters.
->=20
-
-> --- /dev/null
-> +++ b/Documentation/x86/intel_cet.txt
-> @@ -0,0 +1,250 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Control Flow Enforcement Technology (CET)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-We normally use .rst for this kind of formatted text.
-
-
-> +[6] The implementation of the SHSTK
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +SHSTK size
-> +----------
-> +
-> +A task's SHSTK is allocated from memory to a fixed size that can
-> +support 32 KB nested function calls; that is 256 KB for a 64-bit
-> +application and 128 KB for a 32-bit application.  The system admin
-> +can change the default size.
-
-How does admin change that? We already have ulimit for stack size,
-should those be somehow tied together?
-
-$ ulimit -a
-=2E..
-stack size              (kbytes, -s) 8192
-
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAltFv3sACgkQMOfwapXb+vJCUwCfRHq9+RCMp+u2Y1KcEeEwRWQo
-uw4AoKTNBubkPzJE8R3PcwGC3r8tTOI2
-=YfD9
------END PGP SIGNATURE-----
-
---IJpNTDwzlM2Ie8A6--
+This doesn't make any sense.. the $subject and the patch seem completely
+unrelated to this Changelog.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
