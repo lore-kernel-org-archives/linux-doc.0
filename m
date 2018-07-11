@@ -1,128 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 55C927D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 14:56:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D0007DE80
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 14:57:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732927AbeGKPB2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 11:01:28 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:32811 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732901AbeGKPB2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 11:01:28 -0400
-Received: by mail-lj1-f196.google.com with SMTP id t21-v6so19626717lji.0;
-        Wed, 11 Jul 2018 07:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=t7AMsOxvDeSre+Tex1LGD/XMykGtGcPi9xH6DhXWpxQ=;
-        b=jbd+kBQw1rI4M6urUsjkUObPcpKbbfLlp+gAbKn83ZjNCAGmROWCna3s2sBFPqrl+H
-         duAlCh9pWxCyH++vLW0ktAu3sA+ql7aTVP2sIRUiCQBcIy8X6spFTHz+hmC9ZBlsj444
-         JGwfwIcoVldZKBFTN9qtEUZbSHPfC46loILl+wZcqDzRyhs/iBQL36mJXUxisEruTHua
-         N0W92vJJBPdoMFhpJL35CjYsoLPC7Inepx1rFwArkzAra6fo0KkOXrqfrwGulrhEZyoS
-         zDqyIskDN52IMpMSWRO9hKuLwud4RL//YtUiQwynS5+Kgx6aNT5QWk93PFNkTbukWu9x
-         hjoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=t7AMsOxvDeSre+Tex1LGD/XMykGtGcPi9xH6DhXWpxQ=;
-        b=Veeka1BkPpbFIdw4pBVZFwY76Qb/ZWmy59i7I4H9+zu6Hr87iYjpYK4eEDjrjFnfXy
-         3eaKMM2ECACPo/yYSZhdXiXW58V3BclQLHnU3KX+ZApSdRhcairi4bJkuuckfaeCImGo
-         KQKuc/n06IsiitvOA7ho0LXqcUOItWY7qgXTqoXFtztTNOAML/evRHpFKp3L5nWm2jBD
-         QUFDp3/qFXtmhipPQTbf80gwNtO6Y98SUwOGmfBNCkujG8jbiPtRRUkKflIASuxtRCfu
-         kSNzUActoDMJAYfcLa6XDEdA+rLEF9PM1A7/9IjfB8RcY7pRtnA7f+haYzJOmPftLqHI
-         d/gg==
-X-Gm-Message-State: APt69E2YIidGe1/NIZCTr0GcMmPLq99woJR6TBAf32tCVdCDW4nheutg
-        rnEin6LU1jdAlAE9fpc9f70L3zTO6GYH45xRKdM=
-X-Google-Smtp-Source: AAOMgpfR//jhMnleVw3oASAi3YaOd90JvSKdaIbc+J5HkvxGCBI1LQPrWqcP/k2GhJ2UDkYYWKIgP6aS2b4feBGUgnw=
-X-Received: by 2002:a2e:118f:: with SMTP id 15-v6mr18111510ljr.38.1531321002834;
- Wed, 11 Jul 2018 07:56:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Wed, 11 Jul 2018 07:56:41
- -0700 (PDT)
-In-Reply-To: <20180711164529.3388d045@bbrezillon>
-References: <20180622104930.32050-1-boris.brezillon@bootlin.com>
- <20180622104930.32050-5-boris.brezillon@bootlin.com> <CAK8P3a1gyvvpKdVV+STOJXd-=BFdiFF638F0agXur0kLYP7ksw@mail.gmail.com>
- <20180711164529.3388d045@bbrezillon>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 11 Jul 2018 16:56:41 +0200
-X-Google-Sender-Auth: elpcySNQZniJv1Ex4LLbpKsyMOo
-Message-ID: <CAK8P3a2VWLnyforyjroywEwmttEq3eaPov8dGWKVw+GQs-MzcQ@mail.gmail.com>
-Subject: Re: [PATCH v5 04/10] dt-bindings: i3c: Document core bindings
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>
+        id S2388586AbeGKPCB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 11:02:01 -0400
+Received: from mga09.intel.com ([134.134.136.24]:44545 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388430AbeGKPCB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 11:02:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 07:57:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
+   d="scan'208";a="239526669"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by orsmga005.jf.intel.com with ESMTP; 11 Jul 2018 07:57:14 -0700
+Message-ID: <1531320817.13297.1.camel@intel.com>
+Subject: Re: [RFC PATCH v2 05/27] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     "H.J. Lu" <hjl.tools@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>
+Cc:     the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Wed, 11 Jul 2018 07:53:37 -0700
+In-Reply-To: <CAMe9rOqo3ZSMuwNZf8HbrL72OY1aQ0S0Huwqj7rsVY9_ZOfF_A@mail.gmail.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+         <20180710222639.8241-6-yu-cheng.yu@intel.com>
+         <ae3e2013-9c90-af39-f9da-278bf7af6f73@redhat.com>
+         <CAMe9rOqo3ZSMuwNZf8HbrL72OY1aQ0S0Huwqj7rsVY9_ZOfF_A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 11, 2018 at 4:45 PM, Boris Brezillon
-<boris.brezillon@bootlin.com> wrote:
-> On Wed, 11 Jul 2018 16:10:10 +0200
-> Arnd Bergmann <arnd@arndb.de> wrote:
->
->> On Fri, Jun 22, 2018 at 12:49 PM, Boris Brezillon
->> <boris.brezillon@bootlin.com> wrote:
->> > A new I3C subsystem has been added and a generic description has been
->> > created to represent the I3C bus and the devices connected on it.
->> >
->>
->> > +I2C devices
->> > +===========
->> > +
->> > +Each I2C device connected to the bus should be described in a subnode. All
->> > +properties described in Documentation/devicetree/bindings/i2c/i2c.txt are
->> > +valid here, but several new properties have been added.
->> > +
->> > +New constraint on existing properties:
->> > +--------------------------------------
->> ...
->> > +  + third cell: should be 0
->>
->> What for? Just to be future-proof, or do you have something specific
->> in mind here?
->
-> Even if I2C devices only need 1 cell, I3C devices need 3 (1 for the
-> static address and 2 for the PID). Since both type of devices are
-> described under the same bus node, and we can have different
-> #address-cells, I had to put 0-padding in the last cell.
+On Wed, 2018-07-11 at 06:47 -0700, H.J. Lu wrote:
+> On Wed, Jul 11, 2018 at 2:57 AM, Florian Weimer <fweimer@redhat.com>
+> wrote:
+> > 
+> > On 07/11/2018 12:26 AM, Yu-cheng Yu wrote:
+> > 
+> > > 
+> > > +To build a CET-enabled kernel, Binutils v2.30 and GCC v8.1 or
+> > > later
+> > > +are required.  To build a CET-enabled application, GLIBC v2.29
+> > > or
+> > > +later is also requried.
+> > 
+> > Have you given up on getting the required changes into glibc 2.28?
+> > 
+> This is a typo.  We are still targeting for 2.28.  All pieces are
+> there.
+> 
 
-Ok, got it.
+Ok, I will fix it.
 
-    Arnd
+Yu-cheng
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
