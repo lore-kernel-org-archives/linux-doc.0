@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66E137D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 17:00:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EB7187D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 17:10:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388513AbeGKRF1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 13:05:27 -0400
-Received: from mga17.intel.com ([192.55.52.151]:50649 "EHLO mga17.intel.com"
+        id S2390047AbeGKRP5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 13:15:57 -0400
+Received: from mga11.intel.com ([192.55.52.93]:42644 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388233AbeGKRF1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 11 Jul 2018 13:05:27 -0400
+        id S2388700AbeGKRP5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 13:15:57 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 10:00:13 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 10:10:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
-   d="scan'208";a="56113029"
+   d="scan'208";a="56885705"
 Received: from 2b52.sc.intel.com ([143.183.136.52])
-  by orsmga008.jf.intel.com with ESMTP; 11 Jul 2018 10:00:05 -0700
-Message-ID: <1531328187.13297.35.camel@intel.com>
-Subject: Re: [RFC PATCH v2 23/27] mm/mmap: Add IBT bitmap size to address
- space limit check
+  by orsmga006.jf.intel.com with ESMTP; 11 Jul 2018 10:09:08 -0700
+Message-ID: <1531328731.15351.3.camel@intel.com>
+Subject: Re: [RFC PATCH v2 16/27] mm: Modify can_follow_write_pte/pmd for
+ shadow stack
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -47,11 +47,11 @@ To:     Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Wed, 11 Jul 2018 09:56:27 -0700
-In-Reply-To: <7cdadb28-a9aa-550b-9e31-30691b64b504@linux.intel.com>
+Date:   Wed, 11 Jul 2018 10:05:31 -0700
+In-Reply-To: <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
-         <20180710222639.8241-24-yu-cheng.yu@intel.com>
-         <7cdadb28-a9aa-550b-9e31-30691b64b504@linux.intel.com>
+         <20180710222639.8241-17-yu-cheng.yu@intel.com>
+         <de510df6-7ea9-edc6-9c49-2f80f16472b4@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
@@ -61,18 +61,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2018-07-10 at 16:57 -0700, Dave Hansen wrote:
+On Tue, 2018-07-10 at 16:37 -0700, Dave Hansen wrote:
 > On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
 > > 
-> > The indirect branch tracking legacy bitmap takes a large address
-> > space.  This causes may_expand_vm() failure on the address limit
-> > check.  For a IBT-enabled task, add the bitmap size to the
-> > address limit.
-> This appears to require that we set up
-> current->thread.cet.ibt_bitmap_size _before_ calling may_expand_vm().
-> What keeps the ibt_mmap() itself from hitting the address limit?
+> > There are three possible shadow stack PTE settings:
+> > 
+> >   Normal SHSTK PTE: (R/O + DIRTY_HW)
+> >   SHSTK PTE COW'ed: (R/O + DIRTY_HW)
+> >   SHSTK PTE shared as R/O data: (R/O + DIRTY_SW)
+> > 
+> > Update can_follow_write_pte/pmd for the shadow stack.
+> First of all, thanks for the excellent patch headers.  It's nice to
+> have
+> that reference every time even though it's repeated.
+> 
+> > 
+> > -static inline bool can_follow_write_pte(pte_t pte, unsigned int
+> > flags)
+> > +static inline bool can_follow_write_pte(pte_t pte, unsigned int
+> > flags,
+> > +					bool shstk)
+> >  {
+> > +	bool pte_cowed = shstk ? is_shstk_pte(pte):pte_dirty(pte);
+> > +
+> >  	return pte_write(pte) ||
+> > -		((flags & FOLL_FORCE) && (flags & FOLL_COW) &&
+> > pte_dirty(pte));
+> > +		((flags & FOLL_FORCE) && (flags & FOLL_COW) &&
+> > pte_cowed);
+> >  }
+> Can we just pass the VMA in here?  This use is OK-ish, but I
+> generally
+> detest true/false function arguments because you can't tell what they
+> are when they show up without a named variable.
+> 
+> But...  Why does this even matter?  Your own example showed that all
+> shadowstack PTEs have either DIRTY_HW or DIRTY_SW set, and
+> pte_dirty()
+> checks both.
+> 
+> That makes this check seem a bit superfluous.
 
-Yes, that is overlooked.  I will fix it.
+My understanding is that we don't want to follow write pte if the page
+is shared as read-only.  For a SHSTK page, that is (R/O + DIRTY_SW),
+which means the SHSTK page has not been COW'ed.  Is that right?
 
 Thanks,
 Yu-cheng
