@@ -1,113 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 365197DE80
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 13:09:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B8147D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 13:47:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726575AbeGKNNa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 09:13:30 -0400
-Received: from mail-wm0-f68.google.com ([74.125.82.68]:33237 "EHLO
-        mail-wm0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732868AbeGKNN2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 09:13:28 -0400
-Received: by mail-wm0-f68.google.com with SMTP id z6-v6so16111721wma.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 06:09:11 -0700 (PDT)
+        id S2388205AbeGKNvd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 09:51:33 -0400
+Received: from mail-oi0-f68.google.com ([209.85.218.68]:46858 "EHLO
+        mail-oi0-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388200AbeGKNvd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 09:51:33 -0400
+Received: by mail-oi0-f68.google.com with SMTP id y207-v6so49320092oie.13;
+        Wed, 11 Jul 2018 06:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=SuV2RgMXtsFDr9YsO5D8IxTRhWziF/ZQhDgwiw6Xee0=;
-        b=HgBgMQGi84YNzvzkjG8SHs8x+mm2d55CGR4kynd6pAs4gIN80lzHGeABdFfPdYf7mL
-         sM5fidzjQTKIDGaN3ONlpntIRjguxIBvjH+VYkyT7Mn7N01ma7+M3HBIIzAx5yErQkx5
-         LEdJtA0VeiwiGypF996C17UTfM8YIPP32YLGM=
+        d=gmail.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=b6znGufrlpNhwDbATgq1XndSrOlJ0sUd9fskYtLr6s0=;
+        b=NxFRMVYi90bGHgVc69MHzR/KQ4gvkDdiMFjwP0hX0G6+3QOg7xYYgG5rjzW52CFeLg
+         8r3bGy0rLWCJGx3AncadzL9b4e3zi/fUdLZOutg7TjbYc3Hoo/gyv4/HSTOmaCzvq87w
+         wJ0oGNT4R6Kkqsv6EyF+3M9VM9x0tYw79HO5jxElJ6uGaVZozl6XtguQbA3doHN/UM79
+         ACDBdKhLry+7EBTh9J+zqo2xBMn+NPAANpa1Hai2oatGfAjgLlz60rCwqV9VP+pD2DQO
+         8HMq70o9i5qJy28EHNVFaRy+lgVj5HwdvACx83wMJncpcn0F8HXC9R2Pj8iOdDP13/Nk
+         4U1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=SuV2RgMXtsFDr9YsO5D8IxTRhWziF/ZQhDgwiw6Xee0=;
-        b=YYClg8aJvo+c8jtcMkhSMTEqF/P8SBL3gzF8TdOTKk/HE08dcmthBZlcHkgN4XZ+x8
-         Lv4LuadjhWvLiHK0c837a1a7cBPl8OyfmFoXXN3zViY658S76opPLX9HGYeDQsjMuhAJ
-         Z+k7xXWwRNOdw37pvzv4qhGl6jfXFX3j/ScTkog1KY+EH3jsyB4HiAjPJI6wttpbNzUD
-         wVuTjbADWelTTjnhIsMGopv+yg+CNV9z2jqQRq5OlKYFnthRYvkbPepeZLfyFkA/fC0P
-         mln+89Rg5ztfqMILdOSD94OLdp6zqUOYw2LA5WFZCJX1Vwn5roFy8gfhulnwr1dzHKF6
-         XCCg==
-X-Gm-Message-State: APt69E2gzvuRrMJ3o7uFoLt+CtB5mudmm92qh2cRAr5hVEalANuCDeaj
-        RzY7ZYtXQXplP8X42k6cJ0nnLw==
-X-Google-Smtp-Source: AAOMgpc4JpQ4244sq0m5ElDsZpWzU1Fgcc2kDvpuFZZ3odSzx1TXvE6Vb2W14q1emMDUaTI1OmOvQw==
-X-Received: by 2002:a1c:ae8d:: with SMTP id x135-v6mr16952204wme.20.1531314550627;
-        Wed, 11 Jul 2018 06:09:10 -0700 (PDT)
-Received: from andrea.amarulasolutions.com (85.100.broadband17.iol.cz. [109.80.100.85])
-        by smtp.gmail.com with ESMTPSA id a13-v6sm2047283wrf.93.2018.07.11.06.09.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 11 Jul 2018 06:09:10 -0700 (PDT)
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Will Deacon <will.deacon@arm.com>,
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=b6znGufrlpNhwDbATgq1XndSrOlJ0sUd9fskYtLr6s0=;
+        b=iCPHNvDZ6pSWmfa4dQTQQesVlNQEfHoOQ2k8x0iA9io1b61Io+9g+EwdHssLcVPLYf
+         IFJBmt+ZUw8H5l++th9FqXrNdTTJh9MSR3eRa6AD4XwPA27CTVFA8p9tvjgRdb03DZ+j
+         +xor4tAmZTwY9Jud13WF4BWAb6C3bHHFR23eZxWmItAhN/2mk+x4DjRm8HzCeQnwn8d3
+         DeHbh/Trrh4jiXk2nzZYb0ZpW6fxHkby95nBJfHBOCNv9kZtb6XB3fgjrYMrcYfv+Os8
+         KC7He5ZBooJe93iWE+levLtkPIx6EeiKSaaurTFoAVeZpkEkeC2y6DoRFXYkZJbnZqct
+         h1Lw==
+X-Gm-Message-State: APt69E1N7Lixs7NsXlSOcqa67iHquOkbgytAJgc9CBQi+073dVKZSquM
+        SQ4kb2VfS4K9kB2l5ROe3+aEmY7gR9tlhH2XzHA=
+X-Google-Smtp-Source: AAOMgpdEMgWcSmXq/Qd4HqqeThMVOjNe1gNIIrPuOUXR9Tv2cJf0+NLuKFw6iCzJp1g+6DQwoYfQrwhiR7p1R+BtiAw=
+X-Received: by 2002:aca:b857:: with SMTP id i84-v6mr34396047oif.279.1531316826729;
+ Wed, 11 Jul 2018 06:47:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:c984:0:0:0:0:0 with HTTP; Wed, 11 Jul 2018 06:47:06
+ -0700 (PDT)
+In-Reply-To: <ae3e2013-9c90-af39-f9da-278bf7af6f73@redhat.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com> <20180710222639.8241-6-yu-cheng.yu@intel.com>
+ <ae3e2013-9c90-af39-f9da-278bf7af6f73@redhat.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Wed, 11 Jul 2018 06:47:06 -0700
+Message-ID: <CAMe9rOqo3ZSMuwNZf8HbrL72OY1aQ0S0Huwqj7rsVY9_ZOfF_A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 05/27] Documentation/x86: Add CET description
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] doc: Replace smp_cond_acquire() with smp_cond_load_acquire()
-Date:   Wed, 11 Jul 2018 15:08:50 +0200
-Message-Id: <1531314530-11624-1-git-send-email-andrea.parri@amarulasolutions.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1531216943-6382-1-git-send-email-andrea.parri@amarulasolutions.com>
-References: <1531216943-6382-1-git-send-email-andrea.parri@amarulasolutions.com>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Amend commit 1f03e8d2919270 ("locking/barriers: Replace smp_cond_acquire()
-with smp_cond_load_acquire()") by updating the documentation accordingly.
-Also remove some obsolete information related to the implementation.
+On Wed, Jul 11, 2018 at 2:57 AM, Florian Weimer <fweimer@redhat.com> wrote:
+> On 07/11/2018 12:26 AM, Yu-cheng Yu wrote:
+>
+>> +To build a CET-enabled kernel, Binutils v2.30 and GCC v8.1 or later
+>> +are required.  To build a CET-enabled application, GLIBC v2.29 or
+>> +later is also requried.
+>
+>
+> Have you given up on getting the required changes into glibc 2.28?
+>
 
-Signed-off-by: Andrea Parri <andrea.parri@amarulasolutions.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Will Deacon <will.deacon@arm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Jade Alglave <j.alglave@ucl.ac.uk>
-Cc: Luc Maranget <luc.maranget@inria.fr>
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Cc: Akira Yokosawa <akiyks@gmail.com>
-Cc: Daniel Lustig <dlustig@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/memory-barriers.txt | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+This is a typo.  We are still targeting for 2.28.  All pieces are there.
 
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index 0d8d7ef131e9a..c1d913944ad8b 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -471,8 +471,7 @@ And a couple of implicit varieties:
-      operations after the ACQUIRE operation will appear to happen after the
-      ACQUIRE operation with respect to the other components of the system.
-      ACQUIRE operations include LOCK operations and both smp_load_acquire()
--     and smp_cond_acquire() operations. The later builds the necessary ACQUIRE
--     semantics from relying on a control dependency and smp_rmb().
-+     and smp_cond_load_acquire() operations.
- 
-      Memory operations that occur before an ACQUIRE operation may appear to
-      happen after it completes.
 -- 
-2.7.4
-
+H.J.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
