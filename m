@@ -1,265 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 685E07D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:21:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A3217D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:28:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbeGKP0I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 11:26:08 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:40636 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389028AbeGKP0I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 11:26:08 -0400
-Received: from localhost ([127.0.0.1] helo=bazinga.breakpoint.cc)
-        by Galois.linutronix.de with esmtp (Exim 4.80)
-        (envelope-from <bigeasy@linutronix.de>)
-        id 1fdGvY-0003z8-FS; Wed, 11 Jul 2018 17:21:12 +0200
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     linux-ide@vger.kernel.org
-Cc:     Tejun Heo <tj@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        tglx@linutronix.de,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH REPOST] libata: remove ata_sff_data_xfer_noirq()
-Date:   Wed, 11 Jul 2018 17:21:05 +0200
-Message-Id: <20180711152105.21137-1-bigeasy@linutronix.de>
-X-Mailer: git-send-email 2.18.0
+        id S2389066AbeGKPdI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 11:33:08 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56042 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732481AbeGKPdI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 11:33:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=CiMpRUlb2je5lcCUpzH2mozLi3P9QJXirXk8qkgmZyk=; b=FDHs7YfAeoUgrqNmcF1wrBN8pT
+        hCMrKv0JuJffqsMqFdmWOBrbUunnyhtbnpdhZKGisKh7IVVeXiaJcuHe404kBkak5NM2RlHcR37b1
+        YV9pUBbstCoye4lK4KjcDa2hiRVXHukeMBMm7mCZbWU1CZCvwnnTxgEFPRYwOmHGUgpRA9+R9hMhk
+        FgIZVKX31ekdGOTRH6Ijxnr0pdKzDEc5IZ+4DRP3my1Tkdl5g4uPJzvfQ1qcqbJEK1C5TJsC3I34W
+        3NIfPuhRuT7lF3/g7uz1IFa3nZc3o2PvqQ4cwq7kf2KvK8ESbIK2TWSDnIrITKnEbD6eyQs1Z32hb
+        OreDNHTw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1fdH24-00071i-7V; Wed, 11 Jul 2018 15:27:56 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 9369220297EAB; Wed, 11 Jul 2018 17:27:54 +0200 (CEST)
+Date:   Wed, 11 Jul 2018 17:27:54 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
+Message-ID: <20180711152754.GJ2476@hirez.programming.kicks-ass.net>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+ <20180710222639.8241-19-yu-cheng.yu@intel.com>
+ <20180711094549.GA2476@hirez.programming.kicks-ass.net>
+ <1531321089.13297.4.camel@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1531321089.13297.4.camel@intel.com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ata_sff_data_xfer_noirq() is invoked via the ->sff_data_xfer hook. The
-latter is invoked by ata_pio_sector(), atapi_send_cdb() and
-__atapi_pio_bytes() which in turn is invoked by ata_sff_hsm_move().
-The latter function requires that the "ap->lock" lock is held which
-needs to be taken with disabled interrupts.
+On Wed, Jul 11, 2018 at 07:58:09AM -0700, Yu-cheng Yu wrote:
+> On Wed, 2018-07-11 at 11:45 +0200, Peter Zijlstra wrote:
+> > On Tue, Jul 10, 2018 at 03:26:30PM -0700, Yu-cheng Yu wrote:
+> > > 
+> > > diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-
+> > > opcode-map.txt
+> > > index e0b85930dd77..72bb7c48a7df 100644
+> > > --- a/arch/x86/lib/x86-opcode-map.txt
+> > > +++ b/arch/x86/lib/x86-opcode-map.txt
+> > > @@ -789,7 +789,7 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32
+> > > Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
+> > >  f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32
+> > > Gd,Ew (66&F2)
+> > >  f2: ANDN Gy,By,Ey (v)
+> > >  f3: Grp17 (1A)
+> > > -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
+> > > (F2),(v)
+> > > +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
+> > > (F2),(v) | WRUSS Pq,Qq (66),REX.W
+> > >  f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
+> > >  f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By
+> > > (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+> > >  EndTable
+> > Where are all the other instructions? ISTR that documentation patch
+> > listing a whole bunch of new instructions, not just wuss.
+> 
+> Currently we only use WRUSS in the kernel code.  Do we want to add all
+> instructions here?
 
-There is no need have to have ata_sff_data_xfer_noirq() which invokes
-ata_sff_data_xfer32() with disabled interrupts because at this point the
-interrupts are already disabled.
-Remove the function and its references to it and replace all callers
-with ata_sff_data_xfer32().
-
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- Documentation/driver-api/libata.rst |  3 +--
- drivers/ata/libata-sff.c            | 30 -----------------------------
- drivers/ata/pata_cmd640.c           |  2 +-
- drivers/ata/pata_icside.c           |  2 +-
- drivers/ata/pata_imx.c              |  2 +-
- drivers/ata/pata_legacy.c           |  6 +++---
- drivers/ata/pata_palmld.c           |  2 +-
- drivers/ata/pata_pcmcia.c           |  2 +-
- drivers/ata/pata_platform.c         |  2 +-
- drivers/ata/pata_via.c              |  2 +-
- include/linux/libata.h              |  2 --
- 11 files changed, 11 insertions(+), 44 deletions(-)
-
-diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api=
-/libata.rst
-index 4adc056f7635..70e180e6b93d 100644
---- a/Documentation/driver-api/libata.rst
-+++ b/Documentation/driver-api/libata.rst
-@@ -118,8 +118,7 @@ PIO data read/write
- All bmdma-style drivers must implement this hook. This is the low-level
- operation that actually copies the data bytes during a PIO data
- transfer. Typically the driver will choose one of
--:c:func:`ata_sff_data_xfer_noirq`, :c:func:`ata_sff_data_xfer`, or
--:c:func:`ata_sff_data_xfer32`.
-+:c:func:`ata_sff_data_xfer`, or :c:func:`ata_sff_data_xfer32`.
-=20
- ATA command execute
- ~~~~~~~~~~~~~~~~~~~
-diff --git a/drivers/ata/libata-sff.c b/drivers/ata/libata-sff.c
-index cc2f2e35f4c2..c5ea0fc635e5 100644
---- a/drivers/ata/libata-sff.c
-+++ b/drivers/ata/libata-sff.c
-@@ -657,36 +657,6 @@ unsigned int ata_sff_data_xfer32(struct ata_queued_cmd=
- *qc, unsigned char *buf,
- }
- EXPORT_SYMBOL_GPL(ata_sff_data_xfer32);
-=20
--/**
-- *	ata_sff_data_xfer_noirq - Transfer data by PIO
-- *	@qc: queued command
-- *	@buf: data buffer
-- *	@buflen: buffer length
-- *	@rw: read/write
-- *
-- *	Transfer data from/to the device data register by PIO. Do the
-- *	transfer with interrupts disabled.
-- *
-- *	LOCKING:
-- *	Inherited from caller.
-- *
-- *	RETURNS:
-- *	Bytes consumed.
-- */
--unsigned int ata_sff_data_xfer_noirq(struct ata_queued_cmd *qc, unsigned c=
-har *buf,
--				     unsigned int buflen, int rw)
--{
--	unsigned long flags;
--	unsigned int consumed;
--
--	local_irq_save(flags);
--	consumed =3D ata_sff_data_xfer32(qc, buf, buflen, rw);
--	local_irq_restore(flags);
--
--	return consumed;
--}
--EXPORT_SYMBOL_GPL(ata_sff_data_xfer_noirq);
--
- /**
-  *	ata_pio_sector - Transfer a sector of data.
-  *	@qc: Command on going
-diff --git a/drivers/ata/pata_cmd640.c b/drivers/ata/pata_cmd640.c
-index c47caa807fa9..e3532eda7b05 100644
---- a/drivers/ata/pata_cmd640.c
-+++ b/drivers/ata/pata_cmd640.c
-@@ -178,7 +178,7 @@ static struct scsi_host_template cmd640_sht =3D {
- static struct ata_port_operations cmd640_port_ops =3D {
- 	.inherits	=3D &ata_sff_port_ops,
- 	/* In theory xfer_noirq is not needed once we kill the prefetcher */
--	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer	=3D ata_sff_data_xfer32,
- 	.sff_irq_check	=3D cmd640_sff_irq_check,
- 	.qc_issue	=3D cmd640_qc_issue,
- 	.cable_detect	=3D ata_cable_40wire,
-diff --git a/drivers/ata/pata_icside.c b/drivers/ata/pata_icside.c
-index 188f2f2eb21f..c272f2cbb47c 100644
---- a/drivers/ata/pata_icside.c
-+++ b/drivers/ata/pata_icside.c
-@@ -324,7 +324,7 @@ static struct ata_port_operations pata_icside_port_ops =
-=3D {
- 	.inherits		=3D &ata_bmdma_port_ops,
- 	/* no need to build any PRD tables for DMA */
- 	.qc_prep		=3D ata_noop_qc_prep,
--	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer		=3D ata_sff_data_xfer32,
- 	.bmdma_setup		=3D pata_icside_bmdma_setup,
- 	.bmdma_start		=3D pata_icside_bmdma_start,
- 	.bmdma_stop		=3D pata_icside_bmdma_stop,
-diff --git a/drivers/ata/pata_imx.c b/drivers/ata/pata_imx.c
-index d4caa23f5a88..108101325efd 100644
---- a/drivers/ata/pata_imx.c
-+++ b/drivers/ata/pata_imx.c
-@@ -102,7 +102,7 @@ static struct scsi_host_template pata_imx_sht =3D {
-=20
- static struct ata_port_operations pata_imx_port_ops =3D {
- 	.inherits		=3D &ata_sff_port_ops,
--	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer		=3D ata_sff_data_xfer32,
- 	.cable_detect		=3D ata_cable_unknown,
- 	.set_piomode		=3D pata_imx_set_piomode,
- };
-diff --git a/drivers/ata/pata_legacy.c b/drivers/ata/pata_legacy.c
-index 53828b6c3044..8ea4b8431fc8 100644
---- a/drivers/ata/pata_legacy.c
-+++ b/drivers/ata/pata_legacy.c
-@@ -246,12 +246,12 @@ static const struct ata_port_operations legacy_base_p=
-ort_ops =3D {
-=20
- static struct ata_port_operations simple_port_ops =3D {
- 	.inherits	=3D &legacy_base_port_ops,
--	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer	=3D ata_sff_data_xfer32,
- };
-=20
- static struct ata_port_operations legacy_port_ops =3D {
- 	.inherits	=3D &legacy_base_port_ops,
--	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer	=3D ata_sff_data_xfer32,
- 	.set_mode	=3D legacy_set_mode,
- };
-=20
-@@ -341,7 +341,7 @@ static unsigned int pdc_data_xfer_vlb(struct ata_queued=
-_cmd *qc,
- 		}
- 		local_irq_restore(flags);
- 	} else
--		buflen =3D ata_sff_data_xfer_noirq(qc, buf, buflen, rw);
-+		buflen =3D ata_sff_data_xfer32(qc, buf, buflen, rw);
-=20
- 	return buflen;
- }
-diff --git a/drivers/ata/pata_palmld.c b/drivers/ata/pata_palmld.c
-index 8c0d7d736b7a..d071ab6864a8 100644
---- a/drivers/ata/pata_palmld.c
-+++ b/drivers/ata/pata_palmld.c
-@@ -44,7 +44,7 @@ static struct scsi_host_template palmld_sht =3D {
-=20
- static struct ata_port_operations palmld_port_ops =3D {
- 	.inherits		=3D &ata_sff_port_ops,
--	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer		=3D ata_sff_data_xfer32,
- 	.cable_detect		=3D ata_cable_40wire,
- };
-=20
-diff --git a/drivers/ata/pata_pcmcia.c b/drivers/ata/pata_pcmcia.c
-index a541eacc5e95..9b0e6c72e3f9 100644
---- a/drivers/ata/pata_pcmcia.c
-+++ b/drivers/ata/pata_pcmcia.c
-@@ -151,7 +151,7 @@ static struct scsi_host_template pcmcia_sht =3D {
-=20
- static struct ata_port_operations pcmcia_port_ops =3D {
- 	.inherits	=3D &ata_sff_port_ops,
--	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer	=3D ata_sff_data_xfer32,
- 	.cable_detect	=3D ata_cable_40wire,
- 	.set_mode	=3D pcmcia_set_mode,
- };
-diff --git a/drivers/ata/pata_platform.c b/drivers/ata/pata_platform.c
-index c503ded87bb8..d6f8f5406442 100644
---- a/drivers/ata/pata_platform.c
-+++ b/drivers/ata/pata_platform.c
-@@ -49,7 +49,7 @@ static struct scsi_host_template pata_platform_sht =3D {
-=20
- static struct ata_port_operations pata_platform_port_ops =3D {
- 	.inherits		=3D &ata_sff_port_ops,
--	.sff_data_xfer		=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer		=3D ata_sff_data_xfer32,
- 	.cable_detect		=3D ata_cable_unknown,
- 	.set_mode		=3D pata_platform_set_mode,
- };
-diff --git a/drivers/ata/pata_via.c b/drivers/ata/pata_via.c
-index 1ca6bcab369f..fd19f1ce83aa 100644
---- a/drivers/ata/pata_via.c
-+++ b/drivers/ata/pata_via.c
-@@ -471,7 +471,7 @@ static struct ata_port_operations via_port_ops =3D {
-=20
- static struct ata_port_operations via_port_ops_noirq =3D {
- 	.inherits	=3D &via_port_ops,
--	.sff_data_xfer	=3D ata_sff_data_xfer_noirq,
-+	.sff_data_xfer	=3D ata_sff_data_xfer32,
- };
-=20
- /**
-diff --git a/include/linux/libata.h b/include/linux/libata.h
-index 8b8946dd63b9..aa8583655a18 100644
---- a/include/linux/libata.h
-+++ b/include/linux/libata.h
-@@ -1832,8 +1832,6 @@ extern unsigned int ata_sff_data_xfer(struct ata_queu=
-ed_cmd *qc,
- 			unsigned char *buf, unsigned int buflen, int rw);
- extern unsigned int ata_sff_data_xfer32(struct ata_queued_cmd *qc,
- 			unsigned char *buf, unsigned int buflen, int rw);
--extern unsigned int ata_sff_data_xfer_noirq(struct ata_queued_cmd *qc,
--			unsigned char *buf, unsigned int buflen, int rw);
- extern void ata_sff_irq_on(struct ata_port *ap);
- extern void ata_sff_irq_clear(struct ata_port *ap);
- extern int ata_sff_hsm_move(struct ata_port *ap, struct ata_queued_cmd *qc,
---=20
-2.18.0
-
+Yes, since we also use the in-kernel decoder to decode random userspace
+code.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
