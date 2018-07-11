@@ -3,39 +3,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 922917D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 09:12:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 612737D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 09:21:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbeGKJQA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 05:16:00 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36642 "EHLO
+        id S1726392AbeGKJYu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 05:24:50 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45056 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726398AbeGKJQA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 05:16:00 -0400
+        with ESMTP id S1726360AbeGKJYu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 05:24:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
         :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=V70Dcordknmgk0HmEDzEZsFCiABvqy1N1KLguVpmJu0=; b=ghTyBpieehW3H6dhM9eWLkGm4
-        Y5kwyjCkKgajb1nYaNmrSKbLo+KgK173ssnAuRTcMlWE7LOVOuU0099RbDGVw06mtdBX+12hoEDC4
-        LHdh+lJhyU+1cFT7Y64sQZI1nf6MRker7qg20w4PEwhC8SXqhr6TqpgKAsmYBkZxsouqR99qyhdjm
-        rZRs2/bnvUNOz/UcePQDftQcGgUzAMSlWrRueQ/xRAmRy8+xz0xsohCWPNJ+7q99UzJrm/luyxWng
-        5rKlOy2t+tTu7OmmBx62doqfZi0vwJQEuBPyabtSVAuSCXtUsTox2IxEaojgi41iddE9EPnSFU/ag
-        j7Bk/2Ufw==;
+         bh=H70pVgx2XwMMXmR3NCG1O1+R/QAQuNipe1JTYez1Esk=; b=FXwGrfj1snrBQaYHVYjyAgdOS
+        I33bnxtGqUiYxaO1GZXOmZW6NLFt+t4CCfhC1t9vhmoc1D5tEw7nbYWaBc+WnnMHk3a2zcC7/SDM+
+        LkJZqIPg5jdvwREDD5ol7VVvyCylY/PF+xyjwErQqAon/8uHLdpzJ4AnZ9jqJlLZUP6s6nULRtLxi
+        GzYatCPJnEQBPq/1scaHF7XPdhGJ2j+Dr3VQv4gc0jNO0XOhn7LNPNRoW9YBb8MsQ1i/NWWkPxxro
+        LP0Tk94VGWAdcyCrLl8m4Ayp8y/+hXiPDYagoEcmLwrIP8vl4fbLMKUraXgko+HT0l30MXkL3OFdS
+        dDVnUjv/g==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fdBAo-0005ex-37; Wed, 11 Jul 2018 09:12:34 +0000
+        id 1fdBJH-0001nL-GB; Wed, 11 Jul 2018 09:21:19 +0000
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8ABDC20291063; Wed, 11 Jul 2018 11:12:32 +0200 (CEST)
-Date:   Wed, 11 Jul 2018 11:12:32 +0200
+        id EC97820291063; Wed, 11 Jul 2018 11:21:17 +0200 (CEST)
+Date:   Wed, 11 Jul 2018 11:21:17 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
@@ -44,6 +43,7 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -53,50 +53,37 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v2 15/27] mm/mprotect: Prevent mprotect from changing
- shadow stack
-Message-ID: <20180711091232.GU2476@hirez.programming.kicks-ass.net>
+Subject: Re: [RFC PATCH v2 10/27] x86/mm: Introduce _PAGE_DIRTY_SW
+Message-ID: <20180711092117.GV2476@hirez.programming.kicks-ass.net>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-16-yu-cheng.yu@intel.com>
- <04800c52-1f86-c485-ba7c-2216d8c4966f@linux.intel.com>
+ <20180710222639.8241-11-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <04800c52-1f86-c485-ba7c-2216d8c4966f@linux.intel.com>
+In-Reply-To: <20180710222639.8241-11-yu-cheng.yu@intel.com>
 User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 10, 2018 at 04:10:08PM -0700, Dave Hansen wrote:
-> On 07/10/2018 03:26 PM, Yu-cheng Yu wrote:
-> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> This still needs a changelog, even if you think it's simple.
-> > --- a/mm/mprotect.c
-> > +++ b/mm/mprotect.c
-> > @@ -446,6 +446,15 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
-> >  	error = -ENOMEM;
-> >  	if (!vma)
-> >  		goto out;
-> > +
-> > +	/*
-> > +	 * Do not allow changing shadow stack memory.
-> > +	 */
-> > +	if (vma->vm_flags & VM_SHSTK) {
-> > +		error = -EINVAL;
-> > +		goto out;
-> > +	}
-> > +
-> 
-> I think this is a _bit_ draconian.  Why shouldn't we be able to use
-> protection keys with a shadow stack?  Or, set it to PROT_NONE?
+On Tue, Jul 10, 2018 at 03:26:22PM -0700, Yu-cheng Yu wrote:
+> +static inline bool is_shstk_pte(pte_t pte)
+> +{
+> +	pteval_t val;
+> +
+> +	val = pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY_HW);
+> +	return (val == _PAGE_DIRTY_HW);
+> +}
 
-Right, and then there's also madvise() and some of the other accessors.
+That's against naming convention here.
 
-Why do we need to disallow this? AFAICT the worst that can happen is
-that a process wrecks itself, so what?
+static inline bool pte_shstk(pte_t pte)
+{
+	return pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY_HW) == _PAGE_DIRTY_HW;
+}
+
+would be more in style with the rest of this code.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
