@@ -1,320 +1,250 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 918BB7D085
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 19:45:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6154D7D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 20:10:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732866AbeGKTve (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 15:51:34 -0400
-Received: from mail-oi0-f65.google.com ([209.85.218.65]:37141 "EHLO
-        mail-oi0-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733061AbeGKTvd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 15:51:33 -0400
-Received: by mail-oi0-f65.google.com with SMTP id k81-v6so51435079oib.4
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 12:45:43 -0700 (PDT)
+        id S2388535AbeGKUQ1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 16:16:27 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43568 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733070AbeGKUQ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 16:16:27 -0400
+Received: by mail-lj1-f194.google.com with SMTP id r13-v6so20299962ljg.10;
+        Wed, 11 Jul 2018 13:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j2tZh6GSXG9/bVoC7cTNw2b4CY6P6mxDiHG8ivICtbM=;
-        b=QSUCMT2+e9dDHj4PiwHNEz418C7o7rXcw+BHtbuvObPv4WugR/tMph5PtMyqAGQc21
-         CzJZwoidS9A6DSVA1vti+LkUEsW42ByBVFDbdA5ekX8AGSgT3GQDUIk4XkbBFXE57HK9
-         3Coj0say03qNoABqNK4GpX+laC9baJTffy4VtmdhfOs3jbKpXT0iolBVk2PNjMZxooWn
-         4x9yzV+HVaMIOedcJUKRngEuXQRZL5cGUjy/oDYBut2i0xmnZ9Cqjp5gechyPHBP90fp
-         RGRcrvFBtgjD1S3BruTMBgMKgRXyBJxLVgG8iL9mIjVkvA72KqwK6fAvY7k6hxmQJeoB
-         F6Cg==
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:in-reply-to:references:from:date:message-id
+         :subject:to:cc;
+        bh=LFyVn7PaXyipBe+sTWwse0/q5xvqc/VF/Rqf8UF8LjU=;
+        b=U8IBJzSIlHgCyX5dlCtN1wjCAM1ZYEOZNpLDkKGi9AUDXeq9BstNa9KPGXY3Rk9csr
+         O+8V1rtU5ngOGUQOGCUOAeD0YS57QE1ZcvtjbJXCozYN92/GpIjUeB9NAKNbfbn+7NoZ
+         zXGXeFOheaf8O43mVqRawnmMGJPKNlOV3TtRg3CCVCqOPYCuBIblybIo9B7n0rSTP8if
+         Arv9zSvAfhoCuxIkFk8WYk2M1bFtyZLPnQAb9GK1ggOmsFiqus3pkSzPWz6pnI3oPSIb
+         0ORStRkcoeo4mF2ude7lt9Bte0P/FhFbclGK/sRCDIUEXyOSVVirfS6JJe8qUAFJXUeV
+         EWcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j2tZh6GSXG9/bVoC7cTNw2b4CY6P6mxDiHG8ivICtbM=;
-        b=dXEhuBxqNxqvr6fLvnQnq8Mbfll4nDILNCs+kCUTLsx1COWC/DEYzq3srATMugluwU
-         QFkrV2SkkQZ08IdlyYRTOmdflbyERiMHr1vez0noEbhZ0HgBfwhfNPxsw2qcbY0gi1Rh
-         lb29IdhNrysA3/whbf5JQX2T6AdsbUWiy2cN/BTRqzerSBjSdawwDH4baN/a+o/XJGDY
-         nFpOlwJhLk7eXY++0IHHxQpKK4Ft+mvOOsqnRGg5vpgDGtHhJdwKPYiBZeBg2KbMxz66
-         1OoYidIpP2eWd9xCESpCFUtFS2feuIBAbBw7GEP8hc7xHZylLFHjQnS/E/hWvwgoI2dK
-         0rYg==
-X-Gm-Message-State: AOUpUlFZJScy7udg7qKImmI74RxJtj0ae8XSU61W5hD3iVY6lGCxCPH2
-        rTY61MaTvjt8IJFFHsiBweYhGNMZQZ1wH7erb9YEqg==
-X-Google-Smtp-Source: AAOMgpdIquIaUw4yrety/8sel1/q69YNYIhjLepLhPfgxMZ0c7B7Mg40/wXfS0JN7DdoNBghbA/kW23aZtj058RHBMQ=
-X-Received: by 2002:aca:1c04:: with SMTP id c4-v6mr744135oic.173.1531338342384;
- Wed, 11 Jul 2018 12:45:42 -0700 (PDT)
+        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+         :date:message-id:subject:to:cc;
+        bh=LFyVn7PaXyipBe+sTWwse0/q5xvqc/VF/Rqf8UF8LjU=;
+        b=ckXLfOdXJwG3APGYJdOM7lqTPpep8+DCXtNBhhpSKmq7Pd/Mz3gcMZi5qQKz8EixWB
+         GjRHdG39SN+OsGqtK4HWXoHgrp//7kxpWN0BPQUxmPcpoJ0vs4NXWe7/S91bxtUq+2l3
+         JFzN7x11RTjTG2DDo9VhfXXdXi6GvgIlOtvNR14qoOue1bsZ1DjEWarrHgf66mLwGO7u
+         5g6bkwXKp7BuSUQjgEh8zjs9OrYOIzim2TfDIL4U1JEq81VbXEe6sLpdLQYPW5UpiYj6
+         OjORqVRObrSjjVbni6BFGXjiSd1nWixPoZVnH3xvhEw1qLpxOu5FiUkG95gO8yO3OHcs
+         pFCg==
+X-Gm-Message-State: APt69E1ZH4YRv9wR497Dbg0PO75fMyo8rmwKakgHuKEoIvIcBQRC22rX
+        gOQ7SlqGqETfkFMcIK+KAs77pUKhD/Tk25NMuew=
+X-Google-Smtp-Source: AAOMgpfU9ofviZtsLnALZvKXbZkLS6n8TVSHrwQYPsuiUTw9jauG8Fj+1MyZe1/9DomqovJ0QgbIkaDpVHmmZQsdWrc=
+X-Received: by 2002:a2e:83cf:: with SMTP id s15-v6mr16287639ljh.101.1531339827018;
+ Wed, 11 Jul 2018 13:10:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com> <20180710222639.8241-28-yu-cheng.yu@intel.com>
-In-Reply-To: <20180710222639.8241-28-yu-cheng.yu@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 11 Jul 2018 12:45:16 -0700
-Message-ID: <CAG48ez2cY1CPTTfDnV5yZyHVPXP787=fR1+G_D7tR5VYXdjFmQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 27/27] x86/cet: Add arch_prctl functions for CET
-To:     yu-cheng.yu@intel.com
-Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>, bsingharora@gmail.com,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Florian Weimer <fweimer@redhat.com>, hjl.tools@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>, keescook@chromiun.org,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        ravi.v.shankar@intel.com, vedvyas.shanbhogue@intel.com
+Received: by 2002:a2e:41c1:0:0:0:0:0 with HTTP; Wed, 11 Jul 2018 13:10:26
+ -0700 (PDT)
+In-Reply-To: <20180711191212.3855bb25@bbrezillon>
+References: <20180330074751.25987-1-boris.brezillon@bootlin.com>
+ <20180330074751.25987-2-boris.brezillon@bootlin.com> <CAK8P3a1aZXf2sQW2mgwJScycKPhdoOAwxRjm5cQG83513uc3fg@mail.gmail.com>
+ <20180711164120.3e32fb08@bbrezillon> <CAK8P3a2EZB_tMS_47wv6M2Qpm79ZocxxhG5zLxXsBM_YjZgkyA@mail.gmail.com>
+ <20180711191212.3855bb25@bbrezillon>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 11 Jul 2018 22:10:26 +0200
+X-Google-Sender-Auth: mOxZKPPIcm1IVQNpOCZJ2ZmxOxQ
+Message-ID: <CAK8P3a2djk8c6STaxJC0MCkBddyOafk4WbG2LdfPf0V1EYiqmQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/10] i3c: Add core I3C infrastructure
+To:     Boris Brezillon <boris.brezillon@bootlin.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vitor Soares <Vitor.Soares@synopsys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>, linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 10, 2018 at 3:31 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+n Wed, Jul 11, 2018 at 7:12 PM, Boris Brezillon
+<boris.brezillon@bootlin.com> wrote:
+> On Wed, 11 Jul 2018 17:39:56 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+>> On Wed, Jul 11, 2018 at 4:41 PM, Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+>>
+>> The problem that I see is that it breaks the tree abstraction that
+>> we use in the dtb interface, in the driver model and in sysfs.
+>> If we need to deal with a hardware bus structure like
+>>
+>>               cpu
+>>              /   \
+>>             /     \
+>>        platdev   platdev
+>>            |        |
+>>      i3c-master   i3c-master
+>>             \      /
+>>              \    /
+>>             i3c-bus
+>>              /    \
+>>          device   device
+>>
+>> then that abstraction no longer holds. Clearly you could build
+>> a system like that, and if we have to support it, the i3c infrastructure
+>> should be prepared for it, since we wouldn't be able to retrofit
+>> it later.
 >
-> arch_prctl(ARCH_CET_STATUS, unsigned long *addr)
->     Return CET feature status.
->
->     The parameter 'addr' is a pointer to a user buffer.
->     On returning to the caller, the kernel fills the following
->     information:
->
->     *addr = SHSTK/IBT status
->     *(addr + 1) = SHSTK base address
->     *(addr + 2) = SHSTK size
->
-> arch_prctl(ARCH_CET_DISABLE, unsigned long features)
->     Disable SHSTK and/or IBT specified in 'features'.  Return -EPERM
->     if CET is locked out.
->
-> arch_prctl(ARCH_CET_LOCK)
->     Lock out CET feature.
->
-> arch_prctl(ARCH_CET_ALLOC_SHSTK, unsigned long *addr)
->     Allocate a new SHSTK.
->
->     The parameter 'addr' is a pointer to a user buffer and indicates
->     the desired SHSTK size to allocate.  On returning to the caller
->     the buffer contains the address of the new SHSTK.
->
-> arch_prctl(ARCH_CET_LEGACY_BITMAP, unsigned long *addr)
->     Allocate an IBT legacy code bitmap if the current task does not
->     have one.
->
->     The parameter 'addr' is a pointer to a user buffer.
->     On returning to the caller, the kernel fills the following
->     information:
->
->     *addr = IBT bitmap base address
->     *(addr + 1) = IBT bitmap size
->
-> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-[...]
-> diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
-> new file mode 100644
-> index 000000000000..86bb78ae656d
-> --- /dev/null
-> +++ b/arch/x86/kernel/cet_prctl.c
-> @@ -0,0 +1,141 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#include <linux/errno.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/prctl.h>
-> +#include <linux/compat.h>
-> +#include <asm/processor.h>
-> +#include <asm/prctl.h>
-> +#include <asm/elf.h>
-> +#include <asm/elf_property.h>
-> +#include <asm/cet.h>
-> +
-> +/* See Documentation/x86/intel_cet.txt. */
-> +
-> +static int handle_get_status(unsigned long arg2)
-> +{
-> +       unsigned int features = 0;
-> +       unsigned long shstk_base, shstk_size;
-> +
-> +       if (current->thread.cet.shstk_enabled)
-> +               features |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
-> +       if (current->thread.cet.ibt_enabled)
-> +               features |= GNU_PROPERTY_X86_FEATURE_1_IBT;
-> +
-> +       shstk_base = current->thread.cet.shstk_base;
-> +       shstk_size = current->thread.cet.shstk_size;
-> +
-> +       if (in_ia32_syscall()) {
-> +               unsigned int buf[3];
-> +
-> +               buf[0] = features;
-> +               buf[1] = (unsigned int)shstk_base;
-> +               buf[2] = (unsigned int)shstk_size;
-> +               return copy_to_user((unsigned int __user *)arg2, buf,
-> +                                   sizeof(buf));
-> +       } else {
-> +               unsigned long buf[3];
-> +
-> +               buf[0] = (unsigned long)features;
-> +               buf[1] = shstk_base;
-> +               buf[2] = shstk_size;
-> +               return copy_to_user((unsigned long __user *)arg2, buf,
-> +                                   sizeof(buf));
-> +       }
+> Exactly. For the DT representation I thought we could have the primary
+> master hold the device nodes, and then have secondary masters reference
+> the main master with a phandle (i3c-bus = <&main_i3c_master>;). For the
+> sysfs representation, it would be the same. Only one of the master
+> would create the i3c_bus object and the other masters would just
+> reference it.
 
-Other places in the kernel (e.g. the BPF subsystem) just
-unconditionally use u64 instead of unsigned long to avoid having to
-switch between different sizes. I wonder whether that would make sense
-here?
+Ok.
 
-> +}
-> +
-> +static int handle_alloc_shstk(unsigned long arg2)
-> +{
-> +       int err = 0;
-> +       unsigned long shstk_size = 0;
-> +
-> +       if (in_ia32_syscall()) {
-> +               unsigned int size;
-> +
-> +               err = get_user(size, (unsigned int __user *)arg2);
-> +               if (!err)
-> +                       shstk_size = size;
-> +       } else {
-> +               err = get_user(shstk_size, (unsigned long __user *)arg2);
-> +       }
+>> What would be the point of building such a system though?
+>
+> This, I don't know. But as you said, if we go for a "one bus per
+> master" representation, going back will be difficult.
+>
+>> Is this for performance, failover, or something else?
+>
+> No, I don't think so, especially since the mastership handover
+> operation is not free. So keeping the same master in control is
+> probably better in term of perfs.
 
-As above.
+Right.
 
-> +       if (err)
-> +               return -EFAULT;
-> +
-> +       err = cet_alloc_shstk(&shstk_size);
-> +       if (err)
-> +               return -err;
-> +
-> +       if (in_ia32_syscall()) {
-> +               if (put_user(shstk_size, (unsigned int __user *)arg2))
-> +                       return -EFAULT;
-> +       } else {
-> +               if (put_user(shstk_size, (unsigned long __user *)arg2))
-> +                       return -EFAULT;
-> +       }
-> +       return 0;
-> +}
-> +
-> +static int handle_bitmap(unsigned long arg2)
-> +{
-> +       unsigned long addr, size;
-> +
-> +       if (current->thread.cet.ibt_enabled) {
-> +               if (!current->thread.cet.ibt_bitmap_addr)
-> +                       cet_setup_ibt_bitmap();
-> +               addr = current->thread.cet.ibt_bitmap_addr;
-> +               size = current->thread.cet.ibt_bitmap_size;
-> +       } else {
-> +               addr = 0;
-> +               size = 0;
-> +       }
-> +
-> +       if (in_compat_syscall()) {
-> +               if (put_user(addr, (unsigned int __user *)arg2) ||
-> +                   put_user(size, (unsigned int __user *)arg2 + 1))
-> +                       return -EFAULT;
-> +       } else {
-> +               if (put_user(addr, (unsigned long __user *)arg2) ||
-> +                   put_user(size, (unsigned long __user *)arg2 + 1))
-> +               return -EFAULT;
-> +       }
-> +       return 0;
-> +}
-> +
-> +int prctl_cet(int option, unsigned long arg2)
-> +{
-> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK) &&
-> +           !cpu_feature_enabled(X86_FEATURE_IBT))
-> +               return -EINVAL;
-> +
-> +       switch (option) {
-> +       case ARCH_CET_STATUS:
-> +               return handle_get_status(arg2);
-> +
-> +       case ARCH_CET_DISABLE:
-> +               if (current->thread.cet.locked)
-> +                       return -EPERM;
-> +               if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
-> +                       cet_disable_free_shstk(current);
-> +               if (arg2 & GNU_PROPERTY_X86_FEATURE_1_IBT)
-> +                       cet_disable_ibt();
-> +
-> +               return 0;
-> +
-> +       case ARCH_CET_LOCK:
-> +               current->thread.cet.locked = 1;
-> +               return 0;
-> +
-> +       case ARCH_CET_ALLOC_SHSTK:
-> +               return handle_alloc_shstk(arg2);
-> +
-> +       /*
-> +        * Allocate legacy bitmap and return address & size to user.
-> +        */
-> +       case ARCH_CET_LEGACY_BITMAP:
-> +               return handle_bitmap(arg2);
-> +
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +}
-> diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
-> index 42e08d3b573e..3d4934fdac7f 100644
-> --- a/arch/x86/kernel/elf.c
-> +++ b/arch/x86/kernel/elf.c
-> @@ -8,7 +8,10 @@
+> One case I can think of is when the primary master does not have enough
+> resources to address all devices on the bus, and let the secondary
+> master handle all transactions targeting those devices.
 >
->  #include <asm/cet.h>
->  #include <asm/elf_property.h>
-> +#include <asm/prctl.h>
-> +#include <asm/processor.h>
->  #include <uapi/linux/elf-em.h>
-> +#include <uapi/linux/prctl.h>
->  #include <linux/binfmts.h>
->  #include <linux/elf.h>
->  #include <linux/slab.h>
-> @@ -255,6 +258,7 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
->         current->thread.cet.ibt_enabled = 0;
->         current->thread.cet.ibt_bitmap_addr = 0;
->         current->thread.cet.ibt_bitmap_size = 0;
-> +       current->thread.cet.locked = 0;
->         if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
->                 if (shstk) {
->                         err = cet_setup_shstk();
-> diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-> index 43a57d284a22..259b92664981 100644
-> --- a/arch/x86/kernel/process.c
-> +++ b/arch/x86/kernel/process.c
-> @@ -795,6 +795,12 @@ long do_arch_prctl_common(struct task_struct *task, int option,
->                 return get_cpuid_mode();
->         case ARCH_SET_CPUID:
->                 return set_cpuid_mode(task, cpuid_enabled);
-> +       case ARCH_CET_STATUS:
-> +       case ARCH_CET_DISABLE:
-> +       case ARCH_CET_LOCK:
-> +       case ARCH_CET_ALLOC_SHSTK:
-> +       case ARCH_CET_LEGACY_BITMAP:
-> +               return prctl_cet(option, cpuid_enabled);
->         }
+
+
+I've read the specification a bit more, and from what I found there,
+it seems extremely unlikely that there was an intended use case where
+one OS instance would control more than one master on a single bus
+and flip them between primary and secondary mode.
+
+In particular, the protocol for the handover is defined in a way that
+intentionally avoids requiring a side channel to communicate data
+about the slave devices, and instead the secondary master(s) get
+informed about any changes of the topology as they happen
+through explicit messages.
+
+The description of the secondary master labels the introduction section
+of says
+
+     "I3C Smart Sensor(s) / Hub(s) / Engine(s)"
+
+which sounds like some microcontroller that can act as a master of
+some sort, rather than being part of the OS itself.
+
+I can see several use cases for this, e.g.
+
+* A baseboard management controller booting first, reading all
+  the sensors and possibly loading its own OS from an i3c flash
+  before handing off control to the main CPU of a server and
+  no longer being a master
+
+* A fan controller that occasionally wants to read temperature
+  sensors and control fan speed, while normally being a
+  secondary master. It periodically asks the OS to become
+  a master to read the sensors and then immediately hands back
+  control to the host OS as the master
+
+* Two controllers inside of the same SoC, but one of them owned
+  by ARM Trustzone firmware or the Intel equivalent, the other
+  owned by the OS, both accessing the same slaves.
+
+All of these require implementing handover between primary
+and secondary master, but Linux would still see a hierarchical
+bus structure, with the secondary masters looking like slave
+devices that might request being masters during some time.
+
+We may also run into the requirement that a master we probe
+is currently the secondary master and has to probe the bus
+by asking the current master for the available devices, and
+then taking over.
+
+>> IOW, what feature would we lose if we were to declare that
+>> setup above invalid (and ensure you cannot represent it in DT)?
 >
->         return -EINVAL;
-> --
-> 2.17.1
+> That's exactly the sort of discussion I wanted to trigger. Maybe we
+> shouldn't care and expose this use case as if it was X different I3C
+> buses (with all devices present on the bus being exposed X times
+> to the system).
+
+That's probably fine for many slave devices (you could read a
+single sensor multiple times if you iterate through all i2c sensors
+on all buses) but might not work for others (a slave device sending
+an interrupt to the current master for a request that was started
+from the previous master).
+My impression however is that this is actually a corner case that
+we can leave to be undefined, and not prepare to handle well,
+as long as we can deal with the interesting examples above.
+
+>> > The devices discovered on the bus are not directly registered to the
+>> > device model, and I need to store them in a list to do some operations
+>> > before exposing them. Once everything is ready to be used, I then
+>> > iterate the list and register all not-yet-registered I3C devs.
+>>
+>> Can you explain what those operations are and why we can't
+>> register everything directly? This seems rather unconventional,
+>> so I want to make sure it's done for a good reason.
 >
+> When we start a DAA operation (used to discover all devices on the
+> bus), we have the bus lock held in maintenance mode (AKA exclusive
+> mode). During this DAA the controller will add all the devices it has
+> discovered on the bus and let the core query information about those
+> devices (PID, DCR, HDR capabilies, SDR speed limitations, ...). It
+> might also happen that a device that had been discovered previously is
+> re-discovered because it had lost its dynamic address (i.e. when
+> the device had been reset but not by Linux). In this case the I3C
+> framework does not expose a new device but instead updates the dynamic
+> address of the device already registered to the device model, so that
+> new transactions initiated by the I3C device driver work correctly.
+> This is the very reason we hold the lock in exclusive mode (we want all
+> transactions to be stopped until we have updated dynamic addresses if
+> needed).
+>
+> Now, let's imagine you register the device when the bus lock is held in
+> exclusive mode, and the ->probe() function of the I3C driver needs to
+> do an I3C transfer => you end up with a deadlock.
+>
+> So what we do instead is add new devices to the i3c bus list, release
+> the bus lock and then register all new devices.
+
+Ok, but maybe you could you put the information about those devices
+on a local list on the stack rather than the controller? I suppose this
+would not change the logic much, but it would slightly simplify the
+data structures for the bus and stop others from wondering about
+them. ;-)
+This is a really minor point though, let's work out the problem of the
+multiple masters first.
+
+      Arnd
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
