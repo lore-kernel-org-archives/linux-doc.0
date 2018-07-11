@@ -2,122 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85FD07D071
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:03:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 46D9C7D072
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:06:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732481AbeGKVJq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 17:09:46 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34052 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2389935AbeGKVIE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:08:04 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id w6BL0F5d022943
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:53 -0400
-Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2k5pwe61dd-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 17:01:53 -0400
-Received: from localhost
-        by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Wed, 11 Jul 2018 15:01:52 -0600
-Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
-        by e35.co.us.ibm.com (192.168.1.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 11 Jul 2018 15:01:48 -0600
-Received: from b03ledav001.gho.boulder.ibm.com (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id w6BL1ltY21823878
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 11 Jul 2018 14:01:47 -0700
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 81F596E05B;
-        Wed, 11 Jul 2018 15:01:47 -0600 (MDT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AF6ED6E053;
-        Wed, 11 Jul 2018 15:01:46 -0600 (MDT)
-Received: from talon7.ibm.com (unknown [9.41.102.69])
-        by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 11 Jul 2018 15:01:46 -0600 (MDT)
-From:   Eddie James <eajames@linux.vnet.ibm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        benh@kernel.crashing.org, linux@roeck-us.net, jdelvare@suse.com,
-        mark.rutland@arm.com, openbmc@lists.ozlabs.org, robh+dt@kernel.org,
-        joel@jms.id.au, Eddie James <eajames@linux.vnet.ibm.com>
-Subject: [PATCH v4 3/9] dt-bindings: i2c: Add P8 OCC hwmon device documentation
-Date:   Wed, 11 Jul 2018 16:01:32 -0500
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
-References: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18071121-0012-0000-0000-0000168AA710
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00009352; HX=3.00000241; KW=3.00000007;
- PH=3.00000004; SC=3.00000266; SDB=6.01059946; UDB=6.00544035; IPR=6.00837866;
- MB=3.00022107; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-11 21:01:52
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18071121-0013-0000-0000-000053A34738
-Message-Id: <1531342898-15790-4-git-send-email-eajames@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-07-11_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1806210000 definitions=main-1807110221
+        id S1732695AbeGKVM2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 17:12:28 -0400
+Received: from mga03.intel.com ([134.134.136.65]:30442 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732552AbeGKVM1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 17:12:27 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 14:06:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,339,1526367600"; 
+   d="scan'208";a="66171654"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2018 14:06:14 -0700
+Message-ID: <1531342956.15351.38.camel@intel.com>
+Subject: Re: [RFC PATCH v2 27/27] x86/cet: Add arch_prctl functions for CET
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Florian Weimer <fweimer@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromiun.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Wed, 11 Jul 2018 14:02:36 -0700
+In-Reply-To: <bbd9d3d7-a456-d161-6bc6-19e555edcd01@redhat.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
+         <20180710222639.8241-28-yu-cheng.yu@intel.com>
+         <bbd9d3d7-a456-d161-6bc6-19e555edcd01@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the bindings for I2C-based OCC hwmon device.
+On Wed, 2018-07-11 at 14:19 +0200, Florian Weimer wrote:
+> On 07/11/2018 12:26 AM, Yu-cheng Yu wrote:
+> > 
+> > arch_prctl(ARCH_CET_DISABLE, unsigned long features)
+> >      Disable SHSTK and/or IBT specified in 'features'.  Return
+> > -EPERM
+> >      if CET is locked out.
+> > 
+> > arch_prctl(ARCH_CET_LOCK)
+> >      Lock out CET feature.
+> Isn't it a “lock in” rather than a “lock out”?
 
-Signed-off-by: Eddie James <eajames@linux.vnet.ibm.com>
-Acked-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt   | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
-
-diff --git a/Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt b/Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
-new file mode 100644
-index 0000000..5dc5d2e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
-@@ -0,0 +1,25 @@
-+Device-tree bindings for I2C-based On-Chip Controller hwmon device
-+------------------------------------------------------------------
-+
-+Required properties:
-+ - compatible = "ibm,p8-occ-hwmon";
-+ - reg = <I2C address>;			: I2C bus address
-+
-+Examples:
-+
-+    i2c-bus@100 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        clock-frequency = <100000>;
-+        < more properties >
-+
-+        occ-hwmon@1 {
-+            compatible = "ibm,p8-occ-hwmon";
-+            reg = <0x50>;
-+        };
-+
-+        occ-hwmon@2 {
-+            compatible = "ibm,p8-occ-hwmon";
-+            reg = <0x51>;
-+        };
-+    };
--- 
-1.8.3.1
-
+Yes, that makes more sense.  I will fix it.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
