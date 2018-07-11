@@ -3,54 +3,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=ham autolearn_force=no version=3.4.1
+	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3AD1E7D072
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:07:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 394107D071
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 21:10:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732384AbeGKVNt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 17:13:49 -0400
-Received: from mail-oi0-f67.google.com ([209.85.218.67]:34299 "EHLO
-        mail-oi0-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732500AbeGKVNt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:13:49 -0400
-Received: by mail-oi0-f67.google.com with SMTP id 13-v6so51884432ois.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 14:07:37 -0700 (PDT)
+        id S1726463AbeGKVRD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 17:17:03 -0400
+Received: from mail-oi0-f66.google.com ([209.85.218.66]:33404 "EHLO
+        mail-oi0-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389147AbeGKVRC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 17:17:02 -0400
+Received: by mail-oi0-f66.google.com with SMTP id l10-v6so5177501oii.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Jul 2018 14:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lh8TxHl5WB9OmBO9lEWZUkFPn5o9qgsioXcJ38g1tTE=;
-        b=hPqxaqXpbNK98q6ILX77YhgMEtIeMRaBAHxQfRaKS4MJWJPHeKzWnoSGaEgLBO6ZYA
-         FXvWA2aoDNipGQdC1MM9vCTOWbBT+zoS49ssfKtLHJWXyzZWaziigAV6fuK+CyJjoVvD
-         UJJkbdV8zPjTLBE9yZ5/TQGqhamcXEBqL35nfKHA1UNyEGdwpuVsZuMtYmmw02vwdwvY
-         c5c2rR04uu+LzNo52dCw6cVGvUIkFjzrzP69iFpdORFoHCadBPU20LrXbHyoJKa7md+j
-         IN3K0PnwlSw5vtxOO/pKgvx+Aq8dDPc/x/VDbiyABDPyuikjW9LDQFgGYA5fvInVfLN1
-         xj6A==
+        bh=Jx87YraUcIHdT3OsK3qx7PdpgrM2z++7IeOUm35AtmI=;
+        b=ZaUFoxLGR53reri6A7z19pESQnLR3ST1C3eOXHHVNRgLWMxg+EzDC4mmrHJ7uT5ybO
+         325vx4Sd83SZeS8Pr2UjVLHuNKDDXSmVIOyPAcVRshv8VETSckPr3BU+8K3ucIEqGOF/
+         +laEHNpGsAfY1mFP8yXxsMNd02D0ypw9Je/YEaMufMhfdhQEnusPdFI1XuIUkmFYOY05
+         2yj5I8a7v+fz1k7uo35Vsts4ebFR05XHP4roTUt/9fZNVrSdybHSyIMPsdgm/3K54Reu
+         /lzYjAqTejzNo72Dr2HcEjkpbWqAposgnerU0WGEw4/+Be8A3/X2e4LPHt0KrUQOu4F8
+         5g+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lh8TxHl5WB9OmBO9lEWZUkFPn5o9qgsioXcJ38g1tTE=;
-        b=Grx1CsfFQxKcmgRZj6vb8jNqpkZWPwMZ3nqtcWwPsfRw7jpD6oPiI0uzaF8eRoCvTi
-         LZvdEJCKV3pIbwKL9MLAvfrSh9U46l0IG+pwEKl1ueSdf0cy36QdITJ/l/KinWPNzEt6
-         JoX31nBTlP/YcyKPvjQdcFdAekHOQWFXaatwF75Qk2FbirIcEVtVKG0PYQ1tlAu244tb
-         TdR/dSTxEtd/BbwuHBp6DE5j16+IBL8nxHt4qQ6axYmB8GhKpXNW5zjaO7ypNupDhPsi
-         izQLNsOFfgqyUGMfYiWWz9MsLcqCJu921AAbqEZtWuWW8tyKlRTKqCWFivlFvOiIwL5T
-         bpeA==
-X-Gm-Message-State: AOUpUlEflc0vWRHPisUwIIHkSie3CVkwTWq+sseIc7HzhzJNF3eGkb/d
-        wNNyE9hdn+YyP/S+A06JlpBt0DhX1V3Wm7u8cz2s8Q==
-X-Google-Smtp-Source: AAOMgpfBBYEQ4Y+7kVB2Nlk0mE+pKHZhYC0ZSteaZ7lLy7gdT8VD4lD9jRLmD84cSuBGuFSLenyuQI+QiSHhidCTp6U=
-X-Received: by 2002:aca:c42:: with SMTP id i2-v6mr264102oiy.219.1531343256258;
- Wed, 11 Jul 2018 14:07:36 -0700 (PDT)
+        bh=Jx87YraUcIHdT3OsK3qx7PdpgrM2z++7IeOUm35AtmI=;
+        b=U3a71nQ+P/75K0+aHvgIecnIJ0YTNomUY+Hh3hrgpndKwhAzP90vTEyVxvyKxFD/Pc
+         14fN35P7Nij4Jk6D+WMEi0ZOvWlG7XC6xFiiRXdSyyf4MsKl80fOkDIa2tiAOKrDuMqc
+         uo774jDyKCy0QXdt6EXL/CuiuOFfAriSSfD2lN7gLj5zBgH4vLsu8IrY6zgqrpmPo64M
+         DHjBB/FTpqmzY6GLKAzckRRcdGyNmIAnMBu8fLq7SUzE4EZ2sQBa0TXhaijZqYywSaqi
+         RIrXUyZ1Wl0CeZPaE6zKtPnm9HpscYF8CDrh9Bqp+EW9nYfz3ugj8ipD3uG8Fe7xQZgu
+         cZHQ==
+X-Gm-Message-State: AOUpUlGeoIq1FpTrj+KEYp0fC6iV+MB2l4LPLUYj3wnCXNJdq/uh7ur+
+        ktzAY9eWZcg3qdPCaP38Jl1In10dtQKvgCZCmV6XQw==
+X-Google-Smtp-Source: AAOMgpdZ22gBw7zvzaBq5r4Eg/Ox1pBR61K+FS1ql0LEnuejuchMneVsunEZnAxiRPeU+yBpa33YJW1jzhhJpXbbqRo=
+X-Received: by 2002:aca:c42:: with SMTP id i2-v6mr274522oiy.219.1531343449017;
+ Wed, 11 Jul 2018 14:10:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180710222639.8241-1-yu-cheng.yu@intel.com> <20180710222639.8241-23-yu-cheng.yu@intel.com>
-In-Reply-To: <20180710222639.8241-23-yu-cheng.yu@intel.com>
+References: <20180710222639.8241-1-yu-cheng.yu@intel.com> <20180710222639.8241-18-yu-cheng.yu@intel.com>
+In-Reply-To: <20180710222639.8241-18-yu-cheng.yu@intel.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Wed, 11 Jul 2018 14:07:09 -0700
-Message-ID: <CAG48ez0h5cabNiSBkCnAoyg9LXoSd7PpuStbRpV5r67VMHocRA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 22/27] x86/cet/ibt: User-mode indirect branch
- tracking support
+Date:   Wed, 11 Jul 2018 14:10:22 -0700
+Message-ID: <CAG48ez1ytOfQyNZMNPFp7XqKcpd7_aRai9G5s7rx0V=8ZG+r2A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 17/27] x86/cet/shstk: User-mode shadow stack support
 To:     yu-cheng.yu@intel.com
 Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
@@ -79,26 +78,28 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, Jul 10, 2018 at 3:31 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> Add user-mode indirect branch tracking enabling/disabling
-> and supporting routines.
+> This patch adds basic shadow stack enabling/disabling routines.
+> A task's shadow stack is allocated from memory with VM_SHSTK
+> flag set and read-only protection.  The shadow stack is
+> allocated to a fixed size.
 >
-> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 [...]
 > diff --git a/arch/x86/kernel/cet.c b/arch/x86/kernel/cet.c
-> index 4eba7790c4e4..8bbd63e1a2ba 100644
-> --- a/arch/x86/kernel/cet.c
+> new file mode 100644
+> index 000000000000..96bf69db7da7
+> --- /dev/null
 > +++ b/arch/x86/kernel/cet.c
 [...]
-> +static unsigned long ibt_mmap(unsigned long addr, unsigned long len)
+> +static unsigned long shstk_mmap(unsigned long addr, unsigned long len)
 > +{
 > +       struct mm_struct *mm = current->mm;
 > +       unsigned long populate;
 > +
 > +       down_write(&mm->mmap_sem);
-> +       addr = do_mmap(NULL, addr, len, PROT_READ | PROT_WRITE,
-> +                      MAP_ANONYMOUS | MAP_PRIVATE,
-> +                      VM_DONTDUMP, 0, &populate, NULL);
+> +       addr = do_mmap(NULL, addr, len, PROT_READ,
+> +                      MAP_ANONYMOUS | MAP_PRIVATE, VM_SHSTK,
+> +                      0, &populate, NULL);
 > +       up_write(&mm->mmap_sem);
 > +
 > +       if (populate)
@@ -107,11 +108,64 @@ On Tue, Jul 10, 2018 at 3:31 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 > +       return addr;
 > +}
 
-Is this thing going to stay writable? Will any process with an IBT
-bitmap be able to disable protections by messing with the bitmap even
-if the lock-out mode is active? If so, would it perhaps make sense to
-forbid lock-out mode if an IBT bitmap is active, to make it clear that
-effective lock-out is impossible in that state?
+How does this interact with UFFDIO_REGISTER?
+
+Is there an explicit design decision on whether FOLL_FORCE should be
+able to write to shadow stacks? I'm guessing the answer is "yes,
+FOLL_FORCE should be able to write to shadow stacks"? It might make
+sense to add documentation for this.
+
+Should the kernel enforce that two shadow stacks must have a guard
+page between them so that they can not be directly adjacent, so that
+if you have too much recursion, you can't end up corrupting an
+adjacent shadow stack?
+
+> +int cet_setup_shstk(void)
+> +{
+> +       unsigned long addr, size;
+> +
+> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +               return -EOPNOTSUPP;
+> +
+> +       size = in_ia32_syscall() ? SHSTK_SIZE_32:SHSTK_SIZE_64;
+> +       addr = shstk_mmap(0, size);
+> +
+> +       /*
+> +        * Return actual error from do_mmap().
+> +        */
+> +       if (addr >= TASK_SIZE_MAX)
+> +               return addr;
+> +
+> +       set_shstk_ptr(addr + size - sizeof(u64));
+> +       current->thread.cet.shstk_base = addr;
+> +       current->thread.cet.shstk_size = size;
+> +       current->thread.cet.shstk_enabled = 1;
+> +       return 0;
+> +}
+[...]
+> +void cet_disable_free_shstk(struct task_struct *tsk)
+> +{
+> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
+> +           !tsk->thread.cet.shstk_enabled)
+> +               return;
+> +
+> +       if (tsk == current)
+> +               cet_disable_shstk();
+> +
+> +       /*
+> +        * Free only when tsk is current or shares mm
+> +        * with current but has its own shstk.
+> +        */
+> +       if (tsk->mm && (tsk->mm == current->mm) &&
+> +           (tsk->thread.cet.shstk_base)) {
+> +               vm_munmap(tsk->thread.cet.shstk_base,
+> +                         tsk->thread.cet.shstk_size);
+> +               tsk->thread.cet.shstk_base = 0;
+> +               tsk->thread.cet.shstk_size = 0;
+> +       }
+> +
+> +       tsk->thread.cet.shstk_enabled = 0;
+> +}
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
