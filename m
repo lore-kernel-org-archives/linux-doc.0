@@ -1,39 +1,32 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIM_INVALID autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9A3217D048
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:28:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47E687D048
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 11 Jul 2018 15:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389066AbeGKPdI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 11 Jul 2018 11:33:08 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56042 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732481AbeGKPdI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 11 Jul 2018 11:33:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=CiMpRUlb2je5lcCUpzH2mozLi3P9QJXirXk8qkgmZyk=; b=FDHs7YfAeoUgrqNmcF1wrBN8pT
-        hCMrKv0JuJffqsMqFdmWOBrbUunnyhtbnpdhZKGisKh7IVVeXiaJcuHe404kBkak5NM2RlHcR37b1
-        YV9pUBbstCoye4lK4KjcDa2hiRVXHukeMBMm7mCZbWU1CZCvwnnTxgEFPRYwOmHGUgpRA9+R9hMhk
-        FgIZVKX31ekdGOTRH6Ijxnr0pdKzDEc5IZ+4DRP3my1Tkdl5g4uPJzvfQ1qcqbJEK1C5TJsC3I34W
-        3NIfPuhRuT7lF3/g7uz1IFa3nZc3o2PvqQ4cwq7kf2KvK8ESbIK2TWSDnIrITKnEbD6eyQs1Z32hb
-        OreDNHTw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1fdH24-00071i-7V; Wed, 11 Jul 2018 15:27:56 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 9369220297EAB; Wed, 11 Jul 2018 17:27:54 +0200 (CEST)
-Date:   Wed, 11 Jul 2018 17:27:54 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1733241AbeGKPeV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 11 Jul 2018 11:34:21 -0400
+Received: from mga17.intel.com ([192.55.52.151]:46172 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732456AbeGKPeV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 11 Jul 2018 11:34:21 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2018 08:29:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; 
+   d="scan'208";a="71458759"
+Received: from 2b52.sc.intel.com ([143.183.136.52])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2018 08:29:26 -0700
+Message-ID: <1531322749.13297.17.camel@intel.com>
+Subject: Re: [RFC PATCH v2 05/27] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Pavel Machek <pavel@ucw.cz>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -50,57 +43,65 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Kees Cook <keescook@chromiun.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v2 18/27] x86/cet/shstk: Introduce WRUSS instruction
-Message-ID: <20180711152754.GJ2476@hirez.programming.kicks-ass.net>
+Date:   Wed, 11 Jul 2018 08:25:49 -0700
+In-Reply-To: <20180711082739.GA18919@amd>
 References: <20180710222639.8241-1-yu-cheng.yu@intel.com>
- <20180710222639.8241-19-yu-cheng.yu@intel.com>
- <20180711094549.GA2476@hirez.programming.kicks-ass.net>
- <1531321089.13297.4.camel@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+         <20180710222639.8241-6-yu-cheng.yu@intel.com> <20180711082739.GA18919@amd>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1531321089.13297.4.camel@intel.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 11, 2018 at 07:58:09AM -0700, Yu-cheng Yu wrote:
-> On Wed, 2018-07-11 at 11:45 +0200, Peter Zijlstra wrote:
-> > On Tue, Jul 10, 2018 at 03:26:30PM -0700, Yu-cheng Yu wrote:
-> > > 
-> > > diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-
-> > > opcode-map.txt
-> > > index e0b85930dd77..72bb7c48a7df 100644
-> > > --- a/arch/x86/lib/x86-opcode-map.txt
-> > > +++ b/arch/x86/lib/x86-opcode-map.txt
-> > > @@ -789,7 +789,7 @@ f0: MOVBE Gy,My | MOVBE Gw,Mw (66) | CRC32
-> > > Gd,Eb (F2) | CRC32 Gd,Eb (66&F2)
-> > > �f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32
-> > > Gd,Ew (66&F2)
-> > > �f2: ANDN Gy,By,Ey (v)
-> > > �f3: Grp17 (1A)
-> > > -f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
-> > > (F2),(v)
-> > > +f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey
-> > > (F2),(v) | WRUSS Pq,Qq (66),REX.W
-> > > �f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v)
-> > > �f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By
-> > > (F3),(v) | SHRX Gy,Ey,By (F2),(v)
-> > > �EndTable
-> > Where are all the other instructions? ISTR that documentation patch
-> > listing a whole bunch of new instructions, not just wuss.
-> 
-> Currently we only use WRUSS in the kernel code. �Do we want to add all
-> instructions here?
+On Wed, 2018-07-11 at 10:27 +0200, Pavel Machek wrote:
+> On Tue 2018-07-10 15:26:17, Yu-cheng Yu wrote:
+> > 
+> > Explain how CET works and the no_cet_shstk/no_cet_ibt kernel
+> > parameters.
+> > 
+> > 
+> > --- /dev/null
+> > +++ b/Documentation/x86/intel_cet.txt
+> > @@ -0,0 +1,250 @@
+> > +=========================================
+> > +Control Flow Enforcement Technology (CET)
+> > +=========================================
+> We normally use .rst for this kind of formatted text.
 
-Yes, since we also use the in-kernel decoder to decode random userspace
-code.
+I will change this to a .rst file.
+
+> 
+> 
+> > 
+> > +[6] The implementation of the SHSTK
+> > +===================================
+> > +
+> > +SHSTK size
+> > +----------
+> > +
+> > +A task's SHSTK is allocated from memory to a fixed size that can
+> > +support 32 KB nested function calls; that is 256 KB for a 64-bit
+> > +application and 128 KB for a 32-bit application.  The system admin
+> > +can change the default size.
+> How does admin change that? We already have ulimit for stack size,
+> should those be somehow tied together?
+> 
+> $ ulimit -a
+> ...
+> stack size              (kbytes, -s) 8192
+> 
+
+We can do that.  This makes sense to me.
+
+Yu-cheng
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-doc" in
 the body of a message to majordomo@vger.kernel.org
